@@ -1,0 +1,164 @@
+\hypertarget{group__floating}{
+\section{\-Floating species group}
+\label{group__floating}\index{\-Floating species group@{\-Floating species group}}
+}
+
+
+\-Get information about floating species.  
+
+
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C \hyperlink{rr__c__types_8h_aea46a16752b0ae2cd95c009030ee630e}{\-R\-R\-Vector\-Handle} \*
+rr\-Call\-Conv \hyperlink{group__floating_ga0db8fe5f89985f27ea4ddb3c595b16fd}{get\-Floating\-Species\-Concentrations} ()
+\begin{DoxyCompactList}\small\item\em \-Retrieve in a vector the concentrations for all the floating species. \end{DoxyCompactList}\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv \hyperlink{group__floating_gaf4a5a4d9b1ecf60d4b98189b4bcf2543}{set\-Floating\-Species\-By\-Index} (const int \&index, const double \&value)
+\begin{DoxyCompactList}\small\item\em \-Set the concentration for a particular floating species. \end{DoxyCompactList}\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv \hyperlink{group__floating_ga03a4d63d50d5d17ef4af232f8ccee67a}{get\-Floating\-Species\-By\-Index} (const int \&index, double \&value)
+\begin{DoxyCompactList}\small\item\em \-Retrieve the concentration for a particular floating species. \end{DoxyCompactList}\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv \hyperlink{group__floating_ga669901c6de958af640b9ac80429e616e}{set\-Floating\-Species\-Concentrations} (const \hyperlink{struct_r_r_vector}{\-R\-R\-Vector} $\ast$vec)
+\begin{DoxyCompactList}\small\item\em \-Set the floating species concentration to the vector vec. \end{DoxyCompactList}\item 
+\hypertarget{group__floating_ga9a96b81c58073caff01ea2c9e0f5e119}{
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C int rr\-Call\-Conv \hyperlink{group__floating_ga9a96b81c58073caff01ea2c9e0f5e119}{get\-Number\-Of\-Floating\-Species} ()}
+\label{group__floating_ga9a96b81c58073caff01ea2c9e0f5e119}
+
+\begin{DoxyCompactList}\small\item\em \-Returns the number of floating species in the model. \end{DoxyCompactList}\item 
+\hypertarget{group__floating_ga7d573d16a02b3bf4361c00065f624e0b}{
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C int rr\-Call\-Conv \hyperlink{group__floating_ga7d573d16a02b3bf4361c00065f624e0b}{get\-Number\-Of\-Dependent\-Species} ()}
+\label{group__floating_ga7d573d16a02b3bf4361c00065f624e0b}
+
+\begin{DoxyCompactList}\small\item\em \-Returns the number of dependent species in the model. \end{DoxyCompactList}\item 
+\hypertarget{group__floating_ga29811c87b0f144e506c93373418fbe8b}{
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C int rr\-Call\-Conv \hyperlink{group__floating_ga29811c87b0f144e506c93373418fbe8b}{get\-Number\-Of\-Independent\-Species} ()}
+\label{group__floating_ga29811c87b0f144e506c93373418fbe8b}
+
+\begin{DoxyCompactList}\small\item\em \-Returns the number of independent species in the model. \end{DoxyCompactList}\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C \*
+\hyperlink{rr__c__types_8h_a90941a6a2247bf7a8ec3d429729c5f9a}{\-R\-R\-String\-Array\-Handle} rr\-Call\-Conv \hyperlink{group__floating_gad138c0072b188551324147fb17635b48}{get\-Floating\-Species\-Ids} ()
+\begin{DoxyCompactList}\small\item\em \-Obtain the list of floating species \-Id. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Get information about floating species. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group__floating_ga03a4d63d50d5d17ef4af232f8ccee67a}{
+\index{\-Floating species group@{\-Floating species group}!get\-Floating\-Species\-By\-Index@{get\-Floating\-Species\-By\-Index}}
+\index{get\-Floating\-Species\-By\-Index@{get\-Floating\-Species\-By\-Index}!Floating species group@{\-Floating species group}}
+\subsubsection[{get\-Floating\-Species\-By\-Index}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv get\-Floating\-Species\-By\-Index (
+\begin{DoxyParamCaption}
+\item[{const int \&}]{index, }
+\item[{double \&}]{value}
+\end{DoxyParamCaption}
+)}}
+\label{group__floating_ga03a4d63d50d5d17ef4af232f8ccee67a}
+
+
+\-Retrieve the concentration for a particular floating species. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em index} & \-The index to the floating species (corresponds to position in \hyperlink{group__floating_gad138c0072b188551324147fb17635b48}{get\-Floating\-Species\-Ids()}) \\
+\hline
+{\em value} & \-The value returned by the method \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Returns true if successful 
+\end{DoxyReturn}
+\hypertarget{group__floating_ga0db8fe5f89985f27ea4ddb3c595b16fd}{
+\index{\-Floating species group@{\-Floating species group}!get\-Floating\-Species\-Concentrations@{get\-Floating\-Species\-Concentrations}}
+\index{get\-Floating\-Species\-Concentrations@{get\-Floating\-Species\-Concentrations}!Floating species group@{\-Floating species group}}
+\subsubsection[{get\-Floating\-Species\-Concentrations}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C {\bf \-R\-R\-Vector\-Handle} rr\-Call\-Conv get\-Floating\-Species\-Concentrations (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{group__floating_ga0db8fe5f89985f27ea4ddb3c595b16fd}
+
+
+\-Retrieve in a vector the concentrations for all the floating species. 
+
+\-Example\-: 
+\begin{DoxyCode}
+ RRVectorHandle values = getFloatingSpeciesConcentrations (); 
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{\-Returns}
+\-Returns the vector of flaoting species concentrations or null if an error occured 
+\end{DoxyReturn}
+\hypertarget{group__floating_gad138c0072b188551324147fb17635b48}{
+\index{\-Floating species group@{\-Floating species group}!get\-Floating\-Species\-Ids@{get\-Floating\-Species\-Ids}}
+\index{get\-Floating\-Species\-Ids@{get\-Floating\-Species\-Ids}!Floating species group@{\-Floating species group}}
+\subsubsection[{get\-Floating\-Species\-Ids}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C {\bf \-R\-R\-String\-Array\-Handle} rr\-Call\-Conv get\-Floating\-Species\-Ids (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{group__floating_gad138c0072b188551324147fb17635b48}
+
+
+\-Obtain the list of floating species \-Id. 
+
+\begin{DoxyReturn}{\-Returns}
+\-Returns null if it fails, if succesful it returns a pointer to a \-R\-R\-String\-Array\-Handle struct 
+\end{DoxyReturn}
+\hypertarget{group__floating_gaf4a5a4d9b1ecf60d4b98189b4bcf2543}{
+\index{\-Floating species group@{\-Floating species group}!set\-Floating\-Species\-By\-Index@{set\-Floating\-Species\-By\-Index}}
+\index{set\-Floating\-Species\-By\-Index@{set\-Floating\-Species\-By\-Index}!Floating species group@{\-Floating species group}}
+\subsubsection[{set\-Floating\-Species\-By\-Index}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv set\-Floating\-Species\-By\-Index (
+\begin{DoxyParamCaption}
+\item[{const int \&}]{index, }
+\item[{const double \&}]{value}
+\end{DoxyParamCaption}
+)}}
+\label{group__floating_gaf4a5a4d9b1ecf60d4b98189b4bcf2543}
+
+
+\-Set the concentration for a particular floating species. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em index} & \-The index to the floating species (corresponds to position in \hyperlink{group__floating_gad138c0072b188551324147fb17635b48}{get\-Floating\-Species\-Ids()}) \\
+\hline
+{\em value} & \-The concentration of the species to set \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Returns true if successful 
+\end{DoxyReturn}
+\hypertarget{group__floating_ga669901c6de958af640b9ac80429e616e}{
+\index{\-Floating species group@{\-Floating species group}!set\-Floating\-Species\-Concentrations@{set\-Floating\-Species\-Concentrations}}
+\index{set\-Floating\-Species\-Concentrations@{set\-Floating\-Species\-Concentrations}!Floating species group@{\-Floating species group}}
+\subsubsection[{set\-Floating\-Species\-Concentrations}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv set\-Floating\-Species\-Concentrations (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-R\-R\-Vector} $\ast$}]{vec}
+\end{DoxyParamCaption}
+)}}
+\label{group__floating_ga669901c6de958af640b9ac80429e616e}
+
+
+\-Set the floating species concentration to the vector vec. 
+
+\-Example\-:
+
+
+\begin{DoxyCode}
+ myVector = createVector (getNumberOfFloatingSpecies());
+ setVectorElement (myVector, 0, 1.2);
+ setVectorElement (myVector, 1, 5.7);
+ setVectorElement (myVector, 2, 3.4);
+ setFloatingSpeciesConcentrations(myVector);
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em vec} & \-A vector of floating species concentrations \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Returns true if successful 
+\end{DoxyReturn}

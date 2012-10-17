@@ -1,0 +1,28 @@
+<map id="R:/roadrunnerwork/trunk/source/rrStringUtils.h" name="R:/roadrunnerwork/trunk/source/rrStringUtils.h">
+<area shape="rect" id="node3" href="$rr_capability_8h.html" title="R:/roadrunnerwork/trunk\l/source/rrCapability.h" alt="" coords="243,97,403,138"/>
+<area shape="rect" id="node11" href="$rr_c_generator_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrCGenerator.cpp" alt="" coords="427,97,595,138"/>
+<area shape="rect" id="node13" href="$rr_code_builder_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrCodeBuilder.cpp" alt="" coords="619,97,791,138"/>
+<area shape="rect" id="node15" href="$rr_compiler_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrCompiler.cpp" alt="" coords="816,97,976,138"/>
+<area shape="rect" id="node17" href="$rr_c_sharp_generator_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrCSharpGenerator.cpp" alt="" coords="1000,97,1203,138"/>
+<area shape="rect" id="node19" href="$rr_cvode_interface_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrCvodeInterface.cpp" alt="" coords="1227,97,1413,138"/>
+<area shape="rect" id="node21" href="$rr_model_generator_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrModelGenerator.cpp" alt="" coords="1437,97,1632,138"/>
+<area shape="rect" id="node23" href="$rr_n_l_e_q_interface_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrNLEQInterface.cpp" alt="" coords="1656,97,1843,138"/>
+<area shape="rect" id="node25" href="$rr_n_o_m_support_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrNOMSupport.cpp" alt="" coords="1867,97,2044,138"/>
+<area shape="rect" id="node27" href="$rr_road_runner_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrRoadRunner.cpp" alt="" coords="1916,187,2089,229"/>
+<area shape="rect" id="node29" href="$rr_s_b_m_l_model_simulation_8h.html" title="R:/roadrunnerwork/trunk\l/source/rrSBMLModelSimulation.h" alt="" coords="2121,97,2340,138"/>
+<area shape="rect" id="node34" href="$rr_test_suite_model_simulation_8h.html" title="R:/roadrunnerwork/trunk\l/source/rrTestSuiteModelSimulation.h" alt="" coords="2373,187,2611,229"/>
+<area shape="rect" id="node38" href="$rr_s_b_m_l_symbol_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrSBMLSymbol.cpp" alt="" coords="2417,97,2599,138"/>
+<area shape="rect" id="node40" href="$rr_s_b_m_l_symbol_dependencies_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrSBMLSymbolDependencies.cpp" alt="" coords="2624,97,2888,138"/>
+<area shape="rect" id="node42" href="$rr_scanner_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrScanner.cpp" alt="" coords="2912,97,3072,138"/>
+<area shape="rect" id="node44" href="$rr_simulation_data_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrSimulationData.cpp" alt="" coords="3097,97,3287,138"/>
+<area shape="rect" id="node46" href="$rr_simulation_settings_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrSimulationSettings.cpp" alt="" coords="3312,97,3523,138"/>
+<area shape="rect" id="node48" href="$rr_string_builder_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrStringBuilder.cpp" alt="" coords="3547,97,3723,138"/>
+<area shape="rect" id="node50" href="$rr_string_list_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrStringList.cpp" alt="" coords="3747,97,3907,138"/>
+<area shape="rect" id="node52" href="$rr_string_utils_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrStringUtils.cpp" alt="" coords="3931,97,4093,138"/>
+<area shape="rect" id="node55" href="$rr_utils_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrUtils.cpp" alt="" coords="4117,97,4277,138"/>
+<area shape="rect" id="node5" href="$rr_capabilities_section_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrCapabilitiesSection.cpp" alt="" coords="5,187,219,229"/>
+<area shape="rect" id="node7" href="$rr_capability_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrCapability.cpp" alt="" coords="243,187,403,229"/>
+<area shape="rect" id="node9" href="$rr_caps_support_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrCapsSupport.cpp" alt="" coords="427,187,604,229"/>
+<area shape="rect" id="node32" href="$rr_s_b_m_l_model_simulation_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrSBMLModelSimulation.cpp" alt="" coords="2113,187,2348,229"/>
+<area shape="rect" id="node36" href="$rr_test_suite_model_simulation_8cpp.html" title="R:/roadrunnerwork/trunk\l/source/rrTestSuiteModelSimulation.cpp" alt="" coords="2365,278,2619,319"/>
+</map>

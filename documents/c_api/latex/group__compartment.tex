@@ -1,0 +1,100 @@
+\hypertarget{group__compartment}{
+\section{\-Compartment group}
+\label{group__compartment}\index{\-Compartment group@{\-Compartment group}}
+}
+
+
+\-Set and \-Get information on compartments.  
+
+
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv \hyperlink{group__compartment_ga5241b915cff8bcabba3024c33fb4e336}{get\-Compartment\-By\-Index} (const int \&index, double \&value)
+\begin{DoxyCompactList}\small\item\em \-Retrieve the compartment volume for a particular compartment. \end{DoxyCompactList}\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv \hyperlink{group__compartment_gadb238a943d93bc9548bf5c3cd452e9bb}{set\-Compartment\-By\-Index} (const int \&index, const double \&value)
+\begin{DoxyCompactList}\small\item\em \-Set the volume for a particular compartment. \end{DoxyCompactList}\item 
+\hypertarget{group__compartment_ga5ea2479b882549edd4fb75397ca38f52}{
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C int rr\-Call\-Conv \hyperlink{group__compartment_ga5ea2479b882549edd4fb75397ca38f52}{get\-Number\-Of\-Compartments} ()}
+\label{group__compartment_ga5ea2479b882549edd4fb75397ca38f52}
+
+\begin{DoxyCompactList}\small\item\em \-Returns the number of compartments in the model. \end{DoxyCompactList}\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C \*
+\hyperlink{rr__c__types_8h_a90941a6a2247bf7a8ec3d429729c5f9a}{\-R\-R\-String\-Array\-Handle} rr\-Call\-Conv \hyperlink{group__compartment_ga92973e041d56fd9211fa9f13f1dd7062}{get\-Compartment\-Ids} ()
+\begin{DoxyCompactList}\small\item\em \-Obtain the list of compartment \-Ids. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Set and \-Get information on compartments. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group__compartment_ga5241b915cff8bcabba3024c33fb4e336}{
+\index{\-Compartment group@{\-Compartment group}!get\-Compartment\-By\-Index@{get\-Compartment\-By\-Index}}
+\index{get\-Compartment\-By\-Index@{get\-Compartment\-By\-Index}!Compartment group@{\-Compartment group}}
+\subsubsection[{get\-Compartment\-By\-Index}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv get\-Compartment\-By\-Index (
+\begin{DoxyParamCaption}
+\item[{const int \&}]{index, }
+\item[{double \&}]{value}
+\end{DoxyParamCaption}
+)}}
+\label{group__compartment_ga5241b915cff8bcabba3024c33fb4e336}
+
+
+\-Retrieve the compartment volume for a particular compartment. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em index} & \-The index to the compartment (corresponds to position in \hyperlink{group__compartment_ga92973e041d56fd9211fa9f13f1dd7062}{get\-Compartment\-Ids()}) \\
+\hline
+{\em value} & \-The value returned by the method \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Returns true if successful 
+\end{DoxyReturn}
+\hypertarget{group__compartment_ga92973e041d56fd9211fa9f13f1dd7062}{
+\index{\-Compartment group@{\-Compartment group}!get\-Compartment\-Ids@{get\-Compartment\-Ids}}
+\index{get\-Compartment\-Ids@{get\-Compartment\-Ids}!Compartment group@{\-Compartment group}}
+\subsubsection[{get\-Compartment\-Ids}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C {\bf \-R\-R\-String\-Array\-Handle} rr\-Call\-Conv get\-Compartment\-Ids (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{group__compartment_ga92973e041d56fd9211fa9f13f1dd7062}
+
+
+\-Obtain the list of compartment \-Ids. 
+
+\-Example\-: 
+\begin{DoxyCode}
+ str = getCompartmentIds (); 
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{\-Returns}
+\-Returns -\/1 if it fails, if succesful it returns a pointer to a \-R\-R\-String\-Array\-Handle struct 
+\end{DoxyReturn}
+\hypertarget{group__compartment_gadb238a943d93bc9548bf5c3cd452e9bb}{
+\index{\-Compartment group@{\-Compartment group}!set\-Compartment\-By\-Index@{set\-Compartment\-By\-Index}}
+\index{set\-Compartment\-By\-Index@{set\-Compartment\-By\-Index}!Compartment group@{\-Compartment group}}
+\subsubsection[{set\-Compartment\-By\-Index}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv set\-Compartment\-By\-Index (
+\begin{DoxyParamCaption}
+\item[{const int \&}]{index, }
+\item[{const double \&}]{value}
+\end{DoxyParamCaption}
+)}}
+\label{group__compartment_gadb238a943d93bc9548bf5c3cd452e9bb}
+
+
+\-Set the volume for a particular compartment. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em index} & \-The index to the compartment (corresponds to position in \hyperlink{group__compartment_ga92973e041d56fd9211fa9f13f1dd7062}{get\-Compartment\-Ids()}) \\
+\hline
+{\em value} & \-The volume of the compartment to set \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Returns true if successful 
+\end{DoxyReturn}

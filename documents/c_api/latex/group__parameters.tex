@@ -1,0 +1,93 @@
+\hypertarget{group__parameters}{
+\section{\-Parameter group}
+\label{group__parameters}\index{\-Parameter group@{\-Parameter group}}
+}
+
+
+\-Set and get global and local parameters.  
+
+
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C \hyperlink{rr__c__types_8h_aea46a16752b0ae2cd95c009030ee630e}{\-R\-R\-Vector\-Handle} \*
+rr\-Call\-Conv \hyperlink{group__parameters_gaf4be0a5e72db408248569a1d3e28c1f0}{get\-Global\-Parameter\-Values} ()
+\begin{DoxyCompactList}\small\item\em \-Retrieve the values for all the lgobal parameter values in a vector. \end{DoxyCompactList}\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv \hyperlink{group__parameters_ga65d9546856e5526fc403539903039f8e}{set\-Global\-Parameter\-By\-Index} (const int \&index, const double \&value)
+\begin{DoxyCompactList}\small\item\em \-Set the value for a particular global parameter. \end{DoxyCompactList}\item 
+\hypertarget{group__parameters_ga2f33a70dfd6c68fb585cf5d1a9c1339c}{
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C int rr\-Call\-Conv \hyperlink{group__parameters_ga2f33a70dfd6c68fb585cf5d1a9c1339c}{get\-Number\-Of\-Global\-Parameters} ()}
+\label{group__parameters_ga2f33a70dfd6c68fb585cf5d1a9c1339c}
+
+\begin{DoxyCompactList}\small\item\em \-Returns the number of global parameters in the model. \end{DoxyCompactList}\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C \*
+\hyperlink{rr__c__types_8h_a90941a6a2247bf7a8ec3d429729c5f9a}{\-R\-R\-String\-Array\-Handle} rr\-Call\-Conv \hyperlink{group__parameters_ga142050a8f4ad5c9a45455102848b5352}{get\-Global\-Parameter\-Ids} ()
+\begin{DoxyCompactList}\small\item\em \-Obtain the list of global parameter \-Ids. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Set and get global and local parameters. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group__parameters_ga142050a8f4ad5c9a45455102848b5352}{
+\index{\-Parameter group@{\-Parameter group}!get\-Global\-Parameter\-Ids@{get\-Global\-Parameter\-Ids}}
+\index{get\-Global\-Parameter\-Ids@{get\-Global\-Parameter\-Ids}!Parameter group@{\-Parameter group}}
+\subsubsection[{get\-Global\-Parameter\-Ids}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C {\bf \-R\-R\-String\-Array\-Handle} rr\-Call\-Conv get\-Global\-Parameter\-Ids (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{group__parameters_ga142050a8f4ad5c9a45455102848b5352}
+
+
+\-Obtain the list of global parameter \-Ids. 
+
+\begin{DoxyReturn}{\-Returns}
+\-Returns null if it fails, if succesful it returns a pointer to a \-R\-R\-String\-Array\-Handle struct 
+\end{DoxyReturn}
+\hypertarget{group__parameters_gaf4be0a5e72db408248569a1d3e28c1f0}{
+\index{\-Parameter group@{\-Parameter group}!get\-Global\-Parameter\-Values@{get\-Global\-Parameter\-Values}}
+\index{get\-Global\-Parameter\-Values@{get\-Global\-Parameter\-Values}!Parameter group@{\-Parameter group}}
+\subsubsection[{get\-Global\-Parameter\-Values}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C {\bf \-R\-R\-Vector\-Handle} rr\-Call\-Conv get\-Global\-Parameter\-Values (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{group__parameters_gaf4be0a5e72db408248569a1d3e28c1f0}
+
+
+\-Retrieve the values for all the lgobal parameter values in a vector. 
+
+\-Example\-: 
+\begin{DoxyCode}
+ RRVectorHandle values = getGlobalParameterValues (); 
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{\-Returns}
+\-Returns the vector of global parameter values or null if an error occured 
+\end{DoxyReturn}
+\hypertarget{group__parameters_ga65d9546856e5526fc403539903039f8e}{
+\index{\-Parameter group@{\-Parameter group}!set\-Global\-Parameter\-By\-Index@{set\-Global\-Parameter\-By\-Index}}
+\index{set\-Global\-Parameter\-By\-Index@{set\-Global\-Parameter\-By\-Index}!Parameter group@{\-Parameter group}}
+\subsubsection[{set\-Global\-Parameter\-By\-Index}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv set\-Global\-Parameter\-By\-Index (
+\begin{DoxyParamCaption}
+\item[{const int \&}]{index, }
+\item[{const double \&}]{value}
+\end{DoxyParamCaption}
+)}}
+\label{group__parameters_ga65d9546856e5526fc403539903039f8e}
+
+
+\-Set the value for a particular global parameter. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em index} & \-The index to the global parameter (corresponds to position in \hyperlink{group__parameters_ga142050a8f4ad5c9a45455102848b5352}{get\-Global\-Parameter\-Ids()}) \\
+\hline
+{\em value} & \-The value of the parameter to set \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Returns true if successful 
+\end{DoxyReturn}

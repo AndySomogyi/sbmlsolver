@@ -1,0 +1,154 @@
+\hypertarget{rr__c__types_8h}{
+\section{rr\-\_\-c\-\_\-types.h \-File \-Reference}
+\label{rr__c__types_8h}\index{rr\-\_\-c\-\_\-types.\-h@{rr\-\_\-c\-\_\-types.\-h}}
+}
+
+
+road\-Runner \-C \-A\-P\-I 2012  
+
+
+{\ttfamily \#include $<$stdio.\-h$>$}\*
+{\ttfamily \#include \char`\"{}rr\-\_\-support/stdbool.\-h\char`\"{}}\*
+\subsection*{\-Data \-Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_r_r_vector}{\-R\-R\-Vector}
+\begin{DoxyCompactList}\small\item\em \-Structure for a simple vector of doubles. \end{DoxyCompactList}\item 
+struct \hyperlink{struct_r_r_string_array}{\-R\-R\-String\-Array}
+\begin{DoxyCompactList}\small\item\em \-Structure for a simple vector of strings. \end{DoxyCompactList}\item 
+struct \hyperlink{struct_r_r_matrix}{\-R\-R\-Matrix}
+\begin{DoxyCompactList}\small\item\em \-Structure for a simple \-Matrix type. \end{DoxyCompactList}\item 
+struct \hyperlink{struct_r_r_result}{\-R\-R\-Result}
+\begin{DoxyCompactList}\small\item\em \-Structure for the result type from the simulate calls. \end{DoxyCompactList}\item 
+struct \hyperlink{struct_r_r_c_code}{\-R\-R\-C\-Code}
+\begin{DoxyCompactList}\small\item\em \-Convenient structure for storing the header and main body source for the generate simulation \-C code. \end{DoxyCompactList}\item 
+struct \hyperlink{struct_r_r_list_item}{\-R\-R\-List\-Item}
+\begin{DoxyCompactList}\small\item\em \-A single list element type. \end{DoxyCompactList}\item 
+struct \hyperlink{struct_r_r_list}{\-R\-R\-List}
+\begin{DoxyCompactList}\small\item\em \-A list type, stores int, double, strings and lists. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{rr__c__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{
+typedef void $\ast$ \hyperlink{rr__c__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}{\-R\-R\-Handle}}
+\label{rr__c__types_8h_a1d68f0592372208fa5a5f2799ea4b3ae}
+
+\begin{DoxyCompactList}\small\item\em \-Void pointer to \-R\-R\-Handle. \end{DoxyCompactList}\item 
+typedef struct \hyperlink{struct_r_r_vector}{\-R\-R\-Vector} $\ast$ \hyperlink{rr__c__types_8h_aea46a16752b0ae2cd95c009030ee630e}{\-R\-R\-Vector\-Handle}
+\begin{DoxyCompactList}\small\item\em \-Structure for a simple vector of doubles. \end{DoxyCompactList}\item 
+typedef struct \hyperlink{struct_r_r_string_array}{\-R\-R\-String\-Array} $\ast$ \hyperlink{rr__c__types_8h_a90941a6a2247bf7a8ec3d429729c5f9a}{\-R\-R\-String\-Array\-Handle}
+\begin{DoxyCompactList}\small\item\em \-Structure for a simple vector of strings. \end{DoxyCompactList}\item 
+typedef struct \hyperlink{struct_r_r_matrix}{\-R\-R\-Matrix} $\ast$ \hyperlink{rr__c__types_8h_a87174eefa58ae98dec58c9253ae6c5da}{\-R\-R\-Matrix\-Handle}
+\begin{DoxyCompactList}\small\item\em \-Structure for a simple \-Matrix type. \end{DoxyCompactList}\item 
+typedef struct \hyperlink{struct_r_r_result}{\-R\-R\-Result} $\ast$ \hyperlink{rr__c__types_8h_a8c364bbdef9aab31c89655c38461da51}{\-R\-R\-Result\-Handle}
+\begin{DoxyCompactList}\small\item\em \-Structure for the result type from the simulate calls. \end{DoxyCompactList}\item 
+typedef struct \hyperlink{struct_r_r_c_code}{\-R\-R\-C\-Code} $\ast$ \hyperlink{rr__c__types_8h_aaaa74f20722a48f3ae9ed5bdbb6c8a86}{\-R\-R\-C\-Code\-Handle}
+\begin{DoxyCompactList}\small\item\em \-Convenient structure for storing the header and main body source for the generate simulation \-C code. \end{DoxyCompactList}\item 
+typedef struct \hyperlink{struct_r_r_list_item}{\-R\-R\-List\-Item} $\ast$ \hyperlink{rr__c__types_8h_a2bab41753cbe82e6aae432769e5143fb}{\-R\-R\-List\-Item\-Handle}
+\begin{DoxyCompactList}\small\item\em \-A single list element type. \end{DoxyCompactList}\item 
+typedef struct \hyperlink{struct_r_r_list}{\-R\-R\-List} $\ast$ \hyperlink{rr__c__types_8h_a840005f5261fec71eec85cc770317c5d}{\-R\-R\-List\-Handle}
+\begin{DoxyCompactList}\small\item\em \-A list type, stores int, double, strings and lists. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{\-Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{rr__c__types_8h_ab99437ab2e88aa90b7ebb8add042b25e}{\-List\-Item\-Type} \{ {\bfseries lit\-String}, 
+{\bfseries lit\-Integer}, 
+{\bfseries lit\-Double}, 
+{\bfseries lit\-List}
+ \}
+\begin{DoxyCompactList}\small\item\em \-The list type supports strings, integers, double and lists. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+road\-Runner \-C \-A\-P\-I 2012 \begin{DoxyAuthor}{\-Author}
+\-Totte \-Karlsson \& \-Herbert \-M \-Sauro
+\end{DoxyAuthor}
+$<$-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/ \-This file is part of c\-Road\-Runner. \-See \href{http://code.google.com/p/roadrunnerwork/}{\tt http\-://code.\-google.\-com/p/roadrunnerwork/} for more details.
+
+\-Copyright (\-C) 2012 \-University of \-Washington, \-Seattle, \-W\-A, \-U\-S\-A
+
+\-Licensed under the \-Apache \-License, \-Version 2.\-0 (the \char`\"{}\-License\char`\"{}); you may not use this file except in compliance with the \-License. \-You may obtain a copy of the \-License at
+
+\href{http://www.apache.org/licenses/LICENSE-2.0}{\tt http\-://www.\-apache.\-org/licenses/\-L\-I\-C\-E\-N\-S\-E-\/2.\-0}
+
+\-Unless required by applicable law or agreed to in writing, software distributed under the \-License is distributed on an \char`\"{}\-A\-S I\-S\char`\"{} \-B\-A\-S\-I\-S, \-W\-I\-T\-H\-O\-U\-T \-W\-A\-R\-R\-A\-N\-T\-I\-E\-S \-O\-R \-C\-O\-N\-D\-I\-T\-I\-O\-N\-S \-O\-F \-A\-N\-Y \-K\-I\-N\-D, either express or implied. \-See the \-License for the specific language governing permissions and limitations under the \-License.
+
+\-In plain english this means\-:
+
+\-You \-C\-A\-N freely download and use this software, in whole or in part, for personal, company internal, or commercial purposes;
+
+\-You \-C\-A\-N use the software in packages or distributions that you create.
+
+\-You \-S\-H\-O\-U\-L\-D include a copy of the license in any redistribution you may make;
+
+\-You are \-N\-O\-T required include the source of software, or of any modifications you may have made to it, in any redistribution you may assemble that includes it.
+
+\-Y\-O\-U \-C\-A\-N\-N\-O\-T\-:
+
+redistribute any piece of this software without proper attribution; 
+
+\subsection{\-Typedef \-Documentation}
+\hypertarget{rr__c__types_8h_aaaa74f20722a48f3ae9ed5bdbb6c8a86}{
+\index{rr\-\_\-c\-\_\-types.\-h@{rr\-\_\-c\-\_\-types.\-h}!\-R\-R\-C\-Code\-Handle@{\-R\-R\-C\-Code\-Handle}}
+\index{\-R\-R\-C\-Code\-Handle@{\-R\-R\-C\-Code\-Handle}!rr_c_types.h@{rr\-\_\-c\-\_\-types.\-h}}
+\subsubsection[{\-R\-R\-C\-Code\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-R\-R\-C\-Code} $\ast$ {\bf \-R\-R\-C\-Code\-Handle}}}
+\label{rr__c__types_8h_aaaa74f20722a48f3ae9ed5bdbb6c8a86}
+
+
+\-Convenient structure for storing the header and main body source for the generate simulation \-C code. 
+
+\-Pointer to \-R\-R\-C\-Code\-Handle struct \hypertarget{rr__c__types_8h_a840005f5261fec71eec85cc770317c5d}{
+\index{rr\-\_\-c\-\_\-types.\-h@{rr\-\_\-c\-\_\-types.\-h}!\-R\-R\-List\-Handle@{\-R\-R\-List\-Handle}}
+\index{\-R\-R\-List\-Handle@{\-R\-R\-List\-Handle}!rr_c_types.h@{rr\-\_\-c\-\_\-types.\-h}}
+\subsubsection[{\-R\-R\-List\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-R\-R\-List}  $\ast$ {\bf \-R\-R\-List\-Handle}}}
+\label{rr__c__types_8h_a840005f5261fec71eec85cc770317c5d}
+
+
+\-A list type, stores int, double, strings and lists. 
+
+\-Pointer to c\-R\-R\-Array\-List\-Handle struct \hypertarget{rr__c__types_8h_a2bab41753cbe82e6aae432769e5143fb}{
+\index{rr\-\_\-c\-\_\-types.\-h@{rr\-\_\-c\-\_\-types.\-h}!\-R\-R\-List\-Item\-Handle@{\-R\-R\-List\-Item\-Handle}}
+\index{\-R\-R\-List\-Item\-Handle@{\-R\-R\-List\-Item\-Handle}!rr_c_types.h@{rr\-\_\-c\-\_\-types.\-h}}
+\subsubsection[{\-R\-R\-List\-Item\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-R\-R\-List\-Item} $\ast$ {\bf \-R\-R\-List\-Item\-Handle}}}
+\label{rr__c__types_8h_a2bab41753cbe82e6aae432769e5143fb}
+
+
+\-A single list element type. 
+
+\-Pointer to c\-R\-R\-Array\-List\-Item\-Handle struct \hypertarget{rr__c__types_8h_a87174eefa58ae98dec58c9253ae6c5da}{
+\index{rr\-\_\-c\-\_\-types.\-h@{rr\-\_\-c\-\_\-types.\-h}!\-R\-R\-Matrix\-Handle@{\-R\-R\-Matrix\-Handle}}
+\index{\-R\-R\-Matrix\-Handle@{\-R\-R\-Matrix\-Handle}!rr_c_types.h@{rr\-\_\-c\-\_\-types.\-h}}
+\subsubsection[{\-R\-R\-Matrix\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-R\-R\-Matrix} $\ast$ {\bf \-R\-R\-Matrix\-Handle}}}
+\label{rr__c__types_8h_a87174eefa58ae98dec58c9253ae6c5da}
+
+
+\-Structure for a simple \-Matrix type. 
+
+\-Pointer to \-R\-R\-Matrix\-Handle struct \hypertarget{rr__c__types_8h_a8c364bbdef9aab31c89655c38461da51}{
+\index{rr\-\_\-c\-\_\-types.\-h@{rr\-\_\-c\-\_\-types.\-h}!\-R\-R\-Result\-Handle@{\-R\-R\-Result\-Handle}}
+\index{\-R\-R\-Result\-Handle@{\-R\-R\-Result\-Handle}!rr_c_types.h@{rr\-\_\-c\-\_\-types.\-h}}
+\subsubsection[{\-R\-R\-Result\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-R\-R\-Result} $\ast$ {\bf \-R\-R\-Result\-Handle}}}
+\label{rr__c__types_8h_a8c364bbdef9aab31c89655c38461da51}
+
+
+\-Structure for the result type from the simulate calls. 
+
+\-Pointer to \-R\-R\-Result\-Handle struct \hypertarget{rr__c__types_8h_a90941a6a2247bf7a8ec3d429729c5f9a}{
+\index{rr\-\_\-c\-\_\-types.\-h@{rr\-\_\-c\-\_\-types.\-h}!\-R\-R\-String\-Array\-Handle@{\-R\-R\-String\-Array\-Handle}}
+\index{\-R\-R\-String\-Array\-Handle@{\-R\-R\-String\-Array\-Handle}!rr_c_types.h@{rr\-\_\-c\-\_\-types.\-h}}
+\subsubsection[{\-R\-R\-String\-Array\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-R\-R\-String\-Array} $\ast$ {\bf \-R\-R\-String\-Array\-Handle}}}
+\label{rr__c__types_8h_a90941a6a2247bf7a8ec3d429729c5f9a}
+
+
+\-Structure for a simple vector of strings. 
+
+\-Pointer to \-R\-R\-String\-List\-Handle struct \hypertarget{rr__c__types_8h_aea46a16752b0ae2cd95c009030ee630e}{
+\index{rr\-\_\-c\-\_\-types.\-h@{rr\-\_\-c\-\_\-types.\-h}!\-R\-R\-Vector\-Handle@{\-R\-R\-Vector\-Handle}}
+\index{\-R\-R\-Vector\-Handle@{\-R\-R\-Vector\-Handle}!rr_c_types.h@{rr\-\_\-c\-\_\-types.\-h}}
+\subsubsection[{\-R\-R\-Vector\-Handle}]{\setlength{\rightskip}{0pt plus 5cm}typedef struct {\bf \-R\-R\-Vector} $\ast$ {\bf \-R\-R\-Vector\-Handle}}}
+\label{rr__c__types_8h_aea46a16752b0ae2cd95c009030ee630e}
+
+
+\-Structure for a simple vector of doubles. 
+
+\-Pointer to \-R\-R\-Vector\-Handle struct 

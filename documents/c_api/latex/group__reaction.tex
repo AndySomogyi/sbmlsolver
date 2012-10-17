@@ -1,0 +1,149 @@
+\hypertarget{group__reaction}{
+\section{\-Reaction group}
+\label{group__reaction}\index{\-Reaction group@{\-Reaction group}}
+}
+
+
+\-Get information about reaction rates.  
+
+
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C int rr\-Call\-Conv \hyperlink{group__reaction_gae25399f84ff2d1fda619358a1af9a1b5}{get\-Number\-Of\-Reactions} ()
+\begin{DoxyCompactList}\small\item\em \-Obtain the number of reactions in the loaded model. \end{DoxyCompactList}\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv \hyperlink{group__reaction_gaa2ec2c989a20e15b0fb5cb45b3af2837}{get\-Reaction\-Rate} (const int \&index, double \&rate)
+\begin{DoxyCompactList}\small\item\em \-Retrieve a give reaction rate as indicated by the index parameter. \end{DoxyCompactList}\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C \hyperlink{rr__c__types_8h_aea46a16752b0ae2cd95c009030ee630e}{\-R\-R\-Vector\-Handle} \*
+rr\-Call\-Conv \hyperlink{group__reaction_ga86d544bcf3eeaa4698a60123a3da69aa}{get\-Reaction\-Rates} ()
+\begin{DoxyCompactList}\small\item\em \-Retrieve a vector of reaction rates as determined by the current state of the model. \end{DoxyCompactList}\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C \hyperlink{rr__c__types_8h_aea46a16752b0ae2cd95c009030ee630e}{\-R\-R\-Vector\-Handle} \*
+rr\-Call\-Conv \hyperlink{group__reaction_gaa03d9414ddeb177a76365dd5b2d0042e}{get\-Reaction\-Rates\-Ex} (const \hyperlink{rr__c__types_8h_aea46a16752b0ae2cd95c009030ee630e}{\-R\-R\-Vector\-Handle} vec)
+\begin{DoxyCompactList}\small\item\em \-Retrieve a vector of reaction rates given a vector of species concentrations. \end{DoxyCompactList}\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C \*
+\hyperlink{rr__c__types_8h_a90941a6a2247bf7a8ec3d429729c5f9a}{\-R\-R\-String\-Array\-Handle} rr\-Call\-Conv \hyperlink{group__reaction_gaab689f6d9b1500a184861b019c846815}{get\-Reaction\-Ids} ()
+\begin{DoxyCompactList}\small\item\em \-Obtain the list of reaction \-Ids. \end{DoxyCompactList}\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C \*
+\hyperlink{rr__c__types_8h_a90941a6a2247bf7a8ec3d429729c5f9a}{\-R\-R\-String\-Array\-Handle} rr\-Call\-Conv \hyperlink{group__reaction_gaaeed33d5de576bf19a2aefc7debb032e}{get\-Rate\-Of\-Change\-Ids} ()
+\begin{DoxyCompactList}\small\item\em \-Obtain the list of rate of change \-Ids. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Get information about reaction rates. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group__reaction_gae25399f84ff2d1fda619358a1af9a1b5}{
+\index{\-Reaction group@{\-Reaction group}!get\-Number\-Of\-Reactions@{get\-Number\-Of\-Reactions}}
+\index{get\-Number\-Of\-Reactions@{get\-Number\-Of\-Reactions}!Reaction group@{\-Reaction group}}
+\subsubsection[{get\-Number\-Of\-Reactions}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C int rr\-Call\-Conv get\-Number\-Of\-Reactions (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{group__reaction_gae25399f84ff2d1fda619358a1af9a1b5}
+
+
+\-Obtain the number of reactions in the loaded model. 
+
+\-Example\-: 
+\begin{DoxyCode}
+ number = getNumberOfReactions (); 
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{\-Returns}
+\-Returns -\/1 if it fails, if succesful it return 0 or more, indicating the number of reactions 
+\end{DoxyReturn}
+\hypertarget{group__reaction_gaaeed33d5de576bf19a2aefc7debb032e}{
+\index{\-Reaction group@{\-Reaction group}!get\-Rate\-Of\-Change\-Ids@{get\-Rate\-Of\-Change\-Ids}}
+\index{get\-Rate\-Of\-Change\-Ids@{get\-Rate\-Of\-Change\-Ids}!Reaction group@{\-Reaction group}}
+\subsubsection[{get\-Rate\-Of\-Change\-Ids}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C {\bf \-R\-R\-String\-Array\-Handle} rr\-Call\-Conv get\-Rate\-Of\-Change\-Ids (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{group__reaction_gaaeed33d5de576bf19a2aefc7debb032e}
+
+
+\-Obtain the list of rate of change \-Ids. 
+
+\begin{DoxyReturn}{\-Returns}
+\-Returns null if it fails, if succesful it returns a pointer to a \-R\-R\-String\-Array\-Handle struct 
+\end{DoxyReturn}
+\hypertarget{group__reaction_gaab689f6d9b1500a184861b019c846815}{
+\index{\-Reaction group@{\-Reaction group}!get\-Reaction\-Ids@{get\-Reaction\-Ids}}
+\index{get\-Reaction\-Ids@{get\-Reaction\-Ids}!Reaction group@{\-Reaction group}}
+\subsubsection[{get\-Reaction\-Ids}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C {\bf \-R\-R\-String\-Array\-Handle} rr\-Call\-Conv get\-Reaction\-Ids (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{group__reaction_gaab689f6d9b1500a184861b019c846815}
+
+
+\-Obtain the list of reaction \-Ids. 
+
+\begin{DoxyReturn}{\-Returns}
+\-Returns null if it fails, if succesful it returns a pointer to a \-R\-R\-String\-Array\-Handle struct 
+\end{DoxyReturn}
+\hypertarget{group__reaction_gaa2ec2c989a20e15b0fb5cb45b3af2837}{
+\index{\-Reaction group@{\-Reaction group}!get\-Reaction\-Rate@{get\-Reaction\-Rate}}
+\index{get\-Reaction\-Rate@{get\-Reaction\-Rate}!Reaction group@{\-Reaction group}}
+\subsubsection[{get\-Reaction\-Rate}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv get\-Reaction\-Rate (
+\begin{DoxyParamCaption}
+\item[{const int \&}]{index, }
+\item[{double \&}]{rate}
+\end{DoxyParamCaption}
+)}}
+\label{group__reaction_gaa2ec2c989a20e15b0fb5cb45b3af2837}
+
+
+\-Retrieve a give reaction rate as indicated by the index parameter. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em index} & -\/ \-The index is used to specify which reaction rate to retrieve \\
+\hline
+{\em rate} & -\/ \-The reaction rate is returned in the rate argument \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Returns false if it fails 
+\end{DoxyReturn}
+\hypertarget{group__reaction_ga86d544bcf3eeaa4698a60123a3da69aa}{
+\index{\-Reaction group@{\-Reaction group}!get\-Reaction\-Rates@{get\-Reaction\-Rates}}
+\index{get\-Reaction\-Rates@{get\-Reaction\-Rates}!Reaction group@{\-Reaction group}}
+\subsubsection[{get\-Reaction\-Rates}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C {\bf \-R\-R\-Vector\-Handle} rr\-Call\-Conv get\-Reaction\-Rates (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{group__reaction_ga86d544bcf3eeaa4698a60123a3da69aa}
+
+
+\-Retrieve a vector of reaction rates as determined by the current state of the model. 
+
+\begin{DoxyReturn}{\-Returns}
+\-Returns null if it fails, otherwise it returns a vector of reaction rates 
+\end{DoxyReturn}
+\hypertarget{group__reaction_gaa03d9414ddeb177a76365dd5b2d0042e}{
+\index{\-Reaction group@{\-Reaction group}!get\-Reaction\-Rates\-Ex@{get\-Reaction\-Rates\-Ex}}
+\index{get\-Reaction\-Rates\-Ex@{get\-Reaction\-Rates\-Ex}!Reaction group@{\-Reaction group}}
+\subsubsection[{get\-Reaction\-Rates\-Ex}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C {\bf \-R\-R\-Vector\-Handle} rr\-Call\-Conv get\-Reaction\-Rates\-Ex (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-R\-R\-Vector\-Handle}}]{vec}
+\end{DoxyParamCaption}
+)}}
+\label{group__reaction_gaa03d9414ddeb177a76365dd5b2d0042e}
+
+
+\-Retrieve a vector of reaction rates given a vector of species concentrations. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em vec} & \-The vector of floating species concentrations \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Returns null if it fails otherwise it returns a vector of reaction rates 
+\end{DoxyReturn}

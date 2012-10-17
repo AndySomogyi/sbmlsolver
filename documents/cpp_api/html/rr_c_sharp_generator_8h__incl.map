@@ -1,0 +1,23 @@
+<map id="R:/roadrunnerwork/trunk/source/rrCSharpGenerator.h" name="R:/roadrunnerwork/trunk/source/rrCSharpGenerator.h">
+<area shape="rect" id="node3" href="$rr_model_generator_8h.html" title="rrModelGenerator.h" alt="" coords="1189,96,1323,123"/>
+<area shape="rect" id="node11" href="$rr_object_8h.html" title="rrObject.h" alt="" coords="1626,693,1704,720"/>
+<area shape="rect" id="node22" href="$rr_string_list_8h.html" title="rrStringList.h" alt="" coords="1021,619,1117,645"/>
+<area shape="rect" id="node27" href="$rr_symbol_list_8h.html" title="rrSymbolList.h" alt="" coords="811,544,917,571"/>
+<area shape="rect" id="node38" href="$rr_code_builder_8h.html" title="rrCodeBuilder.h" alt="" coords="1506,171,1616,197"/>
+<area shape="rect" id="node46" href="$rr_n_o_m_support_8h.html" title="rrNOMSupport.h" alt="" coords="651,171,767,197"/>
+<area shape="rect" id="node109" href="$rr_scanner_8h.html" title="rrScanner.h" alt="" coords="1917,171,2005,197"/>
+<area shape="rect" id="node14" href="$rr_exporter_8h.html" title="rrExporter.h" alt="" coords="1772,843,1863,869"/>
+<area shape="rect" id="node16" href="$rr_constants_8h.html" title="rrConstants.h" alt="" coords="1615,768,1715,795"/>
+<area shape="rect" id="node31" href="$rr_symbol_8h.html" title="rrSymbol.h" alt="" coords="861,619,947,645"/>
+<area shape="rect" id="node40" href="$rr_string_builder_8h.html" title="rrStringBuilder.h" alt="" coords="1743,245,1857,272"/>
+<area shape="rect" id="node60" href="$rr_array_list_8h.html" title="rrArrayList.h" alt="" coords="245,469,339,496"/>
+<area shape="rect" id="node75" href="$rr_hash_table_8h.html" title="rrHashTable.h" alt="" coords="1098,245,1200,272"/>
+<area shape="rect" id="node67" href="$rr_array_list_item_8h.html" title="rrArrayListItem.h" alt="" coords="1094,544,1212,571"/>
+<area shape="rect" id="node71" href="$rr_array_list_item_object_8h.html" title="rrArrayListItemObject.h" alt="" coords="1255,619,1411,645"/>
+<area shape="rect" id="node81" href="$rr_s_b_m_l_symbol_8h.html" title="rrSBMLSymbol.h" alt="" coords="883,320,1004,347"/>
+<area shape="rect" id="node87" href="$rr_utils_8h.html" title="rrUtils.h" alt="" coords="1293,469,1360,496"/>
+<area shape="rect" id="node102" href="$rr_s_b_m_l_symbol_dependencies_8h.html" title="rrSBMLSymbolDependencies.h" alt="" coords="843,395,1045,421"/>
+<area shape="rect" id="node98" href="$rr_simulation_settings_8h.html" title="rrSimulationSettings.h" alt="" coords="1237,544,1387,571"/>
+<area shape="rect" id="node119" href="$rr_code_types_8h.html" title="rrCodeTypes.h" alt="" coords="2075,320,2181,347"/>
+<area shape="rect" id="node122" href="$rr_token_8h.html" title="rrToken.h" alt="" coords="2155,245,2231,272"/>
+</map>

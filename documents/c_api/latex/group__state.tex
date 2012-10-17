@@ -1,0 +1,137 @@
+\hypertarget{group__state}{
+\section{\-Current state of system}
+\label{group__state}\index{\-Current state of system@{\-Current state of system}}
+}
+
+
+\-Compute derivatives, fluxes, and other values of the system at the current state.  
+
+
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv \hyperlink{group__state_gaee1e79b2afc717895d302c51b49aee47}{get\-Value} (const char $\ast$symbol\-Id, double \&value)
+\begin{DoxyCompactList}\small\item\em \-Get the value for a given symbol, use \hyperlink{group__state_gab7164e3cb8db5f8fd8c066682ce8c62e}{get\-Available\-Symbols()} for a list of symbols. \end{DoxyCompactList}\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv \hyperlink{group__state_ga8e92a279c4f313cb038f49cc04faed73}{set\-Value} (const char $\ast$symbol\-Id, const double \&value)
+\begin{DoxyCompactList}\small\item\em \-Set the value for a given symbol, use \hyperlink{group__state_gab7164e3cb8db5f8fd8c066682ce8c62e}{get\-Available\-Symbols()} for a list of symbols. \end{DoxyCompactList}\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv \hyperlink{group__state_ga3fbb7c2fab261f25a3871f1caf398ff1}{eval\-Model} ()
+\begin{DoxyCompactList}\small\item\em \-Evaluate the current model, that it update all assignments and rates of change. \-Do not carry out an integration step. \end{DoxyCompactList}\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C \*
+\hyperlink{rr__c__types_8h_a90941a6a2247bf7a8ec3d429729c5f9a}{\-R\-R\-String\-Array\-Handle} rr\-Call\-Conv \hyperlink{group__state_ga15fd0aa66d20ef3e733ec6fa28dbfc98}{get\-Eigen\-Value\-Ids} ()
+\begin{DoxyCompactList}\small\item\em \-Obtain the list of eigenvalue \-Ids. \end{DoxyCompactList}\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C \hyperlink{rr__c__types_8h_a840005f5261fec71eec85cc770317c5d}{\-R\-R\-List\-Handle} rr\-Call\-Conv \hyperlink{group__state_gab7164e3cb8db5f8fd8c066682ce8c62e}{get\-Available\-Symbols} ()
+\begin{DoxyCompactList}\small\item\em \-Obtain the list of all available symbols. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Compute derivatives, fluxes, and other values of the system at the current state. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group__state_ga3fbb7c2fab261f25a3871f1caf398ff1}{
+\index{\-Current state of system@{\-Current state of system}!eval\-Model@{eval\-Model}}
+\index{eval\-Model@{eval\-Model}!Current state of system@{\-Current state of system}}
+\subsubsection[{eval\-Model}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv eval\-Model (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{group__state_ga3fbb7c2fab261f25a3871f1caf398ff1}
+
+
+\-Evaluate the current model, that it update all assignments and rates of change. \-Do not carry out an integration step. 
+
+\begin{DoxyReturn}{\-Returns}
+\-Returns false if it fails 
+\end{DoxyReturn}
+\hypertarget{group__state_gab7164e3cb8db5f8fd8c066682ce8c62e}{
+\index{\-Current state of system@{\-Current state of system}!get\-Available\-Symbols@{get\-Available\-Symbols}}
+\index{get\-Available\-Symbols@{get\-Available\-Symbols}!Current state of system@{\-Current state of system}}
+\subsubsection[{get\-Available\-Symbols}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C {\bf \-R\-R\-List\-Handle} rr\-Call\-Conv get\-Available\-Symbols (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{group__state_gab7164e3cb8db5f8fd8c066682ce8c62e}
+
+
+\-Obtain the list of all available symbols. 
+
+\begin{DoxyReturn}{\-Returns}
+\-Returns -\/1 if it fails, if succesful it returns a pointer to a \-R\-R\-List\-Handle struct 
+\end{DoxyReturn}
+\hypertarget{group__state_ga15fd0aa66d20ef3e733ec6fa28dbfc98}{
+\index{\-Current state of system@{\-Current state of system}!get\-Eigen\-Value\-Ids@{get\-Eigen\-Value\-Ids}}
+\index{get\-Eigen\-Value\-Ids@{get\-Eigen\-Value\-Ids}!Current state of system@{\-Current state of system}}
+\subsubsection[{get\-Eigen\-Value\-Ids}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C {\bf \-R\-R\-String\-Array\-Handle} rr\-Call\-Conv get\-Eigen\-Value\-Ids (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{group__state_ga15fd0aa66d20ef3e733ec6fa28dbfc98}
+
+
+\-Obtain the list of eigenvalue \-Ids. 
+
+\begin{DoxyReturn}{\-Returns}
+\-Returns -\/1 if it fails, if succesful it returns a pointer to a \-R\-R\-String\-Array\-Handle struct 
+\end{DoxyReturn}
+\hypertarget{group__state_gaee1e79b2afc717895d302c51b49aee47}{
+\index{\-Current state of system@{\-Current state of system}!get\-Value@{get\-Value}}
+\index{get\-Value@{get\-Value}!Current state of system@{\-Current state of system}}
+\subsubsection[{get\-Value}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv get\-Value (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{symbol\-Id, }
+\item[{double \&}]{value}
+\end{DoxyParamCaption}
+)}}
+\label{group__state_gaee1e79b2afc717895d302c51b49aee47}
+
+
+\-Get the value for a given symbol, use \hyperlink{group__state_gab7164e3cb8db5f8fd8c066682ce8c62e}{get\-Available\-Symbols()} for a list of symbols. 
+
+\-Example\-: 
+\begin{DoxyCode}
+ status = getValue ("S1", &value); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em symbol\-Id} & \-The symbol that we wish to obtain the value for \\
+\hline
+{\em value} & \-The value that will be retrievd \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Returns true if succesful 
+\end{DoxyReturn}
+\hypertarget{group__state_ga8e92a279c4f313cb038f49cc04faed73}{
+\index{\-Current state of system@{\-Current state of system}!set\-Value@{set\-Value}}
+\index{set\-Value@{set\-Value}!Current state of system@{\-Current state of system}}
+\subsubsection[{set\-Value}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv set\-Value (
+\begin{DoxyParamCaption}
+\item[{const char $\ast$}]{symbol\-Id, }
+\item[{const double \&}]{value}
+\end{DoxyParamCaption}
+)}}
+\label{group__state_ga8e92a279c4f313cb038f49cc04faed73}
+
+
+\-Set the value for a given symbol, use \hyperlink{group__state_gab7164e3cb8db5f8fd8c066682ce8c62e}{get\-Available\-Symbols()} for a list of symbols. 
+
+\-Example\-: 
+\begin{DoxyCode}
+ status = setValue ("S1", 0.5); 
+\end{DoxyCode}
+
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em symbol\-Id} & \-The symbol that we wish to set the value \\
+\hline
+{\em value} & \-The value that will be set to the symbol \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{\-Returns}
+\-Returns true if succesful 
+\end{DoxyReturn}

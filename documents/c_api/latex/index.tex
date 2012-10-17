@@ -1,0 +1,50 @@
+\hypertarget{index_intro_sec}{}\section{\-Introduction}\label{index_intro_sec}
+\-Road\-Runner is a \-S\-B\-M\-L compliant high performance and portable simulation engine for systems and synthetic biology. \-To run a simple \-S\-B\-M\-L model and generate time series data we would call\-:
+
+
+\begin{DoxyCode}
+ RRResultHandle result;
+
+ if (!loadSBMLFromFile ("mymodel.xml"))
+    exit;
+
+ result = simulate (0, 10, 100);
+ printf (resultToString (output)
+\end{DoxyCode}
+
+
+\-More complex example\-:
+
+
+\begin{DoxyCode}
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include "rr_c_api.h"
+
+ int main(int nargs, char** argv)
+ {
+        RRHandle rrInstance = getRRInstance();
+
+        printf("loading model file %s\n", argv[1]);
+ 
+        if (!loadSBMLFromFile(argv[1])) {
+           printf ("Error while loading SBML file\n");
+           printf ("Error message: %s\n", getLastError());
+           exit();
+        }
+                   
+        RRResultHandle output = simulate (0, 100, 1000);  // start time, end
+       time, and number of points
+        
+        printf("Output table has %i rows and %i columns\n", output->RSize, 
+      output->RCols);
+        printResult (output);
+
+        freeResult (output);
+        freeRRInstance (rrInstance)
+
+        return 0;
+ }
+\end{DoxyCode}
+ \hypertarget{index_install_sec}{}\section{\-Installation}\label{index_install_sec}
+\-Installation documentation is provided in the main google code page. 

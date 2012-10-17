@@ -1,0 +1,60 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{3057D3CA-B125-414C-A73E-A4414F438592}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="LoadModelSource\ModelDll.cbproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="LoadModelSource\UsingImportLib.cbproj">
+				<Dependencies>LoadModelSource\ModelDll.cbproj</Dependencies>
+			</Projects>
+			<Projects Include="LoadDLLDynamically\Dynamically.cbproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="ModelDll">
+			<MSBuild Projects="LoadModelSource\ModelDll.cbproj"/>
+		</Target>
+		<Target Name="ModelDll:Clean">
+			<MSBuild Projects="LoadModelSource\ModelDll.cbproj" Targets="Clean"/>
+		</Target>
+		<Target Name="ModelDll:Make">
+			<MSBuild Projects="LoadModelSource\ModelDll.cbproj" Targets="Make"/>
+		</Target>
+		<Target Name="UsingImportLib" DependsOnTargets="ModelDll">
+			<MSBuild Projects="LoadModelSource\UsingImportLib.cbproj"/>
+		</Target>
+		<Target Name="UsingImportLib:Clean" DependsOnTargets="ModelDll:Clean">
+			<MSBuild Projects="LoadModelSource\UsingImportLib.cbproj" Targets="Clean"/>
+		</Target>
+		<Target Name="UsingImportLib:Make" DependsOnTargets="ModelDll:Make">
+			<MSBuild Projects="LoadModelSource\UsingImportLib.cbproj" Targets="Make"/>
+		</Target>
+		<Target Name="Dynamically">
+			<MSBuild Projects="LoadDLLDynamically\Dynamically.cbproj"/>
+		</Target>
+		<Target Name="Dynamically:Clean">
+			<MSBuild Projects="LoadDLLDynamically\Dynamically.cbproj" Targets="Clean"/>
+		</Target>
+		<Target Name="Dynamically:Make">
+			<MSBuild Projects="LoadDLLDynamically\Dynamically.cbproj" Targets="Make"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="ModelDll;UsingImportLib;Dynamically"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="ModelDll:Clean;UsingImportLib:Clean;Dynamically:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="ModelDll:Make;UsingImportLib:Make;Dynamically:Make"/>
+		</Target>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
+	</Project>

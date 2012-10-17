@@ -1,0 +1,33 @@
+#summary Download a RoadRunner Release
+#labels Featured
+#DONT EDIT THIS FILE - It is auto generated. Edits its template instead
+= Downloads =
+The !RoadRunner distribution below contains the following:
+
+1) C++ API
+2) C API
+3) Python API
+4) Documentation
+
+The official releases are being built using Visual Studio 2010. If you are interested in a release using other compilers e.g. !CodeGear XE or MinGW please let us know.
+
+||*Description*||*Download Link*||Version||Build Date||
+||  !RoadRunner Installer||Not yet released||1.0|| xxxx ||
+
+== The Latest Build ==
+The distribution below contains the latest bugfixes and additions. 
+Observe that this release may occasionaly be less stable than the official release. 
+
+The latest build do not contain the documentation. Documentation can be downloaded separately below.
+
+||*Description*||*Download Link*||*SVN Revision*||*Build Date*||*Time*||
+||!RoadRunner ||[http://roadrunnerwork.googlecode.com/svn/releases/vs/RoadRunner.exe      RoadRunner.exe]     || SVN_REV || DATE || TIME || 
+
+Take a look at the [http://roadrunnerwork.googlecode.com/svn/wiki/reports/c_api_tests.xml c-api test matrix] for this distribution  and [http://roadrunnerwork.googlecode.com/svn/wiki/reports/cxx_api_tests.xml cpp-api test matrix]  
+
+== Documentation ==
+||*Description*||*Download Link*||*Version*||
+||!RoadRunner (All) ||[http://roadrunnerwork.googlecode.com/svn/releases/cg/RoadRunner-all-docs.exe     RoadRunner-all-docs.exe]    || xxxx ||
+||C++               ||[http://roadrunnerwork.googlecode.com/svn/releases/cg/RoadRunner-cpp-docs.exe     RoadRunner-cpp-docs.exe]    || xxxx ||
+||C                 ||[http://roadrunnerwork.googlecode.com/svn/releases/cg/RoadRunner-c-docs.exe       RoadRunner-c-docs.exe]      || xxxx ||
+||Python            ||[http://roadrunnerwork.googlecode.com/svn/releases/cg/RoadRunner-python-docs.exe  RoadRunner-python-docs.exe] || xxxx ||

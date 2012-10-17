@@ -1,0 +1,118 @@
+\hypertarget{group__rate_of_change}{
+\section{\-Rates of change group}
+\label{group__rate_of_change}\index{\-Rates of change group@{\-Rates of change group}}
+}
+
+
+\-Get information about rates of change.  
+
+
+\subsection*{\-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C \hyperlink{rr__c__types_8h_aea46a16752b0ae2cd95c009030ee630e}{\-R\-R\-Vector\-Handle} \*
+rr\-Call\-Conv \hyperlink{group__rate_of_change_gabbe129bee63761f7b0f98f060b86067b}{get\-Rates\-Of\-Change} ()
+\begin{DoxyCompactList}\small\item\em \-Retrieve the vector of rates of change as determined by the current state of the model. \end{DoxyCompactList}\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C \*
+\hyperlink{rr__c__types_8h_a90941a6a2247bf7a8ec3d429729c5f9a}{\-R\-R\-String\-Array\-Handle} rr\-Call\-Conv \hyperlink{group__rate_of_change_ga1a87e2a6db4adb19a11a6a893eca74d8}{get\-Rates\-Of\-Change\-Ids} ()
+\begin{DoxyCompactList}\small\item\em \-Retrieve the string list of rates of change \-Ids. \end{DoxyCompactList}\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv \hyperlink{group__rate_of_change_gaad38321993112e230f7fccd96345de6c}{get\-Rate\-Of\-Change} (const int \&, double \&value)
+\begin{DoxyCompactList}\small\item\em \-Retrieve the rate of change for a given floating species. \end{DoxyCompactList}\item 
+\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C \hyperlink{rr__c__types_8h_aea46a16752b0ae2cd95c009030ee630e}{\-R\-R\-Vector\-Handle} \*
+rr\-Call\-Conv \hyperlink{group__rate_of_change_gacfae48e32754e7678b8bb003df93ef53}{get\-Rates\-Of\-Change\-Ex} (const \hyperlink{rr__c__types_8h_aea46a16752b0ae2cd95c009030ee630e}{\-R\-R\-Vector\-Handle} vec)
+\begin{DoxyCompactList}\small\item\em \-Retrieve the vector of rates of change given a vector of floating species concentrations. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{\-Detailed \-Description}
+\-Get information about rates of change. 
+
+\subsection{\-Function \-Documentation}
+\hypertarget{group__rate_of_change_gaad38321993112e230f7fccd96345de6c}{
+\index{\-Rates of change group@{\-Rates of change group}!get\-Rate\-Of\-Change@{get\-Rate\-Of\-Change}}
+\index{get\-Rate\-Of\-Change@{get\-Rate\-Of\-Change}!Rates of change group@{\-Rates of change group}}
+\subsubsection[{get\-Rate\-Of\-Change}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C bool rr\-Call\-Conv get\-Rate\-Of\-Change (
+\begin{DoxyParamCaption}
+\item[{const int \&}]{, }
+\item[{double \&}]{value}
+\end{DoxyParamCaption}
+)}}
+\label{group__rate_of_change_gaad38321993112e230f7fccd96345de6c}
+
+
+\-Retrieve the rate of change for a given floating species. 
+
+\-Example\-: 
+\begin{DoxyCode}
+ status = getRateOfChange (&index, &value); 
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{\-Returns}
+\-Returns false if it fails, otherwise value contains the rate of change. 
+\end{DoxyReturn}
+\hypertarget{group__rate_of_change_gabbe129bee63761f7b0f98f060b86067b}{
+\index{\-Rates of change group@{\-Rates of change group}!get\-Rates\-Of\-Change@{get\-Rates\-Of\-Change}}
+\index{get\-Rates\-Of\-Change@{get\-Rates\-Of\-Change}!Rates of change group@{\-Rates of change group}}
+\subsubsection[{get\-Rates\-Of\-Change}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C {\bf \-R\-R\-Vector\-Handle} rr\-Call\-Conv get\-Rates\-Of\-Change (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{group__rate_of_change_gabbe129bee63761f7b0f98f060b86067b}
+
+
+\-Retrieve the vector of rates of change as determined by the current state of the model. 
+
+\-Example\-: 
+\begin{DoxyCode}
+ values = getRatesOfChange (); 
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{\-Returns}
+\-Returns null if it fails, otherwise returns a vector of rates of change values 
+\end{DoxyReturn}
+\hypertarget{group__rate_of_change_gacfae48e32754e7678b8bb003df93ef53}{
+\index{\-Rates of change group@{\-Rates of change group}!get\-Rates\-Of\-Change\-Ex@{get\-Rates\-Of\-Change\-Ex}}
+\index{get\-Rates\-Of\-Change\-Ex@{get\-Rates\-Of\-Change\-Ex}!Rates of change group@{\-Rates of change group}}
+\subsubsection[{get\-Rates\-Of\-Change\-Ex}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C {\bf \-R\-R\-Vector\-Handle} rr\-Call\-Conv get\-Rates\-Of\-Change\-Ex (
+\begin{DoxyParamCaption}
+\item[{const {\bf \-R\-R\-Vector\-Handle}}]{vec}
+\end{DoxyParamCaption}
+)}}
+\label{group__rate_of_change_gacfae48e32754e7678b8bb003df93ef53}
+
+
+\-Retrieve the vector of rates of change given a vector of floating species concentrations. 
+
+\-Example\-: 
+\begin{DoxyCode}
+ values = getRatesOfChangeEx (vector); 
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{\-Returns}
+\-Returns null if it fails 
+\end{DoxyReturn}
+\hypertarget{group__rate_of_change_ga1a87e2a6db4adb19a11a6a893eca74d8}{
+\index{\-Rates of change group@{\-Rates of change group}!get\-Rates\-Of\-Change\-Ids@{get\-Rates\-Of\-Change\-Ids}}
+\index{get\-Rates\-Of\-Change\-Ids@{get\-Rates\-Of\-Change\-Ids}!Rates of change group@{\-Rates of change group}}
+\subsubsection[{get\-Rates\-Of\-Change\-Ids}]{\setlength{\rightskip}{0pt plus 5cm}\-C\-\_\-\-D\-E\-C\-L\-\_\-\-S\-P\-E\-C {\bf \-R\-R\-String\-Array\-Handle} rr\-Call\-Conv get\-Rates\-Of\-Change\-Ids (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}
+\label{group__rate_of_change_ga1a87e2a6db4adb19a11a6a893eca74d8}
+
+
+\-Retrieve the string list of rates of change \-Ids. 
+
+\-Example\-: 
+\begin{DoxyCode}
+ Ids = getRatesOfChangeIds (); 
+\end{DoxyCode}
+
+
+\begin{DoxyReturn}{\-Returns}
+\-Returns null if it fails, otherwise returns a list of rates of change \-Ids 
+\end{DoxyReturn}
