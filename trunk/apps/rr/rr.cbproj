@@ -83,7 +83,7 @@
 			<ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-			<ILINK_LibraryPath>R:\builds\xe\debug\ThirdParty\lib\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+			<ILINK_LibraryPath>$(RR_DEBUG_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
 			<IntermediateOutputDir>.\$(Config)\$(Platform)\rr</IntermediateOutputDir>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2)'!=''">

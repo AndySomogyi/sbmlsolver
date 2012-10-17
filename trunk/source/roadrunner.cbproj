@@ -28,7 +28,7 @@
 			<BCC_MonitorThis>true</BCC_MonitorThis>
 			<FinalOutputDir>$(RR_DEBUG_INSTALL)\bin\</FinalOutputDir>
 			<BCC_PCHName>rr.csm</BCC_PCHName>
-			<Defines>USE_PCH;EXPORT_RR;LIBSBML_USE_CPP_NAMESPACE;WIN32;STATIC_LIBTRUCT;STATIC_NLEQ;STATIC_PUGI;CG_IDE;$(Defines)</Defines>
+			<Defines>USE_PCH;EXPORT_RR;LIBSBML_USE_CPP_NAMESPACE;WIN32;STATIC_LIBSTRUCT;STATIC_NLEQ;STATIC_PUGI;CG_IDE;$(Defines)</Defines>
 			<NoVCL>true</NoVCL>
 			<LinkPackageImports>rtl.bpi;vcl.bpi</LinkPackageImports>
 			<ProjectType>CppDynamicLibrary</ProjectType>
@@ -75,7 +75,7 @@
 			<ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
 			<TASM_Debugging>Full</TASM_Debugging>
 			<BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
-			<ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+			<ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(RR_DEBUG_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2)'!=''">
 			<Defines>NDEBUG;$(Defines)</Defines>

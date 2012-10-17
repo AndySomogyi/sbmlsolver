@@ -25,12 +25,13 @@
 using namespace std;
 using namespace ls;
 
-//We only need to give lthe linker the folder where libs are
+//We only need to give the linker the folder where libs are
 //using the pragma comment. Works for MSVC and codegear
 #if defined(__CODEGEARC__)
 #pragma comment(lib, "sundials_cvode.lib")
 #pragma comment(lib, "sundials_nvecserial.lib")
 #pragma comment(lib, "nleq-static.lib")
+#pragma comment(lib, "pugi-static.lib")
 #pragma comment(lib, "rr-libstruct-static.lib")
 #pragma comment(lib, "libsbml-static.lib")
 #pragma comment(lib, "libxml2_xe.lib")

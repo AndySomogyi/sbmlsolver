@@ -6,6 +6,9 @@
 			<Projects Include="..\..\ThirdParty\unit_test\unit_test-static.cbproj">
 				<Dependencies/>
 			</Projects>
+			<Projects Include="..\..\source\roadrunner.cbproj">
+				<Dependencies/>
+			</Projects>
 			<Projects Include="..\..\source\roadrunner-static.cbproj">
 				<Dependencies/>
 			</Projects>
@@ -46,6 +49,15 @@
 		</Target>
 		<Target Name="unit_test-static:Make">
 			<MSBuild Projects="..\..\ThirdParty\unit_test\unit_test-static.cbproj" Targets="Make"/>
+		</Target>
+		<Target Name="roadrunner">
+			<MSBuild Projects="..\..\source\roadrunner.cbproj"/>
+		</Target>
+		<Target Name="roadrunner:Clean">
+			<MSBuild Projects="..\..\source\roadrunner.cbproj" Targets="Clean"/>
+		</Target>
+		<Target Name="roadrunner:Make">
+			<MSBuild Projects="..\..\source\roadrunner.cbproj" Targets="Make"/>
 		</Target>
 		<Target Name="roadrunner-static">
 			<MSBuild Projects="..\..\source\roadrunner-static.cbproj"/>
@@ -120,13 +132,13 @@
 			<MSBuild Projects="..\..\source\testing\cxx_api_tests.cbproj" Targets="Make"/>
 		</Target>
 		<Target Name="Build">
-			<CallTarget Targets="unit_test-static;roadrunner-static;rr_c_api;rr;rr_ts_tester;rr_performance_tester;rr_c;c_api_tests;cxx_api_tests"/>
+			<CallTarget Targets="unit_test-static;roadrunner;roadrunner-static;rr_c_api;rr;rr_ts_tester;rr_performance_tester;rr_c;c_api_tests;cxx_api_tests"/>
 		</Target>
 		<Target Name="Clean">
-			<CallTarget Targets="unit_test-static:Clean;roadrunner-static:Clean;rr_c_api:Clean;rr:Clean;rr_ts_tester:Clean;rr_performance_tester:Clean;rr_c:Clean;c_api_tests:Clean;cxx_api_tests:Clean"/>
+			<CallTarget Targets="unit_test-static:Clean;roadrunner:Clean;roadrunner-static:Clean;rr_c_api:Clean;rr:Clean;rr_ts_tester:Clean;rr_performance_tester:Clean;rr_c:Clean;c_api_tests:Clean;cxx_api_tests:Clean"/>
 		</Target>
 		<Target Name="Make">
-			<CallTarget Targets="unit_test-static:Make;roadrunner-static:Make;rr_c_api:Make;rr:Make;rr_ts_tester:Make;rr_performance_tester:Make;rr_c:Make;c_api_tests:Make;cxx_api_tests:Make"/>
+			<CallTarget Targets="unit_test-static:Make;roadrunner:Make;roadrunner-static:Make;rr_c_api:Make;rr:Make;rr_ts_tester:Make;rr_performance_tester:Make;rr_c:Make;c_api_tests:Make;cxx_api_tests:Make"/>
 		</Target>
 		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
 	</Project>
