@@ -5,10 +5,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "rrGetOptions.h"
-//---------------------------------------------------------------------------
-#if defined(__CODEGEAR__)
-#pragma package(smart_init)
-#endif
 
 char    *optarg;            // global argument pointer
 int      optind = 0;        // global argv index

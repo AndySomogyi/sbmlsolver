@@ -47,7 +47,7 @@
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1)'!=''">
 			<IncludePath>$(RR_DEBUG_INSTALL)\include;$(RR_DEBUG_INSTALL)\include\unit_test;$(IncludePath)</IncludePath>
-			<FinalOutputDir>R:\installs\xe\debug\bin\</FinalOutputDir>
+			<FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
 			<BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
 			<BCC_DisableOptimizations>true</BCC_DisableOptimizations>
 			<DCC_Optimize>false</DCC_Optimize>
@@ -70,6 +70,9 @@
 			<TASM_Debugging>None</TASM_Debugging>
 		</PropertyGroup>
 		<ItemGroup>
+			<CppCompile Include="Args.cpp">
+				<BuildOrder>3</BuildOrder>
+			</CppCompile>
 			<CppCompile Include="core\base.cpp">
 				<BuildOrder>2</BuildOrder>
 			</CppCompile>
@@ -131,7 +134,7 @@
 						<ProjectProperties Name="VerifyPackages">True</ProjectProperties>
 					</ProjectProperties>
 					<Parameters>
-						<Parameters Name="RunParams">r:/roadrunnerwork/wiki/reports</Parameters>
+						<Parameters Name="RunParams">-mr:\rrl\models -rr:\rrl\wiki\reports -tr:\rrTemp</Parameters>
 					</Parameters>
 				</CPlusPlusBuilder.Personality>
 				<Platforms>

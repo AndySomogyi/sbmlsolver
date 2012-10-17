@@ -1,12 +1,14 @@
 #include <string>
 #include "UnitTest++.h"
 #include "rr_c_api.h"
+#include "rrUtils.h"
 using namespace std;
+using namespace rr;
 using namespace UnitTest;
 
 
 RRHandle gRR;	//Global roadrunner C handle
-
+extern string gSBMLModelsPath;
 SUITE(Base)
 {
     TEST(AllocateRR)
@@ -18,6 +20,14 @@ SUITE(Base)
         }
 
         CHECK(gRR!=NULL);	//If gRR == NULL this is a fail
+    }
+
+    TEST(MODEL_FILES)	//Test that model files for the tests are present
+    {
+    	CHECK(FileExists(JoinPath(gSBMLModelsPath, "feedback.xml")));
+    	CHECK(FileExists(JoinPath(gSBMLModelsPath, "ss_threeSpecies.xml")));
+        CHECK(FileExists(JoinPath(gSBMLModelsPath, "ss_TurnOnConservationAnalysis.xml")));
+        CHECK(FileExists(JoinPath(gSBMLModelsPath, "squareWaveModel.xml")));
     }
 
     TEST(LOAD_SBML)
