@@ -5,8 +5,9 @@
 using namespace UnitTest;
 using namespace rr;
 RoadRunner* gRR = NULL;
-const string sbmlModelPath = "r:\\roadrunnerwork\\models";
-SUITE(base)
+extern string gSBMLModelsPath;
+
+SUITE(Base)
 {
 	TEST(AllocateRR)
 	{
@@ -16,20 +17,35 @@ SUITE(base)
 
 		}
 		CHECK(gRR!=NULL);
-		
+
 	}
+
+    TEST(VERSIONS)
+    {
+    	CHECK_EQUAL(getVersion(), 				"1.0.0");
+		CHECK_EQUAL(gRR->getlibSBMLVersion(), 	"5.6.0");
+    }
+
+    TEST(MODEL_FILES)	//Test that model files for the tests are present
+    {
+    	CHECK(FileExists(JoinPath(gSBMLModelsPath, "feedback.xml")));
+    	CHECK(FileExists(JoinPath(gSBMLModelsPath, "ss_threeSpecies.xml")));
+        CHECK(FileExists(JoinPath(gSBMLModelsPath, "ss_TurnOnConservationAnalysis.xml")));
+        CHECK(FileExists(JoinPath(gSBMLModelsPath, "squareWaveModel.xml")));
+    }
 
 	TEST(LOAD_SBML)
 	{
 		CHECK(gRR!=NULL);
-		string fName =  "..\\models\\ss_threeSpecies.xml";
-		CHECK_THROW(gRR->loadSBMLFromFile(fName), Exception);	
+		string model =  JoinPath(gSBMLModelsPath, "ss_threeSpecies.xml");
+
+		CHECK(gRR->loadSBMLFromFile(model));
 	}
 
 
 	//TEST(FULL_JACOBIAN)
 	//{
-	//	//Fail a test			
+	//	//Fail a test
 	//	CHECK(gRR==NULL);
 
 	//	string fName =  JoinPath(sbmlModelPath, "ss_threeSpecies.xml");

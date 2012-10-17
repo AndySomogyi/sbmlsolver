@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="api_tests.xsl" type="text/xsl" ?>
+<unittest-results tests="4" failedtests="0" failures="0" time="2.784">
+<test suite="Base" name="AllocateRR" time="0"/>
+<test suite="Base" name="VERSIONS" time="0"/>
+<test suite="Base" name="MODEL_FILES" time="0"/>
+<test suite="Base" name="LOAD_SBML" time="2.784"/>
+</unittest-results>

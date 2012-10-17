@@ -20,10 +20,16 @@
 #include "rrUtils.h"
 #include "rrLogger.h"
 #include "rrMisc.h"
+#include "rrVersionInfo.h"
 //---------------------------------------------------------------------------
 using namespace std;
 namespace rr
 {
+
+const char* getVersion()
+{
+	return RR_VERSION;
+}
 
 string GetUsersTempDataFolder()
 {

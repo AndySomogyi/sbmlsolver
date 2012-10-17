@@ -69,6 +69,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		string                          GetDLLName();
 		SimulationSettings              mSettings;
 		NOMSupport						mNOM;
+
 	public:
 		string                  		getParamPromotedSBML(const string& sArg);
         NOMSupport*						getNOM();
@@ -152,7 +153,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		vector<double>                  getRatesOfChange();
 		StringList                      getSpeciesIds();
 		StringList                      getReactionIds();
-		
+
 
 		// ---------------------------------------------------------------------
 		// Start of Level 2 API Methods
@@ -177,7 +178,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		// ---------------------------------------------------------------------
 		double                          steadyState();
 		static void                     TestSettings();
-
 		DoubleMatrix                    getReducedJacobian();
 		DoubleMatrix                    getFullJacobian();
 		DoubleMatrix                    getEigenvalues();
@@ -196,14 +196,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
         DoubleMatrix                    getScaledFluxControlCoefficientMatrix();
 		int                             getNumberOfDependentSpecies();
 		int                             getNumberOfIndependentSpecies();
-
-		/// <summary>
-		/// Fills the second argument with the Inverse of the first argument
-		/// </summary>
-		/// <param name="T2">The Matrix to calculate the Inverse for</param>
-		/// <param name="Inv">will be overriden wiht the inverse of T2 (must already be allocated)</param>
-//		void                            GetInverse( Matrix<Complex> & T2, Matrix<Complex>& Inv);
-
 		void                            computeContinuation(const double& stepSize, const int& independentVariable, const string& parameterTypeStr);
         ArrayList                 		getUnscaledFluxControlCoefficientIds();
 		ArrayList                       getFluxControlCoefficientIds();
@@ -274,6 +266,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		StringList                      getGlobalParameterIds();
 		StringList                      getAllGlobalParameterTupleList();
 		void                            EvalModel();
+
+		//These functions are better placed in a separate file, as non class members, but part of the roadrunner namespace?
 		string                          getName();
 		string                          getVersion();
 		string                          getAuthor();
@@ -286,8 +280,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		static void                     PrintTout(const double& start, const double& end, const int& numPoints);
 		static void                     TestChange();
 		void                            DumpResults(TextWriter& writer, DoubleMatrix& data, const StringList& colLabels);
-
-       ls::ComplexMatrix            ConvertComplex(ls::ComplexMatrix oMatrix);
+		ComplexMatrix            		ConvertComplex(ls::ComplexMatrix oMatrix);
 
 
 		//RoadRunner MCA functions......

@@ -14,6 +14,8 @@ using std::vector;
 using std::string;
 namespace rr
 {
+
+RR_DECLSPEC const char*   	getVersion();
 //Misc.
 RR_DECLSPEC std::size_t     IndexOf(std::vector<std::string>& vec, const std::string& elem );
 RR_DECLSPEC bool            IsNaN(const double& aNum);
