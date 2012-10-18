@@ -15,7 +15,7 @@ rrSLN='RoadRunner.sln'
 rrBuilds=["all"]
 
 def updateDownloadsWiki(rrUpdates, svn_revision):
-    template = sBoxRoot + "/documents/reports/Downloads.template"
+    template = sBoxRoot + "/documents/templates/Downloads.template"
     wiki = sBoxRoot + "/wiki/Downloads.wiki"
     print 'Updating WIKI. SVN Revision: ' + svn_revision
     date = datetime.datetime.now().strftime("%Y-%m-%d")
