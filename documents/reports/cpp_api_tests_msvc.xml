@@ -4,5 +4,5 @@
 <test suite="Base" name="AllocateRR" time="0"/>
 <test suite="Base" name="VERSIONS" time="0"/>
 <test suite="Base" name="MODEL_FILES" time="0"/>
-<test suite="Base" name="LOAD_SBML" time="0.011"><failure message="base.cpp(42) : Unhandled exception in CHECK(gRR-&gt;loadSBMLFromFile(model))"/></test>
+<test suite="Base" name="LOAD_SBML" time="0.012"><failure message="base.cpp(42) : Unhandled exception in CHECK(gRR-&gt;loadSBMLFromFile(model))"/></test>
 </unittest-results>
