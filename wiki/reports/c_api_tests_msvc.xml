@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="api_tests.xsl" type="text/xsl" ?>
+<unittest-results tests="5" failedtests="1" failures="1" time="0.012">
+<test suite="Base" name="AllocateRR" time="0"/>
+<test suite="Base" name="MODEL_FILES" time="0"/>
+<test suite="Base" name="LOAD_SBML" time="0.011"><failure message="base.cpp(45) : loadSBMLFromFile(model.c_str())"/></test>
+<test suite="Base" name="LISTS" time="0"/>
+<test suite="Base" name="VERSIONS" time="0"/>
+</unittest-results>

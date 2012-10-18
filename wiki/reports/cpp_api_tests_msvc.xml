@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="api_tests.xsl" type="text/xsl" ?>
+<unittest-results tests="4" failedtests="1" failures="1" time="0.012">
+<test suite="Base" name="AllocateRR" time="0"/>
+<test suite="Base" name="VERSIONS" time="0"/>
+<test suite="Base" name="MODEL_FILES" time="0"/>
+<test suite="Base" name="LOAD_SBML" time="0.011"><failure message="base.cpp(42) : Unhandled exception in CHECK(gRR-&gt;loadSBMLFromFile(model))"/></test>
+</unittest-results>
