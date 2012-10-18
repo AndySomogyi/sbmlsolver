@@ -5,17 +5,17 @@ import datetime
 install3rdParty=0
 doBuild=0
 doClean=0
-doCommitReleases=1
-doCommitWiki=0
+doCommitReleases=0
+doCommitWiki=1
 
-tsvn="svn.exe"
-sBoxRoot='/cygdrive/r/rrl'
+tsvn="c:\\Program Files\\TortoiseSVN\\bin\\svn.exe"
+sBoxRoot='r:/rrl'
 buildFolder='r:/builds/vs/release'
 rrSLN='RoadRunner.sln'
 rrBuilds=["all"]
 
 def updateDownloadsWiki(rrUpdates, svn_revision):
-    template = sBoxRoot + "/wiki/Downloads.template"
+    template = sBoxRoot + "/documents/reports/Downloads.template"
     wiki = sBoxRoot + "/wiki/Downloads.wiki"
     print 'Updating WIKI. SVN Revision: ' + svn_revision
     date = datetime.datetime.now().strftime("%Y-%m-%d")
