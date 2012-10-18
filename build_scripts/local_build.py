@@ -7,7 +7,7 @@ doBuild=1
 doClean=0
 
 tsvn="C:\\Program Files\\TortoiseSVN\\bin\\svn.exe"
-sBoxRoot='r:/roadrunnerwork'
+sBoxRoot='r:/rrl'
 buildFolder='r:/builds/vs/release'
 rrSLN='RoadRunner.sln'
 rrBuilds=["all"]

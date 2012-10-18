@@ -2,14 +2,14 @@ import sys
 import subprocess
 import datetime
 
-install3rdParty=1
-doBuild=1
-doClean=1
+install3rdParty=0
+doBuild=0
+doClean=0
 doCommitReleases=1
-doCommitWiki=1
+doCommitWiki=0
 
-tsvn="C:\\Program Files\\TortoiseSVN\\bin\\svn.exe"
-sBoxRoot='r:/roadrunnerwork'
+tsvn="svn.exe"
+sBoxRoot='/cygdrive/r/rrl'
 buildFolder='r:/builds/vs/release'
 rrSLN='RoadRunner.sln'
 rrBuilds=["all"]
@@ -67,7 +67,7 @@ buildConfig='Release'
 
 #ThirdParty
 if install3rdParty== 1:
-    print 'Building \"' + buildConfig + '\" ThirdParties' 
+    print 'Building \"' + buildConfig + '\" ThirdParties'
     try:
         output = subprocess.check_output(['msbuild', '/p:Configuration='+buildConfig, buildFolder +'/ThirdParty/INSTALL.vcxproj'], shell=True)
         print 'ThirdParty install succeeded'
@@ -106,7 +106,7 @@ try:
     lines = output.split('\n')
     for line in lines:
         if "Revision: " in line:
-            svn_revision = line.split(" ")[-1]
+            svn_revision = line.split(":")[-1]
 except subprocess.CalledProcessError, e:
     print "Failed getting svn revision:\n", e.output
 
