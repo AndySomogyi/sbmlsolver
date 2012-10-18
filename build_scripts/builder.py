@@ -3,7 +3,7 @@ import subprocess
 import datetime
 
 install3rdParty=0
-doBuild=0
+doBuild=1
 doClean=0
 doCommitReleases=0
 doCommitWiki=1
