@@ -24,6 +24,7 @@ class RR_DECLSPEC Compiler : public rrObject
         string                      mSupportCodeFolder;
         string                      mCompilerName;
         string                      mCompilerExe;
+		string						mCompilerLocation;	//Path to executable
         string                      CreateCompilerCommand(const string& sourceFileName);
         bool                        SetupCompilerEnvironment();
 
@@ -32,6 +33,10 @@ class RR_DECLSPEC Compiler : public rrObject
                                    ~Compiler();
         bool                        Compile(const string& cmdLine);
         string                      GetDLLName();
+		bool						setCompilerLocation(const string& path);
+		string						getCompilerLocation();
+		bool						setSupportCodeFolder(const string& path);
+		string						getSupportCodeFolder();
         bool                        SetIncludePath(const string& path);
         bool                        SetLibraryPath(const string& path);
         void                        Execute(StringList& oProxyCode);

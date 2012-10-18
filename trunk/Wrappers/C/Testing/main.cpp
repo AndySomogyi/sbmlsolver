@@ -7,13 +7,18 @@
 #include "TestReporterStdOut.h"
 #include "Args.h"
 #include "rrGetOptions.h"
+#include "rr_c_api.h"
 
 using namespace std;
 using namespace rr;
 using namespace UnitTest;
 string gSBMLModelsPath = "";
+string gCompilerPath = "";
+string gSupportCodeFolder = "";
 
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
+
+RRHandle gRR = NULL;
 
 //call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder"
 int main(int argc, char* argv[])
@@ -22,15 +27,18 @@ int main(int argc, char* argv[])
     ProcessCommandLineArguments(argc, argv, args);
 
 	string outFolder;
-    string reportFile = args.ResultOutputFile;
+    string reportFile;
+	reportFile = args.ResultOutputFile;
 
     gSBMLModelsPath = args.SBMLModelsFilePath;
-
+	gCompilerPath = args.CompilerLocation;
+	gSupportCodeFolder = args.SupportCodeFolder;
+	
 	fstream aFile;
     aFile.open(reportFile.c_str(), ios::out);
     if(!aFile)
     {
-    	cerr<<"Failed opening report file in rr_c_api testing executable.\n";
+    	cerr<<"Failed opening report file: "<<reportFile<<" in rr_c_api testing executable.\n";
     	return -1;
     }
 
@@ -51,13 +59,15 @@ int main(int argc, char* argv[])
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
     char c;
-    while ((c = GetOptions(argc, argv, ("m:r:t:"))) != -1)
+    while ((c = GetOptions(argc, argv, ("m:l:r:s:t:"))) != -1)
     {
         switch (c)
         {
-            case ('m'): args.SBMLModelsFilePath                       = optarg;                       break;
+            case ('m'): args.SBMLModelsFilePath                     = optarg;                       break;
+			case ('l'): args.CompilerLocation                       = optarg;                       break;
             case ('r'): args.ResultOutputFile                       = optarg;                       break;
-            case ('t'): args.TempDataFolder        		              = optarg;                       break;
+			case ('s'): args.SupportCodeFolder     		            = optarg;                       break;
+			case ('t'): args.TempDataFolder        		            = optarg;                       break;
             case ('?'): cout<<Usage(argv[0])<<endl;
             default:
             {
@@ -75,7 +85,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     if(argc < 2)
     {
         cout<<Usage(argv[0])<<endl;
-        exit(0);
+        exit(-1);
     }
 }
 

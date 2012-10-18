@@ -242,6 +242,43 @@ C_DECL_SPEC char* rrCallConv getTempFolder();
 */
 C_DECL_SPEC char* rrCallConv getWorkingDirectory();
 
+
+
+/*!
+ \brief Set the path to a folder containing the compiler to be used.
+
+  \return Returns true if succesful
+ \ingroup utility
+*/
+C_DECL_SPEC bool rrCallConv setCompilerLocation(const char* folder);
+
+/*!
+ \brief Get the path to a folder containing the compiler being used.
+
+  \return Returns the path if succesful, NULL otherwise
+ \ingroup utility
+*/
+
+C_DECL_SPEC char* rrCallConv getCompilerLocation();
+
+
+/*!
+ \brief Set the path to a folder containing support code for model generation.
+
+  \return Returns true if succesful
+ \ingroup utility
+*/
+C_DECL_SPEC bool rrCallConv setSupportCodeFolder(const char* folder);
+
+/*!
+ \brief Get the path to a folder containing support code.
+
+  \return Returns the path if succesful, NULL otherwise
+ \ingroup utility
+*/
+
+C_DECL_SPEC char* rrCallConv getSupportCodeFolder();
+
 /*!
  \brief Retrieve a pointer to the C code structure, RRCCode
 

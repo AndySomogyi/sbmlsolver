@@ -4,8 +4,11 @@
 #include "rrException.h"
 using namespace UnitTest;
 using namespace rr;
-RoadRunner* gRR = NULL;
+
+extern RoadRunner* gRR;
 extern string gSBMLModelsPath;
+extern string gCompilerPath;
+extern string gSupportCodeFolder;
 
 SUITE(Base)
 {
@@ -17,6 +20,12 @@ SUITE(Base)
 
 		}
 		CHECK(gRR!=NULL);
+		
+		if(gRR)
+		{
+			gRR->getCompiler()->setCompilerLocation(gCompilerPath.c_str());			
+			gRR->getCompiler()->setSupportCodeFolder(gSupportCodeFolder.c_str());
+		}
 
 	}
 

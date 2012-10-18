@@ -10,8 +10,10 @@ using namespace UnitTest;
 using rr::JoinPath;
 using rr::FileExists;
 
-RRHandle gRR;	//Global roadrunner C handle
+extern RRHandle gRR;	//Global roadrunner C handle
 extern string gSBMLModelsPath;
+extern string gCompilerPath;
+extern string gSupportCodeFolder;
 SUITE(Base)
 {
     TEST(AllocateRR)
@@ -23,6 +25,17 @@ SUITE(Base)
         }
 
         CHECK(gRR!=NULL);	//If gRR == NULL this is a fail
+		if(gRR)
+		{
+			setCompilerLocation(gCompilerPath.c_str());
+			setSupportCodeFolder(gSupportCodeFolder.c_str());
+		}
+    }
+
+    TEST(VERSIONS)
+    {
+    	CHECK_EQUAL(getVersion(), 			"1.0.0");
+		CHECK_EQUAL(getlibSBMLVersion(), 	"5.6.0");
     }
 
     TEST(MODEL_FILES)	//Test that model files for the tests are present
@@ -80,10 +93,5 @@ SUITE(Base)
         //We could check more about lists, but it seem pretty solid at this time..?
     }
 
-    TEST(VERSIONS)
-    {
-    	CHECK_EQUAL(getVersion(), 			"1.0.0");
-		CHECK_EQUAL(getlibSBMLVersion(), 	"5.6.0");
-    }
 }
 

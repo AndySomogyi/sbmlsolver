@@ -85,7 +85,6 @@ EXPORTS
     getTimeCourseSelectionList                  = _getTimeCourseSelectionList@0
     getSteadyStateSelectionList                 = _getSteadyStateSelectionList@0
     getStoichiometryMatrix                      = _getStoichiometryMatrix@0
-    getTempFolder                               = _getTempFolder@0
     getValue                                    = _getValue@8
     getVectorElement                            = _getVectorElement@12
     getVectorLength                             = _getVectorLength@4
@@ -122,7 +121,12 @@ EXPORTS
     setNumPoints                                = _setNumPoints@4
     setTimeCourseSelectionList                  = _setTimeCourseSelectionList@4
     setSteadyStateSelectionList                 = _setSteadyStateSelectionList@4
+    setSupportCodeFolder                        = _setSupportCodeFolder@4
+    getSupportCodeFolder                        = _getSupportCodeFolder@0
+    setCompilerLocation                         = _setCompilerLocation@4
+    getCompilerLocation                         = _getCompilerLocation@0
     setTempFolder                               = _setTempFolder@4
+    getTempFolder                               = _getTempFolder@0
     setTimeEnd                                  = _setTimeEnd@4
     setTimeStart                                = _setTimeStart@4
     setValue                                    = _setValue@8

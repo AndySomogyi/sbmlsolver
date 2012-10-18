@@ -360,8 +360,110 @@ char* rrCallConv getTempFolder()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+		return NULL;
     }
-	return NULL;
+}
+
+bool rrCallConv setCompilerLocation(const char* folder)
+{
+	try
+    {
+    	if(!gRRHandle)
+    	{
+        	setError(ALLOCATE_API_ERROR_MSG);
+        	return false;
+    	}
+		if(gRRHandle->getCompiler())
+		{
+			return gRRHandle->getCompiler()->setCompilerLocation(folder);
+		}
+		else
+		{
+			return false;
+		}
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return false;
+    }
+}
+
+char* rrCallConv getCompilerLocation()
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+            return NULL;
+        }
+
+		string loc = gRRHandle->getCompiler()->getCompilerLocation();
+		char* text = new char[loc.size() + 1];
+    	strcpy(text, loc.c_str());
+	    return text;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return NULL;
+    }
+}
+
+bool rrCallConv setSupportCodeFolder(const char* folder)
+{
+	try
+    {
+    	if(!gRRHandle)
+    	{
+        	setError(ALLOCATE_API_ERROR_MSG);
+        	return false;
+    	}
+		if(gRRHandle->getCompiler())
+		{
+			return gRRHandle->getCompiler()->setSupportCodeFolder(folder);
+		}
+		else
+		{
+			return false;
+		}
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return false;
+    }
+}
+
+char* rrCallConv getSupportCodeFolder()
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+            return NULL;
+        }
+
+		string loc = gRRHandle->getCompiler()->getSupportCodeFolder();
+		char* text = new char[loc.size() + 1];
+    	strcpy(text, loc.c_str());
+	    return text;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return NULL;
+    }
 }
 
 char* rrCallConv getWorkingDirectory()

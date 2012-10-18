@@ -23,6 +23,7 @@ Compiler::Compiler(const string& compiler)
 :
 mDLLHandle(NULL),
 mCompilerName(compiler),
+mCompilerLocation("../compilers/tcc"),
 mSupportCodeFolder("../rr_support")
 {
     Log(lDebug5)<<"In Compiler CTOR";
@@ -67,6 +68,38 @@ bool Compiler::CompileC_DLL(const string& sourceFileName)
     return FileExists(mDLLFileName);
 }
 
+bool Compiler::setCompilerLocation(const string& path)
+{
+	if(!FolderExists(path))
+	{
+		Log(lError)<<"Tried to set invalid path: "<<path<<" for compiler location";		
+		return false;
+	}
+	mCompilerLocation = path;
+	return true;
+}
+
+string	Compiler::getCompilerLocation()
+{
+	return mCompilerLocation;
+}
+
+bool Compiler::setSupportCodeFolder(const string& path)
+{
+	if(!FolderExists(path))
+	{
+		Log(lError)<<"Tried to set invalid path: "<<path<<" for compiler location";		
+		return false;
+	}
+	mSupportCodeFolder = path;
+	return true;
+}
+
+string	Compiler::getSupportCodeFolder()
+{
+	return mSupportCodeFolder;
+}
+
 bool Compiler::SetupCompilerEnvironment()
 {
     mIncludePaths.clear();
@@ -74,11 +107,11 @@ bool Compiler::SetupCompilerEnvironment()
     mCompilerFlags.clear();
     if(mCompilerName == "tcc")
     {
-        mCompilerExe = "./../compilers/tcc/tcc.exe";
+        mCompilerExe = JoinPath(mCompilerLocation, "tcc.exe");
         mIncludePaths.push_back(".");
-        mIncludePaths.push_back("./../compilers/tcc/include");
+        mIncludePaths.push_back(JoinPath(mCompilerLocation, "include"));
         mLibraryPaths.push_back(".");
-        mLibraryPaths.push_back("./../compilers/tcc/lib");
+		mLibraryPaths.push_back(JoinPath(mCompilerLocation, "lib"));
 
         mCompilerFlags.push_back("-g");         //-g adds runtime debug information
         mCompilerFlags.push_back("-shared");
@@ -90,7 +123,7 @@ bool Compiler::SetupCompilerEnvironment()
         {
             case lInfo:		mCompilerFlags.push_back("-v");           break;
             case lDebug:   mCompilerFlags.push_back("-vv");           break;
-            case lDebug1:   mCompilerFlags.push_back("-vvv");           break;
+            case lDebug1:   mCompilerFlags.push_back("-vvv");         break;
         }
     }
     else if(mCompilerName == "bcc")

@@ -102,6 +102,11 @@ NOMSupport* RoadRunner::getNOM()
 	return &mNOM;
 }
 
+Compiler* RoadRunner::getCompiler()
+{
+	return &mCompiler;
+}
+
 CvodeInterface* RoadRunner::GetCVodeInterface()
 {
     if(!mCVode && mModel != NULL)
