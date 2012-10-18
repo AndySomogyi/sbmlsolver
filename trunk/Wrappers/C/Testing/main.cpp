@@ -22,8 +22,7 @@ int main(int argc, char* argv[])
     ProcessCommandLineArguments(argc, argv, args);
 
 	string outFolder;
-    string reportFile("c_api_tests.xml");
-    reportFile = JoinPath(args.ResultOutputFolder, reportFile);
+    string reportFile = args.ResultOutputFile;
 
     gSBMLModelsPath = args.SBMLModelsFilePath;
 
@@ -57,7 +56,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
         switch (c)
         {
             case ('m'): args.SBMLModelsFilePath                       = optarg;                       break;
-            case ('r'): args.ResultOutputFolder                       = optarg;                       break;
+            case ('r'): args.ResultOutputFile                       = optarg;                       break;
             case ('t'): args.TempDataFolder        		              = optarg;                       break;
             case ('?'): cout<<Usage(argv[0])<<endl;
             default:

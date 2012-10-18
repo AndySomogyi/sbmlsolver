@@ -52,7 +52,6 @@
 #include "rr_c_api.h"
 #include "rr_c_api_support.h"   //Support functions, not exposed as api functions and or data
 #include "rrException.h"
-#include "rr_version_info.h"
 #include "rrUtils.h"
 #include "rrStringUtils.h"
 //---------------------------------------------------------------------------
@@ -183,7 +182,23 @@ char* rrCallConv getBuildDate()
 
 char* rrCallConv getVersion()
 {
-    return createText(RR_VERSION);
+	try
+    {
+        if(!gRRHandle)
+        {
+            gRRHandle = new rr::RoadRunner();
+        }
+		const char* version = rr::getVersion();
+		return createText(version);
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return NULL;
+    }
+    
 }
 
 RRHandle rrCallConv getRRInstance()

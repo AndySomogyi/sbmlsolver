@@ -14,7 +14,7 @@ using namespace std;
 Args::Args()
 :
 SBMLModelsFilePath(""),
-ResultOutputFolder(""),
+ResultOutputFile(""),
 TempDataFolder(".")
 {}
 
@@ -25,7 +25,7 @@ string Usage(const string& prg)
     usage<<left;
     usage<<setfill('.');
     usage<<setw(25)<<"-m<FilePath>"                 <<" Folder from where the program will read sbml models. \n";
-    usage<<setw(25)<<"-d<FilePath>"                 <<" Results output folder. If not given, data is output to current directory \n";
+    usage<<setw(25)<<"-r<FilePath>"                 <<" Results output file, with path.\n";
     usage<<setw(25)<<"-t<FilePath>"                 <<" Temporary data output folder. If not given, temp files are output to current directory\n";
 
     usage<<setw(25)<<"-?"                           <<" Shows the help screen.\n\n";

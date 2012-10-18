@@ -130,7 +130,7 @@
 						<ProjectProperties Name="VerifyPackages">True</ProjectProperties>
 					</ProjectProperties>
 					<Parameters>
-						<Parameters Name="RunParams">-mr:\rrl\models -rr:\rrl\wiki\reports -tr:\rrTemp</Parameters>
+						<Parameters Name="RunParams">-mr:\rrl\models -rr:\rrl\wiki\reports\cpp_api_cg_ui.xml -tr:\rrTemp</Parameters>
 					</Parameters>
 				</CPlusPlusBuilder.Personality>
 				<Platforms>

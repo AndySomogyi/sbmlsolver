@@ -8,6 +8,7 @@ core/base
 
 add_executable( ${target} 
 main.cpp
+Args.cpp
 ${tests}
 )
 
@@ -36,16 +37,26 @@ ${RR_ROOT}
 ${THIRD_PARTY_FOLDER}/unit_test/src
 )
 
-set( resultFileFolder "${CMAKE_SOURCE_DIR}/wiki/reports")
-set( resultFile "${resultFileFolder}/cpp_api_tests.xml")
+set(resultsDir "${CMAKE_SOURCE_DIR}/wiki/reports")
 
-add_custom_command(OUTPUT ${resultFile}
-  COMMAND ${target} ${resultFileFolder}
+if(${BORLAND})
+set(resultsFile "${resultsDir}/cpp_api_tests_cg.xml")
+elseif(${MSVC})
+set(resultsFile "${resultsDir}/cpp_api_tests_msvc.xml")
+else()
+set(resultsFile "${resultsDir}/cpp_api_tests_unknown_compiler.xml")
+endif()
+
+set(sbmlModelsDir "${CMAKE_SOURCE_DIR}/models")
+
+#-mr:\rrl\models -rr:\rrl\wiki\reports\file -tr:\rrTemp
+add_custom_command(OUTPUT ${resultsFile}
+  COMMAND ${target} -m${sbmlModelsDir} -r${resultsFile}
   WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-  COMMENT "Generating Wiki reports"
+  COMMENT "Generating CPP Wiki reports"
   VERBATIM)
 
-add_custom_target(cxxTestingReport ALL DEPENDS ${resultFile})
+add_custom_target(cppTestingReport ALL DEPENDS ${resultsFile})
    
 install(
         TARGETS ${target} 		

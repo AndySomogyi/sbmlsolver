@@ -22,8 +22,7 @@ int main(int argc, char* argv[])
     ProcessCommandLineArguments(argc, argv, args);
 
 	string outFolder;
-    string reportFile("cxx_api_tests.xml");
-    reportFile = JoinPath(args.ResultOutputFolder, reportFile);
+    string reportFile = args.ResultOutputFile;
 
     gSBMLModelsPath = args.SBMLModelsFilePath;
 
@@ -43,9 +42,9 @@ int main(int argc, char* argv[])
     runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
 
     runner1.Finish();
+
     //Made finish public in order to merge result from different test suites.
     //Finish outputs result to xml file
-
     return 0;
 }
 
@@ -57,7 +56,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
         switch (c)
         {
             case ('m'): args.SBMLModelsFilePath                       = optarg;                       break;
-            case ('r'): args.ResultOutputFolder                       = optarg;                       break;
+            case ('r'): args.ResultOutputFile                       = optarg;                       break;
             case ('t'): args.TempDataFolder        		              = optarg;                       break;
             case ('?'): cout<<Usage(argv[0])<<endl;
             default:

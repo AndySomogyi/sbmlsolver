@@ -10,7 +10,7 @@ class Args
                                         Args();
         virtual                        ~Args(){}
         string                          SBMLModelsFilePath;                         //option m:
-        string                          ResultOutputFolder;                         //option r:
+        string                          ResultOutputFile;                         //option r:
         string                          TempDataFolder;                             //option t:
 };
 

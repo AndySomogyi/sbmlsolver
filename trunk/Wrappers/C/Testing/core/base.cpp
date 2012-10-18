@@ -3,9 +3,12 @@
 #include "rr_c_api.h"
 #include "rrUtils.h"
 using namespace std;
-using namespace rr;
 using namespace UnitTest;
+//using namespace rr;	//We will get some clashes if this is opened up
 
+//Add using clauses..
+using rr::JoinPath;
+using rr::FileExists;
 
 RRHandle gRR;	//Global roadrunner C handle
 extern string gSBMLModelsPath;
@@ -34,10 +37,12 @@ SUITE(Base)
     {
         CHECK(gRR!=NULL);
         if(!gRR)
+        {
 	       	return;
+        }
 
-        string fName =  "..\\Models\\ss_threeSpecies.xml";
-        CHECK(loadSBMLFromFile(fName.c_str()));
+        string model = JoinPath(gSBMLModelsPath, "ss_threeSpecies.xml");
+        CHECK(loadSBMLFromFile(model.c_str()));
     }
 
 	TEST(LISTS)
