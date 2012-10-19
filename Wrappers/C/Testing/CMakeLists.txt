@@ -38,13 +38,10 @@ else()
 set(resultsFile "${resultsDir}/c_api_tests_unknown_compiler.xml")
 endif()
 
-set(sbmlModelsDir "${CMAKE_SOURCE_DIR}/models")
-set(compilerFolder "${CMAKE_SOURCE_DIR}/trunk/compilers/tcc")
-set(supportCodeFolder "${CMAKE_SOURCE_DIR}/trunk/rr_support")
+set(sbmlModelsDir       "${CMAKE_SOURCE_DIR}/models")
+set(compilerFolder      "${CMAKE_SOURCE_DIR}/trunk/compilers/tcc")
+set(supportCodeFolder   "${CMAKE_SOURCE_DIR}/trunk/rr_support")
 
-Message("SBML model dir is: " ${sbmlModelsDir})
-Message("Result file is: " ${resultsFile})
-#-mr:\rrl\models -rr:\rrl\wiki\reports\file -tr:\rrTemp
 add_custom_command(OUTPUT ${resultsFile}
   COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile}
   WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
