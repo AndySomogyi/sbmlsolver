@@ -52,24 +52,28 @@ SUITE(Base)
 	}
 
 
-	//TEST(FULL_JACOBIAN)
-	//{
-	//	//Fail a test
-	//	CHECK(gRR==NULL);
+	TEST(FULL_JACOBIAN)
+	{
+		//Fail a test
+		CHECK(gRR!=NULL);
 
-	//	string fName =  JoinPath(sbmlModelPath, "ss_threeSpecies.xml");
-	//	gRR->loadSBMLFromFile(fName);
-	//	CHECK(gRR->loadSBMLFromFile(fName));
+		string fName =  JoinPath(gSBMLModelsPath, "ss_threeSpecies.xml");		
+		CHECK(gRR->loadSBMLFromFile(fName));
 
-	//	DoubleMatrix jaco = gRR->getFullJacobian();
-	//	//Expected result
-	//	Log(lInfo)<<jaco;
-	////          S1       S2       S3
-	////S1{{   -0.15        0        0}
-	////S2 {    0.15     -0.4        0}
-	////S3 {       0      0.4    -0.55}}
+		DoubleMatrix jaco = gRR->getFullJacobian();
+		const double *jacoMat = jaco.getArray();
 
-	//}
+		const double jacoExpected[9] = { -0.15, 0, 0,  0.15, -0.4, 0,  0, 0.4, -0.55};
+
+		CHECK_ARRAY_EQUAL(jacoExpected, jacoMat, 9);
+		//Expected result		
+	//          S1       S2       S3
+	//S1{{   -0.15        0        0}
+	//S2 {    0.15     -0.4        0}
+	//S3 {       0      0.4    -0.55}}
+
+
+	}
 }
 
 

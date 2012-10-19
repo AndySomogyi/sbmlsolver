@@ -14,41 +14,6 @@ using namespace rr_c_api;
 void printMatrix(char* msg1, RRMatrixHandle mat);
 int main(int argc, char* argv[])
 {
-	enableLogging();
-    setLogLevel("Debug");
-	cout<<"Current working directory is: "<<getWorkingDirectory();
-
-
-	string modelsPath(".\\..\\Models");
-	if(argc > 1)
-	{
-		modelsPath = argv[1];
-	}
-
-	char* buffer = new char[MAXPATH];
-	// Get the current working directory:
-	if( (buffer = _getcwd( buffer, MAXPATH )) == NULL )
-	{
-		perror( "getcwd error" );
-	}
-	else
-	{
-		printf( "Current cwd = %s \nLength: %d\n", buffer, strlen(buffer) );
-		delete [] buffer;
-	}
-
-	RRHandle rrHandle = NULL;
-    rrHandle =  getRRInstance();
-
-    if(!rrHandle)
-    {
-        cout<<"No handle...";
-    }
-
-
-    setTempFolder("c:\\rrTemp");
-    enableLogging();
-
 	text = getLogFileName();
     if(text)
 	{

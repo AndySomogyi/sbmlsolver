@@ -10,7 +10,7 @@ using namespace UnitTest;
 using rr::JoinPath;
 using rr::FileExists;
 
-extern RRHandle gRR;	//Global roadrunner C handle
+extern RRHandle gRR;	
 extern string gSBMLModelsPath;
 extern string gCompilerPath;
 extern string gSupportCodeFolder;
@@ -37,6 +37,14 @@ SUITE(Base)
     	CHECK_EQUAL(getVersion(), 			"1.0.0");
 		CHECK_EQUAL(getlibSBMLVersion(), 	"5.6.0");
     }
+
+	TEST(LOGGING)
+	{
+		CHECK(enableLogging());
+		char* logFName = getLogFileName();
+		CHECK_EQUAL("RoadRunner.log", logFName);
+		
+	}
 
     TEST(MODEL_FILES)	//Test that model files for the tests are present
     {
