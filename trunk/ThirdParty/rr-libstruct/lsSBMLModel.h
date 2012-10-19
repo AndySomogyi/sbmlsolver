@@ -13,6 +13,10 @@ using namespace libsbml;
 
 class SBMLmodel
 {
+	private:
+    	SBMLDocument*	_Document;
+    	Model* 			_Model;
+
 public:
     static SBMLmodel* FromFile(std::string &sFileName);
     static SBMLmodel* FromSBML(std::string &sSBML);
@@ -66,10 +70,6 @@ public:
     {
         return _Model->getReaction(n);
     }
-
-private:
-    SBMLDocument *_Document;
-    Model* _Model;
 };
 
 }

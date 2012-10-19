@@ -27,6 +27,7 @@ class RR_DECLSPEC NOMSupport : public rrObject
 {
     protected:
 
+        StringList             _Namespaces;
         SBMLDocument           *mSBMLDoc;
         Model                  *mModel;
         const string            STR_DoubleFormat;
@@ -36,9 +37,7 @@ class RR_DECLSPEC NOMSupport : public rrObject
         const ASTNode*          changeSymbol(ASTNode* node, const string& time, const int& targetType);
         ASTNode                 changeTimeToCSymbol(ASTNode* node, const string& name, const int& type);
         bool                    addMissingModifiers(Model *oModel);
-        StringList             _Namespaces;
         StringList              GetSymbols(const string& formula);
-
         string                  GetInitialAssignmentFor(const string& sbmlId);
         string                  GetName(SBase* element);
         string                  GetRuleFor(const string& sbmlId);
@@ -72,7 +71,7 @@ class RR_DECLSPEC NOMSupport : public rrObject
         ArrayList               getDerivedUnitDefinition(const string& sId);
         ArrayList               getListOfBoundarySpeciesIds();
         ArrayList               getListOfErrors();
-        ArrayList     getListOfFloatingSpecies();
+        ArrayList     			getListOfFloatingSpecies();
         ArrayList               getListOfFloatingSpeciesIds();
         ArrayList               getListOfParameters();
         ArrayList               getNthError(const int& nIndex);
@@ -197,7 +196,7 @@ class RR_DECLSPEC NOMSupport : public rrObject
 
         string                  getNthBoundarySpeciesCompartmentName(const int& nIndex);
         string                  getNthFloatingSpeciesCompartmentName(const int& nIndex);
-        ArrayList     getListOfBoundarySpecies();
+        ArrayList     			getListOfBoundarySpecies();
         void                    Reset();
 };
 
