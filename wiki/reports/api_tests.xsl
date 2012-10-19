@@ -21,7 +21,6 @@
           </tr>
        </thead>
        <tbody>
-
         <tr>
         <td>
         <xsl:for-each select="@tests">
@@ -50,7 +49,6 @@
        </tbody>
        </table>
 
-    <br/>
      <xsl:for-each select="test">
      <xsl:if test="position( )=1">
           <table id="detailsTable" border="0" cellspacing="0" >
