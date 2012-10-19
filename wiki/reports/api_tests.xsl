@@ -5,7 +5,6 @@
 <head />
   <body title="">
      <xsl:for-each select="unittest-results">
-     <h1>Test Report</h1>
      <p>
      <table border="0">
           <thead>
@@ -49,7 +48,6 @@
     <br/>
      <xsl:for-each select="test">
      <xsl:if test="position( )=1">
-     <h2>Test Table</h2>
           <table border="0" cellspacing="5" >
           <thead>
           <tr>
