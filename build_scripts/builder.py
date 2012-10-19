@@ -6,7 +6,7 @@ install3rdParty=0
 doBuild=1
 doClean=0
 doCommitReleases=0
-doCommitWiki=0
+doCommitWiki=1
 
 tsvn="c:\\Program Files\\TortoiseSVN\\bin\\svn.exe"
 sBoxRoot='r:/rrl'
