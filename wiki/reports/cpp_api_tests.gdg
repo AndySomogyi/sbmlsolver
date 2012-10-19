@@ -13,6 +13,6 @@
     <EnumValue value="no" display_value="No"/>
     <EnumValue value="yes" display_value="Yes"/>
   </UserPref>
-  <Content type="url" href="http://roadrunnerlib.googlecode.com/svn/trunk/wiki/reports/c_api_tests_msvc.xml" />
+  <Content type="url" href="http://roadrunnerlib.googlecode.com/svn/trunk/wiki/reports/cpp_api_tests_msvc.xml" />
 </Module>
 
