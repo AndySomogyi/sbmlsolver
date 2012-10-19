@@ -1,0 +1,53 @@
+table#monki {
+    background-color:green;
+}
+
+table#monki td {
+    padding: 5px;
+    border: solid green 0px;
+}
+
+.toprow {
+    text-align: left;
+	color:white;
+    background-color:rgb(49,112,130);
+	/*font-size:16px;*/
+}
+
+table#monki h2
+{
+	color:rgb(213,220,222);
+}
+
+.toprow a
+{
+	color:rgb(213,220,222);
+}
+
+.note {
+    font-style: normal;
+    text-align: left;
+    background-color:lightgrey;
+}
+
+.input {
+    font-style: normal;
+    text-align: left;
+    background-color:white;
+}
+.error {
+    font-style: italic;
+    text-align: left;
+    background-color:rgb(49,112,130);
+	color:white;
+}
+
+.link {
+    text-align: center;
+    background-color:lightgrey;
+}
+
+.red
+{
+	color:red;
+}

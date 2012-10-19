@@ -3,6 +3,7 @@
 <xsl:template match="/">
 <html>
 <head />
+<link rel="stylesheet" type="text/css" href="report_table.css"/>
   <body title="">
      <xsl:for-each select="unittest-results">
      <p>
