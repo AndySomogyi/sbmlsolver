@@ -2,10 +2,10 @@ import sys
 import subprocess
 import datetime
 
-install3rdParty=0
+install3rdParty=1
 doBuild=1
 doClean=1
-doCommitReleases=0
+doCommitReleases=1
 doCommitWiki=1
 
 tsvn="c:\\Program Files\\TortoiseSVN\\bin\\svn.exe"
