@@ -14,7 +14,6 @@
     <EnumValue value="yes" display_value="Yes"/>
   </UserPref>
   <Content type="url" view="default,canvas">
-  <Content type="url"/>
   <div id='dest'>
   <href="http://roadrunnerlib.googlecode.com/svn/trunk/wiki/reports/c_api_tests_msvc.xml"></div>
   <script type="text/javascript">
