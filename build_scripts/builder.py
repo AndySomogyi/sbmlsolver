@@ -4,7 +4,7 @@ import datetime
 
 install3rdParty=0
 doBuild=1
-doClean=0
+doClean=1
 doCommitReleases=0
 doCommitWiki=1
 
