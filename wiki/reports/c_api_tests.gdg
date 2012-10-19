@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<Module>
+  <ModulePrefs title="Gadget Form Example" />
+  <Content type="url" href="http://roadrunnerlib.googlecode.com/svn/trunk/wiki/reports/cpp_api_tests_msvc.xml" />
+</Module>
+
