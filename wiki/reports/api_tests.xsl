@@ -3,17 +3,21 @@
 <xsl:template match="/">
 <html>
 <head />
-<link rel="stylesheet" type="text/css" href="report_table.css"/>
+<style type="text/css">
+@import url("report_table.css");
+</style>
+
   <body title="">
      <xsl:for-each select="unittest-results">
      <p>
-     <table border="0">
+     <table id="summaryTable" >
+          <caption>Summary</caption>
           <thead>
           <tr>
-                    <td>Total number of tests</td>
-                    <td>Number of failed tests</td>
-                    <td>Failures</td>
-                    <td>Time</td>
+                    <th scope="col">Total number of tests</th>
+                    <th scope="col">Number of failed tests</th>
+                    <th scope="col">Failures</th>
+                    <th scope="col">Time</th>
           </tr>
        </thead>
        <tbody>
@@ -49,14 +53,15 @@
     <br/>
      <xsl:for-each select="test">
      <xsl:if test="position( )=1">
-          <table border="0" cellspacing="5" >
+          <table id="detailsTable" border="0" cellspacing="0" >
+            <caption>Details</caption>
           <thead>
           <tr>
-                    <td>Suite</td>
-                    <td>Name</td>
-                    <td>Time</td>
-                    <td>Status</td>
-                    <td>Info</td>
+                    <th scope="col">Suite </th>
+                    <th scope="col">Name  </th>
+                    <th scope="col">Time  </th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Info  </th>
           </tr>
        </thead>
        <tbody>
@@ -93,6 +98,9 @@
               </xsl:for-each>
               <br/>
             </xsl:for-each>
+            </xsl:if>
+            <xsl:if test="not(failure)">
+            N/A
             </xsl:if>
         </td>
         </tr>

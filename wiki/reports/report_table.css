@@ -1,53 +1,86 @@
-table#monki {
-    background-color:green;
-}
+/* ------------------
+ styling for the tables 
+   ------------------   */
 
-table#monki td {
-    padding: 5px;
-    border: solid green 0px;
-}
 
-.toprow {
-    text-align: left;
-	color:white;
-    background-color:rgb(49,112,130);
-	/*font-size:16px;*/
-}
-
-table#monki h2
+body
 {
-	color:rgb(213,220,222);
+	line-height: 1.6em;
 }
 
-.toprow a
+#summaryTable
 {
-	color:rgb(213,220,222);
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	background: #fff;
+	margin: 45px;
+	width: 480px;
+	border-collapse: collapse;
+	text-align: left;
 }
-
-.note {
-    font-style: normal;
-    text-align: left;
-    background-color:lightgrey;
-}
-
-.input {
-    font-style: normal;
-    text-align: left;
-    background-color:white;
-}
-.error {
-    font-style: italic;
-    text-align: left;
-    background-color:rgb(49,112,130);
-	color:white;
-}
-
-.link {
-    text-align: center;
-    background-color:lightgrey;
-}
-
-.red
+#summaryTable th
 {
-	color:red;
+	font-size: 14px;
+	font-weight: normal;
+	color: #039;
+	padding: 10px 8px;
+	border-bottom: 2px solid #6678b1;
 }
+#summaryTable td
+{
+	color: #669;
+	padding: 9px 8px 0px 8px;
+}
+#summaryTable tbody tr:hover td
+{
+	color: #009;
+}
+
+#summaryTable caption
+{	
+    font-size: 15px;
+	font-weight: normal;
+    text-align:left;
+}
+
+#detailsTable
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin: 45px;
+	width: 480px;
+	text-align: left;
+	border-collapse: collapse;
+}
+
+#detailsTable caption
+{	
+    font-size: 15px;
+	font-weight: normal;
+    text-align:left;
+}
+#detailsTable th
+{
+	font-size: 13px;
+	font-weight: normal;
+	padding: 8px;
+	background: #b9c9fe;
+	border-top: 4px solid #aabcfe;
+	border-bottom: 1px solid #fff;
+	color: #039;
+}
+#detailsTable td
+{
+	padding: 8px;
+	background: #e8edff; 
+	border-bottom: 1px solid #fff;
+	color: #669;
+	border-top: 1px solid transparent;
+}
+#detailsTable tr:hover td
+{
+	background: #d0dafd;
+	color: #339;
+}
+
+
