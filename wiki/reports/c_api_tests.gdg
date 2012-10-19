@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" ?> 
+<?xml version="1.0" encoding="UTF-8" ?>
 <Module>
-    <ModulePrefs title="Include gadget (iframe)" title_url="http://sites.google.com/"
+  <ModulePrefs title="Include gadget (iframe)" title_url="http://sites.google.com/"
           description="Include another web page in your Google Site"
           thumbnail="http://www.gstatic.com/sites-gadgets/common/images/sites-icon-gadget-thumb.png"
           screenshot="http://www.gstatic.com/sites-gadgets/common/images/sites-icon-gadget-ss.png"
@@ -13,6 +13,46 @@
     <EnumValue value="no" display_value="No"/>
     <EnumValue value="yes" display_value="Yes"/>
   </UserPref>
-  <Content type="url" href="http://roadrunnerlib.googlecode.com/svn/trunk/wiki/reports/c_api_tests_msvc.xml" />
+  <Content type="url" view="default,canvas">
+  <Content type="url"/>
+  <div id='dest'>
+  <href="http://roadrunnerlib.googlecode.com/svn/trunk/wiki/reports/c_api_tests_msvc.xml"></div>
+  <script type="text/javascript">
+  gadgets.util.registerOnLoadHandler(doRender);
+
+  function doRender(){
+    // setup variables
+    var prefs = new gadgets.Prefs();
+    var iframeURL = prefs.getString('iframeURL');
+    var scroll = prefs.getString('scroll');
+    var height = 800;
+    var width = 600;
+
+    if (gadgets.window) {
+      var viewport = gadgets.window.getViewportDimensions();
+      if (viewport.width) {
+        var width = viewport.width;
+      }
+      if (viewport.height) {
+        var height = viewport.height;
+      }
+    }
+
+    var iframe = document.createElement('iframe');
+    iframe.setAttribute('width', width + 'px');
+    iframe.setAttribute('height', height + 'px');
+    iframe.setAttribute('frameborder','no');
+    if(scroll){
+      iframe.setAttribute('scrolling', scroll);
+    }
+    iframe.setAttribute('src', iframeURL);
+
+    // set the slideshow to the placeholder div
+    var dest = document.getElementById('dest');
+    dest.innerHTML = '';
+    dest.appendChild(iframe);
+  }
+  </script>
+  </Content>
 </Module>
 
