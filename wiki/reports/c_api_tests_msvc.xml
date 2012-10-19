@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="api_tests.xsl" type="text/xsl" ?>
-<unittest-results tests="8" failedtests="0" failures="0" time="0.049">
+<unittest-results tests="9" failedtests="1" failures="1" time="0.141">
 <test suite="Base" name="AllocateRR" time="0"/>
 <test suite="Base" name="VERSIONS" time="0"/>
+<test suite="Base" name="LOGGING" time="0"><failure message="base.cpp(45) : Expected RoadRunner.log but was C:\Users\totte\AppData\Local\Temp\RoadRunner.log"/></test>
 <test suite="Base" name="MODEL_FILES" time="0"/>
-<test suite="Base" name="LOAD_SBML" time="0.046"/>
+<test suite="Base" name="LOAD_SBML" time="0.138"/>
 <test suite="Base" name="LISTS" time="0"/>
 <test suite="SteadyState" name="AllocateRR" time="0"/>
 <test suite="SteadyState" name="LOAD_SBML" time="0"/>
