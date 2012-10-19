@@ -1,0 +1,5 @@
+#summary Various API tests
+#labels Featured
+
+== CPP-API Tests ==
+[http://roadrunnerwork.googlecode.com/svn/wiki/reports/cxx_api_tests.xml cxx-api test]
