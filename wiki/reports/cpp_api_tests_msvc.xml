@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet href="api_tests.xsl" type="text/xsl" ?>
-<unittest-results tests="5" failedtests="1" failures="1" time="0.046">
-<test suite="Base" name="AllocateRR" time="0"/>
-<test suite="Base" name="VERSIONS" time="0"/>
-<test suite="Base" name="MODEL_FILES" time="0"/>
-<test suite="Base" name="LOAD_SBML" time="0.045"/>
-<test suite="Base" name="FULL_JACOBIAN" time="0"><failure message="base.cpp(68) : Expected [ -0.15 0 0 0.15 -0.4 0 0 0.4 -0.55 ] but was [ -0.15 0 0 0 -0.55 0.4 0.15 0 -0.4 ]"/></test>
-</unittest-results>

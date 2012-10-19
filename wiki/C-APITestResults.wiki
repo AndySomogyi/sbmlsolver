@@ -1,5 +1,0 @@
-#summary Various API tests
-#labels Featured
-
-== C-API Tests==
-[http://roadrunnerwork.googlecode.com/svn/wiki/reports/c_api_tests.xml c-api test]
