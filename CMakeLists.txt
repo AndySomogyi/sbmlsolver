@@ -2,8 +2,14 @@ cmake_minimum_required(VERSION 2.8)
 project(rr)
 
 #These will be the defaults ...
+if(WIN32)
 SET(RR_BUILDS_ROOT      "c:/builds")
 SET(RR_INSTALLS_ROOT    "c:/installs")
+else
+SET(RR_BUILDS_ROOT      "~/builds")
+SET(RR_INSTALLS_ROOT    "~/installs")
+endif()
+
 
 if(${BORLAND})
 set(FOLDER_POSTFIX "xe")
