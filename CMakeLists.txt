@@ -5,7 +5,7 @@ project(rr)
 if(WIN32)
 SET(RR_BUILDS_ROOT      "c:/builds")
 SET(RR_INSTALLS_ROOT    "c:/installs")
-else
+else()
 SET(RR_BUILDS_ROOT      "~/builds")
 SET(RR_INSTALLS_ROOT    "~/installs")
 endif()
