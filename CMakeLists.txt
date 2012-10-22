@@ -124,7 +124,6 @@ endif()
 endif()
 
 add_subdirectory(Wrappers)
-add_subdirectory(compilers)
 add_subdirectory(rr_support)
 
 #======================= INSTALL ROADRUNNER ========================================================

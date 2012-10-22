@@ -96,6 +96,7 @@ add_subdirectory(pugi)
 add_subdirectory(nleq)
 add_subdirectory(rr-libstruct)
 add_subdirectory(unit_test)
+add_subdirectory(compilers)
 
 if(${BORLANDC})
 add_subdirectory(poco)
