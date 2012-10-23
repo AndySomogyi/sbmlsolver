@@ -13,7 +13,7 @@
 #include <sstream>
 #include <algorithm>
 #include <math.h>
-#include "lsLibstructural.h"
+#include "lsLibStructural.h"
 #include "lsLibla.h"
 #include "lsSBMLModel.h"
 #include "lsMatrix.h"

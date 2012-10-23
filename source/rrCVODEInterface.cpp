@@ -14,7 +14,7 @@
 #include "rrLogger.h"
 #include "rrStringUtils.h"
 #include "rrException.h"
-#include "rrCvodeInterface.h"
+#include "rrCVODEInterface.h"
 #include "rrCvodeDll.h"
 #include "rrUtils.h"
 #include "rrEvent.h"

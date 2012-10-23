@@ -4,6 +4,7 @@
 //How is this library being built?
 //If you are building, or using, this as a static library, then you need to define STATIC_NLEQ
 #if defined(WIN32)
+
 #if defined(STATIC_NLEQ)
 #define DLLEXPORT
 #else
@@ -21,7 +22,11 @@
 #endif
 
 
+#if defined(WIN32)
 #define STDCALL   __stdcall
+#else
+#define STDCALL   __attribute__((stdcall))
+#endif
 
 #ifdef __cplusplus
 extern "C"

@@ -36,13 +36,19 @@ ${THIRD_PARTY_FOLDER}/libsbml/src
 add_library(${target}-static STATIC ${sources})
 set_property(TARGET ${target}-static  
              PROPERTY  COMPILE_DEFINITIONS 
-                       WIN32
                        STATIC_LIBSTRUCT
                        LIBSBML_USE_CPP_NAMESPACE
                        LIBSBML_STATIC
              ) 
 
+if(WIN32)
+et_property(TARGET ${target}-static  
+             PROPERTY  COMPILE_DEFINITIONS 
+                       WIN32
+             ) 
 
+
+endif()
 #libraries to link with
 if(${MINGW})
 else()
@@ -54,7 +60,7 @@ set(headers
 lsExporter.h
 lsMatrix.h
 lsComplex.h
-lsLibstructural.h
+lsLibStructural.h
 lsLA.h
 lsLibla.h
 )

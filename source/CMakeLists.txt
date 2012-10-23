@@ -60,8 +60,8 @@ rrCSharpGenerator.cpp
 rrModelGenerator.cpp
 rrScanner.cpp
 rrToken.cpp
-rrCVodeInterface.cpp
-rrCvodedll.cpp
+rrCVODEInterface.cpp
+rrCVODE_DLL.cpp
 rrNLEQInterface.cpp
 rrDLLEntry.cpp
 rrCapsSupport.cpp

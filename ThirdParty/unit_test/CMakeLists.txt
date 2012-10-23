@@ -27,17 +27,31 @@ src/TestResults
 src/TestRunner
 src/TimeConstraint
 src/XmlTestReporter
+)
+if(WIN32)
+set(sources ${sources} 
 src/Win32/TimeHelpers
 )
-
+else()
+set(sources ${sources} 
+src/Posix/TimeHelpers
+)
+endif()
 #This library can only be built as static
 add_library(${target}-static STATIC ${sources})
 set_property(TARGET ${target}-static  
              PROPERTY  COMPILE_DEFINITIONS 
-                       WIN32
                        STATIC_UNIT_TEST
              ) 
 
+#if(WIN32)
+set_property(TARGET ${target}-static  
+             PROPERTY  COMPILE_DEFINITIONS 
+                       WIN32
+             ) 
+
+
+#endif()
 #Install required files
 install(FILES ${headers} 
         DESTINATION include/unit_test)

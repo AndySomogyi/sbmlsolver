@@ -116,6 +116,7 @@ install (FILES
             COMPONENT rr_core)
 endif()
 
+if(WIN32)
 #=== More Binary ThirdParties
     set(RUNTIMES libxml2.DLL iconv.dll zlib1.dll)
     foreach(runtime ${RUNTIMES})
@@ -124,4 +125,4 @@ endif()
                 COMPONENT rr_core)
     endforeach()
 
-
+endif()

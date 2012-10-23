@@ -2,6 +2,7 @@
 #define ls_MATRIX_H
 #include <iosfwd>
 #include <ostream>
+#include <string.h>
 #include "lsExporter.h"
 #include "lsComplex.h"
 

@@ -4,7 +4,7 @@
 #pragma hdrstop
 #include "nvector/nvector_serial.h"
 #include "cvode/cvode_dense.h"
-#include "rrCvodedll.h"
+#include "rrCVODE_DLL.h"
 
 namespace rr
 {

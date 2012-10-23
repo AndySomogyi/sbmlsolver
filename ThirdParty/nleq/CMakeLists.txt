@@ -27,12 +27,20 @@ zibsec.c
 #
 #Then the static version
 add_library(${target}-static STATIC ${sources})
+
+if(WIN32)
 set_property(TARGET ${target}-static  
              PROPERTY  COMPILE_DEFINITIONS 
                        WIN32
                        STATIC_NLEQ
              ) 
+else()
+set_property(TARGET ${target}-static  
+             PROPERTY  COMPILE_DEFINITIONS 
+                       STATIC_NLEQ
+             ) 
 
+endif()
 
 #libraries to link with
 if(${MINGW})
