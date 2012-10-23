@@ -2,9 +2,9 @@
 #include <fstream>
 #include "rrLogger.h"
 #include "rrUtils.h"
-#include "UnitTest++.h"
-#include "XmlTestReporter.h"
-#include "TestReporterStdOut.h"
+#include "unit_test/UnitTest++.h"
+#include "unit_test/XmlTestReporter.h"
+#include "unit_test/TestReporterStdOut.h"
 #include "Args.h"
 #include "rrRoadRunner.h"
 #include "rrGetOptions.h"

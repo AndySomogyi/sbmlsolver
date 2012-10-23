@@ -1,0 +1,72 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{22F02156-A4D8-42CE-AD6D-A1F2D3F0EC73}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="libs\unit_test-static.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="libs\roadrunner-static.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="libs\rr_c_api.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="libs\roadrunner.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="unit_test-static">
+        <MSBuild Projects="libs\unit_test-static.cbproj"/>
+    </Target>
+    <Target Name="unit_test-static:Clean">
+        <MSBuild Projects="libs\unit_test-static.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="unit_test-static:Make">
+        <MSBuild Projects="libs\unit_test-static.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="roadrunner-static">
+        <MSBuild Projects="libs\roadrunner-static.cbproj"/>
+    </Target>
+    <Target Name="roadrunner-static:Clean">
+        <MSBuild Projects="libs\roadrunner-static.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="roadrunner-static:Make">
+        <MSBuild Projects="libs\roadrunner-static.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="rr_c_api">
+        <MSBuild Projects="libs\rr_c_api.cbproj"/>
+    </Target>
+    <Target Name="rr_c_api:Clean">
+        <MSBuild Projects="libs\rr_c_api.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="rr_c_api:Make">
+        <MSBuild Projects="libs\rr_c_api.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="roadrunner">
+        <MSBuild Projects="libs\roadrunner.cbproj"/>
+    </Target>
+    <Target Name="roadrunner:Clean">
+        <MSBuild Projects="libs\roadrunner.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="roadrunner:Make">
+        <MSBuild Projects="libs\roadrunner.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="unit_test-static;roadrunner-static;rr_c_api;roadrunner"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="unit_test-static:Clean;roadrunner-static:Clean;rr_c_api:Clean;roadrunner:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="unit_test-static:Make;roadrunner-static:Make;rr_c_api:Make;roadrunner:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
