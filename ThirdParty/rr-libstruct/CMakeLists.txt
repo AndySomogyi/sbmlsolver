@@ -34,21 +34,25 @@ ${THIRD_PARTY_FOLDER}/libsbml/src
 #
 #Then the static version
 add_library(${target}-static STATIC ${sources})
-set_property(TARGET ${target}-static  
-             PROPERTY  COMPILE_DEFINITIONS 
-                       STATIC_LIBSTRUCT
-                       LIBSBML_USE_CPP_NAMESPACE
-                       LIBSBML_STATIC
-             ) 
+
+set(static_compile_definitions
+STATIC_LIBSTRUCT
+LIBSBML_USE_CPP_NAMESPACE
+LIBSBML_STATIC
+)
 
 if(WIN32)
-et_property(TARGET ${target}-static  
+set(static_compile_definitions 
+${static_compile_definitions}
+WIN32
+) 
+endif()
+
+set_property(TARGET ${target}-static  
              PROPERTY  COMPILE_DEFINITIONS 
-                       WIN32
+             ${static_compile_definitions}
              ) 
 
-
-endif()
 #libraries to link with
 if(${MINGW})
 else()

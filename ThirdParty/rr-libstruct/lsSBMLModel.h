@@ -9,7 +9,8 @@
 
 namespace ls
 {
-using namespace libsbml;
+
+	using namespace libsbml;
 
 class SBMLmodel
 {

@@ -80,7 +80,7 @@ class LIB_EXTERN Complex
 LIB_EXTERN double       real(const Complex& val);
 LIB_EXTERN double       imag(const Complex& val);
 
-LIB_EXTERN std::ostream &operator << (std::ostream &os,  const Complex & complex);
+LIB_EXTERN std::ostream& operator << (std::ostream &os,  const Complex & complex);
 
 }
 #endif

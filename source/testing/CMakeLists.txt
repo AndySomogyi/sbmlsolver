@@ -47,9 +47,9 @@ else()
 set(resultsFile "${resultsDir}/cpp_api_tests_unknown_compiler.xml")
 endif()
 
-set(sbmlModelsDir "${CMAKE_SOURCE_DIR}/models")
-set(compilerFolder "${CMAKE_SOURCE_DIR}/trunk/compilers/tcc")
-set(supportCodeFolder "${CMAKE_SOURCE_DIR}/trunk/rr_support")
+set(sbmlModelsDir       "${CMAKE_SOURCE_DIR}/models")
+set(compilerFolder      "${CMAKE_SOURCE_DIR}/trunk/compilers/tcc")
+set(supportCodeFolder   "${CMAKE_SOURCE_DIR}/trunk/rr_support")
 
 Message("SBML model dir is: " ${sbmlModelsDir})
 #-mr:\rrl\models -rr:\rrl\wiki\reports\file -tr:\rrTemp

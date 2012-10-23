@@ -8,14 +8,14 @@
 #include <algorithm>
 #include "rrRoadRunner.h"
 #include "rrModelFromC.h"
-#include "rrCvodedll.h"
+#include "rrCVODE_DLL.h"
 #include "rrException.h"
 #include "rrModelState.h"
 #include "rrLogger.h"
 #include "rrStringUtils.h"
 #include "rrException.h"
 #include "rrCVODEInterface.h"
-#include "rrCvodeDll.h"
+#include "rrCVODE_DLL.h"
 #include "rrUtils.h"
 #include "rrEvent.h"
 //---------------------------------------------------------------------------

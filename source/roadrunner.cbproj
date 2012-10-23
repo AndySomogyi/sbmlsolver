@@ -129,12 +129,12 @@
 				<DependentOn>rrCSharpGenerator.h</DependentOn>
 				<BuildOrder>62</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="rrCvodedll.cpp">
-				<BuildOrder>62</BuildOrder>
+			<CppCompile Include="rrCVODEInterface.cpp">
+				<DependentOn>rrCVODEInterface.h</DependentOn>
+				<BuildOrder>60</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="rrCvodeInterface.cpp">
-				<DependentOn>rrCvodeInterface.h</DependentOn>
-				<BuildOrder>17</BuildOrder>
+			<CppCompile Include="rrCVODE_DLL.cpp">
+				<BuildOrder>59</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="rrDLLEntry.cpp">
 				<BuildOrder>71</BuildOrder>

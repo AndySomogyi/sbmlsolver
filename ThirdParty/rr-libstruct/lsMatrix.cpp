@@ -48,8 +48,8 @@ ostream& operator<<(ostream& stream, const ComplexMatrix& mat)
     {
         for(unsigned col = 0; col < mat.CSize(); col++)
         {
-            Complex val = mat(row,col);
-            stream<<val<<"\t";
+            //Complex val = mat(row,col);
+           //stream<<val<<"\t";
         }
         stream<<std::endl;
     }

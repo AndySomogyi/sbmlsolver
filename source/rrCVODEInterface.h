@@ -5,7 +5,7 @@
 #include "rrRandom.h"
 #include "rrPendingAssignment.h"
 #include "cvode/cvode.h"            //For IDE development, you may need to define RR_INSTALL_FOLDER
-#include "rrCvodedll.h"
+#include "rrCVODE_DLL.h"
 
 using std::string;
 
