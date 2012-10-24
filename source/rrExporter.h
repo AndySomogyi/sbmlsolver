@@ -37,4 +37,11 @@
 #pragma warn -8004 			//variable never used
 #endif
 
+#if defined(WIN32)
+#define callConv __cdecl
+#else
+#define callConv
+#endif
+
+
 #endif

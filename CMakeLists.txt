@@ -102,6 +102,12 @@ add_definitions(
         )
 endif()
 
+if(UNIX)
+    if(CMAKE_COMPILER_IS_GNUCXX)
+        set (CMAKE_CXX_FLAGS "--std=c++0x")
+    endif()
+endif()    
+
 #Common compiler definitions
 add_definitions(
                     -DLIBSBML_USE_CPP_NAMESPACE                     

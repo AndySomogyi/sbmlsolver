@@ -2,14 +2,20 @@
 #include "rr_pch.h"
 #endif
 #pragma hdrstop
-#include <algorithm>
+
+#if defined(WIN32)
 #include <windows.h>
+#endif
+
+#include <algorithm>
 #include "rrLoggerUtils.h"
 //---------------------------------------------------------------------------
 
 namespace rr
 {
 //---------------------------------------------------------------------------
+
+#if defined(WIN32)
 string GetLogTime(bool show_milli_sec)
 {
 	const int MAX_LEN = 200;
@@ -31,6 +37,8 @@ string GetLogTime(bool show_milli_sec)
 		return string(buffer);
 	}
 }
+#endif
+
 
 }
 

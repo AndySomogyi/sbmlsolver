@@ -5,9 +5,6 @@
 #include "rrHashTable.h"
 //---------------------------------------------------------------------------
 
-
-
-
 namespace rr
 {
 
@@ -27,4 +24,5 @@ ostream& operator<<(ostream& stream, StringSymbolHashTable& hash)
     }
     return stream;
 }
+
 }

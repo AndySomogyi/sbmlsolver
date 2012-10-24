@@ -1,7 +1,11 @@
 #ifndef rrModelFromCH
 #define rrModelFromCH
+#if defined(WIN32)
 #include <windows.h>
+#endif
+
 #include <list>
+
 #include "rrTEventDelayDelegate.h"
 #include "rrTEventAssignmentDelegate.h"
 #include "rrTComputeEventAssignmentDelegate.h"
@@ -11,18 +15,18 @@ namespace rr
 {
 class CGenerator;
 
-typedef void    (__cdecl *c_void)();
-typedef int     (__cdecl *c_int)();
-typedef int     (__cdecl *c_int_int)(int);
-typedef char*   (__cdecl *c_charStar)();
-typedef void    (__cdecl *c_void_doubleStar)(double*);
-typedef double  (__cdecl *c_double_int)(int);
-typedef double* (__cdecl *c_doubleStar)();
-typedef void    (__cdecl *c_void_double_doubleStar)(double, double*);
-typedef void    (__cdecl *c_void_int_double)(int, double);
+typedef void    (callConv *c_void)();
+typedef int     (callConv *c_int)();
+typedef int     (callConv *c_int_int)(int);
+typedef char*   (callConv *c_charStar)();
+typedef void    (callConv *c_void_doubleStar)(double*);
+typedef double  (callConv *c_double_int)(int);
+typedef double* (callConv *c_doubleStar)();
+typedef void    (callConv *c_void_double_doubleStar)(double, double*);
+typedef void    (callConv *c_void_int_double)(int, double);
 
-typedef TComputeEventAssignmentDelegate* (__cdecl *c_TComputeEventAssignmentDelegateStar)();
-typedef TEventDelayDelegate* (__cdecl *c_GetEventDelayDelegatesStar)();
+typedef TComputeEventAssignmentDelegate* (callConv *c_TComputeEventAssignmentDelegateStar)();
+typedef TEventDelayDelegate* (callConv *c_GetEventDelayDelegatesStar)();
 
 
 class CvodeInterface;

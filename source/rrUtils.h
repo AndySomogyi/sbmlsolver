@@ -1,7 +1,10 @@
 #ifndef rrUtilsH
 #define rrUtilsH
 //---------------------------------------------------------------------------
+#if defined(WIN32)
 #include <windows.h>
+#endif
+
 #include <float.h>    //ms compatible IEEE functions, e.g. _isnan
 #include <vector>
 #include <string>
@@ -53,10 +56,11 @@ RR_DECLSPEC bool            CopyStdVectorToCArray(const vector<bool>&   src,  bo
 //SelectionList
 RR_DECLSPEC StringList      getSelectionListFromSettings(const SimulationSettings& settings);
 
-// DLL Functions
+#if defined(WIN32)// DLL Functions
 RR_DECLSPEC HINSTANCE       LoadDLL(const string& dll);
 RR_DECLSPEC bool       		UnLoadDLL(HINSTANCE dllHandle);
 RR_DECLSPEC FARPROC 		GetFunctionPtr(const string& funcName, HINSTANCE DLLHandle);
-}
+#endif
 
+} // rr Namespace
 #endif
