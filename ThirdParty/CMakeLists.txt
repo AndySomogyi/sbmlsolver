@@ -98,7 +98,7 @@ add_subdirectory(rr-libstruct)
 add_subdirectory(unit_test)
 add_subdirectory(compilers)
 
-if(${BORLANDC})
+if(BORLAND)
 add_subdirectory(poco)
 endif()
 

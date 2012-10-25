@@ -17,6 +17,18 @@ ErrorHandler
 Bugcheck
 ThreadLocal
 Debugger
+SharedLibrary
+SharedLibrary_WIN32
+SharedLibrary_WIN32U
+Path
+UnicodeConverter
+UTF8Encoding
+TextEncoding
+TextIterator
+Ascii
+RWLock
+AtomicCounter
+RWLock
 )
 
 if(${BORLAND})
@@ -59,6 +71,8 @@ set_property(TARGET ${target}-static
 
 
 #libraries to link with
+
+FILE (GLOB headers ${poco_include_folder}/Poco/*.h)
 
 #Install required files
 install(FILES ${headers} 

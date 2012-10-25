@@ -18,30 +18,34 @@ RoadRunner* gRR = NULL;
 string gSBMLModelsPath = "";
 string gCompilerPath = "";
 string gSupportCodeFolder = "";
-
+vector<string> gModels;
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 
-//call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder"
+//call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder" -lCompilerLocation
 int main(int argc, char* argv[])
 {
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
 
-	string outFolder;
-    string reportFile;
-	reportFile = args.ResultOutputFile;
+    string reportFile(args.ResultOutputFile);
 
-    gSBMLModelsPath = args.SBMLModelsFilePath;
-	gCompilerPath = args.CompilerLocation;
-	gSupportCodeFolder = args.SupportCodeFolder;
-	fstream aFile;
-    aFile.open(reportFile.c_str(), ios::out);
+    gSBMLModelsPath 	= args.SBMLModelsFilePath;
+	gCompilerPath 		= args.CompilerLocation;
+	gSupportCodeFolder 	= args.SupportCodeFolder;
+
+	fstream aFile(reportFile.c_str(), ios::out | ios::app);
     if(!aFile)
     {
-		cerr<<"Failed opening report file: "<<reportFile<<" in rr_cpp_api testing executable.\n";    	
+		cerr<<"Failed opening report file: "<<reportFile<<" in rr_cpp_api testing executable.\n";
     	return -1;
     }
 
+	gModels.clear();
+    gModels.push_back("feedback.xml");
+    gModels.push_back("ss_threeSpecies.xml");
+    gModels.push_back("ss_TurnOnConservationAnalysis.xml");
+    gModels.push_back("squareWaveModel.xml");
+    gModels.push_back("test_1.xml");
 
 	XmlTestReporter reporter1(aFile);
 	TestRunner runner1(reporter1);
@@ -90,7 +94,8 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 }
 
 #if defined(CG_IDE)
-#pragma comment(lib, "roadrunner-static.lib")
+//#pragma comment(lib, "roadrunner-static.lib")
+#pragma comment(lib, "roadrunner.lib")
 #pragma comment(lib, "sundials_cvode.lib")
 #pragma comment(lib, "sundials_nvecserial.lib")
 #pragma comment(lib, "nleq-static.lib")
@@ -101,5 +106,6 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 #pragma comment(lib, "lapack.lib")
 #pragma comment(lib, "libf2c.lib")
 #pragma comment(lib, "unit_test-static.lib")
+#pragma comment(lib, "poco_foundation-static.lib")
 #endif
 

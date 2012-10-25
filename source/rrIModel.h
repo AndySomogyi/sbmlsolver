@@ -21,7 +21,7 @@ class RR_DECLSPEC IModel : public rrObject    //Abstract class for SBML Models t
     protected:
         //These variables is also generated in the c-code, weird ??
         //Init a decendent models data later
-        int                                        mDummyInt;
+        int                                     mDummyInt;
         int                                    *numIndependentVariables;
         int                                    *numDependentVariables;
         int                                    *numTotalVariables;
@@ -31,33 +31,30 @@ class RR_DECLSPEC IModel : public rrObject    //Abstract class for SBML Models t
         int                                    *numReactions;
         int                                    *numRules;
         int                                    *numEvents;
-        string                                     mModelName;
+        string                                  mModelName;
 
 
     public:
-        double                                    *time;
+        double                                  *time;
         void                                    SetTime(double _time){*time = _time;}
-        double                                    GetTime(){return *time;}
-        vector<double>                             y;
-        list<string>                             Warnings;
+        double                                  GetTime(){return *time;}
+        vector<double>                          y;
+        list<string>                            Warnings;
         vector<double>                          init_y;
-        double*                                    m_dydt;               //This is the "dydt" data in the DLL. IModel also has amounts.. CONFUSING
-//        vector<double>                          amounts;
-        double*                                    mAmounts;        //This is the "amounts" data in the DLL. IModel also has amounts.. CONFUSING
-        virtual double                            GetAmounts(const int& i) = 0;
-        //vector<double>                          bc;
-        double*                                    bc;
-        vector<double>                             sr;
-        vector<double>                             gp;                //Global parameters
-        vector<double>                             lp ;            //Local parameters
-        //vector<double>                             c ;                //Compartment volumes
-        double*                                     c;                //Compartment volumes
-        vector<double>                             dydt;
-        vector<double>                             rates;
-        vector<double>                             ct ;             //Conservation totals
-        vector<double>                             rateRules;        //additional rateRules
-        vector<double>                             eventTests;
-        vector<double>                             eventPriorities;
+        double*                                 m_dydt;               //This is the "dydt" data in the DLL. IModel also has amounts.. CONFUSING
+        double*                                 mAmounts;        //This is the "amounts" data in the DLL. IModel also has amounts.. CONFUSING
+        virtual double                          GetAmounts(const int& i) = 0;
+        double*                                 bc;
+        vector<double>                          sr;
+        vector<double>                          gp;                //Global parameters
+        vector<double>                          lp ;            //Local parameters
+        double*                                 c;                //Compartment volumes
+        vector<double>                          dydt;
+        vector<double>                          rates;
+        vector<double>                          ct ;             //Conservation totals
+        vector<double>                          rateRules;        //additional rateRules
+        vector<double>                          eventTests;
+        vector<double>                          eventPriorities;
         vector<TEventDelayDelegate>             eventDelay;
         vector<bool>                            eventType;
         vector<bool>                            eventPersistentType;
@@ -68,8 +65,8 @@ class RR_DECLSPEC IModel : public rrObject    //Abstract class for SBML Models t
         vector<TPerformEventAssignmentDelegate> performEventAssignments;
 
                                                 IModel();
-        virtual                                   ~IModel();
-        string                                    GetModelName();
+        virtual                                ~IModel();
+        string                                  GetModelName();
 
         // Virtual functions --------------------------------------------------------
         virtual int                             getNumIndependentVariables();
@@ -106,11 +103,11 @@ class RR_DECLSPEC IModel : public rrObject    //Abstract class for SBML Models t
 
         //Pure virtuals - force implementation...
         virtual void                            setCompartmentVolumes() = 0;
-        virtual vector<double>                     GetCurrentValues() = 0 ;
-        virtual double                             getConcentration(int index) = 0;
+        virtual vector<double>                  GetCurrentValues() = 0 ;
+        virtual double                          getConcentration(int index) = 0;
         virtual int                             getNumLocalParameters(int reactionId) = 0;         // Level 2 support
 
-        virtual vector<double>                    GetdYdT() = 0;
+        virtual vector<double>                  GetdYdT() = 0;
         virtual void                            LoadData() = 0;    //This one copies data from the DLL to vectors and lists in the model..
 
 };

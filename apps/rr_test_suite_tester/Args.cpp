@@ -25,7 +25,8 @@ Duration(5),
 EndTime(StartTime + Duration),
 CaseNumber(1),
 ErrorThreshold(1.e-6),
-Steps(50)
+Steps(50),
+SBMLTestVersion("l2v4")
 {
 }
 

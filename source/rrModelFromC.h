@@ -1,10 +1,14 @@
 #ifndef rrModelFromCH
 #define rrModelFromCH
+
 #if defined(WIN32)
 #include <windows.h>
 #endif
-
 #include <list>
+
+//X-platform shared library class
+#include "Poco/SharedLibrary.h"
+
 
 #include "rrTEventDelayDelegate.h"
 #include "rrTEventAssignmentDelegate.h"
@@ -13,6 +17,8 @@
 
 namespace rr
 {
+
+using Poco::SharedLibrary;
 class CGenerator;
 
 typedef void    (callConv *c_void)();
@@ -34,8 +40,6 @@ class CvodeInterface;
 class RR_DECLSPEC ModelFromC : public rrObject
 {
     protected:
-        //These variables is also generated in the c-code, weird ??
-        //Init a decendent models data later
         int                                     mDummyInt;
         int                                     mDummyDouble;
         double*                                 mDummyDoubleArray;
@@ -51,14 +55,12 @@ class RR_DECLSPEC ModelFromC : public rrObject
         string                                  mModelName;
 
     public:
-        //variables in the DLL are prefixed with _ (will remove that later)
-        //In this interface, corresponding variable is prefixed with 'm', followed by capital letter, if possible
-        list<string>                            Warnings;
+        list<string>                            mWarnings;
         CvodeInterface*                         mCvodeInterface;
-        void                                    AssignCVodeInterface(CvodeInterface* cvodeI);
+        void                                    assignCVodeInterface(CvodeInterface* cvodeI);
         double                                  *time;
-        void                                    SetTime(double _time);
-        double                                  GetTime();
+        void                                    setTime(double _time);
+        double                                  getTime();
 
         double*                                 y;                  //Corresponds to y in IModel
         int*                                    ySize;              //Corresponds to y in IModel
@@ -115,9 +117,6 @@ class RR_DECLSPEC ModelFromC : public rrObject
         TComputeEventAssignmentDelegate*        computeEventAssignments;
         TPerformEventAssignmentDelegate*        performEventAssignments;
 
-        // CTOR
-                                                ModelFromC();
-
         // Virtual functions --------------------------------------------------------
         virtual int                             getNumIndependentVariables();
         virtual int                             getNumDependentVariables();
@@ -133,9 +132,10 @@ class RR_DECLSPEC ModelFromC : public rrObject
         virtual void                            computeReactionRates(double time, double* y);
 
     public:
-        CGenerator*                             mCodeGenerator;    //There are some arrays returned that we don't know the size of..!
+        CGenerator*                             mCodeGenerator;
         bool                                    mIsInitialized;    //If all functions are found properly in the dll, this one is true
-        HINSTANCE                               mDLLHandle;
+
+        SharedLibrary&							mDLL;
 
         //Function pointers...
         c_int                                   cInitModel;
@@ -167,18 +167,13 @@ class RR_DECLSPEC ModelFromC : public rrObject
 		c_void_double_doubleStar                cComputeReactionRates;
         c_void                                  ccomputeEventPriorities;
 
-        //Utility
-        FARPROC                                 GetFunctionPtr(const string& function);
-
     public:
-                                                ModelFromC(CGenerator* generator, HINSTANCE dllHandle = NULL);
+                                                ModelFromC();
+                                                ModelFromC(CGenerator* generator, SharedLibrary& dll);
                                                ~ModelFromC();
         //Non inherited
-        bool                                    SetupDLLData();
-        bool                                    SetupDLLFunctions();
-
-        //The following functions C equivalent may need to be in the DLL
-        //Inherited functions
+        bool                                    setupDLLData();
+        bool                                    setupDLLFunctions();
         void                                    setCompartmentVolumes();
         int                                     getNumLocalParameters(int reactionId);
         void                                    computeRules(vector<double>& _y);
@@ -194,11 +189,11 @@ class RR_DECLSPEC ModelFromC : public rrObject
         double                                  getConcentration(int index);
 
         //Access dll data
-        vector<double>                          GetCurrentValues();
-        double                                  GetAmounts(const int& i);
-        void                                    InitializeRates();
-        void                                    AssignRates();
-        void                                    AssignRates(vector<double>& rates);
+        vector<double>                          getCurrentValues();
+        double                                  getAmounts(const int& i);
+        void                                    initializeRates();
+        void                                    assignRates();
+        void                                    assignRates(vector<double>& rates);
         void                                    convertToConcentrations();
         void                                    updateDependentSpeciesValues(double* _y);
         void                                    computeAllRatesOfChange();
@@ -206,10 +201,11 @@ class RR_DECLSPEC ModelFromC : public rrObject
         void                                    evalEvents(const double& time, const vector<double>& y);
         void                                    resetEvents();
         void                                    testConstraints();
-        void                                    InitializeRateRuleSymbols();
+        void                                    initializeRateRuleSymbols();
 };
 }
 #endif
+
 ////    public class ModelGenerator
 ////    {
 ////        private const string STR_DoubleFormat = "G"; //"G17";

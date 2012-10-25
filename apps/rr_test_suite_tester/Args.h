@@ -31,6 +31,7 @@ class Args
         double                          EndTime;                //option e
         int                             Steps;                  //option z
         string                          SelectionList;          //option l:
+        string                          SBMLTestVersion;        //option w:
 };
 
 #endif

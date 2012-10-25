@@ -134,7 +134,7 @@
 						<ProjectProperties Name="VerifyPackages">True</ProjectProperties>
 					</ProjectProperties>
 					<Parameters>
-						<Parameters Name="RunParams">-mr:\rrl\models -rr:\rrl\wiki\reports\c_api_cg_ui.xml -tr:\rrTemp</Parameters>
+						<Parameters Name="RunParams">-mr:\rrl\models -rr:\rrl\wiki\reports\c_api_cg_ui.xml -tr:\rrTemp -lr:\installs\xe1\release\compilers\tcc -sr:\installs\xe1\release\rr_support</Parameters>
 					</Parameters>
 				</CPlusPlusBuilder.Personality>
 				<Platforms>

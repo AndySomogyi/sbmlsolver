@@ -119,7 +119,6 @@ int main(int argc, char * argv[])
 				simulation.SetNumberOfPoints(args.Steps);
 				simulation.SetSelectionList(args.SelectionList);
 			}
-
 			rr->ComputeAndAssignConservationLaws(false);
 		}
 
@@ -129,7 +128,7 @@ int main(int argc, char * argv[])
             Log(lError)<<"Failed running simulation";
             throw("Failed running simulation");
         }
-		
+
 		if(doContinue)
 		{
 			if(args.SaveResultToFile)
@@ -146,7 +145,7 @@ int main(int argc, char * argv[])
 				SimulationData result = simulation.GetResult();
 				Log(lShowAlways)<<result;
 			}
-		}       
+		}
 
         delete rr;
     }
@@ -213,5 +212,6 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 #pragma comment(lib, "blas.lib")
 #pragma comment(lib, "lapack.lib")
 #pragma comment(lib, "libf2c.lib")
+#pragma comment(lib, "poco_foundation-static.lib")
 #endif
 

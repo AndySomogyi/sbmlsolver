@@ -43,7 +43,7 @@ int main(int argc, char * argv[])
 
     Args paras;
     char c;
-    while ((c = GetOptions(argc, argv, ("cpv:n:d:t:m:"))) != -1)
+    while ((c = GetOptions(argc, argv, ("cpv:n:d:t:m:w:"))) != -1)
     {
         switch (c)
         {
@@ -53,6 +53,7 @@ int main(int argc, char * argv[])
             case ('t'): paras.TempDataFolder                = optarg;                       break;
             case ('d'): paras.DataOutputFolder              = optarg;                       break;
             case ('m'): paras.TestSuiteModelsPath           = optarg;                       break;
+            case ('w'): paras.SBMLTestVersion               = optarg;   			        break;
             case ('?'):
             {
                     cout<<Usage(argv[0])<<endl;
@@ -89,12 +90,12 @@ int main(int argc, char * argv[])
             Log(lError)<<"Bad line in file "<<excludedCases;
         }
     }
-    //The followoing are cases currently having problems. Some do in fact pass the test, but takes very long to run
+    //The following are cases currently having problems. Some do in fact pass the test, but takes very long to run
     vector<int> exceptions;
-//    exceptions.push_back(958);  //?
+//    exceptions.push_back(958);  	//?
 //    exceptions.push_back(961);    //Weird assignments...
-//    exceptions.push_back(966); //This one takes really long tim..
-    RoadRunner *rrI = NULL;     //The roadrunner instance
+//    exceptions.push_back(966); 	//This one takes really long tim..
+    RoadRunner *rrI = NULL;     	//The roadrunner instance
     StopWatch sWatch;
     try
     {
@@ -144,7 +145,7 @@ int main(int argc, char * argv[])
         string modelFileName;
 
         simulation.SetCaseNumber(paras.CaseNumber);
-        CreateTestSuiteFileNameParts(paras.CaseNumber, "-sbml-l2v4.xml", modelFilePath, modelFileName);
+        CreateTestSuiteFileNameParts(paras.CaseNumber, "-sbml-" + paras.SBMLTestVersion + ".xml", modelFilePath, modelFileName);
 
         //The following will load and compile and simulate the sbml model in the file
         simulation.SetModelFilePath(modelFilePath);
@@ -254,5 +255,6 @@ string Usage(const string& prg)
 #pragma comment(lib, "blas.lib")
 #pragma comment(lib, "lapack.lib")
 #pragma comment(lib, "libf2c.lib")
+#pragma comment(lib, "poco_foundation-static.lib")
 #endif
 

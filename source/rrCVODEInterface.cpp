@@ -698,7 +698,7 @@ double CvodeInterface::OneStep(double timeStart, double hstep)
             else if (nResult == CV_SUCCESS || !followEvents)
             {
                 //model->resetEvents();
-                model->SetTime(tout);
+                model->setTime(tout);
                 AssignResultsToModel();
             }
             else
@@ -714,7 +714,7 @@ double CvodeInterface::OneStep(double timeStart, double hstep)
             }
             catch (Exception e)
             {
-                model->Warnings.push_back("Constraint Violated at time = " + ToString(timeEnd) + "\n" + e.Message());
+                model->mWarnings.push_back("Constraint Violated at time = " + ToString(timeEnd) + "\n" + e.Message());
             }
 
             AssignPendingEvents(timeEnd, tout);
@@ -846,7 +846,7 @@ void CvodeInterface::AssignPendingEvents(const double& timeEnd, const double& to
     {
         if (timeEnd >= assignments[i].GetTime())
         {
-            model->SetTime(tout);
+            model->setTime(tout);
             AssignResultsToModel();
             model->convertToConcentrations();
             model->updateDependentSpeciesValues(model->y);
@@ -1318,7 +1318,7 @@ void CvodeInterface::HandleRootsForTime(const double& timeEnd, vector<int>& root
     args = BuildEvalArgument();
     model->evalModel(timeEnd, args);
 
-    vector<double> dCurrentValues = model->GetCurrentValues();
+    vector<double> dCurrentValues = model->getCurrentValues();
     for (int k = 0; k < numAdditionalRules; k++)
     {
         Cvode_SetVector((N_Vector) _amounts, k, dCurrentValues[k]);
@@ -1353,14 +1353,14 @@ void CvodeInterface::AssignResultsToModel()
 
     vector<double> args = BuildEvalArgument();
     model->computeRules(args);
-    model->AssignRates(dTemp);
+    model->assignRates(dTemp);
     model->computeAllRatesOfChange();
 }
 
 // Restart the simulation using a different initial condition
 void CvodeInterface::AssignNewVector(ModelFromC *oModel, bool bAssignNewTolerances)
 {
-    vector<double> dTemp = model->GetCurrentValues();
+    vector<double> dTemp = model->getCurrentValues();
     double dMin = absTol;
 
     for (int i = 0; i < numAdditionalRules; i++)
@@ -1373,7 +1373,7 @@ void CvodeInterface::AssignNewVector(ModelFromC *oModel, bool bAssignNewToleranc
 
     for (int i = 0; i < numIndependentVariables; i++)
     {
-        if (oModel->GetAmounts(i) > 0 && oModel->GetAmounts(i)/1000.0 < dMin)    //Todo: was calling oModel->amounts[i]  is this in fact GetAmountsForSpeciesNr(i) ??
+        if (oModel->getAmounts(i) > 0 && oModel->getAmounts(i)/1000.0 < dMin)    //Todo: was calling oModel->amounts[i]  is this in fact GetAmountsForSpeciesNr(i) ??
         {
             dMin = oModel->amounts[i]/1000.0;
         }
@@ -1394,7 +1394,7 @@ void CvodeInterface::AssignNewVector(ModelFromC *oModel, bool bAssignNewToleranc
         {
             setAbsTolerance(i + numAdditionalRules, dMin);
         }
-        Cvode_SetVector(_amounts, i + numAdditionalRules, oModel->GetAmounts(i));
+        Cvode_SetVector(_amounts, i + numAdditionalRules, oModel->getAmounts(i));
     }
 
     if (!HaveVariables() && model->getNumEvents() > 0)
@@ -1454,7 +1454,7 @@ vector<double> BuildEvalArgument(ModelFromC* model)
     vector<double> dResult;
     dResult.resize(*model->amountsSize + *model->rateRulesSize);
 
-    vector<double> dCurrentValues = model->GetCurrentValues();
+    vector<double> dCurrentValues = model->getCurrentValues();
     for(int i = 0; i < dCurrentValues.size(); i++)
     {
         dResult[i] = dCurrentValues[i];
@@ -1484,7 +1484,7 @@ vector<double> CvodeInterface::BuildEvalArgument()
     vector<double> dResult;
     dResult.resize(*model->amountsSize + *model->rateRulesSize);
 
-    vector<double> dCurrentValues = model->GetCurrentValues();
+    vector<double> dCurrentValues = model->getCurrentValues();
     for(int i = 0; i < dCurrentValues.size(); i++)
     {
         dResult[i] = dCurrentValues[i];

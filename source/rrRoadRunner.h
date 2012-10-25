@@ -1,7 +1,14 @@
 #ifndef rrRoadRunnerH
 #define rrRoadRunnerH
+
+#if defined(WIN32)
 #include <windows.h>
+#endif
+
 #include <string>
+
+#include "Poco/SharedLibrary.h"
+
 #include "rrObject.h"
 #include "rr-libstruct/lsMatrix.h"
 #include "rr-libstruct/lsLibStructural.h"
@@ -91,7 +98,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		double*                         mN;
 		double*                         mNr;
 
-		HINSTANCE                       mModelDLL;
+		//HINSTANCE                       mModelDLL;
+        SharedLibrary			  		mModelDLL;
 		string                          mCurrentSBML;
 		ModelFromC*                     mModel;
 		double                          mTimeStart;

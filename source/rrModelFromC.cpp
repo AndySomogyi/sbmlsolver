@@ -12,11 +12,12 @@ using namespace std;
 namespace rr
 {
 
-ModelFromC::ModelFromC(CGenerator* generator, HINSTANCE dllHandle)
+ModelFromC::ModelFromC(CGenerator* generator, SharedLibrary& dll)
 :
 mCodeGenerator(generator),
 mIsInitialized(false),
-mDLLHandle(dllHandle),
+mDLL(dll),
+//mDLLHandle(NULL),
 mDummyInt(0),
 mDummyDouble(0),
 mDummyDoubleArray(new double[1]),
@@ -34,10 +35,10 @@ mModelName("NoNameSet")
 {
     mDummyDoubleArray[0] = 1;
 
-    if(mDLLHandle)
+    if(mDLL.isLoaded())
     {
-        SetupDLLFunctions();
-        SetupDLLData();
+        setupDLLFunctions();
+        setupDLLData();
     }
 }
 
@@ -46,17 +47,17 @@ ModelFromC::~ModelFromC()
     delete [] mDummyDoubleArray;
 }
 
-void ModelFromC::AssignCVodeInterface(CvodeInterface* cvodeI)
+void ModelFromC::assignCVodeInterface(CvodeInterface* cvodeI)
 {
     mCvodeInterface = cvodeI;
 }
 
-void ModelFromC::SetTime(double _time)
+void ModelFromC::setTime(double _time)
 {
     *time = _time;
 }
 
-double ModelFromC::GetTime()
+double ModelFromC::getTime()
 {
 	return *time;
 }
@@ -107,53 +108,53 @@ int ModelFromC::getNumEvents()
     return *numEvents;
 }
 
-double ModelFromC::GetAmounts(const int& i)
+double ModelFromC::getAmounts(const int& i)
 {
     return (amounts ) ? amounts[i] : -1;
 }
 
-bool ModelFromC::SetupDLLFunctions()
+bool ModelFromC::setupDLLFunctions()
 {
     //Exported functions in the dll need to be assigned to a function pointer here..
-    if(!mDLLHandle)
+    if(!mDLL.isLoaded())
     {
         Log(lError)<<"DLL handle not valid in SetupModel function";
         return false;
     }
 
     //Load functions..
-    cInitModel                          = (c_int)                      GetFunctionPtr("InitModel");
-    cGetModelName                       = (c_charStar)                 GetFunctionPtr("GetModelName");
-    cinitializeInitialConditions        = (c_void)                     GetFunctionPtr("initializeInitialConditions");
-    csetParameterValues                 = (c_void)                     GetFunctionPtr("setParameterValues");
-    csetCompartmentVolumes              = (c_void)                     GetFunctionPtr("setCompartmentVolumes");
-    cgetNumLocalParameters              = (c_int_int)                  GetFunctionPtr("getNumLocalParameters");
-    csetBoundaryConditions              = (c_void)                     GetFunctionPtr("setBoundaryConditions");
-    csetInitialConditions               = (c_void)                     GetFunctionPtr("setInitialConditions");
-    cevalInitialAssignments             = (c_void)                     GetFunctionPtr("evalInitialAssignments");
-    ccomputeRules                       = (c_void_doubleStar)          GetFunctionPtr("computeRules");
-    cconvertToAmounts                   = (c_void)                     GetFunctionPtr("convertToAmounts");
-    ccomputeConservedTotals             = (c_void)                     GetFunctionPtr("computeConservedTotals");
-    cgetConcentration                   = (c_double_int)               GetFunctionPtr("getConcentration");
-    cGetCurrentValues                   = (c_doubleStar)               GetFunctionPtr("GetCurrentValues");
-    cevalModel                          = (c_void_double_doubleStar)   GetFunctionPtr("evalModel");
-    cconvertToConcentrations            = (c_void)                     GetFunctionPtr("convertToConcentrations");
-    cevalEvents                         = (c_void_double_doubleStar)   GetFunctionPtr("evalEvents");
-    cupdateDependentSpeciesValues       = (c_void_doubleStar)          GetFunctionPtr("updateDependentSpeciesValues");
-    ccomputeAllRatesOfChange            = (c_void)                     GetFunctionPtr("computeAllRatesOfChange");
-    cAssignRates_a                      = (c_void)                     GetFunctionPtr("AssignRatesA");
-    cAssignRates_b                      = (c_void_doubleStar)          GetFunctionPtr("AssignRatesB");
-    ctestConstraints                    = (c_void)                     GetFunctionPtr("testConstraints");
-    cresetEvents                        = (c_void)                     GetFunctionPtr("resetEvents");
-    cInitializeRateRuleSymbols          = (c_void)                     GetFunctionPtr("InitializeRateRuleSymbols");
-    cInitializeRates                    = (c_void)                     GetFunctionPtr("InitializeRates");
-    csetConcentration                   = (c_void_int_double)          GetFunctionPtr("setConcentration");
-    cComputeReactionRates               = (c_void_double_doubleStar)   GetFunctionPtr("computeReactionRates");
-    ccomputeEventPriorities             = (c_void)                     GetFunctionPtr("computeEventPriorities");
+    cInitModel                          = (c_int)                      mDLL.getSymbol("InitModel");//GetFunctionPtr("InitModel");
+    cGetModelName                       = (c_charStar)                 mDLL.getSymbol("GetModelName");
+    cinitializeInitialConditions        = (c_void)                     mDLL.getSymbol("initializeInitialConditions");
+    csetParameterValues                 = (c_void)                     mDLL.getSymbol("setParameterValues");
+    csetCompartmentVolumes              = (c_void)                     mDLL.getSymbol("setCompartmentVolumes");
+    cgetNumLocalParameters              = (c_int_int)                  mDLL.getSymbol("getNumLocalParameters");
+    csetBoundaryConditions              = (c_void)                     mDLL.getSymbol("setBoundaryConditions");
+    csetInitialConditions               = (c_void)                     mDLL.getSymbol("setInitialConditions");
+    cevalInitialAssignments             = (c_void)                     mDLL.getSymbol("evalInitialAssignments");
+    ccomputeRules                       = (c_void_doubleStar)          mDLL.getSymbol("computeRules");
+    cconvertToAmounts                   = (c_void)                     mDLL.getSymbol("convertToAmounts");
+    ccomputeConservedTotals             = (c_void)                     mDLL.getSymbol("computeConservedTotals");
+    cgetConcentration                   = (c_double_int)               mDLL.getSymbol("getConcentration");
+    cGetCurrentValues                   = (c_doubleStar)               mDLL.getSymbol("GetCurrentValues");
+    cevalModel                          = (c_void_double_doubleStar)   mDLL.getSymbol("evalModel");
+    cconvertToConcentrations            = (c_void)                     mDLL.getSymbol("convertToConcentrations");
+    cevalEvents                         = (c_void_double_doubleStar)   mDLL.getSymbol("evalEvents");
+    cupdateDependentSpeciesValues       = (c_void_doubleStar)          mDLL.getSymbol("updateDependentSpeciesValues");
+    ccomputeAllRatesOfChange            = (c_void)                     mDLL.getSymbol("computeAllRatesOfChange");
+    cAssignRates_a                      = (c_void)                     mDLL.getSymbol("AssignRatesA");
+    cAssignRates_b                      = (c_void_doubleStar)          mDLL.getSymbol("AssignRatesB");
+    ctestConstraints                    = (c_void)                     mDLL.getSymbol("testConstraints");
+    cresetEvents                        = (c_void)                     mDLL.getSymbol("resetEvents");
+    cInitializeRateRuleSymbols          = (c_void)                     mDLL.getSymbol("InitializeRateRuleSymbols");
+    cInitializeRates                    = (c_void)                     mDLL.getSymbol("InitializeRates");
+    csetConcentration                   = (c_void_int_double)          mDLL.getSymbol("setConcentration");
+    cComputeReactionRates               = (c_void_double_doubleStar)   mDLL.getSymbol("computeReactionRates");
+    ccomputeEventPriorities             = (c_void)                     mDLL.getSymbol("computeEventPriorities");
     return true;
 }
 
-bool ModelFromC::SetupDLLData()
+bool ModelFromC::setupDLLData()
 {
     if(!cInitModel)
     {
@@ -168,6 +169,12 @@ bool ModelFromC::SetupDLLData()
         return false;
     }
 
+    if(!cGetModelName)
+    {
+        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        return false;
+    }
+
     char* modelName = cGetModelName();
     if(modelName)
     {
@@ -175,320 +182,97 @@ bool ModelFromC::SetupDLLData()
     }
 
     //Simple variables...
-    int *test = (int*) GetProcAddress((HMODULE) mDLLHandle, "numIndependentVariables");
-    numIndependentVariables = test;
-
-    test = (int*) GetProcAddress((HMODULE) mDLLHandle, "numDependentVariables");
-    numDependentVariables = test;
-
-    test = (int*) GetProcAddress((HMODULE) mDLLHandle, "numTotalVariables");
-    numTotalVariables = test;
-
-    test = (int*) GetProcAddress((HMODULE) mDLLHandle, "numBoundaryVariables");
-    numBoundaryVariables = test;
-
-    test = (int*) GetProcAddress((HMODULE) mDLLHandle, "numGlobalParameters");
-    numGlobalParameters = test;
-
-    test = (int*) GetProcAddress((HMODULE) mDLLHandle, "numCompartments");
-    numCompartments = test;
-
-    test = (int*) GetProcAddress((HMODULE) mDLLHandle, "numReactions");
-    numReactions = test;
-
-    test = (int*) GetProcAddress((HMODULE) mDLLHandle, "numEvents");
-    numEvents = test;
-
-    amounts  = (double*) GetProcAddress((HMODULE) mDLLHandle, "_amounts");
-    if(!amounts)
-    {
-        Log(lDebug)<<"Failed to assign to amounts";
-    }
-
-    amountsSize  = (int*) GetProcAddress((HMODULE) mDLLHandle, "_amountsSize");
-    if(!amountsSize)
-    {
-        Log(lDebug)<<"Failed to assign to amountsSize";
-    }
-
-    dydt  = (double*) GetProcAddress((HMODULE) mDLLHandle, "_dydt");
-    if(!dydt)
-    {
-        Log(lDebug)<<"Failed to assign to dydt";
-    }
-
-    dydtSize  = (int*) GetProcAddress((HMODULE) mDLLHandle, "_dydtSize");
-    if(!dydtSize)
-    {
-        Log(lDebug)<<"Failed to assign to dydtSize";
-    }
-
-    rateRules  = (double*) GetProcAddress((HMODULE) mDLLHandle, "_rateRules");
-    if(!rateRules)
-    {
-        Log(lDebug)<<"Failed to assign to rateRules";
-    }
-
-    rateRulesSize = (int*) GetProcAddress((HMODULE) mDLLHandle, "_rateRulesSize");
-    if(!rateRulesSize)
-    {
-        Log(lDebug)<<"Failed to assign to rateRulesSize";
-    }
-
-    y  = (double*) GetProcAddress((HMODULE) mDLLHandle, "_y");
-    if(!y)
-    {
-        Log(lDebug)<<"Failed to assign to mY";
-    }
-
-    ySize  = (int*) GetProcAddress((HMODULE) mDLLHandle, "_ySize");
-    if(!ySize)
-    {
-        Log(lDebug)<<"Failed to assign to ySize";
-    }
-
-    rates  = (double*) GetProcAddress((HMODULE) mDLLHandle, "_rates");
-    if(!rates)
-    {
-        Log(lDebug)<<"Failed to assign to rates";
-    }
-
-    ratesSize  = (int*) GetProcAddress((HMODULE) mDLLHandle, "_ratesSize");
-    if(!ratesSize)
-    {
-        Log(lDebug)<<"Failed to assign to ratesSize";
-    }
-
-    ct  = (double*) GetProcAddress((HMODULE) mDLLHandle, "_ct");
-    if(!ct)
-    {
-        Log(lDebug)<<"Failed to assign to ct";
-    }
-
-    ctSize  = (int*) GetProcAddress((HMODULE) mDLLHandle, "_ctSize");
-    if(!ctSize)
-    {
-        Log(lDebug)<<"Failed to assign to ctSize";
-    }
-
-    time       = (double*) GetProcAddress((HMODULE) mDLLHandle, "mTime");
-    if(!time)
-    {
-        Log(lDebug)<<"Failed to assign to time";
-    }
-
-    init_y       = (double*) GetProcAddress((HMODULE) mDLLHandle, "_init_y");
-    if(!init_y)
-    {
-        Log(lDebug)<<"Failed to assign to init_y";
-    }
-
-    init_ySize       = (int*) GetProcAddress((HMODULE) mDLLHandle, "_init_ySize");
-    if(!init_ySize)
-    {
-        Log(lDebug)<<"Failed to assign to init_ySize";
-    }
-
-    gp       = (double*) GetProcAddress((HMODULE) mDLLHandle, "_gp");
-    if(!gp)
-    {
-        Log(lDebug)<<"Failed to assign to gp";
-    }
-
-    gpSize       = (int*) GetProcAddress((HMODULE) mDLLHandle, "_gpSize");
-    if(!gpSize)
-    {
-        Log(lDebug)<<"Failed to assign to gpSize";
-    }
-
-    c       = (double*) GetProcAddress((HMODULE) mDLLHandle, "_c");
-    if(!c)
-    {
-        Log(lDebug)<<"Failed to assign to mC";
-    }
-
-    cSize       = (int*) GetProcAddress((HMODULE) mDLLHandle, "_cSize");
-    if(!cSize)
-    {
-        Log(lDebug)<<"Failed to assign to cSize";
-    }
-
-    bc       = (double*) GetProcAddress((HMODULE) mDLLHandle, "_bc");
-    if(!bc)
-    {
-        Log(lDebug)<<"Failed to assign to bc";
-    }
-
-    bcSize       = (int*) GetProcAddress((HMODULE) mDLLHandle, "_bcSize");
-    if(!bcSize)
-    {
-        Log(lDebug)<<"Failed to assign to bcSize";
-    }
-
-    lp       = (double*) GetProcAddress((HMODULE) mDLLHandle, "_lp");
-    if(!lp)
-    {
-        Log(lDebug)<<"Failed to assign to lp";
-        lp = mDummyDoubleArray;
-    }
-
-    lpSize       = (int*) GetProcAddress((HMODULE) mDLLHandle, "_lpSize");
-    if(!srSize)
-    {
-        Log(lDebug)<<"Failed to assign to lpSize";
-        lpSize = &mDummyInt;
-    }
-
-    sr       = (double*) GetProcAddress((HMODULE) mDLLHandle, "_sr");
-    if(!sr)
-    {
-        Log(lDebug)<<"Failed to assign to sr";
-        sr = mDummyDoubleArray;
-    }
-
-    srSize       = (int*) GetProcAddress((HMODULE) mDLLHandle, "_srSize");
-    if(!srSize)
-    {
-        Log(lDebug)<<"Failed to assign to srSize";
-        srSize = &mDummyInt;
-    }
-
-    eventPriorities   = (double*) GetProcAddress((HMODULE) mDLLHandle, "_eventPriorities");
-    if(!eventPriorities)
-    {
-        Log(lDebug)<<"Failed to assign to eventPriorities";
-        eventPriorities = NULL;
-    }
-
-    eventStatusArray   = (bool*) GetProcAddress((HMODULE) mDLLHandle, "mEventStatusArray");
-    if(!eventStatusArray)
-    {
-        Log(lDebug)<<"Failed to assign to eventStatusArray";
-        eventStatusArray = NULL;
-    }
-
-    eventStatusArraySize      = (int*) GetProcAddress((HMODULE) mDLLHandle, "mEventStatusArraySize");
-    if(!eventStatusArraySize)
-    {
-        Log(lDebug)<<"Failed to assign to eventStatusArraySize";
-    }
-
-    previousEventStatusArray   = (bool*) GetProcAddress((HMODULE) mDLLHandle, "_previousEventStatusArray");
-    if(!previousEventStatusArray)
-    {
-        Log(lDebug)<<"Failed to assign to previousEventStatusArray";
-        previousEventStatusArray = NULL;
-    }
-
-    previousEventStatusArraySize      = (int*) GetProcAddress((HMODULE) mDLLHandle, "_previousEventStatusArraySize");
-    if(!previousEventStatusArraySize)
-    {
-        Log(lDebug)<<"Failed to assign to previousEventStatusArraySize";
-        previousEventStatusArraySize = &mDummyInt;
-    }
-
-    eventPersistentType   = (bool*) GetProcAddress((HMODULE) mDLLHandle, "_eventPersistentType");
-    if(!eventPersistentType)
-    {
-        Log(lDebug)<<"Failed to assign to eventPersistentType";
-        eventPersistentType = NULL;
-    }
-
-    eventPersistentTypeSize      = (int*) GetProcAddress((HMODULE) mDLLHandle, "_eventPersistentTypeSize");
-    if(!eventPersistentTypeSize)
-    {
-        Log(lDebug)<<"Failed to assign to eventPersistentTypeSize";
-    }
-
-    eventTests   = (double*) GetProcAddress((HMODULE) mDLLHandle, "mEventTests");
-    if(!eventTests)
-    {
-        Log(lDebug)<<"Failed to assign to eventTests";
-        eventTests = NULL;
-    }
-
-    eventTestsSize      = (int*) GetProcAddress((HMODULE) mDLLHandle, "mEventTestsSize");
-    if(!eventTestsSize)
-    {
-        Log(lDebug)<<"Failed to assign to eventTestsSize";
-        eventTestsSize = & mDummyInt;
-    }
-
-    eventType   = (bool*) GetProcAddress((HMODULE) mDLLHandle, "_eventType");
-    if(!eventType)
-    {
-        Log(lDebug)<<"Failed to assign to eventType";
-        eventType = NULL;
-    }
-
-    eventTypeSize      = (int*) GetProcAddress((HMODULE) mDLLHandle, "_eventTypeSize");
-    if(!eventTypeSize)
-    {
-        Log(lDebug)<<"Failed to assign to eventTypeSize";
-        eventTypeSize = & mDummyInt;
-    }
+    numIndependentVariables         = mDLL.hasSymbol("numIndependentVariables") ?   (int*)      mDLL.getSymbol("numIndependentVariables")   : NULL;
+    numDependentVariables 	        = mDLL.hasSymbol("numDependentVariables")   ?   (int*)      mDLL.getSymbol("numDependentVariables")     : NULL;
+    numTotalVariables 		        = mDLL.hasSymbol("numTotalVariables")       ?   (int*)      mDLL.getSymbol("numTotalVariables")         : NULL;
+    numBoundaryVariables 	        = mDLL.hasSymbol("numBoundaryVariables")    ?   (int*)      mDLL.getSymbol("numBoundaryVariables")      : NULL;
+    numGlobalParameters 	        = mDLL.hasSymbol("numGlobalParameters")     ?   (int*)      mDLL.getSymbol("numGlobalParameters")       : NULL;
+    numCompartments 		        = mDLL.hasSymbol("numCompartments")         ?   (int*)      mDLL.getSymbol("numCompartments")           : NULL;
+    numReactions 			        = mDLL.hasSymbol("numReactions")            ?   (int*)      mDLL.getSymbol("numReactions")              : NULL;
+    numEvents 				        = mDLL.hasSymbol("numEvents")               ?   (int*)      mDLL.getSymbol("numEvents")                 : NULL;
+    amounts  				        = mDLL.hasSymbol("_amounts")                ?   (double*) 	mDLL.getSymbol("_amounts")                  : NULL;
+    amountsSize  			        = mDLL.hasSymbol("_amountsSize")            ?   (int*) 	    mDLL.getSymbol("_amountsSize")              : NULL;
+    dydt  					        = mDLL.hasSymbol("_dydt")                   ?   (double*) 	mDLL.getSymbol("_dydt")                     : NULL;
+    dydtSize  				        = mDLL.hasSymbol("_dydtSize")               ?   (int*) 	    mDLL.getSymbol("_dydtSize")                 : NULL;
+    rateRules  				        = mDLL.hasSymbol("_rateRules")              ?   (double*) 	mDLL.getSymbol("_rateRules")                : NULL;
+    rateRulesSize 			        = mDLL.hasSymbol("_rateRulesSize")          ?   (int*) 	    mDLL.getSymbol("_rateRulesSize")            : NULL;
+    y  						        = mDLL.hasSymbol("_y")                      ?   (double*) 	mDLL.getSymbol("_y")                        : NULL;
+    ySize  					        = mDLL.hasSymbol("_ySize")                  ?   (int*) 	    mDLL.getSymbol("_ySize")                    : NULL;
+    rates  					        = mDLL.hasSymbol("_rates")                  ?   (double*) 	mDLL.getSymbol("_rates")                    : NULL;
+    ratesSize  				        = mDLL.hasSymbol("_ratesSize")              ?   (int*) 	    mDLL.getSymbol("_ratesSize")                : NULL;
+    ct  					        = mDLL.hasSymbol("_ct")                     ?   (double*) 	mDLL.getSymbol("_ct")                       : NULL;
+    ctSize  				        = mDLL.hasSymbol("_ctSize")                 ?   (int*) 	    mDLL.getSymbol("_ctSize")                   : NULL;
+    time       				        = mDLL.hasSymbol("mTime")                   ?   (double*) 	mDLL.getSymbol("mTime")                     : NULL;
+    init_y       			        = mDLL.hasSymbol("_init_y")                 ?   (double*) 	mDLL.getSymbol("_init_y")                   : NULL;
+    init_ySize       		        = mDLL.hasSymbol("_init_ySize")             ?   (int*) 	    mDLL.getSymbol("_init_ySize")               : NULL;
+    gp       				        = mDLL.hasSymbol("_gp")                     ?   (double*) 	mDLL.getSymbol("_gp")                       : NULL;
+    gpSize       			        = mDLL.hasSymbol("_gpSize")                 ?   (int*) 	    mDLL.getSymbol("_gpSize")                   : NULL;
+    c       				        = mDLL.hasSymbol("_c")                      ?   (double*) 	mDLL.getSymbol("_c")                        : NULL;
+    cSize       			        = mDLL.hasSymbol("_cSize")                  ?   (int*) 	    mDLL.getSymbol("_cSize")                    : NULL;
+    bc       				        = mDLL.hasSymbol("_bc")                     ?   (double*) 	mDLL.getSymbol("_bc")                       : NULL;
+    bcSize       			        = mDLL.hasSymbol("_bcSize")                 ?   (int*) 	    mDLL.getSymbol("_bcSize")                   : NULL;
+    lp       				        = mDLL.hasSymbol("_lp")						?	(double*) 	mDLL.getSymbol("_lp")						: mDummyDoubleArray;
+    lpSize       			        = mDLL.hasSymbol("_lpSize") 	                   ?	(int*) 		mDLL.getSymbol("_lpSize") 	        : &mDummyInt;
+    sr       				        = mDLL.hasSymbol("_sr")  		                   ?	(double*) 	mDLL.getSymbol("_sr")  		        : mDummyDoubleArray;
+    srSize       			        = mDLL.hasSymbol("_srSize") 	                   ?	(int*)	    mDLL.getSymbol("_srSize") 	        : &mDummyInt;
+    eventPriorities   		        = mDLL.hasSymbol("_eventPriorities")               ?	(double*) 	mDLL.getSymbol("_eventPriorities") 	: NULL;
+    eventStatusArray   		        = mDLL.hasSymbol("mEventStatusArray")              ?	(bool*) 	mDLL.getSymbol("mEventStatusArray")	: NULL;
+    eventStatusArraySize            = mDLL.hasSymbol("mEventStatusArraySize")          ?	(int*) 		mDLL.getSymbol("mEventStatusArraySize") 	: NULL;
+    previousEventStatusArray        = mDLL.hasSymbol("_previousEventStatusArray")      ?	(bool*) 	mDLL.getSymbol("_previousEventStatusArray") : NULL;
+    previousEventStatusArraySize    = mDLL.hasSymbol("_previousEventStatusArraySize")  ?	(int*) 		mDLL.getSymbol("_previousEventStatusArraySize") :  &mDummyInt;
+    eventPersistentType   			= mDLL.hasSymbol("_eventPersistentType")           ?	(bool*) 	mDLL.getSymbol("_eventPersistentType") 		: NULL;
+    eventPersistentTypeSize      	= mDLL.hasSymbol("_eventPersistentTypeSize")       ?	(int*) 		mDLL.getSymbol("_eventPersistentTypeSize") 	: NULL;
+    eventTests   					= mDLL.hasSymbol("mEventTests")                    ?	(double*) 	mDLL.getSymbol("mEventTests") 				: NULL;
+    eventTestsSize      			= mDLL.hasSymbol("mEventTestsSize") 			   ?	(int*) 		mDLL.getSymbol("mEventTestsSize") 			: &mDummyInt;
+    eventType   					= mDLL.hasSymbol("_eventType")                     ?	(bool*) 	mDLL.getSymbol("_eventType")                : NULL;
+    eventTypeSize      				= mDLL.hasSymbol("_eventTypeSize")				   ?	(int*) 		mDLL.getSymbol("_eventTypeSize") 			: &mDummyInt;
 
     //Event function pointer stuff
-    c_TEventAssignmentDelegateStar     Get_eventAssignments;
-    Get_eventAssignments  = (c_TEventAssignmentDelegateStar) GetProcAddress((HMODULE) mDLLHandle, "Get_eventAssignments");
-    if(!Get_eventAssignments)
+    if(mDLL.hasSymbol("Get_eventAssignments"))
     {
-        Log(lDebug)<<"Failed to assign to Get_eventAssignments";
-        eventAssignments = NULL;
+        c_TEventAssignmentDelegateStar Get_eventAssignments;
+        Get_eventAssignments  	= (c_TEventAssignmentDelegateStar) mDLL.getSymbol("Get_eventAssignments");
+        eventAssignments 		= Get_eventAssignments();
     }
     else
     {
-        eventAssignments = Get_eventAssignments();
+	    eventAssignments = NULL;
     }
 
-    c_TComputeEventAssignmentDelegateStar     Get_computeEventAssignments;
-    Get_computeEventAssignments      = (c_TComputeEventAssignmentDelegateStar) GetProcAddress((HMODULE) mDLLHandle, "Get_computeEventAssignments");
-    if(!Get_computeEventAssignments)
+    if(mDLL.hasSymbol("Get_computeEventAssignments"))
     {
-        Log(lDebug)<<"Failed to assign to Get_computeEventAssignments";
-    }
-    else
-    {
+        c_TComputeEventAssignmentDelegateStar     Get_computeEventAssignments;
+        Get_computeEventAssignments      = (c_TComputeEventAssignmentDelegateStar) mDLL.getSymbol("Get_computeEventAssignments");
         computeEventAssignments = Get_computeEventAssignments();
     }
-
-    c_TPerformEventAssignmentDelegateStar     Get_performEventAssignments;
-    Get_performEventAssignments  = (c_TPerformEventAssignmentDelegateStar) GetProcAddress((HMODULE) mDLLHandle, "Get_performEventAssignments");
-    if(!Get_performEventAssignments)
-    {
-        Log(lDebug)<<"Failed to assign to Get_performEventAssignments";
-        performEventAssignments = NULL;
-    }
     else
     {
+		computeEventAssignments = NULL;
+    }
+
+    if(mDLL.hasSymbol("Get_performEventAssignments"))
+    {
+     	c_TPerformEventAssignmentDelegateStar Get_performEventAssignments;
+    	Get_performEventAssignments  = (c_TPerformEventAssignmentDelegateStar) mDLL.getSymbol("Get_performEventAssignments");
         performEventAssignments = Get_performEventAssignments();
     }
-
-    c_GetEventDelayDelegatesStar     GetEventDelays;
-    GetEventDelays  = (c_GetEventDelayDelegatesStar) GetProcAddress((HMODULE) mDLLHandle, "GetEventDelays");
-    if(!GetEventDelays)
+    else
     {
-        Log(lDebug)<<"Failed to assign to Get_computeEventAssignments";
+        performEventAssignments = NULL;
+    }
+
+    if(mDLL.hasSymbol("GetEventDelays"))
+    {
+        c_GetEventDelayDelegatesStar GetEventDelays;
+        GetEventDelays  = (c_GetEventDelayDelegatesStar) mDLL.getSymbol("GetEventDelays");
+        eventDelays = GetEventDelays();
     }
     else
     {
-        eventDelays = GetEventDelays();
+		eventDelays = NULL;
     }
-
 
     return true;
-}
-
-FARPROC ModelFromC::GetFunctionPtr(const string& funcName)
-{
-    FARPROC handle = GetProcAddress((HMODULE) mDLLHandle, funcName.c_str());
-    if(handle == NULL)
-    {
-        Log(lError) << "Unable to load the function: " << funcName;
-        return NULL;
-    }
-    Log(lDebug3)<<"Loaded function " << funcName;
-    return handle;
 }
 
 void ModelFromC::setCompartmentVolumes()
@@ -524,7 +308,7 @@ void  ModelFromC::computeReactionRates (double time, double* y)
 	cComputeReactionRates (time, y);
 }
 
-vector<double> ModelFromC::GetCurrentValues()
+vector<double> ModelFromC::getCurrentValues()
 {
     vector<double> vals;
     if(!cGetCurrentValues)
@@ -600,7 +384,7 @@ void ModelFromC::setBoundaryConditions()
     csetBoundaryConditions();
 }
 
-void ModelFromC::InitializeRates()
+void ModelFromC::initializeRates()
 {
     if(!cInitializeRates)
     {
@@ -610,7 +394,7 @@ void ModelFromC::InitializeRates()
     cInitializeRates();
 }
 
-void ModelFromC::AssignRates()
+void ModelFromC::assignRates()
 {
     if(!cAssignRates_a)
     {
@@ -620,7 +404,7 @@ void ModelFromC::AssignRates()
     cAssignRates_a();
 }
 
-void ModelFromC::AssignRates(vector<double>& _rates)
+void ModelFromC::assignRates(vector<double>& _rates)
 {
     if(!cAssignRates_b)
     {
@@ -794,7 +578,7 @@ void ModelFromC::testConstraints()
     ctestConstraints();
 }
 
-void ModelFromC::InitializeRateRuleSymbols()
+void ModelFromC::initializeRateRuleSymbols()
 {
     if(!cInitializeRateRuleSymbols)
     {

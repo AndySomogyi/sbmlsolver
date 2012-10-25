@@ -38,6 +38,7 @@ using namespace ls;
 #pragma comment(lib, "blas.lib")
 #pragma comment(lib, "lapack.lib")
 #pragma comment(lib, "libf2c.lib")
+#pragma comment(lib, "poco_foundation-static.lib")
 #endif
 
 namespace rr
@@ -65,7 +66,7 @@ RoadRunner::RoadRunner(const string& compiler) :
     mNumPoints(21),
     mCurrentSBML(""),
     mModel(NULL),
-    mModelDLL(NULL),
+//    mModelDLL(NULL),
     mSimulation(NULL),
     mModelXMLFileName("sbml_model"),
     UseKinsol(false),
@@ -88,10 +89,11 @@ RoadRunner::~RoadRunner()
     delete mCGenerator;
     delete mModel;
     delete mCVode;
-    if(mModelDLL)
+	if(mModelDLL.isLoaded())
     {
+    	mModelDLL.unload();
         //Unload the DLL
-        FreeLibrary(mModelDLL);
+//        FreeLibrary(mModelDLL);
     }
 
     delete mLS;
@@ -328,7 +330,7 @@ bool RoadRunner::InitializeModel()
         delete mCVode;
     }
     mCVode = new CvodeInterface(this, mModel);
-	mModel->AssignCVodeInterface(mCVode);
+	mModel->assignCVodeInterface(mCVode);
 
     reset();
     return true;
@@ -456,7 +458,7 @@ vector<double> RoadRunner::BuildModelEvalArgument()
     vector<double> dResult;
     dResult.resize((*mModel->amountsSize) + (*mModel->rateRulesSize) );
 
-    vector<double> dCurrentRuleValues = mModel->GetCurrentValues();
+    vector<double> dCurrentRuleValues = mModel->getCurrentValues();
 
     for(int i = 0; i < (*mModel->rateRulesSize); i++)
     {
@@ -665,7 +667,8 @@ bool RoadRunner::loadSBML(const string& sbml)
 
 	// If the user loads the same model again, don't bother loading into NOM,
 	// just reset the initial conditions
-	if (mModelDLL != NULL && mModel != NULL && sbml == mCurrentSBML)
+//	if (mModelDLL != NULL && mModel != NULL && sbml == mCurrentSBML)
+	if (mModelDLL.isLoaded() != NULL && mModel != NULL && sbml == mCurrentSBML)
     {
         mCurrentSBML = sbml;
         return InitializeModel();
@@ -805,17 +808,10 @@ bool RoadRunner::unLoadModel()
 bool RoadRunner::unLoadModelDLL()
 {
     //Make sure the dll is unloaded
-    if(mModelDLL)	//Make sure the dll is unloaded
+    if(mModelDLL.isLoaded())	//Make sure the dll is unloaded
     {
-        if(UnLoadDLL(mModelDLL))
-        {
-            mModelDLL = NULL;
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+	    mModelDLL.unload();
+        return (!mModelDLL.isLoaded()) ? true : false;
     }
     return true;//No model is loaded..
 }
@@ -830,10 +826,7 @@ bool RoadRunner::GenerateAndCompileModel()
     }
 
     //Make sure the dll is unloaded
-    if(mModelDLL)	//Make sure the dll is unloaded
-    {
-        UnLoadDLL(mModelDLL);
-    }
+    unLoadModelDLL();
 
     string dllName  = GetDLLName();
     //Remove DLL
@@ -850,7 +843,18 @@ bool RoadRunner::GenerateAndCompileModel()
     }
 
     //Load the DLL
-    mModelDLL = LoadDLL(dllName);
+    try
+    {
+    	string sharedLib = JoinPath(ExtractFilePath(dllName), ExtractFileNameNoExtension(dllName));
+    	mModelDLL.load(sharedLib);
+    }
+    catch(exception& ex)
+    {
+		Log(lError)<<"There was a problem loading the shared library: "<<dllName;
+        return false;
+
+    }
+//    mModelDLL = LoadDLL(dllName);
 
     //Now create the Model using the compiled DLL
     mModel = CreateModel();
@@ -873,16 +877,16 @@ bool RoadRunner::GenerateAndCompileModel()
 
 ModelFromC* RoadRunner::CreateModel()
 {
-    //Load dll
-    if(!mModelDLL)
-    {
-        string   dllName  = GetDLLName();
-        //Load the DLL
-        mModelDLL = LoadDLL(dllName);
-    }
+//    //Load dll
+//    if(!mModelDLL.isLoaded())
+//    {
+//        string dllName  = GetDLLName();
+//        //Load the DLL
+//        mModelDLL = LoadDLL(dllName);
+//    }
 
     //Create a model
-    if(mModelDLL)
+    if(mModelDLL.isLoaded())
     {
         CGenerator *codeGen = dynamic_cast<CGenerator*>(mModelGenerator);
         ModelFromC *rrCModel = new ModelFromC(codeGen, mModelDLL);     //Todo: memoryleak
@@ -900,7 +904,7 @@ ModelFromC* RoadRunner::CreateModel()
 //Reset the simulator back to the initial conditions specified in the SBML model
 void RoadRunner::reset()
 {
-    if (!mModelDLL)
+    if (!mModelDLL.isLoaded())
     {
         // rather make sure that the simulator is!!!! in a stable state
         mModel = NULL;
@@ -908,7 +912,7 @@ void RoadRunner::reset()
     }
     else
     {
-        mModel->SetTime(0.0);
+        mModel->setTime(0.0);
 
         // Reset the event flags
         mModel->resetEvents();
@@ -917,8 +921,8 @@ void RoadRunner::reset()
         mModel->convertToAmounts();
 
         // in case we have ODE rules we should assign those as initial values
-        mModel->InitializeRateRuleSymbols();
-        mModel->InitializeRates();
+        mModel->initializeRateRuleSymbols();
+        mModel->initializeRates();
 
         // and of course initial assignments should override anything
         mModel->evalInitialAssignments();
@@ -927,8 +931,8 @@ void RoadRunner::reset()
         // also we might need to set some initial assignment rules.
         mModel->convertToConcentrations();
         mModel->computeRules(mModel->y, *mModel->ySize);
-        mModel->InitializeRates();
-        mModel->InitializeRateRuleSymbols();
+        mModel->initializeRates();
+        mModel->initializeRateRuleSymbols();
         mModel->evalInitialAssignments();
         mModel->computeRules(mModel->y, *mModel->ySize);
 
@@ -947,7 +951,7 @@ void RoadRunner::reset()
         //if (CvodeInterface.MaxStep == 0)
         //    CvodeInterface.MaxStep = hstep;
 
-        mModel->SetTime(0.0);
+        mModel->setTime(0.0);
         mCVode->reStart(0.0, mModel);
 
         mCVode->assignments.clear();//Clear();
@@ -958,7 +962,7 @@ void RoadRunner::reset()
         }
         catch (const Exception& e)
         {
-            mModel->Warnings.push_back("Constraint Violated at time = 0\n" + e.Message());
+            mModel->mWarnings.push_back("Constraint Violated at time = 0\n" + e.Message());
             Log(lWarning)<<"Constraint Violated at time = 0\n"<<e.Message();
         }
     }
@@ -1264,7 +1268,7 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
         throw SBWApplicationException(Format("Unable to locate variable: [{0}]", parameterName));
     }
 
-    mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+    mModel->computeReactionRates(mModel->getTime(), mModel->y);
     double variableValue = mModel->rates[reactionIndex];
     double parameterValue = getParameterValue(parameterType, parameterIndex);
     if (variableValue == 0)
@@ -1296,7 +1300,7 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
             double f2;
 
             mModel->convertToConcentrations();
-            mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+            mModel->computeReactionRates(mModel->getTime(), mModel->y);
 
             // Check the reaction name
             if (!mModelGenerator->GetReactionList().find(reactionName, reactionIndex))
@@ -1338,19 +1342,19 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
                 mModel->convertToConcentrations();
 
                 setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
-                mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+                mModel->computeReactionRates(mModel->getTime(), mModel->y);
                 double fi = mModel->rates[reactionIndex];
 
                 setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
-                mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+                mModel->computeReactionRates(mModel->getTime(), mModel->y);
                 double fi2 = mModel->rates[reactionIndex];
 
                 setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
-                mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+                mModel->computeReactionRates(mModel->getTime(), mModel->y);
                 double fd = mModel->rates[reactionIndex];
 
                 setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
-                mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+                mModel->computeReactionRates(mModel->getTime(), mModel->y);
                 double fd2 = mModel->rates[reactionIndex];
 
                 // Use instead the 5th order approximation double unscaledValue = (0.5/hstep)*(fi-fd);
@@ -1364,7 +1368,7 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
             {
                 // What ever happens, make sure we restore the parameter level
                 setParameterValue(parameterType, parameterIndex, originalParameterValue);
-                mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+                mModel->computeReactionRates(mModel->getTime(), mModel->y);
                 if (computeSteadystate) steadyState();
             }
             return 1/(12*hstep)*(f1 + f2);
@@ -1386,7 +1390,7 @@ void RoadRunner::EvalModel()
     }
     mModel->convertToAmounts();
     vector<double> args = mCVode->BuildEvalArgument();
-    mModel->evalModel(mModel->GetTime(), args);
+    mModel->evalModel(mModel->getTime(), args);
 }
 
 void RoadRunner::setTimeCourseSelectionList(const string& list)
@@ -3329,7 +3333,7 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
             double f2;
 
             mModel->convertToConcentrations();
-            mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+            mModel->computeReactionRates(mModel->getTime(), mModel->y);
 
             // Check the variable name
             if (mModelGenerator->reactionList.find(variableName, variableIndex))
@@ -3378,22 +3382,22 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
 
                 setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
                 steadyState();
-                mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+                mModel->computeReactionRates(mModel->getTime(), mModel->y);
                 double fi = getVariableValue(variableType, variableIndex);
 
                 setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
                 steadyState();
-                mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+                mModel->computeReactionRates(mModel->getTime(), mModel->y);
                 double fi2 = getVariableValue(variableType, variableIndex);
 
                 setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
                 steadyState();
-                mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+                mModel->computeReactionRates(mModel->getTime(), mModel->y);
                 double fd = getVariableValue(variableType, variableIndex);
 
                 setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
                 steadyState();
-                mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+                mModel->computeReactionRates(mModel->getTime(), mModel->y);
                 double fd2 = getVariableValue(variableType, variableIndex);
 
                 // Use instead the 5th order approximation double unscaledValue = (0.5/hstep)*(fi-fd);
@@ -3502,19 +3506,19 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
     mModel->setConcentration(speciesIndex, originalParameterValue + hstep);
     try
     {
-        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+        mModel->computeReactionRates(mModel->getTime(), mModel->y);
         fi = mModel->rates[reactionId];
 
         mModel->setConcentration(speciesIndex, originalParameterValue + 2*hstep);
-        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+        mModel->computeReactionRates(mModel->getTime(), mModel->y);
         fi2 = mModel->rates[reactionId];
 
         mModel->setConcentration(speciesIndex, originalParameterValue - hstep);
-        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+        mModel->computeReactionRates(mModel->getTime(), mModel->y);
         fd = mModel->rates[reactionId];
 
         mModel->setConcentration(speciesIndex, originalParameterValue - 2*hstep);
-        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+        mModel->computeReactionRates(mModel->getTime(), mModel->y);
         fd2 = mModel->rates[reactionId];
 
         // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
@@ -3563,19 +3567,19 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
 //                {
 //                    mModel->convertToConcentrations();
 //                    mModel->bc[index] = originalParameterValue + hstep;
-//                    mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                    fi = mModel->rates[reactionId];
 //
 //                    mModel->bc[index] = originalParameterValue + 2*hstep;
-//                    mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                    fi2 = mModel->rates[reactionId];
 //
 //                    mModel->bc[index] = originalParameterValue - hstep;
-//                    mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                    fd = mModel->rates[reactionId];
 //
 //                    mModel->bc[index] = originalParameterValue - 2*hstep;
-//                    mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                    fd2 = mModel->rates[reactionId];
 //
 //                    // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
@@ -3602,19 +3606,19 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
 //                        mModel->convertToConcentrations();
 //
 //                        mModel->gp[index] = originalParameterValue + hstep;
-//                        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                        fi = mModel->rates[reactionId];
 //
 //                        mModel->gp[index] = originalParameterValue + 2*hstep;
-//                        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                        fi2 = mModel->rates[reactionId];
 //
 //                        mModel->gp[index] = originalParameterValue - hstep;
-//                        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                        fd = mModel->rates[reactionId];
 //
 //                        mModel->gp[index] = originalParameterValue - 2*hstep;
-//                        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                        fd2 = mModel->rates[reactionId];
 //
 //                        // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
@@ -3639,19 +3643,19 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
 //                        mModel->convertToConcentrations();
 //
 //                        mModel->ct[index] = originalParameterValue + hstep;
-//                        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                        fi = mModel->rates[reactionId];
 //
 //                        mModel->ct[index] = originalParameterValue + 2*hstep;
-//                        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                        fi2 = mModel->rates[reactionId];
 //
 //                        mModel->ct[index] = originalParameterValue - hstep;
-//                        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                        fd = mModel->rates[reactionId];
 //
 //                        mModel->ct[index] = originalParameterValue - 2*hstep;
-//                        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                        fd2 = mModel->rates[reactionId];
 //
 //                        // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
@@ -3683,7 +3687,7 @@ ls::DoubleMatrix RoadRunner::getUnscaledElasticityMatrix()
         {
             mModel->convertToConcentrations();
             // Compute reaction velocities at the current operating point
-            mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+            mModel->computeReactionRates(mModel->getTime(), mModel->y);
 
             for (int i = 0; i < mModel->getNumReactions(); i++)
             {
@@ -3717,7 +3721,7 @@ ls::DoubleMatrix RoadRunner::getScaledElasticityMatrix()
 
             ls::DoubleMatrix result(uelast.RSize(), uelast.CSize());// = new double[uelast.Length][];
             mModel->convertToConcentrations();
-            mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+            mModel->computeReactionRates(mModel->getTime(), mModel->y);
             vector<double> rates;// = mModel->rates;
             if(!CopyCArrayToStdVector(mModel->rates, rates, *mModel->ratesSize))
             {
@@ -3772,7 +3776,7 @@ ls::DoubleMatrix RoadRunner::getScaledElasticityMatrix()
 //                    int reactionIndex = 0;
 //
 //                    mModel->convertToConcentrations();
-//                    mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //
 //                    if (!mModelGenerator->floatingSpeciesConcentrationList.find(speciesName, out speciesIndex))
 //                        throw SBWApplicationException(
@@ -3808,7 +3812,7 @@ double RoadRunner::getScaledFloatingSpeciesElasticity(const string& reactionName
         int reactionIndex = 0;
 
         mModel->convertToConcentrations();
-        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+        mModel->computeReactionRates(mModel->getTime(), mModel->y);
 
         if (!mModelGenerator->floatingSpeciesConcentrationList.find(speciesName, speciesIndex))
         {
@@ -3864,7 +3868,7 @@ double RoadRunner::getScaledFloatingSpeciesElasticity(const string& reactionName
 //
 //            if (!mModel) throw SBWApplicationException(emptyModelStr);
 //            mModel->convertToConcentrations();
-//            mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//            mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //
 //            if (!mModelGenerator->reactionList.find(reactionName, out reactionIndex))
 //                throw SBWApplicationException(
@@ -3909,19 +3913,19 @@ double RoadRunner::getScaledFloatingSpeciesElasticity(const string& reactionName
 //            {
 //                changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, hstep);
 //                mModel->convertToConcentrations();
-//                mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                fi = mModel->rates[reactionIndex];
 //
 //                changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, 2*hstep);
-//                mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                fi2 = mModel->rates[reactionIndex];
 //
 //                changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, -hstep);
-//                mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                fd = mModel->rates[reactionIndex];
 //
 //                changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, -2*hstep);
-//                mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                fd2 = mModel->rates[reactionIndex];
 //
 //                // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
@@ -4030,7 +4034,7 @@ ls::DoubleMatrix RoadRunner::getScaledConcentrationControlCoefficientMatrix()
 			if (ucc.size() > 0 )
 			{
 				mModel->convertToConcentrations();
-				mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+				mModel->computeReactionRates(mModel->getTime(), mModel->y);
 				for (int i = 0; i < ucc.RSize(); i++)
                 {
 					for (int j = 0; j < ucc.CSize(); j++)
@@ -4116,7 +4120,7 @@ ls::DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
         if (ufcc.RSize() > 0)
         {
             mModel->convertToConcentrations();
-            mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+            mModel->computeReactionRates(mModel->getTime(), mModel->y);
             for (int i = 0; i < ufcc.RSize(); i++)
             {
                 for (int j = 0; j < ufcc.CSize(); j++)
@@ -4161,7 +4165,7 @@ ls::DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
 //                if (mModel)
 //                {
 //                    mModel->convertToConcentrations();
-//                    mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //
 //                    if (!mModelGenerator->reactionList.find(localReactionName, out reactionIndex))
 //                        throw SBWApplicationException(
@@ -4184,19 +4188,19 @@ ls::DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
 //                        {
 //                            mModel->convertToConcentrations();
 //                            mModel->lp[reactionIndex][parameterIndex] = originalParameterValue + hstep;
-//                            mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                            mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                            double fi = mModel->getConcentration(speciesIndex);
 //
 //                            mModel->lp[reactionIndex][parameterIndex] = originalParameterValue + 2*hstep;
-//                            mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                            mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                            double fi2 = mModel->getConcentration(speciesIndex);
 //
 //                            mModel->lp[reactionIndex][parameterIndex] = originalParameterValue - hstep;
-//                            mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                            mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                            double fd = mModel->getConcentration(speciesIndex);
 //
 //                            mModel->lp[reactionIndex][parameterIndex] = originalParameterValue - 2*hstep;
-//                            mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                            mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                            double fd2 = mModel->getConcentration(speciesIndex);
 //
 //                            // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
@@ -4247,7 +4251,7 @@ ls::DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
 //                                                                            parameterName);
 //
 //                    mModel->convertToConcentrations();
-//                    mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //
 //                    mModelGenerator->reactionList.find(localReactionName, out localReactionIndex);
 //                    mModelGenerator->floatingSpeciesConcentrationList.find(localReactionName, out speciesIndex);
@@ -4287,7 +4291,7 @@ ls::DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
 //                if (mModel)
 //                {
 //                    mModel->convertToConcentrations();
-//                    mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //
 //                    if (!mModelGenerator->floatingSpeciesConcentrationList.find(speciesName, out speciesIndex))
 //                        throw SBWApplicationException(
@@ -4319,22 +4323,22 @@ ls::DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
 //                        setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
 //                        steadyState();
 //                        mModel->convertToConcentrations();
-//                        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                        double fi = mModel->getConcentration(speciesIndex);
 //
 //                        setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
 //                        steadyState();
-//                        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                        double fi2 = mModel->getConcentration(speciesIndex);
 //
 //                        setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
 //                        steadyState();
-//                        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                        double fd = mModel->getConcentration(speciesIndex);
 //
 //                        setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
 //                        steadyState();
-//                        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                        double fd2 = mModel->getConcentration(speciesIndex);
 //
 //                        // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
@@ -4379,7 +4383,7 @@ ls::DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
 //                    double ucc = getUnscaledConcentrationControlCoefficient(speciesName, parameterName);
 //
 //                    mModel->convertToConcentrations();
-//                    mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //
 //                    mModelGenerator->floatingSpeciesConcentrationList.find(speciesName, out speciesIndex);
 //                    if (mModelGenerator->globalParameterList.find(parameterName, out parameterIndex))
@@ -4422,7 +4426,7 @@ ls::DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
 //                if (mModel)
 //                {
 //                    mModel->convertToConcentrations();
-//                    mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //
 //                    if (!mModelGenerator->reactionList.find(localReactionName, out localReactionIndex))
 //                        throw SBWApplicationException(
@@ -4446,22 +4450,22 @@ ls::DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
 //                            mModel->convertToConcentrations();
 //                            mModel->lp[localReactionIndex][parameterIndex] = originalParameterValue + hstep;
 //                            steadyState();
-//                            mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                            mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                            double fi = mModel->rates[fluxIndex];
 //
 //                            mModel->lp[localReactionIndex][parameterIndex] = originalParameterValue + 2*hstep;
 //                            steadyState();
-//                            mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                            mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                            double fi2 = mModel->rates[fluxIndex];
 //
 //                            mModel->lp[localReactionIndex][parameterIndex] = originalParameterValue - hstep;
 //                            steadyState();
-//                            mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                            mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                            double fd = mModel->rates[fluxIndex];
 //
 //                            mModel->lp[localReactionIndex][parameterIndex] = originalParameterValue - 2*hstep;
 //                            steadyState();
-//                            mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                            mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                            double fd2 = mModel->rates[fluxIndex];
 //
 //                            // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
@@ -5167,7 +5171,7 @@ ArrayList RoadRunner::getAvailableTimeCourseSymbols()
 //                if (mModel)
 //                {
 //                    mModel->convertToConcentrations();
-//                    mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //
 //                    if (!mModelGenerator->reactionList.find(reactionName, out fluxIndex))
 //                        throw SBWApplicationException(
@@ -5198,22 +5202,22 @@ ArrayList RoadRunner::getAvailableTimeCourseSymbols()
 //                    {
 //                        setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
 //                        steadyState();
-//                        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                        double fi = mModel->rates[fluxIndex];
 //
 //                        setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
 //                        steadyState();
-//                        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                        double fi2 = mModel->rates[fluxIndex];
 //
 //                        setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
 //                        steadyState();
-//                        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                        double fd = mModel->rates[fluxIndex];
 //
 //                        setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
 //                        steadyState();
-//                        mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //                        double fd2 = mModel->rates[fluxIndex];
 //
 //                        // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
@@ -5257,7 +5261,7 @@ ArrayList RoadRunner::getAvailableTimeCourseSymbols()
 //                    double ufcc = getUnscaledFluxControlCoefficient(reactionName, localReactionName, parameterName);
 //
 //                    mModel->convertToConcentrations();
-//                    mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //
 //                    mModelGenerator->reactionList.find(reactionName, out reactionIndex);
 //                    if (mModelGenerator->globalParameterList.find(parameterName, out parameterIndex))
@@ -5297,7 +5301,7 @@ ArrayList RoadRunner::getAvailableTimeCourseSymbols()
 //                    double ufcc = getUnscaledFluxControlCoefficient(reactionName, parameterName);
 //
 //                    mModel->convertToConcentrations();
-//                    mModel->computeReactionRates(mModel->GetTime(), mModel->y);
+//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //
 //                    mModelGenerator->reactionList.find(reactionName, out reactionIndex);
 //                    if (mModelGenerator->globalParameterList.find(parameterName, out parameterIndex))

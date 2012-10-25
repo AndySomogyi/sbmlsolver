@@ -46,7 +46,7 @@ void ModelState::AssignToModel(ModelFromC& model)
     CopyStdVectorToCArray(mPreviousEventStatusArray,        model.previousEventStatusArray, *model.previousEventStatusArraySize );
     CopyStdVectorToCArray(mModifiableSpeciesReferences,     model.sr,                       *model.srSize                        );
     model.convertToAmounts();
-    model.SetTime(mTime);
+    model.setTime(mTime);
 }
 
 }
