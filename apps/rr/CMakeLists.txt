@@ -6,6 +6,12 @@ main.cpp
 Args.cpp
 )
 
+add_definitions(
+-DSTATIC_POCO
+-DPOCO_NO_AUTOMATIC_LIBS
+-DWIN32
+)
+
 #IF(BUILD_SHARED_LIBS) 
 target_link_libraries (${target} 
 roadrunner

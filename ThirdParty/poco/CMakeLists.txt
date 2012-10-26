@@ -1,16 +1,13 @@
 cmake_minimum_required(VERSION 2.6)
 project(poco)
 
-set(target poco)
-
 if(${MSVC})
 add_definitions(
--DFoundationEXPORTS 
--DUSRDLL
--D_WINDOWS
+#-DUSRDLL
 -DWIN32
--DPOCO_STATIC
+-D_WIN32
 -DPCRE_STATIC
+-DPOCO_STATIC
 )
 endif()
 

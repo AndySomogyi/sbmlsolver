@@ -27,7 +27,7 @@ using namespace ls;
 
 //We only need to give the linker the folder where libs are
 //using the pragma comment. Works for MSVC and codegear
-#if defined(__CODEGEARC__)
+#if defined(CG_IDE)
 #pragma comment(lib, "sundials_cvode.lib")
 #pragma comment(lib, "sundials_nvecserial.lib")
 #pragma comment(lib, "nleq-static.lib")
@@ -848,9 +848,10 @@ bool RoadRunner::GenerateAndCompileModel()
     	string sharedLib = JoinPath(ExtractFilePath(dllName), ExtractFileNameNoExtension(dllName));
     	mModelDLL.load(sharedLib);
     }
-    catch(exception& ex)
+    catch(const exception& ex)
     {
 		Log(lError)<<"There was a problem loading the shared library: "<<dllName;
+		Log(lError)<<"More Info: "<<ex.what();
         return false;
 
     }

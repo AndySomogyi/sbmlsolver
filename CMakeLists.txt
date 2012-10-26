@@ -81,7 +81,10 @@ link_directories(				    ${LIBRARY_OUTPUT_PATH}
                  )
 
 if(${MSVC})
-add_definitions(-DCRT_NONSTDC_NO_DEPRECATE)
+add_definitions(
+-DCRT_NONSTDC_NO_DEPRECATE
+-DPOCO_NO_AUTOMATIC_LIBS
+)
 SET (CMAKE_CXX_FLAGS 			"${CMAKE_CXX_FLAGS} /EHsc ")
 SET (CMAKE_SHARED_LINKER_FLAGS 	"${CMAKE_SHARED_LINKER_FLAGS} ") #/FORCE:MULTIPLE")
 endif()

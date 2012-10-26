@@ -18,8 +18,6 @@ Bugcheck
 ThreadLocal
 Debugger
 SharedLibrary
-SharedLibrary_WIN32
-SharedLibrary_WIN32U
 Path
 UnicodeConverter
 UTF8Encoding
@@ -29,6 +27,10 @@ Ascii
 RWLock
 AtomicCounter
 RWLock
+File
+TextConverter
+TimeStamp
+UnicodeConverter
 )
 
 if(${BORLAND})
@@ -40,7 +42,6 @@ add_definitions(
              -w-8066                     #Unreachable code
              -w-8104                     #Local static with constructor...
              -w-8008                     #Condition is always false..
-
         )
 endif()
 
@@ -65,18 +66,19 @@ ${poco_include_folder}
 add_library(${target}-static STATIC ${sources})
 set_property(TARGET ${target}-static  
              PROPERTY  COMPILE_DEFINITIONS 
+                       STATIC_POCO
+                       PCRE_STATIC
                        WIN32
-                       STATIC_POCO_FOUNDATION
              ) 
 
 
-#libraries to link with
-
+#INSTALLING ======================
 FILE (GLOB headers ${poco_include_folder}/Poco/*.h)
 
 #Install required files
 install(FILES ${headers} 
-        DESTINATION include/poco)
+        DESTINATION include/poco
+)
 
 #install(TARGETS ${target} 
 #        LIBRARY DESTINATION lib 

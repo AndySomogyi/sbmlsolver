@@ -9,8 +9,6 @@ ${THIRD_PARTY_INSTALL_FOLDER}/include/sbml
 ${THIRD_PARTY_INSTALL_FOLDER}/include/cvode
 )
 
-
-
 set(rrSources 
 rrCapability.cpp
 rrCapabilitiesSection.cpp
@@ -73,42 +71,36 @@ mtrand/mtrand.cpp
 
 #Build both static and shared version
 #Link with static libs
-add_library(${target} 	SHARED ${rrSources})
+add_library(${target} SHARED ${rrSources})
 
 set_property(TARGET ${target}  
-                PROPERTY    COMPILE_DEFINITIONS 
-                            EXPORT_RR 
-                            LIBSBML_STATIC 
-                            LIBLAX_STATIC 
-                            STATIC_LIBSTRUCT
-                            STATIC_PUGI
-                            STATIC_NLEQ
-                            ) 
+ PROPERTY  COMPILE_DEFINITIONS 
+ EXPORT_RR 
+ LIBSBML_STATIC 
+ LIBLAX_STATIC 
+ STATIC_LIBSTRUCT
+ STATIC_PUGI
+ STATIC_NLEQ
+ POCO_STATIC
+ POCO_NO_AUTOMATIC_LIBS
+) 
 
 #libraries to link with our shared lib
-if(${MINGW})
 target_link_libraries (${target}    
-                                    libsbml
-                                    sundials_cvode
-                                    sundials_nvecserial
-                                    liblapack.dll.a
+ libsbml-static
+ sundials_cvode
+ sundials_nvecserial
+ blas
+ lapack
+ libf2c
+ pugi-static
+ nleq-static
+ rr-libstruct-static
+ poco_foundation-static
 )
-else()
-target_link_libraries (${target}    
-                                    libsbml-static
-                                    sundials_cvode
-                                    sundials_nvecserial
-                                    blas
-                                    lapack
-                                    libf2c
-                                    pugi-static
-                                    nleq-static
-                                    rr-libstruct-static
-                      )
-endif()
 
 #libraries to link with static lib
-add_library(${target}-static 	STATIC ${rrSources})
+add_library(${target}-static STATIC ${rrSources})
 
 
 set_property(TARGET ${target}-static 
@@ -119,11 +111,10 @@ set_property(TARGET ${target}-static
                             STATIC_LIBSTRUCT
 							STATIC_PUGI
                             STATIC_NLEQ
+                            POCO_STATIC
+                            POCO_NO_AUTOMATIC_LIBS
                             ) 
 
-if(${MINGW})
-#can't build static at the moment..
-else()
 target_link_libraries (${target}-static 
                            libsbml-static
                            sundials_cvode
@@ -134,8 +125,8 @@ target_link_libraries (${target}-static
 						   pugi-static
 						   nleq-static
                            rr-libstruct-static
+                           poco_foundation-static
                       )
-endif()
 
 #Libxml we can't build right now
 if(${BORLAND})
