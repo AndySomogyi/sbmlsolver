@@ -10,8 +10,11 @@ Args.cpp
 #target_link_libraries (${target} rr)
 #target_link_libraries (${target} libsbml)
 #ELSE()
-target_link_libraries (${target} roadrunner)
-target_link_libraries (${target} libsbml)
+target_link_libraries (${target} 
+roadrunner
+libsbml
+poco_foundation-static
+)
 #ENDIF()
 
 set_property(DIRECTORY PROPERTY ADDITIONAL_MAKE_CLEAN_FILES ${exe_path}/${target}.tds)

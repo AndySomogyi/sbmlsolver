@@ -7,8 +7,11 @@ Args.cpp
 )
 
 #IF(BUILD_SHARED_LIBS) 
-target_link_libraries (${target} roadrunner)
-target_link_libraries (${target} libsbml)
+target_link_libraries (${target} 
+roadrunner
+libsbml
+poco_foundation-static
+)
 #ELSE()
 #target_link_libraries (${target} -static roadrunner-static)
 #target_link_libraries (${target} -static libsbml-static)

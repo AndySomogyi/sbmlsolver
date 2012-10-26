@@ -6,8 +6,11 @@ main.cpp
 Args.cpp
 )
 
-target_link_libraries (${target} roadrunner)
-target_link_libraries (${target} libsbml)
+target_link_libraries (${target} 
+roadrunner
+libsbml
+poco_foundation-static
+)
 
 install (TARGETS ${target} 		
         DESTINATION bin 

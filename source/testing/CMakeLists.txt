@@ -25,6 +25,7 @@ target_link_libraries (${target}
 roadrunner
 rr-libstruct-static
 unit_test-static
+poco_foundation-static
 )
 
 link_directories(

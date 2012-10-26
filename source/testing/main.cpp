@@ -18,6 +18,11 @@ RoadRunner* gRR = NULL;
 string gSBMLModelsPath = "";
 string gCompilerPath = "";
 string gSupportCodeFolder = "";
+
+//Test suite
+string gTSModelsPath 		= "r:\\SBMLTS\\cases\\semantic";
+string gTSDataOutPutFolder 	= "r:\\RRTesting\\DataOutput\\xe1";
+
 vector<string> gModels;
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 
@@ -33,30 +38,22 @@ int main(int argc, char* argv[])
 	gCompilerPath 		= args.CompilerLocation;
 	gSupportCodeFolder 	= args.SupportCodeFolder;
 
-	fstream aFile(reportFile.c_str(), ios::out | ios::app);
+	fstream aFile(reportFile.c_str(), ios::out);
     if(!aFile)
     {
 		cerr<<"Failed opening report file: "<<reportFile<<" in rr_cpp_api testing executable.\n";
     	return -1;
     }
 
-	gModels.clear();
-    gModels.push_back("feedback.xml");
-    gModels.push_back("ss_threeSpecies.xml");
-    gModels.push_back("ss_TurnOnConservationAnalysis.xml");
-    gModels.push_back("squareWaveModel.xml");
-    gModels.push_back("test_1.xml");
-
 	XmlTestReporter reporter1(aFile);
 	TestRunner runner1(reporter1);
 
     runner1.RunTestsIf(Test::GetTestList(), "Base", 		True(), 0);
     runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
+    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4",   	True(), 0);
 
-    runner1.Finish();
-
-    //Made finish public in order to merge result from different test suites.
     //Finish outputs result to xml file
+    runner1.Finish();
     return 0;
 }
 
@@ -94,7 +91,6 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 }
 
 #if defined(CG_IDE)
-//#pragma comment(lib, "roadrunner-static.lib")
 #pragma comment(lib, "roadrunner.lib")
 #pragma comment(lib, "sundials_cvode.lib")
 #pragma comment(lib, "sundials_nvecserial.lib")

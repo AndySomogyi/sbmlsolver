@@ -19,6 +19,14 @@ SUITE(Base)
 			gRR = new RoadRunner;
 		}
 
+        //Populate models
+        gModels.clear();
+        gModels.push_back("feedback.xml");
+        gModels.push_back("ss_threeSpecies.xml");
+        gModels.push_back("ss_TurnOnConservationAnalysis.xml");
+        gModels.push_back("squareWaveModel.xml");
+        gModels.push_back("test_1.xml");
+
 		CHECK(gRR!=NULL);
 
 		if(gRR)

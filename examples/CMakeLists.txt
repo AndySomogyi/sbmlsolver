@@ -12,7 +12,6 @@ if(${MSVC})
 endif(${MSVC})
 
 set(examples 	
-	validate_sbml
 )
 
 foreach(example ${examples})

@@ -97,10 +97,7 @@ add_subdirectory(nleq)
 add_subdirectory(rr-libstruct)
 add_subdirectory(unit_test)
 add_subdirectory(compilers)
-
-if(BORLAND)
 add_subdirectory(poco)
-endif()
 
 #==== SYSTEM FILES (COMPILER SPECIFICS) =================================================
 if(${BORLAND})

@@ -4,13 +4,14 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <time.h>
 
 using std::string;
 using std::ostringstream;
 using std::ostream;
 
 string ExtractFileName(const string& fName);
-
+const string currentDateTime();
 namespace {
 
 void ReplaceChar(string& str, char c, string const& replacement)
@@ -86,6 +87,7 @@ void XmlTestReporter::BeginResults(std::ostream& os, int totalTestCount, int fai
                                    int failureCount, float secondsElapsed)
 {
    os << "<unittest-results"
+   	   << " date_time = \""<< currentDateTime() <<  "\""
        << " tests=\"" << totalTestCount << "\""
        << " failedtests=\"" << failedTestCount << "\""
        << " failures=\"" << failureCount << "\""
@@ -148,4 +150,17 @@ string ExtractFileName(const string& fileN)
     }
 
     return fileN; //There was no path in present..
+}
+
+const string currentDateTime()
+{
+    time_t     now = time(0);
+    struct tm  tstruct;
+    char       buf[80];
+    tstruct = *localtime(&now);
+    // Visit http://www.cplusplus.com/reference/clibrary/ctime/strftime/
+    // for more information about date/time format
+    strftime(buf, sizeof(buf), "%Y-%m-%d %X", &tstruct);
+
+    return string(buf);
 }

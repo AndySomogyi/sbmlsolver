@@ -76,6 +76,9 @@
 			<CppCompile Include="core\base.cpp">
 				<BuildOrder>2</BuildOrder>
 			</CppCompile>
+			<CppCompile Include="core\sbmlTests.cpp">
+				<BuildOrder>3</BuildOrder>
+			</CppCompile>
 			<CppCompile Include="main.cpp">
 				<BuildOrder>0</BuildOrder>
 			</CppCompile>

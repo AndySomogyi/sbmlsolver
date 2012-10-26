@@ -132,12 +132,12 @@ int main(int argc, char * argv[])
         Log(lDebug)<<"Current Log level is:" <<gLog.GetCurrentLogLevel();
         TestSuiteModelSimulation simulation(dataOutputFolder);
 
-
         sWatch.Start();
         //dataOutputFolder += dummy;
         rrI = new RoadRunner();
         rrI->Reset();
         rrI->setCompiler("tcc");
+        rrI->ComputeAndAssignConservationLaws(false);
         simulation.UseEngine(rrI);
 
         //Read SBML models.....
@@ -165,7 +165,7 @@ int main(int argc, char * argv[])
             Log(lError)<<"Failed loading SBML model settings";
         }
 
-        rrI->ComputeAndAssignConservationLaws(false);
+
 
         //Then Simulate model
          if(!simulation.Simulate())
