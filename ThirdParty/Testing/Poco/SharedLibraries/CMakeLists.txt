@@ -6,7 +6,7 @@ main.cpp
 )
 
 add_definitions(
--DSTATIC_POCO
+-DPOCO_STATIC
 -DPOCO_NO_AUTOMATIC_LIBS
 -DWIN32
 )

@@ -5,7 +5,7 @@ using namespace std;
 using namespace Poco;
 
 typedef void (*HelloFunc)();
-
+#pragma comment(lib, "IPHLPAPI.lib")
 int main(int argc, char * argv[])
 {
     string theFunc("poco_hello");

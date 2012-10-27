@@ -10,7 +10,7 @@ add_library(${target} SHARED ${src})
 
 set_property(TARGET ${target}  
  PROPERTY  COMPILE_DEFINITIONS 
- EXPORT_POCO 
+ EXPORT_POCO
 ) 
 
 install(    
