@@ -47,7 +47,8 @@
 namespace Poco {
 
 
-const int RegularExpression::OVEC_SIZE = 64;
+//const int RegularExpression::OVEC_SIZE = 64;
+#define OVEC_SIZE 64
 
 
 RegularExpression::RegularExpression(const std::string& pattern, int options, bool study): _pcre(0), _extra(0)
@@ -295,10 +296,11 @@ std::string::size_type RegularExpression::substOne(std::string& subject, std::st
 
 bool RegularExpression::match(const std::string& subject, const std::string& pattern, int options)
 {
-	int ctorOptions = options & (RE_CASELESS | RE_MULTILINE | RE_DOTALL | RE_EXTENDED | RE_ANCHORED | RE_DOLLAR_ENDONLY | RE_EXTRA | RE_UNGREEDY | RE_UTF8 | RE_NO_AUTO_CAPTURE);
-	int mtchOptions = options & (RE_ANCHORED | RE_NOTBOL | RE_NOTEOL | RE_NOTEMPTY | RE_NO_AUTO_CAPTURE | RE_NO_UTF8_CHECK);
-	RegularExpression re(pattern, ctorOptions, false);
-	return re.match(subject, 0, mtchOptions);
+//	int ctorOptions = options & (RE_CASELESS | RE_MULTILINE | RE_DOTALL | RE_EXTENDED | RE_ANCHORED | RE_DOLLAR_ENDONLY | RE_EXTRA | RE_UNGREEDY | RE_UTF8 | RE_NO_AUTO_CAPTURE);
+//	int mtchOptions = options & (RE_ANCHORED | RE_NOTBOL | RE_NOTEOL | RE_NOTEMPTY | RE_NO_AUTO_CAPTURE | RE_NO_UTF8_CHECK);
+//	RegularExpression re(pattern, ctorOptions, false);
+//	return re.match(subject, 0, mtchOptions);
+    return false;
 }
 
 

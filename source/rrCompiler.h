@@ -1,6 +1,6 @@
 #ifndef rrCompilerH
 #define rrCompilerH
-#include <windows.h>
+//#include <windows.h>
 #include <vector>
 #include <string>
 #include "rrObject.h"
@@ -16,7 +16,7 @@ class RR_DECLSPEC Compiler : public rrObject
 {
     protected:
         vector<string>              mCompilerOutput;
-        HINSTANCE                   mDLLHandle;
+//        HINSTANCE                   mDLLHandle;
         string                      mDLLFileName;    //With path
         vector<string>              mIncludePaths;
         vector<string>              mLibraryPaths;

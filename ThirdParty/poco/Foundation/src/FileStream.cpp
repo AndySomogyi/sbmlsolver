@@ -34,6 +34,7 @@
 //
 
 
+
 #include "Poco/FileStream.h"
 #include "Poco/Exception.h"
 #if defined(POCO_OS_FAMILY_WINDOWS)
@@ -42,7 +43,7 @@
 #include "FileStream_POSIX.cpp"
 #endif
 
-
+using namespace std;
 namespace Poco {
 
 

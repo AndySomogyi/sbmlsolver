@@ -82,16 +82,17 @@ void SimpleFileChannel::open()
 	
 	if (!_pFile)
 	{
-		File primary(_path);
-		File secondary(_secondaryPath);
-		Timestamp pt = primary.exists() ? primary.getLastModified() : 0;
-		Timestamp st = secondary.exists() ? secondary.getLastModified() : 0;
-		std::string path;
-		if (pt >= st)
-			path = _path;
-		else
-			path = _secondaryPath;
-		_pFile = new LogFile(path);
+// MTK disabled    
+//		File primary(_path);
+//		File secondary(_secondaryPath);
+//		Timestamp pt = primary.exists() ? primary.getLastModified() : 0;
+//		Timestamp st = secondary.exists() ? secondary.getLastModified() : 0;
+//		std::string path;
+//		if (pt >= st)
+//			path = _path;
+//		else
+//			path = _secondaryPath;
+//		_pFile = new LogFile(path);
 	}
 }
 

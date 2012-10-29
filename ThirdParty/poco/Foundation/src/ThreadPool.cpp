@@ -42,6 +42,7 @@
 #include "Poco/ErrorHandler.h"
 #include <sstream>
 #include <ctime>
+#include <time.h>
 #if defined(_WIN32_WCE)
 #include "wce_time.h"
 #endif

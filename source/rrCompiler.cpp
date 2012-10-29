@@ -21,7 +21,7 @@ namespace rr
 
 Compiler::Compiler(const string& compiler)
 :
-mDLLHandle(NULL),
+//mDLLHandle(NULL),
 mCompilerName(compiler),
 mCompilerLocation("../compilers/tcc"),
 mSupportCodeFolder("../rr_support")

@@ -159,8 +159,26 @@ add_definitions(
              -w-8104                     #Local static with constructor...
              -w-8008                     #Condition is always false..
         )
+add_definitions( -D_WIN32)
 endif()
 
+#if(CMAKE_SYSTEM MATCHES "Windows")
+# 
+# add_definitions( -DPOCO_OS_FAMILY_WINDOWS)
+# set(SYSLIBS iphlpapi gdi32 odbc32)
+# 
+# if (CMAKE_C_COMPILER_ID MATCHES "MSVC")
+#        message(STATUS "XXX: MS Visual Compiler detected")
+# endif (CMAKE_C_COMPILER_ID MATCHES "MSVC")
+#
+#endif(CMAKE_SYSTEM MATCHES "Windows")
+#
+#if (CMAKE_SYSTEM MATCHES "Linux")
+#  add_definitions( -DPOCO_OS_FAMILY_UNIX )
+#  # Standard 'must be' defines
+#  add_definitions( -D_XOPEN_SOURCE=500 -D_REENTRANT -D_THREAD_SAFE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64)
+#  set(SYSLIBS  pthread dl rt)
+#endif(CMAKE_SYSTEM MATCHES "Linux")
 
 if(${MSVC})
 #set(....
