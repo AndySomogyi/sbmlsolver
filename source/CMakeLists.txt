@@ -173,7 +173,6 @@ endif()
                 DESTINATION lib 
                 COMPONENT rr_core)
 
-
 #=== HEADERS
 set(subfolders 
 .

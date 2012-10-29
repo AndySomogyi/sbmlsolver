@@ -41,6 +41,7 @@
 #include "Poco/UnWindows.h"
 #include <iphlpapi.h>
 
+#pragma comment(lib, "IPHLPAPI.lib")
 
 namespace Poco {
 

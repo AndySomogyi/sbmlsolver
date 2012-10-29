@@ -41,6 +41,10 @@ using namespace ls;
 #pragma comment(lib, "poco_foundation-static.lib")
 #endif
 
+#if defined(_WIN32)
+#pragma comment(lib, "IPHLPAPI.lib") //Becuase of poco needig this
+#endif
+
 namespace rr
 {
 

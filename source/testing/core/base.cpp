@@ -67,9 +67,9 @@ SUITE(Base)
 		DoubleMatrix jaco = gRR->getFullJacobian();
 		const double *jacoMat = jaco.getArray();
 
-		const double jacoExpected[9] = { -0.15, 0, 0,  0.15, -0.4, 0,  0, 0.4, -0.55};
+		const double jacoExpected[9] = { -0.15, 0, 0, 0, -0.55, 0.4, 0.15, 0, -0.4};
 
-		CHECK_ARRAY_EQUAL(jacoExpected, jacoMat, 9);
+		CHECK_ARRAY_CLOSE(jacoExpected, jacoMat, 9, 0.0000001);
 		//Expected result
 	//          S1       S2       S3
 	//S1{{   -0.15        0        0}
