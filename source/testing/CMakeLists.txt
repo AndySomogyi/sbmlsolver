@@ -57,7 +57,7 @@ Message("SBML model dir is: " ${sbmlModelsDir})
 add_custom_command(OUTPUT ${resultsFile}
   COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile}
   WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-  COMMENT "=========== Generating CPP Wiki reports =============="
+  COMMENT "=========== Generating CPP-API Wiki reports =============="
   VERBATIM)
 
 add_custom_target(cppTestingReport ALL DEPENDS ${resultsFile})
