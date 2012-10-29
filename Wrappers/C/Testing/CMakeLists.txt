@@ -39,13 +39,13 @@ set(resultsFile "${resultsDir}/c_api_tests_unknown_compiler.xml")
 endif()
 
 set(sbmlModelsDir       "${CMAKE_SOURCE_DIR}/models")
-set(compilerFolder      "${CMAKE_SOURCE_DIR}/trunk/compilers/tcc")
+set(compilerFolder      "${CMAKE_SOURCE_DIR}/trunk/ThirdParty/compilers/tcc")
 set(supportCodeFolder   "${CMAKE_SOURCE_DIR}/trunk/rr_support")
 
 add_custom_command(OUTPUT ${resultsFile}
   COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile}
   WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-  COMMENT "Generating C-API wiki reports"
+  COMMENT "=========== Generating C-API Wiki reports =============="
   VERBATIM)
 
 add_custom_target(CTestingReport ALL DEPENDS ${resultsFile})
