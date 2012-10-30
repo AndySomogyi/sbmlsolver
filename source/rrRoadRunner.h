@@ -14,7 +14,7 @@
 #include "rr-libstruct/lsLibStructural.h"
 #include "rrTVariableType.h"
 #include "rrTParameterType.h"
-#include "rrCvodeInterface.h"
+#include "rrCVODEInterface.h"
 #include "rrNLEQInterface.h"
 #include "rrStringList.h"
 #include "rrMisc.h"

@@ -11,9 +11,9 @@ namespace rr
 
 Event::Event(const int& id, const double& prior, const double& delay)
 :
-	mID(id),
-	mPriority(prior),
-	mDelay(delay)
+mID(id),
+mPriority(prior),
+mDelay(delay)
 {}
 
 Event::Event(const Event& rhs)
@@ -69,11 +69,13 @@ bool operator<(const Event &e1, const Event &e2)
 	return e1.mPriority >= e2.mPriority;	//Used in sorting algorithm
 }
 
-
-ostream& operator<<(ostream& str, const Event& event)
+ostream& operator<<(ostream& stream, const Event& anEvent)
 {
-	str<<"Event ID: "<<event.mID<<" Priority: "<<event.mPriority;
-	return str;
+	stream<<string("Event ID: ");
+    stream<<anEvent.mID;
+    stream<<string(" Priority: ");
+    stream<<anEvent.mPriority;
+	return stream;
 }
 
-}
+}//namespace

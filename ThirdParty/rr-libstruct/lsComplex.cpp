@@ -95,7 +95,7 @@ std::basic_ostream<char>& Complex::operator<<(std::basic_ostream<char>& os)
     return os << "(" << Real << " + " << Imag << "i)";
 }
 
-std::ostream& ls::operator << (std::ostream& os,  const Complex& cpx)
+ostream& operator << (ostream& os,  const Complex& cpx)
 {
     return os << "(" << cpx.Real << " + " << cpx.Imag << "i)";
 }

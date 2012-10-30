@@ -5,7 +5,7 @@
 #include "sbml/Model.h"
 #include "sbml/SBMLDocument.h"
 #include "rrCSharpGenerator.h"
-#include "rr-libstruct/lsLibstructural.h"
+#include "rr-libstruct/lsLibStructural.h"
 #include "rrArrayList.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"

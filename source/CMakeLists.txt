@@ -87,7 +87,7 @@ set_property(TARGET ${target}
 
 #libraries to link with our shared lib
 target_link_libraries (${target}    
- libsbml-static
+# libsbml-static
  sundials_cvode
  sundials_nvecserial
  blas
@@ -116,17 +116,17 @@ set_property(TARGET ${target}-static
                             ) 
 
 target_link_libraries (${target}-static 
-                           libsbml-static
-                           sundials_cvode
-                           sundials_nvecserial
-                           blas
-                           lapack
-                           #libf2c
-						   pugi-static
-						   nleq-static
-                           rr-libstruct-static
-                           poco_foundation-static
-                      )
+#   libsbml-static
+   sundials_cvode
+   sundials_nvecserial
+   blas
+   lapack
+   #libf2c
+   pugi-static
+   nleq-static
+   rr-libstruct-static
+   poco_foundation-static
+)
 
 #Libxml we can't build right now
 if(${BORLAND})
@@ -147,21 +147,17 @@ if(INSTALL_STATIC_LIB)
                 COMPONENT rr_core)
 endif()
 
-#=== Targets -- does not seem to work..
-#install(    
-#            TARGETS ${target} 
-#            RUNTIME DESTINATION bin
-#            LIBRARY DESTINATION lib
-#            ARCHIVE DESTINATION lib
-#            COMPONENT rr_core
-#)            
 
 if(${MINGW})
     SET(linkLibrary ${lib_path}/lib${target}.dll.a)
     SET(sharedLibrary ${exe_path}/lib${target}.dll)
-else()
+endif()
+if(${WIN32})
     SET(linkLibrary ${lib_path}/${target}.lib)
     SET(sharedLibrary ${exe_path}/${target}.dll)
+endif()
+if(${Linux})
+
 endif()
 
 #=== Shared target

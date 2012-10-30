@@ -10,9 +10,8 @@
 #include <sstream>
 #include <cstring>
 #include "rrStringUtils.h"
+
 //---------------------------------------------------------------------------
-
-
 using namespace std;
 namespace rr
 {
@@ -453,10 +452,13 @@ string Substitute(const string& src, const string& thisOne, const string& withTh
 string IntToStr(const int& nt)
 {
     //char *itoa(int value, char *string, int radix);
-    char str[100];
-    itoa(nt, str, 10);
-    string valStr(str);
-    return valStr;
+//    char str[100];
+//    itoa(nt, str, 10);
+    stringstream number;
+    number<<nt;
+
+//    string valStr(str);
+    return number.str();
 }
 
 string DblToStr(const double& nt)
@@ -767,7 +769,11 @@ string ToString(const unsigned char n)
 
 int CompareNoCase(const string& str1, const string& str2)
 {
+#if defined(WIN32)        
     int res = stricmp(str1.c_str(), str2.c_str());
+#else
+    int res = strcasecmp(str1.c_str(), str2.c_str());
+#endif
     return res;
 }
 

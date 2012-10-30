@@ -2626,7 +2626,7 @@ string RoadRunner::writeSBML()
     }
 
     array = getGlobalParameterIds();
-    for (int i = 0; i < min(array.Count(), state.mGlobalParameters.size()); i++)
+    for (int i = 0; i < min((int) array.Count(), (int) state.mGlobalParameters.size()); i++)
     {
         NOM.setValue((string)array[i], state.mGlobalParameters[i]);
     }

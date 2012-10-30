@@ -15,7 +15,7 @@
 #include "rrSBMLSymbol.h"
 //---------------------------------------------------------------------------
 
-#if defined (__MINGW32__)
+#if defined (__MINGW32__) || defined(__linux)
 #define __FUNC__ __FUNCTION__
 #endif
 

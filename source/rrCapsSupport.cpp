@@ -5,7 +5,7 @@
 #include "rrLogger.h"
 #include "rrRoadRunner.h"
 #include "rrCapsSupport.h"
-#include "rrCVodeInterface.h"
+#include "rrCVODEInterface.h"
 #include "rrCapabilitiesSection.h"
 #include "rrCapability.h"
 //---------------------------------------------------------------------------

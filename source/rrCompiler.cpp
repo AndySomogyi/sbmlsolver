@@ -5,7 +5,7 @@
 #include <sstream>
 #if defined(__CODEGEARC__)
 #include <dir.h>
-#else
+#elif defined(_MSVC)
 #include <direct.h>
 #endif
 #include "rrLogger.h"
@@ -177,6 +177,7 @@ string Compiler::CreateCompilerCommand(const string& sourceFileName)
 
 bool Compiler::Compile(const string& cmdLine)
 {
+#if defined(WIN32)
     STARTUPINFO         si;
     PROCESS_INFORMATION pi;
     SECURITY_ATTRIBUTES sap,sat,sao;
@@ -258,6 +259,9 @@ bool Compiler::Compile(const string& cmdLine)
     Log(lDebug)<<"Compiler output: "<<log<<endl;
 
     return true;
+#else
+    return false;
+#endif
 }
 
 string getCompilerMessages()

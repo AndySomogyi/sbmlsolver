@@ -2,20 +2,26 @@
 #include "rr_pch.h"
 #endif
 #pragma hdrstop
+#if defined(WIN32)
 #include <windows.h>
 #include <io.h>
+#include <conio.h>
+#endif
 
 #if defined(BORLANDC)
 #include <dir.h>
-#else
+#elif defined(MSVC)
 #include <direct.h>
+#else
+#include <sys/stat.h>
+
 #endif
 
 #include <algorithm>
 #include <iostream>
-#include <conio.h>
 #include <fstream>
 #include <iomanip>
+#include <math.h>
 #include "rrStringUtils.h"
 #include "rrUtils.h"
 #include "rrLogger.h"
@@ -35,9 +41,9 @@ string GetUsersTempDataFolder()
 {
     //Default for temporary data output is the users AppData/Local/Temp Folder
     //  Gets the temp path env string (no guarantee it's a valid path).
+#if defined(WIN32)    
     TCHAR lpTempPathBuffer[MAX_PATH];
-    DWORD dwRetVal = GetTempPath(   MAX_PATH,
-                                    lpTempPathBuffer); // buffer for path
+    DWORD dwRetVal = GetTempPath(MAX_PATH, lpTempPathBuffer); // buffer for path
     if (dwRetVal > MAX_PATH || (dwRetVal == 0))
     {
         Log(lError)<<"GetTempPath failed";
@@ -46,11 +52,17 @@ string GetUsersTempDataFolder()
     {
         Log(lDebug3)<<"Users temporary files folder is: "<<string(lpTempPathBuffer);
     }
+
     return string(lpTempPathBuffer);
+#else
+return "";
+#endif
+
 }
 
 string getWorkingDirectory()
 {
+#if defined(WIN32)    
     //Get the working directory
 	char* buffer;
 	string cwd;
@@ -67,6 +79,9 @@ string getWorkingDirectory()
 	}
    
 	return cwd;
+#else
+    return "";
+#endif    
 }
 
 string GetFileContent(const string& fName)
@@ -122,7 +137,7 @@ string RemoveTrailingSeparator(const string& _folder, const string& sep)
 
 bool IsNaN(const double& aNum)
 {
-    return _isnan(aNum) > 0 ? true : false;
+    return std::isnan(aNum) > 0 ? true : false;
 }
 
 bool IsNullOrEmpty(const string& str)
@@ -146,7 +161,10 @@ void Pause(bool doIt, const string& msg)
     	cout<<msg;
     }
     cin.ignore(0,'\n');
+#if !defined(__linux)    
     getch();
+#endif    
+
 }
 
 bool FileExists(const string& fName)
@@ -155,15 +173,27 @@ bool FileExists(const string& fName)
     {
         return false;
     }
+    
+#if defined(__linux)
+    ifstream test(fName);
+    return test;
+#else
+
     bool res = (access(fName.c_str(), 0) == 0);
     return res;
+#endif    
 }
 
 bool FolderExists(const string& folderName)
 {
+#if defined(WIN32)
     LPCTSTR szPath = folderName.c_str();
     DWORD dwAttrib = GetFileAttributes(szPath);
     return (dwAttrib != INVALID_FILE_ATTRIBUTES && (dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
+#else
+    struct stat status;
+    return stat(folderName.c_str(), &status);
+#endif
 }
 
 void CreateTestSuiteFileNameParts(int caseNr, const string& postFixPart, string& modelFilePath, string& modelName)
@@ -190,7 +220,12 @@ bool CreateFolder(const string& folder)
         return true;
     }
 
+#if defined(WIN32)
     int res = mkdir(folder.c_str());
+#else
+    int res = mkdir(folder.c_str(), 0777);
+#endif    
+
     return (res==0) ? true : false;
 }
 
@@ -363,54 +398,54 @@ StringList getSelectionListFromSettings(const SimulationSettings& settings)
     return theList;
 }
 
-HINSTANCE LoadDLL(const string& dll)
-{
-    HINSTANCE hLib = LoadLibraryA(dll.c_str());
-
-    if(hLib == NULL)
-    {
-        Log(lError) << "Unable to load library!" << endl;
-        return NULL;
-    }
-
-    TCHAR mod[MAX_MODULE];
-    GetModuleFileNameA((HMODULE)hLib, (LPSTR) mod, MAX_MODULE);
-    string name(mod);
-
-    Log(lDebug) << "DLL Library loaded: " <<name.c_str() << endl;
-    return hLib;
-}
-
-bool UnLoadDLL(HINSTANCE dllHandle)
-{
-	if(!dllHandle)
-    {
-    	return false;
-    }
-
-	BOOL result = FreeLibrary(dllHandle);
-    if(result == false)
-    {
-        Log(lWarning) << "Failed to unload DLL library" << endl;
-        return false;
-    }
-
-	return true;
-}
-
-FARPROC GetFunctionPtr(const string& funcName, HINSTANCE DLLHandle)
-{
-    FARPROC handle = GetProcAddress((HMODULE) DLLHandle, funcName.c_str());
-    if(handle == NULL)
-    {
-        Log(lError) << "Unable to load the function: " << funcName;
-        return NULL;
-    }
-    Log(lDebug3)<<"Loaded function " << funcName;
-    return handle;
-}
-
-
+//HINSTANCE LoadDLL(const string& dll)
+//{
+//    HINSTANCE hLib = LoadLibraryA(dll.c_str());
+//
+//    if(hLib == NULL)
+//    {
+//        Log(lError) << "Unable to load library!" << endl;
+//        return NULL;
+//    }
+//
+//    TCHAR mod[MAX_MODULE];
+//    GetModuleFileNameA((HMODULE)hLib, (LPSTR) mod, MAX_MODULE);
+//    string name(mod);
+//
+//    Log(lDebug) << "DLL Library loaded: " <<name.c_str() << endl;
+//    return hLib;
+//}
+//
+//bool UnLoadDLL(HINSTANCE dllHandle)
+//{
+//	if(!dllHandle)
+//    {
+//    	return false;
+//    }
+//
+//	BOOL result = FreeLibrary(dllHandle);
+//    if(result == false)
+//    {
+//        Log(lWarning) << "Failed to unload DLL library" << endl;
+//        return false;
+//    }
+//
+//	return true;
+//}
+//
+//FARPROC GetFunctionPtr(const string& funcName, HINSTANCE DLLHandle)
+//{
+//    FARPROC handle = GetProcAddress((HMODULE) DLLHandle, funcName.c_str());
+//    if(handle == NULL)
+//    {
+//        Log(lError) << "Unable to load the function: " << funcName;
+//        return NULL;
+//    }
+//    Log(lDebug3)<<"Loaded function " << funcName;
+//    return handle;
+//}
+//
+//
 
 
 }//end of namespace
