@@ -87,7 +87,7 @@ set_property(TARGET ${target}
 
 #libraries to link with our shared lib
 target_link_libraries (${target}    
-# libsbml-static
+ libsbml-static
  sundials_cvode
  sundials_nvecserial
  blas
@@ -116,12 +116,12 @@ set_property(TARGET ${target}-static
                             ) 
 
 target_link_libraries (${target}-static 
-#   libsbml-static
+   libsbml-static
    sundials_cvode
    sundials_nvecserial
    blas
    lapack
-   #libf2c
+   libf2c
    pugi-static
    nleq-static
    rr-libstruct-static

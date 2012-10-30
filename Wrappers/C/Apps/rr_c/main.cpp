@@ -5,6 +5,7 @@
 #include <string>
 #include <tchar.h>
 #include <iomanip>
+
 #if defined(__CODEGEARC__)
 #include <dir.h>
 #else
@@ -176,7 +177,7 @@ int main(int argc, char* argv[])
         cout<<"\nThe latest error in RoadRunner was: \n"<<error<<endl;
     }
 
-    cout<<text<<endl;
+    cout<<"\n"<<text<<endl;
 
     freeRRInstance(aHandle);
     cout<<"RoadRunner is exiting...\n";

@@ -128,7 +128,7 @@
 						<ProjectProperties Name="VerifyPackages">True</ProjectProperties>
 					</ProjectProperties>
 					<Parameters>
-						<Parameters Name="RunParams">-p -m./../Models/squareWaveModel.xml -t&quot;r:/rrTemp&quot; -l&quot;S1 J0&quot; -v&quot;Debug&quot;</Parameters>
+						<Parameters Name="RunParams">-p -m./../models/squareWaveModel.xml -t&quot;r:/rrTemp&quot; -l&quot;S1 J0&quot; -v&quot;Debug&quot;</Parameters>
 					</Parameters>
 				</CPlusPlusBuilder.Personality>
 				<Platforms>

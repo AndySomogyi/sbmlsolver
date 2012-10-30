@@ -41,28 +41,29 @@ endif()
 set(exe_path		 			${PROJECT_BINARY_DIR}/bin)
 set(lib_path		 			${PROJECT_BINARY_DIR}/lib)
 
-IF(WIN32)
-    IF(${MSVC})
-        IF(CMAKE_BUILD_TYPE MATCHES "Debug")
-            set(exe_path ${exe_path}/Debug)
-            set(lib_path ${lib_path}/Debug)
-        ELSE(CMAKE_BUILD_TYPE MATCHES "Debug")
-               set(exe_path ${exe_path}/Release)
-               set(lib_path ${lib_path}/Release)
-        ENDIF(CMAKE_BUILD_TYPE MATCHES "Debug")
-    ELSE(WIN32)
-   # Linux
-    ENDIF(${MSVC})
-ENDIF(WIN32)
+IF(${MSVC})
+    IF(CMAKE_BUILD_TYPE MATCHES "Debug")
+        set(exe_path ${exe_path}/Debug)
+        set(lib_path ${lib_path}/Debug)
+    ELSE(CMAKE_BUILD_TYPE MATCHES "Debug")
+           set(exe_path ${exe_path}/Release)
+           set(lib_path ${lib_path}/Release)
+    ENDIF(CMAKE_BUILD_TYPE MATCHES "Debug")
+ENDIF(${MSVC})
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY 	${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY 	${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY 	${PROJECT_BINARY_DIR}/bin)
 
-link_directories(           ${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib)
+link_directories( 
+${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib
+)
 
 #=== COMPILER FLAGS 
 if(${MINGW})
+SET (CMAKE_CXX_FLAGS 			"${CMAKE_CXX_FLAGS} -std=gnu++0x")
+endif()
+if(${UNIX})
 SET (CMAKE_CXX_FLAGS 			"${CMAKE_CXX_FLAGS} -std=gnu++0x")
 endif()
 

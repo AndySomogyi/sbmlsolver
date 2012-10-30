@@ -8,20 +8,21 @@
 #include <conio.h>
 #endif
 
-#if defined(BORLANDC)
+#if defined(__BORLANDC__)
 #include <dir.h>
-#elif defined(MSVC)
+#elif defined(_MSC_VER)
 #include <direct.h>
 #else
 #include <sys/stat.h>
-
 #endif
 
 #include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <cmath>
 #include <math.h>
+#include <float.h>
 #include "rrStringUtils.h"
 #include "rrUtils.h"
 #include "rrLogger.h"
@@ -67,7 +68,7 @@ string getWorkingDirectory()
 	char* buffer;
 	string cwd;
 	// Get the current working directory: 
-	if( (buffer = _getcwd( NULL, 0 )) == NULL )
+	if( (buffer = getcwd( NULL, 0 )) == NULL )
 	{
 		Log(lError)<<"getWorkingDirectory failed";
 		return "";
@@ -137,7 +138,11 @@ string RemoveTrailingSeparator(const string& _folder, const string& sep)
 
 bool IsNaN(const double& aNum)
 {
+#if defined(WIN32)
+    return _isnan(aNum) > 0 ? true : false;
+#else
     return std::isnan(aNum) > 0 ? true : false;
+#endif
 }
 
 bool IsNullOrEmpty(const string& str)

@@ -180,5 +180,6 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 #pragma comment(lib, "blas.lib")
 #pragma comment(lib, "lapack.lib")
 #pragma comment(lib, "libf2c.lib")
+#pragma comment(lib, "poco_foundation-static.lib")
 #endif
 
