@@ -34,6 +34,8 @@
 
 #if defined(PUGI_STATIC) || defined(STATIC_PUGI) 
 #define PUGIXML_API 
+#define PUGIXML_CLASS 
+#define PUGIXML_FUNCTION 
 
 #else
 
