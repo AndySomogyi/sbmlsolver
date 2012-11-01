@@ -24,15 +24,15 @@ endif()
 
 
 target_link_libraries (${target} 
-roadrunner-static.a
+roadrunner-static
 nleq-static.a
-rr-libstruct-static.a
-lapack.a
-blas.a
-f2c.a
+rr-libstruct-static
+lapack
+blas
+f2c
 libsbml-static.a
 libxml2.so
-z
+#z
 sundials_nvecserial.a
 sundials_cvode.a
 pthread

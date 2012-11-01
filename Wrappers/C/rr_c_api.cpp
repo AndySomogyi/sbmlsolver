@@ -44,7 +44,10 @@
 #endif
 #pragma hdrstop
 //---------------------------------------------------------------------------
+#if defined(WIN32)
 #include <windows.h>
+#endif
+
 #include <sstream>
 #include "rrRoadRunner.h"
 #include "rrCGenerator.h"

@@ -211,7 +211,7 @@ FILE (GLOB headers ${poco_include_folder}/Poco/*.h)
 
 #Install required files
 install(FILES ${headers} 
-        DESTINATION include/poco
+        DESTINATION include/Poco
 )
 
 #install(TARGETS ${target} 
