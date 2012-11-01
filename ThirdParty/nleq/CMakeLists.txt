@@ -42,12 +42,8 @@ set_property(TARGET ${target}-static
 
 endif()
 
-#libraries to link with
-if(${MINGW})
-else()
 #target_link_libraries (${target} libf2c)
-#target_link_libraries (${target}-static libf2c)
-endif()
+target_link_libraries (${target}-static f2c)
 
 
 #Install required files

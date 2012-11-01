@@ -1,8 +1,6 @@
 //---------------------------------------------------------------------------
 #ifndef CommandLineParametersH
 #define CommandLineParametersH
-#include <windows.h>
-#include <shlobj.h>
 #include <string>
 #include "rrLogger.h"
 //---------------------------------------------------------------------------

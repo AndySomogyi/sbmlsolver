@@ -8,29 +8,38 @@ Args.cpp
 
 add_definitions(
 -DSTATIC_POCO
--DPOCO_NO_AUTOMATIC_LIBS
+#-DPOCO_NO_AUTOMATIC_LIBS
+-DSTATIC_PUGI
+-DLIBSBML_STATIC 
+-DSTATIC_RR
+-DSTATIC_LIBSTRUCT
+-DLIBLAX_STATIC  
+-DSTATIC_NLEQ
+)
+if(WIN32)
+add_definitions(
 -DWIN32
 )
+endif()
 
-#IF(BUILD_SHARED_LIBS) 
+
 target_link_libraries (${target} 
-roadrunner
-libsbml
-poco_foundation-static
+roadrunner-static.a
+nleq-static.a
+rr-libstruct-static.a
+lapack.a
+blas.a
+f2c.a
+libsbml-static.a
+libxml2.so
+z
+sundials_nvecserial.a
+sundials_cvode.a
+pthread
+poco_foundation-static.a
+pugi-static.a
+dl
 )
-#ELSE()
-#target_link_libraries (${target} -static roadrunner-static)
-#target_link_libraries (${target} -static libsbml-static)
-#ENDIF()
-
-
-##target_link_libraries (${target} libxml2_xe)
-#target_link_libraries (${target} sundials_cvode)
-#target_link_libraries (${target} sundials_nvecserial)
-#target_link_libraries (${target} lapack)
-#target_link_libraries (${target} blas)
-#target_link_libraries (${target} libf2c)
-
 
 install (TARGETS ${target} 		
         DESTINATION bin 

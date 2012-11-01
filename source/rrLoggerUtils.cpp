@@ -37,7 +37,14 @@ string GetLogTime(bool show_milli_sec)
 		return string(buffer);
 	}
 }
+#else
+
+string GetLogTime(bool test)
+{
+	return "not_defined";
+}
 #endif
+
 
 
 }

@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include <iomanip>
-#include <math.h>
+#include <cmath>
 #include <string>
 #include <sstream>
 #include <stdlib.h>
@@ -203,7 +203,7 @@ int findRank(DoubleMatrix &oMatrix, double dTolerance)
         sumj = 0.0;
         for (unsigned int j=0; j<oMatrix.numCols(); j++) 
         {
-            sumj = sumj + abs(oMatrix(i,j));
+            sumj = sumj + std::abs(oMatrix(i,j));
         }
         if (sumj < dTolerance) 
         {

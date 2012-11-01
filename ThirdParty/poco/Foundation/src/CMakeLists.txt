@@ -88,8 +88,8 @@ TimedNotificationQueue.cpp
 PriorityNotificationQueue.cpp
 NullChannel.cpp
 NullStream.cpp
-NumberFormatter.cpp
-NumberParser.cpp
+#NumberFormatter.cpp
+#NumberParser.cpp
 Path.cpp
 PatternFormatter.cpp
 Pipe.cpp

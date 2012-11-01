@@ -86,13 +86,19 @@ set_property(TARGET ${target}
 ) 
 
 #libraries to link with our shared lib
+if(UNIX)
+set(staticLibExt ".a")
+else()
+set(staticLibExt "")
+endif()
+
 target_link_libraries (${target}    
- libsbml-static
+ libsbml-static${staticLibExt}
  sundials_cvode
  sundials_nvecserial
  blas
  lapack
- libf2c
+ libf2c${staticLibExt}
  pugi-static
  nleq-static
  rr-libstruct-static
@@ -102,26 +108,25 @@ target_link_libraries (${target}
 #libraries to link with static lib
 add_library(${target}-static STATIC ${rrSources})
 
-
 set_property(TARGET ${target}-static 
-                PROPERTY    COMPILE_DEFINITIONS 
-                            STATIC_RR 
-                            LIBSBML_STATIC
-                            LIBLAX_STATIC 
-                            STATIC_LIBSTRUCT
-							STATIC_PUGI
-                            STATIC_NLEQ
-                            POCO_STATIC
-                            POCO_NO_AUTOMATIC_LIBS
-                            ) 
+PROPERTY COMPILE_DEFINITIONS 
+STATIC_RR 
+LIBSBML_STATIC
+LIBLAX_STATIC 
+STATIC_LIBSTRUCT
+STATIC_PUGI
+STATIC_NLEQ
+POCO_STATIC
+POCO_NO_AUTOMATIC_LIBS
+) 
 
 target_link_libraries (${target}-static 
-   libsbml-static
+   libsbml-static${staticLibExt}
    sundials_cvode
    sundials_nvecserial
    blas
    lapack
-   libf2c
+   libf2c${staticLibExt}
    pugi-static
    nleq-static
    rr-libstruct-static
@@ -133,41 +138,27 @@ if(${BORLAND})
 target_link_libraries (${target}        libxml2_xe)
 target_link_libraries (${target}-static libxml2_xe)
 else()
-target_link_libraries (${target}        libxml2)
-target_link_libraries (${target}-static libxml2)
+target_link_libraries (${target}        libxml2${staticLibExt})
+target_link_libraries (${target}-static libxml2${staticLibExt})
 endif()
 
 
-add_subdirectory(testing)
-if(${INSTALL_CXX_API})
+#add_subdirectory(testing)
+
 #--- INSTALL STUFF
+if(${INSTALL_CXX_API})
+
+install(TARGETS ${target} 
+        LIBRARY DESTINATION lib 
+        RUNTIME DESTINATION bin 
+        ARCHIVE DESTINATION lib
+)
+
 if(INSTALL_STATIC_LIB)
-    install (   TARGETS ${target}-static	
-                DESTINATION lib 
-                COMPONENT rr_core)
+install(TARGETS ${target}-static 
+        LIBRARY DESTINATION lib 
+        ARCHIVE DESTINATION lib)
 endif()
-
-
-if(${MINGW})
-    SET(linkLibrary ${lib_path}/lib${target}.dll.a)
-    SET(sharedLibrary ${exe_path}/lib${target}.dll)
-endif()
-if(${WIN32})
-    SET(linkLibrary ${lib_path}/${target}.lib)
-    SET(sharedLibrary ${exe_path}/${target}.dll)
-endif()
-if(${Linux})
-
-endif()
-
-#=== Shared target
-    install (   FILES ${sharedLibrary}	
-                DESTINATION bin 
-                COMPONENT rr_core)
-
-    install (   FILES ${linkLibrary}	
-                DESTINATION lib 
-                COMPONENT rr_core)
 
 #=== HEADERS
 set(subfolders 

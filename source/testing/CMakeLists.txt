@@ -14,22 +14,24 @@ ${tests}
 
 set_property(TARGET ${target}  
              PROPERTY  COMPILE_DEFINITIONS 
-                       WIN32
-                       STATIC_LIBSTRUCT
                        LIBSBML_USE_CPP_NAMESPACE
                        LIBSBML_STATIC
+                       STATIC_LIBSTRUCT
+                       PUGI_STATIC
+			RR_STATIC
              ) 
 
 
 target_link_libraries (${target} 
-roadrunner
-rr-libstruct-static
 unit_test-static
-poco_foundation-static
+roadrunner-static
+#rr-libstruct-static
+#poco_foundation-static
 )
 
 link_directories(
 ${THIRD_PARTY_INSTALL_FOLDER}/lib
+/usr/local/lib
 )
 
 

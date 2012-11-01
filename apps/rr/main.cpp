@@ -2,15 +2,18 @@
 #include "rr_pch.h"
 #endif
 #pragma hdrstop
+#if defined(WIN32)
 #include <windows.h>
+#endif
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <tchar.h>
 
 #if defined(__CODEGEARC__)
 #include <dir.h>
-#else
+#endif
+
+#if defined(_MSVER)
 #include <direct.h>
 #endif
 

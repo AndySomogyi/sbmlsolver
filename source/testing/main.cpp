@@ -4,7 +4,7 @@
 #include "rrUtils.h"
 #include "unit_test/UnitTest++.h"
 #include "unit_test/XmlTestReporter.h"
-#include "unit_test/TestReporterStdOut.h"
+#include "unit_test/TestReporterStdout.h"
 #include "Args.h"
 #include "rrRoadRunner.h"
 #include "rrGetOptions.h"
