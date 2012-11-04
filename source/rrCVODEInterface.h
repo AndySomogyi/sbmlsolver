@@ -1,4 +1,4 @@
-﻿#ifndef rrCvodeInterfaceH
+#ifndef rrCvodeInterfaceH
 #define rrCvodeInterfaceH
 #include <string>
 #include "rrObject.h"
@@ -624,7 +624,7 @@ class RR_DECLSPEC CvodeInterface : public rrObject
 ////            oErrorCodes[10] = new CvodeErrorCodes(-10, "The right-hand side function had repetead recoverable errors.");
 ////            oErrorCodes[11] = new CvodeErrorCodes(-11,
 ////                                                  "The right-hand side function had a recoverable error, but no recovery is possible.");
-////            oErrorCodes[12] = new CvodeErrorCodes(-12, "The root�nding function failed in an unrecoverable manner.");
+////            oErrorCodes[12] = new CvodeErrorCodes(-12, "The root?nding function failed in an unrecoverable manner.");
 ////            oErrorCodes[13] = new CvodeErrorCodes(-13, "");
 ////            oErrorCodes[14] = new CvodeErrorCodes(-14, "");
 ////            oErrorCodes[15] = new CvodeErrorCodes(-15, "");
