@@ -1,5 +1,6 @@
 #ifndef rrUtilsH
 #define rrUtilsH
+
 //---------------------------------------------------------------------------
 #if defined(WIN32)
 #include <windows.h>
@@ -18,7 +19,10 @@ using std::string;
 namespace rr
 {
 
+
 RR_DECLSPEC const char*   	getVersion();
+
+
 //Misc.
 RR_DECLSPEC std::size_t     IndexOf(std::vector<std::string>& vec, const std::string& elem );
 RR_DECLSPEC bool            IsNaN(const double& aNum);
@@ -26,14 +30,18 @@ RR_DECLSPEC bool            IsNullOrEmpty(const string& str);    //Can't be null
 RR_DECLSPEC void            Pause(bool doIt = true, const string& msg = EmptyString);
 
 //String utilities
-RR_DECLSPEC string          RemoveTrailingSeparator(const string& fldr, const string& sep = WinPathSeparator);//"\\");
+RR_DECLSPEC string          RemoveTrailingSeparator(const string& fldr, const string& sep = PathSeparator);//"\\");
 
 //File  Utilities
 RR_DECLSPEC bool            FileExists(const string& fileN);
 RR_DECLSPEC bool            FolderExists(const string& folderN);
 RR_DECLSPEC bool            CreateFolder(const string& path);
+RR_DECLSPEC const string	getParentFolder(const string& path);
+RR_DECLSPEC const string    getCurrentExeFolder();
 RR_DECLSPEC string          GetUsersTempDataFolder();
-RR_DECLSPEC string          getWorkingDirectory();
+RR_DECLSPEC const string    getCWD();
+RR_DECLSPEC const string	getPathSeparator();
+
 RR_DECLSPEC vector<string>  GetLinesInFile(const string& fName);
 RR_DECLSPEC string  		GetFileContent(const string& fName);
 RR_DECLSPEC void            CreateTestSuiteFileNameParts(int caseNr, const string& postFixPart, string& FilePath, string& modelFileName);

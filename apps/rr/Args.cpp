@@ -26,20 +26,6 @@ SaveResultToFile(false),
 SelectionList("")
 {}
 
-//        LogLevel                        LogLevel;           //option v:
-//        string                          ModelFileName;      //option m:
-//        string                          DataOutputFile;     //option d:
-//        string                          TempDataFolder;     //option t:
-//        bool                            Pause;              //option p
-//        bool                            OnlyCompile;        //option c
-//        bool                            UseOSTempFolder;    //option u
-//        double                          StartTime;          //option s
-//        double                          Duration;
-//        double                          EndTime;            //option e
-//        int                             Steps;              //option z
-//        string                          SelectionList;      //option l:
-
-
 string Usage(const string& prg)
 {
     stringstream usage;

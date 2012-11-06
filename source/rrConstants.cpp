@@ -9,8 +9,16 @@ namespace rr
 {
 char*       Comma = ",";
 char*       EmptyString = "";
-char*       WinPathSeparator = "\\";
-char*       LinuxPathSeparator = "/";
+
+#if defined(_WIN32) || defined(WIN32)
+char*       PathSeparator = "\\";
+string		gExeSuffix	= ".exe";
+#else
+char*       PathSeparator = "/";
+string		gExeSuffix	= "";
+#endif
+
+
 
 string		DefaultCompiler = "tcc";
 char 	 	tab 			= '\t';

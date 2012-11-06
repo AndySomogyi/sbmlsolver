@@ -321,7 +321,11 @@ bool SBMLModelSimulation::GenerateAndCompileModel()
     {
         return false;
     }
-    return mEngine->GenerateAndCompileModel();
+    if(!mEngine->GenerateModelCode(""))
+    {
+    	return false;
+    }
+    return mEngine->CompileModel();
 }
 
 bool SBMLModelSimulation::Simulate()

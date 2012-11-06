@@ -34,7 +34,6 @@ int main(int argc, char* argv[])
 
 	bool doMore = true;	//set to false to move to end
 
-
     cout<<"======== RoadRunner C API Client ==================\n";
     RRHandle aHandle  = getRRInstance();
 
@@ -52,7 +51,7 @@ int main(int argc, char* argv[])
     	doMore = false;
     }
 
-    cout<<"Currrent Log Level: "<<getLogLevel();
+    cout<<"Currrent Log Level: "<<getLogLevel()<<endl;
 
     if(!enableLogging())
     {

@@ -15,6 +15,7 @@ using namespace UnitTest;
 string gSBMLModelsPath = "";
 string gCompilerPath = "";
 string gSupportCodeFolder = "";
+string gRRInstallFolder = "";
 
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 
@@ -26,6 +27,7 @@ int main(int argc, char* argv[])
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
 
+   	gRRInstallFolder = args.RRInstallFolder;
 	string outFolder;
     string reportFile;
 	reportFile = args.ResultOutputFile;
@@ -33,7 +35,7 @@ int main(int argc, char* argv[])
     gSBMLModelsPath = args.SBMLModelsFilePath;
 	gCompilerPath = args.CompilerLocation;
 	gSupportCodeFolder = args.SupportCodeFolder;
-	
+
 	fstream aFile;
     aFile.open(reportFile.c_str(), ios::out);
     if(!aFile)

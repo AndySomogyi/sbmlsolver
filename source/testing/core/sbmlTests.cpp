@@ -6,13 +6,14 @@
 using namespace UnitTest;
 using namespace rr;
 
-extern RoadRunner* gRR;
-extern string gSBMLModelsPath;
-extern string gCompilerPath;
-extern string gSupportCodeFolder;
-extern string gTSModelsPath;
-extern string gTSDataOutPutFolder;
-extern vector<string> gModels;
+extern RoadRunner* 		gRR;
+extern string 			gSBMLModelsPath;
+extern string 			gCompilerPath;
+extern string 			gSupportCodeFolder;
+extern string 			gRRInstallFolder;
+extern string 			gTSModelsPath;
+extern string 			gTSDataOutPutFolder;
+extern vector<string> 	gModels;
 bool SBMLTest(const string& version, int number);
 SUITE(SBML_l2v4)
 {
@@ -20,7 +21,7 @@ SUITE(SBML_l2v4)
 	{
 		if(!gRR)
 		{
-			gRR = new RoadRunner;
+			gRR = new RoadRunner(gRRInstallFolder, "");
 		}
 
 		CHECK(gRR!=NULL);
@@ -1223,8 +1224,6 @@ bool SBMLTest(const string& version, int caseNumber)
         TestSuiteModelSimulation simulation(dataOutputFolder);
 
         rrI->Reset();
-        rrI->ComputeAndAssignConservationLaws(false);
-        rrI->setCompiler("tcc");
         simulation.UseEngine(rrI);
 
         //Read SBML models.....
@@ -1240,11 +1239,14 @@ bool SBMLTest(const string& version, int caseNumber)
         simulation.CompileIfDllExists(true);
         simulation.CopyFilesToOutputFolder();
 
+
         if(!simulation.LoadSBMLFromFile())
         {
             Log(lError)<<"Failed loading SBML model";
             goto end;
         }
+
+        rrI->ComputeAndAssignConservationLaws(false);
         //Then read settings file if it exists..
         string settingsOveride("");//C:\\rrw\\Models\\settings_override.txt");
         if(!simulation.LoadSettings(settingsOveride))    //set selection list here!

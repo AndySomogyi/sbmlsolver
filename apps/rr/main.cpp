@@ -23,7 +23,6 @@
 #include "rrCGenerator.h"
 #include "rrException.h"
 #include "rrUtils.h"
-#include "rrStringUtils.h"
 #include "rrSBMLModelSimulation.h"
 #include "rrGetOptions.h"
 #include "Args.h"
@@ -47,17 +46,29 @@ int main(int argc, char * argv[])
             exit(0);
         }
 
-     
+        //We need to get the path to where the roadRunner executable is located.
+        //Compiler and support code folders are located relative to this path
+
+        string thisExeFolder = getCurrentExeFolder();
+        Log(lDebug)<<"RoadRunner bin location is: "<<thisExeFolder;
+
+        //Assume(!) rr.exe is in bin folder of roadrunner install
+        string RRInstallFolder = getParentFolder(thisExeFolder);	//Go up one folder
+
         ProcessCommandLineArguments(argc, argv, args);
 
         gLog.SetCutOffLogLevel(args.CurrentLogLevel);
         string logFileName;
 
-        RoadRunner *rr = NULL;
 
         if(args.UseOSTempFolder)
         {
             args.TempDataFolder = GetUsersTempDataFolder();
+        }
+
+		if(args.TempDataFolder == ".")
+        {
+			args.TempDataFolder = getCWD();
         }
 
         if(args.ModelFileName.size())
@@ -75,7 +86,8 @@ int main(int argc, char * argv[])
         Log(lInfo)<<"Log level is:" <<GetLogLevelAsString(gLog.GetLogLevel());
         SBMLModelSimulation simulation(args.DataOutputFolder, args.TempDataFolder);
 
-        rr = new RoadRunner();
+        Log(lDebug)<<"Working Directory: "<<getCWD()<<endl;
+        RoadRunner *rr  = new RoadRunner(RRInstallFolder, args.TempDataFolder);
         rr->Reset();
         simulation.UseEngine(rr);
 
@@ -156,7 +168,7 @@ int main(int argc, char * argv[])
     {
         Log(lError)<<"RoadRunner exception occurred: "<<ex.what()<<endl;
     }
-	
+
 	Log(lInfo)<<"RoadRunner is exiting...";
 	if(args.Pause)
 	{
@@ -167,7 +179,10 @@ int main(int argc, char * argv[])
 
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
+
+    string rrLocation = ExtractFilePath(argv[0]);
     char c;
+
     while ((c = GetOptions(argc, argv, ("cpufv:n:d:t:l:m:s:e:z:"))) != -1)
     {
         switch (c)
@@ -199,9 +214,6 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
             }
         }
     }
-
-    //Check arguments, and choose to bail here if something is not right...
-
 }
 
 #if defined(CG_IDE)

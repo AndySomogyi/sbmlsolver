@@ -337,23 +337,23 @@ int NLEQInterface::getNumberOfModelEvaluationsForJacobian()
 
 bool NLEQInterface::Test(const string& fileName)
 {
-    RoadRunner *rr = new RoadRunner();
-    if(!rr)
-    {
-        Log(lError)<<"Failed to create a RoadRunner object in NLEQInterface::Test function";
-        return false;
-    }
-
-    if(rr->loadSBMLFromFile(fileName))
-    {
-        Log(lDebug)<<"Steady State Test:"<< rr->steadyState();
-        return true;
-    }
-    else
-    {
-        Log(lDebug)<<"Failed loading SBMLin NLEQInterface::Test:";
-        return false;
-    }
+//    RoadRunner *rr = new RoadRunner();
+//    if(!rr)
+//    {
+//        Log(lError)<<"Failed to create a RoadRunner object in NLEQInterface::Test function";
+//        return false;
+//    }
+//
+//    if(rr->loadSBMLFromFile(fileName))
+//    {
+//        Log(lDebug)<<"Steady State Test:"<< rr->steadyState();
+//        return true;
+//    }
+//    else
+//    {
+//        Log(lDebug)<<"Failed loading SBMLin NLEQInterface::Test:";
+//        return false;
+//    }
 }
 
 string ErrorForStatus(const int& error)

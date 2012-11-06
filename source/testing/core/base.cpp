@@ -5,18 +5,19 @@
 using namespace UnitTest;
 using namespace rr;
 
-extern RoadRunner* gRR;
-extern string gSBMLModelsPath;
-extern string gCompilerPath;
-extern string gSupportCodeFolder;
-extern vector<string> gModels;
+extern RoadRunner* 		gRR;
+extern string 			gSBMLModelsPath;
+extern string 			gRRInstallFolder;
+extern string 			gCompilerPath;
+extern string 			gSupportCodeFolder;
+extern vector<string> 	gModels;
 SUITE(Base)
 {
 	TEST(AllocateRR)
 	{
 		if(!gRR)
 		{
-			gRR = new RoadRunner;
+			gRR = new RoadRunner(gRRInstallFolder, ".");
 		}
 
         //Populate models

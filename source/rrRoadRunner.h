@@ -45,6 +45,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		const double                    STEADYSTATE_THRESHOLD;
         DoubleMatrix                    mRawSimulationData;
 		SimulationData                  mSimulationData;
+	    string 							mRRInstallFolder;		//parent folder of mRRLocation
 		string                          mModelXMLFileName;
 		string                          mModelCode;
 		string                          mTempFileFolder;
@@ -81,6 +82,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		string                  		getParamPromotedSBML(const string& sArg);
         NOMSupport*						getNOM();
 		Compiler*						getCompiler();						
+
 		// Properties -----------------------------------------------------------------------------
 		bool                     		mComputeAndAssignConservationLaws;
 		bool        					ComputeAndAssignConservationLaws();
@@ -113,7 +115,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
 		//Functions --------------------------------------------------------------------
 
-										RoadRunner(const string& compiler = DefaultCompiler);
+										RoadRunner(const string& rrLocation = EmptyString, const string& tempFolder = EmptyString, const string& compiler = DefaultCompiler);
 		virtual                        ~RoadRunner();
         bool                            isModelLoaded();
         bool                            setCompiler(const string& compiler);
@@ -128,7 +130,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		string                          GetTempFileFolder();
 		void                            PartOfSimulation(SBMLModelSimulation* simulation){mSimulation = simulation;}
 		bool                            GenerateModelCode(const string& sbml);
-		bool                            GenerateAndCompileModel();
+		bool                            CompileModel();
 		bool                            CompileCurrentModel();
 		ModelFromC*                     CreateModel();
 		SimulationData                  GetSimulationResult();

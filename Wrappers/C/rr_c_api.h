@@ -242,6 +242,13 @@ C_DECL_SPEC char* rrCallConv getTempFolder();
 */
 C_DECL_SPEC char* rrCallConv getWorkingDirectory();
 
+/*!
+ \brief Retrieve the directory path of the shared rrCApi library
+
+ \return Returns null if it fails, otherwise it returns the path
+ \ingroup utility
+*/
+C_DECL_SPEC char* rrCallConv getRRCAPILocation();
 
 
 /*!

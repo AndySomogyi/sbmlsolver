@@ -18,10 +18,16 @@ RoadRunner* gRR = NULL;
 string gSBMLModelsPath = "";
 string gCompilerPath = "";
 string gSupportCodeFolder = "";
+string gRRInstallFolder = "";
 
+#if defined(_WIN32) || defined(WIN32)
 //Test suite
 string gTSModelsPath 		= "r:\\SBMLTS\\cases\\semantic";
 string gTSDataOutPutFolder 	= "r:\\RRTesting\\DataOutput\\xe1";
+#else
+string gTSModelsPath 		= "/r/SBMLTS/cases/semantic";
+string gTSDataOutPutFolder 	= "/r/RRTesting/DataOutput/gcc";
+#endif
 
 vector<string> gModels;
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
@@ -35,6 +41,7 @@ int main(int argc, char* argv[])
     string reportFile(args.ResultOutputFile);
 
     gSBMLModelsPath 	= args.SBMLModelsFilePath;
+    gRRInstallFolder 	= args.RRInstallFolder;
 	gCompilerPath 		= args.CompilerLocation;
 	gSupportCodeFolder 	= args.SupportCodeFolder;
 
@@ -60,10 +67,11 @@ int main(int argc, char* argv[])
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
     char c;
-    while ((c = GetOptions(argc, argv, ("m:l:r:s:t:"))) != -1)
+    while ((c = GetOptions(argc, argv, ("i:m:l:r:s:t:"))) != -1)
     {
         switch (c)
         {
+            case ('i'): args.RRInstallFolder       		            = optarg;                       break;
             case ('m'): args.SBMLModelsFilePath                     = optarg;                       break;
 			case ('l'): args.CompilerLocation                       = optarg;                       break;
             case ('r'): args.ResultOutputFile                       = optarg;                       break;
@@ -88,6 +96,24 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
         cout<<Usage(argv[0])<<endl;
         exit(-1);
     }
+
+    if(args.CompilerLocation.size() < 1)
+    {
+		args.CompilerLocation = JoinPath(args.RRInstallFolder, "compilers");
+		args.CompilerLocation = JoinPath(args.CompilerLocation, "tcc");
+    }
+
+    if(args.SupportCodeFolder.size() < 1)
+    {
+		args.SupportCodeFolder = JoinPath(args.RRInstallFolder, "rr_support");
+    }
+
+    if(args.SBMLModelsFilePath.size() < 1)
+    {
+		args.SBMLModelsFilePath = JoinPath(args.RRInstallFolder, "models");
+
+    }
+
 }
 
 #if defined(CG_IDE)

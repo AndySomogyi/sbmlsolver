@@ -200,7 +200,7 @@ char* rrCallConv getVersion()
     {
         if(!gRRHandle)
         {
-            gRRHandle = new rr::RoadRunner();
+            gRRHandle = new rr::RoadRunner("","");
         }
 		const char* version = rr::getVersion();
 		return createText(version);
@@ -212,7 +212,22 @@ char* rrCallConv getVersion()
         setError(msg.str());
 		return NULL;
     }
-    
+
+}
+
+char* rrCallConv getRRCAPILocation()
+{
+#if defined(_WIN32) || defined(WIN32)
+	char path[MAX_PATH];
+	if(GetModuleFileNameA(NULL, path, ARRAYSIZE(path)) != 0)
+    {
+	    string aPath(ExtractFilePath(path));
+		return createText(aPath);
+    }
+    return "";
+#else
+	return "";
+#endif
 }
 
 RRHandle rrCallConv getRRInstance()
@@ -221,7 +236,10 @@ RRHandle rrCallConv getRRInstance()
     {
         if(!gRRHandle)
         {
-            gRRHandle = new rr::RoadRunner();
+        	//Get location of DLL and use that as 'install' folder
+            string rrInstallFolder(getParentFolder(getRRCAPILocation()));
+
+            gRRHandle = new rr::RoadRunner(rrInstallFolder);
         }
     	return gRRHandle;
     }
@@ -484,7 +502,7 @@ char* rrCallConv getWorkingDirectory()
 {
 	try
     {
-		string cwd = rr::getWorkingDirectory();
+		string cwd = rr::getCWD();
 	    char* text = new char[cwd.size() + 1];
     	strcpy(text, cwd.c_str());
 	    return text;

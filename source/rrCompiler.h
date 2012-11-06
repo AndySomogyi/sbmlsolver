@@ -16,14 +16,13 @@ class RR_DECLSPEC Compiler : public rrObject
 {
     protected:
         vector<string>              mCompilerOutput;
-//        HINSTANCE                   mDLLHandle;
         string                      mDLLFileName;    //With path
         vector<string>              mIncludePaths;
         vector<string>              mLibraryPaths;
         vector<string>              mCompilerFlags;
         string                      mSupportCodeFolder;
         string                      mCompilerName;
-        string                      mCompilerExe;
+        string                      mCompilerExeName;
 		string						mCompilerLocation;	//Path to executable
         string                      CreateCompilerCommand(const string& sourceFileName);
         bool                        SetupCompilerEnvironment();
@@ -31,6 +30,8 @@ class RR_DECLSPEC Compiler : public rrObject
     public:
                                     Compiler(const string& compiler="tcc");
                                    ~Compiler();
+        bool                        SetCompiler(const string& compiler);
+		bool						setupCompiler(const string& rrInstallFolder);
         bool                        Compile(const string& cmdLine);
         string                      GetDLLName();
 		bool						setCompilerLocation(const string& path);
@@ -42,7 +43,7 @@ class RR_DECLSPEC Compiler : public rrObject
         void                        Execute(StringList& oProxyCode);
         bool                        CompileC_DLL(const string& cSource);
         string                      getCompilerMessages();
-        bool                        SetCompiler(const string& compiler);
+
 };
 
 } //namespace rr

@@ -21,15 +21,50 @@ namespace rr
 
 Compiler::Compiler(const string& compiler)
 :
-//mDLLHandle(NULL),
-mCompilerName(compiler),
-mCompilerLocation("../compilers/tcc"),
-mSupportCodeFolder("../rr_support")
+mSupportCodeFolder("rr_support"),
+mCompilerName(ExtractFileName(compiler)),
+mCompilerLocation(ExtractFilePath(compiler))
 {
-    Log(lDebug5)<<"In Compiler CTOR";
+    Log(lDebug5)<<"Creating a compiler";
 }
 
 Compiler::~Compiler(){}
+
+bool Compiler::setupCompiler(const string& rrInstallFolder)
+{
+	mCompilerLocation = JoinPath(rrInstallFolder, "compilers");
+	mCompilerLocation = JoinPath(mCompilerLocation, mCompilerName);
+
+    if(!FolderExists(mCompilerLocation))
+    {
+    	Log(lError)<<"Compiler location: "<<mCompilerLocation<<" do not exist.";
+        return false;
+    }
+
+    //Make sure the compiler exists
+    if(gExeSuffix.size() > 0)
+    {
+    	mCompilerExeName = mCompilerName + gExeSuffix;
+    }
+
+
+    if(!FileExists(JoinPath(mCompilerLocation, mCompilerExeName)))
+    {
+    	Log(lError)<<"The compiler: "<<JoinPath(mCompilerLocation, mCompilerExeName)<<" do not exist.";
+        return false;
+    }
+
+    mSupportCodeFolder = JoinPath(rrInstallFolder, "rr_support");
+
+    if(!FolderExists(mSupportCodeFolder))
+    {
+    	Log(lError)<<"The roadrunner support code folder : "<<mSupportCodeFolder<<" does not exist.";
+        return false;
+    }
+
+    return true;
+
+}
 
 bool Compiler::SetCompiler(const string& compiler)
 {
@@ -72,7 +107,7 @@ bool Compiler::setCompilerLocation(const string& path)
 {
 	if(!FolderExists(path))
 	{
-		Log(lError)<<"Tried to set invalid path: "<<path<<" for compiler location";		
+		Log(lError)<<"Tried to set invalid path: "<<path<<" for compiler location";
 		return false;
 	}
 	mCompilerLocation = path;
@@ -107,7 +142,7 @@ bool Compiler::SetupCompilerEnvironment()
     mCompilerFlags.clear();
     if(mCompilerName == "tcc")
     {
-        mCompilerExe = JoinPath(mCompilerLocation, "tcc.exe");
+        mCompilerExeName = JoinPath(mCompilerLocation, "tcc.exe");
         mIncludePaths.push_back(".");
         mIncludePaths.push_back(JoinPath(mCompilerLocation, "include"));
         mLibraryPaths.push_back(".");
@@ -140,7 +175,7 @@ string Compiler::CreateCompilerCommand(const string& sourceFileName)
     stringstream exeCmd;
     if(mCompilerName == "tcc")
     {
-        exeCmd<<mCompilerExe;
+        exeCmd<<mCompilerExeName;
         //Add compiler flags
         for(int i = 0; i < mCompilerFlags.size(); i++)
         {

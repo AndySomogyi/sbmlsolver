@@ -15,10 +15,11 @@ using namespace std;
 Args::Args()
 :
 SBMLModelsFilePath(""),
+RRInstallFolder(""),
 ResultOutputFile(""),
 TempDataFolder("."),
-CompilerLocation("."),
-SupportCodeFolder(".")
+CompilerLocation(""),
+SupportCodeFolder("")
 {}
 
 string Usage(const string& prg)
@@ -27,6 +28,7 @@ string Usage(const string& prg)
     usage << "\nUSAGE for "<<prg<<"\n\n";
     usage<<left;
     usage<<setfill('.');
+    usage<<setw(25)<<"-i<FilePath>"                 <<" Folder where RoadRunner is installed. \n";
     usage<<setw(25)<<"-m<FilePath>"                 <<" Folder from where the program will read sbml models. \n";
 	usage<<setw(25)<<"-l<FilePath>"                 <<" Compiler location\n";
 	usage<<setw(25)<<"-s<FilePath>"                 <<" Support code folder llocation\n";

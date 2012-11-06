@@ -9,6 +9,7 @@ class Args
     public:
                                         Args();
         virtual                        ~Args(){}
+		string                          RRInstallFolder;     	                  //option i:
         string                          SBMLModelsFilePath;                       //option m:
 		string                          CompilerLocation;                         //option l:
         string                          ResultOutputFile;                         //option r:

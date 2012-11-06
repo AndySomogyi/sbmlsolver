@@ -15,9 +15,10 @@ Args::Args()
 :
 SBMLModelsFilePath(""),
 ResultOutputFile(""),
-TempDataFolder("."),
-CompilerLocation("."),
-SupportCodeFolder(".")
+TempDataFolder(""),
+CompilerLocation(""),
+SupportCodeFolder(""),
+RRInstallFolder("")
 {}
 
 string Usage(const string& prg)
@@ -26,9 +27,10 @@ string Usage(const string& prg)
     usage << "\nUSAGE for "<<prg<<"\n\n";
     usage<<left;
     usage<<setfill('.');
-    usage<<setw(25)<<"-m<FilePath>"                 <<" Folder from where the program will read sbml models. \n";
-	usage<<setw(25)<<"-l<FilePath>"                 <<" Compiler location\n";
-	usage<<setw(25)<<"-s<FilePath>"                 <<" Support code folder llocation\n";
+    usage<<setw(25)<<"-i<FilePath>"                 <<" Folder where RoadRunner is installed.\n";
+    usage<<setw(25)<<"-m<FilePath>"                 <<" Folder where the program will read sbml models. If not set, use default location.\n";
+	usage<<setw(25)<<"-l<FilePath>"                 <<" Compiler location. If not set, use default location.\n";
+	usage<<setw(25)<<"-s<FilePath>"                 <<" Support code folder location. If not set, uses default location.\n";
 	usage<<setw(25)<<"-r<FilePath>"                 <<" Results output file, with path.\n";
     usage<<setw(25)<<"-t<FilePath>"                 <<" Temporary data output folder. If not given, temp files are output to current directory\n";
 

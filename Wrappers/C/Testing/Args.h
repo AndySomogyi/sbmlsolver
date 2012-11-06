@@ -14,6 +14,7 @@ class Args
         string                          ResultOutputFile;                         //option r:
         string                          TempDataFolder;                           //option t:
 		string                          SupportCodeFolder;                        //option s:
+		string                          RRInstallFolder;        	              //option i:
 };
 
 #endif

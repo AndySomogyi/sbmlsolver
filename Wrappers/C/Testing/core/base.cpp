@@ -10,10 +10,11 @@ using namespace UnitTest;
 using rr::JoinPath;
 using rr::FileExists;
 
-extern RRHandle gRR;	
-extern string gSBMLModelsPath;
-extern string gCompilerPath;
-extern string gSupportCodeFolder;
+extern RRHandle 	gRR;
+extern string 		gBinPath;
+extern string 		gSBMLModelsPath;
+extern string 		gCompilerPath;
+extern string 		gSupportCodeFolder;
 SUITE(Base)
 {
     TEST(AllocateRR)

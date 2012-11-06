@@ -42,7 +42,7 @@ string GetUsersTempDataFolder()
 {
     //Default for temporary data output is the users AppData/Local/Temp Folder
     //  Gets the temp path env string (no guarantee it's a valid path).
-#if defined(WIN32)    
+#if defined(WIN32)
     TCHAR lpTempPathBuffer[MAX_PATH];
     DWORD dwRetVal = GetTempPath(MAX_PATH, lpTempPathBuffer); // buffer for path
     if (dwRetVal > MAX_PATH || (dwRetVal == 0))
@@ -58,19 +58,57 @@ string GetUsersTempDataFolder()
 #else
 return "";
 #endif
+}
+
+const string getCurrentExeFolder()
+{
+#if defined(_WIN32) || defined(WIN32)
+	char path[MAX_PATH];
+	if(GetModuleFileNameA(NULL, path, ARRAYSIZE(path)) != 0)
+    {
+	    string aPath(ExtractFilePath(path));
+		return aPath;
+    }
+    return "";
+#else
+	return "";
+#endif
 
 }
 
-string getWorkingDirectory()
+const string getParentFolder(const string& path)
 {
-#if defined(WIN32)    
-    //Get the working directory
-	char* buffer;
-	string cwd;
-	// Get the current working directory: 
-	if( (buffer = getcwd( NULL, 0 )) == NULL )
+	if(path.size() < 1)
+    {
+    	return "";
+    }
+	vector<string> fldrs = SplitString(path, PathSeparator);
+    string parent("");
+    if(fldrs.size() > 1)
 	{
-		Log(lError)<<"getWorkingDirectory failed";
+    	for(int i = 0; i < fldrs.size() -1; i++)
+        {
+			parent = JoinPath(parent, fldrs[i]);
+        }
+        return parent;
+    }
+    else
+    {
+    	return path;
+    }
+
+}
+
+const string getCWD()
+{
+    //Get the working directory
+	char *buffer;
+
+	string cwd;
+	// Get the current working directory:
+	if( (buffer = getcwd( NULL, MAXPATH )) == NULL )
+	{
+		Log(lError)<<"getCWD failed";
 		return "";
 	}
 	else
@@ -78,11 +116,13 @@ string getWorkingDirectory()
       cwd = buffer;
       free(buffer);
 	}
-   
+
 	return cwd;
-#else
-    return "";
-#endif    
+}
+
+const string getPathSeparator()
+{
+	return PathSeparator;
 }
 
 string GetFileContent(const string& fName)

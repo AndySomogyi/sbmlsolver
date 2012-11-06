@@ -47,15 +47,14 @@ using namespace ls;
 
 namespace rr
 {
-
 //Initialize statics..
 //bool RoadRunner::mComputeAndAssignConservationLaws     	= false;
 //bool RoadRunner::mConservedTotalChanged             	= false;
 //bool RoadRunner::mReMultiplyCompartments             	= true;
 
-RoadRunner::RoadRunner(const string& compiler) :
+RoadRunner::RoadRunner(const string& rrInstallLocation, const string& tempFolder, const string& compiler) :
     emptyModelStr("A model needs to be loaded before one can use this method"),
-	mModelFolder("..//Models"),
+	mModelFolder("models"),
     STEADYSTATE_THRESHOLD(1.E-2),
     mCVode(NULL),
     steadyStateSolver(NULL),
@@ -70,20 +69,29 @@ RoadRunner::RoadRunner(const string& compiler) :
     mNumPoints(21),
     mCurrentSBML(""),
     mModel(NULL),
-//    mModelDLL(NULL),
     mSimulation(NULL),
     mModelXMLFileName("sbml_model"),
     UseKinsol(false),
     mComputeAndAssignConservationLaws(true),
     mConservedTotalChanged(false),
-    mCompiler(compiler)
+    mCompiler(compiler),
+	mTempFileFolder(tempFolder),
+	mRRInstallFolder(rrInstallLocation)
 {
-     Log(lDebug4)<<"In RoadRunner ctor";
-     mLS = LibStructural::getInstance();
-     mCSharpGenerator    = new CSharpGenerator(mNOM);
-     mCGenerator         = new CGenerator(mNOM);//Todo: memoryleak
-     mModelGenerator     = mCGenerator;
-     mTempFileFolder     = GetUsersTempDataFolder();
+	if(mRRInstallFolder.size() > 0)
+    {
+        if(!mCompiler.setupCompiler(mRRInstallFolder))
+        {
+            throw(RRException("Roadrunner internal compiler setup failed"));
+        }
+    }
+
+	Log(lDebug4)<<"In RoadRunner ctor";
+
+    mLS 				= LibStructural::getInstance();
+    mCSharpGenerator    = new CSharpGenerator(mNOM);
+    mCGenerator         = new CGenerator(mNOM);//Todo: memoryleak
+    mModelGenerator     = mCGenerator;
 }
 
 RoadRunner::~RoadRunner()
@@ -671,7 +679,7 @@ bool RoadRunner::loadSBML(const string& sbml)
 
 	// If the user loads the same model again, don't bother loading into NOM,
 	// just reset the initial conditions
-//	if (mModelDLL != NULL && mModel != NULL && sbml == mCurrentSBML)
+
 	if (mModelDLL.isLoaded() != NULL && mModel != NULL && sbml == mCurrentSBML)
     {
         mCurrentSBML = sbml;
@@ -699,7 +707,13 @@ bool RoadRunner::loadSBML(const string& sbml)
 
     if(compile)
     {
-        if(!GenerateAndCompileModel())
+        if(!GenerateModelCode(""))
+        {
+            Log(lError)<<"Failed generating model from SBML";
+            return false;
+        }
+
+        if(!CompileModel())
         {
             Log(lError)<<"Failed to generate and compile model";
             return false;
@@ -820,15 +834,8 @@ bool RoadRunner::unLoadModelDLL()
     return true;//No model is loaded..
 }
 
-bool RoadRunner::GenerateAndCompileModel()
+bool RoadRunner::CompileModel()
 {
-
-    if(!GenerateModelCode(""))
-    {
-        Log(lError)<<"Failed generating model from SBML";
-        return false;
-    }
-
     //Make sure the dll is unloaded
     unLoadModelDLL();
 
@@ -882,14 +889,6 @@ bool RoadRunner::GenerateAndCompileModel()
 
 ModelFromC* RoadRunner::CreateModel()
 {
-//    //Load dll
-//    if(!mModelDLL.isLoaded())
-//    {
-//        string dllName  = GetDLLName();
-//        //Load the DLL
-//        mModelDLL = LoadDLL(dllName);
-//    }
-
     //Create a model
     if(mModelDLL.isLoaded())
     {
@@ -899,7 +898,7 @@ ModelFromC* RoadRunner::CreateModel()
     }
     else
     {
-        Log(lError)<<"Failed to create DLL for model";
+        Log(lError)<<"Failed to create model from DLL";
         mModel = NULL;
     }
 
@@ -1187,7 +1186,7 @@ void RoadRunner::ComputeAndAssignConservationLaws(const bool& bValue)
     if(mModel != NULL)
     {
         //We need no recompile the model if this flag changes..
-        GenerateAndCompileModel();
+        CompileModel();
     }
 }
 

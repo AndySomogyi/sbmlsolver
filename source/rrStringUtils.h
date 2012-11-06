@@ -3,6 +3,7 @@
 #include <string>
 #include <list>
 #include <vector>
+#include "rrConstants.h"
 #include "rrExporter.h"
 
 using std::string;
@@ -35,7 +36,7 @@ string              RR_DECLSPEC Trim(const string& str);
 bool                RR_DECLSPEC StartsWith(const string& src, const string& sub);
 bool                RR_DECLSPEC EndsWith(const string& src, const string& sub);
 
-string              RR_DECLSPEC JoinPath(const string& aPath, const string& aFile, const string& pathSeparator = "\\");
+string              RR_DECLSPEC JoinPath(const string& aPath, const string& aFile, const string& pathSeparator = PathSeparator);
 //conversions
 string              RR_DECLSPEC IntToStr(const int& nt);
 int                 RR_DECLSPEC StrToInt(const string& nt);

@@ -134,7 +134,8 @@ int main(int argc, char * argv[])
 
         sWatch.Start();
         //dataOutputFolder += dummy;
-        rrI = new RoadRunner();
+      	string rrInstallPath = getParentFolder(getCurrentExeFolder());
+        rrI = new RoadRunner(rrInstallPath, "");
         rrI->Reset();
         rrI->setCompiler("tcc");
         rrI->ComputeAndAssignConservationLaws(false);
