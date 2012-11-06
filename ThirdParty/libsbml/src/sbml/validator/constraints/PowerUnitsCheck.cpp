@@ -229,7 +229,7 @@ PowerUnitsCheck::checkUnitsFromPower (const Model& m,
         SBMLTransforms::mapComponentValues(&m);
         double value = SBMLTransforms::evaluateASTNode(child);
         SBMLTransforms::clearComponentValues();
-        if (!isnan(value))
+        if (!std::isnan(value))
         {
           if (floor(value) != value)
             isExpression = 1;
@@ -316,7 +316,7 @@ PowerUnitsCheck::checkUnitsFromPower (const Model& m,
         double value = SBMLTransforms::evaluateASTNode(child, &m);
         SBMLTransforms::clearComponentValues();
         // but it may not be an integer
-        if (isnan(value))
+        if (std::isnan(value))
           // we cant check
         {
           isExpression = 1;

@@ -475,7 +475,7 @@ SBMLTransforms::evaluateASTNode(const ASTNode *node, const Model *m)
       {
         result = (mValues.find(node->getName())->second).first;
         bool set = (mValues.find(node->getName())->second).second;
-        if (isnan(result) && set)
+        if (std::isnan(result) && set)
         {
           if (m != NULL)
           {
@@ -1027,12 +1027,9 @@ bool
 SBMLTransforms::expandInitialAssignment(Compartment * c, 
     const InitialAssignment *ia)
 {
-//#if defined(_MSC_VER) || defined(__BORLANDC__)
-//#  define isnan(d)  _isnan(d)
-//#endif
   bool success = false; 
   double value = evaluateASTNode(ia->getMath(), c->getModel());
-  if (!isnan(value))
+  if (!std::isnan(value))
   {
     c->setSize(value);
     IdValueIter it = mValues.find(c->getId());
@@ -1048,12 +1045,9 @@ bool
 SBMLTransforms::expandInitialAssignment(Parameter * p, 
     const InitialAssignment *ia)
 {
-//#if defined(_MSC_VER) || defined(__BORLANDC__)
-//#  define isnan(d)  _isnan(d)
-//#endif
   bool success = false; 
   double value = evaluateASTNode(ia->getMath(), p->getModel());
-  if (!isnan(value))
+  if (!std::isnan(value))
   {
     p->setValue(value);
     IdValueIter it = mValues.find(p->getId());
@@ -1069,12 +1063,9 @@ bool
 SBMLTransforms::expandInitialAssignment(SpeciesReference * sr, 
     const InitialAssignment *ia)
 {
-//#if defined(_MSC_VER) || defined(__BORLANDC__)
-//#  define isnan(d)  _isnan(d)
-//#endif
   bool success = false; 
   double value = evaluateASTNode(ia->getMath(), sr->getModel());
-  if (!isnan(value))
+  if (!std::isnan(value))
   {
     sr->setStoichiometry(value);
     IdValueIter it = mValues.find(sr->getId());
@@ -1090,12 +1081,9 @@ bool
 SBMLTransforms::expandInitialAssignment(Species * s, 
     const InitialAssignment *ia)
 {
-//#if defined(_MSC_VER) || defined(__BORLANDC__)
-//#  define isnan(d)  _isnan(d)
-//#endif
   bool success = false; 
   double value = evaluateASTNode(ia->getMath(), s->getModel());
-  if (!isnan(value))
+  if (!std::isnan(value))
   {
     if (s->getHasOnlySubstanceUnits())
     {
