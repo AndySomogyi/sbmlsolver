@@ -143,7 +143,9 @@ target_link_libraries (${target}-static libxml2${staticLibExt})
 endif()
 
 
-#add_subdirectory(testing)
+if(RUN_TESTS)
+add_subdirectory(testing)
+endif()
 
 #--- INSTALL STUFF
 if(${INSTALL_CXX_API})

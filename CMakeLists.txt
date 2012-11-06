@@ -11,21 +11,22 @@ SET(RR_INSTALLS_ROOT    "~/installs")
 endif()
 
 
-if(${BORLAND})
+if(BORLAND)
 set(FOLDER_POSTFIX "xe")
-else(${BORLAND})
+endif()
+
+if(MSVC)
 set(FOLDER_POSTFIX "vs")
+endif()
+
+if(UNIX)
+set(FOLDER_POSTFIX "gcc")
 endif()
 
 set(THIRD_PARTY_INSTALL_FOLDER ${RR_INSTALLS_ROOT}/${FOLDER_POSTFIX}/release CACHE PATH "Directory containing ThirdParty libraries.")
 if("${THIRD_PARTY_INSTALL_FOLDER}" STREQUAL "")
   set(THIRD_PARTY_INSTALL_FOLDER ${RR_INSTALLS_ROOT}/${FOLDER_POSTFIX}/release CACHE PATH "Directory containing ThirdParty libraries" FORCE)
 endif()
-
-#set(THIRD_PARTY_BUILD_FOLDER ${RR_BUILDS_ROOT}/${FOLDER_POSTFIX}/ThirdParty CACHE PATH "Directory containing ThirdParty build.")
-#if("${THIRD_PARTY_BUILD_FOLDER}" STREQUAL "")
-#  set(THIRD_PARTY_BUILD_FOLDER ${RR_BUILDS_ROOT}/${FOLDER_POSTFIX}/ThirdParty CACHE PATH "Directory containing ThirdParty build" FORCE)
-#endif()
 
 OPTION (INSTALL_CXX_API 		"Package c++ api" 	        	    ON)
 OPTION (INSTALL_PYTHON 			"Package Python wrapper" 		    ON)
@@ -34,6 +35,7 @@ OPTION (INSTALL_C_API	 		"Generate and Package C API" 		ON)
 OPTION (INSTALL_APPS	    	"Build and install Apps"	    	OFF)
 OPTION (INSTALL_EXAMPLES		"Build and install Examples"		OFF)
 OPTION (INSTALL_STATIC_LIB		"Install RoadRunner static lib"		OFF)
+OPTION (RUN_TESTS		        "Build and Run Tests"		        OFF)
 
 #Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
 set(BUILD_SHARED_LIBS 												ON)

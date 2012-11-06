@@ -354,6 +354,7 @@ bool NLEQInterface::Test(const string& fileName)
 //        Log(lDebug)<<"Failed loading SBMLin NLEQInterface::Test:";
 //        return false;
 //    }
+	return false;
 }
 
 string ErrorForStatus(const int& error)

@@ -175,7 +175,6 @@ extern "C"
 	#include <direct.h>
 	#define getcwd _getcwd
 	#define chdir  _chrdir
-	#define MAXPATH _MAX_PATH
 #elif defined(__BORLANDC__)
   	#include <dir.h>
 #else

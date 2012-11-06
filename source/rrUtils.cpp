@@ -2,6 +2,7 @@
 #include "rr_pch.h"
 #endif
 #pragma hdrstop
+
 #if defined(WIN32)
 #include <windows.h>
 #include <io.h>

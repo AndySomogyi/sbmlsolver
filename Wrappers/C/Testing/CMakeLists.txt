@@ -14,6 +14,12 @@ Args.cpp
 ${tests}
 )
 
+set_property(TARGET ${target}  
+PROPERTY  COMPILE_DEFINITIONS 
+RR_STATIC
+) 
+
+
 include_directories(
 ${RR_ROOT}
 ${THIRD_PARTY_FOLDER}/unit_test/src
@@ -22,7 +28,7 @@ ${THIRD_PARTY_FOLDER}/unit_test/src
 target_link_libraries (${target} 
 rr_c_api
 unit_test-static
-roadrunner
+roadrunner-static
 )
 
 link_directories( ${THIRD_PARTY_INSTALL_FOLDER}/lib)
@@ -46,6 +52,8 @@ add_custom_command(OUTPUT ${resultsFile}
   COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile}
   WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
   COMMENT "=========== Generating C-API Wiki reports =============="
+  COMMENT "${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile}"
+
   VERBATIM)
 
 add_custom_target(CTestingReport ALL DEPENDS ${resultsFile})

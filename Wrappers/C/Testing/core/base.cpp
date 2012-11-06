@@ -22,7 +22,6 @@ SUITE(Base)
         if(!gRR)
         {
             gRR = getRRInstance();
-
         }
 
         CHECK(gRR!=NULL);	//If gRR == NULL this is a fail

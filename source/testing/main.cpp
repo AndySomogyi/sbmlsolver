@@ -111,9 +111,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     if(args.SBMLModelsFilePath.size() < 1)
     {
 		args.SBMLModelsFilePath = JoinPath(args.RRInstallFolder, "models");
-
     }
-
 }
 
 #if defined(CG_IDE)

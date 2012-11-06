@@ -72,7 +72,9 @@ endif()
 
 add_subdirectory(Apps)
 add_subdirectory(Examples)
+if(RUN_TESTS)
 add_subdirectory(Testing)
+endif()
 
 #=============== INSTALL =====================
 install(   FILES ${target}.h rr_c_types.h rr_c_api_exporter.h				 					

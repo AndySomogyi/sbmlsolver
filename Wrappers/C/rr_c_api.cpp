@@ -222,6 +222,7 @@ char* rrCallConv getRRCAPILocation()
 	if(GetModuleFileNameA(NULL, path, ARRAYSIZE(path)) != 0)
     {
 	    string aPath(ExtractFilePath(path));
+        clog<<"RoadRunner CAPI location: "<<aPath;
 		return createText(aPath);
     }
     return "";
@@ -238,7 +239,6 @@ RRHandle rrCallConv getRRInstance()
         {
         	//Get location of DLL and use that as 'install' folder
             string rrInstallFolder(getParentFolder(getRRCAPILocation()));
-
             gRRHandle = new rr::RoadRunner(rrInstallFolder);
         }
     	return gRRHandle;

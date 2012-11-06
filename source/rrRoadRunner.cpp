@@ -82,7 +82,7 @@ RoadRunner::RoadRunner(const string& rrInstallLocation, const string& tempFolder
     {
         if(!mCompiler.setupCompiler(mRRInstallFolder))
         {
-            throw(RRException("Roadrunner internal compiler setup failed"));
+            Log(lWarning)<<"Roadrunner internal compiler setup failed. ";
         }
     }
 

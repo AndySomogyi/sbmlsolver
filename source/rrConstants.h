@@ -21,6 +21,11 @@ typedef long*   			IntPtr;
 RR_DECLSPEC extern char 	 tab;
 RR_DECLSPEC extern double    DoubleNaN;
 RR_DECLSPEC extern float     FloatNaN;
+
+#ifndef MAXPATH
+#define MAXPATH _MAX_PATH
+#endif
+
 const int MAX_MODULE = 512;
 
 // Enums...

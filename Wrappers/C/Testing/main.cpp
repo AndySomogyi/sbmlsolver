@@ -15,7 +15,6 @@ using namespace UnitTest;
 string gSBMLModelsPath = "";
 string gCompilerPath = "";
 string gSupportCodeFolder = "";
-string gRRInstallFolder = "";
 
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 
@@ -27,7 +26,6 @@ int main(int argc, char* argv[])
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
 
-   	gRRInstallFolder = args.RRInstallFolder;
 	string outFolder;
     string reportFile;
 	reportFile = args.ResultOutputFile;
@@ -44,7 +42,6 @@ int main(int argc, char* argv[])
     	return -1;
     }
 
-
 	XmlTestReporter reporter1(aFile);
 	TestRunner runner1(reporter1);
 
@@ -52,9 +49,6 @@ int main(int argc, char* argv[])
     runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
 
     runner1.Finish();
-    //Made finish public in order to merge result from different test suites.
-    //Finish outputs result to xml file
-
     return 0;
 }
 
