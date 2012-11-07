@@ -212,7 +212,15 @@ string Compiler::CreateCompilerCommand(const string& sourceFileName)
 
 bool Compiler::Compile(const string& cmdLine)
 {
-#if defined(WIN32)
+#if defined(_WIN32) || defined(__CODEGEARC__)
+//	return CompileWIN32(cmdLine);
+//#else
+	return CompileUNIX(cmdLine);
+#endif
+}
+
+bool Compiler::CompileWIN32(const string& cmdLine)
+{
     STARTUPINFO         si;
     PROCESS_INFORMATION pi;
     SECURITY_ATTRIBUTES sap,sat,sao;
@@ -294,9 +302,19 @@ bool Compiler::Compile(const string& cmdLine)
     Log(lDebug)<<"Compiler output: "<<log<<endl;
 
     return true;
-#else
-    return false;
-#endif
+}
+
+bool Compiler::CompileUNIX(const string& cmdLine)
+{
+	int val = system(cmdLine.c_str());
+    if(val ==0)
+    {
+		return true;
+    }
+    else
+    {
+    	return false;
+    }
 }
 
 string getCompilerMessages()
