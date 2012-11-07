@@ -80,8 +80,11 @@ string Compiler::GetDLLName()
 bool Compiler::CompileC_DLL(const string& sourceFileName)
 {
     //Compile the code and load the resulting dll, and call an exported function in it...
+#if defined(_WIN32) || defined(__CODEGEARC__)
     string dllFName(ChangeFileExtensionTo(ExtractFileName(sourceFileName), "dll"));
-
+#else
+    string dllFName(string("lib") + ChangeFileExtensionTo(ExtractFileName(sourceFileName), "so"));
+#endif
     mDLLFileName = JoinPath(ExtractFilePath(sourceFileName), dllFName);
 
     //Setup compiler environment
@@ -142,15 +145,22 @@ bool Compiler::SetupCompilerEnvironment()
     mCompilerFlags.clear();
     if(mCompilerName == "tcc")
     {
+#if defined(_WIN32) || defined(__CODEGEARC__)
         mCompilerExeName = JoinPath(mCompilerLocation, "tcc.exe");
+#else
+        mCompilerExeName = JoinPath(mCompilerLocation, "gcc");
+#endif
+
         mIncludePaths.push_back(".");
         mIncludePaths.push_back(JoinPath(mCompilerLocation, "include"));
         mLibraryPaths.push_back(".");
 		mLibraryPaths.push_back(JoinPath(mCompilerLocation, "lib"));
 
-        mCompilerFlags.push_back("-g");         //-g adds runtime debug information
+//        mCompilerFlags.push_back("-g");         //-g adds runtime debug information
         mCompilerFlags.push_back("-shared");
-        mCompilerFlags.push_back("-rdynamic");  //-rdynamic : Export global symbols to the dynamic linker
+        mCompilerFlags.push_back("-fPIC");
+//        mCompilerFlags.push_back("-W1,-soname,libtest_1.so.1");
+//#        mCompilerFlags.push_back("-rdynamic");  //-rdynamic : Export global symbols to the dynamic linker
                                                 //-b : Generate additional support code to check memory allocations and array/pointer bounds. `-g' is implied.
 
         //LogLevel                              //-v is for verbose
@@ -213,14 +223,15 @@ string Compiler::CreateCompilerCommand(const string& sourceFileName)
 bool Compiler::Compile(const string& cmdLine)
 {
 #if defined(_WIN32) || defined(__CODEGEARC__)
-//	return CompileWIN32(cmdLine);
-//#else
+	return CompileWIN32(cmdLine);
+#else
 	return CompileUNIX(cmdLine);
 #endif
 }
 
 bool Compiler::CompileWIN32(const string& cmdLine)
 {
+#if defined(_WIN32) || defined(__CODEGEARC)
     STARTUPINFO         si;
     PROCESS_INFORMATION pi;
     SECURITY_ATTRIBUTES sap,sat,sao;
@@ -302,6 +313,10 @@ bool Compiler::CompileWIN32(const string& cmdLine)
     Log(lDebug)<<"Compiler output: "<<log<<endl;
 
     return true;
+#else
+    return false;
+#endif
+
 }
 
 bool Compiler::CompileUNIX(const string& cmdLine)
@@ -309,10 +324,12 @@ bool Compiler::CompileUNIX(const string& cmdLine)
 	int val = system(cmdLine.c_str());
     if(val ==0)
     {
+	Log(lInfo)<<"Compile system call returned: "<<val;
 		return true;
     }
     else
     {
+	Log(lError)<<"Compile system call returned: "<<val;
     	return false;
     }
 }

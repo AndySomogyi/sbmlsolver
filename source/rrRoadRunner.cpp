@@ -20,6 +20,7 @@
 #include "rrModelState.h"
 #include "rrArrayList.h"
 #include "rrCapsSupport.h"
+#include "rrConstants.h"
 //---------------------------------------------------------------------------
 
 using namespace std;
@@ -749,8 +750,11 @@ string RoadRunner::GetDLLName()
         :
         string(mTempFileFolder);
 
-
-    string dllName  = srcCodeFolder + "\\" + ChangeFileExtensionTo(ExtractFileName(mModelXMLFileName), "dll");
+#if defined(_WIN32) || defined(__CODEGEARC__)
+    string dllName  = srcCodeFolder + PathSeparator + ChangeFileExtensionTo(ExtractFileName(mModelXMLFileName), "dll");
+#else
+	string dllName  = srcCodeFolder + PathSeparator + string("lib") + ChangeFileExtensionTo(ExtractFileName(mModelXMLFileName), "so");
+#endif
     return dllName;
 }
 

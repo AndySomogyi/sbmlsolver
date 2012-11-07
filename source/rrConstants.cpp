@@ -10,7 +10,7 @@ namespace rr
 char*       Comma = ",";
 char*       EmptyString = "";
 
-#if defined(_WIN32) || defined(WIN32)
+#if defined(_WIN32) || defined(__CODEGEARC__)
 char*       PathSeparator = "\\";
 string		gExeSuffix	= ".exe";
 #else
