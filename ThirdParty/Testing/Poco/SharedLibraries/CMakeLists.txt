@@ -8,7 +8,7 @@ main.cpp
 add_definitions(
 -DPOCO_STATIC
 -DPOCO_NO_AUTOMATIC_LIBS
--DWIN32
+#-DWIN32
 )
 
 if(BUILD_WITH_SHARED_LIBS) 

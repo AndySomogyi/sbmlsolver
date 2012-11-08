@@ -279,7 +279,11 @@ void CGenerator::WriteOutVariables(CodeBuilder& ignore)
     mHeader.FormatArray("D_S char*",                                "globalParameterTable",         globalParameterList.size());
     mHeader.FormatArray("D_S int",                                  "localParameterDimensions",     mNumReactions );
 
+#if defined(WIN32)
     mHeader<<"\ntypedef void __cdecl (*TEventAssignmentDelegate)();"<<endl;
+#else
+    mHeader<<"\ntypedef void (*TEventAssignmentDelegate)();"<<endl;
+#endif
     mHeader.FormatVariable("D_S TEventAssignmentDelegate*",         "_eventAssignments","");
     mHeader.AddFunctionExport("TEventAssignmentDelegate*",          "Get_eventAssignments()");
     mHeader.FormatArray("D_S double",                               "_eventPriorities", mNumEvents);

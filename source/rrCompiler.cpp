@@ -148,7 +148,7 @@ bool Compiler::SetupCompilerEnvironment()
 #if defined(_WIN32) || defined(__CODEGEARC__)
         mCompilerExeName = JoinPath(mCompilerLocation, "tcc.exe");
 #else
-        mCompilerExeName = JoinPath(mCompilerLocation, "gcc");
+        mCompilerExeName = JoinPath(mCompilerLocation, "tcc");
 #endif
 
         mIncludePaths.push_back(".");
@@ -156,9 +156,9 @@ bool Compiler::SetupCompilerEnvironment()
         mLibraryPaths.push_back(".");
 		mLibraryPaths.push_back(JoinPath(mCompilerLocation, "lib"));
 
-//        mCompilerFlags.push_back("-g");         //-g adds runtime debug information
+        mCompilerFlags.push_back("-g");         //-g adds runtime debug information
         mCompilerFlags.push_back("-shared");
-        mCompilerFlags.push_back("-fPIC");
+//        mCompilerFlags.push_back("-fPIC");
 //        mCompilerFlags.push_back("-W1,-soname,libtest_1.so.1");
 //#        mCompilerFlags.push_back("-rdynamic");  //-rdynamic : Export global symbols to the dynamic linker
                                                 //-b : Generate additional support code to check memory allocations and array/pointer bounds. `-g' is implied.
@@ -195,18 +195,20 @@ string Compiler::CreateCompilerCommand(const string& sourceFileName)
         <<JoinPath(mSupportCodeFolder, "rrSupport.c");
 
 
-        exeCmd<<" -o"<<mDLLFileName<<" -DBUILD_MODEL_DLL ";
-
+        exeCmd<<" -o"<<mDLLFileName;
+#if defined(WIN32)
+		exeCmd<<" -DBUILD_MODEL_DLL ";
+#endif
         //Add include paths
         for(int i = 0; i < mIncludePaths.size(); i++)
         {
-            exeCmd<<"-I"<<mIncludePaths[i]<<" " ;
+            exeCmd<<" -I"<<mIncludePaths[i]<<" " ;
         }
 
         //Add library paths
         for(int i = 0; i < mLibraryPaths.size(); i++)
         {
-            exeCmd<<"-L"<<mLibraryPaths[i]<<" " ;
+            exeCmd<<" -L"<<mLibraryPaths[i]<<" " ;
         }
     }
     else if(mCompilerName == "bcc")

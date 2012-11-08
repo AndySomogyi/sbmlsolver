@@ -861,7 +861,9 @@ bool RoadRunner::CompileModel()
     try
     {
     	string sharedLib = JoinPath(ExtractFilePath(dllName), ExtractFileNameNoExtension(dllName));
-    	mModelDLL.load(sharedLib);
+		//sharedLib = JoinPath(mTempFileFolder, sharedLib);
+		Log(lDebug)<<"Trying to load shared lib: "<<sharedLib;
+    	mModelDLL.load(dllName);
     }
     catch(const exception& ex)
     {

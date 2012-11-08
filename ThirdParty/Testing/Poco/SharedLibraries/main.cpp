@@ -19,18 +19,20 @@ typedef void (*HelloFunc)();
 
 int main(int argc, char* argv[])
 {
-	string loadLib("SharedLibTest");
-	loadLib.append(SharedLibrary::suffix());
+	string theLib("/usr/local/lib/libSharedLibTest");
+	theLib.append(SharedLibrary::suffix());
  	string theFunc("poco_hello");
-    SharedLibrary lib(loadLib);
+
+	cout<<"Trying to load shared library:"<<theLib<<endl;
+    SharedLibrary lib(theLib);
 
     if(lib.isLoaded())
     {
-        cout<<"The lib: "<<loadLib<<" was loaded\n";
+        cout<<"The lib: "<<theLib<<" was loaded\n";
     }
     else
     {
-        cout<<"Failed loading lib: "<<loadLib<<"\n";
+        cout<<"Failed loading lib: "<<theLib<<"\n";
     }
 
     if(lib.hasSymbol(theFunc))

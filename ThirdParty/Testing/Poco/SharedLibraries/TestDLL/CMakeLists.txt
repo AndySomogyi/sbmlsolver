@@ -1,6 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
-set(target poco_test) 
+set(target SharedLibTest) 
 
 set(src 
 TestLibrary
@@ -18,7 +18,7 @@ install(
             RUNTIME DESTINATION bin
             LIBRARY DESTINATION lib
             ARCHIVE DESTINATION lib
-            COMPONENT rr_core
+            COMPONENT Testing
 )            
 
 
