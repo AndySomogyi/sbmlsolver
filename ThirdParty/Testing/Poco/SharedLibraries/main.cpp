@@ -1,17 +1,27 @@
+#pragma hdrstop
+#pragma argsused
+#if defined(WIN32)
+#include <conio.h>
+#endif
+
 #include <iostream>
-#include "poco/SharedLibrary.h"
+#include "Poco/SharedLibrary.h"
 
 using namespace std;
 using namespace Poco;
 
 typedef void (*HelloFunc)();
 #pragma comment(lib, "IPHLPAPI.lib")
-int main(int argc, char * argv[])
-{
-    string theFunc("poco_hello");
-    string loadLib("/usr/local/lib/libpoco_test.so");
-//#    loadLib.append(SharedLibrary::suffix());
 
+#if defined(CG_IDE)
+#pragma comment(lib, "poco_foundation-static.lib")
+#endif
+
+int main(int argc, char* argv[])
+{
+	string loadLib("SharedLibTest");
+	loadLib.append(SharedLibrary::suffix());
+ 	string theFunc("poco_hello");
     SharedLibrary lib(loadLib);
 
     if(lib.isLoaded())
@@ -20,10 +30,9 @@ int main(int argc, char * argv[])
     }
     else
     {
-    
         cout<<"Failed loading lib: "<<loadLib<<"\n";
     }
-    
+
     if(lib.hasSymbol(theFunc))
     {
         HelloFunc func = (HelloFunc) lib.getSymbol(theFunc);
@@ -34,10 +43,11 @@ int main(int argc, char * argv[])
         cout<<"Could not find symbol: "<<theFunc<<endl;
     }
 
-    char ch;
-    cin>>ch;
+#if defined(WIN32)
+    cout<<"\nPress any key to exit...";
+    cin.ignore(0,'\n');
+    getch();
+#endif
 
-
-    return 0;
+	return 0;
 }
-
