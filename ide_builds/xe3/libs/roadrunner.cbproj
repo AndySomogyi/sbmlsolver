@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{8708D8F2-E671-4837-BD8C-BC7D269B101F}</ProjectGuid>
-        <ProjectVersion>14.3</ProjectVersion>
+        <ProjectVersion>14.4</ProjectVersion>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <AppType>Library</AppType>
@@ -97,7 +97,6 @@
     </PropertyGroup>
     <ItemGroup>
         <ResFiles Include="roadrunner.res">
-            <ModuleName>roadrunner.res</ModuleName>
             <BuildOrder>70</BuildOrder>
         </ResFiles>
         <CppCompile Include="..\..\..\source\mtrand\mtrand.cpp">
@@ -151,13 +150,12 @@
             <DependentOn>..\..\..\source\rrCSharpGenerator.h</DependentOn>
             <BuildOrder>19</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\..\source\rrCvodedll.cpp">
-            <DependentOn>..\..\..\source\rrCvodedll.h</DependentOn>
-            <BuildOrder>20</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\..\source\rrCvodeInterface.cpp">
             <DependentOn>..\..\..\source\rrCvodeInterface.h</DependentOn>
             <BuildOrder>21</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\..\source\rrCVODE_DLL.cpp">
+            <BuildOrder>61</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\..\source\rrDLLEntry.cpp">
             <BuildOrder>22</BuildOrder>

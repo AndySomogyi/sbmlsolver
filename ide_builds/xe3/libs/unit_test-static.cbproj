@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{A1915A1F-3406-4408-9F39-6152441D8F91}</ProjectGuid>
-        <ProjectVersion>14.3</ProjectVersion>
+        <ProjectVersion>14.4</ProjectVersion>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <AppType>StaticLibrary</AppType>
@@ -33,7 +33,7 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <ShowGeneralMessages>true</ShowGeneralMessages>
         <OutputExt>lib</OutputExt>
-        <PackageImports>vcl.bpi;rtl.bpi;;$(PackageImports)</PackageImports>
+        <PackageImports>vcl.bpi;rtl.bpi;$(PackageImports)</PackageImports>
         <LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
         <ProjectType>CppStaticLibrary</ProjectType>
         <IncludePath>..\..\..\ThirdParty\unit_test\src\Win32\;..\..\..\ThirdParty\unit_test\src\;$(RR_THIRD_PARTY)\unit_test\src\;$(RR_THIRD_PARTY)\unit_test\src\Win32\;$(IncludePath)</IncludePath>

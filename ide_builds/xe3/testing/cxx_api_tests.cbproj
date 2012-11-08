@@ -1,7 +1,7 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{5EC81081-7DE3-4982-AC11-476C1B474C02}</ProjectGuid>
-        <ProjectVersion>14.3</ProjectVersion>
+        <ProjectVersion>14.4</ProjectVersion>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <AppType>Console</AppType>
@@ -86,6 +86,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <Debugger_RunParams>-mr:\rrl\models -rr:\rrl\wiki\reports\cpp_api_xe3_ui.xml -lr:\installs\xe3\debug\compilers\tcc -sr:\installs\xe3\debug\rr_support -tr:\rrTemp</Debugger_RunParams>
         <Debugger_CWD>R:\installs\xe3\debug\bin</Debugger_CWD>
         <IncludePath>$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>
     </PropertyGroup>
