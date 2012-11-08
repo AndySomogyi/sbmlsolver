@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{1C69A115-4D8F-497E-89A6-A82FA0C8D888}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="SharedLibTest.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="TestDLLMain.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="SharedLibTest">
+        <MSBuild Projects="SharedLibTest.cbproj"/>
+    </Target>
+    <Target Name="SharedLibTest:Clean">
+        <MSBuild Projects="SharedLibTest.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="SharedLibTest:Make">
+        <MSBuild Projects="SharedLibTest.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="TestDLLMain">
+        <MSBuild Projects="TestDLLMain.cbproj"/>
+    </Target>
+    <Target Name="TestDLLMain:Clean">
+        <MSBuild Projects="TestDLLMain.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TestDLLMain:Make">
+        <MSBuild Projects="TestDLLMain.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="SharedLibTest;TestDLLMain"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="SharedLibTest:Clean;TestDLLMain:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="SharedLibTest:Make;TestDLLMain:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
