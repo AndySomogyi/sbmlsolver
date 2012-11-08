@@ -9,8 +9,8 @@ typedef void (*HelloFunc)();
 int main(int argc, char * argv[])
 {
     string theFunc("poco_hello");
-    string loadLib("poco_test");
-    loadLib.append(SharedLibrary::suffix());
+    string loadLib("/usr/local/lib/libpoco_test.so");
+//#    loadLib.append(SharedLibrary::suffix());
 
     SharedLibrary lib(loadLib);
 

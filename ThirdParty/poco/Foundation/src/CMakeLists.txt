@@ -184,7 +184,6 @@ if(${MSVC})
 #set(....
 endif()
 
-
 include_directories(
 ${poco_include_folder}
 )
@@ -202,9 +201,15 @@ set_property(TARGET ${target}-static
              PROPERTY  COMPILE_DEFINITIONS 
                        STATIC_POCO
                        PCRE_STATIC
+             ) 
+
+if(WIN32)
+set_property(TARGET ${target}-static  
+             PROPERTY  COMPILE_DEFINITIONS 
                        WIN32
              ) 
 
+endif()
 
 #INSTALLING ======================
 FILE (GLOB headers ${poco_include_folder}/Poco/*.h)

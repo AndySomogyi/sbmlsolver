@@ -19,6 +19,12 @@ else()
 target_link_libraries (${target} 
 poco_foundation-static
 )
+if(UNIX)
+target_link_libraries (${target} 
+dl
+pthread
+)
+endif()
 endif()
 
 add_subdirectory(TestDLL)
