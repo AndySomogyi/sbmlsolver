@@ -46,6 +46,11 @@ int main(int argc, char * argv[])
             exit(0);
         }
 
+        ProcessCommandLineArguments(argc, argv, args);
+
+        gLog.SetCutOffLogLevel(args.CurrentLogLevel);
+        string logFileName;
+
         //We need to get the path to where the roadRunner executable is located.
         //Compiler and support code folders are located relative to this path
 
@@ -54,11 +59,7 @@ int main(int argc, char * argv[])
 
         //Assume(!) rr.exe is in bin folder of roadrunner install
         string RRInstallFolder = getParentFolder(thisExeFolder);	//Go up one folder
-
-        ProcessCommandLineArguments(argc, argv, args);
-
-        gLog.SetCutOffLogLevel(args.CurrentLogLevel);
-        string logFileName;
+        Log(lDebug)<<"Assuming RoadRunner is installed in: "<<RRInstallFolder;
 
 
         if(args.UseOSTempFolder)

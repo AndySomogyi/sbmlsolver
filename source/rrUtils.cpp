@@ -16,6 +16,7 @@
 #else
 #include <unistd.h>
 #include <sys/stat.h>
+#include <limits.h>  //PATH_MAX
 #endif
 
 #include <algorithm>
@@ -73,7 +74,14 @@ const string getCurrentExeFolder()
     }
     return "";
 #else
-	return "";
+        char arg1[20];
+        char exepath[PATH_MAX + 1] = {0};
+
+        sprintf( arg1, "/proc/%d/exe", getpid() );
+        readlink( arg1, exepath, 1024 );
+		string thePath = ExtractFilePath(exepath); 
+		Log(lDebug1)<<"Current exe folder says:"<<thePath;
+        return thePath;
 #endif
 
 }
@@ -92,7 +100,12 @@ const string getParentFolder(const string& path)
         {
 			parent = JoinPath(parent, fldrs[i]);
         }
-        return parent;
+
+        if(path.compare(0,1, PathSeparator) == 0) 
+		{
+			parent = PathSeparator + parent;
+		}
+		return parent;
     }
     else
     {

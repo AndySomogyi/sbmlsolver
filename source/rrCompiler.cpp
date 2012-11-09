@@ -32,12 +32,13 @@ Compiler::~Compiler(){}
 
 bool Compiler::setupCompiler(const string& rrInstallFolder)
 {
+#if defined(WIN32)
 	mCompilerLocation = JoinPath(rrInstallFolder, "compilers");
 	mCompilerLocation = JoinPath(mCompilerLocation, mCompilerName);
 
     if(!FolderExists(mCompilerLocation))
     {
-    	Log(lError)<<"Compiler location: "<<mCompilerLocation<<" do not exist.";
+    	Log(lWarning)<<"Compiler location: "<<mCompilerLocation<<" do not exist.";
         return false;
     }
 
@@ -53,6 +54,8 @@ bool Compiler::setupCompiler(const string& rrInstallFolder)
     	Log(lError)<<"The compiler: "<<JoinPath(mCompilerLocation, mCompilerExeName)<<" do not exist.";
         return false;
     }
+
+#endif
 
     mSupportCodeFolder = JoinPath(rrInstallFolder, "rr_support");
 
@@ -148,19 +151,18 @@ bool Compiler::SetupCompilerEnvironment()
 #if defined(_WIN32) || defined(__CODEGEARC__)
         mCompilerExeName = JoinPath(mCompilerLocation, "tcc.exe");
 #else
-        mCompilerExeName = JoinPath(mCompilerLocation, "tcc");
+	//On linux, tcc need to be on the path
+        mCompilerExeName = JoinPath("", "tcc");
 #endif
 
         mIncludePaths.push_back(".");
         mIncludePaths.push_back(JoinPath(mCompilerLocation, "include"));
         mLibraryPaths.push_back(".");
-		mLibraryPaths.push_back(JoinPath(mCompilerLocation, "lib"));
+	mLibraryPaths.push_back(JoinPath(mCompilerLocation, "lib"));
 
         mCompilerFlags.push_back("-g");         //-g adds runtime debug information
         mCompilerFlags.push_back("-shared");
-//        mCompilerFlags.push_back("-fPIC");
-//        mCompilerFlags.push_back("-W1,-soname,libtest_1.so.1");
-//#        mCompilerFlags.push_back("-rdynamic");  //-rdynamic : Export global symbols to the dynamic linker
+        mCompilerFlags.push_back("-rdynamic");  //-rdynamic : Export global symbols to the dynamic linker
                                                 //-b : Generate additional support code to check memory allocations and array/pointer bounds. `-g' is implied.
 
         //LogLevel                              //-v is for verbose

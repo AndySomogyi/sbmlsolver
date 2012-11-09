@@ -13,6 +13,9 @@ char*       EmptyString = "";
 #if defined(_WIN32) || defined(__CODEGEARC__)
 char*       PathSeparator = "\\";
 string		gExeSuffix	= ".exe";
+#elif defined(__linux)
+char*       PathSeparator = "/";
+string		gExeSuffix	= "";
 #else
 char*       PathSeparator = "/";
 string		gExeSuffix	= "";
