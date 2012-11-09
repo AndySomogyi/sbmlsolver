@@ -31,7 +31,7 @@ vector<double> BuildEvalArgument(ModelFromC* model);
 int         CvodeInterface::mCount = 0;
 int         CvodeInterface::mRootCount = 0;
 int         CvodeInterface::errorFileCounter = 0;
-string      CvodeInterface::tempPathstring = "c:\\";
+string      CvodeInterface::tempPathstring = "";
 ModelFromC* CvodeInterface::model = NULL;
 
 // -------------------------------------------------------------------------
@@ -71,6 +71,10 @@ lastTimeValue(0),
 lastEvent(0)
 
 {
+	if(rr)
+	{
+		tempPathstring = rr->GetTempFileFolder();	
+	}
     InitializeCVODEInterface(aModel);
 }
 
@@ -262,7 +266,7 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
 
             SetMaxNumSteps(cvodeMem, MaxNumSteps);
 
-            fileHandle = fileOpen(tempPathstring + cvodeLogFile + ToString(errorFileCounter) + ".txt");
+            fileHandle = fileOpen(JoinPath(tempPathstring, cvodeLogFile) + ToString(errorFileCounter) + ".txt");
             SetErrFile(cvodeMem, fileHandle);
             errCode = AllocateCvodeMem(cvodeMem, allocatedMemory, ModelFcn, (cvode_precision) 0.0, (N_Vector) _amounts, relTol, (N_Vector) abstolArray);
 
@@ -297,7 +301,7 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
             SetMaxOrder(cvodeMem, MaxBDFOrder);
             SetMaxNumSteps(cvodeMem, MaxNumSteps);
 
-            fileHandle = fileOpen(tempPathstring + cvodeLogFile + ToString(errorFileCounter) + ".txt");
+            fileHandle = fileOpen(JoinPath(tempPathstring, cvodeLogFile) + ToString(errorFileCounter) + ".txt");
             SetErrFile(cvodeMem, fileHandle);
 
             errCode = AllocateCvodeMem(cvodeMem, allocated, ModelFcn, 0.0, (N_Vector) _amounts, relTol, (N_Vector) abstolArray);
@@ -604,7 +608,7 @@ void CvodeInterface::HandleCVODEError(int errCode)
 
         // and open a new file handle
         errorFileCounter++;
-        FILE* newHandle = fileOpen(tempPathstring + cvodeLogFile + ToString(errorFileCounter) + ".txt");
+        FILE* newHandle = fileOpen(JoinPath(tempPathstring, cvodeLogFile) + ToString(errorFileCounter) + ".txt");
         if (newHandle != NULL && cvodeMem != NULL)
         {
             SetErrFile(cvodeMem, newHandle);
