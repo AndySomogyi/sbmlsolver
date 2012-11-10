@@ -29,13 +29,14 @@ if("${THIRD_PARTY_INSTALL_FOLDER}" STREQUAL "")
 endif()
 
 OPTION (INSTALL_CXX_API 		"Package c++ api" 	        	    ON)
-OPTION (INSTALL_PYTHON 			"Package Python wrapper" 		    ON)
+OPTION (INSTALL_PYTHON 			"Package Python wrapper" 		    OFF)
 OPTION (INSTALL_DELPHI  		"Package Delphi wrapper "           OFF)
-OPTION (INSTALL_C_API	 		"Generate and Package C API" 		ON)
+OPTION (INSTALL_C_API	 		"Generate and Package C API" 		OFF)
 OPTION (INSTALL_APPS	    	"Build and install Apps"	    	OFF)
 OPTION (INSTALL_EXAMPLES		"Build and install Examples"		OFF)
 OPTION (INSTALL_STATIC_LIB		"Install RoadRunner static lib"		OFF)
 OPTION (RUN_TESTS		        "Build and Run Tests"		        OFF)
+OPTION (INSTALL_SBML_MODELS		"Install SBML Models"		        ON)
 
 #Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
 set(BUILD_SHARED_LIBS 												ON)
@@ -137,7 +138,12 @@ endif()
 add_subdirectory(Wrappers)
 add_subdirectory(rr_support)
 
-#======================= INSTALL ROADRUNNER ========================================================
+#======================= INSTALL STUFF ========================================================
+#What sub folders to move into...?
+if(${INSTALL_SBML_MODELS})
+add_subdirectory(models)
+endif()
+
 if(INSTALL_CXX_API)
 install(FILES source/rr_pch.h	
         DESTINATION include 
