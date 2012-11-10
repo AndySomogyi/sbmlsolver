@@ -13,6 +13,7 @@
 #include "rrException.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
+#include "rrRoadRunner.h"
 //---------------------------------------------------------------------------
 
 using namespace std;
@@ -258,7 +259,7 @@ bool Compiler::CompileWIN32(const string& cmdLine)
     string compilerTempFile(JoinPath(tmpPath,"compilerOutput.log"));
 
     HANDLE out;
-    if((out=CreateFile(     compilerTempFile.c_str(),
+    if((out=CreateFileA(     compilerTempFile.c_str(),
                             GENERIC_WRITE|GENERIC_READ,FILE_SHARE_READ|FILE_SHARE_WRITE,
                             &sao,
                             CREATE_ALWAYS,

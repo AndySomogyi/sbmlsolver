@@ -73,7 +73,7 @@ lastEvent(0)
 {
 	if(rr)
 	{
-		tempPathstring = rr->GetTempFileFolder();	
+		tempPathstring = rr->getTempFileFolder();	
 	}
     InitializeCVODEInterface(aModel);
 }

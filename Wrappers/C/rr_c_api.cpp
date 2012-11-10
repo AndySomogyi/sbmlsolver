@@ -383,8 +383,8 @@ char* rrCallConv getTempFolder()
             return NULL;
         }
 
-	    char* text = new char[gRRHandle->GetTempFileFolder().size() + 1];
-    	strcpy(text, gRRHandle->GetTempFileFolder().c_str());
+	    char* text = new char[gRRHandle->getTempFileFolder().size() + 1];
+    	strcpy(text, gRRHandle->getTempFileFolder().c_str());
 	    return text;
     }
     catch(Exception& ex)

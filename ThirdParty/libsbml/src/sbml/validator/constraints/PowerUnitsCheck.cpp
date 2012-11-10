@@ -49,7 +49,7 @@
 
 
 #if defined(_MSC_VER) || defined(__BORLANDC__)
-#  include <float.h>
+//#  include <float.h>
 #  define isnan(d)  _isnan(d)
 #endif
 
@@ -229,7 +229,7 @@ PowerUnitsCheck::checkUnitsFromPower (const Model& m,
         SBMLTransforms::mapComponentValues(&m);
         double value = SBMLTransforms::evaluateASTNode(child);
         SBMLTransforms::clearComponentValues();
-        if (!std::isnan(value))
+        if (!isnan(value))
         {
           if (floor(value) != value)
             isExpression = 1;
@@ -316,7 +316,7 @@ PowerUnitsCheck::checkUnitsFromPower (const Model& m,
         double value = SBMLTransforms::evaluateASTNode(child, &m);
         SBMLTransforms::clearComponentValues();
         // but it may not be an integer
-        if (std::isnan(value))
+        if (isnan(value))
           // we cant check
         {
           isExpression = 1;

@@ -32,7 +32,7 @@
 #include <cmath>
 
 #if defined(_MSC_VER) || defined(__BORLANDC__)
-//#include <float.h>
+#include <float.h>
 #  define isnan(d)  _isnan(d)
 #endif
 
@@ -475,7 +475,7 @@ SBMLTransforms::evaluateASTNode(const ASTNode *node, const Model *m)
       {
         result = (mValues.find(node->getName())->second).first;
         bool set = (mValues.find(node->getName())->second).second;
-        if (std::isnan(result) && set)
+        if (isnan(result) && set)
         {
           if (m != NULL)
           {
@@ -1029,7 +1029,7 @@ SBMLTransforms::expandInitialAssignment(Compartment * c,
 {
   bool success = false; 
   double value = evaluateASTNode(ia->getMath(), c->getModel());
-  if (!std::isnan(value))
+  if (!isnan(value))
   {
     c->setSize(value);
     IdValueIter it = mValues.find(c->getId());
@@ -1047,7 +1047,7 @@ SBMLTransforms::expandInitialAssignment(Parameter * p,
 {
   bool success = false; 
   double value = evaluateASTNode(ia->getMath(), p->getModel());
-  if (!std::isnan(value))
+  if (!isnan(value))
   {
     p->setValue(value);
     IdValueIter it = mValues.find(p->getId());
@@ -1065,7 +1065,7 @@ SBMLTransforms::expandInitialAssignment(SpeciesReference * sr,
 {
   bool success = false; 
   double value = evaluateASTNode(ia->getMath(), sr->getModel());
-  if (!std::isnan(value))
+  if (!isnan(value))
   {
     sr->setStoichiometry(value);
     IdValueIter it = mValues.find(sr->getId());
@@ -1083,7 +1083,7 @@ SBMLTransforms::expandInitialAssignment(Species * s,
 {
   bool success = false; 
   double value = evaluateASTNode(ia->getMath(), s->getModel());
-  if (!std::isnan(value))
+  if (!isnan(value))
   {
     if (s->getHasOnlySubstanceUnits())
     {
