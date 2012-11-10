@@ -48,7 +48,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 	    string 							mRRInstallFolder;		//parent folder of mRRLocation
 		string                          mModelXMLFileName;
 		string                          mModelCode;
-		string                          mTempFileFolder;
+		static string                   mTempFileFolder;
 		SBMLModelSimulation            *mSimulation;
 
 		CvodeInterface                 *mCVode;
@@ -126,8 +126,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
         CvodeInterface*                 GetCVodeInterface();
         NLEQInterface*                  GetNLEQInterface();
 		int                             createTimeCourseSelectionList();
-		bool                            SetTempFileFolder(const string& folder);
-		string                          GetTempFileFolder();
+		static bool                     SetTempFileFolder(const string& folder);
+		static string                   getTempFileFolder();
 		void                            PartOfSimulation(SBMLModelSimulation* simulation){mSimulation = simulation;}
 		bool                            GenerateModelCode(const string& sbml);
 		bool                            CompileModel();

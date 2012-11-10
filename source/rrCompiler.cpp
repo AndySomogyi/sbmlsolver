@@ -325,7 +325,11 @@ bool Compiler::CompileWIN32(const string& cmdLine)
 
 bool Compiler::CompileUNIX(const string& cmdLine)
 {
-	int val = system(cmdLine.c_str());
+	string toFile(cmdLine);
+    toFile += " > ";
+    string tmpFolder = rr::RoadRunner::getTempFileFolder();
+    toFile += JoinPath(rr::RoadRunner::getTempFileFolder(), "compilation.log");
+	int val = system(toFile.c_str());
     if(val ==0)
     {
 	Log(lInfo)<<"Compile system call returned: "<<val;

@@ -46,6 +46,7 @@ using namespace ls;
 #pragma comment(lib, "IPHLPAPI.lib") //Becuase of poco needig this
 #endif
 
+string RoadRunner::mTempFileFolder = "";
 namespace rr
 {
 //Initialize statics..
@@ -76,9 +77,10 @@ RoadRunner::RoadRunner(const string& rrInstallLocation, const string& tempFolder
     mComputeAndAssignConservationLaws(true),
     mConservedTotalChanged(false),
     mCompiler(compiler),
-	mTempFileFolder(tempFolder),
+//	mTempFileFolder(tempFolder),
 	mRRInstallFolder(rrInstallLocation)
 {
+	mTempFileFolder = (tempFolder);
 	if(mRRInstallFolder.size() > 0)
     {
         if(!mCompiler.setupCompiler(mRRInstallFolder))
@@ -188,7 +190,7 @@ bool RoadRunner::SetTempFileFolder(const string& folder)
 	}
 }
 
-string RoadRunner::GetTempFileFolder()
+string RoadRunner::getTempFileFolder()
 {
 	return mTempFileFolder;
 }

@@ -1,6 +1,5 @@
 #ifndef rrCompilerH
 #define rrCompilerH
-//#include <windows.h>
 #include <vector>
 #include <string>
 #include "rrObject.h"
@@ -45,7 +44,6 @@ class RR_DECLSPEC Compiler : public rrObject
         void                        Execute(StringList& oProxyCode);
         bool                        CompileC_DLL(const string& cSource);
         string                      getCompilerMessages();
-
 };
 
 } //namespace rr
