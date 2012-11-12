@@ -53,6 +53,9 @@
 #  define isnan(d)  _isnan(d)
 #endif
 
+#if defined(__linux) 
+#  define isnan  std::isnan
+#endif
 
 /** @cond doxygen-ignored */
 

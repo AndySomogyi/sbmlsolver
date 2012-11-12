@@ -36,6 +36,9 @@
 #  define isnan(d)  _isnan(d)
 #endif
 
+#if defined(__linux)
+#define isnan std::isnan
+#endif
 #include "validator/constraints/IdList.h"
 
 /** @cond doxygen-ignored */
