@@ -33,12 +33,13 @@ set(sharedLibPrefix "")
 endif()
 
 target_link_libraries (${target} 
-libunit_test-static${staticLibPrefix}
 roadrunner-static
+unit_test-static${staticLibPrefix}
 )
 
 if(UNIX)
 target_link_libraries (${target} 
+libunit_test-static${staticLibPrefix}
 nleq-static.a
 rr-libstruct-static
 lapack
@@ -60,12 +61,6 @@ link_directories(
 ${THIRD_PARTY_INSTALL_FOLDER}/lib
 )
 
-#if(UNIX)
-#link_directories(
-#/usr/local/lib
-#)
-#endif()
-
 include_directories(
 ${RR_ROOT}
 ${THIRD_PARTY_FOLDER}/unit_test/src
@@ -84,7 +79,7 @@ set(resultsFile "${resultsDir}/cpp_api_tests_unknown_compiler.xml")
 endif()
 
 set(sbmlModelsDir       "${CMAKE_SOURCE_DIR}/models")
-set(compilerFolder      "${CMAKE_SOURCE_DIR}/trunk/ThirdParty/compilers/tcc")
+set(compilerFolder      "${CMAKE_SOURCE_DIR}/ThirdParty/compilers/tcc")
 set(supportCodeFolder   "${CMAKE_SOURCE_DIR}/rr_support")
 
 if(UNIX)
