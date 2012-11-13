@@ -24,7 +24,7 @@
 		<PropertyGroup Condition="'$(Base)'!=''">
 			<BCC_wcsu>false</BCC_wcsu>
 			<BPILibOutputDir>$(RR_DEBUG_INSTALL)\lib</BPILibOutputDir>
-			<Defines>WIN32;LIBSBML_USE_CPP_NAMESPACE;LIBSBML_STATIC;LIBLAX_STATIC;STATIC_RR;STATIC_LIBSTRUCT;STATIC_PUGI;STATIC_NLEQ;USE_PCH;$(Defines)</Defines>
+			<Defines>WIN32;LIBSBML_USE_CPP_NAMESPACE;LIBSBML_STATIC;LIBLAX_STATIC;STATIC_RR;STATIC_LIBSTRUCT;STATIC_PUGI;STATIC_NLEQ;USE_PCH;CG_IDE;$(Defines)</Defines>
 			<LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
 			<PackageImports>vclx.bpi;vcl.bpi;rtl.bpi;vclactnband.bpi;vclimg.bpi;VCLData.bpi;DuneComponents.bpi;TeePro915.bpi;TeeUI915.bpi;VCLCommonRTL.bpi;mtkCommonRTL.bpi;mtkMathRTL.bpi;mtkDataRTL.bpi;Tee915.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;svnui.bpi;svn.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;bdertl.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;DbxClientDriver.bpi;dbexpress.bpi;AzureCloud.bpi;DbxCommonDriver.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;vclie.bpi;webdsnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;TeeTree2D15Tee9.bpi;bcbie.bpi;dbxcds.bpi;inetdb.bpi;websnap.bpi;TeeImage915.bpi;TeeWorld915.bpi;TeeLanguage915.bpi;TeeGL915.bpi;TeeDB915.bpi;GenesisVisualComponents.bpi</PackageImports>
 			<ProjectType>CppStaticLibrary</ProjectType>

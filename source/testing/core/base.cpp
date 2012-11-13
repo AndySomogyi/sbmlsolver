@@ -34,6 +34,7 @@ SUITE(Base)
 		{
 			gRR->getCompiler()->setCompilerLocation(gCompilerPath.c_str());
 			gRR->getCompiler()->setSupportCodeFolder(gSupportCodeFolder.c_str());
+            Log(lDebug)<<"Supportcode folder is set to: "<<gSupportCodeFolder;
 		}
 	}
 

@@ -38,6 +38,8 @@ FILE* FileLog::GetLogFileHandle()
     return mLogFile.get()->mFILEHandle;
 }
 
+
+//        gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));
 bool FileLog::Init(const string& logPrefix, const LogLevel& level, unique_ptr<LogFile> logFile)
 {
     mLogPrefix = logPrefix;

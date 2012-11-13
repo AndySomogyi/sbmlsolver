@@ -32,7 +32,7 @@ string gTSDataOutPutFolder 	= "/r/RRTesting/DataOutput/gcc";
 vector<string> gModels;
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 
-//call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder" -lCompilerLocation
+//call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder" -lCompilerLocation -v enableLogging
 int main(int argc, char* argv[])
 {
     Args args;
@@ -44,7 +44,13 @@ int main(int argc, char* argv[])
     gRRInstallFolder 	= args.RRInstallFolder;
 	gCompilerPath 		= args.CompilerLocation;
 	gSupportCodeFolder 	= args.SupportCodeFolder;
+    bool doLogging  	= args.EnableLogging;
 
+    if(doLogging)
+    {
+        gLog.Init("", lDebug1, unique_ptr<LogFile>(new LogFile("testing.log")));
+        LogOutput::mLogToConsole = true;
+    }
 	fstream aFile(reportFile.c_str(), ios::out);
     if(!aFile)
     {
@@ -67,7 +73,7 @@ int main(int argc, char* argv[])
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
     char c;
-    while ((c = GetOptions(argc, argv, ("i:m:l:r:s:t:"))) != -1)
+    while ((c = GetOptions(argc, argv, ("vi:m:l:r:s:t:"))) != -1)
     {
         switch (c)
         {
@@ -77,6 +83,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
             case ('r'): args.ResultOutputFile                       = optarg;                       break;
 			case ('s'): args.SupportCodeFolder     		            = optarg;                       break;
 			case ('t'): args.TempDataFolder        		            = optarg;                       break;
+			case ('v'): args.EnableLogging        		            = true;                       break;
             case ('?'): cout<<Usage(argv[0])<<endl;
             default:
             {
