@@ -18,46 +18,80 @@ set_property(TARGET ${target}
 LIBSBML_USE_CPP_NAMESPACE
 LIBSBML_STATIC
 STATIC_LIBSTRUCT
-PUGI_STATIC
-RR_STATIC
+STATIC_PUGI
+STATIC_RR
+STATIC_NLEQ
 ) 
 
+if(UNIX)
+set(staticLibPrefix ".a")
+set(sharedLibPrefix ".so")
+add_definitions(-DUNITTEST_POSIX)
+else()
+set(staticLibPrefix "")
+set(sharedLibPrefix "")
+endif()
 
 target_link_libraries (${target} 
-unit_test-static
+libunit_test-static${staticLibPrefix}
 roadrunner-static
 )
+
+if(UNIX)
+target_link_libraries (${target} 
+nleq-static.a
+rr-libstruct-static
+lapack
+blas
+f2c
+libsbml-static.a
+libxml2.so
+sundials_nvecserial.a
+sundials_cvode.a
+pthread
+poco_foundation-static.a
+pugi-static.a
+dl
+)
+endif()
+
 
 link_directories(
 ${THIRD_PARTY_INSTALL_FOLDER}/lib
 )
-if(UNIX)
 
-link_directories(
-/usr/local/lib
-)
-endif()
+#if(UNIX)
+#link_directories(
+#/usr/local/lib
+#)
+#endif()
 
 include_directories(
 ${RR_ROOT}
 ${THIRD_PARTY_FOLDER}/unit_test/src
 )
 
-set(resultsDir "${CMAKE_SOURCE_DIR}/wiki/reports")
+set(resultsDir "${CMAKE_SOURCE_DIR}/reports")
 
 if(${BORLAND})
 set(resultsFile "${resultsDir}/cpp_api_tests_cg.xml")
 elseif(${MSVC})
 set(resultsFile "${resultsDir}/cpp_api_tests_msvc.xml")
+elseif(CMAKE_COMPILER_IS_GNUCC)
+set(resultsFile "${resultsDir}/cpp_api_tests_gcc.xml")
 else()
 set(resultsFile "${resultsDir}/cpp_api_tests_unknown_compiler.xml")
 endif()
 
 set(sbmlModelsDir       "${CMAKE_SOURCE_DIR}/models")
 set(compilerFolder      "${CMAKE_SOURCE_DIR}/trunk/ThirdParty/compilers/tcc")
-set(supportCodeFolder   "${CMAKE_SOURCE_DIR}/trunk/rr_support")
+set(supportCodeFolder   "${CMAKE_SOURCE_DIR}/rr_support")
 
-Message("SBML model dir is: " ${sbmlModelsDir})
+if(UNIX)
+set(compilerFolder      "")
+endif()
+
+Message("SupportCodeFolder is: " ${supportCodeFolder})
 # Call like this -mr:\rrl\models -rr:\rrl\wiki\reports\file -tr:\rrTemp -sSupportCodeFolder -lCompilerFolder
 add_custom_command(OUTPUT ${resultsFile}
   COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile}

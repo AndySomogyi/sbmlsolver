@@ -32,9 +32,14 @@ if(WIN32)
 set(sources ${sources} 
 src/Win32/TimeHelpers
 )
-else()
 set(sources ${sources} 
+)
+endif()
+if(UNIX)
+set(sources
+ ${sources}
 src/Posix/TimeHelpers
+src/Posix/SignalTranslator
 )
 endif()
 #This library can only be built as static
