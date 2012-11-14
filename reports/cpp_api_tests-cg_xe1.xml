@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="api_tests.xsl" type="text/xsl" ?>
-<unittest-results date_time = "2012-11-13 16:44:29" tests="5" failedtests="0" failures="0" time="0.359">
+<unittest-results date_time = "2012-11-13 17:30:22" tests="5" failedtests="0" failures="0" time="0.335">
 <test suite="Base" name="AllocateRR" time="0"/>
 <test suite="Base" name="VERSIONS" time="0"/>
 <test suite="Base" name="MODEL_FILES" time="0"/>
-<test suite="Base" name="LOAD_SBML" time="0.308"/>
-<test suite="Base" name="FULL_JACOBIAN" time="0.05"/>
+<test suite="Base" name="LOAD_SBML" time="0.287"/>
+<test suite="Base" name="FULL_JACOBIAN" time="0.046"/>
 </unittest-results>

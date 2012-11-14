@@ -69,9 +69,9 @@ ${THIRD_PARTY_FOLDER}/unit_test/src
 set(resultsDir "${CMAKE_SOURCE_DIR}/reports")
 
 if(${BORLAND})
-set(resultsFile "${resultsDir}/cpp_api_tests_cg.xml")
+set(resultsFile "${resultsDir}/cpp_api_tests-cg_xe1.xml")
 elseif(${MSVC})
-set(resultsFile "${resultsDir}/cpp_api_tests_msvc.xml")
+set(resultsFile "${resultsDir}/cpp_api_tests-vs_2010.xml")
 elseif(CMAKE_COMPILER_IS_GNUCC)
 set(resultsFile "${resultsDir}/cpp_api_tests_gcc.xml")
 else()
