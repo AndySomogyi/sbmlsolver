@@ -83,18 +83,25 @@ set(compilerFolder      "${CMAKE_SOURCE_DIR}/ThirdParty/compilers/tcc")
 set(supportCodeFolder   "${CMAKE_SOURCE_DIR}/rr_support")
 
 if(UNIX)
-set(compilerFolder      "")
+set(compilerFolder     "")
 endif()
 
 Message("SupportCodeFolder is: " ${supportCodeFolder})
 # Call like this -mr:\rrl\models -rr:\rrl\wiki\reports\file -tr:\rrTemp -sSupportCodeFolder -lCompilerFolder
-add_custom_command(OUTPUT ${resultsFile}
-  COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile}
-  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-  COMMENT "=========== Generating CPP-API Wiki reports =============="
-  VERBATIM)
+#add_custom_command(
+#    OUTPUT ${resultsFile}
+#    COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} -v
+#    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+#    COMMENT "=========== Generating CPP-API Wiki reports =============="
+#    VERBATIM 
+#    )
+#
+add_custom_target(cppTestingReport ALL DEPENDS ${resulsFile}
+    COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} 
+    COMMENT "=========== Generating CPP-API Wiki reports =============="
+    COMMENT "Executing ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} "
 
-add_custom_target(cppTestingReport ALL DEPENDS ${resultsFile})
+)
    
 install(
         TARGETS ${target} 		
