@@ -2,9 +2,10 @@ set(target rr_c_api)
 
 set(C_API_INCLUDE_ROOT "${RR_ROOT}/Wrappers/C")
 
-include_directories(    ${C_API_INCLUDE_ROOT}
-                        ${RR_ROOT}/source
-                        ${THIRD_PARTY_INSTALL_FOLDER}/include
+include_directories(   
+${C_API_INCLUDE_ROOT}
+${RR_ROOT}/source
+${THIRD_PARTY_INSTALL_FOLDER}/include
 )
 
 add_library(${target} SHARED
@@ -30,21 +31,19 @@ endif()
 if(${BORLAND})
 target_link_libraries (${target} libxml2_xe)
 else()
-target_link_libraries (${target} libxml2)
+#target_link_libraries (${target} libxml2)
 endif()
 
 #Link C_api dll statically to roadrunner and libsbml
-if(${MINGW})
-target_link_libraries (${target} roadrunner)
-else()
-target_link_libraries (${target} roadrunner-static
-                       ${target} blas
-                       ${target} lapack
-                       ${target} libf2c
-                       ${target} pugi-static
-                       ${target} rr-libstruct-static
-                       )
-endif()
+target_link_libraries (
+${target}
+roadrunner-static
+#blas
+#lapack
+#libf2c
+#pugi-static
+#rr-libstruct-static
+)
 
 #INCLUDE(FindSubversion)
 #IF(SUBVERSION_FOUND)
@@ -72,6 +71,7 @@ endif()
 
 add_subdirectory(Apps)
 add_subdirectory(Examples)
+
 if(RUN_TESTS)
 add_subdirectory(Testing)
 endif()
@@ -86,13 +86,14 @@ install(
            RUNTIME DESTINATION bin
            LIBRARY DESTINATION lib
            ARCHIVE DESTINATION lib
-           COMPONENT c_api)
+           COMPONENT c_api
+)
 
-install(   FILES ${lib_path}/${target}.lib	
-           DESTINATION lib 			
-           COMPONENT c_api)
-
-install(   FILES ${exe_path}/${target}.dll	
-           DESTINATION bin 			
-           COMPONENT c_api)
-
+#install(   FILES ${lib_path}/${target}.lib	
+#           DESTINATION lib 			
+#           COMPONENT c_api)
+#
+#install(   FILES ${exe_path}/${target}.dll	
+#           DESTINATION bin 			
+#           COMPONENT c_api)
+#

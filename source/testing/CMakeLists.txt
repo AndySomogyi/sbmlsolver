@@ -73,14 +73,14 @@ set(resultsFile "${resultsDir}/cpp_api_tests-cg_xe1.xml")
 elseif(${MSVC})
 set(resultsFile "${resultsDir}/cpp_api_tests-vs_2010.xml")
 elseif(CMAKE_COMPILER_IS_GNUCC)
-set(resultsFile "${resultsDir}/cpp_api_tests_gcc.xml")
+set(resultsFile "${resultsDir}/cpp_api_tests-gcc.xml")
 else()
 set(resultsFile "${resultsDir}/cpp_api_tests_unknown_compiler.xml")
 endif()
 
 set(sbmlModelsDir       "${CMAKE_SOURCE_DIR}/models")
 set(compilerFolder      "${CMAKE_SOURCE_DIR}/ThirdParty/compilers/tcc")
-set(supportCodeFolder   "${CMAKE_SOURCE_DIR}/rr_support")
+set(supportCodeFolder   "/r/rrl/rr_support")
 
 if(UNIX)
 set(compilerFolder     "")
@@ -97,15 +97,9 @@ Message("SupportCodeFolder is: " ${supportCodeFolder})
 #    )
 #
 add_custom_target(cppTestingReport ALL DEPENDS ${resulsFile}
-    COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} 
+    COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s"${supportCodeFolder}" -r${resultsFile} -v 
     COMMENT "=========== Generating CPP-API Wiki reports =============="
-    COMMENT "Executing ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} "
+    COMMENT "Executing ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} -v"
 
 )
    
-install(
-        TARGETS ${target} 		
-        DESTINATION bin 
-        COMPONENT testing)
-
-

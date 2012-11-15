@@ -1,12 +1,11 @@
 #ifndef GetOptionsH
 #define GetOptionsH                                                                                  \
-#include "rrExporter.h"
 //---------------------------------------------------------------------------
 
-extern int                         optind;
-extern int                         opterr;
-extern char                       *optarg;
-       int                         GetOptions(int argc, char *argv[], char *optstring);
+extern int                         optInd;
+//extern int                         optErr;
+extern char                       *optArg;
+       int                         GetOptions(int argc, char *argv[], const char *optstring);
 
 
 #endif

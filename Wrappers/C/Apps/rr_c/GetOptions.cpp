@@ -6,46 +6,46 @@
 #include <string.h>
 #include "rrGetOptions.h"
 
-char    *optarg;            // global argument pointer
-int      optind = 0;        // global argv index
+char    *optArg;            // global argument pointer
+int      optInd = 0;        // global argv index
 
-int GetOptions(int argc, char *argv[], char *optstring)
+int GetOptions(int argc, char *argv[], const char *optstring)
 {
     static char *next = NULL;
-    if (optind == 0)
+    if (optInd == 0)
         next = NULL;
 
-    optarg = NULL;
+    optArg = NULL;
 
     if (next == NULL || *next == wchar_t('\0'))
     {
-        if (optind == 0)
-            optind++;
+        if (optInd == 0)
+            optInd++;
 
-        if (optind >= argc || argv[optind][0] != wchar_t('-') || argv[optind][1] == wchar_t('\0'))
+        if (optInd >= argc || argv[optInd][0] != wchar_t('-') || argv[optInd][1] == wchar_t('\0'))
         {
-            optarg = NULL;
-            if (optind < argc)
-                optarg = argv[optind];
+            optArg = NULL;
+            if (optInd < argc)
+                optArg = argv[optInd];
             return EOF;
         }
 
-        if (strcmp(argv[optind], ("--")) == 0)
+        if (strcmp(argv[optInd], ("--")) == 0)
         {
-            optind++;
-            optarg = NULL;
-            if (optind < argc)
-                optarg = argv[optind];
+            optInd++;
+            optArg = NULL;
+            if (optInd < argc)
+                optArg = argv[optInd];
             return EOF;
         }
 
-        next = argv[optind];
+        next = argv[optInd];
         next++;        // skip past -
-        optind++;
+        optInd++;
     }
 
     char c = *next++;
-    char *cp = strchr(optstring, c);
+    const char *cp = strchr(optstring, c);
 
     if (cp == NULL || c == wchar_t(':'))
         return wchar_t('?');
@@ -55,13 +55,13 @@ int GetOptions(int argc, char *argv[], char *optstring)
     {
         if (*next != wchar_t('\0'))
         {
-            optarg = next;
+            optArg = next;
             next = NULL;
         }
-        else if (optind < argc)
+        else if (optInd < argc)
         {
-            optarg = argv[optind];
-            optind++;
+            optArg = argv[optInd];
+            optInd++;
         }
         else
         {

@@ -1,11 +1,9 @@
-//---------------------------------------------------------------------------
 #ifndef CommandLineParametersH
 #define CommandLineParametersH
-#include <windows.h>
-#include <shlobj.h>
 #include <string>
 #include "rrLogger.h"
 //---------------------------------------------------------------------------
+
 using std::string;
 using namespace rr;
 string Usage(const string& prg);

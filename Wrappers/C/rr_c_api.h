@@ -163,9 +163,6 @@
 #if defined(__cplusplus)
 extern "C"
 {
-#else
-//#include <stdio.h>
-//#include "rr_support/stdbool.h"
 #endif
 
 #include "rr_c_api_exporter.h"

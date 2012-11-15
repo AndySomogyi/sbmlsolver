@@ -103,7 +103,7 @@ bool rrCallConv enableLogging()
 
         char* buffer = new char[1024];
         // Get the current working directory:
-        if( (buffer = _getcwd( buffer, MAXPATH )) == NULL )
+        if( (buffer = getcwd( buffer, MAXPATH )) == NULL )
         {
             perror( "getcwd error" );
         }
@@ -164,7 +164,7 @@ char* rrCallConv getLogLevel()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
-  	    return false;
+  	    return NULL;
     }
 }
 
@@ -225,9 +225,9 @@ char* rrCallConv getRRCAPILocation()
         clog<<"RoadRunner CAPI location: "<<aPath;
 		return createText(aPath);
     }
-    return "";
+    return NULL;
 #else
-	return "";
+	return NULL;
 #endif
 }
 
@@ -793,7 +793,7 @@ RRResultHandle rrCallConv simulate()
         if(!gRRHandle)
         {
             setError(ALLOCATE_API_ERROR_MSG);
-            return false;
+            return NULL;
         }
 
         if(!gRRHandle->Simulate())
@@ -1072,7 +1072,7 @@ RRMatrixHandle rrCallConv getStoichiometryMatrix()
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
     }
-	return false;
+	return NULL;
 }
 
 RRMatrixHandle rrCallConv getConservationMatrix()
@@ -1108,7 +1108,7 @@ RRMatrixHandle rrCallConv getConservationMatrix()
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
     }
-	return false;
+	return NULL;
 }
 
 RRMatrixHandle rrCallConv getLinkMatrix()
@@ -1130,7 +1130,7 @@ RRMatrixHandle rrCallConv getLinkMatrix()
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
     }
-	return false;
+	return NULL;
 }
 
 RRMatrixHandle rrCallConv getL0Matrix()
@@ -1349,7 +1349,7 @@ RRStringArrayHandle rrCallConv getFloatingSpeciesIds()
         if(!gRRHandle)
         {
             setError(ALLOCATE_API_ERROR_MSG);
-            return false;
+            return NULL;
         }
 
         StringList fNames = gRRHandle->getFloatingSpeciesIds();
@@ -1367,7 +1367,7 @@ RRStringArrayHandle rrCallConv getFloatingSpeciesIds()
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
     }
-    return false;
+    return NULL;
 }
 
 int rrCallConv getNumberOfGlobalParameters()
@@ -1424,7 +1424,7 @@ RRVectorHandle rrCallConv getFloatingSpeciesConcentrations()
         if(!gRRHandle)
         {
             setError(ALLOCATE_API_ERROR_MSG);
-            return false;
+            return NULL;
         }
 
         vector<double> vec =  gRRHandle->getFloatingSpeciesConcentrations();
@@ -1447,7 +1447,7 @@ RRVectorHandle rrCallConv getBoundarySpeciesConcentrations()
         if(!gRRHandle)
         {
             setError(ALLOCATE_API_ERROR_MSG);
-            return false;
+            return NULL;
         }
 
         vector<double> vec =  gRRHandle->getBoundarySpeciesConcentrations();
@@ -1471,7 +1471,7 @@ RRVectorHandle rrCallConv getFloatingSpeciesInitialConcentrations()
         if(!gRRHandle)
         {
             setError(ALLOCATE_API_ERROR_MSG);
-            return false;
+            return NULL;
         }
 
         vector<double> vec =  gRRHandle->getFloatingSpeciesInitialConcentrations();
@@ -1657,7 +1657,7 @@ RRVectorHandle rrCallConv getGlobalParameterValues()
         if(!gRRHandle)
         {
             setError(ALLOCATE_API_ERROR_MSG);
-            return false;
+            return NULL;
         }
 
         vector<double> vec =  gRRHandle->getGlobalParameterValues();
@@ -2452,16 +2452,17 @@ RRMatrixHandle rrCallConv getUnscaledConcentrationControlCoefficientMatrix()
             setError(ALLOCATE_API_ERROR_MSG);
             return NULL;
         }
-
-        return createMatrix(&(gRRHandle->getUnscaledConcentrationControlCoefficientMatrix()));
+		DoubleMatrix aMat = gRRHandle->getUnscaledConcentrationControlCoefficientMatrix();
+        //return createMatrix(&(gRRHandle->getUnscaledConcentrationControlCoefficientMatrix()));
+        return createMatrix(&(aMat));
     }
     catch(Exception& ex)
     {
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+    	return NULL;
     }
-    return NULL;
 }
 
 
@@ -2475,15 +2476,17 @@ RRMatrixHandle rrCallConv getScaledConcentrationControlCoefficientMatrix()
             return NULL;
         }
 
-        return createMatrix(&(gRRHandle->getScaledConcentrationControlCoefficientMatrix()));
+        //return createMatrix(&(gRRHandle->getScaledConcentrationControlCoefficientMatrix()));
+		DoubleMatrix aMat = gRRHandle->getScaledConcentrationControlCoefficientMatrix();
+        return createMatrix(&(aMat));
     }
     catch(Exception& ex)
     {
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+    	return NULL;
     }
-    return NULL;
 }
 
 
@@ -2497,15 +2500,17 @@ RRMatrixHandle rrCallConv getUnscaledFluxControlCoefficientMatrix()
             return NULL;
         }
 
-        return createMatrix(&(gRRHandle->getUnscaledFluxControlCoefficientMatrix()));
+        //return createMatrix(&(gRRHandle->getUnscaledFluxControlCoefficientMatrix()));
+		DoubleMatrix aMat = gRRHandle->getUnscaledFluxControlCoefficientMatrix();
+        return createMatrix(&(aMat));
     }
     catch(Exception& ex)
     {
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+    	return NULL;
     }
-    return NULL;
 }
 
 
@@ -2519,15 +2524,17 @@ RRMatrixHandle rrCallConv getScaledFluxControlCoefficientMatrix()
             return NULL;
         }
 
-        return createMatrix(&(gRRHandle->getScaledFluxControlCoefficientMatrix()));
+        //return createMatrix(&(gRRHandle->getScaledFluxControlCoefficientMatrix()));a
+		DoubleMatrix aMat = gRRHandle->getScaledFluxControlCoefficientMatrix();
+        return createMatrix(&(aMat));
     }
     catch(Exception& ex)
     {
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+    	return NULL;
     }
-    return NULL;
 }
 
 RRListHandle rrCallConv getUnscaledFluxControlCoefficientIds()
@@ -2599,7 +2606,7 @@ int rrCallConv getNumberOfCompartments()
         if(!gRRHandle)
         {
             setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
+            return -1;
         }
         return gRRHandle->getNumberOfCompartments();
     }
@@ -2608,8 +2615,8 @@ int rrCallConv getNumberOfCompartments()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+    	return -1;
     }
-    return -1;
 }
 
 bool rrCallConv getCompartmentByIndex(const int& index, double& value)
@@ -2619,7 +2626,7 @@ bool rrCallConv getCompartmentByIndex(const int& index, double& value)
         if(!gRRHandle)
         {
             setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
+            return false;
         }
         value = gRRHandle->getCompartmentByIndex(index);
         return true;
@@ -2629,8 +2636,8 @@ bool rrCallConv getCompartmentByIndex(const int& index, double& value)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+    	return false;
     }
-    return false;
 }
 
 bool rrCallConv setCompartmentByIndex (const int& index, const double& value)
@@ -2650,8 +2657,8 @@ bool rrCallConv setCompartmentByIndex (const int& index, const double& value)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+    	return false;
     }
-    return false;
 }
 
 RRStringArrayHandle rrCallConv getCompartmentIds()
@@ -2670,8 +2677,8 @@ RRStringArrayHandle rrCallConv getCompartmentIds()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+    	return NULL;
     }
-    return NULL;
 }
 
 bool rrCallConv getRateOfChange(const int& index, double& value)

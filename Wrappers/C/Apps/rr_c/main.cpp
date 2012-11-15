@@ -1,14 +1,15 @@
 //#pragma hdrstop
+#if defined(_WIN32) || defined(WIN32)
 #include <windows.h>
+#endif
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <tchar.h>
 #include <iomanip>
 
 #if defined(__CODEGEARC__)
 #include <dir.h>
-#else
+#elif defined(_MS_VER)
 #include <direct.h>
 #endif
 

@@ -32,25 +32,28 @@ string gTSDataOutPutFolder 	= "/r/RRTesting/DataOutput/gcc";
 vector<string> gModels;
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 
-//call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder" -lCompilerLocation -v enableLogging
 int main(int argc, char* argv[])
 {
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
 
-    string reportFile(args.ResultOutputFile);
-
-    gSBMLModelsPath 	= args.SBMLModelsFilePath;
-    gRRInstallFolder 	= args.RRInstallFolder;
-	gCompilerPath 		= args.CompilerLocation;
-	gSupportCodeFolder 	= args.SupportCodeFolder;
-    bool doLogging  	= args.EnableLogging;
+   	bool doLogging  	= args.EnableLogging;
 
     if(doLogging)
     {
         gLog.Init("", lDebug1, unique_ptr<LogFile>(new LogFile("testing.log")));
         LogOutput::mLogToConsole = true;
-    }
+    } 
+	string reportFile(args.ResultOutputFile);
+
+    gSBMLModelsPath 	= args.SBMLModelsFilePath;
+    gRRInstallFolder 	= args.RRInstallFolder;
+	gCompilerPath 		= args.CompilerLocation;
+
+	Log(lDebug) << "Support code folder is set to:"<<args.SupportCodeFolder;
+
+	gSupportCodeFolder 	= "/r/rrl/rr_support";
+    
 	fstream aFile(reportFile.c_str(), ios::out);
     if(!aFile)
     {
