@@ -1,6 +1,6 @@
 ﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 		<PropertyGroup>
-			<ProjectGuid>{19B14E68-A4E6-4320-A0D8-4A70903120AE}</ProjectGuid>
+			<ProjectGuid>{5EC81081-7DE3-4982-AC11-476C1B474C02}</ProjectGuid>
 			<ProjectVersion>12.3</ProjectVersion>
 			<Base>True</Base>
 			<Config Condition="'$(Config)'==''">Debug</Config>
@@ -22,36 +22,37 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
-			<NoVCL>true</NoVCL>
-			<LinkPackageImports>rtl.bpi;vcl.bpi</LinkPackageImports>
-			<ProjectType>CppConsoleApplication</ProjectType>
-			<PackageImports>vclx.bpi;vcl.bpi;rtl.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;vclimg.bpi;svnui.bpi;svn.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;bdertl.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;DbxClientDriver.bpi;dbexpress.bpi;AzureCloud.bpi;DbxCommonDriver.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;vclie.bpi;webdsnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;TeeTree2D15Tee9.bpi;bcbie.bpi;dbxcds.bpi;inetdb.bpi;websnap.bpi;TeeImage915.bpi;TeeWorld915.bpi;TeeLanguage915.bpi;TeePro915.bpi;TeeGL915.bpi;TeeUI915.bpi;TeeDB915.bpi;Tee915.bpi;DuneComponents.bpi;mtkCommonRTL.bpi;VCLCommonRTL.bpi;VCLData.bpi;mtkMathRTL.bpi;mtkDataRTL.bpi;GenesisVisualComponents.bpi;vtkComponents.bpi;mtkGraphicsRTL.bpi;VCLMolecule.bpi;mtkMoleculeRTL.bpi;mtkSpinRTL.bpi</PackageImports>
+			<Defines>CG_IDE;$(Defines)</Defines>
+			<BCC_IncludePath>$(RR_DEBUG_INSTALL)\include;$(BCC_IncludePath)</BCC_IncludePath>
+			<BCC_Defines>LIBSBML_USE_CPP_NAMESPACE;WIN32;$(BCC_Defines)</BCC_Defines>
 			<OutputExt>exe</OutputExt>
-			<FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
+			<LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
+			<ILINK_LibraryPath>..\..\Wrappers\C\Testing\core\;..\..\Wrappers\C\Testing\;core\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+			<PackageImports>vcl.bpi;rtl.bpi;bcbie.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;vclimg.bpi;svnui.bpi;svn.bpi;bdertl.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;vclie.bpi;inet.bpi;inetdb.bpi;webdsnap.bpi;websnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;dbexpress.bpi;DbxCommonDriver.bpi;DbxClientDriver.bpi;AzureCloud.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbxcds.bpi;DuneComponents.bpi;VCLCommon.bpi</PackageImports>
+			<NoVCL>true</NoVCL>
+			<Multithreaded>true</Multithreaded>
+			<IncludePath>..\..\Wrappers\C\Testing\core\;..\..\Wrappers\C\Testing\;core\;..\;..\..\..\source;$(IncludePath)</IncludePath>
 			<AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
+			<ProjectType>CppConsoleApplication</ProjectType>
 			<_TCHARMapping>char</_TCHARMapping>
-			<ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
-			<ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
-			<IncludePath>..\..\source\;..\..\Wrappers\C\Examples\api_tester\;..\..\Wrappers\C\;$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>
-			<ILINK_LibraryPath>R:\installs\xe\debug\lib\;..\..\Wrappers\C\;R:\installs\xe\full-debug\lib\;..\..\source\libstruct\;..\..\source\;..\..\Wrappers\C\Examples\api_tester\;R:\installs\xe\lib\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
 			<DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
 			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE</DCC_UnitAlias>
 			<DynamicRTL>true</DynamicRTL>
-			<UsePackages>true</UsePackages>
-			<IntermediateOutputDir>.\$(Config)\$(Platform)\c_api_tests</IntermediateOutputDir>
+			<IntermediateOutputDir>.\$(Config)\$(Platform)</IntermediateOutputDir>
+			<FinalOutputDir>.\$(Config)\$(Platform)</FinalOutputDir>
 			<BCC_wpar>false</BCC_wpar>
 			<BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
 			<BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
+			<ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1)'!=''">
-			<BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
-			<BCC_MonitorThis>true</BCC_MonitorThis>
-			<BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
+			<IncludePath>$(RR_DEBUG_INSTALL)\include;$(RR_DEBUG_INSTALL)\include\unit_test;$(IncludePath)</IncludePath>
+			<FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
 			<BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
 			<BCC_DisableOptimizations>true</BCC_DisableOptimizations>
 			<DCC_Optimize>false</DCC_Optimize>
 			<DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
-			<Defines>_DEBUG;USE_PCH;STATIC_RR;WIN32;$(Defines)</Defines>
+			<Defines>_DEBUG;$(Defines)</Defines>
 			<BCC_InlineFunctionExpansion>false</BCC_InlineFunctionExpansion>
 			<BCC_UseRegisterVariables>None</BCC_UseRegisterVariables>
 			<DCC_Define>DEBUG</DCC_Define>
@@ -62,18 +63,24 @@
 			<TASM_Debugging>Full</TASM_Debugging>
 			<BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
 			<ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(RR_DEBUG_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+			<ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2)'!=''">
 			<Defines>NDEBUG;$(Defines)</Defines>
 			<TASM_Debugging>None</TASM_Debugging>
 		</PropertyGroup>
 		<ItemGroup>
-			<LibFiles Include="R:\installs\xe\debug\lib\rr_c_api.lib">
-				<IgnorePath>true</IgnorePath>
+			<CppCompile Include="..\..\Wrappers\C\Testing\Args.cpp">
+				<BuildOrder>3</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\..\Wrappers\C\Testing\core\base.cpp">
 				<BuildOrder>2</BuildOrder>
-			</LibFiles>
-			<CppCompile Include="..\..\Wrappers\C\Examples\api_tester\main.cpp">
+			</CppCompile>
+			<CppCompile Include="..\..\Wrappers\C\Testing\core\steady_state.cpp">
 				<BuildOrder>1</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\..\Wrappers\C\Testing\main.cpp">
+				<BuildOrder>0</BuildOrder>
 			</CppCompile>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_2</Key>
@@ -127,13 +134,12 @@
 						<ProjectProperties Name="VerifyPackages">True</ProjectProperties>
 					</ProjectProperties>
 					<Parameters>
-						<Parameters Name="RunParams">R:\\installs\xe\debug\Models</Parameters>
+						<Parameters Name="RunParams">-mr:\rrl\models -lr:\installs\xe1\release\compilers\tcc -tr:\rrTemp  -sr:\installs\xe1\release\rr_support -rr:\rrl\wiki\reports\c_api_tests_cg_ui.xml</Parameters>
 					</Parameters>
 				</CPlusPlusBuilder.Personality>
 				<Platforms>
 					<Platform value="Win32">True</Platform>
 				</Platforms>
-				<ModelSupport>False</ModelSupport>
 			</BorlandProject>
 			<ProjectFileVersion>12</ProjectFileVersion>
 		</ProjectExtensions>

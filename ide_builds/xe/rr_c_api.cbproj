@@ -1,11 +1,11 @@
 ﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 		<PropertyGroup>
-			<ProjectGuid>{5EC81081-7DE3-4982-AC11-476C1B474C02}</ProjectGuid>
+			<ProjectGuid>{F02A4FDC-5DE6-4A6D-8997-98420C96BAF4}</ProjectGuid>
 			<ProjectVersion>12.3</ProjectVersion>
 			<Base>True</Base>
 			<Config Condition="'$(Config)'==''">Debug</Config>
 			<Platform>Win32</Platform>
-			<AppType>Console</AppType>
+			<AppType>Library</AppType>
 			<FrameworkType>None</FrameworkType>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
@@ -22,30 +22,30 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
-			<BCC_IncludePath>$(RR_DEBUG_INSTALL)\include;..\source;$(BCC_IncludePath)</BCC_IncludePath>
-			<BCC_Defines>LIBSBML_USE_CPP_NAMESPACE;WIN32;$(BCC_Defines)</BCC_Defines>
-			<OutputExt>exe</OutputExt>
-			<LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
-			<ILINK_LibraryPath>sanity_tests\;R:\installs\xe\debug\lib\;C:\rDisk\installs\xe\debug\lib\;R:\roadrunnerwork\trunk\testing\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-			<PackageImports>vcl.bpi;rtl.bpi;bcbie.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;vclimg.bpi;svnui.bpi;svn.bpi;bdertl.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;vclie.bpi;inet.bpi;inetdb.bpi;webdsnap.bpi;websnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;dbexpress.bpi;DbxCommonDriver.bpi;DbxClientDriver.bpi;AzureCloud.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbxcds.bpi;DuneComponents.bpi;VCLCommon.bpi</PackageImports>
+			<Defines>EXPORT_RR_C_API;LIBSBML_USE_CPP_NAMESPACE;WIN32;CG_IDE;LIBSBML_STATIC;LIBLAX_STATIC;STATIC_LIBSTRUCT;STATIC_PUGI;STATIC_NLEQ;STATIC_RR;$(Defines)</Defines>
+			<LinkPackageImports>rtl.bpi;vcl.bpi</LinkPackageImports>
+			<ILINK_LibraryPath>..\..\Wrappers\C\;R:\installs\xe\debug\lib\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
 			<NoVCL>true</NoVCL>
-			<Multithreaded>true</Multithreaded>
-			<IncludePath>sanity_tests\;..\;..\ThirdParty\unit_test\src;$(IncludePath)</IncludePath>
-			<AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
-			<ProjectType>CppConsoleApplication</ProjectType>
+			<PackageImports>vclx.bpi;vcl.bpi;VclSmp.bpi;rtl.bpi;vclimg.bpi;bcbie.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;svnui.bpi;svn.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;bdertl.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;vclie.bpi;inet.bpi;inetdb.bpi;webdsnap.bpi;websnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;DbxCommonDriver.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbexpress.bpi;dbxcds.bpi;TeeTree2D15Tee9.bpi;DbxClientDriver.bpi;AzureCloud.bpi;TeeImage915.bpi;TeeWorld915.bpi;TeeLanguage915.bpi;TeePro915.bpi;TeeGL915.bpi;TeeUI915.bpi;TeeDB915.bpi;Tee915.bpi</PackageImports>
+			<ProjectType>CppDynamicLibrary</ProjectType>
 			<_TCHARMapping>char</_TCHARMapping>
+			<IncludePath>..\..\source;..\..\Wrappers\C\;$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>
+			<AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
+			<OutputExt>dll</OutputExt>
+			<BPILibOutputDir>$(RR_DEBUG_INSTALL)\lib</BPILibOutputDir>
+			<ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
 			<DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
 			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE</DCC_UnitAlias>
 			<DynamicRTL>true</DynamicRTL>
-			<IntermediateOutputDir>.\$(Config)\$(Platform)</IntermediateOutputDir>
-			<FinalOutputDir>.\$(Config)\$(Platform)</FinalOutputDir>
+			<UsePackages>true</UsePackages>
+			<IntermediateOutputDir>.\$(Config)\$(Platform)\rr_c_api</IntermediateOutputDir>
+			<FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
 			<BCC_wpar>false</BCC_wpar>
 			<BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
 			<BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
-			<ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1)'!=''">
-			<FinalOutputDir>R:\installs\xe\debug\bin\</FinalOutputDir>
+			<FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
 			<BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
 			<BCC_DisableOptimizations>true</BCC_DisableOptimizations>
 			<DCC_Optimize>false</DCC_Optimize>
@@ -60,27 +60,22 @@
 			<ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
 			<TASM_Debugging>Full</TASM_Debugging>
 			<BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
-			<ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-			<ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
+			<ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(RR_DEBUG_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2)'!=''">
 			<Defines>NDEBUG;$(Defines)</Defines>
 			<TASM_Debugging>None</TASM_Debugging>
 		</PropertyGroup>
 		<ItemGroup>
-			<LibFiles Include="R:\installs\xe\debug\lib\roadrunner-static.lib">
-				<IgnorePath>true</IgnorePath>
-				<BuildOrder>3</BuildOrder>
-			</LibFiles>
-			<LibFiles Include="R:\installs\xe\debug\lib\UnitTest.lib">
-				<IgnorePath>true</IgnorePath>
-				<BuildOrder>1</BuildOrder>
-			</LibFiles>
-			<CppCompile Include="main.cpp">
-				<BuildOrder>0</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="sanity_tests\TestRoadRunnerCore.cpp">
+			<CppCompile Include="..\..\Wrappers\C\rr_c_api.cpp">
 				<BuildOrder>2</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\..\Wrappers\C\rr_c_api_support.cpp">
+				<DependentOn>..\..\Wrappers\C\rr_c_api_support.h</DependentOn>
+				<BuildOrder>11</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\..\Wrappers\C\rr_dll_entry_point.cpp">
+				<BuildOrder>1</BuildOrder>
 			</CppCompile>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_2</Key>
@@ -98,7 +93,7 @@
 		<Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj"/>
 		<ProjectExtensions>
 			<Borland.Personality>CPlusPlusBuilder.Personality.12</Borland.Personality>
-			<Borland.ProjectType>CppConsoleApplication</Borland.ProjectType>
+			<Borland.ProjectType>CppDynamicLibrary</Borland.ProjectType>
 			<BorlandProject>
 				<CPlusPlusBuilder.Personality>
 					<VersionInfo>
@@ -128,6 +123,10 @@
 						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
 						<VersionInfoKeys Name="Comments"/>
 					</VersionInfoKeys>
+					<Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\bcboffice2k150.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+						<Excluded_Packages Name="$(BDSBIN)\bcbofficexp150.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+					</Excluded_Packages>
 					<ProjectProperties>
 						<ProjectProperties Name="AutoShowDeps">False</ProjectProperties>
 						<ProjectProperties Name="ManagePaths">True</ProjectProperties>

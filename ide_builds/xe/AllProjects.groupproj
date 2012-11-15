@@ -3,32 +3,32 @@
 			<ProjectGuid>{8AA929FD-F762-4676-B2BC-2AD621E4E45C}</ProjectGuid>
 		</PropertyGroup>
 		<ItemGroup>
-			<Projects Include="..\..\ThirdParty\unit_test\unit_test-static.cbproj">
+			<Projects Include="unit_test-static.cbproj">
 				<Dependencies/>
 			</Projects>
-			<Projects Include="..\..\source\roadrunner.cbproj">
+			<Projects Include="roadrunner.cbproj">
 				<Dependencies/>
 			</Projects>
-			<Projects Include="..\..\source\roadrunner-static.cbproj">
+			<Projects Include="roadrunner-static.cbproj">
 				<Dependencies/>
 			</Projects>
-			<Projects Include="..\..\source\testing\cxx_api_tests.cbproj">
-				<Dependencies>..\..\ThirdParty\unit_test\unit_test-static.cbproj;..\..\source\roadrunner-static.cbproj;..\..\Wrappers\C\rr_c_api.cbproj</Dependencies>
+			<Projects Include="cxx_api_tests.cbproj">
+				<Dependencies>unit_test-static.cbproj;roadrunner-static.cbproj;rr_c_api.cbproj</Dependencies>
 			</Projects>
-			<Projects Include="..\..\apps\rr\rr.cbproj">
+			<Projects Include="rr.cbproj">
 				<Dependencies/>
 			</Projects>
-			<Projects Include="..\..\apps\rr_test_suite_tester\rr_ts_tester.cbproj">
+			<Projects Include="rr_ts_tester.cbproj">
 				<Dependencies/>
 			</Projects>
-			<Projects Include="..\..\Wrappers\C\rr_c_api.cbproj">
+			<Projects Include="rr_c_api.cbproj">
 				<Dependencies/>
 			</Projects>
-			<Projects Include="..\..\Wrappers\C\Apps\rr_c\rr_c.cbproj">
-				<Dependencies>..\..\Wrappers\C\rr_c_api.cbproj</Dependencies>
+			<Projects Include="rr_c.cbproj">
+				<Dependencies>roadrunner-static.cbproj;rr_c_api.cbproj</Dependencies>
 			</Projects>
-			<Projects Include="..\..\Wrappers\C\Testing\c_api_tests.cbproj">
-				<Dependencies>..\..\ThirdParty\unit_test\unit_test-static.cbproj;..\..\source\roadrunner-static.cbproj;..\..\Wrappers\C\rr_c_api.cbproj</Dependencies>
+			<Projects Include="c_api_tests.cbproj">
+				<Dependencies>unit_test-static.cbproj;roadrunner-static.cbproj;rr_c_api.cbproj</Dependencies>
 			</Projects>
 		</ItemGroup>
 		<ProjectExtensions>
@@ -39,85 +39,85 @@
 			</BorlandProject>
 		</ProjectExtensions>
 		<Target Name="unit_test-static">
-			<MSBuild Projects="..\..\ThirdParty\unit_test\unit_test-static.cbproj"/>
+			<MSBuild Projects="unit_test-static.cbproj"/>
 		</Target>
 		<Target Name="unit_test-static:Clean">
-			<MSBuild Projects="..\..\ThirdParty\unit_test\unit_test-static.cbproj" Targets="Clean"/>
+			<MSBuild Projects="unit_test-static.cbproj" Targets="Clean"/>
 		</Target>
 		<Target Name="unit_test-static:Make">
-			<MSBuild Projects="..\..\ThirdParty\unit_test\unit_test-static.cbproj" Targets="Make"/>
+			<MSBuild Projects="unit_test-static.cbproj" Targets="Make"/>
 		</Target>
 		<Target Name="roadrunner">
-			<MSBuild Projects="..\..\source\roadrunner.cbproj"/>
+			<MSBuild Projects="roadrunner.cbproj"/>
 		</Target>
 		<Target Name="roadrunner:Clean">
-			<MSBuild Projects="..\..\source\roadrunner.cbproj" Targets="Clean"/>
+			<MSBuild Projects="roadrunner.cbproj" Targets="Clean"/>
 		</Target>
 		<Target Name="roadrunner:Make">
-			<MSBuild Projects="..\..\source\roadrunner.cbproj" Targets="Make"/>
+			<MSBuild Projects="roadrunner.cbproj" Targets="Make"/>
 		</Target>
 		<Target Name="roadrunner-static">
-			<MSBuild Projects="..\..\source\roadrunner-static.cbproj"/>
+			<MSBuild Projects="roadrunner-static.cbproj"/>
 		</Target>
 		<Target Name="roadrunner-static:Clean">
-			<MSBuild Projects="..\..\source\roadrunner-static.cbproj" Targets="Clean"/>
+			<MSBuild Projects="roadrunner-static.cbproj" Targets="Clean"/>
 		</Target>
 		<Target Name="roadrunner-static:Make">
-			<MSBuild Projects="..\..\source\roadrunner-static.cbproj" Targets="Make"/>
+			<MSBuild Projects="roadrunner-static.cbproj" Targets="Make"/>
 		</Target>
 		<Target Name="cxx_api_tests" DependsOnTargets="unit_test-static;roadrunner-static;rr_c_api">
-			<MSBuild Projects="..\..\source\testing\cxx_api_tests.cbproj"/>
+			<MSBuild Projects="cxx_api_tests.cbproj"/>
 		</Target>
 		<Target Name="cxx_api_tests:Clean" DependsOnTargets="unit_test-static:Clean;roadrunner-static:Clean;rr_c_api:Clean">
-			<MSBuild Projects="..\..\source\testing\cxx_api_tests.cbproj" Targets="Clean"/>
+			<MSBuild Projects="cxx_api_tests.cbproj" Targets="Clean"/>
 		</Target>
 		<Target Name="cxx_api_tests:Make" DependsOnTargets="unit_test-static:Make;roadrunner-static:Make;rr_c_api:Make">
-			<MSBuild Projects="..\..\source\testing\cxx_api_tests.cbproj" Targets="Make"/>
+			<MSBuild Projects="cxx_api_tests.cbproj" Targets="Make"/>
 		</Target>
 		<Target Name="rr">
-			<MSBuild Projects="..\..\apps\rr\rr.cbproj"/>
+			<MSBuild Projects="rr.cbproj"/>
 		</Target>
 		<Target Name="rr:Clean">
-			<MSBuild Projects="..\..\apps\rr\rr.cbproj" Targets="Clean"/>
+			<MSBuild Projects="rr.cbproj" Targets="Clean"/>
 		</Target>
 		<Target Name="rr:Make">
-			<MSBuild Projects="..\..\apps\rr\rr.cbproj" Targets="Make"/>
+			<MSBuild Projects="rr.cbproj" Targets="Make"/>
 		</Target>
 		<Target Name="rr_ts_tester">
-			<MSBuild Projects="..\..\apps\rr_test_suite_tester\rr_ts_tester.cbproj"/>
+			<MSBuild Projects="rr_ts_tester.cbproj"/>
 		</Target>
 		<Target Name="rr_ts_tester:Clean">
-			<MSBuild Projects="..\..\apps\rr_test_suite_tester\rr_ts_tester.cbproj" Targets="Clean"/>
+			<MSBuild Projects="rr_ts_tester.cbproj" Targets="Clean"/>
 		</Target>
 		<Target Name="rr_ts_tester:Make">
-			<MSBuild Projects="..\..\apps\rr_test_suite_tester\rr_ts_tester.cbproj" Targets="Make"/>
+			<MSBuild Projects="rr_ts_tester.cbproj" Targets="Make"/>
 		</Target>
 		<Target Name="rr_c_api">
-			<MSBuild Projects="..\..\Wrappers\C\rr_c_api.cbproj"/>
+			<MSBuild Projects="rr_c_api.cbproj"/>
 		</Target>
 		<Target Name="rr_c_api:Clean">
-			<MSBuild Projects="..\..\Wrappers\C\rr_c_api.cbproj" Targets="Clean"/>
+			<MSBuild Projects="rr_c_api.cbproj" Targets="Clean"/>
 		</Target>
 		<Target Name="rr_c_api:Make">
-			<MSBuild Projects="..\..\Wrappers\C\rr_c_api.cbproj" Targets="Make"/>
+			<MSBuild Projects="rr_c_api.cbproj" Targets="Make"/>
 		</Target>
-		<Target Name="rr_c" DependsOnTargets="rr_c_api">
-			<MSBuild Projects="..\..\Wrappers\C\Apps\rr_c\rr_c.cbproj"/>
+		<Target Name="rr_c" DependsOnTargets="roadrunner-static;rr_c_api">
+			<MSBuild Projects="rr_c.cbproj"/>
 		</Target>
-		<Target Name="rr_c:Clean" DependsOnTargets="rr_c_api:Clean">
-			<MSBuild Projects="..\..\Wrappers\C\Apps\rr_c\rr_c.cbproj" Targets="Clean"/>
+		<Target Name="rr_c:Clean" DependsOnTargets="roadrunner-static:Clean;rr_c_api:Clean">
+			<MSBuild Projects="rr_c.cbproj" Targets="Clean"/>
 		</Target>
-		<Target Name="rr_c:Make" DependsOnTargets="rr_c_api:Make">
-			<MSBuild Projects="..\..\Wrappers\C\Apps\rr_c\rr_c.cbproj" Targets="Make"/>
+		<Target Name="rr_c:Make" DependsOnTargets="roadrunner-static:Make;rr_c_api:Make">
+			<MSBuild Projects="rr_c.cbproj" Targets="Make"/>
 		</Target>
 		<Target Name="c_api_tests" DependsOnTargets="unit_test-static;roadrunner-static;rr_c_api">
-			<MSBuild Projects="..\..\Wrappers\C\Testing\c_api_tests.cbproj"/>
+			<MSBuild Projects="c_api_tests.cbproj"/>
 		</Target>
 		<Target Name="c_api_tests:Clean" DependsOnTargets="unit_test-static:Clean;roadrunner-static:Clean;rr_c_api:Clean">
-			<MSBuild Projects="..\..\Wrappers\C\Testing\c_api_tests.cbproj" Targets="Clean"/>
+			<MSBuild Projects="c_api_tests.cbproj" Targets="Clean"/>
 		</Target>
 		<Target Name="c_api_tests:Make" DependsOnTargets="unit_test-static:Make;roadrunner-static:Make;rr_c_api:Make">
-			<MSBuild Projects="..\..\Wrappers\C\Testing\c_api_tests.cbproj" Targets="Make"/>
+			<MSBuild Projects="c_api_tests.cbproj" Targets="Make"/>
 		</Target>
 		<Target Name="Build">
 			<CallTarget Targets="unit_test-static;roadrunner;roadrunner-static;cxx_api_tests;rr;rr_ts_tester;rr_c_api;rr_c;c_api_tests"/>

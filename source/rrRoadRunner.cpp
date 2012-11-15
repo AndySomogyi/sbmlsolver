@@ -180,6 +180,7 @@ bool RoadRunner::SetTempFileFolder(const string& folder)
 {
 	if(FolderExists(folder))
 	{
+		Log(lDebug)<<"Setting temp file folder to "<<folder;
 		mTempFileFolder = folder;
 		return true;
 	}

@@ -39,7 +39,7 @@
 			<BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
 			<BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
 			<BCC_MonitorThis>true</BCC_MonitorThis>
-			<Defines>BUILD_MODEL_DLL;LIBSBML_USE_CPP_NAMESPACE;CG_IDE;USE_PCH;$(Defines)</Defines>
+			<Defines>BUILD_MODEL_DLL;LIBSBML_USE_CPP_NAMESPACE;CG_IDE;$(Defines)</Defines>
 			<NoVCL>true</NoVCL>
 			<LinkPackageImports>rtl.bpi</LinkPackageImports>
 			<ProjectType>CppConsoleApplication</ProjectType>
@@ -154,8 +154,7 @@
 						<Parameters Name="RunParams">-n41 -vDebug3 -tC:\\RRTemp -dc:\\RRDataOutput</Parameters>
 					</Parameters>
 					<Parameters_Win32>
-						<Parameters_Win32 Name="RunParams">-s5 -e15 -p -vDebug -m&quot;r:/models/test_1.xml&quot; -d&quot;r:\rrTemp&quot; </Parameters_Win32>
-						<Parameters_Win32 Name="DebugCWD">R:\rrTemp</Parameters_Win32>
+						<Parameters_Win32 Name="RunParams">-s5 -e15 -p -vDebug -m&quot;../Models/test_1.xml&quot; -t&quot;r:\rrTemp&quot; -d&quot;r:\rrTemp&quot; </Parameters_Win32>
 					</Parameters_Win32>
 				</CPlusPlusBuilder.Personality>
 				<Platforms>
