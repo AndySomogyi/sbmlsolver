@@ -42,7 +42,6 @@ xml2
 pthread
 #poco_foundation-static.a
 #pugi-static.a
-lzma_r
 )
 endif()
 
