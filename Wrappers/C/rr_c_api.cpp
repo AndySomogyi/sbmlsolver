@@ -99,6 +99,7 @@ bool rrCallConv enableLogging()
         char* tempFolder = getTempFolder();
 		string logFile = JoinPath(tempFolder, "RoadRunner.log") ;
         freeText(tempFolder);
+		Log(lInfo)<<"Creating log file "<<logFile;
         gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));
 
         char* buffer = new char[1024];
@@ -235,9 +236,10 @@ RRHandle rrCallConv getRRInstance()
     {
         if(!gRRHandle)
         {
-        	//Get location of DLL and use that as 'install' folder
-            string rrInstallFolder(getParentFolder(getRRCAPILocation()));
-            gRRHandle = new rr::RoadRunner(rrInstallFolder);
+        	//Get location of shared lib and use that as 'install' folder
+            //string rrInstallFolder(getParentFolder(getRRCAPILocation()));
+            string rrInstallFolder("/usr/local/");
+            gRRHandle = new RoadRunner(rrInstallFolder);
         }
     	return gRRHandle;
     }
@@ -346,9 +348,9 @@ bool rrCallConv setComputeAndAssignConservationLaws(const bool& OnOrOff)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+    	return false;
      }
 
-    return false;
 }
 
 bool rrCallConv setTempFolder(const char* folder)
@@ -360,6 +362,7 @@ bool rrCallConv setTempFolder(const char* folder)
         	setError(ALLOCATE_API_ERROR_MSG);
         	return false;
     	}
+		cout<<"Settting tempfolder to:"<<folder<<endl;
 	    return gRRHandle->SetTempFileFolder(folder);
     }
     catch(Exception& ex)
@@ -367,8 +370,8 @@ bool rrCallConv setTempFolder(const char* folder)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+  		return false;
     }
-  	return false;
 }
 
 char* rrCallConv getTempFolder()
@@ -380,7 +383,7 @@ char* rrCallConv getTempFolder()
             setError(ALLOCATE_API_ERROR_MSG);
             return NULL;
         }
-
+		
 	    char* text = new char[gRRHandle->getTempFileFolder().size() + 1];
     	strcpy(text, gRRHandle->getTempFileFolder().c_str());
 	    return text;

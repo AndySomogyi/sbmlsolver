@@ -77,7 +77,6 @@ RoadRunner::RoadRunner(const string& rrInstallLocation, const string& tempFolder
     mComputeAndAssignConservationLaws(true),
     mConservedTotalChanged(false),
     mCompiler(compiler),
-//	mTempFileFolder(tempFolder),
 	mRRInstallFolder(rrInstallLocation)
 {
 	mTempFileFolder = (tempFolder);

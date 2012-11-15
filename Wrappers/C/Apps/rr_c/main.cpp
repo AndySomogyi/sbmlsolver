@@ -30,12 +30,12 @@ int main(int argc, char* argv[])
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
 
-    string settingsFile;
+	string settingsFile;
     stringstream ss;
 
 	bool doMore = true;	//set to false to move to end
 
-    cout<<"======== RoadRunner C API Client ==================\n";
+    cout<<"======== RoadRunner C API Client ==================\n\n";
     RRHandle aHandle  = getRRInstance();
 
 	if(!aHandle)
@@ -49,9 +49,24 @@ int main(int argc, char* argv[])
         cerr<<"Failed setting log RoadRunner Log level";
     	doMore = false;
     }
+	
+	if(args.TempDataFolder.size() < 2)
+	{
 
-    setTempFolder(args.TempDataFolder.c_str());
-    cout<<"Currrent Log Level: "<<getLogLevel()<<endl;
+		char* buffer = new char[1024];
+        // Get the current working directory:
+        if( (buffer = getcwd( buffer, MAXPATH )) == NULL )
+        {
+            perror( "getcwd error" );
+        }
+        else
+        {
+			args.TempDataFolder	= buffer;
+        }
+        delete [] buffer;
+	}
+  	
+	setTempFolder(args.TempDataFolder.c_str());
 
     if(!enableLogging())
     {
@@ -59,6 +74,7 @@ int main(int argc, char* argv[])
     	doMore = false;
     }
 
+    cout<<"Currrent Log Level: "<<getLogLevel()<<endl;
     setTempFolder(args.TempDataFolder.c_str());
 	char* text = getBuildDate();
 	if(text)
@@ -67,11 +83,16 @@ int main(int argc, char* argv[])
 		freeText(text);
 	}
 
-    if(!FileExists(args.ModelFileName))
+    if(args.ModelFileName.size() > 1 &&  !FileExists(args.ModelFileName))
     {
-        cerr<<"The file:"<<args.ModelFileName<<" don't exist. Please supply a sbml model file name, using option -m<modelfilename>";
+        cerr<<"The xml model file:"<<args.ModelFileName<<" don't exist. Please supply a sbml model file name, using option -m<modelfilename>";
         doMore = false;
     }
+	else if(args.ModelFileName.size() == 0)
+	{
+        cerr<<"Please supply a sbml model file name, using option -m<modelfilename>";
+        doMore = false;
+	}
 
     //RoadRunner Flags and options
     if(doMore)
@@ -194,9 +215,11 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     char c;
     while ((c = GetOptions(argc, argv, ("cfpxyv:n:d:t:l:m:s:e:z:"))) != -1)
     {
+		cout<<"Character is: "<<c<<" and optarg is:"<<optArg<<endl;	
         switch (c)
         {
-            case ('v'): args.CurrentLogLevel                        = GetLogLevel(optArg);    	 	break;
+            case ('v'): args.CurrentLogLevel                        = GetLogLevel(optArg);   
+						cout<<"Loglevel is set to :"<<args.CurrentLogLevel<<endl; break;
             case ('p'): args.Pause                                  = true;                         break;
             case ('t'): args.TempDataFolder                         = optArg;                       break;
             case ('d'): args.DataOutputFolder                       = optArg;                       break;

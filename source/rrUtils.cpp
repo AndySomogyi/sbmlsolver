@@ -252,7 +252,7 @@ bool FolderExists(const string& folderName)
     return (dwAttrib != INVALID_FILE_ATTRIBUTES && (dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
 #else
     struct stat status;
-    return stat(folderName.c_str(), &status);
+    return stat(folderName.c_str(), &status) == 0 ? true : false;
 #endif
 }
 
