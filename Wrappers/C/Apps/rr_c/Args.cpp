@@ -11,7 +11,6 @@
 
 Args::Args()
 :
-//UseOSTempFolder(false),
 Pause(false),
 CurrentLogLevel(lInfo),
 ModelFileName(""),
@@ -23,7 +22,8 @@ Duration(5),
 EndTime(StartTime + Duration),
 Steps(50),
 ComputeAndAssignConservationLaws(true),
-CalculateSteadyState(false)
+CalculateSteadyState(false),
+SaveResultToFile(false)
 {}
 
 string Usage(const string& prg)

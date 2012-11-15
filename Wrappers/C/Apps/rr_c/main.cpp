@@ -102,7 +102,8 @@ int main(int argc, char* argv[])
 
     if(doMore)
     {
-    	if(!loadSBML(GetFileContent(args.ModelFileName).c_str()))
+//    	if(!loadSBML(GetFileContent(args.ModelFileName).c_str()))
+    	if(!loadSBMLFromFile(args.ModelFileName.c_str()))
 	    {
     	    char* error = getLastError();
         	cerr<<"\n"<<error<<endl;
