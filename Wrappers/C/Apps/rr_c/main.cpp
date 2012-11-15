@@ -44,14 +44,13 @@ int main(int argc, char* argv[])
     	doMore = false;
     }
 
-    setTempFolder(args.TempDataFolder.c_str());
-
     if(!setLogLevel(GetLogLevelAsString(args.CurrentLogLevel).c_str()) )
     {
         cerr<<"Failed setting log RoadRunner Log level";
     	doMore = false;
     }
 
+    setTempFolder(args.TempDataFolder.c_str());
     cout<<"Currrent Log Level: "<<getLogLevel()<<endl;
 
     if(!enableLogging())
@@ -60,6 +59,7 @@ int main(int argc, char* argv[])
     	doMore = false;
     }
 
+    setTempFolder(args.TempDataFolder.c_str());
 	char* text = getBuildDate();
 	if(text)
 	{

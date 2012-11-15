@@ -212,7 +212,6 @@ char* rrCallConv getVersion()
         setError(msg.str());
 		return NULL;
     }
-
 }
 
 char* rrCallConv getRRCAPILocation()
@@ -222,12 +221,11 @@ char* rrCallConv getRRCAPILocation()
 	if(GetModuleFileNameA(NULL, path, ARRAYSIZE(path)) != 0)
     {
 	    string aPath(ExtractFilePath(path));
-        clog<<"RoadRunner CAPI location: "<<aPath;
 		return createText(aPath);
     }
     return NULL;
 #else
-	return NULL;
+	return "/usr/local/lib";
 #endif
 }
 
