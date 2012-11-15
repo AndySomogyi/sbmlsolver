@@ -47,23 +47,23 @@ int main(int argc, char * argv[])
     {
         switch (c)
         {
-            case ('n'): paras.CaseNumber                    = ToInt(optarg);                break;
-            case ('v'): paras.CurrentLogLevel               = GetLogLevel(optarg);          break;
+            case ('n'): paras.CaseNumber                    = ToInt(rrOptArg);                break;
+            case ('v'): paras.CurrentLogLevel               = GetLogLevel(rrOptArg);          break;
             case ('p'): paras.Pause                         = true;                         break;
-            case ('t'): paras.TempDataFolder                = optarg;                       break;
-            case ('d'): paras.DataOutputFolder              = optarg;                       break;
-            case ('m'): paras.TestSuiteModelsPath           = optarg;                       break;
-            case ('w'): paras.SBMLTestVersion               = optarg;   			        break;
+            case ('t'): paras.TempDataFolder                = rrOptArg;                       break;
+            case ('d'): paras.DataOutputFolder              = rrOptArg;                       break;
+            case ('m'): paras.TestSuiteModelsPath           = rrOptArg;                       break;
+            case ('w'): paras.SBMLTestVersion               = rrOptArg;   			        break;
             case ('?'):
             {
                     cout<<Usage(argv[0])<<endl;
             }
             default:
             {
-                string str = argv[optind-1];
+                string str = argv[rrOptInd-1];
                 if(str != "-?")
                 {
-                    cout<<"*** Illegal option:\t"<<argv[optind-1]<<" ***\n"<<endl;
+                    cout<<"*** Illegal option:\t"<<argv[rrOptInd-1]<<" ***\n"<<endl;
                 }
                 exit(-1);
             }

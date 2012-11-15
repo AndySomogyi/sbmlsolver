@@ -13,42 +13,42 @@
 namespace rr
 {
 
-char    *optarg;        // global argument pointer
-int      optind = 0;     // global argv index
+char    *rrOptArg;        // global argument pointer
+int      rrOptInd = 0;     // global argv index
 
 int GetOptions(int argc, char *argv[], char *optstring)
 {
     static char *next = NULL;
-    if (optind == 0)
+    if (rrOptInd == 0)
         next = NULL;
 
-    optarg = NULL;
+    rrOptArg = NULL;
 
     if (next == NULL || *next == wchar_t('\0'))
     {
-        if (optind == 0)
-            optind++;
+        if (rrOptInd == 0)
+            rrOptInd++;
 
-        if (optind >= argc || argv[optind][0] != wchar_t('-') || argv[optind][1] == wchar_t('\0'))
+        if (rrOptInd >= argc || argv[rrOptInd][0] != wchar_t('-') || argv[rrOptInd][1] == wchar_t('\0'))
         {
-            optarg = NULL;
-            if (optind < argc)
-                optarg = argv[optind];
+            rrOptArg = NULL;
+            if (rrOptInd < argc)
+                rrOptArg = argv[rrOptInd];
             return EOF;
         }
 
-        if (strcmp(argv[optind], ("--")) == 0)
+        if (strcmp(argv[rrOptInd], ("--")) == 0)
         {
-            optind++;
-            optarg = NULL;
-            if (optind < argc)
-                optarg = argv[optind];
+            rrOptInd++;
+            rrOptArg = NULL;
+            if (rrOptInd < argc)
+                rrOptArg = argv[rrOptInd];
             return EOF;
         }
 
-        next = argv[optind];
+        next = argv[rrOptInd];
         next++;        // skip past -
-        optind++;
+        rrOptInd++;
     }
 
     char c = *next++;
@@ -62,13 +62,13 @@ int GetOptions(int argc, char *argv[], char *optstring)
     {
         if (*next != wchar_t('\0'))
         {
-            optarg = next;
+            rrOptArg = next;
             next = NULL;
         }
-        else if (optind < argc)
+        else if (rrOptInd < argc)
         {
-            optarg = argv[optind];
-            optind++;
+            rrOptArg = argv[rrOptInd];
+            rrOptInd++;
         }
         else
         {

@@ -4,9 +4,9 @@
 //---------------------------------------------------------------------------
 namespace rr
 {
-RR_DECLSPEC     extern  int                         optind;
-RR_DECLSPEC     extern  int                         opterr;
-RR_DECLSPEC     extern  char                       *optarg;
+RR_DECLSPEC     extern  int                         rrOptInd;
+//RR_DECLSPEC     extern  int                         opterr;
+RR_DECLSPEC     extern  char                       *rrOptArg;
 RR_DECLSPEC             int   GetOptions(int argc, char *argv[], char *optstring);
 }
 

@@ -196,16 +196,16 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     {
         switch (c)
         {
-            case ('v'): args.CurrentLogLevel                        = GetLogLevel(optarg);    	 	break;
+            case ('v'): args.CurrentLogLevel                        = GetLogLevel(optArg);    	 	break;
             case ('p'): args.Pause                                  = true;                         break;
-            case ('t'): args.TempDataFolder                         = optarg;                       break;
-            case ('d'): args.DataOutputFolder                       = optarg;                       break;
+            case ('t'): args.TempDataFolder                         = optArg;                       break;
+            case ('d'): args.DataOutputFolder                       = optArg;                       break;
 			case ('f'): args.SaveResultToFile                       = true;                         break;
-            case ('m'): args.ModelFileName                          = optarg;                       break;
-            case ('l'): args.SelectionList                          = optarg;                       break;
-            case ('s'): args.StartTime                              = ToDouble(optarg);             break;
-            case ('e'): args.EndTime                                = ToDouble(optarg);             break;
-            case ('z'): args.Steps                                  = ToInt(optarg);                break;
+            case ('m'): args.ModelFileName                          = optArg;                       break;
+            case ('l'): args.SelectionList                          = optArg;                       break;
+            case ('s'): args.StartTime                              = ToDouble(optArg);             break;
+            case ('e'): args.EndTime                                = ToDouble(optArg);             break;
+            case ('z'): args.Steps                                  = ToInt(optArg);                break;
             case ('x'): args.CalculateSteadyState                   = true;                			break;
             case ('y'): args.ComputeAndAssignConservationLaws  		= false;                  		break;
             case ('?'):
@@ -214,10 +214,10 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
             }
             default:
             {
-                string str = argv[optind-1];
+                string str = argv[optInd-1];
                 if(str != "-?")
                 {
-                    cout<<"*** Illegal option:\t"<<argv[optind-1]<<" ***\n"<<endl;
+                    cout<<"*** Illegal option:\t"<<argv[optInd-1]<<" ***\n"<<endl;
                 }
                 exit(-1);
             }

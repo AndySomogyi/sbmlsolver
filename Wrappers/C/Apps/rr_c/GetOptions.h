@@ -1,5 +1,5 @@
 #ifndef GetOptionsH
-#define GetOptionsH                                                                                  \
+#define GetOptionsH
 //---------------------------------------------------------------------------
 
 extern int                         optInd;

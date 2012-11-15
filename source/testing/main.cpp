@@ -80,20 +80,20 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     {
         switch (c)
         {
-            case ('i'): args.RRInstallFolder       		            = optarg;                       break;
-            case ('m'): args.SBMLModelsFilePath                     = optarg;                       break;
-			case ('l'): args.CompilerLocation                       = optarg;                       break;
-            case ('r'): args.ResultOutputFile                       = optarg;                       break;
-			case ('s'): args.SupportCodeFolder     		            = optarg;                       break;
-			case ('t'): args.TempDataFolder        		            = optarg;                       break;
+            case ('i'): args.RRInstallFolder       		            = rrOptArg;                       break;
+            case ('m'): args.SBMLModelsFilePath                     = rrOptArg;                       break;
+			case ('l'): args.CompilerLocation                       = rrOptArg;                       break;
+            case ('r'): args.ResultOutputFile                       = rrOptArg;                       break;
+			case ('s'): args.SupportCodeFolder     		            = rrOptArg;                       break;
+			case ('t'): args.TempDataFolder        		            = rrOptArg;                       break;
 			case ('v'): args.EnableLogging        		            = true;                       break;
             case ('?'): cout<<Usage(argv[0])<<endl;
             default:
             {
-                string str = argv[optind-1];
+                string str = argv[rrOptInd-1];
                 if(str != "-?")
                 {
-                    cout<<"*** Illegal option:\t"<<argv[optind-1]<<" ***\n"<<endl;
+                    cout<<"*** Illegal option:\t"<<argv[rrOptInd-1]<<" ***\n"<<endl;
                 }
                 exit(-1);
             }
