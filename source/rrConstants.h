@@ -7,20 +7,20 @@ using namespace std;
 namespace rr
 {
 
-RR_DECLSPEC extern char* 	PathSeparator;
-RR_DECLSPEC extern char* 	EmptyString;
-RR_DECLSPEC extern string 	gExeSuffix;
-RR_DECLSPEC extern char* 	Comma;
-RR_DECLSPEC extern string 	DefaultCompiler;
+RR_DECLSPEC extern const char* 	PathSeparator;
+RR_DECLSPEC extern const char* 	EmptyString;
+RR_DECLSPEC extern const string 	gExeSuffix;
+RR_DECLSPEC extern const char* 	Comma;
+RR_DECLSPEC extern const string 	DefaultCompiler;
 
 // Typedefs
 typedef unsigned int 		u_int;
 typedef long*   			IntPtr;
 
 // Constants
-RR_DECLSPEC extern char 	 tab;
-RR_DECLSPEC extern double    DoubleNaN;
-RR_DECLSPEC extern float     FloatNaN;
+RR_DECLSPEC extern const char 	 tab;
+RR_DECLSPEC extern const double    DoubleNaN;
+RR_DECLSPEC extern const float     FloatNaN;
 
 #ifndef MAXPATH
 #define MAXPATH 250

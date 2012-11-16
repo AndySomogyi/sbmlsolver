@@ -102,7 +102,7 @@ class Matrix
         const T&                    operator()(const unsigned int & row, const unsigned int & col) const;
         const T&                    Element(const unsigned int & row, const unsigned int & col) const;
 
-        friend const Matrix<T>      operator*(const Matrix<T>& lhs, const double& rhs);
+       //	const Matrix<T>      operator*(const Matrix<T>& lhs, const double& rhs);
 //        friend const mtkMatrix<T>             operator*(const double& rVal, const mtkMatrix<T>& Rmat);
 };
 

@@ -683,7 +683,7 @@ bool RoadRunner::loadSBML(const string& sbml)
 	// If the user loads the same model again, don't bother loading into NOM,
 	// just reset the initial conditions
 
-	if (mModelDLL.isLoaded() != NULL && mModel != NULL && sbml == mCurrentSBML)
+	if (mModelDLL.isLoaded() != false && mModel != NULL && sbml == mCurrentSBML)
     {
         mCurrentSBML = sbml;
         return InitializeModel();

@@ -7,26 +7,26 @@
 //---------------------------------------------------------------------------
 namespace rr
 {
-char*       Comma = ",";
-char*       EmptyString = "";
+const char*       Comma = ",";
+const char*       EmptyString = "";
 
 #if defined(_WIN32) || defined(__CODEGEARC__)
-char*       PathSeparator = "\\";
-string		gExeSuffix	= ".exe";
+const char*       PathSeparator = "\\";
+const string		gExeSuffix	= ".exe";
 #elif defined(__linux)
-char*       PathSeparator = "/";
-string		gExeSuffix	= "";
+const char*       PathSeparator = "/";
+const string		gExeSuffix	= "";
 #else
-char*       PathSeparator = "/";
-string		gExeSuffix	= "";
+const char*       PathSeparator = "/";
+const string		gExeSuffix	= "";
 #endif
 
 
 
-string		DefaultCompiler = "tcc";
-char 	 	tab 			= '\t';
-double    	DoubleNaN   = std::numeric_limits<double>::quiet_NaN() ;
-float     	FloatNaN    = std::numeric_limits<float>::quiet_NaN() ;
+const string		DefaultCompiler = "tcc";
+const char 	 	tab 			= '\t';
+const double    	DoubleNaN   = std::numeric_limits<double>::quiet_NaN() ;
+const float     	FloatNaN    = std::numeric_limits<float>::quiet_NaN() ;
 //int       	MAX_MODULE  = 512;
 
 
