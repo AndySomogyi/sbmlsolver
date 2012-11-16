@@ -21,7 +21,7 @@ StartTime(0),
 Duration(5),
 EndTime(StartTime + Duration),
 Steps(50),
-ComputeAndAssignConservationLaws(true),
+ComputeAndAssignConservationLaws(false),
 CalculateSteadyState(false),
 SaveResultToFile(false)
 {}

@@ -245,6 +245,7 @@ RRHandle rrCallConv getRRInstance()
             string rrInstallFolder("?");
 #endif
             gRRHandle = new RoadRunner(rrInstallFolder);
+            gRRHandle->Reset();
         }
     	return gRRHandle;
     }

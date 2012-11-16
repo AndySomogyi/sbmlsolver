@@ -61,7 +61,6 @@ int main(int argc, char * argv[])
         string RRInstallFolder = getParentFolder(thisExeFolder);	//Go up one folder
         Log(lDebug)<<"Assuming RoadRunner is installed in: "<<RRInstallFolder;
 
-
         if(args.UseOSTempFolder)
         {
             args.TempDataFolder = GetUsersTempDataFolder();
@@ -135,7 +134,7 @@ int main(int argc, char * argv[])
 				simulation.SetNumberOfPoints(args.Steps);
 				simulation.SetSelectionList(args.SelectionList);
 			}
-			rr->ComputeAndAssignConservationLaws(false);
+			//rr->ComputeAndAssignConservationLaws(false);
 		}
 
         //Then Simulate model

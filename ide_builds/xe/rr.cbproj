@@ -154,7 +154,7 @@
 						<Parameters Name="RunParams">-n41 -vDebug3 -tC:\\RRTemp -dc:\\RRDataOutput</Parameters>
 					</Parameters>
 					<Parameters_Win32>
-						<Parameters_Win32 Name="RunParams">-s5 -e15 -p -vDebug -m&quot;../Models/test_1.xml&quot; -t&quot;r:\rrTemp&quot; -d&quot;r:\rrTemp&quot; </Parameters_Win32>
+						<Parameters_Win32 Name="RunParams">-p -m./../models/test_1.xml -t&quot;r:/rrTemp&quot; -v&quot;Debug3&quot;</Parameters_Win32>
 					</Parameters_Win32>
 				</CPlusPlusBuilder.Personality>
 				<Platforms>
