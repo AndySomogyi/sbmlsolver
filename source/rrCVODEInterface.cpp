@@ -1416,10 +1416,10 @@ void CvodeInterface::AssignNewVector(ModelFromC *oModel, bool bAssignNewToleranc
     }
 }
 
-void CvodeInterface::AssignNewVector(ModelFromC *model)
-{
-    AssignNewVector(model, false);
-}
+//void CvodeInterface::AssignNewVector(ModelFromC *model)
+//{
+//    AssignNewVector(model, false);
+//}
 
 void CvodeInterface::setAbsTolerance(int index, double dValue)
 {

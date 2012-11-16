@@ -194,8 +194,8 @@ class RR_DECLSPEC CvodeInterface : public rrObject
         double                      OneStep(double timeStart, double hstep);
 
         // Restart the simulation using a different initial condition
-        void                        AssignNewVector(ModelFromC *oModel, bool bAssignNewTolerances);
-        void                        AssignNewVector(ModelFromC *model);
+        void                        AssignNewVector(ModelFromC *oModel, bool bAssignNewTolerances = true);
+//        void                        AssignNewVector(ModelFromC *model);
         void                        setAbsTolerance(int index, double dValue);
         int                         reStart(double timeStart, ModelFromC* model);
 //        public double getValue(int index);
