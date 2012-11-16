@@ -1,0 +1,1417 @@
+Current working folder is :/home/totte/rr/runs
+Setting temp file folder to /home/totte/rr/runs
+Read SBML content from file:
+ <?xml version="1.0" encoding="UTF-8"?>
+<sbml xmlns="http://www.sbml.org/sbml/level2/version4" level="2" version="4">
+  <model metaid="_case00001" id="case00001" name="case00001">
+    <listOfCompartments>
+      <compartment id="compartment" name="compartment" size="1" units="volume"/>
+    </listOfCompartments>
+    <listOfSpecies>
+      <species id="S1" name="S1" compartment="compartment" initialAmount="0.00015" substanceUnits="substance"/>
+      <species id="S2" name="S2" compartment="compartment" initialAmount="0" substanceUnits="substance"/>
+    </listOfSpecies>
+    <listOfParameters>
+      <parameter id="k1" name="k1" value="1"/>
+    </listOfParameters>
+    <listOfReactions>
+      <reaction id="reaction1" name="reaction1" reversible="false" fast="false">
+        <listOfReactants>
+          <speciesReference species="S1"/>
+        </listOfReactants>
+        <listOfProducts>
+          <speciesReference species="S2"/>
+        </listOfProducts>
+        <kineticLaw>
+          <math xmlns="http://www.w3.org/1998/Math/MathML">
+            <apply>
+              <times/>
+              <ci> compartment </ci>
+              <ci> k1 </ci>
+              <ci> S1 </ci>
+            </apply>
+          </math>
+        </kineticLaw>
+      </reaction>
+    </listOfReactions>
+  </model>
+</sbml>
+
+============ End of SBML 
+
+Loading SBML into simulator
+Entering CGenerators generateModelCode(string) function
+Entering function convertTime in file /home/totte/rr/rrl/source/rrNOMSupport.cpp
+Loading SBML into NOM
+Building Symbol Table
+Processing compartment with ID: compartment
+Processing parameter with ID:k1
+Processing species with ID: S1
+Processing species with ID: S2
+========== Symbols read into Symbol Table (4) ==============
+Key = S1
+ID = S1
+Type = 1
+Value = 0.00015
+Has Initial Assignment = 0
+Has Rule = false
+
+Key = S2
+ID = S2
+Type = 1
+Value = 0
+Has Initial Assignment = 0
+Has Rule = false
+
+Key = compartment
+ID = compartment
+Type = 0
+Value = 1
+Has Initial Assignment = 0
+Has Rule = false
+
+Key = k1
+ID = k1
+Type = 2
+Value = 1
+Has Initial Assignment = 0
+Has Rule = false
+
+In function LookForDependencies
+Processing model: case00001
+Number of reactions:1
+Loading sbml into StructAnalysis
+Message from StructAnalysis.LoadSBML function
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+STRUCTURAL ANALYSIS MODULE : Results 
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+Size of Stochiometric Matrix: 2 x 1 (Rank is  1)
+Nonzero entries in Stochiometric Matrix: 2  (100% full)
+
+Independent Species (1) :
+S1
+
+Dependent Species (1) :
+S2
+
+L0 : There is 1 dependency. L0 is a 1x1 matrix.
+
+Conserved Entities
+1:  + S1 + S2
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+Developed by the Computational Systems Biology Group at Keck Graduate Institute 
+and the Saurolab at the Bioengineering Departmant at  University of Washington.
+Contact : Frank T. Bergmann (fbergman@u.washington.edu) or Herbert M. Sauro.   
+
+          (previous authors) Ravishankar Rao Vallabhajosyula                   
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+
+
+Returning List: {"S1 0.00015 false","S2 0 false"}
+Got List: {"S1 0.00015 false","S2 0 false"}
+Adding symbol to floatingSpeciesConcentrationList:Name: S1
+Adding symbol to floatingSpeciesConcentrationList:Name: S2
+Adding symbolName: k1 to global parameters
+Appended :#ifndef modelH
+Appended :#define modelH
+Appended :#include <stdio.h>
+Appended :#include <stdbool.h>
+Appended :#include "rrCExporter.h"	             //Export Stuff.
+Appended ://************************************************************************** 
+Appended ://Number of floating species: 
+Appended :	// y[
+Appended :	// y[
+Appended ://************************************************************************** 
+Appended :
+Appended :#include <math.h>
+Appended :#include <stdio.h>
+Appended :#include "rrSupport.h"	     //Supportfunctions for event handling..
+Appended :	typedef double (*TEventDelayDelegate)();
+Appended :typedef void (*TEventAssignmentDelegate)();
+Appended :typedef double* (*TComputeEventAssignmentDelegate)();
+Appended :typedef void (*TPerformEventAssignmentDelegate)();
+Appended :void loadSymbolTables(){
+Appended :	variableTable[0] = "S1";
+Appended :	variableTable[1] = "S2";
+Appended :	globalParameterTable[0] = "k1";
+Appended :
+Appended :}
+
+Appended :void resetEvents(){
+Appended :}
+Appended :void setConcentration(int index, double value)
+{
+Appended :	double volume = 0.0;
+
+Appended :	_y[index] = value;
+Appended :	switch (index)	{
+
+Appended :		case 0:			volume = _c[0];
+
+Appended :		break;
+Appended :		case 1:			volume = _c[0];
+
+Appended :		break;
+Appended :	}
+Appended :	_amounts[index] = _y[index]*volume;
+Appended :}
+
+Appended :double getConcentration(int index){
+
+Appended :	return _y[index];
+Appended :}
+
+Appended :void convertToAmounts(){
+
+Appended :	_amounts[0] = _y[0]*_c[0];
+Appended :	_amounts[1] = _y[1]*_c[0];
+Appended :}
+
+Appended :void convertToConcentrations(){
+Appended :	_y[
+Appended :	_y[
+Appended :}
+
+
+Appended :int getNumLocalParameters(int reactionId){
+	
+Appended :return localParameterDimensions[reactionId];}
+
+
+Appended :void initializeInitialConditions(){
+Appended :	_init_y[0] = (double) 0.0001499999999999999869/ _c[0];
+Appended :	_init_y[1] = (double) 0/ _c[0];
+Appended :}
+
+
+Appended :void setInitialConditions()
+Appended :{
+Appended :	_y[
+Appended :	_amounts[
+Appended :	_y[
+Appended :	_amounts[
+Appended :}
+
+Appended :void setBoundaryConditions(){
+
+Appended :}
+
+Appended :void setCompartmentVolumes(){
+Appended :	_c[0] = (double)1;
+
+In FillStack Filling stack with symbol: ID = compartment
+Type = 0
+Value = 1
+Has Initial Assignment = 0
+Has Rule = false
+
+Appended :_c[0]
+Appended : = 	
+Appended :(double)1
+Appended :	_c[0] = 	(double)1;
+
+Appended :}
+
+Appended :void setParameterValues(){
+Appended :	_gp[0] = (double)1;
+
+Appended :}
+
+Appended :// Uses the equation: C = Sd - L0*Si
+Appended :void computeConservedTotals(){
+Appended :	_ct[0] = 
+Appended : + _y[0]*_c[0]
+Appended : + _y[1]*_c[0]
+Appended :;
+Appended :}
+
+Appended :// Compute values of dependent species 
+Appended :// Uses the equation: Sd = C + L0*Si
+Appended :void updateDependentSpeciesValues(double* y){
+Appended :	_y[1] = 
+Appended :(_ct[0]
+Appended : - y[0]*_c[0]
+Appended :) / _c[0];
+Appended :}
+
+Appended :void computeRules(double* y){
+
+Appended :}
+
+
+Appended :void InitializeRates(){
+Appended :}
+
+Appended :void AssignRatesA(){
+
+Appended :}
+
+Appended :void InitializeRateRuleSymbols() {
+Appended :}
+
+Appended :void AssignRatesB(double oRates[]){
+Appended :}
+
+Appended :double* GetCurrentValues(){
+Appended :	double* dResult = (double*) malloc(sizeof(double)*
+Appended :	return dResult;
+Appended :}
+
+Appended ://Uses the equation: dSd/dt = L0 dSi/dt
+Appended :void computeAllRatesOfChange(){
+Appended :	
+Appended :	double* dTemp = (double*) malloc( sizeof(double)* (_amountsSize + _rateRulesSize) );
+
+Appended :	
+Appended :	
+Appended :	//amounts.CopyTo(dTemp, rateRules.Length); 
+
+Appended :	evalModel(mTime, dTemp);
+Appended :	_dydt[1] = 
+Appended : - _dydt[0];
+Appended :
+Appended :}
+
+Appended :// Compute the reaction rates
+Appended :void computeReactionRates(double time, double *y){
+Appended :_c[0]
+Appended :*	
+Appended :_gp[0]
+Appended :*	
+Appended :_y[0]
+Appended :	
+Appended :}
+
+Appended ://Model Function
+Appended :void evalModel (double timein, double* oAmounts){
+Appended :	_y[
+Appended :	_y[
+Appended :
+Appended :	convertToAmounts();
+Appended :	mTime = timein;  // Don't remove
+Appended :	updateDependentSpeciesValues (_y);
+Appended :	computeReactionRates (mTime, _y);
+Appended : - _rates[0]
+Appended :	_dydt[
+Appended :	convertToAmounts();
+Appended :}
+
+Appended ://Event handling function
+Appended :void evalEvents(double timeIn, double *oAmounts)
+Appended :{
+Appended :	mTime = timeIn;
+Appended :	updateDependentSpeciesValues(_y);
+Appended :	computeRules(_y);
+Appended :}
+
+Appended :void InitializeDelays(){
+
+Appended :}
+
+Appended :void computeEventPriorities(){
+Appended :}
+
+Appended :void evalInitialAssignments()
+Appended :{
+Appended :}
+
+Appended :void testConstraints()
+Appended :{
+Appended :}
+
+Appended :	
+Appended :	
+Appended :	
+Appended :	
+Appended :	
+Appended :	
+Appended :	
+Appended :	
+Appended :	
+Appended :	
+Appended :	
+Appended :	
+Appended :	localParameterDimensions[0] = 0;
+Appended :	_lp[
+Appended :{
+Appended :}
+Appended :
+#endif //modelH
+Wrote header to file: /home/totte/rr/runs/test_1.h
+Wrote source code to file: /home/totte/rr/runs/test_1.c
+ ------ Model Code --------
+#ifndef modelH
+#define modelH
+#include <stdio.h>
+#include <stdbool.h>
+#include "rrCExporter.h"	             //Export Stuff.
+//************************************************************************** 
+//Number of floating species: 2
+	// y[0] = S1
+	// y[1] = S2
+//************************************************************************** 
+
+D_S char*                          mModelName;                                       
+D_S char**                         mWarnings;                                       
+D_S double                         _gp[1];                                 //Vector containing all the global parameters in the System  
+D_S const int                      _gpSize=1;                              
+D_S double*                        _lp[1];                                 //Vector containing all the local parameters in the System  
+D_S const int                      _lpSize=1;                              
+D_S double                         _y[2];                                  //Vector containing the concentrations of all floating species
+D_S const int                      _ySize=2;                               
+D_S double                         _init_y[2];                             //Vector containing the initial concentrations of all floating species
+D_S const int                      _init_ySize=2;                          
+D_S double                         _amounts[2];                            //Vector containing the amounts of all floating species 
+D_S const int                      _amountsSize=2;                         
+
+//The array size for the follwoing variable was generated as 0. We put 1, to make it legal code.
+D_S double                         _bc[1];                                 //Vector containing all the boundary species concentration values
+D_S const int                      _bcSize=0;                              
+D_S double                         _c[1];                                  //Vector containing all the compartment values   
+D_S const int                      _cSize=1;                               
+D_S double                         _dydt[2];                               //Vector containing rates of changes of all species   
+D_S const int                      _dydtSize=2;                            
+D_S double                         _rates[1];                              //Vector containing the rate laws of all reactions    
+D_S const int                      _ratesSize=1;                           
+D_S double                         _ct[1];                                 //Vector containing values of all conserved sums      
+D_S const int                      _ctSize=1;                              
+
+//The array size for the follwoing variable was generated as 0. We put 1, to make it legal code.
+D_S double                         mEventTests[1];                         //Vector containing results of any event tests        
+D_S const int                      mEventTestsSize=0;                      
+	typedef double (*TEventDelayDelegate)();
+
+//The array size for the follwoing variable was generated as 0. We put 1, to make it legal code.
+TEventDelayDelegate                mEventDelay[1];                         //Array of trigger function pointers
+D_S const int                      mEventDelaySize=0;                      
+D_S TEventDelayDelegate*               GetEventDelays();                       
+
+//The array size for the follwoing variable was generated as 0. We put 1, to make it legal code.
+bool                               _eventType[1];                          //Array holding the status whether events are useValuesFromTriggerTime or not
+D_S const int                      _eventTypeSize=0;                       
+
+//The array size for the follwoing variable was generated as 0. We put 1, to make it legal code.
+bool                               _eventPersistentType[1];                //Array holding the status whether events are persitstent or not
+D_S const int                      _eventPersistentTypeSize=0;             
+D_S double                         mTime;                                       
+D_S int                            numIndependentVariables;                                       
+D_S int                            numDependentVariables;                                       
+D_S int                            numTotalVariables;                                       
+D_S int                            numBoundaryVariables;                                       
+D_S int                            numGlobalParameters;                                       
+D_S int                            numCompartments;                                       
+D_S int                            numReactions;                                       
+D_S int                            numRules;                                       
+D_S int                            numEvents;                                       
+D_S char*                          variableTable[2];                       
+D_S const int                      variableTableSize=2;                    
+
+//The array size for the follwoing variable was generated as 0. We put 1, to make it legal code.
+D_S char*                          boundaryTable[1];                       
+D_S const int                      boundaryTableSize=0;                    
+D_S char*                          globalParameterTable[1];                
+D_S const int                      globalParameterTableSize=1;             
+D_S int                            localParameterDimensions[1];            
+D_S const int                      localParameterDimensionsSize=1;         
+
+typedef void (*TEventAssignmentDelegate)();
+D_S TEventAssignmentDelegate*      _eventAssignments;                                       
+D_S TEventAssignmentDelegate*          Get_eventAssignments();                 
+
+//The array size for the follwoing variable was generated as 0. We put 1, to make it legal code.
+D_S double                         _eventPriorities[1];                    
+D_S const int                      _eventPrioritiesSize=0;                 
+
+typedef double* (*TComputeEventAssignmentDelegate)();
+D_S TComputeEventAssignmentDelegate*   Get_computeEventAssignments();          
+D_S TComputeEventAssignmentDelegate*_computeEventAssignments;                                       
+
+typedef void (*TPerformEventAssignmentDelegate)();
+D_S TPerformEventAssignmentDelegate*_performEventAssignments;                                       
+D_S TPerformEventAssignmentDelegate*   Get_performEventAssignments();          
+
+//The array size for the follwoing variable was generated as 0. We put 1, to make it legal code.
+D_S bool                           mEventStatusArray[1];                   
+D_S const int                      mEventStatusArraySize=0;                
+
+//The array size for the follwoing variable was generated as 0. We put 1, to make it legal code.
+D_S bool                           _previousEventStatusArray[1];           
+D_S const int                      _previousEventStatusArraySize=0;        
+
+
+//NON - EXPORTS ========================================
+    void                               InitializeDelays();                     
+
+
+//EXPORTS ========================================
+D_S int                                InitModel();                            
+D_S char*                              GetModelName();                         
+D_S void                               resetEvents();                          
+D_S void                               setConcentration(int index, double value);
+D_S double                             getConcentration(int index);            
+D_S void                               convertToAmounts();                     
+D_S void                               convertToConcentrations();              
+D_S int                                getNumLocalParameters(int reactionId);  
+D_S void                               initializeInitialConditions();          
+D_S void                               setInitialConditions();                 
+D_S void                               setBoundaryConditions();                
+D_S void                               setCompartmentVolumes();                
+D_S void                               setParameterValues();                   
+D_S void                               computeConservedTotals();               
+D_S void                               updateDependentSpeciesValues(double* y);
+D_S void                               computeRules(double* y);                
+
+//The array size for the follwoing variable was generated as 0. We put 1, to make it legal code.
+D_S double                         _rateRules[1];                          //Vector containing values of additional rate rules
+D_S const int                      _rateRulesSize=0;                       
+D_S void                               InitializeRates();                      
+D_S void                               AssignRatesA();                         
+D_S void                               InitializeRateRuleSymbols();            
+D_S void                               AssignRatesB(double oRates[]);          
+D_S double*                            GetCurrentValues();                     
+D_S void                               computeAllRatesOfChange();              
+D_S void                               computeReactionRates(double time, double *y);
+D_S void                               evalModel(double, double*);             
+D_S void                               evalEvents(double timeIn, double *oAmounts);
+D_S void                               computeEventPriorities();               
+D_S void                               evalInitialAssignments();               
+D_S void                               testConstraints();                      
+
+
+#endif //modelH
+#include <math.h>
+#include <stdio.h>
+#include "rrSupport.h"	     //Supportfunctions for event handling..
+void loadSymbolTables()
+{
+	variableTable[0] = "S1";
+	variableTable[1] = "S2";
+	globalParameterTable[0] = "k1";
+}
+
+void resetEvents()
+{}
+
+void setConcentration(int index, double value)
+{
+	double volume = 0.0;
+	_y[index] = value;
+	switch (index)
+	{
+		case 0:
+			volume = _c[0];
+		break;
+		case 1:
+			volume = _c[0];
+		break;
+	}
+	_amounts[index] = _y[index]*volume;
+}
+
+double getConcentration(int index)
+{
+	return _y[index];
+}
+
+void convertToAmounts()
+{
+	_amounts[0] = _y[0]*_c[0];
+	_amounts[1] = _y[1]*_c[0];
+}
+
+void convertToConcentrations()
+{
+	_y[0] = _amounts[0] / _c[0];
+	_y[1] = _amounts[1] / _c[0];
+}
+
+int getNumLocalParameters(int reactionId)
+{
+	return localParameterDimensions[reactionId];
+}
+
+void initializeInitialConditions()
+{
+	_init_y[0] = (double) 0.0001499999999999999869/ _c[0];
+	_init_y[1] = (double) 0/ _c[0];
+}
+
+void setInitialConditions()
+{
+	_y[0] =  _init_y[0];
+	_amounts[0] = _y[0]*_c[0];
+
+	_y[1] =  _init_y[1];
+	_amounts[1] = _y[1]*_c[0];
+}
+
+void setBoundaryConditions()
+{
+}
+
+void setCompartmentVolumes()
+{
+	_c[0] = (double)1;
+	_c[0] = 
+	(double)1;
+}
+
+void setParameterValues()
+{
+	_gp[0] = (double)1;
+}
+
+// Uses the equation: C = Sd - L0*Si
+void computeConservedTotals()
+{
+	_ct[0] =  + _y[0]*_c[0] + _y[1]*_c[0];
+}
+
+// Compute values of dependent species 
+// Uses the equation: Sd = C + L0*Si
+void updateDependentSpeciesValues(double* y)
+{
+	_y[1] = (_ct[0] - y[0]*_c[0]) / _c[0];
+}
+
+void computeRules(double* y)
+{
+
+}
+
+void InitializeRates()
+{}
+
+void AssignRatesA()
+{
+}
+
+void InitializeRateRuleSymbols() 
+{}
+
+void AssignRatesB(double oRates[])
+{}
+
+double* GetCurrentValues()
+{
+	double* dResult = (double*) malloc(sizeof(double)*0);
+	return dResult;
+}
+
+//Uses the equation: dSd/dt = L0 dSi/dt
+void computeAllRatesOfChange()
+{	int i;
+
+	double* dTemp = (double*) malloc( sizeof(double)* (_amountsSize + _rateRulesSize) );
+	for(i = 0; i < _amountsSize; i++)
+	{
+		dTemp[i + _rateRulesSize] = _amounts[i];
+	}
+	//amounts.CopyTo(dTemp, rateRules.Length); 
+	evalModel(mTime, dTemp);
+	_dydt[1] =  - _dydt[0];
+
+}
+
+// Compute the reaction rates
+void computeReactionRates(double time, double *y)
+{
+	_rates[0]=_c[0]*_gp[0]*y[0];
+}
+
+//Model Function
+void evalModel (double timein, double* oAmounts)
+{
+	_y[0] = oAmounts[0]/_c[0];
+
+	_y[1] = oAmounts[1]/_c[0];
+
+	convertToAmounts();
+	mTime = timein;  // Don't remove
+	updateDependentSpeciesValues (_y);
+	computeReactionRates (mTime, _y);
+	_dydt[0] = - _rates[0];
+	convertToAmounts();
+}
+
+//Event handling function
+void evalEvents(double timeIn, double *oAmounts)
+{
+	mTime = timeIn;
+	updateDependentSpeciesValues(_y);
+	computeRules(_y);
+}
+
+void InitializeDelays()
+{
+}
+
+void computeEventPriorities()
+{}
+
+void evalInitialAssignments()
+{
+}
+
+void testConstraints()
+{}
+
+
+//Function to initialize the model data structure. Returns an integer indicating result
+int InitModel()
+{
+	numIndependentVariables = 1;
+	numDependentVariables = 1;
+	numTotalVariables = 2;
+	numBoundaryVariables = 0;
+	numGlobalParameters = 1;
+	numCompartments = 1;
+	numReactions = 1;
+	numEvents = 0;
+	mModelName = (char*) malloc(sizeof(char)*10);
+	strcpy(mModelName,"case00001");
+	setCompartmentVolumes();
+	InitializeDelays();
+	localParameterDimensions[0] = 0;
+	_lp[0] = (double*) malloc(sizeof(double)*0);
+	return 0;
+}
+
+
+char* GetModelName()
+{
+	return mModelName;
+}
+ ----- End of Model Code -----
+
+Compiling model..
+
+Executing compile command: tcc -g -shared -rdynamic /home/totte/rr/runs/test_1.c /usr/local/rr_support/rrSupport.c -o/home/totte/rr/runs/libtest_1.so -I.  -Iinclude  -I/usr/local/rr_support  -L.  -Llib 
+Compile system call returned: 0
+Model compiled successfully. 
+/home/totte/rr/runs/libtest_1.so was created
+Trying to load shared lib: /home/totte/rr/runs/libtest_1
+Set tolerance to: 1e-12
+Set tolerance to: 1e-12
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+Set tolerance to: 1e-12
+Set tolerance to: 1e-12
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+The following is selected:
+A Selection Record --
+Index: 0
+p1: 
+p2: 
+SelectionType: 0
+
+A Selection Record --
+Index: 0
+p1: 
+p2: 
+SelectionType: 2
+
+A Selection Record --
+Index: 1
+p1: 
+p2: 
+SelectionType: 2
+
+Added result row	0 : 	0	0.00015	0
+Will run the OneStep function 50 times
+Step 1
+---------------------------------------------------
+--- O N E     S T E P      ( 0 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Count =             2		count = 2	
+Count =             3		count = 3	
+Count =             4		count = 4	
+Count =             5		count = 5	
+Count =             6		count = 6	
+Count =             7		count = 7	
+Count =             8		count = 8	
+Count =             9		count = 9	
+Count =             10		count = 10	
+Count =             11		count = 11	
+Count =             12		count = 12	
+Count =             13		count = 13	
+Count =             14		count = 14	
+Count =             15		count = 15	
+Count =             16		count = 16	
+Count =             17		count = 17	
+Count =             18		count = 18	
+Count =             19		count = 19	
+Count =             20		count = 20	
+Count =             21		count = 21	
+Count =             22		count = 22	
+Count =             23		count = 23	
+Count =             24		count = 24	
+Count =             25		count = 25	
+Count =             26		count = 26	
+Count =             27		count = 27	
+Count =             28		count = 28	
+Count =             29		count = 29	
+Count =             30		count = 30	
+Count =             31		count = 31	
+Count =             32		count = 32	
+Count =             33		count = 33	
+Count =             34		count = 34	
+Count =             35		count = 35	
+Count =             36		count = 36	
+Count =             37		count = 37	
+Count =             38		count = 38	
+Amount 0.0001354489060790763
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 0.102041	timeEnd: 0.102041
+Added result row	1 : 	0.102041	0.00015	0
+Step 2
+---------------------------------------------------
+--- O N E     S T E P      ( 1 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Count =             2		count = 2	
+Count =             3		count = 3	
+Count =             4		count = 4	
+Count =             5		count = 5	
+Count =             6		count = 6	
+Count =             7		count = 7	
+Count =             8		count = 8	
+Count =             9		count = 9	
+Count =             10		count = 10	
+Amount 0.0001223093764246518
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 0.204082	timeEnd: 0.204082
+Added result row	2 : 	0.204082	0.00015	0
+Step 3
+---------------------------------------------------
+--- O N E     S T E P      ( 2 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Count =             2		count = 2	
+Count =             3		count = 3	
+Amount 0.0001104444723786349
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 0.306122	timeEnd: 0.306122
+Added result row	3 : 	0.306122	0.00015	0
+Step 4
+---------------------------------------------------
+--- O N E     S T E P      ( 3 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Count =             2		count = 2	
+Count =             3		count = 3	
+Count =             4		count = 4	
+Count =             5		count = 5	
+Count =             6		count = 6	
+Count =             7		count = 7	
+Amount 9.973054966301272e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 0.408163	timeEnd: 0.408163
+Added result row	4 : 	0.408163	0.00015	0
+Step 5
+---------------------------------------------------
+--- O N E     S T E P      ( 4 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Count =             2		count = 2	
+Amount 9.005595802419762e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 0.510204	timeEnd: 0.510204
+Added result row	5 : 	0.510204	0.00015	0
+Step 6
+---------------------------------------------------
+--- O N E     S T E P      ( 5 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Count =             2		count = 2	
+Count =             3		count = 3	
+Amount 8.131987102620994e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 0.612245	timeEnd: 0.612245
+Added result row	6 : 	0.612245	0.00015	0
+Step 7
+---------------------------------------------------
+--- O N E     S T E P      ( 6 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 7.34312486445272e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 0.714286	timeEnd: 0.714286
+Added result row	7 : 	0.714286	0.00015	0
+Step 8
+---------------------------------------------------
+--- O N E     S T E P      ( 7 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 6.630788347752835e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 0.816327	timeEnd: 0.816327
+Added result row	8 : 	0.816327	0.00015	0
+Step 9
+---------------------------------------------------
+--- O N E     S T E P      ( 8 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Count =             2		count = 2	
+Count =             3		count = 3	
+Count =             4		count = 4	
+Amount 5.987553559444089e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 0.918367	timeEnd: 0.918367
+Added result row	9 : 	0.918367	0.00015	0
+Step 10
+---------------------------------------------------
+--- O N E     S T E P      ( 9 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 5.406717108797413e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 1.02041	timeEnd: 1.02041
+Added result row	10 : 	1.02041	0.00015	0
+Step 11
+---------------------------------------------------
+--- O N E     S T E P      ( 10 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 4.882226121562404e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 1.12245	timeEnd: 1.12245
+Added result row	11 : 	1.12245	0.00015	0
+Step 12
+---------------------------------------------------
+--- O N E     S T E P      ( 11 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 4.408614551299293e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 1.22449	timeEnd: 1.22449
+Added result row	12 : 	1.22449	0.00015	0
+Step 13
+---------------------------------------------------
+--- O N E     S T E P      ( 12 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 3.980946761761751e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 1.32653	timeEnd: 1.32653
+Added result row	13 : 	1.32653	0.00015	0
+Step 14
+---------------------------------------------------
+--- O N E     S T E P      ( 13 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Amount 3.594765879078484e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 1.42857	timeEnd: 1.42857
+Added result row	14 : 	1.42857	0.00015	0
+Step 15
+---------------------------------------------------
+--- O N E     S T E P      ( 14 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 3.246047353218961e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 1.53061	timeEnd: 1.53061
+Added result row	15 : 	1.53061	0.00015	0
+Step 16
+---------------------------------------------------
+--- O N E     S T E P      ( 15 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 2.931157072217161e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 1.63265	timeEnd: 1.63265
+Added result row	16 : 	1.63265	0.00015	0
+Step 17
+---------------------------------------------------
+--- O N E     S T E P      ( 16 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 2.646813445303824e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 1.73469	timeEnd: 1.73469
+Added result row	17 : 	1.73469	0.00015	0
+Step 18
+---------------------------------------------------
+--- O N E     S T E P      ( 17 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 2.390053224661146e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 1.83673	timeEnd: 1.83673
+Added result row	18 : 	1.83673	0.00015	0
+Step 19
+---------------------------------------------------
+--- O N E     S T E P      ( 18 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Count =             2		count = 2	
+Amount 2.1582006196525e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 1.93878	timeEnd: 1.93878
+Added result row	19 : 	1.93878	0.00015	0
+Step 20
+---------------------------------------------------
+--- O N E     S T E P      ( 19 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 1.948839409055643e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 2.04082	timeEnd: 2.04082
+Added result row	20 : 	2.04082	0.00015	0
+Step 21
+---------------------------------------------------
+--- O N E     S T E P      ( 20 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 1.759787763868677e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 2.14286	timeEnd: 2.14286
+Added result row	21 : 	2.14286	0.00015	0
+Step 22
+---------------------------------------------------
+--- O N E     S T E P      ( 21 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 1.58907550801645e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 2.2449	timeEnd: 2.2449
+Added result row	22 : 	2.2449	0.00015	0
+Step 23
+---------------------------------------------------
+--- O N E     S T E P      ( 22 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Amount 1.434923587536079e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 2.34694	timeEnd: 2.34694
+Added result row	23 : 	2.34694	0.00015	0
+Step 24
+---------------------------------------------------
+--- O N E     S T E P      ( 23 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 1.295725528032733e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 2.44898	timeEnd: 2.44898
+Added result row	24 : 	2.44898	0.00015	0
+Step 25
+---------------------------------------------------
+--- O N E     S T E P      ( 24 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 1.170030695914193e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 2.55102	timeEnd: 2.55102
+Added result row	25 : 	2.55102	0.00015	0
+Step 26
+---------------------------------------------------
+--- O N E     S T E P      ( 25 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 1.056529179689999e-05
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 2.65306	timeEnd: 2.65306
+Added result row	26 : 	2.65306	0.00015	0
+Step 27
+---------------------------------------------------
+--- O N E     S T E P      ( 26 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 9.540381388026224e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 2.7551	timeEnd: 2.7551
+Added result row	27 : 	2.7551	0.00015	0
+Step 28
+---------------------------------------------------
+--- O N E     S T E P      ( 27 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 8.61489476827734e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 2.85714	timeEnd: 2.85714
+Added result row	28 : 	2.85714	0.00015	0
+Step 29
+---------------------------------------------------
+--- O N E     S T E P      ( 28 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 7.779187104786269e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 2.95918	timeEnd: 2.95918
+Added result row	29 : 	2.95918	0.00015	0
+Step 30
+---------------------------------------------------
+--- O N E     S T E P      ( 29 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 7.024549183709087e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 3.06122	timeEnd: 3.06122
+Added result row	30 : 	3.06122	0.00015	0
+Step 31
+---------------------------------------------------
+--- O N E     S T E P      ( 30 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Amount 6.343116650592967e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 3.16327	timeEnd: 3.16327
+Added result row	31 : 	3.16327	0.00015	0
+Step 32
+---------------------------------------------------
+--- O N E     S T E P      ( 31 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Count =             2		count = 2	
+Amount 5.727788229035484e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 3.26531	timeEnd: 3.26531
+Added result row	32 : 	3.26531	0.00015	0
+Step 33
+---------------------------------------------------
+--- O N E     S T E P      ( 32 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Amount 5.172151487311867e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 3.36735	timeEnd: 3.36735
+Added result row	33 : 	3.36735	0.00015	0
+Step 34
+---------------------------------------------------
+--- O N E     S T E P      ( 33 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Amount 4.670415531968666e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 3.46939	timeEnd: 3.46939
+Added result row	34 : 	3.46939	0.00015	0
+Step 35
+---------------------------------------------------
+--- O N E     S T E P      ( 34 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Amount 4.217351396141546e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 3.57143	timeEnd: 3.57143
+Added result row	35 : 	3.57143	0.00015	0
+Step 36
+---------------------------------------------------
+--- O N E     S T E P      ( 35 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 3.808237736916367e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 3.67347	timeEnd: 3.67347
+Added result row	36 : 	3.67347	0.00015	0
+Step 37
+---------------------------------------------------
+--- O N E     S T E P      ( 36 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Amount 3.438811140665122e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 3.77551	timeEnd: 3.77551
+Added result row	37 : 	3.77551	0.00015	0
+Step 38
+---------------------------------------------------
+--- O N E     S T E P      ( 37 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Amount 3.105221600496757e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 3.87755	timeEnd: 3.87755
+Added result row	38 : 	3.87755	0.00015	0
+Step 39
+---------------------------------------------------
+--- O N E     S T E P      ( 38 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Amount 2.803992615931833e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 3.97959	timeEnd: 3.97959
+Added result row	39 : 	3.97959	0.00015	0
+Step 40
+---------------------------------------------------
+--- O N E     S T E P      ( 39 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 2.531985021121868e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 4.08163	timeEnd: 4.08163
+Added result row	40 : 	4.08163	0.00015	0
+Step 41
+---------------------------------------------------
+--- O N E     S T E P      ( 40 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Amount 2.286364160337368e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 4.18367	timeEnd: 4.18367
+Added result row	41 : 	4.18367	0.00015	0
+Step 42
+---------------------------------------------------
+--- O N E     S T E P      ( 41 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Amount 2.064570299000363e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 4.28571	timeEnd: 4.28571
+Added result row	42 : 	4.28571	0.00015	0
+Step 43
+---------------------------------------------------
+--- O N E     S T E P      ( 42 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Amount 1.864292032138459e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 4.38776	timeEnd: 4.38776
+Added result row	43 : 	4.38776	0.00015	0
+Step 44
+---------------------------------------------------
+--- O N E     S T E P      ( 43 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 1.683442202945817e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 4.4898	timeEnd: 4.4898
+Added result row	44 : 	4.4898	0.00015	0
+Step 45
+---------------------------------------------------
+--- O N E     S T E P      ( 44 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Amount 1.52013613176163e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 4.59184	timeEnd: 4.59184
+Added result row	45 : 	4.59184	0.00015	0
+Step 46
+---------------------------------------------------
+--- O N E     S T E P      ( 45 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Amount 1.372671930014705e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 4.69388	timeEnd: 4.69388
+Added result row	46 : 	4.69388	0.00015	0
+Step 47
+---------------------------------------------------
+--- O N E     S T E P      ( 46 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Amount 1.239512816163165e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 4.79592	timeEnd: 4.79592
+Added result row	47 : 	4.79592	0.00015	0
+Step 48
+---------------------------------------------------
+--- O N E     S T E P      ( 47 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Count =             1		count = 1	
+Amount 1.119271095357119e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 4.89796	timeEnd: 4.89796
+Added result row	48 : 	4.89796	0.00015	0
+Step 49
+---------------------------------------------------
+--- O N E     S T E P      ( 48 ) 
+---------------------------------------------------
+Count =             0		count = 0	
+Amount 1.01069370231318e-06
+Size of dResult in BuildEvalArgument: 2
+Size of dResult in BuildEvalArgument: 2
+tout: 5	timeEnd: 5
+Added result row	49 : 	5	0.00015	0
+Simulation done..
+Result: (point, time, value)
+0	0	0.00015
+1	0.102041	0.00015
+2	0.204082	0.00015
+3	0.306122	0.00015
+4	0.408163	0.00015
+5	0.510204	0.00015
+6	0.612245	0.00015
+7	0.714286	0.00015
+8	0.816327	0.00015
+9	0.918367	0.00015
+10	1.02041	0.00015
+11	1.12245	0.00015
+12	1.22449	0.00015
+13	1.32653	0.00015
+14	1.42857	0.00015
+15	1.53061	0.00015
+16	1.63265	0.00015
+17	1.73469	0.00015
+18	1.83673	0.00015
+19	1.93878	0.00015
+20	2.04082	0.00015
+21	2.14286	0.00015
+22	2.2449	0.00015
+23	2.34694	0.00015
+24	2.44898	0.00015
+25	2.55102	0.00015
+26	2.65306	0.00015
+27	2.7551	0.00015
+28	2.85714	0.00015
+29	2.95918	0.00015
+30	3.06122	0.00015
+31	3.16327	0.00015
+32	3.26531	0.00015
+33	3.36735	0.00015
+34	3.46939	0.00015
+35	3.57143	0.00015
+36	3.67347	0.00015
+37	3.77551	0.00015
+38	3.87755	0.00015
+39	3.97959	0.00015
+40	4.08163	0.00015
+41	4.18367	0.00015
+42	4.28571	0.00015
+43	4.38776	0.00015
+44	4.4898	0.00015
+45	4.59184	0.00015
+46	4.69388	0.00015
+47	4.79592	0.00015
+48	4.89796	0.00015
+49	5	0.00015
+Simulation Data Columns: time S1 S2
+Simulation Data =========== 
+0	0.00015	0	
+0.102041	0.00015	0	
+0.204082	0.00015	0	
+0.306122	0.00015	0	
+0.408163	0.00015	0	
+0.510204	0.00015	0	
+0.612245	0.00015	0	
+0.714286	0.00015	0	
+0.816327	0.00015	0	
+0.918367	0.00015	0	
+1.02041	0.00015	0	
+1.12245	0.00015	0	
+1.22449	0.00015	0	
+1.32653	0.00015	0	
+1.42857	0.00015	0	
+1.53061	0.00015	0	
+1.63265	0.00015	0	
+1.73469	0.00015	0	
+1.83673	0.00015	0	
+1.93878	0.00015	0	
+2.04082	0.00015	0	
+2.14286	0.00015	0	
+2.2449	0.00015	0	
+2.34694	0.00015	0	
+2.44898	0.00015	0	
+2.55102	0.00015	0	
+2.65306	0.00015	0	
+2.7551	0.00015	0	
+2.85714	0.00015	0	
+2.95918	0.00015	0	
+3.06122	0.00015	0	
+3.16327	0.00015	0	
+3.26531	0.00015	0	
+3.36735	0.00015	0	
+3.46939	0.00015	0	
+3.57143	0.00015	0	
+3.67347	0.00015	0	
+3.77551	0.00015	0	
+3.87755	0.00015	0	
+3.97959	0.00015	0	
+4.08163	0.00015	0	
+4.18367	0.00015	0	
+4.28571	0.00015	0	
+4.38776	0.00015	0	
+4.4898	0.00015	0	
+4.59184	0.00015	0	
+4.69388	0.00015	0	
+4.79592	0.00015	0	
+4.89796	0.00015	0	
+5	0.00015	0	
+
+In RoadRunner DTOR
