@@ -216,7 +216,8 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     char c;
     while ((c = GetOptions(argc, argv, ("cfpxyv:n:d:t:l:m:s:e:z:"))) != -1)
     {
-		cout<<"Character is: "<<c<<" and optarg is:"<<optArg<<endl;	
+    	string arg = (optArg == NULL) ? "NULL" : optArg ;
+		cout<<"Character is: "<<c<<" and optarg is:"<<arg<<endl;
         switch (c)
         {
             case ('v'): args.CurrentLogLevel                        = GetLogLevel(optArg);   

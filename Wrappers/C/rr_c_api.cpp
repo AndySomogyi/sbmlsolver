@@ -237,8 +237,13 @@ RRHandle rrCallConv getRRInstance()
         if(!gRRHandle)
         {
         	//Get location of shared lib and use that as 'install' folder
-            //string rrInstallFolder(getParentFolder(getRRCAPILocation()));
-            string rrInstallFolder("/usr/local/");
+#if defined(_WIN32) || defined(WIN32)
+            string rrInstallFolder(getParentFolder(getRRCAPILocation()));
+#elif defined(__linux)
+            string rrInstallFolder("/usr/local");
+#else
+            string rrInstallFolder("?");
+#endif
             gRRHandle = new RoadRunner(rrInstallFolder);
         }
     	return gRRHandle;

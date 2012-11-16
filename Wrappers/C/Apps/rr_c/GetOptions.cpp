@@ -6,7 +6,7 @@
 #include <string.h>
 #include "rrGetOptions.h"
 
-char    *optArg;            // global argument pointer
+char*    optArg = NULL;            // global argument pointer
 int      optInd = 0;        // global argv index
 
 int GetOptions(int argc, char *argv[], const char *optstring)
