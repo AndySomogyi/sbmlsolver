@@ -183,7 +183,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     string rrLocation = ExtractFilePath(argv[0]);
     char c;
 
-    while (c = GetOptions(argc, argv, const_cast<char *>("cpufv:n:d:t:l:m:s:e:z:")) != -1)
+    while ((c = GetOptions(argc, argv, ("cpufv:n:d:t:l:m:s:e:z:"))) != -1)
     {
         switch (c)
         {
