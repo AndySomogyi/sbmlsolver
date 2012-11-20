@@ -24,7 +24,7 @@ using namespace std;
 namespace rr
 {
 //helper function for call back functions..
-vector<double> BuildEvalArgument(ModelFromC* model);
+vector<double> BuildEvalArgumentFunc(ModelFromC* model);
 
 //Static stuff...
 //double      CvodeInterface::lastTimeValue = 0;
@@ -176,11 +176,11 @@ void EventFcn(double time, cvode_precision* y, cvode_precision* gdot, void* fdat
     ModelFromC *model = CvodeInterface::model;
     ModelState* oldState = new ModelState(*model);
 
-    vector<double> args = BuildEvalArgument(model);
+    vector<double> args = BuildEvalArgumentFunc(model);
     model->evalModel(time, args);
     model->mCvodeInterface->AssignResultsToModel(); //AssignResultsToModel();
 
-    args = BuildEvalArgument(model);
+    args = BuildEvalArgumentFunc(model);
     model->evalEvents(time, args);
 
 //    Marshal.Copy(model.eventTests, 0, gdot, model.getNumEvents());
@@ -661,6 +661,7 @@ double CvodeInterface::OneStep(double timeStart, double hstep)
 
             if (lastTimeValue > timeStart)
             {
+	            Log(lDebug5)<<"reStarting in OneStep";
                 reStart(timeStart, model);
             }
 
@@ -701,9 +702,11 @@ double CvodeInterface::OneStep(double timeStart, double hstep)
             }
             else if (nResult == CV_SUCCESS || !followEvents)
             {
+   	            Log(lDebug5)<<"CV_SUCCESS and !followEvents in OneStep";
                 //model->resetEvents();
                 model->setTime(tout);
                 AssignResultsToModel();
+				Log(lDebug5)<<"Done assigning result in OneStep";
             }
             else
             {
@@ -848,6 +851,7 @@ void CvodeInterface::AssignPendingEvents(const double& timeEnd, const double& to
 {
     for (int i = assignments.size() - 1; i >= 0; i--)
     {
+      	Log(lDebug5)<<"Assigning Pending Events. At line "<<__LINE__<<" in file "<<__FILE__;
         if (timeEnd >= assignments[i].GetTime())
         {
             model->setTime(tout);
@@ -1198,6 +1202,7 @@ void CvodeInterface::SortEventsByPriority(vector<int>& firedEvents)
 
 void CvodeInterface::HandleRootsForTime(const double& timeEnd, vector<int>& rootsFound)
 {
+	Log(lDebug5)<<"Entering HandleRootsForTime";
     AssignResultsToModel();
     model->convertToConcentrations();
     model->updateDependentSpeciesValues(model->y);
@@ -1339,6 +1344,7 @@ void CvodeInterface::HandleRootsForTime(const double& timeEnd, vector<int>& root
 
 void CvodeInterface::AssignResultsToModel()
 {
+    Log(lDebug5)<<"Entering function "<<__func__;
     model->updateDependentSpeciesValues(model->y);
     vector<double> dTemp(numAdditionalRules);
 
@@ -1359,6 +1365,7 @@ void CvodeInterface::AssignResultsToModel()
     model->computeRules(args);
     model->assignRates(dTemp);
     model->computeAllRatesOfChange();
+    Log(lDebug5)<<"Exiting function "<<__func__;
 }
 
 // Restart the simulation using a different initial condition
@@ -1453,26 +1460,6 @@ int CvodeInterface::reStart(double timeStart, ModelFromC* model)
 
 
 
-vector<double> BuildEvalArgument(ModelFromC* model)
-{
-    vector<double> dResult;
-    dResult.resize(*model->amountsSize + *model->rateRulesSize);
-
-    vector<double> dCurrentValues = model->getCurrentValues();
-    for(int i = 0; i < dCurrentValues.size(); i++)
-    {
-        dResult[i] = dCurrentValues[i];
-    }
-
-    for(int i = 0; i < *model->amountsSize; i++)
-    {
-        dResult[i + *model->rateRulesSize] = model->amounts[i];
-    }
-
-    Log(lDebug4)<<"Size of dResult in BuildEvalArgument: "<<dResult.size();
-    return dResult;
-
-}
 
 ////        internal double[] BuildEvalArgument()
 ////        {
@@ -1483,7 +1470,7 @@ vector<double> BuildEvalArgument(ModelFromC* model)
 ////            return dResult;
 ////        }
 
-vector<double> CvodeInterface::BuildEvalArgument()
+vector<double> BuildEvalArgumentFunc(ModelFromC* model)
 {
     vector<double> dResult;
     dResult.resize(*model->amountsSize + *model->rateRulesSize);
@@ -1497,9 +1484,35 @@ vector<double> CvodeInterface::BuildEvalArgument()
     for(int i = 0; i < *model->amountsSize; i++)
     {
         dResult[i + *model->rateRulesSize] = model->amounts[i];
+	    Log(lDebug5)<<"Assigning amount "<<  model->amounts[i] << "in BuildEvalArgument"<<__LINE__<<" in file "<<__FILE__;
     }
 
     Log(lDebug4)<<"Size of dResult in BuildEvalArgument: "<<dResult.size();
+    return dResult;
+
+}
+
+vector<double> CvodeInterface::BuildEvalArgument()
+{
+    Log(lDebug5)<<"Entering function "<<__func__;
+    vector<double> dResult;
+    dResult.resize(*model->amountsSize + *model->rateRulesSize);
+
+    vector<double> dCurrentValues = model->getCurrentValues();
+    for(int i = 0; i < dCurrentValues.size(); i++)
+    {
+        dResult[i] = dCurrentValues[i];
+	    Log(lDebug5)<<"Assigning current values "<<  dCurrentValues[i] << " in BuildEvalArgument. At line "<<__LINE__<<" in file "<<__FILE__;
+    }
+
+    for(int i = 0; i < *model->amountsSize; i++)
+    {
+        dResult[i + *model->rateRulesSize] = model->amounts[i];
+	    Log(lDebug5)<<"Assigning amount "<<  model->amounts[i] << " in BuildEvalArgument. At line "<<__LINE__<<" in file "<<__FILE__;
+    }
+
+    Log(lDebug4)<<"Size of dResult in CVodeInterface::BuildEvalArgument: "<<dResult.size();
+    Log(lDebug5)<<"Exiting function "<<__func__;
     return dResult;
 }
 

@@ -131,7 +131,7 @@ int main(int argc, char * argv[])
 			{
 				simulation.SetTimeStart(args.StartTime);
 				simulation.SetTimeEnd(args.EndTime);
-				simulation.SetNumberOfPoints(args.Steps);
+				simulation.SetNumberOfPoints(args.Steps - 1);
 				simulation.SetSelectionList(args.SelectionList);
 			}
 			//rr->ComputeAndAssignConservationLaws(false);

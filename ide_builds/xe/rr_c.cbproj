@@ -128,7 +128,7 @@
 						<ProjectProperties Name="VerifyPackages">True</ProjectProperties>
 					</ProjectProperties>
 					<Parameters>
-						<Parameters Name="RunParams">-p -m./../models/test_1.xml -t&quot;r:/rrTemp&quot; -v&quot;Debug3&quot;</Parameters>
+						<Parameters Name="RunParams">-p -m./../models/test_1.xml -t&quot;r:/rrTemp&quot; -v&quot;Debug5&quot;</Parameters>
 					</Parameters>
 				</CPlusPlusBuilder.Personality>
 				<Platforms>

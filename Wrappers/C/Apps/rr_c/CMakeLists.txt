@@ -26,26 +26,18 @@ rr_c_api
 #Not sure why linux linker need all libraries at linktime?? All symbols 'should' be in roadrunner-static
 if(UNIX)
 target_link_libraries (${target} 
-#roadrunner-static
-#nleq-static.a
-#rr-libstruct-static
 f2c
 lapack
 blas
-#z
-#libsbml-static.a
 dl
 z
 xml2
-#sundials_nvecserial.a
-#sundials_cvode.a
 pthread
-#poco_foundation-static.a
-#pugi-static.a
 )
 endif()
 
 install(    
-            TARGETS ${target} 		
-            DESTINATION bin 
-            COMPONENT apps)
+TARGETS ${target} 		
+DESTINATION bin 
+COMPONENT apps
+)

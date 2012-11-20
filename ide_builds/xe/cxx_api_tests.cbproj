@@ -46,7 +46,7 @@
 			<ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1)'!=''">
-			<IncludePath>$(RR_DEBUG_INSTALL)\include;R:\rrl\trunk\ThirdParty\poco\Foundation\include;$(IncludePath)</IncludePath>
+			<IncludePath>$(RR_DEBUG_INSTALL)\include;R:\rrl\trunk\ThirdParty\poco\Foundation\include;R:\rrl\trunk\source;$(IncludePath)</IncludePath>
 			<FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
 			<BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
 			<BCC_DisableOptimizations>true</BCC_DisableOptimizations>
