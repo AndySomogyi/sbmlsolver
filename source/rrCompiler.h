@@ -21,19 +21,16 @@ class RR_DECLSPEC Compiler : public rrObject
         vector<string>              mCompilerFlags;
         string                      mSupportCodeFolder;
         string                      mCompilerName;
-        string                      mCompilerExeName;
 		string						mCompilerLocation;	//Path to executable
         string                      CreateCompilerCommand(const string& sourceFileName);
         bool                        SetupCompilerEnvironment();
 
     public:
-                                    Compiler(const string& compiler="tcc");
+                                    Compiler(const string& supportCodeFolder, const string& compiler="tcc");
                                    ~Compiler();
         bool                        SetCompiler(const string& compiler);
-		bool						setupCompiler(const string& rrInstallFolder);
+		bool						setupCompiler(const string& supportCodeFolder);
         bool                        Compile(const string& cmdLine);
-		bool 						CompileWIN32(const string& cmdLine);
-		bool 						CompileUNIX(const string& cmdLine);
         string                      GetDLLName();
 		bool						setCompilerLocation(const string& path);
 		string						getCompilerLocation();

@@ -41,6 +41,7 @@
 			<ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<IntermediateOutputDir>.\$(Config)\$(Platform)\unit_test-static</IntermediateOutputDir>
 			<DynamicRTL>true</DynamicRTL>
 			<BCC_PCHUsage>None</BCC_PCHUsage>
 			<FinalOutputDir>$(RR_DEBUG_INSTALL)\lib</FinalOutputDir>

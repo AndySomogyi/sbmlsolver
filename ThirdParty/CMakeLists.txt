@@ -76,7 +76,6 @@ add_definitions(
              -w-8066                     #Unreachable code
              -w-8104                     #Local static with constructor...
              -w-8008                     #Condition is always false..
-
         )
 endif()
 
@@ -99,6 +98,7 @@ add_subdirectory(rr-libstruct)
 add_subdirectory(unit_test)
 add_subdirectory(compilers)
 add_subdirectory(poco)
+add_subdirectory(rr_support)
 
 #==== SYSTEM FILES (COMPILER SPECIFICS) =================================================
 if(${BORLAND})

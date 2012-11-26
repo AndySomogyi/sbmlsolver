@@ -4,13 +4,12 @@
 #include "rrUtils.h"
 using namespace std;
 using namespace UnitTest;
-//using namespace rr;	//We will get some clashes if this is opened up
 
 //Add using clauses..
 using rr::JoinPath;
 using rr::FileExists;
 
-extern RRHandle 	gRR;
+extern RRHandle gRR;	//Global roadrunner C handle
 extern string 		gBinPath;
 extern string 		gSBMLModelsPath;
 extern string 		gCompilerPath;

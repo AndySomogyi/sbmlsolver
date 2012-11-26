@@ -46,6 +46,7 @@
 			<ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<IntermediateOutputDir>.\$(Config)\$(Platform)\c_tests</IntermediateOutputDir>
 			<IncludePath>$(RR_DEBUG_INSTALL)\include;$(RR_DEBUG_INSTALL)\include\unit_test;R:\rrl\trunk\Wrappers\C;R:\rrl\trunk\source;$(IncludePath)</IncludePath>
 			<FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
 			<BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
@@ -77,7 +78,7 @@
 				<BuildOrder>2</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="..\..\Wrappers\C\Testing\core\steady_state.cpp">
-				<BuildOrder>1</BuildOrder>
+				<BuildOrder>3</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="..\..\Wrappers\C\Testing\main.cpp">
 				<BuildOrder>0</BuildOrder>

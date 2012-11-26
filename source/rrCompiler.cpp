@@ -20,45 +20,26 @@ using namespace std;
 namespace rr
 {
 
-Compiler::Compiler(const string& compiler)
+Compiler::Compiler(const string& supportCodeFolder, const string& compiler)
 :
-mSupportCodeFolder("rr_support"),
+mSupportCodeFolder(supportCodeFolder),
 mCompilerName(ExtractFileName(compiler)),
 mCompilerLocation(ExtractFilePath(compiler))
 {
-    Log(lDebug5)<<"Creating a compiler";
+	if(mSupportCodeFolder.size() > 0)
+    {
+        if(!setupCompiler(mSupportCodeFolder))
+        {
+            Log(lWarning)<<"Roadrunner internal compiler setup failed. ";
+        }
+    }
 }
 
 Compiler::~Compiler(){}
 
-bool Compiler::setupCompiler(const string& rrInstallFolder)
+bool Compiler::setupCompiler(const string& supportCodeFolder)
 {
-#if defined(WIN32)
-	mCompilerLocation = JoinPath(rrInstallFolder, "compilers");
-	mCompilerLocation = JoinPath(mCompilerLocation, mCompilerName);
-
-    if(!FolderExists(mCompilerLocation))
-    {
-    	Log(lWarning)<<"Compiler location: "<<mCompilerLocation<<" do not exist.";
-        return false;
-    }
-
-    //Make sure the compiler exists
-    if(gExeSuffix.size() > 0)
-    {
-    	mCompilerExeName = mCompilerName + gExeSuffix;
-    }
-
-
-    if(!FileExists(JoinPath(mCompilerLocation, mCompilerExeName)))
-    {
-    	Log(lError)<<"The compiler: "<<JoinPath(mCompilerLocation, mCompilerExeName)<<" do not exist.";
-        return false;
-    }
-
-#endif
-
-    mSupportCodeFolder = JoinPath(rrInstallFolder, "rr_support");
+    mSupportCodeFolder = supportCodeFolder;
 
     if(!FolderExists(mSupportCodeFolder))
     {
@@ -67,7 +48,6 @@ bool Compiler::setupCompiler(const string& rrInstallFolder)
     }
 
     return true;
-
 }
 
 bool Compiler::SetCompiler(const string& compiler)
@@ -130,7 +110,7 @@ bool Compiler::setSupportCodeFolder(const string& path)
 {
 	if(!FolderExists(path))
 	{
-		Log(lError)<<"Tried to set invalid path: "<<path<<" for compiler location";		
+		Log(lError)<<"Tried to set invalid path: "<<path<<" for compiler location";
 		return false;
 	}
 	mSupportCodeFolder = path;
@@ -147,19 +127,12 @@ bool Compiler::SetupCompilerEnvironment()
     mIncludePaths.clear();
     mLibraryPaths.clear();
     mCompilerFlags.clear();
-    if(mCompilerName == "tcc")
+    if(ExtractFileNameNoExtension(mCompilerName) == "tcc")
     {
-#if defined(_WIN32) || defined(__CODEGEARC__)
-        mCompilerExeName = JoinPath(mCompilerLocation, "tcc.exe");
-#else
-	//On linux, tcc need to be on the path
-        mCompilerExeName = JoinPath("", "tcc");
-#endif
-
         mIncludePaths.push_back(".");
         mIncludePaths.push_back(JoinPath(mCompilerLocation, "include"));
         mLibraryPaths.push_back(".");
-	mLibraryPaths.push_back(JoinPath(mCompilerLocation, "lib"));
+		mLibraryPaths.push_back(JoinPath(mCompilerLocation, "lib"));
 
         mCompilerFlags.push_back("-g");         //-g adds runtime debug information
         mCompilerFlags.push_back("-shared");
@@ -186,9 +159,9 @@ bool Compiler::SetupCompilerEnvironment()
 string Compiler::CreateCompilerCommand(const string& sourceFileName)
 {
     stringstream exeCmd;
-    if(mCompilerName == "tcc")
+    if(ExtractFileNameNoExtension(mCompilerName) == "tcc")
     {
-        exeCmd<<mCompilerExeName;
+        exeCmd<<JoinPath(mCompilerLocation, mCompilerName);
         //Add compiler flags
         for(int i = 0; i < mCompilerFlags.size(); i++)
         {
@@ -226,105 +199,6 @@ string Compiler::CreateCompilerCommand(const string& sourceFileName)
 }
 
 bool Compiler::Compile(const string& cmdLine)
-{
-#if defined(_WIN32) || defined(__CODEGEARC__)
-	return CompileWIN32(cmdLine);
-#else
-	return CompileUNIX(cmdLine);
-#endif
-}
-
-bool Compiler::CompileWIN32(const string& cmdLine)
-{
-#if defined(_WIN32) || defined(__CODEGEARC)
-    STARTUPINFO         si;
-    PROCESS_INFORMATION pi;
-    SECURITY_ATTRIBUTES sap,sat,sao;
-    //sec attributes for the output file
-    sao.nLength=sizeof(SECURITY_ATTRIBUTES);
-    sao.lpSecurityDescriptor=NULL;
-    sao.bInheritHandle=1;
-
-    ZeroMemory( &si, sizeof(si) );
-    si.cb = sizeof(si);
-    ZeroMemory( &pi, sizeof(pi) );
-
-    if( !cmdLine.size() )
-    {
-        return false;
-    }
-
-    //open the output file on the server's tmp folder (for that test will be on the C:/ root)
-    string tmpPath = ExtractFilePath(gLog.GetLogFileName());
-    string compilerTempFile(JoinPath(tmpPath,"compilerOutput.log"));
-
-    HANDLE out;
-    if((out=CreateFileA(     compilerTempFile.c_str(),
-                            GENERIC_WRITE|GENERIC_READ,FILE_SHARE_READ|FILE_SHARE_WRITE,
-                            &sao,
-                            CREATE_ALWAYS,
-                            FILE_ATTRIBUTE_NORMAL,
-                            NULL))==INVALID_HANDLE_VALUE)
-    {
-        Log(lError)<<"Failed creating logFile for compiler output";
-        return false;
-    }
-
-    SetFilePointer( out, 0, NULL, FILE_END); //set pointer position to end file
-
-    //init the STARTUPINFO struct
-    si.dwFlags=STARTF_USESTDHANDLES;
-    si.hStdOutput = out;
-    si.hStdError = out;
-
-    //proc sec attributes
-    sap.nLength=sizeof(SECURITY_ATTRIBUTES);
-    sap.lpSecurityDescriptor=NULL;
-    sap.bInheritHandle=1;
-
-    //thread sec attributes
-    sat.nLength=sizeof(SECURITY_ATTRIBUTES);
-    sat.lpSecurityDescriptor=NULL;
-    sat.bInheritHandle=1;
-
-    // Start the child process.
-    if( !CreateProcessA(
-        NULL,                           // No module name (use command line)
-        (char*) cmdLine.c_str(),        // Command line
-        &sap,                           // Process handle not inheritable
-        &sat,                           // Thread handle not inheritable
-        TRUE,                          // Set handle inheritance
-        CREATE_NO_WINDOW,               // Creation flags
-        NULL,                           // Use parent's environment block
-        NULL,                           // Use parent's starting directory
-        &si,                            // Pointer to STARTUPINFO structure
-        &pi )                           // Pointer to PROCESS_INFORMATION structure
-    )
-    {
-        Log(lError)<<"CreateProcess failed: "<<GetLastError();
-        return false;
-    }
-
-    // Wait until child process exits.
-    WaitForSingleObject(pi.hProcess, INFINITE);
-
-    // Close process and thread handles.
-    CloseHandle(pi.hProcess);
-    CloseHandle(pi.hThread);
-    CloseHandle(out);
-
-    //Read the log file and log it
-    string log = GetFileContent(compilerTempFile.c_str());
-    Log(lDebug)<<"Compiler output: "<<log<<endl;
-
-    return true;
-#else
-    return false;
-#endif
-
-}
-
-bool Compiler::CompileUNIX(const string& cmdLine)
 {
 	string toFile(cmdLine);
     toFile += " > ";

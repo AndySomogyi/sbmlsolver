@@ -7,8 +7,7 @@ using namespace rr;
 
 extern RoadRunner* 		gRR;
 extern string 			gSBMLModelsPath;
-extern string 			gRRInstallFolder;
-extern string 			gCompilerPath;
+extern string 			gCompiler;
 extern string 			gSupportCodeFolder;
 extern vector<string> 	gModels;
 SUITE(Base)
@@ -17,25 +16,22 @@ SUITE(Base)
 	{
 		if(!gRR)
 		{
-			gRR = new RoadRunner(gRRInstallFolder, ".");
+			gRR = new RoadRunner(gSupportCodeFolder, gCompiler, ".");
 		}
 
         //Populate models
         gModels.clear();
         gModels.push_back("feedback.xml");
-//        gModels.push_back("ss_threeSpecies.xml");
-//        gModels.push_back("ss_TurnOnConservationAnalysis.xml");
-//        gModels.push_back("squareWaveModel.xml");
-//        gModels.push_back("test_1.xml");
+        gModels.push_back("ss_threeSpecies.xml");
+        gModels.push_back("ss_TurnOnConservationAnalysis.xml");
+        gModels.push_back("squareWaveModel.xml");
+        gModels.push_back("test_1.xml");
 
 		CHECK(gRR!=NULL);
 
 		if(gRR)
 		{
-			//gRR->getCompiler()->setCompilerLocation(gCompilerPath.c_str());
-			gRR->getCompiler()->setSupportCodeFolder("/home/totte/rDisk/rrl/rr_support");
-			//gRR->getCompiler()->setSupportCodeFolder(gSupportCodeFolder.c_str());
-            Log(lDebug)<<"Supportcode folder is set to: "<<gSupportCodeFolder;
+
 		}
 	}
 

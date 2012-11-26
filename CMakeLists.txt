@@ -136,7 +136,6 @@ endif()
 endif()
 
 add_subdirectory(Wrappers)
-add_subdirectory(rr_support)
 
 #======================= INSTALL STUFF ========================================================
 #What sub folders to move into...?

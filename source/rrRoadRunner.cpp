@@ -54,40 +54,34 @@ namespace rr
 //bool RoadRunner::mConservedTotalChanged             	= false;
 //bool RoadRunner::mReMultiplyCompartments             	= true;
 
-RoadRunner::RoadRunner(const string& rrInstallLocation, const string& tempFolder, const string& compiler) :
+//RoadRunner(const string& supportCodeFolder = EmptyString, const string& compiler = DefaultCompiler, const string& tempFolder = EmptyString);
+RoadRunner::RoadRunner(const string& supportCodeFolder, const string& compiler, const string& tempFolder)
+:
+    DiffStepSize(0.05),
     emptyModelStr("A model needs to be loaded before one can use this method"),
 	mModelFolder("models"),
     STEADYSTATE_THRESHOLD(1.E-2),
+	mSupportCodeFolder(supportCodeFolder),
+    mModelXMLFileName("sbml_model"),
+    mSimulation(NULL),
     mCVode(NULL),
     steadyStateSolver(NULL),
+    mCompiler(supportCodeFolder, compiler),
+    mComputeAndAssignConservationLaws(true),
+    mConservedTotalChanged(false),
+    _L0(NULL),
     mL(NULL),
     mL0(NULL),
-    _L0(NULL),
     mN(NULL),
     mNr(NULL),
-    DiffStepSize(0.05),
+    mCurrentSBML(""),
+    mModel(NULL),
     mTimeStart(0),
     mTimeEnd(10),
     mNumPoints(21),
-    mCurrentSBML(""),
-    mModel(NULL),
-    mSimulation(NULL),
-    mModelXMLFileName("sbml_model"),
-    UseKinsol(false),
-    mComputeAndAssignConservationLaws(true),
-    mConservedTotalChanged(false),
-    mCompiler(compiler),
-	mRRInstallFolder(rrInstallLocation)
+    UseKinsol(false)
 {
 	mTempFileFolder = (tempFolder);
-	if(mRRInstallFolder.size() > 0)
-    {
-        if(!mCompiler.setupCompiler(mRRInstallFolder))
-        {
-            Log(lWarning)<<"Roadrunner internal compiler setup failed. ";
-        }
-    }
-
 	Log(lDebug4)<<"In RoadRunner ctor";
 
     mLS 				= LibStructural::getInstance();

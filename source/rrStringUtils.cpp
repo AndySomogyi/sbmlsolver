@@ -188,6 +188,10 @@ string ExtractFileNameNoExtension(const string& fileN)
     {
         fName = fileN.substr(fileN.find_last_of( '/' ) + 1, fileN.size());
     }
+    else
+    {
+    	fName = fileN;
+    }
 
 	return ChangeFileExtensionTo(fName, "");
 }

@@ -47,6 +47,7 @@
 			<BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<IntermediateOutputDir>.\$(Config)\$(Platform)\rr_static</IntermediateOutputDir>
 			<IncludePath>$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>
 			<BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
 			<BCC_MonitorThis>true</BCC_MonitorThis>

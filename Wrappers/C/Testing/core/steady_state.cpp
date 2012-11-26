@@ -10,9 +10,10 @@ using rr::JoinPath;
 using rr::FileExists;
 
 extern RRHandle gRR;	//Global roadrunner C handle
+extern string 		gBinPath;
 extern string gSBMLModelsPath;
 extern string gCompilerPath;
-
+extern string 		gSupportCodeFolder;
 SUITE(SteadyState)
 {
     TEST(AllocateRR)
@@ -49,4 +50,5 @@ SUITE(SteadyState)
 		freeText(symbols);
     }
 }
+
 

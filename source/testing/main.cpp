@@ -15,10 +15,9 @@ using namespace UnitTest;
 
 RoadRunner* gRR = NULL;
 
-string gSBMLModelsPath = "";
-string gCompilerPath = "";
-string gSupportCodeFolder = "";
-string gRRInstallFolder = "";
+string gSBMLModelsPath 		= "";
+string gCompiler 			= "";
+string gSupportCodeFolder 	= "";
 
 #if defined(_WIN32) || defined(WIN32)
 //Test suite
@@ -47,14 +46,12 @@ int main(int argc, char* argv[])
 	string reportFile(args.ResultOutputFile);
 
     gSBMLModelsPath 	= args.SBMLModelsFilePath;
-    gRRInstallFolder 	= args.RRInstallFolder;
-	gCompilerPath 		= args.CompilerLocation;
+	gCompiler	 		= args.Compiler;
 
-	Log(lDebug) << "Support code folder is set to:"<<args.SupportCodeFolder;
+	gSupportCodeFolder 	= args.SupportCodeFolder;
 
-	gSupportCodeFolder 	= "/r/rrl/rr_support";
-    
-	fstream aFile(reportFile.c_str(), ios::out);
+	Log(lDebug) << "Support code folder is set to:"<<gSupportCodeFolder;
+ 	fstream aFile(reportFile.c_str(), ios::out);
     if(!aFile)
     {
 		cerr<<"Failed opening report file: "<<reportFile<<" in rr_cpp_api testing executable.\n";
@@ -80,9 +77,8 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     {
         switch (c)
         {
-            case ('i'): args.RRInstallFolder       		            = rrOptArg;                       break;
             case ('m'): args.SBMLModelsFilePath                     = rrOptArg;                       break;
-			case ('l'): args.CompilerLocation                       = rrOptArg;                       break;
+			case ('l'): args.Compiler      			                = rrOptArg;                       break;
             case ('r'): args.ResultOutputFile                       = rrOptArg;                       break;
 			case ('s'): args.SupportCodeFolder     		            = rrOptArg;                       break;
 			case ('t'): args.TempDataFolder        		            = rrOptArg;                       break;
@@ -106,26 +102,10 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
         cout<<Usage(argv[0])<<endl;
         exit(-1);
     }
-
-    if(args.CompilerLocation.size() < 1)
-    {
-		args.CompilerLocation = JoinPath(args.RRInstallFolder, "compilers");
-		args.CompilerLocation = JoinPath(args.CompilerLocation, "tcc");
-    }
-
-    if(args.SupportCodeFolder.size() < 1)
-    {
-		args.SupportCodeFolder = JoinPath(args.RRInstallFolder, "rr_support");
-    }
-
-    if(args.SBMLModelsFilePath.size() < 1)
-    {
-		args.SBMLModelsFilePath = JoinPath(args.RRInstallFolder, "models");
-    }
 }
 
 #if defined(CG_IDE)
-#pragma comment(lib, "roadrunner.lib")
+#pragma comment(lib, "roadrunner-static.lib")
 #pragma comment(lib, "sundials_cvode.lib")
 #pragma comment(lib, "sundials_nvecserial.lib")
 #pragma comment(lib, "nleq-static.lib")

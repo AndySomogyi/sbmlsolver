@@ -46,6 +46,7 @@
 			<ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<IntermediateOutputDir>.\$(Config)\$(Platform)\cxx_tests</IntermediateOutputDir>
 			<IncludePath>$(RR_DEBUG_INSTALL)\include;R:\rrl\trunk\ThirdParty\poco\Foundation\include;R:\rrl\trunk\source;$(IncludePath)</IncludePath>
 			<FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
 			<BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
@@ -131,7 +132,7 @@
 						<ProjectProperties Name="VerifyPackages">True</ProjectProperties>
 					</ProjectProperties>
 					<Parameters>
-						<Parameters Name="RunParams">-mr:\rrl\trunk\models -rr:\rrl\wiki\reports\cpp_api_cg_ui.xml -lr:\installs\xe1\release\compilers\tcc -sr:\rrl\trunk\rr_support -tr:\rrTemp </Parameters>
+						<Parameters Name="RunParams">-mr:\rrl\trunk\models -rr:\rrl\trunk\reports\cpp_api_cg_ui.xml -lr:\installs\xe1\debug\compilers\tcc\tcc.exe -sr:\rrl\trunk\ThirdParty\rr_support -tr:\rrTemp -v</Parameters>
 					</Parameters>
 				</CPlusPlusBuilder.Personality>
 				<Platforms>

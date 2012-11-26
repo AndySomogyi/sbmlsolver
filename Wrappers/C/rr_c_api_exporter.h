@@ -1,7 +1,6 @@
 /** @file rr_c_api_exporter.h */
 #ifndef rr_c_api_exporterH
 #define rr_c_api_exporterH
-//---------------------------------------------------------------------------
 
 //Export/Import API functions
 #if defined(STATIC_RR_C_API) || defined(__linux)
@@ -18,9 +17,9 @@
 #endif	//STATIC_RR_C_API
 
 #if defined(_MSC_VER) || defined(__CODEGEARC__)
-#define rrCallConv _stdcall
+#define rrCallConv __stdcall
 #elif defined(__linux)
-#define rrCallConv 
+#define rrCallConv
 #endif
 
 #endif
