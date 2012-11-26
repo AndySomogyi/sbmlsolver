@@ -1364,7 +1364,9 @@ void CvodeInterface::AssignResultsToModel()
     vector<double> args = BuildEvalArgument();
     model->computeRules(args);
     model->assignRates(dTemp);
-    model->computeAllRatesOfChange();
+
+//BUG:Commenting out the following causes rr_c to produce correct result, using gcc. 
+//    model->computeAllRatesOfChange();
     Log(lDebug5)<<"Exiting function "<<__func__;
 }
 
