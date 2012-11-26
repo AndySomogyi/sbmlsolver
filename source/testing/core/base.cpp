@@ -9,6 +9,7 @@ extern RoadRunner* 		gRR;
 extern string 			gSBMLModelsPath;
 extern string 			gCompiler;
 extern string 			gSupportCodeFolder;
+extern string 			gTempFolder;
 extern vector<string> 	gModels;
 SUITE(Base)
 {
@@ -16,7 +17,7 @@ SUITE(Base)
 	{
 		if(!gRR)
 		{
-			gRR = new RoadRunner(gSupportCodeFolder, gCompiler, ".");
+			gRR = new RoadRunner(gSupportCodeFolder, gCompiler, gTempFolder);
 		}
 
         //Populate models
@@ -33,6 +34,21 @@ SUITE(Base)
 		{
 
 		}
+	}
+
+	TEST(AllocateDeAllocateRR)
+	{
+        for(int i = 0; i < 100; i++)
+        {
+            if(gRR)
+            {
+                delete gRR;
+                gRR = NULL;
+            }
+			gRR = new RoadRunner(gSupportCodeFolder, gCompiler, gTempFolder);
+        }
+
+		CHECK(gRR != NULL);
 	}
 
     TEST(VERSIONS)

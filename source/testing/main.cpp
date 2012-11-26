@@ -18,6 +18,7 @@ RoadRunner* gRR = NULL;
 string gSBMLModelsPath 		= "";
 string gCompiler 			= "";
 string gSupportCodeFolder 	= "";
+string gTempFolder		   	= "";
 
 #if defined(_WIN32) || defined(WIN32)
 //Test suite
@@ -42,12 +43,12 @@ int main(int argc, char* argv[])
     {
         gLog.Init("", lDebug1, unique_ptr<LogFile>(new LogFile("testing.log")));
         LogOutput::mLogToConsole = true;
-    } 
+    }
 	string reportFile(args.ResultOutputFile);
 
     gSBMLModelsPath 	= args.SBMLModelsFilePath;
 	gCompiler	 		= args.Compiler;
-
+    gTempFolder			= args.TempDataFolder;
 	gSupportCodeFolder 	= args.SupportCodeFolder;
 
 	Log(lDebug) << "Support code folder is set to:"<<gSupportCodeFolder;
