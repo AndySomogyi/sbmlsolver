@@ -57,8 +57,8 @@ class RR_DECLSPEC CGenerator : public ModelGenerator
 
     public:
 //                                            CGenerator(RoadRunner* rr);
-                                            CGenerator(NOMSupport& nom);
-        virtual                             ~CGenerator();
+                                            CGenerator(LibStructural& ls, NOMSupport& nom);
+        virtual                            ~CGenerator();
 
         // Generates the Model Code from th e SBML string
         string                              generateModelCode(const string& sbmlStr, const bool& _computeAndAssignConsevationLaws = false);

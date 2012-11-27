@@ -43,7 +43,7 @@ class RR_DECLSPEC ModelGenerator : public rrObject
         StringList                          dependentSpeciesList;
         StringList                          independentSpeciesList;
         int                                 mNumModifiableSpeciesReferences;
-		LibStructural                      *mLibStruct;                          //Handle to libstruct library
+		LibStructural&                      mLibStruct;                          //Refernce to libstruct library
         NOMSupport&                         mNOM;                                //Object that provide some wrappers and new "NOM" functions.
         IntStringHashTable                  mMapRateRule;
         SymbolList                          boundarySpeciesList;
@@ -111,8 +111,7 @@ class RR_DECLSPEC ModelGenerator : public rrObject
         int                                 ReadModifiableSpeciesReferences();
 
     public:
-//                                            ModelGenerator(RoadRunner* rr);
-                                            ModelGenerator(NOMSupport& nom);
+                                            ModelGenerator(LibStructural& ls, NOMSupport& nom);
         virtual                             ~ModelGenerator();
         void                                Reset();
         int                                 GetNumberOfReactions();

@@ -17,18 +17,17 @@ using namespace std;
 namespace rr
 {
 //ModelGenerator::ModelGenerator(RoadRunner* rr)
-ModelGenerator::ModelGenerator(NOMSupport& nom)
+ModelGenerator::ModelGenerator(LibStructural& ls, NOMSupport& nom)
 :
 mComputeAndAssignConsevationLaws(false),
 mDoubleFormat("%.19G"),
 STR_FixAmountCompartments("*"),
 mCurrentXMLModelFileName("sbml_model"),
+mLibStruct(ls),
 mNOM(nom)
 {
     mNOM.Reset();
-
-    mLibStruct = new LibStructural();//LibStructural::getInstance();
-    mLibStruct->Reset();
+    mLibStruct.Reset();
 }
 
 ModelGenerator::~ModelGenerator(){}
@@ -48,7 +47,7 @@ bool  ModelGenerator::SaveSourceCodeToFolder(const string& folder){return false;
 void ModelGenerator::Reset()
 {
     mNOM.Reset();
-    mLibStruct->Reset();
+    mLibStruct.Reset();
 //    floatingSpeciesConcentrationList.Clear();
 }
 
@@ -194,7 +193,7 @@ ls::DoubleMatrix* ModelGenerator::InitializeL0(int& nrRows, int& nrCols)
         {
             vector<string> RowLabels;
             vector<string> ColumnLabels; //Todo: Filling these out here is meaningless?
-            L0 = mLibStruct->getL0Matrix();//(RowLabels, ColumnLabels);
+            L0 = mLibStruct.getL0Matrix();//(RowLabels, ColumnLabels);
             nrRows = L0->RSize();//.size();
             nrCols = L0->CSize();//.size();
         }

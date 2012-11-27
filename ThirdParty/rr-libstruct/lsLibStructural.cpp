@@ -55,9 +55,7 @@ _sModelName("untitled")
 
 LibStructural::~LibStructural()
 {
-    //How to cleanup static ...?
-
-    Reset();
+//    Reset();
     delete _L;
     delete _L0;
 //    delete _N;
@@ -319,7 +317,6 @@ string LibStructural::GenerateResultString()
 
 void LibStructural::Initialize()
 {
-#ifndef NO_SBML
     if (_Model != NULL)
     {
         // free used elements
@@ -334,7 +331,6 @@ void LibStructural::Initialize()
         InitializeFromStoichiometryMatrix(*_Nmat);
     }
     else
-#endif 
     {
         if (_Nmat->numCols() != _inputReactionNames.size())
         {
@@ -489,8 +485,6 @@ void LibStructural::InitializeFromStoichiometryMatrix(DoubleMatrix& oMatrix)
 
 }
 
-#ifndef NO_SBML
-
 void  LibStructural::BuildStoichiometryMatrixFromModel(ls::SBMLmodel& oModel)
 {
     _NumRows = numFloating;
@@ -522,11 +516,9 @@ void  LibStructural::BuildStoichiometryMatrixFromModel(ls::SBMLmodel& oModel)
 
                 (*_Nmat)(row_id,i) = (*_Nmat)(row_id,i) + (reference->getStoichiometry());
             }
-        }        
+        }
     }
 }
-
-#endif
 
 //Uses QR Decomposition for Conservation analysis
 string LibStructural::analyzeWithQR()

@@ -86,8 +86,8 @@ RoadRunner::RoadRunner(const string& supportCodeFolder, const string& compiler, 
 	Log(lDebug4)<<"In RoadRunner ctor";
 
     mLS 				= new LibStructural();//::getInstance();
-    mCSharpGenerator    = new CSharpGenerator(mNOM);
-    mCGenerator         = new CGenerator(mNOM);//Todo: memoryleak
+    mCSharpGenerator    = new CSharpGenerator(*mLS, mNOM);
+    mCGenerator         = new CGenerator(*mLS, mNOM);//Todo: memoryleak
     mModelGenerator     = mCGenerator;
 }
 
@@ -1630,7 +1630,12 @@ DoubleMatrix RoadRunner::getFullJacobian()
 		else
 		{
 			rsm = mLS->getStoichiometryMatrix();
-		}        
+		}
+
+        if(!rsm)
+        {
+        	throw RRException("StochiometryMatrix is NULL in getFullJacobian");
+        }
         return mult(*rsm, uelast);
     }
     catch (const Exception& e)

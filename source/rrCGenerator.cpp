@@ -28,9 +28,9 @@ using namespace ls;
 namespace rr
 {
 //CGenerator::CGenerator(RoadRunner* rr)
-CGenerator::CGenerator(NOMSupport& nom)
+CGenerator::CGenerator(LibStructural& ls, NOMSupport& nom)
 :
-ModelGenerator(nom)
+ModelGenerator(ls, nom)
 {}
 
 CGenerator::~CGenerator(){}
@@ -108,11 +108,11 @@ string CGenerator::generateModelCode(const string& sbmlStr, const bool& _compute
     try
     {
         Log(lDebug3)<<"Loading sbml into StructAnalysis";
-        if(!mLibStruct)
-        {
-            throw;
-        }
-        msg = mLibStruct->loadSBML(sASCII);
+//        if(!mLibStruct)
+//        {
+//            throw;
+//        }
+        msg = mLibStruct.loadSBML(sASCII);
         if(!msg.size())
         {
             Log(lError)<<"Failed loading sbml into StructAnalysis";
@@ -129,14 +129,14 @@ string CGenerator::generateModelCode(const string& sbmlStr, const bool& _compute
     //if (mRR && mRR->mComputeAndAssignConservationLaws)
 	if(mComputeAndAssignConsevationLaws)
     {
-        mNumIndependentSpecies = mLibStruct->getNumIndSpecies();
-        independentSpeciesList = mLibStruct->getIndependentSpecies();
-        dependentSpeciesList   = mLibStruct->getDependentSpecies();
+        mNumIndependentSpecies = mLibStruct.getNumIndSpecies();
+        independentSpeciesList = mLibStruct.getIndependentSpecies();
+        dependentSpeciesList   = mLibStruct.getDependentSpecies();
     }
     else
     {
-        mNumIndependentSpecies = mLibStruct->getNumSpecies();
-        independentSpeciesList = mLibStruct->getSpecies();
+        mNumIndependentSpecies = mLibStruct.getNumSpecies();
+        independentSpeciesList = mLibStruct.getSpecies();
     }
 
     // Load the compartment array (name and value)
@@ -381,7 +381,7 @@ void CGenerator::WriteComputeConservedTotals(CodeBuilder& ignore, const int& num
     if (numDependentSpecies > 0)
     {
         string factor;
-        ls::DoubleMatrix *gamma = mLibStruct->getGammaMatrix();
+        ls::DoubleMatrix *gamma = mLibStruct.getGammaMatrix();
 
 //        double* matPtr =
 //        DoubleMatrix gamma(matPtr, numDependentSpecies, numFloatingSpecies);
@@ -2502,11 +2502,11 @@ int CGenerator::ReadFloatingSpecies()
     //if (mRR && mRR->RoadRunner::mComputeAndAssignConservationLaws)
 	if(mComputeAndAssignConsevationLaws)
     {
-       reOrderedList = mLibStruct->getReorderedSpecies();
+       reOrderedList = mLibStruct.getReorderedSpecies();
     }
     else
     {
-        reOrderedList = mLibStruct->getSpecies();
+        reOrderedList = mLibStruct.getSpecies();
     }
 
     ArrayList oFloatingSpecies = mNOM.getListOfFloatingSpecies();

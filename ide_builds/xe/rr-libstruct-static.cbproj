@@ -22,7 +22,7 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
-			<IncludePath>..\..\ThirdParty\rr-libstruct\;$(RR_ROOT)\trunk\ThirdParty\clapack\3.2.1\INCLUDE;$(IncludePath)</IncludePath>
+			<IncludePath>..\..\ThirdParty\rr-libstruct\;$(RR_DEBUG_INSTALL)\include\clapack;$(IncludePath)</IncludePath>
 			<Multithreaded>true</Multithreaded>
 			<PackageImports>vclx.bpi;vcl.bpi;vclimg.bpi;dbrtl.bpi;Rave90VCL.bpi;bdertl.bpi;rtl.bpi;bcbie.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;svnui.bpi;svn.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;vcldb.bpi;vcldbx.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;vclib.bpi;ibxpress.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;intrawebdb_110_150.bpi;Intraweb_110_150.bpi;vclie.bpi;inetdb.bpi;webdsnap.bpi;websnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;dbexpress.bpi;DbxCommonDriver.bpi;DbxClientDriver.bpi;AzureCloud.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbxcds.bpi</PackageImports>
 			<Defines>STATIC_LIBSTRUCT;LIBSBML_USE_CPP_NAMESPACE;LIBSBML_STATIC;$(Defines)</Defines>

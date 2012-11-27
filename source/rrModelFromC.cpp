@@ -14,10 +14,6 @@ namespace rr
 
 ModelFromC::ModelFromC(CGenerator* generator, SharedLibrary& dll)
 :
-mCodeGenerator(generator),
-mIsInitialized(false),
-mDLL(dll),
-//mDLLHandle(NULL),
 mDummyInt(0),
 mDummyDouble(0),
 mDummyDoubleArray(new double[1]),
@@ -30,8 +26,11 @@ numCompartments(&mDummyInt),
 numReactions(&mDummyInt),
 numRules(&mDummyInt),
 numEvents(&mDummyInt),
+mModelName("NoNameSet"),
 time(0),
-mModelName("NoNameSet")
+mCodeGenerator(generator),
+mIsInitialized(false),
+mDLL(dll)
 {
     mDummyDoubleArray[0] = 1;
 

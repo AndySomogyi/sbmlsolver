@@ -24,9 +24,9 @@ namespace rr
 {
 
 //CSharpGenerator::CSharpGenerator(RoadRunner* rr)
-CSharpGenerator::CSharpGenerator(NOMSupport& nom)
+CSharpGenerator::CSharpGenerator(LibStructural& ls, NOMSupport& nom)
 :
-ModelGenerator(nom)
+ModelGenerator(ls, nom)
 {
 }
 
@@ -83,7 +83,7 @@ string CSharpGenerator::generateModelCode(const string& sbmlStr, const bool& com
     try
     {
         Log(lDebug)<<"Loading sbml into StructAnalysis";
-        msg = mLibStruct->loadSBML(sASCII);
+        msg = mLibStruct.loadSBML(sASCII);
         if(!msg.size())
         {
             Log(lError)<<"Failed loading sbml into StructAnalysis";
@@ -100,14 +100,14 @@ string CSharpGenerator::generateModelCode(const string& sbmlStr, const bool& com
 //    if (mRR != NULL && mRR->ComputeAndAssignConservationLaws())
 	if(computeAndAssignConsevationLaws)
     {
-        mNumIndependentSpecies = mLibStruct->getNumIndSpecies();
-        independentSpeciesList = mLibStruct->getIndependentSpecies();
-        dependentSpeciesList   = mLibStruct->getDependentSpecies();
+        mNumIndependentSpecies = mLibStruct.getNumIndSpecies();
+        independentSpeciesList = mLibStruct.getIndependentSpecies();
+        dependentSpeciesList   = mLibStruct.getDependentSpecies();
     }
     else
     {
-        mNumIndependentSpecies = mLibStruct->getNumSpecies();
-        independentSpeciesList = mLibStruct->getSpecies();
+        mNumIndependentSpecies = mLibStruct.getNumSpecies();
+        independentSpeciesList = mLibStruct.getSpecies();
     }
 
     sb<<Append("//************************************************************************** " + NL());
@@ -936,11 +936,11 @@ int CSharpGenerator::ReadFloatingSpecies()
 //    if (mRR && mRR->mComputeAndAssignConservationLaws)
 	if(mComputeAndAssignConsevationLaws)
     {
-       reOrderedList = mLibStruct->getReorderedSpecies();
+       reOrderedList = mLibStruct.getReorderedSpecies();
     }
     else
     {
-        reOrderedList = mLibStruct->getSpecies();
+        reOrderedList = mLibStruct.getSpecies();
     }
 
     ArrayList oFloatingSpecies = mNOM.getListOfFloatingSpecies();
@@ -1143,7 +1143,7 @@ void CSharpGenerator::WriteComputeConservedTotals(CodeBuilder& sb, const int& nu
     if (numDependentSpecies > 0)
     {
         string factor;
-        ls::DoubleMatrix* gamma = mLibStruct->getGammaMatrix();
+        ls::DoubleMatrix* gamma = mLibStruct.getGammaMatrix();
 
 //        DoubleMatrix gamma(matPtr, numDependentSpecies, numFloatingSpecies);
         for (int i = 0; i < numDependentSpecies; i++)
