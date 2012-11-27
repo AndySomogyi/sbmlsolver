@@ -6,8 +6,11 @@
 #include <cctype>
 #include "sbml/Model.h"
 #include "sbml/SBMLDocument.h"
-#include "rrCSharpGenerator.h"
 #include "rr-libstruct/lsLibStructural.h"
+
+
+#include "rrCSharpGenerator.h"
+
 #include "rrArrayList.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
@@ -100,16 +103,16 @@ string CGenerator::generateModelCode(const string& sbmlStr, const bool& _compute
     mfunctionNames.empty();
     mfunctionParameters.empty();
 
-    LibStructural* libStruct = LibStructural::getInstance();
+//    LibStructural* libStruct = LibStructural::getInstance();
     string msg;
     try
     {
         Log(lDebug3)<<"Loading sbml into StructAnalysis";
-        if(!libStruct)
+        if(!mLibStruct)
         {
             throw;
         }
-        msg = libStruct->loadSBML(sASCII);
+        msg = mLibStruct->loadSBML(sASCII);
         if(!msg.size())
         {
             Log(lError)<<"Failed loading sbml into StructAnalysis";
@@ -126,9 +129,9 @@ string CGenerator::generateModelCode(const string& sbmlStr, const bool& _compute
     //if (mRR && mRR->mComputeAndAssignConservationLaws)
 	if(mComputeAndAssignConsevationLaws)
     {
-        mNumIndependentSpecies = libStruct->getNumIndSpecies();
-        independentSpeciesList = libStruct->getIndependentSpecies();
-        dependentSpeciesList   = libStruct->getDependentSpecies();
+        mNumIndependentSpecies = mLibStruct->getNumIndSpecies();
+        independentSpeciesList = mLibStruct->getIndependentSpecies();
+        dependentSpeciesList   = mLibStruct->getDependentSpecies();
     }
     else
     {

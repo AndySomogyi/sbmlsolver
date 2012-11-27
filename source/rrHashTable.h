@@ -18,7 +18,7 @@ class RR_DECLSPEC StringSymbolHashTable : public rrObject, public map<string, SB
     protected:
 
     public:
-        StringSymbolHashTable(){}
+        StringSymbolHashTable();
         map<string, SBMLSymbol>::iterator     mIter;
         bool                                  ContainsKey(const string& aKey);
 };
@@ -29,7 +29,7 @@ class RR_DECLSPEC IntStringHashTable : public rrObject, public map<int, string>
     protected:
 
     public:
-        IntStringHashTable(){}
+        IntStringHashTable();
 
 };
 

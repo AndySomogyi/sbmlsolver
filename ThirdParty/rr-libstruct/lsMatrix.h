@@ -1,5 +1,5 @@
-#ifndef ls_MATRIX_H
-#define ls_MATRIX_H
+#ifndef lsMatrixH
+#define lsMatrixH
 #include <iosfwd>
 #include <ostream>
 #include <string.h>

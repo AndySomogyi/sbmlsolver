@@ -4,8 +4,9 @@
 #pragma hdrstop
 #include "sbml/Model.h"
 #include "sbml/SBMLDocument.h"
-#include "rrCSharpGenerator.h"
 #include "rr-libstruct/lsLibStructural.h"
+
+#include "rrCSharpGenerator.h"
 #include "rrArrayList.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
@@ -25,7 +26,6 @@ namespace rr
 //CSharpGenerator::CSharpGenerator(RoadRunner* rr)
 CSharpGenerator::CSharpGenerator(NOMSupport& nom)
 :
-//ModelGenerator(rr),
 ModelGenerator(nom)
 {
 }
@@ -78,7 +78,7 @@ string CSharpGenerator::generateModelCode(const string& sbmlStr, const bool& com
     mfunctionNames.empty();
     mfunctionParameters.empty();
 
-    LibStructural* instance = LibStructural::getInstance();
+//    LibStructural* instance = LibStructural::getInstance();
     string msg;
     try
     {

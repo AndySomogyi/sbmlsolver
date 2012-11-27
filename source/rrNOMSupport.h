@@ -27,7 +27,7 @@ class RR_DECLSPEC NOMSupport : public rrObject
 {
     protected:
 
-        StringList             _Namespaces;
+        StringList             mNamespaces;
         SBMLDocument           *mSBMLDoc;
         Model                  *mModel;
         const string            STR_DoubleFormat;

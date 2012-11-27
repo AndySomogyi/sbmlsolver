@@ -9,12 +9,32 @@
 #include <sbml/SBMLReader.h>
 #include "lsSBMLModel.h"
 #include "lsUtils.h"
+
 //---------------------------------------------------------------------------
-
-
-using namespace ls;
-using namespace ls;
 using namespace std;
+
+namespace ls
+{
+
+SBMLmodel::SBMLmodel()
+	:
+	_Document(NULL),
+    _Model(NULL)
+{
+}
+
+SBMLmodel::SBMLmodel(string &sSBML)
+	:
+    _Document(NULL),
+    _Model(NULL)
+{
+    InitializeFromSBML(sSBML);
+}
+
+SBMLmodel::~SBMLmodel(void)
+{
+    delete _Document;
+}
 
 SBMLmodel* SBMLmodel::FromFile(string &sFileName)
 {
@@ -29,17 +49,6 @@ SBMLmodel* SBMLmodel::FromSBML(string &sSBML)
     oResult->InitializeFromSBML(sSBML);
     return oResult;
 }
-
-SBMLmodel::SBMLmodel() : _Document(NULL), _Model(NULL)
-{
-}
-
-
-SBMLmodel::SBMLmodel(string &sSBML) : _Document(NULL), _Model(NULL)
-{
-    InitializeFromSBML(sSBML);
-}
-
 
 void SBMLmodel::InitializeFromSBML(std::string &sSBML)
 {
@@ -59,8 +68,56 @@ void SBMLmodel::InitializeFromFile(std::string &sFileName)
         throw new ApplicationException("Invalid SBML Model", "The SBML model was invalid. Please validate it using a SBML validator such as: http://sys-bio.org/validate.");
 }
 
-
-SBMLmodel::~SBMLmodel(void)
+Model* SBMLmodel::getModel()
 {
-    delete _Document;
+	return _Model;
 }
+
+int SBMLmodel::numFloatingSpecies()
+{
+    return (int) _Model->getNumSpecies() - _Model->getNumSpeciesWithBoundaryCondition();
+}
+
+int SBMLmodel::numReactions()
+{
+    return (int) _Model->getNumReactions();
+}
+
+const Species* SBMLmodel::getNthFloatingSpecies(int n)
+{
+    int nCount = 0;
+    for (unsigned int i = 0; i < _Model->getNumSpecies(); i++)
+    {
+        if (!_Model->getSpecies(i)->getBoundaryCondition())
+        {
+            if (nCount == n)
+                return _Model->getSpecies(i);
+            nCount ++;
+        }
+    }
+    return NULL;
+}
+
+const Species* SBMLmodel::getNthBoundarySpecies(int n)
+{
+    int nCount = 0;
+    for (unsigned int i = 0; i < _Model->getNumSpecies(); i++)
+    {
+        if (_Model->getSpecies(i)->getBoundaryCondition())
+        {
+            if (nCount == n)
+                return _Model->getSpecies(i);
+            nCount ++;
+        }
+    }
+    return NULL;
+}
+
+const Reaction* SBMLmodel::getNthReaction(int n)
+{
+    return _Model->getReaction(n);
+}
+
+
+}//namespace ls
+

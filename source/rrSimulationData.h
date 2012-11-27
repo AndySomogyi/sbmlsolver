@@ -2,9 +2,11 @@
 #define rrSimulationDataH
 #include <fstream>
 #include <sstream>
+#include "rr-libstruct/lsMatrix.h"
+#include "rr-libstruct/lsLibStructural.h"
+
 #include "rrObject.h"
 #include "rrStringList.h"
-#include "rr-libstruct/lsMatrix.h"
 #include "rrExporter.h"
 namespace rr
 {

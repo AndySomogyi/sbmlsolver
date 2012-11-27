@@ -31,7 +31,7 @@ class RR_DECLSPEC TestSuiteModelSimulation : public SBMLModelSimulation
         bool                    LoadReferenceData();
         bool                    CreateErrorData();
         bool                    SaveAllData();
-        bool                    LoadSettings(const string& fName = "");
+        bool                    LoadSettings(const string& fName = EmptyString);
         bool                    CopyFilesToOutputFolder();
         double                  LargestError();
         bool                    Pass();

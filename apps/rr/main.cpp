@@ -87,7 +87,15 @@ int main(int argc, char * argv[])
         SBMLModelSimulation simulation(args.DataOutputFolder, args.TempDataFolder);
 
         Log(lDebug)<<"Working Directory: "<<getCWD()<<endl;
-        RoadRunner *rr  = new RoadRunner(RRInstallFolder, args.TempDataFolder);
+        string compiler;
+#if defined (WIN32)
+compiler = "compilers\\tcc\\tcc.exe";
+#else
+compiler = "tcc";
+#endif
+
+
+        RoadRunner *rr  = new RoadRunner(JoinPath(RRInstallFolder, "rr_support"), JoinPath(RRInstallFolder, compiler), args.TempDataFolder);
         rr->Reset();
         simulation.UseEngine(rr);
 
@@ -217,7 +225,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 }
 
 #if defined(CG_IDE)
-#pragma comment(lib, "roadrunner.lib")
+#pragma comment(lib, "roadrunner-static.lib")
 #pragma comment(lib, "sundials_cvode.lib")
 #pragma comment(lib, "sundials_nvecserial.lib")
 #pragma comment(lib, "nleq-static.lib")

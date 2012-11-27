@@ -19,15 +19,15 @@ namespace rr
 //ModelGenerator::ModelGenerator(RoadRunner* rr)
 ModelGenerator::ModelGenerator(NOMSupport& nom)
 :
+mComputeAndAssignConsevationLaws(false),
 mDoubleFormat("%.19G"),
 STR_FixAmountCompartments("*"),
 mCurrentXMLModelFileName("sbml_model"),
-//mRR(rr)
-mNOM(nom),
-mComputeAndAssignConsevationLaws(false)
+mNOM(nom)
 {
-    mLibStruct = LibStructural::getInstance();
     mNOM.Reset();
+
+    mLibStruct = new LibStructural();//LibStructural::getInstance();
     mLibStruct->Reset();
 }
 

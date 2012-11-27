@@ -6,12 +6,12 @@
 #endif
 
 #include <string>
-
 #include "Poco/SharedLibrary.h"
-
-#include "rrObject.h"
 #include "rr-libstruct/lsMatrix.h"
 #include "rr-libstruct/lsLibStructural.h"
+
+////////////
+#include "rrObject.h"
 #include "rrTVariableType.h"
 #include "rrTParameterType.h"
 #include "rrCVODEInterface.h"

@@ -10,67 +10,30 @@
 namespace ls
 {
 
-	using namespace libsbml;
+using namespace libsbml;
 
 class SBMLmodel
 {
 	private:
-    	SBMLDocument*	_Document;
-    	Model* 			_Model;
+    	SBMLDocument*			    _Document;
+    	Model* 						_Model;
 
-public:
-    static SBMLmodel* FromFile(std::string &sFileName);
-    static SBMLmodel* FromSBML(std::string &sSBML);
-    SBMLmodel(std::string &sSBML);
-    SBMLmodel();
-    ~SBMLmodel(void);
+	public:
+        static SBMLmodel* 			FromFile(std::string &sFileName);
+        static SBMLmodel* 			FromSBML(std::string &sSBML);
+                                    SBMLmodel(std::string &sSBML);
+                                    SBMLmodel();
+                                   ~SBMLmodel(void);
 
-    void InitializeFromSBML(std::string &sSBML);
-    void InitializeFromFile(std::string &sFileName);
+        void 						InitializeFromSBML(std::string &sSBML);
+        void 						InitializeFromFile(std::string &sFileName);
 
-    Model* getModel() { return _Model; }
-    int numFloatingSpecies()
-    {
-        return (int) _Model->getNumSpecies() - _Model->getNumSpeciesWithBoundaryCondition();
-    }
-    int numReactions()
-    {
-        return (int) _Model->getNumReactions();
-    }
-
-    const Species* getNthFloatingSpecies(int n)
-    {
-        int nCount = 0;
-        for (unsigned int i = 0; i < _Model->getNumSpecies(); i++)
-        {
-            if (!_Model->getSpecies(i)->getBoundaryCondition())
-            {
-                if (nCount == n)
-                    return _Model->getSpecies(i);
-                nCount ++;
-            }
-        }
-        return NULL;
-    }
-    const Species* getNthBoundarySpecies(int n)
-    {
-        int nCount = 0;
-        for (unsigned int i = 0; i < _Model->getNumSpecies(); i++)
-        {
-            if (_Model->getSpecies(i)->getBoundaryCondition())
-            {
-                if (nCount == n)
-                    return _Model->getSpecies(i);
-                nCount ++;
-            }
-        }
-        return NULL;
-    }
-
-    const Reaction* getNthReaction(int n)
-    {
-        return _Model->getReaction(n);
-    }
+        Model* 						getModel();
+        int 						numFloatingSpecies();
+        int 						numReactions();
+        const Species* 				getNthFloatingSpecies(int n);
+        const Species* 				getNthBoundarySpecies(int n);
+        const Reaction* 			getNthReaction(int n);
 };
 
 }

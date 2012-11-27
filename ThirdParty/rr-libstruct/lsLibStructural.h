@@ -1,40 +1,8 @@
-/*! \file   libstructural.h
-    \brief  All definitions needed for the Structural Analysis Library
-
-    \par
-    The structural analysis of stoichiometric networks is an important step in a number of computational methods in systems biology. The structure of a network based on the stoichiometry matrix is divided into two areas, structural constraints imposed by moiety conservation and constraints imposed by flux distributions at steady state. The former constraints have important applications in numerical methods for simulation and the analysis of control, while the later constraints have important applications in flux balance analysis. The LibStructural API provides a wide variety of methods that permit access to the constraint information in the stoichiometry matrix.
-    \par Stoichiometric Constraints
-    Moiety constraints concern the conservation of molecular subgroups in stoichiometric networks. Their existence results in dependencies among the model differential equations and the emergence of additional model parameters in the form of moiety mass totals.  In the API we provide robust methods for extracting the constraint information and include specific methods to obtain for example the number of moiety cycles, the number of independent and dependent species and all the pertinent matrices such as the link matrix, reduced stoichiometry matrix etc.  In addition to moiety constraints the library also provides robust methods for determining the flux constraints in a model. These include the dependent and independent flux, and the K matrix (and corresponding terms) that relates the two.
-    \par
-    All matrices provided by the API are fully labeled with reaction and species labels. The API can accept models either directly from standard SBML or by specifying the stoichiometry matrix. In the case of SBML the species and reaction labels are obtained directly from the SBML otherwise they are entered manually.
-    \par
-    Further and more detailed information on this work can be found in Reder (1988), Sauro and Ingalls (2004), Vallabhajosyula et al. (2005).
-
+/*
     \author  Frank T. Bergmann (fbergman@u.washington.edu)
     \author     Herbert M. Sauro
     \author     Ravishankar Rao Vallabhajosyula (developed a previous version of the sructural analysis code)
-
 */
-
-//   \par
-//  LibStructural represents the main class for all structural analysis on
-//   either http://sbml.org/ models or directly on a provided stoichiometry matrix.
-
-//   \par
-//  The model can be either analyzed employing QR factorization with householder reflections,
-//  or with LU(P) factorization. The QR factorization is the superior method.
-//
-//   \par
-//  For further information please also see:
-//\par
-//  Vallabhajosyula RR, Chickarmane V, Sauro HM.
-//  Conservation analysis of large biochemical networks
-//  Bioinformatics, 2005 Nov 29
-//  http://bioinformatics.oxfordjournals.org/cgi/content/abstract/bti800v1
-
-//   \par
-//  For examples on how to use the library see ls::LibStructural::loadSBML and ls::LibStructural::loadStoichiometryMatrix
-
 
 #ifndef lsLibStructuralH
 #define lsLibStructuralH
@@ -45,55 +13,23 @@
 #include "lsMatrix.h"
 #include "lsComplex.h"
 
-/*!    \namespace ls
-    \brief       The ls namespace contains all functions and classes directly related to Structural Analysis.
-
-    The namespace consists mainly of two classes ls::LibStructural, the class performing all the structural
-    analysis of SBML models, or Stoichiometry matrices, and ls::SBMLmodel, a small utility class for easy
-    access of the needed information.
-*/
 
 namespace ls
 {
-#ifndef NO_SBML
+    typedef Matrix< int >                               IntMatrix;
+    typedef Matrix< double >                            DoubleMatrix;
+    typedef Matrix< ls::Complex >       	            ComplexMatrix;
+
     class SBMLmodel;
-#endif
-    /*! \class ls::LibStructural
-        \brief Entrypoint for the C++ API of the Structural Analysis Library.
-
-        \par
-        ls::LibStructural represents the main class for all structural analyses on
-        either http://sbml.org/ models or directly on a provided stoichiometry matrix.
-
-        \par
-        The model can be either analyzed by employing QR factorization with householder reflections,
-        or with LU(P) factorization. The QR factorization is the superior method.
-
-        \par Further Information
-        Vallabhajosyula RR, Chickarmane V, Sauro HM.
-        Conservation analysis of large biochemical networks
-        Bioinformatics, 2005 Nov 29
-        http://bioinformatics.oxfordjournals.org/cgi/content/abstract/bti800v1
-
-        \par Examples
-        For examples on how to use the library see ls::LibStructural::loadSBML and ls::LibStructural::loadStoichiometryMatrix
-
-    */
     class LIB_EXTERN LibStructural
     {
     public:
-        typedef ls::Matrix< int >                   IntMatrix;
-        typedef ls::Matrix< double >                DoubleMatrix;
-        typedef ls::Matrix< ls::Complex >       ComplexMatrix;
         void                                            Reset();        //Call between loading different models
 
     private:
         double                                          _Tolerance;
-        static LibStructural*                           _Instance;
-#ifndef NO_SBML
+//        LibStructural*      		                    _Instance;
         SBMLmodel* _Model;
-#endif
-
         int                                             _NumRows;
         int                                             _NumCols;
 
@@ -219,6 +155,7 @@ namespace ls
 
             \param oMatrix the stoichiometry matrix to load
         */
+
         void loadStoichiometryMatrix (DoubleMatrix& oMatrix);
         /*! \brief Load species names and initial values.
 
@@ -227,13 +164,12 @@ namespace ls
             names (ids). It is also possible to provide an initial condition for each of
             the species. This will be used when calculating the conserved sums.
 
-
-
             \remarks This method should only be called after ::LibStructural_loadStoichiometryMatrix
 
             \param speciesNames a vector of species names (ids) to load
             \param speciesValues a vector of initial concentrations
         */
+
         void loadSpecies(std::vector< std::string > &speciesNames, std::vector<double> &speciesValues);
         /*! \brief Load reaction names.
 
@@ -246,8 +182,6 @@ namespace ls
             \param reactionNames a vector of reaction names (ids)
         */
          void loadReactionNames(std::vector< std::string > &reactionNames);
-
-#ifndef NO_SBML
 
         /*! \brief Load a SBML model.
             \param sSBML the SBML string to load
@@ -266,7 +200,7 @@ namespace ls
             \return information about the loaded model and results of the internal test suite
         */
          std::string loadSBMLwithTests(std::string sSBML);
-#endif
+
         /*! \brief Uses QR factorization for structural analysis
 
             This method performs the actual analysis of the stoichiometry matrix (loaded either
@@ -503,7 +437,7 @@ namespace ls
 
             This function uses ls::LibStructural::getGammaMatrixGJ on
             row permutations of the given stoichiometries to find a positive gamma
-            matrix. 
+            matrix.
 
             \param stoichiometry the stoichiometry matrix that will be used to calculate gamma
             \param rowLabels as the rows will be permutated b this method, the initial row names should
@@ -558,13 +492,13 @@ namespace ls
         //! Returns the reordered list of molecular species.  (choosing the SBML Name if possible )
          std::vector< std::string > getReorderedSpeciesNamesList();
 
-        //! Returns the list of independent species 
+        //! Returns the list of independent species
          std::vector< std::string > getIndependentSpecies();
 
-        //! Returns the actual names of the independent species 
+        //! Returns the actual names of the independent species
          std::vector< std::string > getIndependentSpeciesNamesList();
 
-        //! Returns the list of dependent species 
+        //! Returns the list of dependent species
          std::vector< std::string > getDependentSpecies();
 
         //! Returns the actual names of the dependent species
@@ -573,22 +507,22 @@ namespace ls
         //! Returns the list of Reactions
          std::vector< std::string > getReactions();
 
-        //! Returns the list of independent reactions 
+        //! Returns the list of independent reactions
          std::vector< std::string > getIndependentReactionIds();
 
         //! Returns the list of dependent reactions
          std::vector< std::string > getDependentReactionIds();
 
-        //! Returns actual names of the Reactions 
+        //! Returns actual names of the Reactions
          std::vector< std::string > getReactionsNamesList();
 
         //! Returns the reordered list of reactions
          std::vector< std::string > getReorderedReactions();
 
-        //! Returns algebraic expressions for conserved cycles 
+        //! Returns algebraic expressions for conserved cycles
          std::vector< std::string > getConservedLaws();
 
-        //! Returns values for conservation laws using the current initial conditions 
+        //! Returns values for conservation laws using the current initial conditions
          std::vector< double > getConservedSums();
 
         //! Returns Initial Conditions used in the model
@@ -596,7 +530,7 @@ namespace ls
 
         /*! \brief Validates structural matrices.
 
-            Calling this method will run the internal test suite against the structural 
+            Calling this method will run the internal test suite against the structural
             matrices those tests include:\n
 
             \li Test 1 : Gamma*N = 0 (Zero matrix)
@@ -611,9 +545,9 @@ namespace ls
         //! Return Return Details about validation tests.
          std::string getTestDetails();
 
-        /*! \brief Returns the name of the model. 
+        /*! \brief Returns the name of the model.
 
-            Returns the name of the model if SBML model has Name-tag, otherwise it returns the 
+            Returns the name of the model if SBML model has Name-tag, otherwise it returns the
             SBML id. If only a stoichiometry matrix was loaded 'untitled' will be returned.
         */
          std::string getModelName();
@@ -637,42 +571,32 @@ namespace ls
          double getNmatrixSparsity();
         /*! \brief Set user specified tolerance
 
-            This function sets the tolerance used by the library to determine what value 
-            is considered as zero. Any value with absolute value smaller than this tolerance is considered as zero 
+            This function sets the tolerance used by the library to determine what value
+            is considered as zero. Any value with absolute value smaller than this tolerance is considered as zero
             and will be neglected.
 
             \param dTolerance Sets the tolerance used by the library to determine a  value close to zero
         */
          void setTolerance(double dTolerance);
+
         /*! \brief Returns the currently used tolerance
 
-            This function returns the tolerance currently used by the library to determine what value 
-            is considered as zero. Any value with absolute value smaller than this tolerance is considered zero 
+            This function returns the tolerance currently used by the library to determine what value
+            is considered as zero. Any value with absolute value smaller than this tolerance is considered zero
             and will be neglected.
         */
-         double getTolerance() { return _Tolerance; }
+         double getTolerance();
 
 
     public:
         //! Constructor of a new instance of LibStructural
-#ifndef NO_SBML
-        LibStructural();// :   _NumRows(0), _NumCols(0),
-//            _K0(NULL), _N0(NULL), _Nr(NULL), _L0(NULL), _L(NULL),_K(NULL),_NullN(NULL),_G(NULL),
-//            _Nmat(NULL), _Nmat_orig(NULL), _NmatT(NULL), _NmatT_orig(NULL),
-//            _Totals(NULL), _IC(NULL), _BC(NULL), spVec(NULL), colVec(NULL), _sModelName("untitled"),_Tolerance(1.0E-9),_Model(NULL)
-#else
-         LibStructural() :   _NumRows(0), _NumCols(0),
-            _K0(NULL), _N0(NULL), _Nr(NULL), _L0(NULL), _L(NULL),_K(NULL),_NullN(NULL),_G(NULL),
-            _Nmat(NULL), _Nmat_orig(NULL), _NmatT(NULL), _NmatT_orig(NULL),
-            _Totals(NULL), _IC(NULL), _BC(NULL), spVec(NULL), colVec(NULL), _sModelName("untitled"),_Tolerance(1.0E-9)
-#endif
-//        {}
+    						LibStructural();
+       					   ~LibStructural();
 
-        ~LibStructural();
-        //! static method to get an instance of LibStructural (allows use as singleton)
-         static LibStructural* getInstance();
-    };    //End of class
-} //namespace wrap all in this.. therefore moved brace to end
+         LibStructural*  	getInstance();
+};    //End of class
+
+} //namespace
 
 #endif
 

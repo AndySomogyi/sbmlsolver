@@ -23,7 +23,6 @@ class RoadRunner;
 class RR_DECLSPEC ModelGenerator : public rrObject
 {
     public:
-//    	RoadRunner*							mRR;
         bool								mComputeAndAssignConsevationLaws;
         const string                        mDoubleFormat;
         const string                        STR_FixAmountCompartments;

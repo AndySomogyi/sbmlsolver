@@ -8,11 +8,19 @@
 namespace rr
 {
 
+StringSymbolHashTable::StringSymbolHashTable()
+{}
+
 
 bool StringSymbolHashTable::ContainsKey(const string& aKey)
 {
     return (this->find( aKey ) != this->end()) ? true : false;
 }
+
+
+/////////////////////
+IntStringHashTable::IntStringHashTable()
+{}
 
 ostream& operator<<(ostream& stream, StringSymbolHashTable& hash)
 {
@@ -24,5 +32,7 @@ ostream& operator<<(ostream& stream, StringSymbolHashTable& hash)
     }
     return stream;
 }
+
+
 
 }

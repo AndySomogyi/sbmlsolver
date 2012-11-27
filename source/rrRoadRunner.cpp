@@ -17,7 +17,8 @@
 #include "rrSBMLModelSimulation.h"
 #include "rr-libstruct/lsLA.h"
 #include "rr-libstruct/lsLibla.h"
-#include "rrModelState.h"
+
+#include "rrModelState.h"
 #include "rrArrayList.h"
 #include "rrCapsSupport.h"
 #include "rrConstants.h"
@@ -84,7 +85,7 @@ RoadRunner::RoadRunner(const string& supportCodeFolder, const string& compiler, 
 	mTempFileFolder = (tempFolder);
 	Log(lDebug4)<<"In RoadRunner ctor";
 
-    mLS 				= LibStructural::getInstance();
+    mLS 				= new LibStructural();//::getInstance();
     mCSharpGenerator    = new CSharpGenerator(mNOM);
     mCGenerator         = new CGenerator(mNOM);//Todo: memoryleak
     mModelGenerator     = mCGenerator;
@@ -100,8 +101,6 @@ RoadRunner::~RoadRunner()
 	if(mModelDLL.isLoaded())
     {
     	mModelDLL.unload();
-        //Unload the DLL
-//        FreeLibrary(mModelDLL);
     }
 
     delete mLS;
@@ -1597,9 +1596,9 @@ ls::DoubleMatrix RoadRunner::getEigenvalues()
         }
         ls::DoubleMatrix result(getNumberOfIndependentSpecies(), 2);
         ls::DoubleMatrix mat = getReducedJacobian();
-        LibLA LA;
+//        LibLA LA;
 
-        vector<Complex> oComplex = LA.getEigenValues(mat);
+        vector<Complex> oComplex = getEigenValues(mat);
         for (int i = 0; i < oComplex.size(); i++)
         {
 	        result[i][0] = oComplex[i].Real;
@@ -1696,7 +1695,7 @@ DoubleMatrix RoadRunner::getStoichiometryMatrix()
 {
     try
     {
-		LibStructural::DoubleMatrix* aMat = mLS->getFullyReorderedStoichiometryMatrix();
+		DoubleMatrix* aMat = mLS->getFullyReorderedStoichiometryMatrix();
         if (!mModel || !aMat)
         {
 	        throw SBWApplicationException(emptyModelStr);
@@ -1730,7 +1729,7 @@ DoubleMatrix RoadRunner::getConservationMatrix()
     {
        if (mModel)
 	   {
-		   LibStructural::DoubleMatrix* aMat = mLS->getGammaMatrix();
+		   DoubleMatrix* aMat = mLS->getGammaMatrix();
             if (aMat)
             {
                 mat.resize(aMat->numRows(), aMat->numCols());
@@ -2507,10 +2506,10 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
             if (mModelGenerator->floatingSpeciesConcentrationList.find(sSpecies, nIndex))
             {
                 //SBWComplex[] oComplex = SBW_CLAPACK.getEigenValues(getReducedJacobian());
-                LibLA LA;
+                //LibLA LA;
 
-                ls::DoubleMatrix mat = getReducedJacobian();
-                vector<Complex> oComplex = LA.getEigenValues(mat);
+                DoubleMatrix mat = getReducedJacobian();
+                vector<Complex> oComplex = getEigenValues(mat);
 
                 if (oComplex.size() > nIndex)
                 {
@@ -4941,10 +4940,10 @@ double RoadRunner::getValue(const string& sId)
         int index;
         mModelGenerator->floatingSpeciesConcentrationList.find(species, index);
 
-        LibLA LA;
+//        LibLA LA;
 
         ls::DoubleMatrix mat = getReducedJacobian();
-        vector<Complex> oComplex = LA.getEigenValues(mat);
+        vector<Complex> oComplex = getEigenValues(mat);
 
         if (oComplex.size() > selectionList[index].index)
         {

@@ -8,13 +8,14 @@ OPTION(LIBSTRUCT_BUILD_SHARED_LIBS "Build shared libraries" OFF)
 set(target rr-libstruct) 
 
 set(sources 
-lsMatrix.cpp
-lsComplex.cpp
-lsLibStructural.cpp
-lsSBMLModel.cpp
-lsUtils.cpp
-lsLibla.cpp
-lsLA.cpp
+lsMatrix
+lsComplex
+lsLibStructural
+lsSBMLModel
+lsUtils
+lsLibla
+lsLA
+lsLUResult
 )
 
 
@@ -67,6 +68,7 @@ lsComplex.h
 lsLibStructural.h
 lsLA.h
 lsLibla.h
+lsLUResult.h
 )
 
 #Install required files

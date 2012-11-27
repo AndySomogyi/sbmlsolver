@@ -13,11 +13,8 @@
 #include "rrException.h"
 #include "rrStringBuilder.h"
 #include "rrSBMLSymbol.h"
+#include "rrOSSpecifics.h"
 //---------------------------------------------------------------------------
-
-#if defined (__MINGW32__) || defined(__linux)
-#define __FUNC__ __FUNCTION__
-#endif
 
 using namespace std;
 namespace rr
@@ -25,8 +22,8 @@ namespace rr
 
 NOMSupport::NOMSupport()
 :
-mModel(NULL),
 mSBMLDoc(NULL),
+mModel(NULL),
 STR_DoubleFormat("%.5G")
 {}
 
@@ -3418,14 +3415,14 @@ string NOMSupport::GetInitialAssignmentFor(const string& sbmlId)
     return string("");
 }
 
-//        List<string> _Namespaces;
+//        List<string> mNamespaces;
 //
 //        List<string> Namespaces
 //        {
-//            get { return _Namespaces; }
+//            get { return mNamespaces; }
 //            set
 //            {
-//                _Namespaces = value;
+//                mNamespaces = value;
 //            }
 //        }
 //

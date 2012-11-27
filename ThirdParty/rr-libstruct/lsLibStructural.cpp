@@ -4,7 +4,7 @@
 #pragma hdrstop
 #ifdef WIN32
 #pragma warning(disable: 4996)
-#define WIN32_LEAN_AND_MEAN        // Exclude rarely-used stuff from Windows headers
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
 #include <iostream>
@@ -18,20 +18,40 @@
 #include "lsSBMLModel.h"
 #include "lsMatrix.h"
 #include "lsUtils.h"
-//---------------------------------------------------------------------------
 
-
-//#define SMALL_NUM           1.0E-9
-//#define PRINT_PRECISION        10
-#define LINE                "-----------------------------------------------------------------------------"
-
-using namespace ls;
 using namespace std;
+#define LINE                "-----------------------------------------------------------------------------"
 
 namespace ls
 {
 
-LibStructural* LibStructural::_Instance = NULL;
+//LibStructural* LibStructural::_Instance = NULL;
+
+LibStructural::LibStructural()
+:
+_Tolerance(1.0E-9),
+_Model(NULL),
+_NumRows(0),
+_NumCols(0),
+_K0(NULL),
+_N0(NULL),
+_Nr(NULL),
+_L0(NULL),
+_L(NULL),
+_K(NULL),
+_NullN(NULL),
+_G(NULL),
+_Nmat(NULL),
+_Nmat_orig(NULL),
+_NmatT(NULL),
+_NmatT_orig(NULL),
+_Totals(NULL),
+_IC(NULL),
+_BC(NULL),
+spVec(NULL),
+colVec(NULL),
+_sModelName("untitled")
+{}
 
 LibStructural::~LibStructural()
 {
@@ -42,6 +62,11 @@ LibStructural::~LibStructural()
     delete _L0;
 //    delete _N;
     delete _Nr;
+}
+
+double LibStructural::getTolerance()
+{
+	return _Tolerance;
 }
 
 void LibStructural::Reset()
@@ -63,20 +88,6 @@ void LibStructural::Reset()
     FreeMatrices();
 }
 
-//#ifndef NO_SBML
-LibStructural::LibStructural() :   _NumRows(0), _NumCols(0),
-            _K0(NULL), _N0(NULL), _Nr(NULL), _L0(NULL), _L(NULL),_K(NULL),_NullN(NULL),_G(NULL),
-            _Nmat(NULL), _Nmat_orig(NULL), _NmatT(NULL), _NmatT_orig(NULL),
-            _Totals(NULL), _IC(NULL), _BC(NULL), spVec(NULL), colVec(NULL), _sModelName("untitled"),_Tolerance(1.0E-9),_Model(NULL)
-//#else
-//        LIB_EXTERN LibStructural() :   _NumRows(0), _NumCols(0),
-//            _K0(NULL), _N0(NULL), _Nr(NULL), _L0(NULL), _L(NULL),_K(NULL),_NullN(NULL),_G(NULL),
-//            _Nmat(NULL), _Nmat_orig(NULL), _NmatT(NULL), _NmatT_orig(NULL),
-//            _Totals(NULL), _IC(NULL), _BC(NULL), spVec(NULL), colVec(NULL), _sModelName("untitled"),_Tolerance(1.0E-9)
-//#endif
-        {}
-
-#ifndef NO_SBML
 // ----------------------------------------------------------------------------------------
 // string loadSBML(string)
 //
@@ -163,40 +174,50 @@ void LibStructural::InitializeFromModel(ls::SBMLmodel& oModel)
     }
 }
 
-#endif
-
 void LibStructural::FreeMatrices()
 {
     // clear boundary species lists
-    _bSpeciesIndexList.clear();                _bSpeciesIndexList2.clear();
-    _bSpeciesNamesList.clear();                _bSpeciesNamesList2.clear();
+    _bSpeciesIndexList.clear();
+    _bSpeciesIndexList2.clear();
+    _bSpeciesNamesList.clear();
+    _bSpeciesNamesList2.clear();
     _bSpeciesValueList.clear();
 
     // clear reaction lists
-    _reactionIndexList.clear();                _reactionNamesList.clear();
+    _reactionIndexList.clear();
+    _reactionNamesList.clear();
 
     // clear floating species lists
-    _speciesIndexList.clear();                _speciesIndexList2.clear();
-    _speciesNamesList.clear();                _speciesNamesList2.clear();
+    _speciesIndexList.clear();
+    _speciesIndexList2.clear();
+    _speciesNamesList.clear();
+    _speciesNamesList2.clear();
     _speciesValueList.clear();
 
     // delete allocated matrices
-    DELETE_IF_NON_NULL(_K0);                DELETE_IF_NON_NULL(_N0);
-    DELETE_IF_NON_NULL(_Nr);                DELETE_IF_NON_NULL(_L0);
-    DELETE_IF_NON_NULL(_L);                    DELETE_IF_NON_NULL(_K);
-    DELETE_IF_NON_NULL(_NullN);                DELETE_IF_NON_NULL(_G);
-    DELETE_IF_NON_NULL(_Nmat);                DELETE_IF_NON_NULL(_NmatT);                
-    DELETE_IF_NON_NULL(_Nmat_orig);            DELETE_IF_NON_NULL(_NmatT_orig);
+    DELETE_IF_NON_NULL(_K0);
+    DELETE_IF_NON_NULL(_N0);
+    DELETE_IF_NON_NULL(_Nr);
+    DELETE_IF_NON_NULL(_L0);
+    DELETE_IF_NON_NULL(_L);
+    DELETE_IF_NON_NULL(_K);
+    DELETE_IF_NON_NULL(_NullN);
+    DELETE_IF_NON_NULL(_G);
+    DELETE_IF_NON_NULL(_Nmat);
+    DELETE_IF_NON_NULL(_NmatT);
+    DELETE_IF_NON_NULL(_Nmat_orig);
+    DELETE_IF_NON_NULL(_NmatT_orig);
 
     // delete allocated arrays
-    DELETE_ARRAY_IF_NON_NULL(_Totals);            DELETE_ARRAY_IF_NON_NULL(_IC);
+    DELETE_ARRAY_IF_NON_NULL(_Totals);
+    DELETE_ARRAY_IF_NON_NULL(_IC);
     DELETE_ARRAY_IF_NON_NULL(_BC);
 
-    DELETE_ARRAY_IF_NON_NULL(spVec);        DELETE_ARRAY_IF_NON_NULL(colVec);
-
+    DELETE_ARRAY_IF_NON_NULL(spVec);
+    DELETE_ARRAY_IF_NON_NULL(colVec);
 }
 
-string LibStructural::GenerateResultString() 
+string LibStructural::GenerateResultString()
 {
     stringstream oBuffer;
 
@@ -413,7 +434,8 @@ void LibStructural::InitializeFromStoichiometryMatrix(DoubleMatrix& oMatrix)
     _Sparsity = (double) (nz_count * 100)/(_NumRows*_NumCols);
 
     // get transpose
-    DELETE_IF_NON_NULL(_NmatT); _NmatT = oMatrix.getTranspose();
+    DELETE_IF_NON_NULL(_NmatT);
+    _NmatT = oMatrix.getTranspose();
 
     // store copies of stoichimetry matrix and it's transpose
     DELETE_IF_NON_NULL(_Nmat_orig);
@@ -423,11 +445,11 @@ void LibStructural::InitializeFromStoichiometryMatrix(DoubleMatrix& oMatrix)
     _NmatT_orig = new DoubleMatrix(*_NmatT);//Todo: memoryleak
 
 
-    // If the network has reactions only between boundary species, the stoichiometry matrix will be 
+    // If the network has reactions only between boundary species, the stoichiometry matrix will be
     // empty. This means that it is equivalent to a network without any reactions. Therefore, we need
     // to construct the conservation matrices, dependent and independent species accordingly.
     //
-    if (zero_nmat) 
+    if (zero_nmat)
     {
         _NumIndependent = 0;
         _NumDependent = 0;
@@ -471,7 +493,7 @@ void LibStructural::InitializeFromStoichiometryMatrix(DoubleMatrix& oMatrix)
 
 void  LibStructural::BuildStoichiometryMatrixFromModel(ls::SBMLmodel& oModel)
 {
-    _NumRows = numFloating;    
+    _NumRows = numFloating;
     _NumCols = numReactions;
     DELETE_IF_NON_NULL(_Nmat);
     _Nmat = new DoubleMatrix(numFloating, numReactions);	//Todo: a matrix is created with zeros columns.. casues problems later on!
@@ -522,7 +544,7 @@ string LibStructural::analyzeWithQR()
     }
     else
     {
-        vector< DoubleMatrix*> oQRResult = LibLA::getInstance()->getQRWithPivot(*_NmatT);  //Todo: delete instance somewhere!
+        vector< DoubleMatrix*> oQRResult = getQRWithPivot(*_NmatT);
         DoubleMatrix *Q = oQRResult[0];
         DoubleMatrix *R = oQRResult[1];
         DoubleMatrix *P = oQRResult[2];
@@ -769,7 +791,7 @@ void LibStructural::computeK0andKMatrices()
     }
     else
     {
-        vector< DoubleMatrix *> oResult = LibLA::getInstance()->getQRWithPivot(Nmat_h);
+        vector< DoubleMatrix *> oResult = getQRWithPivot(Nmat_h);
 
         Q = oResult[0]; R = oResult[1]; P = oResult[2];
     }
@@ -845,7 +867,7 @@ string LibStructural::analyzeWithLU()
     }
     else
     {
-        LU_Result * oLUResult = LibLA::getInstance()->getLU(*_NmatT);
+        LU_Result * oLUResult = getLU(*_NmatT);
         DoubleMatrix* L = oLUResult->L;
         DoubleMatrix* U = oLUResult->U;
         IntMatrix* P = oLUResult->P;
@@ -893,7 +915,7 @@ string LibStructural::analyzeWithLU()
             }
             DELETE_IF_NON_NULL(oLUResult);
 
-            oLUResult = LibLA::getInstance()->getLU(*_NmatT);
+            oLUResult = getLU(*_NmatT);
             L = oLUResult->L;
             U = oLUResult->U;
             P = oLUResult->P;
@@ -985,7 +1007,7 @@ string LibStructural::analyzeWithFullyPivotedLU()
         }
         else
         {
-            oLUResult = LibLA::getInstance()->getLUwithFullPivoting(*_NmatT);
+            oLUResult = getLUwithFullPivoting(*_NmatT);
             DoubleMatrix* L = oLUResult->L;
             DoubleMatrix* U = oLUResult->U;
             IntMatrix* P = oLUResult->P;
@@ -1033,7 +1055,7 @@ string LibStructural::analyzeWithFullyPivotedLU()
                 }
                 DELETE_IF_NON_NULL(oLUResult);
 
-                oLUResult = LibLA::getInstance()->getLUwithFullPivoting(*_NmatT);
+                oLUResult = getLUwithFullPivoting(*_NmatT);
                 L = oLUResult->L;
                 U = oLUResult->U;
                 P = oLUResult->P;
@@ -1115,7 +1137,7 @@ string LibStructural::analyzeWithFullyPivotedLUwithTests()
 }
 
 //Returns L0 Matrix
-LibStructural::DoubleMatrix* LibStructural::getL0Matrix()
+DoubleMatrix* LibStructural::getL0Matrix()
 {
     if ( (_NumRows == _NumIndependent) || (_NumRows == 0) || _L0 == NULL)
     {
@@ -1146,7 +1168,7 @@ void LibStructural::getL0MatrixLabels(vector< string > &oRows, vector< string > 
 }
 
 //Returns Nr Matrix
-LibStructural::DoubleMatrix* LibStructural::getNrMatrix()
+DoubleMatrix* LibStructural::getNrMatrix()
 {
     return _Nr;
 }
@@ -1157,7 +1179,7 @@ void LibStructural::getNrMatrixLabels(vector< string > &oRows, vector< string > 
     oCols = getReactions();
 }
 //Returns N0 Matrix
-LibStructural::DoubleMatrix* LibStructural::getN0Matrix()
+DoubleMatrix* LibStructural::getN0Matrix()
 {
     return _N0;
 }
@@ -1169,7 +1191,7 @@ void LibStructural::getN0MatrixLabels(vector< string > &oRows, vector< string > 
 }
 
 //Returns L, the Link Matrix
-LibStructural::DoubleMatrix* LibStructural::getLinkMatrix()
+DoubleMatrix* LibStructural::getLinkMatrix()
 {
     return _L;
 }
@@ -1181,7 +1203,7 @@ void LibStructural::getLinkMatrixLabels(vector< string > &oRows, vector< string 
 }
 
 //Returns K0
-LibStructural::DoubleMatrix* LibStructural::getK0Matrix()
+DoubleMatrix* LibStructural::getK0Matrix()
 {
     return _K0;
 }
@@ -1190,26 +1212,26 @@ void LibStructural::getK0MatrixLabels(vector< string > &oRows, vector< string > 
 {
     vector<string> oReactionLables = getReorderedReactions();
     DoubleMatrix *k0 = getK0Matrix();
-    
-    
+
+
     int nDependent = k0->numCols();
     int nIndependent = k0->numRows();
-        
+
     for (int i = 0; i < nDependent; i++)
     {
         oCols.push_back(oReactionLables[nIndependent + i]);
     }
-    
-    
+
+
     for (int i = 0; i < nIndependent; i++)
     {
         oRows.push_back(oReactionLables[i]);
     }
-    
+
 }
 
 //Returns Nullspace
-LibStructural::DoubleMatrix* LibStructural::getKMatrix()
+DoubleMatrix* LibStructural::getKMatrix()
 {
     return _K;
 }
@@ -1420,11 +1442,11 @@ vector< string > LibStructural::getReactionsNamesList()
 }
 
 //Returns Gamma, the conservation law array 
-LibStructural::DoubleMatrix* LibStructural::getGammaMatrix()
+DoubleMatrix* LibStructural::getGammaMatrix()
 {
     return _G;
 }
-LibStructural::DoubleMatrix* LibStructural::findPositiveGammaMatrix(DoubleMatrix &stoichiometry, 
+DoubleMatrix* LibStructural::findPositiveGammaMatrix(DoubleMatrix &stoichiometry,
                                                                     std::vector< std::string> &rowLabels)
 {
     DoubleMatrix *current = getGammaMatrixGJ(stoichiometry);
@@ -1491,7 +1513,7 @@ LibStructural::DoubleMatrix* LibStructural::findPositiveGammaMatrix(DoubleMatrix
     return NULL;
 }
 
-LibStructural::DoubleMatrix* LibStructural::getGammaMatrixGJ(DoubleMatrix &stoichiometry)
+DoubleMatrix* LibStructural::getGammaMatrixGJ(DoubleMatrix &stoichiometry)
 {
     int numCols = (int)stoichiometry.numCols();
     int numRows = (int)stoichiometry.numRows();
@@ -1595,7 +1617,7 @@ vector< double > LibStructural::getConservedSums()
 
 
 //Returns the original stoichiometry matrix
-LibStructural::DoubleMatrix* LibStructural::getStoichiometryMatrix()
+DoubleMatrix* LibStructural::getStoichiometryMatrix()
 {
     return _Nmat_orig;
 }
@@ -1606,11 +1628,10 @@ void LibStructural::getStoichiometryMatrixLabels(vector< string > &oRows, vector
     oCols = getReactions();
 }
 
-
 //Returns reordered stoichiometry matrix
-LibStructural::DoubleMatrix* LibStructural::getReorderedStoichiometryMatrix()
+DoubleMatrix* LibStructural::getReorderedStoichiometryMatrix()
 {
-    return _Nmat;    
+    return _Nmat;
 }
 
 void LibStructural::getReorderedStoichiometryMatrixLabels(vector< string > &oRows, vector< string > &oCols )
@@ -1643,7 +1664,7 @@ bool LibStructural::testConservationLaw_1()
 bool LibStructural::testConservationLaw_2()
 {
     if (_Nmat_orig == NULL) return false;
-    vector <double> singularVals = LibLA::getInstance()->getSingularValsBySVD(*_Nmat_orig);
+    vector <double> singularVals = getSingularValsBySVD(*_Nmat_orig);
     _SvdRankNmat = min(_NumRows, _NumCols);
     for (unsigned int i=0; i<singularVals.size(); i++) 
     {
@@ -1656,7 +1677,7 @@ bool LibStructural::testConservationLaw_2()
 bool LibStructural::testConservationLaw_3()
 {
     if (_Nr == NULL) return false;
-    vector <double> singularVals = LibLA::getInstance()->getSingularValsBySVD(*_Nr);
+    vector <double> singularVals = getSingularValsBySVD(*_Nr);
     _SvdRankNr = _NumIndependent;
     for (unsigned int i=0; i<singularVals.size(); i++) 
     {
@@ -1668,16 +1689,19 @@ bool LibStructural::testConservationLaw_3()
 
 bool LibStructural::testConservationLaw_4()
 {
-    if (_Nmat == NULL) return false;
-    vector < DoubleMatrix* > oResult = LibLA::getInstance()->getQRWithPivot(*_Nmat);
+    if (_Nmat == NULL)
+    {
+    	return false;
+    }
+    vector < DoubleMatrix* > oResult = getQRWithPivot(*_Nmat);
 
-    DoubleMatrix* Q = oResult[0]; 
+    DoubleMatrix* Q = oResult[0];
     DoubleMatrix* R = oResult[1];
     DoubleMatrix* P = oResult[2];
 
     DoubleMatrix* Q11 = ls::getSubMatrix(Q->numRows(), Q->numCols(), _NumIndependent, _NumIndependent, 0, 0, *Q);
 
-    vector < Complex > q11Eigenvalues = LibLA::getInstance()->getEigenValues(*Q11);
+    vector < Complex > q11Eigenvalues = getEigenValues(*Q11);
 
     _QrRankNmat = 0;
     double absval = 0.0;
@@ -1697,7 +1721,7 @@ bool LibStructural::testConservationLaw_4()
 bool LibStructural::testConservationLaw_5()
 {
     if (_Nmat == NULL || _L0 == NULL) return false;
-    vector < DoubleMatrix* > oResult = LibLA::getInstance()->getQRWithPivot(*_Nmat);
+    vector < DoubleMatrix* > oResult = getQRWithPivot(*_Nmat);
 
     DoubleMatrix* Q = oResult[0]; 
     DoubleMatrix* R = oResult[1];
@@ -1714,7 +1738,7 @@ bool LibStructural::testConservationLaw_5()
     }
     else
     {    
-    try { Q11inv = LibLA::getInstance()->inverse(*Q11); } catch (...) {}
+    try { Q11inv = inverse(*Q11); } catch (...) {}
 
     if (Q11inv == NULL)
     {
@@ -2061,11 +2085,12 @@ void LibStructural::setTolerance(double dTolerance)
 
 LibStructural* LibStructural::getInstance()
 {
-    if (_Instance == NULL)
-    {
-        _Instance = new LibStructural();//Todo: memoryleak
-    }
-    return _Instance;
+//    if (_Instance == NULL)
+//    {
+//        _Instance = new LibStructural();//Todo: memoryleak
+//    }
+//    return _Instance;
+	return this;
 }
 
 

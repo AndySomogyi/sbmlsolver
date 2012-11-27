@@ -27,11 +27,11 @@
 			<BCC_Defines>LIBSBML_USE_CPP_NAMESPACE;WIN32;$(BCC_Defines)</BCC_Defines>
 			<OutputExt>exe</OutputExt>
 			<LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
-			<ILINK_LibraryPath>..\..\source\testing\core\;..\..\source\testing\;core\;sanity_tests\;R:\installs\xe\debug\lib\;C:\rDisk\installs\xe\debug\lib\;R:\roadrunnerwork\trunk\testing\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+			<ILINK_LibraryPath>..\..\source\;..\..\ThirdParty\rr-libstruct\;..\..\source\testing\core\;..\..\source\testing\;core\;sanity_tests\;R:\installs\xe\debug\lib\;C:\rDisk\installs\xe\debug\lib\;R:\roadrunnerwork\trunk\testing\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
 			<PackageImports>vcl.bpi;rtl.bpi;bcbie.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;vclimg.bpi;svnui.bpi;svn.bpi;bdertl.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;vclie.bpi;inet.bpi;inetdb.bpi;webdsnap.bpi;websnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;dbexpress.bpi;DbxCommonDriver.bpi;DbxClientDriver.bpi;AzureCloud.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbxcds.bpi;DuneComponents.bpi;VCLCommon.bpi</PackageImports>
 			<NoVCL>true</NoVCL>
 			<Multithreaded>true</Multithreaded>
-			<IncludePath>..\..\source\testing\core\;..\..\source\testing\;core\;..\;$(RR_RELEASE_INSTALL)\include\unit_test;$(IncludePath)</IncludePath>
+			<IncludePath>..\..\source\;..\..\ThirdParty\rr-libstruct\;..\..\source\testing\core\;..\..\source\testing\;core\;..\;$(RR_RELEASE_INSTALL)\include\unit_test;$(IncludePath)</IncludePath>
 			<AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
 			<ProjectType>CppConsoleApplication</ProjectType>
 			<_TCHARMapping>char</_TCHARMapping>
