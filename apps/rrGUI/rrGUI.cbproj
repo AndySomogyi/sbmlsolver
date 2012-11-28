@@ -7,7 +7,7 @@
 			<Config Condition="'$(Config)'==''">Debug</Config>
 			<Platform>Win32</Platform>
 			<AppType>Application</AppType>
-			<FrameworkType>VCL</FrameworkType>
+			<FrameworkType>None</FrameworkType>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
 			<Base>true</Base>
@@ -23,19 +23,19 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
-			<Defines>LIBSBML_USE_CPP_NAMESPACE;$(Defines)</Defines>
+			<Defines>LIBSBML_USE_CPP_NAMESPACE;WIN32;$(Defines)</Defines>
 			<FinalOutputDir>$(RR_INSTALL)\bin</FinalOutputDir>
-			<LinkPackageStatics>Tee915.lib;vclimg.lib;mtkCommonRTL.lib;VCLCommonRTL.lib;vclactnband.lib;vclx.lib;TeePro915.lib;TeeUI915.lib;vclie.lib</LinkPackageStatics>
+			<LinkPackageStatics>Tee915.lib;vclimg.lib;VCLCommonRTL.lib;vclactnband.lib;vclx.lib;TeePro915.lib;TeeUI915.lib;vclie.lib</LinkPackageStatics>
 			<OutputExt>exe</OutputExt>
 			<LinkPackageImports>rtl.bpi;vcl.bpi;DuneComponents.bpi</LinkPackageImports>
 			<PackageImports>vcl.bpi;rtl.bpi;DuneComponents.bpi</PackageImports>
 			<ProjectType>CppVCLApplication</ProjectType>
-			<AllPackageLibs>rtl.lib;vcl.lib;Tee915.lib;vclimg.lib;DuneComponents.lib;mtkCommonRTL.lib;VCLCommonRTL.lib;vclactnband.lib;vclx.lib;TeePro915.lib;TeeUI915.lib;vclie.lib</AllPackageLibs>
-			<_TCHARMapping>wchar_t</_TCHARMapping>
+			<AllPackageLibs>rtl.lib;vcl.lib;Tee915.lib;vclimg.lib;DuneComponents.lib;VCLCommonRTL.lib;vclactnband.lib;vclx.lib;TeePro915.lib;TeeUI915.lib;vclie.lib</AllPackageLibs>
+			<_TCHARMapping>char</_TCHARMapping>
 			<ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
 			<ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
-			<IncludePath>p:\mtk\Lib\Common\;P:\mtk\Components\Dune\;R:\roadrunnerwork\trunk\apps\rrGUI\;$(RR_ROOT)\trunk\source;$(IncludePath)</IncludePath>
-			<ILINK_LibraryPath>R:\rrInstalls\xe\full-debug\lib\;R:\rrInstalls\xeDebug\lib\;R:\rrInstalls\xe\rr_support\;R:\rrBuilds\xe\ThirdParty\lib\;R:\rrInstalls\xe\lib\;p:\mtk\Lib\Common\;P:\mtk\Components\Dune\;R:\roadrunnerwork\trunk\apps\rrGUI\;P:\mtk\Components\vtk\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+			<IncludePath>..\..\source\;P:\mtk\VCL\Common\;p:\mtk\Lib\Common\;P:\mtk\Components\Dune\;R:\roadrunnerwork\trunk\apps\rrGUI\;$(RR_ROOT)\trunk\source;$(IncludePath)</IncludePath>
+			<ILINK_LibraryPath>..\..\source\;P:\mtk\VCL\Common\;R:\installs\xe1\debug\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
 			<Multithreaded>true</Multithreaded>
 			<DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
 			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE</DCC_UnitAlias>
@@ -47,13 +47,14 @@
 			<BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<BCC_PCHName>rrGui.csm</BCC_PCHName>
 			<FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
 			<IncludePath>$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>
 			<BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
 			<BCC_DisableOptimizations>true</BCC_DisableOptimizations>
 			<DCC_Optimize>false</DCC_Optimize>
 			<DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
-			<Defines>_DEBUG;$(Defines)</Defines>
+			<Defines>_DEBUG;USE_PCH;$(Defines)</Defines>
 			<BCC_InlineFunctionExpansion>false</BCC_InlineFunctionExpansion>
 			<BCC_UseRegisterVariables>None</BCC_UseRegisterVariables>
 			<DCC_Define>DEBUG</DCC_Define>
@@ -70,19 +71,9 @@
 			<TASM_Debugging>None</TASM_Debugging>
 		</PropertyGroup>
 		<ItemGroup>
-			<CppCompile Include="P:\mtk\Components\Dune\TFileSelectionFrame.cpp">
-				<Form>FileSelectionFrame</Form>
-				<DesignClass>TFrame</DesignClass>
-				<DependentOn>P:\mtk\Components\Dune\TFileSelectionFrame.h</DependentOn>
-				<BuildOrder>3</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="p:\mtk\Lib\Common\mtkFileUtils.cpp">
-				<DependentOn>p:\mtk\Lib\Common\mtkFileUtils.h</DependentOn>
-				<BuildOrder>4</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="p:\mtk\Lib\Common\mtkStopWatch.cpp">
-				<DependentOn>p:\mtk\Lib\Common\mtkStopWatch.h</DependentOn>
-				<BuildOrder>8</BuildOrder>
+			<CppCompile Include="P:\mtk\VCL\Common\mtkVCLUtils.cpp">
+				<DependentOn>P:\mtk\VCL\Common\mtkVCLUtils.h</DependentOn>
+				<BuildOrder>6</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="MainForm.cpp">
 				<Form>MForm</Form>
@@ -107,11 +98,10 @@
 				<DependentOn>rrSimulateThread.h</DependentOn>
 				<BuildOrder>9</BuildOrder>
 			</CppCompile>
-			<LibFiles Include="R:\rrInstalls\xe\full-debug\lib\roadrunner.lib">
-				<IgnorePath>true</IgnorePath>
+			<CppCompile Include="..\..\source\rrArrayList.cpp">
+				<DependentOn>..\..\source\rrArrayList.h</DependentOn>
 				<BuildOrder>7</BuildOrder>
-			</LibFiles>
-			<FormResources Include="P:\mtk\Components\Dune\TFileSelectionFrame.dfm"/>
+			</CppCompile>
 			<FormResources Include="MainForm.dfm"/>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_2</Key>

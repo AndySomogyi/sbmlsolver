@@ -342,7 +342,7 @@ object MForm: TMForm
       Top = 465
       Width = 1007
       Height = 250
-      ActivePage = TabSheet6
+      ActivePage = TabSheet3
       Align = alBottom
       TabOrder = 1
       object TabSheet1: TTabSheet
@@ -1420,8 +1420,8 @@ object MForm: TMForm
       object TabSheet6: TTabSheet
         Caption = 'Other Tests'
         ImageIndex = 3
-        ExplicitLeft = 3
-        ExplicitTop = 23
+        ExplicitLeft = 0
+        ExplicitTop = 0
         ExplicitWidth = 0
         ExplicitHeight = 0
         object runCountMemo: TMemo

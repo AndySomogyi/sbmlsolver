@@ -4,7 +4,7 @@ PROJECT(RR_CXX_API_Tests)
 set(target cxx_api_tests)
 set(tests
 core/base
-#core/sbmlTests
+core/sbmlTests
 )
 
 add_executable( ${target} 
@@ -96,10 +96,14 @@ Message("SupportCodeFolder is: " ${supportCodeFolder})
 #    VERBATIM 
 #    )
 #
-add_custom_target(cppTestingReport ALL DEPENDS ${resulsFile}
-    COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s"${supportCodeFolder}" -r${resultsFile} -v 
-    COMMENT "=========== Generating CPP-API Wiki reports =============="
-    COMMENT "Executing ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} -v"
+#add_custom_target(cppTestingReport ALL DEPENDS ${resulsFile}
+#    COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s"${supportCodeFolder}" -r${resultsFile} -v 
+#    COMMENT "=========== Generating CPP-API Wiki reports =============="
+#    COMMENT "Executing ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} -v"
+#
+#)
 
-)
-   
+install (TARGETS ${target} 		
+DESTINATION bin 
+COMPONENT apps
+)   

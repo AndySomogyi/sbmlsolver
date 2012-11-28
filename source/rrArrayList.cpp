@@ -72,50 +72,45 @@ StringList ArrayList::GetStringList(const int& index)
 	throw("No Stringlist at index");
 }
 
-//StringList ArrayList::GetSubList(const string& lName)
-//{
-////    //Look for list whose first item is lName
-////    StringList aList;
-////    for(u_int i = 0; i < Count(); i++)
-////    {
-////        ArrayListItemObject* listPtr = const_cast<ArrayListItemObject*>(mList[i]);
-////
-////        //Check for a list of list
-////        if(dynamic_cast< ArrayListItem<ArrayListItem> *>(listPtr))
-////        {
-////            ArrayListItem  list = (ArrayListItem) *(dynamic_cast<ArrayListItem<ArrayListItem>*>(listPtr));
-////            if(list.Count())
-////            {
-////                ArrayListItemObject* anItem = &list[0];
-////                if(dynamic_cast<ArrayListItem<string>*>(anItem))
-////                {
-////                    string str = (string) *dynamic_cast<ArrayListItem<string>*>(anItem);
-////
-////                    if(str == lName && list.Count() > 1)
-////                    {
-////                        ArrayListItemObject* anItem = &list[1];
-////                        if(dynamic_cast< ArrayListItem<ArrayListItem> *>(anItem))
-////                        {
-////                            //This is the sublist of strings..
-////                            ArrayListItem  list = (ArrayListItem) *(dynamic_cast<ArrayListItem<ArrayListItem>*>(anItem));
-////                            for(int i = 0; i < list.Count(); i++)
-////                            {
-////                                ArrayListItemObject* anItem = &list[i];
-////                                if(dynamic_cast<ArrayListItem<string>*>(anItem))
-////                                {
-////                                    string str = (string) *dynamic_cast<ArrayListItem<string>*>(anItem);
-////                                    aList.Add(str);
-////                                }
-////                            }
-////                        }
-////                    }
-////                }
-////            }
-////        }
-////
-////    }
-////    return aList;
-//}
+StringList ArrayList::GetStringList(const string& lName)
+{
+    //Look for ann array list whose first item is a string with lName and second item is a stringlist, i.e. {{string, {string string string}}
+    StringList aList;
+    for(u_int i = 0; i < Count(); i++)
+    {
+        ArrayListItemObject* listPtr = const_cast<ArrayListItemObject*>(mList[i]);
+
+        //Check for a list which first element is a string, i.e. a {{string}, {string, string}} list
+        if(dynamic_cast< ArrayListItem<ArrayList> *>(listPtr))
+        {
+			ArrayList list = (ArrayList) *(dynamic_cast< ArrayListItem<ArrayList> *>(listPtr));
+            if(list.Count())
+            {
+                ArrayListItemObject* anItem = &list[0];
+                if(dynamic_cast<ArrayListItem<string>*>(anItem))
+                {
+                    string str = (string) *dynamic_cast<ArrayListItem<string>*>(anItem);
+
+                    if(str == lName && list.Count() > 1)
+                    {
+                        ArrayListItemObject* anItem = &list[1];
+                        if(dynamic_cast<ArrayListItem<StringList> *>(anItem))
+                        {
+                            //This is a stringList
+                            StringList  list = (StringList) *(dynamic_cast<ArrayListItem<StringList>*>(anItem));
+                            for(int i = 0; i < list.Count(); i++)
+                            {
+                            	string str = list[i];
+                                aList.Add(str);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return aList;
+}
 
 void ArrayList::Clear()
 {

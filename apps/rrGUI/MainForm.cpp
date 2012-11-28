@@ -10,8 +10,8 @@
 #include "rrUtils.h"
 #include "mtkStopWatch.h"
 #include "rrSimulateThread.h"
+//#include "rrArrayList2.h"
 //---------------------------------------------------------------------------
-#pragma package(smart_init)
 #pragma link "Chart"
 #pragma link "mtkFloatLabeledEdit"
 #pragma link "mtkIniFileC"
@@ -25,6 +25,9 @@
 #pragma link "TeeTools"
 #pragma link "mtkSTDStringEdit"
 #pragma resource "*.dfm"
+
+#pragma package(smart_init)
+
 TMForm *MForm;
 //---------------------------------------------------------------------------
 using namespace rr;
@@ -32,8 +35,8 @@ using namespace rr;
 __fastcall TMForm::TMForm(TComponent* Owner)
     : TForm(Owner),
     mLogFileSniffer("", this),
-    mLogString(NULL),
-    mSimulateThread(NULL, this)
+    mSimulateThread(NULL, this),
+    mLogString(NULL)
 {
     LogOutput::mLogToConsole = (false);
     LogOutput::mShowLogLevel = true;
@@ -59,17 +62,14 @@ __fastcall TMForm::TMForm(TComponent* Owner)
     startupTimer->Enabled = true;
 
     //Setup road runner
-    mRR = new RoadRunner;
+    mRR = new RoadRunner("r:\\installs\\xe1\\debug\\rr_support", "r:\\installs\\xe1\\debug\\compilers\\tcc\\tcc.exe");
     mRR->SetTempFileFolder(mTempDataFolder);
-
     mSimulateThread.AssignRRInstance(mRR);
 }
 
 __fastcall TMForm::~TMForm()
 {
-
 	//FSF->TreeView1->Selected
-
     if(CompilerRG->ItemIndex == 0)
     {
         mCompiler = "tcc";
@@ -79,7 +79,7 @@ __fastcall TMForm::~TMForm()
         mCompiler = "bcc";
     }
 
-    mLogLevel.SetValue(GetLogLevel(LogLevelCB->ItemIndex));
+    mLogLevel.SetValue(rr::GetLogLevel(LogLevelCB->ItemIndex));
     mPageControlHeight = PageControl1->Height;
 
     mConservationAnalysis = ConservationAnalysisCB->Checked ? true : false;
@@ -89,7 +89,6 @@ __fastcall TMForm::~TMForm()
     mModelFolders.Write();
     mIniFileC->Save();
     delete mRR;
-
 }
 
 string TMForm::GetCompiler()
@@ -217,7 +216,7 @@ void __fastcall TMForm::LoadFromTreeViewAExecute(TObject *Sender)
             {
                 Log(rr::lInfo)<<"Loaded model with no exception";
                 loadAvailableSymbolsA->Execute();
-                Log(rr::lInfo)<<mRR->getAvailableSymbols();
+                Log(rr::lInfo)<<mRR->getAvailableTimeCourseSymbols();
 
                 //Enable simulate action
                 SimulateA->Enabled = true;
@@ -255,17 +254,17 @@ void __fastcall TMForm::SimulateAExecute(TObject *Sender)
             //Setup selection list
             StringList list = GetCheckedSpecies();
             string selected = list.AsString();
-            mRR->setSelectionList(selected);
+            mRR->setTimeCourseSelectionList(selected);
         }
 
-        Log(rr::lInfo)<<"Currently selected species: "<<mRR->getSelectionList().AsString();
+        Log(rr::lInfo)<<"Currently selected species: "<<mRR->getTimeCourseSelectionList().AsString();
 
         mRR->setCompiler(GetCompiler());
         mRR->ComputeAndAssignConservationLaws(ConservationAnalysisCB->Checked);
         mRR->simulateEx(mStartTimeE->GetValue(), *mEndTimeE, mNrOfSimulationPointsE->GetValue());
 
         SimulationData data = mRR->GetSimulationResult();
-        string resultFileName(rr::JoinPath(mRR->GetTempFileFolder(), mRR->GetModelName()));
+        string resultFileName(rr::JoinPath(mRR->getTempFileFolder(), mRR->GetModelName()));
         resultFileName = rr::ChangeFileExtensionTo(resultFileName, ".csv");
         Log(rr::lInfo)<<"Saving result to file: "<<resultFileName;
         ofstream fs(resultFileName.c_str());
@@ -309,22 +308,21 @@ void __fastcall TMForm::loadAvailableSymbolsAExecute(TObject *Sender)
                 mStartTimeE->SetNumber(mSettings.mStartTime);
                 mEndTimeE->SetNumber(mSettings.mEndTime);
                 mNrOfSimulationPointsE->SetNumber(mSettings.mSteps + 1);
-                StringList symbols = GetSelectionListFromSettings(mSettings);
+                StringList symbols = getSelectionListFromSettings(mSettings);
                 AddItemsToListBox(symbols);
             }
-
         }
         else
         {
-
         	SelList->Items->Add("Time");
 	        SelList->Checked[0] = true;
-            ArrayList2 symbols = mRR->getAvailableSymbols();
-            StringList fs       = symbols.GetSubList("Floating Species");
-            StringList bs       = symbols.GetSubList("Boundary Species");
-            StringList vols     = symbols.GetSubList("Volumes");
-            StringList gp       = symbols.GetSubList("Global Parameters");
-            StringList fluxes   = symbols.GetSubList("Fluxes");
+            ArrayList	symbols = mRR->getAvailableTimeCourseSymbols();
+            Log(mtk::lInfo)<<symbols;
+            StringList fs       = symbols.GetStringList("Floating Species");
+            StringList bs       = symbols.GetStringList("Boundary Species");
+            StringList vols     = symbols.GetStringList("Volumes");
+            StringList gp       = symbols.GetStringList("Global Parameters");
+            StringList fluxes   = symbols.GetStringList("Fluxes");
 
             AddItemsToListBox(fs);
             AddItemsToListBox(bs);
@@ -557,7 +555,7 @@ void __fastcall TMForm::LogCurrentDataAExecute(TObject *Sender)
 
 void __fastcall TMForm::LogLevelCBChange(TObject *Sender)
 {
-    gLog.SetCutOffLogLevel(GetLogLevel(LogLevelCB->ItemIndex));
+    gLog.SetCutOffLogLevel(rr::GetLogLevel(LogLevelCB->ItemIndex));
 }
 
 void __fastcall TMForm::UpdateTestSuiteInfo()
@@ -585,7 +583,7 @@ void __fastcall TMForm::UpdateTestSuiteInfo()
             aFile = rr::JoinPath(path, (caseNr + "-settings.txt"));
             if(rr::FileExists(aFile))
             {
-                vector<string> fContent = GetLinesInFile(aFile);
+                vector<string> fContent = rr::GetLinesInFile(aFile);
                 Log(rr::lInfo)<<"Model Settings:\n"<<fContent;
             }
         }
@@ -655,7 +653,10 @@ void __fastcall TMForm::ShutDownTimerTimer(TObject *Sender)
 
 void __fastcall TMForm::FormClose(TObject *Sender, TCloseAction &Action)
 {
-	FileSelectionFrame->ClearTree();
+	if(FSF)
+    {
+		FSF->ClearTree();
+    }
 }
 
 //---------------------------------------------------------------------------

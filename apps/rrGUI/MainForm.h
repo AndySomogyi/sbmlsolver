@@ -17,7 +17,6 @@
 #include "TFileSelectionFrame.h"
 #include "mtkIniParameters.h"
 #include <Menus.hpp>
-#include "rrLogFileReader.h"
 #include <ToolWin.hpp>
 #include <CheckLst.hpp>
 #include "Series.hpp"
@@ -29,9 +28,10 @@
 #include "rrSimulationSettings.h"
 #include "rrLogLevel.h"
 #include <jpeg.hpp>
+#include "rrSimulateThread.h"
 #include <OleCtrls.hpp>
 #include <SHDocVw.hpp>
-#include "rrSimulateThread.h"
+#include "rrLogFileReader.h"
 namespace rr
 {
 class RoadRunner;
@@ -173,7 +173,7 @@ private:	// User declarations
     mtkIniParameter<int>        	mSelectionListHeight;
     mtkIniParameter<int>        	mPageControlHeight;
 
-    mtkIniParameter<mtkLogLevel>   	mLogLevel;
+    mtkIniParameter<mtk::LogLevel>	mLogLevel;
     mtkIniParameter<string>     	mCompiler;
     mtkIniParameter<string>     	mCurrentModelsFolder;
     mtkIniParameter<string>     	mCurrentModelFileName;

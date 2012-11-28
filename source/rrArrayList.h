@@ -5,7 +5,7 @@
 #include <list>
 #include <iostream>
 #include "rrArrayListItem.h"
-#include "rrArrayList.h"
+
 using namespace std;
 namespace rr
 {
@@ -37,7 +37,7 @@ class RR_DECLSPEC ArrayList : public rrObject
         const ArrayListItemObject&          operator[](int pos) const;
         ArrayListItemObject&                operator[](int pos);
         void                                operator = (const ArrayList& rhs);
-//        StringList                          GetSubList(const string& lName);
+        StringList                          GetStringList(const string& lName);
         StringList                          GetStringList(const int& index);
         string                          	GetString(const int& index);
 };
