@@ -1650,7 +1650,7 @@ ArrayList NOMSupport::getNthEvent(const int& arg)
         throw Exception("You need to load the model first");
     }
 
-    ArrayList triggerAssignmentsList;// = new ArrayList();
+    ArrayList triggerAssignmentsList;
     Event *oEvent = mModel->getEvent((int)arg);
 
     if (oEvent == NULL)
@@ -1659,9 +1659,9 @@ ArrayList NOMSupport::getNthEvent(const int& arg)
     }
 
     string trigger = SBML_formulaToString(oEvent->getTrigger()->getMath());
-    string delay;
     triggerAssignmentsList.Add(trigger);
 
+    string delay;
     if (!oEvent->isSetDelay())
     {
         delay = "0";

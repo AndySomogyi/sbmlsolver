@@ -25,10 +25,10 @@ mStrings(strings)
 StringList::~StringList()
 {}
 
-void StringList::Label(const string& lbl)
-{
-    mLabel = lbl;
-}
+//void StringList::Label(const string& lbl)
+//{
+//    mLabel = lbl;
+//}
 
 StringList::StringList(const string& str, const string& delimiter)
 {
@@ -37,7 +37,7 @@ StringList::StringList(const string& str, const string& delimiter)
 
 StringList::StringList(const StringList& cp)
 {
-    mLabel = cp.mLabel;
+//    mLabel = cp.mLabel;
     mStrings = cp.mStrings;
 }
 
@@ -180,6 +180,7 @@ void StringList::operator=(const StringList& rhs)
 
 ostream& operator<<(ostream& stream, const StringList& list)
 {
+	stream << "{";
     for(int i = 0; i < list.Count(); i++)
     {
         stream<<list[i];
@@ -188,6 +189,7 @@ ostream& operator<<(ostream& stream, const StringList& list)
         	stream<<" ";
         }
     }
+	stream << "}";
     return stream;
 }
 

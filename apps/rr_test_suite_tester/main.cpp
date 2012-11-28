@@ -134,11 +134,10 @@ int main(int argc, char * argv[])
 
         sWatch.Start();
         //dataOutputFolder += dummy;
-      	string rrInstallPath = getParentFolder(getCurrentExeFolder());
-        rrI = new RoadRunner(rrInstallPath, "");
+       	string rrSupportCodeFolder = getParentFolder(getCurrentExeFolder());
+        rrI = new RoadRunner(JoinPath(rrSupportCodeFolder,"rr_support"), "r:\\installs\\xe1\\debug\\compilers\\tcc\\tcc.exe");
         rrI->Reset();
-        rrI->setCompiler("tcc");
-        rrI->ComputeAndAssignConservationLaws(false);
+        rrI->ComputeAndAssignConservationLaws(true);
         simulation.UseEngine(rrI);
 
         //Read SBML models.....

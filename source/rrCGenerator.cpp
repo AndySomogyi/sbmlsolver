@@ -1238,8 +1238,8 @@ void CGenerator::WriteEvalEvents(CodeBuilder& ignore, const int& numEvents, cons
     for (int i = 0; i < numEvents; i++)
     {
         ArrayList ev = mNOM.getNthEvent(i);
-        StringList tempList = ev.GetStringList(0);
-        string eventString = tempList[0];
+        //StringList tempList = ev.GetStringList(0);
+        string eventString = ev.GetString(0);//[0];
 
         eventString = substituteTerms(0, "", eventString);
         eventString = ReplaceWord("time", "mTime", eventString);
@@ -1467,10 +1467,11 @@ void CGenerator::WriteEventAssignments(CodeBuilder& ignore, const int& numReacti
         for (int i = 0; i < numEvents; i++)
         {
             ArrayList ev = mNOM.getNthEvent(i);
+            Log(lDebug)<<"Array list :"<<ev;
             eventType.push_back(mNOM.getNthUseValuesFromTriggerTime(i));
             eventPersistentType.push_back(mNOM.GetModel()->getEvent(i)->getTrigger()->getPersistent());
 
-            StringList event = ev.GetStringList(1);
+            StringList event = ev.GetStringList(2);  //Changed to 2 from 1!!!! ?????
             int numItems = event.Count();
             string str = substituteTerms(numReactions, "", event[0]);
             delays.Add(str);

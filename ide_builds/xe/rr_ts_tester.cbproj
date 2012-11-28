@@ -156,7 +156,7 @@
 						<Parameters Name="DebugSourceDirs">C:\RRW\source</Parameters>
 					</Parameters>
 					<Parameters_Win32>
-						<Parameters_Win32 Name="RunParams">-m&quot;R:\\SBMLTS\\cases\\semantic&quot; -w&quot;l2v4&quot; -n58 -t&quot;R:\rrTemp&quot; -d&quot;R:\RRTesting\DataOutput\xe1&quot; -p -vDebug3</Parameters_Win32>
+						<Parameters_Win32 Name="RunParams">-m&quot;R:\\SBMLTS\\cases\\semantic&quot; -w&quot;l2v4&quot; -n26 -t&quot;R:\rrTemp&quot; -d&quot;R:\RRTesting\DataOutput\xe1&quot; -p -vDebug</Parameters_Win32>
 					</Parameters_Win32>
 				</CPlusPlusBuilder.Personality>
 				<Platforms>

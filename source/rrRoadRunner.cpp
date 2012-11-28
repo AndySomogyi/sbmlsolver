@@ -44,14 +44,14 @@ using namespace ls;
 #endif
 
 #if defined(_WIN32)
-#pragma comment(lib, "IPHLPAPI.lib") //Becuase of poco needig this
+#pragma comment(lib, "IPHLPAPI.lib") //Becuase of poco needing this
 #endif
 
 string RoadRunner::mTempFileFolder = "";
 namespace rr
 {
 //Initialize statics..
-//bool RoadRunner::mComputeAndAssignConservationLaws     	= false;
+//bool RoadRunner::mComputeAndAssignConservationLaws    = false;
 //bool RoadRunner::mConservedTotalChanged             	= false;
 //bool RoadRunner::mReMultiplyCompartments             	= true;
 
@@ -78,8 +78,8 @@ RoadRunner::RoadRunner(const string& supportCodeFolder, const string& compiler, 
     mCurrentSBML(""),
     mModel(NULL),
     mTimeStart(0),
-    mTimeEnd(10),
-    mNumPoints(21),
+    mTimeEnd(5),
+    mNumPoints(50),
     UseKinsol(false)
 {
 	mTempFileFolder = (tempFolder);

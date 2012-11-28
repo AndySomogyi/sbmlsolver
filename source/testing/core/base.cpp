@@ -13,6 +13,13 @@ extern string 			gTempFolder;
 extern vector<string> 	gModels;
 SUITE(Base)
 {
+//    TEST(VERSIONS)
+//    {
+//    	//Static functions, don't need a handle, (gRR) ?
+//    	CHECK_EQUAL(getVersion(), 				"1.0.0");
+//		CHECK_EQUAL(gRR->getlibSBMLVersion(), 	"5.6.0");
+//    }
+//
 //	TEST(AllocateRR)
 //	{
 //		if(!gRR)
@@ -20,25 +27,14 @@ SUITE(Base)
 //			gRR = new RoadRunner(gSupportCodeFolder, gCompiler, gTempFolder);
 //		}
 //
-//        //Populate models
-//        gModels.clear();
-//        gModels.push_back("feedback.xml");
-//        gModels.push_back("ss_threeSpecies.xml");
-//        gModels.push_back("ss_TurnOnConservationAnalysis.xml");
-//        gModels.push_back("squareWaveModel.xml");
-//        gModels.push_back("test_1.xml");
-//
 //		CHECK(gRR!=NULL);
-//
-//		if(gRR)
-//		{
-//
-//		}
 //	}
 //
 //	TEST(AllocateDeAllocateRR)
 //	{
-//        for(int i = 0; i < 100000; i++)
+//    	int memoryBefore = 0;
+//        int memoryAfter  = 10;
+//        for(int i = 0; i < 1000; i++)
 //        {
 //            if(gRR)
 //            {
@@ -48,17 +44,21 @@ SUITE(Base)
 //			gRR = new RoadRunner(gSupportCodeFolder, gCompiler, gTempFolder);
 //        }
 //
-//		CHECK(gRR != NULL);
+//		//To check this properly, we will need to measure memory before and after somehow..
+//		CHECK_CLOSE(memoryBefore, memoryAfter, 10);
 //	}
 //
-//    TEST(VERSIONS)
-//    {
-//    	CHECK_EQUAL(getVersion(), 				"1.0.0");
-//		CHECK_EQUAL(gRR->getlibSBMLVersion(), 	"5.6.0");
-//    }
 //
 //    TEST(MODEL_FILES)	//Test that model files for the tests are present
 //    {
+//    	//Populate models
+//        gModels.clear();
+//        gModels.push_back("feedback.xml");
+//        gModels.push_back("ss_threeSpecies.xml");
+//        gModels.push_back("ss_TurnOnConservationAnalysis.xml");
+//        gModels.push_back("squareWaveModel.xml");
+//        gModels.push_back("test_1.xml");
+//
 //    	for(int i = 0 ; i < gModels.size(); i++)
 //        {
 //    		CHECK(FileExists(JoinPath(gSBMLModelsPath, gModels[i])));
@@ -73,29 +73,29 @@ SUITE(Base)
 //			CHECK(gRR->loadSBMLFromFile(model));
 //        }
 //	}
-
-	TEST(FULL_JACOBIAN)
-	{
-		if(!gRR)
-		{
-			gRR = new RoadRunner(gSupportCodeFolder, gCompiler, gTempFolder);
-		}
-
-		string fName =  JoinPath(gSBMLModelsPath, "ss_threeSpecies.xml");
-		CHECK(gRR->loadSBMLFromFile(fName));
-
-		DoubleMatrix jaco = gRR->getFullJacobian();
-		const double *jacoMat = jaco.getArray();
-
-		const double jacoExpected[9] = { -0.15, 0, 0, 0, -0.55, 0.4, 0.15, 0, -0.4};
-
-		CHECK_ARRAY_CLOSE(jacoExpected, jacoMat, 9, 0.0000001);
-		//Expected result
-	//          S1       S2       S3
-	//S1{{   -0.15        0        0}
-	//S2 {    0.15     -0.4        0}
-	//S3 {       0      0.4    -0.55}}
-	}
+//
+//	TEST(FULL_JACOBIAN)
+//	{
+//		if(!gRR)
+//		{
+//			gRR = new RoadRunner(gSupportCodeFolder, gCompiler, gTempFolder);
+//		}
+//
+//		string fName =  JoinPath(gSBMLModelsPath, "ss_threeSpecies.xml");
+//		CHECK(gRR->loadSBMLFromFile(fName));
+//
+//		DoubleMatrix jaco = gRR->getFullJacobian();
+//		const double *jacoMat = jaco.getArray();
+//
+//		const double jacoExpected[9] = { -0.15, 0, 0, 0, -0.55, 0.4, 0.15, 0, -0.4};
+//
+//		CHECK_ARRAY_CLOSE(jacoExpected, jacoMat, 9, 0.0000001);
+//		//Expected result
+//	//          S1       S2       S3
+//	//S1{{   -0.15        0        0}
+//	//S2 {    0.15     -0.4        0}
+//	//S3 {       0      0.4    -0.55}}
+//	}
 }
 
 

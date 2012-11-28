@@ -77,6 +77,9 @@
 			<CppCompile Include="..\..\source\testing\core\base.cpp">
 				<BuildOrder>2</BuildOrder>
 			</CppCompile>
+			<CppCompile Include="..\..\source\testing\core\sbmlTests.cpp">
+				<BuildOrder>3</BuildOrder>
+			</CppCompile>
 			<CppCompile Include="..\..\source\testing\main.cpp">
 				<BuildOrder>0</BuildOrder>
 			</CppCompile>
@@ -132,7 +135,7 @@
 						<ProjectProperties Name="VerifyPackages">True</ProjectProperties>
 					</ProjectProperties>
 					<Parameters>
-						<Parameters Name="RunParams">-mr:\rrl\trunk\models -rr:\rrl\trunk\reports\cpp_api_cg_ui.xml -lr:\installs\xe1\debug\compilers\tcc\tcc.exe -sr:\rrl\trunk\ThirdParty\rr_support -tr:\rrTemp -v</Parameters>
+						<Parameters Name="RunParams">-mr:\rrl\trunk\models -rr:\rrl\trunk\reports\cpp_api_cg_ui.xml -lr:\installs\xe1\debug\compilers\tcc\tcc.exe -sr:\rrl\trunk\ThirdParty\rr_support -tr:\rrTemp  </Parameters>
 					</Parameters>
 				</CPlusPlusBuilder.Personality>
 				<Platforms>

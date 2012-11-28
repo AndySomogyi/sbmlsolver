@@ -19,14 +19,14 @@ class RR_DECLSPEC StringList : public rrObject
         vector<string>::iterator    mLI;    //ListITerator
 
     public:
-           string                   mLabel;
+//           string                   mLabel;
                                     StringList();
                                     StringList(const string& str, const string& delimiter = ",");
                                     StringList(const vector<string>& strings);
                                     StringList(const StringList& cp);
                                    ~StringList();
 
-        void                        Label(const string& lbl);
+//        void                        Label(const string& lbl);
         void                        InsertAt(const int& index, const string& item);
         void                        Add(const string& str);
         string                      AsString(const string& delimiter = Comma) const;

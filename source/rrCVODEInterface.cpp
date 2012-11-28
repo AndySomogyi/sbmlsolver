@@ -703,7 +703,7 @@ double CvodeInterface::OneStep(double timeStart, double hstep)
             else if (nResult == CV_SUCCESS || !followEvents)
             {
    	            Log(lDebug5)<<"CV_SUCCESS and !followEvents in OneStep";
-                //model->resetEvents();
+//                model->resetEvents();
                 model->setTime(tout);
                 AssignResultsToModel();
 				Log(lDebug5)<<"Done assigning result in OneStep";
@@ -1365,8 +1365,10 @@ void CvodeInterface::AssignResultsToModel()
     model->computeRules(args);
     model->assignRates(dTemp);
 
-//BUG:Commenting out the following causes rr_c to produce correct result, using gcc. 
-//    model->computeAllRatesOfChange();
+	//BUG:Commenting out the following causes rr_c to produce correct result, using gcc.
+#if !defined(__linux)
+    model->computeAllRatesOfChange();
+#endif
     Log(lDebug5)<<"Exiting function "<<__func__;
 }
 
@@ -1425,10 +1427,10 @@ void CvodeInterface::AssignNewVector(ModelFromC *oModel, bool bAssignNewToleranc
     }
 }
 
-//void CvodeInterface::AssignNewVector(ModelFromC *model)
-//{
-//    AssignNewVector(model, false);
-//}
+void CvodeInterface::AssignNewVector(ModelFromC *model)
+{
+    AssignNewVector(model, false);
+}
 
 void CvodeInterface::setAbsTolerance(int index, double dValue)
 {

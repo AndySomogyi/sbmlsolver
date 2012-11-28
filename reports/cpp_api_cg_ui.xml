@@ -1,5 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="api_tests.xsl" type="text/xsl" ?>
-<unittest-results date_time = "2012-11-27 12:20:19" tests="1" failedtests="0" failures="0" time="65.268">
-<test suite="Base" name="FULL_JACOBIAN" time="56.497"/>
+<unittest-results date_time = "2012-11-27 16:18:02" tests="56" failedtests="20" failures="20" time="9.467">
+<test suite="SBML_l2v4" name="AllocateRR" time="0"/>
+<test suite="SBML_l2v4" name="1" time="0.259"/>
+<test suite="SBML_l2v4" name="2" time="0.107"/>
+<test suite="SBML_l2v4" name="3" time="0.103"/>
+<test suite="SBML_l2v4" name="4" time="0.108"/>
+<test suite="SBML_l2v4" name="5" time="0.123"/>
+<test suite="SBML_l2v4" name="6" time="0.096"/>
+<test suite="SBML_l2v4" name="7" time="0.109"/>
+<test suite="SBML_l2v4" name="8" time="0.111"/>
+<test suite="SBML_l2v4" name="9" time="0.09"/>
+<test suite="SBML_l2v4" name="10" time="0.108"/>
+<test suite="SBML_l2v4" name="11" time="0.108"/>
+<test suite="SBML_l2v4" name="12" time="0.113"/>
+<test suite="SBML_l2v4" name="13" time="0.093"/>
+<test suite="SBML_l2v4" name="14" time="0.106"/>
+<test suite="SBML_l2v4" name="15" time="0.11"/>
+<test suite="SBML_l2v4" name="16" time="0.112"/>
+<test suite="SBML_l2v4" name="17" time="0.143"/>
+<test suite="SBML_l2v4" name="18" time="0.117"/>
+<test suite="SBML_l2v4" name="19" time="0.132"/>
+<test suite="SBML_l2v4" name="20" time="0.125"/>
+<test suite="SBML_l2v4" name="21" time="0.104"/>
+<test suite="SBML_l2v4" name="22" time="0.102"/>
+<test suite="SBML_l2v4" name="23" time="0.118"/>
+<test suite="SBML_l2v4" name="24" time="0.109"/>
+<test suite="SBML_l2v4" name="25" time="0.104"/>
+<test suite="SBML_l2v4" name="26" time="0.317"><failure message="sbmlTests.cpp(63) : RunTest(&quot;l2v4&quot;, 26)"/></test>
+<test suite="SBML_l2v4" name="27" time="0.111"/>
+<test suite="SBML_l2v4" name="28" time="0.128"/>
+<test suite="SBML_l2v4" name="29" time="0.087"/>
+<test suite="SBML_l2v4" name="30" time="0.084"/>
+<test suite="SBML_l2v4" name="31" time="0.086"/>
+<test suite="SBML_l2v4" name="32" time="0.105"/>
+<test suite="SBML_l2v4" name="33" time="0.113"/>
+<test suite="SBML_l2v4" name="34" time="0.105"><failure message="sbmlTests.cpp(71) : RunTest(&quot;l2v4&quot;, 34)"/></test>
+<test suite="SBML_l2v4" name="35" time="0.111"><failure message="sbmlTests.cpp(72) : RunTest(&quot;l2v4&quot;, 35)"/></test>
+<test suite="SBML_l2v4" name="36" time="0.098"><failure message="sbmlTests.cpp(73) : RunTest(&quot;l2v4&quot;, 36)"/></test>
+<test suite="SBML_l2v4" name="37" time="0.099"><failure message="sbmlTests.cpp(74) : RunTest(&quot;l2v4&quot;, 37)"/></test>
+<test suite="SBML_l2v4" name="38" time="0.096"><failure message="sbmlTests.cpp(75) : RunTest(&quot;l2v4&quot;, 38)"/></test>
+<test suite="SBML_l2v4" name="39" time="2.741"><failure message="sbmlTests.cpp(76) : RunTest(&quot;l2v4&quot;, 39)"/></test>
+<test suite="SBML_l2v4" name="40" time="0.575"><failure message="sbmlTests.cpp(77) : RunTest(&quot;l2v4&quot;, 40)"/></test>
+<test suite="SBML_l2v4" name="41" time="0.119"><failure message="sbmlTests.cpp(78) : RunTest(&quot;l2v4&quot;, 41)"/></test>
+<test suite="SBML_l2v4" name="42" time="0.102"><failure message="sbmlTests.cpp(79) : RunTest(&quot;l2v4&quot;, 42)"/></test>
+<test suite="SBML_l2v4" name="43" time="0.103"><failure message="sbmlTests.cpp(80) : RunTest(&quot;l2v4&quot;, 43)"/></test>
+<test suite="SBML_l2v4" name="44" time="0.117"><failure message="sbmlTests.cpp(81) : RunTest(&quot;l2v4&quot;, 44)"/></test>
+<test suite="SBML_l2v4" name="45" time="0.097"><failure message="sbmlTests.cpp(82) : RunTest(&quot;l2v4&quot;, 45)"/></test>
+<test suite="SBML_l2v4" name="46" time="0.097"><failure message="sbmlTests.cpp(83) : RunTest(&quot;l2v4&quot;, 46)"/></test>
+<test suite="SBML_l2v4" name="47" time="0.113"><failure message="sbmlTests.cpp(84) : RunTest(&quot;l2v4&quot;, 47)"/></test>
+<test suite="SBML_l2v4" name="48" time="0.095"><failure message="sbmlTests.cpp(85) : RunTest(&quot;l2v4&quot;, 48)"/></test>
+<test suite="SBML_l2v4" name="49" time="0.101"><failure message="sbmlTests.cpp(86) : RunTest(&quot;l2v4&quot;, 49)"/></test>
+<test suite="SBML_l2v4" name="50" time="0.115"><failure message="sbmlTests.cpp(87) : RunTest(&quot;l2v4&quot;, 50)"/></test>
+<test suite="SBML_l2v4" name="51" time="0.123"/>
+<test suite="SBML_l2v4" name="52" time="0.141"/>
+<test suite="SBML_l2v4" name="53" time="0.132"/>
+<test suite="SBML_l2v4" name="54" time="0.105"><failure message="sbmlTests.cpp(91) : RunTest(&quot;l2v4&quot;, 54)"/></test>
+<test suite="SBML_l2v4" name="55" time="0.112"><failure message="sbmlTests.cpp(92) : RunTest(&quot;l2v4&quot;, 55)"/></test>
 </unittest-results>
