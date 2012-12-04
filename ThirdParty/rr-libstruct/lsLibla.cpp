@@ -1125,7 +1125,7 @@ ComplexMatrix* Zinverse (ComplexMatrix &oMatrix)
     return oResultMatrix;
 }
 
-ComplexMatrix* ls::Zinverse (const ComplexMatrix &oMatrix)
+ComplexMatrix* Zinverse (const ComplexMatrix &oMatrix)
 {
     //Log(lDebug5) << "======================================================" << endl;
     //Log(lDebug5) << "=== Zinverse " << endl;
