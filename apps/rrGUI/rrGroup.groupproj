@@ -7,7 +7,7 @@
 				<Dependencies/>
 			</Projects>
 			<Projects Include="rrGUI.cbproj">
-				<Dependencies/>
+				<Dependencies>..\..\ide_builds\xe\roadrunner.cbproj</Dependencies>
 			</Projects>
 		</ItemGroup>
 		<ProjectExtensions>
@@ -26,13 +26,13 @@
 		<Target Name="roadrunner:Make">
 			<MSBuild Projects="..\..\ide_builds\xe\roadrunner.cbproj" Targets="Make"/>
 		</Target>
-		<Target Name="rrGUI">
+		<Target Name="rrGUI" DependsOnTargets="roadrunner">
 			<MSBuild Projects="rrGUI.cbproj"/>
 		</Target>
-		<Target Name="rrGUI:Clean">
+		<Target Name="rrGUI:Clean" DependsOnTargets="roadrunner:Clean">
 			<MSBuild Projects="rrGUI.cbproj" Targets="Clean"/>
 		</Target>
-		<Target Name="rrGUI:Make">
+		<Target Name="rrGUI:Make" DependsOnTargets="roadrunner:Make">
 			<MSBuild Projects="rrGUI.cbproj" Targets="Make"/>
 		</Target>
 		<Target Name="Build">

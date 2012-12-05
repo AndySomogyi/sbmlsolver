@@ -132,12 +132,14 @@ int main(int argc, char * argv[])
         Log(lDebug)<<"Current Log level is:" <<gLog.GetCurrentLogLevel();
         TestSuiteModelSimulation simulation(dataOutputFolder);
 
+
         sWatch.Start();
         //dataOutputFolder += dummy;
-       	string rrSupportCodeFolder = getParentFolder(getCurrentExeFolder());
-        rrI = new RoadRunner(JoinPath(rrSupportCodeFolder,"rr_support"), "r:\\installs\\xe1\\debug\\compilers\\tcc\\tcc.exe");
+       	string rrSupportCodeFolder = JoinPath(getParentFolder(getCurrentExeFolder()), "rr_support");
+        string compiler = JoinPath(getParentFolder(getCurrentExeFolder()), "compilers\\tcc\\tcc.exe");
+        rrI = new RoadRunner(rrSupportCodeFolder, compiler);
         rrI->Reset();
-        rrI->ComputeAndAssignConservationLaws(true);
+//        rrI->setCompiler("tcc");
         simulation.UseEngine(rrI);
 
         //Read SBML models.....
@@ -145,7 +147,7 @@ int main(int argc, char * argv[])
         string modelFileName;
 
         simulation.SetCaseNumber(paras.CaseNumber);
-        CreateTestSuiteFileNameParts(paras.CaseNumber, "-sbml-" + paras.SBMLTestVersion + ".xml", modelFilePath, modelFileName);
+        CreateTestSuiteFileNameParts(paras.CaseNumber, "-sbml-l2v4.xml", modelFilePath, modelFileName);
 
         //The following will load and compile and simulate the sbml model in the file
         simulation.SetModelFilePath(modelFilePath);
@@ -165,7 +167,7 @@ int main(int argc, char * argv[])
             Log(lError)<<"Failed loading SBML model settings";
         }
 
-
+        rrI->ComputeAndAssignConservationLaws(false);
 
         //Then Simulate model
          if(!simulation.Simulate())
@@ -245,7 +247,7 @@ string Usage(const string& prg)
 }
 
 #if defined(CG_IDE)
-#pragma comment(lib, "roadrunner.lib")
+#pragma comment(lib, "roadrunner-static.lib")
 #pragma comment(lib, "sundials_cvode.lib")
 #pragma comment(lib, "sundials_nvecserial.lib")
 #pragma comment(lib, "nleq-static.lib")

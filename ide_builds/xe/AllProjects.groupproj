@@ -16,10 +16,10 @@
 				<Dependencies>unit_test-static.cbproj;roadrunner-static.cbproj;rr_c_api.cbproj</Dependencies>
 			</Projects>
 			<Projects Include="rr.cbproj">
-				<Dependencies/>
+				<Dependencies>roadrunner.cbproj</Dependencies>
 			</Projects>
 			<Projects Include="rr_ts_tester.cbproj">
-				<Dependencies/>
+				<Dependencies>roadrunner.cbproj</Dependencies>
 			</Projects>
 			<Projects Include="rr_c_api.cbproj">
 				<Dependencies/>
@@ -74,22 +74,22 @@
 		<Target Name="cxx_api_tests:Make" DependsOnTargets="unit_test-static:Make;roadrunner-static:Make;rr_c_api:Make">
 			<MSBuild Projects="cxx_api_tests.cbproj" Targets="Make"/>
 		</Target>
-		<Target Name="rr">
+		<Target Name="rr" DependsOnTargets="roadrunner">
 			<MSBuild Projects="rr.cbproj"/>
 		</Target>
-		<Target Name="rr:Clean">
+		<Target Name="rr:Clean" DependsOnTargets="roadrunner:Clean">
 			<MSBuild Projects="rr.cbproj" Targets="Clean"/>
 		</Target>
-		<Target Name="rr:Make">
+		<Target Name="rr:Make" DependsOnTargets="roadrunner:Make">
 			<MSBuild Projects="rr.cbproj" Targets="Make"/>
 		</Target>
-		<Target Name="rr_ts_tester">
+		<Target Name="rr_ts_tester" DependsOnTargets="roadrunner">
 			<MSBuild Projects="rr_ts_tester.cbproj"/>
 		</Target>
-		<Target Name="rr_ts_tester:Clean">
+		<Target Name="rr_ts_tester:Clean" DependsOnTargets="roadrunner:Clean">
 			<MSBuild Projects="rr_ts_tester.cbproj" Targets="Clean"/>
 		</Target>
-		<Target Name="rr_ts_tester:Make">
+		<Target Name="rr_ts_tester:Make" DependsOnTargets="roadrunner:Make">
 			<MSBuild Projects="rr_ts_tester.cbproj" Targets="Make"/>
 		</Target>
 		<Target Name="rr_c_api">

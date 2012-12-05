@@ -62,7 +62,7 @@ __fastcall TMForm::TMForm(TComponent* Owner)
     startupTimer->Enabled = true;
 
     //Setup road runner
-    mRR = new RoadRunner("r:\\installs\\xe1\\debug\\rr_support", "r:\\installs\\xe1\\debug\\compilers\\tcc\\tcc.exe");
+    mRR = new RoadRunner("r:\\installs\\xe_branch\\rr_support", "r:\\installs\\xe_branch\\compilers\\tcc\\tcc.exe");
     mRR->SetTempFileFolder(mTempDataFolder);
     mSimulateThread.AssignRRInstance(mRR);
 }
@@ -316,7 +316,7 @@ void __fastcall TMForm::loadAvailableSymbolsAExecute(TObject *Sender)
         {
         	SelList->Items->Add("Time");
 	        SelList->Checked[0] = true;
-            ArrayList	symbols = mRR->getAvailableTimeCourseSymbols();
+            NewArrayList	symbols = mRR->getAvailableTimeCourseSymbols();
             Log(mtk::lInfo)<<symbols;
             StringList fs       = symbols.GetStringList("Floating Species");
             StringList bs       = symbols.GetStringList("Boundary Species");

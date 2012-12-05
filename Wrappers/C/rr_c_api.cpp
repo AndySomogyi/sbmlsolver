@@ -239,12 +239,14 @@ RRHandle rrCallConv getRRInstance()
         	//Get location of shared lib and use that as 'install' folder
 #if defined(_WIN32) || defined(WIN32)
             string rrInstallFolder(getParentFolder(getRRCAPILocation()));
+            gRRHandle = new RoadRunner(JoinPath(rrInstallFolder,"rr_support"), JoinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"), GetUsersTempDataFolder());
 #elif defined(__linux)
             string rrInstallFolder("/usr/local");
+            gRRHandle = new RoadRunner(JoinPath(rrInstallFolder,"rr_support");
 #else
             string rrInstallFolder("?");
 #endif
-            gRRHandle = new RoadRunner(rrInstallFolder);
+
             gRRHandle->Reset();
         }
     	return gRRHandle;
@@ -279,8 +281,8 @@ char* rrCallConv getCopyright()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+		return NULL;
     }
-	return NULL;
 }
 
 char* rrCallConv getlibSBMLVersion()
@@ -356,7 +358,6 @@ bool rrCallConv setComputeAndAssignConservationLaws(const bool& OnOrOff)
         setError(msg.str());
     	return false;
      }
-
 }
 
 bool rrCallConv setTempFolder(const char* folder)
@@ -389,7 +390,8 @@ char* rrCallConv getTempFolder()
             setError(ALLOCATE_API_ERROR_MSG);
             return NULL;
         }
-		
+
+
 	    char* text = new char[gRRHandle->getTempFileFolder().size() + 1];
     	strcpy(text, gRRHandle->getTempFileFolder().c_str());
 	    return text;
@@ -1690,7 +1692,7 @@ RRListHandle rrCallConv getAvailableTimeCourseSymbols()
             return NULL;
         }
 
-        ArrayList slSymbols = gRRHandle->getAvailableTimeCourseSymbols();
+        NewArrayList slSymbols = gRRHandle->getAvailableTimeCourseSymbols();
         //cout<<"Got "<<slSymbols;
 		return createList(slSymbols);
     }
@@ -1713,7 +1715,7 @@ RRListHandle rrCallConv getAvailableSteadyStateSymbols()
             return NULL;
         }
 
-        ArrayList slSymbols = gRRHandle->getAvailableSteadyStateSymbols();
+        NewArrayList slSymbols = gRRHandle->getAvailableSteadyStateSymbols();
         //cout<<"Got "<<slSymbols;
 		return createList(slSymbols);
     }
@@ -2048,7 +2050,7 @@ RRListHandle rrCallConv getSteadyStateSelectionList()
             return NULL;
         }
 
-        ArrayList sNames = gRRHandle->getSteadyStateSelectionList();
+        NewArrayList sNames = gRRHandle->getSteadyStateSelectionList();
 
         if(!sNames.Count())
         {
@@ -2348,7 +2350,7 @@ RRList* rrCallConv getElasticityCoefficientIds()
             setError(ALLOCATE_API_ERROR_MSG);
             return NULL;
         }
-        ArrayList aList = gRRHandle->getElasticityCoefficientIds();
+        NewArrayList aList = gRRHandle->getElasticityCoefficientIds();
         return createList(aList);
     }
     catch(Exception& ex)
@@ -2383,8 +2385,8 @@ bool rrCallConv setCapabilities(const char* caps)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return false;
     }
-    return false;
 }
 
 char* rrCallConv getCapabilities()
@@ -2425,8 +2427,8 @@ RRStringArrayHandle rrCallConv getEigenValueIds()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return NULL;
     }
-    return NULL;
 }
 
 RRListHandle rrCallConv getFluxControlCoefficientIds()
@@ -2471,7 +2473,6 @@ RRMatrixHandle rrCallConv getUnscaledConcentrationControlCoefficientMatrix()
     	return NULL;
     }
 }
-
 
 RRMatrixHandle rrCallConv getScaledConcentrationControlCoefficientMatrix()
 {
@@ -2553,7 +2554,7 @@ RRListHandle rrCallConv getUnscaledFluxControlCoefficientIds()
             setError(ALLOCATE_API_ERROR_MSG);
             return NULL;
         }
-		ArrayList arrList = gRRHandle->getUnscaledFluxControlCoefficientIds();
+		NewArrayList arrList = gRRHandle->getUnscaledFluxControlCoefficientIds();
         return createList(arrList);
     }
     catch(Exception& ex)
@@ -2561,8 +2562,8 @@ RRListHandle rrCallConv getUnscaledFluxControlCoefficientIds()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
-    }
     return NULL;
+    }
 }
 
 RRList* rrCallConv getConcentrationControlCoefficientIds()
@@ -2574,7 +2575,7 @@ RRList* rrCallConv getConcentrationControlCoefficientIds()
             setError(ALLOCATE_API_ERROR_MSG);
             return NULL;
         }
-        ArrayList list = gRRHandle->getConcentrationControlCoefficientIds();
+        NewArrayList list = gRRHandle->getConcentrationControlCoefficientIds();
         return createList(list);
     }
     catch(Exception& ex)
@@ -2874,18 +2875,24 @@ bool rrCallConv freeRRInstance(RRHandle handle)
 {
 	try
     {
-        delete gRRHandle;
-        gRRHandle = NULL;
-        handle = NULL;
-        return true;
+    	if(gRRHandle == handle)
+        {
+        	delete gRRHandle;
+        	gRRHandle = NULL;
+	        return true;
+        }
+        else
+        {
+        	return false;
+        }
     }
     catch(Exception& ex)
     {
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return false;
     }
-    return false;
 }
 
 bool rrCallConv freeMatrix(RRMatrixHandle matrix)
@@ -2904,9 +2911,8 @@ bool rrCallConv freeMatrix(RRMatrixHandle matrix)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return false;
     }
-
-    return false;
 }
 
 bool rrCallConv freeResult(RRResultHandle handle)

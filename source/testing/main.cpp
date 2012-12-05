@@ -19,14 +19,13 @@ string gSBMLModelsPath 		= "";
 string gCompiler 			= "";
 string gSupportCodeFolder 	= "";
 string gTempFolder		   	= "";
+string gDataOutputFolder   	= "";
 
-#if defined(_WIN32) || defined(WIN32)
+#if defined(WIN32)
 //Test suite
 string gTSModelsPath 		= "r:\\SBMLTS\\cases\\semantic";
-string gTSDataOutPutFolder 	= "r:\\RRTesting\\DataOutput\\xe1";
 #else
 string gTSModelsPath 		= "/r/SBMLTS/cases/semantic";
-string gTSDataOutPutFolder 	= "/r/RRTesting/DataOutput/gcc";
 #endif
 
 vector<string> gModels;
@@ -49,6 +48,7 @@ int main(int argc, char* argv[])
     gSBMLModelsPath 	= args.SBMLModelsFilePath;
 	gCompiler	 		= args.Compiler;
     gTempFolder			= args.TempDataFolder;
+    gDataOutputFolder	= args.DataOutputFolder;
 	gSupportCodeFolder 	= args.SupportCodeFolder;
 
 	Log(lDebug) << "Support code folder is set to:"<<gSupportCodeFolder;
@@ -63,7 +63,7 @@ int main(int argc, char* argv[])
 	TestRunner runner1(reporter1);
 
     runner1.RunTestsIf(Test::GetTestList(), "Base", 		True(), 0);
-    runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
+//    runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
     runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4",   	True(), 0);
 
     //Finish outputs result to xml file
@@ -74,7 +74,7 @@ int main(int argc, char* argv[])
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
     char c;
-    while ((c = GetOptions(argc, argv, ("vi:m:l:r:s:t:"))) != -1)
+    while ((c = GetOptions(argc, argv, ("vi:d:m:l:r:s:t:"))) != -1)
     {
         switch (c)
         {
@@ -83,6 +83,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
             case ('r'): args.ResultOutputFile                       = rrOptArg;                       break;
 			case ('s'): args.SupportCodeFolder     		            = rrOptArg;                       break;
 			case ('t'): args.TempDataFolder        		            = rrOptArg;                       break;
+			case ('d'): args.DataOutputFolder      		            = rrOptArg;                       break;
 			case ('v'): args.EnableLogging        		            = true;                       break;
             case ('?'): cout<<Usage(argv[0])<<endl;
             default:

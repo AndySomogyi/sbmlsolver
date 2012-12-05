@@ -1,6 +1,5 @@
 #include <iostream>
 #include <fstream>
-#include "rrLogger.h"
 #include "rrUtils.h"
 #include "UnitTest++.h"
 #include "XmlTestReporter.h"

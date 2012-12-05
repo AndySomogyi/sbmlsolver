@@ -67,6 +67,7 @@
 			<ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2)'!=''">
+			<ILINK_LibraryPath>$(RR_DEBUG_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
 			<Defines>NDEBUG;$(Defines)</Defines>
 			<TASM_Debugging>None</TASM_Debugging>
 		</PropertyGroup>
@@ -135,7 +136,7 @@
 						<ProjectProperties Name="VerifyPackages">True</ProjectProperties>
 					</ProjectProperties>
 					<Parameters>
-						<Parameters Name="RunParams">-mr:\rrl\trunk\models -rr:\rrl\trunk\reports\cpp_api_cg_ui.xml -lr:\installs\xe1\debug\compilers\tcc\tcc.exe -sr:\rrl\trunk\ThirdParty\rr_support -tr:\rrTemp  </Parameters>
+						<Parameters Name="RunParams">-mr:\rrBranch\trunk\models -rr:\rrBranch\trunk\reports\cpp_api_cg_ui.xml -lr:\installs\xe_branch\compilers\tcc\tcc.exe -sr:\rrBranch\trunk\ThirdParty\rr_support -tr:\rrTemp  -dr:\rrTemp\bat</Parameters>
 					</Parameters>
 				</CPlusPlusBuilder.Personality>
 				<Platforms>

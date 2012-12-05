@@ -22,7 +22,7 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
-			<Defines>EXPORT_RR_C_API;LIBSBML_USE_CPP_NAMESPACE;WIN32;CG_IDE;LIBSBML_STATIC;LIBLAX_STATIC;STATIC_LIBSTRUCT;STATIC_PUGI;STATIC_NLEQ;STATIC_RR;$(Defines)</Defines>
+			<Defines>EXPORT_RR_C_API;LIBSBML_USE_CPP_NAMESPACE;WIN32;CG_IDE;LIBSBML_STATIC;LIBLAX_STATIC;STATIC_LIBSTRUCT;STATIC_PUGI;STATIC_NLEQ;STATIC_RR;POCO_STATIC;POCO_NO_AUTOMATIC_LIBS;$(Defines)</Defines>
 			<LinkPackageImports>rtl.bpi;vcl.bpi</LinkPackageImports>
 			<ILINK_LibraryPath>..\..\Wrappers\C\;R:\installs\xe\debug\lib\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
 			<NoVCL>true</NoVCL>

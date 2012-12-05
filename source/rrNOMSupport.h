@@ -9,7 +9,7 @@
 #include <memory>
 #include "sbml/math/ASTNode.h"
 #include "rrObject.h"
-#include "rrArrayList.h"
+#include "rrStringListContainer.h"
 #include "rrHashTable.h"
 using std::vector;
 using std::string;
@@ -38,6 +38,7 @@ class RR_DECLSPEC NOMSupport : public rrObject
         ASTNode                 changeTimeToCSymbol(ASTNode* node, const string& name, const int& type);
         bool                    addMissingModifiers(Model *oModel);
         StringList              GetSymbols(const string& formula);
+
         string                  GetInitialAssignmentFor(const string& sbmlId);
         string                  GetName(SBase* element);
         string                  GetRuleFor(const string& sbmlId);
@@ -49,7 +50,7 @@ class RR_DECLSPEC NOMSupport : public rrObject
         void                    changePow(ASTNode* node);
         void                    changeSymbol(Model& oModel, const string& sTimeSymbol, const int& targetType);
         void                    changeTimeSymbol(Model& model, const string& timeSymbol);
-        void                    checkForMissingNames(ASTNode *node, ArrayList results, ArrayList symbols);
+        void                    checkForMissingNames(ASTNode *node, StringListContainer results, StringListContainer symbols);
         void                    GetSymbols(ASTNode* node, StringList& list);
         void                    LookForDependencies();
         void                    modifyKineticLaws(SBMLDocument& oSBMLDoc, Model &oModel);
@@ -71,7 +72,7 @@ class RR_DECLSPEC NOMSupport : public rrObject
         ArrayList               getDerivedUnitDefinition(const string& sId);
         ArrayList               getListOfBoundarySpeciesIds();
         ArrayList               getListOfErrors();
-        ArrayList     			getListOfFloatingSpecies();
+        StringListContainer     getListOfFloatingSpecies();
         ArrayList               getListOfFloatingSpeciesIds();
         ArrayList               getListOfParameters();
         ArrayList               getNthError(const int& nIndex);
@@ -196,7 +197,7 @@ class RR_DECLSPEC NOMSupport : public rrObject
 
         string                  getNthBoundarySpeciesCompartmentName(const int& nIndex);
         string                  getNthFloatingSpeciesCompartmentName(const int& nIndex);
-        ArrayList     			getListOfBoundarySpecies();
+        StringListContainer     getListOfBoundarySpecies();
         void                    Reset();
 };
 

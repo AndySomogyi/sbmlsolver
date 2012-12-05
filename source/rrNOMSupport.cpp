@@ -158,9 +158,9 @@ double NOMSupport::getValue(const string& sId)
 //    return val;
 //}
 
-ArrayList NOMSupport::getListOfBoundarySpecies()
+StringListContainer NOMSupport::getListOfBoundarySpecies()
 {
-    ArrayList boundarySpeciesList;
+    StringListContainer boundarySpeciesList;
 
     if (mModel == NULL)
     {
@@ -1250,7 +1250,7 @@ string NOMSupport::getKineticLaw(const int& index)
 //
 
 
-//ArrayList NOMSupport::GetFloatingSpecies()
+//StringListContainer NOMSupport::GetFloatingSpecies()
 //{
 //    StringContainer floatingSpeciesList;
 //    int nrOfSpecies = ::getNumFloatingSpecies();
@@ -1275,9 +1275,9 @@ string NOMSupport::getKineticLaw(const int& index)
 //}
 
 
-ArrayList NOMSupport::getListOfFloatingSpecies()
+StringListContainer NOMSupport::getListOfFloatingSpecies()
 {
-    ArrayList floatingSpeciesList;
+    StringListContainer floatingSpeciesList;
 
     if (mModel == NULL)
     {
@@ -1299,7 +1299,6 @@ ArrayList NOMSupport::getListOfFloatingSpecies()
         }
     }
 
-    Log(lDebug)<<"Returning List: "<< floatingSpeciesList;
     return floatingSpeciesList;
 }
 
@@ -2543,7 +2542,7 @@ void NOMSupport::modifyKineticLawsForLocalParameters(KineticLaw& oLaw, const str
 	int numLocalParameters = (int)oLaw.getNumLocalParameters();
 	if (numLocalParameters > 0)
     {
-        ArrayList oList;// = new StringCollection();
+        StringCollection oList;// = new StringCollection();
         for (int j = numLocalParameters; j > 0; j--)
         {
             LocalParameter* localParameter = (LocalParameter*)oLaw.getLocalParameter(j - 1)->clone();
@@ -2575,7 +2574,7 @@ void NOMSupport::modifyKineticLawsForLocalParameters(KineticLaw& oLaw, const str
             if (localParameter->isSetValue()) p->setValue(localParameter->getValue());
             if (localParameter->isSetUnits()) p->setUnits(localParameter->getUnits());
 
-            //LocalParameter* oTemp = (LocalParameter*) oLaw.getListOfLocalParameters()->remove(j - 1);
+            LocalParameter* oTemp = (LocalParameter*) oLaw.getListOfLocalParameters()->remove(j - 1);
             //if (oTemp != NULL) oTemp.Dispose();
 
             oModel.addParameter(p);

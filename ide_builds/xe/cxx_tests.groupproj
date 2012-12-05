@@ -3,14 +3,11 @@
 			<ProjectGuid>{5841EADD-4CBC-41F4-AB2E-088B602DD8E8}</ProjectGuid>
 		</PropertyGroup>
 		<ItemGroup>
-			<Projects Include="rr-libstruct-static.cbproj">
-				<Dependencies/>
-			</Projects>
 			<Projects Include="roadrunner-static.cbproj">
 				<Dependencies/>
 			</Projects>
 			<Projects Include="cxx_api_tests.cbproj">
-				<Dependencies>roadrunner-static.cbproj</Dependencies>
+				<Dependencies/>
 			</Projects>
 		</ItemGroup>
 		<ProjectExtensions>
@@ -20,15 +17,6 @@
 				<Default.Personality/>
 			</BorlandProject>
 		</ProjectExtensions>
-		<Target Name="rr-libstruct-static">
-			<MSBuild Projects="rr-libstruct-static.cbproj"/>
-		</Target>
-		<Target Name="rr-libstruct-static:Clean">
-			<MSBuild Projects="rr-libstruct-static.cbproj" Targets="Clean"/>
-		</Target>
-		<Target Name="rr-libstruct-static:Make">
-			<MSBuild Projects="rr-libstruct-static.cbproj" Targets="Make"/>
-		</Target>
 		<Target Name="roadrunner-static">
 			<MSBuild Projects="roadrunner-static.cbproj"/>
 		</Target>
@@ -38,23 +26,23 @@
 		<Target Name="roadrunner-static:Make">
 			<MSBuild Projects="roadrunner-static.cbproj" Targets="Make"/>
 		</Target>
-		<Target Name="cxx_api_tests" DependsOnTargets="roadrunner-static">
+		<Target Name="cxx_api_tests">
 			<MSBuild Projects="cxx_api_tests.cbproj"/>
 		</Target>
-		<Target Name="cxx_api_tests:Clean" DependsOnTargets="roadrunner-static:Clean">
+		<Target Name="cxx_api_tests:Clean">
 			<MSBuild Projects="cxx_api_tests.cbproj" Targets="Clean"/>
 		</Target>
-		<Target Name="cxx_api_tests:Make" DependsOnTargets="roadrunner-static:Make">
+		<Target Name="cxx_api_tests:Make">
 			<MSBuild Projects="cxx_api_tests.cbproj" Targets="Make"/>
 		</Target>
 		<Target Name="Build">
-			<CallTarget Targets="rr-libstruct-static;roadrunner-static;cxx_api_tests"/>
+			<CallTarget Targets="roadrunner-static;cxx_api_tests"/>
 		</Target>
 		<Target Name="Clean">
-			<CallTarget Targets="rr-libstruct-static:Clean;roadrunner-static:Clean;cxx_api_tests:Clean"/>
+			<CallTarget Targets="roadrunner-static:Clean;cxx_api_tests:Clean"/>
 		</Target>
 		<Target Name="Make">
-			<CallTarget Targets="rr-libstruct-static:Make;roadrunner-static:Make;cxx_api_tests:Make"/>
+			<CallTarget Targets="roadrunner-static:Make;cxx_api_tests:Make"/>
 		</Target>
 		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
 	</Project>

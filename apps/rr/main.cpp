@@ -51,8 +51,7 @@ int main(int argc, char * argv[])
         gLog.SetCutOffLogLevel(args.CurrentLogLevel);
         string logFileName;
 
-        //We need to get the path to where the roadRunner executable is located.
-        //Compiler and support code folders are located relative to this path
+
 
         string thisExeFolder = getCurrentExeFolder();
         Log(lDebug)<<"RoadRunner bin location is: "<<thisExeFolder;
@@ -139,10 +138,11 @@ compiler = "tcc";
 			{
 				simulation.SetTimeStart(args.StartTime);
 				simulation.SetTimeEnd(args.EndTime);
-				simulation.SetNumberOfPoints(args.Steps - 1);
+				simulation.SetNumberOfPoints(args.Steps);
 				simulation.SetSelectionList(args.SelectionList);
 			}
-			//rr->ComputeAndAssignConservationLaws(false);
+
+			rr->ComputeAndAssignConservationLaws(false);
 		}
 
         //Then Simulate model
@@ -187,8 +187,6 @@ compiler = "tcc";
 
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
-
-    string rrLocation = ExtractFilePath(argv[0]);
     char c;
 
     while ((c = GetOptions(argc, argv, ("cpufv:n:d:t:l:m:s:e:z:"))) != -1)
@@ -225,7 +223,8 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 }
 
 #if defined(CG_IDE)
-#pragma comment(lib, "roadrunner-static.lib")
+#pragma comment(lib, "roadrunner.lib")
+//#pragma comment(lib, "roadrunner-static.lib")
 #pragma comment(lib, "sundials_cvode.lib")
 #pragma comment(lib, "sundials_nvecserial.lib")
 #pragma comment(lib, "nleq-static.lib")

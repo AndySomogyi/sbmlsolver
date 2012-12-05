@@ -3,284 +3,70 @@
 #endif
 #pragma hdrstop
 #include <sstream>
-#include "rrStringList.h"
 #include "rrArrayList.h"
-#include "rrLogger.h"
 //---------------------------------------------------------------------------
 
 namespace rr
 {
 
-ArrayList::ArrayList()
-{}
 
-ArrayList::ArrayList(const string& lbl, const StringList& stringList)
+template <>
+RRArrayListItem<string>::operator string()
 {
-	Add(lbl, stringList);
-}
-
-ArrayList::ArrayList(const string& lbl, const ArrayList& arrayList)
-{
-	Add(lbl, arrayList);
-}
-
-ArrayList::~ArrayList()
-{
-    if(mList.size())
+    if(mValue)
     {
-        for(u_int i = 0; i < Count(); i++)
-        {
-            delete mList[i];
-        }
-        mList.clear();
-    }
-}
-
-string ArrayList::GetString(const int& index)
-{
-    if(index < mList.size())
-    {
-		ArrayListItemObject* listPtr = mList[index];
-
-   		if(listPtr)
-        {
-        	if(dynamic_cast< ArrayListItem<string>* >(listPtr))
-            {
-				return *(dynamic_cast< ArrayListItem<string>* >(listPtr));
-            }
-        }
+        return *mValue;
     }
 
-	throw("No string at index");
+    if(mLinkedList)
+    {
+        return mLinkedList->AsString();
+    }
+    return "";
 }
 
-StringList ArrayList::GetStringList(const int& index)
+template <>
+RRArrayListItem<int>::operator int()
 {
-    if(index < mList.size())
+    if(mValue)
     {
-		ArrayListItemObject* listPtr = mList[index];
-
-   		if(listPtr)
-        {
-        	if(dynamic_cast< ArrayListItem<StringList>* >(listPtr))
-            {
-				return *(dynamic_cast< ArrayListItem<StringList>* >(listPtr));
-            }
-        }
+        return *mValue;
     }
 
-	throw("No Stringlist at index");
-}
-
-StringList ArrayList::GetStringList(const string& lName)
-{
-    //Look for ann array list whose first item is a string with lName and second item is a stringlist, i.e. {{string, {string string string}}
-    StringList aList;
-    for(u_int i = 0; i < Count(); i++)
+    if(mLinkedList)
     {
-        ArrayListItemObject* listPtr = const_cast<ArrayListItemObject*>(mList[i]);
-
-        //Check for a list which first element is a string, i.e. a {{string}, {string, string}} list
-        if(dynamic_cast< ArrayListItem<ArrayList> *>(listPtr))
-        {
-			ArrayList list = (ArrayList) *(dynamic_cast< ArrayListItem<ArrayList> *>(listPtr));
-            if(list.Count())
-            {
-                ArrayListItemObject* anItem = &list[0];
-                if(dynamic_cast<ArrayListItem<string>*>(anItem))
-                {
-                    string str = (string) *dynamic_cast<ArrayListItem<string>*>(anItem);
-
-                    if(str == lName && list.Count() > 1)
-                    {
-                        ArrayListItemObject* anItem = &list[1];
-                        if(dynamic_cast<ArrayListItem<StringList> *>(anItem))
-                        {
-                            //This is a stringList
-                            StringList  list = (StringList) *(dynamic_cast<ArrayListItem<StringList>*>(anItem));
-                            for(int i = 0; i < list.Count(); i++)
-                            {
-                            	string str = list[i];
-                                aList.Add(str);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        return mLinkedList->operator [](0);
     }
-    return aList;
+    return -1;
 }
 
-void ArrayList::Clear()
+template<>
+ostream& operator<<(ostream& stream, RRArrayList<string>& list)
 {
-    if(Count())
-    {
-        for(u_int i = 0; i < Count(); i++)
-        {
-            delete mList[i];
-        }
-        mList.clear();
-    }
-}
-
-unsigned int ArrayList::Count() const
-{
-    return mList.size();
-}
-
-ArrayList::ArrayList(const ArrayList& copyMe)
-{
-    //Deep copy
-    Clear();
-    mList.resize(copyMe.Count());
-    for(u_int i = 0; i < copyMe.Count(); i++)
-    {
-        //const ArrayListItem<T>& item = copyMe[i];
-        ArrayListItemObject* ptr = const_cast<ArrayListItemObject*>(&copyMe[i]);
-        if(dynamic_cast<ArrayListItem<int>*>(ptr))
-        {
-            mList[i] = new ArrayListItem<int>(*(dynamic_cast<ArrayListItem<int>*>(ptr)));
-        }
-        else if(dynamic_cast<ArrayListItem<double>*>(ptr))
-        {
-            mList[i] = new ArrayListItem<double>(*(dynamic_cast<ArrayListItem<double>*>(ptr)));
-        }
-        else if(dynamic_cast<ArrayListItem<string>*>(ptr))
-        {
-            mList[i] = new ArrayListItem<string>(*(dynamic_cast<ArrayListItem<string>*>(ptr)));
-        }
-        else if(dynamic_cast<ArrayListItem<StringList>*>(ptr))
-        {
-            mList[i] = new ArrayListItem<StringList>(*(dynamic_cast<ArrayListItem<StringList>*>(ptr)));
-        }
-        else if(dynamic_cast<ArrayListItem<ArrayList>*>(ptr))
-        {
-            mList[i] = new ArrayListItem<ArrayList>(*(dynamic_cast<ArrayListItem<ArrayList>*>(ptr)));
-        }
-
-//        else if(dynamic_cast<ArrayListItem<ArrayListItem>*>(ptr))
-//        {
-//            mList[i] = new ArrayListItem<ArrayListItem>(*(dynamic_cast<ArrayListItem<ArrayListItem>*>(ptr)));
-//        }
-        else
-        {
-            mList[i] = NULL;
-        }
-    }
-}
-
-void ArrayList::operator=(const ArrayList& rhs)
-{
-    //Deep copy
-    Clear();
-    mList.resize(rhs.Count());
-    for(u_int i = 0; i < rhs.Count(); i++)
-    {
-        ArrayListItemObject* ptr = const_cast<ArrayListItemObject*>(&rhs[i]);
-        if(dynamic_cast<ArrayListItem<int>*>(ptr))
-        {
-            mList[i] = new ArrayListItem<int>(*(dynamic_cast<ArrayListItem<int>*>(ptr)));
-        }
-        else if(dynamic_cast<ArrayListItem<double>*>(ptr))
-        {
-            mList[i] = new ArrayListItem<double>(*(dynamic_cast<ArrayListItem<double>*>(ptr)));
-        }
-        else if(dynamic_cast<ArrayListItem<string>*>(ptr))
-        {
-            mList[i] = new ArrayListItem<string>(*(dynamic_cast<ArrayListItem<string>*>(ptr)));
-        }
-        else if(dynamic_cast<ArrayListItem<ArrayList>*>(ptr))
-        {
-            mList[i] = new ArrayListItem<ArrayList>(*(dynamic_cast<ArrayListItem<ArrayList>*>(ptr)));
-        }
-
-//        else if(dynamic_cast<ArrayListItem<ArrayListItem>*>(ptr))
-//        {
-//            mList[i] = new ArrayListItem<ArrayListItem>(*(dynamic_cast<ArrayListItem<ArrayListItem>*>(ptr)));
-//        }
-        else
-        {
-            mList[i] = NULL;
-        }
-    }
-}
-
-void ArrayList::Add(const int& item)
-{
-    ArrayListItem<int>* ptr =  new ArrayListItem<int>(item);
-    mList.push_back(ptr);
-}
-
-void ArrayList::Add(const double& item)
-{
-    ArrayListItem<double>* ptr = new ArrayListItem<double>(item);
-    mList.push_back(ptr);
-}
-
-void ArrayList::Add(const string& item)
-{
-    ArrayListItem<string> *ptr = new ArrayListItem<string>(item);
-    mList.push_back(ptr);
-}
-
-void ArrayList::Add(const StringList& item)
-{
-    ArrayListItem< StringList > *ptr = new ArrayListItem<StringList>(item);
-    mList.push_back(ptr);
-}
-
-void ArrayList::Add(const ArrayList& item)
-{
-    ArrayListItem<ArrayList> *aList = new ArrayListItem<ArrayList>(item);
-    mList.push_back(aList);
-}
-
-void ArrayList::Add(const string& lbl, const StringList& list)
-{
-    ArrayList temp;
-    temp.Add(lbl);
-    temp.Add(list);
-    Add(temp);
-}
-
-void ArrayList::Add(const string& lbl, const ArrayList& lists)
-{
-    ArrayList temp;
-    temp.Add(lbl);
-    temp.Add(lists);
-    Add(temp);
-}
-
-const ArrayListItemObject& ArrayList::operator[](int pos) const
-{
-    return *mList[pos];
-}
-
-ArrayListItemObject& ArrayList::operator[](int pos)
-{
-    return *mList[pos];
-}
-
-//================== ostreams =============
-ostream& operator<<(ostream& stream, const ArrayList& list)
-{
+    int i = 0;
    	stream<<"{";
-
-    for(u_int i = 0; i < list.Count(); i++)
+    for(list.mIter = list.mList.begin(); list.mIter != list.mList.end(); list.mIter++)
     {
-        stream<<list[i];
+        RRArrayListItem<string>* item = (*list.mIter);
+        if(item->mLinkedList != NULL)
+        {
+            stream<<*item->mLinkedList;
+        }
+
+        if(item->mValue)
+        {
+            stream<<"\""<< *item->mValue <<"\""; //Need to quote strings in order to separate them 'visually' on output, i.e. {S1, {CC:S1,k1, CC:S1,k2 becomes {"S1", {"CC:S1,k1", "CC:S1,k2
+        }
+
         if(i < list.Count() -1)
         {
         	stream<<",";
         }
+        i++;
     }
     stream<<"}";
     return stream;
 }
 
 }
-
-
-
 

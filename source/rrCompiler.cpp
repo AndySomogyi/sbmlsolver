@@ -3,10 +3,13 @@
 #endif
 #pragma hdrstop
 #include <sstream>
-#if defined(__CODEGEARC__)
-#include <dir.h>
-#elif defined(_MSVC)
-#include <direct.h>
+#if defined(WIN32)
+#include <windows.h>
+    #if defined(__CODEGEARC__)
+    #include <dir.h>
+    #elif defined(_MSVC)
+    #include <direct.h>
+    #endif
 #endif
 #include "rrLogger.h"
 #include "rrCompiler.h"
@@ -200,21 +203,87 @@ string Compiler::CreateCompilerCommand(const string& sourceFileName)
 
 bool Compiler::Compile(const string& cmdLine)
 {
-	string toFile(cmdLine);
-    toFile += " > ";
-    string tmpFolder = rr::RoadRunner::getTempFileFolder();
-    toFile += JoinPath(rr::RoadRunner::getTempFileFolder(), "compilation.log");
-	int val = system(toFile.c_str());
-    if(val ==0)
+    STARTUPINFO         si;
+    PROCESS_INFORMATION pi;
+    SECURITY_ATTRIBUTES sap,sat,sao;
+    //sec attributes for the output file
+    sao.nLength=sizeof(SECURITY_ATTRIBUTES);
+    sao.lpSecurityDescriptor=NULL;
+    sao.bInheritHandle=1;
+
+    ZeroMemory( &si, sizeof(si) );
+    si.cb = sizeof(si);
+    ZeroMemory( &pi, sizeof(pi) );
+
+    if( !cmdLine.size() )
     {
-	Log(lInfo)<<"Compile system call returned: "<<val;
-		return true;
+        return false;
     }
-    else
+
+    //open the output file on the server's tmp folder (for that test will be on the C:/ root)
+    string tmpPath = ExtractFilePath(gLog.GetLogFileName());
+    string compilerTempFile(JoinPath(tmpPath,"compilerOutput.log"));
+
+    HANDLE out;
+    if((out=CreateFileA(     compilerTempFile.c_str(),
+                            GENERIC_WRITE|GENERIC_READ,FILE_SHARE_READ|FILE_SHARE_WRITE,
+                            &sao,
+                            CREATE_ALWAYS,
+                            FILE_ATTRIBUTE_NORMAL,
+                            NULL))==INVALID_HANDLE_VALUE)
     {
-	Log(lError)<<"Compile system call returned: "<<val;
-    	return false;
+        Log(lError)<<"Failed creating logFile for compiler output";
+        return false;
     }
+
+    SetFilePointer( out, 0, NULL, FILE_END); //set pointer position to end file
+
+    //init the STARTUPINFO struct
+    si.dwFlags=STARTF_USESTDHANDLES;
+    si.hStdOutput = out;
+    si.hStdError = out;
+
+    //proc sec attributes
+    sap.nLength=sizeof(SECURITY_ATTRIBUTES);
+    sap.lpSecurityDescriptor=NULL;
+    sap.bInheritHandle=1;
+
+    //thread sec attributes
+    sat.nLength=sizeof(SECURITY_ATTRIBUTES);
+    sat.lpSecurityDescriptor=NULL;
+    sat.bInheritHandle=1;
+
+    // Start the child process.
+    if( !CreateProcessA(
+        NULL,                           // No module name (use command line)
+        (char*) cmdLine.c_str(),        // Command line
+        &sap,                           // Process handle not inheritable
+        &sat,                           // Thread handle not inheritable
+        TRUE,                          // Set handle inheritance
+        CREATE_NO_WINDOW,               // Creation flags
+        NULL,                           // Use parent's environment block
+        NULL,                           // Use parent's starting directory
+        &si,                            // Pointer to STARTUPINFO structure
+        &pi )                           // Pointer to PROCESS_INFORMATION structure
+    )
+    {
+        Log(lError)<<"CreateProcess failed: "<<GetLastError();
+        return false;
+    }
+
+    // Wait until child process exits.
+    WaitForSingleObject(pi.hProcess, INFINITE);
+
+    // Close process and thread handles.
+    CloseHandle(pi.hProcess);
+    CloseHandle(pi.hThread);
+    CloseHandle(out);
+
+    //Read the log file and log it
+    string log = GetFileContent(compilerTempFile.c_str());
+    Log(lDebug)<<"Compiler output: "<<log<<endl;
+
+    return true;
 }
 
 string getCompilerMessages()

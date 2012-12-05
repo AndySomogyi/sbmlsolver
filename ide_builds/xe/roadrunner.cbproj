@@ -83,21 +83,18 @@
 		</PropertyGroup>
 		<ItemGroup>
 			<ResFiles Include="roadrunner.res">
-				<ModuleName>roadrunner.res</ModuleName>
 				<BuildOrder>70</BuildOrder>
 			</ResFiles>
 			<CppCompile Include="..\..\source\mtrand\mtrand.cpp">
 				<BuildOrder>65</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="..\..\source\rrArrayList.cpp">
-				<BuildOrder>69</BuildOrder>
+			<CppCompile Include="..\..\source\rrArrayList2.cpp">
+				<DependentOn>..\..\source\rrArrayList2.h</DependentOn>
+				<BuildOrder>59</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="..\..\source\rrArrayListItem.cpp">
 				<DependentOn>..\..\source\rrArrayListItem.h</DependentOn>
-				<BuildOrder>69</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="..\..\source\rrArrayListItemObject.cpp">
-				<BuildOrder>69</BuildOrder>
+				<BuildOrder>60</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="..\..\source\rrCapabilitiesSection.cpp">
 				<DependentOn>..\..\source\rrCapabilitiesSection.h</DependentOn>
@@ -202,6 +199,18 @@
 				<DependentOn>..\..\source\rrModelState.h</DependentOn>
 				<BuildOrder>30</BuildOrder>
 			</CppCompile>
+			<CppCompile Include="..\..\source\rrNewArrayList.cpp">
+				<DependentOn>..\..\source\rrNewArrayList.h</DependentOn>
+				<BuildOrder>61</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\..\source\rrNewArrayListItem.cpp">
+				<DependentOn>..\..\source\rrNewArrayListItem.h</DependentOn>
+				<BuildOrder>62</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\..\source\rrNewArrayListItemObject.cpp">
+				<DependentOn>..\..\source\rrNewArrayListItemObject.h</DependentOn>
+				<BuildOrder>63</BuildOrder>
+			</CppCompile>
 			<CppCompile Include="..\..\source\rrNLEQInterface.cpp">
 				<DependentOn>..\..\source\rrNLEQInterface.h</DependentOn>
 				<BuildOrder>18</BuildOrder>
@@ -276,6 +285,10 @@
 			<CppCompile Include="..\..\source\rrStringList.cpp">
 				<DependentOn>..\..\source\rrStringList.h</DependentOn>
 				<BuildOrder>46</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\..\source\rrStringListContainer.cpp">
+				<DependentOn>..\..\source\rrStringListContainer.h</DependentOn>
+				<BuildOrder>58</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="..\..\source\rrStringUtils.cpp">
 				<DependentOn>..\..\source\rrStringUtils.h</DependentOn>

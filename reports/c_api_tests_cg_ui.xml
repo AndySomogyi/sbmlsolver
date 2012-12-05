@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="api_tests.xsl" type="text/xsl" ?>
+<unittest-results date_time = "2012-12-04 16:54:06" tests="9" failedtests="0" failures="0" time="21.788">
+<test suite="Base" name="AllocateRR" time="0"/>
+<test suite="Base" name="VERSIONS" time="0"/>
+<test suite="Base" name="LOGGING" time="0"/>
+<test suite="Base" name="MODEL_FILES" time="3.579"/>
+<test suite="Base" name="LOAD_SBML" time="0.059"/>
+<test suite="Base" name="LISTS" time="18.035"/>
+<test suite="SteadyState" name="AllocateRR" time="0.001"/>
+<test suite="SteadyState" name="LOAD_SBML" time="0.055"/>
+<test suite="SteadyState" name="SS_SYMBOLS" time="0.055"/>
+</unittest-results>

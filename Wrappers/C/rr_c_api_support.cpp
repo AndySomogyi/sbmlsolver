@@ -186,7 +186,7 @@ RRStringArrayHandle createList(const StringList& sList)
 //    return theList;
 //}
 
-RRList* createList(const rr::ArrayList& aList)
+RRList* createList(const rr::NewArrayList& aList)
 {
     if(!aList.Count())
     {
@@ -201,31 +201,31 @@ RRList* createList(const rr::ArrayList& aList)
     for(int i = 0; i < itemCount; i++)
     {
         //Have to figure out subtype of item
-        ArrayListItemObject* ptr = const_cast<ArrayListItemObject*>(&aList[i]);
+        NewArrayListItemObject* ptr = const_cast<NewArrayListItemObject*>(&aList[i]);
         if(dynamic_cast<ArrayListItem<int>*>(ptr))
         {
-            int val = (int) *(dynamic_cast<ArrayListItem<int>*>(ptr));
+            int val = (int) *(dynamic_cast<NewArrayListItem<int>*>(ptr));
             myItem = createIntegerItem (val);
 			addItem (theList, &myItem);
         }
-        else if(dynamic_cast<ArrayListItem<double>*>(ptr))
+        else if(dynamic_cast<NewArrayListItem<double>*>(ptr))
         {
-            double val = (double) *(dynamic_cast<ArrayListItem<double>*>(ptr));
+            double val = (double) *(dynamic_cast<NewArrayListItem<double>*>(ptr));
             myItem = createDoubleItem (val);
 			addItem (theList, &myItem);
         }
-        else if(dynamic_cast<ArrayListItem<string>*>(ptr))
+        else if(dynamic_cast<NewArrayListItem<string>*>(ptr))
         {
-            string item = (string) *(dynamic_cast<ArrayListItem<string>*>(ptr));
+            string item = (string) *(dynamic_cast<NewArrayListItem<string>*>(ptr));
             char* str = (char *) new char[item.size() + 1];
             strcpy (str, item.c_str());
 			myItem = createStringItem (str);
    			addItem (theList, &myItem);
         }
-        else if(dynamic_cast<ArrayListItem<StringList>*>(ptr))
+        else if(dynamic_cast<NewArrayListItem<StringList>*>(ptr))
         {
-            StringList list 			= (StringList) *(dynamic_cast<ArrayListItem<StringList>*>(ptr));
-			ArrayList  aList;
+            StringList list 			= (StringList) *(dynamic_cast<NewArrayListItem<StringList>*>(ptr));
+			NewArrayList  aList;
             for(int i = 0; i < list.Count(); i++)
             {
             	aList.Add(list[i]);
@@ -235,9 +235,9 @@ RRList* createList(const rr::ArrayList& aList)
    			addItem (theList, &myItem);
         }
 
-        else if(dynamic_cast<ArrayListItem<ArrayList>*>(ptr))
+        else if(dynamic_cast<NewArrayListItem<NewArrayList>*>(ptr))
         {
-            ArrayList list = (ArrayList) *(dynamic_cast<ArrayListItem<ArrayList>*>(ptr));
+            NewArrayList list = (NewArrayList) *(dynamic_cast<NewArrayListItem<NewArrayList>*>(ptr));
 			RRListHandle myList 			= createList (list);
 			RRListItemHandle myListItem 	= createListItem (myList);
 			addItem (theList, &myListItem);

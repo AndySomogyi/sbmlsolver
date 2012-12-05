@@ -7,7 +7,8 @@
 #include "rr-libstruct/lsLibStructural.h"
 
 #include "rrCSharpGenerator.h"
-#include "rrArrayList.h"
+#include "rr-libstruct/lsLibstructural.h"
+#include "rrStringListContainer.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
 #include "rrRule.h"
@@ -943,13 +944,13 @@ int CSharpGenerator::ReadFloatingSpecies()
         reOrderedList = mLibStruct.getSpecies();
     }
 
-    ArrayList oFloatingSpecies = mNOM.getListOfFloatingSpecies();
+    StringListContainer oFloatingSpecies = mNOM.getListOfFloatingSpecies();
 
     for (int i = 0; i < reOrderedList.Count(); i++)
     {
         for (int j = 0; j < oFloatingSpecies.Count(); j++)
         {
-            StringList oTempList = oFloatingSpecies.GetStringList(j);
+            StringList oTempList = oFloatingSpecies[j];
               if(reOrderedList[i] != (const string&) oTempList[0])
               {
                   continue;
@@ -1015,11 +1016,11 @@ int CSharpGenerator::ReadFloatingSpecies()
 int CSharpGenerator::ReadBoundarySpecies()
 {
     int numBoundarySpecies;
-    ArrayList oBoundarySpecies = mNOM.getListOfBoundarySpecies();
+    StringListContainer oBoundarySpecies = mNOM.getListOfBoundarySpecies();
     numBoundarySpecies = oBoundarySpecies.Count(); // sp1.size();
     for (int i = 0; i < numBoundarySpecies; i++)
     {
-        StringList oTempList     = oBoundarySpecies.GetStringList(i);
+        StringList oTempList     = oBoundarySpecies[i];
         string sName             = oTempList[0];
         string compartmentName     = mNOM.getNthBoundarySpeciesCompartmentName(i);
         bool bIsConcentration     = ToBool(oTempList[2]);
@@ -1276,14 +1277,14 @@ void CSharpGenerator::WriteUserDefinedFunctions(CodeBuilder& sb)
     {
         try
         {
-            ArrayList oList = mNOM.getNthFunctionDefinition(i);
-            StringList aList = oList.GetStringList(0);
+            StringListContainer oList = mNOM.getNthFunctionDefinition(i);
+            StringList aList = oList[0];
 
               string sName = aList[0];
               //sName.Trim();
             mfunctionNames.Add(sName);
-            StringList oArguments = oList.GetStringList(1);
-            StringList list2 = oList.GetStringList(2);
+            StringList oArguments = oList[1];
+            StringList list2 = oList[2];
             string sBody = list2[0];
 
             sb<<Format("\t// User defined function:  {0}{1}", sName, NL());
@@ -2004,7 +2005,7 @@ void CSharpGenerator::WriteEvalEvents(CodeBuilder& sb, const int& numEvents, con
     for (int i = 0; i < numEvents; i++)
     {
         ArrayList ev = mNOM.getNthEvent(i);
-        StringList tempList = ev.GetStringList(0);
+        StringList tempList = ev[0];
         string eventString = tempList[0];
 
         eventString = substituteTerms(0, "", eventString);
@@ -2223,7 +2224,7 @@ void CSharpGenerator::WriteEventAssignments(CodeBuilder& sb, const int& numReact
             eventType.push_back(mNOM.getNthUseValuesFromTriggerTime(i));
             eventPersistentType.push_back(mNOM.GetModel()->getEvent(i)->getTrigger()->getPersistent());
 
-            StringList event = ev.GetStringList(1);
+            StringList event = ev[1];
             int numItems = event.Count();
             string str = substituteTerms(numReactions, "", event[0]);
             delays.Add(str);
@@ -2239,7 +2240,7 @@ void CSharpGenerator::WriteEventAssignments(CodeBuilder& sb, const int& numReact
             sb<<Format("\t\tdouble[] values = new double[ {0}];{1}", numAssignments, NL());
             for (int j = 2; j < ev.Count(); j++)
             {
-                StringList asgn = (StringList) ev.GetStringList(j);
+                StringList asgn = (StringList) ev[j];
                 //string assignmentVar = substituteTerms(numReactions, "", (string)asgn[0]);
                 string assignmentVar = FindSymbol((string)asgn[0]);
                 string str;

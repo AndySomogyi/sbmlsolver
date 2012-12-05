@@ -180,16 +180,17 @@ void StringList::operator=(const StringList& rhs)
 
 ostream& operator<<(ostream& stream, const StringList& list)
 {
-	stream << "{";
+	stream<<"{";
     for(int i = 0; i < list.Count(); i++)
     {
-        stream<<list[i];
+        stream<<"\""<<list[i]<<"\"";
         if(i < list.Count() -1)
         {
-        	stream<<" ";
+        	stream<<",";
         }
+
     }
-	stream << "}";
+	stream<<"}";
     return stream;
 }
 

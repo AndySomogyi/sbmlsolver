@@ -2,13 +2,13 @@
 #include "rr_pch.h"
 #endif
 #pragma hdrstop
-#include "rrArrayListItemObject.h"
+#include "rrNewArrayListItemObject.h"
 //---------------------------------------------------------------------------
 
 namespace rr
 {
 
-ArrayListItemObject::~ArrayListItemObject()
+NewArrayListItemObject::~NewArrayListItemObject()
 {}
 
 

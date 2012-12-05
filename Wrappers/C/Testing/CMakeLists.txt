@@ -19,6 +19,44 @@ PROPERTY  COMPILE_DEFINITIONS
 RR_STATIC
 ) 
 
+if(UNIX)
+set(staticLibPrefix ".a")
+set(sharedLibPrefix ".so")
+add_definitions(-DUNITTEST_POSIX)
+else()
+set(staticLibPrefix "")
+set(sharedLibPrefix "")
+endif()
+
+target_link_libraries (${target} 
+roadrunner-static
+unit_test-static${staticLibPrefix}
+libf2c
+)
+
+if(UNIX)
+target_link_libraries (${target} 
+libunit_test-static${staticLibPrefix}
+nleq-static.a
+rr-libstruct-static
+lapack
+blas
+f2c
+libsbml-static.a
+libxml2.so
+sundials_nvecserial.a
+sundials_cvode.a
+pthread
+poco_foundation-static.a
+pugi-static.a
+dl
+)
+endif()
+
+
+link_directories(
+${THIRD_PARTY_INSTALL_FOLDER}/lib
+)
 
 include_directories(
 ${RR_ROOT}
@@ -34,7 +72,7 @@ roadrunner-static
 link_directories( ${THIRD_PARTY_INSTALL_FOLDER}/lib)
 
 
-set(resultsDir "${CMAKE_SOURCE_DIR}/wiki/reports")
+set(resultsDir "${CMAKE_SOURCE_DIR}/reports")
 
 if(${BORLAND})
 set(resultsFile "${resultsDir}/c_api_tests_cg.xml")
@@ -48,19 +86,44 @@ set(sbmlModelsDir       "${CMAKE_SOURCE_DIR}/models")
 set(compilerFolder      "${CMAKE_SOURCE_DIR}/trunk/ThirdParty/compilers/tcc")
 set(supportCodeFolder   "${CMAKE_SOURCE_DIR}/trunk/rr_support")
 
-add_custom_command(OUTPUT ${resultsFile}
-  COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile}
-  WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-  COMMENT "=========== Generating C-API Wiki reports =============="
-  COMMENT "${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile}"
+if(UNIX)
+set(compilerFolder     "")
+endif()
 
-  VERBATIM)
+Message("SupportCodeFolder is: " ${supportCodeFolder})
+# Call like this -mr:\rrl\models -rr:\rrl\wiki\reports\file -tr:\rrTemp -sSupportCodeFolder -lCompilerFolder
+#add_custom_command(
+#    OUTPUT ${resultsFile}
+#    COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} -v
+#    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+#    COMMENT "=========== Generating CPP-API Wiki reports =============="
+#    VERBATIM 
+#    )
+#
+#add_custom_target(cppTestingReport ALL DEPENDS ${resulsFile}
+#    COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s"${supportCodeFolder}" -r${resultsFile} -v 
+#    COMMENT "=========== Generating CPP-API Wiki reports =============="
+#    COMMENT "Executing ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} -v"
+#
+#)
 
-add_custom_target(CTestingReport ALL DEPENDS ${resultsFile})
-   
+install (TARGETS ${target}  		
+DESTINATION bin 
+COMPONENT testing
+)
+
+if(BORLAND)
 install(
-        TARGETS ${target} 		
-        DESTINATION bin 
-        COMPONENT testing)
+FILES run_c-api_tests_cg.bat 
+DESTINATION bin
+COMPONENT testing
+)
+else()
+install(
+FILES run_c-api_tests_vs.bat 
+DESTINATION bin
+COMPONENT testing
+)
+endif()
 
 

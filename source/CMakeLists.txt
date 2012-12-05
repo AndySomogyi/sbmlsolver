@@ -1,6 +1,7 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 set(target roadrunner) 
+
 include_directories(
 . 
 ${THIRD_PARTY_INSTALL_FOLDER}/include
@@ -13,9 +14,8 @@ set(rrSources
 rrCapability.cpp
 rrCapabilitiesSection.cpp
 rrConstants.cpp
-rrArrayList.cpp
-rrArrayListItem.cpp
-rrArrayListItemObject.cpp
+rrArrayList2
+rrArrayListItem
 rrException.cpp
 rrFileLog.cpp
 rrGetOptions.cpp
@@ -44,6 +44,7 @@ rrSimulationSettings.cpp
 rrStreamWriter.cpp
 rrStringBuilder.cpp
 rrStringList.cpp
+rrStringListContainer.cpp
 rrStringUtils.cpp
 rrSymbol.cpp
 rrSymbolList.cpp
@@ -66,6 +67,9 @@ rrCapsSupport.cpp
 rrStopWatch.cpp
 rrEvent.cpp
 rrTestSuiteModelSimulation.cpp
+rrNewArrayList
+rrNewArrayListItem
+rrNewArrayListItemObject
 mtrand/mtrand.cpp
 )
 

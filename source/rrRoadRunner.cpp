@@ -19,7 +19,7 @@
 #include "rr-libstruct/lsLibla.h"
 
 #include "rrModelState.h"
-#include "rrArrayList.h"
+#include "rrArrayList2.h"
 #include "rrCapsSupport.h"
 #include "rrConstants.h"
 //---------------------------------------------------------------------------
@@ -68,7 +68,7 @@ RoadRunner::RoadRunner(const string& supportCodeFolder, const string& compiler, 
     mCVode(NULL),
     steadyStateSolver(NULL),
     mCompiler(supportCodeFolder, compiler),
-    mComputeAndAssignConservationLaws(true),
+    mComputeAndAssignConservationLaws(false),
     mConservedTotalChanged(false),
     _L0(NULL),
     mL(NULL),
@@ -78,8 +78,8 @@ RoadRunner::RoadRunner(const string& supportCodeFolder, const string& compiler, 
     mCurrentSBML(""),
     mModel(NULL),
     mTimeStart(0),
-    mTimeEnd(5),
-    mNumPoints(50),
+    mTimeEnd(10),
+    mNumPoints(21),
     UseKinsol(false)
 {
 	mTempFileFolder = (tempFolder);
@@ -585,7 +585,7 @@ bool RoadRunner::Simulate()
 
 bool RoadRunner::PopulateResult()
 {
-    ArrayList  l = getAvailableTimeCourseSymbols();
+    NewArrayList l = getAvailableTimeCourseSymbols();
     StringList list = getTimeCourseSelectionList();
     mSimulationData.SetColumnNames(list);
     mSimulationData.SetData(mRawSimulationData);
@@ -740,13 +740,17 @@ bool RoadRunner::loadSBML(const string& sbml)
 string RoadRunner::GetDLLName()
 {
     string srcCodeFolder;
-    srcCodeFolder = (mSimulation) ?
-        mSimulation->GetTempDataFolder()
-        :
-        string(mTempFileFolder);
+    if(mSimulation)
+    {
+    	srcCodeFolder =  mSimulation->GetTempDataFolder();
+    }
+    else
+    {
+        srcCodeFolder =mTempFileFolder;
+    }
 
 #if defined(_WIN32) || defined(__CODEGEARC__)
-    string dllName  = srcCodeFolder + PathSeparator + ChangeFileExtensionTo(ExtractFileName(mModelXMLFileName), "dll");
+    string dllName  = JoinPath(srcCodeFolder, ChangeFileExtensionTo(ExtractFileName(mModelXMLFileName), "dll"));
 #else
 	string dllName  = srcCodeFolder + PathSeparator + string("lib") + ChangeFileExtensionTo(ExtractFileName(mModelXMLFileName), "so");
 #endif
@@ -1186,6 +1190,11 @@ void RoadRunner::ComputeAndAssignConservationLaws(const bool& bValue)
     mComputeAndAssignConservationLaws = bValue;
     if(mModel != NULL)
     {
+        if(!GenerateModelCode(""))
+        {
+            Log(lError)<<"Failed generating model from SBML";
+            return;// false;
+        }
         //We need no recompile the model if this flag changes..
         CompileModel();
     }
@@ -1613,30 +1622,24 @@ ls::DoubleMatrix RoadRunner::getEigenvalues()
 }
 
 // Help("Compute the full Jacobian at the current operating point")
-DoubleMatrix RoadRunner::getFullJacobian()
+ls::DoubleMatrix RoadRunner::getFullJacobian()
 {
     try
     {
-        if (!mModel)
+        if (mModel)
         {
-	        throw SBWApplicationException(emptyModelStr);
+            ls::DoubleMatrix uelast = getUnscaledElasticityMatrix();
+            ls::DoubleMatrix* rsm = mLS->getReorderedStoichiometryMatrix();
+            if(rsm)
+            {
+            	return mult(*rsm, uelast);
+            }
+            else
+            {
+	            ls::DoubleMatrix empty;
+            }
         }
-		DoubleMatrix* rsm;
-        DoubleMatrix uelast = getUnscaledElasticityMatrix();
-		if(mComputeAndAssignConservationLaws)
-		{
-			rsm    = mLS->getReorderedStoichiometryMatrix();
-		}
-		else
-		{
-			rsm = mLS->getStoichiometryMatrix();
-		}
-
-        if(!rsm)
-        {
-        	throw RRException("StochiometryMatrix is NULL in getFullJacobian");
-        }
-        return mult(*rsm, uelast);
+        throw SBWApplicationException(emptyModelStr);
     }
     catch (const Exception& e)
     {
@@ -1862,9 +1865,9 @@ double RoadRunner::getVariableValue(const TVariableType& variableType, const int
 //        }
 //
 //  Help("Returns the Symbols of all Flux Control Coefficients.")
-ArrayList RoadRunner::getFluxControlCoefficientIds()
+NewArrayList RoadRunner::getFluxControlCoefficientIds()
 {
-    ArrayList oResult;
+    NewArrayList oResult;
     if (!mModel)
     {
         return oResult;
@@ -1879,8 +1882,8 @@ ArrayList RoadRunner::getFluxControlCoefficientIds()
     {
         string s = oReactions[i];
 
-        ArrayList oCCReaction;
-        ArrayList oInner;
+        NewArrayList oCCReaction;
+        StringList oInner;
         oCCReaction.Add(s);
 
         for(int i = 0; i < oParameters.Count(); i++)
@@ -1907,9 +1910,9 @@ ArrayList RoadRunner::getFluxControlCoefficientIds()
 
 
 //  Help("Returns the Symbols of all Unscaled Flux Control Coefficients.")
-ArrayList RoadRunner::getUnscaledFluxControlCoefficientIds()
+NewArrayList RoadRunner::getUnscaledFluxControlCoefficientIds()
 {
-    ArrayList oResult;// = new ArrayList();
+    NewArrayList oResult;
     if (!mModel)
     {
         return oResult;
@@ -1924,8 +1927,8 @@ ArrayList RoadRunner::getUnscaledFluxControlCoefficientIds()
     {
         string s = oReactions[i];
 
-        ArrayList oCCReaction;
-        ArrayList oInner;
+        NewArrayList oCCReaction;
+        StringList oInner;
         oCCReaction.Add(s);
 
         for(int i = 0; i < oParameters.Count(); i++)
@@ -1951,9 +1954,9 @@ ArrayList RoadRunner::getUnscaledFluxControlCoefficientIds()
 }
 
 // Help("Returns the Symbols of all Concentration Control Coefficients.")
-ArrayList RoadRunner::getConcentrationControlCoefficientIds()
+NewArrayList RoadRunner::getConcentrationControlCoefficientIds()
 {
-    ArrayList oResult;// = new ArrayList();
+    NewArrayList oResult;// = new ArrayList();
     if (!mModel)
     {
         return oResult;
@@ -1967,8 +1970,8 @@ ArrayList RoadRunner::getConcentrationControlCoefficientIds()
     for(int i = 0; i < oFloating.Count(); i++)
     {
         string s = oFloating[i];
-        ArrayList oCCFloating;
-        ArrayList oInner;
+        NewArrayList oCCFloating;
+        StringList oInner;
         oCCFloating.Add(s);
 
         for(int i = 0; i < oParameters.Count(); i++)
@@ -1995,9 +1998,9 @@ ArrayList RoadRunner::getConcentrationControlCoefficientIds()
 
 
 // Help("Returns the Symbols of all Unscaled Concentration Control Coefficients.")
-ArrayList RoadRunner::getUnscaledConcentrationControlCoefficientIds()
+NewArrayList RoadRunner::getUnscaledConcentrationControlCoefficientIds()
 {
-    ArrayList oResult;
+    NewArrayList oResult;
     if (!mModel)
     {
         return oResult;
@@ -2011,8 +2014,8 @@ ArrayList RoadRunner::getUnscaledConcentrationControlCoefficientIds()
     for(int i = 0; i < oFloating.Count(); i++)
     {
         string s = oFloating[i];
-        ArrayList oCCFloating;
-        ArrayList oInner;
+        NewArrayList oCCFloating;
+        StringList oInner;
         oCCFloating.Add(s);
 
         for(int i = 0; i < oParameters.Count(); i++)
@@ -2039,9 +2042,9 @@ ArrayList RoadRunner::getUnscaledConcentrationControlCoefficientIds()
 
 
 // Help("Returns the Symbols of all Elasticity Coefficients.")
-ArrayList RoadRunner::getElasticityCoefficientIds()
+NewArrayList RoadRunner::getElasticityCoefficientIds()
 {
-    ArrayList oResult;
+    NewArrayList oResult;
     if (!mModel)
     {
         return oResult;
@@ -2056,9 +2059,9 @@ ArrayList RoadRunner::getElasticityCoefficientIds()
     for(int i = 0; i < reactionNames.Count(); i++)
     {
         string reac_name = reactionNames[i];
-        ArrayList oCCReaction;
+        NewArrayList oCCReaction;
         oCCReaction.Add(reac_name);
-        ArrayList oInner;
+        StringList oInner;
 
         for(int j = 0; j < floatingSpeciesNames.Count(); j++)
         {
@@ -2088,9 +2091,9 @@ ArrayList RoadRunner::getElasticityCoefficientIds()
 }
 
 // Help("Returns the Symbols of all Unscaled Elasticity Coefficients.")
-ArrayList RoadRunner::getUnscaledElasticityCoefficientIds()
+NewArrayList RoadRunner::getUnscaledElasticityCoefficientIds()
 {
-    ArrayList oResult;
+    NewArrayList oResult;
     if (!mModel)
     {
         return oResult;
@@ -2105,7 +2108,7 @@ ArrayList RoadRunner::getUnscaledElasticityCoefficientIds()
     for(int i = 0; i < oReactions.Count(); i++)
     {
         string reac_name = oReactions[i];
-        ArrayList oCCReaction;
+        NewArrayList oCCReaction;
         StringList oInner;
         oCCReaction.Add(reac_name);
 
@@ -2163,9 +2166,9 @@ StringList RoadRunner::getEigenValueIds()
 // Help(
 //            "Returns symbols of the currently loaded model, that can be used for steady state analysis. Format: array of arrays  { { \"groupname\", { \"item1\", \"item2\" ... } } }  or { { \"groupname\", { \"subgroup\", { \"item1\" ... } } } }."
 //            )
-ArrayList RoadRunner::getAvailableSteadyStateSymbols()
+NewArrayList RoadRunner::getAvailableSteadyStateSymbols()
 {
-    ArrayList oResult;
+    NewArrayList oResult;
     if (!mModel)
     {
     	return oResult;
@@ -2189,7 +2192,7 @@ ArrayList RoadRunner::getAvailableSteadyStateSymbols()
 }
 
 // Help("Returns the selection list as returned by computeSteadyStateValues().")
-ArrayList RoadRunner::getSteadyStateSelectionList()
+NewArrayList RoadRunner::getSteadyStateSelectionList()
 {
     if (!mModel)
     {
@@ -2199,26 +2202,27 @@ ArrayList RoadRunner::getSteadyStateSelectionList()
     if (mSteadyStateSelection.size() == 0)
     {
         // default should be species only ...
-        StringList floatingSpecies = getFloatingSpeciesIds();
-        mSteadyStateSelection.resize(floatingSpecies.Count());
+        ArrayList floatingSpecies = getFloatingSpeciesIds();
+        mSteadyStateSelection.resize(floatingSpecies.Count());// = new TSelectionRecord[floatingSpecies.Count];
         for (int i = 0; i < floatingSpecies.Count(); i++)
         {
             TSelectionRecord aRec;
             aRec.selectionType = TSelectionType::clFloatingSpecies;
-            aRec.p1 = floatingSpecies[i];
+            aRec.p1 = floatingSpecies[i].AsString();
             aRec.index = i;
             mSteadyStateSelection[i] = aRec;
         }
     }
 
-    StringList oFloating     = mModelGenerator->getFloatingSpeciesConcentrationList();
-    StringList oBoundary     = mModelGenerator->getBoundarySpeciesList();
-    StringList oFluxes       = mModelGenerator->getReactionIds();
-    StringList oVolumes      = mModelGenerator->getCompartmentList();
-    StringList oRates        = getRateOfChangeIds();
-    StringList oParameters   = getParameterIds();
+    ArrayList oFloating     = mModelGenerator->getFloatingSpeciesConcentrationList();
+    ArrayList oBoundary     = mModelGenerator->getBoundarySpeciesList();
+    ArrayList oFluxes       = mModelGenerator->getReactionIds();
+    ArrayList oVolumes      = mModelGenerator->getCompartmentList();
+    ArrayList oRates        = getRateOfChangeIds();
+    ArrayList oParameters   = getParameterIds();
 
-    ArrayList result;
+    NewArrayList result;// = new ArrayList();
+//    foreach (var record in mSteadyStateSelection)
     for(int i = 0; i < mSteadyStateSelection.size(); i++)
     {
         TSelectionRecord record = mSteadyStateSelection[i];
@@ -2228,13 +2232,13 @@ ArrayList RoadRunner::getSteadyStateSelectionList()
                 result.Add("time");
             break;
             case TSelectionType::clBoundaryAmount:
-                result.Add(Format("[{0}]", oBoundary[record.index]));
+                result.Add(Format("[{0}]", oBoundary[record.index].AsString()));
             break;
             case TSelectionType::clBoundarySpecies:
                 result.Add(oBoundary[record.index]);
             break;
             case TSelectionType::clFloatingAmount:
-                result.Add("[" + (string)oFloating[record.index] + "]");
+                result.Add("[" + (string)oFloating[record.index].AsString() + "]");
             break;
             case TSelectionType::clFloatingSpecies:
                 result.Add(oFloating[record.index]);
@@ -5052,9 +5056,9 @@ double RoadRunner::getValue(const string& sId)
 //            "Returns symbols of the currently loaded model,
 //              that can be used for the selectionlist format array of arrays  { { \"groupname\", { \"item1\", \"item2\" ... } } }."
 //            )
-ArrayList RoadRunner::getAvailableTimeCourseSymbols()
+NewArrayList RoadRunner::getAvailableTimeCourseSymbols()
 {
-    ArrayList oResult;
+    NewArrayList oResult;
 
     if (!mModel)
     {

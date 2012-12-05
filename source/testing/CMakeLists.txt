@@ -35,6 +35,7 @@ endif()
 target_link_libraries (${target} 
 roadrunner-static
 unit_test-static${staticLibPrefix}
+libf2c
 )
 
 if(UNIX)
@@ -103,7 +104,22 @@ Message("SupportCodeFolder is: " ${supportCodeFolder})
 #
 #)
 
-install (TARGETS ${target} 		
+install (TARGETS ${target}  		
 DESTINATION bin 
-COMPONENT apps
-)   
+COMPONENT testing
+)
+if(BORLAND)
+install(
+FILES run_tests_cg.bat 
+DESTINATION bin
+COMPONENT testing
+)
+else()
+install(
+FILES run_tests_vs.bat 
+DESTINATION bin
+COMPONENT testing
+)
+endif()
+
+

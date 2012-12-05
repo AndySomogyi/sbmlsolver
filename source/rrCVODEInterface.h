@@ -63,7 +63,7 @@ class RR_DECLSPEC CvodeInterface : public rrObject
                                     // Model contains all the symbol tables associated with the model
                                     // ev is the model function
                                     // -------------------------------------------------------------------------
-                                    CvodeInterface(RoadRunner* rr, ModelFromC* oModel, const double& abTol = 1.e-15, const double& relTol = 1.e-15);
+                                    CvodeInterface(RoadRunner* rr, ModelFromC* oModel, const double& abTol = 1.e-12, const double& relTol = 1.e-12);
                                    ~CvodeInterface();
 
         void                        AssignResultsToModel();

@@ -17,15 +17,18 @@
 #include "rrCVODEInterface.h"
 #include "rrNLEQInterface.h"
 #include "rrStringList.h"
+#include "rrStringListContainer.h"
 #include "rrMisc.h"
 #include "rrTextWriter.h"
 #include "rrSimulationData.h"
 #include "rrSimulationSettings.h"
 #include "rrCompiler.h"
 #include "rrArrayList.h"
+#include "rrArrayList2.h"
 #include "rrXMLDocument.h"
 #include "rrNOMSupport.h"
 #include "rrConstants.h"
+#include "rrNewArrayList.h"
 using std::string;
 using namespace ls;
 namespace rr
@@ -177,7 +180,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		void                            setCapabilities(const string& capsStr);
 		bool                            setValue(const string& sId, const double& dValue);
 		double                          getValue(const string& sId);
-		ArrayList                       getAvailableTimeCourseSymbols();
+		NewArrayList                    getAvailableTimeCourseSymbols();
 		StringList                      getTimeCourseSelectionList();
 		void                            setTimeCourseSelectionList(const string& List);
 		void                            setTimeCourseSelectionList(const StringList& newSelectionList);
@@ -208,15 +211,15 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		int                             getNumberOfDependentSpecies();
 		int                             getNumberOfIndependentSpecies();
 		void                            computeContinuation(const double& stepSize, const int& independentVariable, const string& parameterTypeStr);
-        ArrayList                 		getUnscaledFluxControlCoefficientIds();
-		ArrayList                       getFluxControlCoefficientIds();
-        ArrayList                       getUnscaledConcentrationControlCoefficientIds();
-		ArrayList                       getConcentrationControlCoefficientIds();
-		ArrayList                       getElasticityCoefficientIds();
-		ArrayList                       getUnscaledElasticityCoefficientIds();
+        NewArrayList                 	getUnscaledFluxControlCoefficientIds();
+		NewArrayList           	      	getFluxControlCoefficientIds();
+        NewArrayList                 	getUnscaledConcentrationControlCoefficientIds();
+		NewArrayList                 	getConcentrationControlCoefficientIds();
+		NewArrayList                 	getElasticityCoefficientIds();
+		NewArrayList                 	getUnscaledElasticityCoefficientIds();
 		StringList                      getEigenValueIds();
-		ArrayList                      	getAvailableSteadyStateSymbols();
-		ArrayList                       getSteadyStateSelectionList();
+		NewArrayList                 	getAvailableSteadyStateSymbols();
+		NewArrayList                 	getSteadyStateSelectionList();
 		void                            setSteadyStateSelectionList(const StringList& newSelectionList);
 
 		double                          computeSteadyStateValue(const TSelectionRecord& record);

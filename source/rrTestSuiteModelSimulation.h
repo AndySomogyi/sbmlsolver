@@ -25,7 +25,7 @@ class RR_DECLSPEC TestSuiteModelSimulation : public SBMLModelSimulation
         double                  mLargestError;
 
     public:
-                                TestSuiteModelSimulation(const string& dataOutputFolder = "", const string& modelFilePath = "", const string& modelFileName = "");
+                                TestSuiteModelSimulation(const string& dataOutputFolder = EmptyString, const string& modelFilePath = EmptyString, const string& modelFileName = EmptyString);
                                ~TestSuiteModelSimulation();
         void                    SetCaseNumber(int cNr);
         bool                    LoadReferenceData();

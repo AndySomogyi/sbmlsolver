@@ -96,7 +96,7 @@ ASTNode* ModelGenerator::CleanEquation(ASTNode* astP)
         return ast.getChild(0);
     }
 
-    for (long i = ast.getNumChildren() - 1; i >= 0; i--)
+    for (int i = (int) ast.getNumChildren() - 1; i >= 0; i--)
     {
         ast.replaceChild(i, CleanEquation(ast.getChild(i)));
     }
@@ -219,7 +219,7 @@ int ModelGenerator::ReadGlobalParameters()
     numGlobalParameters = oParameters.Count();
     for (u_int i = 0; i < numGlobalParameters; i++)
     {
-        StringList parameter = oParameters.GetStringList(i);
+        StringList parameter = oParameters[i];
 
         string name     = parameter[0];
         double value     = ToDouble(parameter[1]);

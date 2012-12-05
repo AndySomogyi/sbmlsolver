@@ -5,7 +5,7 @@
 #include <vector>
 #include "rr-libstruct/lsMatrix.h"
 #include "rrStringList.h"
-#include "rrArrayList.h"
+#include "rrNewArrayList.h"
 #include "rrUtils.h"
 #include "rr_c_types.h"
 //---------------------------------------------------------------------------
@@ -30,7 +30,7 @@ RRMatrixHandle      createMatrix(const ls::DoubleMatrix* mat);
 
 //Lists and arrays
 RRStringArrayHandle createList(const rr::StringList& aList);
-RRListHandle 		createList(const rr::ArrayList& aList);
+RRListHandle 		createList(const rr::NewArrayList& aList);
 }
 
 #endif

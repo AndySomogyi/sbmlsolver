@@ -11,7 +11,7 @@
 
 #include "rrCSharpGenerator.h"
 
-#include "rrArrayList.h"
+#include "rrStringListContainer.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
 #include "rrRule.h"
@@ -307,7 +307,7 @@ void CGenerator::WriteOutVariables(CodeBuilder& ignore)
 void CGenerator::WriteComputeAllRatesOfChange(CodeBuilder& ignore, const int& numIndependentSpecies, const int& numDependentSpecies, DoubleMatrix& L0)
 {
      //In header
-	mHeader.AddFunctionExport("void", "computeAllRatesOfChange()");
+       mHeader.AddFunctionExport("void", "computeAllRatesOfChange()");
     mSource<<Append("//Uses the equation: dSd/dt = L0 dSi/dt" + NL());
     mSource<<"void computeAllRatesOfChange()\n{";
 //    mSource<<"\n#if defined(DEBUG_C_DLL)\n";
@@ -515,19 +515,15 @@ void CGenerator::WriteUserDefinedFunctions(CodeBuilder& ignore)
     {
         try
         {
-            ArrayList  oList = mNOM.getNthFunctionDefinition(i);
-			Log(lDebug2)<<"NOM Nth Function defintion:"<<oList;
-			ArrayListItemObject* ptr = const_cast<ArrayListItemObject*>(&oList[0]);
+            StringListContainer oList = mNOM.getNthFunctionDefinition(i);
+            StringList aList = oList[0];
 
-            if(!(dynamic_cast<ArrayListItem<string>*>(ptr)))
-            {
-                throw("Bad..");
-            }
-
-			string sName = oList.GetString(0);
+              string sName = aList[0];
+              //sName.Trim();
             mfunctionNames.Add(sName);
-            StringList oArguments = oList.GetStringList(1);
-            string sBody = oList.GetString(2);
+            StringList oArguments = oList[1];
+            StringList list2 = oList[2];
+            string sBody = list2[0];
 
             mSource<<Format("// User defined function:  {0}{1}", sName, NL());
             mSource<<Format("\t double {0} (", sName);
@@ -1238,8 +1234,8 @@ void CGenerator::WriteEvalEvents(CodeBuilder& ignore, const int& numEvents, cons
     for (int i = 0; i < numEvents; i++)
     {
         ArrayList ev = mNOM.getNthEvent(i);
-        //StringList tempList = ev.GetStringList(0);
-        string eventString = ev.GetString(0);//[0];
+        StringList tempList = ev[0];
+        string eventString = tempList[0];
 
         eventString = substituteTerms(0, "", eventString);
         eventString = ReplaceWord("time", "mTime", eventString);
@@ -1467,11 +1463,10 @@ void CGenerator::WriteEventAssignments(CodeBuilder& ignore, const int& numReacti
         for (int i = 0; i < numEvents; i++)
         {
             ArrayList ev = mNOM.getNthEvent(i);
-            Log(lDebug)<<"Array list :"<<ev;
             eventType.push_back(mNOM.getNthUseValuesFromTriggerTime(i));
             eventPersistentType.push_back(mNOM.GetModel()->getEvent(i)->getTrigger()->getPersistent());
 
-            StringList event = ev.GetStringList(2);  //Changed to 2 from 1!!!! ?????
+            StringList event = ev[1];
             int numItems = event.Count();
             string str = substituteTerms(numReactions, "", event[0]);
             delays.Add(str);
@@ -1495,7 +1490,7 @@ void CGenerator::WriteEventAssignments(CodeBuilder& ignore, const int& numReacti
             mSource<<Format("\t\tdouble* values = (double*) malloc(sizeof(double)*{0});{1}", numAssignments, NL());
             for (int j = 2; j < ev.Count(); j++)
             {
-                StringList asgn = ev.GetStringList(j);
+                StringList asgn = (StringList) ev[j];
                 //string assignmentVar = substituteTerms(numReactions, "", (string)asgn[0]);
                 string assignmentVar = FindSymbol((string)asgn[0]);
                 string str;
@@ -2510,14 +2505,13 @@ int CGenerator::ReadFloatingSpecies()
         reOrderedList = mLibStruct.getSpecies();
     }
 
-    ArrayList oFloatingSpecies = mNOM.getListOfFloatingSpecies();
+    StringListContainer oFloatingSpecies = mNOM.getListOfFloatingSpecies();
 
-    Log(lDebug)<<"Got List: "<< oFloatingSpecies;
     for (int i = 0; i < reOrderedList.Count(); i++)
     {
         for (int j = 0; j < oFloatingSpecies.Count(); j++)
         {
-            StringList oTempList = oFloatingSpecies.GetStringList(j);
+            StringList oTempList = oFloatingSpecies[j];
               if(reOrderedList[i] != (const string&) oTempList[0])
               {
                   continue;
@@ -2584,11 +2578,11 @@ int CGenerator::ReadFloatingSpecies()
 int CGenerator::ReadBoundarySpecies()
 {
     int numBoundarySpecies;
-    ArrayList oBoundarySpecies = mNOM.getListOfBoundarySpecies();
+    StringListContainer oBoundarySpecies = mNOM.getListOfBoundarySpecies();
     numBoundarySpecies = oBoundarySpecies.Count(); // sp1.size();
     for (int i = 0; i < numBoundarySpecies; i++)
     {
-        StringList oTempList     = oBoundarySpecies.GetStringList(i);
+        StringList oTempList     = oBoundarySpecies[i];
         string sName             = oTempList[0];
         string compartmentName     = mNOM.getNthBoundarySpeciesCompartmentName(i);
         bool bIsConcentration     = ToBool(oTempList[2]);
