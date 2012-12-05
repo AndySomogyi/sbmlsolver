@@ -849,7 +849,7 @@ double CvodeInterface::OneStep(double timeStart, double hstep)
 
 void CvodeInterface::AssignPendingEvents(const double& timeEnd, const double& tout)
 {
-    for (int i = assignments.size() - 1; i >= 0; i--)
+    for (int i = (int) assignments.size() - 1; i >= 0; i--)
     {
       	Log(lDebug5)<<"Assigning Pending Events. At line "<<__LINE__<<" in file "<<__FILE__;
         if (timeEnd >= assignments[i].GetTime())
@@ -991,7 +991,7 @@ void CvodeInterface::TestRootsAtInitialTime()
 
 void CvodeInterface::RemovePendingAssignmentForIndex(const int& eventIndex)
 {
-    for (int j = assignments.size() - 1; j >= 0; j--)
+    for (int j = (int) assignments.size() - 1; j >= 0; j--)
     {
         if (assignments[j].GetIndex() == eventIndex)
         {
