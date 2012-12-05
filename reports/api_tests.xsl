@@ -20,7 +20,7 @@
                     <th scope="col">Total number of tests</th>
                     <th scope="col">Number of failed tests</th>
                     <th scope="col">Failures</th>
-                    <th scope="col">Time</th>
+                    <th scope="col">Time (seconds)</th>
           </tr>
        </thead>
        <tbody>
@@ -44,7 +44,7 @@
         </td>
 
         <td>
-        <xsl:for-each select="@failures">
+        <xsl:for-each select="@time">
         <xsl:value-of select="." />
         </xsl:for-each>
         </td>
