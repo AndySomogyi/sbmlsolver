@@ -112,7 +112,7 @@
 		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Cpp.Targets')" Project="$(BDS)\Bin\CodeGear.Cpp.Targets"/>
 		<Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj"/>
 		<PropertyGroup Condition="'$(FileToCompile)'==''">
-			<PostBuildEvent><![CDATA[copy $(RR_ROOT)\trunk\apps\rr_test_suite_tester\rrExcludedTestCases.txt $(OUTPUTDIR)rrExcludedTestCases.txt]]></PostBuildEvent>
+			<PostBuildEvent><![CDATA[copy $(RR_ROOT)\apps\rr_test_suite_tester\rrExcludedTestCases.txt $(OUTPUTDIR)rrExcludedTestCases.txt]]></PostBuildEvent>
 		</PropertyGroup>
 		<ProjectExtensions>
 			<Borland.Personality>CPlusPlusBuilder.Personality.12</Borland.Personality>

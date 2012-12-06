@@ -4,7 +4,6 @@
 #include <string>
 #include "rrSBMLModelSimulation.h"
 #include "rrStringUtils.h"
-#include "rrRoadRunner.h"
 #include "rrSimulationSettings.h"
 #include "rrSimulationData.h"
 
@@ -31,11 +30,11 @@ class RR_DECLSPEC TestSuiteModelSimulation : public SBMLModelSimulation
         bool                    LoadReferenceData();
         bool                    CreateErrorData();
         bool                    SaveAllData();
-        bool                    LoadSettings(const string& fName = EmptyString);
         bool                    CopyFilesToOutputFolder();
         double                  LargestError();
         bool                    Pass();
         int                     NrOfFailingPoints();
+        virtual bool            LoadSettings(const string& fName = EmptyString);
 };
 
 }

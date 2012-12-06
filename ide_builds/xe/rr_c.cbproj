@@ -33,7 +33,7 @@
 			<_TCHARMapping>char</_TCHARMapping>
 			<ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
 			<ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
-			<IncludePath>..\..\Wrappers\C\Apps\rr_c\;$(RR_ROOT)\trunk\source;$(RR_ROOT)\trunk\Wrappers\C;$(IncludePath)</IncludePath>
+			<IncludePath>..\..\Wrappers\C\Apps\rr_c\;$(RR_ROOT)\source;$(RR_ROOT)\Wrappers\C;$(IncludePath)</IncludePath>
 			<ILINK_LibraryPath>R:\installs\xe\debug\lib\;R:\installs\xe\full-debug\lib\;..\..\Wrappers\C\Apps\rr_c\;..\..\source\;..\..\Wrappers\C\Apps\;R:\installs\xe\lib\;..\..\Wrappers\C\Examples\rr_c\;$(RR_ROOT)\trunk\Wrappers\C\Examples\rr_c\;P:\mtk\Components\vtk\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
 			<DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
 			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE</DCC_UnitAlias>

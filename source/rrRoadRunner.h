@@ -138,6 +138,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		ModelFromC*                     CreateModel();
 		SimulationData                  GetSimulationResult();
 		ModelGenerator*                 GetCodeGenerator();
+        bool							loadSimulationSettings(const string& fName);
 		bool                            UseSimulationSettings(SimulationSettings& settings);
 		void                            Reset();
 		bool                            CreateModelSourceCode();

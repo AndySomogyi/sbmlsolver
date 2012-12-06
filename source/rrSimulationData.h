@@ -18,7 +18,6 @@ using std::stringstream;
 //Class that  holds the data after a simulation...
 class RR_DECLSPEC SimulationData : public rrObject
 {
-
     protected:
         StringList              mColumnNames;
         DoubleMatrix            mTheData;
@@ -41,24 +40,19 @@ class RR_DECLSPEC SimulationData : public rrObject
         void                    SetData(const DoubleMatrix& theData);
         bool                    Load(const string& fileName);
         bool                    WriteTo(const string& fileName);
-
-
         bool                    Check() const;    //Check if containst proper data
-RR_DECLSPEC    friend std::ostream&    operator << (std::ostream& ss, const SimulationData& data);
+
+		RR_DECLSPEC
+        friend std::ostream&    operator << (std::ostream& ss, const SimulationData& data);
         double&                 operator() (const unsigned& row, const unsigned& col);
         double                  operator() (const unsigned& row, const unsigned& col) const;
 
         void                    SetName(const string& name);
-
         string                  GetName() const;
-
         pair<int,int>           Dimension() const;
 
 };
 
-//This function is not class member, so need to export separately
-
 }
-
 
 #endif

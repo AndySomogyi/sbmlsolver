@@ -48,7 +48,6 @@
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1)'!=''">
 			<IntermediateOutputDir>.\$(Config)\$(Platform)\rr_static</IntermediateOutputDir>
-			<IncludePath>$(RR_ROOT)\trunk\ThirdParty\rr-libstruct;$(IncludePath)</IncludePath>
 			<BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
 			<BCC_MonitorThis>true</BCC_MonitorThis>
 			<BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>

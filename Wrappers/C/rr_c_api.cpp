@@ -521,8 +521,8 @@ char* rrCallConv getWorkingDirectory()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+		return NULL;
     }
-	return NULL;
 }
 
 bool rrCallConv loadSBMLFromFile(const char* fileName)
@@ -555,9 +555,44 @@ bool rrCallConv loadSBMLFromFile(const char* fileName)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return false;
     }
-    return false;
 }
+
+bool rrCallConv loadSimulationSettings(const char* fileName)
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+            return false;
+        }
+        //Check if file exists first
+        if(!FileExists(fileName))
+        {
+            stringstream msg;
+            msg<<"The file "<<fileName<<" was not found";
+            setError(msg.str());
+            return false;
+        }
+
+        if(!gRRHandle->loadSimulationSettings(fileName))
+        {
+            setError("Failed to load SBML semantics");	//There are many wasy loading a model can fail, look at logFile to know more
+            return false;
+        }
+        return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
 
 bool rrCallConv loadSBML(const char* sbml)
 {
@@ -581,8 +616,8 @@ bool rrCallConv loadSBML(const char* sbml)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	  	return false;
     }
-  	return false;
 }
 
 char* rrCallConv getSBML()
@@ -604,8 +639,8 @@ char* rrCallConv getSBML()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	  	return NULL;
     }
-  	return NULL;
 }
 
 bool rrCallConv setTimeStart(const double& timeStart)
@@ -625,10 +660,8 @@ bool rrCallConv setTimeStart(const double& timeStart)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
-
+	    return false;
     }
-
-    return false;
 }
 
 bool rrCallConv setTimeEnd(const double& timeEnd)
@@ -649,8 +682,8 @@ bool rrCallConv setTimeEnd(const double& timeEnd)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return false;
     }
-    return false;
 }
 
 bool rrCallConv setNumPoints(const int& nrPoints)
@@ -671,8 +704,8 @@ bool rrCallConv setNumPoints(const int& nrPoints)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	  	return false;
     }
-  	return false;
 }
 
 bool rrCallConv getTimeStart(double& timeStart)
@@ -842,8 +875,8 @@ RRResultHandle rrCallConv simulate()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+		return NULL;
     }
-	return NULL;
 }
 
 RRResultHandle rrCallConv simulateEx (const double& timeStart, const double& timeEnd, const int& numberOfPoints)
@@ -860,8 +893,8 @@ RRResultHandle rrCallConv simulateEx (const double& timeStart, const double& tim
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+		return NULL;
     }
-	return NULL;
 }
 
 RRStringArrayHandle rrCallConv getReactionIds()
@@ -2793,8 +2826,8 @@ char* rrCallConv resultToString(const RRResultHandle result)
         stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return NULL;
     }
-    return NULL;
 }
 
 char* rrCallConv matrixToString(const RRMatrixHandle matrixHandle)

@@ -108,6 +108,7 @@ install (TARGETS ${target}
 DESTINATION bin 
 COMPONENT testing
 )
+
 if(BORLAND)
 install(
 FILES run_tests_cg.bat 

@@ -1080,8 +1080,9 @@ bool RunTest(const string& version, int caseNumber)
         string dataOutputFolder(gDataOutputFolder);
         string dummy;
         string logFileName;
+        string settingsFileName;
 
-        CreateTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName);
+        CreateTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, settingsFileName);
 
         //Create subfolder for data output
         dataOutputFolder = JoinPath(dataOutputFolder, GetTestSuiteSubFolderName(caseNumber));
@@ -1101,7 +1102,7 @@ bool RunTest(const string& version, int caseNumber)
         string modelFileName;
 
         simulation.SetCaseNumber(caseNumber);
-        CreateTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName);
+        CreateTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName);
 
         //The following will load and compile and simulate the sbml model in the file
         simulation.SetModelFilePath(modelFilePath);

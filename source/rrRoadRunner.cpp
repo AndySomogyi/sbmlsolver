@@ -737,6 +737,22 @@ bool RoadRunner::loadSBML(const string& sbml)
     return true;
 }
 
+bool RoadRunner::loadSimulationSettings(const string& fName)
+{
+	if(!mSettings.LoadFromFile(fName))
+    {
+		Log(lError)<<"Failed loading settings from file:" <<fName;
+        return false;
+    }
+
+    UseSimulationSettings(mSettings);
+
+    //This one creates the list of what we will look at in the result
+ 	createTimeCourseSelectionList();
+    return true;
+}
+
+
 string RoadRunner::GetDLLName()
 {
     string srcCodeFolder;

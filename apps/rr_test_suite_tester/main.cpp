@@ -116,7 +116,7 @@ int main(int argc, char * argv[])
         string dummy;
         string logFileName;
 
-        CreateTestSuiteFileNameParts(paras.CaseNumber, ".log", dummy, logFileName);
+        CreateTestSuiteFileNameParts(paras.CaseNumber, ".log", dummy, logFileName, dummy);
 
         //Create subfolder for data output
         dataOutputFolder = JoinPath(dataOutputFolder, GetTestSuiteSubFolderName(paras.CaseNumber));
@@ -147,7 +147,7 @@ int main(int argc, char * argv[])
         string modelFileName;
 
         simulation.SetCaseNumber(paras.CaseNumber);
-        CreateTestSuiteFileNameParts(paras.CaseNumber, "-sbml-l2v4.xml", modelFilePath, modelFileName);
+        CreateTestSuiteFileNameParts(paras.CaseNumber, "-sbml-l2v4.xml", modelFilePath, modelFileName, dummy);
 
         //The following will load and compile and simulate the sbml model in the file
         simulation.SetModelFilePath(modelFilePath);

@@ -44,7 +44,7 @@ RR_DECLSPEC const string	getPathSeparator();
 
 RR_DECLSPEC vector<string>  GetLinesInFile(const string& fName);
 RR_DECLSPEC string  		GetFileContent(const string& fName);
-RR_DECLSPEC void            CreateTestSuiteFileNameParts(int caseNr, const string& postFixPart, string& FilePath, string& modelFileName);
+RR_DECLSPEC void            CreateTestSuiteFileNameParts(int caseNr, const string& postFixPart, string& FilePath, string& modelFileName, string& settingsFileName);
 RR_DECLSPEC string          GetTestSuiteSubFolderName(int caseNr);
 
 //CArray utilities

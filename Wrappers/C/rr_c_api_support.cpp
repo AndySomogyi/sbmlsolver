@@ -9,10 +9,7 @@
 #include "rr_c_api_support.h"
 #include "rrUtils.h"
 #include "rrArrayListItem.h"
-//---------------------------------------------------------------------------
-#if defined (__CODEGEAR__)
-#pragma package(smart_init)
-#endif
+
 using namespace std;
 using namespace rr;
 namespace rr_c_api

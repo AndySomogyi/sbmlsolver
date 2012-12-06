@@ -256,14 +256,18 @@ bool FolderExists(const string& folderName)
 #endif
 }
 
-void CreateTestSuiteFileNameParts(int caseNr, const string& postFixPart, string& modelFilePath, string& modelName)
+void CreateTestSuiteFileNameParts(int caseNr, const string& postFixPart, string& modelFilePath, string& modelName, string& settingsFName)
 {
     stringstream modelSubPath;
     stringstream modelFileName;
+    stringstream settingsFileName;
+
     modelSubPath<<setfill('0')<<setw(5)<<caseNr;        //create the "00023" subfolder format
     modelFileName<<setfill('0')<<setw(5)<<caseNr<<postFixPart;
     modelFilePath = modelFilePath + "\\" + modelSubPath.str();
     modelName =  modelFileName.str();
+    settingsFileName <<setfill('0')<<setw(5)<<caseNr<<"-settings.txt";
+	settingsFName = settingsFileName.str();
 }
 
 string GetTestSuiteSubFolderName(int caseNr)
