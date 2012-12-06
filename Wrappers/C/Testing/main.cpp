@@ -1,20 +1,32 @@
 #include <iostream>
 #include <fstream>
 #include "rrUtils.h"
-#include "UnitTest++.h"
-#include "XmlTestReporter.h"
-#include "TestReporterStdOut.h"
+#include "unit_test/UnitTest++.h"
+#include "unit_test/XmlTestReporter.h"
+#include "unit_test/TestReporterStdout.h"
 #include "Args.h"
-#include "rrGetOptions.h"
 #include "rr_c_api.h"
+#include "rrGetOptions.h"
 
 using namespace std;
 using namespace rr;
 using namespace UnitTest;
-string gSBMLModelsPath = "";
-string gCompilerPath = "";
-string gSupportCodeFolder = "";
 
+
+string gSBMLModelsPath 		= "";
+string gCompiler 			= "";
+string gSupportCodeFolder 	= "";
+string gTempFolder		   	= "";
+string gDataOutputFolder   	= "";
+
+#if defined(WIN32)
+//Test suite
+string gTSModelsPath 		= "r:\\SBMLTS\\cases\\semantic";
+#else
+string gTSModelsPath 		= "/r/SBMLTS/cases/semantic";
+#endif
+
+vector<string> gModels;
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 
 RRHandle gRR = NULL;
@@ -25,16 +37,15 @@ int main(int argc, char* argv[])
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
 
-	string outFolder;
-    string reportFile;
-	reportFile = args.ResultOutputFile;
+	string reportFile(args.ResultOutputFile);
 
-    gSBMLModelsPath = args.SBMLModelsFilePath;
-	gCompilerPath = args.CompilerLocation;
-	gSupportCodeFolder = args.SupportCodeFolder;
+    gSBMLModelsPath 	= args.SBMLModelsFilePath;
+	gCompiler	 		= args.Compiler;
+    gTempFolder			= args.TempDataFolder;
+    gDataOutputFolder	= args.DataOutputFolder;
+	gSupportCodeFolder 	= args.SupportCodeFolder;
 
-	fstream aFile;
-    aFile.open(reportFile.c_str(), ios::out);
+ 	fstream aFile(reportFile.c_str(), ios::out);
     if(!aFile)
     {
     	cerr<<"Failed opening report file: "<<reportFile<<" in rr_c_api testing executable.\n";
@@ -44,9 +55,18 @@ int main(int argc, char* argv[])
 	XmlTestReporter reporter1(aFile);
 	TestRunner runner1(reporter1);
 
+
+    clog<<"Running Base\n";
     runner1.RunTestsIf(Test::GetTestList(), "Base", 		True(), 0);
+
+    clog<<"Running SteadyState\n";
     runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
 
+    clog<<"Running TestSuite Tests\n";
+    clog<<"ModelPath "<<gTSModelsPath;
+    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4", 	True(), 0);
+
+    //Finish outputs result to xml file
     runner1.Finish();
     return 0;
 }
@@ -54,15 +74,17 @@ int main(int argc, char* argv[])
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
     char c;
-    while ((c = GetOptions(argc, argv, ("m:l:r:s:t:"))) != -1)
+    while ((c = GetOptions(argc, argv, ("vi:d:m:l:r:s:t:"))) != -1)
     {
         switch (c)
         {
             case ('m'): args.SBMLModelsFilePath                     = rrOptArg;                       break;
-			case ('l'): args.CompilerLocation                       = rrOptArg;                       break;
+			case ('l'): args.Compiler      			                = rrOptArg;                       break;
             case ('r'): args.ResultOutputFile                       = rrOptArg;                       break;
 			case ('s'): args.SupportCodeFolder     		            = rrOptArg;                       break;
 			case ('t'): args.TempDataFolder        		            = rrOptArg;                       break;
+			case ('d'): args.DataOutputFolder      		            = rrOptArg;                       break;
+			case ('v'): args.EnableLogging        		            = true;                       break;
             case ('?'): cout<<Usage(argv[0])<<endl;
             default:
             {
@@ -86,7 +108,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 
 #if defined(CG_IDE)
 #pragma comment(lib, "rr_c_api.lib")
-#pragma comment(lib, "roadrunner-static.lib")
+#pragma comment(lib, "roadrunner.lib")
 #pragma comment(lib, "unit_test-static.lib")
 #endif
 

@@ -118,7 +118,7 @@ double TestSuiteModelSimulation::LargestError()
 
 bool TestSuiteModelSimulation::CreateErrorData()
 {
-    mResultData = GetResult();
+	//    mResultData = GetResult();
     //Check that result data and reference data has the same dimensions
     if(mResultData.GetNrOfCols() != mReferenceData.GetNrOfCols() || mResultData.GetNrOfRows() != mReferenceData.GetNrOfRows())
     {
@@ -161,7 +161,8 @@ bool TestSuiteModelSimulation::SaveAllData()
 
     string outputAllFileName;
     string dummy;
-    CreateTestSuiteFileNameParts(mCurrentCaseNumber, "-result-comparison.csv", dummy, outputAllFileName);
+    string dummy2;
+    CreateTestSuiteFileNameParts(mCurrentCaseNumber, "-result-comparison.csv", dummy, outputAllFileName, dummy2);
     fs.open(JoinPath(mDataOutputFolder, outputAllFileName).c_str());
 
     //Check matrices dimension, if they are not equal, bail..?

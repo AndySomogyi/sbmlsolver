@@ -29,13 +29,13 @@ if("${THIRD_PARTY_INSTALL_FOLDER}" STREQUAL "")
 endif()
 
 OPTION (INSTALL_CXX_API 		"Package c++ api" 	        	    ON)
+OPTION (INSTALL_C_API	 		"Generate C API" 		            ON)
 OPTION (INSTALL_PYTHON 			"Package Python wrapper" 		    OFF)
 OPTION (INSTALL_DELPHI  		"Package Delphi wrapper "           OFF)
-OPTION (INSTALL_C_API	 		"Generate and Package C API" 		OFF)
 OPTION (INSTALL_APPS	    	"Build and install Apps"	    	ON)
 OPTION (INSTALL_EXAMPLES		"Build and install Examples"		OFF)
-OPTION (INSTALL_STATIC_LIB		"Install RoadRunner static lib"		OFF)
-OPTION (RUN_TESTS		        "Build and Run Tests"		        OFF)
+OPTION (INSTALL_STATIC_LIB		"Install RoadRunner CXX static lib"	OFF)
+OPTION (BUILD_TESTS		        "Build API Tests"		            OFF)
 OPTION (INSTALL_SBML_MODELS		"Install SBML Models"		        ON)
 
 #Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'

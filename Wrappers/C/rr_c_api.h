@@ -433,6 +433,14 @@ C_DECL_SPEC bool rrCallConv loadSBML(const char* sbml);
 C_DECL_SPEC bool rrCallConv loadSBMLFromFile(const char* fileName);
 
 /*!
+ \brief Load simulation settings from a file
+ \param[in] fileName file name (or full path) to file that holds simulation settings
+ \return Returns true if sucessful
+ \ingroup loadsave
+*/
+C_DECL_SPEC bool rrCallConv loadSimulationSettings(const char* fileName);
+
+/*!
  \brief Retrieve the <b>current state</b> of the model in the form of an SBML string
   \return Returns null if the call fails, otherwise returns a pointer to the SBML string
  \ingroup loadsave

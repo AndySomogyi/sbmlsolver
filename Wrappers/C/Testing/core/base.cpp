@@ -10,10 +10,10 @@ using rr::JoinPath;
 using rr::FileExists;
 
 extern RRHandle gRR;	//Global roadrunner C handle
-extern string 		gBinPath;
-extern string 		gSBMLModelsPath;
-extern string 		gCompilerPath;
-extern string 		gSupportCodeFolder;
+extern string 	gBinPath;
+extern string 	gSBMLModelsPath;
+extern string 	gCompiler;
+extern string 	gSupportCodeFolder;
 SUITE(Base)
 {
     TEST(AllocateRR)
@@ -26,10 +26,29 @@ SUITE(Base)
         CHECK(gRR!=NULL);	//If gRR == NULL this is a fail
 		if(gRR)
 		{
-			setCompilerLocation(gCompilerPath.c_str());
+			setCompilerLocation(gCompiler.c_str());
 			setSupportCodeFolder(gSupportCodeFolder.c_str());
 		}
     }
+
+  	TEST(AllocateDeAllocateRR)
+	{
+    	int memoryBefore = 0;
+        int memoryAfter  = 10;
+        for(int i = 0; i < 1000; i++)
+        {
+            if(gRR)
+            {
+                freeRRInstance(gRR);
+            }
+
+           	gRR = getRRInstance();
+        }
+
+		//To check this properly, we will need to measure memory before and after somehow..
+		CHECK_CLOSE(memoryBefore, memoryAfter, 10);
+	}
+
 
     TEST(VERSIONS)
     {

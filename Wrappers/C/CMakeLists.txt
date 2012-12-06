@@ -72,7 +72,7 @@ roadrunner-static
 add_subdirectory(Apps)
 #add_subdirectory(Examples)
 
-if(RUN_TESTS)
+if(BUILD_TESTS)
 add_subdirectory(Testing)
 endif()
 

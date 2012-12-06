@@ -23,7 +23,8 @@ mModelFilePath(""),
 mModelFileName(""),
 mDataOutputFolder(dataOutputFolder),
 mCompileIfDllExists(true),
-mTempDataFolder(tempDataFilePath)
+mTempDataFolder(tempDataFilePath),
+mEngine(NULL)
 {
     mSettings.mAbsolute    = 1.e-7;
     mSettings.mRelative    = 1.e-4;
@@ -340,7 +341,6 @@ bool SBMLModelSimulation::Simulate()
 
 bool SBMLModelSimulation::SaveResult()
 {
-
     string resultFileName(JoinPath(mDataOutputFolder, "rr_" + mModelFileName));
     resultFileName = ChangeFileExtensionTo(resultFileName, ".csv");
     Log(lInfo)<<"Saving result to file: "<<resultFileName;

@@ -147,7 +147,7 @@ target_link_libraries (${target}-static libxml2${staticLibExt})
 endif()
 
 
-if(RUN_TESTS)
+if(BUILD_TESTS)
 add_subdirectory(testing)
 endif()
 
