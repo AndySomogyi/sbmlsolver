@@ -80,7 +80,7 @@ lastEvent(0)
 
 CvodeInterface::~CvodeInterface()
 {
-    FreeCvode_Mem((void**) cvodeMem);
+    FreeCvode_Mem((void**) &cvodeMem);
     FreeCvode_Vector(_amounts);
     FreeCvode_Vector(abstolArray);
     fileClose(fileHandle);

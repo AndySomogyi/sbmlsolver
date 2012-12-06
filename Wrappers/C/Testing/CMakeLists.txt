@@ -107,18 +107,10 @@ DESTINATION bin
 COMPONENT testing
 )
 
-if(BORLAND)
 install(
-FILES run_c-api_tests_cg.bat 
+FILES run_c_tests.bat 
 DESTINATION bin
 COMPONENT testing
 )
-else()
-install(
-FILES run_c-api_tests_vs.bat 
-DESTINATION bin
-COMPONENT testing
-)
-endif()
 
 
