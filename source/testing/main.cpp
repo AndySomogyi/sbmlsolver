@@ -24,7 +24,7 @@ string gDataOutputFolder   	= "";
 //Test suite
 string gTSModelsPath 		= "r:\\SBMLTS\\cases\\semantic";
 #else
-string gTSModelsPath 		= "/r/SBMLTS/cases/semantic";
+string gTSModelsPath 		= "/home/sagrada/myhome/downloads/source/roadrunner/install/all/models/cases/semantic";
 #endif
 
 vector<string> gModels;
@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
 
     runner1.RunTestsIf(Test::GetTestList(), "Base", 		True(), 0);
 //    runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
-//     runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4",   	True(), 0);
+    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4",   	True(), 0);
 
     //Finish outputs result to xml file
     runner1.Finish();

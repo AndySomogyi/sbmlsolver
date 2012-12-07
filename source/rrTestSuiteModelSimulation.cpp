@@ -118,7 +118,7 @@ double TestSuiteModelSimulation::LargestError()
 
 bool TestSuiteModelSimulation::CreateErrorData()
 {
-	//    mResultData = GetResult();
+	 mResultData = GetResult();
     //Check that result data and reference data has the same dimensions
     if(mResultData.GetNrOfCols() != mReferenceData.GetNrOfCols() || mResultData.GetNrOfRows() != mReferenceData.GetNrOfRows())
     {

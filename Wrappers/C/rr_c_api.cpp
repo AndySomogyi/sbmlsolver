@@ -241,8 +241,8 @@ RRHandle rrCallConv getRRInstance()
             string rrInstallFolder(getParentFolder(getRRCAPILocation()));
             gRRHandle = new RoadRunner(JoinPath(rrInstallFolder,"rr_support"), JoinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"), GetUsersTempDataFolder());
 #elif defined(__linux)
-            string rrInstallFolder("/usr/local");
-            gRRHandle = new RoadRunner(JoinPath(rrInstallFolder,"rr_support");
+            string rrInstallFolder(getParentFolder(getRRCAPILocation()));
+            gRRHandle = new RoadRunner(JoinPath(rrInstallFolder,"rr_support"), JoinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"), GetUsersTempDataFolder());
 #else
             string rrInstallFolder("?");
 #endif
