@@ -75,39 +75,39 @@ mtrand/mtrand.cpp
 
 #Build both static and shared version
 #Link with static libs
-# add_library(${target} SHARED ${rrSources})
-# 
-# set_property(TARGET ${target}  
-#  PROPERTY  COMPILE_DEFINITIONS 
-#  EXPORT_RR 
-#  LIBSBML_STATIC 
-#  LIBLAX_STATIC 
-#  STATIC_LIBSTRUCT
-#  STATIC_PUGI
-#  STATIC_NLEQ
-#  POCO_STATIC
-#  POCO_NO_AUTOMATIC_LIBS
-# ) 
-# 
+add_library(${target} SHARED ${rrSources})
+
+set_property(TARGET ${target}  
+ PROPERTY  COMPILE_DEFINITIONS 
+ EXPORT_RR 
+ LIBSBML_STATIC 
+ LIBLAX_STATIC 
+ STATIC_LIBSTRUCT
+ STATIC_PUGI
+ STATIC_NLEQ
+ POCO_STATIC
+ POCO_NO_AUTOMATIC_LIBS
+) 
+
 #libraries to link with our shared lib
 if(UNIX)
 set(staticLibExt ".a")
 else()
 set(staticLibExt "")
 endif()
-# 
-# target_link_libraries (${target}    
-#  libsbml-static${staticLibExt}
-#  sundials_cvode
-#  sundials_nvecserial
-#  blas
-#  lapack
-#  libf2c${staticLibExt}
-#  pugi-static
-#  nleq-static
-#  rr-libstruct-static
-#  poco_foundation-static
-# )
+
+target_link_libraries (${target}    
+ libsbml-static${staticLibExt}
+ sundials_cvode
+ sundials_nvecserial
+ blas
+ lapack
+ libf2c${staticLibExt}
+ pugi-static
+ nleq-static
+ rr-libstruct-static
+ poco_foundation-static
+)
 
 #libraries to link with static lib
 add_library(${target}-static STATIC ${rrSources})

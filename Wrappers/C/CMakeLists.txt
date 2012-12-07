@@ -11,7 +11,7 @@ ${THIRD_PARTY_INSTALL_FOLDER}/include
 add_library(${target} SHARED
 rr_c_api.cpp
 rr_dll_entry_point.cpp
-rr_c_api_support.cpp
+# rr_c_api_support.cpp
 )
 
 set_property(   TARGET ${target} 
@@ -69,12 +69,12 @@ roadrunner-static
 #ENDIF(SUBVERSION_FOUND)
 
 
-add_subdirectory(Apps)
+# add_subdirectory(Apps)
 #add_subdirectory(Examples)
 
-if(BUILD_TESTS)
-add_subdirectory(Testing)
-endif()
+# if(BUILD_TESTS)
+# add_subdirectory(Testing)
+# endif()
 
 #=============== INSTALL =====================
 install(   FILES ${target}.h rr_c_types.h rr_c_api_exporter.h				 					

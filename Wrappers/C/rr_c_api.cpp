@@ -76,14 +76,18 @@
 #pragma comment(lib, "nleq-static.lib")
 #endif
 
+void dosomething() {
+    int i = 1;
+}
+
 using namespace std;
 using namespace rr;
-using namespace rr_c_api;
 namespace rr_c_api
 {
 static  rr::RoadRunner*     gRRHandle       = NULL;
 char*                       gLastError      = NULL;
 }
+using namespace rr_c_api;
 
 bool rrCallConv enableLogging()
 {
@@ -125,6 +129,7 @@ bool rrCallConv enableLogging()
   	    return false;
     }
 }
+#if 0
 
 bool rrCallConv setLogLevel(const char* _lvl)
 {
@@ -242,7 +247,7 @@ RRHandle rrCallConv getRRInstance()
             gRRHandle = new RoadRunner(JoinPath(rrInstallFolder,"rr_support"), JoinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"), GetUsersTempDataFolder());
 #elif defined(__linux)
             string rrInstallFolder(getParentFolder(getRRCAPILocation()));
-            gRRHandle = new RoadRunner(JoinPath(rrInstallFolder,"rr_support"), JoinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"), GetUsersTempDataFolder());
+            gRRHandle = new RoadRunner(JoinPath(rrInstallFolder,"rr_support"), "gcc", GetUsersTempDataFolder());
 #else
             string rrInstallFolder("?");
 #endif
@@ -3403,4 +3408,5 @@ char* rrCallConv listToString (RRListHandle list)
         return NULL;
     }
 }
+#endif
 
