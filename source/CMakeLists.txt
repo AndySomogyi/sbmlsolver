@@ -109,12 +109,13 @@ target_link_libraries (${target}
  poco_foundation-static
 )
 
-#libraries to link with static lib
 add_library(${target}-static STATIC ${rrSources})
 
 set_property(TARGET ${target}-static 
 PROPERTY COMPILE_DEFINITIONS 
+WIN32
 STATIC_RR 
+LIBSBML_USE_CPP_NAMESPACE
 LIBSBML_STATIC
 LIBLAX_STATIC 
 STATIC_LIBSTRUCT
@@ -124,6 +125,7 @@ POCO_STATIC
 POCO_NO_AUTOMATIC_LIBS
 ) 
 
+#libraries to link with static lib
 target_link_libraries (${target}-static 
    libsbml-static${staticLibExt}
    sundials_cvode
@@ -145,7 +147,6 @@ else()
 target_link_libraries (${target}        libxml2${staticLibExt})
 target_link_libraries (${target}-static libxml2${staticLibExt})
 endif()
-
 
 if(BUILD_TESTS)
 add_subdirectory(testing)
