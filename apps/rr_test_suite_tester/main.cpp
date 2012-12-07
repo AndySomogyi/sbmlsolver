@@ -2,17 +2,11 @@
 #include "rr_pch.h"
 #endif
 #pragma hdrstop
-#include <windows.h>
+// #include <windows.h>
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <tchar.h>
-
-#if defined(__CODEGEARC__)
-#include <dir.h>
-#else
-#include <direct.h>
-#endif
+// #include <tchar.h>
 
 #include <iomanip>
 #include "rrLogger.h"
@@ -25,6 +19,16 @@
 #include "rrGetOptions.h"
 #include "Args.h"
 #include "rrStopWatch.h"
+
+#if defined(WIN32)
+    #if defined(__CODEGEARC__)
+    #include <dir.h>
+    #else
+    #include <direct.h>
+    #endif
+#else
+    #include <dirent.h>
+#endif
 //---------------------------------------------------------------------------
 using namespace std;
 using namespace rr;

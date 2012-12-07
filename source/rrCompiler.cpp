@@ -130,7 +130,7 @@ bool Compiler::SetupCompilerEnvironment()
     mIncludePaths.clear();
     mLibraryPaths.clear();
     mCompilerFlags.clear();
-    if(ExtractFileNameNoExtension(mCompilerName) == "tcc")
+    if(ExtractFileNameNoExtension(mCompilerName) == "tcc" || ExtractFileNameNoExtension(mCompilerName) == "gcc")
     {
         mIncludePaths.push_back(".");
         mIncludePaths.push_back(JoinPath(mCompilerLocation, "include"));
@@ -142,6 +142,8 @@ bool Compiler::SetupCompilerEnvironment()
         mCompilerFlags.push_back("-rdynamic");  //-rdynamic : Export global symbols to the dynamic linker
                                                 //-b : Generate additional support code to check memory allocations and array/pointer bounds. `-g' is implied.
 
+        mCompilerFlags.push_back("-fPIC");
+        
         //LogLevel                              //-v is for verbose
         switch(gLog.GetLogLevel())
         {
@@ -162,7 +164,7 @@ bool Compiler::SetupCompilerEnvironment()
 string Compiler::CreateCompilerCommand(const string& sourceFileName)
 {
     stringstream exeCmd;
-    if(ExtractFileNameNoExtension(mCompilerName) == "tcc")
+    if(ExtractFileNameNoExtension(mCompilerName) == "tcc" || ExtractFileNameNoExtension(mCompilerName) == "gcc")
     {
         exeCmd<<JoinPath(mCompilerLocation, mCompilerName);
         //Add compiler flags
@@ -201,6 +203,7 @@ string Compiler::CreateCompilerCommand(const string& sourceFileName)
     return exeCmd.str();
 }
 
+#ifdef WIN32
 bool Compiler::Compile(const string& cmdLine)
 {
     STARTUPINFO         si;
@@ -285,6 +288,28 @@ bool Compiler::Compile(const string& cmdLine)
 
     return true;
 }
+
+#else
+
+bool Compiler::Compile(const string& cmdLine) {
+    string toFile(cmdLine);
+    toFile += " > ";
+    string tmpFolder = rr::RoadRunner::getTempFileFolder();
+    toFile += JoinPath(rr::RoadRunner::getTempFileFolder(), "compilation.log");
+    int val = system(toFile.c_str());
+    if(val ==0)
+    {
+    Log(lInfo)<<"Compile system call returned: "<<val;
+        return true;
+    }
+    else
+    {
+    Log(lError)<<"Compile system call returned: "<<val;
+        return false;
+    }
+}
+
+#endif //WIN32
 
 string getCompilerMessages()
 {
