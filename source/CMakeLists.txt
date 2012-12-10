@@ -97,7 +97,7 @@ set(staticLibExt "")
 endif()
 
 target_link_libraries (${target}    
- libsbml-static${staticLibExt}
+ sbml
  sundials_cvode
  sundials_nvecserial
  blas
@@ -107,6 +107,7 @@ target_link_libraries (${target}
  nleq-static
  rr-libstruct-static
  poco_foundation-static
+ pthread
 )
 
 #libraries to link with static lib
@@ -154,11 +155,11 @@ endif()
 #--- INSTALL STUFF
 if(${INSTALL_CXX_API})
 
-# install(TARGETS ${target} 
-#         LIBRARY DESTINATION lib 
-#         RUNTIME DESTINATION bin 
-#         ARCHIVE DESTINATION lib
-# )
+install(TARGETS ${target} 
+        LIBRARY DESTINATION lib 
+        RUNTIME DESTINATION bin 
+        ARCHIVE DESTINATION lib
+)
 
 if(INSTALL_STATIC_LIB)
 install(TARGETS ${target}-static 

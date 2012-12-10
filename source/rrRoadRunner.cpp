@@ -18,7 +18,8 @@
 #include "rr-libstruct/lsLA.h"
 #include "rr-libstruct/lsLibla.h"
 
-#include "rrModelState.h"
+
+#include "rrModelState.h"
 #include "rrArrayList2.h"
 #include "rrCapsSupport.h"
 #include "rrConstants.h"

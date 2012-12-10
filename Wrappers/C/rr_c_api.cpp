@@ -129,7 +129,6 @@ bool rrCallConv enableLogging()
   	    return false;
     }
 }
-#if 0
 
 bool rrCallConv setLogLevel(const char* _lvl)
 {
@@ -3408,5 +3407,4 @@ char* rrCallConv listToString (RRListHandle list)
         return NULL;
     }
 }
-#endif
 

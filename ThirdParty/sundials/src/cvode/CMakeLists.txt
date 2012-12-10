@@ -99,6 +99,7 @@ IF(BUILD_STATIC_LIBS)
 ENDIF(BUILD_STATIC_LIBS)
 
 # Build the shared library
+message("CVODE BUILD_SHARED_LIBS: ${BUILD_SHARED_LIBS}")
 IF(BUILD_SHARED_LIBS)
 
   # Add the build target for the CVODE library

@@ -7,6 +7,7 @@
 #include "rr_c_api.h"
 #include "rrUtils.h"
 #include "rrStringUtils.h"
+#include "rrLogger.h"
 
 /*--------------------------------------------------------------------------
 Example showing how to obtain model generated C code
@@ -33,9 +34,16 @@ int main()
 		cout<<"Build date: "<<text<<endl;
 		freeText(text);
 	}
+	
+	gLog.SetCutOffLogLevel(lDebug5);
+    gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(JoinPath("/tmp", "RoadRunner.log") ))); // WARNING: hard-coded /tmp
+    Log(lInfo)<<"Logs are going to "<<gLog.GetLogFileName();
+    Log(lInfo)<<"Log level is:" <<GetLogLevelAsString(gLog.GetLogLevel());
 
-	string fileName = "..\\Models\\test_2.xml";
+	string fileName = "/home/sagrada/myhome/develop/rr/install/all/models/test_1.xml";
 	string sbml = GetFileContent(fileName.c_str());
+    
+    cout << "C code: " << sbml << endl;
 
     //To get the C Code, the code needs to be generated
     if(!loadSBML(sbml.c_str()))

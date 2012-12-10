@@ -11,7 +11,7 @@ ${THIRD_PARTY_INSTALL_FOLDER}/include
 add_library(${target} SHARED
 rr_c_api.cpp
 rr_dll_entry_point.cpp
-# rr_c_api_support.cpp
+rr_c_api_support.cpp
 )
 
 set_property(   TARGET ${target} 
@@ -35,9 +35,19 @@ else()
 endif()
 
 #Link C_api dll statically to roadrunner and libsbml
+# target_link_libraries (
+# ${target}
+# roadrunner-static
+# #blas
+# #lapack
+# #libf2c
+# #pugi-static
+# #rr-libstruct-static
+# )
+
 target_link_libraries (
 ${target}
-roadrunner-static
+roadrunner
 #blas
 #lapack
 #libf2c
@@ -70,11 +80,11 @@ roadrunner-static
 
 
 # add_subdirectory(Apps)
-#add_subdirectory(Examples)
+add_subdirectory(Examples)
 
-# if(BUILD_TESTS)
-# add_subdirectory(Testing)
-# endif()
+if(BUILD_TESTS)
+    add_subdirectory(Testing)
+endif()
 
 #=============== INSTALL =====================
 install(   FILES ${target}.h rr_c_types.h rr_c_api_exporter.h				 					
