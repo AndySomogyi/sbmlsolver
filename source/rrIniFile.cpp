@@ -204,7 +204,7 @@ bool IniFile::Load(const string& newfName)
 				{
 					if(pSection)
 					{
-						WriteNonKey(Key, pSection->mName);
+						WriteNonKey(Line, pSection->mName);
 					}
 					Log(lDebug5)<<"Read NonKey on line: " << lines;
 				}

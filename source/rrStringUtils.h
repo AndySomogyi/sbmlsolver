@@ -37,7 +37,8 @@ string              RR_DECLSPEC Trim(const string& str);
 bool                RR_DECLSPEC StartsWith(const string& src, const string& sub);
 bool                RR_DECLSPEC EndsWith(const string& src, const string& sub);
 
-string              RR_DECLSPEC JoinPath(const string& aPath, const string& aFile, const char pathSeparator = PathSeparator);
+string              RR_DECLSPEC JoinPath(const string& p1, const string& p2, const char pathSeparator = PathSeparator);
+string              RR_DECLSPEC JoinPath(const string& p1, const string& p2, const string& p3, const char pathSeparator = PathSeparator);
 //conversions
 string              RR_DECLSPEC IntToStr(const int& nt);
 int                 RR_DECLSPEC StrToInt(const string& nt);

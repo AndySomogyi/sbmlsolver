@@ -195,6 +195,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		static void                     TestSettings();
 		DoubleMatrix                    getReducedJacobian();
 		DoubleMatrix                    getFullJacobian();
+		DoubleMatrix 					getFullReorderedJacobian();
+
 		DoubleMatrix                    getEigenvalues();
 
 		// ---------------------------------------------------------------------
