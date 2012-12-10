@@ -2,6 +2,9 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 set(target roadrunner) 
 
+configure_file(rrConfigure.h.in rrConfigure.h)
+include_directories(${RR_GENERATED_HEADER_PATH}) #we have to do this to get the generated header
+
 include_directories(
 . 
 ${THIRD_PARTY_INSTALL_FOLDER}/include

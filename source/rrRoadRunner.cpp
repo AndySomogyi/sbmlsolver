@@ -860,6 +860,7 @@ bool RoadRunner::CompileModel()
     unLoadModelDLL();
 
     string dllName  = GetDLLName();
+    dllName = "/home/sagrada/myhome/develop/rr/install/unified/bin/libsbml_model.so";
     //Remove DLL
     if(FileExists(dllName) == true && remove(dllName.c_str()) != 0)
     {
@@ -876,9 +877,10 @@ bool RoadRunner::CompileModel()
     //Load the DLL
     try
     {
-    	string sharedLib = JoinPath(ExtractFilePath(dllName), ExtractFileNameNoExtension(dllName));
+    	//string sharedLib = JoinPath(ExtractFilePath(dllName), ExtractFileNameNoExtension(dllName));
+        //string sharedLib = "/home/sagrada/myhome/develop/rr/install/unified/bin/libsbml_model.so";
 		//sharedLib = JoinPath(mTempFileFolder, sharedLib);
-		Log(lDebug)<<"Trying to load shared lib: "<<sharedLib;
+		Log(lDebug)<<"Trying to load shared lib: "<<dllName;
     	mModelDLL.load(dllName);
     }
     catch(const exception& ex)

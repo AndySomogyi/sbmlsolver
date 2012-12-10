@@ -90,7 +90,7 @@ int main(int argc, char * argv[])
 #if defined (WIN32)
 compiler = "compilers\\tcc\\tcc.exe";
 #else
-compiler = "tcc";
+compiler = "gcc";
 #endif
 
 

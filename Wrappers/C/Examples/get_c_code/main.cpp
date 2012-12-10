@@ -40,7 +40,7 @@ int main()
     Log(lInfo)<<"Logs are going to "<<gLog.GetLogFileName();
     Log(lInfo)<<"Log level is:" <<GetLogLevelAsString(gLog.GetLogLevel());
 
-	string fileName = "/home/sagrada/myhome/develop/rr/install/all/models/test_1.xml";
+	string fileName = "/home/sagrada/myhome/develop/rr/install/unified/models/test_1.xml";
 	string sbml = GetFileContent(fileName.c_str());
     
     cout << "C code: " << sbml << endl;

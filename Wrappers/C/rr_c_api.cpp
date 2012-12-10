@@ -49,6 +49,7 @@
 #endif
 
 #include <sstream>
+#include "rrConfigure.h"
 #include "rrRoadRunner.h"
 #include "rrCGenerator.h"
 #include "rrLogger.h"           //Might be useful for debugging later on
@@ -230,7 +231,7 @@ char* rrCallConv getRRCAPILocation()
     }
     return NULL;
 #else
-	return "/usr/local/lib";
+	return RR_ROADRUNNER_INSTALL_LIB_PATH;
 #endif
 }
 
