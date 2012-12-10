@@ -127,7 +127,7 @@ int GetNumberOfFunctionArguments(const string& expression)
 }
 
 
-string JoinPath(const string& aPath, const string& aFile, const string& pathSeparator)
+string JoinPath(const string& aPath, const string& aFile, const char pathSeparator)
 {
     //Just check the paths last position. it has to be a "/"
     //Otherwise, add it before joining

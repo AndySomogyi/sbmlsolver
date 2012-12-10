@@ -101,7 +101,9 @@ const string getParentFolder(const string& path)
 			parent = JoinPath(parent, fldrs[i]);
         }
 
-        if(path.compare(0,1, PathSeparator) == 0) 
+        string pathSep;
+        pathSep.push_back(PathSeparator);
+        if(path.compare(0,1, pathSep) == 0)
 		{
 			parent = PathSeparator + parent;
 		}
@@ -135,7 +137,7 @@ const string getCWD()
 	return cwd;
 }
 
-const string getPathSeparator()
+const char getPathSeparator()
 {
 	return PathSeparator;
 }
@@ -288,9 +290,17 @@ bool CreateFolder(const string& folder)
     int res = mkdir(folder.c_str());
 #else
     int res = mkdir(folder.c_str(), 0777);
-#endif    
+#endif
 
     return (res==0) ? true : false;
+}
+
+bool CreateFile(const string& fName, int mode)
+{
+    ofstream test;
+    test.open(fName.c_str(), mode);
+    test.close();
+    return FileExists(fName);
 }
 
 bool CopyValues(vector<double>& dest, double* source, const int& nrVals, const int& startIndex)

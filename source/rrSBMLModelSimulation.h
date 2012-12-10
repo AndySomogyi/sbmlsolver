@@ -24,7 +24,7 @@ class RR_DECLSPEC SBMLModelSimulation : public rrObject
         bool                    mCompileIfDllExists;
 
     public:
-                                SBMLModelSimulation(const string& dataOutputFolder = "", const string& tempDataFilePath = "");
+                                SBMLModelSimulation(const string& dataOutputFolder = EmptyString, const string& tempDataFilePath = EmptyString);
         virtual                ~SBMLModelSimulation();
         bool                    SetModelFilePath(const string& path);
         bool                    SetModelFileName(const string& name);
@@ -53,7 +53,7 @@ class RR_DECLSPEC SBMLModelSimulation : public rrObject
         virtual bool            LoadSBMLFromFile();                    //Use current file information to load sbml from file
         virtual bool            Simulate();
         virtual bool            SaveResult();
-        virtual bool            LoadSettings(const string& fName = "");
+        virtual bool            LoadSettings(const string& fName = EmptyString);
 
 };
 
