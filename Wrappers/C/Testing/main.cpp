@@ -19,12 +19,16 @@ string gSupportCodeFolder 	= "";
 string gTempFolder		   	= "";
 string gDataOutputFolder   	= "";
 
-#if defined(WIN32)
-//Test suite
-string gTSModelsPath 		= "r:\\SBMLTS\\cases\\semantic";
-#else
-string gTSModelsPath 		= "/home/sagrada/myhome/develop/rr/install/unified/models/cases/semantic";
-#endif
+// DEPRECATED: hard-coded paths
+// #if defined(WIN32)
+// //Test suite
+// string gTSModelsPath 		= "r:\\SBMLTS\\cases\\semantic";
+// #else
+// string gTSModelsPath = "mypath";
+// #endif
+
+// initialized based on gSBMLModelsPath
+string gTSModelsPath;
 
 vector<string> gModels;
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
@@ -41,17 +45,20 @@ int main(int argc, char* argv[])
     
     bool doLogging      = args.EnableLogging;
 
+    enableLogging();
     if(doLogging)
-    {
-        enableLogging();
         setLogLevel("Debug5");
-    }
+    else
+        setLogLevel("INFO");
 
     gSBMLModelsPath 	= args.SBMLModelsFilePath;
 	gCompiler	 		= args.Compiler;
     gTempFolder			= args.TempDataFolder;
     gDataOutputFolder	= args.DataOutputFolder;
 	gSupportCodeFolder 	= args.SupportCodeFolder;
+    
+    // set model path (read from cmd line)
+    gTSModelsPath = JoinPath(JoinPath(gSBMLModelsPath, "cases"), "semantic");
 
  	fstream aFile(reportFile.c_str(), ios::out);
     if(!aFile)

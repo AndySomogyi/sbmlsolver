@@ -15,9 +15,9 @@ temp_folder=/home/sagrada/rrtemp
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$lib_folder
 
-echo "./c_api_tests -m$model_folder -r$report_file -lgcc -s$install_folder/ThirdParty/rr_support -t$temp_folder -d$temp_folder -v"
+echo "./c_api_tests -m$model_folder -r$report_file -lgcc -s$install_folder/ThirdParty/rr_support -t$temp_folder -d$temp_folder"
 
-# ./c_api_tests -m$model_folder -r$report_file -lgcc -s$install_folder/ThirdParty/rr_support -t$temp_folder -d$temp_folder -v
-gdb ./c_api_tests
+./c_api_tests -m$model_folder -r$report_file -lgcc -s$install_folder/ThirdParty/rr_support -t$temp_folder -d$temp_folder
+# gdb ./c_api_tests
 
 echo "done..."
