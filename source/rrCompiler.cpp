@@ -137,7 +137,8 @@ bool Compiler::SetupCompilerEnvironment()
         mCompilerFlags.push_back("-rdynamic");  //-rdynamic : Export global symbols to the dynamic linker
                                                 //-b : Generate additional support code to check memory allocations and array/pointer bounds. `-g' is implied.
 
-        mCompilerFlags.push_back("-fPIC");
+        mCompilerFlags.push_back("-fPIC"); // shared lib
+        mCompilerFlags.push_back("-O0"); // turn off optimization
         
         //LogLevel                              //-v is for verbose
         if(ExtractFileNameNoExtension(mCompilerName) == "tcc") {
