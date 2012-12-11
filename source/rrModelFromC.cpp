@@ -136,7 +136,7 @@ bool ModelFromC::setupDLLFunctions()
     ccomputeConservedTotals             = (c_void)                     mDLL.getSymbol("computeConservedTotals");
     cgetConcentration                   = (c_double_int)               mDLL.getSymbol("getConcentration");
     cGetCurrentValues                   = (c_doubleStar)               mDLL.getSymbol("GetCurrentValues");
-    cevalModel                          = (c_void_double_doubleStar)   mDLL.getSymbol("evalModel");
+    cevalModel                          = (c_void_double_doubleStar)   mDLL.getSymbol("__evalModel");
     cconvertToConcentrations            = (c_void)                     mDLL.getSymbol("convertToConcentrations");
     cevalEvents                         = (c_void_double_doubleStar)   mDLL.getSymbol("evalEvents");
     cupdateDependentSpeciesValues       = (c_void_doubleStar)          mDLL.getSymbol("updateDependentSpeciesValues");
