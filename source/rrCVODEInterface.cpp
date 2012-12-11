@@ -1360,7 +1360,7 @@ void CvodeInterface::AssignResultsToModel()
     model->assignRates(dTemp);
 
 	//BUG:Commenting out the following causes rr_c to produce correct result, using gcc.
-    model->computeAllRatesOfChange();
+//     model->computeAllRatesOfChange();
 }
 
 // Restart the simulation using a different initial condition

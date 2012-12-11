@@ -374,7 +374,7 @@ bool rrCallConv setTempFolder(const char* folder)
         	setError(ALLOCATE_API_ERROR_MSG);
         	return false;
     	}
-		cout<<"Settting tempfolder to:"<<folder<<endl;
+		cout<<"Setting tempfolder to:"<<folder<<endl;
 	    return gRRHandle->SetTempFileFolder(folder);
     }
     catch(Exception& ex)

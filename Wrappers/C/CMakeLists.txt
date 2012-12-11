@@ -81,7 +81,7 @@ roadrunner
 #ENDIF(SUBVERSION_FOUND)
 
 
-# add_subdirectory(Apps)
+add_subdirectory(Apps)
 add_subdirectory(Examples)
 
 if(BUILD_TESTS)

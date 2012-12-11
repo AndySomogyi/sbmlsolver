@@ -23,7 +23,7 @@ string gDataOutputFolder   	= "";
 //Test suite
 string gTSModelsPath 		= "r:\\SBMLTS\\cases\\semantic";
 #else
-string gTSModelsPath 		= "/r/SBMLTS/cases/semantic";
+string gTSModelsPath 		= "/home/sagrada/myhome/develop/rr/install/unified/models/cases/semantic";
 #endif
 
 vector<string> gModels;
@@ -38,6 +38,14 @@ int main(int argc, char* argv[])
     ProcessCommandLineArguments(argc, argv, args);
 
 	string reportFile(args.ResultOutputFile);
+    
+    bool doLogging      = args.EnableLogging;
+
+    if(doLogging)
+    {
+        enableLogging();
+        setLogLevel("Debug5");
+    }
 
     gSBMLModelsPath 	= args.SBMLModelsFilePath;
 	gCompiler	 		= args.Compiler;
@@ -59,9 +67,9 @@ int main(int argc, char* argv[])
     clog<<"Running Base\n";
     runner1.RunTestsIf(Test::GetTestList(), "Base", 		True(), 0);
 
-    clog<<"Running SteadyState\n";
-    runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
-
+//     clog<<"Running SteadyState\n";
+//     runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
+// 
     clog<<"Running TestSuite Tests\n";
     clog<<"ModelPath "<<gTSModelsPath;
     runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4", 	True(), 0);

@@ -769,7 +769,7 @@ string RoadRunner::GetDLLName()
 #if defined(_WIN32) || defined(__CODEGEARC__)
     string dllName  = JoinPath(srcCodeFolder, ChangeFileExtensionTo(ExtractFileName(mModelXMLFileName), "dll"));
 #else
-	string dllName  = srcCodeFolder + PathSeparator + string("lib") + ChangeFileExtensionTo(ExtractFileName(mModelXMLFileName), "so");
+	string dllName  = JoinPath(srcCodeFolder, "lib" + ChangeFileExtensionTo(ExtractFileName(mModelXMLFileName), "so"));
 #endif
     return dllName;
 }
@@ -860,7 +860,7 @@ bool RoadRunner::CompileModel()
     unLoadModelDLL();
 
     string dllName  = GetDLLName();
-    dllName = "/home/sagrada/myhome/develop/rr/install/unified/bin/libsbml_model.so";
+//     dllName = "/home/sagrada/myhome/develop/rr/install/unified/bin/libtest_1.so";
     //Remove DLL
     if(FileExists(dllName) == true && remove(dllName.c_str()) != 0)
     {

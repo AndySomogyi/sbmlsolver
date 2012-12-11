@@ -24,7 +24,7 @@ string gDataOutputFolder   	= "";
 //Test suite
 string gTSModelsPath 		= "r:\\SBMLTS\\cases\\semantic";
 #else
-string gTSModelsPath 		= "/home/sagrada/myhome/downloads/source/roadrunner/install/all/models/cases/semantic";
+string gTSModelsPath 		= "/home/sagrada/myhome/downloads/source/roadrunner/install/uniform/models/cases/semantic";
 #endif
 
 vector<string> gModels;
@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
 
     if(doLogging)
     {
-        gLog.Init("", lDebug1, unique_ptr<LogFile>(new LogFile("testing.log")));
+        gLog.Init("", lDebug5, unique_ptr<LogFile>(new LogFile("/tmp/testing.log")));
         LogOutput::mLogToConsole = true;
     }
 	string reportFile(args.ResultOutputFile);
