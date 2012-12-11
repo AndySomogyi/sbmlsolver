@@ -37,7 +37,7 @@ void setTolerance(double dTolerance)
 	gLapackTolerance = dTolerance;
 }
 
-vector< ls::Complex> getEigenValues(DoubleMatrix &oMatrix)
+vector< Complex> getEigenValues(DoubleMatrix &oMatrix)
 {
     //Log(lDebug5) << "======================================================" << endl;
     //Log(lDebug5) << "=== getEigenValues " << endl;

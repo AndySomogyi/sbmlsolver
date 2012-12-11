@@ -49,6 +49,16 @@ double rrIniKey::AsFloat() const
     return ToDouble(mValue);
 }
 
+complex<double> rrIniKey::AsComplex() const
+{
+	vector<string> vals = SplitString(mValue,",");
+    if(vals.size() == 2)
+    {
+    	return complex<double>(ToDouble(vals[0]), ToDouble(vals[1]));
+    }
+    return complex<double>(ToDouble(mValue), 0 );
+}
+
 void rrIniKey::SetupKey(const string& key)
 {
     if(key.size())

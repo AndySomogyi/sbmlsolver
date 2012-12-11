@@ -14,7 +14,7 @@ body
 	font-size: 12px;
 	background: #fff;
 	margin: 45px;
-	width: 480px;
+	width: 50%;
 	border-collapse: collapse;
 	text-align: left;
 }
@@ -48,7 +48,7 @@ body
 	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
 	font-size: 12px;
 	margin: 45px;
-	width: 480px;
+	width: 80%;
 	text-align: left;
 	border-collapse: collapse;
 }

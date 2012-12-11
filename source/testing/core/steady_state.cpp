@@ -4,6 +4,8 @@
 #include "rrException.h"
 #include "rrStringUtils.h"
 #include "rrIniFile.h"
+#include <complex>
+
 using namespace UnitTest;
 using namespace rr;
 
@@ -92,17 +94,8 @@ SUITE(SteadyState)
             return;
         }
 
-        //Read in the reference data, from the ini file
-        string textMatrix = aSection->GetNonKeysAsString();
-
-        if(!textMatrix.size())
-        {
-        	CHECK(false);
-            return;
-        }
-
-        DoubleMatrix fullJacobian = aRR->getFullJacobian();
-        DoubleMatrix jRef = ParseFromText(textMatrix);
+        DoubleMatrix fullJacobian 	= aRR->getFullJacobian();
+        DoubleMatrix jRef 			= ParseFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions
         if(fullJacobian.RSize() != jRef.RSize() || fullJacobian.CSize() != jRef.CSize())
@@ -124,16 +117,8 @@ SUITE(SteadyState)
         }
 
         //Read in the reference data, from the ini file
-        string textMatrix = aSection->GetNonKeysAsString();
-
-        if(!textMatrix.size())
-        {
-        	CHECK(false);
-            return;
-        }
-
-        DoubleMatrix fullRJacobian = aRR->getFullJacobian();
-        DoubleMatrix jRef = ParseFromText(textMatrix);
+        DoubleMatrix fullRJacobian = aRR->getFullReorderedJacobian();
+        DoubleMatrix jRef = ParseFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions
         if(fullRJacobian.RSize() != jRef.RSize() || fullRJacobian.CSize() != jRef.CSize())
@@ -147,7 +132,28 @@ SUITE(SteadyState)
 
     TEST(EIGEN_VALUES)
 	{
-      	CHECK(false);
+        rrIniSection* aSection = iniFile.GetSection("EIGEN_VALUES");
+        //Read in the reference data, from the ini file
+		if(!aSection || !aRR)
+        {
+        	CHECK(false);
+            return;
+        }
+
+        vector<Complex> eigenVals = aRR->getEigenValuesCpx();
+        if(eigenVals.size() != aSection->KeyCount())
+        {
+        	CHECK(false);
+            return;
+        }
+
+        for(int i = 0 ; i < aSection->KeyCount(); i++)
+        {
+            rrIniKey *aKey = aSection->GetKey(i);
+            std::complex<double> eig;
+			eig = aKey->AsComplex();
+            CHECK_CLOSE(aKey->AsFloat(), real(eigenVals[i]), 1e-6);
+        }
     }
 
     TEST(STOICHIOMETRY_MATRIX)

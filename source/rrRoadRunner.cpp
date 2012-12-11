@@ -1587,7 +1587,7 @@ double RoadRunner::oneStep(const double& currentTime, const double& stepSize, co
 
 // Returns eigenvalues, first column real part, second column imaginary part
 // -------------------------------------------------------------------------
-DoubleMatrix RoadRunner::getEigenvalues()
+DoubleMatrix RoadRunner::getEigenValues()
 {
     try
     {
@@ -1595,21 +1595,39 @@ DoubleMatrix RoadRunner::getEigenvalues()
 	    {
             throw SBWApplicationException(emptyModelStr);
         }
-        DoubleMatrix result(getNumberOfIndependentSpecies(), 2);
-        DoubleMatrix mat = getReducedJacobian();
-//        LibLA LA;
 
-        vector<Complex> oComplex = getEigenValues(mat);
-        for (int i = 0; i < oComplex.size(); i++)
+        vector<Complex> vals = getEigenValuesCpx();
+
+        DoubleMatrix result(vals.size(), 2);
+
+        for (int i = 0; i < result.size(); i++)
         {
-	        result[i][0] = oComplex[i].Real;
-	        result[i][1] = oComplex[i].Imag;
+	        result[i][0] = real(vals[i]);
+	        result[i][1] = imag(vals[i]);
         }
         return result;
     }
     catch (const Exception& e)
     {
-        throw SBWApplicationException("Unexpected error from fullJacobian()", e.Message());
+        throw SBWApplicationException("Unexpected error from getEigenValues()", e.Message());
+    }
+}
+
+vector< Complex > RoadRunner::getEigenValuesCpx()
+{
+    try
+    {
+	    if (!mModel)
+	    {
+            throw SBWApplicationException(emptyModelStr);
+        }
+
+        DoubleMatrix mat = getReducedJacobian();
+        return ls::getEigenValues(mat);;
+    }
+    catch (const Exception& e)
+    {
+        throw SBWApplicationException("Unexpected error from getEigenValues()", e.Message());
     }
 }
 
@@ -1621,7 +1639,7 @@ DoubleMatrix RoadRunner::getFullJacobian()
         if (mModel)
         {
             DoubleMatrix uelast = getUnscaledElasticityMatrix();
-            DoubleMatrix* rsm = mLS->getReorderedStoichiometryMatrix();
+            DoubleMatrix* rsm = mLS->getStoichiometryMatrix();
             if(rsm)
             {
             	return mult(*rsm, uelast);
@@ -1650,10 +1668,9 @@ DoubleMatrix RoadRunner::getFullReorderedJacobian()
 	        throw SBWApplicationException(emptyModelStr);
         }
         DoubleMatrix uelast = getUnscaledElasticityMatrix();
-        DoubleMatrix* rsm = mLS->getReorderedStoichiometryMatrix();
-        if(rsm)
+        if(_N)
         {
-            return mult(*rsm, uelast);
+            return mult((*_N), uelast);
         }
         else
         {
@@ -2560,7 +2577,7 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
                 //LibLA LA;
 
                 DoubleMatrix mat = getReducedJacobian();
-                vector<Complex> oComplex = getEigenValues(mat);
+                vector<Complex> oComplex = ls::getEigenValues(mat);
 
                 if (oComplex.size() > nIndex)
                 {
@@ -4994,7 +5011,7 @@ double RoadRunner::getValue(const string& sId)
 //        LibLA LA;
 
         DoubleMatrix mat = getReducedJacobian();
-        vector<Complex> oComplex = getEigenValues(mat);
+        vector<Complex> oComplex = ls::getEigenValues(mat);
 
         if (oComplex.size() > selectionList[index].index)
         {

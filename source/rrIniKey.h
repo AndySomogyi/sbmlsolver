@@ -3,6 +3,7 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <complex>
 #include "rrObject.h"
 #include "rrStringUtils.h"
 #include "rrIniSection.h"
@@ -10,6 +11,7 @@
 
 using namespace rr;
 using std::string;
+using std::complex;
 
 namespace rr
 {
@@ -23,18 +25,20 @@ class RR_DECLSPEC rrIniKey : public rrObject
         void SetupKey(const string& key);
 
 	public:
-		string		mKey;
-		string		mValue;
-		string		mComment;
+		string	              	mKey;
+		string	              	mValue;
+		string	              	mComment;
 
-					rrIniKey(const string& key = EmptyString);
-				   ~rrIniKey(){}
-        void 		ReKey(const string& key);
-        string 		AsString() const;
-        int 		AsBool() const;
-        int 		AsInt() const;
-        double 		AsFloat() const;
-RR_DECLSPEC        friend ostream&             operator<<(ostream& stream, const rrIniKey& aKey);
+				              	rrIniKey(const string& key = EmptyString);
+				               ~rrIniKey(){}
+        void 	              	ReKey(const string& key);
+        string 	              	AsString() const;
+        int 	              	AsBool() const;
+        int 	              	AsInt() const;
+        double 	              	AsFloat() const;
+        complex<double> 		AsComplex() const;
+		RR_DECLSPEC
+        friend ostream& 		operator<<(ostream& stream, const rrIniKey& aKey);
 };
 }
 

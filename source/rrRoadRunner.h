@@ -197,7 +197,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		DoubleMatrix                    getFullJacobian();
 		DoubleMatrix 					getFullReorderedJacobian();
 
-		DoubleMatrix                    getEigenvalues();
+		DoubleMatrix                    getEigenValues();
+		vector<Complex>                 getEigenValuesCpx();
 
 		// ---------------------------------------------------------------------
 		// Start of Level 4 API Methods
