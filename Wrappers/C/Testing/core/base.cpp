@@ -14,6 +14,8 @@ extern string 	gBinPath;
 extern string 	gSBMLModelsPath;
 extern string 	gCompiler;
 extern string 	gSupportCodeFolder;
+extern string   gTempFolder;
+extern string   gDataOutputFolder;
 SUITE(Base)
 {
     TEST(AllocateRR)
@@ -28,26 +30,34 @@ SUITE(Base)
 		{
 			setCompilerLocation(gCompiler.c_str());
 			setSupportCodeFolder(gSupportCodeFolder.c_str());
+            setTempFolder(gTempFolder.c_str());
 		}
     }
 
-  	TEST(AllocateDeAllocateRR)
-	{
-    	int memoryBefore = 0;
-        int memoryAfter  = 10;
-        for(int i = 0; i < 1000; i++)
-        {
-            if(gRR)
-            {
-                freeRRInstance(gRR);
-            }
+    TEST(LOGGING)
+    {
+        CHECK(enableLogging());
+        char* logFName = getLogFileName();
+        CHECK_EQUAL("RoadRunner.log", logFName);
+    }
 
-           	gRR = getRRInstance();
-        }
-
-		//To check this properly, we will need to measure memory before and after somehow..
-		CHECK_CLOSE(memoryBefore, memoryAfter, 10);
-	}
+//   	TEST(AllocateDeAllocateRR)
+// 	{
+//     	int memoryBefore = 0;
+//         int memoryAfter  = 10;
+//         for(int i = 0; i < 1000; i++)
+//         {
+//             if(gRR)
+//             {
+//                 freeRRInstance(gRR);
+//             }
+// 
+//            	gRR = getRRInstance();
+//         }
+// 
+// 		//To check this properly, we will need to measure memory before and after somehow..
+// 		CHECK_CLOSE(memoryBefore, memoryAfter, 10);
+// 	}
 
 
     TEST(VERSIONS)
@@ -55,13 +65,6 @@ SUITE(Base)
     	CHECK_EQUAL(getVersion(), 			"1.0.0");
 		CHECK_EQUAL(getlibSBMLVersion(), 	"5.6.0");
     }
-
-	TEST(LOGGING)
-	{
-		//CHECK(enableLogging());
-		//char* logFName = getLogFileName();
-		//CHECK_EQUAL("RoadRunner.log", logFName);
-	}
 
     TEST(MODEL_FILES)	//Test that model files for the tests are present
     {

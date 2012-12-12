@@ -18,7 +18,8 @@
 #include "rr-libstruct/lsLA.h"
 #include "rr-libstruct/lsLibla.h"
 
-#include "rrModelState.h"
+
+#include "rrModelState.h"
 #include "rrArrayList2.h"
 #include "rrCapsSupport.h"
 #include "rrConstants.h"
@@ -768,7 +769,7 @@ string RoadRunner::GetDLLName()
 #if defined(_WIN32) || defined(__CODEGEARC__)
     string dllName  = JoinPath(srcCodeFolder, ChangeFileExtensionTo(ExtractFileName(mModelXMLFileName), "dll"));
 #else
-	string dllName  = srcCodeFolder + PathSeparator + string("lib") + ChangeFileExtensionTo(ExtractFileName(mModelXMLFileName), "so");
+	string dllName  = JoinPath(srcCodeFolder, "lib" + ChangeFileExtensionTo(ExtractFileName(mModelXMLFileName), "so"));
 #endif
     return dllName;
 }
@@ -859,6 +860,7 @@ bool RoadRunner::CompileModel()
     unLoadModelDLL();
 
     string dllName  = GetDLLName();
+//     dllName = "/home/sagrada/myhome/develop/rr/install/unified/bin/libtest_1.so";
     //Remove DLL
     if(FileExists(dllName) == true && remove(dllName.c_str()) != 0)
     {
@@ -875,9 +877,10 @@ bool RoadRunner::CompileModel()
     //Load the DLL
     try
     {
-    	string sharedLib = JoinPath(ExtractFilePath(dllName), ExtractFileNameNoExtension(dllName));
+    	//string sharedLib = JoinPath(ExtractFilePath(dllName), ExtractFileNameNoExtension(dllName));
+        //string sharedLib = "/home/sagrada/myhome/develop/rr/install/unified/bin/libsbml_model.so";
 		//sharedLib = JoinPath(mTempFileFolder, sharedLib);
-		Log(lDebug)<<"Trying to load shared lib: "<<sharedLib;
+		Log(lDebug)<<"Trying to load shared lib: "<<dllName;
     	mModelDLL.load(dllName);
     }
     catch(const exception& ex)

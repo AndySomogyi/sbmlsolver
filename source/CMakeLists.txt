@@ -2,6 +2,9 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 set(target roadrunner) 
 
+configure_file(rrConfigure.h.in rrConfigure.h)
+include_directories(${RR_GENERATED_HEADER_PATH}) #we have to do this to get the generated header
+
 include_directories(
 . 
 ${THIRD_PARTY_INSTALL_FOLDER}/include
@@ -97,7 +100,7 @@ set(staticLibExt "")
 endif()
 
 target_link_libraries (${target}    
- libsbml-static${staticLibExt}
+ sbml
  sundials_cvode
  sundials_nvecserial
  blas
@@ -107,6 +110,7 @@ target_link_libraries (${target}
  nleq-static
  rr-libstruct-static
  poco_foundation-static
+ pthread
 )
 
 add_library(${target}-static STATIC ${rrSources})
@@ -141,10 +145,10 @@ target_link_libraries (${target}-static
 
 #Libxml we can't build right now
 if(${BORLAND})
-target_link_libraries (${target}        libxml2_xe)
+# target_link_libraries (${target}        libxml2_xe)
 target_link_libraries (${target}-static libxml2_xe)
 else()
-target_link_libraries (${target}        libxml2${staticLibExt})
+# target_link_libraries (${target}        libxml2${staticLibExt})
 target_link_libraries (${target}-static libxml2${staticLibExt})
 endif()
 

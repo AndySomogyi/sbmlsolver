@@ -49,6 +49,7 @@
 #endif
 
 #include <sstream>
+#include "rrConfigure.h"
 #include "rrRoadRunner.h"
 #include "rrCGenerator.h"
 #include "rrLogger.h"           //Might be useful for debugging later on
@@ -76,14 +77,18 @@
 #pragma comment(lib, "nleq-static.lib")
 #endif
 
+void dosomething() {
+    int i = 1;
+}
+
 using namespace std;
 using namespace rr;
-using namespace rr_c_api;
 namespace rr_c_api
 {
 static  rr::RoadRunner*     gRRHandle       = NULL;
 char*                       gLastError      = NULL;
 }
+using namespace rr_c_api;
 
 bool rrCallConv enableLogging()
 {
@@ -226,7 +231,7 @@ char* rrCallConv getRRCAPILocation()
     }
     return NULL;
 #else
-	return "/usr/local/lib";
+	return RR_ROADRUNNER_INSTALL_LIB_PATH;
 #endif
 }
 
@@ -241,8 +246,8 @@ RRHandle rrCallConv getRRInstance()
             string rrInstallFolder(getParentFolder(getRRCAPILocation()));
             gRRHandle = new RoadRunner(JoinPath(rrInstallFolder,"rr_support"), JoinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"), GetUsersTempDataFolder());
 #elif defined(__linux)
-            string rrInstallFolder("/usr/local");
-            gRRHandle = new RoadRunner(JoinPath(rrInstallFolder,"rr_support");
+            string rrInstallFolder(getParentFolder(getRRCAPILocation()));
+            gRRHandle = new RoadRunner(JoinPath(rrInstallFolder,"rr_support"), "gcc", GetUsersTempDataFolder());
 #else
             string rrInstallFolder("?");
 #endif
@@ -369,7 +374,7 @@ bool rrCallConv setTempFolder(const char* folder)
         	setError(ALLOCATE_API_ERROR_MSG);
         	return false;
     	}
-		cout<<"Settting tempfolder to:"<<folder<<endl;
+		cout<<"Setting tempfolder to:"<<folder<<endl;
 	    return gRRHandle->SetTempFileFolder(folder);
     }
     catch(Exception& ex)

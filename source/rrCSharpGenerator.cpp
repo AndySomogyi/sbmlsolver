@@ -7,7 +7,7 @@
 #include "rr-libstruct/lsLibStructural.h"
 
 #include "rrCSharpGenerator.h"
-#include "rr-libstruct/lsLibstructural.h"
+#include "rr-libstruct/lsLibStructural.h"
 #include "rrStringListContainer.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"

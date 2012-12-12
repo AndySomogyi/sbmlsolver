@@ -8,9 +8,9 @@
       <listOfSpecies>
          <species id = "Xo" boundaryCondition = "true" initialConcentration = "1" compartment = "compartment"/>
          <species id = "X1" boundaryCondition = "true" initialConcentration = "0" compartment = "compartment"/>
-         <species id = "S1" boundaryCondition = "false" initialConcentration = "0.666666666666667" compartment = "compartment"/>
-         <species id = "S2" boundaryCondition = "false" initialConcentration = "0.25" compartment = "compartment"/>
-         <species id = "S3" boundaryCondition = "false" initialConcentration = "0.181818181818182" compartment = "compartment"/>
+         <species id = "S1" boundaryCondition = "false" initialConcentration = "0.0" compartment = "compartment"/>
+         <species id = "S2" boundaryCondition = "false" initialConcentration = "0.0" compartment = "compartment"/>
+         <species id = "S3" boundaryCondition = "false" initialConcentration = "0.0" compartment = "compartment"/>
       </listOfSpecies>
       <listOfParameters>
          <parameter id = "k1" value = "0.1"/>

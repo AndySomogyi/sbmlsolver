@@ -130,24 +130,35 @@ bool Compiler::SetupCompilerEnvironment()
     mIncludePaths.clear();
     mLibraryPaths.clear();
     mCompilerFlags.clear();
-    if(ExtractFileNameNoExtension(mCompilerName) == "tcc")
+    if(ExtractFileNameNoExtension(mCompilerName) == "tcc" || ExtractFileNameNoExtension(mCompilerName) == "gcc")
     {
-        mIncludePaths.push_back(".");
-        mIncludePaths.push_back(JoinPath(mCompilerLocation, "include"));
-        mLibraryPaths.push_back(".");
-		mLibraryPaths.push_back(JoinPath(mCompilerLocation, "lib"));
-
         mCompilerFlags.push_back("-g");         //-g adds runtime debug information
         mCompilerFlags.push_back("-shared");
         mCompilerFlags.push_back("-rdynamic");  //-rdynamic : Export global symbols to the dynamic linker
                                                 //-b : Generate additional support code to check memory allocations and array/pointer bounds. `-g' is implied.
 
+        mCompilerFlags.push_back("-fPIC"); // shared lib
+        mCompilerFlags.push_back("-O0"); // turn off optimization
+        
         //LogLevel                              //-v is for verbose
-        switch(gLog.GetLogLevel())
-        {
-            case lInfo:		mCompilerFlags.push_back("-v");           break;
-            case lDebug:   mCompilerFlags.push_back("-vv");           break;
-            case lDebug1:   mCompilerFlags.push_back("-vvv");         break;
+        if(ExtractFileNameNoExtension(mCompilerName) == "tcc") {
+            mIncludePaths.push_back(".");
+            mIncludePaths.push_back(JoinPath(mCompilerLocation, "include"));
+            mLibraryPaths.push_back(".");
+            mLibraryPaths.push_back(JoinPath(mCompilerLocation, "lib"));
+            if(gLog.GetLogLevel() < lDebug)
+                mCompilerFlags.push_back("-v"); // suppress warnings
+            else if(gLog.GetLogLevel() >= lDebug1)
+                mCompilerFlags.push_back("-vv");
+            else if(gLog.GetLogLevel() >= lDebug2)
+                mCompilerFlags.push_back("-vvv");
+        } else if(ExtractFileNameNoExtension(mCompilerName) == "gcc") {
+            if(gLog.GetLogLevel() < lDebug)
+                mCompilerFlags.push_back("-w"); // suppress warnings
+            else if(gLog.GetLogLevel() >= lDebug1)
+                mCompilerFlags.push_back("-Wall");
+            else if(gLog.GetLogLevel() >= lDebug2)
+                mCompilerFlags.push_back("-Wall -pedantic");
         }
     }
     else if(mCompilerName == "bcc")
@@ -162,7 +173,7 @@ bool Compiler::SetupCompilerEnvironment()
 string Compiler::CreateCompilerCommand(const string& sourceFileName)
 {
     stringstream exeCmd;
-    if(ExtractFileNameNoExtension(mCompilerName) == "tcc")
+    if(ExtractFileNameNoExtension(mCompilerName) == "tcc" || ExtractFileNameNoExtension(mCompilerName) == "gcc")
     {
         exeCmd<<JoinPath(mCompilerLocation, mCompilerName);
         //Add compiler flags
@@ -201,6 +212,7 @@ string Compiler::CreateCompilerCommand(const string& sourceFileName)
     return exeCmd.str();
 }
 
+#ifdef WIN32
 bool Compiler::Compile(const string& cmdLine)
 {
     STARTUPINFO         si;
@@ -285,6 +297,29 @@ bool Compiler::Compile(const string& cmdLine)
 
     return true;
 }
+
+#else
+
+bool Compiler::Compile(const string& cmdLine) {
+    string toFile(cmdLine);
+    toFile += " 2>&1 >> ";
+    string tmpFolder = rr::RoadRunner::getTempFileFolder();
+    toFile += JoinPath(rr::RoadRunner::getTempFileFolder(), "compilation.log");
+    Log(lInfo)<<"Compiler command: "<<toFile;
+    int val = system(toFile.c_str());
+    if(val ==0)
+    {
+    Log(lInfo)<<"Compile system call returned: "<<val;
+        return true;
+    }
+    else
+    {
+    Log(lError)<<"Compile system call returned: "<<val;
+        return false;
+    }
+}
+
+#endif //WIN32
 
 string getCompilerMessages()
 {

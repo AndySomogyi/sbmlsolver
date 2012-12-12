@@ -266,7 +266,7 @@ void CreateTestSuiteFileNameParts(int caseNr, const string& postFixPart, string&
 
     modelSubPath<<setfill('0')<<setw(5)<<caseNr;        //create the "00023" subfolder format
     modelFileName<<setfill('0')<<setw(5)<<caseNr<<postFixPart;
-    modelFilePath = modelFilePath + "\\" + modelSubPath.str();
+    modelFilePath = JoinPath(modelFilePath, modelSubPath.str());
     modelName =  modelFileName.str();
     settingsFileName <<setfill('0')<<setw(5)<<caseNr<<"-settings.txt";
 	settingsFName = settingsFileName.str();

@@ -1,0 +1,23 @@
+
+echo "Running tests..."
+
+# ===  Call with three arguments!!
+compiler=$1
+compiler_version=$2
+build_type=$3
+
+install_folder=@RR_ROADRUNNER_INSTALL_PATH@
+lib_folder=$install_folder/lib
+model_folder=$install_folder/models
+wc=@RR_SOURCE_PATH@
+report_file=$wc/reports/$compiler/$compiler_version/cpp_tests.xml
+temp_folder=/home/sagrada/rrtemp
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$lib_folder
+
+echo "./c_api_tests -m$model_folder -r$report_file -lgcc -s$install_folder/ThirdParty/rr_support -t$temp_folder -d$temp_folder"
+
+./c_api_tests -m$model_folder -r$report_file -lgcc -s$install_folder/ThirdParty/rr_support -t$temp_folder -d$temp_folder
+# gdb ./c_api_tests
+
+echo "done..."

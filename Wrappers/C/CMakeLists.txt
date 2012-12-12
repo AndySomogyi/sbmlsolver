@@ -2,6 +2,8 @@ set(target rr_c_api)
 
 set(C_API_INCLUDE_ROOT "${RR_ROOT}/Wrappers/C")
 
+include_directories(${RR_GENERATED_HEADER_PATH}) #we have to do this to get the generated header
+
 include_directories(   
 ${C_API_INCLUDE_ROOT}
 ${RR_ROOT}/source
@@ -35,9 +37,19 @@ else()
 endif()
 
 #Link C_api dll statically to roadrunner and libsbml
+# target_link_libraries (
+# ${target}
+# roadrunner-static
+# #blas
+# #lapack
+# #libf2c
+# #pugi-static
+# #rr-libstruct-static
+# )
+
 target_link_libraries (
 ${target}
-roadrunner-static
+roadrunner
 #blas
 #lapack
 #libf2c
@@ -70,10 +82,10 @@ roadrunner-static
 
 
 add_subdirectory(Apps)
-#add_subdirectory(Examples)
+add_subdirectory(Examples)
 
 if(BUILD_TESTS)
-add_subdirectory(Testing)
+    add_subdirectory(Testing)
 endif()
 
 #=============== INSTALL =====================

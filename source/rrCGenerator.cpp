@@ -327,7 +327,7 @@ void CGenerator::WriteComputeAllRatesOfChange(CodeBuilder& ignore, const int& nu
     mSource<<tab<<"{\n"<<tab<<tab<<"dTemp[i + _rateRulesSize] = _amounts[i];\n\t}";
     mSource<<Append("\n\t//amounts.CopyTo(dTemp, rateRules.Length); " + NL());
 
-    mSource<<Append("\tevalModel(mTime, dTemp);" + NL());
+    mSource<<Append("\t__evalModel(mTime, dTemp);" + NL());
     bool isThereAnEntry = false;
     for (int i = 0; i < numDependentSpecies; i++)
     {
@@ -1259,9 +1259,9 @@ void CGenerator::WriteEvalEvents(CodeBuilder& ignore, const int& numEvents, cons
 
 void CGenerator::WriteEvalModel(CodeBuilder& ignore, const int& numReactions, const int& numIndependentSpecies, const int& numFloatingSpecies, const int& numOfRules)
 {
-    mHeader.AddFunctionExport("void", "evalModel(double, double*)");
+    mHeader.AddFunctionExport("void", "__evalModel(double, double*)");
     mSource<<Append("//Model Function" + NL());
-    mSource<<"void evalModel (double timein, double* oAmounts)\n{";
+    mSource<<"void __evalModel (double timein, double* oAmounts)\n{";
 
 
     for (int i = 0; i < NumAdditionalRates(); i++)

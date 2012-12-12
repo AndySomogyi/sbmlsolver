@@ -19,12 +19,16 @@ string gSupportCodeFolder 	= "";
 string gTempFolder		   	= "";
 string gDataOutputFolder   	= "";
 
-#if defined(WIN32)
-//Test suite
-string gTSModelsPath 		= "r:\\SBMLTS\\cases\\semantic";
-#else
-string gTSModelsPath 		= "/r/SBMLTS/cases/semantic";
-#endif
+// DEPRECATED: hard-coded paths
+// #if defined(WIN32)
+// //Test suite
+// string gTSModelsPath 		= "r:\\SBMLTS\\cases\\semantic";
+// #else
+// string gTSModelsPath = "mypath";
+// #endif
+
+// initialized based on gSBMLModelsPath
+string gTSModelsPath;
 
 vector<string> gModels;
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
@@ -38,12 +42,23 @@ int main(int argc, char* argv[])
     ProcessCommandLineArguments(argc, argv, args);
 
 	string reportFile(args.ResultOutputFile);
+    
+    bool doLogging      = args.EnableLogging;
+
+    enableLogging();
+    if(doLogging)
+        setLogLevel("Debug5");
+    else
+        setLogLevel("INFO");
 
     gSBMLModelsPath 	= args.SBMLModelsFilePath;
 	gCompiler	 		= args.Compiler;
     gTempFolder			= args.TempDataFolder;
     gDataOutputFolder	= args.DataOutputFolder;
 	gSupportCodeFolder 	= args.SupportCodeFolder;
+    
+    // set model path (read from cmd line)
+    gTSModelsPath = JoinPath(JoinPath(gSBMLModelsPath, "cases"), "semantic");
 
  	fstream aFile(reportFile.c_str(), ios::out);
     if(!aFile)
@@ -59,9 +74,9 @@ int main(int argc, char* argv[])
     clog<<"Running Base\n";
     runner1.RunTestsIf(Test::GetTestList(), "Base", 		True(), 0);
 
-    clog<<"Running SteadyState\n";
-    runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
-
+//     clog<<"Running SteadyState\n";
+//     runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
+// 
     clog<<"Running TestSuite Tests\n";
     clog<<"ModelPath "<<gTSModelsPath;
     runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4", 	True(), 0);
