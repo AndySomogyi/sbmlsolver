@@ -25,7 +25,7 @@ string theModel;
 string refDataFolder;
 string refDataFile;
 
-DoubleMatrix ParseFromText(const string& textMatrix);
+DoubleMatrix ParseMatrixFromText(const string& textMatrix);
 SUITE(SteadyState)
 {
 	//This suite tests various steady state functions, using the model TestModel_1.xml
@@ -95,7 +95,29 @@ SUITE(SteadyState)
         }
 
         DoubleMatrix fullJacobian 	= aRR->getFullJacobian();
-        DoubleMatrix jRef 			= ParseFromText(aSection->GetNonKeysAsString());
+        DoubleMatrix jRef 			= ParseMatrixFromText(aSection->GetNonKeysAsString());
+
+        //Check dimensions
+        if(fullJacobian.RSize() != jRef.RSize() || fullJacobian.CSize() != jRef.CSize())
+        {
+        	CHECK(false);
+            return;
+        }
+
+		CHECK_ARRAY2D_CLOSE(jRef, fullJacobian, fullJacobian.RSize(),fullJacobian.CSize(), 1e-6);
+    }
+
+    TEST(REDUCED_JACOBIAN)
+	{
+		rrIniSection* aSection = iniFile.GetSection("REDUCED_JACOBIAN");
+   		if(!aSection)
+        {
+        	CHECK(false);
+            return;
+        }
+
+        DoubleMatrix fullJacobian 	= aRR->getReducedJacobian();
+        DoubleMatrix jRef 			= ParseMatrixFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions
         if(fullJacobian.RSize() != jRef.RSize() || fullJacobian.CSize() != jRef.CSize())
@@ -118,7 +140,7 @@ SUITE(SteadyState)
 
         //Read in the reference data, from the ini file
         DoubleMatrix fullRJacobian = aRR->getFullReorderedJacobian();
-        DoubleMatrix jRef = ParseFromText(aSection->GetNonKeysAsString());
+        DoubleMatrix jRef = ParseMatrixFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions
         if(fullRJacobian.RSize() != jRef.RSize() || fullRJacobian.CSize() != jRef.CSize())
@@ -158,33 +180,142 @@ SUITE(SteadyState)
 
     TEST(STOICHIOMETRY_MATRIX)
 	{
-      	CHECK(false);
+		rrIniSection* aSection = iniFile.GetSection("STOICHIOMETRY_MATRIX");
+   		if(!aSection)
+        {
+        	CHECK(false);
+            return;
+        }
+
+        //Read in the reference data, from the ini file
+        DoubleMatrix stoichioMat = aRR->getStoichiometryMatrix();
+        DoubleMatrix ref = ParseMatrixFromText(aSection->GetNonKeysAsString());
+
+        //Check dimensions
+        if(stoichioMat.RSize() != ref.RSize() || stoichioMat.CSize() != ref.CSize())
+        {
+        	CHECK(false);
+            return;
+        }
+
+		CHECK_ARRAY2D_CLOSE(ref, stoichioMat, stoichioMat.RSize(), stoichioMat.CSize(), 1e-6);
     }
 
     TEST(LINK_MATRIX)
 	{
-    	CHECK(false);
+		rrIniSection* aSection = iniFile.GetSection("LINK_MATRIX");
+   		if(!aSection)
+        {
+        	CHECK(false);
+            return;
+        }
+
+        //Read in the reference data, from the ini file
+        DoubleMatrix matrix 	= *(aRR->getLinkMatrix());
+        DoubleMatrix ref  		= ParseMatrixFromText(aSection->GetNonKeysAsString());
+
+        //Check dimensions
+        if(matrix.RSize() != ref.RSize() || matrix.CSize() != ref.CSize())
+        {
+        	CHECK(false);
+            return;
+        }
+
+		CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
     }
 
     TEST(UNSCALED_ELASTICITY_MATRIX)
 	{
-      	CHECK(false);
+		rrIniSection* aSection = iniFile.GetSection("UNSCALED_ELASTICITY_MATRIX");
+   		if(!aSection)
+        {
+        	CHECK(false);
+            return;
+        }
+
+        //Read in the reference data, from the ini file
+        DoubleMatrix matrix 	= aRR->getUnscaledElasticityMatrix();
+        DoubleMatrix ref  		= ParseMatrixFromText(aSection->GetNonKeysAsString());
+
+        //Check dimensions
+        if(matrix.RSize() != ref.RSize() || matrix.CSize() != ref.CSize())
+        {
+        	CHECK(!"Wrong matrix dimensions" );
+            return;
+        }
+
+		CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
     }
 
     TEST(SCALED_ELASTICITY_MATRIX)
 	{
-      	CHECK(false);
+		rrIniSection* aSection = iniFile.GetSection("SCALED_ELASTICITY_MATRIX");
+   		if(!aSection)
+        {
+        	CHECK(false);
+            return;
+        }
+
+        //Read in the reference data, from the ini file
+        DoubleMatrix matrix 	= aRR->getScaledElasticityMatrix();
+        DoubleMatrix ref  		= ParseMatrixFromText(aSection->GetNonKeysAsString());
+
+        //Check dimensions
+        if(matrix.RSize() != ref.RSize() || matrix.CSize() != ref.CSize())
+        {
+        	CHECK(!"Wrong matrix dimensions" );
+            return;
+        }
+
+		CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
     }
 
     TEST(UNSCALED_CONCENTRATION_CONTROL_MATRIX)
 	{
-      	CHECK(false);
+		rrIniSection* aSection = iniFile.GetSection("UNSCALED_CONCENTRATION_CONTROL_MATRIX");
+   		if(!aSection)
+        {
+        	CHECK(false);
+            return;
+        }
+
+        //Read in the reference data, from the ini file
+        DoubleMatrix matrix 	= aRR->getUnscaledConcentrationControlCoefficientMatrix();
+        DoubleMatrix ref  		= ParseMatrixFromText(aSection->GetNonKeysAsString());
+
+        //Check dimensions
+        if(matrix.RSize() != ref.RSize() || matrix.CSize() != ref.CSize())
+        {
+        	CHECK(!"Wrong matrix dimensions" );
+            return;
+        }
+
+		CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
     }
 
     TEST(UNSCALED_FLUX_CONTROL_MATRIX)
-    {
-      	CHECK(false);
+	{
+		rrIniSection* aSection = iniFile.GetSection("UNSCALED_FLUX_CONTROL_MATRIX");
+   		if(!aSection)
+        {
+        	CHECK(false);
+            return;
+        }
+
+        //Read in the reference data, from the ini file
+        DoubleMatrix matrix 	= aRR->getUnscaledFluxControlCoefficientMatrix();
+        DoubleMatrix ref  		= ParseMatrixFromText(aSection->GetNonKeysAsString());
+
+        //Check dimensions
+        if(matrix.RSize() != ref.RSize() || matrix.CSize() != ref.CSize())
+        {
+        	CHECK(!"Wrong matrix dimensions" );
+            return;
+        }
+
+		CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
     }
+
 
 //    TEST(SS_SYMBOLS)
 //    {
@@ -200,7 +331,7 @@ SUITE(SteadyState)
 
 }
 
-DoubleMatrix ParseFromText(const string& textMatrix)
+DoubleMatrix ParseMatrixFromText(const string& textMatrix)
 {
 	DoubleMatrix mat;
 
