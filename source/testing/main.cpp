@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
 
     runner1.RunTestsIf(Test::GetTestList(), "Base", 		True(), 0);
     runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
-//    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4",   	True(), 0);
+    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4",   	True(), 0);
 //    runner1.RunTestsIf(Test::GetTestList(), "Stoichiometric",   	True(), 0);
 
     //Finish outputs result to xml file
