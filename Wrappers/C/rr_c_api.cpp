@@ -49,7 +49,7 @@
 #endif
 
 #include <sstream>
-#include "rrConfigure.h"
+//#include "rrConfigure.h"
 #include "rrRoadRunner.h"
 #include "rrCGenerator.h"
 #include "rrLogger.h"           //Might be useful for debugging later on
@@ -76,10 +76,6 @@
 #pragma comment(lib, "poco_foundation-static.lib")
 #pragma comment(lib, "nleq-static.lib")
 #endif
-
-void dosomething() {
-    int i = 1;
-}
 
 using namespace std;
 using namespace rr;
@@ -374,7 +370,7 @@ bool rrCallConv setTempFolder(const char* folder)
         	setError(ALLOCATE_API_ERROR_MSG);
         	return false;
     	}
-		cout<<"Setting tempfolder to:"<<folder<<endl;
+		Log(lDebug)<<"Setting tempfolder to:"<<folder<<endl;
 	    return gRRHandle->SetTempFileFolder(folder);
     }
     catch(Exception& ex)
@@ -1731,7 +1727,6 @@ RRListHandle rrCallConv getAvailableTimeCourseSymbols()
         }
 
         NewArrayList slSymbols = gRRHandle->getAvailableTimeCourseSymbols();
-        //cout<<"Got "<<slSymbols;
 		return createList(slSymbols);
     }
     catch(Exception& ex)
@@ -1754,7 +1749,6 @@ RRListHandle rrCallConv getAvailableSteadyStateSymbols()
         }
 
         NewArrayList slSymbols = gRRHandle->getAvailableSteadyStateSymbols();
-        //cout<<"Got "<<slSymbols;
 		return createList(slSymbols);
     }
     catch(Exception& ex)
@@ -2162,7 +2156,7 @@ RRMatrixHandle rrCallConv getEigenValues()
             return NULL;
         }
 
-		ls::DoubleMatrix tempMat = gRRHandle->getEigenvalues();
+		ls::DoubleMatrix tempMat = gRRHandle->getEigenValues();
         return createMatrix(&tempMat);
     }
     catch(Exception& ex)

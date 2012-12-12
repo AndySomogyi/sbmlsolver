@@ -63,6 +63,11 @@ bool SBMLTestSuiteSimulation_CAPI::Simulate()
     return mResultHandle ? true : false;
 }
 
+SimulationData SBMLTestSuiteSimulation_CAPI::GetResult()
+{
+	return mResultData; //Not that pretty.
+}
+
 bool SBMLTestSuiteSimulation_CAPI::SaveResult()
 {
     string resultFileName(JoinPath(mDataOutputFolder, "rrCAPI_" + mModelFileName));
@@ -105,5 +110,6 @@ SimulationData convertCAPIResultData(RRResultHandle	result)
     }
 
 	return resultData;
-
 }
+
+

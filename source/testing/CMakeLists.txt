@@ -47,7 +47,6 @@ endif()
 target_link_libraries (${target} 
 roadrunner-static
 unit_test-static${staticLibPrefix}
-f2c
 )
 
 if(UNIX)

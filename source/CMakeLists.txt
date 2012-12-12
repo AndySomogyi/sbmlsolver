@@ -100,7 +100,7 @@ set(staticLibExt "")
 endif()
 
 target_link_libraries (${target}    
- sbml
+ libsbml
  sundials_cvode
  sundials_nvecserial
  blas
@@ -110,8 +110,12 @@ target_link_libraries (${target}
  nleq-static
  rr-libstruct-static
  poco_foundation-static
+)
+if(UNIX)
+target_link_libraries (${target}    
  pthread
 )
+endif()
 
 add_library(${target}-static STATIC ${rrSources})
 

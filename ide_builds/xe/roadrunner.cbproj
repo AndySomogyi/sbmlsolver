@@ -38,7 +38,7 @@
 			<_TCHARMapping>char</_TCHARMapping>
 			<ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
 			<ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
-			<IncludePath>..\ThirdParty\pugi\src\;mtrand\;..\..\source\;..\..\source\mtrand\;$(RR_DEBUG_INSTALL)\include;$(RR_ROOT)\trunk\ThirdParty\clapack\3.2.1\include;..\..\ThirdParty\pugi\src\;$(IncludePath)</IncludePath>
+			<IncludePath>..\..\source\;..\..\source\mtrand\;..\..\ThirdParty\pugi\src\;$(IncludePath)</IncludePath>
 			<ILINK_LibraryPath>..\ThirdParty\pugi\src\;mtrand\;R:\builds\xe\debug\ThirdParty\lib\;R:\installs\xe\debug\lib\;..\..\ThirdParty\pugi\src\;..\..\source\mtrand\;..\..\source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
 			<Multithreaded>true</Multithreaded>
 			<DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
@@ -342,10 +342,10 @@
 		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Cpp.Targets')" Project="$(BDS)\Bin\CodeGear.Cpp.Targets"/>
 		<Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj"/>
 		<PropertyGroup Condition="'$(FileToCompile)'==''">
-			<PostBuildEvent><![CDATA[copy $(RR_ROOT)\trunk\ThirdParty\ldependencies\libsbml\lib\libxml2_xe.lib $(RR_DEBUG_INSTALL)\lib\libxml2_xe.lib
-copy  $(RR_ROOT)\trunk\ThirdParty\dependencies\libsbml\bin\libxml2.dll $(RR_DEBUG_INSTALL)\bin\libxml2.dll
-copy  $(RR_ROOT)\trunk\ThirdParty\dependencies\libsbml\bin\iconv.dll $(RR_DEBUG_INSTALL)\bin\iconv.dll
-copy  $(RR_ROOT)\trunk\ThirdParty\dependencies\libsbml\bin\zlib1.dll $(RR_DEBUG_INSTALL)\bin\zlib1.dll]]></PostBuildEvent>
+			<PostBuildEvent><![CDATA[copy $(RR_ROOT)\ThirdParty\ldependencies\libsbml\lib\libxml2_xe.lib $(RR_DEBUG_INSTALL)\lib\libxml2_xe.lib
+copy  $(RR_ROOT)\ThirdParty\dependencies\libsbml\bin\libxml2.dll $(RR_DEBUG_INSTALL)\bin\libxml2.dll
+copy  $(RR_ROOT)\ThirdParty\dependencies\libsbml\bin\iconv.dll $(RR_DEBUG_INSTALL)\bin\iconv.dll
+copy  $(RR_ROOT)\ThirdParty\dependencies\libsbml\bin\zlib1.dll $(RR_DEBUG_INSTALL)\bin\zlib1.dll]]></PostBuildEvent>
 		</PropertyGroup>
 		<ProjectExtensions>
 			<Borland.Personality>CPlusPlusBuilder.Personality.12</Borland.Personality>

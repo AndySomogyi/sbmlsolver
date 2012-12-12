@@ -34,7 +34,7 @@ class RR_DECLSPEC SBMLModelSimulation : public rrObject
         string                  GetTempDataFolder();
         bool                    UseEngine(RoadRunner* engine);
 
-        SimulationData          GetResult();
+
 
         bool                    GenerateModelCode();
         bool                    CreateModel();
@@ -54,7 +54,7 @@ class RR_DECLSPEC SBMLModelSimulation : public rrObject
         virtual bool            Simulate();
         virtual bool            SaveResult();
         virtual bool            LoadSettings(const string& fName = EmptyString);
-
+        virtual SimulationData  GetResult();
 };
 
 }

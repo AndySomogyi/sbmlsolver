@@ -4,6 +4,8 @@
 #include "rrTestSuiteModelSimulation.h"
 #include "rr_c_api.h"
 
+using namespace rr;
+
 class SBMLTestSuiteSimulation_CAPI : public rr::TestSuiteModelSimulation
 {
 	private:
@@ -18,6 +20,7 @@ class SBMLTestSuiteSimulation_CAPI : public rr::TestSuiteModelSimulation
         bool            	LoadSettings(const string& fName = "");
 		bool 				Simulate();
         bool            	SaveResult();
+        SimulationData  	GetResult();
 };
 
 #endif

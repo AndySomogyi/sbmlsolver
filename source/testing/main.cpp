@@ -96,7 +96,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
                 {
                     cout<<"*** Illegal option:\t"<<argv[rrOptInd-1]<<" ***\n"<<endl;
                 }
-                exit(-1);
+                exit(0);
             }
         }
     }
@@ -105,7 +105,9 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     if(argc < 2)
     {
         cout<<Usage(argv[0])<<endl;
-        exit(-1);
+       	rr::Pause();
+        cout<<"\n";
+        exit(0);
     }
 }
 

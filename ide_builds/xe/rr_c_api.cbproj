@@ -29,7 +29,7 @@
 			<PackageImports>vclx.bpi;vcl.bpi;VclSmp.bpi;rtl.bpi;vclimg.bpi;bcbie.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;svnui.bpi;svn.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;bdertl.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;vclie.bpi;inet.bpi;inetdb.bpi;webdsnap.bpi;websnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;DbxCommonDriver.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbexpress.bpi;dbxcds.bpi;TeeTree2D15Tee9.bpi;DbxClientDriver.bpi;AzureCloud.bpi;TeeImage915.bpi;TeeWorld915.bpi;TeeLanguage915.bpi;TeePro915.bpi;TeeGL915.bpi;TeeUI915.bpi;TeeDB915.bpi;Tee915.bpi</PackageImports>
 			<ProjectType>CppDynamicLibrary</ProjectType>
 			<_TCHARMapping>char</_TCHARMapping>
-			<IncludePath>..\..\source;..\..\Wrappers\C\;$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>
+			<IncludePath>..\..\source;..\..\Wrappers\C\;$(IncludePath)</IncludePath>
 			<AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
 			<OutputExt>dll</OutputExt>
 			<BPILibOutputDir>$(RR_DEBUG_INSTALL)\lib</BPILibOutputDir>

@@ -26,6 +26,7 @@ SUITE(Base)
         }
 
         CHECK(gRR!=NULL);	//If gRR == NULL this is a fail
+
 		if(gRR)
 		{
 			setCompilerLocation(gCompiler.c_str());
@@ -36,7 +37,7 @@ SUITE(Base)
 
     TEST(LOGGING)
     {
-        CHECK(enableLogging());
+//        CHECK(enableLogging());
         char* logFName = getLogFileName();
         CHECK_EQUAL("RoadRunner.log", logFName);
     }

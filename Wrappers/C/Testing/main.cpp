@@ -19,14 +19,6 @@ string gSupportCodeFolder 	= "";
 string gTempFolder		   	= "";
 string gDataOutputFolder   	= "";
 
-// DEPRECATED: hard-coded paths
-// #if defined(WIN32)
-// //Test suite
-// string gTSModelsPath 		= "r:\\SBMLTS\\cases\\semantic";
-// #else
-// string gTSModelsPath = "mypath";
-// #endif
-
 // initialized based on gSBMLModelsPath
 string gTSModelsPath;
 
@@ -42,14 +34,15 @@ int main(int argc, char* argv[])
     ProcessCommandLineArguments(argc, argv, args);
 
 	string reportFile(args.ResultOutputFile);
-    
-    bool doLogging      = args.EnableLogging;
 
-    enableLogging();
-    if(doLogging)
+    //We need a rr handle to enable logging...
+    gRR = getRRInstance();
+
+    if(args.EnableLogging)
+    {
+	    enableLogging();
         setLogLevel("Debug5");
-    else
-        setLogLevel("INFO");
+    }
 
     gSBMLModelsPath 	= args.SBMLModelsFilePath;
 	gCompiler	 		= args.Compiler;
@@ -76,7 +69,7 @@ int main(int argc, char* argv[])
 
 //     clog<<"Running SteadyState\n";
 //     runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
-// 
+
     clog<<"Running TestSuite Tests\n";
     clog<<"ModelPath "<<gTSModelsPath;
     runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4", 	True(), 0);
@@ -106,9 +99,9 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
                 string str = argv[rrOptInd-1];
                 if(str != "-?")
                 {
-                    cout<<"*** Illegal option:\t"<<argv[rrOptInd-1]<<" ***\n"<<endl;
+                    cout<<"*** Illegal option:\t"<<argv[rrOptInd-1]<<" ***\n\n";
                 }
-                exit(-1);
+                exit(0);
             }
         }
     }
@@ -117,7 +110,9 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     if(argc < 2)
     {
         cout<<Usage(argv[0])<<endl;
-        exit(-1);
+       	rr::Pause();
+        cout<<"\n";
+        exit(0);
     }
 }
 
