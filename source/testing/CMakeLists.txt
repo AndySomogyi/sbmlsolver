@@ -1,16 +1,19 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
-PROJECT(RR_CXX_API_Tests)
+PROJECT(RR_CXX_API_TESTS)
 
 set(target cxx_api_tests)
-set(tests
-core/base
-core/sbmlTests
-)
 
 add_executable( ${target} 
 main.cpp
 Args.cpp
 ${tests}
+)
+
+set(tests
+core/base
+core/sbml_test_suite
+core/steady_state
+core/stoichiometric
 )
 
 set_property(TARGET ${target}  
@@ -22,6 +25,15 @@ STATIC_PUGI
 STATIC_RR
 STATIC_NLEQ
 ) 
+
+link_directories(
+${THIRD_PARTY_INSTALL_FOLDER}/lib
+)
+
+include_directories(
+${RR_ROOT}
+${THIRD_PARTY_FOLDER}/unit_test/src
+)
 
 if(UNIX)
 set(staticLibPrefix ".a")
@@ -57,37 +69,27 @@ dl
 )
 endif()
 
-
-link_directories(
-${THIRD_PARTY_INSTALL_FOLDER}/lib
-)
-
-include_directories(
-${RR_ROOT}
-${THIRD_PARTY_FOLDER}/unit_test/src
-)
-
-set(resultsDir "${CMAKE_SOURCE_DIR}/reports")
-
-if(${BORLAND})
-set(resultsFile "${resultsDir}/cpp_api_tests-cg_xe1.xml")
-elseif(${MSVC})
-set(resultsFile "${resultsDir}/cpp_api_tests-vs_2010.xml")
-elseif(CMAKE_COMPILER_IS_GNUCC)
-set(resultsFile "${resultsDir}/cpp_api_tests-gcc.xml")
-else()
-set(resultsFile "${resultsDir}/cpp_api_tests_unknown_compiler.xml")
-endif()
-
-set(sbmlModelsDir       "${CMAKE_SOURCE_DIR}/models")
-set(compilerFolder      "${CMAKE_SOURCE_DIR}/ThirdParty/compilers/tcc")
-set(supportCodeFolder   "/r/rrl/rr_support")
-
-if(UNIX)
-set(compilerFolder     "")
-endif()
-
-Message("SupportCodeFolder is: " ${supportCodeFolder})
+#set(resultsDir "${CMAKE_SOURCE_DIR}/reports")
+#
+#if(${BORLAND})
+#set(resultsFile "${resultsDir}/cpp_api_tests-cg_xe1.xml")
+#elseif(${MSVC})
+#set(resultsFile "${resultsDir}/cpp_api_tests-vs_2010.xml")
+#elseif(CMAKE_COMPILER_IS_GNUCC)
+#set(resultsFile "${resultsDir}/cpp_api_tests-gcc.xml")
+#else()
+#set(resultsFile "${resultsDir}/cpp_api_tests_unknown_compiler.xml")
+#endif()
+#
+#set(sbmlModelsDir       "${CMAKE_SOURCE_DIR}/models")
+#set(compilerFolder      "${CMAKE_SOURCE_DIR}/ThirdParty/compilers/tcc")
+#set(supportCodeFolder   "/r/rrl/rr_support")
+#
+#if(UNIX)
+#set(compilerFolder     "")
+#endif()
+#
+#Message("SupportCodeFolder is: " ${supportCodeFolder})
 # Call like this -mr:\rrl\models -rr:\rrl\wiki\reports\file -tr:\rrTemp -sSupportCodeFolder -lCompilerFolder
 #add_custom_command(
 #    OUTPUT ${resultsFile}

@@ -13,7 +13,7 @@
             <xsl:value-of select="." />
             </xsl:for-each></h3>
 
-     <p><table id="summaryTable" >
+     <p><table id="summaryTable" width="100%" >
           <caption>Summary         </caption>
           <thead>
           <tr>

@@ -195,7 +195,10 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		static void                     TestSettings();
 		DoubleMatrix                    getReducedJacobian();
 		DoubleMatrix                    getFullJacobian();
-		DoubleMatrix                    getEigenvalues();
+		DoubleMatrix 					getFullReorderedJacobian();
+
+		DoubleMatrix                    getEigenValues();
+		vector<Complex>                 getEigenValuesCpx();
 
 		// ---------------------------------------------------------------------
 		// Start of Level 4 API Methods

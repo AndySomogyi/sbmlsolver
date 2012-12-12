@@ -8,8 +8,11 @@ using namespace std;
 namespace rr
 {
 
-RR_DECLSPEC extern const char* 	PathSeparator;
-RR_DECLSPEC extern const char* 	EmptyString;
+RR_DECLSPEC extern const char 	PathSeparator;
+RR_DECLSPEC extern const string	EmptyString;
+RR_DECLSPEC extern const char* 	double_format;
+RR_DECLSPEC extern const char* 	int_format;
+
 RR_DECLSPEC extern const string gExeSuffix;
 RR_DECLSPEC extern const char* 	Comma;
 RR_DECLSPEC extern const string DefaultCompiler;

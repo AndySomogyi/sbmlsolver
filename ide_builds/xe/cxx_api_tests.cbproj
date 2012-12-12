@@ -27,11 +27,11 @@
 			<BCC_Defines>LIBSBML_USE_CPP_NAMESPACE;WIN32;$(BCC_Defines)</BCC_Defines>
 			<OutputExt>exe</OutputExt>
 			<LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
-			<ILINK_LibraryPath>..\..\source\;..\..\ThirdParty\rr-libstruct\;..\..\source\testing\core\;..\..\source\testing\;core\;sanity_tests\;R:\installs\xe\debug\lib\;C:\rDisk\installs\xe\debug\lib\;R:\roadrunnerwork\trunk\testing\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+			<ILINK_LibraryPath>..\..\source\;..\..\ThirdParty\rr-libstruct\;..\..\source\testing\core\;..\..\source\testing\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
 			<PackageImports>vcl.bpi;rtl.bpi;bcbie.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;vclimg.bpi;svnui.bpi;svn.bpi;bdertl.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;vclie.bpi;inet.bpi;inetdb.bpi;webdsnap.bpi;websnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;dbexpress.bpi;DbxCommonDriver.bpi;DbxClientDriver.bpi;AzureCloud.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbxcds.bpi;DuneComponents.bpi;VCLCommon.bpi</PackageImports>
 			<NoVCL>true</NoVCL>
 			<Multithreaded>true</Multithreaded>
-			<IncludePath>..\..\source\;..\..\ThirdParty\rr-libstruct\;..\..\source\testing\core\;..\..\source\testing\;core\;..\;$(RR_RELEASE_INSTALL)\include\unit_test;$(IncludePath)</IncludePath>
+			<IncludePath>..\..\source\;..\..\ThirdParty\rr-libstruct\;..\..\source\testing\core\;..\..\source\testing\;..\;$(IncludePath)</IncludePath>
 			<AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
 			<ProjectType>CppConsoleApplication</ProjectType>
 			<_TCHARMapping>char</_TCHARMapping>
@@ -47,7 +47,6 @@
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1)'!=''">
 			<IntermediateOutputDir>.\$(Config)\$(Platform)\cxx_tests</IntermediateOutputDir>
-			<IncludePath>$(RR_DEBUG_INSTALL)\include;R:\rrl\trunk\ThirdParty\poco\Foundation\include;R:\rrl\trunk\source;$(IncludePath)</IncludePath>
 			<FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
 			<BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
 			<BCC_DisableOptimizations>true</BCC_DisableOptimizations>
@@ -78,8 +77,14 @@
 			<CppCompile Include="..\..\source\testing\core\base.cpp">
 				<BuildOrder>2</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="..\..\source\testing\core\sbmlTests.cpp">
-				<BuildOrder>3</BuildOrder>
+			<CppCompile Include="..\..\source\testing\core\sbml_test_suite.cpp">
+				<BuildOrder>5</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\..\source\testing\core\steady_state.cpp">
+				<BuildOrder>4</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\..\source\testing\core\stoichiometric.cpp">
+				<BuildOrder>5</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="..\..\source\testing\main.cpp">
 				<BuildOrder>0</BuildOrder>
@@ -136,7 +141,7 @@
 						<ProjectProperties Name="VerifyPackages">True</ProjectProperties>
 					</ProjectProperties>
 					<Parameters>
-						<Parameters Name="RunParams">-mr:\installs\xe1\debug\models -rr:\rrl\reports\cpp_api_cg_ui.xml -lr:\installs\xe1\debug\compilers\tcc\tcc.exe -sr:\installs\xe1\debug\rr_support -tr:\rrTemp\cxx_ui  -dr:\rrTemp\cxx_ui</Parameters>
+						<Parameters Name="RunParams">-mr:\installs\cg\xe1\debug\models -rr:\rrl\reports\cg\xe1\cpp_tests.xml -lr:\installs\cg\xe1\debug\compilers\tcc\tcc.exe -sr:\installs\cg\xe1\debug\rr_support -tr:\rrTemp\cxx_ui  -dr:\rrTemp\cxx_ui</Parameters>
 					</Parameters>
 				</CPlusPlusBuilder.Personality>
 				<Platforms>

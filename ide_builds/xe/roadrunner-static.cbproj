@@ -34,7 +34,7 @@
 			<_TCHARMapping>char</_TCHARMapping>
 			<ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
 			<ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
-			<IncludePath>..\..\source\Temp\;..\..\source\;..\..\source\mtrand\;mtrand\;$(RR_ROOT)\trunk\ThirdParty\clapack\3.2.1\include;$(IncludePath)</IncludePath>
+			<IncludePath>..\..\source\;..\..\source\mtrand\;$(IncludePath)</IncludePath>
 			<ILINK_LibraryPath>P:\mtk\Components\vtk\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
 			<Multithreaded>true</Multithreaded>
 			<DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
@@ -147,6 +147,10 @@
 				<DependentOn>..\..\source\rrFileLog.h</DependentOn>
 				<BuildOrder>18</BuildOrder>
 			</CppCompile>
+			<CppCompile Include="..\..\source\rrFileName.cpp">
+				<DependentOn>..\..\source\rrFileName.h</DependentOn>
+				<BuildOrder>68</BuildOrder>
+			</CppCompile>
 			<CppCompile Include="..\..\source\rrGetOptions.cpp">
 				<DependentOn>..\..\source\rrGetOptions.h</DependentOn>
 				<BuildOrder>19</BuildOrder>
@@ -158,6 +162,15 @@
 			<CppCompile Include="..\..\source\rrIModel.cpp">
 				<DependentOn>..\..\source\rrIModel.h</DependentOn>
 				<BuildOrder>21</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\..\source\rrIniFile.cpp">
+				<BuildOrder>66</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\..\source\rrIniKey.cpp">
+				<BuildOrder>67</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\..\source\rrIniSection.cpp">
+				<BuildOrder>65</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="..\..\source\rrLogContainer.cpp">
 				<DependentOn>..\..\source\rrLogContainer.h</DependentOn>

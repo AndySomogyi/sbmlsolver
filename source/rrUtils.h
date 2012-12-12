@@ -30,17 +30,21 @@ RR_DECLSPEC bool            IsNullOrEmpty(const string& str);    //Can't be null
 RR_DECLSPEC void            Pause(bool doIt = true, const string& msg = EmptyString);
 
 //String utilities
-RR_DECLSPEC string          RemoveTrailingSeparator(const string& fldr, const string& sep = PathSeparator);//"\\");
+RR_DECLSPEC string          RemoveTrailingSeparator(const string& fldr, const char sep = PathSeparator);//"\\");
 
 //File  Utilities
 RR_DECLSPEC bool            FileExists(const string& fileN);
 RR_DECLSPEC bool            FolderExists(const string& folderN);
 RR_DECLSPEC bool            CreateFolder(const string& path);
+
+#undef CreateFile
+RR_DECLSPEC bool     		CreateFile(const string& fName, int mode = ios::trunc);
+
 RR_DECLSPEC const string	getParentFolder(const string& path);
 RR_DECLSPEC const string    getCurrentExeFolder();
 RR_DECLSPEC string          GetUsersTempDataFolder();
 RR_DECLSPEC const string    getCWD();
-RR_DECLSPEC const string	getPathSeparator();
+RR_DECLSPEC const char		getPathSeparator();
 
 RR_DECLSPEC vector<string>  GetLinesInFile(const string& fName);
 RR_DECLSPEC string  		GetFileContent(const string& fName);
