@@ -295,7 +295,7 @@ bool CreateFolder(const string& folder)
     return (res==0) ? true : false;
 }
 
-bool CreateFile(const string& fName, int mode)
+bool CreateFile(const string& fName, std::ios_base::openmode mode)
 {
     ofstream test;
     test.open(fName.c_str(), mode);

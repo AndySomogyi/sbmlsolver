@@ -4,6 +4,7 @@
 #pragma hdrstop
 #include <float.h>
 #include <stdarg.h>
+#include <string.h>
 #include "rrUtils.h"
 #include "rrStringUtils.h"
 #include "rrLogger.h"

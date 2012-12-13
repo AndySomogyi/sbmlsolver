@@ -9,6 +9,7 @@
 #include <float.h>    //ms compatible IEEE functions, e.g. _isnan
 #include <vector>
 #include <string>
+#include <iostream>
 #include "rrExporter.h"
 #include "rrConstants.h"
 #include "rrStringList.h"
@@ -37,8 +38,6 @@ RR_DECLSPEC bool            FileExists(const string& fileN);
 RR_DECLSPEC bool            FolderExists(const string& folderN);
 RR_DECLSPEC bool            CreateFolder(const string& path);
 
-#undef CreateFile
-RR_DECLSPEC bool     		CreateFile(const string& fName, int mode = ios::trunc);
 
 RR_DECLSPEC const string	getParentFolder(const string& path);
 RR_DECLSPEC const string    getCurrentExeFolder();
@@ -69,10 +68,13 @@ RR_DECLSPEC bool            CopyStdVectorToCArray(const vector<bool>&   src,  bo
 RR_DECLSPEC StringList      getSelectionListFromSettings(const SimulationSettings& settings);
 
 #if defined(WIN32)// DLL Functions
+
 RR_DECLSPEC HINSTANCE       LoadDLL(const string& dll);
 RR_DECLSPEC bool       		UnLoadDLL(HINSTANCE dllHandle);
 RR_DECLSPEC FARPROC 		GetFunctionPtr(const string& funcName, HINSTANCE DLLHandle);
 #endif
+#undef CreateFile
+RR_DECLSPEC bool     		CreateFile(const string& fName, std::ios_base::openmode mode = std::ios::trunc );
 
 } // rr Namespace
 #endif

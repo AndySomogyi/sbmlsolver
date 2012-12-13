@@ -17,10 +17,10 @@ const char* 		int_format  = "%d";;
 const char       	PathSeparator = '\\';
 const string		gExeSuffix	= ".exe";
 #elif defined(__linux)
-const char*       	PathSeparator = '/';
+const char       	PathSeparator = '/';
 const string		gExeSuffix	= "";
 #else
-const char*       	PathSeparator = '/';
+const char       	PathSeparator = '/';
 const string		gExeSuffix	= "";
 #endif
 
