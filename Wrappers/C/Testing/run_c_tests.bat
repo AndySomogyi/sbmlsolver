@@ -8,7 +8,7 @@ set build_type=%3
 
 
 set install_folder=r:\installs\%compiler%\%compiler_version%\%build_type%
-set model_folder=%install_folder%\models
+set model_folder=r:\models
 set wc=r:\rrl
 set report_file=%wc%\reports\%compiler%\%compiler_version%\c_tests.xml
 set temp_folder=r:\rrTemp\%compiler_version%

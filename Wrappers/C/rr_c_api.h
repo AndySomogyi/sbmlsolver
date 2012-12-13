@@ -248,6 +248,14 @@ C_DECL_SPEC char* rrCallConv getRRCAPILocation();
 
 
 /*!
+ \brief Set the path and filename to the compiler to be used by roadrunner.
+
+  \return Returns true if succesful
+ \ingroup utility
+*/
+C_DECL_SPEC bool rrCallConv setCompiler(const char* fNameWithPath);
+
+/*!
  \brief Set the path to a folder containing the compiler to be used.
 
   \return Returns true if succesful

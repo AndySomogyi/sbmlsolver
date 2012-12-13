@@ -3,7 +3,6 @@
 #include <string>
 #include <ostream>
 #include "rrObject.h"
-#include "CommonExporter.h"
 using std::string;
 using std::ostream;
 using namespace rr;

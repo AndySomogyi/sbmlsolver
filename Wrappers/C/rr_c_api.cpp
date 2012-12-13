@@ -406,6 +406,33 @@ char* rrCallConv getTempFolder()
     }
 }
 
+bool rrCallConv setCompiler(const char* fName)
+{
+	try
+    {
+    	if(!gRRHandle)
+    	{
+        	setError(ALLOCATE_API_ERROR_MSG);
+        	return false;
+    	}
+		if(gRRHandle->getCompiler())
+		{
+			return gRRHandle->getCompiler()->SetCompiler(fName);
+		}
+		else
+		{
+			return false;
+		}
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return false;
+    }
+}
+
 bool rrCallConv setCompilerLocation(const char* folder)
 {
 	try

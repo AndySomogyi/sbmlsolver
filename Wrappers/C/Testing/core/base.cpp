@@ -29,7 +29,7 @@ SUITE(Base)
 
 		if(gRR)
 		{
-			setCompilerLocation(gCompiler.c_str());
+        	setCompiler(gCompiler.c_str());
 			setSupportCodeFolder(gSupportCodeFolder.c_str());
             setTempFolder(gTempFolder.c_str());
 		}
@@ -41,25 +41,6 @@ SUITE(Base)
         char* logFName = getLogFileName();
         CHECK_EQUAL("RoadRunner.log", logFName);
     }
-
-//   	TEST(AllocateDeAllocateRR)
-// 	{
-//     	int memoryBefore = 0;
-//         int memoryAfter  = 10;
-//         for(int i = 0; i < 1000; i++)
-//         {
-//             if(gRR)
-//             {
-//                 freeRRInstance(gRR);
-//             }
-// 
-//            	gRR = getRRInstance();
-//         }
-// 
-// 		//To check this properly, we will need to measure memory before and after somehow..
-// 		CHECK_CLOSE(memoryBefore, memoryAfter, 10);
-// 	}
-
 
     TEST(VERSIONS)
     {
@@ -121,6 +102,25 @@ SUITE(Base)
 
         //We could check more about lists, but it seem pretty solid at this time..?
     }
+
+
+//   	TEST(AllocateDeAllocateRR)
+// 	{
+//     	int memoryBefore = 0;
+//         int memoryAfter  = 10;
+//         for(int i = 0; i < 1000; i++)
+//         {
+//             if(gRR)
+//             {
+//                 freeRRInstance(gRR);
+//             }
+//
+//            	gRR = getRRInstance();
+//         }
+//
+// 		//To check this properly, we will need to measure memory before and after somehow..
+// 		CHECK_CLOSE(memoryBefore, memoryAfter, 10);
+// 	}
 
 }
 

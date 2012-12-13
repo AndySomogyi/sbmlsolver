@@ -17,7 +17,7 @@ extern string   gCompiler;
 extern string   gSupportCodeFolder;
 extern string   gTempFolder;
 extern string   gDataOutputFolder;
-
+extern bool		gDebug;
 
 bool RunTest(const string& version, int number);
 
@@ -1039,8 +1039,14 @@ bool RunTest(const string& version, int caseNumber)
     //Create instance..
     gRR = getRRInstance();
 
+    if(gDebug && gRR)
+    {
+	    enableLogging();
+        setLogLevel("Debug5");
+    }
+
 	//Setup environment
-    setCompilerLocation(gCompiler.c_str());
+    setCompiler(gCompiler.c_str());
     setSupportCodeFolder(gSupportCodeFolder.c_str());
     setTempFolder(gTempFolder.c_str());
 

@@ -7,14 +7,12 @@ using namespace UnitTest;
 using namespace rr;
 
 extern RoadRunner* 		gRR;
-extern string 			gSBMLModelsPath;
-extern string 			gCompiler;
-extern string 			gSupportCodeFolder;
-extern string 			gTempFolder;
-
-extern string 			gTSModelsPath;
-extern string 			gDataOutputFolder;
-extern vector<string> 	gModels;
+extern string 	gTSModelsPath;
+extern string   gCompiler;
+extern string   gSupportCodeFolder;
+extern string   gTempFolder;
+extern string   gDataOutputFolder;
+extern bool		gDebug;
 
 bool RunTest(const string& version, int number);
 SUITE(SBML_l2v4)
@@ -1035,7 +1033,7 @@ bool RunTest(const string& version, int caseNumber)
 	bool result(false);
     string excludedCases("rrExcludedTestCases.txt");
     vector<string> 	exclude(GetLinesInFile(excludedCases));
-     vector<int> 	cant_simulate; //Theese are cases rr don't support (yet)
+	vector<int> 	cant_simulate; //Theese are cases rr don't support (yet)
 
     for(int i = 0; i< exclude.size(); i++)
     {

@@ -13,11 +13,12 @@ using namespace rr;
 using namespace UnitTest;
 
 
-string gSBMLModelsPath 		= "";
-string gCompiler 			= "";
-string gSupportCodeFolder 	= "";
-string gTempFolder		   	= "";
-string gDataOutputFolder   	= "";
+string 	gSBMLModelsPath 		= "";
+string 	gCompiler 				= "";
+string 	gSupportCodeFolder 		= "";
+string 	gTempFolder		   		= "";
+string 	gDataOutputFolder   	= "";
+bool	gDebug			    	= false;
 
 // initialized based on gSBMLModelsPath
 string gTSModelsPath;
@@ -35,21 +36,22 @@ int main(int argc, char* argv[])
 
 	string reportFile(args.ResultOutputFile);
 
-    //We need a rr handle to enable logging...
-    gRR = getRRInstance();
-
-    if(args.EnableLogging)
-    {
-	    enableLogging();
-        setLogLevel("Debug5");
-    }
 
     gSBMLModelsPath 	= args.SBMLModelsFilePath;
 	gCompiler	 		= args.Compiler;
     gTempFolder			= args.TempDataFolder;
     gDataOutputFolder	= args.DataOutputFolder;
 	gSupportCodeFolder 	= args.SupportCodeFolder;
-    
+
+    //We need a rr handle to enable initial logging...
+    gRR = getRRInstance();
+
+    if(gDebug && gRR)
+    {
+	    enableLogging();
+        setLogLevel("Debug5");
+    }
+
     // set model path (read from cmd line)
     gTSModelsPath = JoinPath(JoinPath(gSBMLModelsPath, "cases"), "semantic");
 

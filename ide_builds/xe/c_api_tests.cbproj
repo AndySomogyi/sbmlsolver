@@ -142,7 +142,7 @@
 						<ProjectProperties Name="VerifyPackages">True</ProjectProperties>
 					</ProjectProperties>
 					<Parameters>
-						<Parameters Name="RunParams">-mr:\models -lr:\installs\xe1\debug\compilers\tcc  -sr:\installs\xe1\debug\rr_support -rr:\rrl\reports\cg\xe1\c_tests.xml -tr:\rrTemp\cg_c -dr:\rrTemp\cg_c</Parameters>
+						<Parameters Name="RunParams">-mr:\models -lr:\installs\cg\xe1\debug\compilers\tcc\tcc.exe  -sr:\installs\cg\xe1\debug\rr_support -rr:\rrl\reports\cg\xe1\c_tests.xml -tr:\rrTemp\cg_c -dr:\rrTemp\cg_c</Parameters>
 					</Parameters>
 				</CPlusPlusBuilder.Personality>
 				<Platforms>

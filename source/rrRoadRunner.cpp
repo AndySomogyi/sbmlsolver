@@ -860,7 +860,7 @@ bool RoadRunner::CompileModel()
     unLoadModelDLL();
 
     string dllName  = GetDLLName();
-//     dllName = "/home/sagrada/myhome/develop/rr/install/unified/bin/libtest_1.so";
+
     //Remove DLL
     if(FileExists(dllName) == true && remove(dllName.c_str()) != 0)
     {
@@ -1678,6 +1678,7 @@ DoubleMatrix RoadRunner::getFullReorderedJacobian()
         else
         {
             DoubleMatrix empty;
+			return empty;
         }
     }
     catch (const Exception& e)

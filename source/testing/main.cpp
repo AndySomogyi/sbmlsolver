@@ -14,18 +14,15 @@ using namespace rr;
 using namespace UnitTest;
 
 
-string gSBMLModelsPath 		= "";
-string gCompiler 			= "";
-string gSupportCodeFolder 	= "";
-string gTempFolder		   	= "";
-string gDataOutputFolder   	= "";
+string 	gSBMLModelsPath 		= "";
+string 	gCompiler 				= "";
+string 	gSupportCodeFolder 		= "";
+string 	gTempFolder		   		= "";
+string 	gDataOutputFolder   	= "";
+bool	gDebug			    	= false;
 
-#if defined(WIN32)
-//Test suite
-string gTSModelsPath 		= "r:\\SBMLTS\\cases\\semantic";
-#else
-string gTSModelsPath 		= "/home/sagrada/myhome/downloads/source/roadrunner/install/uniform/models/cases/semantic";
-#endif
+// initialized based on gSBMLModelsPath
+string gTSModelsPath;
 
 vector<string> gModels;
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
@@ -38,20 +35,23 @@ int main(int argc, char* argv[])
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
 
-   	bool doLogging  	= args.EnableLogging;
-
-    if(doLogging)
-    {
-        gLog.Init("", lDebug5, unique_ptr<LogFile>(new LogFile("/tmp/testing.log")));
-        LogOutput::mLogToConsole = true;
-    }
 	string reportFile(args.ResultOutputFile);
 
     gSBMLModelsPath 	= args.SBMLModelsFilePath;
+    gTSModelsPath 		= JoinPath(JoinPath(gSBMLModelsPath, "cases"), "semantic");
 	gCompiler	 		= args.Compiler;
     gTempFolder			= args.TempDataFolder;
     gDataOutputFolder	= args.DataOutputFolder;
 	gSupportCodeFolder 	= args.SupportCodeFolder;
+
+
+   	bool doLogging  	= args.EnableLogging;
+    if(doLogging)
+    {
+    	string logFile = JoinPath(gTempFolder, "RoadRunner.log");
+        gLog.Init("", lDebug5, unique_ptr<LogFile>(new LogFile(logFile)));
+        LogOutput::mLogToConsole = true;
+    }
 
 	Log(lDebug) << "Support code folder is set to:"<<gSupportCodeFolder;
  	fstream aFile(reportFile.c_str(), ios::out);
@@ -64,8 +64,12 @@ int main(int argc, char* argv[])
 	XmlTestReporter reporter1(aFile);
 	TestRunner runner1(reporter1);
 
+
+    clog<<"Running Base\n";
     runner1.RunTestsIf(Test::GetTestList(), "Base", 		True(), 0);
     runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
+    clog<<"Running TestSuite Tests\n";
+    clog<<"ModelPath "<<gTSModelsPath;
     runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4",   	True(), 0);
 //    runner1.RunTestsIf(Test::GetTestList(), "Stoichiometric",   	True(), 0);
 
@@ -94,7 +98,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
                 string str = argv[rrOptInd-1];
                 if(str != "-?")
                 {
-                    cout<<"*** Illegal option:\t"<<argv[rrOptInd-1]<<" ***\n"<<endl;
+                    cout<<"*** Illegal option:\t"<<argv[rrOptInd-1]<<" ***\n\n";
                 }
                 exit(0);
             }

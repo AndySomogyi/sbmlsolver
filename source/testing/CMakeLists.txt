@@ -3,17 +3,17 @@ PROJECT(RR_CXX_API_TESTS)
 
 set(target cxx_api_tests)
 
-add_executable( ${target} 
-main.cpp
-Args.cpp
-${tests}
-)
-
 set(tests
 core/base
 core/sbml_test_suite
 core/steady_state
 core/stoichiometric
+)
+
+add_executable( ${target} 
+main.cpp
+Args.cpp
+${tests}
 )
 
 set_property(TARGET ${target}  

@@ -10,6 +10,7 @@ ${RR_ROOT}/source
 ${THIRD_PARTY_INSTALL_FOLDER}/include
 )
 
+#The C-api is always built as a static library..
 add_library(${target} SHARED
 rr_c_api.cpp
 rr_dll_entry_point.cpp
@@ -37,26 +38,20 @@ else()
 endif()
 
 #Link C_api dll statically to roadrunner and libsbml
-# target_link_libraries (
-# ${target}
-# roadrunner-static
-# #blas
-# #lapack
-# #libf2c
-# #pugi-static
-# #rr-libstruct-static
-# )
-
-target_link_libraries (
-${target}
+if(WIN32)
+ target_link_libraries ( ${target}
+ roadrunner-static
+ #blas
+ #lapack
+ #libf2c
+ #pugi-static
+ #rr-libstruct-static
+ )
+else() #On linux, link with shared version of roadrunner
+target_link_libraries ( ${target}
 roadrunner
-#blas
-#lapack
-#libf2c
-#pugi-static
-#rr-libstruct-static
 )
-
+endif()
 #INCLUDE(FindSubversion)
 #IF(SUBVERSION_FOUND)
 #    Subversion_WC_INFO(${PROJECT_SOURCE_DIR} rr)
@@ -101,11 +96,3 @@ install(
            COMPONENT c_api
 )
 
-#install(   FILES ${lib_path}/${target}.lib	
-#           DESTINATION lib 			
-#           COMPONENT c_api)
-#
-#install(   FILES ${exe_path}/${target}.dll	
-#           DESTINATION bin 			
-#           COMPONENT c_api)
-#

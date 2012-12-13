@@ -53,11 +53,6 @@ bool Compiler::setupCompiler(const string& supportCodeFolder)
     return true;
 }
 
-bool Compiler::SetCompiler(const string& compiler)
-{
-    mCompilerName = compiler;
-	return true;
-}
 
 string Compiler::GetDLLName()
 {
@@ -91,6 +86,13 @@ bool Compiler::CompileC_DLL(const string& sourceFileName)
 
     //Check if the DLL exists...
     return FileExists(mDLLFileName);
+}
+
+bool Compiler::SetCompiler(const string& compiler)
+{
+	mCompilerName = ExtractFileName(compiler);
+	mCompilerLocation = ExtractFilePath(compiler);
+	return true;
 }
 
 bool Compiler::setCompilerLocation(const string& path)
@@ -141,24 +143,39 @@ bool Compiler::SetupCompilerEnvironment()
         mCompilerFlags.push_back("-O0"); // turn off optimization
         
         //LogLevel                              //-v is for verbose
-        if(ExtractFileNameNoExtension(mCompilerName) == "tcc") {
+        if(ExtractFileNameNoExtension(mCompilerName) == "tcc")
+        {
             mIncludePaths.push_back(".");
             mIncludePaths.push_back(JoinPath(mCompilerLocation, "include"));
             mLibraryPaths.push_back(".");
             mLibraryPaths.push_back(JoinPath(mCompilerLocation, "lib"));
             if(gLog.GetLogLevel() < lDebug)
+            {
                 mCompilerFlags.push_back("-v"); // suppress warnings
+            }
             else if(gLog.GetLogLevel() >= lDebug1)
+            {
                 mCompilerFlags.push_back("-vv");
+            }
             else if(gLog.GetLogLevel() >= lDebug2)
+            {
                 mCompilerFlags.push_back("-vvv");
-        } else if(ExtractFileNameNoExtension(mCompilerName) == "gcc") {
+            }
+        }
+        else if(ExtractFileNameNoExtension(mCompilerName) == "gcc")
+        {
             if(gLog.GetLogLevel() < lDebug)
+            {
                 mCompilerFlags.push_back("-w"); // suppress warnings
+            }
             else if(gLog.GetLogLevel() >= lDebug1)
+            {
                 mCompilerFlags.push_back("-Wall");
+            }
             else if(gLog.GetLogLevel() >= lDebug2)
+            {
                 mCompilerFlags.push_back("-Wall -pedantic");
+            }
         }
     }
     else if(mCompilerName == "bcc")
