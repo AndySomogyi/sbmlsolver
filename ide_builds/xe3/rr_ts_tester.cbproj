@@ -1,12 +1,14 @@
 ﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 		<PropertyGroup>
-			<ProjectGuid>{19B14E68-A4E6-4320-A0D8-4A70903120AE}</ProjectGuid>
-			<ProjectVersion>12.3</ProjectVersion>
+			<ProjectGuid>{BB98A606-C02D-454F-B743-70C12C4C53CD}</ProjectGuid>
+			<ProjectVersion>13.4</ProjectVersion>
 			<Base>True</Base>
 			<Config Condition="'$(Config)'==''">Debug</Config>
-			<Platform>Win32</Platform>
 			<AppType>Console</AppType>
 			<FrameworkType>None</FrameworkType>
+			<Platform Condition="'$(Platform)'==''">Win32</Platform>
+			<TargetedPlatforms>1</TargetedPlatforms>
+			<Platform>Win32</Platform>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
 			<Base>true</Base>
@@ -16,42 +18,59 @@
 			<CfgParent>Base</CfgParent>
 			<Base>true</Base>
 		</PropertyGroup>
+		<PropertyGroup Condition="'$(Platform)'=='Win32' and '$(Cfg_1)'=='true' or '$(Cfg_1_Win32)'!=''">
+			<Cfg_1_Win32>true</Cfg_1_Win32>
+			<CfgParent>Cfg_1</CfgParent>
+			<Cfg_1>true</Cfg_1>
+			<Base>true</Base>
+		</PropertyGroup>
 		<PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
 			<Cfg_2>true</Cfg_2>
 			<CfgParent>Base</CfgParent>
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
+			<FinalOutputDir>$(RR_DEBUG_INSTALL)\bin\</FinalOutputDir>
+			<LinkPackageStatics>vcl.lib;mtkCommonRTL.lib</LinkPackageStatics>
+			<Manifest_File>None</Manifest_File>
+			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+			<DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
+			<VerInfo_Locale>1033</VerInfo_Locale>
+			<BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
+			<BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
+			<BCC_MonitorThis>true</BCC_MonitorThis>
+			<Defines>BUILD_MODEL_DLL;LIBSBML_USE_CPP_NAMESPACE;CG_IDE;$(Defines)</Defines>
 			<NoVCL>true</NoVCL>
-			<LinkPackageImports>rtl.bpi;vcl.bpi</LinkPackageImports>
+			<LinkPackageImports>rtl.bpi</LinkPackageImports>
 			<ProjectType>CppConsoleApplication</ProjectType>
-			<PackageImports>vclx.bpi;vcl.bpi;rtl.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;vclimg.bpi;svnui.bpi;svn.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;bdertl.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;DbxClientDriver.bpi;dbexpress.bpi;AzureCloud.bpi;DbxCommonDriver.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;vclie.bpi;webdsnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;TeeTree2D15Tee9.bpi;bcbie.bpi;dbxcds.bpi;inetdb.bpi;websnap.bpi;TeeImage915.bpi;TeeWorld915.bpi;TeeLanguage915.bpi;TeePro915.bpi;TeeGL915.bpi;TeeUI915.bpi;TeeDB915.bpi;Tee915.bpi;DuneComponents.bpi;mtkCommonRTL.bpi;VCLCommonRTL.bpi;VCLData.bpi;mtkMathRTL.bpi;mtkDataRTL.bpi;GenesisVisualComponents.bpi;vtkComponents.bpi;mtkGraphicsRTL.bpi;VCLMolecule.bpi;mtkMoleculeRTL.bpi;mtkSpinRTL.bpi</PackageImports>
+			<PackageImports>rtl.bpi;$(PackageImports).bpi</PackageImports>
 			<OutputExt>exe</OutputExt>
-			<FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
-			<AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
+			<AllPackageLibs>rtl.lib;vcl.lib;mtkCommonRTL.lib</AllPackageLibs>
 			<_TCHARMapping>char</_TCHARMapping>
 			<ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
 			<ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
-			<IncludePath>..\..\source\;..\..\Wrappers\C\Examples\api_tester\;..\..\Wrappers\C\;$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>
-			<ILINK_LibraryPath>R:\installs\xe\debug\lib\;..\..\Wrappers\C\;R:\installs\xe\full-debug\lib\;..\..\source\libstruct\;..\..\source\;..\..\Wrappers\C\Examples\api_tester\;R:\installs\xe\lib\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+			<IncludePath>..\..\apps\rr_test_suite_tester\;..\..\source\;..\..\apps\rr_ts\;..\..\apps\rr\;$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>
+			<ILINK_LibraryPath>R:\installs\xe\debug\lib\;R:\installs\xe\full-debug\lib\;R:\builds\xe\ThirdParty\lib\;C:\builds\xe\clapack\F2CLIBS\libf2c\;C:\builds\xe\clapack\BLAS\SRC\;C:\builds\xe\clapack\SRC\;..\..\apps\rr_test_suite_tester\;R:\installs\xe\lib\;..\..\apps\rr_ts\;..\..\source\;..\..\releases\xe\shared\link\;..\..\builds\xe\clapack\SRC\;..\..\builds\xe\clapack\F2CLIBS\libf2c\;..\..\builds\xe\clapack\BLAS\SRC\;..\..\ThirdParty\libsbml_dependencies\lib\;..\..\installs\xe\lib\;..\..\Examples\rr\;..\..\releases\xe\link\;..\..\installs\xe\bin\;..\..\Apps\rr\;C:\DataOutput\00022\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
 			<DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
-			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE</DCC_UnitAlias>
 			<DynamicRTL>true</DynamicRTL>
 			<UsePackages>true</UsePackages>
-			<IntermediateOutputDir>.\$(Config)\$(Platform)\c_api_tests</IntermediateOutputDir>
+			<IntermediateOutputDir>.\$(Config)\$(Platform)\rr_ts</IntermediateOutputDir>
 			<BCC_wpar>false</BCC_wpar>
 			<BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
 			<BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<BCC_FastFloatingPoint>false</BCC_FastFloatingPoint>
 			<BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
 			<BCC_MonitorThis>true</BCC_MonitorThis>
 			<BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
+			<_TCHARMapping>char</_TCHARMapping>
+			<BCC_PCHName>rr.csm</BCC_PCHName>
 			<BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
 			<BCC_DisableOptimizations>true</BCC_DisableOptimizations>
 			<DCC_Optimize>false</DCC_Optimize>
 			<DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
-			<Defines>_DEBUG;USE_PCH;STATIC_RR;WIN32;$(Defines)</Defines>
+			<Defines>_DEBUG;WIN32;ENABLE_DEBUG_OUTPUT;$(Defines)</Defines>
 			<BCC_InlineFunctionExpansion>false</BCC_InlineFunctionExpansion>
 			<BCC_UseRegisterVariables>None</BCC_UseRegisterVariables>
 			<DCC_Define>DEBUG</DCC_Define>
@@ -61,18 +80,21 @@
 			<ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
 			<TASM_Debugging>Full</TASM_Debugging>
 			<BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
-			<ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(RR_DEBUG_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+			<ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+		</PropertyGroup>
+		<PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+			<ILINK_LibraryPath>$(RR_DEBUG_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+			<FinalOutputDir>$(RR_DEBUG_INSTALL)\bin\</FinalOutputDir>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2)'!=''">
 			<Defines>NDEBUG;$(Defines)</Defines>
 			<TASM_Debugging>None</TASM_Debugging>
 		</PropertyGroup>
 		<ItemGroup>
-			<LibFiles Include="R:\installs\xe\debug\lib\rr_c_api.lib">
-				<IgnorePath>true</IgnorePath>
-				<BuildOrder>2</BuildOrder>
-			</LibFiles>
-			<CppCompile Include="..\..\Wrappers\C\Examples\api_tester\main.cpp">
+			<CppCompile Include="..\..\apps\rr_test_suite_tester\Args.cpp">
+				<BuildOrder>11</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\..\apps\rr_test_suite_tester\main.cpp">
 				<BuildOrder>1</BuildOrder>
 			</CppCompile>
 			<BuildConfiguration Include="Release">
@@ -89,6 +111,9 @@
 		</ItemGroup>
 		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Cpp.Targets')" Project="$(BDS)\Bin\CodeGear.Cpp.Targets"/>
 		<Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj"/>
+		<PropertyGroup Condition="'$(FileToCompile)'==''">
+			<PostBuildEvent><![CDATA[copy $(RR_ROOT)\apps\rr_test_suite_tester\rrExcludedTestCases.txt $(OUTPUTDIR)rrExcludedTestCases.txt]]></PostBuildEvent>
+		</PropertyGroup>
 		<ProjectExtensions>
 			<Borland.Personality>CPlusPlusBuilder.Personality.12</Borland.Personality>
 			<Borland.ProjectType>CppConsoleApplication</Borland.ProjectType>
@@ -121,19 +146,23 @@
 						<VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
 						<VersionInfoKeys Name="Comments"/>
 					</VersionInfoKeys>
+					<Excluded_Packages/>
 					<ProjectProperties>
 						<ProjectProperties Name="AutoShowDeps">False</ProjectProperties>
 						<ProjectProperties Name="ManagePaths">True</ProjectProperties>
-						<ProjectProperties Name="VerifyPackages">True</ProjectProperties>
+						<ProjectProperties Name="VerifyPackages">False</ProjectProperties>
 					</ProjectProperties>
 					<Parameters>
-						<Parameters Name="RunParams">R:\\installs\xe\debug\Models</Parameters>
+						<Parameters Name="DebugSourceDirs">C:\RRW\source</Parameters>
 					</Parameters>
+					<Parameters_Win32>
+						<Parameters_Win32 Name="RunParams">-m&quot;R:\\SBMLTS\\cases\\semantic&quot; -w&quot;l2v4&quot; -n979 -t&quot;R:\rrTemp&quot; -d&quot;R:\RRTesting\DataOutput\xe_ide&quot; -p -vDebug</Parameters_Win32>
+					</Parameters_Win32>
 				</CPlusPlusBuilder.Personality>
 				<Platforms>
+					<Platform value="OSX32">False</Platform>
 					<Platform value="Win32">True</Platform>
 				</Platforms>
-				<ModelSupport>False</ModelSupport>
 			</BorlandProject>
 			<ProjectFileVersion>12</ProjectFileVersion>
 		</ProjectExtensions>
