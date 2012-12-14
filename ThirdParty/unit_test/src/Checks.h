@@ -67,17 +67,17 @@ void CheckArrayEqual(TestResults& results, Expected const& expected, Actual cons
     {
         UnitTest::MemoryOutStream stream;
 
-		stream << "Expected \n[\n ";
+		stream << "Expected [ ";
 
 		for (int expectedIndex = 0; expectedIndex < count; ++expectedIndex)
             stream << expected[expectedIndex] << " ";
 
-		stream << "\n]\n but was \n [\n ";
+		stream << "] but was  [ ";
 
 		for (int actualIndex = 0; actualIndex < count; ++actualIndex)
             stream << actual[actualIndex] << " ";
 
-		stream << "\n]\n";
+		stream << "]";
 
         results.OnTestFailure(details, stream.GetText());
     }
@@ -127,7 +127,7 @@ void CheckArray2DClose(TestResults& results, Expected const& expected, Actual co
     {
         UnitTest::MemoryOutStream stream;
 
-        stream << "Expected \n[ \n";    
+        stream << "Expected [ ";    
 
 		for (int expectedRow = 0; expectedRow < rows; ++expectedRow)
         {
@@ -137,7 +137,7 @@ void CheckArray2DClose(TestResults& results, Expected const& expected, Actual co
             stream << "] ";
         }
 
-		stream << "]\n +/- " << tolerance << " but was \n[ \n";
+		stream << "] +/- " << tolerance << " but was [ ";
 
 		for (int actualRow = 0; actualRow < rows; ++actualRow)
         {
@@ -147,7 +147,7 @@ void CheckArray2DClose(TestResults& results, Expected const& expected, Actual co
             stream << "] ";
         }
 
-		stream << "\n]\n";
+		stream << "]";
 
         results.OnTestFailure(details, stream.GetText());
     }
