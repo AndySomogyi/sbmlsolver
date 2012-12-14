@@ -24,6 +24,7 @@ string XmlEscape(string const& value)
 {
     string escaped = value;
 
+    ReplaceChar(escaped, '\n', "<br>");
     ReplaceChar(escaped, '&', "&amp;");
     ReplaceChar(escaped, '<', "&lt;");
     ReplaceChar(escaped, '>', "&gt;");
