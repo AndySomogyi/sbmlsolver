@@ -75,7 +75,7 @@
 #define HAVE_SYS_TYPES_H 1
 
 /* Define to 1 if you have the `m' library (-lm). */
-#define HAVE_LIBM 1
+/* #undef HAVE_LIBM */
 
 
 /* Define to 1 to enable primitive memory tracing. */
