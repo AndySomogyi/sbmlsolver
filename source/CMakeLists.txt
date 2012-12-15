@@ -174,12 +174,21 @@ install(TARGETS ${target}
         LIBRARY DESTINATION lib 
         RUNTIME DESTINATION bin 
         ARCHIVE DESTINATION lib
+        COMPONENT rr_core
 )
+
+install(   
+           TARGETS ${target}
+           RUNTIME DESTINATION bin
+           COMPONENT rr_core
+)
+
 
 if(INSTALL_STATIC_LIB)
 install(TARGETS ${target}-static 
         LIBRARY DESTINATION lib 
-        ARCHIVE DESTINATION lib)
+        ARCHIVE DESTINATION lib
+        COMPONENT rr_core)
 endif()
 
 #=== HEADERS

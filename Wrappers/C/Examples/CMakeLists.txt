@@ -5,7 +5,7 @@ if(${MSVC})
 endif(${MSVC})
 
 set(examples 	
-        get_c_code
+#        get_c_code
 )
 
 foreach(example ${examples})

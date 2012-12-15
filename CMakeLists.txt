@@ -98,6 +98,11 @@ SET (CMAKE_SHARED_LINKER_FLAGS 	"${CMAKE_SHARED_LINKER_FLAGS} ") #/FORCE:MULTIPL
 endif()
 
 #=== COMPILER FLAGS 
+#Common compiler definitions
+add_definitions(
+                    -DLIBSBML_USE_CPP_NAMESPACE                     
+) 
+
 if(${MINGW})
 SET (CMAKE_CXX_FLAGS 			"${CMAKE_CXX_FLAGS} -std=gnu++0x")
 endif()
@@ -119,25 +124,19 @@ if(UNIX)
     endif()
 endif()    
 
-#Common compiler definitions
-add_definitions(
-                    -DLIBSBML_USE_CPP_NAMESPACE                     
-) 
-
 #How do we move forward from this folder? Moving on to subfolders
 #Source Code Folder
 
 add_subdirectory(source)        # We alway have to build the roadrunner core
 
 if(INSTALL_CXX_API)
+    if(INSTALL_APPS)
+    add_subdirectory(apps)
+    endif()
 
-if(INSTALL_APPS)
-add_subdirectory(apps)
-endif()
-
-if(INSTALL_EXAMPLES)
-add_subdirectory(examples)
-endif()
+    if(INSTALL_EXAMPLES)
+    add_subdirectory(examples)
+    endif()
 endif()
 
 add_subdirectory(Wrappers)

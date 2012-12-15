@@ -41,11 +41,6 @@ endif()
 if(WIN32)
  target_link_libraries ( ${target}
  roadrunner-static
- #blas
- #lapack
- #libf2c
- #pugi-static
- #rr-libstruct-static
  )
 else() #On linux, link with shared version of roadrunner
 target_link_libraries ( ${target}
@@ -77,7 +72,9 @@ endif()
 
 
 add_subdirectory(Apps)
-add_subdirectory(Examples)
+if(INSTALL_EXAMPLES)
+    add_subdirectory(Examples)
+endif()
 
 if(BUILD_TESTS)
     add_subdirectory(Testing)
@@ -91,7 +88,16 @@ install(   FILES ${target}.h rr_c_types.h rr_c_api_exporter.h
 install(   
            TARGETS ${target}
            RUNTIME DESTINATION bin
-           LIBRARY DESTINATION lib
+           COMPONENT c_api
+)
+
+#install(   TARGETS ${target}
+#           LIBRARY DESTINATION lib
+#           COMPONENT c_api
+#)
+
+install(   
+           TARGETS ${target}
            ARCHIVE DESTINATION lib
            COMPONENT c_api
 )
