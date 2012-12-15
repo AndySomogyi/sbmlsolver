@@ -198,24 +198,23 @@ string Compiler::CreateCompilerCommand(const string& sourceFileName)
         {
             exeCmd<<" "<<mCompilerFlags[i];
         }
-        exeCmd<<" "<<sourceFileName<<" " \
-        <<JoinPath(mSupportCodeFolder, "rrSupport.c");
+        exeCmd<<" \""<<sourceFileName<<"\" \""<<JoinPath(mSupportCodeFolder, "rrSupport.c")<<"\"";
 
 
-        exeCmd<<" -o"<<mDLLFileName;
+        exeCmd<<" -o\""<<mDLLFileName<<"\"";
 #if defined(WIN32)
 		exeCmd<<" -DBUILD_MODEL_DLL ";
 #endif
         //Add include paths
         for(int i = 0; i < mIncludePaths.size(); i++)
         {
-            exeCmd<<" -I"<<mIncludePaths[i]<<" " ;
+            exeCmd<<" -I\""<<mIncludePaths[i]<<"\" " ;
         }
 
         //Add library paths
         for(int i = 0; i < mLibraryPaths.size(); i++)
         {
-            exeCmd<<" -L"<<mLibraryPaths[i]<<" " ;
+            exeCmd<<" -L\""<<mLibraryPaths[i]<<"\" " ;
         }
     }
     else if(mCompilerName == "bcc")
