@@ -61,20 +61,27 @@ int main(int argc, char* argv[])
     	return -1;
     }
 
-	XmlTestReporter reporter1(aFile);
-	TestRunner runner1(reporter1);
+	XmlTestReporter reporter(aFile);
+	TestRunner runner1(reporter);
+//    TestReporterStdout reporter;
+//	  TestRunner runner1(reporter);
 
 
     clog<<"Running Base\n";
-    runner1.RunTestsIf(Test::GetTestList(), "Base", 		True(), 0);
+    //runner1.RunTestsIf(Test::GetTestList(), "Base", 		True(), 0);
+
+    clog<<"Running SteadyState Tests\n";
     runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
-    clog<<"Running TestSuite Tests\n";
-    clog<<"ModelPath "<<gTSModelsPath;
-    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4",   	True(), 0);
+
+//    clog<<"Running TestSuite Tests\n";
+//    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4",   	True(), 0);
+
+//    clog<<"Running Stoichiometric Tests\n";
 //    runner1.RunTestsIf(Test::GetTestList(), "Stoichiometric",   	True(), 0);
 
     //Finish outputs result to xml file
     runner1.Finish();
+//	Pause();
     return 0;
 }
 
@@ -116,7 +123,12 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 }
 
 #if defined(CG_IDE)
-#pragma comment(lib, "roadrunner-static.lib")
+//#pragma comment(lib, "roadrunner-static.lib")
+#pragma comment(lib, "roadrunner.lib")
 #pragma comment(lib, "unit_test-static.lib")
+
+//If we compile using a shared roadrunner, link with these
+#pragma comment(lib, "poco_foundation-static.lib")
+#pragma comment(lib, "rr-libstruct-static.lib")
 #endif
 

@@ -4,15 +4,16 @@ PROJECT(RR_CXX_API_TESTS)
 set(target cxx_api_tests)
 
 set(tests
-core/base
-core/sbml_test_suite
-core/steady_state
-core/stoichiometric
+tests/base
+tests/sbml_test_suite
+tests/steady_state
+tests/stoichiometric
 )
 
 add_executable( ${target} 
-main.cpp
-Args.cpp
+main
+src/Args
+src/rrTestUtils
 ${tests}
 )
 
@@ -31,6 +32,7 @@ ${THIRD_PARTY_INSTALL_FOLDER}/lib
 )
 
 include_directories(
+src
 ${RR_ROOT}
 ${THIRD_PARTY_FOLDER}/unit_test/src
 )
