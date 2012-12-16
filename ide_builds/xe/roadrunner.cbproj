@@ -148,6 +148,10 @@
 				<DependentOn>..\..\source\rrFileLog.h</DependentOn>
 				<BuildOrder>19</BuildOrder>
 			</CppCompile>
+			<CppCompile Include="..\..\source\rrFileName.cpp">
+				<DependentOn>..\..\source\rrFileName.h</DependentOn>
+				<BuildOrder>64</BuildOrder>
+			</CppCompile>
 			<CppCompile Include="..\..\source\rrGetOptions.cpp">
 				<DependentOn>..\..\source\rrGetOptions.h</DependentOn>
 				<BuildOrder>20</BuildOrder>
@@ -158,6 +162,17 @@
 			</CppCompile>
 			<CppCompile Include="..\..\source\rrIModel.cpp">
 				<BuildOrder>22</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\..\source\rrIniFile.cpp">
+				<BuildOrder>65</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\..\source\rrIniKey.cpp">
+				<DependentOn>..\..\source\rrIniKey.h</DependentOn>
+				<BuildOrder>66</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\..\source\rrIniSection.cpp">
+				<DependentOn>..\..\source\rrIniSection.h</DependentOn>
+				<BuildOrder>67</BuildOrder>
 			</CppCompile>
 			<CppCompile Include="..\..\source\rrLogContainer.cpp">
 				<DependentOn>..\..\source\rrLogContainer.h</DependentOn>
