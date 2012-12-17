@@ -287,7 +287,7 @@ SUITE(SteadyState)
         }
 
         //Read in the reference data, from the ini file
-        DoubleMatrix matrix 	= aRR->getUnscaledElasticityMatrix();
+		DoubleMatrix matrix 	= aRR->getUnscaledReorderedElasticityMatrix();
         DoubleMatrix ref  		= ParseMatrixFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions
@@ -310,7 +310,7 @@ SUITE(SteadyState)
         }
 
         //Read in the reference data, from the ini file
-        DoubleMatrix matrix 	= aRR->getScaledElasticityMatrix();
+		DoubleMatrix matrix 	= aRR->getScaledReorderedElasticityMatrix();
         DoubleMatrix ref  		= ParseMatrixFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions
