@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="api_tests.xsl" type="text/xsl" ?>
-<unittest-results date_time = "2012-12-14 13:55:14" tests="14" failedtests="8" failures="10" time="2.025">
+<unittest-results date_time = "2012-12-16 13:40:47" tests="16" failedtests="5" failures="5" time="2.04">
 <test suite="SteadyState" name="TEST_MODEL_FILES" time="0.004"/>
-<test suite="SteadyState" name="LOAD_MODEL" time="1.983"/>
+<test suite="SteadyState" name="LOAD_MODEL" time="2.023"/>
 <test suite="SteadyState" name="COMPUTE_STEADY_STATE" time="0"/>
 <test suite="SteadyState" name="STEADY_STATE_CONCENTRATIONS" time="0"/>
-<test suite="SteadyState" name="FULL_JACOBIAN" time="0.009"><failure message="steady_state.cpp(109) : Expected [ [ -0.2 0 0.067 ] [ 0 -0.64 0.4 ] [ 0.15 0.09 -0.467 ] ] +/- 1e-06 but was [ [ -0.2 0.067 0 ] [ 0.15 -0.467 0.09 ] [ 0 0.4 -0.64 ] ]"/></test>
-<test suite="SteadyState" name="REDUCED_JACOBIAN" time="0"><failure message="steady_state.cpp(131) : Expected [ [ -0.2 0 0.067 ] [ 0 -0.64 0.4 ] [ 0.15 0.09 -0.467 ] ] +/- 1e-06 but was [ [ -0.2 0.067 0 ] [ 0 0.4 -0.64 ] [ 0.15 -0.467 0.09 ] ]"/></test>
-<test suite="SteadyState" name="FULL_REORDERED_JACOBIAN" time="0.014"/>
-<test suite="SteadyState" name="EIGEN_VALUES" time="0"><failure message="steady_state.cpp(182) : Expected -0.767365 +/- 1e-06 but was 0.807602"/><failure message="steady_state.cpp(182) : Expected -0.382371 +/- 1e-06 but was -0.159599"/><failure message="steady_state.cpp(182) : Expected -0.157263 +/- 1e-06 but was -0.358003"/></test>
-<test suite="SteadyState" name="STOICHIOMETRY_MATRIX" time="0"><failure message="steady_state.cpp(206) : Expected [ [ 1 -1 0 0 ] [ 0 0 1 -1 ] [ 0 1 -1 0 ] ] +/- 1e-06 but was [ [ 0 -1 0 1 ] [ -1 0 1 0 ] [ 0 1 -1 0 ] ]"/></test>
+<test suite="SteadyState" name="FULL_JACOBIAN" time="0.001"/>
+<test suite="SteadyState" name="REDUCED_JACOBIAN" time="0"/>
+<test suite="SteadyState" name="FULL_REORDERED_JACOBIAN" time="0.002"><failure message="steady_state.cpp(158) : Expected [ [ -0.2 0.067 0 ] [ 0 0.4 -0.64 ] [ 0.15 -0.467 0.09 ] ] +/- 1e-06 but was [ [ -0.2 0 0.067 ] [ 0 -0.64 0.4 ] [ 0.15 0.09 -0.467 ] ]"/></test>
+<test suite="SteadyState" name="EIGEN_VALUES" time="0.005"><failure message="steady_state.cpp(184) : Expected -0.157263 +/- 1e-06 but was -0.767365"/></test>
+<test suite="SteadyState" name="STOICHIOMETRY_MATRIX" time="0"/>
+<test suite="SteadyState" name="REORDERED_STOICHIOMETRY_MATRIX" time="0"/>
+<test suite="SteadyState" name="FULLY_REORDERED_STOICHIOMETRY_MATRIX" time="0"><failure message="steady_state.cpp(254) : Expected [ [ 1 -1 0 0 ] [ 0 0 1 -1 ] [ 0 1 -1 0 ] ] +/- 1e-06 but was [ [ 0 -1 0 1 ] [ -1 0 1 0 ] [ 0 1 -1 0 ] ]"/></test>
 <test suite="SteadyState" name="LINK_MATRIX" time="0"/>
-<test suite="SteadyState" name="UNSCALED_ELASTICITY_MATRIX" time="0"><failure message="steady_state.cpp(252) : Expected [ [ -0.05 0 0 ] [ 0.15 0 -0.067 ] [ 0 -0.09 0.4 ] [ 0 0.55 0 ] ] +/- 1e-06 but was [ [ -0.05 0 0 ] [ 0.15 -0.067 0 ] [ 0 0.4 -0.09 ] [ 0 0 0.55 ] ]"/></test>
-<test suite="SteadyState" name="SCALED_ELASTICITY_MATRIX" time="0"><failure message="steady_state.cpp(275) : Expected [ [ -0.398303 0 0 ] [ 1.19491 0 -0.194909 ] [ 0 -0.163636 1.16364 ] [ 0 1 0 ] ] +/- 1e-06 but was [ [ -0.398303 0 0 ] [ 1.19491 -0.194909 0 ] [ 0 1.16364 -0.163636 ] [ 0 0 1 ] ]"/></test>
-<test suite="SteadyState" name="UNSCALED_CONCENTRATION_CONTROL_MATRIX" time="0"><failure message="steady_state.cpp(283) : false"/></test>
-<test suite="SteadyState" name="UNSCALED_FLUX_CONTROL_MATRIX" time="0"><failure message="steady_state.cpp(306) : false"/></test>
+<test suite="SteadyState" name="UNSCALED_ELASTICITY_MATRIX" time="0"/>
+<test suite="SteadyState" name="SCALED_ELASTICITY_MATRIX" time="0"/>
+<test suite="SteadyState" name="UNSCALED_CONCENTRATION_CONTROL_MATRIX" time="0"><failure message="steady_state.cpp(331) : false"/></test>
+<test suite="SteadyState" name="UNSCALED_FLUX_CONTROL_MATRIX" time="0"><failure message="steady_state.cpp(354) : false"/></test>
 </unittest-results>
