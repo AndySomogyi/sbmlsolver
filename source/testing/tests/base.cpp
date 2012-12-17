@@ -49,7 +49,6 @@ SUITE(Base)
 		CHECK_CLOSE(memoryBefore, memoryAfter, 10);
 	}
 
-
     TEST(MODEL_FILES)	//Test that model files for the tests are present
     {
     	//Populate models
@@ -74,29 +73,6 @@ SUITE(Base)
 			CHECK(gRR->loadSBMLFromFile(model));
         }
 	}
-
-//	TEST(FULL_JACOBIAN)
-//	{
-//		if(!gRR)
-//		{
-////			gRR = new RoadRunner(gSupportCodeFolder, gCompiler, gTempFolder);
-//		}
-//
-//		string fName =  JoinPath(gSBMLModelsPath, "ss_threeSpecies.xml");
-//		CHECK(gRR->loadSBMLFromFile(fName));
-//
-//		DoubleMatrix jaco = gRR->getFullJacobian();
-//		const double *jacoMat = jaco.getArray();
-//
-//		const double jacoExpected[9] = { -0.15, 0, 0, 0, -0.55, 0.4, 0.15, 0, -0.4};
-//
-//		CHECK_ARRAY_CLOSE(jacoExpected, jacoMat, 9, 0.0000001);
-//		//Expected result
-//	//          S1       S2       S3
-//	//S1{{   -0.15        0        0}
-//	//S2 {    0.15     -0.4        0}
-//	//S3 {       0      0.4    -0.55}}
-//	}
 }
 
 

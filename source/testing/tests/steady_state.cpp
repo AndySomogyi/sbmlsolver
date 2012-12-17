@@ -1,10 +1,11 @@
+#include <complex>
 #include "unit_test/UnitTest++.h"
 #include "rrLogger.h"
 #include "rrRoadRunner.h"
 #include "rrException.h"
 #include "rrStringUtils.h"
 #include "rrIniFile.h"
-#include <complex>
+#include "rrTestUtils.h"
 
 using namespace UnitTest;
 using namespace rr;
@@ -25,7 +26,6 @@ string theModel;
 string refDataFolder;
 string refDataFile;
 
-DoubleMatrix ParseMatrixFromText(const string& textMatrix);
 SUITE(SteadyState)
 {
 	//This suite tests various steady state functions, using the model TestModel_1.xml
@@ -41,6 +41,7 @@ SUITE(SteadyState)
     	CHECK(FileExists(refDataFile));
     	CHECK(FileExists(theModel));
         CHECK(iniFile.Load(refDataFile));
+        clog<<"Loaded reference data from file: "<< refDataFile;
     }
 
 	TEST(LOAD_MODEL)
@@ -49,6 +50,7 @@ SUITE(SteadyState)
 		CHECK(aRR!=NULL);
 
         //Load the model
+        aRR->ComputeAndAssignConservationLaws(true);
 		CHECK(aRR->loadSBMLFromFile(theModel));
 	}
 
@@ -104,6 +106,7 @@ SUITE(SteadyState)
             return;
         }
 
+        clog<<fullJacobian;
 		CHECK_ARRAY2D_CLOSE(jRef, fullJacobian, fullJacobian.RSize(),fullJacobian.CSize(), 1e-6);
     }
 
@@ -139,17 +142,20 @@ SUITE(SteadyState)
         }
 
         //Read in the reference data, from the ini file
-        DoubleMatrix fullRJacobian = aRR->getFullReorderedJacobian();
-        DoubleMatrix jRef = ParseMatrixFromText(aSection->GetNonKeysAsString());
+        DoubleMatrix matrix = aRR->getFullReorderedJacobian();
+        DoubleMatrix ref = ParseMatrixFromText(aSection->GetNonKeysAsString());
+
+		cout<<"Reference\n"<<ref;
+		cout<<"matrix\n"<<matrix;
 
         //Check dimensions
-        if(fullRJacobian.RSize() != jRef.RSize() || fullRJacobian.CSize() != jRef.CSize())
+        if(matrix.RSize() != ref.RSize() || matrix.CSize() != ref.CSize())
         {
         	CHECK(false);
             return;
         }
 
-		CHECK_ARRAY2D_CLOSE(jRef, fullRJacobian, fullRJacobian.RSize(),fullRJacobian.CSize(), 1e-6);
+		CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
     }
 
     TEST(EIGEN_VALUES)
@@ -171,9 +177,10 @@ SUITE(SteadyState)
 
         for(int i = 0 ; i < aSection->KeyCount(); i++)
         {
+        	clog<<"EigenValue "<<i<<"_ref: "<<aSection->GetKey(i)->AsString()<<endl;
             rrIniKey *aKey = aSection->GetKey(i);
-            std::complex<double> eig;
-			eig = aKey->AsComplex();
+            std::complex<double> eig(aKey->AsComplex());
+        	clog<<"EigenValue "<<i<<": "<<real(eigenVals[i])<<endl;
             CHECK_CLOSE(aKey->AsFloat(), real(eigenVals[i]), 1e-6);
         }
     }
@@ -188,17 +195,63 @@ SUITE(SteadyState)
         }
 
         //Read in the reference data, from the ini file
-        DoubleMatrix stoichioMat = aRR->getStoichiometryMatrix();
+        DoubleMatrix mat = aRR->getStoichiometryMatrix();
         DoubleMatrix ref = ParseMatrixFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions
-        if(stoichioMat.RSize() != ref.RSize() || stoichioMat.CSize() != ref.CSize())
+        if(mat.RSize() != ref.RSize() || mat.CSize() != ref.CSize())
         {
         	CHECK(false);
             return;
         }
 
-		CHECK_ARRAY2D_CLOSE(ref, stoichioMat, stoichioMat.RSize(), stoichioMat.CSize(), 1e-6);
+		CHECK_ARRAY2D_CLOSE(ref, mat, mat.RSize(), mat.CSize(), 1e-6);
+    }
+
+    TEST(REORDERED_STOICHIOMETRY_MATRIX)
+	{
+		rrIniSection* aSection = iniFile.GetSection("REORDERED_STOICHIOMETRY_MATRIX");
+   		if(!aSection)
+        {
+        	CHECK(false);
+            return;
+        }
+
+        //Read in the reference data, from the ini file
+        DoubleMatrix mat		 	= aRR->getReorderedStoichiometryMatrix();
+        DoubleMatrix ref 			= ParseMatrixFromText(aSection->GetNonKeysAsString());
+
+        //Check dimensions
+        if(mat.RSize() != ref.RSize() || mat.CSize() != ref.CSize())
+        {
+        	CHECK(false);
+            return;
+        }
+
+		CHECK_ARRAY2D_CLOSE(ref, mat, mat.RSize(), mat.CSize(), 1e-6);
+    }
+
+    TEST(FULLY_REORDERED_STOICHIOMETRY_MATRIX)
+	{
+		rrIniSection* aSection = iniFile.GetSection("FULLY_REORDERED_STOICHIOMETRY_MATRIX");
+   		if(!aSection)
+        {
+        	CHECK(false);
+            return;
+        }
+
+        //Read in the reference data, from the ini file
+        DoubleMatrix mat		 	= aRR->getFullyReorderedStoichiometryMatrix();
+        DoubleMatrix ref 			= ParseMatrixFromText(aSection->GetNonKeysAsString());
+
+        //Check dimensions
+        if(mat.RSize() != ref.RSize() || mat.CSize() != ref.CSize())
+        {
+        	CHECK(false);
+            return;
+        }
+
+		CHECK_ARRAY2D_CLOSE(ref, mat, mat.RSize(), mat.CSize(), 1e-6);
     }
 
     TEST(LINK_MATRIX)
@@ -315,42 +368,7 @@ SUITE(SteadyState)
 
 		CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
     }
-
-
-//    TEST(SS_SYMBOLS)
-//    {
-//        string model =  JoinPath(gSBMLModelsPath, "ss_threeSpecies.xml");
-//        gRR->ComputeAndAssignConservationLaws(true);
-//		CHECK(gRR->loadSBMLFromFile(model));
-//    	NewArrayList aList = gRR->getAvailableSteadyStateSymbols();
-//
-//        string symbols = aList.AsString();
-//		string expectedSymbols = "{{\"Floating Species\",{\"S1\",\"S3\",\"S2\"}},{\"Boundary Species\",{\"Xo\",\"X1\"}},{\"Floating Species (amount)\",{\"[S1]\",\"[S3]\",\"[S2]\"}},{\"Boundary Species (amount)\",{\"[Xo]\",\"[X1]\"}},{\"Global Parameters\",{\"k1\",\"k2\",\"k3\",\"k4\"}},{\"Volumes\",{\"compartment\"}},{\"Fluxes\",{\"_J1\",\"_J2\",\"_J3\",\"_J4\"}},{\"Flux Control Coefficients\",{{\"_J1\",{\"CC:_J1,k1\",\"CC:_J1,k2\",\"CC:_J1,k3\",\"CC:_J1,k4\",\"CC:_J1,Xo\",\"CC:_J1,X1\"}},{\"_J2\",{\"CC:_J2,k1\",\"CC:_J2,k2\",\"CC:_J2,k3\",\"CC:_J2,k4\",\"CC:_J2,Xo\",\"CC:_J2,X1\"}},{\"_J3\",{\"CC:_J3,k1\",\"CC:_J3,k2\",\"CC:_J3,k3\",\"CC:_J3,k4\",\"CC:_J3,Xo\",\"CC:_J3,X1\"}},{\"_J4\",{\"CC:_J4,k1\",\"CC:_J4,k2\",\"CC:_J4,k3\",\"CC:_J4,k4\",\"CC:_J4,Xo\",\"CC:_J4,X1\"}}}},{\"Concentration Control Coefficients\",{{\"S1\",{\"CC:S1,k1\",\"CC:S1,k2\",\"CC:S1,k3\",\"CC:S1,k4\",\"CC:S1,Xo\",\"CC:S1,X1\"}},{\"S3\",{\"CC:S3,k1\",\"CC:S3,k2\",\"CC:S3,k3\",\"CC:S3,k4\",\"CC:S3,Xo\",\"CC:S3,X1\"}},{\"S2\",{\"CC:S2,k1\",\"CC:S2,k2\",\"CC:S2,k3\",\"CC:S2,k4\",\"CC:S2,Xo\",\"CC:S2,X1\"}}}},{\"Unscaled Concentration Control Coefficients\",{{\"S1\",{\"uCC:S1,k1\",\"uCC:S1,k2\",\"uCC:S1,k3\",\"uCC:S1,k4\",\"uCC:S1,Xo\",\"uCC:S1,X1\"}},{\"S3\",{\"uCC:S3,k1\",\"uCC:S3,k2\",\"uCC:S3,k3\",\"uCC:S3,k4\",\"uCC:S3,Xo\",\"uCC:S3,X1\"}},{\"S2\",{\"uCC:S2,k1\",\"uCC:S2,k2\",\"uCC:S2,k3\",\"uCC:S2,k4\",\"uCC:S2,Xo\",\"uCC:S2,X1\"}}}},{\"Elasticity Coefficients\",{{\"_J1\",{\"EE:_J1,S1\",\"EE:_J1,S3\",\"EE:_J1,S2\",\"EE:_J1,Xo\",\"EE:_J1,X1\",\"EE:_J1,k1\",\"EE:_J1,k2\",\"EE:_J1,k3\",\"EE:_J1,k4\"}},{\"_J2\",{\"EE:_J2,S1\",\"EE:_J2,S3\",\"EE:_J2,S2\",\"EE:_J2,Xo\",\"EE:_J2,X1\",\"EE:_J2,k1\",\"EE:_J2,k2\",\"EE:_J2,k3\",\"EE:_J2,k4\"}},{\"_J3\",{\"EE:_J3,S1\",\"EE:_J3,S3\",\"EE:_J3,S2\",\"EE:_J3,Xo\",\"EE:_J3,X1\",\"EE:_J3,k1\",\"EE:_J3,k2\",\"EE:_J3,k3\",\"EE:_J3,k4\"}},{\"_J4\",{\"EE:_J4,S1\",\"EE:_J4,S3\",\"EE:_J4,S2\",\"EE:_J4,Xo\",\"EE:_J4,X1\",\"EE:_J4,k1\",\"EE:_J4,k2\",\"EE:_J4,k3\",\"EE:_J4,k4\"}}}},{\"Unscaled Elasticity Coefficients\",{{\"_J1\",{\"uEE:_J1,S1\",\"uEE:_J1,S3\",\"uEE:_J1,S2\",\"uEE:_J1,Xo\",\"uEE:_J1,X1\",\"uEE:_J1,k1\",\"uEE:_J1,k2\",\"uEE:_J1,k3\",\"uEE:_J1,k4\"}},{\"_J2\",{\"uEE:_J2,S1\",\"uEE:_J2,S3\",\"uEE:_J2,S2\",\"uEE:_J2,Xo\",\"uEE:_J2,X1\",\"uEE:_J2,k1\",\"uEE:_J2,k2\",\"uEE:_J2,k3\",\"uEE:_J2,k4\"}},{\"_J3\",{\"uEE:_J3,S1\",\"uEE:_J3,S3\",\"uEE:_J3,S2\",\"uEE:_J3,Xo\",\"uEE:_J3,X1\",\"uEE:_J3,k1\",\"uEE:_J3,k2\",\"uEE:_J3,k3\",\"uEE:_J3,k4\"}},{\"_J4\",{\"uEE:_J4,S1\",\"uEE:_J4,S3\",\"uEE:_J4,S2\",\"uEE:_J4,Xo\",\"uEE:_J4,X1\",\"uEE:_J4,k1\",\"uEE:_J4,k2\",\"uEE:_J4,k3\",\"uEE:_J4,k4\"}}}},{\"Eigenvalues\",{\"eigen_S1\",\"eigen_S3\",\"eigen_S2\"}}}";
-//        CHECK_EQUAL(expectedSymbols, symbols);
-//    }
-
 }
 
-DoubleMatrix ParseMatrixFromText(const string& textMatrix)
-{
-	DoubleMatrix mat;
-
-    //Parse the matrix
-    vector<string> rows = SplitString(textMatrix, "\n");
-    for(int row = 0; row < rows.size(); row++)
-    {
-        vector<string> values = SplitString(rows[row], " \t");
-        for(int col = 0; col < values.size(); col++)
-        {
-        	if(!mat.size())
-            {
-                mat.resize(rows.size(), values.size());
-            }
-
-            mat(row, col) = ToDouble(values[col]);
-        }
-    }
-	return mat;
-}
 
 

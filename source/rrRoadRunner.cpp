@@ -888,9 +888,7 @@ bool RoadRunner::CompileModel()
 		Log(lError)<<"There was a problem loading the shared library: "<<dllName;
 		Log(lError)<<"More Info: "<<ex.what();
         return false;
-
     }
-//    mModelDLL = LoadDLL(dllName);
 
     //Now create the Model using the compiled DLL
     mModel = CreateModel();
@@ -1642,15 +1640,8 @@ DoubleMatrix RoadRunner::getFullJacobian()
         if (mModel)
         {
             DoubleMatrix uelast = getUnscaledElasticityMatrix();
-            DoubleMatrix* rsm = mLS->getStoichiometryMatrix();
-            if(rsm)
-            {
-            	return mult(*rsm, uelast);
-            }
-            else
-            {
-	            DoubleMatrix empty;
-            }
+            DoubleMatrix rsm 	= getReorderedStoichiometryMatrix();
+            return mult(rsm, uelast);
         }
         throw SBWApplicationException(emptyModelStr);
     }
@@ -1660,26 +1651,17 @@ DoubleMatrix RoadRunner::getFullJacobian()
     }
 }
 
-// Help("Compute the full Reordered Jacobian at the current operating point")
-
 DoubleMatrix RoadRunner::getFullReorderedJacobian()
 {
     try
     {
-        if (!mModel)
+        if (mModel)
         {
-	        throw SBWApplicationException(emptyModelStr);
+            DoubleMatrix uelast = getUnscaledElasticityMatrix();
+            DoubleMatrix rsm 	= getStoichiometryMatrix();
+            return mult(rsm, uelast);
         }
-        DoubleMatrix uelast = getUnscaledElasticityMatrix();
-        if(_N)
-        {
-            return mult((*_N), uelast);
-        }
-        else
-        {
-            DoubleMatrix empty;
-			return empty;
-        }
+        throw SBWApplicationException(emptyModelStr);
     }
     catch (const Exception& e)
     {
@@ -1765,6 +1747,64 @@ DoubleMatrix* RoadRunner::getL0Matrix()
 
 // Help("Returns the stoichiometry matrix for the currently loaded model")
 DoubleMatrix RoadRunner::getStoichiometryMatrix()
+{
+    try
+    {
+//		DoubleMatrix* aMat = mLS->getStoichiometryMatrix();
+		DoubleMatrix* aMat = mLS->getReorderedStoichiometryMatrix();
+        if (!mModel || !aMat)
+        {
+	        throw SBWApplicationException(emptyModelStr);
+		}
+
+        DoubleMatrix mat(aMat->numRows(), aMat->numCols());
+
+        for(int row = 0; row < mat.RSize(); row++)
+        {
+            for(int col = 0; col < mat.CSize(); col++)
+            {
+                mat(row,col) = (*aMat)(row,col);
+            }
+        }
+        return mat;
+    }
+    catch (const Exception& e)
+    {
+        throw SBWApplicationException("Unexpected error from getStoichiometryMatrix()" + e.Message());
+    }
+}
+
+// Help("Returns the stoichiometry matrix for the currently loaded model")
+DoubleMatrix RoadRunner::getReorderedStoichiometryMatrix()
+{
+    try
+    {
+		DoubleMatrix* aMat = mLS->getReorderedStoichiometryMatrix();
+        if (!mModel || !aMat)
+        {
+	        throw SBWApplicationException(emptyModelStr);
+		}
+
+        //Todo: Room to improve how matrices are handled across LibStruct/RoadRunner/C-API
+        DoubleMatrix mat(aMat->numRows(), aMat->numCols());
+
+        for(int row = 0; row < mat.RSize(); row++)
+        {
+            for(int col = 0; col < mat.CSize(); col++)
+            {
+                mat(row,col) = (*aMat)(row,col);
+            }
+        }
+        return mat;
+    }
+    catch (const Exception& e)
+    {
+        throw SBWApplicationException("Unexpected error from getStoichiometryMatrix()" + e.Message());
+    }
+}
+
+// Help("Returns the stoichiometry matrix for the currently loaded model")
+DoubleMatrix RoadRunner::getFullyReorderedStoichiometryMatrix()
 {
     try
     {
@@ -3754,38 +3794,59 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
 
 
 //        [Help("Compute the unscaled species elasticity matrix at the current operating point")]
-DoubleMatrix RoadRunner::getUnscaledElasticityMatrix()
+DoubleMatrix RoadRunner::getUnscaledReducedElasticityMatrix()
 {
     DoubleMatrix uElastMatrix(mModel->getNumReactions(), mModel->getNumTotalVariables());
 
     try
     {
-        if (mModel)
-        {
-            mModel->convertToConcentrations();
-            // Compute reaction velocities at the current operating point
-            mModel->computeReactionRates(mModel->getTime(), mModel->y);
-
-            for (int i = 0; i < mModel->getNumReactions(); i++)
-            {
-                for (int j = 0; j < mModel->getNumTotalVariables(); j++)
-                {
-                    uElastMatrix[i][j] = getUnscaledSpeciesElasticity(i, j);
-                }
-            }
-
-            return uElastMatrix;
-        }
-        else
+        if (!mModel)
         {
             throw SBWApplicationException(emptyModelStr);
         }
+
+        mModel->convertToConcentrations();
+
+        // Compute reaction velocities at the current operating point
+        mModel->computeReactionRates(mModel->getTime(), mModel->y);
+
+        for (int i = 0; i < mModel->getNumReactions(); i++)
+        {
+            for (int j = 0; j < mModel->getNumTotalVariables(); j++)
+            {
+                uElastMatrix[i][j] = getUnscaledSpeciesElasticity(i, j);
+            }
+        }
+
+        return uElastMatrix;
     }
     catch (const Exception& e)
     {
         throw SBWApplicationException("Unexpected error from unscaledElasticityMatrix()", e.Message());
     }
 }
+
+////        public double[][] getUnscaledElasticityMatrix()
+////        {
+////            var uElastMatrix = new double[model.getNumReactions][];
+////            for (int i = 0; i < model.getNumReactions; i++) uElastMatrix[i] = new double[model.getNumTotalVariables];
+////
+////            try
+////            {
+////                if (modelLoaded)
+////                {
+////                    model.convertToConcentrations();
+////                    // Compute reaction velocities at the current operating point
+////                    model.computeReactionRates(model.time, model.y);
+////
+////                    for (int i = 0; i < model.getNumReactions; i++)
+////                        for (int j = 0; j < model.getNumTotalVariables; j++)
+////                            uElastMatrix[i][j] = getUnscaledSpeciesElasticity(i, j);
+////
+////                    return uElastMatrix;
+////                }
+////                else throw new SBWApplicationException(emptyModelStr);
+////            }
 
 //        [Help("Compute the unscaled elasticity matrix at the current operating point")]
 DoubleMatrix RoadRunner::getScaledElasticityMatrix()

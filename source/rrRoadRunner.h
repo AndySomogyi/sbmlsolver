@@ -196,7 +196,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		DoubleMatrix                    getReducedJacobian();
 		DoubleMatrix                    getFullJacobian();
 		DoubleMatrix 					getFullReorderedJacobian();
-
 		DoubleMatrix                    getEigenValues();
 		vector<Complex>                 getEigenValuesCpx();
 
@@ -207,6 +206,9 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		DoubleMatrix*                   getNrMatrix();
 		DoubleMatrix*                   getL0Matrix();
 		DoubleMatrix                    getStoichiometryMatrix();
+		DoubleMatrix                    getReorderedStoichiometryMatrix();
+		DoubleMatrix                    getFullyReorderedStoichiometryMatrix();
+
 		DoubleMatrix                    getConservationMatrix();
 		DoubleMatrix                    getUnscaledConcentrationControlCoefficientMatrix();
 		DoubleMatrix                    getScaledConcentrationControlCoefficientMatrix();
@@ -330,10 +332,10 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		double getUnScaledElasticity(const string& reactionName, const string& parameterName);
 
 		//"Compute the unscaled species elasticity matrix at the current operating point")]
-		ls::DoubleMatrix getUnscaledElasticityMatrix();
+		ls::DoubleMatrix getUnscaledReorderedElasticityMatrix();
 
 		//"Compute the unscaled elasticity matrix at the current operating point")]
-		ls::DoubleMatrix getScaledElasticityMatrix();
+		ls::DoubleMatrix getScaledReorderedElasticityMatrix();
 
 		//[Help("Compute the unscaled elasticity for a given reaction and given species")]
 		double getUnscaledFloatingSpeciesElasticity(const string& reactionName, const string& speciesName);
