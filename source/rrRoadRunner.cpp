@@ -1639,7 +1639,7 @@ DoubleMatrix RoadRunner::getFullJacobian()
     {
         if (mModel)
         {
-            DoubleMatrix uelast = getUnscaledElasticityMatrix();
+			DoubleMatrix uelast = getUnscaledReorderedElasticityMatrix();
             DoubleMatrix rsm 	= getReorderedStoichiometryMatrix();
             return mult(rsm, uelast);
         }
@@ -1657,7 +1657,7 @@ DoubleMatrix RoadRunner::getFullReorderedJacobian()
     {
         if (mModel)
         {
-            DoubleMatrix uelast = getUnscaledElasticityMatrix();
+			DoubleMatrix uelast = getUnscaledReorderedElasticityMatrix();
             DoubleMatrix rsm 	= getStoichiometryMatrix();
             return mult(rsm, uelast);
         }
@@ -1679,7 +1679,7 @@ DoubleMatrix RoadRunner::getReducedJacobian()
 	        throw SBWApplicationException(emptyModelStr);
         }
 
-        DoubleMatrix uelast = getUnscaledElasticityMatrix();
+		DoubleMatrix uelast = getUnscaledReorderedElasticityMatrix();
         if(!_Nr)
         {
             return DoubleMatrix(0,0);
@@ -3794,7 +3794,7 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
 
 
 //        [Help("Compute the unscaled species elasticity matrix at the current operating point")]
-DoubleMatrix RoadRunner::getUnscaledReducedElasticityMatrix()
+DoubleMatrix RoadRunner::getUnscaledReorderedElasticityMatrix()
 {
     DoubleMatrix uElastMatrix(mModel->getNumReactions(), mModel->getNumTotalVariables());
 
@@ -3849,13 +3849,13 @@ DoubleMatrix RoadRunner::getUnscaledReducedElasticityMatrix()
 ////            }
 
 //        [Help("Compute the unscaled elasticity matrix at the current operating point")]
-DoubleMatrix RoadRunner::getScaledElasticityMatrix()
+DoubleMatrix RoadRunner::getScaledReorderedElasticityMatrix()
 {
     try
     {
         if (mModel)
         {
-            DoubleMatrix uelast = getUnscaledElasticityMatrix();
+            DoubleMatrix uelast = getUnscaledReorderedElasticityMatrix();
 
             DoubleMatrix result(uelast.RSize(), uelast.CSize());// = new double[uelast.Length][];
             mModel->convertToConcentrations();
@@ -4118,7 +4118,7 @@ DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
         }
 
         // Compute the Jacobian first
-        DoubleMatrix uelast     = getUnscaledElasticityMatrix();
+        DoubleMatrix uelast     = getUnscaledReorderedElasticityMatrix();
         DoubleMatrix *Nr         = getNrMatrix();
         DoubleMatrix T1 = mult(*Nr, uelast);
         DoubleMatrix *LinkMatrix = getLinkMatrix();
@@ -4222,7 +4222,7 @@ DoubleMatrix RoadRunner::getUnscaledFluxControlCoefficientMatrix()
 		if (mModel)
 		{
 			DoubleMatrix ucc = getUnscaledConcentrationControlCoefficientMatrix();
-			DoubleMatrix uee = getUnscaledElasticityMatrix();
+			DoubleMatrix uee = getUnscaledReorderedElasticityMatrix();
 
 			DoubleMatrix T1 = mult(uee, ucc);
 			
@@ -4242,6 +4242,59 @@ DoubleMatrix RoadRunner::getUnscaledFluxControlCoefficientMatrix()
 		throw SBWApplicationException("Unexpected error from getUnscaledFluxControlCoefficientMatrix()", e.Message());
 	}
 }
+
+//DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
+//{
+//    try
+//    {
+//        if (mModel)
+//        {
+//            DoubleMatrix uelast = getUnscaledReorderedElasticityMatrix();
+//
+//            DoubleMatrix result(uelast.RSize(), uelast.CSize());// = new double[uelast.Length][];
+//            mModel->convertToConcentrations();
+//            mModel->computeReactionRates(mModel->getTime(), mModel->y);
+//            vector<double> rates;// = mModel->rates;
+//            if(!CopyCArrayToStdVector(mModel->rates, rates, *mModel->ratesSize))
+//            {
+//                throw SBWApplicationException("Failed to copy model->rates");
+//            }
+//
+//            for (int i = 0; i < uelast.RSize(); i++)
+//            {
+//                // Rows are rates
+//                if (*mModel->ratesSize == 0 || rates[i] == 0)
+//                {
+//	                string name;
+//                	if(mModelGenerator && mModelGenerator->reactionList.size())
+//                    {
+//                		name = mModelGenerator->reactionList[i].name;
+//                    }
+//                    else
+//                    {
+//                    	name = "none";
+//                    }
+//
+//                    throw SBWApplicationException("Unable to compute elasticity, reaction rate [" + name + "] set to zero");
+//                }
+//
+//                for (int j = 0; j < uelast.CSize(); j++) // Columns are species
+//                {
+//                    result[i][j] = uelast[i][j]*mModel->getConcentration(j)/rates[i];
+//                }
+//            }
+//            return result;
+//        }
+//        else
+//        {
+//            throw SBWApplicationException(emptyModelStr);
+//        }
+//    }
+//    catch (const Exception& e)
+//    {
+//        throw SBWApplicationException("Unexpected error from scaledElasticityMatrix()", e.Message());
+//    }
+//}
 
 // [Help("Compute the matrix of scaled flux control coefficients")]
 DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()

@@ -10,7 +10,8 @@
 #include "rr-libstruct/lsMatrix.h"
 #include "rr-libstruct/lsLibStructural.h"
 
-////////////
+
+////////////
 #include "rrObject.h"
 #include "rrTVariableType.h"
 #include "rrTParameterType.h"
@@ -332,10 +333,10 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		double getUnScaledElasticity(const string& reactionName, const string& parameterName);
 
 		//"Compute the unscaled species elasticity matrix at the current operating point")]
-		ls::DoubleMatrix getUnscaledReorderedElasticityMatrix();
+		DoubleMatrix getUnscaledReorderedElasticityMatrix();
 
 		//"Compute the unscaled elasticity matrix at the current operating point")]
-		ls::DoubleMatrix getScaledReorderedElasticityMatrix();
+		DoubleMatrix getScaledReorderedElasticityMatrix();
 
 		//[Help("Compute the unscaled elasticity for a given reaction and given species")]
 		double getUnscaledFloatingSpeciesElasticity(const string& reactionName, const string& speciesName);

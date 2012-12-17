@@ -1040,7 +1040,7 @@ bool rrCallConv getValue(const char* symbolId, double& value)
 }
 
 
-RRMatrixHandle rrCallConv getUnScaledElasticityMatrix()
+RRMatrixHandle rrCallConv getUnscaledReorderedElasticityMatrix()
 {
 	try
     {
@@ -1050,7 +1050,7 @@ RRMatrixHandle rrCallConv getUnScaledElasticityMatrix()
             return NULL;
         }
 
-		ls::DoubleMatrix tempMat = gRRHandle->getUnscaledElasticityMatrix();
+		ls::DoubleMatrix tempMat = gRRHandle->getUnscaledReorderedElasticityMatrix();
 
         RRMatrixHandle matrix = createMatrix(&tempMat);
 	    return matrix;
@@ -1074,7 +1074,7 @@ RRMatrixHandle rrCallConv getScaledElasticityMatrix()
             return NULL;
         }
 
-        ls::DoubleMatrix tempMat = gRRHandle->getScaledElasticityMatrix();
+		ls::DoubleMatrix tempMat = gRRHandle->getScaledReorderedElasticityMatrix();
 
 
         RRMatrixHandle matrix = createMatrix(&tempMat);
