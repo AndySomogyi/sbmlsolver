@@ -10,6 +10,15 @@ SET(RR_BUILDS_ROOT      "~/builds")
 SET(RR_INSTALLS_ROOT    "~/installs")
 endif()
 
+mark_as_advanced(
+BUILD_TESTS
+INSTALL_APPS
+INSTALL_CXX_API
+INSTALL_C_API
+INSTALL_EXAMPLES
+INSTALL_PYTHON
+INSTALL_STATIC_LIB
+)
 
 if(BORLAND)
 set(FOLDER_POSTFIX "xe")
@@ -33,12 +42,12 @@ set(RR_ROADRUNNER_INSTALL_PATH ${CMAKE_INSTALL_PREFIX})
 set(RR_ROADRUNNER_INSTALL_LIB_PATH ${RR_ROADRUNNER_INSTALL_PATH}/lib)
 set(RR_SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
-OPTION (INSTALL_CXX_API 		"Package c++ api" 	        	    ON)
+OPTION (INSTALL_CXX_API 		"Generate C++ api" 	        	    ON)
 OPTION (INSTALL_C_API	 		"Generate C API" 		            ON)
-OPTION (INSTALL_PYTHON 			"Package Python wrapper" 		    OFF)
-OPTION (INSTALL_DELPHI  		"Package Delphi wrapper "           OFF)
+OPTION (INSTALL_PYTHON 			"Package Python wrapper" 		    ON)
+#OPTION (INSTALL_DELPHI  		"Package Delphi wrapper "           OFF)
 OPTION (INSTALL_APPS	    	"Build and install Apps"	    	ON)
-OPTION (INSTALL_EXAMPLES		"Build and install Examples"		OFF)
+#OPTION (INSTALL_EXAMPLES		"Build and install Examples"		OFF)
 OPTION (INSTALL_STATIC_LIB		"Install RoadRunner CXX static lib"	OFF)
 OPTION (BUILD_TESTS		        "Build API Tests"		            OFF)
 OPTION (INSTALL_SBML_MODELS		"Install SBML Models"		        ON)
