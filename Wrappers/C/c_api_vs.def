@@ -66,6 +66,7 @@ EXPORTS
     getNumberOfReactions                        = _getNumberOfReactions@0
     getParamPromotedSBML                        = _getParamPromotedSBML@4
     getRRInstance                               = _getRRInstance@0
+    getRRCAPILocation                           = _getRRCAPILocation@0
     getRateOfChange                             = _getRateOfChange@8
     getRatesOfChange                            = _getRatesOfChange@0
     getRatesOfChangeEx                          = _getRatesOfChangeEx@4

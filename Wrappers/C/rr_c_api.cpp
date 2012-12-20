@@ -220,7 +220,10 @@ char* rrCallConv getRRCAPILocation()
 {
 #if defined(_WIN32) || defined(WIN32)
 	char path[MAX_PATH];
-	if(GetModuleFileNameA(NULL, path, ARRAYSIZE(path)) != 0)
+    HINSTANCE handle = NULL;
+    const char* dllName = "rr_c_api";
+    handle = GetModuleHandle(dllName);
+	if(GetModuleFileNameA(handle, path, ARRAYSIZE(path)) != 0)
     {
 	    string aPath(ExtractFilePath(path));
 		return createText(aPath);
