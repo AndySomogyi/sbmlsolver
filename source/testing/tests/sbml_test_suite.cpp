@@ -11,7 +11,7 @@ extern string 			gCompiler;
 extern string 			gSupportCodeFolder;
 extern string 			gTempFolder;
 extern string 			gTSModelsPath;
-extern string 			gDataOutputFolder;
+//extern string 			gDataOutputFolder;
 
 bool RunTest(const string& version, int number);
 SUITE(SBML_l2v4)
@@ -1027,7 +1027,7 @@ bool RunTest(const string& version, int caseNumber)
         CreateTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, dummy);
 
         //Create subfolder for data output
-        string dataOutputFolder = JoinPath(gDataOutputFolder, GetTestSuiteSubFolderName(caseNumber));
+        string dataOutputFolder = JoinPath(gTempFolder, GetTestSuiteSubFolderName(caseNumber));
 
         if(!CreateFolder(dataOutputFolder))
         {

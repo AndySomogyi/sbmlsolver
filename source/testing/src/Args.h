@@ -10,11 +10,11 @@ class Args
                                         Args();
         virtual                        ~Args(){}
         string                          SBMLModelsFilePath;                       	//option m:
-		string                          Compiler;       		                  	//option l:
+//		string                          Compiler;       		                  	//option l:
         string                          ResultOutputFile;                         	//option r:
         string                          TempDataFolder;                           	//option t:
-        string                          DataOutputFolder;                          	//option d:
-		string                          SupportCodeFolder;                        	//option s:
+//        string                          DataOutputFolder;                          	//option d:
+//		string                          SupportCodeFolder;                        	//option s:
 		bool                            EnableLogging;                    	     	//option v:
 };
 

@@ -17,9 +17,9 @@ Args::Args()
 SBMLModelsFilePath(""),
 ResultOutputFile(""),
 TempDataFolder("."),
-DataOutputFolder("."),
-Compiler(""),
-SupportCodeFolder(""),
+//DataOutputFolder("."),
+//Compiler(""),
+//SupportCodeFolder(""),
 EnableLogging(false)
 {}
 
