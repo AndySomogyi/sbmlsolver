@@ -116,6 +116,10 @@ if(${UNIX})
 SET (CMAKE_CXX_FLAGS 			"${CMAKE_CXX_FLAGS} -std=gnu++0x")
 endif()
 
+#if(${MSVC})
+SET (CMAKE_C_FLAGS_RELEASE 			"/MD /Od /Ob0 /D NDEBUG /P")
+#endif()
+
 if(${BORLAND})
 add_definitions(
              -w-8012                     #Comparing signed /unsigned

@@ -318,10 +318,9 @@ bool Compiler::Compile(const string& cmdLine)
 
 bool Compiler::Compile(const string& cmdLine) {
     string toFile(cmdLine);
-    toFile += " >> ";
+    toFile += " 2>&1 >> ";
     string tmpFolder = rr::RoadRunner::getTempFileFolder();
     toFile += JoinPath(rr::RoadRunner::getTempFileFolder(), "compilation.log");
-    toFile += " 2>&1";
     Log(lInfo)<<"Compiler command: "<<toFile;
     int val = system(toFile.c_str());
     if(val ==0)
