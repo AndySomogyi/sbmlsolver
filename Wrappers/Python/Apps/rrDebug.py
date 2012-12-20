@@ -22,9 +22,6 @@ else:
     rrPython.setNumPoints(numPoints)
     rrPython.setTimeCourseSelectionList(selList)
     k = rrPython.simulate()
-    if k:
-        print k
-    else:
-        print"No data to print"
+    print k
 
 print "done"
