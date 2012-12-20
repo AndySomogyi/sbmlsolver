@@ -1208,7 +1208,7 @@ C_DECL_SPEC RRStringArrayHandle rrCallConv getCompartmentIds();
  \return Returns -1 if it fails, if succesful it returns a pointer to a RRStringArrayHandle struct
  \ingroup state
 */
-C_DECL_SPEC RRStringArrayHandle rrCallConv getEigenValueIds();
+C_DECL_SPEC RRStringArrayHandle rrCallConv getEigenvalueIds();
 
 /*!
  \brief Obtain the list of all available symbols
