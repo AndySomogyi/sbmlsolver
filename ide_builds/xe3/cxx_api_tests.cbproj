@@ -87,7 +87,7 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <Manifest_File>None</Manifest_File>
-        <Debugger_RunParams>-mr:\models -lr:\installs\xe3\compilers\tcc\tcc.exe  -sr:\installs\xe3\rr_support -rr:\rrl\reports\cg\xe3\cpp_tests.xml -tr:\rrTemp\cg_cpp -dr:\rrTemp\cg_cpp </Debugger_RunParams>
+        <Debugger_RunParams>-mr:\models -rr:\rrl\reports\cg\xe3\cpp_tests_debug.xml -tr:\rrTemp\cg_cpp </Debugger_RunParams>
         <IncludePath>$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -117,6 +117,9 @@
         </CppCompile>
         <CppCompile Include="..\..\source\testing\tests\stoichiometric.cpp">
             <BuildOrder>8</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\testing\tests\three_species.cpp">
+            <BuildOrder>7</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

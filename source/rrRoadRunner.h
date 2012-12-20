@@ -197,8 +197,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		DoubleMatrix                    getReducedJacobian();
 		DoubleMatrix                    getFullJacobian();
 		DoubleMatrix 					getFullReorderedJacobian();
-		DoubleMatrix                    getEigenValues();
-		vector<Complex>                 getEigenValuesCpx();
+		DoubleMatrix                    getEigenvalues();
+		vector<Complex>                 getEigenvaluesCpx();
 
 		// ---------------------------------------------------------------------
 		// Start of Level 4 API Methods
@@ -224,7 +224,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		NewArrayList                 	getConcentrationControlCoefficientIds();
 		NewArrayList                 	getElasticityCoefficientIds();
 		NewArrayList                 	getUnscaledElasticityCoefficientIds();
-		StringList                      getEigenValueIds();
+		StringList                      getEigenvalueIds();
 		NewArrayList                 	getAvailableSteadyStateSymbols();
 		NewArrayList                 	getSteadyStateSelectionList();
 		void                            setSteadyStateSelectionList(const StringList& newSelectionList);

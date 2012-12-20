@@ -150,6 +150,10 @@ endif()
 
 add_subdirectory(Wrappers)
 
+if(BUILD_TESTS)
+add_subdirectory(tests)
+endif()
+
 #======================= INSTALL STUFF ========================================================
 #What sub folders to move into...?
 if(${INSTALL_SBML_MODELS})

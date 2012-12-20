@@ -922,7 +922,7 @@ C_DECL_SPEC RRMatrixHandle rrCallConv getReducedJacobian();
  The first column will contain the real values and the second column the imaginary values
  \ingroup Stoich
 */
-C_DECL_SPEC RRMatrixHandle rrCallConv getEigenValues();
+C_DECL_SPEC RRMatrixHandle rrCallConv getEigenvalues();
 
 // --------------------------------------------------------------------------------
 // Stoichiometry methods

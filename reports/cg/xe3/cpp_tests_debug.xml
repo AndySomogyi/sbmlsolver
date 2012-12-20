@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="api_tests.xsl" type="text/xsl" ?>
+<unittest-results date_time = "2012-12-20 22:50:19" tests="37" failedtests="16" failures="20" time="0.852">
+<test suite="Base" name="VERSIONS" time="0"/>
+<test suite="Base" name="AllocateRR" time="0"/>
+<test suite="Base" name="AllocateDeAllocateRR" time="0.069"/>
+<test suite="Base" name="MODEL_FILES" time="0"/>
+<test suite="Base" name="LOAD_SBML" time="0.646"/>
+<test suite="SteadyState" name="DATA_FILES" time="0.006"/>
+<test suite="SteadyState" name="LOAD_MODEL" time="0.054"/>
+<test suite="SteadyState" name="COMPUTE_STEADY_STATE" time="0"/>
+<test suite="SteadyState" name="STEADY_STATE_CONCENTRATIONS" time="0"/>
+<test suite="SteadyState" name="FULL_JACOBIAN" time="0.001"><failure message="steady_state.cpp(114) : Expected [ [ -0.2 0.067 0 ] [ 0.15 -0.467 0.09 ] [ 0 0.4 -0.64 ] ] +/- 1e-06 but was [ [ -0.2 0 0.067 ] [ 0 -0.64 0.4 ] [ 0.15 0.09 -0.467 ] ]"/></test>
+<test suite="SteadyState" name="REDUCED_JACOBIAN" time="0"><failure message="steady_state.cpp(122) : false"/></test>
+<test suite="SteadyState" name="FULL_REORDERED_JACOBIAN" time="0.002"/>
+<test suite="SteadyState" name="EIGEN_VALUES" time="0.005"><failure message="steady_state.cpp(188) : Expected -0.157263 +/- 1e-06 but was -0.767365"/></test>
+<test suite="SteadyState" name="STOICHIOMETRY_MATRIX" time="0"/>
+<test suite="SteadyState" name="REORDERED_STOICHIOMETRY_MATRIX" time="0"/>
+<test suite="SteadyState" name="FULLY_REORDERED_STOICHIOMETRY_MATRIX" time="0"><failure message="steady_state.cpp(258) : Expected [ [ 1 -1 0 0 ] [ 0 0 1 -1 ] [ 0 1 -1 0 ] ] +/- 1e-06 but was [ [ 0 -1 0 1 ] [ -1 0 1 0 ] [ 0 1 -1 0 ] ]"/></test>
+<test suite="SteadyState" name="LINK_MATRIX" time="0"/>
+<test suite="SteadyState" name="UNSCALED_ELASTICITY_MATRIX" time="0"/>
+<test suite="SteadyState" name="SCALED_ELASTICITY_MATRIX" time="0"/>
+<test suite="SteadyState" name="UNSCALED_CONCENTRATION_CONTROL_MATRIX" time="0"><failure message="steady_state.cpp(335) : false"/></test>
+<test suite="SteadyState" name="UNSCALED_FLUX_CONTROL_MATRIX" time="0"><failure message="steady_state.cpp(358) : false"/></test>
+<test suite="ssThreeSpecies" name="DATA_FILES" time="0.003"/>
+<test suite="ssThreeSpecies" name="LOAD_MODEL" time="0.049"/>
+<test suite="ssThreeSpecies" name="COMPUTE_STEADY_STATE" time="0"/>
+<test suite="ssThreeSpecies" name="STEADY_STATE_CONCENTRATIONS" time="0"><failure message="three_species.cpp(90) : Expected 0.569695 +/- 1e-06 but was 0.666667"/><failure message="three_species.cpp(90) : Expected 0.208044 +/- 1e-06 but was 0.25"/><failure message="three_species.cpp(90) : Expected 0.130028 +/- 1e-06 but was 0.181818"/></test>
+<test suite="ssThreeSpecies" name="FULL_JACOBIAN" time="0.001"><failure message="three_species.cpp(114) : Expected [ [ -0.2 0.067 0 ] [ 0.15 -0.467 0.09 ] [ 0 0.4 -0.64 ] ] +/- 1e-06 but was [ [ -0.15 0 0 ] [ 0 -0.55 0.4 ] [ 0.15 0 -0.4 ] ]"/></test>
+<test suite="ssThreeSpecies" name="REDUCED_JACOBIAN" time="0"><failure message="three_species.cpp(122) : false"/></test>
+<test suite="ssThreeSpecies" name="FULL_REORDERED_JACOBIAN" time="0.002"><failure message="three_species.cpp(162) : Expected [ [ -0.2 0 0.067 ] [ 0 -0.64 0.4 ] [ 0.15 0.09 -0.467 ] ] +/- 1e-06 but was [ [ -0.15 0 0 ] [ 0 -0.55 0.4 ] [ 0.15 0 -0.4 ] ]"/></test>
+<test suite="ssThreeSpecies" name="EIGEN_VALUES" time="0.005"><failure message="three_species.cpp(188) : Expected -0.157263 +/- 1e-06 but was -0.15"/><failure message="three_species.cpp(188) : Expected -0.382371 +/- 1e-06 but was -0.4"/><failure message="three_species.cpp(188) : Expected -0.157263 +/- 1e-06 but was -0.55"/></test>
+<test suite="ssThreeSpecies" name="STOICHIOMETRY_MATRIX" time="0"/>
+<test suite="ssThreeSpecies" name="REORDERED_STOICHIOMETRY_MATRIX" time="0"/>
+<test suite="ssThreeSpecies" name="FULLY_REORDERED_STOICHIOMETRY_MATRIX" time="0"><failure message="three_species.cpp(258) : Expected [ [ 1 -1 0 0 ] [ 0 0 1 -1 ] [ 0 1 -1 0 ] ] +/- 1e-06 but was [ [ 0 -1 0 1 ] [ -1 0 1 0 ] [ 0 1 -1 0 ] ]"/></test>
+<test suite="ssThreeSpecies" name="LINK_MATRIX" time="0"/>
+<test suite="ssThreeSpecies" name="UNSCALED_ELASTICITY_MATRIX" time="0"><failure message="three_species.cpp(304) : Expected [ [ -0.05 0 0 ] [ 0.15 0 -0.067 ] [ 0 -0.09 0.4 ] [ 0 0.55 0 ] ] +/- 1e-06 but was [ [ 0 0 0 ] [ 0.15 0 0 ] [ 0 0 0.4 ] [ 0 0.55 0 ] ]"/></test>
+<test suite="ssThreeSpecies" name="SCALED_ELASTICITY_MATRIX" time="0"><failure message="three_species.cpp(327) : Expected [ [ -0.398303 0 0 ] [ 1.19491 0 -0.194909 ] [ 0 -0.163636 1.16364 ] [ 0 1 0 ] ] +/- 1e-06 but was [ [ 0 0 0 ] [ 1 0 0 ] [ 0 0 1 ] [ 0 1 0 ] ]"/></test>
+<test suite="ssThreeSpecies" name="UNSCALED_CONCENTRATION_CONTROL_MATRIX" time="0"><failure message="three_species.cpp(335) : false"/></test>
+<test suite="ssThreeSpecies" name="UNSCALED_FLUX_CONTROL_MATRIX" time="0"><failure message="three_species.cpp(358) : false"/></test>
+</unittest-results>

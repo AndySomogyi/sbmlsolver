@@ -14,11 +14,13 @@ using namespace rr;
 using namespace UnitTest;
 
 
+string 	gRRInstallFolder 		= "";
 string 	gSBMLModelsPath 		= "";
+string  gTestDataFolder			= "";
 string 	gCompiler 				= "";
 string 	gSupportCodeFolder 		= "";
 string 	gTempFolder		   		= "";
-string 	gDataOutputFolder   	= "";
+//string 	gDataOutputFolder   	= "";
 bool	gDebug			    	= false;
 
 // initialized based on gSBMLModelsPath
@@ -35,16 +37,30 @@ int main(int argc, char* argv[])
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
 
+
+#if defined (WIN32)
+gCompiler = "compilers\\tcc\\tcc.exe";
+#else
+gCompiler = "gcc";
+#endif
+
 	string reportFile(args.ResultOutputFile);
 
     gSBMLModelsPath 	= args.SBMLModelsFilePath;
     gTSModelsPath 		= JoinPath(JoinPath(gSBMLModelsPath, "cases"), "semantic");
-	gCompiler	 		= args.Compiler;
+
     gTempFolder			= args.TempDataFolder;
-    gDataOutputFolder	= args.DataOutputFolder;
-	gSupportCodeFolder 	= args.SupportCodeFolder;
+//    gDataOutputFolder	= gTempFolder;
 
+  	string thisExeFolder = getCurrentExeFolder();
+    Log(lDebug)<<"RoadRunner bin location is: "<<thisExeFolder;
 
+    //Assume(!) this is the bin folder of roadrunner install
+	gRRInstallFolder = getParentFolder(thisExeFolder);	//Go up one folder
+
+    gCompiler	 		= JoinPath(gRRInstallFolder, gCompiler);
+	gSupportCodeFolder 	= JoinPath(gRRInstallFolder, "rr_support");
+	gTestDataFolder     = JoinPath(gRRInstallFolder, "tests");
    	bool doLogging  	= args.EnableLogging;
     if(doLogging)
     {
@@ -53,7 +69,6 @@ int main(int argc, char* argv[])
         LogOutput::mLogToConsole = true;
     }
 
-	Log(lDebug) << "Support code folder is set to:"<<gSupportCodeFolder;
  	fstream aFile(reportFile.c_str(), ios::out);
     if(!aFile)
     {
@@ -68,16 +83,19 @@ int main(int argc, char* argv[])
 
 
     clog<<"Running Base\n";
-    //runner1.RunTestsIf(Test::GetTestList(), "Base", 		True(), 0);
+    runner1.RunTestsIf(Test::GetTestList(), "Base", 		True(), 0);
 
     clog<<"Running SteadyState Tests\n";
     runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
 
-//    clog<<"Running TestSuite Tests\n";
-//    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4",   	True(), 0);
+    clog<<"Running ssThreeSpecies Tests\n";
+    runner1.RunTestsIf(Test::GetTestList(), "ssThreeSpecies", 	True(), 0);
 
 //    clog<<"Running Stoichiometric Tests\n";
 //    runner1.RunTestsIf(Test::GetTestList(), "Stoichiometric",   	True(), 0);
+
+//    clog<<"Running TestSuite Tests\n";
+//    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4",   	True(), 0);
 
     //Finish outputs result to xml file
     runner1.Finish();
@@ -93,11 +111,11 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
         switch (c)
         {
             case ('m'): args.SBMLModelsFilePath                     = rrOptArg;                       break;
-			case ('l'): args.Compiler      			                = rrOptArg;                       break;
+			//case ('l'): args.Compiler      			                = rrOptArg;                       break;
             case ('r'): args.ResultOutputFile                       = rrOptArg;                       break;
-			case ('s'): args.SupportCodeFolder     		            = rrOptArg;                       break;
+			//case ('s'): args.SupportCodeFolder     		            = rrOptArg;                       break;
 			case ('t'): args.TempDataFolder        		            = rrOptArg;                       break;
-			case ('d'): args.DataOutputFolder      		            = rrOptArg;                       break;
+			//case ('d'): args.DataOutputFolder      		            = rrOptArg;                       break;
 			case ('v'): args.EnableLogging        		            = true;                       break;
             case ('?'): cout<<Usage(argv[0])<<endl;
             default:

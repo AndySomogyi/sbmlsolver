@@ -250,7 +250,6 @@ RRHandle rrCallConv getRRInstance()
 #else
             string rrInstallFolder("?");
 #endif
-
             gRRHandle->Reset();
         }
     	return gRRHandle;
@@ -2176,7 +2175,7 @@ RRMatrixHandle rrCallConv getReducedJacobian()
 }
 
 
-RRMatrixHandle rrCallConv getEigenValues()
+RRMatrixHandle rrCallConv getEigenvalues()
 {
 	try
     {
@@ -2186,7 +2185,7 @@ RRMatrixHandle rrCallConv getEigenValues()
             return NULL;
         }
 
-		ls::DoubleMatrix tempMat = gRRHandle->getEigenValues();
+		DoubleMatrix tempMat = gRRHandle->getEigenvalues();
         return createMatrix(&tempMat);
     }
     catch(Exception& ex)
@@ -2481,7 +2480,7 @@ RRStringArrayHandle rrCallConv getEigenValueIds()
             setError(ALLOCATE_API_ERROR_MSG);
             return NULL;
         }
-        StringList aList = gRRHandle->getEigenValueIds();
+        StringList aList = gRRHandle->getEigenvalueIds();
         return createList(aList);
     }
     catch(Exception& ex)

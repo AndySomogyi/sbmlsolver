@@ -1,7 +1,7 @@
 LIBRARY     RR_C_API.DLL
 
 EXPORTS
-    getEigenValues                              = _getEigenValues@0
+    getEigenvalues                              = _getEigenvalues@0
     createVector                                = _createVector@4
     enableLogging                               = _enableLogging@0
     setLogLevel                                 = _setLogLevel@4
@@ -38,7 +38,7 @@ EXPORTS
     getuEE                                      = _getEE@12                           
     getCC                                       = _getCC@12
     getEE                                       = _getEE@12                           
-    getEigenValueIds                            = _getEigenValueIds@0               
+    getEigenvalueIds                            = _getEigenvalueIds@0               
     getElasticityCoefficientIds                 = _getElasticityCoefficientIds@0      
     getFloatingSpeciesByIndex                   = _getFloatingSpeciesByIndex@8        
     getFloatingSpeciesInitialConcentrations     = _getFloatingSpeciesInitialConcentrations@0      

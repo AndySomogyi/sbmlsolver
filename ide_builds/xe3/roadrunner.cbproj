@@ -107,7 +107,6 @@
     </PropertyGroup>
     <ItemGroup>
         <ResFiles Include="roadrunner.res">
-            <ModuleName>roadrunner.res</ModuleName>
             <BuildOrder>70</BuildOrder>
         </ResFiles>
         <CppCompile Include="..\..\source\mtrand\mtrand.cpp">

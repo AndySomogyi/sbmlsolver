@@ -658,6 +658,7 @@ bool RoadRunner::loadSBMLFromFile(const string& fileName)
 
     std::string sbml((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
 
+    ifs.close();
     Log(lDebug5)<<"Read SBML content from file:\n "<<sbml \
                 << "\n============ End of SBML "<<endl;
 
@@ -1588,7 +1589,7 @@ double RoadRunner::oneStep(const double& currentTime, const double& stepSize, co
 
 // Returns eigenvalues, first column real part, second column imaginary part
 // -------------------------------------------------------------------------
-DoubleMatrix RoadRunner::getEigenValues()
+DoubleMatrix RoadRunner::getEigenvalues()
 {
     try
     {
@@ -1597,7 +1598,7 @@ DoubleMatrix RoadRunner::getEigenValues()
             throw SBWApplicationException(emptyModelStr);
         }
 
-        vector<Complex> vals = getEigenValuesCpx();
+        vector<Complex> vals = getEigenvaluesCpx();
 
         DoubleMatrix result(vals.size(), 2);
 
@@ -1610,11 +1611,11 @@ DoubleMatrix RoadRunner::getEigenValues()
     }
     catch (const Exception& e)
     {
-        throw SBWApplicationException("Unexpected error from getEigenValues()", e.Message());
+        throw SBWApplicationException("Unexpected error from getEigenvalues()", e.Message());
     }
 }
 
-vector< Complex > RoadRunner::getEigenValuesCpx()
+vector< Complex > RoadRunner::getEigenvaluesCpx()
 {
     try
     {
@@ -1628,7 +1629,7 @@ vector< Complex > RoadRunner::getEigenValuesCpx()
     }
     catch (const Exception& e)
     {
-        throw SBWApplicationException("Unexpected error from getEigenValues()", e.Message());
+        throw SBWApplicationException("Unexpected error from getEigenvalues()", e.Message());
     }
 }
 
@@ -2247,7 +2248,7 @@ NewArrayList RoadRunner::getUnscaledElasticityCoefficientIds()
 }
 
 // Help("Returns the Symbols of all Floating Species Eigenvalues.")
-StringList RoadRunner::getEigenValueIds()
+StringList RoadRunner::getEigenvalueIds()
 {
     StringList result; //= new ArrayList();
     if (!mModel)
@@ -2289,7 +2290,7 @@ NewArrayList RoadRunner::getAvailableSteadyStateSymbols()
     oResult.Add("Unscaled Concentration Control Coefficients",		getUnscaledConcentrationControlCoefficientIds());
     oResult.Add("Elasticity Coefficients", 							getElasticityCoefficientIds() );
     oResult.Add("Unscaled Elasticity Coefficients", 				getUnscaledElasticityCoefficientIds() );
-    oResult.Add("Eigenvalues", 										getEigenValueIds() );
+    oResult.Add("Eigenvalues", 										getEigenvalueIds() );
 
     return oResult;
 }
@@ -5252,7 +5253,7 @@ NewArrayList RoadRunner::getAvailableTimeCourseSymbols()
     oResult.Add("Volumes",                          mModelGenerator->getCompartmentList() );
     oResult.Add("Elasticity Coefficients",          getElasticityCoefficientIds() );
     oResult.Add("Unscaled Elasticity Coefficients", getUnscaledElasticityCoefficientIds() );
-    oResult.Add("Eigenvalues",                      getEigenValueIds() );
+    oResult.Add("Eigenvalues",                      getEigenvalueIds() );
     return oResult;
 }
 

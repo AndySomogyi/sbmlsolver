@@ -19,11 +19,11 @@ extern string		 	gRRInstallFolder;
 
 //Global to this unit
 RoadRunner *aRR = NULL;
-string TestDataFileName 	= "TestModel_1.dat";
+string TestDataFileName 	= "ss_ThreeSpecies.dat";
 string TestModelFileName    = "";
 IniFile iniFile;
 
-SUITE(SteadyState)
+SUITE(ssThreeSpecies)
 {
 	//This suite tests various steady state functions, using the model TestModel_1.xml
 

@@ -10,6 +10,7 @@ extern RoadRunner* 		gRR;
 extern string 			gSBMLModelsPath;
 extern string 			gCompiler;
 extern string 			gSupportCodeFolder;
+extern string 			gRRInstallFolder;
 extern string 			gTempFolder;
 extern vector<string> 	gModels;
 SUITE(Base)
@@ -23,6 +24,8 @@ SUITE(Base)
 
 	TEST(AllocateRR)
 	{
+
+
 		if(!gRR)
 		{
 			gRR = new RoadRunner(gSupportCodeFolder, gCompiler, gTempFolder);

@@ -51,8 +51,6 @@ int main(int argc, char * argv[])
         gLog.SetCutOffLogLevel(args.CurrentLogLevel);
         string logFileName;
 
-
-
         string thisExeFolder = getCurrentExeFolder();
         Log(lDebug)<<"RoadRunner bin location is: "<<thisExeFolder;
 
