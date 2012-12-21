@@ -291,7 +291,7 @@ SUITE(ssThreeSpecies)
         }
 
         //Read in the reference data, from the ini file
-		DoubleMatrix matrix 	= aRR->getUnscaledReorderedElasticityMatrix();
+		DoubleMatrix matrix 	= aRR->getUnscaledElasticityMatrix();
         DoubleMatrix ref  		= ParseMatrixFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions

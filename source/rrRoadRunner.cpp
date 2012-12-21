@@ -1210,11 +1210,13 @@ void RoadRunner::ComputeAndAssignConservationLaws(const bool& bValue)
     {
         if(!GenerateModelCode(""))
         {
-            Log(lError)<<"Failed generating model from SBML";
-            return;// false;
+            throw("Failed generating model from SBML when trying to set ComputeAndAssignConservationLaws");
         }
         //We need no recompile the model if this flag changes..
-        CompileModel();
+        if(!CompileModel())
+        {
+            throw("Failed compiling model when trying to set ComputeAndAssignConservationLaws");
+        }
     }
 }
 
@@ -1625,7 +1627,7 @@ vector< Complex > RoadRunner::getEigenvaluesCpx()
         }
 
         DoubleMatrix mat = getReducedJacobian();
-        return ls::getEigenValues(mat);;
+        return ls::getEigenValues(mat);
     }
     catch (const Exception& e)
     {
@@ -1638,13 +1640,22 @@ DoubleMatrix RoadRunner::getFullJacobian()
 {
     try
     {
-        if (mModel)
+        if (!mModel)
         {
-			DoubleMatrix uelast = getUnscaledReorderedElasticityMatrix();
-            DoubleMatrix rsm 	= getReorderedStoichiometryMatrix();
-            return mult(rsm, uelast);
+	        throw SBWApplicationException(emptyModelStr);
         }
-        throw SBWApplicationException(emptyModelStr);
+        DoubleMatrix uelast = getUnscaledElasticityMatrix();
+        DoubleMatrix rsm;
+        if (mComputeAndAssignConservationLaws)
+        {
+            rsm = getReorderedStoichiometryMatrix();
+        }
+        else
+        {
+            rsm = getStoichiometryMatrix();
+        }
+       return mult(rsm, uelast);
+
     }
     catch (const Exception& e)
     {
@@ -1658,7 +1669,7 @@ DoubleMatrix RoadRunner::getFullReorderedJacobian()
     {
         if (mModel)
         {
-			DoubleMatrix uelast = getUnscaledReorderedElasticityMatrix();
+			DoubleMatrix uelast = getUnscaledElasticityMatrix();
             DoubleMatrix rsm 	= getStoichiometryMatrix();
             return mult(rsm, uelast);
         }
@@ -1680,7 +1691,12 @@ DoubleMatrix RoadRunner::getReducedJacobian()
 	        throw SBWApplicationException(emptyModelStr);
         }
 
-		DoubleMatrix uelast = getUnscaledReorderedElasticityMatrix();
+        if(mComputeAndAssignConservationLaws == false)
+        {
+        	throw("The reduced Jacobian matrix can only be computed if conservation law detection is enabled");
+        }
+
+		DoubleMatrix uelast = getUnscaledElasticityMatrix();
         if(!_Nr)
         {
             return DoubleMatrix(0,0);
@@ -3795,7 +3811,7 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
 
 
 //        [Help("Compute the unscaled species elasticity matrix at the current operating point")]
-DoubleMatrix RoadRunner::getUnscaledReorderedElasticityMatrix()
+DoubleMatrix RoadRunner::getUnscaledElasticityMatrix()
 {
     DoubleMatrix uElastMatrix(mModel->getNumReactions(), mModel->getNumTotalVariables());
 
@@ -3856,7 +3872,7 @@ DoubleMatrix RoadRunner::getScaledReorderedElasticityMatrix()
     {
         if (mModel)
         {
-            DoubleMatrix uelast = getUnscaledReorderedElasticityMatrix();
+            DoubleMatrix uelast = getUnscaledElasticityMatrix();
 
             DoubleMatrix result(uelast.RSize(), uelast.CSize());// = new double[uelast.Length][];
             mModel->convertToConcentrations();
@@ -4119,7 +4135,7 @@ DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
         }
 
         // Compute the Jacobian first
-        DoubleMatrix uelast     = getUnscaledReorderedElasticityMatrix();
+        DoubleMatrix uelast     = getUnscaledElasticityMatrix();
         DoubleMatrix *Nr         = getNrMatrix();
         DoubleMatrix T1 = mult(*Nr, uelast);
         DoubleMatrix *LinkMatrix = getLinkMatrix();
@@ -4223,7 +4239,7 @@ DoubleMatrix RoadRunner::getUnscaledFluxControlCoefficientMatrix()
 		if (mModel)
 		{
 			DoubleMatrix ucc = getUnscaledConcentrationControlCoefficientMatrix();
-			DoubleMatrix uee = getUnscaledReorderedElasticityMatrix();
+			DoubleMatrix uee = getUnscaledElasticityMatrix();
 
 			DoubleMatrix T1 = mult(uee, ucc);
 			
@@ -4250,7 +4266,7 @@ DoubleMatrix RoadRunner::getUnscaledFluxControlCoefficientMatrix()
 //    {
 //        if (mModel)
 //        {
-//            DoubleMatrix uelast = getUnscaledReorderedElasticityMatrix();
+//            DoubleMatrix uelast = getUnscaledElasticityMatrix();
 //
 //            DoubleMatrix result(uelast.RSize(), uelast.CSize());// = new double[uelast.Length][];
 //            mModel->convertToConcentrations();

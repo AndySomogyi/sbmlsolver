@@ -17,14 +17,15 @@ extern string 			gSupportCodeFolder;
 extern string 			gTempFolder;
 extern string		 	gRRInstallFolder;
 
+
+SUITE(SteadyState)
+{
 //Global to this unit
 RoadRunner *aRR = NULL;
 string TestDataFileName 	= "TestModel_1.dat";
 string TestModelFileName    = "";
 IniFile iniFile;
 
-SUITE(SteadyState)
-{
 	//This suite tests various steady state functions, using the model TestModel_1.xml
 
 	//Test that model files and reference data for the tests in this suite are present
@@ -110,13 +111,13 @@ SUITE(SteadyState)
             return;
         }
 
-        clog<<fullJacobian;
+        clog<<"Full Jacobian\n"<<fullJacobian;
 		CHECK_ARRAY2D_CLOSE(jRef, fullJacobian, fullJacobian.RSize(),fullJacobian.CSize(), 1e-6);
     }
 
     TEST(REDUCED_JACOBIAN)
 	{
-		rrIniSection* aSection = iniFile.GetSection("REDUCED_JACOBIAN");
+		rrIniSection* aSection = iniFile.GetSection("REDUCED_REORDERED_JACOBIAN");
    		if(!aSection)
         {
         	CHECK(false);
@@ -132,7 +133,7 @@ SUITE(SteadyState)
         	CHECK(false);
             return;
         }
-
+        clog<<"Reduced Jacobian\n"<<fullJacobian;
 		CHECK_ARRAY2D_CLOSE(jRef, fullJacobian, fullJacobian.RSize(),fullJacobian.CSize(), 1e-6);
     }
 
@@ -161,6 +162,33 @@ SUITE(SteadyState)
 
 		CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
     }
+
+    TEST(REDUCED_REORDERED_JACOBIAN)
+	{
+		rrIniSection* aSection = iniFile.GetSection("FULL_REORDERED_JACOBIAN");
+   		if(!aSection)
+        {
+        	CHECK(false);
+            return;
+        }
+
+        //Read in the reference data, from the ini file
+        DoubleMatrix matrix = aRR->getReducedJacobian();
+        DoubleMatrix ref = ParseMatrixFromText(aSection->GetNonKeysAsString());
+
+		cout<<"Reference\n"<<ref;
+		cout<<"matrix\n"<<matrix;
+
+        //Check dimensions
+        if(matrix.RSize() != ref.RSize() || matrix.CSize() != ref.CSize())
+        {
+        	CHECK(false);
+            return;
+        }
+
+		CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
+    }
+
 
     TEST(EIGEN_VALUES)
 	{
@@ -291,7 +319,7 @@ SUITE(SteadyState)
         }
 
         //Read in the reference data, from the ini file
-		DoubleMatrix matrix 	= aRR->getUnscaledReorderedElasticityMatrix();
+		DoubleMatrix matrix 	= aRR->getUnscaledElasticityMatrix();
         DoubleMatrix ref  		= ParseMatrixFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions

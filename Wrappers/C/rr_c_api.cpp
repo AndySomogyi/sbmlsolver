@@ -1042,7 +1042,7 @@ bool rrCallConv getValue(const char* symbolId, double& value)
 }
 
 
-RRMatrixHandle rrCallConv getUnscaledReorderedElasticityMatrix()
+RRMatrixHandle rrCallConv getUnscaledElasticityMatrix()
 {
 	try
     {
@@ -1052,7 +1052,7 @@ RRMatrixHandle rrCallConv getUnscaledReorderedElasticityMatrix()
             return NULL;
         }
 
-		ls::DoubleMatrix tempMat = gRRHandle->getUnscaledReorderedElasticityMatrix();
+		DoubleMatrix tempMat = gRRHandle->getUnscaledElasticityMatrix();
 
         RRMatrixHandle matrix = createMatrix(&tempMat);
 	    return matrix;
@@ -1062,8 +1062,8 @@ RRMatrixHandle rrCallConv getUnscaledReorderedElasticityMatrix()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+		return NULL;
     }
-	return NULL;
 }
 
 RRMatrixHandle rrCallConv getScaledElasticityMatrix()
@@ -1076,7 +1076,7 @@ RRMatrixHandle rrCallConv getScaledElasticityMatrix()
             return NULL;
         }
 
-		ls::DoubleMatrix tempMat = gRRHandle->getScaledReorderedElasticityMatrix();
+		DoubleMatrix tempMat = gRRHandle->getScaledReorderedElasticityMatrix();
 
 
         RRMatrixHandle matrix = createMatrix(&tempMat);
@@ -1121,7 +1121,7 @@ RRMatrixHandle rrCallConv getStoichiometryMatrix()
             return NULL;
         }
 
-        ls::DoubleMatrix tempMat = gRRHandle->getStoichiometryMatrix();
+        DoubleMatrix tempMat = gRRHandle->getStoichiometryMatrix();
 
         RRMatrixHandle matrix = new RRMatrix;
         matrix->RSize = tempMat.RSize();
@@ -1157,7 +1157,7 @@ RRMatrixHandle rrCallConv getConservationMatrix()
             return NULL;
         }
 
-        ls::DoubleMatrix tempMat = gRRHandle->getConservationMatrix();
+        DoubleMatrix tempMat = gRRHandle->getConservationMatrix();
 
         RRMatrixHandle matrix = new RRMatrix;
         matrix->RSize = tempMat.RSize();
@@ -1192,7 +1192,7 @@ RRMatrixHandle rrCallConv getLinkMatrix()
             setError(ALLOCATE_API_ERROR_MSG);
             return NULL;
         }
-        ls::DoubleMatrix *tempMat = gRRHandle->getLinkMatrix();
+        DoubleMatrix *tempMat = gRRHandle->getLinkMatrix();
 
 		return createMatrix(tempMat);
 	}
@@ -1214,7 +1214,7 @@ RRMatrixHandle rrCallConv getL0Matrix()
             setError(ALLOCATE_API_ERROR_MSG);
             return NULL;
         }
-        ls::DoubleMatrix *tempMat = gRRHandle->getL0Matrix();
+        DoubleMatrix *tempMat = gRRHandle->getL0Matrix();
         
 		return createMatrix(tempMat);
 	}
@@ -1236,7 +1236,7 @@ RRMatrixHandle rrCallConv getNrMatrix()
             setError(ALLOCATE_API_ERROR_MSG);
             return NULL;
         }
-        ls::DoubleMatrix *tempMat = gRRHandle->getNrMatrix();
+        DoubleMatrix *tempMat = gRRHandle->getNrMatrix();
 
 		return createMatrix(tempMat);
 	}
@@ -2140,7 +2140,7 @@ RRMatrixHandle rrCallConv getFullJacobian()
             return NULL;
         }
 
-        ls::DoubleMatrix tempMat = gRRHandle->getFullJacobian();
+        DoubleMatrix tempMat = gRRHandle->getFullJacobian();
         return createMatrix(&tempMat);
     }
     catch(Exception& ex)
@@ -2162,7 +2162,7 @@ RRMatrixHandle rrCallConv getReducedJacobian()
             return NULL;
         }
 
-        ls::DoubleMatrix tempMat = gRRHandle->getReducedJacobian();
+        DoubleMatrix tempMat = gRRHandle->getReducedJacobian();
         return createMatrix(&tempMat);
     }
     catch(Exception& ex)

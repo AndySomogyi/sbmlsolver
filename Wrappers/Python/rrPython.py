@@ -784,8 +784,8 @@ def getReducedJacobian():
 
 ##\brief Retreive the eigenvalue matrix for the current model
 #\return Returns a matrix of eigenvalues. The first column will contain the real values and te second column will contain the imaginary values.
-def getEigenValues():
-    matrix = handle.getEigenValues()
+def getEigenvalues():
+    matrix = handle.getEigenvalues()
     if matrix == 0:
        return 0
     rowCount = handle.getMatrixNumRows(matrix)
@@ -1188,8 +1188,8 @@ def getGlobalParameterIds():
 
 ##\brief Returns the Ids of all floating species eigenvalues
 #\return Returns a string containing the list of all floating species eigenvalues
-def getEigenValueIds():
-    values = handle.getEigenValueIds()
+def getEigenvalueIds():
+    values = handle.getEigenvalueIds()
     result = handle.stringArrayToString(values)
     handle.freeStringArray(values)
     return result
@@ -1259,8 +1259,8 @@ def getConcentrationControlCoefficientIds():
 ##\brief  Retrieve the unscaled elasticity matrix for the current model
 #\return Returns a string containing the matrix of unscaled elasticities. The first column will contain the
 #real values and the second column the imaginary values.
-def getUnScaledElasticityMatrix():
-    matrix = handle.getUnScaledElasticityMatrix()
+def getUnscaledElasticityMatrix():
+    matrix = handle.getUnscaledElasticityMatrix()
     if matrix == 0:
        return 0
     rowCount = handle.getMatrixNumRows(matrix)

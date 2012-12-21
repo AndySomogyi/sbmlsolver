@@ -1276,7 +1276,7 @@ C_DECL_SPEC RRListHandle rrCallConv getConcentrationControlCoefficientIds();
  \return Returns nil if it fails, otherwise returns a matrix of unscaled elasticities
  \ingroup mca
 */
-C_DECL_SPEC RRMatrixHandle rrCallConv getUnScaledElasticityMatrix();
+C_DECL_SPEC RRMatrixHandle rrCallConv getUnscaledElasticityMatrix();
 
 /*!
  \brief Retrieve the scaled elasticity matrix for the current model

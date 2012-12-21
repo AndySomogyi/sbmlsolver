@@ -82,6 +82,7 @@ EXPORTS
     getResultNumRows                            = _getResultNumRows@4
     getSBML                                     = _getSBML@0
     getScaledElasticityMatrix                   = _getScaledElasticityMatrix@0
+    getUnscaledElasticityMatrix                 = _getUnscaledElasticityMatrix@0
     getScaledFloatingSpeciesElasticity          = _getScaledFloatingSpeciesElasticity@12
     getTimeCourseSelectionList                  = _getTimeCourseSelectionList@0
     getSteadyStateSelectionList                 = _getSteadyStateSelectionList@0

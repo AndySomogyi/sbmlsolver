@@ -11,7 +11,7 @@ selList="time,S1,S2"
 rrPython.setTempFolder(".")
 rrPython.enableLogging()
 
-result = rrPython.loadSBMLFromFile("..\\Models\\test_1.xml")
+result = rrPython.loadSBMLFromFile("..\\tests\\TestModel_1.xml")
 
 if result == False:
     print "Failed loading model file.. "
