@@ -58,13 +58,31 @@ IniFile iniFile;
         aRR->ComputeAndAssignConservationLaws(true);
 		CHECK(aRR->loadSBMLFromFile(TestModelFileName));
 	}
-
     TEST(COMPUTE_STEADY_STATE)
     {
         //Compute Steady state
 		if(aRR)
         {
 	        CHECK_CLOSE(0, aRR->steadyState(), 1e-6);
+        }
+        else
+        {
+        	CHECK(false);
+        }
+    }
+
+    TEST(GET_EIGEN_VALUES)
+    {
+    	if(aRR)
+        {
+        	aRR->createTimeCourseSelectionList();
+        	CHECK(aRR->getValue("eigen_S1"));
+            CHECK(aRR->getValue("eigen_S2"));
+            CHECK(aRR->getValue("eigen_S3"));
+        	clog<<"eigen_S1"<<aRR->getValue("eigen_S1")<<endl;
+            clog<<"eigen_S2"<<aRR->getValue("eigen_S2")<<endl;
+            clog<<"eigen_S3"<<aRR->getValue("eigen_S3")<<endl;
+
         }
         else
         {

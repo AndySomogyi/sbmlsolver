@@ -8,7 +8,7 @@ endTime = 5
 numPoints = 50
 selList="time,S1,S2"
 
-rrPython.setTempFolder(".")
+#rrPython.setTempFolder(".")
 rrPython.enableLogging()
 
 result = rrPython.loadSBMLFromFile("..\\tests\\TestModel_1.xml")

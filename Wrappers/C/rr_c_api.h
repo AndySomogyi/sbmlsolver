@@ -547,6 +547,14 @@ C_DECL_SPEC bool rrCallConv setTimeEnd(const double& timeEnd);
 C_DECL_SPEC bool rrCallConv setNumPoints(const int& numberOfPoints);
 
 /*!
+ \brief Creates a default timeCourse selection List
+
+ \return Returns true if sucessful
+ \ingroup simulation
+*/
+C_DECL_SPEC bool rrCallConv createTimeCourseSelectionList();
+
+/*!
  \brief Set the selection list for output from simulate() or simulateEx()
 
  Use getAvailableTimeCourseSymbols() to retrieve the list of all possible symbols.

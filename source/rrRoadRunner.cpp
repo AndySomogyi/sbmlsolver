@@ -1526,6 +1526,19 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
             }
         }
 
+        //((string)newSelectionList[i]).StartsWith("eigen_")
+        string tmp = newSelectionList[i];
+        if (StartsWith(tmp, "eigen_"))
+        {
+        	string species = tmp.substr(tmp.find_last_of("eigen_") + 1);
+            selectionList.push_back(TSelectionRecord(i, clEigenValue, species));
+//            selectionList[i].selectionType = TSelectionType::clEigenValue;
+//            selectionList[i].p1 = species;
+			int aIndex = fs.find(species);
+            selectionList[i].index = aIndex;
+            //mModelGenerator->floatingSpeciesConcentrationList.find(species, selectionList[i].index);
+        }
+
 //        if (((string)newSelectionList[i]).StartsWith("EE:"))
 //        {
 //            string parameters = ((string)newSelectionList[i]).Substring(3);
@@ -5143,10 +5156,13 @@ double RoadRunner::getValue(const string& sId)
         int index;
         mModelGenerator->floatingSpeciesConcentrationList.find(species, index);
 
-//        LibLA LA;
-
         DoubleMatrix mat = getReducedJacobian();
         vector<Complex> oComplex = ls::getEigenValues(mat);
+
+        if(selectionList.size() == 0)
+        {
+        	throw("Tried to access record in empty selectionList in getValue function: eigen_");
+        }
 
         if (oComplex.size() > selectionList[index].index)
         {

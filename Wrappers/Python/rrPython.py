@@ -299,6 +299,7 @@ handle.setTimeStart.restype = c_bool
 handle.setTimeEnd.restype = c_bool
 handle.setNumPoints.restype = c_bool
 handle.setTimeCourseSelectionList.restype = c_bool
+handle.createTimeCourseSelectionList.restype = c_bool
 handle.oneStep.restype = c_bool
 handle.getTimeStart.restype = c_bool
 handle.getTimeEnd.restype = c_bool
@@ -345,6 +346,15 @@ def setNumPoints(numPoints):
 #\return Returns True if successful
 def setTimeCourseSelectionList(list):
     return handle.setTimeCourseSelectionList(list)
+
+##\brief Creates a default selectionList
+#
+#Example: rrPython.createSelectionList()
+#
+#\param list none
+#\return Returns True if successful
+def createTimeCourseSelectionList():
+    return handle.createtTimeCourseSelectionList()
 
 
 ##\brief Returns the list of variables returned by simulate() or simulateEx()

@@ -830,6 +830,27 @@ bool  rrCallConv setTimeCourseSelectionList(const char* list)
     return false;
 }
 
+bool rrCallConv createTimeCourseSelectionList()
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+            return NULL;
+        }
+
+        return gRRHandle->createTimeCourseSelectionList() > 0 ? true : false;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+    	return false;
+    }
+}
+
 RRStringArrayHandle rrCallConv getTimeCourseSelectionList()
 {
 	try

@@ -1,6 +1,7 @@
 LIBRARY     RR_C_API.DLL
 
 EXPORTS
+    createTimeCourseSelectionList               = _createTimeCourseSelectionList@0
     getEigenvalues                              = _getEigenvalues@0
     createVector                                = _createVector@4
     enableLogging                               = _enableLogging@0
