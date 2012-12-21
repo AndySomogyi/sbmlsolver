@@ -194,10 +194,10 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		// ---------------------------------------------------------------------
 		double                          steadyState();
 		static void                     TestSettings();
-		DoubleMatrix                    getReducedJacobian();
 		DoubleMatrix                    getFullJacobian();
 		DoubleMatrix 					getFullReorderedJacobian();
-		DoubleMatrix                    getEigenvalues();
+		DoubleMatrix                    getReducedJacobian();
+        DoubleMatrix                    getEigenvalues();
 		vector<Complex>                 getEigenvaluesCpx();
 
 		// ---------------------------------------------------------------------
@@ -333,7 +333,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		double getUnScaledElasticity(const string& reactionName, const string& parameterName);
 
 		//"Compute the unscaled species elasticity matrix at the current operating point")]
-		DoubleMatrix getUnscaledReorderedElasticityMatrix();
+		DoubleMatrix getUnscaledElasticityMatrix();
 
 		//"Compute the unscaled elasticity matrix at the current operating point")]
 		DoubleMatrix getScaledReorderedElasticityMatrix();

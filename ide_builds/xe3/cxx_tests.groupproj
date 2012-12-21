@@ -10,7 +10,7 @@
             <Dependencies/>
         </Projects>
         <Projects Include="cxx_api_tests.cbproj">
-            <Dependencies>roadrunner-static.cbproj</Dependencies>
+            <Dependencies>roadrunner.cbproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -38,13 +38,13 @@
     <Target Name="roadrunner-static:Make">
         <MSBuild Projects="roadrunner-static.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="cxx_api_tests" DependsOnTargets="roadrunner-static">
+    <Target Name="cxx_api_tests" DependsOnTargets="roadrunner">
         <MSBuild Projects="cxx_api_tests.cbproj"/>
     </Target>
-    <Target Name="cxx_api_tests:Clean" DependsOnTargets="roadrunner-static:Clean">
+    <Target Name="cxx_api_tests:Clean" DependsOnTargets="roadrunner:Clean">
         <MSBuild Projects="cxx_api_tests.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="cxx_api_tests:Make" DependsOnTargets="roadrunner-static:Make">
+    <Target Name="cxx_api_tests:Make" DependsOnTargets="roadrunner:Make">
         <MSBuild Projects="cxx_api_tests.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
