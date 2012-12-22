@@ -138,4 +138,5 @@ EXPORTS
     steadyState                                 = _steadyState@4
     setCodeGenerationMode                       = _setCodeGenerationMode@4
     getlibSBMLVersion                           = _getlibSBMLVersion@0
-    getNumberOfStringElements                   =_getNumberOfStringElements@4
+    getNumberOfStringElements                   = _getNumberOfStringElements@4
+    getStringElement                            = _getStringElement@8
