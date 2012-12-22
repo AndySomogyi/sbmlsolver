@@ -212,6 +212,17 @@ handle.vectorToString.restype = c_char_p
 handle.stringArrayToString.restype = c_char_p
 handle.listToString.restype = c_char_p
 
+# SBML utility methods
+handle.getParamPromotedSBML.restype = c_char_p
+
+# Reaction rates
+handle.getNumberOfReactions.restype = c_int
+handle.getReactionRate.restype = c_bool
+
+# NOM lib forwarded functions
+handle.getNumberOfRules.restype = c_int
+
+
 # ----------------------------------------------------------------------------
 # Utility function for converting a roadRunner stringarray into a Python List
 def stringArrayToList (stringArray):
@@ -395,8 +406,6 @@ def getSBML():
 
 ##@}
 
-#SBML utility methods
-handle.getParamPromotedSBML.restype = c_char_p
 
 ##\ingroup parameters
 #@{
@@ -737,7 +746,8 @@ def setBoundarySpeciesConcentrations(vector):
 ##\brief Returns a string with boundary species concentrations
 #\return Returns the concentration of species if successful
 def getBoundarySpeciesConcentrations():
-    return handle.vectorToString(handle.getBoundarySpeciesConcentrations())
+    values = handle.getBoundarySpeciesConcentrations()
+    return rrVectorToPythonArray (values)
 
 ##@}
 
@@ -751,9 +761,7 @@ def getBoundarySpeciesConcentrations():
 #\return Returns a string of global parameter values or None if an error occured
 def getGlobalParameterValues():
     values = handle.getGlobalParameterValues()
-    result = handle.vectorToString(values)
-    handle.freeVector(values)
-    return result
+    return rrVectorToPythonArray (values)
 
 ##\brief Sets the value for a global parameter by its index. Parameters are indexed starting at 0.
 #
@@ -819,8 +827,6 @@ def setCompartmentByIndex(index, value):
         raise RuntimeError('Index out of range')
 
 ##@}
-
-#Stoichiometry Methods
 
 ##\ingroup stoich
 #@{
@@ -1007,9 +1013,7 @@ def setFloatingSpeciesInitialConcentrations(vec):
 #\return Returns a string containing the intial concentrations
 def getFloatingSpeciesInitialConcentrations():
     values = handle.getFloatingSpeciesInitialConcentrations()
-    result = handle.vectorToString(values)
-    handle.freeVector(values)
-    return result
+    return rrVectorToPythonArray (values)
 
 ##\brief Get the initial floating species Ids
 #
@@ -1018,15 +1022,10 @@ def getFloatingSpeciesInitialConcentrations():
 #\return Returns a string containing the initial conditions
 def getFloatingSpeciesInitialConditionIds():
     values = handle.getFloatingSpeciesInitialConditionIds()
-    result = handle.vectorToString(values)
-    handle.freeVector(values)
-    return result
+    return stringArrayToList (values)
 
 ##@}
 
-#Reaction rates
-handle.getNumberOfReactions.restype = c_int
-handle.getReactionRate.restype = c_bool
 
 ##\ingroup reaction
 #@{
@@ -1053,9 +1052,9 @@ def getReactionRate(index):
 #\return Returns a string containing the current reaction rates
 def getReactionRates():
     values = handle.getReactionRates()
-    result = handle.vectorToString(values)
-    handle.freeVector(values)
-    return result
+    return rrVectorToPythonArray (values)
+
+######
 
 ##\brief Retrieve a string containing the reaction rates given a vector of species concentrations
 #
@@ -1195,13 +1194,13 @@ def getNumberOfGlobalParameters():
 ##\brief Returns a list of reaction Ids
 #\return Returns a string containing a list of reaction Ids
 def getReactionIds():
-    values = handle.getReactionIds()
+    value = handle.getReactionIds()
     return stringArrayToList (value)
 
 ##\brief Returns a string containing the list of rate of change Ids
 #\return Returns a string containing the list of rate of change Ids
-def getRateOfChangeIds():
-    values = handle.getRateOfChangeIds()
+def getRatesOfChangeIds():
+    value = handle.getRatesOfChangeIds()
     return stringArrayToList (value)
 ##@}
 
@@ -1211,7 +1210,7 @@ def getRateOfChangeIds():
 ##\brief Gets the list of compartment Ids
 #\return Returns -1 if it fails, otherwise returns a string containing the list of compartment Ids
 def getCompartmentIds():
-    values = handle.getCompartmentIds()
+    value = handle.getCompartmentIds()
     return stringArrayToList (value)
 
 ##@}
@@ -1222,7 +1221,7 @@ def getCompartmentIds():
 ##\brief Gets the list of boundary species Ids
 #\return Returns a string containing the list of boundary species Ids
 def getBoundarySpeciesIds():
-    values = handle.getBoundarySpeciesIds()
+    value = handle.getBoundarySpeciesIds()
     return stringArrayToList (value)
 
 ##@}
@@ -1233,8 +1232,8 @@ def getBoundarySpeciesIds():
 ##\brief Gets the list of floating species Ids
 #\return Returns a string containing the list of floating species Ids
 def getFloatingSpeciesIds():
-    values = handle.getFloatingSpeciesIds()
-    return stringArrayToList (values)
+    value = handle.getFloatingSpeciesIds()
+    return stringArrayToList (value)
 
 ##@}
 
@@ -1244,7 +1243,7 @@ def getFloatingSpeciesIds():
 ##\brief Gets the list of global parameter Ids
 #\return Returns a string containing the list of global parameter Ids
 def getGlobalParameterIds():
-    values = handle.getGlobalParameterIds()
+    value = handle.getGlobalParameterIds()
     return stringArrayToList (value)
 
 ##@}
@@ -1283,32 +1282,36 @@ def getAvailableTimeCourseSymbols():
 #\return Returns a string containing the list of elasticity coefficient Ids
 def getElasticityCoefficientIds():
     value = handle.getElasticityCoefficientIds()
-    return stringArrayToList (value)
+    result = handle.listToString(value)
+    return result
 
 ##\brief Returns the Ids of all unscaled flux control coefficients
 #\return Returns a string containing the list of all unscaled flux control coefficient Ids
 def getUnscaledFluxControlCoefficientIds():
     value = handle.getUnscaledFluxControlCoefficientIds()
-    return stringArrayToList (value)
+    result = handle.listToString(value)
+    return result
 
 ##\brief Returns the Ids of all flux control coefficients
 #\return Returns a string containing the list of all flux control coefficient Ids
 def getFluxControlCoefficientIds():
     value = handle.getFluxControlCoefficientIds()
-    return stringArrayToList (value)
+    result = handle.listToString(value)
+    return result
 
 ##\brief Returns the Ids of all unscaled concentration control coefficients
 #\return Returns a string containing the list of all unscaled concentration coefficient Ids
 def getUnscaledConcentrationControlCoefficientIds():
-    value = handle.getUnscaledConcentrationCoefficientIds()
-    result = handle.stringArrayToString(value)
-    return stringArrayToList (value)
+    value = handle.getUnscaledConcentrationControlCoefficientIds()
+    result = handle.listToString(value)
+    return result
 
 ##\brief Returns the Ids of all concentration control coefficients
 #\return Returns a string containing the list of all concentration control coefficient Ids
 def getConcentrationControlCoefficientIds():
     value = handle.getConcentrationControlCoefficientIds()
-    return stringArrayToList (value)
+    result = handle.listToString(value)
+    return result
 
 ##\brief  Retrieve the unscaled elasticity matrix for the current model
 #\return Returns a string containing the matrix of unscaled elasticities. The first column will contain the
@@ -1456,9 +1459,6 @@ def getScaledFloatingSpeciesElasticity(reactionName, speciesName):
         raise RuntimeError('Index out of range')
 
 ##@}
-
-#NOM lib forwarded functions
-handle.getNumberOfRules.restype = c_int
 
 ##\ingroup NOM functions
 #@{
