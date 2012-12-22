@@ -152,6 +152,9 @@
  \defgroup toString ToString Routines
  \brief Render various result data types as strings
 
+ \defgroup stringArray StringArray Routines
+ \brief Utility rountines to deal with the string array type
+
  \defgroup freeRoutines Free memory routines
  \brief Routines that should be used to free various data structures generated during the course of using the library
 
@@ -1414,6 +1417,15 @@ C_DECL_SPEC char* rrCallConv matrixToString (const RRMatrixHandle mat);
  \ingroup toString
 */
 C_DECL_SPEC char* rrCallConv vectorToString(const RRVectorHandle vec);
+
+/*!
+ \brief Returns the length of a string array
+ \return Returns the length of a string array, return -1 if string array is NULL
+ \ingroup stringArray
+ \ingroup toString
+*/
+C_DECL_SPEC int rrCallConv getNumberOfStringElements (const RRStringArrayHandle list);
+
 
 /*!
  \brief Returns a string list in string form.

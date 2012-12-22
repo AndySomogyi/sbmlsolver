@@ -2771,7 +2771,16 @@ bool rrCallConv getRateOfChange(const int& index, double& value)
     return false;
 }
 
-//Print functions ==========================================================
+// Utility functions ==========================================================
+
+int rrCallConv getNumberOfStringElements (const RRStringArrayHandle list)
+{
+	if (!list)
+		return (-1);
+	else
+	    return (list->Count);
+}
+
 
 char* rrCallConv stringArrayToString (const RRStringArrayHandle list)
 {
@@ -2931,7 +2940,7 @@ char* rrCallConv vectorToString(RRVectorHandle vecHandle)
     return NULL;
 }
 
-//Free Functions =====================================================
+// Free Functions =====================================================
 bool rrCallConv freeRRInstance(RRHandle handle)
 {
 	try
