@@ -119,7 +119,7 @@ from numpy import *
 #=======================rr_c_api=======================#
 rr = handle.getRRInstance()
 
-#Utility and informational methods
+# Utility and informational methods
 handle.getVersion.restype = c_char_p
 handle.getBuildDate.restype = c_char_p
 handle.getCopyright.restype = c_char_p
@@ -129,6 +129,90 @@ handle.getTempFolder.restype = c_char_p
 handle.getStringElement.restype = c_char_p
 handle.getNumberOfStringElements.restype = c_int
 
+# More Utility Methods
+handle.setCapabilities.restype = c_bool
+handle.getCapabilities.restype = c_char_p
+handle.setTimeStart.restype = c_bool
+handle.setTimeEnd.restype = c_bool
+handle.setNumPoints.restype = c_bool
+handle.setTimeCourseSelectionList.restype = c_bool
+handle.oneStep.restype = c_bool
+handle.getTimeStart.restype = c_bool
+handle.getTimeEnd.restype = c_bool
+handle.getNumPoints.restype = c_bool
+handle.reset.restype = c_bool
+
+# Set and get family of methods
+handle.setBoundarySpeciesByIndex.restype = c_bool
+handle.setFloatingSpeciesByIndex.restype = c_bool
+handle.setGlobalParameterByIndex.restype = c_bool
+handle.getBoundarySpeciesByIndex.restype = c_bool
+handle.getFloatingSpeciesByIndex.restype = c_bool
+handle.getGlobalParameterByIndex.restype = c_bool
+handle.getCompartmentByIndex.restype = c_bool
+handle.setCompartmentByIndex.restype = c_bool
+
+# Logging
+handle.enableLogging.restype = c_bool
+handle.setLogLevel.restype = c_bool
+handle.getLogLevel.restype = c_char_p
+handle.getLogFileName.restype = c_char_p
+handle.hasError.restype = c_bool
+handle.getLastError.restype = c_char_p
+handle.freeRRInstance.restype = c_bool
+
+# Load SBML methods
+handle.loadSBML.restype = c_bool
+handle.loadSBMLFromFile.restype = c_bool
+handle.getCurrentSBML.restype = c_char_p
+handle.getSBML.restype = c_char_p
+
+#Initial condition methods
+handle.setFloatingSpeciesInitialConcentrations.restype = c_bool
+
+# Helper routines
+handle.getVectorLength.restype = c_int
+handle.getVectorElement.restype = c_bool
+handle.setVectorElement.restype = c_bool
+handle.getMatrixNumRows.restype = c_int
+handle.getMatrixNumCols.restype = c_int
+handle.getMatrixElement.restype = c_bool
+handle.getResultNumRows.restype = c_int
+handle.getResultNumCols.restype = c_int
+handle.getResultElement.restype = c_bool
+handle.getResultColumnLabel.restype = c_char_p
+handle.getCCodeHeader.restype = c_char_p
+handle.getCCodeSource.restype = c_char_p
+
+# Flags/Options
+handle.setComputeAndAssignConservationLaws.restype = c_bool
+
+ #Steady state methods
+handle.steadyState.restype = c_bool
+handle.setSteadyStateSelectionList.restype = c_bool
+
+# State Methods
+handle.getValue.restype = c_bool
+handle.setValue.restype = c_bool
+
+# MCA
+handle.getuCC.restype = c_bool
+handle.getCC.restype = c_bool
+handle.getEE.restype = c_bool
+handle.getuEE.restype = c_bool
+handle.getScaledFloatingSpeciesElasticity.restype = c_bool
+
+# Free memory functions
+handle.Pause.restype = None
+
+# Print/format functions
+handle.resultToString.restype = c_char_p
+handle.matrixToString.restype = c_char_p
+handle.vectorToString.restype = c_char_p
+handle.stringArrayToString.restype = c_char_p
+handle.listToString.restype = c_char_p
+
+# ----------------------------------------------------------------------------
 # Utility function for converting a roadRunner stringarray into a Python List
 def stringArrayToList (stringArray):
     result = []
@@ -141,7 +225,7 @@ def stringArrayToList (stringArray):
     return result
 
 
-def vectorToPythonArray (vector):
+def rrVectorToPythonArray (vector):
     n = handle.getVectorLength(vector)
     pythonArray = zeros(n)
     for i in range(n):
@@ -149,7 +233,7 @@ def vectorToPythonArray (vector):
     return pythonArray
 
 
-def listToPythonList (values):
+def rrListToPythonList (values):
     n = handle.getListLength (values)
     result = []
     for i in range (n):
@@ -157,6 +241,7 @@ def listToPythonList (values):
         result.append (handle.getStringListItem (item))
     return result
 
+# ---------------------------------------------------------------------------------
 
 ##\ingroup utility
 #@{
@@ -206,15 +291,6 @@ def getCCode():
     return handle.getCCode()
 
 ##@}
-
-#Logging
-handle.enableLogging.restype = c_bool
-handle.setLogLevel.restype = c_bool
-handle.getLogLevel.restype = c_char_p
-handle.getLogFileName.restype = c_char_p
-handle.hasError.restype = c_bool
-handle.getLastError.restype = c_char_p
-handle.freeRRInstance.restype = c_bool
 
 ##\ingroup errorfunctions
 #@{
@@ -281,9 +357,6 @@ def freeRRInstance(handle):
 
 ##@}
 
-#Flags/Options
-handle.setComputeAndAssignConservationLaws.restype = c_bool
-
 ##\ingroup utility
 #@{
 
@@ -294,12 +367,6 @@ def setComputeAndAssignConservationLaws(OnOrOff):
     return handle.setComputeAndAssignConservationLaws(byref (c_bool (OnOrOff)))
 
 ##@}
-
-#Load SBML methods
-handle.loadSBML.restype = c_bool
-handle.loadSBMLFromFile.restype = c_bool
-handle.getCurrentSBML.restype = c_char_p
-handle.getSBML.restype = c_char_p
 
 ##\ingroup loadsave
 #@{
@@ -346,18 +413,6 @@ def getParamPromotedSBML(sArg):
 
 ##@}
 
-#More Utility Methods
-handle.setCapabilities.restype = c_bool
-handle.getCapabilities.restype = c_char_p
-handle.setTimeStart.restype = c_bool
-handle.setTimeEnd.restype = c_bool
-handle.setNumPoints.restype = c_bool
-handle.setTimeCourseSelectionList.restype = c_bool
-handle.oneStep.restype = c_bool
-handle.getTimeStart.restype = c_bool
-handle.getTimeEnd.restype = c_bool
-handle.getNumPoints.restype = c_bool
-handle.reset.restype = c_bool
 
 ##\ingroup simulation
 #@{
@@ -518,11 +573,6 @@ def reset():
 
 ##@}
 
-
-#Steady state methods
-handle.steadyState.restype = c_bool
-handle.setSteadyStateSelectionList.restype = c_bool
-
 ##\ingroup steadystate
 #@{
 
@@ -545,7 +595,7 @@ def steadyState():
 #\return Returns the vector of steady state values or NONE if an error occurred.
 def computeSteadyStateValues():
     values = handle.computeSteadyStateValues()
-    return vectorToPythonArray (values)
+    return rrVectorToPythonArray (values)
 
 ##\brief Set the selection list of the steady state analysis
 #
@@ -560,13 +610,9 @@ def setSteadyStateSelectionList(list):
 #\return Returns False if it fails, otherwise it returns a list of strings representing symbols in the selection list
 def getSteadyStateSelectionList():
     values = handle.getSteadyStateSelectionList()
-    return listToPythonList (values)
+    return rrListToPythonList (values)
 
 ##@}
-
-#State Methods
-handle.getValue.restype = c_bool
-handle.setValue.restype = c_bool
 
 ##\ingroup state
 #@{
@@ -600,16 +646,6 @@ def setValue(symbolId, value):
 
 ##@}
 
-#Set and get family of methods
-handle.setBoundarySpeciesByIndex.restype = c_bool
-handle.setFloatingSpeciesByIndex.restype = c_bool
-handle.setGlobalParameterByIndex.restype = c_bool
-handle.getBoundarySpeciesByIndex.restype = c_bool
-handle.getFloatingSpeciesByIndex.restype = c_bool
-handle.getGlobalParameterByIndex.restype = c_bool
-handle.getCompartmentByIndex.restype = c_bool
-handle.setCompartmentByIndex.restype = c_bool
-
 
 ##\ingroup floating
 #@{
@@ -621,7 +657,7 @@ handle.setCompartmentByIndex.restype = c_bool
 #\return Returns a string of floating species concentrations or None if an error occured
 def getFloatingSpeciesConcentrations():
     values = handle.getFloatingSpeciesConcentrations()
-    return vectorToPythonArray (values)
+    return rrVectorToPythonArray (values)
 
 ##\brief Sets the concentration for a floating species by its index. Species are indexed starting at 0.
 #
@@ -951,8 +987,6 @@ def getConservationMatrix():
 
 ##@}
 
-#Initial condition methods
-handle.setFloatingSpeciesInitialConcentrations.restype = c_bool
 
 ##\addtogroup initialConditions
 #@{
@@ -1354,12 +1388,7 @@ def getScaledFluxControlCoefficientMatrix():
     handle.freeMatrix(value)
     return result
 
-#more MCA
-handle.getuCC.restype = c_bool
-handle.getCC.restype = c_bool
-handle.getEE.restype = c_bool
-handle.getuEE.restype = c_bool
-handle.getScaledFloatingSpeciesElasticity.restype = c_bool
+
 
 ##\brief Get unscaled control coefficient with respect to a global parameter
 #
@@ -1441,14 +1470,6 @@ def getNumberOfRules():
 
 ##@}
 
-#Print/format functions
-handle.resultToString.restype = c_char_p
-handle.matrixToString.restype = c_char_p
-handle.vectorToString.restype = c_char_p
-handle.stringArrayToString.restype = c_char_p
-#handle.printStringArrayList.restype = c_char_p
-#handle.printArrayList.restype = c_char_p
-handle.listToString.restype = c_char_p
 
 ##\ingroup toString
 #@{
@@ -1473,12 +1494,6 @@ def vectorToString(vector):
 def stringArrayToString(list):
     return handle.stringArrayToString(list)
 
-#def printStringArrayList(list):
-#    return handle.printStringArrayList(list)
-
-#def printArrayList(list):
-#    return handle.printArrayList(list)
-
 ##\brief Returns a list in string form
 #\return Returns a string array as a string
 def listToString(list):
@@ -1486,9 +1501,8 @@ def listToString(list):
 
 ##@}
 
+# ----------------------------------------------------------------------------
 #Free memory functions
-
-handle.Pause.restype = None
 
 ##\ingroup freeRoutines
 #@{
@@ -1525,22 +1539,7 @@ def freeCCode(code):
 def Pause():
     return handle.Pause()
 
-#Helper routines
-
-handle.getVectorLength.restype = c_int
-handle.getVectorElement.restype = c_bool
-handle.setVectorElement.restype = c_bool
-handle.getMatrixNumRows.restype = c_int
-handle.getMatrixNumCols.restype = c_int
-handle.getMatrixElement.restype = c_bool
-handle.getResultNumRows.restype = c_int
-handle.getResultNumCols.restype = c_int
-handle.getResultElement.restype = c_bool
-handle.getResultColumnLabel.restype = c_char_p
-handle.getCCodeHeader.restype = c_char_p
-handle.getCCodeSource.restype = c_char_p
-
-
+#------------------------------------------------------------------------------
 ##\ingroup helperRoutines
 #@{
 
