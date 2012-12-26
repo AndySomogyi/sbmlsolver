@@ -575,7 +575,7 @@ bool rrCallConv loadSBMLFromFile(const char* fileName)
 
         if(!gRRHandle->loadSBMLFromFile(fileName))
         {
-            setError("Failed to load SBML semantics");	//There are many wasy loading a model can fail, look at logFile to know more
+            setError("Failed to load SBML semantics");	//There are many ways loading a model can fail, look at logFile to know more
             return false;
         }
         return true;
@@ -2792,7 +2792,36 @@ bool rrCallConv getRateOfChange(const int& index, double& value)
     return false;
 }
 
-//Print functions ==========================================================
+// Utility functions ==========================================================
+
+int rrCallConv getNumberOfStringElements (const RRStringArrayHandle list)
+{
+	if (!list)
+		return (-1);
+	else
+	    return (list->Count);
+}
+
+
+
+char* rrCallConv getStringElement (const RRStringArrayHandle list, int index)
+{
+	if (list == NULL)
+		return NULL;
+	if ((index < 0) || (index >= list->Count)) {
+       setError("Index out of range");
+       return NULL;
+	}
+    
+	stringstream resStr;
+	resStr<<list->String[index];
+	string strTmp = resStr.str();
+
+    char* resultChar = new char[strTmp.size() + 1];
+    strcpy(resultChar, strTmp.c_str());
+    return resultChar;
+}
+
 
 char* rrCallConv stringArrayToString (const RRStringArrayHandle list)
 {
@@ -2952,7 +2981,7 @@ char* rrCallConv vectorToString(RRVectorHandle vecHandle)
     return NULL;
 }
 
-//Free Functions =====================================================
+// Free Functions =====================================================
 bool rrCallConv freeRRInstance(RRHandle handle)
 {
 	try
@@ -3115,8 +3144,12 @@ bool rrCallConv getVectorElement (RRVectorHandle vector, int index, double& valu
 {
 	if (vector == NULL)
 		return false;
-	if ((index < 0) || (index >= vector->Count))
+	if ((index < 0) || (index >= vector->Count)) {
+		stringstream msg;
+		msg << "Index out range: " << index;
+        setError(msg.str());
 		return false;
+	}
 	value = vector->Data[index];
 	return true;
 }

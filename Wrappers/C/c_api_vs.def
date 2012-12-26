@@ -133,9 +133,11 @@ EXPORTS
     setTimeEnd                                  = _setTimeEnd@4
     setTimeStart                                = _setTimeStart@4
     setValue                                    = _setValue@8
-	setVectorElement                            = _setVectorElement@16
+	  setVectorElement                            = _setVectorElement@16
     simulate                                    = _simulate@0
     simulateEx                                  = _simulateEx@12
     steadyState                                 = _steadyState@4
     setCodeGenerationMode                       = _setCodeGenerationMode@4
     getlibSBMLVersion                           = _getlibSBMLVersion@0
+    getNumberOfStringElements                   = _getNumberOfStringElements@4
+    getStringElement                            = _getStringElement@8
