@@ -1445,7 +1445,7 @@ C_DECL_SPEC int rrCallConv getNumberOfStringElements (const RRStringArrayHandle 
  \return Returns pointer to string else return null if error
  \ingroup stringArray
 */
-C_DECL_SPEC char* rrCallConv getStringElement (const RRStringArrayHandle list, int index);
+C_DECL_SPEC char* rrCallConv getStringElement (RRStringArrayHandle list, int index);
 
 /*!
  \brief Returns a string list in string form.

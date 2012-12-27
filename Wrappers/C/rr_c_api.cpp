@@ -2827,22 +2827,27 @@ int rrCallConv getNumberOfStringElements (const RRStringArrayHandle list)
 
 
 
-char* rrCallConv getStringElement (const RRStringArrayHandle list, int index)
+char* rrCallConv getStringElement (RRStringArrayHandle list, int index)
 {
-	if (list == NULL)
-		return NULL;
-	if ((index < 0) || (index >= list->Count)) {
-       setError("Index out of range");
-       return NULL;
-	}
+	try {
+	  if (list == NULL)
+	     return NULL;
+	  if ((index < 0) || (index >= list->Count)) {
+         setError("Index out of range");
+         return NULL;
+	  }
     
-	stringstream resStr;
-	resStr<<list->String[index];
-	string strTmp = resStr.str();
+	  stringstream resStr;
+	  resStr<<list->String[index];
+	  string strTmp = resStr.str();
 
-    char* resultChar = new char[strTmp.size() + 1];
-    strcpy(resultChar, strTmp.c_str());
-    return resultChar;
+      char* resultChar = new char[strTmp.size() + 1];
+      strcpy(resultChar, strTmp.c_str());
+      return resultChar;
+	} catch (...) {
+		setError ("Unknown exception in getStringElement");
+		return NULL;
+	}
 }
 
 
