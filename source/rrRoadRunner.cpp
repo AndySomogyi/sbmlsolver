@@ -2306,13 +2306,18 @@ StringList RoadRunner::getEigenvalueIds()
 
     StringList floating = mModelGenerator->getFloatingSpeciesConcentrationList();
 
-    //foreach (string s in oFloating)
-    for(int i = 0; i < floating.Count(); i++)
-    {
-        result.Add("eigen_" + floating[i]);
-    }
+    // -------------------------------------------------------------------------------------
+	// HMS Dec 27th 2012
+	// The following is currently commented out because it causes access violations when 
+	// getEigenvalueIds is called from Python. Needs to be investigated. 
 
-    return result;
+	//foreach (string s in oFloating)
+    //for(int i = 0; i < floating.Count(); i++)
+    //{
+    //    result.Add("eigen_" + floating[i]);
+    //}
+
+    return floating;//result;
 }
 //
 // Help(

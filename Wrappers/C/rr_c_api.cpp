@@ -2391,7 +2391,7 @@ RRStringArrayHandle rrCallConv getFloatingSpeciesInitialConditionIds()
             return NULL;
         }
         StringList aList = gRRHandle->getFloatingSpeciesInitialConditionIds();
-        return createList(aList);
+		return createList(aList);
     }
     catch(Exception& ex)
     {
@@ -2446,7 +2446,7 @@ RRVectorHandle rrCallConv getReactionRatesEx(const RRVectorHandle vec)
     return NULL;
 }
 
-RRList* rrCallConv getElasticityCoefficientIds()
+RRListHandle rrCallConv getElasticityCoefficientIds()
 {
 	try
     {
@@ -2456,7 +2456,8 @@ RRList* rrCallConv getElasticityCoefficientIds()
             return NULL;
         }
         NewArrayList aList = gRRHandle->getElasticityCoefficientIds();
-        return createList(aList);
+        RRListHandle bList = createList(aList);
+		return bList;
     }
     catch(Exception& ex)
     {
@@ -2524,8 +2525,10 @@ RRStringArrayHandle rrCallConv getEigenvalueIds()
             setError(ALLOCATE_API_ERROR_MSG);
             return NULL;
         }
-        StringList aList = gRRHandle->getEigenvalueIds();
-        return createList(aList);
+        
+		StringList aList = gRRHandle->getEigenvalueIds();
+		RRStringArrayHandle bList = createList(aList);
+		return bList;
     }
     catch(Exception& ex)
     {
@@ -2841,13 +2844,14 @@ char* rrCallConv getStringElement (RRStringArrayHandle list, int index)
 	  resStr<<list->String[index];
 	  string strTmp = resStr.str();
 
-      char* resultChar = new char[strTmp.size() + 1];
-      strcpy(resultChar, strTmp.c_str());
-      return resultChar;
-	} catch (...) {
-		setError ("Unknown exception in getStringElement");
-		return NULL;
-	}
+      char* result = createText (strTmp);
+	  return result;
+	} catch(Exception& ex) {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return false;
+    }
 }
 
 
