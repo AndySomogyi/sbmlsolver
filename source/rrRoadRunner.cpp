@@ -1627,7 +1627,7 @@ DoubleMatrix RoadRunner::getEigenvalues()
 
         DoubleMatrix result(vals.size(), 2);
 
-        for (int i = 0; i < result.size(); i++)
+        for (int i = 0; i < vals.size(); i++)
         {
 	        result[i][0] = real(vals[i]);
 	        result[i][1] = imag(vals[i]);
@@ -1649,7 +1649,16 @@ vector< Complex > RoadRunner::getEigenvaluesCpx()
             throw SBWApplicationException(emptyModelStr);
         }
 
-        DoubleMatrix mat = getReducedJacobian();
+        DoubleMatrix mat;
+   		if (mComputeAndAssignConservationLaws)
+        {
+           mat = getReducedJacobian();
+       	}
+        else
+        {
+           mat = getFullJacobian();
+
+		}
         return ls::getEigenValues(mat);
     }
     catch (const Exception& e)
@@ -1720,11 +1729,11 @@ DoubleMatrix RoadRunner::getReducedJacobian()
         }
 
 		DoubleMatrix uelast = getUnscaledElasticityMatrix();
-        if(!_Nr)
+        if(!mLS->getNrMatrix())
         {
             return DoubleMatrix(0,0);
         }
-        DoubleMatrix I1 = mult((*_Nr), uelast);
+        DoubleMatrix I1 = mult((*mLS->getNrMatrix()), uelast);
         _L = mLS->getLinkMatrix();
         return mult(I1, (*_L));
     }

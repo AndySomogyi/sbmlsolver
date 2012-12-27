@@ -41,6 +41,10 @@ int main(int argc, char* argv[])
     string thisExeFolder = getCurrentExeFolder();
     clog<<"RoadRunner bin location is: "<<thisExeFolder;
 
+	if(_MSC_VER)
+	{
+		thisExeFolder = "r:\\installs\\vs\\2010\\debug\\bin";
+	}
     //Assume(!) this is the bin folder of roadrunner install
 	gRRInstallFolder = getParentFolder(thisExeFolder);	//Go up one folder
 

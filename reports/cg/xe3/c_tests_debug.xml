@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="api_tests.xsl" type="text/xsl" ?>
-<unittest-results date_time = "2012-12-27 07:48:41" tests="13" failedtests="0" failures="0" time="31.575">
+<unittest-results date_time = "2012-12-27 11:19:13" tests="14" failedtests="1" failures="1" time="31.818">
 <test suite="Base" name="AllocateRR" time="0"/>
 <test suite="Base" name="LOGGING" time="0"/>
 <test suite="Base" name="VERSIONS" time="0"/>
 <test suite="Base" name="MODEL_FILES" time="0"/>
-<test suite="Base" name="LOAD_SBML" time="0.132"/>
+<test suite="Base" name="LOAD_SBML" time="0.139"/>
 <test suite="Base" name="LISTS" time="0"/>
-<test suite="SteadyState" name="DATA_FILES" time="0.009"/>
-<test suite="SteadyState" name="AllocateRR" time="0.012"/>
-<test suite="SteadyState" name="LOAD_MODEL" time="0.097"/>
+<test suite="SteadyState" name="DATA_FILES" time="0.01"/>
+<test suite="SteadyState" name="AllocateRR" time="0.017"/>
+<test suite="SteadyState" name="LOAD_MODEL" time="0.138"/>
 <test suite="SteadyState" name="COMPUTE_STEADY_STATE" time="0"/>
 <test suite="SteadyState" name="STEADY_STATE_CONCENTRATIONS" time="0"/>
-<test suite="SteadyState" name="GET_EIGENVALUES_THROW_EXCEPTION" time="2.403"/>
-<test suite="SteadyState" name="GET_EIGENVALUES_1" time="28.917"/>
+<test suite="SteadyState" name="GET_EIGENVALUES_THROW_EXCEPTION" time="9.382"/>
+<test suite="SteadyState" name="GET_EIGENVALUES_1" time="15.718"/>
+<test suite="SteadyState" name="GET_EIGENVALUES_2" time="6.407"><failure message="steady_state.cpp(226) : Expected -0.157263 +/- 1e-06 but was -0.767365"/></test>
 </unittest-results>

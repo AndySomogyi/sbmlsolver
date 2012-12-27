@@ -29,11 +29,11 @@ string TestModelFileName;
     TEST(DATA_FILES)
     {
 		gTestDataFolder 	= JoinPath(gRRInstallFolder, "tests");
-		TestDataFileName 	= JoinPath(gTestDataFolder, TestDataFileName);
+		string testDataFileName 	= JoinPath(gTestDataFolder, TestDataFileName);
 
-    	CHECK(FileExists(TestDataFileName));
-        CHECK(iniFile.Load(TestDataFileName));
-        clog<<"Loaded test data from file: "<< TestDataFileName;
+    	CHECK(FileExists(testDataFileName));
+        CHECK(iniFile.Load(testDataFileName));
+        clog<<"Loaded test data from file: "<< testDataFileName;
         if(iniFile.GetSection("SBML_FILES"))
         {
         	rrIniSection* sbml = iniFile.GetSection("SBML_FILES");
@@ -188,34 +188,51 @@ string TestModelFileName;
         }
     }
 
-//    TEST(GET_EIGENVALUES_2)
-//	{
-//        rrIniSection* aSection = iniFile.GetSection("EIGEN_VALUES");
-//        //Read in the reference data, from the ini file
-//		if(!aSection || !aRR)
-//        {
-//        	CHECK(false);
-//            return;
-//        }
-//
-//        vector<Complex> eigenVals = aRR->getEigenvaluesCpx();
-//        if(eigenVals.size() != aSection->KeyCount())
-//        {
-//        	CHECK(false);
-//            return;
-//        }
-//
-//        for(int i = 0 ; i < aSection->KeyCount(); i++)
-//        {
-//            rrIniKey *aKey = aSection->GetKey(i);
-//            clog<<"\n";
-//            clog<<"Ref_EigenValue: "<<aKey->mKey<<": "<<aKey->mValue<<endl;
-//
-//        	clog<<"EigenValue "<<i<<": "<<real(eigenVals[i])<<endl;
-//            CHECK_CLOSE(aKey->AsFloat(), real(eigenVals[i]), 1e-6);
-//        }
-//    }
-//
+	//Using getEigenValues
+    TEST(GET_EIGENVALUES_2)
+	{
+       	gRR = getRRInstance();
+        CHECK(gRR!=NULL);
+        setComputeAndAssignConservationLaws(true);
+
+        rrIniSection* aSection = iniFile.GetSection("EIGEN_VALUES");
+        //Read in the reference data, from the ini file
+		if(!aSection || !gRR)
+        {
+        	CHECK(false);
+            return;
+        }
+
+        RRMatrixHandle eigenVals = getEigenvalues();
+		if(!eigenVals)
+		{
+			CHECK(false);
+			return;
+		}
+        clog<<matrixToString(eigenVals);
+        if(!eigenVals || eigenVals->RSize != aSection->KeyCount())
+        {
+        	CHECK(false);
+            return;
+        }
+
+        for(int i = 0 ; i < aSection->KeyCount(); i++)
+        {
+            rrIniKey *aKey = aSection->GetKey(i);
+            clog<<"\n";
+            clog<<"Ref_EigenValue: "<<aKey->mKey<<": "<<aKey->mValue<<endl;
+
+            double val;
+            if(!getMatrixElement(eigenVals, i , 0, val))
+            {
+            	CHECK(false);
+            }
+        	clog<<"EigenValue "<<i<<": "<<val<<endl;
+            CHECK_CLOSE(aKey->AsFloat(), val, 1e-6);
+			freeMatrix(eigenVals);
+        }
+    }
+
 //    TEST(FULL_JACOBIAN)
 //	{
 //		rrIniSection* aSection = iniFile.GetSection("FULL_JACOBIAN");
