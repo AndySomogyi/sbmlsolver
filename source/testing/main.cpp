@@ -13,7 +13,6 @@ using namespace std;
 using namespace rr;
 using namespace UnitTest;
 
-
 string 	gRRInstallFolder 		= "";
 string 	gSBMLModelsPath 		= "";
 string  gTestDataFolder			= "";
@@ -50,7 +49,6 @@ gCompiler = "gcc";
     gTSModelsPath 		= JoinPath(JoinPath(gSBMLModelsPath, "cases"), "semantic");
 
     gTempFolder			= args.TempDataFolder;
-//    gDataOutputFolder	= gTempFolder;
 
   	string thisExeFolder = getCurrentExeFolder();
     Log(lDebug)<<"RoadRunner bin location is: "<<thisExeFolder;
@@ -83,10 +81,10 @@ gCompiler = "gcc";
 
 
     clog<<"Running Base\n";
-    runner1.RunTestsIf(Test::GetTestList(), "Base", 		True(), 0);
+    runner1.RunTestsIf(Test::GetTestList(), "Base", 			True(), 0);
 
     clog<<"Running SteadyState Tests\n";
-    runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
+    runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 		True(), 0);
 
     clog<<"Running ssThreeSpecies Tests\n";
     runner1.RunTestsIf(Test::GetTestList(), "ssThreeSpecies", 	True(), 0);

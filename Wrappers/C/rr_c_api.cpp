@@ -673,6 +673,29 @@ char* rrCallConv getSBML()
     }
 }
 
+bool rrCallConv unLoadModel()
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+            return NULL;
+        }
+
+		bool result = gRRHandle->unLoadModel();
+
+        return result;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	  	return NULL;
+    }
+}
+
 bool rrCallConv setTimeStart(const double& timeStart)
 {
 	try
@@ -828,6 +851,27 @@ bool  rrCallConv setTimeCourseSelectionList(const char* list)
         setError(msg.str());
     }
     return false;
+}
+
+bool rrCallConv createTimeCourseSelectionList()
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+            return NULL;
+        }
+
+        return gRRHandle->createTimeCourseSelectionList() > 0 ? true : false;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+    	return false;
+    }
 }
 
 RRStringArrayHandle rrCallConv getTimeCourseSelectionList()
@@ -2921,8 +2965,8 @@ char* rrCallConv matrixToString(const RRMatrixHandle matrixHandle)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+    	return NULL;
     }
-    return NULL;
 }
 
 char* rrCallConv vectorToString(RRVectorHandle vecHandle)
@@ -2931,7 +2975,7 @@ char* rrCallConv vectorToString(RRVectorHandle vecHandle)
     {
         if(!vecHandle)
         {
-            setError("Null vector in printMatrix...");
+            setError("Null vector in vectorToString");
             return NULL;
         }
 

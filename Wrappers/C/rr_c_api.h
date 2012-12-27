@@ -466,6 +466,13 @@ C_DECL_SPEC char* rrCallConv getCurrentSBML();
 C_DECL_SPEC char* rrCallConv getSBML();
 
 
+/*!
+ \brief Unload current model
+ \return Returns true if sucessful
+ \ingroup loadsave
+*/
+C_DECL_SPEC bool rrCallConv unLoadModel();
+
 // -------------------------------------------------------------------------
 // SBML utility methods
 // -----------------------------------------------------------------------
@@ -548,6 +555,14 @@ C_DECL_SPEC bool rrCallConv setTimeEnd(const double& timeEnd);
  \ingroup simulation
 */
 C_DECL_SPEC bool rrCallConv setNumPoints(const int& numberOfPoints);
+
+/*!
+ \brief Creates a default timeCourse selection List
+
+ \return Returns true if sucessful
+ \ingroup simulation
+*/
+C_DECL_SPEC bool rrCallConv createTimeCourseSelectionList();
 
 /*!
  \brief Set the selection list for output from simulate() or simulateEx()

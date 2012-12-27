@@ -23,15 +23,15 @@ SUITE(SteadyState)
 //Global to this unit
 RoadRunner *aRR = NULL;
 string TestDataFileName 	= "TestModel_1.dat";
-string TestModelFileName    = "";
 IniFile iniFile;
+string TestModelFileName;
 
-	//This suite tests various steady state functions, using the model TestModel_1.xml
+	//This test-suite tests various steady state functions, using the model TestModel_1.xml
 
 	//Test that model files and reference data for the tests in this suite are present
     TEST(DATA_FILES)
     {
-		gTestDataFolder = JoinPath(gRRInstallFolder, "tests");
+		gTestDataFolder 	= JoinPath(gRRInstallFolder, "tests");
 		TestDataFileName 	= JoinPath(gTestDataFolder, TestDataFileName);
 
     	CHECK(FileExists(TestDataFileName));
@@ -89,6 +89,71 @@ IniFile iniFile;
 
             //Check concentrations
             CHECK_CLOSE(aKey->AsFloat(), val, 1e-6);
+        }
+    }
+
+	//This test is using the function getValue("eigen_...")
+    TEST(GET_EIGENVALUES_1)
+	{
+        rrIniSection* aSection = iniFile.GetSection("EIGEN_VALUES");
+        //Read in the reference data, from the ini file
+		if(!aSection || !aRR)
+        {
+        	CHECK(false);
+            return;
+        }
+
+        StringList ids = aRR->getEigenvalueIds();
+        if(ids.Count() != aSection->KeyCount())
+        {
+        	CHECK(false);
+            return;
+        }
+
+        for(int i = 0 ; i < aSection->KeyCount(); i++)
+        {
+        	//Find correct eigenValue
+            for(int j = 0; j < ids.Count(); j++)
+            {
+            	if(aSection->mKeys[i]->mKey == ids[j])
+                {
+                    rrIniKey *aKey = aSection->GetKey(i);
+                    clog<<"\n";
+                    clog<<"Ref_EigenValue: "<<aKey->mKey<<": "<<aKey->mValue<<endl;
+
+                    clog<<"ID: "<<ids[j]<<"= "<<aRR->getValue(ids[j])<<endl;
+
+                    CHECK_CLOSE(aKey->AsFloat(), aRR->getValue(ids[j]), 1e-6);
+                }
+            }
+        }
+    }
+
+    TEST(GET_EIGENVALUES_2)
+	{
+        rrIniSection* aSection = iniFile.GetSection("EIGEN_VALUES");
+        //Read in the reference data, from the ini file
+		if(!aSection || !aRR)
+        {
+        	CHECK(false);
+            return;
+        }
+
+        vector<Complex> eigenVals = aRR->getEigenvaluesCpx();
+        if(eigenVals.size() != aSection->KeyCount())
+        {
+        	CHECK(false);
+            return;
+        }
+
+        for(int i = 0 ; i < aSection->KeyCount(); i++)
+        {
+            rrIniKey *aKey = aSection->GetKey(i);
+            clog<<"\n";
+            clog<<"Ref_EigenValue: "<<aKey->mKey<<": "<<aKey->mValue<<endl;
+
+        	clog<<"EigenValue "<<i<<": "<<real(eigenVals[i])<<endl;
+            CHECK_CLOSE(aKey->AsFloat(), real(eigenVals[i]), 1e-6);
         }
     }
 
@@ -187,34 +252,6 @@ IniFile iniFile;
         }
 
 		CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
-    }
-
-
-    TEST(EIGEN_VALUES)
-	{
-        rrIniSection* aSection = iniFile.GetSection("EIGEN_VALUES");
-        //Read in the reference data, from the ini file
-		if(!aSection || !aRR)
-        {
-        	CHECK(false);
-            return;
-        }
-
-        vector<Complex> eigenVals = aRR->getEigenvaluesCpx();
-        if(eigenVals.size() != aSection->KeyCount())
-        {
-        	CHECK(false);
-            return;
-        }
-
-        for(int i = 0 ; i < aSection->KeyCount(); i++)
-        {
-        	clog<<"EigenValue "<<i<<"_ref: "<<aSection->GetKey(i)->AsString()<<endl;
-            rrIniKey *aKey = aSection->GetKey(i);
-            std::complex<double> eig(aKey->AsComplex());
-        	clog<<"EigenValue "<<i<<": "<<real(eigenVals[i])<<endl;
-            CHECK_CLOSE(aKey->AsFloat(), real(eigenVals[i]), 1e-6);
-        }
     }
 
     TEST(STOICHIOMETRY_MATRIX)

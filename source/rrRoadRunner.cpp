@@ -732,6 +732,16 @@ bool RoadRunner::loadSBML(const string& sbml)
         return false;
     }
 
+    //Create a defualt selectionlist
+    if(!createDefaultTimeCourseSelectionList())
+    {
+        Log(lError)<<"Failed creating default timecourse selectionList.";
+        return false;
+    }
+    else
+    {
+    	Log(lInfo)<<"Created default TimeCourse selection list.";
+    }
     _L  = mLS->getLinkMatrix();
     _L0 = mLS->getL0Matrix();
     _N  = mLS->getReorderedStoichiometryMatrix();
@@ -1526,6 +1536,19 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
             }
         }
 
+        //((string)newSelectionList[i]).StartsWith("eigen_")
+        string tmp = newSelectionList[i];
+        if (StartsWith(tmp, "eigen_"))
+        {
+        	string species = tmp.substr(tmp.find_last_of("eigen_") + 1);
+            selectionList.push_back(TSelectionRecord(i, clEigenValue, species));
+//            selectionList[i].selectionType = TSelectionType::clEigenValue;
+//            selectionList[i].p1 = species;
+			int aIndex = fs.find(species);
+            selectionList[i].index = aIndex;
+            //mModelGenerator->floatingSpeciesConcentrationList.find(species, selectionList[i].index);
+        }
+
 //        if (((string)newSelectionList[i]).StartsWith("EE:"))
 //        {
 //            string parameters = ((string)newSelectionList[i]).Substring(3);
@@ -1604,7 +1627,7 @@ DoubleMatrix RoadRunner::getEigenvalues()
 
         DoubleMatrix result(vals.size(), 2);
 
-        for (int i = 0; i < result.size(); i++)
+        for (int i = 0; i < vals.size(); i++)
         {
 	        result[i][0] = real(vals[i]);
 	        result[i][1] = imag(vals[i]);
@@ -1626,7 +1649,16 @@ vector< Complex > RoadRunner::getEigenvaluesCpx()
             throw SBWApplicationException(emptyModelStr);
         }
 
-        DoubleMatrix mat = getReducedJacobian();
+        DoubleMatrix mat;
+   		if (mComputeAndAssignConservationLaws)
+        {
+           mat = getReducedJacobian();
+       	}
+        else
+        {
+           mat = getFullJacobian();
+
+		}
         return ls::getEigenValues(mat);
     }
     catch (const Exception& e)
@@ -1693,21 +1725,21 @@ DoubleMatrix RoadRunner::getReducedJacobian()
 
         if(mComputeAndAssignConservationLaws == false)
         {
-        	throw("The reduced Jacobian matrix can only be computed if conservation law detection is enabled");
+        	throw RRException("The reduced Jacobian matrix can only be computed if conservation law detection is enabled");
         }
 
 		DoubleMatrix uelast = getUnscaledElasticityMatrix();
-        if(!_Nr)
+        if(!mLS->getNrMatrix())
         {
             return DoubleMatrix(0,0);
         }
-        DoubleMatrix I1 = mult((*_Nr), uelast);
+        DoubleMatrix I1 = mult((*mLS->getNrMatrix()), uelast);
         _L = mLS->getLinkMatrix();
         return mult(I1, (*_L));
     }
     catch (const Exception& e)
     {
-        throw SBWApplicationException("Unexpected error from fullJacobian()", e.Message());
+        throw SBWApplicationException("Unexpected error from getReducedJacobian(): ", e.Message());
     }
 }
 
@@ -5143,10 +5175,13 @@ double RoadRunner::getValue(const string& sId)
         int index;
         mModelGenerator->floatingSpeciesConcentrationList.find(species, index);
 
-//        LibLA LA;
-
         DoubleMatrix mat = getReducedJacobian();
         vector<Complex> oComplex = ls::getEigenValues(mat);
+
+        if(selectionList.size() == 0)
+        {
+        	throw("Tried to access record in empty selectionList in getValue function: eigen_");
+        }
 
         if (oComplex.size() > selectionList[index].index)
         {

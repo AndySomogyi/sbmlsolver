@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="api_tests.xsl" type="text/xsl" ?>
+<unittest-results date_time = "2012-12-27 12:06:53" tests="14" failedtests="1" failures="1" time="8.142">
+<test suite="Base" name="AllocateRR" time="0"/>
+<test suite="Base" name="LOGGING" time="0"/>
+<test suite="Base" name="VERSIONS" time="0"/>
+<test suite="Base" name="MODEL_FILES" time="0"/>
+<test suite="Base" name="LOAD_SBML" time="0.304"/>
+<test suite="Base" name="LISTS" time="0"/>
+<test suite="SteadyState" name="DATA_FILES" time="0.035"/>
+<test suite="SteadyState" name="AllocateRR" time="0.001"/>
+<test suite="SteadyState" name="LOAD_MODEL" time="0.385"/>
+<test suite="SteadyState" name="COMPUTE_STEADY_STATE" time="0"/>
+<test suite="SteadyState" name="STEADY_STATE_CONCENTRATIONS" time="0"/>
+<test suite="SteadyState" name="GET_EIGENVALUES_THROW_EXCEPTION" time="0.358"/>
+<test suite="SteadyState" name="GET_EIGENVALUES_1" time="0.365"/>
+<test suite="SteadyState" name="GET_EIGENVALUES_2" time="6.687"><failure message="steady_state.cpp(231) : Expected -0.157263 +/- 1e-006 but was -0.767365"/></test>
+</unittest-results>

@@ -166,6 +166,7 @@ handle.loadSBML.restype = c_bool
 handle.loadSBMLFromFile.restype = c_bool
 handle.getCurrentSBML.restype = c_char_p
 handle.getSBML.restype = c_char_p
+handle.unLoadModel.restype = c_bool
 
 #Initial condition methods
 handle.setFloatingSpeciesInitialConcentrations.restype = c_bool
@@ -403,6 +404,11 @@ def getCurrentSBML():
 #\return Returns False if it fails or no model is loaded, otherwise returns the SBML string
 def getSBML():
     return handle.getSBML()
+
+##\brief Unload current SBML model
+#\return Returns true if successful
+def unLoadModel():
+    return handle.unLoadModel()
 
 ##@}
 

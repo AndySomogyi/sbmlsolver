@@ -18,6 +18,8 @@ string 	gCompiler 				= "";
 string 	gSupportCodeFolder 		= "";
 string 	gTempFolder		   		= "";
 string 	gDataOutputFolder   	= "";
+string 	gRRInstallFolder 		= "";
+string  gTestDataFolder			= "";
 bool	gDebug			    	= false;
 
 // initialized based on gSBMLModelsPath
@@ -36,12 +38,22 @@ int main(int argc, char* argv[])
 
 	string reportFile(args.ResultOutputFile);
 
+    string thisExeFolder = getCurrentExeFolder();
+    clog<<"RoadRunner bin location is: "<<thisExeFolder;
+
+	if(_MSC_VER)
+	{
+		thisExeFolder = "r:\\installs\\vs\\2010\\debug\\bin";
+	}
+    //Assume(!) this is the bin folder of roadrunner install
+	gRRInstallFolder = getParentFolder(thisExeFolder);	//Go up one folder
 
     gSBMLModelsPath 	= args.SBMLModelsFilePath;
-	gCompiler	 		= args.Compiler;
     gTempFolder			= args.TempDataFolder;
     gDataOutputFolder	= args.DataOutputFolder;
-	gSupportCodeFolder 	= args.SupportCodeFolder;
+    gCompiler	 		= JoinPath(gRRInstallFolder, gCompiler);
+	gSupportCodeFolder 	= JoinPath(gRRInstallFolder, "rr_support");
+	gTestDataFolder     = JoinPath(gRRInstallFolder, "tests");
 
     //We need a rr handle to enable initial logging...
     gRR = getRRInstance();
@@ -69,12 +81,12 @@ int main(int argc, char* argv[])
     clog<<"Running Base\n";
     runner1.RunTestsIf(Test::GetTestList(), "Base", 		True(), 0);
 
-//     clog<<"Running SteadyState\n";
-//     runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
+     clog<<"Running SteadyState\n";
+     runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
 
-    clog<<"Running TestSuite Tests\n";
-    clog<<"ModelPath "<<gTSModelsPath;
-    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4", 	True(), 0);
+//    clog<<"Running TestSuite Tests\n";
+//    clog<<"ModelPath "<<gTSModelsPath;
+//    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4", 	True(), 0);
 
     //Finish outputs result to xml file
     runner1.Finish();
