@@ -738,33 +738,38 @@ string NOMSupport::convertTime(const string& sArg, const string& sTimeSymbol)
     SBMLDocument* oSBMLDoc = NULL;
     Model* oModel = NULL;
     Log(lDebug4)<<"Entering function "<<__FUNC__<<" in file "<<__FILE__;
-    try
-    {
-        oSBMLDoc = readSBMLFromString(sArg.c_str());
-        if(oSBMLDoc)
+//    __try
+//    {
+        try
         {
-            oModel = oSBMLDoc->getModel();
-        }
+            oSBMLDoc = readSBMLFromString(sArg.c_str());
+            if(oSBMLDoc)
+            {
+                oModel = oSBMLDoc->getModel();
+            }
 
-        if (oModel == NULL)
+            if (oModel == NULL)
+            {
+                throw RRException("SBML Validation failed");
+            }
+            else
+            {
+                changeTimeSymbol(*oModel, sTimeSymbol);
+                string sbml(writeSBMLToString(oSBMLDoc));
+                return sbml;
+            }
+        }
+        catch(...)
         {
             throw RRException("SBML Validation failed");
         }
-        else
-        {
-            changeTimeSymbol(*oModel, sTimeSymbol);
-            string sbml(writeSBMLToString(oSBMLDoc));
-            return sbml;
-        }
-    }
-    catch(...)
-    {
-
-    }
-//    finally
+//    }
+//    __finally
 //    {
 //        if (oSBMLDoc != NULL)
-//            oSBMLDoc.Dispose();
+//        {
+//        	delete oSBMLDoc;//->Dispose();
+//        }
 //    }
     return string("");
 }

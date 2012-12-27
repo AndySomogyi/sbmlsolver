@@ -58,7 +58,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		CvodeInterface                 *mCVode;
 		ISteadyStateSolver             *steadyStateSolver;
 		vector<TSelectionRecord>        selectionList;
-        int                             createDefaultTimeCourseSelectionList();
 		ModelGenerator                 *mModelGenerator;    //Pointer to one of the below ones..
 		CSharpGenerator                *mCSharpGenerator;
 		CGenerator                     *mCGenerator;
@@ -129,6 +128,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
         bool                            unLoadModelDLL();
         CvodeInterface*                 GetCVodeInterface();
         NLEQInterface*                  GetNLEQInterface();
+        int                             createDefaultTimeCourseSelectionList();
 		int                             createTimeCourseSelectionList();
 		static bool                     SetTempFileFolder(const string& folder);
 		static string                   getTempFileFolder();

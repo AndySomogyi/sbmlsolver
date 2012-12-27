@@ -16,6 +16,7 @@ extern string 	gCompiler;
 extern string 	gSupportCodeFolder;
 extern string   gTempFolder;
 extern string   gDataOutputFolder;
+extern bool 	gDebug;
 SUITE(Base)
 {
     TEST(AllocateRR)
@@ -29,17 +30,23 @@ SUITE(Base)
 
 		if(gRR)
 		{
-        	setCompiler(gCompiler.c_str());
-			setSupportCodeFolder(gSupportCodeFolder.c_str());
             setTempFolder(gTempFolder.c_str());
 		}
     }
 
     TEST(LOGGING)
     {
-//        CHECK(enableLogging());
-        char* logFName = getLogFileName();
-        CHECK_EQUAL("RoadRunner.log", logFName);
+    	if(gDebug == true)
+        {
+			//        CHECK(enableLogging());
+        	char* logFName = getLogFileName();
+        	CHECK_EQUAL("RoadRunner.log", logFName);
+        }
+        else
+        {
+        	char* logFName = getLogFileName();
+        	CHECK_EQUAL("<none>", logFName);
+        }
     }
 
     TEST(VERSIONS)

@@ -732,6 +732,16 @@ bool RoadRunner::loadSBML(const string& sbml)
         return false;
     }
 
+    //Create a defualt selectionlist
+    if(!createDefaultTimeCourseSelectionList())
+    {
+        Log(lError)<<"Failed creating default timecourse selectionList.";
+        return false;
+    }
+    else
+    {
+    	Log(lInfo)<<"Created default TimeCourse selection list.";
+    }
     _L  = mLS->getLinkMatrix();
     _L0 = mLS->getL0Matrix();
     _N  = mLS->getReorderedStoichiometryMatrix();
@@ -1706,7 +1716,7 @@ DoubleMatrix RoadRunner::getReducedJacobian()
 
         if(mComputeAndAssignConservationLaws == false)
         {
-        	throw("The reduced Jacobian matrix can only be computed if conservation law detection is enabled");
+        	throw RRException("The reduced Jacobian matrix can only be computed if conservation law detection is enabled");
         }
 
 		DoubleMatrix uelast = getUnscaledElasticityMatrix();
@@ -1720,7 +1730,7 @@ DoubleMatrix RoadRunner::getReducedJacobian()
     }
     catch (const Exception& e)
     {
-        throw SBWApplicationException("Unexpected error from fullJacobian()", e.Message());
+        throw SBWApplicationException("Unexpected error from getReducedJacobian(): ", e.Message());
     }
 }
 

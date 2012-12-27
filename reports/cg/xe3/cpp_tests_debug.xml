@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="api_tests.xsl" type="text/xsl" ?>
+<unittest-results date_time = "2012-12-27 06:06:24" tests="39" failedtests="20" failures="22" time="21.592">
+<test suite="Base" name="VERSIONS" time="0"/>
+<test suite="Base" name="AllocateRR" time="0"/>
+<test suite="Base" name="AllocateDeAllocateRR" time="0.084"/>
+<test suite="Base" name="MODEL_FILES" time="0"/>
+<test suite="Base" name="LOAD_SBML" time="0.671"/>
+<test suite="SteadyState" name="DATA_FILES" time="0.009"/>
+<test suite="SteadyState" name="LOAD_MODEL" time="0.097"/>
+<test suite="SteadyState" name="COMPUTE_STEADY_STATE" time="0"/>
+<test suite="SteadyState" name="STEADY_STATE_CONCENTRATIONS" time="0"/>
+<test suite="SteadyState" name="GET_EIGENVALUES_1" time="15.741"><failure message="steady_state.cpp(96) : Unhandled exception: Unexpected error from fullJacobian()The reduced Jacobian matrix can only be computed if conservation law detection is enabled"/></test>
+<test suite="SteadyState" name="GET_EIGENVALUES_2" time="2.647"><failure message="steady_state.cpp(132) : Unhandled exception: Unexpected error from getEigenvalues()Unexpected error from fullJacobian()The reduced Jacobian matrix can only be computed if conservation law detection is enabled"/></test>
+<test suite="SteadyState" name="FULL_JACOBIAN" time="0.002"><failure message="steady_state.cpp(180) : Expected [ [ -0.2 0.067 0 ] [ 0.15 -0.467 0.09 ] [ 0 0.4 -0.64 ] ] +/- 1e-06 but was [ [ -0.2 0.067 0 ] [ 0 0.4 -0.64 ] [ 0.15 -0.467 0.09 ] ]"/></test>
+<test suite="SteadyState" name="REDUCED_JACOBIAN" time="1.128"><failure message="steady_state.cpp(183) : Unhandled exception: Unexpected error from fullJacobian()The reduced Jacobian matrix can only be computed if conservation law detection is enabled"/></test>
+<test suite="SteadyState" name="FULL_REORDERED_JACOBIAN" time="0.004"><failure message="steady_state.cpp(228) : Expected [ [ -0.2 0 0.067 ] [ 0 -0.64 0.4 ] [ 0.15 0.09 -0.467 ] ] +/- 1e-06 but was [ [ -0.2 0.067 0 ] [ 0 0.4 -0.64 ] [ 0.15 -0.467 0.09 ] ]"/></test>
+<test suite="SteadyState" name="REDUCED_REORDERED_JACOBIAN" time="1.099"><failure message="steady_state.cpp(231) : Unhandled exception: Unexpected error from fullJacobian()The reduced Jacobian matrix can only be computed if conservation law detection is enabled"/></test>
+<test suite="SteadyState" name="STOICHIOMETRY_MATRIX" time="0"/>
+<test suite="SteadyState" name="REORDERED_STOICHIOMETRY_MATRIX" time="0"/>
+<test suite="SteadyState" name="FULLY_REORDERED_STOICHIOMETRY_MATRIX" time="0"><failure message="steady_state.cpp(323) : Expected [ [ 1 -1 0 0 ] [ 0 0 1 -1 ] [ 0 1 -1 0 ] ] +/- 1e-06 but was [ [ 0 -1 0 1 ] [ -1 0 1 0 ] [ 0 1 -1 0 ] ]"/></test>
+<test suite="SteadyState" name="LINK_MATRIX" time="0"/>
+<test suite="SteadyState" name="UNSCALED_ELASTICITY_MATRIX" time="0"><failure message="steady_state.cpp(369) : Expected [ [ -0.05 0 0 ] [ 0.15 0 -0.067 ] [ 0 -0.09 0.4 ] [ 0 0.55 0 ] ] +/- 1e-06 but was [ [ -0.05 0 0 ] [ 0.15 -0.067 0 ] [ 0 0.4 -0.09 ] [ 0 0 0.55 ] ]"/></test>
+<test suite="SteadyState" name="SCALED_ELASTICITY_MATRIX" time="0"><failure message="steady_state.cpp(392) : Expected [ [ -0.398303 0 0 ] [ 1.19491 0 -0.194909 ] [ 0 -0.163636 1.16364 ] [ 0 1 0 ] ] +/- 1e-06 but was [ [ -0.398303 0 0 ] [ 1.19491 -0.194909 0 ] [ 0 1.16364 -0.163636 ] [ 0 0 1 ] ]"/></test>
+<test suite="SteadyState" name="UNSCALED_CONCENTRATION_CONTROL_MATRIX" time="0"><failure message="steady_state.cpp(400) : false"/></test>
+<test suite="SteadyState" name="UNSCALED_FLUX_CONTROL_MATRIX" time="0"><failure message="steady_state.cpp(423) : false"/></test>
+<test suite="ssThreeSpecies" name="DATA_FILES" time="0.005"/>
+<test suite="ssThreeSpecies" name="LOAD_MODEL" time="0.081"/>
+<test suite="ssThreeSpecies" name="COMPUTE_STEADY_STATE" time="0"/>
+<test suite="ssThreeSpecies" name="STEADY_STATE_CONCENTRATIONS" time="0"><failure message="three_species.cpp(90) : Expected 0.569695 +/- 1e-06 but was 0.666667"/><failure message="three_species.cpp(90) : Expected 0.208044 +/- 1e-06 but was 0.25"/><failure message="three_species.cpp(90) : Expected 0.130028 +/- 1e-06 but was 0.181818"/></test>
+<test suite="ssThreeSpecies" name="FULL_JACOBIAN" time="0.002"/>
+<test suite="ssThreeSpecies" name="REDUCED_JACOBIAN" time="0"><failure message="three_species.cpp(122) : false"/></test>
+<test suite="ssThreeSpecies" name="FULL_REORDERED_JACOBIAN" time="0.003"><failure message="three_species.cpp(162) : Expected [ [ -0.2 0 0.067 ] [ 0 -0.64 0.4 ] [ 0.15 0.09 -0.467 ] ] +/- 1e-06 but was [ [ -0.15 0 0 ] [ 0 -0.55 0.4 ] [ 0.15 0 -0.4 ] ]"/></test>
+<test suite="ssThreeSpecies" name="EIGEN_VALUES" time="0.005"><failure message="three_species.cpp(188) : Expected -0.15 +/- 1e-06 but was -0.55"/></test>
+<test suite="ssThreeSpecies" name="STOICHIOMETRY_MATRIX" time="0"/>
+<test suite="ssThreeSpecies" name="REORDERED_STOICHIOMETRY_MATRIX" time="0"/>
+<test suite="ssThreeSpecies" name="FULLY_REORDERED_STOICHIOMETRY_MATRIX" time="0"><failure message="three_species.cpp(258) : Expected [ [ 1 -1 0 0 ] [ 0 0 1 -1 ] [ 0 1 -1 0 ] ] +/- 1e-06 but was [ [ 0 -1 0 1 ] [ -1 0 1 0 ] [ 0 1 -1 0 ] ]"/></test>
+<test suite="ssThreeSpecies" name="LINK_MATRIX" time="0"/>
+<test suite="ssThreeSpecies" name="UNSCALED_ELASTICITY_MATRIX" time="0"><failure message="three_species.cpp(289) : false"/></test>
+<test suite="ssThreeSpecies" name="SCALED_ELASTICITY_MATRIX" time="0"><failure message="three_species.cpp(312) : false"/></test>
+<test suite="ssThreeSpecies" name="UNSCALED_CONCENTRATION_CONTROL_MATRIX" time="0"><failure message="three_species.cpp(335) : false"/></test>
+<test suite="ssThreeSpecies" name="UNSCALED_FLUX_CONTROL_MATRIX" time="0"><failure message="three_species.cpp(358) : false"/></test>
+</unittest-results>
