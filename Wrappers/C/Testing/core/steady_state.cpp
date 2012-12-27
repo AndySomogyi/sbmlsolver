@@ -229,8 +229,9 @@ string TestModelFileName;
             }
         	clog<<"EigenValue "<<i<<": "<<val<<endl;
             CHECK_CLOSE(aKey->AsFloat(), val, 1e-6);
-			freeMatrix(eigenVals);
+			
         }
+		freeMatrix(eigenVals);
     }
 
 //    TEST(FULL_JACOBIAN)
