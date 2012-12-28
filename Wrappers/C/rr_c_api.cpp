@@ -288,6 +288,31 @@ char* rrCallConv getCopyright()
     }
 }
 
+char* rrCallConv getInfo()
+{
+	try
+    {
+        char* text = NULL;
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+        }
+        else
+        {
+            text = new char[gRRHandle->getInfo().size() + 1];
+            strcpy(text, gRRHandle->getInfo().c_str());
+        }
+        return text;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return NULL;
+    }
+}
+
 char* rrCallConv getlibSBMLVersion()
 {
 	try
@@ -2951,14 +2976,13 @@ char* rrCallConv matrixToString(const RRMatrixHandle matrixHandle)
 
         RRMatrix& mat = *matrixHandle;
         stringstream ss;
-        ss<<"matrix dimension: "<<mat.RSize<<"x"<<mat.CSize<<" --\n";
+        ss<<"\nmatrix dimension: "<<mat.RSize<<"x"<<mat.CSize<<" --\n";
 
-        int index = 0;
         for(int row = 0; row < mat.RSize; row++)
         {
             for(int col = 0; col < mat.CSize; col++)
             {
-                ss<<mat.Data[index++];
+                ss<<mat.Data[row*mat.CSize + col];
                 if(col < mat.CSize + 1)
                 {
                     ss<<"\t";
@@ -2966,7 +2990,8 @@ char* rrCallConv matrixToString(const RRMatrixHandle matrixHandle)
             }
             ss<<endl;
         }
-        string msg(ss.str());
+        string msg;
+        msg = ss.str();
         return createText(msg);
     }
     catch(Exception& ex)
@@ -3089,10 +3114,9 @@ bool rrCallConv freeText(char* text)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+    	return false;
     }
-    return false;
 }
-
 
 bool rrCallConv freeStringArray(RRStringArrayHandle sl)
 {

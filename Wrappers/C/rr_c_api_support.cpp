@@ -36,9 +36,14 @@ char* createText(const char* str)
 
 char* createText(const string& str)
 {
-    char* newstr = new char[str.size() + 1];
-    strcpy(newstr, str.c_str());
-    return newstr;
+	char * writable = new char[str.size() + 1];
+	std::copy(str.begin(), str.end(), writable);
+	writable[str.size()] = '\0'; // don't forget the terminating 0
+	return writable;
+
+    //char* newstr = new char[str.size() + 1];
+    //strcpy(newstr, str.c_str());
+    //return newstr;
 }
 
 RRMatrix* createMatrix(const ls::DoubleMatrix* mat)

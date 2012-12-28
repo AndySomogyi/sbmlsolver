@@ -203,6 +203,13 @@ C_DECL_SPEC char*  rrCallConv getBuildDate();
 */
 C_DECL_SPEC char*  rrCallConv getCopyright();
 
+/*!
+ \brief Retrieve info about current state of roadrunner, e.g. loaded model, conservationAnalysis etc.
+ \return Returns null if it fails, otherwise it returns a string with the info
+ \ingroup utility
+*/
+C_DECL_SPEC char*  rrCallConv getInfo();
+
  /*!
  \brief Retrieve the current version number of the libSBML library
  \return Returns null if it fails, otherwise it returns the version number of the library

@@ -75,7 +75,7 @@ typedef struct RRMatrix
 {
     int             RSize;  /*!< The number of rows in the matrix */
     int             CSize;  /*!< The number of columns in the matrix */
-    double*         Data;   /*!< Items in the matrix stored as a linear array. Access an element using Data[i*CSize + j],
+    double*         Data;   /*!< Items in the matrix stored as a linear array. Access an element using Data[row*CSize + col],
 							  where i,j represent the row and column numberof the element. Indexing is from zero */
 } *RRMatrixHandle;          /*!< Pointer to RRMatrixHandle struct */
 

@@ -120,6 +120,7 @@ from numpy import *
 rr = handle.getRRInstance()
 
 # Utility and informational methods
+handle.getInfo.restype = c_char_p
 handle.getVersion.restype = c_char_p
 handle.getBuildDate.restype = c_char_p
 handle.getCopyright.restype = c_char_p
@@ -257,6 +258,13 @@ def rrListToPythonList (values):
 
 ##\ingroup utility
 #@{
+
+##\brief Retrieve "general" information about current state of the currently allocated RoadRunner instance, e.g. model
+#\return char* info - Returns null if it fails, otherwise it returns the information
+def getInfo():
+    theInfo = handle.getInfo()
+    theInfo = filter(None, theInfo.split('\n'))
+    return theInfo
 
 ##\brief Retrieve the current version number of the library
 #\return char* version - Returns null if it fails, otherwise it returns the version number of the library
@@ -845,7 +853,7 @@ def getFullJacobian():
        return 0
     rowCount = handle.getMatrixNumRows(matrix)
     colCount = handle.getMatrixNumCols(matrix)
-    result = handle.matrixToString(matrix)
+    resultAsText = handle.matrixToString(matrix)
     matrixArray = zeros((rowCount,colCount))
     for m in range(rowCount):
         for n in range(colCount):
@@ -854,7 +862,8 @@ def getFullJacobian():
                 cvalue = n
                 if handle.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
                     matrixArray[m,n] = value.value
-    handle.freeMatrix(result)
+    handle.freeMatrix(matrix)
+    handle.freeText(resultAsText)
     return matrixArray
 
 ##\brief Retreive the reduced Jacobian for the current model
