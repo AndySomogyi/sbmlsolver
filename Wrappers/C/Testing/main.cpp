@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include "rrLogger.h"
 #include "rrUtils.h"
 #include "unit_test/UnitTest++.h"
 #include "unit_test/XmlTestReporter.h"
@@ -41,16 +42,16 @@ int main(int argc, char* argv[])
     string thisExeFolder = getCurrentExeFolder();
     clog<<"RoadRunner bin location is: "<<thisExeFolder;
 
-	if(_MSC_VER)
+#if defined(_MSC_VER) 
 	{
 		thisExeFolder = "r:\\installs\\vs\\2010\\debug\\bin";
 	}
+#endif
     //Assume(!) this is the bin folder of roadrunner install
 	gRRInstallFolder = getParentFolder(thisExeFolder);	//Go up one folder
-
+    gDebug				= args.EnableLogging;
     gSBMLModelsPath 	= args.SBMLModelsFilePath;
     gTempFolder			= args.TempDataFolder;
-    gDataOutputFolder	= args.DataOutputFolder;
     gCompiler	 		= JoinPath(gRRInstallFolder, gCompiler);
 	gSupportCodeFolder 	= JoinPath(gRRInstallFolder, "rr_support");
 	gTestDataFolder     = JoinPath(gRRInstallFolder, "tests");
@@ -101,11 +102,8 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
         switch (c)
         {
             case ('m'): args.SBMLModelsFilePath                     = rrOptArg;                       break;
-			case ('l'): args.Compiler      			                = rrOptArg;                       break;
             case ('r'): args.ResultOutputFile                       = rrOptArg;                       break;
-			case ('s'): args.SupportCodeFolder     		            = rrOptArg;                       break;
 			case ('t'): args.TempDataFolder        		            = rrOptArg;                       break;
-			case ('d'): args.DataOutputFolder      		            = rrOptArg;                       break;
 			case ('v'): args.EnableLogging        		            = true;                       break;
             case ('?'): cout<<Usage(argv[0])<<endl;
             default:
@@ -132,7 +130,9 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 
 #if defined(CG_IDE)
 #pragma comment(lib, "rr_c_api.lib")
-#pragma comment(lib, "roadrunner.lib")
+#pragma comment(lib, "roadrunner-static.lib")
+//#pragma comment(lib, "roadrunner.lib")
+
 #pragma comment(lib, "unit_test-static.lib")
 #endif
 

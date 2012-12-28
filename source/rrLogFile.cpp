@@ -9,13 +9,14 @@
 
 namespace rr
 {
+
 using std::fstream;
 LogFile::LogFile(const string& name)
 :
 mFileName(name),
 mFILEHandle(fopen(name.c_str(), "w"))
 {
-    if (!mFILEHandle)
+    if (!mFILEHandle && name.size())
     {
         throw std::runtime_error("File Open failure");
     }
@@ -23,7 +24,14 @@ mFILEHandle(fopen(name.c_str(), "w"))
 
 LogFile::~LogFile()
 {
-    fclose(mFILEHandle);
+	if(mFILEHandle)
+	{
+		fclose(mFILEHandle);
+	}
 }
 
+string LogFile::GetFileName()
+{
+	return mFileName;
+}
 }

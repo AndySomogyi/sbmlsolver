@@ -15,11 +15,12 @@ int FileLog::mNrOfInstances = 0;
 
 FileLog::FileLog()
 :
-mLogFile(),
+mLogFile(unique_ptr<LogFile>(new LogFile("Log.txt"))),
 mLogPrefix("none"),
 mLogLevel(lDebug5),
 mLogToServer(false)
 {
+
     mNrOfInstances++;
 }
 

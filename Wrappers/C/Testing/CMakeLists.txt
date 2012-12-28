@@ -14,6 +14,7 @@ core/sbml_test_suite
 add_executable( ${target} 
 main.cpp
 Args.cpp
+TestUtils
 rrSBMLTestSuiteSimulation_CAPI
 ${tests}
 )
@@ -64,6 +65,7 @@ include_directories(
 "."
 ${RR_ROOT}
 ${THIRD_PARTY_FOLDER}/unit_test/src
+${THIRD_PARTY_FOLDER}/rr-libstruct
 )
 
 

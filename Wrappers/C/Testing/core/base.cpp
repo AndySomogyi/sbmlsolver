@@ -1,4 +1,5 @@
 #include <string>
+#include "rrLogger.h"
 #include "UnitTest++.h"
 #include "rr_c_api.h"
 #include "rrUtils.h"
@@ -38,12 +39,14 @@ SUITE(Base)
     {
     	if(gDebug == true)
         {
-			//        CHECK(enableLogging());
+			CHECK(enableLogging());
         	char* logFName = getLogFileName();
         	CHECK_EQUAL("RoadRunner.log", logFName);
+            rr::gLog.Init("", rr::lDebug, unique_ptr<rr::LogFile>(new rr::LogFile(logFName)));
         }
         else
         {
+        	rr::gLog.Init("", rr::lDebug, unique_ptr<rr::LogFile>(new rr::LogFile("")));
         	char* logFName = getLogFileName();
         	CHECK_EQUAL("<none>", logFName);
         }
