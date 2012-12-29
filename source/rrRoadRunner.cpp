@@ -2320,7 +2320,8 @@ StringList RoadRunner::getEigenvalueIds()
         return StringList();
     }
 
-    StringList floating = mModelGenerator->getFloatingSpeciesConcentrationList();
+    StringList floating;
+	floating = mModelGenerator->getFloatingSpeciesConcentrationList();
 
     // -------------------------------------------------------------------------------------
 	// HMS Dec 27th 2012
@@ -2331,7 +2332,8 @@ StringList RoadRunner::getEigenvalueIds()
     StringList result;
     for(int i = 0; i < floating.Count(); i++)
     {
-        result.Add("eigen_" + floating[i]);
+		string test = "eigen_" + floating[i]; 
+        result.Add(test);
     }
 
     //return floating;

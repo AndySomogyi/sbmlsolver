@@ -1506,13 +1506,13 @@ def vectorToString(vector):
 
 ##\brief Returns a string list in string form.
 #\return Returns a string list as a string
-def stringArrayToString(list):
-    return handle.stringArrayToString(list)
+def stringArrayToString(aList):
+    return handle.stringArrayToString(aList)
 
 ##\brief Returns a list in string form
 #\return Returns a string array as a string
-def listToString(list):
-    return handle.listToString(list)
+def listToString(aList):
+    return handle.listToString(aList)
 
 ##@}
 

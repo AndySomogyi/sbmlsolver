@@ -29,9 +29,11 @@ void setError(const string& err)
 
 char* createText(const char* str)
 {
-    char* newstr = new char[strlen(str) + 1];
-    strcpy(newstr, str);
-    return newstr;
+	return createText(string(str));
+	
+    //char* newstr = new char[strlen(str) + 1];
+    //strcpy(newstr, str);
+    //return newstr;
 }
 
 char* createText(const string& str)
@@ -40,10 +42,6 @@ char* createText(const string& str)
 	std::copy(str.begin(), str.end(), writable);
 	writable[str.size()] = '\0'; // don't forget the terminating 0
 	return writable;
-
-    //char* newstr = new char[str.size() + 1];
-    //strcpy(newstr, str.c_str());
-    //return newstr;
 }
 
 RRMatrix* createMatrix(const ls::DoubleMatrix* mat)

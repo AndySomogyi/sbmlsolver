@@ -2857,10 +2857,15 @@ int rrCallConv getNumberOfStringElements (const RRStringArrayHandle list)
 
 char* rrCallConv getStringElement (RRStringArrayHandle list, int index)
 {
-	try {
+	try 
+	{
 	  if (list == NULL)
+	  {
 	     return NULL;
-	  if ((index < 0) || (index >= list->Count)) {
+	  }
+
+	  if ((index < 0) || (index >= list->Count)) 
+	  {
          setError("Index out of range");
          return NULL;
 	  }
@@ -2869,16 +2874,18 @@ char* rrCallConv getStringElement (RRStringArrayHandle list, int index)
 	  resStr<<list->String[index];
 	  string strTmp = resStr.str();
 
-      char* result = createText (strTmp);
+      char* result;
+	  result = createText (strTmp);
 	  return result;
-	} catch(Exception& ex) {
+	} 
+	catch(Exception& ex) 
+	{
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
-		return false;
+		return NULL;
     }
 }
-
 
 char* rrCallConv stringArrayToString (const RRStringArrayHandle list)
 {
@@ -2895,23 +2902,20 @@ char* rrCallConv stringArrayToString (const RRStringArrayHandle list)
         	resStr<<list->String[i];;
             if(i < list->Count -1)
             {
-            	resStr <<" ";//endl;
+            	resStr <<" ";
             }
         }
 
 		string strTmp = resStr.str();
-    	char* resultChar = new char[strTmp.size() + 1];
-        strcpy(resultChar, strTmp.c_str());
-        return resultChar;
-
+    	return createText(strTmp);
     }
     catch(Exception& ex)
     {
         stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+		return NULL;
     }
-    return NULL;
 }
 
 

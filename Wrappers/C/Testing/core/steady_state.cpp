@@ -335,13 +335,14 @@ string TestModelFileName;
             }
         }
 
-        //Clean up...
-        freeMatrix(jActual);
 
         //Check matrixToString
         char* strMat = matrixToString(jActual);
+		clog<<strMat;
 
-        clog<<strMat;
+		//Clean up...
+        freeMatrix(jActual);
+
         freeText(strMat);
     }
 

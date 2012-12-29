@@ -1,7 +1,12 @@
 LIBRARY     RR_C_API.DLL
 
 EXPORTS
-	getInfo		                                = _getInfo@0
+    getNumberOfRules                            = _getNumberOfRules@0
+    Pause                                       = _Pause@0
+    getTimeStart                                = _getTimeStart@4
+    getTimeEnd                                  = _getTimeEnd@4
+    getNumPoints                                = _getNumPoints@4
+    getInfo		                        = _getInfo@0
     unLoadModel                                 = _unLoadModel@0
     createTimeCourseSelectionList               = _createTimeCourseSelectionList@0
     getEigenvalues                              = _getEigenvalues@0

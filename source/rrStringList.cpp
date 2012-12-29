@@ -25,11 +25,6 @@ mStrings(strings)
 StringList::~StringList()
 {}
 
-//void StringList::Label(const string& lbl)
-//{
-//    mLabel = lbl;
-//}
-
 StringList::StringList(const string& str, const string& delimiter)
 {
     mStrings = SplitString(str, delimiter);
@@ -37,7 +32,6 @@ StringList::StringList(const string& str, const string& delimiter)
 
 StringList::StringList(const StringList& cp)
 {
-//    mLabel = cp.mLabel;
     mStrings = cp.mStrings;
 }
 
@@ -173,9 +167,10 @@ void StringList::empty()
     mStrings.clear();
 }
 
-void StringList::operator=(const StringList& rhs)
+StringList& StringList::operator=(const StringList& rhs)
 {
     mStrings = rhs.mStrings;
+	return *this;
 }
 
 ostream& operator<<(ostream& stream, const StringList& list)
