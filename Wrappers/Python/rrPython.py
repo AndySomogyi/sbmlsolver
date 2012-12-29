@@ -117,6 +117,10 @@ from numpy import *
 
 
 #=======================rr_c_api=======================#
+charptr = POINTER(c_char)
+
+handle.getRRInstance.restype = c_void_p
+
 rr = handle.getRRInstance()
 
 # Utility and informational methods
@@ -128,6 +132,8 @@ handle.getTempFolder.restype = c_char_p
 
 handle.getStringElement.restype = c_char_p
 handle.getNumberOfStringElements.restype = c_int
+handle.getNumberOfStringElements.argtype = [c_void_p]
+handle.getStringElement.argtype = [POINTER(POINTER(c_ubyte)), c_int, c_char_p]
 
 # More Utility Methods
 handle.setCapabilities.restype = c_bool
@@ -166,9 +172,8 @@ handle.loadSBML.restype = c_bool
 handle.loadSBMLFromFile.restype = c_bool
 handle.getCurrentSBML.restype = c_char_p
 handle.getSBML.restype = c_char_p
-handle.unLoadModel.restype = c_bool
 
-#Initial condition methods
+# Initial condition methods
 handle.setFloatingSpeciesInitialConcentrations.restype = c_bool
 
 # Helper routines
@@ -185,10 +190,15 @@ handle.getResultColumnLabel.restype = c_char_p
 handle.getCCodeHeader.restype = c_char_p
 handle.getCCodeSource.restype = c_char_p
 
+handle.isListItemInteger.resType = c_bool
+handle.isListItemDouble.resType = c_bool
+handle.isListItemString.resType = c_bool
+handle.isListItemList.resType = c_bool
+
 # Flags/Options
 handle.setComputeAndAssignConservationLaws.restype = c_bool
 
- #Steady state methods
+# Steady state methods
 handle.steadyState.restype = c_bool
 handle.setSteadyStateSelectionList.restype = c_bool
 
@@ -212,6 +222,7 @@ handle.matrixToString.restype = c_char_p
 handle.vectorToString.restype = c_char_p
 handle.stringArrayToString.restype = c_char_p
 handle.listToString.restype = c_char_p
+handle.getNumberOfStringElementsrestype = c_int
 
 # SBML utility methods
 handle.getParamPromotedSBML.restype = c_char_p
@@ -223,6 +234,56 @@ handle.getReactionRate.restype = c_bool
 # NOM lib forwarded functions
 handle.getNumberOfRules.restype = c_int
 
+handle.getEigenvalueIds.restype = charptr
+handle.computeSteadyStateValues.restype = c_void_p
+handle.getSteadyStateSelectionList.restype = c_void_p
+handle.getTimeCourseSelectionListrestype = c_void_p
+handle.simulate.restype = c_void_p
+handle.simulateEx.restype = c_void_p
+handle.getFloatingSpeciesConcentrations.restype = c_void_p
+handle.getBoundarySpeciesConcentrations.restype = c_void_p
+handle.getGlobalParameterValues.restype = c_void_p
+handle.getFullJacobian.restype = c_void_p
+handle.getReducedJacobian.restype = c_void_p
+handle.getEigenvalues.restype = c_void_p
+handle.getStoichiometryMatrix.restype = c_void_p
+handle.getLinkMatrix.restype = c_void_p
+handle.getNrMatrix.restype = c_void_p
+handle.getL0Matrix.restype = c_void_p
+handle.getConservationMatrix.restype = c_void_p
+handle.getFloatingSpeciesInitialConcentrations.restype = c_void_p
+handle.getFloatingSpeciesInitialConditionIds.restype = c_void_p
+handle.getReactionRates.restype = c_void_p
+handle.getReactionRatesEx.restype = c_void_p
+handle.getRatesOfChange.restype = c_void_p
+handle.getRatesOfChangeIds.restype = c_void_p
+handle.getRatesOfChangeEx.restype = c_void_p
+handle.getReactionIds.restype = c_void_p
+handle.getBoundarySpeciesIds.restype = c_void_p
+handle.getFloatingSpeciesIds.restype = c_void_p
+handle.getGlobalParameterIds.restype = c_void_p
+handle.getCompartmentIds.restype = c_void_p
+handle.getAvailableTimeCourseSymbols.restype = c_void_p
+handle.getAvailableSteadyStateSymbols.restype = c_void_p
+handle.getElasticityCoefficientIds.restype = c_void_p
+handle.getUnscaledFluxControlCoefficientIds.restype = c_void_p
+handle.getFluxControlCoefficientIds.restype = c_void_p
+handle.getUnscaledConcentrationControlCoefficientIds.restype = c_void_p
+handle.getConcentrationControlCoefficientIds.restype = c_void_p
+handle.getUnscaledElasticityMatrix.restype = c_void_p
+handle.getScaledElasticityMatrix.restype = c_void_p
+handle.getUnscaledConcentrationControlCoefficientMatrix.restype = c_void_p
+handle.getScaledConcentrationControlCoefficientMatrix.restype = c_void_p
+handle.getUnscaledFluxControlCoefficientMatrix.restype = c_void_p
+handle.getScaledFluxControlCoefficientMatrix.restype = c_void_p
+handle.createVector.restype = c_void_p
+handle.createRRList.restype = c_void_p
+handle.createIntegerItem.restype = c_void_p
+handle.createDoubleItem.restype = c_void_p
+handle.createStringItem.restype = c_void_p
+handle.createListItem.restype = c_void_p
+handle.getListItem.restype = c_void_p
+handle.getList.restype = c_void_p
 
 # ----------------------------------------------------------------------------
 # Utility function for converting a roadRunner stringarray into a Python List
@@ -231,7 +292,7 @@ def stringArrayToList (stringArray):
     n = handle.getNumberOfStringElements (stringArray)
     for i in range (n):
         element = handle.getStringElement (stringArray, i)
-        if element == None:
+        if element == False:
            raise RuntimeError(getLastError())
         result.append (element)
     return result
@@ -239,6 +300,8 @@ def stringArrayToList (stringArray):
 
 def rrVectorToPythonArray (vector):
     n = handle.getVectorLength(vector)
+    if n == -1:
+        raise RuntimeError ('vector is NULL in rrVectorToPythonArray')
     pythonArray = zeros(n)
     for i in range(n):
         pythonArray[i] = getVectorElement(vector, i)
@@ -404,11 +467,6 @@ def getCurrentSBML():
 #\return Returns False if it fails or no model is loaded, otherwise returns the SBML string
 def getSBML():
     return handle.getSBML()
-
-##\brief Unload current SBML model
-#\return Returns true if successful
-def unLoadModel():
-    return handle.unLoadModel()
 
 ##@}
 
@@ -610,6 +668,8 @@ def steadyState():
 #\return Returns the vector of steady state values or NONE if an error occurred.
 def computeSteadyStateValues():
     values = handle.computeSteadyStateValues()
+    if values == None:
+       raise RuntimeError(getLastError())
     return rrVectorToPythonArray (values)
 
 ##\brief Set the selection list of the steady state analysis
@@ -625,7 +685,13 @@ def setSteadyStateSelectionList(list):
 #\return Returns False if it fails, otherwise it returns a list of strings representing symbols in the selection list
 def getSteadyStateSelectionList():
     values = handle.getSteadyStateSelectionList()
-    return rrListToPythonList (values)
+    x = handle.getListItem (values, 0)
+    x1 = handle.isListItemDouble(x)
+    x2 = handle.isListItemString(x)
+    x3 = handle.isListItemInteger(x)
+    x4 = handle.isListItemList(x)
+    return handle.listToString (x)
+#    return rrListToPythonList (values)
 
 ##@}
 
