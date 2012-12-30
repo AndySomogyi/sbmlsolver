@@ -2149,7 +2149,7 @@ bool rrCallConv setSteadyStateSelectionList(const char* list)
 	return false;
 }
 
-RRListHandle rrCallConv getSteadyStateSelectionList()
+RRStringArrayHandle rrCallConv getSteadyStateSelectionList()
 {
 	try
     {
@@ -2159,14 +2159,13 @@ RRListHandle rrCallConv getSteadyStateSelectionList()
             return NULL;
         }
 
-        NewArrayList sNames = gRRHandle->getSteadyStateSelectionList();
+        StringList sNames = gRRHandle->getSteadyStateSelectionList();
 
         if(!sNames.Count())
         {
             return NULL;
         }
 
-		// ********** HMS TO BE ADDED BACK LATER
         return createList(sNames);
     }
     catch(Exception& ex)
@@ -2221,7 +2220,6 @@ RRMatrixHandle rrCallConv getReducedJacobian()
 		return NULL;
     }
 }
-
 
 RRMatrixHandle rrCallConv getEigenvalues()
 {
@@ -2870,8 +2868,7 @@ char* rrCallConv stringArrayToString (const RRStringArrayHandle list)
             }
         }
 
-		string strTmp = resStr.str();
-    	return createText(strTmp);
+    	return createText(resStr.str());
     }
     catch(Exception& ex)
     {
@@ -2881,7 +2878,6 @@ char* rrCallConv stringArrayToString (const RRStringArrayHandle list)
 		return NULL;
     }
 }
-
 
 char* rrCallConv resultToString(const RRResultHandle result)
 {
@@ -2919,7 +2915,6 @@ char* rrCallConv resultToString(const RRResultHandle result)
 	    	resStr <<"\n";
         }
         return createText(resStr.str());
-
     }
     catch(Exception& ex)
     {
@@ -2955,9 +2950,7 @@ char* rrCallConv matrixToString(const RRMatrixHandle matrixHandle)
             }
             ss<<endl;
         }
-        string msg;
-        msg = ss.str();
-        return createText(msg);
+        return createText(ss.str());
     }
     catch(Exception& ex)
     {
@@ -2999,8 +2992,8 @@ char* rrCallConv vectorToString(RRVectorHandle vecHandle)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+    	return NULL;
     }
-    return NULL;
 }
 
 // Free Functions =====================================================
@@ -3098,7 +3091,6 @@ bool rrCallConv freeStringArray(RRStringArrayHandle sl)
     }
     return false;
 }
-
 
 bool rrCallConv freeVector(RRVectorHandle vector)
 {

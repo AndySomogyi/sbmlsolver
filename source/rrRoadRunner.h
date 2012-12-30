@@ -227,7 +227,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		NewArrayList                 	getUnscaledElasticityCoefficientIds();
 		StringList                      getEigenvalueIds();
 		NewArrayList                 	getAvailableSteadyStateSymbols();
-		NewArrayList                 	getSteadyStateSelectionList();
+		StringList                   	getSteadyStateSelectionList();
 		void                            setSteadyStateSelectionList(const StringList& newSelectionList);
 
 		double                          computeSteadyStateValue(const TSelectionRecord& record);

@@ -732,7 +732,7 @@ C_DECL_SPEC bool rrCallConv setSteadyStateSelectionList(const char* list);
  \return Returns null if it fails, otherwise it returns a list of strings representing symbols in the selection list
  \ingroup steadystate
 */
-C_DECL_SPEC RRListHandle rrCallConv getSteadyStateSelectionList();
+C_DECL_SPEC RRStringArrayHandle rrCallConv getSteadyStateSelectionList();
 
 
 // --------------------------------------------------------------------------------

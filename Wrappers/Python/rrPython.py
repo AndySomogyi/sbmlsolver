@@ -696,14 +696,9 @@ def setSteadyStateSelectionList(list):
 ##\brief Get the selection list for the steady state analysis
 #\return Returns False if it fails, otherwise it returns a list of strings representing symbols in the selection list
 def getSteadyStateSelectionList():
-    values = handle.getSteadyStateSelectionList()
-    x = handle.getListItem (values, 0)
-    x1 = handle.isListItemDouble(x)
-    x2 = handle.isListItemString(x)
-    x3 = handle.isListItemInteger(x)
-    x4 = handle.isListItemList(x)
-    return handle.listToString (x)
-#    return rrListToPythonList (values)
+    value = handle.getSteadyStateSelectionList()
+    return stringArrayToList (value)
+
 
 ##@}
 
@@ -1008,7 +1003,7 @@ def getLinkMatrix():
        return 0
     rowCount = handle.getMatrixNumRows(matrix)
     colCount = handle.getMatrixNumCols(matrix)
-    result = handle.matrixToString(matrix)
+    #result = handle.matrixToString(matrix)
     matrixArray = zeros((rowCount,colCount))
     for m in range(rowCount):
         for n in range(colCount):
@@ -1017,7 +1012,7 @@ def getLinkMatrix():
                 cvalue = n
                 if handle.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
                     matrixArray[m,n] = value.value
-    handle.freeMatrix(result)
+    handle.freeMatrix(matrix)
     return matrixArray
 
 ##\brief Retrieve the reduced stoichiometry matrix for the current model
