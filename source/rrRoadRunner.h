@@ -129,6 +129,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
         bool                            unLoadModelDLL();
         CvodeInterface*                 GetCVodeInterface();
         NLEQInterface*                  GetNLEQInterface();
+        int 							createDefaultSteadyStateSelectionList();
         int                             createDefaultTimeCourseSelectionList();
 		int                             createTimeCourseSelectionList();
 		static bool                     SetTempFileFolder(const string& folder);

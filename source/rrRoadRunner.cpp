@@ -753,16 +753,26 @@ bool RoadRunner::loadSBML(const string& sbml)
         return false;
     }
 
-    //Create a defualt selectionlist
+    //Create a defualt timecourse selectionlist
     if(!createDefaultTimeCourseSelectionList())
     {
         Log(lError)<<"Failed creating default timecourse selectionList.";
-        return false;
     }
     else
     {
     	Log(lInfo)<<"Created default TimeCourse selection list.";
     }
+
+    //Create a defualt steady state selectionlist
+    if(!createDefaultSteadyStateSelectionList())
+    {
+        Log(lError)<<"Failed creating default steady state selectionList.";
+    }
+    else
+    {
+    	Log(lInfo)<<"Created default SteadyState selection list.";
+    }
+
     _L  = mLS->getLinkMatrix();
     _L0 = mLS->getL0Matrix();
     _N  = mLS->getReorderedStoichiometryMatrix();
@@ -2363,6 +2373,23 @@ NewArrayList RoadRunner::getAvailableSteadyStateSymbols()
     return oResult;
 }
 
+int RoadRunner::createDefaultSteadyStateSelectionList()
+{
+	mSteadyStateSelection.clear();
+    // default should be species only ...
+    StringList floatingSpecies = getFloatingSpeciesIds();
+    mSteadyStateSelection.resize(floatingSpecies.Count());
+    for (int i = 0; i < floatingSpecies.Count(); i++)
+    {
+        TSelectionRecord aRec;
+        aRec.selectionType = TSelectionType::clFloatingSpecies;
+        aRec.p1 = floatingSpecies[i];
+        aRec.index = i;
+        mSteadyStateSelection[i] = aRec;
+    }
+	return mSteadyStateSelection.size();
+}
+
 // Help("Returns the selection list as returned by computeSteadyStateValues().")
 StringList RoadRunner::getSteadyStateSelectionList()
 {
@@ -2373,17 +2400,7 @@ StringList RoadRunner::getSteadyStateSelectionList()
 
     if (mSteadyStateSelection.size() == 0)
     {
-        // default should be species only ...
-        StringList floatingSpecies = getFloatingSpeciesIds();
-        mSteadyStateSelection.resize(floatingSpecies.Count());// = new TSelectionRecord[floatingSpecies.Count];
-        for (int i = 0; i < floatingSpecies.Count(); i++)
-        {
-            TSelectionRecord aRec;
-            aRec.selectionType = TSelectionType::clFloatingSpecies;
-            aRec.p1 = floatingSpecies[i];
-            aRec.index = i;
-            mSteadyStateSelection[i] = aRec;
-        }
+      	createDefaultSteadyStateSelectionList();
     }
 
     StringList oFloating     = mModelGenerator->getFloatingSpeciesConcentrationList();
@@ -2591,6 +2608,10 @@ vector<double> RoadRunner::computeSteadyStateValues()
     if (!mModel)
     {
         throw SBWApplicationException(emptyModelStr);
+    }
+    if(mSteadyStateSelection.size() == 0)
+    {
+    	createDefaultSteadyStateSelectionList();
     }
     return computeSteadyStateValues(mSteadyStateSelection, true);
 }
