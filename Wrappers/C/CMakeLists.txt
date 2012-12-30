@@ -31,11 +31,11 @@ if(${MSVC})
 set (CMAKE_SHARED_LINKER_FLAGS 	"${CMAKE_SHARED_LINKER_FLAGS} \"/DEF:${CMAKE_CURRENT_SOURCE_DIR}/c_api_vs.def\"")
 endif()
 
-if(${BORLAND})
-target_link_libraries (${target} libxml2_xe)
-else()
+#if(${BORLAND})
+#target_link_libraries (${target} libxml2_xe)
+#else()
 #target_link_libraries (${target} libxml2)
-endif()
+#endif()
 
 #Link C_api dll statically to roadrunner and libsbml
 if(WIN32)

@@ -85,6 +85,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		string                  		getParamPromotedSBML(const string& sArg);
         NOMSupport*						getNOM();
 		Compiler*						getCompiler();
+        string							getInfo();
 
 		// Properties -----------------------------------------------------------------------------
 		bool                     		mComputeAndAssignConservationLaws;

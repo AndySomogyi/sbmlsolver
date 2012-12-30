@@ -16,3 +16,4 @@ result = rrPython.loadSBMLFromFile("..\\tests\\TestModel_1.xml")
 print result;
 #rrPython.getEigenvalues()
 print "done"
+rrPython.getEigenvalueIds()

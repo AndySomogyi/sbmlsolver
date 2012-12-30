@@ -107,6 +107,22 @@ RoadRunner::~RoadRunner()
     delete mLS;
 }
 
+string RoadRunner::getInfo()
+{
+	stringstream info;
+    info<<"RoadRunner Info ("<<getCurrentDateTime()<<")\n";
+    info<<"\n\n";
+    info<<"Model Loaded: "<<(mModel == NULL ? "false" : "true")<<endl;
+    if(mModel)
+    {
+    	info<<"ModelName: "			<<  mModel->cGetModelName()<<endl;
+        info<<"Model DLL Loaded: "	<< (mModel->mDLL.isLoaded() ? "true" : "false")	<<endl;
+        info<<"Initialized: "		<< (mModel->mIsInitialized ? "true" : "false")	<<endl;
+    }
+    info<<"ConservationAnalysis: "	<<	(mComputeAndAssignConservationLaws ? "true" : "false")<<endl;
+	return info.str();
+}
+
 NOMSupport* RoadRunner::getNOM()
 {
 	return &mNOM;
@@ -2298,26 +2314,20 @@ NewArrayList RoadRunner::getUnscaledElasticityCoefficientIds()
 // Help("Returns the Symbols of all Floating Species Eigenvalues.")
 StringList RoadRunner::getEigenvalueIds()
 {
-    StringList result; //= new ArrayList();
     if (!mModel)
     {
-        return result;
+        return StringList();
     }
 
-    StringList floating = mModelGenerator->getFloatingSpeciesConcentrationList();
+    StringList result;
+	StringList floating = mModelGenerator->getFloatingSpeciesConcentrationList();
+   
+    for(int i = 0; i < floating.Count(); i++)
+    {
+        result.Add("eigen_" + floating[i]);
+    }
 
-    // -------------------------------------------------------------------------------------
-	// HMS Dec 27th 2012
-	// The following is currently commented out because it causes access violations when 
-	// getEigenvalueIds is called from Python. Needs to be investigated. 
-
-	//foreach (string s in oFloating)
-    //for(int i = 0; i < floating.Count(); i++)
-    //{
-    //    result.Add("eigen_" + floating[i]);
-    //}
-
-    return floating;//result;
+    return result;
 }
 //
 // Help(

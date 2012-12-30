@@ -22,10 +22,10 @@ class RR_DECLSPEC LogFile : public rrObject
         string                  mFileName;
 
     public:
-                                LogFile(const string& fName);
+                                LogFile(const string& fName="Log.txt");
                                ~LogFile();
         FILE*                   mFILEHandle;
-        string                  GetFileName(){return mFileName;}
+        string                  GetFileName();
 };
 
 }

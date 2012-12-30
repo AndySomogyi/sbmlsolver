@@ -42,11 +42,11 @@
         <BCC_Defines>LIBSBML_USE_CPP_NAMESPACE;WIN32;$(BCC_Defines)</BCC_Defines>
         <OutputExt>exe</OutputExt>
         <LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
-        <ILINK_LibraryPath>..\..\source\testing\src\;..\..\source\testing\tests\;..\..\source\;..\..\ThirdParty\rr-libstruct\;..\..\source\testing\core\;..\..\source\testing\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\Wrappers\C\Testing\;..\..\source\testing\src\;..\..\source\testing\tests\;..\..\source\;..\..\ThirdParty\rr-libstruct\;..\..\source\testing\core\;..\..\source\testing\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <PackageImports>vcl.bpi;rtl.bpi;bcbie.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;vclimg.bpi;svnui.bpi;svn.bpi;bdertl.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;vclie.bpi;inet.bpi;inetdb.bpi;webdsnap.bpi;websnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;dbexpress.bpi;DbxCommonDriver.bpi;DbxClientDriver.bpi;AzureCloud.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbxcds.bpi;DuneComponents.bpi;VCLCommon.bpi;$(PackageImports)</PackageImports>
         <NoVCL>true</NoVCL>
         <Multithreaded>true</Multithreaded>
-        <IncludePath>..\..\source\testing\src\;..\..\source\testing\tests\;..\..\source\;..\..\ThirdParty\rr-libstruct\;..\..\source\testing\core\;..\..\source\testing\;..\;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\Wrappers\C\Testing\;..\..\source\testing\src\;..\..\source\testing\tests\;..\..\source\;..\..\ThirdParty\rr-libstruct\;..\..\source\testing\core\;..\..\source\testing\;..\;$(IncludePath)</IncludePath>
         <AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
         <ProjectType>CppConsoleApplication</ProjectType>
         <_TCHARMapping>char</_TCHARMapping>
@@ -103,8 +103,7 @@
             <BuildOrder>7</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\testing\src\rrTestUtils.cpp">
-            <DependentOn>..\..\source\testing\src\rrTestUtils.h</DependentOn>
-            <BuildOrder>6</BuildOrder>
+            <BuildOrder>8</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\testing\tests\base.cpp">
             <BuildOrder>9</BuildOrder>
@@ -120,6 +119,10 @@
         </CppCompile>
         <CppCompile Include="..\..\source\testing\tests\three_species.cpp">
             <BuildOrder>7</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Wrappers\C\Testing\TestUtils.cpp">
+            <DependentOn>..\..\Wrappers\C\Testing\TestUtils.h</DependentOn>
+            <BuildOrder>6</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

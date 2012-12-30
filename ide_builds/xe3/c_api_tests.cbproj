@@ -67,7 +67,7 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <IntermediateOutputDir>.\$(Config)\$(Platform)\c_tests</IntermediateOutputDir>
-        <IncludePath>$(RR_DEBUG_INSTALL)\include;$(RR_DEBUG_INSTALL)\include\unit_test;R:\rrl\trunk\Wrappers\C;R:\rrl\trunk\source;$(IncludePath)</IncludePath>
+        <IncludePath>$(RR_DEBUG_INSTALL)\include;$(RR_DEBUG_INSTALL)\include\unit_test;$(IncludePath)</IncludePath>
         <FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
         <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
@@ -87,7 +87,10 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <Debugger_RunParams>-mr:\models  -rr:\rrl\reports\cg\xe3\c_tests_debug.xml -tr:\rrTemp\cg_c</Debugger_RunParams>
+        <IncludePath>$(RR_DEBUG_INSTALL)\include\rr-libstruct;$(IncludePath)</IncludePath>
+        <Manifest_File>None</Manifest_File>
+        <Defines>STATIC_RR;$(Defines)</Defines>
+        <Debugger_RunParams>-mr:\models  -rr:\rrl\reports\cg\xe3\c_tests_debug.xml -tr:\rrTemp\cg_c </Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -112,6 +115,9 @@
         <CppCompile Include="..\..\Wrappers\C\Testing\rrSBMLTestSuiteSimulation_CAPI.cpp">
             <DependentOn>..\..\Wrappers\C\Testing\rrSBMLTestSuiteSimulation_CAPI.h</DependentOn>
             <BuildOrder>5</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Wrappers\C\Testing\TestUtils.cpp">
+            <BuildOrder>6</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

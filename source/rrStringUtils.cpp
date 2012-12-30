@@ -579,7 +579,8 @@ bool ToBool(const string& str)
     }
     else
     {
-        return (str == "true")  ? true : false;
+    	//Could have a case insensitive comparison..
+        return (str == "true") || (str == "True") || (str == "TRUE") ? true : false;
     }
 }
 
