@@ -34,6 +34,11 @@ char* createText(const char* str)
 
 char* createText(const string& str)
 {
+	if(str.size() == 0)
+    {
+    	return NULL;
+    }
+
 	char* text = new char[str.size() + 1];
 	std::copy(str.begin(), str.end(), text);
 	text[str.size()] = '\0'; //terminating 0!

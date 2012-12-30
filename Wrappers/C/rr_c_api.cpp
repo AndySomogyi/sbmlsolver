@@ -191,9 +191,7 @@ char* rrCallConv getLogFileName()
 
 char* rrCallConv getBuildDate()
 {
-    char* date = new char[strlen(__DATE__) + 1];
-    strcpy(date, __DATE__);
-    return date;
+    return createText(__DATE__);
 }
 
 char* rrCallConv getVersion()
@@ -204,8 +202,7 @@ char* rrCallConv getVersion()
         {
             gRRHandle = new rr::RoadRunner("","");
         }
-		const char* version = rr::getVersion();
-		return createText(version);
+		return createText(rr::getVersion());
     }
     catch(Exception& ex)
     {
@@ -274,8 +271,7 @@ char* rrCallConv getCopyright()
         }
         else
         {
-            text = new char[gRRHandle->getCopyright().size() + 1];
-            strcpy(text, gRRHandle->getCopyright().c_str());
+            text = createText(gRRHandle->getCopyright());
         }
         return text;
     }
@@ -299,8 +295,7 @@ char* rrCallConv getInfo()
         }
         else
         {
-            text = new char[gRRHandle->getInfo().size() + 1];
-            strcpy(text, gRRHandle->getInfo().c_str());
+            text = createText(gRRHandle->getInfo());
         }
         return text;
     }
@@ -324,9 +319,7 @@ char* rrCallConv getlibSBMLVersion()
         }
         else
         {
-            string _text = gRRHandle->getlibSBMLVersion();
-            text = new char[_text.size() + 1];
-            strcpy(text, _text.c_str());
+            text = createText(gRRHandle->getlibSBMLVersion());
         }
         return text;
     }
@@ -350,9 +343,7 @@ char* rrCallConv getCurrentSBML()
         }
         else
         {
-            string sbml = gRRHandle->writeSBML();
-            text = new char[sbml.size() + 1];
-            strcpy(text, sbml.c_str());
+            text = createText(gRRHandle->writeSBML());
         }
         return text;
     }
@@ -418,11 +409,7 @@ char* rrCallConv getTempFolder()
             setError(ALLOCATE_API_ERROR_MSG);
             return NULL;
         }
-
-
-	    char* text = new char[gRRHandle->getTempFileFolder().size() + 1];
-    	strcpy(text, gRRHandle->getTempFileFolder().c_str());
-	    return text;
+	    return createText(gRRHandle->getTempFileFolder());
     }
     catch(Exception& ex)
     {
@@ -497,10 +484,7 @@ char* rrCallConv getCompilerLocation()
             return NULL;
         }
 
-		string loc = gRRHandle->getCompiler()->getCompilerLocation();
-		char* text = new char[loc.size() + 1];
-    	strcpy(text, loc.c_str());
-	    return text;
+	    return createText(gRRHandle->getCompiler()->getCompilerLocation());
     }
     catch(Exception& ex)
     {
@@ -548,10 +532,7 @@ char* rrCallConv getSupportCodeFolder()
             return NULL;
         }
 
-		string loc = gRRHandle->getCompiler()->getSupportCodeFolder();
-		char* text = new char[loc.size() + 1];
-    	strcpy(text, loc.c_str());
-	    return text;
+	    return createText(gRRHandle->getCompiler()->getSupportCodeFolder());
     }
     catch(Exception& ex)
     {
@@ -566,10 +547,7 @@ char* rrCallConv getWorkingDirectory()
 {
 	try
     {
-		string cwd = rr::getCWD();
-	    char* text = new char[cwd.size() + 1];
-    	strcpy(text, cwd.c_str());
-	    return text;
+	    return createText(rr::getCWD());
     }
     catch(Exception& ex)
     {
@@ -949,8 +927,9 @@ RRResultHandle rrCallConv simulate()
         aResult->ColumnHeaders = new char*[result.GetNrOfCols()];
         for(int i = 0; i < result.GetNrOfCols(); i++)
         {
-            aResult->ColumnHeaders[i] = new char(32);
-            strcpy(aResult->ColumnHeaders[i], result.GetColumnNames()[i].c_str());
+            aResult->ColumnHeaders[i] = createText(result.GetColumnNames()[i]);
+            //new char(32);
+            //strcpy(aResult->ColumnHeaders[i], result.GetColumnNames()[i].c_str());
         }
 
         aResult->RSize = result.GetNrOfRows();
@@ -2286,14 +2265,7 @@ char* rrCallConv getCSourceFileName()
         string fNameS = generator->GetSourceCodeFileName();
 
         fNameS = ExtractFileNameNoExtension(fNameS);
-
-        if(fNameS.size())
-        {
-            fName = new char[fNameS.size() + 1];
-            strcpy(fName, fNameS.c_str());
-
-        }
-		return fName;
+		return createText(fNameS);
     }
     catch(Exception& ex)
     {
@@ -2328,14 +2300,12 @@ RRCCode* rrCallConv getCCode()
 
         if(header.size())
         {
-            cCode->Header = new char[header.size() + 1];
-            strcpy(cCode->Header, header.c_str());
+            cCode->Header = createText(header);
         }
 
         if(source.size())
         {
-            cCode->Source = new char[source.size() + 1];
-            strcpy(cCode->Source, source.c_str());
+            cCode->Source = createText(source);
         }
         return cCode;
     }
@@ -2852,8 +2822,6 @@ int rrCallConv getNumberOfStringElements (const RRStringArrayHandle list)
 	    return (list->Count);
 }
 
-
-
 char* rrCallConv getStringElement (RRStringArrayHandle list, int index)
 {
 	try 
@@ -2869,14 +2837,11 @@ char* rrCallConv getStringElement (RRStringArrayHandle list, int index)
          return NULL;
 	  }
     
-	  stringstream resStr;
-	  resStr<<list->String[index];
-	  string strTmp = resStr.str();
-
-      char* result;
-	  result = createText (strTmp);
-	  return result;
-	} 
+	  //stringstream resStr;
+//	  resStr<<list->String[index];
+//	  string strTmp = resStr.str();
+	  return createText(list->String[index]);
+	}
 	catch(Exception& ex) 
 	{
     	stringstream msg;
@@ -2953,10 +2918,7 @@ char* rrCallConv resultToString(const RRResultHandle result)
             }
 	    	resStr <<"\n";
         }
-		string strTmp = resStr.str();
-    	char* resultChar = new char[strTmp.size() + 1];
-        strcpy(resultChar, strTmp.c_str());
-        return resultChar;
+        return createText(resStr.str());
 
     }
     catch(Exception& ex)
@@ -3362,8 +3324,7 @@ RRListItemHandle rrCallConv createStringItem (char* value)
 {
 	RRListItemHandle item = new RRListItem;
 	item->ItemType = litString;
-	item->data.sValue = new char[strlen(value) + 1];
-	strcpy(item->data.sValue, value);
+	item->data.sValue = createText(value);
 	return item;
 }
 
@@ -3530,10 +3491,7 @@ char* rrCallConv listToString (RRListHandle list)
             }
         }
         resStr<<"}";
-		string strTmp = resStr.str();
-    	char* resultChar = new char[strTmp.size() + 1];
-        strcpy(resultChar, strTmp.c_str());
-        return resultChar;
+        return createText(resStr.str());
 
     }
     catch(Exception& ex)
