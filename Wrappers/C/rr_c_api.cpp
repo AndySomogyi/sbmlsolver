@@ -2552,8 +2552,7 @@ RRStringArrayHandle rrCallConv getEigenvalueIds()
         }
         
 		StringList aList = gRRHandle->getEigenvalueIds();
-		RRStringArrayHandle bList = createList(aList);
-		return bList;
+		return createList(aList);
     }
     catch(Exception& ex)
     {
