@@ -689,9 +689,9 @@ def computeSteadyStateValues():
 #param[in] list The string argument should be a space-separated list of symbols in the selection list
 #
 #\return Returns True if successful
-def setSteadyStateSelectionList(list):
-    value = c_char_p(list)
-    return handle.setSteadyStateSelectionList(byref(value))
+def setSteadyStateSelectionList(aList):
+    value = c_char_p(aList)
+    return handle.setSteadyStateSelectionList(value)
 
 ##\brief Get the selection list for the steady state analysis
 #\return Returns False if it fails, otherwise it returns a list of strings representing symbols in the selection list
