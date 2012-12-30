@@ -9,7 +9,8 @@ nameOfResultsFile = 'results_roadRunnerTest_1.txt'
 
 
 import sys
-pathToModels = 'C:\\Users\\hsauro\\Documents\\Papers\\roadRunnerTestSuite\\'
+#pathToTests = 'C:\\Users\\hsauro\\Documents\\Papers\\roadRunnerTestSuite\\'
+pathToTests = '..\\tests'
 
 
 def expectApproximately (a, b, tol):
@@ -245,7 +246,7 @@ functions = {'[Species Concentrations]': checkSpeciesConcentrations,
 # --------------------------------------------------------------
 
 #sys.path.append ('c:\\RoadRunner\\Python')
-sys.path.append (pathToModels)
+sys.path.append (pathToTests)
 
 import rrPython
 print 'Version: ', rrPython.getVersion()
@@ -253,8 +254,8 @@ print 'Build Date: ', rrPython.getBuildDate()
 print 'Copyright Message: ', rrPython.getCopyright()
 
 
-testFile = open (pathToModels + nameOfResultsFile, 'r')
-modelFileName = pathToModels + readLine (testFile)
+testFile = open (pathToTests + "\\" + nameOfResultsFile, 'r')
+modelFileName = pathToTests + "\\" +readLine (testFile)
 
 print "Model File Name:", modelFileName
 rrPython.enableLogging()
@@ -312,5 +313,5 @@ print 'Boundary Species Concentrations: ', rrPython.getBoundarySpeciesConcentrat
 print 'Get Global Parameter Values: ', rrPython.getGlobalParameterValues()
 print 'Get Initial Floating Species Concs: ', rrPython.getFloatingSpeciesInitialConcentrations()
 print 'Get Reaction Rates: ', rrPython.getReactionRates()
-#print rrPython.getFloatingSpeciesInitialConditionIds() 
+#print rrPython.getFloatingSpeciesInitialConditionIds()
 
