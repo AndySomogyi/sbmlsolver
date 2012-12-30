@@ -120,6 +120,11 @@ string RoadRunner::getInfo()
         info<<"Initialized: "		<< (mModel->mIsInitialized ? "true" : "false")	<<endl;
     }
     info<<"ConservationAnalysis: "	<<	(mComputeAndAssignConservationLaws ? "true" : "false")<<endl;
+    info<<"libSBML version: "		<<	getlibSBMLVersion()<<endl;
+    info<<"Temporary folder: "		<<	getTempFileFolder()<<endl;
+    info<<"Compiler location: "		<<	getCompiler()->getCompilerLocation()<<endl;
+    info<<"Support Code Folder: "	<<	getCompiler()->getSupportCodeFolder()<<endl;
+    info<<"Working Directory: "		<<	getCWD()<<endl;
 	return info.str();
 }
 

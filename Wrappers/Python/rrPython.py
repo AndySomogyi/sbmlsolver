@@ -131,10 +131,10 @@ handle.getCopyright.restype = c_char_p
 handle.setTempFolder.restype = c_bool
 handle.getTempFolder.restype = c_char_p
 
-handle.getStringElement.restype = c_char_p
+handle.getStringElement.restype = c_void_p
 handle.getNumberOfStringElements.restype = c_int
 handle.getNumberOfStringElements.argtype = [c_void_p]
-handle.getStringElement.argtype = [POINTER(POINTER(c_ubyte)), c_int, c_char_p]
+#handle.getStringElement.argtypes = [POINTER(POINTER(c_ubyte)), c_int]
 
 # More Utility Methods
 handle.setCapabilities.restype = c_bool
@@ -148,6 +148,8 @@ handle.getTimeStart.restype = c_bool
 handle.getTimeEnd.restype = c_bool
 handle.getNumPoints.restype = c_bool
 handle.reset.restype = c_bool
+handle.freeText.restype = c_bool
+#handle.freeText.argtypes = [c_char_p]
 
 # Set and get family of methods
 handle.setBoundarySpeciesByIndex.restype = c_bool
@@ -219,7 +221,7 @@ handle.Pause.restype = None
 
 # Print/format functions
 handle.resultToString.restype = c_char_p
-handle.matrixToString.restype = c_char_p
+handle.matrixToString.restype = c_void_p
 handle.vectorToString.restype = c_char_p
 handle.stringArrayToString.restype = c_char_p
 handle.listToString.restype = c_char_p
@@ -295,7 +297,9 @@ def stringArrayToList (stringArray):
         element = handle.getStringElement (stringArray, i)
         if element == False:
            raise RuntimeError(getLastError())
-        result.append (element)
+        val = c_char_p(element).value
+        result.append (val)
+        handle.freeText(element)
     return result
 
 
@@ -919,7 +923,7 @@ def getFullJacobian():
        return 0
     rowCount = handle.getMatrixNumRows(matrix)
     colCount = handle.getMatrixNumCols(matrix)
-    resultAsText = handle.matrixToString(matrix)
+    #resultAsText = handle.matrixToString(matrix)
     matrixArray = zeros((rowCount,colCount))
     for m in range(rowCount):
         for n in range(colCount):
@@ -929,7 +933,7 @@ def getFullJacobian():
                 if handle.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
                     matrixArray[m,n] = value.value
     handle.freeMatrix(matrix)
-    handle.freeText(resultAsText)
+#    handle.freeText(resultAsText)
     return matrixArray
 
 ##\brief Retreive the reduced Jacobian for the current model
@@ -940,7 +944,7 @@ def getReducedJacobian():
        return 0
     rowCount = handle.getMatrixNumRows(matrix)
     colCount = handle.getMatrixNumCols(matrix)
-    result = handle.matrixToString(matrix)
+    #result = handle.matrixToString(matrix)
     matrixArray = zeros((rowCount,colCount))
     for m in range(rowCount):
         for n in range(colCount):
@@ -949,7 +953,7 @@ def getReducedJacobian():
                 cvalue = n
                 if handle.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
                     matrixArray[m,n] = value.value
-    handle.freeMatrix(result)
+    #handle.freeMatrix(result)
     return matrixArray
 
 ##\brief Retreive the eigenvalue matrix for the current model
@@ -960,7 +964,10 @@ def getEigenvalues():
        return 0
     rowCount = handle.getMatrixNumRows(matrix)
     colCount = handle.getMatrixNumCols(matrix)
-    result = handle.matrixToString(matrix)
+#    result = handle.matrixToString(matrix)
+#    print c_char_p(result).value
+#    handle.freeText(result)
+
     matrixArray = zeros((rowCount,colCount))
     for m in range(rowCount):
         for n in range(colCount):
@@ -969,7 +976,8 @@ def getEigenvalues():
                 cvalue = n
                 if handle.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
                     matrixArray[m,n] = value.value
-    handle.freeMatrix(result)
+
+    handle.freeMatrix(matrix)
     return matrixArray
 
 ##\brief Retreive the stoichiometry matrix for the current model

@@ -16,7 +16,7 @@ endif()
 
 add_subdirectory(Apps)
 #add_subdirectory(Examples)
-#add_subdirectory(Testing)
+add_subdirectory(Testing)
 
 #=============== INSTALL =====================
 install( 
