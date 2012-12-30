@@ -2314,29 +2314,19 @@ NewArrayList RoadRunner::getUnscaledElasticityCoefficientIds()
 // Help("Returns the Symbols of all Floating Species Eigenvalues.")
 StringList RoadRunner::getEigenvalueIds()
 {
-
     if (!mModel)
     {
         return StringList();
     }
 
-    StringList floating;
-	floating = mModelGenerator->getFloatingSpeciesConcentrationList();
-
-    // -------------------------------------------------------------------------------------
-	// HMS Dec 27th 2012
-	// The following is currently commented out because it causes access violations when
-	// getEigenvalueIds is called from Python. Needs to be investigated.
-
-	//foreach (string s in oFloating)
     StringList result;
+	StringList floating = mModelGenerator->getFloatingSpeciesConcentrationList();
+   
     for(int i = 0; i < floating.Count(); i++)
     {
-		string test = "eigen_" + floating[i]; 
-        result.Add(test);
+        result.Add("eigen_" + floating[i]);
     }
 
-    //return floating;
     return result;
 }
 //

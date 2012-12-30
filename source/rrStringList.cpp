@@ -57,7 +57,7 @@ string& StringList::operator[](const int& index)
     return mStrings[index];
 }
 
-string  StringList::operator[](const int& index) const
+const string& StringList::operator[](const int& index) const
 {
 	if(index > Count() -1 )
     {

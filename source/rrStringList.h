@@ -31,7 +31,7 @@ class RR_DECLSPEC StringList : public rrObject
         unsigned int                Count() const;
         StringList&                 operator=(const StringList& rhs);
         string&                     operator[](const int& index);
-        string                      operator[](const int& index) const;
+        const string&               operator[](const int& index) const;
         StringList                  operator-(const StringList& rhs);
 
         int                         find(const string& item);

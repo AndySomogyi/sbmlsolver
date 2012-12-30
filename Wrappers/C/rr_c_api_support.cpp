@@ -30,18 +30,14 @@ void setError(const string& err)
 char* createText(const char* str)
 {
 	return createText(string(str));
-	
-    //char* newstr = new char[strlen(str) + 1];
-    //strcpy(newstr, str);
-    //return newstr;
 }
 
 char* createText(const string& str)
 {
-	char * writable = new char[str.size() + 1];
-	std::copy(str.begin(), str.end(), writable);
-	writable[str.size()] = '\0'; // don't forget the terminating 0
-	return writable;
+	char* text = new char[str.size() + 1];
+	std::copy(str.begin(), str.end(), text);
+	text[str.size()] = '\0'; //terminating 0!
+	return text;
 }
 
 RRMatrix* createMatrix(const ls::DoubleMatrix* mat)
@@ -143,8 +139,7 @@ RRStringArrayHandle createList(const StringList& sList)
 
     for(int i = 0; i < list->Count; i++)
     {
-        list->String[i] = new char[sList[i].size()];
-        strcpy(list->String[i], sList[i].c_str());
+        list->String[i] = createText(sList[i]);
     }
     return list;
 }
