@@ -1171,14 +1171,14 @@ def getNumberOfReactions():
     return handle.getNumberOfReactions()
 
 ##\brief Returns the reaction rate by index
-#\return
+#\return Returns the reaction rate
 def getReactionRate(index):
     ivalue = c_int(index)
     value = c_double()
     if handle.getReactionRate(byref(ivalue), byref(value)) == True:
         return value.value
     else:
-        raise RuntimeError('Index out of Range')                                 #test this
+        raise RuntimeError(GetLastError())
 
 ##\brief Returns a string containing the current reaction rates
 #\return Returns a string containing the current reaction rates
@@ -1186,7 +1186,6 @@ def getReactionRates():
     values = handle.getReactionRates()
     return rrVectorToPythonArray (values)
 
-######
 
 ##\brief Retrieve a numPy array containing the reaction rates given a vector of species concentrations
 #
@@ -1221,18 +1220,19 @@ def getRatesOfChangeIds():
 
 ##\brief Retrieve the rate of change for a given floating species by its index. Species are indexed starting at 0
 #
-#Example: status = rrPython.getRateOfChange(0)
+#Example: value = rrPython.getRateOfChange(0)
 #
-#\return Returns False if it fails, otherwise returns the rate of change.
+#\param Index to the rate of change item
+#\return Returns the rate of change of the ith floating species, otherwise it raises an exception
 def getRateOfChange(index):
     ivalue = c_int(index)
     value = c_double()
     if handle.getRateOfChange(byref(ivalue), byref(value)) == True:
         return value.value
     else:
-        raise RuntimeError("Index out of range")
+        raise RuntimeError(GetLastError())
 
-@
+
 ##\brief Retrieve the vector of rates of change in a string given a vector of floating species concentrations
 #
 #Example: values = rrPython.getRatesOfChangeEx (myArray)
@@ -1240,7 +1240,7 @@ def getRateOfChange(index):
 #\param myArray A numPy array of species concentrations: order given by getFloatingSpeciesIds
 #\return Returns a string containing a vector with the rates of change
 def getRatesOfChangeEx(myArray):
-    values = handle.getRatesOfChangEx(PythonArrayTorrVector (myArray))
+    values = handle.getRatesOfChangeEx(PythonArrayTorrVector (myArray))
     return rrVectorToPythonArray (values)
 
 ##@}
