@@ -609,6 +609,52 @@ def checkNumberOfRules(testId):
   print passMsg (errorFlag)
 
 
+def checkGetRatesOfChange(testId):
+  print string.ljust ("Check " + testId, rpadding),
+  errorFlag = False
+  words = readLine().split()
+  values = rrPython.getRatesOfChange()
+  for i in range (len(words)):
+      if expectApproximately (float (words[i]), values[i], 1E-6) == False:
+        errorFlag = True
+  print passMsg (errorFlag)
+
+
+def checkGetReactionRatesEx (testId):
+  print string.ljust ("Check " + testId, rpadding),
+  errorFlag = False
+  inputConcs = asarray (readLine().split(), dtype=float64)
+  values = rrPython.getReactionRatesEx (inputConcs)
+  outputRates = asarray (readLine().split(), dtype=float64)
+  if not allclose (values, outputRates):
+    errorFlag = True
+  print passMsg (errorFlag)
+
+
+def checkGetRatesOfChangeEx (testId):
+  print string.ljust ("Check " + testId, rpadding),
+  errorFlag = False
+  inputConcs = asarray (readLine().split(), dtype=float64)
+  values = rrPython.getRatesOfChangeEx (inputConcs)
+  outputRates = asarray (readLine().split(), dtype=float64)
+  if not allclose (values, outputRates):
+    errorFlag = True
+  print passMsg (errorFlag)
+
+
+def checkRateRateOfChangeByIndex(testId):
+  print string.ljust ("Check " + testId, rpadding),
+  errorFlag = False
+  inputConcs = asarray (readLine().split(), dtype=float64)
+  outputRates = asarray (readLine().split(), dtype=float64)
+  rrPython.setFloatingSpeciesConcentrations (inputConcs)
+  for i in range (len (inputConcs)):
+      value = rrPython.getRateOfChange (i)
+      if expectApproximately (value, outputRates[i], 1E-6) == False:
+        errorFlag = True
+        break
+  print passMsg (errorFlag)
+
 # ---------------------------------------------------------------------------
 
 def setGetValues(IdList, testId):
@@ -622,6 +668,7 @@ def setGetValues(IdList, testId):
             break
     print passMsg (errorFlag)
 
+
 def setGetTimeStart(testId):
     print string.ljust ("Check " + testId, rpadding),
     errorFlag = False
@@ -630,6 +677,7 @@ def setGetTimeStart(testId):
     if expectApproximately (rrPython.getTimeStart (), value, 1E-6) == False:
             errorFlag = True
     print passMsg (errorFlag)
+
 
 def setGetTimeEnd(testId):
     print string.ljust ("Check " + testId, rpadding),
@@ -850,7 +898,11 @@ functions = {'[Compute Steady State]': myComputeSteadyState,
              '[Number of Dependent Species]': checkNumberOfDependentSpecies,
              '[Number of Independent Species]': checkNumberOfIndependentSpecies,
              '[Get Initial Floating Species Concs]': checkInitialConditions,
-             '[Number Of Rules]': checkNumberOfRules
+             '[Number Of Rules]': checkNumberOfRules,
+             '[Get Rates Of Change]': checkGetRatesOfChange,
+             '[Get Reaction Rates Ex]': checkGetReactionRatesEx,
+             '[Get Rates of Change Ex]': checkGetRatesOfChangeEx,
+             '[Get Rate of Change by Index]': checkRateRateOfChangeByIndex,
               }
 
 def runTester (pathToModels, testModel):
