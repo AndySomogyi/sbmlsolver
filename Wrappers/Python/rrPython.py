@@ -183,6 +183,8 @@ handle.setFloatingSpeciesInitialConcentrations.restype = c_bool
 handle.getVectorLength.restype = c_int
 handle.getVectorElement.restype = c_bool
 handle.setVectorElement.restype = c_bool
+handle.setVectorElement.argtypes = [c_int, c_int, c_double]
+
 handle.getMatrixNumRows.restype = c_int
 handle.getMatrixNumCols.restype = c_int
 handle.getMatrixElement.restype = c_bool
@@ -312,6 +314,13 @@ def rrVectorToPythonArray (vector):
         pythonArray[i] = getVectorElement(vector, i)
     return pythonArray
 
+def PythonArrayTorrVector (myArray):
+    v = handle.createVector (len(myArray))
+    for i in range (len(myArray)):
+        value = myArray[i]
+        handle.setVectorElement (v, i, value)
+    return v
+
 
 def rrListToPythonList (values):
     n = handle.getListLength (values)
@@ -320,6 +329,7 @@ def rrListToPythonList (values):
         item = handle.getListItem (values, i)
         result.append (handle.getStringListItem (item))
     return result
+
 
 def createMatrix (rrMatrix):
     rowCount = handle.getMatrixNumRows(rrMatrix)
@@ -549,8 +559,16 @@ def setNumPoints(numPoints):
 #
 #\param list A string of Ids separated by spaces or comma characters
 #\return Returns True if successful
-def setTimeCourseSelectionList(list):
-    return handle.setTimeCourseSelectionList(list)
+def setTimeCourseSelectionList(myList):
+    if type (myList) == str:
+       return handle.setTimeCourseSelectionList(myList)
+    if type (myList) == list:
+        strList = ''
+        for i in range (len(myList)):
+            strList = strList + myList[i] + ' '
+        return handle.setTimeCourseSelectionList(strList)
+    raise RuntimeError('Expecting string or list in setTimeCourseSelectionList')
+
 
 
 ##\brief Returns the list of variables returned by simulate() or simulateEx()
@@ -702,8 +720,18 @@ def computeSteadyStateValues():
 #
 #\return Returns True if successful
 def setSteadyStateSelectionList(aList):
-    value = c_char_p(aList)
-    return handle.setSteadyStateSelectionList(value)
+    if type (aList) == str:
+       value = c_char_p(aList)
+       return handle.setSteadyStateSelectionList(value)
+    if type (aList) == list:
+        strList = ''
+        for i in range (len(aList)):
+            strList = strList + aList[i] + ' '
+        value = c_char_p (strList)
+        return handle.setSteadyStateSelectionList(strList)
+    raise RuntimeError('Expecting string or list in setTimeCourseSelectionList')
+
+
 
 ##\brief Get the selection list for the steady state analysis
 #\return Returns False if it fails, otherwise it returns a list of strings representing symbols in the selection list
@@ -789,10 +817,13 @@ def getFloatingSpeciesByIndex(index):
         raise RuntimeError('Index out of range')
 
 ##\brief Set the floating species concentration to the vector
-#\param vec A vector of floating species concentrations
+#
+#Example: status = rrPython.setFloatingSpeciesConcentrations (myArray)
+#
+#\param myArray A numPy array of floating species concentrations
 #\return Returns True if successful
-def setFloatingSpeciesConcentrations(vector):
-    return handle.setFloatingSpeciesConcentrations(vector)
+def setFloatingSpeciesConcentrations(myArray):
+    return handle.setFloatingSpeciesConcentrations(PythonArrayTorrVector (myArray))
 
 ##@}
 
@@ -1094,12 +1125,13 @@ def getConservationMatrix():
 
 ##\brief Set the initial floating species concentrations
 #
-#Example: status = rrPython.setFloatingSpeciesInitialConcentrations(vec)
+#Example: status = rrPython.setFloatingSpeciesInitialConcentrations(myArray)
 #
-#\param vec A vector of species concentrations: order given by getFloatingSpeciesIds
+#\param myArray A numPy array of species concentrations: order given by getFloatingSpeciesIds
 #\return Returns True if successful
-def setFloatingSpeciesInitialConcentrations(vec):
-    return handle.setFloatingSpeciesInitialConcentration(vec)
+def setFloatingSpeciesInitialConcentrations(myArray):
+    return handle.setFloatingSpeciesInitialConcentrations (PythonArrayTorrVector (myArray))
+
 
 ##\brief Get the initial floating species concentrations
 #
