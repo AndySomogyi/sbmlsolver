@@ -321,6 +321,18 @@ def rrListToPythonList (values):
         result.append (handle.getStringListItem (item))
     return result
 
+def createMatrix (rrMatrix):
+    rowCount = handle.getMatrixNumRows(rrMatrix)
+    colCount = handle.getMatrixNumCols(rrMatrix)
+    matrixArray = zeros((rowCount,colCount))
+    for m in range(rowCount):
+        for n in range(colCount):
+            value = c_double()
+            rvalue = m
+            cvalue = n
+            if handle.getMatrixElement(rrMatrix, rvalue, cvalue, byref(value)) == True:
+               matrixArray[m,n] = value.value
+    return matrixArray
 # ---------------------------------------------------------------------------------
 
 ##\ingroup utility
@@ -918,17 +930,16 @@ def getFullJacobian():
        return 0
     rowCount = handle.getMatrixNumRows(matrix)
     colCount = handle.getMatrixNumCols(matrix)
-    #resultAsText = handle.matrixToString(matrix)
+    result = handle.matrixToString(matrix)
     matrixArray = zeros((rowCount,colCount))
     for m in range(rowCount):
         for n in range(colCount):
-                value = c_double()
-                rvalue = m
-                cvalue = n
-                if handle.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
-                    matrixArray[m,n] = value.value
+            value = c_double()
+            rvalue = m
+            cvalue = n
+            if handle.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
+               matrixArray[m,n] = value.value
     handle.freeMatrix(matrix)
-#    handle.freeText(resultAsText)
     return matrixArray
 
 ##\brief Retreive the reduced Jacobian for the current model
@@ -1401,81 +1412,55 @@ def getConcentrationControlCoefficientIds():
 #\return Returns a string containing the matrix of unscaled elasticities. The first column will contain the
 #real values and the second column the imaginary values.
 def getUnscaledElasticityMatrix():
-    matrix = handle.getUnscaledElasticityMatrix()
-    if matrix == 0:
-       return 0
-    rowCount = handle.getMatrixNumRows(matrix)
-    colCount = handle.getMatrixNumCols(matrix)
-    result = handle.matrixToString(matrix)
-    matrixArray = zeros((rowCount,colCount))
-    for m in range(rowCount):
-        for n in range(colCount):
-                value = c_double()
-                rvalue = m
-                cvalue = n
-                if handle.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
-                    matrixArray[m,n] = value.value
-    handle.freeMatrix(matrix)
-    return matrixArray
+    value = handle.getUnscaledElasticityMatrix()
+    m = createMatrix (value)
+    handle.freeMatrix(value)
+    return m
 
 ##\brief Retrieve the scaled elasticity matrix for the current model
 #\return Returns a string containing the matrix of scaled elasticities. The first column will contain
 #real values and the second column the imaginary values.
 def getScaledElasticityMatrix():
-    matrix = handle.getScaledElasticityMatrix()
-    if matrix == 0:
-       return 0
-    rowCount = handle.getMatrixNumRows(matrix)
-    colCount = handle.getMatrixNumCols(matrix)
-    result = handle.matrixToString(matrix)
-    matrixArray = zeros((rowCount,colCount))
-    for m in range(rowCount):
-        for n in range(colCount):
-                value = c_double()
-                rvalue = m
-                cvalue = n
-                if handle.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
-                    matrixArray[m,n] = value.value
-    handle.freeMatrix(matrix)
-    return matrixArray
+    value = handle.getScaledElasticityMatrix()
+    m = createMatrix (value)
+    handle.freeMatrix(value)
+    return m
 
 ##\brief Retrieve the unscaled concentration control coefficient matrix for the current model
 #\return Returns a string containing the matrix of unscaled concentration control coefficients. The first column will contain
 #real values and the second column the imaginary values.
 def getUnscaledConcentrationControlCoefficientMatrix():
     value = handle.getUnscaledConcentrationControlCoefficientMatrix()
-    result = handle.matrixToString(value)
+    m = createMatrix (value)
     handle.freeMatrix(value)
-    return result
+    return m
 
 ##\brief Retrieve the scaled concentration control coefficient matrix for the current model
 #\return Returns a string containing the matrix of scaled concentration control coefficients. The first column will contain
 #real values and the second column the imaginary values.
 def getScaledConcentrationControlCoefficientMatrix():
     value = handle.getScaledConcentrationControlCoefficientMatrix()
-    result = handle.matrixToString(value)
+    m = createMatrix (value)
     handle.freeMatrix(value)
-    return result
+    return m
 
 ##\brief Retrieve the unscaled flux control coefficient matrix for the current model
 #\return Returns a string containing the matrix of unscaled flux control coefficients. The first column will contain
 #real values and the second column the imaginary values.
 def getUnscaledFluxControlCoefficientMatrix():
     value = handle.getUnscaledFluxControlCoefficientMatrix()
-    result = handle.matrixToString(value)
+    m = createMatrix (value)
     handle.freeMatrix(value)
-    return result
+    return m
 
 ##\brief Retrieve the scaled flux control coefficient matrix for the current model
 #\return Returns a string containing the matrix of scaled flux control coefficients. The first column will contain
 #real values and the second column the imaginary values.
 def getScaledFluxControlCoefficientMatrix():
     value = handle.getScaledFluxControlCoefficientMatrix()
-    result = handle.matrixToString(value)
+    m = createMatrix (value)
     handle.freeMatrix(value)
-    return result
-
-
+    return m
 
 ##\brief Get unscaled control coefficient with respect to a global parameter
 #
