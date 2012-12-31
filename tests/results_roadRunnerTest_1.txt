@@ -312,6 +312,8 @@ time S2 S3
 0
 [Number of Independent Species]
 3
+[Number Of Rules]
+0
 [END_TESTS]
 
 
