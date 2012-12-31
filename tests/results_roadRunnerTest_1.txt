@@ -312,8 +312,6 @@ time S2 S3
 0
 [Number of Independent Species]
 3
-[Initial Floating Species Concs]
-0.5 0.2 0.1
 [END_TESTS]
 
 
