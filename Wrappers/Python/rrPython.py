@@ -290,6 +290,11 @@ handle.createListItem.restype = c_void_p
 handle.getListItem.restype = c_void_p
 handle.getList.restype = c_void_p
 
+#Rates of change
+handle.getRateOfChange.restype = c_bool
+handle.evalModel.restype = c_bool
+
+
 # ----------------------------------------------------------------------------
 # Utility function for converting a roadRunner stringarray into a Python List
 def stringArrayToList (stringArray):
@@ -1183,18 +1188,15 @@ def getReactionRates():
 
 ######
 
-##\brief Retrieve a string containing the reaction rates given a vector of species concentrations
+##\brief Retrieve a numPy array containing the reaction rates given a vector of species concentrations
 #
-#\param vec The vector of floating species concentrations
-#\return Returns a string containing reaction rates
-def getReactionRatesEx(vec):                                                        #FIX THIS
-    return handle.vectorToString(handle.getReactionRatesEx(vec))
+#\param myArray The numPy array of floating species concentrations
+#\return Returns a numPy array containing reaction rates
+def getReactionRatesEx(myArray):
+    values = handle.getReactionRatesEx(PythonArrayTorrVector (myArray))
+    return rrVectorToPythonArray (values)
 
 ##@}
-
-#Rates of change
-handle.getRateOfChange.restype = c_bool
-handle.evalModel.restype = c_bool
 
 ##\ingroup rateOfChange
 #@{
@@ -1230,16 +1232,16 @@ def getRateOfChange(index):
     else:
         raise RuntimeError("Index out of range")
 
+@
 ##\brief Retrieve the vector of rates of change in a string given a vector of floating species concentrations
 #
-#Example: values = rrPython.getRatesOfChangeEx(vector)
+#Example: values = rrPython.getRatesOfChangeEx (myArray)
 #
+#\param myArray A numPy array of species concentrations: order given by getFloatingSpeciesIds
 #\return Returns a string containing a vector with the rates of change
-def getRatesOfChangeEx(vec):                                          #TEST
-    values = handle.getRatesOfChangEx()
-    result = handle.vectorToString(values)
-    handle.freeVector(values)
-    return result
+def getRatesOfChangeEx(myArray):
+    values = handle.getRatesOfChangEx(PythonArrayTorrVector (myArray))
+    return rrVectorToPythonArray (values)
 
 ##@}
 
