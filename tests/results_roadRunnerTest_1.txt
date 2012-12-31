@@ -314,6 +314,17 @@ time S2 S3
 3
 [Number Of Rules]
 0
+[Get Rates Of Change]
+0 0 0
+[Get Reaction Rates Ex]
+1 2 3
+0.05 -0.051 1.02 1.1
+[Get Rates of Change Ex]
+1 2 3
+0.101 -0.08 -1.071
+[Get Rate of Change by Index]
+1 2 3
+0.101 -0.08 -1.071
 [END_TESTS]
 
 
