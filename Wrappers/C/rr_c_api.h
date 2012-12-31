@@ -127,7 +127,7 @@
  \defgroup initialConditions Initial conditions group
  \brief Set or get initial conditions
  
- \defgroup parameters Parameter group
+ \defgroup Parameters parameters group
  \brief Set and get global and local parameters
 
  \defgroup compartment Compartment group
@@ -856,7 +856,7 @@ C_DECL_SPEC bool rrCallConv getFloatingSpeciesByIndex(const int& index, double& 
  \param index The index to the global parameter (corresponds to position in getGlboalParametersIds())
  \param value The value returned by the method
  \return Returns true if successful
- \ingroup parameter
+ \ingroup parameters
 */
 C_DECL_SPEC bool rrCallConv getGlobalParameterByIndex(const int& index, double& value);
 
