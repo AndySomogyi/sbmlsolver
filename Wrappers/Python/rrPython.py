@@ -1203,12 +1203,10 @@ handle.evalModel.restype = c_bool
 #
 #Example: values = rrPython.getRatesOfChange
 #
-#\return Returns a string containing rates of change values
+#\return Returns a numPy array containing rates of change values
 def getRatesOfChange():
     values = handle.getRatesOfChange()
-    result = handle.vectorToString(values)
-    handle.freeVector(values)
-    return result
+    return rrVectorToPythonArray (values)
 
 ##\brief Retrieve the string list of rates of change Ids
 #
