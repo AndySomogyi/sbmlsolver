@@ -761,6 +761,21 @@ def setGetInitialFloatingSpeciesConcentrations (testId):
   print passMsg (errorFlag)
 
 
+def setGetReset(testId):
+  print string.ljust ("Check " + testId, rpadding),
+  errorFlag = False
+  values = zeros (rrPython.getNumberOfFloatingSpecies())
+  for i in range (len (values)):
+    values[i] = random.random()*10
+  initial = rrPython.getFloatingSpeciesInitialConcentrations()
+  rrPython.setFloatingSpeciesConcentrations (values)
+  # Should reset the floats by to the current initial condition
+  rrPython.reset()
+  values = rrPython.getFloatingSpeciesConcentrations()
+  if(values != initial).all():
+    errorFlag = True
+  print passMsg (errorFlag)
+
 
 def scriptTests():
     print
@@ -782,6 +797,7 @@ def scriptTests():
     setGetBoundarySpeciesConcentrations ('Set/Get Boundary Species Concs')
     setGetFloatingSpeciesConcentrations ('Set/Get Floating Species Concs')
     setGetInitialFloatingSpeciesConcentrations ('Set/Get Initial Concs')
+    setGetReset ('Set/Get Reset Method')
 
 
 # ------------------------------------------------------------------------
