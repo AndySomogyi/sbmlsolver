@@ -16,8 +16,10 @@
 
 
 import sys
+import random
 import string
 import rrPython
+from numpy import *
 
 # Module wide file handle
 fHandle = ''
@@ -421,6 +423,20 @@ def checkEigenValueIds (testId):
   print passMsg (errorFlag)
 
 
+def checkGetRatesOfChangeIds (testId):
+  print string.ljust ("Check " + testId, rpadding),
+  errorFlag = False
+  line = readLine ()
+  words = line.split()
+  expected = rrPython.getRatesOfChangeIds()
+  n = rrPython.getNumberOfFloatingSpecies()
+  for i in range(0,n):
+      if words[i] != expected[i]:
+             errorFlag = True
+             break
+  print passMsg (errorFlag)
+
+
 def checkSetSteadyStateSelectionList(testId):
   print string.ljust ("Check " + testId, rpadding),
   errorFlag = False
@@ -540,6 +556,234 @@ def checkReactionRates(testId):
   print passMsg (errorFlag)
 
 
+def checkGetReactionRatesByIndex(testId):
+  print string.ljust ("Check " + testId, rpadding),
+  errorFlag = False
+  words = readLine().split()
+  n = rrPython.getNumberOfReactions()
+  for i in range (n):
+      value = rrPython.getReactionRate (i)
+      if expectApproximately(float (words[i]), value, 1E-6) == False:
+          errorFlag = True
+          break;
+  print passMsg (errorFlag)
+
+
+def checkNumberOfDependentSpecies(testId):
+  print string.ljust ("Check " + testId, rpadding),
+  errorFlag = False
+  value = int (readLine())
+  n = rrPython.getNumberOfDependentSpecies()
+  if n != value:
+    errorFlag = True
+  print passMsg (errorFlag)
+
+
+def checkNumberOfIndependentSpecies(testId):
+  print string.ljust ("Check " + testId, rpadding),
+  errorFlag = False
+  value = int (readLine())
+  n = rrPython.getNumberOfIndependentSpecies()
+  if n != value:
+    errorFlag = True
+  print passMsg (errorFlag)
+
+
+def checkInitialConditions(testId):
+  print string.ljust ("Check " + testId, rpadding),
+  errorFlag = False
+  words = readLine().split()
+  values = rrPython.getFloatingSpeciesInitialConcentrations()
+  for i in range(len(words)):
+      if expectApproximately (float (words[i]), values[i], 1E-6) == False:
+        errorFlag = True
+  print passMsg (errorFlag)
+
+# ---------------------------------------------------------------------------
+
+def setGetValues(IdList, testId):
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    for i in range (len(IdList)):
+        value = random.random()*10
+        rrPython.setValue (IdList[i], value)
+        if expectApproximately (rrPython.getValue (IdList[i]), value, 1E-6) == False:
+            errorFlag = True
+            break
+    print passMsg (errorFlag)
+
+def setGetTimeStart(testId):
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    value = random.random ()*10
+    rrPython.setTimeStart (value)
+    if expectApproximately (rrPython.getTimeStart (), value, 1E-6) == False:
+            errorFlag = True
+    print passMsg (errorFlag)
+
+def setGetTimeEnd(testId):
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    value = random.random ()*10
+    rrPython.setTimeEnd (value)
+    if expectApproximately (rrPython.getTimeEnd (), value, 1E-6) == False:
+            errorFlag = True
+    print passMsg (errorFlag)
+
+
+def setGetNumberOfPoints(testId):
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    value = random.randint (1, 100)
+    rrPython.setNumPoints (value)
+    if rrPython.getNumPoints () != value:
+            errorFlag = True
+    print passMsg (errorFlag)
+
+
+def setGetTimeCourseSelectionList(testId):
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    myList = rrPython.getFloatingSpeciesIds()
+    newList = list (myList)
+    random.shuffle (newList)
+    rrPython.setTimeCourseSelectionList (newList)
+    if rrPython.getTimeCourseSelectionList() != newList:
+        errorFlag = True
+    print passMsg (errorFlag)
+
+
+def setGetSteadyStateSelectionList(testId):
+    print string.ljust ("Check " + testId, rpadding),
+    errorFlag = False
+    myList = rrPython.getFloatingSpeciesIds()
+    newList = list (myList)
+    while newList == myList:
+         random.shuffle (newList)
+    rrPython.setSteadyStateSelectionList (newList)
+    getList = rrPython.getSteadyStateSelectionList()
+    if getList != newList:
+        errorFlag = True
+    print passMsg (errorFlag)
+
+
+def setGetFloatingSpeciesByIndex(testId):
+  print string.ljust ("Check " + testId, rpadding),
+  errorFlag = False
+  n = rrPython.getNumberOfFloatingSpecies()
+  for i in range (n):
+      value = random.random()*10
+      rrPython.setFloatingSpeciesByIndex (i, value)
+      if expectApproximately(rrPython.getFloatingSpeciesByIndex (i), value, 1E-6) == False:
+          errorFlag = True
+          break;
+  print passMsg (errorFlag)
+
+
+def setGetBoundarySpeciesByIndex(testId):
+  print string.ljust ("Check " + testId, rpadding),
+  errorFlag = False
+  n = rrPython.getNumberOfBoundarySpecies()
+  for i in range (n):
+      value = random.random()*10
+      rrPython.setBoundarySpeciesByIndex (i, value)
+      if expectApproximately(rrPython.getBoundarySpeciesByIndex (i), value, 1E-6) == False:
+          errorFlag = True
+          break;
+  print passMsg (errorFlag)
+
+
+def setGetCompartmentByIndex(testId):
+  print string.ljust ("Check " + testId, rpadding),
+  errorFlag = False
+  n = rrPython.getNumberOfCompartments()
+  for i in range (n):
+      value = random.random()*10
+      rrPython.setCompartmentByIndex (i, value)
+      if expectApproximately(rrPython.getCompartmentByIndex (i), value, 1E-6) == False:
+          errorFlag = True
+          break;
+  print passMsg (errorFlag)
+
+
+def setGetGlobalParameterByIndex (testId):
+  print string.ljust ("Check " + testId, rpadding),
+  errorFlag = False
+  n = rrPython.getNumberOfGlobalParameters()
+  for i in range (n):
+      value = random.random()*10
+      rrPython.setGlobalParameterByIndex (i, value)
+      if expectApproximately(rrPython.getGlobalParameterByIndex (i), value, 1E-6) == False:
+          errorFlag = True
+          break;
+  print passMsg (errorFlag)
+
+
+def setGetFloatingSpeciesConcentrations (testId):
+  print string.ljust ("Check " + testId, rpadding),
+  errorFlag = False
+  getArray = rrPython.getFloatingSpeciesConcentrations()
+  setArray = zeros(len(getArray))
+  for i in range(len(getArray)):
+      value = random.random()*10
+      setArray[i] = value
+  rrPython.setFloatingSpeciesConcentrations (setArray)
+  if (setArray != rrPython.getFloatingSpeciesConcentrations()).all():
+      errorFlag = True
+  print passMsg (errorFlag)
+
+
+def setGetBoundarySpeciesConcentrations (testId):
+  print string.ljust ("Check " + testId, rpadding),
+  errorFlag = False
+  getArray = rrPython.getBoundarySpeciesConcentrations()
+  setArray = zeros(len(getArray))
+  for i in range(len(getArray)):
+      value = random.random()*10
+      setArray[i] = value
+  rrPython.setBoundarySpeciesConcentrations (rrPython.PythonArrayTorrVector (setArray))
+  if (setArray != rrPython.getBoundarySpeciesConcentrations()).all():
+      errorFlag = True
+  print passMsg (errorFlag)
+
+
+def setGetInitialFloatingSpeciesConcentrations (testId):
+  print string.ljust ("Check " + testId, rpadding),
+  errorFlag = False
+  getArray = rrPython.getFloatingSpeciesInitialConcentrations ()
+  setArray = zeros(len(getArray))
+  for i in range(len(getArray)):
+      value = random.random()*10
+      setArray[i] = value
+  rrPython.setFloatingSpeciesInitialConcentrations (setArray)
+  if (setArray != rrPython.getFloatingSpeciesInitialConcentrations()).all():
+      errorFlag = True
+  print passMsg (errorFlag)
+
+
+
+def scriptTests():
+    print
+    print "Testing Set and Get Functions"
+    print "-----------------------------"
+    setGetValues(rrPython.getFloatingSpeciesIds(), 'Set/Get Value (Floats)')
+    setGetValues(rrPython.getBoundarySpeciesIds(), 'Set/Get Value (Boundary)')
+    setGetValues(rrPython.getGlobalParameterIds(), 'Set/Get Value (Global Parameters)')
+    setGetValues(rrPython.getCompartmentIds(), 'Set/Get Value (Compartments)')
+    setGetTimeStart('Set/Get TimeStart')
+    setGetTimeEnd ('Set/Get TimeEnd')
+    setGetNumberOfPoints ('Set/Get Number Of Points')
+    setGetTimeCourseSelectionList ('Set/Get Time Course Selection List')
+    setGetSteadyStateSelectionList ('Set/Get Steady State Selection List')
+    setGetFloatingSpeciesByIndex ('Set/Get Floating Species by Index')
+    setGetBoundarySpeciesByIndex ('Set/Get Boundary Species by Index')
+    setGetCompartmentByIndex ('Set/Get Compartment by Index')
+    setGetGlobalParameterByIndex ('Set/Get Global Parameter bu Index')
+    setGetBoundarySpeciesConcentrations ('Set/Get Boundary Species Concs')
+    setGetFloatingSpeciesConcentrations ('Set/Get Floating Species Concs')
+    setGetInitialFloatingSpeciesConcentrations ('Set/Get Initial Concs')
+
+
 # ------------------------------------------------------------------------
 # List of tests
 functions = {'[Compute Steady State]': myComputeSteadyState,
@@ -565,6 +809,7 @@ functions = {'[Compute Steady State]': myComputeSteadyState,
              '[Reaction Ids]': checkReactionIds,
              '[Species Initial Condition Ids]': checkFloatingSpeciesInitialConditionIds,
              '[Get Eigenvalue Ids]': checkEigenValueIds,
+             '[Get Rates Of Change Ids]': checkGetRatesOfChangeIds,
              '[Set Steady State Selection List]': checkSetSteadyStateSelectionList,
              '[Get Steady State Selection List]': checkGetSteadyStateSelectionList,
              '[Set Time Course Selection List]': checkSetTimeCourseSelectionList,
@@ -574,8 +819,12 @@ functions = {'[Compute Steady State]': myComputeSteadyState,
              '[Boundary Species Concentrations]': checkBoundarySpeciesConcentrations,
              '[Get Global Parameter Values]': checkGlobalParameterValues,
              '[Get Initial Floating Species Concs]': checkInitalFloatingSpeciesConcentations,
-             '[Get Reaction Rates]': checkReactionRates
-             }
+             '[Get Reaction Rates]': checkReactionRates,
+             '[Get Reaction Rate By Index]': checkGetReactionRatesByIndex,
+             '[Number of Dependent Species]': checkNumberOfDependentSpecies,
+             '[Number of Independent Species]': checkNumberOfIndependentSpecies,
+             '[Get Initial Floating Species Concs]': checkInitialConditions
+              }
 
 def runTester (pathToModels, testModel):
     global fHandle
@@ -632,6 +881,7 @@ def runTester (pathToModels, testModel):
     else:
       print 'No Tests found'
 
+    scriptTests()
     #print
     #print 'Unscaled Flux Control Ids: ', rrPython.getUnscaledFluxControlCoefficientIds(), "\n"
     #print 'Scaled Flux Control Ids: ', rrPython.getFluxControlCoefficientIds(), "\n"
