@@ -177,11 +177,11 @@ install(TARGETS ${target}
         COMPONENT rr_core
 )
 
-install(   
-           TARGETS ${target}
-           RUNTIME DESTINATION bin
-           COMPONENT rr_core
-)
+#install(   
+#           TARGETS ${target}
+#           RUNTIME DESTINATION bin
+#           COMPONENT rr_core
+#)
 
 
 if(INSTALL_STATIC_LIB)

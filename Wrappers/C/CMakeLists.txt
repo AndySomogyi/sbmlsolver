@@ -88,6 +88,8 @@ install(   FILES ${target}.h rr_c_types.h rr_c_api_exporter.h
 install(   
            TARGETS ${target}
            RUNTIME DESTINATION bin
+           ARCHIVE DESTINATION lib
+           LIBRARY DESTINATION lib
            COMPONENT c_api
 )
 
@@ -96,9 +98,9 @@ install(
 #           COMPONENT c_api
 #)
 
-install(   
-           TARGETS ${target}
-           ARCHIVE DESTINATION lib
-           COMPONENT c_api
-)
+#install(   
+#           TARGETS ${target}
+#           ARCHIVE DESTINATION lib
+#           COMPONENT c_api
+#)
 

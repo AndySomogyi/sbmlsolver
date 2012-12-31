@@ -227,7 +227,8 @@ char* rrCallConv getRRCAPILocation()
     }
     return NULL;
 #else
-	return RR_ROADRUNNER_INSTALL_LIB_PATH;
+	//return RR_ROADRUNNER_INSTALL_LIB_PATH;
+	return "/usr/local";
 #endif
 }
 
