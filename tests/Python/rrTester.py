@@ -599,6 +599,16 @@ def checkInitialConditions(testId):
         errorFlag = True
   print passMsg (errorFlag)
 
+
+def checkNumberOfRules(testId):
+  print string.ljust ("Check " + testId, rpadding),
+  errorFlag = False
+  value = int (readLine())
+  if rrPython.getNumberOfRules() != value:
+    errorFlag = True
+  print passMsg (errorFlag)
+
+
 # ---------------------------------------------------------------------------
 
 def setGetValues(IdList, testId):
@@ -839,7 +849,8 @@ functions = {'[Compute Steady State]': myComputeSteadyState,
              '[Get Reaction Rate By Index]': checkGetReactionRatesByIndex,
              '[Number of Dependent Species]': checkNumberOfDependentSpecies,
              '[Number of Independent Species]': checkNumberOfIndependentSpecies,
-             '[Get Initial Floating Species Concs]': checkInitialConditions
+             '[Get Initial Floating Species Concs]': checkInitialConditions,
+             '[Number Of Rules]': checkNumberOfRules
               }
 
 def runTester (pathToModels, testModel):
