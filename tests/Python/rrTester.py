@@ -24,6 +24,8 @@ from numpy import *
 # Module wide file handle
 fHandle = ''
 rpadding = 45
+sbmlStr = ''
+JarnacStr = ''
 
 def expectApproximately (a, b, tol):
      diff = a - b
@@ -907,6 +909,8 @@ functions = {'[Compute Steady State]': myComputeSteadyState,
 
 def runTester (pathToModels, testModel):
     global fHandle
+    global sbmlStr
+    global JarnacStr
 
     print "Starting Tester on ", testModel
 
@@ -961,6 +965,7 @@ def runTester (pathToModels, testModel):
       print 'No Tests found'
 
     scriptTests()
+
     #print
     #print 'Unscaled Flux Control Ids: ', rrPython.getUnscaledFluxControlCoefficientIds(), "\n"
     #print 'Scaled Flux Control Ids: ', rrPython.getFluxControlCoefficientIds(), "\n"
