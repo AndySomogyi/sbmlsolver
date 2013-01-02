@@ -86,6 +86,7 @@ type
   TSetNumPoints = function (var value : integer) : bool; stdcall;
   TSimulateEx = function (var timeStart : double; var timeEnd : double; var numberOfPoints : integer) : PRRResultHandle; stdcall;
   TGetMatrix = function : PRRMatrixHandle; stdcall;
+  TGetSetMatrix = function (mat : PRRMatrixHandle) : PRRMatrixHandle; stdcall;
   TFreeRRResult = function (ptr : PRRResultHandle) : boolean; stdcall;
   TFreeRRInstance = procedure (instance : Pointer); stdcall;
   TVoidVectorFunc = function : PRRDoubleVectorHandle; stdcall;
@@ -180,7 +181,7 @@ function  getBoundarySpeciesIds : TStringList;
 function  getFloatingSpeciesIds : TStringList;
 function  getGlobalParameterIds : TStringList;
 function  getRatesOfChangeIds : TStringList;
-function  getEigenValueIds : TStringList;
+function  getEigenvalueIds : TStringList;
 function  getElasticityIds : TStringList;
 
 function  getNumberOfReactions : integer;
@@ -209,7 +210,8 @@ function  steadyState : double;
 function  computeSteadyStateValues : TDoubleArray;
 function  setSteadyStateSelectionList (strList : TStringList) : boolean;
 
-function  getEigenValues : T2DDoubleArray;
+function  getEigenvalues : T2DDoubleArray;
+function  getEigenvaluesMatrix (m : T2DDoubleArray) : T2DDoubleArray;
 
 function  getuCC (variable : AnsiString; parameter : AnsiString) : double;
 function  getCC (variable : AnsiString; parameter : AnsiString) : double;
@@ -314,7 +316,7 @@ var DLLHandle : Cardinal;
     libGetFloatingSpeciesIds : TVoidStringListFunc;
     libGetGlobalParameterIds : TVoidStringListFunc;
     libGetRatesOfChangeIds   : TVoidStringListFunc;
-    libGetEigenValueIds      : TVoidStringListFunc;
+    libGetEigenvalueIds      : TVoidStringListFunc;
     libGetElasticityIds      : TVoidStringListFunc;
 
     libSetSteadyStateSelectionList : TCharBoolFunc;
@@ -337,10 +339,14 @@ var DLLHandle : Cardinal;
     libgetuEE                 : TGetMCA;
     libgetCC                  : TGetMCA;
     libgetEE                  : TGetMCA;
-    libGetEigenValues         : TGetMatrix;
+    libGetEigenvalues         : TGetMatrix;
+    libGetEigenvaluesMatrix   : TGetSetMatrix;
 
     libCreateVector : function (size : integer) : PRRDoubleVectorHandle;  stdcall;
+    libCreateRRMatrix : function (row, col : integer) : PRRMatrixHandle; stdcall;
+    libSetMatrixElement : function (m : PRRMatrixHandle; r, c : integer; value : double) : boolean; stdcall;
     libGetListItem : function (list : pointer; index : integer) : PRRListItemRecord; stdcall;
+
 
     libFreeStringArray : TFreeStringArray;
     libFreeMatrix : TFreeRRMatrix;
@@ -382,6 +388,22 @@ begin
           result[i+1,j+1] := matrix^.data[i*nc + j];
 end;
 
+
+function loadIntoRRMatrix  (mat : T2DDoubleArray) : PRRMatrixHandle;
+var i, j : integer;
+    r, c : integer;
+    str : AnsiString;
+begin
+  r := getRows (mat); c := getColumns(mat);
+  result := libCreateRRMatrix (r, c);
+  for i := 0 to r - 1 do
+      for j := 0 to c - 1 do
+          if libSetMatrixElement (result, i, j, mat[i,j]) = False then
+             begin
+             str := getLastError();
+             raise Exception.Create ('Error while calling setMatrixElement: ' + str);
+             end;
+end;
 
 function loadInTo2DArray (matrix : PRRMatrixHandle) : T2DDoubleArray;
 var nr, nc : integer;
@@ -841,10 +863,10 @@ begin
 end;
 
 
-function getEigenValueIds : TStringList;
+function getEigenvalueIds : TStringList;
 var p : PRRStringArray;
 begin
-  p := libGetEigenValueIds;
+  p := libGetEigenvalueIds;
   try
     if p = nil then
        result := TStringList.Create
@@ -991,10 +1013,10 @@ begin
 end;
 
 
-function getEigenValues : T2DDoubleArray;
+function getEigenvalues : T2DDoubleArray;
 var p : PRRMatrixHandle;
 begin
-  p := libGetEigenValues;
+  p := libGetEigenvalues;
   if p = nil then
      raise Exception.Create ('No Eigenvalue matrix');
   try
@@ -1002,7 +1024,15 @@ begin
   finally
     libFreeMatrix (p);
   end;
+end;
 
+
+function  getEigenvaluesMatrix (m : T2DDoubleArray) : T2DDoubleArray;
+var p1, p2 : PRRMatrixHandle;
+begin
+  p1 := loadIntoRRMatrix (m);
+  p2 := libGetEigenvaluesMatrix (p1);
+  result := loadInTo2DArray (p2);
 end;
 
 
@@ -1425,7 +1455,7 @@ begin
    @libGetFloatingSpeciesIds  := loadSingleMethod ('getFloatingSpeciesIds', errMsg, result, methodList);
    @libGetGlobalParameterIds  := loadSingleMethod ('getGlobalParameterIds', errMsg, result, methodList);
    @libGetRatesOfChangeIds    := loadSingleMethod ('getRatesOfChangeIds', errMsg, result, methodList);
-   @libGetEigenValueIds       := loadSingleMethod ('getEigenValueIds', errMsg, result, methodList);
+   @libGetEigenvalueIds       := loadSingleMethod ('getEigenvalueIds', errMsg, result, methodList);
    @libGetElasticityIds       := loadSingleMethod ('getElasticityCoefficientIds', errMsg, result, methodList);
 
    @libGetAvailableTimeCourseSymbols  := loadSingleMethod ('getAvailableTimeCourseSymbols', errMsg, result, methodList);
@@ -1442,8 +1472,9 @@ begin
    @libgetCC                    := loadSingleMethod ('getCC', errMsg, result, methodList);
    @libgetEE                    := loadSingleMethod ('getEE', errMsg, result, methodList);
 
-   @libGetEigenValues           := loadSingleMethod ('getEigenValues', errMsg, result, methodList);
+   @libGetEigenvalues           := loadSingleMethod ('getEigenvalues', errMsg, result, methodList);
 
+   @libGetEigenvaluesMatrix     := loadSingleMethod ('getEigenvaluesMatrix', errMsg, result, methodList);
    @libGetListItem              := loadSingleMethod ('getListItem', errMsg, result, methodList);
 
    @libFreeRRInstance   := loadSingleMethod ('freeRRInstance', errMsg, result, methodList);
@@ -1453,6 +1484,8 @@ begin
    @libFreeStringArray  := loadSingleMethod ('freeStringArray', errMsg, result, methodList);
 
    @libCreateVector     := loadSingleMethod ('createVector', errMsg, result, methodList);
+   @libCreateRRMatrix   := loadSingleMethod ('createRRMatrix', errMsg, result, methodList);
+   @libSetMatrixElement := loadSingleMethod ('setMatrixElement', errMsg, result, methodlist);
    @libFreeDoubleVector := loadSingleMethod ('freeVector', errMsg, result, methodList);
    except
      on E: Exception do

@@ -3180,19 +3180,24 @@ RRVectorHandle rrCallConv createVector (int size)
 
 int rrCallConv getVectorLength (RRVectorHandle vector)
 {
-	if (vector == NULL)
+	if (vector == NULL) {
+		setError ("Vector argument is null in getVectorLength");
 		return -1;
+	}
 	else
 		return vector->Count;
 }
 
 bool rrCallConv getVectorElement (RRVectorHandle vector, int index, double& value)
 {
-	if (vector == NULL)
+	if (vector == NULL) {
+		setError ("Vector argument is null in getVectorElement");
 		return false;
+	}
+
 	if ((index < 0) || (index >= vector->Count)) {
 		stringstream msg;
-		msg << "Index out range: " << index;
+		msg << "Index out range in getVectorElement: " << index;
         setError(msg.str());
 		return false;
 	}
@@ -3202,10 +3207,17 @@ bool rrCallConv getVectorElement (RRVectorHandle vector, int index, double& valu
 
 bool rrCallConv setVectorElement (RRVectorHandle vector, int index, double value)
 {
-	if (vector == NULL)
+	if (vector == NULL) {
+		setError ("Vector argument is null in setVectorElement");
 		return false;
-	if ((index < 0) || (index >= vector->Count))
+	}
+
+	if ((index < 0) || (index >= vector->Count)) {
+		stringstream msg;
+		msg << "Index out range in setVectorElement: " << index;
+        setError(msg.str());
 		return false;
+	}
 	vector->Data[index] = value;
 	return true;
 }
@@ -3229,6 +3241,7 @@ RRMatrixHandle rrCallConv createRRMatrix (int r, int c)
    else
    {
         delete matrix;
+		setError ("Dimensions for new RRMatrix in createRRMatrix are zero");
         return NULL;
    }
 }
@@ -3236,34 +3249,53 @@ RRMatrixHandle rrCallConv createRRMatrix (int r, int c)
 
 int rrCallConv getMatrixNumRows (RRMatrixHandle m)
 {
-	if (m == NULL)
+	if (m == NULL) {
+		setError ("Matrix argument is null in getMatrixNumRows");
 		return -1;
+	}
 	return m->RSize;
 }
 
 int  rrCallConv getMatrixNumCols (RRMatrixHandle m)
 {
-	if (m == NULL)
+	if (m == NULL) {
+		setError ("Matrix argument is null in getMatrixNumCols");
 		return -1;
+	}
+
 	return m->CSize;
 }
 
 bool rrCallConv getMatrixElement (RRMatrixHandle m, int r, int c, double& value)
 {
-	if (m == NULL)
+	if (m == NULL) {
 		return false;
-	if ((r < 0) || (c < 0) || (r >= m->RSize) || (c >= m->CSize))
+		setError ("Matrix argument is null in getMatrixElement");
+	}
+
+	if ((r < 0) || (c < 0) || (r >= m->RSize) || (c >= m->CSize)) {
+		stringstream msg;
+		msg << "Index out range in getMatrixElement: " << r << ", " << c;
+        setError(msg.str());
 		return false;
+	}
 	value = m->Data[r*m->CSize + c];
 	return true;
 }
 
 bool rrCallConv setMatrixElement (RRMatrixHandle m, int r, int c, double value)
 {
-	if (m == NULL)
+	if (m == NULL) {
+		setError ("Matrix argument is null in setMatrixElement");
+	    return false;
+	}
+
+	if ((r < 0) || (c < 0) || (r >= m->RSize) || (c >= m->CSize)) {
+		stringstream msg;
+		msg << "Index out range in setMatrixElement: " << r << ", " << c;
+        setError(msg.str());
 		return false;
-	if ((r < 0) || (c < 0) || (r >= m->RSize) || (c >= m->CSize))
-		return false;
+	}
 	m->Data[r*m->CSize + c] = value;
 	return true;
 
@@ -3271,15 +3303,19 @@ bool rrCallConv setMatrixElement (RRMatrixHandle m, int r, int c, double value)
 
 int rrCallConv  getResultNumRows (RRResultHandle result)
 {
-	if (result == NULL)
-		return -1;
+	if (result == NULL) {
+       setError ("result argument is null in getResultNumRows");
+       return -1;
+	}
 	return result->RSize;
 }
 
 int  rrCallConv  getResultNumCols (RRResultHandle result)
 {
-	if (result == NULL)
-		return -1;
+	if (result == NULL) {
+       setError ("result argument is null in getResultNumCols");
+       return -1;
+	}
 	return result->CSize;
 }
 
@@ -3287,11 +3323,15 @@ bool  rrCallConv getResultElement(RRResultHandle result, int r, int c, double& v
 {
 	if (result == NULL)
     {
-		return false;
-    }
+	   setError ("result argument is null in getResultElement");
+       return false;
+	}
 
 	if ((r < 0) || (c < 0) || (r >= result->RSize) || (c >= result->CSize))
     {
+		stringstream msg;
+		msg << "Index out range in getResultElement: " << r << ", " << c;
+        setError(msg.str());
 		return false;
     }
 
@@ -3303,11 +3343,18 @@ char*  rrCallConv getResultColumnLabel (RRResultHandle result, int column)
 {
 	if (result == NULL)
     {
+	   setError ("result argument is null in getResultColumnLabel");
+       return NULL;
+	}
+
+	if ((column < 0) || (column >= result->CSize))
+    {
+		stringstream msg;
+		msg << "Index out range in getResultColumnLabel: " << column;
+        setError(msg.str());
 		return NULL;
     }
 
-	if ((column < 0) || (column >= result->CSize))
-		return NULL;
 	return result->ColumnHeaders[column];
 }
 
@@ -3315,6 +3362,8 @@ char* rrCallConv getCCodeHeader(RRCCodeHandle code)
 {
 	if (code == NULL)
     {
+
+        setError ("code argument is null in getCCodeHeader");
 		return NULL;
     }
 	return code->Header;
@@ -3324,6 +3373,7 @@ char* rrCallConv getCCodeSource(RRCCodeHandle code)
 {
 	if (code == NULL)
     {
+        setError ("code argument is null in getCCodeSource");
 		return NULL;
     }
 	return code->Source;

@@ -67,7 +67,23 @@ type
        Items : PRRListItemRecordArray;
   end;
 
+function getRows (m : T2DDoubleArray) : integer;
+function getColumns (m : T2DDoubleArray) : integer;
 
 implementation
+
+function getRows (m : T2DDoubleArray) : integer;
+begin
+  result := length (m);
+end;
+
+
+function getColumns (m : T2DDoubleArray) : integer;
+begin
+  if getRows (m) > 0 then
+     result := length (m[0])
+  else
+    result := 0;
+end;
 
 end.
