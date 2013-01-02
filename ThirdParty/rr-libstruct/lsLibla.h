@@ -60,17 +60,18 @@ namespace ls
         void setTolerance(double dTolerance);
 
 
-        /*! \brief Calculates the eigen-values of a square real matrix.
+        /*! \brief Calculates the eigenvalues of a square real matrix.
 
         This function calculates the complex eigenvalues of the given real matrix. The complex vector
         of eigenvalues will be returned in two real vectors, one for the real and one for the imaginary part.
 
         \param oMatrix a real matrix
-        \return a vector of ls::Complex numbers representing the eigen-values of the matrix
+        \return a vector of ls::Complex numbers representing the eigenvalues of the matrix
         */
         std::vector< Complex > getEigenValues(DoubleMatrix& oMatrix);
 
-        /*! \brief Calculates the eigen-vectors of a square real matrix.
+
+        /*! \brief Calculates the eigenvectors of a square real matrix.
 
         This function calculates the complex (right)eigenvectors of the given real matrix. The complex matrix
         returned contains the eigenvectors in the columns, in the same order as ls::LibLA::getEigenValues.
@@ -80,11 +81,13 @@ namespace ls
         A * v(j) = lambda(j) * v(j)
 
         \param oMatrix a real matrix
-        \return a matrix of ls::Complex numbers representing the eigen-vectors of the matrix
+        \return a matrix of ls::Complex numbers representing the eigenvectors of the matrix
 
         */
         ComplexMatrix *getEigenVectors(DoubleMatrix &oMatrix);
-        /*! \brief Calculates the eigen-vectors of a square nonsymmetrix complex matrix.
+
+
+        /*! \brief Calculates the eigenvectors of a square nonsymmetrix complex matrix.
 
         This function calculates the complex (right)eigenvectors of the given real matrix. The complex matrix
         returned contains the eigenvectors in the columns, in the same order as ls::LibLA::ZgetEigenValues.
@@ -93,10 +96,12 @@ namespace ls
         A * v(j) = lambda(j) * v(j)
 
         \param oMatrix a complex matrix
-        \return a matrix of ls::Complex numbers representing the eigen-vectors of the matrix
+        \return a matrix of ls::Complex numbers representing the eigenvectors of the matrix
 
         */
         ComplexMatrix *ZgetEigenVectors(ComplexMatrix &oMatrix);
+
+
         /*! \brief Factorizes the given matrix using SVD
 
         This function computes the singular value decomposition (SVD) of the given real matrix.
