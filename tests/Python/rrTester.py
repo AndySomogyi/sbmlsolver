@@ -164,6 +164,7 @@ def checkFullJacobian(testId):
               break
    print passMsg (errorFlag)
 
+
 def checkIndividualEigenvalues(testId):
    # Eigenvalues
    print string.ljust ("Check " + testId, rpadding),
@@ -183,6 +184,7 @@ def checkIndividualEigenvalues(testId):
    except:
       print 'Unexpected error in checkIndividualEigenvalues:', sys.exc_info()[0]
 
+
 def checkEigenvalueMatrix(testId):
    # Eigenvalues
    print string.ljust ("Check " + testId, rpadding),
@@ -193,11 +195,16 @@ def checkEigenvalueMatrix(testId):
       line = readLine ()
       words = line.split()
       realPart = float (words[0])
-      imagPart= float (words[1])
+      # Check if there is an imaginary part
+      if len (words) == 1:
+         imagPart = 0
+      else:
+         imagPart= float (words[1])
       if (expectApproximately (realPart, eigenvalues[i,0], 1E-6) == False) or (expectApproximately (imagPart, eigenvalues[i,1], 1E-6)) == False:
           errorFlag = True
           break
    print passMsg (errorFlag)
+
 
 def checkStoichiometryMatrix(testId):
    # Stoichiometry matrix
@@ -949,6 +956,15 @@ def runTester (pathToModels, testModel):
         print 'Failed to load model'
         print rrPython.getLastError()
         sys.exit(-1)
+
+    print rrPython.getuCC ('J1', 'k1')
+    print rrPython.getuCC ('J1', 'k_1')
+    print rrPython.getuCC ('J1', 'k2')
+    print rrPython.getuCC ('J1', 'k_2')
+    print rrPython.getuCC ('J1', 'k3')
+    print rrPython.getuCC ('J1', 'k_3')
+    print rrPython.getuCC ('J1', 'k4')
+    print rrPython.getuCC ('J1', 'k_4')
 
     # Now start the tests proper
     testId = jumpToNextTest()

@@ -949,6 +949,15 @@ C_DECL_SPEC RRMatrixHandle rrCallConv getReducedJacobian();
 */
 C_DECL_SPEC RRMatrixHandle rrCallConv getEigenvalues();
 
+/*!
+ \brief Compute the eigenvalues for the matrix in the function argument
+
+ \return Returns null if it fails, otherwise returns a matrix of eigenvalues.
+ The first column will contain the real values and the second column the imaginary values
+ \ingroup Stoich
+*/
+C_DECL_SPEC RRMatrixHandle rrCallConv getEigenvaluesMatrix (const RRMatrixHandle mat);
+
 // --------------------------------------------------------------------------------
 // Stoichiometry methods
 // --------------------------------------------------------------------------------
@@ -1585,6 +1594,20 @@ C_DECL_SPEC bool rrCallConv setVectorElement (RRVectorHandle vector, int index, 
 
 
 /*!
+ \brief Create an empty matrix of size r by c
+
+ Matrices are indexed from zero
+
+ Example: \code m = createRRMatrix (2, 3); \endcode
+
+ \param m A pointer to a matrix type variable
+ \return Returns NULL if fails, otherwise returns a handle to the matrix
+ \ingroup helperRoutines
+*/
+C_DECL_SPEC RRMatrixHandle rrCallConv createRRMatrix (int r, int c);
+
+
+/*!
  \brief Retrieve the number of rows in the given matrix
 
  Matrices are indexed from zero
@@ -1628,6 +1651,26 @@ C_DECL_SPEC int rrCallConv getMatrixNumCols (RRMatrixHandle m);
  \ingroup helperRoutines
 */
 C_DECL_SPEC bool rrCallConv getMatrixElement (RRMatrixHandle m, int r, int c, double& value);
+
+/*!
+ \brief Set an element at a given row and column with a given value in a matrix type variable
+
+ Matrices are indexed from zero
+ 
+ Example: 
+ \code
+ status = setMatrixElement (m, 2, 4, value);
+ \endcode
+ 
+ \param[in] m A pointer to a matrix type variable
+ \param[in] r The row index to the matrix
+ \param[in] c The column index to the matrix
+ \param[out] value The value to set to the matrix element
+ \return Returns True if succesful
+ \ingroup helperRoutines
+*/
+C_DECL_SPEC bool rrCallConv setMatrixElement (RRMatrixHandle m, int r, int c, double value);
+
 
 /*!
  \brief Retrieve the number of rows in the given result data (returned from simulate())

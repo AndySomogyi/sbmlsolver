@@ -2244,6 +2244,37 @@ RRMatrixHandle rrCallConv getEigenvalues()
     }
 }
 
+RRMatrixHandle rrCallConv getEigenvaluesMatrix (const RRMatrixHandle mat)
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+            return NULL;
+        }
+
+    	// Convert mat to DoubleMatrix
+		DoubleMatrix dmat (mat->RSize, mat->CSize);
+		double value;
+		for (int i=0; i<mat->RSize; i++)
+			for (int j=0; j<mat->CSize; j++) {
+				getMatrixElement (mat, i, j, value);
+				dmat(i,j) = value;
+			}
+		DoubleMatrix tempMat = gRRHandle->getEigenvaluesFromMatrix (dmat);
+        return createMatrix(&tempMat);
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return NULL;
+    }
+}
+
+
 char* rrCallConv getCSourceFileName()
 {
 	try
@@ -3178,6 +3209,30 @@ bool rrCallConv setVectorElement (RRVectorHandle vector, int index, double value
 	return true;
 }
 
+// Matrix Routines
+// ------------------------------------------------------------------------------------
+
+
+RRMatrixHandle rrCallConv createRRMatrix (int r, int c)
+{
+   RRMatrixHandle matrix = new RRMatrix;
+
+   matrix->RSize = r;
+   matrix->CSize = c;
+   int dim =  matrix->RSize * matrix->CSize;
+   if(dim)
+   {
+    matrix->Data =  new double[dim];
+	return matrix;
+   }
+   else
+   {
+        delete matrix;
+        return NULL;
+   }
+}
+
+
 int rrCallConv getMatrixNumRows (RRMatrixHandle m)
 {
 	if (m == NULL)
@@ -3200,6 +3255,17 @@ bool rrCallConv getMatrixElement (RRMatrixHandle m, int r, int c, double& value)
 		return false;
 	value = m->Data[r*m->CSize + c];
 	return true;
+}
+
+bool rrCallConv setMatrixElement (RRMatrixHandle m, int r, int c, double value)
+{
+	if (m == NULL)
+		return false;
+	if ((r < 0) || (c < 0) || (r >= m->RSize) || (c >= m->CSize))
+		return false;
+	m->Data[r*m->CSize + c] = value;
+	return true;
+
 }
 
 int rrCallConv  getResultNumRows (RRResultHandle result)

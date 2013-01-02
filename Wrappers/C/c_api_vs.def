@@ -6,7 +6,7 @@ EXPORTS
     getTimeStart                                = _getTimeStart@4
     getTimeEnd                                  = _getTimeEnd@4
     getNumPoints                                = _getNumPoints@4
-    getInfo		                        = _getInfo@0
+    getInfo		                                = _getInfo@0
     unLoadModel                                 = _unLoadModel@0
     createTimeCourseSelectionList               = _createTimeCourseSelectionList@0
     getEigenvalues                              = _getEigenvalues@0
@@ -140,7 +140,7 @@ EXPORTS
     setTimeEnd                                  = _setTimeEnd@4
     setTimeStart                                = _setTimeStart@4
     setValue                                    = _setValue@8
-	  setVectorElement                            = _setVectorElement@16
+	  setVectorElement                          = _setVectorElement@16
     simulate                                    = _simulate@0
     simulateEx                                  = _simulateEx@12
     steadyState                                 = _steadyState@4
@@ -148,3 +148,6 @@ EXPORTS
     getlibSBMLVersion                           = _getlibSBMLVersion@0
     getNumberOfStringElements                   = _getNumberOfStringElements@4
     getStringElement                            = _getStringElement@8
+	getEigenvaluesMatrix                        = _getEigenvaluesMatrix@4
+	createRRMatrix                              = _createRRMatrix@8
+	setMatrixElement                            = _setMatrixElement@20

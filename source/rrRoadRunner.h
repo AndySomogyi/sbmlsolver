@@ -200,6 +200,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		DoubleMatrix 					getFullReorderedJacobian();
 		DoubleMatrix                    getReducedJacobian();
         DoubleMatrix                    getEigenvalues();
+		DoubleMatrix                    getEigenvaluesFromMatrix (DoubleMatrix m);
 		vector<Complex>                 getEigenvaluesCpx();
 
 		// ---------------------------------------------------------------------
