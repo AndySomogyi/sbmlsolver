@@ -1501,11 +1501,13 @@ function loadRoadRunner (var errMsg : AnsiString; methodList : TStringList) : bo
 var errStr : string;
     tempString: WideString;
     aString: PChar;
+    path : AnsiString;
 begin
   DLLLoaded := false;
-  if FileExists (libName) then
+  path := ExtractFilePath(ParamStr(0)) + libName;
+  if FileExists (path) then
      begin
-     tempString := WideString (libName);
+     tempString := WideString (path);
      DllHandle := LoadLibrary (PWideChar(tempString));
 
      if DllHandle <> 0 then

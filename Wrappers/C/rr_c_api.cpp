@@ -2254,6 +2254,13 @@ RRMatrixHandle rrCallConv getEigenvaluesMatrix (const RRMatrixHandle mat)
             return NULL;
         }
 
+		if (mat == NULL) {
+         	stringstream msg;
+    	    msg<<"RoadRunner exception: "<< "Matrix argument to getEigenvaluesMAtrix is NULL" <<endl;
+            setError(msg.str());
+			return NULL;
+		}
+
     	// Convert RRMatrixHandle mat to a DoubleMatrix
 		DoubleMatrix dmat (mat->RSize, mat->CSize);
 		double value;
