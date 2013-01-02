@@ -188,6 +188,8 @@ handle.setVectorElement.argtypes = [c_int, c_int, c_double]
 handle.getMatrixNumRows.restype = c_int
 handle.getMatrixNumCols.restype = c_int
 handle.getMatrixElement.restype = c_bool
+handle.setMatrixElement.restype = c_bool
+handle.setMatrixElement.argtypes = [c_int, c_int, c_int, c_double]
 handle.getResultNumRows.restype = c_int
 handle.getResultNumCols.restype = c_int
 handle.getResultElement.restype = c_bool
@@ -213,6 +215,7 @@ handle.setValue.restype = c_bool
 
 # MCA
 handle.getuCC.restype = c_bool
+handle.getuCC.argtypes = [c_char_p, c_char_p, c_void_p]
 handle.getCC.restype = c_bool
 handle.getEE.restype = c_bool
 handle.getuEE.restype = c_bool
@@ -223,7 +226,7 @@ handle.Pause.restype = None
 
 # Print/format functions
 handle.resultToString.restype = c_char_p
-handle.matrixToString.restype = c_void_p
+handle.matrixToString.restype = c_char_p
 handle.vectorToString.restype = c_char_p
 handle.stringArrayToString.restype = c_char_p
 handle.listToString.restype = c_char_p
@@ -251,6 +254,9 @@ handle.getGlobalParameterValues.restype = c_void_p
 handle.getFullJacobian.restype = c_void_p
 handle.getReducedJacobian.restype = c_void_p
 handle.getEigenvalues.restype = c_void_p
+handle.getEigenvaluesMatrix.restype = c_int
+handle.getEigenvaluesMatrix.argtypes = [c_int]
+
 handle.getStoichiometryMatrix.restype = c_void_p
 handle.getLinkMatrix.restype = c_void_p
 handle.getNrMatrix.restype = c_void_p
@@ -281,6 +287,7 @@ handle.getUnscaledConcentrationControlCoefficientMatrix.restype = c_void_p
 handle.getScaledConcentrationControlCoefficientMatrix.restype = c_void_p
 handle.getUnscaledFluxControlCoefficientMatrix.restype = c_void_p
 handle.getScaledFluxControlCoefficientMatrix.restype = c_void_p
+
 handle.createVector.restype = c_void_p
 handle.createRRList.restype = c_void_p
 handle.createIntegerItem.restype = c_void_p
@@ -348,6 +355,16 @@ def createMatrix (rrMatrix):
             if handle.getMatrixElement(rrMatrix, rvalue, cvalue, byref(value)) == True:
                matrixArray[m,n] = value.value
     return matrixArray
+
+def createRRMatrix (marray):
+    r = marray.shape[0]
+    c = marray.shape[1]
+    rrm = handle.createRRMatrix (r,c)
+    for i in range (c):
+        for j in range (r):
+            handle.setMatrixElement (rrm, i, j, marray[i,j])
+    return rrm
+
 # ---------------------------------------------------------------------------------
 
 ##\ingroup utility
@@ -998,6 +1015,11 @@ def getReducedJacobian():
     #handle.freeMatrix(result)
     return matrixArray
 
+def getEigenvaluesMatrix (m):
+    rrm = createRRMatrix (m)
+    matrix = handle.getEigenvaluesMatrix (rrm)
+    return matrix
+
 ##\brief Retreive the eigenvalue matrix for the current model
 #\return Returns a matrix of eigenvalues. The first column will contain the real values and te second column will contain the imaginary values.
 def getEigenvalues():
@@ -1178,7 +1200,7 @@ def getReactionRate(index):
     if handle.getReactionRate(byref(ivalue), byref(value)) == True:
         return value.value
     else:
-        raise RuntimeError(GetLastError())
+        raise RuntimeError(getLastError())
 
 ##\brief Returns a string containing the current reaction rates
 #\return Returns a string containing the current reaction rates
@@ -1230,7 +1252,7 @@ def getRateOfChange(index):
     if handle.getRateOfChange(byref(ivalue), byref(value)) == True:
         return value.value
     else:
-        raise RuntimeError(GetLastError())
+        raise RuntimeError(getlastError())
 
 
 ##\brief Retrieve the vector of rates of change in a string given a vector of floating species concentrations
@@ -1499,13 +1521,14 @@ def getScaledFluxControlCoefficientMatrix():
 #Takes (variableName, parameterName) as an argument, where both arguments are strings
 #\return
 def getuCC(variable, parameter):
-    variable = c_char_p()
-    parameter = c_char_p()
+    variable = c_char_p(variable)
+    parameter = c_char_p(parameter)
     value = c_double()
-    if handle.getuCC(byref(variable), byref(parameter), byref(value)) == True:
+    if handle.getuCC(variable, parameter, byref(value)) == True:
         return value.value;
     else:
-        raise RuntimeError('Index out of range')
+        errStr = getLastError()
+        raise RuntimeError(errStr)
 
 ##\brief Retireve a single control coefficient
 #
