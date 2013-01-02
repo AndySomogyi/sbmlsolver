@@ -1678,11 +1678,6 @@ DoubleMatrix RoadRunner::getEigenvaluesFromMatrix (DoubleMatrix m)
 {
     try
     {
-	    if (!mModel)
-	    {
-            throw SBWApplicationException(emptyModelStr);
-        }
-
         vector<Complex> vals = ls::getEigenValues(m);
 
         DoubleMatrix result(vals.size(), 2);

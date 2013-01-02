@@ -2254,7 +2254,7 @@ RRMatrixHandle rrCallConv getEigenvaluesMatrix (const RRMatrixHandle mat)
             return NULL;
         }
 
-    	// Convert mat to DoubleMatrix
+    	// Convert RRMatrixHandle mat to a DoubleMatrix
 		DoubleMatrix dmat (mat->RSize, mat->CSize);
 		double value;
 		for (int i=0; i<mat->RSize; i++)
@@ -2263,7 +2263,8 @@ RRMatrixHandle rrCallConv getEigenvaluesMatrix (const RRMatrixHandle mat)
 				dmat(i,j) = value;
 			}
 		DoubleMatrix tempMat = gRRHandle->getEigenvaluesFromMatrix (dmat);
-        return createMatrix(&tempMat);
+        // Convert the DoubleMatrix result to a RRMatrixHandle type
+		return createMatrix(&tempMat);
     }
     catch(Exception& ex)
     {

@@ -142,6 +142,9 @@
  \defgroup NOM Network object model (NOM) functions
  \brief Network objwct model functions 
  
+ \defgroup LinearAlgebra Linear Algebra functions
+ \brief Utility inear algebra routines
+
  \defgroup list List Handling Routines
  \brief Some methods return lists (heterogeneous arrayts of data), 
  these routines make it easier to manipulate listse
@@ -949,12 +952,16 @@ C_DECL_SPEC RRMatrixHandle rrCallConv getReducedJacobian();
 */
 C_DECL_SPEC RRMatrixHandle rrCallConv getEigenvalues();
 
+// --------------------------------------------------------------------------------
+// General purpose linear algebra methods
+// --------------------------------------------------------------------------------
+
 /*!
- \brief Compute the eigenvalues for the matrix in the function argument
+ \brief Compute the eigenvalues of the matrix
 
  \return Returns null if it fails, otherwise returns a matrix of eigenvalues.
  The first column will contain the real values and the second column the imaginary values
- \ingroup Stoich
+ \ingroup LinearAlgebra
 */
 C_DECL_SPEC RRMatrixHandle rrCallConv getEigenvaluesMatrix (const RRMatrixHandle mat);
 
