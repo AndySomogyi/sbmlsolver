@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="api_tests.xsl" type="text/xsl" ?>
-<unittest-results date_time = "2013-01-03 11:55:21" tests="8" failedtests="0" failures="0" time="0.149">
-<test suite="SUITE_1" name="DATA_FILES" time="0.078"/>
-<test suite="SUITE_1" name="SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS" time="0.064"/>
+<unittest-results date_time = "2013-01-03 13:08:18" tests="10" failedtests="0" failures="0" time="7.806">
+<test suite="SUITE_1" name="DATA_FILES" time="0.136"/>
+<test suite="SUITE_1" name="SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS" time="0.141"/>
 <test suite="SUITE_1" name="SET_STEADY_STATE_SELECTION_LIST" time="0"/>
 <test suite="SUITE_1" name="GET_STEADY_STATE_SELECTION_LIST" time="0"/>
 <test suite="SUITE_1" name="COMPUTE_STEADY_STATE" time="0"/>
 <test suite="SUITE_1" name="SPECIES_CONCENTRATIONS" time="0.002"/>
 <test suite="SUITE_1" name="FLUXES" time="0.003"/>
 <test suite="SUITE_1" name="FULL_JACOBIAN" time="0"/>
+<test suite="SUITE_1" name="INDIVIDUAL_EIGENVALUES" time="7.364"/>
+<test suite="SUITE_1" name="GET_EIGENVALUE_MATRIX" time="0.156"/>
 </unittest-results>

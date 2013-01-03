@@ -15,27 +15,27 @@ class RR_DECLSPEC Symbol : public rrObject
     public:
         // Set if species also has a rate rule. Use to prevent a dydt being output
         // in the model function if there is a rate rule for it
-        bool                 rateRule;
-        double                 value;
-        bool                constant;
+		bool     			rateRule;
+		double              value;
+		bool                constant;
 
 
-    public:
-        string                 compartmentName;     // Used when symbol is a species
-        bool                 hasOnlySubstance;     // used when symbol is a species
-        string              formula;             // used in case of species defined using initialAmounts;
-        string              keyName;             // Used when storing local parameters, keyName is the reaction name
-        string              name;
+	public:
+		string              compartmentName;     // Used when symbol is a species
+		bool                hasOnlySubstance;     // used when symbol is a species
+		string              formula;             // used in case of species defined using initialAmounts;
+		string              keyName;             // Used when storing local parameters, keyName is the reaction name
+		string              name;
 
-        //Constructors
-        Symbol(const string& _name = "", const double& _value = std::numeric_limits<double>::quiet_NaN());
-        Symbol(const string& _keyName, const string& _name, const double& _value= std::numeric_limits<double>::quiet_NaN());
-        Symbol(const string& _name, const double& _value, const string& _compartmentName);
-        Symbol(const string& _name, const double& _value, const string& _compartmentName, const string& _formula);
+		//Constructors
+		Symbol(const string& _name = "", const double& _value = std::numeric_limits<double>::quiet_NaN());
+		Symbol(const string& _keyName, const string& _name, const double& _value= std::numeric_limits<double>::quiet_NaN());
+		Symbol(const string& _name, const double& _value, const string& _compartmentName);
+		Symbol(const string& _name, const double& _value, const string& _compartmentName, const string& _formula);
 
 }; //class rr::Symbol
 
-        ostream& operator<<(ostream& stream, const Symbol& symbol);
+		ostream& operator<<(ostream& stream, const Symbol& symbol);
 
 }//namespace rr
 #endif

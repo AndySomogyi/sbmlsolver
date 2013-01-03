@@ -1698,57 +1698,56 @@ DoubleMatrix RoadRunner::getEigenvaluesFromMatrix (DoubleMatrix m)
 
 vector< Complex > RoadRunner::getEigenvaluesCpx()
 {
-    try
-    {
-	    if (!mModel)
-	    {
-            throw SBWApplicationException(emptyModelStr);
-        }
-
-        DoubleMatrix mat;
-   		if (mComputeAndAssignConservationLaws)
-        {
-           mat = getReducedJacobian();
-       	}
-        else
-        {
-           mat = getFullJacobian();
-
+	try
+	{
+		if (!mModel)
+		{
+			throw SBWApplicationException(emptyModelStr);
 		}
-        return ls::getEigenValues(mat);
-    }
-    catch (const Exception& e)
-    {
-        throw SBWApplicationException("Unexpected error from getEigenvalues()", e.Message());
-    }
+
+		DoubleMatrix mat;
+		if (mComputeAndAssignConservationLaws)
+		{
+		   mat = getReducedJacobian();
+		}
+		else
+		{
+		   mat = getFullJacobian();
+		}
+		return ls::getEigenValues(mat);
+	}
+	catch (const Exception& e)
+	{
+		throw SBWApplicationException("Unexpected error from getEigenvalues()", e.Message());
+	}
 }
 
 // Help("Compute the full Jacobian at the current operating point")
 DoubleMatrix RoadRunner::getFullJacobian()
 {
-    try
-    {
-        if (!mModel)
-        {
-	        throw SBWApplicationException(emptyModelStr);
-        }
-        DoubleMatrix uelast = getUnscaledElasticityMatrix();
-        DoubleMatrix rsm;
-        if (mComputeAndAssignConservationLaws)
-        {
-            rsm = getReorderedStoichiometryMatrix();
-        }
-        else
-        {
-            rsm = getStoichiometryMatrix();
-        }
-       return mult(rsm, uelast);
+	try
+	{
+		if (!mModel)
+		{
+			throw SBWApplicationException(emptyModelStr);
+		}
+		DoubleMatrix uelast = getUnscaledElasticityMatrix();
+		DoubleMatrix rsm;
+		if (mComputeAndAssignConservationLaws)
+		{
+			rsm = getReorderedStoichiometryMatrix();
+		}
+		else
+		{
+			rsm = getStoichiometryMatrix();
+		}
+	   return mult(rsm, uelast);
 
-    }
-    catch (const Exception& e)
-    {
-        throw SBWApplicationException("Unexpected error from fullJacobian()", e.Message());
-    }
+	}
+	catch (const Exception& e)
+	{
+		throw SBWApplicationException("Unexpected error from fullJacobian()", e.Message());
+	}
 }
 
 DoubleMatrix RoadRunner::getFullReorderedJacobian()
@@ -2724,7 +2723,7 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
     }
     else
     {
-        tmp = "eigen_";
+		tmp = "eigen_";
         if (sId.compare(0, tmp.size(), tmp) == 0)
         {
             string sSpecies = sId.substr(tmp.size());
@@ -2732,23 +2731,23 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
             if (mModelGenerator->floatingSpeciesConcentrationList.find(sSpecies, nIndex))
             {
                 //SBWComplex[] oComplex = SBW_CLAPACK.getEigenValues(getReducedJacobian());
-                //LibLA LA;
+				//LibLA LA;
 
                 DoubleMatrix mat = getReducedJacobian();
                 vector<Complex> oComplex = ls::getEigenValues(mat);
 
-                if (oComplex.size() > nIndex)
-                {
-                    return oComplex[nIndex].Real;
-                }
-                return rr::DoubleNaN;
-            }
-            throw SBWApplicationException(Format("Found unknown floating species '{0}' in computeSteadyStateValue()", sSpecies));
-        }
-        try
-        {
-            return getValue(sId);
-        }
+				if (oComplex.size() > nIndex)
+				{
+					return oComplex[nIndex].Real;
+				}
+				return rr::DoubleNaN;
+			}
+			throw SBWApplicationException(Format("Found unknown floating species '{0}' in computeSteadyStateValue()", sSpecies));
+		}
+		try
+		{
+			return getValue(sId);
+		}
         catch (Exception )
         {
             throw SBWApplicationException(Format("Found unknown symbol '{0}' in computeSteadyStateValue()", sId));
@@ -5238,11 +5237,21 @@ double RoadRunner::getValue(const string& sId)
     tmp = ("eigen_");
     if (sId.compare(0, tmp.size(), tmp) == 0)
     {
-        string species = sId.substr(tmp.size());
-        int index;
-        mModelGenerator->floatingSpeciesConcentrationList.find(species, index);
+		string species = sId.substr(tmp.size());
+		int index;
+		mModelGenerator->floatingSpeciesConcentrationList.find(species, index);
 
-        DoubleMatrix mat = getReducedJacobian();
+		//DoubleMatrix mat = getReducedJacobian();
+		DoubleMatrix mat;
+		if (mComputeAndAssignConservationLaws)
+		{
+		   mat = getReducedJacobian();
+		}
+		else
+		{
+		   mat = getFullJacobian();
+		}
+
         vector<Complex> oComplex = ls::getEigenValues(mat);
 
         if(selectionList.size() == 0)
@@ -5250,9 +5259,10 @@ double RoadRunner::getValue(const string& sId)
         	throw("Tried to access record in empty selectionList in getValue function: eigen_");
         }
 
-        if (oComplex.size() > selectionList[index].index)
-        {
-            return oComplex[selectionList[index].index].Real;
+		if (oComplex.size() > selectionList[index + 1].index) //Becuase first one is time !?
+		{
+			return oComplex[selectionList[index + 1].index].Real;
+			//return oComplex[index].Real;
         }
         return std::numeric_limits<double>::quiet_NaN();
     }
