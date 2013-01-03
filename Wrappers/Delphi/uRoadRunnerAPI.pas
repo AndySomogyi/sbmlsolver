@@ -396,6 +396,9 @@ var i, j : integer;
 begin
   r := getRows (mat); c := getColumns(mat);
   result := libCreateRRMatrix (r, c);
+  if result = nil then
+     exit;
+
   for i := 0 to r - 1 do
       for j := 0 to c - 1 do
           if libSetMatrixElement (result, i, j, mat[i,j]) = False then
@@ -1031,7 +1034,13 @@ function  getEigenvaluesMatrix (m : T2DDoubleArray) : T2DDoubleArray;
 var p1, p2 : PRRMatrixHandle;
 begin
   p1 := loadIntoRRMatrix (m);
+  if p1 = nil then
+     exit;
+
   p2 := libGetEigenvaluesMatrix (p1);
+  if p2 = nil then
+     exit;
+
   result := loadInTo2DArray (p2);
 end;
 

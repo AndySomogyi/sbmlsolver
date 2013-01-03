@@ -143,7 +143,7 @@
  \brief Network objwct model functions 
  
  \defgroup LinearAlgebra Linear Algebra functions
- \brief Utility inear algebra routines
+ \brief Linear algebra utility functions
 
  \defgroup list List Handling Routines
  \brief Some methods return lists (heterogeneous arrayts of data), 
