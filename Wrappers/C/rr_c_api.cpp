@@ -1020,7 +1020,7 @@ RRVectorHandle rrCallConv getRatesOfChange()
         if(!rates.size())
         {
             return NULL;
-        }
+		}
 
         RRVector* list = new RRVector;
         list->Count = rates.size();
@@ -1029,16 +1029,16 @@ RRVectorHandle rrCallConv getRatesOfChange()
         for(int i = 0; i < list->Count; i++)
         {
             list->Data[i] = rates[i];
-            return list;
-        }
+		}
+		return list;
     }
     catch(Exception& ex)
     {
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-    }
-	return NULL;
+		setError(msg.str());
+		return NULL;
+	}
 }
 
 RRStringArrayHandle rrCallConv getRatesOfChangeIds()
@@ -1914,7 +1914,7 @@ bool rrCallConv getuCC (const char* variable, const char* parameter, double& val
         {
             setError(ALLOCATE_API_ERROR_MSG);
             return false;
-        }
+		}
 
         value = gRRHandle->getuCC(variable, parameter);
         return true;
@@ -1924,8 +1924,8 @@ bool rrCallConv getuCC (const char* variable, const char* parameter, double& val
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
-    }
-  	return false;
+		return false;
+	}
 }
 
 
@@ -1988,7 +1988,7 @@ bool rrCallConv getEE(const char* name, const char* species, double& value)
         value = gRRHandle->getEE(name, species);
         return true;
     }
-    catch(Exception& ex)
+	catch(Exception& ex)
     {
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;

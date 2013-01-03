@@ -78,7 +78,7 @@ ostream&  operator<<(ostream& stream, const Capability& outMe)
 template<>
 string CapabilityType<double>::GetValueAsString() const
 {
-    return ToString(mValue);
+    return ToString(mValue, "%G");
 }
 
 template<>

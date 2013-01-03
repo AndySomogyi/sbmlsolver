@@ -3016,7 +3016,7 @@ double RoadRunner::getRateOfChange(const int& index)
     {
         mModel->computeAllRatesOfChange();
         return mModel->dydt[index];
-    }
+	}
 
     throw SBWApplicationException(Format("Index in getRateOfChange out of range: [{0}]", index));
 }
@@ -3024,18 +3024,18 @@ double RoadRunner::getRateOfChange(const int& index)
 // Help("Returns the rates of changes given an array of new floating species concentrations")
 vector<double> RoadRunner::getRatesOfChangeEx(const vector<double>& values)
 {
-    if (!mModel)
-    {
-        throw SBWApplicationException(emptyModelStr);
-    }
+	if (!mModel)
+	{
+		throw SBWApplicationException(emptyModelStr);
+	}
 
-    CopyStdVectorToCArray(values, mModel->y, *mModel->ySize);
+	CopyStdVectorToCArray(values, mModel->y, *mModel->ySize);
 
-    vector<double> temp;
+	vector<double> temp;
 
-    temp =  BuildModelEvalArgument();
-    mModel->evalModel(0.0, temp);
-    return CreateVector(mModel->dydt, *mModel->dydtSize);
+	temp =  BuildModelEvalArgument();
+	mModel->evalModel(0.0, temp);
+	return CreateVector(mModel->dydt, *mModel->dydtSize);
 }
 
 // Help("Returns the rates of changes given an array of new floating species concentrations")
@@ -3046,7 +3046,7 @@ vector<double> RoadRunner::getReactionRatesEx(const vector<double>& values)
         throw SBWApplicationException(emptyModelStr);
     }
 
-    mModel->computeReactionRates(0.0, CreateVector(values));
+	mModel->computeReactionRates(0.0, CreateVector(values));
     return CreateVector(mModel->rates, *mModel->ratesSize);
 }
 
@@ -3551,122 +3551,124 @@ string RoadRunner::getDescription()
 //        [Help("Get unscaled control coefficient with respect to a global parameter")]
 double RoadRunner::getuCC(const string& variableName, const string& parameterName)
 {
-    try
-    {
-        if (mModel)
-        {
-            TParameterType parameterType;
-            TVariableType variableType;
-            double originalParameterValue;
-            int variableIndex;
-            int parameterIndex;
-            double f1;
-            double f2;
+	try
+	{
+		if (mModel)
+		{
+			TParameterType parameterType;
+			TVariableType variableType;
+			double originalParameterValue;
+			int variableIndex;
+			int parameterIndex;
+			double f1;
+			double f2;
 
-            mModel->convertToConcentrations();
-            mModel->computeReactionRates(mModel->getTime(), mModel->y);
+			mModel->convertToConcentrations();
+			mModel->computeReactionRates(mModel->getTime(), mModel->y);
 
-            // Check the variable name
-            if (mModelGenerator->reactionList.find(variableName, variableIndex))
-            {
-                variableType = TVariableType::vtFlux;
-            }
-            else if (mModelGenerator->floatingSpeciesConcentrationList.find(variableName, variableIndex))
-            {
-                variableType = TVariableType::vtSpecies;
-            }
-            else
-            {
-                throw SBWApplicationException("Unable to locate variable: [" + variableName + "]");
-            }
+			// Check the variable name
+			if (mModelGenerator->reactionList.find(variableName, variableIndex))
+			{
+				variableType = TVariableType::vtFlux;
+			}
+			else if (mModelGenerator->floatingSpeciesConcentrationList.find(variableName, variableIndex))
+			{
+				variableType = TVariableType::vtSpecies;
+			}
+			else
+			{
+				throw SBWApplicationException("Unable to locate variable: [" + variableName + "]");
+			}
 
-            // Check for the parameter name
-            if (mModelGenerator->globalParameterList.find(parameterName, parameterIndex))
-            {
-                parameterType = TParameterType::ptGlobalParameter;
-                originalParameterValue = mModel->gp[parameterIndex];
-            }
-            else if (mModelGenerator->boundarySpeciesList.find(parameterName, parameterIndex))
-            {
-                parameterType = TParameterType::ptBoundaryParameter;
-                originalParameterValue = mModel->bc[parameterIndex];
-            }
-            else if (mModelGenerator->conservationList.find(parameterName, parameterIndex))
-            {
-                parameterType = TParameterType::ptConservationParameter;
-                originalParameterValue = mModel->ct[parameterIndex];
-            }
-            else throw SBWApplicationException("Unable to locate parameter: [" + parameterName + "]");
+			// Check for the parameter name
+			if (mModelGenerator->globalParameterList.find(parameterName, parameterIndex))
+			{
+				parameterType = TParameterType::ptGlobalParameter;
+				originalParameterValue = mModel->gp[parameterIndex];
+			}
+			else if (mModelGenerator->boundarySpeciesList.find(parameterName, parameterIndex))
+			{
+				parameterType = TParameterType::ptBoundaryParameter;
+				originalParameterValue = mModel->bc[parameterIndex];
+			}
+			else if (mModelGenerator->conservationList.find(parameterName, parameterIndex))
+			{
+				parameterType = TParameterType::ptConservationParameter;
+				originalParameterValue = mModel->ct[parameterIndex];
+			}
+			else
+			{
+				throw SBWApplicationException("Unable to locate parameter: [" + parameterName + "]");
+			}
 
-            // Get the original parameter value
-            originalParameterValue = getParameterValue(parameterType, parameterIndex);
+			// Get the original parameter value
+			originalParameterValue = getParameterValue(parameterType, parameterIndex);
 
-            double hstep = DiffStepSize*originalParameterValue;
-            if (fabs(hstep) < 1E-12)
-            {
-                hstep = DiffStepSize;
-            }
+			double hstep = DiffStepSize*originalParameterValue;
+			if (fabs(hstep) < 1E-12)
+			{
+				hstep = DiffStepSize;
+			}
 
-            try
-            {
-                mModel->convertToConcentrations();
+			try
+			{
+				mModel->convertToConcentrations();
 
-                setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
-                steadyState();
-                mModel->computeReactionRates(mModel->getTime(), mModel->y);
-                double fi = getVariableValue(variableType, variableIndex);
+				setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
+				steadyState();
+				mModel->computeReactionRates(mModel->getTime(), mModel->y);
+				double fi = getVariableValue(variableType, variableIndex);
 
-                setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
-                steadyState();
-                mModel->computeReactionRates(mModel->getTime(), mModel->y);
-                double fi2 = getVariableValue(variableType, variableIndex);
+				setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
+				steadyState();
+				mModel->computeReactionRates(mModel->getTime(), mModel->y);
+				double fi2 = getVariableValue(variableType, variableIndex);
 
-                setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
-                steadyState();
-                mModel->computeReactionRates(mModel->getTime(), mModel->y);
-                double fd = getVariableValue(variableType, variableIndex);
+				setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
+				steadyState();
+				mModel->computeReactionRates(mModel->getTime(), mModel->y);
+				double fd = getVariableValue(variableType, variableIndex);
 
-                setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
-                steadyState();
-                mModel->computeReactionRates(mModel->getTime(), mModel->y);
-                double fd2 = getVariableValue(variableType, variableIndex);
+				setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
+				steadyState();
+				mModel->computeReactionRates(mModel->getTime(), mModel->y);
+				double fd2 = getVariableValue(variableType, variableIndex);
 
-                // Use instead the 5th order approximation double unscaledValue = (0.5/hstep)*(fi-fd);
-                // The following separated lines avoid small amounts of roundoff error
-                f1 = fd2 + 8*fi;
-                f2 = -(8*fd + fi2);
-            }
-            //finally
-            catch(...)
-            {
-
-            }
-            {
-                // What ever happens, make sure we restore the parameter level
-                setParameterValue(parameterType, parameterIndex, originalParameterValue);
-                steadyState();
-            }
-            return 1/(12*hstep)*(f1 + f2);
-        }
-        else throw SBWApplicationException(emptyModelStr);
-    }
-    catch (SBWException)
-    {
-        throw;
-    }
-    catch (const Exception& e)
-    {
-        throw SBWApplicationException("Unexpected error from getuCC ()", e.Message());
-    }
+				// Use instead the 5th order approximation double unscaledValue = (0.5/hstep)*(fi-fd);
+				// The following separated lines avoid small amounts of roundoff error
+				f1 = fd2 + 8*fi;
+				f2 = -(8*fd + fi2);
+			}
+			catch(...)
+			{
+			
+			}
+			//__finally
+			{
+				// What ever happens, make sure we restore the parameter level
+				setParameterValue(parameterType, parameterIndex, originalParameterValue);
+				steadyState();
+			}
+			return 1/(12*hstep)*(f1 + f2);
+		}
+		else
+		{
+			throw SBWApplicationException(emptyModelStr);
+		}
+	}
+	catch (const Exception& e)
+	{
+		throw SBWApplicationException("Unexpected error from getuCC ()", e.Message());
+	}
 }
 
 
 //        [Help("Get scaled control coefficient with respect to a global parameter")]
 double RoadRunner::getCC(const string& variableName, const string& parameterName)
 {
-    TVariableType variableType;
-    TParameterType parameterType;
-    int variableIndex;
+	TVariableType variableType;
+	TParameterType parameterType;
+	int variableIndex;
     int parameterIndex;
     //double originalParameterValue;
 
@@ -4955,37 +4957,37 @@ void RoadRunner::changeInitialConditions(const vector<double>& ic)
 vector<double> RoadRunner::getReactionRates()
 {
     if (!mModel)
-    {
-        throw SBWApplicationException(emptyModelStr);
-    }
-    mModel->convertToConcentrations();
-    mModel->computeReactionRates(0.0, mModel->y);
+	{
+		throw SBWApplicationException(emptyModelStr);
+	}
+	mModel->convertToConcentrations();
+	mModel->computeReactionRates(0.0, mModel->y);
 
-    vector<double> _rates;
-    CopyCArrayToStdVector(mModel->rates, _rates, *mModel->ratesSize);
-    return _rates;
+	vector<double> _rates;
+	CopyCArrayToStdVector(mModel->rates, _rates, *mModel->ratesSize);
+	return _rates;
 }
 
 // Help("Returns the current vector of rates of change")
 vector<double> RoadRunner::getRatesOfChange()
 {
-    if (!mModel)
-    {
-        throw SBWApplicationException(emptyModelStr);
-    }
+	if (!mModel)
+	{
+		throw SBWApplicationException(emptyModelStr);
+	}
 
-    mModel->computeAllRatesOfChange();
-    vector<double> result;
-    CopyCArrayToStdVector(mModel->dydt, result, *mModel->dydtSize);
+	mModel->computeAllRatesOfChange();
+	vector<double> result;
+	CopyCArrayToStdVector(mModel->dydt, result, *mModel->dydtSize);
 
-    return result;
+	return result;
 }
 
 // Help("Returns a list of reaction names")
 StringList RoadRunner::getReactionIds()
 {
-    if (!mModel)
-    {
+	if (!mModel)
+	{
         throw SBWApplicationException(emptyModelStr);
     }
 
@@ -5365,7 +5367,7 @@ NewArrayList RoadRunner::getAvailableTimeCourseSymbols()
     oResult.Add("Boundary Species (amount)",        getBoundarySpeciesAmountIds() );
     oResult.Add("Global Parameters",                getParameterIds() );
     oResult.Add("Fluxes",                           getReactionIds() );
-    oResult.Add("Rates of Change",                  getRateOfChangeIds() );
+	oResult.Add("Rates of Change",                  getRateOfChangeIds() );
     oResult.Add("Volumes",                          mModelGenerator->getCompartmentList() );
     oResult.Add("Elasticity Coefficients",          getElasticityCoefficientIds() );
     oResult.Add("Unscaled Elasticity Coefficients", getUnscaledElasticityCoefficientIds() );

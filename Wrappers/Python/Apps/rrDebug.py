@@ -4,13 +4,6 @@ rr = rrPython
 
 print 'RoadRunner Build Date: ' + rr.getCopyright()
 
-startTime = 0
-endTime = 5
-numPoints = 50
-selList="time,S1,S2"
-
-#rr.setTempFolder(".")
-rr.enableLogging()
 rr.setComputeAndAssignConservationLaws(True)
 result = rr.loadSBMLFromFile("..\\tests\\TestModel_1.xml")
 

@@ -78,7 +78,13 @@ string TestModelFileName;
         CHECK_CLOSE(0, val, 1e-6);
     }
 
-    TEST(GET_EIGENVALUE_IDS)
+//	TEST(GEsT_UCC)
+//	{
+//		double val;
+//		getuCC("S1","S2", val);
+//	}
+
+	TEST(GET_EIGENVALUE_IDS)
     {
 		gRR = getRRInstance();
         if(!gRR)
