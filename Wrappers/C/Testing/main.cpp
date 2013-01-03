@@ -79,11 +79,13 @@ int main(int argc, char* argv[])
 	TestRunner runner1(reporter1);
 
 
-    clog<<"Running Base\n";
-    runner1.RunTestsIf(Test::GetTestList(), "Base", 		True(), 0);
+	clog<<"Running Suite 1\n";
+	runner1.RunTestsIf(Test::GetTestList(), "SUITE_1", 		True(), 0);
 
-     clog<<"Running SteadyState\n";
-     runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
+//    runner1.RunTestsIf(Test::GetTestList(), "Base", 		True(), 0);
+//
+//     clog<<"Running SteadyState\n";
+//     runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
 
 //    clog<<"Running TestSuite Tests\n";
 //    clog<<"ModelPath "<<gTSModelsPath;

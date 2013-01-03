@@ -10,17 +10,21 @@
          <species id = "waste" boundaryCondition = "true" initialConcentration = "0" compartment = "compartment"/>
          <species id = "Xo" boundaryCondition = "true" initialConcentration = "1" compartment = "compartment"/>
          <species id = "X1" boundaryCondition = "true" initialConcentration = "0" compartment = "compartment"/>
-         <species id = "S1" boundaryCondition = "false" initialConcentration = "0.569694868238558" compartment = "compartment"/>
-         <species id = "S2" boundaryCondition = "false" initialConcentration = "0.208044382801664" compartment = "compartment"/>
-         <species id = "S3" boundaryCondition = "false" initialConcentration = "0.13002773925104" compartment = "compartment"/>
+         <species id = "S1" boundaryCondition = "false" initialConcentration = "0.1" compartment = "compartment"/>
+         <species id = "S2" boundaryCondition = "false" initialConcentration = "0.25" compartment = "compartment"/>
+         <species id = "S3" boundaryCondition = "false" initialConcentration = "0.1" compartment = "compartment"/>
       </listOfSpecies>
       <listOfParameters>
+         <parameter id = "kk1" value = "1"/>
          <parameter id = "k1" value = "0.1"/>
          <parameter id = "k_1" value = "0.05"/>
+         <parameter id = "kk2" value = "1"/>
          <parameter id = "k2" value = "0.15"/>
          <parameter id = "k_2" value = "0.067"/>
+         <parameter id = "kk3" value = "1"/>
          <parameter id = "k3" value = "0.4"/>
          <parameter id = "k_3" value = "0.09"/>
+         <parameter id = "kk4" value = "1"/>
          <parameter id = "k4" value = "0.55"/>
          <parameter id = "k_4" value = "0.01"/>
       </listOfParameters>
@@ -35,24 +39,30 @@
             <kineticLaw>
                <math xmlns = "http://www.w3.org/1998/Math/MathML">
                   <apply>
-                     <minus/>
+                     <times/>
+                     <ci>
+                           kk1
+                     </ci>
                      <apply>
-                        <times/>
-                        <ci>
-                              k1
-                        </ci>
-                        <ci>
-                              Xo
-                        </ci>
-                     </apply>
-                     <apply>
-                        <times/>
-                        <ci>
-                              k_1
-                        </ci>
-                        <ci>
-                              S1
-                        </ci>
+                        <minus/>
+                        <apply>
+                           <times/>
+                           <ci>
+                                 k1
+                           </ci>
+                           <ci>
+                                 Xo
+                           </ci>
+                        </apply>
+                        <apply>
+                           <times/>
+                           <ci>
+                                 k_1
+                           </ci>
+                           <ci>
+                                 S1
+                           </ci>
+                        </apply>
                      </apply>
                   </apply>
                </math>
@@ -68,24 +78,30 @@
             <kineticLaw>
                <math xmlns = "http://www.w3.org/1998/Math/MathML">
                   <apply>
-                     <minus/>
+                     <times/>
+                     <ci>
+                           kk2
+                     </ci>
                      <apply>
-                        <times/>
-                        <ci>
-                              k2
-                        </ci>
-                        <ci>
-                              S1
-                        </ci>
-                     </apply>
-                     <apply>
-                        <times/>
-                        <ci>
-                              k_2
-                        </ci>
-                        <ci>
-                              S2
-                        </ci>
+                        <minus/>
+                        <apply>
+                           <times/>
+                           <ci>
+                                 k2
+                           </ci>
+                           <ci>
+                                 S1
+                           </ci>
+                        </apply>
+                        <apply>
+                           <times/>
+                           <ci>
+                                 k_2
+                           </ci>
+                           <ci>
+                                 S2
+                           </ci>
+                        </apply>
                      </apply>
                   </apply>
                </math>
@@ -101,24 +117,30 @@
             <kineticLaw>
                <math xmlns = "http://www.w3.org/1998/Math/MathML">
                   <apply>
-                     <minus/>
+                     <times/>
+                     <ci>
+                           kk3
+                     </ci>
                      <apply>
-                        <times/>
-                        <ci>
-                              k3
-                        </ci>
-                        <ci>
-                              S2
-                        </ci>
-                     </apply>
-                     <apply>
-                        <times/>
-                        <ci>
-                              k_3
-                        </ci>
-                        <ci>
-                              S3
-                        </ci>
+                        <minus/>
+                        <apply>
+                           <times/>
+                           <ci>
+                                 k3
+                           </ci>
+                           <ci>
+                                 S2
+                           </ci>
+                        </apply>
+                        <apply>
+                           <times/>
+                           <ci>
+                                 k_3
+                           </ci>
+                           <ci>
+                                 S3
+                           </ci>
+                        </apply>
                      </apply>
                   </apply>
                </math>
@@ -134,24 +156,30 @@
             <kineticLaw>
                <math xmlns = "http://www.w3.org/1998/Math/MathML">
                   <apply>
-                     <minus/>
+                     <times/>
+                     <ci>
+                           kk4
+                     </ci>
                      <apply>
-                        <times/>
-                        <ci>
-                              k4
-                        </ci>
-                        <ci>
-                              S3
-                        </ci>
-                     </apply>
-                     <apply>
-                        <times/>
-                        <ci>
-                              k_4
-                        </ci>
-                        <ci>
-                              X1
-                        </ci>
+                        <minus/>
+                        <apply>
+                           <times/>
+                           <ci>
+                                 k4
+                           </ci>
+                           <ci>
+                                 S3
+                           </ci>
+                        </apply>
+                        <apply>
+                           <times/>
+                           <ci>
+                                 k_4
+                           </ci>
+                           <ci>
+                                 X1
+                           </ci>
+                        </apply>
                      </apply>
                   </apply>
                </math>
