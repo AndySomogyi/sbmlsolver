@@ -2976,8 +2976,8 @@ char* rrCallConv matrixToString(const RRMatrixHandle matrixHandle)
 
         RRMatrix& mat = *matrixHandle;
         stringstream ss;
-        ss<<"\nmatrix dimension: "<<mat.RSize<<"x"<<mat.CSize<<" --\n";
-
+        //ss<<"\nmatrix dimension: "<<mat.RSize<<"x"<<mat.CSize<<" --\n";
+        ss<<"\n";
         for(int row = 0; row < mat.RSize; row++)
         {
             for(int col = 0; col < mat.CSize; col++)

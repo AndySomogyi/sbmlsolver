@@ -81,85 +81,90 @@ S2= -0.767365210701723 0
 
 #[Individual Unscaled Flux Control Coefficients]
 
-
 [Floating Species Ids]
-S1 S3 S2
+list=S1 S3 S2
 
 [Boundary Species Ids]
-src waste Xo X1
+list=src waste Xo X1
 
 [Global Parameter Ids]
-kk1 k1 k_1 kk2 k2 k_2 kk3 k3 k_3 kk4 k4 k_4 
+list=kk1 k1 k_1 kk2 k2 k_2 kk3 k3 k_3 kk4 k4 k_4 
 
 [Compartment Ids]
-compartment
+list=compartment
 
 [Reaction Ids]
-J1 J2 J3 J4
+list=J1 J2 J3 J4
 
 [Species Initial Condition Ids]
-init(S1) init(S3) init(S2)
+list=init(S1) init(S3) init(S2)
 
 [Get Eigenvalue Ids]
-eigen_S1 eigen_S3 eigen_S2 
+list=eigen_S1 eigen_S3 eigen_S2 
 
 [Get Rates Of Change Ids]
-S1' S3' S2'
+list=S1' S3' S2'
 
-[Set Steady State Selection List]
-S2 S3
+[Set Steady State Selection List 2]
+list=S2 S3
 
-[Get Steady State Selection List]
-S2 S3
+[Get Steady State Selection List 2]
+list=S2 S3
 
 [Set Time Course Selection List]
-time S2 S3
+list=time S2 S3
 
 [Get Time Course Selection List]
-time S2 S3
+list=time S2 S3
 
 [Compute Steady State Values]
-0.20804438 0.1300277392
+val1=0.20804438 
+val2=0.1300277392
 
 [Floating Species Concentrations]
-0.56969487 0.13002774 0.20804438
+val1=0.56969487 
+val2=0.13002774 
+val3=0.20804438
 
 [Boundary Species Concentrations]
-0 0 1 0
+l1=0 
+l2=0 
+l3=1
+l4=0
 
 [Get Global Parameter Values]
-   1    0.1   0.05    1   0.15   0.067    1    0.4    0.09    1   0.55   0.01
+list=1    0.1   0.05    1   0.15   0.067    1    0.4    0.09    1   0.55   0.01
 
 [Get Initial Floating Species Concs]
-0.1 0.1 0.25
+list=0.1 0.1 0.25
 
 [Get Reaction Rates]
-0.07151526 0.07151526 0.07151526 0.07151526
+list=0.07151526 0.07151526 0.07151526 0.07151526
 
 [Get Reaction Rate By Index]
-0.07151526 0.07151526 0.07151526 0.07151526
+list=0.07151526 0.07151526 0.07151526 0.07151526
 
 [Number of Dependent Species]
-0
+val=0
 
 [Number of Independent Species]
-3
+val=3
 
 [Number Of Rules]
-0
+val=0
 
 [Get Rates Of Change]
-0 0 0
+list=0 0 0
 
 [Get Reaction Rates Ex]
-1 2 3
-0.05 -0.051 1.02 1.1
+list1=1 2 3
+list2=0.05 -0.051 1.02 1.1 
 
 [Get Rates of Change Ex]
-1 2 3
-0.101 -0.08 -1.071
+list1=1 2 3
+list2=0.101 -0.08 -1.071
 
 [Get Rate of Change by Index]
-1 2 3
-0.101 -0.08 -1.071
+list1=1 2 3
+list2=0.101 -0.08 -1.071
  
