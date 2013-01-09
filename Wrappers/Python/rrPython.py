@@ -723,7 +723,7 @@ def steadyState():
     if handle.steadyState(byref(value)) == True:
         return value.value
     else:
-        return ('Index out of Range')
+        return (GetLastError())
 
 ##\brief A convenient method for returning a vector of the steady state species concentrations
 #
@@ -1003,7 +1003,6 @@ def getReducedJacobian():
        return 0
     rowCount = handle.getMatrixNumRows(matrix)
     colCount = handle.getMatrixNumCols(matrix)
-    #result = handle.matrixToString(matrix)
     matrixArray = zeros((rowCount,colCount))
     for m in range(rowCount):
         for n in range(colCount):
@@ -1012,13 +1011,25 @@ def getReducedJacobian():
                 cvalue = n
                 if handle.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
                     matrixArray[m,n] = value.value
-    #handle.freeMatrix(result)
     return matrixArray
 
 def getEigenvaluesMatrix (m):
     rrm = createRRMatrix (m)
     matrix = handle.getEigenvaluesMatrix (rrm)
-    return matrix
+    if matrix == 0:
+       return 0
+    rowCount = handle.getMatrixNumRows(matrix)
+    colCount = handle.getMatrixNumCols(matrix)
+    matrixArray = zeros((rowCount,colCount))
+    for m in range(rowCount):
+        for n in range(colCount):
+                value = c_double()
+                rvalue = m
+                cvalue = n
+                if handle.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
+                    matrixArray[m,n] = value.value
+    return matrixArray
+
 
 ##\brief Retreive the eigenvalue matrix for the current model
 #\return Returns a matrix of eigenvalues. The first column will contain the real values and te second column will contain the imaginary values.
