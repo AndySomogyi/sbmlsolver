@@ -1,21 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="api_tests.xsl" type="text/xsl" ?>
-<unittest-results date_time = "2012-12-28 23:42:01" tests="17" failedtests="4" failures="15" time="54.866">
-<test suite="Base" name="AllocateRR" time="0"/>
-<test suite="Base" name="LOGGING" time="0"><failure message="base.cpp(51) : Expected &lt;none&gt; but was Log.txt"/></test>
-<test suite="Base" name="VERSIONS" time="0"/>
-<test suite="Base" name="MODEL_FILES" time="0"/>
-<test suite="Base" name="LOAD_SBML" time="0.16"/>
-<test suite="Base" name="LISTS" time="0"/>
-<test suite="SteadyState" name="DATA_FILES" time="0.007"/>
-<test suite="SteadyState" name="AllocateRR" time="0.007"/>
-<test suite="SteadyState" name="LOAD_MODEL" time="0.127"/>
-<test suite="SteadyState" name="COMPUTE_STEADY_STATE" time="0"/>
-<test suite="SteadyState" name="GET_EIGENVALUE_IDS" time="0.308"/>
-<test suite="SteadyState" name="STEADY_STATE_CONCENTRATIONS" time="0.009"><failure message="steady_state.cpp(159) : Expected 0.569695 +/- 1e-06 but was 0.56969"/><failure message="steady_state.cpp(159) : Expected 0.208044 +/- 1e-06 but was 0.20804"/><failure message="steady_state.cpp(159) : Expected 0.130028 +/- 1e-06 but was 0.13003"/><failure message="steady_state.cpp(159) : Expected 0.0715153 +/- 1e-06 but was 0.0715133"/><failure message="steady_state.cpp(159) : Expected 0.0715153 +/- 1e-06 but was 0.0715165"/></test>
-<test suite="SteadyState" name="GET_EIGENVALUES_THROW_EXCEPTION" time="1.689"/>
-<test suite="SteadyState" name="GET_EIGENVALUES_1" time="0.108"/>
-<test suite="SteadyState" name="GET_EIGENVALUES_2" time="51.508"><failure message="steady_state.cpp(293) : Expected -0.157263 +/- 1e-06 but was -0.767365"/></test>
-<test suite="SteadyState" name="COMPUTE_STEADY_STATE_VALUES" time="0.11"/>
-<test suite="SteadyState" name="FULL_JACOBIAN" time="0.826"><failure message="steady_state.cpp(334) : Expected 0.067 +/- 1e-06 but was 0"/><failure message="steady_state.cpp(334) : Expected 0 +/- 1e-06 but was 0.067"/><failure message="steady_state.cpp(334) : Expected 0.15 +/- 1e-06 but was 0"/><failure message="steady_state.cpp(334) : Expected -0.467 +/- 1e-06 but was -0.64"/><failure message="steady_state.cpp(334) : Expected 0.09 +/- 1e-06 but was 0.4"/><failure message="steady_state.cpp(334) : Expected 0 +/- 1e-06 but was 0.15"/><failure message="steady_state.cpp(334) : Expected 0.4 +/- 1e-06 but was 0.09"/><failure message="steady_state.cpp(334) : Expected -0.64 +/- 1e-06 but was -0.467"/></test>
+<unittest-results date_time = "2013-01-09 16:16:16" tests="44" failedtests="0" failures="0" time="53.285">
+<test suite="SUITE_1" name="DATA_FILES" time="1.05"/>
+<test suite="SUITE_1" name="SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS" time="0.428"/>
+<test suite="SUITE_1" name="SET_STEADY_STATE_SELECTION_LIST" time="0"/>
+<test suite="SUITE_1" name="GET_STEADY_STATE_SELECTION_LIST" time="0"/>
+<test suite="SUITE_1" name="COMPUTE_STEADY_STATE" time="0"/>
+<test suite="SUITE_1" name="SPECIES_CONCENTRATIONS" time="0.045"/>
+<test suite="SUITE_1" name="FLUXES" time="0.026"/>
+<test suite="SUITE_1" name="FULL_JACOBIAN" time="0.012"/>
+<test suite="SUITE_1" name="INDIVIDUAL_EIGENVALUES" time="4.424"/>
+<test suite="SUITE_1" name="GET_EIGENVALUE_MATRIX" time="0.491"/>
+<test suite="SUITE_1" name="STOICHIOMETRY_MATRIX" time="0.008"/>
+<test suite="SUITE_1" name="LINK_MATRIX" time="0.011"/>
+<test suite="SUITE_1" name="UNSCALED_ELASTICITY_MATRIX" time="0.078"/>
+<test suite="SUITE_1" name="SCALED_ELASTICITY_MATRIX" time="0.081"/>
+<test suite="SUITE_1" name="UNSCALED_CONCENTRATION_CONTROL_MATRIX" time="0.09"/>
+<test suite="SUITE_1" name="SCALED_CONCENTRATION_CONTROL_MATRIX" time="0.094"/>
+<test suite="SUITE_1" name="UNSCALED_FLUX_CONTROL_MATRIX" time="0.119"/>
+<test suite="SUITE_1" name="SCALED_FLUX_CONTROL_MATRIX" time="0.114"/>
+<test suite="SUITE_1" name="FLOATING_SPECIES_IDS" time="0"/>
+<test suite="SUITE_1" name="BOUNDARY_SPECIES_IDS" time="0"/>
+<test suite="SUITE_1" name="GLOBAL_PARAMETER_IDS" time="0"/>
+<test suite="SUITE_1" name="COMPARTMENT_IDS" time="0"/>
+<test suite="SUITE_1" name="REACTION_IDS" time="0"/>
+<test suite="SUITE_1" name="SPECIES_INITIAL_CONDITION_IDS" time="0"/>
+<test suite="SUITE_1" name="GET_EIGENVALUE_IDS" time="0"/>
+<test suite="SUITE_1" name="GET_RATES_OF_CHANGE_IDS" time="0"/>
+<test suite="SUITE_1" name="SET_STEADY_STATE_SELECTION_LIST_2" time="0"/>
+<test suite="SUITE_1" name="GET_STEADY_STATE_SELECTION_LIST_2" time="0"/>
+<test suite="SUITE_1" name="SET_TIME_COURSE_SELECTION_LIST" time="0"/>
+<test suite="SUITE_1" name="GET_TIME_COURSE_SELECTION_LIST" time="0"/>
+<test suite="SUITE_1" name="COMPUTE_STEADY_STATE_VALUES" time="0.021"/>
+<test suite="SUITE_1" name="FLOATING_SPECIES_CONCENTRATIONS" time="0.039"/>
+<test suite="SUITE_1" name="BOUNDARY_SPECIES_CONCENTRATIONS" time="0.042"/>
+<test suite="SUITE_1" name="GET_GLOBABL_PARAMETER_VALUES" time="0.132"/>
+<test suite="SUITE_1" name="GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS" time="0.033"/>
+<test suite="SUITE_1" name="GET_REACTION_RATES" time="0.064"/>
+<test suite="SUITE_1" name="GET_REACTION_RATE_BY_INDEX" time="0.063"/>
+<test suite="SUITE_1" name="NUMBER_OF_DEPENDENT_SPECIES" time="0"/>
+<test suite="SUITE_1" name="NUMBER_OF_INDEPENDENT_SPECIES" time="0"/>
+<test suite="SUITE_1" name="NUMBER_OF_RULES" time="0"/>
+<test suite="SUITE_1" name="GET_RATES_OF_CHANGE" time="13.892"/>
+<test suite="SUITE_1" name="GET_REACTION_RATES_EX" time="0.048"/>
+<test suite="SUITE_1" name="GET_RATES_OF_CHANGE_EX" time="31.808"/>
+<test suite="SUITE_1" name="GET_RATE_OF_CHANGE_BY_INDEX" time="0.03"/>
 </unittest-results>

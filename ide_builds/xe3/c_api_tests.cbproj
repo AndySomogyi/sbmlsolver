@@ -100,9 +100,6 @@
         <CppCompile Include="..\..\Wrappers\C\Testing\Args.cpp">
             <BuildOrder>3</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\Wrappers\C\Testing\core\base.cpp">
-            <BuildOrder>2</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\Wrappers\C\Testing\core\sbml_test_suite.cpp">
             <BuildOrder>4</BuildOrder>
         </CppCompile>
@@ -115,6 +112,9 @@
         <CppCompile Include="..\..\Wrappers\C\Testing\rrSBMLTestSuiteSimulation_CAPI.cpp">
             <DependentOn>..\..\Wrappers\C\Testing\rrSBMLTestSuiteSimulation_CAPI.h</DependentOn>
             <BuildOrder>5</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Wrappers\C\Testing\Suite_1.cpp">
+            <BuildOrder>2</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Wrappers\C\Testing\TestUtils.cpp">
             <BuildOrder>6</BuildOrder>

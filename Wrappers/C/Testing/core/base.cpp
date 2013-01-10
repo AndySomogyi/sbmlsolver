@@ -68,20 +68,32 @@ SUITE(Base)
 
     TEST(LOAD_SBML)
     {
-        CHECK(gRR!=NULL);
-        if(!gRR)
-        {
-	       	return;
-        }
+		CHECK(gRR!=NULL);
+		if(!gRR)
+		{
+			return;
+		}
 
-        string model = JoinPath(gSBMLModelsPath, "ss_threeSpecies.xml");
-        CHECK(loadSBMLFromFile(model.c_str()));
-    }
+		string model = JoinPath(gSBMLModelsPath, "ss_threeSpecies.xml");
+		CHECK(loadSBMLFromFile(model.c_str()));
+	}
+
+	TEST(GET_CAPABILITIES)
+	{
+		CHECK(gRR!=NULL);
+		if(!gRR)
+		{
+			return;
+		}
+
+		string caps(getCapabilities());
+
+	}
 
 	TEST(LISTS)
-    {
-    	RRListHandle myList = createRRList();
-        CHECK(myList!=NULL);
+	{
+		RRListHandle myList = createRRList();
+		CHECK(myList!=NULL);
 
         // First construct [5, 3.1415]
         RRListItemHandle myItem = createIntegerItem (5);
