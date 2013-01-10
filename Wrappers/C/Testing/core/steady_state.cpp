@@ -27,25 +27,25 @@ IniFile iniFile;
 string TestModelFileName;
 
 	//Test that model files and reference data for the tests in this suite are present
-    TEST(DATA_FILES)
-    {
-		gTestDataFolder 	= JoinPath(gRRInstallFolder, "tests");
+	TEST(DATA_FILES)
+	{
+		gTestDataFolder 			= JoinPath(gRRInstallFolder, "tests");
 		string testDataFileName 	= JoinPath(gTestDataFolder, TestDataFileName);
 
-    	CHECK(FileExists(testDataFileName));
-        CHECK(iniFile.Load(testDataFileName));
-        clog<<"Loaded test data from file: "<< testDataFileName;
-        if(iniFile.GetSection("SBML_FILES"))
-        {
-        	rrIniSection* sbml = iniFile.GetSection("SBML_FILES");
-            rrIniKey* fNameKey = sbml->GetKey("FNAME1");
-            if(fNameKey)
-            {
-            	TestModelFileName  = JoinPath(gTestDataFolder, fNameKey->mValue);
-            	CHECK(FileExists(TestModelFileName));
-            }
-        }
-    }
+		CHECK(FileExists(testDataFileName));
+		CHECK(iniFile.Load(testDataFileName));
+		clog<<"Loaded test data from file: "<< testDataFileName;
+		if(iniFile.GetSection("SBML_FILES"))
+		{
+			rrIniSection* sbml = iniFile.GetSection("SBML_FILES");
+			rrIniKey* fNameKey = sbml->GetKey("FNAME1");
+			if(fNameKey)
+			{
+				TestModelFileName  = JoinPath(gTestDataFolder, fNameKey->mValue);
+				CHECK(FileExists(TestModelFileName));
+			}
+		}
+	}
 
     TEST(AllocateRR)
     {
@@ -78,8 +78,14 @@ string TestModelFileName;
         CHECK_CLOSE(0, val, 1e-6);
     }
 
-    TEST(GET_EIGENVALUE_IDS)
-    {
+//	TEST(GET_UCC)
+//	{
+//		double val;
+//		getuCC("S1","S2", val);
+//	}
+
+	TEST(GET_EIGENVALUE_IDS)
+	{
 		gRR = getRRInstance();
         if(!gRR)
         {
@@ -217,7 +223,7 @@ string TestModelFileName;
         if(!ids)
         {
         	CHECK(false);
-            return;
+			return;
         }
         if(ids->Count != aSection->KeyCount())
         {
