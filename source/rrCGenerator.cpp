@@ -1058,7 +1058,7 @@ int CGenerator::WriteComputeRules(CodeBuilder& ignore, const int& numReactions)
         }
         catch (const Exception& e)
         {
-            throw new SBWApplicationException("Error while trying to get Rule #" + ToString(i) + e.Message());
+            throw CoreException("Error while trying to get Rule #" + ToString(i) + e.Message());
         }
     }
 
@@ -1703,7 +1703,7 @@ string CGenerator::convertSpeciesToY(const string& speciesName)
     {
         return "_y[" + ToString(index) + "]";
     }
-    throw new SBWApplicationException("Internal Error: Unable to locate species: " + speciesName);
+    throw new CoreException("Internal Error: Unable to locate species: " + speciesName);
 }
 
 string CGenerator::convertSpeciesToBc(const string& speciesName)
@@ -1713,7 +1713,7 @@ string CGenerator::convertSpeciesToBc(const string& speciesName)
     {
         return "_bc[" + ToString(index) + "]";
     }
-    throw SBWApplicationException("Internal Error: Unable to locate species: " + speciesName);
+    throw CoreException("Internal Error: Unable to locate species: " + speciesName);
 }
 
 string CGenerator::convertCompartmentToC(const string& compartmentName)
@@ -1724,7 +1724,7 @@ string CGenerator::convertCompartmentToC(const string& compartmentName)
         return "_c[" + ToString(index) + "]";
     }
 
-    throw RRException("Internal Error: Unable to locate compartment: " + compartmentName);
+    throw CoreException("Internal Error: Unable to locate compartment: " + compartmentName);
 }
 
 string CGenerator::convertSymbolToGP(const string& parameterName)
@@ -1734,7 +1734,7 @@ string CGenerator::convertSymbolToGP(const string& parameterName)
     {
         return "_gp[" + ToString(index) + "]";
     }
-      throw SBWApplicationException("Internal Error: Unable to locate parameter: " + parameterName);
+      throw CoreException("Internal Error: Unable to locate parameter: " + parameterName);
 }
 
 string CGenerator::convertSymbolToC(const string& compartmentName)
@@ -1744,7 +1744,7 @@ string CGenerator::convertSymbolToC(const string& compartmentName)
     {
         return "_c[" + ToString(index) + "]";
     }
-      throw SBWApplicationException("Internal Error: Unable to locate compartment: " + compartmentName);
+      throw CoreException("Internal Error: Unable to locate compartment: " + compartmentName);
 }
 
 string CGenerator::convertUserFunctionExpression(const string& equation)
@@ -2062,7 +2062,7 @@ string CGenerator::convertUserFunctionExpression(const string& equation)
     }
     catch (const Exception& e)
     {
-       throw new SBWApplicationException(e.Message());
+       throw CoreException(e.Message());
     }
     return mSource.ToString();
 }

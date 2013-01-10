@@ -164,7 +164,7 @@ StringListContainer NOMSupport::getListOfBoundarySpecies()
 
     if (mModel == NULL)
     {
-        throw RRException("You need to load the model first");
+        throw NOMException("You need to load the model first");
     }
 
     for (int i = 0; i < mModel->getNumSpecies(); i++)
@@ -750,7 +750,7 @@ string NOMSupport::convertTime(const string& sArg, const string& sTimeSymbol)
 
             if (oModel == NULL)
             {
-                throw RRException("SBML Validation failed");
+                throw NOMException("SBML Validation failed");
             }
             else
             {
@@ -761,7 +761,7 @@ string NOMSupport::convertTime(const string& sArg, const string& sTimeSymbol)
         }
         catch(...)
         {
-            throw RRException("SBML Validation failed");
+            throw NOMException("SBML Validation failed");
         }
 //    }
 //    __finally
@@ -1286,7 +1286,7 @@ StringListContainer NOMSupport::getListOfFloatingSpecies()
 
     if (mModel == NULL)
     {
-        throw RRException("You need to load the model first");
+        throw NOMException("You need to load the model first");
     }
 
     for (int i = 0; i < mModel->getNumSpecies(); i++)
@@ -1410,7 +1410,7 @@ string NOMSupport::getModelName()
 {
     if (mModel == NULL)
     {
-        throw RRException("You need to load the model first");
+        throw NOMException("You need to load the model first");
     }
     return GetName((SBase*) mModel);
 }
@@ -1705,7 +1705,7 @@ string NOMSupport::getNthFloatingSpeciesCompartmentName(const int& nIndex)
 {
     if (mModel == NULL)
     {
-        throw RRException("You need to load the model first");
+        throw NOMException("You need to load the model first");
     }
 
     int nCount = 0;
@@ -1724,7 +1724,7 @@ string NOMSupport::getNthFloatingSpeciesCompartmentName(const int& nIndex)
             }
         }
     }
-    throw RRException("The model does not have a floating species corresponding to the index provided");
+    throw NOMException("The model does not have a floating species corresponding to the index provided");
 }
 
 //        string NOMSupport::getNthFloatingSpeciesId(int nIndex)
@@ -3490,7 +3490,7 @@ void NOMSupport::loadSBML(const string& var0)
     mModel = mSBMLDoc->getModel();
     if (mModel == NULL)
     {
-        throw RRException(validateSBML(sTemp));
+        throw NOMException(validateSBML(sTemp));
     }
 }
 

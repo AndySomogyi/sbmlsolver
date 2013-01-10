@@ -265,7 +265,7 @@ void Scanner::getNumber()
         }
         catch(const RRException())
         {
-            throw RRException("Integer Overflow - constant value too large to read");
+            throw ScannerException("Integer Overflow - constant value too large to read");
         }
 
     scale = 1;

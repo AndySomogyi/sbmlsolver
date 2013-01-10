@@ -80,7 +80,8 @@ int main(int argc, char* argv[])
 
 
 	clog<<"Running Suite 1\n";
-	runner1.RunTestsIf(Test::GetTestList(), "SUITE_1", 		True(), 0);
+	runner1.RunTestsIf(Test::GetTestList(), "TEST_MODEL_1", 			True(), 0);
+	runner1.RunTestsIf(Test::GetTestList(), "CORE_EXCEPTIONS", 		True(), 0);
 
 //    runner1.RunTestsIf(Test::GetTestList(), "Base", 		True(), 0);
 //

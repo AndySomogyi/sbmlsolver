@@ -174,7 +174,7 @@ double NLEQInterface::solve(const vector<double>& yin)
     {
     	string err = ErrorForStatus(ierr);
         Log(lError)<<"Error :"<<err;
-        throw RRException(err);
+        throw NLEQException(err);
     }
 
     return ComputeSumsOfSquares();

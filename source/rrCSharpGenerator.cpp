@@ -503,13 +503,9 @@ string CSharpGenerator::convertUserFunctionExpression(const string& equation)
                s.nextToken();
         }
     }
-    catch (SBWApplicationException)
-    {
-       throw;
-    }
     catch (Exception e)
     {
-       throw new SBWApplicationException(e.Message());
+       throw new CoreException(e.Message());
     }
     return sb.ToString();
 }
@@ -1887,7 +1883,7 @@ int CSharpGenerator::WriteComputeRules(CodeBuilder& sb, const int& numReactions)
         }
         catch (Exception& e)
         {
-            throw SBWApplicationException("Error while trying to get Rule #" + ToString(i) + e.Message());
+            throw CoreException("Error while trying to get Rule #" + ToString(i) + e.Message());
         }
     }
 
@@ -1950,7 +1946,6 @@ void CSharpGenerator::WriteComputeReactionRates(CodeBuilder& sb, const int& numR
     sb<<Append("\t// Compute the reaction rates" + NL());
     sb<<Append("\tpublic void computeReactionRates (double time, double[] y)" + NL());
     sb<<Append("\t{" + NL());
-
 
     for (int i = 0; i < numReactions; i++)
     {
@@ -2421,8 +2416,6 @@ void CSharpGenerator::WriteSetInitialConditions(CodeBuilder& sb, const int& numF
     sb<<Append("\t}" + NL() + NL());
 }
 
-
-
 string CSharpGenerator::convertSpeciesToY(const string& speciesName)
 {
     int index;
@@ -2430,7 +2423,7 @@ string CSharpGenerator::convertSpeciesToY(const string& speciesName)
     {
         return "_y[" + ToString(index) + "]";
     }
-    throw new SBWApplicationException("Internal Error: Unable to locate species: " + speciesName);
+    throw new CoreException("Internal Error: Unable to locate species: " + speciesName);
 }
 
 string CSharpGenerator::convertSpeciesToBc(const string& speciesName)
@@ -2440,7 +2433,7 @@ string CSharpGenerator::convertSpeciesToBc(const string& speciesName)
     {
         return "_bc[" + ToString(index) + "]";
     }
-    throw SBWApplicationException("Internal Error: Unable to locate species: " + speciesName);
+    throw CoreException("Internal Error: Unable to locate species: " + speciesName);
 }
 
 string CSharpGenerator::convertCompartmentToC(const string& compartmentName)
@@ -2451,7 +2444,7 @@ string CSharpGenerator::convertCompartmentToC(const string& compartmentName)
         return "_c[" + ToString(index) + "]";
     }
 
-    throw RRException("Internal Error: Unable to locate compartment: " + compartmentName);
+    throw CoreException("Internal Error: Unable to locate compartment: " + compartmentName);
 }
 
 string CSharpGenerator::convertSymbolToGP(const string& parameterName)
@@ -2461,7 +2454,7 @@ string CSharpGenerator::convertSymbolToGP(const string& parameterName)
     {
         return "_gp[" + ToString(index) + "]";
     }
-      throw SBWApplicationException("Internal Error: Unable to locate parameter: " + parameterName);
+      throw CoreException("Internal Error: Unable to locate parameter: " + parameterName);
 }
 
 string CSharpGenerator::convertSymbolToC(const string& compartmentName)
@@ -2471,7 +2464,7 @@ string CSharpGenerator::convertSymbolToC(const string& compartmentName)
     {
         return "_c[" + ToString(index) + "]";
     }
-      throw SBWApplicationException("Internal Error: Unable to locate compartment: " + compartmentName);
+      throw CoreException("Internal Error: Unable to locate compartment: " + compartmentName);
 }
 
 

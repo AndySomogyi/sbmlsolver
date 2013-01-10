@@ -21,7 +21,7 @@ extern string   gRRInstallFolder;
 extern bool 	gDebug;
 
 //This tests is mimicking the Python tests
-SUITE(SUITE_1)
+SUITE(TEST_MODEL_1)
 {
 string TestDataFileName 	= "TestModel_1.dat";
 IniFile iniFile;
