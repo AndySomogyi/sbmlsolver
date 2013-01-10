@@ -64,15 +64,13 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
 		Compiler                        mCompiler;
 		void                            AddNthOutputToResult(DoubleMatrix& results, int nRow, double dCurrentTime);
-        bool                            PopulateResult();
+		bool                            PopulateResult();
 		bool                            IsNleqAvailable();
 		void                            emptyModel();
 		double                          GetValueForRecord(const TSelectionRecord& record);
 		double                          GetNthSelectedOutput(const int& index, const double& dCurrentTime);
 		vector<double>                  BuildModelEvalArgument();
 		double                          getVariableValue(const TVariableType& variableType, const int& variableIndex);
-		void                            setParameterValue(const TParameterType& parameterType, const int& parameterIndex, const double& value);
-		double                          getParameterValue(const TParameterType& parameterType, const int& parameterIndex);
 
 		vector<TSelectionRecord>        mSteadyStateSelection;
 		vector<TSelectionRecord>        getSteadyStateSelection(const StringList& newSelectionList);
@@ -82,10 +80,13 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		NOMSupport						mNOM;
 
 	public:
+		void                            setParameterValue(const TParameterType& parameterType, const int& parameterIndex, const double& value);
+		double                          getParameterValue(const TParameterType& parameterType, const int& parameterIndex);
+
 		string                  		getParamPromotedSBML(const string& sArg);
-        NOMSupport*						getNOM();
+		NOMSupport*						getNOM();
 		Compiler*						getCompiler();
-        string							getInfo();
+		string							getInfo();
 
 		// Properties -----------------------------------------------------------------------------
 		bool                     		mComputeAndAssignConservationLaws;
@@ -108,6 +109,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
         SharedLibrary			  		mModelDLL;
 		string                          mCurrentSBML;
 		ModelFromC*                     mModel;
+		ModelFromC*						GetModel();
 		double                          mTimeStart;
 		double                          mTimeEnd;
 		int                             mNumPoints;

@@ -107,6 +107,11 @@ RoadRunner::~RoadRunner()
     delete mLS;
 }
 
+ModelFromC*	RoadRunner::GetModel()
+{
+	return mModel;
+}
+
 string RoadRunner::getInfo()
 {
 	stringstream info;
@@ -1350,105 +1355,142 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
     {
         variableValue = 1e-12;
     }
-    return getuEE(reactionName, parameterName, computeSteadyState) * parameterValue / variableValue;
+	return getuEE(reactionName, parameterName, computeSteadyState) * parameterValue / variableValue;
 }
 
 
 //        [Help("Get unscaled elasticity coefficient with respect to a global parameter or species")]
 double RoadRunner::getuEE(const string& reactionName, const string& parameterName)
 {
-    return getuEE(reactionName, parameterName, true);
+	return getuEE(reactionName, parameterName, true);
 }
 
+
+class aFinalizer
+{
+	private:
+		TParameterType 	mParameterType;
+		int	 			mParameterIndex;
+		double 			mOriginalParameterValue;
+		bool 			mComputeSteadyState;
+		RoadRunner* 	mRR;
+	public:
+		aFinalizer(TParameterType& pType, const int& pIndex, const double& origValue, const bool& doWhat, RoadRunner* aRoadRunner)
+		:
+		mParameterType(pType),
+		mParameterIndex(pIndex),
+		mOriginalParameterValue(origValue),
+		mComputeSteadyState(doWhat),
+		mRR(aRoadRunner)
+		{}
+		~aFinalizer()
+		{
+			//finally
+			// What ever happens, make sure we restore the parameter level
+			mRR->setParameterValue(mParameterType, mParameterIndex, mOriginalParameterValue);
+			mRR->GetModel()->computeReactionRates(mRR->GetModel()->getTime(), mRR->GetModel()->y);
+			if (mComputeSteadyState)
+			{
+				mRR->steadyState();
+			}
+		}
+};
 //[Help("Get unscaled elasticity coefficient with respect to a global parameter or species. Optionally the model is brought to steady state after the computation.")]
 double RoadRunner::getuEE(const string& reactionName, const string& parameterName, bool computeSteadystate)
 {
-    try
-    {
-        if (mModel)
-        {
-            TParameterType parameterType;
-            double originalParameterValue;
-            int reactionIndex;
-            int parameterIndex;
-            double f1;
-            double f2;
+	try
+	{
+		if (mModel)
+		{
+			TParameterType parameterType;
+			double originalParameterValue;
+			int reactionIndex;
+			int parameterIndex;
+			double f1;
+			double f2;
 
-            mModel->convertToConcentrations();
-            mModel->computeReactionRates(mModel->getTime(), mModel->y);
+			mModel->convertToConcentrations();
+			mModel->computeReactionRates(mModel->getTime(), mModel->y);
 
-            // Check the reaction name
-            if (!mModelGenerator->GetReactionList().find(reactionName, reactionIndex))
-            {
-                throw SBWApplicationException("Unable to locate reaction name: [" + reactionName + "]");
-            }
+			// Check the reaction name
+			if (!mModelGenerator->GetReactionList().find(reactionName, reactionIndex))
+			{
+				throw SBWApplicationException("Unable to locate reaction name: [" + reactionName + "]");
+			}
 
-            // Find out what kind of parameter we are dealing with
-            if (mModelGenerator->GetFloatingSpeciesConcentrationList().find(parameterName, parameterIndex))
-            {
-                parameterType = TParameterType::ptFloatingSpecies;
-                originalParameterValue = mModel->y[parameterIndex];
-            }
-            else if (mModelGenerator->GetBoundarySpeciesList().find(parameterName, parameterIndex))
-            {
-                parameterType = TParameterType::ptBoundaryParameter;
-                originalParameterValue = mModel->bc[parameterIndex];
-            }
-            else if (mModelGenerator->GetGlobalParameterList().find(parameterName, parameterIndex))
-            {
-                parameterType = TParameterType::ptGlobalParameter;
-                originalParameterValue = mModel->gp[parameterIndex];
-            }
-            else if (mModelGenerator->GetConservationList().find(parameterName, parameterIndex))
-            {
-                parameterType = TParameterType::ptConservationParameter;
-                originalParameterValue = mModel->ct[parameterIndex];
-            }
-            else throw SBWApplicationException("Unable to locate variable: [" + parameterName + "]");
+			// Find out what kind of parameter we are dealing with
+			if (mModelGenerator->GetFloatingSpeciesConcentrationList().find(parameterName, parameterIndex))
+			{
+				parameterType = TParameterType::ptFloatingSpecies;
+				originalParameterValue = mModel->y[parameterIndex];
+			}
+			else if (mModelGenerator->GetBoundarySpeciesList().find(parameterName, parameterIndex))
+			{
+				parameterType = TParameterType::ptBoundaryParameter;
+				originalParameterValue = mModel->bc[parameterIndex];
+			}
+			else if (mModelGenerator->GetGlobalParameterList().find(parameterName, parameterIndex))
+			{
+				parameterType = TParameterType::ptGlobalParameter;
+				originalParameterValue = mModel->gp[parameterIndex];
+			}
+			else if (mModelGenerator->GetConservationList().find(parameterName, parameterIndex))
+			{
+				parameterType = TParameterType::ptConservationParameter;
+				originalParameterValue = mModel->ct[parameterIndex];
+			}
+			else throw SBWApplicationException("Unable to locate variable: [" + parameterName + "]");
 
-            double hstep = DiffStepSize*originalParameterValue;
-            if (fabs(hstep) < 1E-12)
-            {
-                hstep = DiffStepSize;
-            }
+			double hstep = DiffStepSize*originalParameterValue;
+			if (fabs(hstep) < 1E-12)
+			{
+				hstep = DiffStepSize;
+			}
 
-            try
-            {
-                mModel->convertToConcentrations();
+			try
+			{
+				aFinalizer(parameterType, parameterIndex, originalParameterValue, mModel, this);
+				mModel->convertToConcentrations();
 
-                setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
-                mModel->computeReactionRates(mModel->getTime(), mModel->y);
-                double fi = mModel->rates[reactionIndex];
+				setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
+				mModel->computeReactionRates(mModel->getTime(), mModel->y);
+				double fi = mModel->rates[reactionIndex];
 
-                setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
-                mModel->computeReactionRates(mModel->getTime(), mModel->y);
-                double fi2 = mModel->rates[reactionIndex];
+				setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
+				mModel->computeReactionRates(mModel->getTime(), mModel->y);
+				double fi2 = mModel->rates[reactionIndex];
 
-                setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
-                mModel->computeReactionRates(mModel->getTime(), mModel->y);
-                double fd = mModel->rates[reactionIndex];
+				setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
+				mModel->computeReactionRates(mModel->getTime(), mModel->y);
+				double fd = mModel->rates[reactionIndex];
 
-                setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
-                mModel->computeReactionRates(mModel->getTime(), mModel->y);
-                double fd2 = mModel->rates[reactionIndex];
+				setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
+				mModel->computeReactionRates(mModel->getTime(), mModel->y);
+				double fd2 = mModel->rates[reactionIndex];
 
-                // Use instead the 5th order approximation double unscaledValue = (0.5/hstep)*(fi-fd);
-                // The following separated lines avoid small amounts of roundoff error
-                f1 = fd2 + 8*fi;
-                f2 = -(8*fd + fi2);
-            }
-            catch(...)
-            {}
-            //finally
-            {
-                // What ever happens, make sure we restore the parameter level
-                setParameterValue(parameterType, parameterIndex, originalParameterValue);
-                mModel->computeReactionRates(mModel->getTime(), mModel->y);
-                if (computeSteadystate) steadyState();
-            }
-            return 1/(12*hstep)*(f1 + f2);
+				// Use instead the 5th order approximation double unscaledValue = (0.5/hstep)*(fi-fd);
+				// The following separated lines avoid small amounts of roundoff error
+				f1 = fd2 + 8*fi;
+				f2 = -(8*fd + fi2);
+			}
+			catch(...)
+			{}
+//			//finally
+//			{
+//				// What ever happens, make sure we restore the parameter level
+//				setParameterValue(parameterType, parameterIndex, originalParameterValue);
+//				mModel->computeReactionRates(mModel->getTime(), mModel->y);
+//				if (computeSteadystate)
+//				{
+//					steadyState();
+//				}
+//			}
+			return 1/(12*hstep)*(f1 + f2);
         }
-        else throw SBWApplicationException(emptyModelStr);
+		else
+		{
+			throw SBWApplicationException(emptyModelStr);
+		}
     }
     catch (const Exception& e)
     {
