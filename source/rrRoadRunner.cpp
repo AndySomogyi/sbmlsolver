@@ -3023,18 +3023,8 @@ double RoadRunner::getRateOfChange(const int& index)
 // Help("Returns the rates of changes given an array of new floating species concentrations")
 vector<double> RoadRunner::getRatesOfChangeEx(const vector<double>& values)
 {
-	if (!mModel)
-	{
-		throw SBWApplicationException(emptyModelStr);
-	}
-
-	CopyStdVectorToCArray(values, mModel->y, *mModel->ySize);
-
-	vector<double> temp;
-
-	temp =  BuildModelEvalArgument();
-	mModel->evalModel(0.0, temp);
-	return CreateVector(mModel->dydt, *mModel->dydtSize);
+	setFloatingSpeciesConcentrations(values);
+	return getRatesOfChange();
 }
 
 // Help("Returns the rates of changes given an array of new floating species concentrations")
@@ -5262,8 +5252,7 @@ double RoadRunner::getValue(const string& sId)
 		if (oComplex.size() > selectionList[index + 1].index) //Becuase first one is time !?
 		{
 			return oComplex[selectionList[index + 1].index].Real;
-			//return oComplex[index].Real;
-        }
+		}
         return std::numeric_limits<double>::quiet_NaN();
     }
 

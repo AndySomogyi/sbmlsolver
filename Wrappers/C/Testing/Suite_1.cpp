@@ -446,6 +446,8 @@ RRHandle gRR;
 
 		ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
 
+		double test;
+		steadyState(test);
 		RRMatrixHandle matrix = getScaledElasticityMatrix();
 		if(!matrix)
 		{

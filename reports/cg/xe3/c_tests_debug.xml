@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="api_tests.xsl" type="text/xsl" ?>
-<unittest-results date_time = "2013-01-08 13:09:09" tests="44" failedtests="3" failures="8" time="7.632">
-<test suite="SUITE_1" name="DATA_FILES" time="0.079"/>
-<test suite="SUITE_1" name="SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS" time="0.07"/>
+<unittest-results date_time = "2013-01-09 16:16:16" tests="44" failedtests="0" failures="0" time="53.285">
+<test suite="SUITE_1" name="DATA_FILES" time="1.05"/>
+<test suite="SUITE_1" name="SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS" time="0.428"/>
 <test suite="SUITE_1" name="SET_STEADY_STATE_SELECTION_LIST" time="0"/>
 <test suite="SUITE_1" name="GET_STEADY_STATE_SELECTION_LIST" time="0"/>
 <test suite="SUITE_1" name="COMPUTE_STEADY_STATE" time="0"/>
-<test suite="SUITE_1" name="SPECIES_CONCENTRATIONS" time="0.006"/>
-<test suite="SUITE_1" name="FLUXES" time="0.01"/>
-<test suite="SUITE_1" name="FULL_JACOBIAN" time="0"/>
-<test suite="SUITE_1" name="INDIVIDUAL_EIGENVALUES" time="0.015"/>
-<test suite="SUITE_1" name="GET_EIGENVALUE_MATRIX" time="0.074"/>
-<test suite="SUITE_1" name="STOICHIOMETRY_MATRIX" time="0.006"/>
-<test suite="SUITE_1" name="LINK_MATRIX" time="0.007"/>
-<test suite="SUITE_1" name="UNSCALED_ELASTICITY_MATRIX" time="0.038"/>
-<test suite="SUITE_1" name="SCALED_ELASTICITY_MATRIX" time="0.036"><failure message="Suite_1.cpp(475) : Expected -0.398303 +/- 1e-06 but was -0.0526316"/><failure message="Suite_1.cpp(475) : Expected 1.19491 +/- 1e-06 but was -8.57143"/></test>
-<test suite="SUITE_1" name="UNSCALED_CONCENTRATION_CONTROL_MATRIX" time="0.05"/>
-<test suite="SUITE_1" name="SCALED_CONCENTRATION_CONTROL_MATRIX" time="0.041"/>
-<test suite="SUITE_1" name="UNSCALED_FLUX_CONTROL_MATRIX" time="0.046"/>
-<test suite="SUITE_1" name="SCALED_FLUX_CONTROL_MATRIX" time="0.044"/>
+<test suite="SUITE_1" name="SPECIES_CONCENTRATIONS" time="0.045"/>
+<test suite="SUITE_1" name="FLUXES" time="0.026"/>
+<test suite="SUITE_1" name="FULL_JACOBIAN" time="0.012"/>
+<test suite="SUITE_1" name="INDIVIDUAL_EIGENVALUES" time="4.424"/>
+<test suite="SUITE_1" name="GET_EIGENVALUE_MATRIX" time="0.491"/>
+<test suite="SUITE_1" name="STOICHIOMETRY_MATRIX" time="0.008"/>
+<test suite="SUITE_1" name="LINK_MATRIX" time="0.011"/>
+<test suite="SUITE_1" name="UNSCALED_ELASTICITY_MATRIX" time="0.078"/>
+<test suite="SUITE_1" name="SCALED_ELASTICITY_MATRIX" time="0.081"/>
+<test suite="SUITE_1" name="UNSCALED_CONCENTRATION_CONTROL_MATRIX" time="0.09"/>
+<test suite="SUITE_1" name="SCALED_CONCENTRATION_CONTROL_MATRIX" time="0.094"/>
+<test suite="SUITE_1" name="UNSCALED_FLUX_CONTROL_MATRIX" time="0.119"/>
+<test suite="SUITE_1" name="SCALED_FLUX_CONTROL_MATRIX" time="0.114"/>
 <test suite="SUITE_1" name="FLOATING_SPECIES_IDS" time="0"/>
 <test suite="SUITE_1" name="BOUNDARY_SPECIES_IDS" time="0"/>
 <test suite="SUITE_1" name="GLOBAL_PARAMETER_IDS" time="0"/>
@@ -31,18 +31,18 @@
 <test suite="SUITE_1" name="GET_STEADY_STATE_SELECTION_LIST_2" time="0"/>
 <test suite="SUITE_1" name="SET_TIME_COURSE_SELECTION_LIST" time="0"/>
 <test suite="SUITE_1" name="GET_TIME_COURSE_SELECTION_LIST" time="0"/>
-<test suite="SUITE_1" name="COMPUTE_STEADY_STATE_VALUES" time="0.01"/>
-<test suite="SUITE_1" name="FLOATING_SPECIES_CONCENTRATIONS" time="0.015"/>
-<test suite="SUITE_1" name="BOUNDARY_SPECIES_CONCENTRATIONS" time="0.014"/>
-<test suite="SUITE_1" name="GET_GLOBABL_PARAMETER_VALUES" time="0.05"/>
-<test suite="SUITE_1" name="GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS" time="0.012"/>
-<test suite="SUITE_1" name="GET_REACTION_RATES" time="0.021"/>
-<test suite="SUITE_1" name="GET_REACTION_RATE_BY_INDEX" time="0.021"/>
+<test suite="SUITE_1" name="COMPUTE_STEADY_STATE_VALUES" time="0.021"/>
+<test suite="SUITE_1" name="FLOATING_SPECIES_CONCENTRATIONS" time="0.039"/>
+<test suite="SUITE_1" name="BOUNDARY_SPECIES_CONCENTRATIONS" time="0.042"/>
+<test suite="SUITE_1" name="GET_GLOBABL_PARAMETER_VALUES" time="0.132"/>
+<test suite="SUITE_1" name="GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS" time="0.033"/>
+<test suite="SUITE_1" name="GET_REACTION_RATES" time="0.064"/>
+<test suite="SUITE_1" name="GET_REACTION_RATE_BY_INDEX" time="0.063"/>
 <test suite="SUITE_1" name="NUMBER_OF_DEPENDENT_SPECIES" time="0"/>
 <test suite="SUITE_1" name="NUMBER_OF_INDEPENDENT_SPECIES" time="0"/>
 <test suite="SUITE_1" name="NUMBER_OF_RULES" time="0"/>
-<test suite="SUITE_1" name="GET_RATES_OF_CHANGE" time="0.013"/>
-<test suite="SUITE_1" name="GET_REACTION_RATES_EX" time="0.017"/>
-<test suite="SUITE_1" name="GET_RATES_OF_CHANGE_EX" time="0.014"><failure message="Suite_1.cpp(1489) : Expected 0.101 +/- 1e-06 but was 2.77556e-17"/><failure message="Suite_1.cpp(1489) : Expected -0.08 +/- 1e-06 but was 0"/><failure message="Suite_1.cpp(1489) : Expected -1.071 +/- 1e-06 but was -1.38778e-17"/></test>
-<test suite="SUITE_1" name="GET_RATE_OF_CHANGE_BY_INDEX" time="6.908"><failure message="Suite_1.cpp(1541) : Expected 0.101 +/- 1e-06 but was 2.77556e-17"/><failure message="Suite_1.cpp(1541) : Expected -0.08 +/- 1e-06 but was 0"/><failure message="Suite_1.cpp(1541) : Expected -1.071 +/- 1e-06 but was -1.38778e-17"/></test>
+<test suite="SUITE_1" name="GET_RATES_OF_CHANGE" time="13.892"/>
+<test suite="SUITE_1" name="GET_REACTION_RATES_EX" time="0.048"/>
+<test suite="SUITE_1" name="GET_RATES_OF_CHANGE_EX" time="31.808"/>
+<test suite="SUITE_1" name="GET_RATE_OF_CHANGE_BY_INDEX" time="0.03"/>
 </unittest-results>
