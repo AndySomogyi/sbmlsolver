@@ -23,41 +23,35 @@ class RR_DECLSPEC Exception : public std::exception, public rrObject
         string                  Message() const;
 };
 
-class RR_DECLSPEC RRException : public Exception
+class RR_DECLSPEC CoreException : public Exception
 {
     public:
-        RRException(const string& msg);
+        CoreException(const string& msg);
+        CoreException(const string& msg1, const string& msg2);
 };
 
-class RR_DECLSPEC SBWApplicationException : public RRException
-{
-    public:
-        SBWApplicationException(const string& msg);
-        SBWApplicationException(const string& msg1, const string& msg2);
-};
-
-class RR_DECLSPEC SBWException : public RRException
-{
-    public:
-        SBWException(const string& msg);
-};
-
-class RR_DECLSPEC ScannerException : public RRException
+class RR_DECLSPEC ScannerException : public Exception
 {
     public:
         ScannerException(const string& msg);
 };
 
-class RR_DECLSPEC NLEQException : public RRException
+class RR_DECLSPEC NLEQException : public Exception
 {
     public:
         NLEQException(const string& msg);
 };
 
-class RR_DECLSPEC CvodeException : public RRException
+class RR_DECLSPEC NOMException : public Exception
 {
     public:
-        CvodeException(const string& msg);
+        NOMException(const string& msg);
+};
+
+class RR_DECLSPEC CVODEException : public Exception
+{
+    public:
+        CVODEException(const string& msg);
 };
 }//namepsace rr
 #endif

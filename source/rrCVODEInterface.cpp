@@ -237,7 +237,7 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
 {
     if(!oModel)
     {
-        throw SBWApplicationException("Fatal Error while initializing CVODE");
+        throw CVODEException("Fatal Error while initializing CVODE");
     }
 
     try
@@ -325,9 +325,9 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
             oModel->resetEvents();
         }
     }
-    catch (RRException ex)
+    catch (Exception ex)
     {
-        throw SBWApplicationException("Fatal Error while initializing CVODE");//, ex.mMessage);
+        throw CVODEException("Fatal Error while initializing CVODE");//, ex.mMessage);
     }
 }
 
@@ -623,7 +623,7 @@ void CvodeInterface::HandleCVODEError(int errCode)
 
         //throw CvodeException("Error in RunCVode: " + errorCodes[-errCode].msg + msg);
         Log(lError)<<"Error in RunCVode: "<<errCode<<msg;
-        throw CvodeException("Error in RunCVode: " + ToString(errCode) + msg);
+        throw CVODEException("Error in RunCVode: " + ToString(errCode) + msg);
     }
 }
 
@@ -834,7 +834,7 @@ double CvodeInterface::OneStep(double timeStart, double hstep)
 ////            }
 ////            catch (NullReferenceException ex)
 ////            {
-////                throw new SBWApplicationException("Internal error, please reload the model", ex.StackTrace);
+////                throw new CVODEException("Internal error, please reload the model", ex.StackTrace);
 ////            }
 ////            catch (Exception)
 ////            {

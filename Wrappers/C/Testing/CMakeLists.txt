@@ -6,9 +6,11 @@ configure_file(run_c_tests.sh.in run_c_tests.sh)
 set(target c_api_tests)
 
 set(tests
-core/base
-core/steady_state
-core/sbml_test_suite
+#core/base
+#core/steady_state
+#core/sbml_test_suite
+Suite_TestModel_1
+Suite_CoreExceptions
 )
 
 add_executable( ${target} 

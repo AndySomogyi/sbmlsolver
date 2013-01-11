@@ -27,39 +27,34 @@ string Exception::Message() const
     return mMessage;
 }
 
-RRException::RRException(const string& msg)
+CoreException::CoreException(const string& msg)
 :
 Exception(msg)
 {}
 
-SBWApplicationException::SBWApplicationException(const string& msg)
+CoreException::CoreException(const string& msg1, const string& msg2)
 :
-RRException(msg)
-{}
-
-SBWApplicationException::SBWApplicationException(const string& msg1, const string& msg2)
-:
-RRException(msg1 + msg2)
-{}
-
-SBWException::SBWException(const string& msg)
-:
-RRException(msg)
+Exception(msg1 + msg2)
 {}
 
 ScannerException::ScannerException(const string& msg)
 :
-RRException(msg)
+Exception(msg)
 {}
 
 NLEQException::NLEQException(const string& msg)
 :
-RRException(msg)
+Exception(msg)
 {}
 
-CvodeException::CvodeException(const string& msg)
+NOMException::NOMException(const string& msg)
 :
-RRException(msg)
+Exception(msg)
+{}
+
+CVODEException::CVODEException(const string& msg)
+:
+Exception(msg)
 {}
 
 }

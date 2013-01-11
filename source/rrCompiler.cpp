@@ -5,6 +5,7 @@
 #include <sstream>
 #if defined(WIN32)
 #include <windows.h>
+
     #if defined(__CODEGEARC__)
     #include <dir.h>
     #elif defined(_MSVC)
@@ -233,8 +234,9 @@ bool Compiler::Compile(const string& cmdLine)
 {
     STARTUPINFO         si;
     PROCESS_INFORMATION pi;
-    SECURITY_ATTRIBUTES sap,sat,sao;
+
     //sec attributes for the output file
+    SECURITY_ATTRIBUTES sao;
     sao.nLength=sizeof(SECURITY_ATTRIBUTES);
     sao.lpSecurityDescriptor=NULL;
     sao.bInheritHandle=1;
@@ -253,15 +255,20 @@ bool Compiler::Compile(const string& cmdLine)
     string compilerTempFile(JoinPath(tmpPath,"compilerOutput.log"));
 
     HANDLE out;
-    if((out=CreateFileA(     compilerTempFile.c_str(),
-                            GENERIC_WRITE|GENERIC_READ,FILE_SHARE_READ|FILE_SHARE_WRITE,
+  	//Todo: there is a problem creating the logfile after first time creation..
+    if((out=CreateFileA(    compilerTempFile.c_str(),
+                            GENERIC_WRITE,
+                            FILE_SHARE_DELETE,
                             &sao,
-                            CREATE_ALWAYS,
+                            OPEN_ALWAYS,
                             FILE_ATTRIBUTE_NORMAL,
                             NULL))==INVALID_HANDLE_VALUE)
     {
+        // Retrieve the system error message for the last-error code
+         DWORD dw = GetLastError();
+
         Log(lError)<<"Failed creating logFile for compiler output";
-        return false;
+//        return false;
     }
 
     SetFilePointer( out, 0, NULL, FILE_END); //set pointer position to end file
@@ -272,11 +279,13 @@ bool Compiler::Compile(const string& cmdLine)
     si.hStdError = out;
 
     //proc sec attributes
+    SECURITY_ATTRIBUTES sap;
     sap.nLength=sizeof(SECURITY_ATTRIBUTES);
     sap.lpSecurityDescriptor=NULL;
     sap.bInheritHandle=1;
 
     //thread sec attributes
+    SECURITY_ATTRIBUTES sat;
     sat.nLength=sizeof(SECURITY_ATTRIBUTES);
     sat.lpSecurityDescriptor=NULL;
     sat.bInheritHandle=1;
@@ -295,6 +304,11 @@ bool Compiler::Compile(const string& cmdLine)
         &pi )                           // Pointer to PROCESS_INFORMATION structure
     )
     {
+        // Close process and thread handles.
+        CloseHandle(pi.hProcess);
+        CloseHandle(pi.hThread);
+        CloseHandle(out);
+
         Log(lError)<<"CreateProcess failed: "<<GetLastError();
         return false;
     }

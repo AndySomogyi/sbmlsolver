@@ -687,9 +687,7 @@ bool rrCallConv unLoadModel()
             return NULL;
         }
 
-		bool result = gRRHandle->unLoadModel();
-
-        return result;
+        return gRRHandle->unLoadModel();
     }
     catch(Exception& ex)
     {
@@ -1970,10 +1968,9 @@ bool rrCallConv getuEE(const char* name, const char* species, double& value)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
-    }
-  	return false;
+  		return false;
+	}
 }
-
 
 bool rrCallConv getEE(const char* name, const char* species, double& value)
 {

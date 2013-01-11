@@ -52,7 +52,7 @@ string& StringList::operator[](const int& index)
     	stringstream msg;
         msg<<"index ("<<index<<") out of bounds in StringList with count "<<Count();
 
-    	throw(RRException(msg.str()));
+    	throw(CoreException(msg.str()));
     }
     return mStrings[index];
 }
@@ -64,7 +64,7 @@ const string& StringList::operator[](const int& index) const
     	stringstream msg;
         msg<<"index ("<<index<<") out of bounds in StringList with count "<<Count();
 
-    	throw(RRException(msg.str()));
+    	throw(CoreException(msg.str()));
     }
 
     return mStrings[index];
