@@ -69,6 +69,12 @@ RRHandle gRR;
 
     TEST(GET_UNSCALED_ELASTICITY_COEFFICIENT)
     {
+		double test;
+		bool val =  getuEE("J1", "S1", test);
+
+        val = getuEE("J1", "S34", test);
+
+		val =  getuCC("J1", "S1", test);
 
     }
 

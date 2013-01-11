@@ -1352,26 +1352,28 @@ class aFinalizer
 		double 			mOriginalParameterValue;
 		bool 			mComputeSteadyState;
 		RoadRunner* 	mRR;
+
 	public:
-		aFinalizer(TParameterType& pType, const int& pIndex, const double& origValue, const bool& doWhat, RoadRunner* aRoadRunner)
-		:
-		mParameterType(pType),
-		mParameterIndex(pIndex),
-		mOriginalParameterValue(origValue),
-		mComputeSteadyState(doWhat),
-		mRR(aRoadRunner)
-		{}
-		~aFinalizer()
-		{
-			//this is a finally{} code block
-			// What ever happens, make sure we restore the parameter level
-			mRR->setParameterValue(mParameterType, mParameterIndex, mOriginalParameterValue);
-			mRR->GetModel()->computeReactionRates(mRR->GetModel()->getTime(), mRR->GetModel()->y);
-			if (mComputeSteadyState)
-			{
-				mRR->steadyState();
-			}
-		}
+                        aFinalizer(TParameterType& pType, const int& pIndex, const double& origValue, const bool& doWhat, RoadRunner* aRoadRunner)
+                        :
+                        mParameterType(pType),
+                        mParameterIndex(pIndex),
+                        mOriginalParameterValue(origValue),
+                        mComputeSteadyState(doWhat),
+                        mRR(aRoadRunner)
+                        {}
+
+                        ~aFinalizer()
+                        {
+                            //this is a finally{} code block
+                            // What ever happens, make sure we restore the parameter level
+                            mRR->setParameterValue(mParameterType, mParameterIndex, mOriginalParameterValue);
+                            mRR->GetModel()->computeReactionRates(mRR->GetModel()->getTime(), mRR->GetModel()->y);
+                            if (mComputeSteadyState)
+                            {
+                                mRR->steadyState();
+                            }
+                        }
 };
 
 //[Help("Get unscaled elasticity coefficient with respect to a global parameter or species. Optionally the model is brought to steady state after the computation.")]
@@ -1388,8 +1390,6 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
         double originalParameterValue;
         int reactionIndex;
         int parameterIndex;
-        double f1;
-        double f2;
 
         mModel->convertToConcentrations();
         mModel->computeReactionRates(mModel->getTime(), mModel->y);
@@ -1432,7 +1432,7 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
             hstep = DiffStepSize;
         }
 
-        aFinalizer(parameterType, parameterIndex, originalParameterValue, mModel, this);
+        aFinalizer a(parameterType, parameterIndex, originalParameterValue, mModel, this);
         mModel->convertToConcentrations();
 
         setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
@@ -1453,8 +1453,8 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
 
         // Use instead the 5th order approximation double unscaledValue = (0.5/hstep)*(fi-fd);
         // The following separated lines avoid small amounts of roundoff error
-        f1 = fd2 + 8*fi;
-        f2 = -(8*fd + fi2);
+        double f1 = fd2 + 8*fi;
+        double f2 = -(8*fd + fi2);
 
         return 1/(12*hstep)*(f1 + f2);
     }
@@ -2626,11 +2626,6 @@ void RoadRunner::setSteadyStateSelectionList(const StringList& newSelectionList)
     }
 
     vector<TSelectionRecord> ssSelection = getSteadyStateSelection(newSelectionList);
-
-//    for(int i = 0; i < ssSelection.size(); i++)
-//    {
-//    	Log(lDebug)<<"Steady state selection: "<<ssSelection[i];
-//    }
     mSteadyStateSelection = ssSelection;
 }
 
@@ -2648,6 +2643,15 @@ vector<double> RoadRunner::computeSteadyStateValues()
     return computeSteadyStateValues(mSteadyStateSelection, true);
 }
 
+// Help("performs steady state analysis, returning values as specified by the given selection list.")
+//        double[] RoadRunner::computeSteadyStateValues(ArrayList oSelection)
+//        {
+//            if (!mModel) throw CoreException(emptyModelStr);
+//            var selection = GetSteadyStateSelection(oSelection);
+//            return computeSteadyStateValues(selection, true);
+//        }
+//
+
 vector<double> RoadRunner::computeSteadyStateValues(const vector<TSelectionRecord>& selection, const bool& computeSteadyState)
 {
     if (computeSteadyState)
@@ -2664,14 +2668,6 @@ vector<double> RoadRunner::computeSteadyStateValues(const vector<TSelectionRecor
 
 }
 
-// Help("performs steady state analysis, returning values as specified by the given selection list.")
-//        double[] RoadRunner::computeSteadyStateValues(ArrayList oSelection)
-//        {
-//            if (!mModel) throw CoreException(emptyModelStr);
-//            var selection = GetSteadyStateSelection(oSelection);
-//            return computeSteadyStateValues(selection, true);
-//        }
-//
 double RoadRunner::computeSteadyStateValue(const TSelectionRecord& record)
 {
     if (!mModel)
@@ -2760,7 +2756,6 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
         {
             throw CoreException(Format("Found unknown symbol '{0}' in computeSteadyStateValue()", sId));
         }
-
     }
 }
 
@@ -3550,115 +3545,112 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
 {
 	try
 	{
-		if (mModel)
-		{
-			TParameterType parameterType;
-			TVariableType variableType;
-			double originalParameterValue;
-			int variableIndex;
-			int parameterIndex;
-			double f1;
-			double f2;
-
-			mModel->convertToConcentrations();
-			mModel->computeReactionRates(mModel->getTime(), mModel->y);
-
-			// Check the variable name
-			if (mModelGenerator->reactionList.find(variableName, variableIndex))
-			{
-				variableType = TVariableType::vtFlux;
-			}
-			else if (mModelGenerator->floatingSpeciesConcentrationList.find(variableName, variableIndex))
-			{
-				variableType = TVariableType::vtSpecies;
-			}
-			else
-			{
-				throw CoreException("Unable to locate variable: [" + variableName + "]");
-			}
-
-			// Check for the parameter name
-			if (mModelGenerator->globalParameterList.find(parameterName, parameterIndex))
-			{
-				parameterType = TParameterType::ptGlobalParameter;
-				originalParameterValue = mModel->gp[parameterIndex];
-			}
-			else if (mModelGenerator->boundarySpeciesList.find(parameterName, parameterIndex))
-			{
-				parameterType = TParameterType::ptBoundaryParameter;
-				originalParameterValue = mModel->bc[parameterIndex];
-			}
-			else if (mModelGenerator->conservationList.find(parameterName, parameterIndex))
-			{
-				parameterType = TParameterType::ptConservationParameter;
-				originalParameterValue = mModel->ct[parameterIndex];
-			}
-			else
-			{
-				throw CoreException("Unable to locate parameter: [" + parameterName + "]");
-			}
-
-			// Get the original parameter value
-			originalParameterValue = getParameterValue(parameterType, parameterIndex);
-
-			double hstep = DiffStepSize*originalParameterValue;
-			if (fabs(hstep) < 1E-12)
-			{
-				hstep = DiffStepSize;
-			}
-
-			try
-			{
-				mModel->convertToConcentrations();
-
-				setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
-				steadyState();
-				mModel->computeReactionRates(mModel->getTime(), mModel->y);
-				double fi = getVariableValue(variableType, variableIndex);
-
-				setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
-				steadyState();
-				mModel->computeReactionRates(mModel->getTime(), mModel->y);
-				double fi2 = getVariableValue(variableType, variableIndex);
-
-				setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
-				steadyState();
-				mModel->computeReactionRates(mModel->getTime(), mModel->y);
-				double fd = getVariableValue(variableType, variableIndex);
-
-				setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
-				steadyState();
-				mModel->computeReactionRates(mModel->getTime(), mModel->y);
-				double fd2 = getVariableValue(variableType, variableIndex);
-
-				// Use instead the 5th order approximation double unscaledValue = (0.5/hstep)*(fi-fd);
-				// The following separated lines avoid small amounts of roundoff error
-				f1 = fd2 + 8*fi;
-				f2 = -(8*fd + fi2);
-			}
-			catch(...)
-			{
-			
-			}
-			//__finally
-			{
-				// What ever happens, make sure we restore the parameter level
-				setParameterValue(parameterType, parameterIndex, originalParameterValue);
-				steadyState();
-			}
-			return 1/(12*hstep)*(f1 + f2);
-		}
-		else
+		if (!mModel)
 		{
 			throw CoreException(emptyModelStr);
 		}
+
+        TParameterType parameterType;
+        TVariableType variableType;
+        double originalParameterValue;
+        int variableIndex;
+        int parameterIndex;
+
+        mModel->convertToConcentrations();
+        mModel->computeReactionRates(mModel->getTime(), mModel->y);
+
+        // Check the variable name
+        if (mModelGenerator->reactionList.find(variableName, variableIndex))
+        {
+            variableType = TVariableType::vtFlux;
+        }
+        else if (mModelGenerator->floatingSpeciesConcentrationList.find(variableName, variableIndex))
+        {
+            variableType = TVariableType::vtSpecies;
+        }
+        else
+        {
+            throw CoreException("Unable to locate variable: [" + variableName + "]");
+        }
+
+        // Check for the parameter name
+        if (mModelGenerator->globalParameterList.find(parameterName, parameterIndex))
+        {
+            parameterType = TParameterType::ptGlobalParameter;
+            originalParameterValue = mModel->gp[parameterIndex];
+        }
+        else if (mModelGenerator->boundarySpeciesList.find(parameterName, parameterIndex))
+        {
+            parameterType = TParameterType::ptBoundaryParameter;
+            originalParameterValue = mModel->bc[parameterIndex];
+        }
+        else if (mModelGenerator->conservationList.find(parameterName, parameterIndex))
+        {
+            parameterType = TParameterType::ptConservationParameter;
+            originalParameterValue = mModel->ct[parameterIndex];
+        }
+        else
+        {
+            throw CoreException("Unable to locate parameter: [" + parameterName + "]");
+        }
+
+        // Get the original parameter value
+        originalParameterValue = getParameterValue(parameterType, parameterIndex);
+
+        double hstep = DiffStepSize*originalParameterValue;
+        if (fabs(hstep) < 1E-12)
+        {
+            hstep = DiffStepSize;
+        }
+
+        try
+        {
+            mModel->convertToConcentrations();
+
+            setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
+            steadyState();
+            mModel->computeReactionRates(mModel->getTime(), mModel->y);
+            double fi = getVariableValue(variableType, variableIndex);
+
+            setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
+            steadyState();
+            mModel->computeReactionRates(mModel->getTime(), mModel->y);
+            double fi2 = getVariableValue(variableType, variableIndex);
+
+            setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
+            steadyState();
+            mModel->computeReactionRates(mModel->getTime(), mModel->y);
+            double fd = getVariableValue(variableType, variableIndex);
+
+            setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
+            steadyState();
+            mModel->computeReactionRates(mModel->getTime(), mModel->y);
+            double fd2 = getVariableValue(variableType, variableIndex);
+
+            // Use instead the 5th order approximation double unscaledValue = (0.5/hstep)*(fi-fd);
+            // The following separated lines avoid small amounts of roundoff error
+            double f1 = fd2 + 8*fi;
+            double f2 = -(8*fd + fi2);
+
+            // What ever happens, make sure we restore the parameter level
+            setParameterValue(parameterType, parameterIndex, originalParameterValue);
+            steadyState();
+
+            return 1/(12*hstep)*(f1 + f2);
+        }
+        catch(...) //Catch anything... and do 'finalize'
+        {
+            // What ever happens, make sure we restore the parameter level
+            setParameterValue(parameterType, parameterIndex, originalParameterValue);
+            steadyState();
+            throw;
+        }
 	}
 	catch (const Exception& e)
 	{
 		throw CoreException("Unexpected error from getuCC ()", e.Message());
 	}
 }
-
 
 //        [Help("Get scaled control coefficient with respect to a global parameter")]
 double RoadRunner::getCC(const string& variableName, const string& parameterName)
@@ -3667,7 +3659,6 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
 	TParameterType parameterType;
 	int variableIndex;
     int parameterIndex;
-    //double originalParameterValue;
 
     if (!mModel)
     {
@@ -3692,19 +3683,15 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
     if (mModelGenerator->globalParameterList.find(parameterName, parameterIndex))
     {
         parameterType = TParameterType::ptGlobalParameter;
-        //originalParameterValue = mModel->gp[parameterIndex];
     }
     else if (mModelGenerator->boundarySpeciesList.find(parameterName, parameterIndex))
     {
         parameterType = TParameterType::ptBoundaryParameter;
-        //originalParameterValue = mModel->bc[parameterIndex];
     }
     else if (mModelGenerator->conservationList.find(parameterName, parameterIndex))
     {
         parameterType = TParameterType::ptConservationParameter;
-        //originalParameterValue = mModel->ct[parameterIndex];
     }
-
     else
     {
         throw CoreException("Unable to locate parameter: [" + parameterName + "]");
@@ -3717,13 +3704,12 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
     return getuCC(variableName, parameterName)*parameterValue/variableValue;
 }
 
-//        [Ignore]
-//        // Get a single species elasticity value
-//        // IMPORTANT:
-//        // Assumes that the reaction rates have been precomputed at the operating point !!
+//[Ignore]
+// Get a single species elasticity value
+// IMPORTANT:
+// Assumes that the reaction rates have been precomputed at the operating point !!
 double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex)
 {
-    double f1, f2, fi, fi2, fd, fd2;
     double originalParameterValue = mModel->getConcentration(speciesIndex);
 
     double hstep = DiffStepSize*originalParameterValue;
@@ -3737,36 +3723,36 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
     try
     {
         mModel->computeReactionRates(mModel->getTime(), mModel->y);
-        fi = mModel->rates[reactionId];
+        double fi = mModel->rates[reactionId];
 
         mModel->setConcentration(speciesIndex, originalParameterValue + 2*hstep);
         mModel->computeReactionRates(mModel->getTime(), mModel->y);
-        fi2 = mModel->rates[reactionId];
+        double fi2 = mModel->rates[reactionId];
 
         mModel->setConcentration(speciesIndex, originalParameterValue - hstep);
         mModel->computeReactionRates(mModel->getTime(), mModel->y);
-        fd = mModel->rates[reactionId];
+        double fd = mModel->rates[reactionId];
 
         mModel->setConcentration(speciesIndex, originalParameterValue - 2*hstep);
         mModel->computeReactionRates(mModel->getTime(), mModel->y);
-        fd2 = mModel->rates[reactionId];
+        double fd2 = mModel->rates[reactionId];
 
         // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
         // The following separated lines avoid small amounts of roundoff error
-        f1 = fd2 + 8*fi;
-        f2 = -(8*fd + fi2);
+        double f1 = fd2 + 8*fi;
+        double f2 = -(8*fd + fi2);
+
+        // What ever happens, make sure we restore the species level
+        mModel->setConcentration(speciesIndex, originalParameterValue);
+	    return 1/(12*hstep)*(f1 + f2);
     }
     catch(const Exception& e)
     {
         Log(lError)<<"Something went wrong in "<<__FUNCTION__;
         Log(lError)<<"Exception "<<e.what()<< " thrown";
-    }
-//    finally
-    {
-        // What ever happens, make sure we restore the species level
+                // What ever happens, make sure we restore the species level
         mModel->setConcentration(speciesIndex, originalParameterValue);
     }
-    return 1/(12*hstep)*(f1 + f2);
 }
 
 
@@ -3966,49 +3952,47 @@ DoubleMatrix RoadRunner::getScaledReorderedElasticityMatrix()
 {
     try
     {
-        if (mModel)
-        {
-            DoubleMatrix uelast = getUnscaledElasticityMatrix();
-
-            DoubleMatrix result(uelast.RSize(), uelast.CSize());// = new double[uelast.Length][];
-            mModel->convertToConcentrations();
-            mModel->computeReactionRates(mModel->getTime(), mModel->y);
-            vector<double> rates;// = mModel->rates;
-            if(!CopyCArrayToStdVector(mModel->rates, rates, *mModel->ratesSize))
-            {
-                throw CoreException("Failed to copy model->rates");
-            }
-
-            for (int i = 0; i < uelast.RSize(); i++)
-            {
-                // Rows are rates
-                if (*mModel->ratesSize == 0 || rates[i] == 0)
-                {
-	                string name;
-                	if(mModelGenerator && mModelGenerator->reactionList.size())
-                    {
-                		name = mModelGenerator->reactionList[i].name;
-                    }
-                    else
-                    {
-                    	name = "none";
-                    }
-
-                    throw CoreException("Unable to compute elasticity, reaction rate [" + name + "] set to zero");
-                }
-
-                for (int j = 0; j < uelast.CSize(); j++) // Columns are species
-                {
-                    result[i][j] = uelast[i][j]*mModel->getConcentration(j)/rates[i];
-                }
-            }
-            return result;
-        }
-        else
+        if (!mModel)
         {
             throw CoreException(emptyModelStr);
         }
-    }
+
+        DoubleMatrix uelast = getUnscaledElasticityMatrix();
+
+        DoubleMatrix result(uelast.RSize(), uelast.CSize());// = new double[uelast.Length][];
+        mModel->convertToConcentrations();
+        mModel->computeReactionRates(mModel->getTime(), mModel->y);
+        vector<double> rates;
+        if(!CopyCArrayToStdVector(mModel->rates, rates, *mModel->ratesSize))
+        {
+            throw CoreException("Failed to copy model->rates");
+        }
+
+        for (int i = 0; i < uelast.RSize(); i++)
+        {
+            // Rows are rates
+            if (*mModel->ratesSize == 0 || rates[i] == 0)
+            {
+                string name;
+                if(mModelGenerator && mModelGenerator->reactionList.size())
+                {
+                    name = mModelGenerator->reactionList[i].name;
+                }
+                else
+                {
+                    name = "none";
+                }
+
+                throw CoreException("Unable to compute elasticity, reaction rate [" + name + "] set to zero");
+            }
+
+            for (int j = 0; j < uelast.CSize(); j++) // Columns are species
+            {
+                result[i][j] = uelast[i][j]*mModel->getConcentration(j)/rates[i];
+            }
+        }
+        return result;
+	}
     catch (const Exception& e)
     {
         throw CoreException("Unexpected error from scaledElasticityMatrix()", e.Message());
