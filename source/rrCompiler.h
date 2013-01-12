@@ -31,7 +31,7 @@ class RR_DECLSPEC Compiler : public rrObject
         bool                        SetCompiler(const string& compiler);
 		bool						setupCompiler(const string& supportCodeFolder);
         bool                        Compile(const string& cmdLine);
-        string                      GetDLLName();
+        string                      getDLLName();
 		bool						setCompilerLocation(const string& path);
 		string						getCompilerLocation();
 		bool						setSupportCodeFolder(const string& path);

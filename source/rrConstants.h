@@ -18,8 +18,8 @@ RR_DECLSPEC extern const char* 	Comma;
 RR_DECLSPEC extern const string DefaultCompiler;
 
 // Typedefs
-typedef unsigned int 		u_int;
-typedef long*   			IntPtr;
+typedef unsigned int 			u_int;
+typedef long*   				IntPtr;
 
 // Constants
 RR_DECLSPEC extern const char 	tab;

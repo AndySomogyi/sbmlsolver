@@ -17,7 +17,7 @@ FileLog::FileLog()
 :
 mLogFile(unique_ptr<LogFile>(new LogFile("Log.txt"))),
 mLogPrefix("none"),
-mLogLevel(lDebug5),
+mLogLevel(lInfo),
 mLogToServer(false)
 {
 

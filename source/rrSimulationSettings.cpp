@@ -127,7 +127,7 @@ bool SimulationSettings::LoadFromFile(const string& _FName)
 
 //    if(mEngine)
 //    {
-//        mEngine->UseSimulationSettings(mSettings);
+//        mEngine->useSimulationSettings(mSettings);
 //
 //        //This one creates the list of what we will look at in the result
 //        mEngine->CreateSelectionList();

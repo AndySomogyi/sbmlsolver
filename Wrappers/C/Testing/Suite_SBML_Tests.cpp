@@ -16,7 +16,7 @@ extern string 	gTSModelsPath;
 extern string   gCompiler;
 extern string   gSupportCodeFolder;
 extern string   gTempFolder;
-extern string   gDataOutputFolder;
+//extern string   gDataOutputFolder;
 extern bool		gDebug;
 
 bool RunTest(const string& version, int number);
@@ -1044,10 +1044,12 @@ bool RunTest(const string& version, int caseNumber)
 	    enableLogging();
         setLogLevel("Debug5");
     }
+    else
+    {
+        setLogLevel("Error");
+    }
 
 	//Setup environment
-    setCompiler(gCompiler.c_str());
-    setSupportCodeFolder(gSupportCodeFolder.c_str());
     setTempFolder(gTempFolder.c_str());
 
     if(!gRR)
@@ -1058,7 +1060,7 @@ bool RunTest(const string& version, int caseNumber)
     try
     {
 		clog<<"Running Test: "<<caseNumber<<endl;
-        string dataOutputFolder(gDataOutputFolder);
+        string dataOutputFolder(gTempFolder);
         string dummy;
         string logFileName;
         string settingsFileName;
@@ -1090,7 +1092,7 @@ bool RunTest(const string& version, int caseNumber)
         simulation.SetModelFileName(modelFileName);
         simulation.CompileIfDllExists(true);
         simulation.CopyFilesToOutputFolder();
-
+	    setTempFolder(simulation.GetDataOutputFolder().c_str());
         if(!simulation.LoadSBMLFromFile())
         {
             throw("Failed loading sbml from file");

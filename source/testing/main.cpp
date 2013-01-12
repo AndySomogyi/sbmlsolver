@@ -80,20 +80,20 @@ gCompiler = "gcc";
 //	  TestRunner runner1(reporter);
 
 
-    clog<<"Running Base\n";
-    runner1.RunTestsIf(Test::GetTestList(), "Base", 			True(), 0);
-
-    clog<<"Running SteadyState Tests\n";
-    runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 		True(), 0);
-
-    clog<<"Running ssThreeSpecies Tests\n";
-    runner1.RunTestsIf(Test::GetTestList(), "ssThreeSpecies", 	True(), 0);
+//    clog<<"Running Base\n";
+//    runner1.RunTestsIf(Test::GetTestList(), "Base", 			True(), 0);
+//
+//    clog<<"Running SteadyState Tests\n";
+//    runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 		True(), 0);
+//
+//    clog<<"Running ssThreeSpecies Tests\n";
+//    runner1.RunTestsIf(Test::GetTestList(), "ssThreeSpecies", 	True(), 0);
 
 //    clog<<"Running Stoichiometric Tests\n";
 //    runner1.RunTestsIf(Test::GetTestList(), "Stoichiometric",   	True(), 0);
 
 //    clog<<"Running TestSuite Tests\n";
-//    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4",   	True(), 0);
+    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4",   	True(), 0);
 
     //Finish outputs result to xml file
     runner1.Finish();

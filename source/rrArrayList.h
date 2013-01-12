@@ -18,9 +18,9 @@ class RRArrayListItem : public rrObject
     public:
         T                                          *mValue;
         RRArrayList< T >                           *mLinkedList;
-        								           	RRArrayListItem(const T& primitive);
+        							    RRArrayListItem(const T& primitive);
                                                     RRArrayListItem(const RRArrayListItem<T>& item);
-        								           	RRArrayListItem(const RRArrayList<T>* item);
+        								RRArrayListItem(const RRArrayList<T>* item);
 
                                                    ~RRArrayListItem();
         T                                           GetValue() const;

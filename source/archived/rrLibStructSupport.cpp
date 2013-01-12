@@ -27,11 +27,11 @@ StructAnalysis::~StructAnalysis()
     mInstance = NULL;
 }
 
-void StructAnalysis::Reset()
+void StructAnalysis::reset()
 {
     if(mInstance)
     {
-//        mInstance->Reset();
+//        mInstance->reset();
     }
 }
 

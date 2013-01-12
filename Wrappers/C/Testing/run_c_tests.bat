@@ -13,6 +13,6 @@ set wc=r:\rrl
 set report_file=%wc%\reports\%compiler%\%compiler_version%\c_tests_%build_type%.xml
 set temp_folder=r:\rrTemp\%compiler_version%
 
-c_api_tests.exe -m%model_folder% -r%report_file% -l%install_folder%\compilers\tcc\tcc.exe -s%install_folder%\rr_support -t%temp_folder%  -d%temp_folder%
+c_api_tests.exe -m%model_folder% -r%report_file% -t%temp_folder% 
 
 echo done...

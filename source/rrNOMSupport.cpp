@@ -49,7 +49,7 @@ SBMLDocument* NOMSupport::GetSBMLDocument()
 	return mSBMLDoc;
 }
 
-void NOMSupport::Reset()
+void NOMSupport::reset()
 {
     mSymbolTable.clear();
 //    delete mModel;

@@ -14,6 +14,8 @@
 namespace ls
 {
 
+//DoubleMatrix instantiate;
+
 ostream& operator<<(ostream& stream, const IntMatrix& mat)
 {
     for(unsigned row = 0; row < mat.RSize(); row++)
@@ -28,7 +30,7 @@ ostream& operator<<(ostream& stream, const IntMatrix& mat)
     return stream;
 }
 
-ostream& operator<<(ostream& stream, const DoubleMatrix& mat)
+ostream& ls::operator<<(ostream& stream, const Matrix<double>& mat)
 {
     for(unsigned row = 0; row < mat.RSize(); row++)
     {

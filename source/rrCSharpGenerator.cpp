@@ -48,7 +48,7 @@ string CSharpGenerator::generateModelCode(const string& sbmlStr, const bool& com
     mSource.Clear();
     CodeBuilder&     sb = mSource;
 
-    mNOM.Reset();
+    mNOM.reset();
     string sASCII = mNOM.convertTime(sbmlStr, "time");
 
     Log(lDebug4)<<"Loading SBML into NOM";
@@ -98,7 +98,7 @@ string CSharpGenerator::generateModelCode(const string& sbmlStr, const bool& com
 
     Log(lDebug3)<<"Message from StructAnalysis.LoadSBML function\n"<<msg;
 
-//    if (mRR != NULL && mRR->ComputeAndAssignConservationLaws())
+//    if (mRR != NULL && mRR->computeAndAssignConservationLaws())
 	if(computeAndAssignConsevationLaws)
     {
         mNumIndependentSpecies = mLibStruct.getNumIndSpecies();

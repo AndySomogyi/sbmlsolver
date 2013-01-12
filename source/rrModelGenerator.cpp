@@ -26,7 +26,7 @@ mCurrentXMLModelFileName("sbml_model"),
 mLibStruct(ls),
 mNOM(nom)
 {
-    mNOM.Reset();
+    mNOM.reset();
     mLibStruct.Reset();
 }
 
@@ -44,9 +44,9 @@ SymbolList& ModelGenerator::GetBoundarySpeciesList(){return boundarySpeciesList;
 SymbolList& ModelGenerator::GetGlobalParameterList(){return globalParameterList;}
 SymbolList& ModelGenerator::GetConservationList(){return conservationList;}
 bool  ModelGenerator::SaveSourceCodeToFolder(const string& folder){return false;}    //Save generated source code to folder..
-void ModelGenerator::Reset()
+void ModelGenerator::reset()
 {
-    mNOM.Reset();
+    mNOM.reset();
     mLibStruct.Reset();
 //    floatingSpeciesConcentrationList.Clear();
 }

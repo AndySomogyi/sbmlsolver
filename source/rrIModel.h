@@ -66,7 +66,7 @@ class RR_DECLSPEC IModel : public rrObject    //Abstract class for SBML Models t
 
                                                 IModel();
         virtual                                ~IModel();
-        string                                  GetModelName();
+        string                                  getModelName();
 
         // Virtual functions --------------------------------------------------------
         virtual int                             getNumIndependentVariables();
