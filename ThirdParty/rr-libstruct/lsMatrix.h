@@ -111,14 +111,16 @@ typedef Matrix< double >            DoubleMatrix;
 typedef Matrix< int >               IntMatrix;
 typedef Matrix< Complex >           ComplexMatrix;
 
-//Utility Matrix functions
+//Exported Utility Matrix functions
 LIB_EXTERN DoubleMatrix             real(const ComplexMatrix& m2);               //Return real part of complex matrix
 LIB_EXTERN DoubleMatrix             imag(const ComplexMatrix& m2);               //Return imag part of complex matrix
+
 LIB_EXTERN DoubleMatrix             mult(DoubleMatrix& m1, DoubleMatrix& m2);
 LIB_EXTERN DoubleMatrix             mult(ComplexMatrix& m1, DoubleMatrix& m2);
 LIB_EXTERN DoubleMatrix             mult(DoubleMatrix& m1, ComplexMatrix& m2);
-LIB_EXTERN ostream&                 operator<<(ostream& stream, const DoubleMatrix& mat);
+
 LIB_EXTERN ostream&                 operator<<(ostream& stream, const IntMatrix& mat);
+LIB_EXTERN ostream&                 operator<<(ostream& stream, const DoubleMatrix& mat);
 LIB_EXTERN ostream&                 operator<<(ostream& stream, const ComplexMatrix& mat);
 
 template<class T>

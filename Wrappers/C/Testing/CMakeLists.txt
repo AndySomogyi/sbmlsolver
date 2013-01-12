@@ -8,9 +8,9 @@ set(target c_api_tests)
 set(tests
 #core/base
 #core/steady_state
-#core/sbml_test_suite
 Suite_TestModel_1
 Suite_CoreExceptions
+Suite_SBML_Tests
 )
 
 add_executable( ${target} 
@@ -21,10 +21,11 @@ rrSBMLTestSuiteSimulation_CAPI
 ${tests}
 )
 
-# set_property(TARGET ${target}  
-# PROPERTY  COMPILE_DEFINITIONS 
-# WIN32
-# ) 
+set_property(TARGET ${target}  
+PROPERTY  COMPILE_DEFINITIONS 
+WIN32
+STATIC_LIBSTRUCT
+) 
 
 if(UNIX)
 set(staticLibPrefix ".a")
@@ -36,6 +37,7 @@ target_link_libraries (${target}
 rr_c_api
 roadrunner
 unit_test-static
+rr-libstruct-static
 )
 
 if(UNIX)

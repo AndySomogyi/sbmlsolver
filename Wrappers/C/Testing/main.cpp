@@ -18,7 +18,6 @@ string 	gSBMLModelsPath 		= "";
 string 	gCompiler 				= "";
 string 	gSupportCodeFolder 		= "";
 string 	gTempFolder		   		= "";
-string 	gDataOutputFolder   	= "";
 string 	gRRInstallFolder 		= "";
 string  gTestDataFolder			= "";
 bool	gDebug			    	= false;
@@ -64,7 +63,10 @@ int main(int argc, char* argv[])
 	    enableLogging();
         setLogLevel("Debug5");
     }
-
+    else
+    {
+      setLogLevel("Error");
+    }
     // set model path (read from cmd line)
     gTSModelsPath = JoinPath(JoinPath(gSBMLModelsPath, "cases"), "semantic");
 
@@ -81,16 +83,16 @@ int main(int argc, char* argv[])
 
 	clog<<"Running Suite 1\n";
 	runner1.RunTestsIf(Test::GetTestList(), "TEST_MODEL_1", 			True(), 0);
-	runner1.RunTestsIf(Test::GetTestList(), "CORE_EXCEPTIONS", 		True(), 0);
+//	runner1.RunTestsIf(Test::GetTestList(), "CORE_EXCEPTIONS", 		True(), 0);
 
 //    runner1.RunTestsIf(Test::GetTestList(), "Base", 		True(), 0);
 //
 //     clog<<"Running SteadyState\n";
 //     runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
 
-//    clog<<"Running TestSuite Tests\n";
-//    clog<<"ModelPath "<<gTSModelsPath;
-//    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4", 	True(), 0);
+    clog<<"Running TestSuite Tests\n";
+    clog<<"ModelPath "<<gTSModelsPath;
+    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4", 	True(), 0);
 
     //Finish outputs result to xml file
     runner1.Finish();
@@ -134,8 +136,10 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 #if defined(CG_IDE)
 #pragma comment(lib, "rr_c_api.lib")
 #pragma comment(lib, "roadrunner-static.lib")
+#pragma comment(lib, "rr-libstruct-static.lib")
 //#pragma comment(lib, "roadrunner.lib")
 
 #pragma comment(lib, "unit_test-static.lib")
 #endif
+
 

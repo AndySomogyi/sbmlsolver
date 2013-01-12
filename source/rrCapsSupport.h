@@ -113,7 +113,7 @@ class RR_DECLSPEC CapsSupport : public rrObject
 ////                CvodeInterface.InitStep = this["integration", "initstep"];
 ////                CvodeInterface.MaxStep = this["integration", "maxstep"];
 ////                CvodeInterface.MinStep = this["integration", "minstep"];
-////                RoadRunner.ComputeAndAssignConservationLaws(this["integration", "conservation"]);
+////                RoadRunner.computeAndAssignConservationLaws(this["integration", "conservation"]);
 ////            }
 ////
 ////            if (this.HasSection("SteadyState"))

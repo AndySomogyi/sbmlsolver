@@ -93,7 +93,7 @@ compiler = "gcc";
 
 
         RoadRunner *rr  = new RoadRunner(JoinPath(RRInstallFolder, "rr_support"), JoinPath(RRInstallFolder, compiler), args.TempDataFolder);
-        rr->Reset();
+        rr->reset();
         simulation.UseEngine(rr);
 
         //The following will load and compile and simulate the sbml model in the file
@@ -140,7 +140,7 @@ compiler = "gcc";
 				simulation.SetSelectionList(args.SelectionList);
 			}
 
-			rr->ComputeAndAssignConservationLaws(false);
+			rr->computeAndAssignConservationLaws(false);
 		}
 
         //Then Simulate model

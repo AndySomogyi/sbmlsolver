@@ -8,6 +8,7 @@
 
 using namespace std;
 using namespace UnitTest;
+using namespace ls;
 
 //Add using clauses..
 using rr::JoinPath;
@@ -255,7 +256,8 @@ RRHandle gRR;
 			CHECK(false);
 			return;
 		}
-	   	ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
+	   	
+		ls::DoubleMatrix 	ref = ParseFromText(aSection->GetNonKeysAsString());
 
 		RRMatrixHandle matrix = getEigenvalues();
 		if(!matrix)
@@ -287,6 +289,8 @@ RRHandle gRR;
 
 		}
 		freeMatrix(matrix);
+		
+		
 	}
 
 
@@ -1547,5 +1551,3 @@ RRHandle gRR;
 	}
 
 }
-
-

@@ -10,8 +10,6 @@
 #include "rr-libstruct/lsMatrix.h"
 #include "rr-libstruct/lsLibStructural.h"
 
-
-////////////
 #include "rrObject.h"
 #include "rrTVariableType.h"
 #include "rrTParameterType.h"
@@ -63,19 +61,19 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		CGenerator                     *mCGenerator;
 
 		Compiler                        mCompiler;
-		void                            AddNthOutputToResult(DoubleMatrix& results, int nRow, double dCurrentTime);
-		bool                            PopulateResult();
-		bool                            IsNleqAvailable();
+		void                            addNthOutputToResult(DoubleMatrix& results, int nRow, double dCurrentTime);
+		bool                            populateResult();
+		bool                            isNleqAvailable();
 		void                            emptyModel();
-		double                          GetValueForRecord(const TSelectionRecord& record);
-		double                          GetNthSelectedOutput(const int& index, const double& dCurrentTime);
-		vector<double>                  BuildModelEvalArgument();
+		double                          getValueForRecord(const TSelectionRecord& record);
+		double                          getNthSelectedOutput(const int& index, const double& dCurrentTime);
+		vector<double>                  buildModelEvalArgument();
 		double                          getVariableValue(const TVariableType& variableType, const int& variableIndex);
 
 		vector<TSelectionRecord>        mSteadyStateSelection;
 		vector<TSelectionRecord>        getSteadyStateSelection(const StringList& newSelectionList);
 		StringList                      getParameterIds();
-		string                          GetDLLName();
+		string                          getDLLName();
 		SimulationSettings              mSettings;
 		NOMSupport						mNOM;
 
@@ -90,22 +88,16 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
 		// Properties -----------------------------------------------------------------------------
 		bool                     		mComputeAndAssignConservationLaws;
-		bool        					ComputeAndAssignConservationLaws();
+		bool        					computeAndAssignConservationLaws();
 
 		bool                     		mConservedTotalChanged;
 		//        static bool                   mReMultiplyCompartments;
 		// The matrix stuff going on here is not right....
-		DoubleMatrix                   *_L;
-		DoubleMatrix                   *_L0;
-		DoubleMatrix                   *_N;
-		DoubleMatrix                   *_Nr;
-
-		double*                         mL;
-		double*                         mL0;
-		double*                         mN;
-		double*                         mNr;
-
-		//HINSTANCE                       mModelDLL;
+		//DoubleMatrix                   *_L;
+		//DoubleMatrix                   *_L0;
+		//DoubleMatrix                   *_N;
+		//DoubleMatrix                   *_Nr;
+				
         SharedLibrary			  		mModelDLL;
 		string                          mCurrentSBML;
 		ModelFromC*                     mModel;
@@ -116,8 +108,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		string                          NL;
 		LibStructural                  *mLS;                                //Handle to libstruct library
 
-		CGenerator*						GetCGenerator();
-		CSharpGenerator*				GetCSharpGenerator();
+		CGenerator*						getCGenerator();
+		CSharpGenerator*				getCSharpGenerator();
 
 		//Functions --------------------------------------------------------------------
 
@@ -125,37 +117,40 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		virtual                        ~RoadRunner();
         bool                            isModelLoaded();
         bool                            setCompiler(const string& compiler);
-        string                          GetModelName();
+        string                          getModelName();
 		string							getlibSBMLVersion();
         bool                            unLoadModel();
         bool                            unLoadModelDLL();
-        CvodeInterface*                 GetCVodeInterface();
-        NLEQInterface*                  GetNLEQInterface();
+        CvodeInterface*                 getCVodeInterface();
+        NLEQInterface*                  getNLEQInterface();
         int 							createDefaultSteadyStateSelectionList();
         int                             createDefaultTimeCourseSelectionList();
 		int                             createTimeCourseSelectionList();
-		static bool                     SetTempFileFolder(const string& folder);
+		static bool                     setTempFileFolder(const string& folder);
 		static string                   getTempFileFolder();
-		void                            PartOfSimulation(SBMLModelSimulation* simulation){mSimulation = simulation;}
-		bool                            GenerateModelCode(const string& sbml);
-		bool                            CompileModel();
-		bool                            CompileCurrentModel();
-		ModelFromC*                     CreateModel();
-		SimulationData                  GetSimulationResult();
-		ModelGenerator*                 GetCodeGenerator();
+		void                            partOfSimulation(SBMLModelSimulation* simulation){mSimulation = simulation;}
+		bool                            generateModelCode(const string& sbml);
+		bool                            compileModel();
+		bool                            compileCurrentModel();
+		ModelFromC*                     createModel();
+		SimulationData                  getSimulationResult();
+		ModelGenerator*                 getCodeGenerator();
         bool							loadSimulationSettings(const string& fName);
-		bool                            UseSimulationSettings(SimulationSettings& settings);
-		void                            Reset();
-		bool                            CreateModelSourceCode();
-		string                          GetModelSourceCode();
+		bool                            useSimulationSettings(SimulationSettings& settings);
+		void                            resetModelGenerator();
+		bool                            createModelSourceCode();
+		string                          getModelSourceCode();
 		string                          getCHeaderCode();
 		string                          getCSourceCode();
 		string                          getCSharpCode();
 		DoubleMatrix                    runSimulation();
-		bool                            InitializeModel();
-		bool                            Simulate();
-		bool                            SimulateSBMLFile(const string& fileName, const bool& useConservationLaws = true);
-		bool                            SimulateSBMLFile(const string& fileName, const bool& useConservationLaws, const double& startTime, const double& endTime, const int& numPoints);
+		bool                            initializeModel();
+
+		DoubleMatrix                    simulate();
+		bool                            simulate2();
+		bool                            simulateSBMLFile(const string& fileName, const bool& useConservationLaws = true);
+		bool                            simulateSBMLFile(const string& fileName, const bool& useConservationLaws, const double& startTime, const double& endTime, const int& numPoints);
+
 		bool                            loadSBMLFromFile(const string& fileName);
 		bool                            loadSBML(const string& sbml);
 		string                          getSBML();
@@ -167,7 +162,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		void                            setNumPoints(const int& nummberOfPoints);
 		void                            reset();
 		void                            changeInitialConditions(const vector<double>& ic);
-		DoubleMatrix                    simulate();
+
 		DoubleMatrix                    simulateEx(const double& startTime, const double& endTime, const int& numberOfPoints);
 		vector<double>                  getReactionRates();
 		vector<double>                  getRatesOfChange();
@@ -182,7 +177,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		string                          getCapabilities();
 		void                            setTolerances(const double& aTol, const double& rTol);
 		void                            setTolerances(const double& aTol, const double& rTol, const int& maxSteps);
-		void                            CorrectMaxStep();
+		void                            correctMaxStep();
 		void                            setCapabilities(const string& capsStr);
 		bool                            setValue(const string& sId, const double& dValue);
 		double                          getValue(const string& sId);
@@ -242,8 +237,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		double                          computeSteadyStateValue(const string& sId);
 		vector<double>                  getSelectedValues();
 		vector<string>                  getWarnings();
-		void                     		ReMultiplyCompartments(const bool& bValue);
-		void                     		ComputeAndAssignConservationLaws(const bool& bValue);
+		void                     		reMultiplyCompartments(const bool& bValue);
+		void                     		computeAndAssignConservationLaws(const bool& bValue);
 		double*                         steadyStateParameterScan(const string& symbol, const double& startValue, const double& endValue, const double& stepSize);
 		string                          writeSBML();
 		int                             getNumberOfLocalParameters(const int& reactionId);
@@ -259,8 +254,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		StringList                      getRateOfChangeIds();
 		vector<double>                  getRatesOfChangeEx(const vector<double>& values);
 		vector<double>                  getReactionRatesEx(const vector<double>& values);
-		vector<string>                  GetFloatingSpeciesIdsArray();
-		vector<string>                  GetGlobalParameterIdsArray();
+		vector<string>                  getFloatingSpeciesIdsArray();
+		vector<string>                  getGlobalParameterIdsArray();
 		int                             getNumberOfCompartments();
 		void                            setCompartmentByIndex(const int& index, const double& value);
 		double                          getCompartmentByIndex(const int& index);
@@ -291,7 +286,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		vector<double>                  getGlobalParameterValues();
 		StringList                      getGlobalParameterIds();
 		StringList                      getAllGlobalParameterTupleList();
-		void                            EvalModel();
+		void                            evalModel();
 
 		//These functions are better placed in a separate file, as non class members, but part of the roadrunner namespace?
 		string                          getName();
@@ -302,11 +297,11 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		string                          getCopyright();
 		string                          getURL();
 
-		static void                     Test();
-		static void                     PrintTout(const double& start, const double& end, const int& numPoints);
-		static void                     TestChange();
-		void                            DumpResults(TextWriter& writer, DoubleMatrix& data, const StringList& colLabels);
-		ComplexMatrix            		ConvertComplex(ls::ComplexMatrix oMatrix);
+//		static void                     Test();
+//		static void                     PrintTout(const double& start, const double& end, const int& numPoints);
+//		static void                     TestChange();
+//		void                            DumpResults(TextWriter& writer, DoubleMatrix& data, const StringList& colLabels);
+//		ComplexMatrix            		ConvertComplex(ls::ComplexMatrix oMatrix);
 
 
 		//RoadRunner MCA functions......
@@ -351,6 +346,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
 		// Changes a given parameter type by the given increment
 		void changeParameter(TParameterType parameterType, int reactionIndex, int parameterIndex, double originalValue, double increment);
+
         //[Help("Returns the unscaled elasticity for a named reaction with respect to a named parameter (local or global)"
         double getUnscaledParameterElasticity(const string& reactionName, const string& parameterName);
 
@@ -374,6 +370,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
         //"Compute the value for a particular scaled concentration control coefficients with respect to a local parameter"
         double getScaledConcentrationControlCoefficient(const string& speciesName, const string& localReactionName, const string& parameterName);
+
         //"Compute the value for a particular concentration control coefficient, permitted parameters include global parameters, boundary conditions and conservation totals"
         double getUnscaledConcentrationControlCoefficient(const string& speciesName, const string& parameterName);
 
@@ -392,11 +389,9 @@ class RR_DECLSPEC RoadRunner : public rrObject
         //    "Compute the value for a particular scaled flux control coefficients with respect to a global or boundary species parameter"
         double getScaledFluxControlCoefficient(const string& reactionName, const string& parameterName);
         //-------------- End of MCA functions
+};
+}
 
-
-}; //class RoadRunner
-
-}//namespace rr
 #endif
 
 /*! \mainpage RoadRunner C++ Library

@@ -73,7 +73,7 @@ string CGenerator::generateModelCode(const string& sbmlStr, const bool& _compute
     //Clear header and source file objects...
     mHeader.Clear();
     mSource.Clear();
-    mNOM.Reset();
+    mNOM.reset();
     string sASCII = mNOM.convertTime(sbmlStr, "time");
 
     Log(lDebug4)<<"Loading SBML into NOM";

@@ -113,7 +113,7 @@ class RR_DECLSPEC ModelGenerator : public rrObject
     public:
                                             ModelGenerator(LibStructural& ls, NOMSupport& nom);
         virtual                             ~ModelGenerator();
-        void                                Reset();
+        void                                reset();
         int                                 GetNumberOfReactions();
         int                                 NumAdditionalRates();        //this variable is the size of moMapRateRule
 

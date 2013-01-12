@@ -49,11 +49,11 @@ RoadRunner::RoadRunner(const string& supportCodeFolder, const string& compiler, 
     mCompiler(supportCodeFolder, compiler),
     mComputeAndAssignConservationLaws(false),
     mConservedTotalChanged(false),
-    _L0(NULL),
-    mL(NULL),
-    mL0(NULL),
-    mN(NULL),
-    mNr(NULL),
+    //_L0(NULL),
+    //mL(NULL),
+    //mL0(NULL),
+    //mN(NULL),
+    //mNr(NULL),
     mCurrentSBML(""),
     mModel(NULL),
     mTimeStart(0),
@@ -121,7 +121,7 @@ Compiler* RoadRunner::getCompiler()
 	return &mCompiler;
 }
 
-CvodeInterface* RoadRunner::GetCVodeInterface()
+CvodeInterface* RoadRunner::getCVodeInterface()
 {
     if(!mCVode && mModel != NULL)
     {
@@ -135,7 +135,7 @@ bool RoadRunner::setCompiler(const string& compiler)
     return mCompiler.SetCompiler(compiler);
 }
 
-NLEQInterface* RoadRunner::GetNLEQInterface()
+NLEQInterface* RoadRunner::getNLEQInterface()
 {
     if(!steadyStateSolver && mModel != NULL)
     {
@@ -149,7 +149,7 @@ bool RoadRunner::isModelLoaded()
     return mModel ? true : false;
 }
 
-bool RoadRunner::UseSimulationSettings(SimulationSettings& settings)
+bool RoadRunner::useSimulationSettings(SimulationSettings& settings)
 {
     mSettings   = settings;
     mTimeStart  = mSettings.mStartTime;
@@ -158,22 +158,22 @@ bool RoadRunner::UseSimulationSettings(SimulationSettings& settings)
     return true;
 }
 
-bool RoadRunner::ComputeAndAssignConservationLaws()
+bool RoadRunner::computeAndAssignConservationLaws()
 {
 	return mComputeAndAssignConservationLaws;
 }
 
-CGenerator*	RoadRunner::GetCGenerator()
+CGenerator*	RoadRunner::getCGenerator()
 {
 	return dynamic_cast<CGenerator*>(mCGenerator);
 }
 
-CSharpGenerator* RoadRunner::GetCSharpGenerator()
+CSharpGenerator* RoadRunner::getCSharpGenerator()
 {
 	return dynamic_cast<CSharpGenerator*>(mCSharpGenerator);
 }
 
-bool RoadRunner::SetTempFileFolder(const string& folder)
+bool RoadRunner::setTempFileFolder(const string& folder)
 {
 	if(FolderExists(folder))
 	{
@@ -248,7 +248,7 @@ int RoadRunner::createTimeCourseSelectionList()
 	return selectionList.size();
 }
 
-ModelGenerator* RoadRunner::GetCodeGenerator()
+ModelGenerator* RoadRunner::getCodeGenerator()
 {
 	return mModelGenerator;
 }
@@ -265,15 +265,15 @@ string RoadRunner::getParamPromotedSBML(const string& sArg)
     return "";
 }
 
-void RoadRunner::Reset()
+void RoadRunner::resetModelGenerator()
 {
 	if(mModelGenerator)
 	{
-		mModelGenerator->Reset();
+		mModelGenerator->reset();
 	}
 }
 
-string RoadRunner::GetModelSourceCode()
+string RoadRunner::getModelSourceCode()
 {
 	return mModelCode;
 }
@@ -305,12 +305,12 @@ string RoadRunner::getCSourceCode()
     return "";
 }
 
-bool RoadRunner::InitializeModel()
+bool RoadRunner::initializeModel()
 {
     if(!mModel)
     {
         //Now create the Model using the compiled DLL
-        mModel = CreateModel();
+        mModel = createModel();
 
         if(!mModel)
         {
@@ -349,12 +349,12 @@ bool RoadRunner::InitializeModel()
     return true;
 }
 
-SimulationData RoadRunner::GetSimulationResult()
+SimulationData RoadRunner::getSimulationResult()
 {
     return mSimulationData;
 }
 
-double RoadRunner::GetValueForRecord(const TSelectionRecord& record)
+double RoadRunner::getValueForRecord(const TSelectionRecord& record)
 {
     double dResult;
 
@@ -440,7 +440,7 @@ double RoadRunner::GetValueForRecord(const TSelectionRecord& record)
     return dResult;
 }
 
-double RoadRunner::GetNthSelectedOutput(const int& index, const double& dCurrentTime)
+double RoadRunner::getNthSelectedOutput(const int& index, const double& dCurrentTime)
 {
     TSelectionRecord record = selectionList[index];
 
@@ -450,23 +450,23 @@ double RoadRunner::GetNthSelectedOutput(const int& index, const double& dCurrent
     }
     else
     {
-		return GetValueForRecord(record);
+		return getValueForRecord(record);
     }
 }
 
-void RoadRunner::AddNthOutputToResult(DoubleMatrix& results, int nRow, double dCurrentTime)
+void RoadRunner::addNthOutputToResult(DoubleMatrix& results, int nRow, double dCurrentTime)
 {
 	stringstream msg;
     for (u_int j = 0; j < selectionList.size(); j++)
     {
-        double out =  GetNthSelectedOutput(j, dCurrentTime);
+        double out =  getNthSelectedOutput(j, dCurrentTime);
         results(nRow,j) = out;
         msg<<tab<<out;
     }
     Log(lDebug1)<<"Added result row\t"<<nRow<<" : "<<msg.str();
 }
 
-vector<double> RoadRunner::BuildModelEvalArgument()
+vector<double> RoadRunner::buildModelEvalArgument()
 {
     vector<double> dResult;
     dResult.resize((*mModel->amountsSize) + (*mModel->rateRulesSize) );
@@ -486,7 +486,7 @@ vector<double> RoadRunner::BuildModelEvalArgument()
     return dResult;
 }
 
-////        private double[] BuildModelEvalArgument()
+////        private double[] buildModelEvalArgument()
 ////        {
 ////            var dResult = new double[model.amounts.Length + model.rateRules.Length];
 ////            double[] dCurrentRuleValues = model.GetCurrentValues();
@@ -517,9 +517,9 @@ DoubleMatrix RoadRunner::runSimulation()
     }
 
     vector<double> y;
-    y = BuildModelEvalArgument();
+    y = buildModelEvalArgument();
     mModel->evalModel(mTimeStart, y);
-    AddNthOutputToResult(results, 0, mTimeStart);
+    addNthOutputToResult(results, 0, mTimeStart);
 
     if (mCVode->HaveVariables())
     {
@@ -539,7 +539,7 @@ DoubleMatrix RoadRunner::runSimulation()
         Log(lDebug)<<"Step "<<i;
         mCVode->OneStep(tout, hstep);
         tout = mTimeStart + i * hstep;
-        AddNthOutputToResult(results, i, tout);
+        addNthOutputToResult(results, i, tout);
     }
     Log(lDebug)<<"Simulation done..";
     Log(lDebug2)<<"Result: (point, time, value)";
@@ -553,27 +553,27 @@ DoubleMatrix RoadRunner::runSimulation()
     return results;
 }
 
-void RoadRunner::DumpResults(TextWriter& writer, DoubleMatrix& data, const StringList& colLabels)
-{
-    for (int i = 0; i < colLabels.Count(); i++)
-	{
-        writer.Write(colLabels[i] + "\t");
-    }
+//void RoadRunner::DumpResults(TextWriter& writer, DoubleMatrix& data, const StringList& colLabels)
+//{
+//    for (int i = 0; i < colLabels.Count(); i++)
+//	{
+//        writer.Write(colLabels[i] + "\t");
+//    }
+//
+//    writer.WriteLine();
+//
+//    for (u_int i = 0; i < data.RSize(); i++)
+//    {
+//        for (u_int j = 0; j < data.CSize(); j++)
+//        {
+//            string val = ToString(data(i,j));
+//            writer.Write(val + "\t");
+//        }
+//        writer.WriteLine();
+//    }
+//}
 
-    writer.WriteLine();
-
-    for (u_int i = 0; i < data.RSize(); i++)
-    {
-        for (u_int j = 0; j < data.CSize(); j++)
-        {
-            string val = ToString(data(i,j));
-            writer.Write(val + "\t");
-        }
-        writer.WriteLine();
-    }
-}
-
-bool RoadRunner::Simulate()
+bool RoadRunner::simulate2()
 {
     if(!mModel)
     {
@@ -584,11 +584,11 @@ bool RoadRunner::Simulate()
  	mRawSimulationData = simulate();
 
     //Populate simulation result
-    PopulateResult();
+    populateResult();
     return true;
 }
 
-bool RoadRunner::PopulateResult()
+bool RoadRunner::populateResult()
 {
     NewArrayList l = getAvailableTimeCourseSymbols();
     StringList list = getTimeCourseSelectionList();
@@ -597,9 +597,9 @@ bool RoadRunner::PopulateResult()
     return true;
 }
 
-bool RoadRunner::SimulateSBMLFile(const string& fileName, const bool& useConservationLaws)
+bool RoadRunner::simulateSBMLFile(const string& fileName, const bool& useConservationLaws)
 {
-    ComputeAndAssignConservationLaws(useConservationLaws);
+    computeAndAssignConservationLaws(useConservationLaws);
 
     mModelXMLFileName = fileName;
     ifstream fs(mModelXMLFileName.c_str());
@@ -620,15 +620,15 @@ bool RoadRunner::SimulateSBMLFile(const string& fileName, const bool& useConserv
 
     StringList list = getTimeCourseSelectionList();
 
-    TextWriter writer(cout);
-    DumpResults(writer, mRawSimulationData, list);
+//    TextWriter writer(cout);
+//    DumpResults(writer, mRawSimulationData, list);
     return true;
 }
 
-bool RoadRunner::SimulateSBMLFile(const string& fileName, const bool& useConservationLaws, const double& startTime, const double& endTime, const int& mNumPoints)
+bool RoadRunner::simulateSBMLFile(const string& fileName, const bool& useConservationLaws, const double& startTime, const double& endTime, const int& mNumPoints)
 {
 //    var sim = new RoadRunner();
-//    ComputeAndAssignConservationLaws(useConservationLaws);
+//    computeAndAssignConservationLaws(useConservationLaws);
 //    sim.loadSBML(File.ReadAllText(fileName));
 //
 //    try
@@ -685,7 +685,7 @@ bool RoadRunner::loadSBML(const string& sbml)
 	if (mModelDLL.isLoaded() != false && mModel != NULL && sbml == mCurrentSBML)
     {
         mCurrentSBML = sbml;
-        return InitializeModel();
+        return initializeModel();
     }
 
     if(mModel != NULL)
@@ -696,7 +696,7 @@ bool RoadRunner::loadSBML(const string& sbml)
     }
 
     mCurrentSBML 	= sbml;
-    string dllName  = GetDLLName();
+    string dllName  = getDLLName();
 
      //Shall we compile model if it exists?
     bool compileIfDllExists = mSimulation ? mSimulation->CompileIfDllExists() : true;
@@ -709,13 +709,13 @@ bool RoadRunner::loadSBML(const string& sbml)
 
     if(compile)
     {
-        if(!GenerateModelCode(""))
+        if(!generateModelCode(""))
         {
             Log(lError)<<"Failed generating model from SBML";
             return false;
         }
 
-        if(!CompileModel())
+        if(!compileModel())
         {
             Log(lError)<<"Failed to generate and compile model";
             return false;
@@ -730,7 +730,7 @@ bool RoadRunner::loadSBML(const string& sbml)
     }
 
     //Finally intitilaize the model..
-    if(!InitializeModel())
+    if(!initializeModel())
     {
         Log(lError)<<"Failed Initializing C Model";
         return false;
@@ -756,10 +756,10 @@ bool RoadRunner::loadSBML(const string& sbml)
     	Log(lInfo)<<"Created default SteadyState selection list.";
     }
 
-    _L  = mLS->getLinkMatrix();
-    _L0 = mLS->getL0Matrix();
-    _N  = mLS->getReorderedStoichiometryMatrix();
-    _Nr = mLS->getNrMatrix();
+//    _L  = mLS->getLinkMatrix();
+//    _L0 = mLS->getL0Matrix();
+//    _N  = mLS->getReorderedStoichiometryMatrix();
+//    _Nr = mLS->getNrMatrix();
     return true;
 }
 
@@ -771,7 +771,7 @@ bool RoadRunner::loadSimulationSettings(const string& fName)
         return false;
     }
 
-    UseSimulationSettings(mSettings);
+    useSimulationSettings(mSettings);
 
     //This one creates the list of what we will look at in the result
  	createTimeCourseSelectionList();
@@ -779,7 +779,7 @@ bool RoadRunner::loadSimulationSettings(const string& fName)
 }
 
 
-string RoadRunner::GetDLLName()
+string RoadRunner::getDLLName()
 {
     string srcCodeFolder;
     if(mSimulation)
@@ -799,7 +799,7 @@ string RoadRunner::GetDLLName()
     return dllName;
 }
 
-bool RoadRunner::GenerateModelCode(const string& sbml)
+bool RoadRunner::generateModelCode(const string& sbml)
 {
     if(sbml.size())
     {
@@ -818,7 +818,7 @@ bool RoadRunner::GenerateModelCode(const string& sbml)
         srcCodeFolder = mTempFileFolder;
     }
 
-    mModelCode = mModelGenerator->generateModelCode(mCurrentSBML, ComputeAndAssignConservationLaws());
+    mModelCode = mModelGenerator->generateModelCode(mCurrentSBML, computeAndAssignConservationLaws());
 
     if(!mModelCode.size())
     {
@@ -837,7 +837,7 @@ bool RoadRunner::GenerateModelCode(const string& sbml)
     return true;
 }
 
-bool RoadRunner::CompileCurrentModel()
+bool RoadRunner::compileCurrentModel()
 {
     CGenerator *codeGen = dynamic_cast<CGenerator*>(mModelGenerator);
     if(!codeGen)
@@ -854,7 +854,7 @@ bool RoadRunner::CompileCurrentModel()
         return false;
     }
     Log(lDebug)<<"Model compiled successfully. ";
-    Log(lDebug)<<mCompiler.GetDLLName()<<" was created";
+    Log(lDebug)<<mCompiler.getDLLName()<<" was created";
     return true;
 }
 
@@ -879,12 +879,12 @@ bool RoadRunner::unLoadModelDLL()
     return true;//No model is loaded..
 }
 
-bool RoadRunner::CompileModel()
+bool RoadRunner::compileModel()
 {
     //Make sure the dll is unloaded
     unLoadModelDLL();
 
-    string dllName  = GetDLLName();
+    string dllName  = getDLLName();
 
     //Remove DLL
     if(FileExists(dllName) == true && remove(dllName.c_str()) != 0)
@@ -893,7 +893,7 @@ bool RoadRunner::CompileModel()
         return false;
     }
 
-    if(!CompileCurrentModel())
+    if(!compileCurrentModel())
     {
         Log(lError)<<"Failed compiling model";
         return false;
@@ -916,7 +916,7 @@ bool RoadRunner::CompileModel()
     }
 
     //Now create the Model using the compiled DLL
-    mModel = CreateModel();
+    mModel = createModel();
 
     if(!mModel)
     {
@@ -925,7 +925,7 @@ bool RoadRunner::CompileModel()
     }
 
     //Finally initialize the model..
-    if(!InitializeModel())
+    if(!initializeModel())
     {
         Log(lError)<<"Failed Initializing Model";
         return false;
@@ -934,7 +934,7 @@ bool RoadRunner::CompileModel()
     return true;
 }
 
-ModelFromC* RoadRunner::CreateModel()
+ModelFromC* RoadRunner::createModel()
 {
     //Create a model
     if(mModelDLL.isLoaded())
@@ -1061,7 +1061,7 @@ DoubleMatrix RoadRunner::simulateEx(const double& startTime, const double& endTi
         mTimeStart          = startTime;
         mNumPoints          = numberOfPoints;
         mRawSimulationData  = runSimulation();
-        PopulateResult();
+        populateResult();
         return mRawSimulationData;
     }
     catch(const Exception& e)
@@ -1227,19 +1227,19 @@ double RoadRunner::getParameterValue(const TParameterType& parameterType, const 
 
 // Help("This method turns on / off the computation and adherence to conservation laws."
 //              + "By default roadRunner will discover conservation cycles and reduce the model accordingly.")
-void RoadRunner::ComputeAndAssignConservationLaws(const bool& bValue)
+void RoadRunner::computeAndAssignConservationLaws(const bool& bValue)
 {
     mComputeAndAssignConservationLaws = bValue;
     if(mModel != NULL)
     {
-        if(!GenerateModelCode(""))
+        if(!generateModelCode(""))
         {
-            throw("Failed generating model from SBML when trying to set ComputeAndAssignConservationLaws");
+            throw("Failed generating model from SBML when trying to set computeAndAssignConservationLaws");
         }
         //We need no recompile the model if this flag changes..
-        if(!CompileModel())
+        if(!compileModel())
         {
-            throw("Failed compiling model when trying to set ComputeAndAssignConservationLaws");
+            throw("Failed compiling model when trying to set computeAndAssignConservationLaws");
         }
     }
 }
@@ -1465,7 +1465,7 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
 }
 
 // Help("Updates the model based on all recent changes")
-void RoadRunner::EvalModel()
+void RoadRunner::evalModel()
 {
     if (!mModel)
     {
@@ -1797,8 +1797,8 @@ DoubleMatrix RoadRunner::getReducedJacobian()
             return DoubleMatrix(0,0);
         }
         DoubleMatrix I1 = mult((*mLS->getNrMatrix()), uelast);
-        _L = mLS->getLinkMatrix();
-        return mult(I1, (*_L));
+        DoubleMatrix *linkMat = mLS->getLinkMatrix();
+        return mult(I1, (*linkMat));
     }
     catch (const Exception& e)
     {
@@ -1817,7 +1817,8 @@ DoubleMatrix* RoadRunner::getLinkMatrix()
 	   {
 	       throw CoreException(emptyModelStr);
 	   }
-	   return _L;
+	   //return _L;
+		return mLS->getLinkMatrix();      
     }
     catch (const Exception& e)
     {
@@ -1829,11 +1830,12 @@ DoubleMatrix* RoadRunner::getNrMatrix()
 {
     try
     {
-       if (mModel)
+       if (!mModel)
 	   {
-		   return _Nr;
+			throw CoreException(emptyModelStr);
 	   }
-       throw CoreException(emptyModelStr);
+		//return _Nr;
+		return mLS->getNrMatrix();      
     }
     catch (const Exception& e)
     {
@@ -1845,11 +1847,12 @@ DoubleMatrix* RoadRunner::getL0Matrix()
 {
     try
     {
-       if (mModel)
+       if (!mModel)
 	   {
-		   return _L0;
+			throw CoreException(emptyModelStr);
 	   }
-       throw CoreException(emptyModelStr);
+          //return _L0;
+	   return mLS->getL0Matrix();
     }
     catch (const Exception& e)
     {
@@ -2679,7 +2682,7 @@ double RoadRunner::computeSteadyStateValue(const TSelectionRecord& record)
     {
         return computeSteadyStateValue(record.p1);
     }
-    return GetValueForRecord(record);
+    return getValueForRecord(record);
 }
 
 // Help("Returns the value of the given steady state identifier.")
@@ -2768,7 +2771,7 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
 //
 //            for (int j = 0; j < selectionList.Length; j++)
 //            {
-//                result[j] = GetNthSelectedOutput(j, mModel->GetTime());
+//                result[j] = getNthSelectedOutput(j, mModel->GetTime());
 //            }
 //            return result;
 //        }
@@ -2783,7 +2786,7 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
 // Help("When turned on, this method will cause rates, event assignments, rules and such to be multiplied " +
 //              "with the compartment volume, if species are defined as initialAmounts. By default this behavior is off.")
 //
-//        void RoadRunner::ReMultiplyCompartments(bool bValue)
+//        void RoadRunner::reMultiplyCompartments(bool bValue)
 //        {
 //            _ReMultiplyCompartments = bValue;
 //        }
@@ -2820,7 +2823,7 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
 //        }
 //
 //
-string RoadRunner::GetModelName()
+string RoadRunner::getModelName()
 {
     return mModelGenerator->mNOM.getModelName();
 }
@@ -3752,6 +3755,7 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
         Log(lError)<<"Exception "<<e.what()<< " thrown";
                 // What ever happens, make sure we restore the species level
         mModel->setConcentration(speciesIndex, originalParameterValue);
+        return rr::DoubleNaN;
     }
 }
 
@@ -4242,21 +4246,21 @@ DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
 }
 
 //This just creates a copy?? remove and use = instead!?
-ComplexMatrix RoadRunner::ConvertComplex(ComplexMatrix oMatrix)
-{
-	ComplexMatrix oResult;
-	oResult.resize (oMatrix.RSize(), oMatrix.CSize()); //  = Complex[oMatrix.Length][];
-	for (int i = 0; i < oMatrix.RSize(); i++)
-	{
-		for (int j = 0; j < oMatrix.CSize(); j++)
-		{
-			oResult[i][j].Real = oMatrix[i][j].Real;
-			oResult[i][j].Imag = oMatrix[i][j].Imag;
-		}
-	}
-	return oResult;
-}
-
+//ComplexMatrix RoadRunner::ConvertComplex(ComplexMatrix oMatrix)
+//{
+//	ComplexMatrix oResult;
+//	oResult.resize (oMatrix.RSize(), oMatrix.CSize()); //  = Complex[oMatrix.Length][];
+//	for (int i = 0; i < oMatrix.RSize(); i++)
+//	{
+//		for (int j = 0; j < oMatrix.CSize(); j++)
+//		{
+//			oResult[i][j].Real = oMatrix[i][j].Real;
+//			oResult[i][j].Imag = oMatrix[i][j].Imag;
+//		}
+//	}
+//	return oResult;
+//}
+//
 // [Help("Compute the matrix of scaled concentration control coefficients")]
 DoubleMatrix RoadRunner::getScaledConcentrationControlCoefficientMatrix()
 {
@@ -4997,7 +5001,7 @@ string RoadRunner::getCapabilities()
 //            CvodeInterface.MaxNumSteps = maxSteps;
 //        }
 //
-//        void RoadRunner::CorrectMaxStep()
+//        void RoadRunner::correctMaxStep()
 //        {
 //            double maxStep = (mTimeEnd - mTimeStart) / (mNumPoints);
 //            maxStep = Math.Min(CvodeInterface.MaxStep, maxStep);
@@ -5011,7 +5015,7 @@ void RoadRunner::setCapabilities(const string& capsStr)
 //    var cs = new CapsSupport(capsStr);
 //    cs.Apply();
 //
-//    //CorrectMaxStep();
+//    //correctMaxStep();
 //
 //    if (mModel)
 //    {
@@ -5366,7 +5370,7 @@ NewArrayList RoadRunner::getAvailableTimeCourseSymbols()
     return oResult;
 }
 
-//bool RoadRunner::IsNleqAvailable()
+//bool RoadRunner::isNleqAvailable()
 //{
 //    return NLEQInterface.IsAvailable;
 //}
@@ -5377,8 +5381,8 @@ NewArrayList RoadRunner::getAvailableTimeCourseSymbols()
 //            double[,] results;
 //            RoadRunner sim;
 //            sim = new RoadRunner();
-//            //RoadRunner.ReMultiplyCompartments(false);
-//            //RoadRunner.ComputeAndAssignConservationLaws(false);
+//            //RoadRunner.reMultiplyCompartments(false);
+//            //RoadRunner.computeAndAssignConservationLaws(false);
 //            sim.setTolerances(1E-4, 1E-4, 100);
 //            //sim.loadSBMLFromFile(@"C:\Development\sbwBuild\source\Translators\TestModels\MathMLTests.xml");
 //            //sim.loadSBMLFromFile(@"C:\Development\trunk-sbml\trunk\test-suite\cases\semantic\00938\00938-sbml-l3v1.xml");
@@ -5433,7 +5437,7 @@ NewArrayList RoadRunner::getAvailableTimeCourseSymbols()
 //            //    "time", "S1", "S2", "S3"
 //            //    }));
 //
-//            ////sim.CorrectMaxStep();
+//            ////sim.correctMaxStep();
 //            //CvodeInterface.MaxStep = 0.0001;
 //            //sim.mCVode.reStart(0.0, sim.model);
 //

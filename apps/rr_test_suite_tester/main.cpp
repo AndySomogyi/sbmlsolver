@@ -142,7 +142,7 @@ int main(int argc, char * argv[])
        	string rrSupportCodeFolder = JoinPath(getParentFolder(getCurrentExeFolder()), "rr_support");
         string compiler = JoinPath(getParentFolder(getCurrentExeFolder()), "compilers\\tcc\\tcc.exe");
         rrI = new RoadRunner(rrSupportCodeFolder, compiler);
-        rrI->Reset();
+        rrI->reset();
 //        rrI->setCompiler("tcc");
         simulation.UseEngine(rrI);
 
@@ -171,7 +171,7 @@ int main(int argc, char * argv[])
             Log(lError)<<"Failed loading SBML model settings";
         }
 
-        rrI->ComputeAndAssignConservationLaws(false);
+        rrI->computeAndAssignConservationLaws(false);
 
         //Then Simulate model
          if(!simulation.Simulate())

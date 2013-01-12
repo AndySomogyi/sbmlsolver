@@ -1036,7 +1036,7 @@ bool RunTest(const string& version, int caseNumber)
 
         TestSuiteModelSimulation simulation(dataOutputFolder);
 
-        rr.Reset();
+        rr.reset();
         simulation.UseEngine(&rr);
 
         //Setup filenames and paths...
@@ -1065,7 +1065,7 @@ bool RunTest(const string& version, int caseNumber)
 			throw("Failed loading SBML model settings");
         }
 
-        rr.ComputeAndAssignConservationLaws(false);
+        rr.computeAndAssignConservationLaws(false);
 
         //Then Simulate model
          if(!simulation.Simulate())

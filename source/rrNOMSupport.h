@@ -198,7 +198,7 @@ class RR_DECLSPEC NOMSupport : public rrObject
         string                  getNthBoundarySpeciesCompartmentName(const int& nIndex);
         string                  getNthFloatingSpeciesCompartmentName(const int& nIndex);
         StringListContainer     getListOfBoundarySpecies();
-        void                    Reset();
+        void                    reset();
 };
 
 }//namespace rr

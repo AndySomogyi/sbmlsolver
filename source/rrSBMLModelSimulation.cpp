@@ -53,7 +53,7 @@ SimulationData SBMLModelSimulation::GetResult()
 {
     if(mEngine)
     {
-        return mEngine->GetSimulationResult();
+        return mEngine->getSimulationResult();
     }
     else
     {
@@ -105,7 +105,7 @@ bool SBMLModelSimulation::UseEngine(RoadRunner* engine)
     mEngine = engine;
     if(mEngine)
     {
-        mEngine->PartOfSimulation(this);    //Road runner then gets access to data oupt folders etc..
+        mEngine->partOfSimulation(this);    //Road runner then gets access to data oupt folders etc..
     }
     return true;
 }
@@ -116,7 +116,7 @@ bool SBMLModelSimulation::GenerateModelCode()
     {
         return false;
     }
-    return mEngine->GenerateModelCode("");
+    return mEngine->generateModelCode("");
 }
 
 bool SBMLModelSimulation::CompileModel()
@@ -126,7 +126,7 @@ bool SBMLModelSimulation::CompileModel()
         return false;
     }
 
-    return mEngine->CompileCurrentModel();
+    return mEngine->compileCurrentModel();
 }
 
 bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
@@ -223,7 +223,7 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
 
     if(mEngine)
     {
-        mEngine->UseSimulationSettings(mSettings);
+        mEngine->useSimulationSettings(mSettings);
 
         //This one creates the list of what we will look at in the result
         mEngine->createTimeCourseSelectionList();
@@ -259,7 +259,7 @@ bool SBMLModelSimulation::SetSelectionList(const string& selectionList)
         mSettings.mVariables.push_back(Trim(vars[i]));
     }
 
-    mEngine->UseSimulationSettings(mSettings);
+    mEngine->useSimulationSettings(mSettings);
     mEngine->createTimeCourseSelectionList();    //This one creates the list of what we will look at in the result
     return true;
 }
@@ -303,7 +303,7 @@ bool SBMLModelSimulation::CreateModel()
         return false;
     }
 
-    return (mEngine->CreateModel() != NULL) ? true : false;
+    return (mEngine->createModel() != NULL) ? true : false;
 }
 
 bool SBMLModelSimulation::InitializeModel()
@@ -313,7 +313,7 @@ bool SBMLModelSimulation::InitializeModel()
         return false;
     }
 
-    return mEngine->InitializeModel();
+    return mEngine->initializeModel();
 }
 
 bool SBMLModelSimulation::GenerateAndCompileModel()
@@ -322,11 +322,11 @@ bool SBMLModelSimulation::GenerateAndCompileModel()
     {
         return false;
     }
-    if(!mEngine->GenerateModelCode(""))
+    if(!mEngine->generateModelCode(""))
     {
     	return false;
     }
-    return mEngine->CompileModel();
+    return mEngine->compileModel();
 }
 
 bool SBMLModelSimulation::Simulate()
@@ -336,7 +336,7 @@ bool SBMLModelSimulation::Simulate()
         return false;
     }
 
-    return mEngine->Simulate();
+    return mEngine->simulate2();
 }
 
 bool SBMLModelSimulation::SaveResult()
@@ -344,7 +344,7 @@ bool SBMLModelSimulation::SaveResult()
     string resultFileName(JoinPath(mDataOutputFolder, "rr_" + mModelFileName));
     resultFileName = ChangeFileExtensionTo(resultFileName, ".csv");
     Log(lInfo)<<"Saving result to file: "<<resultFileName;
-    SimulationData resultData = mEngine->GetSimulationResult();
+    SimulationData resultData = mEngine->getSimulationResult();
 
     ofstream fs(resultFileName.c_str());
     fs << resultData;

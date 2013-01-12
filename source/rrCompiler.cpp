@@ -55,7 +55,7 @@ bool Compiler::setupCompiler(const string& supportCodeFolder)
 }
 
 
-string Compiler::GetDLLName()
+string Compiler::getDLLName()
 {
     return mDLLFileName;
 }

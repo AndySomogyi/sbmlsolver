@@ -20,9 +20,9 @@ mDescription("Settings For RoadRunner"),
 mRoadRunner(rr)
 {
 
-    if(mRoadRunner && mRoadRunner->GetCVodeInterface())
+    if(mRoadRunner && mRoadRunner->getCVodeInterface())
     {
-        CvodeInterface*  cvode = mRoadRunner->GetCVodeInterface();
+        CvodeInterface*  cvode = mRoadRunner->getCVodeInterface();
         CapabilitiesSection integration("integration", "CVODE", "CVODE Integrator");
 
         integration.Add(new CapabilityType<int>(    "BDFOrder",     cvode->MaxBDFOrder,     "Maximum order for BDF Method"));
@@ -41,9 +41,9 @@ mRoadRunner(rr)
         Add(integration);
     }
 
-    if(mRoadRunner && mRoadRunner->GetNLEQInterface())
+    if(mRoadRunner && mRoadRunner->getNLEQInterface())
     {
-        NLEQInterface* solver = mRoadRunner->GetNLEQInterface();
+        NLEQInterface* solver = mRoadRunner->getNLEQInterface();
         CapabilitiesSection steady("SteadyState", "NLEQ2", "NLEQ2 Steady State Solver");
         steady.Add(new CapabilityType<int>("MaxIterations", solver->maxIterations, "Maximum number of newton iterations"));
         steady.Add(new CapabilityType<double>("relativeTolerance", solver->relativeTolerance, "Relative precision of solution components"));

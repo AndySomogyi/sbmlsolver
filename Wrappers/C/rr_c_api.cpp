@@ -248,7 +248,7 @@ RRHandle rrCallConv getRRInstance()
 #else
             string rrInstallFolder("?");
 #endif
-            gRRHandle->Reset();
+            gRRHandle->resetModelGenerator();
         }
     	return gRRHandle;
     }
@@ -368,7 +368,7 @@ bool rrCallConv setComputeAndAssignConservationLaws(const bool& OnOrOff)
             return false;
         }
 
-        gRRHandle->ComputeAndAssignConservationLaws(OnOrOff);
+        gRRHandle->computeAndAssignConservationLaws(OnOrOff);
         return true;
     }
     catch(Exception& ex)
@@ -390,7 +390,7 @@ bool rrCallConv setTempFolder(const char* folder)
         	return false;
     	}
 		Log(lDebug)<<"Setting tempfolder to:"<<folder<<endl;
-	    return gRRHandle->SetTempFileFolder(folder);
+	    return gRRHandle->setTempFileFolder(folder);
     }
     catch(Exception& ex)
     {
@@ -914,12 +914,12 @@ RRResultHandle rrCallConv simulate()
             return NULL;
         }
 
-        if(!gRRHandle->Simulate())
+        if(!gRRHandle->simulate2())
         {
             return NULL;
         }
 
-        SimulationData result = gRRHandle->GetSimulationResult();
+        SimulationData result = gRRHandle->getSimulationResult();
 
         //Extract the data and return struct..
         RRResult* aResult  = new RRResult;
@@ -2065,7 +2065,7 @@ bool rrCallConv evalModel()
 		{
 			setError(ALLOCATE_API_ERROR_MSG);
 		}
-		gRRHandle->EvalModel();
+		gRRHandle->evalModel();
         return true;
 	}
 	catch(Exception& ex)
@@ -2290,13 +2290,12 @@ char* rrCallConv getCSourceFileName()
             return NULL;
         }
 
-        CGenerator* generator = gRRHandle->GetCGenerator();
+        CGenerator* generator = gRRHandle->getCGenerator();
         if(!generator)
         {
             return NULL;
         }
 
-        char* fName;
         string fNameS = generator->GetSourceCodeFileName();
 
         fNameS = ExtractFileNameNoExtension(fNameS);
@@ -2321,7 +2320,7 @@ RRCCode* rrCallConv getCCode()
             return NULL;
         }
 
-        CGenerator* generator = gRRHandle->GetCGenerator();
+        CGenerator* generator = gRRHandle->getCGenerator();
         if(!generator)
         {
             return NULL;

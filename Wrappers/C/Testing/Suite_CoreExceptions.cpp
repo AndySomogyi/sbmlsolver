@@ -72,9 +72,9 @@ RRHandle gRR;
 		double test;
 		bool val =  getuEE("J1", "S1", test);
 
-        val = getuEE("J1", "S34", test);
+       // val = getuEE("J1", "S34", test);
 
-		val =  getuCC("J1", "S1", test);
+		//val =  getuCC("J1", "S1", test);
 
     }
 
