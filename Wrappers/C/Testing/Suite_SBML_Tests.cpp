@@ -16,7 +16,6 @@ extern string 	gTSModelsPath;
 extern string   gCompiler;
 extern string   gSupportCodeFolder;
 extern string   gTempFolder;
-//extern string   gDataOutputFolder;
 extern bool		gDebug;
 
 bool RunTest(const string& version, int number);
@@ -1073,7 +1072,8 @@ bool RunTest(const string& version, int caseNumber)
 
         if(!CreateFolder(dataOutputFolder))
         {
-            throw(rr::Exception("Failed creating output folder for data output"));
+			string msg("Failed creating output folder for data output: " + dataOutputFolder);
+            throw(rr::Exception(msg));
         }
 
        	SBMLTestSuiteSimulation_CAPI simulation(dataOutputFolder);
