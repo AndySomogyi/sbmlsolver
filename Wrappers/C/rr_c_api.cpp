@@ -194,6 +194,11 @@ char* rrCallConv getBuildDate()
     return createText(__DATE__);
 }
 
+char* rrCallConv getBuildTime()
+{
+    return createText(__TIME__);
+}
+
 char* rrCallConv getVersion()
 {
 	try
@@ -238,16 +243,17 @@ RRHandle rrCallConv getRRInstance()
     {
         if(!gRRHandle)
         {
+            string rrInstallFolder(getParentFolder(getRRCAPILocation()));
         	//Get location of shared lib and use that as 'install' folder
 #if defined(_WIN32) || defined(WIN32)
-            string rrInstallFolder(getParentFolder(getRRCAPILocation()));
-            gRRHandle = new RoadRunner(JoinPath(rrInstallFolder,"rr_support"), JoinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"), GetUsersTempDataFolder());
+            string compiler(JoinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"));
 #elif defined(__linux)
-            string rrInstallFolder(getParentFolder(getRRCAPILocation()));
-            gRRHandle = new RoadRunner(JoinPath(rrInstallFolder,"rr_support"), "gcc", GetUsersTempDataFolder());
+            string compiler("gcc");
 #else
-            string rrInstallFolder("?");
+            string compiler("gcc");
 #endif
+
+            gRRHandle = new RoadRunner(JoinPath(rrInstallFolder, "rr_support"), compiler, GetUsersTempDataFolder());
             gRRHandle->resetModelGenerator();
         }
     	return gRRHandle;

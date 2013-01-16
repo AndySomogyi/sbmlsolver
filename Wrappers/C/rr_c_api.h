@@ -200,6 +200,13 @@ C_DECL_SPEC char* rrCallConv getVersion();
 C_DECL_SPEC char*  rrCallConv getBuildDate();
 
 /*!
+ \brief Retrieve the current build time (HH:MM:SS) of the library
+ \return Returns null if it fails, otherwise it returns the build time
+ \ingroup utility
+*/
+C_DECL_SPEC char*  rrCallConv getBuildTime();
+
+/*!
  \brief Retrieve the current copyright notice for the library
  \return Returns null if it fails, otherwise it returns the copyright string
  \ingroup utility
