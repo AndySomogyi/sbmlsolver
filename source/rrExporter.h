@@ -17,7 +17,6 @@
 #define RR_DECLSPEC
 #endif
 
-
 #include "rrOSSpecifics.h"
 
 #endif

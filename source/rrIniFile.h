@@ -19,13 +19,11 @@ using std::ios_base;
 
 namespace rr
 {
-
-
 class rrIniKey;
 class rrIniSection;
 
 // IniFile typedefs
-typedef std::vector<rrIniKey*>     	KeyList;
+typedef std::vector<rrIniKey*>     		KeyList;
 typedef std::vector<string> 	    	NonKeyList;
 typedef std::vector<rrIniSection*>  	SectionList;
 typedef SectionList::iterator       	SectionItor;
@@ -51,11 +49,11 @@ class RR_DECLSPEC IniFile : public rrObject
 		int		            WriteLine(fstream& stream, char* fmt, ...);
 
 	protected:
-		SectionList	        mSections;		// Our list of sections
+		SectionList	        mSections;		// List of sections
 		FileName	        mIniFileName;	// The filename to write to
 		bool	            mIsDirty;		// Tracks whether or not data has changed.
         bool                mWasFound;
-    	bool 		        mAutoSave;		//Save ini fileC:\rDisk\rrl\source\mtkFileName.h
+    	bool 		        mAutoSave;		//Save ini file automatically on destruction
 
 
 	public:
@@ -65,13 +63,14 @@ class RR_DECLSPEC IniFile : public rrObject
 
         int					GetNumberOfSections(){return mSections.size();}
         rrIniSection*		GetSection(int i){return mSections[i];}
+
 		// File handling methods
 		string              GetFilePath(){return mIniFileName.GetPath();}
 		string              GetFileName(){return mIniFileName;}
         string              GetFullFileName(){return mIniFileName.GetPathAndFileName();}
         bool                SetFilePath(const string& path);
 		bool		        Load(const string& fName = rr::EmptyString);
-		rrIniSection*      LoadSection(const string& theSection);
+		rrIniSection*      	LoadSection(const string& theSection);
 		bool		        Save(ios_base::openmode openMode = ios::out|ios::trunc);
 		bool		        UnLoad(){return Save();}
         bool                WasItFound(){return mWasFound;} //!Boolean indicating if the last key was found in the ini file
@@ -91,8 +90,7 @@ class RR_DECLSPEC IniFile : public rrObject
 		bool		        WriteFloat(const string& Key, double value, const string& Comment = rr::EmptyString, const string& Section = rr::EmptyString);
 		bool		        WriteInteger(const string& Key, int nValue, const string& Comment = rr::EmptyString, const string& Section = rr::EmptyString);
 		bool		        WriteBool(const string& Key, bool bValue, const string& Comment = rr::EmptyString, const string& Section = rr::EmptyString);
-		bool		        WriteString(const string& Key, const string& Value, const string& Comment = rr::EmptyString, const string& Section = rr::EmptyString)
-                            	{return WriteValue(Key, Value, Comment, Section);}
+		bool		        WriteString(const string& Key, const string& Value, const string& Comment = rr::EmptyString, const string& Section = rr::EmptyString){return WriteValue(Key, Value, Comment, Section);}
  		bool		        WriteNonKey(const string& nonKey, const string& Section = rr::EmptyString);
 
     	//KeyHandling
@@ -120,7 +118,6 @@ class RR_DECLSPEC IniFile : public rrObject
         bool 			    ClearSection(const string& section);
         bool 			    IsModified(){return mIsDirty;}
 };
-
 
 }
 #endif
