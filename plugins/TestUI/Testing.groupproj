@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{E787F67D-E107-46B6-B6BD-3DA7276AC4FE}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\..\ide_builds\xe3\rr_c_api.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="PluginApp.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="rr_c_api">
+        <MSBuild Projects="..\..\ide_builds\xe3\rr_c_api.cbproj"/>
+    </Target>
+    <Target Name="rr_c_api:Clean">
+        <MSBuild Projects="..\..\ide_builds\xe3\rr_c_api.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="rr_c_api:Make">
+        <MSBuild Projects="..\..\ide_builds\xe3\rr_c_api.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="PluginApp">
+        <MSBuild Projects="PluginApp.cbproj"/>
+    </Target>
+    <Target Name="PluginApp:Clean">
+        <MSBuild Projects="PluginApp.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PluginApp:Make">
+        <MSBuild Projects="PluginApp.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="rr_c_api;PluginApp"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="rr_c_api:Clean;PluginApp:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="rr_c_api:Make;PluginApp:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
