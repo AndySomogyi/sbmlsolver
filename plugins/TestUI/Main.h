@@ -16,6 +16,7 @@ using std::string;
 using std::vector;
 //---------------------------------------------------------------------------
 
+//Minimalistic logger to a memo...
 class Logger
 {
     protected:
@@ -61,7 +62,6 @@ private:	// User declarations
 public:		// User declarations
 	__fastcall TMainF(TComponent* Owner);
 };
-//---------------------------------------------------------------------------
+
 extern PACKAGE TMainF *MainF;
-//---------------------------------------------------------------------------
 #endif

@@ -28,6 +28,8 @@
 #include "rrNOMSupport.h"
 #include "rrConstants.h"
 #include "rrNewArrayList.h"
+#include "rrPluginManager.h"
+
 using std::string;
 using namespace ls;
 namespace rr
@@ -76,6 +78,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		string                          getDLLName();
 		SimulationSettings              mSettings;
 		NOMSupport						mNOM;
+		PluginManager					mPluginManager;
 
 	public:
 		void                            setParameterValue(const TParameterType& parameterType, const int& parameterIndex, const double& value);
@@ -85,19 +88,13 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		NOMSupport*						getNOM();
 		Compiler*						getCompiler();
 		string							getInfo();
-
+        PluginManager&					getPluginManager();
 		// Properties -----------------------------------------------------------------------------
 		bool                     		mComputeAndAssignConservationLaws;
 		bool        					computeAndAssignConservationLaws();
 
 		bool                     		mConservedTotalChanged;
-		//        static bool                   mReMultiplyCompartments;
-		// The matrix stuff going on here is not right....
-		//DoubleMatrix                   *_L;
-		//DoubleMatrix                   *_L0;
-		//DoubleMatrix                   *_N;
-		//DoubleMatrix                   *_Nr;
-				
+
         SharedLibrary			  		mModelDLL;
 		string                          mCurrentSBML;
 		ModelFromC*                     mModel;

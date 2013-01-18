@@ -1,6 +1,7 @@
 #ifndef TestPluginH
 #define TestPluginH
 #include "rrPlugin.h"
+#include "Poco/SharedLibrary.h"
 //---------------------------------------------------------------------------
 
 class TestPlugin : public rr::Plugin
@@ -15,13 +16,17 @@ class TestPlugin : public rr::Plugin
 };
 
 /////////////////////////////////////////////////////////////////////////
-// Plugin factory function
+// Plugin "factory" functions. This is for plugins that create a class
+//If we are to create a plugin not in C++, then another set of API functions need to be
+//exposed..
+
 extern "C"
 {
-__declspec(dllexport) rr::Plugin* Create_Plugin();
+#define EXP_FUNC __declspec(dllexport)
+EXP_FUNC rr::Plugin* __stdcall	createRRPlugin();
 
 // Plugin cleanup function
-__declspec(dllexport) bool Release_Plugin (rr::Plugin *plugin);
+EXP_FUNC bool		__stdcall	releaseRRPlugin(rr::Plugin *plugin);
 
 }
 

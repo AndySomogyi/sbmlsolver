@@ -3,6 +3,7 @@
 #pragma hdrstop
 #include "rrUtils.h"
 #include "Main.h"
+#include "rr_c_api.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -40,7 +41,7 @@ void __fastcall TMainF::startupTimerTimer(TObject *Sender)
     	apiVersionLBL->Caption = getVersion();
         buildDateLbl->Caption  = getBuildDate();
         buildTimeLbl->Caption  = getBuildTime();
-        string info 			= getInfo();
+        string info 		   = getInfo();
 
         vector<string> lines = rr::SplitString(info, "\n");
         for(int i =0; i < lines.size(); i++)
@@ -49,15 +50,14 @@ void __fastcall TMainF::startupTimerTimer(TObject *Sender)
         }
     }
 }
-//---------------------------------------------------------------------------
 
+//---------------------------------------------------------------------------
 void __fastcall TMainF::loadPluginsExecute(TObject *Sender)
 {
-	if(!loadPlugins)
+	if(!loadPlugins())
     {
     	Log() << "Failed loading plugins..";
     }
     	Log() << "Failed loading plugins..";
 }
-//---------------------------------------------------------------------------
 

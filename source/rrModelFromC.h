@@ -59,47 +59,34 @@ class RR_DECLSPEC ModelFromC : public rrObject
         void                                    setTime(double _time);
         double                                  getTime();
 
+		//Function/Data Pointers
         double*                                 y;                  //Corresponds to y in IModel
         int*                                    ySize;              //Corresponds to y in IModel
-
         double*                                 init_y;
         int*                                    init_ySize;
-
         double*                                 dydt;               //This is the "dydt" data in the DLL.
         int*                                    dydtSize;           //This is the "dydt" dataSize in the DLL.
-
         double*                                 amounts;            //This is the "amounts" data in the DLL.
         int*                                    amountsSize;
-
         double*                                 bc;
         int*                                    bcSize;
-
         double*                                 sr;
         int*                                    srSize;
-
         double*                                 gp;
         int*                                    gpSize;
-
         double*                       			lp;                 //Local parameters
         int*           	            			lpSize;             //Local parameters
-
         double*                                 c;                  //Compartment volumes
         int*                                    cSize;              //Compartment volumes
-
         double*                                 rates;
         int*                                    ratesSize;
-
         double*                                 ct;                 //Conservation totals
         int*                                    ctSize;             //Conservation totals
-
         double*                                 rateRules;          //additional rateRules
         int*                                    rateRulesSize;      //additional rateRules
-
         double*                                 eventTests;
         int*                                    eventTestsSize;
-
         double* 		                        eventPriorities;		//Array of event priorities. Has size numEvents
-
         TEventDelayDelegate*                    eventDelays;
         bool*                                   eventType;
         int*                                    eventTypeSize;
@@ -114,19 +101,19 @@ class RR_DECLSPEC ModelFromC : public rrObject
         TComputeEventAssignmentDelegate*        computeEventAssignments;
         TPerformEventAssignmentDelegate*        performEventAssignments;
 
-        // Virtual functions --------------------------------------------------------
-        virtual int                             getNumIndependentVariables();
-        virtual int                             getNumDependentVariables();
-        virtual int                             getNumTotalVariables();
-        virtual int                             getNumBoundarySpecies();
-        virtual int                             getNumGlobalParameters();
-        virtual int                             getNumCompartments();
-        virtual int                             getNumReactions();
-        virtual int                             getNumRules();
-        virtual int                             getNumEvents();
-        virtual void                            computeEventPriorites();
-        virtual void                            setConcentration(int index, double value);
-        virtual void                            computeReactionRates(double time, double* y);
+        // functions --------------------------------------------------------
+        int                                     getNumIndependentVariables();
+        int                                     getNumDependentVariables();
+        int                                     getNumTotalVariables();
+        int                                     getNumBoundarySpecies();
+        int                                     getNumGlobalParameters();
+        int                                     getNumCompartments();
+        int                                     getNumReactions();
+        int                                     getNumRules();
+        int                                     getNumEvents();
+        void                                    computeEventPriorites();
+        void                                    setConcentration(int index, double value);
+        void                                    computeReactionRates(double time, double* y);
 
     public:
         CGenerator*                             mCodeGenerator;
@@ -164,7 +151,7 @@ class RR_DECLSPEC ModelFromC : public rrObject
 		c_void_double_doubleStar                cComputeReactionRates;
         c_void                                  ccomputeEventPriorities;
 
-    public:
+		//
                                                 ModelFromC();
                                                 ModelFromC(CGenerator* generator, SharedLibrary& dll);
                                                ~ModelFromC();

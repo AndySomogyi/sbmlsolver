@@ -46,14 +46,10 @@ RoadRunner::RoadRunner(const string& supportCodeFolder, const string& compiler, 
     mSimulation(NULL),
     mCVode(NULL),
     steadyStateSolver(NULL),
+    mPluginManager(JoinPath(getParentFolder(supportCodeFolder),"plugins")),
     mCompiler(supportCodeFolder, compiler),
     mComputeAndAssignConservationLaws(false),
     mConservedTotalChanged(false),
-    //_L0(NULL),
-    //mL(NULL),
-    //mL0(NULL),
-    //mN(NULL),
-    //mNr(NULL),
     mCurrentSBML(""),
     mModel(NULL),
     mTimeStart(0),
@@ -64,9 +60,9 @@ RoadRunner::RoadRunner(const string& supportCodeFolder, const string& compiler, 
 	mTempFileFolder = (tempFolder);
 	Log(lDebug4)<<"In RoadRunner ctor";
 
-    mLS 				= new LibStructural();//::getInstance();
+    mLS 				= new LibStructural();
     mCSharpGenerator    = new CSharpGenerator(*mLS, mNOM);
-    mCGenerator         = new CGenerator(*mLS, mNOM);//Todo: memoryleak
+    mCGenerator         = new CGenerator(*mLS, mNOM);
     mModelGenerator     = mCGenerator;
 }
 
@@ -109,6 +105,11 @@ string RoadRunner::getInfo()
     info<<"Support Code Folder: "	<<	getCompiler()->getSupportCodeFolder()<<endl;
     info<<"Working Directory: "		<<	getCWD()<<endl;
 	return info.str();
+}
+
+PluginManager&	RoadRunner::getPluginManager()
+{
+	return mPluginManager;
 }
 
 NOMSupport* RoadRunner::getNOM()

@@ -17,20 +17,23 @@ using std::string;
 class RR_DECLSPEC Plugin : public rrObject
 {
 	protected:
-		string 		        mCategory;
 		string				mName;
         string				mAuthor;
+		string 		        mCategory;
         string				mVersion;
         string				mCopyright;
 
     public:
-	    					Plugin(const std::string& fName = EmptyString);
+	    					Plugin(const std::string& name = EmptyString, const std::string& cat = EmptyString);
         				   ~Plugin();
-		virtual bool 		Load();
-		virtual bool		Unload();
-        virtual bool		Execute() = 0;
+
+        string				GetName();
+        string				GetAuthor();
         string				GetCategory();
-        bool				SetCategory(const string& name);
+        string				GetVersion();
+        string				GetCopyright();
+        string              GetInfo();
+        virtual bool		Execute() = 0;
 
 };
 

@@ -10,6 +10,7 @@ object MainF: TMainF
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   OnKeyDown = FormKeyDown
   PixelsPerInch = 96
@@ -73,8 +74,6 @@ object MainF: TMainF
     Align = alBottom
     Caption = 'Panel1'
     TabOrder = 1
-    ExplicitTop = 248
-    ExplicitWidth = 785
     object infoMemo: TMemo
       Left = 1
       Top = 1
@@ -90,14 +89,11 @@ object MainF: TMainF
       ScrollBars = ssBoth
       TabOrder = 0
       WordWrap = False
-      ExplicitTop = 6
-      ExplicitWidth = 783
-      ExplicitHeight = 152
     end
   end
   object Button1: TButton
-    Left = 488
-    Top = 48
+    Left = 400
+    Top = 57
     Width = 75
     Height = 25
     Action = loadPlugins
