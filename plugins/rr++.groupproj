@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{F1AB80FA-81B1-43BC-BF2C-0BC2C9C3817E}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\ide_builds\xe3\roadrunner.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Apps\plugin_checker.cbproj">
+            <Dependencies>..\ide_builds\xe3\roadrunner.cbproj</Dependencies>
+        </Projects>
+        <Projects Include="TestPlugin\TestPlugin.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="roadrunner">
+        <MSBuild Projects="..\ide_builds\xe3\roadrunner.cbproj"/>
+    </Target>
+    <Target Name="roadrunner:Clean">
+        <MSBuild Projects="..\ide_builds\xe3\roadrunner.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="roadrunner:Make">
+        <MSBuild Projects="..\ide_builds\xe3\roadrunner.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="plugin_checker" DependsOnTargets="roadrunner">
+        <MSBuild Projects="Apps\plugin_checker.cbproj"/>
+    </Target>
+    <Target Name="plugin_checker:Clean" DependsOnTargets="roadrunner:Clean">
+        <MSBuild Projects="Apps\plugin_checker.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="plugin_checker:Make" DependsOnTargets="roadrunner:Make">
+        <MSBuild Projects="Apps\plugin_checker.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="TestPlugin">
+        <MSBuild Projects="TestPlugin\TestPlugin.cbproj"/>
+    </Target>
+    <Target Name="TestPlugin:Clean">
+        <MSBuild Projects="TestPlugin\TestPlugin.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TestPlugin:Make">
+        <MSBuild Projects="TestPlugin\TestPlugin.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="roadrunner;plugin_checker;TestPlugin"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="roadrunner:Clean;plugin_checker:Clean;TestPlugin:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="roadrunner:Make;plugin_checker:Make;TestPlugin:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
