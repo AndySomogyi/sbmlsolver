@@ -140,13 +140,13 @@
  \brief Linear algebra based methods for analyzing a reaction network
 
  \defgroup NOM Network object model (NOM) functions
- \brief Network objwct model functions 
- 
+ \brief Network objwct model functions
+
  \defgroup LinearAlgebra Linear Algebra functions
  \brief Linear algebra utility functions
 
  \defgroup list List Handling Routines
- \brief Some methods return lists (heterogeneous arrayts of data), 
+ \brief Some methods return lists (heterogeneous arrayts of data),
  these routines make it easier to manipulate listse
 
  \defgroup helperRoutines Helper Routines
@@ -161,6 +161,9 @@
  \defgroup freeRoutines Free memory routines
  \brief Routines that should be used to free various data structures generated during the course of using the library
 
+ \defgroup pluginRoutines Plugin functionality
+ \brief Routines used dealing with plugins
+
 */
 
 #ifndef rrC_APIH
@@ -173,17 +176,6 @@ extern "C"
 
 #include "rr_c_api_exporter.h"
 #include "rr_c_types.h"
-
-#if defined(_MSC_VER)
-	#include <direct.h>
-	#define getcwd _getcwd
-	#define chdir  _chrdir
-#elif defined(__BORLANDC__)
-  	#include <dir.h>
-#else
-#include <unistd.h>
-#endif
-
 
 /*!
  \brief Retrieve the current version number of the library
@@ -454,7 +446,7 @@ C_DECL_SPEC bool rrCallConv loadSBML(const char* sbml);
 
 /*!
  \brief Load a model from a SBML file
- \param[in] fileName file name (or full path) to file that holds the SBML model 
+ \param[in] fileName file name (or full path) to file that holds the SBML model
  \return Returns true if sucessful
  \ingroup loadsave
 */
@@ -519,9 +511,9 @@ C_DECL_SPEC bool rrCallConv setCapabilities (const char* caps);
 
 /*!
  \brief Get the simulator's capabilities
- 
+
  Example:
- 
+
  \code
  <caps name="RoadRunner" description="Settings For RoadRunner">
   <section name="integration" method="CVODE" description="CVODE Integrator">
@@ -1359,7 +1351,7 @@ C_DECL_SPEC RRMatrixHandle rrCallConv getUnscaledConcentrationControlCoefficient
 /*!
  \brief Retrieve the matrix of scaled concentration control coefficients for the current model
 
- \return Returns null if it fails, otherwise returns a matrix of scaled concentration control coefficients 
+ \return Returns null if it fails, otherwise returns a matrix of scaled concentration control coefficients
  \ingroup mca
 */
 C_DECL_SPEC RRMatrixHandle rrCallConv getScaledConcentrationControlCoefficientMatrix();
@@ -1728,7 +1720,7 @@ C_DECL_SPEC bool rrCallConv getResultElement (RRResultHandle result, int r, int 
  \brief Retrieves a label for a given column in a result type variable
 
  Result data are indexed from zero
- 
+
  Example: \code str = getResultColumnLabel (result, 2, 4); \endcode
 
  \param[in] result A pointer to a result type variable
@@ -1851,7 +1843,7 @@ C_DECL_SPEC RRListItemHandle rrCallConv createStringItem  (char* value);
  \param[in] value The list to store in the list item
  \return A pointer to the list item
  \ingroup list
-*/	
+*/
 C_DECL_SPEC RRListItemHandle rrCallConv createListItem (RRList* value);
 
 /*!
@@ -1954,7 +1946,7 @@ C_DECL_SPEC bool rrCallConv getDoubleListItem (RRListItemHandle item, double &va
  \param[in] item The list item to work with
  \return Returns NULL if it fails, otherwise returns a pointer to the string
  \ingroup list
-*/	
+*/
 C_DECL_SPEC char* rrCallConv getStringListItem (RRListItemHandle item);
 
 
@@ -1964,9 +1956,44 @@ C_DECL_SPEC char* rrCallConv getStringListItem (RRListItemHandle item);
  \param[in] item The list item to retrieve the list type from
  \return Returns NULL if item isn't a list, otherwise it returns a list from the item
 \ingroup list
-*/	
+*/
 C_DECL_SPEC RRListHandle rrCallConv getList (RRListItemHandle item);
 
+/*!
+ \brief load plugins
+
+ \return Returns true if Plugins are loaded, false otherwise
+ \ingroup pluginRoutines
+*/
+
+C_DECL_SPEC bool rrCallConv loadPlugins();
+
+/*!
+ \brief unload plugins
+
+ \return Returns true if Plugins are unloaded succesfully, false otherwise
+ \ingroup pluginRoutines
+*/
+
+C_DECL_SPEC bool rrCallConv unLoadPlugins();
+
+/*!
+ \brief Get Number of loaded plugins
+
+ \return Returns the number of loaded plugins, -1 if a problem is encountered
+ \ingroup pluginRoutines
+*/
+
+C_DECL_SPEC int rrCallConv getNumberOfPlugins();
+
+/*!
+ \brief GetPluginInfo (PluginName)
+ \param[in] string name of queried plugin
+ \return Returns info, as a string, for the plugin, NULL otherwise
+ \ingroup pluginRoutines
+*/
+
+C_DECL_SPEC char* rrCallConv getPluginInfo(const char* name);
 
 #if defined( __cplusplus)
 }

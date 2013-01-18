@@ -11,7 +11,7 @@
 /* Abstract plugin */
 namespace rr
 {
-
+const string noneStr = "<none>";
 using Poco::SharedLibrary;
 using std::string;
 class RR_DECLSPEC Plugin : public rrObject
@@ -24,8 +24,8 @@ class RR_DECLSPEC Plugin : public rrObject
         string				mCopyright;
 
     public:
-	    					Plugin(const std::string& name = EmptyString, const std::string& cat = EmptyString);
-        				   ~Plugin();
+	    					Plugin(const std::string& name = EmptyString, const std::string& cat = noneStr);
+        virtual 		   ~Plugin();	//Gotta be virtual!
 
         string				GetName();
         string				GetAuthor();

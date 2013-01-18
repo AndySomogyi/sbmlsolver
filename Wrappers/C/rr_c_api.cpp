@@ -43,13 +43,13 @@
 #include "rr_pch.h"
 #endif
 #pragma hdrstop
+
 //---------------------------------------------------------------------------
 #if defined(WIN32)
 #include <windows.h>
 #endif
 
 #include <sstream>
-//#include "rrConfigure.h"
 #include "rrRoadRunner.h"
 #include "rrCGenerator.h"
 #include "rrLogger.h"           //Might be useful for debugging later on
@@ -58,32 +58,27 @@
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrStringUtils.h"
-//---------------------------------------------------------------------------
 
-//We only need to give the linker the folder where libs are
-//using the pragma comment. Works for MSVC and codegear
-#if defined(CG_IDE)
-#pragma comment(lib, "roadrunner-static.lib")
-#pragma comment(lib, "rr-libstruct-static.lib")
-#pragma comment(lib, "pugi-static.lib")
-#pragma comment(lib, "libsbml-static.lib")
-#pragma comment(lib, "sundials_cvode.lib")
-#pragma comment(lib, "sundials_nvecserial.lib")
-#pragma comment(lib, "libxml2_xe.lib")
-#pragma comment(lib, "blas.lib")
-#pragma comment(lib, "lapack.lib")
-#pragma comment(lib, "libf2c.lib")
-#pragma comment(lib, "poco_foundation-static.lib")
-#pragma comment(lib, "nleq-static.lib")
+#if defined(_MSC_VER)
+	#include <direct.h>
+	#define getcwd _getcwd
+	#define chdir  _chrdir
+#elif defined(__BORLANDC__)
+  	#include <dir.h>
+#else
+#include <unistd.h>
 #endif
 
+//---------------------------------------------------------------------------
 using namespace std;
 using namespace rr;
+extern  rr::RoadRunner*     gRRHandle       = NULL;
+
 namespace rr_c_api
 {
-static  rr::RoadRunner*     gRRHandle       = NULL;
 char*                       gLastError      = NULL;
 }
+
 using namespace rr_c_api;
 
 bool rrCallConv enableLogging()
@@ -810,10 +805,9 @@ bool rrCallConv getTimeEnd(double& timeEnd)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	  	return false;
     }
-  	return false;
 }
-
 
 bool rrCallConv getNumPoints(int& numPoints)
 {
@@ -833,8 +827,8 @@ bool rrCallConv getNumPoints(int& numPoints)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	  	return false;
     }
-  	return false;
 }
 
 
@@ -857,8 +851,8 @@ bool  rrCallConv setTimeCourseSelectionList(const char* list)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return false;
     }
-    return false;
 }
 
 bool rrCallConv createTimeCourseSelectionList()
@@ -906,8 +900,9 @@ RRStringArrayHandle rrCallConv getTimeCourseSelectionList()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return NULL;
     }
-    return NULL;
+
 }
 
 RRResultHandle rrCallConv simulate()
@@ -1005,8 +1000,8 @@ RRStringArrayHandle rrCallConv getReactionIds()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return NULL;
     }
-	return NULL;
 }
 
 RRVectorHandle rrCallConv getRatesOfChange()
@@ -1140,7 +1135,7 @@ RRMatrixHandle rrCallConv getScaledElasticityMatrix()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
-	return NULL;
+		return NULL;
     }
 }
 
@@ -1160,8 +1155,8 @@ bool rrCallConv setValue(const char* symbolId, const double& value)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+		return NULL;
     }
-	return NULL;
 }
 
 RRMatrixHandle rrCallConv getStoichiometryMatrix()
@@ -1196,8 +1191,8 @@ RRMatrixHandle rrCallConv getStoichiometryMatrix()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+		return NULL;
     }
-	return NULL;
 }
 
 RRMatrixHandle rrCallConv getConservationMatrix()
@@ -1232,8 +1227,8 @@ RRMatrixHandle rrCallConv getConservationMatrix()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+		return NULL;
     }
-	return NULL;
 }
 
 RRMatrixHandle rrCallConv getLinkMatrix()
@@ -1254,8 +1249,8 @@ RRMatrixHandle rrCallConv getLinkMatrix()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+		return NULL;
     }
-	return NULL;
 }
 
 RRMatrixHandle rrCallConv getL0Matrix()
@@ -1329,9 +1324,8 @@ bool rrCallConv reset()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return false;
     }
-
-    return false;
 }
 
 int rrCallConv getNumberOfReactions()
@@ -1350,8 +1344,8 @@ int rrCallConv getNumberOfReactions()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return -1;
     }
-	return -1;
 }
 
 bool rrCallConv getReactionRate(const int& rateNr, double& value)
@@ -1371,8 +1365,8 @@ bool rrCallConv getReactionRate(const int& rateNr, double& value)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return false;
     }
-  	return false;
 }
 
 RRVectorHandle rrCallConv getReactionRates()
@@ -1394,8 +1388,8 @@ RRVectorHandle rrCallConv getReactionRates()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+		return NULL;
     }
-	return NULL;
 }
 
 int rrCallConv getNumberOfBoundarySpecies()
@@ -1414,8 +1408,8 @@ int rrCallConv getNumberOfBoundarySpecies()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	  	return -1;
     }
-  	return -1;
 }
 
 RRStringArrayHandle rrCallConv getBoundarySpeciesIds()         
@@ -1443,8 +1437,8 @@ RRStringArrayHandle rrCallConv getBoundarySpeciesIds()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	   	return NULL;
     }
-   	return NULL;
 }
 
 int rrCallConv getNumberOfFloatingSpecies()
@@ -1463,8 +1457,8 @@ int rrCallConv getNumberOfFloatingSpecies()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	   	return -1;
     }
-   	return -1;
 }
 
 RRStringArrayHandle rrCallConv getFloatingSpeciesIds()
@@ -1491,8 +1485,8 @@ RRStringArrayHandle rrCallConv getFloatingSpeciesIds()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return NULL;
     }
-    return NULL;
 }
 
 int rrCallConv getNumberOfGlobalParameters()
@@ -1511,8 +1505,8 @@ int rrCallConv getNumberOfGlobalParameters()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	   	return -1;
     }
-   	return -1;
 }
 
 RRStringArrayHandle rrCallConv getGlobalParameterIds()
@@ -1538,8 +1532,8 @@ RRStringArrayHandle rrCallConv getGlobalParameterIds()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	   	return NULL;
     }
-   	return NULL;
 }
 
 RRVectorHandle rrCallConv getFloatingSpeciesConcentrations()
@@ -1561,8 +1555,8 @@ RRVectorHandle rrCallConv getFloatingSpeciesConcentrations()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+		return NULL;
     }
-	return NULL;
 }
 
 RRVectorHandle rrCallConv getBoundarySpeciesConcentrations()
@@ -1584,8 +1578,8 @@ RRVectorHandle rrCallConv getBoundarySpeciesConcentrations()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+		return NULL;
     }
-	return NULL;
 }
 
 
@@ -1608,8 +1602,8 @@ RRVectorHandle rrCallConv getFloatingSpeciesInitialConcentrations()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+		return NULL;
     }
-	return NULL;
 }
 
 bool rrCallConv setFloatingSpeciesByIndex (const int& index, const double& value)
@@ -1630,8 +1624,8 @@ bool rrCallConv setFloatingSpeciesByIndex (const int& index, const double& value
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	  	return false;
     }
-  	return false;
 }
 
 bool rrCallConv setBoundarySpeciesByIndex (const int& index, const double& value)
@@ -1652,8 +1646,8 @@ bool rrCallConv setBoundarySpeciesByIndex (const int& index, const double& value
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	  	return false;
     }
-  	return false;
 }
 
 bool rrCallConv setGlobalParameterByIndex(const int& index, const double& value)
@@ -1674,8 +1668,8 @@ bool rrCallConv setGlobalParameterByIndex(const int& index, const double& value)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	  	return false;
     }
-  	return false;
 }
 
 bool rrCallConv setFloatingSpeciesInitialConcentrations(const RRVector* vec)
@@ -1697,11 +1691,9 @@ bool rrCallConv setFloatingSpeciesInitialConcentrations(const RRVector* vec)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	  	return false;
     }
-  	return false;
 }
-
-
 
 bool rrCallConv setFloatingSpeciesConcentrations(const RRVector* vec)
 {
@@ -1723,10 +1715,9 @@ bool rrCallConv setFloatingSpeciesConcentrations(const RRVector* vec)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	  	return false;
     }
-  	return false;
 }
-
 
 bool rrCallConv setBoundarySpeciesConcentrations(const RRVector* vec)
 {
@@ -1748,10 +1739,9 @@ bool rrCallConv setBoundarySpeciesConcentrations(const RRVector* vec)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	  	return false;
     }
-  	return false;
 }
-
 
 bool rrCallConv oneStep(const double& currentTime, const double& stepSize, double& value)
 {
@@ -1860,8 +1850,8 @@ bool rrCallConv getBoundarySpeciesByIndex (const int& index, double& value)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	  	return false;
     }
-  	return false;
 }
 
 bool rrCallConv getFloatingSpeciesByIndex (const int& index, double& value)
@@ -1882,8 +1872,8 @@ bool rrCallConv getFloatingSpeciesByIndex (const int& index, double& value)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	  	return false;
     }
-  	return false;
 }
 
 bool rrCallConv getGlobalParameterByIndex (const int& index, double& value)
@@ -1904,11 +1894,9 @@ bool rrCallConv getGlobalParameterByIndex (const int& index, double& value)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	  	return false;
     }
-  	return false;
 }
-
-
 
 bool rrCallConv getuCC (const char* variable, const char* parameter, double& value)
 {
@@ -1951,10 +1939,9 @@ bool rrCallConv getCC (const char* variable, const char* parameter, double& valu
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	  	return false;
     }
-  	return false;
 }
-
 
 bool rrCallConv getuEE(const char* name, const char* species, double& value)
 {
@@ -1996,8 +1983,8 @@ bool rrCallConv getEE(const char* name, const char* species, double& value)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	  	return false;
     }
-  	return false;
 }
 
 int rrCallConv getNumberOfDependentSpecies()
@@ -2017,8 +2004,8 @@ int rrCallConv getNumberOfDependentSpecies()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	  	return -1;
     }
-  	return -1;
 }
 
 int rrCallConv getNumberOfIndependentSpecies()
@@ -2038,8 +2025,8 @@ int rrCallConv getNumberOfIndependentSpecies()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	  	return -1;
     }
-  	return -1;
 }
 
 bool rrCallConv steadyState(double& value)
@@ -2059,8 +2046,8 @@ bool rrCallConv steadyState(double& value)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	  	return false;
     }
-  	return false;
 }
 
 bool rrCallConv evalModel()
@@ -2079,8 +2066,8 @@ bool rrCallConv evalModel()
 		stringstream msg;
 		msg<<"RoadRunner exception: "<<ex.what()<<endl;
 		setError(msg.str());
+	    return false;
 	}
-    return false;
 }
 
 char* rrCallConv getParamPromotedSBML(const char* sArg)
@@ -2103,8 +2090,8 @@ char* rrCallConv getParamPromotedSBML(const char* sArg)
 		stringstream msg;
 		msg<<"RoadRunner exception: "<<ex.what()<<endl;
 		setError(msg.str());
+		return NULL;
 	}
-	return NULL;
 }
 
 RRVectorHandle rrCallConv computeSteadyStateValues()
@@ -2126,8 +2113,8 @@ RRVectorHandle rrCallConv computeSteadyStateValues()
 		stringstream msg;
 		msg<<"RoadRunner exception: "<<ex.what()<<endl;
 		setError(msg.str());
+		return NULL;
 	}
-	return NULL;
 }
 
 bool rrCallConv setSteadyStateSelectionList(const char* list)
@@ -2149,8 +2136,8 @@ bool rrCallConv setSteadyStateSelectionList(const char* list)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+		return false;
     }
-	return false;
 }
 
 RRStringArrayHandle rrCallConv getSteadyStateSelectionList()
@@ -2177,8 +2164,8 @@ RRStringArrayHandle rrCallConv getSteadyStateSelectionList()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+		return NULL;
     }
-	return NULL;
 }
 
 RRMatrixHandle rrCallConv getFullJacobian()
@@ -2199,8 +2186,8 @@ RRMatrixHandle rrCallConv getFullJacobian()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+		return NULL;
     }
-	return NULL;
 }
 
 RRMatrixHandle rrCallConv getReducedJacobian()
@@ -2285,7 +2272,6 @@ RRMatrixHandle rrCallConv getEigenvaluesMatrix (const RRMatrixHandle mat)
     }
 }
 
-
 char* rrCallConv getCSourceFileName()
 {
 	try
@@ -2354,10 +2340,9 @@ RRCCode* rrCallConv getCCode()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+		return NULL;
     }
-	return NULL;
 }
-
 
 // *******  Not yet implemented  ********
 // codeGenerationMode = 0 if mode is C code generation
@@ -2366,7 +2351,6 @@ bool rrCallConv setCodeGenerationMode (int _mode)
 {
 	return false;
 }
-
 
 //NOM forwarded functions
 int rrCallConv getNumberOfRules()
@@ -2412,8 +2396,8 @@ bool rrCallConv getScaledFloatingSpeciesElasticity(const char* reactionId, const
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return false;
     }
-    return false;
 }
 
 RRStringArrayHandle rrCallConv getFloatingSpeciesInitialConditionIds()
@@ -2433,8 +2417,8 @@ RRStringArrayHandle rrCallConv getFloatingSpeciesInitialConditionIds()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return NULL;
     }
-    return NULL;
 }
 
 RRVectorHandle rrCallConv getRatesOfChangeEx(const RRVectorHandle vec)
@@ -2455,8 +2439,8 @@ RRVectorHandle rrCallConv getRatesOfChangeEx(const RRVectorHandle vec)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return NULL;
     }
-    return NULL;
 }
 
 RRVectorHandle rrCallConv getReactionRatesEx(const RRVectorHandle vec)
@@ -2477,8 +2461,8 @@ RRVectorHandle rrCallConv getReactionRatesEx(const RRVectorHandle vec)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return NULL;
     }
-    return NULL;
 }
 
 RRListHandle rrCallConv getElasticityCoefficientIds()
@@ -2499,10 +2483,9 @@ RRListHandle rrCallConv getElasticityCoefficientIds()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return NULL;
     }
-    return NULL;
 }
-
 
 bool rrCallConv setCapabilities(const char* caps)
 {
@@ -2546,8 +2529,8 @@ char* rrCallConv getCapabilities()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return NULL;
     }
-    return NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2590,8 +2573,8 @@ RRListHandle rrCallConv getFluxControlCoefficientIds()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return NULL;
     }
-    return NULL;
 }
 
 RRMatrixHandle rrCallConv getUnscaledConcentrationControlCoefficientMatrix()
@@ -2626,7 +2609,6 @@ RRMatrixHandle rrCallConv getScaledConcentrationControlCoefficientMatrix()
             return NULL;
         }
 
-        //return createMatrix(&(gRRHandle->getScaledConcentrationControlCoefficientMatrix()));
 		DoubleMatrix aMat = gRRHandle->getScaledConcentrationControlCoefficientMatrix();
         return createMatrix(&(aMat));
     }
@@ -2638,7 +2620,6 @@ RRMatrixHandle rrCallConv getScaledConcentrationControlCoefficientMatrix()
     	return NULL;
     }
 }
-
 
 RRMatrixHandle rrCallConv getUnscaledFluxControlCoefficientMatrix()
 {
@@ -2662,7 +2643,6 @@ RRMatrixHandle rrCallConv getUnscaledFluxControlCoefficientMatrix()
     	return NULL;
     }
 }
-
 
 RRMatrixHandle rrCallConv getScaledFluxControlCoefficientMatrix()
 {
@@ -2704,7 +2684,7 @@ RRListHandle rrCallConv getUnscaledFluxControlCoefficientIds()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
-    return NULL;
+    	return NULL;
     }
 }
 
@@ -2725,8 +2705,8 @@ RRList* rrCallConv getConcentrationControlCoefficientIds()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return NULL;
     }
-    return NULL;
 }
 
 RRListHandle rrCallConv getUnscaledConcentrationControlCoefficientIds()
@@ -2745,8 +2725,8 @@ RRListHandle rrCallConv getUnscaledConcentrationControlCoefficientIds()
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return NULL;
     }
-    return NULL;
 }
 
 int rrCallConv getNumberOfCompartments()
@@ -2848,8 +2828,8 @@ bool rrCallConv getRateOfChange(const int& index, double& value)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return false;
     }
-    return false;
 }
 
 // Utility functions ==========================================================
@@ -2877,9 +2857,6 @@ char* rrCallConv getStringElement (RRStringArrayHandle list, int index)
          return NULL;
 	  }
     
-	  //stringstream resStr;
-//	  resStr<<list->String[index];
-//	  string strTmp = resStr.str();
 	  return createText(list->String[index]);
 	}
 	catch(Exception& ex) 
@@ -3095,8 +3072,8 @@ bool rrCallConv freeResult(RRResultHandle handle)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return false;
     }
-    return false;
 }
 
 bool rrCallConv freeText(char* text)
@@ -3130,8 +3107,8 @@ bool rrCallConv freeStringArray(RRStringArrayHandle sl)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return false;
     }
-    return false;
 }
 
 bool rrCallConv freeVector(RRVectorHandle vector)
@@ -3149,8 +3126,8 @@ bool rrCallConv freeVector(RRVectorHandle vector)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return false;
     }
-    return false;
 }
 
 bool rrCallConv freeCCode(RRCCodeHandle code)
@@ -3169,8 +3146,8 @@ bool rrCallConv freeCCode(RRCCodeHandle code)
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
+	    return false;
     }
-    return false;
 }
 
 /////////////////////////////////////////////////////////////
@@ -3189,44 +3166,53 @@ RRVectorHandle rrCallConv createVector (int size)
 
 int rrCallConv getVectorLength (RRVectorHandle vector)
 {
-	if (vector == NULL) {
+	if (vector == NULL)
+    {
 		setError ("Vector argument is null in getVectorLength");
 		return -1;
 	}
 	else
+    {
 		return vector->Count;
+    }
 }
 
 bool rrCallConv getVectorElement (RRVectorHandle vector, int index, double& value)
 {
-	if (vector == NULL) {
+	if (vector == NULL)
+    {
 		setError ("Vector argument is null in getVectorElement");
 		return false;
 	}
 
-	if ((index < 0) || (index >= vector->Count)) {
+	if ((index < 0) || (index >= vector->Count))
+    {
 		stringstream msg;
 		msg << "Index out range in getVectorElement: " << index;
         setError(msg.str());
 		return false;
 	}
+
 	value = vector->Data[index];
 	return true;
 }
 
 bool rrCallConv setVectorElement (RRVectorHandle vector, int index, double value)
 {
-	if (vector == NULL) {
+	if (vector == NULL)
+    {
 		setError ("Vector argument is null in setVectorElement");
 		return false;
 	}
 
-	if ((index < 0) || (index >= vector->Count)) {
+	if ((index < 0) || (index >= vector->Count))
+    {
 		stringstream msg;
 		msg << "Index out range in setVectorElement: " << index;
         setError(msg.str());
 		return false;
 	}
+
 	vector->Data[index] = value;
 	return true;
 }
@@ -3234,27 +3220,24 @@ bool rrCallConv setVectorElement (RRVectorHandle vector, int index, double value
 // Matrix Routines
 // ------------------------------------------------------------------------------------
 
-
 RRMatrixHandle rrCallConv createRRMatrix (int r, int c)
 {
-   RRMatrixHandle matrix = new RRMatrix;
-
-   matrix->RSize = r;
-   matrix->CSize = c;
-   int dim =  matrix->RSize * matrix->CSize;
-   if(dim)
-   {
-    matrix->Data =  new double[dim];
-	return matrix;
-   }
-   else
-   {
+   	RRMatrixHandle matrix = new RRMatrix;
+   	matrix->RSize = r;
+   	matrix->CSize = c;
+   	int dim =  matrix->RSize * matrix->CSize;
+   	if(dim)
+   	{
+		matrix->Data =  new double[dim];
+		return matrix;
+   	}
+   	else
+	{
         delete matrix;
 		setError ("Dimensions for new RRMatrix in createRRMatrix are zero");
         return NULL;
    }
 }
-
 
 int rrCallConv getMatrixNumRows (RRMatrixHandle m)
 {
@@ -3307,12 +3290,12 @@ bool rrCallConv setMatrixElement (RRMatrixHandle m, int r, int c, double value)
 	}
 	m->Data[r*m->CSize + c] = value;
 	return true;
-
 }
 
 int rrCallConv  getResultNumRows (RRResultHandle result)
 {
-	if (result == NULL) {
+	if (result == NULL)
+    {
        setError ("result argument is null in getResultNumRows");
        return -1;
 	}
@@ -3321,7 +3304,8 @@ int rrCallConv  getResultNumRows (RRResultHandle result)
 
 int  rrCallConv  getResultNumCols (RRResultHandle result)
 {
-	if (result == NULL) {
+	if (result == NULL)
+    {
        setError ("result argument is null in getResultNumCols");
        return -1;
 	}
@@ -3371,8 +3355,7 @@ char* rrCallConv getCCodeHeader(RRCCodeHandle code)
 {
 	if (code == NULL)
     {
-
-        setError ("code argument is null in getCCodeHeader");
+    	setError ("code argument is null in getCCodeHeader");
 		return NULL;
     }
 	return code->Header;
@@ -3621,4 +3604,21 @@ char* rrCallConv listToString (RRListHandle list)
         return NULL;
     }
 }
+
+//We only need to give the linker the folder where libs are
+//using the pragma comment. Works for MSVC and codegear
+#if defined(CG_IDE)
+#pragma comment(lib, "roadrunner-static.lib")
+#pragma comment(lib, "rr-libstruct-static.lib")
+#pragma comment(lib, "pugi-static.lib")
+#pragma comment(lib, "libsbml-static.lib")
+#pragma comment(lib, "sundials_cvode.lib")
+#pragma comment(lib, "sundials_nvecserial.lib")
+#pragma comment(lib, "libxml2_xe.lib")
+#pragma comment(lib, "blas.lib")
+#pragma comment(lib, "lapack.lib")
+#pragma comment(lib, "libf2c.lib")
+#pragma comment(lib, "poco_foundation-static.lib")
+#pragma comment(lib, "nleq-static.lib")
+#endif
 

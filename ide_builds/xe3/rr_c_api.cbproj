@@ -95,6 +95,9 @@
         <CppCompile Include="..\..\Wrappers\C\rr_c_api.cpp">
             <BuildOrder>2</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\Wrappers\C\rr_c_api_plugin_routines.cpp">
+            <BuildOrder>3</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Wrappers\C\rr_c_api_support.cpp">
             <DependentOn>..\..\Wrappers\C\rr_c_api_support.h</DependentOn>
             <BuildOrder>11</BuildOrder>

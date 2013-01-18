@@ -44,7 +44,8 @@ Plugin*	PluginManager::operator[](const int& i)
     }
 }
 
-typedef Plugin* (*createRRPluginFunc)(); // function pointer type
+typedef Plugin* (*createRRPluginFunc)();
+typedef bool    (*destroyRRPluginFunc)(Plugin* );
 
 bool PluginManager::Load()
 {
@@ -93,10 +94,18 @@ bool PluginManager::Unload()
     	pair< Poco::SharedLibrary*, Plugin* >  aPlugin = mPlugins[i];
         if(aPlugin.first)
         {
-        	//Destroy plugin
+            SharedLibrary *aLib = aPlugin.first;
 
-            //Then unload
-        	aPlugin.first->unload();
+        	//Destroy plugin
+            if(aLib->hasSymbol("destroyRRPlugin"))
+        	{
+            	destroyRRPluginFunc destroy = (destroyRRPluginFunc) aLib->getSymbol("destroyRRPlugin");
+
+            	result = destroy(aPlugin.second);
+
+            	//Then unload
+        		aPlugin.first->unload();
+        	}
         }
     }
     return result;

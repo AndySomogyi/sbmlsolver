@@ -294,12 +294,9 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		string                          getCopyright();
 		string                          getURL();
 
-//		static void                     Test();
-//		static void                     PrintTout(const double& start, const double& end, const int& numPoints);
-//		static void                     TestChange();
-//		void                            DumpResults(TextWriter& writer, DoubleMatrix& data, const StringList& colLabels);
-//		ComplexMatrix            		ConvertComplex(ls::ComplexMatrix oMatrix);
-
+		//Plugin stuff
+        bool							loadPlugins();
+        bool							unLoadPlugins();
 
 		//RoadRunner MCA functions......
 

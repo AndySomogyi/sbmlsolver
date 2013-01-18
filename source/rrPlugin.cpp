@@ -1,6 +1,6 @@
-//---------------------------------------------------------------------------
 #pragma hdrstop
 #include <sstream>
+#include <iomanip>
 #include "rrPlugin.h"
 //---------------------------------------------------------------------------
 using namespace std;
@@ -17,7 +17,9 @@ mCopyright("Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012")
 {}
 
 Plugin::~Plugin()
-{}
+{
+
+}
 
 string Plugin::GetName()
 {
@@ -47,11 +49,13 @@ string Plugin::GetCopyright()
 string Plugin::GetInfo()
 {
     stringstream msg;
-    msg<<"Name of plugin: "<<mName<<"\n";
-    msg<<"Authot: "<<mAuthor<<"\n";
-    msg<<"Category: "<<mCategory<<"\n";
-    msg<<"Version: "<<mVersion<<"\n";
-    msg<<"Copyright: "<<mCopyright<<"\n";
+
+    msg<<setfill('.');
+    msg<<setw(30)<<left<<"Name of plugin"<<mName<<"\n";
+    msg<<setw(30)<<left<<"Author"<<mAuthor<<"\n";
+    msg<<setw(30)<<left<<"Category"<<mCategory<<"\n";
+    msg<<setw(30)<<left<<"Version"<<mVersion<<"\n";
+    msg<<setw(30)<<left<<"Copyright"<<mCopyright<<"\n";
 
     return msg.str();
 }

@@ -26,7 +26,7 @@ extern "C"
 EXP_FUNC rr::Plugin* __stdcall	createRRPlugin();
 
 // Plugin cleanup function
-EXP_FUNC bool		__stdcall	releaseRRPlugin(rr::Plugin *plugin);
+EXP_FUNC bool		__stdcall	destroyRRPlugin(rr::Plugin *plugin);
 
 }
 

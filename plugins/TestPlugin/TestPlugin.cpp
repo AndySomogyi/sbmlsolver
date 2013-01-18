@@ -10,10 +10,13 @@ rr::Plugin("TestPlugin")
 }
 
 TestPlugin::~TestPlugin()
-{}
+{
+
+}
 
 bool TestPlugin::Execute()
 {
+	cout<<"Executing plugin...\n";
 	return true;
 }
 
@@ -25,11 +28,20 @@ rr::Plugin* __stdcall createRRPlugin()
 }
 
 // Plugin cleanup function
-bool __stdcall releaseRRPlugin(rr::Plugin *plugin)
+bool __stdcall destroyRRPlugin(rr::Plugin *plugin)
 {
 	//we allocated in the factory with new, delete the passed object
-    delete plugin;
-    return true;
+    try
+    {
+    	delete plugin;
+    	return true;
+    }
+    catch(...)
+    {
+    	//Bad stuff!
+        clog<<"Failed deleting RoadRunner plugin..";
+        return false;
+    }
 }
 
 

@@ -6,11 +6,11 @@
         <Projects Include="..\ide_builds\xe3\roadrunner.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="Apps\plugin_checker.cbproj">
-            <Dependencies>..\ide_builds\xe3\roadrunner.cbproj</Dependencies>
-        </Projects>
         <Projects Include="TestPlugin\TestPlugin.cbproj">
             <Dependencies/>
+        </Projects>
+        <Projects Include="Apps\plugin_checker.cbproj">
+            <Dependencies>..\ide_builds\xe3\roadrunner.cbproj;TestPlugin\TestPlugin.cbproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -29,15 +29,6 @@
     <Target Name="roadrunner:Make">
         <MSBuild Projects="..\ide_builds\xe3\roadrunner.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="plugin_checker" DependsOnTargets="roadrunner">
-        <MSBuild Projects="Apps\plugin_checker.cbproj"/>
-    </Target>
-    <Target Name="plugin_checker:Clean" DependsOnTargets="roadrunner:Clean">
-        <MSBuild Projects="Apps\plugin_checker.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="plugin_checker:Make" DependsOnTargets="roadrunner:Make">
-        <MSBuild Projects="Apps\plugin_checker.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="TestPlugin">
         <MSBuild Projects="TestPlugin\TestPlugin.cbproj"/>
     </Target>
@@ -47,14 +38,23 @@
     <Target Name="TestPlugin:Make">
         <MSBuild Projects="TestPlugin\TestPlugin.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="plugin_checker" DependsOnTargets="roadrunner;TestPlugin">
+        <MSBuild Projects="Apps\plugin_checker.cbproj"/>
+    </Target>
+    <Target Name="plugin_checker:Clean" DependsOnTargets="roadrunner:Clean;TestPlugin:Clean">
+        <MSBuild Projects="Apps\plugin_checker.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="plugin_checker:Make" DependsOnTargets="roadrunner:Make;TestPlugin:Make">
+        <MSBuild Projects="Apps\plugin_checker.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="roadrunner;plugin_checker;TestPlugin"/>
+        <CallTarget Targets="roadrunner;TestPlugin;plugin_checker"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="roadrunner:Clean;plugin_checker:Clean;TestPlugin:Clean"/>
+        <CallTarget Targets="roadrunner:Clean;TestPlugin:Clean;plugin_checker:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="roadrunner:Make;plugin_checker:Make;TestPlugin:Make"/>
+        <CallTarget Targets="roadrunner:Make;TestPlugin:Make;plugin_checker:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
