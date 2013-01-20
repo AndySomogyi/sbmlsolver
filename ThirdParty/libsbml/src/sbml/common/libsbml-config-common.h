@@ -63,7 +63,7 @@
 #define HAVE_ERRNO_H 1 
 
 /* Define to 1 if you have the <ieeefp.h> header file. */
-/* #undef HAVE_IEEEFP_H */
+#define HAVE_IEEEFP_H 1
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
@@ -75,7 +75,7 @@
 #define HAVE_SYS_TYPES_H 1
 
 /* Define to 1 if you have the `m' library (-lm). */
-#define HAVE_LIBM 1
+/* #undef HAVE_LIBM */
 
 
 /* Define to 1 to enable primitive memory tracing. */
