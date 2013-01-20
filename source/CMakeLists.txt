@@ -159,7 +159,6 @@ if(${BORLAND})
 # target_link_libraries (${target}        libxml2_xe)
 target_link_libraries (${target}-static libxml2_xe)
 else()
-# target_link_libraries (${target}        libxml2${staticLibExt})
 target_link_libraries (${target}-static libxml2${staticLibExt})
 endif()
 
@@ -171,24 +170,17 @@ endif()
 if(${INSTALL_CXX_API})
 
 install(TARGETS ${target} 
-        LIBRARY DESTINATION lib 
-        RUNTIME DESTINATION bin 
-        ARCHIVE DESTINATION lib
-        COMPONENT rr_core
+        RUNTIME DESTINATION bin COMPONENT rr_core
+        LIBRARY DESTINATION lib COMPONENT rr_core
+        ARCHIVE DESTINATION lib COMPONENT rr_core
+        
 )
-
-#install(   
-#           TARGETS ${target}
-#           RUNTIME DESTINATION bin
-#           COMPONENT rr_core
-#)
-
 
 if(INSTALL_STATIC_LIB)
 install(TARGETS ${target}-static 
-        LIBRARY DESTINATION lib 
-        ARCHIVE DESTINATION lib
-        COMPONENT rr_core)
+        LIBRARY DESTINATION lib COMPONENT rr_core  
+        ARCHIVE DESTINATION lib COMPONENT rr_core
+)
 endif()
 
 #=== HEADERS

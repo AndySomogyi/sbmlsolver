@@ -28,12 +28,17 @@ src/TestRunner
 src/TimeConstraint
 src/XmlTestReporter
 )
+
 if(WIN32)
-set(sources ${sources} 
+set(sources 
+${sources} 
 src/Win32/TimeHelpers
 )
-set(sources ${sources} 
+
+set(sources 
+${sources} 
 )
+
 endif()
 if(UNIX)
 set(sources
@@ -42,7 +47,8 @@ src/Posix/TimeHelpers
 src/Posix/SignalTranslator
 )
 endif()
-#This library can only be built as static
+
+#This library is only be built as static
 add_library(${target}-static STATIC ${sources})
 set_property(TARGET ${target}-static  
              PROPERTY  COMPILE_DEFINITIONS 
@@ -62,9 +68,11 @@ install(FILES ${headers}
         DESTINATION include/unit_test)
 
 install(FILES ${win32_headers} 
-        DESTINATION include/unit_test/Win32)
+        DESTINATION include/unit_test/Win32
+)
 
 install(TARGETS ${target}-static 
         LIBRARY DESTINATION lib 
-        ARCHIVE DESTINATION lib)
+        ARCHIVE DESTINATION lib
+)
 

@@ -30,7 +30,7 @@ ostream& operator<<(ostream& stream, const IntMatrix& mat)
     return stream;
 }
 
-ostream& ls::operator<<(ostream& stream, const Matrix<double>& mat)
+ostream& operator<<(ostream& stream, const DoubleMatrix& mat)
 {
     for(unsigned row = 0; row < mat.RSize(); row++)
     {
