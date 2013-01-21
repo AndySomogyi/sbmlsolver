@@ -10,7 +10,7 @@ nameOfResultsFile = 'results_roadRunnerTest_1.txt'
 
 import sys
 #pathToTests = 'C:\\Users\\hsauro\\Documents\\Papers\\roadRunnerTestSuite\\'
-pathToTests = '..\\tests'
+pathToTests = '..\\testing'
 
 
 def expectApproximately (a, b, tol):

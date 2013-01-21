@@ -8,7 +8,7 @@ endif(${MSVC})
 install(    
             FILES 
             rr.py
-            DESTINATION Python 	
+            DESTINATION python 	
             COMPONENT Python
        )
 

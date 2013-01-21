@@ -12,10 +12,9 @@ roadRunnerTest_1.xml
 results_roadRunnerTest_1.txt
 )
 
-add_subdirectory(Python)     
 
 install(FILES ${tests}
-DESTINATION tests 	
+DESTINATION testing 	
 COMPONENT testing
 )
 

@@ -151,7 +151,7 @@ endif()
 add_subdirectory(Wrappers)
 
 if(BUILD_TESTS)
-add_subdirectory(tests)
+add_subdirectory(testing)
 endif()
 
 #======================= INSTALL STUFF ========================================================

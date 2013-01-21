@@ -1,14 +1,13 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
 PROJECT(rrWrappers)
 
-if(BUILD_TESTS)
-add_subdirectory(Testing)
-endif()
-
 #=============== INSTALL =====================
 install(
         FILES 
-        rrPython.py 
+        ssTests.py 
+        rrTester.py
+        testModel.py
+        rrDebug.py 
         DESTINATION python  	
         COMPONENT testing
        )

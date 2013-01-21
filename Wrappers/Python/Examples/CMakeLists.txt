@@ -13,7 +13,7 @@ threeLineSimulation.py
 install(    
             FILES 
             ${examples} 
-            DESTINATION Python 	
+            DESTINATION python 	
             COMPONENT Python
        )
 

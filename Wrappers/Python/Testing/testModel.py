@@ -4,7 +4,7 @@ import rrTester
 import rrPython
 import numpy
 
-pathToModels = 'C:\\vs\\trunk\\tests\\'
+pathToModels = 'C:\\vs\\trunk\\testing\\'
 
 # runTester takes two arguments:
 #  1) The path to the results and model file
