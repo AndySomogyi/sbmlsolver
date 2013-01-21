@@ -34,6 +34,7 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
+        <Manifest_File>None</Manifest_File>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <VerInfo_DLL>true</VerInfo_DLL>
@@ -45,7 +46,7 @@
         <BCC_MonitorThis>true</BCC_MonitorThis>
         <FinalOutputDir>$(RR_DEBUG_INSTALL)\bin\</FinalOutputDir>
         <BCC_PCHName>rr.csm</BCC_PCHName>
-        <Defines>USE_PCH;EXPORT_RR;LIBSBML_USE_CPP_NAMESPACE;WIN32;STATIC_LIBSTRUCT;STATIC_NLEQ;STATIC_PUGI;CG_IDE;$(Defines)</Defines>
+        <Defines>EXPORT_RR;LIBSBML_USE_CPP_NAMESPACE;WIN32;STATIC_LIBSTRUCT;STATIC_NLEQ;STATIC_PUGI;CG_IDE;$(Defines)</Defines>
         <NoVCL>true</NoVCL>
         <LinkPackageImports>rtl.bpi;vcl.bpi</LinkPackageImports>
         <ProjectType>CppDynamicLibrary</ProjectType>
@@ -99,7 +100,6 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <IncludePath>$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>
-        <Manifest_File>None</Manifest_File>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -274,13 +274,19 @@
             <DependentOn>..\..\source\rrPendingAssignment.h</DependentOn>
             <BuildOrder>35</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\rrPlugin.cpp">
+            <BuildOrder>70</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrPluginManager.cpp">
+            <BuildOrder>68</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrRandom.cpp">
             <DependentOn>..\..\source\rrRandom.h</DependentOn>
             <BuildOrder>36</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrRoadRunner.cpp">
             <DependentOn>..\..\source\rrRoadRunner.h</DependentOn>
-            <BuildOrder>37</BuildOrder>
+            <BuildOrder>67</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrRule.cpp">
             <DependentOn>..\..\source\rrRule.h</DependentOn>
@@ -363,6 +369,9 @@
             <DependentOn>..\..\source\rrUtils.h</DependentOn>
             <BuildOrder>59</BuildOrder>
         </CppCompile>
+        <None Include="..\..\source\rr_pch.h">
+            <BuildOrder>69</BuildOrder>
+        </None>
         <CppCompile Include="..\..\ThirdParty\pugi\src\pugixml.cpp">
             <BuildOrder>71</BuildOrder>
         </CppCompile>
@@ -423,8 +432,6 @@
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k170.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcbofficexp170.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k170.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp170.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
                 <ProjectProperties>
                     <ProjectProperties Name="AutoShowDeps">False</ProjectProperties>

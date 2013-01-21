@@ -50,7 +50,7 @@
         <_TCHARMapping>char</_TCHARMapping>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
-        <IncludePath>..\..\source\;..\..\source\mtrand\;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\plugins\TestPlugin\;..\..\source\;..\..\source\mtrand\;$(IncludePath)</IncludePath>
         <ILINK_LibraryPath>P:\mtk\Components\vtk\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <Multithreaded>true</Multithreaded>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
@@ -152,6 +152,10 @@
         </CppCompile>
         <CppCompile Include="..\..\source\rrCVODE_DLL.cpp">
             <BuildOrder>61</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrData.cpp">
+            <DependentOn>..\..\source\rrData.h</DependentOn>
+            <BuildOrder>69</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrDLLEntry.cpp">
             <BuildOrder>15</BuildOrder>
@@ -268,6 +272,14 @@
         <CppCompile Include="..\..\source\rrPendingAssignment.cpp">
             <DependentOn>..\..\source\rrPendingAssignment.h</DependentOn>
             <BuildOrder>39</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrPlugin.cpp">
+            <DependentOn>..\..\source\rrPlugin.h</DependentOn>
+            <BuildOrder>71</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrPluginManager.cpp">
+            <DependentOn>..\..\source\rrPluginManager.h</DependentOn>
+            <BuildOrder>70</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrRandom.cpp">
             <DependentOn>..\..\source\rrRandom.h</DependentOn>

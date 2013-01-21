@@ -330,7 +330,8 @@ bool Compiler::Compile(const string& cmdLine)
 
 #else
 
-bool Compiler::Compile(const string& cmdLine) {
+bool Compiler::Compile(const string& cmdLine)
+{
     string toFile(cmdLine);
     toFile += " 2>&1 >> ";
     string tmpFolder = rr::RoadRunner::getTempFileFolder();

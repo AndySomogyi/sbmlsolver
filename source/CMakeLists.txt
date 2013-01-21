@@ -78,6 +78,7 @@ rrIniSection
 rrIniFile
 rrFileName
 mtrand/mtrand
+rrPluginManager
 )
 
 #Build both static and shared version

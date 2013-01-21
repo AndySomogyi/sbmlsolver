@@ -20,7 +20,6 @@ using std::string;
 namespace rr
 {
 
-
 RR_DECLSPEC const char*   	getVersion();
 
 RR_DECLSPEC const string 	getCurrentDateTime();
