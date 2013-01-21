@@ -8,7 +8,11 @@ from ctypes import *
 os.chdir(os.path.dirname(__file__))
 rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'bin'))
 os.environ['PATH'] = rrInstallFolder + ';' + "c:\\Python27" + ';' + "c:\\Python27\\Lib\\site-packages" + ';' + os.environ['PATH']
-handle = WinDLL (rrInstallFolder + "\\rr_c_api.dll")
+sharedLib=rrInstallFolder + "\\rr_c_api.dll"
+
+libHandle=windll.kernel32.LoadLibraryA(sharedLib)
+handle = WinDLL (None, handle=libHandle)
+
 from numpy import *
 
 
@@ -301,6 +305,10 @@ handle.getList.restype = c_void_p
 handle.getRateOfChange.restype = c_bool
 handle.evalModel.restype = c_bool
 
+#Unload roadrunner dll from python
+def Unload(aHandle):
+    del aHandle
+    return windll.kernel32.FreeLibrary(libHandle)
 
 # ----------------------------------------------------------------------------
 # Utility function for converting a roadRunner stringarray into a Python List
