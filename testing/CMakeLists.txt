@@ -4,8 +4,8 @@ PROJECT(tests)
 if(BUILD_TESTS)
 
 set(tests
-TestModel_1.dat
-TestModel_1.xml
+Test_1.dat
+Test_1.xml
 Test_1.txt
 )
 
