@@ -103,6 +103,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <DynamicRTL>true</DynamicRTL>
         <ILINK_LibraryPath>$(RR_DEBUG_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
         <IncludePath>$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>

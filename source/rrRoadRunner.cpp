@@ -21,14 +21,16 @@
 #include "rrArrayList2.h"
 #include "rrCapsSupport.h"
 #include "rrConstants.h"
+#include "rrVersionInfo.h"
 //---------------------------------------------------------------------------
 
 using namespace std;
 using namespace ls;
 
-string RoadRunner::mTempFileFolder = "";
+
 namespace rr
 {
+string RoadRunner::mTempFileFolder = "";
 //Initialize statics..
 //bool RoadRunner::mComputeAndAssignConservationLaws    = false;
 //bool RoadRunner::mConservedTotalChanged             	= false;
@@ -46,8 +48,8 @@ RoadRunner::RoadRunner(const string& supportCodeFolder, const string& compiler, 
     mSimulation(NULL),
     mCVode(NULL),
     steadyStateSolver(NULL),
-    mPluginManager(JoinPath(getParentFolder(supportCodeFolder),"plugins")),
     mCompiler(supportCodeFolder, compiler),
+    mPluginManager(JoinPath(getParentFolder(supportCodeFolder), "plugins")),
     mComputeAndAssignConservationLaws(false),
     mConservedTotalChanged(false),
     mCurrentSBML(""),
@@ -64,6 +66,7 @@ RoadRunner::RoadRunner(const string& supportCodeFolder, const string& compiler, 
     mCSharpGenerator    = new CSharpGenerator(*mLS, mNOM);
     mCGenerator         = new CGenerator(*mLS, mNOM);
     mModelGenerator     = mCGenerator;
+    mPluginManager.SetRoadRunnerInstance(this);
 }
 
 RoadRunner::~RoadRunner()
@@ -5631,6 +5634,11 @@ NewArrayList RoadRunner::getAvailableTimeCourseSymbols()
 //        }
 //    }
 //}
+
+string RoadRunner::getVersion()
+{
+	return RR_VERSION;
+}
 
 string RoadRunner::getCopyright()
 {

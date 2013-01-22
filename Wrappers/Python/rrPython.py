@@ -5,6 +5,8 @@
 import sys
 import os
 from ctypes import *
+from numpy import *
+
 os.chdir(os.path.dirname(__file__))
 rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'bin'))
 os.environ['PATH'] = rrInstallFolder + ';' + "c:\\Python27" + ';' + "c:\\Python27\\Lib\\site-packages" + ';' + os.environ['PATH']
@@ -12,29 +14,6 @@ sharedLib=rrInstallFolder + "\\rr_c_api.dll"
 
 libHandle=windll.kernel32.LoadLibraryA(sharedLib)
 handle = WinDLL (None, handle=libHandle)
-
-from numpy import *
-
-
-##import sys
-##import os
-##import platform
-##
-##from numpy import *
-##from ctypes import *
-##from ctypes.util import find_library
-##
-### Ctypes documentation says this may be better to do at
-### install time.
-##handle = find_library("rr_c_api")
-##
-##if handle is None:
-##    raise EnvironmentError("Unable to find RoadRunner")
-##
-##if "Windows" == platform.system() :
-##    handle = WinDLL(handle)
-##else:
-##    handle = CDLL(handle)
 
 ##\mainpage notitle
 #\section Introduction
@@ -131,6 +110,8 @@ rr = handle.getRRInstance()
 handle.getInfo.restype = c_char_p
 handle.getVersion.restype = c_char_p
 handle.getBuildDate.restype = c_char_p
+handle.getBuildTime.restype = c_char_p
+handle.getBuildDateTime.restype = c_char_p
 handle.getCopyright.restype = c_char_p
 handle.setTempFolder.restype = c_bool
 handle.getTempFolder.restype = c_char_p
@@ -138,6 +119,7 @@ handle.getTempFolder.restype = c_char_p
 handle.getStringElement.restype = c_void_p
 handle.getNumberOfStringElements.restype = c_int
 handle.getNumberOfStringElements.argtype = [c_void_p]
+handle.Pause.restype = None
 #handle.getStringElement.argtypes = [POINTER(POINTER(c_ubyte)), c_int]
 
 # More Utility Methods
@@ -226,7 +208,6 @@ handle.getuEE.restype = c_bool
 handle.getScaledFloatingSpeciesElasticity.restype = c_bool
 
 # Free memory functions
-handle.Pause.restype = None
 
 # Print/format functions
 handle.resultToString.restype = c_char_p
@@ -304,6 +285,13 @@ handle.getList.restype = c_void_p
 #Rates of change
 handle.getRateOfChange.restype = c_bool
 handle.evalModel.restype = c_bool
+
+#Plugin functionality
+handle.loadPlugins.restype = c_bool
+handle.unLoadPlugins.restype = c_bool
+handle.getNumberOfPlugins.restype = c_int
+handle.getPluginInfo.restype = c_char_p
+handle.executePlugin.restype = c_bool
 
 #Unload roadrunner dll from python
 def Unload(aHandle):
@@ -394,6 +382,16 @@ def getVersion():
 #\return Returns null if it fails, otherwise it returns the build date
 def getBuildDate():
     return handle.getBuildDate()
+
+##\brief Retrieve the current build time of the library
+#\return Returns null if it fails, otherwise it returns the build Time
+def getBuildTime():
+    return handle.getBuildTime()
+
+##\brief Retrieve the current build date + time of the library
+#\return Returns null if it fails, otherwise it returns the build date + time
+def getBuildDateTime():
+    return handle.getBuildDateTime()
 
 ##\brief Retrieve the current copyright notice for the library
 #\return Returns null if it fails, otherwise it returns the copyright string
@@ -1874,5 +1872,26 @@ def getStringElement (stringArray, index):
     return element
 
 ##@}
+
+#Plugin functionality
+#handle.loadPlugins.restyp = c_bool
+#handle.unLoadPlugins.restyp = c_bool
+#handle.getNumberOfPlugins.restyp = c_int
+#handle.getPluginInfo.restyp = c_char_p
+def loadPlugins():
+    return handle.loadPlugins()
+
+def unLoadPlugins():
+    return handle.unLoadPlugins()
+
+def getNumberOfPlugins():
+    return handle.getNumberOfPlugins()
+
+def getPluginInfo(pluginName):
+    return handle.getPluginInfo(pluginName)
+
+def executePlugin(pluginName):
+    return handle.executePlugin(pluginName)
+
 
 #=======================================================#

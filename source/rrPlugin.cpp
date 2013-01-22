@@ -7,19 +7,18 @@ using namespace std;
 namespace rr
 {
 
-Plugin::Plugin(const std::string& name, const std::string& cat)
+Plugin::Plugin(const std::string& name, const std::string& cat, RoadRunner* aRR)
 :
 mName(name),
-mAuthor("Totte Karlsson"), 
+mAuthor("Totte Karlsson"),
 mCategory(cat),
-mVersion("0.1"), 
-mCopyright("Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012")
+mVersion("0.1"),
+mCopyright("Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012"),
+mRR(aRR)
 {}
 
 Plugin::~Plugin()
-{
-
-}
+{}
 
 string Plugin::GetName()
 {

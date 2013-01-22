@@ -7,13 +7,13 @@
             <Dependencies/>
         </Projects>
         <Projects Include="..\ide_builds\xe3\rr_c_api.cbproj">
-            <Dependencies/>
+            <Dependencies>..\ide_builds\xe3\roadrunner-static.cbproj</Dependencies>
         </Projects>
         <Projects Include="TestPlugin\TestPlugin.cbproj">
             <Dependencies/>
         </Projects>
         <Projects Include="Apps\plugin_checker.cbproj">
-            <Dependencies/>
+            <Dependencies>..\ide_builds\xe3\roadrunner-static.cbproj;..\ide_builds\xe3\rr_c_api.cbproj;TestPlugin\TestPlugin.cbproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -32,13 +32,13 @@
     <Target Name="roadrunner-static:Make">
         <MSBuild Projects="..\ide_builds\xe3\roadrunner-static.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="rr_c_api">
+    <Target Name="rr_c_api" DependsOnTargets="roadrunner-static">
         <MSBuild Projects="..\ide_builds\xe3\rr_c_api.cbproj"/>
     </Target>
-    <Target Name="rr_c_api:Clean">
+    <Target Name="rr_c_api:Clean" DependsOnTargets="roadrunner-static:Clean">
         <MSBuild Projects="..\ide_builds\xe3\rr_c_api.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="rr_c_api:Make">
+    <Target Name="rr_c_api:Make" DependsOnTargets="roadrunner-static:Make">
         <MSBuild Projects="..\ide_builds\xe3\rr_c_api.cbproj" Targets="Make"/>
     </Target>
     <Target Name="TestPlugin">
@@ -50,13 +50,13 @@
     <Target Name="TestPlugin:Make">
         <MSBuild Projects="TestPlugin\TestPlugin.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="plugin_checker">
+    <Target Name="plugin_checker" DependsOnTargets="roadrunner-static;rr_c_api;TestPlugin">
         <MSBuild Projects="Apps\plugin_checker.cbproj"/>
     </Target>
-    <Target Name="plugin_checker:Clean">
+    <Target Name="plugin_checker:Clean" DependsOnTargets="roadrunner-static:Clean;rr_c_api:Clean;TestPlugin:Clean">
         <MSBuild Projects="Apps\plugin_checker.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="plugin_checker:Make">
+    <Target Name="plugin_checker:Make" DependsOnTargets="roadrunner-static:Make;rr_c_api:Make;TestPlugin:Make">
         <MSBuild Projects="Apps\plugin_checker.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">

@@ -16,7 +16,6 @@ using namespace std;
 
 namespace rr
 {
-//ModelGenerator::ModelGenerator(RoadRunner* rr)
 ModelGenerator::ModelGenerator(LibStructural& ls, NOMSupport& nom)
 :
 mComputeAndAssignConsevationLaws(false),

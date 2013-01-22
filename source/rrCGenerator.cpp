@@ -1,16 +1,12 @@
-#ifdef USE_PCH
-#include "rr_pch.h"
-#endif
-#pragma hdrstop
+//#ifdef USE_PCH
+//#include "rr_pch.h"
+//#endif
+//#pragma hdrstop
 #include <algorithm>
 #include <cctype>
 #include "sbml/Model.h"
 #include "sbml/SBMLDocument.h"
 #include "rr-libstruct/lsLibStructural.h"
-
-
-#include "rrCSharpGenerator.h"
-
 #include "rrStringListContainer.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
@@ -20,6 +16,7 @@
 #include "rrRoadRunner.h"
 #include "rrException.h"
 #include "rrCGenerator.h"
+#include "rrCSharpGenerator.h"
 //---------------------------------------------------------------------------
 
 using namespace std;

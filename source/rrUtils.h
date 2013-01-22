@@ -20,9 +20,8 @@ using std::string;
 namespace rr
 {
 
-RR_DECLSPEC const char*   	getVersion();
-
 RR_DECLSPEC const string 	getCurrentDateTime();
+
 //Misc.
 RR_DECLSPEC std::size_t     IndexOf(std::vector<std::string>& vec, const std::string& elem );
 RR_DECLSPEC bool            IsNaN(const double& aNum);

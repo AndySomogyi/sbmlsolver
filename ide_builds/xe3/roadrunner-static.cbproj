@@ -40,7 +40,7 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <BCC_wcsu>false</BCC_wcsu>
         <BPILibOutputDir>$(RR_DEBUG_INSTALL)\lib</BPILibOutputDir>
-        <Defines>WIN32;LIBSBML_USE_CPP_NAMESPACE;LIBSBML_STATIC;LIBLAX_STATIC;STATIC_RR;STATIC_LIBSTRUCT;STATIC_PUGI;STATIC_NLEQ;USE_PCH;CG_IDE;POCO_STATIC;POCO_NO_AUTOMATIC_LIBS;$(Defines)</Defines>
+        <Defines>WIN32;LIBSBML_USE_CPP_NAMESPACE;LIBSBML_STATIC;LIBLAX_STATIC;STATIC_RR;STATIC_LIBSTRUCT;STATIC_PUGI;STATIC_NLEQ;CG_IDE;POCO_STATIC;POCO_NO_AUTOMATIC_LIBS;$(Defines)</Defines>
         <LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
         <PackageImports>vclx.bpi;vcl.bpi;rtl.bpi;vclactnband.bpi;vclimg.bpi;VCLData.bpi;DuneComponents.bpi;TeePro915.bpi;TeeUI915.bpi;VCLCommonRTL.bpi;mtkCommonRTL.bpi;mtkMathRTL.bpi;mtkDataRTL.bpi;Tee915.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;svnui.bpi;svn.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;bdertl.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;DbxClientDriver.bpi;dbexpress.bpi;AzureCloud.bpi;DbxCommonDriver.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;vclie.bpi;webdsnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;TeeTree2D15Tee9.bpi;bcbie.bpi;dbxcds.bpi;inetdb.bpi;websnap.bpi;TeeImage915.bpi;TeeWorld915.bpi;TeeLanguage915.bpi;TeeGL915.bpi;TeeDB915.bpi;GenesisVisualComponents.bpi;$(PackageImports)</PackageImports>
         <ProjectType>CppStaticLibrary</ProjectType>
@@ -88,6 +88,8 @@
         <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <BCC_PCHName>temp.csm</BCC_PCHName>
+        <BCC_PCHInject>..\..\source\rr_pch.h</BCC_PCHInject>
         <IncludePath>$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -375,6 +377,9 @@
             <DependentOn>..\..\source\rrXMLDocument.h</DependentOn>
             <BuildOrder>1</BuildOrder>
         </CppCompile>
+        <None Include="..\..\source\rr_pch.h">
+            <BuildOrder>72</BuildOrder>
+        </None>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

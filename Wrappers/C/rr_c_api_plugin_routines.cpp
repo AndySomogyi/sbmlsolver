@@ -92,7 +92,35 @@ char* rrCallConv getPluginInfo(const char* name)
         }
         else
         {
-	        return NULL;
+	        return createText("No such plugin: " + string(name));
+        }
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return NULL;
+    }
+}
+
+bool rrCallConv executePlugin(const char* name)
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+        }
+
+        Plugin* aPlugin = gRRHandle->getPluginManager().GetPlugin(name);
+        if(aPlugin)
+        {
+        	return aPlugin->Execute();
+        }
+        else
+        {
+	        return false;
         }
     }
     catch(Exception& ex)

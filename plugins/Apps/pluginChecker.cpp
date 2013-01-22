@@ -36,5 +36,5 @@ int main()
 	return 0;
 }
 
-#pragma comment(lib, "roadrunner.lib")
+#pragma comment(lib, "roadrunner-static.lib")
 #pragma comment(lib, "poco_foundation-static.lib")

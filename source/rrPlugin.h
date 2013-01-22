@@ -11,6 +11,8 @@
 /* Abstract plugin */
 namespace rr
 {
+class RoadRunner;
+
 const string noneStr = "<none>";
 using Poco::SharedLibrary;
 using std::string;
@@ -22,9 +24,10 @@ class RR_DECLSPEC Plugin : public rrObject
 		string 		        mCategory;
         string				mVersion;
         string				mCopyright;
+        RoadRunner		   *mRR;		//This is a handle to the roadRunner isntance, creating the plugin
 
     public:
-	    					Plugin(const std::string& name = EmptyString, const std::string& cat = noneStr);
+	    					Plugin(const std::string& name = EmptyString, const std::string& cat = noneStr, RoadRunner* aRR = NULL);
         virtual 		   ~Plugin();	//Gotta be virtual!
 
         string				GetName();
@@ -34,7 +37,6 @@ class RR_DECLSPEC Plugin : public rrObject
         string				GetCopyright();
         string              GetInfo();
         virtual bool		Execute() = 0;
-
 };
 
 }

@@ -199,6 +199,13 @@ C_DECL_SPEC char*  rrCallConv getBuildDate();
 C_DECL_SPEC char*  rrCallConv getBuildTime();
 
 /*!
+ \brief Retrieve the current build date + time of the library
+ \return Returns null if it fails, otherwise it returns the build date + time
+ \ingroup utility
+*/
+C_DECL_SPEC char*  rrCallConv getBuildDateTime();
+
+/*!
  \brief Retrieve the current copyright notice for the library
  \return Returns null if it fails, otherwise it returns the copyright string
  \ingroup utility
@@ -1995,6 +2002,14 @@ C_DECL_SPEC int rrCallConv getNumberOfPlugins();
 
 C_DECL_SPEC char* rrCallConv getPluginInfo(const char* name);
 
+/*!
+ \brief executePlugin (PluginName)
+ \param[in] string name of plugin to execute
+ \return Returns true or false indicating success/failure
+ \ingroup pluginRoutines
+*/
+
+C_DECL_SPEC bool rrCallConv executePlugin(const char* name);
 #if defined( __cplusplus)
 }
 #endif

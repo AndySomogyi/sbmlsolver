@@ -194,6 +194,11 @@ char* rrCallConv getBuildTime()
     return createText(__TIME__);
 }
 
+char* rrCallConv getBuildDateTime()
+{
+    return createText(string(__DATE__) + string(" ") + string(__TIME__));
+}
+
 char* rrCallConv getVersion()
 {
 	try
@@ -202,7 +207,7 @@ char* rrCallConv getVersion()
         {
             gRRHandle = new rr::RoadRunner("","");
         }
-		return createText(rr::getVersion());
+		return createText(gRRHandle->getVersion());
     }
     catch(Exception& ex)
     {

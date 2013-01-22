@@ -1,8 +1,8 @@
 //---------------------------------------------------------------------------
 #pragma hdrstop
 #include "Poco/SharedLibrary.h"
-
 #include "rrPluginManager.h"
+#include "rrPlugin.h"
 #include "rrUtils.h"
 #include "rrException.h"
 
@@ -11,9 +11,10 @@ using Poco::SharedLibrary;
 namespace rr
 {
 
-PluginManager::PluginManager(const std::string& folder, const bool& autoLoad)
+PluginManager::PluginManager(const std::string& folder, const bool& autoLoad, RoadRunner* aRR)
 :
-mPluginFolder(folder)
+mPluginFolder(folder),
+mRR(aRR)
 {
     if(autoLoad)
     {
@@ -24,12 +25,20 @@ mPluginFolder(folder)
 PluginManager::~PluginManager()
 {}
 
+void PluginManager::SetRoadRunnerInstance(RoadRunner* aRR)
+{
+	mRR = aRR;
+}
 
 bool PluginManager::SetPluginFolder(const string& dir)
-{}
+{
+	return false;
+}
 
 string PluginManager::GetPluginFolder()
-{}
+{
+	return mPluginFolder;
+}
 
 Plugin*	PluginManager::operator[](const int& i)
 {
@@ -44,7 +53,7 @@ Plugin*	PluginManager::operator[](const int& i)
     }
 }
 
-typedef Plugin* (*createRRPluginFunc)();
+typedef Plugin* (*createRRPluginFunc)(RoadRunner*);
 typedef bool    (*destroyRRPluginFunc)(Plugin* );
 
 bool PluginManager::Load()
@@ -67,7 +76,7 @@ bool PluginManager::Load()
         {
             createRRPluginFunc create = (createRRPluginFunc) aLib->getSymbol("createRRPlugin");
         	//This plugin
-            Plugin* aPlugin = create();
+            Plugin* aPlugin = create(mRR);
             if(aPlugin)
             {
             	pair< Poco::SharedLibrary*, Plugin* > store(aLib, aPlugin);
@@ -82,8 +91,17 @@ bool PluginManager::Load()
     }
     catch(const Exception& e)
     {
-    	//What are we to do ?
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<e.what()<<endl;
+		Exception ex(msg.str());
+    	throw ex;
     }
+    catch(Poco::LibraryLoadException& ex)
+    {
+    	Exception test("Test");
+    	throw ex;
+    }
+
 }
 
 bool PluginManager::Unload()
@@ -128,7 +146,19 @@ Plugin*	PluginManager::GetPlugin(const int& i)
 
 Plugin*	PluginManager::GetPlugin(const string& name)
 {
-	return NULL;
+	for(int i = 0; i < GetNumberOfPlugins(); i++)
+    {
+    	pair< Poco::SharedLibrary*, Plugin* >  aPluginLib = mPlugins[i];
+        if(aPluginLib.first && aPluginLib.second)
+        {
+			Plugin* aPlugin = (Plugin*) aPluginLib.second;
+            if(aPlugin && aPlugin->GetName() == name)
+            {
+               	return aPlugin;
+            }
+        }
+    }
+    return NULL;
 }
 
 

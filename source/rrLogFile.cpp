@@ -2,8 +2,8 @@
 #include "rr_pch.h"
 #endif
 #pragma hdrstop
-#include <stdexcept>
 #include <stdio.h>
+#include "rrException.h"
 #include "rrLogFile.h"
 //---------------------------------------------------------------------------
 
@@ -18,7 +18,7 @@ mFILEHandle(fopen(name.c_str(), "w"))
 {
     if (!mFILEHandle && name.size())
     {
-        throw std::runtime_error("File Open failure");
+        //throw Exception("Failed opening log file");
     }
 }
 
