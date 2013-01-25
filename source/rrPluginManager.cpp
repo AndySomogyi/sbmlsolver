@@ -5,6 +5,7 @@
 #include "rrPlugin.h"
 #include "rrUtils.h"
 #include "rrException.h"
+#include <sstream>
 
 using Poco::SharedLibrary;
 

@@ -30,12 +30,12 @@ class RR_DECLSPEC Plugin : public rrObject
 	    					Plugin(const std::string& name = EmptyString, const std::string& cat = noneStr, RoadRunner* aRR = NULL);
         virtual 		   ~Plugin();	//Gotta be virtual!
 
-        string				GetName();
-        string				GetAuthor();
-        string				GetCategory();
-        string				GetVersion();
-        string				GetCopyright();
-        string              GetInfo();
+        virtual string				GetName();
+        virtual string				GetAuthor();
+        virtual string				GetCategory();
+        virtual string				GetVersion();
+        virtual string				GetCopyright();
+        virtual string              GetInfo();
         virtual bool		Execute() = 0;
 };
 
