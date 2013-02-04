@@ -18,7 +18,7 @@ SUITE(Base)
     TEST(VERSIONS)
     {
     	//Static functions, don't need a handle, (gRR) ?
-    	CHECK_EQUAL(getVersion(), 				"1.0.0");
+    	CHECK_EQUAL(gRR->getVersion(), 				"1.0.0");
 		CHECK_EQUAL(gRR->getlibSBMLVersion(), 	"5.6.0");
     }
 

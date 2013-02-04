@@ -11,6 +11,8 @@
 #include <dir.h>
 #elif defined(_MS_VER)
 #include <direct.h>
+#else
+#include <unistd.h>
 #endif
 
 #include "rrUtils.h"

@@ -23,14 +23,13 @@ ${tests}
 
 set_property(TARGET ${target}  
 PROPERTY  COMPILE_DEFINITIONS 
-WIN32
 STATIC_LIBSTRUCT
 ) 
 
 if(UNIX)
 set(staticLibPrefix ".a")
 set(sharedLibPrefix ".so")
-add_definitions(-DUNITTEST_POSIX)
+#add_definitions(-DUNITTEST_POSIX)
 endif()
 
 target_link_libraries (${target} 
