@@ -20,7 +20,6 @@ rr_c_api_support.cpp
 set_property(   TARGET ${target} 
                 PROPERTY  COMPILE_DEFINITIONS 
                           EXPORT_RR_C_API
-                          STATIC_RR             #when linking with static lib, no declspec shuld be present..
                           LIBSBML_STATIC
 					      LIBLAX_STATIC
                           STATIC_PUGI
@@ -33,12 +32,19 @@ endif()
 
 #Link C_api dll statically to roadrunner and libsbml
 if(WIN32)
- target_link_libraries ( ${target}
+set_property(   TARGET ${target} 
+                PROPERTY  COMPILE_DEFINITIONS 
+                          STATIC_RR             #when linking with static lib, no declspec shuld be present..
+)
+target_link_libraries ( ${target}
  roadrunner-static
  )
-else() #On linux, link with shared version of roadrunner
-target_link_libraries ( ${target}
+else() #failing to link to static roadrunner on linux... :(
+target_link_libraries ( ${target} 
 roadrunner
+blas
+lapack
+f2c
 )
 endif()
 
@@ -48,7 +54,7 @@ if(INSTALL_EXAMPLES)
 endif()
 
 if(BUILD_TESTS)
-    add_subdirectory(Testing)
+#    add_subdirectory(Testing)
 endif()
 
 #=============== INSTALL =====================

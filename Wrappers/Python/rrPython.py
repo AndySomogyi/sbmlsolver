@@ -8,13 +8,24 @@ from ctypes import *
 from numpy import *
 
 os.chdir(os.path.dirname(__file__))
-rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'bin'))
-os.environ['PATH'] = rrInstallFolder + ';' + "c:\\Python27" + ';' + "c:\\Python27\\Lib\\site-packages" + ';' + os.environ['PATH']
-sharedLib=rrInstallFolder + "\\rr_c_api.dll"
+sharedLib=''
 
-libHandle=windll.kernel32.LoadLibraryA(sharedLib)
-handle = WinDLL (None, handle=libHandle)
+handle=None
+libHandle=None
+if sys.platform.startswith('win32'):
+    rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'bin'))
+    os.environ['PATH'] = rrInstallFolder + ';' + "c:\\Python27" + ';' + "c:\\Python27\\Lib\\site-packages" + ';' + os.environ['PATH']
+    sharedLib=os.path.join(rrInstallFolder,'rr_c_api.dll')    
+    libHandle=windll.kernel32.LoadLibraryA(sharedLib)
+    handle = WinDLL (None, handle=libHandle)
+    
+else:
+    rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'lib'))        
+    sharedLib=os.path.join(rrInstallFolder,'librr_c_api.so')        
+    libHandle=cdll.LoadLibrary(sharedLib)
+    handle = libHandle
 
+ 
 ##\mainpage notitle
 #\section Introduction
 #RoadRunner is a high performance and portable simulation engine for systems and synthetic biology. To run a simple SBML model and generate time series data we would call:
@@ -287,11 +298,11 @@ handle.getRateOfChange.restype = c_bool
 handle.evalModel.restype = c_bool
 
 #Plugin functionality
-handle.loadPlugins.restype = c_bool
-handle.unLoadPlugins.restype = c_bool
-handle.getNumberOfPlugins.restype = c_int
-handle.getPluginInfo.restype = c_char_p
-handle.executePlugin.restype = c_bool
+#handle.loadPlugins.restype = c_bool
+#handle.unLoadPlugins.restype = c_bool
+#handle.getNumberOfPlugins.restype = c_int
+#handle.getPluginInfo.restype = c_char_p
+#handle.executePlugin.restype = c_bool
 
 #Unload roadrunner dll from python
 def Unload(aHandle):
