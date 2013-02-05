@@ -79,6 +79,8 @@ rrIniFile
 rrFileName
 mtrand/mtrand
 rrPluginManager
+rrPlugin
+rrOSSpecifics
 )
 
 #Build both static and shared version
@@ -158,7 +160,13 @@ target_link_libraries (${target}-static
 #Libxml we can't build right now
 if(${BORLAND})
 target_link_libraries (${target}-static libxml2_xe)
-else()
+endif()
+
+if(${MSVC})
+target_link_libraries (${target}-static libxml2)
+endif()
+
+if(${UNIX})
 target_link_libraries (${target}-static libxml2.so)
 endif()
 

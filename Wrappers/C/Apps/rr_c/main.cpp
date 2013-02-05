@@ -9,7 +9,7 @@
 
 #if defined(__CODEGEARC__)
 #include <dir.h>
-#elif defined(_MS_VER)
+#elif defined(_MSC_VER)
 #include <direct.h>
 #else
 #include <unistd.h>

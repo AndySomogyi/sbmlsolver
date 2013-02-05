@@ -1,6 +1,6 @@
 #ifndef rrOSSpecificsH
 #define rrOSSpecificsH
-
+#include "rrExporter.h"
 #if defined (__MINGW32__)
 #undef RR_DECLSPEC
 #endif
@@ -34,12 +34,14 @@
 
 #ifdef _MSC_VER
 
-#include <stdarg.h>
-#define snprintf c99_snprintf
-int c99_vsnprintf(char* str, size_t size, const char* format, va_list ap);
+#define snprintf _snprintf
 
-RR_DECLSPEC int c99_snprintf(char* str, size_t size, const char* format, ...);
-RR_DECLSPEC int c99_vsnprintf(char* str, size_t size, const char* format, va_list ap);
+//#include <stdarg.h>
+//#define snprintf c99_snprintf
+//
+//
+//RR_DECLSPEC int c99_snprintf(char* str, size_t size, const char* format, ...);
+//RR_DECLSPEC int c99_vsnprintf(char* str, size_t size, const char* format, va_list ap);
 
 #endif // _MSC_VER
 #endif

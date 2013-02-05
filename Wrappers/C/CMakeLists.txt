@@ -17,29 +17,35 @@ rr_dll_entry_point.cpp
 rr_c_api_support.cpp
 )
 
-set_property(   TARGET ${target} 
-                PROPERTY  COMPILE_DEFINITIONS 
-                          EXPORT_RR_C_API
-                          LIBSBML_STATIC
-					      LIBLAX_STATIC
-                          STATIC_PUGI
-                          STATIC_LIBSTRUCT
-)
-
 if(${MSVC})
 set (CMAKE_SHARED_LINKER_FLAGS 	"${CMAKE_SHARED_LINKER_FLAGS} \"/DEF:${CMAKE_CURRENT_SOURCE_DIR}/c_api_vs.def\"")
 endif()
 
 #Link C_api dll statically to roadrunner and libsbml
 if(WIN32)
-set_property(   TARGET ${target} 
-                PROPERTY  COMPILE_DEFINITIONS 
-                          STATIC_RR             #when linking with static lib, no declspec shuld be present..
+set_property(TARGET ${target} 
+PROPERTY  COMPILE_DEFINITIONS 
+EXPORT_RR_C_API
+LIBSBML_STATIC
+LIBLAX_STATIC
+STATIC_PUGI
+STATIC_LIBSTRUCT
+STATIC_RR             #when linking with static lib, no declspec shuld be present..
 )
+
 target_link_libraries ( ${target}
  roadrunner-static
  )
 else() #failing to link to static roadrunner on linux... :(
+set_property(TARGET ${target} 
+PROPERTY  COMPILE_DEFINITIONS 
+EXPORT_RR_C_API
+LIBSBML_STATIC
+LIBLAX_STATIC
+STATIC_PUGI
+STATIC_LIBSTRUCT
+)
+
 target_link_libraries ( ${target} 
 roadrunner
 blas
