@@ -97,7 +97,7 @@ bool rrCallConv  setInstallFolder(const char* folder)
 {
 	try
     {
-		gInstallFolder = new char[1024];
+		gInstallFolder = new char[2048];
 	    return strcpy(gInstallFolder, folder) != NULL ? true : false;
     }
     catch(Exception& ex)
