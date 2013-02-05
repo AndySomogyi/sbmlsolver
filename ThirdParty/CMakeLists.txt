@@ -108,12 +108,9 @@ ${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib
 )
 
 #=== COMPILER FLAGS 
-if(${MINGW})
-SET (CMAKE_CXX_FLAGS 			"${CMAKE_CXX_FLAGS} -std=gnu++0x")
-endif()
-
 if(${UNIX})
-SET (CMAKE_CXX_FLAGS 			"${CMAKE_CXX_FLAGS} -std=gnu++0x")
+SET (CMAKE_CXX_FLAGS 			"${CMAKE_CXX_FLAGS} -fPIC -std=gnu++0x")
+SET (CMAKE_C_FLAGS 				"${CMAKE_C_FLAGS} -fPIC")
 endif()
 
 #if(${MSVC})
@@ -169,7 +166,6 @@ install (FILES
 endif()
 
 if(WIN32)
-#=== More Binary ThirdParties
     set(RUNTIMES libxml2.DLL iconv.dll zlib1.dll)
     foreach(runtime ${RUNTIMES})
     install(    FILES 	${THIRD_PARTY_FOLDER}/dependencies/libsbml/bin/${runtime} 

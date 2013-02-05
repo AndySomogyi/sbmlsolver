@@ -115,6 +115,9 @@ charptr = POINTER(c_char)
 
 handle.getRRInstance.restype = c_void_p
 
+
+#handle.setInstallFolder("/home/totte/rrInstall")
+
 rr = handle.getRRInstance()
 
 # Utility and informational methods

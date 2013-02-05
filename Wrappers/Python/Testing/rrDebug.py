@@ -5,9 +5,14 @@ print 'RoadRunner Version: ' + rr.getVersion()
 print 'RoadRunner Build DateTime: ' + rr.getBuildDateTime()
 print 'Copyright: ' + rr.getCopyright()
 
-#rr.setTempFolder('/usr/local/lib')
-#rr.setComputeAndAssignConservationLaws(True)
-result = rr.loadSBMLFromFile("/usr/local/models/feedback.xml")
+rr.setTempFolder('/home/totte/rrInstall')
+info = rr.getInfo()
+
+print info;
+
+
+rr.setComputeAndAssignConservationLaws(True)
+result = rr.loadSBMLFromFile("/home/totte/rrInstall/models/feedback.xml")
 
 print 'Result of loading sbml: '
 print result;

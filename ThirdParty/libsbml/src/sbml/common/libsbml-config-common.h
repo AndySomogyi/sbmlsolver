@@ -53,7 +53,7 @@
 /* #undef HAVE_CHECK_H */
 
 /* Define to 1 if you have the <expat.h> header file. */
-/* #undef HAVE_EXPAT_H */
+#define HAVE_EXPAT_H 1
 
 /* Define to 1 to use the Expat XML library */
 /* #undef USE_EXPAT */

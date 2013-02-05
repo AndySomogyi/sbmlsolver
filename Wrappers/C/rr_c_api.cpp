@@ -72,14 +72,42 @@
 //---------------------------------------------------------------------------
 using namespace std;
 using namespace rr;
-extern  rr::RoadRunner*     gRRHandle       = NULL;
+rr::RoadRunner*     gRRHandle       = NULL;
 
 namespace rr_c_api
 {
 char*                       gLastError      = NULL;
 }
 
+char* gInstallFolder = NULL;
 using namespace rr_c_api;
+
+char* rrCallConv getInstallFolder()
+{
+	if(!gInstallFolder)
+	{
+		gInstallFolder = new char[2048];
+		strcpy(gInstallFolder, "/usr/local");
+	}
+	return gInstallFolder;
+}
+
+
+bool rrCallConv  setInstallFolder(const char* folder)
+{
+	try
+    {
+		gInstallFolder = new char[1024];
+	    return strcpy(gInstallFolder, folder) != NULL ? true : false;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  		return false;
+    }
+}
 
 bool rrCallConv enableLogging()
 {
@@ -106,7 +134,6 @@ bool rrCallConv enableLogging()
         }
         else
         {
-            printf( "Current cwd = %s \nLength: %d\n", buffer, strlen(buffer) );
             Log(lInfo)<<"Current working folder is :"<<buffer;
             delete [] buffer;
         }
@@ -232,8 +259,7 @@ char* rrCallConv getRRCAPILocation()
     }
     return NULL;
 #else
-	//return RR_ROADRUNNER_INSTALL_LIB_PATH;
-	return "/usr/local/lib";
+	return createText(JoinPath(getInstallFolder(),"/lib"));
 #endif
 }
 

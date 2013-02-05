@@ -50,7 +50,6 @@ const string getCurrentDateTime()
     return buf;
 }
 
-
 string GetUsersTempDataFolder()
 {
     //Default for temporary data output is the users AppData/Local/Temp Folder
@@ -123,7 +122,6 @@ const string getParentFolder(const string& path)
     {
     	return path;
     }
-
 }
 
 const string getCWD()
@@ -481,55 +479,5 @@ StringList getSelectionListFromSettings(const SimulationSettings& settings)
   	theList.InsertAt(0, "time");
     return theList;
 }
-
-//HINSTANCE LoadDLL(const string& dll)
-//{
-//    HINSTANCE hLib = LoadLibraryA(dll.c_str());
-//
-//    if(hLib == NULL)
-//    {
-//        Log(lError) << "Unable to load library!" << endl;
-//        return NULL;
-//    }
-//
-//    TCHAR mod[MAX_MODULE];
-//    GetModuleFileNameA((HMODULE)hLib, (LPSTR) mod, MAX_MODULE);
-//    string name(mod);
-//
-//    Log(lDebug) << "DLL Library loaded: " <<name.c_str() << endl;
-//    return hLib;
-//}
-//
-//bool UnLoadDLL(HINSTANCE dllHandle)
-//{
-//	if(!dllHandle)
-//    {
-//    	return false;
-//    }
-//
-//	BOOL result = FreeLibrary(dllHandle);
-//    if(result == false)
-//    {
-//        Log(lWarning) << "Failed to unload DLL library" << endl;
-//        return false;
-//    }
-//
-//	return true;
-//}
-//
-//FARPROC GetFunctionPtr(const string& funcName, HINSTANCE DLLHandle)
-//{
-//    FARPROC handle = GetProcAddress((HMODULE) DLLHandle, funcName.c_str());
-//    if(handle == NULL)
-//    {
-//        Log(lError) << "Unable to load the function: " << funcName;
-//        return NULL;
-//    }
-//    Log(lDebug3)<<"Loaded function " << funcName;
-//    return handle;
-//}
-//
-//
-
 
 }//end of namespace
