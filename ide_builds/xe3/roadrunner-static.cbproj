@@ -12,6 +12,11 @@
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
     </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='OSX32' and '$(Base)'=='true') or '$(Base_OSX32)'!=''">
+        <Base_OSX32>true</Base_OSX32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
     <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
         <Base_Win32>true</Base_Win32>
         <CfgParent>Base</CfgParent>
@@ -31,6 +36,12 @@
     <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
         <Cfg_2>true</Cfg_2>
         <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='OSX32' and '$(Cfg_2)'=='true') or '$(Cfg_2_OSX32)'!=''">
+        <Cfg_2_OSX32>true</Cfg_2_OSX32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
@@ -60,6 +71,9 @@
         <BCC_wpar>false</BCC_wpar>
         <BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
         <BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_OSX32)'!=''">
+        <Icns_MainIcns>$(BDS)\bin\cbuilder_PROJECTICNS.icns</Icns_MainIcns>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
@@ -96,15 +110,10 @@
         <Defines>NDEBUG;$(Defines)</Defines>
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_OSX32)'!=''">
+        <Icns_MainIcns>$(BDS)\bin\cbuilder_PROJECTICNS.icns</Icns_MainIcns>
+    </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="R:\rrlROOT\trunk\source\rrBaseParameter.cpp">
-            <DependentOn>R:\rrlROOT\trunk\source\rrBaseParameter.h</DependentOn>
-            <BuildOrder>73</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="R:\rrlROOT\trunk\source\rrModelSharedLibrary.cpp">
-            <DependentOn>R:\rrlROOT\trunk\source\rrModelSharedLibrary.h</DependentOn>
-            <BuildOrder>72</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\source\mtrand\mtrand.cpp">
             <BuildOrder>62</BuildOrder>
         </CppCompile>
@@ -119,6 +128,10 @@
         <CppCompile Include="..\..\source\rrArrayListItem.cpp">
             <DependentOn>..\..\source\rrArrayListItem.h</DependentOn>
             <BuildOrder>4</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrBaseParameter.cpp">
+            <DependentOn>..\..\source\rrBaseParameter.h</DependentOn>
+            <BuildOrder>73</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrCapability.cpp">
             <DependentOn>..\..\source\rrCapability.h</DependentOn>
@@ -238,6 +251,10 @@
         <CppCompile Include="..\..\source\rrModelGenerator.cpp">
             <DependentOn>..\..\source\rrModelGenerator.h</DependentOn>
             <BuildOrder>32</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrModelSharedLibrary.cpp">
+            <DependentOn>..\..\source\rrModelSharedLibrary.h</DependentOn>
+            <BuildOrder>72</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrModelState.cpp">
             <DependentOn>..\..\source\rrModelState.h</DependentOn>

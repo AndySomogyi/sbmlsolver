@@ -3640,9 +3640,10 @@ char* rrCallConv listToString (RRListHandle list)
 //We only need to give the linker the folder where libs are
 //using the pragma comment. Works for MSVC and codegear
 #if defined(CG_IDE)
+//#pragma comment(lib, "roadrunner-static.lib")
 
 #if defined(STATIC_BUILD)
-#pragma comment(lib, "roadrunner-static.lib")
+//#pragma comment(lib, "roadrunner-static.lib")
 #else
 #pragma comment(lib, "roadrunner.lib")
 #endif

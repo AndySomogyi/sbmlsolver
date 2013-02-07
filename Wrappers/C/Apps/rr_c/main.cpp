@@ -199,7 +199,6 @@ int main(int argc, char* argv[])
 		}				
 	}
 
-
     text = getCopyright();
     if(hasError())
     {

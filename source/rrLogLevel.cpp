@@ -1,7 +1,7 @@
-#ifdef USE_PCH
-#include "rr_pch.h"
-#endif
-#pragma hdrstop
+//#ifdef USE_PCH
+//#include "rr_pch.h"
+//#endif
+//#pragma hdrstop
 #include <algorithm>
 using namespace std;
 #include "rrLogLevel.h"
@@ -10,7 +10,6 @@ using namespace std;
 namespace rr
 {
 
-using namespace std;
 int GetHighestLogLevel(){return lAny;}
 
 LogLevel GetLogLevel(const string& lvl)

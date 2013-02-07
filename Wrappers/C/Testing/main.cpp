@@ -131,9 +131,9 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 
 #if defined(CG_IDE)
 #pragma comment(lib, "rr_c_api.lib")
-#pragma comment(lib, "roadrunner-static.lib")
+//#pragma comment(lib, "roadrunner-static.lib")
 #pragma comment(lib, "rr-libstruct-static.lib")
-//#pragma comment(lib, "roadrunner.lib")
+#pragma comment(lib, "roadrunner.lib")
 
 #pragma comment(lib, "unit_test-static.lib")
 #endif
