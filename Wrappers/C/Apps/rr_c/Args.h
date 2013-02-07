@@ -15,7 +15,7 @@ class Args
         LogLevel                        CurrentLogLevel;                            //option v:
         string                          ModelFileName;                              //option m:
         bool                            SaveResultToFile;                           //option f
-        string                          DataOutputFolder;                           //option d:		
+        string                          InstallFolder;                              //option i:
         string                          TempDataFolder;                             //option t:
         bool                            Pause;                                      //option p
         double                          StartTime;                                  //option s

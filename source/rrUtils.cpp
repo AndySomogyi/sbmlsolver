@@ -297,7 +297,12 @@ bool CreateFolder(const string& folder)
 #if defined(WIN32)
     int res = mkdir(folder.c_str());
 #else
-    int res = mkdir(folder.c_str(), 0777);
+	int temp;
+#define MY_MASK 0777
+// 	printf("Default mask: %o\n", MY_MASK & ~022 & MY_MASK);
+  	temp = umask(0);
+//  	printf("Previous umask = %o\n", temp);
+    int res = mkdir(folder.c_str(), S_IRWXU | S_IRWXG | S_IRWXO);
 #endif
 
     return (res==0) ? true : false;

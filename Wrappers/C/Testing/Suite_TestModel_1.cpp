@@ -24,16 +24,16 @@ extern bool 	gDebug;
 //This tests is mimicking the Python tests
 SUITE(TEST_MODEL_1)
 {
-string TestDataFileName 	= "TestModel_1.dat";
+string TestDataFileName 	= "Test_1.dat";
 IniFile iniFile;
 string TestModelFileName;
 RRHandle gRR;
 
 	TEST(DATA_FILES)
 	{
-		gTestDataFolder 			= JoinPath(gRRInstallFolder, "tests");
+		gTestDataFolder 			= JoinPath(gRRInstallFolder, "testing");
 		string testDataFileName 	= JoinPath(gTestDataFolder, TestDataFileName);
-
+		clog<<"Checking file: "<<testDataFileName<<endl;
 		CHECK(FileExists(testDataFileName));
 		CHECK(iniFile.Load(testDataFileName));
 

@@ -60,7 +60,7 @@ if(INSTALL_EXAMPLES)
 endif()
 
 if(BUILD_TESTS)
-#    add_subdirectory(Testing)
+    add_subdirectory(Testing)
 endif()
 
 #=============== INSTALL =====================

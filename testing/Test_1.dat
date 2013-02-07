@@ -1,7 +1,7 @@
 # Input model for the data below is TestModel_1.xml. This model file can be found in roadrunners reference_data folder.
 
 [SBML_FILES]
-FNAME1=TestModel_1.xml
+FNAME1=Test_1.xml
 
 [Set Steady State Selection List]
 list="S1 S2 S3"

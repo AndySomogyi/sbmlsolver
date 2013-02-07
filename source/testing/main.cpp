@@ -19,7 +19,6 @@ string  gTestDataFolder			= "";
 string 	gCompiler 				= "";
 string 	gSupportCodeFolder 		= "";
 string 	gTempFolder		   		= "";
-//string 	gDataOutputFolder   	= "";
 bool	gDebug			    	= false;
 
 // initialized based on gSBMLModelsPath
@@ -33,6 +32,8 @@ RoadRunner* gRR = NULL;
 //call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder"
 int main(int argc, char* argv[])
 {
+	clog<<"Entering cxx test application..\n";
+
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
 

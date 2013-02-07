@@ -40,33 +40,35 @@ ${THIRD_PARTY_FOLDER}/unit_test/src
 if(UNIX)
 set(staticLibPrefix ".a")
 set(sharedLibPrefix ".so")
-add_definitions(-DUNITTEST_POSIX)
 else()
 set(staticLibPrefix "")
 set(sharedLibPrefix "")
 endif()
 
+if(WIN32)
 target_link_libraries (${target} 
 roadrunner-static
 unit_test-static${staticLibPrefix}
 )
+endif()
 
-if(UNIX)
+if(UNIX) #Don't know why static roadrunner fails....?
 target_link_libraries (${target} 
+roadrunner
 libunit_test-static${staticLibPrefix}
-nleq-static.a
-rr-libstruct-static
+#nleq-static.a
+#rr-libstruct-static
 lapack
 blas
 f2c
-libsbml-static.a
-libxml2.so
-sundials_nvecserial.a
-sundials_cvode.a
-pthread
-poco_foundation-static.a
-pugi-static.a
-dl
+#libsbml-static.a
+#libxml2.so
+#sundials_nvecserial.a
+#sundials_cvode.a
+#pthread
+#poco_foundation-static.a
+#pugi-static.a
+#dl
 )
 endif()
 

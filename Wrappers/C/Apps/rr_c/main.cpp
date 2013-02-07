@@ -32,10 +32,14 @@ int main(int argc, char* argv[])
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
 
-	string settingsFile;
-    stringstream ss;
-
 	bool doMore = true;	//set to false to move to end
+
+	if(args.InstallFolder.size() > 0 )
+	{
+		clog<<"Setting install folder to: "<<args.InstallFolder<<endl;
+		setInstallFolder(args.InstallFolder.c_str());
+	}
+  	
 
     cout<<"======== RoadRunner C API Client ==================\n\n";
     RRHandle aHandle  = getRRInstance();
@@ -45,12 +49,13 @@ int main(int argc, char* argv[])
         cerr<<"Failed getting a handle to RoadRunner";
     	doMore = false;
     }
-
+	   
     if(!setLogLevel(GetLogLevelAsString(args.CurrentLogLevel).c_str()) )
     {
         cerr<<"Failed setting log RoadRunner Log level";
     	doMore = false;
     }
+	
 	
 	if(args.TempDataFolder.size() < 2)
 	{
@@ -76,8 +81,9 @@ int main(int argc, char* argv[])
     	doMore = false;
     }
 
-    cout<<"Currrent Log Level: "<<getLogLevel()<<endl;
-    setTempFolder(args.TempDataFolder.c_str());
+
+	cout<<"Currrent Log Level: "<<getLogLevel()<<endl;
+
 	char* text = getBuildDate();
 	if(text)
 	{
@@ -178,7 +184,7 @@ int main(int argc, char* argv[])
 		else
 		{
 			
-			string outPutFName = JoinPath(args.DataOutputFolder, ExtractFileName(args.ModelFileName));
+			string outPutFName = JoinPath(args.TempDataFolder, ExtractFileName(args.ModelFileName));
 			outPutFName = ChangeFileExtensionTo(outPutFName, ".csv");
 			ofstream fOut(outPutFName.c_str());
 			if(!fOut)
@@ -216,7 +222,7 @@ int main(int argc, char* argv[])
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
     char c;
-    while ((c = GetOptions(argc, argv, ("cfpxyv:n:d:t:l:m:s:e:z:"))) != -1)
+    while ((c = GetOptions(argc, argv, ("cfpxyv:n:i:t:l:m:s:e:z:"))) != -1)
     {
     	string arg = (optArg == NULL) ? "NULL" : optArg ;
 		cout<<"Character is: "<<c<<" and optarg is:"<<arg<<endl;
@@ -226,7 +232,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 						cout<<"Loglevel is set to :"<<args.CurrentLogLevel<<endl; break;
             case ('p'): args.Pause                                  = true;                         break;
             case ('t'): args.TempDataFolder                         = optArg;                       break;
-            case ('d'): args.DataOutputFolder                       = optArg;                       break;
+            case ('i'): args.InstallFolder                          = optArg;                       break;
 			case ('f'): args.SaveResultToFile                       = true;                         break;
             case ('m'): args.ModelFileName                          = optArg;                       break;
             case ('l'): args.SelectionList                          = optArg;                       break;

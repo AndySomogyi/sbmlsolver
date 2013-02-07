@@ -39,13 +39,8 @@ int main(int argc, char* argv[])
 	string reportFile(args.ResultOutputFile);
 
     string thisExeFolder = getCurrentExeFolder();
-    clog<<"RoadRunner bin location is: "<<thisExeFolder;
+    clog<<"RoadRunner bin location is: "<<thisExeFolder<<endl;
 
-#if defined(_MSC_VER) 
-	{
-		thisExeFolder = "r:\\installs\\vs\\2010\\debug\\bin";
-	}
-#endif
     //Assume(!) this is the bin folder of roadrunner install
 	gRRInstallFolder = getParentFolder(thisExeFolder);	//Go up one folder
     gDebug				= args.EnableLogging;
@@ -55,6 +50,7 @@ int main(int argc, char* argv[])
 	gSupportCodeFolder 	= JoinPath(gRRInstallFolder, "rr_support");
 	gTestDataFolder     = JoinPath(gRRInstallFolder, "tests");
 
+	setInstallFolder(gRRInstallFolder.c_str());
     //We need a rr handle to enable initial logging...
     gRR = getRRInstance();
 
