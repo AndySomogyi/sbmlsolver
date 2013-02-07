@@ -235,7 +235,7 @@ rrIniSection* IniFile::LoadSection(const string& theSection)
 	if(mIniFileName.size() < 1)
 	{
 									Log(lError)<<"Ini file name is not set!";
-		return false;
+		return NULL;
 	}
 	else
 	{
@@ -258,7 +258,7 @@ rrIniSection* IniFile::LoadSection(const string& theSection)
 	if (!file.is_open() )
 	{
 									Log(lError)<<"The ini file: '" <<mIniFileName<<"' could not be opened";
-		return false;
+		return NULL;
 	}
 	else
 	{
@@ -809,7 +809,7 @@ int IniFile::KeyCount()
 
 	return nCounter;
 }
- 
+
 int IniFile::KeyCount(const string& section)
 {
 	//Get the section
@@ -943,7 +943,7 @@ string IniFile::Trim(string& str)
 
 // Writes the formatted output to the file stream, returning the number of
 // bytes written.
-int IniFile::WriteLine(fstream& stream, char* fmt, ...)
+int IniFile::WriteLine(fstream& stream, const char* fmt, ...)
 {
 	char *buf = new char[MAX_BUFFER_LEN];
 	int nLength;

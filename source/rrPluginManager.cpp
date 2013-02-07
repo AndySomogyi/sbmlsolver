@@ -15,6 +15,8 @@ using Poco::SharedLibrary;
 namespace rr
 {
 
+bool destroyRRPlugin(Plugin *plugin);
+
 PluginManager::PluginManager(const std::string& folder, const bool& autoLoad, RoadRunner* aRR)
 :
 mPluginFolder(folder),
@@ -199,7 +201,7 @@ Plugin*	PluginManager::getPlugin(const string& name)
 }
 
 // Plugin cleanup function
-bool __stdcall destroyRRPlugin(rr::Plugin *plugin)
+bool destroyRRPlugin(Plugin *plugin)
 {
 	//we allocated in the factory with new, delete the passed object
     try

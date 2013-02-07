@@ -68,6 +68,8 @@ int main(int argc, char * argv[])
 			args.TempDataFolder = getCWD();
         }
 
+		Log(lDebug)<<"Temp data folder: "<<args.TempDataFolder<<endl;
+
         if(args.ModelFileName.size())
         {
             string logName = ExtractFileName(args.ModelFileName);
@@ -90,10 +92,12 @@ compiler = "compilers\\tcc\\tcc.exe";
 #else
 compiler = "gcc";
 #endif
-
-
+		
+		//Creating roadrunner
+		Log(lDebug)<<"Creating RoadRunner..."<<endl;
         RoadRunner *rr  = new RoadRunner(JoinPath(RRInstallFolder, "rr_support"), JoinPath(RRInstallFolder, compiler), args.TempDataFolder);
         rr->reset();
+		Log(lDebug)<<"....."<<endl;
         simulation.UseEngine(rr);
 
         //The following will load and compile and simulate the sbml model in the file

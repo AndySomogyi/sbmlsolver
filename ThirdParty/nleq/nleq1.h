@@ -25,7 +25,8 @@
 #if defined(WIN32)
 #define STDCALL   __stdcall
 #else
-#define STDCALL   __attribute__((stdcall))
+#define STDCALL  
+//__attribute__((stdcall))
 #endif
 
 #ifdef __cplusplus

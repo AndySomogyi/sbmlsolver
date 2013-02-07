@@ -322,12 +322,12 @@ bool Compiler::compile(const string& cmdLine)
 
 #else
 
-bool Compiler::Compile(const string& cmdLine)
+bool Compiler::compile(const string& cmdLine)
 {
     string toFile(cmdLine);
     toFile += " 2>&1 >> ";
-    string tmpFolder = rr::RoadRunner::getTempFileFolder();
-    toFile += JoinPath(rr::RoadRunner::getTempFileFolder(), "compilation.log");
+    string tmpFolder = mOutputPath;//rr::RoadRunner::getTempFileFolder();
+    toFile += JoinPath(tmpFolder, "compilation.log");
     Log(lInfo)<<"Compiler command: "<<toFile;
     int val = system(toFile.c_str());
     if(val ==0)

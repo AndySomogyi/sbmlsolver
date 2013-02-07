@@ -46,7 +46,7 @@ class RR_DECLSPEC IniFile : public rrObject
 		// General Purpose Utility Functions
 		string	            GetNextWord(string& CommandLine);
 		string	            Trim(string& Str);
-		int		            WriteLine(fstream& stream, char* fmt, ...);
+		int		            WriteLine(fstream& stream, const char* fmt, ...);
 
 	protected:
 		SectionList	        mSections;		// List of sections

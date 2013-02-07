@@ -41,7 +41,7 @@ class RR_DECLSPEC PluginManager : public rrObject
 #define EXP_FUNC __declspec(dllexport)
 
 // Plugin cleanup function
-EXP_FUNC bool		__stdcall	destroyRRPlugin(rr::Plugin *plugin);
+//EXP_FUNC bool		__stdcall	destroyRRPlugin(Plugin *plugin);
 
 
 }
