@@ -2,6 +2,7 @@
 #pragma hdrstop
 //---------------------------------------------------------------------------
 #include <sstream>
+#include "rrParameter.h"
 #include "rrRoadRunner.h"
 #include "rrPluginManager.h"
 #include "rrPlugin.h"
@@ -12,7 +13,7 @@
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrStringUtils.h"
-
+#include "rrCapability.h"
 using namespace rr_c_api;
 extern RoadRunner*     gRRHandle;
 
@@ -25,7 +26,7 @@ bool rrCallConv loadPlugins()
             setError(ALLOCATE_API_ERROR_MSG);
         }
 
-    	return gRRHandle->getPluginManager().Load();
+    	return gRRHandle->getPluginManager().load();
     }
     catch(Exception& ex)
     {
@@ -45,7 +46,7 @@ bool rrCallConv unLoadPlugins()
             setError(ALLOCATE_API_ERROR_MSG);
         }
 
-    	return gRRHandle->getPluginManager().Unload();
+    	return gRRHandle->getPluginManager().unload();
     }
     catch(Exception& ex)
     {
@@ -65,7 +66,7 @@ int rrCallConv getNumberOfPlugins()
             setError(ALLOCATE_API_ERROR_MSG);
         }
 
-    	return gRRHandle->getPluginManager().GetNumberOfPlugins();
+    	return gRRHandle->getPluginManager().getNumberOfPlugins();
     }
     catch(Exception& ex)
     {
@@ -73,6 +74,115 @@ int rrCallConv getNumberOfPlugins()
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
   	    return -1;
+    }
+}
+
+RRStringArray* rrCallConv getPluginNames()
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+        }
+
+        StringList names = gRRHandle->getPluginManager().getPluginNames();
+        return createList(names);
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return NULL;
+    }
+}
+
+RRStringArray* rrCallConv getPluginParameters(const char* pluginName)
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+        }
+
+        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(pluginName);
+        if(aPlugin)
+        {
+        	StringList aList;
+            Parameters paras = aPlugin->getParameters();
+            for(int i = 0; i < paras.size(); i++)
+            {
+            	aList.Add(paras[i]->getName());
+            }
+        	return createList(aList);
+        }
+        else
+        {
+	        return NULL;
+        }
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return NULL;
+    }
+}
+
+RRParameter* rrCallConv getPluginParameter(const char* pluginName, const char* parameterName)
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+        }
+
+        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(pluginName);
+        if(aPlugin)
+        {
+
+            rr::BaseParameter *para = aPlugin->getParameter(parameterName);
+        	return createParameter( *(para) );
+        }
+        return NULL;
+
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return NULL;
+    }
+}
+
+bool rrCallConv setPluginParameter(const char* pluginName, const char* parameterName, const char* value)
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+        }
+
+        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(pluginName);
+        if(aPlugin)
+        {
+            return aPlugin->setParameter(parameterName, value);
+        }
+		return false;
+
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return NULL;
     }
 }
 
@@ -85,10 +195,10 @@ char* rrCallConv getPluginInfo(const char* name)
             setError(ALLOCATE_API_ERROR_MSG);
         }
 
-        Plugin* aPlugin = gRRHandle->getPluginManager().GetPlugin(name);
+        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(name);
         if(aPlugin)
         {
-        	return createText(aPlugin->GetInfo());
+        	return createText(aPlugin->getInfo());
         }
         else
         {
@@ -113,14 +223,14 @@ bool rrCallConv executePlugin(const char* name)
             setError(ALLOCATE_API_ERROR_MSG);
         }
 
-        Plugin* aPlugin = gRRHandle->getPluginManager().GetPlugin(name);
+        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(name);
         if(aPlugin)
         {
-        	return aPlugin->Execute();
+        	return aPlugin->execute();
         }
         else
         {
-	        return false;
+			return false;
         }
     }
     catch(Exception& ex)

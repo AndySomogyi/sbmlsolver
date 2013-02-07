@@ -1,11 +1,14 @@
 //---------------------------------------------------------------------------
 #include <vcl.h>
 #pragma hdrstop
-#include <tchar.h>
+
+#pragma comment(lib, "rr_c_api.lib")
+#pragma comment(lib, "roadrunner.lib")
+
 //---------------------------------------------------------------------------
 USEFORM("Main.cpp", MainF);
 //---------------------------------------------------------------------------
-int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	try
 	{

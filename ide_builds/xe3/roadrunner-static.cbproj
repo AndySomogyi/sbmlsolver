@@ -50,7 +50,7 @@
         <_TCHARMapping>char</_TCHARMapping>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
-        <IncludePath>..\..\plugins\TestPlugin\;..\..\source\;..\..\source\mtrand\;$(IncludePath)</IncludePath>
+        <IncludePath>R:\rrlROOT\trunk\source\;..\..\plugins\TestPlugin\;..\..\source\;..\..\source\mtrand\;$(IncludePath)</IncludePath>
         <ILINK_LibraryPath>P:\mtk\Components\vtk\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <Multithreaded>true</Multithreaded>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
@@ -97,6 +97,14 @@
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
     <ItemGroup>
+        <CppCompile Include="R:\rrlROOT\trunk\source\rrBaseParameter.cpp">
+            <DependentOn>R:\rrlROOT\trunk\source\rrBaseParameter.h</DependentOn>
+            <BuildOrder>73</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="R:\rrlROOT\trunk\source\rrModelSharedLibrary.cpp">
+            <DependentOn>R:\rrlROOT\trunk\source\rrModelSharedLibrary.h</DependentOn>
+            <BuildOrder>72</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\mtrand\mtrand.cpp">
             <BuildOrder>62</BuildOrder>
         </CppCompile>
@@ -111,10 +119,6 @@
         <CppCompile Include="..\..\source\rrArrayListItem.cpp">
             <DependentOn>..\..\source\rrArrayListItem.h</DependentOn>
             <BuildOrder>4</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\rrCapabilitiesSection.cpp">
-            <DependentOn>..\..\source\rrCapabilitiesSection.h</DependentOn>
-            <BuildOrder>5</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrCapability.cpp">
             <DependentOn>..\..\source\rrCapability.h</DependentOn>

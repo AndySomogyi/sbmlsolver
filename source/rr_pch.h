@@ -24,8 +24,8 @@
 
 #include "pugi/pugixml.hpp"
 
-#include "rrCapabilitiesSection.h"
 #include "rrCapability.h"
+#include "rrParameter.h"
 #include "rrCapsSupport.h"
 #include "rrCGenerator.h"
 #include "rrCSharpGenerator.h"

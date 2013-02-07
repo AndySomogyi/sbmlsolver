@@ -2,27 +2,28 @@
 #define rrCapsSupportH
 #include <vector>
 #include "rrObject.h"
-#include "rrCapabilitiesSection.h"
+#include "rrCapability.h"
 //---------------------------------------------------------------------------
 
 using std::vector;
 namespace rr
 {
 
-class CapabilitiesSection;
+class Capability;
 class RoadRunner;
 
+//This is "RoadRunners Capabilities"
 class RR_DECLSPEC CapsSupport : public rrObject
 {
     protected:
         string                          mName;
         string                          mDescription;
-        vector<CapabilitiesSection>     mCapabilitiesSections;
+        vector<Capability>     			mCapabilities;
         RoadRunner                     *mRoadRunner;
 
     public:
                                         CapsSupport(RoadRunner* rr = NULL);
-        void                            Add(const CapabilitiesSection& section);
+        void                            Add(const Capability& section);
         string                          AsXMLString();
         u_int                           Count();
 };
@@ -30,13 +31,6 @@ class RR_DECLSPEC CapsSupport : public rrObject
 }
 #endif
 
-////using System;
-////using System.Collections.Generic;
-////using System.Text;
-////using System.Xml;
-////using LibRoadRunner.Solvers;
-////using System.Runtime.Serialization;
-////
 ////namespace LibRoadRunner.Util
 ////{
 ////    /// <summary>

@@ -9,7 +9,6 @@
 
 using std::string;
 
-
 namespace rr
 {
 
@@ -73,18 +72,18 @@ class RR_DECLSPEC CvodeInterface : public rrObject
 
         static ModelFromC          *model;
         RoadRunner				   *mRR;
-        vector<PendingAssignment>   assignments;// = new List<PendingAssignment>();
-        Random                      mRandom;// { get; set; }
-        int                         defaultMaxAdamsOrder;// = 12;
-        int                         defaultMaxBDFOrder;// = 5;
-        int                         MaxAdamsOrder;// = defaultMaxAdamsOrder;
-        int                         MaxBDFOrder;// = defaultMaxBDFOrder;
-        double                      InitStep;// = 0.0;
-        double                      MinStep;// = 0.0;
-        double                      MaxStep;// = 0.0;
-        int                         MaxNumSteps;// = defaultMaxNumSteps;
-        double                      relTol;// = defaultReltol;
-        double                      absTol;// = defaultAbsTol;
+        vector<PendingAssignment>   assignments;
+        Random                      mRandom;
+        int                         defaultMaxAdamsOrder;
+        int                         defaultMaxBDFOrder;
+        int                         MaxAdamsOrder;
+        int                         MaxBDFOrder;
+        double                      InitStep;
+        double                      MinStep;
+        double                      MaxStep;
+        int                         MaxNumSteps;
+        double                      relTol;
+        double                      absTol;
         int                         errCode;
         double                      lastTimeValue;
         void                        TestRootsAtInitialTime();
@@ -111,7 +110,6 @@ class RR_DECLSPEC CvodeInterface : public rrObject
 
         //[DllImport(CVODE, EntryPoint = "NewCvode_Vector", ExactSpelling = false, CharSet = CharSet.Unicode, SetLastError = true)]
         //static IntPtr             NewCvode_Vector(int n);
-
 
         //[DllImport(CVODE, EntryPoint = "Cvode_SetVector", ExactSpelling = false,  CharSet = CharSet.Unicode, SetLastError = true)]
         //void                     Cvode_SetVector(IntPtr v, int Index, double Value){};
@@ -178,12 +176,6 @@ class RR_DECLSPEC CvodeInterface : public rrObject
         //[DllImport(CVODE, EntryPoint = "SetErrFile", ExactSpelling = false, CharSet = CharSet.Unicode, SetLastError = true)]
 //        int                     SetErrFile(IntPtr cvode_mem, IntPtr errfp){return NULL;}
 
-
-
-        //public double[] GetCopy(double[] oVector);
-        //public bool[] GetCopy(bool[] oVector);
-
-
         bool                        HaveVariables();
         void                        InitializeCVODEInterface(ModelFromC *oModel);
 //        internal static CvodeErrorCodes[] errorCodes = InitilizeErrorCodes();
@@ -200,12 +192,10 @@ class RR_DECLSPEC CvodeInterface : public rrObject
         int                         reStart(double timeStart, ModelFromC* model);
 //        public double getValue(int index);
         vector<double>              BuildEvalArgument();
-
-};    //class
-}//namespace rr
+};
+}
 
 #endif
-
 
 //////C#
 //////#define PRINT_EVENT_DEBUG

@@ -37,6 +37,7 @@ RR_DECLSPEC int          AllocateCvodeMem (        void *,
                                                 N_Vector whatIsIt,
                                                 double what3,
                                                 N_Vector whatIsThis);//, long int[], double[]);
+
 RR_DECLSPEC int         CvDense (void *, int);  // int = size of systems
 RR_DECLSPEC int         CVReInit (void *cvode_mem, double t0, N_Vector y0, double reltol, N_Vector abstol);
 RR_DECLSPEC int         Run_Cvode (void *cvode_mem, double tout, N_Vector y, double *t);//, char *ErrMsg);
@@ -62,11 +63,6 @@ RR_DECLSPEC int         InternalRootCall (realtype t, N_Vector y, realtype *gout
 
 #endif
 
-////#ifdef USE_PCH
-////#include "rrPCH.h"
-////#endif
-////#pragma hdrstop
-////
 ////#include <stdlib.h>
 ////#ifdef WIN32
 ////#include <windows.h>

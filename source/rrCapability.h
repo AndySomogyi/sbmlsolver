@@ -1,65 +1,42 @@
 #ifndef rrCapabilityH
 #define rrCapabilityH
+#include <string>
+#include <vector>
 #include "rrObject.h"
-#include "rrStringUtils.h"
+#include "rrBaseParameter.h"
 //---------------------------------------------------------------------------
+
 namespace rr
 {
+//class Parameter;
+typedef vector<rr::BaseParameter*> Parameters;
 
+//Will be renamed to Capability
 class RR_DECLSPEC Capability : public rrObject
 {
     protected:
-        virtual string                      GetValueAsString() const = 0;
-
-    public:
         string                              mName;
-        string                              mHint;
-                                            Capability(const string& name, const string& hint);
-        virtual                            ~Capability();
-        friend ostream&                     operator<<(ostream& stream, const Capability& outMe);
-
-        string                              AsString() const;
-        string                              GetType() const;
-        string                              GetName() const;
-        string                              GetHint() const;
-        string                              GetValue() const;
-};
-
-template<class T>
-class CapabilityType: public Capability
-{
-    protected:
-        T                                   mValue;
-        virtual string                      GetValueAsString() const;
-
+        string                              mDescription;
+        string                              mMethod;
+        Parameters				            mParameters;
 
     public:
-                                            /// <summary>
-                                            /// Initializes a new instance of the Capability class.
-                                            /// </summary>
-                                            CapabilityType(const string& name, const T& value, const string& hint);//, const string& type);
+                                            Capability(const string& name, const string& method, const string& descr);
+                                            Capability(const Capability& fromMe);
+		void							 	setup(const string& name, const string& method, const string& descr);
+        void                                add(rr::BaseParameter* me);
+        string                              asString() const;
+        u_int                               nrOfParameters() const;
+        const rr::BaseParameter&               	operator[](const int& i) const;
+        string                              getName() const;
+        string                              getDescription() const;
+        string                              getMethod() const;
+        Parameters							getParameters() const;
+        rr::BaseParameter*	   				getParameter(const string& paraName);
+
+		RR_DECLSPEC
+        		friend ostream& 			operator <<(ostream& os, const Capability& caps);
 };
 
-template<class T>
-CapabilityType<T>::CapabilityType(const string& name, const T& value, const string& hint)
-:
-Capability(name, hint),
-mValue(value)
-{}
-
-template<class T>
-string CapabilityType<T>::GetValueAsString() const
-{
-    return ToString(mValue);
-}
-
-#if defined(_MSC_VER)
-template<>
-string CapabilityType<int>::GetValueAsString() const;
-
-template<>
-string CapabilityType<double>::GetValueAsString() const;
-
-#endif
 }
 #endif

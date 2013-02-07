@@ -527,9 +527,9 @@ template<class T>
 const Matrix<T> operator*(Matrix<T>& lhs, const double& rhs)
 {
     Matrix<T> result(lhs.RSize(), lhs.CSize());
-    for(int i = 0; i < lhs.RSize(); i++)
+    for(unsigned int i = 0; i < lhs.RSize(); i++)
     {
-        for(int j = 0; j < lhs.CSize(); j++)
+        for(unsigned int j = 0; j < lhs.CSize(); j++)
         {
             result(i,j) = lhs(i,j) * rhs;
         }

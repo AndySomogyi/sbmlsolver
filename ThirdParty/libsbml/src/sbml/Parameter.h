@@ -1092,6 +1092,7 @@ BEGIN_C_DECLS
  * See the .cpp file for the documentation of the following functions.
  * --------------------------------------------------------------------------*/
 
+typedef Parameter Parameter_t;
 
 LIBSBML_EXTERN
 Parameter_t *

@@ -27,6 +27,11 @@ string Exception::Message() const
     return mMessage;
 }
 
+string Exception::getMessage() const
+{
+    return mMessage;
+}
+
 CoreException::CoreException(const string& msg)
 :
 Exception(msg)

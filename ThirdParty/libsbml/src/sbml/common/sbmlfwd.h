@@ -120,7 +120,7 @@ typedef CLASS_OR_STRUCT Species                   Species_t;
  * @var typedef class Parameter Parameter_t
  * @copydoc Parameter
  */
-typedef CLASS_OR_STRUCT Parameter                 Parameter_t;
+//typedef CLASS_OR_STRUCT Parameter Parameter_t;
 
 /**
  * @var typedef class LocalParameter LocalParameter_t

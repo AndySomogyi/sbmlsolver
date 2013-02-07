@@ -15,9 +15,6 @@
         <Projects Include="rr.cbproj">
             <Dependencies>roadrunner.cbproj</Dependencies>
         </Projects>
-        <Projects Include="rr_ts_tester.cbproj">
-            <Dependencies>roadrunner.cbproj</Dependencies>
-        </Projects>
         <Projects Include="rr_c_api.cbproj">
             <Dependencies/>
         </Projects>
@@ -71,15 +68,6 @@
     <Target Name="rr:Make" DependsOnTargets="roadrunner:Make">
         <MSBuild Projects="rr.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="rr_ts_tester" DependsOnTargets="roadrunner">
-        <MSBuild Projects="rr_ts_tester.cbproj"/>
-    </Target>
-    <Target Name="rr_ts_tester:Clean" DependsOnTargets="roadrunner:Clean">
-        <MSBuild Projects="rr_ts_tester.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="rr_ts_tester:Make" DependsOnTargets="roadrunner:Make">
-        <MSBuild Projects="rr_ts_tester.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="rr_c_api">
         <MSBuild Projects="rr_c_api.cbproj"/>
     </Target>
@@ -108,13 +96,13 @@
         <MSBuild Projects="c_api_tests.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="roadrunner;roadrunner-static;cxx_api_tests;rr;rr_ts_tester;rr_c_api;rr_c;c_api_tests"/>
+        <CallTarget Targets="roadrunner;roadrunner-static;cxx_api_tests;rr;rr_c_api;rr_c;c_api_tests"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="roadrunner:Clean;roadrunner-static:Clean;cxx_api_tests:Clean;rr:Clean;rr_ts_tester:Clean;rr_c_api:Clean;rr_c:Clean;c_api_tests:Clean"/>
+        <CallTarget Targets="roadrunner:Clean;roadrunner-static:Clean;cxx_api_tests:Clean;rr:Clean;rr_c_api:Clean;rr_c:Clean;c_api_tests:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="roadrunner:Make;roadrunner-static:Make;cxx_api_tests:Make;rr:Make;rr_ts_tester:Make;rr_c_api:Make;rr_c:Make;c_api_tests:Make"/>
+        <CallTarget Targets="roadrunner:Make;roadrunner-static:Make;cxx_api_tests:Make;rr:Make;rr_c_api:Make;rr_c:Make;c_api_tests:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

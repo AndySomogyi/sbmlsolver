@@ -5,11 +5,10 @@
 #include <sstream>
 #if defined(WIN32)
 #include <windows.h>
-
     #if defined(__CODEGEARC__)
-    #include <dir.h>
+    	#include <dir.h>
     #elif defined(_MSVC)
-    #include <direct.h>
+    	#include <direct.h>
     #endif
 #endif
 #include "rrLogger.h"
@@ -54,13 +53,18 @@ bool Compiler::setupCompiler(const string& supportCodeFolder)
     return true;
 }
 
+bool Compiler::setOutputPath(const string& path)
+{
+	mOutputPath = path;
+	return true;
+}
 
 string Compiler::getDLLName()
 {
     return mDLLFileName;
 }
 
-bool Compiler::CompileC_DLL(const string& sourceFileName)
+bool Compiler::compileSource(const string& sourceFileName)
 {
     //Compile the code and load the resulting dll, and call an exported function in it...
 #if defined(_WIN32) || defined(__CODEGEARC__)
@@ -71,15 +75,15 @@ bool Compiler::CompileC_DLL(const string& sourceFileName)
     mDLLFileName = JoinPath(ExtractFilePath(sourceFileName), dllFName);
 
     //Setup compiler environment
-    SetupCompilerEnvironment();
+    setupCompilerEnvironment();
 
-    string exeCmd = CreateCompilerCommand(sourceFileName);
+    string exeCmd = createCompilerCommand(sourceFileName);
 
     //exeCmd += " > compileLog.log";
     Log(lDebug2)<<"Compiling model..";
     Log(lDebug)<<"\nExecuting compile command: "<<exeCmd;
 
-    if(!Compile(exeCmd))
+    if(!compile(exeCmd))
     {
         Log(lError)<<"Creating DLL failed..";
         throw Exception("Creating Model DLL failed..");
@@ -89,7 +93,7 @@ bool Compiler::CompileC_DLL(const string& sourceFileName)
     return FileExists(mDLLFileName);
 }
 
-bool Compiler::SetCompiler(const string& compiler)
+bool Compiler::setCompiler(const string& compiler)
 {
 	mCompilerName = ExtractFileName(compiler);
 	mCompilerLocation = ExtractFilePath(compiler);
@@ -128,7 +132,7 @@ string	Compiler::getSupportCodeFolder()
 	return mSupportCodeFolder;
 }
 
-bool Compiler::SetupCompilerEnvironment()
+bool Compiler::setupCompilerEnvironment()
 {
     mIncludePaths.clear();
     mLibraryPaths.clear();
@@ -179,16 +183,12 @@ bool Compiler::SetupCompilerEnvironment()
             }
         }
     }
-    else if(mCompilerName == "bcc")
-    {
-
-    }
 
     mIncludePaths.push_back(mSupportCodeFolder);
     return true;
 }
 
-string Compiler::CreateCompilerCommand(const string& sourceFileName)
+string Compiler::createCompilerCommand(const string& sourceFileName)
 {
     stringstream exeCmd;
     if(ExtractFileNameNoExtension(mCompilerName) == "tcc" || ExtractFileNameNoExtension(mCompilerName) == "gcc")
@@ -218,19 +218,11 @@ string Compiler::CreateCompilerCommand(const string& sourceFileName)
             exeCmd<<" -L\""<<mLibraryPaths[i]<<"\" " ;
         }
     }
-    else if(mCompilerName == "bcc")
-    {
-        exeCmd<<"bcc32 -WD -DBUILD_MODEL_DLL ";
-        exeCmd<<" -e"<<mDLLFileName<<" -vu +r:\\rrInstalls\\xe\\rr_support\\bcc.cfg " \
-        <<sourceFileName \
-        <<" r:\\rrInstalls\\xe\\rr_support\\rrSupport.c";
-
-    }
     return exeCmd.str();
 }
 
 #ifdef WIN32
-bool Compiler::Compile(const string& cmdLine)
+bool Compiler::compile(const string& cmdLine)
 {
     STARTUPINFO         si;
     PROCESS_INFORMATION pi;
@@ -251,8 +243,8 @@ bool Compiler::Compile(const string& cmdLine)
     }
 
     //open the output file on the server's tmp folder (for that test will be on the C:/ root)
-    string tmpPath = ExtractFilePath(gLog.GetLogFileName());
-    string compilerTempFile(JoinPath(tmpPath,"compilerOutput.log"));
+    string compilerTempFile(JoinPath(mOutputPath, ExtractFileNameNoExtension(mDLLFileName)));
+    compilerTempFile.append(".log");
 
     HANDLE out;
   	//Todo: there is a problem creating the logfile after first time creation..

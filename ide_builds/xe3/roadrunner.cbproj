@@ -99,6 +99,7 @@
         <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(RR_DEBUG_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <BCC_PCHInject>..\..\source\rr_pch.h</BCC_PCHInject>
         <IncludePath>$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -120,13 +121,13 @@
             <DependentOn>..\..\source\rrArrayListItem.h</DependentOn>
             <BuildOrder>60</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\rrCapabilitiesSection.cpp">
-            <DependentOn>..\..\source\rrCapabilitiesSection.h</DependentOn>
-            <BuildOrder>69</BuildOrder>
+        <CppCompile Include="..\..\source\rrBaseParameter.cpp">
+            <DependentOn>..\..\source\rrBaseParameter.h</DependentOn>
+            <BuildOrder>70</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrCapability.cpp">
             <DependentOn>..\..\source\rrCapability.h</DependentOn>
-            <BuildOrder>70</BuildOrder>
+            <BuildOrder>69</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrCapsSupport.cpp">
             <BuildOrder>67</BuildOrder>
@@ -234,6 +235,10 @@
             <DependentOn>..\..\source\rrModelGenerator.h</DependentOn>
             <BuildOrder>63</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\rrModelSharedLibrary.cpp">
+            <DependentOn>..\..\source\rrModelSharedLibrary.h</DependentOn>
+            <BuildOrder>72</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrModelState.cpp">
             <DependentOn>..\..\source\rrModelState.h</DependentOn>
             <BuildOrder>30</BuildOrder>
@@ -262,6 +267,9 @@
             <DependentOn>..\..\source\rrObject.h</DependentOn>
             <BuildOrder>32</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\rrParameter.cpp">
+            <BuildOrder>70</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrParameterSet.cpp">
             <DependentOn>..\..\source\rrParameterSet.h</DependentOn>
             <BuildOrder>33</BuildOrder>
@@ -287,6 +295,9 @@
         <CppCompile Include="..\..\source\rrRoadRunner.cpp">
             <DependentOn>..\..\source\rrRoadRunner.h</DependentOn>
             <BuildOrder>67</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrRoadRunnerThread.cpp">
+            <BuildOrder>71</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrRule.cpp">
             <DependentOn>..\..\source\rrRule.h</DependentOn>
@@ -372,9 +383,6 @@
         <None Include="..\..\source\rr_pch.h">
             <BuildOrder>69</BuildOrder>
         </None>
-        <CppCompile Include="..\..\ThirdParty\pugi\src\pugixml.cpp">
-            <BuildOrder>71</BuildOrder>
-        </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

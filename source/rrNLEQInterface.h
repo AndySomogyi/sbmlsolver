@@ -9,7 +9,6 @@ using std::vector;
 namespace rr
 {
 
-
 void ModelFunction(int* nx, double* y, double* fval, int* pErr);
 
 class RR_DECLSPEC NLEQInterface : public ISteadyStateSolver
@@ -27,9 +26,9 @@ class RR_DECLSPEC NLEQInterface : public ISteadyStateSolver
         static long                     n;
 
     public:
-        bool                            IsAvailable();
-        static ModelFromC*              GetModel();
-        static long						GetN();
+        bool                            isAvailable();
+        static ModelFromC*              getModel();
+        static long						getN();
         int                             defaultMaxInterations;
         int                             maxIterations;
         double                          defaultTolerance;
@@ -40,24 +39,6 @@ class RR_DECLSPEC NLEQInterface : public ISteadyStateSolver
                                         /// </summary>
                                         /// <param name="model">the model to create NLEQ for</param>
                                         NLEQInterface(ModelFromC *_model = NULL);
-
-
-                                        //        [DllImport("NleqLib", EntryPoint = "NLEQ1")]
-                                        //        //         NLEQ is a FORTRAN routine, therefore everything must be a reference
-                                        //        static extern IntPtr NLEQ1(
-                                        //            ref int n,
-                                        //            TCallBackModelFcn fcn,
-                                        //            [In, Out] double[,] Jacobian,
-                                        //            [In, Out] double[] x,
-                                        //            [In, Out] double[] xscal,
-                                        //            ref double rtol,
-                                        //            [In, Out] int[] iopt,
-                                        //            ref int ierr,
-                                        //            ref int LIWK,
-                                        //            [In, Out] int[] IWK,
-                                        //            ref int LRWK,
-                                        //            [In, Out] double[] RWK);
-                                        //
 
                                         /// <summary>
                                         /// Sets the Scaling Factors
@@ -95,17 +76,15 @@ class RR_DECLSPEC NLEQInterface : public ISteadyStateSolver
                                         /// <returns>the Number of Model Evaluations For Jacobian</returns>
         int                             getNumberOfModelEvaluationsForJacobian();
 
-        bool                            Test(const string& fileName);
-
                                         /// <summary>
-                                        /// Thea actual solver rourine making the call to NLEQ1
+                                        /// Thea actual solver routine making the call to NLEQ1
                                         /// </summary>
                                         /// <param name="yin">Array of Model variables</param>
                                         /// <returns>sums of squares </returns>
         double                          solve(const vector<double>& yin);
-        double                          ComputeSumsOfSquares();
-    }; //class NLEQ interface
-}//namespace rr
+        double                          computeSumsOfSquares();
+    };
+}
 
 #endif
 

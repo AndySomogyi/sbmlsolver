@@ -46,10 +46,13 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Manifest_File>None</Manifest_File>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <Multithreaded>true</Multithreaded>
         <AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
-        <_TCHARMapping>wchar_t</_TCHARMapping>
+        <_TCHARMapping>char</_TCHARMapping>
         <ProjectType>CppVCLApplication</ProjectType>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
         <ILINK_LibraryPath>R:\rrl\plugins\TestUI\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
@@ -66,12 +69,10 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <PackageImports>VCLCommon;bindcompfmx;DBXSqliteDriver;vcldbx;fmx;rtl;dbrtl;DbxClientDriver;IndySystem;TeeDB;bindcomp;inetdb;vclib;inetdbbde;DBXInterBaseDriver;Tee;DataSnapCommon;xmlrtl;ibxpress;DbxCommonDriver;vclimg;IndyProtocols;dbxcds;DBXMySQLDriver;MetropolisUILiveTile;soaprtl;vclactnband;bindengine;vcldb;bindcompdbx;vcldsnap;bindcompvcl;FMXTee;TeeUI;vclie;vcltouch;bcbsmp;websnap;CustomIPTransport;dsnap;IndyIPServer;fmxase;vcl;IndyCore;IndyIPCommon;CloudService;dsnapcon;FmxTeeUI;inet;fmxobj;vclx;inetdbxpress;webdsnap;fmxdae;bdertl;DuneComponents;dbexpress;bcbie;adortl;IndyIPClient;$(PackageImports)</PackageImports>
-        <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <PackageImports>VCLCommon;bindcompfmx;DBXSqliteDriver;fmx;rtl;dbrtl;DbxClientDriver;IndySystem;bindcomp;inetdb;DBXInterBaseDriver;DataSnapCommon;xmlrtl;DbxCommonDriver;vclimg;IndyProtocols;dbxcds;DBXMySQLDriver;soaprtl;vclactnband;bindengine;vcldb;bindcompdbx;vcldsnap;bindcompvcl;vclie;vcltouch;websnap;CustomIPTransport;dsnap;IndyIPServer;fmxase;vcl;IndyCore;IndyIPCommon;dsnapcon;inet;fmxobj;vclx;inetdbxpress;webdsnap;fmxdae;dbexpress;IndyIPClient;$(PackageImports)</PackageImports>
@@ -101,10 +102,10 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <ILINK_LibraryPath>$(RR_DEBUG_INSTALL)/lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <IncludePath>$(RR_DEBUG_INSTALL)/include/c_api;$(RR_DEBUG_INSTALL)/include/rr;$(IncludePath)</IncludePath>
+        <IncludePath>$(RR_ROOT)\source;$(RR_ROOT)\Wrappers\C;$(IncludePath)</IncludePath>
         <FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
         <LinkPackageImports>rtl.bpi;vcl.bpi</LinkPackageImports>
     </PropertyGroup>
@@ -122,12 +123,20 @@
             <DependentOn>Main.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
+        <CppCompile Include="memoLogger.cpp">
+            <DependentOn>memoLogger.h</DependentOn>
+            <BuildOrder>4</BuildOrder>
+        </CppCompile>
         <CppCompile Include="PluginApp.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
         <PCHCompile Include="PluginAppPCH1.h">
             <BuildOrder>1</BuildOrder>
         </PCHCompile>
+        <CppCompile Include="utils.cpp">
+            <DependentOn>utils.h</DependentOn>
+            <BuildOrder>3</BuildOrder>
+        </CppCompile>
         <FormResources Include="Main.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

@@ -4,6 +4,7 @@
 #pragma hdrstop
 #include <string>
 #include <sstream>
+#include "rrParameter.h"
 #include "rrException.h"
 #include "rr_c_api.h"
 #include "rr_c_api_support.h"
@@ -247,6 +248,21 @@ RRList* createList(const rr::NewArrayList& aList)
     return theList;
 }
 
+RRParameter* createParameter(const rr::BaseParameter& para)
+{
+    if(para.getType() == "integer")
+    {
+    	Parameter<int> *thePara = dynamic_cast< Parameter<int>* >(const_cast< BaseParameter* >(&para));
+
+	    RRParameter* aPara 	= new RRParameter;
+        aPara->ParaType 	= ptInteger;
+        aPara->data.iValue 	= thePara->getValue();
+        aPara->mName		= createText(thePara->getName());
+        aPara->mHint		= createText(thePara->getHint());
+        return aPara;
+    }
+	return NULL;
+}
 
 }
 

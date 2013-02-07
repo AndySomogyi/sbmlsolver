@@ -64,7 +64,7 @@ gCompiler = "gcc";
     if(doLogging)
     {
     	string logFile = JoinPath(gTempFolder, "RoadRunner.log");
-        gLog.Init("", lDebug5, unique_ptr<LogFile>(new LogFile(logFile)));
+        gLog.Init("", lDebug5);//, unique_ptr<LogFile>(new LogFile(logFile)));
         LogOutput::mLogToConsole = true;
     }
 

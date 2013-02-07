@@ -147,6 +147,8 @@ UTF16Encoding
 Windows1252Encoding
 TextEncoding
 Environment
+UUID
+UUIDGenerator
 )
 
 if(${BORLAND})

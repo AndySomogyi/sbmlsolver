@@ -167,9 +167,9 @@ string CSharpGenerator::generateModelCode(const string& sbmlStr, const bool& com
     return sb.ToString();
 }
 
-bool CSharpGenerator::SaveSourceCodeToFolder(const string& folder)
+bool CSharpGenerator::SaveSourceCodeToFolder(const string& folder, const string& codeBaseName)
 {
-    mSourceCodeFileName = folder + string("\\") + ExtractFileName(mCurrentXMLModelFileName);
+    mSourceCodeFileName = folder + string("\\") + ExtractFileName(codeBaseName);
     mSourceCodeFileName = ChangeFileExtensionTo(mSourceCodeFileName, ".cs");
 
     ofstream outFile;

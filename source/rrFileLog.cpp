@@ -15,7 +15,7 @@ int FileLog::mNrOfInstances = 0;
 
 FileLog::FileLog()
 :
-mLogFile(unique_ptr<LogFile>(new LogFile("Log.txt"))),
+//mLogFile(unique_ptr<LogFile>(new LogFile("Log.txt"))),
 mLogPrefix("none"),
 mLogLevel(lInfo),
 mLogToServer(false)
@@ -41,11 +41,11 @@ FILE* FileLog::GetLogFileHandle()
 
 
 //        gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));
-bool FileLog::Init(const string& logPrefix, const LogLevel& level, unique_ptr<LogFile> logFile)
+bool FileLog::Init(const string& logPrefix, const LogLevel& level)//, unique_ptr<LogFile> logFile)
 {
     mLogPrefix = logPrefix;
     mLogLevel = level;
-    mLogFile = move(logFile);
+//    mLogFile = move(logFile);
     return mLogFile.get() ? true : false;
 }
 

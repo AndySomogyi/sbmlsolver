@@ -3,7 +3,16 @@
         <ProjectGuid>{E787F67D-E107-46B6-B6BD-3DA7276AC4FE}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
+        <Projects Include="..\..\ide_builds\xe3\roadrunner.cbproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="..\..\ide_builds\xe3\rr_c_api.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\test_plugin\TestPlugin.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\fit_one_parameter\fit_one_parameter.cbproj">
             <Dependencies/>
         </Projects>
         <Projects Include="PluginApp.cbproj">
@@ -17,6 +26,15 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
+    <Target Name="roadrunner">
+        <MSBuild Projects="..\..\ide_builds\xe3\roadrunner.cbproj"/>
+    </Target>
+    <Target Name="roadrunner:Clean">
+        <MSBuild Projects="..\..\ide_builds\xe3\roadrunner.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="roadrunner:Make">
+        <MSBuild Projects="..\..\ide_builds\xe3\roadrunner.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="rr_c_api">
         <MSBuild Projects="..\..\ide_builds\xe3\rr_c_api.cbproj"/>
     </Target>
@@ -25,6 +43,24 @@
     </Target>
     <Target Name="rr_c_api:Make">
         <MSBuild Projects="..\..\ide_builds\xe3\rr_c_api.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="TestPlugin">
+        <MSBuild Projects="..\test_plugin\TestPlugin.cbproj"/>
+    </Target>
+    <Target Name="TestPlugin:Clean">
+        <MSBuild Projects="..\test_plugin\TestPlugin.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TestPlugin:Make">
+        <MSBuild Projects="..\test_plugin\TestPlugin.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="fit_one_parameter">
+        <MSBuild Projects="..\fit_one_parameter\fit_one_parameter.cbproj"/>
+    </Target>
+    <Target Name="fit_one_parameter:Clean">
+        <MSBuild Projects="..\fit_one_parameter\fit_one_parameter.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="fit_one_parameter:Make">
+        <MSBuild Projects="..\fit_one_parameter\fit_one_parameter.cbproj" Targets="Make"/>
     </Target>
     <Target Name="PluginApp">
         <MSBuild Projects="PluginApp.cbproj"/>
@@ -36,13 +72,13 @@
         <MSBuild Projects="PluginApp.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="rr_c_api;PluginApp"/>
+        <CallTarget Targets="roadrunner;rr_c_api;TestPlugin;fit_one_parameter;PluginApp"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="rr_c_api:Clean;PluginApp:Clean"/>
+        <CallTarget Targets="roadrunner:Clean;rr_c_api:Clean;TestPlugin:Clean;fit_one_parameter:Clean;PluginApp:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="rr_c_api:Make;PluginApp:Make"/>
+        <CallTarget Targets="roadrunner:Make;rr_c_api:Make;TestPlugin:Make;fit_one_parameter:Make;PluginApp:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

@@ -21,12 +21,12 @@ string ErrorForStatus(const int& error);
 ModelFromC* NLEQInterface::model = NULL;     // Model generated from the SBML
 long		NLEQInterface::n	 = 0;
 
-long  NLEQInterface::GetN()
+long  NLEQInterface::getN()
 {
 	return NLEQInterface::n;
 }
 
-ModelFromC* NLEQInterface::GetModel()
+ModelFromC* NLEQInterface::getModel()
 {
     return NLEQInterface::model;
 }
@@ -80,7 +80,7 @@ relativeTolerance(defaultTolerance)
     RWK[22 - 1] = 1E-16; // Minimal allowed damping factor
 }
 
-bool NLEQInterface::IsAvailable()
+bool NLEQInterface::isAvailable()
 {
     NLEQInterface *temp= new NLEQInterface(NULL);
     if(temp)
@@ -169,7 +169,6 @@ double NLEQInterface::solve(const vector<double>& yin)
                 // If we get the same error then give up
     }
 
-
     if(ierr > 0 )
     {
     	string err = ErrorForStatus(ierr);
@@ -177,12 +176,12 @@ double NLEQInterface::solve(const vector<double>& yin)
         throw NLEQException(err);
     }
 
-    return ComputeSumsOfSquares();
+    return computeSumsOfSquares();
 }
 
 void ModelFunction(int* nx, double* y, double* fval, int* pErr)
 {
-    ModelFromC* model = NLEQInterface::GetModel();
+    ModelFromC* model = NLEQInterface::getModel();
     if (model == NULL)
     {
         return;
@@ -190,7 +189,7 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
 
     try
     {
-    	long n = NLEQInterface::GetN();
+    	long n = NLEQInterface::getN();
 		for(long i = 0; i < n; i++)
         {
         	model->amounts[i] = y[i];
@@ -335,28 +334,6 @@ int NLEQInterface::getNumberOfModelEvaluationsForJacobian()
     return IWK[7];
 }
 
-bool NLEQInterface::Test(const string& fileName)
-{
-//    RoadRunner *rr = new RoadRunner();
-//    if(!rr)
-//    {
-//        Log(lError)<<"Failed to create a RoadRunner object in NLEQInterface::Test function";
-//        return false;
-//    }
-//
-//    if(rr->loadSBMLFromFile(fileName))
-//    {
-//        Log(lDebug)<<"Steady State Test:"<< rr->steadyState();
-//        return true;
-//    }
-//    else
-//    {
-//        Log(lDebug)<<"Failed loading SBMLin NLEQInterface::Test:";
-//        return false;
-//    }
-	return false;
-}
-
 string ErrorForStatus(const int& error)
 {
         switch (error)
@@ -379,7 +356,7 @@ string ErrorForStatus(const int& error)
         }   
 }
 
-double NLEQInterface::ComputeSumsOfSquares()
+double NLEQInterface::computeSumsOfSquares()
 {
     // Compute the sums of squares and return value to caller
     vector<double> dTemp;// = new double[model->amounts.Length + model->rateRules.Length];

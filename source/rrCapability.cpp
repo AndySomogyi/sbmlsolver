@@ -3,88 +3,105 @@
 #endif
 #pragma hdrstop
 #include <sstream>
+#include "rrParameter.h"
 #include "rrCapability.h"
 //---------------------------------------------------------------------------
 
 namespace rr
 {
 
-Capability::Capability(const string& name, const string& hint)
+Capability::Capability(const string& name, const string& method, const string& description)
 :
 mName(name),
-mHint(hint)
+mMethod(method),
+mDescription(description)
 {}
 
-Capability::~Capability()
+Capability::Capability(const Capability& from)
+:
+mName(from.mName),
+mMethod(from.mMethod),
+mDescription(from.mDescription),
+mParameters(from.mParameters)
 {}
 
-string Capability::GetName() const
+void Capability::setup(const string& name, const string& method, const string& descr)
+{
+    mName = name;
+    mMethod = method;
+    mDescription = descr;
+}
+
+Parameters Capability::getParameters() const
+{
+	return mParameters;
+}
+
+const rr::BaseParameter& Capability::operator[](const int& i) const
+{
+    return *(mParameters[i]);
+}
+
+string Capability::getName() const
 {
     return mName;
 }
 
-string Capability::GetHint() const
+string Capability::getDescription() const
 {
-    return mHint;
+    return mDescription;
 }
 
-string Capability::GetValue() const
+string Capability::getMethod() const
 {
-    return GetValueAsString();
+    return mMethod;
 }
 
-string Capability::AsString() const
+u_int Capability::nrOfParameters() const
 {
-    stringstream val;
-
-    val<<"Name: "<<mName<<endl;
-    val<<"Value: "<<GetValueAsString()<<endl;
-    val<<"HInt: "<<mHint<<endl;
-    val<<"Type: "<<GetType()<<endl;
-    return val.str();
+    return mParameters.size();
 }
 
-string Capability::GetType() const
+void Capability::add(rr::BaseParameter* me)
 {
-    string val("no info");
+    mParameters.push_back(me);
+}
 
-    //Downcasts
-    Capability* ptr = const_cast<Capability*>(this);
+string Capability::asString()  const
+{
+    stringstream caps;
+    caps<<"Section: " << mName <<endl;
+    caps<<"Method: " << mMethod<<endl;
+    caps<<"Description: " << mDescription<<endl;
 
-    if(dynamic_cast< CapabilityType<int>* >(ptr))
+    for(int i = 0; i < nrOfParameters(); i++)
     {
-        return "integer";
+        caps <<*(mParameters[i])<<endl;
     }
+    return caps.str();
+}
 
-    if(dynamic_cast< CapabilityType<double>* >(ptr))
+
+BaseParameter* Capability::getParameter(const string& paraName)
+{
+	for(int i = 0; i < mParameters.size(); i++)
     {
-        return "double";
+		if(mParameters[i] && mParameters[i]->mName == paraName)
+        {
+        	return mParameters[i];
+        }
     }
+	return NULL;
+}
 
-    if(dynamic_cast< CapabilityType<bool>* >(ptr))
+ostream& operator <<(ostream& os, const Capability& caps)
+{
+	os<<"Capabilities for "<<caps.mName<<"\n";
+
+	for(int i = 0; i < caps.nrOfParameters(); i++)
     {
-        return "boolean";
+    	os<< *(caps.mParameters[i]);
     }
-
-    return val;
+	return os;
 }
-
-ostream&  operator<<(ostream& stream, const Capability& outMe)
-{
-    stream<<outMe.AsString();   //virtual friend idiom
-    return stream;
-}
-
-template<>
-string CapabilityType<double>::GetValueAsString() const
-{
-    return ToString(mValue, "%G");
-}
-
-template<>
-string CapabilityType<int>::GetValueAsString() const
-{
-    return ToString(mValue);
-}
-
 }
