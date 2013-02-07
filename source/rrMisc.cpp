@@ -8,7 +8,7 @@
 namespace rr
 {
 
-TSelectionRecord::TSelectionRecord(const int& _index, const TSelectionType _type, const string& _p1, const string _p2)
+TSelectionRecord::TSelectionRecord(const int& _index, const TSelectionType _type, const string& _p1, const string& _p2)
 :
 index(_index),
 p1(_p1),

@@ -27,7 +27,7 @@ class RR_DECLSPEC Compiler : public rrObject
         string						mOutputPath;
 
     public:
-                                    Compiler(const string& supportCodeFolder, const string& compiler="tcc");
+                                    Compiler(const string& supportCodeFolder, const string& compiler=gDefaultCompiler);
                                    ~Compiler();
         bool                        setCompiler(const string& compiler);
 		bool						setupCompiler(const string& supportCodeFolder);

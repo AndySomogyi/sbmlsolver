@@ -10,13 +10,13 @@ namespace rr
 {
 
 template<>
-string Parameter<double>::getValueAsString() const
+string rr::Parameter<double>::getValueAsString() const
 {
     return ToString(mValue, "%G");
 }
 
 template<>
-string Parameter<int>::getValueAsString() const
+string rr::Parameter<int>::getValueAsString() const
 {
     return ToString(mValue);
 }

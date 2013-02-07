@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{6895B783-1B55-4D91-896E-2C6097E13D5F}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\..\ide_builds\xe3\roadrunner.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="rr_threaded.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\many_threads\many_threads.cbproj">
+            <Dependencies>..\..\ide_builds\xe3\roadrunner.cbproj</Dependencies>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="roadrunner">
+        <MSBuild Projects="..\..\ide_builds\xe3\roadrunner.cbproj"/>
+    </Target>
+    <Target Name="roadrunner:Clean">
+        <MSBuild Projects="..\..\ide_builds\xe3\roadrunner.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="roadrunner:Make">
+        <MSBuild Projects="..\..\ide_builds\xe3\roadrunner.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="rr_threaded">
+        <MSBuild Projects="rr_threaded.cbproj"/>
+    </Target>
+    <Target Name="rr_threaded:Clean">
+        <MSBuild Projects="rr_threaded.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="rr_threaded:Make">
+        <MSBuild Projects="rr_threaded.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="many_threads" DependsOnTargets="roadrunner">
+        <MSBuild Projects="..\many_threads\many_threads.cbproj"/>
+    </Target>
+    <Target Name="many_threads:Clean" DependsOnTargets="roadrunner:Clean">
+        <MSBuild Projects="..\many_threads\many_threads.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="many_threads:Make" DependsOnTargets="roadrunner:Make">
+        <MSBuild Projects="..\many_threads\many_threads.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="roadrunner;rr_threaded;many_threads"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="roadrunner:Clean;rr_threaded:Clean;many_threads:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="roadrunner:Make;rr_threaded:Make;many_threads:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
