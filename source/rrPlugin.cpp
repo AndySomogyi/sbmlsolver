@@ -41,8 +41,8 @@ bool Plugin::setParameter(const string& nameOf, void* value, Capability& capabil
         if(dynamic_cast< Parameter<int>* >(aParameter))
         {
 	        Parameter<int> *aIntPar = dynamic_cast< Parameter<int>* >(aParameter);
-            int aVal = reinterpret_cast<int>(value);
-        	aIntPar->setValue( aVal);
+            int *aVal = reinterpret_cast<int*>(value);
+        	aIntPar->setValue( *aVal);
             return true;
         }
     }
