@@ -37,7 +37,7 @@ RoadRunner::RoadRunner(const string& supportCodeFolder, const string& compiler, 
 	mModelFolder("models"),
     STEADYSTATE_THRESHOLD(1.E-2),
 	mSupportCodeFolder(supportCodeFolder),
-    mModelXMLFileName("sbml_model"),
+//    mModelXMLFileName("sbml_model"),
     mSimulation(NULL),
     mCVode(NULL),
     steadyStateSolver(NULL),
@@ -567,7 +567,7 @@ bool RoadRunner::simulateSBMLFile(const string& fileName, const bool& useConserv
 {
     computeAndAssignConservationLaws(useConservationLaws);
 
-    mModelXMLFileName = fileName;
+    string mModelXMLFileName = fileName;
     ifstream fs(mModelXMLFileName.c_str());
     if(!fs)
     {
@@ -605,7 +605,7 @@ bool RoadRunner::loadSBMLFromFile(const string& fileName)
     Log(lDebug5)<<"Read SBML content from file:\n "<<sbml \
                 << "\n============ End of SBML "<<endl;
 
-    mModelXMLFileName = fileName;
+//    mModelXMLFileName = fileName;
     return loadSBML(sbml);
 }
 
@@ -635,19 +635,21 @@ bool RoadRunner::loadSBML(const string& sbml)
     }
 
     mCurrentSBML 	= sbml;
-    string dllName  = getDLLName();
+//    string dllName  = getDLLName();
 
      //Shall we compile model if it exists?
-    bool compileIfDllExists = mSimulation ? mSimulation->CompileIfDllExists() : true;
-    bool dllExists = FileExists(dllName);
+//    bool compileIfDllExists = mSimulation ? mSimulation->CompileIfDllExists() : true;
+//    bool dllExists = FileExists(dllName);
     bool compile = true;
-    if(dllExists && compileIfDllExists == false)
-    {
-        compile = false;
-    }
+//    if(dllExists && compileIfDllExists == false)
+//    {
+//        compile = false;
+//    }
 
     if(compile)
     {
+	    mModelDLL.setPath(getTempFileFolder());
+	    mModelDLL.createName();	//Creates a new name
         if(!generateModelCode(""))
         {
             Log(lError)<<"Failed generating model from SBML";
@@ -713,32 +715,11 @@ bool RoadRunner::loadSimulationSettings(const string& fName)
     return true;
 }
 
-
-string RoadRunner::getDLLName()
-{
-    string tempFileFolder;
-    if(mSimulation)
-    {
-    	tempFileFolder =  mSimulation->GetTempDataFolder();
-    }
-    else
-    {
-        tempFileFolder = mTempFileFolder;
-    }
-
-#if defined(_WIN32) || defined(__CODEGEARC__)
-    string dllName  = JoinPath(tempFileFolder, ChangeFileExtensionTo(ExtractFileName(mModelXMLFileName), "dll"));
-#else
-	string dllName  = JoinPath(tempFileFolder, "lib" + ChangeFileExtensionTo(ExtractFileName(mModelXMLFileName), "so"));
-#endif
-    return dllName;
-}
-
 bool RoadRunner::generateModelCode(const string& sbml)
 {
     if(sbml.size())
     {
-        mCurrentSBML = sbml; //This should be used in stead of the file name below..
+        mCurrentSBML = sbml;
     }
 
     mModelCode = mModelGenerator->generateModelCode(mCurrentSBML, computeAndAssignConservationLaws());
@@ -759,7 +740,7 @@ bool RoadRunner::generateModelCode(const string& sbml)
         tempFileFolder = mTempFileFolder;
     }
 
-    if(!mModelGenerator->SaveSourceCodeToFolder(tempFileFolder, getDLLName()))
+    if(!mModelGenerator->SaveSourceCodeToFolder(tempFileFolder, mModelDLL.getName()))
     {
         Log(lError)<<"Failed saving generated source code";
     }
@@ -787,7 +768,7 @@ bool RoadRunner::compileCurrentModel()
         return false;
     }
     Log(lDebug)<<"Model compiled successfully. ";
-    Log(lDebug)<<mCompiler.getDLLName()<<" was created";
+    Log(lDebug)<<mModelDLL.getFullFileName()<<" was created";
     return true;
 }
 
@@ -817,14 +798,14 @@ bool RoadRunner::compileModel()
     //Make sure the dll is unloaded
     unLoadModelDLL();
 
-    string dllName  = getDLLName();
+//    string dllName  = getDLLName();
 
     //Remove DLL
-    if(FileExists(dllName) == true && remove(dllName.c_str()) != 0)
-    {
-        Log(lError)<<"Failed removing dll: "<<dllName;
-        return false;
-    }
+//    if(FileExists(dllName) == true && remove(dllName.c_str()) != 0)
+//    {
+//        Log(lError)<<"Failed removing dll: "<<dllName;
+//        return false;
+//    }
 
     if(!compileCurrentModel())
     {
@@ -835,15 +816,12 @@ bool RoadRunner::compileModel()
     //Load the DLL
     try
     {
-    	//string sharedLib = JoinPath(ExtractFilePath(dllName), ExtractFileNameNoExtension(dllName));
-        //string sharedLib = "/home/sagrada/myhome/develop/rr/install/unified/bin/libsbml_model.so";
-		//sharedLib = JoinPath(mTempFileFolder, sharedLib);
-		Log(lDebug)<<"Trying to load shared lib: "<<dllName;
-    	mModelDLL.load(dllName);
+		Log(lDebug)<<"Trying to load shared lib: "<<mModelDLL.getFullFileName();
+    	mModelDLL.load();
     }
     catch(const exception& ex)
     {
-		Log(lError)<<"There was a problem loading the shared library: "<<dllName;
+		Log(lError)<<"There was a problem loading the shared library: "<<mModelDLL.getFullFileName();
 		Log(lError)<<"More Info: "<<ex.what();
         return false;
     }
@@ -873,8 +851,8 @@ ModelFromC* RoadRunner::createModel()
     if(mModelDLL.isLoaded())
     {
         CGenerator *codeGen = dynamic_cast<CGenerator*>(mModelGenerator);
-        ModelFromC *rrCModel = new ModelFromC(codeGen, mModelDLL);     //Todo: memoryleak
-        mModel = rrCModel;            //Should use an auto pointer?
+        ModelFromC *rrCModel = new ModelFromC(codeGen, mModelDLL);
+        mModel = rrCModel;
     }
     else
     {

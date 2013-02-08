@@ -45,7 +45,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
         DoubleMatrix                    mRawSimulationData;
 		SimulationData                  mSimulationData;
 	    string 							mSupportCodeFolder;		//The compiler needs this in order to compile models
-		string                          mModelXMLFileName;
+//		string                          mModelXMLFileName;
 		string                          mModelCode;
 		static string                   mTempFileFolder;
 		SBMLModelSimulation            *mSimulation;
@@ -70,7 +70,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		vector<TSelectionRecord>        mSteadyStateSelection;
 		vector<TSelectionRecord>        getSteadyStateSelection(const StringList& newSelectionList);
 		StringList                      getParameterIds();
-		string                          getDLLName();
+//		string                          getDLLName();
 		SimulationSettings              mSettings;
 		NOMSupport						mNOM;
 		PluginManager					mPluginManager;
@@ -90,7 +90,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
 		bool                     		mConservedTotalChanged;
 
-        //SharedLibrary			  		mModelDLL;
 		ModelSharedLibrary	  	  		mModelDLL;
 		string                          mCurrentSBML;
 		ModelFromC*                     mModel;

@@ -51,8 +51,11 @@ int main(int argc, char* argv[])
 	gTestDataFolder     = JoinPath(gRRInstallFolder, "tests");
 
 	setInstallFolder(gRRInstallFolder.c_str());
+
     //We need a rr handle to enable initial logging...
     gRR = getRRInstance();
+    setTempFolder(gTempFolder.c_str());
+
 
     if(gDebug && gRR)
     {

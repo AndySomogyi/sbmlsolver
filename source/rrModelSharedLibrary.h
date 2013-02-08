@@ -7,21 +7,30 @@
 namespace rr
 {
 
-class RR_DECLSPEC ModelSharedLibrary : public Poco::SharedLibrary, public rrObject
+using Poco::SharedLibrary;
+
+class RR_DECLSPEC ModelSharedLibrary : public rrObject
 {
 	protected:
-//		string 							mSharedLibFileName;
-//		string							mPathToLib;
+		string 							mLibName;
+		string							mPathToLib;
+		SharedLibrary					mTheLib;
 
     public:
-//										ModelSharedLibrary(const string& pathToLib = EmptyString);
-//		bool							setPath(const string& pathTo);
-//                                       ~ModelSharedLibrary();
-//		string							getFileName();
-//		string							getFullFileName();
-//
-//        bool							load();
-//    	string							createName();
+										ModelSharedLibrary(const string& pathToLib = EmptyString);
+		bool							setPath(const string& pathTo);
+                                       ~ModelSharedLibrary();
+    	string							createName();
+		string							getName();
+		string							getFullFileName();
+
+        bool							load();
+        bool							load(const string& name);
+        bool							unload();
+		bool							isLoaded();
+        void*							getSymbol(const string& name);
+        bool							hasSymbol(const string& name);
+
 
 };
 }

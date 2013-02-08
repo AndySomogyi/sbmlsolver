@@ -60,10 +60,10 @@ bool Compiler::setOutputPath(const string& path)
 	return true;
 }
 
-string Compiler::getDLLName()
-{
-    return mDLLFileName;
-}
+//string Compiler::getDLLName()
+//{
+//    return mDLLFileName;
+//}
 
 bool Compiler::compileSource(const string& sourceFileName)
 {
