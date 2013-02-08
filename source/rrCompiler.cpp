@@ -71,7 +71,7 @@ bool Compiler::compileSource(const string& sourceFileName)
 #if defined(_WIN32) || defined(__CODEGEARC__)
     string dllFName(ChangeFileExtensionTo(ExtractFileName(sourceFileName), "dll"));
 #else
-    string dllFName(string("lib") + ChangeFileExtensionTo(ExtractFileName(sourceFileName), "so"));
+    string dllFName(ChangeFileExtensionTo(ExtractFileName(sourceFileName), "so"));
 #endif
     mDLLFileName = JoinPath(ExtractFilePath(sourceFileName), dllFName);
 
@@ -327,8 +327,7 @@ bool Compiler::compile(const string& cmdLine)
 {
     string toFile(cmdLine);
     toFile += " 2>&1 >> ";
-    string tmpFolder = rr::RoadRunner::getTempFileFolder();
-    toFile += JoinPath(rr::RoadRunner::getTempFileFolder(), "compilation.log");
+    toFile += JoinPath(mOutputPath, "compilation.log");
     Log(lInfo)<<"Compiler command: "<<toFile;
     int val = system(toFile.c_str());
     if(val ==0)
