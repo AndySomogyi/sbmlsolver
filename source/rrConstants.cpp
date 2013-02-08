@@ -25,8 +25,8 @@ const string		gExeSuffix	= "";
 #endif
 
 
-
-const string		DefaultCompiler = "tcc";
+const string		gDefaultSupportCodeFolder = "..\\rr_support";
+const string		gDefaultCompiler = "..\\compilers\\tcc\\tcc.exe";
 const char 	 		tab 			= '\t';
 const double    	DoubleNaN   = std::numeric_limits<double>::quiet_NaN() ;
 const float     	FloatNaN    = std::numeric_limits<float>::quiet_NaN() ;

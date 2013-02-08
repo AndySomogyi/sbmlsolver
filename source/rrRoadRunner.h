@@ -6,7 +6,7 @@
 #endif
 
 #include <string>
-#include "Poco/SharedLibrary.h"
+
 #include "rr-libstruct/lsMatrix.h"
 #include "rr-libstruct/lsLibStructural.h"
 
@@ -109,8 +109,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		CSharpGenerator*				getCSharpGenerator();
 
 		//Functions --------------------------------------------------------------------
-
-										RoadRunner(const string& supportCodeFolder = EmptyString, const string& compiler = DefaultCompiler, const string& tempFolder = EmptyString);
+ 										RoadRunner(const string& supportCodeFolder = gDefaultSupportCodeFolder, const string& compiler = gDefaultCompiler, const string& tempFolder = EmptyString);
 		virtual                        ~RoadRunner();
         bool                            isModelLoaded();
         bool                            setCompiler(const string& compiler);
