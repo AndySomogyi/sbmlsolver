@@ -144,8 +144,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
 		DoubleMatrix                    simulate();
 		bool                            simulate2();
-		bool                            simulateSBMLFile(const string& fileName, const bool& useConservationLaws = true);
-		bool                            simulateSBMLFile(const string& fileName, const bool& useConservationLaws, const double& startTime, const double& endTime, const int& numPoints);
+
+		bool                            simulateSBMLFile(const string& fileName, const bool& useConservationLaws);
 
 		bool                            loadSBMLFromFile(const string& fileName);
 		bool                            loadSBML(const string& sbml);
@@ -165,8 +165,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		StringList                      getSpeciesIds();
 		StringList                      getReactionIds();
 
-
-		// ---------------------------------------------------------------------
+ 		// ---------------------------------------------------------------------
 		// Start of Level 2 API Methods
 		// ---------------------------------------------------------------------
 		bool                            UseKinsol;
@@ -205,8 +204,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		DoubleMatrix                    getStoichiometryMatrix();
 		DoubleMatrix                    getReorderedStoichiometryMatrix();
 		DoubleMatrix                    getFullyReorderedStoichiometryMatrix();
-
-		DoubleMatrix                    getConservationMatrix();
+ 		DoubleMatrix                    getConservationMatrix();
 		DoubleMatrix                    getUnscaledConcentrationControlCoefficientMatrix();
 		DoubleMatrix                    getScaledConcentrationControlCoefficientMatrix();
         DoubleMatrix                    getUnscaledFluxControlCoefficientMatrix();
@@ -383,6 +381,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
         double getScaledFluxControlCoefficient(const string& reactionName, const string& parameterName);
         //-------------- End of MCA functions
 };
+
 }
 
 #endif
