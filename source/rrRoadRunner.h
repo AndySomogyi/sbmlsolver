@@ -1,12 +1,7 @@
 #ifndef rrRoadRunnerH
 #define rrRoadRunnerH
 
-#if defined(WIN32)
-#include <windows.h>
-#endif
-
 #include <string>
-
 #include "rr-libstruct/lsMatrix.h"
 #include "rr-libstruct/lsLibStructural.h"
 
@@ -95,7 +90,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
 		bool                     		mConservedTotalChanged;
 
-        SharedLibrary			  		mModelDLL;
+        //SharedLibrary			  		mModelDLL;
+		ModelSharedLibrary	  	  		mModelDLL;
 		string                          mCurrentSBML;
 		ModelFromC*                     mModel;
 		ModelFromC*						GetModel();
