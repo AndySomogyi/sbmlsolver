@@ -17,7 +17,6 @@ set(rrSources
 rrBaseParameter
 rrCapability
 rrParameter
-rrCapabilitiesSection
 rrConstants
 rrArrayList2
 rrArrayListItem

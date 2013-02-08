@@ -84,17 +84,12 @@ const string getCurrentExeFolder()
     return "";
 #else
         char arg1[20];
-        char exePath[PATH_MAX] = {0};
+        char exepath[PATH_MAX + 1] = {0};
 
         sprintf( arg1, "/proc/%d/exe", getpid() );
-        int charCnt = readlink( arg1, exePath, sizeof(exePath) -1 );
-		if(charCnt != -1)
-		{
-			exePath[charCnt] = '\0';
-		}
-
-		string thePath = ExtractFilePath(exePath); 
-		Log(lDebug1)<<"Current exe folder is:"<<thePath;
+        readlink( arg1, exepath, 1024 );
+		string thePath = ExtractFilePath(exepath); 
+		Log(lDebug1)<<"Current exe folder says:"<<thePath;
         return thePath;
 #endif
 
