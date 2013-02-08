@@ -14,7 +14,9 @@ ${THIRD_PARTY_INSTALL_FOLDER}/include/cvode
 )
 
 set(rrSources 
+rrBaseParameter
 rrCapability
+rrParameter
 rrCapabilitiesSection
 rrConstants
 rrArrayList2
