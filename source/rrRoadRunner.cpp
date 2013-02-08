@@ -741,18 +741,6 @@ bool RoadRunner::generateModelCode(const string& sbml)
         mCurrentSBML = sbml; //This should be used in stead of the file name below..
     }
 
-    mModelGenerator->SetXMLModelFileName(mModelXMLFileName);
-
-    string srcCodeFolder;
-    if(mSimulation)
-    {
-        srcCodeFolder = mSimulation->GetTempDataFolder();
-    }
-    else
-    {
-        srcCodeFolder = mTempFileFolder;
-    }
-
     mModelCode = mModelGenerator->generateModelCode(mCurrentSBML, computeAndAssignConservationLaws());
 
     if(!mModelCode.size())
@@ -761,7 +749,17 @@ bool RoadRunner::generateModelCode(const string& sbml)
         return false;
     }
 
-    if(!mModelGenerator->SaveSourceCodeToFolder(srcCodeFolder))
+    string tempFileFolder;
+    if(mSimulation)
+    {
+        tempFileFolder = mSimulation->GetTempDataFolder();
+    }
+    else
+    {
+        tempFileFolder = mTempFileFolder;
+    }
+
+    if(!mModelGenerator->SaveSourceCodeToFolder(tempFileFolder, getDLLName()))
     {
         Log(lError)<<"Failed saving generated source code";
     }

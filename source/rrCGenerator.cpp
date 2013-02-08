@@ -2713,9 +2713,9 @@ void CGenerator::WriteInitFunction(CodeBuilder& ignore, CodeBuilder& source)
     source<<"}"                                         <<endl;
 }
 
-bool CGenerator::SaveSourceCodeToFolder(const string& folder)
+bool CGenerator::SaveSourceCodeToFolder(const string& folder, const string& baseName)
 {
-    string fName = ExtractFileName(mCurrentXMLModelFileName);
+    string fName 		= ExtractFileName(baseName);
     mHeaderCodeFileName = JoinPath(folder, fName);
     mHeaderCodeFileName = ChangeFileExtensionTo(mHeaderCodeFileName, ".h");
 
