@@ -38,7 +38,7 @@ class RR_DECLSPEC FileLog : public rrObject
         void                    SetLogPrefix(const string& prefix);
         LogLevel                GetLogLevel();
         void                    SetCutOffLogLevel(const LogLevel& lvl);
-        bool                    Init(const string& logPrefix = "none", const LogLevel& level = lDebug5);//, unique_ptr<LogFile> logFile = NULL);//unique_ptr<LogFile>());
+        bool                    Init(const string& logPrefix = "none", const LogLevel& level = lDebug5, unique_ptr<LogFile> logFile = unique_ptr<LogFile>());
         void                    write(const char* str);
         bool                    mLogToServer;
         string                  GetLogFileName();

@@ -50,7 +50,6 @@
 #endif
 
 #include <sstream>
-#include "rrParameter.h"
 #include "rrRoadRunner.h"
 #include "rrCGenerator.h"
 #include "rrLogger.h"           //Might be useful for debugging later on
@@ -125,7 +124,7 @@ bool rrCallConv enableLogging()
 		string logFile = JoinPath(tempFolder, "RoadRunner.log") ;
         freeText(tempFolder);
 		Log(lInfo)<<"Creating log file "<<logFile;
-        gLog.Init("", gLog.GetLogLevel());//, unique_ptr<LogFile>(new LogFile(logFile.c_str())));
+        gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));
 
         char* buffer = new char[1024];
         // Get the current working directory:
@@ -465,7 +464,7 @@ bool rrCallConv setCompiler(const char* fName)
     	}
 		if(gRRHandle->getCompiler())
 		{
-			return gRRHandle->getCompiler()->setCompiler(fName);
+			return gRRHandle->getCompiler()->SetCompiler(fName);
 		}
 		else
 		{
@@ -3640,14 +3639,7 @@ char* rrCallConv listToString (RRListHandle list)
 //We only need to give the linker the folder where libs are
 //using the pragma comment. Works for MSVC and codegear
 #if defined(CG_IDE)
-//#pragma comment(lib, "roadrunner-static.lib")
-
-#if defined(STATIC_BUILD)
-//#pragma comment(lib, "roadrunner-static.lib")
-#else
-#pragma comment(lib, "roadrunner.lib")
-#endif
-
+#pragma comment(lib, "roadrunner-static.lib")
 #pragma comment(lib, "rr-libstruct-static.lib")
 #pragma comment(lib, "pugi-static.lib")
 #pragma comment(lib, "libsbml-static.lib")

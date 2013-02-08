@@ -12,7 +12,7 @@ using namespace std;
 namespace rr
 {
 
-ModelFromC::ModelFromC(CGenerator* generator, ModelSharedLibrary& dll)
+ModelFromC::ModelFromC(CGenerator* generator, SharedLibrary& dll)
 :
 mDummyInt(0),
 mDummyDouble(0),

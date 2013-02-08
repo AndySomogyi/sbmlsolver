@@ -26,7 +26,7 @@ class RR_DECLSPEC ModelGenerator : public rrObject
         bool								mComputeAndAssignConsevationLaws;
         const string                        mDoubleFormat;
         const string                        STR_FixAmountCompartments;
-//        string                              mCurrentXMLModelFileName;
+        string                              mCurrentXMLModelFileName;
         vector<int>                         mLocalParameterDimensions;
         string                              mModelName;
         int                                 mNumBoundarySpecies;
@@ -95,12 +95,13 @@ class RR_DECLSPEC ModelGenerator : public rrObject
         virtual string                      convertSymbolToC(const string& compartmentName) = 0;
         virtual string                      convertSymbolToGP(const string& parameterName) = 0;
 
+        //////////////////////////////////////////////////////////////
 
         string                              substituteTerms(const int& numReactions, const string& reactionName, const string& equation);
         ASTNode*                            CleanEquation(ASTNode* ast);
         string                              CleanEquation(const string& equation);
         string                              substituteTerms(const string& reactionName, const string& inputEquation, bool bFixAmounts);
-        ls::DoubleMatrix*               	InitializeL0(int& nrRows, int& nrCols);
+        ls::DoubleMatrix*               InitializeL0(int& nrRows, int& nrCols);
         bool                                ExpressionContainsSymbol(ASTNode* ast, const string& symbol);
         bool                                ExpressionContainsSymbol(const string& expression, const string& symbol);
         Symbol*                             GetSpecies(const string& id);
@@ -138,8 +139,8 @@ class RR_DECLSPEC ModelGenerator : public rrObject
 
         // Generates the Model Code from theSBML string
         virtual string                      generateModelCode(const string& sbmlStr, const bool& _computeAndAssignConsevationLaws) = 0;    //Any decendant need to implement at least this one
-        virtual bool                     	SaveSourceCodeToFolder(const string& folder, const string& codeBaseName);
-//        void                                SetXMLModelFileName(const string& name);
+        virtual    bool                     SaveSourceCodeToFolder(const string& folder);
+        void                                SetXMLModelFileName(const string& name);
 };
 }//namespace rr
 

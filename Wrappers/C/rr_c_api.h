@@ -1999,39 +1999,12 @@ C_DECL_SPEC bool rrCallConv unLoadPlugins();
 C_DECL_SPEC int rrCallConv getNumberOfPlugins();
 
 /*!
- \brief GetPluginNames
- \return Returns names for loaded plugins, NULL otherwise
- \ingroup pluginRoutines
-*/
-C_DECL_SPEC RRStringArray* rrCallConv getPluginNames();
-
-/*!
- \brief GetPluginParameters
- \return Returns available parameters for a particular plugin, NULL otherwise
- \ingroup pluginRoutines
-*/
-C_DECL_SPEC RRStringArray* rrCallConv getPluginParameters(const char* pluginName);
-
-/*!
- \brief GetPluginParameter
- \return Returns a pointer to a parameter for a particular plugin. Returns NULL if absent parameter
- \ingroup pluginRoutines
-*/
-C_DECL_SPEC RRParameterHandle rrCallConv getPluginParameter(const char* pluginName, const char* parameterName);
-
-/*!
- \brief SetPluginParameter
- \return true if succesful, false otherwise
- \ingroup pluginRoutines
-*/
-C_DECL_SPEC bool rrCallConv setPluginParameter(const char* pluginName, const char* parameterName, const char* value);
-
-/*!
  \brief GetPluginInfo (PluginName)
  \param[in] string name of queried plugin
  \return Returns info, as a string, for the plugin, NULL otherwise
  \ingroup pluginRoutines
 */
+
 C_DECL_SPEC char* rrCallConv getPluginInfo(const char* name);
 
 /*!

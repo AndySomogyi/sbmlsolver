@@ -6,7 +6,7 @@
 #endif
 
 #include <string>
-
+#include "Poco/SharedLibrary.h"
 #include "rr-libstruct/lsMatrix.h"
 #include "rr-libstruct/lsLibStructural.h"
 
@@ -29,7 +29,7 @@
 #include "rrConstants.h"
 #include "rrNewArrayList.h"
 #include "rrPluginManager.h"
-#include "rrModelSharedLibrary.h"
+
 using std::string;
 using namespace ls;
 namespace rr
@@ -89,15 +89,13 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		Compiler*						getCompiler();
 		string							getInfo();
         PluginManager&					getPluginManager();
-
 		// Properties -----------------------------------------------------------------------------
 		bool                     		mComputeAndAssignConservationLaws;
 		bool        					computeAndAssignConservationLaws();
 
 		bool                     		mConservedTotalChanged;
 
-        ModelSharedLibrary				mModelLib;
-
+        SharedLibrary			  		mModelDLL;
 		string                          mCurrentSBML;
 		ModelFromC*                     mModel;
 		ModelFromC*						GetModel();
@@ -111,7 +109,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		CSharpGenerator*				getCSharpGenerator();
 
 		//Functions --------------------------------------------------------------------
- 										RoadRunner(const string& supportCodeFolder = gDefaultSupportCodeFolder, const string& compiler = gDefaultCompiler, const string& tempFolder = EmptyString);
+
+										RoadRunner(const string& supportCodeFolder = EmptyString, const string& compiler = DefaultCompiler, const string& tempFolder = EmptyString);
 		virtual                        ~RoadRunner();
         bool                            isModelLoaded();
         bool                            setCompiler(const string& compiler);
@@ -124,8 +123,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
         int 							createDefaultSteadyStateSelectionList();
         int                             createDefaultTimeCourseSelectionList();
 		int                             createTimeCourseSelectionList();
-		bool                     		setTempFileFolder(const string& folder);
-		string                   		getTempFileFolder();
+		static bool                     setTempFileFolder(const string& folder);
+		static string                   getTempFileFolder();
 		void                            partOfSimulation(SBMLModelSimulation* simulation){mSimulation = simulation;}
 		bool                            generateModelCode(const string& sbml);
 		bool                            compileModel();
@@ -146,8 +145,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
 		DoubleMatrix                    simulate();
 		bool                            simulate2();
-
-		bool                            simulateSBMLFile(const string& fileName, const bool& useConservationLaws);
+		bool                            simulateSBMLFile(const string& fileName, const bool& useConservationLaws = true);
+		bool                            simulateSBMLFile(const string& fileName, const bool& useConservationLaws, const double& startTime, const double& endTime, const int& numPoints);
 
 		bool                            loadSBMLFromFile(const string& fileName);
 		bool                            loadSBML(const string& sbml);
@@ -167,7 +166,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		StringList                      getSpeciesIds();
 		StringList                      getReactionIds();
 
- 		// ---------------------------------------------------------------------
+
+		// ---------------------------------------------------------------------
 		// Start of Level 2 API Methods
 		// ---------------------------------------------------------------------
 		bool                            UseKinsol;
@@ -206,7 +206,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		DoubleMatrix                    getStoichiometryMatrix();
 		DoubleMatrix                    getReorderedStoichiometryMatrix();
 		DoubleMatrix                    getFullyReorderedStoichiometryMatrix();
- 		DoubleMatrix                    getConservationMatrix();
+
+		DoubleMatrix                    getConservationMatrix();
 		DoubleMatrix                    getUnscaledConcentrationControlCoefficientMatrix();
 		DoubleMatrix                    getScaledConcentrationControlCoefficientMatrix();
         DoubleMatrix                    getUnscaledFluxControlCoefficientMatrix();
@@ -383,8 +384,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
         double getScaledFluxControlCoefficient(const string& reactionName, const string& parameterName);
         //-------------- End of MCA functions
 };
-
 }
+
 #endif
 
 /*! \mainpage RoadRunner C++ Library

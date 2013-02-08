@@ -5,10 +5,11 @@
 #include <sstream>
 #if defined(WIN32)
 #include <windows.h>
+
     #if defined(__CODEGEARC__)
-    	#include <dir.h>
+    #include <dir.h>
     #elif defined(_MSVC)
-    	#include <direct.h>
+    #include <direct.h>
     #endif
 #endif
 #include "rrLogger.h"
@@ -53,18 +54,13 @@ bool Compiler::setupCompiler(const string& supportCodeFolder)
     return true;
 }
 
-bool Compiler::setOutputPath(const string& path)
-{
-	mOutputPath = path;
-	return true;
-}
 
 string Compiler::getDLLName()
 {
     return mDLLFileName;
 }
 
-bool Compiler::compileSource(const string& sourceFileName)
+bool Compiler::CompileC_DLL(const string& sourceFileName)
 {
     //Compile the code and load the resulting dll, and call an exported function in it...
 #if defined(_WIN32) || defined(__CODEGEARC__)
@@ -75,15 +71,15 @@ bool Compiler::compileSource(const string& sourceFileName)
     mDLLFileName = JoinPath(ExtractFilePath(sourceFileName), dllFName);
 
     //Setup compiler environment
-    setupCompilerEnvironment();
+    SetupCompilerEnvironment();
 
-    string exeCmd = createCompilerCommand(sourceFileName);
+    string exeCmd = CreateCompilerCommand(sourceFileName);
 
     //exeCmd += " > compileLog.log";
     Log(lDebug2)<<"Compiling model..";
     Log(lDebug)<<"\nExecuting compile command: "<<exeCmd;
 
-    if(!compile(exeCmd))
+    if(!Compile(exeCmd))
     {
         Log(lError)<<"Creating DLL failed..";
         throw Exception("Creating Model DLL failed..");
@@ -93,7 +89,7 @@ bool Compiler::compileSource(const string& sourceFileName)
     return FileExists(mDLLFileName);
 }
 
-bool Compiler::setCompiler(const string& compiler)
+bool Compiler::SetCompiler(const string& compiler)
 {
 	mCompilerName = ExtractFileName(compiler);
 	mCompilerLocation = ExtractFilePath(compiler);
@@ -132,7 +128,7 @@ string	Compiler::getSupportCodeFolder()
 	return mSupportCodeFolder;
 }
 
-bool Compiler::setupCompilerEnvironment()
+bool Compiler::SetupCompilerEnvironment()
 {
     mIncludePaths.clear();
     mLibraryPaths.clear();
@@ -183,12 +179,16 @@ bool Compiler::setupCompilerEnvironment()
             }
         }
     }
+    else if(mCompilerName == "bcc")
+    {
+
+    }
 
     mIncludePaths.push_back(mSupportCodeFolder);
     return true;
 }
 
-string Compiler::createCompilerCommand(const string& sourceFileName)
+string Compiler::CreateCompilerCommand(const string& sourceFileName)
 {
     stringstream exeCmd;
     if(ExtractFileNameNoExtension(mCompilerName) == "tcc" || ExtractFileNameNoExtension(mCompilerName) == "gcc")
@@ -218,11 +218,19 @@ string Compiler::createCompilerCommand(const string& sourceFileName)
             exeCmd<<" -L\""<<mLibraryPaths[i]<<"\" " ;
         }
     }
+    else if(mCompilerName == "bcc")
+    {
+        exeCmd<<"bcc32 -WD -DBUILD_MODEL_DLL ";
+        exeCmd<<" -e"<<mDLLFileName<<" -vu +r:\\rrInstalls\\xe\\rr_support\\bcc.cfg " \
+        <<sourceFileName \
+        <<" r:\\rrInstalls\\xe\\rr_support\\rrSupport.c";
+
+    }
     return exeCmd.str();
 }
 
 #ifdef WIN32
-bool Compiler::compile(const string& cmdLine)
+bool Compiler::Compile(const string& cmdLine)
 {
     STARTUPINFO         si;
     PROCESS_INFORMATION pi;
@@ -243,8 +251,8 @@ bool Compiler::compile(const string& cmdLine)
     }
 
     //open the output file on the server's tmp folder (for that test will be on the C:/ root)
-    string compilerTempFile(JoinPath(mOutputPath, ExtractFileNameNoExtension(mDLLFileName)));
-    compilerTempFile.append(".log");
+    string tmpPath = ExtractFilePath(gLog.GetLogFileName());
+    string compilerTempFile(JoinPath(tmpPath,"compilerOutput.log"));
 
     HANDLE out;
   	//Todo: there is a problem creating the logfile after first time creation..
@@ -322,12 +330,12 @@ bool Compiler::compile(const string& cmdLine)
 
 #else
 
-bool Compiler::compile(const string& cmdLine)
+bool Compiler::Compile(const string& cmdLine)
 {
     string toFile(cmdLine);
     toFile += " 2>&1 >> ";
-    string tmpFolder = mOutputPath;//rr::RoadRunner::getTempFileFolder();
-    toFile += JoinPath(tmpFolder, "compilation.log");
+    string tmpFolder = rr::RoadRunner::getTempFileFolder();
+    toFile += JoinPath(rr::RoadRunner::getTempFileFolder(), "compilation.log");
     Log(lInfo)<<"Compiler command: "<<toFile;
     int val = system(toFile.c_str());
     if(val ==0)

@@ -7,7 +7,8 @@
 #include <list>
 
 //X-platform shared library class
-#include "rrModelSharedLibrary.h"
+#include "Poco/SharedLibrary.h"
+
 #include "rrTEventDelayDelegate.h"
 #include "rrTEventAssignmentDelegate.h"
 #include "rrTComputeEventAssignmentDelegate.h"
@@ -118,7 +119,7 @@ class RR_DECLSPEC ModelFromC : public rrObject
         CGenerator*                             mCodeGenerator;
         bool                                    mIsInitialized;    //If all functions are found properly in the dll, this one is true
 
-        ModelSharedLibrary&							mDLL;
+        SharedLibrary&							mDLL;
 
         //Function pointers...
         c_int                                   cInitModel;
@@ -152,7 +153,7 @@ class RR_DECLSPEC ModelFromC : public rrObject
 
 		//
                                                 ModelFromC();
-                                                ModelFromC(CGenerator* generator, ModelSharedLibrary& dll);
+                                                ModelFromC(CGenerator* generator, SharedLibrary& dll);
                                                ~ModelFromC();
         //Non inherited
         bool                                    setupDLLData();

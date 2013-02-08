@@ -15,8 +15,7 @@ RR_DECLSPEC extern const char* 	int_format;
 
 RR_DECLSPEC extern const string gExeSuffix;
 RR_DECLSPEC extern const char* 	Comma;
-RR_DECLSPEC extern const string gDefaultSupportCodeFolder;
-RR_DECLSPEC extern const string gDefaultCompiler;
+RR_DECLSPEC extern const string DefaultCompiler;
 
 // Typedefs
 typedef unsigned int 			u_int;

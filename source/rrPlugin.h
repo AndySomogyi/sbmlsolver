@@ -1,73 +1,42 @@
 #ifndef rrPluginH
 #define rrPluginH
 #include <string>
-#include <vector>
-#include <sstream>
 #include "rrObject.h"
 #include "rrExporter.h"
-#include "rrCapability.h"
+
+//X-platform shared library class
+#include "Poco/SharedLibrary.h"
 //---------------------------------------------------------------------------
+
 /* Abstract plugin */
 namespace rr
 {
-
-class RR_DECLSPEC PluginLogger
-{
-    protected:
-        std::ostringstream          mStream;
-		vector<string>			   *mLogs;
-    public:
-                                    PluginLogger(vector<string>* container);
-        virtual                    ~PluginLogger();
-        std::ostringstream&         Get();
-};
-
-#define Log() \
-    PluginLogger(&mLog).Get()
-
 class RoadRunner;
-const string noneStr = "<none>";
 
+const string noneStr = "<none>";
+using Poco::SharedLibrary;
 using std::string;
 class RR_DECLSPEC Plugin : public rrObject
 {
 	protected:
-		string			           	mName;
-        string			           	mAuthor;
-		string 		                mCategory;
-        string			           	mVersion;
-        string			           	mCopyright;
-        RoadRunner		           *mRR;			//This is a handle to the roadRunner instance, creating the plugin
-        vector<Capability>   		mCapabilities;	//Create a capabilities class..
-   		vector<string>				mLog;
+		string				mName;
+        string				mAuthor;
+		string 		        mCategory;
+        string				mVersion;
+        string				mCopyright;
+        RoadRunner		   *mRR;		//This is a handle to the roadRunner isntance, creating the plugin
 
     public:
-	    				           	Plugin(const std::string& name = EmptyString, const std::string& cat = noneStr, RoadRunner* aRR = NULL);
-        virtual 		           ~Plugin();	//Gotta be virtual!
+	    					Plugin(const std::string& name = EmptyString, const std::string& cat = noneStr, RoadRunner* aRR = NULL);
+        virtual 		   ~Plugin();	//Gotta be virtual!
 
-        string			           	getName();
-        string			           	getAuthor();
-        string			           	getCategory();
-        string			           	getVersion();
-        string			           	getCopyright();
-        string                      getInfo();
-        Capability*   				getCapability(const string& name);
-
-        Parameters					getParameters(const Capability& capability); //Each capability has a set of parameters
-        Parameters					getParameters(const string& nameOfCapability = ""); //Each capability has a set of parameters
-
-        BaseParameter*				getParameter(const string& param);
-        BaseParameter*				getParameter(const string& param, Capability& capability);
-
-        bool						setParameter(const string& nameOf, void* value);
-        bool						setParameter(const string& nameOf, const char* value);
-        bool						setParameter(const string& nameOf, void* value, 		Capability& capability);
-        bool						setParameter(const string& nameOf, const char* value, 	Capability& capability);
-
-		//Pure virtuals
-        virtual bool	           	execute() = 0;
-        vector<string>&				getLog();
-        bool						emptyLog(); //Has to be made thread safe
+        virtual string				GetName();
+        virtual string				GetAuthor();
+        virtual string				GetCategory();
+        virtual string				GetVersion();
+        virtual string				GetCopyright();
+        virtual string              GetInfo();
+        virtual bool		Execute() = 0;
 };
 
 }
