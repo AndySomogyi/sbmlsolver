@@ -59,7 +59,7 @@ RoadRunner::RoadRunner(const string& supportCodeFolder, const string& compiler, 
     mCSharpGenerator    = new CSharpGenerator(*mLS, mNOM);
     mCGenerator         = new CGenerator(*mLS, mNOM);
     mModelGenerator     = mCGenerator;
-    mPluginManager.SetRoadRunnerInstance(this);
+    mPluginManager.setRoadRunnerInstance(this);
 }
 
 RoadRunner::~RoadRunner()

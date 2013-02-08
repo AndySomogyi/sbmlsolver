@@ -2,11 +2,9 @@
 #define rrPluginManagerH
 #include <vector>
 #include "rrObject.h"
+#include "rrStringList.h"
 //---------------------------------------------------------------------------
 /* A minimalistic Plugin manager. */
-
-
-
 namespace rr
 {
 
@@ -25,16 +23,18 @@ class RR_DECLSPEC PluginManager : public rrObject
     public:
 	    				           	PluginManager(const std::string& pluginFolder = EmptyString, const bool& autoLoad = false, RoadRunner* aRR = NULL);
         				           ~PluginManager();
-		bool			           	SetPluginFolder(const string& dir);
-		string			           	GetPluginFolder();
-		bool 			           	Load();
-		bool 			           	Unload();
-        int				           	GetNumberOfPlugins();
-		int                         GetNumberOfCategories();
-        Plugin*			           	GetPlugin(const int& i);
-        Plugin*			           	GetPlugin(const string& name);
+		bool			           	setPluginFolder(const string& dir);
+		string			           	getPluginFolder();
+		bool 			           	load();
+		bool 			           	loadPlugin(const string& sharedLib);
+		bool 			           	unload();
+        int				           	getNumberOfPlugins();
+		int                         getNumberOfCategories();
+        Plugin*			           	getPlugin(const int& i);
+        Plugin*			           	getPlugin(const string& name);
         Plugin*	   					operator[](const int& i);
-        void						SetRoadRunnerInstance(RoadRunner* aRR);
+        void						setRoadRunnerInstance(RoadRunner* aRR);
+        StringList					getPluginNames();
 
 };
 }

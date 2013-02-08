@@ -25,7 +25,7 @@ bool rrCallConv loadPlugins()
             setError(ALLOCATE_API_ERROR_MSG);
         }
 
-    	return gRRHandle->getPluginManager().Load();
+    	return gRRHandle->getPluginManager().load();
     }
     catch(Exception& ex)
     {
@@ -45,7 +45,7 @@ bool rrCallConv unLoadPlugins()
             setError(ALLOCATE_API_ERROR_MSG);
         }
 
-    	return gRRHandle->getPluginManager().Unload();
+    	return gRRHandle->getPluginManager().unload();
     }
     catch(Exception& ex)
     {
@@ -65,7 +65,7 @@ int rrCallConv getNumberOfPlugins()
             setError(ALLOCATE_API_ERROR_MSG);
         }
 
-    	return gRRHandle->getPluginManager().GetNumberOfPlugins();
+    	return gRRHandle->getPluginManager().getNumberOfPlugins();
     }
     catch(Exception& ex)
     {
@@ -85,10 +85,10 @@ char* rrCallConv getPluginInfo(const char* name)
             setError(ALLOCATE_API_ERROR_MSG);
         }
 
-        Plugin* aPlugin = gRRHandle->getPluginManager().GetPlugin(name);
+        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(name);
         if(aPlugin)
         {
-        	return createText(aPlugin->GetInfo());
+        	return createText(aPlugin->getInfo());
         }
         else
         {
@@ -113,10 +113,10 @@ bool rrCallConv executePlugin(const char* name)
             setError(ALLOCATE_API_ERROR_MSG);
         }
 
-        Plugin* aPlugin = gRRHandle->getPluginManager().GetPlugin(name);
+        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(name);
         if(aPlugin)
         {
-        	return aPlugin->Execute();
+        	return aPlugin->execute();
         }
         else
         {

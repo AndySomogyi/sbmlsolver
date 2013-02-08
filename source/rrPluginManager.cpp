@@ -1,16 +1,20 @@
 //---------------------------------------------------------------------------
 #pragma hdrstop
+#include <sstream>
 #include "Poco/SharedLibrary.h"
 #include "rrPluginManager.h"
 #include "rrPlugin.h"
 #include "rrUtils.h"
 #include "rrException.h"
-#include <sstream>
 
+using std::stringstream;
+using std::pair;
 using Poco::SharedLibrary;
 
 namespace rr
 {
+
+bool destroyRRPlugin(Plugin *plugin);
 
 PluginManager::PluginManager(const std::string& folder, const bool& autoLoad, RoadRunner* aRR)
 :
@@ -19,24 +23,24 @@ mRR(aRR)
 {
     if(autoLoad)
     {
-        Load();
+        load();
     }
 }
 
 PluginManager::~PluginManager()
 {}
 
-void PluginManager::SetRoadRunnerInstance(RoadRunner* aRR)
+void PluginManager::setRoadRunnerInstance(RoadRunner* aRR)
 {
 	mRR = aRR;
 }
 
-bool PluginManager::SetPluginFolder(const string& dir)
+bool PluginManager::setPluginFolder(const string& dir)
 {
 	return false;
 }
 
-string PluginManager::GetPluginFolder()
+string PluginManager::getPluginFolder()
 {
 	return mPluginFolder;
 }
@@ -57,36 +61,47 @@ Plugin*	PluginManager::operator[](const int& i)
 typedef Plugin* (*createRRPluginFunc)(RoadRunner*);
 typedef bool    (*destroyRRPluginFunc)(Plugin* );
 
-bool PluginManager::Load()
+bool PluginManager::load()
 {
-	//Throw if plugin folder don't exist
-    try
+	bool result = false;
+    //Throw if plugin folder don't exist
+    if(!FolderExists(mPluginFolder))
     {
-    	if(!FolderExists(mPluginFolder))
-        {
-        	throw Exception("Plugin folder do not exists");
-        }
-        //Look for shared libraries in this folder
+        throw Exception("Plugin folder do not exists");
+    }
+    //Look for shared libraries in this folder
 
-        //Load and create the plugins
+//    for(int i = 0; i < nrOfLibs; i++)
+    {
+    	//Load and create the plugins
+	    result = loadPlugin("TestPlugin.dll");
+	    result = loadPlugin("fit_one_parameter.dll");
+    }
+    return result;
+}
+
+bool PluginManager::loadPlugin(const string& sharedLib)
+{
+	try
+    {
         SharedLibrary *aLib = new SharedLibrary;
-        aLib->load(JoinPath(mPluginFolder, "TestPlugin.dll"));
+        aLib->load(JoinPath(mPluginFolder, sharedLib));
 
         //Validate the plugin
         if(aLib->hasSymbol("createRRPlugin"))
         {
             createRRPluginFunc create = (createRRPluginFunc) aLib->getSymbol("createRRPlugin");
-        	//This plugin
+            //This plugin
             Plugin* aPlugin = create(mRR);
             if(aPlugin)
             {
-            	pair< Poco::SharedLibrary*, Plugin* > store(aLib, aPlugin);
-            	mPlugins.push_back( store );
+                pair< Poco::SharedLibrary*, Plugin* > storeMe(aLib, aPlugin);
+                mPlugins.push_back( storeMe );
             }
         }
         else
         {
-        	//Log some warnings about a bad plugin...
+            //Log some warnings about a bad plugin...?
         }
         return true;
     }
@@ -97,63 +112,85 @@ bool PluginManager::Load()
 		Exception ex(msg.str());
     	throw ex;
     }
-    catch(Poco::LibraryLoadException& ex)
+    catch(const Poco::Exception& ex)
     {
-    	Exception test("Test");
-    	throw ex;
+		stringstream msg;
+    	msg<<"Poco exception: "<<ex.displayText()<<endl;
+    	Exception newMsg(msg.str());
+    	throw newMsg;
     }
-
 }
 
-bool PluginManager::Unload()
+bool PluginManager::unload()
 {
 	bool result(true);
-	for(int i = 0; i < GetNumberOfPlugins(); i++)
+    int nrPlugins = getNumberOfPlugins();
+	for(int i = 0; i < nrPlugins; i++)
     {
-    	pair< Poco::SharedLibrary*, Plugin* >  aPlugin = mPlugins[i];
-        if(aPlugin.first)
+    	pair< Poco::SharedLibrary*, Plugin* >  *aPluginLib = &(mPlugins[i]);
+        if(aPluginLib)
         {
-            SharedLibrary *aLib = aPlugin.first;
+            SharedLibrary *aLib 	= aPluginLib->first;
+            Plugin*		   aPlugin 	= aPluginLib->second;
 
-        	//Destroy plugin
-            if(aLib->hasSymbol("destroyRRPlugin"))
-        	{
-            	destroyRRPluginFunc destroy = (destroyRRPluginFunc) aLib->getSymbol("destroyRRPlugin");
+            destroyRRPlugin(aPlugin);
 
-            	result = destroy(aPlugin.second);
-
-            	//Then unload
-        		aPlugin.first->unload();
-        	}
+            //Then unload
+            aLib->unload();
+            //And remove from container
+            aPluginLib->first = NULL;
+            aPluginLib->second = NULL;
         }
     }
+
+    //Remove all from container...
+    mPlugins.clear();
     return result;
 }
 
-int	PluginManager::GetNumberOfPlugins()
+StringList PluginManager::getPluginNames()
+{
+	StringList names;
+
+    int nrPlugins = getNumberOfPlugins();
+	for(int i = 0; i < nrPlugins; i++)
+    {
+    	pair< Poco::SharedLibrary*, Plugin* >  *aPluginLib = &(mPlugins[i]);
+        if(aPluginLib)
+        {
+            Plugin*		   aPlugin 	= aPluginLib->second;
+
+            //Then unload
+            names.Add(aPlugin->getName());
+        }
+    }
+    return names;
+}
+
+int	PluginManager::getNumberOfPlugins()
 {
 	return mPlugins.size();
 }
 
-int PluginManager::GetNumberOfCategories()
+int PluginManager::getNumberOfCategories()
 {
 	return -1;
 }
 
-Plugin*	PluginManager::GetPlugin(const int& i)
+Plugin*	PluginManager::getPlugin(const int& i)
 {
 	return (*this)[i];
 }
 
-Plugin*	PluginManager::GetPlugin(const string& name)
+Plugin*	PluginManager::getPlugin(const string& name)
 {
-	for(int i = 0; i < GetNumberOfPlugins(); i++)
+	for(int i = 0; i < getNumberOfPlugins(); i++)
     {
     	pair< Poco::SharedLibrary*, Plugin* >  aPluginLib = mPlugins[i];
         if(aPluginLib.first && aPluginLib.second)
         {
 			Plugin* aPlugin = (Plugin*) aPluginLib.second;
-            if(aPlugin && aPlugin->GetName() == name)
+            if(aPlugin && aPlugin->getName() == name)
             {
                	return aPlugin;
             }
@@ -162,6 +199,22 @@ Plugin*	PluginManager::GetPlugin(const string& name)
     return NULL;
 }
 
+// Plugin cleanup function
+bool destroyRRPlugin(rr::Plugin *plugin)
+{
+	//we allocated in the factory with new, delete the passed object
+    try
+    {
+    	delete plugin;
+    	return true;
+    }
+    catch(...)
+    {
+    	//Bad stuff!
+        clog<<"Failed deleting RoadRunner plugin..";
+        return false;
+    }
+}
 
 }
 
