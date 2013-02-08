@@ -29,7 +29,7 @@
 #include "rrConstants.h"
 #include "rrNewArrayList.h"
 #include "rrPluginManager.h"
-
+#include "rrModelSharedLibrary.h"
 using std::string;
 using namespace ls;
 namespace rr
@@ -122,8 +122,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
         int 							createDefaultSteadyStateSelectionList();
         int                             createDefaultTimeCourseSelectionList();
 		int                             createTimeCourseSelectionList();
-		static bool                     setTempFileFolder(const string& folder);
-		static string                   getTempFileFolder();
+		bool                     		setTempFileFolder(const string& folder);
+		string                   		getTempFileFolder();
 		void                            partOfSimulation(SBMLModelSimulation* simulation){mSimulation = simulation;}
 		bool                            generateModelCode(const string& sbml);
 		bool                            compileModel();

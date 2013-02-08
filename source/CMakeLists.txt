@@ -14,9 +14,8 @@ ${THIRD_PARTY_INSTALL_FOLDER}/include/cvode
 )
 
 set(rrSources 
-rrBaseParameter
-rrCapability
 rrParameter
+rrCapability
 rrConstants
 rrArrayList2
 rrArrayListItem
@@ -82,6 +81,8 @@ mtrand/mtrand
 rrPluginManager
 rrPlugin
 rrOSSpecifics
+rrModelSharedLibrary
+rrBaseParameter
 )
 
 #Build both static and shared version

@@ -52,7 +52,7 @@ RoadRunner::RoadRunner(const string& supportCodeFolder, const string& compiler, 
     mNumPoints(21),
     UseKinsol(false)
 {
-	mTempFileFolder = (tempFolder);
+    setTempFileFolder(tempFolder);
 	Log(lDebug4)<<"In RoadRunner ctor";
 
     mLS 				= new LibStructural();
@@ -716,20 +716,20 @@ bool RoadRunner::loadSimulationSettings(const string& fName)
 
 string RoadRunner::getDLLName()
 {
-    string srcCodeFolder;
+    string tempFileFolder;
     if(mSimulation)
     {
-    	srcCodeFolder =  mSimulation->GetTempDataFolder();
+    	tempFileFolder =  mSimulation->GetTempDataFolder();
     }
     else
     {
-        srcCodeFolder =mTempFileFolder;
+        tempFileFolder = mTempFileFolder;
     }
 
 #if defined(_WIN32) || defined(__CODEGEARC__)
-    string dllName  = JoinPath(srcCodeFolder, ChangeFileExtensionTo(ExtractFileName(mModelXMLFileName), "dll"));
+    string dllName  = JoinPath(tempFileFolder, ChangeFileExtensionTo(ExtractFileName(mModelXMLFileName), "dll"));
 #else
-	string dllName  = JoinPath(srcCodeFolder, "lib" + ChangeFileExtensionTo(ExtractFileName(mModelXMLFileName), "so"));
+	string dllName  = JoinPath(tempFileFolder, "lib" + ChangeFileExtensionTo(ExtractFileName(mModelXMLFileName), "so"));
 #endif
     return dllName;
 }
@@ -958,12 +958,12 @@ DoubleMatrix RoadRunner::simulate()
     {
         if (!mModel)
         {
-            throw CoreException(emptyModelStr);
+            throw Exception(emptyModelStr);
         }
 
         if (mTimeEnd <= mTimeStart)
         {
-            throw CoreException("Error: time end must be greater than time start");
+            throw Exception("Error: time end must be greater than time start");
         }
         return runSimulation();
     }
