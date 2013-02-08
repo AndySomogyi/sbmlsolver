@@ -136,7 +136,7 @@ CvodeInterface* RoadRunner::getCVodeInterface()
 
 bool RoadRunner::setCompiler(const string& compiler)
 {
-    return mCompiler.SetCompiler(compiler);
+    return mCompiler.setCompiler(compiler);
 }
 
 NLEQInterface* RoadRunner::getNLEQInterface()
@@ -852,7 +852,7 @@ bool RoadRunner::compileCurrentModel()
     }
 
      //Compile the model
-    if(!mCompiler.CompileC_DLL(codeGen->GetSourceCodeFileName()))
+    if(!mCompiler.compileSource(codeGen->GetSourceCodeFileName()))
     {
         Log(lError)<<"Model failed compilation";
         return false;

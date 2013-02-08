@@ -50,6 +50,7 @@
 #endif
 
 #include <sstream>
+#include "rrParameter.h"
 #include "rrRoadRunner.h"
 #include "rrCGenerator.h"
 #include "rrLogger.h"           //Might be useful for debugging later on
@@ -464,7 +465,7 @@ bool rrCallConv setCompiler(const char* fName)
     	}
 		if(gRRHandle->getCompiler())
 		{
-			return gRRHandle->getCompiler()->SetCompiler(fName);
+			return gRRHandle->getCompiler()->setCompiler(fName);
 		}
 		else
 		{

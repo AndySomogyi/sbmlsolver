@@ -131,6 +131,25 @@ typedef struct RRList
     RRListItemHandle    *Items;  /*!< A pointer to a list of items */
 }  *RRListHandle;                /*!< Pointer to cRRArrayListHandle struct */
 
+/*!@enum*/
+/*!@brief The parameter type scan be string, integer or double */
+enum RRParameterType {ptString, ptInteger, ptDouble};
+
+/*!@struct*/
+/*!@brief A single parameter type */
+typedef struct RRParameter
+{
+    RRParameterType ParaType;  	 /*!< The type of the item held by the parameter */
+    union
+    {
+       int 	     		iValue;  /*!< Integer value */
+	   double    		dValue;  /*!< Double value */
+	   char*     		sValue;  /*!< String value */
+	} data;                      /*!< Union */
+    char* 				mHint;
+	char* 				mName;
+} *RRParameterHandle;             /*!< Pointer to cRRParameter */
+
 
 #if defined( __cplusplus)
 }

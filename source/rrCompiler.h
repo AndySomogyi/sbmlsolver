@@ -15,32 +15,34 @@ class RR_DECLSPEC Compiler : public rrObject
 {
     protected:
         vector<string>              mCompilerOutput;
-        string                      mDLLFileName;    //With path
+        string                      mDLLFileName;
         vector<string>              mIncludePaths;
         vector<string>              mLibraryPaths;
         vector<string>              mCompilerFlags;
         string                      mSupportCodeFolder;
         string                      mCompilerName;
 		string						mCompilerLocation;	//Path to executable
-        string                      CreateCompilerCommand(const string& sourceFileName);
-        bool                        SetupCompilerEnvironment();
+        string                      createCompilerCommand(const string& sourceFileName);
+        bool                        setupCompilerEnvironment();
+        string						mOutputPath;
 
     public:
                                     Compiler(const string& supportCodeFolder, const string& compiler="tcc");
                                    ~Compiler();
-        bool                        SetCompiler(const string& compiler);
+        bool                        setCompiler(const string& compiler);
 		bool						setupCompiler(const string& supportCodeFolder);
-        bool                        Compile(const string& cmdLine);
+        bool                        compile(const string& cmdLine);
         string                      getDLLName();
 		bool						setCompilerLocation(const string& path);
 		string						getCompilerLocation();
 		bool						setSupportCodeFolder(const string& path);
 		string						getSupportCodeFolder();
-        bool                        SetIncludePath(const string& path);
-        bool                        SetLibraryPath(const string& path);
-        void                        Execute(StringList& oProxyCode);
-        bool                        CompileC_DLL(const string& cSource);
+        bool                        setIncludePath(const string& path);
+        bool                        setLibraryPath(const string& path);
+        void                        execute(StringList& oProxyCode);
+        bool                        compileSource(const string& cSource);
         string                      getCompilerMessages();
+        bool						setOutputPath(const string& path);
 };
 
 } //namespace rr
