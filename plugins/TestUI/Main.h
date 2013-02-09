@@ -58,6 +58,8 @@ __published:	// IDE-managed Components
 	TAction *executePluginA;
 	TButton *Button4;
 	TAction *getLastErrorA;
+	TGroupBox *GroupBox5;
+	TComboBox *pluginCapsCB;
 	void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall startupTimerTimer(TObject *Sender);
 	void __fastcall loadPluginsAExecute(TObject *Sender);
@@ -66,7 +68,7 @@ __published:	// IDE-managed Components
 	void __fastcall unloadPluginsExecute(TObject *Sender);
 	void __fastcall clearMemoExecute(TObject *Sender);
 	void __fastcall getPluginInfoAExecute(TObject *Sender);
-	void __fastcall pluginParasCBChange(TObject *Sender);
+	void __fastcall pluginCBChange(TObject *Sender);
 	void __fastcall SetParaBtnClick(TObject *Sender);
 	void __fastcall executePluginAExecute(TObject *Sender);
 	void __fastcall getLastErrorAExecute(TObject *Sender);

@@ -1336,6 +1336,10 @@ C_DECL_SPEC bool rrCallConv hasError()
 
 char* rrCallConv getLastError()
 {
+	if(!gLastError)
+    {
+	    gLastError = createText("No Error");
+    }
     return gLastError;
 }
 

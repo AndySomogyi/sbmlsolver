@@ -3,7 +3,7 @@
         <ProjectGuid>{E787F67D-E107-46B6-B6BD-3DA7276AC4FE}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="..\..\ide_builds\xe3\roadrunner.cbproj">
+        <Projects Include="..\..\ide_builds\xe3\roadrunner-static.cbproj">
             <Dependencies/>
         </Projects>
         <Projects Include="..\..\ide_builds\xe3\rr_c_api.cbproj">
@@ -23,14 +23,14 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="roadrunner">
-        <MSBuild Projects="..\..\ide_builds\xe3\roadrunner.cbproj"/>
+    <Target Name="roadrunner-static">
+        <MSBuild Projects="..\..\ide_builds\xe3\roadrunner-static.cbproj"/>
     </Target>
-    <Target Name="roadrunner:Clean">
-        <MSBuild Projects="..\..\ide_builds\xe3\roadrunner.cbproj" Targets="Clean"/>
+    <Target Name="roadrunner-static:Clean">
+        <MSBuild Projects="..\..\ide_builds\xe3\roadrunner-static.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="roadrunner:Make">
-        <MSBuild Projects="..\..\ide_builds\xe3\roadrunner.cbproj" Targets="Make"/>
+    <Target Name="roadrunner-static:Make">
+        <MSBuild Projects="..\..\ide_builds\xe3\roadrunner-static.cbproj" Targets="Make"/>
     </Target>
     <Target Name="rr_c_api">
         <MSBuild Projects="..\..\ide_builds\xe3\rr_c_api.cbproj"/>
@@ -60,13 +60,13 @@
         <MSBuild Projects="PluginApp.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="roadrunner;rr_c_api;fit_one_parameter;PluginApp"/>
+        <CallTarget Targets="roadrunner-static;rr_c_api;fit_one_parameter;PluginApp"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="roadrunner:Clean;rr_c_api:Clean;fit_one_parameter:Clean;PluginApp:Clean"/>
+        <CallTarget Targets="roadrunner-static:Clean;rr_c_api:Clean;fit_one_parameter:Clean;PluginApp:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="roadrunner:Make;rr_c_api:Make;fit_one_parameter:Make;PluginApp:Make"/>
+        <CallTarget Targets="roadrunner-static:Make;rr_c_api:Make;fit_one_parameter:Make;PluginApp:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

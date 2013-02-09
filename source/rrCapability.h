@@ -31,7 +31,7 @@ class RR_DECLSPEC Capability : public rrObject
         string                              getName() const;
         string                              getDescription() const;
         string                              getMethod() const;
-        Parameters							getParameters() const;
+        Parameters*							getParameters();
         rr::BaseParameter*	   				getParameter(const string& paraName);
 
 		RR_DECLSPEC

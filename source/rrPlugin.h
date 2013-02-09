@@ -50,10 +50,11 @@ class RR_DECLSPEC Plugin : public rrObject
         string			           	getVersion();
         string			           	getCopyright();
         string                      getInfo();
+        vector<Capability>*			getCapabilities();
         Capability*   				getCapability(const string& name);
 
-        Parameters					getParameters(const Capability& capability); //Each capability has a set of parameters
-        Parameters					getParameters(const string& nameOfCapability = ""); //Each capability has a set of parameters
+        Parameters*					getParameters(Capability& capability); //Each capability has a set of parameters
+        Parameters*					getParameters(const string& nameOfCapability = ""); //Each capability has a set of parameters
 
         BaseParameter*				getParameter(const string& param);
         BaseParameter*				getParameter(const string& param, Capability& capability);

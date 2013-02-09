@@ -32,9 +32,9 @@ void Capability::setup(const string& name, const string& method, const string& d
     mDescription = descr;
 }
 
-Parameters Capability::getParameters() const
+Parameters* Capability::getParameters()
 {
-	return mParameters;
+	return &mParameters;
 }
 
 const rr::BaseParameter& Capability::operator[](const int& i) const

@@ -15,7 +15,11 @@ class FitOneParameter : public Plugin
 	private:
     	Capability				mOneParameterFit;
     	Parameter<int>			mNrOfIterations;
+
+    	Capability				mOneParameterFitResult;
    		Parameter<double>		mChiSquare;
+        Parameter<double*>		mData;
+
 
     public:
     							FitOneParameter(rr::RoadRunner* aRR = NULL);

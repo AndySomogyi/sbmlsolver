@@ -19,12 +19,20 @@ FitOneParameter::FitOneParameter(rr::RoadRunner* aRR)
 Plugin("FitOneParameter", "No Category", aRR),
 mOneParameterFit("OneParameterFit", "Run", "Runs a one parameter fit"),
 mNrOfIterations(	"Number of Iterations", 	10,   	"Number of Iterations"),
-mChiSquare(			"ChiSquare", 			   	0.123, 	"ChiSquare")
+mChiSquare(			"ChiSquare", 			   	0.123, 	"ChiSquare"),
+mOneParameterFitResult("FitResult", "", ""),
+mData("Some Data", NULL, "Result..")
 {
 	//Setup the plugins capabilities
     mOneParameterFit.add(&mNrOfIterations);
 	mOneParameterFit.add(&mChiSquare);
+
+    mOneParameterFitResult.add(&mData);
+
     mCapabilities.push_back(mOneParameterFit);
+    mCapabilities.push_back(mOneParameterFitResult);
+
+
 }
 
 FitOneParameter::~FitOneParameter()

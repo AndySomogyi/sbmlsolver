@@ -88,6 +88,7 @@ void __fastcall TMainF::ApplicationEvents1Exception(TObject *Sender, Exception *
 {
 	Log() << std_str(E->ToString()) <<endl;
 }
+
 void __fastcall TMainF::pluginListClick(TObject *Sender)
 {
 	//Retrieve the name of the plugin that was clicked
@@ -105,22 +106,26 @@ void __fastcall TMainF::pluginListClick(TObject *Sender)
     Log()<<test;
 
     //Populate plugin frame (not a frame yet..)
-    //Parameter CB
-    RRStringArray* paras = getPluginParameters(pluginName.c_str());
+	pluginCapsCB->Clear();
     pluginParasCB->Clear();
 
-    if(!paras)
+    RRStringArray* caps = getPluginCapabilities(pluginName.c_str());
+
+
+    if(!caps)
     {
-    	Log()<<"No parameters!";
-	    pluginParasCBChange(NULL);
+	    GroupBox5->Enabled = false;
     	return;
     }
-    for(int i =0; i < paras->Count; i++)
+
+    GroupBox5->Enabled = true;
+    for(int i =0; i < caps->Count; i++)
     {
-        pluginParasCB->AddItem(paras->String[i], NULL);
+        pluginCapsCB->AddItem(caps->String[i], NULL);
     }
-    pluginParasCB->ItemIndex = 0;
-    pluginParasCBChange(NULL);
+
+    pluginCapsCB->ItemIndex = 0;
+    pluginCBChange(pluginCapsCB);
 }
 
 void __fastcall TMainF::clearMemoExecute(TObject *Sender)
@@ -160,28 +165,59 @@ string TMainF::getCurrentSelectedParameter()
 
 }
 
-void __fastcall TMainF::pluginParasCBChange(TObject *Sender)
+void __fastcall TMainF::pluginCBChange(TObject *Sender)
 {
-	//Query the current plugin for the current value of selected parameter
-	RRParameterHandle para = getPluginParameter(getCurrentPluginName().c_str(), getCurrentSelectedParameter().c_str());
-    if(!para)
+
+	if(pluginCapsCB == (TComboBox*)(Sender))
     {
-		paraEdit->Enabled = false;
-    	return;
+        string pluginName = std_str(pluginList->Items->Strings[pluginList->ItemIndex]);
+
+		//Change available parameters in the parsCB...
+		pluginParasCB->Clear();
+
+        string capa = std_str(pluginCapsCB->Items->Strings[pluginCapsCB->ItemIndex]);
+        RRStringArray* paras = getPluginParameters(pluginName.c_str(), capa.c_str());
+        pluginParasCB->Clear();
+
+        if(!paras)
+        {
+            Log()<<"No parameters!";
+            pluginCBChange(NULL);
+            return;
+
+        }
+
+        for(int i =0; i < paras->Count; i++)
+        {
+            pluginParasCB->AddItem(paras->String[i], NULL);
+        }
+        pluginParasCB->ItemIndex = 0;
+
+
     }
 
-	paraEdit->Enabled = true;
-	pluginParasCB->Hint = para->mHint;
-
-    if(para->ParaType == ptInteger)
+    if(pluginParasCB == (TComboBox*)(Sender))
     {
-    	paraEdit->Text = rr::ToString(para->data.iValue).c_str();
-    }
-    else
-    {
-		paraEdit->Text = "not implemented";
-    }
+        //Query the current plugin for the current value of selected parameter
+        RRParameterHandle para = getPluginParameter(getCurrentPluginName().c_str(), getCurrentSelectedParameter().c_str());
+        if(!para)
+        {
+            paraEdit->Enabled = false;
+            return;
+        }
 
+        paraEdit->Enabled = true;
+        pluginParasCB->Hint = para->mHint;
+
+        if(para->ParaType == ptInteger)
+        {
+            paraEdit->Text = rr::ToString(para->data.iValue).c_str();
+        }
+        else
+        {
+            paraEdit->Text = "not implemented";
+        }
+    }
 }
 
 //---------------------------------------------------------------------------

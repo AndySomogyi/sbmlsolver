@@ -98,7 +98,7 @@ RRStringArray* rrCallConv getPluginNames()
     }
 }
 
-RRStringArray* rrCallConv getPluginParameters(const char* pluginName)
+RRStringArray* rrCallConv getPluginCapabilities(const char* pluginName)
 {
 	try
     {
@@ -111,10 +111,54 @@ RRStringArray* rrCallConv getPluginParameters(const char* pluginName)
         if(aPlugin)
         {
         	StringList aList;
-            Parameters paras = aPlugin->getParameters();
-            for(int i = 0; i < paras.size(); i++)
+            vector<Capability>* caps = aPlugin->getCapabilities();
+            if(!caps)
             {
-            	aList.Add(paras[i]->getName());
+            	return NULL;
+            }
+
+            for(int i = 0; i < caps->size(); i++)
+            {
+            	aList.Add((*caps)[i].getName());
+            }
+        	return createList(aList);
+        }
+        else
+        {
+	        return NULL;
+        }
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return NULL;
+    }
+}
+
+RRStringArray* rrCallConv getPluginParameters(const char* pluginName, const char* capability)
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+        }
+
+        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(pluginName);
+        if(aPlugin)
+        {
+        	StringList aList;
+            Parameters* paras = aPlugin->getParameters(capability);
+            if(!paras)
+            {
+            	return NULL;
+            }
+
+            for(int i = 0; i < paras->size(); i++)
+            {
+            	aList.Add((*paras)[i]->getName());
             }
         	return createList(aList);
         }

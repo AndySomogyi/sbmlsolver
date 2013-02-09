@@ -2,8 +2,8 @@ object MainF: TMainF
   Left = 0
   Top = 0
   Caption = 'RoadRunner PluginTester'
-  ClientHeight = 429
-  ClientWidth = 832
+  ClientHeight = 587
+  ClientWidth = 946
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,8 +17,8 @@ object MainF: TMainF
   TextHeight = 13
   object Splitter1: TSplitter
     Left = 0
-    Top = 181
-    Width = 832
+    Top = 339
+    Width = 946
     Height = 3
     Cursor = crVSplit
     Align = alBottom
@@ -28,16 +28,18 @@ object MainF: TMainF
   end
   object Panel1: TPanel
     Left = 0
-    Top = 184
-    Width = 832
+    Top = 342
+    Width = 946
     Height = 245
     Align = alBottom
     Caption = 'Panel1'
     TabOrder = 0
+    ExplicitTop = 184
+    ExplicitWidth = 832
     object infoMemo: TMemo
       Left = 1
       Top = 1
-      Width = 830
+      Width = 944
       Height = 243
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
@@ -50,22 +52,25 @@ object MainF: TMainF
       ScrollBars = ssBoth
       TabOrder = 0
       WordWrap = False
+      ExplicitWidth = 830
     end
   end
   object Panel2: TPanel
     Left = 0
     Top = 0
     Width = 337
-    Height = 181
+    Height = 339
     Align = alLeft
     TabOrder = 1
+    ExplicitHeight = 181
     object Panel3: TPanel
       Left = 1
       Top = 1
       Width = 176
-      Height = 179
+      Height = 337
       Align = alLeft
       TabOrder = 0
+      ExplicitHeight = 179
       object GroupBox1: TGroupBox
         Left = 1
         Top = 1
@@ -130,9 +135,10 @@ object MainF: TMainF
       Left = 177
       Top = 1
       Width = 159
-      Height = 179
+      Height = 337
       Align = alClient
       TabOrder = 1
+      ExplicitHeight = 179
       object GroupBox2: TGroupBox
         Left = 1
         Top = 1
@@ -154,11 +160,12 @@ object MainF: TMainF
         Left = 1
         Top = 57
         Width = 157
-        Height = 121
+        Height = 279
         Align = alClient
         ItemHeight = 13
         TabOrder = 1
         OnClick = pluginListClick
+        ExplicitHeight = 121
       end
     end
   end
@@ -166,10 +173,11 @@ object MainF: TMainF
     Left = 337
     Top = 0
     Width = 185
-    Height = 181
+    Height = 339
     Align = alLeft
     Caption = 'Plugin Actions'
     TabOrder = 2
+    ExplicitHeight = 181
     object Button2: TButton
       Left = 16
       Top = 21
@@ -180,9 +188,9 @@ object MainF: TMainF
     end
     object GroupBox4: TGroupBox
       Left = 2
-      Top = 72
+      Top = 192
       Width = 181
-      Height = 107
+      Height = 145
       Align = alBottom
       Caption = 'Parameters'
       TabOrder = 1
@@ -194,7 +202,7 @@ object MainF: TMainF
         AutoDropDown = True
         Style = csDropDownList
         TabOrder = 0
-        OnChange = pluginParasCBChange
+        OnChange = pluginCBChange
       end
       object paraEdit: TEdit
         Left = 4
@@ -221,6 +229,28 @@ object MainF: TMainF
       Height = 25
       Action = executePluginA
       TabOrder = 2
+    end
+    object GroupBox5: TGroupBox
+      Left = 2
+      Top = 128
+      Width = 181
+      Height = 64
+      Align = alBottom
+      Caption = 'Capability'
+      TabOrder = 3
+      ExplicitLeft = 4
+      ExplicitTop = 97
+      ExplicitWidth = 185
+      object pluginCapsCB: TComboBox
+        Left = 4
+        Top = 25
+        Width = 174
+        Height = 21
+        AutoDropDown = True
+        Style = csDropDownList
+        TabOrder = 0
+        OnChange = pluginCBChange
+      end
     end
   end
   object startupTimer: TTimer

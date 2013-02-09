@@ -135,23 +135,26 @@ string Plugin::getInfo() //Obs. subclasses may over ride this function and add m
     return msg.str();
 }
 
-Parameters Plugin::getParameters(const string& nameOf)
+vector<Capability>*	 Plugin::getCapabilities()
 {
-	if(nameOf.size())
+	return &mCapabilities;
+}
+
+Parameters* Plugin::getParameters(const string& capName)
+{
+	//Return parameters for capability with name
+    for(int i = 0; i < mCapabilities.size(); i++)
     {
-	    for(int i = 0; i < mCapabilities.size(); i++)
-    	{
-            if(mCapabilities[i].getName() == nameOf)
-            {
-            	return mCapabilities[i].getParameters();
-            }
+        if(mCapabilities[i].getName() == capName)
+        {
+            return mCapabilities[i].getParameters();
         }
     }
 
-	return mCapabilities[0].getParameters();
+	return NULL;
 }
 
-Parameters Plugin::getParameters(const Capability& capability)
+Parameters* Plugin::getParameters(Capability& capability)
 {
 	return capability.getParameters();
 }

@@ -2006,11 +2006,18 @@ C_DECL_SPEC int rrCallConv getNumberOfPlugins();
 C_DECL_SPEC RRStringArray* rrCallConv getPluginNames();
 
 /*!
+ \brief GetPluginCapabilities
+ \return Returns available capabilities for a particular plugin, NULL otherwise
+ \ingroup pluginRoutines
+*/
+C_DECL_SPEC RRStringArray* rrCallConv getPluginCapabilities(const char* pluginName);
+
+/*!
  \brief GetPluginParameters
  \return Returns available parameters for a particular plugin, NULL otherwise
  \ingroup pluginRoutines
 */
-C_DECL_SPEC RRStringArray* rrCallConv getPluginParameters(const char* pluginName);
+C_DECL_SPEC RRStringArray* rrCallConv getPluginParameters(const char* pluginName, const char* capability);
 
 /*!
  \brief GetPluginParameter
