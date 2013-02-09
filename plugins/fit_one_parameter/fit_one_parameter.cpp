@@ -31,8 +31,6 @@ mData("Some Data", NULL, "Result..")
 
     mCapabilities.push_back(mOneParameterFit);
     mCapabilities.push_back(mOneParameterFitResult);
-
-
 }
 
 FitOneParameter::~FitOneParameter()
@@ -43,13 +41,12 @@ bool FitOneParameter::execute()
 
 	Log()<<"Executing the FitOneParameter plugin";
     //Create a fitting thread, start it and then return..
-
+	mRR->loadSBMLFromFile("r:\\models\\feedback.xml");
     for(int i = 0; i < mNrOfIterations.getValue(); i++)
     {
     	mRR->simulate();
     }
 
-    //
 	return true;
 }
 

@@ -314,10 +314,13 @@ bool Compiler::compile(const string& cmdLine)
     CloseHandle(pi.hThread);
     CloseHandle(out);
 
-    //Read the log file and log it
-    string log = GetFileContent(compilerTempFile.c_str());
-    Log(lDebug)<<"Compiler output: "<<log<<endl;
-
+//    //Read the log file and log it
+//    if(FileExists(compilerTempFile))
+//    {
+//    	string log = GetFileContent(compilerTempFile.c_str());
+//    	Log(lDebug)<<"Compiler output: "<<log<<endl;
+//    }
+//
     return true;
 }
 

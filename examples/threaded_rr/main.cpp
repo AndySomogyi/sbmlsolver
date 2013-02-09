@@ -17,11 +17,6 @@ class LoadSBML : public RoadRunnerThread
                         mModel(modelFile){}
 
 		string			mModel;
-        void			start()
-        				{
-                        	mThread.start(*this);
-                        }
-
     	                void worker()
     	                {
 		                	Log(lInfo)<<"Starting loadSBML thread";
@@ -30,7 +25,7 @@ class LoadSBML : public RoadRunnerThread
                             {
 	                        	std::cout << "Loading SBML" << std::endl;
                             	mRR->loadSBMLFromFile(mModel);
-                                Sleep(100);
+                                Sleep(1000);
                             }
                             else
                             {

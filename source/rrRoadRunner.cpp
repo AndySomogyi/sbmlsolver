@@ -73,7 +73,6 @@ RoadRunner::~RoadRunner()
     {
     	mModelDLL.unload();
     }
-
     delete mLS;
 }
 

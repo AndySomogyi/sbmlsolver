@@ -62,7 +62,7 @@ absTol(_absTol),
 //errorFileCounter,
 //_rootsFound),
 abstolArray(NULL),
-fileHandle(NULL),
+//fileHandle(NULL),
 //modelDelegate(&CvodeInterface::ModelFcn)
 mRR(rr),
 cvodeMem(NULL),
@@ -83,7 +83,7 @@ CvodeInterface::~CvodeInterface()
     FreeCvode_Mem((void**) &cvodeMem);
     FreeCvode_Vector(_amounts);
     FreeCvode_Vector(abstolArray);
-    fileClose(fileHandle);
+//    fileClose(fileHandle);
 }
 
 ////        public void ModelFcn(int n, double time, IntPtr y, IntPtr ydot, IntPtr fdata)
@@ -266,8 +266,8 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
 
             SetMaxNumSteps(cvodeMem, MaxNumSteps);
 
-            fileHandle = fileOpen(JoinPath(tempPathstring, cvodeLogFile) + ToString(errorFileCounter) + ".txt");
-            SetErrFile(cvodeMem, fileHandle);
+//            fileHandle = fileOpen(JoinPath(tempPathstring, cvodeLogFile) + ToString(errorFileCounter) + ".txt");
+//            SetErrFile(cvodeMem, fileHandle);
             errCode = AllocateCvodeMem(cvodeMem, allocatedMemory, ModelFcn, (cvode_precision) 0.0, (N_Vector) _amounts, relTol, (N_Vector) abstolArray);
 
             if (errCode < 0)
@@ -301,8 +301,8 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
             SetMaxOrder(cvodeMem, MaxBDFOrder);
             SetMaxNumSteps(cvodeMem, MaxNumSteps);
 
-            fileHandle = fileOpen(JoinPath(tempPathstring, cvodeLogFile) + ToString(errorFileCounter) + ".txt");
-            SetErrFile(cvodeMem, fileHandle);
+//            fileHandle = fileOpen(JoinPath(tempPathstring, cvodeLogFile) + ToString(errorFileCounter) + ".txt");
+//            SetErrFile(cvodeMem, fileHandle);
 
             errCode = AllocateCvodeMem(cvodeMem, allocated, ModelFcn, 0.0, (N_Vector) _amounts, relTol, (N_Vector) abstolArray);
             if (errCode < 0)
@@ -608,18 +608,18 @@ void CvodeInterface::HandleCVODEError(int errCode)
 
         // and open a new file handle
         errorFileCounter++;
-        FILE* newHandle = fileOpen(JoinPath(tempPathstring, cvodeLogFile) + ToString(errorFileCounter) + ".txt");
-        if (newHandle != NULL && cvodeMem != NULL)
-        {
-            SetErrFile(cvodeMem, newHandle);
-        }
-        // close error file used by the cvode library
-        if (fileHandle != NULL)
-        {
-            fileClose(fileHandle);
-        }
-
-        fileHandle = newHandle;
+//        FILE* newHandle = fileOpen(JoinPath(tempPathstring, cvodeLogFile) + ToString(errorFileCounter) + ".txt");
+//        if (newHandle != NULL && cvodeMem != NULL)
+//        {
+//            SetErrFile(cvodeMem, newHandle);
+//        }
+//        // close error file used by the cvode library
+//        if (fileHandle != NULL)
+//        {
+//            fileClose(fileHandle);
+//        }
+//
+//        fileHandle = newHandle;
 
         //throw CvodeException("Error in RunCVode: " + errorCodes[-errCode].msg + msg);
         Log(lError)<<"Error in RunCVode: "<<errCode<<msg;

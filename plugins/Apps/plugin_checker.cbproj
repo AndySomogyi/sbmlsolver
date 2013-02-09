@@ -110,6 +110,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <Debugger_DebugSourcePath>R:\rrl\plugins\fit_one_parameter\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
         <DynamicRTL>true</DynamicRTL>
         <ILINK_LibraryPath>$(RR_DEBUG_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>

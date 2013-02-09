@@ -32,7 +32,7 @@ class RR_DECLSPEC CvodeInterface : public rrObject
 
         static string               tempPathstring;
         static int                  errorFileCounter;
-        FILE*                       fileHandle;
+//        FILE*                       fileHandle;
 
         int                         numIndependentVariables;
         N_Vector                    gdata;
