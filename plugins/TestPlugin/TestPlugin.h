@@ -11,7 +11,7 @@ class TestPlugin : public rr::Plugin
     public:
     					TestPlugin(rr::RoadRunner* aRR = NULL);
 					   ~TestPlugin();
-		bool			Execute();
+		bool			execute();
 
 };
 

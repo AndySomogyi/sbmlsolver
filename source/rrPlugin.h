@@ -1,5 +1,6 @@
 #ifndef rrPluginH
 #define rrPluginH
+#include <sstream>
 #include <string>
 #include "rrObject.h"
 #include "rrExporter.h"

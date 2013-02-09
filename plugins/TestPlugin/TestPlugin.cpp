@@ -15,7 +15,7 @@ TestPlugin::~TestPlugin()
 
 }
 
-bool TestPlugin::Execute()
+bool TestPlugin::execute()
 {
 	cout<<"Executing plugin...\n";
 	if(mRR)
