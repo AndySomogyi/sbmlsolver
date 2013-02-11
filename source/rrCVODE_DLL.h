@@ -2,8 +2,9 @@
 #define rrCvodedllH
 #include <stdlib.h>
 #include <string>
-#include "cvode/cvode.h"
 #include "rrExporter.h"
+#include "cvode/cvode.h"
+
 
 #define Ith(v,i)    NV_Ith_S(v,i-1)       /* Ith numbers components 1..NEQ */
 
@@ -13,7 +14,6 @@ namespace rr
 
 typedef double cvode_precision; //This is the precision that the cvode library is using, can be float, double and long double
 
-class ModelFromC;
 typedef  void (*TModelCallBack)(int n, double Time, double *y, double *ydot, void *f_data);
 typedef  void (*TRootCallBack)(double t, double *y, double *gout, void *g_data);
 
@@ -40,7 +40,7 @@ RR_DECLSPEC int          AllocateCvodeMem (        void *,
 
 RR_DECLSPEC int         CvDense (void *, int);  // int = size of systems
 RR_DECLSPEC int         CVReInit (void *cvode_mem, double t0, N_Vector y0, double reltol, N_Vector abstol);
-RR_DECLSPEC int         Run_Cvode (void *cvode_mem, double tout, N_Vector y, double *t);//, char *ErrMsg);
+RR_DECLSPEC int         Run_Cvode (void *cvode_mem, double tout, N_Vector y, double *t);
 RR_DECLSPEC int         CVGetRootInfo (void *cvode_mem, int *rootsFound);
 RR_DECLSPEC int         CVRootInit (void *cvode_mem, int numRoots, TRootCallBack callBack, void *gdata);
 RR_DECLSPEC int         SetMaxNumSteps(void *cvode_mem, int mxsteps);
@@ -59,7 +59,7 @@ RR_DECLSPEC void        fileClose (FILE *fp);
 
 RR_DECLSPEC int         InternalFunctionCall(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *f_data);
 RR_DECLSPEC int         InternalRootCall (realtype t, N_Vector y, realtype *gout, void *g_data);
-}//namespace
+}
 
 #endif
 

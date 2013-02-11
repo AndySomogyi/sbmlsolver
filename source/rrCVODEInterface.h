@@ -14,8 +14,8 @@ namespace rr
 
 class ModelFromC;
 class Event;
-typedef long* IntPtr;
-typedef void* CVodeMemPtr;
+//typedef long* IntPtr;
+//typedef void* CVodeMemPtr;
 
 void ModelFcn(int n, cvode_precision time, cvode_precision* y, cvode_precision* ydot, void* fdata);
 void EventFcn(double time, cvode_precision* y, cvode_precision* gdot, void* fdata);
@@ -32,7 +32,6 @@ class RR_DECLSPEC CvodeInterface : public rrObject
 
         static string               tempPathstring;
         static int                  errorFileCounter;
-//        FILE*                       fileHandle;
 
         int                         numIndependentVariables;
         N_Vector                    gdata;

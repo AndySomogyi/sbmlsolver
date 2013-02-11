@@ -116,7 +116,7 @@ int CvDense (void *p, int n)
     return CVDense(p, n);
 }
 
-int Run_Cvode (void *cvode_mem, cvode_precision tout, N_Vector y, cvode_precision *t)//, char *ErrMsg)
+int Run_Cvode (void *cvode_mem, cvode_precision tout, N_Vector y, cvode_precision *t)
 {
     if (cvode_mem == NULL)
     {
@@ -264,4 +264,4 @@ void fileClose (FILE *fp)
     }
 }
 
-}//namespace
+}

@@ -42,7 +42,7 @@ int main(int argc, char** argv)
 	gLog.SetCutOffLogLevel(lInfo);
 
 	//Create a thousand roadrunners
-    const int nrOfRRInstances = 1000;
+    const int nrOfRRInstances = 1;
 	vector<RoadRunner*> rrs;
 
     for(int i = 0; i < nrOfRRInstances; i++)
@@ -64,7 +64,7 @@ int main(int argc, char** argv)
         loadSBMLs[i]->setThreadName(ToString(i));
     }
 
-    int threadCount = 2;
+    int threadCount = 4;
     for(int i = 0; i < nrOfRRInstances; i+=threadCount)
     {
      	for(int j = 0; j < threadCount; j++)

@@ -45,7 +45,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
         DoubleMatrix                    mRawSimulationData;
 		SimulationData                  mSimulationData;
 	    string 							mSupportCodeFolder;		//The compiler needs this in order to compile models
-//		string                          mModelXMLFileName;
 		string                          mModelCode;
 		static string                   mTempFileFolder;
 		SBMLModelSimulation            *mSimulation;
@@ -70,7 +69,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		vector<TSelectionRecord>        mSteadyStateSelection;
 		vector<TSelectionRecord>        getSteadyStateSelection(const StringList& newSelectionList);
 		StringList                      getParameterIds();
-//		string                          getDLLName();
 		SimulationSettings              mSettings;
 		NOMSupport						mNOM;
 		PluginManager					mPluginManager;
@@ -84,10 +82,10 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		Compiler*						getCompiler();
 		string							getInfo();
         PluginManager&					getPluginManager();
+
 		// Properties -----------------------------------------------------------------------------
 		bool                     		mComputeAndAssignConservationLaws;
 		bool        					computeAndAssignConservationLaws();
-
 		bool                     		mConservedTotalChanged;
 
 		ModelSharedLibrary	  	  		mModelDLL;
@@ -335,21 +333,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
         //[Help("Returns the unscaled elasticity for a named reaction with respect to a named parameter (local or global)"
         double getUnscaledParameterElasticity(const string& reactionName, const string& parameterName);
-
-        // Use the formula: ucc = -L Jac^-1 Nr
-        //[Help("Compute the matrix of unscaled concentration control coefficients")]
-        //double** getUnscaledConcentrationControlCoefficientMatrix();
-//        static Complex[][] ConvertComplex(SimpleComplex[][] oMatrix);
-
-        //[Help("Compute the matrix of scaled concentration control coefficients")]
-        //double** getScaledConcentrationControlCoefficientMatrix();
-
-        // Use the formula: ucc = elast CS + I
-        //[Help("Compute the matrix of unscaled flux control coefficients")]
-        //double** getUnscaledFluxControlCoefficientMatrix();
-
-        //[Help("Compute the matrix of scaled flux control coefficients")]
-        //double** getScaledFluxControlCoefficientMatrix();
 
         //"Compute the value for a particular unscaled concentration control coefficients with respect to a local parameter"
         double getUnscaledConcentrationControlCoefficient(const string& speciesName, const string& localReactionName, const string& parameterName);
