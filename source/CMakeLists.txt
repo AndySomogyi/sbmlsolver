@@ -63,7 +63,6 @@ rrModelGenerator
 rrScanner
 rrToken
 rrCVODEInterface
-rrCVODE_DLL
 rrNLEQInterface
 rrDLLEntry
 rrCapsSupport

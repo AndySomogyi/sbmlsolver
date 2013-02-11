@@ -2,6 +2,7 @@
 #include "rr_pch.h"
 #endif
 #pragma hdrstop
+#include <iostream>
 #include "nvector/nvector_serial.h"
 #include "cvode/cvode_dense.h"
 #include "rrCVODE_DLL.h"
@@ -9,56 +10,21 @@
 namespace rr
 {
 
-// Creates a new N_Vector object and returns a pointer to the caller
-N_Vector NewCvode_Vector (int n)
-{
-    return N_VNew_Serial (n);
-}
-
-// Frees an N_Vector object
-void FreeCvode_Vector (N_Vector v)
-{
-    if (v != NULL)
-    {
-        N_VDestroy_Serial (v);
-    }
-}
-
-void FreeCvode_Mem (void **p)
-{
-    if (p != NULL)
-    {
-        CVodeFree (p);
-    }
-}
-
 // Sets the value of an element in a N_Vector object
-void Cvode_SetVector (N_Vector v, int Index, cvode_precision Value)
+void Cvode_SetVector (N_Vector v, int Index, double Value)
 {
-    cvode_precision *data = NV_DATA_S(v);
+    double *data = NV_DATA_S(v);
     data[Index] = Value;
 }
 
-cvode_precision Cvode_GetVector (N_Vector v, int Index)
+double Cvode_GetVector (N_Vector v, int Index)
 {
-    cvode_precision *data = NV_DATA_S(v);
+    double *data = NV_DATA_S(v);
     return data[Index];
 }
 
-// Set for stiff systems
-void *Create_BDF_NEWTON_CVode()
-{
-    return CVodeCreate(CV_BDF, CV_NEWTON);
-}
-
-// Set for non-stiff systems
-void *Create_ADAMS_FUNCTIONAL_CVode ()
-{
-    return CVodeCreate(CV_ADAMS, CV_FUNCTIONAL);
-}
-
 // CallBack is the host application function that computes the dy/dt terms
-int AllocateCvodeMem (void *cvode_mem, int n, TModelCallBack callBack, cvode_precision t0, N_Vector y, cvode_precision reltol, N_Vector abstol/*, long int iopt[], cvode_precision ropt[]*/)
+int AllocateCvodeMem (void *cvode_mem, int n, TModelCallBack callBack, double t0, N_Vector y, double reltol, N_Vector abstol/*, long int iopt[], double ropt[]*/)
 {
     int result;
 
@@ -111,12 +77,12 @@ int CvDense (void *p, int n)
 {
     if (p == NULL)
     {
-        return CV_SUCCESS;
+        return CV_SUCCESS; //???
     }
     return CVDense(p, n);
 }
 
-int Run_Cvode (void *cvode_mem, cvode_precision tout, N_Vector y, cvode_precision *t)
+int Run_Cvode (void *cvode_mem, double tout, N_Vector y, double *t)
 {
     if (cvode_mem == NULL)
     {
@@ -126,7 +92,7 @@ int Run_Cvode (void *cvode_mem, cvode_precision tout, N_Vector y, cvode_precisio
 }
 
 // Initialize cvode with a new set of initial conditions
-int CVReInit (void *cvode_mem, cvode_precision t0, N_Vector y0, cvode_precision reltol, N_Vector abstol)
+int CVReInit (void *cvode_mem, double t0, N_Vector y0, double reltol, N_Vector abstol)
 {
     int result;
 
@@ -223,7 +189,7 @@ int    SetErrHandler (void *cvode_mem, CVErrHandlerFn callback, void* user_data 
     return CVodeSetErrHandlerFn (cvode_mem,  callback, user_data);
 }
 
-int SetMinStep(void *cvode_mem, cvode_precision minStep)
+int SetMinStep(void *cvode_mem, double minStep)
 {
     if (cvode_mem == NULL)
     {
@@ -232,7 +198,7 @@ int SetMinStep(void *cvode_mem, cvode_precision minStep)
     return CVodeSetMinStep(cvode_mem, minStep);
 }
 
-int SetMaxStep(void *cvode_mem, cvode_precision maxStep)
+int SetMaxStep(void *cvode_mem, double maxStep)
 {
     if (cvode_mem == NULL)
     {
@@ -241,27 +207,13 @@ int SetMaxStep(void *cvode_mem, cvode_precision maxStep)
     return CVodeSetMaxStep(cvode_mem, maxStep);
 }
 
-int SetInitStep(void *cvode_mem, cvode_precision initStep)
+int SetInitStep(void *cvode_mem, double initStep)
 {
     if (cvode_mem == NULL)
     {
         return CV_SUCCESS;
     }
     return CVodeSetInitStep(cvode_mem, initStep);
-}
-
-// C File IO interface routines
-FILE *fileOpen (const string& fileName)
-{
-    return fopen (fileName.c_str(), "w");
-}
-
-void fileClose (FILE *fp)
-{
-    if(fp)
-    {
-        fclose (fp);
-    }
 }
 
 }

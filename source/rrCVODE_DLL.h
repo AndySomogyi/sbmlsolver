@@ -5,60 +5,42 @@
 #include "rrExporter.h"
 #include "cvode/cvode.h"
 
-
-#define Ith(v,i)    NV_Ith_S(v,i-1)       /* Ith numbers components 1..NEQ */
-
 using namespace std;
 namespace rr
 {
 
-typedef double cvode_precision; //This is the precision that the cvode library is using, can be float, double and long double
 
-typedef  void (*TModelCallBack)(int n, double Time, double *y, double *ydot, void *f_data);
-typedef  void (*TRootCallBack)(double t, double *y, double *gout, void *g_data);
-
-//// Declare the call back pointers
-static TModelCallBack gCallBackModel;
-static TRootCallBack  gCallBackRoot;
-
-// N_Vector is a point to an N_Vector structure
-//todo: most of these are wrappers for functions in cvode, unnecesarry
-RR_DECLSPEC N_Vector     NewCvode_Vector(int);
-RR_DECLSPEC void         FreeCvode_Vector (N_Vector);
-RR_DECLSPEC void         FreeCvode_Mem (void **p);
-RR_DECLSPEC void         Cvode_SetVector (N_Vector v, int Index, double Value);
-RR_DECLSPEC double       Cvode_GetVector (N_Vector v, int Index);
-RR_DECLSPEC void*        Create_BDF_NEWTON_CVode();
-RR_DECLSPEC void*        Create_ADAMS_FUNCTIONAL_CVode();
-RR_DECLSPEC int          AllocateCvodeMem (        void *,
-                                                int n,
-                                                TModelCallBack what1,
-                                                double what2,
-                                                N_Vector whatIsIt,
-                                                double what3,
-                                                N_Vector whatIsThis);//, long int[], double[]);
-
-RR_DECLSPEC int         CvDense (void *, int);  // int = size of systems
-RR_DECLSPEC int         CVReInit (void *cvode_mem, double t0, N_Vector y0, double reltol, N_Vector abstol);
-RR_DECLSPEC int         Run_Cvode (void *cvode_mem, double tout, N_Vector y, double *t);
-RR_DECLSPEC int         CVGetRootInfo (void *cvode_mem, int *rootsFound);
-RR_DECLSPEC int         CVRootInit (void *cvode_mem, int numRoots, TRootCallBack callBack, void *gdata);
-RR_DECLSPEC int         SetMaxNumSteps(void *cvode_mem, int mxsteps);
-RR_DECLSPEC int         SetMaxOrder(void *cvode_mem, int mxorder);
-RR_DECLSPEC int         CVSetFData (void *cvode_mem, void *f_data);
-RR_DECLSPEC int         SetMaxErrTestFails(void *cvode_mem, int maxnef);
-RR_DECLSPEC int         SetMaxConvFails(void *cvode_mem, int maxncf);
-RR_DECLSPEC int         SetMaxNonLinIters (void *cvode_mem, int maxcor);
-RR_DECLSPEC int         SetErrFile (void *cvode_mem, FILE *errfp);
-RR_DECLSPEC int         SetErrHandler (void *cvode_mem, CVErrHandlerFn callback, void* user_data );
-RR_DECLSPEC int         SetMinStep(void *cvode_mem, double minStep);
-RR_DECLSPEC int         SetMaxStep(void *cvode_mem, double maxStep);
-RR_DECLSPEC int         SetInitStep(void *cvode_mem, double initStep);
-RR_DECLSPEC FILE*		fileOpen (const string& fileName);
-RR_DECLSPEC void        fileClose (FILE *fp);
-
-RR_DECLSPEC int         InternalFunctionCall(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *f_data);
-RR_DECLSPEC int         InternalRootCall (realtype t, N_Vector y, realtype *gout, void *g_data);
+//// N_Vector is a point to an N_Vector structure
+//RR_DECLSPEC void         Cvode_SetVector (N_Vector v, int Index, double Value);
+//RR_DECLSPEC double       Cvode_GetVector (N_Vector v, int Index);
+//
+//RR_DECLSPEC int          AllocateCvodeMem (        void *,
+//                                                int n,
+//                                                TModelCallBack what1,
+//                                                double what2,
+//                                                N_Vector whatIsIt,
+//                                                double what3,
+//                                                N_Vector whatIsThis);//, long int[], double[]);
+//
+////RR_DECLSPEC int         CvDense (void *, int);  // int = size of systems
+//RR_DECLSPEC int         CVReInit (void *cvode_mem, double t0, N_Vector y0, double reltol, N_Vector abstol);
+//RR_DECLSPEC int         Run_Cvode (void *cvode_mem, double tout, N_Vector y, double *t);
+//RR_DECLSPEC int         CVGetRootInfo (void *cvode_mem, int *rootsFound);
+//RR_DECLSPEC int         CVRootInit (void *cvode_mem, int numRoots, TRootCallBack callBack, void *gdata);
+//RR_DECLSPEC int         SetMaxNumSteps(void *cvode_mem, int mxsteps);
+//RR_DECLSPEC int         SetMaxOrder(void *cvode_mem, int mxorder);
+//RR_DECLSPEC int         CVSetFData (void *cvode_mem, void *f_data);
+//RR_DECLSPEC int         SetMaxErrTestFails(void *cvode_mem, int maxnef);
+//RR_DECLSPEC int         SetMaxConvFails(void *cvode_mem, int maxncf);
+//RR_DECLSPEC int         SetMaxNonLinIters (void *cvode_mem, int maxcor);
+//RR_DECLSPEC int         SetErrFile (void *cvode_mem, FILE *errfp);
+//RR_DECLSPEC int         SetErrHandler (void *cvode_mem, CVErrHandlerFn callback, void* user_data );
+//RR_DECLSPEC int         SetMinStep(void *cvode_mem, double minStep);
+//RR_DECLSPEC int         SetMaxStep(void *cvode_mem, double maxStep);
+//RR_DECLSPEC int         SetInitStep(void *cvode_mem, double initStep);
+//
+//RR_DECLSPEC int         InternalFunctionCall(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *f_data);
+//RR_DECLSPEC int         InternalRootCall (realtype t, N_Vector y, realtype *gout, void *g_data);
 }
 
 #endif

@@ -5,20 +5,61 @@
 #include "rrRandom.h"
 #include "rrPendingAssignment.h"
 #include "cvode/cvode.h"            //For IDE development, you may need to define RR_INSTALL_FOLDER
-#include "rrCVODE_DLL.h"
+//#include "rrCVODE_DLL.h"
 
 using std::string;
 
 namespace rr
 {
 
+// Declare call back pointers
+typedef  void (*TModelCallBack)(int n, double Time, double *y, double *ydot, void *f_data);
+typedef  void (*TRootCallBack)(double t, double *y, double *gout, void *g_data);
+
+static TModelCallBack gCallBackModel;
+static TRootCallBack  gCallBackRoot;
+
 class ModelFromC;
 class Event;
-//typedef long* IntPtr;
-//typedef void* CVodeMemPtr;
 
-void ModelFcn(int n, cvode_precision time, cvode_precision* y, cvode_precision* ydot, void* fdata);
-void EventFcn(double time, cvode_precision* y, cvode_precision* gdot, void* fdata);
+void ModelFcn(int n, double time, double* y, double* ydot, void* fdata);
+void EventFcn(double time, double* y, double* gdot, void* fdata);
+
+
+
+// N_Vector is a point to an N_Vector structure
+RR_DECLSPEC void         Cvode_SetVector (N_Vector v, int Index, double Value);
+RR_DECLSPEC double       Cvode_GetVector (N_Vector v, int Index);
+
+RR_DECLSPEC int          AllocateCvodeMem (        void *,
+                                                int n,
+                                                TModelCallBack what1,
+                                                double what2,
+                                                N_Vector whatIsIt,
+                                                double what3,
+                                                N_Vector whatIsThis);//, long int[], double[]);
+
+//RR_DECLSPEC int         CvDense (void *, int);  // int = size of systems
+RR_DECLSPEC int         CVReInit (void *cvode_mem, double t0, N_Vector y0, double reltol, N_Vector abstol);
+RR_DECLSPEC int         Run_Cvode (void *cvode_mem, double tout, N_Vector y, double *t);
+RR_DECLSPEC int         CVGetRootInfo (void *cvode_mem, int *rootsFound);
+RR_DECLSPEC int         CVRootInit (void *cvode_mem, int numRoots, TRootCallBack callBack, void *gdata);
+RR_DECLSPEC int         SetMaxNumSteps(void *cvode_mem, int mxsteps);
+RR_DECLSPEC int         SetMaxOrder(void *cvode_mem, int mxorder);
+RR_DECLSPEC int         CVSetFData (void *cvode_mem, void *f_data);
+RR_DECLSPEC int         SetMaxErrTestFails(void *cvode_mem, int maxnef);
+RR_DECLSPEC int         SetMaxConvFails(void *cvode_mem, int maxncf);
+RR_DECLSPEC int         SetMaxNonLinIters (void *cvode_mem, int maxcor);
+RR_DECLSPEC int         SetErrFile (void *cvode_mem, FILE *errfp);
+RR_DECLSPEC int         SetErrHandler (void *cvode_mem, CVErrHandlerFn callback, void* user_data );
+RR_DECLSPEC int         SetMinStep(void *cvode_mem, double minStep);
+RR_DECLSPEC int         SetMaxStep(void *cvode_mem, double maxStep);
+RR_DECLSPEC int         SetInitStep(void *cvode_mem, double initStep);
+
+RR_DECLSPEC int         InternalFunctionCall(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *f_data);
+RR_DECLSPEC int         InternalRootCall (realtype t, N_Vector y, realtype *gout, void *g_data);
+
+
 
 class RoadRunner;
 
@@ -30,8 +71,8 @@ class RR_DECLSPEC CvodeInterface : public rrObject
         const double                defaultAbsTol;
         const int                   defaultMaxNumSteps;
 
-        static string               tempPathstring;
-        static int                  errorFileCounter;
+        string        		        tempPathstring;
+        int                  		errorFileCounter;
 
         int                         numIndependentVariables;
         N_Vector                    gdata;

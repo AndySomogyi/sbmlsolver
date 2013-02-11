@@ -173,9 +173,6 @@
             <DependentOn>..\..\source\rrCVODEInterface.h</DependentOn>
             <BuildOrder>60</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\rrCVODE_DLL.cpp">
-            <BuildOrder>59</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\source\rrDLLEntry.cpp">
             <BuildOrder>71</BuildOrder>
         </CppCompile>
