@@ -41,19 +41,19 @@ RR_DECLSPEC int          AllocateCvodeMem (        void *,
 
 //RR_DECLSPEC int         CvDense (void *, int);  // int = size of systems
 RR_DECLSPEC int         CVReInit (void *cvode_mem, double t0, N_Vector y0, double reltol, N_Vector abstol);
-RR_DECLSPEC int         Run_Cvode (void *cvode_mem, double tout, N_Vector y, double *t);
+//RR_DECLSPEC int         Run_Cvode (void *cvode_mem, double tout, N_Vector y, double *t);
 RR_DECLSPEC int         CVGetRootInfo (void *cvode_mem, int *rootsFound);
 RR_DECLSPEC int         CVRootInit (void *cvode_mem, int numRoots, TRootCallBack callBack, void *gdata);
-RR_DECLSPEC int         SetMaxNumSteps(void *cvode_mem, int mxsteps);
-RR_DECLSPEC int         SetMaxOrder(void *cvode_mem, int mxorder);
-RR_DECLSPEC int         CVSetFData (void *cvode_mem, void *f_data);
+//RR_DECLSPEC int         SetMaxNumSteps(void *cvode_mem, int mxsteps);
+//RR_DECLSPEC int         SetMaxOrder(void *cvode_mem, int mxorder);
+//RR_DECLSPEC int         CVSetFData (void *cvode_mem, void *f_data);
 RR_DECLSPEC int         SetMaxErrTestFails(void *cvode_mem, int maxnef);
 RR_DECLSPEC int         SetMaxConvFails(void *cvode_mem, int maxncf);
 RR_DECLSPEC int         SetMaxNonLinIters (void *cvode_mem, int maxcor);
 RR_DECLSPEC int         SetErrFile (void *cvode_mem, FILE *errfp);
 RR_DECLSPEC int         SetErrHandler (void *cvode_mem, CVErrHandlerFn callback, void* user_data );
-RR_DECLSPEC int         SetMinStep(void *cvode_mem, double minStep);
-RR_DECLSPEC int         SetMaxStep(void *cvode_mem, double maxStep);
+//RR_DECLSPEC int         SetMinStep(void *cvode_mem, double minStep);
+//RR_DECLSPEC int         SetMaxStep(void *cvode_mem, double maxStep);
 RR_DECLSPEC int         SetInitStep(void *cvode_mem, double initStep);
 
 RR_DECLSPEC int         InternalFunctionCall(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *f_data);
@@ -226,10 +226,11 @@ class RR_DECLSPEC CvodeInterface : public rrObject
         double                      OneStep(double timeStart, double hstep);
 
         // Restart the simulation using a different initial condition
-        void                        AssignNewVector(ModelFromC *oModel, bool bAssignNewTolerances);
         void                        AssignNewVector(ModelFromC *model);
+        void                        AssignNewVector(ModelFromC *oModel, bool bAssignNewTolerances);
+
         void                        setAbsTolerance(int index, double dValue);
-        int                         reStart(double timeStart, ModelFromC* model);
+        void                        reStart(double timeStart, ModelFromC* model);
 //        public double getValue(int index);
         vector<double>              BuildEvalArgument();
 };

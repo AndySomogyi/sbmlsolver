@@ -508,11 +508,11 @@ DoubleMatrix RoadRunner::runSimulation()
 
     if (mCVode->HaveVariables())
     {
-        int restartResult = mCVode->reStart(mTimeStart, mModel);
-		if (restartResult != 0)
-        {
-            throw CoreException("Error in reStart call to CVODE");
-        }
+        mCVode->reStart(mTimeStart, mModel);
+//		if (restartResult != 0)
+//        {
+//            throw CoreException("Error in reStart call to CVODE");
+//        }
     }
 
     double tout = mTimeStart;

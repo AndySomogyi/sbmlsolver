@@ -10,14 +10,14 @@
 #include "cvode/cvode_dense.h"
 #include "rrRoadRunner.h"
 #include "rrModelFromC.h"
-#include "rrCVODE_DLL.h"
+//#include "rrCVODE_DLL.h"
 #include "rrException.h"
 #include "rrModelState.h"
 #include "rrLogger.h"
 #include "rrStringUtils.h"
 #include "rrException.h"
 #include "rrCVODEInterface.h"
-#include "rrCVODE_DLL.h"
+//#include "rrCVODE_DLL.h"
 #include "rrUtils.h"
 #include "rrEvent.h"
 //---------------------------------------------------------------------------
@@ -142,7 +142,8 @@ double CvodeInterface::OneStep(double timeStart, double hstep)
                 assignmentTimes.erase(assignmentTimes.begin());
             }
 
-            int nResult = Run_Cvode(cvodeMem, nextTargetEndTime,  _amounts, &timeEnd);
+//            int nResult = Run_Cvode(cvodeMem, nextTargetEndTime,  _amounts, &timeEnd);
+            int nResult = CVode(cvodeMem, nextTargetEndTime,  _amounts, &timeEnd, CV_NORMAL);
 
             if (nResult == CV_ROOT_RETURN && followEvents)
             {
@@ -316,12 +317,18 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
             AssignNewVector(oModel, true);
 
             cvodeMem = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
-            SetMaxOrder(cvodeMem, MaxBDFOrder);
+            //SetMaxOrder(cvodeMem, MaxBDFOrder);
+            CVodeSetMaxOrd(cvodeMem, MaxBDFOrder);
             CVodeSetInitStep(cvodeMem, InitStep);
-            SetMinStep(cvodeMem, MinStep);
-            SetMaxStep(cvodeMem, MaxStep);
 
-            SetMaxNumSteps(cvodeMem, MaxNumSteps);
+            //SetMinStep(cvodeMem, MinStep);
+            CVodeSetMinStep(cvodeMem, MinStep);
+
+            //SetMaxStep(cvodeMem, MaxStep);
+            CVodeSetMaxStep(cvodeMem, MaxStep);
+
+			//SetMaxNumSteps(cvodeMem, MaxNumSteps);
+            CVodeSetMaxNumSteps(cvodeMem, MaxNumSteps);
 
 //            fileHandle = fileOpen(JoinPath(tempPathstring, cvodeLogFile) + ToString(errorFileCounter) + ".txt");
 //            SetErrFile(cvodeMem, fileHandle);
@@ -357,8 +364,10 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
             Cvode_SetVector( (N_Vector) abstolArray, 0, defaultAbsTol);
 
             cvodeMem = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
-            SetMaxOrder(cvodeMem, MaxBDFOrder);
-            SetMaxNumSteps(cvodeMem, MaxNumSteps);
+            //SetMaxOrder(cvodeMem, MaxBDFOrder);
+            CVodeSetMaxOrd(cvodeMem, MaxBDFOrder);
+            //SetMaxNumSteps(cvodeMem, MaxNumSteps);
+			CVodeSetMaxNumSteps(cvodeMem, MaxNumSteps);
 
 //            fileHandle = fileOpen(JoinPath(tempPathstring, cvodeLogFile) + ToString(errorFileCounter) + ".txt");
 //            SetErrFile(cvodeMem, fileHandle);
@@ -386,7 +395,9 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
     }
     catch (const Exception& ex)
     {
-        throw CVODEException("Fatal Error while initializing CVODE");//, ex.mMessage);
+		Log(lError)<<"Fatal Error while initializing CVODE: " << ex.getMessage();
+
+        throw CVODEException("Fatal Error while initializing CVODE");
     }
 }
 
@@ -800,13 +811,16 @@ void CvodeInterface::setAbsTolerance(int index, double dValue)
     Cvode_SetVector(abstolArray, index, dTolerance);
 }
 
-int CvodeInterface::reStart(double timeStart, ModelFromC* model)
+void CvodeInterface::reStart(double timeStart, ModelFromC* model)
 {
     AssignNewVector(model);
-    SetInitStep(cvodeMem, InitStep);
-    SetMinStep(cvodeMem, MinStep);
-    SetMaxStep(cvodeMem, MaxStep);
-    return CVReInit(cvodeMem, timeStart, _amounts, relTol, abstolArray);
+    if(cvodeMem)
+    {
+    	SetInitStep(cvodeMem, InitStep);
+    	CVodeSetMinStep(cvodeMem, MinStep);
+    	CVodeSetMaxStep(cvodeMem, MaxStep);
+		CVReInit(cvodeMem, timeStart, _amounts, relTol, abstolArray);
+    }
 }
 
 vector<double> BuildEvalArgument(ModelFromC* model)
@@ -878,6 +892,7 @@ void CvodeInterface::HandleCVODEError(int errCode)
     }
 }
 
+//////////////////From CVODE DLL...
 
 // Sets the value of an element in a N_Vector object
 void Cvode_SetVector (N_Vector v, int Index, double Value)
@@ -942,23 +957,23 @@ int CVRootInit (void *cvode_mem, int numRoots, TRootCallBack callBack, void *gda
     return CVodeRootInit (cvode_mem, numRoots, InternalRootCall);
 }
 
-int CvDense (void *p, int n)
-{
-    if (p == NULL)
-    {
-        return CV_SUCCESS; //???
-    }
-    return CVDense(p, n);
-}
+//int CvDense (void *p, int n)
+//{
+//    if (p == NULL)
+//    {
+//        return CV_SUCCESS; //???
+//    }
+//    return CVDense(p, n);
+//}
 
-int Run_Cvode (void *cvode_mem, double tout, N_Vector y, double *t)
-{
-    if (cvode_mem == NULL)
-    {
-        return CV_SUCCESS;
-    }
-    return CVode (cvode_mem, tout, y, t, CV_NORMAL);
-}
+//int Run_Cvode (void *cvode_mem, double tout, N_Vector y, double *t)
+//{
+//    if (cvode_mem == NULL)
+//    {
+//        return CV_SUCCESS;
+//    }
+//    return CVode (cvode_mem, tout, y, t, CV_NORMAL);
+//}
 
 // Initialize cvode with a new set of initial conditions
 int CVReInit (void *cvode_mem, double t0, N_Vector y0, double reltol, N_Vector abstol)
@@ -990,28 +1005,28 @@ int CVGetRootInfo(void *cvode_mem, int *rootsFound)
     return CVodeGetRootInfo(cvode_mem, rootsFound);
 }
 
-int CVSetFData (void *cvode_mem, void *f_data)
-{
-    return 0;
-}
+//int CVSetFData (void *cvode_mem, void *f_data)
+//{
+//    return 0;
+//}
 
-int SetMaxNumSteps(void *cvode_mem, int mxsteps)
-{
-    if (cvode_mem == NULL)
-    {
-        return CV_SUCCESS;
-    }
-    return CVodeSetMaxNumSteps (cvode_mem, mxsteps);
-}
-
-int SetMaxOrder (void *cvode_mem, int mxorder)
-{
-    if (cvode_mem == NULL)
-    {
-        return CV_SUCCESS;
-    }
-    return CVodeSetMaxOrd (cvode_mem, mxorder);
-}
+//int SetMaxNumSteps(void *cvode_mem, int mxsteps)
+//{
+//    if (cvode_mem == NULL)
+//    {
+//        return CV_SUCCESS;
+//    }
+//    return CVodeSetMaxNumSteps (cvode_mem, mxsteps);
+//}
+//
+//int SetMaxOrder (void *cvode_mem, int mxorder)
+//{
+//    if (cvode_mem == NULL)
+//    {
+//        return CV_SUCCESS;
+//    }
+//    return CVodeSetMaxOrd (cvode_mem, mxorder);
+//}
 
 int SetMaxErrTestFails (void *cvode_mem, int maxnef)
 {
