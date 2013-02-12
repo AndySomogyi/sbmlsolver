@@ -12,28 +12,18 @@ using std::string;
 namespace rr
 {
 
-// Declare call back pointers
-typedef  void (*TModelCallBack)(int n, double Time, double *y, double *ydot, void *f_data);
+//// Declare call back pointers
+//typedef  void (*TModelCallBack)(int n, double Time, double *y, double *ydot, void *f_data);
 typedef  void (*TRootCallBack)(double t, double *y, double *gout, void *g_data);
-
-static TModelCallBack gCallBackModel;
-static TRootCallBack  gCallBackRoot;
-
-class ModelFromC;
-class Event;
 
 void ModelFcn(int n, double time, double* y, double* ydot, void* fdata);
 void EventFcn(double time, double* y, double* gdot, void* fdata);
 
+//static TModelCallBack gCallBackModel;
+//static TRootCallBack  gCallBackRoot;
 
-RR_DECLSPEC int          AllocateCvodeMem (     void *,
-                                                int n,
-                                                TModelCallBack what1,
-                                                double what2,
-                                                N_Vector whatIsIt,
-                                                double what3,
-                                                N_Vector whatIsThis);
-
+class Event;
+class ModelFromC;
 
 
 
@@ -57,7 +47,7 @@ class RR_DECLSPEC CvodeInterface : public rrObject
         N_Vector                    _amounts;
         N_Vector                    abstolArray;
         string                      cvodeLogFile;
-        void*                       cvodeMem;
+        void*                       mCVODE_Memory;
         int                         numAdditionalRules;
         void                        HandleCVODEError(int errCode);
         vector<double>              assignmentTimes;
@@ -84,13 +74,14 @@ class RR_DECLSPEC CvodeInterface : public rrObject
 
         void                        AssignResultsToModel();
 
-//		int          				AllocateCvodeMem (     void *,
-//                                                int n,
-//                                                TModelCallBack what1,
-//                                                double what2,
-//                                                N_Vector whatIsIt,
-//                                                double what3,
-//                                                N_Vector whatIsThis);
+		int          				AllocateCvodeMem (void* Memory, int n);
+
+
+                                                //TModelCallBack what1,
+                                                //double what2,
+                                                //N_Vector whatIsIt,
+                                                //double what3,
+                                                //N_Vector whatIsThis);
 
         static int                  mCount;
         static int                  mRootCount;

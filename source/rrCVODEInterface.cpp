@@ -10,14 +10,12 @@
 #include "cvode/cvode_dense.h"
 #include "rrRoadRunner.h"
 #include "rrModelFromC.h"
-//#include "rrCVODE_DLL.h"
 #include "rrException.h"
 #include "rrModelState.h"
 #include "rrLogger.h"
 #include "rrStringUtils.h"
 #include "rrException.h"
 #include "rrCVODEInterface.h"
-//#include "rrCVODE_DLL.h"
 #include "rrUtils.h"
 #include "rrEvent.h"
 //---------------------------------------------------------------------------
@@ -27,8 +25,8 @@ namespace rr
 {
 
 // N_Vector is a point to an N_Vector structure
-RR_DECLSPEC void         Cvode_SetVector (N_Vector v, int Index, double Value);
-RR_DECLSPEC double       Cvode_GetVector (N_Vector v, int Index);
+RR_DECLSPEC void        Cvode_SetVector (N_Vector v, int Index, double Value);
+RR_DECLSPEC double      Cvode_GetVector (N_Vector v, int Index);
 
 RR_DECLSPEC int         CVReInit (void *cvode_mem, double t0, N_Vector y0, double reltol, N_Vector abstol);
 RR_DECLSPEC int         CVRootInit (void *cvode_mem, int numRoots, TRootCallBack callBack, void *gdata);
@@ -47,7 +45,6 @@ ModelFromC* CvodeInterface::model = NULL;
 // -------------------------------------------------------------------------
 // Constructor
 // Model contains all the symbol tables associated with the model
-// ev is the model function
 // -------------------------------------------------------------------------
 CvodeInterface::CvodeInterface(RoadRunner* rr, ModelFromC *aModel, const double& _absTol, const double& _relTol)
 :
@@ -69,17 +66,12 @@ MaxStep(0.0),
 MaxNumSteps(defaultMaxNumSteps),
 relTol(_relTol),
 absTol(_absTol),
-//errorFileCounter,
-//_rootsFound),
 abstolArray(NULL),
-//fileHandle(NULL),
-//modelDelegate(&CvodeInterface::ModelFcn)
 mRR(rr),
-cvodeMem(NULL),
+mCVODE_Memory(NULL),
 mOneStepCount(0),
 lastTimeValue(0),
 lastEvent(0)
-
 {
 	if(rr)
 	{
@@ -90,13 +82,13 @@ lastEvent(0)
 
 CvodeInterface::~CvodeInterface()
 {
-    if(cvodeMem)
+	//CVode crashes if handed NULL vectorc... (: ! ........
+    if(mCVODE_Memory)
     {
-    	CVodeFree( &cvodeMem);
+    	CVodeFree( &mCVODE_Memory);
     }
 
-
-    if(_amounts)//CVode crashes if handed a NULL vector... bizarre..
+    if(_amounts)
     {
     	N_VDestroy_Serial(_amounts);
     }
@@ -107,6 +99,26 @@ CvodeInterface::~CvodeInterface()
     }
 }
 
+// CallBack is the host application function that computes the dy/dt terms
+int CvodeInterface::AllocateCvodeMem (void *cvode_mem, int n)//, TModelCallBack callBack, double t0, N_Vector y, double reltol, N_Vector abstol/*, long int iopt[], double ropt[]*/)
+{
+    int result;
+    double t0 = 0.0;
+
+    if (cvode_mem == NULL)
+    {
+        return CV_SUCCESS;
+    }
+
+    result =  CVodeInit(cvode_mem, InternalFunctionCall, t0, _amounts);
+
+    if (result != CV_SUCCESS)
+    {
+        return result;
+    }
+    result = CVodeSVtolerances(cvode_mem, relTol,abstolArray);
+    return result;
+}
 
 double CvodeInterface::OneStep(double timeStart, double hstep)
 {
@@ -152,8 +164,7 @@ double CvodeInterface::OneStep(double timeStart, double hstep)
                 assignmentTimes.erase(assignmentTimes.begin());
             }
 
-//            int nResult = Run_Cvode(cvodeMem, nextTargetEndTime,  _amounts, &timeEnd);
-            int nResult = CVode(cvodeMem, nextTargetEndTime,  _amounts, &timeEnd, CV_NORMAL);
+            int nResult = CVode(mCVODE_Memory, nextTargetEndTime,  _amounts, &timeEnd, CV_NORMAL);
 
             if (nResult == CV_ROOT_RETURN && followEvents)
             {
@@ -326,26 +337,24 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
 
             AssignNewVector(oModel, true);
 
-            cvodeMem = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
-            //SetMaxOrder(cvodeMem, MaxBDFOrder);
-            if(cvodeMem)
+            mCVODE_Memory = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
+            //SetMaxOrder(mCVODE_Memory, MaxBDFOrder);
+            if(mCVODE_Memory)
             {
-                CVodeSetMaxOrd(cvodeMem, MaxBDFOrder);
-                CVodeSetInitStep(cvodeMem, InitStep);
+                CVodeSetMaxOrd(mCVODE_Memory, MaxBDFOrder);
+                CVodeSetInitStep(mCVODE_Memory, InitStep);
 
-                //SetMinStep(cvodeMem, MinStep);
-                CVodeSetMinStep(cvodeMem, MinStep);
+                //SetMinStep(mCVODE_Memory, MinStep);
+                CVodeSetMinStep(mCVODE_Memory, MinStep);
 
-                //SetMaxStep(cvodeMem, MaxStep);
-                CVodeSetMaxStep(cvodeMem, MaxStep);
+                //SetMaxStep(mCVODE_Memory, MaxStep);
+                CVodeSetMaxStep(mCVODE_Memory, MaxStep);
 
-                //SetMaxNumSteps(cvodeMem, MaxNumSteps);
-                CVodeSetMaxNumSteps(cvodeMem, MaxNumSteps);
+                //SetMaxNumSteps(mCVODE_Memory, MaxNumSteps);
+                CVodeSetMaxNumSteps(mCVODE_Memory, MaxNumSteps);
 			}
 
-//            fileHandle = fileOpen(JoinPath(tempPathstring, cvodeLogFile) + ToString(errorFileCounter) + ".txt");
-//            SetErrFile(cvodeMem, fileHandle);
-            errCode = AllocateCvodeMem(cvodeMem, allocatedMemory, ModelFcn, (double) 0.0, (N_Vector) _amounts, relTol, (N_Vector) abstolArray);
+            errCode = AllocateCvodeMem(mCVODE_Memory, allocatedMemory);//, ModelFcn, (double) 0.0, (N_Vector) _amounts, relTol, (N_Vector) abstolArray);
 
             if (errCode < 0)
             {
@@ -354,11 +363,11 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
 
             if (oModel->getNumEvents() > 0)
             {
-                errCode = CVRootInit(cvodeMem, oModel->getNumEvents(), EventFcn, gdata);
+                errCode = CVRootInit(mCVODE_Memory, oModel->getNumEvents(), EventFcn, gdata);
                 Log(lDebug2)<<"CVRootInit executed.....";
             }
 
-           	errCode = CVDense(cvodeMem, allocatedMemory); // int = size of systems
+           	errCode = CVDense(mCVODE_Memory, allocatedMemory); // int = size of systems
 
 
             if (errCode < 0)
@@ -376,16 +385,11 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
             Cvode_SetVector( (N_Vector) _amounts, 0, 10);
             Cvode_SetVector( (N_Vector) abstolArray, 0, defaultAbsTol);
 
-            cvodeMem = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
-            //SetMaxOrder(cvodeMem, MaxBDFOrder);
-            CVodeSetMaxOrd(cvodeMem, MaxBDFOrder);
-            //SetMaxNumSteps(cvodeMem, MaxNumSteps);
-			CVodeSetMaxNumSteps(cvodeMem, MaxNumSteps);
+            mCVODE_Memory = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
+            CVodeSetMaxOrd(mCVODE_Memory, MaxBDFOrder);
+			CVodeSetMaxNumSteps(mCVODE_Memory, MaxNumSteps);
 
-//            fileHandle = fileOpen(JoinPath(tempPathstring, cvodeLogFile) + ToString(errorFileCounter) + ".txt");
-//            SetErrFile(cvodeMem, fileHandle);
-
-            errCode = AllocateCvodeMem(cvodeMem, allocated, ModelFcn, 0.0, (N_Vector) _amounts, relTol, (N_Vector) abstolArray);
+            errCode = AllocateCvodeMem(mCVODE_Memory, allocated);//, ModelFcn, 0.0, (N_Vector) _amounts, relTol, (N_Vector) abstolArray);
             if (errCode < 0)
             {
                 HandleCVODEError(errCode);
@@ -393,11 +397,11 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
 
             if (oModel->getNumEvents() > 0)
             {
-                errCode = CVRootInit(cvodeMem, oModel->getNumEvents(), EventFcn, gdata);
+                errCode = CVRootInit(mCVODE_Memory, oModel->getNumEvents(), EventFcn, gdata);
                 Log(lDebug2)<<"CVRootInit executed.....";
             }
 
-            errCode = CVDense(cvodeMem, allocated); // int = size of systems
+            errCode = CVDense(mCVODE_Memory, allocated); // int = size of systems
             if (errCode < 0)
             {
                 HandleCVODEError(errCode);
@@ -499,7 +503,7 @@ void CvodeInterface::HandleRootsFound(double &timeEnd, const double& tout)
 
     // Create some space for the CVGetRootInfo call
     _rootsFound = new int[model->getNumEvents()];
-    CVodeGetRootInfo(cvodeMem, _rootsFound);
+    CVodeGetRootInfo(mCVODE_Memory, _rootsFound);
     CopyCArrayToStdVector(_rootsFound, rootsFound, model->getNumEvents());
     delete [] _rootsFound;
     HandleRootsForTime(timeEnd, rootsFound);
@@ -720,7 +724,7 @@ void CvodeInterface::HandleRootsForTime(const double& timeEnd, vector<int>& root
         Cvode_SetVector((N_Vector) _amounts, k + numAdditionalRules, model->amounts[k]);
     }
 
-    CVReInit(cvodeMem, timeEnd, _amounts, relTol, abstolArray);
+    CVReInit(mCVODE_Memory, timeEnd, _amounts, relTol, abstolArray);
     sort(assignmentTimes.begin(), assignmentTimes.end());
 }
 
@@ -827,12 +831,12 @@ void CvodeInterface::setAbsTolerance(int index, double dValue)
 void CvodeInterface::reStart(double timeStart, ModelFromC* model)
 {
     AssignNewVector(model);
-    if(cvodeMem)
+    if(mCVODE_Memory)
     {
-    	CVodeSetInitStep(cvodeMem, InitStep);
-    	CVodeSetMinStep(cvodeMem, MinStep);
-    	CVodeSetMaxStep(cvodeMem, MaxStep);
-		CVReInit(cvodeMem, timeStart, _amounts, relTol, abstolArray);
+    	CVodeSetInitStep(mCVODE_Memory, InitStep);
+    	CVodeSetMinStep(mCVODE_Memory, MinStep);
+    	CVodeSetMaxStep(mCVODE_Memory, MaxStep);
+		CVReInit(mCVODE_Memory, timeStart, _amounts, relTol, abstolArray);
     }
 }
 
@@ -854,7 +858,6 @@ vector<double> BuildEvalArgument(ModelFromC* model)
 
     Log(lDebug4)<<"Size of dResult in BuildEvalArgument: "<<dResult.size();
     return dResult;
-
 }
 
 vector<double> CvodeInterface::BuildEvalArgument()
@@ -886,26 +889,10 @@ void CvodeInterface::HandleCVODEError(int errCode)
 
         // and open a new file handle
         errorFileCounter++;
-//        FILE* newHandle = fileOpen(JoinPath(tempPathstring, cvodeLogFile) + ToString(errorFileCounter) + ".txt");
-//        if (newHandle != NULL && cvodeMem != NULL)
-//        {
-//            SetErrFile(cvodeMem, newHandle);
-//        }
-//        // close error file used by the cvode library
-//        if (fileHandle != NULL)
-//        {
-//            fileClose(fileHandle);
-//        }
-//
-//        fileHandle = newHandle;
-
         //throw CvodeException("Error in RunCVode: " + errorCodes[-errCode].msg + msg);
         Log(lError)<<"**************** Error in RunCVode: "<<errCode<<msg<<" ****************************"<<endl;
-//        throw CVODEException("Error in RunCVode: " + ToString(errCode) + msg);
     }
 }
-
-//////////////////From CVODE DLL...
 
 // Sets the value of an element in a N_Vector object
 void Cvode_SetVector (N_Vector v, int Index, double Value)
@@ -920,34 +907,17 @@ double Cvode_GetVector (N_Vector v, int Index)
     return data[Index];
 }
 
-// CallBack is the host application function that computes the dy/dt terms
-int AllocateCvodeMem (void *cvode_mem, int n, TModelCallBack callBack, double t0, N_Vector y, double reltol, N_Vector abstol/*, long int iopt[], double ropt[]*/)
-{
-    int result;
-
-    if (cvode_mem == NULL)
-    {
-        return CV_SUCCESS;
-    }
-
-    result = CV_SUCCESS;
-    gCallBackModel = callBack;
-    result =  CVodeInit(cvode_mem, InternalFunctionCall, t0, y);
-
-    if (result != CV_SUCCESS)
-    {
-        return result;
-    }
-    result = CVodeSVtolerances(cvode_mem, reltol, abstol);
-    return result;
-}
-
 // Cvode calls this to compute the dy/dts. This routine in turn calls the
 // model function which is located in the host application.
 int InternalFunctionCall(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *f_data)
 {
     // Calls the callBackModel here
-    gCallBackModel (NV_LENGTH_S(cv_y), t, NV_DATA_S (cv_y), NV_DATA_S(cv_ydot), f_data);
+//    gCallBackModel (NV_LENGTH_S(cv_y), t, NV_DATA_S (cv_y), NV_DATA_S(cv_ydot), f_data);
+	ModelFcn(NV_LENGTH_S(cv_y), t, NV_DATA_S (cv_y), NV_DATA_S(cv_ydot), f_data);
+
+
+
+
     return CV_SUCCESS;
 }
 
@@ -955,7 +925,8 @@ int InternalFunctionCall(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *f_da
 // Cvode calls this to check for event changes
 int InternalRootCall (realtype t, N_Vector y, realtype *gout, void *g_data)
 {
-    gCallBackRoot (t, NV_DATA_S (y), gout, g_data);
+//    gCallBackRoot (t, NV_DATA_S (y), gout, g_data);
+    EventFcn(t, NV_DATA_S (y), gout, g_data);
     return CV_SUCCESS;
 }
 
@@ -966,7 +937,7 @@ int CVRootInit (void *cvode_mem, int numRoots, TRootCallBack callBack, void *gda
          return CV_SUCCESS;
     }
 
-    gCallBackRoot = callBack;
+//    gCallBackRoot = callBack;
     return CVodeRootInit (cvode_mem, numRoots, InternalRootCall);
 }
 
