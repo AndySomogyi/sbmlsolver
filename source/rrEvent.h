@@ -30,7 +30,7 @@ class RR_DECLSPEC Event : public rrObject
 
 struct RR_DECLSPEC SortByPriority
 {
-	bool operator()( const Event& lx, const Event& rx ) const
+	bool operator()( const rr::Event& lx, const rr::Event& rx ) const
     {
         return lx.GetPriority() > rx.GetPriority();
     }

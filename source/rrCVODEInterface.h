@@ -2,32 +2,19 @@
 #define rrCvodeInterfaceH
 #include <string>
 #include "rrObject.h"
-#include "rrRandom.h"
 #include "rrPendingAssignment.h"
-#include "cvode/cvode.h"            //For IDE development, you may need to define RR_INSTALL_FOLDER
-//#include "rrCVODE_DLL.h"
-
+#include "cvode/cvode.h"
 using std::string;
 
 namespace rr
 {
 
-//// Declare call back pointers
-//typedef  void (*TModelCallBack)(int n, double Time, double *y, double *ydot, void *f_data);
-typedef  void (*TRootCallBack)(double t, double *y, double *gout, void *g_data);
-
-void ModelFcn(int n, double time, double* y, double* ydot, void* fdata);
-void EventFcn(double time, double* y, double* gdot, void* fdata);
-
-//static TModelCallBack gCallBackModel;
-//static TRootCallBack  gCallBackRoot;
+RR_DECLSPEC int InternalFunctionCall(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *f_data);
+RR_DECLSPEC int InternalRootCall (realtype t, N_Vector y, realtype *gout, void *g_data);
+
 
 class Event;
 class ModelFromC;
-
-
-
-
 class RoadRunner;
 
 class RR_DECLSPEC CvodeInterface : public rrObject
@@ -42,7 +29,7 @@ class RR_DECLSPEC CvodeInterface : public rrObject
         int                  		errorFileCounter;
 
         int                         numIndependentVariables;
-        N_Vector                    gdata;
+//        N_Vector                    gdata;
         int*                        _rootsFound;
         N_Vector                    _amounts;
         N_Vector                    abstolArray;
@@ -62,6 +49,9 @@ class RR_DECLSPEC CvodeInterface : public rrObject
         void                        SortEventsByPriority(vector<int>& firedEvents);
         void                        SortEventsByPriority(vector<Event>& firedEvents);
         void                        HandleRootsForTime(const double& timeEnd, vector<int>& rootsFound);
+	 	int         				CVRootInit (void *cvode_mem, int numRoots);//, TRootCallBack callBack, void *gdata);
+		//int         				CVReInit (void *cvode_mem, double t0, N_Vector y0, double reltol, N_Vector abstol);
+		int         				CVReInit (double t0);
 
     public:
                                     // -------------------------------------------------------------------------
@@ -76,13 +66,6 @@ class RR_DECLSPEC CvodeInterface : public rrObject
 
 		int          				AllocateCvodeMem (void* Memory, int n);
 
-
-                                                //TModelCallBack what1,
-                                                //double what2,
-                                                //N_Vector whatIsIt,
-                                                //double what3,
-                                                //N_Vector whatIsThis);
-
         static int                  mCount;
         static int                  mRootCount;
         int                         mOneStepCount;
@@ -90,7 +73,7 @@ class RR_DECLSPEC CvodeInterface : public rrObject
         static ModelFromC          *model;
         RoadRunner				   *mRR;
         vector<PendingAssignment>   assignments;
-        Random                      mRandom;
+
         int                         defaultMaxAdamsOrder;
         int                         defaultMaxBDFOrder;
         int                         MaxAdamsOrder;

@@ -634,32 +634,19 @@ bool RoadRunner::loadSBML(const string& sbml)
     }
 
     mCurrentSBML 	= sbml;
-//    string dllName  = getDLLName();
 
-     //Shall we compile model if it exists?
-//    bool compileIfDllExists = mSimulation ? mSimulation->CompileIfDllExists() : true;
-//    bool dllExists = FileExists(dllName);
-    bool compile = true;
-//    if(dllExists && compileIfDllExists == false)
-//    {
-//        compile = false;
-//    }
-
-    if(compile)
+    mModelDLL.setPath(getTempFileFolder());
+    mModelDLL.createName();	//Creates a new name
+    if(!generateModelCode(""))
     {
-	    mModelDLL.setPath(getTempFileFolder());
-	    mModelDLL.createName();	//Creates a new name
-        if(!generateModelCode(""))
-        {
-            Log(lError)<<"Failed generating model from SBML";
-            return false;
-        }
+        Log(lError)<<"Failed generating model from SBML";
+        return false;
+    }
 
-        if(!compileModel())
-        {
-            Log(lError)<<"Failed to generate and compile model";
-            return false;
-        }
+    if(!compileModel())
+    {
+        Log(lError)<<"Failed to generate and compile model";
+        return false;
     }
 
     if(!mModel)

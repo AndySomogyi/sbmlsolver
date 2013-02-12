@@ -24,16 +24,13 @@ using namespace std;
 namespace rr
 {
 
+void ModelFcn(int n, double time, double* y, double* ydot, void* fdata);
+void EventFcn(double time, double* y, double* gdot, void* fdata);
+
 // N_Vector is a point to an N_Vector structure
 RR_DECLSPEC void        Cvode_SetVector (N_Vector v, int Index, double Value);
 RR_DECLSPEC double      Cvode_GetVector (N_Vector v, int Index);
 
-RR_DECLSPEC int         CVReInit (void *cvode_mem, double t0, N_Vector y0, double reltol, N_Vector abstol);
-RR_DECLSPEC int         CVRootInit (void *cvode_mem, int numRoots, TRootCallBack callBack, void *gdata);
-
-RR_DECLSPEC int         InternalFunctionCall(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *f_data);
-RR_DECLSPEC int         InternalRootCall (realtype t, N_Vector y, realtype *gout, void *g_data);
-
 //helper function for call back functions..
 vector<double> BuildEvalArgument(ModelFromC* model);
 
@@ -51,11 +48,10 @@ CvodeInterface::CvodeInterface(RoadRunner* rr, ModelFromC *aModel, const double&
 defaultReltol(_relTol),
 defaultAbsTol(_absTol),
 defaultMaxNumSteps(10000),
-gdata(NULL),
+//gdata(NULL),
 _amounts(NULL),
 cvodeLogFile("cvodeLogFile"),
 followEvents(true),
-mRandom(),
 defaultMaxAdamsOrder(12),
 defaultMaxBDFOrder(5),
 MaxAdamsOrder(defaultMaxAdamsOrder),
@@ -77,6 +73,7 @@ lastEvent(0)
 	{
 		tempPathstring = rr->getTempFileFolder();
 	}
+
     InitializeCVODEInterface(aModel);
 }
 
@@ -116,7 +113,39 @@ int CvodeInterface::AllocateCvodeMem (void *cvode_mem, int n)//, TModelCallBack 
     {
         return result;
     }
-    result = CVodeSVtolerances(cvode_mem, relTol,abstolArray);
+    result = CVodeSVtolerances(cvode_mem, relTol, abstolArray);
+    return result;
+}
+
+int CvodeInterface::CVRootInit (void *cvode_mem, int numRoots)//, TRootCallBack callBack, void *gdata)
+{
+    if (cvode_mem == NULL)
+    {
+         return CV_SUCCESS;
+    }
+
+    return CVodeRootInit (cvode_mem, numRoots, InternalRootCall);
+}
+
+// Initialize cvode with a new set of initial conditions
+//int CvodeInterface::CVReInit (void *cvode_mem, double t0, N_Vector y0, double reltol, N_Vector abstol)
+int CvodeInterface::CVReInit (double t0)
+{
+    int result;
+
+    if (mCVODE_Memory == NULL)
+    {
+        return CV_SUCCESS;
+    }
+
+    result = CVodeReInit(mCVODE_Memory,  t0, _amounts);
+
+    if (result != CV_SUCCESS)
+    {
+        return result;
+    }
+
+    result = CVodeSVtolerances(mCVODE_Memory, relTol, abstolArray);
     return result;
 }
 
@@ -242,8 +271,8 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* fdata)
         dCVodeArgument[i] = y[i];
     }
 
-    stringstream msg;
-    msg<<left<<setw(20)<<"Count = "<<(CvodeInterface::mCount)<<"\t";
+//    stringstream msg;
+//    msg<<left<<setw(20)<<"Count = "<<(CvodeInterface::mCount)<<"\t";
 
     //for (u_int i = 0; i < dCVodeArgument.size(); i++)
     //{
@@ -363,7 +392,7 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
 
             if (oModel->getNumEvents() > 0)
             {
-                errCode = CVRootInit(mCVODE_Memory, oModel->getNumEvents(), EventFcn, gdata);
+                errCode = CVRootInit(mCVODE_Memory, oModel->getNumEvents());//, EventFcn, gdata);
                 Log(lDebug2)<<"CVRootInit executed.....";
             }
 
@@ -397,7 +426,7 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
 
             if (oModel->getNumEvents() > 0)
             {
-                errCode = CVRootInit(mCVODE_Memory, oModel->getNumEvents(), EventFcn, gdata);
+                errCode = CVRootInit(mCVODE_Memory, oModel->getNumEvents());//, EventFcn, gdata);
                 Log(lDebug2)<<"CVRootInit executed.....";
             }
 
@@ -536,7 +565,7 @@ void CvodeInterface::RemovePendingAssignmentForIndex(const int& eventIndex)
     }
 }
 
-void CvodeInterface::SortEventsByPriority(vector<Event>& firedEvents)
+void CvodeInterface::SortEventsByPriority(vector<rr::Event>& firedEvents)
 {
     if ((firedEvents.size() > 1))
     {
@@ -561,7 +590,7 @@ void CvodeInterface::SortEventsByPriority(vector<int>& firedEvents)
     if ((firedEvents.size() > 1))
     {
 		model->computeEventPriorites();
-        vector<Event> dummy;
+        vector<rr::Event> dummy;
         for(int i = 0; i < firedEvents.size(); i++)
         {
         	dummy.push_back(firedEvents[i]);
@@ -724,7 +753,8 @@ void CvodeInterface::HandleRootsForTime(const double& timeEnd, vector<int>& root
         Cvode_SetVector((N_Vector) _amounts, k + numAdditionalRules, model->amounts[k]);
     }
 
-    CVReInit(mCVODE_Memory, timeEnd, _amounts, relTol, abstolArray);
+//    CVReInit(mCVODE_Memory, timeEnd, _amounts, relTol, abstolArray);
+    CVReInit(timeEnd);//, _amounts, relTol, abstolArray);
     sort(assignmentTimes.begin(), assignmentTimes.end());
 }
 
@@ -831,12 +861,13 @@ void CvodeInterface::setAbsTolerance(int index, double dValue)
 void CvodeInterface::reStart(double timeStart, ModelFromC* model)
 {
     AssignNewVector(model);
+
     if(mCVODE_Memory)
     {
     	CVodeSetInitStep(mCVODE_Memory, InitStep);
     	CVodeSetMinStep(mCVODE_Memory, MinStep);
     	CVodeSetMaxStep(mCVODE_Memory, MaxStep);
-		CVReInit(mCVODE_Memory, timeStart, _amounts, relTol, abstolArray);
+		CVReInit(timeStart);
     }
 }
 
@@ -912,12 +943,7 @@ double Cvode_GetVector (N_Vector v, int Index)
 int InternalFunctionCall(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *f_data)
 {
     // Calls the callBackModel here
-//    gCallBackModel (NV_LENGTH_S(cv_y), t, NV_DATA_S (cv_y), NV_DATA_S(cv_ydot), f_data);
 	ModelFcn(NV_LENGTH_S(cv_y), t, NV_DATA_S (cv_y), NV_DATA_S(cv_ydot), f_data);
-
-
-
-
     return CV_SUCCESS;
 }
 
@@ -925,42 +951,41 @@ int InternalFunctionCall(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *f_da
 // Cvode calls this to check for event changes
 int InternalRootCall (realtype t, N_Vector y, realtype *gout, void *g_data)
 {
-//    gCallBackRoot (t, NV_DATA_S (y), gout, g_data);
     EventFcn(t, NV_DATA_S (y), gout, g_data);
     return CV_SUCCESS;
 }
 
-int CVRootInit (void *cvode_mem, int numRoots, TRootCallBack callBack, void *gdata)
-{
-    if (cvode_mem == NULL)
-    {
-         return CV_SUCCESS;
-    }
+//int CVRootInit (void *cvode_mem, int numRoots, TRootCallBack callBack, void *gdata)
+//{
+//    if (cvode_mem == NULL)
+//    {
+//         return CV_SUCCESS;
+//    }
+//
+////    gCallBackRoot = callBack;
+//    return CVodeRootInit (cvode_mem, numRoots, InternalRootCall);
+//}
 
-//    gCallBackRoot = callBack;
-    return CVodeRootInit (cvode_mem, numRoots, InternalRootCall);
-}
-
-// Initialize cvode with a new set of initial conditions
-int CVReInit (void *cvode_mem, double t0, N_Vector y0, double reltol, N_Vector abstol)
-{
-    int result;
-
-    if (cvode_mem == NULL)
-    {
-        return CV_SUCCESS;
-    }
-
-    result = CVodeReInit(cvode_mem,  t0, y0);
-
-    if (result != CV_SUCCESS)
-    {
-        return result;
-    }
-
-    result = CVodeSVtolerances(cvode_mem, reltol, abstol);
-    return result;
-}
+//// Initialize cvode with a new set of initial conditions
+//int CVReInit (void *cvode_mem, double t0, N_Vector y0, double reltol, N_Vector abstol)
+//{
+//    int result;
+//
+//    if (cvode_mem == NULL)
+//    {
+//        return CV_SUCCESS;
+//    }
+//
+//    result = CVodeReInit(cvode_mem,  t0, y0);
+//
+//    if (result != CV_SUCCESS)
+//    {
+//        return result;
+//    }
+//
+//    result = CVodeSVtolerances(cvode_mem, reltol, abstol);
+//    return result;
+//}
 
 } //namespace rr
 
