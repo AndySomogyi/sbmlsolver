@@ -16,7 +16,7 @@ class RR_DECLSPEC StringList : public rrObject
     protected:
 
         vector<string>              mStrings;
-        vector<string>::iterator    mLI;    //ListITerator
+        vector<string>::iterator    mLI;
 
     public:
                                     StringList();
@@ -27,6 +27,7 @@ class RR_DECLSPEC StringList : public rrObject
 
         void                        InsertAt(const int& index, const string& item);
         void                        Add(const string& str);
+		void 						Append(const StringList& list);
         string                      AsString(const string& delimiter = Comma) const;
         unsigned int                Count() const;
         StringList&                 operator=(const StringList& rhs);
@@ -45,7 +46,7 @@ class RR_DECLSPEC StringList : public rrObject
         vector<string>::iterator    end();
         void                        PreFix(const string& fix);
         void                        PostFix(const string& fix);
-RR_DECLSPEC friend ostream&         operator<<(ostream& stream, const StringList& list);
+		RR_DECLSPEC friend ostream& operator<<(ostream& stream, const StringList& list);
 };
 
 

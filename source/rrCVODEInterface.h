@@ -4,10 +4,12 @@
 #include "rrObject.h"
 #include "rrPendingAssignment.h"
 #include "cvode/cvode.h"
-using std::string;
+
 
 namespace rr
 {
+
+using std::string;
 
 class Event;
 class ModelFromC;
@@ -53,6 +55,8 @@ class RR_DECLSPEC CvodeInterface : public rrObject
 		int         				reInit (const double& t0);
 		int          				allocateCvodeMem ();
         void                        initializeCVODEInterface(ModelFromC *oModel);
+        void                        setAbsTolerance(int index, double dValue);
+
 
     public:	//Hide these later on...
         int                         mMaxAdamsOrder;
@@ -72,20 +76,18 @@ class RR_DECLSPEC CvodeInterface : public rrObject
                                    ~CvodeInterface();
 
         void                        assignResultsToModel();
-
 		ModelFromC*					getModel();
         void                        testRootsAtInitialTime();
         bool                        haveVariables();
 
         double                      oneStep(const double& timeStart, const double& hstep);
-
-        // Restart the simulation using a different initial condition
+        vector<double>              buildEvalArgument();
         void                        assignNewVector(ModelFromC *model);
         void                        assignNewVector(ModelFromC *oModel, bool bAssignNewTolerances);
 
-        void                        setAbsTolerance(int index, double dValue);
+        							// Restart the simulation using a different initial condition
         void                        reStart(double timeStart, ModelFromC* model);
-        vector<double>              buildEvalArgument();
+
 };
 }
 

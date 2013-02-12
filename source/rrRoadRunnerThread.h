@@ -24,6 +24,7 @@ class RR_DECLSPEC RoadRunnerThread : public Poco::Runnable, public rrObject
 		virtual void        worker() = 0;
         void				join();
         bool				isRunning();
+        RoadRunner*			getRRInstance();
 
 
 };

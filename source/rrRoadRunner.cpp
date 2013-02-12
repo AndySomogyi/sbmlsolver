@@ -538,30 +538,6 @@ DoubleMatrix RoadRunner::runSimulation()
     return results;
 }
 
-bool RoadRunner::simulate2()
-{
-    if(!mModel)
-    {
-        Log(lError)<<"No model is loaded, can't simulate..";
-        throw(Exception("There is no model loaded, can't simulate"));
-    }
-
- 	mRawSimulationData = simulate();
-
-    //Populate simulation result
-    populateResult();
-    return true;
-}
-
-bool RoadRunner::populateResult()
-{
-    NewArrayList l 	= getAvailableTimeCourseSymbols();
-    StringList list = getTimeCourseSelectionList();
-    mSimulationData.SetColumnNames(list);
-    mSimulationData.SetData(mRawSimulationData);
-    return true;
-}
-
 bool RoadRunner::simulateSBMLFile(const string& fileName, const bool& useConservationLaws)
 {
     computeAndAssignConservationLaws(useConservationLaws);
@@ -784,15 +760,6 @@ bool RoadRunner::compileModel()
     //Make sure the dll is unloaded
     unLoadModelDLL();
 
-//    string dllName  = getDLLName();
-
-    //Remove DLL
-//    if(FileExists(dllName) == true && remove(dllName.c_str()) != 0)
-//    {
-//        Log(lError)<<"Failed removing dll: "<<dllName;
-//        return false;
-//    }
-
     if(!compileCurrentModel())
     {
         Log(lError)<<"Failed compiling model";
@@ -935,6 +902,30 @@ DoubleMatrix RoadRunner::simulate()
     {
         throw CoreException("Unexpected error from simulate(): " + e.Message());
     }
+}
+
+bool RoadRunner::simulate2()
+{
+    if(!mModel)
+    {
+        Log(lError)<<"No model is loaded, can't simulate..";
+        throw(Exception("There is no model loaded, can't simulate"));
+    }
+
+ 	mRawSimulationData = simulate();
+
+    //Populate simulation result
+    populateResult();
+    return true;
+}
+
+bool RoadRunner::populateResult()
+{
+    NewArrayList l 	= getAvailableTimeCourseSymbols();
+    StringList list = getTimeCourseSelectionList();
+    mSimulationData.setColumnNames(list);
+    mSimulationData.setData(mRawSimulationData);
+    return true;
 }
 
 // Help("Extension method to simulate (time start, time end, number of points). This routine resets the model to its initial condition before running the simulation (unlike simulate())"

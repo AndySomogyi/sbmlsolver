@@ -132,6 +132,14 @@ void StringList::Add(const string& str)
     mStrings.push_back(str);
 }
 
+void StringList::Append(const StringList& list)
+{
+	for(int i = 0; i < list.Count(); i++)
+    {
+    	mStrings.push_back(list[i]);
+    }
+}
+
 void StringList::push_back(const string& item)
 {
     Add(item);

@@ -27,6 +27,11 @@ void RoadRunnerThread::join()
 	mThread.join();
 }
 
+RoadRunner* RoadRunnerThread::getRRInstance()
+{
+	return mRR;
+}
+
 bool RoadRunnerThread::isRunning()
 {
 	return mThread.isRunning();

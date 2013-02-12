@@ -28,28 +28,33 @@ class RR_DECLSPEC SimulationData : public rrObject
     public:
                                 SimulationData();
                                 SimulationData(const StringList& colNames, const DoubleMatrix& theData);
-        StringList              GetColumnNames() const;
-        string                  GetColumnNamesAsString() const;
-        void                    Allocate(const int& cSize, const int& rSize);
-        void                    SetTimeDataPrecision(const int& prec);
-        void                    SetDataPrecision(const int& prec);
-        void                    SetColumnNames(const StringList& colNames);
-        void                    SetNrOfCols(const int& cols);
-        int                     GetNrOfCols() const;
-        int                     GetNrOfRows() const;
-        void                    SetData(const DoubleMatrix& theData);
-        bool                    Load(const string& fileName);
-        bool                    WriteTo(const string& fileName);
-        bool                    Check() const;    //Check if containst proper data
+        void                    allocate(const int& cSize, const int& rSize);
+
+        StringList              getColumnNames() const;
+        string					getColumnName(const int& col) const;
+        string                  getColumnNamesAsString() const;
+        void                    setColumnNames(const StringList& colNames);
+
+        void                    setTimeDataPrecision(const int& prec);
+        void                    setDataPrecision(const int& prec);
+
+        void                    setNrOfCols(const int& cols);
+        int						rSize() const;
+        int						cSize() const;
+        void                    setData(const DoubleMatrix& theData);
+        bool                    load(const string& fileName);
+        bool                    writeTo(const string& fileName);
+        bool                    check() const;    //Check if containst proper data
 
 		RR_DECLSPEC
         friend std::ostream&    operator << (std::ostream& ss, const SimulationData& data);
         double&                 operator() (const unsigned& row, const unsigned& col);
         double                  operator() (const unsigned& row, const unsigned& col) const;
-
-        void                    SetName(const string& name);
-        string                  GetName() const;
-        pair<int,int>           Dimension() const;
+        SimulationData&			operator=  (const SimulationData& rhs);
+        void                    setName(const string& name);
+        string                  getName() const;
+        pair<int,int>           dimension() const;
+        bool					append(const SimulationData& data);
 
 };
 

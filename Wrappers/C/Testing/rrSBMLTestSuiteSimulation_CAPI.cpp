@@ -95,11 +95,11 @@ SimulationData convertCAPIResultData(RRResultHandle	result)
     	colNames.Add(result->ColumnHeaders[i]);
     }
 
-	resultData.SetColumnNames(colNames);
+	resultData.setColumnNames(colNames);
 
     //Then the data
     int index = 0;
-    resultData.Allocate(result->RSize, result->CSize);
+    resultData.allocate(result->RSize, result->CSize);
 
     for(int j = 0; j < result->RSize; j++)
     {

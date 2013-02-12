@@ -956,16 +956,16 @@ RRResultHandle rrCallConv simulate()
 
         //Extract the data and return struct..
         RRResult* aResult  = new RRResult;
-        aResult->ColumnHeaders = new char*[result.GetNrOfCols()];
-        for(int i = 0; i < result.GetNrOfCols(); i++)
+        aResult->ColumnHeaders = new char*[result.cSize()];
+        for(int i = 0; i < result.cSize(); i++)
         {
-            aResult->ColumnHeaders[i] = createText(result.GetColumnNames()[i]);
+            aResult->ColumnHeaders[i] = createText(result.getColumnNames()[i]);
             //new char(32);
             //strcpy(aResult->ColumnHeaders[i], result.GetColumnNames()[i].c_str());
         }
 
-        aResult->RSize = result.GetNrOfRows();
-        aResult->CSize = result.GetNrOfCols();
+        aResult->RSize = result.rSize();
+        aResult->CSize = result.cSize();
         int size = aResult->RSize*aResult->CSize;
         aResult->Data = new double[size];
 

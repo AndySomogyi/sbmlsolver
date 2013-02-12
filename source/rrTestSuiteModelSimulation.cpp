@@ -21,9 +21,9 @@ mCurrentCaseNumber(-1),
 mNrOfFailingPoints(0)
 {
     //make sure the output folder exists..
-    mResultData.SetName("ResultData");
-    mReferenceData.SetName("ReferenceData");
-    mErrorData.SetName("ErrorData");
+    mResultData.setName("ResultData");
+    mReferenceData.setName("ReferenceData");
+    mErrorData.setName("ErrorData");
 }
 
 TestSuiteModelSimulation::~TestSuiteModelSimulation()
@@ -84,15 +84,15 @@ bool TestSuiteModelSimulation::LoadReferenceData()
            vector<string> recs = SplitString(lines[row], ",");
         if(row == 0) //This is the header
         {
-            mReferenceData.SetColumnNames(recs);
+            mReferenceData.setColumnNames(recs);
             //Assign how many columns the data has
-            mReferenceData.Allocate(lines.size() - 1, recs.size());
+            mReferenceData.allocate(lines.size() - 1, recs.size());
         }
         else    //This is data
         {
-            for(int col = 0; col < mReferenceData.GetNrOfCols(); col++)
+            for(int col = 0; col < mReferenceData.cSize(); col++)
             {
-                 double val = ToDouble(recs[col]);
+            	double val = ToDouble(recs[col]);
                 mReferenceData(row - 1,col) = val; //First line is the header..
              }
         }
@@ -120,17 +120,17 @@ bool TestSuiteModelSimulation::CreateErrorData()
 {
 	 mResultData = GetResult();
     //Check that result data and reference data has the same dimensions
-    if(mResultData.GetNrOfCols() != mReferenceData.GetNrOfCols() || mResultData.GetNrOfRows() != mReferenceData.GetNrOfRows())
+    if(mResultData.cSize() != mReferenceData.cSize() || mResultData.rSize() != mReferenceData.rSize())
     {
-        mNrOfFailingPoints = mResultData.GetNrOfRows();
+        mNrOfFailingPoints = mResultData.rSize();
         return false;
     }
 
-    mErrorData.Allocate(mResultData.GetNrOfRows(), mResultData.GetNrOfCols());
+    mErrorData.allocate(mResultData.rSize(), mResultData.cSize());
     mLargestError = 0;
-    for(int row = 0; row < mResultData.GetNrOfRows(); row++)
+    for(int row = 0; row < mResultData.rSize(); row++)
     {
-        for(int col = 0; col < mResultData.GetNrOfCols(); col++)
+        for(int col = 0; col < mResultData.cSize(); col++)
         {
             double error = fabsl(mResultData(row, col) - mReferenceData(row,col));
             mErrorData(row, col) = error;
@@ -166,26 +166,26 @@ bool TestSuiteModelSimulation::SaveAllData()
     fs.open(JoinPath(mDataOutputFolder, outputAllFileName).c_str());
 
     //Check matrices dimension, if they are not equal, bail..?
-    if(mResultData.Dimension() != mReferenceData.Dimension() ||
-       mResultData.Dimension() != mErrorData.Dimension()        ||
-       mErrorData.Dimension()  != mReferenceData.Dimension() )
+    if(mResultData.dimension() != mReferenceData.dimension() ||
+       mResultData.dimension() != mErrorData.dimension()        ||
+       mErrorData.dimension()  != mReferenceData.dimension() )
     {
         Log(lWarning)<<"Data dimensions are not equal, not saving to one file..";
         return false;
     }
-    for(int row = 0; row < mResultData.GetNrOfRows(); row++)
+    for(int row = 0; row < mResultData.rSize(); row++)
     {
-        for(int col = 0; col < mReferenceData.GetNrOfCols(); col++)
+        for(int col = 0; col < mReferenceData.cSize(); col++)
         {
             if(row == 0)
             {
                 if(col == 0)
                 {
-                    StringList ref_cnames =  mReferenceData.GetColumnNames();
+                    StringList ref_cnames =  mReferenceData.getColumnNames();
                     ref_cnames.PostFix("_ref");
                     fs << ref_cnames.AsString();
                     fs << ",";
-                    StringList res_cnames =  mResultData.GetColumnNames();
+                    StringList res_cnames =  mResultData.getColumnNames();
                     res_cnames.PostFix("_rr");
                     fs << res_cnames.AsString();
                     fs << ",";
@@ -201,7 +201,7 @@ bool TestSuiteModelSimulation::SaveAllData()
             }
             else
             {
-                if(row <= mReferenceData.GetNrOfRows())
+                if(row <= mReferenceData.rSize())
                 {
                     fs << "," << mReferenceData(row, col);
                 }
@@ -213,7 +213,7 @@ bool TestSuiteModelSimulation::SaveAllData()
         }
 
         //Then the simulated data
-        for(int col = 0; col < mResultData.GetNrOfCols(); col++)
+        for(int col = 0; col < mResultData.cSize(); col++)
         {
             //First column is the time...
             if(col == 0)
@@ -227,7 +227,7 @@ bool TestSuiteModelSimulation::SaveAllData()
         }
 
         //Then the error data
-        for(int col = 0; col < mErrorData.GetNrOfCols(); col++)
+        for(int col = 0; col < mErrorData.cSize(); col++)
         {
             //First column is the time...
             if(col == 0)

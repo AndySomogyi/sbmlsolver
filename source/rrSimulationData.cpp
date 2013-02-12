@@ -25,53 +25,125 @@ mColumnNames(colNames),
 mTheData(theData)
 {}
 
-int SimulationData::GetNrOfCols() const
+int SimulationData::cSize() const
 {
     return mTheData.CSize();
 }
 
-int SimulationData::GetNrOfRows() const
+int SimulationData::rSize() const
 {
     return mTheData.RSize();
 }
 
-void SimulationData::SetName(const string& name)
+void SimulationData::setName(const string& name)
 {
     mName = name;
 //    mTheData.SetNamePointer(&mName);
 }
 
-StringList SimulationData::GetColumnNames() const
+SimulationData& SimulationData::operator= (const SimulationData& rhs)
+{
+	if(this == &rhs)
+    {
+    	return *this;
+    }
+
+    mTheData = rhs.mTheData;
+    mColumnNames = rhs.mColumnNames;
+
+    return *this;
+
+}
+
+bool SimulationData::append(const SimulationData& data)
+{
+	//When appending data, the number of rows have to match with current data
+    if(mTheData.RSize() > 0)
+    {
+		if(data.rSize() != rSize())
+        {
+        	return false;
+        }
+	}
+    else
+    {
+    	(*this) = data;
+        return true;
+    }
+
+    int currColSize = cSize();
+
+    SimulationData temp(mColumnNames, mTheData);
+
+    int newCSize = cSize() + data.cSize() - 1;
+    mTheData.resize(data.rSize(), newCSize );
+
+	for(int row = 0; row < temp.rSize(); row++)
+    {
+    	for( int col = 0; col < temp.cSize(); col++)
+        {
+        	mTheData(row, col) = temp(row, col);
+        }
+    }
+
+
+    for(int row = 0; row < mTheData.RSize(); row++)
+    {
+        for(int col = 1; col < data.cSize(); col++)
+        {
+            mTheData(row, col + currColSize - 1 ) = data(row, col);
+        }
+    }
+
+
+    for(int col = 1; col < data.cSize(); col++)
+    {
+    	mColumnNames.Append(data.getColumnName(col));
+    }
+	return true;
+}
+
+StringList SimulationData::getColumnNames() const
 {
     return mColumnNames;
 }
 
-pair<int,int> SimulationData::Dimension() const
+string SimulationData::getColumnName(const int& col) const
+{
+	if(col < mColumnNames.Count())
+    {
+		return mColumnNames[col];
+    }
+
+    return "Bad Column..";
+}
+
+pair<int,int> SimulationData::dimension() const
 {
     return pair<int,int>(mTheData.RSize(), mTheData.CSize());
 }
 
-string SimulationData::GetName() const
+string SimulationData::getName() const
 {
     return mName;
 }
 
-void SimulationData::SetTimeDataPrecision(const int& prec)
+void SimulationData::setTimeDataPrecision(const int& prec)
 {
     mTimePrecision = prec;
 }
 
-void SimulationData::SetDataPrecision(const int& prec)
+void SimulationData::setDataPrecision(const int& prec)
 {
     mDataPrecision = prec;
 }
 
-string SimulationData::GetColumnNamesAsString() const
+string SimulationData::getColumnNamesAsString() const
 {
     return mColumnNames.AsString();
 }
 
-void SimulationData::Allocate(const int& cSize, const int& rSize)
+void SimulationData::allocate(const int& cSize, const int& rSize)
 {
     mTheData.Allocate(cSize, rSize);
 }
@@ -87,35 +159,35 @@ double SimulationData::operator() (const unsigned& row, const unsigned& col) con
     return mTheData(row,col);
 }
 
-void SimulationData::SetColumnNames(const StringList& colNames)
+void SimulationData::setColumnNames(const StringList& colNames)
 {
     mColumnNames = colNames;
     Log(lDebug3)<<"Simulation Data Columns: "<<mColumnNames;
 }
 
-void SimulationData::SetNrOfCols(const int& cols)
+void SimulationData::setNrOfCols(const int& cols)
 {
     mTheData.Allocate(1, cols);
 }
 
-void SimulationData::SetData(const DoubleMatrix& theData)
+void SimulationData::setData(const DoubleMatrix& theData)
 {
     mTheData = theData;
     Log(lDebug5)<<"Simulation Data =========== \n"<<mTheData;
-    Check();
+    check();
 }
 
-bool SimulationData::Check() const
+bool SimulationData::check() const
 {
     if(mTheData.CSize() != mColumnNames.Count())
     {
-        Log(lError)<<"Number of columns in simulation data is not equal to number of columns in column header!";
+        Log(lError)<<"Number of columns ("<<mTheData.CSize()<<") in simulation data is not equal to number of columns in column header ("<<mColumnNames.Count()<<")";
         return false;
     }
     return true;
 }
 
-bool SimulationData::Load(const string& fName)
+bool SimulationData::load(const string& fName)
 {
     if(!FileExists(fName))
     {
@@ -146,15 +218,24 @@ bool SimulationData::Load(const string& fName)
     return true;
 }
 
-bool SimulationData::WriteTo(const string& fileName)
+bool SimulationData::writeTo(const string& fileName)
 {
-    return false;
+	ofstream aFile(fileName.c_str());
+    if(!aFile)
+    {
+    	Log(lError)<<"Failed opening file: "<<fileName;
+        return false;
+    }
+    aFile<<(*this);
+    aFile.close();
+
+    return true;
 }
 
 ostream& operator << (ostream& ss, const SimulationData& data)
 {
     //Check that the dimensions of col header and data is ok
-    if(!data.Check())
+    if(!data.check())
     {
         Log(lError)<<"Can't write data..";
         return ss;
