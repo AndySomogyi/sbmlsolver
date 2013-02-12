@@ -25,6 +25,17 @@
 using namespace std;
 namespace rr
 {
+
+// N_Vector is a point to an N_Vector structure
+RR_DECLSPEC void         Cvode_SetVector (N_Vector v, int Index, double Value);
+RR_DECLSPEC double       Cvode_GetVector (N_Vector v, int Index);
+
+RR_DECLSPEC int         CVReInit (void *cvode_mem, double t0, N_Vector y0, double reltol, N_Vector abstol);
+RR_DECLSPEC int         CVRootInit (void *cvode_mem, int numRoots, TRootCallBack callBack, void *gdata);
+
+RR_DECLSPEC int         InternalFunctionCall(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *f_data);
+RR_DECLSPEC int         InternalRootCall (realtype t, N_Vector y, realtype *gout, void *g_data);
+
 //helper function for call back functions..
 vector<double> BuildEvalArgument(ModelFromC* model);
 
@@ -82,7 +93,6 @@ CvodeInterface::~CvodeInterface()
     if(cvodeMem)
     {
     	CVodeFree( &cvodeMem);
-//      	FreeCvode_Mem((void**) &cvodeMem);
     }
 
 
@@ -95,8 +105,8 @@ CvodeInterface::~CvodeInterface()
     {
     	N_VDestroy_Serial(abstolArray);
     }
-//    fileClose(fileHandle);
 }
+
 
 double CvodeInterface::OneStep(double timeStart, double hstep)
 {
@@ -318,17 +328,20 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
 
             cvodeMem = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
             //SetMaxOrder(cvodeMem, MaxBDFOrder);
-            CVodeSetMaxOrd(cvodeMem, MaxBDFOrder);
-            CVodeSetInitStep(cvodeMem, InitStep);
+            if(cvodeMem)
+            {
+                CVodeSetMaxOrd(cvodeMem, MaxBDFOrder);
+                CVodeSetInitStep(cvodeMem, InitStep);
 
-            //SetMinStep(cvodeMem, MinStep);
-            CVodeSetMinStep(cvodeMem, MinStep);
+                //SetMinStep(cvodeMem, MinStep);
+                CVodeSetMinStep(cvodeMem, MinStep);
 
-            //SetMaxStep(cvodeMem, MaxStep);
-            CVodeSetMaxStep(cvodeMem, MaxStep);
+                //SetMaxStep(cvodeMem, MaxStep);
+                CVodeSetMaxStep(cvodeMem, MaxStep);
 
-			//SetMaxNumSteps(cvodeMem, MaxNumSteps);
-            CVodeSetMaxNumSteps(cvodeMem, MaxNumSteps);
+                //SetMaxNumSteps(cvodeMem, MaxNumSteps);
+                CVodeSetMaxNumSteps(cvodeMem, MaxNumSteps);
+			}
 
 //            fileHandle = fileOpen(JoinPath(tempPathstring, cvodeLogFile) + ToString(errorFileCounter) + ".txt");
 //            SetErrFile(cvodeMem, fileHandle);
@@ -486,7 +499,7 @@ void CvodeInterface::HandleRootsFound(double &timeEnd, const double& tout)
 
     // Create some space for the CVGetRootInfo call
     _rootsFound = new int[model->getNumEvents()];
-    CVGetRootInfo(cvodeMem, _rootsFound);    //This is a DLL Call.. Todo: implement..
+    CVodeGetRootInfo(cvodeMem, _rootsFound);
     CopyCArrayToStdVector(_rootsFound, rootsFound, model->getNumEvents());
     delete [] _rootsFound;
     HandleRootsForTime(timeEnd, rootsFound);
@@ -816,7 +829,7 @@ void CvodeInterface::reStart(double timeStart, ModelFromC* model)
     AssignNewVector(model);
     if(cvodeMem)
     {
-    	SetInitStep(cvodeMem, InitStep);
+    	CVodeSetInitStep(cvodeMem, InitStep);
     	CVodeSetMinStep(cvodeMem, MinStep);
     	CVodeSetMaxStep(cvodeMem, MaxStep);
 		CVReInit(cvodeMem, timeStart, _amounts, relTol, abstolArray);
@@ -957,24 +970,6 @@ int CVRootInit (void *cvode_mem, int numRoots, TRootCallBack callBack, void *gda
     return CVodeRootInit (cvode_mem, numRoots, InternalRootCall);
 }
 
-//int CvDense (void *p, int n)
-//{
-//    if (p == NULL)
-//    {
-//        return CV_SUCCESS; //???
-//    }
-//    return CVDense(p, n);
-//}
-
-//int Run_Cvode (void *cvode_mem, double tout, N_Vector y, double *t)
-//{
-//    if (cvode_mem == NULL)
-//    {
-//        return CV_SUCCESS;
-//    }
-//    return CVode (cvode_mem, tout, y, t, CV_NORMAL);
-//}
-
 // Initialize cvode with a new set of initial conditions
 int CVReInit (void *cvode_mem, double t0, N_Vector y0, double reltol, N_Vector abstol)
 {
@@ -995,112 +990,6 @@ int CVReInit (void *cvode_mem, double t0, N_Vector y0, double reltol, N_Vector a
     result = CVodeSVtolerances(cvode_mem, reltol, abstol);
     return result;
 }
-
-int CVGetRootInfo(void *cvode_mem, int *rootsFound)
-{
-    if (cvode_mem == NULL)
-    {
-        return CV_SUCCESS;
-    }
-    return CVodeGetRootInfo(cvode_mem, rootsFound);
-}
-
-//int CVSetFData (void *cvode_mem, void *f_data)
-//{
-//    return 0;
-//}
-
-//int SetMaxNumSteps(void *cvode_mem, int mxsteps)
-//{
-//    if (cvode_mem == NULL)
-//    {
-//        return CV_SUCCESS;
-//    }
-//    return CVodeSetMaxNumSteps (cvode_mem, mxsteps);
-//}
-//
-//int SetMaxOrder (void *cvode_mem, int mxorder)
-//{
-//    if (cvode_mem == NULL)
-//    {
-//        return CV_SUCCESS;
-//    }
-//    return CVodeSetMaxOrd (cvode_mem, mxorder);
-//}
-
-int SetMaxErrTestFails (void *cvode_mem, int maxnef)
-{
-    if (cvode_mem == NULL)
-    {
-        return CV_SUCCESS;
-    }
-    return (CVodeSetMaxErrTestFails(cvode_mem, maxnef));
-}
-
-int SetMaxConvFails(void *cvode_mem, int maxncf)
-{
-    if (cvode_mem == NULL)
-    {
-        return CV_SUCCESS;
-    }
-    return CVodeSetMaxConvFails(cvode_mem, maxncf);
-}
-
-int SetMaxNonLinIters (void *cvode_mem, int maxcor)
-{
-    if (cvode_mem == NULL)
-    {
-        return CV_SUCCESS;
-    }
-    return CVodeSetMaxNonlinIters (cvode_mem, maxcor);
-}
-
-int    SetErrFile (void *cvode_mem, FILE *errfp)
-{
-    if (cvode_mem == NULL)
-    {
-        return CV_SUCCESS;
-    }
-    return CVodeSetErrFile (cvode_mem, errfp);
-}
-
-int    SetErrHandler (void *cvode_mem, CVErrHandlerFn callback, void* user_data )
-{
-    if (cvode_mem == NULL)
-    {
-        return CV_SUCCESS;
-    }
-    return CVodeSetErrHandlerFn (cvode_mem,  callback, user_data);
-}
-
-int SetMinStep(void *cvode_mem, double minStep)
-{
-    if (cvode_mem == NULL)
-    {
-        return CV_SUCCESS;
-    }
-    return CVodeSetMinStep(cvode_mem, minStep);
-}
-
-int SetMaxStep(void *cvode_mem, double maxStep)
-{
-    if (cvode_mem == NULL)
-    {
-        return CV_SUCCESS;
-    }
-    return CVodeSetMaxStep(cvode_mem, maxStep);
-}
-
-int SetInitStep(void *cvode_mem, double initStep)
-{
-    if (cvode_mem == NULL)
-    {
-        return CV_SUCCESS;
-    }
-    return CVodeSetInitStep(cvode_mem, initStep);
-}
-
-
 
 } //namespace rr
 
