@@ -20,7 +20,6 @@ class RoadRunner;
 class RR_DECLSPEC CvodeInterface : public rrObject
 {
     private:
-        const string                CVODE;
         const double                defaultReltol;
         const double                defaultAbsTol;
         const int                   defaultMaxNumSteps;
@@ -29,9 +28,8 @@ class RR_DECLSPEC CvodeInterface : public rrObject
         int                  		errorFileCounter;
 
         int                         numIndependentVariables;
-//        N_Vector                    gdata;
         int*                        _rootsFound;
-        N_Vector                    _amounts;
+        N_Vector                    mAmounts;
         N_Vector                    abstolArray;
         string                      cvodeLogFile;
         void*                       mCVODE_Memory;
@@ -49,9 +47,8 @@ class RR_DECLSPEC CvodeInterface : public rrObject
         void                        SortEventsByPriority(vector<int>& firedEvents);
         void                        SortEventsByPriority(vector<Event>& firedEvents);
         void                        HandleRootsForTime(const double& timeEnd, vector<int>& rootsFound);
-	 	int         				CVRootInit (void *cvode_mem, int numRoots);//, TRootCallBack callBack, void *gdata);
-		//int         				CVReInit (void *cvode_mem, double t0, N_Vector y0, double reltol, N_Vector abstol);
-		int         				CVReInit (double t0);
+	 	int         				RootInit (int numRoots);//, TRootCallBack callBack, void *gdata);
+		int         				ReInit (double t0);
 
     public:
                                     // -------------------------------------------------------------------------
@@ -64,13 +61,14 @@ class RR_DECLSPEC CvodeInterface : public rrObject
 
         void                        AssignResultsToModel();
 
-		int          				AllocateCvodeMem (void* Memory, int n);
+		int          				AllocateCvodeMem (int n);
 
-        static int                  mCount;
-        static int                  mRootCount;
+        int         		        mCount;
+        int                  		mRootCount;
         int                         mOneStepCount;
 
-        static ModelFromC          *model;
+        ModelFromC*					mTheModel;
+		ModelFromC*					getModel(){return mTheModel;}
         RoadRunner				   *mRR;
         vector<PendingAssignment>   assignments;
 

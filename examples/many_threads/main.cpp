@@ -42,7 +42,7 @@ int main(int argc, char** argv)
 	gLog.SetCutOffLogLevel(lInfo);
 
 	//Create a thousand roadrunners
-    const int nrOfRRInstances = 1;
+    const int nrOfRRInstances = 1000;
 	vector<RoadRunner*> rrs;
 
     for(int i = 0; i < nrOfRRInstances; i++)

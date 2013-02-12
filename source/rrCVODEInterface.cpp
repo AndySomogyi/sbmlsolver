@@ -24,8 +24,8 @@ using namespace std;
 namespace rr
 {
 
-void ModelFcn(int n, double time, double* y, double* ydot, void* fdata);
-void EventFcn(double time, double* y, double* gdot, void* fdata);
+void ModelFcn(int n, 	double time, double* y, double* ydot, void* userData);
+void EventFcn(			double time, double* y, double* gdot, void* userData);
 
 // N_Vector is a point to an N_Vector structure
 RR_DECLSPEC void        Cvode_SetVector (N_Vector v, int Index, double Value);
@@ -35,21 +35,16 @@ RR_DECLSPEC double      Cvode_GetVector (N_Vector v, int Index);
 vector<double> BuildEvalArgument(ModelFromC* model);
 
 //Static stuff...
-int         CvodeInterface::mCount = 0;
-int         CvodeInterface::mRootCount = 0;
-ModelFromC* CvodeInterface::model = NULL;
+//int         CvodeInterface::mCount = 0;
+//int         CvodeInterface::mRootCount = 0;
+//ModelFromC* CvodeInterface::model = NULL;
 
-// -------------------------------------------------------------------------
-// Constructor
-// Model contains all the symbol tables associated with the model
-// -------------------------------------------------------------------------
 CvodeInterface::CvodeInterface(RoadRunner* rr, ModelFromC *aModel, const double& _absTol, const double& _relTol)
 :
 defaultReltol(_relTol),
 defaultAbsTol(_absTol),
 defaultMaxNumSteps(10000),
-//gdata(NULL),
-_amounts(NULL),
+mAmounts(NULL),
 cvodeLogFile("cvodeLogFile"),
 followEvents(true),
 defaultMaxAdamsOrder(12),
@@ -85,9 +80,9 @@ CvodeInterface::~CvodeInterface()
     	CVodeFree( &mCVODE_Memory);
     }
 
-    if(_amounts)
+    if(mAmounts)
     {
-    	N_VDestroy_Serial(_amounts);
+    	N_VDestroy_Serial(mAmounts);
     }
 
     if(abstolArray)
@@ -97,39 +92,43 @@ CvodeInterface::~CvodeInterface()
 }
 
 // CallBack is the host application function that computes the dy/dt terms
-int CvodeInterface::AllocateCvodeMem (void *cvode_mem, int n)//, TModelCallBack callBack, double t0, N_Vector y, double reltol, N_Vector abstol/*, long int iopt[], double ropt[]*/)
+int CvodeInterface::AllocateCvodeMem (int n)//, TModelCallBack callBack, double t0, N_Vector y, double reltol, N_Vector abstol/*, long int iopt[], double ropt[]*/)
 {
-    int result;
-    double t0 = 0.0;
 
-    if (cvode_mem == NULL)
+    if (mCVODE_Memory == NULL)
     {
         return CV_SUCCESS;
     }
 
-    result =  CVodeInit(cvode_mem, InternalFunctionCall, t0, _amounts);
+    double t0 = 0.0;
+    if(CVodeSetUserData(mCVODE_Memory, (void*) this) != CV_SUCCESS)
+    {
+    	Log(lError)<<"Problem in setting CVODE User data";
+    }
+
+    int result =  CVodeInit(mCVODE_Memory, InternalFunctionCall, t0, mAmounts);
+
 
     if (result != CV_SUCCESS)
     {
         return result;
     }
-    result = CVodeSVtolerances(cvode_mem, relTol, abstolArray);
-    return result;
+    return CVodeSVtolerances(mCVODE_Memory, relTol, abstolArray);
 }
 
-int CvodeInterface::CVRootInit (void *cvode_mem, int numRoots)//, TRootCallBack callBack, void *gdata)
+int CvodeInterface::RootInit (int numRoots)//, TRootCallBack callBack, void *gdata)
 {
-    if (cvode_mem == NULL)
+    if (mCVODE_Memory == NULL)
     {
          return CV_SUCCESS;
     }
 
-    return CVodeRootInit (cvode_mem, numRoots, InternalRootCall);
+    return CVodeRootInit (mCVODE_Memory, numRoots, InternalRootCall);
 }
 
 // Initialize cvode with a new set of initial conditions
 //int CvodeInterface::CVReInit (void *cvode_mem, double t0, N_Vector y0, double reltol, N_Vector abstol)
-int CvodeInterface::CVReInit (double t0)
+int CvodeInterface::ReInit (double t0)
 {
     int result;
 
@@ -138,7 +137,7 @@ int CvodeInterface::CVReInit (double t0)
         return CV_SUCCESS;
     }
 
-    result = CVodeReInit(mCVODE_Memory,  t0, _amounts);
+    result = CVodeReInit(mCVODE_Memory,  t0, mAmounts);
 
     if (result != CV_SUCCESS)
     {
@@ -173,17 +172,17 @@ double CvodeInterface::OneStep(double timeStart, double hstep)
 
             // here we bail in case we have no ODEs set up with CVODE ... though we should
             // still at least evaluate the model function
-            if (!HaveVariables() && model->getNumEvents() == 0)
+            if (!HaveVariables() && mTheModel->getNumEvents() == 0)
             {
-                model->convertToAmounts();
+                mTheModel->convertToAmounts();
                 vector<double> args = BuildEvalArgument();
-                model->evalModel(tout, args);
+                mTheModel->evalModel(tout, args);
                 return tout;
             }
 
             if (lastTimeValue > timeStart)
             {
-                reStart(timeStart, model);
+                reStart(timeStart, mTheModel);
             }
 
             double nextTargetEndTime = tout;
@@ -193,7 +192,7 @@ double CvodeInterface::OneStep(double timeStart, double hstep)
                 assignmentTimes.erase(assignmentTimes.begin());
             }
 
-            int nResult = CVode(mCVODE_Memory, nextTargetEndTime,  _amounts, &timeEnd, CV_NORMAL);
+            int nResult = CVode(mCVODE_Memory, nextTargetEndTime,  mAmounts, &timeEnd, CV_NORMAL);
 
             if (nResult == CV_ROOT_RETURN && followEvents)
             {
@@ -215,14 +214,14 @@ double CvodeInterface::OneStep(double timeStart, double hstep)
                 if (tooCloseToStart || strikes > 0)
                 {
                     HandleRootsFound(timeEnd, tout);
-                    reStart(timeEnd, model);
+                    reStart(timeEnd, mTheModel);
                     lastEvent = timeEnd;
                 }
             }
             else if (nResult == CV_SUCCESS || !followEvents)
             {
-                //model->resetEvents();
-                model->setTime(tout);
+                //mTheModel->resetEvents();
+                mTheModel->setTime(tout);
                 AssignResultsToModel();
             }
             else
@@ -234,11 +233,11 @@ double CvodeInterface::OneStep(double timeStart, double hstep)
 
             try
             {
-                model->testConstraints();
+                mTheModel->testConstraints();
             }
             catch (Exception e)
             {
-                model->mWarnings.push_back("Constraint Violated at time = " + ToString(timeEnd) + "\n" + e.Message());
+                mTheModel->mWarnings.push_back("Constraint Violated at time = " + ToString(timeEnd) + "\n" + e.Message());
             }
 
             AssignPendingEvents(timeEnd, tout);
@@ -253,14 +252,21 @@ double CvodeInterface::OneStep(double timeStart, double hstep)
     }
     catch (Exception)
     {
-        InitializeCVODEInterface(model);
+        InitializeCVODEInterface(mTheModel);
         throw;
     }
 }
 
-void ModelFcn(int n, double time, double* y, double* ydot, void* fdata)
+void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
 {
-    ModelFromC *model = CvodeInterface::model;
+	CvodeInterface* cvInstance = (CvodeInterface*) userData;//CvodeInterface::mTheModel;
+    if(!cvInstance)
+    {
+    	Log(lError)<<"Problem in CVode Model Function";
+    	return;
+    }
+
+    ModelFromC *model = cvInstance->getModel();
     ModelState oldState(*model);
 
     int size = *model->amountsSize + (*model->rateRulesSize);
@@ -301,14 +307,23 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* fdata)
         ydot[i]= dCVodeArgument[i];
     }
 
-    CvodeInterface::mCount++;
+    cvInstance->mCount++;
     oldState.AssignToModel(*model);
 }
 
 ////        void CvodeInterface::EventFcn(double time, IntPtr y, IntPtr gdot, IntPtr fdata)
-void EventFcn(double time, double* y, double* gdot, void* fdata)
+void EventFcn(double time, double* y, double* gdot, void* userData)
 {
-    ModelFromC *model = CvodeInterface::model;
+//    ModelFromC *model = CvodeInterface::model;
+	CvodeInterface* cvInstance = (CvodeInterface*) userData;
+    if(!cvInstance)
+    {
+    	Log(lError)<<"Problem in CVode Model Function";
+    	return;
+    }
+
+    ModelFromC *model = cvInstance->getModel();
+
     ModelState* oldState = new ModelState(*model);
 
     vector<double> args = BuildEvalArgument(model);
@@ -326,12 +341,12 @@ void EventFcn(double time, double* y, double* gdot, void* fdata)
     }
 
     Log(lDebug3)<<"S1 Value"<<model->amounts[0];
-    Log(lDebug3)<<"Rootfunction Out: t="<<time<<" ("<< CvodeInterface::mRootCount <<"): ";
+    Log(lDebug3)<<"Rootfunction Out: t="<<time<<" ("<< cvInstance->mRootCount <<"): ";
     for (int i = 0; i < *model->eventTestsSize; i++)
     {
         Log(lDebug3)<<ToString(model->eventTests[i])<<" p="<<model->previousEventStatusArray[i]<<" c="<<ToString(model->eventStatusArray[i])<<", ";
     }
-    CvodeInterface::mRootCount++;
+    cvInstance->mRootCount++;
     oldState->AssignToModel(*model);
     delete oldState;
 }
@@ -350,14 +365,14 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
 
     try
     {
-        model = oModel;
+        mTheModel = oModel;
         numIndependentVariables = oModel->getNumIndependentVariables();
         numAdditionalRules = (*oModel->rateRulesSize);
 
         if (numAdditionalRules + numIndependentVariables > 0)
         {
             int allocatedMemory = numIndependentVariables + numAdditionalRules;
-            _amounts =     N_VNew_Serial(allocatedMemory);
+            mAmounts =     N_VNew_Serial(allocatedMemory);
             abstolArray = N_VNew_Serial(allocatedMemory);
             for (int i = 0; i < allocatedMemory; i++)
             {
@@ -383,7 +398,7 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
                 CVodeSetMaxNumSteps(mCVODE_Memory, MaxNumSteps);
 			}
 
-            errCode = AllocateCvodeMem(mCVODE_Memory, allocatedMemory);//, ModelFcn, (double) 0.0, (N_Vector) _amounts, relTol, (N_Vector) abstolArray);
+            errCode = AllocateCvodeMem(allocatedMemory);//, ModelFcn, (double) 0.0, (N_Vector) mAmounts, relTol, (N_Vector) abstolArray);
 
             if (errCode < 0)
             {
@@ -392,7 +407,7 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
 
             if (oModel->getNumEvents() > 0)
             {
-                errCode = CVRootInit(mCVODE_Memory, oModel->getNumEvents());//, EventFcn, gdata);
+                errCode = RootInit(oModel->getNumEvents());//, EventFcn, gdata);
                 Log(lDebug2)<<"CVRootInit executed.....";
             }
 
@@ -406,19 +421,19 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
 
             oModel->resetEvents();
         }
-        else if (model->getNumEvents() > 0)
+        else if (mTheModel->getNumEvents() > 0)
         {
             int allocated = 1;
-            _amounts =  N_VNew_Serial(allocated);
+            mAmounts =  N_VNew_Serial(allocated);
             abstolArray =  N_VNew_Serial(allocated);
-            Cvode_SetVector( (N_Vector) _amounts, 0, 10);
+            Cvode_SetVector( (N_Vector) mAmounts, 0, 10);
             Cvode_SetVector( (N_Vector) abstolArray, 0, defaultAbsTol);
 
             mCVODE_Memory = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
             CVodeSetMaxOrd(mCVODE_Memory, MaxBDFOrder);
 			CVodeSetMaxNumSteps(mCVODE_Memory, MaxNumSteps);
 
-            errCode = AllocateCvodeMem(mCVODE_Memory, allocated);//, ModelFcn, 0.0, (N_Vector) _amounts, relTol, (N_Vector) abstolArray);
+            errCode = AllocateCvodeMem(allocated);//, ModelFcn, 0.0, (N_Vector) mAmounts, relTol, (N_Vector) abstolArray);
             if (errCode < 0)
             {
                 HandleCVODEError(errCode);
@@ -426,7 +441,7 @@ void CvodeInterface::InitializeCVODEInterface(ModelFromC *oModel)
 
             if (oModel->getNumEvents() > 0)
             {
-                errCode = CVRootInit(mCVODE_Memory, oModel->getNumEvents());//, EventFcn, gdata);
+                errCode = RootInit(oModel->getNumEvents());//, EventFcn, gdata);
                 Log(lDebug2)<<"CVRootInit executed.....";
             }
 
@@ -453,20 +468,20 @@ void CvodeInterface::AssignPendingEvents(const double& timeEnd, const double& to
     {
         if (timeEnd >= assignments[i].GetTime())
         {
-            model->setTime(tout);
+            mTheModel->setTime(tout);
             AssignResultsToModel();
-            model->convertToConcentrations();
-            model->updateDependentSpeciesValues(model->y);
+            mTheModel->convertToConcentrations();
+            mTheModel->updateDependentSpeciesValues(mTheModel->y);
             assignments[i].AssignToModel();
 
             if (mRR && !mRR->mConservedTotalChanged)
             {
-                 model->computeConservedTotals();
+                 mTheModel->computeConservedTotals();
             }
-            model->convertToAmounts();
+            mTheModel->convertToAmounts();
             vector<double> args = BuildEvalArgument();
-            model->evalModel(timeEnd, args);
-            reStart(timeEnd, model);
+            mTheModel->evalModel(timeEnd, args);
+            reStart(timeEnd, mTheModel);
             assignments.erase(assignments.begin() + i);
         }
     }
@@ -490,27 +505,27 @@ vector<int> CvodeInterface::RetestEvents(const double& timeEnd, const vector<int
 
     if (mRR && !mRR->mConservedTotalChanged)
     {
-        model->computeConservedTotals();
+        mTheModel->computeConservedTotals();
     }
 
-    model->convertToAmounts();
+    mTheModel->convertToAmounts();
     vector<double> args = BuildEvalArgument();
-    model->evalModel(timeEnd, args);
+    mTheModel->evalModel(timeEnd, args);
 
-    ModelState *oldState = new ModelState(*model);
+    ModelState *oldState = new ModelState(*mTheModel);
 
     args = BuildEvalArgument();
-    model->evalEvents(timeEnd, args);
+    mTheModel->evalEvents(timeEnd, args);
 
-    for (int i = 0; i < model->getNumEvents(); i++)
+    for (int i = 0; i < mTheModel->getNumEvents(); i++)
     {
         bool containsI = (std::find(handledEvents.begin(), handledEvents.end(), i) != handledEvents.end()) ? true : false;
-        if (model->eventStatusArray[i] == true && oldState->mEventStatusArray[i] == false && !containsI)
+        if (mTheModel->eventStatusArray[i] == true && oldState->mEventStatusArray[i] == false && !containsI)
         {
             result.push_back(i);
         }
 
-        if (model->eventStatusArray[i] == false && oldState->mEventStatusArray[i] == true && !model->eventPersistentType[i])
+        if (mTheModel->eventStatusArray[i] == false && oldState->mEventStatusArray[i] == true && !mTheModel->eventPersistentType[i])
         {
             removeEvents.push_back(i);
         }
@@ -518,7 +533,7 @@ vector<int> CvodeInterface::RetestEvents(const double& timeEnd, const vector<int
 
     if (assignOldState)
     {
-        oldState->AssignToModel(*model);
+        oldState->AssignToModel(*mTheModel);
     }
 
     delete oldState;
@@ -528,12 +543,12 @@ vector<int> CvodeInterface::RetestEvents(const double& timeEnd, const vector<int
 
 void CvodeInterface::HandleRootsFound(double &timeEnd, const double& tout)
 {
-    vector<int> rootsFound(model->getNumEvents());
+    vector<int> rootsFound(mTheModel->getNumEvents());
 
     // Create some space for the CVGetRootInfo call
-    _rootsFound = new int[model->getNumEvents()];
+    _rootsFound = new int[mTheModel->getNumEvents()];
     CVodeGetRootInfo(mCVODE_Memory, _rootsFound);
-    CopyCArrayToStdVector(_rootsFound, rootsFound, model->getNumEvents());
+    CopyCArrayToStdVector(_rootsFound, rootsFound, mTheModel->getNumEvents());
     delete [] _rootsFound;
     HandleRootsForTime(timeEnd, rootsFound);
 }
@@ -544,7 +559,7 @@ void CvodeInterface::TestRootsAtInitialTime()
     vector<int> events = RetestEvents(0, dummy, true); //Todo: dummy is passed but is not used..?
     if (events.size() > 0)
     {
-        vector<int> rootsFound(model->getNumEvents());//         = new int[model->getNumEvents];
+        vector<int> rootsFound(mTheModel->getNumEvents());//         = new int[mTheModel->getNumEvents];
         vector<int>::iterator iter;
         for(iter = rootsFound.begin(); iter != rootsFound.end(); iter ++) //int item in events)
         {
@@ -572,7 +587,7 @@ void CvodeInterface::SortEventsByPriority(vector<rr::Event>& firedEvents)
 		Log(lDebug3)<<"Sorting event priorities";
         for(int i = 0; i < firedEvents.size(); i++)
         {
-        	firedEvents[i].SetPriority(model->eventPriorities[firedEvents[i].GetID()]);
+        	firedEvents[i].SetPriority(mTheModel->eventPriorities[firedEvents[i].GetID()]);
         	Log(lDebug3)<<firedEvents[i];
         }
         sort(firedEvents.begin(), firedEvents.end(), SortByPriority());
@@ -589,7 +604,7 @@ void CvodeInterface::SortEventsByPriority(vector<int>& firedEvents)
 {
     if ((firedEvents.size() > 1))
     {
-		model->computeEventPriorites();
+		mTheModel->computeEventPriorites();
         vector<rr::Event> dummy;
         for(int i = 0; i < firedEvents.size(); i++)
         {
@@ -599,7 +614,7 @@ void CvodeInterface::SortEventsByPriority(vector<int>& firedEvents)
 		Log(lDebug3)<<"Sorting event priorities";
         for(int i = 0; i < firedEvents.size(); i++)
         {
-        	dummy[i].SetPriority(model->eventPriorities[dummy[i].GetID()]);
+        	dummy[i].SetPriority(mTheModel->eventPriorities[dummy[i].GetID()]);
         	Log(lDebug3)<<dummy[i];
         }
         sort(dummy.begin(), dummy.end(), SortByPriority());
@@ -620,32 +635,32 @@ void CvodeInterface::SortEventsByPriority(vector<int>& firedEvents)
 void CvodeInterface::HandleRootsForTime(const double& timeEnd, vector<int>& rootsFound)
 {
     AssignResultsToModel();
-    model->convertToConcentrations();
-    model->updateDependentSpeciesValues(model->y);
+    mTheModel->convertToConcentrations();
+    mTheModel->updateDependentSpeciesValues(mTheModel->y);
     vector<double> args = BuildEvalArgument();
-    model->evalEvents(timeEnd, args);
+    mTheModel->evalEvents(timeEnd, args);
 
     vector<int> firedEvents;
     map<int, double* > preComputedAssignments;
 
-	for (int i = 0; i < model->getNumEvents(); i++)
+	for (int i = 0; i < mTheModel->getNumEvents(); i++)
     {
         // We only fire an event if we transition from false to true
         if (rootsFound[i] == 1)
         {
-            if (model->eventStatusArray[i])
+            if (mTheModel->eventStatusArray[i])
             {
                 firedEvents.push_back(i);
-                if (model->eventType[i])
+                if (mTheModel->eventType[i])
                 {
-                    preComputedAssignments[i] = model->computeEventAssignments[i]();
+                    preComputedAssignments[i] = mTheModel->computeEventAssignments[i]();
                 }
             }
         }
         else
         {
             // if the trigger condition is not supposed to be persistent, remove the event from the firedEvents list;
-            if (!model->eventPersistentType[i])
+            if (!mTheModel->eventPersistentType[i])
             {
                 RemovePendingAssignmentForIndex(i);
             }
@@ -662,17 +677,17 @@ void CvodeInterface::HandleRootsForTime(const double& timeEnd, vector<int>& root
             int currentEvent = firedEvents[i];//.GetID();
 
             // We only fire an event if we transition from false to true
-            model->previousEventStatusArray[currentEvent] = model->eventStatusArray[currentEvent];
-            double eventDelay = model->eventDelays[currentEvent]();
+            mTheModel->previousEventStatusArray[currentEvent] = mTheModel->eventStatusArray[currentEvent];
+            double eventDelay = mTheModel->eventDelays[currentEvent]();
             if (eventDelay == 0)
             {
-                if (model->eventType[currentEvent] && preComputedAssignments.count(currentEvent) > 0)
+                if (mTheModel->eventType[currentEvent] && preComputedAssignments.count(currentEvent) > 0)
                 {
-                    model->performEventAssignments[currentEvent](preComputedAssignments[currentEvent]);
+                    mTheModel->performEventAssignments[currentEvent](preComputedAssignments[currentEvent]);
                 }
                 else
                 {
-                    model->eventAssignments[currentEvent]();
+                    mTheModel->eventAssignments[currentEvent]();
                 }
 
                 handled.push_back(currentEvent);
@@ -684,13 +699,13 @@ void CvodeInterface::HandleRootsForTime(const double& timeEnd, vector<int>& root
                 for (int j = 0; j < additionalEvents.size(); j++)
                 {
                     int newEvent = additionalEvents[j];
-                    if (model->eventType[newEvent])
+                    if (mTheModel->eventType[newEvent])
                     {
-                        preComputedAssignments[newEvent] = model->computeEventAssignments[newEvent]();
+                        preComputedAssignments[newEvent] = mTheModel->computeEventAssignments[newEvent]();
                     }
                 }
 
-                model->eventStatusArray[currentEvent] = false;
+                mTheModel->eventStatusArray[currentEvent] = false;
                 Log(lDebug3)<<"Fired Event with ID:"<<currentEvent;
                 firedEvents.erase(firedEvents.begin() + i);
 
@@ -714,18 +729,18 @@ void CvodeInterface::HandleRootsForTime(const double& timeEnd, vector<int>& root
                 }
 
                 PendingAssignment *pending = new PendingAssignment(  timeEnd + eventDelay,
-                                                                    model->computeEventAssignments[currentEvent],
-                                                                    model->performEventAssignments[currentEvent],
-                                                                    model->eventType[currentEvent],
+                                                                    mTheModel->computeEventAssignments[currentEvent],
+                                                                    mTheModel->performEventAssignments[currentEvent],
+                                                                    mTheModel->eventType[currentEvent],
                                                                     currentEvent);
 
-                if (model->eventType[currentEvent] && preComputedAssignments.count(currentEvent) == 1)
+                if (mTheModel->eventType[currentEvent] && preComputedAssignments.count(currentEvent) == 1)
                 {
                     pending->ComputedValues = preComputedAssignments[currentEvent];
                 }
 
                 assignments.push_back(*pending);
-                model->eventStatusArray[currentEvent] = false;
+                mTheModel->eventStatusArray[currentEvent] = false;
                 firedEvents.erase(firedEvents.begin() + i);
                 break;
             }
@@ -734,59 +749,59 @@ void CvodeInterface::HandleRootsForTime(const double& timeEnd, vector<int>& root
 
     if (mRR && !mRR->mConservedTotalChanged)
     {
-        model->computeConservedTotals();
+        mTheModel->computeConservedTotals();
     }
-    model->convertToAmounts();
+    mTheModel->convertToAmounts();
 
 
     args = BuildEvalArgument();
-    model->evalModel(timeEnd, args);
+    mTheModel->evalModel(timeEnd, args);
 
-    vector<double> dCurrentValues = model->getCurrentValues();
+    vector<double> dCurrentValues = mTheModel->getCurrentValues();
     for (int k = 0; k < numAdditionalRules; k++)
     {
-        Cvode_SetVector((N_Vector) _amounts, k, dCurrentValues[k]);
+        Cvode_SetVector((N_Vector) mAmounts, k, dCurrentValues[k]);
     }
 
     for (int k = 0; k < numIndependentVariables; k++)
     {
-        Cvode_SetVector((N_Vector) _amounts, k + numAdditionalRules, model->amounts[k]);
+        Cvode_SetVector((N_Vector) mAmounts, k + numAdditionalRules, mTheModel->amounts[k]);
     }
 
-//    CVReInit(mCVODE_Memory, timeEnd, _amounts, relTol, abstolArray);
-    CVReInit(timeEnd);//, _amounts, relTol, abstolArray);
+//    CVReInit(mCVODE_Memory, timeEnd, mAmounts, relTol, abstolArray);
+    ReInit(timeEnd);//, mAmounts, relTol, abstolArray);
     sort(assignmentTimes.begin(), assignmentTimes.end());
 }
 
 void CvodeInterface::AssignResultsToModel()
 {
-    model->updateDependentSpeciesValues(model->y);
+    mTheModel->updateDependentSpeciesValues(mTheModel->y);
     vector<double> dTemp(numAdditionalRules);
 
     for (int i = 0; i < numAdditionalRules; i++)
     {
-        dTemp[i] = Cvode_GetVector((_generic_N_Vector*) _amounts, i);
-        model->amounts[i] = dTemp[i];
+        dTemp[i] = Cvode_GetVector((_generic_N_Vector*) mAmounts, i);
+        mTheModel->amounts[i] = dTemp[i];
     }
 
     for (int i = 0; i < numIndependentVariables; i++) //
     {
-        double val = Cvode_GetVector((_generic_N_Vector*) _amounts, i + numAdditionalRules);
-        model->amounts[i] = (val);
+        double val = Cvode_GetVector((_generic_N_Vector*) mAmounts, i + numAdditionalRules);
+        mTheModel->amounts[i] = (val);
         Log(lDebug5)<<"Amount "<<setprecision(16)<<val;
     }
 
     vector<double> args = BuildEvalArgument();
-    model->computeRules(args);
-    model->assignRates(dTemp);
+    mTheModel->computeRules(args);
+    mTheModel->assignRates(dTemp);
 
-    model->computeAllRatesOfChange();
+    mTheModel->computeAllRatesOfChange();
 }
 
 // Restart the simulation using a different initial condition
 void CvodeInterface::AssignNewVector(ModelFromC *oModel, bool bAssignNewTolerances)
 {
-    vector<double> dTemp = model->getCurrentValues();
+    vector<double> dTemp = mTheModel->getCurrentValues();
     double dMin = absTol;
 
     for (int i = 0; i < numAdditionalRules; i++)
@@ -811,7 +826,7 @@ void CvodeInterface::AssignNewVector(ModelFromC *oModel, bool bAssignNewToleranc
         {
             setAbsTolerance(i, dMin);
         }
-        Cvode_SetVector(_amounts, i, dTemp[i]);
+        Cvode_SetVector(mAmounts, i, dTemp[i]);
     }
 
     for (int i = 0; i < numIndependentVariables; i++)
@@ -820,16 +835,16 @@ void CvodeInterface::AssignNewVector(ModelFromC *oModel, bool bAssignNewToleranc
         {
             setAbsTolerance(i + numAdditionalRules, dMin);
         }
-        Cvode_SetVector(_amounts, i + numAdditionalRules, oModel->getAmounts(i));
+        Cvode_SetVector(mAmounts, i + numAdditionalRules, oModel->getAmounts(i));
     }
 
-    if (!HaveVariables() && model->getNumEvents() > 0)
+    if (!HaveVariables() && mTheModel->getNumEvents() > 0)
     {
         if (bAssignNewTolerances)
         {
             setAbsTolerance(0, dMin);
         }
-        Cvode_SetVector(_amounts, 0, 1.0);
+        Cvode_SetVector(mAmounts, 0, 1.0);
     }
 
     if (bAssignNewTolerances)
@@ -867,7 +882,7 @@ void CvodeInterface::reStart(double timeStart, ModelFromC* model)
     	CVodeSetInitStep(mCVODE_Memory, InitStep);
     	CVodeSetMinStep(mCVODE_Memory, MinStep);
     	CVodeSetMaxStep(mCVODE_Memory, MaxStep);
-		CVReInit(timeStart);
+		ReInit(timeStart);
     }
 }
 
@@ -894,17 +909,17 @@ vector<double> BuildEvalArgument(ModelFromC* model)
 vector<double> CvodeInterface::BuildEvalArgument()
 {
     vector<double> dResult;
-    dResult.resize(*model->amountsSize + *model->rateRulesSize);
+    dResult.resize(*mTheModel->amountsSize + *mTheModel->rateRulesSize);
 
-    vector<double> dCurrentValues = model->getCurrentValues();
+    vector<double> dCurrentValues = mTheModel->getCurrentValues();
     for(int i = 0; i < dCurrentValues.size(); i++)
     {
         dResult[i] = dCurrentValues[i];
     }
 
-    for(int i = 0; i < *model->amountsSize; i++)
+    for(int i = 0; i < *mTheModel->amountsSize; i++)
     {
-        dResult[i + *model->rateRulesSize] = model->amounts[i];
+        dResult[i + *mTheModel->rateRulesSize] = mTheModel->amounts[i];
     }
 
     Log(lDebug4)<<"Size of dResult in BuildEvalArgument: "<<dResult.size();
