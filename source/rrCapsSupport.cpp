@@ -25,16 +25,14 @@ mRoadRunner(rr)
         CvodeInterface*  cvode = mRoadRunner->getCVodeInterface();
         Capability integration("integration", "CVODE", "CVODE Integrator");
 
-        integration.add(new Parameter<int>(    "BDFOrder",     cvode->MaxBDFOrder,     "Maximum order for BDF Method"));
-        integration.add(new Parameter<int>(    "AdamsOrder",   cvode->MaxAdamsOrder,   "Maximum order for Adams Method"));
-        integration.add(new Parameter<double>( "rtol",         cvode->relTol,          "Relative Tolerance"));
-        integration.add(new Parameter<double>( "atol",         cvode->absTol,          "Absolute Tolerance"));
-        integration.add(new Parameter<int>(    "maxsteps",     cvode->MaxNumSteps,     "Maximum number of internal stepsc"));
-        integration.add(new Parameter<double>( "initstep",     cvode->InitStep,        "the initial step size"));
-        integration.add(new Parameter<double>( "minstep",      cvode->MinStep,         "specifies a lower bound on the \
-        																						magnitude of the step size."));
-        integration.add(new Parameter<double>( "maxstep",      cvode->MaxStep,         "specifies an upper bound on the \
-        																						magnitude of the step size."));
+        integration.add(new Parameter<int>(    "BDFOrder",     cvode->mMaxBDFOrder,     "Maximum order for BDF Method"));
+        integration.add(new Parameter<int>(    "AdamsOrder",   cvode->mMaxAdamsOrder,   "Maximum order for Adams Method"));
+        integration.add(new Parameter<double>( "rtol",         cvode->mRelTol,          "Relative Tolerance"));
+        integration.add(new Parameter<double>( "atol",         cvode->mAbsTol,          "Absolute Tolerance"));
+        integration.add(new Parameter<int>(    "maxsteps",     cvode->mMaxNumSteps,     "Maximum number of internal stepsc"));
+        integration.add(new Parameter<double>( "initstep",     cvode->mInitStep,        "the initial step size"));
+        integration.add(new Parameter<double>( "minstep",      cvode->mMinStep,         "specifies a lower bound on the magnitude of the step size."));
+        integration.add(new Parameter<double>( "maxstep",      cvode->mMaxStep,         "specifies an upper bound on the	magnitude of the step size."));
 
         integration.add(new Parameter<bool>(   "conservation", mRoadRunner->mComputeAndAssignConservationLaws,
         																					"enables (=true) or disables \

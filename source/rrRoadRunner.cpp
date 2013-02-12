@@ -506,7 +506,7 @@ DoubleMatrix RoadRunner::runSimulation()
     mModel->evalModel(mTimeStart, y);
     addNthOutputToResult(results, 0, mTimeStart);
 
-    if (mCVode->HaveVariables())
+    if (mCVode->haveVariables())
     {
         mCVode->reStart(mTimeStart, mModel);
 //		if (restartResult != 0)
@@ -522,7 +522,7 @@ DoubleMatrix RoadRunner::runSimulation()
     for (int i = 1; i < mNumPoints; i++)
     {
         Log(lDebug)<<"Step "<<i;
-        mCVode->OneStep(tout, hstep);
+        mCVode->oneStep(tout, hstep);
         tout = mTimeStart + i * hstep;
         addNthOutputToResult(results, i, tout);
     }
@@ -891,8 +891,8 @@ void RoadRunner::reset()
             mModel->computeConservedTotals();
         }
 
-        mCVode->AssignNewVector(mModel, true);
-        mCVode->TestRootsAtInitialTime();
+        mCVode->assignNewVector(mModel, true);
+        mCVode->testRootsAtInitialTime();
 
         //double hstep = (timeEnd - mTimeStart) / (mNumPoints - 1);
         //CvodeInterface.MaxStep = Math.Min(CvodeInterface.MaxStep, hstep);
@@ -902,7 +902,7 @@ void RoadRunner::reset()
         mModel->setTime(0.0);
         mCVode->reStart(0.0, mModel);
 
-        mCVode->assignments.clear();//Clear();
+        mCVode->mAssignments.clear();//Clear();
 
         try
         {
@@ -1367,7 +1367,7 @@ void RoadRunner::evalModel()
         throw CoreException(emptyModelStr);
     }
     mModel->convertToAmounts();
-    vector<double> args = mCVode->BuildEvalArgument();
+    vector<double> args = mCVode->buildEvalArgument();
     mModel->evalModel(mModel->getTime(), args);
 }
 
@@ -1542,7 +1542,7 @@ double RoadRunner::oneStep(const double& currentTime, const double& stepSize, co
     {
         mCVode->reStart(currentTime, mModel);
     }
-    return mCVode->OneStep(currentTime, stepSize);
+    return mCVode->oneStep(currentTime, stepSize);
 }
 
 // Returns eigenvalues, first column real part, second column imaginary part

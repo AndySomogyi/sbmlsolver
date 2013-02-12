@@ -9,10 +9,6 @@ using std::string;
 namespace rr
 {
 
-RR_DECLSPEC int InternalFunctionCall(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *f_data);
-RR_DECLSPEC int InternalRootCall (realtype t, N_Vector y, realtype *gout, void *g_data);
-
-
 class Event;
 class ModelFromC;
 class RoadRunner;
@@ -20,85 +16,76 @@ class RoadRunner;
 class RR_DECLSPEC CvodeInterface : public rrObject
 {
     private:
-        const double                defaultReltol;
-        const double                defaultAbsTol;
-        const int                   defaultMaxNumSteps;
+        const double                mDefaultReltol;
+        const double                mDefaultAbsTol;
+        const int                   mDefaultMaxNumSteps;
 
-        string        		        tempPathstring;
-        int                  		errorFileCounter;
-
-        int                         numIndependentVariables;
-        int*                        _rootsFound;
+        string        		        mTempPathstring;
+        int                  		mErrorFileCounter;
+        int                         mNumIndependentVariables;
         N_Vector                    mAmounts;
-        N_Vector                    abstolArray;
-        string                      cvodeLogFile;
+        N_Vector                    mAbstolArray;
+        string                      mLogFile;
         void*                       mCVODE_Memory;
-        int                         numAdditionalRules;
-        void                        HandleCVODEError(int errCode);
-        vector<double>              assignmentTimes;
-        bool                        followEvents;
-        void                        AssignPendingEvents(const double& timeEnd, const double& tout);
-        vector<int>                 RetestEvents(const double& timeEnd, vector<int>& handledEvents);
-        vector<int>                 RetestEvents(const double& timeEnd, const vector<int>& handledEvents, vector<int>& removeEvents);
-        vector<int>                 RetestEvents(const double& timeEnd, vector<int>& handledEvents, const bool& assignOldState);
-        vector<int>                 RetestEvents(const double& timeEnd, const vector<int>& handledEvents, const bool& assignOldState, vector<int>& removeEvents);
-        void                        HandleRootsFound(double &timeEnd, const double& tout);
-        void                        RemovePendingAssignmentForIndex(const int& eventIndex);
-        void                        SortEventsByPriority(vector<int>& firedEvents);
-        void                        SortEventsByPriority(vector<Event>& firedEvents);
-        void                        HandleRootsForTime(const double& timeEnd, vector<int>& rootsFound);
-	 	int         				RootInit (int numRoots);//, TRootCallBack callBack, void *gdata);
-		int         				ReInit (double t0);
+        int                         mNumAdditionalRules;
+        vector<double>              mAssignmentTimes;
+        int                         mDefaultMaxAdamsOrder;
+        int                         mDefaultMaxBDFOrder;
+        double                      mLastTimeValue;
+        double                      mLastEvent;
+        ModelFromC*					mTheModel;
+        int                         mOneStepCount;
+        bool                        mFollowEvents;
+        RoadRunner				   *mRR;
 
-    public:
-                                    // -------------------------------------------------------------------------
-                                    // Constructor
-                                    // Model contains all the symbol tables associated with the model
-                                    // ev is the model function
-                                    // -------------------------------------------------------------------------
+        void                        handleCVODEError(const int& errCode);
+        void                        assignPendingEvents(const double& timeEnd, const double& tout);
+        vector<int>                 retestEvents(const double& timeEnd, vector<int>& handledEvents);
+        vector<int>                 retestEvents(const double& timeEnd, const vector<int>& handledEvents, vector<int>& removeEvents);
+        vector<int>                 retestEvents(const double& timeEnd, vector<int>& handledEvents, const bool& assignOldState);
+        vector<int>                 retestEvents(const double& timeEnd, const vector<int>& handledEvents, const bool& assignOldState, vector<int>& removeEvents);
+        void                        handleRootsFound(double &timeEnd, const double& tout);
+        void                        removePendingAssignmentForIndex(const int& eventIndex);
+        void                        sortEventsByPriority(vector<int>& firedEvents);
+        void                        sortEventsByPriority(vector<Event>& firedEvents);
+        void                        handleRootsForTime(const double& timeEnd, vector<int>& rootsFound);
+	 	int         				rootInit (const int& numRoots);//, TRootCallBack callBack, void *gdata);
+		int         				reInit (const double& t0);
+		int          				allocateCvodeMem ();
+        void                        initializeCVODEInterface(ModelFromC *oModel);
+
+    public:	//Hide these later on...
+        int                         mMaxAdamsOrder;
+        int                         mMaxBDFOrder;
+        double                      mInitStep;
+        double                      mMinStep;
+        double                      mMaxStep;
+        int                         mMaxNumSteps;
+        double                      mRelTol;
+        double                      mAbsTol;
+        vector<PendingAssignment>   mAssignments;
+        int                  		mRootCount;
+        int         		        mCount;
+
+	public:
                                     CvodeInterface(RoadRunner* rr, ModelFromC* oModel, const double& abTol = 1.e-12, const double& relTol = 1.e-12);
                                    ~CvodeInterface();
 
-        void                        AssignResultsToModel();
+        void                        assignResultsToModel();
 
-		int          				AllocateCvodeMem (int n);
+		ModelFromC*					getModel();
+        void                        testRootsAtInitialTime();
+        bool                        haveVariables();
 
-        int         		        mCount;
-        int                  		mRootCount;
-        int                         mOneStepCount;
-
-        ModelFromC*					mTheModel;
-		ModelFromC*					getModel(){return mTheModel;}
-        RoadRunner				   *mRR;
-        vector<PendingAssignment>   assignments;
-
-        int                         defaultMaxAdamsOrder;
-        int                         defaultMaxBDFOrder;
-        int                         MaxAdamsOrder;
-        int                         MaxBDFOrder;
-        double                      InitStep;
-        double                      MinStep;
-        double                      MaxStep;
-        int                         MaxNumSteps;
-        double                      relTol;
-        double                      absTol;
-        int                         errCode;
-        double                      lastTimeValue;
-        void                        TestRootsAtInitialTime();
-
-        bool                        HaveVariables();
-        void                        InitializeCVODEInterface(ModelFromC *oModel);
-
-        double                      lastEvent;
-        double                      OneStep(double timeStart, double hstep);
+        double                      oneStep(const double& timeStart, const double& hstep);
 
         // Restart the simulation using a different initial condition
-        void                        AssignNewVector(ModelFromC *model);
-        void                        AssignNewVector(ModelFromC *oModel, bool bAssignNewTolerances);
+        void                        assignNewVector(ModelFromC *model);
+        void                        assignNewVector(ModelFromC *oModel, bool bAssignNewTolerances);
 
         void                        setAbsTolerance(int index, double dValue);
         void                        reStart(double timeStart, ModelFromC* model);
-        vector<double>              BuildEvalArgument();
+        vector<double>              buildEvalArgument();
 };
 }
 
