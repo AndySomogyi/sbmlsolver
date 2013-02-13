@@ -7,32 +7,37 @@
 //---------------------------------------------------------------------------
 namespace rr
 {
-const char*     	Comma 		= ",";
-const string    	EmptyString 	= "";
 
-const char* 		double_format = "%f";
-const char* 		int_format  = "%d";;
+//Useful constants..
+const char*     	gComma 			            = ",";
+const char* 		gDoubleFormat 	            = "%f";
+const char* 		gIntFormat  	            = "%d";;
+const char 	 		gTab 			            = '\t';
+
+
+
+const string    	gEmptyString 				= "";
+const string		gDefaultSupportCodeFolder 	= "..\\rr_support";
+const string		gDefaultCompiler 			= "..\\compilers\\tcc\\tcc.exe";
+const int 			gMaxPath					= 512;
+const double    	gDoubleNaN   				= std::numeric_limits<double>::quiet_NaN() ;
+const float     	gFloatNaN    				= std::numeric_limits<float>::quiet_NaN() ;
+
+
+//Messages
+const string		gEmptyModelMessage 			= "A model needs to be loaded before one can use this method";
+
 
 #if defined(_WIN32) || defined(__CODEGEARC__)
-const char       	PathSeparator = '\\';
-const string		gExeSuffix	= ".exe";
+const char       	gPathSeparator 	= '\\';
+const string		gExeSuffix		= ".exe";
 #elif defined(__linux)
-const char       	PathSeparator = '/';
-const string		gExeSuffix	= "";
-#else
-const char       	PathSeparator = '/';
-const string		gExeSuffix	= "";
+const char       	gPathSeparator 	= '/';
+const string		gExeSuffix		= "";
+#else  //Something else...
+const char       	gPathSeparator 	= '/';
+const string		gExeSuffix		= "";
 #endif
 
-
-const string		gDefaultSupportCodeFolder = "..\\rr_support";
-const string		gDefaultCompiler = "..\\compilers\\tcc\\tcc.exe";
-const char 	 		tab 			= '\t';
-const double    	DoubleNaN   = std::numeric_limits<double>::quiet_NaN() ;
-const float     	FloatNaN    = std::numeric_limits<float>::quiet_NaN() ;
-//int       	MAX_MODULE  = 512;
-
-
-const string		gEmptyModelString = "A model needs to be loaded before one can use this method";
 }
 

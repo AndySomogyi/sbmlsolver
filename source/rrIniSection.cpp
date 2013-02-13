@@ -14,8 +14,8 @@ namespace rr
 rrIniSection::rrIniSection()
 :
 mIsDirty(true),
-mName(EmptyString),
-mComment(EmptyString)
+mName(gEmptyString),
+mComment(gEmptyString)
 {
 
 }
@@ -23,8 +23,8 @@ mComment(EmptyString)
 rrIniSection::rrIniSection(const string& nameValueString, const char& sep)
 :
 mIsDirty(true),
-mName(EmptyString),
-mComment(EmptyString)
+mName(gEmptyString),
+mComment(gEmptyString)
 {
 	vector<string> keys = SplitString(nameValueString, sep);
 

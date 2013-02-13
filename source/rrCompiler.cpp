@@ -60,11 +60,6 @@ bool Compiler::setOutputPath(const string& path)
 	return true;
 }
 
-//string Compiler::getDLLName()
-//{
-//    return mDLLFileName;
-//}
-
 bool Compiler::compileSource(const string& sourceFileName)
 {
     //Compile the code and load the resulting dll, and call an exported function in it...

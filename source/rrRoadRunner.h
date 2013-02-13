@@ -39,6 +39,8 @@ class CGenerator;
 class RR_DECLSPEC RoadRunner : public rrObject
 {
 	private:
+    	static int	  					mInstanceCount;
+    	int	  							mInstanceID;
 		bool                            mUseKinsol;
 		const double                    mDiffStepSize;
         bool							mUseUUIDForCompilerOutput;
@@ -49,7 +51,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		SimulationData                  mSimulationData;
 	    string 							mSupportCodeFolder;		//The compiler needs this in order to compile models
 		string                          mModelCode;
-		static string                   mTempFileFolder;
+		string                   		mTempFileFolder;
 		SBMLModelSimulation            *mSimulation;
 
 		CvodeInterface                 *mCVode;
@@ -68,7 +70,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		int                             mNumPoints;
 
 		ModelFromC*                     mModel;
-		ModelSharedLibrary	  	  		mModelDLL;
+		ModelSharedLibrary	  	  		mModelLib;
 		string                          mCurrentSBML;
 		LibStructural                  *mLS;                                //Handle to libstruct library
 
@@ -93,8 +95,10 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		bool                     		mConservedTotalChanged;
 
 	public:
- 										RoadRunner(const string& supportCodeFolder = gDefaultSupportCodeFolder, const string& compiler = gDefaultCompiler, const string& tempFolder = EmptyString);
+ 										RoadRunner(const string& supportCodeFolder = gDefaultSupportCodeFolder, const string& compiler = gDefaultCompiler, const string& tempFolder = gEmptyString);
 		virtual                        ~RoadRunner();
+        int								getInstanceID();
+        int								getInstanceCount();
 
 		bool        					computeAndAssignConservationLaws();
 		void                            setParameterValue(const TParameterType& parameterType, const int& parameterIndex, const double& value);
@@ -169,7 +173,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
  		// ---------------------------------------------------------------------
 		// Start of Level 2 API Methods
 		// ---------------------------------------------------------------------
-
 		string                          getCapabilities();
 		void                            setTolerances(const double& aTol, const double& rTol);
 		void                            setTolerances(const double& aTol, const double& rTol, const int& maxSteps);
@@ -222,12 +225,10 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		NewArrayList                 	getAvailableSteadyStateSymbols();
 		StringList                   	getSteadyStateSelectionList();
 		void                            setSteadyStateSelectionList(const StringList& newSelectionList);
-
 		double                          computeSteadyStateValue(const TSelectionRecord& record);
 		vector<double>                  computeSteadyStateValues();
 		vector<double>                  computeSteadyStateValues(const StringList& selection);
 		vector<double>                  computeSteadyStateValues(const vector<TSelectionRecord>& selection, const bool& computeSteadyState);
-
 		double                          computeSteadyStateValue(const string& sId);
 		vector<double>                  getSelectedValues();
 

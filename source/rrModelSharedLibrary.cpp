@@ -4,10 +4,9 @@
 #include "rrModelSharedLibrary.h"
 #include "rrUtils.h"
 //---------------------------------------------------------------------------
-
 using Poco::UUID;
 using Poco::UUIDGenerator;
-using namespace rr;
+
 namespace rr
 {
 
@@ -72,14 +71,22 @@ string ModelSharedLibrary::getFullFileName()
 	return JoinPath(mPathToLib, mLibName);
 }
 
-string ModelSharedLibrary::createName()
+string ModelSharedLibrary::createName(const string& baseName)
 {
-	//Create  a new UUID
-	UUIDGenerator& generator = UUIDGenerator::defaultGenerator();
-	UUID uuid2(generator.createRandom());
-    mLibName = uuid2.toString();
-    mLibName.append(mTheLib.suffix());
 
+	if(!baseName.size())
+    {
+		//Create  a new UUID
+		UUIDGenerator& generator = UUIDGenerator::defaultGenerator();
+		UUID uuid2(generator.createRandom());
+    	mLibName = uuid2.toString();
+    }
+    else
+    {
+    	mLibName = baseName;
+    }
+
+    mLibName.append(mTheLib.suffix());
 	return mLibName;
 }
 

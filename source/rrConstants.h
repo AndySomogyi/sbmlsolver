@@ -8,34 +8,32 @@ using namespace std;
 namespace rr
 {
 
-RR_DECLSPEC extern const char 	PathSeparator;
-RR_DECLSPEC extern const string	EmptyString;
-RR_DECLSPEC extern const char* 	double_format;
-RR_DECLSPEC extern const char* 	int_format;
-
+//Useful constants...
+RR_DECLSPEC extern const char 	gPathSeparator;
+RR_DECLSPEC extern const string	gEmptyString;
 RR_DECLSPEC extern const string gExeSuffix;
-RR_DECLSPEC extern const char* 	Comma;
+
+RR_DECLSPEC extern const char* 	gDoubleFormat;
+RR_DECLSPEC extern const char* 	gIntFormat;
+RR_DECLSPEC extern const char* 	gComma;
 RR_DECLSPEC extern const string gDefaultSupportCodeFolder;
 RR_DECLSPEC extern const string gDefaultCompiler;
-RR_DECLSPEC extern const string gEmptyModelString;
 
-// Typedefs
-typedef unsigned int 			u_int;
-typedef long*   				IntPtr;
+//Messages
+RR_DECLSPEC extern const string gEmptyModelMessage;
+
 
 // Constants
-RR_DECLSPEC extern const char 	tab;
-RR_DECLSPEC extern const double	DoubleNaN;
-RR_DECLSPEC extern const float  FloatNaN;
-
-#ifndef MAXPATH
-#define MAXPATH 250
-#endif
-
-const int MAX_MODULE = 512;
+RR_DECLSPEC extern const char 	gTab;
+RR_DECLSPEC extern const double	gDoubleNaN;
+RR_DECLSPEC extern const float  gFloatNaN;
+RR_DECLSPEC extern const int    gMaxPath;
 
 // Enums...
 enum SBMLType {stCompartment = 0, stSpecies, stParameter};    //Species clashes with class Species, prefix enums with st, for SbmlType
+
+// Typedefs
+typedef unsigned int 			u_int;
 
 }
 #endif

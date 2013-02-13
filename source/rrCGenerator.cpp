@@ -311,7 +311,7 @@ void CGenerator::writeComputeAllRatesOfChange(CodeBuilder& ignore, const int& nu
 //    mSource.TLine("printf(\"In function computeAllRatesOfChange()\\n\"); ");
 //    mSource<<"#endif\n";
 
-    mSource<<tab<<"int i;\n";
+    mSource<<gTab<<"int i;\n";
 //    mSource<<"\n\t//double* dTemp = (double*) malloc( sizeof(double)* (amounts.Length + rateRules.Length) );\n";
     mSource<<"\n\tdouble* dTemp = (double*) malloc( sizeof(double)* (_amountsSize + _rateRulesSize) );\n"; //Todo: Check this
 
@@ -320,8 +320,8 @@ void CGenerator::writeComputeAllRatesOfChange(CodeBuilder& ignore, const int& nu
         mSource<<Format("\tdTemp[{0}] = {1};{2}", i, mMapRateRule[i], NL());
     }
 
-    mSource<<tab<<"for(i = 0; i < _amountsSize; i++)\n";
-    mSource<<tab<<"{\n"<<tab<<tab<<"dTemp[i + _rateRulesSize] = _amounts[i];\n\t}";
+    mSource<<gTab<<"for(i = 0; i < _amountsSize; i++)\n";
+    mSource<<gTab<<"{\n"<<gTab<<gTab<<"dTemp[i + _rateRulesSize] = _amounts[i];\n\t}";
     mSource<<Append("\n\t//amounts.CopyTo(dTemp, rateRules.Length); " + NL());
 
     mSource<<Append("\t__evalModel(mTime, dTemp);" + NL());
@@ -1014,7 +1014,7 @@ int CGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
 
             if (leftSideRule.size())
             {
-                mSource<<tab<<Append(leftSideRule + " = ");
+                mSource<<gTab<<Append(leftSideRule + " = ");
                 int speciesIndex;
                 bool isSpecies = mFloatingSpeciesConcentrationList.find(varName, speciesIndex);
 
@@ -1102,7 +1102,7 @@ int CGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
         	double value = mNOM.getValue(varName);
 	        if (!IsNaN(value))
     	    {
-        	    mSource<<tab<<mMapRateRule[i] << " = " << ToString(value, mDoubleFormat) << ";" << NL();
+        	    mSource<<gTab<<mMapRateRule[i] << " = " << ToString(value, mDoubleFormat) << ";" << NL();
         	}
         }
     }
@@ -1215,7 +1215,7 @@ void CGenerator::writeEvalEvents(CodeBuilder& ignore, const int& numEvents, cons
     {
         for (int i = 0; i < numAdditionalRates(); i++)
         {
-            mSource<<tab<<(string) mMapRateRule[i] << " = oAmounts[" << i << "];" << NL();
+            mSource<<gTab<<(string) mMapRateRule[i] << " = oAmounts[" << i << "];" << NL();
         }
         for (int i = 0; i < numFloatingSpecies; i++)
         {
@@ -2655,8 +2655,8 @@ void CGenerator::writeInitFunction(CodeBuilder& ignore, CodeBuilder& source)
     source<<"\t"<<Append("numReactions = " ,                mReactionList.size() , ";" , NL());
     source<<"\t"<<Append("numEvents = " ,                   mNumEvents , ";" , NL());
 
-    source<<tab<<    "mModelName = (char*) malloc(sizeof(char)*"<<strlen(mModelName.c_str()) + 1<<");" <<endl;
-       source<<tab<<    "strcpy(mModelName,\""<<mModelName<<"\");"<<endl;
+    source<<gTab<<    "mModelName = (char*) malloc(sizeof(char)*"<<strlen(mModelName.c_str()) + 1<<");" <<endl;
+       source<<gTab<<    "strcpy(mModelName,\""<<mModelName<<"\");"<<endl;
 
     source<<"\t"<<Append("setCompartmentVolumes();" , NL());
     source<<"\t"<<Append("InitializeDelays();" , NL());

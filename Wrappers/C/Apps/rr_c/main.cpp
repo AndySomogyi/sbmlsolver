@@ -60,9 +60,9 @@ int main(int argc, char* argv[])
 	if(args.TempDataFolder.size() < 2)
 	{
 
-		char* buffer = new char[1024];
+		char* buffer;
         // Get the current working directory:
-        if( (buffer = getcwd( buffer, MAXPATH )) == NULL )
+        if( (buffer = getcwd(NULL, 0)) == NULL )
         {
             perror( "getcwd error" );
         }
@@ -70,7 +70,7 @@ int main(int argc, char* argv[])
         {
 			args.TempDataFolder	= buffer;
         }
-        delete [] buffer;
+        free(buffer);
 	}
   	
 	setTempFolder(args.TempDataFolder.c_str());

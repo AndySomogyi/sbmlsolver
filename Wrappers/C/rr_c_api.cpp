@@ -127,16 +127,16 @@ bool rrCallConv enableLogging()
 		Log(lInfo)<<"Creating log file "<<logFile;
         gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));
 
-        char* buffer = new char[1024];
+        char* buffer;
         // Get the current working directory:
-        if( (buffer = getcwd( buffer, MAXPATH )) == NULL )
+        if( (buffer = getcwd(NULL, 0)) == NULL )
         {
             perror( "getcwd error" );
         }
         else
         {
             Log(lInfo)<<"Current working folder is :"<<buffer;
-            delete [] buffer;
+            free(buffer);
         }
 
     	return true;

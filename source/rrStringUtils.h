@@ -37,8 +37,8 @@ string              RR_DECLSPEC Trim(const string& str);
 bool                RR_DECLSPEC StartsWith(const string& src, const string& sub);
 bool                RR_DECLSPEC EndsWith(const string& src, const string& sub);
 
-string              RR_DECLSPEC JoinPath(const string& p1, const string& p2, const char pathSeparator = PathSeparator);
-string              RR_DECLSPEC JoinPath(const string& p1, const string& p2, const string& p3, const char pathSeparator = PathSeparator);
+string              RR_DECLSPEC JoinPath(const string& p1, const string& p2, const char pathSeparator = gPathSeparator);
+string              RR_DECLSPEC JoinPath(const string& p1, const string& p2, const string& p3, const char pathSeparator = gPathSeparator);
 //conversions
 string              RR_DECLSPEC IntToStr(const int& nt);
 int                 RR_DECLSPEC StrToInt(const string& nt);
@@ -52,9 +52,9 @@ double              RR_DECLSPEC ToDouble(const string& str);
 
 
 string              RR_DECLSPEC ToString(const bool& b);
-string              RR_DECLSPEC ToString(const double& d, const string& format = double_format);
-string              RR_DECLSPEC ToString(const unsigned int& n, const string& format = int_format, const int nBase=10);
-string              RR_DECLSPEC ToString(const int& n, const string& format = int_format, const int nBase=10);
+string              RR_DECLSPEC ToString(const double& d, const string& format = gDoubleFormat);
+string              RR_DECLSPEC ToString(const unsigned int& n, const string& format = gIntFormat, const int nBase=10);
+string              RR_DECLSPEC ToString(const int& n, const string& format = gIntFormat, const int nBase=10);
 string              RR_DECLSPEC ToString(const long n, const int nBase=10);
 string              RR_DECLSPEC ToString(const unsigned long n, const int nBase=10);
 string              RR_DECLSPEC ToString(const unsigned short n, const int nBase=10);

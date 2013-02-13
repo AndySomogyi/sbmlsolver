@@ -29,7 +29,7 @@ class RR_DECLSPEC rrIniKey : public rrObject
 		string	              	mValue;
 		string	              	mComment;
 
-				              	rrIniKey(const string& key = EmptyString);
+				              	rrIniKey(const string& key = gEmptyString);
 				               ~rrIniKey(){}
         void 	              	ReKey(const string& key);
         string 	              	AsString() const;

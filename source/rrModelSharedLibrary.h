@@ -17,10 +17,11 @@ class RR_DECLSPEC ModelSharedLibrary : public rrObject
 		SharedLibrary					mTheLib;
 
     public:
-										ModelSharedLibrary(const string& pathToLib = EmptyString);
+										ModelSharedLibrary(const string& pathToLib = gEmptyString);
 		bool							setPath(const string& pathTo);
                                        ~ModelSharedLibrary();
-    	string							createName();
+
+    	string							createName(const string& name = gEmptyString);
 		string							getName();
 		string							getFullFileName();
 

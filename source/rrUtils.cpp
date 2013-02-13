@@ -101,7 +101,7 @@ const string getParentFolder(const string& path)
     {
     	return "";
     }
-	vector<string> fldrs = SplitString(path, PathSeparator);
+	vector<string> fldrs = SplitString(path, gPathSeparator);
     string parent("");
     if(fldrs.size() > 1)
 	{
@@ -111,10 +111,10 @@ const string getParentFolder(const string& path)
         }
 
         string pathSep;
-        pathSep.push_back(PathSeparator);
+        pathSep.push_back(gPathSeparator);
         if(path.compare(0,1, pathSep) == 0)
 		{
-			parent = PathSeparator + parent;
+			parent = gPathSeparator + parent;
 		}
 		return parent;
     }
@@ -131,7 +131,7 @@ const string getCWD()
 
 	string cwd;
 	// Get the current working directory:
-	if( (buffer = getcwd( NULL, MAXPATH )) == NULL )
+	if( (buffer = getcwd( NULL, 0 )) == NULL )
 	{
 		Log(lError)<<"getCWD failed";
 		return "";
@@ -147,7 +147,7 @@ const string getCWD()
 
 const char getPathSeparator()
 {
-	return PathSeparator;
+	return gPathSeparator;
 }
 
 string GetFileContent(const string& fName)

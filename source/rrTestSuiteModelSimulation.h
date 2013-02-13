@@ -24,7 +24,7 @@ class RR_DECLSPEC TestSuiteModelSimulation : public SBMLModelSimulation
         double                  mLargestError;
 
     public:
-                                TestSuiteModelSimulation(const string& dataOutputFolder = EmptyString, const string& modelFilePath = EmptyString, const string& modelFileName = EmptyString);
+                                TestSuiteModelSimulation(const string& dataOutputFolder = gEmptyString, const string& modelFilePath = gEmptyString, const string& modelFileName = gEmptyString);
                                ~TestSuiteModelSimulation();
         void                    SetCaseNumber(int cNr);
         bool                    LoadReferenceData();
@@ -34,7 +34,7 @@ class RR_DECLSPEC TestSuiteModelSimulation : public SBMLModelSimulation
         double                  LargestError();
         bool                    Pass();
         int                     NrOfFailingPoints();
-        virtual bool            LoadSettings(const string& fName = EmptyString);
+        virtual bool            LoadSettings(const string& fName = gEmptyString);
 };
 
 }

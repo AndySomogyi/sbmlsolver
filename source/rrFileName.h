@@ -18,13 +18,13 @@ class RR_DECLSPEC FileName : public rrObject
         void 	                    MakeFileString();
 
     public:
-                                    FileName(const string& name = EmptyString, const string& path = EmptyString);
+                                    FileName(const string& name = gEmptyString, const string& path = gEmptyString);
                                     FileName(const FileName& fN);
                                    ~FileName();
 
-        FileName&            	operator = (const FileName& fN);
-        FileName&                operator = (const string& fN);
-        FileName&                operator = (const char* fN);
+        FileName&            		operator = (const FileName& fN);
+        FileName&                	operator = (const string& fN);
+        FileName&                	operator = (const char* fN);
         bool                        operator !=(const char* fN);
                                     operator string();// {return mPathAndName;}
         bool                        SetPath(const string& path);

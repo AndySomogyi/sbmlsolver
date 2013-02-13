@@ -69,13 +69,13 @@ void rrIniKey::SetupKey(const string& key)
             mKey = recs[0];
             mValue = recs[1];
           }
-	    mComment 	= EmptyString;
+	    mComment 	= gEmptyString;
     }
     else
     {
-        mKey 		= EmptyString;
-        mValue 		= EmptyString;
-        mComment 	= EmptyString;
+        mKey 		= gEmptyString;
+        mValue 		= gEmptyString;
+        mComment 	= gEmptyString;
     }
 }
 

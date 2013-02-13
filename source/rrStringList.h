@@ -28,7 +28,7 @@ class RR_DECLSPEC StringList : public rrObject
         void                        InsertAt(const int& index, const string& item);
         void                        Add(const string& str);
 		void 						Append(const StringList& list);
-        string                      AsString(const string& delimiter = Comma) const;
+        string                      AsString(const string& delimiter = gComma) const;
         unsigned int                Count() const;
         StringList&                 operator=(const StringList& rhs);
         string&                     operator[](const int& index);

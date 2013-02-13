@@ -30,7 +30,7 @@ class RR_DECLSPEC rrIniSection : public rrObject
                         rrIniSection();
                         rrIniSection(const std::string& nameValueString, const char& sep);
                        ~rrIniSection();
-        rrIniKey*  		CreateKey(const string& _keyName, const string& Value = EmptyString, const string& Comment = EmptyString);
+        rrIniKey*  		CreateKey(const string& _keyName, const string& Value = gEmptyString, const string& Comment = gEmptyString);
         rrIniKey*		GetKey(const int& i);
         rrIniKey*		GetKey(const string& keyName, bool create = false);
         size_t 			KeyCount(){return mKeys.size();}

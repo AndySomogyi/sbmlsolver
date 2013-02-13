@@ -21,7 +21,7 @@ class RR_DECLSPEC PluginManager : public rrObject
         RoadRunner		   *mRR;		//This is a handle to the roadRunner instance, creating the pluginManager
 
     public:
-	    				           	PluginManager(const std::string& pluginFolder = EmptyString, const bool& autoLoad = false, RoadRunner* aRR = NULL);
+	    				           	PluginManager(const std::string& pluginFolder = gEmptyString, const bool& autoLoad = false, RoadRunner* aRR = NULL);
         				           ~PluginManager();
 		bool			           	setPluginFolder(const string& dir);
 		string			           	getPluginFolder();

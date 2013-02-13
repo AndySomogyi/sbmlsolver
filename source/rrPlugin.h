@@ -41,7 +41,7 @@ class RR_DECLSPEC Plugin : public rrObject
    		vector<string>				mLog;
 
     public:
-	    				           	Plugin(const std::string& name = EmptyString, const std::string& cat = noneStr, RoadRunner* aRR = NULL);
+	    				           	Plugin(const std::string& name = gEmptyString, const std::string& cat = noneStr, RoadRunner* aRR = NULL);
         virtual 		           ~Plugin();	//Gotta be virtual!
 
         string			           	getName();
