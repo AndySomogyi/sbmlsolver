@@ -33,6 +33,7 @@ string RoadRunner::mTempFileFolder = "";
 RoadRunner::RoadRunner(const string& supportCodeFolder, const string& compiler, const string& tempFolder)
 :
     mDiffStepSize(0.05),
+	mUseUUIDForCompilerOutput(false),
 	mModelFolder("models"),
     mSteadyStateThreshold(1.E-2),
 	mSupportCodeFolder(supportCodeFolder),
@@ -248,7 +249,7 @@ ModelGenerator* RoadRunner::getCodeGenerator()
 	return mModelGenerator;
 }
 
-//NOM exposure
+//NOM exposure ====================================================
 string RoadRunner::getParamPromotedSBML(const string& sArg)
 {
 	if(mModelGenerator)
@@ -285,7 +286,7 @@ string RoadRunner::getCHeaderCode()
 {
     if(mCGenerator)
     {
-        return mCGenerator->GetHeaderCode();
+        return mCGenerator->getHeaderCode();
     }
     return "";
 }
@@ -294,7 +295,7 @@ string RoadRunner::getCSourceCode()
 {
     if(mCGenerator)
     {
-        return mCGenerator->GetSourceCode();
+        return mCGenerator->getSourceCode();
     }
     return "";
 }
@@ -392,7 +393,7 @@ double RoadRunner::getValueForRecord(const TSelectionRecord& record)
 
         case TSelectionType::clBoundaryAmount:
             int nIndex;
-            if (mModelGenerator->compartmentList.find(mModelGenerator->boundarySpeciesList[record.index].compartmentName, nIndex))
+            if (mModelGenerator->mCompartmentList.find(mModelGenerator->mBoundarySpeciesList[record.index].compartmentName, nIndex))
             {
                 dResult = mModel->bc[record.index] * mModel->c[nIndex];
             }
@@ -696,7 +697,7 @@ bool RoadRunner::generateModelCode(const string& sbml)
         tempFileFolder = mTempFileFolder;
     }
 
-    if(!mModelGenerator->SaveSourceCodeToFolder(tempFileFolder, mModelDLL.getName()))
+    if(!mModelGenerator->saveSourceCodeToFolder(tempFileFolder, mModelDLL.getName()))
     {
         Log(lError)<<"Failed saving generated source code";
     }
@@ -718,7 +719,7 @@ bool RoadRunner::compileCurrentModel()
     }
 
      //Compile the model
-    if(!mCompiler.compileSource(codeGen->GetSourceCodeFileName()))
+    if(!mCompiler.compileSource(codeGen->getSourceCodeFileName()))
     {
         Log(lError)<<"Model failed compilation";
         return false;
@@ -1176,25 +1177,25 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
     }
 
     // Check the reaction name
-    if (!mModelGenerator->GetReactionList().find(reactionName, reactionIndex))
+    if (!mModelGenerator->getReactionListReference().find(reactionName, reactionIndex))
     {
         throw CoreException(Format("Unable to locate reaction name: [{0}]", reactionName));
     }
 
     // Find out what kind of parameter we are dealing with
-    if (mModelGenerator->GetFloatingSpeciesConcentrationList().find(parameterName, parameterIndex))
+    if (mModelGenerator->getFloatingSpeciesConcentrationListReference().find(parameterName, parameterIndex))
     {
         parameterType = TParameterType::ptFloatingSpecies;
     }
-    else if (mModelGenerator->GetBoundarySpeciesList().find(parameterName, parameterIndex))
+    else if (mModelGenerator->getBoundarySpeciesListReference().find(parameterName, parameterIndex))
     {
         parameterType = TParameterType::ptBoundaryParameter;
     }
-    else if (mModelGenerator->GetGlobalParameterList().find(parameterName, parameterIndex))
+    else if (mModelGenerator->getGlobalParameterListReference().find(parameterName, parameterIndex))
     {
         parameterType = TParameterType::ptGlobalParameter;
     }
-    else if (mModelGenerator->GetConservationList().find(parameterName, parameterIndex))
+    else if (mModelGenerator->getConservationListReference().find(parameterName, parameterIndex))
     {
         parameterType = TParameterType::ptConservationParameter;
     }
@@ -1270,28 +1271,28 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
         mModel->computeReactionRates(mModel->getTime(), mModel->y);
 
         // Check the reaction name
-        if (!mModelGenerator->GetReactionList().find(reactionName, reactionIndex))
+        if (!mModelGenerator->getReactionListReference().find(reactionName, reactionIndex))
         {
             throw CoreException("Unable to locate reaction name: [" + reactionName + "]");
         }
 
         // Find out what kind of parameter we are dealing with
-        if (mModelGenerator->GetFloatingSpeciesConcentrationList().find(parameterName, parameterIndex))
+        if (mModelGenerator->getFloatingSpeciesConcentrationListReference().find(parameterName, parameterIndex))
         {
             parameterType = TParameterType::ptFloatingSpecies;
             originalParameterValue = mModel->y[parameterIndex];
         }
-        else if (mModelGenerator->GetBoundarySpeciesList().find(parameterName, parameterIndex))
+        else if (mModelGenerator->getBoundarySpeciesListReference().find(parameterName, parameterIndex))
         {
             parameterType = TParameterType::ptBoundaryParameter;
             originalParameterValue = mModel->bc[parameterIndex];
         }
-        else if (mModelGenerator->GetGlobalParameterList().find(parameterName, parameterIndex))
+        else if (mModelGenerator->getGlobalParameterListReference().find(parameterName, parameterIndex))
         {
             parameterType = TParameterType::ptGlobalParameter;
             originalParameterValue = mModel->gp[parameterIndex];
         }
-        else if (mModelGenerator->GetConservationList().find(parameterName, parameterIndex))
+        else if (mModelGenerator->getConservationListReference().find(parameterName, parameterIndex))
         {
             parameterType = TParameterType::ptConservationParameter;
             originalParameterValue = mModel->ct[parameterIndex];
@@ -2544,7 +2545,7 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
         {
             string sSpecies = sId.substr(tmp.size());
             int nIndex;
-            if (mModelGenerator->floatingSpeciesConcentrationList.find(sSpecies, nIndex))
+            if (mModelGenerator->mFloatingSpeciesConcentrationList.find(sSpecies, nIndex))
             {
                 //SBWComplex[] oComplex = SBW_CLAPACK.getEigenValues(getReducedJacobian());
 				//LibLA LA;
@@ -3166,11 +3167,11 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
         mModel->computeReactionRates(mModel->getTime(), mModel->y);
 
         // Check the variable name
-        if (mModelGenerator->reactionList.find(variableName, variableIndex))
+        if (mModelGenerator->mReactionList.find(variableName, variableIndex))
         {
             variableType = TVariableType::vtFlux;
         }
-        else if (mModelGenerator->floatingSpeciesConcentrationList.find(variableName, variableIndex))
+        else if (mModelGenerator->mFloatingSpeciesConcentrationList.find(variableName, variableIndex))
         {
             variableType = TVariableType::vtSpecies;
         }
@@ -3180,17 +3181,17 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
         }
 
         // Check for the parameter name
-        if (mModelGenerator->globalParameterList.find(parameterName, parameterIndex))
+        if (mModelGenerator->mGlobalParameterList.find(parameterName, parameterIndex))
         {
             parameterType = TParameterType::ptGlobalParameter;
             originalParameterValue = mModel->gp[parameterIndex];
         }
-        else if (mModelGenerator->boundarySpeciesList.find(parameterName, parameterIndex))
+        else if (mModelGenerator->mBoundarySpeciesList.find(parameterName, parameterIndex))
         {
             parameterType = TParameterType::ptBoundaryParameter;
             originalParameterValue = mModel->bc[parameterIndex];
         }
-        else if (mModelGenerator->conservationList.find(parameterName, parameterIndex))
+        else if (mModelGenerator->mConservationList.find(parameterName, parameterIndex))
         {
             parameterType = TParameterType::ptConservationParameter;
             originalParameterValue = mModel->ct[parameterIndex];
@@ -3272,11 +3273,11 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
     }
 
     // Check the variable name
-    if (mModelGenerator->reactionList.find(variableName, variableIndex))
+    if (mModelGenerator->mReactionList.find(variableName, variableIndex))
     {
         variableType = TVariableType::vtFlux;
     }
-    else if (mModelGenerator->floatingSpeciesConcentrationList.find(variableName, variableIndex))
+    else if (mModelGenerator->mFloatingSpeciesConcentrationList.find(variableName, variableIndex))
     {
         variableType = TVariableType::vtSpecies;
     }
@@ -3286,15 +3287,15 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
     }
 
     // Check for the parameter name
-    if (mModelGenerator->globalParameterList.find(parameterName, parameterIndex))
+    if (mModelGenerator->mGlobalParameterList.find(parameterName, parameterIndex))
     {
         parameterType = TParameterType::ptGlobalParameter;
     }
-    else if (mModelGenerator->boundarySpeciesList.find(parameterName, parameterIndex))
+    else if (mModelGenerator->mBoundarySpeciesList.find(parameterName, parameterIndex))
     {
         parameterType = TParameterType::ptBoundaryParameter;
     }
-    else if (mModelGenerator->conservationList.find(parameterName, parameterIndex))
+    else if (mModelGenerator->mConservationList.find(parameterName, parameterIndex))
     {
         parameterType = TParameterType::ptConservationParameter;
     }
@@ -3423,9 +3424,9 @@ DoubleMatrix RoadRunner::getScaledReorderedElasticityMatrix()
             if (*mModel->ratesSize == 0 || rates[i] == 0)
             {
                 string name;
-                if(mModelGenerator && mModelGenerator->reactionList.size())
+                if(mModelGenerator && mModelGenerator->mReactionList.size())
                 {
-                    name = mModelGenerator->reactionList[i].name;
+                    name = mModelGenerator->mReactionList[i].name;
                 }
                 else
                 {
@@ -3463,11 +3464,11 @@ double RoadRunner::getScaledFloatingSpeciesElasticity(const string& reactionName
         mModel->convertToConcentrations();
         mModel->computeReactionRates(mModel->getTime(), mModel->y);
 
-        if (!mModelGenerator->floatingSpeciesConcentrationList.find(speciesName, speciesIndex))
+        if (!mModelGenerator->mFloatingSpeciesConcentrationList.find(speciesName, speciesIndex))
         {
             throw CoreException("Internal Error: unable to locate species name while computing unscaled elasticity");
         }
-        if (!mModelGenerator->reactionList.find(reactionName, reactionIndex))
+        if (!mModelGenerator->mReactionList.find(reactionName, reactionIndex))
         {
             throw CoreException("Internal Error: unable to locate reaction name while computing unscaled elasticity");
         }
@@ -3518,7 +3519,7 @@ double RoadRunner::getScaledFloatingSpeciesElasticity(const string& reactionName
 //            mModel->convertToConcentrations();
 //            mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //
-//            if (!mModelGenerator->reactionList.find(reactionName, out reactionIndex))
+//            if (!mModelGenerator->mReactionList.find(reactionName, out reactionIndex))
 //                throw CoreException(
 //                    "Internal Error: unable to locate reaction name while computing unscaled elasticity");
 //
@@ -3526,11 +3527,11 @@ double RoadRunner::getScaledFloatingSpeciesElasticity(const string& reactionName
 //            if (mModelGenerator->localParameterList[reactionIndex].find(reactionName, parameterName,
 //                                                                               out parameterIndex))
 //                parameterType = TParameterType::ptLocalParameter;
-//            else if (mModelGenerator->globalParameterList.find(parameterName, out parameterIndex))
+//            else if (mModelGenerator->mGlobalParameterList.find(parameterName, out parameterIndex))
 //                parameterType = TParameterType::ptGlobalParameter;
-//            else if (mModelGenerator->boundarySpeciesList.find(parameterName, out parameterIndex))
+//            else if (mModelGenerator->mBoundarySpeciesList.find(parameterName, out parameterIndex))
 //                parameterType = TParameterType::ptBoundaryParameter;
-//            else if (mModelGenerator->conservationList.find(parameterName, out parameterIndex))
+//            else if (mModelGenerator->mConservationList.find(parameterName, out parameterIndex))
 //                parameterType = TParameterType::ptConservationParameter;
 //            else
 //                return 0.0;
@@ -3968,25 +3969,25 @@ bool RoadRunner::setValue(const string& sId, const double& dValue)
     }
 
     int nIndex = -1;
-    if (mModelGenerator->globalParameterList.find(sId, nIndex))
+    if (mModelGenerator->mGlobalParameterList.find(sId, nIndex))
     {
         mModel->gp[nIndex] = dValue;
         return true;
     }
 
-    if (mModelGenerator->boundarySpeciesList.find(sId, nIndex))
+    if (mModelGenerator->mBoundarySpeciesList.find(sId, nIndex))
     {
         mModel->bc[nIndex] = dValue;
         return true;
     }
 
-    if (mModelGenerator->compartmentList.find(sId, nIndex))
+    if (mModelGenerator->mCompartmentList.find(sId, nIndex))
     {
         mModel->c[nIndex] = dValue;
         return true;
     }
 
-    if (mModelGenerator->floatingSpeciesConcentrationList.find(sId, nIndex))
+    if (mModelGenerator->mFloatingSpeciesConcentrationList.find(sId, nIndex))
     {
         mModel->setConcentration(nIndex, dValue);
         mModel->convertToAmounts();
@@ -3997,7 +3998,7 @@ bool RoadRunner::setValue(const string& sId, const double& dValue)
         return true;
     }
 
-    if (mModelGenerator->conservationList.find(sId, nIndex))
+    if (mModelGenerator->mConservationList.find(sId, nIndex))
     {
         mModel->ct[nIndex] = dValue;
         mModel->updateDependentSpeciesValues(mModel->y);
@@ -4027,21 +4028,21 @@ double RoadRunner::getValue(const string& sId)
         throw CoreException(gEmptyModelString);
 
     int nIndex = 0;
-    if (mModelGenerator->globalParameterList.find(sId, nIndex))
+    if (mModelGenerator->mGlobalParameterList.find(sId, nIndex))
     {
         return mModel->gp[nIndex];
     }
-    if (mModelGenerator->boundarySpeciesList.find(sId, nIndex))
+    if (mModelGenerator->mBoundarySpeciesList.find(sId, nIndex))
     {
         return mModel->bc[nIndex];
     }
 
-    if (mModelGenerator->floatingSpeciesConcentrationList.find(sId, nIndex))
+    if (mModelGenerator->mFloatingSpeciesConcentrationList.find(sId, nIndex))
     {
         return mModel->y[nIndex];
     }
 
-    if (mModelGenerator->floatingSpeciesConcentrationList.find(sId.substr(0, sId.size() - 1), nIndex))
+    if (mModelGenerator->mFloatingSpeciesConcentrationList.find(sId.substr(0, sId.size() - 1), nIndex))
     {
         mModel->computeAllRatesOfChange();
 
@@ -4049,16 +4050,16 @@ double RoadRunner::getValue(const string& sId)
         return mModel->dydt[nIndex];
     }
 
-    if (mModelGenerator->compartmentList.find(sId, nIndex))
+    if (mModelGenerator->mCompartmentList.find(sId, nIndex))
     {
         return mModel->c[nIndex];
     }
-    if (mModelGenerator->reactionList.find(sId, nIndex))
+    if (mModelGenerator->mReactionList.find(sId, nIndex))
     {
         return mModel->rates[nIndex];
     }
 
-    if (mModelGenerator->conservationList.find(sId, nIndex))
+    if (mModelGenerator->mConservationList.find(sId, nIndex))
     {
         return mModel->ct[nIndex];
     }
@@ -4093,7 +4094,7 @@ double RoadRunner::getValue(const string& sId)
     {
 		string species = sId.substr(tmp.size());
 		int index;
-		mModelGenerator->floatingSpeciesConcentrationList.find(species, index);
+		mModelGenerator->mFloatingSpeciesConcentrationList.find(species, index);
 
 		//DoubleMatrix mat = getReducedJacobian();
 		DoubleMatrix mat;
@@ -4187,10 +4188,10 @@ string RoadRunner::getlibSBMLVersion()
 //                    mModel->convertToConcentrations();
 //                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //
-//                    if (!mModelGenerator->floatingSpeciesConcentrationList.find(speciesName, out speciesIndex))
+//                    if (!mModelGenerator->mFloatingSpeciesConcentrationList.find(speciesName, out speciesIndex))
 //                        throw CoreException(
 //                            "Internal Error: unable to locate species name while computing unscaled elasticity");
-//                    if (!mModelGenerator->reactionList.find(reactionName, out reactionIndex))
+//                    if (!mModelGenerator->mReactionList.find(reactionName, out reactionIndex))
 //                        throw CoreException(
 //                            "Internal Error: unable to locate reaction name while computing unscaled elasticity");
 //
@@ -4229,21 +4230,21 @@ string RoadRunner::getlibSBMLVersion()
 //                    mModel->convertToConcentrations();
 //                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //
-//                    if (!mModelGenerator->reactionList.find(reactionName, out fluxIndex))
+//                    if (!mModelGenerator->mReactionList.find(reactionName, out fluxIndex))
 //                        throw CoreException(
 //                            "Internal Error: unable to locate species name while computing unscaled control coefficient");
 //
-//                    if (mModelGenerator->globalParameterList.find(parameterName, out parameterIndex))
+//                    if (mModelGenerator->mGlobalParameterList.find(parameterName, out parameterIndex))
 //                    {
 //                        parameterType = TParameterType::ptGlobalParameter;
 //                        originalParameterValue = mModel->gp[parameterIndex];
 //                    }
-//                    else if (mModelGenerator->boundarySpeciesList.find(parameterName, out parameterIndex))
+//                    else if (mModelGenerator->mBoundarySpeciesList.find(parameterName, out parameterIndex))
 //                    {
 //                        parameterType = TParameterType::ptBoundaryParameter;
 //                        originalParameterValue = mModel->bc[parameterIndex];
 //                    }
-//                    else if (mModelGenerator->conservationList.find(parameterName, out parameterIndex))
+//                    else if (mModelGenerator->mConservationList.find(parameterName, out parameterIndex))
 //                    {
 //                        parameterType = TParameterType::ptConservationParameter;
 //                        originalParameterValue = mModel->ct[parameterIndex];
@@ -4318,12 +4319,12 @@ string RoadRunner::getlibSBMLVersion()
 //                    mModel->convertToConcentrations();
 //                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //
-//                    mModelGenerator->reactionList.find(reactionName, out reactionIndex);
-//                    if (mModelGenerator->globalParameterList.find(parameterName, out parameterIndex))
+//                    mModelGenerator->mReactionList.find(reactionName, out reactionIndex);
+//                    if (mModelGenerator->mGlobalParameterList.find(parameterName, out parameterIndex))
 //                        return ufcc*mModel->gp[parameterIndex]/mModel->rates[reactionIndex];
-//                    else if (mModelGenerator->boundarySpeciesList.find(parameterName, out parameterIndex))
+//                    else if (mModelGenerator->mBoundarySpeciesList.find(parameterName, out parameterIndex))
 //                        return ufcc*mModel->bc[parameterIndex]/mModel->rates[reactionIndex];
-//                    else if (mModelGenerator->conservationList.find(parameterName, out parameterIndex))
+//                    else if (mModelGenerator->mConservationList.find(parameterName, out parameterIndex))
 //                        return ufcc*mModel->ct[parameterIndex]/mModel->rates[reactionIndex];
 //                    return 0.0;
 //                }
@@ -4358,12 +4359,12 @@ string RoadRunner::getlibSBMLVersion()
 //                    mModel->convertToConcentrations();
 //                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //
-//                    mModelGenerator->reactionList.find(reactionName, out reactionIndex);
-//                    if (mModelGenerator->globalParameterList.find(parameterName, out parameterIndex))
+//                    mModelGenerator->mReactionList.find(reactionName, out reactionIndex);
+//                    if (mModelGenerator->mGlobalParameterList.find(parameterName, out parameterIndex))
 //                        return ufcc*mModel->gp[parameterIndex]/mModel->rates[reactionIndex];
-//                    else if (mModelGenerator->boundarySpeciesList.find(parameterName, out parameterIndex))
+//                    else if (mModelGenerator->mBoundarySpeciesList.find(parameterName, out parameterIndex))
 //                        return ufcc*mModel->bc[parameterIndex]/mModel->rates[reactionIndex];
-//                    else if (mModelGenerator->conservationList.find(parameterName, out parameterIndex))
+//                    else if (mModelGenerator->mConservationList.find(parameterName, out parameterIndex))
 //                        return ufcc*mModel->ct[parameterIndex]/mModel->rates[reactionIndex];
 //                    return 0.0;
 //                }
@@ -4401,11 +4402,11 @@ string RoadRunner::getlibSBMLVersion()
 //                    mModel->convertToConcentrations();
 //                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //
-//                    if (!mModelGenerator->reactionList.find(localReactionName, out reactionIndex))
+//                    if (!mModelGenerator->mReactionList.find(localReactionName, out reactionIndex))
 //                        throw CoreException(
 //                            "Internal Error: unable to locate reaction name while computing unscaled control coefficient");
 //
-//                    if (!mModelGenerator->floatingSpeciesConcentrationList.find(speciesName, out speciesIndex))
+//                    if (!mModelGenerator->mFloatingSpeciesConcentrationList.find(speciesName, out speciesIndex))
 //                        throw CoreException(
 //                            "Internal Error: unable to locate species name while computing unscaled control coefficient");
 //
@@ -4486,8 +4487,8 @@ string RoadRunner::getlibSBMLVersion()
 //                    mModel->convertToConcentrations();
 //                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //
-//                    mModelGenerator->reactionList.find(localReactionName, out localReactionIndex);
-//                    mModelGenerator->floatingSpeciesConcentrationList.find(localReactionName, out speciesIndex);
+//                    mModelGenerator->mReactionList.find(localReactionName, out localReactionIndex);
+//                    mModelGenerator->mFloatingSpeciesConcentrationList.find(localReactionName, out speciesIndex);
 //                    mModelGenerator->localParameterList[localReactionIndex].find(parameterName,
 //                                                                                        out parameterIndex);
 //
@@ -4526,21 +4527,21 @@ string RoadRunner::getlibSBMLVersion()
 //                    mModel->convertToConcentrations();
 //                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //
-//                    if (!mModelGenerator->floatingSpeciesConcentrationList.find(speciesName, out speciesIndex))
+//                    if (!mModelGenerator->mFloatingSpeciesConcentrationList.find(speciesName, out speciesIndex))
 //                        throw CoreException(
 //                            "Internal Error: unable to locate species name while computing unscaled control coefficient");
 //
-//                    if (mModelGenerator->globalParameterList.find(parameterName, out parameterIndex))
+//                    if (mModelGenerator->mGlobalParameterList.find(parameterName, out parameterIndex))
 //                    {
 //                        parameterType = TParameterType::ptGlobalParameter;
 //                        originalParameterValue = mModel->gp[parameterIndex];
 //                    }
-//                    else if (mModelGenerator->boundarySpeciesList.find(parameterName, out parameterIndex))
+//                    else if (mModelGenerator->mBoundarySpeciesList.find(parameterName, out parameterIndex))
 //                    {
 //                        parameterType = TParameterType::ptBoundaryParameter;
 //                        originalParameterValue = mModel->bc[parameterIndex];
 //                    }
-//                    else if (mModelGenerator->conservationList.find(parameterName, out parameterIndex))
+//                    else if (mModelGenerator->mConservationList.find(parameterName, out parameterIndex))
 //                    {
 //                        parameterType = TParameterType::ptConservationParameter;
 //                        originalParameterValue = mModel->ct[parameterIndex];
@@ -4618,12 +4619,12 @@ string RoadRunner::getlibSBMLVersion()
 //                    mModel->convertToConcentrations();
 //                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //
-//                    mModelGenerator->floatingSpeciesConcentrationList.find(speciesName, out speciesIndex);
-//                    if (mModelGenerator->globalParameterList.find(parameterName, out parameterIndex))
+//                    mModelGenerator->mFloatingSpeciesConcentrationList.find(speciesName, out speciesIndex);
+//                    if (mModelGenerator->mGlobalParameterList.find(parameterName, out parameterIndex))
 //                        return ucc*mModel->gp[parameterIndex]/mModel->getConcentration(speciesIndex);
-//                    else if (mModelGenerator->boundarySpeciesList.find(parameterName, out parameterIndex))
+//                    else if (mModelGenerator->mBoundarySpeciesList.find(parameterName, out parameterIndex))
 //                        return ucc*mModel->bc[parameterIndex]/mModel->getConcentration(speciesIndex);
-//                    else if (mModelGenerator->conservationList.find(parameterName, out parameterIndex))
+//                    else if (mModelGenerator->mConservationList.find(parameterName, out parameterIndex))
 //                        return ucc*mModel->ct[parameterIndex]/mModel->getConcentration(speciesIndex);
 //                    return 0.0;
 //                }
@@ -4661,11 +4662,11 @@ string RoadRunner::getlibSBMLVersion()
 //                    mModel->convertToConcentrations();
 //                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
 //
-//                    if (!mModelGenerator->reactionList.find(localReactionName, out localReactionIndex))
+//                    if (!mModelGenerator->mReactionList.find(localReactionName, out localReactionIndex))
 //                        throw CoreException(
 //                            "Internal Error: unable to locate reaction name while computing unscaled control coefficient");
 //
-//                    if (!mModelGenerator->reactionList.find(fluxName, out fluxIndex))
+//                    if (!mModelGenerator->mReactionList.find(fluxName, out fluxIndex))
 //                        throw CoreException(
 //                            "Internal Error: unable to locate reaction name while computing unscaled control coefficient");
 //
@@ -4742,13 +4743,13 @@ string RoadRunner::getlibSBMLVersion()
 //            double hstep;
 //
 //            int reactionId = -1;
-//            if (!(mModelGenerator->reactionList.find(reactionName, out reactionId)))
+//            if (!(mModelGenerator->mReactionList.find(reactionName, out reactionId)))
 //                throw CoreException("Unrecognized reaction name in call to getUnScaledElasticity [" +
 //                                                  reactionName + "]");
 //
 //            int index = -1;
 //            // Find out what kind of parameter it is, species or global parmaeter
-//            if (mModelGenerator->boundarySpeciesList.find(parameterName, out index))
+//            if (mModelGenerator->mBoundarySpeciesList.find(parameterName, out index))
 //            {
 //                double originalParameterValue = mModel->bc[index];
 //                hstep = mDiffStepSize*originalParameterValue;
@@ -4786,7 +4787,7 @@ string RoadRunner::getlibSBMLVersion()
 //            }
 //            else
 //            {
-//                if (mModelGenerator->globalParameterList.find(parameterName, out index))
+//                if (mModelGenerator->mGlobalParameterList.find(parameterName, out index))
 //                {
 //                    double originalParameterValue = mModel->gp[index];
 //                    hstep = mDiffStepSize*originalParameterValue;
@@ -4823,7 +4824,7 @@ string RoadRunner::getlibSBMLVersion()
 //                        mModel->gp[index] = originalParameterValue;
 //                    }
 //                }
-//                else if (mModelGenerator->conservationList.find(parameterName, out index))
+//                else if (mModelGenerator->mConservationList.find(parameterName, out index))
 //                {
 //                    double originalParameterValue = mModel->gp[index];
 //                    hstep = mDiffStepSize*originalParameterValue;

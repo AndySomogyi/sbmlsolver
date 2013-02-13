@@ -2324,7 +2324,7 @@ char* rrCallConv getCSourceFileName()
             return NULL;
         }
 
-        string fNameS = generator->GetSourceCodeFileName();
+        string fNameS = generator->getSourceCodeFileName();
 
         fNameS = ExtractFileNameNoExtension(fNameS);
 		return createText(fNameS);
@@ -2357,8 +2357,8 @@ RRCCode* rrCallConv getCCode()
         RRCCode* cCode = new RRCCode;
 		cCode->Header = NULL;
 		cCode->Source = NULL;
-        string header = generator->GetHeaderCode();
-        string source = generator->GetSourceCode();
+        string header = generator->getHeaderCode();
+        string source = generator->getSourceCode();
 
         if(header.size())
         {

@@ -41,6 +41,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 	private:
 		bool                            mUseKinsol;
 		const double                    mDiffStepSize;
+        bool							mUseUUIDForCompilerOutput;
 
         const string					mModelFolder;			//Folder for XML models
 		const double                    mSteadyStateThreshold;

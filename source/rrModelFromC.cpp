@@ -318,7 +318,7 @@ vector<double> ModelFromC::getCurrentValues()
 
     double* values = cGetCurrentValues();     //The size of this double* is mMapRateRule.size(); ??
 
-    int count = mCodeGenerator->NumAdditionalRates();
+    int count = mCodeGenerator->numAdditionalRates();
     if(values)
     {
         for(int i = 0; i < count; i++)

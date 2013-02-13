@@ -20,7 +20,7 @@ ModelGenerator::ModelGenerator(LibStructural& ls, NOMSupport& nom)
 :
 mComputeAndAssignConsevationLaws(false),
 mDoubleFormat("%.19G"),
-STR_FixAmountCompartments("*"),
+mFixAmountCompartments("*"),
 mLibStruct(ls),
 mNOM(nom)
 {
@@ -30,13 +30,37 @@ mNOM(nom)
 
 ModelGenerator::~ModelGenerator(){}
 
-SymbolList& ModelGenerator::GetReactionList(){return reactionList;}
+SymbolList& ModelGenerator::getReactionListReference()
+{
+	return mReactionList;
+}
 
-SymbolList& ModelGenerator::GetFloatingSpeciesConcentrationList(){return floatingSpeciesConcentrationList;}
-SymbolList& ModelGenerator::GetBoundarySpeciesList(){return boundarySpeciesList;}
-SymbolList& ModelGenerator::GetGlobalParameterList(){return globalParameterList;}
-SymbolList& ModelGenerator::GetConservationList(){return conservationList;}
-bool  ModelGenerator::SaveSourceCodeToFolder(const string& folder, const string& codeBaseName){return false;}    //Save generated source code to folder..
+SymbolList& ModelGenerator::getFloatingSpeciesConcentrationListReference()
+{
+	return mFloatingSpeciesConcentrationList;
+}
+
+SymbolList& ModelGenerator::getBoundarySpeciesListReference()
+{
+	return mBoundarySpeciesList;
+}
+
+SymbolList& ModelGenerator::getGlobalParameterListReference()
+{
+return mGlobalParameterList;
+}
+
+SymbolList& ModelGenerator::getConservationListReference()
+{
+	return mConservationList;
+}
+
+//Save generated source code to folder..
+bool  ModelGenerator::saveSourceCodeToFolder(const string& folder, const string& codeBaseName)
+{
+	return false;
+}
+
 void ModelGenerator::reset()
 {
     mNOM.reset();
@@ -44,7 +68,7 @@ void ModelGenerator::reset()
 //    floatingSpeciesConcentrationList.Clear();
 }
 
-int ModelGenerator::NumAdditionalRates()
+int ModelGenerator::numAdditionalRates()
 {
     return mMapRateRule.size();
 }
@@ -52,9 +76,9 @@ int ModelGenerator::NumAdditionalRates()
 StringList ModelGenerator::getCompartmentList()
 {
     StringList tmp;
-    for (u_int i = 0; i < compartmentList.size(); i++)
+    for (u_int i = 0; i < mCompartmentList.size(); i++)
     {
-        tmp.Add(compartmentList[i].name);
+        tmp.Add(mCompartmentList[i].name);
     }
     return tmp;
 }
@@ -64,7 +88,7 @@ string ModelGenerator::substituteTerms(const int& numReactions, const string& re
     return substituteTerms(reactionName, equation, false);
 }
 
-ASTNode* ModelGenerator::CleanEquation(ASTNode* astP)
+ASTNode* ModelGenerator::cleanEquation(ASTNode* astP)
 {
     ASTNode& ast = *astP; //For convenience...
 
@@ -91,13 +115,13 @@ ASTNode* ModelGenerator::CleanEquation(ASTNode* astP)
 
     for (int i = (int) ast.getNumChildren() - 1; i >= 0; i--)
     {
-        ast.replaceChild(i, CleanEquation(ast.getChild(i)));
+        ast.replaceChild(i, cleanEquation(ast.getChild(i)));
     }
 
     return astP;
 }
 
-string ModelGenerator::CleanEquation(const string& eqn)
+string ModelGenerator::cleanEquation(const string& eqn)
 {
     if (eqn.size() < 1)
     {
@@ -141,13 +165,13 @@ string ModelGenerator::CleanEquation(const string& eqn)
         }
     }
 
-    ast = CleanEquation(ast);
+    ast = cleanEquation(ast);
     return SBML_formulaToString(ast);
 }
 
 string ModelGenerator::substituteTerms(const string& reactionName, const string& inputEquation, bool bFixAmounts)
 {
-    string equation = CleanEquation(inputEquation);
+    string equation = cleanEquation(inputEquation);
     if (equation.size() < 1)
     {
         return string("0");
@@ -166,7 +190,7 @@ string ModelGenerator::substituteTerms(const string& reactionName, const string&
     {
         while (s.token() != CodeTypes::tEndOfStreamToken)
         {
-            SubstituteToken(reactionName, bFixAmounts, s, sb);
+            substituteToken(reactionName, bFixAmounts, s, sb);
             s.nextToken();
         }
     }
@@ -177,7 +201,7 @@ string ModelGenerator::substituteTerms(const string& reactionName, const string&
     return sb.ToString();
 }
 
-ls::DoubleMatrix* ModelGenerator::InitializeL0(int& nrRows, int& nrCols)
+ls::DoubleMatrix* ModelGenerator::initializeL0(int& nrRows, int& nrCols)
 {
     ls::DoubleMatrix* L0;
     try
@@ -205,7 +229,7 @@ ls::DoubleMatrix* ModelGenerator::InitializeL0(int& nrRows, int& nrCols)
     return L0;
 }
 
-int ModelGenerator::ReadGlobalParameters()
+int ModelGenerator::readGlobalParameters()
 {
     int numGlobalParameters;
     ArrayList oParameters = mNOM.getListOfParameters();
@@ -219,13 +243,13 @@ int ModelGenerator::ReadGlobalParameters()
         Symbol aSymbol(name, value);
         Log(lDebug5)<<"Adding symbol"<<aSymbol<<" to global parameters";
 
-        globalParameterList.Add(aSymbol);
+        mGlobalParameterList.Add(aSymbol);
     }
     return numGlobalParameters;
 }
 
 //Todo: totalLocalParmeters is not used
-void ModelGenerator::ReadLocalParameters(const int& numReactions,  vector<int>& localParameterDimensions, int& totalLocalParmeters)
+void ModelGenerator::readLocalParameters(const int& numReactions,  vector<int>& localParameterDimensions, int& totalLocalParmeters)
 {
     string name;
     double value;
@@ -237,7 +261,7 @@ void ModelGenerator::ReadLocalParameters(const int& numReactions,  vector<int>& 
     {
         numLocalParameters = mNOM.getNumParameters(i);
         reactionName = mNOM.getNthReactionId(i);
-        reactionList.Add(Symbol(reactionName, 0.0));
+        mReactionList.Add(Symbol(reactionName, 0.0));
         SymbolList newList;
         for (u_int j = 0; j < numLocalParameters; j++)
         {
@@ -246,11 +270,11 @@ void ModelGenerator::ReadLocalParameters(const int& numReactions,  vector<int>& 
             value = mNOM.getNthParameterValue(i, j);
             newList.Add(Symbol(reactionName, name, value));
         }
-        localParameterList.push_back(newList);
+        mLocalParameterList.push_back(newList);
     }
 }
 
-bool ModelGenerator::ExpressionContainsSymbol(ASTNode *ast, const string& symbol)
+bool ModelGenerator::expressionContainsSymbol(ASTNode *ast, const string& symbol)
 {
     if (ast == NULL || IsNullOrEmpty(symbol))
     {
@@ -264,7 +288,7 @@ bool ModelGenerator::ExpressionContainsSymbol(ASTNode *ast, const string& symbol
 
     for (u_int i = 0; i < ast->getNumChildren(); i++)
     {
-        if (ExpressionContainsSymbol(ast->getChild(i), symbol))
+        if (expressionContainsSymbol(ast->getChild(i), symbol))
         {
             return true;
         }
@@ -273,37 +297,37 @@ bool ModelGenerator::ExpressionContainsSymbol(ASTNode *ast, const string& symbol
     return false;
 }
 
-bool ModelGenerator::ExpressionContainsSymbol(const string& expression,const string& symbol)
+bool ModelGenerator::expressionContainsSymbol(const string& expression,const string& symbol)
 {
       if (IsNullOrEmpty(expression) || IsNullOrEmpty(symbol))
       {
           return false;
       }
       ASTNode *ast = SBML_parseFormula(expression.c_str());
-      return ExpressionContainsSymbol(ast, symbol);
+      return expressionContainsSymbol(ast, symbol);
 }
 
-Symbol* ModelGenerator::GetSpecies(const string& id)
+Symbol* ModelGenerator::getSpecies(const string& id)
 {
     int index;
-    if (floatingSpeciesConcentrationList.find(id, index))
+    if (mFloatingSpeciesConcentrationList.find(id, index))
     {
-        return &(floatingSpeciesConcentrationList[index]);
+        return &(mFloatingSpeciesConcentrationList[index]);
     }
 
-    if (boundarySpeciesList.find(id, index))
+    if (mBoundarySpeciesList.find(id, index))
     {
-        return &(boundarySpeciesList[index]);
+        return &(mBoundarySpeciesList[index]);
     }
     return NULL;
 }
 
-string ModelGenerator::WriteDouble(const double& value, const string& format)
+string ModelGenerator::writeDouble(const double& value, const string& format)
 {
     return ToString(value, format);
 }
 
-int ModelGenerator::ReadCompartments()
+int ModelGenerator::readCompartments()
 {
     int numCompartments = mNOM.getNumCompartments();
     for (u_int i = 0; i < numCompartments; i++)
@@ -315,12 +339,12 @@ int ModelGenerator::ReadCompartments()
         {
             value = 1;
         }
-        compartmentList.Add(Symbol(sCompartmentId, value));
+        mCompartmentList.Add(Symbol(sCompartmentId, value));
     }
     return numCompartments;
 }
 
-int ModelGenerator::ReadModifiableSpeciesReferences()
+int ModelGenerator::readModifiableSpeciesReferences()
 {
     if(!mNOM.GetSBMLDocument())
     {
@@ -354,7 +378,7 @@ int ModelGenerator::ReadModifiableSpeciesReferences()
 
             if (reference.isSetId())
             {
-                ModifiableSpeciesReferenceList.Add(Symbol(id, value));
+                mModifiableSpeciesReferenceList.Add(Symbol(id, value));
             }
         }
         for (u_int j = 0; j < reaction.getNumProducts(); j++)
@@ -373,19 +397,19 @@ int ModelGenerator::ReadModifiableSpeciesReferences()
 
             if (reference.isSetId())
             {
-                ModifiableSpeciesReferenceList.Add(Symbol(id, value));
+                mModifiableSpeciesReferenceList.Add(Symbol(id, value));
             }
         }
     }
-    return ModifiableSpeciesReferenceList.size();
+    return mModifiableSpeciesReferenceList.size();
 }
 
 StringList ModelGenerator::getReactionIds()
 {
     StringList tmp;
-    for (int i = 0; i < reactionList.size(); i++)
+    for (int i = 0; i < mReactionList.size(); i++)
     {
-        tmp.Add(reactionList[i].name);
+        tmp.Add(mReactionList[i].name);
     }
     return tmp;
 }
@@ -393,9 +417,9 @@ StringList ModelGenerator::getReactionIds()
 StringList ModelGenerator::getFloatingSpeciesConcentrationList()
 {
     StringList tmp;
-    for (int i = 0; i < floatingSpeciesConcentrationList.size(); i++)
+    for (int i = 0; i < mFloatingSpeciesConcentrationList.size(); i++)
     {
-        tmp.Add(floatingSpeciesConcentrationList[i].name);
+        tmp.Add(mFloatingSpeciesConcentrationList[i].name);
     }
     return tmp;
 }
@@ -403,9 +427,9 @@ StringList ModelGenerator::getFloatingSpeciesConcentrationList()
 StringList ModelGenerator::getBoundarySpeciesList()
 {
     StringList tmp;
-    for (int i = 0; i < boundarySpeciesList.size(); i++)
+    for (int i = 0; i < mBoundarySpeciesList.size(); i++)
     {
-        tmp.Add(boundarySpeciesList[i].name);
+        tmp.Add(mBoundarySpeciesList[i].name);
     }
     return tmp;
 }
@@ -413,14 +437,14 @@ StringList ModelGenerator::getBoundarySpeciesList()
 StringList ModelGenerator::getGlobalParameterList()
 {
     StringList tmp;
-    for (int i = 0; i < globalParameterList.size(); i++)
+    for (int i = 0; i < mGlobalParameterList.size(); i++)
     {
-        tmp.Add(globalParameterList[i].name);
+        tmp.Add(mGlobalParameterList[i].name);
     }
 
-    for (int i = 0; i < conservationList.Count(); i++)
+    for (int i = 0; i < mConservationList.Count(); i++)
     {
-        tmp.Add(conservationList[i].name);
+        tmp.Add(mConservationList[i].name);
     }
 
     return tmp;
@@ -429,7 +453,7 @@ StringList ModelGenerator::getGlobalParameterList()
 ////    public class ModelGenerator
 ////    {
 ////        private const string STR_DoubleFormat = "G"; //"G17";
-////        private const string STR_FixAmountCompartments = "*";
+////        private const string mFixAmountCompartments = "*";
 ////
 ////        private static ModelGenerator _instance;
 ////
@@ -450,16 +474,16 @@ StringList ModelGenerator::getGlobalParameterList()
 ////        private ArrayList _functionNames;
 ////        private StringCollection _functionParameters;
 ////        private Hashtable _oMapRateRule = new Hashtable();
-////        public SymbolList boundarySpeciesList;
-////        public SymbolList compartmentList;
-////        public SymbolList conservationList;
+////        public SymbolList mBoundarySpeciesList;
+////        public SymbolList mCompartmentList;
+////        public SymbolList mConservationList;
 ////        private string[] dependentSpeciesList;
 ////        public SymbolList floatingSpeciesAmountsList;
-////        public SymbolList floatingSpeciesConcentrationList;
-////        public SymbolList globalParameterList;
+////        public SymbolList mFloatingSpeciesConcentrationList;
+////        public SymbolList mGlobalParameterList;
 ////        private string[] independentSpeciesList;
-////        public SymbolList[] localParameterList;
-////        public SymbolList reactionList;
+////        public SymbolList[] mLocalParameterList;
+////        public SymbolList mReactionList;
 ////        private int _NumModifiableSpeciesReferences;
 ////
 ////        private ModelGenerator()
@@ -478,7 +502,7 @@ StringList ModelGenerator::getGlobalParameterList()
 ////            }
 ////        }
 ////
-////        public SymbolList ModifiableSpeciesReferenceList { get; set; }
+////        public SymbolList mModifiableSpeciesReferenceList { get; set; }
 ////
 ////        public List<string> Warnings { get; set; }
 ////
@@ -488,15 +512,15 @@ StringList ModelGenerator::getGlobalParameterList()
 ////        }
 ////
 ////
-int ModelGenerator::GetNumberOfReactions()
+int ModelGenerator::getNumberOfReactions()
 {
-    return reactionList.size();
+    return mReactionList.size();
 }
 
 ////        private string convertSpeciesToY(string speciesName)
 ////        {
 ////            int index;
-////            if (floatingSpeciesConcentrationList.find(speciesName, out index))
+////            if (mFloatingSpeciesConcentrationList.find(speciesName, out index))
 ////            {
 ////                return "_y[" + index + "]";
 ////            }
@@ -506,7 +530,7 @@ int ModelGenerator::GetNumberOfReactions()
 ////        private string convertSpeciesToBc(string speciesName)
 ////        {
 ////            int index;
-////            if (boundarySpeciesList.find(speciesName, out index))
+////            if (mBoundarySpeciesList.find(speciesName, out index))
 ////                return "_bc[" + index + "]";
 ////            throw new SBWApplicationException("Internal Error: Unable to locate species: " + speciesName);
 ////        }
@@ -514,7 +538,7 @@ int ModelGenerator::GetNumberOfReactions()
 ////        private string convertCompartmentToC(string compartmentName)
 ////        {
 ////            int index;
-////            if (compartmentList.find(compartmentName, out index))
+////            if (mCompartmentList.find(compartmentName, out index))
 ////                return "_c[" + index + "]";
 ////            throw new SBWApplicationException("Internal Error: Unable to locate compartment: " + compartmentName);
 ////        }
@@ -522,7 +546,7 @@ int ModelGenerator::GetNumberOfReactions()
 ////        private string convertSymbolToGP(string parameterName)
 ////        {
 ////            int index;
-////            if (globalParameterList.find(parameterName, out index))
+////            if (mGlobalParameterList.find(parameterName, out index))
 ////            {
 ////                return "_gp[" + index + "]";
 ////            }
@@ -532,7 +556,7 @@ int ModelGenerator::GetNumberOfReactions()
 ////        private string convertSymbolToC(string compartmentName)
 ////        {
 ////            int index;
-////            if (compartmentList.find(compartmentName, out index))
+////            if (mCompartmentList.find(compartmentName, out index))
 ////            {
 ////                return "_c[" + index + "]";
 ////            }
@@ -542,25 +566,25 @@ int ModelGenerator::GetNumberOfReactions()
 ////        public ArrayList getCompartmentList()
 ////        {
 ////            var tmp = new ArrayList();
-////            for (int i = 0; i < compartmentList.Count; i++)
-////                tmp.Add(compartmentList[i].name);
+////            for (int i = 0; i < mCompartmentList.Count; i++)
+////                tmp.Add(mCompartmentList[i].name);
 ////            return tmp;
 ////        }
 ////
 ////        public ArrayList getFloatingSpeciesConcentrationList()
 ////        {
 ////            var tmp = new ArrayList();
-////            for (int i = 0; i < floatingSpeciesConcentrationList.Count; i++)
-////                tmp.Add(floatingSpeciesConcentrationList[i].name);
+////            for (int i = 0; i < mFloatingSpeciesConcentrationList.Count; i++)
+////                tmp.Add(mFloatingSpeciesConcentrationList[i].name);
 ////            return tmp;
 ////        }
 ////
 StringList ModelGenerator::getConservationList()
 {
     StringList tmp;// = new ArrayList();
-    for (int i = 0; i < conservationList.Count(); i++)
+    for (int i = 0; i < mConservationList.Count(); i++)
     {
-        tmp.Add(conservationList[i].name);
+        tmp.Add(mConservationList[i].name);
     }
     return tmp;
 }
@@ -569,19 +593,19 @@ StringList ModelGenerator::getConservationList()
 ////        public ArrayList getBoundarySpeciesList()
 ////        {
 ////            var tmp = new ArrayList();
-////            for (int i = 0; i < boundarySpeciesList.Count; i++)
-////                tmp.Add(boundarySpeciesList[i].name);
+////            for (int i = 0; i < mBoundarySpeciesList.Count; i++)
+////                tmp.Add(mBoundarySpeciesList[i].name);
 ////            return tmp;
 ////        }
 ////
 ////        public ArrayList getGlobalParameterList()
 ////        {
 ////            var tmp = new ArrayList();
-////            for (int i = 0; i < globalParameterList.Count; i++)
-////                tmp.Add(globalParameterList[i].name);
+////            for (int i = 0; i < mGlobalParameterList.Count; i++)
+////                tmp.Add(mGlobalParameterList[i].name);
 ////
-////            for (int i = 0; i < conservationList.Count; i++)
-////                tmp.Add(conservationList[i].name);
+////            for (int i = 0; i < mConservationList.Count; i++)
+////                tmp.Add(mConservationList[i].name);
 ////
 ////            return tmp;
 ////        }
@@ -589,16 +613,16 @@ StringList ModelGenerator::getConservationList()
 ////        public ArrayList getLocalParameterList(int reactionId)
 ////        {
 ////            var tmp = new ArrayList();
-////            for (int i = 0; i < localParameterList[reactionId].Count; i++)
-////                tmp.Add(localParameterList[reactionId][i].name);
+////            for (int i = 0; i < mLocalParameterList[reactionId].Count; i++)
+////                tmp.Add(mLocalParameterList[reactionId][i].name);
 ////            return tmp;
 ////        }
 ////
 ////        public ArrayList getReactionNames()
 ////        {
 ////            var tmp = new ArrayList();
-////            for (int i = 0; i < reactionList.Count; i++)
-////                tmp.Add(reactionList[i].name);
+////            for (int i = 0; i < mReactionList.Count; i++)
+////                tmp.Add(mReactionList[i].name);
 ////            return tmp;
 ////        }
 ////
@@ -798,7 +822,7 @@ StringList ModelGenerator::getConservationList()
 ////                            sb.Append("/");
 ////                            break;
 ////                        case CodeTypes.tMultToken:
-////                            sb.Append(STR_FixAmountCompartments);
+////                            sb.Append(mFixAmountCompartments);
 ////                            break;
 ////                        case CodeTypes.tPowerToken:
 ////                            sb.Append("^");
@@ -1045,10 +1069,10 @@ StringList ModelGenerator::getConservationList()
 ////                default:
 ////                    bool bReplaced = false;
 ////                    int index;
-////                    if (reactionList.find(reactionName, out index))
+////                    if (mReactionList.find(reactionName, out index))
 ////                    {
 ////                        int nParamIndex = 0;
-////                        if (localParameterList[index].find(s.tokenString, out nParamIndex))
+////                        if (mLocalParameterList[index].find(s.tokenString, out nParamIndex))
 ////                        {
 ////                            sb.Append("_lp[" + index + "][" + nParamIndex + "]");
 ////                            bReplaced = true;
@@ -1056,7 +1080,7 @@ StringList ModelGenerator::getConservationList()
 ////                        }
 ////                    }
 ////
-////                    if (boundarySpeciesList.find(s.tokenString, out index))
+////                    if (mBoundarySpeciesList.find(s.tokenString, out index))
 ////                    {
 ////                        sb.Append("_bc[" + index + "]");
 ////                        bReplaced = true;
@@ -1074,23 +1098,23 @@ StringList ModelGenerator::getConservationList()
 ////        {
 ////            // Global parameters have priority
 ////            int index;
-////            if (globalParameterList.find(s.tokenString, out index))
+////            if (mGlobalParameterList.find(s.tokenString, out index))
 ////            {
 ////                sb.AppendFormat("_gp[{0}]", index);
 ////            }
-////            else if (boundarySpeciesList.find(s.tokenString, out index))
+////            else if (mBoundarySpeciesList.find(s.tokenString, out index))
 ////            {
 ////                sb.AppendFormat("_bc[{0}]", index);
 ////
-////                var symbol = boundarySpeciesList[index];
+////                var symbol = mBoundarySpeciesList[index];
 ////                if (symbol.hasOnlySubstance)
 ////                {
 ////                    // we only store concentration for the boundary so we better
 ////                    // fix that.
 ////                    int nCompIndex = 0;
-////                    if (compartmentList.find(symbol.compartmentName, out nCompIndex))
+////                    if (mCompartmentList.find(symbol.compartmentName, out nCompIndex))
 ////                    {
-////                        sb.AppendFormat("{0}_c[{1}]", STR_FixAmountCompartments, nCompIndex);
+////                        sb.AppendFormat("{0}_c[{1}]", mFixAmountCompartments, nCompIndex);
 ////                    }
 ////                }
 ////
@@ -1101,15 +1125,15 @@ StringList ModelGenerator::getConservationList()
 ////                //if (NOM.MultiplyCompartment(s.tokenString, out compartmentId))
 ////                //{
 ////                //    int nCompIndex = 0;
-////                //    if (compartmentId != null && compartmentList.find(compartmentId, out nCompIndex))
+////                //    if (compartmentId != null && mCompartmentList.find(compartmentId, out nCompIndex))
 ////                //    {
-////                //        sb.AppendFormat("{0}_c[{1}]", STR_FixAmountCompartments, nCompIndex);
+////                //        sb.AppendFormat("{0}_c[{1}]", mFixAmountCompartments, nCompIndex);
 ////                //    }
 ////                //}
 ////            }
-////            else if (floatingSpeciesConcentrationList.find(s.tokenString, out index))
+////            else if (mFloatingSpeciesConcentrationList.find(s.tokenString, out index))
 ////            {
-////                var floating1 = floatingSpeciesConcentrationList[index];
+////                var floating1 = mFloatingSpeciesConcentrationList[index];
 ////                if (floating1.hasOnlySubstance)
 ////                {
 ////                    sb.AppendFormat("amounts[{0}]", index);
@@ -1126,13 +1150,13 @@ StringList ModelGenerator::getConservationList()
 ////                //if (NOM.MultiplyCompartment(s.tokenString, out compartmentId))
 ////                //{
 ////                //    int nCompIndex = 0;
-////                //    if (compartmentId != null && compartmentList.find(compartmentId, out nCompIndex))
+////                //    if (compartmentId != null && mCompartmentList.find(compartmentId, out nCompIndex))
 ////                //    {
-////                //        sb.AppendFormat("{0}_c[{1}]", STR_FixAmountCompartments, nCompIndex);
+////                //        sb.AppendFormat("{0}_c[{1}]", mFixAmountCompartments, nCompIndex);
 ////                //    }
 ////                //}
 ////            }
-////            else if (compartmentList.find(s.tokenString, out index))
+////            else if (mCompartmentList.find(s.tokenString, out index))
 ////            {
 ////                sb.AppendFormat("_c[{0}]", index);
 ////            }
@@ -1140,11 +1164,11 @@ StringList ModelGenerator::getConservationList()
 ////            {
 ////                sb.AppendFormat("{0} ", s.tokenString);
 ////            }
-////            else if (ModifiableSpeciesReferenceList.find(s.tokenString, out index))
+////            else if (mModifiableSpeciesReferenceList.find(s.tokenString, out index))
 ////            {
 ////                sb.AppendFormat("_sr[{0}]", index);
 ////            }
-////            else if (reactionList.find(s.tokenString, out index))
+////            else if (mReactionList.find(s.tokenString, out index))
 ////            {
 ////                sb.AppendFormat("_rates[{0}]", index);
 ////            }
@@ -1351,15 +1375,15 @@ StringList ModelGenerator::getConservationList()
 ////        {
 ////            sb.Append("\tvoid loadSymbolTables() {" + NL());
 ////
-////            for (int i = 0; i < floatingSpeciesConcentrationList.Count; i++)
-////                sb.AppendFormat("\t\tvariableTable[{0}] = \"{1}\";{2}", i, floatingSpeciesConcentrationList[i].name, NL());
+////            for (int i = 0; i < mFloatingSpeciesConcentrationList.Count; i++)
+////                sb.AppendFormat("\t\tvariableTable[{0}] = \"{1}\";{2}", i, mFloatingSpeciesConcentrationList[i].name, NL());
 ////
-////            for (int i = 0; i < boundarySpeciesList.Count; i++)
-////                sb.AppendFormat("\t\tboundaryTable[{0}] = \"{1}\";{2}", i, boundarySpeciesList[i].name, NL());
+////            for (int i = 0; i < mBoundarySpeciesList.Count; i++)
+////                sb.AppendFormat("\t\tboundaryTable[{0}] = \"{1}\";{2}", i, mBoundarySpeciesList[i].name, NL());
 ////
-////            for (int i = 0; i < globalParameterList.Count; i++)
+////            for (int i = 0; i < mGlobalParameterList.Count; i++)
 ////            {
-////                sb.AppendFormat("\t\tglobalParameterTable[{0}] = \"{1}\";{2}", i, globalParameterList[i].name, NL());
+////                sb.AppendFormat("\t\tglobalParameterTable[{0}] = \"{1}\";{2}", i, mGlobalParameterList[i].name, NL());
 ////            }
 ////            sb.AppendFormat("\t}}{0}{0}", NL());
 ////        }
@@ -1398,8 +1422,8 @@ StringList ModelGenerator::getConservationList()
 ////                    else
 ////                    {
 ////                        int nCompartmentIndex;
-////                        compartmentList.find(compartmentName, out nCompartmentIndex);
-////                        double dVolume = compartmentList[nCompartmentIndex].value;
+////                        mCompartmentList.find(compartmentName, out nCompartmentIndex);
+////                        double dVolume = mCompartmentList[nCompartmentIndex].value;
 ////                        if (double.IsNaN(dVolume)) dVolume = 1;
 ////                        symbol = new Symbol(reOrderedList[i],
 ////                            dValue / dVolume,
@@ -1408,7 +1432,7 @@ StringList ModelGenerator::getConservationList()
 ////                    }
 ////                    symbol.hasOnlySubstance = NOM.SbmlModel.getSpecies(reOrderedList[i]).getHasOnlySubstanceUnits();
 ////                    symbol.constant = NOM.SbmlModel.getSpecies(reOrderedList[i]).getConstant();
-////                    floatingSpeciesConcentrationList.Add(symbol);
+////                    mFloatingSpeciesConcentrationList.Add(symbol);
 ////                    break;
 ////                }
 ////                //throw new SBWApplicationException("Reordered Species " + reOrderedList[i] + " not found.");
@@ -1435,15 +1459,15 @@ StringList ModelGenerator::getConservationList()
 ////                else
 ////                {
 ////                    int nCompartmentIndex;
-////                    compartmentList.find(compartmentName, out nCompartmentIndex);
-////                    double dVolume = compartmentList[nCompartmentIndex].value;
+////                    mCompartmentList.find(compartmentName, out nCompartmentIndex);
+////                    double dVolume = mCompartmentList[nCompartmentIndex].value;
 ////                    if (double.IsNaN(dVolume)) dVolume = 1;
 ////                    symbol = new Symbol(sName, dValue / dVolume, compartmentName,
 ////                                                       string.Format("{0}/ _c[{1}]", dValue, nCompartmentIndex));
 ////                }
 ////                symbol.hasOnlySubstance = NOM.SbmlModel.getSpecies(sName).getHasOnlySubstanceUnits();
 ////                symbol.constant = NOM.SbmlModel.getSpecies(sName).getConstant();
-////                boundarySpeciesList.Add(symbol);
+////                mBoundarySpeciesList.Add(symbol);
 ////            }
 ////            return numBoundarySpecies;
 ////        }
@@ -1459,7 +1483,7 @@ StringList ModelGenerator::getConservationList()
 ////            {
 ////                name = (string)((ArrayList)oParameters[i])[0];
 ////                value = (double)((ArrayList)oParameters[i])[1];
-////                globalParameterList.Add(new Symbol(name, value));
+////                mGlobalParameterList.Add(new Symbol(name, value));
 ////            }
 ////            return numGlobalParameters;
 ////        }
@@ -1477,14 +1501,14 @@ StringList ModelGenerator::getConservationList()
 ////            {
 ////                numLocalParameters = NOM.getNumParameters(i);
 ////                reactionName = NOM.getNthReactionId(i);
-////                reactionList.Add(new Symbol(reactionName, 0.0));
-////                localParameterList[i] = new SymbolList();
+////                mReactionList.Add(new Symbol(reactionName, 0.0));
+////                mLocalParameterList[i] = new SymbolList();
 ////                for (int j = 0; j < numLocalParameters; j++)
 ////                {
 ////                    localParameterDimensions[i] = numLocalParameters;
 ////                    name = NOM.getNthParameterId(i, j);
 ////                    value = NOM.getNthParameterValue(i, j);
-////                    localParameterList[i].Add(new Symbol(reactionName, name, value));
+////                    mLocalParameterList[i].Add(new Symbol(reactionName, name, value));
 ////                }
 ////            }
 ////        }
@@ -1522,7 +1546,7 @@ StringList ModelGenerator::getConservationList()
 ////                        }
 ////                        else
 ////                        {
-////                            sb.AppendFormat(" + (double){0}{1}{2}{3}", WriteDouble(L0[i][j]), STR_FixAmountCompartments, dyName, NL());
+////                            sb.AppendFormat(" + (double){0}{1}{2}{3}", WriteDouble(L0[i][j]), mFixAmountCompartments, dyName, NL());
 ////                        }
 ////                    }
 ////                    else if (L0[i][j] < 0)
@@ -1534,7 +1558,7 @@ StringList ModelGenerator::getConservationList()
 ////                        }
 ////                        else
 ////                        {
-////                            sb.AppendFormat(" - (double){0}{1}{2}{3}", WriteDouble(Math.Abs(L0[i][j])), STR_FixAmountCompartments, dyName, NL());
+////                            sb.AppendFormat(" - (double){0}{1}{2}{3}", WriteDouble(Math.Abs(L0[i][j])), mFixAmountCompartments, dyName, NL());
 ////                        }
 ////                    }
 ////                }
@@ -1575,23 +1599,23 @@ StringList ModelGenerator::getConservationList()
 ////                                factor = "";
 ////                            else
 ////                                factor = WriteDouble(Math.Abs(current)) +
-////                                         STR_FixAmountCompartments;
+////                                         mFixAmountCompartments;
 ////
 ////                            if (current > 0)
-////                                sb.Append(" + " + factor + convertSpeciesToY(floatingSpeciesConcentrationList[j].name) +
-////                                          STR_FixAmountCompartments +
-////                                          convertCompartmentToC(floatingSpeciesConcentrationList[j].compartmentName) +
+////                                sb.Append(" + " + factor + convertSpeciesToY(mFloatingSpeciesConcentrationList[j].name) +
+////                                          mFixAmountCompartments +
+////                                          convertCompartmentToC(mFloatingSpeciesConcentrationList[j].compartmentName) +
 ////                                          NL());
 ////                            else
-////                                sb.Append(" - " + factor + convertSpeciesToY(floatingSpeciesConcentrationList[j].name) +
-////                                          STR_FixAmountCompartments +
-////                                          convertCompartmentToC(floatingSpeciesConcentrationList[j].compartmentName) +
+////                                sb.Append(" - " + factor + convertSpeciesToY(mFloatingSpeciesConcentrationList[j].name) +
+////                                          mFixAmountCompartments +
+////                                          convertCompartmentToC(mFloatingSpeciesConcentrationList[j].compartmentName) +
 ////                                          NL());
 ////                        }
 ////                    }
 ////                    sb.Append(";" + NL());
 ////
-////                    conservationList.Add(new Symbol("CSUM" + i, double.NaN));
+////                    mConservationList.Add(new Symbol("CSUM" + i, double.NaN));
 ////                }
 ////            }
 ////            sb.Append("    }" + NL() + NL());
@@ -1617,12 +1641,12 @@ StringList ModelGenerator::getConservationList()
 ////                        sb.AppendFormat("(_ct[{0}]", i);
 ////                        string cLeftName =
 ////                            convertCompartmentToC(
-////                                floatingSpeciesConcentrationList[i + numIndependentSpecies].compartmentName);
+////                                mFloatingSpeciesConcentrationList[i + numIndependentSpecies].compartmentName);
 ////
 ////                        for (int j = 0; j < numIndependentSpecies; j++)
 ////                        {
 ////                            string yName = string.Format("y[{0}]", j);
-////                            string cName = convertCompartmentToC(floatingSpeciesConcentrationList[j].compartmentName);
+////                            string cName = convertCompartmentToC(mFloatingSpeciesConcentrationList[j].compartmentName);
 ////
 ////                            if (L0[i][j] > 0)
 ////                            {
@@ -1631,7 +1655,7 @@ StringList ModelGenerator::getConservationList()
 ////                                    sb.AppendFormat(" + {0}\t{1}{2}{3}{0}\t",
 ////                                        NL(),
 ////                                        yName,
-////                                        STR_FixAmountCompartments,
+////                                        mFixAmountCompartments,
 ////                                        cName);
 ////                                }
 ////                                else
@@ -1639,7 +1663,7 @@ StringList ModelGenerator::getConservationList()
 ////                                    sb.AppendFormat("{0}\t" + " + (double){1}{2}{3}{2}{4}",
 ////                                        NL(),
 ////                                        WriteDouble(L0[i][j]),
-////                                        STR_FixAmountCompartments,
+////                                        mFixAmountCompartments,
 ////                                        yName,
 ////                                        cName);
 ////                                }
@@ -1651,7 +1675,7 @@ StringList ModelGenerator::getConservationList()
 ////                                    sb.AppendFormat("{0}\t" + " - {1}{2}{3}",
 ////                                        NL(),
 ////                                        yName,
-////                                        STR_FixAmountCompartments,
+////                                        mFixAmountCompartments,
 ////                                        cName);
 ////                                }
 ////                                else
@@ -1659,7 +1683,7 @@ StringList ModelGenerator::getConservationList()
 ////                                    sb.AppendFormat("{0}\t" + " - (double){1}{2}{3}{2}{4}",
 ////                                        NL(),
 ////                                        WriteDouble(Math.Abs(L0[i][j])),
-////                                        STR_FixAmountCompartments,
+////                                        mFixAmountCompartments,
 ////                                        yName,
 ////                                        cName);
 ////                                }
@@ -1731,11 +1755,11 @@ StringList ModelGenerator::getConservationList()
 ////            sb.AppendFormat("\t\tdouble volume = 0.0;{0}", NL());
 ////            sb.AppendFormat("\t\t_y[index] = value;{0}", NL());
 ////            sb.AppendFormat("\t\tswitch (index) {{{0}", NL());
-////            for (int i = 0; i < floatingSpeciesConcentrationList.Count; i++)
+////            for (int i = 0; i < mFloatingSpeciesConcentrationList.Count; i++)
 ////            {
 ////                sb.AppendFormat("\t\t\tcase {0}: volume = {1};{2}",
 ////                    i,
-////                    convertCompartmentToC(floatingSpeciesConcentrationList[i].compartmentName),
+////                    convertCompartmentToC(mFloatingSpeciesConcentrationList[i].compartmentName),
 ////                    NL());
 ////                sb.AppendFormat("\t\t\t\tbreak;{0}", NL());
 ////            }
@@ -1756,11 +1780,11 @@ StringList ModelGenerator::getConservationList()
 ////        {
 ////            // ------------------------------------------------------------------------------
 ////            sb.AppendFormat("\tpublic void convertToAmounts() {{{0}", NL());
-////            for (int i = 0; i < floatingSpeciesConcentrationList.Count; i++)
+////            for (int i = 0; i < mFloatingSpeciesConcentrationList.Count; i++)
 ////            {
 ////                sb.AppendFormat("\t\t_amounts[{0}] = _y[{0}]*{1};{2}",
 ////                    i,
-////                    convertCompartmentToC(floatingSpeciesConcentrationList[i].compartmentName),
+////                    convertCompartmentToC(mFloatingSpeciesConcentrationList[i].compartmentName),
 ////                    NL());
 ////            }
 ////            sb.AppendFormat("\t}}{0}{0}", NL());
@@ -1770,10 +1794,10 @@ StringList ModelGenerator::getConservationList()
 ////        {
 ////            // ------------------------------------------------------------------------------
 ////            sb.Append("\tpublic void convertToConcentrations() {" + NL());
-////            for (int i = 0; i < floatingSpeciesConcentrationList.Count; i++)
+////            for (int i = 0; i < mFloatingSpeciesConcentrationList.Count; i++)
 ////            {
 ////                sb.Append("\t\t_y[" + i + "] = _amounts[" + i + "]/" +
-////                          convertCompartmentToC(floatingSpeciesConcentrationList[i].compartmentName) + ";" + NL());
+////                          convertCompartmentToC(mFloatingSpeciesConcentrationList[i].compartmentName) + ";" + NL());
 ////            }
 ////            sb.Append("\t}" + NL() + NL());
 ////        }
@@ -1983,16 +2007,16 @@ StringList ModelGenerator::getConservationList()
 ////                      "];           // Vector containing all the modifiable species references  " + NL());
 ////            sb.Append("\tprivate double[][] _lp = new double[" + _NumReactions +
 ////                      "][];       // Vector containing all the local parameters in the System  " + NL());
-////            sb.Append("\tprivate double[] _y = new double[" + floatingSpeciesConcentrationList.Count +
+////            sb.Append("\tprivate double[] _y = new double[" + mFloatingSpeciesConcentrationList.Count +
 ////                      "];            // Vector containing the concentrations of all floating species " + NL());
-////            sb.Append(String.Format("\tprivate double[] _init_y = new double[{0}];            // Vector containing the initial concentrations of all floating species {1}", floatingSpeciesConcentrationList.Count, NL()));
-////            sb.Append("\tprivate double[] _amounts = new double[" + floatingSpeciesConcentrationList.Count +
+////            sb.Append(String.Format("\tprivate double[] _init_y = new double[{0}];            // Vector containing the initial concentrations of all floating species {1}", mFloatingSpeciesConcentrationList.Count, NL()));
+////            sb.Append("\tprivate double[] _amounts = new double[" + mFloatingSpeciesConcentrationList.Count +
 ////                      "];      // Vector containing the amounts of all floating species " + NL());
 ////            sb.Append("\tprivate double[] _bc = new double[" + _NumBoundarySpecies +
 ////                      "];           // Vector containing all the boundary species concentration values   " + NL());
 ////            sb.Append("\tprivate double[] _c = new double[" + _NumCompartments +
 ////                      "];            // Vector containing all the compartment values   " + NL());
-////            sb.Append("\tprivate double[] _dydt = new double[" + floatingSpeciesConcentrationList.Count +
+////            sb.Append("\tprivate double[] _dydt = new double[" + mFloatingSpeciesConcentrationList.Count +
 ////                      "];         // Vector containing rates of changes of all species   " + NL());
 ////            sb.Append("\tprivate double[] _rates = new double[" + _NumReactions +
 ////                      "];        // Vector containing the rate laws of all reactions    " + NL());
@@ -2017,9 +2041,9 @@ StringList ModelGenerator::getConservationList()
 ////            sb.Append("\tprivate int numReactions;" + NL());
 ////            sb.Append("\tprivate int numRules;" + NL());
 ////            sb.Append("\tprivate int numEvents;" + NL());
-////            sb.Append("\tstring[] variableTable = new string[" + floatingSpeciesConcentrationList.Count + "];" + NL());
-////            sb.Append("\tstring[] boundaryTable = new string[" + boundarySpeciesList.Count + "];" + NL());
-////            sb.Append("\tstring[] globalParameterTable = new string[" + globalParameterList.Count + "];" + NL());
+////            sb.Append("\tstring[] variableTable = new string[" + mFloatingSpeciesConcentrationList.Count + "];" + NL());
+////            sb.Append("\tstring[] boundaryTable = new string[" + mBoundarySpeciesList.Count + "];" + NL());
+////            sb.Append("\tstring[] globalParameterTable = new string[" + mGlobalParameterList.Count + "];" + NL());
 ////            sb.Append("\tint[] localParameterDimensions = new int[" + _NumReactions + "];" + NL());
 ////            sb.Append("\tprivate TEventAssignmentDelegate[] _eventAssignments;" + NL());
 ////            sb.Append("\tprivate double[] _eventPriorities;" + NL());
@@ -2035,9 +2059,9 @@ StringList ModelGenerator::getConservationList()
 ////            sb.Append("\t\tnumDependentVariables = " + _NumDependentSpecies + ";" + NL());
 ////            sb.Append("\t\tnumTotalVariables = " + _NumFloatingSpecies + ";" + NL());
 ////            sb.Append("\t\tnumBoundaryVariables = " + _NumBoundarySpecies + ";" + NL());
-////            sb.Append("\t\tnumGlobalParameters = " + globalParameterList.Count + ";" + NL());
-////            sb.Append("\t\tnumCompartments = " + compartmentList.Count + ";" + NL());
-////            sb.Append("\t\tnumReactions = " + reactionList.Count + ";" + NL());
+////            sb.Append("\t\tnumGlobalParameters = " + mGlobalParameterList.Count + ";" + NL());
+////            sb.Append("\t\tnumCompartments = " + mCompartmentList.Count + ";" + NL());
+////            sb.Append("\t\tnumReactions = " + mReactionList.Count + ";" + NL());
 ////            sb.Append("\t\tnumEvents = " + _NumEvents + ";" + NL());
 ////            sb.Append("\t\tInitializeDelays();" + NL());
 ////
@@ -2065,9 +2089,9 @@ StringList ModelGenerator::getConservationList()
 ////
 ////            if (_NumModifiableSpeciesReferences > 0)
 ////            {
-////                for (int i = 0; i < ModifiableSpeciesReferenceList.Count; i++)
+////                for (int i = 0; i < mModifiableSpeciesReferenceList.Count; i++)
 ////                {
-////                    sb.Append("\t\t_sr[" + i + "]  = " + WriteDouble(ModifiableSpeciesReferenceList[i].value) + ";" + NL());
+////                    sb.Append("\t\t_sr[" + i + "]  = " + WriteDouble(mModifiableSpeciesReferenceList[i].value) + ";" + NL());
 ////                }
 ////                sb.Append(NL());
 ////            }
@@ -2095,31 +2119,31 @@ StringList ModelGenerator::getConservationList()
 ////            sb.AppendFormat("class TModel : IModel{0}", NL());
 ////            sb.Append("{" + NL());
 ////            sb.AppendFormat("\t// Symbol Mappings{0}{0}", NL());
-////            for (int i = 0; i < floatingSpeciesConcentrationList.Count; i++)
-////                sb.AppendFormat("\t// y[{0}] = {1}{2}", i, floatingSpeciesConcentrationList[i].name, NL());
+////            for (int i = 0; i < mFloatingSpeciesConcentrationList.Count; i++)
+////                sb.AppendFormat("\t// y[{0}] = {1}{2}", i, mFloatingSpeciesConcentrationList[i].name, NL());
 ////            sb.Append(NL());
 ////        }
 ////
 ////        private string FindSymbol(string varName)
 ////        {
 ////            int index = 0;
-////            if (floatingSpeciesConcentrationList.find(varName, out index))
+////            if (mFloatingSpeciesConcentrationList.find(varName, out index))
 ////            {
 ////                return string.Format("\t\t_y[{0}]", index);
 ////            }
-////            else if (globalParameterList.find(varName, out index))
+////            else if (mGlobalParameterList.find(varName, out index))
 ////            {
 ////                return string.Format("\t\t_gp[{0}]", index);
 ////            }
-////            else if (boundarySpeciesList.find(varName, out index))
+////            else if (mBoundarySpeciesList.find(varName, out index))
 ////            {
 ////                return string.Format("\t\t_bc[{0}]", index);
 ////            }
-////            else if (compartmentList.find(varName, out index))
+////            else if (mCompartmentList.find(varName, out index))
 ////            {
 ////                return string.Format("\t\t_c[{0}]", index);
 ////            }
-////            else if (ModifiableSpeciesReferenceList.find(varName, out index))
+////            else if (mModifiableSpeciesReferenceList.find(varName, out index))
 ////                return string.Format("\t\t_sr[{0}]", index);
 ////
 ////            else
@@ -2270,10 +2294,10 @@ StringList ModelGenerator::getConservationList()
 ////                            break;
 ////
 ////                        case "Rate_Rule":
-////                            if (floatingSpeciesConcentrationList.find(varName, out index))
+////                            if (mFloatingSpeciesConcentrationList.find(varName, out index))
 ////                            {
 ////                                leftSideRule = string.Format("\t\t_dydt[{0}]", index);
-////                                floatingSpeciesConcentrationList[index].rateRule = true;
+////                                mFloatingSpeciesConcentrationList[index].rateRule = true;
 ////                            }
 ////                            else
 ////                            {
@@ -2295,9 +2319,9 @@ StringList ModelGenerator::getConservationList()
 ////                        sb.Append(leftSideRule + " = ");
 ////
 ////                        int speciesIndex;
-////                        var isSpecies = floatingSpeciesConcentrationList.find(varName, out speciesIndex);
+////                        var isSpecies = mFloatingSpeciesConcentrationList.find(varName, out speciesIndex);
 ////
-////                        var symbol = speciesIndex != -1 ? floatingSpeciesConcentrationList[speciesIndex] : null;
+////                        var symbol = speciesIndex != -1 ? mFloatingSpeciesConcentrationList[speciesIndex] : null;
 ////
 ////                        //
 ////
@@ -2417,7 +2441,7 @@ StringList ModelGenerator::getConservationList()
 ////                    subKineticLaw = kineticLaw;
 ////                }
 ////
-////                string modKineticLaw = substituteTerms(reactionList[i].name, subKineticLaw, true) + ";";
+////                string modKineticLaw = substituteTerms(mReactionList[i].name, subKineticLaw, true) + ";";
 ////
 ////                // modify to use current y ...
 ////                modKineticLaw = modKineticLaw.Replace("_y[", "y[");
@@ -2443,7 +2467,7 @@ StringList ModelGenerator::getConservationList()
 ////                for (int i = 0; i < numFloatingSpecies; i++)
 ////                {
 ////                    sb.Append("\t\t_y[" + i + "] = oAmounts[" + (i + NumAdditionalRates) + "]/" +
-////                              convertCompartmentToC(floatingSpeciesConcentrationList[i].compartmentName) + ";" + NL());
+////                              convertCompartmentToC(mFloatingSpeciesConcentrationList[i].compartmentName) + ";" + NL());
 ////                }
 ////            }
 ////
@@ -2487,12 +2511,12 @@ StringList ModelGenerator::getConservationList()
 ////            }
 ////            for (int i = 0; i < numFloatingSpecies; i++)
 ////            {
-////                //if (floatingSpeciesConcentrationList[i].rateRule)
+////                //if (mFloatingSpeciesConcentrationList[i].rateRule)
 ////                //    sb.Append("\t\t_y[" + i.ToString() + "] = oAmounts[" + (i + NumAdditionalRates).ToString() + "];");
-////                ////sb.Append("\t\t_y[" + i.ToString() + "] = oAmounts[" + (i+NumAdditionalRates).ToString() + "]/" + convertCompartmentToC(floatingSpeciesConcentrationList[i].compartmentName) + ";" + NL());
+////                ////sb.Append("\t\t_y[" + i.ToString() + "] = oAmounts[" + (i+NumAdditionalRates).ToString() + "]/" + convertCompartmentToC(mFloatingSpeciesConcentrationList[i].compartmentName) + ";" + NL());
 ////                //else
 ////                sb.Append("\t\t_y[" + i + "] = oAmounts[" + (i + NumAdditionalRates) + "]/" +
-////                          convertCompartmentToC(floatingSpeciesConcentrationList[i].compartmentName) + ";" + NL());
+////                          convertCompartmentToC(mFloatingSpeciesConcentrationList[i].compartmentName) + ";" + NL());
 ////            }
 ////            sb.Append(NL());
 ////
@@ -2655,7 +2679,7 @@ StringList ModelGenerator::getConservationList()
 ////
 ////                // If the floating species has a raterule then prevent the dydt
 ////                // in the model function from overriding it. I think this is expected behavior.
-////                if (!floatingSpeciesConcentrationList[i].rateRule)
+////                if (!mFloatingSpeciesConcentrationList[i].rateRule)
 ////                    sb.Append("\t\t_dydt[" + i + "] = " + final + ";" + NL());
 ////            }
 ////
@@ -2666,10 +2690,10 @@ StringList ModelGenerator::getConservationList()
 ////        private Symbol GetSpecies(string id)
 ////        {
 ////            int index;
-////            if (floatingSpeciesConcentrationList.find(id, out index))
-////                return floatingSpeciesConcentrationList[index];
-////            if (boundarySpeciesList.find(id, out index))
-////                return boundarySpeciesList[index];
+////            if (mFloatingSpeciesConcentrationList.find(id, out index))
+////                return mFloatingSpeciesConcentrationList[index];
+////            if (mBoundarySpeciesList.find(id, out index))
+////                return mBoundarySpeciesList[index];
 ////            return null;
 ////        }
 ////        private void WriteEventAssignments(StringBuilder sb, int numReactions, int numEvents)
@@ -2786,19 +2810,19 @@ StringList ModelGenerator::getConservationList()
 ////            sb.Append("\tpublic void setParameterValues ()" + NL());
 ////            sb.Append("\t{" + NL());
 ////
-////            for (int i = 0; i < globalParameterList.Count; i++)
+////            for (int i = 0; i < mGlobalParameterList.Count; i++)
 ////                sb.Append(String.Format("\t\t{0} = (double){1};{2}",
-////                              convertSymbolToGP(globalParameterList[i].name),
-////                              WriteDouble(globalParameterList[i].value),
+////                              convertSymbolToGP(mGlobalParameterList[i].name),
+////                              WriteDouble(mGlobalParameterList[i].value),
 ////                              NL()));
 ////            // Initialize local parameter values
 ////            for (int i = 0; i < numReactions; i++)
 ////            {
-////                for (int j = 0; j < localParameterList[i].Count; j++)
+////                for (int j = 0; j < mLocalParameterList[i].Count; j++)
 ////                    sb.Append(String.Format("\t\t_lp[{0}][{1}] = (double){2};{3}",
 ////                                  i,
 ////                                  j,
-////                                  WriteDouble(localParameterList[i][j].value),
+////                                  WriteDouble(mLocalParameterList[i][j].value),
 ////                                  NL()));
 ////            }
 ////
@@ -2810,15 +2834,15 @@ StringList ModelGenerator::getConservationList()
 ////            // ------------------------------------------------------------------------------
 ////            sb.Append("\tpublic void setCompartmentVolumes ()" + NL());
 ////            sb.Append("\t{" + NL());
-////            for (int i = 0; i < compartmentList.Count; i++)
+////            for (int i = 0; i < mCompartmentList.Count; i++)
 ////            {
-////                sb.Append("\t\t" + convertSymbolToC(compartmentList[i].name) + " = (double)" +
-////                          WriteDouble(compartmentList[i].value) + ";" + NL());
+////                sb.Append("\t\t" + convertSymbolToC(mCompartmentList[i].name) + " = (double)" +
+////                          WriteDouble(mCompartmentList[i].value) + ";" + NL());
 ////
 ////                // at this point we also have to take care of all initial assignments for compartments as well as
 ////                // the assignment rules on compartments ... otherwise we are in trouble :)
 ////
-////                Stack<string> initializations = NOM.GetMatchForSymbol(compartmentList[i].name);
+////                Stack<string> initializations = NOM.GetMatchForSymbol(mCompartmentList[i].name);
 ////                while (initializations.Count > 0)
 ////                {
 ////                    sb.Append("\t\t" + substituteTerms(_NumReactions, "", initializations.Pop()) + ";" + NL());
@@ -2834,14 +2858,14 @@ StringList ModelGenerator::getConservationList()
 ////            // ------------------------------------------------------------------------------
 ////            sb.Append("\tpublic void setBoundaryConditions ()" + NL());
 ////            sb.Append("\t{" + NL());
-////            for (int i = 0; i < boundarySpeciesList.Count; i++)
+////            for (int i = 0; i < mBoundarySpeciesList.Count; i++)
 ////            {
-////                if (string.IsNullOrEmpty(boundarySpeciesList[i].formula))
-////                    sb.Append("\t\t" + convertSpeciesToBc(boundarySpeciesList[i].name) + " = (double)" +
-////                              WriteDouble(boundarySpeciesList[i].value) + ";" + NL());
+////                if (string.IsNullOrEmpty(mBoundarySpeciesList[i].formula))
+////                    sb.Append("\t\t" + convertSpeciesToBc(mBoundarySpeciesList[i].name) + " = (double)" +
+////                              WriteDouble(mBoundarySpeciesList[i].value) + ";" + NL());
 ////                else
-////                    sb.Append("\t\t" + convertSpeciesToBc(boundarySpeciesList[i].name) + " = (double)" +
-////                              boundarySpeciesList[i].formula + ";" + NL());
+////                    sb.Append("\t\t" + convertSpeciesToBc(mBoundarySpeciesList[i].name) + " = (double)" +
+////                              mBoundarySpeciesList[i].formula + ";" + NL());
 ////            }
 ////            sb.Append("\t}" + NL() + NL());
 ////        }
@@ -2850,14 +2874,14 @@ StringList ModelGenerator::getConservationList()
 ////        {
 ////            sb.Append("\tpublic void initializeInitialConditions ()" + NL());
 ////            sb.Append("\t{" + NL());
-////            for (int i = 0; i < floatingSpeciesConcentrationList.Count; i++)
+////            for (int i = 0; i < mFloatingSpeciesConcentrationList.Count; i++)
 ////            {
-////                if (string.IsNullOrEmpty(floatingSpeciesConcentrationList[i].formula))
-////                    sb.Append("\t\t_init" + convertSpeciesToY(floatingSpeciesConcentrationList[i].name) + " = (double)" +
-////                              WriteDouble(floatingSpeciesConcentrationList[i].value) + ";" + NL());
+////                if (string.IsNullOrEmpty(mFloatingSpeciesConcentrationList[i].formula))
+////                    sb.Append("\t\t_init" + convertSpeciesToY(mFloatingSpeciesConcentrationList[i].name) + " = (double)" +
+////                              WriteDouble(mFloatingSpeciesConcentrationList[i].value) + ";" + NL());
 ////                else
-////                    sb.Append("\t\t_init" + convertSpeciesToY(floatingSpeciesConcentrationList[i].name) + " = (double)" +
-////                              floatingSpeciesConcentrationList[i].formula + ";" + NL());
+////                    sb.Append("\t\t_init" + convertSpeciesToY(mFloatingSpeciesConcentrationList[i].name) + " = (double)" +
+////                              mFloatingSpeciesConcentrationList[i].formula + ";" + NL());
 ////            }
 ////            sb.Append(NL());
 ////
@@ -2871,7 +2895,7 @@ StringList ModelGenerator::getConservationList()
 ////            {
 ////                sb.Append("\t\t_y[" + i + "] =  _init_y[" + i + "];" + NL());
 ////                sb.Append("\t\t_amounts[" + i + "] = _y[" + i + "]*" +
-////                          convertCompartmentToC(floatingSpeciesConcentrationList[i].compartmentName) + ";" + NL());
+////                          convertCompartmentToC(mFloatingSpeciesConcentrationList[i].compartmentName) + ";" + NL());
 ////            }
 ////            sb.Append(NL());
 ////
@@ -2886,7 +2910,7 @@ StringList ModelGenerator::getConservationList()
 ////                string sCompartmentId = NOM.getNthCompartmentId(i);
 ////                double value = NOM.getValue(sCompartmentId);
 ////                if (double.IsNaN(value)) value = 1;
-////                compartmentList.Add(new Symbol(sCompartmentId, value));
+////                mCompartmentList.Add(new Symbol(sCompartmentId, value));
 ////            }
 ////            return numCompartments;
 ////        }
@@ -2910,7 +2934,7 @@ StringList ModelGenerator::getConservationList()
 ////                        value = 1;
 ////                    if (reference.isSetId())
 ////                    {
-////                        ModifiableSpeciesReferenceList.Add(new Symbol(id, value));
+////                        mModifiableSpeciesReferenceList.Add(new Symbol(id, value));
 ////                    }
 ////                }
 ////                for (int j = 0; j < reaction.getNumProducts(); j++)
@@ -2923,11 +2947,11 @@ StringList ModelGenerator::getConservationList()
 ////                        value = 1;
 ////                    if (reference.isSetId())
 ////                    {
-////                        ModifiableSpeciesReferenceList.Add(new Symbol(id, value));
+////                        mModifiableSpeciesReferenceList.Add(new Symbol(id, value));
 ////                    }
 ////                }
 ////            }
-////            return ModifiableSpeciesReferenceList.Count;
+////            return mModifiableSpeciesReferenceList.Count;
 ////        }
 ////        /// Generates the Model Code from the SBML string
 ////        public string generateModelCode(string sbmlStr)
@@ -2941,16 +2965,16 @@ StringList ModelGenerator::getConservationList()
 ////            _ModelName = NOM.getModelName();
 ////            _NumReactions = NOM.getNumReactions();
 ////
-////            globalParameterList = new SymbolList();
-////            ModifiableSpeciesReferenceList = new SymbolList();
+////            mGlobalParameterList = new SymbolList();
+////            mModifiableSpeciesReferenceList = new SymbolList();
 ////
-////            localParameterList = new SymbolList[_NumReactions];
-////            reactionList = new SymbolList();
-////            boundarySpeciesList = new SymbolList();
-////            floatingSpeciesConcentrationList = new SymbolList();
+////            mLocalParameterList = new SymbolList[_NumReactions];
+////            mReactionList = new SymbolList();
+////            mBoundarySpeciesList = new SymbolList();
+////            mFloatingSpeciesConcentrationList = new SymbolList();
 ////            floatingSpeciesAmountsList = new SymbolList();
-////            compartmentList = new SymbolList();
-////            conservationList = new SymbolList();
+////            mCompartmentList = new SymbolList();
+////            mConservationList = new SymbolList();
 ////            _functionNames = new ArrayList();
 ////            _functionParameters = new StringCollection();
 ////
