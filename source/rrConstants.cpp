@@ -33,5 +33,6 @@ const float     	FloatNaN    = std::numeric_limits<float>::quiet_NaN() ;
 //int       	MAX_MODULE  = 512;
 
 
+const string		gEmptyModelString = "A model needs to be loaded before one can use this method";
 }
 

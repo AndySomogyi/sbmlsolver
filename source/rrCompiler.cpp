@@ -243,6 +243,7 @@ bool Compiler::compile(const string& cmdLine)
         return false;
     }
 
+
     //open the output file on the server's tmp folder (for that test will be on the C:/ root)
     string compilerTempFile(JoinPath(mOutputPath, ExtractFileNameNoExtension(mDLLFileName)));
     compilerTempFile.append(".log");

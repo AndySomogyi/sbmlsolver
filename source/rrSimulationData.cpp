@@ -75,7 +75,7 @@ bool SimulationData::append(const SimulationData& data)
 
     SimulationData temp(mColumnNames, mTheData);
 
-    int newCSize = cSize() + data.cSize() - 1;
+    int newCSize = cSize() + data.cSize();
     mTheData.resize(data.rSize(), newCSize );
 
 	for(int row = 0; row < temp.rSize(); row++)
@@ -89,14 +89,14 @@ bool SimulationData::append(const SimulationData& data)
 
     for(int row = 0; row < mTheData.RSize(); row++)
     {
-        for(int col = 1; col < data.cSize(); col++)
+        for(int col = 0; col < data.cSize(); col++)
         {
-            mTheData(row, col + currColSize - 1 ) = data(row, col);
+            mTheData(row, col + currColSize) = data(row, col);
         }
     }
 
 
-    for(int col = 1; col < data.cSize(); col++)
+    for(int col = 0; col < data.cSize(); col++)
     {
     	mColumnNames.Append(data.getColumnName(col));
     }

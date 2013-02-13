@@ -34,7 +34,7 @@ mRoadRunner(rr)
         integration.add(new Parameter<double>( "minstep",      cvode->mMinStep,         "specifies a lower bound on the magnitude of the step size."));
         integration.add(new Parameter<double>( "maxstep",      cvode->mMaxStep,         "specifies an upper bound on the	magnitude of the step size."));
 
-        integration.add(new Parameter<bool>(   "conservation", mRoadRunner->mComputeAndAssignConservationLaws,
+        integration.add(new Parameter<bool>(   "conservation", mRoadRunner->computeAndAssignConservationLaws(),
         																					"enables (=true) or disables \
                                                                                             (=false) the conservation analysis \
                                                                                             of models for timecourse simulations."));

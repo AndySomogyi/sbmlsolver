@@ -25,6 +25,7 @@
 #include "rrNewArrayList.h"
 #include "rrPluginManager.h"
 #include "rrModelSharedLibrary.h"
+
 using std::string;
 using namespace ls;
 namespace rr
@@ -38,10 +39,11 @@ class CGenerator;
 class RR_DECLSPEC RoadRunner : public rrObject
 {
 	private:
-		const double                    DiffStepSize;
-		const string                    emptyModelStr;
+		bool                            mUseKinsol;
+		const double                    mDiffStepSize;
+
         const string					mModelFolder;			//Folder for XML models
-		const double                    STEADYSTATE_THRESHOLD;
+		const double                    mSteadyStateThreshold;
         DoubleMatrix                    mRawSimulationData;
 		SimulationData                  mSimulationData;
 	    string 							mSupportCodeFolder;		//The compiler needs this in order to compile models
@@ -50,30 +52,50 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		SBMLModelSimulation            *mSimulation;
 
 		CvodeInterface                 *mCVode;
-		ISteadyStateSolver             *steadyStateSolver;
-		vector<TSelectionRecord>        selectionList;
+		ISteadyStateSolver             *mSteadyStateSolver;
+		vector<TSelectionRecord>        mSelectionList;
 		ModelGenerator                 *mModelGenerator;    //Pointer to one of the below ones..
 		CSharpGenerator                *mCSharpGenerator;
 		CGenerator                     *mCGenerator;
-
 		Compiler                        mCompiler;
+
+		bool                     		mComputeAndAssignConservationLaws;
+
+		vector<TSelectionRecord>        mSteadyStateSelection;
+		double                          mTimeStart;
+		double                          mTimeEnd;
+		int                             mNumPoints;
+
+		ModelFromC*                     mModel;
+		ModelSharedLibrary	  	  		mModelDLL;
+		string                          mCurrentSBML;
+		LibStructural                  *mLS;                                //Handle to libstruct library
+
+		SimulationSettings              mSettings;
+		NOMSupport						mNOM;
+		PluginManager					mPluginManager;
+
 		void                            addNthOutputToResult(DoubleMatrix& results, int nRow, double dCurrentTime);
 		bool                            populateResult();
 		bool                            isNleqAvailable();
-		void                            emptyModel();
+
 		double                          getValueForRecord(const TSelectionRecord& record);
 		double                          getNthSelectedOutput(const int& index, const double& dCurrentTime);
 		vector<double>                  buildModelEvalArgument();
 		double                          getVariableValue(const TVariableType& variableType, const int& variableIndex);
 
-		vector<TSelectionRecord>        mSteadyStateSelection;
+
 		vector<TSelectionRecord>        getSteadyStateSelection(const StringList& newSelectionList);
 		StringList                      getParameterIds();
-		SimulationSettings              mSettings;
-		NOMSupport						mNOM;
-		PluginManager					mPluginManager;
+
+	public: //These should be hidden later on...
+		bool                     		mConservedTotalChanged;
 
 	public:
+ 										RoadRunner(const string& supportCodeFolder = gDefaultSupportCodeFolder, const string& compiler = gDefaultCompiler, const string& tempFolder = EmptyString);
+		virtual                        ~RoadRunner();
+
+		bool        					computeAndAssignConservationLaws();
 		void                            setParameterValue(const TParameterType& parameterType, const int& parameterIndex, const double& value);
 		double                          getParameterValue(const TParameterType& parameterType, const int& parameterIndex);
 
@@ -83,27 +105,12 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		string							getInfo();
         PluginManager&					getPluginManager();
 
-		// Properties -----------------------------------------------------------------------------
-		bool                     		mComputeAndAssignConservationLaws;
-		bool        					computeAndAssignConservationLaws();
-		bool                     		mConservedTotalChanged;
 
-		ModelSharedLibrary	  	  		mModelDLL;
-		string                          mCurrentSBML;
-		ModelFromC*                     mModel;
-		ModelFromC*						GetModel();
-		double                          mTimeStart;
-		double                          mTimeEnd;
-		int                             mNumPoints;
-		string                          NL;
-		LibStructural                  *mLS;                                //Handle to libstruct library
-
+		ModelFromC*						getModel();
 		CGenerator*						getCGenerator();
 		CSharpGenerator*				getCSharpGenerator();
 
 		//Functions --------------------------------------------------------------------
- 										RoadRunner(const string& supportCodeFolder = gDefaultSupportCodeFolder, const string& compiler = gDefaultCompiler, const string& tempFolder = EmptyString);
-		virtual                        ~RoadRunner();
         bool                            isModelLoaded();
         bool                            setCompiler(const string& compiler);
         string                          getModelName();
@@ -161,7 +168,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
  		// ---------------------------------------------------------------------
 		// Start of Level 2 API Methods
 		// ---------------------------------------------------------------------
-		bool                            UseKinsol;
+
 		string                          getCapabilities();
 		void                            setTolerances(const double& aTol, const double& rTol);
 		void                            setTolerances(const double& aTol, const double& rTol, const int& maxSteps);
@@ -180,7 +187,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		// Start of Level 3 API Methods
 		// ---------------------------------------------------------------------
 		double                          steadyState();
-		static void                     TestSettings();
 		DoubleMatrix                    getFullJacobian();
 		DoubleMatrix 					getFullReorderedJacobian();
 		DoubleMatrix                    getReducedJacobian();
@@ -223,7 +229,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
 		double                          computeSteadyStateValue(const string& sId);
 		vector<double>                  getSelectedValues();
-		vector<string>                  getWarnings();
 
         //		void                     		reMultiplyCompartments(const bool& bValue);
 
@@ -292,74 +297,74 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
 		//RoadRunner MCA functions......
 
-		//[Help("Get unscaled control coefficient with respect to a global parameter")]
-		double getuCC(const string& variableName, const string& parameterName);
+        //[Help("Get unscaled control coefficient with respect to a global parameter")]
+		double 							getuCC(const string& variableName, const string& parameterName);
 
 		//[Help("Get scaled control coefficient with respect to a global parameter")]
-		double getCC(const string& variableName, const string& parameterName);
+		double 							getCC(const string& variableName, const string& parameterName);
 
 		//[Help("Get unscaled elasticity coefficient with respect to a global parameter or species")]
-		double getuEE(const string& reactionName, const string& parameterName);
+		double 							getuEE(const string& reactionName, const string& parameterName);
 
 		//[Help("Get unscaled elasticity coefficient with respect to a global parameter or species. Optionally the model is brought to steady state after the computation.")]
-		double getuEE(const string& reactionName, const string& parameterName, bool computeSteadystate);
+		double 							getuEE(const string& reactionName, const string& parameterName, bool computeSteadystate);
 
-		//[Help("Get scaled elasticity coefficient with respect to a global parameter or species")]
-		double getEE(const string& reactionName, const string& parameterName);
+    	//[Help("Get scaled elasticity coefficient with respect to a global parameter or species")]
+		double 							getEE(const string& reactionName, const string& parameterName);
 
 		//[Help("Get scaled elasticity coefficient with respect to a global parameter or species. Optionally the model is brought to steady state after the computation.")]
-		double getEE(const string& reactionName, const string& parameterName, bool computeSteadyState);
+		double 							getEE(const string& reactionName, const string& parameterName, bool computeSteadyState);
 
-		// Get a single species elasticity value
-		// IMPORTANT:
-		// Assumes that the reaction rates have been precomputed at the operating point !!
-		double getUnscaledSpeciesElasticity(int reactionId, int speciesIndex);
+        // Get a single species elasticity value
+        // IMPORTANT:
+        // Assumes that the reaction rates have been precomputed at the operating point !!
+		double 							getUnscaledSpeciesElasticity(int reactionId, int speciesIndex);
 
 		//"Returns the elasticity of a given reaction to a given parameter. Parameters can be boundary species or global parameters"
-		double getUnScaledElasticity(const string& reactionName, const string& parameterName);
+		double 							getUnScaledElasticity(const string& reactionName, const string& parameterName);
 
 		//"Compute the unscaled species elasticity matrix at the current operating point")]
-		DoubleMatrix getUnscaledElasticityMatrix();
+		DoubleMatrix 					getUnscaledElasticityMatrix();
 
 		//"Compute the unscaled elasticity matrix at the current operating point")]
-		DoubleMatrix getScaledReorderedElasticityMatrix();
+		DoubleMatrix 					getScaledReorderedElasticityMatrix();
 
 		//[Help("Compute the unscaled elasticity for a given reaction and given species")]
-		double getUnscaledFloatingSpeciesElasticity(const string& reactionName, const string& speciesName);
+		double 							getUnscaledFloatingSpeciesElasticity(const string& reactionName, const string& speciesName);
 
 		//[Help("Compute the scaled elasticity for a given reaction and given species")]
-		double getScaledFloatingSpeciesElasticity(const string& reactionName, const string& speciesName);
+		double 							getScaledFloatingSpeciesElasticity(const string& reactionName, const string& speciesName);
 
 		// Changes a given parameter type by the given increment
-		void changeParameter(TParameterType parameterType, int reactionIndex, int parameterIndex, double originalValue, double increment);
+		void 							changeParameter(TParameterType parameterType, int reactionIndex, int parameterIndex, double originalValue, double increment);
 
         //[Help("Returns the unscaled elasticity for a named reaction with respect to a named parameter (local or global)"
-        double getUnscaledParameterElasticity(const string& reactionName, const string& parameterName);
+        double 							getUnscaledParameterElasticity(const string& reactionName, const string& parameterName);
 
         //"Compute the value for a particular unscaled concentration control coefficients with respect to a local parameter"
-        double getUnscaledConcentrationControlCoefficient(const string& speciesName, const string& localReactionName, const string& parameterName);
+        double 							getUnscaledConcentrationControlCoefficient(const string& speciesName, const string& localReactionName, const string& parameterName);
 
         //"Compute the value for a particular scaled concentration control coefficients with respect to a local parameter"
-        double getScaledConcentrationControlCoefficient(const string& speciesName, const string& localReactionName, const string& parameterName);
+        double 							getScaledConcentrationControlCoefficient(const string& speciesName, const string& localReactionName, const string& parameterName);
 
         //"Compute the value for a particular concentration control coefficient, permitted parameters include global parameters, boundary conditions and conservation totals"
-        double getUnscaledConcentrationControlCoefficient(const string& speciesName, const string& parameterName);
+        double 							getUnscaledConcentrationControlCoefficient(const string& speciesName, const string& parameterName);
 
         //"Compute the value for a particular scaled concentration control coefficients with respect to a global or boundary species parameter"
-        double getScaledConcentrationControlCoefficient(const string& speciesName, const string& parameterName);
+        double 							getScaledConcentrationControlCoefficient(const string& speciesName, const string& parameterName);
 
 		//[Help("Compute the value for a particular unscaled flux control coefficients with respect to a local parameter")
-        double getUnscaledFluxControlCoefficient(const string& fluxName, const string& localReactionName, const string& parameterName);
+        double 							getUnscaledFluxControlCoefficient(const string& fluxName, const string& localReactionName, const string& parameterName);
 
         //"Compute the value for a particular flux control coefficient, permitted parameters include global parameters, boundary conditions and conservation totals"
-        double getUnscaledFluxControlCoefficient(const string& reactionName, const string& parameterName);
+        double 							getUnscaledFluxControlCoefficient(const string& reactionName, const string& parameterName);
 
         //[Help("Compute the value for a particular scaled flux control coefficients with respect to a local parameter");]
-        double getScaledFluxControlCoefficient(const string& reactionName, const string& localReactionName, const string& parameterName);
+        double 							getScaledFluxControlCoefficient(const string& reactionName, const string& localReactionName, const string& parameterName);
 
         //    "Compute the value for a particular scaled flux control coefficients with respect to a global or boundary species parameter"
-        double getScaledFluxControlCoefficient(const string& reactionName, const string& parameterName);
-        //-------------- End of MCA functions
+        double 							getScaledFluxControlCoefficient(const string& reactionName, const string& parameterName);
+
 };
 
 }

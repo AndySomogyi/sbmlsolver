@@ -14,14 +14,15 @@ namespace rr
 class RR_DECLSPEC Compiler : public rrObject
 {
     protected:
-        vector<string>              mCompilerOutput;
         string                      mDLLFileName;
-        vector<string>              mIncludePaths;
-        vector<string>              mLibraryPaths;
-        vector<string>              mCompilerFlags;
         string                      mSupportCodeFolder;
         string                      mCompilerName;
 		string						mCompilerLocation;	//Path to executable
+
+        vector<string>              mCompilerOutput;
+        vector<string>              mIncludePaths;
+        vector<string>              mLibraryPaths;
+        vector<string>              mCompilerFlags;
         string                      createCompilerCommand(const string& sourceFileName);
         bool                        setupCompilerEnvironment();
         string						mOutputPath;
@@ -32,7 +33,6 @@ class RR_DECLSPEC Compiler : public rrObject
         bool                        setCompiler(const string& compiler);
 		bool						setupCompiler(const string& supportCodeFolder);
         bool                        compile(const string& cmdLine);
-//        string                      getDLLName();
 		bool						setCompilerLocation(const string& path);
 		string						getCompilerLocation();
 		bool						setSupportCodeFolder(const string& path);

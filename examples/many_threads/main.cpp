@@ -3,7 +3,7 @@
 #include "rrRoadRunnerThread.h"
 #include "rrLogger.h"
 #include "rrUtils.h"
-
+#include "rrException.h"
 using namespace std;
 using namespace rr;
 
@@ -55,36 +55,40 @@ class Simulate : public RoadRunnerThread
 
 int main(int argc, char** argv)
 {
+	try
+    {
     string logFile = "RoadRunner.log";
     gLog.Init("test", lDebug);
 	gLog.SetCutOffLogLevel(lInfo);
 
-	//Create a thousand roadrunners
-    const int nrOfRRInstances = 250;
+	//Create many roadrunners
+    const int nrOfRRInstances = 120;
 	vector<RoadRunner*> rrs;
 
     for(int i = 0; i < nrOfRRInstances; i++)
     {
     	rrs.push_back(new RoadRunner);
         rrs[i]->setTempFileFolder("r:\\rrThreads");
+
+        //Give the instance a "name"
+//        rrs[i]->setInstanceName("rrInstance" + ToString(i));
     }
 
 	LogOutput::mLogToConsole = true;
     Log(lInfo)<<"Hello";
 
-    vector<LoadSBML*> loadSBML; //vector of many loadSBML threads
-   	vector<Simulate*> simulate; //vector of many simulate threads
+    vector<LoadSBML*> loadSBML;
+   	vector<Simulate*> simulate;
 
 	//Load the same model into different instances
     for(int i = 0; i < nrOfRRInstances; i++)
     {
     	loadSBML.push_back(new LoadSBML(rrs[i], "..\\models\\test_1.xml"));
         loadSBML[i]->setThreadName(ToString(i));
-
         simulate.push_back(new Simulate(rrs[i]));
     }
 
-    int threadCount = 15;
+    int threadCount = 5;
     for(int i = 0; i < nrOfRRInstances; i+=threadCount)
     {
      	for(int j = 0; j < threadCount; j++)
@@ -132,14 +136,19 @@ int main(int argc, char** argv)
 
     //Write data to a file
     SimulationData allData;
-    for(int i = 0; i < nrOfRRInstances; i++)
+    for(int i = nrOfRRInstances -1 ; i >-1 ; i--)
     {
 		RoadRunner* rr = rrs[i];
         SimulationData data = rr->getSimulationResult();
         allData.append(data);
     }
 
-    allData.writeTo("allData.dat");
+    allData.writeTo("r:\\allData.dat");
+    }
+    catch(const Exception& ex)
+    {
+    	Log(lError)<<"There was a  problem: "<<ex.getMessage();
+    }
 
 //    Pause(true);
     return 0;
