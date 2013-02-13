@@ -86,6 +86,12 @@ CvodeInterface::~CvodeInterface()
     }
 }
 
+void CvodeInterface::setTolerances(const double& aTol, const double& rTol)
+{
+	mAbsTol = aTol;
+	mRelTol = rTol;
+}
+
 ModelFromC*	CvodeInterface::getModel()
 {
 	return mTheModel;

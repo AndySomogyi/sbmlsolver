@@ -75,6 +75,7 @@ class RR_DECLSPEC CvodeInterface : public rrObject
                                     CvodeInterface(RoadRunner* rr, ModelFromC* oModel, const double& abTol = 1.e-12, const double& relTol = 1.e-12);
                                    ~CvodeInterface();
 
+		void 						setTolerances(const double& aTol, const double& rTol);
         void                        assignResultsToModel();
 		ModelFromC*					getModel();
         void                        testRootsAtInitialTime();

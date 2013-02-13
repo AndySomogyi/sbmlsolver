@@ -60,7 +60,7 @@ int main(int argc, char** argv)
 	gLog.SetCutOffLogLevel(lInfo);
 
 	//Create a thousand roadrunners
-    const int nrOfRRInstances = 10;
+    const int nrOfRRInstances = 250;
 	vector<RoadRunner*> rrs;
 
     for(int i = 0; i < nrOfRRInstances; i++)
@@ -114,6 +114,9 @@ int main(int argc, char** argv)
             	double val = simulate[i+j]->getRRInstance()->getValue("k1");
 	            simulate[i+j]->getRRInstance()->setValue("k1", val/( j + i + 1));
                 val = simulate[i+j]->getRRInstance()->getValue("k1");
+                simulate[i+j]->getRRInstance()->setNumPoints(500);
+                simulate[i+j]->getRRInstance()->setTimeEnd(150);
+                simulate[i+j]->getRRInstance()->setTimeCourseSelectionList("S1");
         		simulate[i+j]->start();
             }
         }

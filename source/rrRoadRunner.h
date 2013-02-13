@@ -224,7 +224,9 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		double                          computeSteadyStateValue(const string& sId);
 		vector<double>                  getSelectedValues();
 		vector<string>                  getWarnings();
-		void                     		reMultiplyCompartments(const bool& bValue);
+
+        //		void                     		reMultiplyCompartments(const bool& bValue);
+
 		void                     		computeAndAssignConservationLaws(const bool& bValue);
 		double*                         steadyStateParameterScan(const string& symbol, const double& startValue, const double& endValue, const double& stepSize);
 		string                          writeSBML();

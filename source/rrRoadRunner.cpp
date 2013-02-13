@@ -506,13 +506,10 @@ DoubleMatrix RoadRunner::runSimulation()
     mModel->evalModel(mTimeStart, y);
     addNthOutputToResult(results, 0, mTimeStart);
 
+	//Todo: Don't understand this code.. MTK
     if (mCVode->haveVariables())
     {
         mCVode->reStart(mTimeStart, mModel);
-//		if (restartResult != 0)
-//        {
-//            throw CoreException("Error in reStart call to CVODE");
-//        }
     }
 
     double tout = mTimeStart;
@@ -580,7 +577,6 @@ bool RoadRunner::loadSBMLFromFile(const string& fileName)
     Log(lDebug5)<<"Read SBML content from file:\n "<<sbml \
                 << "\n============ End of SBML "<<endl;
 
-//    mModelXMLFileName = fileName;
     return loadSBML(sbml);
 }
 
@@ -595,7 +591,6 @@ bool RoadRunner::loadSBML(const string& sbml)
 
 	// If the user loads the same model again, don't bother loading into NOM,
 	// just reset the initial conditions
-
 	if (mModelDLL.isLoaded() != false && mModel != NULL && sbml == mCurrentSBML)
     {
         mCurrentSBML = sbml;
@@ -861,11 +856,6 @@ void RoadRunner::reset()
         mCVode->assignNewVector(mModel, true);
         mCVode->testRootsAtInitialTime();
 
-        //double hstep = (timeEnd - mTimeStart) / (mNumPoints - 1);
-        //CvodeInterface.MaxStep = Math.Min(CvodeInterface.MaxStep, hstep);
-        //if (CvodeInterface.MaxStep == 0)
-        //    CvodeInterface.MaxStep = hstep;
-
         mModel->setTime(0.0);
         mCVode->reStart(0.0, mModel);
 
@@ -977,7 +967,7 @@ StringList RoadRunner::getTimeCourseSelectionList()
     StringList oParameters  = getParameterIds();
 
     vector<TSelectionRecord>::iterator iter;
-//    int size = selectionList.size();
+
     for(iter = selectionList.begin(); iter != selectionList.end(); iter++)
     {
         TSelectionRecord record = (*iter);
@@ -1701,7 +1691,7 @@ DoubleMatrix* RoadRunner::getLinkMatrix()
 	       throw CoreException(emptyModelStr);
 	   }
 	   //return _L;
-		return mLS->getLinkMatrix();      
+		return mLS->getLinkMatrix();
     }
     catch (const Exception& e)
     {
@@ -1718,7 +1708,7 @@ DoubleMatrix* RoadRunner::getNrMatrix()
 			throw CoreException(emptyModelStr);
 	   }
 		//return _Nr;
-		return mLS->getNrMatrix();      
+		return mLS->getNrMatrix();
     }
     catch (const Exception& e)
     {
@@ -1914,56 +1904,6 @@ double RoadRunner::getVariableValue(const TVariableType& variableType, const int
     }
 }
 
-///// <summary>
-///// Fills the second argument with the Inverse of the first argument
-///// </summary>
-///// <param name="T2">The Matrix to calculate the Inverse for</param>
-///// <param name="Inv">will be overriden wiht the inverse of T2 (must already be allocated)</param>
-//void RoadRunner::GetInverse(ComplexMatrix& T2, ComplexMatrix& Inv)
-//{
-//    try
-//    {
-////        ComplexMatrix T8 = GetInverse(ConvertComplex(T2.data));
-////        for (int i1 = 0; i1 < Inv.nRows; i1++)
-////        {
-////            for (int j1 = 0; j1 < Inv.nCols; j1++)
-////            {
-////                Inv[i1, j1].Real = T8[i1][j1].Real;
-////                Inv[i1, j1].Imag = T8[i1][j1].Imag;
-////            }
-////        }
-//    }
-//    catch (Exception)
-//    {
-//        throw CoreException("Could not calculate the Inverse");
-//    }
-//}
-
-// Help(
-//            "Derpar Continuation, stepSize = stepsize; independentVariable = index to parameter; parameterType = {'globalParameter', 'boundarySpecies'"
-//            )
-//        void RoadRunner::computeContinuation(double stepSize, int independentVariable, string parameterTypeStr)
-//        {
-//            if (!mModel) throw CoreException(emptyModelStr);
-//            var derpar = new TDerpar(this, mModel->getNumTotalVariables, mModel->getNumIndependentVariables);
-//            derpar.setup(mModel->amounts);
-//            switch (parameterTypeStr)
-//            {
-//                case "globalParameter":
-//                    mModel->amounts =
-//                        (double[])
-//                        derpar.evalOneStep(mModel->amounts, stepSize, independentVariable, TDerpar.GLOBAL_PARAMETER_TYPE).
-//                            Clone();
-//                    break;
-//                case "boundarySpecies":
-//                    mModel->amounts =
-//                        (double[])
-//                        derpar.evalOneStep(mModel->amounts, stepSize, independentVariable, TDerpar.BOUNDARY_SPECIES_TYPE).
-//                            Clone();
-//                    break;
-//            }
-//        }
-//
 //  Help("Returns the Symbols of all Flux Control Coefficients.")
 NewArrayList RoadRunner::getFluxControlCoefficientIds()
 {
@@ -2250,7 +2190,7 @@ StringList RoadRunner::getEigenvalueIds()
 
     StringList result;
 	StringList floating = mModelGenerator->getFloatingSpeciesConcentrationList();
-   
+
     for(int i = 0; i < floating.Count(); i++)
     {
         result.Add("eigen_" + floating[i]);
@@ -2258,7 +2198,7 @@ StringList RoadRunner::getEigenvalueIds()
 
     return result;
 }
-//
+
 // Help(
 //            "Returns symbols of the currently loaded model, that can be used for steady state analysis. Format: array of arrays  { { \"groupname\", { \"item1\", \"item2\" ... } } }  or { { \"groupname\", { \"subgroup\", { \"item1\" ... } } } }."
 //            )
@@ -2525,15 +2465,6 @@ vector<double> RoadRunner::computeSteadyStateValues()
     return computeSteadyStateValues(mSteadyStateSelection, true);
 }
 
-// Help("performs steady state analysis, returning values as specified by the given selection list.")
-//        double[] RoadRunner::computeSteadyStateValues(ArrayList oSelection)
-//        {
-//            if (!mModel) throw CoreException(emptyModelStr);
-//            var selection = GetSteadyStateSelection(oSelection);
-//            return computeSteadyStateValues(selection, true);
-//        }
-//
-
 vector<double> RoadRunner::computeSteadyStateValues(const vector<TSelectionRecord>& selection, const bool& computeSteadyState)
 {
     if (computeSteadyState)
@@ -2641,67 +2572,6 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
     }
 }
 
-// Help("Returns the values selected with setTimeCourseSelectionList() for the current model time / timestep")
-//        double[] RoadRunner::getSelectedValues()
-//        {
-//            if (!mModel) throw CoreException(emptyModelStr);
-//
-//            var result = new double[selectionList.Length];
-//
-//            for (int j = 0; j < selectionList.Length; j++)
-//            {
-//                result[j] = getNthSelectedOutput(j, mModel->GetTime());
-//            }
-//            return result;
-//        }
-//
-// Help("Returns any warnings that occured during the loading of the SBML")
-//        string[] RoadRunner::getWarnings()
-//        {
-//            if (!mModel) throw CoreException(emptyModelStr);
-//            return mModel->Warnings.ToArray();
-//        }
-//
-// Help("When turned on, this method will cause rates, event assignments, rules and such to be multiplied " +
-//              "with the compartment volume, if species are defined as initialAmounts. By default this behavior is off.")
-//
-//        void RoadRunner::reMultiplyCompartments(bool bValue)
-//        {
-//            _ReMultiplyCompartments = bValue;
-//        }
-//
-// Help("Performs a steady state parameter scan with the given parameters returning all elments from the selectionList: (Format: symnbol, startValue, endValue, stepSize)")
-//        double[][] RoadRunner::steadyStateParameterScan(string symbol, double startValue, double endValue, double stepSize)
-//        {
-//            var results = new List<double[]>();
-//
-//            double initialValue = getValue(symbol);
-//            double current = startValue;
-//
-//            while (current < endValue)
-//            {
-//                setValue(symbol, current);
-//                try
-//                {
-//                    steadyState();
-//                }
-//                catch (Exception)
-//                {
-//                    //
-//                }
-//
-//                var currentRow = new List<double> {current};
-//                currentRow.AddRange(getSelectedValues());
-//
-//                results.Add(currentRow.ToArray());
-//                current += stepSize;
-//            }
-//            setValue(symbol, initialValue);
-//
-//            return results.ToArray();
-//        }
-//
-//
 string RoadRunner::getModelName()
 {
     return mModelGenerator->mNOM.getModelName();
@@ -2754,19 +2624,6 @@ int RoadRunner::getNumberOfLocalParameters(const int& reactionId)
      return getNumberOfLocalParameters(reactionId);	//Todo: this functions is calling itself ?
 }
 
-// Help("Sets the value of a global parameter by its index")
-//        void RoadRunner::setLocalParameterByIndex(int reactionId, int index, double value)
-//        {
-//            if (!mModel) throw CoreException(emptyModelStr);
-//
-//            if ((reactionId >= 0) && (reactionId < mModel->getNumReactions) &&
-//                (index >= 0) && (index < mModel->getNumLocalParameters(reactionId)))
-//                mModel->lp[reactionId][index] = value;
-//            else
-//                throw CoreException(string.Format("Index in setLocalParameterByIndex out of range: [{0}]", index));
-//        }
-//
-
 // Returns the value of a global parameter by its index
 // ***** SHOULD WE SUPPORT LOCAL PARAMETERS? ******** (Sept 2, 2012, HMS
 double RoadRunner::getLocalParameterByIndex	(const int& reactionId, const int& index)
@@ -2789,75 +2646,6 @@ double RoadRunner::getLocalParameterByIndex	(const int& reactionId, const int& i
     }
 }
 
-// Help("Returns the value of a global parameter by its index")
-//        double RoadRunner::getLocalParameterByIndex(int reactionId, int index)
-//        {
-//            if (!mModel)
-//                throw CoreException(emptyModelStr);
-//
-//            if ((reactionId >= 0) && (reactionId < mModel->getNumReactions) &&
-//                (index >= 0) && (index < mModel->getNumLocalParameters(reactionId)))
-//                return mModel->lp[reactionId][index];
-//
-//            throw CoreException(String.Format("Index in getLocalParameterByIndex out of range: [{0}]", index));
-//        }
-//
-// Help("Set the values for all global parameters in the model")
-//        void RoadRunner::setLocalParameterValues(int reactionId, double[] values)
-//        {
-//            if (!mModel) throw CoreException(emptyModelStr);
-//
-//
-//            if ((reactionId >= 0) && (reactionId < mModel->getNumReactions))
-//                mModel->lp[reactionId] = values;
-//            else
-//                throw CoreException(String.Format("Index in setLocalParameterValues out of range: [{0}]", reactionId));
-//        }
-//
-// Help("Get the values for all global parameters in the model")
-//        double[] RoadRunner::getLocalParameterValues(int reactionId)
-//        {
-//            if (!mModel)
-//                throw CoreException(emptyModelStr);
-//
-//            if ((reactionId >= 0) && (reactionId < mModel->getNumReactions))
-//                return mModel->lp[reactionId];
-//            throw CoreException(String.Format("Index in getLocalParameterValues out of range: [{0}]", reactionId));
-//        }
-//
-// Help("Gets the list of parameter names")
-//        ArrayList RoadRunner::getLocalParameterNames(int reactionId)
-//        {
-//            if (!mModel)
-//                throw CoreException(emptyModelStr);
-//
-//            if ((reactionId >= 0) && (reactionId < mModel->getNumReactions))
-//                return mModelGenerator->getLocalParameterList(reactionId);
-//            throw (new CoreException("reaction Id out of range in call to getLocalParameterNames"));
-//        }
-//
-// Help("Returns a list of global parameter tuples: { {parameter Name, value},...")
-//        ArrayList RoadRunner::getAllLocalParameterTupleList()
-//        {
-//            if (!mModel)
-//                throw CoreException(emptyModelStr);
-//
-//            var tupleList = new ArrayList();
-//            for (int i = 0; i < mModelGenerator->getNumberOfReactions(); i++)
-//            {
-//                var tuple = new ArrayList();
-//                ArrayList lpList = mModelGenerator->getLocalParameterList(i);
-//                tuple.Add(i);
-//                for (int j = 0; j < lpList.Count; j++)
-//                {
-//                    tuple.Add(lpList[j]);
-//                    tuple.Add(mModel->lp[i][j]);
-//                }
-//                tupleList.Add(tuple);
-//            }
-//            return tupleList;
-//        }
-//
 // Help("Get the number of reactions")
 int RoadRunner::getNumberOfReactions()
 {
@@ -2967,18 +2755,7 @@ double RoadRunner::getCompartmentByIndex(const int& index)
 
     throw CoreException(Format("Index in getCompartmentByIndex out of range: [{0}]", index));
 }
-//
-// Help("Returns the value of a compartment by its index")
-//        void RoadRunner::setCompartmentVolumes(double[] values)
-//        {
-//            if (!mModel)
-//                throw CoreException(emptyModelStr);
-//            if (values.Length < mModel->getNumCompartments)
-//                mModel->c = values;
-//            else
-//                throw (new CoreException(String.Format("Size of vector out not in range in setCompartmentValues: [{0}]", values.Length)));
-//        }
-//
+
 // Help("Get the number of boundary species")
 int RoadRunner::getNumberOfBoundarySpecies()
 {
@@ -3033,16 +2810,6 @@ vector<double> RoadRunner::getBoundarySpeciesConcentrations()
 	return CreateVector(mModel->bc, *mModel->bcSize);
 }
 
-//
-// Help("Returns an array of boundary species concentrations")
-//        double[] RoadRunner::getBoundarySpeciesConcentrations()
-//        {
-//            if (!mModel)
-//                throw CoreException(emptyModelStr);
-//            return mModel->bc;
-//        }
-//
-
 // Help("Set the concentrations for all boundary species in the model")
 //        void RoadRunner::setBoundarySpeciesConcentrations(double[] values)
 //        {
@@ -3050,7 +2817,7 @@ vector<double> RoadRunner::getBoundarySpeciesConcentrations()
 //
 //            mModel->bc = values;
 //        }
-//
+
 // Help("Gets the list of boundary species names")
 StringList RoadRunner::getBoundarySpeciesIds()
 {
@@ -3338,7 +3105,7 @@ double RoadRunner::getGlobalParameterByIndex(const int& index)
 //                mModel->updateDependentSpeciesValues(mModel->y);
 //            }
 //        }
-//
+
 // Help("Get the values for all global parameters in the model")
 vector<double> RoadRunner::getGlobalParameterValues()
 {
@@ -3596,140 +3363,6 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
     }
 }
 
-//        [Help(
-//            "Returns the elasticity of a given reaction to a given parameter. Parameters can be boundary species or global parameters"
-//            )]
-//        double getUnScaledElasticity(string reactionName, string parameterName)
-//        {
-//            if (!mModel) throw CoreException(emptyModelStr);
-//            double f1, f2, fi, fi2, fd, fd2;
-//            double hstep;
-//
-//            int reactionId = -1;
-//            if (!(mModelGenerator->reactionList.find(reactionName, out reactionId)))
-//                throw CoreException("Unrecognized reaction name in call to getUnScaledElasticity [" +
-//                                                  reactionName + "]");
-//
-//            int index = -1;
-//            // Find out what kind of parameter it is, species or global parmaeter
-//            if (mModelGenerator->boundarySpeciesList.find(parameterName, out index))
-//            {
-//                double originalParameterValue = mModel->bc[index];
-//                hstep = DiffStepSize*originalParameterValue;
-//                if (Math.Abs(hstep) < 1E-12)
-//                    hstep = DiffStepSize;
-//
-//                try
-//                {
-//                    mModel->convertToConcentrations();
-//                    mModel->bc[index] = originalParameterValue + hstep;
-//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
-//                    fi = mModel->rates[reactionId];
-//
-//                    mModel->bc[index] = originalParameterValue + 2*hstep;
-//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
-//                    fi2 = mModel->rates[reactionId];
-//
-//                    mModel->bc[index] = originalParameterValue - hstep;
-//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
-//                    fd = mModel->rates[reactionId];
-//
-//                    mModel->bc[index] = originalParameterValue - 2*hstep;
-//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
-//                    fd2 = mModel->rates[reactionId];
-//
-//                    // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
-//                    // The following separated lines avoid small amounts of roundoff error
-//                    f1 = fd2 + 8*fi;
-//                    f2 = -(8*fd + fi2);
-//                }
-//                finally
-//                {
-//                    mModel->bc[index] = originalParameterValue;
-//                }
-//            }
-//            else
-//            {
-//                if (mModelGenerator->globalParameterList.find(parameterName, out index))
-//                {
-//                    double originalParameterValue = mModel->gp[index];
-//                    hstep = DiffStepSize*originalParameterValue;
-//                    if (Math.Abs(hstep) < 1E-12)
-//                        hstep = DiffStepSize;
-//
-//                    try
-//                    {
-//                        mModel->convertToConcentrations();
-//
-//                        mModel->gp[index] = originalParameterValue + hstep;
-//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
-//                        fi = mModel->rates[reactionId];
-//
-//                        mModel->gp[index] = originalParameterValue + 2*hstep;
-//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
-//                        fi2 = mModel->rates[reactionId];
-//
-//                        mModel->gp[index] = originalParameterValue - hstep;
-//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
-//                        fd = mModel->rates[reactionId];
-//
-//                        mModel->gp[index] = originalParameterValue - 2*hstep;
-//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
-//                        fd2 = mModel->rates[reactionId];
-//
-//                        // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
-//                        // The following separated lines avoid small amounts of roundoff error
-//                        f1 = fd2 + 8*fi;
-//                        f2 = -(8*fd + fi2);
-//                    }
-//                    finally
-//                    {
-//                        mModel->gp[index] = originalParameterValue;
-//                    }
-//                }
-//                else if (mModelGenerator->conservationList.find(parameterName, out index))
-//                {
-//                    double originalParameterValue = mModel->gp[index];
-//                    hstep = DiffStepSize*originalParameterValue;
-//                    if (Math.Abs(hstep) < 1E-12)
-//                        hstep = DiffStepSize;
-//
-//                    try
-//                    {
-//                        mModel->convertToConcentrations();
-//
-//                        mModel->ct[index] = originalParameterValue + hstep;
-//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
-//                        fi = mModel->rates[reactionId];
-//
-//                        mModel->ct[index] = originalParameterValue + 2*hstep;
-//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
-//                        fi2 = mModel->rates[reactionId];
-//
-//                        mModel->ct[index] = originalParameterValue - hstep;
-//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
-//                        fd = mModel->rates[reactionId];
-//
-//                        mModel->ct[index] = originalParameterValue - 2*hstep;
-//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
-//                        fd2 = mModel->rates[reactionId];
-//
-//                        // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
-//                        // The following separated lines avoid small amounts of roundoff error
-//                        f1 = fd2 + 8*fi;
-//                        f2 = -(8*fd + fi2);
-//                    }
-//                    finally
-//                    {
-//                        mModel->ct[index] = originalParameterValue;
-//                    }
-//                }
-//                else
-//                    throw CoreException("Unrecognized parameter name in call to getUnScaledElasticity [" +
-//                                                      parameterName + "]");
-//            }
-//            return 1/(12*hstep)*(f1 + f2);
-//        }
 
 //        [Help("Compute the unscaled species elasticity matrix at the current operating point")]
 DoubleMatrix RoadRunner::getUnscaledElasticityMatrix()
@@ -3816,40 +3449,6 @@ DoubleMatrix RoadRunner::getScaledReorderedElasticityMatrix()
     }
 }
 
-//        [Help("Compute the unscaled elasticity for a given reaction and given species")]
-//        double getUnscaledFloatingSpeciesElasticity(string reactionName, string speciesName)
-//        {
-//            try
-//            {
-//                if (mModel)
-//                {
-//                    int speciesIndex = 0;
-//                    int reactionIndex = 0;
-//
-//                    mModel->convertToConcentrations();
-//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
-//
-//                    if (!mModelGenerator->floatingSpeciesConcentrationList.find(speciesName, out speciesIndex))
-//                        throw CoreException(
-//                            "Internal Error: unable to locate species name while computing unscaled elasticity");
-//                    if (!mModelGenerator->reactionList.find(reactionName, out reactionIndex))
-//                        throw CoreException(
-//                            "Internal Error: unable to locate reaction name while computing unscaled elasticity");
-//
-//                    return getUnscaledSpeciesElasticity(reactionIndex, speciesIndex);
-//                }
-//                else throw CoreException(emptyModelStr);
-//            }
-//            catch (CoreException)
-//            {
-//                throw;
-//            }
-//            catch (const Exception& e)
-//            {
-//                throw CoreException("Unexpected error from scaledElasticityMatrix()", e.Message());
-//            }
-//        }
-//
 //        [Help("Compute the scaled elasticity for a given reaction and given species")]
 double RoadRunner::getScaledFloatingSpeciesElasticity(const string& reactionName, const string& speciesName)
 {
@@ -4166,11 +3765,629 @@ DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
 	}
 }
 
+// Help("Returns the initially loaded model as SBML")
+string RoadRunner::getSBML()
+{
+    return mCurrentSBML;
+}
+
+// Help("Set the time start for the simulation")
+void RoadRunner::setTimeStart(const double& startTime)
+{
+    if (!mModel)
+    {
+        throw CoreException(emptyModelStr);
+    }
+
+    if (startTime < 0)
+    {
+        throw CoreException("Time Start most be greater than zero");
+    }
+
+    mTimeStart = startTime;
+}
+
+//Help("Set the time end for the simulation")
+void RoadRunner::setTimeEnd(const double& endTime)
+{
+    if (!mModel)
+    {
+        throw CoreException(emptyModelStr);
+    }
+
+    if (endTime <= 0)
+    {
+        throw CoreException("Time End most be greater than zero");
+    }
+
+    mTimeEnd = endTime;
+}
+
+//Help("Set the number of points to generate during the simulation")
+void RoadRunner::setNumPoints(const int& pts)
+{
+    if(!mModel)
+    {
+        throw CoreException(emptyModelStr);
+    }
+
+    mNumPoints = (pts <= 0) ? 2 : pts;
+}
+
+// [Help("get the currently set time start")]
+double RoadRunner::getTimeStart()
+{
+    return mTimeStart;
+}
+
+// [Help("get the currently set time end")]
+double RoadRunner::getTimeEnd()
+{
+   return mTimeEnd;
+}
+
+// [Help("get the currently set number of points")]
+int RoadRunner::getNumPoints()
+{
+   return mNumPoints;
+}
+
+// Help(
+//            "Change the initial conditions to another concentration vector (changes only initial conditions for floating Species)")
+void RoadRunner::changeInitialConditions(const vector<double>& ic)
+{
+    if (!mModel)
+    {
+        throw CoreException(emptyModelStr);
+    }
+
+    for (int i = 0; i < ic.size(); i++)
+    {
+        mModel->setConcentration(i, ic[i]);
+        if ((*mModel->init_ySize) > i)
+        {
+            mModel->init_y[i] = ic[i];
+        }
+    }
+    mModel->convertToAmounts();
+    mModel->computeConservedTotals();
+}
+
+// Help("Returns the current vector of reactions rates")
+vector<double> RoadRunner::getReactionRates()
+{
+    if (!mModel)
+	{
+		throw CoreException(emptyModelStr);
+	}
+	mModel->convertToConcentrations();
+	mModel->computeReactionRates(0.0, mModel->y);
+
+	vector<double> _rates;
+	CopyCArrayToStdVector(mModel->rates, _rates, *mModel->ratesSize);
+	return _rates;
+}
+
+// Help("Returns the current vector of rates of change")
+vector<double> RoadRunner::getRatesOfChange()
+{
+	if (!mModel)
+	{
+		throw CoreException(emptyModelStr);
+	}
+
+	mModel->computeAllRatesOfChange();
+	vector<double> result;
+	CopyCArrayToStdVector(mModel->dydt, result, *mModel->dydtSize);
+
+	return result;
+}
+
+// Help("Returns a list of reaction names")
+StringList RoadRunner::getReactionIds()
+{
+	if (!mModel)
+	{
+        throw CoreException(emptyModelStr);
+    }
+
+    return mModelGenerator->getReactionIds();
+}
+
+// ---------------------------------------------------------------------
+// Start of Level 2 API Methods
+// ---------------------------------------------------------------------
+// Help("Get Simulator Capabilities")
+string RoadRunner::getCapabilities()
+{
+    CapsSupport current = CapsSupport(this);
+    return current.AsXMLString();
+}
+
+void RoadRunner::setTolerances(const double& aTol, const double& rTol)
+{
+	if(mCVode)
+    {
+    	mCVode->setTolerances(aTol, rTol);
+    }
+}
+
+void RoadRunner::setTolerances(const double& aTol, const double& rTol, const int& maxSteps)
+{
+	if(mCVode)
+    {
+    	mCVode->setTolerances(aTol, rTol);
+    	mCVode->mMaxNumSteps = maxSteps;
+    }
+}
+
+void RoadRunner::correctMaxStep()
+{
+	if(mCVode)
+    {
+        double maxStep = (mTimeEnd - mTimeStart) / (mNumPoints);
+        maxStep = min(mCVode->mMaxStep, maxStep);
+        mCVode->mMaxStep = maxStep;
+    }
+}
+
+// Help("Set Simulator Capabilites")
+void RoadRunner::setCapabilities(const string& capsStr)
+{
+//    var cs = new CapsSupport(capsStr);
+//    cs.Apply();
+//
+//    //correctMaxStep();
+//
+//    if (mModel)
+//    {
+//        if(!mCVode)
+//        {
+//            mCVode = new CvodeInterface(model);
+//        }
+//        for (int i = 0; i < model.getNumIndependentVariables; i++)
+//        {
+//            mCVode->setAbsTolerance(i, CvodeInterface->absTol);
+//        }
+//        mCVode->reStart(0.0, model);
+//    }
+//
+//    if (cs.HasSection("integration") && cs["integration"].HasCapability("usekinsol"))
+//    {
+//        CapsSupport.Capability cap = cs["integration", "usekinsol"];
+//        UseKinsol = cap.IntValue;
+//    }
+}
+
+// Help("Sets the value of the given species or global parameter to the given value (not of local parameters)")
+bool RoadRunner::setValue(const string& sId, const double& dValue)
+{
+    if (!mModel)
+    {
+        Log(lError)<<emptyModelStr;
+        return false;
+    }
+
+    int nIndex = -1;
+    if (mModelGenerator->globalParameterList.find(sId, nIndex))
+    {
+        mModel->gp[nIndex] = dValue;
+        return true;
+    }
+
+    if (mModelGenerator->boundarySpeciesList.find(sId, nIndex))
+    {
+        mModel->bc[nIndex] = dValue;
+        return true;
+    }
+
+    if (mModelGenerator->compartmentList.find(sId, nIndex))
+    {
+        mModel->c[nIndex] = dValue;
+        return true;
+    }
+
+    if (mModelGenerator->floatingSpeciesConcentrationList.find(sId, nIndex))
+    {
+        mModel->setConcentration(nIndex, dValue);
+        mModel->convertToAmounts();
+        if (!mConservedTotalChanged)
+        {
+            mModel->computeConservedTotals();
+        }
+        return true;
+    }
+
+    if (mModelGenerator->conservationList.find(sId, nIndex))
+    {
+        mModel->ct[nIndex] = dValue;
+        mModel->updateDependentSpeciesValues(mModel->y);
+        mConservedTotalChanged = true;
+        return true;
+    }
+
+    StringList initialConditions;
+    initialConditions = getFloatingSpeciesInitialConditionIds();
+
+    if (initialConditions.Contains(sId))
+    {
+        int index = initialConditions.IndexOf(sId);
+        mModel->init_y[index] = dValue;
+        reset();
+        return true;
+    }
+
+    Log(lError)<<Format("Given Id: '{0}' not found.", sId) + "Only species and global parameter values can be set";
+    return false;
+}
+
+// Help("Gets the Value of the given species or global parameter (not of local parameters)")
+double RoadRunner::getValue(const string& sId)
+{
+    if (!mModel)
+        throw CoreException(emptyModelStr);
+
+    int nIndex = 0;
+    if (mModelGenerator->globalParameterList.find(sId, nIndex))
+    {
+        return mModel->gp[nIndex];
+    }
+    if (mModelGenerator->boundarySpeciesList.find(sId, nIndex))
+    {
+        return mModel->bc[nIndex];
+    }
+
+    if (mModelGenerator->floatingSpeciesConcentrationList.find(sId, nIndex))
+    {
+        return mModel->y[nIndex];
+    }
+
+    if (mModelGenerator->floatingSpeciesConcentrationList.find(sId.substr(0, sId.size() - 1), nIndex))
+    {
+        mModel->computeAllRatesOfChange();
+
+        //fs[j] + "'" will be interpreted as rate of change
+        return mModel->dydt[nIndex];
+    }
+
+    if (mModelGenerator->compartmentList.find(sId, nIndex))
+    {
+        return mModel->c[nIndex];
+    }
+    if (mModelGenerator->reactionList.find(sId, nIndex))
+    {
+        return mModel->rates[nIndex];
+    }
+
+    if (mModelGenerator->conservationList.find(sId, nIndex))
+    {
+        return mModel->ct[nIndex];
+    }
+
+    StringList initialConditions = getFloatingSpeciesInitialConditionIds();
+    if (initialConditions.Contains(sId))
+    {
+        int index = initialConditions.IndexOf(sId);
+        return mModel->init_y[index];
+    }
+
+    string tmp("EE:");
+    if (sId.compare(0, tmp.size(), tmp) == 0)
+    {
+        string parameters = sId.substr(3);
+        string p1 = parameters.substr(0, parameters.find_first_of(","));
+        string p2 = parameters.substr(parameters.find_first_of(",") + 1);
+        return getEE(p1, p2, false);
+    }
+
+    tmp = ("uEE:");
+    if (sId.compare(0, tmp.size(), tmp) == 0)
+    {
+        string parameters = sId.substr(4);
+        string p1 = parameters.substr(0, parameters.find_first_of(","));
+        string p2 = parameters.substr(parameters.find_first_of(",") + 1);
+        return getuEE(p1, p2, false);
+    }
+
+    tmp = ("eigen_");
+    if (sId.compare(0, tmp.size(), tmp) == 0)
+    {
+		string species = sId.substr(tmp.size());
+		int index;
+		mModelGenerator->floatingSpeciesConcentrationList.find(species, index);
+
+		//DoubleMatrix mat = getReducedJacobian();
+		DoubleMatrix mat;
+		if (mComputeAndAssignConservationLaws)
+		{
+		   mat = getReducedJacobian();
+		}
+		else
+		{
+		   mat = getFullJacobian();
+		}
+
+        vector<Complex> oComplex = ls::getEigenValues(mat);
+
+        if(selectionList.size() == 0)
+        {
+        	throw("Tried to access record in empty selectionList in getValue function: eigen_");
+        }
+
+		if (oComplex.size() > selectionList[index + 1].index) //Becuase first one is time !?
+		{
+			return oComplex[selectionList[index + 1].index].Real;
+		}
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+
+    throw CoreException("Given Id: '" + sId + "' not found.",
+                                      "Only species, global parameter values and fluxes can be returned");
+}
+
+// Help(
+//            "Returns symbols of the currently loaded model,
+//              that can be used for the selectionlist format array of arrays  { { \"groupname\", { \"item1\", \"item2\" ... } } }."
+//            )
+NewArrayList RoadRunner::getAvailableTimeCourseSymbols()
+{
+    NewArrayList oResult;
+
+    if (!mModel)
+    {
+        return oResult;
+    }
+
+    oResult.Add("Floating Species",                 getFloatingSpeciesIds() );
+    oResult.Add("Boundary Species",                 getBoundarySpeciesIds() );
+    oResult.Add("Floating Species (amount)",        getFloatingSpeciesAmountIds() );
+    oResult.Add("Boundary Species (amount)",        getBoundarySpeciesAmountIds() );
+    oResult.Add("Global Parameters",                getParameterIds() );
+    oResult.Add("Fluxes",                           getReactionIds() );
+	oResult.Add("Rates of Change",                  getRateOfChangeIds() );
+    oResult.Add("Volumes",                          mModelGenerator->getCompartmentList() );
+    oResult.Add("Elasticity Coefficients",          getElasticityCoefficientIds() );
+    oResult.Add("Unscaled Elasticity Coefficients", getUnscaledElasticityCoefficientIds() );
+    oResult.Add("Eigenvalues",                      getEigenvalueIds() );
+    return oResult;
+}
+
+string RoadRunner::getVersion()
+{
+	return RR_VERSION;
+}
+
+string RoadRunner::getCopyright()
+{
+    return "(c) 2009-2012 HM. Sauro and FT. Bergmann, BSD Licence";
+}
+
+string RoadRunner::getURL()
+{
+    return "http://www.sys-bio.org";
+}
+
+string RoadRunner::getlibSBMLVersion()
+{
+	return mNOM.getlibSBMLVersion();
+}
+
+// =========================================== NON ENABLED FUNCTIONS BELOW.....
+
+
+//        [Help("Compute the unscaled elasticity for a given reaction and given species")]
+//        double getUnscaledFloatingSpeciesElasticity(string reactionName, string speciesName)
+//        {
+//            try
+//            {
+//                if (mModel)
+//                {
+//                    int speciesIndex = 0;
+//                    int reactionIndex = 0;
+//
+//                    mModel->convertToConcentrations();
+//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
+//
+//                    if (!mModelGenerator->floatingSpeciesConcentrationList.find(speciesName, out speciesIndex))
+//                        throw CoreException(
+//                            "Internal Error: unable to locate species name while computing unscaled elasticity");
+//                    if (!mModelGenerator->reactionList.find(reactionName, out reactionIndex))
+//                        throw CoreException(
+//                            "Internal Error: unable to locate reaction name while computing unscaled elasticity");
+//
+//                    return getUnscaledSpeciesElasticity(reactionIndex, speciesIndex);
+//                }
+//                else throw CoreException(emptyModelStr);
+//            }
+//            catch (CoreException)
+//            {
+//                throw;
+//            }
+//            catch (const Exception& e)
+//            {
+//                throw CoreException("Unexpected error from scaledElasticityMatrix()", e.Message());
+//            }
+//        }
+//
+
+
+//        [Help(
+//            "Compute the value for a particular flux control coefficient, permitted parameters include global parameters, boundary conditions and conservation totals"
+//            )]
+//        double getUnscaledFluxControlCoefficient(string reactionName, string parameterName)
+//        {
+//            int fluxIndex;
+//            int parameterIndex;
+//            TParameterType parameterType;
+//            double originalParameterValue;
+//            double f1;
+//            double f2;
+//
+//            try
+//            {
+//                if (mModel)
+//                {
+//                    mModel->convertToConcentrations();
+//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
+//
+//                    if (!mModelGenerator->reactionList.find(reactionName, out fluxIndex))
+//                        throw CoreException(
+//                            "Internal Error: unable to locate species name while computing unscaled control coefficient");
+//
+//                    if (mModelGenerator->globalParameterList.find(parameterName, out parameterIndex))
+//                    {
+//                        parameterType = TParameterType::ptGlobalParameter;
+//                        originalParameterValue = mModel->gp[parameterIndex];
+//                    }
+//                    else if (mModelGenerator->boundarySpeciesList.find(parameterName, out parameterIndex))
+//                    {
+//                        parameterType = TParameterType::ptBoundaryParameter;
+//                        originalParameterValue = mModel->bc[parameterIndex];
+//                    }
+//                    else if (mModelGenerator->conservationList.find(parameterName, out parameterIndex))
+//                    {
+//                        parameterType = TParameterType::ptConservationParameter;
+//                        originalParameterValue = mModel->ct[parameterIndex];
+//                    }
+//                    else throw CoreException("Unable to locate parameter: [" + parameterName + "]");
+//
+//                    double hstep = DiffStepSize*originalParameterValue;
+//                    if (Math.Abs(hstep) < 1E-12)
+//                        hstep = DiffStepSize;
+//
+//                    try
+//                    {
+//                        setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
+//                        steadyState();
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
+//                        double fi = mModel->rates[fluxIndex];
+//
+//                        setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
+//                        steadyState();
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
+//                        double fi2 = mModel->rates[fluxIndex];
+//
+//                        setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
+//                        steadyState();
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
+//                        double fd = mModel->rates[fluxIndex];
+//
+//                        setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
+//                        steadyState();
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
+//                        double fd2 = mModel->rates[fluxIndex];
+//
+//                        // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
+//                        // The following separated lines avoid small amounts of roundoff error
+//                        f1 = fd2 + 8*fi;
+//                        f2 = -(8*fd + fi2);
+//                    }
+//                    finally
+//                    {
+//                        // What ever happens, make sure we restore the species level
+//                        setParameterValue(parameterType, parameterIndex, originalParameterValue);
+//                        steadyState();
+//                    }
+//                    return 1/(12*hstep)*(f1 + f2);
+//                }
+//                else throw CoreException(emptyModelStr);
+//            }
+//            catch (CoreException)
+//            {
+//                throw;
+//            }
+//            catch (const Exception& e)
+//            {
+//                throw CoreException("Unexpected error from getScaledFluxControlCoefficientMatrix()",
+//                                                  e.Message());
+//            }
+//        }
+//
+//
+//        [Help("Compute the value for a particular scaled flux control coefficients with respect to a local parameter")]
+//        double getScaledFluxControlCoefficient(string reactionName, string localReactionName, string parameterName)
+//        {
+//            int parameterIndex;
+//            int reactionIndex;
+//
+//            try
+//            {
+//                if (mModel)
+//                {
+//                    double ufcc = getUnscaledFluxControlCoefficient(reactionName, localReactionName, parameterName);
+//
+//                    mModel->convertToConcentrations();
+//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
+//
+//                    mModelGenerator->reactionList.find(reactionName, out reactionIndex);
+//                    if (mModelGenerator->globalParameterList.find(parameterName, out parameterIndex))
+//                        return ufcc*mModel->gp[parameterIndex]/mModel->rates[reactionIndex];
+//                    else if (mModelGenerator->boundarySpeciesList.find(parameterName, out parameterIndex))
+//                        return ufcc*mModel->bc[parameterIndex]/mModel->rates[reactionIndex];
+//                    else if (mModelGenerator->conservationList.find(parameterName, out parameterIndex))
+//                        return ufcc*mModel->ct[parameterIndex]/mModel->rates[reactionIndex];
+//                    return 0.0;
+//                }
+//                else throw CoreException(emptyModelStr);
+//            }
+//            catch (CoreException)
+//            {
+//                throw;
+//            }
+//            catch (const Exception& e)
+//            {
+//                throw CoreException("Unexpected error from getScaledFluxControlCoefficientMatrix()",
+//                                                  e.Message());
+//            }
+//        }
+//
+//
+//        [Help(
+//            "Compute the value for a particular scaled flux control coefficients with respect to a global or boundary species parameter"
+//            )]
+//        double getScaledFluxControlCoefficient(string reactionName, string parameterName)
+//        {
+//            int parameterIndex;
+//            int reactionIndex;
+//
+//            try
+//            {
+//                if (mModel)
+//                {
+//                    double ufcc = getUnscaledFluxControlCoefficient(reactionName, parameterName);
+//
+//                    mModel->convertToConcentrations();
+//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
+//
+//                    mModelGenerator->reactionList.find(reactionName, out reactionIndex);
+//                    if (mModelGenerator->globalParameterList.find(parameterName, out parameterIndex))
+//                        return ufcc*mModel->gp[parameterIndex]/mModel->rates[reactionIndex];
+//                    else if (mModelGenerator->boundarySpeciesList.find(parameterName, out parameterIndex))
+//                        return ufcc*mModel->bc[parameterIndex]/mModel->rates[reactionIndex];
+//                    else if (mModelGenerator->conservationList.find(parameterName, out parameterIndex))
+//                        return ufcc*mModel->ct[parameterIndex]/mModel->rates[reactionIndex];
+//                    return 0.0;
+//                }
+//                else throw CoreException(emptyModelStr);
+//            }
+//            catch (CoreException)
+//            {
+//                throw;
+//            }
+//            catch (const Exception& e)
+//            {
+//                throw CoreException("Unexpected error from getScaledFluxControlCoefficientMatrix()",
+//                                                  e.Message());
+//            }
+//        }
+//    }
+//}
+
+
 //        [Help(
 //            "Compute the value for a particular unscaled concentration control coefficients with respect to a local parameter"
 //            )]
-//        double getUnscaledConcentrationControlCoefficient(string speciesName, string localReactionName,
-//                                                                 string parameterName)
+//        double getUnscaledConcentrationControlCoefficient(string speciesName, string localReactionName, string parameterName)
 //        {
 //            int parameterIndex;
 //            int reactionIndex;
@@ -4254,8 +4471,7 @@ DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
 //        [Help(
 //            "Compute the value for a particular scaled concentration control coefficients with respect to a local parameter"
 //            )]
-//        double getScaledConcentrationControlCoefficient(string speciesName, string localReactionName,
-//                                                               string parameterName)
+//        double getScaledConcentrationControlCoefficient(string speciesName, string localReactionName, string parameterName)
 //        {
 //            int localReactionIndex;
 //            int parameterIndex;
@@ -4517,674 +4733,86 @@ DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
 //        }
 //
 
-// Help("Returns the initially loaded model as SBML")
-string RoadRunner::getSBML()
-{
-    return mCurrentSBML;
-}
-
-// Help("Set the time start for the simulation")
-void RoadRunner::setTimeStart(const double& startTime)
-{
-    if (!mModel)
-    {
-        throw CoreException(emptyModelStr);
-    }
-
-    if (startTime < 0)
-    {
-        throw CoreException("Time Start most be greater than zero");
-    }
-
-    mTimeStart = startTime;
-}
-
-//Help("Set the time end for the simulation")
-void RoadRunner::setTimeEnd(const double& endTime)
-{
-    if (!mModel)
-    {
-        throw CoreException(emptyModelStr);
-    }
-
-    if (endTime <= 0)
-    {
-        throw CoreException("Time End most be greater than zero");
-    }
-
-    mTimeEnd = endTime;
-}
-
-//Help("Set the number of points to generate during the simulation")
-void RoadRunner::setNumPoints(const int& pts)
-{
-    if(!mModel)
-    {
-        throw CoreException(emptyModelStr);
-    }
-
-    mNumPoints = (pts <= 0) ? 2 : pts;
-}
-
-// [Help("get the currently set time start")]
-double RoadRunner::getTimeStart()
-{
-    return mTimeStart;
-}
-
-// [Help("get the currently set time end")]
-double RoadRunner::getTimeEnd()
-{
-   return mTimeEnd;
-}
-
-// [Help("get the currently set number of points")]
-int RoadRunner::getNumPoints()
-{
-   return mNumPoints;
-}
-
-// Help(
-//            "Change the initial conditions to another concentration vector (changes only initial conditions for floating Species)")
-void RoadRunner::changeInitialConditions(const vector<double>& ic)
-{
-    if (!mModel)
-    {
-        throw CoreException(emptyModelStr);
-    }
-
-    for (int i = 0; i < ic.size(); i++)
-    {
-        mModel->setConcentration(i, ic[i]);
-        if ((*mModel->init_ySize) > i)
-        {
-            mModel->init_y[i] = ic[i];
-        }
-    }
-    mModel->convertToAmounts();
-    mModel->computeConservedTotals();
-}
-
-// Help("Returns the current vector of reactions rates")
-vector<double> RoadRunner::getReactionRates()
-{
-    if (!mModel)
-	{
-		throw CoreException(emptyModelStr);
-	}
-	mModel->convertToConcentrations();
-	mModel->computeReactionRates(0.0, mModel->y);
-
-	vector<double> _rates;
-	CopyCArrayToStdVector(mModel->rates, _rates, *mModel->ratesSize);
-	return _rates;
-}
-
-// Help("Returns the current vector of rates of change")
-vector<double> RoadRunner::getRatesOfChange()
-{
-	if (!mModel)
-	{
-		throw CoreException(emptyModelStr);
-	}
-
-	mModel->computeAllRatesOfChange();
-	vector<double> result;
-	CopyCArrayToStdVector(mModel->dydt, result, *mModel->dydtSize);
-
-	return result;
-}
-
-// Help("Returns a list of reaction names")
-StringList RoadRunner::getReactionIds()
-{
-	if (!mModel)
-	{
-        throw CoreException(emptyModelStr);
-    }
-
-    return mModelGenerator->getReactionIds();
-}
-
-// ---------------------------------------------------------------------
-// Start of Level 2 API Methods
-// ---------------------------------------------------------------------
-// Help("Get Simulator Capabilities")
-string RoadRunner::getCapabilities()
-{
-    CapsSupport current = CapsSupport(this);
-    return current.AsXMLString();
-}
-
-//        void RoadRunner::setTolerances(double aTol, double rTol)
-//        {
-//            CvodeInterface.relTol = rTol;
-//            CvodeInterface.absTol = aTol;
-//        }
-//
-//        void RoadRunner::setTolerances(double aTol, double rTol, int maxSteps)
-//        {
-//            setTolerances(aTol, rTol);
-//            CvodeInterface.MaxNumSteps = maxSteps;
-//        }
-//
-//        void RoadRunner::correctMaxStep()
-//        {
-//            double maxStep = (mTimeEnd - mTimeStart) / (mNumPoints);
-//            maxStep = Math.Min(CvodeInterface.MaxStep, maxStep);
-//            CvodeInterface.MaxStep = maxStep;
-//        }
-
-// Help("Set Simulator Capabilites")
-void RoadRunner::setCapabilities(const string& capsStr)
-{
-//    var cs = new CapsSupport(capsStr);
-//    cs.Apply();
-//
-//    //correctMaxStep();
-//
-//    if (mModel)
-//    {
-//        if(!mCVode)
-//        {
-//            mCVode = new CvodeInterface(model);
-//        }
-//        for (int i = 0; i < model.getNumIndependentVariables; i++)
-//        {
-//            mCVode->setAbsTolerance(i, CvodeInterface->absTol);
-//        }
-//        mCVode->reStart(0.0, model);
-//    }
-//
-//    if (cs.HasSection("integration") && cs["integration"].HasCapability("usekinsol"))
-//    {
-//        CapsSupport.Capability cap = cs["integration", "usekinsol"];
-//        UseKinsol = cap.IntValue;
-//    }
-}
-
-// Help("Sets the value of the given species or global parameter to the given value (not of local parameters)")
-bool RoadRunner::setValue(const string& sId, const double& dValue)
-{
-    if (!mModel)
-    {
-        Log(lError)<<emptyModelStr;
-        return false;
-    }
-
-    int nIndex = -1;
-    if (mModelGenerator->globalParameterList.find(sId, nIndex))
-    {
-        mModel->gp[nIndex] = dValue;
-        return true;
-    }
-
-    if (mModelGenerator->boundarySpeciesList.find(sId, nIndex))
-    {
-        mModel->bc[nIndex] = dValue;
-        return true;
-    }
-
-    if (mModelGenerator->compartmentList.find(sId, nIndex))
-    {
-        mModel->c[nIndex] = dValue;
-        return true;
-    }
-
-    if (mModelGenerator->floatingSpeciesConcentrationList.find(sId, nIndex))
-    {
-        mModel->setConcentration(nIndex, dValue);
-        mModel->convertToAmounts();
-        if (!mConservedTotalChanged)
-        {
-            mModel->computeConservedTotals();
-        }
-        return true;
-    }
-
-    if (mModelGenerator->conservationList.find(sId, nIndex))
-    {
-        mModel->ct[nIndex] = dValue;
-        mModel->updateDependentSpeciesValues(mModel->y);
-        mConservedTotalChanged = true;
-        return true;
-    }
-
-    StringList initialConditions;
-    initialConditions = getFloatingSpeciesInitialConditionIds();
-
-    if (initialConditions.Contains(sId))
-    {
-        int index = initialConditions.IndexOf(sId);
-        mModel->init_y[index] = dValue;
-        reset();
-        return true;
-    }
-
-    Log(lError)<<Format("Given Id: '{0}' not found.", sId) + "Only species and global parameter values can be set";
-    return false;
-}
-//        void RoadRunner::setValue(string sId, double dValue)
-//        {
-//            if (!mModel)
-//                throw CoreException(emptyModelStr);
-//
-//
-//            int nIndex = -1;
-//            if (mModelGenerator->globalParameterList.find(sId, out nIndex))
-//            {
-//                model.gp[nIndex] = dValue;
-//                return;
-//            }
-//            if (mModelGenerator->boundarySpeciesList.find(sId, out nIndex))
-//            {
-//                model.bc[nIndex] = dValue;
-//                return;
-//            }
-//            if (mModelGenerator->compartmentList.find(sId, out nIndex))
-//            {
-//                model.c[nIndex] = dValue;
-//                return;
-//            }
-//            if (mModelGenerator->floatingSpeciesConcentrationList.find(sId, out nIndex))
-//            {
-//                model.setConcentration(nIndex, dValue);
-//                model.convertToAmounts();
-//                if (!mConservedTotalChanged) model.computeConservedTotals();
-//                return;
-//            }
-//            if (mModelGenerator->conservationList.find(sId, out nIndex))
-//            {
-//                model.ct[nIndex] = dValue;
-//                model.updateDependentSpeciesValues(model.y);
-//                mConservedTotalChanged = true;
-//                return;
-//            }
-//
-//            var initialConditions =
-//                new List<string>((string[])getFloatingSpeciesInitialConditionIds().ToArray(typeof(string)));
-//            if (initialConditions.Contains(sId))
-//            {
-//                int index = initialConditions.IndexOf(sId);
-//                model.init_y[index] = dValue;
-//                reset();
-//                return;
-//            }
-//
-//
-//            throw CoreException(String.Format("Given Id: '{0}' not found.", sId),
-//                                              "Only species and global parameter values can be set");
-//        }
-//
-
-// Help("Gets the Value of the given species or global parameter (not of local parameters)")
-double RoadRunner::getValue(const string& sId)
-{
-    if (!mModel)
-        throw CoreException(emptyModelStr);
-
-    int nIndex = 0;
-    if (mModelGenerator->globalParameterList.find(sId, nIndex))
-    {
-        return mModel->gp[nIndex];
-    }
-    if (mModelGenerator->boundarySpeciesList.find(sId, nIndex))
-    {
-        return mModel->bc[nIndex];
-    }
-
-    if (mModelGenerator->floatingSpeciesConcentrationList.find(sId, nIndex))
-    {
-        return mModel->y[nIndex];
-    }
-
-    if (mModelGenerator->floatingSpeciesConcentrationList.find(sId.substr(0, sId.size() - 1), nIndex))
-    {
-        mModel->computeAllRatesOfChange();
-
-        //fs[j] + "'" will be interpreted as rate of change
-        return mModel->dydt[nIndex];
-    }
-
-    if (mModelGenerator->compartmentList.find(sId, nIndex))
-    {
-        return mModel->c[nIndex];
-    }
-    if (mModelGenerator->reactionList.find(sId, nIndex))
-    {
-        return mModel->rates[nIndex];
-    }
-
-    if (mModelGenerator->conservationList.find(sId, nIndex))
-    {
-        return mModel->ct[nIndex];
-    }
-
-    StringList initialConditions = getFloatingSpeciesInitialConditionIds();
-    if (initialConditions.Contains(sId))
-    {
-        int index = initialConditions.IndexOf(sId);
-        return mModel->init_y[index];
-    }
-
-    string tmp("EE:");
-    if (sId.compare(0, tmp.size(), tmp) == 0)
-    {
-        string parameters = sId.substr(3);
-        string p1 = parameters.substr(0, parameters.find_first_of(","));
-        string p2 = parameters.substr(parameters.find_first_of(",") + 1);
-        return getEE(p1, p2, false);
-    }
-
-    tmp = ("uEE:");
-    if (sId.compare(0, tmp.size(), tmp) == 0)
-    {
-        string parameters = sId.substr(4);
-        string p1 = parameters.substr(0, parameters.find_first_of(","));
-        string p2 = parameters.substr(parameters.find_first_of(",") + 1);
-        return getuEE(p1, p2, false);
-    }
-
-    tmp = ("eigen_");
-    if (sId.compare(0, tmp.size(), tmp) == 0)
-    {
-		string species = sId.substr(tmp.size());
-		int index;
-		mModelGenerator->floatingSpeciesConcentrationList.find(species, index);
-
-		//DoubleMatrix mat = getReducedJacobian();
-		DoubleMatrix mat;
-		if (mComputeAndAssignConservationLaws)
-		{
-		   mat = getReducedJacobian();
-		}
-		else
-		{
-		   mat = getFullJacobian();
-		}
-
-        vector<Complex> oComplex = ls::getEigenValues(mat);
-
-        if(selectionList.size() == 0)
-        {
-        	throw("Tried to access record in empty selectionList in getValue function: eigen_");
-        }
-
-		if (oComplex.size() > selectionList[index + 1].index) //Becuase first one is time !?
-		{
-			return oComplex[selectionList[index + 1].index].Real;
-		}
-        return std::numeric_limits<double>::quiet_NaN();
-    }
-
-    throw CoreException("Given Id: '" + sId + "' not found.",
-                                      "Only species, global parameter values and fluxes can be returned");
-}
-
-//
-// Help("Gets the Value of the given species or global parameter (not of local parameters)")
-//        double RoadRunner::getValue(string sId)
-//        {
-//            if (!mModel)
-//                throw CoreException(emptyModelStr);
-//
-//            int nIndex = 0;
-//            if (mModelGenerator->globalParameterList.find(sId, out nIndex))
-//            {
-//                return model.gp[nIndex];
-//            }
-//            if (mModelGenerator->boundarySpeciesList.find(sId, out nIndex))
-//            {
-//                return model.bc[nIndex];
-//            }
-//            if (mModelGenerator->floatingSpeciesConcentrationList.find(sId, out nIndex))
-//            {
-//                return model.y[nIndex];
-//            }
-//
-//            if (mModelGenerator->floatingSpeciesConcentrationList.find(sId.Substring(0, sId.Length - 1),
-//                                                                              out nIndex))
-//            {
-//                //fs[j] + "'" will be interpreted as rate of change
-//                return model.dydt[nIndex];
-//            }
-//
-//            if (mModelGenerator->compartmentList.find(sId, out nIndex))
-//            {
-//                return model.c[nIndex];
-//            }
-//            if (mModelGenerator->reactionList.find(sId, out nIndex))
-//            {
-//                return model.rates[nIndex];
-//            }
-//
-//            if (mModelGenerator->conservationList.find(sId, out nIndex))
-//            {
-//                return model.ct[nIndex];
-//            }
-//
-//            var initialConditions =
-//                new List<string>((string[])getFloatingSpeciesInitialConditionIds().ToArray(typeof(string)));
-//            if (initialConditions.Contains(sId))
-//            {
-//                int index = initialConditions.IndexOf(sId);
-//                return model.init_y[index];
-//            }
-//
-//            if (sId.StartsWith("EE:"))
-//            {
-//                string parameters = sId.Substring(3);
-//                var p1 = parameters.Substring(0, parameters.IndexOf(","));
-//                var p2 = parameters.Substring(parameters.IndexOf(",") + 1);
-//                return getEE(p1, p2, false);
-//            }
-//
-//
-//            if (sId.StartsWith("uEE:"))
-//            {
-//                string parameters = sId.Substring(4);
-//                var p1 = parameters.Substring(0, parameters.IndexOf(","));
-//                var p2 = parameters.Substring(parameters.IndexOf(",") + 1);
-//                return getuEE(p1, p2, false);
-//            }
-//
-//            if (sId.StartsWith("eigen_"))
-//            {
-//                var species = (sId).Substring("eigen_".Length);
-//                int index;
-//                mModelGenerator->floatingSpeciesConcentrationList.find(species, out index);
-//                Complex[] oComplex = LA.GetEigenValues(getReducedJacobian());
-//                if (oComplex.Length > selectionList[index].index)
-//                {
-//                    return oComplex[selectionList[index].index].Real;
-//                }
-//                return Double.NaN;
-//            }
-//
-//            throw CoreException("Given Id: '" + sId + "' not found.",
-//                                              "Only species, global parameter values and fluxes can be returned");
-//        }
-
-// Help(
-//            "Returns symbols of the currently loaded model,
-//              that can be used for the selectionlist format array of arrays  { { \"groupname\", { \"item1\", \"item2\" ... } } }."
-//            )
-NewArrayList RoadRunner::getAvailableTimeCourseSymbols()
-{
-    NewArrayList oResult;
-
-    if (!mModel)
-    {
-        return oResult;
-    }
-
-    oResult.Add("Floating Species",                 getFloatingSpeciesIds() );
-    oResult.Add("Boundary Species",                 getBoundarySpeciesIds() );
-    oResult.Add("Floating Species (amount)",        getFloatingSpeciesAmountIds() );
-    oResult.Add("Boundary Species (amount)",        getBoundarySpeciesAmountIds() );
-    oResult.Add("Global Parameters",                getParameterIds() );
-    oResult.Add("Fluxes",                           getReactionIds() );
-	oResult.Add("Rates of Change",                  getRateOfChangeIds() );
-    oResult.Add("Volumes",                          mModelGenerator->getCompartmentList() );
-    oResult.Add("Elasticity Coefficients",          getElasticityCoefficientIds() );
-    oResult.Add("Unscaled Elasticity Coefficients", getUnscaledElasticityCoefficientIds() );
-    oResult.Add("Eigenvalues",                      getEigenvalueIds() );
-    return oResult;
-}
-
-//bool RoadRunner::isNleqAvailable()
-//{
-//    return NLEQInterface.IsAvailable;
-//}
-
-//        void RoadRunner::Test()
-//        {
-//
-//            double[,] results;
-//            RoadRunner sim;
-//            sim = new RoadRunner();
-//            //RoadRunner.reMultiplyCompartments(false);
-//            //RoadRunner.computeAndAssignConservationLaws(false);
-//            sim.setTolerances(1E-4, 1E-4, 100);
-//            //sim.loadSBMLFromFile(@"C:\Development\sbwBuild\source\Translators\TestModels\MathMLTests.xml");
-//            //sim.loadSBMLFromFile(@"C:\Development\trunk-sbml\trunk\test-suite\cases\semantic\00938\00938-sbml-l3v1.xml");
-//            //sim.loadSBMLFromFile(@"C:\Development\test-suite\cases\semantic\00978\00978-sbml-l3v1.xml");
-//            string test = "01104";
-//            sim.loadSBMLFromFile(string.Format(@"C:\Development\test-suite\cases\semantic\{0}\{0}-sbml-l3v1.xml", test));
-//
-//            //sim.loadSBMLFromFile(@"C:\Development\test-suite\cases\semantic\00951\00951-sbml-l3v1.xml");
-//            //sim.setTimeCourseSelectionList(new ArrayList(new string[] {
-//            //    "time", "x", "y", "p", "q"
-//            //    }));
-//            //results = sim.simulateEx(0, 2, 11);
-//            ////var writer = new StringWriter();
-//
-//            //sim.loadSBMLFromFile(@"C:\Users\fbergmann\Desktop\max.xml");
-//            sim.setTimeCourseSelectionList(new ArrayList(new string[] {
-//                "time", "Xref"
-//            }));
-//            results = sim.simulateEx(0, 10, 11);
-//
-//            DumpResults(Console.Out, results, sim.getTimeCourseSelectionList());
-//
-//
-//
-//            //double[,] results;
-//            //RoadRunner sim;
-//            //sim = new RoadRunner();
-//            ////sim.loadSBMLFromFile(@"C:\Development\sbwBuild\source\Translators\TestModels\MathMLTests.xml");
-//            ////sim.loadSBMLFromFile(@"C:\Development\trunk-sbml\trunk\test-suite\cases\semantic\00938\00938-sbml-l3v1.xml");
-//            //sim.loadSBMLFromFile(@"C:\Development\test-suite\cases\semantic\00952\00952-sbml-l3v1.xml");
-//            ////sim.loadSBMLFromFile(@"C:\Development\test-suite\cases\semantic\00951\00951-sbml-l3v1.xml");
-//            //sim.setTimeCourseSelectionList(new ArrayList(new string[] {
-//            //    "time", "S", "Q", "R", "reset"
-//            //    }));
-//            //results = sim.simulateEx(0, 1, 11);
-//            ////var writer = new StringWriter();
-//            //DumpResults(Console.Out, results, sim.getTimeCourseSelectionList());
-//
-//            //sim = new RoadRunner();
-//            //sim.setTolerances(1e-10, 1e-9);
-//            //sim.loadSBMLFromFile(@"C:\Development\test-suite\cases\semantic\00374\00374-sbml-l2v4.xml");
-//            //sim.setTimeCourseSelectionList(new ArrayList(new string[] {
-//            //    "time", "S1", "S2", "S3", "S4"
-//            //    }));
-//            //results = sim.simulateEx(0, 2, 51);
-//            //DumpResults(Console.Out, results,sim.getTimeCourseSelectionList());
-//
-//            //sim = new RoadRunner();
-//            //mComputeAndAssignConservationLaws = false;
-//            //sim.loadSBMLFromFile(@"C:\Development\test-suite\cases\semantic\00424\00424-sbml-l3v1.xml");
-//            //sim.setTimeCourseSelectionList(new ArrayList(new string[] {
-//            //    "time", "S1", "S2", "S3"
-//            //    }));
-//
-//            ////sim.correctMaxStep();
-//            //CvodeInterface.MaxStep = 0.0001;
-//            //sim.mCVode.reStart(0.0, sim.model);
-//
-//            ////sim.mCVode.
-//            //results = sim.simulateEx(0, 5, 51);
-//            //DumpResults(Console.Out, results, sim.getTimeCourseSelectionList());
-//
-//            //Debug.WriteLine(writer.GetStringBuilder().ToString());
-//            //Debug.WriteLine(sim.getWarnings());
-//            //Debug.WriteLine(sim.getCapabilities());
-//        }
-//#endif
-//
-//         void RoadRunner::emptyModel()
-//        {
-//            throw CoreException(emptyModelStr);
-//        }
-//
-//
-//
 //        [Help(
-//            "Compute the value for a particular flux control coefficient, permitted parameters include global parameters, boundary conditions and conservation totals"
+//            "Returns the elasticity of a given reaction to a given parameter. Parameters can be boundary species or global parameters"
 //            )]
-//        double getUnscaledFluxControlCoefficient(string reactionName, string parameterName)
+//        double getUnScaledElasticity(string reactionName, string parameterName)
 //        {
-//            int fluxIndex;
-//            int parameterIndex;
-//            TParameterType parameterType;
-//            double originalParameterValue;
-//            double f1;
-//            double f2;
+//            if (!mModel) throw CoreException(emptyModelStr);
+//            double f1, f2, fi, fi2, fd, fd2;
+//            double hstep;
 //
-//            try
+//            int reactionId = -1;
+//            if (!(mModelGenerator->reactionList.find(reactionName, out reactionId)))
+//                throw CoreException("Unrecognized reaction name in call to getUnScaledElasticity [" +
+//                                                  reactionName + "]");
+//
+//            int index = -1;
+//            // Find out what kind of parameter it is, species or global parmaeter
+//            if (mModelGenerator->boundarySpeciesList.find(parameterName, out index))
 //            {
-//                if (mModel)
+//                double originalParameterValue = mModel->bc[index];
+//                hstep = DiffStepSize*originalParameterValue;
+//                if (Math.Abs(hstep) < 1E-12)
+//                    hstep = DiffStepSize;
+//
+//                try
 //                {
 //                    mModel->convertToConcentrations();
+//                    mModel->bc[index] = originalParameterValue + hstep;
 //                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
+//                    fi = mModel->rates[reactionId];
 //
-//                    if (!mModelGenerator->reactionList.find(reactionName, out fluxIndex))
-//                        throw CoreException(
-//                            "Internal Error: unable to locate species name while computing unscaled control coefficient");
+//                    mModel->bc[index] = originalParameterValue + 2*hstep;
+//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
+//                    fi2 = mModel->rates[reactionId];
 //
-//                    if (mModelGenerator->globalParameterList.find(parameterName, out parameterIndex))
-//                    {
-//                        parameterType = TParameterType::ptGlobalParameter;
-//                        originalParameterValue = mModel->gp[parameterIndex];
-//                    }
-//                    else if (mModelGenerator->boundarySpeciesList.find(parameterName, out parameterIndex))
-//                    {
-//                        parameterType = TParameterType::ptBoundaryParameter;
-//                        originalParameterValue = mModel->bc[parameterIndex];
-//                    }
-//                    else if (mModelGenerator->conservationList.find(parameterName, out parameterIndex))
-//                    {
-//                        parameterType = TParameterType::ptConservationParameter;
-//                        originalParameterValue = mModel->ct[parameterIndex];
-//                    }
-//                    else throw CoreException("Unable to locate parameter: [" + parameterName + "]");
+//                    mModel->bc[index] = originalParameterValue - hstep;
+//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
+//                    fd = mModel->rates[reactionId];
 //
-//                    double hstep = DiffStepSize*originalParameterValue;
+//                    mModel->bc[index] = originalParameterValue - 2*hstep;
+//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
+//                    fd2 = mModel->rates[reactionId];
+//
+//                    // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
+//                    // The following separated lines avoid small amounts of roundoff error
+//                    f1 = fd2 + 8*fi;
+//                    f2 = -(8*fd + fi2);
+//                }
+//                finally
+//                {
+//                    mModel->bc[index] = originalParameterValue;
+//                }
+//            }
+//            else
+//            {
+//                if (mModelGenerator->globalParameterList.find(parameterName, out index))
+//                {
+//                    double originalParameterValue = mModel->gp[index];
+//                    hstep = DiffStepSize*originalParameterValue;
 //                    if (Math.Abs(hstep) < 1E-12)
 //                        hstep = DiffStepSize;
 //
 //                    try
 //                    {
-//                        setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
-//                        steadyState();
-//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
-//                        double fi = mModel->rates[fluxIndex];
+//                        mModel->convertToConcentrations();
 //
-//                        setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
-//                        steadyState();
+//                        mModel->gp[index] = originalParameterValue + hstep;
 //                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
-//                        double fi2 = mModel->rates[fluxIndex];
+//                        fi = mModel->rates[reactionId];
 //
-//                        setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
-//                        steadyState();
+//                        mModel->gp[index] = originalParameterValue + 2*hstep;
 //                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
-//                        double fd = mModel->rates[fluxIndex];
+//                        fi2 = mModel->rates[reactionId];
 //
-//                        setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
-//                        steadyState();
+//                        mModel->gp[index] = originalParameterValue - hstep;
 //                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
-//                        double fd2 = mModel->rates[fluxIndex];
+//                        fd = mModel->rates[reactionId];
+//
+//                        mModel->gp[index] = originalParameterValue - 2*hstep;
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
+//                        fd2 = mModel->rates[reactionId];
 //
 //                        // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
 //                        // The following separated lines avoid small amounts of roundoff error
@@ -5193,130 +4821,198 @@ NewArrayList RoadRunner::getAvailableTimeCourseSymbols()
 //                    }
 //                    finally
 //                    {
-//                        // What ever happens, make sure we restore the species level
-//                        setParameterValue(parameterType, parameterIndex, originalParameterValue);
-//                        steadyState();
+//                        mModel->gp[index] = originalParameterValue;
 //                    }
-//                    return 1/(12*hstep)*(f1 + f2);
 //                }
-//                else throw CoreException(emptyModelStr);
-//            }
-//            catch (CoreException)
-//            {
-//                throw;
-//            }
-//            catch (const Exception& e)
-//            {
-//                throw CoreException("Unexpected error from getScaledFluxControlCoefficientMatrix()",
-//                                                  e.Message());
-//            }
-//        }
-//
-//
-//        [Help("Compute the value for a particular scaled flux control coefficients with respect to a local parameter")]
-//        double getScaledFluxControlCoefficient(string reactionName, string localReactionName,
-//                                                      string parameterName)
-//        {
-//            int parameterIndex;
-//            int reactionIndex;
-//
-//            try
-//            {
-//                if (mModel)
+//                else if (mModelGenerator->conservationList.find(parameterName, out index))
 //                {
-//                    double ufcc = getUnscaledFluxControlCoefficient(reactionName, localReactionName, parameterName);
+//                    double originalParameterValue = mModel->gp[index];
+//                    hstep = DiffStepSize*originalParameterValue;
+//                    if (Math.Abs(hstep) < 1E-12)
+//                        hstep = DiffStepSize;
 //
-//                    mModel->convertToConcentrations();
-//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
+//                    try
+//                    {
+//                        mModel->convertToConcentrations();
 //
-//                    mModelGenerator->reactionList.find(reactionName, out reactionIndex);
-//                    if (mModelGenerator->globalParameterList.find(parameterName, out parameterIndex))
-//                        return ufcc*mModel->gp[parameterIndex]/mModel->rates[reactionIndex];
-//                    else if (mModelGenerator->boundarySpeciesList.find(parameterName, out parameterIndex))
-//                        return ufcc*mModel->bc[parameterIndex]/mModel->rates[reactionIndex];
-//                    else if (mModelGenerator->conservationList.find(parameterName, out parameterIndex))
-//                        return ufcc*mModel->ct[parameterIndex]/mModel->rates[reactionIndex];
-//                    return 0.0;
+//                        mModel->ct[index] = originalParameterValue + hstep;
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
+//                        fi = mModel->rates[reactionId];
+//
+//                        mModel->ct[index] = originalParameterValue + 2*hstep;
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
+//                        fi2 = mModel->rates[reactionId];
+//
+//                        mModel->ct[index] = originalParameterValue - hstep;
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
+//                        fd = mModel->rates[reactionId];
+//
+//                        mModel->ct[index] = originalParameterValue - 2*hstep;
+//                        mModel->computeReactionRates(mModel->getTime(), mModel->y);
+//                        fd2 = mModel->rates[reactionId];
+//
+//                        // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
+//                        // The following separated lines avoid small amounts of roundoff error
+//                        f1 = fd2 + 8*fi;
+//                        f2 = -(8*fd + fi2);
+//                    }
+//                    finally
+//                    {
+//                        mModel->ct[index] = originalParameterValue;
+//                    }
 //                }
-//                else throw CoreException(emptyModelStr);
+//                else
+//                    throw CoreException("Unrecognized parameter name in call to getUnScaledElasticity [" +
+//                                                      parameterName + "]");
 //            }
-//            catch (CoreException)
-//            {
-//                throw;
-//            }
-//            catch (const Exception& e)
-//            {
-//                throw CoreException("Unexpected error from getScaledFluxControlCoefficientMatrix()",
-//                                                  e.Message());
-//            }
+//            return 1/(12*hstep)*(f1 + f2);
 //        }
-//
-//
-//        [Help(
-//            "Compute the value for a particular scaled flux control coefficients with respect to a global or boundary species parameter"
-//            )]
-//        double getScaledFluxControlCoefficient(string reactionName, string parameterName)
+
+// Help("Returns the value of a compartment by its index")
+//        void setCompartmentVolumes(double[] values)
 //        {
-//            int parameterIndex;
-//            int reactionIndex;
-//
-//            try
-//            {
-//                if (mModel)
-//                {
-//                    double ufcc = getUnscaledFluxControlCoefficient(reactionName, parameterName);
-//
-//                    mModel->convertToConcentrations();
-//                    mModel->computeReactionRates(mModel->getTime(), mModel->y);
-//
-//                    mModelGenerator->reactionList.find(reactionName, out reactionIndex);
-//                    if (mModelGenerator->globalParameterList.find(parameterName, out parameterIndex))
-//                        return ufcc*mModel->gp[parameterIndex]/mModel->rates[reactionIndex];
-//                    else if (mModelGenerator->boundarySpeciesList.find(parameterName, out parameterIndex))
-//                        return ufcc*mModel->bc[parameterIndex]/mModel->rates[reactionIndex];
-//                    else if (mModelGenerator->conservationList.find(parameterName, out parameterIndex))
-//                        return ufcc*mModel->ct[parameterIndex]/mModel->rates[reactionIndex];
-//                    return 0.0;
-//                }
-//                else throw CoreException(emptyModelStr);
-//            }
-//            catch (CoreException)
-//            {
-//                throw;
-//            }
-//            catch (const Exception& e)
-//            {
-//                throw CoreException("Unexpected error from getScaledFluxControlCoefficientMatrix()",
-//                                                  e.Message());
-//            }
+//            if (!mModel)
+//                throw CoreException(emptyModelStr);
+//            if (values.Length < mModel->getNumCompartments)
+//                mModel->c = values;
+//            else
+//                throw (new CoreException(String.Format("Size of vector out not in range in setCompartmentValues: [{0}]", values.Length)));
 //        }
-//    }
-//}
+//
 
-string RoadRunner::getVersion()
-{
-	return RR_VERSION;
-}
+// Help("Sets the value of a global parameter by its index")
+//        void RoadRunner::setLocalParameterByIndex(int reactionId, int index, double value)
+//        {
+//            if (!mModel) throw CoreException(emptyModelStr);
+//
+//            if ((reactionId >= 0) && (reactionId < mModel->getNumReactions) &&
+//                (index >= 0) && (index < mModel->getNumLocalParameters(reactionId)))
+//                mModel->lp[reactionId][index] = value;
+//            else
+//                throw CoreException(string.Format("Index in setLocalParameterByIndex out of range: [{0}]", index));
+//        }
+//
 
-string RoadRunner::getCopyright()
-{
-    return "(c) 2009-2012 HM. Sauro and FT. Bergmann, BSD Licence";
-}
 
-string RoadRunner::getURL()
-{
-    return "http://www.sys-bio.org";
-}
+// Help("Returns the values selected with setTimeCourseSelectionList() for the current model time / timestep")
+//        double[] RoadRunner::getSelectedValues()
+//        {
+//            if (!mModel) throw CoreException(emptyModelStr);
+//
+//            var result = new double[selectionList.Length];
+//
+//            for (int j = 0; j < selectionList.Length; j++)
+//            {
+//                result[j] = getNthSelectedOutput(j, mModel->GetTime());
+//            }
+//            return result;
+//        }
+//
 
-string RoadRunner::getlibSBMLVersion()
-{
-	return mNOM.getlibSBMLVersion();
-}
+// Help("When turned on, this method will cause rates, event assignments, rules and such to be multiplied " +
+//              "with the compartment volume, if species are defined as initialAmounts. By default this behavior is off.")
+//
+//        void RoadRunner::reMultiplyCompartments(bool bValue)
+//        {
+//            _ReMultiplyCompartments = bValue;
+//        }
+//
+// Help("Performs a steady state parameter scan with the given parameters returning all elments from the selectionList: (Format: symnbol, startValue, endValue, stepSize)")
+//        double[][] RoadRunner::steadyStateParameterScan(string symbol, double startValue, double endValue, double stepSize)
+//        {
+//            var results = new List<double[]>();
+//
+//            double initialValue = getValue(symbol);
+//            double current = startValue;
+//
+//            while (current < endValue)
+//            {
+//                setValue(symbol, current);
+//                try
+//                {
+//                    steadyState();
+//                }
+//                catch (Exception)
+//                {
+//                    //
+//                }
+//
+//                var currentRow = new List<double> {current};
+//                currentRow.AddRange(getSelectedValues());
+//
+//                results.Add(currentRow.ToArray());
+//                current += stepSize;
+//            }
+//            setValue(symbol, initialValue);
+//
+//            return results.ToArray();
+//        }
+//
+//
 
-}//namespace rr
+// Help("Set the values for all global parameters in the model")
+//        void RoadRunner::setLocalParameterValues(int reactionId, double[] values)
+//        {
+//            if (!mModel) throw CoreException(emptyModelStr);
+//
+//
+//            if ((reactionId >= 0) && (reactionId < mModel->getNumReactions))
+//                mModel->lp[reactionId] = values;
+//            else
+//                throw CoreException(String.Format("Index in setLocalParameterValues out of range: [{0}]", reactionId));
+//        }
+//
+// Help("Get the values for all global parameters in the model")
+//        double[] RoadRunner::getLocalParameterValues(int reactionId)
+//        {
+//            if (!mModel)
+//                throw CoreException(emptyModelStr);
+//
+//            if ((reactionId >= 0) && (reactionId < mModel->getNumReactions))
+//                return mModel->lp[reactionId];
+//            throw CoreException(String.Format("Index in getLocalParameterValues out of range: [{0}]", reactionId));
+//        }
+//
+// Help("Gets the list of parameter names")
+//        ArrayList RoadRunner::getLocalParameterNames(int reactionId)
+//        {
+//            if (!mModel)
+//                throw CoreException(emptyModelStr);
+//
+//            if ((reactionId >= 0) && (reactionId < mModel->getNumReactions))
+//                return mModelGenerator->getLocalParameterList(reactionId);
+//            throw (new CoreException("reaction Id out of range in call to getLocalParameterNames"));
+//        }
+//
+// Help("Returns a list of global parameter tuples: { {parameter Name, value},...")
+//        ArrayList RoadRunner::getAllLocalParameterTupleList()
+//        {
+//            if (!mModel)
+//                throw CoreException(emptyModelStr);
+//
+//            var tupleList = new ArrayList();
+//            for (int i = 0; i < mModelGenerator->getNumberOfReactions(); i++)
+//            {
+//                var tuple = new ArrayList();
+//                ArrayList lpList = mModelGenerator->getLocalParameterList(i);
+//                tuple.Add(i);
+//                for (int j = 0; j < lpList.Count; j++)
+//                {
+//                    tuple.Add(lpList[j]);
+//                    tuple.Add(mModel->lp[i][j]);
+//                }
+//                tupleList.Add(tuple);
+//            }
+//            return tupleList;
+//        }
+//
+
+
+}//namespace
 
 //We only need to give the linker the folder where libs are
-//using the pragma comment. Works for MSVC and codegear
+//using the pragma comment. Automatic lining works for MSVC and codegear
+
 #if defined(CG_IDE)
 #pragma comment(lib, "sundials_cvode.lib")
 #pragma comment(lib, "sundials_nvecserial.lib")
