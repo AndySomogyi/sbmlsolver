@@ -169,9 +169,6 @@
             <DependentOn>..\..\source\rrCvodeInterface.h</DependentOn>
             <BuildOrder>14</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\rrCVODE_DLL.cpp">
-            <BuildOrder>61</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\source\rrData.cpp">
             <DependentOn>..\..\source\rrData.h</DependentOn>
             <BuildOrder>69</BuildOrder>

@@ -87,7 +87,7 @@ RoadRunner::~RoadRunner()
     	mModelLib.unload();
     }
     delete mLS;
-	mInstanceID --;
+	mInstanceCount --;
 }
 
 ModelFromC*	RoadRunner::getModel()

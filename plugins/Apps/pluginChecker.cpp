@@ -12,7 +12,7 @@ int main()
 	try
     {
     //Create a RoadRunner object
-	RoadRunner rr("r:\\installs\\cg\\xe3\\debug\\support_code");
+	RoadRunner rr("r:\\installs\\cg\\xe3\\debug\\rr_support");
 
     //Get the plugin manager
     PluginManager& plugins = rr.getPluginManager();
@@ -36,6 +36,7 @@ int main()
 
     plugins.unload();
     Pause(true);
+    rr.~RoadRunner();
     }
     catch(const rr::Exception& ex)
     {
