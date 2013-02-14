@@ -172,6 +172,7 @@
 #if defined(__cplusplus)
 extern "C"
 {
+
 #endif
 
 #include "rr_c_api_exporter.h"
@@ -179,8 +180,8 @@ extern "C"
 
 extern char* gInstallFolder; //On linux, we may have to set this one manually in any application using the API
 
-C_DECL_SPEC char* rrCallConv getInstallFolder();
-C_DECL_SPEC bool rrCallConv  setInstallFolder(const char* folder);
+C_DECL_SPEC char* rrCallConv  getInstallFolder();
+C_DECL_SPEC bool  rrCallConv  setInstallFolder(const char* folder);
 
 /*!
  \brief Retrieve the current version number of the library

@@ -21,7 +21,7 @@ class RR_DECLSPEC PluginLogger
         std::ostringstream&         Get();
 };
 
-#define Log() \
+#define pLog() \
     PluginLogger(&mLog).Get()
 
 class RoadRunner;

@@ -3,7 +3,9 @@
 
 namespace rr
 {
-RoadRunnerThread::RoadRunnerThread(RoadRunner* rr) : mRR(rr)
+RoadRunnerThread::RoadRunnerThread(RoadRunner* rr) :
+mRR(rr),
+mIsDone(false)
 {}
 
 
@@ -25,6 +27,11 @@ void RoadRunnerThread::run()	//This is called from runnable::start(this)
 void RoadRunnerThread::join()
 {
 	mThread.join();
+}
+
+void RoadRunnerThread::setRRInstance(RoadRunner* rr)
+{
+	mRR = rr;
 }
 
 RoadRunner* RoadRunnerThread::getRRInstance()

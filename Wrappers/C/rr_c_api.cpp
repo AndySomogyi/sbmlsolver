@@ -39,11 +39,7 @@
  * redistribute any piece of this software without proper attribution;
 */
 
-#ifdef USE_PCH
-#include "rr_pch.h"
-#endif
 #pragma hdrstop
-
 //---------------------------------------------------------------------------
 #if defined(WIN32)
 #include <windows.h>
@@ -59,11 +55,13 @@
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrStringUtils.h"
-
+#include "rrCapability.h"
+#include "rrPluginManager.h"
+#include "rrPlugin.h"
 #if defined(_MSC_VER)
 	#include <direct.h>
 	#define getcwd _getcwd
-	#define chdir  _chrdir
+	#define chdir  _chdir
 #elif defined(__BORLANDC__)
   	#include <dir.h>
 #else
@@ -73,7 +71,8 @@
 //---------------------------------------------------------------------------
 using namespace std;
 using namespace rr;
-rr::RoadRunner*     gRRHandle       = NULL;
+
+RoadRunner*     gRRHandle       = NULL;
 
 namespace rr_c_api
 {
@@ -3638,6 +3637,277 @@ char* rrCallConv listToString (RRListHandle list)
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
         return NULL;
+    }
+}
+
+
+//PLUGIN Functions
+bool rrCallConv loadPlugins()
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+        }
+
+    	return gRRHandle->getPluginManager().load();
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return false;
+    }
+}
+
+bool rrCallConv unLoadPlugins()
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+        }
+
+    	return gRRHandle->getPluginManager().unload();
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return false;
+    }
+}
+
+int rrCallConv getNumberOfPlugins()
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+        }
+
+    	return gRRHandle->getPluginManager().getNumberOfPlugins();
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return -1;
+    }
+}
+
+RRStringArray* rrCallConv getPluginNames()
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+        }
+
+        StringList names = gRRHandle->getPluginManager().getPluginNames();
+        return createList(names);
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return NULL;
+    }
+}
+
+RRStringArray* rrCallConv getPluginCapabilities(const char* pluginName)
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+        }
+
+        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(pluginName);
+        if(aPlugin)
+        {
+        	StringList aList;
+            vector<Capability>* caps = aPlugin->getCapabilities();
+            if(!caps)
+            {
+            	return NULL;
+            }
+
+            for(int i = 0; i < caps->size(); i++)
+            {
+            	aList.Add((*caps)[i].getName());
+            }
+        	return createList(aList);
+        }
+        else
+        {
+	        return NULL;
+        }
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return NULL;
+    }
+}
+
+RRStringArray* rrCallConv getPluginParameters(const char* pluginName, const char* capability)
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+        }
+
+        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(pluginName);
+        if(aPlugin)
+        {
+        	StringList aList;
+            Parameters* paras = aPlugin->getParameters(capability);
+            if(!paras)
+            {
+            	return NULL;
+            }
+
+            for(int i = 0; i < paras->size(); i++)
+            {
+            	aList.Add((*paras)[i]->getName());
+            }
+        	return createList(aList);
+        }
+        else
+        {
+	        return NULL;
+        }
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return NULL;
+    }
+}
+
+RRParameter* rrCallConv getPluginParameter(const char* pluginName, const char* parameterName)
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+        }
+
+        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(pluginName);
+        if(aPlugin)
+        {
+
+            rr::BaseParameter *para = aPlugin->getParameter(parameterName);
+        	return createParameter( *(para) );
+        }
+        return NULL;
+
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return NULL;
+    }
+}
+
+bool rrCallConv setPluginParameter(const char* pluginName, const char* parameterName, const char* value)
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+        }
+
+        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(pluginName);
+        if(aPlugin)
+        {
+            return aPlugin->setParameter(parameterName, value);
+        }
+		return false;
+
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return NULL;
+    }
+}
+
+char* rrCallConv getPluginInfo(const char* name)
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+        }
+
+        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(name);
+        if(aPlugin)
+        {
+        	return createText(aPlugin->getInfo());
+        }
+        else
+        {
+	        return createText("No such plugin: " + string(name));
+        }
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return NULL;
+    }
+}
+
+bool rrCallConv executePlugin(const char* name)
+{
+	try
+    {
+        if(!gRRHandle)
+        {
+            setError(ALLOCATE_API_ERROR_MSG);
+        }
+
+        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(name);
+        if(aPlugin)
+        {
+        	return aPlugin->execute();
+        }
+        else
+        {
+			return false;
+        }
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return NULL;
     }
 }
 

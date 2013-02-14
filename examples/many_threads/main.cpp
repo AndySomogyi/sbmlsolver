@@ -13,9 +13,12 @@ class LoadSBML : public RoadRunnerThread
 		string			mModelFileName;
 
 	public:
-    					LoadSBML(RoadRunner* rr, const string& modelFile) :
+    					LoadSBML(RoadRunner* rr, const string& modelFile)
+                        :
                         RoadRunnerThread(rr),
                         mModelFileName(modelFile){}
+
+
 
     	                void worker()
     	                {
@@ -39,6 +42,7 @@ class Simulate : public RoadRunnerThread
 
     	                void worker()
     	                {
+                            mIsDone = false;
                             if(mRR)
                             {
                             	if(!mRR->simulate2())
@@ -50,6 +54,7 @@ class Simulate : public RoadRunnerThread
                             {
                             	Log(lError)<<"RoadRunner Handle is NULL";
                             }
+                            mIsDone = true;
     	                }
 };
 
@@ -63,15 +68,12 @@ int main(int argc, char** argv)
 
 	//Create many roadrunners
     const int nrOfRRInstances = 120;
-	vector<RoadRunner*> rrs;
+	vector<RoadRunner*> rrInstance;
 
     for(int i = 0; i < nrOfRRInstances; i++)
     {
-    	rrs.push_back(new RoadRunner);
-        rrs[i]->setTempFileFolder("r:\\rrThreads");
-
-        //Give the instance a "name"
-//        rrs[i]->setInstanceName("rrInstance" + ToString(i));
+    	rrInstance.push_back(new RoadRunner);
+        rrInstance[i]->setTempFileFolder("r:\\rrThreads");
     }
 
 	LogOutput::mLogToConsole = true;
@@ -80,65 +82,67 @@ int main(int argc, char** argv)
     vector<LoadSBML*> loadSBML;
    	vector<Simulate*> simulate;
 
-	//Load the same model into different instances
-    for(int i = 0; i < nrOfRRInstances; i++)
+	//Create threads to load and simulate models
+    int threadCount = 16;
+    for(int i = 0; i < threadCount; i++)
     {
-    	loadSBML.push_back(new LoadSBML(rrs[i], "..\\models\\test_1.xml"));
-        loadSBML[i]->setThreadName(ToString(i));
-        simulate.push_back(new Simulate(rrs[i]));
+    	loadSBML.push_back(new LoadSBML(NULL, "..\\models\\test_1.xml"));
+        simulate.push_back(new Simulate(NULL));
     }
 
-    int threadCount = 5;
-    for(int i = 0; i < nrOfRRInstances; i+=threadCount)
+    //Run threadCount threads
+    int instance = 0;
+    do
     {
-     	for(int j = 0; j < threadCount; j++)
+        for(int j = 0; j < threadCount; j++)
         {
-        	if((j + i) < nrOfRRInstances)
+            if(instance < nrOfRRInstances)
             {
-        		loadSBML[i+j]->start();
+                loadSBML[j]->setRRInstance(rrInstance[instance]);
+				instance++;
+                loadSBML[j]->start();
             }
         }
 
-     	for(int j = 0; j < threadCount; j++)
+        //Wait for the threads..
+        for(int j = 0; j < threadCount; j++)
         {
-        	if((j + i) < nrOfRRInstances)
-            {
-        		loadSBML[i+j]->join();
-            }
+            loadSBML[j]->join();
         }
-    }
+
+    }while(instance < nrOfRRInstances);
+
 
     //Simulate
-    for(int i = 0; i < nrOfRRInstances; i+=threadCount)
+    instance = 0;
+    do
     {
      	for(int j = 0; j < threadCount; j++)
         {
-        	if((j + i) < nrOfRRInstances)
+        	if(instance  < nrOfRRInstances)
             {
-            	double val = simulate[i+j]->getRRInstance()->getValue("k1");
-	            simulate[i+j]->getRRInstance()->setValue("k1", val/( j + i + 1));
-                val = simulate[i+j]->getRRInstance()->getValue("k1");
-                simulate[i+j]->getRRInstance()->setNumPoints(500);
-                simulate[i+j]->getRRInstance()->setTimeEnd(150);
-                simulate[i+j]->getRRInstance()->setTimeCourseSelectionList("S1");
-        		simulate[i+j]->start();
+	            simulate[j]->setRRInstance(rrInstance[instance]);
+                instance++;
+            	double val = simulate[j]->getRRInstance()->getValue("k1");
+	            simulate[j]->getRRInstance()->setValue("k1", val/( j + instance + 1));
+                simulate[j]->getRRInstance()->setNumPoints(500);
+                simulate[j]->getRRInstance()->setTimeEnd(150);
+                simulate[j]->getRRInstance()->setTimeCourseSelectionList("S1");
+        		simulate[j]->start();
             }
         }
 
      	for(int j = 0; j < threadCount; j++)
         {
-        	if((j + i) < nrOfRRInstances)
-            {
-        		simulate[i+j]->join();
-            }
+        	simulate[j]->join();
         }
-    }
+    }while(instance < nrOfRRInstances);
 
     //Write data to a file
     SimulationData allData;
     for(int i = nrOfRRInstances -1 ; i >-1 ; i--)
     {
-		RoadRunner* rr = rrs[i];
+		RoadRunner* rr = rrInstance[i];
         SimulationData data = rr->getSimulationResult();
         allData.append(data);
     }

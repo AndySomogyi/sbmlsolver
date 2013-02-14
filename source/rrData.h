@@ -19,10 +19,10 @@ class RR_DECLSPEC Data : public rrObject
 
 
     public:
-	    					Data(const std::string& fName = EmptyString);
+	    					Data(const std::string& fName = gEmptyString);
         				   ~Data();
-		virtual 			Load(const std::string& fName = EmptyString);
-		virtual 			Save(const std::string& fName = EmptyString);
+		virtual 			Load(const std::string& fName = gEmptyString);
+		virtual 			Save(const std::string& fName = gEmptyString);
 
 };
 }

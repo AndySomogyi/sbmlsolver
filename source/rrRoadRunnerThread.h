@@ -15,9 +15,11 @@ class RR_DECLSPEC RoadRunnerThread : public Poco::Runnable, public rrObject
 	    Poco::Thread 		mThread;
     	RoadRunner*			mRR;
         string				mThreadName;
+        bool				mIsDone;
 
     public:
 	    					RoadRunnerThread(RoadRunner* rr);
+		void				setRRInstance(RoadRunner* rr);
 		void				setThreadName(const string& name);
 		void				start();
     	virtual void        run();
