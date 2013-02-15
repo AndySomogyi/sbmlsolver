@@ -1,11 +1,11 @@
 /**
- * @file rr_c_api.cpp
- * @brief roadRunner C API 2012
+ * @file rr_cm.cpp
+ * @brief roadRunner C(M) API 2013
  * @author Totte Karlsson & Herbert M Sauro
  *
  * <--------------------------------------------------------------
  * This file is part of cRoadRunner.
- * See http://code.google.com/p/roadrunnerwork/ for more details.
+ * See http://code.google.com/p/roadrunnerlib for more details.
  *
  * Copyright (C) 2012
  *   University of Washington, Seattle, WA, USA
@@ -41,17 +41,15 @@
 
 #pragma hdrstop
 //---------------------------------------------------------------------------
-#if defined(WIN32)
-#include <windows.h>
-#endif
+//#if defined(WIN32)
+//#include <windows.h>
+//#endif
 
 #include <sstream>
 #include "rrParameter.h"
 #include "rrRoadRunner.h"
 #include "rrCGenerator.h"
 #include "rrLogger.h"           //Might be useful for debugging later on
-#include "rr_c_api.h"
-#include "rr_c_api_support.h"   //Support functions, not exposed as api functions and or data
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrStringUtils.h"
@@ -68,6 +66,8 @@
 #include <unistd.h>
 #endif
 
+#include "rr_cm.h"
+#include "rr_cm_support.h"   //Support functions, not exposed as api functions and or data
 //---------------------------------------------------------------------------
 using namespace std;
 using namespace rr;

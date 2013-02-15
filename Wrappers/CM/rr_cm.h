@@ -175,8 +175,8 @@ extern "C"
 
 #endif
 
-#include "rr_c_api_exporter.h"
-#include "rr_c_types.h"
+#include "rr_cm_exporter.h"
+#include "rr_cm_types.h"
 
 extern char* gInstallFolder; //On linux, we may have to set this one manually in any application using the API
 

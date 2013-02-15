@@ -5,9 +5,9 @@
  *
  * <--------------------------------------------------------------
  * This file is part of cRoadRunner.
- * See http://code.google.com/p/roadrunnerwork/ for more details.
+ * See http://code.google.com/p/roadrunnerlib for more details.
  *
- * Copyright (C) 2012
+ * Copyright (C) 2012-2013
  *   University of Washington, Seattle, WA, USA
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

@@ -8,13 +8,13 @@
 #include "rrNewArrayList.h"
 #include "rrParameter.h"
 #include "rrUtils.h"
-#include "rr_c_types.h"
+#include "rr_cm_types.h"
 //---------------------------------------------------------------------------
 
 using std::vector;
 using std::string;
 
-namespace rr_c_api
+namespace rr_cm
 {
 //Error/Warning Messages
 extern const char* 	ALLOCATE_API_ERROR_MSG;

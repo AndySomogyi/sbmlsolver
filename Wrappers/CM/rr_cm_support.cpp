@@ -6,14 +6,14 @@
 #include <sstream>
 #include "rrParameter.h"
 #include "rrException.h"
-#include "rr_c_api.h"
-#include "rr_c_api_support.h"
 #include "rrUtils.h"
 #include "rrArrayListItem.h"
+#include "rr_cm.h"
+#include "rr_cm_support.h"
 
 using namespace std;
 using namespace rr;
-namespace rr_c_api
+namespace rr_cm
 {
 extern char* gLastError;
 const char* ALLOCATE_API_ERROR_MSG = "Please allocate a handle to the roadrunner API before calling any API function";
