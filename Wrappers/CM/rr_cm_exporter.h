@@ -1,4 +1,4 @@
-/** @file rr_c_api_exporter.h */
+/** @file rr_cm.h */
 #ifndef rr_cm_exporterH
 #define rr_cm_exporterH
 

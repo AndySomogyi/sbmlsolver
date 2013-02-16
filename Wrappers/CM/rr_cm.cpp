@@ -44,9 +44,10 @@
 #include <sstream>
 //#include "rrParameter.h"
 //#include "rrRoadRunner.h"
-//#include "rrCGenerator.h"
-//#include "rrLogger.h"           //Might be useful for debugging later on
+
+#include "rrLogger.h"           //Might be useful for debugging later on
 #include "rrException.h"
+#include "rrCGenerator.h"
 //#include "rrUtils.h"
 //#include "rrStringUtils.h"
 //#include "rrCapability.h"
@@ -58,28 +59,28 @@
 //	#define getcwd _getcwd
 //	#define chdir  _chdir
 //#elif defined(__BORLANDC__)
-//  	#include <dir.h>
+  	#include <dir.h>			//getcwd
 //#else
 //#include <unistd.h>
 //#endif
 //
 #include "rr_cm.h"
-//#include "rr_cm_support.h"   //Support functions, not exposed as api functions and or data
+#include "rr_cm_support.h"   //Support functions, not exposed as api functions and or data
 ////---------------------------------------------------------------------------
 using namespace std;
 using namespace rr;
-//using namespace rr_cm;
-//
+using namespace rr_cm;
+
+#pragma option -dw-
+
+//RoadRunner* gRRHandle = NULL;
 RRHandle rrCallConv getRRHandle()
 {
 	try
     {
-//    	string rrInstallFolder(getParentFolder(getRRCAPILocation()));
-
-//        string compiler = getCompilerName();
-
-//        RRHandle rrHandle = new RoadRunner(JoinPath(rrInstallFolder, "rr_support"), compiler, GetUsersTempDataFolder());
-		RRHandle rrHandle = NULL;
+    	string rrInstallFolder(getParentFolder(getRRCAPILocation()));
+        string compiler = getCompilerName();
+        RRHandle rrHandle = new RoadRunner(JoinPath(rrInstallFolder, "rr_support"), compiler, GetUsersTempDataFolder());
     	return rrHandle;
     }
 	catch(Exception& ex)
@@ -101,22 +102,22 @@ RRHandle rrCallConv getRRHandle()
 //	return gInstallFolder;
 //}
 //
-//char* rrCallConv getCompilerName()
-//{
-//	string compiler;
-//    string rrInstallFolder(getParentFolder(getRRCAPILocation()));
-//
-//        //Get location of shared lib and use that as 'install' folder
-//	#if defined(_WIN32) || defined(WIN32)
-//        compiler = (JoinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"));
-//	#elif defined(__linux)
-//        compiler = "gcc";
-//	#else
-//        compiler = "gcc";
-//    #endif
-//
-//	return createText(compiler);
-//}
+char* rrCallConv getCompilerName()
+{
+	string compiler;
+    string rrInstallFolder(getParentFolder(getRRCAPILocation()));
+
+        //Get location of shared lib and use that as 'install' folder
+	#if defined(_WIN32) || defined(WIN32)
+        compiler = (JoinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"));
+	#elif defined(__linux)
+        compiler = "gcc";
+	#else
+        compiler = "gcc";
+    #endif
+
+	return createText(compiler);
+}
 //
 //bool rrCallConv  setInstallFolder(const char* folder)
 //{
@@ -133,94 +134,94 @@ RRHandle rrCallConv getRRHandle()
 //  		return false;
 //    }
 //}
-//
-////bool rrCallConv enableLogging()
-////{
-////	try
-////    {
-////	    LogOutput::mLogToConsole = true;
-////        char* tempFolder = getTempFolder();
-////		string logFile = JoinPath(tempFolder, "RoadRunner.log") ;
-////        freeText(tempFolder);
-////		Log(lInfo)<<"Creating log file "<<logFile;
-////        gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));
-////
-////        char* buffer;
-////        // Get the current working directory:
-////        if( (buffer = getcwd(NULL, 0)) == NULL )
-////        {
-////            perror( "getcwd error" );
-////        }
-////        else
-////        {
-////            Log(lInfo)<<"Current working folder is :"<<buffer;
-////            free(buffer);
-////        }
-////
-////    	return true;
-////    }
-////    catch(const Exception& ex)
-////    {
-////    	stringstream msg;
-////    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-////        setError(msg.str());
-////  	    return false;
-////    }
-////}
-//
-//bool rrCallConv setLogLevel(const char* _lvl)
-//{
-//	try
-//    {
-//        LogLevel lvl = GetLogLevel(_lvl);
-//		gLog.SetCutOffLogLevel(lvl);
-//    	return true;
-//    }
-//    catch(Exception& ex)
-//    {
-//    	stringstream msg;
-//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-//        setError(msg.str());
-//  	    return false;
-//    }
-//}
-//
-//char* rrCallConv getLogLevel()
-//{
-//	try
-//    {
-//        string level = gLog.GetCurrentLogLevel();
-//        char* lvl = createText(level.c_str());
-//    	return lvl;
-//    }
-//    catch(Exception& ex)
-//    {
-//    	stringstream msg;
-//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-//        setError(msg.str());
-//  	    return NULL;
-//    }
-//}
-//
-//char* rrCallConv getLogFileName()
-//{
-//	try
-//    {
-//    	return createText(gLog.GetLogFileName().c_str());
-//    }
-//    catch(Exception& ex)
-//    {
-//    	stringstream msg;
-//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-//        setError(msg.str());
-//  	    return NULL;
-//    }
-//}
-//
-//char* rrCallConv getBuildDate()
-//{
-//    return createText(__DATE__);
-//}
+
+bool rrCallConv enableLoggingH(RRHandle handle)
+{
+	try
+    {
+	    LogOutput::mLogToConsole = true;
+        char* tempFolder = getTempFolderH(handle);
+		string logFile = JoinPath(tempFolder, "RoadRunner.log") ;
+        freeText(tempFolder);
+		Log(lInfo)<<"Creating log file "<<logFile;
+        gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));
+
+        char* buffer;
+        // Get the current working directory:
+        if( (buffer = getcwd(NULL, 2048)) == NULL )
+        {
+            perror( "getcwd error" );
+        }
+        else
+        {
+            Log(lInfo)<<"Current working folder is: "<<buffer;
+            free(buffer);
+        }
+
+    	return true;
+    }
+    catch(const Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return false;
+    }
+}
+
+bool rrCallConv setLogLevel(const char* _lvl)
+{
+	try
+    {
+        LogLevel lvl = GetLogLevel(_lvl);
+		gLog.SetCutOffLogLevel(lvl);
+    	return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return false;
+    }
+}
+
+char* rrCallConv getLogLevel()
+{
+	try
+    {
+        string level = gLog.GetCurrentLogLevel();
+        char* lvl = createText(level.c_str());
+    	return lvl;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return NULL;
+    }
+}
+
+char* rrCallConv getLogFileName()
+{
+	try
+    {
+    	return createText(gLog.GetLogFileName().c_str());
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return NULL;
+    }
+}
+
+char* rrCallConv getBuildDate()
+{
+    return rr_cm::createText(__DATE__);
+}
 //
 //char* rrCallConv getBuildTime()
 //{
@@ -252,62 +253,54 @@ RRHandle rrCallConv getRRHandle()
 //		return NULL;
 //    }
 //}
-//
-//char* rrCallConv getRRCAPILocation()
-//{
-//#if defined(_WIN32) || defined(WIN32)
-//	char path[MAX_PATH];
-//    HINSTANCE handle = NULL;
-//    const char* dllName = "rr_c_api";
-//    handle = GetModuleHandle(dllName);
-//	if(GetModuleFileNameA(handle, path, ARRAYSIZE(path)) != 0)
-//    {
-//	    string aPath(ExtractFilePath(path));
-//		return createText(aPath);
-//    }
-//    return NULL;
-//#else
-//	return createText(JoinPath(getInstallFolder(),"/lib"));
-//#endif
-//}
-//
-//char* rrCallConv getCopyright(RRHandle _rrHandle)
-//{
-//	try
-//    {
-//   		RoadRunner* handle = getRRHandle(_rrHandle);
-//        char* text = NULL;
-//        if(!handle)
-//        {
-//            setError(ALLOCATE_API_ERROR_MSG);
-//        }
-//        else
-//        {
-//            text = createText(handle->getCopyright());
-//        }
-//        return text;
-//    }
-//    catch(Exception& ex)
-//    {
-//    	stringstream msg;
-//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-//        setError(msg.str());
-//		return NULL;
-//    }
-//}
-//
+
+char* rrCallConv getRRCAPILocation()
+{
+#if defined(_WIN32) || defined(WIN32)
+	char path[MAX_PATH];
+    HINSTANCE handle = NULL;
+    const char* dllName = "rr_c_api";
+    handle = GetModuleHandle(dllName);
+	if(GetModuleFileNameA(handle, path, ARRAYSIZE(path)) != 0)
+    {
+	    string aPath(ExtractFilePath(path));
+		return createText(aPath);
+    }
+    return NULL;
+#else
+	return createText(JoinPath(getInstallFolder(),"/lib"));
+#endif
+}
+
+char* rrCallConv getCopyright(RRHandle handle)
+{
+	try
+    {
+   		RoadRunner* rri = getRRI(handle);
+        char* text = createText(rri->getCopyright());
+        return text;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return NULL;
+    }
+}
+
 ////char* rrCallConv getInfo()
 ////{
 ////	try
 ////    {
 ////        char* text = NULL;
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////        }
 ////        else
 ////        {
-////            text = createText(rrHandle->getInfo());
+////            text = createText(gRRHandle->getInfo());
 ////        }
 ////        return text;
 ////    }
@@ -325,13 +318,13 @@ RRHandle rrCallConv getRRHandle()
 ////	try
 ////    {
 ////        char* text = NULL;
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////        }
 ////        else
 ////        {
-////            text = createText(rrHandle->getlibSBMLVersion());
+////            text = createText(gRRHandle->getlibSBMLVersion());
 ////        }
 ////        return text;
 ////    }
@@ -349,13 +342,13 @@ RRHandle rrCallConv getRRHandle()
 ////	try
 ////    {
 ////        char* text = NULL;
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////        }
 ////        else
 ////        {
-////            text = createText(rrHandle->writeSBML());
+////            text = createText(gRRHandle->writeSBML());
 ////        }
 ////        return text;
 ////    }
@@ -373,13 +366,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////
-////        rrHandle->computeAndAssignConservationLaws(OnOrOff);
+////        gRRHandle->computeAndAssignConservationLaws(OnOrOff);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -391,55 +384,73 @@ RRHandle rrCallConv getRRHandle()
 ////     }
 ////}
 ////
-////bool rrCallConv setTempFolder(const char* folder)
-////{
-////	try
-////    {
-////    	if(!rrHandle)
-////    	{
-////        	setError(ALLOCATE_API_ERROR_MSG);
-////        	return false;
-////    	}
-////		Log(lDebug)<<"Setting tempfolder to:"<<folder<<endl;
-////	    return rrHandle->setTempFileFolder(folder);
-////    }
-////    catch(Exception& ex)
-////    {
-////    	stringstream msg;
-////    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-////        setError(msg.str());
-////  		return false;
-////    }
-////}
-////
-//char* rrCallConv getTempFolder(RRHandle handle)
+//bool rrCallConv setTempFolder(const char* folder)
 //{
 //	try
 //    {
-//    	RoadRunner* rrHandle = getRRHandle(handle);
-//	    return createText(rrHandle->getTempFileFolder());
+//    	if(!gRRHandle)
+//    	{
+//        	setError(ALLOCATE_API_ERROR_MSG);
+//        	return false;
+//    	}
+//		Log(lDebug)<<"Setting tempfolder to:"<<folder<<endl;
+//	    return gRRHandle->setTempFileFolder(folder);
 //    }
 //    catch(Exception& ex)
 //    {
 //    	stringstream msg;
 //    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
 //        setError(msg.str());
-//		return NULL;
+//  		return false;
 //    }
 //}
+
+bool rrCallConv setTempFolderH(RRHandle handle, const char* folder)
+{
+	try
+    {
+    	RoadRunner* gRRHandle = getRRI(handle);
+
+		Log(lDebug)<<"Setting tempfolder to:"<<folder<<endl;
+	    return gRRHandle->setTempFileFolder(folder);
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  		return false;
+    }
+}
+
+char* rrCallConv getTempFolderH(RRHandle handle)
+{
+	try
+    {
+    	RoadRunner* gRRHandle = getRRI(handle);
+	    return createText(gRRHandle->getTempFileFolder());
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return NULL;
+    }
+}
 //
 ////bool rrCallConv setCompiler(const char* fName)
 ////{
 ////	try
 ////    {
-////    	if(!rrHandle)
+////    	if(!gRRHandle)
 ////    	{
 ////        	setError(ALLOCATE_API_ERROR_MSG);
 ////        	return false;
 ////    	}
-////		if(rrHandle->getCompiler())
+////		if(gRRHandle->getCompiler())
 ////		{
-////			return rrHandle->getCompiler()->setCompiler(fName);
+////			return gRRHandle->getCompiler()->setCompiler(fName);
 ////		}
 ////		else
 ////		{
@@ -459,14 +470,14 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////    	if(!rrHandle)
+////    	if(!gRRHandle)
 ////    	{
 ////        	setError(ALLOCATE_API_ERROR_MSG);
 ////        	return false;
 ////    	}
-////		if(rrHandle->getCompiler())
+////		if(gRRHandle->getCompiler())
 ////		{
-////			return rrHandle->getCompiler()->setCompilerLocation(folder);
+////			return gRRHandle->getCompiler()->setCompilerLocation(folder);
 ////		}
 ////		else
 ////		{
@@ -486,13 +497,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////	    return createText(rrHandle->getCompiler()->getCompilerLocation());
+////	    return createText(gRRHandle->getCompiler()->getCompilerLocation());
 ////    }
 ////    catch(Exception& ex)
 ////    {
@@ -507,14 +518,14 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////    	if(!rrHandle)
+////    	if(!gRRHandle)
 ////    	{
 ////        	setError(ALLOCATE_API_ERROR_MSG);
 ////        	return false;
 ////    	}
-////		if(rrHandle->getCompiler())
+////		if(gRRHandle->getCompiler())
 ////		{
-////			return rrHandle->getCompiler()->setSupportCodeFolder(folder);
+////			return gRRHandle->getCompiler()->setSupportCodeFolder(folder);
 ////		}
 ////		else
 ////		{
@@ -534,13 +545,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////	    return createText(rrHandle->getCompiler()->getSupportCodeFolder());
+////	    return createText(gRRHandle->getCompiler()->getSupportCodeFolder());
 ////    }
 ////    catch(Exception& ex)
 ////    {
@@ -566,45 +577,130 @@ RRHandle rrCallConv getRRHandle()
 ////    }
 ////}
 ////
-////bool rrCallConv loadSBMLFromFile(const char* fileName)
-////{
-////	try
-////    {
-////        if(!rrHandle)
-////        {
-////            setError(ALLOCATE_API_ERROR_MSG);
-////            return false;
-////        }
-////        //Check if file exists first
-////        if(!FileExists(fileName))
-////        {
-////            stringstream msg;
-////            msg<<"The file "<<fileName<<" was not found";
-////            setError(msg.str());
-////            return false;
-////        }
-////
-////        if(!rrHandle->loadSBMLFromFile(fileName))
-////        {
-////            setError("Failed to load SBML semantics");	//There are many ways loading a model can fail, look at logFile to know more
-////            return false;
-////        }
-////        return true;
-////    }
-////    catch(Exception& ex)
-////    {
-////    	stringstream msg;
-////    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-////        setError(msg.str());
-////	    return false;
-////    }
-////}
-////
+//bool rrCallConv loadSBMLFromFile(const char* fileName)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//        //Check if file exists first
+//        if(!FileExists(fileName))
+//        {
+//            stringstream msg;
+//            msg<<"The file "<<fileName<<" was not found";
+//            setError(msg.str());
+//            return false;
+//        }
+//
+//        if(!gRRHandle->loadSBMLFromFile(fileName))
+//        {
+//            setError("Failed to load SBML semantics");	//There are many ways loading a model can fail, look at logFile to know more
+//            return false;
+//        }
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return false;
+//    }
+//}
+
+bool rrCallConv loadSBMLFromFileH(RRHandle _handle, const char* fileName)
+{
+	try
+    {
+    	RoadRunner* rri = getRRI(_handle);
+
+        //Check if file exists first
+        if(!FileExists(fileName))
+        {
+            stringstream msg;
+            msg<<"The file "<<fileName<<" was not found";
+            setError(msg.str());
+            return false;
+        }
+
+        if(!rri->loadSBMLFromFile(fileName))
+        {
+            setError("Failed to load SBML semantics");	//There are many ways loading a model can fail, look at logFile to know more
+            return false;
+        }
+        return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
+//bool rrCallConv loadSBML(const char* sbml)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//        if(!gRRHandle->loadSBML(sbml))
+//        {
+//            setError("Failed to load SBML semantics");
+//            return false;
+//        }
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return false;
+//    }
+//}
+
+bool rrCallConv loadSBMLH(RRHandle _handle, const char* sbml)
+{
+	try
+    {
+    	RoadRunner* handle = getRRI(_handle);
+        if(!handle)
+        {
+            setError(BAD_HANDLE_ERROR_MSG);
+            return false;
+        }
+
+        if(!handle->loadSBML(sbml))
+        {
+            setError("Failed to load SBML semantics");
+            return false;
+        }
+        return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	  	return false;
+    }
+}
+
+
 ////bool rrCallConv loadSimulationSettings(const char* fileName)
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
@@ -618,7 +714,7 @@ RRHandle rrCallConv getRRHandle()
 ////            return false;
 ////        }
 ////
-////        if(!rrHandle->loadSimulationSettings(fileName))
+////        if(!gRRHandle->loadSimulationSettings(fileName))
 ////        {
 ////            setError("Failed to load SBML semantics");	//There are many wasy loading a model can fail, look at logFile to know more
 ////            return false;
@@ -635,43 +731,17 @@ RRHandle rrCallConv getRRHandle()
 ////}
 ////
 ////
-////bool rrCallConv loadSBML(const char* sbml)
-////{
-////	try
-////    {
-////        if(!rrHandle)
-////        {
-////            setError(ALLOCATE_API_ERROR_MSG);
-////            return false;
-////        }
-////
-////        if(!rrHandle->loadSBML(sbml))
-////        {
-////            setError("Failed to load SBML semantics");
-////            return false;
-////        }
-////        return true;
-////    }
-////    catch(Exception& ex)
-////    {
-////    	stringstream msg;
-////    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-////        setError(msg.str());
-////	  	return false;
-////    }
-////}
-////
 ////char* rrCallConv getSBML()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        string sbml = rrHandle->getSBML();
+////        string sbml = gRRHandle->getSBML();
 ////
 ////        return createText(sbml);
 ////    }
@@ -688,13 +758,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        return rrHandle->unLoadModel();
+////        return gRRHandle->unLoadModel();
 ////    }
 ////    catch(Exception& ex)
 ////    {
@@ -709,12 +779,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
-////        rrHandle->setTimeStart(timeStart);
+////        gRRHandle->setTimeStart(timeStart);
 ////    	return true;
 ////    }
 ////    catch(Exception& ex)
@@ -730,13 +800,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////
-////        rrHandle->setTimeEnd(timeEnd);
+////        gRRHandle->setTimeEnd(timeEnd);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -752,13 +822,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////
-////        rrHandle->setNumPoints(nrPoints);
+////        gRRHandle->setNumPoints(nrPoints);
 ////	    return true;
 ////    }
 ////    catch(Exception& ex)
@@ -774,13 +844,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////
-////		timeStart = rrHandle->getTimeStart();
+////		timeStart = gRRHandle->getTimeStart();
 ////		return true;
 ////    }
 ////    catch(Exception& ex)
@@ -797,13 +867,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////
-////		timeEnd = rrHandle->getTimeEnd();
+////		timeEnd = gRRHandle->getTimeEnd();
 ////		return true;
 ////    }
 ////    catch(Exception& ex)
@@ -819,13 +889,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////
-////		numPoints = rrHandle->getNumPoints();
+////		numPoints = gRRHandle->getNumPoints();
 ////		return true;
 ////    }
 ////    catch(Exception& ex)
@@ -842,13 +912,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////
-////        rrHandle->setTimeCourseSelectionList(list);
+////        gRRHandle->setTimeCourseSelectionList(list);
 ////        return true;
 ////
 ////    }
@@ -865,13 +935,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        return rrHandle->createTimeCourseSelectionList() > 0 ? true : false;
+////        return gRRHandle->createTimeCourseSelectionList() > 0 ? true : false;
 ////    }
 ////    catch(Exception& ex)
 ////    {
@@ -886,13 +956,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        StringList sNames = rrHandle->getTimeCourseSelectionList();
+////        StringList sNames = gRRHandle->getTimeCourseSelectionList();
 ////
 ////        if(!sNames.Count())
 ////        {
@@ -915,18 +985,18 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        if(!rrHandle->simulate2())
+////        if(!gRRHandle->simulate2())
 ////        {
 ////            return NULL;
 ////        }
 ////
-////        SimulationData result = rrHandle->getSimulationResult();
+////        SimulationData result = gRRHandle->getSimulationResult();
 ////
 ////        //Extract the data and return struct..
 ////        RRResult* aResult  = new RRResult;
@@ -985,13 +1055,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        StringList rNames = rrHandle->getReactionIds();
+////        StringList rNames = gRRHandle->getReactionIds();
 ////
 ////        if(!rNames.Count())
 ////        {
@@ -1014,13 +1084,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        vector<double> rates = rrHandle->getRatesOfChange();
+////        vector<double> rates = gRRHandle->getRatesOfChange();
 ////
 ////        if(!rates.size())
 ////        {
@@ -1050,13 +1120,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        StringList rNames = rrHandle->getRateOfChangeIds();
+////        StringList rNames = gRRHandle->getRateOfChangeIds();
 ////
 ////        if(!rNames.Count())
 ////        {
@@ -1078,12 +1148,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////    	if(!rrHandle)
+////    	if(!gRRHandle)
 ////    	{
 ////        	setError(ALLOCATE_API_ERROR_MSG);
 ////        	return false;
 ////    	}
-////	    value = rrHandle->getValue(symbolId);
+////	    value = gRRHandle->getValue(symbolId);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -1100,13 +1170,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////		DoubleMatrix tempMat = rrHandle->getUnscaledElasticityMatrix();
+////		DoubleMatrix tempMat = gRRHandle->getUnscaledElasticityMatrix();
 ////
 ////        RRMatrixHandle matrix = createMatrix(&tempMat);
 ////	    return matrix;
@@ -1124,13 +1194,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////		DoubleMatrix tempMat = rrHandle->getScaledReorderedElasticityMatrix();
+////		DoubleMatrix tempMat = gRRHandle->getScaledReorderedElasticityMatrix();
 ////
 ////
 ////        RRMatrixHandle matrix = createMatrix(&tempMat);
@@ -1149,12 +1219,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
-////	    return rrHandle->setValue(symbolId, value);
+////	    return gRRHandle->setValue(symbolId, value);
 ////    }
 ////    catch(Exception& ex)
 ////    {
@@ -1169,13 +1239,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        DoubleMatrix tempMat = rrHandle->getStoichiometryMatrix();
+////        DoubleMatrix tempMat = gRRHandle->getStoichiometryMatrix();
 ////
 ////        RRMatrixHandle matrix = new RRMatrix;
 ////        matrix->RSize = tempMat.RSize();
@@ -1205,13 +1275,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        DoubleMatrix tempMat = rrHandle->getConservationMatrix();
+////        DoubleMatrix tempMat = gRRHandle->getConservationMatrix();
 ////
 ////        RRMatrixHandle matrix = new RRMatrix;
 ////        matrix->RSize = tempMat.RSize();
@@ -1241,12 +1311,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
-////        DoubleMatrix *tempMat = rrHandle->getLinkMatrix();
+////        DoubleMatrix *tempMat = gRRHandle->getLinkMatrix();
 ////
 ////		return createMatrix(tempMat);
 ////	}
@@ -1263,12 +1333,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
-////        DoubleMatrix *tempMat = rrHandle->getL0Matrix();
+////        DoubleMatrix *tempMat = gRRHandle->getL0Matrix();
 ////
 ////		return createMatrix(tempMat);
 ////	}
@@ -1285,12 +1355,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
-////        DoubleMatrix *tempMat = rrHandle->getNrMatrix();
+////        DoubleMatrix *tempMat = gRRHandle->getNrMatrix();
 ////
 ////		return createMatrix(tempMat);
 ////	}
@@ -1303,30 +1373,30 @@ RRHandle rrCallConv getRRHandle()
 ////    }
 ////}
 ////
-////C_DECL_SPEC bool rrCallConv hasError()
-////{
-////    return (gLastError != NULL) ? true : false;
-////}
-////
-////char* rrCallConv getLastError()
-////{
-////	if(!gLastError)
-////    {
-////	    gLastError = createText("No Error");
-////    }
-////    return gLastError;
-////}
-////
+C_DECL_SPEC bool rrCallConv hasError()
+{
+    return (gLastError != NULL) ? true : false;
+}
+
+char* rrCallConv getLastError()
+{
+	if(!gLastError)
+    {
+	    gLastError = createText("No Error");
+    }
+    return gLastError;
+}
+
 ////bool rrCallConv reset()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
-////        rrHandle->reset();
+////        gRRHandle->reset();
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -1342,12 +1412,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 //// 	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////           setError(ALLOCATE_API_ERROR_MSG);
 ////           return -1;
 ////        }
-////        return rrHandle->getNumberOfReactions();
+////        return gRRHandle->getNumberOfReactions();
 ////    }
 ////    catch(Exception& ex)
 ////    {
@@ -1362,12 +1432,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
-////        value = rrHandle->getReactionRate(rateNr);
+////        value = gRRHandle->getReactionRate(rateNr);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -1383,12 +1453,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
-////        vector<double> vec =  rrHandle->getReactionRates();
+////        vector<double> vec =  gRRHandle->getReactionRates();
 ////
 ////        RRVector* aVec = createVectorFromVector_double(vec);
 ////        return aVec;
@@ -1406,12 +1476,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return -1;
 ////        }
-////        return rrHandle->getNumberOfBoundarySpecies();
+////        return gRRHandle->getNumberOfBoundarySpecies();
 ////    }
 ////    catch(Exception& ex)
 ////    {
@@ -1427,13 +1497,13 @@ RRHandle rrCallConv getRRHandle()
 ////	try
 ////    {
 ////
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        StringList bNames = rrHandle->getBoundarySpeciesIds();
+////        StringList bNames = gRRHandle->getBoundarySpeciesIds();
 ////
 ////        if(!bNames.Count())
 ////        {
@@ -1455,12 +1525,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return -1;
 ////        }
-////        return rrHandle->getNumberOfFloatingSpecies();
+////        return gRRHandle->getNumberOfFloatingSpecies();
 ////    }
 ////    catch(Exception& ex)
 ////    {
@@ -1475,13 +1545,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        StringList fNames = rrHandle->getFloatingSpeciesIds();
+////        StringList fNames = gRRHandle->getFloatingSpeciesIds();
 ////
 ////        if(!fNames.Count())
 ////        {
@@ -1503,12 +1573,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return -1;
 ////        }
-////        return rrHandle->getNumberOfGlobalParameters();
+////        return gRRHandle->getNumberOfGlobalParameters();
 ////    }
 ////    catch(Exception& ex)
 ////    {
@@ -1523,12 +1593,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
-////        StringList pNames = rrHandle->getGlobalParameterIds();
+////        StringList pNames = gRRHandle->getGlobalParameterIds();
 ////
 ////        if(!pNames.Count())
 ////        {
@@ -1550,13 +1620,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        vector<double> vec =  rrHandle->getFloatingSpeciesConcentrations();
+////        vector<double> vec =  gRRHandle->getFloatingSpeciesConcentrations();
 ////        RRVector* aVec = createVectorFromVector_double(vec);
 ////        return aVec;
 ////    }
@@ -1573,13 +1643,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        vector<double> vec =  rrHandle->getBoundarySpeciesConcentrations();
+////        vector<double> vec =  gRRHandle->getBoundarySpeciesConcentrations();
 ////        RRVector* aVec = createVectorFromVector_double(vec);
 ////        return aVec;
 ////    }
@@ -1597,13 +1667,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        vector<double> vec =  rrHandle->getFloatingSpeciesInitialConcentrations();
+////        vector<double> vec =  gRRHandle->getFloatingSpeciesInitialConcentrations();
 ////        RRVector* aVec = createVectorFromVector_double(vec);
 ////        return aVec;
 ////    }
@@ -1620,13 +1690,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////
-////        rrHandle->setFloatingSpeciesByIndex(index, value);
+////        gRRHandle->setFloatingSpeciesByIndex(index, value);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -1642,13 +1712,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////
-////        rrHandle->setBoundarySpeciesByIndex(index, value);
+////        gRRHandle->setBoundarySpeciesByIndex(index, value);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -1664,13 +1734,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////
-////        rrHandle->setGlobalParameterByIndex(index, value);
+////        gRRHandle->setGlobalParameterByIndex(index, value);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -1686,14 +1756,14 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////        vector<double> tempVec;
 ////        copyVector(vec, tempVec);
-////        rrHandle->changeInitialConditions(tempVec);
+////        gRRHandle->changeInitialConditions(tempVec);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -1709,14 +1779,14 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////        vector<double> tempVec;
 ////        copyVector(vec, tempVec);
-////        rrHandle->setFloatingSpeciesConcentrations(tempVec);
+////        gRRHandle->setFloatingSpeciesConcentrations(tempVec);
 ////
 ////        return true;
 ////    }
@@ -1733,14 +1803,14 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////        vector<double> tempVec;
 ////        copyVector(vec, tempVec);
-////        rrHandle->setBoundarySpeciesConcentrations(tempVec);
+////        gRRHandle->setBoundarySpeciesConcentrations(tempVec);
 ////
 ////        return true;
 ////    }
@@ -1757,13 +1827,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////
-////        value = rrHandle->oneStep(currentTime, stepSize);
+////        value = gRRHandle->oneStep(currentTime, stepSize);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -1779,13 +1849,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        vector<double> vec =  rrHandle->getGlobalParameterValues();
+////        vector<double> vec =  gRRHandle->getGlobalParameterValues();
 ////        RRVector* aVec = createVectorFromVector_double(vec);
 ////        return aVec;
 ////    }
@@ -1802,13 +1872,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        NewArrayList slSymbols = rrHandle->getAvailableTimeCourseSymbols();
+////        NewArrayList slSymbols = gRRHandle->getAvailableTimeCourseSymbols();
 ////		return createList(slSymbols);
 ////    }
 ////    catch(Exception& ex)
@@ -1824,13 +1894,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        NewArrayList slSymbols = rrHandle->getAvailableSteadyStateSymbols();
+////        NewArrayList slSymbols = gRRHandle->getAvailableSteadyStateSymbols();
 ////		return createList(slSymbols);
 ////    }
 ////    catch(Exception& ex)
@@ -1846,13 +1916,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////
-////        value = rrHandle->getBoundarySpeciesByIndex(index);
+////        value = gRRHandle->getBoundarySpeciesByIndex(index);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -1868,13 +1938,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////
-////        value = rrHandle->getFloatingSpeciesByIndex(index);
+////        value = gRRHandle->getFloatingSpeciesByIndex(index);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -1890,13 +1960,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////
-////        value = rrHandle->getGlobalParameterByIndex(index);
+////        value = gRRHandle->getGlobalParameterByIndex(index);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -1912,13 +1982,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////		}
 ////
-////        value = rrHandle->getuCC(variable, parameter);
+////        value = gRRHandle->getuCC(variable, parameter);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -1935,13 +2005,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////
-////        value = rrHandle->getCC(variable, parameter);
+////        value = gRRHandle->getCC(variable, parameter);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -1957,13 +2027,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////
-////        value = rrHandle->getuEE(name, species);
+////        value = gRRHandle->getuEE(name, species);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -1979,13 +2049,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////
-////        value = rrHandle->getEE(name, species);
+////        value = gRRHandle->getEE(name, species);
 ////        return true;
 ////    }
 ////	catch(Exception& ex)
@@ -2001,13 +2071,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return -1;
 ////        }
 ////
-////        return rrHandle->getNumberOfDependentSpecies();
+////        return gRRHandle->getNumberOfDependentSpecies();
 ////    }
 ////    catch(Exception& ex)
 ////    {
@@ -2022,13 +2092,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return -1;
 ////        }
 ////
-////        return rrHandle->getNumberOfIndependentSpecies();
+////        return gRRHandle->getNumberOfIndependentSpecies();
 ////    }
 ////    catch(Exception& ex)
 ////    {
@@ -2043,12 +2113,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
-////	   	value = rrHandle->steadyState();
+////	   	value = gRRHandle->steadyState();
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -2064,11 +2134,11 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////	{
-////		if(!rrHandle)
+////		if(!gRRHandle)
 ////		{
 ////			setError(ALLOCATE_API_ERROR_MSG);
 ////		}
-////		rrHandle->evalModel();
+////		gRRHandle->evalModel();
 ////        return true;
 ////	}
 ////	catch(Exception& ex)
@@ -2084,13 +2154,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////	{
-////		if(!rrHandle)
+////		if(!gRRHandle)
 ////		{
 ////			setError(ALLOCATE_API_ERROR_MSG);
 ////			return NULL;
 ////		}
 ////
-////		string param =  rrHandle->getParamPromotedSBML(sArg);
+////		string param =  gRRHandle->getParamPromotedSBML(sArg);
 ////
 ////		char* text = createText(param.c_str());
 ////		return text;
@@ -2108,12 +2178,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////	{
-////		if(!rrHandle)
+////		if(!gRRHandle)
 ////		{
 ////			setError(ALLOCATE_API_ERROR_MSG);
 ////			return NULL;
 ////		}
-////		vector<double> vec =  rrHandle->computeSteadyStateValues();
+////		vector<double> vec =  gRRHandle->computeSteadyStateValues();
 ////
 ////		RRVector* aVec = createVectorFromVector_double(vec);
 ////		return aVec;
@@ -2131,14 +2201,14 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////	{
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
 ////
 ////        StringList aList(list, " ,");
-////        rrHandle->setSteadyStateSelectionList(aList);
+////        gRRHandle->setSteadyStateSelectionList(aList);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -2154,13 +2224,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        StringList sNames = rrHandle->getSteadyStateSelectionList();
+////        StringList sNames = gRRHandle->getSteadyStateSelectionList();
 ////
 ////        if(!sNames.Count())
 ////        {
@@ -2182,13 +2252,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        DoubleMatrix tempMat = rrHandle->getFullJacobian();
+////        DoubleMatrix tempMat = gRRHandle->getFullJacobian();
 ////        return createMatrix(&tempMat);
 ////    }
 ////    catch(Exception& ex)
@@ -2204,13 +2274,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        DoubleMatrix tempMat = rrHandle->getReducedJacobian();
+////        DoubleMatrix tempMat = gRRHandle->getReducedJacobian();
 ////        return createMatrix(&tempMat);
 ////    }
 ////    catch(Exception& ex)
@@ -2226,13 +2296,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////		DoubleMatrix tempMat = rrHandle->getEigenvalues();
+////		DoubleMatrix tempMat = gRRHandle->getEigenvalues();
 ////        return createMatrix(&tempMat);
 ////    }
 ////    catch(Exception& ex)
@@ -2248,7 +2318,7 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
@@ -2269,7 +2339,7 @@ RRHandle rrCallConv getRRHandle()
 ////				getMatrixElement (mat, i, j, value);
 ////				dmat(i,j) = value;
 ////			}
-////		DoubleMatrix tempMat = rrHandle->getEigenvaluesFromMatrix (dmat);
+////		DoubleMatrix tempMat = gRRHandle->getEigenvaluesFromMatrix (dmat);
 ////        // Convert the DoubleMatrix result to a RRMatrixHandle type
 ////		return createMatrix(&tempMat);
 ////    }
@@ -2286,13 +2356,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////    	if(!rrHandle)
+////    	if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        CGenerator* generator = rrHandle->getCGenerator();
+////        CGenerator* generator = gRRHandle->getCGenerator();
 ////        if(!generator)
 ////        {
 ////            return NULL;
@@ -2312,48 +2382,44 @@ RRHandle rrCallConv getRRHandle()
 ////    }
 ////}
 ////
-////RRCCode* rrCallConv getCCode()
-////{
-////	try
-////    {
-////    	if(!rrHandle)
-////        {
-////            setError(ALLOCATE_API_ERROR_MSG);
-////            return NULL;
-////        }
-////
-////        CGenerator* generator = rrHandle->getCGenerator();
-////        if(!generator)
-////        {
-////            return NULL;
-////        }
-////
-////        RRCCode* cCode = new RRCCode;
-////		cCode->Header = NULL;
-////		cCode->Source = NULL;
-////        string header = generator->getHeaderCode();
-////        string source = generator->getSourceCode();
-////
-////        if(header.size())
-////        {
-////            cCode->Header = createText(header);
-////        }
-////
-////        if(source.size())
-////        {
-////            cCode->Source = createText(source);
-////        }
-////        return cCode;
-////    }
-////    catch(Exception& ex)
-////    {
-////    	stringstream msg;
-////    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-////        setError(msg.str());
-////		return NULL;
-////    }
-////}
-////
+RRCCode* rrCallConv getCCode(RRHandle handle)
+{
+	try
+    {
+    	RoadRunner* rri = getRRI(handle);
+
+        CGenerator* generator = rri->getCGenerator();
+        if(!generator)
+        {
+            return NULL;
+        }
+
+        RRCCode* cCode = new RRCCode;
+		cCode->Header = NULL;
+		cCode->Source = NULL;
+        string header = generator->getHeaderCode();
+        string source = generator->getSourceCode();
+
+        if(header.size())
+        {
+            cCode->Header = createText(header);
+        }
+
+        if(source.size())
+        {
+            cCode->Source = createText(source);
+        }
+        return cCode;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return NULL;
+    }
+}
+
 ////// *******  Not yet implemented  ********
 ////// codeGenerationMode = 0 if mode is C code generation
 ////// codeGenerationMode = 1 ig mode is internal math interpreter
@@ -2367,17 +2433,17 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return -1;
 ////        }
-////        if(!rrHandle->getNOM())
+////        if(!gRRHandle->getNOM())
 ////        {
 ////            Log(lWarning)<<"NOM is not allocated.";
 ////        	return -1;
 ////        }
-////        int value = rrHandle->getNOM()->getNumRules();
+////        int value = gRRHandle->getNOM()->getNumRules();
 ////        return value;
 ////    }
 ////    catch(Exception& ex)
@@ -2393,12 +2459,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
-////        value = rrHandle->getScaledFloatingSpeciesElasticity(reactionId, speciesId);
+////        value = gRRHandle->getScaledFloatingSpeciesElasticity(reactionId, speciesId);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -2414,12 +2480,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
-////        StringList aList = rrHandle->getFloatingSpeciesInitialConditionIds();
+////        StringList aList = gRRHandle->getFloatingSpeciesInitialConditionIds();
 ////		return createList(aList);
 ////    }
 ////    catch(Exception& ex)
@@ -2435,13 +2501,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////        vector<double> tempList = createVectorFromRRVector(vec);
-////        tempList = rrHandle->getRatesOfChangeEx(tempList);
+////        tempList = gRRHandle->getRatesOfChangeEx(tempList);
 ////        return createVectorFromVector_double (tempList);
 ////    }
 ////    catch(Exception& ex)
@@ -2457,13 +2523,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////        vector<double> tempList = createVectorFromRRVector(vec);
-////        tempList = rrHandle->getReactionRatesEx(tempList);
+////        tempList = gRRHandle->getReactionRatesEx(tempList);
 ////        return createVectorFromVector_double(tempList);;
 ////    }
 ////    catch(Exception& ex)
@@ -2479,12 +2545,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
-////        NewArrayList aList = rrHandle->getElasticityCoefficientIds();
+////        NewArrayList aList = gRRHandle->getElasticityCoefficientIds();
 ////        RRListHandle bList = createList(aList);
 ////		return bList;
 ////    }
@@ -2501,7 +2567,7 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
@@ -2511,7 +2577,7 @@ RRHandle rrCallConv getRRHandle()
 ////        {
 ////            return false;
 ////        }
-////        rrHandle->setCapabilities(caps);
+////        gRRHandle->setCapabilities(caps);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -2527,12 +2593,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
-////        return createText(rrHandle->getCapabilities());
+////        return createText(gRRHandle->getCapabilities());
 ////    }
 ////    catch(Exception& ex)
 ////    {
@@ -2548,13 +2614,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////		StringList aList = rrHandle->getEigenvalueIds();
+////		StringList aList = gRRHandle->getEigenvalueIds();
 ////		return createList(aList);
 ////    }
 ////    catch(Exception& ex)
@@ -2570,13 +2636,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        return createList(rrHandle->getFluxControlCoefficientIds());
+////        return createList(gRRHandle->getFluxControlCoefficientIds());
 ////    }
 ////    catch(Exception& ex)
 ////    {
@@ -2591,13 +2657,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
-////		DoubleMatrix aMat = rrHandle->getUnscaledConcentrationControlCoefficientMatrix();
-////        //return createMatrix(&(rrHandle->getUnscaledConcentrationControlCoefficientMatrix()));
+////		DoubleMatrix aMat = gRRHandle->getUnscaledConcentrationControlCoefficientMatrix();
+////        //return createMatrix(&(gRRHandle->getUnscaledConcentrationControlCoefficientMatrix()));
 ////        return createMatrix(&(aMat));
 ////    }
 ////    catch(Exception& ex)
@@ -2613,13 +2679,13 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////		DoubleMatrix aMat = rrHandle->getScaledConcentrationControlCoefficientMatrix();
+////		DoubleMatrix aMat = gRRHandle->getScaledConcentrationControlCoefficientMatrix();
 ////        return createMatrix(&(aMat));
 ////    }
 ////    catch(Exception& ex)
@@ -2635,14 +2701,14 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        //return createMatrix(&(rrHandle->getUnscaledFluxControlCoefficientMatrix()));
-////		DoubleMatrix aMat = rrHandle->getUnscaledFluxControlCoefficientMatrix();
+////        //return createMatrix(&(gRRHandle->getUnscaledFluxControlCoefficientMatrix()));
+////		DoubleMatrix aMat = gRRHandle->getUnscaledFluxControlCoefficientMatrix();
 ////        return createMatrix(&(aMat));
 ////    }
 ////    catch(Exception& ex)
@@ -2658,14 +2724,14 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
 ////
-////        //return createMatrix(&(rrHandle->getScaledFluxControlCoefficientMatrix()));a
-////		DoubleMatrix aMat = rrHandle->getScaledFluxControlCoefficientMatrix();
+////        //return createMatrix(&(gRRHandle->getScaledFluxControlCoefficientMatrix()));a
+////		DoubleMatrix aMat = gRRHandle->getScaledFluxControlCoefficientMatrix();
 ////        return createMatrix(&(aMat));
 ////    }
 ////    catch(Exception& ex)
@@ -2681,12 +2747,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
-////		NewArrayList arrList = rrHandle->getUnscaledFluxControlCoefficientIds();
+////		NewArrayList arrList = gRRHandle->getUnscaledFluxControlCoefficientIds();
 ////        return createList(arrList);
 ////    }
 ////    catch(Exception& ex)
@@ -2702,12 +2768,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
-////        NewArrayList list = rrHandle->getConcentrationControlCoefficientIds();
+////        NewArrayList list = gRRHandle->getConcentrationControlCoefficientIds();
 ////        return createList(list);
 ////    }
 ////    catch(Exception& ex)
@@ -2723,12 +2789,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
-////        return createList(rrHandle->getUnscaledConcentrationControlCoefficientIds());
+////        return createList(gRRHandle->getUnscaledConcentrationControlCoefficientIds());
 ////    }
 ////    catch(Exception& ex)
 ////    {
@@ -2743,12 +2809,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return -1;
 ////        }
-////        return rrHandle->getNumberOfCompartments();
+////        return gRRHandle->getNumberOfCompartments();
 ////    }
 ////    catch(Exception& ex)
 ////    {
@@ -2763,12 +2829,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return false;
 ////        }
-////        value = rrHandle->getCompartmentByIndex(index);
+////        value = gRRHandle->getCompartmentByIndex(index);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -2784,12 +2850,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
-////        rrHandle->setCompartmentByIndex(index, value);
+////        gRRHandle->setCompartmentByIndex(index, value);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -2805,12 +2871,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
-////        return createList(rrHandle->getCompartmentIds());
+////        return createList(gRRHandle->getCompartmentIds());
 ////    }
 ////    catch(Exception& ex)
 ////    {
@@ -2825,12 +2891,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////            return NULL;
 ////        }
-////        value = rrHandle->getRateOfChange(index);
+////        value = gRRHandle->getRateOfChange(index);
 ////        return true;
 ////    }
 ////    catch(Exception& ex)
@@ -3025,31 +3091,24 @@ RRHandle rrCallConv getRRHandle()
 ////    }
 ////}
 ////
-////// Free Functions =====================================================
-////bool rrCallConv freeRRInstance(RRHandle rrHandle)
-////{
-////	try
-////    {
-////    	if(rrHandle == handle)
-////        {
-////        	delete rrHandle;
-////        	rrHandle = NULL;
-////	        return true;
-////        }
-////        else
-////        {
-////        	return false;
-////        }
-////    }
-////    catch(Exception& ex)
-////    {
-////    	stringstream msg;
-////    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-////        setError(msg.str());
-////	    return false;
-////    }
-////}
-////
+// Free Functions =====================================================
+bool rrCallConv freeRRInstance(RRHandle handle)
+{
+	try
+    {
+    	RoadRunner* rri = getRRI(handle);
+        delete rri;
+        return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
 ////bool rrCallConv freeMatrix(RRMatrixHandle matrix)
 ////{
 ////	try
@@ -3086,25 +3145,25 @@ RRHandle rrCallConv getRRHandle()
 ////    }
 ////}
 ////
-//bool rrCallConv freeText(char* text)
-//{
-//	try
-//    {
-//        if(text != ALLOCATE_API_ERROR_MSG)
-//        {
-//            delete [] text;
-//        }
-//        return true;
-//    }
-//    catch(Exception& ex)
-//    {
-//    	stringstream msg;
-//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-//        setError(msg.str());
-//    	return false;
-//    }
-//}
-//
+bool rrCallConv freeText(char* text)
+{
+	try
+    {
+        if(text != ALLOCATE_API_ERROR_MSG)
+        {
+            delete [] text;
+        }
+        return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+    	return false;
+    }
+}
+
 ////bool rrCallConv freeStringArray(RRStringArrayHandle sl)
 ////{
 ////	try
@@ -3140,26 +3199,26 @@ RRHandle rrCallConv getRRHandle()
 ////    }
 ////}
 ////
-////bool rrCallConv freeCCode(RRCCodeHandle code)
-////{
-////	try
-////    {
-////        if(code)
-////        {
-////            delete code->Header;
-////            delete code->Source;
-////        }
-////		return true;
-////    }
-////    catch(Exception& ex)
-////    {
-////    	stringstream msg;
-////    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-////        setError(msg.str());
-////	    return false;
-////    }
-////}
-////
+bool rrCallConv freeCCode(RRCCodeHandle code)
+{
+	try
+    {
+        if(code)
+        {
+            delete code->Header;
+            delete code->Source;
+        }
+		return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
 /////////////////////////////////////////////////////////////////
 ////void rrCallConv Pause()
 ////{
@@ -3621,12 +3680,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////        }
 ////
-////    	return rrHandle->getPluginManager().load();
+////    	return gRRHandle->getPluginManager().load();
 ////    }
 ////    catch(Exception& ex)
 ////    {
@@ -3641,12 +3700,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////        }
 ////
-////    	return rrHandle->getPluginManager().unload();
+////    	return gRRHandle->getPluginManager().unload();
 ////    }
 ////    catch(Exception& ex)
 ////    {
@@ -3661,12 +3720,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////        }
 ////
-////    	return rrHandle->getPluginManager().getNumberOfPlugins();
+////    	return gRRHandle->getPluginManager().getNumberOfPlugins();
 ////    }
 ////    catch(Exception& ex)
 ////    {
@@ -3681,12 +3740,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////        }
 ////
-////        StringList names = rrHandle->getPluginManager().getPluginNames();
+////        StringList names = gRRHandle->getPluginManager().getPluginNames();
 ////        return createList(names);
 ////    }
 ////    catch(Exception& ex)
@@ -3702,12 +3761,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////        }
 ////
-////        Plugin* aPlugin = rrHandle->getPluginManager().getPlugin(pluginName);
+////        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(pluginName);
 ////        if(aPlugin)
 ////        {
 ////        	StringList aList;
@@ -3741,12 +3800,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////        }
 ////
-////        Plugin* aPlugin = rrHandle->getPluginManager().getPlugin(pluginName);
+////        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(pluginName);
 ////        if(aPlugin)
 ////        {
 ////        	StringList aList;
@@ -3780,12 +3839,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////        }
 ////
-////        Plugin* aPlugin = rrHandle->getPluginManager().getPlugin(pluginName);
+////        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(pluginName);
 ////        if(aPlugin)
 ////        {
 ////
@@ -3808,12 +3867,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////        }
 ////
-////        Plugin* aPlugin = rrHandle->getPluginManager().getPlugin(pluginName);
+////        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(pluginName);
 ////        if(aPlugin)
 ////        {
 ////            return aPlugin->setParameter(parameterName, value);
@@ -3834,12 +3893,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////        }
 ////
-////        Plugin* aPlugin = rrHandle->getPluginManager().getPlugin(name);
+////        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(name);
 ////        if(aPlugin)
 ////        {
 ////        	return createText(aPlugin->getInfo());
@@ -3862,12 +3921,12 @@ RRHandle rrCallConv getRRHandle()
 ////{
 ////	try
 ////    {
-////        if(!rrHandle)
+////        if(!gRRHandle)
 ////        {
 ////            setError(ALLOCATE_API_ERROR_MSG);
 ////        }
 ////
-////        Plugin* aPlugin = rrHandle->getPluginManager().getPlugin(name);
+////        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(name);
 ////        if(aPlugin)
 ////        {
 ////        	return aPlugin->execute();
@@ -3889,6 +3948,7 @@ RRHandle rrCallConv getRRHandle()
 ////We only need to give the linker the folder where libs are
 ////using the pragma comment. Works for MSVC and codegear
 //#if defined(CG_IDE)
+//#pragma comment(lib, "roadrunner-static.lib")
 #pragma comment(lib, "roadrunner-static.lib")
 //#pragma comment(lib, "rr-libstruct-static.lib")
 //#pragma comment(lib, "pugi-static.lib")

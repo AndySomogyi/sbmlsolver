@@ -1,69 +1,66 @@
-//#ifdef USE_PCH
-//#include "rr_pch.h"
-//#endif
-//#pragma hdrstop
-//#include <string>
+#pragma hdrstop
+#include <string>
 //#include <sstream>
 //#include "rrParameter.h"
-//#include "rrException.h"
+#include "rrException.h"
 //#include "rrUtils.h"
 //#include "rrArrayListItem.h"
 //#include "rr_cm.h"
-//#include "rr_cm_support.h"
-//
-//using namespace std;
-//using namespace rr;
-//namespace rr_cm
-//{
-//
-//const char* ALLOCATE_API_ERROR_MSG 	= "Please allocate a handle to the roadrunner API before calling any API function";
-//const char* BAD_HANDLE_ERROR_MSG 	= "The HANDLE passed to this function was invalid";
-//char* 		gLastError      		= NULL;
+#include "rr_cm_support.h"
+
+using namespace rr;
+using namespace std;
+
+namespace rr_cm
+{
+
+const char* ALLOCATE_API_ERROR_MSG 	= "Please allocate a handle to the roadrunner API before calling any API function";
+const char* BAD_HANDLE_ERROR_MSG 	= "The HANDLE passed to this function was invalid";
+char* 		gLastError      		= NULL;
 //char* 		gInstallFolder 			= NULL;
-//
-//
-//RoadRunner* 	getRRHandle(RRHandle rrHandle)
-//{
-//	RoadRunner* handle = (RoadRunner*) rrHandle;
-//    if(handle)
-//    {
-//    	return handle;
-//    }
-//
-//    else
-//    {
-//    	Exception ex("Failed to convert supplied handle to a RoadRunner handle");
-//    	throw(ex);
-//    }
-//}
-//
-//void setError(const string& err)
-//{
-//    if(gLastError)
-//    {
-//        delete [] gLastError;
-//    }
-//
-//    gLastError = createText(err);
-//}
-//
+
+
+RoadRunner* getRRI(RRHandle rrHandle)
+{
+	RoadRunner* handle = (RoadRunner*) rrHandle;
+    if(handle)
+    {
+    	return handle;
+    }
+    else
+    {
+    	Exception ex("Failed to create a valid RoadRunner handle");
+    	throw(ex);
+    }
+}
+
+void setError(const string& err)
+{
+    if(gLastError)
+    {
+        delete [] gLastError;
+    }
+
+    gLastError = createText(err);
+}
+
 //char* createText(const char* str)
 //{
-//	return createText(string(str));
+//	return createText( std::string(str) );
 //}
-//
-//char* createText(const string& str)
-//{
-//	if(str.size() == 0)
-//    {
-//    	return NULL;
-//    }
-//
-//	char* text = new char[str.size() + 1];
-//	std::copy(str.begin(), str.end(), text);
-//	text[str.size()] = '\0'; //terminating 0!
-//	return text;
-//}
+
+char* createText(const string& str)
+{
+	if(str.size() == 0)
+    {
+    	return NULL;
+    }
+
+	char* text = new char[str.size() + 1];
+	std::copy(str.begin(), str.end(), text);
+	text[str.size()] = '\0'; //terminating 0!
+	return text;
+}
 //
 //RRMatrix* createMatrix(const ls::DoubleMatrix* mat)
 //{
@@ -285,6 +282,6 @@
 //
 //
 //
-//}
-//
+}
+
 

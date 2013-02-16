@@ -6,7 +6,7 @@ EXPORTS
     getTimeStart                                = _getTimeStart@4
     getTimeEnd                                  = _getTimeEnd@4
     getNumPoints                                = _getNumPoints@4
-    getInfo		                                = _getInfo@0
+    getInfo		                        = _getInfo@0
     unLoadModel                                 = _unLoadModel@0
     createTimeCourseSelectionList               = _createTimeCourseSelectionList@0
     getEigenvalues                              = _getEigenvalues@0
@@ -46,7 +46,7 @@ EXPORTS
     getuEE                                      = _getEE@12                           
     getCC                                       = _getCC@12
     getEE                                       = _getEE@12                           
-    getEigenvalueIds                            = _getEigenvalueIds@0               
+    getEigenvalueIds                            = _getEigenvalueIds@0
     getElasticityCoefficientIds                 = _getElasticityCoefficientIds@0      
     getFloatingSpeciesByIndex                   = _getFloatingSpeciesByIndex@8        
     getFloatingSpeciesInitialConcentrations     = _getFloatingSpeciesInitialConcentrations@0      
@@ -106,7 +106,7 @@ EXPORTS
     matrixToString                              = _matrixToString@4
     resultToString                              = _resultToString@4
     vectorToString                              = _vectorToString@4
-	listToString                                = _listToString@4
+	listToString                            = _listToString@4
     createRRList                                = _createRRList@0
 	createIntegerItem                           = _createIntegerItem@4
 	createDoubleItem                            = _createDoubleItem@8

@@ -174,8 +174,9 @@ extern "C"
 {
 #endif
 
-#include "rr_cm_exporter.h"
 #include "rr_cm_types.h"
+#include "rr_cm_exporter.h"
+
 //
 //
 ///*!
@@ -184,13 +185,13 @@ extern "C"
 // \ingroup initialization
 //*/
 C_DECL_SPEC RRHandle rrCallConv getRRHandle();
-//
-///*!
-// \brief Free the roadRunner instance
-// \param[in] handle Free the roadRunner instance given in the argument
-// \ingroup initialization
-//*/
-//C_DECL_SPEC bool rrCallConv freeRRInstance(RRHandle handle);
+
+/*!
+ \brief Free the roadRunner instance
+ \param[in] handle Free the roadRunner instance given in the argument
+ \ingroup initialization
+*/
+C_DECL_SPEC bool rrCallConv freeRRInstance(RRHandle handle);
 //
 //C_DECL_SPEC char* rrCallConv  getInstallFolder();
 //C_DECL_SPEC bool  rrCallConv  setInstallFolder(const char* folder);
@@ -207,7 +208,7 @@ C_DECL_SPEC RRHandle rrCallConv getRRHandle();
 // \return Returns null if it fails, otherwise it returns the build date
 // \ingroup utility
 //*/
-//C_DECL_SPEC char*  rrCallConv getBuildDate();
+C_DECL_SPEC char*  rrCallConv getBuildDate();
 //
 ///*!
 // \brief Retrieve the current build time (HH:MM:SS) of the library
@@ -228,14 +229,14 @@ C_DECL_SPEC RRHandle rrCallConv getRRHandle();
 // \return Returns null if it fails, otherwise it returns the copyright string
 // \ingroup utility
 //*/
-//C_DECL_SPEC char*  rrCallConv getCopyright();
-//
-///*!
-// \brief Get rr compiler name. Typically gcc on linux and tcc on windows
-// \ingroup utility
-//*/
-//
-//char* rrCallConv getCompilerName();
+C_DECL_SPEC char*  rrCallConv getCopyright(RRHandle handle);
+
+/*!
+ \brief Get rr compiler name. Typically gcc on linux and tcc on windows
+ \ingroup utility
+*/
+
+char* rrCallConv getCompilerName();
 //
 ///*!
 // \brief Retrieve info about current state of roadrunner, e.g. loaded model, conservationAnalysis etc.
@@ -251,28 +252,30 @@ C_DECL_SPEC RRHandle rrCallConv getRRHandle();
 //*/
 //C_DECL_SPEC char* rrCallConv getlibSBMLVersion();
 //
-// /*!
-// \brief Set the path to the temporary folder where the C code will be stored
-//
-// When cRoadRunner is run in C generation mode its uses a temporary folder to store the
-// generated C source code. This method can be used to set the temporary folder path if necessary.
-//
-// \return Returns true if succesful
-// \ingroup utility
-//*/
-//C_DECL_SPEC bool rrCallConv setTempFolder(const char* folder);
-//
-///*!
-// \brief Retrieve the current temporary folder path
-//
-// When cRoadRunner is run in C generation mode its uses a temporary folder to store the
-// generate C source code. This method can be used to get the current value
-// for the the temporary folder path.
-//
-// \return Returns null if it fails, otherwise it returns the path
-// \ingroup utility
-//*/
-//C_DECL_SPEC char* rrCallConv getTempFolder(RRHandle handle);
+ /*!
+ \brief Set the path to the temporary folder where the C code will be stored
+
+ When cRoadRunner is run in C generation mode its uses a temporary folder to store the
+ generated C source code. This method can be used to set the temporary folder path if necessary.
+
+ \return Returns true if succesful
+ \ingroup utility
+*/
+C_DECL_SPEC bool rrCallConv setTempFolder(const char* folder);
+C_DECL_SPEC bool rrCallConv setTempFolderH(RRHandle handle, const char* folder);
+
+/*!
+ \brief Retrieve the current temporary folder path
+
+ When cRoadRunner is run in C generation mode its uses a temporary folder to store the
+ generate C source code. This method can be used to get the current value
+ for the the temporary folder path.
+
+ \return Returns null if it fails, otherwise it returns the path
+ \ingroup utility
+*/
+C_DECL_SPEC char* rrCallConv getTempFolder();
+C_DECL_SPEC char* rrCallConv getTempFolderH(RRHandle handle);
 //
 ///*!
 // \brief Retrieve the current working directory path
@@ -288,7 +291,7 @@ C_DECL_SPEC RRHandle rrCallConv getRRHandle();
 // \return Returns null if it fails, otherwise it returns the path
 // \ingroup utility
 //*/
-//C_DECL_SPEC char* rrCallConv getRRCAPILocation();
+C_DECL_SPEC char* rrCallConv getRRCAPILocation();
 //
 //
 ///*!
@@ -334,17 +337,17 @@ C_DECL_SPEC RRHandle rrCallConv getRRHandle();
 //
 //C_DECL_SPEC char* rrCallConv getSupportCodeFolder();
 //
-///*!
-// \brief Retrieve a pointer to the C code structure, RRCCode
-//
-// When cRoadRunner is run in C generation mode its uses a temporary folder to store the
-// generated C source code. This method can be used to obtain the header and main source
-// code after a model has been loaded.
-//
-// \return Returns null if it fails, otherwise it returns a pointer to the RRCode structure
-// \ingroup utility
-//*/
-//C_DECL_SPEC struct RRCCode* rrCallConv getCCode();
+/*!
+ \brief Retrieve a pointer to the C code structure, RRCCode
+
+ When cRoadRunner is run in C generation mode its uses a temporary folder to store the
+ generated C source code. This method can be used to obtain the header and main source
+ code after a model has been loaded.
+
+ \return Returns null if it fails, otherwise it returns a pointer to the RRCode structure
+ \ingroup utility
+*/
+C_DECL_SPEC RRCCodeHandle rrCallConv getCCode(RRHandle handle);
 //
 //
 ///*!
@@ -365,81 +368,82 @@ C_DECL_SPEC RRHandle rrCallConv getRRHandle();
 //// Logging Routines
 //// -----------------------------------------------------------------------
 //
-///*!
-// \brief Enable logging
-//
-// \return Returns true if succesful
-// \ingroup errorfunctions
-//*/
-//C_DECL_SPEC bool rrCallConv enableLogging();
-//
-///*!
-// \brief Set the logging status level
-//
-// The logging level is determined by the following strings
-//
-// "ANY", "DEBUG5", "DEBUG4", "DEBUG3", "DEBUG2", "DEBUG1",
-// "DEBUG", "INFO", "WARNING", "ERROR"
-//
-// Example: \code setLogLevel ("DEBUG4") \endcode
-//
-// \param lvl Pointer to the logging level string.
-// \return Ruturns true if succesful
-// \ingroup errorfunctions
-//*/
-//C_DECL_SPEC bool rrCallConv setLogLevel(const char* lvl);
-//
-///*!
-// \brief Get the logging status level as a pointer to a string
-//
-// The logging level can be one of the following strings
-//
-// "ANY", "DEBUG5", "DEBUG4", "DEBUG3", "DEBUG2", "DEBUG1",
-// "DEBUG", "INFO", "WARNING", "ERROR"
-//
-// Example: \code str = getLogLevel () \endcode
-//
-// \return Returns null if it fails else returns a pointer to the logging string
-// \ingroup errorfunctions
-//*/
-//C_DECL_SPEC char* rrCallConv getLogLevel();
-//
-///*!
-// \brief Get a pointer to the string that holds the logging file name path
-//
-// The logging level can be one of the following strings
-//
-// "ANY", "DEBUG5", "DEBUG4", "DEBUG3", "DEBUG2", "DEBUG1",
-// "DEBUG", "INFO", "WARNING", "ERROR"
-//
-// Example: str = getLogFileName ()
-//
-// \return Returns null if it fails else returns the full path to the logging file name
-// \ingroup errorfunctions
-//*/
-//C_DECL_SPEC char* rrCallConv getLogFileName();
-//
-///*!
-// \brief Check if there is an error string to retrieve
-//
-// Example: status = hasError ()
-//
-// \return Returns true if there is an error waiting to be retrieved
-// \ingroup errorfunctions
-//*/
-//C_DECL_SPEC bool rrCallConv hasError();
-//
-///*!
-// \brief Retrieve the current error string
-//
-// Example: \code str = getLastError (); \endcode
-//
-// \return Return null if fails, otherwise returns a pointer to the error string
-// \ingroup errorfunctions
-//*/
-//C_DECL_SPEC char* rrCallConv getLastError();
-//
-//
+/*!
+ \brief Enable logging
+
+ \return Returns true if succesful
+ \ingroup errorfunctions
+*/
+C_DECL_SPEC bool rrCallConv enableLogging();
+C_DECL_SPEC bool rrCallConv enableLoggingH(RRHandle handle);
+
+/*!
+ \brief Set the logging status level
+
+ The logging level is determined by the following strings
+
+ "ANY", "DEBUG5", "DEBUG4", "DEBUG3", "DEBUG2", "DEBUG1",
+ "DEBUG", "INFO", "WARNING", "ERROR"
+
+ Example: \code setLogLevel ("DEBUG4") \endcode
+
+ \param lvl Pointer to the logging level string.
+ \return Ruturns true if succesful
+ \ingroup errorfunctions
+*/
+C_DECL_SPEC bool rrCallConv setLogLevel(const char* lvl);
+
+/*!
+ \brief Get the logging status level as a pointer to a string
+
+ The logging level can be one of the following strings
+
+ "ANY", "DEBUG5", "DEBUG4", "DEBUG3", "DEBUG2", "DEBUG1",
+ "DEBUG", "INFO", "WARNING", "ERROR"
+
+ Example: \code str = getLogLevel () \endcode
+
+ \return Returns null if it fails else returns a pointer to the logging string
+ \ingroup errorfunctions
+*/
+C_DECL_SPEC char* rrCallConv getLogLevel();
+
+/*!
+ \brief Get a pointer to the string that holds the logging file name path
+
+ The logging level can be one of the following strings
+
+ "ANY", "DEBUG5", "DEBUG4", "DEBUG3", "DEBUG2", "DEBUG1",
+ "DEBUG", "INFO", "WARNING", "ERROR"
+
+ Example: str = getLogFileName ()
+
+ \return Returns null if it fails else returns the full path to the logging file name
+ \ingroup errorfunctions
+*/
+C_DECL_SPEC char* rrCallConv getLogFileName();
+
+/*!
+ \brief Check if there is an error string to retrieve
+
+ Example: status = hasError ()
+
+ \return Returns true if there is an error waiting to be retrieved
+ \ingroup errorfunctions
+*/
+C_DECL_SPEC bool rrCallConv hasError();
+
+/*!
+ \brief Retrieve the current error string
+
+ Example: \code str = getLastError (); \endcode
+
+ \return Return null if fails, otherwise returns a pointer to the error string
+ \ingroup errorfunctions
+*/
+C_DECL_SPEC char* rrCallConv getLastError();
+
+
 //// Flags/Options
 ///*!
 // \brief Enable or disable conservation analysis
@@ -449,26 +453,27 @@ C_DECL_SPEC RRHandle rrCallConv getRRHandle();
 //*/
 //C_DECL_SPEC bool rrCallConv setComputeAndAssignConservationLaws(bool On_Or_Off);
 //
-//// -----------------------------------------------------------------------
-//// Read and Write models
-//// -----------------------------------------------------------------------
-//
-///*!
-// \brief Load a model from an SBML string
-// \param[in] sbml string
-// \return Returns true if sucessful
-// \ingroup loadsave
-//*/
-//C_DECL_SPEC bool rrCallConv loadSBML(const char* sbml);
-//
-///*!
-// \brief Load a model from a SBML file
-// \param[in] fileName file name (or full path) to file that holds the SBML model
-// \return Returns true if sucessful
-// \ingroup loadsave
-//*/
-//C_DECL_SPEC bool rrCallConv loadSBMLFromFile(const char* fileName);
-//
+// -----------------------------------------------------------------------
+// Read and Write models
+// -----------------------------------------------------------------------
+
+/*!
+ \brief Load a model from an SBML string
+ \param[in] sbml string
+ \return Returns true if sucessful
+ \ingroup loadsave
+*/
+C_DECL_SPEC bool rrCallConv loadSBML(const char* sbml);
+
+/*!
+ \brief Load a model from a SBML file
+ \param[in] fileName file name (or full path) to file that holds the SBML model
+ \return Returns true if sucessful
+ \ingroup loadsave
+*/
+C_DECL_SPEC bool rrCallConv loadSBMLFromFile(const char* fileName);
+C_DECL_SPEC bool rrCallConv loadSBMLFromFileH(RRHandle handle, const char* fileName);
+
 ///*!
 // \brief Load simulation settings from a file
 // \param[in] fileName file name (or full path) to file that holds simulation settings
@@ -1514,7 +1519,7 @@ C_DECL_SPEC RRHandle rrCallConv getRRHandle();
 //// \brief Free char* generated by library routines
 //// \ingroup freeRoutines
 ////*/
-////C_DECL_SPEC bool rrCallConv freeText(char* text);
+C_DECL_SPEC bool rrCallConv freeText(char* text);
 ////
 ////
 /////*!
@@ -1541,11 +1546,11 @@ C_DECL_SPEC RRHandle rrCallConv getRRHandle();
 ////*/
 ////C_DECL_SPEC bool rrCallConv freeMatrix(RRMatrixHandle matrix);
 ////
-/////*!
-//// \brief Free RRCCodeHandle structures
-//// \ingroup freeRoutines
-////*/
-////C_DECL_SPEC bool rrCallConv freeCCode(RRCCodeHandle code);
+/*!
+ \brief Free RRCCodeHandle structures
+ \ingroup freeRoutines
+*/
+C_DECL_SPEC bool rrCallConv freeCCode(RRCCodeHandle code);
 ////
 /////*!
 //// \brief Pause
