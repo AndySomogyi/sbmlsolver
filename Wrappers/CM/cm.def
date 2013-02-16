@@ -1,4 +1,4 @@
-LIBRARY     RR_C_API.DLL
+LIBRARY     RR_CM.DLL
 
 EXPORTS
     getNumberOfRules                            = _getNumberOfRules@0

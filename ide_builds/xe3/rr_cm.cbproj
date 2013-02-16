@@ -45,7 +45,7 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <Defines>LIBSBML_USE_CPP_NAMESPACE;$(Defines)</Defines>
+        <Defines>LIBSBML_USE_CPP_NAMESPACE;EXPORT_RR_CM;CG_IDE;$(Defines)</Defines>
         <ProjectType>CppDynamicLibrary</ProjectType>
         <IncludePath>..\..\Wrappers\CM\;R:\rrl\ide_builds\xe3\;$(IncludePath)</IncludePath>
         <Manifest_File>None</Manifest_File>
@@ -99,13 +99,13 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <Manifest_File>None</Manifest_File>
+        <DynamicRTL>true</DynamicRTL>
         <IncludePath>..\..\source;$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <VerInfo_Locale>1033</VerInfo_Locale>
-        <IntermediateOutputDir>.\$(Platform)\$(Config)\rr_cm</IntermediateOutputDir>
-        <LinkPackageStatics>rtl.lib</LinkPackageStatics>
+        <ILINK_LibraryPath>$(RR_DEBUG_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
+        <LinkPackageStatics>rtl.lib</LinkPackageStatics>
+        <IntermediateOutputDir>.\$(Platform)\$(Config)\rr_cm</IntermediateOutputDir>
         <BPILibOutputDir>$(RR_DEBUG_INSTALL)\lib</BPILibOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -119,6 +119,9 @@
         <PCHCompile Include="rr_cm_pch.h">
             <BuildOrder>0</BuildOrder>
         </PCHCompile>
+        <DefFile Include="..\..\Wrappers\CM\cm.def">
+            <BuildOrder>3</BuildOrder>
+        </DefFile>
         <CppCompile Include="..\..\Wrappers\CM\rr_cm.cpp">
             <BuildOrder>1</BuildOrder>
         </CppCompile>

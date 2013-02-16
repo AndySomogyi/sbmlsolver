@@ -1,5 +1,5 @@
 /**
- * @file rr_c_types.h
+ * @file rr_cm_types.h
  * @brief roadRunner C API 2012
  * @author Totte Karlsson & Herbert M Sauro
  *
@@ -39,15 +39,16 @@
  * redistribute any piece of this software without proper attribution;
 */
 
-#ifndef rr_c_typesH
-#define rr_c_typesH
+#ifndef rr_cm_typesH
+#define rr_cm_typesH
 
 #if defined(__cplusplus)
 extern "C"
 {
 #else
 #include <stdio.h>
-#include "rr_support/stdbool.h"
+//#include "rr_support/stdbool.h"
+#include "stdbool.h"
 #endif
 
 /*!@brief Void pointer to RRHandle */
@@ -112,13 +113,13 @@ struct RRList;	//Forward declaration for RRListItem
 /*!@brief A single list element type */
 typedef struct RRListItem
 {
-    ListItemType ItemType;  	 /*!< The type of the item in this list element */
+    enum ListItemType ItemType;  	 /*!< The type of the item in this list element */
     union
     {
        int 	     		iValue;  /*!< Integer value */
 	   double    		dValue;  /*!< Double value */
 	   char*     		sValue;  /*!< String value */
-	   RRList*  		lValue;  /*!< List value */
+	   struct RRList*  		lValue;  /*!< List value */
 	} data;                      /*!< Union */
 } *RRListItemHandle;             /*!< Pointer to cRRArrayListItemHandle struct */
 
@@ -139,7 +140,7 @@ enum RRParameterType {ptString, ptInteger, ptDouble};
 /*!@brief A single parameter type */
 typedef struct RRParameter
 {
-    RRParameterType ParaType;  	 /*!< The type of the item held by the parameter */
+    enum RRParameterType ParaType;  	 /*!< The type of the item held by the parameter */
     union
     {
        int 	     		iValue;  /*!< Integer value */

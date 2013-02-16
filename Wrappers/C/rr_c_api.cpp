@@ -92,7 +92,6 @@ char* rrCallConv getInstallFolder()
 	return gInstallFolder;
 }
 
-
 bool rrCallConv  setInstallFolder(const char* folder)
 {
 	try
