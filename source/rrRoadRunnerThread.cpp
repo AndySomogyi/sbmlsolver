@@ -8,7 +8,6 @@ mRR(rr),
 mIsDone(false)
 {}
 
-
 void RoadRunnerThread::setThreadName(const string& name)
 {
 	mThreadName = name;

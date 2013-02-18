@@ -38,134 +38,6 @@
 // *
 // * redistribute any piece of this software without proper attribution;
 //*/
-//
-///*! \mainpage cRoadRunner Library
-// *
-// * \section intro_sec Introduction
-// *
-// * RoadRunner is a SBML compliant high performance and portable simulation engine
-// * for systems and synthetic biology. To run a simple SBML model
-// * and generate time series data we would call:
-// *
-// \code
-// RRResultHandle result;
-//
-// if (!loadSBMLFromFile ("mymodel.xml"))
-//    exit;
-//
-// result = simulate (0, 10, 100);
-// printf (resultToString (output)
-// \endcode
-//
-// More complex example:
-//
-// \code
-// #include <stdlib.h>
-// #include <stdio.h>
-// #include "rr_c_api.h"
-//
-// int main(int nargs, char** argv)
-// {
-//        RRHandle rrInstance = getRRInstance();
-//
-//        printf("loading model file %s\n", argv[1]);
-//
-//        if (!loadSBMLFromFile(argv[1])) {
-//           printf ("Error while loading SBML file\n");
-//           printf ("Error message: %s\n", getLastError());
-//           exit();
-//        }
-//
-//        RRResultHandle output = simulate (0, 100, 1000);  // start time, end time, and number of points
-//
-//        printf("Output table has %i rows and %i columns\n", output->RSize, output->RCols);
-//        printResult (output);
-//
-//        freeResult (output);
-//        freeRRInstance (rrInstance)
-//
-//        return 0;
-// }
-// \endcode
-// * \section install_sec Installation
-// *
-// * Installation documentation is provided in the main google code page.
-//
-// \defgroup initialization Library initialization and termination methods
-// \brief Initialize library and terminate library instance
-//
-// \defgroup loadsave Read and Write models
-// \brief Read and write models to files or strings. Support for SBML formats.
-//
-// \defgroup utility Utility functions
-// \brief Various miscellaneous routines that return useful inforamtion about the library
-//
-// \defgroup errorfunctions Error handling functions
-// \brief Error handlining routines
-//
-// \defgroup state Current state of system
-// \brief Compute derivatives, fluxes, and other values of the system at the current state
-//
-// \defgroup simulation Time-course simulation
-// \brief Deterministic, stochastic, and hybrid simulation algorithms
-//
-// \defgroup steadystate Steady State Routines
-// \brief Compute and obtain basic information about the steady state
-//
-// \defgroup reaction Reaction group
-// \brief Get information about reaction rates
-//
-// \defgroup rateOfChange Rates of change group
-// \brief Get information about rates of change
-//
-// \defgroup boundary Boundary species group
-// \brief Get information about boundary species
-//
-// \defgroup floating Floating species group
-// \brief Get information about floating species
-//
-// \defgroup initialConditions Initial conditions group
-// \brief Set or get initial conditions
-//
-// \defgroup Parameters parameters group
-// \brief Set and get global and local parameters
-//
-// \defgroup compartment Compartment group
-// \brief Set and Get information on compartments
-//
-// \defgroup mca Metabolic Control Analysis
-// \brief Calculate control coefficients and sensitivities
-//
-// \defgroup Stoich Stoichiometry analysis
-// \brief Linear algebra based methods for analyzing a reaction network
-//
-// \defgroup NOM Network object model (NOM) functions
-// \brief Network objwct model functions
-//
-// \defgroup LinearAlgebra Linear Algebra functions
-// \brief Linear algebra utility functions
-//
-// \defgroup list List Handling Routines
-// \brief Some methods return lists (heterogeneous arrayts of data),
-// these routines make it easier to manipulate listse
-//
-// \defgroup helperRoutines Helper Routines
-// \brief Helper routines for acessing the various C API types, eg lists and arrays
-//
-// \defgroup toString ToString Routines
-// \brief Render various result data types as strings
-//
-// \defgroup stringArray StringArray Routines
-// \brief Utility rountines to deal with the string array type
-//
-// \defgroup freeRoutines Free memory routines
-// \brief Routines that should be used to free various data structures generated during the course of using the library
-//
-// \defgroup pluginRoutines Plugin functionality
-// \brief Routines used dealing with plugins
-//
-//*/
-//
 #ifndef rr_cmH
 #define rr_cmH
 //
@@ -177,8 +49,7 @@ extern "C"
 #include "rr_cm_types.h"
 #include "rr_cm_exporter.h"
 
-//
-//
+
 ///*!
 // \brief Initialize a new roadRunner instance and return a handle to it.
 // \return Returns a RoadRunner instance, returns null if it fails
@@ -2064,3 +1935,133 @@ C_DECL_SPEC bool rrCallConv freeCCode(RRCCodeHandle code);
 #endif
 
 #endif
+
+//
+///*! \mainpage cRoadRunner Library
+// *
+// * \section intro_sec Introduction
+// *
+// * RoadRunner is a SBML compliant high performance and portable simulation engine
+// * for systems and synthetic biology. To run a simple SBML model
+// * and generate time series data we would call:
+// *
+// \code
+// RRResultHandle result;
+//
+// if (!loadSBMLFromFile ("mymodel.xml"))
+//    exit;
+//
+// result = simulate (0, 10, 100);
+// printf (resultToString (output)
+// \endcode
+//
+// More complex example:
+//
+// \code
+// #include <stdlib.h>
+// #include <stdio.h>
+// #include "rr_c_api.h"
+//
+// int main(int nargs, char** argv)
+// {
+//        RRHandle rrInstance = getRRInstance();
+//
+//        printf("loading model file %s\n", argv[1]);
+//
+//        if (!loadSBMLFromFile(argv[1])) {
+//           printf ("Error while loading SBML file\n");
+//           printf ("Error message: %s\n", getLastError());
+//           exit();
+//        }
+//
+//        RRResultHandle output = simulate (0, 100, 1000);  // start time, end time, and number of points
+//
+//        printf("Output table has %i rows and %i columns\n", output->RSize, output->RCols);
+//        printResult (output);
+//
+//        freeResult (output);
+//        freeRRInstance (rrInstance)
+//
+//        return 0;
+// }
+// \endcode
+// * \section install_sec Installation
+// *
+// * Installation documentation is provided in the main google code page.
+//
+// \defgroup initialization Library initialization and termination methods
+// \brief Initialize library and terminate library instance
+//
+// \defgroup loadsave Read and Write models
+// \brief Read and write models to files or strings. Support for SBML formats.
+//
+// \defgroup utility Utility functions
+// \brief Various miscellaneous routines that return useful inforamtion about the library
+//
+// \defgroup errorfunctions Error handling functions
+// \brief Error handlining routines
+//
+// \defgroup state Current state of system
+// \brief Compute derivatives, fluxes, and other values of the system at the current state
+//
+// \defgroup simulation Time-course simulation
+// \brief Deterministic, stochastic, and hybrid simulation algorithms
+//
+// \defgroup steadystate Steady State Routines
+// \brief Compute and obtain basic information about the steady state
+//
+// \defgroup reaction Reaction group
+// \brief Get information about reaction rates
+//
+// \defgroup rateOfChange Rates of change group
+// \brief Get information about rates of change
+//
+// \defgroup boundary Boundary species group
+// \brief Get information about boundary species
+//
+// \defgroup floating Floating species group
+// \brief Get information about floating species
+//
+// \defgroup initialConditions Initial conditions group
+// \brief Set or get initial conditions
+//
+// \defgroup Parameters parameters group
+// \brief Set and get global and local parameters
+//
+// \defgroup compartment Compartment group
+// \brief Set and Get information on compartments
+//
+// \defgroup mca Metabolic Control Analysis
+// \brief Calculate control coefficients and sensitivities
+//
+// \defgroup Stoich Stoichiometry analysis
+// \brief Linear algebra based methods for analyzing a reaction network
+//
+// \defgroup NOM Network object model (NOM) functions
+// \brief Network objwct model functions
+//
+// \defgroup LinearAlgebra Linear Algebra functions
+// \brief Linear algebra utility functions
+//
+// \defgroup list List Handling Routines
+// \brief Some methods return lists (heterogeneous arrayts of data),
+// these routines make it easier to manipulate listse
+//
+// \defgroup helperRoutines Helper Routines
+// \brief Helper routines for acessing the various C API types, eg lists and arrays
+//
+// \defgroup toString ToString Routines
+// \brief Render various result data types as strings
+//
+// \defgroup stringArray StringArray Routines
+// \brief Utility rountines to deal with the string array type
+//
+// \defgroup freeRoutines Free memory routines
+// \brief Routines that should be used to free various data structures generated during the course of using the library
+//
+// \defgroup pluginRoutines Plugin functionality
+// \brief Routines used dealing with plugins
+//
+//*/
+//
+

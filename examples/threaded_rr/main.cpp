@@ -8,55 +8,52 @@ using namespace rr;
 
 
 
-class LoadSBML : public RoadRunnerThread
+class SimulateSBML : public RoadRunnerThread
 {
 	protected:
 	public:
-    					LoadSBML(RoadRunner* rr, const string& modelFile) :
+    					SimulateSBML(RoadRunner* rr, const string& modelFile) :
                         RoadRunnerThread(rr),
                         mModel(modelFile){}
 
 		string			mModel;
     	                void worker()
     	                {
-		                	Log(lInfo)<<"Starting loadSBML thread";
+		                	Log(lInfo)<<"Starting SimulateSBML thread";
 
                             if(mRR)
                             {
 	                        	std::cout << "Loading SBML" << std::endl;
                             	mRR->loadSBMLFromFile(mModel);
-                                Sleep(1000);
+                                mRR->simulate();
                             }
                             else
                             {
                             	Log(lError)<<"RoadRunner Handle is NULL";
                             }
 
-		                	Log(lInfo)<<"Exiting loadSBML thread";
+		                	Log(lInfo)<<"Exiting SimulateSBML thread";
     	                }
 };
 
-
-int main(int argc, char** argv)
+int main()
 {
-    string logFile = "RoadRunner.log";
-    gLog.Init("test");
-
 	RoadRunner lRR;
 
 	LogOutput::mLogToConsole = true;
-	gLog.SetCutOffLogLevel(lDebug3);
+	gLog.SetCutOffLogLevel(lInfo);
     Log(lInfo)<<"Hello";
-    LoadSBML loadSBML(&lRR, "..\\models\\test_1.xml");
+    SimulateSBML SimulateSBML(&lRR, "..\\models\\test_1.xml");
 
 
-    loadSBML.start();
-	while(loadSBML.isRunning())
+    SimulateSBML.start();
+	while(SimulateSBML.isRunning())
     {
 		Log(lInfo)<<"Running..";
     }
 
-    loadSBML.join();
+    SimulateSBML.join();
+
     return 0;
 }
 
