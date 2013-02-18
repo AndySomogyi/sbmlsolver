@@ -18,6 +18,7 @@ RR_DECLSPEC extern const char* 	gIntFormat;
 RR_DECLSPEC extern const char* 	gComma;
 RR_DECLSPEC extern const string gDefaultSupportCodeFolder;
 RR_DECLSPEC extern const string gDefaultCompiler;
+RR_DECLSPEC extern const string gDefaultTempFolder;
 
 //Messages
 RR_DECLSPEC extern const string gEmptyModelMessage;

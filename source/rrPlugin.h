@@ -10,20 +10,6 @@
 namespace rr
 {
 
-class RR_DECLSPEC PluginLogger
-{
-    protected:
-        std::ostringstream          mStream;
-		vector<string>			   *mLogs;
-    public:
-                                    PluginLogger(vector<string>* container);
-        virtual                    ~PluginLogger();
-        std::ostringstream&         Get();
-};
-
-#define pLog() \
-    PluginLogger(&mLog).Get()
-
 class RoadRunner;
 const string noneStr = "<none>";
 
@@ -55,7 +41,6 @@ class RR_DECLSPEC Plugin : public rrObject
 
         Parameters*					getParameters(Capability& capability); //Each capability has a set of parameters
         Parameters*					getParameters(const string& nameOfCapability = ""); //Each capability has a set of parameters
-
         BaseParameter*				getParameter(const string& param);
         BaseParameter*				getParameter(const string& param, Capability& capability);
 
@@ -64,11 +49,27 @@ class RR_DECLSPEC Plugin : public rrObject
         bool						setParameter(const string& nameOf, void* value, 		Capability& capability);
         bool						setParameter(const string& nameOf, const char* value, 	Capability& capability);
 
-		//Pure virtuals
-        virtual bool	           	execute() = 0;
+        //Logging
         vector<string>&				getLog();
         bool						emptyLog(); //Has to be made thread safe
+
+		//Pure virtuals
+        virtual bool	           	execute() = 0;
 };
+
+class RR_DECLSPEC PluginLogger
+{
+    protected:
+        std::ostringstream          mStream;
+		vector<string>			   *mLogs;
+    public:
+                                    PluginLogger(vector<string>* container);
+        virtual                    ~PluginLogger();
+        std::ostringstream&         Get();
+};
+
+#define pLog() \
+    PluginLogger(&mLog).Get()
 
 }
 
