@@ -1,11 +1,15 @@
 #include <iostream>
+#include "Poco/Mutex.h"
+#include "Poco/ScopedLock.h"
 #include "rrRoadRunner.h"
 #include "rrRoadRunnerThread.h"
 #include "rrLogger.h"
 #include "rrUtils.h"
 #include "rrException.h"
+
 using namespace std;
 using namespace rr;
+using Poco::Mutex::ScopedLock;
 
 class LoadSBML : public RoadRunnerThread
 {
@@ -13,47 +17,98 @@ class LoadSBML : public RoadRunnerThread
 		string			mModelFileName;
 
 	public:
-    					LoadSBML(RoadRunner* rr, const string& modelFile)
+    					LoadSBML(const string& modelFile)
                         :
-                        RoadRunnerThread(rr),
-                        mModelFileName(modelFile){}
+                        mModelFileName(modelFile)
+                        {
+                        	start();
+                        }
 
     	void 			worker()
     	                {
-                            if(mRR)
+	                        RoadRunner *rri = NULL;
+							while(!mIsTimeToDie)
                             {
-                            	mRR->loadSBMLFromFile(mModelFileName);
+                                {
+                                	ScopedLock lock(mJobsMutex);
+                                	if(mJobs.size() == 0)
+                                	{
+                                    	Log(lDebug5)<<"Waiting for jobs in loadSBML worker";
+                                    	mJobsCondition.wait(mJobsMutex);
+                                	}
+
+                                    if(mJobs.size() == 0 || mIsTimeToDie)
+                                    {
+                                    	return;	//ends the life of the thread..
+                                    }
+                                    else
+                                    {
+                                    	//Get a job
+                                    	rri = mJobs.front();
+                                    	mJobs.pop_front();
+                                    }
+
+                                }		//Causes the scoped lock to unlock
+
+                                //Do the job
+                                if(rri)
+                                {
+                                	Log(lInfo)<<"Loading model into instance: "<<rri->getInstanceID();
+                                	rri->loadSBMLFromFile(mModelFileName);
+                                }
                             }
-                            else
-                            {
-                            	Log(lError)<<"RoadRunner Handle is NULL";
-                            }
+                            Log(lDebug)<<"Exiting thread";
     	                }
 };
 
 class Simulate : public RoadRunnerThread
 {
 	public:
-    					Simulate(RoadRunner* rr) :
-                        RoadRunnerThread(rr)
-						{}
+    					Simulate() :
+                        RoadRunnerThread()
+						{
+                        	start();
+                        }
 
     	void 			worker()
     	                {
-                            mIsDone = false;
-                            if(mRR)
+	                        RoadRunner *rri = NULL;
+							while(!mIsTimeToDie)
                             {
-                            	if(!mRR->simulate2())
+                                {	//Scope for the mutex lock...
+                                	ScopedLock lock(mJobsMutex);
+                                	if(mJobs.size() == 0)
+                                	{
+                                    	Log(lDebug5)<<"Waiting for jobs in Simulate worker";
+                                    	mJobsCondition.wait(mJobsMutex);
+                                	}
+
+                                    if(mJobs.size() == 0 || mIsTimeToDie)
+                                    {
+                                    	return;	//ends the life of the thread..
+                                    }
+                                    else
+                                    {
+                                    	//Get a job
+                                    	rri = mJobs.front();
+                                    	mJobs.pop_front();
+                                    }
+
+                                }		//Causes the scoped lock to unlock
+
+                                //Do the job
+                                if(rri)
                                 {
-	                            	Log(lError)<<"Simulation failure";
+                                	Log(lInfo)<<"Simulating RR instance: "<<rri->getInstanceID();
+                                	if(!rri->simulate2())
+                                    {
+                                    	Log(lError)<<"Failed simulating instance: "<<rri->getInstanceID();
+                                    }
                                 }
+
                             }
-                            else
-                            {
-                            	Log(lError)<<"RoadRunner Handle is NULL";
-                            }
-                            mIsDone = true;
-    	                }
+                            Log(lDebug)<<"Exiting thread";
+                        }
 };
 
 int main(int argc, char** argv)
@@ -66,7 +121,7 @@ int main(int argc, char** argv)
 	LogOutput::mLogToConsole = true;
 
 	//Create many roadrunners
-    const int nrOfRRInstances = 120;
+    const int nrOfRRInstances = 1000;
 	vector<RoadRunner*> rrInstance;
 
     for(int i = 0; i < nrOfRRInstances; i++)
@@ -83,11 +138,11 @@ int main(int argc, char** argv)
 	//Create threads to load and simulate models
     for(int i = 0; i < threadCount; i++)
     {
-    	loadSBML.push_back(new LoadSBML(NULL, "..\\models\\test_1.xml"));
-        simulate.push_back(new Simulate(NULL));
+    	loadSBML.push_back(new LoadSBML("r:\\models\\test_1.xml"));
+        simulate.push_back(new Simulate());
     }
 
-    //Run threadCount threads
+    //Populate threads with jobs. Observe the threads starts working as soon it gets a job..
     int instance = 0;
     do
     {
@@ -95,47 +150,79 @@ int main(int argc, char** argv)
         {
             if(instance < nrOfRRInstances)
             {
-                loadSBML[j]->setRRInstance(rrInstance[instance]);
-                loadSBML[j]->start();
+                loadSBML[j]->addJob(rrInstance[instance]);
                 instance++;
             }
         }
-
-        //Wait for the threads..
-        for(int j = 0; j < threadCount; j++)
-        {
-            loadSBML[j]->join();
-        }
-
     }
     while(instance < nrOfRRInstances);
+
+
+    //Check that all jobs been done
+    for(int j = 0; j < threadCount; j++)
+    {
+    	do
+        {
+            //Sleep(10);
+
+        }while(loadSBML[j]->getNrOfJobsInQueue() != 0);
+    }
+
+    //All jobs done.. exit the threads..
+    for(int j = 0; j < threadCount; j++)
+    {
+		loadSBML[j]->exit();
+    }
+
+    //Make sure all threads have exited...
+    for(int j = 0; j < threadCount; j++)
+    {
+		loadSBML[j]->join();
+    }
 
     //Simulate
     Log(lInfo)<<" ---------- SIMULATING -------------";
+
+    //Setup instances with different variables
+    for(int i = 0; i < nrOfRRInstances; i++)
+    {
+    	cout<<i<<endl;
+    	double val = rrInstance[i]->getValue("k1");
+	    rrInstance[i]->setValue("k1", val/(2.5*(i + 1)));
+        rrInstance[i]->setNumPoints(500);
+        rrInstance[i]->setTimeEnd(150);
+        rrInstance[i]->setTimeCourseSelectionList("S1");
+    }
+
+    //Simulate them using threads..
     instance = 0;
     do
     {
-     	for(int j = 0; j < threadCount; j++)
+        for(int j = 0; j < threadCount; j++)
         {
-        	if(instance  < nrOfRRInstances)
+            if(instance < nrOfRRInstances)
             {
-	            simulate[j]->setRRInstance(rrInstance[instance]);
+                simulate[j]->addJob(rrInstance[instance]);
                 instance++;
-            	double val = simulate[j]->getRRInstance()->getValue("k1");
-	            simulate[j]->getRRInstance()->setValue("k1", val/(2.5*( j + instance + 1)));
-                simulate[j]->getRRInstance()->setNumPoints(500);
-                simulate[j]->getRRInstance()->setTimeEnd(150);
-                simulate[j]->getRRInstance()->setTimeCourseSelectionList("S1");
-        		simulate[j]->start();
             }
-        }
-
-     	for(int j = 0; j < threadCount; j++)
-        {
-        	simulate[j]->join();
         }
     }
     while(instance < nrOfRRInstances);
+
+
+    //Check that all jobs been done
+    for(int j = 0; j < threadCount; j++)
+    {
+    	do
+        {
+        }while(simulate[j]->getNrOfJobsInQueue() != 0);
+    }
+
+    //All jobs done.. exit the threads..
+    for(int j = 0; j < threadCount; j++)
+    {
+		simulate[j]->exit();
+    }
 
     //Write data to a file
     SimulationData allData;
@@ -145,6 +232,7 @@ int main(int argc, char** argv)
         SimulationData data = rr->getSimulationResult();
         allData.append(data);
     }
+
 
     allData.writeTo("r:\\allData.dat");
     }

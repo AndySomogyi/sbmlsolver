@@ -88,6 +88,31 @@ RRHandle rrCallConv getRRHandle()
 		return NULL;
     }
 }
+
+RRHandle* rrCallConv getRRHandles(int count)
+{
+	try
+    {
+    	string rrInstallFolder(getParentFolder(getRRCAPILocation()));
+        string compiler = getCompilerName();
+
+        RRHandle* handles = new RRHandle[count];
+
+        for(int i = 0; i < count; i++)
+        {
+        	handles[i] = new RoadRunner(JoinPath(rrInstallFolder, "rr_support"), compiler, GetUsersTempDataFolder());
+        }
+    	return handles;
+    }
+	catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return NULL;
+    }
+}
+
 //
 //char* rrCallConv getInstallFolder()
 //{
@@ -132,15 +157,30 @@ char* rrCallConv getCompilerName()
 //    }
 //}
 
-bool rrCallConv enableLoggingH(RRHandle handle)
+bool rrCallConv enableLoggingToConsole(RRHandle handle)
 {
 	try
     {
 	    LogOutput::mLogToConsole = true;
-        char* tempFolder = getTempFolderH(handle);
+    	return true;
+    }
+    catch(const Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return false;
+    }
+}
+
+bool rrCallConv enableLoggingToFile(RRHandle handle)
+{
+	try
+    {
+        char* tempFolder = getTempFolder(handle);
 		string logFile = JoinPath(tempFolder, "RoadRunner.log") ;
         freeText(tempFolder);
-		Log(lInfo)<<"Creating log file "<<logFile;
+		Log(lDebug3)<<"Creating log file "<<logFile;
         gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));
 
         char* buffer;
@@ -151,7 +191,7 @@ bool rrCallConv enableLoggingH(RRHandle handle)
         }
         else
         {
-            Log(lInfo)<<"Current working folder is: "<<buffer;
+            Log(lDebug)<<"Current working folder is: "<<buffer;
             free(buffer);
         }
 
@@ -381,28 +421,8 @@ char* rrCallConv getCopyright(RRHandle handle)
 ////     }
 ////}
 ////
-//bool rrCallConv setTempFolder(const char* folder)
-//{
-//	try
-//    {
-//    	if(!gRRHandle)
-//    	{
-//        	setError(ALLOCATE_API_ERROR_MSG);
-//        	return false;
-//    	}
-//		Log(lDebug)<<"Setting tempfolder to:"<<folder<<endl;
-//	    return gRRHandle->setTempFileFolder(folder);
-//    }
-//    catch(Exception& ex)
-//    {
-//    	stringstream msg;
-//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-//        setError(msg.str());
-//  		return false;
-//    }
-//}
 
-bool rrCallConv setTempFolderH(RRHandle handle, const char* folder)
+bool rrCallConv setTempFolder(RRHandle handle, const char* folder)
 {
 	try
     {
@@ -420,7 +440,7 @@ bool rrCallConv setTempFolderH(RRHandle handle, const char* folder)
     }
 }
 
-char* rrCallConv getTempFolderH(RRHandle handle)
+char* rrCallConv getTempFolder(RRHandle handle)
 {
 	try
     {
@@ -574,41 +594,8 @@ char* rrCallConv getTempFolderH(RRHandle handle)
 ////    }
 ////}
 ////
-//bool rrCallConv loadSBMLFromFile(const char* fileName)
-//{
-//	try
-//    {
-//        if(!gRRHandle)
-//        {
-//            setError(ALLOCATE_API_ERROR_MSG);
-//            return false;
-//        }
-//        //Check if file exists first
-//        if(!FileExists(fileName))
-//        {
-//            stringstream msg;
-//            msg<<"The file "<<fileName<<" was not found";
-//            setError(msg.str());
-//            return false;
-//        }
-//
-//        if(!gRRHandle->loadSBMLFromFile(fileName))
-//        {
-//            setError("Failed to load SBML semantics");	//There are many ways loading a model can fail, look at logFile to know more
-//            return false;
-//        }
-//        return true;
-//    }
-//    catch(Exception& ex)
-//    {
-//    	stringstream msg;
-//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-//        setError(msg.str());
-//	    return false;
-//    }
-//}
 
-bool rrCallConv loadSBMLFromFileH(RRHandle _handle, const char* fileName)
+bool rrCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
 {
 	try
     {
@@ -3945,7 +3932,7 @@ bool rrCallConv freeCCode(RRCCodeHandle code)
 ////We only need to give the linker the folder where libs are
 ////using the pragma comment. Works for MSVC and codegear
 #if defined(CG_IDE)
-#pragma comment(lib, "roadrunner.lib")
+//#pragma comment(lib, "roadrunner.lib")
 #pragma comment(lib, "roadrunner-static.lib")
 #pragma comment(lib, "rr-libstruct-static.lib")
 #pragma comment(lib, "pugi-static.lib")

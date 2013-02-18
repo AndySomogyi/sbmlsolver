@@ -57,6 +57,13 @@ extern "C"
 //*/
 C_DECL_SPEC RRHandle rrCallConv getRRHandle();
 
+///*!
+// \brief Initialize new roadRunner instances and return a handle to them.
+// \return Returns count number of RoadRunner instances, returns null if it fails
+// \ingroup initialization
+//*/
+C_DECL_SPEC RRHandle* rrCallConv getRRHandles(int count);
+
 /*!
  \brief Free the roadRunner instance
  \param[in] handle Free the roadRunner instance given in the argument
@@ -132,8 +139,7 @@ char* rrCallConv getCompilerName();
  \return Returns true if succesful
  \ingroup utility
 */
-C_DECL_SPEC bool rrCallConv setTempFolder(const char* folder);
-C_DECL_SPEC bool rrCallConv setTempFolderH(RRHandle handle, const char* folder);
+C_DECL_SPEC bool rrCallConv setTempFolder(RRHandle handle, const char* folder);
 
 /*!
  \brief Retrieve the current temporary folder path
@@ -145,8 +151,7 @@ C_DECL_SPEC bool rrCallConv setTempFolderH(RRHandle handle, const char* folder);
  \return Returns null if it fails, otherwise it returns the path
  \ingroup utility
 */
-C_DECL_SPEC char* rrCallConv getTempFolder();
-C_DECL_SPEC char* rrCallConv getTempFolderH(RRHandle handle);
+C_DECL_SPEC char* rrCallConv getTempFolder(RRHandle handle);
 //
 ///*!
 // \brief Retrieve the current working directory path
@@ -240,13 +245,12 @@ C_DECL_SPEC RRCCodeHandle rrCallConv getCCode(RRHandle handle);
 //// -----------------------------------------------------------------------
 //
 /*!
- \brief Enable logging
-
+ \brief Enable logging to log file and/or console
  \return Returns true if succesful
  \ingroup errorfunctions
 */
-C_DECL_SPEC bool rrCallConv enableLogging();
-C_DECL_SPEC bool rrCallConv enableLoggingH(RRHandle handle);
+C_DECL_SPEC bool rrCallConv enableLoggingToConsole(RRHandle handle);
+C_DECL_SPEC bool rrCallConv enableLoggingToFile(RRHandle handle);
 
 /*!
  \brief Set the logging status level
@@ -342,8 +346,7 @@ C_DECL_SPEC bool rrCallConv loadSBML(const char* sbml);
  \return Returns true if sucessful
  \ingroup loadsave
 */
-C_DECL_SPEC bool rrCallConv loadSBMLFromFile(const char* fileName);
-C_DECL_SPEC bool rrCallConv loadSBMLFromFileH(RRHandle handle, const char* fileName);
+C_DECL_SPEC bool rrCallConv loadSBMLFromFile(RRHandle handle, const char* fileName);
 
 ///*!
 // \brief Load simulation settings from a file

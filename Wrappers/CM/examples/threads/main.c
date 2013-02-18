@@ -5,60 +5,64 @@
 int main()
 {
     //Declarations..
-	RRHandle rrHandle;
+	RRHandle *rrHandles;
 	char* text;
 	char* modelFileName = "r://models//test_1.xml";
     char* sbml;
-    RRCCodeHandle codeHandle;
+    int   handleCount;
+    int i;
 	//.....
 
+    handleCount = 100;
 	printf("Starting C program...");
 
-    rrHandle =  getRRHandle();
 
-    if(!rrHandle)
+    rrHandles =  getRRHandles(handleCount);
+
+    if(!rrHandles)
     {
-        printf("No handle...");
+        printf("No handles...");
     }
     else
     {
-	    printf("Handle allocated succesfully..");
+	    printf("Handles allocated succesfully..");
     }
 
-
-	text = getBuildDate();
-
-	if(text)
-	{
-		printf("\nBuild date: %s", text);
-		freeText(text);
-	}
-
-    setTempFolderH(rrHandle, "r:\\rrTemp");
-	enableLoggingH(rrHandle);
-    setLogLevel("Info");
-
-
-    //To get the C Code, the code needs to be generated
-    if(!loadSBMLFromFileH(rrHandle, modelFileName))
+   	setLogLevel("Info");
+    for(i = 0; i < handleCount; i++)
     {
-    	printf("Failed loading SBML.\n");
-        printf("Last error: %s", getLastError());
-        return -1;
+    	setTempFolder(rrHandles[i], "r:\\rrTemp");
+		enableLoggingToConsole(rrHandles[i]);
+		enableLoggingToFile(rrHandles[i]);
     }
 
-	// Cleanup
-    freeRRInstance(rrHandle);
+	//loadSBML models in threads instead
+    loadSBMLFromFile(rrHandles, modelFileName);
 
 
-	//Finish off..
-    text = getCopyright(rrHandle);
-    if(text)
+    for(i = 0; i < handleCount; i++)
     {
-    	printf(text);
+        if(!loadSBMLFromFile(rrHandles[i], modelFileName))
+        {
+        	printf("Failed loading SBML.\n");
+            printf("Last error: %s", getLastError());
+            return -1;
+        }
     }
 
-    freeText(text);
+
+//	// Cleanup
+//    freeRRInstance(rrHandle);
+//
+//
+//	//Finish off..
+//    text = getCopyright(rrHandle);
+//    if(text)
+//    {
+//    	printf(text);
+//    }
+//
+//    freeText(text);
 
     if(hasError())
     {

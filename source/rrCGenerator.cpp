@@ -83,7 +83,7 @@ string CGenerator::generateModelCode(const string& sbmlStr, const bool& _compute
         mModelName = "NameNotSet";
     }
 
-    Log(lInfo)<<"Processing model: "<<mModelName;
+    Log(lDebug1)<<"Processing model: "<<mModelName;
     mNumReactions = mNOM.getNumReactions();
 
     Log(lDebug3)<<"Number of reactions:"<<mNumReactions;

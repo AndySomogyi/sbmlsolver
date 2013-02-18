@@ -59,7 +59,7 @@
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>None</Manifest_File>
-        <Defines>LIBSBML_USE_CPP_NAMESPACE;$(Defines)</Defines>
+        <Defines>LIBSBML_USE_CPP_NAMESPACE;POCO_STATIC;$(Defines)</Defines>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <Multithreaded>true</Multithreaded>
         <ILINK_LibraryPath>..\..\source\;R:\rrl\examples\many_threads\;$(ILINK_LibraryPath)</ILINK_LibraryPath>

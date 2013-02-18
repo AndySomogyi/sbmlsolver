@@ -1,16 +1,30 @@
 #pragma hdrstop
+#include "Poco/ScopedLock.h"
 #include "rrRoadRunnerThread.h"
 
+using namespace Poco;
 namespace rr
 {
-RoadRunnerThread::RoadRunnerThread(RoadRunner* rr) :
-mRR(rr),
-mIsDone(false)
+
+
+RoadRunnerThread::RoadRunnerThread() :
+mIsTimeToDie(false)
 {}
 
-void RoadRunnerThread::setThreadName(const string& name)
+void RoadRunnerThread::setName(const string& name)
 {
-	mThreadName = name;
+	mThread.setName(name);
+}
+
+string RoadRunnerThread::getName()
+{
+	mThread.getName();
+}
+
+void RoadRunnerThread::exit()
+{
+	mJobsCondition.signal();
+	mIsTimeToDie = true;
 }
 
 void RoadRunnerThread::start()
@@ -28,14 +42,18 @@ void RoadRunnerThread::join()
 	mThread.join();
 }
 
-void RoadRunnerThread::setRRInstance(RoadRunner* rr)
+void RoadRunnerThread::addJob(RoadRunner* rr)
 {
-	mRR = rr;
+	//getMutex
+    Mutex::ScopedLock lock(mJobsMutex);
+    mJobs.push_back(rr);
+	mJobsCondition.signal();	//Tell the thread its time to go to work
 }
 
-RoadRunner* RoadRunnerThread::getRRInstance()
+unsigned int RoadRunnerThread::getNrOfJobsInQueue()
 {
-	return mRR;
+    Mutex::ScopedLock lock(mJobsMutex);
+    return mJobs.size();
 }
 
 bool RoadRunnerThread::isRunning()
