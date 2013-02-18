@@ -18,9 +18,7 @@ class LoadSBML : public RoadRunnerThread
                         RoadRunnerThread(rr),
                         mModelFileName(modelFile){}
 
-
-
-    	                void worker()
+    	void 			worker()
     	                {
                             if(mRR)
                             {
@@ -40,7 +38,7 @@ class Simulate : public RoadRunnerThread
                         RoadRunnerThread(rr)
 						{}
 
-    	                void worker()
+    	void 			worker()
     	                {
                             mIsDone = false;
                             if(mRR)
@@ -65,6 +63,7 @@ int main(int argc, char** argv)
     string logFile = "RoadRunner.log";
     gLog.Init("test", lDebug);
 	gLog.SetCutOffLogLevel(lInfo);
+	LogOutput::mLogToConsole = true;
 
 	//Create many roadrunners
     const int nrOfRRInstances = 120;
@@ -76,14 +75,12 @@ int main(int argc, char** argv)
         rrInstance[i]->setTempFileFolder("r:\\rrThreads");
     }
 
-	LogOutput::mLogToConsole = true;
-    Log(lInfo)<<"Hello";
-
+    //Threads ..
+    int threadCount = 16;
     vector<LoadSBML*> loadSBML;
    	vector<Simulate*> simulate;
 
 	//Create threads to load and simulate models
-    int threadCount = 16;
     for(int i = 0; i < threadCount; i++)
     {
     	loadSBML.push_back(new LoadSBML(NULL, "..\\models\\test_1.xml"));
@@ -99,8 +96,8 @@ int main(int argc, char** argv)
             if(instance < nrOfRRInstances)
             {
                 loadSBML[j]->setRRInstance(rrInstance[instance]);
-				instance++;
                 loadSBML[j]->start();
+                instance++;
             }
         }
 
@@ -110,10 +107,11 @@ int main(int argc, char** argv)
             loadSBML[j]->join();
         }
 
-    }while(instance < nrOfRRInstances);
-
+    }
+    while(instance < nrOfRRInstances);
 
     //Simulate
+    Log(lInfo)<<" ---------- SIMULATING -------------";
     instance = 0;
     do
     {
@@ -124,7 +122,7 @@ int main(int argc, char** argv)
 	            simulate[j]->setRRInstance(rrInstance[instance]);
                 instance++;
             	double val = simulate[j]->getRRInstance()->getValue("k1");
-	            simulate[j]->getRRInstance()->setValue("k1", val/( j + instance + 1));
+	            simulate[j]->getRRInstance()->setValue("k1", val/(2.5*( j + instance + 1)));
                 simulate[j]->getRRInstance()->setNumPoints(500);
                 simulate[j]->getRRInstance()->setTimeEnd(150);
                 simulate[j]->getRRInstance()->setTimeCourseSelectionList("S1");
@@ -136,7 +134,8 @@ int main(int argc, char** argv)
         {
         	simulate[j]->join();
         }
-    }while(instance < nrOfRRInstances);
+    }
+    while(instance < nrOfRRInstances);
 
     //Write data to a file
     SimulationData allData;
@@ -154,7 +153,6 @@ int main(int argc, char** argv)
     	Log(lError)<<"There was a  problem: "<<ex.getMessage();
     }
 
-//    Pause(true);
     return 0;
 }
 

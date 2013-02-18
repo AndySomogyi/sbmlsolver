@@ -6,13 +6,10 @@
 
 class TestPlugin : public rr::Plugin
 {
-	private:
-
     public:
     					TestPlugin(rr::RoadRunner* aRR = NULL);
 					   ~TestPlugin();
 		bool			execute();
-
 };
 
 /////////////////////////////////////////////////////////////////////////

@@ -10,6 +10,7 @@
 namespace fitOne
 {
 using namespace rr;
+
 class FitOneParameter : public Plugin
 {
 	private:

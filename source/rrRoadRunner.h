@@ -95,7 +95,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		bool                     		mConservedTotalChanged;
 
 	public:
- 										RoadRunner(const string& supportCodeFolder = gDefaultSupportCodeFolder, const string& compiler = gDefaultCompiler, const string& tempFolder = gEmptyString);
+ 										RoadRunner(const string& supportCodeFolder = gDefaultSupportCodeFolder, const string& compiler = gDefaultCompiler, const string& tempFolder = gDefaultTempFolder);
 		virtual                        ~RoadRunner();
         int								getInstanceID();
         int								getInstanceCount();

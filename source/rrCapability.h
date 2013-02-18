@@ -8,7 +8,7 @@
 
 namespace rr
 {
-//class Parameter;
+//Create a class later on - Parameters;
 typedef vector<rr::BaseParameter*> Parameters;
 
 //Will be renamed to Capability
@@ -27,15 +27,14 @@ class RR_DECLSPEC Capability : public rrObject
         void                                add(rr::BaseParameter* me);
         string                              asString() const;
         u_int                               nrOfParameters() const;
-        const rr::BaseParameter&               	operator[](const int& i) const;
+        const rr::BaseParameter&            operator[](const int& i) const;
         string                              getName() const;
         string                              getDescription() const;
         string                              getMethod() const;
         Parameters*							getParameters();
         rr::BaseParameter*	   				getParameter(const string& paraName);
 
-		RR_DECLSPEC
-        		friend ostream& 			operator <<(ostream& os, const Capability& caps);
+		RR_DECLSPEC friend ostream&   		operator <<(ostream& os, const Capability& caps);
 };
 
 }

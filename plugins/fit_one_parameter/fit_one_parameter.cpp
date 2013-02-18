@@ -2,13 +2,6 @@
 #include "fit_one_parameter.h"
 #include "rrRoadRunner.h"
 
-#if defined(CG_UI)
-    #if defined(STATIC_BUILD)
-    	#pragma comment(lib, "roadrunner-static.lib")
-    #else
-    	#pragma comment(lib, "roadrunner.lib")
-    #endif
-#endif
 //---------------------------------------------------------------------------
 namespace fitOne
 {
@@ -18,10 +11,10 @@ FitOneParameter::FitOneParameter(rr::RoadRunner* aRR)
 :
 Plugin("FitOneParameter", "No Category", aRR),
 mOneParameterFit("OneParameterFit", "Run", "Runs a one parameter fit"),
-mNrOfIterations(	"Number of Iterations", 	10,   	"Number of Iterations"),
-mChiSquare(			"ChiSquare", 			   	0.123, 	"ChiSquare"),
+mNrOfIterations("Number of Iterations", 	10,   	"Number of Iterations"),
+mChiSquare("ChiSquare", 			   	0.123, 	"ChiSquare"),
 mOneParameterFitResult("FitResult", "", ""),
-mData("Some Data", NULL, "Result..")
+mData("Some Data", NULL,"Result..")
 {
 	//Setup the plugins capabilities
     mOneParameterFit.add(&mNrOfIterations);
@@ -38,7 +31,6 @@ FitOneParameter::~FitOneParameter()
 
 bool FitOneParameter::execute()
 {
-
 	pLog()<<"Executing the FitOneParameter plugin";
     //Create a fitting thread, start it and then return..
 	mRR->loadSBMLFromFile("r:\\models\\feedback.xml");
@@ -58,4 +50,13 @@ rr::Plugin* __stdcall createRRPlugin(rr::RoadRunner* aRR)
 }
 
 }
+
+#if defined(CG_UI)
+    #if defined(STATIC_BUILD)
+    	#pragma comment(lib, "roadrunner-static.lib")
+    #else
+    	#pragma comment(lib, "roadrunner.lib")
+    #endif
+#endif
+
 
