@@ -3,8 +3,8 @@
 #include "rrLogger.h"
 #include "rrUtils.h"
 #include "rrException.h"
-#include "rrThreadPool.h"
-
+#include "rrLoadModels.h"
+#include "rrSimulateModels.h"
 int main(int argc, char** argv)
 {
 	try
@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 	LogOutput::mLogToConsole = true;
 
 	//Create some roadrunners
-    const int nrOfRRInstances = 50;
+    const int nrOfRRInstances = 15;
 	vector<RoadRunner*> rrInstances;
 
     for(int i = 0; i < nrOfRRInstances; i++)
@@ -28,7 +28,7 @@ int main(int argc, char** argv)
 
 	//Threads ..
     int threadCount = 16;
-    LoadSBMLThreadPool loadSBML(threadCount, model, rrInstances);
+    LoadModels loadSBML(threadCount, model, rrInstances);
 
     loadSBML.waitForAll();
 
@@ -40,13 +40,13 @@ int main(int argc, char** argv)
     {
     	double val = rrInstances[i]->getValue("k1");
 	    rrInstances[i]->setValue("k1", val/(2.5*(i + 1)));
-        rrInstances[i]->setNumPoints(50);
-        rrInstances[i]->setTimeEnd(15);
+        rrInstances[i]->setNumPoints(500);
+        rrInstances[i]->setTimeEnd(150);
         rrInstances[i]->setTimeCourseSelectionList("S1");
     }
 
     //Simulate them using a pool of threads..
-    SimulateSBMLThreadPool simulateSBML(threadCount, rrInstances);
+    SimulateModels simulateSBML(threadCount, rrInstances);
 
     //Wait for all jobs
     simulateSBML.waitForAll();
@@ -60,7 +60,6 @@ int main(int argc, char** argv)
         SimulationData data = rr->getSimulationResult();
         allData.append(data);
     }
-
 
     allData.writeTo("r:\\allData.dat");
     }

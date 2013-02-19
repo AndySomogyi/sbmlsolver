@@ -136,6 +136,10 @@
         <PCHCompile Include="many_threadsPCH1.h">
             <BuildOrder>0</BuildOrder>
         </PCHCompile>
+        <CppCompile Include="..\..\source\rrLoadModels.cpp">
+            <DependentOn>..\..\source\rrLoadModels.h</DependentOn>
+            <BuildOrder>6</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrLoadSBMLThread.cpp">
             <DependentOn>..\..\source\rrLoadSBMLThread.h</DependentOn>
             <BuildOrder>4</BuildOrder>
@@ -147,6 +151,10 @@
         <CppCompile Include="..\..\source\rrRoadRunnerThread.cpp">
             <DependentOn>..\..\source\rrRoadRunnerThread.h</DependentOn>
             <BuildOrder>3</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrSimulateModels.cpp">
+            <DependentOn>..\..\source\rrSimulateModels.h</DependentOn>
+            <BuildOrder>7</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrThreadPool.cpp">
             <DependentOn>..\..\source\rrThreadPool.h</DependentOn>

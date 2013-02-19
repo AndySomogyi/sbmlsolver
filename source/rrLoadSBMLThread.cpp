@@ -11,22 +11,22 @@ namespace rr
 
 using namespace Poco;
 
-list<RoadRunner*>   LoadSBML::mJobs;
-Poco::Mutex 		LoadSBML::mJobsMutex;
-Poco::Condition		LoadSBML::mJobsCondition;
+list<RoadRunner*>   LoadModel::mJobs;
+Poco::Mutex 		LoadModel::mJobsMutex;
+Poco::Condition		LoadModel::mJobsCondition;
 
 list<RoadRunner*>   Simulate::mJobs;
 Poco::Mutex 		Simulate::mJobsMutex;
 Poco::Condition		Simulate::mJobsCondition;
 
-LoadSBML::LoadSBML(const string& modelFile)
+LoadModel::LoadModel(const string& modelFile)
 :
 mModelFileName(modelFile)
 {
     start();
 }
 
-void LoadSBML::addJob(RoadRunner* rr)
+void LoadModel::addJob(RoadRunner* rr)
 {
 	//getMutex
     Mutex::ScopedLock lock(mJobsMutex);
@@ -34,23 +34,23 @@ void LoadSBML::addJob(RoadRunner* rr)
 	mJobsCondition.signal();	//Tell the thread its time to go to work
 }
 
-unsigned int LoadSBML::getNrOfJobsInQueue()
+unsigned int LoadModel::getNrOfJobsInQueue()
 {
     Mutex::ScopedLock lock(mJobsMutex);
     return mJobs.size();
 }
 
-void LoadSBML::signalExit()
+void LoadModel::signalExit()
 {
 	mJobsCondition.signal();
 }
 
-void LoadSBML::signalAll()
+void LoadModel::signalAll()
 {
 	mJobsCondition.broadcast();
 }
 
-void LoadSBML::worker()
+void LoadModel::worker()
 {
     RoadRunner *rri = NULL;
     while(!mIsTimeToDie)
@@ -84,9 +84,7 @@ void LoadSBML::worker()
     }
 
     Log(lInfo)<<"Exiting thread: "<<mThread.id();
-
 }
-
 
 Simulate::Simulate()
 :
