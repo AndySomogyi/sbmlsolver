@@ -1,127 +1,57 @@
 #include <iostream>
-#include "Poco/Mutex.h"
-#include "Poco/ScopedLock.h"
 #include "rrRoadRunner.h"
-#include "rrRoadRunnerThread.h"
+#include "rrLoadSBMLThread.h"
 #include "rrLogger.h"
 #include "rrUtils.h"
 #include "rrException.h"
+#include "rrThreadPool.h"
 
-using namespace std;
-using namespace rr;
-using Poco::Mutex::ScopedLock;
-
-class LoadSBML : public RoadRunnerThread
+class LoadSBMLThreadPool : public ThreadPool
 {
-	protected:
-		string			mModelFileName;
+	private:
 
-	public:
-    					LoadSBML(const string& modelFile)
-                        :
-                        mModelFileName(modelFile)
+    public:
+	    			LoadSBMLThreadPool(const int& nrThreads, const string& model) : ThreadPool()
+                    {
+                    	//create nrThreads that can load SBML models
+                        for(int i = 0; i < nrThreads; i++)
                         {
-                        	start();
+                            mThreads.push_back(new LoadSBML(model));
                         }
-
-    	void 			worker()
-    	                {
-	                        RoadRunner *rri = NULL;
-							while(!mIsTimeToDie)
-                            {
-                                {
-                                	ScopedLock lock(mJobsMutex);
-                                	if(mJobs.size() == 0)
-                                	{
-                                    	Log(lDebug5)<<"Waiting for jobs in loadSBML worker";
-                                    	mJobsCondition.wait(mJobsMutex);
-                                	}
-
-                                    if(mJobs.size() == 0 || mIsTimeToDie)
-                                    {
-                                    	return;	//ends the life of the thread..
-                                    }
-                                    else
-                                    {
-                                    	//Get a job
-                                    	rri = mJobs.front();
-                                    	mJobs.pop_front();
-                                    }
-
-                                }		//Causes the scoped lock to unlock
-
-                                //Do the job
-                                if(rri)
-                                {
-                                	Log(lInfo)<<"Loading model into instance: "<<rri->getInstanceID();
-                                	rri->loadSBMLFromFile(mModelFileName);
-                                }
-                            }
-                            Log(lDebug)<<"Exiting thread";
-    	                }
+                    }
 };
 
-class Simulate : public RoadRunnerThread
+class SimulateSBMLThreadPool : public ThreadPool
 {
-	public:
-    					Simulate() :
-                        RoadRunnerThread()
-						{
-                        	start();
+	private:
+
+    public:
+	    			SimulateSBMLThreadPool(const int& nrThreads, 	vector<RoadRunner*> &rrInstance) : ThreadPool()
+                    {
+                    	//create nrThreads that can load SBML models
+                        for(int i = 0; i < nrThreads; i++)
+                        {
+                            mThreads.push_back(new Simulate());
                         }
-
-    	void 			worker()
-    	                {
-	                        RoadRunner *rri = NULL;
-							while(!mIsTimeToDie)
-                            {
-                                {	//Scope for the mutex lock...
-                                	ScopedLock lock(mJobsMutex);
-                                	if(mJobs.size() == 0)
-                                	{
-                                    	Log(lDebug5)<<"Waiting for jobs in Simulate worker";
-                                    	mJobsCondition.wait(mJobsMutex);
-                                	}
-
-                                    if(mJobs.size() == 0 || mIsTimeToDie)
-                                    {
-                                    	return;	//ends the life of the thread..
-                                    }
-                                    else
-                                    {
-                                    	//Get a job
-                                    	rri = mJobs.front();
-                                    	mJobs.pop_front();
-                                    }
-
-                                }		//Causes the scoped lock to unlock
-
-                                //Do the job
-                                if(rri)
-                                {
-                                	Log(lInfo)<<"Simulating RR instance: "<<rri->getInstanceID();
-                                	if(!rri->simulate2())
-                                    {
-                                    	Log(lError)<<"Failed simulating instance: "<<rri->getInstanceID();
-                                    }
-                                }
-
-                            }
-                            Log(lDebug)<<"Exiting thread";
+                        for(int i = 0; i < rrInstance.size(); i++)
+                        {
+                        	addJob(rrInstance[i]);
                         }
+                    }
 };
+
 
 int main(int argc, char** argv)
 {
 	try
     {
     string logFile = "RoadRunner.log";
-    gLog.Init("test", lDebug);
+    gLog.Init("test", lInfo);
 	gLog.SetCutOffLogLevel(lInfo);
 	LogOutput::mLogToConsole = true;
 
 	//Create many roadrunners
-    const int nrOfRRInstances = 1000;
+    const int nrOfRRInstances = 4;
 	vector<RoadRunner*> rrInstance;
 
     for(int i = 0; i < nrOfRRInstances; i++)
@@ -130,17 +60,11 @@ int main(int argc, char** argv)
         rrInstance[i]->setTempFileFolder("r:\\rrThreads");
     }
 
-    //Threads ..
-    int threadCount = 16;
-    vector<LoadSBML*> loadSBML;
-   	vector<Simulate*> simulate;
+    const string model = "r:\\models\\test_1.xml";
+	//Threads ..
 
-	//Create threads to load and simulate models
-    for(int i = 0; i < threadCount; i++)
-    {
-    	loadSBML.push_back(new LoadSBML("r:\\models\\test_1.xml"));
-        simulate.push_back(new Simulate());
-    }
+    int threadCount = 8;
+    LoadSBMLThreadPool loadSBML(threadCount, model);
 
     //Populate threads with jobs. Observe the threads starts working as soon it gets a job..
     int instance = 0;
@@ -150,7 +74,7 @@ int main(int argc, char** argv)
         {
             if(instance < nrOfRRInstances)
             {
-                loadSBML[j]->addJob(rrInstance[instance]);
+                loadSBML.addJob(rrInstance[instance]);
                 instance++;
             }
         }
@@ -158,27 +82,9 @@ int main(int argc, char** argv)
     while(instance < nrOfRRInstances);
 
 
-    //Check that all jobs been done
-    for(int j = 0; j < threadCount; j++)
-    {
-    	do
-        {
-            //Sleep(10);
+    loadSBML.waitForAll();
 
-        }while(loadSBML[j]->getNrOfJobsInQueue() != 0);
-    }
 
-    //All jobs done.. exit the threads..
-    for(int j = 0; j < threadCount; j++)
-    {
-		loadSBML[j]->exit();
-    }
-
-    //Make sure all threads have exited...
-    for(int j = 0; j < threadCount; j++)
-    {
-		loadSBML[j]->join();
-    }
 
     //Simulate
     Log(lInfo)<<" ---------- SIMULATING -------------";
@@ -194,35 +100,12 @@ int main(int argc, char** argv)
         rrInstance[i]->setTimeCourseSelectionList("S1");
     }
 
-    //Simulate them using threads..
-    instance = 0;
-    do
-    {
-        for(int j = 0; j < threadCount; j++)
-        {
-            if(instance < nrOfRRInstances)
-            {
-                simulate[j]->addJob(rrInstance[instance]);
-                instance++;
-            }
-        }
-    }
-    while(instance < nrOfRRInstances);
+    //Simulate them using a pool of threads..
+    SimulateSBMLThreadPool simulateSBML(threadCount, rrInstance);
 
+    //Wait for all jobs
+    simulateSBML.waitForAll();
 
-    //Check that all jobs been done
-    for(int j = 0; j < threadCount; j++)
-    {
-    	do
-        {
-        }while(simulate[j]->getNrOfJobsInQueue() != 0);
-    }
-
-    //All jobs done.. exit the threads..
-    for(int j = 0; j < threadCount; j++)
-    {
-		simulate[j]->exit();
-    }
 
     //Write data to a file
     SimulationData allData;

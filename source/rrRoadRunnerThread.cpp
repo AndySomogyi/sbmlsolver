@@ -6,6 +6,10 @@ using namespace Poco;
 namespace rr
 {
 
+//static int 	mActiveCount = 0;
+list<RoadRunner*>   RoadRunnerThread::mJobs;
+Poco::Mutex 		RoadRunnerThread::mJobsMutex;
+Poco::Condition		RoadRunnerThread::mJobsCondition;
 
 RoadRunnerThread::RoadRunnerThread() :
 mIsTimeToDie(false)
@@ -18,13 +22,18 @@ void RoadRunnerThread::setName(const string& name)
 
 string RoadRunnerThread::getName()
 {
-	mThread.getName();
+	return mThread.getName();
 }
 
 void RoadRunnerThread::exit()
 {
-	mJobsCondition.signal();
 	mIsTimeToDie = true;
+	mJobsCondition.signal();
+}
+
+void RoadRunnerThread::signalAll()
+{
+	mJobsCondition.broadcast();
 }
 
 void RoadRunnerThread::start()
@@ -56,7 +65,7 @@ unsigned int RoadRunnerThread::getNrOfJobsInQueue()
     return mJobs.size();
 }
 
-bool RoadRunnerThread::isRunning()
+bool RoadRunnerThread::isActive()
 {
 	return mThread.isRunning();
 }
