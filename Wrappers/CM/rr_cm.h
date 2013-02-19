@@ -354,10 +354,10 @@ C_DECL_SPEC bool rrCallConv loadModelFromFile(RRHandle handle, const char* fileN
  \brief Load a model from a SBML file into a set of RoadRunner instances
  \param[in] rrHandles - RoadRunner handles structure
  \param[in] fileName file name (or full path) to file that holds the SBML model
- \return Returns true if sucessful
+ \return Returns a handle to the ThreadPool if succesful, otherwise returns NULL
  \ingroup loadsave
 */
-C_DECL_SPEC bool rrCallConv loadModelFromFile(RRHandles rrHandles, const char* fileName);
+C_DECL_SPEC TPHandle rrCallConv loadModelFromFileTP(RRHandles rrHandles, const char* fileName);
 
 ///*!
 // \brief Load simulation settings from a file

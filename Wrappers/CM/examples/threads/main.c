@@ -39,7 +39,7 @@ int main()
     }
 
 	//loadSBML models in threads instead
-    tpHandle = loadModels(rrHandles, modelFileName);
+    tpHandle = loadModelFromFileTP(rrHandles, modelFileName);
 
 
     for(i = 0; i < handleCount; i++)

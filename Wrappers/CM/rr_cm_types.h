@@ -57,6 +57,14 @@ typedef void* RRHandle; /*! Void pointer to RRHandle */
 typedef void* TPHandle; /*! Void pointer to TPHandle */
 
 /*!@struct*/
+/*!@brief Structure for a set of RoadRunner handles */
+typedef struct RRSetOfHandles
+{
+    int             Count;  	/*!< The number of elements in the vector */
+    RRHandle*       Handles;   	/*!< Points to an array of double items */
+} *RRHandles;          			/*!< Pointer to RRVectorHandle struct */
+
+/*!@struct*/
 /*!@brief Structure for a simple vector of doubles */
 typedef struct RRVector
 {

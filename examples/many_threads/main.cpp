@@ -5,63 +5,57 @@
 #include "rrException.h"
 #include "rrLoadModel.h"
 #include "rrSimulate.h"
+#include "rrRoadRunnerList.h"
 int main(int argc, char** argv)
 {
 	try
     {
-    string logFile = "RoadRunner.log";
-    gLog.Init("test", lInfo);
-	gLog.SetCutOffLogLevel(lInfo);
-	LogOutput::mLogToConsole = true;
+        LogOutput::mLogToConsole = true;
 
-	//Create some roadrunners
-    const int nrOfRRInstances = 15;
-	vector<RoadRunner*> rrInstances;
+        //Create some roadrunners
+        const int nrOfRRInstances 	= 16;
+        const int threadCount  		= 2;
 
-    for(int i = 0; i < nrOfRRInstances; i++)
-    {
-    	rrInstances.push_back(new RoadRunner);
-        rrInstances[i]->setTempFileFolder("r:\\rrThreads");
-    }
+        //Use a list of roadrunners
+        RoadRunnerList rrs(nrOfRRInstances, "r:\\rrThreads");
 
-    const string model = "r:\\models\\test_1.xml";
+        const string model = "r:\\models\\test_1.xml";
 
-	//Threads ..
-    int threadCount = 16;
-    LoadModel loadModel(rrInstances, model, threadCount);
+        //Threads ..
 
-    loadModel.waitForAll();
+        LoadModel loadModel(rrs, model, threadCount);
 
-    //Simulate
-    Log(lInfo)<<" ---------- SIMULATING -------------";
+        loadModel.waitForAll();
 
-    //Setup instances with different variables
-    for(int i = 0; i < nrOfRRInstances; i++)
-    {
-    	double val = rrInstances[i]->getValue("k1");
-	    rrInstances[i]->setValue("k1", val/(2.5*(i + 1)));
-        rrInstances[i]->setNumPoints(500);
-        rrInstances[i]->setTimeEnd(150);
-        rrInstances[i]->setTimeCourseSelectionList("S1");
-    }
+        //Simulate
+        Log(lInfo)<<" ---------- SIMULATING -------------";
 
-    //Simulate them using a pool of threads..
-    Simulate simulate(rrInstances, threadCount);
+        //Setup instances with different variables
+        for(int i = 0; i < nrOfRRInstances; i++)
+        {
+            double val = rrs[i]->getValue("k1");
+            rrs[i]->setValue("k1", val/(2.5*(i + 1)));
+            rrs[i]->setNumPoints(500);
+            rrs[i]->setTimeEnd(150);
+            rrs[i]->setTimeCourseSelectionList("S1");
+        }
 
-    //Wait for all jobs
-    simulate.waitForAll();
+        //Simulate them using a pool of threads..
+        Simulate simulate(rrs, threadCount);
 
+        //Wait for all jobs
+        simulate.waitForAll();
 
-    //Write data to a file
-    SimulationData allData;
-    for(int i = nrOfRRInstances -1 ; i >-1 ; i--)
-    {
-		RoadRunner* rr = rrInstances[i];
-        SimulationData data = rr->getSimulationResult();
-        allData.append(data);
-    }
+        //Write data to a file
+        SimulationData allData;
+        for(int i = nrOfRRInstances -1 ; i >-1 ; i--)
+        {
+            RoadRunner* rr = rrs[i];
+            SimulationData data = rr->getSimulationResult();
+            allData.append(data);
+        }
 
-    allData.writeTo("r:\\allData.dat");
+        allData.writeTo("r:\\allData.dat");
     }
     catch(const Exception& ex)
     {

@@ -2,10 +2,6 @@
 #define rrRoadRunnerThreadH
 #include "Poco/Thread.h"
 #include "Poco/Runnable.h"
-#include "Poco/Mutex.h"
-#include "Poco/Condition.h"
-#include "Poco/ScopedLock.h"
-
 #include "rrObject.h"
 //---------------------------------------------------------------------------
 
@@ -39,7 +35,6 @@ class RR_DECLSPEC RoadRunnerThread : public Poco::Runnable, public rrObject
         //Todo: Gotta refine the exiting of threads later...
         virtual void				signalExit() = 0;
         virtual void				signalAll() = 0;
-
 };
 
 }

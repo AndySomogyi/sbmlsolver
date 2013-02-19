@@ -3,6 +3,8 @@
 #include <list>
 #include "rrExporter.h"
 #include "rrRoadRunnerThread.h"
+#include "Poco/Condition.h"
+
 //---------------------------------------------------------------------------
 using std::list;
 

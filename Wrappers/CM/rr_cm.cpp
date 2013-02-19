@@ -626,6 +626,37 @@ bool rrCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
     }
 }
 
+TPHandle rrCallConv loadModelFromFileTP(RRHandles _handles, const char* fileName)
+{
+	try
+    {
+    	RoadRunnerSet* rrs = getRRHandles(_handles);
+
+        //Check if file exists first
+        if(!FileExists(fileName))
+        {
+            stringstream msg;
+            msg<<"The file "<<fileName<<" was not found";
+            setError(msg.str());
+            return false;
+        }
+
+//        if(!rri->loadSBMLFromFile(fileName))
+//        {
+//            setError("Failed to load SBML semantics");	//There are many ways loading a model can fail, look at logFile to know more
+//            return false;
+//        }
+        return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
 //bool rrCallConv loadSBML(const char* sbml)
 //{
 //	try

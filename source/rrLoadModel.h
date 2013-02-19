@@ -1,6 +1,7 @@
 #ifndef rrLoadModelH
 #define rrLoadModelH
 #include "rrThreadPool.h"
+#include "rrRoadRunnerList.h"
 //---------------------------------------------------------------------------
 namespace rr
 {
@@ -8,7 +9,7 @@ namespace rr
 class RR_DECLSPEC LoadModel : public ThreadPool
 {
     public:
-	    			LoadModel(vector<RoadRunner*> &rrInstances, const string& model, const int& nrThreads = 16);
+	    			LoadModel(RoadRunnerList& rrs, const string& model, const int& nrThreads = 16);
 };
 
 }

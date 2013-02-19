@@ -2,12 +2,13 @@
 #define rrSimulateThreadH
 #include <list>
 #include "rrRoadRunnerThread.h"
+#include "Poco/Condition.h"
 //---------------------------------------------------------------------------
-using std::list;
 
 namespace rr
 {
 
+using std::list;
 using Poco::Mutex;
 using Poco::Condition;
 

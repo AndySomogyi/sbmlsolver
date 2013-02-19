@@ -5,7 +5,7 @@
 namespace rr
 {
 
-Simulate::Simulate(vector<RoadRunner*> &rrInstance, const int& nrThreads)
+Simulate::Simulate(RoadRunnerList& rrs, const int& nrThreads)
 :
 ThreadPool()
 {
@@ -17,9 +17,9 @@ ThreadPool()
     }
 
     //The following will add jobs and get them done too..
-    for(int i = 0; i < rrInstance.size(); i++)
+    for(int i = 0; i < rrs.count(); i++)
     {
-        addJob(rrInstance[i]);
+        addJob(rrs[i]);
     }
 }
 

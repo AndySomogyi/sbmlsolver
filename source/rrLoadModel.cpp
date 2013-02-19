@@ -5,7 +5,7 @@
 namespace rr
 {
 
-LoadModel::LoadModel(vector<RoadRunner*> &rrInstances, const string& model, const int& nrThreads)
+LoadModel::LoadModel(RoadRunnerList& rrs, const string& model, const int& nrThreads)
 :
 ThreadPool()
 {
@@ -17,9 +17,9 @@ ThreadPool()
     }
 
     //The following will add jobs and get them done too..
-    for(int i = 0; i < rrInstances.size(); i++)
+    for(int i = 0; i < rrs.count(); i++)
     {
-        addJob(rrInstances[i]);
+        addJob(rrs[i]);
     }
 }
 

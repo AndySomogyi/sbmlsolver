@@ -148,6 +148,10 @@
             <DependentOn>..\..\source\rrModelSharedLibrary.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\rrRoadRunnerList.cpp">
+            <DependentOn>..\..\source\rrRoadRunnerList.h</DependentOn>
+            <BuildOrder>9</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrRoadRunnerThread.cpp">
             <DependentOn>..\..\source\rrRoadRunnerThread.h</DependentOn>
             <BuildOrder>3</BuildOrder>
