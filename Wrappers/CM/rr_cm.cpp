@@ -157,7 +157,7 @@ char* rrCallConv getCompilerName()
 //    }
 //}
 
-bool rrCallConv enableLoggingToConsole(RRHandle handle)
+bool rrCallConv enableLoggingToConsole()
 {
 	try
     {

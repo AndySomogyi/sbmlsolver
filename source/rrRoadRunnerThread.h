@@ -1,11 +1,13 @@
 #ifndef rrRoadRunnerThreadH
 #define rrRoadRunnerThreadH
-#include <list>
 #include "Poco/Thread.h"
 #include "Poco/Runnable.h"
+#include "Poco/Mutex.h"
+#include "Poco/Condition.h"
+#include "Poco/ScopedLock.h"
+
 #include "rrObject.h"
 //---------------------------------------------------------------------------
-using std::list;
 
 namespace rr
 {

@@ -3,8 +3,8 @@
 #include "rrLogger.h"
 #include "rrUtils.h"
 #include "rrException.h"
-#include "rrLoadModels.h"
-#include "rrSimulateModels.h"
+#include "rrLoadModel.h"
+#include "rrSimulate.h"
 int main(int argc, char** argv)
 {
 	try
@@ -28,9 +28,9 @@ int main(int argc, char** argv)
 
 	//Threads ..
     int threadCount = 16;
-    LoadModels loadSBML(threadCount, model, rrInstances);
+    LoadModel loadModel(rrInstances, model, threadCount);
 
-    loadSBML.waitForAll();
+    loadModel.waitForAll();
 
     //Simulate
     Log(lInfo)<<" ---------- SIMULATING -------------";
@@ -46,10 +46,10 @@ int main(int argc, char** argv)
     }
 
     //Simulate them using a pool of threads..
-    SimulateModels simulateSBML(threadCount, rrInstances);
+    Simulate simulate(rrInstances, threadCount);
 
     //Wait for all jobs
-    simulateSBML.waitForAll();
+    simulate.waitForAll();
 
 
     //Write data to a file

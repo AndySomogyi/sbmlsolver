@@ -6,16 +6,18 @@ int main()
 {
     //Declarations..
 	RRHandle *rrHandles;
+    TPHandle *tpHandle;		//ThreadPool handle.. use to check when a pool of threads has finished..
+
 	char* text;
 	char* modelFileName = "r://models//test_1.xml";
     char* sbml;
     int   handleCount;
     int i;
+
 	//.....
 
     handleCount = 100;
-	printf("Starting C program...");
-
+	printf("Starting C program...\n");
 
     rrHandles =  getRRHandles(handleCount);
 
@@ -29,15 +31,15 @@ int main()
     }
 
    	setLogLevel("Info");
+	enableLoggingToConsole();
     for(i = 0; i < handleCount; i++)
     {
     	setTempFolder(rrHandles[i], "r:\\rrTemp");
-		enableLoggingToConsole(rrHandles[i]);
 		enableLoggingToFile(rrHandles[i]);
     }
 
 	//loadSBML models in threads instead
-    loadSBMLFromFile(rrHandles, modelFileName);
+    tpHandle = loadModels(rrHandles, modelFileName);
 
 
     for(i = 0; i < handleCount; i++)

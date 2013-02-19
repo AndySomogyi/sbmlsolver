@@ -1,24 +1,26 @@
 #pragma hdrstop
-#include "rrLoadModels.h"
+#include "rrLoadModel.h"
 //---------------------------------------------------------------------------
 
 namespace rr
 {
-LoadModels::LoadModels(const int& nrThreads, const string& model, vector<RoadRunner*> &rrInstance) : ThreadPool()
+
+LoadModel::LoadModel(vector<RoadRunner*> &rrInstances, const string& model, const int& nrThreads)
+:
+ThreadPool()
 {
     //create nrThreads that can load SBML models
     for(int i = 0; i < nrThreads; i++)
     {
-        LoadModel* lmThread = new LoadModel(model);
+        LoadModelThread* lmThread = new LoadModelThread(model);
         mThreads.push_back(lmThread);
     }
 
     //The following will add jobs and get them done too..
-    for(int i = 0; i < rrInstance.size(); i++)
+    for(int i = 0; i < rrInstances.size(); i++)
     {
-        addJob(rrInstance[i]);
+        addJob(rrInstances[i]);
     }
-
 }
 
 

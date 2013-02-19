@@ -74,7 +74,7 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <PackageImports>VCLCommon;bindcompfmx;fmx;rtl;dbrtl;IndySystem;bindcomp;inetdb;DBXInterBaseDriver;DataSnapCommon;xmlrtl;DbxCommonDriver;vclimg;IndyProtocols;dbxcds;soaprtl;vclactnband;bindengine;vcldb;bindcompdbx;vcldsnap;bindcompvcl;vclie;vcltouch;websnap;CustomIPTransport;dsnap;IndyIPServer;fmxase;vcl;IndyCore;IndyIPCommon;dsnapcon;inet;fmxobj;vclx;inetdbxpress;webdsnap;fmxdae;dbexpress;IndyIPClient;$(PackageImports)</PackageImports>
-        <BCC_PCHName_Clang>rr_cm_pch.h</BCC_PCHName_Clang>
+        <BCC_PCHName_Clang>..\..\Wrappers\CM\rr_cm_pch.h</BCC_PCHName_Clang>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
@@ -116,18 +116,18 @@
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-        <BCC_PCHName_Clang>rr_cm_pch.h</BCC_PCHName_Clang>
+        <BCC_PCHName_Clang>..\..\Wrappers\CM\rr_cm_pch.h</BCC_PCHName_Clang>
     </PropertyGroup>
     <ItemGroup>
-        <PCHCompile Include="rr_cm_pch.h">
-            <BuildOrder>0</BuildOrder>
-        </PCHCompile>
         <DefFile Include="..\..\Wrappers\CM\cm.def">
             <BuildOrder>3</BuildOrder>
         </DefFile>
         <CppCompile Include="..\..\Wrappers\CM\rr_cm.cpp">
             <BuildOrder>1</BuildOrder>
         </CppCompile>
+        <PCHCompile Include="..\..\Wrappers\CM\rr_cm_pch.h">
+            <BuildOrder>0</BuildOrder>
+        </PCHCompile>
         <CppCompile Include="..\..\Wrappers\CM\rr_cm_support.cpp">
             <BuildOrder>2</BuildOrder>
         </CppCompile>

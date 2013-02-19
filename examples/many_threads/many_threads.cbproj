@@ -136,12 +136,12 @@
         <PCHCompile Include="many_threadsPCH1.h">
             <BuildOrder>0</BuildOrder>
         </PCHCompile>
-        <CppCompile Include="..\..\source\rrLoadModels.cpp">
-            <DependentOn>..\..\source\rrLoadModels.h</DependentOn>
+        <CppCompile Include="..\..\source\rrLoadModel.cpp">
+            <DependentOn>..\..\source\rrLoadModel.h</DependentOn>
             <BuildOrder>6</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\rrLoadSBMLThread.cpp">
-            <DependentOn>..\..\source\rrLoadSBMLThread.h</DependentOn>
+        <CppCompile Include="..\..\source\rrLoadModelThread.cpp">
+            <DependentOn>..\..\source\rrLoadModelThread.h</DependentOn>
             <BuildOrder>4</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrModelSharedLibrary.cpp">
@@ -152,9 +152,13 @@
             <DependentOn>..\..\source\rrRoadRunnerThread.h</DependentOn>
             <BuildOrder>3</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\rrSimulateModels.cpp">
-            <DependentOn>..\..\source\rrSimulateModels.h</DependentOn>
+        <CppCompile Include="..\..\source\rrSimulate.cpp">
+            <DependentOn>..\..\source\rrSimulate.h</DependentOn>
             <BuildOrder>7</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrSimulateThread.cpp">
+            <DependentOn>..\..\source\rrSimulateThread.h</DependentOn>
+            <BuildOrder>8</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrThreadPool.cpp">
             <DependentOn>..\..\source\rrThreadPool.h</DependentOn>
