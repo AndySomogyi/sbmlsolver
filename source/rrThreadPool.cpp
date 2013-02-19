@@ -1,4 +1,5 @@
 #pragma hdrstop
+#include "rrLogger.h"
 #include "rrThreadPool.h"
 //---------------------------------------------------------------------------
 namespace rr
@@ -27,6 +28,10 @@ bool ThreadPool::isJobQueueEmpty()
     if(mThreads.front() != NULL)
     {
         bool val = mThreads.front()->getNrOfJobsInQueue() > 0 ? false : true;
+        if(val == true)
+        {
+        	Log(lInfo)<<"Job queue is empty!";
+        }
         return val;
     }
     return true;
@@ -74,7 +79,7 @@ void ThreadPool::waitForAll()
     //This could be checked in a thread, and using a condition Variable
     while(isJobQueueEmpty() == false)
     {
-//        Sleep(100);
+        Sleep(50);
     };
 
 //	Sleep(20);	//We need a way to know if a thread is still doing processing...
@@ -85,7 +90,7 @@ void ThreadPool::waitForAll()
     //This could be checked in a thread, and using a condition Variable
     while(isActive() == true)
     {
-//        Sleep(100);
+        Sleep(50);
     };
     //This thread pool is done....
 }

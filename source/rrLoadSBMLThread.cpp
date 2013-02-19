@@ -11,12 +11,43 @@ namespace rr
 
 using namespace Poco;
 
+list<RoadRunner*>   LoadSBML::mJobs;
+Poco::Mutex 		LoadSBML::mJobsMutex;
+Poco::Condition		LoadSBML::mJobsCondition;
+
+list<RoadRunner*>   Simulate::mJobs;
+Poco::Mutex 		Simulate::mJobsMutex;
+Poco::Condition		Simulate::mJobsCondition;
 
 LoadSBML::LoadSBML(const string& modelFile)
 :
 mModelFileName(modelFile)
 {
     start();
+}
+
+void LoadSBML::addJob(RoadRunner* rr)
+{
+	//getMutex
+    Mutex::ScopedLock lock(mJobsMutex);
+    mJobs.push_back(rr);
+	mJobsCondition.signal();	//Tell the thread its time to go to work
+}
+
+unsigned int LoadSBML::getNrOfJobsInQueue()
+{
+    Mutex::ScopedLock lock(mJobsMutex);
+    return mJobs.size();
+}
+
+void LoadSBML::signalExit()
+{
+	mJobsCondition.signal();
+}
+
+void LoadSBML::signalAll()
+{
+	mJobsCondition.broadcast();
 }
 
 void LoadSBML::worker()
@@ -64,6 +95,14 @@ RoadRunnerThread()
     start();
 }
 
+void Simulate::addJob(RoadRunner* rr)
+{
+	//getMutex
+    Mutex::ScopedLock lock(mJobsMutex);
+    mJobs.push_back(rr);
+	mJobsCondition.signal();	//Tell the thread its time to go to work
+}
+
 void Simulate::worker()
 {
     RoadRunner *rri = NULL;
@@ -79,7 +118,7 @@ void Simulate::worker()
 
             if(mJobs.size() == 0 || mIsTimeToDie)
             {
-                return;	//ends the life of the thread..
+                break;	//ends the life of the thread..
             }
             else
             {
@@ -87,8 +126,7 @@ void Simulate::worker()
                 rri = mJobs.front();
                 mJobs.pop_front();
             }
-
-        }		//Causes the scoped lock to unlock
+         }		//Causes the scoped lock to unlock
 
         //Do the job
         if(rri)
@@ -101,8 +139,27 @@ void Simulate::worker()
         }
 
     }
-    Log(lDebug)<<"Exiting thread";
+
+    Log(lInfo)<<"Exiting simulate thread: "<<mThread.id();
 }
+
+void Simulate::signalExit()
+{
+	mJobsCondition.signal();
+}
+
+unsigned int Simulate::getNrOfJobsInQueue()
+{
+    Mutex::ScopedLock lock(mJobsMutex);
+    return mJobs.size();
+}
+
+void Simulate::signalAll()
+{
+	mJobsCondition.broadcast();
+}
+
+
 
 }
 

@@ -18,25 +18,27 @@ class RR_DECLSPEC RoadRunnerThread : public Poco::Runnable, public rrObject
 {
 	protected:
 	    Poco::Thread 				mThread;
-    	static list<RoadRunner*>    mJobs;
-		static Poco::Mutex	 		mJobsMutex;
-        static Poco::Condition		mJobsCondition;
         bool						mIsTimeToDie;
 
 
     public:
 	    					        RoadRunnerThread();
-		void 				        addJob(RoadRunner* instance);
+
 		void				        setName(const string& name);
 		string 				        getName();
 		void				        start();
     	virtual void                run();
 		virtual void                worker() = 0; 		//Have to derive from worker!
+        virtual void				signalAll() = 0;
+		virtual void 	            addJob(RoadRunner* instance) = 0;
+        virtual void				signalExit() = 0;
+        virtual unsigned int  		getNrOfJobsInQueue() = 0;
         void				        exit();
+
         void				        join();
         bool				        isActive();
-        unsigned int  		        getNrOfJobsInQueue();
-        void						signalAll();
+
+
 };
 
 }

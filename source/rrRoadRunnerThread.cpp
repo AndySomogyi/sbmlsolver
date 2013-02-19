@@ -7,9 +7,6 @@ namespace rr
 {
 
 //static int 	mActiveCount = 0;
-list<RoadRunner*>   RoadRunnerThread::mJobs;
-Poco::Mutex 		RoadRunnerThread::mJobsMutex;
-Poco::Condition		RoadRunnerThread::mJobsCondition;
 
 RoadRunnerThread::RoadRunnerThread() :
 mIsTimeToDie(false)
@@ -28,13 +25,14 @@ string RoadRunnerThread::getName()
 void RoadRunnerThread::exit()
 {
 	mIsTimeToDie = true;
-	mJobsCondition.signal();
+    signalExit();
+    //	mJobsCondition.signal();
 }
 
-void RoadRunnerThread::signalAll()
-{
-	mJobsCondition.broadcast();
-}
+//void RoadRunnerThread::signalAll()
+//{
+//	mJobsCondition.broadcast();
+//}
 
 void RoadRunnerThread::start()
 {
@@ -51,19 +49,19 @@ void RoadRunnerThread::join()
 	mThread.join();
 }
 
-void RoadRunnerThread::addJob(RoadRunner* rr)
-{
-	//getMutex
-    Mutex::ScopedLock lock(mJobsMutex);
-    mJobs.push_back(rr);
-	mJobsCondition.signal();	//Tell the thread its time to go to work
-}
-
-unsigned int RoadRunnerThread::getNrOfJobsInQueue()
-{
-    Mutex::ScopedLock lock(mJobsMutex);
-    return mJobs.size();
-}
+//void RoadRunnerThread::addJob(RoadRunner* rr)
+//{
+//	//getMutex
+//    Mutex::ScopedLock lock(mJobsMutex);
+//    mJobs.push_back(rr);
+//	mJobsCondition.signal();	//Tell the thread its time to go to work
+//}
+//
+//unsigned int RoadRunnerThread::getNrOfJobsInQueue()
+//{
+//    Mutex::ScopedLock lock(mJobsMutex);
+//    return mJobs.size();
+//}
 
 bool RoadRunnerThread::isActive()
 {
