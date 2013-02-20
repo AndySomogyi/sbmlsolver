@@ -6,7 +6,7 @@
 #include "Poco/Mutex.h"
 #include "Poco/ScopedLock.h"
 #include "rrRoadRunnerThread.h"
-#include "rrLoadSBMLThread.h"
+
 //---------------------------------------------------------------------------
 using namespace std;
 using namespace rr;
@@ -14,7 +14,7 @@ using namespace rr;
 namespace rr
 {
 
-class ThreadPool
+class RR_DECLSPEC ThreadPool
 {
 	protected:
 		list<RoadRunnerThread*>		mThreads;
@@ -23,6 +23,7 @@ class ThreadPool
 								   	ThreadPool();
 		void						addJob(RoadRunner* rri);
 		bool						isJobQueueEmpty();
+		int							getNumberOfRemainingJobs();
 		bool						isActive();
 		void						exitAll();
 		void						waitForAll();

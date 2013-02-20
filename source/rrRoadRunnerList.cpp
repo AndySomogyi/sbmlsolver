@@ -15,6 +15,14 @@ RoadRunnerList::RoadRunnerList(const int& nrOfRRs, const string& tempFolder)
     }
 }
 
+RoadRunnerList::~RoadRunnerList()
+{
+    for(int i = 0; i < mRRs.size(); i++)
+    {
+    	delete mRRs[i];
+    }
+}
+
 unsigned int RoadRunnerList::count()
 {
 	return mRRs.size();

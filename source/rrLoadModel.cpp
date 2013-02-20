@@ -1,5 +1,7 @@
 #pragma hdrstop
+#include "rrLoadModelThread.h"
 #include "rrLoadModel.h"
+
 //---------------------------------------------------------------------------
 
 namespace rr

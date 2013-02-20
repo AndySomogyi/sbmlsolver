@@ -34,6 +34,25 @@ RoadRunner* getRRI(RRHandle rrHandle)
     }
 }
 
+RoadRunnerList* getRRList(RRInstanceListHandle listHandle)
+{
+	if(!listHandle)
+    {
+    	return NULL;
+    }
+
+	RoadRunnerList* handle = (RoadRunnerList*) listHandle->RRList;
+    if(handle)
+    {
+    	return handle;
+    }
+    else
+    {
+    	Exception ex("Failed to create a valid RoadRunnerList handle");
+    	throw(ex);
+    }
+}
+
 void setError(const string& err)
 {
     if(gLastError)

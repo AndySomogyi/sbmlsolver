@@ -42,8 +42,11 @@
 #pragma hdrstop
 #include <string>
 #include <sstream>
+#include "rrRoadRunner.h"
+#include "rrRoadRunnerList.h"
+#include "rrLoadModel.h"
 //#include "rrParameter.h"
-//#include "rrRoadRunner.h"
+
 
 #include "rrLogger.h"           //Might be useful for debugging later on
 #include "rrException.h"
@@ -89,20 +92,28 @@ RRHandle rrCallConv getRRHandle()
     }
 }
 
-RRHandle* rrCallConv getRRHandles(int count)
+RRInstanceListHandle rrCallConv getRRHandles(int count)
 {
 	try
     {
-    	string rrInstallFolder(getParentFolder(getRRCAPILocation()));
-        string compiler = getCompilerName();
+    	//string rrInstallFolder(getParentFolder(getRRCAPILocation()));
+        //string compiler = getCompilerName();
+		RoadRunnerList* listHandle = new RoadRunnerList(count, GetUsersTempDataFolder());
 
-        RRHandle* handles = new RRHandle[count];
+        //Create the C list structure
+		RRInstanceListHandle rrList = new RRInstanceList;
+        rrList->RRList = (void*) listHandle;
+        rrList->Count = count;
 
+        //Create 'count' handles
+        rrList->Handle = new RRHandle[count];
+
+        //Populate handles
         for(int i = 0; i < count; i++)
         {
-        	handles[i] = new RoadRunner(JoinPath(rrInstallFolder, "rr_support"), compiler, GetUsersTempDataFolder());
+        	rrList->Handle[i] = (*listHandle)[i];
         }
-    	return handles;
+    	return rrList;
     }
 	catch(Exception& ex)
     {
@@ -113,7 +124,31 @@ RRHandle* rrCallConv getRRHandles(int count)
     }
 }
 
-//
+bool rrCallConv freeRRHandles(RRInstanceListHandle rrList)
+{
+	try
+    {
+    	//Delete the C++ list
+        RoadRunnerList* listHandle = (RoadRunnerList*) rrList->RRList;
+
+		delete listHandle;
+
+        //Free  C handles
+        delete [] rrList->Handle;
+
+        //Free the C list
+        delete rrList;
+		return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return false;
+    }
+}
+
 //char* rrCallConv getInstallFolder()
 //{
 //	if(!gInstallFolder)
@@ -157,6 +192,20 @@ char* rrCallConv getCompilerName()
 //    }
 //}
 
+void rrCallConv logMsg(CLogLevel lvl, const char* msg)
+{
+	try
+    {
+		Log(lvl)<<msg;
+    }
+    catch(const Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+    }
+}
+
 bool rrCallConv enableLoggingToConsole()
 {
 	try
@@ -180,21 +229,8 @@ bool rrCallConv enableLoggingToFile(RRHandle handle)
         char* tempFolder = getTempFolder(handle);
 		string logFile = JoinPath(tempFolder, "RoadRunner.log") ;
         freeText(tempFolder);
-		Log(lDebug3)<<"Creating log file "<<logFile;
+
         gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));
-
-        char* buffer;
-        // Get the current working directory:
-        if( (buffer = getcwd(NULL, 2048)) == NULL )
-        {
-            perror( "getcwd error" );
-        }
-        else
-        {
-            Log(lDebug)<<"Current working folder is: "<<buffer;
-            free(buffer);
-        }
-
     	return true;
     }
     catch(const Exception& ex)
@@ -427,8 +463,6 @@ bool rrCallConv setTempFolder(RRHandle handle, const char* folder)
 	try
     {
     	RoadRunner* gRRHandle = getRRI(handle);
-
-		Log(lDebug)<<"Setting tempfolder to:"<<folder<<endl;
 	    return gRRHandle->setTempFileFolder(folder);
     }
     catch(Exception& ex)
@@ -626,12 +660,10 @@ bool rrCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
     }
 }
 
-TPHandle rrCallConv loadModelFromFileTP(RRHandles _handles, const char* fileName)
+TPHandle rrCallConv loadModelFromFileTP(RRInstanceListHandle _handles, const char* fileName, int nrOfThreads)
 {
 	try
     {
-    	RoadRunnerSet* rrs = getRRHandles(_handles);
-
         //Check if file exists first
         if(!FileExists(fileName))
         {
@@ -641,12 +673,15 @@ TPHandle rrCallConv loadModelFromFileTP(RRHandles _handles, const char* fileName
             return false;
         }
 
-//        if(!rri->loadSBMLFromFile(fileName))
-//        {
-//            setError("Failed to load SBML semantics");	//There are many ways loading a model can fail, look at logFile to know more
-//            return false;
-//        }
-        return true;
+//           	RoadRunnerList* rrs = getRRList(_handles);
+        RoadRunnerList *rrs = getRRList(_handles);//->RRList;
+        LoadModel* tp = new LoadModel(*rrs, fileName, nrOfThreads);
+
+        if(!tp)
+        {
+            setError("Failed to load create LoadModel Thread pool");
+        }
+        return tp;
     }
     catch(Exception& ex)
     {
@@ -656,6 +691,49 @@ TPHandle rrCallConv loadModelFromFileTP(RRHandles _handles, const char* fileName
 	    return false;
     }
 }
+
+bool rrCallConv waitForJobs(TPHandle handle)
+{
+	try
+    {
+        ThreadPool* aTP = (ThreadPool*) handle;
+        if(aTP)
+        {
+            aTP->waitForAll();
+            return true;
+        }
+	return false;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
+int rrCallConv getNumberOfRemainingJobs(TPHandle handle)
+{
+	try
+    {
+        ThreadPool* aTP = (ThreadPool*) handle;
+        if(aTP)
+        {
+            return aTP->getNumberOfRemainingJobs();
+        }
+    	return -1;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return -1;
+    }
+}
+
+
 
 //bool rrCallConv loadSBML(const char* sbml)
 //{
@@ -3107,7 +3185,7 @@ RRCCode* rrCallConv getCCode(RRHandle handle)
 ////}
 ////
 // Free Functions =====================================================
-bool rrCallConv freeRRInstance(RRHandle handle)
+bool rrCallConv freeRRHandle(RRHandle handle)
 {
 	try
     {
@@ -3123,6 +3201,7 @@ bool rrCallConv freeRRInstance(RRHandle handle)
 	    return false;
     }
 }
+
 
 ////bool rrCallConv freeMatrix(RRMatrixHandle matrix)
 ////{

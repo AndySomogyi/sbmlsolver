@@ -64,15 +64,22 @@ C_DECL_SPEC RRHandle rrCallConv getRRHandle(void);
 // \return Returns count number of RoadRunner instances, returns null if it fails
 // \ingroup initialization
 //*/
-C_DECL_SPEC RRHandle* rrCallConv getRRHandles(int count);
+C_DECL_SPEC RRInstanceListHandle rrCallConv getRRHandles(int count);
 
 /*!
  \brief Free the roadRunner instance
  \param[in] handle Free the roadRunner instance given in the argument
  \ingroup initialization
 */
-C_DECL_SPEC bool rrCallConv freeRRInstance(RRHandle handle);
-//
+C_DECL_SPEC bool rrCallConv freeRRHandle(RRHandle handle);
+
+/*!
+ \brief Free roadRunner instances
+ \param[in] handle Frees all roadRunner instances given in the argument
+ \ingroup initialization
+*/
+C_DECL_SPEC bool rrCallConv freeRRHandles(RRInstanceListHandle handle);
+
 //C_DECL_SPEC char* rrCallConv  getInstallFolder(void);
 //C_DECL_SPEC bool  rrCallConv  setInstallFolder(const char* folder);
 //
@@ -254,6 +261,26 @@ C_DECL_SPEC RRCCodeHandle rrCallConv getCCode(RRHandle handle);
 C_DECL_SPEC bool rrCallConv enableLoggingToConsole(void);
 C_DECL_SPEC bool rrCallConv enableLoggingToFile(RRHandle handle);
 
+enum  CLogLevel
+    {
+        lShowAlways = -1,
+        lError      = 0,
+        lWarning    = 1,
+        lInfo       = 2,
+        lDebug      = 3,
+        lDebug1     = 4,
+        lDebug2     = 5,
+        lDebug3     = 6,
+        lDebug4     = 7,
+        lDebug5     = 8,
+        lAny        = 9,
+        lUser
+    };
+
+
+C_DECL_SPEC void rrCallConv logMsg(enum CLogLevel lvl, const char* msg);
+
+
 /*!
  \brief Set the logging status level
 
@@ -355,9 +382,28 @@ C_DECL_SPEC bool rrCallConv loadModelFromFile(RRHandle handle, const char* fileN
  \param[in] rrHandles - RoadRunner handles structure
  \param[in] fileName file name (or full path) to file that holds the SBML model
  \return Returns a handle to the ThreadPool if succesful, otherwise returns NULL
- \ingroup loadsave
+ \ingroup multiThreading
 */
-C_DECL_SPEC TPHandle rrCallConv loadModelFromFileTP(RRHandles rrHandles, const char* fileName);
+C_DECL_SPEC TPHandle rrCallConv loadModelFromFileTP(RRInstanceListHandle rrHandles, const char* fileName, int nrOfThreads);
+
+
+/*!
+ \brief Wait for jobs in thread pool to finish
+ \param[in] TPHandle - aHandle to a threadPool
+ \return Returns true if threadpool finsihed up properly, otherwise returns false
+ \ingroup multiThreading
+*/
+C_DECL_SPEC bool rrCallConv waitForJobs(TPHandle handle);
+
+
+/*!
+ \brief Get number of remaining jobs in a threadPool
+ \param[in] TPHandle - aHandle to a threadPool
+ \return Returns number of remaining, unfinished jobs. Returns -1 on failure
+ \ingroup multiThreading
+*/
+C_DECL_SPEC int rrCallConv getNumberOfRemainingJobs(TPHandle handle);
+
 
 ///*!
 // \brief Load simulation settings from a file

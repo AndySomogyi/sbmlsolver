@@ -4,72 +4,66 @@
 
 int main()
 {
-    //Declarations..
-	RRHandle *rrHandles;
+    //Some Declarations (has to be here because this is C)
+	RRInstanceListHandle 	rrs;
     TPHandle *tpHandle;		//ThreadPool handle.. use to check when a pool of threads has finished..
 
-	char* text;
 	char* modelFileName = "r://models//test_1.xml";
-    char* sbml;
-    int   handleCount;
-    int i;
-
-	//.....
-
-    handleCount = 100;
+    int   handleCount = 100;
+    int   threadCount = 4;
+    int   i;
+   	char  buf[2048];
 	printf("Starting C program...\n");
 
-    rrHandles =  getRRHandles(handleCount);
+    rrs = getRRHandles(handleCount);
 
-    if(!rrHandles)
+    if(!rrs)
     {
-        printf("No handles...");
+        printf("No handles...\n");
     }
     else
     {
-	    printf("Handles allocated succesfully..");
+	    printf("Handles allocated succesfully..\n");
     }
 
-   	setLogLevel("Info");
+   	setLogLevel("INfo");
 	enableLoggingToConsole();
+
     for(i = 0; i < handleCount; i++)
     {
-    	setTempFolder(rrHandles[i], "r:\\rrTemp");
-		enableLoggingToFile(rrHandles[i]);
+    	setTempFolder(rrs->Handle[i], "r:\\rrTemp");
     }
+   	enableLoggingToFile(rrs->Handle[0]);
 
 	//loadSBML models in threads instead
-    tpHandle = loadModelFromFileTP(rrHandles, modelFileName);
+    tpHandle = loadModelFromFileTP(rrs, modelFileName, threadCount);
 
-
-    for(i = 0; i < handleCount; i++)
+    //waitForJobs will block until all threads have finished
+//    waitForJobs(tpHandle);
+	//Instead, one can check for activeJobs, i.e. non blocking
+    while(true)
     {
-        if(!loadSBMLFromFile(rrHandles[i], modelFileName))
+		int nrOfRemainingJobs = getNumberOfRemainingJobs(tpHandle);
+        if (nrOfRemainingJobs == 0)
         {
-        	printf("Failed loading SBML.\n");
-            printf("Last error: %s", getLastError());
-            return -1;
+           	logMsg(lInfo, "All jobs are done!!!\n");
+        	break;
+        }
+        else
+        {
+        	sprintf(buf, "There are %d remaining jobs\n", nrOfRemainingJobs);
+        	logMsg(lInfo, buf);
+            sleep(0.1);
         }
     }
 
+	// Cleanup
+    freeRRHandles(rrs);
 
-//	// Cleanup
-//    freeRRInstance(rrHandle);
-//
-//
-//	//Finish off..
-//    text = getCopyright(rrHandle);
-//    if(text)
-//    {
-//    	printf(text);
-//    }
-//
-//    freeText(text);
-
-    if(hasError())
+	if(hasError())
     {
         char* error = getLastError();
-        printf("Last error %s \n", error);
+        sprintf(buf, "Last error %s \n", error);
     }
 	return 0;
 }

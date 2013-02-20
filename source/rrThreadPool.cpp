@@ -37,6 +37,16 @@ bool ThreadPool::isJobQueueEmpty()
     return true;
 }
 
+int ThreadPool::getNumberOfRemainingJobs()
+{
+    if(mThreads.front() != NULL)
+    {
+        int val = mThreads.front()->getNrOfJobsInQueue();
+        return val;
+    }
+    return -1;
+}
+
 bool ThreadPool::isActive()
 {
     list<RoadRunnerThread*>::iterator	iter;

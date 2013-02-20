@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include "rr-libstruct/lsMatrix.h"
-#include "rrRoadRunner.h"
 #include "rrStringList.h"
 #include "rrNewArrayList.h"
 #include "rrParameter.h"
@@ -11,11 +10,19 @@
 #include "rr_cm_types.h"
 //---------------------------------------------------------------------------
 
-using std::vector;
-using std::string;
+namespace rr
+{
+class RoadRunner;
+class RoadRunnerList;
+}
 
 namespace rr_cm
 {
+using std::vector;
+using std::string;
+
+
+
 extern char* gLastError;
 extern char* gInstallFolder;
 
@@ -41,6 +48,9 @@ RRParameterHandle	createParameter(const rr::BaseParameter& para);
 
 //Cast void* handle to RoadRunner instance pointer, throw if it fails
 rr::RoadRunner* 	getRRI(RRHandle rrHandle);
+
+//Cast
+rr::RoadRunnerList* getRRList(RRInstanceListHandle handle);
 }
 
 #endif

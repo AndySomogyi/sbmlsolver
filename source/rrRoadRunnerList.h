@@ -17,9 +17,9 @@ class RR_DECLSPEC RoadRunnerList : public rrObject
 
     public:
 								RoadRunnerList(const int& nrOfRRs = 0, const string& tempFolder = gEmptyString);
+		virtual				   ~RoadRunnerList();
 		RoadRunner*				operator[](const int& index);
         unsigned int			count();
-
 
 };
 
