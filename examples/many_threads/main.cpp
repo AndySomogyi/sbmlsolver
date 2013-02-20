@@ -21,14 +21,15 @@ int main(int argc, char** argv)
 
         const string model = "r:\\models\\test_1.xml";
 
-        //Threads ..
+        //Load models..
+        Log(lInfo)<<" ---------- LOADING/GENERATING MODELS ------";
 
         LoadModel loadModel(rrs, model, threadCount);
-
         loadModel.waitForAll();
 
-        //Simulate
-        Log(lInfo)<<" ---------- SIMULATING -------------";
+
+        //Set parameters
+        Log(lInfo)<<" ---------- SETTING PARAMETERS -------------";
 
         //Setup instances with different variables
         for(int i = 0; i < nrOfRRInstances; i++)
@@ -40,15 +41,16 @@ int main(int argc, char** argv)
             rrs[i]->setTimeCourseSelectionList("S1");
         }
 
+        //Simulate
+        Log(lInfo)<<" ---------- SIMULATING ---------------------";
+
         //Simulate them using a pool of threads..
         Simulate simulate(rrs, threadCount);
-
-        //Wait for all jobs
         simulate.waitForAll();
 
         //Write data to a file
         SimulationData allData;
-        for(int i = nrOfRRInstances -1 ; i >-1 ; i--)
+        for(int i = nrOfRRInstances -1 ; i >-1 ; i--) //"Backwards" because bad plotting program..
         {
             RoadRunner* rr = rrs[i];
             SimulationData data = rr->getSimulationResult();

@@ -57,14 +57,14 @@ extern "C"
 // \return Returns a RoadRunner instance, returns null if it fails
 // \ingroup initialization
 //*/
-C_DECL_SPEC RRHandle rrCallConv getRRHandle(void);
+C_DECL_SPEC RRHandle rrCallConv createRRHandle(void);
 
 ///*!
 // \brief Initialize new roadRunner instances and return a handle to them.
 // \return Returns count number of RoadRunner instances, returns null if it fails
 // \ingroup initialization
 //*/
-C_DECL_SPEC RRInstanceListHandle rrCallConv getRRHandles(int count);
+C_DECL_SPEC RRInstanceListHandle rrCallConv createRRHandles(int count);
 
 /*!
  \brief Free the roadRunner instance
@@ -386,7 +386,6 @@ C_DECL_SPEC bool rrCallConv loadModelFromFile(RRHandle handle, const char* fileN
 */
 C_DECL_SPEC TPHandle rrCallConv loadModelFromFileTP(RRInstanceListHandle rrHandles, const char* fileName, int nrOfThreads);
 
-
 /*!
  \brief Wait for jobs in thread pool to finish
  \param[in] TPHandle - aHandle to a threadPool
@@ -395,7 +394,6 @@ C_DECL_SPEC TPHandle rrCallConv loadModelFromFileTP(RRInstanceListHandle rrHandl
 */
 C_DECL_SPEC bool rrCallConv waitForJobs(TPHandle handle);
 
-
 /*!
  \brief Get number of remaining jobs in a threadPool
  \param[in] TPHandle - aHandle to a threadPool
@@ -403,7 +401,6 @@ C_DECL_SPEC bool rrCallConv waitForJobs(TPHandle handle);
  \ingroup multiThreading
 */
 C_DECL_SPEC int rrCallConv getNumberOfRemainingJobs(TPHandle handle);
-
 
 ///*!
 // \brief Load simulation settings from a file
@@ -494,29 +491,29 @@ C_DECL_SPEC int rrCallConv getNumberOfRemainingJobs(TPHandle handle);
 // \ingroup simulation
 //*/C_DECL_SPEC char* rrCallConv getCapabilities(void);
 //
-///*!
-// \brief Set the time start for a time course simulation
-// \param[in] timeStart
-// \return Returns True if sucessful
-// \ingroup simulation
-//*/
-//C_DECL_SPEC bool rrCallConv setTimeStart(double timeStart);
-//
-///*!
-// \brief Set the time end for a time course simulation
-// \param[in] timeEnd
-// \return Returns true if sucessful
-// \ingroup simulation
-//*/
-//C_DECL_SPEC bool rrCallConv setTimeEnd(double timeEnd);
-//
-///*!
-// \brief Set the number of points to generate in a time course simulation
-// \param[in] nrPoints Number of points to generate in the time course simulation
-// \return Returns true if sucessful
-// \ingroup simulation
-//*/
-//C_DECL_SPEC bool rrCallConv setNumPoints(int numberOfPoints);
+/*!
+ \brief Set the time start for a time course simulation
+ \param[in] timeStart
+ \return Returns True if sucessful
+ \ingroup simulation
+*/
+C_DECL_SPEC bool rrCallConv setTimeStart(RRHandle handle, double timeStart);
+
+/*!
+ \brief Set the time end for a time course simulation
+ \param[in] timeEnd
+ \return Returns true if sucessful
+ \ingroup simulation
+*/
+C_DECL_SPEC bool rrCallConv setTimeEnd(RRHandle handle, double timeEnd);
+
+/*!
+ \brief Set the number of points to generate in a time course simulation
+ \param[in] nrPoints Number of points to generate in the time course simulation
+ \return Returns true if sucessful
+ \ingroup simulation
+*/
+C_DECL_SPEC bool rrCallConv setNumPoints(RRHandle handle, int numberOfPoints);
 //
 /////*!
 //// \brief Creates a default timeCourse selection List
@@ -526,22 +523,22 @@ C_DECL_SPEC int rrCallConv getNumberOfRemainingJobs(TPHandle handle);
 ////*/
 ////C_DECL_SPEC bool rrCallConv createTimeCourseSelectionList(void);
 ////
-/////*!
-//// \brief Set the selection list for output from simulate(void) or simulateEx(void)
-////
-//// Use getAvailableTimeCourseSymbols(void) to retrieve the list of all possible symbols.
-////
-//// Example: \code setTimeCourseSelectionList ("Time, S1, J1, J2"); \endcode
-////
-//// or
-////
-//// setTimeCourseSelectionList ("Time S1 J1 J2")
-////
-//// \param[in] list A string of Ids separated by spaces <b>or</b> comma characters
-//// \return Returns true if sucessful
-//// \ingroup simulation
-////*/
-////C_DECL_SPEC bool rrCallConv setTimeCourseSelectionList(const char* list);
+/*!
+ \brief Set the selection list for output from simulate(void) or simulateEx(void)
+
+ Use getAvailableTimeCourseSymbols(void) to retrieve the list of all possible symbols.
+
+ Example: \code setTimeCourseSelectionList ("Time, S1, J1, J2"); \endcode
+
+ or
+
+ setTimeCourseSelectionList ("Time S1 J1 J2")
+
+ \param[in] list A string of Ids separated by spaces <b>or</b> comma characters
+ \return Returns true if sucessful
+ \ingroup simulation
+*/
+C_DECL_SPEC bool rrCallConv setTimeCourseSelectionList(RRHandle handle, const char* list);
 ////
 /////*!
 //// \brief Get the current selection list for simulate(void) or simulateEx(void)
@@ -560,7 +557,10 @@ C_DECL_SPEC int rrCallConv getNumberOfRemainingJobs(TPHandle handle);
 //// \ingroup simulation
 ////*/
 ////C_DECL_SPEC RRResultHandle rrCallConv simulate(void);
-////
+
+C_DECL_SPEC TPHandle rrCallConv simulateTP(RRInstanceListHandle rrHandles, int nrOfThreads);
+
+
 /////*!
 //// \brief Carry out a time-course simulation based on the given arguments, time start,
 //// time end and number of points.
@@ -694,30 +694,30 @@ C_DECL_SPEC int rrCallConv getNumberOfRemainingJobs(TPHandle handle);
 ////// Get and Set Routines
 ////// --------------------------------------------------------------------------------
 ////
-/////*!
-//// \brief Get the value for a given symbol, use getAvailableTimeCourseSymbols(void) for a list of symbols
-////
-//// Example: \code status = getValue ("S1", &value); \endcode
-////
-//// \param symbolId The symbol that we wish to obtain the value for
-//// \param value The value that will be retrievd
-//// \return Returns true if succesful
-//// \ingroup state
-////*/
-////C_DECL_SPEC bool rrCallConv getValue(const char* symbolId, double& value);
-////
-////
-/////*!
-//// \brief Set the value for a given symbol, use getAvailableTimeCourseSymbols(void) for a list of symbols
-////
-//// Example: \code status = setValue ("S1", 0.5); \endcode
-////
-//// \param symbolId The symbol that we wish to set the value
-//// \param value The value that will be set to the symbol
-//// \return Returns true if succesful
-//// \ingroup state
-////*/
-////C_DECL_SPEC bool rrCallConv setValue(const char* symbolId, const double& value);
+/*!
+ \brief Get the value for a given symbol, use getAvailableTimeCourseSymbols(void) for a list of symbols
+
+ Example: \code status = getValue ("S1", &value); \endcode
+
+ \param symbolId The symbol that we wish to obtain the value for
+ \param value The value that will be retrievd
+ \return Returns true if succesful
+ \ingroup state
+*/
+C_DECL_SPEC bool rrCallConv getValue(RRHandle handle, const char* symbolId, double* value);
+
+
+/*!
+ \brief Set the value for a given symbol, use getAvailableTimeCourseSymbols(void) for a list of symbols
+
+ Example: \code status = setValue ("S1", 0.5); \endcode
+
+ \param symbolId The symbol that we wish to set the value
+ \param value The value that will be set to the symbol
+ \return Returns true if succesful
+ \ingroup state
+*/
+C_DECL_SPEC bool rrCallConv setValue(RRHandle handle, const char* symbolId, const double value);
 ////
 ////
 /////*!

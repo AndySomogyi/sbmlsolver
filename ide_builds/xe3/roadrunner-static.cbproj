@@ -344,6 +344,13 @@
             <DependentOn>..\..\source\rrScanner.h</DependentOn>
             <BuildOrder>46</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\rrSimulate.cpp">
+            <DependentOn>..\..\source\rrSimulate.h</DependentOn>
+            <BuildOrder>78</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrSimulateThread.cpp">
+            <BuildOrder>79</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrSimulationData.cpp">
             <DependentOn>..\..\source\rrSimulationData.h</DependentOn>
             <BuildOrder>47</BuildOrder>

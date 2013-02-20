@@ -1,11 +1,6 @@
 #pragma hdrstop
 #include <string>
-//#include <sstream>
-//#include "rrParameter.h"
 #include "rrException.h"
-//#include "rrUtils.h"
-//#include "rrArrayListItem.h"
-//#include "rr_cm.h"
 #include "rr_cm_support.h"
 
 using namespace rr;
@@ -14,33 +9,26 @@ using namespace std;
 namespace rr_cm
 {
 
-const char* ALLOCATE_API_ERROR_MSG 	= "Please allocate a handle to the roadrunner API before calling any API function";
-const char* BAD_HANDLE_ERROR_MSG 	= "The HANDLE passed to this function was invalid";
-char* 		gLastError      		= NULL;
-//char* 		gInstallFolder 			= NULL;
+const char* ALLOCATE_API_ERROR_MSG 		= "Allocate a handle to the roadrunner API before calling any API function";
+const char* INVALID_HANDLE_ERROR_MSG 	= "The HANDLE passed to this function was invalid";
+char* 		gLastError      			= NULL;
 
-
-RoadRunner* getRRI(RRHandle rrHandle)
+RoadRunner* castToRRInstance(RRHandle CHandle)
 {
-	RoadRunner* handle = (RoadRunner*) rrHandle;
-    if(handle)
+	RoadRunner* handle = (RoadRunner*) CHandle;
+    if(handle) //Will only fail if CHandle is NULL...
     {
     	return handle;
     }
     else
     {
-    	Exception ex("Failed to create a valid RoadRunner handle");
+    	Exception ex("Failed to cast to a valid RoadRunner handle");
     	throw(ex);
     }
 }
 
 RoadRunnerList* getRRList(RRInstanceListHandle listHandle)
 {
-	if(!listHandle)
-    {
-    	return NULL;
-    }
-
 	RoadRunnerList* handle = (RoadRunnerList*) listHandle->RRList;
     if(handle)
     {

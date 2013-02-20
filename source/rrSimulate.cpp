@@ -1,4 +1,5 @@
 #pragma hdrstop
+#include "rrSimulateThread.h"
 #include "rrSimulate.h"
 //---------------------------------------------------------------------------
 

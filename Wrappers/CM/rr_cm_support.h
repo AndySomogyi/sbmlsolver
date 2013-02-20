@@ -28,7 +28,7 @@ extern char* gInstallFolder;
 
 //Error/Warning Messages
 extern const char* 	ALLOCATE_API_ERROR_MSG;
-extern const char* 	BAD_HANDLE_ERROR_MSG;
+extern const char* 	INVALID_HANDLE_ERROR_MSG;
 
 //Internal prototypes (not exported)
 void                setError(const string& err);
@@ -47,7 +47,7 @@ RRListHandle 		createList(const rr::NewArrayList& aList);
 RRParameterHandle	createParameter(const rr::BaseParameter& para);
 
 //Cast void* handle to RoadRunner instance pointer, throw if it fails
-rr::RoadRunner* 	getRRI(RRHandle rrHandle);
+rr::RoadRunner* 	castToRRInstance(RRHandle rrHandle);
 
 //Cast
 rr::RoadRunnerList* getRRList(RRInstanceListHandle handle);

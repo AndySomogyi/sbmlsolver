@@ -6,7 +6,7 @@ int main()
 {
     //Some Declarations (has to be here because this is C)
 	RRInstanceListHandle 	rrs;
-    TPHandle *tpHandle;		//ThreadPool handle.. use to check when a pool of threads has finished..
+    TPHandle 			    tpHandle;		//ThreadPool handle.. use to check when a pool of threads has finished..
 
 	char* modelFileName = "r://models//test_1.xml";
     int   handleCount = 100;
@@ -15,7 +15,7 @@ int main()
    	char  buf[2048];
 	printf("Starting C program...\n");
 
-    rrs = getRRHandles(handleCount);
+    rrs = createRRHandles(handleCount);
 
     if(!rrs)
     {
@@ -39,23 +39,42 @@ int main()
     tpHandle = loadModelFromFileTP(rrs, modelFileName, threadCount);
 
     //waitForJobs will block until all threads have finished
-//    waitForJobs(tpHandle);
-	//Instead, one can check for activeJobs, i.e. non blocking
-    while(true)
+	//Instead, one can could check for activeJobs, i.e. non blocking (see below)
+    waitForJobs(tpHandle);
+
+    //Set parameters
+    logMsg(lInfo, " ---------- SETTING PARAMETERS -------------");
+
+    //Setup instances with different variables
+    for(i = 0; i < handleCount; i++)
     {
-		int nrOfRemainingJobs = getNumberOfRemainingJobs(tpHandle);
-        if (nrOfRemainingJobs == 0)
-        {
-           	logMsg(lInfo, "All jobs are done!!!\n");
-        	break;
-        }
-        else
-        {
-        	sprintf(buf, "There are %d remaining jobs\n", nrOfRemainingJobs);
-        	logMsg(lInfo, buf);
-            sleep(0.1);
-        }
+        double val = 0;
+        getValue(rrs->Handle[i], "k1", &val);
+        setValue(rrs->Handle[i], "k1", val/(2.5*(i + 1)));
+        setNumPoints(rrs->Handle[i], 500);
+        setTimeEnd(rrs->Handle[i], 150);
+        setTimeCourseSelectionList(rrs->Handle[i], "S1");
     }
+
+    //Simulate
+    logMsg(lInfo, " ---------- SIMULATING ---------------------");
+
+    //Simulate them using a pool of threads..
+    tpHandle = simulateTP(rrs, 8);
+    waitForJobs(tpHandle);
+
+
+    //Write data to a file
+//    SimulationData allData;
+//    for(int i = nrOfRRInstances -1 ; i >-1 ; i--) //"Backwards" because bad plotting program..
+//    {
+//        RoadRunner* rr = rrs[i];
+//        SimulationData data = rr->getSimulationResult();
+//        allData.append(data);
+//    }
+//
+//    allData.writeTo("r:\\allData.dat");
+//
 
 	// Cleanup
     freeRRHandles(rrs);
@@ -69,3 +88,21 @@ int main()
 }
 
 #pragma link "rr_cm.lib"
+
+//Non blocking code waiting for threadpool to finish
+//    while(true)
+//    {
+//		int nrOfRemainingJobs = getNumberOfRemainingJobs(tpHandle);
+//        if (nrOfRemainingJobs == 0)
+//        {
+//           	logMsg(lInfo, "All jobs are done!!!\n");
+//        	break;
+//        }
+//        else
+//        {
+//        	sprintf(buf, "There are %d remaining jobs\n", nrOfRemainingJobs);
+//        	logMsg(lInfo, buf);
+//            sleep(0.1);
+//        }
+//	}
+
