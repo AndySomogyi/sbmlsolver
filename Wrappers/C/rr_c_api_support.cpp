@@ -1,6 +1,3 @@
-#ifdef USE_PCH
-#include "rr_pch.h"
-#endif
 #pragma hdrstop
 #include <string>
 #include <sstream>
@@ -11,12 +8,43 @@
 #include "rrUtils.h"
 #include "rrArrayListItem.h"
 
-using namespace std;
 using namespace rr;
+using namespace std;
+
 namespace rr_c_api
 {
-extern char* gLastError;
-const char* ALLOCATE_API_ERROR_MSG = "Please allocate a handle to the roadrunner API before calling any API function";
+
+const char* ALLOCATE_API_ERROR_MSG 		= "Allocate a handle to the roadrunner API before calling any API function";
+const char* INVALID_HANDLE_ERROR_MSG 	= "The HANDLE passed to this function was invalid";
+char* 		gLastError      			= NULL;
+
+RoadRunner* castToRRInstance(RRHandle CHandle)
+{
+	RoadRunner* handle = (RoadRunner*) CHandle;
+    if(handle) //Will only fail if CHandle is NULL...
+    {
+    	return handle;
+    }
+    else
+    {
+    	Exception ex("Failed to cast to a valid RoadRunner handle");
+    	throw(ex);
+    }
+}
+
+RoadRunnerList* getRRList(RRInstanceListHandle listHandle)
+{
+	RoadRunnerList* handle = (RoadRunnerList*) listHandle->RRList;
+    if(handle)
+    {
+    	return handle;
+    }
+    else
+    {
+    	Exception ex("Failed to create a valid RoadRunnerList handle");
+    	throw(ex);
+    }
+}
 
 void setError(const string& err)
 {
@@ -24,14 +52,14 @@ void setError(const string& err)
     {
         delete [] gLastError;
     }
-    gLastError = new char[err.size() + 1];
-    strcpy(gLastError, err.c_str());
+
+    gLastError = createText(err);
 }
 
-char* createText(const char* str)
-{
-	return createText(string(str));
-}
+//char* createText(const char* str)
+//{
+//	return createText( std::string(str) );
+//}
 
 char* createText(const string& str)
 {

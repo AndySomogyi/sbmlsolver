@@ -40,14 +40,13 @@
 */
 
 #pragma hdrstop
-//---------------------------------------------------------------------------
-#if defined(WIN32)
-#include <windows.h>
-#endif
-
+#include <string>
 #include <sstream>
 #include "rrParameter.h"
 #include "rrRoadRunner.h"
+#include "rrRoadRunnerList.h"
+#include "rrLoadModel.h"
+#include "rrSimulate.h"
 #include "rrCGenerator.h"
 #include "rrLogger.h"           //Might be useful for debugging later on
 #include "rr_c_api.h"
@@ -71,16 +70,90 @@
 //---------------------------------------------------------------------------
 using namespace std;
 using namespace rr;
+using namespace rr_c_api;
 
-RoadRunner*     gRRHandle       = NULL;
+//RoadRunner*     gRRHandle       = NULL;
 
 namespace rr_c_api
 {
-char*                       gLastError      = NULL;
-}
 
 char* gInstallFolder = NULL;
-using namespace rr_c_api;
+
+RRHandle rrCallConv createRRHandle()
+{
+	try
+    {
+    	string rrInstallFolder(getParentFolder(getRRCAPILocation()));
+//        string compiler 	= getCompilerName();
+//        RRHandle rrHandle 	= new RoadRunner(JoinPath(rrInstallFolder, "rr_support"), compiler, GetUsersTempDataFolder());
+        RRHandle rrHandle 	= new RoadRunner(JoinPath(rrInstallFolder, "rr_support"));
+    	return rrHandle;
+    }
+	catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return NULL;
+    }
+}
+
+RRInstanceListHandle rrCallConv createRRHandles(int count)
+{
+	try
+    {
+    	//string rrInstallFolder(getParentFolder(getRRCAPILocation()));
+        //string compiler = getCompilerName();
+		RoadRunnerList* listHandle = new RoadRunnerList(count, GetUsersTempDataFolder());
+
+        //Create the C list structure
+		RRInstanceListHandle rrList = new RRInstanceList;
+        rrList->RRList = (void*) listHandle;
+        rrList->Count = count;
+
+        //Create 'count' handles
+        rrList->Handle = new RRHandle[count];
+
+        //Populate handles
+        for(int i = 0; i < count; i++)
+        {
+        	rrList->Handle[i] = (*listHandle)[i];
+        }
+    	return rrList;
+    }
+	catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return NULL;
+    }
+}
+
+bool rrCallConv freeRRHandles(RRInstanceListHandle rrList)
+{
+	try
+    {
+    	//Delete the C++ list
+        RoadRunnerList* listHandle = (RoadRunnerList*) rrList->RRList;
+
+		delete listHandle;
+
+        //Free  C handles
+        delete [] rrList->Handle;
+
+        //Free the C list
+        delete rrList;
+		return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return false;
+    }
+}
 
 char* rrCallConv getInstallFolder()
 {
@@ -108,35 +181,24 @@ bool rrCallConv  setInstallFolder(const char* folder)
     }
 }
 
-bool rrCallConv enableLogging()
+void rrCallConv logMsg(CLogLevel lvl, const char* msg)
 {
 	try
     {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-
+		Log((LogLevel) lvl)<<msg;
+    }
+    catch(const Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+    }
+}
+bool rrCallConv enableLoggingToConsole()
+{
+	try
+    {
 	    LogOutput::mLogToConsole = true;
-        char* tempFolder = getTempFolder();
-		string logFile = JoinPath(tempFolder, "RoadRunner.log") ;
-        freeText(tempFolder);
-		Log(lInfo)<<"Creating log file "<<logFile;
-        gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));
-
-        char* buffer;
-        // Get the current working directory:
-        if( (buffer = getcwd(NULL, 0)) == NULL )
-        {
-            perror( "getcwd error" );
-        }
-        else
-        {
-            Log(lInfo)<<"Current working folder is :"<<buffer;
-            free(buffer);
-        }
-
     	return true;
     }
     catch(const Exception& ex)
@@ -148,14 +210,69 @@ bool rrCallConv enableLogging()
     }
 }
 
+bool rrCallConv enableLoggingToFile(RRHandle handle)
+{
+	try
+    {
+        char* tempFolder = getTempFolder(handle);
+		string logFile = JoinPath(tempFolder, "RoadRunner.log") ;
+        freeText(tempFolder);
+
+        gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));
+    	return true;
+    }
+    catch(const Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return false;
+    }
+}
+//bool rrCallConv enableLogging()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//	    LogOutput::mLogToConsole = true;
+//        char* tempFolder = getTempFolder();
+//		string logFile = JoinPath(tempFolder, "RoadRunner.log") ;
+//        freeText(tempFolder);
+//		Log(lInfo)<<"Creating log file "<<logFile;
+//        gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));
+//
+//        char* buffer;
+//        // Get the current working directory:
+//        if( (buffer = getcwd(NULL, 0)) == NULL )
+//        {
+//            perror( "getcwd error" );
+//        }
+//        else
+//        {
+//            Log(lInfo)<<"Current working folder is :"<<buffer;
+//            free(buffer);
+//        }
+//
+//    	return true;
+//    }
+//    catch(const Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//  	    return false;
+//    }
+//}
+
 bool rrCallConv setLogLevel(const char* _lvl)
 {
 	try
     {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-        }
         LogLevel lvl = GetLogLevel(_lvl);
 		gLog.SetCutOffLogLevel(lvl);
     	return true;
@@ -173,11 +290,6 @@ char* rrCallConv getLogLevel()
 {
 	try
     {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-        }
-
         string level = gLog.GetCurrentLogLevel();
         char* lvl = createText(level.c_str());
     	return lvl;
@@ -195,10 +307,6 @@ char* rrCallConv getLogFileName()
 {
 	try
     {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-        }
     	return createText(gLog.GetLogFileName().c_str());
     }
     catch(Exception& ex)
@@ -225,24 +333,24 @@ char* rrCallConv getBuildDateTime()
     return createText(string(__DATE__) + string(" ") + string(__TIME__));
 }
 
-char* rrCallConv getVersion()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            gRRHandle = new rr::RoadRunner("","");
-        }
-		return createText(gRRHandle->getVersion());
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
+//char* rrCallConv getVersion()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            gRRHandle = new rr::RoadRunner("","");
+//        }
+//		return createText(gRRHandle->getVersion());
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
 
 char* rrCallConv getRRCAPILocation()
 {
@@ -262,49 +370,42 @@ char* rrCallConv getRRCAPILocation()
 #endif
 }
 
-RRHandle rrCallConv getRRInstance()
+//RRHandle rrCallConv getRRInstance()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            string rrInstallFolder(getParentFolder(getRRCAPILocation()));
+//        	//Get location of shared lib and use that as 'install' folder
+//#if defined(_WIN32) || defined(WIN32)
+//            string compiler(JoinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"));
+//#elif defined(__linux)
+//            string compiler("gcc");
+//#else
+//            string compiler("gcc");
+//#endif
+//
+//            gRRHandle = new RoadRunner(JoinPath(rrInstallFolder, "rr_support"), compiler, GetUsersTempDataFolder());
+//            gRRHandle->resetModelGenerator();
+//        }
+//    	return gRRHandle;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+
+char* rrCallConv getCopyright(RRHandle handle)
 {
 	try
     {
-        if(!gRRHandle)
-        {
-            string rrInstallFolder(getParentFolder(getRRCAPILocation()));
-        	//Get location of shared lib and use that as 'install' folder
-#if defined(_WIN32) || defined(WIN32)
-            string compiler(JoinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"));
-#elif defined(__linux)
-            string compiler("gcc");
-#else
-            string compiler("gcc");
-#endif
-
-            gRRHandle = new RoadRunner(JoinPath(rrInstallFolder, "rr_support"), compiler, GetUsersTempDataFolder());
-            gRRHandle->resetModelGenerator();
-        }
-    	return gRRHandle;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-char* rrCallConv getCopyright()
-{
-	try
-    {
-        char* text = NULL;
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-        }
-        else
-        {
-            text = createText(gRRHandle->getCopyright());
-        }
+   		RoadRunner* rri = castToRRInstance(handle);
+        char* text = createText(rri->getCopyright());
         return text;
     }
     catch(Exception& ex)
@@ -316,112 +417,132 @@ char* rrCallConv getCopyright()
     }
 }
 
-char* rrCallConv getInfo()
+
+//char* rrCallConv getCopyright()
+//{
+//	try
+//    {
+//        char* text = NULL;
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//        }
+//        else
+//        {
+//            text = createText(gRRHandle->getCopyright());
+//        }
+//        return text;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+
+//char* rrCallConv getInfo()
+//{
+//	try
+//    {
+//        char* text = NULL;
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//        }
+//        else
+//        {
+//            text = createText(gRRHandle->getInfo());
+//        }
+//        return text;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
+//char* rrCallConv getlibSBMLVersion()
+//{
+//	try
+//    {
+//        char* text = NULL;
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//        }
+//        else
+//        {
+//            text = createText(gRRHandle->getlibSBMLVersion());
+//        }
+//        return text;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//	}
+//}
+//
+//char* rrCallConv getCurrentSBML()
+//{
+//	try
+//    {
+//        char* text = NULL;
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//        }
+//        else
+//        {
+//            text = createText(gRRHandle->writeSBML());
+//        }
+//        return text;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//	}
+//}
+//
+////Flags and Options
+//bool rrCallConv setComputeAndAssignConservationLaws(const bool& OnOrOff)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//        gRRHandle->computeAndAssignConservationLaws(OnOrOff);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//    	return false;
+//     }
+//}
+
+bool rrCallConv setTempFolder(RRHandle handle, const char* folder)
 {
 	try
     {
-        char* text = NULL;
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-        }
-        else
-        {
-            text = createText(gRRHandle->getInfo());
-        }
-        return text;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-char* rrCallConv getlibSBMLVersion()
-{
-	try
-    {
-        char* text = NULL;
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-        }
-        else
-        {
-            text = createText(gRRHandle->getlibSBMLVersion());
-        }
-        return text;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-	}
-}
-
-char* rrCallConv getCurrentSBML()
-{
-	try
-    {
-        char* text = NULL;
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-        }
-        else
-        {
-            text = createText(gRRHandle->writeSBML());
-        }
-        return text;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-	}
-}
-
-//Flags and Options
-bool rrCallConv setComputeAndAssignConservationLaws(const bool& OnOrOff)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-
-        gRRHandle->computeAndAssignConservationLaws(OnOrOff);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-    	return false;
-     }
-}
-
-bool rrCallConv setTempFolder(const char* folder)
-{
-	try
-    {
-    	if(!gRRHandle)
-    	{
-        	setError(ALLOCATE_API_ERROR_MSG);
-        	return false;
-    	}
-		Log(lDebug)<<"Setting tempfolder to:"<<folder<<endl;
-	    return gRRHandle->setTempFileFolder(folder);
+    	RoadRunner* rrHandle = castToRRInstance(handle);
+	    return rrHandle->setTempFileFolder(folder);
     }
     catch(Exception& ex)
     {
@@ -432,16 +553,33 @@ bool rrCallConv setTempFolder(const char* folder)
     }
 }
 
-char* rrCallConv getTempFolder()
+//bool rrCallConv setTempFolder(const char* folder)
+//{
+//	try
+//    {
+//    	if(!gRRHandle)
+//    	{
+//        	setError(ALLOCATE_API_ERROR_MSG);
+//        	return false;
+//    	}
+//		Log(lDebug)<<"Setting tempfolder to:"<<folder<<endl;
+//	    return gRRHandle->setTempFileFolder(folder);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//  		return false;
+//    }
+//}
+
+char* rrCallConv getTempFolder(RRHandle handle)
 {
 	try
     {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-	    return createText(gRRHandle->getTempFileFolder());
+    	RoadRunner* rrHandle = castToRRInstance(handle);
+	    return createText(rrHandle->getTempFileFolder());
     }
     catch(Exception& ex)
     {
@@ -452,128 +590,149 @@ char* rrCallConv getTempFolder()
     }
 }
 
-bool rrCallConv setCompiler(const char* fName)
-{
-	try
-    {
-    	if(!gRRHandle)
-    	{
-        	setError(ALLOCATE_API_ERROR_MSG);
-        	return false;
-    	}
-		if(gRRHandle->getCompiler())
-		{
-			return gRRHandle->getCompiler()->setCompiler(fName);
-		}
-		else
-		{
-			return false;
-		}
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return false;
-    }
-}
-
-bool rrCallConv setCompilerLocation(const char* folder)
-{
-	try
-    {
-    	if(!gRRHandle)
-    	{
-        	setError(ALLOCATE_API_ERROR_MSG);
-        	return false;
-    	}
-		if(gRRHandle->getCompiler())
-		{
-			return gRRHandle->getCompiler()->setCompilerLocation(folder);
-		}
-		else
-		{
-			return false;
-		}
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return false;
-    }
-}
-
-char* rrCallConv getCompilerLocation()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-	    return createText(gRRHandle->getCompiler()->getCompilerLocation());
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-bool rrCallConv setSupportCodeFolder(const char* folder)
-{
-	try
-    {
-    	if(!gRRHandle)
-    	{
-        	setError(ALLOCATE_API_ERROR_MSG);
-        	return false;
-    	}
-		if(gRRHandle->getCompiler())
-		{
-			return gRRHandle->getCompiler()->setSupportCodeFolder(folder);
-		}
-		else
-		{
-			return false;
-		}
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return false;
-    }
-}
-
-char* rrCallConv getSupportCodeFolder()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-	    return createText(gRRHandle->getCompiler()->getSupportCodeFolder());
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
+//char* rrCallConv getTempFolder()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//	    return createText(gRRHandle->getTempFileFolder());
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
+//bool rrCallConv setCompiler(const char* fName)
+//{
+//	try
+//    {
+//    	if(!gRRHandle)
+//    	{
+//        	setError(ALLOCATE_API_ERROR_MSG);
+//        	return false;
+//    	}
+//		if(gRRHandle->getCompiler())
+//		{
+//			return gRRHandle->getCompiler()->setCompiler(fName);
+//		}
+//		else
+//		{
+//			return false;
+//		}
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return false;
+//    }
+//}
+//
+//bool rrCallConv setCompilerLocation(const char* folder)
+//{
+//	try
+//    {
+//    	if(!gRRHandle)
+//    	{
+//        	setError(ALLOCATE_API_ERROR_MSG);
+//        	return false;
+//    	}
+//		if(gRRHandle->getCompiler())
+//		{
+//			return gRRHandle->getCompiler()->setCompilerLocation(folder);
+//		}
+//		else
+//		{
+//			return false;
+//		}
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return false;
+//    }
+//}
+//
+//char* rrCallConv getCompilerLocation()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//	    return createText(gRRHandle->getCompiler()->getCompilerLocation());
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
+//bool rrCallConv setSupportCodeFolder(const char* folder)
+//{
+//	try
+//    {
+//    	if(!gRRHandle)
+//    	{
+//        	setError(ALLOCATE_API_ERROR_MSG);
+//        	return false;
+//    	}
+//		if(gRRHandle->getCompiler())
+//		{
+//			return gRRHandle->getCompiler()->setSupportCodeFolder(folder);
+//		}
+//		else
+//		{
+//			return false;
+//		}
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return false;
+//    }
+//}
+//
+//char* rrCallConv getSupportCodeFolder()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//	    return createText(gRRHandle->getCompiler()->getSupportCodeFolder());
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
 
 char* rrCallConv getWorkingDirectory()
 {
@@ -590,15 +749,12 @@ char* rrCallConv getWorkingDirectory()
     }
 }
 
-bool rrCallConv loadSBMLFromFile(const char* fileName)
+bool rrCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
 {
 	try
     {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
+    	RoadRunner* rri = castToRRInstance(_handle);
+
         //Check if file exists first
         if(!FileExists(fileName))
         {
@@ -608,7 +764,7 @@ bool rrCallConv loadSBMLFromFile(const char* fileName)
             return false;
         }
 
-        if(!gRRHandle->loadSBMLFromFile(fileName))
+        if(!rri->loadSBMLFromFile(fileName))
         {
             setError("Failed to load SBML semantics");	//There are many ways loading a model can fail, look at logFile to know more
             return false;
@@ -624,30 +780,27 @@ bool rrCallConv loadSBMLFromFile(const char* fileName)
     }
 }
 
-bool rrCallConv loadSimulationSettings(const char* fileName)
+TPHandle rrCallConv loadModelFromFileTP(RRInstanceListHandle _handles, const char* fileName, int nrOfThreads)
 {
 	try
     {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
         //Check if file exists first
         if(!FileExists(fileName))
         {
             stringstream msg;
-            msg<<"The file "<<fileName<<" was not found";
+            msg<<"The file "<<fileName<<" do not exist";
             setError(msg.str());
-            return false;
+            return NULL;
         }
 
-        if(!gRRHandle->loadSimulationSettings(fileName))
+        RoadRunnerList *rrs = getRRList(_handles);
+        LoadModel* tp = new LoadModel(*rrs, fileName, nrOfThreads);
+
+        if(!tp)
         {
-            setError("Failed to load SBML semantics");	//There are many wasy loading a model can fail, look at logFile to know more
-            return false;
+            setError("Failed to create a LoadModel Thread Pool");
         }
-        return true;
+        return tp;
     }
     catch(Exception& ex)
     {
@@ -658,18 +811,59 @@ bool rrCallConv loadSimulationSettings(const char* fileName)
     }
 }
 
-
-bool rrCallConv loadSBML(const char* sbml)
+bool rrCallConv waitForJobs(TPHandle handle)
 {
 	try
     {
-        if(!gRRHandle)
+        ThreadPool* aTP = (ThreadPool*) handle;
+        if(aTP)
         {
-            setError(ALLOCATE_API_ERROR_MSG);
+            aTP->waitForAll();
+            return true;
+        }
+		return false;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
+int rrCallConv getNumberOfRemainingJobs(TPHandle handle)
+{
+	try
+    {
+        ThreadPool* aTP = (ThreadPool*) handle;
+        if(aTP)
+        {
+            return aTP->getNumberOfRemainingJobs();
+        }
+    	return -1;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return -1;
+    }
+}
+
+bool rrCallConv loadSBMLH(RRHandle _handle, const char* sbml)
+{
+	try
+    {
+    	RoadRunner* handle = castToRRInstance(_handle);
+        if(!handle)
+        {
+            setError(INVALID_HANDLE_ERROR_MSG);
             return false;
         }
 
-        if(!gRRHandle->loadSBML(sbml))
+        if(!handle->loadSBML(sbml))
         {
             setError("Failed to load SBML semantics");
             return false;
@@ -685,60 +879,152 @@ bool rrCallConv loadSBML(const char* sbml)
     }
 }
 
-char* rrCallConv getSBML()
+
+//bool rrCallConv loadSBMLFromFile(const char* fileName)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//        //Check if file exists first
+//        if(!FileExists(fileName))
+//        {
+//            stringstream msg;
+//            msg<<"The file "<<fileName<<" was not found";
+//            setError(msg.str());
+//            return false;
+//        }
+//
+//        if(!gRRHandle->loadSBMLFromFile(fileName))
+//        {
+//            setError("Failed to load SBML semantics");	//There are many ways loading a model can fail, look at logFile to know more
+//            return false;
+//        }
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return false;
+//    }
+//}
+//
+//bool rrCallConv loadSimulationSettings(const char* fileName)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//        //Check if file exists first
+//        if(!FileExists(fileName))
+//        {
+//            stringstream msg;
+//            msg<<"The file "<<fileName<<" was not found";
+//            setError(msg.str());
+//            return false;
+//        }
+//
+//        if(!gRRHandle->loadSimulationSettings(fileName))
+//        {
+//            setError("Failed to load SBML semantics");	//There are many wasy loading a model can fail, look at logFile to know more
+//            return false;
+//        }
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return false;
+//    }
+//}
+//
+//
+//bool rrCallConv loadSBML(const char* sbml)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//        if(!gRRHandle->loadSBML(sbml))
+//        {
+//            setError("Failed to load SBML semantics");
+//            return false;
+//        }
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return false;
+//    }
+//}
+//
+//char* rrCallConv getSBML()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        string sbml = gRRHandle->getSBML();
+//
+//        return createText(sbml);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return NULL;
+//    }
+//}
+//
+//bool rrCallConv unLoadModel()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        return gRRHandle->unLoadModel();
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return NULL;
+//    }
+//}
+
+bool rrCallConv setTimeStart(RRHandle handle, const double timeStart)
 {
 	try
     {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        string sbml = gRRHandle->getSBML();
-
-        return createText(sbml);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	  	return NULL;
-    }
-}
-
-bool rrCallConv unLoadModel()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        return gRRHandle->unLoadModel();
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	  	return NULL;
-    }
-}
-
-bool rrCallConv setTimeStart(const double& timeStart)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-        gRRHandle->setTimeStart(timeStart);
+        RoadRunner* rrHandle = castToRRInstance(handle);
+        rrHandle->setTimeStart(timeStart);
     	return true;
     }
     catch(Exception& ex)
@@ -750,17 +1036,55 @@ bool rrCallConv setTimeStart(const double& timeStart)
     }
 }
 
-bool rrCallConv setTimeEnd(const double& timeEnd)
+//bool rrCallConv setTimeStart(const double& timeStart)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//        gRRHandle->setTimeStart(timeStart);
+//    	return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return false;
+//    }
+//}
+
+//bool rrCallConv setTimeEnd(const double& timeEnd)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//        gRRHandle->setTimeEnd(timeEnd);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return false;
+//    }
+//}
+
+bool rrCallConv setTimeEnd(RRHandle handle, const double timeEnd)
 {
 	try
     {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-
-        gRRHandle->setTimeEnd(timeEnd);
+        RoadRunner* rrHandle = castToRRInstance(handle);
+        rrHandle->setTimeEnd(timeEnd);
         return true;
     }
     catch(Exception& ex)
@@ -772,17 +1096,13 @@ bool rrCallConv setTimeEnd(const double& timeEnd)
     }
 }
 
-bool rrCallConv setNumPoints(const int& nrPoints)
+bool rrCallConv setNumPoints(RRHandle handle, const int nrPoints)
 {
 	try
     {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
+        RoadRunner* rrHandle = castToRRInstance(handle);
 
-        gRRHandle->setNumPoints(nrPoints);
+        rrHandle->setNumPoints(nrPoints);
 	    return true;
     }
     catch(Exception& ex)
@@ -794,87 +1114,102 @@ bool rrCallConv setNumPoints(const int& nrPoints)
     }
 }
 
-bool rrCallConv getTimeStart(double& timeStart)
+//bool rrCallConv setNumPoints(const int& nrPoints)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//        gRRHandle->setNumPoints(nrPoints);
+//	    return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return false;
+//    }
+//}
+//
+//bool rrCallConv getTimeStart(double& timeStart)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//		timeStart = gRRHandle->getTimeStart();
+//		return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//    }
+//  	return false;
+//}
+//
+//
+//bool rrCallConv getTimeEnd(double& timeEnd)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//		timeEnd = gRRHandle->getTimeEnd();
+//		return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return false;
+//    }
+//}
+//
+//bool rrCallConv getNumPoints(int& numPoints)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//		numPoints = gRRHandle->getNumPoints();
+//		return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return false;
+//    }
+//}
+
+bool rrCallConv setTimeCourseSelectionList(RRHandle handle, const char* list)
 {
 	try
     {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-
-		timeStart = gRRHandle->getTimeStart();
-		return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-    }
-  	return false;
-}
-
-
-bool rrCallConv getTimeEnd(double& timeEnd)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-
-		timeEnd = gRRHandle->getTimeEnd();
-		return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	  	return false;
-    }
-}
-
-bool rrCallConv getNumPoints(int& numPoints)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-
-		numPoints = gRRHandle->getNumPoints();
-		return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	  	return false;
-    }
-}
-
-
-bool  rrCallConv setTimeCourseSelectionList(const char* list)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-
-        gRRHandle->setTimeCourseSelectionList(list);
+    	RoadRunner* rrHandle = castToRRInstance(handle);
+        rrHandle->setTimeCourseSelectionList(list);
         return true;
-
     }
     catch(Exception& ex)
     {
@@ -885,98 +1220,144 @@ bool  rrCallConv setTimeCourseSelectionList(const char* list)
     }
 }
 
-bool rrCallConv createTimeCourseSelectionList()
+
+//bool  rrCallConv setTimeCourseSelectionList(const char* list)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//        gRRHandle->setTimeCourseSelectionList(list);
+//        return true;
+//
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return false;
+//    }
+//}
+//
+//bool rrCallConv createTimeCourseSelectionList()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        return gRRHandle->createTimeCourseSelectionList() > 0 ? true : false;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//    	return false;
+//    }
+//}
+//
+//RRStringArrayHandle rrCallConv getTimeCourseSelectionList()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        StringList sNames = gRRHandle->getTimeCourseSelectionList();
+//
+//        if(!sNames.Count())
+//        {
+//            return NULL;
+//        }
+//
+//        return createList(sNames);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return NULL;
+//    }
+//
+//}
+//
+//RRResultHandle rrCallConv simulate()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        if(!gRRHandle->simulate2())
+//        {
+//            return NULL;
+//        }
+//
+//        SimulationData result = gRRHandle->getSimulationResult();
+//
+//        //Extract the data and return struct..
+//        RRResult* aResult  = new RRResult;
+//        aResult->ColumnHeaders = new char*[result.cSize()];
+//        for(int i = 0; i < result.cSize(); i++)
+//        {
+//            aResult->ColumnHeaders[i] = createText(result.getColumnNames()[i]);
+//            //new char(32);
+//            //strcpy(aResult->ColumnHeaders[i], result.GetColumnNames()[i].c_str());
+//        }
+//
+//        aResult->RSize = result.rSize();
+//        aResult->CSize = result.cSize();
+//        int size = aResult->RSize*aResult->CSize;
+//        aResult->Data = new double[size];
+//
+//        int index = 0;
+//        //The data layout is simple row after row, in one single long row...
+//        for(int row = 0; row < aResult->RSize; row++)
+//        {
+//            for(int col = 0; col < aResult->CSize; col++)
+//            {
+//                aResult->Data[index++] = result(row, col);
+//            }
+//        }
+//	    return aResult;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+
+TPHandle rrCallConv simulateTP(RRInstanceListHandle _handles, int nrOfThreads)
 {
 	try
     {
-        if(!gRRHandle)
+        RoadRunnerList *rrs = getRRList(_handles);
+        Simulate* tp = new Simulate(*rrs, nrOfThreads);
+
+        if(!tp)
         {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
+            setError("Failed to create a Simulate Thread Pool");
         }
-
-        return gRRHandle->createTimeCourseSelectionList() > 0 ? true : false;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-    	return false;
-    }
-}
-
-RRStringArrayHandle rrCallConv getTimeCourseSelectionList()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        StringList sNames = gRRHandle->getTimeCourseSelectionList();
-
-        if(!sNames.Count())
-        {
-            return NULL;
-        }
-
-        return createList(sNames);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return NULL;
-    }
-
-}
-
-RRResultHandle rrCallConv simulate()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        if(!gRRHandle->simulate2())
-        {
-            return NULL;
-        }
-
-        SimulationData result = gRRHandle->getSimulationResult();
-
-        //Extract the data and return struct..
-        RRResult* aResult  = new RRResult;
-        aResult->ColumnHeaders = new char*[result.cSize()];
-        for(int i = 0; i < result.cSize(); i++)
-        {
-            aResult->ColumnHeaders[i] = createText(result.getColumnNames()[i]);
-            //new char(32);
-            //strcpy(aResult->ColumnHeaders[i], result.GetColumnNames()[i].c_str());
-        }
-
-        aResult->RSize = result.rSize();
-        aResult->CSize = result.cSize();
-        int size = aResult->RSize*aResult->CSize;
-        aResult->Data = new double[size];
-
-        int index = 0;
-        //The data layout is simple row after row, in one single long row...
-        for(int row = 0; row < aResult->RSize; row++)
-        {
-            for(int col = 0; col < aResult->CSize; col++)
-            {
-                aResult->Data[index++] = result(row, col);
-            }
-        }
-	    return aResult;
+        return tp;
     }
     catch(Exception& ex)
     {
@@ -987,127 +1368,30 @@ RRResultHandle rrCallConv simulate()
     }
 }
 
-RRResultHandle rrCallConv simulateEx (const double& timeStart, const double& timeEnd, const int& numberOfPoints)
+//RRResultHandle rrCallConv simulateEx (const double& timeStart, const double& timeEnd, const int& numberOfPoints)
+//{
+//	try
+//    {
+//        setTimeStart(timeStart);
+//        setTimeEnd (timeEnd);
+//        setNumPoints(numberOfPoints);
+//	  	return simulate();
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+
+bool rrCallConv getValue(RRHandle handle, const char* symbolId, double *value)
 {
 	try
     {
-        setTimeStart(timeStart);
-        setTimeEnd (timeEnd);
-        setNumPoints(numberOfPoints);
-	  	return simulate();
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-RRStringArrayHandle rrCallConv getReactionIds()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        StringList rNames = gRRHandle->getReactionIds();
-
-        if(!rNames.Count())
-        {
-            return NULL;
-        }
-
-
-        return createList(rNames);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return NULL;
-    }
-}
-
-RRVectorHandle rrCallConv getRatesOfChange()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        vector<double> rates = gRRHandle->getRatesOfChange();
-
-        if(!rates.size())
-        {
-            return NULL;
-		}
-
-        RRVector* list = new RRVector;
-        list->Count = rates.size();
-        list->Data = new double[list->Count];
-
-        for(int i = 0; i < list->Count; i++)
-        {
-            list->Data[i] = rates[i];
-		}
-		return list;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-		setError(msg.str());
-		return NULL;
-	}
-}
-
-RRStringArrayHandle rrCallConv getRatesOfChangeIds()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        StringList rNames = gRRHandle->getRateOfChangeIds();
-
-        if(!rNames.Count())
-        {
-            return NULL;
-        }
-
-        return createList(rNames);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-    }
-	return NULL;
-}
-
-bool rrCallConv getValue(const char* symbolId, double& value)
-{
-	try
-    {
-    	if(!gRRHandle)
-    	{
-        	setError(ALLOCATE_API_ERROR_MSG);
-        	return false;
-    	}
-	    value = gRRHandle->getValue(symbolId);
+        RoadRunner* rrHandle = castToRRInstance(handle);
+	    *value = rrHandle->getValue(symbolId);
         return true;
     }
     catch(Exception& ex)
@@ -1119,213 +1403,344 @@ bool rrCallConv getValue(const char* symbolId, double& value)
     }
 }
 
-
-RRMatrixHandle rrCallConv getUnscaledElasticityMatrix()
+bool rrCallConv setValue(RRHandle handle, const char* symbolId, const double value)
 {
 	try
     {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-		DoubleMatrix tempMat = gRRHandle->getUnscaledElasticityMatrix();
-
-        RRMatrixHandle matrix = createMatrix(&tempMat);
-	    return matrix;
+    	RoadRunner* rrHandle = castToRRInstance(handle);
+    	return rrHandle->setValue(symbolId, value);
     }
     catch(Exception& ex)
     {
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
-		return NULL;
+		return false;
     }
 }
 
-RRMatrixHandle rrCallConv getScaledElasticityMatrix()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-		DoubleMatrix tempMat = gRRHandle->getScaledReorderedElasticityMatrix();
-
-
-        RRMatrixHandle matrix = createMatrix(&tempMat);
-	    return matrix;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-bool rrCallConv setValue(const char* symbolId, const double& value)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-	    return gRRHandle->setValue(symbolId, value);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-RRMatrixHandle rrCallConv getStoichiometryMatrix()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        DoubleMatrix tempMat = gRRHandle->getStoichiometryMatrix();
-
-        RRMatrixHandle matrix = new RRMatrix;
-        matrix->RSize = tempMat.RSize();
-        matrix->CSize = tempMat.CSize();
-        matrix->Data =  new double[tempMat.RSize()*tempMat.CSize()];
-
-        int index = 0;
-        for(rr::u_int row = 0; row < tempMat.RSize(); row++)
-        {
-            for(rr::u_int col = 0; col < tempMat.CSize(); col++)
-            {
-                matrix->Data[index++] = tempMat(row,col);
-            }
-        }
-	    return matrix;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-RRMatrixHandle rrCallConv getConservationMatrix()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        DoubleMatrix tempMat = gRRHandle->getConservationMatrix();
-
-        RRMatrixHandle matrix = new RRMatrix;
-        matrix->RSize = tempMat.RSize();
-        matrix->CSize = tempMat.CSize();
-        matrix->Data =  new double[tempMat.RSize()*tempMat.CSize()];
-
-        int index = 0;
-        for(rr::u_int row = 0; row < tempMat.RSize(); row++)
-        {
-            for(rr::u_int col = 0; col < tempMat.CSize(); col++)
-            {
-                matrix->Data[index++] = tempMat(row,col);
-            }
-        }
-	    return matrix;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-RRMatrixHandle rrCallConv getLinkMatrix()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-        DoubleMatrix *tempMat = gRRHandle->getLinkMatrix();
-
-		return createMatrix(tempMat);
-	}
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-RRMatrixHandle rrCallConv getL0Matrix()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-        DoubleMatrix *tempMat = gRRHandle->getL0Matrix();
-        
-		return createMatrix(tempMat);
-	}
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-RRMatrixHandle rrCallConv getNrMatrix()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-        DoubleMatrix *tempMat = gRRHandle->getNrMatrix();
-
-		return createMatrix(tempMat);
-	}
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
+//RRStringArrayHandle rrCallConv getReactionIds()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        StringList rNames = gRRHandle->getReactionIds();
+//
+//        if(!rNames.Count())
+//        {
+//            return NULL;
+//        }
+//
+//
+//        return createList(rNames);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return NULL;
+//    }
+//}
+//
+//RRVectorHandle rrCallConv getRatesOfChange()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        vector<double> rates = gRRHandle->getRatesOfChange();
+//
+//        if(!rates.size())
+//        {
+//            return NULL;
+//		}
+//
+//        RRVector* list = new RRVector;
+//        list->Count = rates.size();
+//        list->Data = new double[list->Count];
+//
+//        for(int i = 0; i < list->Count; i++)
+//        {
+//            list->Data[i] = rates[i];
+//		}
+//		return list;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//		setError(msg.str());
+//		return NULL;
+//	}
+//}
+//
+//RRStringArrayHandle rrCallConv getRatesOfChangeIds()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        StringList rNames = gRRHandle->getRateOfChangeIds();
+//
+//        if(!rNames.Count())
+//        {
+//            return NULL;
+//        }
+//
+//        return createList(rNames);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//    }
+//	return NULL;
+//}
+//
+//bool rrCallConv getValue(const char* symbolId, double& value)
+//{
+//	try
+//    {
+//    	if(!gRRHandle)
+//    	{
+//        	setError(ALLOCATE_API_ERROR_MSG);
+//        	return false;
+//    	}
+//	    value = gRRHandle->getValue(symbolId);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return false;
+//    }
+//}
+//
+//
+//RRMatrixHandle rrCallConv getUnscaledElasticityMatrix()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//		DoubleMatrix tempMat = gRRHandle->getUnscaledElasticityMatrix();
+//
+//        RRMatrixHandle matrix = createMatrix(&tempMat);
+//	    return matrix;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
+//RRMatrixHandle rrCallConv getScaledElasticityMatrix()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//		DoubleMatrix tempMat = gRRHandle->getScaledReorderedElasticityMatrix();
+//
+//
+//        RRMatrixHandle matrix = createMatrix(&tempMat);
+//	    return matrix;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
+//bool rrCallConv setValue(const char* symbolId, const double& value)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//	    return gRRHandle->setValue(symbolId, value);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
+//RRMatrixHandle rrCallConv getStoichiometryMatrix()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        DoubleMatrix tempMat = gRRHandle->getStoichiometryMatrix();
+//
+//        RRMatrixHandle matrix = new RRMatrix;
+//        matrix->RSize = tempMat.RSize();
+//        matrix->CSize = tempMat.CSize();
+//        matrix->Data =  new double[tempMat.RSize()*tempMat.CSize()];
+//
+//        int index = 0;
+//        for(rr::u_int row = 0; row < tempMat.RSize(); row++)
+//        {
+//            for(rr::u_int col = 0; col < tempMat.CSize(); col++)
+//            {
+//                matrix->Data[index++] = tempMat(row,col);
+//            }
+//        }
+//	    return matrix;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
+//RRMatrixHandle rrCallConv getConservationMatrix()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        DoubleMatrix tempMat = gRRHandle->getConservationMatrix();
+//
+//        RRMatrixHandle matrix = new RRMatrix;
+//        matrix->RSize = tempMat.RSize();
+//        matrix->CSize = tempMat.CSize();
+//        matrix->Data =  new double[tempMat.RSize()*tempMat.CSize()];
+//
+//        int index = 0;
+//        for(rr::u_int row = 0; row < tempMat.RSize(); row++)
+//        {
+//            for(rr::u_int col = 0; col < tempMat.CSize(); col++)
+//            {
+//                matrix->Data[index++] = tempMat(row,col);
+//            }
+//        }
+//	    return matrix;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
+//RRMatrixHandle rrCallConv getLinkMatrix()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//        DoubleMatrix *tempMat = gRRHandle->getLinkMatrix();
+//
+//		return createMatrix(tempMat);
+//	}
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
+//RRMatrixHandle rrCallConv getL0Matrix()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//        DoubleMatrix *tempMat = gRRHandle->getL0Matrix();
+//
+//		return createMatrix(tempMat);
+//	}
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
+//RRMatrixHandle rrCallConv getNrMatrix()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//        DoubleMatrix *tempMat = gRRHandle->getNrMatrix();
+//
+//		return createMatrix(tempMat);
+//	}
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
 
 C_DECL_SPEC bool rrCallConv hasError()
 {
@@ -1341,1012 +1756,1053 @@ char* rrCallConv getLastError()
     return gLastError;
 }
 
-bool rrCallConv reset()
+//bool rrCallConv reset()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//        gRRHandle->reset();
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return false;
+//    }
+//}
+
+//int rrCallConv getNumberOfReactions()
+//{
+// 	try
+//    {
+//        if(!gRRHandle)
+//        {
+//           setError(ALLOCATE_API_ERROR_MSG);
+//           return -1;
+//        }
+//        return gRRHandle->getNumberOfReactions();
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return -1;
+//    }
+//}
+//
+//bool rrCallConv getReactionRate(const int& rateNr, double& value)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//        value = gRRHandle->getReactionRate(rateNr);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return false;
+//    }
+//}
+//
+//RRVectorHandle rrCallConv getReactionRates()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//        vector<double> vec =  gRRHandle->getReactionRates();
+//
+//        RRVector* aVec = createVectorFromVector_double(vec);
+//        return aVec;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
+//int rrCallConv getNumberOfBoundarySpecies()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return -1;
+//        }
+//        return gRRHandle->getNumberOfBoundarySpecies();
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return -1;
+//    }
+//}
+//
+//RRStringArrayHandle rrCallConv getBoundarySpeciesIds()
+//{
+//	try
+//    {
+//
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        StringList bNames = gRRHandle->getBoundarySpeciesIds();
+//
+//        if(!bNames.Count())
+//        {
+//            return NULL;
+//        }
+//
+//        return createList(bNames);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	   	return NULL;
+//    }
+//}
+//
+//int rrCallConv getNumberOfFloatingSpecies()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return -1;
+//        }
+//        return gRRHandle->getNumberOfFloatingSpecies();
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	   	return -1;
+//    }
+//}
+//
+//RRStringArrayHandle rrCallConv getFloatingSpeciesIds()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        StringList fNames = gRRHandle->getFloatingSpeciesIds();
+//
+//        if(!fNames.Count())
+//        {
+//            return NULL;
+//        }
+//
+//        return createList(fNames);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return NULL;
+//    }
+//}
+//
+//int rrCallConv getNumberOfGlobalParameters()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return -1;
+//        }
+//        return gRRHandle->getNumberOfGlobalParameters();
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	   	return -1;
+//    }
+//}
+//
+//RRStringArrayHandle rrCallConv getGlobalParameterIds()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//        StringList pNames = gRRHandle->getGlobalParameterIds();
+//
+//        if(!pNames.Count())
+//        {
+//            return NULL;
+//        }
+//
+//        return createList(pNames);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	   	return NULL;
+//    }
+//}
+//
+//RRVectorHandle rrCallConv getFloatingSpeciesConcentrations()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        vector<double> vec =  gRRHandle->getFloatingSpeciesConcentrations();
+//        RRVector* aVec = createVectorFromVector_double(vec);
+//        return aVec;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
+//RRVectorHandle rrCallConv getBoundarySpeciesConcentrations()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        vector<double> vec =  gRRHandle->getBoundarySpeciesConcentrations();
+//        RRVector* aVec = createVectorFromVector_double(vec);
+//        return aVec;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
+//
+//RRVectorHandle rrCallConv getFloatingSpeciesInitialConcentrations()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        vector<double> vec =  gRRHandle->getFloatingSpeciesInitialConcentrations();
+//        RRVector* aVec = createVectorFromVector_double(vec);
+//        return aVec;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
+//bool rrCallConv setFloatingSpeciesByIndex (const int& index, const double& value)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//        gRRHandle->setFloatingSpeciesByIndex(index, value);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return false;
+//    }
+//}
+//
+//bool rrCallConv setBoundarySpeciesByIndex (const int& index, const double& value)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//        gRRHandle->setBoundarySpeciesByIndex(index, value);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return false;
+//    }
+//}
+//
+//bool rrCallConv setGlobalParameterByIndex(const int& index, const double& value)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//        gRRHandle->setGlobalParameterByIndex(index, value);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return false;
+//    }
+//}
+//
+//bool rrCallConv setFloatingSpeciesInitialConcentrations(const RRVector* vec)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//        vector<double> tempVec;
+//        copyVector(vec, tempVec);
+//        gRRHandle->changeInitialConditions(tempVec);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return false;
+//    }
+//}
+//
+//bool rrCallConv setFloatingSpeciesConcentrations(const RRVector* vec)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//        vector<double> tempVec;
+//        copyVector(vec, tempVec);
+//        gRRHandle->setFloatingSpeciesConcentrations(tempVec);
+//
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return false;
+//    }
+//}
+//
+//bool rrCallConv setBoundarySpeciesConcentrations(const RRVector* vec)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//        vector<double> tempVec;
+//        copyVector(vec, tempVec);
+//        gRRHandle->setBoundarySpeciesConcentrations(tempVec);
+//
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return false;
+//    }
+//}
+//
+//bool rrCallConv oneStep(const double& currentTime, const double& stepSize, double& value)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//        value = gRRHandle->oneStep(currentTime, stepSize);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return false;
+//    }
+//}
+//
+//RRVectorHandle rrCallConv getGlobalParameterValues()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        vector<double> vec =  gRRHandle->getGlobalParameterValues();
+//        RRVector* aVec = createVectorFromVector_double(vec);
+//        return aVec;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//    	return NULL;
+//    }
+//}
+//
+//RRListHandle rrCallConv getAvailableTimeCourseSymbols()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        NewArrayList slSymbols = gRRHandle->getAvailableTimeCourseSymbols();
+//		return createList(slSymbols);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//    	return NULL;
+//    }
+//}
+//
+//RRListHandle rrCallConv getAvailableSteadyStateSymbols()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        NewArrayList slSymbols = gRRHandle->getAvailableSteadyStateSymbols();
+//		return createList(slSymbols);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//    	return NULL;
+//    }
+//}
+//
+//bool rrCallConv getBoundarySpeciesByIndex (const int& index, double& value)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//        value = gRRHandle->getBoundarySpeciesByIndex(index);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return false;
+//    }
+//}
+//
+//bool rrCallConv getFloatingSpeciesByIndex (const int& index, double& value)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//        value = gRRHandle->getFloatingSpeciesByIndex(index);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return false;
+//    }
+//}
+//
+//bool rrCallConv getGlobalParameterByIndex (const int& index, double& value)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//        value = gRRHandle->getGlobalParameterByIndex(index);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return false;
+//    }
+//}
+//
+//bool rrCallConv getuCC (const char* variable, const char* parameter, double& value)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//		}
+//
+//        value = gRRHandle->getuCC(variable, parameter);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return false;
+//	}
+//}
+//
+//
+//bool rrCallConv getCC (const char* variable, const char* parameter, double& value)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//        value = gRRHandle->getCC(variable, parameter);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return false;
+//    }
+//}
+//
+//bool rrCallConv getuEE(const char* name, const char* species, double& value)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//        value = gRRHandle->getuEE(name, species);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//  		return false;
+//	}
+//}
+//
+//bool rrCallConv getEE(const char* name, const char* species, double& value)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//        value = gRRHandle->getEE(name, species);
+//        return true;
+//    }
+//	catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return false;
+//    }
+//}
+//
+//int rrCallConv getNumberOfDependentSpecies()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return -1;
+//        }
+//
+//        return gRRHandle->getNumberOfDependentSpecies();
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return -1;
+//    }
+//}
+//
+//int rrCallConv getNumberOfIndependentSpecies()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return -1;
+//        }
+//
+//        return gRRHandle->getNumberOfIndependentSpecies();
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return -1;
+//    }
+//}
+//
+//bool rrCallConv steadyState(double& value)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//	   	value = gRRHandle->steadyState();
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return false;
+//    }
+//}
+//
+//bool rrCallConv evalModel()
+//{
+//	try
+//	{
+//		if(!gRRHandle)
+//		{
+//			setError(ALLOCATE_API_ERROR_MSG);
+//		}
+//		gRRHandle->evalModel();
+//        return true;
+//	}
+//	catch(Exception& ex)
+//	{
+//		stringstream msg;
+//		msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//		setError(msg.str());
+//	    return false;
+//	}
+//}
+//
+//char* rrCallConv getParamPromotedSBML(const char* sArg)
+//{
+//	try
+//	{
+//		if(!gRRHandle)
+//		{
+//			setError(ALLOCATE_API_ERROR_MSG);
+//			return NULL;
+//		}
+//
+//		string param =  gRRHandle->getParamPromotedSBML(sArg);
+//
+//		char* text = createText(param.c_str());
+//		return text;
+//	}
+//	catch(Exception& ex)
+//	{
+//		stringstream msg;
+//		msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//		setError(msg.str());
+//		return NULL;
+//	}
+//}
+//
+//RRVectorHandle rrCallConv computeSteadyStateValues()
+//{
+//	try
+//	{
+//		if(!gRRHandle)
+//		{
+//			setError(ALLOCATE_API_ERROR_MSG);
+//			return NULL;
+//		}
+//		vector<double> vec =  gRRHandle->computeSteadyStateValues();
+//
+//		RRVector* aVec = createVectorFromVector_double(vec);
+//		return aVec;
+//	}
+//	catch(Exception& ex)
+//	{
+//		stringstream msg;
+//		msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//		setError(msg.str());
+//		return NULL;
+//	}
+//}
+//
+//bool rrCallConv setSteadyStateSelectionList(const char* list)
+//{
+//	try
+//	{
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//        StringList aList(list, " ,");
+//        gRRHandle->setSteadyStateSelectionList(aList);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return false;
+//    }
+//}
+//
+//RRStringArrayHandle rrCallConv getSteadyStateSelectionList()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        StringList sNames = gRRHandle->getSteadyStateSelectionList();
+//
+//        if(!sNames.Count())
+//        {
+//            return NULL;
+//        }
+//
+//        return createList(sNames);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
+//RRMatrixHandle rrCallConv getFullJacobian()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        DoubleMatrix tempMat = gRRHandle->getFullJacobian();
+//        return createMatrix(&tempMat);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
+//RRMatrixHandle rrCallConv getReducedJacobian()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        DoubleMatrix tempMat = gRRHandle->getReducedJacobian();
+//        return createMatrix(&tempMat);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
+//RRMatrixHandle rrCallConv getEigenvalues()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//		DoubleMatrix tempMat = gRRHandle->getEigenvalues();
+//        return createMatrix(&tempMat);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
+//RRMatrixHandle rrCallConv getEigenvaluesMatrix (const RRMatrixHandle mat)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//		if (mat == NULL) {
+//         	stringstream msg;
+//    	    msg<<"RoadRunner exception: "<< "Matrix argument to getEigenvaluesMAtrix is NULL" <<endl;
+//            setError(msg.str());
+//			return NULL;
+//		}
+//
+//    	// Convert RRMatrixHandle mat to a DoubleMatrix
+//		DoubleMatrix dmat (mat->RSize, mat->CSize);
+//		double *value;
+//		for (int i=0; i<mat->RSize; i++)
+//        {
+//			for (int j=0; j<mat->CSize; j++)
+//            {
+//				getMatrixElement (mat, i, j, value);
+//				dmat(i,j) = *value;
+//			}
+//        }
+//		DoubleMatrix tempMat = gRRHandle->getEigenvaluesFromMatrix (dmat);
+//        // Convert the DoubleMatrix result to a RRMatrixHandle type
+//		return createMatrix(&tempMat);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
+//char* rrCallConv getCSourceFileName()
+//{
+//	try
+//    {
+//    	if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        CGenerator* generator = gRRHandle->getCGenerator();
+//        if(!generator)
+//        {
+//            return NULL;
+//        }
+//
+//        string fNameS = generator->getSourceCodeFileName();
+//
+//        fNameS = ExtractFileNameNoExtension(fNameS);
+//		return createText(fNameS);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+//
+//RRCCode* rrCallConv getCCode()
+//{
+//	try
+//    {
+//    	if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        CGenerator* generator = gRRHandle->getCGenerator();
+//        if(!generator)
+//        {
+//            return NULL;
+//        }
+//
+//        RRCCode* cCode = new RRCCode;
+//		cCode->Header = NULL;
+//		cCode->Source = NULL;
+//        string header = generator->getHeaderCode();
+//        string source = generator->getSourceCode();
+//
+//        if(header.size())
+//        {
+//            cCode->Header = createText(header);
+//        }
+//
+//        if(source.size())
+//        {
+//            cCode->Source = createText(source);
+//        }
+//        return cCode;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//		return NULL;
+//    }
+//}
+
+RRCCode* rrCallConv getCCode(RRHandle handle)
 {
 	try
     {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-        gRRHandle->reset();
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return false;
-    }
-}
+    	RoadRunner* rri = castToRRInstance(handle);
 
-int rrCallConv getNumberOfReactions()
-{
- 	try
-    {
-        if(!gRRHandle)
-        {
-           setError(ALLOCATE_API_ERROR_MSG);
-           return -1;
-        }
-        return gRRHandle->getNumberOfReactions();
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return -1;
-    }
-}
-
-bool rrCallConv getReactionRate(const int& rateNr, double& value)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-        value = gRRHandle->getReactionRate(rateNr);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return false;
-    }
-}
-
-RRVectorHandle rrCallConv getReactionRates()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-        vector<double> vec =  gRRHandle->getReactionRates();
-
-        RRVector* aVec = createVectorFromVector_double(vec);
-        return aVec;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-int rrCallConv getNumberOfBoundarySpecies()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return -1;
-        }
-        return gRRHandle->getNumberOfBoundarySpecies();
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	  	return -1;
-    }
-}
-
-RRStringArrayHandle rrCallConv getBoundarySpeciesIds()         
-{
-	try
-    {
-
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        StringList bNames = gRRHandle->getBoundarySpeciesIds();
-
-        if(!bNames.Count())
-        {
-            return NULL;
-        }
-
-        return createList(bNames);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	   	return NULL;
-    }
-}
-
-int rrCallConv getNumberOfFloatingSpecies()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return -1;
-        }
-        return gRRHandle->getNumberOfFloatingSpecies();
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	   	return -1;
-    }
-}
-
-RRStringArrayHandle rrCallConv getFloatingSpeciesIds()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        StringList fNames = gRRHandle->getFloatingSpeciesIds();
-
-        if(!fNames.Count())
-        {
-            return NULL;
-        }
-
-        return createList(fNames);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return NULL;
-    }
-}
-
-int rrCallConv getNumberOfGlobalParameters()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return -1;
-        }
-        return gRRHandle->getNumberOfGlobalParameters();
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	   	return -1;
-    }
-}
-
-RRStringArrayHandle rrCallConv getGlobalParameterIds()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-        StringList pNames = gRRHandle->getGlobalParameterIds();
-
-        if(!pNames.Count())
-        {
-            return NULL;
-        }
-
-        return createList(pNames);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	   	return NULL;
-    }
-}
-
-RRVectorHandle rrCallConv getFloatingSpeciesConcentrations()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        vector<double> vec =  gRRHandle->getFloatingSpeciesConcentrations();
-        RRVector* aVec = createVectorFromVector_double(vec);
-        return aVec;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-RRVectorHandle rrCallConv getBoundarySpeciesConcentrations()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        vector<double> vec =  gRRHandle->getBoundarySpeciesConcentrations();
-        RRVector* aVec = createVectorFromVector_double(vec);
-        return aVec;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-
-RRVectorHandle rrCallConv getFloatingSpeciesInitialConcentrations()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        vector<double> vec =  gRRHandle->getFloatingSpeciesInitialConcentrations();
-        RRVector* aVec = createVectorFromVector_double(vec);
-        return aVec;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-bool rrCallConv setFloatingSpeciesByIndex (const int& index, const double& value)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-
-        gRRHandle->setFloatingSpeciesByIndex(index, value);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	  	return false;
-    }
-}
-
-bool rrCallConv setBoundarySpeciesByIndex (const int& index, const double& value)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-
-        gRRHandle->setBoundarySpeciesByIndex(index, value);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	  	return false;
-    }
-}
-
-bool rrCallConv setGlobalParameterByIndex(const int& index, const double& value)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-
-        gRRHandle->setGlobalParameterByIndex(index, value);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	  	return false;
-    }
-}
-
-bool rrCallConv setFloatingSpeciesInitialConcentrations(const RRVector* vec)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-        vector<double> tempVec;
-        copyVector(vec, tempVec);
-        gRRHandle->changeInitialConditions(tempVec);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	  	return false;
-    }
-}
-
-bool rrCallConv setFloatingSpeciesConcentrations(const RRVector* vec)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-        vector<double> tempVec;
-        copyVector(vec, tempVec);
-        gRRHandle->setFloatingSpeciesConcentrations(tempVec);
-
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	  	return false;
-    }
-}
-
-bool rrCallConv setBoundarySpeciesConcentrations(const RRVector* vec)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-        vector<double> tempVec;
-        copyVector(vec, tempVec);
-        gRRHandle->setBoundarySpeciesConcentrations(tempVec);
-
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	  	return false;
-    }
-}
-
-bool rrCallConv oneStep(const double& currentTime, const double& stepSize, double& value)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-
-        value = gRRHandle->oneStep(currentTime, stepSize);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return false;
-    }
-}
-
-RRVectorHandle rrCallConv getGlobalParameterValues()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        vector<double> vec =  gRRHandle->getGlobalParameterValues();
-        RRVector* aVec = createVectorFromVector_double(vec);
-        return aVec;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-    	return NULL;
-    }
-}
-
-RRListHandle rrCallConv getAvailableTimeCourseSymbols()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        NewArrayList slSymbols = gRRHandle->getAvailableTimeCourseSymbols();
-		return createList(slSymbols);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-    	return NULL;
-    }
-}
-
-RRListHandle rrCallConv getAvailableSteadyStateSymbols()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        NewArrayList slSymbols = gRRHandle->getAvailableSteadyStateSymbols();
-		return createList(slSymbols);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-    	return NULL;
-    }
-}
-
-bool rrCallConv getBoundarySpeciesByIndex (const int& index, double& value)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-
-        value = gRRHandle->getBoundarySpeciesByIndex(index);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	  	return false;
-    }
-}
-
-bool rrCallConv getFloatingSpeciesByIndex (const int& index, double& value)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-
-        value = gRRHandle->getFloatingSpeciesByIndex(index);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	  	return false;
-    }
-}
-
-bool rrCallConv getGlobalParameterByIndex (const int& index, double& value)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-
-        value = gRRHandle->getGlobalParameterByIndex(index);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	  	return false;
-    }
-}
-
-bool rrCallConv getuCC (const char* variable, const char* parameter, double& value)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-		}
-
-        value = gRRHandle->getuCC(variable, parameter);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return false;
-	}
-}
-
-
-bool rrCallConv getCC (const char* variable, const char* parameter, double& value)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-
-        value = gRRHandle->getCC(variable, parameter);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	  	return false;
-    }
-}
-
-bool rrCallConv getuEE(const char* name, const char* species, double& value)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-
-        value = gRRHandle->getuEE(name, species);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  		return false;
-	}
-}
-
-bool rrCallConv getEE(const char* name, const char* species, double& value)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-
-        value = gRRHandle->getEE(name, species);
-        return true;
-    }
-	catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	  	return false;
-    }
-}
-
-int rrCallConv getNumberOfDependentSpecies()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return -1;
-        }
-
-        return gRRHandle->getNumberOfDependentSpecies();
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	  	return -1;
-    }
-}
-
-int rrCallConv getNumberOfIndependentSpecies()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return -1;
-        }
-
-        return gRRHandle->getNumberOfIndependentSpecies();
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	  	return -1;
-    }
-}
-
-bool rrCallConv steadyState(double& value)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-	   	value = gRRHandle->steadyState();
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	  	return false;
-    }
-}
-
-bool rrCallConv evalModel()
-{
-	try
-	{
-		if(!gRRHandle)
-		{
-			setError(ALLOCATE_API_ERROR_MSG);
-		}
-		gRRHandle->evalModel();
-        return true;
-	}
-	catch(Exception& ex)
-	{
-		stringstream msg;
-		msg<<"RoadRunner exception: "<<ex.what()<<endl;
-		setError(msg.str());
-	    return false;
-	}
-}
-
-char* rrCallConv getParamPromotedSBML(const char* sArg)
-{
-	try
-	{
-		if(!gRRHandle)
-		{
-			setError(ALLOCATE_API_ERROR_MSG);
-			return NULL;
-		}
-
-		string param =  gRRHandle->getParamPromotedSBML(sArg);
-
-		char* text = createText(param.c_str());
-		return text;
-	}
-	catch(Exception& ex)
-	{
-		stringstream msg;
-		msg<<"RoadRunner exception: "<<ex.what()<<endl;
-		setError(msg.str());
-		return NULL;
-	}
-}
-
-RRVectorHandle rrCallConv computeSteadyStateValues()
-{
-	try
-	{
-		if(!gRRHandle)
-		{
-			setError(ALLOCATE_API_ERROR_MSG);
-			return NULL;
-		}
-		vector<double> vec =  gRRHandle->computeSteadyStateValues();
-
-		RRVector* aVec = createVectorFromVector_double(vec);
-		return aVec;
-	}
-	catch(Exception& ex)
-	{
-		stringstream msg;
-		msg<<"RoadRunner exception: "<<ex.what()<<endl;
-		setError(msg.str());
-		return NULL;
-	}
-}
-
-bool rrCallConv setSteadyStateSelectionList(const char* list)
-{
-	try
-	{
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-
-        StringList aList(list, " ,");
-        gRRHandle->setSteadyStateSelectionList(aList);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return false;
-    }
-}
-
-RRStringArrayHandle rrCallConv getSteadyStateSelectionList()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        StringList sNames = gRRHandle->getSteadyStateSelectionList();
-
-        if(!sNames.Count())
-        {
-            return NULL;
-        }
-
-        return createList(sNames);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-RRMatrixHandle rrCallConv getFullJacobian()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        DoubleMatrix tempMat = gRRHandle->getFullJacobian();
-        return createMatrix(&tempMat);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-RRMatrixHandle rrCallConv getReducedJacobian()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        DoubleMatrix tempMat = gRRHandle->getReducedJacobian();
-        return createMatrix(&tempMat);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-RRMatrixHandle rrCallConv getEigenvalues()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-		DoubleMatrix tempMat = gRRHandle->getEigenvalues();
-        return createMatrix(&tempMat);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-RRMatrixHandle rrCallConv getEigenvaluesMatrix (const RRMatrixHandle mat)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-		if (mat == NULL) {
-         	stringstream msg;
-    	    msg<<"RoadRunner exception: "<< "Matrix argument to getEigenvaluesMAtrix is NULL" <<endl;
-            setError(msg.str());
-			return NULL;
-		}
-
-    	// Convert RRMatrixHandle mat to a DoubleMatrix
-		DoubleMatrix dmat (mat->RSize, mat->CSize);
-		double value;
-		for (int i=0; i<mat->RSize; i++)
-			for (int j=0; j<mat->CSize; j++) {
-				getMatrixElement (mat, i, j, value);
-				dmat(i,j) = value;
-			}
-		DoubleMatrix tempMat = gRRHandle->getEigenvaluesFromMatrix (dmat);
-        // Convert the DoubleMatrix result to a RRMatrixHandle type
-		return createMatrix(&tempMat);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-char* rrCallConv getCSourceFileName()
-{
-	try
-    {
-    	if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        CGenerator* generator = gRRHandle->getCGenerator();
-        if(!generator)
-        {
-            return NULL;
-        }
-
-        string fNameS = generator->getSourceCodeFileName();
-
-        fNameS = ExtractFileNameNoExtension(fNameS);
-		return createText(fNameS);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-RRCCode* rrCallConv getCCode()
-{
-	try
-    {
-    	if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        CGenerator* generator = gRRHandle->getCGenerator();
+        CGenerator* generator = rri->getCGenerator();
         if(!generator)
         {
             return NULL;
@@ -2387,484 +2843,484 @@ bool rrCallConv setCodeGenerationMode (int _mode)
 }
 
 //NOM forwarded functions
-int rrCallConv getNumberOfRules()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return -1;
-        }
-        if(!gRRHandle->getNOM())
-        {
-            Log(lWarning)<<"NOM is not allocated.";
-        	return -1;
-        }
-        int value = gRRHandle->getNOM()->getNumRules();
-        return value;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return -1;
-    }
-}
-
-bool rrCallConv getScaledFloatingSpeciesElasticity(const char* reactionId, const char* speciesId, double& value)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-        value = gRRHandle->getScaledFloatingSpeciesElasticity(reactionId, speciesId);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return false;
-    }
-}
-
-RRStringArrayHandle rrCallConv getFloatingSpeciesInitialConditionIds()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-        StringList aList = gRRHandle->getFloatingSpeciesInitialConditionIds();
-		return createList(aList);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return NULL;
-    }
-}
-
-RRVectorHandle rrCallConv getRatesOfChangeEx(const RRVectorHandle vec)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-        vector<double> tempList = createVectorFromRRVector(vec);
-        tempList = gRRHandle->getRatesOfChangeEx(tempList);
-        return createVectorFromVector_double (tempList);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return NULL;
-    }
-}
-
-RRVectorHandle rrCallConv getReactionRatesEx(const RRVectorHandle vec)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-        vector<double> tempList = createVectorFromRRVector(vec);
-        tempList = gRRHandle->getReactionRatesEx(tempList);
-        return createVectorFromVector_double(tempList);;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return NULL;
-    }
-}
-
-RRListHandle rrCallConv getElasticityCoefficientIds()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-        NewArrayList aList = gRRHandle->getElasticityCoefficientIds();
-        RRListHandle bList = createList(aList);
-		return bList;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return NULL;
-    }
-}
-
-bool rrCallConv setCapabilities(const char* caps)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-
-        if(!caps)
-        {
-            return false;
-        }
-        gRRHandle->setCapabilities(caps);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return false;
-    }
-}
-
-char* rrCallConv getCapabilities()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-        return createText(gRRHandle->getCapabilities());
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return NULL;
-    }
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-RRStringArrayHandle rrCallConv getEigenvalueIds()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-        
-		StringList aList = gRRHandle->getEigenvalueIds();
-		return createList(aList);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return NULL;
-    }
-}
-
-RRListHandle rrCallConv getFluxControlCoefficientIds()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        return createList(gRRHandle->getFluxControlCoefficientIds());
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return NULL;
-    }
-}
-
-RRMatrixHandle rrCallConv getUnscaledConcentrationControlCoefficientMatrix()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-		DoubleMatrix aMat = gRRHandle->getUnscaledConcentrationControlCoefficientMatrix();
-        //return createMatrix(&(gRRHandle->getUnscaledConcentrationControlCoefficientMatrix()));
-        return createMatrix(&(aMat));
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-    	return NULL;
-    }
-}
-
-RRMatrixHandle rrCallConv getScaledConcentrationControlCoefficientMatrix()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-		DoubleMatrix aMat = gRRHandle->getScaledConcentrationControlCoefficientMatrix();
-        return createMatrix(&(aMat));
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-    	return NULL;
-    }
-}
-
-RRMatrixHandle rrCallConv getUnscaledFluxControlCoefficientMatrix()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        //return createMatrix(&(gRRHandle->getUnscaledFluxControlCoefficientMatrix()));
-		DoubleMatrix aMat = gRRHandle->getUnscaledFluxControlCoefficientMatrix();
-        return createMatrix(&(aMat));
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-    	return NULL;
-    }
-}
-
-RRMatrixHandle rrCallConv getScaledFluxControlCoefficientMatrix()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        //return createMatrix(&(gRRHandle->getScaledFluxControlCoefficientMatrix()));a
-		DoubleMatrix aMat = gRRHandle->getScaledFluxControlCoefficientMatrix();
-        return createMatrix(&(aMat));
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-    	return NULL;
-    }
-}
-
-RRListHandle rrCallConv getUnscaledFluxControlCoefficientIds()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-		NewArrayList arrList = gRRHandle->getUnscaledFluxControlCoefficientIds();
-        return createList(arrList);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-    	return NULL;
-    }
-}
-
-RRList* rrCallConv getConcentrationControlCoefficientIds()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-        NewArrayList list = gRRHandle->getConcentrationControlCoefficientIds();
-        return createList(list);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return NULL;
-    }
-}
-
-RRListHandle rrCallConv getUnscaledConcentrationControlCoefficientIds()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-        return createList(gRRHandle->getUnscaledConcentrationControlCoefficientIds());
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return NULL;
-    }
-}
-
-int rrCallConv getNumberOfCompartments()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return -1;
-        }
-        return gRRHandle->getNumberOfCompartments();
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-    	return -1;
-    }
-}
-
-bool rrCallConv getCompartmentByIndex(const int& index, double& value)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return false;
-        }
-        value = gRRHandle->getCompartmentByIndex(index);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-    	return false;
-    }
-}
-
-bool rrCallConv setCompartmentByIndex (const int& index, const double& value)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-        gRRHandle->setCompartmentByIndex(index, value);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-    	return false;
-    }
-}
-
-RRStringArrayHandle rrCallConv getCompartmentIds()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-        return createList(gRRHandle->getCompartmentIds());
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-    	return NULL;
-    }
-}
-
-bool rrCallConv getRateOfChange(const int& index, double& value)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-        value = gRRHandle->getRateOfChange(index);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return false;
-    }
-}
+//int rrCallConv getNumberOfRules()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return -1;
+//        }
+//        if(!gRRHandle->getNOM())
+//        {
+//            Log(lWarning)<<"NOM is not allocated.";
+//        	return -1;
+//        }
+//        int value = gRRHandle->getNOM()->getNumRules();
+//        return value;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return -1;
+//    }
+//}
+//
+//bool rrCallConv getScaledFloatingSpeciesElasticity(const char* reactionId, const char* speciesId, double& value)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//        value = gRRHandle->getScaledFloatingSpeciesElasticity(reactionId, speciesId);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return false;
+//    }
+//}
+//
+//RRStringArrayHandle rrCallConv getFloatingSpeciesInitialConditionIds()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//        StringList aList = gRRHandle->getFloatingSpeciesInitialConditionIds();
+//		return createList(aList);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return NULL;
+//    }
+//}
+//
+//RRVectorHandle rrCallConv getRatesOfChangeEx(const RRVectorHandle vec)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//        vector<double> tempList = createVectorFromRRVector(vec);
+//        tempList = gRRHandle->getRatesOfChangeEx(tempList);
+//        return createVectorFromVector_double (tempList);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return NULL;
+//    }
+//}
+//
+//RRVectorHandle rrCallConv getReactionRatesEx(const RRVectorHandle vec)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//        vector<double> tempList = createVectorFromRRVector(vec);
+//        tempList = gRRHandle->getReactionRatesEx(tempList);
+//        return createVectorFromVector_double(tempList);;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return NULL;
+//    }
+//}
+//
+//RRListHandle rrCallConv getElasticityCoefficientIds()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//        NewArrayList aList = gRRHandle->getElasticityCoefficientIds();
+//        RRListHandle bList = createList(aList);
+//		return bList;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return NULL;
+//    }
+//}
+//
+//bool rrCallConv setCapabilities(const char* caps)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//        if(!caps)
+//        {
+//            return false;
+//        }
+//        gRRHandle->setCapabilities(caps);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return false;
+//    }
+//}
+//
+//char* rrCallConv getCapabilities()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//        return createText(gRRHandle->getCapabilities());
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return NULL;
+//    }
+//}
+//
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//RRStringArrayHandle rrCallConv getEigenvalueIds()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//		StringList aList = gRRHandle->getEigenvalueIds();
+//		return createList(aList);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return NULL;
+//    }
+//}
+//
+//RRListHandle rrCallConv getFluxControlCoefficientIds()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        return createList(gRRHandle->getFluxControlCoefficientIds());
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return NULL;
+//    }
+//}
+//
+//RRMatrixHandle rrCallConv getUnscaledConcentrationControlCoefficientMatrix()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//		DoubleMatrix aMat = gRRHandle->getUnscaledConcentrationControlCoefficientMatrix();
+//        //return createMatrix(&(gRRHandle->getUnscaledConcentrationControlCoefficientMatrix()));
+//        return createMatrix(&(aMat));
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//    	return NULL;
+//    }
+//}
+//
+//RRMatrixHandle rrCallConv getScaledConcentrationControlCoefficientMatrix()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//		DoubleMatrix aMat = gRRHandle->getScaledConcentrationControlCoefficientMatrix();
+//        return createMatrix(&(aMat));
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//    	return NULL;
+//    }
+//}
+//
+//RRMatrixHandle rrCallConv getUnscaledFluxControlCoefficientMatrix()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        //return createMatrix(&(gRRHandle->getUnscaledFluxControlCoefficientMatrix()));
+//		DoubleMatrix aMat = gRRHandle->getUnscaledFluxControlCoefficientMatrix();
+//        return createMatrix(&(aMat));
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//    	return NULL;
+//    }
+//}
+//
+//RRMatrixHandle rrCallConv getScaledFluxControlCoefficientMatrix()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//
+//        //return createMatrix(&(gRRHandle->getScaledFluxControlCoefficientMatrix()));a
+//		DoubleMatrix aMat = gRRHandle->getScaledFluxControlCoefficientMatrix();
+//        return createMatrix(&(aMat));
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//    	return NULL;
+//    }
+//}
+//
+//RRListHandle rrCallConv getUnscaledFluxControlCoefficientIds()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//		NewArrayList arrList = gRRHandle->getUnscaledFluxControlCoefficientIds();
+//        return createList(arrList);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//    	return NULL;
+//    }
+//}
+//
+//RRList* rrCallConv getConcentrationControlCoefficientIds()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//        NewArrayList list = gRRHandle->getConcentrationControlCoefficientIds();
+//        return createList(list);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return NULL;
+//    }
+//}
+//
+//RRListHandle rrCallConv getUnscaledConcentrationControlCoefficientIds()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//        return createList(gRRHandle->getUnscaledConcentrationControlCoefficientIds());
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return NULL;
+//    }
+//}
+//
+//int rrCallConv getNumberOfCompartments()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return -1;
+//        }
+//        return gRRHandle->getNumberOfCompartments();
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//    	return -1;
+//    }
+//}
+//
+//bool rrCallConv getCompartmentByIndex(const int& index, double& value)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//        value = gRRHandle->getCompartmentByIndex(index);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//    	return false;
+//    }
+//}
+//
+//bool rrCallConv setCompartmentByIndex (const int& index, const double& value)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//        gRRHandle->setCompartmentByIndex(index, value);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//    	return false;
+//    }
+//}
+//
+//RRStringArrayHandle rrCallConv getCompartmentIds()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//        return createList(gRRHandle->getCompartmentIds());
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//    	return NULL;
+//    }
+//}
+//
+//bool rrCallConv getRateOfChange(const int& index, double& value)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return NULL;
+//        }
+//        value = gRRHandle->getRateOfChange(index);
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	    return false;
+//    }
+//}
 
 // Utility functions ==========================================================
 
@@ -3054,16 +3510,18 @@ bool rrCallConv freeRRInstance(RRHandle handle)
 {
 	try
     {
-    	if(gRRHandle == handle)
-        {
-        	delete gRRHandle;
-        	gRRHandle = NULL;
-	        return true;
-        }
-        else
-        {
-        	return false;
-        }
+    	delete handle;
+        return true;
+//    	if(gRRHandle == handle)
+//        {
+//        	delete gRRHandle;
+//        	gRRHandle = NULL;
+//	        return true;
+//        }
+//        else
+//        {
+//        	return false;
+//        }
     }
     catch(Exception& ex)
     {
@@ -3292,36 +3750,42 @@ int  rrCallConv getMatrixNumCols (RRMatrixHandle m)
 	return m->CSize;
 }
 
-bool rrCallConv getMatrixElement (RRMatrixHandle m, int r, int c, double& value)
+bool rrCallConv getMatrixElement (RRMatrixHandle m, int r, int c, double* value)
 {
-	if (m == NULL) {
-		return false;
+	if (m == NULL)
+    {
 		setError ("Matrix argument is null in getMatrixElement");
+		return false;
 	}
 
-	if ((r < 0) || (c < 0) || (r >= m->RSize) || (c >= m->CSize)) {
+	if ((r < 0) || (c < 0) || (r >= m->RSize) || (c >= m->CSize))
+    {
 		stringstream msg;
 		msg << "Index out range in getMatrixElement: " << r << ", " << c;
         setError(msg.str());
 		return false;
 	}
-	value = m->Data[r*m->CSize + c];
+
+	*value = m->Data[r*m->CSize + c];
 	return true;
 }
 
 bool rrCallConv setMatrixElement (RRMatrixHandle m, int r, int c, double value)
 {
-	if (m == NULL) {
+	if (m == NULL)
+    {
 		setError ("Matrix argument is null in setMatrixElement");
 	    return false;
 	}
 
-	if ((r < 0) || (c < 0) || (r >= m->RSize) || (c >= m->CSize)) {
+	if ((r < 0) || (c < 0) || (r >= m->RSize) || (c >= m->CSize))
+    {
 		stringstream msg;
 		msg << "Index out range in setMatrixElement: " << r << ", " << c;
         setError(msg.str());
 		return false;
 	}
+
 	m->Data[r*m->CSize + c] = value;
 	return true;
 }
@@ -3640,276 +4104,277 @@ char* rrCallConv listToString (RRListHandle list)
 }
 
 
-//PLUGIN Functions
-bool rrCallConv loadPlugins()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-        }
+////PLUGIN Functions
+//bool rrCallConv loadPlugins()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//        }
+//
+//    	return gRRHandle->getPluginManager().load();
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//  	    return false;
+//    }
+//}
+//
+//bool rrCallConv unLoadPlugins()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//        }
+//
+//    	return gRRHandle->getPluginManager().unload();
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//  	    return false;
+//    }
+//}
+//
+//int rrCallConv getNumberOfPlugins()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//        }
+//
+//    	return gRRHandle->getPluginManager().getNumberOfPlugins();
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//  	    return -1;
+//    }
+//}
+//
+//RRStringArray* rrCallConv getPluginNames()
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//        }
+//
+//        StringList names = gRRHandle->getPluginManager().getPluginNames();
+//        return createList(names);
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//  	    return NULL;
+//    }
+//}
+//
+//RRStringArray* rrCallConv getPluginCapabilities(const char* pluginName)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//        }
+//
+//        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(pluginName);
+//        if(aPlugin)
+//        {
+//        	StringList aList;
+//            vector<Capability>* caps = aPlugin->getCapabilities();
+//            if(!caps)
+//            {
+//            	return NULL;
+//            }
+//
+//            for(int i = 0; i < caps->size(); i++)
+//            {
+//            	aList.Add((*caps)[i].getName());
+//            }
+//        	return createList(aList);
+//        }
+//        else
+//        {
+//	        return NULL;
+//        }
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//  	    return NULL;
+//    }
+//}
+//
+//RRStringArray* rrCallConv getPluginParameters(const char* pluginName, const char* capability)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//        }
+//
+//        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(pluginName);
+//        if(aPlugin)
+//        {
+//        	StringList aList;
+//            Parameters* paras = aPlugin->getParameters(capability);
+//            if(!paras)
+//            {
+//            	return NULL;
+//            }
+//
+//            for(int i = 0; i < paras->size(); i++)
+//            {
+//            	aList.Add((*paras)[i]->getName());
+//            }
+//        	return createList(aList);
+//        }
+//        else
+//        {
+//	        return NULL;
+//        }
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//  	    return NULL;
+//    }
+//}
+//
+//RRParameter* rrCallConv getPluginParameter(const char* pluginName, const char* parameterName)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//        }
+//
+//        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(pluginName);
+//        if(aPlugin)
+//        {
+//
+//            rr::BaseParameter *para = aPlugin->getParameter(parameterName);
+//        	return createParameter( *(para) );
+//        }
+//        return NULL;
+//
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//  	    return NULL;
+//    }
+//}
+//
+//bool rrCallConv setPluginParameter(const char* pluginName, const char* parameterName, const char* value)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//        }
+//
+//        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(pluginName);
+//        if(aPlugin)
+//        {
+//            return aPlugin->setParameter(parameterName, value);
+//        }
+//		return false;
+//
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//  	    return NULL;
+//    }
+//}
+//
+//char* rrCallConv getPluginInfo(const char* name)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//        }
+//
+//        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(name);
+//        if(aPlugin)
+//        {
+//        	return createText(aPlugin->getInfo());
+//        }
+//        else
+//        {
+//	        return createText("No such plugin: " + string(name));
+//        }
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//  	    return NULL;
+//    }
+//}
+//
+//bool rrCallConv executePlugin(const char* name)
+//{
+//	try
+//    {
+//        if(!gRRHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//        }
+//
+//        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(name);
+//        if(aPlugin)
+//        {
+//        	return aPlugin->execute();
+//        }
+//        else
+//        {
+//			return false;
+//        }
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//  	    return NULL;
+//    }
+//}
 
-    	return gRRHandle->getPluginManager().load();
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return false;
-    }
 }
-
-bool rrCallConv unLoadPlugins()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-        }
-
-    	return gRRHandle->getPluginManager().unload();
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return false;
-    }
-}
-
-int rrCallConv getNumberOfPlugins()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-        }
-
-    	return gRRHandle->getPluginManager().getNumberOfPlugins();
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return -1;
-    }
-}
-
-RRStringArray* rrCallConv getPluginNames()
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-        }
-
-        StringList names = gRRHandle->getPluginManager().getPluginNames();
-        return createList(names);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
-}
-
-RRStringArray* rrCallConv getPluginCapabilities(const char* pluginName)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-        }
-
-        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(pluginName);
-        if(aPlugin)
-        {
-        	StringList aList;
-            vector<Capability>* caps = aPlugin->getCapabilities();
-            if(!caps)
-            {
-            	return NULL;
-            }
-
-            for(int i = 0; i < caps->size(); i++)
-            {
-            	aList.Add((*caps)[i].getName());
-            }
-        	return createList(aList);
-        }
-        else
-        {
-	        return NULL;
-        }
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
-}
-
-RRStringArray* rrCallConv getPluginParameters(const char* pluginName, const char* capability)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-        }
-
-        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(pluginName);
-        if(aPlugin)
-        {
-        	StringList aList;
-            Parameters* paras = aPlugin->getParameters(capability);
-            if(!paras)
-            {
-            	return NULL;
-            }
-
-            for(int i = 0; i < paras->size(); i++)
-            {
-            	aList.Add((*paras)[i]->getName());
-            }
-        	return createList(aList);
-        }
-        else
-        {
-	        return NULL;
-        }
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
-}
-
-RRParameter* rrCallConv getPluginParameter(const char* pluginName, const char* parameterName)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-        }
-
-        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(pluginName);
-        if(aPlugin)
-        {
-
-            rr::BaseParameter *para = aPlugin->getParameter(parameterName);
-        	return createParameter( *(para) );
-        }
-        return NULL;
-
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
-}
-
-bool rrCallConv setPluginParameter(const char* pluginName, const char* parameterName, const char* value)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-        }
-
-        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(pluginName);
-        if(aPlugin)
-        {
-            return aPlugin->setParameter(parameterName, value);
-        }
-		return false;
-
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
-}
-
-char* rrCallConv getPluginInfo(const char* name)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-        }
-
-        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(name);
-        if(aPlugin)
-        {
-        	return createText(aPlugin->getInfo());
-        }
-        else
-        {
-	        return createText("No such plugin: " + string(name));
-        }
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
-}
-
-bool rrCallConv executePlugin(const char* name)
-{
-	try
-    {
-        if(!gRRHandle)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-        }
-
-        Plugin* aPlugin = gRRHandle->getPluginManager().getPlugin(name);
-        if(aPlugin)
-        {
-        	return aPlugin->execute();
-        }
-        else
-        {
-			return false;
-        }
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
-}
-
 //We only need to give the linker the folder where libs are
 //using the pragma comment. Works for MSVC and codegear
 #if defined(CG_IDE)

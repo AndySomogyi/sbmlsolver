@@ -11,20 +11,31 @@
 #include "rr_c_types.h"
 //---------------------------------------------------------------------------
 
-using std::vector;
-using std::string;
+namespace rr
+{
+class RoadRunner;
+class RoadRunnerList;
+}
 
 namespace rr_c_api
 {
+using std::vector;
+using std::string;
+
+
+
+extern char* gLastError;
+extern char* gInstallFolder;
+
 //Error/Warning Messages
 extern const char* 	ALLOCATE_API_ERROR_MSG;
+extern const char* 	INVALID_HANDLE_ERROR_MSG;
 
 //Internal prototypes (not exported)
 void                setError(const string& err);
 bool                copyVector(const RRVector* source, vector<double>& dest);
-
-char*               createText(const char* str);        //To be deleted by client using freeText
-char*               createText(const string& str);      //To be deleted by client using freeText
+//char*               createText(const char* str);
+char*               createText(const string& str);
 RRVectorHandle      createVectorFromVector_double(const vector<double>& vec);
 vector<double>      createVectorFromRRVector(const RRVector* vec);
 RRMatrixHandle      createMatrix(const ls::DoubleMatrix* mat);
@@ -35,6 +46,12 @@ RRListHandle 		createList(const rr::NewArrayList& aList);
 
 //Parameters
 RRParameterHandle	createParameter(const rr::BaseParameter& para);
+
+//Cast void* handle to RoadRunner instance pointer, throw if it fails
+rr::RoadRunner* 	castToRRInstance(RRHandle rrHandle);
+
+//Cast
+rr::RoadRunnerList* getRRList(RRInstanceListHandle handle);
 }
 
 #endif

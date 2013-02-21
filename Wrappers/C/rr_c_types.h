@@ -46,12 +46,24 @@
 extern "C"
 {
 #else
-#include <stdio.h>
-#include "rr_support/stdbool.h"
+#include "stdbool.h"
 #endif
 
 /*!@brief Void pointer to RRHandle */
-typedef void* RRHandle; /*! Void pointer to RRHandle *>
+typedef void* RRHandle; /*! Void pointer to RRHandle */
+
+
+/*!@brief Void pointer to T(hread)P(ool)Handle */
+typedef void* TPHandle; /*! Void pointer to TPHandle */
+
+/*!@struct*/
+/*!@brief Structure for a set of RoadRunner handles */
+typedef struct RRInstanceList
+{
+    int             Count;  	/*!< The number of elements in the vector */
+    RRHandle*       Handle;   	/*!< Points to an array of double items */
+    void* 			RRList;
+} *RRInstanceListHandle;          			/*!< Pointer to RRVectorHandle struct */
 
 /*!@struct*/
 /*!@brief Structure for a simple vector of doubles */
@@ -112,13 +124,13 @@ struct RRList;	//Forward declaration for RRListItem
 /*!@brief A single list element type */
 typedef struct RRListItem
 {
-    ListItemType ItemType;  	 /*!< The type of the item in this list element */
+    enum ListItemType ItemType;  	 /*!< The type of the item in this list element */
     union
     {
        int 	     		iValue;  /*!< Integer value */
 	   double    		dValue;  /*!< Double value */
 	   char*     		sValue;  /*!< String value */
-	   RRList*  		lValue;  /*!< List value */
+	   struct RRList*  		lValue;  /*!< List value */
 	} data;                      /*!< Union */
 } *RRListItemHandle;             /*!< Pointer to cRRArrayListItemHandle struct */
 
@@ -139,7 +151,7 @@ enum RRParameterType {ptString, ptInteger, ptDouble};
 /*!@brief A single parameter type */
 typedef struct RRParameter
 {
-    RRParameterType ParaType;  	 /*!< The type of the item held by the parameter */
+    enum RRParameterType ParaType;  	 /*!< The type of the item held by the parameter */
     union
     {
        int 	     		iValue;  /*!< Integer value */
