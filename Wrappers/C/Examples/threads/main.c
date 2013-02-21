@@ -64,16 +64,8 @@ int main()
     waitForJobs(tpHandle);
 
 
-  //Write data to a file
-//    SimulationData allData;
-//    for(int i = nrOfRRInstances -1 ; i >-1 ; i--) //"Backwards" because bad plotting program..
-//    {
-//        RoadRunner* rr = rrs[i];
-//        SimulationData data = rr->getSimulationResult();
-//        allData.append(data);
-//    }
-//
-//    allData.writeTo("r:\\allData.dat");
+  	//Write data to a file
+	writeMultipleRRData(rrs, "r:\\allData.dat");
 
 
 	// Cleanup

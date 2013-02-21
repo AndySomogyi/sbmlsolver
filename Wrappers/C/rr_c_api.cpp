@@ -4102,6 +4102,36 @@ char* rrCallConv listToString (RRListHandle list)
         return NULL;
     }
 }
+//====================== DATA WRITING ROUTINES ======================
+bool rrCallConv writeMultipleRRData(RRInstanceListHandle rrHandles, const char* fileNameAndPath)
+{
+	try
+    {
+        RoadRunnerList *rrs = getRRList(rrHandles);
+
+        int rrCount = rrs->count();
+        SimulationData allData;
+        for(int i = rrCount -1 ; i >-1 ; i--) //"Backwards" because bad plotting program..
+        {
+            RoadRunner* rr = (*rrs)[i];
+            if(rr)
+            {
+            	SimulationData data = rr->getSimulationResult();
+	            allData.append(data);
+            }
+        }
+
+        allData.writeTo(fileNameAndPath);
+		return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
 
 
 ////PLUGIN Functions

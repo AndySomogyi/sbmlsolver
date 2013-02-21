@@ -1916,7 +1916,13 @@ C_DECL_SPEC char* rrCallConv getStringListItem (RRListItemHandle item);
  \return Returns NULL if item isn't a list, otherwise it returns a list from the item
 \ingroup list
 */
-C_DECL_SPEC RRListHandle rrCallConv getList (RRListItemHandle item);
+C_DECL_SPEC RRListHandle rrCallConv getList(RRListItemHandle item);
+
+//======================== DATA WRITING ROUTINES =============================
+C_DECL_SPEC bool rrCallConv writeMultipleRRData(RRInstanceListHandle rrHandles, const char* faileNameAndPath);
+
+
+//=============================== PLUGIN ROUTINES =========================================
 
 /*!
  \brief load plugins
