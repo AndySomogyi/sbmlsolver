@@ -5,6 +5,7 @@
 #include "rr_c_api.h"
 
 using namespace rr;
+using namespace rr_c_api;
 
 class SBMLTestSuiteSimulation_CAPI : public rr::TestSuiteModelSimulation
 {

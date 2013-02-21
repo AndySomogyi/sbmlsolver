@@ -3,22 +3,21 @@
 #include <sstream>
 #include "rrParameter.h"
 #include "rrException.h"
-#include "rr_c_api.h"
-#include "rr_c_api_support.h"
 #include "rrUtils.h"
 #include "rrArrayListItem.h"
-
-using namespace rr;
-using namespace std;
+#include "rr_c_api.h"
+#include "rr_c_api_support.h"
 
 namespace rr_c_api
 {
+using namespace rr;
+using namespace std;
 
 const char* ALLOCATE_API_ERROR_MSG 		= "Allocate a handle to the roadrunner API before calling any API function";
 const char* INVALID_HANDLE_ERROR_MSG 	= "The HANDLE passed to this function was invalid";
 char* 		gLastError      			= NULL;
-
-RoadRunner* castToRRInstance(RRHandle CHandle)
+char* 		gInstallFolder 				= NULL;
+RoadRunner* castFrom(RRHandle CHandle)
 {
 	RoadRunner* handle = (RoadRunner*) CHandle;
     if(handle) //Will only fail if CHandle is NULL...
@@ -292,5 +291,5 @@ RRParameter* createParameter(const rr::BaseParameter& para)
 	return NULL;
 }
 
-}
+}//Namespace
 

@@ -86,13 +86,13 @@ void ThreadPool::exitAll()
 void ThreadPool::waitForAll()
 {
     //Check that all jobs been done
-    //This could be checked in a thread, and using a condition Variable
+    //This should be checked in a thread, and using a condition Variable
     while(isJobQueueEmpty() == false)
     {
         Sleep(50);
     };
 
-//	Sleep(20);	//We need a way to know if a thread is still doing processing...
+	Sleep(50);	//We need a way to know if a thread is still doing processing...
 
     //Dispose threads..
     exitAll();
@@ -100,6 +100,7 @@ void ThreadPool::waitForAll()
     //This could be checked in a thread, and using a condition Variable
     while(isActive() == true)
     {
+	    exitAll(); //Ugly...?
         Sleep(50);
     };
     //This thread pool is done....

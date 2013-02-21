@@ -32,7 +32,7 @@ bool SBMLTestSuiteSimulation_CAPI::LoadSBMLFromFile()
     	return false;
     }
 
-    return loadSBMLFromFile(GetModelsFullFilePath().c_str());
+    return loadModelFromFile(mRRHandle, GetModelsFullFilePath().c_str());
 }
 
 bool SBMLTestSuiteSimulation_CAPI::LoadSettings(const string& settingsFName)
@@ -45,7 +45,7 @@ bool SBMLTestSuiteSimulation_CAPI::LoadSettings(const string& settingsFName)
     }
 	SBMLModelSimulation::LoadSettings(mModelSettingsFileName);
 
-	return loadSimulationSettings(mModelSettingsFileName.c_str());
+	return loadSimulationSettings(mRRHandle, mModelSettingsFileName.c_str());
 }
 
 bool SBMLTestSuiteSimulation_CAPI::Simulate()
@@ -54,7 +54,7 @@ bool SBMLTestSuiteSimulation_CAPI::Simulate()
     {
         return false;
     }
-	mResultHandle = simulate();
+	mResultHandle = simulate(mRRHandle);
 
     if(mResultHandle)
     {

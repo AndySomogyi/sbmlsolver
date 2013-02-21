@@ -1,4 +1,3 @@
-//---------------------------------------------------------------------------
 #ifndef rr_c_api_supportH
 #define rr_c_api_supportH
 #include <string>
@@ -21,8 +20,6 @@ namespace rr_c_api
 {
 using std::vector;
 using std::string;
-
-
 
 extern char* gLastError;
 extern char* gInstallFolder;
@@ -48,7 +45,7 @@ RRListHandle 		createList(const rr::NewArrayList& aList);
 RRParameterHandle	createParameter(const rr::BaseParameter& para);
 
 //Cast void* handle to RoadRunner instance pointer, throw if it fails
-rr::RoadRunner* 	castToRRInstance(RRHandle rrHandle);
+rr::RoadRunner* 	castFrom(RRHandle rrHandle);
 
 //Cast
 rr::RoadRunnerList* getRRList(RRInstanceListHandle handle);

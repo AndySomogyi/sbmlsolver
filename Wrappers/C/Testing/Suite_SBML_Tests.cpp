@@ -11,7 +11,7 @@ using namespace UnitTest;
 using namespace std;
 using namespace rr;
 
-extern RRHandle gRR;	//Global roadrunner C handle
+
 extern string 	gTSModelsPath;
 extern string   gCompiler;
 extern string   gSupportCodeFolder;
@@ -19,14 +19,16 @@ extern string   gTempFolder;
 extern bool		gDebug;
 
 bool RunTest(const string& version, int number);
+RRHandle gRR;	//Global roadrunner C handle
 
 SUITE(SBML_l2v4)
 {
+
 	TEST(AllocateRR)
 	{
         if(!gRR)
         {
-            gRR = getRRInstance();
+            gRR = createRRInstance();//getRRInstance();
         }
 
         CHECK(gRR!=NULL);	//If gRR == NULL this is a fail
@@ -1036,11 +1038,11 @@ bool RunTest(const string& version, int caseNumber)
     }
 
     //Create instance..
-    gRR = getRRInstance();
+    gRR = createRRInstance();
 
     if(gDebug && gRR)
     {
-	    enableLogging();
+	    enableLoggingToConsole();
         setLogLevel("Debug5");
     }
     else
@@ -1049,7 +1051,7 @@ bool RunTest(const string& version, int caseNumber)
     }
 
 	//Setup environment
-    setTempFolder(gTempFolder.c_str());
+    setTempFolder(gRR, gTempFolder.c_str());
 
     if(!gRR)
     {
@@ -1092,7 +1094,7 @@ bool RunTest(const string& version, int caseNumber)
         simulation.SetModelFileName(modelFileName);
         simulation.CompileIfDllExists(true);
         simulation.CopyFilesToOutputFolder();
-	    setTempFolder(simulation.GetDataOutputFolder().c_str());
+	    setTempFolder(gRR, simulation.GetDataOutputFolder().c_str());
         if(!simulation.LoadSBMLFromFile())
         {
             throw("Failed loading sbml from file");
@@ -1104,7 +1106,7 @@ bool RunTest(const string& version, int caseNumber)
             throw("Failed loading simulation settings");
         }
 
-        setComputeAndAssignConservationLaws(false);
+        setComputeAndAssignConservationLaws(gRR, false);
 
         //Then Simulate model
         if(!simulation.Simulate())

@@ -6,10 +6,11 @@
 #include "rrIniFile.h"
 #include "TestUtils.h"
 
+//Add using clauses..
 using namespace std;
 using namespace UnitTest;
+using namespace rr_c_api;
 
-//Add using clauses..
 using rr::JoinPath;
 using rr::FileExists;
 
@@ -55,14 +56,14 @@ RRHandle gRR;
 
 	TEST(LOAD_SBML)
 	{
-		CHECK(loadSBMLFromFile(TestModelFileName.c_str()));
+		CHECK(loadModelFromFile(gRR, TestModelFileName.c_str()));
 	}
 
 	TEST(SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS)
 	{
-		gRR = getRRInstance();
+		gRR = createRRInstance();
 		CHECK(gRR!=NULL);
-		bool res = setComputeAndAssignConservationLaws(true);
+		bool res = setComputeAndAssignConservationLaws(gRR, true);
 		CHECK(res);
 		clog<<"\nConversation laws: "<<res<<endl;
 	}
@@ -70,7 +71,7 @@ RRHandle gRR;
     TEST(GET_UNSCALED_ELASTICITY_COEFFICIENT)
     {
 		double test;
-		bool val =  getuEE("J1", "S1", test);
+		bool val =  getuEE(gRR, "J1", "S1", &test);
 
        // val = getuEE("J1", "S34", test);
 

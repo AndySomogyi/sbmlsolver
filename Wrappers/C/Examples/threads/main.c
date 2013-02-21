@@ -9,8 +9,8 @@ int main()
     TPHandle 			    tpHandle;		//ThreadPool handle.. use to check when a pool of threads has finished..
 
 	char* modelFileName = "r://models//test_1.xml";
-    int   handleCount = 100;
-    int   threadCount = 4;
+    int   handleCount = 50;
+    int   threadCount = 8;
     int   i;
    	char  buf[2048];
 	printf("Starting C program...\n");
@@ -66,7 +66,6 @@ int main()
 
   	//Write data to a file
 	writeMultipleRRData(rrs, "r:\\allData.dat");
-
 
 	// Cleanup
     freeRRHandles(rrs);

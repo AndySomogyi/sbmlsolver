@@ -53,28 +53,28 @@ extern "C"
 #include "rr_c_api_exporter.h"
 #include "rr_c_types.h"
 
-extern char* gInstallFolder; //On linux, we may have to set this one manually in any application using the API
+//extern char* gInstallFolder; //On linux, we may have to set this one manually in any application using the API
 
 ///*!
 // \brief Initialize a new roadRunner instance and return a handle to it.
 // \return Returns a RoadRunner instance, returns null if it fails
 // \ingroup initialization
 //*/
-C_DECL_SPEC RRHandle rrCallConv createRRHandle(void);
+C_DECL_SPEC RRHandle rrCallConv createRRInstance(void);
 
 ///*!
 // \brief Initialize new roadRunner instances and return a handle to them.
 // \return Returns count number of RoadRunner instances, returns null if it fails
 // \ingroup initialization
 //*/
-C_DECL_SPEC RRInstanceListHandle rrCallConv createRRHandles(int count);
+C_DECL_SPEC RRInstanceListHandle rrCallConv createRRInstances(int count);
 
 /*!
  \brief Free the roadRunner instance
  \param[in] handle Free the roadRunner instance given in the argument
  \ingroup initialization
 */
-C_DECL_SPEC bool rrCallConv freeRRHandle(RRHandle handle);
+C_DECL_SPEC bool rrCallConv freeRRInstance(RRHandle handle);
 
 /*!
  \brief Free roadRunner instances
@@ -82,6 +82,8 @@ C_DECL_SPEC bool rrCallConv freeRRHandle(RRHandle handle);
  \ingroup initialization
 */
 C_DECL_SPEC bool  rrCallConv  freeRRHandles(RRInstanceListHandle handle);
+
+
 C_DECL_SPEC char* rrCallConv  getInstallFolder(void);
 C_DECL_SPEC bool  rrCallConv  setInstallFolder(const char* folder);
 
@@ -137,7 +139,7 @@ C_DECL_SPEC char* rrCallConv getlibSBMLVersion(void);
  /*!
  \brief Set the path to the temporary folder where the C code will be stored
 
- When cRoadRunner is run in C generation mode its uses a temporary folder to store the 
+ When cRoadRunner is run in C generation mode its uses a temporary folder to store the
  generated C source code. This method can be used to set the temporary folder path if necessary.
 
  \return Returns true if succesful
@@ -148,7 +150,7 @@ C_DECL_SPEC bool rrCallConv setTempFolder(RRHandle handle, const char* folder);
 /*!
  \brief Retrieve the current temporary folder path
 
- When cRoadRunner is run in C generation mode its uses a temporary folder to store the 
+ When cRoadRunner is run in C generation mode its uses a temporary folder to store the
  generate C source code. This method can be used to get the current value
  for the the temporary folder path.
 
@@ -199,7 +201,6 @@ C_DECL_SPEC bool rrCallConv setCompilerLocation(const char* folder);
 
 C_DECL_SPEC char* rrCallConv getCompilerLocation(void);
 
-
 /*!
  \brief Set the path to a folder containing support code for model generation.
 
@@ -230,7 +231,6 @@ C_DECL_SPEC char* rrCallConv getSupportCodeFolder(void);
 //C_DECL_SPEC RRCCode* rrCallConv getCCode(void);
 C_DECL_SPEC RRCCodeHandle rrCallConv getCCode(RRHandle handle);
 
-
 /*!
  \brief Set the runtime generation option [Not yet implemented]
 
@@ -239,7 +239,7 @@ C_DECL_SPEC RRCCodeHandle rrCallConv getCCode(RRHandle handle);
  later method is useful when the OS forbids the compiling of externally generated code.
 
  \param[in] _mode is set to 0 cRoadRunner generates C Code,
- if set to 1 cRoadRunner uses its internal math interpreter. 
+ if set to 1 cRoadRunner uses its internal math interpreter.
  \return Returns false if it fails,
  \ingroup utility
 */
@@ -343,9 +343,6 @@ C_DECL_SPEC bool rrCallConv hasError(void);
 */
 C_DECL_SPEC char* rrCallConv getLastError(void);
 
-
-
-
 // Flags/Options
 /*!
  \brief Enable or disable conservation analysis
@@ -353,7 +350,7 @@ C_DECL_SPEC char* rrCallConv getLastError(void);
  \return Returns true if successful
  \ingroup initialization
 */
-C_DECL_SPEC bool rrCallConv setComputeAndAssignConservationLaws(const bool On_Or_Off);
+C_DECL_SPEC bool rrCallConv setComputeAndAssignConservationLaws(RRHandle handle, const bool On_Or_Off);
 
 // -----------------------------------------------------------------------
 // Read and Write models
@@ -365,7 +362,7 @@ C_DECL_SPEC bool rrCallConv setComputeAndAssignConservationLaws(const bool On_Or
  \return Returns true if sucessful
  \ingroup loadsave
 */
-C_DECL_SPEC bool rrCallConv loadSBML(const char* sbml);
+//C_DECL_SPEC bool rrCallConv loadSBML(const char* sbml);
 C_DECL_SPEC bool rrCallConv loadModel(RRHandle handle, const char* sbml);
 
 /*!
@@ -374,7 +371,7 @@ C_DECL_SPEC bool rrCallConv loadModel(RRHandle handle, const char* sbml);
  \return Returns true if sucessful
  \ingroup loadsave
 */
-C_DECL_SPEC bool rrCallConv loadSBMLFromFile(const char* fileName);
+//C_DECL_SPEC bool rrCallConv loadSBMLFromFile(const char* fileName);
 C_DECL_SPEC bool rrCallConv loadModelFromFile(RRHandle handle, const char* fileName);
 
 /*!
@@ -409,8 +406,7 @@ C_DECL_SPEC int rrCallConv getNumberOfRemainingJobs(TPHandle handle);
  \ingroup loadsave
 */
 
-
-C_DECL_SPEC bool rrCallConv loadSimulationSettings(const char* fileName);
+C_DECL_SPEC bool rrCallConv loadSimulationSettings(RRHandle handle, const char* fileName);
 
 /*!
  \brief Retrieve the <b>current state</b> of the model in the form of an SBML string
@@ -562,7 +558,7 @@ setNumPoints etc to set the simulation characteristics.
  simulation including string labels for the individual columms. 
  \ingroup simulation
 */
-C_DECL_SPEC RRResultHandle rrCallConv simulate(void);
+C_DECL_SPEC RRResultHandle rrCallConv simulate(RRHandle handle);
 
 C_DECL_SPEC TPHandle rrCallConv simulateTP(RRInstanceListHandle rrHandles, int nrOfThreads);
 /*!
@@ -646,11 +642,11 @@ C_DECL_SPEC bool rrCallConv getNumPoints (int* numPoints);
 
  \param value This value is set during the call and indicates how close the solution is to the steady state.
  The smaller the value the better. Values less than 1E-6 usually indicate a steady state has been found. If necessary
- call the method a second time to improve the solution. 
+ call the method a second time to improve the solution.
  \return Returns true if successful
  \ingroup steadystate
 */
-C_DECL_SPEC bool rrCallConv steadyState(double* value);
+C_DECL_SPEC bool rrCallConv steadyState(RRHandle handle, double* value);
 
 /*!
  \brief A convenient method for returning a vector of the steady state species concentrations
@@ -683,7 +679,7 @@ C_DECL_SPEC RRVectorHandle rrCallConv computeSteadyStateValues(void);
  \return Returns true if successful
  \ingroup steadystate
 */
-C_DECL_SPEC bool rrCallConv setSteadyStateSelectionList(const char* list);
+C_DECL_SPEC bool rrCallConv setSteadyStateSelectionList(RRHandle handle, const char* list);
 
 /*!
  \brief Get the selection list for the steady state analysis
@@ -691,7 +687,7 @@ C_DECL_SPEC bool rrCallConv setSteadyStateSelectionList(const char* list);
  \return Returns null if it fails, otherwise it returns a list of strings representing symbols in the selection list
  \ingroup steadystate
 */
-C_DECL_SPEC RRStringArrayHandle rrCallConv getSteadyStateSelectionList(void);
+C_DECL_SPEC RRStringArrayHandle rrCallConv getSteadyStateSelectionList(RRHandle handle);
 
 
 // --------------------------------------------------------------------------------
@@ -1373,7 +1369,7 @@ C_DECL_SPEC bool rrCallConv getEE(const char* name, const char* species, double*
  \return Returns true if successful
  \ingroup mca
 */
-C_DECL_SPEC bool rrCallConv getuEE(const char* name, const char* species, double* value);
+C_DECL_SPEC bool rrCallConv getuEE(RRHandle handle, const char* name, const char* species, double* value);
 
 // What's this, not sure if we need it?
 C_DECL_SPEC bool rrCallConv getScaledFloatingSpeciesElasticity(const char* reactionName, const char* speciesName, double* value);
@@ -2002,6 +1998,10 @@ C_DECL_SPEC char* rrCallConv getPluginInfo(const char* name);
 */
 
 C_DECL_SPEC bool rrCallConv executePlugin(const char* name);
+
+
+//
+
 #if defined( __cplusplus)
 }
 }//namespace
@@ -2009,7 +2009,6 @@ C_DECL_SPEC bool rrCallConv executePlugin(const char* name);
 
 #endif
 
-//
 ///*! \mainpage cRoadRunner Library
 // *
 // * \section intro_sec Introduction

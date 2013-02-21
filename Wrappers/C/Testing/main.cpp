@@ -11,6 +11,7 @@
 
 using namespace std;
 using namespace rr;
+using namespace rr_c_api;
 using namespace UnitTest;
 
 
@@ -28,7 +29,7 @@ string gTSModelsPath;
 vector<string> gModels;
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 
-RRHandle gRR = NULL;
+//RRHandle gRR = NULL;
 
 //call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder"
 int main(int argc, char* argv[])
@@ -49,17 +50,11 @@ int main(int argc, char* argv[])
     gCompiler	 		= JoinPath(gRRInstallFolder, gCompiler);
 	gSupportCodeFolder 	= JoinPath(gRRInstallFolder, "rr_support");
 	gTestDataFolder     = JoinPath(gRRInstallFolder, "tests");
-
 	setInstallFolder(gRRInstallFolder.c_str());
 
-    //We need a rr handle to enable initial logging...
-    gRR = getRRInstance();
-    setTempFolder(gTempFolder.c_str());
-
-
-    if(gDebug && gRR)
+    if(gDebug)
     {
-	    enableLogging();
+	    enableLoggingToConsole();
         setLogLevel("Debug5");
     }
     else
@@ -91,7 +86,7 @@ int main(int argc, char* argv[])
 
     clog<<"Running TestSuite Tests\n";
     clog<<"ModelPath "<<gTSModelsPath;
-    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4", 	True(), 0);
+//    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4", 	True(), 0);
 
     //Finish outputs result to xml file
     runner1.Finish();
@@ -136,8 +131,6 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 #pragma comment(lib, "rr_c_api.lib")
 #pragma comment(lib, "roadrunner-static.lib")
 #pragma comment(lib, "rr-libstruct-static.lib")
-//#pragma comment(lib, "roadrunner.lib")
-
 #pragma comment(lib, "unit_test-static.lib")
 #endif
 
