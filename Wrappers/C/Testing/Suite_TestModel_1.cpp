@@ -153,7 +153,6 @@ RRHandle gRR = NULL;
 
     TEST(FLUXES)
     {
-        //gRR = getRRInstance();
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -242,7 +241,6 @@ RRHandle gRR = NULL;
 
     TEST(GET_EIGENVALUE_MATRIX)
     {
-//        RRHandle gRR = createRRInstance();
         CHECK(gRR!=NULL);
 
         setComputeAndAssignConservationLaws(gRR, true);
@@ -271,10 +269,10 @@ RRHandle gRR = NULL;
             return;
         }
 
-          clog<<"Reference Matrix:\n";
+        clog<<"Reference Matrix:\n";
         clog<<ref<<endl;
 
-          clog<<"Calculated Matrix:";
+        clog<<"Calculated Matrix:";
         clog<<matrixToString(matrix);
 
         for(int i = 0 ; i < ref.RSize(); i++)
@@ -295,7 +293,6 @@ RRHandle gRR = NULL;
 
     TEST(STOICHIOMETRY_MATRIX)
     {
-    //	gRR = getRRInstance();
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -306,7 +303,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-       ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
+		ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
 
         RRMatrixHandle matrix = getStoichiometryMatrix(gRR);
         if(!matrix)
@@ -321,10 +318,10 @@ RRHandle gRR = NULL;
             return;
         }
 
-          clog<<"Reference Matrix:\n";
+        clog<<"Reference Matrix:\n";
         clog<<ref<<endl;
 
-          clog<<"Calculated Matrix:";
+        clog<<"Calculated Matrix:";
         clog<<matrixToString(matrix);
 
         for(int i = 0 ; i < ref.RSize(); i++)
@@ -342,7 +339,6 @@ RRHandle gRR = NULL;
     TEST(LINK_MATRIX)
     {
         clog<<"\n==== LINK_MATRIX ====\n\n";
-    //	gRR = getRRInstance();
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -353,7 +349,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-       ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
+       	ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
 
         RRMatrixHandle matrix = getLinkMatrix(gRR);
         if(!matrix)
@@ -368,10 +364,10 @@ RRHandle gRR = NULL;
             return;
         }
 
-          clog<<"Reference Matrix:\n";
+        clog<<"Reference Matrix:\n";
         clog<<ref<<endl;
 
-          clog<<"Calculated Matrix:";
+        clog<<"Calculated Matrix:";
         clog<<matrixToString(matrix);
 
         for(int i = 0 ; i < ref.RSize(); i++)
@@ -389,7 +385,6 @@ RRHandle gRR = NULL;
     TEST(UNSCALED_ELASTICITY_MATRIX)
     {
         clog<<"\n==== UNSCALED_ELASTICITY_MATRIX ====\n\n";
-    //	gRR = getRRInstance();
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -400,7 +395,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-       ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
+       	ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
 
         RRMatrixHandle matrix = getUnscaledElasticityMatrix(gRR);
         if(!matrix)
@@ -415,10 +410,10 @@ RRHandle gRR = NULL;
             return;
         }
 
-          clog<<"Reference Matrix:\n";
+        clog<<"Reference Matrix:\n";
         clog<<ref<<endl;
 
-          clog<<"Calculated Matrix:";
+        clog<<"Calculated Matrix:";
         clog<<matrixToString(matrix);
 
         for(int i = 0 ; i < ref.RSize(); i++)
@@ -436,7 +431,6 @@ RRHandle gRR = NULL;
     TEST(SCALED_ELASTICITY_MATRIX)
     {
         clog<<"\n==== SCALED_ELASTICITY_MATRIX ====\n\n";
-    //	gRR = getRRInstance();
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -458,10 +452,10 @@ RRHandle gRR = NULL;
             return;
         }
 
-          clog<<"Reference Matrix:\n";
+        clog<<"Reference Matrix:\n";
         clog<<ref<<endl;
 
-          clog<<"Calculated Matrix:";
+        clog<<"Calculated Matrix:";
         clog<<matrixToString(matrix);
 
         if(!matrix || matrix->RSize != ref.RSize())
@@ -485,8 +479,8 @@ RRHandle gRR = NULL;
 
     TEST(UNSCALED_CONCENTRATION_CONTROL_MATRIX)
     {
-          clog<<"\n==== UNSCALED_CONCENTRATION_CONTROL_MATRIX ====\n\n";
-    //	gRR = getRRInstance();
+    	clog<<"\n==== UNSCALED_CONCENTRATION_CONTROL_MATRIX ====\n\n";
+
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -506,10 +500,10 @@ RRHandle gRR = NULL;
             return;
         }
 
-          clog<<"Reference Matrix:\n";
+        clog<<"Reference Matrix:\n";
         clog<<ref<<endl;
 
-          clog<<"Calculated Matrix:";
+        clog<<"Calculated Matrix:";
         clog<<matrixToString(matrix);
 
         if(!matrix || matrix->RSize != ref.RSize())
@@ -529,12 +523,11 @@ RRHandle gRR = NULL;
 
         }
         freeMatrix(matrix);
-      }
+    }
 
 	TEST(SCALED_CONCENTRATION_CONTROL_MATRIX)
     {
         clog<<"\n==== SCALED_CONCENTRATION_CONTROL_MATRIX ====\n\n";
-        //gRR = getRRInstance();
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -582,7 +575,6 @@ RRHandle gRR = NULL;
     TEST(UNSCALED_FLUX_CONTROL_MATRIX)
     {
     	clog<<"\n==== UNSCALED_FLUX_CONTROL_MATRIX ====\n\n";
-//        gRR = getRRInstance();
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -630,7 +622,6 @@ RRHandle gRR = NULL;
 	TEST(SCALED_FLUX_CONTROL_MATRIX)
     {
     	clog<<"\n==== SCALED_FLUX_CONTROL_MATRIX ====\n\n";
-        //gRR = getRRInstance();
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -925,7 +916,6 @@ RRHandle gRR = NULL;
 
     TEST(SET_STEADY_STATE_SELECTION_LIST_2)
     {
-//        gRR = getRRInstance();
         CHECK(gRR!=NULL);
 
         //Load reference data
@@ -980,7 +970,6 @@ RRHandle gRR = NULL;
 
     TEST(SET_TIME_COURSE_SELECTION_LIST)
     {
-//        gRR = getRRInstance();
         CHECK(gRR!=NULL);
 
         //Load reference data
@@ -1061,9 +1050,8 @@ RRHandle gRR = NULL;
         }
     }
 
-        TEST(FLOATING_SPECIES_CONCENTRATIONS)
+    TEST(FLOATING_SPECIES_CONCENTRATIONS)
     {
-//        gRR = getRRInstance();
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -1095,7 +1083,6 @@ RRHandle gRR = NULL;
 
         TEST(BOUNDARY_SPECIES_CONCENTRATIONS)
     {
-//        gRR = getRRInstance();
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -1125,9 +1112,8 @@ RRHandle gRR = NULL;
         }
     }
 
-        TEST(GET_GLOBABL_PARAMETER_VALUES)
+    TEST(GET_GLOBABL_PARAMETER_VALUES)
     {
-//        gRR = getRRInstance();
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -1167,7 +1153,6 @@ RRHandle gRR = NULL;
 
     TEST(GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS)
     {
-//        gRR = getRRInstance();
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -1207,7 +1192,6 @@ RRHandle gRR = NULL;
 
     TEST(GET_REACTION_RATES)
     {
-//        gRR = getRRInstance();
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -1247,7 +1231,6 @@ RRHandle gRR = NULL;
 
     TEST(GET_REACTION_RATE_BY_INDEX)
     {
-//        gRR = getRRInstance();
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -1350,7 +1333,6 @@ RRHandle gRR = NULL;
 
 	TEST(GET_RATES_OF_CHANGE)
     {
-//        gRR = getRRInstance();
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -1389,7 +1371,6 @@ RRHandle gRR = NULL;
 
     TEST(GET_REACTION_RATES_EX)
     {
-//        gRR = getRRInstance();
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -1444,7 +1425,6 @@ RRHandle gRR = NULL;
 
     TEST(GET_RATES_OF_CHANGE_EX)
     {
-//        gRR = getRRInstance();
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -1499,7 +1479,6 @@ RRHandle gRR = NULL;
 
     TEST(GET_RATE_OF_CHANGE_BY_INDEX)
     {
-//        gRR = getRRInstance();
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file

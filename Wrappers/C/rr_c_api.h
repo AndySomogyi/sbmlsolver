@@ -182,7 +182,7 @@ C_DECL_SPEC char* rrCallConv getRRCAPILocation(void);
   \return Returns true if succesful
  \ingroup utility
 */
-C_DECL_SPEC bool rrCallConv setCompiler(const char* fNameWithPath);
+C_DECL_SPEC bool rrCallConv setCompiler(RRHandle handle, const char* fNameWithPath);
 
 /*!
  \brief Set the path to a folder containing the compiler to be used.
@@ -190,7 +190,7 @@ C_DECL_SPEC bool rrCallConv setCompiler(const char* fNameWithPath);
   \return Returns true if succesful
  \ingroup utility
 */
-C_DECL_SPEC bool rrCallConv setCompilerLocation(const char* folder);
+C_DECL_SPEC bool rrCallConv setCompilerLocation(RRHandle handle, const char* folder);
 
 /*!
  \brief Get the path to a folder containing the compiler being used.
@@ -207,7 +207,7 @@ C_DECL_SPEC char* rrCallConv getCompilerLocation(RRHandle handle);
   \return Returns true if succesful
  \ingroup utility
 */
-C_DECL_SPEC bool rrCallConv setSupportCodeFolder(const char* folder);
+C_DECL_SPEC bool rrCallConv setSupportCodeFolder(RRHandle handle, const char* folder);
 
 /*!
  \brief Get the path to a folder containing support code.
@@ -243,7 +243,7 @@ C_DECL_SPEC RRCCodeHandle rrCallConv getCCode(RRHandle handle);
  \return Returns false if it fails,
  \ingroup utility
 */
-C_DECL_SPEC bool rrCallConv setCodeGenerationMode(int _mode);
+C_DECL_SPEC bool rrCallConv setCodeGenerationMode(RRHandle handle, int _mode);
 
 // -----------------------------------------------------------------------
 // Logging Routines
@@ -446,7 +446,7 @@ C_DECL_SPEC bool rrCallConv unLoadModel(RRHandle handle);
  \return Returns null if it fails otherwise it returns the promoted SBML model as a string
  \ingroup sbml
 */
-C_DECL_SPEC char* rrCallConv getParamPromotedSBML(const char* sArg);
+C_DECL_SPEC char* rrCallConv getParamPromotedSBML(RRHandle handle, const char* sArg);
 
 /*!
  \brief Set the simulator's capabilities
@@ -454,7 +454,7 @@ C_DECL_SPEC char* rrCallConv getParamPromotedSBML(const char* sArg);
  \return Returns true if sucessful
  \ingroup simulation
 */
-C_DECL_SPEC bool rrCallConv setCapabilities (const char* caps);
+C_DECL_SPEC bool rrCallConv setCapabilities (RRHandle handle, const char* caps);
 
 
 /*!
@@ -495,7 +495,6 @@ C_DECL_SPEC bool rrCallConv setCapabilities (const char* caps);
  \return Returns True if sucessful
  \ingroup simulation
 */
-//C_DECL_SPEC bool rrCallConv setTimeStart(const double& timeStart);
 C_DECL_SPEC bool rrCallConv setTimeStart(RRHandle handle, double timeStart);
 
 /*!
@@ -504,7 +503,6 @@ C_DECL_SPEC bool rrCallConv setTimeStart(RRHandle handle, double timeStart);
  \return Returns true if sucessful
  \ingroup simulation
 */
-//C_DECL_SPEC bool rrCallConv setTimeEnd(const double& timeEnd);
 C_DECL_SPEC bool rrCallConv setTimeEnd(RRHandle handle, double timeEnd);
 
 /*!
@@ -513,7 +511,6 @@ C_DECL_SPEC bool rrCallConv setTimeEnd(RRHandle handle, double timeEnd);
  \return Returns true if sucessful
  \ingroup simulation
 */
-//C_DECL_SPEC bool rrCallConv setNumPoints(const int& numberOfPoints);
 C_DECL_SPEC bool rrCallConv setNumPoints(RRHandle handle, int numberOfPoints);
 
 /*!
@@ -528,11 +525,11 @@ C_DECL_SPEC bool rrCallConv createTimeCourseSelectionList(RRHandle handle);
  \brief Set the selection list for output from simulate(void) or simulateEx(void)
 
  Use getAvailableTimeCourseSymbols(void) to retrieve the list of all possible symbols.
- 
+
  Example: \code setTimeCourseSelectionList ("Time, S1, J1, J2"); \endcode
- 
+
  or
- 
+
  setTimeCourseSelectionList ("Time S1 J1 J2")
 
  \param[in] list A string of Ids separated by spaces <b>or</b> comma characters
@@ -565,80 +562,80 @@ C_DECL_SPEC TPHandle rrCallConv simulateTP(RRInstanceListHandle rrHandles, int n
  \brief Carry out a time-course simulation based on the given arguments, time start,
  time end and number of points.
 
- Example: 
+ Example:
  \code
     double timeStart, timeEnd;
 	int numberOfPoints;
 	RRResultHandle m;
-	
+
 	timeStart = 0.0;
 	timeEnd = 25;
 	numberOfPoints = 200;
-	
-    m = simulateEx (&timeStart, &timeEnd, &numberOfPoints);
+
+    m = simulateEx (rrHandle, &timeStart, &timeEnd, &numberOfPoints);
     \endcode
-	
+
  \param[in] timeStart Time start
  \param[in] timeEnd Time end
  \param[in] numberOfPoints Number of points to generate
- 
- \return Returns an array (RRResultHandle) of columns containing the results of the 
- simulation including string labels for the individual columms. 
+
+ \return Returns an array (RRResultHandle) of columns containing the results of the
+ simulation including string labels for the individual columms.
  \ingroup simulation
 */
-C_DECL_SPEC RRResultHandle rrCallConv simulateEx(const double timeStart, const double timeEnd, const int numberOfPoints);
+C_DECL_SPEC RRResultHandle rrCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints);
 
 /*!
  \brief Carry out a one step integration of the model
 
- Example: \code status = OneStep (&currentTime, &timeStep, &newTimeStep); \endcode
+ Example: \code status = OneStep (rrHandle, &currentTime, &timeStep, &newTimeStep); \endcode
 
  \param[in] currentTime The current time in the simulation
  \param[in] stepSize The step size to use in the integration
  \param[in] value The new time (currentTime + stepSize)
- 
+
  \return Returns true if successful
  \ingroup simulation
 */
-C_DECL_SPEC bool rrCallConv oneStep(const double currentTime, const double stepSize, double value);
+C_DECL_SPEC bool rrCallConv oneStep(RRHandle handle, const double currentTime, const double stepSize, double value);
 
 /*!
  \brief Get the value of the current time start
 
- Example: \code status = getTimeStart (&timeStart); \endcode
+ Example: \code status = getTimeStart (rrHandle, &timeStart); \endcode
 
  \param[out] timeStart The current value for the time start
  \return Returns true if successful
  \ingroup simulation
 */
-C_DECL_SPEC bool rrCallConv getTimeStart(double* timeStart);
+C_DECL_SPEC bool rrCallConv getTimeStart(RRHandle handle, double* timeStart);
 
 /*!
  \brief Get the value of the current time end
 
- Example: \code status = getTimeEnd (&timeEnd); \endcode
+ Example: \code status = getTimeEnd (rrHandle, &timeEnd); \endcode
 
  \param timeEnd The current value for the time end
  \return Returns true if successful
  \ingroup simulation
 */
-C_DECL_SPEC bool rrCallConv getTimeEnd(double* timeEnd);
+C_DECL_SPEC bool rrCallConv getTimeEnd(RRHandle handle, double* timeEnd);
 
 /*!
  \brief Get the value of the current number of points
 
- Example: \code status = getNumPoints (&numberOfPoints); \endcode
+ Example: \code status = getNumPoints (rrHandle, &numberOfPoints); \endcode
 
  \param numPoints The current value for the number of points
  \return Returns true if successful
  \ingroup simulation
 */
-C_DECL_SPEC bool rrCallConv getNumPoints (int* numPoints);
+C_DECL_SPEC bool rrCallConv getNumPoints (RRHandle handle, int* numPoints);
 
 /*!
  \brief Compute the steady state of the current model
 
- Example: \code status = steadyState (&closenessToSteadyState); \endcode
+ Example: \code status = steadyState (rrHandle, &closenessToSteadyState); \endcode
 
  \param value This value is set during the call and indicates how close the solution is to the steady state.
  The smaller the value the better. Values less than 1E-6 usually indicate a steady state has been found. If necessary
@@ -697,7 +694,7 @@ C_DECL_SPEC RRStringArrayHandle rrCallConv getSteadyStateSelectionList(RRHandle 
 /*!
  \brief Get the value for a given symbol, use getAvailableTimeCourseSymbols(void) for a list of symbols
 
- Example: \code status = getValue ("S1", &value); \endcode
+ Example: \code status = getValue (rrHandle, "S1", &value); \endcode
 
  \param symbolId The symbol that we wish to obtain the value for
  \param value The value that will be retrievd
@@ -705,20 +702,18 @@ C_DECL_SPEC RRStringArrayHandle rrCallConv getSteadyStateSelectionList(RRHandle 
  \ingroup state
 */
 C_DECL_SPEC bool rrCallConv getValue(RRHandle handle, const char* symbolId, double* value);
-//C_DECL_SPEC bool rrCallConv getValue(const char* symbolId, double& value);
 
 
 /*!
  \brief Set the value for a given symbol, use getAvailableTimeCourseSymbols(void) for a list of symbols
 
- Example: \code status = setValue ("S1", 0.5); \endcode
+ Example: \code status = setValue (rrHandle, "S1", 0.5); \endcode
 
  \param symbolId The symbol that we wish to set the value
  \param value The value that will be set to the symbol
  \return Returns true if succesful
  \ingroup state
 */
-//C_DECL_SPEC bool rrCallConv setValue(const char* symbolId, const double& value);
 C_DECL_SPEC bool rrCallConv setValue(RRHandle handle, const char* symbolId, const double value);
 
 
@@ -765,7 +760,7 @@ C_DECL_SPEC RRVectorHandle rrCallConv getGlobalParameterValues(RRHandle handle);
  \return Returns true if successful
  \ingroup boundary
 */
-C_DECL_SPEC bool rrCallConv setBoundarySpeciesByIndex(const int index, const double value);
+C_DECL_SPEC bool rrCallConv setBoundarySpeciesByIndex(RRHandle handle, const int index, const double value);
 
 /*!
  \brief Set the concentration for a particular floating species.
@@ -775,7 +770,7 @@ C_DECL_SPEC bool rrCallConv setBoundarySpeciesByIndex(const int index, const dou
  \return Returns true if successful
  \ingroup floating
 */
-C_DECL_SPEC bool rrCallConv setFloatingSpeciesByIndex(const int index, const double value);
+C_DECL_SPEC bool rrCallConv setFloatingSpeciesByIndex(RRHandle handle, const int index, const double value);
 
 /*!
  \brief Set the value for a particular global parameter
@@ -785,7 +780,7 @@ C_DECL_SPEC bool rrCallConv setFloatingSpeciesByIndex(const int index, const dou
  \return Returns true if successful
  \ingroup parameters
 */
-C_DECL_SPEC bool rrCallConv setGlobalParameterByIndex(const int index, const double value);
+C_DECL_SPEC bool rrCallConv setGlobalParameterByIndex(RRHandle handle, const int index, const double value);
 
 
 /*!
@@ -796,7 +791,7 @@ C_DECL_SPEC bool rrCallConv setGlobalParameterByIndex(const int index, const dou
  \return Returns true if successful
  \ingroup boundary
 */
-C_DECL_SPEC bool rrCallConv getBoundarySpeciesByIndex(const int index, double* value);
+C_DECL_SPEC bool rrCallConv getBoundarySpeciesByIndex(RRHandle handle, const int index, double* value);
 
 /*!
  \brief Retrieve the concentration for a particular floating species. 
@@ -806,7 +801,7 @@ C_DECL_SPEC bool rrCallConv getBoundarySpeciesByIndex(const int index, double* v
  \return Returns true if successful
  \ingroup floating
 */
-C_DECL_SPEC bool rrCallConv getFloatingSpeciesByIndex(const int index, double* value);
+C_DECL_SPEC bool rrCallConv getFloatingSpeciesByIndex(RRHandle handle, const int index, double* value);
 
 /*!
  \brief Retrieve the global parameter value 
@@ -815,7 +810,7 @@ C_DECL_SPEC bool rrCallConv getFloatingSpeciesByIndex(const int index, double* v
  \return Returns true if successful
  \ingroup parameters
 */
-C_DECL_SPEC bool rrCallConv getGlobalParameterByIndex(const int index, double* value);
+C_DECL_SPEC bool rrCallConv getGlobalParameterByIndex(RRHandle handle, const int index, double* value);
 
 /*!
  \brief Retrieve the compartment volume for a particular compartment. 
@@ -825,7 +820,7 @@ C_DECL_SPEC bool rrCallConv getGlobalParameterByIndex(const int index, double* v
  \return Returns true if successful
  \ingroup compartment
 */
-C_DECL_SPEC bool rrCallConv getCompartmentByIndex (const int index, double* value);
+C_DECL_SPEC bool rrCallConv getCompartmentByIndex (RRHandle handle, const int index, double* value);
 
 
 /*!
@@ -837,7 +832,7 @@ C_DECL_SPEC bool rrCallConv getCompartmentByIndex (const int index, double* valu
  \ingroup compartment
 
 */
-C_DECL_SPEC bool rrCallConv setCompartmentByIndex (const int index, const double value);
+C_DECL_SPEC bool rrCallConv setCompartmentByIndex (RRHandle handle, const int index, const double value);
 
 
 /*!
@@ -857,7 +852,7 @@ C_DECL_SPEC bool rrCallConv setCompartmentByIndex (const int index, const double
  \return Returns true if successful
  \ingroup floating
 */
-C_DECL_SPEC bool rrCallConv setFloatingSpeciesConcentrations(const struct RRVector* vec);
+C_DECL_SPEC bool rrCallConv setFloatingSpeciesConcentrations(RRHandle handle, const struct RRVector* vec);
 
 /*!
  \brief Set the boundary species concentration to the vector vec
@@ -876,7 +871,7 @@ C_DECL_SPEC bool rrCallConv setFloatingSpeciesConcentrations(const struct RRVect
  \return Returns true if successful
  \ingroup boundary
 */
-C_DECL_SPEC bool rrCallConv setBoundarySpeciesConcentrations(const struct RRVector* vec);
+C_DECL_SPEC bool rrCallConv setBoundarySpeciesConcentrations(RRHandle handle, const struct RRVector* vec);
 
 
 /*!
@@ -917,7 +912,7 @@ C_DECL_SPEC RRMatrixHandle rrCallConv getEigenvalues(RRHandle handle);
  The first column will contain the real values and the second column the imaginary values
  \ingroup LinearAlgebra
 */
-C_DECL_SPEC RRMatrixHandle rrCallConv getEigenvaluesMatrix (const RRMatrixHandle mat);
+C_DECL_SPEC RRMatrixHandle rrCallConv getEigenvaluesMatrix (RRHandle handle, const RRMatrixHandle mat);
 
 // --------------------------------------------------------------------------------
 // Stoichiometry methods
@@ -988,7 +983,7 @@ C_DECL_SPEC bool rrCallConv reset(RRHandle handle);
  \return Returns true if successful
  \ingroup initialConditions
 */
-C_DECL_SPEC bool rrCallConv setFloatingSpeciesInitialConcentrations (const struct RRVector* vec);
+C_DECL_SPEC bool rrCallConv setFloatingSpeciesInitialConcentrations (RRHandle handle, const struct RRVector* vec);
 
 /*!
  \brief Get the initial floating species concentrations
@@ -1291,7 +1286,7 @@ C_DECL_SPEC RRMatrixHandle rrCallConv getScaledElasticityMatrix(RRHandle handle)
  \return Returns false if it fails
  \ingroup mca
 */
-C_DECL_SPEC bool rrCallConv getScaledFloatingSpeciesElasticity(const char* reactionId, const char* speciesId, double* value);
+C_DECL_SPEC bool rrCallConv getScaledFloatingSpeciesElasticity(RRHandle handle, const char* reactionId, const char* speciesId, double* value);
 
 /*!
  \brief Retrieve the matrix of unscaled concentration control coefficients for the current model
@@ -1336,7 +1331,7 @@ C_DECL_SPEC RRMatrixHandle rrCallConv getScaledFluxControlCoefficientMatrix(RRHa
  \return Returns true if successful
  \ingroup mca
 */
-C_DECL_SPEC bool rrCallConv getuCC (const char* variable, const char* parameter, double* value);
+C_DECL_SPEC bool rrCallConv getuCC (RRHandle handle, const char* variable, const char* parameter, double* value);
 
 /*!
  \brief Retrieve a single control coefficient
@@ -1347,7 +1342,7 @@ C_DECL_SPEC bool rrCallConv getuCC (const char* variable, const char* parameter,
  \return Returns true if successful
  \ingroup mca
 */
-C_DECL_SPEC bool  rrCallConv getCC (const char* variable, const char* parameter, double* value);
+C_DECL_SPEC bool  rrCallConv getCC (RRHandle handle, const char* variable, const char* parameter, double* value);
 
 /*!
  \brief Retrieve a single elasticity coefficient
@@ -1358,7 +1353,7 @@ C_DECL_SPEC bool  rrCallConv getCC (const char* variable, const char* parameter,
  \return Returns true if successful
  \ingroup mca
 */
-C_DECL_SPEC bool rrCallConv getEE(const char* name, const char* species, double* value);
+C_DECL_SPEC bool rrCallConv getEE(RRHandle handle, const char* name, const char* species, double* value);
 
 /*!
  \brief Retrieve a single unscaled elasticity coefficient
@@ -1372,7 +1367,7 @@ C_DECL_SPEC bool rrCallConv getEE(const char* name, const char* species, double*
 C_DECL_SPEC bool rrCallConv getuEE(RRHandle handle, const char* name, const char* species, double* value);
 
 // What's this, not sure if we need it?
-C_DECL_SPEC bool rrCallConv getScaledFloatingSpeciesElasticity(const char* reactionName, const char* speciesName, double* value);
+C_DECL_SPEC bool rrCallConv getScaledFloatingSpeciesElasticity(RRHandle handle, const char* reactionName, const char* speciesName, double* value);
 
 // --------------------------------------------------------------------------------
 // Network Object Model (NOM) library forwarded functions
@@ -1401,7 +1396,7 @@ C_DECL_SPEC char* rrCallConv resultToString(const RRResultHandle result);
  \return Returns matrix as a character string
  \ingroup toString
 */
-C_DECL_SPEC char* rrCallConv matrixToString (const RRMatrixHandle mat);
+C_DECL_SPEC char* rrCallConv matrixToString(const RRMatrixHandle mat);
 
 /*!
  \brief Returns a vector in string form.
@@ -1415,7 +1410,7 @@ C_DECL_SPEC char* rrCallConv vectorToString(const RRVectorHandle vec);
  \return Returns the length of a string array, return -1 if string array is NULL
  \ingroup stringArray
 */
-C_DECL_SPEC int rrCallConv getNumberOfStringElements (const RRStringArrayHandle list);
+C_DECL_SPEC int rrCallConv getNumberOfStringElements(const RRStringArrayHandle list);
 
 /*!
  \brief Returns the indexth element from the string array in the argument value
@@ -1959,28 +1954,28 @@ C_DECL_SPEC struct RRStringArray* rrCallConv getPluginNames(RRHandle handle);
  \return Returns available capabilities for a particular plugin, NULL otherwise
  \ingroup pluginRoutines
 */
-C_DECL_SPEC struct RRStringArray* rrCallConv getPluginCapabilities(const char* pluginName);
+C_DECL_SPEC struct RRStringArray* rrCallConv getPluginCapabilities(RRHandle handle, const char* pluginName);
 
 /*!
  \brief GetPluginParameters
  \return Returns available parameters for a particular plugin, NULL otherwise
  \ingroup pluginRoutines
 */
-C_DECL_SPEC struct RRStringArray* rrCallConv getPluginParameters(const char* pluginName, const char* capability);
+C_DECL_SPEC struct RRStringArray* rrCallConv getPluginParameters(RRHandle handle, const char* pluginName, const char* capability);
 
 /*!
  \brief GetPluginParameter
  \return Returns a pointer to a parameter for a particular plugin. Returns NULL if absent parameter
  \ingroup pluginRoutines
 */
-C_DECL_SPEC RRParameterHandle rrCallConv getPluginParameter(const char* pluginName, const char* parameterName);
+C_DECL_SPEC RRParameterHandle rrCallConv getPluginParameter(RRHandle handle, const char* pluginName, const char* parameterName);
 
 /*!
  \brief SetPluginParameter
  \return true if succesful, false otherwise
  \ingroup pluginRoutines
 */
-C_DECL_SPEC bool rrCallConv setPluginParameter(const char* pluginName, const char* parameterName, const char* value);
+C_DECL_SPEC bool rrCallConv setPluginParameter(RRHandle handle, const char* pluginName, const char* parameterName, const char* value);
 
 /*!
  \brief GetPluginInfo (PluginName)
@@ -1988,7 +1983,7 @@ C_DECL_SPEC bool rrCallConv setPluginParameter(const char* pluginName, const cha
  \return Returns info, as a string, for the plugin, NULL otherwise
  \ingroup pluginRoutines
 */
-C_DECL_SPEC char* rrCallConv getPluginInfo(const char* name);
+C_DECL_SPEC char* rrCallConv getPluginInfo(RRHandle handle, const char* name);
 
 /*!
  \brief executePlugin (PluginName)
@@ -1997,7 +1992,7 @@ C_DECL_SPEC char* rrCallConv getPluginInfo(const char* name);
  \ingroup pluginRoutines
 */
 
-C_DECL_SPEC bool rrCallConv executePlugin(const char* name);
+C_DECL_SPEC bool rrCallConv executePlugin(RRHandle handle, const char* name);
 
 
 //
@@ -2020,7 +2015,7 @@ C_DECL_SPEC bool rrCallConv executePlugin(const char* name);
 // \code
 // RRResultHandle result;
 //
-// if (!loadSBMLFromFile ("mymodel.xml"))
+// if (!loadSBMLFromFile (rrHandle, "mymodel.xml"))
 //    exit;
 //
 // result = simulate (0, 10, 100);

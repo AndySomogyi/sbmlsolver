@@ -29,7 +29,7 @@ SUITE(SBML_l2v4)
 	{
         if(!gRR)
         {
-            gRR = createRRInstance(gTempFolder.c_str());
+	            gRR = createRRInstance(gTempFolder.c_str());
         }
 
         CHECK(gRR!=NULL);	//If gRR == NULL this is a fail
