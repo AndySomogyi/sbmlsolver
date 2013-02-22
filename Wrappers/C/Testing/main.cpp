@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
 
     clog<<"Running TestSuite Tests\n";
     clog<<"ModelPath "<<gTSModelsPath;
-//    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4", 	True(), 0);
+    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4", 	True(), 0);
 
     //Finish outputs result to xml file
     runner1.Finish();

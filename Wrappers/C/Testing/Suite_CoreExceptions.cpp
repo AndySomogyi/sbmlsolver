@@ -61,7 +61,7 @@ RRHandle gRR;
 
 	TEST(SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS)
 	{
-		gRR = createRRInstance();
+		//gRR = createRRInstance();
 		CHECK(gRR!=NULL);
 		bool res = setComputeAndAssignConservationLaws(gRR, true);
 		CHECK(res);

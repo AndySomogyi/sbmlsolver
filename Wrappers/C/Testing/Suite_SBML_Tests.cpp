@@ -1,16 +1,15 @@
 #include <iostream>
 #include <string>
 #include <vector>
-
 #include "UnitTest++.h"
 #include "rr_c_api.h"
 #include "rrUtils.h"
 #include "rrException.h"
 #include "rrSBMLTestSuiteSimulation_CAPI.h"
+
 using namespace UnitTest;
 using namespace std;
 using namespace rr;
-
 
 extern string 	gTSModelsPath;
 extern string   gCompiler;
@@ -18,8 +17,10 @@ extern string   gSupportCodeFolder;
 extern string   gTempFolder;
 extern bool		gDebug;
 
+RRHandle gRR = NULL;	//Global roadrunner C handle
+
 bool RunTest(const string& version, int number);
-RRHandle gRR;	//Global roadrunner C handle
+
 
 SUITE(SBML_l2v4)
 {
@@ -28,7 +29,7 @@ SUITE(SBML_l2v4)
 	{
         if(!gRR)
         {
-            gRR = createRRInstance();//getRRInstance();
+            gRR = createRRInstance(gTempFolder.c_str());
         }
 
         CHECK(gRR!=NULL);	//If gRR == NULL this is a fail
@@ -1038,7 +1039,7 @@ bool RunTest(const string& version, int caseNumber)
     }
 
     //Create instance..
-    gRR = createRRInstance();
+    gRR = createRRInstance(JoinPath(gTempFolder, "TS").c_str());
 
     if(gDebug && gRR)
     {

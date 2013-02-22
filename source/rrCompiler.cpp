@@ -7,6 +7,8 @@
 #include <windows.h>
 
     #if defined(__CODEGEARC__)
+#include <windows.h>
+#include <strsafe.h>
     #include <dir.h>
     #elif defined(_MSVC)
     #include <direct.h>
@@ -218,6 +220,7 @@ string Compiler::createCompilerCommand(const string& sourceFileName)
 }
 
 #ifdef WIN32
+string GetWINAPIError(DWORD errorCode, LPTSTR lpszFunction);
 bool Compiler::compile(const string& cmdLine)
 {
     STARTUPINFO         si;
@@ -293,12 +296,14 @@ bool Compiler::compile(const string& cmdLine)
         &pi )                           // Pointer to PROCESS_INFORMATION structure
     )
     {
+		DWORD errorCode = GetLastError();
+        string anError = GetWINAPIError(errorCode, TEXT("CreateProcess"));
+        Log(lError)<<"WIN API Error: "<<anError;
+
         // Close process and thread handles.
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
         CloseHandle(out);
-
-        Log(lError)<<"CreateProcess failed: "<<GetLastError();
         return false;
     }
 
@@ -307,7 +312,22 @@ bool Compiler::compile(const string& cmdLine)
 
     // Close process and thread handles.
     CloseHandle(pi.hProcess);
+
+    DWORD errorCode = GetLastError();
+    if(errorCode != 0)
+    {
+    	string anError = GetWINAPIError(errorCode, TEXT("CloseHandle"));
+    	Log(lError)<<"WIN API error: "<<anError;
+    }
+
     CloseHandle(pi.hThread);
+    errorCode = GetLastError();
+    if(errorCode != 0)
+    {
+    	string anError = GetWINAPIError(errorCode, TEXT("CloseHandle"));
+    	Log(lError)<<"WIN API error: "<<anError;
+    }
+
     CloseHandle(out);
 
 //    //Read the log file and log it
@@ -318,6 +338,43 @@ bool Compiler::compile(const string& cmdLine)
 //    }
 //
     return true;
+}
+
+
+string GetWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
+{
+//	LPTSTR lpszFunction	= TEXT("CreateProcess");
+ 	LPVOID lpMsgBuf;
+    LPVOID lpDisplayBuf;
+    DWORD dw = GetLastError();
+
+    FormatMessageA(
+        FORMAT_MESSAGE_ALLOCATE_BUFFER |
+        FORMAT_MESSAGE_FROM_SYSTEM |
+        FORMAT_MESSAGE_IGNORE_INSERTS,
+        NULL,
+        dw,
+        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+        (LPTSTR) &lpMsgBuf,
+        0, NULL
+    );
+
+    // Display the error message
+    lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, (lstrlen((LPCTSTR)lpMsgBuf) + lstrlen((LPCTSTR)lpszFunction) + 40) * sizeof(TCHAR));
+
+    StringCchPrintf((LPTSTR)lpDisplayBuf,
+        				LocalSize(lpDisplayBuf) / sizeof(TCHAR),
+        				TEXT("%s failed with error %d: %s"),
+        				lpszFunction,
+                        dw,
+                        lpMsgBuf);
+
+//    MessageBox(NULL, (LPCTSTR)lpDisplayBuf, TEXT("Error"), MB_OK);
+
+    string errorMsg = string((LPCTSTR)lpDisplayBuf);
+    LocalFree(lpMsgBuf);
+    LocalFree(lpDisplayBuf);
+    return errorMsg;
 }
 
 #else

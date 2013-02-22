@@ -11,7 +11,6 @@ using namespace std;
 using namespace UnitTest;
 using namespace ls;
 using namespace rr_c_api;
-
 using rr::JoinPath;
 using rr::FileExists;
 
@@ -27,11 +26,11 @@ SUITE(TEST_MODEL_1)
 string TestDataFileName 	= "Test_1.dat";
 IniFile iniFile;
 string TestModelFileName;
-RRHandle gRR;
+RRHandle gRR = NULL;
 
 	TEST(DATA_FILES)
 	{
-    	gRR = createRRInstance();
+    	gRR 						= createRRInstance(gTempFolder.c_str());
 		gTestDataFolder 			= JoinPath(gRRInstallFolder, "testing");
 		string testDataFileName 	= JoinPath(gTestDataFolder, TestDataFileName);
 		clog<<"Checking file: "<<testDataFileName<<endl;
@@ -116,9 +115,9 @@ RRHandle gRR;
 
 	TEST(COMPUTE_STEADY_STATE)
 	{
-		double *val;
-		CHECK( steadyState(gRR, val));
-		CHECK_CLOSE(0, *val, 1e-6);
+		double val;
+		CHECK( steadyState(gRR, &val));
+		CHECK_CLOSE(0, val, 1e-6);
 	}
 
 	TEST(SPECIES_CONCENTRATIONS)
@@ -137,16 +136,16 @@ RRHandle gRR;
 		{
 			rrIniKey *aKey = aSection->GetKey(i);
 
-			double *val;
+			double val;
 
 			//API Function getValue
-			if(!getValue(gRR, aKey->mKey.c_str(), val))
+			if(!getValue(gRR, aKey->mKey.c_str(), &val))
 			{
 				CHECK(false);
 			}
 
 			//Check concentrations
-			CHECK_CLOSE(aKey->AsFloat(), *val, 1e-6);
+			CHECK_CLOSE(aKey->AsFloat(), val, 1e-6);
 			clog<<"\n";
 			clog<<"Ref:\t"<<aKey->AsFloat()<<"\tActual:\t "<<val<<endl;
 		}
@@ -192,7 +191,7 @@ RRHandle gRR;
             return;
         }
 
-        RRMatrixHandle 		jActual 	= getFullJacobian();
+        RRMatrixHandle 		jActual 	= getFullJacobian(gRR);
         ls::DoubleMatrix 	jRef 		= ParseFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions
@@ -243,7 +242,7 @@ RRHandle gRR;
 
     TEST(GET_EIGENVALUE_MATRIX)
     {
-        RRHandle gRR = createRRInstance();
+//        RRHandle gRR = createRRInstance();
         CHECK(gRR!=NULL);
 
         setComputeAndAssignConservationLaws(gRR, true);
@@ -259,7 +258,7 @@ RRHandle gRR;
 
         ls::DoubleMatrix 	ref = ParseFromText(aSection->GetNonKeysAsString());
 
-        RRMatrixHandle matrix = getEigenvalues();
+        RRMatrixHandle matrix = getEigenvalues(gRR);
         if(!matrix)
         {
             CHECK(false);
@@ -309,7 +308,7 @@ RRHandle gRR;
 
        ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
 
-        RRMatrixHandle matrix = getStoichiometryMatrix();
+        RRMatrixHandle matrix = getStoichiometryMatrix(gRR);
         if(!matrix)
         {
             CHECK(false);
@@ -356,7 +355,7 @@ RRHandle gRR;
 
        ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
 
-        RRMatrixHandle matrix = getLinkMatrix();
+        RRMatrixHandle matrix = getLinkMatrix(gRR);
         if(!matrix)
         {
             CHECK(false);
@@ -403,7 +402,7 @@ RRHandle gRR;
 
        ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
 
-        RRMatrixHandle matrix = getUnscaledElasticityMatrix();
+        RRMatrixHandle matrix = getUnscaledElasticityMatrix(gRR);
         if(!matrix)
         {
             CHECK(false);
@@ -452,7 +451,7 @@ RRHandle gRR;
 
         double test;
         steadyState(gRR, &test);
-        RRMatrixHandle matrix = getScaledElasticityMatrix();
+        RRMatrixHandle matrix = getScaledElasticityMatrix(gRR);
         if(!matrix)
         {
             CHECK(false);
@@ -500,7 +499,7 @@ RRHandle gRR;
 
         ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
 
-        RRMatrixHandle matrix = getUnscaledConcentrationControlCoefficientMatrix();
+        RRMatrixHandle matrix = getUnscaledConcentrationControlCoefficientMatrix(gRR);
         if(!matrix)
         {
             CHECK(false);
@@ -548,7 +547,7 @@ RRHandle gRR;
 
         ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
 
-        RRMatrixHandle matrix = getScaledConcentrationControlCoefficientMatrix();
+        RRMatrixHandle matrix = getScaledConcentrationControlCoefficientMatrix(gRR);
         if(!matrix)
         {
             CHECK(false);
@@ -596,7 +595,7 @@ RRHandle gRR;
 
         ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
 
-        RRMatrixHandle matrix = getUnscaledFluxControlCoefficientMatrix();
+        RRMatrixHandle matrix = getUnscaledFluxControlCoefficientMatrix(gRR);
         if(!matrix)
         {
             CHECK(false);
@@ -644,7 +643,7 @@ RRHandle gRR;
 
         ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
 
-        RRMatrixHandle matrix = getScaledFluxControlCoefficientMatrix();
+        RRMatrixHandle matrix = getScaledFluxControlCoefficientMatrix(gRR);
         if(!matrix)
         {
             CHECK(false);
@@ -692,7 +691,7 @@ RRHandle gRR;
             return;
         }
 
-        RRStringArrayHandle list = getFloatingSpeciesIds();
+        RRStringArrayHandle list = getFloatingSpeciesIds(gRR);
 
         if(!list)
         {
@@ -723,7 +722,7 @@ RRHandle gRR;
             return;
         }
 
-        RRStringArrayHandle list = getBoundarySpeciesIds();
+        RRStringArrayHandle list = getBoundarySpeciesIds(gRR);
 
         if(!list)
         {
@@ -754,7 +753,7 @@ RRHandle gRR;
             return;
         }
 
-        RRStringArrayHandle list = getGlobalParameterIds();
+        RRStringArrayHandle list = getGlobalParameterIds(gRR);
 
         if(!list)
         {
@@ -785,7 +784,7 @@ RRHandle gRR;
             return;
         }
 
-        RRStringArrayHandle list = getCompartmentIds();
+        RRStringArrayHandle list = getCompartmentIds(gRR);
 
         if(!list)
         {
@@ -816,7 +815,7 @@ RRHandle gRR;
             return;
         }
 
-        RRStringArrayHandle list = getReactionIds();
+        RRStringArrayHandle list = getReactionIds(gRR);
 
         if(!list)
         {
@@ -847,7 +846,7 @@ RRHandle gRR;
             return;
         }
 
-        RRStringArrayHandle list = getFloatingSpeciesInitialConditionIds();
+        RRStringArrayHandle list = getFloatingSpeciesInitialConditionIds(gRR);
 
         if(!list)
         {
@@ -878,7 +877,7 @@ RRHandle gRR;
             return;
         }
 
-        RRStringArrayHandle list = getEigenvalueIds();
+        RRStringArrayHandle list = getEigenvalueIds(gRR);
 
         if(!list)
         {
@@ -909,7 +908,7 @@ RRHandle gRR;
             return;
         }
 
-        RRStringArrayHandle list = getRatesOfChangeIds();
+        RRStringArrayHandle list = getRatesOfChangeIds(gRR);
 
         if(!list)
         {
@@ -1019,7 +1018,7 @@ RRHandle gRR;
             return;
         }
 
-        RRStringArrayHandle list = getTimeCourseSelectionList();
+        RRStringArrayHandle list = getTimeCourseSelectionList(gRR);
 
         if(!list)
         {
@@ -1043,7 +1042,7 @@ RRHandle gRR;
             return;
         }
 
-        RRVector* values = computeSteadyStateValues();
+        RRVector* values = computeSteadyStateValues(gRR);
 
         if(!values || values->Count != aSection->KeyCount())
         {
@@ -1075,7 +1074,7 @@ RRHandle gRR;
             return;
         }
 
-        RRVector* values = getFloatingSpeciesConcentrations();
+        RRVector* values = getFloatingSpeciesConcentrations(gRR);
 
         if(!values || values->Count != aSection->KeyCount())
         {
@@ -1107,7 +1106,7 @@ RRHandle gRR;
             return;
         }
 
-        RRVector* values = getBoundarySpeciesConcentrations();
+        RRVector* values = getBoundarySpeciesConcentrations(gRR);
 
         if(!values || values->Count != aSection->KeyCount())
         {
@@ -1146,7 +1145,7 @@ RRHandle gRR;
             return;
         }
 
-        RRVector* values = getGlobalParameterValues();
+        RRVector* values = getGlobalParameterValues(gRR);
 
         vector<string> refList = SplitString(aKey->mValue," ,");
 
@@ -1166,7 +1165,7 @@ RRHandle gRR;
         }
     }
 
-        TEST(GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS)
+    TEST(GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS)
     {
 //        gRR = getRRInstance();
         CHECK(gRR!=NULL);
@@ -1186,7 +1185,7 @@ RRHandle gRR;
             return;
         }
 
-        RRVector* values = getFloatingSpeciesInitialConcentrations();
+        RRVector* values = getFloatingSpeciesInitialConcentrations(gRR);
 
         vector<string> refList = SplitString(aKey->mValue," ,");
 
@@ -1206,7 +1205,7 @@ RRHandle gRR;
         }
     }
 
-        TEST(GET_REACTION_RATES)
+    TEST(GET_REACTION_RATES)
     {
 //        gRR = getRRInstance();
         CHECK(gRR!=NULL);
@@ -1226,7 +1225,7 @@ RRHandle gRR;
             return;
         }
 
-        RRVector* values = getReactionRates();
+        RRVector* values = getReactionRates(gRR);
 
         vector<string> refList = SplitString(aKey->mValue," ,");
 
@@ -1246,7 +1245,7 @@ RRHandle gRR;
         }
     }
 
-        TEST(GET_REACTION_RATE_BY_INDEX)
+    TEST(GET_REACTION_RATE_BY_INDEX)
     {
 //        gRR = getRRInstance();
         CHECK(gRR!=NULL);
@@ -1268,7 +1267,7 @@ RRHandle gRR;
 
         vector<string> refList = SplitString(aKey->mValue," ,");
 
-        if(refList.size() != getNumberOfReactions())
+        if(refList.size() != getNumberOfReactions(gRR))
         {
             CHECK(false);
             return;
@@ -1277,7 +1276,7 @@ RRHandle gRR;
         for(int i = 0 ; i < refList.size(); i++)
         {
             double value;
-              if(!getReactionRate(i, &value))
+              if(!getReactionRate(gRR, i, &value))
               {
                 CHECK(false);
               }
@@ -1289,7 +1288,7 @@ RRHandle gRR;
         }
     }
 
-        TEST(NUMBER_OF_DEPENDENT_SPECIES)
+    TEST(NUMBER_OF_DEPENDENT_SPECIES)
     {
         rrIniSection* aSection = iniFile.GetSection("Number of Dependent Species");
         if(!aSection)
@@ -1304,12 +1303,12 @@ RRHandle gRR;
           }
 
           rrIniKey *aKey = aSection->GetKey(0);
-          int val = getNumberOfDependentSpecies();
+          int val = getNumberOfDependentSpecies(gRR);
 
           CHECK(aKey->AsInt() ==  val);
     }
 
-        TEST(NUMBER_OF_INDEPENDENT_SPECIES)
+    TEST(NUMBER_OF_INDEPENDENT_SPECIES)
     {
         rrIniSection* aSection = iniFile.GetSection("Number of Independent Species");
         if(!aSection)
@@ -1324,7 +1323,7 @@ RRHandle gRR;
           }
 
           rrIniKey *aKey = aSection->GetKey(0);
-          int val = getNumberOfIndependentSpecies();
+          int val = getNumberOfIndependentSpecies(gRR);
 
           CHECK(aKey->AsInt() ==  val);
     }
@@ -1344,12 +1343,12 @@ RRHandle gRR;
           }
 
           rrIniKey *aKey = aSection->GetKey(0);
-          int val = getNumberOfRules();
+          int val = getNumberOfRules(gRR);
 
           CHECK(aKey->AsInt() ==  val);
     }
 
-        TEST(GET_RATES_OF_CHANGE)
+	TEST(GET_RATES_OF_CHANGE)
     {
 //        gRR = getRRInstance();
         CHECK(gRR!=NULL);
@@ -1369,7 +1368,7 @@ RRHandle gRR;
             return;
         }
 
-        RRVector* values = getRatesOfChange();
+        RRVector* values = getRatesOfChange(gRR);
 
         vector<string> refList = SplitString(aKey->mValue," ,");
 
@@ -1388,7 +1387,7 @@ RRHandle gRR;
         }
     }
 
-        TEST(GET_REACTION_RATES_EX)
+    TEST(GET_REACTION_RATES_EX)
     {
 //        gRR = getRRInstance();
         CHECK(gRR!=NULL);
@@ -1425,7 +1424,7 @@ RRHandle gRR;
             aVector->Data[i] = ToDouble(concList[i]);
           }
 
-        RRVector* values = getReactionRatesEx(aVector);
+        RRVector* values = getReactionRatesEx(gRR, aVector);
 
 
         if(!values || values->Count != refList.size())
@@ -1443,7 +1442,7 @@ RRHandle gRR;
         }
     }
 
-        TEST(GET_RATES_OF_CHANGE_EX)
+    TEST(GET_RATES_OF_CHANGE_EX)
     {
 //        gRR = getRRInstance();
         CHECK(gRR!=NULL);
@@ -1480,7 +1479,7 @@ RRHandle gRR;
             aVector->Data[i] = ToDouble(concList[i]);
           }
 
-        RRVector* values = getRatesOfChangeEx(aVector);
+        RRVector* values = getRatesOfChangeEx(gRR, aVector);
 
 
         if(!values || values->Count != refList.size())
@@ -1498,7 +1497,7 @@ RRHandle gRR;
         }
     }
 
-        TEST(GET_RATE_OF_CHANGE_BY_INDEX)
+    TEST(GET_RATE_OF_CHANGE_BY_INDEX)
     {
 //        gRR = getRRInstance();
         CHECK(gRR!=NULL);
@@ -1538,7 +1537,7 @@ RRHandle gRR;
         for(int i = 0 ; i < refList.size(); i++)
         {
             double value;
-              if(!getRateOfChange(i, &value))
+              if(!getRateOfChange(gRR, i, &value))
               {
                 CHECK(false);
               }
@@ -1548,6 +1547,11 @@ RRHandle gRR;
             clog<<"\n";
             clog<<"Ref:\t"<<ToDouble(refList[i])<<"\tActual:\t "<<value<<endl;
         }
+    }
+
+    TEST(FREE_RR_INSTANCE)
+    {
+        CHECK(freeRRInstance(gRR));
     }
 
 }

@@ -15,7 +15,7 @@ int main()
    	char  buf[2048];
 	printf("Starting C program...\n");
 
-    rrs = createRRHandles(handleCount);
+    rrs = createRRInstances(handleCount);
 
     if(!rrs)
     {
