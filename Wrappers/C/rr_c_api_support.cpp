@@ -17,6 +17,7 @@ const char* ALLOCATE_API_ERROR_MSG 		= "Allocate a handle to the roadrunner API 
 const char* INVALID_HANDLE_ERROR_MSG 	= "The HANDLE passed to this function was invalid";
 char* 		gLastError      			= NULL;
 char* 		gInstallFolder 				= NULL;
+
 RoadRunner* castFrom(RRHandle CHandle)
 {
 	RoadRunner* handle = (RoadRunner*) CHandle;
@@ -54,11 +55,6 @@ void setError(const string& err)
 
     gLastError = createText(err);
 }
-
-//char* createText(const char* str)
-//{
-//	return createText( std::string(str) );
-//}
 
 char* createText(const string& str)
 {

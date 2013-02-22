@@ -29,7 +29,7 @@ SUITE(SBML_l2v4)
 	{
         if(!gRR)
         {
-	            gRR = createRRInstance(gTempFolder.c_str());
+	            gRR = createRRInstanceE(gTempFolder.c_str());
         }
 
         CHECK(gRR!=NULL);	//If gRR == NULL this is a fail
@@ -1039,7 +1039,7 @@ bool RunTest(const string& version, int caseNumber)
     }
 
     //Create instance..
-    gRR = createRRInstance(JoinPath(gTempFolder, "TS").c_str());
+    gRR = createRRInstanceE(JoinPath(gTempFolder, "TS").c_str());
 
     if(gDebug && gRR)
     {

@@ -5,27 +5,27 @@
 import sys
 import os
 from ctypes import *
-from numpy import *
+#from numpy import *
 
 os.chdir(os.path.dirname(__file__))
 sharedLib=''
 
-handle=None
+shLibHandle=None
 libHandle=None
 if sys.platform.startswith('win32'):
     rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'bin'))
     os.environ['PATH'] = rrInstallFolder + ';' + "c:\\Python27" + ';' + "c:\\Python27\\Lib\\site-packages" + ';' + os.environ['PATH']
-    sharedLib=os.path.join(rrInstallFolder,'rr_c_api.dll')    
+    sharedLib=os.path.join(rrInstallFolder,'rr_c_api.dll')
     libHandle=windll.kernel32.LoadLibraryA(sharedLib)
     handle = WinDLL (None, handle=libHandle)
-    
+
 else:
-    rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'lib'))        
-    sharedLib=os.path.join(rrInstallFolder,'librr_c_api.so')        
+    rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'lib'))
+    sharedLib=os.path.join(rrInstallFolder,'librr_c_api.so')
     libHandle=cdll.LoadLibrary(sharedLib)
     handle = libHandle
 
- 
+
 ##\mainpage notitle
 #\section Introduction
 #RoadRunner is a high performance and portable simulation engine for systems and synthetic biology. To run a simple SBML model and generate time series data we would call:
@@ -113,12 +113,10 @@ else:
 #=======================rr_c_api=======================#
 charptr = POINTER(c_char)
 
-handle.getRRInstance.restype = c_void_p
+handle.createRRInstance.restype = c_void_p
 
-
-#handle.setInstallFolder("/home/totte/rrInstall")
-
-rr = handle.getRRInstance()
+#===== The Python API allocate an internal global handle to ONE instance of the Roadrunner API
+gHandle = handle.createRRInstance()
 
 # Utility and informational methods
 handle.getInfo.restype = c_char_p
@@ -162,7 +160,7 @@ handle.getCompartmentByIndex.restype = c_bool
 handle.setCompartmentByIndex.restype = c_bool
 
 # Logging
-handle.enableLogging.restype = c_bool
+#handle.enableLogging.restype = c_bool
 handle.setLogLevel.restype = c_bool
 handle.getLogLevel.restype = c_char_p
 handle.getLogFileName.restype = c_char_p
@@ -390,7 +388,7 @@ def getInfo():
 ##\brief Retrieve the current version number of the library
 #\return char* version - Returns null if it fails, otherwise it returns the version number of the library
 def getVersion():
-    return handle.getVersion()
+    return handle.getVersion(gHandle)
 
 ##\brief Retrieve the current build date of the library
 #\return Returns null if it fails, otherwise it returns the build date
@@ -409,8 +407,10 @@ def getBuildDateTime():
 
 ##\brief Retrieve the current copyright notice for the library
 #\return Returns null if it fails, otherwise it returns the copyright string
-def getCopyright():
-    return handle.getCopyright()
+def getCopyright(handle = None):
+    if handle is None:
+        handle = gHandle
+    return handle.getCopyright(handle)
 
 ##\brief Sets the write location for the temporary file
 #

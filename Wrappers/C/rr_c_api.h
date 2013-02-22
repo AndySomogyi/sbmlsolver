@@ -60,7 +60,8 @@ extern "C"
 // \return Returns a RoadRunner instance, returns null if it fails
 // \ingroup initialization
 //*/
-C_DECL_SPEC RRHandle rrCallConv createRRInstance(const char* tempFolder);
+C_DECL_SPEC RRHandle rrCallConv createRRInstance();
+C_DECL_SPEC RRHandle rrCallConv createRRInstanceE(const char* tempFolder);
 
 ///*!
 // \brief Initialize new roadRunner instances and return a handle to them.
@@ -143,7 +144,7 @@ C_DECL_SPEC char* rrCallConv getlibSBMLVersion(RRHandle handle);
  generated C source code. This method can be used to set the temporary folder path if necessary.
 
  \return Returns true if succesful
- \ingroup utility
+ \ingroup utility                                                 onsole
 */
 C_DECL_SPEC bool rrCallConv setTempFolder(RRHandle handle, const char* folder);
 
@@ -362,8 +363,7 @@ C_DECL_SPEC bool rrCallConv setComputeAndAssignConservationLaws(RRHandle handle,
  \return Returns true if sucessful
  \ingroup loadsave
 */
-//C_DECL_SPEC bool rrCallConv loadSBML(const char* sbml);
-C_DECL_SPEC bool rrCallConv loadModel(RRHandle handle, const char* sbml);
+C_DECL_SPEC bool rrCallConv loadSBML(RRHandle handle, const char* sbml);
 
 /*!
  \brief Load a model from a SBML file
@@ -372,7 +372,7 @@ C_DECL_SPEC bool rrCallConv loadModel(RRHandle handle, const char* sbml);
  \ingroup loadsave
 */
 //C_DECL_SPEC bool rrCallConv loadSBMLFromFile(const char* fileName);
-C_DECL_SPEC bool rrCallConv loadModelFromFile(RRHandle handle, const char* fileName);
+C_DECL_SPEC bool rrCallConv loadSBMLFromFile(RRHandle handle, const char* fileName);
 
 /*!
  \brief Load a model from a SBML file into a set of RoadRunner instances
@@ -381,7 +381,7 @@ C_DECL_SPEC bool rrCallConv loadModelFromFile(RRHandle handle, const char* fileN
  \return Returns a handle to the ThreadPool if succesful, otherwise returns NULL
  \ingroup multiThreading
 */
-C_DECL_SPEC TPHandle rrCallConv loadModelFromFileTP(RRInstanceListHandle rrHandles, const char* fileName, int nrOfThreads);
+C_DECL_SPEC TPHandle rrCallConv loadSBMLFromFileTP(RRInstanceListHandle rrHandles, const char* fileName, int nrOfThreads);
 
 /*!
  \brief Wait for jobs in thread pool to finish
@@ -597,7 +597,7 @@ C_DECL_SPEC RRResultHandle rrCallConv simulateEx(RRHandle handle, const double t
  \return Returns true if successful
  \ingroup simulation
 */
-C_DECL_SPEC bool rrCallConv oneStep(RRHandle handle, const double currentTime, const double stepSize, double value);
+C_DECL_SPEC bool rrCallConv oneStep(RRHandle handle, const double currentTime, const double stepSize, double *value);
 
 /*!
  \brief Get the value of the current time start
