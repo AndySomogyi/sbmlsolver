@@ -32,7 +32,7 @@ bool SBMLTestSuiteSimulation_CAPI::LoadSBMLFromFile()
     	return false;
     }
 
-    return loadModelFromFile(mRRHandle, GetModelsFullFilePath().c_str());
+    return loadSBMLFromFile(mRRHandle, GetModelsFullFilePath().c_str());
 }
 
 bool SBMLTestSuiteSimulation_CAPI::LoadSettings(const string& settingsFName)

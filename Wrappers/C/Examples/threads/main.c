@@ -36,7 +36,7 @@ int main()
    	enableLoggingToFile(rrs->Handle[0]);
 
 	//loadSBML models in threads instead
-    tpHandle = loadModelFromFileTP(rrs, modelFileName, threadCount);
+    tpHandle = loadSBMLFromFileTP(rrs, modelFileName, threadCount);
 
     //waitForJobs will block until all threads have finished
 	//Instead, one can could check for activeJobs, i.e. non blocking (see below)

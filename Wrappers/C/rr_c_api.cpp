@@ -802,7 +802,6 @@ bool rrCallConv getTimeStart(RRHandle handle, double* timeStart)
   	return false;
 }
 
-
 bool rrCallConv getTimeEnd(RRHandle handle, double* timeEnd)
 {
 	try

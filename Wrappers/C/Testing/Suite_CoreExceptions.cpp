@@ -56,7 +56,7 @@ RRHandle gRR;
 
 	TEST(LOAD_SBML)
 	{
-		CHECK(loadModelFromFile(gRR, TestModelFileName.c_str()));
+		CHECK(loadSBMLFromFile(gRR, TestModelFileName.c_str()));
 	}
 
 	TEST(SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS)
