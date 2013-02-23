@@ -116,7 +116,9 @@ RRHandle rrCallConv createRRInstanceE(const char* tempFolder)
 #endif
 		if(tempFolder != NULL && !FileExists(tempFolder))
     	{
-    		throw(Exception("The temporary folder don't exist"));
+        	stringstream msg;
+            msg<<"The temporary folder: "<<tempFolder<<" do not exist";
+    		throw(Exception(msg.str()));
         }
         else if(tempFolder)
         {

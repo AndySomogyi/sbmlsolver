@@ -13,13 +13,13 @@ libHandle=None
 if sys.platform.startswith('win32'):
     rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'bin'))
     os.environ['PATH'] = rrInstallFolder + ';' + "c:\\Python27" + ';' + "c:\\Python27\\Lib\\site-packages" + ';' + os.environ['PATH']
-    sharedLib=os.path.join(rrInstallFolder,'rr_c_api.dll')
+    sharedLib=os.path.join(rrInstallFolder, 'rr_c_api.dll')
     libHandle=windll.kernel32.LoadLibraryA(sharedLib)
     rrLib = WinDLL (None, handle=libHandle)
 
 else:
     rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'lib'))
-    sharedLib=os.path.join(rrInstallFolder,'librr_c_api.so')
+    sharedLib=os.path.join(rrInstallFolder, 'librr_c_api.so')
     rrLib=cdll.LoadLibrary(sharedLib)
 
 
@@ -210,7 +210,7 @@ rrLib.setValue.restype = c_bool
 
 # MCA
 rrLib.getuCC.restype = c_bool
-rrLib.getuCC.argtypes = [c_char_p, c_char_p, c_void_p]
+#rrLib.getuCC.argtypes = [c_void_p, c_char_p, c_char_p, c_double)]
 rrLib.getCC.restype = c_bool
 rrLib.getEE.restype = c_bool
 rrLib.getuEE.restype = c_bool
@@ -249,7 +249,7 @@ rrLib.getFullJacobian.restype = c_void_p
 rrLib.getReducedJacobian.restype = c_void_p
 rrLib.getEigenvalues.restype = c_void_p
 rrLib.getEigenvaluesMatrix.restype = c_int
-rrLib.getEigenvaluesMatrix.argtypes = [c_int]
+#rrLib.getEigenvaluesMatrix.argtypes = [c_int]
 
 rrLib.getStoichiometryMatrix.restype = c_void_p
 rrLib.getLinkMatrix.restype = c_void_p
@@ -383,7 +383,7 @@ def getCCode():
 ##\brief Enables logging
 #\return Returns true if succesful
 def enableLogging():
-    return rrLib.enableLoggingToFile('RoadRunner.log')
+    return rrLib.enableLoggingToFile(gHandle)
 
 ##\brief Set the logging status level
 #The logging level is determined by the following strings
@@ -449,7 +449,7 @@ def freeRRInstance(iHandle):
 #\param OnOrOff Set to 1 to switch on conservation analysis, 0 to switch it off
 #\return Returns True if successful
 def setComputeAndAssignConservationLaws(OnOrOff):
-    return rrLib.setComputeAndAssignConservationLaws(gHandle,  (c_bool (OnOrOff)))
+    return rrLib.setComputeAndAssignConservationLaws(gHandle,  c_bool(OnOrOff))
 
 ##@}
 
@@ -515,7 +515,7 @@ def getCapabilities():
 #\param timeStart
 #\return Returns True if successful
 def setTimeStart(timeStart):
-    return rrLib.setTimeStart (gHandle, timeStart)
+    return rrLib.setTimeStart (gHandle, c_double(timeStart))
 
 ##\brief Sets the end time for the simulation
 #\param timeEnd
@@ -561,14 +561,14 @@ def simulate():
     #TODO: Check result
     rowCount = rrLib.getResultNumRows(result)
     colCount = rrLib.getResultNumCols(result)
-    resultArray = zeros((rowCount,colCount))
+    resultArray = zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 rvalue = m
                 cvalue = n
                 value = c_double()
                 if rrLib.getResultElement(result, rvalue, cvalue, pointer(value)) == True:
-                    resultArray[m,n] = value.value
+                    resultArray[m, n] = value.value
     rrLib.freeResult(result)
     return resultArray
 
@@ -578,25 +578,25 @@ def simulate():
 
 ##\brief Carry out a time-course simulation based on the given arguments
 #
-#Example: m = rrPython.simulateEx(0,25,200)
+#Example: m = rrPython.simulateEx(0, 25, 200)
 #
 #\return Returns a string containing the results of the simulation organized in rows and columns
-def simulateEx(timeStart,timeEnd,numberOfPoints):
+def simulateEx(timeStart, timeEnd, numberOfPoints):
     startValue = c_double(timeStart)
     endValue = c_double(timeEnd)
-    pointsValue = c_int(numberOfPoints)
-    result = rrLib.simulateEx(gHandle, byref(startValue),byref(endValue),byref(pointsValue))
+    nrPoints = c_int(numberOfPoints)
+    result = rrLib.simulateEx(gHandle, startValue, endValue, nrPoints)
     #TODO: Check result
     rowCount = rrLib.getResultNumRows(result)
     colCount = rrLib.getResultNumCols(result)
-    resultArray = zeros((rowCount,colCount))
+    resultArray = zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 value = c_double()
                 rvalue = m
                 cvalue = n
-                if rrLib.getResultElement(result, rvalue, cvalue, byref(value)) == True:
-                    resultArray[m,n] = value.value
+                if rrLib.getResultElement(result, rvalue, cvalue, pointer(value)) == True:
+                    resultArray[m, n] = value.value
     rrLib.freeResult(result)
     return resultArray;
 
@@ -613,7 +613,7 @@ def oneStep (currentTime, stepSize):                             #test this
     curtime = c_double(currentTime)
     stepValue = c_double(stepSize)
     value = c_double()
-    if rrLib.oneStep(gHandle, byref(curtime), byref(stepValue), byref(value)) == True:
+    if rrLib.oneStep(gHandle, (curtime), (stepValue), pointer(value)) == True:
         return value.value;
     else:
         raise RuntimeError('Index out of range')
@@ -625,7 +625,7 @@ def oneStep (currentTime, stepSize):                             #test this
 #\return Returns the simulation start time as a float
 def getTimeStart():
     value = c_double()
-    if rrLib.getTimeStart(gHandle, byref(value)) == True:
+    if rrLib.getTimeStart(gHandle, pointer(value)) == True:
         return value.value
     else:
         return ('Index out of Range')
@@ -637,7 +637,7 @@ def getTimeStart():
 #\return Returns the simulation end Time as a float
 def getTimeEnd():
     value = c_double()
-    if rrLib.getTimeEnd(gHandle, byref(value)) == True:
+    if rrLib.getTimeEnd(gHandle, pointer(value)) == True:
         return value.value
     else:
         return ('Index out of Range')
@@ -649,7 +649,7 @@ def getTimeEnd():
 #\return Returns the value of the number of points
 def getNumPoints():
     value = c_int()
-    if rrLib.getNumPoints(gHandle, byref(value)) == True:
+    if rrLib.getNumPoints(gHandle, pointer(value)) == True:
         return value.value
     else:
         return ('Index out of Range')
@@ -674,7 +674,7 @@ def reset():
 #\return Returns a value that is set during the call that indicates how close the solution is to the steady state. The smaller the value, the better.
 def steadyState():
     value = c_double()
-    if rrLib.steadyState(gHandle, byref(value)) == True:
+    if rrLib.steadyState(gHandle, pointer(value)) == True:
         return value.value
     else:
         return (GetLastError(gHandle))
@@ -685,7 +685,7 @@ def steadyState():
 #
 #\return Returns the vector of steady state values or NONE if an error occurred.
 def computeSteadyStateValues():
-    values = rrLib.computeSteadyStateValues()
+    values = rrLib.computeSteadyStateValues(gHandle)
     if values == None:
        raise RuntimeError(getLastError())
     return rrVectorToPythonArray (values)
@@ -729,7 +729,7 @@ def getSteadyStateSelectionList():
 #\return Returns the value if successful, otherwise returns False
 def getValue(symbolId):
     value = c_double()
-    if rrLib.getValue(gHandle, symbolId, byref(value)) == True:
+    if rrLib.getValue(gHandle, symbolId, pointer(value)) == True:
         return value.value
     else:
         raise RuntimeError(getLastError() + ': ' + symbolId)
@@ -743,13 +743,12 @@ def getValue(symbolId):
 #\return Returns True if successful
 def setValue(symbolId, value):
     value = c_double(value)
-    if rrLib.setValue(gHandle, symbolId, byref(value)) == True:
+    if rrLib.setValue(gHandle, symbolId, (value)) == True:
         return value.value;
     else:
         raise RuntimeError('Index out of range')
 
 ##@}
-
 
 ##\ingroup floating
 #@{
@@ -771,12 +770,7 @@ def getFloatingSpeciesConcentrations():
 #\param value The concentration of the species to set
 #\return Returns True if successful
 def setFloatingSpeciesByIndex(index, value):
-    value = c_double(value)
-    ivalue = c_int(index)
-    if rrLib.setFloatingSpeciesByIndex(gHandle, byref(ivalue), byref(value)) == True:
-        return value.value;
-    else:
-        raise RuntimeError('Index out of range')
+    return rrLib.setFloatingSpeciesByIndex(gHandle, c_int(index), c_double(value))
 
 ##\brief Returns the concentration of a floating species by its index. Species are indexed starting at 0.
 #
@@ -786,8 +780,7 @@ def setFloatingSpeciesByIndex(index, value):
 #\return Returns the concentration of the species if successful
 def getFloatingSpeciesByIndex(index):
     value = c_double()
-    ivalue = c_int(index)
-    if rrLib.getFloatingSpeciesByIndex(gHandle, byref(ivalue), byref(value)) == True:
+    if rrLib.getFloatingSpeciesByIndex(gHandle, c_int(index), pointer(value)) == True:
         return value.value;
     else:
         raise RuntimeError('Index out of range')
@@ -814,10 +807,8 @@ def setFloatingSpeciesConcentrations(myArray):
 #\param value The concentration of the species to set
 #\return Returns True if successful
 def setBoundarySpeciesByIndex(index, value):
-    value = c_double(value)
-    ivalue = c_int(index)
-    if rrLib.setBoundarySpeciesByIndex(gHandle, byref(ivalue), byref(value)) == True:
-        return value.value;
+    if rrLib.setBoundarySpeciesByIndex(gHandle, c_int(index), c_double(value)) == True:
+        return True
     else:
         raise RuntimeError('Index out of range')
 
@@ -829,8 +820,7 @@ def setBoundarySpeciesByIndex(index, value):
 #\return Returns the concentration of the species if successful
 def getBoundarySpeciesByIndex(index):
     value = c_double()
-    ivalue = c_int(index)
-    if rrLib.getBoundarySpeciesByIndex(gHandle, byref(ivalue), byref(value)) == True:
+    if rrLib.getBoundarySpeciesByIndex(gHandle, (index), pointer(value)) == True:
         return value.value;
     else:
         raise RuntimeError('Index out of range')
@@ -844,7 +834,7 @@ def setBoundarySpeciesConcentrations(vector):
 ##\brief Returns a string with boundary species concentrations
 #\return Returns the concentration of species if successful
 def getBoundarySpeciesConcentrations():
-    values = rrLib.getBoundarySpeciesConcentrations()
+    values = rrLib.getBoundarySpeciesConcentrations(gHandle)
     return rrVectorToPythonArray (values)
 
 ##@}
@@ -869,10 +859,8 @@ def getGlobalParameterValues():
 #\param value The value of the global parameter to set
 #\return Returns True if successful
 def setGlobalParameterByIndex(index, value):
-    value = c_double(value)
-    ivalue = c_int(index)
-    if rrLib.setGlobalParameterByIndex(byref(ivalue), byref(value)) == True:
-        return value.value;
+    if rrLib.setGlobalParameterByIndex(gHandle, c_int(index), c_double(value)) == True:
+        return True;
     else:
         raise RuntimeError('Index out of range')
 
@@ -884,8 +872,7 @@ def setGlobalParameterByIndex(index, value):
 #\return Returns the value of the global parameter if successful
 def getGlobalParameterByIndex(index):
     value = c_double()
-    ivalue = c_int(index)
-    if rrLib.getGlobalParameterByIndex(byref(ivalue), byref(value)) == True:
+    if rrLib.getGlobalParameterByIndex(gHandle, c_int(index), pointer(value)) == True:
         return value.value;
     else:
         raise RuntimeError('Index out of Range')
@@ -903,8 +890,7 @@ def getGlobalParameterByIndex(index):
 #\return Returns the volume of the compartment if successful
 def getCompartmentByIndex(index):
     value = c_double()
-    ivalue = c_int(index)
-    if rrLib.getCompartmentByIndex(byref(ivalue), byref(value)) == True:
+    if rrLib.getCompartmentByIndex(gHandle, c_int(index), pointer(value)) == True:
         return value.value;
     else:
         raise RuntimeError('Index out of Range')
@@ -917,10 +903,8 @@ def getCompartmentByIndex(index):
 #\param value The volume of the compartment to set
 #\return Returns True if Successful
 def setCompartmentByIndex(index, value):
-    value = c_double(value)
-    ivalue = c_int(index)
-    if rrLib.setCompartmentByIndex(byref(ivalue), byref(value)) == True:
-        return value.value;
+    if rrLib.setCompartmentByIndex(gHandle, c_int(index), c_double(value)) == True:
+        return True
     else:
         raise RuntimeError('Index out of range')
 
@@ -938,14 +922,14 @@ def getFullJacobian():
     rowCount = rrLib.getMatrixNumRows(matrix)
     colCount = rrLib.getMatrixNumCols(matrix)
     result = rrLib.matrixToString(matrix)
-    matrixArray = zeros((rowCount,colCount))
+    matrixArray = zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
             value = c_double()
             rvalue = m
             cvalue = n
-            if rrLib.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
-               matrixArray[m,n] = value.value
+            if rrLib.getMatrixElement(matrix, rvalue, cvalue, pointer(value)) == True:
+               matrixArray[m, n] = value.value
     rrLib.freeMatrix(matrix)
     return matrixArray
 
@@ -957,14 +941,14 @@ def getReducedJacobian():
        return 0
     rowCount = rrLib.getMatrixNumRows(matrix)
     colCount = rrLib.getMatrixNumCols(matrix)
-    matrixArray = zeros((rowCount,colCount))
+    matrixArray = zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 value = c_double()
                 rvalue = m
                 cvalue = n
-                if rrLib.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
-                    matrixArray[m,n] = value.value
+                if rrLib.getMatrixElement(matrix, rvalue, cvalue, pointer(value)) == True:
+                    matrixArray[m, n] = value.value
     return matrixArray
 
 def getEigenvaluesMatrix (m):
@@ -974,14 +958,14 @@ def getEigenvaluesMatrix (m):
        return 0
     rowCount = rrLib.getMatrixNumRows(matrix)
     colCount = rrLib.getMatrixNumCols(matrix)
-    matrixArray = zeros((rowCount,colCount))
+    matrixArray = zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 value = c_double()
                 rvalue = m
                 cvalue = n
-                if rrLib.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
-                    matrixArray[m,n] = value.value
+                if rrLib.getMatrixElement(matrix, rvalue, cvalue, pointer(value)) == True:
+                    matrixArray[m, n] = value.value
     return matrixArray
 
 
@@ -997,14 +981,14 @@ def getEigenvalues():
 #    print c_char_p(result).value
 #    rrLib.freeText(result)
 
-    matrixArray = zeros((rowCount,colCount))
+    matrixArray = zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 value = c_double()
                 rvalue = m
                 cvalue = n
-                if rrLib.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
-                    matrixArray[m,n] = value.value
+                if rrLib.getMatrixElement(matrix, rvalue, cvalue, pointer(value)) == True:
+                    matrixArray[m, n] = value.value
 
     rrLib.freeMatrix(matrix)
     return matrixArray
@@ -1017,14 +1001,14 @@ def getStoichiometryMatrix():
        return 0
     rowCount = rrLib.getMatrixNumRows(matrix)
     colCount = rrLib.getMatrixNumCols(matrix)
-    matrixArray = zeros((rowCount,colCount))
+    matrixArray = zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 value = c_double()
                 rvalue = m
                 cvalue = n
-                if rrLib.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
-                    matrixArray[m,n] = value.value
+                if rrLib.getMatrixElement(matrix, rvalue, cvalue, pointer(value)) == True:
+                    matrixArray[m, n] = value.value
     rrLib.freeMatrix(matrix)
     return matrixArray
 
@@ -1038,14 +1022,14 @@ def getLinkMatrix():
     rowCount = rrLib.getMatrixNumRows(matrix)
     colCount = rrLib.getMatrixNumCols(matrix)
     #result = rrLib.matrixToString(matrix)
-    matrixArray = zeros((rowCount,colCount))
+    matrixArray = zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 value = c_double()
                 rvalue = m
                 cvalue = n
-                if rrLib.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
-                    matrixArray[m,n] = value.value
+                if rrLib.getMatrixElement(matrix, rvalue, cvalue, pointer(value)) == True:
+                    matrixArray[m, n] = value.value
     rrLib.freeMatrix(matrix)
     return matrixArray
 
@@ -1058,14 +1042,14 @@ def getNrMatrix():
     rowCount = rrLib.getMatrixNumRows(matrix)
     colCount = rrLib.getMatrixNumCols(matrix)
     result = rrLib.matrixToString(matrix)
-    matrixArray = zeros((rowCount,colCount))
+    matrixArray = zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 value = c_double()
                 rvalue = m
                 cvalue = n
-                if rrLib.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
-                    matrixArray[m,n] = value.value
+                if rrLib.getMatrixElement(matrix, rvalue, cvalue, pointer(value)) == True:
+                    matrixArray[m, n] = value.value
     rrLib.freeMatrix(result)
     return matrixArray
 
@@ -1079,14 +1063,14 @@ def getL0Matrix():
     rowCount = rrLib.getMatrixNumRows(matrix)
     colCount = rrLib.getMatrixNumCols(matrix)
     result = rrLib.matrixToString(matrix)
-    matrixArray = zeros((rowCount,colCount))
+    matrixArray = zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 value = c_double()
                 rvalue = m
                 cvalue = n
-                if rrLib.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
-                    matrixArray[m,n] = value.value
+                if rrLib.getMatrixElement(matrix, rvalue, cvalue, pointer(value)) == True:
+                    matrixArray[m, n] = value.value
     rrLib.freeMatrix(result)
     return matrixArray
 
@@ -1098,14 +1082,14 @@ def getConservationMatrix():
        return 0
     rowCount = rrLib.getMatrixNumRows(matrix)
     colCount = rrLib.getMatrixNumCols(matrix)
-    matrixArray = zeros((rowCount,colCount))
+    matrixArray = zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 value = c_double()
                 rvalue = m
                 cvalue = n
-                if rrLib.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
-                    matrixArray[m,n] = value.value
+                if rrLib.getMatrixElement(matrix, rvalue, cvalue, pointer(value)) == True:
+                    matrixArray[m, n] = value.value
     rrLib.freeMatrix(matrix)
     return matrixArray
 
@@ -1160,9 +1144,8 @@ def getNumberOfReactions():
 ##\brief Returns the reaction rate by index
 #\return Returns the reaction rate
 def getReactionRate(index):
-    ivalue = c_int(index)
     value = c_double()
-    if rrLib.getReactionRate(byref(ivalue), byref(value)) == True:
+    if rrLib.getReactionRate(gHandle, c_int(index), pointer(value)) == True:
         return value.value
     else:
         raise RuntimeError(getLastError())
@@ -1179,7 +1162,7 @@ def getReactionRates():
 #\param myArray The numPy array of floating species concentrations
 #\return Returns a numPy array containing reaction rates
 def getReactionRatesEx(myArray):
-    values = rrLib.getReactionRatesEx(PythonArrayTorrVector (myArray))
+    values = rrLib.getReactionRatesEx(gHandle, PythonArrayTorrVector (myArray))
     return rrVectorToPythonArray (values)
 
 ##@}
@@ -1212,9 +1195,8 @@ def getRatesOfChangeIds():
 #\param Index to the rate of change item
 #\return Returns the rate of change of the ith floating species, otherwise it raises an exception
 def getRateOfChange(index):
-    ivalue = c_int(index)
     value = c_double()
-    if rrLib.getRateOfChange(byref(ivalue), byref(value)) == True:
+    if rrLib.getRateOfChange(gHandle, c_int(index), pointer(value)) == True:
         return value.value
     else:
         raise RuntimeError(getlastError())
@@ -1227,7 +1209,7 @@ def getRateOfChange(index):
 #\param myArray A numPy array of species concentrations: order given by getFloatingSpeciesIds
 #\return Returns a string containing a vector with the rates of change
 def getRatesOfChangeEx(myArray):
-    values = rrLib.getRatesOfChangeEx(PythonArrayTorrVector (myArray))
+    values = rrLib.getRatesOfChangeEx(gHandle, PythonArrayTorrVector (myArray))
     return rrVectorToPythonArray (values)
 
 ##@}
@@ -1489,7 +1471,7 @@ def getuCC(variable, parameter):
     variable = c_char_p(variable)
     parameter = c_char_p(parameter)
     value = c_double()
-    if rrLib.getuCC(variable, parameter, byref(value)) == True:
+    if rrLib.getuCC(gHandle, variable, parameter, pointer(value)) == True:
         return value.value;
     else:
         errStr = getLastError()
@@ -1504,7 +1486,7 @@ def getuCC(variable, parameter):
 #\return Returns a single control coefficient if successful
 def getCC(variable, parameter):
     value = c_double()
-    if rrLib.getCC(variable, parameter, byref(value)) == True:
+    if rrLib.getCC(gHandle, variable, parameter, pointer(value)) == True:
         return value.value;
     else:
         raise RuntimeError('Index out of range')
@@ -1517,7 +1499,7 @@ def getCC(variable, parameter):
 #\return Returns a single elasticity coefficient if successful
 def getEE(variable, parameter):
     value = c_double()
-    if rrLib.getEE(variable, parameter,  byref(value)) == True:
+    if rrLib.getEE(gHandle, variable, parameter,  pointer(value)) == True:
         return value.value;
     else:
         raise RuntimeError('Index out of range')
@@ -1531,7 +1513,7 @@ def getEE(variable, parameter):
 #\return
 def getuEE(name, species):
     value = c_double()
-    if rrLib.getuEE(name, species, byref(value)) == True:
+    if rrLib.getuEE(gHandle, name, species, pointer(value)) == True:
         return value.value;
     else:
         raise RuntimeError('Index out of range')
@@ -1542,7 +1524,7 @@ def getuEE(name, species):
 #\return
 def getScaledFloatingSpeciesElasticity(reactionName, speciesName):
     value = c_double()
-    if rrLib.getScaledFloatingSpeciesElasticity(reactionName, speciesName,  byref(value)) == True:
+    if rrLib.getScaledFloatingSpeciesElasticity(gHandle, reactionName, speciesName,  pointer(value)) == True:
         return value.value;
     else:
         raise RuntimeError('Index out of range')
@@ -1621,7 +1603,6 @@ def freeMatrix(matrix):
 def freeCCode(code):
     return rrLib.freeCCode(code)
 
-
 ##@}
 ##\brief Pause
 #\return void
@@ -1660,9 +1641,8 @@ def createVector(size):
 #\param value A pointer to the retrieved double value
 #\return Returns the vector element if successful
 def getVectorElement(vector, index):
-    ivalue = c_int(index)
     value = c_double()
-    if rrLib.getVectorElement(vector, ivalue, byref(value)) == True:
+    if rrLib.getVectorElement(vector, c_int(index), pointer(value)) == True:
         return value.value
     else:
         raise RuntimeError(getLastError())
@@ -1677,15 +1657,14 @@ def getVectorElement(vector, index):
 #\return Returns true if succesful
 def setVectorElement(vector, index, value):
     value = c_double(value)
-    ivalue = c_int(index)
-    if rrLib.setVectorElement(vector, byref(ivalue),  value) == True:
+    if rrLib.setVectorElement(vector, c_int(index),  value) == True:
         return value.value;
     else:
         raise RuntimeError('Index out of range')
 
 #def getStringListElement(stringList, index):
 #    value = c_int()
-#    if rrLib.getStringListElement(stringList, index, byref(value)) == True:
+#    if rrLib.getStringListElement(stringList, index, pointer(value)) == True:
 #        return value.value
 #    else:
 #        raise RuntimeError("Index out of range")
@@ -1721,7 +1700,7 @@ def getMatrixElement(matrix, row, column):
     value = c_double()
     rvalue = c_int(row)
     cvalue = c_int(column)
-    if rrLib.getMatrixElement(matrix, rvalue, cvalue, byref(value)) == True:
+    if rrLib.getMatrixElement(matrix, rvalue, cvalue, pointer(value)) == True:
         return value.value;
     else:
         raise RuntimeError('Index out of range')
@@ -1756,7 +1735,7 @@ def getResultElement(result, row, column):
     value = c_double()
     rvalue = c_int(row)
     cvalue = c_int(column)
-    if rrLib.getMatrixElement(result, rvalue, cvalue, byref(value)) == True:
+    if rrLib.getMatrixElement(result, rvalue, cvalue, pointer(value)) == True:
         return value.value;
     else:
         raise RuntimeError('Index out of range')
@@ -1781,8 +1760,8 @@ def getResultColumnLabel(result, column):
 #
 #\param code A rrLib for a string that stores the C code
 #\return Returns the header for the C code rrLib used as an argument
-def getCCodeHeader(code):
-    return rrLib.getCCodeHeader(code)
+def getCCodeHeader(codeHandle):
+    return rrLib.getCCodeHeader(codeHandle)
 
 ##\brief Retrieve the source file code for the current model (if applicable)
 #
@@ -1792,8 +1771,8 @@ def getCCodeHeader(code):
 #
 #\param code A rrLib for a string that stores the C code
 #\return Returns the source for the C code rrLib used as an argument
-def getCCodeSource():
-    return rrLib.getCCodeSource(gHandle)
+def getCCodeSource(codeHandle):
+    return rrLib.getCCodeSource(codeHandle)
 
 ##\brief Returns the number of elements in a string array
 #
@@ -1864,23 +1843,23 @@ def rrListToPythonList (values):
 def createMatrix (rrMatrix):
     rowCount = rrLib.getMatrixNumRows(rrMatrix)
     colCount = rrLib.getMatrixNumCols(rrMatrix)
-    matrixArray = zeros((rowCount,colCount))
+    matrixArray = zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
             value = c_double()
             rvalue = m
             cvalue = n
-            if rrLib.getMatrixElement(rrMatrix, rvalue, cvalue, byref(value)) == True:
-               matrixArray[m,n] = value.value
+            if rrLib.getMatrixElement(rrMatrix, rvalue, cvalue, pointer(value)) == True:
+               matrixArray[m, n] = value.value
     return matrixArray
 
 def createRRMatrix (marray):
     r = marray.shape[0]
     c = marray.shape[1]
-    rrm = rrLib.createRRMatrix (r,c)
+    rrm = rrLib.createRRMatrix (r, c)
     for i in range (c):
         for j in range (r):
-            rrLib.setMatrixElement (rrm, i, j, marray[i,j])
+            rrLib.setMatrixElement (rrm, i, j, marray[i, j])
     return rrm
 
 # ---------------------------------------------------------------------------------

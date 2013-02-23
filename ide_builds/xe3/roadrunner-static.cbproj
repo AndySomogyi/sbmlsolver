@@ -61,7 +61,7 @@
         <_TCHARMapping>char</_TCHARMapping>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
-        <IncludePath>R:\rrlROOT\trunk\source\;..\..\plugins\TestPlugin\;..\..\source\;..\..\source\mtrand\;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\plugins\TestPlugin\;..\..\source\;..\..\source\mtrand\;$(IncludePath)</IncludePath>
         <ILINK_LibraryPath>P:\mtk\Components\vtk\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <Multithreaded>true</Multithreaded>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>

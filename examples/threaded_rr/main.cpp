@@ -45,7 +45,6 @@ int main()
     Log(lInfo)<<"Hello";
     SimulateSBML SimulateSBML(&lRR, "..\\models\\test_1.xml");
 
-
     SimulateSBML.start();
 	while(SimulateSBML.isRunning())
     {

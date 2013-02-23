@@ -9,9 +9,6 @@
         <Projects Include="rr_cm.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\Wrappers\CM\examples\threads\rr_threads_1.cbproj">
-            <Dependencies>rr_cm.cbproj</Dependencies>
-        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -38,23 +35,14 @@
     <Target Name="rr_cm:Make">
         <MSBuild Projects="rr_cm.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="rr_threads_1" DependsOnTargets="rr_cm">
-        <MSBuild Projects="..\..\Wrappers\CM\examples\threads\rr_threads_1.cbproj"/>
-    </Target>
-    <Target Name="rr_threads_1:Clean" DependsOnTargets="rr_cm:Clean">
-        <MSBuild Projects="..\..\Wrappers\CM\examples\threads\rr_threads_1.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="rr_threads_1:Make" DependsOnTargets="rr_cm:Make">
-        <MSBuild Projects="..\..\Wrappers\CM\examples\threads\rr_threads_1.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="roadrunner-static;rr_cm;rr_threads_1"/>
+        <CallTarget Targets="roadrunner-static;rr_cm"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="roadrunner-static:Clean;rr_cm:Clean;rr_threads_1:Clean"/>
+        <CallTarget Targets="roadrunner-static:Clean;rr_cm:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="roadrunner-static:Make;rr_cm:Make;rr_threads_1:Make"/>
+        <CallTarget Targets="roadrunner-static:Make;rr_cm:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>
