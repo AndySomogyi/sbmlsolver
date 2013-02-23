@@ -488,8 +488,8 @@ def getSBML():
 #\param sArg The string containing SBML model to promote
 #\return Returns False if it fails, otherwise it returns the promoted SBML string
 def getParamPromotedSBML(sArg):
-    value = c_char_p(sArg)
-    if rrLib.getParamPromotedSBML(gHandle, byref(value)) == True:
+    value = c_char(sArg)
+    if rrLib.getParamPromotedSBML(gHandle, pointer(value)) == True:
         return value.value
     else:
         raise RuntimeError('Index out of range')
@@ -509,19 +509,19 @@ def setCapabilities(caps):
 ##\brief Returns simulator capabilities
 #\return Returns False if it fails, otherwise returns the simulator's capabilities in the form of an XML string
 def getCapabilities():
-    return rrLib.getCapabilities(gHandle, gHandle)
+    return rrLib.getCapabilities(gHandle)
 
 ##\brief Sets the start time for the simulation
 #\param timeStart
 #\return Returns True if successful
 def setTimeStart(timeStart):
-    return rrLib.setTimeStart (gHandle, byref (c_double(timeStart)))
+    return rrLib.setTimeStart (gHandle, timeStart)
 
 ##\brief Sets the end time for the simulation
 #\param timeEnd
 #\return Returns True if successful
 def setTimeEnd(timeEnd):
-    return rrLib.setTimeEnd (gHandle, c_double(timeEnd))
+    return rrLib.setTimeEnd(gHandle, c_double(timeEnd))
 
 ##\brief Set the number of points to generate in a simulation
 #\param numPoints Number of points to generate

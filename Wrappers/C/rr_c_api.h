@@ -1664,7 +1664,7 @@ C_DECL_SPEC int rrCallConv getResultNumCols (RRResultHandle result);
  \return Returns true if succesful
  \ingroup helperRoutines
 */
-C_DECL_SPEC bool rrCallConv getResultElement (RRResultHandle result, int r, int c, double* value);
+C_DECL_SPEC bool rrCallConv getResultElement (RRResultHandle result, int r, int c, double *value);
 
 /*!
  \brief Retrieves a label for a given column in a result type variable
