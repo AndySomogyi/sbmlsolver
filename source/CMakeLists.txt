@@ -82,6 +82,13 @@ rrPlugin
 rrOSSpecifics
 rrModelSharedLibrary
 rrBaseParameter
+rrRoadRunnerlist
+rrThreadPool
+rrLoadModel
+rrRoadRunnerThread
+rrLoadModelThread
+rrSimulate
+rrSimulateThread
 )
 
 #Build both static and shared version

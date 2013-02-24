@@ -24,6 +24,7 @@
 //---------------------------------------------------------------------------
 using namespace std;
 using namespace rr;
+using namespace rr_c_api;
 
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 
@@ -39,17 +40,17 @@ int main(int argc, char* argv[])
 		clog<<"Setting install folder to: "<<args.InstallFolder<<endl;
 		setInstallFolder(args.InstallFolder.c_str());
 	}
-  	
+
 
     cout<<"======== RoadRunner C API Client ==================\n\n";
-    RRHandle aHandle  = getRRInstance();
+    RRHandle rrHandle  = createRRInstance();
 
-	if(!aHandle)
+	if(!rrHandle)
     {
         cerr<<"Failed getting a handle to RoadRunner";
     	doMore = false;
     }
-	   
+
     if(!setLogLevel(GetLogLevelAsString(args.CurrentLogLevel).c_str()) )
     {
         cerr<<"Failed setting log RoadRunner Log level";
@@ -73,9 +74,9 @@ int main(int argc, char* argv[])
         free(buffer);
 	}
   	
-	setTempFolder(args.TempDataFolder.c_str());
+	setTempFolder(rrHandle, args.TempDataFolder.c_str());
 
-    if(!enableLogging())
+    if(!enableLoggingToConsole())
     {
         cerr<<"Failed setting log RoadRunner Log level";
     	doMore = false;
@@ -105,13 +106,13 @@ int main(int argc, char* argv[])
     //RoadRunner Flags and options
     if(doMore)
     {
-	    setComputeAndAssignConservationLaws(args.ComputeAndAssignConservationLaws);
+	    setComputeAndAssignConservationLaws(rrHandle, args.ComputeAndAssignConservationLaws);
     }
 
     if(doMore)
     {
 //    	if(!loadSBML(GetFileContent(args.ModelFileName).c_str()))
-    	if(!loadSBMLFromFile(args.ModelFileName.c_str()))
+    	if(!loadSBMLFromFile(rrHandle, args.ModelFileName.c_str()))
 	    {
     	    char* error = getLastError();
         	cerr<<"\n"<<error<<endl;
@@ -123,7 +124,7 @@ int main(int argc, char* argv[])
     {
        	cout<<"Calculating steady state: "<<endl;
      	double ss;
-        bool success = steadyState(ss);
+        bool success = steadyState(rrHandle, &ss);
         if(!success)
         {
             cerr<<"steadyState API function failed\n";
@@ -133,7 +134,7 @@ int main(int argc, char* argv[])
         else
         {
             //Get value for each specie?
-            RRStringArray* list = getTimeCourseSelectionList();
+            RRStringArray* list = getTimeCourseSelectionList(rrHandle);
             if(list == NULL)
             {
 		        cerr<<"SelectionList is empty. Exiting\n";
@@ -141,7 +142,7 @@ int main(int argc, char* argv[])
             for(int i = 1; i < list->Count; i++)   	//at index 0 is 'time'
             {
             	double value;
-                bool isSuccess = getValue(list->String[i], value);
+                bool isSuccess = getValue(rrHandle, list->String[i], &value);
                 if(!isSuccess)
                 {
                     cerr<<"getValue API function failed\n";
@@ -156,12 +157,12 @@ int main(int argc, char* argv[])
 	RRResultHandle result;
 	if(doMore)
     {
-	    setTimeStart(args.StartTime);
-    	setTimeEnd(args.EndTime);
-	    setNumPoints(args.Steps);
-    	setTimeCourseSelectionList(args.SelectionList.c_str());
+	    setTimeStart(rrHandle, args.StartTime);
+    	setTimeEnd(rrHandle, args.EndTime);
+	    setNumPoints(rrHandle, args.Steps);
+    	setTimeCourseSelectionList(rrHandle, args.SelectionList.c_str());
 		cout<<"Roadrunner is about to simulate model\n";
-        RRStringArrayHandle list =  getTimeCourseSelectionList();
+        RRStringArrayHandle list =  getTimeCourseSelectionList(rrHandle);
 
         if(list)
         {
@@ -172,7 +173,7 @@ int main(int argc, char* argv[])
 			cout<<"SelectionList list is empty. Default list will be selected during simulation\n";
         }
 
-        result = simulate();
+        result = simulate(rrHandle);
     }
 
 	if(doMore && result)
@@ -199,7 +200,7 @@ int main(int argc, char* argv[])
 		}				
 	}
 
-    text = getCopyright();
+    text = getCopyright(rrHandle);
     if(hasError())
     {
         char* error = getLastError();
@@ -208,7 +209,7 @@ int main(int argc, char* argv[])
 
     cout<<"\n"<<text<<endl;
 
-    freeRRInstance(aHandle);
+    freeRRInstance(rrHandle);
     cout<<"RoadRunner is exiting...\n";
 
     if(args.Pause)
