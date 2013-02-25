@@ -3840,6 +3840,17 @@ char* rrCallConv getBuildDateTime()
     return createText(string(__DATE__) + string(" ") + string(__TIME__));
 }
 
+
+int rrCallConv getInstanceCount(RRInstanceListHandle iList)
+{
+	return iList->Count;
+}
+RRHandle rrCallConv getRRHandle(int index, RRInstanceListHandle iList)
+{
+	return iList->Handle[index];
+}
+
+
 }
 //We only need to give the linker the folder where libs are
 //using the pragma comment. Works for MSVC and codegear

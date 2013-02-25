@@ -432,10 +432,21 @@ def hasError():
 def getLastError():
     return rrLib.getLastError()
 
+def getRRHandle(index, rrHandles):
+    return rrLib.getRRHandle(index, rrHandles)
 ##\brief Initialize the roadRunner library and returns a new RoadRunner instance
 #\return Returns an instance of the library, returns false if it fails
 def createRRInstance():
     return rrLib.createRRInstance()
+
+def createRRInstances(nrOfInstances):
+    rrs = rrLib.createRRInstances(c_int(nrOfInstances))
+    aList = []
+    #Put each instance into a python list???
+    if rrs is not None:
+        for i in range(0, nrOfInstances):
+            aList[i]  = getRRHandle(i, rrs)
+
 
 ##\brief Free the roadRunner instance
 #\param rrLib Free the roadRunner instance given in the argument

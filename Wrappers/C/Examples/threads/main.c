@@ -26,13 +26,14 @@ int main()
 	    printf("Handles allocated succesfully..\n");
     }
 
-   	setLogLevel("INfo");
+   	setLogLevel("Info");
 	enableLoggingToConsole();
 
     for(i = 0; i < handleCount; i++)
     {
     	setTempFolder(rrs->Handle[i], "r:\\rrTemp");
     }
+
    	enableLoggingToFile(rrs->Handle[0]);
 
 	//loadSBML models in threads instead

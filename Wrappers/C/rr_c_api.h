@@ -1909,6 +1909,11 @@ C_DECL_SPEC char* rrCallConv getStringListItem (RRListItemHandle item);
 */
 C_DECL_SPEC RRListHandle rrCallConv getList(RRListItemHandle item);
 
+//=== Utility functions on rrInstanceLists
+C_DECL_SPEC int 		rrCallConv 	getInstanceCount(RRInstanceListHandle iList);
+C_DECL_SPEC RRHandle 	rrCallConv 	getRRHandle(int index, RRInstanceListHandle iList);
+
+
 //======================== DATA WRITING ROUTINES =============================
 C_DECL_SPEC bool rrCallConv writeMultipleRRData(RRInstanceListHandle rrHandles, const char* faileNameAndPath);
 

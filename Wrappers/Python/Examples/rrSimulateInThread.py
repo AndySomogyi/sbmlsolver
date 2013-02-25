@@ -2,31 +2,36 @@ import sys
 import rrPython
 rr = rrPython
 
-rri = rr.createRRInstance()
-
 modelFile=''
+tempFolder=''
 if sys.platform.startswith('win32'):
     modelFile ="r:/models/feedback.xml"
-    if not rr.setTempFolder('r:/rrTemp/python', rri) == True:
-        print "Failed to set temp folder"
+    tempFolder = 'r:/rrTemp/python'
 else:
     modelFile ="/home/totte/rrInstall/models/feedback.xml"
-    rr.setTempFolder('/home/totte/rrTemp/python')
+    tempFolder = '/home/totte/rrTemp/python'
 
 print 'Errors: ' + rr.getLastError()
 print 'RoadRunner Version: ' + rr.getVersion()
 print 'RoadRunner Build DateTime: ' + rr.getBuildDateTime()
 print 'Copyright: ' + rr.getCopyright()
 
-tempFolder = rr.getTempFolder(rri)
 
-print 'TempFolder is :' + tempFolder
+handleCount = 10
+threadCount = 4
 
-rr.setComputeAndAssignConservationLaws(True, rri)
-result = rr.loadSBMLFromFile(modelFile, rri)
+rrs = rr.createRRInstances(handleCount)
 
-print 'Result of loading sbml: '
-print result;
+if rrs is None:
+    print 'Allocated roadrunner instances failed..'
+else:
+    print 'Allocated instances...'
 
-print  rr.simulate(rri)
+
+#Setup the instances
+for i in range(1, handleCount):
+    aHandle = rr.getHandle(i, rrs)
+    rr.setTempFolder(tempFolder, aHandle)
+    rr.setComputeAndAssignConservationLaws(True, aHandle)
+
 print "done"
