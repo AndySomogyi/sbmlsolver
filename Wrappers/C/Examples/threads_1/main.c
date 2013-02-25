@@ -5,19 +5,19 @@
 int main()
 {
     //Some Declarations (has to be here because this is C)
-	RRInstanceListHandle 	rrs;
-    TPHandle 			    tpHandle;		//ThreadPool handle.. use to check when a pool of threads has finished..
+	RRHandle 				rrHandle;
+    RRThreadHandle			threadHandle;
+	int i;
+    double val;
+	// -------------------------------------------------------------
 
 	char* modelFileName = "r://models//test_1.xml";
-    int   handleCount = 50;
-    int   threadCount = 8;
-    int   i;
    	char  buf[2048];
 	printf("Starting C program...\n");
 
-    rrs = createRRInstances(handleCount);
+    rrHandle = createRRInstance();
 
-    if(!rrs)
+    if(!rrHandle)
     {
         printf("No handles...\n");
     }
@@ -27,49 +27,42 @@ int main()
     }
 
    	setLogLevel("Info");
+   	setTempFolder(rrHandle, "r:\\rrTemp");
 	enableLoggingToConsole();
-
-    for(i = 0; i < handleCount; i++)
-    {
-    	setTempFolder(rrs->Handle[i], "r:\\rrTemp");
-    }
-
-   	enableLoggingToFile(rrs->Handle[0]);
+   	enableLoggingToFile(rrHandle);
 
 	//loadSBML models in threads instead
-    tpHandle = loadSBMLFromFileTP(rrs, modelFileName, threadCount);
+    threadHandle = loadSBMLFromFileThread(rrHandle, modelFileName);
 
-    //waitForJobs will block until all threads have finished
-	//Instead, one can could check for activeJobs, i.e. non blocking (see below)
-    waitForJobs(tpHandle);
+    //waitForJob will block until the thread haa finished
+	//Instead, one can could check for activeJob, i.e. non blocking (see below)
+    waitForJob(threadHandle);
 
     //Set parameters
     logMsg(clInfo, " ---------- SETTING PARAMETERS -------------");
 
     //Setup instances with different variables
-    for(i = 0; i < handleCount; i++)
-    {
-        double val = 0;
-        getValue(rrs->Handle[i], "k1", &val);
-        setValue(rrs->Handle[i], "k1", val/(2.5*(i + 1)));
-        setNumPoints(rrs->Handle[i], 500);
-        setTimeEnd(rrs->Handle[i], 150);
-        setTimeCourseSelectionList(rrs->Handle[i], "S1");
-    }
+    val = 0;
+    getValue(rrHandle, "k1", &val);
+    setValue(rrHandle, "k1", val/(2.5*(i + 1)));
+    setNumPoints(rrHandle, 500);
+    setTimeEnd(rrHandle, 150);
+    setTimeCourseSelectionList(rrHandle, "TIME S1");
+
 
     //Simulate
     logMsg(clInfo, " ---------- SIMULATING ---------------------");
 
     //Simulate them using a pool of threads..
-    tpHandle = simulateTP(rrs, 8);
-    waitForJobs(tpHandle);
+    threadHandle = simulateThread(rrHandle);
 
+    waitForJob(threadHandle);
 
   	//Write data to a file
-	writeMultipleRRData(rrs, "r:\\allData.dat");
+	writeRRData(rrHandle, "r:\\oneThreadData.dat");
 
 	// Cleanup
-    freeRRHandles(rrs);
+    freeRRInstance(rrHandle);
 
 	if(hasError())
     {

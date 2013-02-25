@@ -25,6 +25,7 @@ class RR_DECLSPEC RoadRunnerThread : public Poco::Runnable, public rrObject
 		void				        start();
     	virtual void                run();
         void				        exit();	//Tell the thread to die
+        void						wait();
 
 		//Pure virtuals
 		virtual void                worker() = 0;

@@ -46,7 +46,9 @@
 #include "rrRoadRunner.h"
 #include "rrRoadRunnerList.h"
 #include "rrLoadModel.h"
+#include "rrLoadModelThread.h"
 #include "rrSimulate.h"
+#include "rrSimulateThread.h"
 #include "rrCGenerator.h"
 #include "rrLogger.h"
 #include "rrException.h"
@@ -567,7 +569,39 @@ bool rrCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
     }
 }
 
-TPHandle rrCallConv loadSBMLFromFileTP(RRInstanceListHandle _handles, const char* fileName, int nrOfThreads)
+RRThreadHandle rrCallConv loadSBMLFromFileThread(RRHandle rrHandle, const char* fileName)
+{
+	try
+    {
+        //Check if file exists first
+        if(!FileExists(fileName))
+        {
+            stringstream msg;
+            msg<<"The file "<<fileName<<" do not exist";
+            setError(msg.str());
+            return NULL;
+        }
+
+        RoadRunner* rr = castFrom(rrHandle);
+        LoadModelThread* loadThread = new LoadModelThread(fileName);
+
+        if(!loadThread)
+        {
+            setError("Failed to create a LoadModel Thread");
+        }
+        loadThread->addJob(rr);
+        return loadThread;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
+RRThreadPoolHandle rrCallConv loadSBMLFromFileTP(RRInstanceListHandle _handles, const char* fileName, int nrOfThreads)
 {
 	try
     {
@@ -598,7 +632,28 @@ TPHandle rrCallConv loadSBMLFromFileTP(RRInstanceListHandle _handles, const char
     }
 }
 
-bool rrCallConv waitForJobs(TPHandle handle)
+bool rrCallConv waitForJob(RRThreadHandle handle)
+{
+	try
+    {
+        RoadRunnerThread* aThread = (RoadRunnerThread*) handle;
+        if(aThread)
+        {
+            aThread->wait();
+            return true;
+        }
+		return false;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
+bool rrCallConv waitForJobs(RRThreadPoolHandle handle)
 {
 	try
     {
@@ -619,7 +674,7 @@ bool rrCallConv waitForJobs(TPHandle handle)
     }
 }
 
-int rrCallConv getNumberOfRemainingJobs(TPHandle handle)
+int rrCallConv getNumberOfRemainingJobs(RRThreadPoolHandle handle)
 {
 	try
     {
@@ -951,7 +1006,30 @@ RRResultHandle rrCallConv simulate(RRHandle handle)
     }
 }
 
-TPHandle rrCallConv simulateTP(RRInstanceListHandle _handles, int nrOfThreads)
+RRThreadHandle rrCallConv simulateThread(RRHandle rrHandle)
+{
+	try
+    {
+        RoadRunner *rr = castFrom(rrHandle);
+        SimulateThread *t = new SimulateThread();
+
+        if(!t)
+        {
+            setError("Failed to create a Simulate Thread Pool");
+        }
+        t->addJob(rr);
+        return t;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return NULL;
+    }
+}
+
+RRThreadPoolHandle rrCallConv simulateTP(RRInstanceListHandle _handles, int nrOfThreads)
 {
 	try
     {
@@ -3463,6 +3541,26 @@ char* rrCallConv listToString (RRListHandle list)
     }
 }
 //====================== DATA WRITING ROUTINES ======================
+bool rrCallConv writeRRData(RRHandle rrHandle, const char* fileNameAndPath)
+{
+	try
+    {
+        RoadRunner *rr = castFrom(rrHandle);
+        SimulationData data;
+        data = rr->getSimulationResult();
+
+        data.writeTo(fileNameAndPath);
+		return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
 bool rrCallConv writeMultipleRRData(RRInstanceListHandle rrHandles, const char* fileNameAndPath)
 {
 	try

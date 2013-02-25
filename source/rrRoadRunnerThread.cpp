@@ -46,4 +46,27 @@ bool RoadRunnerThread::isActive()
 	return mThread.isRunning();
 }
 
+void RoadRunnerThread::wait()
+{
+    //Check that all jobs been done
+    //This should be checked in a thread, and using a condition Variable
+    while(getNrOfJobsInQueue() > 0)
+    {
+        Sleep(50);
+    };
+
+	Sleep(50);	//We need a way to know if a thread is still doing processing...
+
+    //Dispose thread..
+    exit();
+
+    //This could be checked in a thread, and using a condition Variable
+    while(isActive() == true)
+    {
+	    exit(); //Ugly...?
+        Sleep(50);
+    };
+    //This thread pool is done....
+}
+
 }

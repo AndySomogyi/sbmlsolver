@@ -52,9 +52,11 @@ extern "C"
 /*!@brief Void pointer to RRHandle */
 typedef void* RRHandle; /*! Void pointer to RRHandle */
 
+/*!@brief Void pointer to T(hread) Handle */
+typedef void* RRThreadHandle; /*! Void pointer to RRThreadHandle */
 
 /*!@brief Void pointer to T(hread)P(ool)Handle */
-typedef void* TPHandle; /*! Void pointer to TPHandle */
+typedef void* RRThreadPoolHandle; /*! Void pointer to RRThreadPoolHandle */
 
 /*!@struct*/
 /*!@brief Structure for a set of RoadRunner handles */
