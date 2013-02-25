@@ -172,7 +172,7 @@ RRInstanceListHandle rrCallConv createRRInstances(int count)
     }
 }
 
-bool rrCallConv freeRRHandles(RRInstanceListHandle rrList)
+bool rrCallConv freeRRInstances(RRInstanceListHandle rrList)
 {
 	try
     {
@@ -3986,7 +3986,8 @@ int rrCallConv getInstanceCount(RRInstanceListHandle iList)
 {
 	return iList->Count;
 }
-RRHandle rrCallConv getRRHandle(int index, RRInstanceListHandle iList)
+
+RRHandle rrCallConv getRRHandle(RRInstanceListHandle iList, int index)
 {
 	return iList->Handle[index];
 }

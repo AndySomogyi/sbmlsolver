@@ -6,7 +6,7 @@ int main()
 {
     //Some Declarations (has to be here because this is C)
 	RRInstanceListHandle 	rrs;
-    TPHandle 			    tpHandle;		//ThreadPool handle.. use to check when a pool of threads has finished..
+    RRThreadPoolHandle 	    tpHandle;		//ThreadPool handle.. use to check when a pool of threads has finished..
 
 	char* modelFileName = "r://models//test_1.xml";
     int   handleCount = 50;
@@ -64,12 +64,11 @@ int main()
     tpHandle = simulateTP(rrs, 8);
     waitForJobs(tpHandle);
 
-
   	//Write data to a file
 	writeMultipleRRData(rrs, "r:\\allData.dat");
 
 	// Cleanup
-    freeRRHandles(rrs);
+    freeRRInstances(rrs);
 
 	if(hasError())
     {

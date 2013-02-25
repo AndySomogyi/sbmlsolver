@@ -82,7 +82,7 @@ C_DECL_SPEC bool rrCallConv freeRRInstance(RRHandle handle);
  \param[in] handle Frees all roadRunner instances given in the argument
  \ingroup initialization
 */
-C_DECL_SPEC bool  rrCallConv  freeRRHandles(RRInstanceListHandle handle);
+C_DECL_SPEC bool  rrCallConv  freeRRInstances(RRInstanceListHandle handle);
 
 
 C_DECL_SPEC char* rrCallConv  getInstallFolder(void);
@@ -1936,7 +1936,7 @@ C_DECL_SPEC RRListHandle rrCallConv getList(RRListItemHandle item);
 
 //=== Utility functions on rrInstanceLists
 C_DECL_SPEC int 		rrCallConv 	getInstanceCount(RRInstanceListHandle iList);
-C_DECL_SPEC RRHandle 	rrCallConv 	getRRHandle(int index, RRInstanceListHandle iList);
+C_DECL_SPEC RRHandle 	rrCallConv 	getRRHandle(RRInstanceListHandle iList, int index);
 
 
 //======================== DATA WRITING ROUTINES =============================

@@ -310,6 +310,9 @@ def unloadAPI():
     del gHandle
     return windll.kernel32.FreeLibrary(libHandle)
 
+def freeAPI():
+    return windll.kernel32.FreeLibrary(libHandle)
+
 ##\ingroup utility
 #@{
 
@@ -435,26 +438,36 @@ def hasError():
 def getLastError():
     return rrLib.getLastError()
 
-def getRRHandle(index, rrHandles):
-    return rrLib.getRRHandle(index, rrHandles)
+def getInstanceCount(rrHandles):
+    return rrLib.getInstanceCount(rrHandles)
+
+def getRRHandle(rrHandles, index):
+    return rrLib.getRRHandle(rrHandles, c_int(index))
+
 ##\brief Initialize the roadRunner library and returns a new RoadRunner instance
 #\return Returns an instance of the library, returns false if it fails
 def createRRInstance():
     return rrLib.createRRInstance()
 
 def createRRInstances(nrOfInstances):
-    rrs = rrLib.createRRInstances(c_int(nrOfInstances))
-    aList = []
-    #Put each instance into a python list???
-    if rrs is not None:
-        for i in range(0, nrOfInstances):
-            aList[i]  = getRRHandle(i, rrs)
+    return rrLib.createRRInstances(c_int(nrOfInstances))
 
+#    aList = []
+    #Put each instance into a python list???
+#    if rrs is not None:
+#        for i in range(nrOfInstances):
+#            aList.append(getRRHandle(rrs, i))
+#    return aList
 
 ##\brief Free the roadRunner instance
 #\param rrLib Free the roadRunner instance given in the argument
 def freeRRInstance(iHandle):
     return rrLib.freeRRInstance(iHandle)
+
+##\brief Free roadRunner instances
+#\param rrLib Frees roadRunner instances
+def freeRRInstances(rrInstances):
+    return rrLib.freeRRInstances(rrInstances)
 
 ##@}
 
@@ -490,7 +503,7 @@ def loadSBMLFromFile(fileName, aHandle = None):
         aHandle = gHandle
     return rrLib.loadSBMLFromFile(aHandle, fileName)
 
-##\brief Loads SBML model from a file
+##\brief Loads SBML model from a file in a thread
 #\param fileName file name
 #\return Returns true if successful
 def loadSBMLFromFileThread(fileName, aHandle = None):
@@ -500,6 +513,15 @@ def loadSBMLFromFileThread(fileName, aHandle = None):
 
 def waitForJob(threadHandle):
     return rrLib.waitForJob(threadHandle)
+
+def waitForJobs(threadPoolHandle):
+    return rrLib.waitForJobs(threadPoolHandle)
+
+##\brief Loads SBML model from a file into a list of roadrunner instances, using a thread pool
+#\param fileName file name
+#\return Returns true if successful
+def loadSBMLFromFileT(rrs, fileName, threadCount = 4):
+    return rrLib.loadSBMLFromFileTP(rrs, fileName, threadCount)
 
 ##\brief Return the current state of the model in the form of an SBML string
 #\return Returns False if it fails or no model is loaded, otherwise returns the SBML string.
@@ -553,20 +575,26 @@ def getCapabilities():
 ##\brief Sets the start time for the simulation
 #\param timeStart
 #\return Returns True if successful
-def setTimeStart(timeStart):
-    return rrLib.setTimeStart (gHandle, c_double(timeStart))
+def setTimeStart(timeStart, rrHandle = None):
+    if rrHandle is None:
+        rrHandle = gHandle
+    return rrLib.setTimeStart (rrHandle, c_double(timeStart))
 
 ##\brief Sets the end time for the simulation
 #\param timeEnd
 #\return Returns True if successful
-def setTimeEnd(timeEnd):
-    return rrLib.setTimeEnd(gHandle, c_double(timeEnd))
+def setTimeEnd(timeEnd, rrHandle = None):
+    if rrHandle is None:
+        rrHandle = gHandle
+    return rrLib.setTimeEnd(rrHandle, c_double(timeEnd))
 
 ##\brief Set the number of points to generate in a simulation
 #\param numPoints Number of points to generate
 #\return Returns True if successful
-def setNumPoints(numPoints):
-    return rrLib.setNumPoints(gHandle, numPoints)
+def setNumPoints(numPoints, rrHandle = None):
+    if rrHandle is None:
+        rrHandle = gHandle
+    return rrLib.setNumPoints(rrHandle, numPoints)
 
 ##\brief Sets the list of variables returned by simulate() or simulateEx()
 #
@@ -574,14 +602,17 @@ def setNumPoints(numPoints):
 #
 #\param list A string of Ids separated by spaces or comma characters
 #\return Returns True if successful
-def setTimeCourseSelectionList(myList):
+def setTimeCourseSelectionList(myList, rrHandle = None):
+    if rrHandle is None:
+        rrHandle = gHandle
+
     if type (myList) == str:
-       return rrLib.setTimeCourseSelectionList(gHandle, myList)
+       return rrLib.setTimeCourseSelectionList(rrHandle, myList)
     if type (myList) == list:
         strList = ''
         for i in range (len(myList)):
             strList = strList + myList[i] + ' '
-        return rrLib.setTimeCourseSelectionList(gHandle, strList)
+        return rrLib.setTimeCourseSelectionList(rrHandle, strList)
     raise RuntimeError('Expecting string or list in setTimeCourseSelectionList')
 
 
@@ -620,6 +651,20 @@ def simulateThread(aHandle = None):
     if aHandle is None:
         aHandle = gHandle
     return rrLib.simulateThread(aHandle)
+
+
+##\brief Carry out a time-course simulation for a thread pool
+#characteristics
+#\return Returns a handle to the thread pool. Use this handle to see when the threads have finished
+def simulateT(tpHandle, nrOfThreads):
+    return rrLib.simulateTP(tpHandle, nrOfThreads)
+
+def writeRRData(outFile, rrInstanceList=None):
+    if rrInstanceList is not None:
+        rrLib.writeMultipleRRData(rrInstanceList, outFile)
+    else:
+        rrLib.writeRRData(gHandle, outFile)
+
 
 def getSimulationResult(aHandle = None):
     if aHandle is None:
@@ -796,9 +841,12 @@ def getSteadyStateSelectionList():
 #
 #\param symbolId The symbol that we wish to obtain the value for
 #\return Returns the value if successful, otherwise returns False
-def getValue(symbolId):
+def getValue(symbolId, rrHandle = None):
+    if rrHandle is None:
+        rrHandle = gHandle
+
     value = c_double()
-    if rrLib.getValue(gHandle, symbolId, pointer(value)) == True:
+    if rrLib.getValue(rrHandle, symbolId, pointer(value)) == True:
         return value.value
     else:
         raise RuntimeError(getLastError() + ': ' + symbolId)
@@ -810,10 +858,12 @@ def getValue(symbolId):
 #\param symbolId The symbol that we wish to set the value for
 #\param value The value that the symbol will be set to
 #\return Returns True if successful
-def setValue(symbolId, value):
-    value = c_double(value)
-    if rrLib.setValue(gHandle, symbolId, (value)) == True:
-        return value.value;
+def setValue(symbolId, value, rrHandle = None):
+    if rrHandle is None:
+        rrHandle = gHandle
+
+    if rrLib.setValue(rrHandle, symbolId, c_double(value)) == True:
+        return True
     else:
         raise RuntimeError('Index out of range')
 
