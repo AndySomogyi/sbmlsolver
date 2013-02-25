@@ -5,6 +5,9 @@ if(BUILD_TESTS)
 add_subdirectory(Testing)
 endif()
 
+if(INSTALL_EXAMPLES)
+add_subdirectory(Examples)
+endif()
 #=============== INSTALL =====================
 install(
         FILES 
