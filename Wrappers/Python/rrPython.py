@@ -155,6 +155,7 @@ rrLib.getFloatingSpeciesByIndex.restype = c_bool
 rrLib.getGlobalParameterByIndex.restype = c_bool
 rrLib.getCompartmentByIndex.restype = c_bool
 rrLib.setCompartmentByIndex.restype = c_bool
+rrLib.getSimulationResult.restype = c_void_p
 
 # Logging
 #rrLib.enableLogging.restype = c_bool
@@ -168,6 +169,7 @@ rrLib.freeRRInstance.restype = c_bool
 # Load SBML methods
 rrLib.loadSBML.restype = c_bool
 rrLib.loadSBMLFromFile.restype = c_bool
+rrLib.loadSBMLFromFileThread.restype = c_void_p
 rrLib.getCurrentSBML.restype = c_char_p
 rrLib.getSBML.restype = c_char_p
 
@@ -241,6 +243,7 @@ rrLib.computeSteadyStateValues.restype = c_void_p
 rrLib.getSteadyStateSelectionList.restype = c_void_p
 rrLib.getTimeCourseSelectionListrestype = c_void_p
 rrLib.simulate.restype = c_void_p
+rrLib.simulateThread.restype = c_void_p
 rrLib.simulateEx.restype = c_void_p
 rrLib.getFloatingSpeciesConcentrations.restype = c_void_p
 rrLib.getBoundarySpeciesConcentrations.restype = c_void_p
@@ -303,8 +306,8 @@ rrLib.getPluginInfo.restype = c_char_p
 rrLib.executePlugin.restype = c_bool
 
 #Unload roadrunner dll from python
-def Unload(aHandle):
-    del aHandle
+def unloadAPI():
+    del gHandle
     return windll.kernel32.FreeLibrary(libHandle)
 
 ##\ingroup utility
@@ -487,6 +490,17 @@ def loadSBMLFromFile(fileName, aHandle = None):
         aHandle = gHandle
     return rrLib.loadSBMLFromFile(aHandle, fileName)
 
+##\brief Loads SBML model from a file
+#\param fileName file name
+#\return Returns true if successful
+def loadSBMLFromFileThread(fileName, aHandle = None):
+    if aHandle is None:
+        aHandle = gHandle
+    return rrLib.loadSBMLFromFileThread(aHandle, fileName)
+
+def waitForJob(threadHandle):
+    return rrLib.waitForJob(threadHandle)
+
 ##\brief Return the current state of the model in the form of an SBML string
 #\return Returns False if it fails or no model is loaded, otherwise returns the SBML string.
 def getCurrentSBML(aHandle = None):
@@ -585,6 +599,34 @@ def simulate(aHandle = None):
     if aHandle is None:
         aHandle = gHandle
     result = rrLib.simulate(aHandle)
+    #TODO: Check result
+    rowCount = rrLib.getResultNumRows(result)
+    colCount = rrLib.getResultNumCols(result)
+    resultArray = zeros((rowCount, colCount))
+    for m in range(rowCount):
+        for n in range(colCount):
+                rvalue = m
+                cvalue = n
+                value = c_double()
+                if rrLib.getResultElement(result, rvalue, cvalue, pointer(value)) == True:
+                    resultArray[m, n] = value.value
+    rrLib.freeResult(result)
+    return resultArray
+
+##\brief Carry out a time-course simulation in a thread, use setTimeStart etc to set
+#characteristics
+#\return Returns a handle to the thread. Use this handle to see when the thread has finished
+def simulateThread(aHandle = None):
+    if aHandle is None:
+        aHandle = gHandle
+    return rrLib.simulateThread(aHandle)
+
+def getSimulationResult(aHandle = None):
+    if aHandle is None:
+        aHandle = gHandle
+
+    result = rrLib.getSimulationResult(aHandle)
+
     #TODO: Check result
     rowCount = rrLib.getResultNumRows(result)
     colCount = rrLib.getResultNumCols(result)
