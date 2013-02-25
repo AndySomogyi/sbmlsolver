@@ -576,7 +576,13 @@ setNumPoints etc to set the simulation characteristics.
 C_DECL_SPEC RRResultHandle rrCallConv simulate(RRHandle handle);
 
 C_DECL_SPEC RRThreadPoolHandle rrCallConv simulateThread(RRHandle rrHandle);
+
 C_DECL_SPEC RRThreadPoolHandle rrCallConv simulateTP(RRInstanceListHandle rrHandles, int nrOfThreads);
+
+C_DECL_SPEC RRResultHandle rrCallConv getSimulationResult(RRHandle handle);
+
+
+
 /*!
  \brief Carry out a time-course simulation based on the given arguments, time start,
  time end and number of points.
