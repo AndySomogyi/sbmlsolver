@@ -362,8 +362,10 @@ def setTempFolder(folder, aHandle = None):
 #for the the temporary folder path.
 #
 #\return Returns null if it fails, otherwise it returns the path
-def getTempFolder():
-    return rrLib.getTempFolder(gHandle)
+def getTempFolder(aHandle = None):
+    if aHandle is None:
+        aHandle = gHandle
+    return rrLib.getTempFolder(aHandle)
 
 ##\brief Retrieve a rrLib for the C code structure, RRCCode
 #
@@ -448,8 +450,10 @@ def freeRRInstance(iHandle):
 ##\brief Enable/disable conservation analysis
 #\param OnOrOff Set to 1 to switch on conservation analysis, 0 to switch it off
 #\return Returns True if successful
-def setComputeAndAssignConservationLaws(OnOrOff):
-    return rrLib.setComputeAndAssignConservationLaws(gHandle,  c_bool(OnOrOff))
+def setComputeAndAssignConservationLaws(OnOrOff, aHandle=None):
+    if aHandle is None:
+        aHandle = gHandle
+    return rrLib.setComputeAndAssignConservationLaws(aHandle,  c_bool(OnOrOff))
 
 ##@}
 
@@ -459,24 +463,32 @@ def setComputeAndAssignConservationLaws(OnOrOff):
 ##\brief Create a model from an SBML string
 #\param[in] sbml string
 #\return Returns true if successful
-def loadSBML(sbml):
-    return rrLib.loadSBML(gHandle, sbml)
+def loadSBML(sbml, aHandle = None):
+    if aHandle is None:
+        aHandle = gHandle
+    return rrLib.loadSBML(aHandle, sbml)
 
 ##\brief Loads SBML model from a file
 #\param fileName file name
 #\return Returns true if successful
-def loadSBMLFromFile(fileName):
-    return rrLib.loadSBMLFromFile(gHandle, fileName)
+def loadSBMLFromFile(fileName, aHandle = None):
+    if aHandle is None:
+        aHandle = gHandle
+    return rrLib.loadSBMLFromFile(aHandle, fileName)
 
 ##\brief Return the current state of the model in the form of an SBML string
 #\return Returns False if it fails or no model is loaded, otherwise returns the SBML string.
-def getCurrentSBML():
-    return rrLib.getCurrentSBML(gHandle)
+def getCurrentSBML(aHandle = None):
+    if aHandle is None:
+        aHandle = gHandle
+    return rrLib.getCurrentSBML(aHandle)
 
 ##\brief Retrieve the last SBML model that was loaded
 #\return Returns False if it fails or no model is loaded, otherwise returns the SBML string
-def getSBML():
-    return rrLib.getSBML(gHandle)
+def getSBML(aHandle = None):
+    if aHandle is None:
+        aHandle = gHandle
+    return rrLib.getSBML(aHandle)
 
 ##@}
 
@@ -487,9 +499,11 @@ def getSBML():
 ##\brief Promote any local parameters to global status
 #\param sArg The string containing SBML model to promote
 #\return Returns False if it fails, otherwise it returns the promoted SBML string
-def getParamPromotedSBML(sArg):
+def getParamPromotedSBML(sArg, aHandle = None):
+    if aHandle is None:
+        aHandle = gHandle
     value = c_char(sArg)
-    if rrLib.getParamPromotedSBML(gHandle, pointer(value)) == True:
+    if rrLib.getParamPromotedSBML(aHandle, pointer(value)) == True:
         return value.value
     else:
         raise RuntimeError('Index out of range')
@@ -556,8 +570,10 @@ def getTimeCourseSelectionList():
 ##\brief Carry out a time-course simulation, use setTimeStart etc to set
 #characteristics
 #\return Returns a string containing the results of the simulation organized in rows and columns
-def simulate():
-    result = rrLib.simulate(gHandle)
+def simulate(aHandle = None):
+    if aHandle is None:
+        aHandle = gHandle
+    result = rrLib.simulate(aHandle)
     #TODO: Check result
     rowCount = rrLib.getResultNumRows(result)
     colCount = rrLib.getResultNumCols(result)

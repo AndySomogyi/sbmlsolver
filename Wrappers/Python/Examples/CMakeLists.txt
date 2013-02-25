@@ -5,9 +5,8 @@ set(examples
 getStoichMatrix.py
 threeLineSimulation.py
 simulateExSelectionList.py
-simulatePlot.py
-simulateSelectionList.py
-threeLineSimulation.py
+#simulatePlot.py
+#simulateSelectionList.py
 )
 
 install(    
