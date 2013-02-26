@@ -128,7 +128,7 @@ rrLib.getTempFolder.restype = c_char_p
 rrLib.getStringElement.restype = c_void_p
 rrLib.getNumberOfStringElements.restype = c_int
 rrLib.getNumberOfStringElements.argtype = [c_void_p]
-rrLib.Pause.restype = None
+rrLib.pause.restype = None
 #rrLib.getStringElement.argtypes = [POINTER(POINTER(c_ubyte)), c_int]
 
 # More Utility Methods
@@ -1725,8 +1725,8 @@ def freeCCode(code):
 ##@}
 ##\brief Pause
 #\return void
-def Pause():
-    return rrLib.Pause()
+def pause():
+    return rrLib.pause()
 
 #------------------------------------------------------------------------------
 ##\ingroup helperRoutines

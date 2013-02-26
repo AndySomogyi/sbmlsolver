@@ -1062,7 +1062,7 @@ bool RunTest(const string& version, int caseNumber)
     try
     {
 		clog<<"Running Test: "<<caseNumber<<endl;
-        string dataOutputFolder(gTempFolder);
+        string dataOutputFolder(JoinPath(gTempFolder, "TS"));
         string dummy;
         string logFileName;
         string settingsFileName;

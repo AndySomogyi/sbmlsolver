@@ -5,10 +5,8 @@
 #include <sstream>
 #if defined(WIN32)
 #include <windows.h>
-
-    #if defined(__CODEGEARC__)
-#include <windows.h>
 #include <strsafe.h>
+    #if defined(__CODEGEARC__)
     #include <dir.h>
     #elif defined(_MSVC)
     #include <direct.h>
