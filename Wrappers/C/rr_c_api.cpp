@@ -119,6 +119,7 @@ RRHandle rrCallConv createRRInstanceE(const char* tempFolder)
     	{
         	stringstream msg;
             msg<<"The temporary folder: "<<tempFolder<<" do not exist";
+            Log(lError)<<msg.str();
     		throw(Exception(msg.str()));
         }
         else if(tempFolder)
@@ -2271,13 +2272,13 @@ RRMatrixHandle rrCallConv getEigenvaluesMatrix (RRHandle handle, const RRMatrixH
 
     	// Convert RRMatrixHandle mat to a DoubleMatrix
 		DoubleMatrix dmat (mat->RSize, mat->CSize);
-		double *value;
+		double value;
 		for (int i=0; i<mat->RSize; i++)
         {
 			for (int j=0; j<mat->CSize; j++)
             {
-				getMatrixElement (mat, i, j, value);
-				dmat(i,j) = *value;
+				getMatrixElement (mat, i, j, &value);
+				dmat(i,j) = value;
 			}
         }
 		DoubleMatrix tempMat = rri->getEigenvaluesFromMatrix (dmat);
@@ -3905,7 +3906,8 @@ bool rrCallConv enableLoggingToFile(RRHandle handle)
 		string logFile = JoinPath(tempFolder, "RoadRunner.log") ;
         freeText(tempFolder);
 
-        gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));
+//        gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));
+        gLog.Init("", gLog.GetLogLevel(), new LogFile(logFile.c_str()));
     	return true;
     }
     catch(const Exception& ex)

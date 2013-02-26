@@ -34,6 +34,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 //call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder"
 int main(int argc, char* argv[])
 {
+    enableLoggingToConsole();
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
 

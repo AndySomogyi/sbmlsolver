@@ -241,7 +241,7 @@ bool Compiler::compile(const string& cmdLine)
 
     //open the output file on the server's tmp folder (for that test will be on the C:/ root)
     string compilerTempFile(JoinPath(mOutputPath, ExtractFileNameNoExtension(mDLLFileName)));
-    compilerTempFile.append(".log");
+    compilerTempFile.append("C.log");
 
     HANDLE outFile;
   	//Todo: there is a problem creating the logfile after first time creation..
@@ -309,7 +309,7 @@ bool Compiler::compile(const string& cmdLine)
     // Wait until child process exits.
     WaitForSingleObject(pi.hProcess, INFINITE);
 
-//    CloseHandle(outFile);
+    CloseHandle(outFile);
 
     // Close process and thread handles.
     CloseHandle(pi.hProcess);

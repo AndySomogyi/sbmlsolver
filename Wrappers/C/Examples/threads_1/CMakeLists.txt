@@ -4,6 +4,7 @@ add_executable( ${target}
 main.c
 )
 
+set_source_files_properties(main.c PROPERTIES LANGUAGE C)
 target_link_libraries (${target} rr_c_api)
 
 install(
