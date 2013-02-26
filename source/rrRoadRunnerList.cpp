@@ -6,11 +6,21 @@
 
 namespace rr
 {
-RoadRunnerList::RoadRunnerList(const int& nrOfRRs, const string& tempFolder)
+RoadRunnerList::RoadRunnerList(const int& nrOfRRs, const string& installFolder, const string& tempFolder)
 {
+
+#if defined(_WIN32) || defined(WIN32)
+            string compiler(JoinPath(installFolder,"compilers\\tcc\\tcc.exe"));
+#elif defined(__linux)
+            string compiler("gcc");
+#else
+            string compiler("gcc");
+#endif
+
     for(int i = 0; i < nrOfRRs; i++)
     {
-    	mRRs.push_back(new RoadRunner);
+        RoadRunner* rri = new RoadRunner(JoinPath(installFolder, "rr_support"), compiler, tempFolder);
+    	mRRs.push_back(rri);
         mRRs[i]->setTempFileFolder(tempFolder);
     }
 }

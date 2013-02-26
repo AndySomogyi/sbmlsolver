@@ -144,9 +144,17 @@ RRInstanceListHandle rrCallConv createRRInstances(int count)
 {
 	try
     {
-    	//string rrInstallFolder(getParentFolder(getRRCAPILocation()));
-        //string compiler = getCompilerName();
-		RoadRunnerList* listHandle = new RoadRunnerList(count, GetUsersTempDataFolder());
+    	string rrInstallFolder(getParentFolder(getRRCAPILocation()));
+#if defined(_WIN32) || defined(WIN32)
+            string compiler(JoinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"));
+#elif defined(__linux)
+            string compiler("gcc");
+#else
+            string compiler("gcc");
+#endif
+		string tempFolder = GetUsersTempDataFolder();
+
+		RoadRunnerList* listHandle = new RoadRunnerList(count, rrInstallFolder, tempFolder);
 
         //Create the C list structure
 		RRInstanceListHandle rrList = new RRInstanceList;
