@@ -3124,7 +3124,7 @@ bool rrCallConv freeCCode(RRCCodeHandle code)
 }
 
 /////////////////////////////////////////////////////////////
-void rrCallConv Pause(RRHandle handle)
+void rrCallConv pause()
 {
     rr::Pause(true, "Hit any key to continue..\n");
 }

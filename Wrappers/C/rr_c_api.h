@@ -1506,11 +1506,11 @@ C_DECL_SPEC bool rrCallConv freeMatrix(RRMatrixHandle matrix);
 C_DECL_SPEC bool rrCallConv freeCCode(RRCCodeHandle code);
 
 /*!
- \brief Pause
-If your program is running in a console, Pause(RRHandle handle) will stop execution and wait for one keybord stroke in order to continue.
+ \brief pause
+If your program is running in a console, pause() will stop execution and wait for one keybord stroke in order to continue.
  \return void
 */
-C_DECL_SPEC void rrCallConv Pause(RRHandle handle);
+C_DECL_SPEC void rrCallConv pause();
 
 // --------------------------------------------------------------------------------
 // Helper Methods
