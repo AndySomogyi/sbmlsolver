@@ -597,7 +597,7 @@ RRThreadHandle rrCallConv loadSBMLFromFileThread(RRHandle rrHandle, const char* 
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
-	    return false;
+	    return NULL;
     }
 }
 
@@ -628,7 +628,7 @@ RRThreadPoolHandle rrCallConv loadSBMLFromFileTP(RRInstanceListHandle _handles, 
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
         setError(msg.str());
-	    return false;
+	    return NULL;
     }
 }
 

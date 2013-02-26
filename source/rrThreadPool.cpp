@@ -2,6 +2,7 @@
 #include "rrLogger.h"
 #include "rrThreadPool.h"
 //---------------------------------------------------------------------------
+
 namespace rr
 {
 ThreadPool::ThreadPool()

@@ -82,7 +82,7 @@ rrPlugin
 rrOSSpecifics
 rrModelSharedLibrary
 rrBaseParameter
-rrRoadRunnerlist
+rrRoadRunnerList
 rrThreadPool
 rrLoadModel
 rrRoadRunnerThread

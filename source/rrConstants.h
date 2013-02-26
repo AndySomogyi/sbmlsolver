@@ -36,5 +36,11 @@ enum SBMLType {stCompartment = 0, stSpecies, stParameter};    //Species clashes 
 // Typedefs
 typedef unsigned int 			u_int;
 
+#if defined(__linux)
+#include <unistd.h>
+#define Sleep usleep
+#endif
+
+
 }
 #endif
