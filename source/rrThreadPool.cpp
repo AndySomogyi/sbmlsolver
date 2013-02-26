@@ -90,10 +90,10 @@ void ThreadPool::waitForAll()
     //This should be checked in a thread, and using a condition Variable
     while(isJobQueueEmpty() == false)
     {
-        Sleep(50);
+        Poco::Thread::sleep(50);
     };
 
-	Sleep(50);	//We need a way to know if a thread is still doing processing...
+	Poco::Thread::sleep(50);	//We need a way to know if a thread is still doing processing...
 
     //Dispose threads..
     exitAll();
@@ -102,7 +102,7 @@ void ThreadPool::waitForAll()
     while(isActive() == true)
     {
 	    exitAll(); //Ugly...?
-        Sleep(50);
+        Poco::Thread::sleep(50);
     };
     //This thread pool is done....
 }
