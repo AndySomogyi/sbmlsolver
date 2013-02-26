@@ -10,10 +10,10 @@ int main()
     char tempFolder[1024];
 
 	char* modelFileName = "../models/test_1.xml";
-    int   handleCount = 50;
-    int   threadCount = 8;
+    int   handleCount = 2;
+    int   threadCount = 1;
     int   i;
-   	char  buf[2048];
+   	char  errorBuf[2048];
 	printf("Starting C program...\n");
 
     rrs = createRRInstances(handleCount);
@@ -38,7 +38,6 @@ int main()
             printf("The temp file folder \'%s\' do not exist. Exiting...\n", tempFolder);
             exit(0);
         }
-
     }
 
    	enableLoggingToFile(rrs->Handle[0]);
@@ -68,11 +67,11 @@ int main()
     logMsg(clInfo, " ---------- SIMULATING ---------------------");
 
     //Simulate them using a pool of threads..
-    tpHandle = simulateTP(rrs, 8);
+    tpHandle = simulateTP(rrs, threadCount);
     waitForJobs(tpHandle);
 
   	//Write data to a file
-	writeMultipleRRData(rrs, "../data/allData.dat");
+	writeMultipleRRData(rrs, "allData.dat");
 
 	// Cleanup
     freeRRInstances(rrs);
@@ -80,7 +79,7 @@ int main()
 	if(hasError())
     {
         char* error = getLastError();
-        sprintf(buf, "Last error %s \n", error);
+        sprintf(errorBuf, "Last error %s \n", error);
     }
 	return 0;
 }
@@ -98,8 +97,8 @@ int main()
 //        }
 //        else
 //        {
-//        	sprintf(buf, "There are %d remaining jobs\n", nrOfRemainingJobs);
-//        	logMsg(lInfo, buf);
+//        	sprintf(errorBuf, "There are %d remaining jobs\n", nrOfRemainingJobs);
+//        	logMsg(lInfo, errorBuf);
 //            sleep(0.1);
 //        }
 //	}

@@ -104,7 +104,6 @@ void ThreadPool::waitForAll()
 	    exitAll(); //Ugly...?
         Poco::Thread::sleep(50);
     };
-    //This thread pool is done....
 }
 
 

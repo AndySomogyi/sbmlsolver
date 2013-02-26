@@ -382,11 +382,11 @@ bool Compiler::compile(const string& cmdLine)
     string toFile(cmdLine);
     toFile += " 2>&1 >> ";
     toFile += JoinPath(mOutputPath, "compilation.log");
-    Log(lInfo)<<"Compiler command: "<<toFile;
+    Log(lDebug)<<"Compiler command: "<<toFile;
     int val = system(toFile.c_str());
     if(val ==0)
     {
-    Log(lInfo)<<"Compile system call returned: "<<val;
+    Log(lDebug)<<"Compile system call returned: "<<val;
         return true;
     }
     else

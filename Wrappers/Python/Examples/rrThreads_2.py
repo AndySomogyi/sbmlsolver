@@ -7,8 +7,8 @@ if sys.platform.startswith('win32'):
     modelFile ="r:/models/test_1.xml"
     setTempFolder('r:/rrTemp/python')
 else:
-    modelFile = "/home/totte/rrInstall/models/test_1.xml"
-    setTempFolder('/home/totte/rrTemp/python')
+    modelFile = "/home/totte/rDisk/models/test_1.xml"
+    setTempFolder('/home/totte/rDisk/temp/python')
 
 tempFolder  = getTempFolder()
 handleCount = 3

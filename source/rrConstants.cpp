@@ -14,8 +14,6 @@ const char* 		gDoubleFormat 	            = "%f";
 const char* 		gIntFormat  	            = "%d";;
 const char 	 		gTab 			            = '\t';
 
-
-
 const string    	gEmptyString 				= "";
 const string		gDefaultSupportCodeFolder 	= "..\\rr_support";
 const string		gDefaultCompiler 			= "..\\compilers\\tcc\\tcc.exe";
@@ -24,7 +22,6 @@ const string		gDefaultTempFolder 			= ".";
 const int 			gMaxPath					= 512;
 const double    	gDoubleNaN   				= std::numeric_limits<double>::quiet_NaN() ;
 const float     	gFloatNaN    				= std::numeric_limits<float>::quiet_NaN() ;
-
 
 //Messages
 const string		gEmptyModelMessage 			= "A model needs to be loaded before one can use this method";
