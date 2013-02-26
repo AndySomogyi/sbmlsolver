@@ -10,15 +10,14 @@
 #include "rrFileLog.h"
 #include "rrLogOutput.h"
 
-using std::string;
-using std::ostringstream;
+//using std::string;
+//using std::ostringstream;
 
 namespace rr
 {
 
 class RR_DECLSPEC Logger : public LogContainer<LogOutput>
-{
-};
+{};
 
 #ifndef NO_LOGGER
 #define Log(level) \
@@ -31,7 +30,6 @@ class RR_DECLSPEC Logger : public LogContainer<LogOutput>
     else \
     Logger().Get(level)
 #endif
-
 
 }//Namespace rr
 

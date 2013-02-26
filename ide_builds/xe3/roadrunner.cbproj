@@ -57,7 +57,7 @@
         <BCC_MonitorThis>true</BCC_MonitorThis>
         <FinalOutputDir>$(RR_DEBUG_INSTALL)\bin\</FinalOutputDir>
         <BCC_PCHName>rr.csm</BCC_PCHName>
-        <Defines>EXPORT_RR;LIBSBML_USE_CPP_NAMESPACE;WIN32;STATIC_LIBSTRUCT;STATIC_NLEQ;STATIC_PUGI;CG_IDE;$(Defines)</Defines>
+        <Defines>EXPORT_RR;LIBSBML_USE_CPP_NAMESPACE;WIN32;STATIC_LIBSTRUCT;STATIC_NLEQ;STATIC_PUGI;CG_IDE;POCO_STATIC;$(Defines)</Defines>
         <NoVCL>true</NoVCL>
         <LinkPackageImports>rtl.bpi;vcl.bpi</LinkPackageImports>
         <ProjectType>CppDynamicLibrary</ProjectType>

@@ -53,7 +53,7 @@
 /* #undef HAVE_CHECK_H */
 
 /* Define to 1 if you have the <expat.h> header file. */
-/* #undef HAVE_EXPAT_H */
+#define HAVE_EXPAT_H 1
 
 /* Define to 1 to use the Expat XML library */
 /* #undef USE_EXPAT */
@@ -75,7 +75,7 @@
 #define HAVE_SYS_TYPES_H 1
 
 /* Define to 1 if you have the `m' library (-lm). */
-/* #undef HAVE_LIBM */
+#define HAVE_LIBM 1
 
 
 /* Define to 1 to enable primitive memory tracing. */

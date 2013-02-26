@@ -46,13 +46,24 @@
 extern "C"
 {
 #else
-#include <stdio.h>
-//#include "rr_support/stdbool.h"
 #include "stdbool.h"
 #endif
 
 /*!@brief Void pointer to RRHandle */
-typedef void* RRHandle; /*! Void pointer to RRHandle *>
+typedef void* RRHandle; /*! Void pointer to RRHandle */
+
+
+/*!@brief Void pointer to T(hread)P(ool)Handle */
+typedef void* TPHandle; /*! Void pointer to TPHandle */
+
+/*!@struct*/
+/*!@brief Structure for a set of RoadRunner handles */
+typedef struct RRInstanceList
+{
+    int             Count;  	/*!< The number of elements in the vector */
+    RRHandle*       Handle;   	/*!< Points to an array of double items */
+    void* 			RRList;
+} *RRInstanceListHandle;          			/*!< Pointer to RRVectorHandle struct */
 
 /*!@struct*/
 /*!@brief Structure for a simple vector of doubles */

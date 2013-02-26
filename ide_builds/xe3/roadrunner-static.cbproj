@@ -61,7 +61,7 @@
         <_TCHARMapping>char</_TCHARMapping>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
-        <IncludePath>R:\rrlROOT\trunk\source\;..\..\plugins\TestPlugin\;..\..\source\;..\..\source\mtrand\;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\plugins\TestPlugin\;..\..\source\;..\..\source\mtrand\;$(IncludePath)</IncludePath>
         <ILINK_LibraryPath>P:\mtk\Components\vtk\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <Multithreaded>true</Multithreaded>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
@@ -213,6 +213,13 @@
         <CppCompile Include="..\..\source\rrIniSection.cpp">
             <BuildOrder>65</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\rrLoadModel.cpp">
+            <BuildOrder>76</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrLoadModelThread.cpp">
+            <DependentOn>..\..\source\rrLoadModelThread.h</DependentOn>
+            <BuildOrder>75</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrLogContainer.cpp">
             <DependentOn>..\..\source\rrLogContainer.h</DependentOn>
             <BuildOrder>24</BuildOrder>
@@ -309,13 +316,21 @@
             <DependentOn>..\..\source\rrRoadRunner.h</DependentOn>
             <BuildOrder>41</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\rrRoadRunnerList.cpp">
+            <DependentOn>..\..\source\rrRoadRunnerList.h</DependentOn>
+            <BuildOrder>73</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrRoadRunnerThread.cpp">
+            <DependentOn>..\..\source\rrRoadRunnerThread.h</DependentOn>
+            <BuildOrder>74</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrRule.cpp">
             <DependentOn>..\..\source\rrRule.h</DependentOn>
             <BuildOrder>42</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrSBMLModelSimulation.cpp">
             <DependentOn>..\..\source\rrSBMLModelSimulation.h</DependentOn>
-            <BuildOrder>43</BuildOrder>
+            <BuildOrder>74</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrSBMLSymbol.cpp">
             <DependentOn>..\..\source\rrSBMLSymbol.h</DependentOn>
@@ -328,6 +343,13 @@
         <CppCompile Include="..\..\source\rrScanner.cpp">
             <DependentOn>..\..\source\rrScanner.h</DependentOn>
             <BuildOrder>46</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrSimulate.cpp">
+            <DependentOn>..\..\source\rrSimulate.h</DependentOn>
+            <BuildOrder>78</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrSimulateThread.cpp">
+            <BuildOrder>79</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrSimulationData.cpp">
             <DependentOn>..\..\source\rrSimulationData.h</DependentOn>
@@ -374,6 +396,10 @@
         <CppCompile Include="..\..\source\rrTextWriter.cpp">
             <DependentOn>..\..\source\rrTextWriter.h</DependentOn>
             <BuildOrder>58</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrThreadPool.cpp">
+            <DependentOn>..\..\source\rrThreadPool.h</DependentOn>
+            <BuildOrder>77</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrToken.cpp">
             <DependentOn>..\..\source\rrToken.h</DependentOn>

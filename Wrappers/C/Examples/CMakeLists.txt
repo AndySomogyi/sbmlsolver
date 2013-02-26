@@ -5,7 +5,9 @@ if(${MSVC})
 endif(${MSVC})
 
 set(examples 	
-#        get_c_code
+#get_c_code
+threads_1
+threads_2
 )
 
 foreach(example ${examples})

@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{4AB5A48B-B6D9-40A4-9EDD-B11D374CE687}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="roadrunner-static.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="rr_cm.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="roadrunner-static">
+        <MSBuild Projects="roadrunner-static.cbproj"/>
+    </Target>
+    <Target Name="roadrunner-static:Clean">
+        <MSBuild Projects="roadrunner-static.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="roadrunner-static:Make">
+        <MSBuild Projects="roadrunner-static.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="rr_cm">
+        <MSBuild Projects="rr_cm.cbproj"/>
+    </Target>
+    <Target Name="rr_cm:Clean">
+        <MSBuild Projects="rr_cm.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="rr_cm:Make">
+        <MSBuild Projects="rr_cm.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="roadrunner-static;rr_cm"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="roadrunner-static:Clean;rr_cm:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="roadrunner-static:Make;rr_cm:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

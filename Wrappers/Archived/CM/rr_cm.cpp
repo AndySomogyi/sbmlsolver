@@ -38,15 +38,19 @@
 // *
 // * redistribute any piece of this software without proper attribution;
 //*/
-//
-//#pragma hdrstop
+
+#pragma hdrstop
 #include <string>
 #include <sstream>
+#include "rrRoadRunner.h"
+#include "rrRoadRunnerList.h"
+#include "rrLoadModel.h"
+#include "rrSimulate.h"
 //#include "rrParameter.h"
-//#include "rrRoadRunner.h"
-//#include "rrCGenerator.h"
-//#include "rrLogger.h"           //Might be useful for debugging later on
+
+#include "rrLogger.h"
 #include "rrException.h"
+#include "rrCGenerator.h"
 //#include "rrUtils.h"
 //#include "rrStringUtils.h"
 //#include "rrCapability.h"
@@ -58,39 +62,93 @@
 //	#define getcwd _getcwd
 //	#define chdir  _chdir
 //#elif defined(__BORLANDC__)
-//  	#include <dir.h>
+  	#include <dir.h>			//getcwd
 //#else
 //#include <unistd.h>
 //#endif
 //
 #include "rr_cm.h"
-//#include "rr_cm_support.h"   //Support functions, not exposed as api functions and or data
+#include "rr_cm_support.h"   //Support functions, not exposed as api functions and or data
 ////---------------------------------------------------------------------------
 using namespace std;
 using namespace rr;
-//using namespace rr_cm;
-//
-RRHandle rrCallConv getRRHandle()
+using namespace rr_cm;
+
+RRHandle rrCallConv createRRHandle()
 {
 	try
     {
-//    	string rrInstallFolder(getParentFolder(getRRCAPILocation()));
-
-//        string compiler = getCompilerName();
-
-//        RRHandle rrHandle = new RoadRunner(JoinPath(rrInstallFolder, "rr_support"), compiler, GetUsersTempDataFolder());
-		RRHandle rrHandle = NULL;
+    	string rrInstallFolder(getParentFolder(getRRCAPILocation()));
+        string compiler = getCompilerName();
+        RRHandle rrHandle = new RoadRunner(JoinPath(rrInstallFolder, "rr_support"), compiler, GetUsersTempDataFolder());
     	return rrHandle;
     }
 	catch(Exception& ex)
     {
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-//        setError(msg.str());
+        setError(msg.str());
 		return NULL;
     }
 }
-//
+
+RRInstanceListHandle rrCallConv createRRHandles(int count)
+{
+	try
+    {
+    	//string rrInstallFolder(getParentFolder(getRRCAPILocation()));
+        //string compiler = getCompilerName();
+		RoadRunnerList* listHandle = new RoadRunnerList(count, GetUsersTempDataFolder());
+
+        //Create the C list structure
+		RRInstanceListHandle rrList = new RRInstanceList;
+        rrList->RRList = (void*) listHandle;
+        rrList->Count = count;
+
+        //Create 'count' handles
+        rrList->Handle = new RRHandle[count];
+
+        //Populate handles
+        for(int i = 0; i < count; i++)
+        {
+        	rrList->Handle[i] = (*listHandle)[i];
+        }
+    	return rrList;
+    }
+	catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return NULL;
+    }
+}
+
+bool rrCallConv freeRRHandles(RRInstanceListHandle rrList)
+{
+	try
+    {
+    	//Delete the C++ list
+        RoadRunnerList* listHandle = (RoadRunnerList*) rrList->RRList;
+
+		delete listHandle;
+
+        //Free  C handles
+        delete [] rrList->Handle;
+
+        //Free the C list
+        delete rrList;
+		return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return false;
+    }
+}
+
 //char* rrCallConv getInstallFolder()
 //{
 //	if(!gInstallFolder)
@@ -101,22 +159,22 @@ RRHandle rrCallConv getRRHandle()
 //	return gInstallFolder;
 //}
 //
-//char* rrCallConv getCompilerName()
-//{
-//	string compiler;
-//    string rrInstallFolder(getParentFolder(getRRCAPILocation()));
-//
-//        //Get location of shared lib and use that as 'install' folder
-//	#if defined(_WIN32) || defined(WIN32)
-//        compiler = (JoinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"));
-//	#elif defined(__linux)
-//        compiler = "gcc";
-//	#else
-//        compiler = "gcc";
-//    #endif
-//
-//	return createText(compiler);
-//}
+char* rrCallConv getCompilerName()
+{
+	string compiler;
+    string rrInstallFolder(getParentFolder(getRRCAPILocation()));
+
+        //Get location of shared lib and use that as 'install' folder
+	#if defined(_WIN32) || defined(WIN32)
+        compiler = (JoinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"));
+	#elif defined(__linux)
+        compiler = "gcc";
+	#else
+        compiler = "gcc";
+    #endif
+
+	return createText(compiler);
+}
 //
 //bool rrCallConv  setInstallFolder(const char* folder)
 //{
@@ -133,94 +191,110 @@ RRHandle rrCallConv getRRHandle()
 //  		return false;
 //    }
 //}
-//
-////bool rrCallConv enableLogging()
-////{
-////	try
-////    {
-////	    LogOutput::mLogToConsole = true;
-////        char* tempFolder = getTempFolder();
-////		string logFile = JoinPath(tempFolder, "RoadRunner.log") ;
-////        freeText(tempFolder);
-////		Log(lInfo)<<"Creating log file "<<logFile;
-////        gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));
-////
-////        char* buffer;
-////        // Get the current working directory:
-////        if( (buffer = getcwd(NULL, 0)) == NULL )
-////        {
-////            perror( "getcwd error" );
-////        }
-////        else
-////        {
-////            Log(lInfo)<<"Current working folder is :"<<buffer;
-////            free(buffer);
-////        }
-////
-////    	return true;
-////    }
-////    catch(const Exception& ex)
-////    {
-////    	stringstream msg;
-////    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-////        setError(msg.str());
-////  	    return false;
-////    }
-////}
-//
-//bool rrCallConv setLogLevel(const char* _lvl)
-//{
-//	try
-//    {
-//        LogLevel lvl = GetLogLevel(_lvl);
-//		gLog.SetCutOffLogLevel(lvl);
-//    	return true;
-//    }
-//    catch(Exception& ex)
-//    {
-//    	stringstream msg;
-//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-//        setError(msg.str());
-//  	    return false;
-//    }
-//}
-//
-//char* rrCallConv getLogLevel()
-//{
-//	try
-//    {
-//        string level = gLog.GetCurrentLogLevel();
-//        char* lvl = createText(level.c_str());
-//    	return lvl;
-//    }
-//    catch(Exception& ex)
-//    {
-//    	stringstream msg;
-//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-//        setError(msg.str());
-//  	    return NULL;
-//    }
-//}
-//
-//char* rrCallConv getLogFileName()
-//{
-//	try
-//    {
-//    	return createText(gLog.GetLogFileName().c_str());
-//    }
-//    catch(Exception& ex)
-//    {
-//    	stringstream msg;
-//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-//        setError(msg.str());
-//  	    return NULL;
-//    }
-//}
-//
-//char* rrCallConv getBuildDate()
-//{
-//    return createText(__DATE__);
-//}
+
+void rrCallConv logMsg(CLogLevel lvl, const char* msg)
+{
+	try
+    {
+		Log(lvl)<<msg;
+    }
+    catch(const Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+    }
+}
+
+bool rrCallConv enableLoggingToConsole()
+{
+	try
+    {
+	    LogOutput::mLogToConsole = true;
+    	return true;
+    }
+    catch(const Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return false;
+    }
+}
+
+bool rrCallConv enableLoggingToFile(RRHandle handle)
+{
+	try
+    {
+        char* tempFolder = getTempFolder(handle);
+		string logFile = JoinPath(tempFolder, "RoadRunner.log") ;
+        freeText(tempFolder);
+
+        gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));
+    	return true;
+    }
+    catch(const Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return false;
+    }
+}
+
+bool rrCallConv setLogLevel(const char* _lvl)
+{
+	try
+    {
+        LogLevel lvl = GetLogLevel(_lvl);
+		gLog.SetCutOffLogLevel(lvl);
+    	return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return false;
+    }
+}
+
+char* rrCallConv getLogLevel()
+{
+	try
+    {
+        string level = gLog.GetCurrentLogLevel();
+        char* lvl = createText(level.c_str());
+    	return lvl;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return NULL;
+    }
+}
+
+char* rrCallConv getLogFileName()
+{
+	try
+    {
+    	return createText(gLog.GetLogFileName().c_str());
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  	    return NULL;
+    }
+}
+
+char* rrCallConv getBuildDate()
+{
+    return rr_cm::createText(__DATE__);
+}
 //
 //char* rrCallConv getBuildTime()
 //{
@@ -252,50 +326,42 @@ RRHandle rrCallConv getRRHandle()
 //		return NULL;
 //    }
 //}
-//
-//char* rrCallConv getRRCAPILocation()
-//{
-//#if defined(_WIN32) || defined(WIN32)
-//	char path[MAX_PATH];
-//    HINSTANCE handle = NULL;
-//    const char* dllName = "rr_c_api";
-//    handle = GetModuleHandle(dllName);
-//	if(GetModuleFileNameA(handle, path, ARRAYSIZE(path)) != 0)
-//    {
-//	    string aPath(ExtractFilePath(path));
-//		return createText(aPath);
-//    }
-//    return NULL;
-//#else
-//	return createText(JoinPath(getInstallFolder(),"/lib"));
-//#endif
-//}
-//
-//char* rrCallConv getCopyright(RRHandle _rrHandle)
-//{
-//	try
-//    {
-//   		RoadRunner* handle = getRRHandle(_rrHandle);
-//        char* text = NULL;
-//        if(!handle)
-//        {
-//            setError(ALLOCATE_API_ERROR_MSG);
-//        }
-//        else
-//        {
-//            text = createText(handle->getCopyright());
-//        }
-//        return text;
-//    }
-//    catch(Exception& ex)
-//    {
-//    	stringstream msg;
-//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-//        setError(msg.str());
-//		return NULL;
-//    }
-//}
-//
+
+char* rrCallConv getRRCAPILocation()
+{
+#if defined(_WIN32) || defined(WIN32)
+	char path[MAX_PATH];
+    HINSTANCE handle = NULL;
+    const char* dllName = "rr_c_api";
+    handle = GetModuleHandle(dllName);
+	if(GetModuleFileNameA(handle, path, ARRAYSIZE(path)) != 0)
+    {
+	    string aPath(ExtractFilePath(path));
+		return createText(aPath);
+    }
+    return NULL;
+#else
+	return createText(JoinPath(getInstallFolder(),"/lib"));
+#endif
+}
+
+char* rrCallConv getCopyright(RRHandle handle)
+{
+	try
+    {
+   		RoadRunner* rri = castToRRInstance(handle);
+        char* text = createText(rri->getCopyright());
+        return text;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return NULL;
+    }
+}
+
 ////char* rrCallConv getInfo()
 ////{
 ////	try
@@ -391,42 +457,38 @@ RRHandle rrCallConv getRRHandle()
 ////     }
 ////}
 ////
-////bool rrCallConv setTempFolder(const char* folder)
-////{
-////	try
-////    {
-////    	if(!rrHandle)
-////    	{
-////        	setError(ALLOCATE_API_ERROR_MSG);
-////        	return false;
-////    	}
-////		Log(lDebug)<<"Setting tempfolder to:"<<folder<<endl;
-////	    return rrHandle->setTempFileFolder(folder);
-////    }
-////    catch(Exception& ex)
-////    {
-////    	stringstream msg;
-////    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-////        setError(msg.str());
-////  		return false;
-////    }
-////}
-////
-//char* rrCallConv getTempFolder(RRHandle handle)
-//{
-//	try
-//    {
-//    	RoadRunner* rrHandle = getRRHandle(handle);
-//	    return createText(rrHandle->getTempFileFolder());
-//    }
-//    catch(Exception& ex)
-//    {
-//    	stringstream msg;
-//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-//        setError(msg.str());
-//		return NULL;
-//    }
-//}
+
+bool rrCallConv setTempFolder(RRHandle handle, const char* folder)
+{
+	try
+    {
+    	RoadRunner* rrHandle = castToRRInstance(handle);
+	    return rrHandle->setTempFileFolder(folder);
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+  		return false;
+    }
+}
+
+char* rrCallConv getTempFolder(RRHandle handle)
+{
+	try
+    {
+    	RoadRunner* rrHandle = castToRRInstance(handle);
+	    return createText(rrHandle->getTempFileFolder());
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return NULL;
+    }
+}
 //
 ////bool rrCallConv setCompiler(const char* fName)
 ////{
@@ -566,40 +628,166 @@ RRHandle rrCallConv getRRHandle()
 ////    }
 ////}
 ////
-////bool rrCallConv loadSBMLFromFile(const char* fileName)
-////{
-////	try
-////    {
-////        if(!rrHandle)
-////        {
-////            setError(ALLOCATE_API_ERROR_MSG);
-////            return false;
-////        }
-////        //Check if file exists first
-////        if(!FileExists(fileName))
-////        {
-////            stringstream msg;
-////            msg<<"The file "<<fileName<<" was not found";
-////            setError(msg.str());
-////            return false;
-////        }
-////
-////        if(!rrHandle->loadSBMLFromFile(fileName))
-////        {
-////            setError("Failed to load SBML semantics");	//There are many ways loading a model can fail, look at logFile to know more
-////            return false;
-////        }
-////        return true;
-////    }
-////    catch(Exception& ex)
-////    {
-////    	stringstream msg;
-////    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-////        setError(msg.str());
-////	    return false;
-////    }
-////}
-////
+
+bool rrCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
+{
+	try
+    {
+    	RoadRunner* rri = castToRRInstance(_handle);
+
+        //Check if file exists first
+        if(!FileExists(fileName))
+        {
+            stringstream msg;
+            msg<<"The file "<<fileName<<" was not found";
+            setError(msg.str());
+            return false;
+        }
+
+        if(!rri->loadSBMLFromFile(fileName))
+        {
+            setError("Failed to load SBML semantics");	//There are many ways loading a model can fail, look at logFile to know more
+            return false;
+        }
+        return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
+TPHandle rrCallConv loadModelFromFileTP(RRInstanceListHandle _handles, const char* fileName, int nrOfThreads)
+{
+	try
+    {
+        //Check if file exists first
+        if(!FileExists(fileName))
+        {
+            stringstream msg;
+            msg<<"The file "<<fileName<<" do not exist";
+            setError(msg.str());
+            return NULL;
+        }
+
+        RoadRunnerList *rrs = getRRList(_handles);
+        LoadModel* tp = new LoadModel(*rrs, fileName, nrOfThreads);
+
+        if(!tp)
+        {
+            setError("Failed to create a LoadModel Thread Pool");
+        }
+        return tp;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
+bool rrCallConv waitForJobs(TPHandle handle)
+{
+	try
+    {
+        ThreadPool* aTP = (ThreadPool*) handle;
+        if(aTP)
+        {
+            aTP->waitForAll();
+            return true;
+        }
+		return false;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
+int rrCallConv getNumberOfRemainingJobs(TPHandle handle)
+{
+	try
+    {
+        ThreadPool* aTP = (ThreadPool*) handle;
+        if(aTP)
+        {
+            return aTP->getNumberOfRemainingJobs();
+        }
+    	return -1;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return -1;
+    }
+}
+
+
+
+//bool rrCallConv loadSBML(const char* sbml)
+//{
+//	try
+//    {
+//        if(!rrHandle)
+//        {
+//            setError(ALLOCATE_API_ERROR_MSG);
+//            return false;
+//        }
+//
+//        if(!rrHandle->loadSBML(sbml))
+//        {
+//            setError("Failed to load SBML semantics");
+//            return false;
+//        }
+//        return true;
+//    }
+//    catch(Exception& ex)
+//    {
+//    	stringstream msg;
+//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+//        setError(msg.str());
+//	  	return false;
+//    }
+//}
+
+bool rrCallConv loadSBMLH(RRHandle _handle, const char* sbml)
+{
+	try
+    {
+    	RoadRunner* handle = castToRRInstance(_handle);
+        if(!handle)
+        {
+            setError(INVALID_HANDLE_ERROR_MSG);
+            return false;
+        }
+
+        if(!handle->loadSBML(sbml))
+        {
+            setError("Failed to load SBML semantics");
+            return false;
+        }
+        return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	  	return false;
+    }
+}
+
+
 ////bool rrCallConv loadSimulationSettings(const char* fileName)
 ////{
 ////	try
@@ -634,32 +822,6 @@ RRHandle rrCallConv getRRHandle()
 ////    }
 ////}
 ////
-////
-////bool rrCallConv loadSBML(const char* sbml)
-////{
-////	try
-////    {
-////        if(!rrHandle)
-////        {
-////            setError(ALLOCATE_API_ERROR_MSG);
-////            return false;
-////        }
-////
-////        if(!rrHandle->loadSBML(sbml))
-////        {
-////            setError("Failed to load SBML semantics");
-////            return false;
-////        }
-////        return true;
-////    }
-////    catch(Exception& ex)
-////    {
-////    	stringstream msg;
-////    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-////        setError(msg.str());
-////	  	return false;
-////    }
-////}
 ////
 ////char* rrCallConv getSBML()
 ////{
@@ -705,71 +867,58 @@ RRHandle rrCallConv getRRHandle()
 ////    }
 ////}
 ////
-////bool rrCallConv setTimeStart(const double& timeStart)
-////{
-////	try
-////    {
-////        if(!rrHandle)
-////        {
-////            setError(ALLOCATE_API_ERROR_MSG);
-////            return false;
-////        }
-////        rrHandle->setTimeStart(timeStart);
-////    	return true;
-////    }
-////    catch(Exception& ex)
-////    {
-////    	stringstream msg;
-////    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-////        setError(msg.str());
-////	    return false;
-////    }
-////}
-////
-////bool rrCallConv setTimeEnd(const double& timeEnd)
-////{
-////	try
-////    {
-////        if(!rrHandle)
-////        {
-////            setError(ALLOCATE_API_ERROR_MSG);
-////            return false;
-////        }
-////
-////        rrHandle->setTimeEnd(timeEnd);
-////        return true;
-////    }
-////    catch(Exception& ex)
-////    {
-////    	stringstream msg;
-////    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-////        setError(msg.str());
-////	    return false;
-////    }
-////}
-////
-////bool rrCallConv setNumPoints(const int& nrPoints)
-////{
-////	try
-////    {
-////        if(!rrHandle)
-////        {
-////            setError(ALLOCATE_API_ERROR_MSG);
-////            return false;
-////        }
-////
-////        rrHandle->setNumPoints(nrPoints);
-////	    return true;
-////    }
-////    catch(Exception& ex)
-////    {
-////    	stringstream msg;
-////    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-////        setError(msg.str());
-////	  	return false;
-////    }
-////}
-////
+bool rrCallConv setTimeStart(RRHandle handle, const double timeStart)
+{
+	try
+    {
+        RoadRunner* rrHandle = castToRRInstance(handle);
+        rrHandle->setTimeStart(timeStart);
+    	return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
+bool rrCallConv setTimeEnd(RRHandle handle, const double timeEnd)
+{
+	try
+    {
+        RoadRunner* rrHandle = castToRRInstance(handle);
+        rrHandle->setTimeEnd(timeEnd);
+        return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
+bool rrCallConv setNumPoints(RRHandle handle, const int nrPoints)
+{
+	try
+    {
+        RoadRunner* rrHandle = castToRRInstance(handle);
+
+        rrHandle->setNumPoints(nrPoints);
+	    return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	  	return false;
+    }
+}
+
 ////bool rrCallConv getTimeStart(double& timeStart)
 ////{
 ////	try
@@ -838,29 +987,24 @@ RRHandle rrCallConv getRRHandle()
 ////}
 ////
 ////
-////bool  rrCallConv setTimeCourseSelectionList(const char* list)
-////{
-////	try
-////    {
-////        if(!rrHandle)
-////        {
-////            setError(ALLOCATE_API_ERROR_MSG);
-////            return false;
-////        }
-////
-////        rrHandle->setTimeCourseSelectionList(list);
-////        return true;
-////
-////    }
-////    catch(Exception& ex)
-////    {
-////    	stringstream msg;
-////    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-////        setError(msg.str());
-////	    return false;
-////    }
-////}
-////
+
+bool rrCallConv setTimeCourseSelectionList(RRHandle handle, const char* list)
+{
+	try
+    {
+    	RoadRunner* rrHandle = castToRRInstance(handle);
+        rrHandle->setTimeCourseSelectionList(list);
+        return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
 ////bool rrCallConv createTimeCourseSelectionList()
 ////{
 ////	try
@@ -963,6 +1107,32 @@ RRHandle rrCallConv getRRHandle()
 ////    }
 ////}
 ////
+
+//TPHandle rrCallConv loadModelFromFileTP(RRInstanceListHandle _handles, const char* fileName, int nrOfThreads)
+TPHandle rrCallConv simulateTP(RRInstanceListHandle _handles, int nrOfThreads)
+{
+	try
+    {
+        RoadRunnerList *rrs = getRRList(_handles);
+        Simulate* tp = new Simulate(*rrs, nrOfThreads);
+
+        if(!tp)
+        {
+            setError("Failed to create a Simulate Thread Pool");
+        }
+        return tp;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return NULL;
+    }
+}
+
+
+
 ////RRResultHandle rrCallConv simulateEx (const double& timeStart, const double& timeEnd, const int& numberOfPoints)
 ////{
 ////	try
@@ -1074,28 +1244,40 @@ RRHandle rrCallConv getRRHandle()
 ////	return NULL;
 ////}
 ////
-////bool rrCallConv getValue(const char* symbolId, double& value)
-////{
-////	try
-////    {
-////    	if(!rrHandle)
-////    	{
-////        	setError(ALLOCATE_API_ERROR_MSG);
-////        	return false;
-////    	}
-////	    value = rrHandle->getValue(symbolId);
-////        return true;
-////    }
-////    catch(Exception& ex)
-////    {
-////    	stringstream msg;
-////    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-////        setError(msg.str());
-////		return false;
-////    }
-////}
-////
-////
+
+bool rrCallConv getValue(RRHandle handle, const char* symbolId, double *value)
+{
+	try
+    {
+        RoadRunner* rrHandle = castToRRInstance(handle);
+	    *value = rrHandle->getValue(symbolId);
+        return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return false;
+    }
+}
+
+bool rrCallConv setValue(RRHandle handle, const char* symbolId, const double value)
+{
+	try
+    {
+    	RoadRunner* rrHandle = castToRRInstance(handle);
+    	return rrHandle->setValue(symbolId, value);
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return false;
+    }
+}
+
 ////RRMatrixHandle rrCallConv getUnscaledElasticityMatrix()
 ////{
 ////	try
@@ -1145,26 +1327,7 @@ RRHandle rrCallConv getRRHandle()
 ////    }
 ////}
 ////
-////bool rrCallConv setValue(const char* symbolId, const double& value)
-////{
-////	try
-////    {
-////        if(!rrHandle)
-////        {
-////            setError(ALLOCATE_API_ERROR_MSG);
-////            return false;
-////        }
-////	    return rrHandle->setValue(symbolId, value);
-////    }
-////    catch(Exception& ex)
-////    {
-////    	stringstream msg;
-////    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-////        setError(msg.str());
-////		return NULL;
-////    }
-////}
-////
+
 ////RRMatrixHandle rrCallConv getStoichiometryMatrix()
 ////{
 ////	try
@@ -1303,20 +1466,20 @@ RRHandle rrCallConv getRRHandle()
 ////    }
 ////}
 ////
-////C_DECL_SPEC bool rrCallConv hasError()
-////{
-////    return (gLastError != NULL) ? true : false;
-////}
-////
-////char* rrCallConv getLastError()
-////{
-////	if(!gLastError)
-////    {
-////	    gLastError = createText("No Error");
-////    }
-////    return gLastError;
-////}
-////
+C_DECL_SPEC bool rrCallConv hasError()
+{
+    return (gLastError != NULL) ? true : false;
+}
+
+char* rrCallConv getLastError()
+{
+	if(!gLastError)
+    {
+	    gLastError = createText("No Error");
+    }
+    return gLastError;
+}
+
 ////bool rrCallConv reset()
 ////{
 ////	try
@@ -2312,48 +2475,44 @@ RRHandle rrCallConv getRRHandle()
 ////    }
 ////}
 ////
-////RRCCode* rrCallConv getCCode()
-////{
-////	try
-////    {
-////    	if(!rrHandle)
-////        {
-////            setError(ALLOCATE_API_ERROR_MSG);
-////            return NULL;
-////        }
-////
-////        CGenerator* generator = rrHandle->getCGenerator();
-////        if(!generator)
-////        {
-////            return NULL;
-////        }
-////
-////        RRCCode* cCode = new RRCCode;
-////		cCode->Header = NULL;
-////		cCode->Source = NULL;
-////        string header = generator->getHeaderCode();
-////        string source = generator->getSourceCode();
-////
-////        if(header.size())
-////        {
-////            cCode->Header = createText(header);
-////        }
-////
-////        if(source.size())
-////        {
-////            cCode->Source = createText(source);
-////        }
-////        return cCode;
-////    }
-////    catch(Exception& ex)
-////    {
-////    	stringstream msg;
-////    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-////        setError(msg.str());
-////		return NULL;
-////    }
-////}
-////
+RRCCode* rrCallConv getCCode(RRHandle handle)
+{
+	try
+    {
+    	RoadRunner* rri = castToRRInstance(handle);
+
+        CGenerator* generator = rri->getCGenerator();
+        if(!generator)
+        {
+            return NULL;
+        }
+
+        RRCCode* cCode = new RRCCode;
+		cCode->Header = NULL;
+		cCode->Source = NULL;
+        string header = generator->getHeaderCode();
+        string source = generator->getSourceCode();
+
+        if(header.size())
+        {
+            cCode->Header = createText(header);
+        }
+
+        if(source.size())
+        {
+            cCode->Source = createText(source);
+        }
+        return cCode;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return NULL;
+    }
+}
+
 ////// *******  Not yet implemented  ********
 ////// codeGenerationMode = 0 if mode is C code generation
 ////// codeGenerationMode = 1 ig mode is internal math interpreter
@@ -3025,31 +3184,25 @@ RRHandle rrCallConv getRRHandle()
 ////    }
 ////}
 ////
-////// Free Functions =====================================================
-////bool rrCallConv freeRRInstance(RRHandle rrHandle)
-////{
-////	try
-////    {
-////    	if(rrHandle == handle)
-////        {
-////        	delete rrHandle;
-////        	rrHandle = NULL;
-////	        return true;
-////        }
-////        else
-////        {
-////        	return false;
-////        }
-////    }
-////    catch(Exception& ex)
-////    {
-////    	stringstream msg;
-////    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-////        setError(msg.str());
-////	    return false;
-////    }
-////}
-////
+// Free Functions =====================================================
+bool rrCallConv freeRRHandle(RRHandle handle)
+{
+	try
+    {
+    	RoadRunner* rri = castToRRInstance(handle);
+        delete rri;
+        return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
+
 ////bool rrCallConv freeMatrix(RRMatrixHandle matrix)
 ////{
 ////	try
@@ -3086,25 +3239,25 @@ RRHandle rrCallConv getRRHandle()
 ////    }
 ////}
 ////
-//bool rrCallConv freeText(char* text)
-//{
-//	try
-//    {
-//        if(text != ALLOCATE_API_ERROR_MSG)
-//        {
-//            delete [] text;
-//        }
-//        return true;
-//    }
-//    catch(Exception& ex)
-//    {
-//    	stringstream msg;
-//    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-//        setError(msg.str());
-//    	return false;
-//    }
-//}
-//
+bool rrCallConv freeText(char* text)
+{
+	try
+    {
+        if(text != ALLOCATE_API_ERROR_MSG)
+        {
+            delete [] text;
+        }
+        return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+    	return false;
+    }
+}
+
 ////bool rrCallConv freeStringArray(RRStringArrayHandle sl)
 ////{
 ////	try
@@ -3140,26 +3293,26 @@ RRHandle rrCallConv getRRHandle()
 ////    }
 ////}
 ////
-////bool rrCallConv freeCCode(RRCCodeHandle code)
-////{
-////	try
-////    {
-////        if(code)
-////        {
-////            delete code->Header;
-////            delete code->Source;
-////        }
-////		return true;
-////    }
-////    catch(Exception& ex)
-////    {
-////    	stringstream msg;
-////    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-////        setError(msg.str());
-////	    return false;
-////    }
-////}
-////
+bool rrCallConv freeCCode(RRCCodeHandle code)
+{
+	try
+    {
+        if(code)
+        {
+            delete code->Header;
+            delete code->Source;
+        }
+		return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
 /////////////////////////////////////////////////////////////////
 ////void rrCallConv Pause()
 ////{
@@ -3888,18 +4041,19 @@ RRHandle rrCallConv getRRHandle()
 //
 ////We only need to give the linker the folder where libs are
 ////using the pragma comment. Works for MSVC and codegear
-//#if defined(CG_IDE)
+#if defined(CG_IDE)
+//#pragma comment(lib, "roadrunner.lib")
 #pragma comment(lib, "roadrunner-static.lib")
-//#pragma comment(lib, "rr-libstruct-static.lib")
-//#pragma comment(lib, "pugi-static.lib")
-//#pragma comment(lib, "libsbml-static.lib")
-//#pragma comment(lib, "sundials_cvode.lib")
-//#pragma comment(lib, "sundials_nvecserial.lib")
-//#pragma comment(lib, "libxml2_xe.lib")
-//#pragma comment(lib, "blas.lib")
-//#pragma comment(lib, "lapack.lib")
-//#pragma comment(lib, "libf2c.lib")
-//#pragma comment(lib, "poco_foundation-static.lib")
-//#pragma comment(lib, "nleq-static.lib")
-//#endif
+#pragma comment(lib, "rr-libstruct-static.lib")
+#pragma comment(lib, "pugi-static.lib")
+#pragma comment(lib, "libsbml-static.lib")
+#pragma comment(lib, "sundials_cvode.lib")
+#pragma comment(lib, "sundials_nvecserial.lib")
+#pragma comment(lib, "libxml2_xe.lib")
+#pragma comment(lib, "blas.lib")
+#pragma comment(lib, "lapack.lib")
+#pragma comment(lib, "libf2c.lib")
+#pragma comment(lib, "poco_foundation-static.lib")
+#pragma comment(lib, "nleq-static.lib")
+#endif
 

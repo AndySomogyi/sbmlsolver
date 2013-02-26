@@ -577,6 +577,14 @@ bool RoadRunner::simulateSBMLFile(const string& fileName, const bool& useConserv
 
 bool RoadRunner::loadSBMLFromFile(const string& fileName)
 {
+	if(!FileExists(fileName))
+    {
+        stringstream msg;
+        msg<<"File: "<<fileName<<" don't exist";
+        Log(lError)<<msg.str();
+    	return false;
+    }
+
 	ifstream ifs(fileName.c_str());
     if(!ifs)
     {
@@ -597,7 +605,7 @@ bool RoadRunner::loadSBMLFromFile(const string& fileName)
 
 bool RoadRunner::loadSBML(const string& sbml)
 {
-    Log(lInfo)<<"Loading SBML into simulator";
+    Log(lDebug)<<"Loading SBML into simulator";
     if (!sbml.size())
     {
         Log(lError)<<"No SBML content..!";

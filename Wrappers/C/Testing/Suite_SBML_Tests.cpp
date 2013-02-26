@@ -1,32 +1,35 @@
 #include <iostream>
 #include <string>
 #include <vector>
-
 #include "UnitTest++.h"
 #include "rr_c_api.h"
 #include "rrUtils.h"
 #include "rrException.h"
 #include "rrSBMLTestSuiteSimulation_CAPI.h"
+
 using namespace UnitTest;
 using namespace std;
 using namespace rr;
 
-extern RRHandle gRR;	//Global roadrunner C handle
 extern string 	gTSModelsPath;
 extern string   gCompiler;
 extern string   gSupportCodeFolder;
 extern string   gTempFolder;
 extern bool		gDebug;
 
+RRHandle gRR = NULL;	//Global roadrunner C handle
+
 bool RunTest(const string& version, int number);
+
 
 SUITE(SBML_l2v4)
 {
+
 	TEST(AllocateRR)
 	{
         if(!gRR)
         {
-            gRR = getRRInstance();
+	            gRR = createRRInstanceE(gTempFolder.c_str());
         }
 
         CHECK(gRR!=NULL);	//If gRR == NULL this is a fail
@@ -1036,11 +1039,11 @@ bool RunTest(const string& version, int caseNumber)
     }
 
     //Create instance..
-    gRR = getRRInstance();
+    gRR = createRRInstanceE(JoinPath(gTempFolder, "TS").c_str());
 
     if(gDebug && gRR)
     {
-	    enableLogging();
+	    enableLoggingToConsole();
         setLogLevel("Debug5");
     }
     else
@@ -1049,7 +1052,7 @@ bool RunTest(const string& version, int caseNumber)
     }
 
 	//Setup environment
-    setTempFolder(gTempFolder.c_str());
+    setTempFolder(gRR, gTempFolder.c_str());
 
     if(!gRR)
     {
@@ -1059,7 +1062,7 @@ bool RunTest(const string& version, int caseNumber)
     try
     {
 		clog<<"Running Test: "<<caseNumber<<endl;
-        string dataOutputFolder(gTempFolder);
+        string dataOutputFolder(JoinPath(gTempFolder, "TS"));
         string dummy;
         string logFileName;
         string settingsFileName;
@@ -1092,7 +1095,7 @@ bool RunTest(const string& version, int caseNumber)
         simulation.SetModelFileName(modelFileName);
         simulation.CompileIfDllExists(true);
         simulation.CopyFilesToOutputFolder();
-	    setTempFolder(simulation.GetDataOutputFolder().c_str());
+	    setTempFolder(gRR, simulation.GetDataOutputFolder().c_str());
         if(!simulation.LoadSBMLFromFile())
         {
             throw("Failed loading sbml from file");
@@ -1104,7 +1107,7 @@ bool RunTest(const string& version, int caseNumber)
             throw("Failed loading simulation settings");
         }
 
-        setComputeAndAssignConservationLaws(false);
+        setComputeAndAssignConservationLaws(gRR, false);
 
         //Then Simulate model
         if(!simulation.Simulate())

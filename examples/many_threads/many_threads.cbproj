@@ -59,7 +59,7 @@
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>None</Manifest_File>
-        <Defines>LIBSBML_USE_CPP_NAMESPACE;$(Defines)</Defines>
+        <Defines>LIBSBML_USE_CPP_NAMESPACE;POCO_STATIC;$(Defines)</Defines>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <Multithreaded>true</Multithreaded>
         <ILINK_LibraryPath>..\..\source\;R:\rrl\examples\many_threads\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
@@ -136,13 +136,37 @@
         <PCHCompile Include="many_threadsPCH1.h">
             <BuildOrder>0</BuildOrder>
         </PCHCompile>
+        <CppCompile Include="..\..\source\rrLoadModel.cpp">
+            <DependentOn>..\..\source\rrLoadModel.h</DependentOn>
+            <BuildOrder>6</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrLoadModelThread.cpp">
+            <DependentOn>..\..\source\rrLoadModelThread.h</DependentOn>
+            <BuildOrder>4</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrModelSharedLibrary.cpp">
             <DependentOn>..\..\source\rrModelSharedLibrary.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\rrRoadRunnerList.cpp">
+            <DependentOn>..\..\source\rrRoadRunnerList.h</DependentOn>
+            <BuildOrder>9</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrRoadRunnerThread.cpp">
             <DependentOn>..\..\source\rrRoadRunnerThread.h</DependentOn>
             <BuildOrder>3</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrSimulate.cpp">
+            <DependentOn>..\..\source\rrSimulate.h</DependentOn>
+            <BuildOrder>7</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrSimulateThread.cpp">
+            <DependentOn>..\..\source\rrSimulateThread.h</DependentOn>
+            <BuildOrder>8</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrThreadPool.cpp">
+            <DependentOn>..\..\source\rrThreadPool.h</DependentOn>
+            <BuildOrder>5</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

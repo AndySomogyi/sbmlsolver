@@ -36,5 +36,6 @@ enum SBMLType {stCompartment = 0, stSpecies, stParameter};    //Species clashes 
 // Typedefs
 typedef unsigned int 			u_int;
 
+
 }
 #endif

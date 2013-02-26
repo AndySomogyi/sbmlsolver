@@ -1,4 +1,4 @@
-/** @file rr_c_api_exporter.h */
+/** @file rr_cm.h */
 #ifndef rr_cm_exporterH
 #define rr_cm_exporterH
 
@@ -11,7 +11,7 @@
 	#else
 		#define C_DECL_SPEC __declspec(dllimport)
 	#endif
-#endif	//STATIC_RR_C_API
+#endif
 
 #if defined(_MSC_VER) || defined(__CODEGEARC__)
 	#define rrCallConv __stdcall
