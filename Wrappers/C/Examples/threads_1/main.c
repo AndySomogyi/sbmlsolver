@@ -7,12 +7,13 @@ int main()
     //Some Declarations (has to be here because this is C)
 	RRHandle 				rrHandle;
     RRThreadHandle			threadHandle;
+    char tempFolder[1024];
 	int i;
     double val;
+	char* modelFileName = "../models/test_1.xml";
+   	char  buf[2048];
 	// -------------------------------------------------------------
 
-	char* modelFileName = "r://models//test_1.xml";
-   	char  buf[2048];
 	printf("Starting C program...\n");
 
     rrHandle = createRRInstance();
@@ -27,7 +28,12 @@ int main()
     }
 
    	setLogLevel("Info");
-   	setTempFolder(rrHandle, "r:\\rrTemp");
+    strcpy(tempFolder, "../temp");
+    if(!setTempFolder(rrHandle, tempFolder))
+    {
+    	printf("The temp file folder \'%s\' do not exist. Exiting...\n", tempFolder);
+        exit(0);
+    }
 	enableLoggingToConsole();
    	enableLoggingToFile(rrHandle);
 
@@ -59,7 +65,7 @@ int main()
     waitForJob(threadHandle);
 
   	//Write data to a file
-	writeRRData(rrHandle, "r:\\oneThreadData.dat");
+	writeRRData(rrHandle, "oneThreadData.dat");
 
 	// Cleanup
     freeRRInstance(rrHandle);

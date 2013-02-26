@@ -7,8 +7,9 @@ int main()
     //Some Declarations (has to be here because this is C)
 	RRInstanceListHandle 	rrs;
     RRThreadPoolHandle 	    tpHandle;		//ThreadPool handle.. use to check when a pool of threads has finished..
+    char tempFolder[1024];
 
-	char* modelFileName = "r://models//test_1.xml";
+	char* modelFileName = "../models/test_1.xml";
     int   handleCount = 50;
     int   threadCount = 8;
     int   i;
@@ -29,9 +30,15 @@ int main()
    	setLogLevel("Info");
 	enableLoggingToConsole();
 
+    strcpy(tempFolder, "../temp");
     for(i = 0; i < handleCount; i++)
     {
-    	setTempFolder(rrs->Handle[i], "r:\\rrTemp");
+        if(!setTempFolder(rrs->Handle[i], tempFolder))
+        {
+            printf("The temp file folder \'%s\' do not exist. Exiting...\n", tempFolder);
+            exit(0);
+        }
+
     }
 
    	enableLoggingToFile(rrs->Handle[0]);
@@ -65,7 +72,7 @@ int main()
     waitForJobs(tpHandle);
 
   	//Write data to a file
-	writeMultipleRRData(rrs, "r:\\allData.dat");
+	writeMultipleRRData(rrs, "../data/allData.dat");
 
 	// Cleanup
     freeRRInstances(rrs);

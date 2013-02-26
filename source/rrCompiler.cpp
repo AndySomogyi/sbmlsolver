@@ -221,8 +221,12 @@ string Compiler::createCompilerCommand(const string& sourceFileName)
 string GetWINAPIError(DWORD errorCode, LPTSTR lpszFunction);
 bool Compiler::compile(const string& cmdLine)
 {
-    STARTUPINFO         si;
     PROCESS_INFORMATION pi;
+    ZeroMemory( &pi, sizeof(pi) );
+
+    STARTUPINFO si;
+    ZeroMemory( &si, sizeof(si) );
+    si.cb = sizeof(si);
 
     //sec attributes for the output file
     SECURITY_ATTRIBUTES sao;
@@ -230,23 +234,18 @@ bool Compiler::compile(const string& cmdLine)
     sao.lpSecurityDescriptor=NULL;
     sao.bInheritHandle=1;
 
-    ZeroMemory( &si, sizeof(si) );
-    si.cb = sizeof(si);
-    ZeroMemory( &pi, sizeof(pi) );
-
     if( !cmdLine.size() )
     {
         return false;
     }
 
-
     //open the output file on the server's tmp folder (for that test will be on the C:/ root)
     string compilerTempFile(JoinPath(mOutputPath, ExtractFileNameNoExtension(mDLLFileName)));
     compilerTempFile.append(".log");
 
-    HANDLE out;
+    HANDLE outFile;
   	//Todo: there is a problem creating the logfile after first time creation..
-    if((out=CreateFileA(    compilerTempFile.c_str(),
+    if((outFile=CreateFileA(    compilerTempFile.c_str(),
                             GENERIC_WRITE,
                             FILE_SHARE_DELETE,
                             &sao,
@@ -255,18 +254,20 @@ bool Compiler::compile(const string& cmdLine)
                             NULL))==INVALID_HANDLE_VALUE)
     {
         // Retrieve the system error message for the last-error code
-         DWORD dw = GetLastError();
+        DWORD errorCode = GetLastError();
+        string anError = GetWINAPIError(errorCode, TEXT("CreateFile"));
+        Log(lError)<<"WIN API Error (after CreateFile): "<<anError;
 
         Log(lError)<<"Failed creating logFile for compiler output";
 //        return false;
     }
 
-    SetFilePointer( out, 0, NULL, FILE_END); //set pointer position to end file
+    SetFilePointer( outFile, 0, NULL, FILE_END); //set pointer position to end file
 
     //init the STARTUPINFO struct
     si.dwFlags=STARTF_USESTDHANDLES;
-    si.hStdOutput = out;
-    si.hStdError = out;
+    si.hStdOutput = outFile;
+    si.hStdError = outFile;
 
     //proc sec attributes
     SECURITY_ATTRIBUTES sap;
@@ -296,26 +297,27 @@ bool Compiler::compile(const string& cmdLine)
     {
 		DWORD errorCode = GetLastError();
         string anError = GetWINAPIError(errorCode, TEXT("CreateProcess"));
-        Log(lError)<<"WIN API Error: "<<anError;
+        Log(lError)<<"WIN API Error: (after CreateProcess) "<<anError;
 
         // Close process and thread handles.
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
-        CloseHandle(out);
+        CloseHandle(outFile);
         return false;
     }
 
     // Wait until child process exits.
     WaitForSingleObject(pi.hProcess, INFINITE);
 
+//    CloseHandle(outFile);
+
     // Close process and thread handles.
     CloseHandle(pi.hProcess);
-
     DWORD errorCode = GetLastError();
     if(errorCode != 0)
     {
     	string anError = GetWINAPIError(errorCode, TEXT("CloseHandle"));
-    	Log(lError)<<"WIN API error: "<<anError;
+    	Log(lError)<<"WIN API error: (pi.hProcess)"<<anError;
     }
 
     CloseHandle(pi.hThread);
@@ -323,10 +325,8 @@ bool Compiler::compile(const string& cmdLine)
     if(errorCode != 0)
     {
     	string anError = GetWINAPIError(errorCode, TEXT("CloseHandle"));
-    	Log(lError)<<"WIN API error: "<<anError;
+    	Log(lError)<<"WIN API error: (pi.hThread)"<<anError;
     }
-
-    CloseHandle(out);
 
 //    //Read the log file and log it
 //    if(FileExists(compilerTempFile))
