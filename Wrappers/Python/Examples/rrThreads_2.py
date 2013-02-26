@@ -11,7 +11,7 @@ else:
     setTempFolder('/home/totte/rrTemp/python')
 
 tempFolder  = getTempFolder()
-handleCount = 100
+handleCount = 3
 threadCount = 4
 
 rrInstances =  createRRInstances(handleCount)
@@ -28,18 +28,29 @@ for index in range(getInstanceCount(rrInstances)):
 tpHandle = loadSBMLFromFileT(rrInstances, modelFile, threadCount);
 waitForJobs(tpHandle)
 
+nrPoints=15
 print '===== Setting parameters for each individual handle ====='
 for index in range(getInstanceCount(rrInstances)):
     handle = getRRHandle(rrInstances, index)
     value = getValue('k1', handle)
     setValue('k1', value/(2.5*(index + 1)), handle)
-    setNumPoints(500, handle)
+    setNumPoints(nrPoints, handle)
     setTimeEnd(150, handle)
     setTimeCourseSelectionList("S1", handle)
 
 print '===== Simulate all instances ====='
 tpHandle = simulateT(rrInstances, threadCount)
 waitForJobs(tpHandle)
+
+data = zeros((nrPoints, handleCount))
+for col in range (handleCount):
+    handle = getRRHandle(rrInstances, index)
+    simData = getSimulationResult(handle)
+    for row in range(nrPoints):
+        data[row,col] = simData[row]
+
+
+print data
 
 # Write data to a file
 writeRRData("r:\\allDataPython.dat", rrInstances);
