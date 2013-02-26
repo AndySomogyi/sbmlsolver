@@ -10,7 +10,7 @@ RoadRunnerList::RoadRunnerList(const int& nrOfRRs, const string& installFolder, 
 {
 
 #if defined(_WIN32) || defined(WIN32)
-            string compiler(JoinPath(installFolder,"compilers\\tcc\\tcc.exe"));
+            string compiler(JoinPath(installFolder, "compilers\\tcc\\tcc.exe"));
 #elif defined(__linux)
             string compiler("gcc");
 #else
