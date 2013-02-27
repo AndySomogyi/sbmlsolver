@@ -39,6 +39,10 @@ mDLL(dll)
         setupDLLFunctions();
         setupDLLData();
     }
+    else
+    {
+    	Log(lError)<<"The Model DLL is not loaded in ModelFromC ctor..";
+    }
 }
 
 ModelFromC::~ModelFromC()

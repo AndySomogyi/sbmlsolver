@@ -27,7 +27,6 @@ class RR_DECLSPEC ThreadPool
 		bool						isActive();
 		void						exitAll();
 		void						waitForAll();
-
 };
 
 }

@@ -87,13 +87,15 @@ void ThreadPool::exitAll()
 void ThreadPool::waitForAll()
 {
     //Check that all jobs been done
+
+    //This could be changed to using a semaphore..
     //This should be checked in a thread, and using a condition Variable
     while(isJobQueueEmpty() == false)
     {
         Poco::Thread::sleep(50);
     };
 
-	Poco::Thread::sleep(50);	//We need a way to know if a thread is still doing processing...
+	Poco::Thread::sleep(150);	//We need a way to know if a thread is still doing processing...
 
     //Dispose threads..
     exitAll();

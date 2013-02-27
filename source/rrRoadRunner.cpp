@@ -789,18 +789,22 @@ bool RoadRunner::compileModel()
     }
 
     //Load the DLL
-    try
-    {
+//    try
+//    {
 		Log(lDebug)<<"Trying to load shared lib: "<<mModelLib.getFullFileName();
-    	mModelLib.load();
-    }
-    catch(const exception& ex)
-    {
-		Log(lError)<<"There was a problem loading the shared library: "<<mModelLib.getFullFileName();
-		Log(lError)<<"More Info: "<<ex.what();
-        return false;
-    }
-
+    	if(!mModelLib.load())
+        {
+			Log(lError)<<"There was a problem loading the shared library: "<<mModelLib.getFullFileName();
+	        return false;
+        }
+//    }
+//    catch(const exception& ex)
+//    {
+//		Log(lError)<<"There was a problem loading the shared library: "<<mModelLib.getFullFileName();
+//		Log(lError)<<"More Info: "<<ex.what();
+//        return false;
+//    }
+//
     //Now create the Model using the compiled DLL
     mModel = createModel();
 

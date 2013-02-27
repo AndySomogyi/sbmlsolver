@@ -44,7 +44,7 @@ bool ModelSharedLibrary::setPath(const string& pathTo)
 bool ModelSharedLibrary::load()
 {
 	mTheLib.load(getFullFileName());
-    return true;
+    return mTheLib.isLoaded();
 }
 
 bool ModelSharedLibrary::load(const string& libName)
