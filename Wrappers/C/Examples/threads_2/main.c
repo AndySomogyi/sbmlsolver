@@ -1,21 +1,33 @@
 #pragma hdrstop
 #include <stdio.h>
+#include <string.h>
 #include "rr_c_api.h"
 
-int main()
+int main(int argc, char* argv[])
 {
-    //Some Declarations (has to be here because this is C)
+   //Some Declarations (has to be here because this is C)
 	RRInstanceListHandle 	rrs;
     RRThreadPoolHandle 	    tpHandle;		//ThreadPool handle.. use to check when a pool of threads has finished..
     char tempFolder[1024];
 
+
 	char* modelFileName = "../models/test_1.xml";
-    int   handleCount = 2;
+    int   handleCount = 1;
     int   threadCount = 1;
     int   i;
    	char  errorBuf[2048];
-	printf("Starting C program...\n");
 
+	printf("Starting C program...\n");
+    if(argc > 1)
+    {
+        handleCount = atoi(argv[1]);
+        if(argc > 2)
+        {
+            threadCount = atoi(argv[2]);
+        }
+    }
+    
+    printf("Allocating %d handles and %d threads\n\n", handleCount, threadCount);
     rrs = createRRInstances(handleCount);
 
     if(!rrs)
@@ -24,10 +36,10 @@ int main()
     }
     else
     {
-	    printf("Handles allocated succesfully..\n");
+	    printf("%d handles allocated succesfully..\n", handleCount);
     }
 
-   	setLogLevel("Info");
+   	setLogLevel("lInfo");
 	enableLoggingToConsole();
 
     strcpy(tempFolder, "../temp");
@@ -41,13 +53,30 @@ int main()
     }
 
    	enableLoggingToFile(rrs->Handle[0]);
-
+    
 	//loadSBML models in threads instead
     tpHandle = loadSBMLFromFileTP(rrs, modelFileName, threadCount);
 
     //waitForJobs will block until all threads have finished
 	//Instead, one can could check for activeJobs, i.e. non blocking (see below)
-    waitForJobs(tpHandle);
+    //waitForJobs(tpHandle);
+    //Non blocking code waiting for threadpool to finish
+    while(true)
+    {
+        if (isActive(tpHandle) == false)
+        {
+           	logMsg(3, "All jobs are done!!!\n");
+        	break;
+        }
+        else
+        {
+//	        nrOfRemainingJobs = getRe
+//        	sprintf(errorBuf, "There are %d remaining jobs\n", nrOfRemainingJobs);
+//        	logMsg(3, errorBuf);
+//            printf(errorBuf);
+//            sleep(1);
+        }
+	}
 
     //Set parameters
     logMsg(clInfo, " ---------- SETTING PARAMETERS -------------");
@@ -58,7 +87,7 @@ int main()
         double val = 0;
         getValue(rrs->Handle[i], "k1", &val);
         setValue(rrs->Handle[i], "k1", val/(2.5*(i + 1)));
-        setNumPoints(rrs->Handle[i], 500);
+        setNumPoints(rrs->Handle[i], 10);
         setTimeEnd(rrs->Handle[i], 150);
         setTimeCourseSelectionList(rrs->Handle[i], "S1");
     }
@@ -66,13 +95,13 @@ int main()
     //Simulate
     logMsg(clInfo, " ---------- SIMULATING ---------------------");
 
-    //Simulate them using a pool of threads..
-    tpHandle = simulateTP(rrs, threadCount);
-    waitForJobs(tpHandle);
-
-  	//Write data to a file
-	writeMultipleRRData(rrs, "allData.dat");
-
+//    //Simulate them using a pool of threads..
+//    tpHandle = simulateTP(rrs, threadCount);
+//    waitForJobs(tpHandle);
+//
+//  	//Write data to a file
+//	writeMultipleRRData(rrs, "allData.dat");
+//
 	// Cleanup
     freeRRInstances(rrs);
 
