@@ -11,16 +11,27 @@ namespace rr
 
 using namespace Poco;
 
+int 				LoadModelThread::mNrOfWorkers = 0;
+Poco::Mutex 		LoadModelThread::mNrOfWorkersMutex;
+
 list<RoadRunner*>   LoadModelThread::mJobs;
 Poco::Mutex 		LoadModelThread::mJobsMutex;
 Poco::Condition		LoadModelThread::mJobsCondition;
 
 
-LoadModelThread::LoadModelThread(const string& modelFile)
+LoadModelThread::LoadModelThread(const string& modelFile, RoadRunner* rri, bool autoStart)
 :
 mModelFileName(modelFile)
 {
-    start();
+	if(rri)
+    {
+    	addJob(rri);
+    }
+
+	if(autoStart && rri != NULL)
+    {
+    	start();
+    }
 }
 
 void LoadModelThread::addJob(RoadRunner* rr)
@@ -47,9 +58,24 @@ void LoadModelThread::signalAll()
 	mJobsCondition.broadcast();
 }
 
+bool LoadModelThread::isAnyWorking()
+{
+	bool result = false;
+   	Mutex::ScopedLock lock(mNrOfWorkersMutex);
+    return mNrOfWorkers > 0 ? true : false;
+}
+
 void LoadModelThread::worker()
 {
     RoadRunner *rri = NULL;
+    mWasStarted = true;
+	mIsWorking  = true;
+
+    //Any thread working on this Job list need to increment this one
+   	Mutex::ScopedLock lock(mNrOfWorkersMutex);
+    mNrOfWorkers++;
+    mNrOfWorkersMutex.unlock();
+
     while(!mIsTimeToDie)
     {
         {	//Scope for scoped lock
@@ -57,7 +83,8 @@ void LoadModelThread::worker()
             if(mJobs.size() == 0)
             {
                 Log(lDebug5)<<"Waiting for jobs in loadSBML worker";
-                mJobsCondition.wait(mJobsMutex);
+                //mJobsCondition.wait(mJobsMutex);
+                break;
             }
 
             if(mIsTimeToDie)
@@ -78,9 +105,18 @@ void LoadModelThread::worker()
             Log(lInfo)<<"Loading model into instance: "<<rri->getInstanceID();
             rri->loadSBMLFromFile(mModelFileName);
         }
+        else
+        {
+        	Log(lError)<<"Null job pointer...!";
+        }
     }
 
-    Log(lInfo)<<"Exiting thread: "<<mThread.id();
+
+    Log(lDebug)<<"Exiting Load Model thread: "<<mThread.id();
+  	mIsWorking  = false;
+   	Mutex::ScopedLock lock2(mNrOfWorkersMutex);
+    mNrOfWorkers--;
+
 }
 
 }

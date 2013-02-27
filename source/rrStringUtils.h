@@ -33,12 +33,17 @@ string              RR_DECLSPEC ExtractFileNameNoExtension(const string& fileN);
 string              RR_DECLSPEC ChangeFileExtensionTo(const string& theFileName, const string& newExtension);
 
 int 				RR_DECLSPEC CompareNoCase(const string& str1, const string& str2);
-string              RR_DECLSPEC Trim(const string& str);
+//string              RR_DECLSPEC Trim(const string& str);
+string              RR_DECLSPEC Trim(const string& str, const char& toTrim = ' ');
 bool                RR_DECLSPEC StartsWith(const string& src, const string& sub);
 bool                RR_DECLSPEC EndsWith(const string& src, const string& sub);
 
+//Can't use va_arg for non pod data.. :(
 string              RR_DECLSPEC JoinPath(const string& p1, const string& p2, const char pathSeparator = gPathSeparator);
 string              RR_DECLSPEC JoinPath(const string& p1, const string& p2, const string& p3, const char pathSeparator = gPathSeparator);
+string              RR_DECLSPEC JoinPath(const string& p1, const string& p2, const string& p3, const string& p4, const char pathSeparator = gPathSeparator);
+string              RR_DECLSPEC JoinPath(const string& p1, const string& p2, const string& p3, const string& p4, const string& p5, const char pathSeparator = gPathSeparator);
+
 //conversions
 string              RR_DECLSPEC IntToStr(const int& nt);
 int                 RR_DECLSPEC StrToInt(const string& nt);

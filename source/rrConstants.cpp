@@ -2,6 +2,7 @@
 #include "rr_pch.h"
 #endif
 #pragma hdrstop
+#include "rrStringUtils.h"
 #include "rrConstants.h"
 
 //---------------------------------------------------------------------------
@@ -10,13 +11,15 @@ namespace rr
 
 //Useful constants..
 const char*     	gComma 			            = ",";
+const char 	 		gTab 			            = '\t';
 const char* 		gDoubleFormat 	            = "%f";
 const char* 		gIntFormat  	            = "%d";;
-const char 	 		gTab 			            = '\t';
 
 const string    	gEmptyString 				= "";
-const string		gDefaultSupportCodeFolder 	= "..\\rr_support";
-const string		gDefaultCompiler 			= "..\\compilers\\tcc\\tcc.exe";
+
+//Observe, the following functions are executed BEFORE any main..
+const string		gDefaultSupportCodeFolder 	= JoinPath("..", "rr_support");
+const string		gDefaultCompiler 			= JoinPath("..", "compilers", "tcc", "tcc.exe");
 const string		gDefaultTempFolder 			= ".";
 
 const int 			gMaxPath					= 512;

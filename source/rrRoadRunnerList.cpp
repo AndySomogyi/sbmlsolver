@@ -6,9 +6,9 @@
 
 namespace rr
 {
-RoadRunnerList::RoadRunnerList(const int& nrOfRRs, const string& installFolder, const string& tempFolder)
+RoadRunnerList::RoadRunnerList(const int& nrOfRRs, const string& tempFolder)
 {
-
+	string installFolder = "..";
 #if defined(_WIN32) || defined(WIN32)
             string compiler(JoinPath(installFolder, "compilers\\tcc\\tcc.exe"));
 #elif defined(__linux)

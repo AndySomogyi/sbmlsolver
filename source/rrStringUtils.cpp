@@ -126,11 +126,27 @@ int GetNumberOfFunctionArguments(const string& expression)
      return nrOfArgs;
 }
 
-string JoinPath(const string& p1, const string& p2, const string& p3, const char pathSep)
-{
-	string tmp(JoinPath(p1, p2, pathSep));
-    return JoinPath(tmp, p3);
-}
+//    double result = 0.0;
+//    int i;
+//    va_list listPointer;
+//    va_start(listPointer, nrOfArguments);
+//
+//    for(i = 0; i < nrOfArguments; i++)
+//    {
+//        // Get an argument.  Must know
+//        // the type of the arg to retrieve
+//        // it from the va_list.
+//        double arg = va_arg( listPointer, double);
+//
+///*        printf("The %dth arg is %f\n", i, arg);*/
+//        if(arg == 1.0)
+//        {
+//            result = 1.0;
+//            break;
+//        }
+//    }
+//    va_end( listPointer );
+//    return result;
 
 string JoinPath(const string& aPath, const string& aFile, const char pathSeparator)
 {
@@ -138,13 +154,35 @@ string JoinPath(const string& aPath, const string& aFile, const char pathSeparat
     //Otherwise, add it before joining
     if(aPath.size() > 0)
     {
-        if(aPath[aPath.size() - 1] != '\\')
+        if(aPath[aPath.size() - 1] == pathSeparator)
+        {
+	        return aPath + aFile;
+        }
+        else
         {
             return aPath + pathSeparator + aFile;
         }
-        return aPath + aFile;
     }
+
     return aFile;
+}
+
+string JoinPath(const string& p1, const string& p2, const string& p3, const char pathSeparator)
+{
+	string tmp(JoinPath(p1, p2, gPathSeparator));
+    return JoinPath(tmp, p3, gPathSeparator);
+}
+
+string JoinPath(const string& p1, const string& p2, const string& p3, const string& p4, const char pathSeparator)
+{
+	string tmp(JoinPath(p1, p2, p3, gPathSeparator));
+    return JoinPath(tmp, p4, gPathSeparator);
+}
+
+string JoinPath(const string& p1, const string& p2, const string& p3, const string& p4, const string& p5, const char pathSeparator)
+{
+	string tmp(JoinPath(p1, p2, p3, p4, gPathSeparator));
+    return JoinPath(tmp, p5, gPathSeparator);
 }
 
 string tabs(const int& nr)
@@ -218,34 +256,6 @@ string ExtractFilePath(const string& fileN)
     return "";
 }
 
-//string GetPathNoFileName(const string& fPathAndName)
-//{
-//    string file = fPathAndName;
-//    //Check if the file comes with a path..
-//    string separators = "\\";
-//    int start = file.find_first_of(separators);
-//    int end   = file.find_last_of(separators);
-//    if(start < 0)//no path
-//    {
-//        return string("");
-//    }
-//    else
-//    {
-//        return string(file.erase(end, file.size()));
-//    }
-//}
-//
-//string GetFileNameNoPath(const string& fName)
-//{
-//    vector<string> fNameParts = SplitString(fName,"\\");
-//    string aFName(fName);
-//    if(fNameParts.size())
-//    {
-//        aFName = fNameParts[fNameParts.size() - 1];
-//    }
-//    return aFName;
-//}
-
 string ChangeFileExtensionTo(const string& _fName, const string& newExtension)
 {
     //Be aware of the case
@@ -289,16 +299,14 @@ bool EndsWith(const string& src, const string& sub)
     return result;
 }
 
-string Trim(const string& str)
+string Trim(const string& str, const char& ch)
 {
-
     string trimmed(str);
-
-    string::size_type pos = trimmed.find_last_not_of(' ');
-      if(pos != string::npos)
+    string::size_type pos = trimmed.find_last_not_of(ch);
+    if(pos != string::npos)
     {
         trimmed.erase(pos + 1);
-        pos = trimmed.find_first_not_of(' ');
+        pos = trimmed.find_first_not_of(ch);
         if(pos != string::npos)
         {
             trimmed.erase(0, pos);

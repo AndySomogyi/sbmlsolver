@@ -24,9 +24,12 @@ class RR_DECLSPEC ThreadPool
 		void						addJob(RoadRunner* rri);
 		bool						isJobQueueEmpty();
 		int							getNumberOfRemainingJobs();
-		bool						isActive();
+		bool						isWorking();
+		void						start();
 		void						exitAll();
-		void						waitForAll();
+		void						waitForStart();
+		void						waitForFinish();
+
 };
 
 }
