@@ -1,8 +1,6 @@
 #ifndef lsMatrixH
 #define lsMatrixH
-#include <iosfwd>
 #include <ostream>
-#include <string.h>
 #include "lsExporter.h"
 #include "lsComplex.h"
 

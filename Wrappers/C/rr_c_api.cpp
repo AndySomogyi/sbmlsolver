@@ -590,6 +590,7 @@ RRThreadHandle rrCallConv loadSBMLFromFileThread(RRHandle rrHandle, const char* 
             setError("Failed to create a LoadModel Thread");
         }
         loadThread->addJob(rr);
+        loadThread->start();
         return loadThread;
     }
     catch(Exception& ex)
@@ -997,8 +998,6 @@ RRResultHandle rrCallConv simulate(RRHandle handle)
         for(int i = 0; i < result.cSize(); i++)
         {
             aResult->ColumnHeaders[i] = createText(result.getColumnNames()[i]);
-            //new char(32);
-            //strcpy(aResult->ColumnHeaders[i], result.GetColumnNames()[i].c_str());
         }
 
         aResult->RSize = result.rSize();
@@ -1081,6 +1080,7 @@ RRThreadHandle rrCallConv simulateThread(RRHandle rrHandle)
             setError("Failed to create a Simulate Thread Pool");
         }
         t->addJob(rr);
+        t->start();
         return t;
     }
     catch(Exception& ex)

@@ -2,7 +2,6 @@
 #if defined(linux)
 #include <stdlib.h>
 #endif
-
 #include <stdio.h>
 #include <string.h>
 #include "rr_c_api.h"
@@ -43,7 +42,7 @@ int main(int argc, char* argv[])
 	    printf("%d handles allocated succesfully..\n", handleCount);
     }
 
-   	setLogLevel("lInfo");
+   	setLogLevel("Info");
 	enableLoggingToConsole();
 
     strcpy(tempFolder, "../temp");
@@ -57,50 +56,30 @@ int main(int argc, char* argv[])
     }
 
    	enableLoggingToFile(rrs->Handle[0]);
-    
+
 	//loadSBML models in threads instead
-    //tpHandle = loadSBMLFromFileTP(rrs, modelFileName, threadCount);
-    loadSBMLFromFileThread(rrs->Handle[0], modelFileName);
-    sleep(1);
-    loadSBMLFromFileThread(rrs->Handle[1], modelFileName);
+    tpHandle = loadSBMLFromFileTP(rrs, modelFileName, threadCount);
 
     //waitForJobs will block until all threads have finished
 	//Instead, one can could check for activeJobs, i.e. non blocking (see below)
     //waitForJobs(tpHandle);
     //Non blocking code waiting for threadpool to finish
     printf("Entering wait loop...\n");
-//    while(true)
-//    {
-//		int nrOfRemainingJobs = getNumberOfRemainingJobs(tpHandle);
-//        if (nrOfRemainingJobs == 0)
-//        {
-//           	logMsg(3, "All jobs are done!!!\n");
-//        	break;
-//        }
-//        else
-//        {
-//        	sprintf(errorBuf, "There are %d remaining jobs\n", nrOfRemainingJobs);
-//        	logMsg(3, errorBuf);
-//            printf(errorBuf);
-//            //sleep(300);
-//        }
-//	}
 
     //Non blocking code waiting for threadpool to finish
-//    while(true)
-//    {
-//        if (isWorkingOnJobs(tpHandle) == false)
-//        {
-//           	logMsg(3, "All jobs are done!!!\n");
-//        	break;
-//        }
-//        else
-//        {
-//        }
-//	}
+    while(true)
+    {
+        if (isWorkingOnJobs(tpHandle) == false)
+        {
+           	logMsg(clInfo, "All jobs are done!!!\n");
+        	break;
+        }
+        else
+        {
+        }
+	}
 
     //Set parameters
-    sleep(1);
     logMsg(clInfo, " ---------- SETTING PARAMETERS -------------");
 
     //Setup instances with different variables
@@ -117,39 +96,16 @@ int main(int argc, char* argv[])
     //Simulate
     logMsg(clInfo, " ---------- SIMULATING ---------------------");
 
-//    //Simulate them using a pool of threads..
+    //Simulate them using a pool of threads..
 
-//    for(i = 0; i < handleCount; i++)
-    {
-        simulateThread(rrs->Handle[1]);
-        sleep(1);
-        simulateThread(rrs->Handle[0]);
-    }
-//    tpHandle = simulateTP(rrs, threadCount);
-//    printf("Entering wait loop...\n");
-//    while(true)
-//    {
-//		int nrOfRemainingJobs = getNumberOfRemainingJobs(tpHandle);
-//        if (nrOfRemainingJobs == 0)
-//        {
-//           	logMsg(3, "All jobs are done!!!\n");
-//            sleep(2);
-//        	break;
-//        }
-//        else
-//        {
-//        	sprintf(errorBuf, "There are %d remaining jobs\n", nrOfRemainingJobs);
-//        	logMsg(3, errorBuf);
-//            printf(errorBuf);
-//            //sleep(300);
-//        }
-//	}
-    sleep(1);
-//    waitForJobs(tpHandle);
-//
-//  	//Write data to a file
+    tpHandle = simulateTP(rrs, threadCount);
+    printf("Entering wait loop...\n");
+
+    waitForJobs(tpHandle);
+
+  	//Write data to a file
 	writeMultipleRRData(rrs, "allData.dat");
-//
+
 	// Cleanup
     freeRRInstances(rrs);
 

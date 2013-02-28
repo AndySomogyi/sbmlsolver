@@ -17,11 +17,8 @@ int main(int argc, char** argv)
         const int threadCount  		= 4;
 
         //Use a list of roadrunners
-#if defined(WIN32)
-const char* rootPath = "r:";
-#else
-const char* rootPath = "..";
-#endif
+
+		const char* rootPath = "..";
 
 		string tmpFolder = JoinPath(rootPath, "temp");
         RoadRunnerList rrs(instanceCount, tmpFolder);
@@ -34,7 +31,7 @@ const char* rootPath = "..";
         LoadModel loadModel(rrs, modelFile, threadCount);
         loadModel.waitForFinish();
 
-      //Set parameters
+      	//Set parameters
         Log(lInfo)<<" ---------- SETTING PARAMETERS -------------";
 
         //Setup instances with different variables

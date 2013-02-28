@@ -1,20 +1,15 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{E9FA6B23-1705-4A30-8F26-2DA3D537E7F1}</ProjectGuid>
+        <ProjectGuid>{FA352E2B-7DFB-4EE7-B441-D2E345AEBAC0}</ProjectGuid>
         <ProjectVersion>14.4</ProjectVersion>
+        <FrameworkType>None</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
-        <AppType>Console</AppType>
-        <FrameworkType>None</FrameworkType>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
+        <AppType>Console</AppType>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
-        <Base>true</Base>
-    </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='OSX32' and '$(Base)'=='true') or '$(Base_OSX32)'!=''">
-        <Base_OSX32>true</Base_OSX32>
-        <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
@@ -38,75 +33,45 @@
         <Cfg_1>true</Cfg_1>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win64)'!=''">
-        <Cfg_1_Win64>true</Cfg_1_Win64>
-        <CfgParent>Cfg_1</CfgParent>
-        <Cfg_1>true</Cfg_1>
-        <Base>true</Base>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_2)'!=''">
         <Cfg_2>true</Cfg_2>
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='OSX32' and '$(Cfg_2)'=='true') or '$(Cfg_2_OSX32)'!=''">
-        <Cfg_2_OSX32>true</Cfg_2_OSX32>
-        <CfgParent>Cfg_2</CfgParent>
-        <Cfg_2>true</Cfg_2>
-        <Base>true</Base>
-    </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
-        <Cfg_2_Win32>true</Cfg_2_Win32>
-        <CfgParent>Cfg_2</CfgParent>
-        <Cfg_2>true</Cfg_2>
-        <Base>true</Base>
-    </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win64)'!=''">
-        <Cfg_2_Win64>true</Cfg_2_Win64>
-        <CfgParent>Cfg_2</CfgParent>
-        <Cfg_2>true</Cfg_2>
-        <Base>true</Base>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <VerInfo_Locale>1033</VerInfo_Locale>
-        <PackageImports>vclx.bpi;vcl.bpi;rtl.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;vclimg.bpi;svnui.bpi;svn.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;bdertl.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;DbxClientDriver.bpi;dbexpress.bpi;AzureCloud.bpi;DbxCommonDriver.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;vclie.bpi;webdsnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;TeeTree2D15Tee9.bpi;bcbie.bpi;dbxcds.bpi;TeeImage915.bpi;TeeWorld915.bpi;TeeLanguage915.bpi;TeePro915.bpi;TeeGL915.bpi;TeeUI915.bpi;TeeDB915.bpi;Tee915.bpi;inetdb.bpi;websnap.bpi;$(PackageImports)</PackageImports>
-        <NoVCL>true</NoVCL>
-        <LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
-        <IncludePath>..\..\source\;R:\roadrunnerwork\trunk\examples\threaded_rr\;R:\roadrunnerwork\trunk\ThirdParty\poco\Foundation\include;$(RR_ROOT)\trunk\source;$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>
-        <_TCHARMapping>char</_TCHARMapping>
-        <ProjectType>CppConsoleApplication</ProjectType>
-        <ILINK_LibraryPath>..\..\source\;R:\installs\xe\debug\lib\;R:\installs\poco\lib\;R:\roadrunnerwork\trunk\examples\threaded_rr\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <OutputExt>exe</OutputExt>
-        <AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
-        <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
+        <IncludePath>R:\rrl\examples\two_rrs\;..\..\source;$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>
+        <Defines>LIBSBML_USE_CPP_NAMESPACE;POCO_STATIC;STATIC_LIBSTRUCT;$(Defines)</Defines>
+        <ILINK_LibraryPath>R:\rrl\examples\two_rrs\;$(RR_DEBUG_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <DynamicRTL>true</DynamicRTL>
-        <IntermediateOutputDir>.\$(Config)\$(Platform)</IntermediateOutputDir>
-        <FinalOutputDir>.\$(Config)\$(Platform)</FinalOutputDir>
+        <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
+        <Manifest_File>None</Manifest_File>
+        <ProjectType>CppConsoleApplication</ProjectType>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <_TCHARMapping>char</_TCHARMapping>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
+        <IntermediateOutputDir>.\$(Platform)\$(Config)\two_rrs</IntermediateOutputDir>
+        <FinalOutputDir>.\$(Platform)\$(Config)</FinalOutputDir>
         <BCC_wpar>false</BCC_wpar>
         <BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
         <BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Base_OSX32)'!=''">
-        <Icns_MainIcns>$(BDS)\bin\cbuilder_PROJECTICNS.icns</Icns_MainIcns>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <VerInfo_Locale>1033</VerInfo_Locale>
-        <Defines>LIBSBML_USE_CPP_NAMESPACE;$(Defines)</Defines>
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <PackageImports>bindcompfmx;vcldbx;fmx;rtl;dbrtl;TeeDB;bindcomp;inetdb;vclib;inetdbbde;DBXInterBaseDriver;Tee;DataSnapCommon;xmlrtl;ibxpress;DbxCommonDriver;vclimg;dbxcds;MetropolisUILiveTile;soaprtl;bindcompdbx;FMXTee;TeeUI;vclactnband;bindengine;bindcompvcl;vcldb;vcldsnap;vclie;vcltouch;bcbsmp;websnap;CustomIPTransport;dsnap;fmxase;vcl;dsnapcon;FmxTeeUI;inet;fmxobj;vclx;inetdbxpress;webdsnap;fmxdae;bdertl;DuneComponents;dbexpress;bcbie;adortl;VCLCommon;$(PackageImports)</PackageImports>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
-        <Defines>LIBSBML_USE_CPP_NAMESPACE;$(Defines)</Defines>
+        <PackageImports>bindcompfmx;fmx;rtl;dbrtl;bindcomp;inetdb;DBXInterBaseDriver;DataSnapCommon;xmlrtl;DbxCommonDriver;vclimg;dbxcds;soaprtl;bindcompdbx;vclactnband;bindengine;bindcompvcl;vcldb;vcldsnap;vclie;vcltouch;websnap;CustomIPTransport;dsnap;fmxase;vcl;dsnapcon;inet;fmxobj;vclx;inetdbxpress;webdsnap;fmxdae;dbexpress;VCLCommon;$(PackageImports)</PackageImports>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
-        <FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
         <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
         <DCC_Optimize>false</DCC_Optimize>
         <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
+        <Defines>_DEBUG;$(Defines)</Defines>
         <BCC_InlineFunctionExpansion>false</BCC_InlineFunctionExpansion>
         <BCC_UseRegisterVariables>None</BCC_UseRegisterVariables>
         <DCC_Define>DEBUG</DCC_Define>
@@ -116,32 +81,23 @@
         <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
         <TASM_Debugging>Full</TASM_Debugging>
         <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
+        <BCC_EnableCPPExceptions>true</BCC_EnableCPPExceptions>
+        <BCC_DisableFramePtrElimOpt>true</BCC_DisableFramePtrElimOpt>
+        <BCC_DisableSpellChecking>true</BCC_DisableSpellChecking>
+        <CLANG_UnwindTables>true</CLANG_UnwindTables>
         <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <Defines>_DEBUG;$(Defines)</Defines>
-        <ILINK_LibraryPath>$(RR_DEBUG_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <Manifest_File>None</Manifest_File>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
-        <Defines>_DEBUG;$(Defines)</Defines>
+        <FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <Defines>NDEBUG;$(Defines)</Defines>
         <TASM_Debugging>None</TASM_Debugging>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_2_OSX32)'!=''">
-        <Icns_MainIcns>$(BDS)\bin\cbuilder_PROJECTICNS.icns</Icns_MainIcns>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <Defines>NDEBUG;$(Defines)</Defines>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-        <Defines>NDEBUG;$(Defines)</Defines>
     </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="main.cpp">
-            <BuildOrder>0</BuildOrder>
+            <BuildOrder>1</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
@@ -155,8 +111,6 @@
             <CfgParent>Base</CfgParent>
         </BuildConfiguration>
     </ItemGroup>
-    <Import Condition="Exists('$(BDS)\Bin\CodeGear.Cpp.Targets')" Project="$(BDS)\Bin\CodeGear.Cpp.Targets"/>
-    <Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj"/>
     <ProjectExtensions>
         <Borland.Personality>CPlusPlusBuilder.Personality.12</Borland.Personality>
         <Borland.ProjectType>CppConsoleApplication</Borland.ProjectType>
@@ -188,6 +142,14 @@
                     <VersionInfoKeys Name="ProductName"/>
                     <VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
                     <VersionInfoKeys Name="Comments"/>
+                    <VersionInfoKeys Name="CFBundleName"/>
+                    <VersionInfoKeys Name="CFBundleDisplayName"/>
+                    <VersionInfoKeys Name="CFBundleIdentifier"/>
+                    <VersionInfoKeys Name="CFBundleVersion"/>
+                    <VersionInfoKeys Name="CFBundlePackageType"/>
+                    <VersionInfoKeys Name="CFBundleSignature"/>
+                    <VersionInfoKeys Name="CFBundleAllowMixedLocalizations"/>
+                    <VersionInfoKeys Name="CFBundleExecutable"/>
                 </VersionInfoKeys>
                 <ProjectProperties>
                     <ProjectProperties Name="AutoShowDeps">False</ProjectProperties>
@@ -199,12 +161,14 @@
                     <Excluded_Packages Name="$(BDSBIN)\bcbofficexp170.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                 </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
+            <Deployment/>
             <Platforms>
-                <Platform value="OSX32">False</Platform>
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">False</Platform>
             </Platforms>
         </BorlandProject>
         <ProjectFileVersion>12</ProjectFileVersion>
     </ProjectExtensions>
+    <Import Project="$(BDS)\Bin\CodeGear.Cpp.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Cpp.Targets')"/>
+    <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
 </Project>
