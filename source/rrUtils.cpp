@@ -69,7 +69,7 @@ string GetUsersTempDataFolder()
 
     return string(lpTempPathBuffer);
 #else
-return "";
+return ".";
 #endif
 }
 

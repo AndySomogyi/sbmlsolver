@@ -231,6 +231,8 @@ void CGenerator::writeClassHeader(CodeBuilder& ignore)
     //Header of the source file...
     mSource<<"#include <math.h>"<<endl;
     mSource<<"#include <stdio.h>"<<endl;
+    mSource<<"#include <stdlib.h>"<<endl;
+    mSource<<"#include <string.h>"<<endl;
     mSource<<"#include \"rrSupport.h\"\t     //Supportfunctions for event handling.."<<endl;
 }
 

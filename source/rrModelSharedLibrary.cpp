@@ -2,6 +2,7 @@
 #include "Poco/UUIDGenerator.h"
 #include "Poco/UUIDGenerator.h"
 #include "rrModelSharedLibrary.h"
+#include "rrLogger.h"
 #include "rrUtils.h"
 //---------------------------------------------------------------------------
 using Poco::UUID;
@@ -43,16 +44,23 @@ bool ModelSharedLibrary::setPath(const string& pathTo)
 
 bool ModelSharedLibrary::load()
 {
-	mTheLib.load(getFullFileName());
-    return mTheLib.isLoaded();
+	return load(getFullFileName());
 }
 
 bool ModelSharedLibrary::load(const string& libName)
 {
 	mPathToLib = ExtractFilePath(libName);
     mLibName = ExtractFileName(libName);
+#if defined(_WIN32)    
 	mTheLib.load(libName);
-    return true;
+#elif defined(__linux)
+    //This flags causes symbols being 'local'
+	mTheLib.load(libName, Poco::SharedLibrary::SHLIB_LOCAL);
+#else
+    mTheLib.load(libName);
+#endif
+
+    return mTheLib.isLoaded();
 }
 
 bool ModelSharedLibrary::unload()
