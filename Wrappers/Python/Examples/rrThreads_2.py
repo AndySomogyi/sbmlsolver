@@ -5,13 +5,13 @@ from rrPython import *
 modelFile=''
 if sys.platform.startswith('win32'):
     modelFile ="r:/models/test_1.xml"
-    setTempFolder('r:/rrTemp/python')
+    setTempFolder('r:/temp/python')
 else:
     modelFile = "/home/totte/rDisk/models/test_1.xml"
     setTempFolder('/home/totte/rDisk/temp/python')
 
 tempFolder  = getTempFolder()
-handleCount = 3
+handleCount = 100
 threadCount = 4
 
 rrInstances =  createRRInstances(handleCount)
@@ -44,7 +44,7 @@ waitForJobs(tpHandle)
 
 data = zeros((nrPoints, handleCount))
 for col in range (handleCount):
-    handle = getRRHandle(rrInstances, index)
+    handle = getRRHandle(rrInstances, col)
     simData = getSimulationResult(handle)
     for row in range(nrPoints):
         data[row,col] = simData[row]
