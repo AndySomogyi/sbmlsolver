@@ -1,5 +1,9 @@
 #ifndef lsMatrixH
 #define lsMatrixH
+
+#if defined(__linux)
+#include <cstring> //FOr memset on linux
+#endif
 #include <ostream>
 #include "lsExporter.h"
 #include "lsComplex.h"
