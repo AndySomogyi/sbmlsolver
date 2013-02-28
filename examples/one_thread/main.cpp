@@ -1,8 +1,8 @@
 #include <iostream>
-#include "rrRoadRunner.h"
 #include "rrLoadModelThread.h"
 #include "rrSimulateThread.h"
 #include "rrLogger.h"
+#include "rrRoadRunner.h"
 
 using namespace std;
 using namespace rr;
@@ -14,6 +14,10 @@ int main()
 	LogOutput::mLogToConsole = true;
 	gLog.SetCutOffLogLevel(lInfo);
 
+    Log(lInfo)<<"======================";
+    Log(lInfo)<<lRR.getInfo();
+    Log(lInfo)<<"======================";
+    
     LoadModelThread load(JoinPath("..", "models", "test_1.xml"), &lRR);
 
     load.start();
@@ -36,6 +40,7 @@ int main()
     }
     return 0;
 }
-
+#if defined(__CODEGEARC__)
 #pragma comment(lib, "roadrunner.lib")
 #pragma comment(lib, "poco_foundation-static.lib")
+#endif

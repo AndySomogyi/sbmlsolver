@@ -13,18 +13,17 @@ int main(int argc, char** argv)
         LogOutput::mLogToConsole = true;
 
         //Create some roadrunners
-        const int instanceCount 	= 150;
+        const int instanceCount 	= 10;
         const int threadCount  		= 4;
 
         //Use a list of roadrunners
 #if defined(WIN32)
-char* rootPath = "r:";
+const char* rootPath = "r:";
 #else
-char* rootPath = "~/rDisk";
+const char* rootPath = "..";
 #endif
 
-		string test = "threads";
-		string tmpFolder = JoinPath(rootPath, "temp", test);
+		string tmpFolder = JoinPath(rootPath, "temp");
         RoadRunnerList rrs(instanceCount, tmpFolder);
 
         const string modelFile = JoinPath(rootPath, "models", "test_1.xml");

@@ -64,7 +64,7 @@ void SimulateThread::worker()
     {
         {	//Scope for the mutex lock...
             Mutex::ScopedLock lock(mJobsMutex);
-            if(mJobs.size() == 0 || mIsTimeToDie)
+            if(mJobs.size() == 0 )//|| mIsTimeToDie)
             {
                 break;	//ends the life of the thread..
             }

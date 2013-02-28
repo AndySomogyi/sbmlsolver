@@ -20,6 +20,7 @@ if(WIN32)
 add_definitions(
 -DWIN32
 )
+
 target_link_libraries (${target} 
 roadrunner-static
 )
