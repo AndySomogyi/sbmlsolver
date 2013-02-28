@@ -317,7 +317,7 @@ bool Compiler::compile(const string& cmdLine)
     if(errorCode != 0)
     {
     	string anError = GetWINAPIError(errorCode, TEXT("CloseHandle"));
-    	Log(lError)<<"WIN API error: (pi.hProcess)"<<anError;
+    	Log(lDebug)<<"WIN API error: (pi.hProcess)"<<anError;
     }
 
     CloseHandle(pi.hThread);
@@ -325,7 +325,7 @@ bool Compiler::compile(const string& cmdLine)
     if(errorCode != 0)
     {
     	string anError = GetWINAPIError(errorCode, TEXT("CloseHandle"));
-    	Log(lError)<<"WIN API error: (pi.hThread)"<<anError;
+    	Log(lDebug)<<"WIN API error: (pi.hThread)"<<anError;
     }
 
 //    //Read the log file and log it

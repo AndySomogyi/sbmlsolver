@@ -143,11 +143,10 @@ RRHandle rrCallConv createRRInstanceE(const char* tempFolder)
 RRInstanceListHandle rrCallConv createRRInstances(int count)
 {
 	try
-    {
-    	string rrInstallFolder(getParentFolder(getRRCAPILocation()));
+    {    	
 		string tempFolder = GetUsersTempDataFolder();
 
-		RoadRunnerList* listHandle = new RoadRunnerList(count, rrInstallFolder, tempFolder);
+		RoadRunnerList* listHandle = new RoadRunnerList(count, tempFolder);
 
         //Create the C list structure
 		RRInstanceListHandle rrList = new RRInstanceList;
@@ -640,7 +639,7 @@ bool rrCallConv waitForJob(RRThreadHandle handle)
         RoadRunnerThread* aThread = (RoadRunnerThread*) handle;
         if(aThread)
         {
-            aThread->wait();
+			aThread->waitForFinish();
             return true;
         }
 		return false;
@@ -661,8 +660,28 @@ bool rrCallConv waitForJobs(RRThreadPoolHandle handle)
         ThreadPool* aTP = (ThreadPool*) handle;
         if(aTP)
         {
-            aTP->waitForAll();
+			aTP->waitForFinish();
             return true;
+        }
+		return false;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
+bool rrCallConv isWorkingOnJobs(RRThreadPoolHandle handle)
+{
+	try
+    {
+        ThreadPool* aTP = (ThreadPool*) handle;
+        if(aTP)
+        {
+			return aTP->isWorking();
         }
 		return false;
     }

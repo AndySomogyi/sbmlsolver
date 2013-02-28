@@ -10,9 +10,9 @@ int main(int argc, char* argv[])
     RRThreadPoolHandle 	    tpHandle;		//ThreadPool handle.. use to check when a pool of threads has finished..
     char tempFolder[1024];
 
-
+	//This path should work on both windows and linux..
 	char* modelFileName = "../models/test_1.xml";
-    int   handleCount = 1;
+    int   handleCount = 10;
     int   threadCount = 1;
     int   i;
    	char  errorBuf[2048];
@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
             threadCount = atoi(argv[2]);
         }
     }
-    
+
     printf("Allocating %d handles and %d threads\n\n", handleCount, threadCount);
     rrs = createRRInstances(handleCount);
 
@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
 	    printf("%d handles allocated succesfully..\n", handleCount);
     }
 
-   	setLogLevel("lInfo");
+   	setLogLevel("Info");
 	enableLoggingToConsole();
 
     strcpy(tempFolder, "../temp");
@@ -53,30 +53,26 @@ int main(int argc, char* argv[])
     }
 
    	enableLoggingToFile(rrs->Handle[0]);
-    
+
 	//loadSBML models in threads instead
     tpHandle = loadSBMLFromFileTP(rrs, modelFileName, threadCount);
 
     //waitForJobs will block until all threads have finished
 	//Instead, one can could check for activeJobs, i.e. non blocking (see below)
-    //waitForJobs(tpHandle);
+    waitForJobs(tpHandle);
+
     //Non blocking code waiting for threadpool to finish
-    while(true)
-    {
-        if (isActive(tpHandle) == false)
-        {
-           	logMsg(3, "All jobs are done!!!\n");
-        	break;
-        }
-        else
-        {
-//	        nrOfRemainingJobs = getRe
-//        	sprintf(errorBuf, "There are %d remaining jobs\n", nrOfRemainingJobs);
-//        	logMsg(3, errorBuf);
-//            printf(errorBuf);
-//            sleep(1);
-        }
-	}
+//    while(true)
+//    {
+//        if (isWorkingOnJobs(tpHandle) == false)
+//        {
+//           	logMsg(3, "All jobs are done!!!\n");
+//        	break;
+//        }
+//        else
+//        {
+//        }
+//	}
 
     //Set parameters
     logMsg(clInfo, " ---------- SETTING PARAMETERS -------------");
@@ -95,13 +91,13 @@ int main(int argc, char* argv[])
     //Simulate
     logMsg(clInfo, " ---------- SIMULATING ---------------------");
 
-//    //Simulate them using a pool of threads..
-//    tpHandle = simulateTP(rrs, threadCount);
-//    waitForJobs(tpHandle);
-//
-//  	//Write data to a file
-//	writeMultipleRRData(rrs, "allData.dat");
-//
+    //Simulate them using a pool of threads..
+    tpHandle = simulateTP(rrs, threadCount);
+    waitForJobs(tpHandle);
+
+  	//Write data to a file
+	writeMultipleRRData(rrs, "allData.dat");
+
 	// Cleanup
     freeRRInstances(rrs);
 
