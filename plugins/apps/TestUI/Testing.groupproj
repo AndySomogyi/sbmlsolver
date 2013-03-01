@@ -9,9 +9,6 @@
         <Projects Include="..\..\ide_builds\xe3\rr_c_api.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\TestPlugin\TestPlugin.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="..\fit_one_parameter\fit_one_parameter.cbproj">
             <Dependencies/>
         </Projects>
@@ -44,15 +41,6 @@
     <Target Name="rr_c_api:Make">
         <MSBuild Projects="..\..\ide_builds\xe3\rr_c_api.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="TestPlugin">
-        <MSBuild Projects="..\TestPlugin\TestPlugin.cbproj"/>
-    </Target>
-    <Target Name="TestPlugin:Clean">
-        <MSBuild Projects="..\TestPlugin\TestPlugin.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="TestPlugin:Make">
-        <MSBuild Projects="..\TestPlugin\TestPlugin.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="fit_one_parameter">
         <MSBuild Projects="..\fit_one_parameter\fit_one_parameter.cbproj"/>
     </Target>
@@ -72,13 +60,13 @@
         <MSBuild Projects="PluginApp.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="roadrunner-static;rr_c_api;TestPlugin;fit_one_parameter;PluginApp"/>
+        <CallTarget Targets="roadrunner-static;rr_c_api;fit_one_parameter;PluginApp"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="roadrunner-static:Clean;rr_c_api:Clean;TestPlugin:Clean;fit_one_parameter:Clean;PluginApp:Clean"/>
+        <CallTarget Targets="roadrunner-static:Clean;rr_c_api:Clean;fit_one_parameter:Clean;PluginApp:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="roadrunner-static:Make;rr_c_api:Make;TestPlugin:Make;fit_one_parameter:Make;PluginApp:Make"/>
+        <CallTarget Targets="roadrunner-static:Make;rr_c_api:Make;fit_one_parameter:Make;PluginApp:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

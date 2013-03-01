@@ -18,6 +18,9 @@
         <Projects Include="many_threads\many_threads.cbproj">
             <Dependencies>..\ide_builds\xe3\roadrunner.cbproj</Dependencies>
         </Projects>
+        <Projects Include="..\plugins\Apps\plugin_checker.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -71,14 +74,23 @@
     <Target Name="many_threads:Make" DependsOnTargets="roadrunner:Make">
         <MSBuild Projects="many_threads\many_threads.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="plugin_checker">
+        <MSBuild Projects="..\plugins\Apps\plugin_checker.cbproj"/>
+    </Target>
+    <Target Name="plugin_checker:Clean">
+        <MSBuild Projects="..\plugins\Apps\plugin_checker.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="plugin_checker:Make">
+        <MSBuild Projects="..\plugins\Apps\plugin_checker.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="roadrunner;one_rr;two_rrs;one_thread;many_threads"/>
+        <CallTarget Targets="roadrunner;one_rr;two_rrs;one_thread;many_threads;plugin_checker"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="roadrunner:Clean;one_rr:Clean;two_rrs:Clean;one_thread:Clean;many_threads:Clean"/>
+        <CallTarget Targets="roadrunner:Clean;one_rr:Clean;two_rrs:Clean;one_thread:Clean;many_threads:Clean;plugin_checker:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="roadrunner:Make;one_rr:Make;two_rrs:Make;one_thread:Make;many_threads:Make"/>
+        <CallTarget Targets="roadrunner:Make;one_rr:Make;two_rrs:Make;one_thread:Make;many_threads:Make;plugin_checker:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

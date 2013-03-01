@@ -165,7 +165,6 @@ object MainF: TMainF
         ItemHeight = 13
         TabOrder = 1
         OnClick = pluginListClick
-        ExplicitHeight = 121
       end
     end
   end

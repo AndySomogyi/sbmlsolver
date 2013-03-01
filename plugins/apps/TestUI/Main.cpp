@@ -30,18 +30,19 @@ void __fastcall TMainF::FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shif
 void __fastcall TMainF::startupTimerTimer(TObject *Sender)
 {
 	startupTimer->Enabled = false;
-	mTheAPI = getRRInstance();
+	mTheAPI = createRRInstance();
 	if(!mTheAPI)
 	{
 
 	}
 	else
 	{
-    	loadSBMLFromFile("R:\\installs\\cg\\xe3\\debug\\models\\test_1.xml");
-		apiVersionLBL->Caption = getVersion();
+    	char* fileName = "R:\\installs\\cg\\xe3\\debug\\models\\test_1.xml";
+    	loadSBMLFromFile(mTheAPI, fileName);
+		apiVersionLBL->Caption = getVersion(mTheAPI);
 		buildDateLbl->Caption  = getBuildDate();
 		buildTimeLbl->Caption  = getBuildTime();
-		string info 		   = getInfo();
+		string info 		   = getInfo(mTheAPI);
 
 		vector<string> lines = rr::SplitString(info, "\n");
 		for(int i =0; i < lines.size(); i++)
@@ -54,14 +55,14 @@ void __fastcall TMainF::startupTimerTimer(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainF::loadPluginsAExecute(TObject *Sender)
 {
-	if(!loadPlugins())
+	if(!loadPlugins(mTheAPI))
 	{
 		Log() << "failed loading plugins..";
 		throw Exception(getLastError());
 	}
 
 	//Populate list box with plugins
-	RRStringArray* pluginNames = getPluginNames();
+	RRStringArray* pluginNames = getPluginNames(mTheAPI);
 
 	for(int i = 0; i < pluginNames->Count; i++)
 	{
@@ -73,7 +74,7 @@ void __fastcall TMainF::loadPluginsAExecute(TObject *Sender)
 
 void __fastcall TMainF::unloadPluginsExecute(TObject *Sender)
 {
-	if(!unLoadPlugins())
+	if(!unLoadPlugins(mTheAPI))
 	{
 		Log() << "failed un-loading plugins..";
 		throw Exception(getLastError());
@@ -100,7 +101,7 @@ void __fastcall TMainF::pluginListClick(TObject *Sender)
     string pluginName = std_str(pluginList->Items->Strings[pluginList->ItemIndex]);
     Log()<<std_str(pluginName);
 
-    string test = getPluginInfo(pluginName.c_str());
+    string test = getPluginInfo(mTheAPI, pluginName.c_str());
 
     infoMemo->Clear();
     Log()<<test;
@@ -109,7 +110,7 @@ void __fastcall TMainF::pluginListClick(TObject *Sender)
 	pluginCapsCB->Clear();
     pluginParasCB->Clear();
 
-    RRStringArray* caps = getPluginCapabilities(pluginName.c_str());
+    RRStringArray* caps = getPluginCapabilities(mTheAPI, pluginName.c_str());
 
 
     if(!caps)
@@ -138,7 +139,7 @@ void __fastcall TMainF::clearMemoExecute(TObject *Sender)
 void __fastcall TMainF::getPluginInfoAExecute(TObject *Sender)
 {
 	string pName = getCurrentPluginName();
-    Log()<<getPluginInfo(pName.c_str());
+    Log()<<getPluginInfo(mTheAPI, pName.c_str());
 }
 
 //---------------------------------------------------------------------------
@@ -176,7 +177,7 @@ void __fastcall TMainF::pluginCBChange(TObject *Sender)
 		pluginParasCB->Clear();
 
         string capa = std_str(pluginCapsCB->Items->Strings[pluginCapsCB->ItemIndex]);
-        RRStringArray* paras = getPluginParameters(pluginName.c_str(), capa.c_str());
+        RRStringArray* paras = getPluginParameters(mTheAPI, pluginName.c_str(), capa.c_str());
         pluginParasCB->Clear();
 
         if(!paras)
@@ -199,7 +200,7 @@ void __fastcall TMainF::pluginCBChange(TObject *Sender)
     if(pluginParasCB == (TComboBox*)(Sender))
     {
         //Query the current plugin for the current value of selected parameter
-        RRParameterHandle para = getPluginParameter(getCurrentPluginName().c_str(), getCurrentSelectedParameter().c_str());
+        RRParameterHandle para = getPluginParameter(mTheAPI, getCurrentPluginName().c_str(), getCurrentSelectedParameter().c_str());
         if(!para)
         {
             paraEdit->Enabled = false;
@@ -223,14 +224,13 @@ void __fastcall TMainF::pluginCBChange(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainF::SetParaBtnClick(TObject *Sender)
 {
-
-	setPluginParameter(getCurrentPluginName().c_str(), getCurrentSelectedParameter().c_str(), std_str(paraEdit->Text).c_str());
+	setPluginParameter(mTheAPI, getCurrentPluginName().c_str(), getCurrentSelectedParameter().c_str(), std_str(paraEdit->Text).c_str());
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TMainF::executePluginAExecute(TObject *Sender)
 {
-	executePlugin(getCurrentPluginName().c_str());
+	executePlugin(mTheAPI, getCurrentPluginName().c_str());
 }
 //---------------------------------------------------------------------------
 
@@ -238,5 +238,3 @@ void __fastcall TMainF::getLastErrorAExecute(TObject *Sender)
 {
 	Log()<<getLastError();
 }
-//---------------------------------------------------------------------------
-

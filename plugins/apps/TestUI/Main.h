@@ -14,11 +14,12 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include "rr_c_types.h"
 #include "memoLogger.h"
 using std::string;
 using std::vector;
 //---------------------------------------------------------------------------
-
+using namespace rr_c_api;
 
 class TMainF : public TForm
 {

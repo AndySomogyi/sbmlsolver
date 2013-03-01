@@ -909,8 +909,9 @@ void CvodeInterface::handleCVODEError(const int& errCode)
 
         // and open a new file handle
         mErrorFileCounter++;
-        //throw CvodeException("Error in RunCVode: " + errorCodes[-errCode].msg + msg);
+//        throw CvodeException("Error in RunCVode: " + errorCodes[-errCode].msg + msg);
         Log(lError)<<"**************** Error in RunCVode: "<<errCode<<msg<<" ****************************"<<endl;
+        throw(Exception("Error in CVODE...!"));
     }
 }
 
