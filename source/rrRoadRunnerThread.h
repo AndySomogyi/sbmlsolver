@@ -13,7 +13,11 @@ class RR_DECLSPEC RoadRunnerThread : public Poco::Runnable, public rrObject
 {
 	protected:
 	    Poco::Thread 				mThread;
+
         bool						mIsTimeToDie;
+        bool						mWasStarted;
+        bool						mIsWorking;
+
 
     public:
 	    					        RoadRunnerThread();
@@ -22,16 +26,25 @@ class RR_DECLSPEC RoadRunnerThread : public Poco::Runnable, public rrObject
 		string 				        getName();
         void				        join();
         bool				        isActive();
-		void				        start();
+
+		void				        start(RoadRunner* instance = NULL);
     	virtual void                run();
         void				        exit();	//Tell the thread to die
-        void						wait();
+        void						waitForFinish();
+        void						waitForStart();
 
 		//Pure virtuals
 		virtual void                worker() = 0;
 		virtual void 	            addJob(RoadRunner* instance) = 0;
         virtual unsigned int  		getNrOfJobsInQueue() = 0;
 
+        //Useful individual thread states
+	    bool	        			wasStarted();
+        bool	          			isWorking();
+        bool	        			didFinish();
+
+        //When we are in a pool of threads...
+        virtual bool      			isAnyWorking() = 0;
 
         //Todo: Gotta refine the exiting of threads later...
         virtual void				signalExit() = 0;

@@ -24,6 +24,34 @@ void ThreadPool::addJob(RoadRunner* rri)
     }
 }
 
+void ThreadPool::start()
+{
+    //We add jobs to the threads (static) queue. Means that at least one thread has to exist
+    if(mThreads.size() < 1)
+    {
+        return ;
+    }
+    else
+    {
+        list<RoadRunnerThread*>::iterator	iter;
+        for(iter = mThreads.begin(); iter != mThreads.end(); iter++)
+        {
+	        RoadRunnerThread* t = (*iter);
+            if(t != NULL)
+            {
+            	if(!t->isActive())
+                {
+                	t->start();
+                }
+                else
+                {
+                	Log(lError)<<"Tried to start an active thread";
+                }
+            }
+        }
+    }
+}
+
 bool ThreadPool::isJobQueueEmpty()
 {
     if(mThreads.front() != NULL)
@@ -48,19 +76,12 @@ int ThreadPool::getNumberOfRemainingJobs()
     return -1;
 }
 
-bool ThreadPool::isActive()
+bool ThreadPool::isWorking()
 {
-    list<RoadRunnerThread*>::iterator	iter;
-    for(iter = mThreads.begin(); iter != mThreads.end(); iter++)
+    if(mThreads.size())
     {
-  	    	if((*iter) != NULL)
-            {
-				if((*iter)->isActive())
-                {
-                	return true;
-                }
-            }
-	}
+		return mThreads.front()->isAnyWorking();
+    }
     return false;
 }
 
@@ -84,25 +105,24 @@ void ThreadPool::exitAll()
     }
 }
 
-void ThreadPool::waitForAll()
+void ThreadPool::waitForStart()
 {
-    //Check that all jobs been done
-    //This should be checked in a thread, and using a condition Variable
-    while(isJobQueueEmpty() == false)
+    bool res = isWorking();
+    while(res == false)
     {
-        Poco::Thread::sleep(50);
+        Poco::Thread::sleep(10);
+        res = isWorking();
     };
+}
 
-	Poco::Thread::sleep(50);	//We need a way to know if a thread is still doing processing...
-
-    //Dispose threads..
-    exitAll();
-
-    //This could be checked in a thread, and using a condition Variable
-    while(isActive() == true)
+void ThreadPool::waitForFinish()
+{
+    //This should be checked in a thread, and using a condition Variable
+    bool res = isWorking();
+    while(res == true)
     {
-	    exitAll(); //Ugly...?
         Poco::Thread::sleep(50);
+        res = isWorking();
     };
 }
 

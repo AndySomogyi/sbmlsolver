@@ -26,6 +26,7 @@
 #include <cmath>
 #include <math.h>
 #include <float.h>
+#include "Poco/Thread.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
 #include "rrLogger.h"
@@ -56,7 +57,7 @@ string GetUsersTempDataFolder()
     //  Gets the temp path env string (no guarantee it's a valid path).
 #if defined(WIN32)
     TCHAR lpTempPathBuffer[MAX_PATH];
-    DWORD dwRetVal = GetTempPath(MAX_PATH, lpTempPathBuffer); // buffer for path
+    DWORD dwRetVal = GetTempPathA(MAX_PATH, lpTempPathBuffer); // buffer for path
     if (dwRetVal > MAX_PATH || (dwRetVal == 0))
     {
         Log(lError)<<"GetTempPath failed";
@@ -68,9 +69,10 @@ string GetUsersTempDataFolder()
 
     return string(lpTempPathBuffer);
 #else
-return "";
+return ".";
 #endif
 }
+
 
 const string getCurrentExeFolder()
 {
@@ -143,6 +145,10 @@ const string getCWD()
 	}
 
 	return cwd;
+}
+void sleep(int ms)
+{
+    Poco::Thread::sleep(10);
 }
 
 const char getPathSeparator()

@@ -2,6 +2,7 @@
 #include "rr_pch.h"
 #endif
 #pragma hdrstop
+#include "rrStringUtils.h"
 #include "rrConstants.h"
 
 //---------------------------------------------------------------------------
@@ -10,13 +11,14 @@ namespace rr
 
 //Useful constants..
 const char*     	gComma 			            = ",";
+const char 	 		gTab 			            = '\t';
 const char* 		gDoubleFormat 	            = "%f";
 const char* 		gIntFormat  	            = "%d";;
-const char 	 		gTab 			            = '\t';
 
 const string    	gEmptyString 				= "";
-const string		gDefaultSupportCodeFolder 	= "..\\rr_support";
-const string		gDefaultCompiler 			= "..\\compilers\\tcc\\tcc.exe";
+
+//Observe, the following functions are executed BEFORE any main..
+const string		gDefaultSupportCodeFolder 	= JoinPath("..", "rr_support");
 const string		gDefaultTempFolder 			= ".";
 
 const int 			gMaxPath					= 512;
@@ -28,14 +30,16 @@ const string		gEmptyModelMessage 			= "A model needs to be loaded before one can
 
 
 #if defined(_WIN32) || defined(__CODEGEARC__)
-const char       	gPathSeparator 	= '\\';
-const string		gExeSuffix		= ".exe";
+const string		gDefaultCompiler 			= JoinPath("..", "compilers", "tcc", "tcc.exe");
+const char       	gPathSeparator      = '\\';
+const string		gExeSuffix          = ".exe";
 #elif defined(__linux)
-const char       	gPathSeparator 	= '/';
-const string		gExeSuffix		= "";
+const string		gDefaultCompiler    = "gcc";
+const char       	gPathSeparator      = '/';
+const string		gExeSuffix          = "";
 #else  //Something else...
-const char       	gPathSeparator 	= '/';
-const string		gExeSuffix		= "";
+const char       	gPathSeparator      = '/';
+const string		gExeSuffix          = "";
 #endif
 
 }

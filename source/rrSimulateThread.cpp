@@ -7,16 +7,26 @@
 namespace rr
 {
 
+int 				SimulateThread::mNrOfWorkers = 0;
+Poco::Mutex 		SimulateThread::mNrOfWorkersMutex;
 
 list<RoadRunner*>   SimulateThread::mJobs;
 Mutex 				SimulateThread::mJobsMutex;
 Condition			SimulateThread::mJobsCondition;
 
-SimulateThread::SimulateThread()
+SimulateThread::SimulateThread(RoadRunner* rri, bool autoStart)
 :
 RoadRunnerThread()
 {
-    start();
+	if(rri)
+    {
+    	addJob(rri);
+    }
+
+	if(autoStart && rri != NULL)
+    {
+    	start();
+    }
 }
 
 void SimulateThread::addJob(RoadRunner* rr)
@@ -27,29 +37,39 @@ void SimulateThread::addJob(RoadRunner* rr)
 	mJobsCondition.signal();	//Tell the thread its time to go to work
 }
 
+bool SimulateThread::isAnyWorking()
+{
+	bool result = false;
+   	Mutex::ScopedLock lock(mNrOfWorkersMutex);
+    return mNrOfWorkers > 0 ? true : false;
+}
+
+bool SimulateThread::isWorking()
+{
+	return mIsWorking;
+}
+
 void SimulateThread::worker()
 {
+    mWasStarted = true;
+	mIsWorking  = true;
+
+   	Mutex::ScopedLock lock(mNrOfWorkersMutex);
+    mNrOfWorkers++;
+    mNrOfWorkersMutex.unlock();
+
     RoadRunner *rri = NULL;
+	//////////////////////////////////
     while(!mIsTimeToDie)
     {
         {	//Scope for the mutex lock...
             Mutex::ScopedLock lock(mJobsMutex);
-            if(mJobs.size() == 0)
-            {
-                Log(lDebug5)<<"Waiting for jobs in SimulateThread worker";
-                mJobsCondition.wait(mJobsMutex);
-            }
-
-            if(mJobs.size() == 0 || mIsTimeToDie)
+            if(mJobs.size() == 0 )//|| mIsTimeToDie)
             {
                 break;	//ends the life of the thread..
             }
-            else
-            {
-                //Get a job
                 rri = mJobs.front();
                 mJobs.pop_front();
-            }
          }		//Causes the scoped lock to unlock
 
         //Do the job
@@ -61,10 +81,17 @@ void SimulateThread::worker()
                 Log(lError)<<"Failed simulating instance: "<<rri->getInstanceID();
             }
         }
-
+        else
+        {
+        	Log(lError)<<"Null job pointer...!";
+        }
     }
 
-    Log(lInfo)<<"Exiting simulate thread: "<<mThread.id();
+    Log(lDebug)<<"Exiting Simulate thread: "<<mThread.id();
+
+  	mIsWorking  = false;
+   	Mutex::ScopedLock lock2(mNrOfWorkersMutex);
+    mNrOfWorkers--;
 }
 
 void SimulateThread::signalExit()

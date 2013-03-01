@@ -16,7 +16,7 @@
             <Dependencies>rr_c_api.cbproj</Dependencies>
         </Projects>
         <Projects Include="..\..\Wrappers\C\Examples\threads_1\rr_threads_1.cbproj">
-            <Dependencies/>
+            <Dependencies>rr_c_api.cbproj</Dependencies>
         </Projects>
         <Projects Include="..\..\Wrappers\C\Examples\threads_2\rr_threads_2.cbproj">
             <Dependencies/>
@@ -65,13 +65,13 @@
     <Target Name="c_api_tests:Make" DependsOnTargets="rr_c_api:Make">
         <MSBuild Projects="c_api_tests.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="rr_threads_1">
+    <Target Name="rr_threads_1" DependsOnTargets="rr_c_api">
         <MSBuild Projects="..\..\Wrappers\C\Examples\threads_1\rr_threads_1.cbproj"/>
     </Target>
-    <Target Name="rr_threads_1:Clean">
+    <Target Name="rr_threads_1:Clean" DependsOnTargets="rr_c_api:Clean">
         <MSBuild Projects="..\..\Wrappers\C\Examples\threads_1\rr_threads_1.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="rr_threads_1:Make">
+    <Target Name="rr_threads_1:Make" DependsOnTargets="rr_c_api:Make">
         <MSBuild Projects="..\..\Wrappers\C\Examples\threads_1\rr_threads_1.cbproj" Targets="Make"/>
     </Target>
     <Target Name="rr_threads_2">

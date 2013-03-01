@@ -103,7 +103,7 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <IncludePath>$(RR_DEBUG_INSTALL)\include\rr-libstruct;$(IncludePath)</IncludePath>
         <Manifest_File>None</Manifest_File>
-        <Debugger_RunParams>-mr:\models  -rr:\rrl\reports\cg\xe3\c_tests_debug.xml -tr:\rrTemp\cg_c</Debugger_RunParams>
+        <Debugger_RunParams>-mr:\models  -rr:\rrl\reports\cg\xe3\c_tests_debug.xml -tr:\temp\cg_c</Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>

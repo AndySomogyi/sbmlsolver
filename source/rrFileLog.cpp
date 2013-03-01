@@ -15,7 +15,8 @@ int FileLog::mNrOfInstances = 0;
 
 FileLog::FileLog()
 :
-mLogFile(unique_ptr<LogFile>(new LogFile("Log.txt"))),
+//mLogFile(unique_ptr<LogFile>(new LogFile("Log.txt"))),
+mLogFile(new LogFile("Log.txt")),
 mLogPrefix("none"),
 mLogLevel(lInfo),
 mLogToServer(false)
@@ -36,17 +37,26 @@ int  FileLog::GetNrOfInstances()
 
 FILE* FileLog::GetLogFileHandle()
 {
-    return mLogFile.get()->mFILEHandle;
+//    return mLogFile.get()->mFILEHandle;
+    return mLogFile->mFILEHandle;
 }
 
 
 //        gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));
-bool FileLog::Init(const string& logPrefix, const LogLevel& level, unique_ptr<LogFile> logFile)
+//bool FileLog::Init(const string& logPrefix, const LogLevel& level, unique_ptr<LogFile> logFile)
+//{
+//    mLogPrefix = logPrefix;
+//    mLogLevel = level;
+//    mLogFile = move(logFile);
+//    return mLogFile.get() ? true : false;
+//}
+
+bool FileLog::Init(const string& logPrefix, const LogLevel& level, LogFile* logFile)
 {
     mLogPrefix = logPrefix;
     mLogLevel = level;
-    mLogFile = move(logFile);
-    return mLogFile.get() ? true : false;
+    mLogFile = logFile;
+    return mLogFile != NULL ? true : false;
 }
 
 string FileLog::GetLogFileName()
@@ -85,7 +95,8 @@ string FileLog::GetLogPrefix()
 
 void FileLog::write(const char* str)
 {
-    if(!mLogFile.get())
+//    if(!mLogFile.get())
+    if(!mLogFile)
     {
         return;
     }

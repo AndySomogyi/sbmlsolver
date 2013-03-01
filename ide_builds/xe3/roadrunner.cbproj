@@ -213,6 +213,12 @@
             <DependentOn>..\..\source\rrIniSection.h</DependentOn>
             <BuildOrder>67</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\rrLoadModel.cpp">
+            <BuildOrder>73</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrLoadModelThread.cpp">
+            <BuildOrder>75</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrLogContainer.cpp">
             <DependentOn>..\..\source\rrLogContainer.h</DependentOn>
             <BuildOrder>69</BuildOrder>
@@ -310,6 +316,9 @@
             <DependentOn>..\..\source\rrRoadRunner.h</DependentOn>
             <BuildOrder>67</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\rrRoadRunnerList.cpp">
+            <BuildOrder>72</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrRoadRunnerThread.cpp">
             <BuildOrder>71</BuildOrder>
         </CppCompile>
@@ -331,6 +340,12 @@
         <CppCompile Include="..\..\source\rrScanner.cpp">
             <DependentOn>..\..\source\rrScanner.h</DependentOn>
             <BuildOrder>49</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrSimulate.cpp">
+            <BuildOrder>77</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrSimulateThread.cpp">
+            <BuildOrder>76</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrSimulationData.cpp">
             <DependentOn>..\..\source\rrSimulationData.h</DependentOn>
@@ -377,6 +392,9 @@
         <CppCompile Include="..\..\source\rrTextWriter.cpp">
             <DependentOn>..\..\source\rrTextWriter.h</DependentOn>
             <BuildOrder>55</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrThreadPool.cpp">
+            <BuildOrder>74</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrToken.cpp">
             <DependentOn>..\..\source\rrToken.h</DependentOn>

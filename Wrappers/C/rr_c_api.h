@@ -47,7 +47,7 @@ namespace rr_c_api
 extern "C"
 {
 #else
-#include "stdbool.h"
+//#include "stdbool.h"
 #endif
 
 #include "rr_c_api_exporter.h"
@@ -404,10 +404,18 @@ C_DECL_SPEC bool rrCallConv waitForJob(RRThreadHandle handle);
 /*!
  \brief Wait for jobs in thread pool to finish
  \param[in] RRThreadPoolHandle - aHandle to a threadPool
- \return Returns true if threadpool finsihed up properly, otherwise returns false
+ \return Returns true if threadpool finished up properly, otherwise returns false
  \ingroup multiThreading
 */
 C_DECL_SPEC bool rrCallConv waitForJobs(RRThreadPoolHandle handle);
+
+/*!
+ \brief Check if there are work being done on jobs
+ \param[in] RRThreadPoolHandle - aHandle to a threadPool
+ \return Returns true if there are running threads, otherwise returns false
+ \ingroup multiThreading
+*/
+C_DECL_SPEC bool rrCallConv isWorkingOnJobs(RRThreadPoolHandle handle);
 
 /*!
  \brief Get number of remaining jobs in a threadPool
@@ -2025,8 +2033,6 @@ C_DECL_SPEC char* rrCallConv getPluginInfo(RRHandle handle, const char* name);
 
 C_DECL_SPEC bool rrCallConv executePlugin(RRHandle handle, const char* name);
 
-
-//
 
 #if defined( __cplusplus)
 }

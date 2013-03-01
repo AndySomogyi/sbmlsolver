@@ -1,3 +1,4 @@
+project(threads_1 C)
 set(target threads_1)
 
 add_executable( ${target} 

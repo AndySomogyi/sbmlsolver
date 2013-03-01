@@ -22,11 +22,17 @@ class RR_DECLSPEC SimulateThread : public RoadRunnerThread
         void						signalAll();
         void						signalExit();
 
+		static Poco::Mutex	 		mNrOfWorkersMutex;
+        static int					mNrOfWorkers;		//incremented when entering worker function and decremented when exiting
+
 	public:
-    								SimulateThread();
+    								SimulateThread(RoadRunner* rri = NULL, bool autoStart = false);
     	void 						worker();
 		void 			            addJob(RoadRunner* rr);
 		unsigned int  				getNrOfJobsInQueue();
+        bool	  					isAnyWorking();
+        bool	  					isWorking();
+
 };
 
 }

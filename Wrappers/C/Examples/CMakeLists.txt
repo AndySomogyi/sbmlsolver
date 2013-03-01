@@ -1,14 +1,14 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
 PROJECT(RR_C_API_Examples)
-if(${MSVC})
-
-endif(${MSVC})
+#if(${MSVC})
+#endif(${MSVC})
 
 set(examples 	
 #get_c_code
 threads_1
 threads_2
 )
+
 
 foreach(example ${examples})
  	add_subdirectory(${example})

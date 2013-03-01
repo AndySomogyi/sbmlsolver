@@ -21,7 +21,7 @@ using std::deque;
 namespace rr
 {
 
-//You have to define LIBSBML_USE_CPP_NAMESPACE for your project to compile this!
+//You HAVE to define LIBSBML_USE_CPP_NAMESPACE for your project to compile this!
 using namespace libsbml;
 class RR_DECLSPEC NOMSupport : public rrObject
 {

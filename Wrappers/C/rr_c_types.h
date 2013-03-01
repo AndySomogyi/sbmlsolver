@@ -46,7 +46,14 @@
 extern "C"
 {
 #else
+
+#if defined(_MSC_VER)
+typedef int bool;
+#define false 0
+#define true 1
+#else
 #include "stdbool.h"
+#endif
 #endif
 
 /*!@brief Void pointer to RRHandle */

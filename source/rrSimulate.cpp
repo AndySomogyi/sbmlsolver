@@ -22,6 +22,13 @@ ThreadPool()
     {
         addJob(rrs[i]);
     }
+
+    //This will start processing the jobs..
+    if(!isJobQueueEmpty() && nrThreads > 0)
+    {
+		start();
+    	waitForStart();	//Make sure it get started before moving on..
+    }
 }
 
 }

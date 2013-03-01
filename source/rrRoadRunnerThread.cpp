@@ -1,4 +1,6 @@
 #pragma hdrstop
+#include "rrLogger.h"
+#include "rrUtils.h"
 #include "rrRoadRunnerThread.h"
 
 using namespace Poco;
@@ -6,8 +8,24 @@ namespace rr
 {
 
 RoadRunnerThread::RoadRunnerThread() :
-mIsTimeToDie(false)
+mIsTimeToDie(false),
+mWasStarted(false),
+mIsWorking(false)
 {}
+
+bool RoadRunnerThread::wasStarted()
+{
+	return mWasStarted;
+}
+bool RoadRunnerThread::isWorking()
+{
+	return mIsWorking;
+}
+
+bool RoadRunnerThread::didFinish()
+{
+	return !isActive();
+}
 
 void RoadRunnerThread::setName(const string& name)
 {
@@ -25,10 +43,26 @@ void RoadRunnerThread::exit()
     signalExit();
 }
 
-
-void RoadRunnerThread::start()
+void RoadRunnerThread::start(RoadRunner* instance)
 {
+	if(instance)
+    {
+    	addJob(instance);
+    }
+
+	mIsTimeToDie = false;
+
+    if(mIsWorking)
+    {
+    	Log(lError)<<"Tried to start a working thread!";
+        return ;
+    }
+
+	mWasStarted = false;
+	mIsWorking = false;
+
 	mThread.start(*this);
+	waitForStart();
 }
 
 void RoadRunnerThread::run()
@@ -46,27 +80,20 @@ bool RoadRunnerThread::isActive()
 	return mThread.isRunning();
 }
 
-void RoadRunnerThread::wait()
+void RoadRunnerThread::waitForStart()
 {
-    //Check that all jobs been done
-    //This should be checked in a thread, and using a condition Variable
-    while(getNrOfJobsInQueue() > 0)
+    while(wasStarted() == false)
     {
-        Poco::Thread::sleep(50);
+        Poco::Thread::sleep(1);
     };
+}
 
-	Poco::Thread::sleep(50);	//We need a way to know if a thread is still doing processing...
-
-    //Dispose thread..
-    exit();
-
-    //This could be checked in a thread, and using a condition Variable
-    while(isActive() == true)
+void RoadRunnerThread::waitForFinish()
+{
+    while(isActive() != false)
     {
-	    exit(); //Ugly...?
-        Poco::Thread::sleep(50);
+        sleep(5);
     };
-    //This thread pool is done....
 }
 
 }

@@ -12,6 +12,8 @@ if(${MSVC})
 endif(${MSVC})
 
 set(examples 	
+one_thread
+many_threads
 )
 
 foreach(example ${examples})

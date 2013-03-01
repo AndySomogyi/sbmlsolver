@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
-set(target rr)
+set(target many_threads)
 
-add_executable(${target} 
+add_executable(		   ${target} 
 main.cpp 
-Args.cpp
 )
 
 add_definitions(
@@ -48,6 +47,5 @@ endif()
 
 
 install (TARGETS ${target} 		
-DESTINATION bin 
-COMPONENT apps
-)
+        DESTINATION bin 
+        COMPONENT examples)

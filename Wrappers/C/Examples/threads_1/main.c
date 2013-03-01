@@ -1,4 +1,8 @@
 #pragma hdrstop
+#if defined(linux)
+#include <stdlib.h>
+#include <string.h>
+#endif
 #include <stdio.h>
 #include "rr_c_api.h"
 

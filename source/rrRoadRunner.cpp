@@ -43,6 +43,7 @@ int	RoadRunner::getInstanceID()
 
 RoadRunner::RoadRunner(const string& supportCodeFolder, const string& compiler, const string& tempFolder)
 :
+mUseKinsol(false),
 mDiffStepSize(0.05),
 mUseUUIDForCompilerOutput(false),
 mModelFolder("models"),
@@ -52,15 +53,14 @@ mSimulation(NULL),
 mCVode(NULL),
 mSteadyStateSolver(NULL),
 mCompiler(supportCodeFolder, compiler),
-mPluginManager(JoinPath(getParentFolder(supportCodeFolder), "plugins")),
 mComputeAndAssignConservationLaws(false),
-mConservedTotalChanged(false),
-mCurrentSBML(""),
-mModel(NULL),
 mTimeStart(0),
 mTimeEnd(10),
 mNumPoints(21),
-mUseKinsol(false)
+mModel(NULL),
+mCurrentSBML(""),
+mPluginManager(JoinPath(getParentFolder(supportCodeFolder), "plugins")),
+mConservedTotalChanged(false)
 {
     setTempFileFolder(tempFolder);
 	Log(lDebug4)<<"In RoadRunner ctor";
@@ -194,8 +194,13 @@ bool RoadRunner::setTempFileFolder(const string& folder)
 	}
 	else
 	{
-		Log(lError)<<"The folder: "<<folder<<" don't exist...";
-		return false;
+    	stringstream msg;
+        msg<<"The folder: "<<folder<<" don't exist...";
+		Log(lError)<<msg.str();
+
+		CoreException e(msg.str());
+        throw(e);
+//		return false;
 	}
 }
 
@@ -789,18 +794,22 @@ bool RoadRunner::compileModel()
     }
 
     //Load the DLL
-    try
-    {
+//    try
+//    {
 		Log(lDebug)<<"Trying to load shared lib: "<<mModelLib.getFullFileName();
-    	mModelLib.load();
-    }
-    catch(const exception& ex)
-    {
-		Log(lError)<<"There was a problem loading the shared library: "<<mModelLib.getFullFileName();
-		Log(lError)<<"More Info: "<<ex.what();
-        return false;
-    }
-
+    	if(!mModelLib.load())
+        {
+			Log(lError)<<"There was a problem loading the shared library: "<<mModelLib.getFullFileName();
+	        return false;
+        }
+//    }
+//    catch(const exception& ex)
+//    {
+//		Log(lError)<<"There was a problem loading the shared library: "<<mModelLib.getFullFileName();
+//		Log(lError)<<"More Info: "<<ex.what();
+//        return false;
+//    }
+//
     //Now create the Model using the compiled DLL
     mModel = createModel();
 

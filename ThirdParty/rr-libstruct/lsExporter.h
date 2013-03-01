@@ -1,7 +1,7 @@
 #ifndef lsExporterH
 #define lsExporterH
 
-#if defined( WIN32 )
+#if defined( _WIN32 )
 
     #if defined( STATIC_LIBSTRUCT )          //Libstruct static
         #define LIB_EXTERN

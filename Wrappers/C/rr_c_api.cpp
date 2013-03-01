@@ -119,6 +119,7 @@ RRHandle rrCallConv createRRInstanceE(const char* tempFolder)
     	{
         	stringstream msg;
             msg<<"The temporary folder: "<<tempFolder<<" do not exist";
+            Log(lError)<<msg.str();
     		throw(Exception(msg.str()));
         }
         else if(tempFolder)
@@ -142,11 +143,10 @@ RRHandle rrCallConv createRRInstanceE(const char* tempFolder)
 RRInstanceListHandle rrCallConv createRRInstances(int count)
 {
 	try
-    {
-    	string rrInstallFolder(getParentFolder(getRRCAPILocation()));
+    {    	
 		string tempFolder = GetUsersTempDataFolder();
 
-		RoadRunnerList* listHandle = new RoadRunnerList(count, rrInstallFolder, tempFolder);
+		RoadRunnerList* listHandle = new RoadRunnerList(count, tempFolder);
 
         //Create the C list structure
 		RRInstanceListHandle rrList = new RRInstanceList;
@@ -590,6 +590,7 @@ RRThreadHandle rrCallConv loadSBMLFromFileThread(RRHandle rrHandle, const char* 
             setError("Failed to create a LoadModel Thread");
         }
         loadThread->addJob(rr);
+        loadThread->start();
         return loadThread;
     }
     catch(Exception& ex)
@@ -639,7 +640,7 @@ bool rrCallConv waitForJob(RRThreadHandle handle)
         RoadRunnerThread* aThread = (RoadRunnerThread*) handle;
         if(aThread)
         {
-            aThread->wait();
+			aThread->waitForFinish();
             return true;
         }
 		return false;
@@ -660,8 +661,28 @@ bool rrCallConv waitForJobs(RRThreadPoolHandle handle)
         ThreadPool* aTP = (ThreadPool*) handle;
         if(aTP)
         {
-            aTP->waitForAll();
+			aTP->waitForFinish();
             return true;
+        }
+		return false;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
+bool rrCallConv isWorkingOnJobs(RRThreadPoolHandle handle)
+{
+	try
+    {
+        ThreadPool* aTP = (ThreadPool*) handle;
+        if(aTP)
+        {
+			return aTP->isWorking();
         }
 		return false;
     }
@@ -977,8 +998,6 @@ RRResultHandle rrCallConv simulate(RRHandle handle)
         for(int i = 0; i < result.cSize(); i++)
         {
             aResult->ColumnHeaders[i] = createText(result.getColumnNames()[i]);
-            //new char(32);
-            //strcpy(aResult->ColumnHeaders[i], result.GetColumnNames()[i].c_str());
         }
 
         aResult->RSize = result.rSize();
@@ -1061,6 +1080,7 @@ RRThreadHandle rrCallConv simulateThread(RRHandle rrHandle)
             setError("Failed to create a Simulate Thread Pool");
         }
         t->addJob(rr);
+        t->start();
         return t;
     }
     catch(Exception& ex)
@@ -2271,13 +2291,13 @@ RRMatrixHandle rrCallConv getEigenvaluesMatrix (RRHandle handle, const RRMatrixH
 
     	// Convert RRMatrixHandle mat to a DoubleMatrix
 		DoubleMatrix dmat (mat->RSize, mat->CSize);
-		double *value;
+		double value;
 		for (int i=0; i<mat->RSize; i++)
         {
 			for (int j=0; j<mat->CSize; j++)
             {
-				getMatrixElement (mat, i, j, value);
-				dmat(i,j) = *value;
+				getMatrixElement (mat, i, j, &value);
+				dmat(i,j) = value;
 			}
         }
 		DoubleMatrix tempMat = rri->getEigenvaluesFromMatrix (dmat);
@@ -3905,7 +3925,8 @@ bool rrCallConv enableLoggingToFile(RRHandle handle)
 		string logFile = JoinPath(tempFolder, "RoadRunner.log") ;
         freeText(tempFolder);
 
-        gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));
+//        gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));
+        gLog.Init("", gLog.GetLogLevel(), new LogFile(logFile.c_str()));
     	return true;
     }
     catch(const Exception& ex)

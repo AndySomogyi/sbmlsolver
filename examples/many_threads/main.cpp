@@ -13,26 +13,29 @@ int main(int argc, char** argv)
         LogOutput::mLogToConsole = true;
 
         //Create some roadrunners
-        const int nrOfRRInstances 	= 16;
-        const int threadCount  		= 2;
+        const int instanceCount 	= 1000;
+        const int threadCount  		= 4;
 
         //Use a list of roadrunners
-        RoadRunnerList rrs(nrOfRRInstances, "r:\\rrThreads");
 
-        const string model = "r:\\models\\test_1.xml";
+		const char* rootPath = "..";
 
-        //Load models..
+		string tmpFolder = JoinPath(rootPath, "temp");
+        RoadRunnerList rrs(instanceCount, tmpFolder);
+
+        const string modelFile = JoinPath(rootPath, "models", "test_1.xml");
+
+        //Load modelFiles..
         Log(lInfo)<<" ---------- LOADING/GENERATING MODELS ------";
 
-        LoadModel loadModel(rrs, model, threadCount);
-        loadModel.waitForAll();
+        LoadModel loadModel(rrs, modelFile, threadCount);
+        loadModel.waitForFinish();
 
-
-        //Set parameters
+      	//Set parameters
         Log(lInfo)<<" ---------- SETTING PARAMETERS -------------";
 
         //Setup instances with different variables
-        for(int i = 0; i < nrOfRRInstances; i++)
+        for(int i = 0; i < instanceCount; i++)
         {
             double val = rrs[i]->getValue("k1");
             rrs[i]->setValue("k1", val/(2.5*(i + 1)));
@@ -46,18 +49,18 @@ int main(int argc, char** argv)
 
         //Simulate them using a pool of threads..
         Simulate simulate(rrs, threadCount);
-        simulate.waitForAll();
+        simulate.waitForFinish();
 
         //Write data to a file
         SimulationData allData;
-        for(int i = nrOfRRInstances -1 ; i >-1 ; i--) //"Backwards" because bad plotting program..
+        for(int i = instanceCount -1 ; i >-1 ; i--) //"Backwards" because bad plotting program..
         {
             RoadRunner* rr = rrs[i];
             SimulationData data = rr->getSimulationResult();
             allData.append(data);
         }
 
-        allData.writeTo("r:\\allData.dat");
+        allData.writeTo(JoinPath(rootPath, "allData.dat"));
     }
     catch(const Exception& ex)
     {

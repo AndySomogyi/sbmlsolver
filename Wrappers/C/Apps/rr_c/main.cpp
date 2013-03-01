@@ -82,6 +82,11 @@ int main(int argc, char* argv[])
     	doMore = false;
     }
 
+    if(!enableLoggingToFile(rrHandle))
+    {
+        cerr<<"Failed setting log RoadRunner Log level";
+    	doMore = false;
+    }
 
 	cout<<"Currrent Log Level: "<<getLogLevel()<<endl;
 

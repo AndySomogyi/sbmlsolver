@@ -17,7 +17,7 @@ set report_file=%wc%\reports\%compiler%\%compiler_version%\c_tests_%build_type%.
 )
 
 
-set temp_folder=r:\rrTemp\%compiler_version%
+set temp_folder=r:\temp\%compiler_version%
 
 c_api_tests.exe -m%model_folder% -r%report_file% -t%temp_folder% 
 
