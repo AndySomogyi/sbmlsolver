@@ -5,13 +5,13 @@ from rrPython import *
 modelFile=''
 if sys.platform.startswith('win32'):
     modelFile ="r:/models/test_1.xml"
-    setTempFolder('r:/temp/python')
+    setTempFolder('r:/temp')
 else:
-    modelFile = "/home/totte/rDisk/models/test_1.xml"
-    setTempFolder('/home/totte/rDisk/temp/python')
+    modelFile = "../models/test_1.xml"
+    setTempFolder('../temp')
 
 tempFolder  = getTempFolder()
-handleCount = 100
+handleCount = 10
 threadCount = 4
 
 rrInstances =  createRRInstances(handleCount)
@@ -53,7 +53,7 @@ for col in range (handleCount):
 print data
 
 # Write data to a file
-writeRRData("r:\\allDataPython.dat", rrInstances);
+writeRRData("../RRPythonData.dat", rrInstances);
 
 # Free instances.. will unload any model shared libs..
 freeRRInstances(rrInstances)
