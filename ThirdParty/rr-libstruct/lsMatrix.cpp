@@ -25,7 +25,7 @@ ostream& operator<<(ostream& stream, const IntMatrix& mat)
             int val = mat(row,col);
             stream<<val<<"\t";
         }
-        stream<<std::endl;
+        stream<<"\n";
     }
     return stream;
 }
@@ -39,7 +39,7 @@ ostream& operator<<(ostream& stream, const DoubleMatrix& mat)
             double val = mat(row,col);
             stream<<val<<"\t";
         }
-        stream<<std::endl;
+        stream<<"\n";
     }
     return stream;
 }
@@ -53,7 +53,7 @@ ostream& operator<<(ostream& stream, const ComplexMatrix& mat)
             //Complex val = mat(row,col);
            //stream<<val<<"\t";
         }
-        stream<<std::endl;
+        stream<<"\n";
     }
     return stream;
 }

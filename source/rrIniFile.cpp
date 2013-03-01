@@ -17,9 +17,8 @@ using namespace rr;
 
 namespace rr
 {
-const bool IniFile::mAutoCreateSections = true;
-const bool IniFile::AUTOCREATE_KEYS = true;
-const int  IniFile::MAX_BUFFER_LEN  = 32768;
+//const bool IniFile::mAutoCreateSections = true;
+//const bool IniFile::mAutoCreateKeys		= true;
 
 IniFile::IniFile(const string& szFileName, bool autoLoad, bool autoSave)
 :
@@ -28,9 +27,11 @@ mEqualIndicator("="),
 mWhiteSpace(" \t\n\r"),
 mIniFileName(szFileName),
 mIsDirty(false),
-mAutoSave(autoSave)
+mAutoSave(autoSave),
+mAutoCreateKeys(1),
+mAutoCreateSections(1)
 {
-	mFlags = (mAutoCreateSections | AUTOCREATE_KEYS);
+	//mFlags = (mAutoCreateSections | mAutoCreateKeys);
 	if(mIniFileName.size() > 2 && autoLoad == true)
 	{
 		Load();	//Load all sections and keys upon creation...
@@ -135,23 +136,23 @@ bool IniFile::Load(const string& newfName)
 	else
 	{
 		bool bDone = false;
-		bool bAutoKey = (mFlags & AUTOCREATE_KEYS) 		== AUTOCREATE_KEYS;
+		bool bAutoKey = (mFlags & mAutoCreateKeys) 		== mAutoCreateKeys;
 		bool bAutoSec = (mFlags & mAutoCreateSections) 	== mAutoCreateSections;
 
 
 		rrIniSection* pSection = GetSection("");
 
 		// These need to be set, we'll restore the original values later.
-		mFlags |= AUTOCREATE_KEYS;
+		mFlags |= mAutoCreateKeys;
 		mFlags |= mAutoCreateSections;
 
-		char* buffer = new char[MAX_BUFFER_LEN];
+		char* buffer = new char[MAX_LINE_BUFFER_SIZE];
         int lines = 0;
 		while(!bDone)
 		{
 			string Comment;
-			memset(buffer, 0, MAX_BUFFER_LEN);
-			file.getline(buffer, MAX_BUFFER_LEN);
+			memset(buffer, 0, MAX_LINE_BUFFER_SIZE);
+			file.getline(buffer, MAX_LINE_BUFFER_SIZE);
 			lines++;
 
 			string Line = buffer;
@@ -216,7 +217,7 @@ bool IniFile::Load(const string& newfName)
 		// Restore the original flag values.
 		if(!bAutoKey)
         {
-			mFlags &= ~AUTOCREATE_KEYS;
+			mFlags &= ~mAutoCreateKeys;
         }
 
 		if(!bAutoSec)
@@ -263,21 +264,21 @@ rrIniSection* IniFile::LoadSection(const string& theSection)
 	else
 	{
 		bool bDone = false;
-		bool bAutoKey = (mFlags & AUTOCREATE_KEYS) 		== AUTOCREATE_KEYS;
+		bool bAutoKey = (mFlags & mAutoCreateKeys) 		== mAutoCreateKeys;
 		bool bAutoSec = (mFlags & mAutoCreateSections) 	== mAutoCreateSections;
 
-		char* buffer = new char[MAX_BUFFER_LEN];
+		char* buffer = new char[MAX_LINE_BUFFER_SIZE];
 		pSection = GetSection("");
 
 		// These need to be set, we'll restore the original values later.
-		mFlags |= AUTOCREATE_KEYS;
+		mFlags |= mAutoCreateKeys;
 		mFlags |= mAutoCreateSections;
 
 		while(!bDone)
 		{
 			string Comment;
-			memset(buffer, 0, MAX_BUFFER_LEN);
-			file.getline(buffer, MAX_BUFFER_LEN);
+			memset(buffer, 0, MAX_LINE_BUFFER_SIZE);
+			file.getline(buffer, MAX_LINE_BUFFER_SIZE);
 
 			string Line = buffer;
 			Trim(Line);
@@ -337,7 +338,7 @@ rrIniSection* IniFile::LoadSection(const string& theSection)
 		// Restore the original flag values.
 		if (!bAutoKey)
 		{
-			mFlags &= ~AUTOCREATE_KEYS;
+			mFlags &= ~mAutoCreateKeys;
 		}
 
 		if (!bAutoSec)
@@ -498,7 +499,7 @@ bool IniFile::WriteValue(const string& mKey, const string& mValue, const string&
 
 	// if the key does not exist in that section, and the value passed
 	// is not string("") then add the new key.
-	if ( pKey == NULL && mValue.size() > 0 && (mFlags & AUTOCREATE_KEYS))
+	if ( pKey == NULL && mValue.size() > 0 && (mFlags & mAutoCreateKeys))
 	{
 		pKey = new rrIniKey;
 
@@ -722,16 +723,16 @@ bool IniFile::DeleteKey(const string& Key, const string& FromSection)
 // the proper value and place it in the section requested.
 bool IniFile::CreateKey(const string& mKey, const string& mValue, const string& mComment, const string& szSection)
 {
-	bool bAutoKey = (mFlags & AUTOCREATE_KEYS) == AUTOCREATE_KEYS;
+	bool bAutoKey = (mFlags & mAutoCreateKeys) == mAutoCreateKeys;
 	bool bReturn  = false;
 
-	mFlags |= AUTOCREATE_KEYS;
+	mFlags |= mAutoCreateKeys;
 
 	bReturn = WriteValue(mKey, mValue, mComment, szSection);
 
 	if (!bAutoKey)
 	{
-		mFlags &= ~AUTOCREATE_KEYS;
+		mFlags &= ~mAutoCreateKeys;
 	}
 
 	return bReturn;
@@ -945,15 +946,15 @@ string IniFile::Trim(string& str)
 // bytes written.
 int IniFile::WriteLine(fstream& stream, const char* fmt, ...)
 {
-	char *buf = new char[MAX_BUFFER_LEN];
+	char *buf = new char[MAX_LINE_BUFFER_SIZE];
 	int nLength;
 	string szMsg;
 
-	memset(buf, 0, MAX_BUFFER_LEN);
+	memset(buf, 0, MAX_LINE_BUFFER_SIZE);
 	va_list args;
 
 	va_start (args, fmt);
-	  nLength = vsnprintf(buf, MAX_BUFFER_LEN, fmt, args);
+	  nLength = vsnprintf(buf, MAX_LINE_BUFFER_SIZE, fmt, args);
 	va_end (args);
 
 

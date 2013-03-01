@@ -19,6 +19,7 @@ using std::ios_base;
 
 namespace rr
 {
+const int MAX_LINE_BUFFER_SIZE = 2048;
 class rrIniKey;
 class rrIniSection;
 
@@ -33,12 +34,12 @@ class RR_DECLSPEC IniFile : public rrObject
 	private:
 		// When set, this define will cause SetValue() to create a new section, if
 		// the requested section does not allready exist.
-		static const bool   mAutoCreateSections;
+		const int			mAutoCreateSections;
 
 		// When set, this define causes SetValue() to create a new key, if the
 		// requested key does not allready exist.
-		static const bool 	AUTOCREATE_KEYS;
-		static const int 	MAX_BUFFER_LEN;
+		const int 			mAutoCreateKeys;
+		
 		string 				mCommentIndicators;
 		const string 		mEqualIndicator;
 		const string 		mWhiteSpace;
@@ -57,7 +58,7 @@ class RR_DECLSPEC IniFile : public rrObject
 
 
 	public:
-		long		        mFlags;		// Our settings flags.
+		int			        mFlags;		// Our settings flags.
 					        IniFile(const string& fName = gEmptyString, bool autoLoad = false, bool autoSave = false);
 		virtual		        ~IniFile();
 

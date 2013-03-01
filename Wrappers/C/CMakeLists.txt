@@ -29,6 +29,7 @@ EXPORT_RR_C_API
 LIBSBML_STATIC
 LIBLAX_STATIC
 STATIC_PUGI
+POCO_STATIC
 STATIC_LIBSTRUCT
 STATIC_RR             #when linking with static lib, no declspec shuld be present..
 )

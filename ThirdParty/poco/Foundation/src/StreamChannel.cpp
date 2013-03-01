@@ -55,7 +55,7 @@ void StreamChannel::log(const Message& msg)
 {
 	FastMutex::ScopedLock lock(_mutex);
 	
-	_str << msg.getText() << std::endl;
+	_str << msg.getText() << "\n";//std::endl;
 }
 
 

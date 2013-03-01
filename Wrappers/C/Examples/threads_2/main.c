@@ -2,6 +2,7 @@
 #if defined(linux)
 #include <stdlib.h>
 #endif
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include "rr_c_api.h"
@@ -117,7 +118,9 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
+#if defined(CG_IDE)
 #pragma link "rr_c_api.lib"
+#endif
 
 //Non blocking code waiting for threadpool to finish
 //    while(true)

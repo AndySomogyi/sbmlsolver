@@ -18,7 +18,7 @@ int main()
     Log(lInfo)<<lRR.getInfo();
     Log(lInfo)<<"======================";
     
-    LoadModelThread load(JoinPath("..", "models", "test_1.xml"), &lRR);
+    LoadModelThread load(JoinPath("..", "models", "feedback.xml"), &lRR);
 
     load.start();
     load.waitForFinish();
@@ -40,7 +40,8 @@ int main()
     }
     return 0;
 }
-#if defined(__CODEGEARC__)
+
+#if defined(CG_IDE)
 #pragma comment(lib, "roadrunner.lib")
 #pragma comment(lib, "poco_foundation-static.lib")
 #endif

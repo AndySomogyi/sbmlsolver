@@ -263,7 +263,7 @@ void Scanner::getNumber()
                 nextChar();
             } while (FCharTable[fch] == TCharCode::cDIGIT);
         }
-        catch(int aVal)
+        catch(int)
         {
             throw ScannerException("Integer Overflow - constant value too large to read");
         }

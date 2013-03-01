@@ -38,7 +38,7 @@ class RR_DECLSPEC TSelectionRecord : public rrObject
         string              p1;
         string              p2;
         TSelectionType      selectionType;
-                            TSelectionRecord(const int& index = 0, const TSelectionType type = clUnknown, const string& p1 = "", const string p2 = "");
+                            TSelectionRecord(const int& index = 0, const TSelectionType type = clUnknown, const string& p1 = gEmptyString, const string& p2 = gEmptyString);
 
 };
 

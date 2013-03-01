@@ -25,7 +25,7 @@ const char* rootPath = "..";
         gLog.SetCutOffLogLevel(lInfo);
 		string tmpFolder = JoinPath(rootPath, "temp");
 
-        const string modelFile = JoinPath(rootPath, "models", "test_1.xml");
+        const string modelFile = JoinPath(rootPath, "models", "feedback.xml");
 
         //Load modelFiles..
         Log(lInfo)<<" ---------- LOADING/GENERATING MODELS ------";
@@ -44,6 +44,7 @@ const char* rootPath = "..";
     	Log(lError)<<"There was a  problem: "<<ex.getMessage();
     }
 
+    Pause(true);
     return 0;
 }
 

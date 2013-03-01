@@ -15,7 +15,7 @@ int main(int argc, char** argv)
         gLog.SetCutOffLogLevel(lInfo);
 		string tmpFolder = JoinPath(rootPath, "temp");
 
-        const string modelFile = JoinPath(rootPath, "models", "test_1.xml");
+        const string modelFile = JoinPath(rootPath, "models", "feedback.xml");
 
         //Load modelFiles..
         Log(lInfo)<<" ---------- LOADING/GENERATING MODELS ------";
@@ -37,9 +37,16 @@ int main(int argc, char** argv)
     	Log(lError)<<"There was a  problem: "<<ex.getMessage();
     }
 
+    Pause(true);
     return 0;
 }
 
 #pragma comment(lib, "roadrunner.lib")
 #pragma comment(lib, "poco_foundation-static.lib")
 #pragma comment(lib, "rr-libstruct-static.lib")
+//#pragma comment(lib, "cprts.lib")
+
+
+
+
+//Unlocksyslock(){}

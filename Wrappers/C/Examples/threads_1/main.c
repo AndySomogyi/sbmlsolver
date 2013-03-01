@@ -1,8 +1,8 @@
 #pragma hdrstop
 #if defined(linux)
-#include <stdlib.h>
 #include <string.h>
 #endif
+#include <stdlib.h>
 #include <stdio.h>
 #include "rr_c_api.h"
 
@@ -12,7 +12,6 @@ int main()
 	RRHandle 				rrHandle;
     RRThreadHandle			threadHandle;
     char tempFolder[1024];
-	int i;
     double val;
 	char* modelFileName = "../models/test_1.xml";
    	char  buf[2048];
@@ -54,7 +53,7 @@ int main()
     //Setup instances with different variables
     val = 0;
     getValue(rrHandle, "k1", &val);
-    setValue(rrHandle, "k1", val/(2.5*(i + 1)));
+    setValue(rrHandle, "k1", val/(2.5));
     setNumPoints(rrHandle, 500);
     setTimeEnd(rrHandle, 150);
     setTimeCourseSelectionList(rrHandle, "TIME S1");
@@ -82,7 +81,9 @@ int main()
 	return 0;
 }
 
+#if defined(CG_IDE)
 #pragma link "rr_c_api.lib"
+#endif
 
 //Non blocking code waiting for threadpool to finish
 //    while(true)

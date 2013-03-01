@@ -206,7 +206,7 @@ ${poco_include_folder}
 add_library(${target}-static STATIC ${sources})
 set_property(TARGET ${target}-static  
              PROPERTY  COMPILE_DEFINITIONS 
-                       STATIC_POCO
+                       POCO_STATIC
                        PCRE_STATIC
              ) 
 

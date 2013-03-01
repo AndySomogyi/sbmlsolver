@@ -44,6 +44,12 @@
         <Cfg_2>true</Cfg_2>
         <Base>true</Base>
     </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
         <Manifest_File>None</Manifest_File>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
@@ -122,6 +128,12 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_OSX32)'!=''">
         <Icns_MainIcns>$(BDS)\bin\cbuilder_PROJECTICNS.icns</Icns_MainIcns>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <BPILibOutputDir>$(RR_RELEASE_INSTALL)\lib</BPILibOutputDir>
+        <FinalOutputDir>$(RR_RELEASE_INSTALL)\bin\</FinalOutputDir>
+        <ILINK_LibraryPath>$(RR_RELEASE_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>$(RR_RELEASE_INSTALL)\include;$(IncludePath)</IncludePath>
     </PropertyGroup>
     <ItemGroup>
         <ResFiles Include="roadrunner.res">

@@ -101,6 +101,7 @@ if(${MSVC})
 add_definitions(
 -DCRT_NONSTDC_NO_DEPRECATE
 -DPOCO_NO_AUTOMATIC_LIBS
+-D_CRT_SECURE_NO_WARNINGS   #MS wanting you to changes basically all standard C functions :(
 )
 SET (CMAKE_CXX_FLAGS 			"${CMAKE_CXX_FLAGS} /EHsc ")
 SET (CMAKE_SHARED_LINKER_FLAGS 	"${CMAKE_SHARED_LINKER_FLAGS} ") #/FORCE:MULTIPLE")
@@ -109,7 +110,7 @@ endif()
 #=== COMPILER FLAGS 
 #Common compiler definitions
 add_definitions(
-                    -DLIBSBML_USE_CPP_NAMESPACE                     
+-DLIBSBML_USE_CPP_NAMESPACE                     
 ) 
 
 if(${MINGW})

@@ -6,11 +6,11 @@ add_executable(${target}
 main.cpp 
 Args.cpp
 GetOptions.cpp
-${rrSrc}/rrUtils.cpp
+#//${rrSrc}/rrUtils.cpp
 )
 
 add_definitions(
--DSTATIC_POCO
+-DPOCO_STATIC
 -DSTATIC_PUGI
 -DLIBSBML_STATIC
 -DSTATIC_RR
@@ -21,6 +21,8 @@ add_definitions(
 
 target_link_libraries (${target} 
 rr_c_api
+roadrunner-static
+poco_foundation-static
 )
 
 #Not sure why linux linker need all libraries at linktime?? All symbols 'should' be in roadrunner-static

@@ -3,9 +3,10 @@
 //#endif
 //#pragma hdrstop
 #include <algorithm>
-using namespace std;
 #include "rrLogLevel.h"
 //---------------------------------------------------------------------------
+
+using namespace std;
 
 namespace rr
 {

@@ -6,7 +6,7 @@ main.cpp
 )
 
 add_definitions(
--DSTATIC_POCO
+-DPOCO_STATIC
 -DSTATIC_PUGI
 -DLIBSBML_STATIC 
 -DSTATIC_RR

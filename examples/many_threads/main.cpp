@@ -70,5 +70,7 @@ int main(int argc, char** argv)
     return 0;
 }
 
+#if defined(CG_IDE)
 #pragma comment(lib, "roadrunner.lib")
 #pragma comment(lib, "poco_foundation-static.lib")
+#endif
