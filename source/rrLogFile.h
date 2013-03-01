@@ -6,7 +6,6 @@
 #include "rrLogLevel.h"
 #include "rrObject.h"
 
-using std::unique_ptr;
 using std::FILE;
 using std::string;
 //Global class holding logfile and other settings. Persist trougout the life of the application that is using it. Based on RAII
