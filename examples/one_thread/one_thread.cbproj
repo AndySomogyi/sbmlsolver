@@ -1,4 +1,4 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{E9FA6B23-1705-4A30-8F26-2DA3D537E7F1}</ProjectGuid>
         <ProjectVersion>14.4</ProjectVersion>
@@ -74,7 +74,7 @@
         <PackageImports>vclx.bpi;vcl.bpi;rtl.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;vclimg.bpi;svnui.bpi;svn.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;bdertl.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;DbxClientDriver.bpi;dbexpress.bpi;AzureCloud.bpi;DbxCommonDriver.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;vclie.bpi;webdsnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;TeeTree2D15Tee9.bpi;bcbie.bpi;dbxcds.bpi;TeeImage915.bpi;TeeWorld915.bpi;TeeLanguage915.bpi;TeePro915.bpi;TeeGL915.bpi;TeeUI915.bpi;TeeDB915.bpi;Tee915.bpi;inetdb.bpi;websnap.bpi;$(PackageImports)</PackageImports>
         <NoVCL>true</NoVCL>
         <LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
-        <IncludePath>..\..\source\;R:\roadrunnerwork\trunk\examples\threaded_rr\;R:\roadrunnerwork\trunk\ThirdParty\poco\Foundation\include;$(RR_ROOT)\trunk\source;$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\source\;R:\roadrunnerwork\trunk\examples\threaded_rr\;R:\roadrunnerwork\trunk\ThirdParty\poco\Foundation\include;$(RR_ROOT)\trunk\source;$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
         <_TCHARMapping>char</_TCHARMapping>
         <ProjectType>CppConsoleApplication</ProjectType>
         <ILINK_LibraryPath>..\..\source\;R:\installs\xe\debug\lib\;R:\installs\poco\lib\;R:\roadrunnerwork\trunk\examples\threaded_rr\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
@@ -102,7 +102,7 @@
         <Defines>LIBSBML_USE_CPP_NAMESPACE;$(Defines)</Defines>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
-        <FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
+        <FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
         <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
         <DCC_Optimize>false</DCC_Optimize>
@@ -121,7 +121,7 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <Defines>_DEBUG;$(Defines)</Defines>
-        <ILINK_LibraryPath>$(RR_DEBUG_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <Manifest_File>None</Manifest_File>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">

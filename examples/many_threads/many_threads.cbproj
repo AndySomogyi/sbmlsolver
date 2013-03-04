@@ -1,4 +1,4 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{E9E420E9-F9F6-4058-8C74-2DEEE0D7DD2B}</ProjectGuid>
         <ProjectVersion>14.4</ProjectVersion>
@@ -116,9 +116,9 @@
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <BCC_MonitorThis>true</BCC_MonitorThis>
-        <FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
-        <ILINK_LibraryPath>$(RR_DEBUG_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <IncludePath>$(RR_DEBUG_INSTALL)\include;$(RR_ROOT)\source;$(IncludePath)</IncludePath>
+        <FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
+        <ILINK_LibraryPath>$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>$(RR_DEBUG)\include;$(RR_ROOT)\source;$(IncludePath)</IncludePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>

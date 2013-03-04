@@ -13,8 +13,8 @@ int main(int argc, char** argv)
         LogOutput::mLogToConsole = true;
 
         //Create some roadrunners
-        const int instanceCount 	= 1000;
-        const int threadCount  		= 4;
+        const int instanceCount 	= 5000;
+        const int threadCount  		= 8;
 
         //Use a list of roadrunners
 

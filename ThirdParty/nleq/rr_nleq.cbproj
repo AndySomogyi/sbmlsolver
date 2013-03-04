@@ -1,4 +1,4 @@
-﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 		<PropertyGroup>
 			<ProjectGuid>{9C185F60-088A-4052-AEF8-4E8A36F8133F}</ProjectGuid>
 			<ProjectVersion>12.3</ProjectVersion>
@@ -32,13 +32,13 @@
 			<IncludePath>$(RR_ROOT)\trunk\ThirdParty\clapack\3.2.1\INCLUDE;$(IncludePath)</IncludePath>
 			<AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
 			<_TCHARMapping>char</_TCHARMapping>
-			<BPILibOutputDir>$(RR_DEBUG_INSTALL)\lib</BPILibOutputDir>
+			<BPILibOutputDir>$(RR_DEBUG)\lib</BPILibOutputDir>
 			<ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
 			<DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
 			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE</DCC_UnitAlias>
 			<DynamicRTL>true</DynamicRTL>
 			<IntermediateOutputDir>.\$(Config)\$(Platform)\nleq</IntermediateOutputDir>
-			<FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
+			<FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
 			<BCC_wpar>false</BCC_wpar>
 			<BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
 			<BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>

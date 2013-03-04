@@ -1,4 +1,4 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{F4207DDE-0E8A-4386-B51A-3CAC80EC5A77}</ProjectGuid>
         <ProjectVersion>14.4</ProjectVersion>
@@ -76,7 +76,7 @@
         <BCC_PCHName_Clang>rr_c_api.cbproj</BCC_PCHName_Clang>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
-        <IncludePath>$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>
+        <IncludePath>$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
         <DynamicRTL>true</DynamicRTL>
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
         <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
@@ -96,12 +96,12 @@
         <BCC_DisableFramePtrElimOpt>true</BCC_DisableFramePtrElimOpt>
         <BCC_DisableSpellChecking>true</BCC_DisableSpellChecking>
         <CLANG_UnwindTables>true</CLANG_UnwindTables>
-        <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(RR_DEBUG_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <BPILibOutputDir>$(RR_DEBUG_INSTALL)\lib</BPILibOutputDir>
-        <FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
+        <BPILibOutputDir>$(RR_DEBUG)\lib</BPILibOutputDir>
+        <FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">

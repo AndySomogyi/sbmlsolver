@@ -1,4 +1,4 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{A1915A1F-3406-4408-9F39-6152441D8F91}</ProjectGuid>
         <ProjectVersion>14.4</ProjectVersion>
@@ -55,8 +55,8 @@
         <IntermediateOutputDir>.\$(Config)\$(Platform)\unit_test-static</IntermediateOutputDir>
         <DynamicRTL>true</DynamicRTL>
         <BCC_PCHUsage>None</BCC_PCHUsage>
-        <FinalOutputDir>$(RR_DEBUG_INSTALL)\lib</FinalOutputDir>
-        <BPILibOutputDir>$(RR_DEBUG_INSTALL)\lib\</BPILibOutputDir>
+        <FinalOutputDir>$(RR_DEBUG)\lib</FinalOutputDir>
+        <BPILibOutputDir>$(RR_DEBUG)\lib\</BPILibOutputDir>
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
         <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
         <DCC_Optimize>false</DCC_Optimize>

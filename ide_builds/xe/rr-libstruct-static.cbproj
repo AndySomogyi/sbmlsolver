@@ -1,4 +1,4 @@
-﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 		<PropertyGroup>
 			<ProjectGuid>{CAFAB63B-226E-48C3-AD49-D0461925615B}</ProjectGuid>
 			<ProjectVersion>12.3</ProjectVersion>
@@ -22,7 +22,7 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
-			<IncludePath>..\..\ThirdParty\rr-libstruct\;$(RR_DEBUG_INSTALL)\include\clapack;$(IncludePath)</IncludePath>
+			<IncludePath>..\..\ThirdParty\rr-libstruct\;$(RR_DEBUG)\include\clapack;$(IncludePath)</IncludePath>
 			<Multithreaded>true</Multithreaded>
 			<PackageImports>vclx.bpi;vcl.bpi;vclimg.bpi;dbrtl.bpi;Rave90VCL.bpi;bdertl.bpi;rtl.bpi;bcbie.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;svnui.bpi;svn.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;vcldb.bpi;vcldbx.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;vclib.bpi;ibxpress.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;intrawebdb_110_150.bpi;Intraweb_110_150.bpi;vclie.bpi;inetdb.bpi;webdsnap.bpi;websnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;dbexpress.bpi;DbxCommonDriver.bpi;DbxClientDriver.bpi;AzureCloud.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbxcds.bpi</PackageImports>
 			<Defines>STATIC_LIBSTRUCT;LIBSBML_USE_CPP_NAMESPACE;LIBSBML_STATIC;$(Defines)</Defines>
@@ -41,10 +41,10 @@
 			<ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1)'!=''">
-			<BPILibOutputDir>$(RR_DEBUG_INSTALL)\lib</BPILibOutputDir>
+			<BPILibOutputDir>$(RR_DEBUG)\lib</BPILibOutputDir>
 			<IntermediateOutputDir>.\$(Config)\$(Platform)\libstruct-static</IntermediateOutputDir>
 			<_TCHARMapping>char</_TCHARMapping>
-			<FinalOutputDir>$(RR_DEBUG_INSTALL)\lib</FinalOutputDir>
+			<FinalOutputDir>$(RR_DEBUG)\lib</FinalOutputDir>
 			<BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
 			<BCC_DisableOptimizations>true</BCC_DisableOptimizations>
 			<DCC_Optimize>false</DCC_Optimize>

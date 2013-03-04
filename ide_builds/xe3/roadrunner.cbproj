@@ -1,4 +1,4 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{8708D8F2-E671-4837-BD8C-BC7D269B101F}</ProjectGuid>
         <ProjectVersion>14.4</ProjectVersion>
@@ -57,11 +57,11 @@
         <VerInfo_DLL>true</VerInfo_DLL>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <BPILibOutputDir>$(RR_DEBUG_INSTALL)\lib</BPILibOutputDir>
+        <BPILibOutputDir>$(RR_DEBUG)\lib</BPILibOutputDir>
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
         <BCC_MonitorThis>true</BCC_MonitorThis>
-        <FinalOutputDir>$(RR_DEBUG_INSTALL)\bin\</FinalOutputDir>
+        <FinalOutputDir>$(RR_DEBUG)\bin\</FinalOutputDir>
         <BCC_PCHName>rr.csm</BCC_PCHName>
         <Defines>EXPORT_RR;LIBSBML_USE_CPP_NAMESPACE;WIN32;STATIC_LIBSTRUCT;STATIC_NLEQ;STATIC_PUGI;CG_IDE;POCO_STATIC;$(Defines)</Defines>
         <NoVCL>true</NoVCL>
@@ -92,9 +92,9 @@
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
-        <FinalOutputDir>$(RR_DEBUG_INSTALL)\bin\</FinalOutputDir>
+        <FinalOutputDir>$(RR_DEBUG)\bin\</FinalOutputDir>
         <IntermediateOutputDir>.\$(Config)\$(Platform)\rr_shared</IntermediateOutputDir>
-        <BPILibOutputDir>$(RR_DEBUG_INSTALL)\lib</BPILibOutputDir>
+        <BPILibOutputDir>$(RR_DEBUG)\lib</BPILibOutputDir>
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <BCC_MonitorThis>true</BCC_MonitorThis>
@@ -116,11 +116,11 @@
         <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
         <TASM_Debugging>Full</TASM_Debugging>
         <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
-        <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(RR_DEBUG_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <BCC_PCHInject>..\..\source\rr_pch.h</BCC_PCHInject>
-        <IncludePath>$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>
+        <IncludePath>$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>

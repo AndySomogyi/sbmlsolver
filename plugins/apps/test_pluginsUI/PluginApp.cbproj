@@ -1,4 +1,4 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{25739709-F398-4779-8C01-8036F472E59C}</ProjectGuid>
         <ProjectVersion>14.4</ProjectVersion>
@@ -105,9 +105,9 @@
         <Debugger_DebugSourcePath>R:\rrl\plugins\TestPlugin\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <ILINK_LibraryPath>$(RR_DEBUG_INSTALL)/lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>$(RR_DEBUG)/lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <IncludePath>$(RR_ROOT)\source;$(RR_ROOT)\Wrappers\C;$(IncludePath)</IncludePath>
-        <FinalOutputDir>$(RR_DEBUG_INSTALL)\bin</FinalOutputDir>
+        <FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
         <LinkPackageImports>rtl.bpi;vcl.bpi</LinkPackageImports>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">

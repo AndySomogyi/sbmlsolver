@@ -1,4 +1,4 @@
-﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{8EB6E32B-8078-4937-A8C7-604DE4B273E4}</ProjectGuid>
         <ProjectVersion>14.4</ProjectVersion>
@@ -50,13 +50,13 @@
         <Manifest_File>None</Manifest_File>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <BCC_wcsu>false</BCC_wcsu>
-        <BPILibOutputDir>$(RR_DEBUG_INSTALL)\lib</BPILibOutputDir>
+        <BPILibOutputDir>$(RR_DEBUG)\lib</BPILibOutputDir>
         <Defines>WIN32;LIBSBML_USE_CPP_NAMESPACE;LIBSBML_STATIC;LIBLAX_STATIC;STATIC_RR;STATIC_LIBSTRUCT;STATIC_PUGI;STATIC_NLEQ;CG_IDE;POCO_STATIC;POCO_NO_AUTOMATIC_LIBS;$(Defines)</Defines>
         <LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
         <PackageImports>vclx.bpi;vcl.bpi;rtl.bpi;vclactnband.bpi;vclimg.bpi;VCLData.bpi;DuneComponents.bpi;TeePro915.bpi;TeeUI915.bpi;VCLCommonRTL.bpi;mtkCommonRTL.bpi;mtkMathRTL.bpi;mtkDataRTL.bpi;Tee915.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;svnui.bpi;svn.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;bdertl.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;DbxClientDriver.bpi;dbexpress.bpi;AzureCloud.bpi;DbxCommonDriver.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;vclie.bpi;webdsnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;TeeTree2D15Tee9.bpi;bcbie.bpi;dbxcds.bpi;inetdb.bpi;websnap.bpi;TeeImage915.bpi;TeeWorld915.bpi;TeeLanguage915.bpi;TeeGL915.bpi;TeeDB915.bpi;GenesisVisualComponents.bpi;$(PackageImports)</PackageImports>
         <ProjectType>CppStaticLibrary</ProjectType>
         <OutputExt>lib</OutputExt>
-        <FinalOutputDir>$(RR_DEBUG_INSTALL)\lib</FinalOutputDir>
+        <FinalOutputDir>$(RR_DEBUG)\lib</FinalOutputDir>
         <AllPackageLibs>rtl.lib;vcl.lib;mtkCommonRTL.lib</AllPackageLibs>
         <_TCHARMapping>char</_TCHARMapping>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
@@ -83,8 +83,8 @@
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <BCC_MonitorThis>true</BCC_MonitorThis>
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
-        <FinalOutputDir>$(RR_DEBUG_INSTALL)\lib</FinalOutputDir>
-        <BPILibOutputDir>$(RR_DEBUG_INSTALL)\lib</BPILibOutputDir>
+        <FinalOutputDir>$(RR_DEBUG)\lib</FinalOutputDir>
+        <BPILibOutputDir>$(RR_DEBUG)\lib</BPILibOutputDir>
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
         <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
         <DCC_Optimize>false</DCC_Optimize>
@@ -105,7 +105,7 @@
         <Defines>VS2008;$(Defines)</Defines>
         <BCC_PCHName>temp.csm</BCC_PCHName>
         <BCC_PCHInject>..\..\source\rr_pch.h</BCC_PCHInject>
-        <IncludePath>$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>
+        <IncludePath>$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>

@@ -1,4 +1,4 @@
-﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 		<PropertyGroup>
 			<ProjectGuid>{BB98A606-C02D-454F-B743-70C12C4C53CD}</ProjectGuid>
 			<ProjectVersion>13.4</ProjectVersion>
@@ -30,7 +30,7 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
-			<FinalOutputDir>$(RR_DEBUG_INSTALL)\bin\</FinalOutputDir>
+			<FinalOutputDir>$(RR_DEBUG)\bin\</FinalOutputDir>
 			<LinkPackageStatics>vcl.lib;mtkCommonRTL.lib</LinkPackageStatics>
 			<Manifest_File>None</Manifest_File>
 			<VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
@@ -49,7 +49,7 @@
 			<_TCHARMapping>char</_TCHARMapping>
 			<ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
 			<ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
-			<IncludePath>..\..\apps\rr_test_suite_tester\;..\..\source\;..\..\apps\rr_ts\;..\..\apps\rr\;$(RR_DEBUG_INSTALL)\include;$(IncludePath)</IncludePath>
+			<IncludePath>..\..\apps\rr_test_suite_tester\;..\..\source\;..\..\apps\rr_ts\;..\..\apps\rr\;$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
 			<ILINK_LibraryPath>R:\installs\xe\debug\lib\;R:\installs\xe\full-debug\lib\;R:\builds\xe\ThirdParty\lib\;C:\builds\xe\clapack\F2CLIBS\libf2c\;C:\builds\xe\clapack\BLAS\SRC\;C:\builds\xe\clapack\SRC\;..\..\apps\rr_test_suite_tester\;R:\installs\xe\lib\;..\..\apps\rr_ts\;..\..\source\;..\..\releases\xe\shared\link\;..\..\builds\xe\clapack\SRC\;..\..\builds\xe\clapack\F2CLIBS\libf2c\;..\..\builds\xe\clapack\BLAS\SRC\;..\..\ThirdParty\libsbml_dependencies\lib\;..\..\installs\xe\lib\;..\..\Examples\rr\;..\..\releases\xe\link\;..\..\installs\xe\bin\;..\..\Apps\rr\;C:\DataOutput\00022\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
 			<DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
 			<DynamicRTL>true</DynamicRTL>
@@ -83,8 +83,8 @@
 			<ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-			<ILINK_LibraryPath>$(RR_DEBUG_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-			<FinalOutputDir>$(RR_DEBUG_INSTALL)\bin\</FinalOutputDir>
+			<ILINK_LibraryPath>$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+			<FinalOutputDir>$(RR_DEBUG)\bin\</FinalOutputDir>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_2)'!=''">
 			<Defines>NDEBUG;$(Defines)</Defines>

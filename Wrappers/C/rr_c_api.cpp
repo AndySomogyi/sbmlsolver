@@ -3073,10 +3073,7 @@ bool rrCallConv freeText(char* text)
 {
 	try
     {
-        if(text != ALLOCATE_API_ERROR_MSG)
-        {
-            delete [] text;
-        }
+        delete [] text;
         return true;
     }
     catch(Exception& ex)
