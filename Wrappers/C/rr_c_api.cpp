@@ -41,7 +41,9 @@
 
 #pragma hdrstop
 #include <string>
+#include <iostream>
 #include <sstream>
+#include <fstream>
 #include "rrParameter.h"
 #include "rrRoadRunner.h"
 #include "rrRoadRunnerList.h"
@@ -4010,6 +4012,46 @@ RRHandle rrCallConv getRRHandle(RRInstanceListHandle iList, int index)
 	return iList->Handle[index];
 }
 
+const char* s1 = "234";
+const char* result = std::char_traits<char>::find(s1, 1, '1');
+
+#include <iomanip>
+void test() {
+
+ostringstream output;
+output.precision(1);
+std::ostream st;
+st.exceptions(2);
+
+st.setf( std::ios::showbase,  std::ios::showbase);
+
+st.eof();
+st.bad();
+st.operator void *();
+st.operator !();
+
+locale loc;
+st<<use_facet <codecvt<wchar_t, char, mbstate_t> >(loc).max_length();
+
+char_traits<wchar_t>::char_type str1[25] = L"The Hell Boy";
+char_traits<wchar_t>::char_type str2[25] = L"Something To ponder";
+char_traits<wchar_t>::char_type *result1;
+result1 = char_traits<wchar_t>::move(str2, str1, 10);
+result1 = char_traits<wchar_t>::copy(str1, str2, 2);
+char_traits<wchar_t>::assign(*str1, *str2);
+char_traits<wchar_t>::assign(str1, 2, *str2);
+
+//ios_base::precision(2);
+double test1 = std::numeric_limits<unsigned int>::quiet_NaN();
+double test2 = std::numeric_limits<int>::quiet_NaN();
+double test3 = std::numeric_limits<unsigned int>::quiet_NaN();
+double test4 = std::numeric_limits<int>::quiet_NaN();
+double test5 = std::numeric_limits<double>::quiet_NaN();
+double test6 = std::numeric_limits<float>::quiet_NaN();
+double test7 = std::numeric_limits<float>::infinity();
+double test8 = std::numeric_limits<double>::infinity();
+double test9 = std::numeric_limits<int>::max();
+}
 
 }
 //We only need to give the linker the folder where libs are

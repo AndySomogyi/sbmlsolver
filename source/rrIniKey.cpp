@@ -3,9 +3,6 @@
 #endif
 #pragma hdrstop
 #include "rrIniKey.h"
-#ifdef __CODEGEARC__
-#pragma package(smart_init)
-#endif
 
 using namespace rr;
 namespace rr

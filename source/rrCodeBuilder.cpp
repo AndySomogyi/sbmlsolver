@@ -6,10 +6,6 @@
 #include "rrStringUtils.h"
 #include "rrCodeBuilder.h"
 //---------------------------------------------------------------------------
-#if defined(__CODEGEAR__)
-#pragma package(smart_init)
-#endif
-
 using namespace std;
 namespace rr
 {
@@ -34,7 +30,7 @@ void CodeBuilder::FormatVariable(const string& type, const string& varName, cons
         mStringing<<"//"<<comment;
     }
 
-       mStringing<<endl;
+    mStringing<<endl;
 }
 
 void CodeBuilder::AddFunctionExport(const string& retValue, const string& funcProto)
