@@ -15,7 +15,7 @@ int main(int argc, char** argv)
         gLog.SetCutOffLogLevel(lInfo);
 		string tmpFolder = JoinPath(rootPath, "temp");
 
-        const string modelFile = JoinPath(rootPath, "models", "feedback.xml");
+        const string modelFile = JoinPath(rootPath, "models", "test_1.xml");
 
         //Load modelFiles..
         Log(lInfo)<<" ---------- LOADING/GENERATING MODELS ------";
@@ -29,7 +29,7 @@ int main(int argc, char** argv)
 
         Log(lInfo)<<" ---------- SIMULATE ---------------------";
 
-        Log(lInfo)<<"Data:"<<rr1.simulate();
+//        Log(lInfo)<<"Data:"<<rr1.simulate();
 
     }
     catch(const Exception& ex)
@@ -37,7 +37,7 @@ int main(int argc, char** argv)
     	Log(lError)<<"There was a  problem: "<<ex.getMessage();
     }
 
-    Pause(true);
+//    Pause(true);
     return 0;
 }
 

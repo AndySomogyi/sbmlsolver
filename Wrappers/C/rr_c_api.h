@@ -375,55 +375,63 @@ C_DECL_SPEC bool rrCallConv loadSBML(RRHandle handle, const char* sbml);
 C_DECL_SPEC bool rrCallConv loadSBMLFromFile(RRHandle handle, const char* fileName);
 
 /*!
- \brief Load a model from a SBML file into a RoadRunner instances, using a Thread
+ \brief Load a model from a SBML file into a RoadRunner instances, using a Job
  \param[in] rrHandle - RoadRunner handle
  \param[in] fileName file name (or full path) to file that holds the SBML model
- \return Returns a handle to the Thread if succesful, otherwise returns NULL
+ \return Returns a handle to the Job if succesful, otherwise returns NULL
  \ingroup multiThreading
 */
 
-C_DECL_SPEC RRThreadHandle rrCallConv loadSBMLFromFileThread(RRHandle rrHandle, const char* fileName);
+C_DECL_SPEC RRJobHandle rrCallConv loadSBMLFromFileJob(RRHandle rrHandle, const char* fileName);
 
 /*!
  \brief Load a model from a SBML file into a set of RoadRunner instances
  \param[in] rrHandles - RoadRunner handles structure
  \param[in] fileName file name (or full path) to file that holds the SBML model
- \return Returns a handle to the ThreadPool if succesful, otherwise returns NULL
+ \return Returns a handle to the Jobs if succesful, otherwise returns NULL
  \ingroup multiThreading
 */
-C_DECL_SPEC RRThreadPoolHandle rrCallConv loadSBMLFromFileTP(RRInstanceListHandle rrHandles, const char* fileName, int nrOfThreads);
+C_DECL_SPEC RRJobsHandle rrCallConv loadSBMLFromFileJobs(RRInstanceListHandle rrHandles, const char* fileName, int nrOfThreads);
 
 /*!
  \brief Wait for jobs in thread to finish
- \param[in] RRThreadHandle - aHandle to a roadrunner thread
+ \param[in] RRJobHandle - aHandle to a roadrunner thread
  \return Returns true if thread finsihed up properly, otherwise returns false
  \ingroup multiThreading
 */
-C_DECL_SPEC bool rrCallConv waitForJob(RRThreadHandle handle);
+C_DECL_SPEC bool rrCallConv waitForJob(RRJobHandle handle);
 
 /*!
  \brief Wait for jobs in thread pool to finish
- \param[in] RRThreadPoolHandle - aHandle to a threadPool
+ \param[in] RRJobsHandle - aHandle to a threadPool
  \return Returns true if threadpool finished up properly, otherwise returns false
  \ingroup multiThreading
 */
-C_DECL_SPEC bool rrCallConv waitForJobs(RRThreadPoolHandle handle);
+C_DECL_SPEC bool rrCallConv waitForJobs(RRJobsHandle handle);
 
 /*!
- \brief Check if there are work being done on jobs
- \param[in] RRThreadPoolHandle - aHandle to a threadPool
+ \brief Check if there are work being done on a job
+ \param[in] RRJobsHandle - aHandle to a threadPool
  \return Returns true if there are running threads, otherwise returns false
  \ingroup multiThreading
 */
-C_DECL_SPEC bool rrCallConv isWorkingOnJobs(RRThreadPoolHandle handle);
+C_DECL_SPEC bool rrCallConv isJobFinished(RRJobHandle handle);
+
+/*!
+ \brief Check if there are work being done on jobs
+ \param[in] RRJobsHandle - aHandle to a threadPool
+ \return Returns true if there are running threads, otherwise returns false
+ \ingroup multiThreading
+*/
+C_DECL_SPEC bool rrCallConv areJobsFinished(RRJobsHandle handle);
 
 /*!
  \brief Get number of remaining jobs in a threadPool
- \param[in] RRThreadPoolHandle - aHandle to a threadPool
+ \param[in] RRJobsHandle - aHandle to a threadPool
  \return Returns number of remaining, unfinished jobs. Returns -1 on failure
  \ingroup multiThreading
 */
-C_DECL_SPEC int rrCallConv getNumberOfRemainingJobs(RRThreadPoolHandle handle);
+C_DECL_SPEC int rrCallConv getNumberOfRemainingJobs(RRJobsHandle handle);
 
 /*!
  \brief Load simulation settings from a file
@@ -583,9 +591,9 @@ setNumPoints etc to set the simulation characteristics.
 */
 C_DECL_SPEC RRResultHandle rrCallConv simulate(RRHandle handle);
 
-C_DECL_SPEC RRThreadPoolHandle rrCallConv simulateThread(RRHandle rrHandle);
+C_DECL_SPEC RRJobHandle rrCallConv simulateJob(RRHandle rrHandle);
 
-C_DECL_SPEC RRThreadPoolHandle rrCallConv simulateTP(RRInstanceListHandle rrHandles, int nrOfThreads);
+C_DECL_SPEC RRJobsHandle rrCallConv simulateJobs(RRInstanceListHandle rrHandles, int nrOfThreads);
 
 C_DECL_SPEC RRResultHandle rrCallConv getSimulationResult(RRHandle handle);
 

@@ -45,7 +45,8 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <IncludePath>..\..\source;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\..\source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\..\source\;..\..\source;$(IncludePath)</IncludePath>
         <Defines>LIBSBML_USE_CPP_NAMESPACE;POCO_STATIC;STATIC_LIBSTRUCT;STATIC_RR;$(Defines)</Defines>
         <DynamicRTL>true</DynamicRTL>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
@@ -112,6 +113,10 @@
     </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="main.cpp">
+            <BuildOrder>1</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrNOMSupport.cpp">
+            <DependentOn>..\..\source\rrNOMSupport.h</DependentOn>
             <BuildOrder>1</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">

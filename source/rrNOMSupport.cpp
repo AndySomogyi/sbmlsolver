@@ -756,11 +756,13 @@ string NOMSupport::convertTime(const string& sArg, const string& sTimeSymbol)
             {
                 changeTimeSymbol(*oModel, sTimeSymbol);
                 string sbml(writeSBMLToString(oSBMLDoc));
+       	        delete oSBMLDoc;
                 return sbml;
             }
         }
         catch(...)
         {
+	        delete oSBMLDoc;
             throw NOMException("SBML Validation failed");
         }
 //    }

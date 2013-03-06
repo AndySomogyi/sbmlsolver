@@ -6,6 +6,9 @@
         <Projects Include="..\ide_builds\xe3\roadrunner.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\ide_builds\xe3\roadrunner-static.cbproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="one_rr\one_rr.cbproj">
             <Dependencies/>
         </Projects>
@@ -17,9 +20,6 @@
         </Projects>
         <Projects Include="many_threads\many_threads.cbproj">
             <Dependencies>..\ide_builds\xe3\roadrunner.cbproj</Dependencies>
-        </Projects>
-        <Projects Include="..\plugins\Apps\plugin_checker.cbproj">
-            <Dependencies/>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -37,6 +37,15 @@
     </Target>
     <Target Name="roadrunner:Make">
         <MSBuild Projects="..\ide_builds\xe3\roadrunner.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="roadrunner-static">
+        <MSBuild Projects="..\ide_builds\xe3\roadrunner-static.cbproj"/>
+    </Target>
+    <Target Name="roadrunner-static:Clean">
+        <MSBuild Projects="..\ide_builds\xe3\roadrunner-static.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="roadrunner-static:Make">
+        <MSBuild Projects="..\ide_builds\xe3\roadrunner-static.cbproj" Targets="Make"/>
     </Target>
     <Target Name="one_rr">
         <MSBuild Projects="one_rr\one_rr.cbproj"/>
@@ -74,23 +83,14 @@
     <Target Name="many_threads:Make" DependsOnTargets="roadrunner:Make">
         <MSBuild Projects="many_threads\many_threads.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="plugin_checker">
-        <MSBuild Projects="..\plugins\Apps\plugin_checker.cbproj"/>
-    </Target>
-    <Target Name="plugin_checker:Clean">
-        <MSBuild Projects="..\plugins\Apps\plugin_checker.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="plugin_checker:Make">
-        <MSBuild Projects="..\plugins\Apps\plugin_checker.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="roadrunner;one_rr;two_rrs;one_thread;many_threads;plugin_checker"/>
+        <CallTarget Targets="roadrunner;roadrunner-static;one_rr;two_rrs;one_thread;many_threads"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="roadrunner:Clean;one_rr:Clean;two_rrs:Clean;one_thread:Clean;many_threads:Clean;plugin_checker:Clean"/>
+        <CallTarget Targets="roadrunner:Clean;roadrunner-static:Clean;one_rr:Clean;two_rrs:Clean;one_thread:Clean;many_threads:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="roadrunner:Make;one_rr:Make;two_rrs:Make;one_thread:Make;many_threads:Make;plugin_checker:Make"/>
+        <CallTarget Targets="roadrunner:Make;roadrunner-static:Make;one_rr:Make;two_rrs:Make;one_thread:Make;many_threads:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

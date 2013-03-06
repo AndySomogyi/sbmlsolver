@@ -10,7 +10,7 @@ int main()
 {
     //Some Declarations (has to be here because this is C)
 	RRHandle 				rrHandle;
-    RRThreadHandle			threadHandle;
+    RRJobHandle				jobHandle;
     char tempFolder[1024];
     double val;
 	char* modelFileName = "../models/test_1.xml";
@@ -41,11 +41,11 @@ int main()
    	enableLoggingToFile(rrHandle);
 
 	//loadSBML models in threads instead
-    threadHandle = loadSBMLFromFileThread(rrHandle, modelFileName);
+    jobHandle = loadSBMLFromFileJob(rrHandle, modelFileName);
 
     //waitForJob will block until the thread haa finished
 	//Instead, one can could check for activeJob, i.e. non blocking (see below)
-    waitForJob(threadHandle);
+    waitForJob(jobHandle);
 
     //Set parameters
     logMsg(clInfo, " ---------- SETTING PARAMETERS -------------");
@@ -63,12 +63,12 @@ int main()
     logMsg(clInfo, " ---------- SIMULATING ---------------------");
 
     //Simulate them using a pool of threads..
-    threadHandle = simulateThread(rrHandle);
+    jobHandle = simulateJob(rrHandle);
 
-    waitForJob(threadHandle);
+    waitForJob(jobHandle);
 
   	//Write data to a file
-	writeRRData(rrHandle, "oneThreadData.dat");
+	writeRRData(rrHandle, "oneJobData.dat");
 
 	// Cleanup
     freeRRInstance(rrHandle);

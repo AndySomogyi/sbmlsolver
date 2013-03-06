@@ -1,6 +1,5 @@
 import sys
 from rrPython import *
-#rr = rrPython
 
 modelFile=''
 if sys.platform.startswith('win32'):
@@ -11,7 +10,7 @@ else:
     setTempFolder('../temp')
 
 tempFolder  = getTempFolder()
-handleCount = 10
+handleCount = 30
 threadCount = 4
 
 rrInstances =  createRRInstances(handleCount)
@@ -25,11 +24,11 @@ for index in range(getInstanceCount(rrInstances)):
     setTempFolder(tempFolder, getRRHandle(rrInstances, index)) #Note that instances can have different temp folders
 
 # loadSBML models using threads
-tpHandle = loadSBMLFromFileT(rrInstances, modelFile, threadCount);
-waitForJobs(tpHandle)
+jobsHandle = loadSBMLFromFileJobs(rrInstances, modelFile, threadCount);
+waitForJobs(jobsHandle)
 
 nrPoints=15
-print '===== Setting parameters for each individual handle ====='
+print '===== Setting parameters for individual instances ====='
 for index in range(getInstanceCount(rrInstances)):
     handle = getRRHandle(rrInstances, index)
     value = getValue('k1', handle)
@@ -39,8 +38,8 @@ for index in range(getInstanceCount(rrInstances)):
     setTimeCourseSelectionList("S1", handle)
 
 print '===== Simulate all instances ====='
-tpHandle = simulateT(rrInstances, threadCount)
-waitForJobs(tpHandle)
+jobsHandle = simulateJobs(rrInstances, threadCount)
+waitForJobs(jobsHandle)
 
 data = zeros((nrPoints, handleCount))
 for col in range (handleCount):
@@ -48,7 +47,6 @@ for col in range (handleCount):
     simData = getSimulationResult(handle)
     for row in range(nrPoints):
         data[row,col] = simData[row]
-
 
 print data
 

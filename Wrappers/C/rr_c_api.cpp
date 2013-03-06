@@ -571,7 +571,7 @@ bool rrCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
     }
 }
 
-RRThreadHandle rrCallConv loadSBMLFromFileThread(RRHandle rrHandle, const char* fileName)
+RRJobHandle rrCallConv loadSBMLFromFileJob(RRHandle rrHandle, const char* fileName)
 {
 	try
     {
@@ -604,7 +604,7 @@ RRThreadHandle rrCallConv loadSBMLFromFileThread(RRHandle rrHandle, const char* 
     }
 }
 
-RRThreadPoolHandle rrCallConv loadSBMLFromFileTP(RRInstanceListHandle _handles, const char* fileName, int nrOfThreads)
+RRJobsHandle rrCallConv loadSBMLFromFileJobs(RRInstanceListHandle _handles, const char* fileName, int nrOfThreads)
 {
 	try
     {
@@ -635,7 +635,7 @@ RRThreadPoolHandle rrCallConv loadSBMLFromFileTP(RRInstanceListHandle _handles, 
     }
 }
 
-bool rrCallConv waitForJob(RRThreadHandle handle)
+bool rrCallConv waitForJob(RRJobHandle handle)
 {
 	try
     {
@@ -656,7 +656,7 @@ bool rrCallConv waitForJob(RRThreadHandle handle)
     }
 }
 
-bool rrCallConv waitForJobs(RRThreadPoolHandle handle)
+bool rrCallConv waitForJobs(RRJobsHandle handle)
 {
 	try
     {
@@ -677,14 +677,14 @@ bool rrCallConv waitForJobs(RRThreadPoolHandle handle)
     }
 }
 
-bool rrCallConv isWorkingOnJobs(RRThreadPoolHandle handle)
+bool rrCallConv isJobFinished(RRJobHandle handle)
 {
 	try
     {
-        ThreadPool* aTP = (ThreadPool*) handle;
-        if(aTP)
+        RoadRunnerThread* aT = (RoadRunnerThread*) handle;
+        if(aT)
         {
-			return aTP->isWorking();
+			return ! aT->isActive();
         }
 		return false;
     }
@@ -697,7 +697,27 @@ bool rrCallConv isWorkingOnJobs(RRThreadPoolHandle handle)
     }
 }
 
-int rrCallConv getNumberOfRemainingJobs(RRThreadPoolHandle handle)
+bool rrCallConv areJobsFinished(RRJobsHandle handle)
+{
+	try
+    {
+        ThreadPool* aTP = (ThreadPool*) handle;
+        if(aTP)
+        {
+			return ! aTP->isWorking();
+        }
+		return false;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
+int rrCallConv getNumberOfRemainingJobs(RRJobHandle handle)
 {
 	try
     {
@@ -1070,7 +1090,7 @@ RRResultHandle rrCallConv getSimulationResult(RRHandle handle)
     }
 }
 
-RRThreadHandle rrCallConv simulateThread(RRHandle rrHandle)
+RRJobHandle rrCallConv simulateJob(RRHandle rrHandle)
 {
 	try
     {
@@ -1094,7 +1114,7 @@ RRThreadHandle rrCallConv simulateThread(RRHandle rrHandle)
     }
 }
 
-RRThreadPoolHandle rrCallConv simulateTP(RRInstanceListHandle _handles, int nrOfThreads)
+RRJobHandle rrCallConv simulateJobs(RRInstanceListHandle _handles, int nrOfThreads)
 {
 	try
     {
