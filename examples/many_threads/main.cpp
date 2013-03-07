@@ -14,14 +14,12 @@ int main(int argc, char** argv)
         LogOutput::mLogToConsole = true;
 
         //Create some roadrunners
-        const int instanceCount 	= 10;
-        const int threadCount  		= 1;
-
-        //Use a list of roadrunners
-
-		const char* rootPath = "..";
+        const int 	instanceCount 	= 3;
+        const int 	threadCount  	= 1;
+		const char* rootPath 		= "..";
 
 		string tmpFolder = JoinPath(rootPath, "temp");
+        //Use a list of roadrunners
         RoadRunnerList rrs(instanceCount, tmpFolder);
 
         const string modelFile = JoinPath(rootPath, "models", "test_1.xml");
@@ -38,6 +36,7 @@ int main(int argc, char** argv)
         //Setup instances with different variables
         for(int i = 0; i < instanceCount; i++)
         {
+        	Log(lInfo)<<"Instance: "<<i;
 //            double val = rrs[i]->getValue("k1");
             rrs[i]->setValue("k1", 1./(2.5*(i + 1)));
             rrs[i]->setNumPoints(500);
@@ -52,6 +51,7 @@ int main(int argc, char** argv)
 //        Simulate simulate(rrs, threadCount);
 //        simulate.waitForFinish();
 
+		//Thread by thread
 		for(int i = 0; i < rrs.count(); i++)
         {
 			SimulateThread sim(rrs[i]);
@@ -67,7 +67,7 @@ int main(int argc, char** argv)
             allData.append(data);
         }
 
-        allData.writeTo(JoinPath(rootPath, "allData.dat"));
+        allData.writeTo(JoinPath(rootPath, "temp", "allData.dat"));
     }
     catch(const Exception& ex)
     {

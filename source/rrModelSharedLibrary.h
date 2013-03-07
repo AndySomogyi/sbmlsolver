@@ -18,9 +18,9 @@ class RR_DECLSPEC ModelSharedLibrary : public rrObject
 
     public:
 										ModelSharedLibrary(const string& pathToLib = gEmptyString);
-		bool							setPath(const string& pathTo);
                                        ~ModelSharedLibrary();
 
+		bool							setPath(const string& pathTo);
     	string							createName(const string& name = gEmptyString);
 		string							getName();
 		string							getFullFileName();
@@ -31,7 +31,6 @@ class RR_DECLSPEC ModelSharedLibrary : public rrObject
 		bool							isLoaded();
         void*							getSymbol(const string& name);
         bool							hasSymbol(const string& name);
-
 
 };
 }

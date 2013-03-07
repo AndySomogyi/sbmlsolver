@@ -65,9 +65,9 @@ mConservedTotalChanged(false)
 {
     setTempFileFolder(tempFolder);
 	Log(lDebug4)<<"In RoadRunner ctor";
-    mLS 				= new LibStructural();
-    mCSharpGenerator    = new CSharpGenerator(*mLS, mNOM);
-    mCGenerator         = new CGenerator(*mLS, mNOM);
+    mLS 			  ;	//= new LibStructural();
+    mCSharpGenerator    = new CSharpGenerator(mLS, mNOM);
+    mCGenerator         = new CGenerator(mLS, mNOM);
     mModelGenerator     = mCGenerator;
     mPluginManager.setRoadRunnerInstance(this);
 
@@ -87,7 +87,7 @@ RoadRunner::~RoadRunner()
     {
     	mModelLib.unload();
     }
-    delete mLS;
+    //delete mLS;
 	mInstanceCount --;
 }
 
@@ -289,10 +289,6 @@ void RoadRunner::resetModelGenerator()
 	}
 }
 
-string RoadRunner::getModelSourceCode()
-{
-	return mModelCode;
-}
 
 string RoadRunner::getCSharpCode()
 {
@@ -610,8 +606,44 @@ bool RoadRunner::loadSBMLFromFile(const string& fileName)
     return loadSBML(sbml);
 }
 
+bool RoadRunner::loadSBMLIntoNOM(const string& sbml)
+{
+    mNOM.reset();
+    string sASCII = mNOM.convertTime(sbml, "time");
+
+    Log(lDebug4)<<"Loading SBML into NOM";
+    mNOM.loadSBML(sASCII.c_str(), "time");
+    return true;
+}
+
+bool RoadRunner::loadSBMLIntoLibStruct(const string& sbml)
+{
+    Log(lDebug3)<<"Loading sbml into StructAnalysis";
+    string msg = mLS.loadSBML(sbml);			//the ls loadSBML load call took SASCII before.. does it need to?
+    Log(lDebug1)<<"Message from StructAnalysis.LoadSBML function\n"<<msg;
+    return msg.size() ? true : false;
+}
+
+string RoadRunner::createModelName(const string& mCurrentSBMLFileName)
+{
+	//Generate source code for the model
+    string modelName;
+    if(mCurrentSBMLFileName.size())
+    {
+    	modelName = ExtractFileNameNoExtension(mCurrentSBMLFileName);
+    }
+    else
+    {
+		modelName = ToString(mInstanceID);
+    }
+    return modelName;
+}
+
+
 bool RoadRunner::loadSBML(const string& sbml)
 {
+    mCurrentSBML = sbml;
+
     Log(lDebug)<<"Loading SBML into simulator";
     if (!sbml.size())
     {
@@ -619,74 +651,18 @@ bool RoadRunner::loadSBML(const string& sbml)
         return false;
     }
 
-	//Load SBML into NOM and libstruct
-    mNOM.reset();
-    string sASCII = mNOM.convertTime(sbml, "time");
+    loadSBMLIntoNOM(sbml);
+    loadSBMLIntoLibStruct(sbml);
 
-    Log(lDebug4)<<"Loading SBML into NOM";
-    mNOM.loadSBML(sASCII.c_str(), "time");
+    string 	modelName  = createModelName(mCurrentSBMLFileName);
 
-    string msg;
-    try
-    {
-        Log(lDebug3)<<"Loading sbml into StructAnalysis";
-        msg = mLS->loadSBML(sASCII);
-        if(!msg.size())
-        {
-            Log(lError)<<"Failed loading sbml into StructAnalysis";
-        }
-    }
-    catch(...)
-    {
-        Log(lError)<<"Failed loading sbml into StructAnalysis";
-    }
-
-    Log(lDebug1)<<"Message from StructAnalysis.LoadSBML function\n"<<msg;
-
-
-
-    if(mModel != NULL)
-    {
-        unLoadModelDLL();
-        delete mModel;
-        mModel = NULL;
-    }
-
-    string modelBaseName;
-    mCurrentSBML 	= sbml;
-    mModelLib.setPath(getTempFileFolder());
-
-    if(mCurrentSBMLFileName.size())
-    {
-    	modelBaseName = ExtractFileNameNoExtension(mCurrentSBMLFileName);
-    	mModelLib.createName(modelBaseName);	//Creates a new name
-    }
-    else
-    {
-
-    }
-
-	//Check if Model code and dll exists
-    if(!FileExists(JoinPath(mTempFileFolder, modelBaseName + ".h")) || !FileExists(JoinPath(mTempFileFolder, modelBaseName + ".c")))
-    {
-        if(!generateModelCode("", true))  //The generate modelCode is entangled with the model creation.. the flag true means save file
-        {
-            Log(lError)<<"Failed generating model from SBML";
-            return false;
-        }
-    }
-    else
-    {
-        if(!generateModelCode("", false)) //The generate modelCode is entangled with the model creation.. the flag false means not to save file
-        {
-            Log(lError)<<"Failed generating model from SBML";
-            return false;
-        }
-
-	    Log(lDebug)<<"Model source files already generated.";
-    }
+    generateModelCode(modelName);
 
     //Check if model has been compiled
+    mModelLib.setPath(getTempFileFolder());
+
+	//Creates a name for the shared lib
+   	mModelLib.createName(modelName);
     if(!FileExists(mModelLib.getFullFileName()))
     {
         if(!compileModel())
@@ -697,22 +673,19 @@ bool RoadRunner::loadSBML(const string& sbml)
     }
     else
     {
-            Log(lDebug)<<"Model compiled files already generated.";
+    	Log(lDebug)<<"Model compiled files already generated.";
     }
 
-    if(mModelLib.isLoaded())
+    if(!mModelLib.load()) //The model may already be loaded, in which case the load still returns true;
     {
-        if(!unLoadModelDLL())
-    	{
-        	Log(lError)<<"Failed to unload model DLL";
-        	return false;
-    	}
-    }
-
-    if(!mModelLib.load())
-    {
-    	Log(lError)<<"Failed to load model DLL";
+        Log(lError)<<"Failed to load model DLL";
         return false;
+    }
+
+    if(mModel != NULL)
+    {
+        delete mModel;
+        mModel = NULL;
     }
 
     //Finally intitilaize the model..
@@ -722,10 +695,19 @@ bool RoadRunner::loadSBML(const string& sbml)
         return false;
     }
 
-    //Create a defualt timecourse selectionlist
+    createDefaultSelectionLists();
+    return true;
+}
+
+bool RoadRunner::createDefaultSelectionLists()
+{
+	bool result = true;
+
+    //Create a default timecourse selectionlist
     if(!createDefaultTimeCourseSelectionList())
     {
         Log(lDebug)<<"Failed creating default timecourse selectionList.";
+        result = false;
     }
     else
     {
@@ -736,13 +718,13 @@ bool RoadRunner::loadSBML(const string& sbml)
     if(!createDefaultSteadyStateSelectionList())
     {
         Log(lDebug)<<"Failed creating default steady state selectionList.";
+        result = false;
     }
     else
     {
     	Log(lDebug)<<"Created default SteadyState selection list.";
     }
-
-    return true;
+    return result;
 }
 
 bool RoadRunner::loadSimulationSettings(const string& fName)
@@ -760,22 +742,46 @@ bool RoadRunner::loadSimulationSettings(const string& fName)
     return true;
 }
 
-bool RoadRunner::generateModelCode(const string& sbml, bool saveToFile)
+//bool RoadRunner::generateModelCode1(const string& modelName)
+//{
+//	//Check if Model code and dll exists
+//    if(!FileExists(JoinPath(mTempFileFolder, modelName + ".h")) || !FileExists(JoinPath(mTempFileFolder, modelName + ".c")))
+//    {
+//        if(!generateModelCode("", modelName, true))  //The generate modelCode is entangled with the model creation.. the flag true means saving source to file, over writing any present files
+//        {
+//            Log(lError)<<"Failed generating model from SBML";
+//            return false;
+//        }
+//    }
+//    else
+//    {
+//        if(!generateModelCode("")) 	//The generate modelCode is entangled with the model creation.. the flag false means NOT to save file. But some code in the generate call
+//        { 									//is necessary in order to setup the model properly
+//            Log(lError)<<"Failed generating model from SBML";
+//            return false;
+//        }
+//
+//	    Log(lDebug)<<"Model source files already generated.";
+//    }
+//}
+
+bool RoadRunner::generateModelCode(const string& sbml, const string& modelName)
 {
+	//Check if the code already exists. if so, don't save..
     if(sbml.size())
     {
         mCurrentSBML = sbml;
     }
 
-    mModelCode = mModelGenerator->generateModelCode(mCurrentSBML, computeAndAssignConservationLaws());
+    string modelCode = mModelGenerator->generateModelCode(mCurrentSBML, computeAndAssignConservationLaws());
 
-    if(!mModelCode.size())
+    if(!modelCode.size())
     {
         Log(lError)<<"Failed to generate model code";
         return false;
     }
 
-	if(saveToFile)
+	if(!FileExists(JoinPath(mTempFileFolder, modelName + ".h")) || !FileExists(JoinPath(mTempFileFolder, modelName + ".c")))
     {
         string tempFileFolder;
         if(mSimulation)
@@ -787,14 +793,10 @@ bool RoadRunner::generateModelCode(const string& sbml, bool saveToFile)
             tempFileFolder = mTempFileFolder;
         }
 
-        if(!mModelGenerator->saveSourceCodeToFolder(tempFileFolder, mModelLib.getName()))
+        if(!mModelGenerator->saveSourceCodeToFolder(tempFileFolder, modelName))
         {
             Log(lError)<<"Failed saving generated source code";
         }
-
-        Log(lDebug5)<<" ------ Model Code --------\n"
-                    <<mModelCode
-                    <<" ----- End of Model Code -----\n";
     }
     return true;
 }
@@ -1760,12 +1762,12 @@ DoubleMatrix RoadRunner::getReducedJacobian()
         }
 
 		DoubleMatrix uelast = getUnscaledElasticityMatrix();
-        if(!mLS->getNrMatrix())
+        if(!mLS.getNrMatrix())
         {
             return DoubleMatrix(0,0);
         }
-        DoubleMatrix I1 = mult((*mLS->getNrMatrix()), uelast);
-        DoubleMatrix *linkMat = mLS->getLinkMatrix();
+        DoubleMatrix I1 = mult(*(mLS.getNrMatrix()), uelast);
+        DoubleMatrix *linkMat = mLS.getLinkMatrix();
         return mult(I1, (*linkMat));
     }
     catch (const Exception& e)
@@ -1786,7 +1788,7 @@ DoubleMatrix* RoadRunner::getLinkMatrix()
 	       throw CoreException(gEmptyModelMessage);
 	   }
 	   //return _L;
-		return mLS->getLinkMatrix();
+		return mLS.getLinkMatrix();
     }
     catch (const Exception& e)
     {
@@ -1803,7 +1805,7 @@ DoubleMatrix* RoadRunner::getNrMatrix()
 			throw CoreException(gEmptyModelMessage);
 	   }
 		//return _Nr;
-		return mLS->getNrMatrix();
+		return mLS.getNrMatrix();
     }
     catch (const Exception& e)
     {
@@ -1820,7 +1822,7 @@ DoubleMatrix* RoadRunner::getL0Matrix()
 			throw CoreException(gEmptyModelMessage);
 	   }
           //return _L0;
-	   return mLS->getL0Matrix();
+	   return mLS.getL0Matrix();
     }
     catch (const Exception& e)
     {
@@ -1833,8 +1835,8 @@ DoubleMatrix RoadRunner::getStoichiometryMatrix()
 {
     try
     {
-//		DoubleMatrix* aMat = mLS->getStoichiometryMatrix();
-		DoubleMatrix* aMat = mLS->getReorderedStoichiometryMatrix();
+//		DoubleMatrix* aMat = mLS.getStoichiometryMatrix();
+		DoubleMatrix* aMat = mLS.getReorderedStoichiometryMatrix();
         if (!mModel || !aMat)
         {
 	        throw CoreException(gEmptyModelMessage);
@@ -1862,7 +1864,7 @@ DoubleMatrix RoadRunner::getReorderedStoichiometryMatrix()
 {
     try
     {
-		DoubleMatrix* aMat = mLS->getReorderedStoichiometryMatrix();
+		DoubleMatrix* aMat = mLS.getReorderedStoichiometryMatrix();
         if (!mModel || !aMat)
         {
 	        throw CoreException(gEmptyModelMessage);
@@ -1891,7 +1893,7 @@ DoubleMatrix RoadRunner::getFullyReorderedStoichiometryMatrix()
 {
     try
     {
-		DoubleMatrix* aMat = mLS->getFullyReorderedStoichiometryMatrix();
+		DoubleMatrix* aMat = mLS.getFullyReorderedStoichiometryMatrix();
         if (!mModel || !aMat)
         {
 	        throw CoreException(gEmptyModelMessage);
@@ -1923,7 +1925,7 @@ DoubleMatrix RoadRunner::getConservationMatrix()
     {
        if (mModel)
 	   {
-		   DoubleMatrix* aMat = mLS->getGammaMatrix();
+		   DoubleMatrix* aMat = mLS.getGammaMatrix();
             if (aMat)
             {
                 mat.resize(aMat->numRows(), aMat->numCols());
@@ -1954,7 +1956,7 @@ int RoadRunner::getNumberOfDependentSpecies()
         if (mModel)
         {
             //return mStructAnalysis.GetInstance()->getNumDepSpecies();
-            return mLS->getNumDepSpecies();
+            return mLS.getNumDepSpecies();
         }
 
         throw CoreException(gEmptyModelMessage);
@@ -1973,7 +1975,7 @@ int RoadRunner::getNumberOfIndependentSpecies()
     {
         if (mModel)
         {
-            return mLS->getNumIndSpecies();
+            return mLS.getNumIndSpecies();
         }
         //return StructAnalysis.getNumIndSpecies();
         throw CoreException(gEmptyModelMessage);
@@ -2716,7 +2718,7 @@ int RoadRunner::getNumberOfLocalParameters(const int& reactionId)
      {
      	throw CoreException(gEmptyModelMessage);
      }
-     return getNumberOfLocalParameters(reactionId);	//Todo: this functions is calling itself ?
+     return mModel->getNumLocalParameters(reactionId);
 }
 
 // Returns the value of a global parameter by its index
@@ -2948,6 +2950,25 @@ int RoadRunner::getNumberOfFloatingSpecies()
 }
 
 // Help("Sets the value of a floating species by its index")
+void RoadRunner::setFloatingSpeciesInitialConcentrationByIndex(const int& index, const double& value)
+{
+    if (!mModel)
+    {
+    	throw CoreException(gEmptyModelMessage);
+    }
+
+    if ((index >= 0) && (index < mModel->getNumTotalVariables()))
+    {
+        mModel->init_y[index] = value;
+        reset();
+    }
+    else
+    {
+        throw CoreException(Format("Index in setFloatingSpeciesInitialConcentrationByIndex out of range: [{0}]", index));
+    }
+}
+
+// Help("Sets the value of a floating species by its index")
 void RoadRunner::setFloatingSpeciesByIndex(const int& index, const double& value)
 {
     if (!mModel)
@@ -3008,6 +3029,27 @@ vector<double> RoadRunner::getFloatingSpeciesInitialConcentrations()
     return initYs;
 }
 
+// Help("Sets the initial conditions for all floating species in the model")
+void RoadRunner::setFloatingSpeciesInitialConcentrations(const vector<double>& values)
+{
+    if (!mModel)
+    {
+    	throw CoreException(gEmptyModelMessage);
+    }
+
+    for (int i = 0; i < values.size(); i++)
+    {
+        mModel->setConcentration(i, values[i]);
+        if ((*mModel->ySize) > i)
+        {
+            mModel->init_y[i] = values[i];
+        }
+    }
+
+//    mModel->init_y = values;
+    reset();
+}
+
 // Help("Set the concentrations for all floating species in the model")
 void RoadRunner::setFloatingSpeciesConcentrations(const vector<double>& values)
 {
@@ -3047,30 +3089,6 @@ void RoadRunner::setBoundarySpeciesConcentrations(const vector<double>& values)
     mModel->convertToAmounts();
 }
 
-// Help("Sets the value of a floating species by its index")
-//        void RoadRunner::setFloatingSpeciesInitialConcentrationByIndex(int index, double value)
-//        {
-//            if (!mModel) throw CoreException(gEmptyModelMessage);
-//
-//            if ((index >= 0) && (index < mModel->init_y.Length))
-//            {
-//                mModel->init_y[index] = value;
-//                reset();
-//            }
-//            else
-//                throw CoreException(String.Format("Index in setFloatingSpeciesInitialConcentrationByIndex out of range: [{0}]", index));
-//        }
-//
-// Help("Sets the initial conditions for all floating species in the model")
-//        void RoadRunner::setFloatingSpeciesInitialConcentrations(double[] values)
-//        {
-//            if (!mModel) throw CoreException(gEmptyModelMessage);
-//
-//            mModel->init_y = values;
-//            reset();
-//        }
-//
-//
 // This is a Level 1 method !
 // Help("Returns a list of floating species names")
 StringList RoadRunner::getFloatingSpeciesIds()

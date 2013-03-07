@@ -199,7 +199,13 @@ string CGenerator::generateModelCode(const string& sbmlStr, const bool& _compute
     writeInitFunction(mHeader, mSource);
 
     mHeader<<"\n\n#endif //modelH"<<NL();
-    return mHeader.ToString() + mSource.ToString();
+	string modelCode = mHeader.ToString() + mSource.ToString();
+
+    Log(lDebug5)<<" ------ Model Code --------\n"
+            <<modelCode
+            <<" ----- End of Model Code -----\n";
+
+    return modelCode;
 }
 
 void CGenerator::writeClassHeader(CodeBuilder& ignore)

@@ -50,7 +50,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
         DoubleMatrix                    mRawSimulationData;
 		SimulationData                  mSimulationData;
 	    string 							mSupportCodeFolder;		//The compiler needs this in order to compile models
-		string                          mModelCode;
+
 		string                   		mTempFileFolder;
         string							mCurrentSBMLFileName;
 		SBMLModelSimulation            *mSimulation;
@@ -73,7 +73,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		ModelFromC*                     mModel;
 		ModelSharedLibrary	  	  		mModelLib;
 		string                          mCurrentSBML;
-		LibStructural                  *mLS;                                //Handle to libstruct library
+		LibStructural                   mLS;                                //libstruct library
 
 		SimulationSettings              mSettings;
 		NOMSupport						mNOM;
@@ -91,6 +91,9 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
 		vector<TSelectionRecord>        getSteadyStateSelection(const StringList& newSelectionList);
 		StringList                      getParameterIds();
+		bool 							loadSBMLIntoNOM(const string& sbml);
+		bool 							loadSBMLIntoLibStruct(const string& sbml);
+		string 							createModelName(const string& mCurrentSBMLFileName);
 
 	public: //These should be hidden later on...
 		bool                     		mConservedTotalChanged;
@@ -111,11 +114,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		string							getInfo();
         PluginManager&					getPluginManager();
 
-
-		ModelFromC*						getModel();
-		CGenerator*						getCGenerator();
-		CSharpGenerator*				getCSharpGenerator();
-
 		//Functions --------------------------------------------------------------------
         bool                            isModelLoaded();
         bool                            setCompiler(const string& compiler);
@@ -130,31 +128,19 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		int                             createTimeCourseSelectionList();
 		bool                     		setTempFileFolder(const string& folder);
 		string                   		getTempFileFolder();
-		void                            partOfSimulation(SBMLModelSimulation* simulation){mSimulation = simulation;}
-		bool                            generateModelCode(const string& sbml = gEmptyString, bool saveToFile = false);
-		bool                            compileModel();
-		bool                            compileCurrentModel();
-		ModelFromC*                     createModel();
-		SimulationData                  getSimulationResult();
-		ModelGenerator*                 getCodeGenerator();
-        bool							loadSimulationSettings(const string& fName);
-		bool                            useSimulationSettings(SimulationSettings& settings);
-		void                            resetModelGenerator();
-		bool                            createModelSourceCode();
-		string                          getModelSourceCode();
-		string                          getCHeaderCode();
-		string                          getCSourceCode();
-		string                          getCSharpCode();
-		DoubleMatrix                    runSimulation();
-		bool                            initializeModel();
 
+		//Simulation stuff
 		DoubleMatrix                    simulate();
 		bool                            simulate2();
-
+		DoubleMatrix                    simulateEx(const double& startTime, const double& endTime, const int& numberOfPoints);
+		void                            partOfSimulation(SBMLModelSimulation* simulation){mSimulation = simulation;}
+		SimulationData                  getSimulationResult();
+        bool							loadSimulationSettings(const string& fName);
+		bool                            useSimulationSettings(SimulationSettings& settings);
+		DoubleMatrix                    runSimulation();
+		bool                            initializeModel();
 		bool                            simulateSBMLFile(const string& fileName, const bool& useConservationLaws);
-
-		bool                            loadSBMLFromFile(const string& fileName);
-		bool                            loadSBML(const string& sbml);
+		bool 							createDefaultSelectionLists();
 		string                          getSBML();
 		double                          getTimeStart();
 		double                          getTimeEnd();
@@ -165,7 +151,23 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		void                            reset();
 		void                            changeInitialConditions(const vector<double>& ic);
 
-		DoubleMatrix                    simulateEx(const double& startTime, const double& endTime, const int& numberOfPoints);
+
+		//Model generation
+		ModelFromC*						getModel();
+		CGenerator*						getCGenerator();
+		CSharpGenerator*				getCSharpGenerator();
+		void                            resetModelGenerator();
+		bool                            compileModel();
+		bool                            compileCurrentModel();
+		ModelFromC*                     createModel();
+		bool                            generateModelCode(const string& sbml = gEmptyString, const string& baseName = gEmptyString);
+		ModelGenerator*                 getCodeGenerator();
+		string                          getCHeaderCode();
+		string                          getCSourceCode();
+		string                          getCSharpCode();
+		bool                            loadSBMLFromFile(const string& fileName);
+		bool                            loadSBML(const string& sbml);
+
 		vector<double>                  getReactionRates();
 		vector<double>                  getRatesOfChange();
 		StringList                      getSpeciesIds();
