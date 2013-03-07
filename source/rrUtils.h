@@ -36,7 +36,6 @@ RR_DECLSPEC bool            FileExists(const string& fileN);
 RR_DECLSPEC bool            FolderExists(const string& folderN);
 RR_DECLSPEC bool            CreateFolder(const string& path);
 
-
 RR_DECLSPEC const string	getParentFolder(const string& path);
 RR_DECLSPEC const string    getCurrentExeFolder();
 RR_DECLSPEC string          GetUsersTempDataFolder();

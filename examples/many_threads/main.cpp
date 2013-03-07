@@ -5,6 +5,7 @@
 #include "rrException.h"
 #include "rrLoadModel.h"
 #include "rrSimulate.h"
+#include "rrSimulateThread.h"
 #include "rrRoadRunnerList.h"
 int main(int argc, char** argv)
 {
@@ -13,8 +14,8 @@ int main(int argc, char** argv)
         LogOutput::mLogToConsole = true;
 
         //Create some roadrunners
-        const int instanceCount 	= 100;
-        const int threadCount  		= 8;
+        const int instanceCount 	= 10;
+        const int threadCount  		= 1;
 
         //Use a list of roadrunners
 
@@ -37,8 +38,8 @@ int main(int argc, char** argv)
         //Setup instances with different variables
         for(int i = 0; i < instanceCount; i++)
         {
-            double val = rrs[i]->getValue("k1");
-            rrs[i]->setValue("k1", val/(2.5*(i + 1)));
+//            double val = rrs[i]->getValue("k1");
+            rrs[i]->setValue("k1", 1./(2.5*(i + 1)));
             rrs[i]->setNumPoints(500);
             rrs[i]->setTimeEnd(150);
             rrs[i]->setTimeCourseSelectionList("S1");
@@ -47,10 +48,16 @@ int main(int argc, char** argv)
         //Simulate
         Log(lInfo)<<" ---------- SIMULATING ---------------------";
 
-        //Simulate them using a pool of threads..
-        Simulate simulate(rrs, threadCount);
-        simulate.waitForFinish();
+//        //Simulate them using a pool of threads..
+//        Simulate simulate(rrs, threadCount);
+//        simulate.waitForFinish();
 
+		for(int i = 0; i < rrs.count(); i++)
+        {
+			SimulateThread sim(rrs[i]);
+            sim.start();
+            sim.waitForFinish();
+        }
         //Write data to a file
         SimulationData allData;
         for(int i = instanceCount -1 ; i >-1 ; i--) //"Backwards" because bad plotting program..

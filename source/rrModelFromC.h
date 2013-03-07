@@ -32,6 +32,7 @@ typedef void    (callConv *c_void_int_double)(int, double);
 typedef TComputeEventAssignmentDelegate* (callConv *c_TComputeEventAssignmentDelegateStar)();
 typedef TEventDelayDelegate* (callConv *c_GetEventDelayDelegatesStar)();
 
+
 class RR_DECLSPEC ModelFromC : public rrObject
 {
     protected:

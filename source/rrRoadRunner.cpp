@@ -12,7 +12,7 @@
 #include "rrLogger.h"
 #include "rrCSharpGenerator.h"
 #include "rrCGenerator.h"
-#include "rrStringUtils.h"
+#include "rrUtils.h"
 #include "rrModelFromC.h"
 #include "rrSBMLModelSimulation.h"
 #include "rr-libstruct/lsLA.h"
@@ -41,7 +41,7 @@ int	RoadRunner::getInstanceID()
 	return mInstanceID;
 }
 
-RoadRunner::RoadRunner(const string& supportCodeFolder, const string& compiler, const string& tempFolder)
+RoadRunner::RoadRunner(const string& tempFolder, const string& supportCodeFolder, const string& compiler)
 :
 mUseKinsol(false),
 mDiffStepSize(0.05),
@@ -50,6 +50,7 @@ mModelFolder("models"),
 mSteadyStateThreshold(1.E-2),
 mSupportCodeFolder(supportCodeFolder),
 mSimulation(NULL),
+mCurrentSBMLFileName(""),
 mCVode(NULL),
 mSteadyStateSolver(NULL),
 mCompiler(supportCodeFolder, compiler),
@@ -571,7 +572,7 @@ bool RoadRunner::simulateSBMLFile(const string& fileName, const bool& useConserv
     fs.close();
 
     Log(lDebug5)<<"Loading SBML. SBML model code size: "<<sbml.size();
-
+	mCurrentSBMLFileName = fileName;
 	loadSBML(sbml);
 
     mRawSimulationData = simulate();
@@ -605,6 +606,7 @@ bool RoadRunner::loadSBMLFromFile(const string& fileName)
     Log(lDebug5)<<"Read SBML content from file:\n "<<sbml \
                 << "\n============ End of SBML "<<endl;
 
+	mCurrentSBMLFileName = fileName;
     return loadSBML(sbml);
 }
 
@@ -617,13 +619,31 @@ bool RoadRunner::loadSBML(const string& sbml)
         return false;
     }
 
-	// If the user loads the same model again, don't bother loading into NOM,
-	// just reset the initial conditions
-	if (mModelLib.isLoaded() != false && mModel != NULL && sbml == mCurrentSBML)
+	//Load SBML into NOM and libstruct
+    mNOM.reset();
+    string sASCII = mNOM.convertTime(sbml, "time");
+
+    Log(lDebug4)<<"Loading SBML into NOM";
+    mNOM.loadSBML(sASCII.c_str(), "time");
+
+    string msg;
+    try
     {
-        mCurrentSBML = sbml;
-        return initializeModel();
+        Log(lDebug3)<<"Loading sbml into StructAnalysis";
+        msg = mLS->loadSBML(sASCII);
+        if(!msg.size())
+        {
+            Log(lError)<<"Failed loading sbml into StructAnalysis";
+        }
     }
+    catch(...)
+    {
+        Log(lError)<<"Failed loading sbml into StructAnalysis";
+    }
+
+    Log(lDebug1)<<"Message from StructAnalysis.LoadSBML function\n"<<msg;
+
+
 
     if(mModel != NULL)
     {
@@ -632,30 +652,66 @@ bool RoadRunner::loadSBML(const string& sbml)
         mModel = NULL;
     }
 
+    string modelBaseName;
     mCurrentSBML 	= sbml;
-
     mModelLib.setPath(getTempFileFolder());
 
-
-    mModelLib.createName(ToString(getInstanceID()));	//Creates a new name
-
-
-    if(!generateModelCode(""))
+    if(mCurrentSBMLFileName.size())
     {
-        Log(lError)<<"Failed generating model from SBML";
-        return false;
+    	modelBaseName = ExtractFileNameNoExtension(mCurrentSBMLFileName);
+    	mModelLib.createName(modelBaseName);	//Creates a new name
+    }
+    else
+    {
+
     }
 
-    if(!compileModel())
+	//Check if Model code and dll exists
+    if(!FileExists(JoinPath(mTempFileFolder, modelBaseName + ".h")) || !FileExists(JoinPath(mTempFileFolder, modelBaseName + ".c")))
     {
-        Log(lError)<<"Failed to generate and compile model";
-        return false;
+        if(!generateModelCode("", true))  //The generate modelCode is entangled with the model creation.. the flag true means save file
+        {
+            Log(lError)<<"Failed generating model from SBML";
+            return false;
+        }
+    }
+    else
+    {
+        if(!generateModelCode("", false)) //The generate modelCode is entangled with the model creation.. the flag false means not to save file
+        {
+            Log(lError)<<"Failed generating model from SBML";
+            return false;
+        }
+
+	    Log(lDebug)<<"Model source files already generated.";
     }
 
-    if(!mModel)
+    //Check if model has been compiled
+    if(!FileExists(mModelLib.getFullFileName()))
     {
-        unLoadModelDLL();
-        Log(lError)<<"Failed to create ModelFromC";
+        if(!compileModel())
+        {
+            Log(lError)<<"Failed to generate and compile model";
+            return false;
+        }
+    }
+    else
+    {
+            Log(lDebug)<<"Model compiled files already generated.";
+    }
+
+    if(mModelLib.isLoaded())
+    {
+        if(!unLoadModelDLL())
+    	{
+        	Log(lError)<<"Failed to unload model DLL";
+        	return false;
+    	}
+    }
+
+    if(!mModelLib.load())
+    {
+    	Log(lError)<<"Failed to load model DLL";
         return false;
     }
 
@@ -669,7 +725,7 @@ bool RoadRunner::loadSBML(const string& sbml)
     //Create a defualt timecourse selectionlist
     if(!createDefaultTimeCourseSelectionList())
     {
-        Log(lError)<<"Failed creating default timecourse selectionList.";
+        Log(lDebug)<<"Failed creating default timecourse selectionList.";
     }
     else
     {
@@ -679,7 +735,7 @@ bool RoadRunner::loadSBML(const string& sbml)
     //Create a defualt steady state selectionlist
     if(!createDefaultSteadyStateSelectionList())
     {
-        Log(lError)<<"Failed creating default steady state selectionList.";
+        Log(lDebug)<<"Failed creating default steady state selectionList.";
     }
     else
     {
@@ -704,7 +760,7 @@ bool RoadRunner::loadSimulationSettings(const string& fName)
     return true;
 }
 
-bool RoadRunner::generateModelCode(const string& sbml)
+bool RoadRunner::generateModelCode(const string& sbml, bool saveToFile)
 {
     if(sbml.size())
     {
@@ -719,24 +775,27 @@ bool RoadRunner::generateModelCode(const string& sbml)
         return false;
     }
 
-    string tempFileFolder;
-    if(mSimulation)
+	if(saveToFile)
     {
-        tempFileFolder = mSimulation->GetTempDataFolder();
-    }
-    else
-    {
-        tempFileFolder = mTempFileFolder;
-    }
+        string tempFileFolder;
+        if(mSimulation)
+        {
+            tempFileFolder = mSimulation->GetTempDataFolder();
+        }
+        else
+        {
+            tempFileFolder = mTempFileFolder;
+        }
 
-    if(!mModelGenerator->saveSourceCodeToFolder(tempFileFolder, mModelLib.getName()))
-    {
-        Log(lError)<<"Failed saving generated source code";
-    }
+        if(!mModelGenerator->saveSourceCodeToFolder(tempFileFolder, mModelLib.getName()))
+        {
+            Log(lError)<<"Failed saving generated source code";
+        }
 
-    Log(lDebug5)<<" ------ Model Code --------\n"
-                <<mModelCode
-                <<" ----- End of Model Code -----\n";
+        Log(lDebug5)<<" ------ Model Code --------\n"
+                    <<mModelCode
+                    <<" ----- End of Model Code -----\n";
+    }
     return true;
 }
 
@@ -796,12 +855,12 @@ bool RoadRunner::compileModel()
     //Load the DLL
 //    try
 //    {
-		Log(lDebug)<<"Trying to load shared lib: "<<mModelLib.getFullFileName();
-    	if(!mModelLib.load())
-        {
-			Log(lError)<<"There was a problem loading the shared library: "<<mModelLib.getFullFileName();
-	        return false;
-        }
+//		Log(lDebug)<<"Trying to load shared lib: "<<mModelLib.getFullFileName();
+//    	if(!mModelLib.load())
+//        {
+//			Log(lError)<<"There was a problem loading the shared library: "<<mModelLib.getFullFileName();
+//	        return false;
+//        }
 //    }
 //    catch(const exception& ex)
 //    {
@@ -810,21 +869,21 @@ bool RoadRunner::compileModel()
 //        return false;
 //    }
 //
-    //Now create the Model using the compiled DLL
-    mModel = createModel();
-
-    if(!mModel)
-    {
-        Log(lError)<<"Failed to create Model";
-        return false;
-    }
-
-    //Finally initialize the model..
-    if(!initializeModel())
-    {
-        Log(lError)<<"Failed Initializing Model";
-        return false;
-    }
+//    //Now create the Model using the compiled DLL
+//    mModel = createModel();
+//
+//    if(!mModel)
+//    {
+//        Log(lError)<<"Failed to create Model";
+//        return false;
+//    }
+//
+//    //Finally initialize the model..
+//    if(!initializeModel())
+//    {
+//        Log(lError)<<"Failed Initializing Model";
+//        return false;
+//    }
 
     return true;
 }
@@ -1146,7 +1205,7 @@ void RoadRunner::computeAndAssignConservationLaws(const bool& bValue)
     mComputeAndAssignConservationLaws = bValue;
     if(mModel != NULL)
     {
-        if(!generateModelCode(""))
+        if(!generateModelCode())
         {
             throw("Failed generating model from SBML when trying to set computeAndAssignConservationLaws");
         }

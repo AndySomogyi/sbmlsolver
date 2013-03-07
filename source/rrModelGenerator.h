@@ -94,7 +94,7 @@ class RR_DECLSPEC ModelGenerator : public rrObject
         virtual string                      convertSymbolToC(const string& compartmentName) = 0;
         virtual string                      convertSymbolToGP(const string& parameterName) = 0;
 
-
+		//Non virtuals..
         string                              substituteTerms(const int& numReactions, const string& reactionName, const string& equation);
         ASTNode*                            cleanEquation(ASTNode* ast);
         string                              cleanEquation(const string& equation);
@@ -139,7 +139,7 @@ class RR_DECLSPEC ModelGenerator : public rrObject
         virtual bool                     	saveSourceCodeToFolder(const string& folder, const string& codeBaseName);
 //        void                                SetXMLModelFileName(const string& name);
 };
-}//namespace rr
+}
 
 #endif
 

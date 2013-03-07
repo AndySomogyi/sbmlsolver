@@ -12,9 +12,9 @@ namespace rr
 
 CodeBuilder::CodeBuilder(const string& aStr, const string& decl_spec, const string& call_conv)
 :
-mSizeOfVarField1(35),
-mSizeOfVarField2(40),
-mSizeOfVarField3(20),
+mSizeOfVarField1(45),
+mSizeOfVarField2(55),
+mSizeOfVarField3(45),
 mDeclSpec(decl_spec),
 mCallingConvention(call_conv)
 {

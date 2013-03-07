@@ -61,6 +61,7 @@ string CGenerator::getSourceCodeFileName()
 // Generates the Model Code from the SBML string
 string CGenerator::generateModelCode(const string& sbmlStr, const bool& _computeAndAssignConsevationLaws)
 {
+	//This function assumes that the sbml already been loaded into NOM and libstruct..
 	mComputeAndAssignConsevationLaws  = _computeAndAssignConsevationLaws;
     Log(lDebug4)<<"Entering CGenerators generateModelCode(string) function";
     StringList  Warnings;
@@ -70,11 +71,11 @@ string CGenerator::generateModelCode(const string& sbmlStr, const bool& _compute
     //Clear header and source file objects...
     mHeader.Clear();
     mSource.Clear();
-    mNOM.reset();
-    string sASCII = mNOM.convertTime(sbmlStr, "time");
-
-    Log(lDebug4)<<"Loading SBML into NOM";
-    mNOM.loadSBML(sASCII.c_str(), "time");
+//  mNOM.reset();
+//    string sASCII = mNOM.convertTime(sbmlStr, "time");
+//
+//    Log(lDebug4)<<"Loading SBML into NOM";
+//    mNOM.loadSBML(sASCII.c_str(), "time");
 
     mModelName = mNOM.getModelName();
     if(!mModelName.size())
@@ -100,33 +101,28 @@ string CGenerator::generateModelCode(const string& sbmlStr, const bool& _compute
     mFunctionNames.empty();
     mFunctionParameters.empty();
 
-//    LibStructural* libStruct = LibStructural::getInstance();
-    string msg;
-    try
-    {
-        Log(lDebug3)<<"Loading sbml into StructAnalysis";
-//        if(!mLibStruct)
+//    string msg;
+//    try
+//    {
+//        Log(lDebug3)<<"Loading sbml into StructAnalysis";
+//        msg = mLibStruct.loadSBML(sASCII);
+//        if(!msg.size())
 //        {
-//            throw;
+//            Log(lError)<<"Failed loading sbml into StructAnalysis";
 //        }
-        msg = mLibStruct.loadSBML(sASCII);
-        if(!msg.size())
-        {
-            Log(lError)<<"Failed loading sbml into StructAnalysis";
-        }
-    }
-    catch(...)
-    {
-        Log(lError)<<"Failed loading sbml into StructAnalysis";
-    }
-
-
-    Log(lDebug3)<<"Message from StructAnalysis.LoadSBML function\n"<<msg;
+//    }
+//    catch(...)
+//    {
+//        Log(lError)<<"Failed loading sbml into StructAnalysis";
+//    }
+//
+//
+//    Log(lDebug3)<<"Message from StructAnalysis.LoadSBML function\n"<<msg;
 
     //if (mRR && mRR->mComputeAndAssignConservationLaws)
 	if(mComputeAndAssignConsevationLaws)
     {
-        mNumIndependentSpecies = mLibStruct.getNumIndSpecies();
+        mNumIndependentSpecies 	= mLibStruct.getNumIndSpecies();
         mIndependentSpeciesList = mLibStruct.getIndependentSpecies();
         mDependentSpeciesList   = mLibStruct.getDependentSpecies();
     }
@@ -241,7 +237,7 @@ void CGenerator::writeOutVariables(CodeBuilder& ignore)
     mHeader.FormatVariable("D_S char*",                   			"mModelName");
     mHeader.FormatVariable("D_S char**",                            "mWarnings");
     mHeader.FormatArray("D_S double",                               "_gp",                             mNumGlobalParameters +
-                                                                                                    mTotalLocalParmeters,                       "Vector containing all the global parameters in the System  ");
+                                                                                                    		mTotalLocalParmeters,                       "Vector containing all the global parameters in the System  ");
 
     if(mNumModifiableSpeciesReferences)
     {
@@ -261,7 +257,7 @@ void CGenerator::writeOutVariables(CodeBuilder& ignore)
     mHeader.FormatArray("D_S double",                               "mEventTests",                     mNumEvents                                 ,"Vector containing results of any event tests        ");
 
     mHeader<<"\ttypedef double (*TEventDelayDelegate)();"<<endl;
-    mHeader.FormatArray("TEventDelayDelegate",                      "mEventDelay",                        mNumEvents                                 ,"Array of trigger function pointers");
+    mHeader.FormatArray("TEventDelayDelegate",                      "mEventDelay",                     mNumEvents                                 ,"Array of trigger function pointers");
     mHeader.AddFunctionExport("TEventDelayDelegate*",               "GetEventDelays()");
     mHeader.FormatArray("bool",                                     "_eventType",                      mNumEvents                                , "Array holding the status whether events are useValuesFromTriggerTime or not");
     mHeader.FormatArray("bool",                                     "_eventPersistentType",            mNumEvents                                , "Array holding the status whether events are persitstent or not");

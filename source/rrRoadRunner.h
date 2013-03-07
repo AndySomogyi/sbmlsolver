@@ -52,6 +52,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 	    string 							mSupportCodeFolder;		//The compiler needs this in order to compile models
 		string                          mModelCode;
 		string                   		mTempFileFolder;
+        string							mCurrentSBMLFileName;
 		SBMLModelSimulation            *mSimulation;
 
 		CvodeInterface                 *mCVode;
@@ -95,7 +96,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		bool                     		mConservedTotalChanged;
 
 	public:
- 										RoadRunner(const string& supportCodeFolder = gDefaultSupportCodeFolder, const string& compiler = gDefaultCompiler, const string& tempFolder = gDefaultTempFolder);
+ 										RoadRunner(const string& tempFolder = gDefaultTempFolder, const string& supportCodeFolder = gDefaultSupportCodeFolder, const string& compiler = gDefaultCompiler);
 		virtual                        ~RoadRunner();
         int								getInstanceID();
         int								getInstanceCount();
@@ -130,7 +131,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		bool                     		setTempFileFolder(const string& folder);
 		string                   		getTempFileFolder();
 		void                            partOfSimulation(SBMLModelSimulation* simulation){mSimulation = simulation;}
-		bool                            generateModelCode(const string& sbml);
+		bool                            generateModelCode(const string& sbml = gEmptyString, bool saveToFile = false);
 		bool                            compileModel();
 		bool                            compileCurrentModel();
 		ModelFromC*                     createModel();

@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{FA352E2B-7DFB-4EE7-B441-D2E345AEBAC0}</ProjectGuid>
         <ProjectVersion>14.4</ProjectVersion>
@@ -39,9 +39,9 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <IncludePath>R:\rrl\examples\two_rrs\;..\..\source;$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\source\;R:\rrl\examples\two_rrs\;..\..\source;$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
         <Defines>LIBSBML_USE_CPP_NAMESPACE;POCO_STATIC;STATIC_LIBSTRUCT;$(Defines)</Defines>
-        <ILINK_LibraryPath>R:\rrl\examples\two_rrs\;$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\source\;R:\rrl\examples\two_rrs\;$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <DynamicRTL>true</DynamicRTL>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <Manifest_File>None</Manifest_File>
@@ -89,6 +89,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <ILINK_DisableIncrementalLinking>true</ILINK_DisableIncrementalLinking>
         <FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -97,6 +98,10 @@
     </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="main.cpp">
+            <BuildOrder>1</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrSBMLModelData.cpp">
+            <DependentOn>..\..\source\rrSBMLModelData.h</DependentOn>
             <BuildOrder>1</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">
