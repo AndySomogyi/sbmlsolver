@@ -26,6 +26,7 @@ RR_DECLSPEC extern const string gEmptyModelMessage;
 
 // Constants
 RR_DECLSPEC extern const char 	gTab;
+RR_DECLSPEC extern const char 	gNL;
 RR_DECLSPEC extern const double	gDoubleNaN;
 RR_DECLSPEC extern const float  gFloatNaN;
 RR_DECLSPEC extern const int    gMaxPath;

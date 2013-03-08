@@ -18,26 +18,28 @@ ModelFromC::ModelFromC(CGenerator* generator, ModelSharedLibrary& dll)
 mDummyInt(0),
 mDummyDouble(0),
 mDummyDoubleArray(new double[1]),
-numIndependentVariables(&mDummyInt),
-numDependentVariables(&mDummyInt),
-numTotalVariables(&mDummyInt),
-numBoundaryVariables(&mDummyInt),
-numGlobalParameters(&mDummyInt),
-numCompartments(&mDummyInt),
-numReactions(&mDummyInt),
-numRules(&mDummyInt),
-numEvents(&mDummyInt),
+//numIndependentVariables(&mDummyInt),
+//numDependentVariables(&mDummyInt),
+//numTotalVariables(&mDummyInt),
+//numBoundaryVariables(&mDummyInt),
+//numGlobalParameters(&mDummyInt),
+//numCompartments(&mDummyInt),
+//numReactions(&mDummyInt),
+//numRules(&mDummyInt),
+//numEvents(&mDummyInt),
+mData(),
 time(0),
 mCodeGenerator(generator),
 mIsInitialized(false),
 mDLL(dll)
 {
+	memset(&mData, 0, sizeof(ModelData));
     mDummyDoubleArray[0] = 1;
 
     if(mDLL.isLoaded())
     {
         setupDLLFunctions();
-        setupDLLData();
+        setupModelData();
     }
     else
     {
@@ -73,52 +75,52 @@ double ModelFromC::getTime()
 /////////////////// The following used to be in IModel
 int ModelFromC::getNumIndependentVariables()
 {
-    return *numIndependentVariables;
+    return mData.numIndependentVariables;
 }
 
 int ModelFromC::getNumDependentVariables()
 {
-    return *numDependentVariables;
+    return mData.numDependentVariables;
 }
 
 int ModelFromC::getNumTotalVariables()
 {
-    return *numTotalVariables;
+    return mData.numTotalVariables;
 }
 
 int ModelFromC::getNumBoundarySpecies()
 {
-    return *numBoundaryVariables;    //Todos: bad naming - is Variables/Species, choose one..
+    return mData.numBoundaryVariables;    //Todos: bad naming - is Variables/Species, choose one..
 }
 
 int ModelFromC::getNumGlobalParameters()
 {
-    return *numGlobalParameters;
+    return mData.numGlobalParameters;
 }
 
 int ModelFromC::getNumCompartments()
 {
-    return *numCompartments;
+    return mData.numCompartments;
 }
 
 int ModelFromC::getNumReactions()
 {
-    return *numReactions;
+    return mData.numReactions;
 }
 
 int ModelFromC::getNumRules()
 {
-    return *numRules;
+    return mData.numRules;
 }
 
 int ModelFromC::getNumEvents()
 {
-    return *numEvents;
+    return mData.numEvents;
 }
 
 double ModelFromC::getAmounts(const int& i)
 {
-    return (amounts ) ? amounts[i] : -1;
+    return (mData.amounts ) ? mData.amounts[i] : -1;
 }
 
 bool ModelFromC::setupDLLFunctions()
@@ -132,7 +134,7 @@ bool ModelFromC::setupDLLFunctions()
 
     //Load functions..
     cInitModel                          = (c_int_MDS)         mDLL.getSymbol("InitModel");
-    cgetModelName                       = (c_charStar_MDS)        mDLL.getSymbol("getModelName");
+//    cgetModelName                       = (c_charStar_MDS)        mDLL.getSymbol("getModelName");
     cinitializeInitialConditions        = (c_void_MDS)                     mDLL.getSymbol("initializeInitialConditions");
     csetParameterValues                 = (c_void_MDS)                     mDLL.getSymbol("setParameterValues");
     csetCompartmentVolumes              = (c_void_MDS)                     mDLL.getSymbol("setCompartmentVolumes");
@@ -162,116 +164,116 @@ bool ModelFromC::setupDLLFunctions()
     return true;
 }
 
-bool ModelFromC::setupDLLData()
+bool ModelFromC::setupModelData()
 {
-    if(!cInitModel)
-    {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
-        return false;
-    }
-
-    //This setup up data in the DLL...
-    if(cInitModel(&mData) != 0)
-    {
-        Log(lError)<<"Failed to InitModel in "<<__FUNCTION__;
-        return false;
-    }
-
-    if(!cgetModelName)
-    {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
-        return false;
-    }
+//    if(!cInitModel)
+//    {
+//        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+//        return false;
+//    }
+//
+//    //This setup up data in the DLL...
+//    if(cInitModel(&mData) != 0)
+//    {
+//        Log(lError)<<"Failed to InitModel in "<<__FUNCTION__;
+//        return false;
+//    }
+//
+//    if(!cgetModelName)
+//    {
+//        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+//        return false;
+//    }
 
     //Simple variables...
-    numIndependentVariables         = mDLL.hasSymbol("numIndependentVariables")        ?   (int*)       mDLL.getSymbol("numIndependentVariables")       : NULL;
-    numDependentVariables 	        = mDLL.hasSymbol("numDependentVariables")          ?   (int*)       mDLL.getSymbol("numDependentVariables")         : NULL;
-    numTotalVariables 		        = mDLL.hasSymbol("numTotalVariables")              ?   (int*)       mDLL.getSymbol("numTotalVariables")             : NULL;
-    numBoundaryVariables 	        = mDLL.hasSymbol("numBoundaryVariables")           ?   (int*)       mDLL.getSymbol("numBoundaryVariables")          : NULL;
-    numGlobalParameters 	        = mDLL.hasSymbol("numGlobalParameters")            ?   (int*)       mDLL.getSymbol("numGlobalParameters")           : NULL;
-    numCompartments 		        = mDLL.hasSymbol("numCompartments")                ?   (int*)       mDLL.getSymbol("numCompartments")               : NULL;
-    numReactions 			        = mDLL.hasSymbol("numReactions")                   ?   (int*)       mDLL.getSymbol("numReactions")                  : NULL;
-    numEvents 				        = mDLL.hasSymbol("numEvents")                      ?   (int*)       mDLL.getSymbol("numEvents")                     : NULL;
-    amounts  				        = mDLL.hasSymbol("_amounts")                       ?   (double*) 	mDLL.getSymbol("_amounts")                      : NULL;
-    amountsSize  			        = mDLL.hasSymbol("_amountsSize")                   ?   (int*) 	    mDLL.getSymbol("_amountsSize")                  : NULL;
-    dydt  					        = mDLL.hasSymbol("_dydt")                          ?   (double*) 	mDLL.getSymbol("_dydt")                         : NULL;
-    dydtSize  				        = mDLL.hasSymbol("_dydtSize")                      ?   (int*) 	    mDLL.getSymbol("_dydtSize")                     : NULL;
-    rateRules  				        = mDLL.hasSymbol("_rateRules")                     ?   (double*) 	mDLL.getSymbol("_rateRules")                    : NULL;
-    rateRulesSize 			        = mDLL.hasSymbol("_rateRulesSize")                 ?   (int*) 	    mDLL.getSymbol("_rateRulesSize")                : NULL;
+//    numIndependentVariables         = mDLL.hasSymbol("numIndependentVariables")        ?   (int*)       mDLL.getSymbol("numIndependentVariables")       : NULL;
+//    numDependentVariables 	        = mDLL.hasSymbol("numDependentVariables")          ?   (int*)       mDLL.getSymbol("numDependentVariables")         : NULL;
+//    numTotalVariables 		        = mDLL.hasSymbol("numTotalVariables")              ?   (int*)       mDLL.getSymbol("numTotalVariables")             : NULL;
+//    numBoundaryVariables 	        = mDLL.hasSymbol("numBoundaryVariables")           ?   (int*)       mDLL.getSymbol("numBoundaryVariables")          : NULL;
+//    numGlobalParameters 	        = mDLL.hasSymbol("numGlobalParameters")            ?   (int*)       mDLL.getSymbol("numGlobalParameters")           : NULL;
+//    numCompartments 		        = mDLL.hasSymbol("numCompartments")                ?   (int*)       mDLL.getSymbol("numCompartments")               : NULL;
+//    numReactions 			        = mDLL.hasSymbol("numReactions")                   ?   (int*)       mDLL.getSymbol("numReactions")                  : NULL;
+//    numEvents 				        = mDLL.hasSymbol("numEvents")                      ?   (int*)       mDLL.getSymbol("numEvents")                     : NULL;
+//    amounts  				        = mDLL.hasSymbol("_amounts")                       ?   (double*) 	mDLL.getSymbol("_amounts")                      : NULL;
+//    amountsSize  			        = mDLL.hasSymbol("_amountsSize")                   ?   (int*) 	    mDLL.getSymbol("_amountsSize")                  : NULL;
+//    dydt  					        = mDLL.hasSymbol("_dydt")                          ?   (double*) 	mDLL.getSymbol("_dydt")                         : NULL;
+//    dydtSize  				        = mDLL.hasSymbol("_dydtSize")                      ?   (int*) 	    mDLL.getSymbol("_dydtSize")                     : NULL;
+//    rateRules  				        = mDLL.hasSymbol("_rateRules")                     ?   (double*) 	mDLL.getSymbol("_rateRules")                    : NULL;
+//    rateRulesSize 			        = mDLL.hasSymbol("_rateRulesSize")                 ?   (int*) 	    mDLL.getSymbol("_rateRulesSize")                : NULL;
 //    y  						        = mDLL.hasSymbol("_y")                             ?   (double*) 	mDLL.getSymbol("_y")                            : NULL;
 //    ySize  					        = mDLL.hasSymbol("_ySize")                         ?   (int*) 	    mDLL.getSymbol("_ySize")                        : NULL;
-    rates  					        = mDLL.hasSymbol("_rates")                         ?   (double*) 	mDLL.getSymbol("_rates")                        : NULL;
-    ratesSize  				        = mDLL.hasSymbol("_ratesSize")                     ?   (int*) 	    mDLL.getSymbol("_ratesSize")                    : NULL;
-    ct  					        = mDLL.hasSymbol("_ct")                            ?   (double*) 	mDLL.getSymbol("_ct")                           : NULL;
-    ctSize  				        = mDLL.hasSymbol("_ctSize")                        ?   (int*) 	    mDLL.getSymbol("_ctSize")                       : NULL;
-    time       				        = mDLL.hasSymbol("mTime")                          ?   (double*) 	mDLL.getSymbol("mTime")                         : NULL;
-    init_y       			        = mDLL.hasSymbol("_init_y")                        ?   (double*) 	mDLL.getSymbol("_init_y")                       : NULL;
-    init_ySize       		        = mDLL.hasSymbol("_init_ySize")                    ?   (int*) 	    mDLL.getSymbol("_init_ySize")                   : NULL;
-    gp       				        = mDLL.hasSymbol("_gp")                            ?   (double*) 	mDLL.getSymbol("_gp")                           : NULL;
-    gpSize       			        = mDLL.hasSymbol("_gpSize")                        ?   (int*) 	    mDLL.getSymbol("_gpSize")                       : NULL;
-    c       				        = mDLL.hasSymbol("_c")                             ?   (double*) 	mDLL.getSymbol("_c")                            : NULL;
-    cSize       			        = mDLL.hasSymbol("_cSize")                         ?   (int*) 	    mDLL.getSymbol("_cSize")                        : NULL;
-    bc       				        = mDLL.hasSymbol("_bc")                            ?   (double*) 	mDLL.getSymbol("_bc")                           : NULL;
-    bcSize       			        = mDLL.hasSymbol("_bcSize")                        ?   (int*) 	    mDLL.getSymbol("_bcSize")                       : NULL;
-    lp       				        = mDLL.hasSymbol("_lp")						       ?   (double*) 	mDLL.getSymbol("_lp")						    : mDummyDoubleArray;
-    lpSize       			        = mDLL.hasSymbol("_lpSize") 	                   ?   (int*) 		mDLL.getSymbol("_lpSize") 	                    : &mDummyInt;
-    sr       				        = mDLL.hasSymbol("_sr")  		                   ?   (double*) 	mDLL.getSymbol("_sr")  		                    : mDummyDoubleArray;
-    srSize       			        = mDLL.hasSymbol("_srSize") 	                   ?   (int*)	    mDLL.getSymbol("_srSize") 	                    : &mDummyInt;
-    eventPriorities   		        = mDLL.hasSymbol("_eventPriorities")               ?   (double*) 	mDLL.getSymbol("_eventPriorities") 	            : NULL;
-    eventStatusArray   		        = mDLL.hasSymbol("mEventStatusArray")              ?   (bool*) 		mDLL.getSymbol("mEventStatusArray")	            : NULL;
-    eventStatusArraySize            = mDLL.hasSymbol("mEventStatusArraySize")          ?   (int*) 		mDLL.getSymbol("mEventStatusArraySize") 	    : NULL;
-    previousEventStatusArray        = mDLL.hasSymbol("_previousEventStatusArray")      ?   (bool*) 		mDLL.getSymbol("_previousEventStatusArray")     : NULL;
-    previousEventStatusArraySize    = mDLL.hasSymbol("_previousEventStatusArraySize")  ?   (int*) 		mDLL.getSymbol("_previousEventStatusArraySize") :  &mDummyInt;
-    eventPersistentType   			= mDLL.hasSymbol("_eventPersistentType")           ?   (bool*) 		mDLL.getSymbol("_eventPersistentType") 		    : NULL;
-    eventPersistentTypeSize      	= mDLL.hasSymbol("_eventPersistentTypeSize")       ?   (int*) 		mDLL.getSymbol("_eventPersistentTypeSize") 	    : NULL;
-    eventTests   					= mDLL.hasSymbol("mEventTests")                    ?   (double*) 	mDLL.getSymbol("mEventTests") 				    : NULL;
-    eventTestsSize      			= mDLL.hasSymbol("mEventTestsSize") 			   ?   (int*) 		mDLL.getSymbol("mEventTestsSize") 			    : &mDummyInt;
-    eventType   					= mDLL.hasSymbol("_eventType")                     ?   (bool*) 		mDLL.getSymbol("_eventType")                    : NULL;
-    eventTypeSize      				= mDLL.hasSymbol("_eventTypeSize")				   ?   (int*) 		mDLL.getSymbol("_eventTypeSize") 			    : &mDummyInt;
+//    rates  					        = mDLL.hasSymbol("_rates")                         ?   (double*) 	mDLL.getSymbol("_rates")                        : NULL;
+//    ratesSize  				        = mDLL.hasSymbol("_ratesSize")                     ?   (int*) 	    mDLL.getSymbol("_ratesSize")                    : NULL;
+//    ct  					        = mDLL.hasSymbol("_ct")                            ?   (double*) 	mDLL.getSymbol("_ct")                           : NULL;
+//    ctSize  				        = mDLL.hasSymbol("_ctSize")                        ?   (int*) 	    mDLL.getSymbol("_ctSize")                       : NULL;
+//    time       				        = mDLL.hasSymbol("mTime")                          ?   (double*) 	mDLL.getSymbol("mTime")                         : NULL;
+//    init_y       			        = mDLL.hasSymbol("_init_y")                        ?   (double*) 	mDLL.getSymbol("_init_y")                       : NULL;
+//    init_ySize       		        = mDLL.hasSymbol("_init_ySize")                    ?   (int*) 	    mDLL.getSymbol("_init_ySize")                   : NULL;
+//    gp       				        = mDLL.hasSymbol("_gp")                            ?   (double*) 	mDLL.getSymbol("_gp")                           : NULL;
+//    gpSize       			        = mDLL.hasSymbol("_gpSize")                        ?   (int*) 	    mDLL.getSymbol("_gpSize")                       : NULL;
+//    c       				        = mDLL.hasSymbol("_c")                             ?   (double*) 	mDLL.getSymbol("_c")                            : NULL;
+//    cSize       			        = mDLL.hasSymbol("_cSize")                         ?   (int*) 	    mDLL.getSymbol("_cSize")                        : NULL;
+//    bc       				        = mDLL.hasSymbol("_bc")                            ?   (double*) 	mDLL.getSymbol("_bc")                           : NULL;
+//    bcSize       			        = mDLL.hasSymbol("_bcSize")                        ?   (int*) 	    mDLL.getSymbol("_bcSize")                       : NULL;
+//    lp       				        = mDLL.hasSymbol("_lp")						       ?   (double*) 	mDLL.getSymbol("_lp")						    : mDummyDoubleArray;
+//    lpSize       			        = mDLL.hasSymbol("_lpSize") 	                   ?   (int*) 		mDLL.getSymbol("_lpSize") 	                    : &mDummyInt;
+//    sr       				        = mDLL.hasSymbol("_sr")  		                   ?   (double*) 	mDLL.getSymbol("_sr")  		                    : mDummyDoubleArray;
+//    srSize       			        = mDLL.hasSymbol("_srSize") 	                   ?   (int*)	    mDLL.getSymbol("_srSize") 	                    : &mDummyInt;
+//    eventPriorities   		        = mDLL.hasSymbol("_eventPriorities")               ?   (double*) 	mDLL.getSymbol("_eventPriorities") 	            : NULL;
+//    eventStatusArray   		        = mDLL.hasSymbol("mEventStatusArray")              ?   (bool*) 		mDLL.getSymbol("mEventStatusArray")	            : NULL;
+//    eventStatusArraySize            = mDLL.hasSymbol("mEventStatusArraySize")          ?   (int*) 		mDLL.getSymbol("mEventStatusArraySize") 	    : NULL;
+//    previousEventStatusArray        = mDLL.hasSymbol("_previousEventStatusArray")      ?   (bool*) 		mDLL.getSymbol("_previousEventStatusArray")     : NULL;
+//    previousEventStatusArraySize    = mDLL.hasSymbol("_previousEventStatusArraySize")  ?   (int*) 		mDLL.getSymbol("_previousEventStatusArraySize") :  &mDummyInt;
+//    eventPersistentType   			= mDLL.hasSymbol("_eventPersistentType")           ?   (bool*) 		mDLL.getSymbol("_eventPersistentType") 		    : NULL;
+//    eventPersistentTypeSize      	= mDLL.hasSymbol("_eventPersistentTypeSize")       ?   (int*) 		mDLL.getSymbol("_eventPersistentTypeSize") 	    : NULL;
+//    eventTests   					= mDLL.hasSymbol("mEventTests")                    ?   (double*) 	mDLL.getSymbol("mEventTests") 				    : NULL;
+//    eventTestsSize      			= mDLL.hasSymbol("mEventTestsSize") 			   ?   (int*) 		mDLL.getSymbol("mEventTestsSize") 			    : &mDummyInt;
+//    eventType   					= mDLL.hasSymbol("_eventType")                     ?   (bool*) 		mDLL.getSymbol("_eventType")                    : NULL;
+//    eventTypeSize      				= mDLL.hasSymbol("_eventTypeSize")				   ?   (int*) 		mDLL.getSymbol("_eventTypeSize") 			    : &mDummyInt;
 
     //Event function pointer stuff
     if(mDLL.hasSymbol("Get_eventAssignments"))
     {
         c_TEventAssignmentDelegateStar Get_eventAssignments;
         Get_eventAssignments  	= (c_TEventAssignmentDelegateStar) mDLL.getSymbol("Get_eventAssignments");
-        eventAssignments 		= Get_eventAssignments();
+        mData.eventAssignments 		= Get_eventAssignments();
     }
     else
     {
-	    eventAssignments = NULL;
+	    mData.eventAssignments = NULL;
     }
 
     if(mDLL.hasSymbol("Get_computeEventAssignments"))
     {
         c_TComputeEventAssignmentDelegateStar     Get_computeEventAssignments;
         Get_computeEventAssignments      = (c_TComputeEventAssignmentDelegateStar) mDLL.getSymbol("Get_computeEventAssignments");
-        computeEventAssignments = Get_computeEventAssignments();
+        mData.computeEventAssignments = Get_computeEventAssignments();
     }
     else
     {
-		computeEventAssignments = NULL;
+		mData.computeEventAssignments = NULL;
     }
 
     if(mDLL.hasSymbol("Get_performEventAssignments"))
     {
      	c_TPerformEventAssignmentDelegateStar Get_performEventAssignments;
     	Get_performEventAssignments  = (c_TPerformEventAssignmentDelegateStar) mDLL.getSymbol("Get_performEventAssignments");
-        performEventAssignments = Get_performEventAssignments();
+        mData.performEventAssignments = Get_performEventAssignments();
     }
     else
     {
-        performEventAssignments = NULL;
+        mData.performEventAssignments = NULL;
     }
 
     if(mDLL.hasSymbol("GetEventDelays"))
     {
         c_GetEventDelayDelegatesStar GetEventDelays;
         GetEventDelays  = (c_GetEventDelayDelegatesStar) mDLL.getSymbol("GetEventDelays");
-        eventDelays = GetEventDelays();
+        mData.eventDelays = GetEventDelays();
     }
     else
     {
-		eventDelays = NULL;
+		mData.eventDelays = NULL;
     }
 
     return true;

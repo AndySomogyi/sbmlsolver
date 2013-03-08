@@ -133,7 +133,9 @@ string CGenerator::generateModelCode(const string& sbmlStr, const bool& _compute
 
     ///// Start of exported functions
     mHeader.NewLine("\n//EXPORTS ========================================");
+    mHeader.AddFunctionExport("int", "InitModelData(ModelData* md)");
     mHeader.AddFunctionExport("int", "InitModel(ModelData* md)");
+
     mHeader.AddFunctionExport("char*", "getModelName(ModelData* md)");
     ///////////////
 
@@ -168,6 +170,7 @@ string CGenerator::generateModelCode(const string& sbmlStr, const bool& _compute
     writeEvalInitialAssignments(ignore, mNumReactions);
     writeTestConstraints(ignore);
 
+    writeInitModelDataFunction(mHeader, mSource);
     writeInitFunction(mHeader, mSource);
 
     mHeader<<"\n\n#endif //modelH"<<NL();
@@ -213,67 +216,63 @@ void CGenerator::writeClassHeader(CodeBuilder& ignore)
 
 void CGenerator::writeOutVariables(CodeBuilder& ignore)
 {
-//    mHeader.FormatVariable("D_S char*",                   			"mModelName");
-//    mHeader.FormatVariable("D_S char**",                            "mWarnings");
-    mHeader.FormatArray("D_S double",                               "_gp",                             mNumGlobalParameters + mTotalLocalParmeters,"Vector containing all the global parameters in the System  ");
 
-    if(mNumModifiableSpeciesReferences)
-    {
-        mHeader.FormatArray("D_S double",                           "_sr",                             mNumModifiableSpeciesReferences,            "Vector containing all the modifiable species references  ");
-    }
+//
+//
+//    //Arrays
+////    mHeader.FormatArray("D_S double*",                              "_lp",                             mNumReactions,                              "Vector containing all the local parameters in the System  ");
+////    mHeader.FormatArray("D_S double",                               "_y",                              mFloatingSpeciesConcentrationList.size(),    "Vector containing the concentrations of all floating species");
+////    mHeader.FormatArray("D_S double",                               "_init_y",                         mFloatingSpeciesConcentrationList.Count(),   "Vector containing the initial concentrations of all floating species");
+////    mHeader.FormatArray("D_S double",                               "_amounts",                        mFloatingSpeciesConcentrationList.size(),    "Vector containing the amounts of all floating species ");
+//    mHeader.FormatArray("D_S double",                               "_bc",                             mNumBoundarySpecies,                        "Vector containing all the boundary species concentration values");
+//    mHeader.FormatArray("D_S double",                               "_c",                              mNumCompartments                         ,  "Vector containing all the compartment values   ");
+//    mHeader.FormatArray("D_S double",                               "_dydt",                           mFloatingSpeciesConcentrationList.size() ,   "Vector containing rates of changes of all species   ");
+//    mHeader.FormatArray("D_S double",                               "_rates",                          mNumReactions                             , "Vector containing the rate laws of all reactions    ");
+//    mHeader.FormatArray("D_S double",                               "_ct",                             mNumDependentSpecies                     ,  "Vector containing values of all conserved sums      ");
+//    mHeader.FormatArray("D_S double",                               "mEventTests",                     mNumEvents                                 ,"Vector containing results of any event tests        ");
+//
+//    mHeader<<"\ttypedef double (*TEventDelayDelegate)();"<<endl;
+//    mHeader.FormatArray("TEventDelayDelegate",                      "mEventDelay",                     mNumEvents                                 ,"Array of trigger function pointers");
+//    mHeader.AddFunctionExport("TEventDelayDelegate*",               "GetEventDelays()");
+//    mHeader.FormatArray("bool",                                     "_eventType",                      mNumEvents                                , "Array holding the status whether events are useValuesFromTriggerTime or not");
+//    mHeader.FormatArray("bool",                                     "_eventPersistentType",            mNumEvents                                , "Array holding the status whether events are persitstent or not");
+//
 
-    //Arrays
-    mHeader.FormatArray("D_S double*",                              "_lp",                             mNumReactions,                              "Vector containing all the local parameters in the System  ");
-//    mHeader.FormatArray("D_S double",                               "_y",                              mFloatingSpeciesConcentrationList.size(),    "Vector containing the concentrations of all floating species");
-    mHeader.FormatArray("D_S double",                               "_init_y",                         mFloatingSpeciesConcentrationList.Count(),   "Vector containing the initial concentrations of all floating species");
-    mHeader.FormatArray("D_S double",                               "_amounts",                        mFloatingSpeciesConcentrationList.size(),    "Vector containing the amounts of all floating species ");
-    mHeader.FormatArray("D_S double",                               "_bc",                             mNumBoundarySpecies,                        "Vector containing all the boundary species concentration values");
-    mHeader.FormatArray("D_S double",                               "_c",                              mNumCompartments                         ,  "Vector containing all the compartment values   ");
-    mHeader.FormatArray("D_S double",                               "_dydt",                           mFloatingSpeciesConcentrationList.size() ,   "Vector containing rates of changes of all species   ");
-    mHeader.FormatArray("D_S double",                               "_rates",                          mNumReactions                             , "Vector containing the rate laws of all reactions    ");
-    mHeader.FormatArray("D_S double",                               "_ct",                             mNumDependentSpecies                     ,  "Vector containing values of all conserved sums      ");
-    mHeader.FormatArray("D_S double",                               "mEventTests",                     mNumEvents                                 ,"Vector containing results of any event tests        ");
+//    mHeader.FormatVariable("D_S double",                    		"mTime");
+//    mHeader.FormatVariable("D_S int",                               "numIndependentVariables");
+//    mHeader.FormatVariable("D_S int",                               "numDependentVariables");
+//    mHeader.FormatVariable("D_S int",                               "numTotalVariables");
+//    mHeader.FormatVariable("D_S int",                               "numBoundaryVariables");
+//    mHeader.FormatVariable("D_S int",                               "numGlobalParameters");
+//    mHeader.FormatVariable("D_S int",                               "numCompartments");
+//    mHeader.FormatVariable("D_S int",                               "numReactions");
+//    mHeader.FormatVariable("D_S int",                               "numRules");
+//    mHeader.FormatVariable("D_S int",                               "numEvents");
 
-    mHeader<<"\ttypedef double (*TEventDelayDelegate)();"<<endl;
-    mHeader.FormatArray("TEventDelayDelegate",                      "mEventDelay",                     mNumEvents                                 ,"Array of trigger function pointers");
-    mHeader.AddFunctionExport("TEventDelayDelegate*",               "GetEventDelays()");
-    mHeader.FormatArray("bool",                                     "_eventType",                      mNumEvents                                , "Array holding the status whether events are useValuesFromTriggerTime or not");
-    mHeader.FormatArray("bool",                                     "_eventPersistentType",            mNumEvents                                , "Array holding the status whether events are persitstent or not");
-    mHeader.FormatVariable("D_S double",                    		"mTime");
-    mHeader.FormatVariable("D_S int",                               "numIndependentVariables");
-    mHeader.FormatVariable("D_S int",                               "numDependentVariables");
-    mHeader.FormatVariable("D_S int",                               "numTotalVariables");
-    mHeader.FormatVariable("D_S int",                               "numBoundaryVariables");
-    mHeader.FormatVariable("D_S int",                               "numGlobalParameters");
-    mHeader.FormatVariable("D_S int",                               "numCompartments");
-    mHeader.FormatVariable("D_S int",                               "numReactions");
-    mHeader.FormatVariable("D_S int",                               "numRules");
-    mHeader.FormatVariable("D_S int",                               "numEvents");
+//    mHeader.FormatArray("D_S char*",                                "variableTable",                mFloatingSpeciesConcentrationList.size());
+//    mHeader.FormatArray("D_S char*",                                "boundaryTable",                mBoundarySpeciesList.size());
+//    mHeader.FormatArray("D_S char*",                                "globalParameterTable",         mGlobalParameterList.size());
+//    mHeader.FormatArray("D_S int",                                  "localParameterDimensions",     mNumReactions );
 
-    mHeader.FormatArray("D_S char*",                                "variableTable",                mFloatingSpeciesConcentrationList.size());
-    mHeader.FormatArray("D_S char*",                                "boundaryTable",                mBoundarySpeciesList.size());
-    mHeader.FormatArray("D_S char*",                                "globalParameterTable",         mGlobalParameterList.size());
-    mHeader.FormatArray("D_S int",                                  "localParameterDimensions",     mNumReactions );
-
-#if defined(WIN32)
-    mHeader<<"\ntypedef void __cdecl (*TEventAssignmentDelegate)();"<<endl;
-#else
-    mHeader<<"\ntypedef void (*TEventAssignmentDelegate)();"<<endl;
-#endif
-    mHeader.FormatVariable("D_S TEventAssignmentDelegate*",         "_eventAssignments","");
-    mHeader.AddFunctionExport("TEventAssignmentDelegate*",          "Get_eventAssignments()");
-    mHeader.FormatArray("D_S double",                               "_eventPriorities", mNumEvents);
-
-    mHeader<<"\ntypedef double* (*TComputeEventAssignmentDelegate)();"<<endl;
-    mHeader.AddFunctionExport("TComputeEventAssignmentDelegate*",   "Get_computeEventAssignments()");
-    mHeader.FormatVariable("D_S TComputeEventAssignmentDelegate*",  "_computeEventAssignments");
-
-    mHeader<<"\ntypedef void (*TPerformEventAssignmentDelegate)();"<<endl;
-    mHeader.FormatVariable("D_S TPerformEventAssignmentDelegate*",  "_performEventAssignments");
-    mHeader.AddFunctionExport("TPerformEventAssignmentDelegate*",   "Get_performEventAssignments()");
-
-    mHeader.FormatArray("D_S bool",                                 "mEventStatusArray",             mNumEvents);
-    mHeader.FormatArray("D_S bool",                                 "_previousEventStatusArray",     mNumEvents);
+//#if defined(WIN32)
+//    mHeader<<"\ntypedef void __cdecl (*TEventAssignmentDelegate)();"<<endl;
+//#else
+//    mHeader<<"\ntypedef void (*TEventAssignmentDelegate)();"<<endl;
+//#endif
+//    mHeader.FormatVariable("D_S TEventAssignmentDelegate*",         "_eventAssignments","");
+//    mHeader.AddFunctionExport("TEventAssignmentDelegate*",          "Get_eventAssignments()");
+//    mHeader.FormatArray("D_S double",                               "_eventPriorities", mNumEvents);
+//
+//    mHeader<<"\ntypedef double* (*TComputeEventAssignmentDelegate)();"<<endl;
+//    mHeader.AddFunctionExport("TComputeEventAssignmentDelegate*",   "Get_computeEventAssignments()");
+//    mHeader.FormatVariable("D_S TComputeEventAssignmentDelegate*",  "_computeEventAssignments");
+//
+//    mHeader<<"\ntypedef void (*TPerformEventAssignmentDelegate)();"<<endl;
+//    mHeader.FormatVariable("D_S TPerformEventAssignmentDelegate*",  "_performEventAssignments");
+//    mHeader.AddFunctionExport("TPerformEventAssignmentDelegate*",   "Get_performEventAssignments()");
+//
+//    mHeader.FormatArray("D_S bool",                                 "mEventStatusArray",             mNumEvents);
+//    mHeader.FormatArray("D_S bool",                                 "_previousEventStatusArray",     mNumEvents);
 }
 
 
@@ -287,28 +286,28 @@ void CGenerator::writeComputeAllRatesOfChange(CodeBuilder& ignore, const int& nu
 //    mSource.TLine("printf(\"In function computeAllRatesOfChange()\\n\"); ");
 //    mSource<<"#endif\n";
 
-    mSource<<gTab<<"int i;\n";
+    mSource<<gNL<<gTab<<"int i;\n";
 //    mSource<<"\n\t//double* dTemp = (double*) malloc( sizeof(double)* (amounts.Length + rateRules.Length) );\n";
-    mSource<<"\n\tdouble* dTemp = (double*) malloc( sizeof(double)* (_amountsSize + _rateRulesSize) );\n"; //Todo: Check this
+    mSource<<"\n\tdouble* dTemp = (double*) malloc( sizeof(double)* (md->amountsSize + md->rateRulesSize) );\n"; //Todo: Check this
 
     for (int i = 0; i < numAdditionalRates(); i++)
     {
         mSource<<Format("\tdTemp[{0}] = {1};{2}", i, mMapRateRule[i], NL());
     }
 
-    mSource<<gTab<<"for(i = 0; i < _amountsSize; i++)\n";
-    mSource<<gTab<<"{\n"<<gTab<<gTab<<"dTemp[i + _rateRulesSize] = _amounts[i];\n\t}";
+    mSource<<gTab<<"for(i = 0; i < md->amountsSize; i++)\n";
+    mSource<<gTab<<"{\n"<<gTab<<gTab<<"dTemp[i + md->rateRulesSize] = md->amounts[i];\n\t}";
     mSource<<Append("\n\t//amounts.CopyTo(dTemp, rateRules.Length); " + NL());
 
-    mSource<<Append("\t__evalModel(md, mTime, dTemp);" + NL());
+    mSource<<Append("\t__evalModel(md, md->mTime, dTemp);" + NL());
     bool isThereAnEntry = false;
     for (int i = 0; i < numDependentSpecies; i++)
     {
-        mSource<<Format("\t_dydt[{0}] = ", (numIndependentSpecies + i));
+        mSource<<Format("\tmd->dydt[{0}] = ", (numIndependentSpecies + i));
         isThereAnEntry = false;
         for (int j = 0; j < numIndependentSpecies; j++)
         {
-            string dyName = Format("_dydt[{0}]", j);
+            string dyName = Format("md->dydt[{0}]", j);
 
             if (L0(i,j) > 0)
             {
@@ -360,7 +359,7 @@ void CGenerator::writeComputeConservedTotals(CodeBuilder& ignore, const int& num
 //        DoubleMatrix gamma(matPtr, numDependentSpecies, numFloatingSpecies);
         for (int i = 0; i < numDependentSpecies; i++)
         {
-            mSource<<Format("\n\t_ct[{0}] = ", i);
+            mSource<<Format("\n\tmd->ct[{0}] = ", i);
             for (int j = 0; j < numFloatingSpecies; j++)
             {
                 double current = (gamma != NULL) ? (*gamma)(i,j) : 1.0;    //Todo: This is a bug? We should not be here if the matrix is NULL.. Triggered by model 00029
@@ -422,8 +421,8 @@ void CGenerator::writeUpdateDependentSpecies(CodeBuilder& ignore, const int& num
     {
         for (int i = 0; i < numDependentSpecies; i++)
         {
-            mSource<<Format("\n\tmd->_y[{0}] = ", (i + numIndependentSpecies));
-            mSource<<Format("(_ct[{0}]", i);
+            mSource<<Format("\n\tmd->y[{0}] = ", (i + numIndependentSpecies));
+            mSource<<Format("(md->ct[{0}]", i);
             string cLeftName =
                 convertCompartmentToC(
                     mFloatingSpeciesConcentrationList[i + numIndependentSpecies].compartmentName);
@@ -551,8 +550,8 @@ void CGenerator::writeResetEvents(CodeBuilder& ignore, const int& numEvents)
       mSource<<"void resetEvents()\n{";
       for (int i = 0; i < numEvents; i++)
       {
-          mSource<<Format("\n\tmEventStatusArray[{0}] = false;{1}", i, NL());
-          mSource<<Format("\t_previousEventStatusArray[{0}] = false;", i);
+          mSource<<Format("\n\tmd->eventStatusArray[{0}] = false;{1}", i, NL());
+          mSource<<Format("\tmd->previousEventStatusArray[{0}] = false;", i);
           if(i == numEvents -1)
           {
               mSource<<"\n";
@@ -566,7 +565,7 @@ void CGenerator::writeSetConcentration(CodeBuilder& ignore)
     mHeader.AddFunctionExport("void", "setConcentration(ModelData* md, int index, double value)");
     mSource<<"\nvoid setConcentration(ModelData* md, int index, double value)\n{";
     mSource<<Format("\n\tdouble volume = 0.0;{0}", NL());
-    mSource<<Format("\tmd->_y[index] = value;{0}", NL());
+    mSource<<Format("\tmd->y[index] = value;{0}", NL());
     mSource<<Format("\tswitch (index)\n\t{{0}", NL());
 
     for (int i = 0; i < mFloatingSpeciesConcentrationList.size(); i++)
@@ -580,7 +579,7 @@ void CGenerator::writeSetConcentration(CodeBuilder& ignore)
 
     mSource<<Format("\t}{0}", NL());
 
-    mSource<<Format("\t_amounts[index] = md->_y[index]*volume;{0}", NL());
+    mSource<<Format("\tmd->amounts[index] = md->y[index]*volume;{0}", NL());
     mSource<<Format("}{0}{0}", NL());
 }
 
@@ -588,7 +587,7 @@ void CGenerator::writeGetConcentration(CodeBuilder& ignore)
 {
     mHeader.AddFunctionExport("double", "getConcentration(ModelData* md,int index)");
     mSource<<Format("double getConcentration(ModelData* md, int index)\n{{0}", NL());
-    mSource<<Format("\treturn md->_y[index];{0}", NL());
+    mSource<<Format("\treturn md->y[index];{0}", NL());
     mSource<<Format("}{0}{0}", NL());
 }
 
@@ -598,7 +597,7 @@ void CGenerator::writeConvertToAmounts(CodeBuilder& ignore)
     mSource<<Format("void convertToAmounts(ModelData* md)\n{{0}", NL());
     for (int i = 0; i < mFloatingSpeciesConcentrationList.size(); i++)
     {
-        mSource<<Format("\t_amounts[{0}] = md->_y[{0}]*{1};{2}",
+        mSource<<Format("\tmd->amounts[{0}] = md->y[{0}]*{1};{2}",
             i,
             convertCompartmentToC(mFloatingSpeciesConcentrationList[i].compartmentName),
             NL());
@@ -612,7 +611,7 @@ void CGenerator::writeConvertToConcentrations(CodeBuilder& ignore)
     mSource<<"void convertToConcentrations(ModelData* md)\n{";
     for (int i = 0; i < mFloatingSpeciesConcentrationList.size(); i++)
     {
-        mSource<<"\n\tmd->_y[" << i << "] = _amounts[" << i << "] / " <<
+        mSource<<"\n\tmd->y[" << i << "] = md->amounts[" << i << "] / " <<
                   convertCompartmentToC(mFloatingSpeciesConcentrationList[i].compartmentName) << ";";
     }
     mSource<<Append("\n}" + NL() + NL());
@@ -620,138 +619,6 @@ void CGenerator::writeConvertToConcentrations(CodeBuilder& ignore)
 
 void CGenerator::writeProperties(CodeBuilder& ignore)
 {
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic double[] y {" + NL());
-////            sb.Append("\t\tget { return _y; } " + NL());
-////            sb.Append("\t\tset { _y = value; } " + NL());
-////            sb.Append("\t}" + NL() + NL());
-////
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic double[] init_y {" + NL());
-////            sb.Append("\t\tget { return _init_y; } " + NL());
-////            sb.Append("\t\tset { _init_y = value; } " + NL());
-////            sb.Append("\t}" + NL() + NL());
-////
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic double[] amounts {" + NL());
-////            sb.Append("\t\tget { return _amounts; } " + NL());
-////            sb.Append("\t\tset { _amounts = value; } " + NL());
-////            sb.Append("\t}" + NL() + NL());
-////
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic double[] bc {" + NL());
-////            sb.Append("\t\tget { return _bc; } " + NL());
-////            sb.Append("\t\tset { _bc = value; } " + NL());
-////            sb.Append("\t}" + NL() + NL());
-////
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic double[] gp {" + NL());
-////            sb.Append("\t\tget { return _gp; } " + NL());
-////            sb.Append("\t\tset { _gp = value; } " + NL());
-////            sb.Append("\t}" + NL() + NL());
-////
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic double[] sr {" + NL());
-////            sb.Append("\t\tget { return _sr; } " + NL());
-////            sb.Append("\t\tset { _sr = value; } " + NL());
-////            sb.Append("\t}" + NL() + NL());
-////
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic double[][] lp {" + NL());
-////            sb.Append("\t\tget { return _lp; } " + NL());
-////            sb.Append("\t\tset { _lp = value; } " + NL());
-////            sb.Append("\t}" + NL() + NL());
-////
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic double[] c {" + NL());
-////            sb.Append("\t\tget { return _c; } " + NL());
-////            sb.Append("\t\tset { _c = value; } " + NL());
-////            sb.Append("\t}" + NL() + NL());
-////
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic double[] dydt {" + NL());
-////            sb.Append("\t\tget { return _dydt; }" + NL());
-////            sb.Append("\t\tset { _dydt = value; }" + NL());
-////            sb.Append("\t}" + NL() + NL());
-////
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic double[] rateRules {" + NL());
-////            sb.Append("\t\tget { return _rateRules; }" + NL());
-////            sb.Append("\t\tset { _rateRules = value; }" + NL());
-////            sb.Append("\t}" + NL() + NL());
-////
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic double[] rates {" + NL());
-////            sb.Append("\t\tget { return _rates; }" + NL());
-////            sb.Append("\t\tset { _rates = value; }" + NL());
-////            sb.Append("\t}" + NL() + NL());
-////
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic double[] ct {" + NL());
-////            sb.Append("\t\tget { return _ct; }" + NL());
-////            sb.Append("\t\tset { _ct = value; }" + NL());
-////            sb.Append("\t}" + NL() + NL());
-////
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic double[] eventTests {" + NL());
-////            sb.Append("\t\tget { return _eventTests; }" + NL());
-////            sb.Append("\t\tset { _eventTests = value; }" + NL());
-////            sb.Append("\t}" + NL() + NL());
-////
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic TEventDelayDelegate[] eventDelay {" + NL());
-////            sb.Append("\t\tget { return _eventDelay; }" + NL());
-////            sb.Append("\t\tset { _eventDelay = value; }" + NL());
-////            sb.Append("\t}" + NL() + NL());
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic bool[] eventType {" + NL());
-////            sb.Append("\t\tget { return _eventType; }" + NL());
-////            sb.Append("\t\tset { _eventType = value; }" + NL());
-////            sb.Append("\t}" + NL() + NL());
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic bool[] eventPersistentType {" + NL());
-////            sb.Append("\t\tget { return _eventPersistentType; }" + NL());
-////            sb.Append("\t\tset { _eventPersistentType = value; }" + NL());
-////            sb.Append("\t}" + NL() + NL());
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic bool[] eventStatusArray {" + NL());
-////            sb.Append("\t\tget { return _eventStatusArray; }" + NL());
-////            sb.Append("\t\tset { _eventStatusArray = value; }" + NL());
-////            sb.Append("\t}" + NL() + NL());
-////
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic bool[] previousEventStatusArray {" + NL());
-////            sb.Append("\t\tget { return _previousEventStatusArray; }" + NL());
-////            sb.Append("\t\tset { _previousEventStatusArray = value; }" + NL());
-////            sb.Append("\t}" + NL() + NL());
-////
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic double[] eventPriorities {" + NL());
-////            sb.Append("\t\tget { return _eventPriorities; }" + NL());
-////            sb.Append("\t\tset { _eventPriorities = value; }" + NL());
-////            sb.Append("\t}" + NL() + NL());
-////
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic TEventAssignmentDelegate[] eventAssignments {" + NL());
-////            sb.Append("\t\tget { return _eventAssignments; }" + NL());
-////            sb.Append("\t\tset { _eventAssignments = value; }" + NL());
-////            sb.Append("\t}" + NL() + NL());
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic TComputeEventAssignmentDelegate[] computeEventAssignments {" + NL());
-////            sb.Append("\t\tget { return _computeEventAssignments; }" + NL());
-////            sb.Append("\t\tset { _computeEventAssignments = value; }" + NL());
-////            sb.Append("\t}" + NL() + NL());
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic TPerformEventAssignmentDelegate[] performEventAssignments {" + NL());
-////            sb.Append("\t\tget { return _performEventAssignments; }" + NL());
-////            sb.Append("\t\tset { _performEventAssignments = value; }" + NL());
-////            sb.Append("\t}" + NL() + NL());
-////            // ------------------------------------------------------------------------------
-////            sb.Append("\tpublic double time {" + NL());
-////            sb.Append("\t\tget { return _time; }" + NL());
-////            sb.Append("\t\tset { _time = value; }" + NL());
-////            sb.Append("\t}" + NL() + NL());
-
 }
 
 void CGenerator::writeAccessors(CodeBuilder& ignore)
@@ -778,7 +645,7 @@ void CGenerator::writeAccessors(CodeBuilder& ignore)
 //
     mHeader.AddFunctionExport("int", "getNumLocalParameters(ModelData* md, int reactionId)");
     mSource<<"int getNumLocalParameters(ModelData* md, int reactionId)\n{\n\t";
-    mSource<<"return localParameterDimensions[reactionId];\n}\n\n";
+    mSource<<"return md->localParameterDimensions[reactionId];\n}\n\n";
 //    sb<<Append("\tpublic int getNumLocalParameters(int reactionId)" + NL());
 //    sb<<Append("\t{" + NL());
 //    sb<<Append("\t\treturn localParameterDimensions[reactionId];" + NL());
@@ -811,22 +678,22 @@ string CGenerator::findSymbol(const string& varName)
       int index = 0;
       if (mFloatingSpeciesConcentrationList.find(varName, index))
       {
-          return Format("_y[{0}]", index);
+          return Format("md->y[{0}]", index);
       }
       else if (mGlobalParameterList.find(varName, index))
       {
-          return Format("_gp[{0}]", index);
+          return Format("md->gp[{0}]", index);
       }
       else if (mBoundarySpeciesList.find(varName, index))
       {
-          return Format("_bc[{0}]", index);
+          return Format("md->bc[{0}]", index);
       }
       else if (mCompartmentList.find(varName, index))
       {
-          return Format("_c[{0}]", index);
+          return Format("md->c[{0}]", index);
       }
       else if (mModifiableSpeciesReferenceList.find(varName, index))
-          return Format("_sr[{0}]", index);
+          return Format("md->sr[{0}]", index);
 
       else
           throw Exception(Format("Unable to locate lefthand side symbol in assignment[{0}]", varName));
@@ -911,7 +778,7 @@ void CGenerator::writeEvalInitialAssignments(CodeBuilder& ignore, const int& num
             {
                 mSource<<Append(leftSideRule + " = ");
                 string temp = Append(substituteTerms(numReactions, "", rightSideRule) + ";" + NL());
-                temp = ReplaceWord("time", "mTime", temp);
+                temp = ReplaceWord("time", "md->mTime", temp);
                 mSource<<temp;
             }
         }
@@ -920,8 +787,8 @@ void CGenerator::writeEvalInitialAssignments(CodeBuilder& ignore, const int& num
     {
         libsbml::Event *current = mNOM.GetModel()->getEvent(i);
         string initialTriggerValue = ToString(current->getTrigger()->getInitialValue());//.ToString().ToLowerInvariant();
-        mSource<<Append("\tmEventStatusArray[" + ToString(i) + "] = " + initialTriggerValue + ";" + NL());
-        mSource<<Append("\t_previousEventStatusArray[" + ToString(i) + "] = " + initialTriggerValue + ";" + NL());
+        mSource<<Append("\tmd->eventStatusArray[" + ToString(i) + "] = " + initialTriggerValue + ";" + NL());
+        mSource<<Append("\tmd->previousEventStatusArray[" + ToString(i) + "] = " + initialTriggerValue + ";" + NL());
     }
     mSource<<Append("}" + NL() + NL());
 }
@@ -968,7 +835,7 @@ int CGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
                     int index;
                     if (mFloatingSpeciesConcentrationList.find(varName,  index))
                     {
-                        leftSideRule = Format("\n\t_dydt[{0}]", index);
+                        leftSideRule = Format("\n\tmd->dydt[{0}]", index);
                         mFloatingSpeciesConcentrationList[index].rateRule = true;
                     }
                     else
@@ -1000,7 +867,7 @@ int CGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
                 if(isRateRule && mNOM.MultiplyCompartment(varName, sCompartment) && (rightSide.find(sCompartment) == string::npos))
                 {
                     string temp = Format("({0}) * {1};{2}", substituteTerms(numReactions, "", rightSideRule), findSymbol(sCompartment), NL());
-                    temp = ReplaceWord("time", "mTime", temp);
+                    temp = ReplaceWord("time", "md->mTime", temp);
                     mSource<<temp;
                 }
                 else
@@ -1012,7 +879,7 @@ int CGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
                     else
                     {
                         string temp   = Format("{0};{1}", substituteTerms(numReactions, "", rightSideRule), NL());
-                        temp = ReplaceWord("time", "mTime", temp);
+                        temp = ReplaceWord("time", "md->mTime", temp);
 
                         if(temp.find("spf_piecewise") != string::npos)
             			{
@@ -1146,7 +1013,7 @@ void CGenerator::writeComputeReactionRates(CodeBuilder& ignore, const int& numRe
 
         // modify to use current y ...
         modKineticLaw = Substitute(modKineticLaw, "_y[", "y[");
-        string expression = Format("\n\t_rates[{0}] = {1}{2}", i, modKineticLaw, NL());
+        string expression = Format("\n\tmd->rates[{0}] = {1}{2}", i, modKineticLaw, NL());
 
         if(expression.find("spf_and") != string::npos)
         {
@@ -1195,14 +1062,14 @@ void CGenerator::writeEvalEvents(CodeBuilder& ignore, const int& numEvents, cons
         }
         for (int i = 0; i < numFloatingSpecies; i++)
         {
-            mSource<<"\tmd->_y[" << i << "] = oAmounts[" << (i + numAdditionalRates()) << "]/" <<
+            mSource<<"\tmd->y[" << i << "] = oAmounts[" << (i + numAdditionalRates()) << "]/" <<
                       convertCompartmentToC(mFloatingSpeciesConcentrationList[i].compartmentName) << ";" << NL();
         }
     }
 
-    mSource<<Append("\tmTime = timeIn;" + NL());
-    mSource<<Append("\tupdateDependentSpeciesValues(md, md->_y);" + NL());
-    mSource<<Append("\tcomputeRules(md, md->_y);" + NL());
+    mSource<<Append("\tmd->mTime = timeIn;" + NL());
+    mSource<<Append("\tupdateDependentSpeciesValues(md, md->y);" + NL());
+    mSource<<Append("\tcomputeRules(md, md->y);" + NL());
 
     for (int i = 0; i < numEvents; i++)
     {
@@ -1211,20 +1078,20 @@ void CGenerator::writeEvalEvents(CodeBuilder& ignore, const int& numEvents, cons
         string eventString = tempList[0];
 
         eventString = substituteTerms(0, "", eventString);
-        eventString = ReplaceWord("time", "mTime", eventString);
-        mSource<<"\t_previousEventStatusArray[" << i << "] = mEventStatusArray[" << i << "];" << NL();
+        eventString = ReplaceWord("time", "md->mTime", eventString);
+        mSource<<"\tmd->previousEventStatusArray[" << i << "] = md->eventStatusArray[" << i << "];" << NL();
 
 
         ConvertFunctionCallToUseVarArgsSyntax("spf_and", eventString);
         eventString = RemoveNewLines(eventString);
         mSource<<Append("\tif (" + eventString + " == 1.0)\n\t{" + NL());
 //        mSource<<Append("\t printf(\"Time for lt true: %f\n\", timeIn);\n");
-        mSource<<Append("\t\tmEventStatusArray[" + ToString(i) + "] = true;" + NL());
-        mSource<<Append("\t\tmEventTests[" + ToString(i) + "] = 1;" + NL());
+        mSource<<Append("\t\tmd->eventStatusArray[" + ToString(i) + "] = true;" + NL());
+        mSource<<Append("\t\tmd->eventTests[" + ToString(i) + "] = 1;" + NL());
         mSource<<Append("\n\t}\n\telse\n\t{\n");
 //         mSource<<Append("\t printf(\"Time for lt false: %f\n\", timeIn);\n");
-        mSource<<Append("\t\tmEventStatusArray[" + ToString(i) + "] = false;" + NL());
-        mSource<<Append("\t\tmEventTests[" + ToString(i) + "] = -1;" + NL());
+        mSource<<Append("\t\tmd->eventStatusArray[" + ToString(i) + "] = false;" + NL());
+        mSource<<Append("\t\tmd->eventTests[" + ToString(i) + "] = -1;" + NL());
         mSource<<Append("\t}" + NL());
     }
     mSource<<Append("}" + NL() + NL());
@@ -1244,21 +1111,21 @@ void CGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReactions, co
 
     for (int i = 0; i < numFloatingSpecies; i++)
     {
-        mSource<<"\n\tmd->_y[" << i << "] = oAmounts[" << i + numAdditionalRates() << "]/" <<
+        mSource<<"\n\tmd->y[" << i << "] = oAmounts[" << i + numAdditionalRates() << "]/" <<
                   convertCompartmentToC(mFloatingSpeciesConcentrationList[i].compartmentName) << ";" << NL();
     }
 
     mSource<<Append(NL());
     mSource<<Append("\tconvertToAmounts(md);" + NL());
-    mSource<<Append("\tmTime = timein;  // Don't remove" + NL());
-    mSource<<Append("\tupdateDependentSpeciesValues(md, md->_y);" + NL());
+    mSource<<Append("\tmd->mTime = timein;  // Don't remove" + NL());
+    mSource<<Append("\tupdateDependentSpeciesValues(md, md->y);" + NL());
 
     if (numOfRules > 0)
     {
-        mSource<<Append("\tcomputeRules(md, md->_y);" + NL());
+        mSource<<Append("\tcomputeRules(md, md->y);" + NL());
     }
 
-    mSource<<Append("\tcomputeReactionRates(md, mTime, md->_y);" + NL());
+    mSource<<Append("\tcomputeReactionRates(md, md->mTime, md->y);" + NL());
 
     // write out the ODE equations
     string stoich;
@@ -1320,7 +1187,7 @@ void CGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReactions, co
                             stoich = "";
                         }
                     }
-                    eqnBuilder<<Format(" + {0}_rates[{1}]", stoich, j);
+                    eqnBuilder<<Format(" + {0}md->rates[{1}]", stoich, j);
                 }
             }
 
@@ -1373,7 +1240,7 @@ void CGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReactions, co
                         }
                     }
 
-                    eqnBuilder<<Append(Format(" - {0}_rates[{1}]", stoich, j));
+                    eqnBuilder<<Append(Format(" - {0}md->rates[{1}]", stoich, j));
                 }
             }
         }
@@ -1412,7 +1279,7 @@ void CGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReactions, co
         // in the model function from overriding it. I think this is expected behavior.
         if (!mFloatingSpeciesConcentrationList[i].rateRule)
         {
-            mSource<<"\t_dydt[" << i << "] =" << finalStr << ";" << NL();
+            mSource<<"\tmd->dydt[" << i << "] =" << finalStr << ";" << NL();
         }
     }
 
@@ -1487,7 +1354,7 @@ void CGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numReacti
                 str = sTempVar+ str.substr(str.find(" ="));
                 nCount++;
                 string temp = Format("\t\t{0};{1}", str, NL());
-                temp = ReplaceWord("time", "mTime", temp);
+                temp = ReplaceWord("time", "md->mTime", temp);
                 mSource<<temp;
             }
             mSource<<Append("\treturn values;" + NL());
@@ -1500,7 +1367,7 @@ void CGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numReacti
                 string aStr = (string) oTemp[j];
                 aStr = Trim(aStr);
 
-                if (StartsWith(aStr, "_c[")) //Todo:May have to trim?
+                if (StartsWith(aStr, "md->c[")) //Todo:May have to trim?
                 {
                     mSource<<Append("\t\tconvertToConcentrations(md);" + NL());
                 }
@@ -1639,13 +1506,13 @@ void CGenerator::writeSetInitialConditions(CodeBuilder& ignore, const int& numFl
     {
         if (IsNullOrEmpty(mFloatingSpeciesConcentrationList[i].formula))
         {
-            mSource<<Append("\n\t_init" + convertSpeciesToY(mFloatingSpeciesConcentrationList[i].name) + " = (double)" +
+            mSource<<Append("\n\tmd->init_" + convertSpeciesToY(mFloatingSpeciesConcentrationList[i].name) + " = (double)" +
                       writeDouble(mFloatingSpeciesConcentrationList[i].value) + ";");
         }
         else
         {
             string formula = mFloatingSpeciesConcentrationList[i].formula;
-            mSource<<Append("\n\t_init" + convertSpeciesToY(mFloatingSpeciesConcentrationList[i].name) + " = (double) " +
+            mSource<<Append("\n\tmd->init_" + convertSpeciesToY(mFloatingSpeciesConcentrationList[i].name) + " = (double) " +
                       formula + ";");
         }
     }
@@ -1659,8 +1526,8 @@ void CGenerator::writeSetInitialConditions(CodeBuilder& ignore, const int& numFl
 
     for (int i = 0; i < numFloatingSpecies; i++)
     {
-        mSource<<"\n\tmd->_y[" << i << "] =  _init_y[" << i << "];";
-        mSource<<"\n\t_amounts[" << i << "] = md->_y[" << i << "]*" <<
+        mSource<<"\n\tmd->y[" << i << "] =  md->init_y[" << i << "];";
+        mSource<<"\n\tmd->amounts[" << i << "] = md->y[" << i << "]*" <<
                   convertCompartmentToC(mFloatingSpeciesConcentrationList[i].compartmentName) << ";" << NL();
     }
     mSource<<Append("}" + NL() + NL());
@@ -1671,7 +1538,7 @@ string CGenerator::convertSpeciesToY(const string& speciesName)
     int index;
     if (mFloatingSpeciesConcentrationList.find(speciesName, index))
     {
-        return "_y[" + ToString(index) + "]";
+        return "y[" + ToString(index) + "]";
     }
 
     throw new CoreException("Internal Error: Unable to locate species: " + speciesName);
@@ -1682,7 +1549,7 @@ string CGenerator::convertSpeciesToBc(const string& speciesName)
     int index;
     if (mBoundarySpeciesList.find(speciesName, index))
     {
-        return "_bc[" + ToString(index) + "]";
+        return "md->bc[" + ToString(index) + "]";
     }
 
     throw CoreException("Internal Error: Unable to locate species: " + speciesName);
@@ -1693,7 +1560,7 @@ string CGenerator::convertCompartmentToC(const string& compartmentName)
     int index;
     if (mCompartmentList.find(compartmentName, index))
     {
-        return "_c[" + ToString(index) + "]";
+        return "md->c[" + ToString(index) + "]";
     }
 
     throw CoreException("Internal Error: Unable to locate compartment: " + compartmentName);
@@ -1704,7 +1571,7 @@ string CGenerator::convertSymbolToGP(const string& parameterName)
     int index;
     if (mGlobalParameterList.find(parameterName, index))
     {
-        return "_gp[" + ToString(index) + "]";
+        return "md->gp[" + ToString(index) + "]";
     }
       throw CoreException("Internal Error: Unable to locate parameter: " + parameterName);
 }
@@ -1714,9 +1581,352 @@ string CGenerator::convertSymbolToC(const string& compartmentName)
     int index;
     if (mCompartmentList.find(compartmentName, index))
     {
-        return "_c[" + ToString(index) + "]";
+        return "md->c[" + ToString(index) + "]";
     }
       throw CoreException("Internal Error: Unable to locate compartment: " + compartmentName);
+}
+
+
+void CGenerator::writeOutSymbolTables(CodeBuilder& ignore)
+{
+    mSource<<Append("void loadSymbolTables(ModelData* md)\n{");
+
+    int nrFuncs = 0;
+    for (int i = 0; i < mFloatingSpeciesConcentrationList.size(); i++)
+    {
+        mSource<<Format("\n\tmd->variableTable[{0}] = \"{1}\";", i, mFloatingSpeciesConcentrationList[i].name);
+        nrFuncs++;
+    }
+
+    for (int i = 0; i < mBoundarySpeciesList.size(); i++)
+    {
+        mSource<<Format("\n\tboundaryTable[{0}] = \"{1}\";", i, mBoundarySpeciesList[i].name);
+        nrFuncs++;
+    }
+
+    for (int i = 0; i < mGlobalParameterList.size(); i++)
+    {
+        string name = mGlobalParameterList[i].name;
+           mSource<<Format("\n\tmd->globalParameterTable[{0}] = \"{1}\";", i, mGlobalParameterList[i].name);
+        nrFuncs++;
+    }
+    if(nrFuncs > 0)
+    {
+        mSource<<"\n";
+    }
+    mSource<<Format("}{0}{0}", NL());
+}
+
+int CGenerator::readFloatingSpecies()
+{
+    // Load a reordered list into the variable list.
+    StringList reOrderedList;
+    //if (mRR && mRR->RoadRunner::mComputeAndAssignConservationLaws)
+	if(mComputeAndAssignConsevationLaws)
+    {
+       reOrderedList = mLibStruct.getReorderedSpecies();
+    }
+    else
+    {
+        reOrderedList = mLibStruct.getSpecies();
+    }
+
+    StringListContainer oFloatingSpecies = mNOM.getListOfFloatingSpecies();
+
+    for (int i = 0; i < reOrderedList.Count(); i++)
+    {
+        for (int j = 0; j < oFloatingSpecies.Count(); j++)
+        {
+            StringList oTempList = oFloatingSpecies[j];
+              if(reOrderedList[i] != (const string&) oTempList[0])
+              {
+                  continue;
+              }
+
+            string compartmentName = mNOM.getNthFloatingSpeciesCompartmentName(j);
+            bool bIsConcentration  = ToBool(oTempList[2]);
+            double dValue = ToDouble(oTempList[1]);
+            if (IsNaN(dValue))
+            {
+                  dValue = 0;
+            }
+
+            Symbol *symbol = NULL;
+            if (bIsConcentration)
+            {
+              symbol = new Symbol(reOrderedList[i], dValue, compartmentName);
+            }
+            else
+            {
+              int nCompartmentIndex;
+              mCompartmentList.find(compartmentName, nCompartmentIndex);
+
+              double dVolume = mCompartmentList[nCompartmentIndex].value;
+              if (IsNaN(dVolume))
+              {
+                dVolume = 1;
+              }
+
+              stringstream formula;
+              formula<<ToString(dValue,mDoubleFormat)<<"/ md->c["<<nCompartmentIndex<<"]";
+
+              symbol = new Symbol(reOrderedList[i],
+                  dValue / dVolume,
+                  compartmentName,
+                  formula.str());
+            }
+
+            if(mNOM.GetModel())
+            {
+                Species *aSpecies = mNOM.GetModel()->getSpecies(reOrderedList[i]);
+                if(aSpecies)
+                {
+                    symbol->hasOnlySubstance = aSpecies->getHasOnlySubstanceUnits();
+                    symbol->constant = aSpecies->getConstant();
+                }
+            }
+            else
+            {
+                //TODO: How to report error...?
+                //Log an error...
+                symbol->hasOnlySubstance = false;
+            }
+            Log(lDebug5)<<"Adding symbol to mFloatingSpeciesConcentrationList:"<<(*symbol);
+            mFloatingSpeciesConcentrationList.Add(*(symbol));
+            delete symbol;
+            break;
+          }
+          //throw RRException("Reordered Species " + reOrderedList[i] + " not found.");
+      }
+      return oFloatingSpecies.Count();
+}
+
+int CGenerator::readBoundarySpecies()
+{
+    int numBoundarySpecies;
+    StringListContainer oBoundarySpecies = mNOM.getListOfBoundarySpecies();
+    numBoundarySpecies = oBoundarySpecies.Count(); // sp1.size();
+    for (int i = 0; i < numBoundarySpecies; i++)
+    {
+        StringList oTempList     = oBoundarySpecies[i];
+        string sName             = oTempList[0];
+        string compartmentName     = mNOM.getNthBoundarySpeciesCompartmentName(i);
+        bool bIsConcentration     = ToBool(oTempList[2]);
+        double dValue             = ToDouble(oTempList[1]);
+        if (IsNaN(dValue))
+        {
+            dValue = 0;
+        }
+
+        Symbol *symbol = NULL;
+        if (bIsConcentration)
+        {
+            //Todo: memoryleak
+            symbol = new Symbol(sName, dValue, compartmentName);
+        }
+        else
+        {
+            int nCompartmentIndex;
+            double dVolume;
+            if(mCompartmentList.find(compartmentName, nCompartmentIndex))
+            {
+                dVolume = mCompartmentList[nCompartmentIndex].value;
+            }
+            else
+            {
+                if (IsNaN(dVolume))
+                {
+                    dVolume = 1;
+                }
+            }
+            stringstream formula;
+            formula<<ToString(dValue, mDoubleFormat)<<"/ md->c["<<nCompartmentIndex<<"]";
+            symbol = new Symbol(sName,
+                                dValue / dVolume,
+                                compartmentName,
+                                formula.str());
+        }
+
+        if(mNOM.GetModel())
+        {
+            Species* species = mNOM.GetModel()->getSpecies(sName);
+            if(species)
+            {
+                symbol->hasOnlySubstance = species->getHasOnlySubstanceUnits();
+                symbol->constant = species->getConstant();
+            }
+        }
+        else
+        {
+            //TODO: How to report error...?
+            //Log an error...
+            symbol->hasOnlySubstance = false;
+
+        }
+        mBoundarySpeciesList.Add(*symbol);
+    }
+    return numBoundarySpecies;
+}
+
+void CGenerator::writeInitModelDataFunction(CodeBuilder& ignore, CodeBuilder& source)
+{
+    source.Line("\n//Function to initialize the model data structure. Returns an integer indicating result");
+    source.Line("int InitModelData(ModelData* md)");
+    source.Line("{");
+
+    //The following is from the constructor..
+    source<<"\t"<<Append("md->numIndependentVariables = " ,     mNumIndependentSpecies, ";" , NL());
+    source<<"\t"<<Append("md->numDependentVariables = " ,       mNumDependentSpecies , ";" , NL());
+    source<<"\t"<<Append("md->numTotalVariables = " ,           mNumFloatingSpecies , ";" , NL());
+    source<<"\t"<<Append("md->numBoundaryVariables = " ,        mNumBoundarySpecies , ";" , NL());
+    source<<"\t"<<Append("md->numGlobalParameters = " ,         mGlobalParameterList.size() , ";" , NL());
+    source<<"\t"<<Append("md->numCompartments = " ,             mCompartmentList.size() , ";" , NL());
+    source<<"\t"<<Append("md->numReactions = " ,                mReactionList.size() , ";" , NL());
+    source<<"\t"<<Append("md->numEvents = " ,                   mNumEvents , ";" , NL());
+
+    //Allocations
+    source<<gTab<<	"//Allocate memory\n";
+    source<<gTab<<	"md->y = (double*) malloc(sizeof(double) * " <<mFloatingSpeciesConcentrationList.size()<<");\n";
+    source<<gTab<<	"md->ySize = " <<mFloatingSpeciesConcentrationList.size()<<";\n";
+
+    source<<gTab<<  "md->modelName = (char*) malloc(sizeof(char)*"<<strlen(mModelName.c_str()) + 1<<");" <<endl;
+    source<<gTab<<  "strcpy(md->modelName,\""<<mModelName<<"\");"<<endl;
+
+    //tables
+    source<<gTab<< "md->variableTable = (char**) malloc(sizeof(char*) * "<<mFloatingSpeciesConcentrationList.size()<<");\n";
+    source<<gTab<< "md->globalParameterTable = (char**) malloc(sizeof(char*) * "<<mGlobalParameterList.size()<<");\n";
+
+	source<<gTab<< "md->gp = (double*) malloc(sizeof(double*) * "<<mNumGlobalParameters + mTotalLocalParmeters<<");\n";
+
+    if(mNumModifiableSpeciesReferences)
+    {
+		source<<gTab<< "md->sr = (double*) malloc(sizeof(double*) * "<<mNumModifiableSpeciesReferences<<");\n";
+
+    }
+	source<<gTab<< "md->lp = (double*) malloc(sizeof(double*) * "<<mNumReactions<<");\n";
+	source<<gTab<< "md->init_y = (double*) malloc(sizeof(double*) * "<<mFloatingSpeciesConcentrationList.Count()<<");\n";
+	source<<gTab<< "md->amounts = (double*) malloc(sizeof(double*) * "<<mFloatingSpeciesConcentrationList.Count()<<");\n";
+
+    source.TLine("return 0;");
+    source.Line("}");
+    source.NewLine();
+}
+
+void CGenerator::writeInitFunction(CodeBuilder& ignore, CodeBuilder& source)
+{
+    source.Line("\n//Function to initialize the model data structure. Returns an integer indicating result");
+    source.Line("int InitModel(ModelData* md)");
+    source.Line("{");
+
+    source<<"\t"<<Append("InitModelData(md);" , NL());
+//    //The following is from the constructor..
+//    source<<"\t"<<Append("md->numIndependentVariables = " ,     mNumIndependentSpecies, ";" , NL());
+//    source<<"\t"<<Append("md->numDependentVariables = " ,       mNumDependentSpecies , ";" , NL());
+//    source<<"\t"<<Append("md->numTotalVariables = " ,           mNumFloatingSpecies , ";" , NL());
+//    source<<"\t"<<Append("md->numBoundaryVariables = " ,        mNumBoundarySpecies , ";" , NL());
+//    source<<"\t"<<Append("md->numGlobalParameters = " ,         mGlobalParameterList.size() , ";" , NL());
+//    source<<"\t"<<Append("md->numCompartments = " ,             mCompartmentList.size() , ";" , NL());
+//    source<<"\t"<<Append("md->numReactions = " ,                mReactionList.size() , ";" , NL());
+//    source<<"\t"<<Append("md->numEvents = " ,                   mNumEvents , ";" , NL());
+//
+//    //Allocations
+//    source<<gTab<<	"//Allocate some memory\n";
+//    source<<gTab<<	"md->y = (double*) malloc(sizeof(double) * " <<mFloatingSpeciesConcentrationList.size()<<");\n";
+//    source<<gTab<<	"md->ySize = " <<mFloatingSpeciesConcentrationList.size()<<";\n";
+//    source<<gTab<<  "md->modelName = (char*) malloc(sizeof(char)*"<<strlen(mModelName.c_str()) + 1<<");" <<endl;
+//    source<<gTab<<  "strcpy(md->modelName,\""<<mModelName<<"\");"<<endl;
+
+    source<<"\t"<<Append("setCompartmentVolumes(md);" , NL());
+    source<<"\t"<<Append("InitializeDelays(md);" , NL());
+
+    // Declare any eventAssignment delegates
+    if (mNumEvents > 0)
+    {
+        source<<Append("\t_eventAssignments = (TEventAssignmentDelegate*) malloc(sizeof(TEventAssignmentDelegate)*numEvents);" , NL());
+//        source<<Append("\t_eventPriorities = (double*) malloc(sizeof(double)* numEvents);" , NL());
+
+//        source<<Append("\t\t_computeEventAssignments= new TComputeEventAssignmentDelegate[numEvents];" , NL());
+        source<<Append("\t_computeEventAssignments = (TComputeEventAssignmentDelegate*) malloc(sizeof(TComputeEventAssignmentDelegate)*numEvents);" , NL());
+
+//        source<<Append("\t\t_performEventAssignments= new TPerformEventAssignmentDelegate[numEvents];" , NL());
+        source<<Append("\t_performEventAssignments = (TPerformEventAssignmentDelegate*) malloc(sizeof(TPerformEventAssignmentDelegate)*numEvents);" , NL());
+
+        for (int i = 0; i < mNumEvents; i++)
+        {
+            string iStr = ToString(i);
+//            source<<Append("\t_eventAssignments[" + iStr + "] = (TEventAssignmentDelegate) eventAssignment_" + iStr +";" + NL());
+            source<<Append("\t_eventAssignments[" + iStr + "] = eventAssignment_" + iStr +";" + NL());
+            source<<Append("\t_computeEventAssignments[" + iStr + "] = (TComputeEventAssignmentDelegate) computeEventAssignment_" + iStr + ";" + NL());
+            source<<Append("\t_performEventAssignments[" + iStr + "] = (TPerformEventAssignmentDelegate) performEventAssignment_" + iStr + ";" + NL());
+        }
+
+        source<<Append("\tresetEvents();" + NL());
+        ////Test to call a function
+        source<<Append("\t_eventAssignments[0]();\n");
+        source<<Append(NL());
+    }
+
+    if (mNumModifiableSpeciesReferences > 0)
+    {
+        for (int i = 0; i < mModifiableSpeciesReferenceList.size(); i++)
+        {
+            source<<Append("\t\t_sr[" + ToString(i) + "] = " + writeDouble(mModifiableSpeciesReferenceList[i].value) + ";" + NL());
+        }
+        source<<Append(NL());
+    }
+
+    // Declare space for local parameters
+    for (int i = 0; i < mNumReactions; i++)
+    {
+        source<<Append("\tmd->localParameterDimensions[" + ToString(i) + "] = " , mLocalParameterDimensions[i] , ";" + NL());
+        source<<"\tmd->lp["<<i<<"] = (double*) malloc(sizeof(double)*"<<mLocalParameterDimensions[i]<<");"<<endl;
+    }
+
+    source.TLine("return 0;");
+    source.Line("}");
+    source.NewLine();
+}
+
+void CGenerator::write_getModelNameFunction(CodeBuilder& ignore, CodeBuilder& source)
+{
+    source.Line("char* getModelName(ModelData* md)");
+    source<<"{"                                         <<endl;
+    source.TLine("return md->modelName;");
+    source<<"}"                                         <<endl;
+    source.NewLine();
+}
+
+bool CGenerator::saveSourceCodeToFolder(const string& folder, const string& baseName)
+{
+    string fName 		= ExtractFileName(baseName);
+    mHeaderCodeFileName = JoinPath(folder, fName);
+    mHeaderCodeFileName = ChangeFileExtensionTo(mHeaderCodeFileName, ".h");
+
+    ofstream outFile(mHeaderCodeFileName.c_str());
+    if(!outFile)
+    {
+        throw(Exception("Failed to open file:" + mHeaderCodeFileName));
+    }
+
+    outFile<<getHeaderCode();
+    Log(lDebug3)<<"Wrote header to file: "<<mHeaderCodeFileName;
+    outFile.close();
+
+    mSourceCodeFileName = ChangeFileExtensionTo(mHeaderCodeFileName, ".c");
+    outFile.open(mSourceCodeFileName.c_str());
+
+    //We don't know the name of the file until here..
+    //Write an include statement to it..
+    vector<string> fNameParts = SplitString(mSourceCodeFileName,"\\");
+    string headerFName = fNameParts[fNameParts.size() - 1];
+
+    headerFName = ChangeFileExtensionTo(headerFName, ".h");
+    outFile<<"#include \""<<ExtractFileName(headerFName)<<"\"\n"<<endl;
+    outFile<<getSourceCode();
+    outFile.close();
+    Log(lDebug3)<<"Wrote source code to file: "<<mSourceCodeFileName;
+
+    return true;
 }
 
 string CGenerator::convertUserFunctionExpression(const string& equation)
@@ -2294,11 +2504,11 @@ void CGenerator::substituteWords(const string& reactionName, bool bFixAmounts, S
     int index;
     if (mGlobalParameterList.find(s.tokenString, index))
     {
-        mSource<<Format("_gp[{0}]", index);
+        mSource<<Format("md->gp[{0}]", index);
     }
     else if (mBoundarySpeciesList.find(s.tokenString, index))
     {
-        mSource<<Format("_bc[{0}]", index);
+        mSource<<Format("md->bc[{0}]", index);
 
         Symbol symbol = mBoundarySpeciesList[index];
         if (symbol.hasOnlySubstance)
@@ -2317,16 +2527,16 @@ void CGenerator::substituteWords(const string& reactionName, bool bFixAmounts, S
         Symbol floating1 = mFloatingSpeciesConcentrationList[index];
         if (floating1.hasOnlySubstance)
         {
-            mSource<<Format("_amounts[{0}]", index);
+            mSource<<Format("md->amounts[{0}]", index);
         }
         else
         {
-            mSource<<Format("_y[{0}]", index);
+            mSource<<Format("md->y[{0}]", index);
         }
     }
     else if (mCompartmentList.find(s.tokenString, index))
     {
-        mSource<<Format("_c[{0}]", index);
+        mSource<<Format("md->c[{0}]", index);
     }
     else if (mFunctionNames.Contains(s.tokenString))
     {
@@ -2334,11 +2544,11 @@ void CGenerator::substituteWords(const string& reactionName, bool bFixAmounts, S
     }
     else if (mModifiableSpeciesReferenceList.find(s.tokenString, index))
     {
-        mSource<<Format("_sr[{0}]", index);
+        mSource<<Format("md->sr[{0}]", index);
     }
     else if (mReactionList.find(s.tokenString, index))
     {
-        mSource<<Format("_rates[{0}]", index);
+        mSource<<Format("md->rates[{0}]", index);
     }
     else
     {
@@ -2392,13 +2602,13 @@ void CGenerator::substituteToken(const string& reactionName, bool bFixAmounts, S
             mSource<<Format(" = {0}\t", NL());
             break;
       case CodeTypes::tTimeWord1:
-            mSource<<Append("mTime");
+            mSource<<Append("md->mTime");
             break;
         case CodeTypes::tTimeWord2:
-            mSource<<Append("mTime");
+            mSource<<Append("md->mTime");
             break;
         case CodeTypes::tTimeWord3:
-            mSource<<Append("mTime");
+            mSource<<Append("md->mTime");
             break;
         case CodeTypes::tAndToken:
             mSource<<Format("{0}spf_and", NL());
@@ -2432,299 +2642,6 @@ void CGenerator::substituteToken(const string& reactionName, bool bFixAmounts, S
          throw ae;
     }
 }
-
-void CGenerator::writeOutSymbolTables(CodeBuilder& ignore)
-{
-    mSource<<Append("void loadSymbolTables(ModelData* md)\n{");
-
-    int nrFuncs = 0;
-    for (int i = 0; i < mFloatingSpeciesConcentrationList.size(); i++)
-    {
-        mSource<<Format("\n\tvariableTable[{0}] = \"{1}\";", i, mFloatingSpeciesConcentrationList[i].name);
-        nrFuncs++;
-    }
-
-    for (int i = 0; i < mBoundarySpeciesList.size(); i++)
-    {
-        mSource<<Format("\n\tboundaryTable[{0}] = \"{1}\";", i, mBoundarySpeciesList[i].name);
-        nrFuncs++;
-    }
-
-    for (int i = 0; i < mGlobalParameterList.size(); i++)
-    {
-        string name = mGlobalParameterList[i].name;
-           mSource<<Format("\n\tglobalParameterTable[{0}] = \"{1}\";", i, mGlobalParameterList[i].name);
-        nrFuncs++;
-    }
-    if(nrFuncs > 0)
-    {
-        mSource<<"\n";
-    }
-    mSource<<Format("}{0}{0}", NL());
-}
-
-int CGenerator::readFloatingSpecies()
-{
-    // Load a reordered list into the variable list.
-    StringList reOrderedList;
-    //if (mRR && mRR->RoadRunner::mComputeAndAssignConservationLaws)
-	if(mComputeAndAssignConsevationLaws)
-    {
-       reOrderedList = mLibStruct.getReorderedSpecies();
-    }
-    else
-    {
-        reOrderedList = mLibStruct.getSpecies();
-    }
-
-    StringListContainer oFloatingSpecies = mNOM.getListOfFloatingSpecies();
-
-    for (int i = 0; i < reOrderedList.Count(); i++)
-    {
-        for (int j = 0; j < oFloatingSpecies.Count(); j++)
-        {
-            StringList oTempList = oFloatingSpecies[j];
-              if(reOrderedList[i] != (const string&) oTempList[0])
-              {
-                  continue;
-              }
-
-            string compartmentName = mNOM.getNthFloatingSpeciesCompartmentName(j);
-            bool bIsConcentration  = ToBool(oTempList[2]);
-            double dValue = ToDouble(oTempList[1]);
-            if (IsNaN(dValue))
-            {
-                  dValue = 0;
-            }
-
-            Symbol *symbol = NULL;
-            if (bIsConcentration)
-            {
-              symbol = new Symbol(reOrderedList[i], dValue, compartmentName);
-            }
-            else
-            {
-              int nCompartmentIndex;
-              mCompartmentList.find(compartmentName, nCompartmentIndex);
-
-              double dVolume = mCompartmentList[nCompartmentIndex].value;
-              if (IsNaN(dVolume))
-              {
-                dVolume = 1;
-              }
-
-              stringstream formula;
-              formula<<ToString(dValue,mDoubleFormat)<<"/ _c["<<nCompartmentIndex<<"]";
-
-              symbol = new Symbol(reOrderedList[i],
-                  dValue / dVolume,
-                  compartmentName,
-                  formula.str());
-            }
-
-            if(mNOM.GetModel())
-            {
-                Species *aSpecies = mNOM.GetModel()->getSpecies(reOrderedList[i]);
-                if(aSpecies)
-                {
-                    symbol->hasOnlySubstance = aSpecies->getHasOnlySubstanceUnits();
-                    symbol->constant = aSpecies->getConstant();
-                }
-            }
-            else
-            {
-                //TODO: How to report error...?
-                //Log an error...
-                symbol->hasOnlySubstance = false;
-            }
-            Log(lDebug5)<<"Adding symbol to mFloatingSpeciesConcentrationList:"<<(*symbol);
-            mFloatingSpeciesConcentrationList.Add(*(symbol));
-            delete symbol;
-            break;
-          }
-          //throw RRException("Reordered Species " + reOrderedList[i] + " not found.");
-      }
-      return oFloatingSpecies.Count();
-}
-
-int CGenerator::readBoundarySpecies()
-{
-    int numBoundarySpecies;
-    StringListContainer oBoundarySpecies = mNOM.getListOfBoundarySpecies();
-    numBoundarySpecies = oBoundarySpecies.Count(); // sp1.size();
-    for (int i = 0; i < numBoundarySpecies; i++)
-    {
-        StringList oTempList     = oBoundarySpecies[i];
-        string sName             = oTempList[0];
-        string compartmentName     = mNOM.getNthBoundarySpeciesCompartmentName(i);
-        bool bIsConcentration     = ToBool(oTempList[2]);
-        double dValue             = ToDouble(oTempList[1]);
-        if (IsNaN(dValue))
-        {
-            dValue = 0;
-        }
-
-        Symbol *symbol = NULL;
-        if (bIsConcentration)
-        {
-            //Todo: memoryleak
-            symbol = new Symbol(sName, dValue, compartmentName);
-        }
-        else
-        {
-            int nCompartmentIndex;
-            double dVolume;
-            if(mCompartmentList.find(compartmentName, nCompartmentIndex))
-            {
-                dVolume = mCompartmentList[nCompartmentIndex].value;
-            }
-            else
-            {
-                if (IsNaN(dVolume))
-                {
-                    dVolume = 1;
-                }
-            }
-            stringstream formula;
-            formula<<ToString(dValue, mDoubleFormat)<<"/ _c["<<nCompartmentIndex<<"]";
-            symbol = new Symbol(sName,
-                                dValue / dVolume,
-                                compartmentName,
-                                formula.str());
-        }
-
-        if(mNOM.GetModel())
-        {
-            Species* species = mNOM.GetModel()->getSpecies(sName);
-            if(species)
-            {
-                symbol->hasOnlySubstance = species->getHasOnlySubstanceUnits();
-                symbol->constant = species->getConstant();
-            }
-        }
-        else
-        {
-            //TODO: How to report error...?
-            //Log an error...
-            symbol->hasOnlySubstance = false;
-
-        }
-        mBoundarySpeciesList.Add(*symbol);
-    }
-    return numBoundarySpecies;
-}
-
-void CGenerator::writeInitFunction(CodeBuilder& ignore, CodeBuilder& source)
-{
-    source.Line("\n//Function to initialize the model data structure. Returns an integer indicating result");
-    source.Line("int InitModel(ModelData* md)");
-    source.Line("{");
-
-    //The following is from the constructor..
-    source<<"\t"<<Append("numIndependentVariables = " ,     mNumIndependentSpecies, ";" , NL());
-    source<<"\t"<<Append("numDependentVariables = " ,       mNumDependentSpecies , ";" , NL());
-    source<<"\t"<<Append("numTotalVariables = " ,           mNumFloatingSpecies , ";" , NL());
-    source<<"\t"<<Append("numBoundaryVariables = " ,        mNumBoundarySpecies , ";" , NL());
-    source<<"\t"<<Append("numGlobalParameters = " ,         mGlobalParameterList.size() , ";" , NL());
-    source<<"\t"<<Append("numCompartments = " ,             mCompartmentList.size() , ";" , NL());
-    source<<"\t"<<Append("numReactions = " ,                mReactionList.size() , ";" , NL());
-    source<<"\t"<<Append("numEvents = " ,                   mNumEvents , ";" , NL());
-
-    //Allocations
-    source<<gTab<<	"//Allocate some memory\n";
-    source<<gTab<<	"md->_y = (double*) malloc(sizeof(double) * " <<mFloatingSpeciesConcentrationList.size()<<");\n";
-    source<<gTab<<	"md->_ySize = " <<mFloatingSpeciesConcentrationList.size()<<";\n";
-    source<<gTab<<  "md->modelName = (char*) malloc(sizeof(char)*"<<strlen(mModelName.c_str()) + 1<<");" <<endl;
-    source<<gTab<<  "strcpy(md->modelName,\""<<mModelName<<"\");"<<endl;
-
-    source<<"\t"<<Append("setCompartmentVolumes(md);" , NL());
-    source<<"\t"<<Append("InitializeDelays(md);" , NL());
-
-    // Declare any eventAssignment delegates
-    if (mNumEvents > 0)
-    {
-        source<<Append("\t_eventAssignments = (TEventAssignmentDelegate*) malloc(sizeof(TEventAssignmentDelegate)*numEvents);" , NL());
-//        source<<Append("\t_eventPriorities = (double*) malloc(sizeof(double)* numEvents);" , NL());
-
-//        source<<Append("\t\t_computeEventAssignments= new TComputeEventAssignmentDelegate[numEvents];" , NL());
-        source<<Append("\t_computeEventAssignments = (TComputeEventAssignmentDelegate*) malloc(sizeof(TComputeEventAssignmentDelegate)*numEvents);" , NL());
-
-//        source<<Append("\t\t_performEventAssignments= new TPerformEventAssignmentDelegate[numEvents];" , NL());
-        source<<Append("\t_performEventAssignments = (TPerformEventAssignmentDelegate*) malloc(sizeof(TPerformEventAssignmentDelegate)*numEvents);" , NL());
-
-        for (int i = 0; i < mNumEvents; i++)
-        {
-            string iStr = ToString(i);
-//            source<<Append("\t_eventAssignments[" + iStr + "] = (TEventAssignmentDelegate) eventAssignment_" + iStr +";" + NL());
-            source<<Append("\t_eventAssignments[" + iStr + "] = eventAssignment_" + iStr +";" + NL());
-            source<<Append("\t_computeEventAssignments[" + iStr + "] = (TComputeEventAssignmentDelegate) computeEventAssignment_" + iStr + ";" + NL());
-            source<<Append("\t_performEventAssignments[" + iStr + "] = (TPerformEventAssignmentDelegate) performEventAssignment_" + iStr + ";" + NL());
-        }
-
-        source<<Append("\tresetEvents();" + NL());
-        ////Test to call a function
-        source<<Append("\t_eventAssignments[0]();\n");
-        source<<Append(NL());
-    }
-
-    if (mNumModifiableSpeciesReferences > 0)
-    {
-        for (int i = 0; i < mModifiableSpeciesReferenceList.size(); i++)
-        {
-            source<<Append("\t\t_sr[" + ToString(i) + "] = " + writeDouble(mModifiableSpeciesReferenceList[i].value) + ";" + NL());
-        }
-        source<<Append(NL());
-    }
-
-    // Declare space for local parameters
-    for (int i = 0; i < mNumReactions; i++)
-    {
-        source<<Append("\tlocalParameterDimensions[" + ToString(i) + "] = " , mLocalParameterDimensions[i] , ";" + NL());
-        source<<"\t_lp["<<i<<"] = (double*) malloc(sizeof(double)*"<<mLocalParameterDimensions[i]<<");"<<endl;
-    }
-
-    source.TLine("return 0;");
-    source.Line("}");
-    source.NewLine();
-    source.Line("char* getModelName(ModelData* md)");
-    source<<"{"                                         <<endl;
-    source.TLine("return md->modelName;");
-    source<<"}"                                         <<endl;
-}
-
-bool CGenerator::saveSourceCodeToFolder(const string& folder, const string& baseName)
-{
-    string fName 		= ExtractFileName(baseName);
-    mHeaderCodeFileName = JoinPath(folder, fName);
-    mHeaderCodeFileName = ChangeFileExtensionTo(mHeaderCodeFileName, ".h");
-
-    ofstream outFile(mHeaderCodeFileName.c_str());
-    if(!outFile)
-    {
-        throw(Exception("Failed to open file:" + mHeaderCodeFileName));
-    }
-
-    outFile<<getHeaderCode();
-    Log(lDebug3)<<"Wrote header to file: "<<mHeaderCodeFileName;
-    outFile.close();
-
-    mSourceCodeFileName = ChangeFileExtensionTo(mHeaderCodeFileName, ".c");
-    outFile.open(mSourceCodeFileName.c_str());
-
-    //We don't know the name of the file until here..
-    //Write an include statement to it..
-    vector<string> fNameParts = SplitString(mSourceCodeFileName,"\\");
-    string headerFName = fNameParts[fNameParts.size() - 1];
-
-    headerFName = ChangeFileExtensionTo(headerFName, ".h");
-    outFile<<"#include \""<<ExtractFileName(headerFName)<<"\"\n"<<endl;
-    outFile<<getSourceCode();
-    outFile.close();
-    Log(lDebug3)<<"Wrote source code to file: "<<mSourceCodeFileName;
-
-    return true;
-}
-
 
 }//Namespace
 

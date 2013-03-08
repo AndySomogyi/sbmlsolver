@@ -27,6 +27,7 @@ class RR_DECLSPEC CGenerator : public ModelGenerator
         void                                substituteWords(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb);
         void                                substituteToken(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb);
         string                              findSymbol(const string& varName);
+		void 								write_getModelNameFunction(CodeBuilder& ignore, CodeBuilder& source);
         void                                writeOutSymbolTables(CodeBuilder& sb);
         void                                writeComputeAllRatesOfChange(CodeBuilder& sb, const int& numIndependentSpecies, const int& numDependentSpecies, DoubleMatrix& L0);
         void                                writeComputeConservedTotals(CodeBuilder& sb, const int& numFloatingSpecies, const int& numDependentSpecies);
@@ -52,6 +53,9 @@ class RR_DECLSPEC CGenerator : public ModelGenerator
         void                                writeSetCompartmentVolumes(CodeBuilder& sb);
         void                                writeSetBoundaryConditions(CodeBuilder& sb);
         void                                writeSetInitialConditions(CodeBuilder& sb, const int& numFloatingSpecies);
+        void                                writeInitFunction(CodeBuilder& sbh, CodeBuilder& sbc);
+        void                                writeInitModelDataFunction(CodeBuilder& sbh, CodeBuilder& sbc);
+
         int                                 readFloatingSpecies();
         int                                 readBoundarySpecies();
 
@@ -64,7 +68,7 @@ class RR_DECLSPEC CGenerator : public ModelGenerator
         string                              generateModelCode(const string& sbmlStr, const bool& _computeAndAssignConsevationLaws = false);
 
         //C Specifics..
-        void                                writeInitFunction(CodeBuilder& sbh, CodeBuilder& sbc);
+
         string                              getHeaderCode();
         string                              getSourceCode();
         string                              getSourceCodeFileName();
