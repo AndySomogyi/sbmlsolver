@@ -14,7 +14,7 @@ int main(int argc, char** argv)
         LogOutput::mLogToConsole = true;
 
         //Create some roadrunners
-        const int 	instanceCount 	= 3;
+        const int 	instanceCount 	= 2;
         const int 	threadCount  	= 1;
 		const char* rootPath 		= "..";
 

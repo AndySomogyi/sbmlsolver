@@ -20,7 +20,7 @@ class RR_DECLSPEC StringList : public rrObject
 
     public:
                                     StringList();
-                                    StringList(const string& str, const string& delimiter = ",");
+                                    StringList(const string& str, const string& delimiters = ", ");
                                     StringList(const vector<string>& strings);
                                     StringList(const StringList& cp);
                                    ~StringList();

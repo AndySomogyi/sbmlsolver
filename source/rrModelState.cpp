@@ -16,7 +16,7 @@ ModelState::ModelState(ModelFromC& model)
 void ModelState::InitializeFromModel(ModelFromC& model)
 {
     model.convertToConcentrations();
-    CopyCArrayToStdVector(model.y,                        mFloatingSpeciesConcentrations,       *model.ySize);
+//    CopyCArrayToStdVector(model.y,                        mFloatingSpeciesConcentrations,       *model.ySize);
     CopyCArrayToStdVector(model.bc,                       mBoundarySpeciesConcentrations,       *model.bcSize);
     CopyCArrayToStdVector(model.c,                        mCompartmentVolumes,                  *model.cSize);
     CopyCArrayToStdVector(model.gp,                       mGlobalParameters,                    *model.gpSize);
@@ -33,7 +33,7 @@ void ModelState::InitializeFromModel(ModelFromC& model)
 
 void ModelState::AssignToModel(ModelFromC& model)
 {
-    CopyStdVectorToCArray(mFloatingSpeciesConcentrations,   model.y,                        *model.ySize                        );
+//    CopyStdVectorToCArray(mFloatingSpeciesConcentrations,   model.y,                        *model.ySize                        );
     CopyStdVectorToCArray(mBoundarySpeciesConcentrations,   model.bc,                       *model.bcSize                       );
     CopyStdVectorToCArray(mCompartmentVolumes,              model.c,                        *model.cSize                        );
     CopyStdVectorToCArray(mGlobalParameters,                model.gp,                       *model.gpSize                       );

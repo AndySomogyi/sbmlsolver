@@ -127,7 +127,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
         int                             createDefaultTimeCourseSelectionList();
 		int                             createTimeCourseSelectionList();
 		bool                     		setTempFileFolder(const string& folder);
-		string                   		getTempFileFolder();
+		string                   		getTempFolder();
 
 		//Simulation stuff
 		DoubleMatrix                    simulate();

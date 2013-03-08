@@ -61,7 +61,7 @@ mAbsTol(_absTol)
 {
 	if(rr)
 	{
-		mTempPathstring = rr->getTempFileFolder();
+		mTempPathstring = rr->getTempFolder();
 	}
 
     initializeCVODEInterface(aModel);
@@ -238,9 +238,10 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
             {
                 mTheModel->testConstraints();
             }
-            catch (Exception e)
+            catch (const Exception& e)
             {
-                mTheModel->mWarnings.push_back("Constraint Violated at time = " + ToString(timeEnd) + "\n" + e.Message());
+                Log(lWarning)<<"Constraint Violated at time = " + ToString(timeEnd)<<": " + e.Message();
+
             }
 
             assignPendingEvents(timeEnd, tout);
@@ -465,7 +466,7 @@ void CvodeInterface::assignPendingEvents(const double& timeEnd, const double& to
             mTheModel->setTime(tout);
             assignResultsToModel();
             mTheModel->convertToConcentrations();
-            mTheModel->updateDependentSpeciesValues(mTheModel->y);
+            mTheModel->updateDependentSpeciesValues(mTheModel->mData._y);
             mAssignments[i].AssignToModel();
 
             if (mRR && !mRR->mConservedTotalChanged)
@@ -631,7 +632,7 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
 {
     assignResultsToModel();
     mTheModel->convertToConcentrations();
-    mTheModel->updateDependentSpeciesValues(mTheModel->y);
+    mTheModel->updateDependentSpeciesValues(mTheModel->mData._y);
     vector<double> args = buildEvalArgument();
     mTheModel->evalEvents(timeEnd, args);
 
@@ -769,7 +770,7 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
 
 void CvodeInterface::assignResultsToModel()
 {
-    mTheModel->updateDependentSpeciesValues(mTheModel->y);
+    mTheModel->updateDependentSpeciesValues(mTheModel->mData._y);
     vector<double> dTemp(mNumAdditionalRules);
 
     for (int i = 0; i < mNumAdditionalRules; i++)
