@@ -26,7 +26,7 @@ object MForm: TMForm
     TabOrder = 0
     object Splitter3: TSplitter
       Left = 1
-      Top = 465
+      Top = 293
       Width = 215
       Height = 3
       Cursor = crVSplit
@@ -89,9 +89,9 @@ object MForm: TMForm
     end
     object Panel4: TPanel
       Left = 1
-      Top = 468
+      Top = 296
       Width = 215
-      Height = 247
+      Height = 419
       Align = alBottom
       TabOrder = 1
       object GroupBox3: TGroupBox
@@ -143,27 +143,30 @@ object MForm: TMForm
         Left = 1
         Top = 65
         Width = 213
-        Height = 181
+        Height = 353
         Align = alClient
         TabOrder = 1
+        ExplicitHeight = 181
         object SelList: TCheckListBox
           Left = 1
           Top = 1
           Width = 79
-          Height = 179
+          Height = 351
           Align = alClient
           ItemHeight = 13
           TabOrder = 0
           OnClick = SelListClick
+          ExplicitHeight = 179
         end
         object GroupBox2: TGroupBox
           Left = 80
           Top = 1
           Width = 132
-          Height = 179
+          Height = 351
           Align = alRight
           Caption = 'Model'
           TabOrder = 1
+          ExplicitHeight = 179
           object mModelNameLbl: TLabel
             Left = 24
             Top = 16
@@ -222,9 +225,10 @@ object MForm: TMForm
       Left = 1
       Top = 129
       Width = 215
-      Height = 336
+      Height = 164
       Align = alClient
       TabOrder = 2
+      ExplicitHeight = 336
     end
   end
   object StatusBar1: TStatusBar
@@ -257,15 +261,11 @@ object MForm: TMForm
       Top = 465
       Width = 1007
       Height = 250
-      ActivePage = TabSheet1
+      ActivePage = TabSheet2
       Align = alBottom
       TabOrder = 0
       object TabSheet1: TTabSheet
         Caption = 'Log'
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object Panel3: TPanel
           Left = 0
           Top = 0
@@ -317,39 +317,19 @@ object MForm: TMForm
       object TabSheet2: TTabSheet
         Caption = 'Settings'
         ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
-        object CompilerRG: TRadioGroup
-          Left = 3
-          Top = 16
-          Width = 94
-          Height = 49
-          Caption = 'Model Compiler'
-          Columns = 2
-          ItemIndex = 0
-          Items.Strings = (
-            'tcc'
-            'bcc')
-          TabOrder = 0
-        end
         object ConservationAnalysisCB: TCheckBox
           Left = 3
-          Top = 80
+          Top = 24
           Width = 126
           Height = 17
           Caption = 'ConservationAnalysis'
-          TabOrder = 1
+          TabOrder = 0
+          OnClick = ConservationAnalysisCBClick
         end
       end
       object TabSheet3: TTabSheet
         Caption = 'Test Suite'
         ImageIndex = 2
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object Button2: TButton
           Left = 408
           Top = 112
@@ -368,10 +348,6 @@ object MForm: TMForm
           TabOrder = 1
           object TabSheet4: TTabSheet
             Caption = 'General'
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object testSuitePic: TImage
               Left = 676
               Top = 29
@@ -1309,20 +1285,12 @@ object MForm: TMForm
           object TabSheet5: TTabSheet
             Caption = 'TabSheet5'
             ImageIndex = 1
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
           end
         end
       end
       object TabSheet6: TTabSheet
         Caption = 'Other Tests'
         ImageIndex = 3
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object runCountMemo: TMemo
           Left = 208
           Top = 0
@@ -1506,7 +1474,6 @@ object MForm: TMForm
     Top = 144
     object ChartEditor2: TMenuItem
       Caption = 'ChartEditor'
-      OnClick = ChartEditor2Click
     end
   end
   object DropBoxPopup: TPopupMenu
@@ -1528,13 +1495,13 @@ object MForm: TMForm
     Enabled = False
     Interval = 100
     OnTimer = ShutDownTimerTimer
-    Left = 896
-    Top = 560
+    Left = 928
+    Top = 512
   end
   object CheckThreadTimer: TTimer
     Interval = 500
     OnTimer = CheckThreadTimerTimer
-    Left = 400
-    Top = 600
+    Left = 824
+    Top = 512
   end
 end

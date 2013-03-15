@@ -37,7 +37,7 @@ mLogString(NULL)
 
     //This is roadrunners logger
     mRRLogFileName = rr::JoinPath(mTempDataFolder, "RoadRunnerUI.log");
-    gLog.Init("", gLog.GetLogLevel());//, unique_ptr<LogFile>(new LogFile(mRRLogFileName )));
+    gLog.Init("", gLog.GetLogLevel(), new LogFile(mRRLogFileName ));
 
     //Setup a logfile sniffer and propagate logs to memo...
     mLogFileSniffer.SetFileName(mRRLogFileName);
@@ -62,15 +62,6 @@ mLogString(NULL)
 __fastcall TMForm::~TMForm()
 {
 	//FSF->TreeView1->Selected
-    if(CompilerRG->ItemIndex == 0)
-    {
-        mCompiler = "tcc";
-    }
-    else if(CompilerRG->ItemIndex == 1)
-    {
-        mCompiler = "bcc";
-    }
-
     mLogLevel.SetValue(rr::GetLogLevel(LogLevelCB->ItemIndex));
     mPageControlHeight = PageControl1->Height;
 
@@ -83,18 +74,6 @@ __fastcall TMForm::~TMForm()
     delete mRR;
 }
 
-string TMForm::GetCompiler()
-{
-    if(CompilerRG->ItemIndex == 0)
-    {
-        mCompiler = "tcc";
-    }
-    else if(CompilerRG->ItemIndex == 1)
-    {
-        mCompiler = "bcc";
-    }
-    return mCompiler;
-}
 //---------------------------------------------------------------------------
 void __fastcall TMForm::modelFoldersCBChange(TObject *Sender)
 {
@@ -200,9 +179,7 @@ void __fastcall TMForm::LoadFromTreeViewAExecute(TObject *Sender)
                 mRR = new RoadRunner;
             }
 
-//            mRR->setCompiler(GetCompiler());
-
-//            mRR->computeAndAssignConservationLaws(ConservationAnalysisCB->Checked);
+            mRR->computeAndAssignConservationLaws(ConservationAnalysisCB->Checked);
 
             if(mRR->loadSBMLFromFile(fName))
             {
@@ -242,28 +219,25 @@ void __fastcall TMForm::SimulateAExecute(TObject *Sender)
     }
     try
     {
-        {
-            //Setup selection list
-            StringList list = GetCheckedSpecies();
-            string selected = list.AsString();
-            mRR->setTimeCourseSelectionList(selected);
-        }
+        //Setup selection list
+        StringList list = GetCheckedSpecies();
+        string selected = list.AsString();
+        mRR->setTimeCourseSelectionList(selected);
 
         Log(rr::lInfo)<<"Currently selected species: "<<mRR->getTimeCourseSelectionList().AsString();
 
-        mRR->setCompiler(GetCompiler());
-//        mRR->computeAndAssignConservationLaws(ConservationAnalysisCB->Checked);
         mRR->simulateEx(mStartTimeE->GetValue(), *mEndTimeE, mNrOfSimulationPointsE->GetValue());
 
         SimulationData data = mRR->getSimulationResult();
         string resultFileName(rr::JoinPath(mRR->getTempFolder(), mRR->getModelName()));
         resultFileName = rr::ChangeFileExtensionTo(resultFileName, ".csv");
-        Log(rr::lInfo)<<"Saving result to file: "<<resultFileName;
+
+        Log(rr::lInfo)<<"Saving result to file: "<<resultFileName;
         ofstream fs(resultFileName.c_str());
         fs << data;
         fs.close();
         Plot(data);
-    }
+   }
     catch(const rr::Exception& e)
     {
         Log(rr::lInfo)<<"RoadRunner exception: "<<e.what();
@@ -273,7 +247,6 @@ void __fastcall TMForm::SimulateAExecute(TObject *Sender)
 StringList TMForm::GetCheckedSpecies()
 {
     //Go trough the listbox and return checked items
-
     StringList checked;
     for(int i = 0; i < SelList->Count; i++)
     {
@@ -451,11 +424,6 @@ void __fastcall TMForm::PlotTestTestSuiteDataExecute(TObject *Sender)
 
 }
 
-void __fastcall TMForm::ChartEditor2Click(TObject *Sender)
-{
-//    ChartEditor1->Execute();
-}
-
 void __fastcall TMForm::CheckUI()
 {
     //Check if there is at least one checked species in the list box
@@ -613,9 +581,7 @@ void __fastcall TMForm::modelFoldersCBContextPopup(TObject *Sender, TPoint &Mous
     DropBoxPopup->Popup(0,0);
 }
 
-
 //---------------------------------------------------------------------------
-
 void __fastcall TMForm::FormCloseQuery(TObject *Sender, bool &CanClose)
 {
 	if(mLogFileSniffer.IsAlive())
@@ -641,8 +607,8 @@ void __fastcall TMForm::ShutDownTimerTimer(TObject *Sender)
 
     Close();
 }
-//---------------------------------------------------------------------------
 
+//---------------------------------------------------------------------------
 void __fastcall TMForm::FormClose(TObject *Sender, TCloseAction &Action)
 {
 	if(FSF)
@@ -670,8 +636,6 @@ void __fastcall TMForm::Button5Click(TObject *Sender)
     }
 }
 
-
-
 void __fastcall TMForm::CheckThreadTimerTimer(TObject *Sender)
 {
 	if(mSimulateThread.isWorking())
@@ -683,8 +647,8 @@ void __fastcall TMForm::CheckThreadTimerTimer(TObject *Sender)
     	RunThreadBtn->Caption = "Run";
     }
 }
-//---------------------------------------------------------------------------
 
+//---------------------------------------------------------------------------
 void __fastcall TMForm::RunThreadBtnClick(TObject *Sender)
 {
 	if(mSimulateThread.isWorking())
@@ -695,6 +659,13 @@ void __fastcall TMForm::RunThreadBtnClick(TObject *Sender)
     {
 		mSimulateThread.start();
     }
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMForm::ConservationAnalysisCBClick(TObject *Sender)
+{
+    LoadFromTreeViewAExecute(Sender);
+    LoadModelA->Update();
 }
 
 

@@ -23,7 +23,6 @@ void __fastcall TMForm::SetupINIParameters()
 
     mGeneralParas.Insert( &mPageControlHeight.Setup("LOWER_PAGE_CONTROL_HEIGHT", 300));
     mGeneralParas.Insert( &mSelectionListHeight.Setup("SEL_LB_HEIGHT", 30));
-    mGeneralParas.Insert( &mCompiler.Setup("MODEL_COMPILER", "tcc"));
     mGeneralParas.Insert( &mConservationAnalysis.Setup("CONSERVATION_ANALYSIS", "false"));
     mGeneralParas.Insert( &mCurrentModelsFolder.Setup("MODEL_FOLDER", ""));
     mGeneralParas.Insert( &mCurrentModelFileName.Setup("MODEL_FILE_NAME", ""));
@@ -68,15 +67,6 @@ void __fastcall TMForm::SetupINIParameters()
     SelList->Height = mSelectionListHeight;
     PageControl1->Height = mPageControlHeight;
     LogLevelCB->ItemIndex = mLogLevel;
-    if(mCompiler == "tcc")
-    {
-        CompilerRG->ItemIndex = 0;
-    }
-    else if(mCompiler == "bcc")
-    {
-        CompilerRG->ItemIndex = 1;
-    }
-
     ConservationAnalysisCB->Checked = mConservationAnalysis == "true" ? true : false;
 }
 

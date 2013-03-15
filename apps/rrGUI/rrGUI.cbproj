@@ -122,6 +122,8 @@
         <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <ILINK_DisableIncrementalLinking>true</ILINK_DisableIncrementalLinking>
+        <Debugger_DebugSourcePath>P:\mtk\VCL\Components\Dune\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
         <LinkPackageImports>rtl.bpi;vcl.bpi;DuneComponents.bpi;Tee.bpi</LinkPackageImports>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <ILINK_LibraryPath>$(MTK_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
@@ -141,13 +143,6 @@
         <Defines>NDEBUG;$(Defines)</Defines>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="C:\rDisk\rrl\apps\rrGUI\rrSimulateThreadUI.cpp">
-            <DependentOn>C:\rDisk\rrl\apps\rrGUI\rrSimulateThreadUI.h</DependentOn>
-            <BuildOrder>5</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="C:\rDisk\rrl\source\rrUnresolvedSTDExternals.cpp">
-            <BuildOrder>6</BuildOrder>
-        </CppCompile>
         <CppCompile Include="MainForm.cpp">
             <Form>MForm</Form>
             <DependentOn>MainForm.h</DependentOn>
@@ -166,6 +161,13 @@
         <CppCompile Include="rrLogFileReader.cpp">
             <DependentOn>rrLogFileReader.h</DependentOn>
             <BuildOrder>12</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="rrSimulateThreadUI.cpp">
+            <DependentOn>rrSimulateThreadUI.h</DependentOn>
+            <BuildOrder>5</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrUnresolvedSTDExternals.cpp">
+            <BuildOrder>6</BuildOrder>
         </CppCompile>
         <FormResources Include="MainForm.dfm"/>
         <BuildConfiguration Include="Release">

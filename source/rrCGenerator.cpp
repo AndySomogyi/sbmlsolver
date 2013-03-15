@@ -385,7 +385,7 @@ void CGenerator::writeComputeConservedTotals(CodeBuilder& ignore, const int& num
                     {
                         string cYY = convertSpeciesToY(mFloatingSpeciesConcentrationList[j].name);
                         string cTC = convertCompartmentToC(mFloatingSpeciesConcentrationList[j].compartmentName);
-                        mSource<<Append(" + " + factor + convertSpeciesToY(mFloatingSpeciesConcentrationList[j].name) +
+                        mSource<<Append(" + " + factor + "md->" + cYY +
                                   mFixAmountCompartments +
                                   convertCompartmentToC(mFloatingSpeciesConcentrationList[j].compartmentName));
                     }

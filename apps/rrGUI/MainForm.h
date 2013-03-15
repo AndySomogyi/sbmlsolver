@@ -5,32 +5,31 @@
 #include <Controls.hpp>
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
-#include "mtkFloatLabeledEdit.h"
-#include "mtkIniFileC.h"
-#include "mtkIntLabeledEdit.h"
 #include <ActnList.hpp>
 #include <ComCtrls.hpp>
 #include <ExtCtrls.hpp>
-#include "TFileSelectionFrame.h"
-#include "mtkIniParameters.h"
 #include <Menus.hpp>
 #include <ToolWin.hpp>
 #include <CheckLst.hpp>
 #include <VCLTee.Series.hpp>
+#include <OleCtrls.hpp>
+#include <SHDocVw.hpp>
+#include <System.Actions.hpp>
+#include <VCLTee.Chart.hpp>
+#include <VCLTee.TeEngine.hpp>
+#include <VCLTee.TeeProcs.hpp>
+#include "mtkFloatLabeledEdit.h"
+#include "mtkIniFileC.h"
+#include "mtkIntLabeledEdit.h"
+#include "TFileSelectionFrame.h"
+#include "mtkIniParameters.h"
 #include "rrStringList.h"
 #include "mtkSTDStringEdit.h"
 #include "rrSimulationSettings.h"
 #include "rrLogLevel.h"
 #include <jpeg.hpp>
 #include "rrSimulateThreadUI.h"
-#include <OleCtrls.hpp>
-#include <SHDocVw.hpp>
 #include "rrLogFileReader.h"
-#include <System.Actions.hpp>
-
-#include <VCLTee.Chart.hpp>
-#include <VCLTee.TeEngine.hpp>
-#include <VCLTee.TeeProcs.hpp>
 
 namespace rr
 {
@@ -53,7 +52,6 @@ __published:	// IDE-managed Components
     TPanel *Panel1;
     TPanel *Panel2;
     TStatusBar *StatusBar1;
-    TRadioGroup *CompilerRG;
     TGroupBox *GroupBox1;
     TButton *Button1;
     TMemo *mLogMemo;
@@ -144,7 +142,6 @@ __published:	// IDE-managed Components
     void __fastcall ClearMemoAExecute(TObject *Sender);
     void __fastcall SimulateAExecute(TObject *Sender);
     void __fastcall loadAvailableSymbolsAExecute(TObject *Sender);
-    void __fastcall ChartEditor2Click(TObject *Sender);
     void __fastcall SelListClick(TObject *Sender);
     void __fastcall UnLoadModelAExecute(TObject *Sender);
     void __fastcall filterEditKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
@@ -155,8 +152,7 @@ __published:	// IDE-managed Components
     void __fastcall LogLevelCBChange(TObject *Sender);
     void __fastcall LogCCodeAExecute(TObject *Sender);
     void __fastcall RemoveCurrentModelFolderItemAExecute(TObject *Sender);
-    void __fastcall modelFoldersCBContextPopup(TObject *Sender, TPoint &MousePos,
-          bool &Handled);
+    void __fastcall modelFoldersCBContextPopup(TObject *Sender, TPoint &MousePos, bool &Handled);
     void __fastcall PlotTestTestSuiteDataExecute(TObject *Sender);
 	void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);
@@ -164,6 +160,7 @@ __published:	// IDE-managed Components
 	void __fastcall Button5Click(TObject *Sender);
 	void __fastcall CheckThreadTimerTimer(TObject *Sender);
 	void __fastcall RunThreadBtnClick(TObject *Sender);
+	void __fastcall ConservationAnalysisCBClick(TObject *Sender);
 
 private:	// User declarations
     mtkIniParameters            	mGeneralParas;
@@ -172,7 +169,6 @@ private:	// User declarations
     mtkIniParameter<int>        	mPageControlHeight;
 
     mtkIniParameter<mtk::LogLevel>	mLogLevel;
-    mtkIniParameter<string>     	mCompiler;
     mtkIniParameter<string>     	mCurrentModelsFolder;
     mtkIniParameter<string>     	mCurrentModelFileName;
     mtkIniParameter<string>     	mTempDataFolder;
@@ -191,7 +187,7 @@ private:	// User declarations
     TColor                          GetColor(int i);
     void                            AddItemsToListBox(const StringList& items);
     SimulationSettings              mSettings;
-    string                          GetCompiler();//What is set in the RadioGroup
+
     void            	__fastcall  UpdateTestSuiteInfo();
     string                          GetCurrentModelPath();
     string                          GetSettingsFile();
@@ -207,6 +203,7 @@ public:		// User declarations
     string                         *mLogString;
 
 };
+
 //---------------------------------------------------------------------------
 extern PACKAGE TMForm *MForm;
 
