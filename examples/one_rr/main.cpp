@@ -29,7 +29,7 @@ int main(int argc, char** argv)
 
         Log(lInfo)<<" ---------- SIMULATE ---------------------";
 
-//        Log(lInfo)<<"Data:"<<rr1.simulate();
+        Log(lInfo)<<"Data:"<<rr1.simulate();
 
     }
     catch(const Exception& ex)

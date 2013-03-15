@@ -16,7 +16,20 @@ using namespace std;
 namespace rr
 {
 
-string RR_DECLSPEC ReplaceWord(const string& str1, const string& str2, const string& theString)
+char* createText(const string& str)
+{
+	if(str.size() == 0)
+    {
+    	return NULL;
+    }
+
+	char* text = new char[str.size() + 1];
+	std::copy(str.begin(), str.end(), text);
+	text[str.size()] = '\0'; //terminating 0!
+	return text;
+}
+
+string ReplaceWord(const string& str1, const string& str2, const string& theString)
 {
     string temp(theString);
     while(temp.find(str1) != string::npos)

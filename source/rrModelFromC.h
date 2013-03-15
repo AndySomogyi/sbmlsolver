@@ -7,15 +7,16 @@
 #include "rrTComputeEventAssignmentDelegate.h"
 #include "rrTPerformEventAssignmentDelegate.h"
 #include "rrModelData.h"
-
+#include "rrNOMSupport.h"
+#include "rr-libstruct/lsLibStructural.h"
 namespace rr
 {
-
+using namespace ls;
 using Poco::SharedLibrary;
 class CGenerator;
 class CvodeInterface;
 
-typedef void    (callConv *c_void_MDS)(ModelData*);
+typedef void    (callConv *c_void_MDS)(ModelData*);//MDS stands for ModelDataStructure
 typedef int     (callConv *c_int_MDS)(ModelData*);
 typedef int     (callConv *c_int_MDS_int)(ModelData*, int);
 typedef char*   (callConv *c_charStar_MDS)(ModelData*);
@@ -54,7 +55,8 @@ class RR_DECLSPEC ModelFromC : public rrObject
 		string									getModelName();
         CvodeInterface*                         mCvodeInterface;
         void                                    assignCVodeInterface(CvodeInterface* cvodeI);
-        double                                  *time;
+//        double                                  *time;
+
         void                                    setTime(double _time);
         double                                  getTime();
 
@@ -113,9 +115,13 @@ class RR_DECLSPEC ModelFromC : public rrObject
         void                                    computeEventPriorites();
         void                                    setConcentration(int index, double value);
         void                                    computeReactionRates(double time, double* y);
+        CGenerator&                             mCG;
+		LibStructural&                      	mLibStruct;                          //Reference to libstruct library
+        NOMSupport&                         	mNOM;                                //Object that provide some wrappers and new "NOM" functions.
 
     public:
-        CGenerator*                             mCodeGenerator;
+
+
         bool                                    mIsInitialized;    //If all functions are found properly in the dll, this one is true
 
         ModelSharedLibrary&	 					mDLL;
@@ -150,7 +156,7 @@ class RR_DECLSPEC ModelFromC : public rrObject
 		c_void_MDS_double_doubleStar            cComputeReactionRates;
         c_void_MDS                              ccomputeEventPriorities;
 
-		                                        ModelFromC(CGenerator* generator, ModelSharedLibrary& dll);
+		                                        ModelFromC(CGenerator& generator, ModelSharedLibrary& dll);
                                                ~ModelFromC();
         //Non inherited
         bool                                    setupModelData();

@@ -32,6 +32,7 @@
 #include <OleCtrls.hpp>
 #include <SHDocVw.hpp>
 #include "rrLogFileReader.h"
+#include <System.Actions.hpp>
 namespace rr
 {
 class RoadRunner;
@@ -88,7 +89,6 @@ __published:	// IDE-managed Components
     TAction *loadAvailableSymbolsA;
     TCheckListBox *SelList;
     TLineSeries *Series1;
-    TChartEditor *ChartEditor1;
     TPopupMenu *ChartPopup;
     TMenuItem *ChartEditor2;
     TGroupBox *GroupBox2;
@@ -111,7 +111,6 @@ __published:	// IDE-managed Components
     TTabSheet *TabSheet3;
     TImage *testSuitePic;
     TGroupBox *GroupBox4;
-    TWebBrowser *WebBrowser1;
     TButton *Button2;
     TPageControl *PageControl2;
     TTabSheet *TabSheet4;

@@ -15,7 +15,7 @@ typedef void 	(*TPerformEventAssignmentDelegate)(double* );
 //Data that is used in SBML models
 typedef struct SModelData
 {
-    double	                       	    mTime;
+    double	                       	    time;
     int                            	    numIndependentVariables;
     int                            	    numDependentVariables;
     int                            	    numTotalVariables;
@@ -26,51 +26,73 @@ typedef struct SModelData
     int                            	    numRules;
     int                            	    numEvents;
 
-
-
-
-
-	//These need allocation
+	//These need allocation...
 	char*		                        modelName;
-    bool*                          	    eventType; 				        //",                      mNumEvents                                , "Array holding the status whether events are useValuesFromTriggerTime or not");
-    bool*                          	    eventPersistentType;	        //",            mNumEvents                                , "Array holding the status whether events are persitstent or not");
+
+	int									eventTypeSize;
+    bool*                          	    eventType;
+
+	int									eventPersistentTypeSize;
+    bool*                          	    eventPersistentType;
+
     int                                 ySize;
     double*                             y;
 
  	int                                 gpSize;
-	double* 	                        gp; 				            //Vector containing all the global parameters in the System
-	double* 	                        sr;					            //Vector containing all the modifiable species references  ");
-    double*		                        lp;					            //Vector containing all the local parameters in the System  ");
+	double* 	                        gp;
+
+	int		 	                        srSize;
+	double* 	                        sr;
+
+    int									lpSize;
+    double*		                        lp;
+
 	int									init_ySize;
-    double*		                        init_y;				            //mFloatingSpeciesConcentrationList.Count(),   "Vector containing the initial concentrations of all floating species");
+    double*		                        init_y;
 
     int									amountsSize;
-    double*	                            amounts; 			            //mFloatingSpeciesConcentrationList.size(),    "Vector containing the amounts of all floating species ");
+    double*	                            amounts;
 
     int									bcSize;
-    double*	                            bc;					            //mNumBoundarySpecies,                        "Vector containing all the boundary species concentration values");
+    double*	                            bc;
 
-    double*	                            c;					            // mNumCompartments                         ,  "Vector containing all the compartment values   ");
+    int		                            cSize;
+    double*	                            c;
 
 	int                                 dydtSize;
-    double*	                            dydt;				            //mFloatingSpeciesConcentrationList.size() ,   "Vector containing rates of changes of all species   ");
+    double*	                            dydt;
+
     int									ratesSize;
-    double*	                            rates;				            //mNumReactions                             , "Vector containing the rate laws of all reactions    ");
+    double*	                            rates;
+
     int									rateRulesSize;
-    double*	                            rateRules;			            //mNumEvents                                 ,"Vector containing results of any event tests        ");
+    double*	                            rateRules;
+
 	int									ctSize;
-    double*	                            ct;					            //mNumDependentSpecies                     ,  "Vector containing values of all conserved sums      ");
-    double*	                            eventTests;		            //mNumEvents                                 ,"Vector containing results of any event tests        ");
-	double*	                     	    eventPriorities;				//", mNumEvents);
-    char**                              variableTable;                 	//",                mFloatingSpeciesConcentrationList.size());
-    char**                              boundaryTable;                 	//",                mBoundarySpeciesList.size());
-    char**                              globalParameterTable;			//",         mGlobalParameterList.size());
-    int*                           	    localParameterDimensions;		//",     mNumReactions );
-    bool*                               eventStatusArray;				//",             mNumEvents);
-    bool*                               previousEventStatusArray;		//",     mNumEvents);
-//	TEventDelayDelegate*			    mEventDelay;			        //	",                     mNumEvents                                 ,"Array of trigger function pointers");
+    double*	                            ct;
+
+	int									eventTestsSize;
+    double*	                            eventTests;
+
+	int									eventPrioritiesSize;
+	double*	                     	    eventPriorities;
+
+    char**                              variableTable;
+    char**                              boundaryTable;
+    char**                              globalParameterTable;
+
+    int*                           	    localParameterDimensions;
+
+    int		                            eventStatusArraySize;
+    bool*                               eventStatusArray;
+
+	int									previousEventStatusArraySize;
+    bool*                               previousEventStatusArray;
+
+//	TEventDelayDelegate*			    mEventDelay;
     TEventDelayDelegate*                eventDelays;
 	TEventAssignmentDelegate*       	eventAssignments;
+
     TComputeEventAssignmentDelegate* 	computeEventAssignments;
     TPerformEventAssignmentDelegate*    performEventAssignments;
 

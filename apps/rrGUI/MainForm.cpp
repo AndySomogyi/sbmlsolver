@@ -62,7 +62,7 @@ __fastcall TMForm::TMForm(TComponent* Owner)
     startupTimer->Enabled = true;
 
     //Setup road runner
-    mRR = new RoadRunner("r:\\installs\\xe_branch\\rr_support", "r:\\installs\\xe_branch\\compilers\\tcc\\tcc.exe");
+    mRR = new RoadRunner("r:\\temp");
     mRR->SetTempFileFolder(mTempDataFolder);
     mSimulateThread.AssignRRInstance(mRR);
 }

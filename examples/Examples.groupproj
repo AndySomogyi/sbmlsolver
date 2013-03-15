@@ -10,7 +10,7 @@
             <Dependencies/>
         </Projects>
         <Projects Include="one_rr\one_rr.cbproj">
-            <Dependencies/>
+            <Dependencies>..\ide_builds\xe3\roadrunner-static.cbproj</Dependencies>
         </Projects>
         <Projects Include="two_rrs\two_rrs.cbproj">
             <Dependencies>..\ide_builds\xe3\roadrunner.cbproj</Dependencies>
@@ -47,13 +47,13 @@
     <Target Name="roadrunner-static:Make">
         <MSBuild Projects="..\ide_builds\xe3\roadrunner-static.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="one_rr">
+    <Target Name="one_rr" DependsOnTargets="roadrunner-static">
         <MSBuild Projects="one_rr\one_rr.cbproj"/>
     </Target>
-    <Target Name="one_rr:Clean">
+    <Target Name="one_rr:Clean" DependsOnTargets="roadrunner-static:Clean">
         <MSBuild Projects="one_rr\one_rr.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="one_rr:Make">
+    <Target Name="one_rr:Make" DependsOnTargets="roadrunner-static:Make">
         <MSBuild Projects="one_rr\one_rr.cbproj" Targets="Make"/>
     </Target>
     <Target Name="two_rrs" DependsOnTargets="roadrunner">

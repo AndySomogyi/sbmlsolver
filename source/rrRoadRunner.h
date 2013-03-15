@@ -25,11 +25,14 @@
 #include "rrNewArrayList.h"
 #include "rrPluginManager.h"
 #include "rrModelSharedLibrary.h"
+#include "Poco/Thread.h"
 
-using std::string;
-using namespace ls;
 namespace rr
 {
+using Poco::Mutex;
+using std::string;
+using namespace ls;
+
 class ModelGenerator;
 class SBMLModelSimulation;
 class ModelFromC;
@@ -70,6 +73,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		double                          mTimeEnd;
 		int                             mNumPoints;
 
+   		static Mutex	 				mLibSBMLMutex;
+   		static Mutex	 				mCompileMutex;
 		ModelFromC*                     mModel;
 		ModelSharedLibrary	  	  		mModelLib;
 		string                          mCurrentSBML;

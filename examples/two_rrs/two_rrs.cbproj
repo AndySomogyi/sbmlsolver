@@ -100,10 +100,6 @@
         <CppCompile Include="main.cpp">
             <BuildOrder>1</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\rrSBMLModelData.cpp">
-            <DependentOn>..\..\source\rrSBMLModelData.h</DependentOn>
-            <BuildOrder>1</BuildOrder>
-        </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

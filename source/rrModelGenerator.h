@@ -36,6 +36,7 @@ class RR_DECLSPEC ModelGenerator : public rrObject
         int                                 mNumGlobalParameters;
         int                                 mNumIndependentSpecies;
         int                                 mNumReactions;
+
         int                                 mTotalLocalParmeters;
         StringList                          mFunctionNames;
         StringList                          mFunctionParameters;

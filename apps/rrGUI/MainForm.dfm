@@ -324,6 +324,7 @@ object MForm: TMForm
         Marks.Shadow.HorizSize = 2
         Marks.Shadow.VertSize = 2
         Marks.Visible = False
+        Brush.BackColor = clDefault
         LinePen.Color = 4210816
         LinePen.Width = 3
         Pointer.Brush.Gradient.EndColor = 7028779
@@ -1376,22 +1377,6 @@ object MForm: TMForm
               Align = alLeft
               Caption = 'Model Info'
               TabOrder = 0
-              object WebBrowser1: TWebBrowser
-                Left = 2
-                Top = 15
-                Width = 669
-                Height = 148
-                Align = alClient
-                TabOrder = 0
-                ExplicitWidth = 524
-                ExplicitHeight = 177
-                ControlData = {
-                  4C000000254500004C0F00000000000000000000000000000000000000000000
-                  000000004C000000000000000000000001000000E0D057007335CF11AE690800
-                  2B2E126208000000000000004C0000000114020000000000C000000000000046
-                  8000000000000000000000000000000000000000000000000000000000000000
-                  00000000000000000100000000000000000000000000000000000000}
-              end
             end
             object ToolBar2: TToolBar
               Left = 0
@@ -1420,10 +1405,6 @@ object MForm: TMForm
       object TabSheet6: TTabSheet
         Caption = 'Other Tests'
         ImageIndex = 3
-        ExplicitLeft = 3
-        ExplicitTop = 23
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object runCountMemo: TMemo
           Left = 208
           Top = 0
@@ -1570,15 +1551,6 @@ object MForm: TMForm
     object Clear1: TMenuItem
       Action = ClearMemoA
     end
-  end
-  object ChartEditor1: TChartEditor
-    Chart = Chart1
-    GalleryHeight = 0
-    GalleryWidth = 0
-    Height = 0
-    Width = 0
-    Left = 384
-    Top = 112
   end
   object ChartPopup: TPopupMenu
     Left = 552

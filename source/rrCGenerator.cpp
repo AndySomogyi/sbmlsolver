@@ -299,7 +299,7 @@ void CGenerator::writeComputeAllRatesOfChange(CodeBuilder& ignore, const int& nu
     mSource<<gTab<<"{\n"<<gTab<<gTab<<"dTemp[i + md->rateRulesSize] = md->amounts[i];\n\t}";
     mSource<<Append("\n\t//amounts.CopyTo(dTemp, rateRules.Length); " + NL());
 
-    mSource<<Append("\t__evalModel(md, md->mTime, dTemp);" + NL());
+    mSource<<Append("\t__evalModel(md, md->time, dTemp);" + NL());
     bool isThereAnEntry = false;
     for (int i = 0; i < numDependentSpecies; i++)
     {
@@ -778,7 +778,7 @@ void CGenerator::writeEvalInitialAssignments(CodeBuilder& ignore, const int& num
             {
                 mSource<<Append(leftSideRule + " = ");
                 string temp = Append(substituteTerms(numReactions, "", rightSideRule) + ";" + NL());
-                temp = ReplaceWord("time", "md->mTime", temp);
+                temp = ReplaceWord("time", "md->time", temp);
                 mSource<<temp;
             }
         }
@@ -867,7 +867,7 @@ int CGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
                 if(isRateRule && mNOM.MultiplyCompartment(varName, sCompartment) && (rightSide.find(sCompartment) == string::npos))
                 {
                     string temp = Format("({0}) * {1};{2}", substituteTerms(numReactions, "", rightSideRule), findSymbol(sCompartment), NL());
-                    temp = ReplaceWord("time", "md->mTime", temp);
+                    temp = ReplaceWord("time", "md->time", temp);
                     mSource<<temp;
                 }
                 else
@@ -879,7 +879,7 @@ int CGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
                     else
                     {
                         string temp   = Format("{0};{1}", substituteTerms(numReactions, "", rightSideRule), NL());
-                        temp = ReplaceWord("time", "md->mTime", temp);
+                        temp = ReplaceWord("time", "md->time", temp);
 
                         if(temp.find("spf_piecewise") != string::npos)
             			{
@@ -1067,7 +1067,7 @@ void CGenerator::writeEvalEvents(CodeBuilder& ignore, const int& numEvents, cons
         }
     }
 
-    mSource<<Append("\tmd->mTime = timeIn;" + NL());
+    mSource<<Append("\tmd->time = timeIn;" + NL());
     mSource<<Append("\tupdateDependentSpeciesValues(md, md->y);" + NL());
     mSource<<Append("\tcomputeRules(md, md->y);" + NL());
 
@@ -1078,7 +1078,7 @@ void CGenerator::writeEvalEvents(CodeBuilder& ignore, const int& numEvents, cons
         string eventString = tempList[0];
 
         eventString = substituteTerms(0, "", eventString);
-        eventString = ReplaceWord("time", "md->mTime", eventString);
+        eventString = ReplaceWord("time", "md->time", eventString);
         mSource<<"\tmd->previousEventStatusArray[" << i << "] = md->eventStatusArray[" << i << "];" << NL();
 
 
@@ -1117,7 +1117,7 @@ void CGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReactions, co
 
     mSource<<Append(NL());
     mSource<<Append("\tconvertToAmounts(md);" + NL());
-    mSource<<Append("\tmd->mTime = timein;  // Don't remove" + NL());
+    mSource<<Append("\tmd->time = timein;  // Don't remove" + NL());
     mSource<<Append("\tupdateDependentSpeciesValues(md, md->y);" + NL());
 
     if (numOfRules > 0)
@@ -1125,7 +1125,7 @@ void CGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReactions, co
         mSource<<Append("\tcomputeRules(md, md->y);" + NL());
     }
 
-    mSource<<Append("\tcomputeReactionRates(md, md->mTime, md->y);" + NL());
+    mSource<<Append("\tcomputeReactionRates(md, md->time, md->y);" + NL());
 
     // write out the ODE equations
     string stoich;
@@ -1354,7 +1354,7 @@ void CGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numReacti
                 str = sTempVar+ str.substr(str.find(" ="));
                 nCount++;
                 string temp = Format("\t\t{0};{1}", str, NL());
-                temp = ReplaceWord("time", "md->mTime", temp);
+                temp = ReplaceWord("time", "md->time", temp);
                 mSource<<temp;
             }
             mSource<<Append("\treturn values;" + NL());
@@ -1768,6 +1768,7 @@ int CGenerator::readBoundarySpecies()
     return numBoundarySpecies;
 }
 
+//This function is obsolete.. initialize all model data in roadrunner instead..
 void CGenerator::writeInitModelDataFunction(CodeBuilder& ignore, CodeBuilder& source)
 {
     source.Line("\n//Function to initialize the model data structure. Returns an integer indicating result");
@@ -1812,6 +1813,7 @@ void CGenerator::writeInitModelDataFunction(CodeBuilder& ignore, CodeBuilder& so
     source.NewLine();
 }
 
+//This function is obsolete.. initialize all model data in roadrunner instead..
 void CGenerator::writeInitFunction(CodeBuilder& ignore, CodeBuilder& source)
 {
     source.Line("\n//Function to initialize the model data structure. Returns an integer indicating result");
@@ -1870,7 +1872,7 @@ void CGenerator::writeInitFunction(CodeBuilder& ignore, CodeBuilder& source)
     {
         for (int i = 0; i < mModifiableSpeciesReferenceList.size(); i++)
         {
-            source<<Append("\t\t_sr[" + ToString(i) + "] = " + writeDouble(mModifiableSpeciesReferenceList[i].value) + ";" + NL());
+            source<<Append("\t\tmd->sr[" + ToString(i) + "] = " + writeDouble(mModifiableSpeciesReferenceList[i].value) + ";" + NL());
         }
         source<<Append(NL());
     }
@@ -2602,13 +2604,13 @@ void CGenerator::substituteToken(const string& reactionName, bool bFixAmounts, S
             mSource<<Format(" = {0}\t", NL());
             break;
       case CodeTypes::tTimeWord1:
-            mSource<<Append("md->mTime");
+            mSource<<Append("md->time");
             break;
         case CodeTypes::tTimeWord2:
-            mSource<<Append("md->mTime");
+            mSource<<Append("md->time");
             break;
         case CodeTypes::tTimeWord3:
-            mSource<<Append("md->mTime");
+            mSource<<Append("md->time");
             break;
         case CodeTypes::tAndToken:
             mSource<<Format("{0}spf_and", NL());

@@ -24,14 +24,17 @@
 #include "rrConstants.h"
 #include "rrVersionInfo.h"
 //---------------------------------------------------------------------------
-using namespace std;
-using namespace ls;
 
 namespace rr
 {
+using namespace std;
+using namespace ls;
 
 //The incance count increases/decreases as instances are created/destroyed.
-int RoadRunner::mInstanceCount = 0;
+int 				RoadRunner::mInstanceCount = 0;
+Mutex 				RoadRunner::mCompileMutex;
+Mutex 				RoadRunner::mLibSBMLMutex;
+
 int	RoadRunner::getInstanceCount()
 {
 	return mInstanceCount;
@@ -666,8 +669,11 @@ bool RoadRunner::loadSBML(const string& sbml)
         return false;
     }
 
-    loadSBMLIntoNOM(sbml);
-    loadSBMLIntoLibStruct(sbml);
+	loadSBMLIntoLibStruct(sbml);
+	{	//Scope for Mutex
+   		Mutex::ScopedLock lock(mLibSBMLMutex);
+    	loadSBMLIntoNOM(sbml);	//There is something in here that is not threadsafe... causes crash with multiple threads, without mutex
+	}
 
     string 	modelName  = createModelName(mCurrentSBMLFileName);
     if(mInstanceID  == 1)
@@ -683,19 +689,24 @@ bool RoadRunner::loadSBML(const string& sbml)
 
 	//Creates a name for the shared lib
    	mModelLib.createName(modelName);
-    if(!FileExists(mModelLib.getFullFileName()))
+   	Mutex::ScopedLock lock(mCompileMutex);
     {
-        if(!compileModel())
+    //Can't have multiple threads compiling to the same dll at the same time..
+        if(!FileExists(mModelLib.getFullFileName()))
         {
-            Log(lError)<<"Failed to generate and compile model";
-            return false;
-        }
-    }
-    else
-    {
-    	Log(lDebug)<<"Model compiled files already generated.";
-    }
 
+            if(!compileModel())
+            {
+                Log(lError)<<"Failed to generate and compile model";
+                return false;
+            }
+        }
+        else
+        {
+            Log(lDebug)<<"Model compiled files already generated.";
+        }
+
+}//End of scope for Mutex
     if(!mModelLib.load()) //The model may already be loaded, in which case the load still returns true;
     {
         Log(lError)<<"Failed to load model DLL";
@@ -712,6 +723,7 @@ bool RoadRunner::loadSBML(const string& sbml)
     }
 
     createDefaultSelectionLists();
+
     return true;
 }
 
@@ -847,39 +859,6 @@ bool RoadRunner::compileModel()
         return false;
     }
 
-    //Load the DLL
-//    try
-//    {
-//		Log(lDebug)<<"Trying to load shared lib: "<<mModelLib.getFullFileName();
-//    	if(!mModelLib.load())
-//        {
-//			Log(lError)<<"There was a problem loading the shared library: "<<mModelLib.getFullFileName();
-//	        return false;
-//        }
-//    }
-//    catch(const exception& ex)
-//    {
-//		Log(lError)<<"There was a problem loading the shared library: "<<mModelLib.getFullFileName();
-//		Log(lError)<<"More Info: "<<ex.what();
-//        return false;
-//    }
-//
-//    //Now create the Model using the compiled DLL
-//    mModel = createModel();
-//
-//    if(!mModel)
-//    {
-//        Log(lError)<<"Failed to create Model";
-//        return false;
-//    }
-//
-//    //Finally initialize the model..
-//    if(!initializeModel())
-//    {
-//        Log(lError)<<"Failed Initializing Model";
-//        return false;
-//    }
-
     return true;
 }
 
@@ -895,7 +874,7 @@ ModelFromC* RoadRunner::createModel()
     if(mModelLib.isLoaded())
     {
         CGenerator *codeGen = dynamic_cast<CGenerator*>(mModelGenerator);
-        ModelFromC *rrCModel = new ModelFromC(codeGen, mModelLib);
+        ModelFromC *rrCModel = new ModelFromC(*codeGen, mModelLib);
         mModel = rrCModel;
     }
     else
