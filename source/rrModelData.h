@@ -1,7 +1,10 @@
 #ifndef rrModelDataH
 #define rrModelDataH
 
-
+#if defined __cplusplus
+namespace rr
+{
+#endif
 typedef double 	(*TEventDelayDelegate)();
 typedef double* (*TComputeEventAssignmentDelegate)();
 typedef void 	(*TPerformEventAssignmentDelegate)(double* );
@@ -97,5 +100,9 @@ typedef struct SModelData
     TPerformEventAssignmentDelegate*    performEventAssignments;
 
 } ModelData;
+
+#if defined __cplusplus
+}
+#endif
 
 #endif

@@ -87,21 +87,13 @@ object MForm: TMForm
         TabOrder = 3
       end
     end
-    object FSF: TFileSelectionFrame
-      Left = 1
-      Top = 129
-      Width = 215
-      Height = 336
-      Align = alClient
-      TabOrder = 1
-    end
     object Panel4: TPanel
       Left = 1
       Top = 468
       Width = 215
       Height = 247
       Align = alBottom
-      TabOrder = 2
+      TabOrder = 1
       object GroupBox3: TGroupBox
         Left = 1
         Top = 1
@@ -226,6 +218,14 @@ object MForm: TMForm
         end
       end
     end
+    object FSF: TFileSelectionFrame
+      Left = 1
+      Top = 129
+      Width = 215
+      Height = 336
+      Align = alClient
+      TabOrder = 2
+    end
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -252,100 +252,14 @@ object MForm: TMForm
       ExplicitTop = 452
       ExplicitWidth = 1001
     end
-    object Chart1: TChart
-      Left = 1
-      Top = 1
-      Width = 1007
-      Height = 461
-      Border.Color = 9423874
-      Border.Width = 7
-      Legend.Alignment = laBottom
-      Legend.Brush.Gradient.Direction = gdTopBottom
-      Legend.Brush.Gradient.EndColor = 13556735
-      Legend.Brush.Gradient.MidColor = 14739177
-      Legend.Brush.Gradient.StartColor = 16774122
-      Legend.ColorWidth = 40
-      Legend.CustomPosition = True
-      Legend.DividingLines.Color = clSilver
-      Legend.Font.Color = 6553600
-      Legend.Frame.Color = clGray
-      Legend.Frame.Visible = False
-      Legend.Left = 50
-      Legend.LeftPercent = 5
-      Legend.LegendStyle = lsSeries
-      Legend.PositionUnits = muPercent
-      Legend.ResizeChart = False
-      Legend.Shadow.Color = 13421772
-      Legend.Shadow.Visible = False
-      Legend.Symbol.Shadow.Visible = False
-      Legend.Symbol.Width = 40
-      Legend.Title.Text.Strings = (
-        '')
-      Legend.Top = 392
-      Legend.TopPercent = 85
-      Legend.TopPos = 5
-      Legend.Transparent = True
-      Title.Color = clBlack
-      Title.Frame.Color = 10083835
-      Title.Frame.Width = 2
-      Title.Shadow.HorizSize = 4
-      Title.Shadow.Transparency = 70
-      Title.Shadow.VertSize = 4
-      Title.Text.Strings = (
-        'TChart')
-      Title.Visible = False
-      BottomAxis.Grid.Visible = False
-      BottomAxis.MinorGrid.Color = 15066597
-      BottomAxis.Title.Caption = 'Time'
-      BottomAxis.Title.Font.Height = -19
-      BottomAxis.Title.Font.Name = 'Arial Rounded MT Bold'
-      LeftAxis.Grid.Visible = False
-      LeftAxis.Title.Caption = 'Species Concentrations'
-      LeftAxis.Title.Font.Height = -19
-      LeftAxis.Title.Font.Name = 'Arial Rounded MT Bold'
-      LeftAxis.Title.ShapeStyle = fosRoundRectangle
-      Shadow.Color = clBlack
-      Shadow.Visible = False
-      TopAxis.MinorGrid.Color = 15066597
-      View3D = False
-      Zoom.Animated = True
-      Zoom.Pen.Color = clRed
-      Align = alClient
-      Color = clWhite
-      PopupMenu = ChartPopup
-      TabOrder = 0
-      ColorPaletteIndex = 15
-      object Series1: TLineSeries
-        Marks.Arrow.Visible = True
-        Marks.Callout.Brush.Color = clBlack
-        Marks.Callout.Arrow.Visible = True
-        Marks.Frame.Color = clGray
-        Marks.Shadow.Color = 13421772
-        Marks.Shadow.HorizSize = 2
-        Marks.Shadow.VertSize = 2
-        Marks.Visible = False
-        Brush.BackColor = clDefault
-        LinePen.Color = 4210816
-        LinePen.Width = 3
-        Pointer.Brush.Gradient.EndColor = 7028779
-        Pointer.Gradient.EndColor = 7028779
-        Pointer.InflateMargins = True
-        Pointer.Style = psRectangle
-        Pointer.Visible = False
-        XValues.Name = 'X'
-        XValues.Order = loAscending
-        YValues.Name = 'Y'
-        YValues.Order = loNone
-      end
-    end
     object PageControl1: TPageControl
       Left = 1
       Top = 465
       Width = 1007
       Height = 250
-      ActivePage = TabSheet6
+      ActivePage = TabSheet1
       Align = alBottom
-      TabOrder = 1
+      TabOrder = 0
       object TabSheet1: TTabSheet
         Caption = 'Log'
         ExplicitLeft = 0
@@ -1405,6 +1319,10 @@ object MForm: TMForm
       object TabSheet6: TTabSheet
         Caption = 'Other Tests'
         ImageIndex = 3
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object runCountMemo: TMemo
           Left = 208
           Top = 0
@@ -1460,6 +1378,37 @@ object MForm: TMForm
             OnClick = RunThreadBtnClick
           end
         end
+      end
+    end
+    object Chart1: TChart
+      Left = 1
+      Top = 1
+      Width = 1007
+      Height = 461
+      Legend.Visible = False
+      Title.Text.Strings = (
+        'TChart')
+      View3D = False
+      Align = alClient
+      PopupMenu = ChartPopup
+      TabOrder = 1
+      ColorPaletteIndex = 13
+      object Series1: TLineSeries
+        Marks.Arrow.Visible = True
+        Marks.Callout.Brush.Color = clBlack
+        Marks.Callout.Arrow.Visible = True
+        Marks.Visible = False
+        SeriesColor = clBlack
+        Brush.BackColor = clDefault
+        Pointer.Brush.Gradient.EndColor = clBlack
+        Pointer.Gradient.EndColor = clBlack
+        Pointer.InflateMargins = True
+        Pointer.Style = psRectangle
+        Pointer.Visible = True
+        XValues.Name = 'X'
+        XValues.Order = loAscending
+        YValues.Name = 'Y'
+        YValues.Order = loNone
       end
     end
   end

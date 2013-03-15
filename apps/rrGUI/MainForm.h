@@ -5,12 +5,9 @@
 #include <Controls.hpp>
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
-#include "Chart.hpp"
 #include "mtkFloatLabeledEdit.h"
 #include "mtkIniFileC.h"
 #include "mtkIntLabeledEdit.h"
-#include "TeEngine.hpp"
-#include "TeeProcs.hpp"
 #include <ActnList.hpp>
 #include <ComCtrls.hpp>
 #include <ExtCtrls.hpp>
@@ -19,20 +16,22 @@
 #include <Menus.hpp>
 #include <ToolWin.hpp>
 #include <CheckLst.hpp>
-#include "Series.hpp"
-#include "TeeComma.hpp"
-#include "TeeEdit.hpp"
+#include <VCLTee.Series.hpp>
 #include "rrStringList.h"
-#include "TeeTools.hpp"
 #include "mtkSTDStringEdit.h"
 #include "rrSimulationSettings.h"
 #include "rrLogLevel.h"
 #include <jpeg.hpp>
-#include "rrSimulateThread.h"
+#include "rrSimulateThreadUI.h"
 #include <OleCtrls.hpp>
 #include <SHDocVw.hpp>
 #include "rrLogFileReader.h"
 #include <System.Actions.hpp>
+
+#include <VCLTee.Chart.hpp>
+#include <VCLTee.TeEngine.hpp>
+#include <VCLTee.TeeProcs.hpp>
+
 namespace rr
 {
 class RoadRunner;
@@ -58,7 +57,6 @@ __published:	// IDE-managed Components
     TGroupBox *GroupBox1;
     TButton *Button1;
     TMemo *mLogMemo;
-    TChart *Chart1;
     TActionList *RRActions;
     TAction *CompileA;
     TGroupBox *GroupBox3;
@@ -66,7 +64,6 @@ __published:	// IDE-managed Components
     mtkFloatLabeledEdit *mEndTimeE;
     mtkIntLabeledEdit *mNrOfSimulationPointsE;
     mtkIniFileC *mIniFileC;
-    TFileSelectionFrame *FSF;
     TComboBox *modelFoldersCB;
     TTimer *startupTimer;
     TAction *selectModelsFolder;
@@ -88,7 +85,6 @@ __published:	// IDE-managed Components
     TSplitter *Splitter3;
     TAction *loadAvailableSymbolsA;
     TCheckListBox *SelList;
-    TLineSeries *Series1;
     TPopupMenu *ChartPopup;
     TMenuItem *ChartEditor2;
     TGroupBox *GroupBox2;
@@ -134,6 +130,9 @@ __published:	// IDE-managed Components
 	TGroupBox *GroupBox6;
 	TButton *RunThreadBtn;
 	TTimer *CheckThreadTimer;
+	TFileSelectionFrame *FSF;
+	TChart *Chart1;
+	TLineSeries *Series1;
     void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
     void __fastcall startupTimerTimer(TObject *Sender);
     void __fastcall modelFoldersCBChange(TObject *Sender);
@@ -196,9 +195,9 @@ private:	// User declarations
     void            	__fastcall  UpdateTestSuiteInfo();
     string                          GetCurrentModelPath();
     string                          GetSettingsFile();
-    SimulateThread			        mSimulateThread;
+    SimulateThreadUI			    mSimulateThread;
 	SimulationData 				   *mData;				//The data is created by the thread and consumed by the UI
-    friend SimulateThread;
+    friend SimulateThreadUI;
     void            __fastcall    	PlotFromThread();
 
 public:		// User declarations

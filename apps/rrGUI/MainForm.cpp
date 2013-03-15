@@ -9,20 +9,12 @@
 #include "rrStringUtils.h"
 #include "rrUtils.h"
 #include "mtkStopWatch.h"
-#include "rrSimulateThread.h"
-//#include "rrArrayList2.h"
+
 //---------------------------------------------------------------------------
-#pragma link "Chart"
 #pragma link "mtkFloatLabeledEdit"
 #pragma link "mtkIniFileC"
 #pragma link "mtkIntLabeledEdit"
-#pragma link "TeEngine"
-#pragma link "TeeProcs"
 #pragma link "TFileSelectionFrame"
-#pragma link "Series"
-#pragma link "TeeComma"
-#pragma link "TeeEdit"
-#pragma link "TeeTools"
 #pragma link "mtkSTDStringEdit"
 #pragma resource "*.dfm"
 
@@ -33,19 +25,19 @@ TMForm *MForm;
 using namespace rr;
 
 __fastcall TMForm::TMForm(TComponent* Owner)
-    : TForm(Owner),
-    mLogFileSniffer("", this),
-    mSimulateThread(NULL, this),
-    mLogString(NULL)
+: TForm(Owner),
+mLogFileSniffer("", this),
+mSimulateThread(NULL, this),
+mLogString(NULL)
 {
     LogOutput::mLogToConsole = (false);
     LogOutput::mShowLogLevel = true;
     gLog.SetCutOffLogLevel(rr::lDebug5);
-    mTempDataFolder = "R:\\rrTemp";
+    mTempDataFolder = "R:\\temp";
 
     //This is roadrunners logger
     mRRLogFileName = rr::JoinPath(mTempDataFolder, "RoadRunnerUI.log");
-    gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(mRRLogFileName )));
+    gLog.Init("", gLog.GetLogLevel());//, unique_ptr<LogFile>(new LogFile(mRRLogFileName )));
 
     //Setup a logfile sniffer and propagate logs to memo...
     mLogFileSniffer.SetFileName(mRRLogFileName);
@@ -63,8 +55,8 @@ __fastcall TMForm::TMForm(TComponent* Owner)
 
     //Setup road runner
     mRR = new RoadRunner("r:\\temp");
-    mRR->SetTempFileFolder(mTempDataFolder);
-    mSimulateThread.AssignRRInstance(mRR);
+    mRR->setTempFileFolder(mTempDataFolder);
+//    mSimulateThread.AssignRRInstance(mRR);
 }
 
 __fastcall TMForm::~TMForm()
@@ -137,8 +129,8 @@ void __fastcall TMForm::selectModelsFolderExecute(TObject *Sender)
 
     Log(rr::lInfo)<<"Selected folder "<<ToSTDString(folder.c_str());
     string fldr = ToSTDString(folder);
-    fldr = RemoveTrailingSeparator(fldr, "\\");
-    fldr = RemoveTrailingSeparator(fldr, "\\");
+    fldr = RemoveTrailingSeparator(fldr, '\\');
+    fldr = RemoveTrailingSeparator(fldr, '\\');
     if(!rr::FolderExists(fldr))
     {
         return;
@@ -208,9 +200,9 @@ void __fastcall TMForm::LoadFromTreeViewAExecute(TObject *Sender)
                 mRR = new RoadRunner;
             }
 
-            mRR->setCompiler(GetCompiler());
+//            mRR->setCompiler(GetCompiler());
 
-            mRR->ComputeAndAssignConservationLaws(ConservationAnalysisCB->Checked);
+//            mRR->computeAndAssignConservationLaws(ConservationAnalysisCB->Checked);
 
             if(mRR->loadSBMLFromFile(fName))
             {
@@ -220,7 +212,7 @@ void __fastcall TMForm::LoadFromTreeViewAExecute(TObject *Sender)
 
                 //Enable simulate action
                 SimulateA->Enabled = true;
-                mModelNameLbl->Caption = mRR->GetModelName().c_str();
+                mModelNameLbl->Caption = mRR->getModelName().c_str();
             }
             else
             {
@@ -260,11 +252,11 @@ void __fastcall TMForm::SimulateAExecute(TObject *Sender)
         Log(rr::lInfo)<<"Currently selected species: "<<mRR->getTimeCourseSelectionList().AsString();
 
         mRR->setCompiler(GetCompiler());
-        mRR->ComputeAndAssignConservationLaws(ConservationAnalysisCB->Checked);
+//        mRR->computeAndAssignConservationLaws(ConservationAnalysisCB->Checked);
         mRR->simulateEx(mStartTimeE->GetValue(), *mEndTimeE, mNrOfSimulationPointsE->GetValue());
 
-        SimulationData data = mRR->GetSimulationResult();
-        string resultFileName(rr::JoinPath(mRR->getTempFileFolder(), mRR->GetModelName()));
+        SimulationData data = mRR->getSimulationResult();
+        string resultFileName(rr::JoinPath(mRR->getTempFolder(), mRR->getModelName()));
         resultFileName = rr::ChangeFileExtensionTo(resultFileName, ".csv");
         Log(rr::lInfo)<<"Saving result to file: "<<resultFileName;
         ofstream fs(resultFileName.c_str());
@@ -317,7 +309,7 @@ void __fastcall TMForm::loadAvailableSymbolsAExecute(TObject *Sender)
         	SelList->Items->Add("Time");
 	        SelList->Checked[0] = true;
             NewArrayList	symbols = mRR->getAvailableTimeCourseSymbols();
-            Log(mtk::lInfo)<<symbols;
+            Log(rr::lInfo)<<symbols;
             StringList fs       = symbols.GetStringList("Floating Species");
             StringList bs       = symbols.GetStringList("Boundary Species");
             StringList vols     = symbols.GetStringList("Volumes");
@@ -385,8 +377,8 @@ void TMForm::Plot(const rr::SimulationData& result)
 
     //Fill out data for all series
     Log(rr::lDebug4)<<"Simulation Result"<<result;
-    int nrOfSeries = result.GetNrOfCols() -1; //First one is time
-    StringList colNames = result.GetColumnNames();
+    int nrOfSeries = result.cSize() -1; //First one is time
+    StringList colNames = result.getColumnNames();
     vector<TLineSeries*> series;
     for(int i = 0; i < nrOfSeries; i++)
     {
@@ -398,7 +390,7 @@ void TMForm::Plot(const rr::SimulationData& result)
         Chart1->AddSeries(aSeries);
     }
 
-    for(int j = 0; j < result.GetNrOfRows(); j++)
+    for(int j = 0; j < result.rSize(); j++)
     {
         double xVal = result(j,0);
 
@@ -425,14 +417,14 @@ void __fastcall TMForm::PlotTestTestSuiteDataExecute(TObject *Sender)
     }
 
     SimulationData result;
-    if(!result.Load(tsDataFile))
+    if(!result.load(tsDataFile))
     {
         return;
     }
 
     //Fill out data for all series
-    int nrOfSeries = result.GetNrOfCols() -1; //First one is time
-    StringList colNames = result.GetColumnNames();
+    int nrOfSeries = result.cSize() -1; //First one is time
+    StringList colNames = result.getColumnNames();
     vector<TLineSeries*> series;
     for(int i = 0; i < nrOfSeries; i++)
     {
@@ -445,7 +437,7 @@ void __fastcall TMForm::PlotTestTestSuiteDataExecute(TObject *Sender)
         Chart1->AddSeries(aSeries);
     }
 
-    for(int j = 0; j < result.GetNrOfRows(); j++)
+    for(int j = 0; j < result.rSize(); j++)
     {
         double xVal = result(j,0);
 
@@ -461,7 +453,7 @@ void __fastcall TMForm::PlotTestTestSuiteDataExecute(TObject *Sender)
 
 void __fastcall TMForm::ChartEditor2Click(TObject *Sender)
 {
-    ChartEditor1->Execute();
+//    ChartEditor1->Execute();
 }
 
 void __fastcall TMForm::CheckUI()
@@ -548,7 +540,7 @@ void __fastcall TMForm::LogCurrentDataAExecute(TObject *Sender)
 {
     if(mRR)
     {
-        SimulationData data = mRR->GetSimulationResult();
+        SimulationData data = mRR->getSimulationResult();
         Log(rr::lInfo)<<data;
     }
 }
@@ -571,7 +563,7 @@ void __fastcall TMForm::UpdateTestSuiteInfo()
         if(rr::FileExists(htmlDoc)) //This is a test suite folder
         {
             //If this is a testsuite folder.. show the http
-            WebBrowser1->Navigate(htmlDoc.c_str());
+//            WebBrowser1->Navigate(htmlDoc.c_str());
             string aFile = rr::JoinPath(path, (caseNr + "-plot.jpg"));
             //Picture..
             if(rr::FileExists(aFile))
@@ -682,10 +674,10 @@ void __fastcall TMForm::Button5Click(TObject *Sender)
 
 void __fastcall TMForm::CheckThreadTimerTimer(TObject *Sender)
 {
-	if(mSimulateThread.IsRunning())
+	if(mSimulateThread.isWorking())
     {
     	RunThreadBtn->Caption = "Stop";
-    }	
+    }
     else
     {
     	RunThreadBtn->Caption = "Run";
@@ -695,14 +687,14 @@ void __fastcall TMForm::CheckThreadTimerTimer(TObject *Sender)
 
 void __fastcall TMForm::RunThreadBtnClick(TObject *Sender)
 {
-	if(mSimulateThread.IsRunning())
+	if(mSimulateThread.isWorking())
     {
-    	mSimulateThread.ShutDown();
+    	mSimulateThread.exit();
     }
     else
     {
-		mSimulateThread.Run();
+		mSimulateThread.start();
     }
 }
-//---------------------------------------------------------------------------
+
 

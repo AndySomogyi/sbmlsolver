@@ -194,9 +194,10 @@ std::size_t IndexOf(std::vector<std::string>& vec, const std::string& elem )
 }
 
 // String utils
-string RemoveTrailingSeparator(const string& _folder, const string& sep)
+//string RemoveTrailingSeparator(const string& fldr, const char sep = gPathSeparator);//"\\");
+string RemoveTrailingSeparator(const string& _folder, const char sep)
 {
-    if((_folder.size() > 0) && (sep.size() > 0) && (_folder[_folder.size() -1] == sep[0]))
+    if((_folder.size() > 0) && (_folder[_folder.size() -1] == sep))
     {
         const int endOfPathIndex = _folder.rfind(sep, _folder.size());
         string folder = _folder.substr(0, endOfPathIndex);

@@ -58,25 +58,28 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
+        <Defines>STATIC_MTK;STATIC_RR;$(Defines)</Defines>
+        <Manifest_File>None</Manifest_File>
+        <BCC_PCHUsage>None</BCC_PCHUsage>
+        <Icon_MainIcon>rrGUI_Icon1.ico</Icon_MainIcon>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <FinalOutputDir>$(RR_INSTALL)\bin</FinalOutputDir>
-        <LinkPackageStatics>Tee915.lib;vclimg.lib;VCLCommonRTL.lib;vclactnband.lib;vclx.lib;TeePro915.lib;TeeUI915.lib;vclie.lib</LinkPackageStatics>
+        <FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
+        <LinkPackageStatics>vclimg.lib;VCLCommonRTL.lib;vclactnband.lib;vclx.lib;vclie.lib</LinkPackageStatics>
         <OutputExt>exe</OutputExt>
         <LinkPackageImports>rtl.bpi;vcl.bpi;DuneComponents.bpi</LinkPackageImports>
-        <PackageImports>vcl.bpi;rtl.bpi;DuneComponents.bpi;$(PackageImports)</PackageImports>
+        <PackageImports>vcl.bpi;rtl.bpi;DuneComponents.bpi;Tee;TeeDB;$(PackageImports)</PackageImports>
         <ProjectType>CppVCLApplication</ProjectType>
         <AllPackageLibs>rtl.lib;vcl.lib;vclimg.lib;DuneComponents.lib;vclactnband.lib;vclx.lib;vclie.lib;VCLCommon.lib;Tee.lib</AllPackageLibs>
         <_TCHARMapping>char</_TCHARMapping>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
-        <IncludePath>..\..\source\;P:\mtk\VCL\Common\;p:\mtk\Lib\Common\;P:\mtk\Components\Dune\;R:\roadrunnerwork\trunk\apps\rrGUI\;$(RR_ROOT)\trunk\source;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>..\..\source\;P:\mtk\VCL\Common\;R:\installs\xe1\debug\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>C:\rDisk\rrl\source\;C:\rDisk\rrl\apps\rrGUI\;..\..\source\;P:\mtk\VCL\Common\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>C:\rDisk\rrl\source\;C:\rDisk\rrl\apps\rrGUI\;..\..\source\;P:\mtk\VCL\Common\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <Multithreaded>true</Multithreaded>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
-        <DynamicRTL>true</DynamicRTL>
         <UsePackages>true</UsePackages>
         <IntermediateOutputDir>.\$(Config)\$(Platform)</IntermediateOutputDir>
         <BCC_wpar>false</BCC_wpar>
@@ -116,10 +119,13 @@
         <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
         <TASM_Debugging>Full</TASM_Debugging>
         <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
-        <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;R:\installs\xe_branch\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <LinkPackageStatics>vclimg.lib;vclactnband.lib;vclx.lib;vclie.lib;VCLCommon.lib;Tee.lib</LinkPackageStatics>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;DuneComponents.bpi;Tee.bpi</LinkPackageImports>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <ILINK_LibraryPath>$(MTK_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <LinkPackageStatics>vclimg.lib;vclactnband.lib;vclx.lib;vclie.lib;VCLCommon.lib</LinkPackageStatics>
         <Defines>_DEBUG;USE_PCH;$(Defines)</Defines>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
@@ -135,8 +141,11 @@
         <Defines>NDEBUG;$(Defines)</Defines>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="P:\mtk\VCL\Common\mtkVCLUtils.cpp">
-            <DependentOn>P:\mtk\VCL\Common\mtkVCLUtils.h</DependentOn>
+        <CppCompile Include="C:\rDisk\rrl\apps\rrGUI\rrSimulateThreadUI.cpp">
+            <DependentOn>C:\rDisk\rrl\apps\rrGUI\rrSimulateThreadUI.h</DependentOn>
+            <BuildOrder>5</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="C:\rDisk\rrl\source\rrUnresolvedSTDExternals.cpp">
             <BuildOrder>6</BuildOrder>
         </CppCompile>
         <CppCompile Include="MainForm.cpp">
@@ -157,14 +166,6 @@
         <CppCompile Include="rrLogFileReader.cpp">
             <DependentOn>rrLogFileReader.h</DependentOn>
             <BuildOrder>12</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="rrSimulateThread.cpp">
-            <DependentOn>rrSimulateThread.h</DependentOn>
-            <BuildOrder>9</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\rrArrayList.cpp">
-            <DependentOn>..\..\source\rrArrayList.h</DependentOn>
-            <BuildOrder>7</BuildOrder>
         </CppCompile>
         <FormResources Include="MainForm.dfm"/>
         <BuildConfiguration Include="Release">
@@ -215,12 +216,24 @@
                     <VersionInfoKeys Name="ProductName"/>
                     <VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys>
                     <VersionInfoKeys Name="Comments"/>
+                    <VersionInfoKeys Name="CFBundleName"/>
+                    <VersionInfoKeys Name="CFBundleDisplayName"/>
+                    <VersionInfoKeys Name="CFBundleIdentifier"/>
+                    <VersionInfoKeys Name="CFBundleVersion"/>
+                    <VersionInfoKeys Name="CFBundlePackageType"/>
+                    <VersionInfoKeys Name="CFBundleSignature"/>
+                    <VersionInfoKeys Name="CFBundleAllowMixedLocalizations"/>
+                    <VersionInfoKeys Name="CFBundleExecutable"/>
                 </VersionInfoKeys>
                 <ProjectProperties>
                     <ProjectProperties Name="AutoShowDeps">False</ProjectProperties>
                     <ProjectProperties Name="ManagePaths">True</ProjectProperties>
                     <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
                 </ProjectProperties>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k170.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp170.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Platforms>
                 <Platform value="Win32">True</Platform>
