@@ -56,18 +56,18 @@ void setError(const string& err)
     gLastError = createText(err);
 }
 
-char* createText(const string& str)
-{
-	if(str.size() == 0)
-    {
-    	return NULL;
-    }
-
-	char* text = new char[str.size() + 1];
-	std::copy(str.begin(), str.end(), text);
-	text[str.size()] = '\0'; //terminating 0!
-	return text;
-}
+//char* createText(const string& str)
+//{
+//	if(str.size() == 0)
+//    {
+//    	return NULL;
+//    }
+//
+//	char* text = new char[str.size() + 1];
+//	std::copy(str.begin(), str.end(), text);
+//	text[str.size()] = '\0'; //terminating 0!
+//	return text;
+//}
 
 RRMatrix* createMatrix(const ls::DoubleMatrix* mat)
 {
