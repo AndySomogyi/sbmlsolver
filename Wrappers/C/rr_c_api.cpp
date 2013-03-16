@@ -388,7 +388,7 @@ char* rrCallConv getTempFolder(RRHandle handle)
 	try
     {
     	RoadRunner* rri = castFrom(handle);
-	    return createText(rri->getTempFileFolder());
+	    return createText(rri->getTempFolder());
     }
     catch(Exception& ex)
     {
@@ -569,7 +569,7 @@ bool rrCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
     }
 }
 
-RRThreadHandle rrCallConv loadSBMLFromFileThread(RRHandle rrHandle, const char* fileName)
+RRJobHandle rrCallConv loadSBMLFromFileThread(RRHandle rrHandle, const char* fileName)
 {
 	try
     {
@@ -602,7 +602,7 @@ RRThreadHandle rrCallConv loadSBMLFromFileThread(RRHandle rrHandle, const char* 
     }
 }
 
-RRThreadPoolHandle rrCallConv loadSBMLFromFileTP(RRInstanceListHandle _handles, const char* fileName, int nrOfThreads)
+RRJobsHandle rrCallConv loadSBMLFromFileTP(RRInstanceListHandle _handles, const char* fileName, int nrOfThreads)
 {
 	try
     {
@@ -633,7 +633,7 @@ RRThreadPoolHandle rrCallConv loadSBMLFromFileTP(RRInstanceListHandle _handles, 
     }
 }
 
-bool rrCallConv waitForJob(RRThreadHandle handle)
+bool rrCallConv waitForJob(RRJobHandle handle)
 {
 	try
     {
@@ -654,7 +654,7 @@ bool rrCallConv waitForJob(RRThreadHandle handle)
     }
 }
 
-bool rrCallConv waitForJobs(RRThreadPoolHandle handle)
+bool rrCallConv waitForJobs(RRJobsHandle handle)
 {
 	try
     {
@@ -675,7 +675,7 @@ bool rrCallConv waitForJobs(RRThreadPoolHandle handle)
     }
 }
 
-bool rrCallConv isWorkingOnJobs(RRThreadPoolHandle handle)
+bool rrCallConv isWorkingOnJobs(RRJobsHandle handle)
 {
 	try
     {
@@ -695,7 +695,7 @@ bool rrCallConv isWorkingOnJobs(RRThreadPoolHandle handle)
     }
 }
 
-int rrCallConv getNumberOfRemainingJobs(RRThreadPoolHandle handle)
+int rrCallConv getNumberOfRemainingJobs(RRJobsHandle handle)
 {
 	try
     {
@@ -1068,7 +1068,7 @@ RRResultHandle rrCallConv getSimulationResult(RRHandle handle)
     }
 }
 
-RRThreadHandle rrCallConv simulateThread(RRHandle rrHandle)
+RRJobHandle rrCallConv simulateThread(RRHandle rrHandle)
 {
 	try
     {
@@ -1092,7 +1092,7 @@ RRThreadHandle rrCallConv simulateThread(RRHandle rrHandle)
     }
 }
 
-RRThreadPoolHandle rrCallConv simulateTP(RRInstanceListHandle _handles, int nrOfThreads)
+RRJobsHandle rrCallConv simulateTP(RRInstanceListHandle _handles, int nrOfThreads)
 {
 	try
     {
