@@ -146,7 +146,6 @@ object MForm: TMForm
         Height = 353
         Align = alClient
         TabOrder = 1
-        ExplicitHeight = 181
         object SelList: TCheckListBox
           Left = 1
           Top = 1
@@ -156,7 +155,6 @@ object MForm: TMForm
           ItemHeight = 13
           TabOrder = 0
           OnClick = SelListClick
-          ExplicitHeight = 179
         end
         object GroupBox2: TGroupBox
           Left = 80
@@ -166,7 +164,6 @@ object MForm: TMForm
           Align = alRight
           Caption = 'Model'
           TabOrder = 1
-          ExplicitHeight = 179
           object mModelNameLbl: TLabel
             Left = 24
             Top = 16
@@ -228,7 +225,6 @@ object MForm: TMForm
       Height = 164
       Align = alClient
       TabOrder = 2
-      ExplicitHeight = 336
     end
   end
   object StatusBar1: TStatusBar
@@ -266,6 +262,10 @@ object MForm: TMForm
       TabOrder = 0
       object TabSheet1: TTabSheet
         Caption = 'Log'
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object Panel3: TPanel
           Left = 0
           Top = 0
@@ -330,6 +330,10 @@ object MForm: TMForm
       object TabSheet3: TTabSheet
         Caption = 'Test Suite'
         ImageIndex = 2
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object Button2: TButton
           Left = 408
           Top = 112
@@ -348,6 +352,10 @@ object MForm: TMForm
           TabOrder = 1
           object TabSheet4: TTabSheet
             Caption = 'General'
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object testSuitePic: TImage
               Left = 676
               Top = 29
@@ -1285,12 +1293,20 @@ object MForm: TMForm
           object TabSheet5: TTabSheet
             Caption = 'TabSheet5'
             ImageIndex = 1
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
           end
         end
       end
       object TabSheet6: TTabSheet
         Caption = 'Other Tests'
         ImageIndex = 3
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object runCountMemo: TMemo
           Left = 208
           Top = 0

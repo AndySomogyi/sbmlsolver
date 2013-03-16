@@ -202,6 +202,7 @@ void __fastcall TMForm::LoadFromTreeViewAExecute(TObject *Sender)
             Log(rr::lInfo)<<"RoadRunner Exception :"<<ex.what();
             SimulateA->Enabled = false;
         }
+
     }
 }
 

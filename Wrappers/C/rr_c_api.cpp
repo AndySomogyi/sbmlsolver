@@ -92,7 +92,8 @@ RRHandle rrCallConv createRRInstance()
 #else
             string compiler("gcc");
 #endif
-	        return new RoadRunner(JoinPath(rrInstallFolder, "rr_support"), compiler, GetUsersTempDataFolder());
+	//RoadRunner(const string& tempFolder, const string& supportCodeFolder, const string& compiler)
+	        return new RoadRunner(GetUsersTempDataFolder(), JoinPath(rrInstallFolder, "rr_support"), compiler);
     }
 	catch(Exception& ex)
     {

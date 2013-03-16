@@ -6,11 +6,11 @@
 #if defined(WIN32)
 #include <windows.h>
 #include <strsafe.h>
-    #if defined(__CODEGEARC__)
+#if defined(__CODEGEARC__)
     #include <dir.h>
-    #elif defined(_MSVC)
+#elif defined(_MSVC)
     #include <direct.h>
-    #endif
+#endif
 #endif
 #include "Poco/File.h"
 #include "rrLogger.h"
@@ -337,13 +337,13 @@ bool Compiler::compile(const string& cmdLine)
     	Log(lDebug)<<"WIN API error: (pi.hThread)"<<anError;
     }
 
-//    //Read the log file and log it
-//    if(FileExists(compilerTempFile))
-//    {
-//    	string log = GetFileContent(compilerTempFile.c_str());
-//    	Log(lDebug)<<"Compiler output: "<<log<<endl;
-//    }
-//
+    //Read the log file and log it
+    if(FileExists(compilerTempFile))
+    {
+    	string log = GetFileContent(compilerTempFile.c_str());
+    	Log(lDebug)<<"Compiler output: "<<log<<endl;
+    }
+
     return true;
 }
 

@@ -690,6 +690,7 @@ bool RoadRunner::loadSBML(const string& sbml)
 	//Creates a name for the shared lib
    	mModelLib.createName(modelName);
    	Mutex::ScopedLock lock(mCompileMutex);
+    try
     {
     //Can't have multiple threads compiling to the same dll at the same time..
         if(!FileExists(mModelLib.getFullFileName()))
@@ -706,7 +707,12 @@ bool RoadRunner::loadSBML(const string& sbml)
             Log(lDebug)<<"Model compiled files already generated.";
         }
 
-}//End of scope for Mutex
+	}//End of scope for Mutex
+    catch(const Exception& ex)
+    {
+    	Log(lError)<<"Compiler problem: "<<ex.what();
+    }
+
     if(!mModelLib.load()) //The model may already be loaded, in which case the load still returns true;
     {
         Log(lError)<<"Failed to load model DLL";
@@ -1188,10 +1194,11 @@ void RoadRunner::computeAndAssignConservationLaws(const bool& bValue)
         {
             throw("Failed generating model from SBML when trying to set computeAndAssignConservationLaws");
         }
+
         //We need no recompile the model if this flag changes..
         if(!compileModel())
         {
-            throw("Failed compiling model when trying to set computeAndAssignConservationLaws");
+            throw( CoreException("Failed compiling model when trying to set computeAndAssignConservationLaws"));
         }
     }
 }
