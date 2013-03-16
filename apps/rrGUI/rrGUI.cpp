@@ -3,6 +3,7 @@
 #include <vcl.h>
 #pragma hdrstop
 #include <tchar.h>
+#include "rrException.h"
 //---------------------------------------------------------------------------
 USEFORM("MainForm.cpp", MForm);
 //---------------------------------------------------------------------------
@@ -27,9 +28,11 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->CreateForm(__classid(TMForm), &MForm);
 		Application->Run();
 	}
-	catch (Exception &exception)
+	catch (rr::Exception &ex)
 	{
-		Application->ShowException(&exception);
+		//Application->ShowException(&exception);
+        Exception *ex2 = new Exception(ex.what());
+        Application->ShowException(ex2);
 	}
 	catch (...)
 	{
