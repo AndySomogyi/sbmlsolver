@@ -388,7 +388,7 @@ char* rrCallConv getTempFolder(RRHandle handle)
 	try
     {
     	RoadRunner* rri = castFrom(handle);
-	    return createText(rri->getTempFolder());
+		return createText(rri->getTempFileFolder());
     }
     catch(Exception& ex)
     {

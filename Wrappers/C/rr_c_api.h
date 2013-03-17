@@ -382,7 +382,7 @@ C_DECL_SPEC bool rrCallConv loadSBMLFromFile(RRHandle handle, const char* fileNa
  \ingroup multiThreading
 */
 
-C_DECL_SPEC RRThreadHandle rrCallConv loadSBMLFromFileThread(RRHandle rrHandle, const char* fileName);
+C_DECL_SPEC RRJobHandle rrCallConv loadSBMLFromFileThread(RRHandle rrHandle, const char* fileName);
 
 /*!
  \brief Load a model from a SBML file into a set of RoadRunner instances
@@ -391,7 +391,7 @@ C_DECL_SPEC RRThreadHandle rrCallConv loadSBMLFromFileThread(RRHandle rrHandle, 
  \return Returns a handle to the ThreadPool if succesful, otherwise returns NULL
  \ingroup multiThreading
 */
-C_DECL_SPEC RRThreadPoolHandle rrCallConv loadSBMLFromFileTP(RRInstanceListHandle rrHandles, const char* fileName, int nrOfThreads);
+C_DECL_SPEC RRJobsHandle rrCallConv loadSBMLFromFileTP(RRInstanceListHandle rrHandles, const char* fileName, int nrOfThreads);
 
 /*!
  \brief Wait for jobs in thread to finish
@@ -399,7 +399,7 @@ C_DECL_SPEC RRThreadPoolHandle rrCallConv loadSBMLFromFileTP(RRInstanceListHandl
  \return Returns true if thread finsihed up properly, otherwise returns false
  \ingroup multiThreading
 */
-C_DECL_SPEC bool rrCallConv waitForJob(RRThreadHandle handle);
+C_DECL_SPEC bool rrCallConv waitForJob(RRJobHandle handle);
 
 /*!
  \brief Wait for jobs in thread pool to finish
@@ -407,7 +407,7 @@ C_DECL_SPEC bool rrCallConv waitForJob(RRThreadHandle handle);
  \return Returns true if threadpool finished up properly, otherwise returns false
  \ingroup multiThreading
 */
-C_DECL_SPEC bool rrCallConv waitForJobs(RRThreadPoolHandle handle);
+C_DECL_SPEC bool rrCallConv waitForJobs(RRJobsHandle handle);
 
 /*!
  \brief Check if there are work being done on jobs
@@ -415,7 +415,7 @@ C_DECL_SPEC bool rrCallConv waitForJobs(RRThreadPoolHandle handle);
  \return Returns true if there are running threads, otherwise returns false
  \ingroup multiThreading
 */
-C_DECL_SPEC bool rrCallConv isWorkingOnJobs(RRThreadPoolHandle handle);
+C_DECL_SPEC bool rrCallConv isWorkingOnJobs(RRJobsHandle handle);
 
 /*!
  \brief Get number of remaining jobs in a threadPool
@@ -423,7 +423,7 @@ C_DECL_SPEC bool rrCallConv isWorkingOnJobs(RRThreadPoolHandle handle);
  \return Returns number of remaining, unfinished jobs. Returns -1 on failure
  \ingroup multiThreading
 */
-C_DECL_SPEC int rrCallConv getNumberOfRemainingJobs(RRThreadPoolHandle handle);
+C_DECL_SPEC int rrCallConv getNumberOfRemainingJobs(RRJobsHandle handle);
 
 /*!
  \brief Load simulation settings from a file
@@ -583,9 +583,9 @@ setNumPoints etc to set the simulation characteristics.
 */
 C_DECL_SPEC RRResultHandle rrCallConv simulate(RRHandle handle);
 
-C_DECL_SPEC RRThreadPoolHandle rrCallConv simulateThread(RRHandle rrHandle);
+C_DECL_SPEC RRJobHandle rrCallConv simulateThread(RRHandle rrHandle);
 
-C_DECL_SPEC RRThreadPoolHandle rrCallConv simulateTP(RRInstanceListHandle rrHandles, int nrOfThreads);
+C_DECL_SPEC RRJobsHandle rrCallConv simulateTP(RRInstanceListHandle rrHandles, int nrOfThreads);
 
 C_DECL_SPEC RRResultHandle rrCallConv getSimulationResult(RRHandle handle);
 

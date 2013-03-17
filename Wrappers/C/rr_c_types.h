@@ -60,10 +60,10 @@ typedef int bool;
 typedef void* RRHandle; /*! Void pointer to RRHandle */
 
 /*!@brief Void pointer to T(hread) Handle */
-typedef void* RRThreadHandle; /*! Void pointer to RRThreadHandle */
+typedef void* RRJobHandle; /*! Void pointer to RRJobHandle */
 
 /*!@brief Void pointer to T(hread)P(ool)Handle */
-typedef void* RRThreadPoolHandle; /*! Void pointer to RRThreadPoolHandle */
+typedef void* RRJobsHandle; /*! Void pointer to RRJobsHandle */
 
 /*!@struct*/
 /*!@brief Structure for a set of RoadRunner handles */
