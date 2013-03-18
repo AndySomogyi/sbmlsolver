@@ -420,6 +420,9 @@
             <DependentOn>..\..\source\rrTVariableType.h</DependentOn>
             <BuildOrder>58</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\rrUnresolvedSTDExternals.cpp">
+            <BuildOrder>78</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrUtils.cpp">
             <DependentOn>..\..\source\rrUtils.h</DependentOn>
             <BuildOrder>59</BuildOrder>

@@ -375,6 +375,15 @@ C_DECL_SPEC bool rrCallConv loadSBML(RRHandle handle, const char* sbml);
 C_DECL_SPEC bool rrCallConv loadSBMLFromFile(RRHandle handle, const char* fileName);
 
 /*!
+ \brief Load a model from a SBML file, force recompilation
+ \param[in] fileName file name (or full path) to file that holds the SBML model
+ \param[in] forceRecompile. Boolean that forces recompilation if true. If false, no compilation occur if model dll exists
+ \return Returns true if sucessful
+ \ingroup loadsave
+*/
+C_DECL_SPEC bool rrCallConv loadSBMLFromFileE(RRHandle handle, const char* fileName, bool forceRecompile);
+
+/*!
  \brief Load a model from a SBML file into a RoadRunner instances, using a Job
  \param[in] rrHandle - RoadRunner handle
  \param[in] fileName file name (or full path) to file that holds the SBML model

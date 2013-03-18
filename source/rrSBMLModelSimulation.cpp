@@ -34,7 +34,7 @@ string SBMLModelSimulation::GetTempDataFolder()
     return mTempDataFolder;
 }
 
-void SBMLModelSimulation::CompileIfDllExists(const bool& doIt)
+void SBMLModelSimulation::ReCompileIfDllExists(const bool& doIt)
 {
     mCompileIfDllExists = doIt;
 }
@@ -91,7 +91,7 @@ string  SBMLModelSimulation::GetDataOutputFolder()
     return mDataOutputFolder;
 }
 
-bool SBMLModelSimulation::CompileIfDllExists()
+bool SBMLModelSimulation::DoCompileIfDllExists()
 {
     return mCompileIfDllExists;
 }
@@ -267,7 +267,8 @@ bool SBMLModelSimulation::LoadSBMLFromFile()                    //Use current fi
     {
         return false;
     }
-    bool val = mEngine->loadSBMLFromFile(GetModelsFullFilePath());
+
+    bool val = mEngine->loadSBMLFromFile(GetModelsFullFilePath(), mCompileIfDllExists);
     return val;
 }
 

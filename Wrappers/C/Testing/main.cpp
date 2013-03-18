@@ -87,7 +87,7 @@ int main(int argc, char* argv[])
 
     clog<<"Running TestSuite Tests\n";
     clog<<"ModelPath "<<gTSModelsPath;
-//    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4", 	True(), 0);
+    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4", 	True(), 0);
 
     //Finish outputs result to xml file
     runner1.Finish();
@@ -130,7 +130,11 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 
 #if defined(CG_IDE)
 #pragma comment(lib, "rr_c_api.lib")
+#if defined(STATIC_RR)
 #pragma comment(lib, "roadrunner-static.lib")
+#else
+#pragma comment(lib, "roadrunner.lib")
+#endif
 #pragma comment(lib, "rr-libstruct-static.lib")
 #pragma comment(lib, "unit_test-static.lib")
 #endif

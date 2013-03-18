@@ -42,8 +42,8 @@ class RR_DECLSPEC SBMLModelSimulation : public rrObject
         bool                    CompileModel();
         bool                    InitializeModel();
         bool                    GenerateAndCompileModel();
-        void                    CompileIfDllExists(const bool& doIt);
-        bool                    CompileIfDllExists();
+        void                    ReCompileIfDllExists(const bool& doIt);
+        bool                    DoCompileIfDllExists();
         bool                    SaveModelAsXML(const string& folder);
 
         //API

@@ -52,7 +52,7 @@
         <IncludePath>..\..\Wrappers\C\;R:\rrl\ide_builds\xe3\;$(RR_ROOT)\source;$(IncludePath)</IncludePath>
         <ProjectType>CppDynamicLibrary</ProjectType>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
-        <Defines>EXPORT_RR_C_API;STATIC_RR;LIBSBML_USE_CPP_NAMESPACE;CG_IDE;$(Defines)</Defines>
+        <Defines>EXPORT_RR_C_API;LIBSBML_USE_CPP_NAMESPACE;CG_IDE;$(Defines)</Defines>
         <ILINK_LibraryPath>..\..\Wrappers\C\;R:\rrl\ide_builds\xe3\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <Multithreaded>true</Multithreaded>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
@@ -77,7 +77,6 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <IncludePath>$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
-        <DynamicRTL>true</DynamicRTL>
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
         <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
         <DCC_Optimize>false</DCC_Optimize>
@@ -100,7 +99,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <DynamicRTL>false</DynamicRTL>
+        <DynamicRTL>true</DynamicRTL>
         <BPILibOutputDir>$(RR_DEBUG)\lib</BPILibOutputDir>
         <FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>

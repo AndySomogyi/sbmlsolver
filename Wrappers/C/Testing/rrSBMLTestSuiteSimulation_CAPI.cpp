@@ -22,6 +22,10 @@ SBMLTestSuiteSimulation_CAPI::~SBMLTestSuiteSimulation_CAPI()
 void SBMLTestSuiteSimulation_CAPI::UseHandle(RRHandle handle)
 {
 	mRRHandle = handle;
+    if(mRRHandle)
+    {
+    	this->UseEngine((RoadRunner*) mRRHandle);
+    }
 }
 
 
@@ -32,7 +36,7 @@ bool SBMLTestSuiteSimulation_CAPI::LoadSBMLFromFile()
     	return false;
     }
 
-    return loadSBMLFromFile(mRRHandle, GetModelsFullFilePath().c_str());
+    return loadSBMLFromFileE(mRRHandle, GetModelsFullFilePath().c_str(), true);
 }
 
 bool SBMLTestSuiteSimulation_CAPI::LoadSettings(const string& settingsFName)

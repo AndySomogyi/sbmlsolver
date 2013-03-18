@@ -45,6 +45,7 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
+        <Manifest_File>None</Manifest_File>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
@@ -74,9 +75,7 @@
         <Icns_MainIcns>$(BDS)\bin\cbuilder_PROJECTICNS.icns</Icns_MainIcns>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <Debugger_RunParams>-mr:\models -lr:\installs\cg\xe1\debug\compilers\tcc\tcc.exe  -sr:\installs\cg\xe1\debug\rr_support -rr:\rrl\reports\cg\xe1\c_tests.xml -tr:\rrTemp\cg_c -dr:\rrTemp\cg_c</Debugger_RunParams>
-        <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
@@ -101,11 +100,8 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <Defines>STATIC_RR;$(Defines)</Defines>
-        <DynamicRTL>false</DynamicRTL>
         <ILINK_DisableIncrementalLinking>true</ILINK_DisableIncrementalLinking>
         <IncludePath>$(RR_DEBUG)\include\rr-libstruct;$(IncludePath)</IncludePath>
-        <Manifest_File>None</Manifest_File>
         <Debugger_RunParams>-mr:\models  -rr:\rrl\reports\cg\xe3\c_tests_debug.xml -tr:\temp\cg_c</Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">

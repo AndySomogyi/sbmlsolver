@@ -572,6 +572,36 @@ bool rrCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
     }
 }
 
+bool rrCallConv loadSBMLFromFileE(RRHandle _handle, const char* fileName, bool forceRecompile)
+{
+	try
+    {
+        //Check first if file exists first
+        if(!FileExists(fileName))
+        {
+            stringstream msg;
+            msg<<"The file "<<fileName<<" was not found";
+            setError(msg.str());
+            return false;
+        }
+
+    	RoadRunner* rri = castFrom(_handle);
+        if(!rri->loadSBMLFromFile(fileName, forceRecompile))
+        {
+            setError("Failed to load SBML semantics");	//There are many ways loading a model can fail, look at logFile to know more
+            return false;
+        }
+        return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
 RRJobHandle rrCallConv loadSBMLFromFileJob(RRHandle rrHandle, const char* fileName)
 {
 	try
@@ -4078,7 +4108,12 @@ double test9 = std::numeric_limits<int>::max();
 //We only need to give the linker the folder where libs are
 //using the pragma comment. Works for MSVC and codegear
 #if defined(CG_IDE)
+
+#if defined(STATIC_RR)
 #pragma comment(lib, "roadrunner-static.lib")
+#else
+#pragma comment(lib, "roadrunner.lib")
+#endif
 #pragma comment(lib, "rr-libstruct-static.lib")
 #pragma comment(lib, "pugi-static.lib")
 #pragma comment(lib, "libsbml-static.lib")

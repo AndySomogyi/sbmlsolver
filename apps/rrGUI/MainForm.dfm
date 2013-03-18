@@ -257,15 +257,11 @@ object MForm: TMForm
       Top = 465
       Width = 1007
       Height = 250
-      ActivePage = TabSheet2
+      ActivePage = TabSheet3
       Align = alBottom
       TabOrder = 0
       object TabSheet1: TTabSheet
         Caption = 'Log'
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object Panel3: TPanel
           Left = 0
           Top = 0
@@ -330,10 +326,6 @@ object MForm: TMForm
       object TabSheet3: TTabSheet
         Caption = 'Test Suite'
         ImageIndex = 2
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object Button2: TButton
           Left = 408
           Top = 112
@@ -352,10 +344,6 @@ object MForm: TMForm
           TabOrder = 1
           object TabSheet4: TTabSheet
             Caption = 'General'
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object testSuitePic: TImage
               Left = 676
               Top = 29
@@ -1293,20 +1281,12 @@ object MForm: TMForm
           object TabSheet5: TTabSheet
             Caption = 'TabSheet5'
             ImageIndex = 1
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
           end
         end
       end
       object TabSheet6: TTabSheet
         Caption = 'Other Tests'
         ImageIndex = 3
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object runCountMemo: TMemo
           Left = 208
           Top = 0
