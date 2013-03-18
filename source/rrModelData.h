@@ -4,11 +4,11 @@
 #if defined __cplusplus
 namespace rr
 {
-struct SModelData;
 #endif
-typedef double 	(*TEventDelayDelegate)(SModelData*);
-typedef double* (*TComputeEventAssignmentDelegate)(SModelData*);
-typedef void 	(*TPerformEventAssignmentDelegate)(SModelData*, double* );
+typedef struct SModelData *ModelDataP;
+typedef double 	(*TEventDelayDelegate)(ModelDataP);
+typedef double* (*TComputeEventAssignmentDelegate)(ModelDataP);
+typedef void 	(*TPerformEventAssignmentDelegate)(ModelDataP, double* );
 
 #if defined(WIN32)
     typedef void __cdecl (*TEventAssignmentDelegate)();

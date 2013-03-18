@@ -336,7 +336,7 @@ void CGenerator::writeComputeAllRatesOfChange(CodeBuilder& ignore, const int& nu
         }
         if (!isThereAnEntry)
         {
-            mSource<<Append("0");
+            mSource<<Append("0;");
         }
         mSource<<"\n";
     }
@@ -778,7 +778,7 @@ void CGenerator::writeEvalInitialAssignments(CodeBuilder& ignore, const int& num
             {
                 mSource<<Append(leftSideRule + " = ");
                 string temp = Append(substituteTerms(numReactions, "", rightSideRule) + ";" + NL());
-                temp = ReplaceWord("time", "md->time", temp);
+//                temp = ReplaceWord("time", "md->time", temp);	//Check if this is necessary!
                 mSource<<temp;
             }
         }
@@ -867,7 +867,7 @@ int CGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
                 if(isRateRule && mNOM.MultiplyCompartment(varName, sCompartment) && (rightSide.find(sCompartment) == string::npos))
                 {
                     string temp = Format("({0}) * {1};{2}", substituteTerms(numReactions, "", rightSideRule), findSymbol(sCompartment), NL());
-                    temp = ReplaceWord("time", "md->time", temp);
+                    //temp = ReplaceWord("time", "md->time", temp);
                     mSource<<temp;
                 }
                 else
@@ -879,7 +879,7 @@ int CGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
                     else
                     {
                         string temp   = Format("{0};{1}", substituteTerms(numReactions, "", rightSideRule), NL());
-                        temp = ReplaceWord("time", "md->time", temp);
+                        //temp = ReplaceWord("time", "md->time", temp);
 
                         if(temp.find("spf_piecewise") != string::npos)
             			{
@@ -1079,7 +1079,7 @@ void CGenerator::writeEvalEvents(CodeBuilder& ignore, const int& numEvents, cons
         string eventString = tempList[0];
 
         eventString = substituteTerms(0, "", eventString);
-        eventString = ReplaceWord("time", "md->time", eventString);
+//        eventString = ReplaceWord("time", "md->time", eventString);
         mSource<<"\tmd->previousEventStatusArray[" << i << "] = md->eventStatusArray[" << i << "];" << NL();
 
 
@@ -1355,7 +1355,7 @@ void CGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numReacti
                 str = sTempVar+ str.substr(str.find(" ="));
                 nCount++;
                 string temp = Format("\t\t{0};{1}", str, NL());
-                temp = ReplaceWord("time", "md->time", temp);
+//                temp = ReplaceWord("time", "md->time", temp);
                 mSource<<temp;
             }
             mSource<<Append("\treturn values;" + NL());
