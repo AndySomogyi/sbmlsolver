@@ -8,7 +8,7 @@ using std::vector;
 namespace rr
 {
     //Function pointer returning a double* taking no arg
-    typedef double* (*TComputeEventAssignmentDelegate)();
+//    typedef double* (*TComputeEventAssignmentDelegate)();
 }
 
 #endif

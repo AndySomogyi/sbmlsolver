@@ -15,7 +15,6 @@ USEFORM("MainForm.cpp", MForm);
 #pragma comment(lib, "roadrunner.lib")
 #endif
 
-//#pragma comment(lib, "VCLCommon.bpi")
 #pragma comment(lib, "rr-libstruct-static.lib")
 #pragma comment(lib, "poco_foundation-static.lib")
 

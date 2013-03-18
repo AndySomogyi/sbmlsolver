@@ -181,7 +181,7 @@ void __fastcall TMForm::LoadFromTreeViewAExecute(TObject *Sender)
 
             mRR->computeAndAssignConservationLaws(ConservationAnalysisCB->Checked);
 
-            if(mRR->loadSBMLFromFile(fName))
+            if(mRR->loadSBMLFromFile(fName, true))
             {
                 Log(rr::lInfo)<<"Loaded model with no exception";
                 loadAvailableSymbolsA->Execute();

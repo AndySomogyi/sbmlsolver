@@ -4,10 +4,11 @@
 #if defined __cplusplus
 namespace rr
 {
+struct SModelData;
 #endif
-typedef double 	(*TEventDelayDelegate)();
-typedef double* (*TComputeEventAssignmentDelegate)();
-typedef void 	(*TPerformEventAssignmentDelegate)(double* );
+typedef double 	(*TEventDelayDelegate)(SModelData*);
+typedef double* (*TComputeEventAssignmentDelegate)(SModelData*);
+typedef void 	(*TPerformEventAssignmentDelegate)(SModelData*, double* );
 
 #if defined(WIN32)
     typedef void __cdecl (*TEventAssignmentDelegate)();
@@ -29,14 +30,12 @@ typedef struct SModelData
     int                            	    numRules;
     int                            	    numEvents;
 
+    char**                              variableTable;
+    char**                              boundaryTable;
+    char**                              globalParameterTable;
+
 	//These need allocation...
 	char*		                        modelName;
-
-	int									eventTypeSize;
-    bool*                          	    eventType;
-
-	int									eventPersistentTypeSize;
-    bool*                          	    eventPersistentType;
 
     int                                 ySize;
     double*                             y;
@@ -74,17 +73,22 @@ typedef struct SModelData
 	int									ctSize;
     double*	                            ct;
 
+
+    int                           	    localParameterDimensionsSize;
+    int*                           	    localParameterDimensions;
+
+	//Event stuff
+	int									eventTypeSize;
+    bool*                          	    eventType;
+
+	int									eventPersistentTypeSize;
+    bool*                          	    eventPersistentType;
+
 	int									eventTestsSize;
     double*	                            eventTests;
 
 	int									eventPrioritiesSize;
 	double*	                     	    eventPriorities;
-
-    char**                              variableTable;
-    char**                              boundaryTable;
-    char**                              globalParameterTable;
-
-    int*                           	    localParameterDimensions;
 
     int		                            eventStatusArraySize;
     bool*                               eventStatusArray;

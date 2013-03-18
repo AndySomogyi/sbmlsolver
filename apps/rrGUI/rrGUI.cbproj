@@ -52,9 +52,9 @@
         <Defines>LIBSBML_USE_CPP_NAMESPACE;POCO_STATIC;$(Defines)</Defines>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
         <AllPackageLibs>rtl.lib;vcl.lib;vclie.lib;Tee.lib;vclimg.lib;DuneComponents.lib;VCLCommon.lib;vclactnband.lib;vclx.lib</AllPackageLibs>
-        <IncludePath>R:\rrl\apps\rrGUI\;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\source\;R:\rrl\apps\rrGUI\;$(IncludePath)</IncludePath>
         <_TCHARMapping>wchar_t</_TCHARMapping>
-        <ILINK_LibraryPath>R:\rrl\apps\rrGUI\;$(MTK_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\source\;R:\rrl\apps\rrGUI\;$(MTK_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <Multithreaded>true</Multithreaded>
         <ProjectType>CppVCLApplication</ProjectType>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
@@ -105,7 +105,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <Defines>STATIC_BUILD;$(Defines)</Defines>
+        <DynamicRTL>false</DynamicRTL>
         <FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <IncludePath>$(RR_ROOT)\Source;$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
@@ -143,6 +143,9 @@
         <CppCompile Include="rrSimulateThreadUI.cpp">
             <DependentOn>rrSimulateThreadUI.h</DependentOn>
             <BuildOrder>4</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrUnresolvedSTDExternals.cpp">
+            <BuildOrder>6</BuildOrder>
         </CppCompile>
         <FormResources Include="MainForm.dfm"/>
         <BuildConfiguration Include="Release">

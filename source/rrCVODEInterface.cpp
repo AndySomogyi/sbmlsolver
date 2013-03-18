@@ -649,7 +649,7 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
                 firedEvents.push_back(i);
                 if (mTheModel->mData.eventType[i])
                 {
-                    preComputedAssignments[i] = mTheModel->mData.computeEventAssignments[i]();
+                    preComputedAssignments[i] = mTheModel->mData.computeEventAssignments[i](&(mTheModel->mData));
                 }
             }
         }
@@ -674,12 +674,12 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
 
             // We only fire an event if we transition from false to true
             mTheModel->mData.previousEventStatusArray[currentEvent] = mTheModel->mData.eventStatusArray[currentEvent];
-            double eventDelay = mTheModel->mData.eventDelays[currentEvent]();
+            double eventDelay = mTheModel->mData.eventDelays[currentEvent](&(mTheModel->mData));
             if (eventDelay == 0)
             {
                 if (mTheModel->mData.eventType[currentEvent] && preComputedAssignments.count(currentEvent) > 0)
                 {
-                    mTheModel->mData.performEventAssignments[currentEvent](preComputedAssignments[currentEvent]);
+                    mTheModel->mData.performEventAssignments[currentEvent](&(mTheModel->mData), preComputedAssignments[currentEvent]);
                 }
                 else
                 {
@@ -697,7 +697,7 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
                     int newEvent = additionalEvents[j];
                     if (mTheModel->mData.eventType[newEvent])
                     {
-                        preComputedAssignments[newEvent] = mTheModel->mData.computeEventAssignments[newEvent]();
+                        preComputedAssignments[newEvent] = mTheModel->mData.computeEventAssignments[newEvent](&(mTheModel->mData));
                     }
                 }
 
@@ -724,7 +724,8 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
                     mAssignmentTimes.push_back(timeEnd + eventDelay);
                 }
 
-                PendingAssignment *pending = new PendingAssignment(  timeEnd + eventDelay,
+                PendingAssignment *pending = new PendingAssignment( &(mTheModel->mData),
+                													timeEnd + eventDelay,
                                                                     mTheModel->mData.computeEventAssignments[currentEvent],
                                                                     mTheModel->mData.performEventAssignments[currentEvent],
                                                                     mTheModel->mData.eventType[currentEvent],

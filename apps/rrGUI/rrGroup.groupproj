@@ -6,11 +6,8 @@
         <Projects Include="..\..\ide_builds\xe3\roadrunner.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\ide_builds\xe3\roadrunner-static.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="rrGUI.cbproj">
-            <Dependencies>..\..\ide_builds\xe3\roadrunner-static.cbproj</Dependencies>
+            <Dependencies>..\..\ide_builds\xe3\roadrunner.cbproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -29,32 +26,23 @@
     <Target Name="roadrunner:Make">
         <MSBuild Projects="..\..\ide_builds\xe3\roadrunner.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="roadrunner-static">
-        <MSBuild Projects="..\..\ide_builds\xe3\roadrunner-static.cbproj"/>
-    </Target>
-    <Target Name="roadrunner-static:Clean">
-        <MSBuild Projects="..\..\ide_builds\xe3\roadrunner-static.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="roadrunner-static:Make">
-        <MSBuild Projects="..\..\ide_builds\xe3\roadrunner-static.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="rrGUI" DependsOnTargets="roadrunner-static">
+    <Target Name="rrGUI" DependsOnTargets="roadrunner">
         <MSBuild Projects="rrGUI.cbproj"/>
     </Target>
-    <Target Name="rrGUI:Clean" DependsOnTargets="roadrunner-static:Clean">
+    <Target Name="rrGUI:Clean" DependsOnTargets="roadrunner:Clean">
         <MSBuild Projects="rrGUI.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="rrGUI:Make" DependsOnTargets="roadrunner-static:Make">
+    <Target Name="rrGUI:Make" DependsOnTargets="roadrunner:Make">
         <MSBuild Projects="rrGUI.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="roadrunner;roadrunner-static;rrGUI"/>
+        <CallTarget Targets="roadrunner;rrGUI"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="roadrunner:Clean;roadrunner-static:Clean;rrGUI:Clean"/>
+        <CallTarget Targets="roadrunner:Clean;rrGUI:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="roadrunner:Make;roadrunner-static:Make;rrGUI:Make"/>
+        <CallTarget Targets="roadrunner:Make;rrGUI:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

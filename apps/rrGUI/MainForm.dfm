@@ -257,7 +257,7 @@ object MForm: TMForm
       Top = 465
       Width = 1007
       Height = 250
-      ActivePage = TabSheet3
+      ActivePage = TabSheet1
       Align = alBottom
       TabOrder = 0
       object TabSheet1: TTabSheet

@@ -3,7 +3,7 @@
 
 namespace rr
 {
-    typedef double (*TEventDelayDelegate)();
+//    typedef double (*TEventDelayDelegate)();
 }
 
 //c#

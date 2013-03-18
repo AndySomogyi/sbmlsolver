@@ -211,9 +211,6 @@
             <DependentOn>..\..\source\rrHashTable.h</DependentOn>
             <BuildOrder>21</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\rrIModel.cpp">
-            <BuildOrder>22</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\source\rrIniFile.cpp">
             <BuildOrder>65</BuildOrder>
         </CppCompile>

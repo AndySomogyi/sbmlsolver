@@ -200,10 +200,10 @@ SUITE(SBML_l2v4)
  TEST(163) { CHECK(RunTest("l2v4", 163)); }
  TEST(164) { CHECK(RunTest("l2v4", 164)); }
  TEST(165) { CHECK(RunTest("l2v4", 165)); }
-// TEST(166) { CHECK(RunTest("l2v4", 166)); }   //These Fails after modelupdate
-// TEST(167) { CHECK(RunTest("l2v4", 167)); }
-// TEST(168) { CHECK(RunTest("l2v4", 168)); }
-// TEST(169) { CHECK(RunTest("l2v4", 169)); }
+ TEST(166) { CHECK(RunTest("l2v4", 166)); }
+ TEST(167) { CHECK(RunTest("l2v4", 167)); }
+ TEST(168) { CHECK(RunTest("l2v4", 168)); }
+ TEST(169) { CHECK(RunTest("l2v4", 169)); }
  TEST(170) { CHECK(RunTest("l2v4", 170)); }
  TEST(171) { CHECK(RunTest("l2v4", 171)); }
  TEST(172) { CHECK(RunTest("l2v4", 172)); }
@@ -1095,21 +1095,22 @@ bool RunTest(const string& version, int caseNumber)
         //The following will load and compile and simulate the sbml model in the file
         simulation.SetModelFilePath(modelFilePath);
         simulation.SetModelFileName(modelFileName);
-        simulation.CompileIfDllExists(true);
+        simulation.ReCompileIfDllExists(true);
         simulation.CopyFilesToOutputFolder();
 	    setTempFolder(gRR, simulation.GetDataOutputFolder().c_str());
         if(!simulation.LoadSBMLFromFile())
         {
             throw("Failed loading sbml from file");
         }
+
+        setComputeAndAssignConservationLaws(gRR, false);
+
         //Then read settings file if it exists..
         string settingsOveride("");
         if(!simulation.LoadSettings(settingsOveride))
         {
             throw("Failed loading simulation settings");
         }
-
-        setComputeAndAssignConservationLaws(gRR, false);
 
         //Then Simulate model
         if(!simulation.Simulate())
@@ -1133,6 +1134,10 @@ bool RunTest(const string& version, int caseNumber)
         result = simulation.Pass();
         simulation.SaveAllData();
         simulation.SaveModelAsXML(dataOutputFolder);
+        if(!result)
+        {
+        	clog<<"\t\tTest failed..\n";
+        }
   	}
     catch(rr::Exception& ex)
     {

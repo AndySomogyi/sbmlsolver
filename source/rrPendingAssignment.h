@@ -2,8 +2,9 @@
 #define rrPendingAssignmentH
 #include <vector>
 #include "rrObject.h"
-#include "rrTComputeEventAssignmentDelegate.h"
-#include "rrTPerformEventAssignmentDelegate.h"
+#include "rrModelData.h"
+//#include "rrTComputeEventAssignmentDelegate.h"
+//#include "rrTPerformEventAssignmentDelegate.h"
 
 using std::vector;
 
@@ -18,6 +19,7 @@ namespace rr
 class RR_DECLSPEC PendingAssignment : public rrObject
 {
     protected:
+      	SModelData*							mModelData;
         double                              Time;
         int                                 Index;
         bool                                UseValuesFromTriggerTime;
@@ -32,7 +34,7 @@ class RR_DECLSPEC PendingAssignment : public rrObject
         /// Initializes a new instance of the PendingAssignment class.
         /// </summary>
         /// <param name="time"></param>
-                                            PendingAssignment(  double time,
+                                            PendingAssignment(  SModelData* md, double time,
                                                                 TComputeEventAssignmentDelegate computeAssignment,
                                                                 TPerformEventAssignmentDelegate performAssignment,
                                                                 bool useValuesFromTriggerTime,

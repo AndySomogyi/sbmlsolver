@@ -547,7 +547,7 @@ void CGenerator::writeUserDefinedFunctions(CodeBuilder& ignore)
 void CGenerator::writeResetEvents(CodeBuilder& ignore, const int& numEvents)
 {
       mHeader.AddFunctionExport("void", "resetEvents(ModelData* md)");
-      mSource<<"void resetEvents()\n{";
+      mSource<<"void resetEvents(ModelData* md)\n{";
       for (int i = 0; i < numEvents; i++)
       {
           mSource<<Format("\n\tmd->eventStatusArray[{0}] = false;{1}", i, NL());
@@ -840,7 +840,7 @@ int CGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
                     }
                     else
                     {
-                        leftSideRule = "\n\t_rateRules[" + ToString(numRateRules) + "]";
+                        leftSideRule = "\n\tmd->rateRules[" + ToString(numRateRules) + "]";
                         mMapRateRule[numRateRules] = findSymbol(varName);
                         mapVariables[numRateRules] = varName;
                         numRateRules++;
@@ -904,14 +904,15 @@ int CGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
 
     mSource<<Append("\n}" + NL() + NL());
 
-    mHeader.FormatArray("D_S double", "_rateRules", numRateRules, "Vector containing values of additional rate rules"); //Todo: why is t his here in nowhere?
+//  mHeader.FormatArray("D_S double", "_rateRules", numRateRules, "Vector containing values of additional rate rules"); //Todo: why is t his here in nowhere?
 //    mHeader<<"D_S int _rateRulesSize="<<numRateRules<<";           // Number of rateRules   \n"; //Todo: why is this here in nowhere?
     mHeader.AddFunctionExport("void", "InitializeRates(ModelData* md)");
+
     mSource<<"void InitializeRates(ModelData* md)\n{";
 
     for (int i = 0; i < numRateRules; i++)
     {
-        mSource<<"\n\t_rateRules[" << i << "] = " << mMapRateRule[i] << ";" << NL();
+        mSource<<"\n\tmd->rateRules[" << i << "] = " << mMapRateRule[i] << ";" << NL();
     }
 
     mSource<<Append("}" + NL() + NL());
@@ -925,7 +926,7 @@ int CGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
         {
             mSource<<"\n";
         }
-        mSource<<"\t"<<(string) mMapRateRule[i] << " = _rateRules[" << i << "];\n";
+        mSource<<"\t"<<(string) mMapRateRule[i] << " = md->rateRules[" << i << "];\n";
     }
 
     mSource<<Append("}" + NL() + NL());
@@ -1295,10 +1296,10 @@ void CGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numReacti
     if (numEvents > 0)
     {
         //Get array of pointers functions
-        mSource<<("TEventAssignmentDelegate* Get_eventAssignments(ModelData* md) \n{\n\treturn _eventAssignments;\n}\n\n");
-        mSource<<("TPerformEventAssignmentDelegate* Get_performEventAssignments(ModelData* md) \n{\n\treturn _performEventAssignments;\n}\n\n");
-        mSource<<("TComputeEventAssignmentDelegate* Get_computeEventAssignments(ModelData* md) \n{\n\treturn _computeEventAssignments;\n}\n\n");
-        mSource<<("TEventDelayDelegate* GetEventDelays(ModelData* md) \n{\n\treturn mEventDelay;\n}\n\n");
+        mSource<<("TEventAssignmentDelegate* Get_eventAssignments(ModelData* md) \n{\n\treturn md->eventAssignments;\n}\n\n");
+        mSource<<("TPerformEventAssignmentDelegate* Get_performEventAssignments(ModelData* md) \n{\n\treturn md->performEventAssignments;\n}\n\n");
+        mSource<<("TComputeEventAssignmentDelegate* Get_computeEventAssignments(ModelData* md) \n{\n\treturn md->computeEventAssignments;\n}\n\n");
+        mSource<<("TEventDelayDelegate* GetEventDelays(ModelData* md) \n{\n\treturn md->eventDelays;\n}\n\n");
         mSource<<Append("// Event assignments" + NL());
         for (int i = 0; i < numEvents; i++)
         {
@@ -1315,7 +1316,7 @@ void CGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numReacti
 
             string funcName(Format("performEventAssignment_{0}(ModelData* md, double* values)", i));
             mHeader.AddFunctionExport("void", funcName);
-            mSource<<Format("\tperformEventAssignment_{0}(ModelData* md, computeEventAssignment_{0}() );{1}", i, NL());
+            mSource<<Format("\tperformEventAssignment_{0}(md, computeEventAssignment_{0}(md) );{1}", i, NL());
             mSource<<Append("}\n\n");
 
             funcName = (Format("computeEventAssignment_{0}(ModelData* md)", i));
@@ -1388,12 +1389,12 @@ void CGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numReacti
 
     for (int i = 0; i < delays.Count(); i++)
     {
-        mSource<<Format("\tmEventDelay[{0}] = (TEventDelayDelegate) malloc(sizeof(TEventDelayDelegate) * 1);{2}", i, delays[i], NL());
+        mSource<<Format("\tmd->eventDelays[{0}] = (TEventDelayDelegate) malloc(sizeof(TEventDelayDelegate) * 1);{2}", i, delays[i], NL());
 
         //Inititialize
-        mSource<<Format("\tmEventDelay[{0}] = GetEventDelay_{0};\n", i);
-        mSource<<Format("\t_eventType[{0}] = {1};{2}", i, ToString((eventType[i] ? true : false)), NL());
-        mSource<<Format("\t_eventPersistentType[{0}] = {1};{2}", i, (eventPersistentType[i] ? "true" : "false"), NL());
+        mSource<<Format("\tmd->eventDelays[{0}] = GetEventDelay_{0};\n", i);
+        mSource<<Format("\tmd->eventType[{0}] = {1};{2}", i, ToString((eventType[i] ? true : false)), NL());
+        mSource<<Format("\tmd->eventPersistentType[{0}] = {1};{2}", i, (eventPersistentType[i] ? "true" : "false"), NL());
     }
     mSource<<"}\n\n";
 
@@ -1407,12 +1408,12 @@ void CGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numReacti
         if (current->isSetPriority() && current->getPriority()->isSetMath())
         {
             string priority = SBML_formulaToString(current->getPriority()->getMath());
-            mSource<<"\n"<<Format("\t_eventPriorities[{0}] = {1};{2}", i, substituteTerms(numReactions, "", priority), NL());
+            mSource<<"\n"<<Format("\tmd->eventPriorities[{0}] = {1};{2}", i, substituteTerms(numReactions, "", priority), NL());
 
         }
         else
         {
-            mSource<<"\n"<<Format("\t_eventPriorities[{0}] = 0;{1}", i, NL());
+            mSource<<"\n"<<Format("\tmd->eventPriorities[{0}] = 0;{1}", i, NL());
         }
     }
     mSource<<Format("}{0}{0}", NL());
@@ -1774,38 +1775,38 @@ void CGenerator::writeInitModelDataFunction(CodeBuilder& ignore, CodeBuilder& so
     source.Line("int InitModelData(ModelData* md)");
     source.Line("{");
 
-    //The following is from the constructor..
-    source<<"\t"<<Append("md->numIndependentVariables = " ,     mNumIndependentSpecies, ";" , NL());
-    source<<"\t"<<Append("md->numDependentVariables = " ,       mNumDependentSpecies , ";" , NL());
-    source<<"\t"<<Append("md->numTotalVariables = " ,           mNumFloatingSpecies , ";" , NL());
-    source<<"\t"<<Append("md->numBoundaryVariables = " ,        mNumBoundarySpecies , ";" , NL());
-    source<<"\t"<<Append("md->numGlobalParameters = " ,         mGlobalParameterList.size() , ";" , NL());
-    source<<"\t"<<Append("md->numCompartments = " ,             mCompartmentList.size() , ";" , NL());
-    source<<"\t"<<Append("md->numReactions = " ,                mReactionList.size() , ";" , NL());
-    source<<"\t"<<Append("md->numEvents = " ,                   mNumEvents , ";" , NL());
-
-    //Allocations
-    source<<gTab<<	"//Allocate memory\n";
-    source<<gTab<<	"md->y = (double*) malloc(sizeof(double) * " <<mFloatingSpeciesConcentrationList.size()<<");\n";
-    source<<gTab<<	"md->ySize = " <<mFloatingSpeciesConcentrationList.size()<<";\n";
-
-    source<<gTab<<  "md->modelName = (char*) malloc(sizeof(char)*"<<strlen(mModelName.c_str()) + 1<<");" <<endl;
-    source<<gTab<<  "strcpy(md->modelName,\""<<mModelName<<"\");"<<endl;
-
-    //tables
-    source<<gTab<< "md->variableTable = (char**) malloc(sizeof(char*) * "<<mFloatingSpeciesConcentrationList.size()<<");\n";
-    source<<gTab<< "md->globalParameterTable = (char**) malloc(sizeof(char*) * "<<mGlobalParameterList.size()<<");\n";
-
-	source<<gTab<< "md->gp = (double*) malloc(sizeof(double*) * "<<mNumGlobalParameters + mTotalLocalParmeters<<");\n";
-
-    if(mNumModifiableSpeciesReferences)
-    {
-		source<<gTab<< "md->sr = (double*) malloc(sizeof(double*) * "<<mNumModifiableSpeciesReferences<<");\n";
-
-    }
-	source<<gTab<< "md->lp = (double*) malloc(sizeof(double*) * "<<mNumReactions<<");\n";
-	source<<gTab<< "md->init_y = (double*) malloc(sizeof(double*) * "<<mFloatingSpeciesConcentrationList.Count()<<");\n";
-	source<<gTab<< "md->amounts = (double*) malloc(sizeof(double*) * "<<mFloatingSpeciesConcentrationList.Count()<<");\n";
+//    //The following is from the constructor..
+//    source<<"\t"<<Append("md->numIndependentVariables = " ,     mNumIndependentSpecies, ";" , NL());
+//    source<<"\t"<<Append("md->numDependentVariables = " ,       mNumDependentSpecies , ";" , NL());
+//    source<<"\t"<<Append("md->numTotalVariables = " ,           mNumFloatingSpecies , ";" , NL());
+//    source<<"\t"<<Append("md->numBoundaryVariables = " ,        mNumBoundarySpecies , ";" , NL());
+//    source<<"\t"<<Append("md->numGlobalParameters = " ,         mGlobalParameterList.size() , ";" , NL());
+//    source<<"\t"<<Append("md->numCompartments = " ,             mCompartmentList.size() , ";" , NL());
+//    source<<"\t"<<Append("md->numReactions = " ,                mReactionList.size() , ";" , NL());
+//    source<<"\t"<<Append("md->numEvents = " ,                   mNumEvents , ";" , NL());
+//
+//    //Allocations
+//    source<<gTab<<	"//Allocate memory\n";
+//    source<<gTab<<	"md->y = (double*) malloc(sizeof(double) * " <<mFloatingSpeciesConcentrationList.size()<<");\n";
+//    source<<gTab<<	"md->ySize = " <<mFloatingSpeciesConcentrationList.size()<<";\n";
+//
+//    source<<gTab<<  "md->modelName = (char*) malloc(sizeof(char)*"<<strlen(mModelName.c_str()) + 1<<");" <<endl;
+//    source<<gTab<<  "strcpy(md->modelName,\""<<mModelName<<"\");"<<endl;
+//
+//    //tables
+//    source<<gTab<< "md->variableTable = (char**) malloc(sizeof(char*) * "<<mFloatingSpeciesConcentrationList.size()<<");\n";
+//    source<<gTab<< "md->globalParameterTable = (char**) malloc(sizeof(char*) * "<<mGlobalParameterList.size()<<");\n";
+//
+//	source<<gTab<< "md->gp = (double*) malloc(sizeof(double*) * "<<mNumGlobalParameters + mTotalLocalParmeters<<");\n";
+//
+//    if(mNumModifiableSpeciesReferences)
+//    {
+//		source<<gTab<< "md->sr = (double*) malloc(sizeof(double*) * "<<mNumModifiableSpeciesReferences<<");\n";
+//
+//    }
+//	source<<gTab<< "md->lp = (double*) malloc(sizeof(double*) * "<<mNumReactions<<");\n";
+//	source<<gTab<< "md->init_y = (double*) malloc(sizeof(double*) * "<<mFloatingSpeciesConcentrationList.Count()<<");\n";
+//	source<<gTab<< "md->amounts = (double*) malloc(sizeof(double*) * "<<mFloatingSpeciesConcentrationList.Count()<<");\n";
 
     source.TLine("return 0;");
     source.Line("}");
@@ -1819,51 +1820,25 @@ void CGenerator::writeInitFunction(CodeBuilder& ignore, CodeBuilder& source)
     source.Line("int InitModel(ModelData* md)");
     source.Line("{");
 
-    source<<"\t"<<Append("InitModelData(md);" , NL());
-//    //The following is from the constructor..
-//    source<<"\t"<<Append("md->numIndependentVariables = " ,     mNumIndependentSpecies, ";" , NL());
-//    source<<"\t"<<Append("md->numDependentVariables = " ,       mNumDependentSpecies , ";" , NL());
-//    source<<"\t"<<Append("md->numTotalVariables = " ,           mNumFloatingSpecies , ";" , NL());
-//    source<<"\t"<<Append("md->numBoundaryVariables = " ,        mNumBoundarySpecies , ";" , NL());
-//    source<<"\t"<<Append("md->numGlobalParameters = " ,         mGlobalParameterList.size() , ";" , NL());
-//    source<<"\t"<<Append("md->numCompartments = " ,             mCompartmentList.size() , ";" , NL());
-//    source<<"\t"<<Append("md->numReactions = " ,                mReactionList.size() , ";" , NL());
-//    source<<"\t"<<Append("md->numEvents = " ,                   mNumEvents , ";" , NL());
-//
-//    //Allocations
-//    source<<gTab<<	"//Allocate some memory\n";
-//    source<<gTab<<	"md->y = (double*) malloc(sizeof(double) * " <<mFloatingSpeciesConcentrationList.size()<<");\n";
-//    source<<gTab<<	"md->ySize = " <<mFloatingSpeciesConcentrationList.size()<<";\n";
-//    source<<gTab<<  "md->modelName = (char*) malloc(sizeof(char)*"<<strlen(mModelName.c_str()) + 1<<");" <<endl;
-//    source<<gTab<<  "strcpy(md->modelName,\""<<mModelName<<"\");"<<endl;
-
+//    source<<"\t"<<Append("InitModelData(md);" , NL());
     source<<"\t"<<Append("setCompartmentVolumes(md);" , NL());
     source<<"\t"<<Append("InitializeDelays(md);" , NL());
 
     // Declare any eventAssignment delegates
     if (mNumEvents > 0)
     {
-        source<<Append("\t_eventAssignments = (TEventAssignmentDelegate*) malloc(sizeof(TEventAssignmentDelegate)*numEvents);" , NL());
-//        source<<Append("\t_eventPriorities = (double*) malloc(sizeof(double)* numEvents);" , NL());
-
-//        source<<Append("\t\t_computeEventAssignments= new TComputeEventAssignmentDelegate[numEvents];" , NL());
-        source<<Append("\t_computeEventAssignments = (TComputeEventAssignmentDelegate*) malloc(sizeof(TComputeEventAssignmentDelegate)*numEvents);" , NL());
-
-//        source<<Append("\t\t_performEventAssignments= new TPerformEventAssignmentDelegate[numEvents];" , NL());
-        source<<Append("\t_performEventAssignments = (TPerformEventAssignmentDelegate*) malloc(sizeof(TPerformEventAssignmentDelegate)*numEvents);" , NL());
-
         for (int i = 0; i < mNumEvents; i++)
         {
             string iStr = ToString(i);
-//            source<<Append("\t_eventAssignments[" + iStr + "] = (TEventAssignmentDelegate) eventAssignment_" + iStr +";" + NL());
-            source<<Append("\t_eventAssignments[" + iStr + "] = eventAssignment_" + iStr +";" + NL());
-            source<<Append("\t_computeEventAssignments[" + iStr + "] = (TComputeEventAssignmentDelegate) computeEventAssignment_" + iStr + ";" + NL());
-            source<<Append("\t_performEventAssignments[" + iStr + "] = (TPerformEventAssignmentDelegate) performEventAssignment_" + iStr + ";" + NL());
+            source<<Append("\tmd->eventAssignments[" + iStr + "] = eventAssignment_" + iStr +";" + NL());
+            source<<Append("\tmd->computeEventAssignments[" + iStr + "] = (TComputeEventAssignmentDelegate) computeEventAssignment_" + iStr + ";" + NL());
+            source<<Append("\tmd->performEventAssignments[" + iStr + "] = (TPerformEventAssignmentDelegate) performEventAssignment_" + iStr + ";" + NL());
         }
 
-        source<<Append("\tresetEvents();" + NL());
-        ////Test to call a function
-        source<<Append("\t_eventAssignments[0]();\n");
+        source<<Append("\tresetEvents(md);" + NL());
+
+        //Test to call a function
+        source<<Append("\tmd->eventAssignments[0](md);\n");
         source<<Append(NL());
     }
 
@@ -1876,12 +1851,12 @@ void CGenerator::writeInitFunction(CodeBuilder& ignore, CodeBuilder& source)
         source<<Append(NL());
     }
 
-    // Declare space for local parameters
-    for (int i = 0; i < mNumReactions; i++)
-    {
-        source<<Append("\tmd->localParameterDimensions[" + ToString(i) + "] = " , mLocalParameterDimensions[i] , ";" + NL());
-        source<<"\tmd->lp["<<i<<"] = (double*) malloc(sizeof(double)*"<<mLocalParameterDimensions[i]<<");"<<endl;
-    }
+//    // Declare space for local parameters
+//    for (int i = 0; i < mNumReactions; i++)
+//    {
+//        source<<Append("\tmd->localParameterDimensions[" + ToString(i) + "] = " , mLocalParameterDimensions[i] , ";" + NL());
+//        source<<"\tmd->lp["<<i<<"] = (double*) malloc(sizeof(double)*"<<mLocalParameterDimensions[i]<<");"<<endl;
+//    }
 
     source.TLine("return 0;");
     source.Line("}");
