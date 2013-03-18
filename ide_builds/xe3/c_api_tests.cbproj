@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{16ADA89E-8F76-4FDE-8870-AE8E18619409}</ProjectGuid>
         <ProjectVersion>14.4</ProjectVersion>
@@ -53,11 +53,11 @@
         <BCC_Defines>LIBSBML_USE_CPP_NAMESPACE;WIN32;$(BCC_Defines)</BCC_Defines>
         <OutputExt>exe</OutputExt>
         <LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
-        <ILINK_LibraryPath>..\..\Wrappers\C\Testing\core\;..\..\Wrappers\C\Testing\;core\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\source\;..\..\Wrappers\C\Testing\core\;..\..\Wrappers\C\Testing\;core\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <PackageImports>vcl.bpi;rtl.bpi;bcbie.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;vclimg.bpi;svnui.bpi;svn.bpi;bdertl.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;vclie.bpi;inet.bpi;inetdb.bpi;webdsnap.bpi;websnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;dbexpress.bpi;DbxCommonDriver.bpi;DbxClientDriver.bpi;AzureCloud.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbxcds.bpi;DuneComponents.bpi;VCLCommon.bpi;$(PackageImports)</PackageImports>
         <NoVCL>true</NoVCL>
         <Multithreaded>true</Multithreaded>
-        <IncludePath>..\..\Wrappers\C\Testing\core\;..\..\Wrappers\C\Testing\;..\;$(RR_ROOT)\source;$(RR_ROOT)\Wrappers\C;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\source\;..\..\Wrappers\C\Testing\core\;..\..\Wrappers\C\Testing\;..\;$(RR_ROOT)\source;$(RR_ROOT)\Wrappers\C;$(IncludePath)</IncludePath>
         <AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
         <ProjectType>CppConsoleApplication</ProjectType>
         <_TCHARMapping>char</_TCHARMapping>
@@ -101,6 +101,9 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <Defines>STATIC_RR;$(Defines)</Defines>
+        <DynamicRTL>false</DynamicRTL>
+        <ILINK_DisableIncrementalLinking>true</ILINK_DisableIncrementalLinking>
         <IncludePath>$(RR_DEBUG)\include\rr-libstruct;$(IncludePath)</IncludePath>
         <Manifest_File>None</Manifest_File>
         <Debugger_RunParams>-mr:\models  -rr:\rrl\reports\cg\xe3\c_tests_debug.xml -tr:\temp\cg_c</Debugger_RunParams>
@@ -113,6 +116,9 @@
         <Icns_MainIcns>$(BDS)\bin\cbuilder_PROJECTICNS.icns</Icns_MainIcns>
     </PropertyGroup>
     <ItemGroup>
+        <CppCompile Include="..\..\source\rrUnresolvedSTDExternals.cpp">
+            <BuildOrder>7</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Wrappers\C\Testing\Args.cpp">
             <BuildOrder>3</BuildOrder>
         </CppCompile>
@@ -122,9 +128,6 @@
         <CppCompile Include="..\..\Wrappers\C\Testing\rrSBMLTestSuiteSimulation_CAPI.cpp">
             <DependentOn>..\..\Wrappers\C\Testing\rrSBMLTestSuiteSimulation_CAPI.h</DependentOn>
             <BuildOrder>5</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Wrappers\C\Testing\Suite_CoreExceptions.cpp">
-            <BuildOrder>7</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Wrappers\C\Testing\Suite_SBML_Tests.cpp">
             <BuildOrder>4</BuildOrder>

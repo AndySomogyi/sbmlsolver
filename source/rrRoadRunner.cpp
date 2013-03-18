@@ -581,7 +581,7 @@ bool RoadRunner::simulateSBMLFile(const string& fileName, const bool& useConserv
     return true;
 }
 
-bool RoadRunner::loadSBMLFromFile(const string& fileName)
+bool RoadRunner::loadSBMLFromFile(const string& fileName, const bool& forceReCompile)
 {
 	if(!FileExists(fileName))
     {
@@ -607,7 +607,7 @@ bool RoadRunner::loadSBMLFromFile(const string& fileName)
                 << "\n============ End of SBML "<<endl;
 
 	mCurrentSBMLFileName = fileName;
-    return loadSBML(sbml);
+    return loadSBML(sbml, forceReCompile);
 }
 
 bool RoadRunner::loadSBMLIntoNOM(const string& sbml)
@@ -657,7 +657,7 @@ bool cleanFolder(const string& folder, const string& baseName, const StringList&
     return true;
 }
 
-bool RoadRunner::loadSBML(const string& sbml)
+bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
 {
     mCurrentSBML = sbml;
 
@@ -676,24 +676,33 @@ bool RoadRunner::loadSBML(const string& sbml)
 	}
 
     string 	modelName  = createModelName(mCurrentSBMLFileName);
-    if(mInstanceID  == 1)
-    {
-    	StringList exts("h, c, dll, def, a, log");
-    	cleanFolder(getTempFolder(), modelName, exts);
-    }
-
-    generateModelCode(sbml, modelName);
+//    if(mInstanceID  == 1)
+//    {
+//    	StringList exts("h, c, dll, def, a, log");
+//    	cleanFolder(getTempFolder(), modelName, exts);
+//    }
 
     //Check if model has been compiled
     mModelLib.setPath(getTempFolder());
 
 	//Creates a name for the shared lib
    	mModelLib.createName(modelName);
+    if(forceReCompile)
+    {
+    	//If the dll is loaded.. unload it..
+        if (mModelLib.isLoaded())
+        {
+        	mModelLib.unload();
+        }
+    }
+
+    generateModelCode(sbml, modelName);
+
    	Mutex::ScopedLock lock(mCompileMutex);
     try
     {
-    //Can't have multiple threads compiling to the same dll at the same time..
-        if(!FileExists(mModelLib.getFullFileName()))
+    	//Can't have multiple threads compiling to the same dll at the same time..
+        if(!FileExists(mModelLib.getFullFileName()) || forceReCompile == true)
         {
 
             if(!compileModel())
@@ -778,7 +787,6 @@ bool RoadRunner::loadSimulationSettings(const string& fName)
 
 bool RoadRunner::generateModelCode(const string& sbml, const string& modelName)
 {
-	//Check if the code already exists. if so, don't save..
     if(sbml.size())
     {
         mCurrentSBML = sbml;
@@ -792,23 +800,21 @@ bool RoadRunner::generateModelCode(const string& sbml, const string& modelName)
         return false;
     }
 
-	if(!FileExists(JoinPath(mTempFileFolder, modelName + ".h")) || !FileExists(JoinPath(mTempFileFolder, modelName + ".c")))
+    string tempFileFolder;
+    if(mSimulation)
     {
-        string tempFileFolder;
-        if(mSimulation)
-        {
-            tempFileFolder = mSimulation->GetTempDataFolder();
-        }
-        else
-        {
-            tempFileFolder = mTempFileFolder;
-        }
-
-        if(!mModelGenerator->saveSourceCodeToFolder(tempFileFolder, modelName))
-        {
-            Log(lError)<<"Failed saving generated source code";
-        }
+        tempFileFolder = mSimulation->GetTempDataFolder();
     }
+    else
+    {
+        tempFileFolder = mTempFileFolder;
+    }
+
+    if(!mModelGenerator->saveSourceCodeToFolder(tempFileFolder, modelName))
+    {
+        Log(lError)<<"Failed saving generated source code";
+    }
+
     return true;
 }
 
@@ -1187,19 +1193,30 @@ double RoadRunner::getParameterValue(const TParameterType& parameterType, const 
 //              + "By default roadRunner will discover conservation cycles and reduce the model accordingly.")
 void RoadRunner::computeAndAssignConservationLaws(const bool& bValue)
 {
+	if(bValue == mComputeAndAssignConservationLaws)
+    {
+    	Log(lWarning)<<"The compute and assign conservation laws flag already set to : "<<ToString(bValue);
+    }
     mComputeAndAssignConservationLaws = bValue;
     if(mModel != NULL)
     {
-        if(!generateModelCode())
+    	if(!loadSBML(mCurrentSBML, true))
         {
-            throw("Failed generating model from SBML when trying to set computeAndAssignConservationLaws");
+        	throw( CoreException("Failed re-Loading model when setting computeAndAssignConservationLaws"));
         }
+//        if(!generateModelCode())
+//        {
+//            throw("Failed generating model from SBML when trying to set computeAndAssignConservationLaws");
+//        }
+//
+//        //We need no recompile the model if this flag changes..
+//        if(!compileModel())
+//        {
+//            throw( CoreException("Failed compiling model when trying to set computeAndAssignConservationLaws"));
+//        }
+//
+//        //Then we have to reinit the model..
 
-        //We need no recompile the model if this flag changes..
-        if(!compileModel())
-        {
-            throw( CoreException("Failed compiling model when trying to set computeAndAssignConservationLaws"));
-        }
     }
 }
 
@@ -3464,8 +3481,6 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
 //        [Help("Compute the unscaled species elasticity matrix at the current operating point")]
 DoubleMatrix RoadRunner::getUnscaledElasticityMatrix()
 {
-    DoubleMatrix uElastMatrix(mModel->getNumReactions(), mModel->getNumTotalVariables());
-
     try
     {
         if (!mModel)
@@ -3473,6 +3488,7 @@ DoubleMatrix RoadRunner::getUnscaledElasticityMatrix()
             throw CoreException(gEmptyModelMessage);
         }
 
+	    DoubleMatrix uElastMatrix(mModel->getNumReactions(), mModel->getNumTotalVariables());
         mModel->convertToConcentrations();
 
         // Compute reaction velocities at the current operating point

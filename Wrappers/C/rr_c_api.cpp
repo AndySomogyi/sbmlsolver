@@ -127,11 +127,11 @@ RRHandle rrCallConv createRRInstanceE(const char* tempFolder)
         }
         else if(tempFolder)
         {
-	        return new RoadRunner(JoinPath(rrInstallFolder, "rr_support"), compiler, tempFolder);
+	        return new RoadRunner(tempFolder, JoinPath(rrInstallFolder, "rr_support"), compiler);
         }
         else
         {
-	        return new RoadRunner(JoinPath(rrInstallFolder, "rr_support"), compiler, GetUsersTempDataFolder());
+	        return new RoadRunner(GetUsersTempDataFolder(), JoinPath(rrInstallFolder, "rr_support"), compiler);
         }
     }
 	catch(Exception& ex)
@@ -391,7 +391,7 @@ char* rrCallConv getTempFolder(RRHandle handle)
 	try
     {
     	RoadRunner* rri = castFrom(handle);
-	    return createText(rri->getTempFileFolder());
+	    return createText(rri->getTempFolder());
     }
     catch(Exception& ex)
     {

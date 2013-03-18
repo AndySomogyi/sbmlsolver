@@ -20,6 +20,7 @@ st.operator !();
 locale loc;
 st<<use_facet <codecvt<wchar_t, char, mbstate_t> >(loc).max_length();
 
+char_traits<char>::find("The Hell Boy", 0, 'q');
 char_traits<wchar_t>::char_type str1[25] = L"The Hell Boy";
 char_traits<wchar_t>::char_type str2[25] = L"Something To ponder";
 char_traits<wchar_t>::char_type *result1;

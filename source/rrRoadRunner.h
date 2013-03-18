@@ -170,8 +170,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		string                          getCHeaderCode();
 		string                          getCSourceCode();
 		string                          getCSharpCode();
-		bool                            loadSBMLFromFile(const string& fileName);
-		bool                            loadSBML(const string& sbml);
+		bool                            loadSBMLFromFile(const string& fileName, const bool& forceReCompile = false);
+		bool                            loadSBML(const string& sbml, const bool& forceReCompile = false);
 
 		vector<double>                  getReactionRates();
 		vector<double>                  getRatesOfChange();

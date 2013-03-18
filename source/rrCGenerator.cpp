@@ -1586,7 +1586,6 @@ string CGenerator::convertSymbolToC(const string& compartmentName)
       throw CoreException("Internal Error: Unable to locate compartment: " + compartmentName);
 }
 
-
 void CGenerator::writeOutSymbolTables(CodeBuilder& ignore)
 {
     mSource<<Append("void loadSymbolTables(ModelData* md)\n{");
@@ -1600,7 +1599,7 @@ void CGenerator::writeOutSymbolTables(CodeBuilder& ignore)
 
     for (int i = 0; i < mBoundarySpeciesList.size(); i++)
     {
-        mSource<<Format("\n\tboundaryTable[{0}] = \"{1}\";", i, mBoundarySpeciesList[i].name);
+        mSource<<Format("\n\tmd->boundaryTable[{0}] = \"{1}\";", i, mBoundarySpeciesList[i].name);
         nrFuncs++;
     }
 
