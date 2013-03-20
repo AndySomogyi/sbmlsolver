@@ -55,11 +55,9 @@
 #include "rrLogger.h"
 #include "rrException.h"
 #include "rrUtils.h"
-#include "rrStringUtils.h"
 #include "rrCapability.h"
 #include "rrPluginManager.h"
 #include "rrPlugin.h"
-
 #include "rr_c_api.h" 			// Need to include this before the support header..
 #include "rr_c_api_support.h"   //Support functions, not exposed as api functions and or data
 
@@ -108,11 +106,13 @@ RRHandle rrCallConv createRRInstanceE(const char* tempFolder)
 {
 	try
     {
-    	string rrInstallFolder(getParentFolder(getRRCAPILocation()));
-//        string compiler 	= getCompilerName();
+    	char* text1 = getRRCAPILocation();
+        string text2 = getParentFolder(text1);
+    	string rrInstallFolder(text2);
+        freeText(text1);
 
 #if defined(_WIN32) || defined(WIN32)
-            string compiler(JoinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"));
+            string compiler(JoinPath(rrInstallFolder, "compilers\\tcc\\tcc.exe"));
 #elif defined(__linux)
             string compiler("gcc");
 #else
@@ -242,6 +242,7 @@ char* rrCallConv getVersion(RRHandle handle)
     }
 }
 
+
 char* rrCallConv getRRCAPILocation()
 {
 #if defined(_WIN32) || defined(WIN32)
@@ -249,10 +250,12 @@ char* rrCallConv getRRCAPILocation()
     HINSTANCE handle = NULL;
     const char* dllName = "rr_c_api";
     handle = GetModuleHandle(dllName);
-	if(GetModuleFileNameA(handle, path, ARRAYSIZE(path)) != 0)
+    int nrChars = GetModuleFileNameA(handle, path, sizeof(path));
+	if(nrChars != 0)
     {
-	    string aPath(ExtractFilePath(path));
-		return createText(aPath);
+	    string aPath = ExtractFilePath(path);
+        char* text = createText(aPath);
+		return text;
     }
     return NULL;
 #else
@@ -4063,46 +4066,6 @@ RRHandle rrCallConv getRRHandle(RRInstanceListHandle iList, int index)
 	return iList->Handle[index];
 }
 
-const char* s1 = "234";
-const char* result = std::char_traits<char>::find(s1, 1, '1');
-
-#include <iomanip>
-void test() {
-
-ostringstream output;
-output.precision(1);
-std::ostream st;
-st.exceptions(2);
-
-st.setf( std::ios::showbase,  std::ios::showbase);
-
-st.eof();
-st.bad();
-st.operator void *();
-st.operator !();
-
-locale loc;
-st<<use_facet <codecvt<wchar_t, char, mbstate_t> >(loc).max_length();
-
-char_traits<wchar_t>::char_type str1[25] = L"The Hell Boy";
-char_traits<wchar_t>::char_type str2[25] = L"Something To ponder";
-char_traits<wchar_t>::char_type *result1;
-result1 = char_traits<wchar_t>::move(str2, str1, 10);
-result1 = char_traits<wchar_t>::copy(str1, str2, 2);
-char_traits<wchar_t>::assign(*str1, *str2);
-char_traits<wchar_t>::assign(str1, 2, *str2);
-
-//ios_base::precision(2);
-double test1 = std::numeric_limits<unsigned int>::quiet_NaN();
-double test2 = std::numeric_limits<int>::quiet_NaN();
-double test3 = std::numeric_limits<unsigned int>::quiet_NaN();
-double test4 = std::numeric_limits<int>::quiet_NaN();
-double test5 = std::numeric_limits<double>::quiet_NaN();
-double test6 = std::numeric_limits<float>::quiet_NaN();
-double test7 = std::numeric_limits<float>::infinity();
-double test8 = std::numeric_limits<double>::infinity();
-double test9 = std::numeric_limits<int>::max();
-}
 
 }
 //We only need to give the linker the folder where libs are
@@ -4110,10 +4073,11 @@ double test9 = std::numeric_limits<int>::max();
 #if defined(CG_IDE)
 
 #if defined(STATIC_RR)
-#pragma comment(lib, "roadrunner-static.lib")
+	#pragma comment(lib, "roadrunner-static.lib")
 #else
-#pragma comment(lib, "roadrunner.lib")
+	#pragma comment(lib, "roadrunner.lib")
 #endif
+
 #pragma comment(lib, "rr-libstruct-static.lib")
 #pragma comment(lib, "pugi-static.lib")
 #pragma comment(lib, "libsbml-static.lib")

@@ -37,7 +37,7 @@ using namespace std;
 namespace rr
 {
 
-const string getCurrentDateTime()
+string getCurrentDateTime()
 {
 // Get current date/time, format is YYYY-MM-DD.HH:mm:ss
     time_t     now = time(0);
@@ -74,7 +74,7 @@ return ".";
 }
 
 
-const string getCurrentExeFolder()
+string getCurrentExeFolder()
 {
 #if defined(_WIN32) || defined(WIN32)
 	char path[MAX_PATH];
@@ -97,7 +97,7 @@ const string getCurrentExeFolder()
 
 }
 
-const string getParentFolder(const string& path)
+string getParentFolder(const string& path)
 {
 	if(path.size() < 1)
     {
@@ -126,7 +126,7 @@ const string getParentFolder(const string& path)
     }
 }
 
-const string getCWD()
+string getCWD()
 {
     //Get the working directory
 	char *buffer;

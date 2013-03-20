@@ -169,7 +169,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		ModelGenerator*                 getCodeGenerator();
 		string                          getCHeaderCode();
 		string                          getCSourceCode();
-		string                          getCSharpCode();
+		string                          getCSharpCode();	
 		bool                            loadSBMLFromFile(const string& fileName, const bool& forceReCompile = false);
 		bool                            loadSBML(const string& sbml, const bool& forceReCompile = false);
 

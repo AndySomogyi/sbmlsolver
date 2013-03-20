@@ -676,11 +676,6 @@ bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
 	}
 
     string 	modelName  = createModelName(mCurrentSBMLFileName);
-//    if(mInstanceID  == 1)
-//    {
-//    	StringList exts("h, c, dll, def, a, log");
-//    	cleanFolder(getTempFolder(), modelName, exts);
-//    }
 
     //Check if model has been compiled
     mModelLib.setPath(getTempFolder());

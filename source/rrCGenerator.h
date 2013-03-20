@@ -64,11 +64,9 @@ class RR_DECLSPEC CGenerator : public ModelGenerator
         virtual                            ~CGenerator();
 
         // Generates the Model Code from th e SBML string
-
         string                              generateModelCode(const string& sbmlStr, const bool& _computeAndAssignConsevationLaws = false);
 
         //C Specifics..
-
         string                              getHeaderCode();
         string                              getSourceCode();
         string                              getSourceCodeFileName();

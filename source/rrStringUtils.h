@@ -13,7 +13,7 @@ using std::vector;
 namespace rr
 {
 
-char*				RR_DECLSPEC createText(const string& str);
+RR_DECLSPEC char*   createText(const string& str);
 string              RR_DECLSPEC ReplaceWord(const string& str1, const string& str2, const string& theString);
 bool                RR_DECLSPEC ConvertFunctionCallToUseVarArgsSyntax(const string& funcName, string& expression);
 string              RR_DECLSPEC RemoveChars(const string& str, const string& chars);

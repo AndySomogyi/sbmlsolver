@@ -532,7 +532,7 @@ void __fastcall TMForm::UpdateTestSuiteInfo()
         if(rr::FileExists(htmlDoc)) //This is a test suite folder
         {
             //If this is a testsuite folder.. show the http
-//            WebBrowser1->Navigate(htmlDoc.c_str());
+            WebBrowser1->Navigate(htmlDoc.c_str());
             string aFile = rr::JoinPath(path, (caseNr + "-plot.jpg"));
             //Picture..
             if(rr::FileExists(aFile))

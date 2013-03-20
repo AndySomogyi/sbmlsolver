@@ -25,15 +25,15 @@ bool RunTest(const string& version, int number);
 SUITE(SBML_l2v4)
 {
 
-	TEST(AllocateRR)
-	{
-        if(!gRR)
-        {
-	            gRR = createRRInstanceE(gTempFolder.c_str());
-        }
+	//TEST(AllocateRR)
+	//{
+ //       if(!gRR)
+ //       {
+	//            gRR = createRRInstanceE(gTempFolder.c_str());
+ //       }
 
-        CHECK(gRR!=NULL);	//If gRR == NULL this is a fail
-	}
+ //       CHECK(gRR!=NULL);	//If gRR == NULL this is a fail
+	//}
 
  TEST(1) {CHECK(RunTest("l2v4", 1)); }
  TEST(2) { CHECK(RunTest("l2v4", 2)); }
@@ -68,6 +68,7 @@ SUITE(SBML_l2v4)
  TEST(31) { CHECK(RunTest("l2v4", 31)); }
  TEST(32) { CHECK(RunTest("l2v4", 32)); }
  TEST(33) { CHECK(RunTest("l2v4", 33)); }
+
  TEST(34) { CHECK(RunTest("l2v4", 34)); }
  TEST(35) { CHECK(RunTest("l2v4", 35)); }
  TEST(36) { CHECK(RunTest("l2v4", 36)); }
@@ -1096,12 +1097,12 @@ bool RunTest(const string& version, int caseNumber)
         simulation.ReCompileIfDllExists(true);
         simulation.CopyFilesToOutputFolder();
 	    setTempFolder(gRR, simulation.GetDataOutputFolder().c_str());
+        setComputeAndAssignConservationLaws(gRR, false);
+
         if(!simulation.LoadSBMLFromFile())
         {
             throw("Failed loading sbml from file");
         }
-
-        setComputeAndAssignConservationLaws(gRR, false);
 
         //Then read settings file if it exists..
         string settingsOveride("");
@@ -1135,6 +1136,10 @@ bool RunTest(const string& version, int caseNumber)
         if(!result)
         {
         	clog<<"\t\tTest failed..\n";
+        }
+        else
+        {
+			clog<<"\t\tTest passed..\n";
         }
   	}
     catch(rr::Exception& ex)

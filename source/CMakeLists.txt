@@ -23,7 +23,6 @@ rrException
 rrFileLog
 rrGetOptions
 rrHashTable
-rrIModel
 rrLogger
 rrLogFile
 rrLogContainer

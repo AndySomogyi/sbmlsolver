@@ -95,7 +95,7 @@ compiler = "gcc";
 		
 		//Creating roadrunner
 		Log(lDebug)<<"Creating RoadRunner..."<<endl;
-        RoadRunner *rr  = new RoadRunner(JoinPath(RRInstallFolder, "rr_support"), JoinPath(RRInstallFolder, compiler), args.TempDataFolder);
+        RoadRunner *rr  = new RoadRunner(args.TempDataFolder, JoinPath(RRInstallFolder, "rr_support"), JoinPath(RRInstallFolder, compiler));
         rr->reset();
 		Log(lDebug)<<"....."<<endl;
         simulation.UseEngine(rr);
@@ -113,7 +113,7 @@ compiler = "gcc";
             doContinue = false;
         }
 
-        simulation.CompileIfDllExists(true);
+        simulation.ReCompileIfDllExists(true);
         if(doContinue && !simulation.LoadSBMLFromFile())
         {
             Log(lError)<<"Failed loading SBML model";

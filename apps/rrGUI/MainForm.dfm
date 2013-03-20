@@ -257,7 +257,7 @@ object MForm: TMForm
       Top = 465
       Width = 1007
       Height = 250
-      ActivePage = TabSheet1
+      ActivePage = TabSheet3
       Align = alBottom
       TabOrder = 0
       object TabSheet1: TTabSheet
@@ -1263,6 +1263,26 @@ object MForm: TMForm
               Align = alLeft
               Caption = 'Model Info'
               TabOrder = 0
+              ExplicitLeft = -3
+              ExplicitTop = 32
+              object WebBrowser1: TWebBrowser
+                Left = 2
+                Top = 15
+                Width = 669
+                Height = 148
+                Align = alClient
+                TabOrder = 0
+                ExplicitLeft = 16
+                ExplicitTop = 18
+                ExplicitWidth = 300
+                ExplicitHeight = 150
+                ControlData = {
+                  4C000000254500004C0F00000000000000000000000000000000000000000000
+                  000000004C000000000000000000000001000000E0D057007335CF11AE690800
+                  2B2E126208000000000000004C0000000114020000000000C000000000000046
+                  8000000000000000000000000000000000000000000000000000000000000000
+                  00000000000000000100000000000000000000000000000000000000}
+              end
             end
             object ToolBar2: TToolBar
               Left = 0
@@ -1271,10 +1291,13 @@ object MForm: TMForm
               Height = 29
               Caption = 'ToolBar2'
               TabOrder = 1
-              object ToolButton4: TToolButton
+              object Button6: TButton
                 Left = 0
                 Top = 0
+                Width = 75
+                Height = 22
                 Action = PlotTestTestSuiteData
+                TabOrder = 0
               end
             end
           end
@@ -1483,7 +1506,7 @@ object MForm: TMForm
     Left = 432
     Top = 512
     object PlotTestTestSuiteData: TAction
-      Caption = 'PlotTestTestSuiteData'
+      Caption = 'Plot'
       OnExecute = PlotTestTestSuiteDataExecute
     end
   end

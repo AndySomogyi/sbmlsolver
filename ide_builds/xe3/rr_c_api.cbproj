@@ -49,11 +49,11 @@
         <Manifest_File>None</Manifest_File>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <IncludePath>..\..\Wrappers\C\;R:\rrl\ide_builds\xe3\;$(RR_ROOT)\source;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\source\;..\..\Wrappers\C\;R:\rrl\ide_builds\xe3\;$(RR_ROOT)\source;$(IncludePath)</IncludePath>
         <ProjectType>CppDynamicLibrary</ProjectType>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <Defines>EXPORT_RR_C_API;LIBSBML_USE_CPP_NAMESPACE;CG_IDE;$(Defines)</Defines>
-        <ILINK_LibraryPath>..\..\Wrappers\C\;R:\rrl\ide_builds\xe3\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\source\;..\..\Wrappers\C\;R:\rrl\ide_builds\xe3\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <Multithreaded>true</Multithreaded>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
@@ -99,7 +99,10 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <DynamicRTL>true</DynamicRTL>
+        <Defines>STATIC_RR;$(Defines)</Defines>
+        <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
+        <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
+        <BCC_MonitorThis>true</BCC_MonitorThis>
         <BPILibOutputDir>$(RR_DEBUG)\lib</BPILibOutputDir>
         <FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
@@ -115,6 +118,9 @@
         <PCHCompile Include="rr_c_api.cbproj">
             <BuildOrder>0</BuildOrder>
         </PCHCompile>
+        <CppCompile Include="..\..\source\rrUnresolvedSTDExternals.cpp">
+            <BuildOrder>3</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\Wrappers\C\rr_c_api.cpp">
             <BuildOrder>1</BuildOrder>
         </CppCompile>

@@ -116,7 +116,6 @@ __published:	// IDE-managed Components
     TAction *RemoveCurrentModelFolderItemA;
     TMenuItem *Remove1;
     TToolBar *ToolBar2;
-    TToolButton *ToolButton4;
     TActionList *TestSuiteActions;
     TAction *PlotTestTestSuiteData;
 	TTimer *ShutDownTimer;
@@ -131,6 +130,8 @@ __published:	// IDE-managed Components
 	TFileSelectionFrame *FSF;
 	TChart *Chart1;
 	TLineSeries *Series1;
+	TWebBrowser *WebBrowser1;
+	TButton *Button6;
     void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
     void __fastcall startupTimerTimer(TObject *Sender);
     void __fastcall modelFoldersCBChange(TObject *Sender);

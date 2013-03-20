@@ -8,13 +8,8 @@ namespace rr
 typedef struct SModelData *ModelDataP;
 typedef double 	(*TEventDelayDelegate)(ModelDataP);
 typedef double* (*TComputeEventAssignmentDelegate)(ModelDataP);
-typedef void 	(*TPerformEventAssignmentDelegate)(ModelDataP, double* );
-
-#if defined(WIN32)
-    typedef void __cdecl (*TEventAssignmentDelegate)();
-#else
-    typedef void (*TEventAssignmentDelegate)();
-#endif
+typedef void 	(*TPerformEventAssignmentDelegate)(ModelDataP, double*);
+typedef void 	(*TEventAssignmentDelegate)();
 
 //Data that is used in SBML models
 typedef struct SModelData

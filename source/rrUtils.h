@@ -20,7 +20,7 @@ using std::string;
 namespace rr
 {
 
-RR_DECLSPEC const string 	getCurrentDateTime();
+RR_DECLSPEC string 			getCurrentDateTime();
 RR_DECLSPEC void		 	sleep(int ms);
 //Misc.
 RR_DECLSPEC std::size_t     IndexOf(std::vector<std::string>& vec, const std::string& elem );
@@ -36,10 +36,10 @@ RR_DECLSPEC bool            FileExists(const string& fileN);
 RR_DECLSPEC bool            FolderExists(const string& folderN);
 RR_DECLSPEC bool            CreateFolder(const string& path);
 
-RR_DECLSPEC const string	getParentFolder(const string& path);
-RR_DECLSPEC const string    getCurrentExeFolder();
+RR_DECLSPEC string			getParentFolder(const string& path);
+RR_DECLSPEC string    		getCurrentExeFolder();
 RR_DECLSPEC string          GetUsersTempDataFolder();
-RR_DECLSPEC const string    getCWD();
+RR_DECLSPEC string			getCWD();
 RR_DECLSPEC const char		getPathSeparator();
 
 RR_DECLSPEC vector<string>  GetLinesInFile(const string& fName);
