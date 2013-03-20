@@ -51,7 +51,7 @@ double Event::GetPriority() const
 //Friend functions
 bool operator==(const Event &e1, const Event &e2)
 {
-	if(e1.mID == e1.mID && e1.mPriority == e2.mPriority && e1.mDelay == e2.mDelay)
+	if(e1.mID == e2.mID && e1.mPriority == e2.mPriority && e1.mDelay == e2.mDelay)
     {
     	return true;
     }

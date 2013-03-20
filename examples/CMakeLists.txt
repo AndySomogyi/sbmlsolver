@@ -14,6 +14,7 @@ endif(${MSVC})
 set(examples 	
 one_thread
 many_threads
+load_model_dll
 )
 
 foreach(example ${examples})

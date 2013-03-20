@@ -74,11 +74,11 @@ int main(int argc, char * argv[])
         {
             string logName = ExtractFileName(args.ModelFileName);
             logName = ChangeFileExtensionTo(logName, ".log");
-            gLog.Init("", gLog.GetLogLevel());//, unique_ptr<LogFile>(new LogFile(JoinPath(args.TempDataFolder, logName) )));
+            gLog.Init("", gLog.GetLogLevel());
         }
         else
         {
-            gLog.Init("", gLog.GetLogLevel());//, unique_ptr<LogFile>(new LogFile(JoinPath(args.TempDataFolder, "RoadRunner.log") )));
+            gLog.Init("", gLog.GetLogLevel());
         }
 
         Log(lInfo)<<"Logs are going to "<<gLog.GetLogFileName();

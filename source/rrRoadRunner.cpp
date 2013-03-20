@@ -3175,7 +3175,7 @@ double RoadRunner::getGlobalParameterByIndex(const int& index)
     if ((index >= 0) && (index < (mModel->getNumGlobalParameters() + mModel->mData.ctSize)))
     {
         int arraySize = mModel->mData.gpSize + mModel->mData.ctSize;
-        double* result = new double[ arraySize];
+        double* result = new double[arraySize];
 
         for(int i = 0; i < mModel->mData.gpSize; i++)
         {

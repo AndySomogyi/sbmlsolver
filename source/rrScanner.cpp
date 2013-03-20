@@ -60,10 +60,10 @@ void Scanner::initScanner()
 
     for (int i = 57; i < 63; i++)
     {
-        char ch = i;
-
+        ch = i;
         FCharTable[i] = TCharCode::cSPECIAL;
     }
+
     for (ch = '0'; ch <= '9'; ch++)
     {
         FCharTable[ch] = TCharCode::cDIGIT;
@@ -454,7 +454,7 @@ void Scanner::getSpecial()
     char tch;
     switch (fch)
     {
-        case '\13':
+        case '\13':       //Octal ??
             ftoken = CodeTypes::tEolToken;
             nextChar();
             break;

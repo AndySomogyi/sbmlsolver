@@ -2166,6 +2166,7 @@ bool rrCallConv evalModel(RRHandle handle)
 		if(!rri)
 		{
 			setError(ALLOCATE_API_ERROR_MSG);
+			return false;
 		}
 		rri->evalModel();
         return true;

@@ -136,7 +136,10 @@ bool PluginManager::unload()
             destroyRRPlugin(aPlugin);
 
             //Then unload
-            aLib->unload();
+			if(aLib)
+			{
+				aLib->unload();
+			}
             //And remove from container
             aPluginLib->first = NULL;
             aPluginLib->second = NULL;

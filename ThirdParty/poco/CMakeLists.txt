@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 2.6)
 project(poco)
 
-if(${MSVC})
+#if(${MSVC})
+if(WIN32)
 add_definitions(
 #-DUSRDLL
 -DWIN32

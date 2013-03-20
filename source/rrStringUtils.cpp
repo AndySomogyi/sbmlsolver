@@ -134,7 +134,7 @@ int GetNumberOfFunctionArguments(const string& expression)
 
      if(expression.size() == 0)
      {
-         -1;
+         return -1;
      }
      return nrOfArgs;
 }
