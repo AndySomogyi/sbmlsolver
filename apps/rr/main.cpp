@@ -86,16 +86,11 @@ int main(int argc, char * argv[])
         SBMLModelSimulation simulation(args.DataOutputFolder, args.TempDataFolder);
 
         Log(lDebug)<<"Working Directory: "<<getCWD()<<endl;
-        string compiler;
-#if defined (WIN32)
-compiler = "compilers\\tcc\\tcc.exe";
-#else
-compiler = "gcc";
-#endif
+        
 		
 		//Creating roadrunner
 		Log(lDebug)<<"Creating RoadRunner..."<<endl;
-        RoadRunner *rr  = new RoadRunner(args.TempDataFolder, JoinPath(RRInstallFolder, "rr_support"), JoinPath(RRInstallFolder, compiler));
+        RoadRunner *rr  = new RoadRunner(args.TempDataFolder);
         rr->reset();
 		Log(lDebug)<<"....."<<endl;
         simulation.UseEngine(rr);
