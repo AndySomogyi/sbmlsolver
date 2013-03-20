@@ -1,10 +1,12 @@
-//---------------------------------------------------------------------------
-
 #pragma hdrstop
+#include "rrException.h"
 #include "rrUtils.h"
 #include "rrSimulationData.h"
 #include "rrSBMLTestSuiteSimulation_CAPI.h"
 
+extern string gTempFolder;
+extern string gTSModelsPath;
+extern bool gDebug;
 using namespace rr;
 SimulationData convertCAPIResultData(RRResultHandle		resultsHandle);
 
@@ -117,3 +119,119 @@ SimulationData convertCAPIResultData(RRResultHandle	result)
 }
 
 
+bool RunTest(const string& version, int caseNumber)
+{
+	bool result(false);
+ 	RRHandle gRR;
+
+    //Create instance..
+    gRR = createRRInstanceE(gTempFolder.c_str());
+
+    if(gDebug && gRR)
+    {
+	    enableLoggingToConsole();
+        setLogLevel("Debug5");
+    }
+    else
+    {
+        setLogLevel("Error");
+    }
+
+	//Setup environment
+    setTempFolder(gRR, gTempFolder.c_str());
+
+    if(!gRR)
+    {
+    	return false;
+    }
+
+    try
+    {
+		clog<<"Running Test: "<<caseNumber<<endl;
+        string dataOutputFolder(gTempFolder);
+        string dummy;
+        string logFileName;
+        string settingsFileName;
+
+        //Create a log file name
+        CreateTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, settingsFileName);
+
+        //Create subfolder for data output
+        dataOutputFolder = JoinPath(dataOutputFolder, GetTestSuiteSubFolderName(caseNumber));
+
+        if(!CreateFolder(dataOutputFolder))
+        {
+			string msg("Failed creating output folder for data output: " + dataOutputFolder);
+            throw(rr::Exception(msg));
+        }
+
+       	SBMLTestSuiteSimulation_CAPI simulation(dataOutputFolder);
+
+		simulation.UseHandle(gRR);
+
+        //Read SBML models.....
+        string modelFilePath(gTSModelsPath);
+        string modelFileName;
+
+        simulation.SetCaseNumber(caseNumber);
+        CreateTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName);
+
+        //The following will load and compile and simulate the sbml model in the file
+        simulation.SetModelFilePath(modelFilePath);
+        simulation.SetModelFileName(modelFileName);
+        simulation.ReCompileIfDllExists(true);
+        simulation.CopyFilesToOutputFolder();
+	    setTempFolder(gRR, simulation.GetDataOutputFolder().c_str());
+        setComputeAndAssignConservationLaws(gRR, false);
+
+        if(!simulation.LoadSBMLFromFile())
+        {
+            throw("Failed loading sbml from file");
+        }
+
+        //Then read settings file if it exists..
+        string settingsOveride("");
+        if(!simulation.LoadSettings(settingsOveride))
+        {
+            throw("Failed loading simulation settings");
+        }
+
+        //Then Simulate model
+        if(!simulation.Simulate())
+        {
+            throw("Failed running simulation");
+        }
+
+        //Write result
+        if(!simulation.SaveResult())
+        {
+            //Failed to save data
+            throw("Failed saving result");
+        }
+
+        if(!simulation.LoadReferenceData())
+        {
+            throw("Failed Loading reference data");
+        }
+
+        simulation.CreateErrorData();
+        result = simulation.Pass();
+        simulation.SaveAllData();
+        simulation.SaveModelAsXML(dataOutputFolder);
+        if(!result)
+        {
+        	clog<<"\t\tTest failed..\n";
+        }
+        else
+        {
+			clog<<"\t\tTest passed..\n";
+        }
+  	}
+    catch(rr::Exception& ex)
+    {
+        string error = ex.what();
+        cerr<<"Case "<<caseNumber<<": Exception: "<<error<<endl;
+    	return false;
+    }
+ 	return result;
+}

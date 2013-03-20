@@ -1,6 +1,6 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{16ADA89E-8F76-4FDE-8870-AE8E18619409}</ProjectGuid>
+        <ProjectGuid>{274EE62C-4A41-40CD-88EE-8A38903D08EA}</ProjectGuid>
         <ProjectVersion>14.4</ProjectVersion>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
@@ -54,11 +54,11 @@
         <BCC_Defines>LIBSBML_USE_CPP_NAMESPACE;WIN32;$(BCC_Defines)</BCC_Defines>
         <OutputExt>exe</OutputExt>
         <LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
-        <ILINK_LibraryPath>..\..\source\;..\..\Wrappers\C\Testing\core\;..\..\Wrappers\C\Testing\;core\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\..\..\source\;..\..\Testing\;..\..\source\;..\..\Wrappers\C\Testing\core\;..\..\Wrappers\C\Testing\;core\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <PackageImports>vcl.bpi;rtl.bpi;bcbie.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;vclimg.bpi;svnui.bpi;svn.bpi;bdertl.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;vclie.bpi;inet.bpi;inetdb.bpi;webdsnap.bpi;websnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;dbexpress.bpi;DbxCommonDriver.bpi;DbxClientDriver.bpi;AzureCloud.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbxcds.bpi;DuneComponents.bpi;VCLCommon.bpi;$(PackageImports)</PackageImports>
         <NoVCL>true</NoVCL>
         <Multithreaded>true</Multithreaded>
-        <IncludePath>..\..\source\;..\..\Wrappers\C\Testing\core\;..\..\Wrappers\C\Testing\;..\;$(RR_ROOT)\source;$(RR_ROOT)\Wrappers\C;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\..\..\source\;..\..\Testing\;..\..\source\;..\..\Wrappers\C\Testing\core\;..\..\Wrappers\C\Testing\;..\;$(RR_ROOT)\source;$(RR_ROOT)\Wrappers\C;$(IncludePath)</IncludePath>
         <AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
         <ProjectType>CppConsoleApplication</ProjectType>
         <_TCHARMapping>char</_TCHARMapping>
@@ -100,13 +100,14 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <IntermediateOutputDir>.\$(Config)\$(Platform)</IntermediateOutputDir>
         <DynamicRTL>false</DynamicRTL>
-        <Defines>STATIC_RR;$(Defines)</Defines>
+        <Defines>STATIC_RR;STATIC_RTL;STATIC_RR_C_API;$(Defines)</Defines>
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
         <BCC_MonitorThis>true</BCC_MonitorThis>
         <IncludePath>$(RR_DEBUG)\include\rr-libstruct;$(IncludePath)</IncludePath>
-        <Debugger_RunParams>-mr:\models  -rr:\rrl\reports\cg\xe3\c_tests_debug.xml -tr:\temp\cg_c</Debugger_RunParams>
+        <Debugger_RunParams>-mr:\models  -tr:\temp -i702</Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -116,27 +117,18 @@
         <Icns_MainIcns>$(BDS)\bin\cbuilder_PROJECTICNS.icns</Icns_MainIcns>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="..\..\source\rrUnresolvedSTDExternals.cpp">
+        <CppCompile Include="..\..\..\..\source\rrUnresolvedSTDExternals.cpp">
             <BuildOrder>7</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\Wrappers\C\Testing\Args.cpp">
+        <CppCompile Include="Args.cpp">
             <BuildOrder>3</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\Wrappers\C\Testing\main.cpp">
+        <CppCompile Include="main.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\Wrappers\C\Testing\rrSBMLTestSuiteSimulation_CAPI.cpp">
-            <DependentOn>..\..\Wrappers\C\Testing\rrSBMLTestSuiteSimulation_CAPI.h</DependentOn>
+        <CppCompile Include="TestSuiteSimulation.cpp">
+            <DependentOn>TestSuiteSimulation.h</DependentOn>
             <BuildOrder>5</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Wrappers\C\Testing\Suite_SBML_Tests.cpp">
-            <BuildOrder>4</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Wrappers\C\Testing\Suite_TestModel_1.cpp">
-            <BuildOrder>2</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Wrappers\C\Testing\TestUtils.cpp">
-            <BuildOrder>6</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

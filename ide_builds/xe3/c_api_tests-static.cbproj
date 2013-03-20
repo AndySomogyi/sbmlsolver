@@ -101,7 +101,7 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DynamicRTL>false</DynamicRTL>
-        <Defines>STATIC_RR;$(Defines)</Defines>
+        <Defines>STATIC_RR;STATIC_RTL;STATIC_RR_C_API;$(Defines)</Defines>
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
         <BCC_MonitorThis>true</BCC_MonitorThis>

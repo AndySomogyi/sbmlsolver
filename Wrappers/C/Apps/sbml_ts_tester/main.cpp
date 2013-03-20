@@ -2,34 +2,20 @@
 #include <fstream>
 #include "rrLogger.h"
 #include "rrUtils.h"
-#include "unit_test/UnitTest++.h"
-#include "unit_test/XmlTestReporter.h"
-#include "unit_test/TestReporterStdout.h"
 #include "Args.h"
 #include "rr_c_api.h"
 #include "rrGetOptions.h"
+#include "TestSuiteSimulation.cpp"
 
 using namespace std;
 using namespace rr;
 using namespace rr_c_api;
-using namespace UnitTest;
 
-
-string 	gSBMLModelsPath 		= "";
-string 	gCompiler 				= "";
-string 	gSupportCodeFolder 		= "";
 string 	gTempFolder		   		= "";
 string 	gRRInstallFolder 		= "";
-string  gTestDataFolder			= "";
 bool	gDebug			    	= false;
-
-// initialized based on gSBMLModelsPath
-string gTSModelsPath;
-
-vector<string> gModels;
+string 	gTSModelsPath			= "";
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
-
-//RRHandle gRR = NULL;
 
 //call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder"
 int main(int argc, char* argv[])
@@ -38,19 +24,14 @@ int main(int argc, char* argv[])
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
 
-	string reportFile(args.ResultOutputFile);
-
     string thisExeFolder = getCurrentExeFolder();
     clog<<"RoadRunner bin location is: "<<thisExeFolder<<endl;
 
     //Assume(!) this is the bin folder of roadrunner install
 	gRRInstallFolder = getParentFolder(thisExeFolder);	//Go up one folder
     gDebug				= args.EnableLogging;
-    gSBMLModelsPath 	= args.SBMLModelsFilePath;
+    gTSModelsPath 		= args.SBMLModelsFilePath;
     gTempFolder			= args.TempDataFolder;
-    gCompiler	 		= JoinPath(gRRInstallFolder, gCompiler);
-	gSupportCodeFolder 	= JoinPath(gRRInstallFolder, "rr_support");
-	gTestDataFolder     = JoinPath(gRRInstallFolder, "tests");
 	setInstallFolder(gRRInstallFolder.c_str());
 
     if(gDebug)
@@ -60,46 +41,25 @@ int main(int argc, char* argv[])
     }
     else
     {
-      setLogLevel("Error");
+      setLogLevel("lInfo");
     }
-    // set model path (read from cmd line)
-    gTSModelsPath = JoinPath(JoinPath(gSBMLModelsPath, "cases"), "semantic");
+    // set full model path (read from cmd line)
+    gTSModelsPath = JoinPath(JoinPath(gTSModelsPath, "cases"), "semantic");
+	Log(lInfo)<<"Testing model: "<<args.ModelNumber;
 
- 	fstream aFile(reportFile.c_str(), ios::out);
-    if(!aFile)
-    {
-    	cerr<<"Failed opening report file: "<<reportFile<<" in rr_c_api testing executable.\n";
-    	return -1;
-    }
-
-	XmlTestReporter reporter1(aFile);
-	TestRunner runner1(reporter1);
-
-
-	clog<<"Running Suite TEST_MODEL_1\n";
-	runner1.RunTestsIf(Test::GetTestList(), "TEST_MODEL_1", 			True(), 0);
-	
-//	clog<<"Running Suite CORE_EXCEPTIONS\n";
-//	runner1.RunTestsIf(Test::GetTestList(), "CORE_EXCEPTIONS", 		True(), 0);
-
-	clog<<"Running Suite SBML_l2v4\n";
-    clog<<"ModelPath "<<gTSModelsPath;
-    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4", 	True(), 0);
-
-    //Finish outputs result to xml file
-    runner1.Finish();
+    RunTest("l2v4", args.ModelNumber);
     return 0;
 }
 
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
     char c;
-    while ((c = GetOptions(argc, argv, ("vi:d:m:l:r:s:t:"))) != -1)
+    while ((c = GetOptions(argc, argv, ("vi:m:t:"))) != -1)
     {
         switch (c)
         {
+            case ('i'): args.ModelNumber                     		= ToInt(rrOptArg);                 break;
             case ('m'): args.SBMLModelsFilePath                     = rrOptArg;                       break;
-            case ('r'): args.ResultOutputFile                       = rrOptArg;                       break;
 			case ('t'): args.TempDataFolder        		            = rrOptArg;                       break;
 			case ('v'): args.EnableLogging        		            = true;                       break;
             case ('?'): cout<<Usage(argv[0])<<endl;
@@ -124,6 +84,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
         exit(0);
     }
 }
+
 
 #if defined(CG_IDE)
 
