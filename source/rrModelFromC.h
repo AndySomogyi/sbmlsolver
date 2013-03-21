@@ -40,67 +40,13 @@ class RR_DECLSPEC ModelFromC : public rrObject
         int                                     mDummyDouble;
         double*                                 mDummyDoubleArray;
 
-//        int                                    *numIndependentVariables;
-//        int                                    *numDependentVariables;
-//        int                                    *numTotalVariables;
-//        int                                    *numBoundaryVariables;
-//        int                                    *numGlobalParameters;
-//        int                                    *numCompartments;
-//        int                                    *numReactions;
-//        int                                    *numRules;
-//        int                                    *numEvents;
-
     public:
     	ModelData								mData;
 		string									getModelName();
         CvodeInterface*                         mCvodeInterface;
         void                                    assignCVodeInterface(CvodeInterface* cvodeI);
-//        double                                  *time;
-
         void                                    setTime(double _time);
         double                                  getTime();
-
-		//Function/Data Pointers
-//        double*                                 y;                  //Corresponds to y in IModel
-//        int*                                    ySize;              //Corresponds to y in IModel
-//        double*                                 init_y;
-//        int*                                    init_ySize;
-//        double*                                 dydt;               //This is the "dydt" data in the DLL.
-//        int*                                    dydtSize;           //This is the "dydt" dataSize in the DLL.
-//        double*                                 amounts;            //This is the "amounts" data in the DLL.
-//        int*                                    amountsSize;
-//        double*                                 bc;
-//        int*                                    bcSize;
-//        double*                                 sr;
-//        int*                                    srSize;
-//        double*                                 gp;
-//        int*                                    gpSize;
-//        double*                       			lp;                 //Local parameters
-//        int*           	            			lpSize;             //Local parameters
-//        double*                                 c;                  //Compartment volumes
-//        int*                                    cSize;              //Compartment volumes
-//        double*                                 rates;
-//        int*                                    ratesSize;
-//        double*                                 ct;                 //Conservation totals
-//        int*                                    ctSize;             //Conservation totals
-//        double*                                 rateRules;          //additional rateRules
-//        int*                                    rateRulesSize;      //additional rateRules
-//        double*                                 eventTests;
-//        int*                                    eventTestsSize;
-//        double* 		                        eventPriorities;		//Array of event priorities. Has size numEvents
-//        TEventDelayDelegate*                    eventDelays;
-//        bool*                                   eventType;
-//        int*                                    eventTypeSize;
-//        bool*                                   eventPersistentType;
-//        int*                                    eventPersistentTypeSize;
-//        bool*                                   eventStatusArray;
-//        int*                                    eventStatusArraySize;
-//        bool*                                   previousEventStatusArray;
-//        int*                                    previousEventStatusArraySize;
-
-//        TEventAssignmentDelegate*               eventAssignments;
-//        TComputeEventAssignmentDelegate*        computeEventAssignments;
-//        TPerformEventAssignmentDelegate*        performEventAssignments;
 
         // functions --------------------------------------------------------
         int                                     getNumIndependentVariables();
@@ -128,6 +74,7 @@ class RR_DECLSPEC ModelFromC : public rrObject
 
         //Function pointers...
         c_int_MDS                      			cInitModel;
+        c_int_MDS                      			cInitModelData;
         c_charStar_MDS                 			cgetModelName;
         c_void_MDS                              cinitializeInitialConditions;
         c_void_MDS                              csetParameterValues;

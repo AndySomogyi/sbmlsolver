@@ -5,13 +5,13 @@
 namespace rr
 {
 #endif
-typedef struct SModelData *ModelDataP;
+typedef struct   SModelData *ModelDataP;
 typedef double 	(*TEventDelayDelegate)(ModelDataP);
 typedef double* (*TComputeEventAssignmentDelegate)(ModelDataP);
 typedef void 	(*TPerformEventAssignmentDelegate)(ModelDataP, double*);
 typedef void 	(*TEventAssignmentDelegate)();
 
-#pragma pack(push, 1)
+//#pragma pack(push, 1)
 //Data that is used in SBML models
 typedef struct SModelData
 {
@@ -69,7 +69,6 @@ typedef struct SModelData
 	int									ctSize;
     double*	                            ct;
 
-
     int                           	    localParameterDimensionsSize;
     int*                           	    localParameterDimensions;
 
@@ -99,7 +98,7 @@ typedef struct SModelData
     TPerformEventAssignmentDelegate*    performEventAssignments;
 
 } ModelData;
-#pragma pack(pop)
+//#pragma pack(pop)
 
 #if defined __cplusplus
 }

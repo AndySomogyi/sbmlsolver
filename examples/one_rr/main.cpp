@@ -9,6 +9,7 @@ int main(int argc, char** argv)
 {
 	const char* rootPath = "..";
 
+
 	try
     {
         LogOutput::mLogToConsole = true;
@@ -20,15 +21,18 @@ int main(int argc, char** argv)
         //Load modelFiles..
         Log(lInfo)<<" ---------- LOADING/GENERATING MODELS ------";
 
-        RoadRunner rr1;
-        if(!rr1.loadSBMLFromFile(modelFile))
+        RoadRunner rr1(tmpFolder);
+        if(!rr1.loadSBMLFromFile(modelFile, true))
         {
 			Log(lError)<<"There was a problem loading model in file: "<<modelFile;
             throw(Exception("Bad things in loadSBMLFromFile function"));
         }
 
+    	SModelData data;
+	    clog<<"Size: "<<sizeof(SModelData)<<endl;
+	    clog<<"Size ptr: "<<sizeof(data.eventDelays)<<endl;
+        rr1.getModel()->cInitModelData(&data);
         Log(lInfo)<<" ---------- SIMULATE ---------------------";
-
         Log(lInfo)<<"Data:"<<rr1.simulate();
 
     }
@@ -41,6 +45,7 @@ int main(int argc, char** argv)
     return 0;
 }
 
+#if defined(CG_IDE)
 #pragma comment(lib, "roadrunner-static.lib")
 #pragma comment(lib, "poco_foundation-static.lib")
 #pragma comment(lib, "rr-libstruct-static.lib")
@@ -80,6 +85,6 @@ double test8 = std::numeric_limits<double>::infinity();
 double test9 = std::numeric_limits<int>::max();
 }
 
+#endif
 
 
-//Unlocksyslock(){}

@@ -127,6 +127,7 @@ bool ModelFromC::setupDLLFunctions()
 
     //Load functions..
     cInitModel                          = (c_int_MDS)         			   mDLL.getSymbol("InitModel");
+    cInitModelData                      = (c_int_MDS)         			   mDLL.getSymbol("InitModelData");
     cinitializeInitialConditions        = (c_void_MDS)                     mDLL.getSymbol("initializeInitialConditions");
     csetParameterValues                 = (c_void_MDS)                     mDLL.getSymbol("setParameterValues");
     csetCompartmentVolumes              = (c_void_MDS)                     mDLL.getSymbol("setCompartmentVolumes");

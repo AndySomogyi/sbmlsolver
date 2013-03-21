@@ -1661,7 +1661,11 @@ void CGenerator::writeInitModelDataFunction(CodeBuilder& ignore, CodeBuilder& so
     source.Line("\n//Function to initialize the model data structure. Returns an integer indicating result");
     source.Line("int InitModelData(ModelData* md)");
     source.Line("{");
-
+	source.Line("\tprintf(\"Size of md   %d\\n\",  (int) sizeof(md));");
+//	source.Line("\tprintf(\"Size of SModelData  %d\",  (int) sizeof(SModelData));");
+	source.Line("\tprintf(\"Size of ModelData   %d\\n\",  (int) sizeof(ModelData));");
+	source.Line("\tprintf(\"Size of ModelData*  %d\\n\", (int) sizeof(&ModelData));");
+	source.Line("\tprintf(\"Size of ModelData.eventDelays  %d\\n\", (int) sizeof(md->eventDelays));");
     source.TLine("return 0;");
     source.Line("}");
     source.NewLine();

@@ -47,7 +47,7 @@
     <PropertyGroup Condition="'$(Base)'!=''">
         <ILINK_LibraryPath>..\..\source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <IncludePath>..\..\source\;..\..\source;$(IncludePath)</IncludePath>
-        <Defines>LIBSBML_USE_CPP_NAMESPACE;POCO_STATIC;STATIC_LIBSTRUCT;STATIC_RR;$(Defines)</Defines>
+        <Defines>LIBSBML_USE_CPP_NAMESPACE;POCO_STATIC;STATIC_LIBSTRUCT;STATIC_RR;CG_IDE;$(Defines)</Defines>
         <DynamicRTL>true</DynamicRTL>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <Manifest_File>None</Manifest_File>
@@ -95,7 +95,6 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DynamicRTL>false</DynamicRTL>
-        <BCC_AllCodeguardOptions>true</BCC_AllCodeguardOptions>
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <BCC_MonitorThis>true</BCC_MonitorThis>
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
