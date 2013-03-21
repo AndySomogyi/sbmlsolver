@@ -914,12 +914,12 @@ functions = {'[Compute Steady State]': myComputeSteadyState,
              '[Get Rate of Change by Index]': checkRateRateOfChangeByIndex,
               }
 
-def runTest (pathToModels, testModel):
+def runTester (pathToModels, testModel):
     global fHandle
     global sbmlStr
     global JarnacStr
 
-    print "Starting Test on ", testModel
+    print "Starting Tester on ", testModel
 
     sys.path.append (pathToModels)
     #print 'Version: ', rrPython.getVersion()
