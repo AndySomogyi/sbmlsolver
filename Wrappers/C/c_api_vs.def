@@ -151,6 +151,7 @@ isListItemString                                 = _isListItemString@4
 listToString                                     = _listToString@4
 loadPlugins                                      = _loadPlugins@4
 loadSBML                                         = _loadSBML@8
+loadSBMLE                                        = _loadSBMLE@12
 loadSBMLFromFile                                 = _loadSBMLFromFile@8
 loadSBMLFromFileJobs                             = _loadSBMLFromFileJobs@12
 loadSBMLFromFileJob                              = _loadSBMLFromFileJob@8

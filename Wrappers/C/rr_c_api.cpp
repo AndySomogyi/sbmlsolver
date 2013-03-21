@@ -793,6 +793,28 @@ bool rrCallConv loadSBML(RRHandle handle, const char* sbml)
     }
 }
 
+bool rrCallConv loadSBMLE(RRHandle handle, const char* sbml, bool forceRecompilation)
+{
+	try
+    {
+      	RoadRunner* rri = castFrom(handle);
+        if(!rri->loadSBML(sbml, forceRecompilation))
+        {
+            setError("Failed to load SBML semantics");
+            return false;
+        }
+        return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	  	return false;
+    }
+}
+
+
 bool rrCallConv loadSimulationSettings(RRHandle handle, const char* fileName)
 {
 	try

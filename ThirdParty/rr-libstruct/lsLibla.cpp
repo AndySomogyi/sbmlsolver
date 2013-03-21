@@ -240,7 +240,6 @@ vector< DoubleMatrix* > getQRWithPivot(DoubleMatrix &oMatrix)
         {
             R[i+row*j] = 0.0;
         }
-
     }
 
     //Log(lDebug5) << "before dorgqr:\n"<<ls::print(row, col, A);

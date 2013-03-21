@@ -366,6 +366,15 @@ C_DECL_SPEC bool rrCallConv setComputeAndAssignConservationLaws(RRHandle handle,
 C_DECL_SPEC bool rrCallConv loadSBML(RRHandle handle, const char* sbml);
 
 /*!
+ \brief Load a model from an SBML string
+ \param[in] sbml string
+ \param[in] foreceRecompilation, boolean. True means the model is recompiled. False causes roadrunner to use an already compiled model
+ \return Returns true if sucessful
+ \ingroup loadsave
+*/
+C_DECL_SPEC bool rrCallConv loadSBMLE(RRHandle handle, const char* sbml, bool forceRecompile);
+
+/*!
  \brief Load a model from a SBML file
  \param[in] fileName file name (or full path) to file that holds the SBML model
  \return Returns true if sucessful
