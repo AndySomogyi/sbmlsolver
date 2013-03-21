@@ -218,6 +218,9 @@ function  getCC (variable : AnsiString; parameter : AnsiString) : double;
 function  getuEE (variable : AnsiString; parameter : AnsiString) : double;
 function  getEE (variable : AnsiString; parameter : AnsiString) : double;
 
+function 	getUnscaledFluxControlCoefficientMatrix : T2DDoubleArray;
+function  getScaledFluxControlCoefficientMatrix : T2DDoubleArray;
+
 function  getAvailableSymbolsII : TRRList;
 function  getAvailableTimeCourseSymbols : TRRList;
 function  getAvailableSteadStateSymbols : TRRList;
@@ -335,12 +338,16 @@ var DLLHandle : Cardinal;
     libGetL0Matrix            : TGetMatrix;
     libGetConservationMatrix  : TGetMatrix;
 
+    libgetuFCC                : TGetMatrix;
+    libgetFCC                 : TGetMatrix;
+
     libgetuCC                 : TGetMCA;
     libgetuEE                 : TGetMCA;
     libgetCC                  : TGetMCA;
     libgetEE                  : TGetMCA;
     libGetEigenvalues         : TGetMatrix;
     libGetEigenvaluesMatrix   : TGetSetMatrix;
+
 
     libCreateVector : function (size : integer) : PRRDoubleVectorHandle;  stdcall;
     libCreateRRMatrix : function (row, col : integer) : PRRMatrixHandle; stdcall;
@@ -1068,6 +1075,28 @@ begin
 end;
 
 
+function getUnscaledFluxControlCoefficientMatrix : T2DDoubleArray;
+var p1 : PRRMatrixHandle;
+begin
+  p1 := libGetuFCC();
+  if p1 = nil then
+     exit;
+
+  result := loadInTo2DArray (p1);
+end;
+
+
+function  getScaledFluxControlCoefficientMatrix : T2DDoubleArray;
+var p1 : PRRMatrixHandle;
+begin
+  p1 := libGetFCC();
+  if p1 = nil then
+     raise Exception.Create ('Error in FCC function' + getLastError);
+
+  result := loadInTo2DArray (p1);
+end;
+
+
 function getuCC (variable : AnsiString; parameter : AnsiString) : double;
 begin
   if not libgetuCC (PAnsiChar (variable), PAnsiChar (parameter), result) then
@@ -1480,6 +1509,8 @@ begin
    @libgetuEE                   := loadSingleMethod ('getuEE', errMsg, result, methodList);
    @libgetCC                    := loadSingleMethod ('getCC', errMsg, result, methodList);
    @libgetEE                    := loadSingleMethod ('getEE', errMsg, result, methodList);
+   @libGetuFCC                  := loadSingleMethod ('_getUnscaledFluxControlCoefficientMatrix@0', errMsg, result, methodList);
+   @libGetFCC                  :=  loadSingleMethod ('_getScaledFluxControlCoefficientMatrix@0', errMsg, result, methodList);
 
    @libGetEigenvalues           := loadSingleMethod ('getEigenvalues', errMsg, result, methodList);
 
