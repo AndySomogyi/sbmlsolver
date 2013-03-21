@@ -4014,7 +4014,12 @@ bool rrCallConv enableLoggingToFile(RRHandle handle)
     }
 }
 
-bool rrCallConv setLogLevel(const char* _lvl)
+char* rrCallConv testString (char* testStr)
+{
+	return testStr;
+}
+
+bool rrCallConv setLogLevel(char* _lvl)
 {
 	try
     {

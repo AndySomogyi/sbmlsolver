@@ -63,14 +63,14 @@ type
 
 
   TVoidCharFunc = function : PAnsiChar; stdcall;   //char* func(void)
-  TVoidBoolFunc = function : boolean; stdcall; // bool func (void);
+  TVoidBoolFunc = function (rrHandle : Pointer) : boolean; stdcall; // bool func (void);
   TVoidIntFunc = function : integer; stdcall;
   TVoidDoubleFunc = function : double; stdcall;
 
   TBoolBoolFunc = function (var value : boolean) : boolean; stdcall;
 
   TPointerVoidFunc = function : Pointer; stdcall; //void* func(void)
-  TCharBoolFunc = function (str : PAnsiChar) : bool; stdcall;  // bool func (char *)
+  TCharBoolFunc = function (rrHandle : Pointer; str : PAnsiChar) : bool; stdcall;  // bool func (char *)
   TDoubleBoolFunc = function (value : double) : bool; stdcall; // bool func (double)
   TIntBoolFunc = function (value : integer) : bool; stdcall;   // bool func (double)
   TVarIntBoolFunc = function (var value : integer) : bool; stdcall;   // bool func (double)
@@ -79,13 +79,13 @@ type
   TVoidStringListFunc = function() : PRRStringArray; stdcall;
 
   TGetCopyright = TVoidCharFunc;
-  TGetRRInstance = TPointerVoidFunc;
+  TCreateRRInstance = TPointerVoidFunc;
   TGetCCode = function : PRRCCodeHandle; stdcall;
   TSetTimeStart = function (var value : double) : bool; stdcall;
   TSetTimeEnd = function (var value : double) : bool; stdcall;
   TSetNumPoints = function (var value : integer) : bool; stdcall;
   TSimulateEx = function (var timeStart : double; var timeEnd : double; var numberOfPoints : integer) : PRRResultHandle; stdcall;
-  TGetMatrix = function : PRRMatrixHandle; stdcall;
+  TGetMatrix = function (rrHandle : Pointer) : PRRMatrixHandle; stdcall;
   TGetSetMatrix = function (mat : PRRMatrixHandle) : PRRMatrixHandle; stdcall;
   TFreeRRResult = function (ptr : PRRResultHandle) : boolean; stdcall;
   TFreeRRInstance = procedure (instance : Pointer); stdcall;
@@ -108,14 +108,15 @@ var
    selectionList : AnsiString;
    loggingEnabled : boolean = false;
    loggingTmpFileName : AnsiString = '';
+   rrHandle : Pointer;
 
 function  hasError : boolean;
-function  getRRInstance : Pointer;
+function  createRRInstance : Pointer;
 procedure freeRRInstance; overload;
 procedure freeRRInstance (myInstance : Pointer); overload;
 function  getLastError : AnsiString;
 function  getBuildDate : AnsiString;
-function  getRevision : integer;
+function  getVersion : AnsiString;
 
 
 {$REGION 'Documentation'}
@@ -128,7 +129,7 @@ function  getRevision : integer;
 {$ENDREGION}
 function  getCopyright : AnsiString;
 function  getTempFolder : AnsiString;
-function  enableLogging : boolean;
+function  enableLoggingToFile : boolean;
 function  setLogLevel (debugLevel : AnsiString) : boolean;
 function  getLogFileName : AnsiString;
 function  setTempFolder (name : AnsiString) : boolean;
@@ -250,18 +251,19 @@ var DLLHandle : Cardinal;
 
     libHasError : TVoidBoolFunc;
     libGetLastError : TVoidCharFunc;
-    libEnableLogging : TVoidBoolFunc;
-    libSetLogLevel : TCharBoolFunc;
-    libGetLogFileName : TVoidCharFunc;
-    libSetTempFolder : function (folder : PAnsiChar) : bool; stdcall;
+    libEnableLoggingToConsole : TVoidBoolFunc;
+    libEnableLoggingToFile : TVoidBoolFunc;
+    libSetLogLevel : function (str : PAnsiChar) : bool; stdcall;
+    libGetLogFileName : function : PAnsiChar; stdcall;
+    libSetTempFolder : function (rrHandle : Pointer; folder : PAnsiChar) : bool; stdcall;
 
     libGetBuildDate : TVoidCharFunc;
-    libGetRevision : TVoidIntFunc;
+    libGetVersion : TVoidCharFunc;
     libGetCopyright : TGetCopyright;
     libGetTempFolder : TVoidCharFunc;
     libGetCCode : TGetCCode;
 
-    libGetRRInstance : TGetRRInstance;
+    libCreateRRInstance : TCreateRRInstance;
     libFreeRRInstance : TFreeRRInstance;
     libFreeResult : TFreeRRResult;
 
@@ -450,9 +452,9 @@ end;
 //      http://code.google.com/p/roadrunnerwork/
 // -----------------------------------------------------------------
 
-function getRRInstance : Pointer;
+function createRRInstance : Pointer;
 begin
-  result := libGetRRInstance;
+  result := libCreateRRInstance;
 end;
 
 procedure freeRRInstance (myInstance : Pointer);
@@ -474,9 +476,9 @@ begin
 end;
 
 
-function getRevision : integer;
+function getVersion : AnsiString;
 begin
-  result := libGetRevision;
+  result := libGetVersion;
 end;
 
 
@@ -495,7 +497,7 @@ end;
 
 function hasError : boolean;
 begin
-  result := libHasError;
+  result := libHasError (rrHandle);
 end;
 
 
@@ -504,9 +506,9 @@ begin
   result := libGetLastError;
 end;
 
-function enableLogging : boolean;
+function enableLoggingToFile : boolean;
 begin
-  result := libEnableLogging;
+  result := libEnableLoggingToFile (rrHandle);
   loggingEnabled := true;
 end;
 
@@ -525,7 +527,7 @@ end;
 
 function setTempFolder (name : AnsiString) : boolean;
 begin
-  result := libSetTempFolder (PAnsiChar (name));
+  result := libSetTempFolder (rrHandle, PAnsiChar (name));
 end;
 
 
@@ -546,7 +548,7 @@ end;
 
 function loadSBML (sbmlStr : AnsiString) : boolean;
 begin
-  result := libLoadSBML (PAnsiChar (sbmlStr));
+  result := libLoadSBML (rrHandle, PAnsiChar (sbmlStr));
 end;
 
 
@@ -555,8 +557,7 @@ var str : AnsiString;
 begin
   if FileExists (fileName) then
      begin
-     str := TFile.ReadAllText(fileName);
-     result := libLoadSBMLFromFile (PAnsiChar (str));
+     result := libLoadSBMLFromFile (rrHandle, PAnsiChar (fileName));
      end
   else
      raise Exception.Create ('Unable to locate SBML file [' + fileName + ']');
@@ -607,13 +608,13 @@ end;
 
 function setCapabilities (str : AnsiString) : boolean;
 begin
-  result := libSetCapabilities (PAnsiChar (str));
+  result := libSetCapabilities (rrHandle, PAnsiChar (str));
 end;
 
 
 function evalModel : boolean;
 begin
-  result := libEvalModel;
+  result := libEvalModel (rrHandle);
 end;
 
 
@@ -1026,7 +1027,7 @@ end;
 function getEigenvalues : T2DDoubleArray;
 var p : PRRMatrixHandle;
 begin
-  p := libGetEigenvalues;
+  //p := libGetEigenvalues (rrHandle);
   if p = nil then
      raise Exception.Create ('No Eigenvalue matrix');
   try
@@ -1061,7 +1062,7 @@ begin
      str := strList[0];
      for i := 1 to strList.Count - 1 do
          str := ' ' + strList[i];
-     libSetSteadyStateSelectionList (PAnsiChar (str));
+     libSetSteadyStateSelectionList (rrHandle, PAnsiChar (str));
      end;
   result := true;
 end;
@@ -1078,7 +1079,7 @@ end;
 function getUnscaledFluxControlCoefficientMatrix : T2DDoubleArray;
 var p1 : PRRMatrixHandle;
 begin
-  p1 := libGetuFCC();
+  p1 := libGetuFCC(rrHandle);
   if p1 = nil then
      exit;
 
@@ -1089,7 +1090,7 @@ end;
 function  getScaledFluxControlCoefficientMatrix : T2DDoubleArray;
 var p1 : PRRMatrixHandle;
 begin
-  p1 := libGetFCC();
+  p1 := libGetFCC(rrHandle);
   if p1 = nil then
      raise Exception.Create ('Error in FCC function' + getLastError);
 
@@ -1300,7 +1301,7 @@ function getStoichiometryMatrix : T2DDoubleArray;
 var st : PRRMatrixHandle;
     i : integer;
 begin
-  st := libGetStoichiometryMatrix;
+  st := libGetStoichiometryMatrix (rrHandle);
   try
     if st = nil then
        begin
@@ -1319,7 +1320,7 @@ function getLinkMatrix : T2DDoubleArray;
 var st : PRRMatrixHandle;
     i, j : integer;
 begin
-  st := libGetLinkMatrix;
+  st := libGetLinkMatrix (rrHandle);
   try
     if st = nil then
        begin
@@ -1337,7 +1338,7 @@ end;
 function getNrMatrix : T2DDoubleArray;
 var st : PRRMatrixHandle;
 begin
-  st := libGetNrMatrix;
+  st := libGetNrMatrix (rrHandle);
   try
     if st = nil then
        begin
@@ -1355,7 +1356,7 @@ end;
 function getL0Matrix : T2DDoubleArray;
 var st : PRRMatrixHandle;
 begin
-  st := libGetL0Matrix;
+  st := libGetL0Matrix (rrHandle);
   try
     if st = nil then
        begin
@@ -1373,7 +1374,7 @@ end;
 function getConservationMatrix : T2DDoubleArray;
 var st : PRRMatrixHandle;
 begin
-  st := libGetConservationMatrix;
+  st := libGetConservationMatrix (rrHandle);
   try
     if st = nil then
        begin
@@ -1414,12 +1415,13 @@ begin
    result := true;
    try
    @libGetBuildDate  := loadSingleMethod ('getBuildDate', errMsg, result, methodList);
-   @libGetRevision   := loadSingleMethod ('getVersion', errMsg, result, methodList);
+   @libGetVersion    := loadSingleMethod ('getVersion', errMsg, result, methodList);
    @libHasError      := loadSingleMethod ('hasError', errMsg, result, methodList);
    @libGetLastError  := loadSingleMethod ('getLastError', errMsg, result, methodList);
 
    @libSetLogLevel   := loadSingleMethod ('setLogLevel', errMsg, result, methodList);
-   @libEnableLogging := loadSingleMethod ('enableLogging', errMsg, result, methodList);
+   @libEnableLoggingToConsole := loadSingleMethod ('enableLoggingToConsole', errMsg, result, methodList);
+   @libEnableLoggingToFile := loadSingleMethod ('enableLoggingToFile', errMsg, result, methodList);
    libGetLogFileName := loadSingleMethod ('getLogFileName', errMsg, result, methodList);
 
    @libSetTempFolder := loadSingleMethod ('setTempFolder', errMsg, result, methodList);
@@ -1428,7 +1430,7 @@ begin
    @libGetCCode      := loadSingleMethod ('getCCode', errMsg, result, methodList);
    @libGetCopyright  := loadSingleMethod ('getCopyright', errMsg, result, methodList);
 
-   @libGetRRInstance := loadSingleMethod ('getRRInstance', errMsg, result, methodList);
+   @libCreateRRInstance := loadSingleMethod ('createRRInstance', errMsg, result, methodList);
 
    @libSetComputeAndAssignConservationLaws := loadSingleMethod ('setComputeAndAssignConservationLaws', errMsg, result, methodList);
 
@@ -1445,7 +1447,7 @@ begin
    @libReset              := loadSingleMethod ('reset', errMsg, result, methodList);
    @libGetCapabilities    := loadSingleMethod ('getCapabilities', errMsg, result, methodList);
    @libSetCapabilities    := loadSingleMethod ('setCapabilities', errMsg, result, methodList);
-   @libSetFloatingSpeciesInitialConcentrations := loadSingleMethod ('_setFloatingSpeciesInitialConcentrations@4', errMsg, result, methodList);
+   @libSetFloatingSpeciesInitialConcentrations := loadSingleMethod ('setFloatingSpeciesInitialConcentrations', errMsg, result, methodList);
 
    @libEvalModel          := loadSingleMethod ('evalModel', errMsg, result, methodList);
    @libGetFullJacobian    := loadSingleMethod('getFullJacobian', errMsg, result, methodList);
@@ -1473,7 +1475,7 @@ begin
    @libGetGlobalParameterByIndex   := loadSingleMethod ('getGlobalParameterByIndex', errMsg, result, methodList);
 
    @libGetFloatingSpeciesConcentrations := loadSingleMethod ('getFloatingSpeciesConcentrations', errMsg, result, methodList);
-   @libGetBoundarySpeciesConcentrations := loadSingleMethod ('_getBoundarySpeciesConcentrations@0', errMsg, result, methodList);
+   @libGetBoundarySpeciesConcentrations := loadSingleMethod ('getBoundarySpeciesConcentrations', errMsg, result, methodList);
 
    @libGetNumberOfDependentSpecies   := loadSingleMethod ('getNumberOfDependentSpecies', errMsg, result, methodList);
    @libGetNumberOfIndependentSpecies := loadSingleMethod ('getNumberOfIndependentSpecies', errMsg, result, methodList);
@@ -1509,8 +1511,8 @@ begin
    @libgetuEE                   := loadSingleMethod ('getuEE', errMsg, result, methodList);
    @libgetCC                    := loadSingleMethod ('getCC', errMsg, result, methodList);
    @libgetEE                    := loadSingleMethod ('getEE', errMsg, result, methodList);
-   @libGetuFCC                  := loadSingleMethod ('_getUnscaledFluxControlCoefficientMatrix@0', errMsg, result, methodList);
-   @libGetFCC                  :=  loadSingleMethod ('_getScaledFluxControlCoefficientMatrix@0', errMsg, result, methodList);
+   @libGetuFCC                  := loadSingleMethod ('getUnscaledFluxControlCoefficientMatrix', errMsg, result, methodList);
+   @libGetFCC                  :=  loadSingleMethod ('getScaledFluxControlCoefficientMatrix', errMsg, result, methodList);
 
    @libGetEigenvalues           := loadSingleMethod ('getEigenvalues', errMsg, result, methodList);
 

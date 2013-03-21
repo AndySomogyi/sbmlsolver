@@ -3854,9 +3854,9 @@ DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
             {
                 for (int j = 0; j < ufcc.CSize(); j++)
                 {
-                    if(mModel->mData.rates[j] !=0)
+                    if(mModel->mData.rates[i] !=0)
                     {
-                    	ufcc[i][j] = ufcc[i][j] * mModel->mData.rates[i]/mModel->mData.rates[j];
+                    	ufcc[i][j] = ufcc[i][j] * mModel->mData.rates[j]/mModel->mData.rates[i];
                     }
                 	else
                     {

@@ -51,11 +51,11 @@ int main(int argc, char* argv[])
     	doMore = false;
     }
 
-    if(!setLogLevel(GetLogLevelAsString(args.CurrentLogLevel).c_str()) )
-    {
-        cerr<<"Failed setting log RoadRunner Log level";
-    	doMore = false;
-    }
+    //if(!setLogLevel(GetLogLevelAsString(args.CurrentLogLevel).c_str()) )
+    //{
+    //    cerr<<"Failed setting log RoadRunner Log level";
+    //	doMore = false;
+    //}
 	
 	
 	if(args.TempDataFolder.size() < 2)

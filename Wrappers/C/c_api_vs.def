@@ -199,3 +199,4 @@ waitForJob                                       = _waitForJob@4
 waitForJobs                                      = _waitForJobs@4
 writeMultipleRRData                              = _writeMultipleRRData@8
 writeRRData                                      = _writeRRData@8
+testString                                       = _testString@4 

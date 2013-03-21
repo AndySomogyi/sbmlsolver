@@ -277,6 +277,7 @@ enum  CLogLevel
 
 C_DECL_SPEC void rrCallConv logMsg(enum CLogLevel lvl, const char* msg);
 
+C_DECL_SPEC char* rrCallConv testString (char* testStr);
 
 /*!
  \brief Set the logging status level
@@ -292,7 +293,7 @@ C_DECL_SPEC void rrCallConv logMsg(enum CLogLevel lvl, const char* msg);
  \return Ruturns true if succesful
  \ingroup errorfunctions
 */
-C_DECL_SPEC bool rrCallConv setLogLevel(const char* lvl);
+C_DECL_SPEC bool rrCallConv setLogLevel(char* lvl);
 
 /*!
  \brief Get the logging status level as a pointer to a string
