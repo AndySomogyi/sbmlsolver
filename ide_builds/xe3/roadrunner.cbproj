@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{8708D8F2-E671-4837-BD8C-BC7D269B101F}</ProjectGuid>
         <ProjectVersion>14.4</ProjectVersion>
@@ -119,6 +119,10 @@
         <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <BCC_AllCodeguardOptions>true</BCC_AllCodeguardOptions>
+        <LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
+        <UsePackages>false</UsePackages>
+        <DynamicRTL>false</DynamicRTL>
         <BCC_PCHInject>..\..\source\rr_pch.h</BCC_PCHInject>
         <IncludePath>$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
     </PropertyGroup>
@@ -210,9 +214,6 @@
         <CppCompile Include="..\..\source\rrHashTable.cpp">
             <DependentOn>..\..\source\rrHashTable.h</DependentOn>
             <BuildOrder>21</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\rrIModel.cpp">
-            <BuildOrder>22</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrIniFile.cpp">
             <BuildOrder>65</BuildOrder>
@@ -419,6 +420,9 @@
         <CppCompile Include="..\..\source\rrTVariableType.cpp">
             <DependentOn>..\..\source\rrTVariableType.h</DependentOn>
             <BuildOrder>58</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrUnresolvedSTDExternals.cpp">
+            <BuildOrder>78</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrUtils.cpp">
             <DependentOn>..\..\source\rrUtils.h</DependentOn>

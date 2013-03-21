@@ -1,103 +1,52 @@
 #ifndef rrModelFromCH
 #define rrModelFromCH
-
 #include <list>
-
-//X-platform shared library class
-//#include "Poco/SharedLibrary.h"
 #include "rrModelSharedLibrary.h"
-
-#include "rrTEventDelayDelegate.h"
-#include "rrTEventAssignmentDelegate.h"
-#include "rrTComputeEventAssignmentDelegate.h"
-#include "rrTPerformEventAssignmentDelegate.h"
-
+//#include "rrTEventDelayDelegate.h"
+//#include "rrTEventAssignmentDelegate.h"
+//#include "rrTComputeEventAssignmentDelegate.h"
+//#include "rrTPerformEventAssignmentDelegate.h"
+#include "rrModelData.h"
+#include "rrNOMSupport.h"
+#include "rr-libstruct/lsLibStructural.h"
 namespace rr
 {
-
+using namespace ls;
 using Poco::SharedLibrary;
 class CGenerator;
 class CvodeInterface;
 
-typedef void    (callConv *c_void)();
-typedef int     (callConv *c_int)();
-typedef int     (callConv *c_int_int)(int);
-typedef char*   (callConv *c_charStar)();
-typedef void    (callConv *c_void_doubleStar)(double*);
-typedef double  (callConv *c_double_int)(int);
-typedef double* (callConv *c_doubleStar)();
-typedef void    (callConv *c_void_double_doubleStar)(double, double*);
-typedef void    (callConv *c_void_int_double)(int, double);
+typedef void    (callConv *c_void_MDS)(ModelData*);//MDS stands for ModelDataStructure
+typedef int     (callConv *c_int_MDS)(ModelData*);
+typedef int     (callConv *c_int_MDS_int)(ModelData*, int);
+typedef char*   (callConv *c_charStar_MDS)(ModelData*);
+typedef void    (callConv *c_void_MDS_doubleStar)(ModelData*, double*);
+typedef double  (callConv *c_double_MDS_int)(ModelData*, int);
+typedef double* (callConv *c_doubleStar_MDS)(ModelData*);
+typedef void    (callConv *c_void_MDS_double_doubleStar)(ModelData*, double, double*);
+typedef void    (callConv *c_void_MDS_int_double)(ModelData*, int, double);
+
 
 typedef TComputeEventAssignmentDelegate* (callConv *c_TComputeEventAssignmentDelegateStar)();
 typedef TEventDelayDelegate* (callConv *c_GetEventDelayDelegatesStar)();
 
+
 class RR_DECLSPEC ModelFromC : public rrObject
 {
     protected:
+												//This structure holds data generated/used in the shared model lib..
+                                                //some of it could be made global in the dll later on, like modelName..
         int                                     mDummyInt;
         int                                     mDummyDouble;
         double*                                 mDummyDoubleArray;
-        int                                    *numIndependentVariables;
-        int                                    *numDependentVariables;
-        int                                    *numTotalVariables;
-        int                                    *numBoundaryVariables;
-        int                                    *numGlobalParameters;
-        int                                    *numCompartments;
-        int                                    *numReactions;
-        int                                    *numRules;
-        int                                    *numEvents;
-        string                                  mModelName;
 
     public:
-        list<string>                            mWarnings;
+    	ModelData								mData;
+		string									getModelName();
         CvodeInterface*                         mCvodeInterface;
         void                                    assignCVodeInterface(CvodeInterface* cvodeI);
-        double                                  *time;
         void                                    setTime(double _time);
         double                                  getTime();
-
-		//Function/Data Pointers
-        double*                                 y;                  //Corresponds to y in IModel
-        int*                                    ySize;              //Corresponds to y in IModel
-        double*                                 init_y;
-        int*                                    init_ySize;
-        double*                                 dydt;               //This is the "dydt" data in the DLL.
-        int*                                    dydtSize;           //This is the "dydt" dataSize in the DLL.
-        double*                                 amounts;            //This is the "amounts" data in the DLL.
-        int*                                    amountsSize;
-        double*                                 bc;
-        int*                                    bcSize;
-        double*                                 sr;
-        int*                                    srSize;
-        double*                                 gp;
-        int*                                    gpSize;
-        double*                       			lp;                 //Local parameters
-        int*           	            			lpSize;             //Local parameters
-        double*                                 c;                  //Compartment volumes
-        int*                                    cSize;              //Compartment volumes
-        double*                                 rates;
-        int*                                    ratesSize;
-        double*                                 ct;                 //Conservation totals
-        int*                                    ctSize;             //Conservation totals
-        double*                                 rateRules;          //additional rateRules
-        int*                                    rateRulesSize;      //additional rateRules
-        double*                                 eventTests;
-        int*                                    eventTestsSize;
-        double* 		                        eventPriorities;		//Array of event priorities. Has size numEvents
-        TEventDelayDelegate*                    eventDelays;
-        bool*                                   eventType;
-        int*                                    eventTypeSize;
-        bool*                                   eventPersistentType;
-        int*                                    eventPersistentTypeSize;
-        bool*                                   eventStatusArray;
-        int*                                    eventStatusArraySize;
-        bool*                                   previousEventStatusArray;
-        int*                                    previousEventStatusArraySize;
-
-        TEventAssignmentDelegate*               eventAssignments;
-        TComputeEventAssignmentDelegate*        computeEventAssignments;
-        TPerformEventAssignmentDelegate*        performEventAssignments;
 
         // functions --------------------------------------------------------
         int                                     getNumIndependentVariables();
@@ -112,48 +61,52 @@ class RR_DECLSPEC ModelFromC : public rrObject
         void                                    computeEventPriorites();
         void                                    setConcentration(int index, double value);
         void                                    computeReactionRates(double time, double* y);
+        CGenerator&                             mCG;
+		LibStructural&                      	mLibStruct;                          //Reference to libstruct library
+        NOMSupport&                         	mNOM;                                //Object that provide some wrappers and new "NOM" functions.
 
     public:
-        CGenerator*                             mCodeGenerator;
+
+
         bool                                    mIsInitialized;    //If all functions are found properly in the dll, this one is true
 
         ModelSharedLibrary&	 					mDLL;
 
         //Function pointers...
-        c_int                                   cInitModel;
-        c_charStar                              cGetModelName;
-        c_void                                  cinitializeInitialConditions;
-        c_void                                  csetParameterValues;
-        c_void                                  csetCompartmentVolumes;
-        c_int_int                               cgetNumLocalParameters;
-        c_void                                  csetBoundaryConditions;
-        c_void                                  csetInitialConditions;
-        c_void                                  cevalInitialAssignments;
-        c_void_doubleStar                       cupdateDependentSpeciesValues;
-        c_void_doubleStar                       ccomputeRules;
-        c_void                                  cconvertToAmounts;
-        c_void                                  ccomputeConservedTotals;
-        c_double_int                            cgetConcentration;
-        c_doubleStar                            cGetCurrentValues;
-        c_void_double_doubleStar                cevalModel;
-        c_void                                  cconvertToConcentrations;
-        c_void_double_doubleStar                cevalEvents;
-        c_void                                  ccomputeAllRatesOfChange;
-        c_void                                  cAssignRates_a;
-        c_void_doubleStar                       cAssignRates_b;
-        c_void                                  ctestConstraints;
-        c_void                                  cresetEvents;
-        c_void                                  cInitializeRates;
-        c_void                                  cInitializeRateRuleSymbols;
-        c_void_int_double                       csetConcentration;
-		c_void_double_doubleStar                cComputeReactionRates;
-        c_void                                  ccomputeEventPriorities;
+        c_int_MDS                      			cInitModel;
+        c_int_MDS                      			cInitModelData;
+        c_charStar_MDS                 			cgetModelName;
+        c_void_MDS                              cinitializeInitialConditions;
+        c_void_MDS                              csetParameterValues;
+        c_void_MDS                              csetCompartmentVolumes;
+        c_int_MDS_int                           cgetNumLocalParameters;
+        c_void_MDS                              csetBoundaryConditions;
+        c_void_MDS                              csetInitialConditions;
+        c_void_MDS                              cevalInitialAssignments;
+        c_void_MDS_doubleStar                   cupdateDependentSpeciesValues;
+        c_void_MDS_doubleStar                   ccomputeRules;
+        c_void_MDS                              cconvertToAmounts;
+        c_void_MDS                              ccomputeConservedTotals;
+        c_double_MDS_int                        cgetConcentration;
+        c_doubleStar_MDS                        cGetCurrentValues;
+        c_void_MDS_double_doubleStar            cevalModel;
+        c_void_MDS                              cconvertToConcentrations;
+        c_void_MDS_double_doubleStar            cevalEvents;
+        c_void_MDS                              ccomputeAllRatesOfChange;
+        c_void_MDS                              cAssignRates_a;
+        c_void_MDS_doubleStar                   cAssignRates_b;
+        c_void_MDS                              ctestConstraints;
+        c_void_MDS                              cresetEvents;
+        c_void_MDS                              cInitializeRates;
+        c_void_MDS                              cInitializeRateRuleSymbols;
+        c_void_MDS_int_double                   csetConcentration;
+		c_void_MDS_double_doubleStar            cComputeReactionRates;
+        c_void_MDS                              ccomputeEventPriorities;
 
-		//
-                                                ModelFromC(CGenerator* generator, ModelSharedLibrary& dll);
+		                                        ModelFromC(CGenerator& generator, ModelSharedLibrary& dll);
                                                ~ModelFromC();
         //Non inherited
-        bool                                    setupDLLData();
+        bool                                    setupModelData();
         bool                                    setupDLLFunctions();
         void                                    setCompartmentVolumes();
         int                                     getNumLocalParameters(int reactionId);

@@ -93,8 +93,11 @@ string ModelSharedLibrary::createName(const string& baseName)
     {
     	mLibName = baseName;
     }
-
-    mLibName.append(mTheLib.suffix());
+#if defined(WIN32)
+    mLibName.append(".dll");
+#else
+	mLibName.append(mTheLib.suffix());
+#endif
 	return mLibName;
 }
 

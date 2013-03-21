@@ -74,11 +74,11 @@ int main(int argc, char * argv[])
         {
             string logName = ExtractFileName(args.ModelFileName);
             logName = ChangeFileExtensionTo(logName, ".log");
-            gLog.Init("", gLog.GetLogLevel());//, unique_ptr<LogFile>(new LogFile(JoinPath(args.TempDataFolder, logName) )));
+            gLog.Init("", gLog.GetLogLevel());
         }
         else
         {
-            gLog.Init("", gLog.GetLogLevel());//, unique_ptr<LogFile>(new LogFile(JoinPath(args.TempDataFolder, "RoadRunner.log") )));
+            gLog.Init("", gLog.GetLogLevel());
         }
 
         Log(lInfo)<<"Logs are going to "<<gLog.GetLogFileName();
@@ -86,16 +86,11 @@ int main(int argc, char * argv[])
         SBMLModelSimulation simulation(args.DataOutputFolder, args.TempDataFolder);
 
         Log(lDebug)<<"Working Directory: "<<getCWD()<<endl;
-        string compiler;
-#if defined (WIN32)
-compiler = "compilers\\tcc\\tcc.exe";
-#else
-compiler = "gcc";
-#endif
+        
 		
 		//Creating roadrunner
 		Log(lDebug)<<"Creating RoadRunner..."<<endl;
-        RoadRunner *rr  = new RoadRunner(JoinPath(RRInstallFolder, "rr_support"), JoinPath(RRInstallFolder, compiler), args.TempDataFolder);
+        RoadRunner *rr  = new RoadRunner(args.TempDataFolder);
         rr->reset();
 		Log(lDebug)<<"....."<<endl;
         simulation.UseEngine(rr);
@@ -113,7 +108,7 @@ compiler = "gcc";
             doContinue = false;
         }
 
-        simulation.CompileIfDllExists(true);
+        simulation.ReCompileIfDllExists(true);
         if(doContinue && !simulation.LoadSBMLFromFile())
         {
             Log(lError)<<"Failed loading SBML model";

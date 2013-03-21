@@ -12,8 +12,10 @@ if(${MSVC})
 endif(${MSVC})
 
 set(examples 	
+one_rr
 one_thread
 many_threads
+load_model_dll
 )
 
 foreach(example ${examples})

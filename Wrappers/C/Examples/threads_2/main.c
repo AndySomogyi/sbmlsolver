@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 {
    //Some Declarations (has to be here because this is C)
 	RRInstanceListHandle 	rrs;
-    RRThreadPoolHandle 	    tpHandle;		//ThreadPool handle.. use to check when a pool of threads has finished..
+    RRJobsHandle 		    jobsHandle;		//Jobs handle.. use to check when a pool of threads has finished..
     char tempFolder[1024];
 
 	//This path should work on both windows and linux..
@@ -59,18 +59,18 @@ int main(int argc, char* argv[])
    	enableLoggingToFile(rrs->Handle[0]);
 
 	//loadSBML models in threads instead
-    tpHandle = loadSBMLFromFileTP(rrs, modelFileName, threadCount);
+    jobsHandle = loadSBMLFromFileJobs(rrs, modelFileName, threadCount);
 
     //waitForJobs will block until all threads have finished
 	//Instead, one can could check for activeJobs, i.e. non blocking (see below)
-    //waitForJobs(tpHandle);
+    //waitForJobs(jobsHandle);
     //Non blocking code waiting for threadpool to finish
     printf("Entering wait loop...\n");
 
     //Non blocking code waiting for threadpool to finish
     while(true)
     {
-        if (isWorkingOnJobs(tpHandle) == false)
+        if (areJobsFinished(jobsHandle) == true)
         {
            	logMsg(clInfo, "All jobs are done!!!\n");
         	break;
@@ -99,10 +99,10 @@ int main(int argc, char* argv[])
 
     //Simulate them using a pool of threads..
 
-    tpHandle = simulateTP(rrs, threadCount);
+    jobsHandle = simulateJobs(rrs, threadCount);
     printf("Entering wait loop...\n");
 
-    waitForJobs(tpHandle);
+    waitForJobs(jobsHandle);
 
   	//Write data to a file
 	writeMultipleRRData(rrs, "allData.dat");
@@ -125,7 +125,7 @@ int main(int argc, char* argv[])
 //Non blocking code waiting for threadpool to finish
 //    while(true)
 //    {
-//		int nrOfRemainingJobs = getNumberOfRemainingJobs(tpHandle);
+//		int nrOfRemainingJobs = getNumberOfRemainingJobs(jobsHandle);
 //        if (nrOfRemainingJobs == 0)
 //        {
 //           	logMsg(lInfo, "All jobs are done!!!\n");

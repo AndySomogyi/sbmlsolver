@@ -340,7 +340,7 @@ vector< DoubleMatrix* > getQR(DoubleMatrix &oMatrix)
     //Log(lDebug5) << "Input:\n"<<ls::print(row, col, A);
 
     integer info;
-    int out = dgeqrf_ (&row, &col, A, &row, tau, work, &lwork, &info);
+    dgeqrf_ (&row, &col, A, &row, tau, work, &lwork, &info);
 
     //Log(lDebug5) << "A: after dgeqrt)\n"<<ls::print(row, col, A);
     //Log(lDebug5) << "tau: after dgeqrt)\n"<<ls::print(1, minRowCol, tau);
@@ -359,7 +359,7 @@ vector< DoubleMatrix* > getQR(DoubleMatrix &oMatrix)
         }
     }
 
-    out = dorgqr_ (&row, &row, &minRowCol, Q, &row, tau, work, &lwork, &info);
+    dorgqr_ (&row, &row, &minRowCol, Q, &row, tau, work, &lwork, &info);
 
     ls::checkTolerance(row*row, Q, getTolerance());
     ls::checkTolerance(row*col, R, getTolerance());

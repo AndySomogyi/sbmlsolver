@@ -26,7 +26,7 @@ object MForm: TMForm
     TabOrder = 0
     object Splitter3: TSplitter
       Left = 1
-      Top = 465
+      Top = 293
       Width = 215
       Height = 3
       Cursor = crVSplit
@@ -87,21 +87,13 @@ object MForm: TMForm
         TabOrder = 3
       end
     end
-    object FSF: TFileSelectionFrame
-      Left = 1
-      Top = 129
-      Width = 215
-      Height = 336
-      Align = alClient
-      TabOrder = 1
-    end
     object Panel4: TPanel
       Left = 1
-      Top = 468
+      Top = 296
       Width = 215
-      Height = 247
+      Height = 419
       Align = alBottom
-      TabOrder = 2
+      TabOrder = 1
       object GroupBox3: TGroupBox
         Left = 1
         Top = 1
@@ -151,14 +143,14 @@ object MForm: TMForm
         Left = 1
         Top = 65
         Width = 213
-        Height = 181
+        Height = 353
         Align = alClient
         TabOrder = 1
         object SelList: TCheckListBox
           Left = 1
           Top = 1
           Width = 79
-          Height = 179
+          Height = 351
           Align = alClient
           ItemHeight = 13
           TabOrder = 0
@@ -168,7 +160,7 @@ object MForm: TMForm
           Left = 80
           Top = 1
           Width = 132
-          Height = 179
+          Height = 351
           Align = alRight
           Caption = 'Model'
           TabOrder = 1
@@ -226,6 +218,14 @@ object MForm: TMForm
         end
       end
     end
+    object FSF: TFileSelectionFrame
+      Left = 1
+      Top = 129
+      Width = 215
+      Height = 164
+      Align = alClient
+      TabOrder = 2
+    end
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -252,105 +252,16 @@ object MForm: TMForm
       ExplicitTop = 452
       ExplicitWidth = 1001
     end
-    object Chart1: TChart
-      Left = 1
-      Top = 1
-      Width = 1007
-      Height = 461
-      Border.Color = 9423874
-      Border.Width = 7
-      Legend.Alignment = laBottom
-      Legend.Brush.Gradient.Direction = gdTopBottom
-      Legend.Brush.Gradient.EndColor = 13556735
-      Legend.Brush.Gradient.MidColor = 14739177
-      Legend.Brush.Gradient.StartColor = 16774122
-      Legend.ColorWidth = 40
-      Legend.CustomPosition = True
-      Legend.DividingLines.Color = clSilver
-      Legend.Font.Color = 6553600
-      Legend.Frame.Color = clGray
-      Legend.Frame.Visible = False
-      Legend.Left = 50
-      Legend.LeftPercent = 5
-      Legend.LegendStyle = lsSeries
-      Legend.PositionUnits = muPercent
-      Legend.ResizeChart = False
-      Legend.Shadow.Color = 13421772
-      Legend.Shadow.Visible = False
-      Legend.Symbol.Shadow.Visible = False
-      Legend.Symbol.Width = 40
-      Legend.Title.Text.Strings = (
-        '')
-      Legend.Top = 392
-      Legend.TopPercent = 85
-      Legend.TopPos = 5
-      Legend.Transparent = True
-      Title.Color = clBlack
-      Title.Frame.Color = 10083835
-      Title.Frame.Width = 2
-      Title.Shadow.HorizSize = 4
-      Title.Shadow.Transparency = 70
-      Title.Shadow.VertSize = 4
-      Title.Text.Strings = (
-        'TChart')
-      Title.Visible = False
-      BottomAxis.Grid.Visible = False
-      BottomAxis.MinorGrid.Color = 15066597
-      BottomAxis.Title.Caption = 'Time'
-      BottomAxis.Title.Font.Height = -19
-      BottomAxis.Title.Font.Name = 'Arial Rounded MT Bold'
-      LeftAxis.Grid.Visible = False
-      LeftAxis.Title.Caption = 'Species Concentrations'
-      LeftAxis.Title.Font.Height = -19
-      LeftAxis.Title.Font.Name = 'Arial Rounded MT Bold'
-      LeftAxis.Title.ShapeStyle = fosRoundRectangle
-      Shadow.Color = clBlack
-      Shadow.Visible = False
-      TopAxis.MinorGrid.Color = 15066597
-      View3D = False
-      Zoom.Animated = True
-      Zoom.Pen.Color = clRed
-      Align = alClient
-      Color = clWhite
-      PopupMenu = ChartPopup
-      TabOrder = 0
-      ColorPaletteIndex = 15
-      object Series1: TLineSeries
-        Marks.Arrow.Visible = True
-        Marks.Callout.Brush.Color = clBlack
-        Marks.Callout.Arrow.Visible = True
-        Marks.Frame.Color = clGray
-        Marks.Shadow.Color = 13421772
-        Marks.Shadow.HorizSize = 2
-        Marks.Shadow.VertSize = 2
-        Marks.Visible = False
-        LinePen.Color = 4210816
-        LinePen.Width = 3
-        Pointer.Brush.Gradient.EndColor = 7028779
-        Pointer.Gradient.EndColor = 7028779
-        Pointer.InflateMargins = True
-        Pointer.Style = psRectangle
-        Pointer.Visible = False
-        XValues.Name = 'X'
-        XValues.Order = loAscending
-        YValues.Name = 'Y'
-        YValues.Order = loNone
-      end
-    end
     object PageControl1: TPageControl
       Left = 1
       Top = 465
       Width = 1007
       Height = 250
-      ActivePage = TabSheet6
+      ActivePage = TabSheet3
       Align = alBottom
-      TabOrder = 1
+      TabOrder = 0
       object TabSheet1: TTabSheet
         Caption = 'Log'
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object Panel3: TPanel
           Left = 0
           Top = 0
@@ -402,39 +313,19 @@ object MForm: TMForm
       object TabSheet2: TTabSheet
         Caption = 'Settings'
         ImageIndex = 1
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
-        object CompilerRG: TRadioGroup
-          Left = 3
-          Top = 16
-          Width = 94
-          Height = 49
-          Caption = 'Model Compiler'
-          Columns = 2
-          ItemIndex = 0
-          Items.Strings = (
-            'tcc'
-            'bcc')
-          TabOrder = 0
-        end
         object ConservationAnalysisCB: TCheckBox
           Left = 3
-          Top = 80
+          Top = 24
           Width = 126
           Height = 17
           Caption = 'ConservationAnalysis'
-          TabOrder = 1
+          TabOrder = 0
+          OnClick = ConservationAnalysisCBClick
         end
       end
       object TabSheet3: TTabSheet
         Caption = 'Test Suite'
         ImageIndex = 2
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object Button2: TButton
           Left = 408
           Top = 112
@@ -453,10 +344,6 @@ object MForm: TMForm
           TabOrder = 1
           object TabSheet4: TTabSheet
             Caption = 'General'
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
             object testSuitePic: TImage
               Left = 676
               Top = 29
@@ -1376,6 +1263,8 @@ object MForm: TMForm
               Align = alLeft
               Caption = 'Model Info'
               TabOrder = 0
+              ExplicitLeft = -3
+              ExplicitTop = 32
               object WebBrowser1: TWebBrowser
                 Left = 2
                 Top = 15
@@ -1383,8 +1272,10 @@ object MForm: TMForm
                 Height = 148
                 Align = alClient
                 TabOrder = 0
-                ExplicitWidth = 524
-                ExplicitHeight = 177
+                ExplicitLeft = 16
+                ExplicitTop = 18
+                ExplicitWidth = 300
+                ExplicitHeight = 150
                 ControlData = {
                   4C000000254500004C0F00000000000000000000000000000000000000000000
                   000000004C000000000000000000000001000000E0D057007335CF11AE690800
@@ -1400,30 +1291,25 @@ object MForm: TMForm
               Height = 29
               Caption = 'ToolBar2'
               TabOrder = 1
-              object ToolButton4: TToolButton
+              object Button6: TButton
                 Left = 0
                 Top = 0
+                Width = 75
+                Height = 22
                 Action = PlotTestTestSuiteData
+                TabOrder = 0
               end
             end
           end
           object TabSheet5: TTabSheet
             Caption = 'TabSheet5'
             ImageIndex = 1
-            ExplicitLeft = 0
-            ExplicitTop = 0
-            ExplicitWidth = 0
-            ExplicitHeight = 0
           end
         end
       end
       object TabSheet6: TTabSheet
         Caption = 'Other Tests'
         ImageIndex = 3
-        ExplicitLeft = 3
-        ExplicitTop = 23
-        ExplicitWidth = 0
-        ExplicitHeight = 0
         object runCountMemo: TMemo
           Left = 208
           Top = 0
@@ -1479,6 +1365,37 @@ object MForm: TMForm
             OnClick = RunThreadBtnClick
           end
         end
+      end
+    end
+    object Chart1: TChart
+      Left = 1
+      Top = 1
+      Width = 1007
+      Height = 461
+      Legend.Visible = False
+      Title.Text.Strings = (
+        'TChart')
+      View3D = False
+      Align = alClient
+      PopupMenu = ChartPopup
+      TabOrder = 1
+      ColorPaletteIndex = 13
+      object Series1: TLineSeries
+        Marks.Arrow.Visible = True
+        Marks.Callout.Brush.Color = clBlack
+        Marks.Callout.Arrow.Visible = True
+        Marks.Visible = False
+        SeriesColor = clBlack
+        Brush.BackColor = clDefault
+        Pointer.Brush.Gradient.EndColor = clBlack
+        Pointer.Gradient.EndColor = clBlack
+        Pointer.InflateMargins = True
+        Pointer.Style = psRectangle
+        Pointer.Visible = True
+        XValues.Name = 'X'
+        XValues.Order = loAscending
+        YValues.Name = 'Y'
+        YValues.Order = loNone
       end
     end
   end
@@ -1571,21 +1488,11 @@ object MForm: TMForm
       Action = ClearMemoA
     end
   end
-  object ChartEditor1: TChartEditor
-    Chart = Chart1
-    GalleryHeight = 0
-    GalleryWidth = 0
-    Height = 0
-    Width = 0
-    Left = 384
-    Top = 112
-  end
   object ChartPopup: TPopupMenu
     Left = 552
     Top = 144
     object ChartEditor2: TMenuItem
       Caption = 'ChartEditor'
-      OnClick = ChartEditor2Click
     end
   end
   object DropBoxPopup: TPopupMenu
@@ -1599,7 +1506,7 @@ object MForm: TMForm
     Left = 432
     Top = 512
     object PlotTestTestSuiteData: TAction
-      Caption = 'PlotTestTestSuiteData'
+      Caption = 'Plot'
       OnExecute = PlotTestTestSuiteDataExecute
     end
   end
@@ -1607,13 +1514,13 @@ object MForm: TMForm
     Enabled = False
     Interval = 100
     OnTimer = ShutDownTimerTimer
-    Left = 896
-    Top = 560
+    Left = 928
+    Top = 512
   end
   object CheckThreadTimer: TTimer
     Interval = 500
     OnTimer = CheckThreadTimerTimer
-    Left = 400
-    Top = 600
+    Left = 824
+    Top = 512
   end
 end

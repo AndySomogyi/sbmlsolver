@@ -2,17 +2,21 @@
 #include "rr_pch.h"
 #endif
 #pragma hdrstop
+//#include "rrModelData.h"
 #include "rrPendingAssignment.h"
 //---------------------------------------------------------------------------
 
 namespace rr
 {
 PendingAssignment::PendingAssignment(
+					SModelData* md,
                     double time,
                     TComputeEventAssignmentDelegate computeAssignment,
                     TPerformEventAssignmentDelegate performAssignment,
                     bool useValuesFromTriggerTime,
                     int index)
+:
+mModelData(md)
 {
     Time = time;
     ComputeAssignment = computeAssignment;
@@ -21,7 +25,7 @@ PendingAssignment::PendingAssignment(
     UseValuesFromTriggerTime = useValuesFromTriggerTime;
     if (useValuesFromTriggerTime)
     {
-        ComputedValues = computeAssignment();
+        ComputedValues = computeAssignment(mModelData);
     }
 }
 
@@ -31,9 +35,9 @@ void PendingAssignment::AssignToModel()
 {
     if (!UseValuesFromTriggerTime)
     {
-        ComputedValues = ComputeAssignment();
+        ComputedValues = ComputeAssignment(mModelData);
     }
-    PerformAssignment(ComputedValues);
+    PerformAssignment(mModelData, ComputedValues);
 }
 
 int PendingAssignment::GetIndex()

@@ -19,7 +19,7 @@ RoadRunnerList::RoadRunnerList(const int& nrOfRRs, const string& tempFolder)
 
     for(int i = 0; i < nrOfRRs; i++)
     {
-        RoadRunner* rri = new RoadRunner(JoinPath(installFolder, "rr_support"), compiler, tempFolder);
+        RoadRunner* rri = new RoadRunner(tempFolder, JoinPath(installFolder, "rr_support"), compiler);
     	mRRs.push_back(rri);
         mRRs[i]->setTempFileFolder(tempFolder);
     }

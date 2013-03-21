@@ -756,11 +756,13 @@ string NOMSupport::convertTime(const string& sArg, const string& sTimeSymbol)
             {
                 changeTimeSymbol(*oModel, sTimeSymbol);
                 string sbml(writeSBMLToString(oSBMLDoc));
+       	        delete oSBMLDoc;
                 return sbml;
             }
         }
         catch(...)
         {
+	        delete oSBMLDoc;
             throw NOMException("SBML Validation failed");
         }
 //    }
@@ -2598,6 +2600,10 @@ void NOMSupport::modifyKineticLawsForReaction(KineticLaw& oLaw, const string& re
         for (int j = numLocalParameters; j > 0; j--)
         {
             Parameter *parameter = (Parameter*) oLaw.getParameter(j - 1)->clone();
+            if(!parameter)
+            {
+            	throw(NOMException("Null parameter pointer in modifyKineticLawsForReaction"));
+            }
             string parameterId = GetId( *parameter);
             string sPrefix = reactionId + "_";
             if (!oLaw.isSetMath())
@@ -2606,7 +2612,6 @@ void NOMSupport::modifyKineticLawsForReaction(KineticLaw& oLaw, const string& re
                 {
                     ASTNode *node = readMathMLFromString(oLaw.getFormula().c_str());
                     ChangeParameterName(*node, parameterId, sPrefix);
-//                    string sNode = formulaToString(node);
                     string sNode = SBML_formulaToString(node);
                     oLaw.setFormula(sNode);
                 }
@@ -2616,6 +2621,11 @@ void NOMSupport::modifyKineticLawsForReaction(KineticLaw& oLaw, const string& re
                 ChangeParameterName( *(ASTNode*)oLaw.getMath(), parameterId, sPrefix);
             }
             Parameter *oTemp = (Parameter*)oLaw.getListOfParameters()->remove(j - 1);
+            if(!oTemp)
+            {
+            	throw(NOMException("Null parameter pointer in modifyKineticLawsForReaction"));
+            }
+
             if (oTemp != NULL)
             {
                 //    oTemp.Dispose();
@@ -2626,7 +2636,7 @@ void NOMSupport::modifyKineticLawsForReaction(KineticLaw& oLaw, const string& re
             oModel.addParameter(parameter);
             if (parameter != NULL)
             {
-                //parameter.Dispose();
+                //parameter->Dispose();
             }
         }
     }

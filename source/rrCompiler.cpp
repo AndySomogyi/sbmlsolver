@@ -6,12 +6,13 @@
 #if defined(WIN32)
 #include <windows.h>
 #include <strsafe.h>
-    #if defined(__CODEGEARC__)
+#if defined(__CODEGEARC__)
     #include <dir.h>
-    #elif defined(_MSVC)
+#elif defined(_MSVC)
     #include <direct.h>
-    #endif
 #endif
+#endif
+#include "Poco/File.h"
 #include "rrLogger.h"
 #include "rrCompiler.h"
 #include "rrException.h"
@@ -147,6 +148,8 @@ bool Compiler::setupCompilerEnvironment()
         if(ExtractFileNameNoExtension(mCompilerName) == "tcc")
         {
             mIncludePaths.push_back(".");
+            mIncludePaths.push_back("r:/rrl/source");
+
             mIncludePaths.push_back(JoinPath(mCompilerLocation, "include"));
             mLibraryPaths.push_back(".");
             mLibraryPaths.push_back(JoinPath(mCompilerLocation, "lib"));
@@ -243,9 +246,15 @@ bool Compiler::compile(const string& cmdLine)
     string compilerTempFile(JoinPath(mOutputPath, ExtractFileNameNoExtension(mDLLFileName)));
     compilerTempFile.append("C.log");
 
+    Poco::File aFile(compilerTempFile);
+    if(aFile.exists())
+    {
+    	aFile.remove();
+    }
+
     HANDLE outFile;
   	//Todo: there is a problem creating the logfile after first time creation..
-    if((outFile=CreateFileA(    compilerTempFile.c_str(),
+    if((outFile=CreateFileA(compilerTempFile.c_str(),
                             GENERIC_WRITE,
                             FILE_SHARE_DELETE,
                             &sao,
@@ -328,13 +337,13 @@ bool Compiler::compile(const string& cmdLine)
     	Log(lDebug)<<"WIN API error: (pi.hThread)"<<anError;
     }
 
-//    //Read the log file and log it
-//    if(FileExists(compilerTempFile))
-//    {
-//    	string log = GetFileContent(compilerTempFile.c_str());
-//    	Log(lDebug)<<"Compiler output: "<<log<<endl;
-//    }
-//
+    //Read the log file and log it
+    if(FileExists(compilerTempFile))
+    {
+    	string log = GetFileContent(compilerTempFile.c_str());
+    	Log(lDebug)<<"Compiler output: "<<log<<endl;
+    }
+
     return true;
 }
 

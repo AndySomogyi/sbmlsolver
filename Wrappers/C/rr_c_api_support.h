@@ -31,7 +31,7 @@ extern const char* 	INVALID_HANDLE_ERROR_MSG;
 //Internal prototypes (not exported)
 void                setError(const string& err);
 bool                copyVector(const RRVector* source, vector<double>& dest);
-char*               createText(const string& str);
+//char*               createText(const string& str);
 RRVectorHandle      createVectorFromVector_double(const vector<double>& vec);
 vector<double>      createVectorFromRRVector(const RRVector* vec);
 RRMatrixHandle      createMatrix(const ls::DoubleMatrix* mat);
@@ -49,5 +49,5 @@ rr::RoadRunner* 	castFrom(RRHandle rrHandle);
 //Cast
 rr::RoadRunnerList* getRRList(RRInstanceListHandle handle);
 }
-
+
 #endif

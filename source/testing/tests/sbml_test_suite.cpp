@@ -1049,7 +1049,7 @@ bool RunTest(const string& version, int caseNumber)
         simulation.SetCaseNumber(caseNumber);
         simulation.SetModelFilePath(modelFilePath);
         simulation.SetModelFileName(modelFileName);
-        simulation.CompileIfDllExists(true);
+        simulation.ReCompileIfDllExists(true);
         simulation.CopyFilesToOutputFolder();
 
         if(!simulation.LoadSBMLFromFile())

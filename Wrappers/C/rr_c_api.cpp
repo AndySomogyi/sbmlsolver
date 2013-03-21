@@ -41,7 +41,9 @@
 
 #pragma hdrstop
 #include <string>
+#include <iostream>
 #include <sstream>
+#include <fstream>
 #include "rrParameter.h"
 #include "rrRoadRunner.h"
 #include "rrRoadRunnerList.h"
@@ -53,11 +55,9 @@
 #include "rrLogger.h"
 #include "rrException.h"
 #include "rrUtils.h"
-#include "rrStringUtils.h"
 #include "rrCapability.h"
 #include "rrPluginManager.h"
 #include "rrPlugin.h"
-
 #include "rr_c_api.h" 			// Need to include this before the support header..
 #include "rr_c_api_support.h"   //Support functions, not exposed as api functions and or data
 
@@ -90,7 +90,8 @@ RRHandle rrCallConv createRRInstance()
 #else
             string compiler("gcc");
 #endif
-	        return new RoadRunner(JoinPath(rrInstallFolder, "rr_support"), compiler, GetUsersTempDataFolder());
+	//RoadRunner(const string& tempFolder, const string& supportCodeFolder, const string& compiler)
+	        return new RoadRunner(GetUsersTempDataFolder(), JoinPath(rrInstallFolder, "rr_support"), compiler);
     }
 	catch(Exception& ex)
     {
@@ -105,11 +106,13 @@ RRHandle rrCallConv createRRInstanceE(const char* tempFolder)
 {
 	try
     {
-    	string rrInstallFolder(getParentFolder(getRRCAPILocation()));
-//        string compiler 	= getCompilerName();
+    	char* text1 = getRRCAPILocation();
+        string text2 = getParentFolder(text1);
+    	string rrInstallFolder(text2);
+        freeText(text1);
 
 #if defined(_WIN32) || defined(WIN32)
-            string compiler(JoinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"));
+            string compiler(JoinPath(rrInstallFolder, "compilers\\tcc\\tcc.exe"));
 #elif defined(__linux)
             string compiler("gcc");
 #else
@@ -124,11 +127,11 @@ RRHandle rrCallConv createRRInstanceE(const char* tempFolder)
         }
         else if(tempFolder)
         {
-	        return new RoadRunner(JoinPath(rrInstallFolder, "rr_support"), compiler, tempFolder);
+	        return new RoadRunner(tempFolder, JoinPath(rrInstallFolder, "rr_support"), compiler);
         }
         else
         {
-	        return new RoadRunner(JoinPath(rrInstallFolder, "rr_support"), compiler, GetUsersTempDataFolder());
+	        return new RoadRunner(GetUsersTempDataFolder(), JoinPath(rrInstallFolder, "rr_support"), compiler);
         }
     }
 	catch(Exception& ex)
@@ -239,6 +242,7 @@ char* rrCallConv getVersion(RRHandle handle)
     }
 }
 
+
 char* rrCallConv getRRCAPILocation()
 {
 #if defined(_WIN32) || defined(WIN32)
@@ -246,10 +250,12 @@ char* rrCallConv getRRCAPILocation()
     HINSTANCE handle = NULL;
     const char* dllName = "rr_c_api";
     handle = GetModuleHandle(dllName);
-	if(GetModuleFileNameA(handle, path, ARRAYSIZE(path)) != 0)
+    int nrChars = GetModuleFileNameA(handle, path, sizeof(path));
+	if(nrChars != 0)
     {
-	    string aPath(ExtractFilePath(path));
-		return createText(aPath);
+	    string aPath = ExtractFilePath(path);
+        char* text = createText(aPath);
+		return text;
     }
     return NULL;
 #else
@@ -388,7 +394,7 @@ char* rrCallConv getTempFolder(RRHandle handle)
 	try
     {
     	RoadRunner* rri = castFrom(handle);
-		return createText(rri->getTempFileFolder());
+	    return createText(rri->getTempFolder());
     }
     catch(Exception& ex)
     {
@@ -569,7 +575,37 @@ bool rrCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
     }
 }
 
-RRJobHandle rrCallConv loadSBMLFromFileThread(RRHandle rrHandle, const char* fileName)
+bool rrCallConv loadSBMLFromFileE(RRHandle _handle, const char* fileName, bool forceRecompile)
+{
+	try
+    {
+        //Check first if file exists first
+        if(!FileExists(fileName))
+        {
+            stringstream msg;
+            msg<<"The file "<<fileName<<" was not found";
+            setError(msg.str());
+            return false;
+        }
+
+    	RoadRunner* rri = castFrom(_handle);
+        if(!rri->loadSBMLFromFile(fileName, forceRecompile))
+        {
+            setError("Failed to load SBML semantics");	//There are many ways loading a model can fail, look at logFile to know more
+            return false;
+        }
+        return true;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
+RRJobHandle rrCallConv loadSBMLFromFileJob(RRHandle rrHandle, const char* fileName)
 {
 	try
     {
@@ -602,7 +638,7 @@ RRJobHandle rrCallConv loadSBMLFromFileThread(RRHandle rrHandle, const char* fil
     }
 }
 
-RRJobsHandle rrCallConv loadSBMLFromFileTP(RRInstanceListHandle _handles, const char* fileName, int nrOfThreads)
+RRJobsHandle rrCallConv loadSBMLFromFileJobs(RRInstanceListHandle _handles, const char* fileName, int nrOfThreads)
 {
 	try
     {
@@ -675,14 +711,14 @@ bool rrCallConv waitForJobs(RRJobsHandle handle)
     }
 }
 
-bool rrCallConv isWorkingOnJobs(RRJobsHandle handle)
+bool rrCallConv isJobFinished(RRJobHandle handle)
 {
 	try
     {
-        ThreadPool* aTP = (ThreadPool*) handle;
-        if(aTP)
+        RoadRunnerThread* aT = (RoadRunnerThread*) handle;
+        if(aT)
         {
-			return aTP->isWorking();
+			return ! aT->isActive();
         }
 		return false;
     }
@@ -695,7 +731,27 @@ bool rrCallConv isWorkingOnJobs(RRJobsHandle handle)
     }
 }
 
-int rrCallConv getNumberOfRemainingJobs(RRJobsHandle handle)
+bool rrCallConv areJobsFinished(RRJobsHandle handle)
+{
+	try
+    {
+        ThreadPool* aTP = (ThreadPool*) handle;
+        if(aTP)
+        {
+			return ! aTP->isWorking();
+        }
+		return false;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+	    return false;
+    }
+}
+
+int rrCallConv getNumberOfRemainingJobs(RRJobHandle handle)
 {
 	try
     {
@@ -1068,7 +1124,7 @@ RRResultHandle rrCallConv getSimulationResult(RRHandle handle)
     }
 }
 
-RRJobHandle rrCallConv simulateThread(RRHandle rrHandle)
+RRJobHandle rrCallConv simulateJob(RRHandle rrHandle)
 {
 	try
     {
@@ -1092,7 +1148,7 @@ RRJobHandle rrCallConv simulateThread(RRHandle rrHandle)
     }
 }
 
-RRJobsHandle rrCallConv simulateTP(RRInstanceListHandle _handles, int nrOfThreads)
+RRJobHandle rrCallConv simulateJobs(RRInstanceListHandle _handles, int nrOfThreads)
 {
 	try
     {
@@ -2110,6 +2166,7 @@ bool rrCallConv evalModel(RRHandle handle)
 		if(!rri)
 		{
 			setError(ALLOCATE_API_ERROR_MSG);
+			return false;
 		}
 		rri->evalModel();
         return true;
@@ -4015,7 +4072,13 @@ RRHandle rrCallConv getRRHandle(RRInstanceListHandle iList, int index)
 //We only need to give the linker the folder where libs are
 //using the pragma comment. Works for MSVC and codegear
 #if defined(CG_IDE)
-#pragma comment(lib, "roadrunner-static.lib")
+
+#if defined(STATIC_RR)
+	#pragma comment(lib, "roadrunner-static.lib")
+#else
+	#pragma comment(lib, "roadrunner.lib")
+#endif
+
 #pragma comment(lib, "rr-libstruct-static.lib")
 #pragma comment(lib, "pugi-static.lib")
 #pragma comment(lib, "libsbml-static.lib")

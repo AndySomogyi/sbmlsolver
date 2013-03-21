@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{8EB6E32B-8078-4937-A8C7-604DE4B273E4}</ProjectGuid>
         <ProjectVersion>14.4</ProjectVersion>
@@ -200,10 +200,6 @@
         <CppCompile Include="..\..\source\rrHashTable.cpp">
             <DependentOn>..\..\source\rrHashTable.h</DependentOn>
             <BuildOrder>20</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\rrIModel.cpp">
-            <DependentOn>..\..\source\rrIModel.h</DependentOn>
-            <BuildOrder>21</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrIniFile.cpp">
             <BuildOrder>66</BuildOrder>

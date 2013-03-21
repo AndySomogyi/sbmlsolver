@@ -1,35 +1,36 @@
 import sys
-import rrPython
-rr = rrPython
+from rrPython import *
 
-if rr.hasError():
+if hasError():
     print 'There was an error: '
-    print rr.getLastError();
+    print getLastError();
     print 'Exiting...'
     exit(0)
 
 modelFile=''
 if sys.platform.startswith('win32'):
     modelFile ="r:/models/feedback.xml"
-    rr.setTempFolder('r:/temp')
+    setTempFolder('r:/temp')
 else:
     modelFile = "../models/test_1.xml"
-    rr.setTempFolder('../temp')
+    setTempFolder('../temp')
 
-print rr.getLastError()
+print getLastError()
 
-print 'TempFolder is :' + rr.getTempFolder()
+print 'TempFolder is :' + getTempFolder()
 
-threadHandle = rr.loadSBMLFromFileThread(modelFile)
-rr.waitForJob(threadHandle)
+jobHandle = loadSBMLFromFileJob(modelFile)
+waitForJob(jobHandle)
 
-print 'Loading SBML errors:' + rr.getLastError()
+print 'Loading SBML errors:' + getLastError()
 
-threadHandle = rr.simulateThread()
+jobHandle = simulateJob()
 
-rr.waitForJob(threadHandle)
+#waitForJob(jobHandle)
+while(isJobFinished(jobHandle) == False):
+    print 'The job is not done'
 
-print  rr.getSimulationResult()
+print  getSimulationResult()
 
-print rr.getLastError()
+print getLastError()
 print "RRPython is done"

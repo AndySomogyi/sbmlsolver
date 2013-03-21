@@ -23,7 +23,6 @@ rrException
 rrFileLog
 rrGetOptions
 rrHashTable
-rrIModel
 rrLogger
 rrLogFile
 rrLogContainer
@@ -191,12 +190,12 @@ install(TARGETS ${target}
         ARCHIVE DESTINATION lib COMPONENT rr_core
 )
 
-if(INSTALL_STATIC_LIB)
+#if(INSTALL_STATIC_LIB)
 install(TARGETS ${target}-static 
         LIBRARY DESTINATION lib COMPONENT rr_core  
         ARCHIVE DESTINATION lib COMPONENT rr_core
 )
-endif()
+#endif()
 
 #=== HEADERS
 set(subfolders 

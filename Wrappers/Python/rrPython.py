@@ -169,7 +169,7 @@ rrLib.freeRRInstance.restype = c_bool
 # Load SBML methods
 rrLib.loadSBML.restype = c_bool
 rrLib.loadSBMLFromFile.restype = c_bool
-rrLib.loadSBMLFromFileThread.restype = c_void_p
+rrLib.loadSBMLFromFileJob.restype = c_void_p
 rrLib.getCurrentSBML.restype = c_char_p
 rrLib.getSBML.restype = c_char_p
 
@@ -243,7 +243,7 @@ rrLib.computeSteadyStateValues.restype = c_void_p
 rrLib.getSteadyStateSelectionList.restype = c_void_p
 rrLib.getTimeCourseSelectionListrestype = c_void_p
 rrLib.simulate.restype = c_void_p
-rrLib.simulateThread.restype = c_void_p
+rrLib.simulateJob.restype = c_void_p
 rrLib.simulateEx.restype = c_void_p
 rrLib.getFloatingSpeciesConcentrations.restype = c_void_p
 rrLib.getBoundarySpeciesConcentrations.restype = c_void_p
@@ -304,6 +304,10 @@ rrLib.unLoadPlugins.restype = c_bool
 rrLib.getNumberOfPlugins.restype = c_int
 rrLib.getPluginInfo.restype = c_char_p
 rrLib.executePlugin.restype = c_bool
+
+#Job functions
+rrLib.isJobFinished.restype = c_bool
+rrLib.areJobsFinished.restype = c_bool
 
 #Unload roadrunner dll from python
 def unloadAPI():
@@ -506,22 +510,22 @@ def loadSBMLFromFile(fileName, aHandle = None):
 ##\brief Loads SBML model from a file in a thread
 #\param fileName file name
 #\return Returns true if successful
-def loadSBMLFromFileThread(fileName, aHandle = None):
+def loadSBMLFromFileJob(fileName, aHandle = None):
     if aHandle is None:
         aHandle = gHandle
-    return rrLib.loadSBMLFromFileThread(aHandle, fileName)
+    return rrLib.loadSBMLFromFileJob(aHandle, fileName)
 
-def waitForJob(threadHandle):
-    return rrLib.waitForJob(threadHandle)
+def waitForJob(jobHandle):
+    return rrLib.waitForJob(jobHandle)
 
-def waitForJobs(threadPoolHandle):
-    return rrLib.waitForJobs(threadPoolHandle)
+def waitForJobs(jobsHandle):
+    return rrLib.waitForJobs(jobsHandle)
 
 ##\brief Loads SBML model from a file into a list of roadrunner instances, using a thread pool
 #\param fileName file name
 #\return Returns true if successful
-def loadSBMLFromFileT(rrs, fileName, threadCount = 4):
-    return rrLib.loadSBMLFromFileTP(rrs, fileName, threadCount)
+def loadSBMLFromFileJobs(rrs, fileName, threadCount = 4):
+    return rrLib.loadSBMLFromFileJobs(rrs, fileName, threadCount)
 
 ##\brief Return the current state of the model in the form of an SBML string
 #\return Returns False if it fails or no model is loaded, otherwise returns the SBML string.
@@ -616,7 +620,6 @@ def setTimeCourseSelectionList(myList, rrHandle = None):
     raise RuntimeError('Expecting string or list in setTimeCourseSelectionList')
 
 
-
 ##\brief Returns the list of variables returned by simulate() or simulateEx()
 #\return A list of symbol IDs indicating the currect selection list
 def getTimeCourseSelectionList():
@@ -647,17 +650,25 @@ def simulate(aHandle = None):
 ##\brief Carry out a time-course simulation in a thread, use setTimeStart etc to set
 #characteristics
 #\return Returns a handle to the thread. Use this handle to see when the thread has finished
-def simulateThread(aHandle = None):
+def simulateJob(aHandle = None):
     if aHandle is None:
         aHandle = gHandle
-    return rrLib.simulateThread(aHandle)
+    return rrLib.simulateJob(aHandle)
 
+
+##\brief Check if a job is done
+#characteristics
+#\return Returns true/false indicating if a job has finsished
+def isJobFinished(aHandle = None):
+    if aHandle is None:
+        aHandle = gHandle
+    return rrLib.isJobFinished(aHandle)
 
 ##\brief Carry out a time-course simulation for a thread pool
 #characteristics
-#\return Returns a handle to the thread pool. Use this handle to see when the threads have finished
-def simulateT(tpHandle, nrOfThreads):
-    return rrLib.simulateTP(tpHandle, nrOfThreads)
+#\return Returns a handle to Jobs. Use this handle to see when the jobs have finished
+def simulateJobs(rrsHandle, nrOfThreads):
+    return rrLib.simulateJobs(rrsHandle, nrOfThreads)
 
 def writeRRData(outFile, rrInstanceList=None):
     if rrInstanceList is not None:

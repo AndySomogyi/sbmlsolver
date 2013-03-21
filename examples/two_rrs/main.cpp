@@ -8,20 +8,15 @@ using namespace rr;
 
 int main(int argc, char** argv)
 {
+
 	try
     {
         LogOutput::mLogToConsole = true;
 
-        //Create some roadrunners
-        const int instanceCount 	= 1;
-        const int threadCount  		= 1;
-
         //Use a list of roadrunners
-#if defined(WIN32)
-const char* rootPath = "r:";
-#else
-const char* rootPath = "..";
-#endif
+		const char* rootPath = "..";
+
+//        gLog.SetCutOffLogLevel(lDebug1);
         gLog.SetCutOffLogLevel(lInfo);
 		string tmpFolder = JoinPath(rootPath, "temp");
 
@@ -29,8 +24,9 @@ const char* rootPath = "..";
 
         //Load modelFiles..
         Log(lInfo)<<" ---------- LOADING/GENERATING MODELS ------";
-        
-        RoadRunner rr1, rr2;
+
+        RoadRunner rr1(tmpFolder);
+        RoadRunner rr2(tmpFolder);
         rr1.loadSBMLFromFile(modelFile);
         rr2.loadSBMLFromFile(modelFile);
 
@@ -44,7 +40,7 @@ const char* rootPath = "..";
     	Log(lError)<<"There was a  problem: "<<ex.getMessage();
     }
 
-    Pause(true);
+    //Pause(true);
     return 0;
 }
 

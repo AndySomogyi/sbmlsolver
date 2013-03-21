@@ -140,7 +140,7 @@ double NLEQInterface::solve(const vector<double>& yin)
     //NLEQ1(ref n, fcn, null, model->amounts, XScal, ref tmpTol, iopt, ref ierr, ref LIWK, IWK, ref LWRK, RWK);
 
     NLEQ1( &n, 				&ModelFunction, NULL,
-           model->amounts,	XScal,        	&tmpTol,
+           model->mData.amounts,	XScal,        	&tmpTol,
            iopt,           	&ierr,          &LIWK,
            IWK,           	&LWRK,          RWK);
 
@@ -192,28 +192,28 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
     	long n = NLEQInterface::getN();
 		for(long i = 0; i < n; i++)
         {
-        	model->amounts[i] = y[i];
+        	model->mData.amounts[i] = y[i];
         }
 
-        int size = *model->amountsSize + *model->rateRulesSize;
+        int size = model->mData.amountsSize + model->mData.rateRulesSize;
         vector<double> dTemp;
         dTemp.resize(size);
 
-		for(int i = 0; i < *model->rateRulesSize; i++)
+		for(int i = 0; i < model->mData.rateRulesSize; i++)
         {
-        	dTemp[i] = model->rateRules[i];
+        	dTemp[i] = model->mData.rateRules[i];
         }
 
-        for(int i = *model->rateRulesSize; i < *model->amountsSize + *model->rateRulesSize; i++)
+        for(int i = model->mData.rateRulesSize; i < model->mData.amountsSize + model->mData.rateRulesSize; i++)
         {
-        	dTemp[i] = model->amounts[i];
+        	dTemp[i] = model->mData.amounts[i];
         }
 
         model->evalModel(0.0, dTemp);
 
 		for(int i = 0; i < n; i++)
         {
-        	fval[i] = model->dydt[i];
+        	fval[i] = model->mData.dydt[i];
         }
 
         pErr = 0;
@@ -359,23 +359,23 @@ string ErrorForStatus(const int& error)
 double NLEQInterface::computeSumsOfSquares()
 {
     // Compute the sums of squares and return value to caller
-    vector<double> dTemp;// = new double[model->amounts.Length + model->rateRules.Length];
-//    dTemp.resize(model->amounts.size() + model->rateRules.size());
+    vector<double> dTemp;// = new double[model->mData.amounts.Length + model->mData.rateRules.Length];
+//    dTemp.resize(model->mData.amounts.size() + model->mData.rateRules.size());
 
-    //    dTemp = model->rateRules;//model->rateRules.CopyTo(dTemp, 0);
-    CopyCArrayToStdVector(model->rateRules,   dTemp, (*model->rateRulesSize));//model->rateRules.CopyTo(dTemp, 0);
-    //model->amounts.CopyTo(dTemp, model->rateRules.Length);
-//    for(int i = 0; i < model->amounts.size(); i++)
+    //    dTemp = model->mData.rateRules;//model->mData.rateRules.CopyTo(dTemp, 0);
+    CopyCArrayToStdVector(model->mData.rateRules,   dTemp, (model->mData.rateRulesSize));//model->mData.rateRules.CopyTo(dTemp, 0);
+    //model->mData.amounts.CopyTo(dTemp, model->mData.rateRules.Length);
+//    for(int i = 0; i < model->mData.amounts.size(); i++)
     for(int i = 0; i < model->getNumIndependentVariables(); i++)
     {
-        dTemp.push_back(model->amounts[i]);
+        dTemp.push_back(model->mData.amounts[i]);
     }
 
     model->evalModel(0.0, dTemp);
     double sum = 0;
     for (int i = 0; i < n; i++)
     {
-        sum = sum + pow(model->dydt[i], 2.0);
+        sum = sum + pow(model->mData.dydt[i], 2.0);
     }
     return sqrt(sum);
 }

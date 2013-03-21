@@ -49,11 +49,6 @@ bool SymbolList::find(const string& name, int& index)
             index = i;
             return true;
         }
-        if (sym.name == name)
-        {
-            index = i;
-            return true;
-        }
     }
     return false;
 }

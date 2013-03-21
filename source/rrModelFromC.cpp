@@ -3,6 +3,7 @@
 #endif
 #pragma hdrstop
 #include <iostream>
+#include "rrException.h"
 #include "rrLogger.h"
 #include "rrModelFromC.h"
 #include "rrCGenerator.h"
@@ -12,32 +13,26 @@ using namespace std;
 namespace rr
 {
 
-ModelFromC::ModelFromC(CGenerator* generator, ModelSharedLibrary& dll)
+ModelFromC::ModelFromC(CGenerator& generator, ModelSharedLibrary& dll)
 :
 mDummyInt(0),
 mDummyDouble(0),
 mDummyDoubleArray(new double[1]),
-numIndependentVariables(&mDummyInt),
-numDependentVariables(&mDummyInt),
-numTotalVariables(&mDummyInt),
-numBoundaryVariables(&mDummyInt),
-numGlobalParameters(&mDummyInt),
-numCompartments(&mDummyInt),
-numReactions(&mDummyInt),
-numRules(&mDummyInt),
-numEvents(&mDummyInt),
-mModelName("NoNameSet"),
-time(0),
-mCodeGenerator(generator),
+mData(),
+mCG(generator),
+mNOM(generator.mNOM),
+mLibStruct(generator.mLibStruct),
 mIsInitialized(false),
 mDLL(dll)
 {
+	//Zero data structure..
+	memset(&mData, 0, sizeof(ModelData));
     mDummyDoubleArray[0] = 1;
 
     if(mDLL.isLoaded())
     {
         setupDLLFunctions();
-        setupDLLData();
+        setupModelData();
     }
     else
     {
@@ -50,6 +45,11 @@ ModelFromC::~ModelFromC()
     delete [] mDummyDoubleArray;
 }
 
+string ModelFromC::getModelName()
+{
+	return mData.modelName;
+}
+
 void ModelFromC::assignCVodeInterface(CvodeInterface* cvodeI)
 {
     mCvodeInterface = cvodeI;
@@ -57,63 +57,63 @@ void ModelFromC::assignCVodeInterface(CvodeInterface* cvodeI)
 
 void ModelFromC::setTime(double _time)
 {
-    *time = _time;
+    mData.time = _time;
 }
 
 double ModelFromC::getTime()
 {
-	return *time;
+	return mData.time;
 }
 
 /////////////////// The following used to be in IModel
 int ModelFromC::getNumIndependentVariables()
 {
-    return *numIndependentVariables;
+    return mData.numIndependentVariables;
 }
 
 int ModelFromC::getNumDependentVariables()
 {
-    return *numDependentVariables;
+    return mData.numDependentVariables;
 }
 
 int ModelFromC::getNumTotalVariables()
 {
-    return *numTotalVariables;
+    return mData.numTotalVariables;
 }
 
 int ModelFromC::getNumBoundarySpecies()
 {
-    return *numBoundaryVariables;    //Todos: bad naming - is Variables/Species, choose one..
+    return mData.numBoundaryVariables;    //Todos: bad naming - is Variables/Species, choose one..
 }
 
 int ModelFromC::getNumGlobalParameters()
 {
-    return *numGlobalParameters;
+    return mData.numGlobalParameters;
 }
 
 int ModelFromC::getNumCompartments()
 {
-    return *numCompartments;
+    return mData.numCompartments;
 }
 
 int ModelFromC::getNumReactions()
 {
-    return *numReactions;
+    return mData.numReactions;
 }
 
 int ModelFromC::getNumRules()
 {
-    return *numRules;
+    return mData.numRules;
 }
 
 int ModelFromC::getNumEvents()
 {
-    return *numEvents;
+    return mData.numEvents;
 }
 
 double ModelFromC::getAmounts(const int& i)
 {
-    return (amounts ) ? amounts[i] : -1;
+    return (mData.amounts ) ? mData.amounts[i] : -1;
 }
 
 bool ModelFromC::setupDLLFunctions()
@@ -126,155 +126,169 @@ bool ModelFromC::setupDLLFunctions()
     }
 
     //Load functions..
-    cInitModel                          = (c_int)                      mDLL.getSymbol("InitModel");//GetFunctionPtr("InitModel");
-    cGetModelName                       = (c_charStar)                 mDLL.getSymbol("GetModelName");
-    cinitializeInitialConditions        = (c_void)                     mDLL.getSymbol("initializeInitialConditions");
-    csetParameterValues                 = (c_void)                     mDLL.getSymbol("setParameterValues");
-    csetCompartmentVolumes              = (c_void)                     mDLL.getSymbol("setCompartmentVolumes");
-    cgetNumLocalParameters              = (c_int_int)                  mDLL.getSymbol("getNumLocalParameters");
-    csetBoundaryConditions              = (c_void)                     mDLL.getSymbol("setBoundaryConditions");
-    csetInitialConditions               = (c_void)                     mDLL.getSymbol("setInitialConditions");
-    cevalInitialAssignments             = (c_void)                     mDLL.getSymbol("evalInitialAssignments");
-    ccomputeRules                       = (c_void_doubleStar)          mDLL.getSymbol("computeRules");
-    cconvertToAmounts                   = (c_void)                     mDLL.getSymbol("convertToAmounts");
-    ccomputeConservedTotals             = (c_void)                     mDLL.getSymbol("computeConservedTotals");
-    cgetConcentration                   = (c_double_int)               mDLL.getSymbol("getConcentration");
-    cGetCurrentValues                   = (c_doubleStar)               mDLL.getSymbol("GetCurrentValues");
-    cevalModel                          = (c_void_double_doubleStar)   mDLL.getSymbol("__evalModel");
-    cconvertToConcentrations            = (c_void)                     mDLL.getSymbol("convertToConcentrations");
-    cevalEvents                         = (c_void_double_doubleStar)   mDLL.getSymbol("evalEvents");
-    cupdateDependentSpeciesValues       = (c_void_doubleStar)          mDLL.getSymbol("updateDependentSpeciesValues");
-    ccomputeAllRatesOfChange            = (c_void)                     mDLL.getSymbol("computeAllRatesOfChange");
-    cAssignRates_a                      = (c_void)                     mDLL.getSymbol("AssignRatesA");
-    cAssignRates_b                      = (c_void_doubleStar)          mDLL.getSymbol("AssignRatesB");
-    ctestConstraints                    = (c_void)                     mDLL.getSymbol("testConstraints");
-    cresetEvents                        = (c_void)                     mDLL.getSymbol("resetEvents");
-    cInitializeRateRuleSymbols          = (c_void)                     mDLL.getSymbol("InitializeRateRuleSymbols");
-    cInitializeRates                    = (c_void)                     mDLL.getSymbol("InitializeRates");
-    csetConcentration                   = (c_void_int_double)          mDLL.getSymbol("setConcentration");
-    cComputeReactionRates               = (c_void_double_doubleStar)   mDLL.getSymbol("computeReactionRates");
-    ccomputeEventPriorities             = (c_void)                     mDLL.getSymbol("computeEventPriorities");
+    cInitModel                          = (c_int_MDS)         			   mDLL.getSymbol("InitModel");
+    cInitModelData                      = (c_int_MDS)         			   mDLL.getSymbol("InitModelData");
+    cinitializeInitialConditions        = (c_void_MDS)                     mDLL.getSymbol("initializeInitialConditions");
+    csetParameterValues                 = (c_void_MDS)                     mDLL.getSymbol("setParameterValues");
+    csetCompartmentVolumes              = (c_void_MDS)                     mDLL.getSymbol("setCompartmentVolumes");
+    cgetNumLocalParameters              = (c_int_MDS_int)                  mDLL.getSymbol("getNumLocalParameters");
+    csetBoundaryConditions              = (c_void_MDS)                     mDLL.getSymbol("setBoundaryConditions");
+    csetInitialConditions               = (c_void_MDS)                     mDLL.getSymbol("setInitialConditions");
+    cevalInitialAssignments             = (c_void_MDS)                     mDLL.getSymbol("evalInitialAssignments");
+    ccomputeRules                       = (c_void_MDS_doubleStar)          mDLL.getSymbol("computeRules");
+    cconvertToAmounts                   = (c_void_MDS)                     mDLL.getSymbol("convertToAmounts");
+    ccomputeConservedTotals             = (c_void_MDS)                     mDLL.getSymbol("computeConservedTotals");
+    cgetConcentration                   = (c_double_MDS_int)               mDLL.getSymbol("getConcentration");
+    cGetCurrentValues                   = (c_doubleStar_MDS)               mDLL.getSymbol("GetCurrentValues");
+    cevalModel                          = (c_void_MDS_double_doubleStar)   mDLL.getSymbol("__evalModel");
+    cconvertToConcentrations            = (c_void_MDS)                     mDLL.getSymbol("convertToConcentrations");
+    cevalEvents                         = (c_void_MDS_double_doubleStar)   mDLL.getSymbol("evalEvents");
+    cupdateDependentSpeciesValues       = (c_void_MDS_doubleStar)          mDLL.getSymbol("updateDependentSpeciesValues");
+    ccomputeAllRatesOfChange            = (c_void_MDS)                     mDLL.getSymbol("computeAllRatesOfChange");
+    cAssignRates_a                      = (c_void_MDS)                     mDLL.getSymbol("AssignRatesA");
+    cAssignRates_b                      = (c_void_MDS_doubleStar)          mDLL.getSymbol("AssignRatesB");
+    ctestConstraints                    = (c_void_MDS)                     mDLL.getSymbol("testConstraints");
+    cresetEvents                        = (c_void_MDS)                     mDLL.getSymbol("resetEvents");
+    cInitializeRateRuleSymbols          = (c_void_MDS)                     mDLL.getSymbol("InitializeRateRuleSymbols");
+    cInitializeRates                    = (c_void_MDS)                     mDLL.getSymbol("InitializeRates");
+    csetConcentration                   = (c_void_MDS_int_double)          mDLL.getSymbol("setConcentration");
+    cComputeReactionRates               = (c_void_MDS_double_doubleStar)   mDLL.getSymbol("computeReactionRates");
+    ccomputeEventPriorities             = (c_void_MDS)                     mDLL.getSymbol("computeEventPriorities");
     return true;
 }
 
-bool ModelFromC::setupDLLData()
+bool ModelFromC::setupModelData()
 {
-    if(!cInitModel)
+	//See CGenerator writeInitModelDataFunction to see how this initialization was done in the DLL before
+	mData.modelName 					= createText(mNOM.getModelName());
+
+    //Variables...
+	mData.numIndependentVariables 		= mCG.mNumIndependentSpecies;
+	mData.numDependentVariables   		= mCG.mNumDependentSpecies;
+	mData.numTotalVariables				= mCG.mNumFloatingSpecies;        //???
+    mData.numBoundaryVariables			= mCG.mNumBoundarySpecies;
+    mData.numGlobalParameters			= mCG.mGlobalParameterList.size();
+	mData.numCompartments				= mCG.mCompartmentList.size();
+    mData.numReactions					= mCG.mReactionList.size();
+    mData.numEvents						= mCG.mNumEvents;
+
+	mData.amountsSize					= mCG.mFloatingSpeciesConcentrationList.Count();
+    mData.amounts 						= new double[mData.amountsSize];
+
+    mData.dydtSize						= mCG.mFloatingSpeciesConcentrationList.size();
+	mData.dydt							= new double[mData.dydtSize];
+
+    mData.rateRulesSize					= mCG.mMapRateRule.size();
+	mData.rateRules						= new double[mData.rateRulesSize];
+
+    mData.ySize							= mCG.mFloatingSpeciesConcentrationList.size();
+    mData.y								= new double[mData.ySize];
+
+    mData.ratesSize						= mCG.mNumReactions;
+    mData.rates							= new double[mData.ratesSize];
+
+    mData.ctSize						= mCG.mNumDependentSpecies;
+    mData.ct							= new double[mData.ctSize];
+
+    mData.init_ySize					= mCG.mFloatingSpeciesConcentrationList.Count();
+    mData.init_y                        = new double[mData.init_ySize];
+
+    mData.gpSize						=  mCG.mNumGlobalParameters + mCG.mTotalLocalParmeters;
+    mData.gp							= new double[mData.gpSize];
+
+    mData.cSize							= mCG.mNumCompartments;
+    mData.c								= new double[mData.cSize];
+
+    mData.bcSize						= mCG.mNumBoundarySpecies;
+ 	mData.bc							= new double[mData.bcSize];
+
+    mData.lpSize 						= mCG.mNumReactions;
+	mData.lp							= new double[mData.lpSize];
+
+    mData.srSize  						= mCG.mNumModifiableSpeciesReferences;
+    mData.sr							= new double[mData.srSize];
+
+	mData.localParameterDimensionsSize	= mCG.mNumReactions;
+	mData.localParameterDimensions		= new int[mData.localParameterDimensionsSize];
+
+    mData.eventPrioritiesSize 			= mCG.mNumEvents;
+    mData.eventPriorities				= new double[mData.eventPrioritiesSize];
+
+    mData.eventStatusArraySize			= mCG.mNumEvents;
+    mData.eventStatusArray				= new bool[mData.eventStatusArraySize];
+
+    mData.previousEventStatusArraySize	= mCG.mNumEvents;
+    mData.previousEventStatusArray		= new bool[mData.previousEventStatusArraySize];
+
+    mData.eventPersistentTypeSize		= mCG.mNumEvents;
+    mData.eventPersistentType			= new bool[mData.eventPersistentTypeSize];
+
+    mData.eventTestsSize				= mCG.mNumEvents;
+ 	mData.eventTests					= new double[mData.eventTestsSize];
+
+    mData.eventTypeSize					= mCG.mNumEvents;
+    mData.eventType						= new bool[mData.eventTypeSize];
+
+    if(mData.numEvents > 0)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
-        return false;
-    }
-
-    //This setup up data in the DLL...
-    if(cInitModel() != 0)
-    {
-        Log(lError)<<"Failed to InitModel in "<<__FUNCTION__;
-        return false;
-    }
-
-    if(!cGetModelName)
-    {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
-        return false;
-    }
-
-    char* modelName = cGetModelName();
-    if(modelName)
-    {
-        mModelName = modelName;
-    }
-
-    //Simple variables...
-    numIndependentVariables         = mDLL.hasSymbol("numIndependentVariables") ?   (int*)      mDLL.getSymbol("numIndependentVariables")   : NULL;
-    numDependentVariables 	        = mDLL.hasSymbol("numDependentVariables")   ?   (int*)      mDLL.getSymbol("numDependentVariables")     : NULL;
-    numTotalVariables 		        = mDLL.hasSymbol("numTotalVariables")       ?   (int*)      mDLL.getSymbol("numTotalVariables")         : NULL;
-    numBoundaryVariables 	        = mDLL.hasSymbol("numBoundaryVariables")    ?   (int*)      mDLL.getSymbol("numBoundaryVariables")      : NULL;
-    numGlobalParameters 	        = mDLL.hasSymbol("numGlobalParameters")     ?   (int*)      mDLL.getSymbol("numGlobalParameters")       : NULL;
-    numCompartments 		        = mDLL.hasSymbol("numCompartments")         ?   (int*)      mDLL.getSymbol("numCompartments")           : NULL;
-    numReactions 			        = mDLL.hasSymbol("numReactions")            ?   (int*)      mDLL.getSymbol("numReactions")              : NULL;
-    numEvents 				        = mDLL.hasSymbol("numEvents")               ?   (int*)      mDLL.getSymbol("numEvents")                 : NULL;
-    amounts  				        = mDLL.hasSymbol("_amounts")                ?   (double*) 	mDLL.getSymbol("_amounts")                  : NULL;
-    amountsSize  			        = mDLL.hasSymbol("_amountsSize")            ?   (int*) 	    mDLL.getSymbol("_amountsSize")              : NULL;
-    dydt  					        = mDLL.hasSymbol("_dydt")                   ?   (double*) 	mDLL.getSymbol("_dydt")                     : NULL;
-    dydtSize  				        = mDLL.hasSymbol("_dydtSize")               ?   (int*) 	    mDLL.getSymbol("_dydtSize")                 : NULL;
-    rateRules  				        = mDLL.hasSymbol("_rateRules")              ?   (double*) 	mDLL.getSymbol("_rateRules")                : NULL;
-    rateRulesSize 			        = mDLL.hasSymbol("_rateRulesSize")          ?   (int*) 	    mDLL.getSymbol("_rateRulesSize")            : NULL;
-    y  						        = mDLL.hasSymbol("_y")                      ?   (double*) 	mDLL.getSymbol("_y")                        : NULL;
-    ySize  					        = mDLL.hasSymbol("_ySize")                  ?   (int*) 	    mDLL.getSymbol("_ySize")                    : NULL;
-    rates  					        = mDLL.hasSymbol("_rates")                  ?   (double*) 	mDLL.getSymbol("_rates")                    : NULL;
-    ratesSize  				        = mDLL.hasSymbol("_ratesSize")              ?   (int*) 	    mDLL.getSymbol("_ratesSize")                : NULL;
-    ct  					        = mDLL.hasSymbol("_ct")                     ?   (double*) 	mDLL.getSymbol("_ct")                       : NULL;
-    ctSize  				        = mDLL.hasSymbol("_ctSize")                 ?   (int*) 	    mDLL.getSymbol("_ctSize")                   : NULL;
-    time       				        = mDLL.hasSymbol("mTime")                   ?   (double*) 	mDLL.getSymbol("mTime")                     : NULL;
-    init_y       			        = mDLL.hasSymbol("_init_y")                 ?   (double*) 	mDLL.getSymbol("_init_y")                   : NULL;
-    init_ySize       		        = mDLL.hasSymbol("_init_ySize")             ?   (int*) 	    mDLL.getSymbol("_init_ySize")               : NULL;
-    gp       				        = mDLL.hasSymbol("_gp")                     ?   (double*) 	mDLL.getSymbol("_gp")                       : NULL;
-    gpSize       			        = mDLL.hasSymbol("_gpSize")                 ?   (int*) 	    mDLL.getSymbol("_gpSize")                   : NULL;
-    c       				        = mDLL.hasSymbol("_c")                      ?   (double*) 	mDLL.getSymbol("_c")                        : NULL;
-    cSize       			        = mDLL.hasSymbol("_cSize")                  ?   (int*) 	    mDLL.getSymbol("_cSize")                    : NULL;
-    bc       				        = mDLL.hasSymbol("_bc")                     ?   (double*) 	mDLL.getSymbol("_bc")                       : NULL;
-    bcSize       			        = mDLL.hasSymbol("_bcSize")                 ?   (int*) 	    mDLL.getSymbol("_bcSize")                   : NULL;
-    lp       				        = mDLL.hasSymbol("_lp")						?	(double*) 	mDLL.getSymbol("_lp")						: mDummyDoubleArray;
-    lpSize       			        = mDLL.hasSymbol("_lpSize") 	                   ?	(int*) 		mDLL.getSymbol("_lpSize") 	        : &mDummyInt;
-    sr       				        = mDLL.hasSymbol("_sr")  		                   ?	(double*) 	mDLL.getSymbol("_sr")  		        : mDummyDoubleArray;
-    srSize       			        = mDLL.hasSymbol("_srSize") 	                   ?	(int*)	    mDLL.getSymbol("_srSize") 	        : &mDummyInt;
-    eventPriorities   		        = mDLL.hasSymbol("_eventPriorities")               ?	(double*) 	mDLL.getSymbol("_eventPriorities") 	: NULL;
-    eventStatusArray   		        = mDLL.hasSymbol("mEventStatusArray")              ?	(bool*) 	mDLL.getSymbol("mEventStatusArray")	: NULL;
-    eventStatusArraySize            = mDLL.hasSymbol("mEventStatusArraySize")          ?	(int*) 		mDLL.getSymbol("mEventStatusArraySize") 	: NULL;
-    previousEventStatusArray        = mDLL.hasSymbol("_previousEventStatusArray")      ?	(bool*) 	mDLL.getSymbol("_previousEventStatusArray") : NULL;
-    previousEventStatusArraySize    = mDLL.hasSymbol("_previousEventStatusArraySize")  ?	(int*) 		mDLL.getSymbol("_previousEventStatusArraySize") :  &mDummyInt;
-    eventPersistentType   			= mDLL.hasSymbol("_eventPersistentType")           ?	(bool*) 	mDLL.getSymbol("_eventPersistentType") 		: NULL;
-    eventPersistentTypeSize      	= mDLL.hasSymbol("_eventPersistentTypeSize")       ?	(int*) 		mDLL.getSymbol("_eventPersistentTypeSize") 	: NULL;
-    eventTests   					= mDLL.hasSymbol("mEventTests")                    ?	(double*) 	mDLL.getSymbol("mEventTests") 				: NULL;
-    eventTestsSize      			= mDLL.hasSymbol("mEventTestsSize") 			   ?	(int*) 		mDLL.getSymbol("mEventTestsSize") 			: &mDummyInt;
-    eventType   					= mDLL.hasSymbol("_eventType")                     ?	(bool*) 	mDLL.getSymbol("_eventType")                : NULL;
-    eventTypeSize      				= mDLL.hasSymbol("_eventTypeSize")				   ?	(int*) 		mDLL.getSymbol("_eventTypeSize") 			: &mDummyInt;
-
     //Event function pointer stuff
-    if(mDLL.hasSymbol("Get_eventAssignments"))
-    {
-        c_TEventAssignmentDelegateStar Get_eventAssignments;
-        Get_eventAssignments  	= (c_TEventAssignmentDelegateStar) mDLL.getSymbol("Get_eventAssignments");
-        eventAssignments 		= Get_eventAssignments();
-    }
-    else
-    {
-	    eventAssignments = NULL;
-    }
+//    if(mDLL.hasSymbol("Get_eventAssignments"))
+//    {
+//        c_TEventAssignmentDelegateStar Get_eventAssignments;
+//        Get_eventAssignments  	= (c_TEventAssignmentDelegateStar) mDLL.getSymbol("Get_eventAssignments");
+//        mData.eventAssignments 		= Get_eventAssignments();
+//        source<<Append("\tmd->eventAssignments = (TEventAssignmentDelegate*) malloc(sizeof(TEventAssignmentDelegate)*md->numEvents);" , NL());
+        mData.eventAssignments 		= (TEventAssignmentDelegate*)  new TEventAssignmentDelegate[mData.numEvents];
+//    }
+//    else
+//    {
+//	    mData.eventAssignments = NULL;
+//    }
+//
+//    if(mDLL.hasSymbol("Get_computeEventAssignments"))
+//    {
+//        c_TComputeEventAssignmentDelegateStar     Get_computeEventAssignments;
+//        Get_computeEventAssignments      = (c_TComputeEventAssignmentDelegateStar) mDLL.getSymbol("Get_computeEventAssignments");
+//        mData.computeEventAssignments = Get_computeEventAssignments();
+//        source<<Append("\tmd->computeEventAssignments = (TComputeEventAssignmentDelegate*) malloc(sizeof(TComputeEventAssignmentDelegate)*md->numEvents);" , NL());
+        mData.computeEventAssignments 	= (TComputeEventAssignmentDelegate*)  new TComputeEventAssignmentDelegate[mData.numEvents];
+//    }
+//    else
+//    {
+//		mData.computeEventAssignments = NULL;
+//    }
+//
+//    if(mDLL.hasSymbol("Get_performEventAssignments"))
+//    {
+//     	c_TPerformEventAssignmentDelegateStar Get_performEventAssignments;
+//    	Get_performEventAssignments  = (c_TPerformEventAssignmentDelegateStar) mDLL.getSymbol("Get_performEventAssignments");
+//        mData.performEventAssignments = Get_performEventAssignments();
+//        source<<Append("\tmd->performEventAssignments = (TPerformEventAssignmentDelegate*) malloc(sizeof(TPerformEventAssignmentDelegate)*md->numEvents);" , NL());
+        mData.performEventAssignments = (TPerformEventAssignmentDelegate*)  new TPerformEventAssignmentDelegate[mData.numEvents];
+//    }
+//    else
+//    {
+//        mData.performEventAssignments = NULL;
+//    }
 
-    if(mDLL.hasSymbol("Get_computeEventAssignments"))
-    {
-        c_TComputeEventAssignmentDelegateStar     Get_computeEventAssignments;
-        Get_computeEventAssignments      = (c_TComputeEventAssignmentDelegateStar) mDLL.getSymbol("Get_computeEventAssignments");
-        computeEventAssignments = Get_computeEventAssignments();
-    }
-    else
-    {
-		computeEventAssignments = NULL;
-    }
 
-    if(mDLL.hasSymbol("Get_performEventAssignments"))
+//    if(mDLL.hasSymbol("GetEventDelays"))
+//    {
+//        c_GetEventDelayDelegatesStar GetEventDelays;
+//        GetEventDelays  = (c_GetEventDelayDelegatesStar) mDLL.getSymbol("GetEventDelays");
+//        mData.eventDelays = GetEventDelays();
+//        mData.eventDelays =
+		mData.eventDelays = new TEventDelayDelegate[mData.numEvents];
+//    }
+//    else
+//    {
+//		mData.eventDelays = NULL;
+//    }
+	}
+    if(cInitModel)
     {
-     	c_TPerformEventAssignmentDelegateStar Get_performEventAssignments;
-    	Get_performEventAssignments  = (c_TPerformEventAssignmentDelegateStar) mDLL.getSymbol("Get_performEventAssignments");
-        performEventAssignments = Get_performEventAssignments();
+	    cInitModel(&mData);
     }
-    else
-    {
-        performEventAssignments = NULL;
-    }
-
-    if(mDLL.hasSymbol("GetEventDelays"))
-    {
-        c_GetEventDelayDelegatesStar GetEventDelays;
-        GetEventDelays  = (c_GetEventDelayDelegatesStar) mDLL.getSymbol("GetEventDelays");
-        eventDelays = GetEventDelays();
-    }
-    else
-    {
-		eventDelays = NULL;
-    }
-
     return true;
 }
 
@@ -286,7 +300,7 @@ void ModelFromC::setCompartmentVolumes()
         return;
     }
 
-    csetCompartmentVolumes();
+    csetCompartmentVolumes(&mData);
 }
 
 void  ModelFromC::setConcentration(int index, double value)
@@ -297,7 +311,7 @@ void  ModelFromC::setConcentration(int index, double value)
         return;
     }
 
-    csetConcentration(index, value);
+    csetConcentration(&mData, index, value);
 }
 
 void  ModelFromC::computeReactionRates (double time, double* y)
@@ -308,7 +322,7 @@ void  ModelFromC::computeReactionRates (double time, double* y)
         return;
     }
 
-	cComputeReactionRates (time, y);
+	cComputeReactionRates(&mData, time, y);
 }
 
 vector<double> ModelFromC::getCurrentValues()
@@ -320,9 +334,9 @@ vector<double> ModelFromC::getCurrentValues()
         return vals;
     }
 
-    double* values = cGetCurrentValues();     //The size of this double* is mMapRateRule.size(); ??
+    double* values = cGetCurrentValues(&mData);     //The size of this double* is mMapRateRule.size(); ??
 
-    int count = mCodeGenerator->numAdditionalRates();
+    int count = mCG.numAdditionalRates();
     if(values)
     {
         for(int i = 0; i < count; i++)
@@ -342,7 +356,7 @@ double ModelFromC::getConcentration(int index)
         return 0;
     }
 
-    return cgetConcentration(index);
+    return cgetConcentration(&mData, index);
 }
 
 int ModelFromC::getNumLocalParameters(int reactionId)
@@ -353,7 +367,7 @@ int ModelFromC::getNumLocalParameters(int reactionId)
         return 0;
     }
 
-    return cgetNumLocalParameters(reactionId);
+    return cgetNumLocalParameters(&mData, reactionId);
 }
 
 void ModelFromC::initializeInitialConditions()
@@ -363,7 +377,7 @@ void ModelFromC::initializeInitialConditions()
         Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
-    cinitializeInitialConditions();
+    cinitializeInitialConditions(&mData);
 }
 
 //void ModelFromC::setInitialConditions(){}
@@ -374,7 +388,7 @@ void ModelFromC::setParameterValues()
         Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
-    csetParameterValues();
+    csetParameterValues(&mData);
 }
 
 void ModelFromC::setBoundaryConditions()
@@ -384,7 +398,7 @@ void ModelFromC::setBoundaryConditions()
         Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
-    csetBoundaryConditions();
+    csetBoundaryConditions(&mData);
 }
 
 void ModelFromC::initializeRates()
@@ -394,7 +408,7 @@ void ModelFromC::initializeRates()
         Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
-    cInitializeRates();
+    cInitializeRates(&mData);
 }
 
 void ModelFromC::assignRates()
@@ -404,7 +418,7 @@ void ModelFromC::assignRates()
         Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
-    cAssignRates_a();
+    cAssignRates_a(&mData);
 }
 
 void ModelFromC::assignRates(vector<double>& _rates)
@@ -417,7 +431,7 @@ void ModelFromC::assignRates(vector<double>& _rates)
 
     double* local_rates = CreateVector(_rates);
 
-    cAssignRates_b(local_rates);
+    cAssignRates_b(&mData, local_rates);
     delete [] local_rates;
 }
 
@@ -428,7 +442,7 @@ void ModelFromC::computeConservedTotals()
         Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
-    ccomputeConservedTotals();
+    ccomputeConservedTotals(&mData);
 }
 
 void ModelFromC::computeEventPriorites()
@@ -438,7 +452,7 @@ void ModelFromC::computeEventPriorites()
         Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
-    ccomputeEventPriorities();
+    ccomputeEventPriorities(&mData);
 }
 
 void ModelFromC::convertToAmounts()
@@ -448,7 +462,7 @@ void ModelFromC::convertToAmounts()
         Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
-    cconvertToAmounts();
+    cconvertToAmounts(&mData);
 }
 
 void ModelFromC::convertToConcentrations()
@@ -458,7 +472,7 @@ void ModelFromC::convertToConcentrations()
         Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
-    cconvertToConcentrations();
+    cconvertToConcentrations(&mData);
 }
 
 void ModelFromC::updateDependentSpeciesValues(double* y_vec)
@@ -469,7 +483,7 @@ void ModelFromC::updateDependentSpeciesValues(double* y_vec)
         return;
     }
 
-    cupdateDependentSpeciesValues(y_vec);
+    cupdateDependentSpeciesValues(&mData, y_vec);
 }
 
 void ModelFromC::computeRules(vector<double>& arr)
@@ -487,7 +501,7 @@ void ModelFromC::computeRules(double* y, int size)
         return;
     }
 
-    ccomputeRules(y);
+    ccomputeRules(&mData, y);
 }
 
 void ModelFromC::setInitialConditions()
@@ -498,7 +512,7 @@ void ModelFromC::setInitialConditions()
         return;
     }
 
-    csetInitialConditions();
+    csetInitialConditions(&mData);
 }
 
 //void ModelFromC::computeReactionRates(double time, vector<double>& y){}
@@ -509,7 +523,7 @@ void ModelFromC::computeAllRatesOfChange()
         Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
-    ccomputeAllRatesOfChange();
+    ccomputeAllRatesOfChange(&mData);
 }
 
 void ModelFromC::evalModel(const double& timein, const vector<double>& y)
@@ -521,7 +535,7 @@ void ModelFromC::evalModel(const double& timein, const vector<double>& y)
     }
 
 	double *oAmounts = CreateVector(y);
-    cevalModel(timein, oAmounts);
+    cevalModel(&mData, timein, oAmounts);
     delete [] oAmounts;
 }
 
@@ -533,7 +547,7 @@ void ModelFromC::evalEvents(const double& timeIn, const vector<double>& y)
         return;
     }
 	double *oAmounts = CreateVector(y);
-    cevalEvents(timeIn, oAmounts);
+    cevalEvents(&mData, timeIn, oAmounts);
     delete [] oAmounts;
 }
 
@@ -545,7 +559,7 @@ void ModelFromC::resetEvents()
         return;
     }
 
-    cresetEvents();
+    cresetEvents(&mData);
 }
 
 void ModelFromC::evalInitialAssignments()
@@ -556,7 +570,7 @@ void ModelFromC::evalInitialAssignments()
         return;
     }
 
-    cevalInitialAssignments();
+    cevalInitialAssignments(&mData);
 }
 
 void ModelFromC::testConstraints()
@@ -564,10 +578,10 @@ void ModelFromC::testConstraints()
     if(!ctestConstraints)
     {
         Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
-        return;
+        throw(Exception("Problem in testConstraints"));
     }
 
-    ctestConstraints();
+    ctestConstraints(&mData);
 }
 
 void ModelFromC::initializeRateRuleSymbols()
@@ -578,7 +592,7 @@ void ModelFromC::initializeRateRuleSymbols()
         return;
     }
 
-    cInitializeRateRuleSymbols();
+    cInitializeRateRuleSymbols(&mData);
 }
 
 } //Namespace rr

@@ -44,4 +44,5 @@ int main()
 #if defined(CG_IDE)
 #pragma comment(lib, "roadrunner.lib")
 #pragma comment(lib, "poco_foundation-static.lib")
+#pragma comment(lib, "rr-libstruct-static.lib")
 #endif

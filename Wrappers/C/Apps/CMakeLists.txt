@@ -5,8 +5,6 @@ PROJECT(RR_C_API_APPS)
 if(${MSVC})
 endif(${MSVC})
 
-set(apps 	
-        rr_c
-)
 
 add_subdirectory(rr_c)
+add_subdirectory(sbml_ts_tester)

@@ -12,6 +12,7 @@ namespace rr
 //Useful constants..
 const char*     	gComma 			            = ",";
 const char 	 		gTab 			            = '\t';
+const char 	 		gNL 			            = '\n';
 const char* 		gDoubleFormat 	            = "%f";
 const char* 		gIntFormat  	            = "%d";;
 

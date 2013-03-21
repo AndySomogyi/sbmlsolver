@@ -48,7 +48,7 @@ RRHandle gRR = NULL;
 				CHECK(FileExists(TestModelFileName));
 			}
 		}
-		CHECK(loadSBMLFromFile(gRR, TestModelFileName.c_str()));
+		CHECK(loadSBMLFromFileE(gRR, TestModelFileName.c_str(), true));
 	}
 
 	TEST(SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS)

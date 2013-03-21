@@ -76,16 +76,13 @@ int main(int argc, char* argv[])
 	TestRunner runner1(reporter1);
 
 
-	clog<<"Running Suite 1\n";
+	clog<<"Running Suite TEST_MODEL_1\n";
 	runner1.RunTestsIf(Test::GetTestList(), "TEST_MODEL_1", 			True(), 0);
+	
+//	clog<<"Running Suite CORE_EXCEPTIONS\n";
 //	runner1.RunTestsIf(Test::GetTestList(), "CORE_EXCEPTIONS", 		True(), 0);
 
-//    runner1.RunTestsIf(Test::GetTestList(), "Base", 		True(), 0);
-//
-//     clog<<"Running SteadyState\n";
-//     runner1.RunTestsIf(Test::GetTestList(), "SteadyState", 	True(), 0);
-
-    clog<<"Running TestSuite Tests\n";
+	clog<<"Running Suite SBML_l2v4\n";
     clog<<"ModelPath "<<gTSModelsPath;
     runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4", 	True(), 0);
 
@@ -129,8 +126,26 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 }
 
 #if defined(CG_IDE)
+
+//#if defined(STATIC_RTL)
+//#pragma comment(lib, "rr_c_api-static.lib")
+//#else
 #pragma comment(lib, "rr_c_api.lib")
-#pragma comment(lib, "roadrunner-static.lib")
+//#endif
+
+//#if defined(STATIC_RR)
+	#pragma comment(lib, "roadrunner-static.lib")
+//#else
+//	#pragma comment(lib, "roadrunner.lib")
+//#endif
+
+#pragma comment(lib, "sundials_cvode")
+#pragma comment(lib, "sundials_nvecserial")
+#pragma comment(lib, "libf2c")
+#pragma comment(lib, "blas")
+#pragma comment(lib, "lapack")
+#pragma comment(lib, "nleq-static")
+#pragma comment(lib, "poco_foundation-static.lib")
 #pragma comment(lib, "rr-libstruct-static.lib")
 #pragma comment(lib, "unit_test-static.lib")
 #endif

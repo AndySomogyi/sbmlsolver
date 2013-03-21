@@ -17,24 +17,10 @@ extern string   gSupportCodeFolder;
 extern string   gTempFolder;
 extern bool		gDebug;
 
-RRHandle gRR = NULL;	//Global roadrunner C handle
-
 bool RunTest(const string& version, int number);
-
 
 SUITE(SBML_l2v4)
 {
-
-	TEST(AllocateRR)
-	{
-        if(!gRR)
-        {
-	            gRR = createRRInstanceE(gTempFolder.c_str());
-        }
-
-        CHECK(gRR!=NULL);	//If gRR == NULL this is a fail
-	}
-
  TEST(1) {CHECK(RunTest("l2v4", 1)); }
  TEST(2) { CHECK(RunTest("l2v4", 2)); }
  TEST(3) { CHECK(RunTest("l2v4", 3)); }
@@ -68,13 +54,14 @@ SUITE(SBML_l2v4)
  TEST(31) { CHECK(RunTest("l2v4", 31)); }
  TEST(32) { CHECK(RunTest("l2v4", 32)); }
  TEST(33) { CHECK(RunTest("l2v4", 33)); }
+
  TEST(34) { CHECK(RunTest("l2v4", 34)); }
  TEST(35) { CHECK(RunTest("l2v4", 35)); }
  TEST(36) { CHECK(RunTest("l2v4", 36)); }
  TEST(37) { CHECK(RunTest("l2v4", 37)); }
  TEST(38) { CHECK(RunTest("l2v4", 38)); }
- //TEST(39) { CHECK(RunTest("l2v4", 39)); }
- //TEST(40) { CHECK(RunTest("l2v4", 40)); }
+ //TEST(39) { CHECK(RunTest("l2v4", 39)); }         //Not Supported
+ //TEST(40) { CHECK(RunTest("l2v4", 40)); }         //Not Supported
  TEST(41) { CHECK(RunTest("l2v4", 41)); }
  TEST(42) { CHECK(RunTest("l2v4", 42)); }
  TEST(43) { CHECK(RunTest("l2v4", 43)); }
@@ -216,9 +203,9 @@ SUITE(SBML_l2v4)
  TEST(179) { CHECK(RunTest("l2v4", 179)); }
  TEST(180) { CHECK(RunTest("l2v4", 180)); }
  TEST(181) { CHECK(RunTest("l2v4", 181)); }
- //TEST(182) { CHECK(RunTest("l2v4", 182)); }
+ //TEST(182) { CHECK(RunTest("l2v4", 182)); }       //Not Supported
  TEST(183) { CHECK(RunTest("l2v4", 183)); }
- //TEST(184) { CHECK(RunTest("l2v4", 184)); }
+ //TEST(184) { CHECK(RunTest("l2v4", 184)); }       //Not Supported
  TEST(185) { CHECK(RunTest("l2v4", 185)); }
  TEST(186) { CHECK(RunTest("l2v4", 186)); }
  TEST(187) { CHECK(RunTest("l2v4", 187)); }
@@ -565,52 +552,52 @@ SUITE(SBML_l2v4)
  TEST(528) { CHECK(RunTest("l2v4", 528)); }
  TEST(529) { CHECK(RunTest("l2v4", 529)); }
  TEST(530) { CHECK(RunTest("l2v4", 530)); }
- //TEST(531) { CHECK(RunTest("l2v4", 531)); }
+ //TEST(531) { CHECK(RunTest("l2v4", 531)); }       //Not Supported
  TEST(532) { CHECK(RunTest("l2v4", 532)); }
- //TEST(533) { CHECK(RunTest("l2v4", 533)); }
- //TEST(534) { CHECK(RunTest("l2v4", 534)); }
- //TEST(535) { CHECK(RunTest("l2v4", 535)); }
- //TEST(536) { CHECK(RunTest("l2v4", 536)); }
- //TEST(537) { CHECK(RunTest("l2v4", 537)); }
- //TEST(538) { CHECK(RunTest("l2v4", 538)); }
+ //TEST(533) { CHECK(RunTest("l2v4", 533)); }		//Not Supported
+ //TEST(534) { CHECK(RunTest("l2v4", 534)); }       //Not Supported
+ //TEST(535) { CHECK(RunTest("l2v4", 535)); }       //Not Supported
+ //TEST(536) { CHECK(RunTest("l2v4", 536)); }       //Not Supported
+ //TEST(537) { CHECK(RunTest("l2v4", 537)); }       //Not Supported
+ //TEST(538) { CHECK(RunTest("l2v4", 538)); }       //Not Supported
  TEST(539) { CHECK(RunTest("l2v4", 539)); }
  TEST(540) { CHECK(RunTest("l2v4", 540)); }
  TEST(541) { CHECK(RunTest("l2v4", 541)); }
  TEST(542) { CHECK(RunTest("l2v4", 542)); }
- //TEST(543) { CHECK(RunTest("l2v4", 543)); }
+ //TEST(543) { CHECK(RunTest("l2v4", 543)); }     	//Not Supported
  TEST(544) { CHECK(RunTest("l2v4", 544)); }
  TEST(545) { CHECK(RunTest("l2v4", 545)); }
- //TEST(546) { CHECK(RunTest("l2v4", 546)); }
+ //TEST(546) { CHECK(RunTest("l2v4", 546)); } 	  	//Not Supported
  TEST(547) { CHECK(RunTest("l2v4", 547)); }
- //TEST(548) { CHECK(RunTest("l2v4", 548)); }
- //TEST(549) { CHECK(RunTest("l2v4", 549)); }
- //TEST(550) { CHECK(RunTest("l2v4", 550)); }
- //TEST(551) { CHECK(RunTest("l2v4", 551)); }
- //TEST(552) { CHECK(RunTest("l2v4", 552)); }
- //TEST(553) { CHECK(RunTest("l2v4", 553)); } //Started failing with
- //TEST(554) { CHECK(RunTest("l2v4", 554)); }
- //TEST(555) { CHECK(RunTest("l2v4", 555)); }
- //TEST(556) { CHECK(RunTest("l2v4", 556)); }
- //TEST(557) { CHECK(RunTest("l2v4", 557)); }
- //TEST(558) { CHECK(RunTest("l2v4", 558)); }
- //TEST(559) { CHECK(RunTest("l2v4", 559)); }
- //TEST(560) { CHECK(RunTest("l2v4", 560)); }
- //TEST(561) { CHECK(RunTest("l2v4", 561)); }
- //TEST(562) { CHECK(RunTest("l2v4", 562)); }
- //TEST(563) { CHECK(RunTest("l2v4", 563)); }
- //TEST(564) { CHECK(RunTest("l2v4", 564)); }
- //TEST(565) { CHECK(RunTest("l2v4", 565)); }
- //TEST(566) { CHECK(RunTest("l2v4", 566)); }
+ //TEST(548) { CHECK(RunTest("l2v4", 548)); }         //Not Supported
+ //TEST(549) { CHECK(RunTest("l2v4", 549)); }         //Not Supported
+ //TEST(550) { CHECK(RunTest("l2v4", 550)); }         //Not Supported
+ //TEST(551) { CHECK(RunTest("l2v4", 551)); }         //Not Supported
+ //TEST(552) { CHECK(RunTest("l2v4", 552)); }         //Not Supported
+ //TEST(553) { CHECK(RunTest("l2v4", 553)); } 	      //Not Supported
+ //TEST(554) { CHECK(RunTest("l2v4", 554)); }         //Not Supported
+ //TEST(555) { CHECK(RunTest("l2v4", 555)); }         //Not Supported
+ //TEST(556) { CHECK(RunTest("l2v4", 556)); }         //Not Supported
+ //TEST(557) { CHECK(RunTest("l2v4", 557)); }         //Not Supported
+ //TEST(558) { CHECK(RunTest("l2v4", 558)); }         //Not Supported
+ //TEST(559) { CHECK(RunTest("l2v4", 559)); }         //Not Supported
+ //TEST(560) { CHECK(RunTest("l2v4", 560)); }         //Not Supported
+ //TEST(561) { CHECK(RunTest("l2v4", 561)); }         //Not Supported
+ //TEST(562) { CHECK(RunTest("l2v4", 562)); }         //Not Supported
+ //TEST(563) { CHECK(RunTest("l2v4", 563)); }         //Not Supported
+ //TEST(564) { CHECK(RunTest("l2v4", 564)); }         //Not Supported
+ //TEST(565) { CHECK(RunTest("l2v4", 565)); }         //Not Supported
+ //TEST(566) { CHECK(RunTest("l2v4", 566)); }         //Not Supported
  //TEST(567) { CHECK(RunTest("l2v4", 567)); }
  TEST(568) { CHECK(RunTest("l2v4", 568)); }
- //TEST(569) { CHECK(RunTest("l2v4", 569)); }
- //TEST(570) { CHECK(RunTest("l2v4", 570)); }
- //TEST(571) { CHECK(RunTest("l2v4", 571)); }
+ //TEST(569) { CHECK(RunTest("l2v4", 569)); }         //Not Supported
+ //TEST(570) { CHECK(RunTest("l2v4", 570)); }         //Not Supported
+ //TEST(571) { CHECK(RunTest("l2v4", 571)); }         //Not Supported
  TEST(572) { CHECK(RunTest("l2v4", 572)); }
- //TEST(573) { CHECK(RunTest("l2v4", 573)); }
+ //TEST(573) { CHECK(RunTest("l2v4", 573)); }         //Not Supported
  TEST(574) { CHECK(RunTest("l2v4", 574)); }
- //TEST(575) { CHECK(RunTest("l2v4", 575)); }
- //TEST(576) { CHECK(RunTest("l2v4", 576)); }
+ //TEST(575) { CHECK(RunTest("l2v4", 575)); }         //Not Supported
+ //TEST(576) { CHECK(RunTest("l2v4", 576)); }         //Not Supported
  TEST(577) { CHECK(RunTest("l2v4", 577)); }
  TEST(578) { CHECK(RunTest("l2v4", 578)); }
  TEST(579) { CHECK(RunTest("l2v4", 579)); }
@@ -647,9 +634,9 @@ SUITE(SBML_l2v4)
  TEST(610) { CHECK(RunTest("l2v4", 610)); }
  TEST(611) { CHECK(RunTest("l2v4", 611)); }
  TEST(612) { CHECK(RunTest("l2v4", 612)); }
- //TEST(613) { CHECK(RunTest("l2v4", 613)); }
- //TEST(614) { CHECK(RunTest("l2v4", 614)); }
- //TEST(615) { CHECK(RunTest("l2v4", 615)); }
+ //TEST(613) { CHECK(RunTest("l2v4", 613)); }         //Not Supported
+ //TEST(614) { CHECK(RunTest("l2v4", 614)); }         //Not Supported
+ //TEST(615) { CHECK(RunTest("l2v4", 615)); }         //Not Supported
  TEST(616) { CHECK(RunTest("l2v4", 616)); }
  TEST(617) { CHECK(RunTest("l2v4", 617)); }
  TEST(618) { CHECK(RunTest("l2v4", 618)); }
@@ -662,9 +649,9 @@ SUITE(SBML_l2v4)
  TEST(625) { CHECK(RunTest("l2v4", 625)); }
  TEST(626) { CHECK(RunTest("l2v4", 626)); }
  TEST(627) { CHECK(RunTest("l2v4", 627)); }
- //TEST(628) { CHECK(RunTest("l2v4", 628)); }
- //TEST(629) { CHECK(RunTest("l2v4", 629)); }
- //TEST(630) { CHECK(RunTest("l2v4", 630)); }
+ //TEST(628) { CHECK(RunTest("l2v4", 628)); }         //Not Supported
+ //TEST(629) { CHECK(RunTest("l2v4", 629)); }         //Not Supported
+ //TEST(630) { CHECK(RunTest("l2v4", 630)); }         //Not Supported
  TEST(631) { CHECK(RunTest("l2v4", 631)); }
  TEST(632) { CHECK(RunTest("l2v4", 632)); }
  TEST(633) { CHECK(RunTest("l2v4", 633)); }
@@ -692,24 +679,24 @@ SUITE(SBML_l2v4)
  TEST(655) { CHECK(RunTest("l2v4", 655)); }
  TEST(656) { CHECK(RunTest("l2v4", 656)); }
  TEST(657) { CHECK(RunTest("l2v4", 657)); }
- //TEST(658) { CHECK(RunTest("l2v4", 658)); }
- //TEST(659) { CHECK(RunTest("l2v4", 659)); }
- //TEST(660) { CHECK(RunTest("l2v4", 660)); }
- //TEST(661) { CHECK(RunTest("l2v4", 661)); }
- //TEST(662) { CHECK(RunTest("l2v4", 662)); }
- //TEST(663) { CHECK(RunTest("l2v4", 663)); }
- //TEST(664) { CHECK(RunTest("l2v4", 664)); }
- //TEST(665) { CHECK(RunTest("l2v4", 665)); }
- //TEST(666) { CHECK(RunTest("l2v4", 666)); }
+ //TEST(658) { CHECK(RunTest("l2v4", 658)); }         //Not Supported
+ //TEST(659) { CHECK(RunTest("l2v4", 659)); }         //Not Supported
+ //TEST(660) { CHECK(RunTest("l2v4", 660)); }         //Not Supported
+ //TEST(661) { CHECK(RunTest("l2v4", 661)); }         //Not Supported
+ //TEST(662) { CHECK(RunTest("l2v4", 662)); }         //Not Supported
+ //TEST(663) { CHECK(RunTest("l2v4", 663)); }         //Not Supported
+ //TEST(664) { CHECK(RunTest("l2v4", 664)); }         //Not Supported
+ //TEST(665) { CHECK(RunTest("l2v4", 665)); }         //Not Supported
+ //TEST(666) { CHECK(RunTest("l2v4", 666)); }         //Not Supported
  TEST(667) { CHECK(RunTest("l2v4", 667)); }
  TEST(668) { CHECK(RunTest("l2v4", 668)); }
  TEST(669) { CHECK(RunTest("l2v4", 669)); }
  TEST(670) { CHECK(RunTest("l2v4", 670)); }
  TEST(671) { CHECK(RunTest("l2v4", 671)); }
  TEST(672) { CHECK(RunTest("l2v4", 672)); }
- //TEST(673) { CHECK(RunTest("l2v4", 673)); }
- //TEST(674) { CHECK(RunTest("l2v4", 674)); }
- //TEST(675) { CHECK(RunTest("l2v4", 675)); }
+ //TEST(673) { CHECK(RunTest("l2v4", 673)); }         //Not Supported
+ //TEST(674) { CHECK(RunTest("l2v4", 674)); }         //Not Supported
+ //TEST(675) { CHECK(RunTest("l2v4", 675)); }         //Not Supported
  TEST(676) { CHECK(RunTest("l2v4", 676)); }
  TEST(677) { CHECK(RunTest("l2v4", 677)); }
  TEST(678) { CHECK(RunTest("l2v4", 678)); }
@@ -721,7 +708,7 @@ SUITE(SBML_l2v4)
  TEST(684) { CHECK(RunTest("l2v4", 684)); }
  TEST(685) { CHECK(RunTest("l2v4", 685)); }
  TEST(686) { CHECK(RunTest("l2v4", 686)); }
- //TEST(687) { CHECK(RunTest("l2v4", 687)); }
+ //TEST(687) { CHECK(RunTest("l2v4", 687)); }         //Not Supported
  TEST(688) { CHECK(RunTest("l2v4", 688)); }
  TEST(689) { CHECK(RunTest("l2v4", 689)); }
  TEST(690) { CHECK(RunTest("l2v4", 690)); }
@@ -729,8 +716,8 @@ SUITE(SBML_l2v4)
  TEST(692) { CHECK(RunTest("l2v4", 692)); }
  TEST(693) { CHECK(RunTest("l2v4", 693)); }
  TEST(694) { CHECK(RunTest("l2v4", 694)); }
- //TEST(695) { CHECK(RunTest("l2v4", 695)); }
- //TEST(696) { CHECK(RunTest("l2v4", 696)); }
+ //TEST(695) { CHECK(RunTest("l2v4", 695)); }         //Not Supported
+ //TEST(696) { CHECK(RunTest("l2v4", 696)); }         //Not Supported
  TEST(697) { CHECK(RunTest("l2v4", 697)); }
  TEST(698) { CHECK(RunTest("l2v4", 698)); }
  TEST(699) { CHECK(RunTest("l2v4", 699)); }
@@ -739,7 +726,7 @@ SUITE(SBML_l2v4)
  TEST(702) { CHECK(RunTest("l2v4", 702)); }
  TEST(703) { CHECK(RunTest("l2v4", 703)); }
  TEST(704) { CHECK(RunTest("l2v4", 704)); }
- //TEST(705) { CHECK(RunTest("l2v4", 705)); }
+ //TEST(705) { CHECK(RunTest("l2v4", 705)); }     	//Not Supported
  TEST(706) { CHECK(RunTest("l2v4", 706)); }
  TEST(707) { CHECK(RunTest("l2v4", 707)); }
  TEST(708) { CHECK(RunTest("l2v4", 708)); }
@@ -794,9 +781,9 @@ SUITE(SBML_l2v4)
  TEST(757) { CHECK(RunTest("l2v4", 757)); }
  TEST(758) { CHECK(RunTest("l2v4", 758)); }
  TEST(759) { CHECK(RunTest("l2v4", 759)); }
- //TEST(760) { CHECK(RunTest("l2v4", 760)); }
- //TEST(761) { CHECK(RunTest("l2v4", 761)); }
- //TEST(762) { CHECK(RunTest("l2v4", 762)); }
+ //TEST(760) { CHECK(RunTest("l2v4", 760)); }         //Not Supported
+ //TEST(761) { CHECK(RunTest("l2v4", 761)); }         //Not Supported
+ //TEST(762) { CHECK(RunTest("l2v4", 762)); }         //Not Supported
  TEST(763) { CHECK(RunTest("l2v4", 763)); }
  TEST(764) { CHECK(RunTest("l2v4", 764)); }
  TEST(765) { CHECK(RunTest("l2v4", 765)); }
@@ -811,10 +798,10 @@ SUITE(SBML_l2v4)
  TEST(774) { CHECK(RunTest("l2v4", 774)); }
  TEST(775) { CHECK(RunTest("l2v4", 775)); }
  TEST(776) { CHECK(RunTest("l2v4", 776)); }
- //TEST(777) { CHECK(RunTest("l2v4", 777)); }
- //TEST(778) { CHECK(RunTest("l2v4", 778)); }
- //TEST(779) { CHECK(RunTest("l2v4", 779)); }
- //TEST(780) { CHECK(RunTest("l2v4", 780)); }
+ //TEST(777) { CHECK(RunTest("l2v4", 777)); }         //Not Supported
+ //TEST(778) { CHECK(RunTest("l2v4", 778)); }         //Not Supported
+ //TEST(779) { CHECK(RunTest("l2v4", 779)); }         //Not Supported
+ //TEST(780) { CHECK(RunTest("l2v4", 780)); }         //Not Supported
  TEST(781) { CHECK(RunTest("l2v4", 781)); }
  TEST(782) { CHECK(RunTest("l2v4", 782)); }
  TEST(783) { CHECK(RunTest("l2v4", 783)); }
@@ -880,7 +867,7 @@ SUITE(SBML_l2v4)
  #endif
 TEST(842) { CHECK(RunTest("l2v4", 842)); }
 TEST(843) { CHECK(RunTest("l2v4", 843)); }
-//TEST(844) { CHECK(RunTest("l2v4", 844)); }
+//TEST(844) { CHECK(RunTest("l2v4", 844)); }  	 	//Not Supported
 TEST(845) { CHECK(RunTest("l2v4", 845)); }
 TEST(846) { CHECK(RunTest("l2v4", 846)); }
 TEST(847) { CHECK(RunTest("l2v4", 847)); }
@@ -906,13 +893,13 @@ TEST(866) { CHECK(RunTest("l2v4", 866)); }
 TEST(867) { CHECK(RunTest("l2v4", 867)); }
 TEST(868) { CHECK(RunTest("l2v4", 868)); }
 TEST(869) { CHECK(RunTest("l2v4", 869)); }
-//TEST(870) { CHECK(RunTest("l2v4", 870)); }
-//TEST(871) { CHECK(RunTest("l2v4", 871)); }
-//TEST(872) { CHECK(RunTest("l2v4", 872)); }
-//TEST(873) { CHECK(RunTest("l2v4", 873)); }
-//TEST(874) { CHECK(RunTest("l2v4", 874)); }
-//TEST(875) { CHECK(RunTest("l2v4", 875)); }
-//TEST(876) { CHECK(RunTest("l2v4", 876)); }
+//TEST(870) { CHECK(RunTest("l2v4", 870)); }        //Not supported
+//TEST(871) { CHECK(RunTest("l2v4", 871)); }        //Not supported
+//TEST(872) { CHECK(RunTest("l2v4", 872)); }        //Not supported
+//TEST(873) { CHECK(RunTest("l2v4", 873)); }        //Not supported
+//TEST(874) { CHECK(RunTest("l2v4", 874)); }        //Not supported
+//TEST(875) { CHECK(RunTest("l2v4", 875)); }        //Not supported
+//TEST(876) { CHECK(RunTest("l2v4", 876)); }        //Not supported
 TEST(877) { CHECK(RunTest("l2v4", 877)); }
 TEST(878) { CHECK(RunTest("l2v4", 878)); }
 TEST(879) { CHECK(RunTest("l2v4", 879)); }
@@ -975,13 +962,13 @@ TEST(933) { CHECK(RunTest("l2v4", 933)); }
 TEST(934) { CHECK(RunTest("l2v4", 934)); }
 TEST(935) { CHECK(RunTest("l2v4", 935)); }
 TEST(936) { CHECK(RunTest("l2v4", 936)); }
-//TEST(937) { CHECK(RunTest("l2v4", 937)); }
-//TEST(938) { CHECK(RunTest("l2v4", 938)); }
-//TEST(939) { CHECK(RunTest("l2v4", 939)); }
-//TEST(940) { CHECK(RunTest("l2v4", 940)); }
-//TEST(941) { CHECK(RunTest("l2v4", 941)); }
-//TEST(942) { CHECK(RunTest("l2v4", 942)); }
-//TEST(943) { CHECK(RunTest("l2v4", 943)); }
+//TEST(937) { CHECK(RunTest("l2v4", 937)); }      //Not Supported
+//TEST(938) { CHECK(RunTest("l2v4", 938)); }	  //Not Supported
+//TEST(939) { CHECK(RunTest("l2v4", 939)); }      //Not Supported
+//TEST(940) { CHECK(RunTest("l2v4", 940)); }      //Not Supported
+//TEST(941) { CHECK(RunTest("l2v4", 941)); }      //Not Supported
+//TEST(942) { CHECK(RunTest("l2v4", 942)); }      //Not Supported
+//TEST(943) { CHECK(RunTest("l2v4", 943)); }      //Not Supported
 TEST(944) { CHECK(RunTest("l2v4", 944)); }
 TEST(945) { CHECK(RunTest("l2v4", 945)); }
 TEST(946) { CHECK(RunTest("l2v4", 946)); }
@@ -990,7 +977,7 @@ TEST(948) { CHECK(RunTest("l2v4", 948)); }
 TEST(949) { CHECK(RunTest("l2v4", 949)); }
 //TEST(950) { CHECK(RunTest("l2v4", 950)); }
 //TEST(951) { CHECK(RunTest("l2v4", 951)); }
-//TEST(952) { CHECK(RunTest("l2v4", 952)); }	//Started failing with poco shared lib in cvode
+//TEST(952) { CHECK(RunTest("l2v4", 952)); }		//Started failing with poco shared lib in cvode
 TEST(953) { CHECK(RunTest("l2v4", 953)); }
 TEST(954) { CHECK(RunTest("l2v4", 954)); }
 //TEST(955) { CHECK(RunTest("l2v4", 955)); }
@@ -1025,118 +1012,7 @@ TEST(977) { CHECK(RunTest("l2v4", 977)); }
 //TEST(978) { CHECK(RunTest("l2v4", 978)); }
 TEST(979) { CHECK(RunTest("l2v4", 979)); }
 TEST(980) { CHECK(RunTest("l2v4", 980)); }
-
 }
 
 
-bool RunTest(const string& version, int caseNumber)
-{
-	bool result(false);
 
-	if(gRR)
-    {
-    	freeRRInstance(gRR);
-    }
-
-    //Create instance..
-    gRR = createRRInstanceE(JoinPath(gTempFolder, "TS").c_str());
-
-    if(gDebug && gRR)
-    {
-	    enableLoggingToConsole();
-        setLogLevel("Debug5");
-    }
-    else
-    {
-        setLogLevel("Error");
-    }
-
-	//Setup environment
-    setTempFolder(gRR, gTempFolder.c_str());
-
-    if(!gRR)
-    {
-    	return false;
-    }
-
-    try
-    {
-		clog<<"Running Test: "<<caseNumber<<endl;
-        string dataOutputFolder(JoinPath(gTempFolder, "TS"));
-        string dummy;
-        string logFileName;
-        string settingsFileName;
-
-        //Create a log file name
-        CreateTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, settingsFileName);
-
-        //Create subfolder for data output
-        dataOutputFolder = JoinPath(dataOutputFolder, GetTestSuiteSubFolderName(caseNumber));
-
-        if(!CreateFolder(dataOutputFolder))
-        {
-			string msg("Failed creating output folder for data output: " + dataOutputFolder);
-            throw(rr::Exception(msg));
-        }
-
-       	SBMLTestSuiteSimulation_CAPI simulation(dataOutputFolder);
-
-		simulation.UseHandle(gRR);
-
-        //Read SBML models.....
-        string modelFilePath(gTSModelsPath);
-        string modelFileName;
-
-        simulation.SetCaseNumber(caseNumber);
-        CreateTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName);
-
-        //The following will load and compile and simulate the sbml model in the file
-        simulation.SetModelFilePath(modelFilePath);
-        simulation.SetModelFileName(modelFileName);
-        simulation.CompileIfDllExists(true);
-        simulation.CopyFilesToOutputFolder();
-	    setTempFolder(gRR, simulation.GetDataOutputFolder().c_str());
-        if(!simulation.LoadSBMLFromFile())
-        {
-            throw("Failed loading sbml from file");
-        }
-        //Then read settings file if it exists..
-        string settingsOveride("");
-        if(!simulation.LoadSettings(settingsOveride))
-        {
-            throw("Failed loading simulation settings");
-        }
-
-        setComputeAndAssignConservationLaws(gRR, false);
-
-        //Then Simulate model
-        if(!simulation.Simulate())
-        {
-            throw("Failed running simulation");
-        }
-
-        //Write result
-        if(!simulation.SaveResult())
-        {
-            //Failed to save data
-            throw("Failed saving result");
-        }
-
-        if(!simulation.LoadReferenceData())
-        {
-            throw("Failed Loading reference data");
-        }
-
-        simulation.CreateErrorData();
-        result = simulation.Pass();
-        simulation.SaveAllData();
-        simulation.SaveModelAsXML(dataOutputFolder);
-  	}
-    catch(rr::Exception& ex)
-    {
-        string error = ex.what();
-        cerr<<"Case "<<caseNumber<<": Exception: "<<error<<endl;
-    	return false;
-    }
- 	return result;
-}

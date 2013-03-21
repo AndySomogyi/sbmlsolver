@@ -427,7 +427,7 @@ void LibStructural::InitializeFromStoichiometryMatrix(DoubleMatrix& oMatrix)
     zero_nmat = (nz_count == 0);
 
     // get sparsity
-    _Sparsity = (double) (nz_count * 100)/(_NumRows*_NumCols);
+    _Sparsity = (double) (nz_count * 100)/((int) (_NumRows*_NumCols));
 
     // get transpose
     DELETE_IF_NON_NULL(_NmatT);
@@ -743,7 +743,7 @@ void LibStructural::computeConservedEntities()
         }
     }
     else 
-    {        
+    {
         for (int i=0; i<_NumRows; i++) 
         {
             _consv_list.push_back ( _speciesIndexList[spVec[i]] );
@@ -1013,7 +1013,7 @@ string LibStructural::analyzeWithFullyPivotedLU()
             // to swap the cols only if nInfo > 0
             int nInfo = oLUResult->nInfo;
 
-            if (nInfo < 0 ) 
+            if (nInfo < 0 )
             {
                 throw new ApplicationException("Exception in analyzeWithLU()", "Illegal Value encountered while performing LU Factorization");
             }
@@ -1730,7 +1730,7 @@ bool LibStructural::testConservationLaw_5()
     }
     else
     {    
-    try { Q11inv = inverse(*Q11); } catch (...) {}
+    try { Q11inv = inverse(*Q11); } catch (...) {}      //todo: (MTK) Don't have empty exception handlers
 
     if (Q11inv == NULL)
     {
@@ -1899,7 +1899,7 @@ DoubleMatrix* LibStructural::getFullyReorderedStoichiometryMatrix()
         delete oTemp;
         return oResult;
     }
-    catch(...)
+    catch(...)    //todo: (MTK) Don't have empty exception handlers
     {
     }
     return NULL;

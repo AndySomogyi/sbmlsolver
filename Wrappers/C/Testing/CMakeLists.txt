@@ -9,7 +9,7 @@ set(tests
 #core/base
 #core/steady_state
 Suite_TestModel_1
-Suite_CoreExceptions
+#Suite_CoreExceptions
 Suite_SBML_Tests
 )
 
@@ -24,6 +24,7 @@ ${tests}
 set_property(TARGET ${target}  
 PROPERTY  COMPILE_DEFINITIONS 
 STATIC_LIBSTRUCT
+STATIC_RR
 ) 
 
 if(UNIX)
@@ -34,7 +35,7 @@ endif()
 
 target_link_libraries (${target} 
 rr_c_api
-roadrunner
+roadrunner-static
 unit_test-static
 rr-libstruct-static
 )
@@ -58,7 +59,6 @@ target_link_libraries (${target}
 #dl
 )
 endif()
-
 
 link_directories(
 ${THIRD_PARTY_INSTALL_FOLDER}/lib

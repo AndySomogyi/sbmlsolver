@@ -5,10 +5,6 @@
 #include <iomanip>
 #include "Args.h"
 //---------------------------------------------------------------------------
-#if defined(__CODEGEAR__)
-#pragma package(smart_init)
-#endif
-
 Args::Args()
 :
 UseOSTempFolder(false),

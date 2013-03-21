@@ -96,7 +96,7 @@ string FileLog::GetLogPrefix()
 void FileLog::write(const char* str)
 {
 //    if(!mLogFile.get())
-    if(!mLogFile)
+    if(!mLogFile || !mLogFile->mFILEHandle)
     {
         return;
     }

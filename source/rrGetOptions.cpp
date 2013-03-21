@@ -6,10 +6,6 @@
 #include <string.h>
 #include "rrGetOptions.h"
 //---------------------------------------------------------------------------
-#if defined(__CODEGEAR__)
-#pragma package(smart_init)
-#endif
-
 namespace rr
 {
 

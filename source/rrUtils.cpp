@@ -37,7 +37,7 @@ using namespace std;
 namespace rr
 {
 
-const string getCurrentDateTime()
+string getCurrentDateTime()
 {
 // Get current date/time, format is YYYY-MM-DD.HH:mm:ss
     time_t     now = time(0);
@@ -74,7 +74,7 @@ return ".";
 }
 
 
-const string getCurrentExeFolder()
+string getCurrentExeFolder()
 {
 #if defined(_WIN32) || defined(WIN32)
 	char path[MAX_PATH];
@@ -97,7 +97,7 @@ const string getCurrentExeFolder()
 
 }
 
-const string getParentFolder(const string& path)
+string getParentFolder(const string& path)
 {
 	if(path.size() < 1)
     {
@@ -126,7 +126,7 @@ const string getParentFolder(const string& path)
     }
 }
 
-const string getCWD()
+string getCWD()
 {
     //Get the working directory
 	char *buffer;
@@ -194,9 +194,10 @@ std::size_t IndexOf(std::vector<std::string>& vec, const std::string& elem )
 }
 
 // String utils
-string RemoveTrailingSeparator(const string& _folder, const string& sep)
+//string RemoveTrailingSeparator(const string& fldr, const char sep = gPathSeparator);//"\\");
+string RemoveTrailingSeparator(const string& _folder, const char sep)
 {
-    if((_folder.size() > 0) && (sep.size() > 0) && (_folder[_folder.size() -1] == sep[0]))
+    if((_folder.size() > 0) && (_folder[_folder.size() -1] == sep))
     {
         const int endOfPathIndex = _folder.rfind(sep, _folder.size());
         string folder = _folder.substr(0, endOfPathIndex);
