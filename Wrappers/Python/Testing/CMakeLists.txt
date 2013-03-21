@@ -4,9 +4,8 @@ PROJECT(rrWrappers)
 #=============== INSTALL =====================
 install(
         FILES 
-#        ssTests.py 
-        rrTest.py
-        rrTests.py
+        rrRunTests.py
+        rrTester.py
         rrDebug.py 
         DESTINATION python  	
         COMPONENT testing

@@ -777,7 +777,7 @@ bool rrCallConv loadSBML(RRHandle handle, const char* sbml)
     {
       	RoadRunner* rri = castFrom(handle);
 
-        if(!rri->loadSBML(sbml))
+        if(!rri->loadSBML(sbml, true))
         {
             setError("Failed to load SBML semantics");
             return false;
