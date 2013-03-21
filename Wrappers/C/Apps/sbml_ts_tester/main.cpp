@@ -5,7 +5,7 @@
 #include "Args.h"
 #include "rr_c_api.h"
 #include "rrGetOptions.h"
-#include "TestSuiteSimulation.cpp"
+#include "TestSuiteSimulation.h"
 
 using namespace std;
 using namespace rr;

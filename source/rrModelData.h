@@ -11,6 +11,7 @@ typedef double* (*TComputeEventAssignmentDelegate)(ModelDataP);
 typedef void 	(*TPerformEventAssignmentDelegate)(ModelDataP, double*);
 typedef void 	(*TEventAssignmentDelegate)();
 
+#pragma pack(push, 1)
 //Data that is used in SBML models
 typedef struct SModelData
 {
@@ -91,7 +92,6 @@ typedef struct SModelData
 	int									previousEventStatusArraySize;
     bool*                               previousEventStatusArray;
 
-//	TEventDelayDelegate*			    mEventDelay;
     TEventDelayDelegate*                eventDelays;
 	TEventAssignmentDelegate*       	eventAssignments;
 
@@ -99,9 +99,12 @@ typedef struct SModelData
     TPerformEventAssignmentDelegate*    performEventAssignments;
 
 } ModelData;
+#pragma pack(pop)
 
 #if defined __cplusplus
 }
 #endif
+
+
 
 #endif

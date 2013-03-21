@@ -60,7 +60,6 @@ void LoadModelThread::signalAll()
 
 bool LoadModelThread::isAnyWorking()
 {
-	bool result = false;
    	Mutex::ScopedLock lock(mNrOfWorkersMutex);
     return mNrOfWorkers > 0 ? true : false;
 }

@@ -102,7 +102,6 @@
         <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <DynamicRTL>false</DynamicRTL>
         <Defines>VS2008;$(Defines)</Defines>
         <BCC_PCHName>temp.csm</BCC_PCHName>
         <BCC_PCHInject>..\..\source\rr_pch.h</BCC_PCHInject>
