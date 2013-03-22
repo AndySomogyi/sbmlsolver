@@ -15,6 +15,7 @@ add_library(${target} SHARED
 rr_c_api.cpp
 rr_dll_entry_point.cpp
 rr_c_api_support.cpp
+rrc_test_utilities
 )
 
 if(${MSVC})
