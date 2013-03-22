@@ -309,6 +309,10 @@ rrLib.executePlugin.restype = c_bool
 rrLib.isJobFinished.restype = c_bool
 rrLib.areJobsFinished.restype = c_bool
 
+#Debugging functions
+rrLib.compileSource.restype = c_bool
+
+
 #Unload roadrunner dll from python
 def unloadAPI():
     del gHandle
@@ -2015,4 +2019,8 @@ def executePlugin(pluginName):
     return rrLib.executePlugin(gHandle, pluginName)
 
 
-#=======================================================#
+def compileSource(sourceFileName, rrHandle = None):
+    if rrHandle is None:
+        rrHandle = gHandle
+    return rrLib.compileSource(rrHandle, sourceFileName)
+
