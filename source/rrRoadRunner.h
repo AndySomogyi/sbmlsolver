@@ -46,7 +46,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
     	int	  							mInstanceID;
 		bool                            mUseKinsol;
 		const double                    mDiffStepSize;
-        bool							mUseUUIDForCompilerOutput;
 
         const string					mModelFolder;			//Folder for XML models
 		const double                    mSteadyStateThreshold;
@@ -115,10 +114,12 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
 		string                  		getParamPromotedSBML(const string& sArg);
 		NOMSupport*						getNOM();
-		Compiler*						getCompiler();
 		string							getInfo();
         PluginManager&					getPluginManager();
 
+		//Compiling
+   		Compiler*						getCompiler();
+        bool							compileSource(const string& modelSourceCodeName);
 		//Functions --------------------------------------------------------------------
         bool                            isModelLoaded();
         bool                            setCompiler(const string& compiler);

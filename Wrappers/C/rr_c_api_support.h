@@ -50,4 +50,23 @@ rr::RoadRunner* 	castFrom(RRHandle rrHandle);
 rr::RoadRunnerList* getRRList(RRInstanceListHandle handle);
 }
 
+
+#define  CATCH_BOOL_MACRO                                   \
+	catch(Exception& ex)                                    \
+	{                                                       \
+		stringstream msg;                                   \
+		msg<<"RoadRunner exception: "<<ex.what()<<endl;  	\
+		setError(msg.str());                        		\
+		return false;                               		\
+	}
+
+#define  CATCH_PTR_MACRO                                    \
+	catch(Exception& ex)                                    \
+	{                                                       \
+		stringstream msg;                                   \
+		msg<<"RoadRunner exception: "<<ex.what()<<endl;  	\
+		setError(msg.str());                                \
+		return NULL;                                        \
+	}
+
 #endif

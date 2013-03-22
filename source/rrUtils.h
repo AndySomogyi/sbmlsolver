@@ -64,12 +64,13 @@ RR_DECLSPEC bool            CopyStdVectorToCArray(const vector<bool>&   src,  bo
 //SelectionList
 RR_DECLSPEC StringList      getSelectionListFromSettings(const SimulationSettings& settings);
 
-#if defined(WIN32)// DLL Functions
-
+#if defined(WIN32)
 RR_DECLSPEC HINSTANCE       LoadDLL(const string& dll);
 RR_DECLSPEC bool       		UnLoadDLL(HINSTANCE dllHandle);
 RR_DECLSPEC FARPROC 		GetFunctionPtr(const string& funcName, HINSTANCE DLLHandle);
+RR_DECLSPEC string 			GetWINAPIError(DWORD errorCode, LPTSTR lpszFunction);
 #endif
+
 #undef CreateFile
 RR_DECLSPEC bool     		CreateFile(const string& fName, std::ios_base::openmode mode = std::ios::trunc );
 

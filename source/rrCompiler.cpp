@@ -221,9 +221,14 @@ string Compiler::createCompilerCommand(const string& sourceFileName)
 }
 
 #ifdef WIN32
-string GetWINAPIError(DWORD errorCode, LPTSTR lpszFunction);
+
 bool Compiler::compile(const string& cmdLine)
 {
+    if( !cmdLine.size() )
+    {
+        return false;
+    }
+
     PROCESS_INFORMATION pi;
     ZeroMemory( &pi, sizeof(pi) );
 
@@ -237,12 +242,6 @@ bool Compiler::compile(const string& cmdLine)
     sao.lpSecurityDescriptor=NULL;
     sao.bInheritHandle=1;
 
-    if( !cmdLine.size() )
-    {
-        return false;
-    }
-
-    //open the output file on the server's tmp folder (for that test will be on the C:/ root)
     string compilerTempFile(JoinPath(mOutputPath, ExtractFileNameNoExtension(mDLLFileName)));
     compilerTempFile.append("C.log");
 
@@ -266,17 +265,15 @@ bool Compiler::compile(const string& cmdLine)
         DWORD errorCode = GetLastError();
         string anError = GetWINAPIError(errorCode, TEXT("CreateFile"));
         Log(lError)<<"WIN API Error (after CreateFile): "<<anError;
-
         Log(lError)<<"Failed creating logFile for compiler output";
-//        return false;
     }
 
-    SetFilePointer( outFile, 0, NULL, FILE_END); //set pointer position to end file
+    SetFilePointer(outFile, 0, NULL, FILE_END); //set pointer position to end file
 
     //init the STARTUPINFO struct
     si.dwFlags=STARTF_USESTDHANDLES;
     si.hStdOutput = outFile;
-    si.hStdError = outFile;
+    si.hStdError  = outFile;
 
     //proc sec attributes
     SECURITY_ATTRIBUTES sap;
@@ -305,6 +302,7 @@ bool Compiler::compile(const string& cmdLine)
     )
     {
 		DWORD errorCode = GetLastError();
+
         string anError = GetWINAPIError(errorCode, TEXT("CreateProcess"));
         Log(lError)<<"WIN API Error: (after CreateProcess) "<<anError;
 
@@ -347,66 +345,31 @@ bool Compiler::compile(const string& cmdLine)
     return true;
 }
 
-
-string GetWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
-{
-//	LPTSTR lpszFunction	= TEXT("CreateProcess");
- 	LPVOID lpMsgBuf;
-    LPVOID lpDisplayBuf;
-    DWORD dw = GetLastError();
-
-    FormatMessageA(
-        FORMAT_MESSAGE_ALLOCATE_BUFFER |
-        FORMAT_MESSAGE_FROM_SYSTEM |
-        FORMAT_MESSAGE_IGNORE_INSERTS,
-        NULL,
-        dw,
-        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-        (LPTSTR) &lpMsgBuf,
-        0, NULL
-    );
-
-    // Display the error message
-    lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, (lstrlen((LPCTSTR)lpMsgBuf) + lstrlen((LPCTSTR)lpszFunction) + 40) * sizeof(TCHAR));
-
-    StringCchPrintf((LPTSTR)lpDisplayBuf,
-        				LocalSize(lpDisplayBuf) / sizeof(TCHAR),
-        				TEXT("%s failed with error %d: %s"),
-        				lpszFunction,
-                        dw,
-                        lpMsgBuf);
-
-//    MessageBox(NULL, (LPCTSTR)lpDisplayBuf, TEXT("Error"), MB_OK);
-
-    string errorMsg = string((LPCTSTR)lpDisplayBuf);
-    LocalFree(lpMsgBuf);
-    LocalFree(lpDisplayBuf);
-    return errorMsg;
-}
-
-#else
+#else  //---------------- LINUX, UNIXES
 
 bool Compiler::compile(const string& cmdLine)
 {
     string toFile(cmdLine);
     toFile += " 2>&1 >> ";
     toFile += JoinPath(mOutputPath, "compilation.log");
+
     Log(lDebug)<<"Compiler command: "<<toFile;
+
+    //Create the shared library, using system call
     int val = system(toFile.c_str());
-    if(val ==0)
+    if(val == 0)
     {
-    Log(lDebug)<<"Compile system call returned: "<<val;
+    	Log(lDebug)<<"Compile system call was succesful";
         return true;
     }
     else
     {
-    Log(lError)<<"Compile system call returned: "<<val;
+	    Log(lError)<<"Compile system call returned: "<<val;
         return false;
     }
 }
 
 #endif //WIN32
-
 string getCompilerMessages()
 {
     return "No messages yet";

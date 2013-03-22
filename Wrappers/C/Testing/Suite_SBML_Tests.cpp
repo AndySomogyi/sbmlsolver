@@ -5,15 +5,13 @@
 #include "rr_c_api.h"
 #include "rrUtils.h"
 #include "rrException.h"
-#include "rrSBMLTestSuiteSimulation_CAPI.h"
+#include "src/rrSBMLTestSuiteSimulation_CAPI.h"
 
 using namespace UnitTest;
 using namespace std;
 using namespace rr;
 
 extern string 	gTSModelsPath;
-extern string   gCompiler;
-extern string   gSupportCodeFolder;
 extern string   gTempFolder;
 extern bool		gDebug;
 

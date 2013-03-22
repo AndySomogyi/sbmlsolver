@@ -9,11 +9,8 @@
         <Projects Include="..\..\ide_builds\xe3\rr_c_api.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\ide_builds\xe3\rr_c.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="..\..\ide_builds\xe3\c_api_tests.cbproj">
-            <Dependencies/>
+            <Dependencies>..\..\ide_builds\xe3\rr_c_api.cbproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -41,32 +38,23 @@
     <Target Name="rr_c_api:Make">
         <MSBuild Projects="..\..\ide_builds\xe3\rr_c_api.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="rr_c">
-        <MSBuild Projects="..\..\ide_builds\xe3\rr_c.cbproj"/>
-    </Target>
-    <Target Name="rr_c:Clean">
-        <MSBuild Projects="..\..\ide_builds\xe3\rr_c.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="rr_c:Make">
-        <MSBuild Projects="..\..\ide_builds\xe3\rr_c.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="c_api_tests">
+    <Target Name="c_api_tests" DependsOnTargets="rr_c_api">
         <MSBuild Projects="..\..\ide_builds\xe3\c_api_tests.cbproj"/>
     </Target>
-    <Target Name="c_api_tests:Clean">
+    <Target Name="c_api_tests:Clean" DependsOnTargets="rr_c_api:Clean">
         <MSBuild Projects="..\..\ide_builds\xe3\c_api_tests.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="c_api_tests:Make">
+    <Target Name="c_api_tests:Make" DependsOnTargets="rr_c_api:Make">
         <MSBuild Projects="..\..\ide_builds\xe3\c_api_tests.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="roadrunner-static;rr_c_api;rr_c;c_api_tests"/>
+        <CallTarget Targets="roadrunner-static;rr_c_api;c_api_tests"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="roadrunner-static:Clean;rr_c_api:Clean;rr_c:Clean;c_api_tests:Clean"/>
+        <CallTarget Targets="roadrunner-static:Clean;rr_c_api:Clean;c_api_tests:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="roadrunner-static:Make;rr_c_api:Make;rr_c:Make;c_api_tests:Make"/>
+        <CallTarget Targets="roadrunner-static:Make;rr_c_api:Make;c_api_tests:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

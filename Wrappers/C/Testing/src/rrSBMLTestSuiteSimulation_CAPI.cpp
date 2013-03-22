@@ -4,6 +4,8 @@
 #include "rrSimulationData.h"
 #include "rrSBMLTestSuiteSimulation_CAPI.h"
 
+using namespace rrc;
+
 extern string gTempFolder;
 extern string gTSModelsPath;
 extern bool gDebug;

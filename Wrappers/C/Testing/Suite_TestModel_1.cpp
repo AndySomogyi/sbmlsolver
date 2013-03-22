@@ -1,10 +1,10 @@
 #include <string>
 #include "rrLogger.h"
-#include "UnitTest++.h"
-#include "rr_c_api.h"
 #include "rrUtils.h"
 #include "rrIniFile.h"
-#include "TestUtils.h"
+#include "UnitTest++.h"
+#include "rr_c_api.h"
+#include "src/TestUtils.h"
 
 //using..
 using namespace std;
@@ -31,7 +31,6 @@ RRHandle gRR = NULL;
 	TEST(DATA_FILES)
 	{
     	gRR 						= createRRInstanceE(gTempFolder.c_str());
-		gTestDataFolder 			= JoinPath(gRRInstallFolder, "testing");
 		string testDataFileName 	= JoinPath(gTestDataFolder, TestDataFileName);
 		clog<<"Checking file: "<<testDataFileName<<endl;
 		CHECK(FileExists(testDataFileName));

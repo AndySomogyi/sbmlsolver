@@ -5,9 +5,9 @@
 #include "unit_test/UnitTest++.h"
 #include "unit_test/XmlTestReporter.h"
 #include "unit_test/TestReporterStdout.h"
-#include "Args.h"
 #include "rr_c_api.h"
 #include "rrGetOptions.h"
+#include "src/Args.h"
 
 using namespace std;
 using namespace rr;
@@ -40,7 +40,8 @@ int main(int argc, char* argv[])
     gTSModelsPath 		= args.ModelsFilePath;
     gTempFolder			= args.TempDataFolder;
 
-	gTestDataFolder     = JoinPath(gRRInstallFolder, "tests");
+	gTestDataFolder  	= JoinPath(gRRInstallFolder, "testing");
+
 
 	setInstallFolder(gRRInstallFolder.c_str());
 
@@ -66,6 +67,9 @@ int main(int argc, char* argv[])
 
 	XmlTestReporter reporter1(aFile);
 	TestRunner runner1(reporter1);
+
+	clog<<"Running Suite CORE_TESTS\n";
+	runner1.RunTestsIf(Test::GetTestList(), "CORE_TESTS", 			True(), 0);
 
 	clog<<"Running Suite TEST_MODEL_1\n";
 	runner1.RunTestsIf(Test::GetTestList(), "TEST_MODEL_1", 			True(), 0);

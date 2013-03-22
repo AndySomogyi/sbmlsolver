@@ -2061,9 +2061,15 @@ C_DECL_SPEC char* rrCallConv getPluginInfo(RRHandle handle, const char* name);
 C_DECL_SPEC bool rrCallConv executePlugin(RRHandle handle, const char* name);
 
 
+///////////////////////////////////////////////////////////////////////////////////
+// TEST UTILITY functions (not to be documented. Only for internal testing
+C_DECL_SPEC bool rrCallConv compileSource(RRHandle handle, const char* sourceFileName);
+
+
 #if defined( __cplusplus)
 }
 }//namespace
+
 #endif
 
 #endif

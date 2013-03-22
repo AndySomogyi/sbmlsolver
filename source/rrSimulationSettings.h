@@ -4,10 +4,9 @@
 #include "rrStringList.h"
 //---------------------------------------------------------------------------
 
-using std::vector;
-
 namespace rr
 {
+using std::vector;
 
 class RR_DECLSPEC SimulationSettings : public rrObject
 {

@@ -54,11 +54,11 @@
         <BCC_Defines>LIBSBML_USE_CPP_NAMESPACE;WIN32;$(BCC_Defines)</BCC_Defines>
         <OutputExt>exe</OutputExt>
         <LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
-        <ILINK_LibraryPath>..\..\source\;..\..\Wrappers\C\Testing\core\;..\..\Wrappers\C\Testing\;core\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\Wrappers\C\Testing\src\;..\..\source\;..\..\Wrappers\C\Testing\core\;..\..\Wrappers\C\Testing\;core\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <PackageImports>vcl.bpi;rtl.bpi;bcbie.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;vclimg.bpi;svnui.bpi;svn.bpi;bdertl.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;vclie.bpi;inet.bpi;inetdb.bpi;webdsnap.bpi;websnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;dbexpress.bpi;DbxCommonDriver.bpi;DbxClientDriver.bpi;AzureCloud.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbxcds.bpi;DuneComponents.bpi;VCLCommon.bpi;$(PackageImports)</PackageImports>
         <NoVCL>true</NoVCL>
         <Multithreaded>true</Multithreaded>
-        <IncludePath>..\..\source\;..\..\Wrappers\C\Testing\core\;..\..\Wrappers\C\Testing\;..\;$(RR_ROOT)\source;$(RR_ROOT)\Wrappers\C;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\Wrappers\C\Testing\src\;..\..\source\;..\..\Wrappers\C\Testing\core\;..\..\Wrappers\C\Testing\;..\;$(RR_ROOT)\source;$(RR_ROOT)\Wrappers\C;$(IncludePath)</IncludePath>
         <AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
         <ProjectType>CppConsoleApplication</ProjectType>
         <_TCHARMapping>char</_TCHARMapping>
@@ -106,7 +106,7 @@
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
         <BCC_MonitorThis>true</BCC_MonitorThis>
         <IncludePath>$(RR_DEBUG)\include\rr-libstruct;$(IncludePath)</IncludePath>
-        <Debugger_RunParams>-mr:\models  -rr:\rrl\reports\cg\xe3\c_tests_debug.xml -tr:\temp\cg_c</Debugger_RunParams>
+        <Debugger_RunParams>-mr:\models  -rr:\rrl\reports\cg\xe3\c_tests_debug.xml -tr:\temp -v</Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -116,27 +116,28 @@
         <Icns_MainIcns>$(BDS)\bin\cbuilder_PROJECTICNS.icns</Icns_MainIcns>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="..\..\source\rrUnresolvedSTDExternals.cpp">
-            <BuildOrder>7</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Wrappers\C\Testing\Args.cpp">
-            <BuildOrder>3</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\Wrappers\C\Testing\main.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\Wrappers\C\Testing\rrSBMLTestSuiteSimulation_CAPI.cpp">
-            <DependentOn>..\..\Wrappers\C\Testing\rrSBMLTestSuiteSimulation_CAPI.h</DependentOn>
+        <CppCompile Include="..\..\Wrappers\C\Testing\src\Args.cpp">
+            <BuildOrder>5</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Wrappers\C\Testing\src\rrSBMLTestSuiteSimulation_CAPI.cpp">
+            <DependentOn>..\..\Wrappers\C\Testing\src\rrSBMLTestSuiteSimulation_CAPI.h</DependentOn>
+            <BuildOrder>3</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Wrappers\C\Testing\src\TestUtils.cpp">
+            <DependentOn>..\..\Wrappers\C\Testing\src\TestUtils.h</DependentOn>
+            <BuildOrder>4</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\Wrappers\C\Testing\Suite_Core_Tests.cpp">
             <BuildOrder>5</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Wrappers\C\Testing\Suite_SBML_Tests.cpp">
-            <BuildOrder>4</BuildOrder>
+            <BuildOrder>6</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Wrappers\C\Testing\Suite_TestModel_1.cpp">
             <BuildOrder>2</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\Wrappers\C\Testing\TestUtils.cpp">
-            <BuildOrder>6</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

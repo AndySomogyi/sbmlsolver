@@ -49,7 +49,6 @@ RoadRunner::RoadRunner(const string& tempFolder, const string& supportCodeFolder
 :
 mUseKinsol(false),
 mDiffStepSize(0.05),
-mUseUUIDForCompilerOutput(false),
 mModelFolder("models"),
 mSteadyStateThreshold(1.E-2),
 mSupportCodeFolder(supportCodeFolder),
@@ -832,6 +831,18 @@ bool RoadRunner::compileCurrentModel()
     Log(lDebug)<<"Model compiled successfully. ";
     Log(lDebug)<<mModelLib.getFullFileName()<<" was created";
     return true;
+}
+
+bool RoadRunner::compileSource(const string& modelSourceCodeName)
+{
+     //Compile the model
+    if(!mCompiler.compileSource(modelSourceCodeName))
+    {
+        Log(lError)<<"Model in source file: \""<<modelSourceCodeName<<"\" failed compilation";
+        return false;
+    }
+
+	return true;
 }
 
 bool RoadRunner::unLoadModel()

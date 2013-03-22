@@ -6,12 +6,11 @@
 #include "rrConstants.h"
 #include "rrExporter.h"
 
+namespace rr
+{
 using std::string;
 using std::list;
 using std::vector;
-
-namespace rr
-{
 
 RR_DECLSPEC char*   createText(const string& str);
 string              RR_DECLSPEC ReplaceWord(const string& str1, const string& str2, const string& theString);

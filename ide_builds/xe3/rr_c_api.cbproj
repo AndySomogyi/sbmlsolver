@@ -119,11 +119,11 @@
         <PCHCompile Include="rr_c_api.cbproj">
             <BuildOrder>0</BuildOrder>
         </PCHCompile>
-        <CppCompile Include="..\..\source\rrUnresolvedSTDExternals.cpp">
-            <BuildOrder>3</BuildOrder>
+        <CppCompile Include="..\..\Wrappers\C\rrc_test_utilities.cpp">
+            <BuildOrder>1</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Wrappers\C\rr_c_api.cpp">
-            <BuildOrder>1</BuildOrder>
+            <BuildOrder>3</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\Wrappers\C\rr_c_api_support.cpp">
             <DependentOn>..\..\Wrappers\C\rr_c_api_support.h</DependentOn>
