@@ -14,43 +14,34 @@ using namespace rr;
 using namespace rr_c_api;
 using namespace UnitTest;
 
-
-string 	gSBMLModelsPath 		= "";
-string 	gCompiler 				= "";
-string 	gSupportCodeFolder 		= "";
 string 	gTempFolder		   		= "";
 string 	gRRInstallFolder 		= "";
 string  gTestDataFolder			= "";
 bool	gDebug			    	= false;
 
-// initialized based on gSBMLModelsPath
-string gTSModelsPath;
+string 	gTSModelsPath;
 
-vector<string> gModels;
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
-
-//RRHandle gRR = NULL;
 
 //call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder"
 int main(int argc, char* argv[])
 {
     enableLoggingToConsole();
+
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
-
-	string reportFile(args.ResultOutputFile);
 
     string thisExeFolder = getCurrentExeFolder();
     clog<<"RoadRunner bin location is: "<<thisExeFolder<<endl;
 
     //Assume(!) this is the bin folder of roadrunner install
-	gRRInstallFolder = getParentFolder(thisExeFolder);	//Go up one folder
+	gRRInstallFolder 	= getParentFolder(thisExeFolder);
     gDebug				= args.EnableLogging;
-    gSBMLModelsPath 	= args.SBMLModelsFilePath;
+    gTSModelsPath 		= args.ModelsFilePath;
     gTempFolder			= args.TempDataFolder;
-    gCompiler	 		= JoinPath(gRRInstallFolder, gCompiler);
-	gSupportCodeFolder 	= JoinPath(gRRInstallFolder, "rr_support");
+
 	gTestDataFolder     = JoinPath(gRRInstallFolder, "tests");
+
 	setInstallFolder(gRRInstallFolder.c_str());
 
     if(gDebug)
@@ -62,9 +53,10 @@ int main(int argc, char* argv[])
     {
       setLogLevel("Error");
     }
-    // set model path (read from cmd line)
-    gTSModelsPath = JoinPath(JoinPath(gSBMLModelsPath, "cases"), "semantic");
+    // set test suite model path (read from cmd line)
+    gTSModelsPath = JoinPath(JoinPath(gTSModelsPath, "cases"), "semantic");
 
+	string reportFile(args.ResultOutputFile);
  	fstream aFile(reportFile.c_str(), ios::out);
     if(!aFile)
     {
@@ -75,10 +67,9 @@ int main(int argc, char* argv[])
 	XmlTestReporter reporter1(aFile);
 	TestRunner runner1(reporter1);
 
-
 	clog<<"Running Suite TEST_MODEL_1\n";
 	runner1.RunTestsIf(Test::GetTestList(), "TEST_MODEL_1", 			True(), 0);
-	
+
 //	clog<<"Running Suite CORE_EXCEPTIONS\n";
 //	runner1.RunTestsIf(Test::GetTestList(), "CORE_EXCEPTIONS", 		True(), 0);
 
@@ -98,7 +89,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     {
         switch (c)
         {
-            case ('m'): args.SBMLModelsFilePath                     = rrOptArg;                       break;
+            case ('m'): args.ModelsFilePath      	               = rrOptArg;                       break;
             case ('r'): args.ResultOutputFile                       = rrOptArg;                       break;
 			case ('t'): args.TempDataFolder        		            = rrOptArg;                       break;
 			case ('v'): args.EnableLogging        		            = true;                       break;

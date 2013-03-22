@@ -10,7 +10,7 @@
 using namespace std;
 Args::Args()
 :
-SBMLModelsFilePath(""),
+ModelsFilePath(""),
 ResultOutputFile(""),
 TempDataFolder("."),
 EnableLogging(false)

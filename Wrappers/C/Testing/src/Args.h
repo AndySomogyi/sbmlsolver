@@ -9,7 +9,7 @@ class Args
     public:
                                         Args();
         virtual                        ~Args(){}
-        string                          SBMLModelsFilePath;                       	//option m:
+        string                          ModelsFilePath;      	                 	//option m:
         string                          ResultOutputFile;                         	//option r:
         string                          TempDataFolder;                           	//option t:
 		bool                            EnableLogging;                    	     	//option v:

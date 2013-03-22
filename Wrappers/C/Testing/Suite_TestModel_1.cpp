@@ -11,11 +11,11 @@ using namespace std;
 using namespace UnitTest;
 using namespace ls;
 using namespace rr_c_api;
+
 using rr::JoinPath;
 using rr::FileExists;
 
 extern string   gTempFolder;
-extern string   gDataOutputFolder;
 extern string 	gTestDataFolder;
 extern string   gRRInstallFolder;
 extern bool 	gDebug;

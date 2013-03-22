@@ -1,8 +1,6 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
 PROJECT(RR_C_API_Tests)
 
-configure_file(run_c_tests.sh.in run_c_tests.sh)
-
 set(target c_api_tests)
 
 set(tests
@@ -15,9 +13,9 @@ Suite_SBML_Tests
 
 add_executable( ${target} 
 main.cpp
-Args.cpp
-TestUtils
-rrSBMLTestSuiteSimulation_CAPI
+src/Args.cpp
+src/TestUtils
+src/rrSBMLTestSuiteSimulation_CAPI
 ${tests}
 )
 
@@ -71,60 +69,10 @@ ${THIRD_PARTY_FOLDER}/unit_test/src
 ${THIRD_PARTY_FOLDER}/rr-libstruct
 )
 
-
-#set(resultsDir "${CMAKE_SOURCE_DIR}/reports")
-#
-#if(${BORLAND})
-#set(resultsFile "${resultsDir}/c_api_tests-cg_xe1.xml")
-#elseif(${MSVC})
-#set(resultsFile "${resultsDir}/c_api_tests-vs_2010.xml")
-#elseif(CMAKE_COMPILER_IS_GNUCC)
-#set(resultsFile "${resultsDir}/c_api_tests-gcc.xml")
-#else()
-#set(resultsFile "${resultsDir}/c_api_tests_unknown_compiler.xml")
-#endif()
-#
-#set(sbmlModelsDir       "${CMAKE_SOURCE_DIR}/models")
-#set(compilerFolder      "${CMAKE_SOURCE_DIR}/ThirdParty/compilers/tcc")
-#set(supportCodeFolder   "/r/rrl/rr_support")
-#
-#if(UNIX)
-#set(compilerFolder     "")
-#endif()
-
-#Message("SupportCodeFolder is: " ${supportCodeFolder})
-# Call like this -mr:\rrl\models -rr:\rrl\wiki\reports\file -tr:\rrTemp -sSupportCodeFolder -lCompilerFolder
-#add_custom_command(
-#    OUTPUT ${resultsFile}
-#    COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} -v
-#    WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
-#    COMMENT "=========== Generating CPP-API Wiki reports =============="
-#    VERBATIM 
-#    )
-#
-#add_custom_target(cppTestingReport ALL DEPENDS ${resulsFile}
-#    COMMAND ${target} -m${sbmlModelsDir} -l${compilerFolder} -s"${supportCodeFolder}" -r${resultsFile} -v 
-#    COMMENT "=========== Generating CPP-API Wiki reports =============="
-#    COMMENT "Executing ${target} -m${sbmlModelsDir} -l${compilerFolder} -s${supportCodeFolder} -r${resultsFile} -v"
-#
-#)
-
 install (TARGETS ${target}  		
-DESTINATION bin 
-COMPONENT testing
+DESTINATION bin COMPONENT testing
 )
 
-install(
-FILES run_c_tests.bat 
-DESTINATION bin
-COMPONENT testing
-)
 
-install(
-FILES ${CMAKE_CURRENT_BINARY_DIR}/run_c_tests.sh
-DESTINATION bin
-COMPONENT testing
-PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE 
-)
 
 

@@ -17,9 +17,7 @@ rr::TestSuiteModelSimulation(dataOutputFolder, modelFilePath, modelFileName)
 }
 
 SBMLTestSuiteSimulation_CAPI::~SBMLTestSuiteSimulation_CAPI()
-{
-
-}
+{}
 
 void SBMLTestSuiteSimulation_CAPI::UseHandle(RRHandle handle)
 {
