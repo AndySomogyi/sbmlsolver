@@ -33,9 +33,9 @@ endif()
 
 target_link_libraries (${target} 
 rr_c_api
-roadrunner-static
+#roadrunner-static
 unit_test-static
-rr-libstruct-static
+#rr-libstruct-static
 )
 
 if(UNIX)
@@ -44,14 +44,14 @@ target_link_libraries (${target}
 #libunit_test-static${staticLibPrefix}
 #nleq-static.a
 #rr-libstruct-static
-#lapack
-#blas
-#f2c
+lapack
+blas
+f2c
 #libsbml-static.a
 #libxml2.so
 #sundials_nvecserial.a
 #sundials_cvode.a
-#pthread
+pthread
 #poco_foundation-static.a
 #pugi-static.a
 #dl

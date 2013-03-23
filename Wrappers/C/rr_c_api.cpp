@@ -607,6 +607,7 @@ bool rrCallConv loadSBMLFromFileE(RRHandle _handle, const char* fileName, bool f
 
 RRJobHandle rrCallConv loadSBMLFromFileJob(RRHandle rrHandle, const char* fileName)
 {
+
 	try
     {
         //Check if file exists first

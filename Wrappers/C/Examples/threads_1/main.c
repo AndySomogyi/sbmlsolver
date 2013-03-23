@@ -15,6 +15,8 @@ int main()
     double val;
 	char* modelFileName = "../models/test_1.xml";
    	char  buf[2048];
+    char dataFile[1024];
+    char msg[1024];
 	// -------------------------------------------------------------
 
 	printf("Starting C program...\n");
@@ -45,7 +47,7 @@ int main()
 
     //waitForJob will block until the thread haa finished
 	//Instead, one can could check for activeJob, i.e. non blocking (see below)
-    waitForJob(jobHandle);
+   waitForJob(jobHandle);
 
     //Set parameters
     logMsg(clInfo, " ---------- SETTING PARAMETERS -------------");
@@ -67,8 +69,12 @@ int main()
 
     waitForJob(jobHandle);
 
-  	//Write data to a file
-	writeRRData(rrHandle, "oneJobData.dat");
+ 	//Write data to a file
+    strcpy(dataFile, "oneJobData.dat");
+    strcat(msg,"Writing data to file: ");
+    strcat(msg, dataFile);
+    logMsg(clInfo, msg);
+    writeRRData(rrHandle, dataFile);
 
 	// Cleanup
     freeRRInstance(rrHandle);

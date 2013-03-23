@@ -18,14 +18,24 @@ int main(int argc, char** argv)
         gLog.SetCutOffLogLevel(lInfo);
 		string tmpFolder = JoinPath(rootPath, "temp");
 
-        const string modelFile = JoinPath(rootPath, "models", "feedback.xml");
-        const string modelLib  = JoinPath(rootPath, "temp", "feedback.dll");
+        const string modelFile = JoinPath(rootPath, "models", "test_1.xml");
+
+#if defined(WIN32)
+        const string modelLib  = JoinPath(rootPath, "temp", "test_1.dll");
+#else
+        const string modelLib  = JoinPath(rootPath, "temp", "test_1.so");
+#endif
+        
 
         //Load modelFiles..
-        Log(lInfo)<<" ---------- LOADING/GENERATING MODELS ------";
+        Log(lInfo)<<" ---------- LOADING/GENERATING MODEL: "<<modelFile;
 
-		RoadRunner rr1;
-		rr1.loadSBMLFromFile(modelFile);	//This will generate a model DLL
+		RoadRunner rr1(tmpFolder);
+        if(!rr1.loadSBMLFromFile(modelFile))	//This will generate a model DLL
+        {
+            Log(lError)<<"Failed to create model DLL....";
+            return -1;
+        }
 
 		ModelSharedLibrary lib;
 		

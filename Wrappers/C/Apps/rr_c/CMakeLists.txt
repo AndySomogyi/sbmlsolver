@@ -1,12 +1,10 @@
 cmake_minimum_required(VERSION 2.8)
 set(target rr_c)
-set(rrSrc "../../../../source")
 
 add_executable(${target} 
 main.cpp 
 Args.cpp
 GetOptions.cpp
-#//${rrSrc}/rrUtils.cpp
 )
 
 add_definitions(
@@ -21,8 +19,6 @@ add_definitions(
 
 target_link_libraries (${target} 
 rr_c_api
-roadrunner-static
-poco_foundation-static
 )
 
 #Not sure why linux linker need all libraries at linktime?? All symbols 'should' be in roadrunner-static
@@ -40,6 +36,5 @@ endif()
 
 install(    
 TARGETS ${target} 		
-DESTINATION bin 
-COMPONENT apps
+DESTINATION bin COMPONENT apps
 )

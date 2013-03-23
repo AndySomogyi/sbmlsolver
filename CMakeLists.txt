@@ -89,13 +89,16 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY 	${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY 	${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY 	${PROJECT_BINARY_DIR}/bin)
 
-include_directories(				${RR_ROOT}
-				                    ${THIRD_PARTY_FOLDER})
+include_directories(
+${RR_ROOT}
+${THIRD_PARTY_FOLDER}
+)
 
-link_directories(				    ${LIBRARY_OUTPUT_PATH}
-                                    ${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib
-                                    ${THIRD_PARTY_INSTALL_FOLDER}/lib
-                 )
+link_directories(
+${LIBRARY_OUTPUT_PATH}
+${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib
+${THIRD_PARTY_INSTALL_FOLDER}/lib
+)
 
 if(${MSVC})
 add_definitions(
@@ -120,12 +123,12 @@ endif()
 if(${BORLAND})
 link_directories(${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib)
 add_definitions(
-                                -DUSE_PCH                   #Enable pre-compiled headers
-                                -H=${PROJECT_BINARY_DIR}/rr_pch.csm
-                                -w-8012                     #Comparing signed /unsigned
-                                -w-8057                     #Parameter never used
-                                -w-8004                     #'var' is assigned a value that is never used
-        )
+-DUSE_PCH                   #Enable pre-compiled headers
+-H=${PROJECT_BINARY_DIR}/rr_pch.csm
+-w-8012                     #Comparing signed /unsigned
+-w-8057                     #Parameter never used
+-w-8004                     #'var' is assigned a value that is never used
+)
 endif()
 
 if(UNIX)

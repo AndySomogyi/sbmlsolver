@@ -5,7 +5,19 @@ add_executable( ${target}
 main.c
 )
 
-target_link_libraries (${target} rr_c_api)
+target_link_libraries (${target} 
+rr_c_api)
+
+#if(LINUX)
+target_link_libraries (${target} 
+blas
+lapack
+f2c
+pthread
+)
+
+
+#endif()
 
 install(
 TARGETS ${target} 		

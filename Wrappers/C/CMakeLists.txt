@@ -32,16 +32,16 @@ LIBLAX_STATIC
 STATIC_PUGI
 POCO_STATIC
 STATIC_LIBSTRUCT
-STATIC_RR             #when linking with static lib, no declspec shuld be present..
+STATIC_RR             
 )
 
 target_link_libraries ( ${target}
- roadrunner-static
- )
-else() #failing to link to static roadrunner on linux... :(
+roadrunner-static
+)
+
+else() #===== LINUX ====== 
 set_property(TARGET ${target} 
 PROPERTY  COMPILE_DEFINITIONS 
-EXPORT_RR_C_API
 LIBSBML_STATIC
 LIBLAX_STATIC
 STATIC_PUGI
@@ -66,14 +66,15 @@ if(BUILD_TESTS)
 endif()
 
 #=============== INSTALL =====================
-install(   FILES ${target}.h rr_c_types.h rr_c_api_exporter.h				 					
-           DESTINATION include/c_api  	
-           COMPONENT c_api)
+install(
+FILES ${target}.h rr_c_types.h rr_c_api_exporter.h				 					
+DESTINATION include/c_api COMPONENT c_api
+)
 
 install(   
-           TARGETS ${target}
-           RUNTIME DESTINATION bin COMPONENT c_api
-           ARCHIVE DESTINATION lib COMPONENT c_api
-           LIBRARY DESTINATION lib COMPONENT c_api
+TARGETS ${target}
+RUNTIME DESTINATION bin COMPONENT c_api
+ARCHIVE DESTINATION lib COMPONENT c_api
+LIBRARY DESTINATION lib COMPONENT c_api
 )
 

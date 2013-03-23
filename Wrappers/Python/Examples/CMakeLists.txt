@@ -9,7 +9,6 @@ simulateExSelectionList.py
 #simulateSelectionList.py
 rrThreads_1.py
 rrThreads_2.py
-rrTestCompiler.py
 )
 
 install(    

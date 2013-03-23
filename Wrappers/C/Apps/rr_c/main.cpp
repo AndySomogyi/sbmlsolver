@@ -1,7 +1,3 @@
-//#pragma hdrstop
-#if defined(_WIN32) || defined(WIN32)
-#include <windows.h>
-#endif
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -104,7 +100,7 @@ int main(int argc, char* argv[])
     }
 	else if(args.ModelFileName.size() == 0)
 	{
-        cerr<<"Please supply a sbml model file name, using option -m<modelfilename>";
+        cerr<<"Please supply a sbml model file name.";
         doMore = false;
 	}
 
@@ -266,6 +262,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     if(argc < 2)
     {
         cout<<Usage(argv[0])<<endl;
+        cout<<"Exiting...\n";
         exit(0);
     }
 }

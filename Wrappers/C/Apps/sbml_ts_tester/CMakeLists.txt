@@ -20,8 +20,8 @@ add_definitions(
 
 target_link_libraries (${target} 
 rr_c_api
-roadrunner-static
-poco_foundation-static
+#roadrunner-static
+#poco_foundation-static
 )
 
 #Not sure why linux linker need all libraries at linktime?? All symbols 'should' be in roadrunner-static
