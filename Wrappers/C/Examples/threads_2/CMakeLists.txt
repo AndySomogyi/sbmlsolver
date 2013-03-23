@@ -8,7 +8,7 @@ main.c
 target_link_libraries (${target} 
 rr_c_api)
 
-#if(LINUX)
+if(LINUX)
 target_link_libraries (${target} 
 blas
 lapack
@@ -17,7 +17,7 @@ pthread
 )
 
 
-#endif()
+endif()
 
 install(
 TARGETS ${target} 		

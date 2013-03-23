@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <io.h>
 #include <conio.h>
+#include "Strsafe.h" //StringCchPrintf
 #endif
 
 #if defined(__BORLANDC__)
