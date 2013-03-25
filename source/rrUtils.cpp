@@ -7,7 +7,7 @@
 #include <windows.h>
 #include <io.h>
 #include <conio.h>
-#include "Strsafe.h" //StringCchPrintf
+
 #endif
 
 #if defined(__BORLANDC__)
@@ -20,6 +20,7 @@
 #include <limits.h>  //PATH_MAX
 #endif
 
+
 #include <algorithm>
 #include <iostream>
 #include <fstream>
@@ -27,6 +28,10 @@
 #include <cmath>
 #include <math.h>
 #include <float.h>
+#if defined(WIN32)
+#include <strsafe.h> //StringCchPrintf need to be included AFTER all other system headers :(
+#endif
+
 #include "Poco/Thread.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"

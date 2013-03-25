@@ -26,8 +26,4 @@ if val == True:
 else:
     print "There was a problem compiling a simple C program."
 
-
-
-
-
 print "done"

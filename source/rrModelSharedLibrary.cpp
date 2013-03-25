@@ -81,23 +81,30 @@ string ModelSharedLibrary::getFullFileName()
 
 string ModelSharedLibrary::createName(const string& baseName)
 {
-
+	string newName;
 	if(!baseName.size())
     {
 		//Create  a new UUID
 		UUIDGenerator& generator = UUIDGenerator::defaultGenerator();
 		UUID uuid2(generator.createRandom());
-    	mLibName = uuid2.toString();
+    	newName = uuid2.toString();
     }
     else
     {
-    	mLibName = baseName;
+    	newName = baseName;
     }
 #if defined(WIN32)
-    mLibName.append(".dll");
+    newName.append(".dll");		//Poco suffix adds "d.dll" in debug mode :(
 #else
-	mLibName.append(mTheLib.suffix());
+	newName.append(mTheLib.suffix());
 #endif
+
+    if(newName != mLibName && isLoaded())
+    {
+    	//Unload the "old" model dll
+        unload();
+    }
+    mLibName = newName;
 	return mLibName;
 }
 

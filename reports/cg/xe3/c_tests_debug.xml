@@ -1,50 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="api_tests.xsl" type="text/xsl" ?>
-<unittest-results date_time = "2013-03-22 12:55:00" tests="46" failedtests="1" failures="4" time="25.407">
-<test suite="CORE_TESTS" name="COMPILER" time="22.586"/>
-<test suite="TEST_MODEL_1" name="DATA_FILES" time="0.973"/>
-<test suite="TEST_MODEL_1" name="SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS" time="0.784"/>
-<test suite="TEST_MODEL_1" name="SET_STEADY_STATE_SELECTION_LIST" time="0"/>
-<test suite="TEST_MODEL_1" name="GET_STEADY_STATE_SELECTION_LIST" time="0"/>
-<test suite="TEST_MODEL_1" name="COMPUTE_STEADY_STATE" time="0"/>
-<test suite="TEST_MODEL_1" name="SPECIES_CONCENTRATIONS" time="0.017"/>
-<test suite="TEST_MODEL_1" name="FLUXES" time="0.014"/>
-<test suite="TEST_MODEL_1" name="FULL_JACOBIAN" time="0"/>
-<test suite="TEST_MODEL_1" name="INDIVIDUAL_EIGENVALUES" time="0.021"/>
-<test suite="TEST_MODEL_1" name="GET_EIGENVALUE_MATRIX" time="0.791"/>
-<test suite="TEST_MODEL_1" name="STOICHIOMETRY_MATRIX" time="0.009"/>
-<test suite="TEST_MODEL_1" name="LINK_MATRIX" time="0.008"/>
-<test suite="TEST_MODEL_1" name="UNSCALED_ELASTICITY_MATRIX" time="0.012"/>
-<test suite="TEST_MODEL_1" name="SCALED_ELASTICITY_MATRIX" time="0.015"/>
-<test suite="TEST_MODEL_1" name="UNSCALED_CONCENTRATION_CONTROL_MATRIX" time="0.029"/>
-<test suite="TEST_MODEL_1" name="SCALED_CONCENTRATION_CONTROL_MATRIX" time="0.029"/>
-<test suite="TEST_MODEL_1" name="UNSCALED_FLUX_CONTROL_MATRIX" time="0.036"/>
-<test suite="TEST_MODEL_1" name="SCALED_FLUX_CONTROL_MATRIX" time="0.025"/>
-<test suite="TEST_MODEL_1" name="FLOATING_SPECIES_IDS" time="0"/>
-<test suite="TEST_MODEL_1" name="BOUNDARY_SPECIES_IDS" time="0"/>
-<test suite="TEST_MODEL_1" name="GLOBAL_PARAMETER_IDS" time="0"/>
-<test suite="TEST_MODEL_1" name="COMPARTMENT_IDS" time="0"/>
-<test suite="TEST_MODEL_1" name="REACTION_IDS" time="0"/>
-<test suite="TEST_MODEL_1" name="SPECIES_INITIAL_CONDITION_IDS" time="0"/>
-<test suite="TEST_MODEL_1" name="GET_EIGENVALUE_IDS" time="0"/>
-<test suite="TEST_MODEL_1" name="GET_RATES_OF_CHANGE_IDS" time="0"/>
-<test suite="TEST_MODEL_1" name="SET_STEADY_STATE_SELECTION_LIST_2" time="0"/>
-<test suite="TEST_MODEL_1" name="GET_STEADY_STATE_SELECTION_LIST_2" time="0"/>
-<test suite="TEST_MODEL_1" name="SET_TIME_COURSE_SELECTION_LIST" time="0"/>
-<test suite="TEST_MODEL_1" name="GET_TIME_COURSE_SELECTION_LIST" time="0"/>
-<test suite="TEST_MODEL_1" name="COMPUTE_STEADY_STATE_VALUES" time="0.002"/>
-<test suite="TEST_MODEL_1" name="FLOATING_SPECIES_CONCENTRATIONS" time="0.003"/>
-<test suite="TEST_MODEL_1" name="BOUNDARY_SPECIES_CONCENTRATIONS" time="0.002"/>
-<test suite="TEST_MODEL_1" name="GET_GLOBABL_PARAMETER_VALUES" time="0.009"/>
-<test suite="TEST_MODEL_1" name="GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS" time="0.002"/>
-<test suite="TEST_MODEL_1" name="GET_REACTION_RATES" time="0.004"/>
-<test suite="TEST_MODEL_1" name="GET_REACTION_RATE_BY_INDEX" time="0.004"/>
-<test suite="TEST_MODEL_1" name="NUMBER_OF_DEPENDENT_SPECIES" time="0"/>
-<test suite="TEST_MODEL_1" name="NUMBER_OF_INDEPENDENT_SPECIES" time="0"/>
-<test suite="TEST_MODEL_1" name="NUMBER_OF_RULES" time="0"/>
-<test suite="TEST_MODEL_1" name="GET_RATES_OF_CHANGE" time="0.002"/>
-<test suite="TEST_MODEL_1" name="GET_REACTION_RATES_EX" time="0.004"><failure message="Suite_TestModel_1.cpp(1419) : Expected 0.05 +/- 1e-06 but was 0.0715153"/><failure message="Suite_TestModel_1.cpp(1419) : Expected -0.051 +/- 1e-06 but was 0.0715153"/><failure message="Suite_TestModel_1.cpp(1419) : Expected 1.02 +/- 1e-06 but was 0.0715153"/><failure message="Suite_TestModel_1.cpp(1419) : Expected 1.1 +/- 1e-06 but was 0.0715153"/></test>
-<test suite="TEST_MODEL_1" name="GET_RATES_OF_CHANGE_EX" time="0.002"/>
-<test suite="TEST_MODEL_1" name="GET_RATE_OF_CHANGE_BY_INDEX" time="0.004"/>
-<test suite="TEST_MODEL_1" name="FREE_RR_INSTANCE" time="0"/>
+<unittest-results date_time = "2013-03-25 12:13:57" tests="4" failedtests="0" failures="0" time="0.43">
+<test suite="CORE_TESTS" name="COMPILER" time="0.039"/>
+<test suite="CORE_TESTS" name="RELOADING_MODEL_MODEL_RECOMPILIATION" time="0.146"/>
+<test suite="CORE_TESTS" name="RELOADING_MODEL_NO_MODEL_RECOMPILIATION" time="0.105"/>
+<test suite="CORE_TESTS" name="LOADING_MODEL_MULTIPLE_INSTANCES" time="0.138"/>
 </unittest-results>

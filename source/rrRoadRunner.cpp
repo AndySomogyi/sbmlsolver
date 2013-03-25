@@ -698,29 +698,41 @@ bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
     	//Can't have multiple threads compiling to the same dll at the same time..
         if(!FileExists(mModelLib.getFullFileName()) || forceReCompile == true)
         {
-
             if(!compileModel())
             {
                 Log(lError)<<"Failed to generate and compile model";
+                return false;
+            }
+
+            if(!mModelLib.load())
+            {
+                Log(lError)<<"Failed to load model DLL";
                 return false;
             }
         }
         else
         {
             Log(lDebug)<<"Model compiled files already generated.";
+            if(!mModelLib.isLoaded())
+            {
+                if(!mModelLib.load())
+                {
+                    Log(lError)<<"Failed to load model DLL";
+                    return false;
+                }
+            }
+            else
+            {
+				Log(lDebug)<<"Model lib is already loaded.";
+            }
         }
 
-	}//End of scope for Mutex
+	}//End of scope for compile Mutex
     catch(const Exception& ex)
     {
     	Log(lError)<<"Compiler problem: "<<ex.what();
     }
 
-    if(!mModelLib.load()) //The model may already be loaded, in which case the load still returns true;
-    {
-        Log(lError)<<"Failed to load model DLL";
-        return false;
-    }
 
     createModel();
 
@@ -732,7 +744,6 @@ bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
     }
 
     createDefaultSelectionLists();
-
     return true;
 }
 
