@@ -143,7 +143,7 @@ bool Compiler::setupCompilerEnvironment()
 
         mCompilerFlags.push_back("-fPIC"); // shared lib
         mCompilerFlags.push_back("-O0"); // turn off optimization
-        
+
         //LogLevel                              //-v is for verbose
         if(ExtractFileNameNoExtension(mCompilerName) == "tcc")
         {
@@ -350,8 +350,9 @@ bool Compiler::compile(const string& cmdLine)
 bool Compiler::compile(const string& cmdLine)
 {
     string toFile(cmdLine);
-    toFile += " 2>&1 >> ";
+    toFile += " >> ";
     toFile += JoinPath(mOutputPath, "compilation.log");
+    toFile += " 2>&1";
 
     Log(lDebug)<<"Compiler command: "<<toFile;
 
