@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet href="api_tests.xsl" type="text/xsl" ?>
-<unittest-results date_time = "2013-03-25 12:13:57" tests="4" failedtests="0" failures="0" time="0.43">
-<test suite="CORE_TESTS" name="COMPILER" time="0.039"/>
-<test suite="CORE_TESTS" name="RELOADING_MODEL_MODEL_RECOMPILIATION" time="0.146"/>
-<test suite="CORE_TESTS" name="RELOADING_MODEL_NO_MODEL_RECOMPILIATION" time="0.105"/>
-<test suite="CORE_TESTS" name="LOADING_MODEL_MULTIPLE_INSTANCES" time="0.138"/>
+<unittest-results date_time = "2013-03-25 18:12:28" tests="6" failedtests="0" failures="0" time="0.588">
+<test suite="CORE_TESTS" name="COMPILER" time="0.037"/>
+<test suite="CORE_TESTS" name="RELOADING_MODEL_MODEL_RECOMPILIATION" time="0.139"/>
+<test suite="CORE_TESTS" name="RELOADING_MODEL_NO_MODEL_RECOMPILIATION" time="0.098"/>
+<test suite="CORE_TESTS" name="LOADING_MODEL_MULTIPLE_INSTANCES" time="0.186"/>
+<test suite="CORE_TESTS" name="PARSING_MODEL_XML" time="0.043"/>
+<test suite="CORE_TESTS" name="GENERATING_MODEL_HASH" time="0.081"/>
 </unittest-results>

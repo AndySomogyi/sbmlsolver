@@ -70,7 +70,8 @@ DOMBuilder::DOMBuilder(XMLReader& xmlReader, NamePool* pNamePool):
 {
 	_xmlReader.setContentHandler(this);
 	_xmlReader.setDTDHandler(this);
-	_xmlReader.setProperty(XMLReader::PROPERTY_LEXICAL_HANDLER, static_cast<LexicalHandler*>(this));
+	//_xmlReader.setProperty(XMLReader::PROPERTY_LEXICAL_HANDLER, static_cast<LexicalHandler*>(this)); //Changed by MTK
+	_xmlReader.setProperty(XMLReader::PROPERTY_LEXICAL_HANDLER, dynamic_cast<LexicalHandler*>(this));
 
 	if (_pNamePool) _pNamePool->duplicate();
 }

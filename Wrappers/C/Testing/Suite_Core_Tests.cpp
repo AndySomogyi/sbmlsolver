@@ -1,7 +1,18 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 #include "Poco/File.h"
+#include "Poco/DOM/ProcessingInstruction.h"
+#include "Poco/DOM/DOMParser.h"
+#include "Poco/DOM/AutoPtr.h"
+#include "Poco/DOM/Document.h"
+#include "Poco/DOM/NodeIterator.h"
+#include "Poco/DOM/NodeFilter.h"
+#include "Poco/DOM/DOMWriter.h"
+#include "Poco/DOM/TreeWalker.h"
+#include "Poco/SAX/InputSource.h"
+#include "Poco/MD5Engine.h"
 #include "UnitTest++.h"
 #include "rr_c_api.h"
 #include "rrUtils.h"
@@ -12,10 +23,16 @@ using namespace std;
 using namespace rr;
 using namespace rr_c_api;
 using namespace Poco;
+using namespace Poco::XML;
+
+//using namespace Poco::XML::NodeFilter;
+
 
 extern string   gTempFolder;
 extern string   gTestDataFolder;
 extern bool		gDebug;
+
+string getListOfReactionsText(const string& fName);
 
 SUITE(CORE_TESTS)
 {
@@ -66,8 +83,6 @@ SUITE(CORE_TESTS)
     	RRHandle aRR2 		  		= createRRInstanceE(gTempFolder.c_str());
 		string TestModelFileName 	= JoinPath(gTestDataFolder, "Test_1.xml");
 
-		CHECK(FileExists(TestModelFileName));
-
 		CHECK(loadSBMLFromFileE(aRR1, TestModelFileName.c_str(), true));
 		CHECK(loadSBMLFromFileE(aRR2, TestModelFileName.c_str(), true));
 
@@ -75,12 +90,57 @@ SUITE(CORE_TESTS)
         CHECK(loadSBMLFromFileE(aRR1, TestModelFileName.c_str(), false));
         CHECK(loadSBMLFromFileE(aRR2, TestModelFileName.c_str(), false));
 
-
         freeRRInstance(aRR1);
         freeRRInstance(aRR2);
     }
 
+    TEST(PARSING_MODEL_XML)
+    {
+    	string modelXML = getListOfReactionsText(JoinPath(gTestDataFolder, "Test_1.xml").c_str());
+        CHECK(modelXML.size() > 0);
+    }
+
+    TEST(GENERATING_MODEL_HASH)
+    {
+        string content = getListOfReactionsText(JoinPath(gTestDataFolder, "Test_1.xml"));
+        MD5Engine md5;
+        md5.update(content);
+		string digestString(Poco::DigestEngine::digestToHex(md5.digest()));
+        clog<<digestString;
+		CHECK_EQUAL("8b0f11b35815fd421d32ab98750576ef", digestString);
+    }
 }
+
+string getListOfReactionsText(const string& fName)
+{
+		ifstream in(JoinPath(gTestDataFolder, "Test_1.xml").c_str());
+        InputSource src(in);
+        DOMParser parser;
+        AutoPtr<Document> pDoc = parser.parse(&src);
+		TreeWalker it(pDoc, Poco::XML::NodeFilter::SHOW_ALL);
+
+        Node* pNode = it.nextNode();
+		string result;
+        while(pNode)
+        {
+			clog<<pNode->nodeName()<<endl;
+            string nodeID = "listOfReactions";
+        	if(ToUpper(pNode->nodeName()) == ToUpper(nodeID))
+            {
+            	DOMWriter aWriter;
+                stringstream xml;
+                aWriter.writeNode(xml, pNode);
+                result = xml.str();
+                break;
+            }
+            pNode = it.nextNode();
+        }
+
+		result.erase( std::remove_if( result.begin(), result.end(), ::isspace ), result.end() );
+		return result;
+}
+
+
 
 
 

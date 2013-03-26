@@ -13,3 +13,4 @@ add_definitions(
 endif()
 
 add_subdirectory(Foundation)
+add_subdirectory(XML)

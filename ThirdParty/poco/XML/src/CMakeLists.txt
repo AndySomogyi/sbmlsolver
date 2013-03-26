@@ -1,157 +1,84 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
-project(poco_foundation_src)
+project(poco_xml_src)
+set(target poco_xml) 
 
 # Option that allows users to build static and/or shared libraries
 # ----------------------------------------------------------------
 OPTION(POCO_BUILD_STATIC_LIBS "Build static libraries" ON)
 OPTION(POCO_BUILD_SHARED_LIBS "Build shared libraries" OFF)
-set(target poco_foundation) 
-
-set(poco_include_folder ${CMAKE_CURRENT_SOURCE_FOLDER}../include)
 
 set(sources 
-ASCIIEncoding
-Ascii
-AtomicCounter
-AbstractObserver
-ActiveDispatcher
-ArchiveStrategy
-AsyncChannel
-Base64Decoder
-Base64Encoder
-BinaryReader
-BinaryWriter
-Bugcheck
-ByteOrder
-Channel
-Checksum
-Condition
-Configurable
-ConsoleChannel
-CountingStream
-DateTime
-DateTimeFormat
-DateTimeFormatter
-DateTimeParser
-Debugger
-DeflatingStream
-DigestEngine
-DigestStream
-DirectoryIterator
-Environment
+AbstractContainerNode
+AbstractNode
+Attr
+AttrMap
+Attributes
+AttributesImpl
+CDATASection
+CharacterData
+ChildNodesList
+Comment
+ContentHandler
+DOMBuilder
+DOMException
+DOMImplementation
+DOMObject
+DOMParser
+DOMSerializer
+DOMWriter
+DTDHandler
+DTDMap
+DeclHandler
+DefaultHandler
+Document
+DocumentEvent
+DocumentFragment
+DocumentType
+Element
+ElementsByTagNameList
+Entity
+EntityReference
+EntityResolver
+EntityResolverImpl
 ErrorHandler
 Event
-EventArgs
-Exception
-FPEnvironment
-File
-#FIFOBufferStream
-FileChannel
-FileStream
-FileStreamFactory
-Format
-Formatter
-FormattingChannel
-Glob
-Hash
-HashStatistic
-HexBinaryDecoder
-HexBinaryEncoder
-InflatingStream
-Latin1Encoding
-#Latin2Encoding
-Latin9Encoding
-LineEndingConverter
-LocalDateTime
-LogFile
-LogStream
-Logger
-LoggingFactory
-LoggingRegistry
-MD4Engine
-MD5Engine
-Manifest
-MemoryPool
-MemoryStream
-Message
-Mutex
-NamedEvent
-NamedMutex
-NestedDiagnosticContext
-Notification
-NotificationCenter
-NotificationQueue
-TimedNotificationQueue
-PriorityNotificationQueue
-NullChannel
-NullStream
-NumberFormatter
-NumberParser
-Path
-PatternFormatter
-Pipe
-PipeImpl
-PipeStream
-Process
-PurgeStrategy
-RWLock
-Random
-RandomStream
-RefCountedObject
-RegularExpression
-RotateStrategy
-Runnable
-SHA1Engine
-Semaphore
-SharedLibrary
-SharedMemory
-SignalHandler
-SimpleFileChannel
-SplitterChannel
-Stopwatch
-StreamChannel
-StreamConverter
-StreamCopier
-StreamTokenizer
-String
-StringTokenizer
-SynchronizedObject
-Task
-TaskManager
-TaskNotification
-TeeStream
-TemporaryFile
-TextConverter
-TextEncoding
-TextIterator
-TextBufferIterator
-Thread
-ThreadTarget
-ThreadLocal
-ThreadPool
-Timer
-Timespan
-Timestamp
-Timezone
-Token
-URI
-URIStreamFactory
-URIStreamOpener
-Unicode
-UnicodeConverter
-UTF8Encoding
-UTF16Encoding
-Windows1252Encoding
-TextEncoding
-Environment
-UUID
-UUIDGenerator
-Void
-deflate.c
-zutil.c
-adler32.c
-crc32.c
-trees.c
+EventDispatcher
+EventException
+EventListener
+EventTarget
+InputSource
+LexicalHandler
+Locator
+LocatorImpl
+MutationEvent
+Name
+NamePool
+NamedNodeMap
+NamespaceStrategy
+NamespaceSupport
+Node
+NodeFilter
+NodeIterator
+NodeList
+Notation
+ParserEngine
+ProcessingInstruction
+SAXException
+SAXParser
+Text
+TreeWalker
+WhitespaceFilter
+XMLException
+XMLFilter
+XMLFilterImpl
+XMLReader
+XMLString
+XMLWriter
+NodeAppender
+xmlparse
+xmlrole
+xmltok
+
 )
 
 if(${BORLAND})
@@ -166,6 +93,8 @@ add_definitions(
         )
 add_definitions( -D_WIN32)
 endif()
+
+add_definitions( -D_WIN32 -DXML_NS -DXML_DTD -DHAVE_EXPAT_CONFIG_H)
 
 #if(CMAKE_SYSTEM MATCHES "Windows")
 # 
@@ -189,8 +118,10 @@ if(${MSVC})
 #set(....
 endif()
 
+
 include_directories(
-${poco_include_folder}
+../../Foundation/include
+../../XML/include
 )
 #add_library(${target} SHARED ${sources})
 #
@@ -210,26 +141,33 @@ set_property(TARGET ${target}-static
 
 if(WIN32)
 set_property(TARGET ${target}-static  
-             PROPERTY  COMPILE_DEFINITIONS 
-                       WIN32
-             ) 
+PROPERTY  COMPILE_DEFINITIONS 
+WIN32
+) 
 
 endif()
 
 #INSTALLING ======================
-FILE (GLOB headers ${poco_include_folder}/Poco/*.h)
+set(poco_xml_include_folder ${CMAKE_CURRENT_SOURCE_FOLDER}../include/Poco/XML)
+set(poco_dom_include_folder ${CMAKE_CURRENT_SOURCE_FOLDER}../include/Poco/DOM)
+set(poco_sax_include_folder ${CMAKE_CURRENT_SOURCE_FOLDER}../include/Poco/SAX)
+
+FILE (GLOB xml_headers ${poco_xml_include_folder}/*.h)
+FILE (GLOB dom_headers ${poco_dom_include_folder}/*.h)
+FILE (GLOB sax_headers ${poco_sax_include_folder}/*.h)
 
 #Install required files
-install(FILES ${headers} 
-DESTINATION include/Poco
-)
+install(FILES ${xml_headers} DESTINATION include/Poco/XML)
+install(FILES ${dom_headers} DESTINATION include/Poco/DOM)
+install(FILES ${sax_headers} DESTINATION include/Poco/SAX)
 
 #install(TARGETS ${target} 
 #        LIBRARY DESTINATION lib 
 #        ARCHIVE DESTINATION lib
 #        RUNTIME DESTINATION bin)
-#
+
 install(TARGETS ${target}-static 
-        LIBRARY DESTINATION lib 
-        ARCHIVE DESTINATION lib)
+LIBRARY DESTINATION lib 
+ARCHIVE DESTINATION lib
+)
 
