@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <fstream>
 #include "rrLogger.h"
@@ -74,8 +75,8 @@ int main(int argc, char* argv[])
 	clog<<"Running Suite TEST_MODEL_1\n";
 	runner1.RunTestsIf(Test::GetTestList(), "TEST_MODEL_1", 			True(), 0);
 
-//	clog<<"Running Suite CORE_EXCEPTIONS\n";
-//	runner1.RunTestsIf(Test::GetTestList(), "CORE_EXCEPTIONS", 		True(), 0);
+////	clog<<"Running Suite CORE_EXCEPTIONS\n";
+////	runner1.RunTestsIf(Test::GetTestList(), "CORE_EXCEPTIONS", 		True(), 0);
 
 	clog<<"Running Suite SBML_l2v4\n";
     clog<<"ModelPath "<<gTSModelsPath;
@@ -141,6 +142,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 #pragma comment(lib, "lapack")
 #pragma comment(lib, "nleq-static")
 #pragma comment(lib, "poco_foundation-static.lib")
+#pragma comment(lib, "poco_xml-static.lib")
 #pragma comment(lib, "rr-libstruct-static.lib")
 #pragma comment(lib, "unit_test-static.lib")
 #endif

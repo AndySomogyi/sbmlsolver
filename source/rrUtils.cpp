@@ -20,7 +20,6 @@
 #include <limits.h>  //PATH_MAX
 #endif
 
-
 #include <algorithm>
 #include <iostream>
 #include <fstream>
@@ -31,7 +30,7 @@
 #if defined(WIN32)
 #include <strsafe.h> //StringCchPrintf need to be included AFTER all other system headers :(
 #endif
-
+#include "Poco/MD5Engine.h"
 #include "Poco/Thread.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
@@ -39,9 +38,19 @@
 #include "rrMisc.h"
 
 //---------------------------------------------------------------------------
-using namespace std;
+
 namespace rr
 {
+using namespace std;
+using namespace Poco;
+
+string getMD5(const string& text)
+{
+    MD5Engine md5;
+    md5.update(text);
+    string digestString(Poco::DigestEngine::digestToHex(md5.digest()));
+    return digestString;
+}
 
 string getCurrentDateTime()
 {

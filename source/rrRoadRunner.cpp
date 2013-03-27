@@ -30,6 +30,7 @@ namespace rr
 using namespace std;
 using namespace ls;
 
+
 //The incance count increases/decreases as instances are created/destroyed.
 int 				RoadRunner::mInstanceCount = 0;
 Mutex 				RoadRunner::mCompileMutex;
@@ -91,7 +92,7 @@ RoadRunner::~RoadRunner()
     	mModelLib.unload();
     }
     //delete mLS;
-	mInstanceCount --;
+	mInstanceCount--;
 }
 
 ModelFromC*	RoadRunner::getModel()
@@ -674,7 +675,8 @@ bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
     	loadSBMLIntoNOM(sbml);	//There is something in here that is not threadsafe... causes crash with multiple threads, without mutex
 	}
 
-    string 	modelName  = createModelName(mCurrentSBMLFileName);
+//    string modelName  = createModelName(mCurrentSBMLFileName);
+	string modelName = getMD5(sbml);
 
     //Check if model has been compiled
     mModelLib.setPath(getTempFolder());
