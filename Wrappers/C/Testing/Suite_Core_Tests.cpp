@@ -109,6 +109,24 @@ SUITE(CORE_TESTS)
 //        clog<<digestString;
 		CHECK_EQUAL("8b0f11b35815fd421d32ab98750576ef", digestString);
     }
+
+    TEST(LOAD_MODEL_FOM_STRING)
+    {
+        string xml = GetFileContent(JoinPath(gTestDataFolder, "Test_1.xml"));
+    	RRHandle aRR1 		  		= createRRInstanceE(gTempFolder.c_str());
+    	RRHandle aRR2 		  		= createRRInstanceE(gTempFolder.c_str());
+		CHECK(loadSBML(aRR1, xml.c_str()));
+		CHECK(loadSBMLE(aRR2, xml.c_str(), true));
+
+        //Load the same model again, but do not recompile the model DLL..
+        CHECK(loadSBMLE(aRR1, xml.c_str(), false));
+        CHECK(loadSBMLE(aRR2, xml.c_str(), false));
+
+        freeRRInstance(aRR1);
+        freeRRInstance(aRR2);
+
+    }
+
 }
 
 string getListOfReactionsText(const string& fName)

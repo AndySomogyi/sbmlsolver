@@ -153,6 +153,7 @@ loadPlugins                                      = _loadPlugins@4
 loadSBML                                         = _loadSBML@8
 loadSBMLE                                        = _loadSBMLE@12
 loadSBMLFromFile                                 = _loadSBMLFromFile@8
+loadSBMLFromFileE                                = _loadSBMLFromFileE@12
 loadSBMLFromFileJobs                             = _loadSBMLFromFileJobs@12
 loadSBMLFromFileJob                              = _loadSBMLFromFileJob@8
 loadSimulationSettings                           = _loadSimulationSettings@8
