@@ -1,7 +1,7 @@
 #include <string>
 #include "rrLogger.h"
 #include "UnitTest++.h"
-#include "rr_c_api.h"
+#include "rrc_api.h"
 #include "rrUtils.h"
 using namespace std;
 using namespace UnitTest;

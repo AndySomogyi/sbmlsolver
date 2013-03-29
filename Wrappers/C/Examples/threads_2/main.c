@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "rr_c_api.h"
+#include "rrc_api.h"
 
 int main(int argc, char* argv[])
 {
@@ -119,7 +119,7 @@ int main(int argc, char* argv[])
 }
 
 #if defined(CG_IDE)
-#pragma link "rr_c_api.lib"
+#pragma link "rrc_api.lib"
 #endif
 
 //Non blocking code waiting for threadpool to finish

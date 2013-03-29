@@ -2,7 +2,7 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#pragma comment(lib, "rr_c_api.lib")
+#pragma comment(lib, "rrc_api.lib")
 #pragma comment(lib, "roadrunner.lib")
 
 //---------------------------------------------------------------------------

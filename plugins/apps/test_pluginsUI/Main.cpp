@@ -3,7 +3,7 @@
 #pragma hdrstop
 #include "rrUtils.h"
 #include "Main.h"
-#include "rr_c_api.h"
+#include "rrc_api.h"
 #include "rrException.h"
 #include "utils.h"
 //---------------------------------------------------------------------------

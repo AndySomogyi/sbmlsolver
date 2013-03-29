@@ -4,12 +4,12 @@
 #include <fstream>
 #include <sstream>
 #include <stdio.h>
-#include "rr_c_api.h"
-#include "rr_c_api_support.h"
+#include "rrc_api.h"
+#include "rrc_api_support.h"
 //---------------------------------------------------------------------------
 
 using namespace std;
-using namespace rr_c_api;
+using namespace rrc;
 
 void printMatrix(char* msg1, RRMatrixHandle mat);
 int main(int argc, char* argv[])

@@ -665,8 +665,7 @@ bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
     Log(lDebug)<<"Loading SBML into simulator";
     if (!sbml.size())
     {
-        Log(lError)<<"No SBML content..!";
-        return false;
+        throw(CoreException("SBML string is empty!"));
     }
 
 	loadSBMLIntoLibStruct(sbml);

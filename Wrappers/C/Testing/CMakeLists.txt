@@ -32,7 +32,7 @@ set(sharedLibPrefix ".so")
 endif()
 
 target_link_libraries (${target} 
-rr_c_api
+rrc_api
 #roadrunner-static
 unit_test-static
 #rr-libstruct-static

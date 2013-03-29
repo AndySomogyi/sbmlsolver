@@ -2,10 +2,10 @@
 #define TestSuiteSimulationH
 //---------------------------------------------------------------------------
 #include "rrTestSuiteModelSimulation.h"
-#include "rr_c_api.h"
+#include "rrc_api.h"
 
 using namespace rr;
-using namespace rr_c_api;
+using namespace rrc;
 
 class TestSuiteSimulation : public rr::TestSuiteModelSimulation
 {

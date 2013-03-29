@@ -5,10 +5,10 @@
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrArrayListItem.h"
-#include "rr_c_api.h"
-#include "rr_c_api_support.h"
+#include "rrc_api.h"
+#include "rrc_support.h"
 
-namespace rr_c_api
+namespace rrc
 {
 using namespace rr;
 using namespace std;

@@ -39,21 +39,21 @@
  * redistribute any piece of this software without proper attribution;
 */
 
-#ifndef rr_c_typesH
-#define rr_c_typesH
+#ifndef rrc_typesH
+#define rrc_typesH
 
 #if defined(__cplusplus)
+namespace rrc {
 extern "C"
 {
 #else
-
-#if defined(_MSC_VER)
-typedef int bool;
-#define false 0
-#define true 1
-#else
-#include "stdbool.h"
-#endif
+    #if defined(_MSC_VER)
+    	typedef int bool;
+    	#define false 0
+    	#define true 1
+    #else
+    	#include "stdbool.h"
+    #endif
 #endif
 
 /*!@brief Void pointer to RRHandle */
@@ -174,6 +174,7 @@ typedef struct RRParameter
 
 #if defined( __cplusplus)
 }
+}//Namespace
 #endif
 
 

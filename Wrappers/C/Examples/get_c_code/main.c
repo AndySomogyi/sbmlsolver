@@ -1,6 +1,6 @@
 #pragma hdrstop
 #include <stdio.h>
-#include "../../rr_c_api.h"
+#include "../../rrc_api.h"
 
 /*--------------------------------------------------------------------------
 Example showing how to obtain model generated C code
@@ -10,7 +10,9 @@ Example showing how to obtain model generated C code
 int main()
 {
     RRHandle rrHandle;
+	RRCCodeHandle code;
 	char* text;
+	char* sbml;
 
     char modelFileName[2048];
 
@@ -25,7 +27,7 @@ int main()
 
 	if(text)
 	{
-		printf("Build date: %s", text);
+		printf("Build date: %s \n", text);
 		freeText(text);
 	}
 
@@ -45,59 +47,60 @@ int main()
 
 	strcpy(modelFileName, "../models/test_1.xml");
 
-	text = getFileContent(modelFileName);
+	sbml = getFileContent(modelFileName);
 
-//    cout << "C code: " << sbml << endl;
-//
-//    //To get the C Code, the code needs to be generated
-//    if(!loadSBML(sbml.c_str()))
-//    {
-//    	cerr<<"Failed loading SBML.\n";
-//        cerr<<"Last error: "<<getLastError()<<endl;
-//        return -1;
-//    }
-//
-//	RRCCode* code = getCCode();
-//    if(!code)
-//    {
-//	  	cerr<<"Failed to get CCode from RoadRunner";
-//        return -1;
-//    }
-//
-//    cout<<"START OF CODE ==========\n";
-//	if(code->Header)
-//	{
-//		cout<<"C Header =========== \n"<<code->Header<<"\n";
-//	}
-//	else
-//	{
-//		cout<<"C Header =========== \n"<<" is NULL"<<"\n";
-//	}
-//
-//	if(code->Source)
-//	{
-//		cout<<"C Source =========== \n"<<code->Source<<"\n";
-//	}
-//	else
-//	{
-//		cout<<"C Source =========== \n"<<" is NULL"<<"\n";
-//	}
-//
-//    cout<<"END OF CODE ==========\n";
-//
-//	///// Cleanup
-//    freeCCode(code);
-//    text = getCopyright();
-//    if(hasError())
-//    {
-//        char* error = getLastError();
-//        cout<<error<<endl;
-//    }
-//    cout<<text<<endl;
+    //To get the C Code, the code needs to be generated
+    if(!loadSBML(rrHandle, sbml))
+    {
+    	printf("Failed loading SBML.\n");
+        printf("Last error: %s", getLastError());
+        printf("Exiting...");
+        return -1;
+    }
+
+	code = getCCode(rrHandle);
+    if(!code)
+    {
+	  	printf("Failed to get C-code from RoadRunner");
+        printf("Exiting...");
+        return -1;
+    }
+
+    printf("START OF CODE ==========\n");
+	if(code->Header)
+	{
+		printf("C Header =========== \n%s \n\n", code->Header);
+	}
+	else
+	{
+		printf("C Header =========== \n is empty!\n");
+	}
+
+	if(code->Source)
+	{
+		printf("C Source =========== \n%s \n", code->Source);
+	}
+	else
+	{
+		printf("C Source  =========== \n is empty!\n");
+	}
+
+    printf("END OF CODE ==========\n");
+
+	///// Cleanup
+    freeCCode(code);
+    text = getCopyright();
+    if(hasError())
+    {
+        char* error = getLastError();
+        printf("Last error: %s \n", error);
+        freeText(error);
+    }
+    printf(text);
     freeText(text);
     freeRRInstance(rrHandle);
     return 0;
 }
 
-#pragma link "rr_c_api.lib"
+#pragma link "rrc_api.lib"
 

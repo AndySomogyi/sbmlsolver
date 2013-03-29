@@ -1,21 +1,21 @@
-/** @file rr_c_api_exporter.h */
-#ifndef rr_c_api_exporterH
-#define rr_c_api_exporterH
+/** @file rrc_exporter.h */
+#ifndef rrc_exporterH
+#define rrc_exporterH
 
 //Export/Import API functions
 #if defined(_WIN32) || defined(WIN32)
-    #if defined(STATIC_RR_C_API) 
+    #if defined(STATIC_RRC)
         #define C_DECL_SPEC
     #else
-        #if defined(EXPORT_RR_C_API)
+        #if defined(EXPORT_RRC)
             #define C_DECL_SPEC __declspec(dllexport)
         #else
             #define C_DECL_SPEC __declspec(dllimport)
         #endif
-    #endif	
+    #endif
 #else
     #define C_DECL_SPEC
-#endif        
+#endif
 
 
 #if defined(_MSC_VER) || defined(__CODEGEARC__)

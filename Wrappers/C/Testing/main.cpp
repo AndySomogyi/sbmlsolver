@@ -6,13 +6,13 @@
 #include "unit_test/UnitTest++.h"
 #include "unit_test/XmlTestReporter.h"
 #include "unit_test/TestReporterStdout.h"
-#include "rr_c_api.h"
+#include "rrc_api.h"
 #include "rrGetOptions.h"
 #include "src/Args.h"
 
 using namespace std;
 using namespace rr;
-using namespace rr_c_api;
+using namespace rrc;
 using namespace UnitTest;
 
 string 	gTempFolder		   		= "";
@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
  	fstream aFile(reportFile.c_str(), ios::out);
     if(!aFile)
     {
-    	cerr<<"Failed opening report file: "<<reportFile<<" in rr_c_api testing executable.\n";
+    	cerr<<"Failed opening report file: "<<reportFile<<" in rrc_api testing executable.\n";
     	return -1;
     }
 
@@ -124,9 +124,9 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 #if defined(CG_IDE)
 
 //#if defined(STATIC_RTL)
-//#pragma comment(lib, "rr_c_api-static.lib")
+//#pragma comment(lib, "rrc_api-static.lib")
 //#else
-#pragma comment(lib, "rr_c_api.lib")
+#pragma comment(lib, "rrc_api.lib")
 //#endif
 
 //#if defined(STATIC_RR)

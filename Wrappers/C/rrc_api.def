@@ -1,7 +1,8 @@
-LIBRARY     RR_C_API.DLL
+LIBRARY     RRC_API.DLL
 
 
 EXPORTS
+getFileContent                                   = _getFileContent@4
 addItem                                          = _addItem@8
 computeSteadyStateValues                         = _computeSteadyStateValues@4
 createDoubleItem                                 = _createDoubleItem@8
@@ -47,7 +48,7 @@ getCompartmentIds                                = _getCompartmentIds@4
 getCompilerLocation                              = _getCompilerLocation@4
 getConcentrationControlCoefficientIds            = _getConcentrationControlCoefficientIds@4
 getConservationMatrix                            = _getConservationMatrix@4
-getCopyright                                     = _getCopyright@4
+getCopyright                                     = _getCopyright@0
 getCurrentSBML                                   = _getCurrentSBML@4
 getDoubleListItem                                = _getDoubleListItem@8
 getEE                                            = _getEE@16

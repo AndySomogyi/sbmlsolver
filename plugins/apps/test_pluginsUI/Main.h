@@ -5,7 +5,7 @@
 #include <Vcl.Controls.hpp>
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.Forms.hpp>
-#include "rr_c_api.h"
+#include "rrc_api.h"
 #include <Vcl.ExtCtrls.hpp>
 #include <System.Actions.hpp>
 #include <Vcl.ActnList.hpp>
@@ -19,7 +19,7 @@
 using std::string;
 using std::vector;
 //---------------------------------------------------------------------------
-using namespace rr_c_api;
+using namespace rrc;;
 
 class TMainF : public TForm
 {

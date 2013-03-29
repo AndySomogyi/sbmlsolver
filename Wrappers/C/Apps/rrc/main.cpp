@@ -15,12 +15,12 @@
 #include "rrStringUtils.h"
 #include "GetOptions.h"
 #include "Args.h"
-#include "rr_c_api.h"
+#include "rrc_api.h"
 
 //---------------------------------------------------------------------------
 using namespace std;
 using namespace rr;
-using namespace rr_c_api;
+using namespace rrc;
 
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 
@@ -201,7 +201,7 @@ int main(int argc, char* argv[])
 		}				
 	}
 
-    text = getCopyright(rrHandle);
+    text = getCopyright();
     if(hasError())
     {
         char* error = getLastError();
@@ -269,6 +269,6 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 
 #if defined(CG_IDE)
 #pragma comment(lib, "roadrunner-static.lib")
-#pragma comment(lib, "rr_c_api.lib")
+#pragma comment(lib, "rrc_api.lib")
 #endif
 

@@ -39,35 +39,37 @@
  * redistribute any piece of this software without proper attribution;
 */
 
-#pragma hdrstop
-#include <string>
-#include <iostream>
-#include <sstream>
-#include <fstream>
-
-#include "rrRoadRunner.h"
-#include "rrException.h"
-#include "rr_c_api.h" 			// Need to include this before the support header..
-#include "rr_c_api_support.h"   //Support functions, not exposed as api functions and or data
-
+#ifndef rrc_utilitiesH
+#define rrc_utilitiesH
+#include "rrc_exporter.h"
+#include "rrc_types.h"
 //---------------------------------------------------------------------------
 
-namespace rr_c_api
+#if defined(__cplusplus)
+namespace rrc
 {
-using namespace std;
-using namespace rr;
-using namespace rr_c_api;
-
-bool rrCallConv compileSource(RRHandle handle, const char* sourceFileName)
+extern "C"
 {
-	try
-    {
-        RoadRunner* rri = castFrom(handle);
-        return rri->compileSource(sourceFileName);
-    }
-    CATCH_BOOL_MACRO
-}
+#endif
 
 
-}
+///*!
+// \brief Retrieves the the content of a file.
+// \return Content of file as a string, returns null if it fails
+// \ingroup utilities
+//*/
+C_DECL_SPEC char* rrCallConv getFileContent(const char* fName);
 
+
+///////////////////////////////////////////////////////////////////////////////////
+// TEST UTILITY functions (to be documented later. Only for internal testing)
+C_DECL_SPEC bool rrCallConv compileSource(RRHandle handle, const char* sourceFileName);
+
+
+
+#if defined(__cplusplus)
+}	//Extern "C"
+}	//namespace
+#endif
+
+#endif

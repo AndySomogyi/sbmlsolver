@@ -6,7 +6,7 @@ main.c
 )
 
 target_link_libraries (${target} 
-rr_c_api)
+rrc_api)
 
 if(LINUX)
 target_link_libraries (${target} 

@@ -1,5 +1,5 @@
 /**
- * @file rr_c_api.cpp
+ * @file rrc_api.cpp
  * @brief roadRunner C API 2012
  * @author Totte Karlsson & Herbert M Sauro
  *
@@ -58,8 +58,8 @@
 #include "rrCapability.h"
 #include "rrPluginManager.h"
 #include "rrPlugin.h"
-#include "rr_c_api.h" 			// Need to include this before the support header..
-#include "rr_c_api_support.h"   //Support functions, not exposed as api functions and or data
+#include "rrc_api.h" 			// Need to include this before the support header..
+#include "rrc_support.h"   //Support functions, not exposed as api functions and or data
 
 #if defined(_MSC_VER)
 	#include <direct.h>
@@ -72,7 +72,7 @@
 #endif
 //---------------------------------------------------------------------------
 
-namespace rr_c_api
+namespace rrc
 {
 using namespace std;
 using namespace rr;
@@ -248,7 +248,7 @@ char* rrCallConv getRRCAPILocation()
 #if defined(_WIN32) || defined(WIN32)
 	char path[MAX_PATH];
     HINSTANCE handle = NULL;
-    const char* dllName = "rr_c_api";
+    const char* dllName = "rrc_api";
     handle = GetModuleHandle(dllName);
     int nrChars = GetModuleFileNameA(handle, path, sizeof(path));
 	if(nrChars != 0)
@@ -263,12 +263,20 @@ char* rrCallConv getRRCAPILocation()
 #endif
 }
 
-char* rrCallConv getCopyright(RRHandle handle)
+char* rrCallConv getCopyright()
 {
 	try
     {
+    	RRHandle handle = createRRInstance();
+        if(!handle)
+        {
+        	return NULL;
+        }
+
    		RoadRunner* rri = castFrom(handle);
         char* text = createText(rri->getCopyright());
+        freeRRInstance(handle);
+
         return text;
     }
     catch(Exception& ex)
@@ -777,13 +785,7 @@ bool rrCallConv loadSBML(RRHandle handle, const char* sbml)
 	try
     {
       	RoadRunner* rri = castFrom(handle);
-
-        if(!rri->loadSBML(sbml, true))
-        {
-            setError("Failed to load SBML semantics");
-            return false;
-        }
-        return true;
+        return rri->loadSBML(sbml, true);
     }
     catch(Exception& ex)
     {

@@ -14,14 +14,14 @@
 #include "Poco/SAX/InputSource.h"
 #include "Poco/MD5Engine.h"
 #include "UnitTest++.h"
-#include "rr_c_api.h"
+#include "rrc_api.h"
 #include "rrUtils.h"
 #include "rrException.h"
 
 using namespace UnitTest;
 using namespace std;
 using namespace rr;
-using namespace rr_c_api;
+using namespace rrc;
 using namespace Poco;
 using namespace Poco::XML;
 

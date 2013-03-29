@@ -1,7 +1,7 @@
 #include <string>
 #include "rrLogger.h"
 #include "UnitTest++.h"
-#include "rr_c_api.h"
+#include "rrc_api.h"
 #include "rrUtils.h"
 #include "rrIniFile.h"
 #include "TestUtils.h"
@@ -9,7 +9,7 @@
 //Add using clauses..
 using namespace std;
 using namespace UnitTest;
-using namespace rr_c_api;
+using namespace rrc;
 
 using rr::JoinPath;
 using rr::FileExists;

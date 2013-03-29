@@ -3,14 +3,14 @@
 #include "rrUtils.h"
 #include "rrIniFile.h"
 #include "UnitTest++.h"
-#include "rr_c_api.h"
+#include "rrc_api.h"
 #include "src/TestUtils.h"
 
 //using..
 using namespace std;
 using namespace UnitTest;
 using namespace ls;
-using namespace rr_c_api;
+using namespace rrc;
 
 using rr::JoinPath;
 using rr::FileExists;

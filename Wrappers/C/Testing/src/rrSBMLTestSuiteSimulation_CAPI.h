@@ -1,10 +1,8 @@
 #ifndef rrSBMLTestSuiteSimulation_CAPIH
 #define rrSBMLTestSuiteSimulation_CAPIH
 #include "rrTestSuiteModelSimulation.h"
-#include "rr_c_api.h"
+#include "rrc_api.h"
 //---------------------------------------------------------------------------
-
-namespace rrc = rr_c_api;
 
 class SBMLTestSuiteSimulation_CAPI : public rr::TestSuiteModelSimulation
 {

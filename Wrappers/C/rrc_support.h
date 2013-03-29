@@ -1,5 +1,5 @@
-#ifndef rr_c_api_supportH
-#define rr_c_api_supportH
+#ifndef rrc_supportH
+#define rrc_supportH
 #include <string>
 #include <vector>
 #include "rr-libstruct/lsMatrix.h"
@@ -7,7 +7,7 @@
 #include "rrNewArrayList.h"
 #include "rrParameter.h"
 #include "rrUtils.h"
-#include "rr_c_types.h"
+#include "rrc_types.h"
 //---------------------------------------------------------------------------
 
 namespace rr
@@ -16,7 +16,7 @@ class RoadRunner;
 class RoadRunnerList;
 }
 
-namespace rr_c_api
+namespace rrc
 {
 using std::vector;
 using std::string;

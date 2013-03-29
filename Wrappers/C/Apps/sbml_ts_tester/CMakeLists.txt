@@ -19,7 +19,7 @@ add_definitions(
 )
 
 target_link_libraries (${target} 
-rr_c_api
+rrc_api
 #roadrunner-static
 #poco_foundation-static
 )

@@ -3,13 +3,13 @@
 #include "rrLogger.h"
 #include "rrUtils.h"
 #include "Args.h"
-#include "rr_c_api.h"
+#include "rrc_api.h"
 #include "rrGetOptions.h"
 #include "TestSuiteSimulation.h"
 
 using namespace std;
 using namespace rr;
-using namespace rr_c_api;
+//using namespace rrc;
 
 string 	gTempFolder		   		= "";
 string 	gRRInstallFolder 		= "";
@@ -89,9 +89,9 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 #if defined(CG_IDE)
 
 //#if defined(STATIC_RTL)
-//#pragma comment(lib, "rr_c_api-static.lib")
+//#pragma comment(lib, "rrc_api-static.lib")
 //#else
-#pragma comment(lib, "rr_c_api.lib")
+#pragma comment(lib, "rrc_api.lib")
 //#endif
 
 //#if defined(STATIC_RR)

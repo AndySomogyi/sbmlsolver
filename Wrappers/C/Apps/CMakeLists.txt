@@ -6,5 +6,5 @@ if(${MSVC})
 endif(${MSVC})
 
 
-add_subdirectory(rr_c)
+add_subdirectory(rrc)
 add_subdirectory(sbml_ts_tester)
