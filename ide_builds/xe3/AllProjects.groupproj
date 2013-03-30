@@ -12,6 +12,9 @@
         <Projects Include="..\..\Wrappers\C\rrc_api.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="c_api_tests.cbproj">
+            <Dependencies/>
+        </Projects>
         <Projects Include="cxx_api_tests.cbproj">
             <Dependencies>..\..\Wrappers\C\rrc_api.cbproj;roadrunner-static.cbproj</Dependencies>
         </Projects>
@@ -31,9 +34,6 @@
             <Dependencies/>
         </Projects>
         <Projects Include="..\..\examples\many_threads\many_threads.cbproj">
-            <Dependencies/>
-        </Projects>
-        <Projects Include="c_api_tests.cbproj">
             <Dependencies/>
         </Projects>
         <Projects Include="..\..\Wrappers\C\Examples\get_c_code\get_c_code.cbproj">
@@ -82,6 +82,15 @@
     </Target>
     <Target Name="rrc_api:Make">
         <MSBuild Projects="..\..\Wrappers\C\rrc_api.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="c_api_tests">
+        <MSBuild Projects="c_api_tests.cbproj"/>
+    </Target>
+    <Target Name="c_api_tests:Clean">
+        <MSBuild Projects="c_api_tests.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="c_api_tests:Make">
+        <MSBuild Projects="c_api_tests.cbproj" Targets="Make"/>
     </Target>
     <Target Name="cxx_api_tests" DependsOnTargets="rrc_api;roadrunner-static">
         <MSBuild Projects="cxx_api_tests.cbproj"/>
@@ -146,15 +155,6 @@
     <Target Name="many_threads:Make">
         <MSBuild Projects="..\..\examples\many_threads\many_threads.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="c_api_tests">
-        <MSBuild Projects="c_api_tests.cbproj"/>
-    </Target>
-    <Target Name="c_api_tests:Clean">
-        <MSBuild Projects="c_api_tests.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="c_api_tests:Make">
-        <MSBuild Projects="c_api_tests.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="get_c_code" DependsOnTargets="rrc_api">
         <MSBuild Projects="..\..\Wrappers\C\Examples\get_c_code\get_c_code.cbproj"/>
     </Target>
@@ -192,13 +192,13 @@
         <MSBuild Projects="..\..\Wrappers\C\Examples\threads_2\rr_threads_2.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="roadrunner;roadrunner-static;rrc_api;cxx_api_tests;rr;rrc;one_rr;two_rrs;one_thread;many_threads;c_api_tests;get_c_code;sbml_ts_tester;rr_threads_1;rr_threads_2"/>
+        <CallTarget Targets="roadrunner;roadrunner-static;rrc_api;c_api_tests;cxx_api_tests;rr;rrc;one_rr;two_rrs;one_thread;many_threads;get_c_code;sbml_ts_tester;rr_threads_1;rr_threads_2"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="roadrunner:Clean;roadrunner-static:Clean;rrc_api:Clean;cxx_api_tests:Clean;rr:Clean;rrc:Clean;one_rr:Clean;two_rrs:Clean;one_thread:Clean;many_threads:Clean;c_api_tests:Clean;get_c_code:Clean;sbml_ts_tester:Clean;rr_threads_1:Clean;rr_threads_2:Clean"/>
+        <CallTarget Targets="roadrunner:Clean;roadrunner-static:Clean;rrc_api:Clean;c_api_tests:Clean;cxx_api_tests:Clean;rr:Clean;rrc:Clean;one_rr:Clean;two_rrs:Clean;one_thread:Clean;many_threads:Clean;get_c_code:Clean;sbml_ts_tester:Clean;rr_threads_1:Clean;rr_threads_2:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="roadrunner:Make;roadrunner-static:Make;rrc_api:Make;cxx_api_tests:Make;rr:Make;rrc:Make;one_rr:Make;two_rrs:Make;one_thread:Make;many_threads:Make;c_api_tests:Make;get_c_code:Make;sbml_ts_tester:Make;rr_threads_1:Make;rr_threads_2:Make"/>
+        <CallTarget Targets="roadrunner:Make;roadrunner-static:Make;rrc_api:Make;c_api_tests:Make;cxx_api_tests:Make;rr:Make;rrc:Make;one_rr:Make;two_rrs:Make;one_thread:Make;many_threads:Make;get_c_code:Make;sbml_ts_tester:Make;rr_threads_1:Make;rr_threads_2:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

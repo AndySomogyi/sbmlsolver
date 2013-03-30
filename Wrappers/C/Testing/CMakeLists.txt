@@ -4,10 +4,8 @@ PROJECT(RR_C_API_Tests)
 set(target c_api_tests)
 
 set(tests
-#core/base
-#core/steady_state
+Suite_Core_Tests
 Suite_TestModel_1
-#Suite_CoreExceptions
 Suite_SBML_Tests
 )
 
@@ -23,38 +21,28 @@ set_property(TARGET ${target}
 PROPERTY  COMPILE_DEFINITIONS 
 STATIC_LIBSTRUCT
 STATIC_RR
+POCO_STATIC
+XML_STATIC
+POCO_NO_AUTOMATIC_LIBS
 ) 
 
 if(UNIX)
 set(staticLibPrefix ".a")
 set(sharedLibPrefix ".so")
-#add_definitions(-DUNITTEST_POSIX)
 endif()
 
 target_link_libraries (${target} 
 rrc_api
-#roadrunner-static
 unit_test-static
-#rr-libstruct-static
+poco_xml-static
 )
 
 if(UNIX)
 target_link_libraries (${target} 
-#unit_test-static${staticLibPrefix}
-#libunit_test-static${staticLibPrefix}
-#nleq-static.a
-#rr-libstruct-static
 lapack
 blas
 f2c
-#libsbml-static.a
-#libxml2.so
-#sundials_nvecserial.a
-#sundials_cvode.a
 pthread
-#poco_foundation-static.a
-#pugi-static.a
-#dl
 )
 endif()
 

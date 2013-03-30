@@ -91,20 +91,12 @@ add_definitions(
              -w-8104                     #Local static with constructor...
              -w-8008                     #Condition is always false..
         )
-add_definitions( -D_WIN32)
 endif()
 
-add_definitions( -D_WIN32 -DXML_NS -DXML_DTD -DHAVE_EXPAT_CONFIG_H)
+add_definitions( -D_WIN32 -DXML_NS -DXML_DTD -DHAVE_EXPAT_CONFIG_H -DXML_STATIC)
 
 #if(CMAKE_SYSTEM MATCHES "Windows")
 # 
-# add_definitions( -DPOCO_OS_FAMILY_WINDOWS)
-# set(SYSLIBS iphlpapi gdi32 odbc32)
-# 
-# if (CMAKE_C_COMPILER_ID MATCHES "MSVC")
-#        message(STATUS "XXX: MS Visual Compiler detected")
-# endif (CMAKE_C_COMPILER_ID MATCHES "MSVC")
-#
 #endif(CMAKE_SYSTEM MATCHES "Windows")
 #
 #if (CMAKE_SYSTEM MATCHES "Linux")
@@ -114,39 +106,28 @@ add_definitions( -D_WIN32 -DXML_NS -DXML_DTD -DHAVE_EXPAT_CONFIG_H)
 #  set(SYSLIBS  pthread dl rt)
 #endif(CMAKE_SYSTEM MATCHES "Linux")
 
-if(${MSVC})
-#set(....
-endif()
-
-
 include_directories(
 ../../Foundation/include
 ../../XML/include
 )
-#add_library(${target} SHARED ${sources})
-#
-#set_property(TARGET ${target}  
-#             PROPERTY  COMPILE_DEFINITIONS 
-#                       WIN32
-#                       SHARED_NLEQ
-#             ) 
-#
+
 #Then the static version
 add_library(${target}-static STATIC ${sources})
-set_property(TARGET ${target}-static  
-             PROPERTY  COMPILE_DEFINITIONS 
-                       POCO_STATIC
-                       PCRE_STATIC
-             ) 
 
-if(WIN32)
-set_property(TARGET ${target}-static  
-PROPERTY  COMPILE_DEFINITIONS 
-WIN32
-) 
-
-endif()
-
+#set_property(TARGET ${target}-static  
+#PROPERTY  COMPILE_DEFINITIONS 
+#POCO_STATIC
+#PCRE_STATIC
+#) 
+#
+#if(WIN32)
+#set_property(TARGET ${target}-static  
+#PROPERTY COMPILE_DEFINITIONS 
+#WIN32
+#) 
+#
+#endif()
+#
 #INSTALLING ======================
 set(poco_xml_include_folder ${CMAKE_CURRENT_SOURCE_FOLDER}../include/Poco/XML)
 set(poco_dom_include_folder ${CMAKE_CURRENT_SOURCE_FOLDER}../include/Poco/DOM)
@@ -160,11 +141,6 @@ FILE (GLOB sax_headers ${poco_sax_include_folder}/*.h)
 install(FILES ${xml_headers} DESTINATION include/Poco/XML)
 install(FILES ${dom_headers} DESTINATION include/Poco/DOM)
 install(FILES ${sax_headers} DESTINATION include/Poco/SAX)
-
-#install(TARGETS ${target} 
-#        LIBRARY DESTINATION lib 
-#        ARCHIVE DESTINATION lib
-#        RUNTIME DESTINATION bin)
 
 install(TARGETS ${target}-static 
 LIBRARY DESTINATION lib 
