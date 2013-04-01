@@ -100,7 +100,6 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DynamicRTL>true</DynamicRTL>
-        <Defines>STATIC_RR;$(Defines)</Defines>
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
         <BCC_MonitorThis>true</BCC_MonitorThis>
@@ -117,6 +116,9 @@
     </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="rrc_api.cpp">
+            <BuildOrder>3</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="rrc_plugin_api.cpp">
             <BuildOrder>3</BuildOrder>
         </CppCompile>
         <CppCompile Include="rrc_support.cpp">

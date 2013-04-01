@@ -110,7 +110,7 @@ SUITE(CORE_TESTS)
 		CHECK_EQUAL("8b0f11b35815fd421d32ab98750576ef", digestString);
     }
 
-    TEST(LOAD_MODEL_FOM_STRING)
+    TEST(LOAD_MODEL_FROM_STRING)
     {
         string xml = GetFileContent(JoinPath(gTestDataFolder, "Test_1.xml"));
     	RRHandle aRR1 		  		= createRRInstanceE(gTempFolder.c_str());

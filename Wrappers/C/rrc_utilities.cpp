@@ -80,6 +80,11 @@ bool rrCallConv compileSource(RRHandle handle, const char* sourceFileName)
     CATCH_BOOL_MACRO
 }
 
+int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void* lpReserved)
+{
+    return 1;
+}
+
 
 }
 

@@ -122,7 +122,6 @@
         <BCC_AllCodeguardOptions>true</BCC_AllCodeguardOptions>
         <LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
         <UsePackages>false</UsePackages>
-        <DynamicRTL>false</DynamicRTL>
         <BCC_PCHInject>..\..\source\rr_pch.h</BCC_PCHInject>
         <IncludePath>$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
     </PropertyGroup>

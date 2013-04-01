@@ -123,17 +123,17 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 
 #if defined(CG_IDE)
 
-//#if defined(STATIC_RTL)
-//#pragma comment(lib, "rrc_api-static.lib")
-//#else
+#if defined(STATIC_RRC)
+#pragma comment(lib, "rrc_api-static.lib")
+#else
 #pragma comment(lib, "rrc_api.lib")
-//#endif
+#endif
 
-//#if defined(STATIC_RR)
+#if defined(STATIC_RR)
 	#pragma comment(lib, "roadrunner-static.lib")
-//#else
-//	#pragma comment(lib, "roadrunner.lib")
-//#endif
+#else
+	#pragma comment(lib, "roadrunner.lib")
+#endif
 
 #pragma comment(lib, "sundials_cvode")
 #pragma comment(lib, "sundials_nvecserial")
