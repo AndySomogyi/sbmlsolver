@@ -34,6 +34,9 @@
 //
 
 
+
+//MTK added spaces in format string in a few functions below on 4/1/2013
+
 #include "Poco/NumberParser.h"
 #include "Poco/Exception.h"
 #include "Poco/MemoryStream.h"
@@ -124,7 +127,8 @@ Int64 NumberParser::parse64(const std::string& s)
 bool NumberParser::tryParse64(const std::string& s, Int64& value)
 {
 	char temp;
-	return std::sscanf(s.c_str(), "%"I64_FMT"d%c", &value, &temp) == 1;
+	//return std::sscanf(s.c_str(), "%"I64_FMT"d%c", &value, &temp) == 1;
+	return std::sscanf(s.c_str(), "%" I64_FMT "d%c", &value, &temp) == 1;
 }
 
 
@@ -141,7 +145,8 @@ UInt64 NumberParser::parseUnsigned64(const std::string& s)
 bool NumberParser::tryParseUnsigned64(const std::string& s, UInt64& value)
 {
 	char temp;
-	return std::sscanf(s.c_str(), "%"I64_FMT"u%c", &value, &temp) == 1;
+	//return std::sscanf(s.c_str(), "%"I64_FMT"u%c", &value, &temp) == 1;
+	return std::sscanf(s.c_str(), "%" I64_FMT "u%c", &value, &temp) == 1;
 }
 
 
@@ -158,7 +163,8 @@ UInt64 NumberParser::parseHex64(const std::string& s)
 bool NumberParser::tryParseHex64(const std::string& s, UInt64& value)
 {
 	char temp;
-	return std::sscanf(s.c_str(), "%"I64_FMT"x%c", &value, &temp) == 1;
+	//return std::sscanf(s.c_str(), "%"I64_FMT"x%c", &value, &temp) == 1;
+	return std::sscanf(s.c_str(), "%" I64_FMT "x%c", &value, &temp) == 1;
 }
 
 
