@@ -3,7 +3,7 @@
         <ProjectGuid>{26FFADCF-06CA-41CF-A441-D4F295F18E2A}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="..\..\ide_builds\xe3\roadrunner.cbproj">
+        <Projects Include="..\..\source\roadrunner.cbproj">
             <Dependencies/>
         </Projects>
         <Projects Include="rrc_api.cbproj">
@@ -21,13 +21,13 @@
         </BorlandProject>
     </ProjectExtensions>
     <Target Name="roadrunner">
-        <MSBuild Projects="..\..\ide_builds\xe3\roadrunner.cbproj"/>
+        <MSBuild Projects="..\..\source\roadrunner.cbproj"/>
     </Target>
     <Target Name="roadrunner:Clean">
-        <MSBuild Projects="..\..\ide_builds\xe3\roadrunner.cbproj" Targets="Clean"/>
+        <MSBuild Projects="..\..\source\roadrunner.cbproj" Targets="Clean"/>
     </Target>
     <Target Name="roadrunner:Make">
-        <MSBuild Projects="..\..\ide_builds\xe3\roadrunner.cbproj" Targets="Make"/>
+        <MSBuild Projects="..\..\source\roadrunner.cbproj" Targets="Make"/>
     </Target>
     <Target Name="rrc_api">
         <MSBuild Projects="rrc_api.cbproj"/>
