@@ -632,7 +632,7 @@ C_DECL_SPEC RRResultHandle rrCallConv getSimulationResult(RRHandle handle);
 	timeEnd = 25;
 	numberOfPoints = 200;
 
-    m = simulateEx (rrHandle, &timeStart, &timeEnd, &numberOfPoints);
+    m = simulateEx (rrHandle, timeStart, timeEnd, numberOfPoints);
     \endcode
 
  \param[in] timeStart Time start
@@ -648,7 +648,7 @@ C_DECL_SPEC RRResultHandle rrCallConv simulateEx(RRHandle handle, const double t
 /*!
  \brief Carry out a one step integration of the model
 
- Example: \code status = OneStep (rrHandle, &currentTime, &timeStep, &newTimeStep); \endcode
+ Example: \code status = OneStep (rrHandle, currentTime, timeStep, newTimeStep); \endcode
 
  \param[in] currentTime The current time in the simulation
  \param[in] stepSize The step size to use in the integration
