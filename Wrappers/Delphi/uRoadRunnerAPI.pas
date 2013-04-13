@@ -20,7 +20,7 @@ unit uRoadRunnerAPI;
    company internal, or commercial purposes;
 
    You CAN use the software in packages or distributions that you create.
-                     f
+
    You SHOULD include a copy of the license in any redistribution you may make;
 
    You are NOT required include the source of software, or of any modifications you may
@@ -62,46 +62,49 @@ type
   PRRStringArray = ^TRRStringArray;
 
 
+  TPointerFunc = function : Pointer; stdcall;
   TVoidCharFunc = function : PAnsiChar; stdcall;   //char* func(void)
+  THandleCharFunc = function (handle : Pointer) : PAnsiChar; stdcall;   //char* func(void)
   TVoidBoolFunc = function (rrHandle : Pointer) : boolean; stdcall; // bool func (void);
   TVoidIntFunc = function : integer; stdcall;
+  THandleIntFunc = function (handle : Pointer) : integer; stdcall;
   TVoidDoubleFunc = function : double; stdcall;
 
   TBoolBoolFunc = function (var value : boolean) : boolean; stdcall;
 
-  TPointerVoidFunc = function : Pointer; stdcall; //void* func(void)
+  THandlePointerFunc = function (rrHandle : Pointer) : Pointer; stdcall; //void* func(void)
   TCharBoolFunc = function (rrHandle : Pointer; str : PAnsiChar) : bool; stdcall;  // bool func (char *)
   TDoubleBoolFunc = function (value : double) : bool; stdcall; // bool func (double)
   TIntBoolFunc = function (value : integer) : bool; stdcall;   // bool func (double)
   TVarIntBoolFunc = function (var value : integer) : bool; stdcall;   // bool func (double)
-  TIntDoubleFunc = function (index : integer) : double; stdcall;
+  THandleIntDoubleFunc = function (rrHandle : Pointer; index : integer) : double; stdcall;
 
-  TVoidStringListFunc = function() : PRRStringArray; stdcall;
+  THandleStringListFunc = function(rrHandle : Pointer) : PRRStringArray; stdcall;
 
   TGetCopyright = TVoidCharFunc;
-  TCreateRRInstance = TPointerVoidFunc;
+  TCreateRRInstance = TPointerFunc;
   TGetCCode = function : PRRCCodeHandle; stdcall;
-  TSetTimeStart = function (var value : double) : bool; stdcall;
-  TSetTimeEnd = function (var value : double) : bool; stdcall;
-  TSetNumPoints = function (var value : integer) : bool; stdcall;
-  TSimulateEx = function (var timeStart : double; var timeEnd : double; var numberOfPoints : integer) : PRRResultHandle; stdcall;
+  TSetTimeStart = function (rrHandle : Pointer; value : double) : bool; stdcall;
+  TSetTimeEnd = function (rrHandle : Pointer; value : double) : bool; stdcall;
+  TSetNumPoints = function (rrHandle : Pointer; value : integer) : bool; stdcall;
+  TSimulateEx = function (rrHandle : Pointer; timeStart : double; timeEnd : double; numberOfPoints : integer) : PRRResultHandle; stdcall;
   TGetMatrix = function (rrHandle : Pointer) : PRRMatrixHandle; stdcall;
   TGetSetMatrix = function (mat : PRRMatrixHandle) : PRRMatrixHandle; stdcall;
   TFreeRRResult = function (ptr : PRRResultHandle) : boolean; stdcall;
   TFreeRRInstance = procedure (instance : Pointer); stdcall;
-  TVoidVectorFunc = function : PRRDoubleVectorHandle; stdcall;
+  THandleVectorFunc = function (rrHandle : Pointer) : PRRDoubleVectorHandle; stdcall;
 
-  TSetSelectionList = function (list : PAnsiChar) : bool; stdcall;
-  TGetValue = function (speciesId : PAnsiChar; var value : double) : boolean; stdcall;
-  TSetValue = function (speciesId : PAnsiChar; var value : double) : bool; stdcall;
-  TGetReactionIds = TPointerVoidFunc;
+  TSetSelectionList = function (rrHandle : Pointer; list : PAnsiChar) : bool; stdcall;
+  TGetValue = function (rrHandle : Pointer; speciesId : PAnsiChar; var value : double) : boolean; stdcall;
+  TSetValue = function (rrHandle : Pointer; speciesId : PAnsiChar; value : double) : bool; stdcall;
+  TGetReactionIds = THandlePointerFunc;
   TReset = function : bool; stdcall;
   TFreeStringArray = function (handle : PRRStringArray) : boolean; stdcall;
   TFreeRRMatrix = function (matrix : PRRMatrixHandle) : boolean; stdcall;
   TFreeRRDoubleVector = function (vector : PRRDoubleVectorHandle) : boolean ; stdcall;
-  TOneStep = function (var currentTime : double; var stepSize : double) : double; stdcall;
-  TSteadyState = function (var value : double) : boolean; stdcall;
-  TGetMCA = function (variable : PAnsiChar; parameter : PAnsiChar; var value : double) : boolean; stdcall;
+  TOneStep = function (rrHandle : Pointer; var currentTime : double; stepSize : double) : double; stdcall;
+  TSteadyState = function (rrHandle : Pointer; var value : double) : boolean; stdcall;
+  TGetMCA = function (rrHandle : Pointer; variable : PAnsiChar; parameter : PAnsiChar; var value : double) : boolean; stdcall;
 
 var
    DLLLoaded : boolean;
@@ -109,14 +112,20 @@ var
    loggingEnabled : boolean = false;
    loggingTmpFileName : AnsiString = '';
    rrHandle : Pointer;
+   internalRRHandle : Pointer;
+
+function loadIntoMatrix (matrix : T2DDoubleArray) : TMatrix;  overload;
+
 
 function  hasError : boolean;
 function  createRRInstance : Pointer;
+function  createInternalRRInstance : Pointer;
 procedure freeRRInstance; overload;
 procedure freeRRInstance (myInstance : Pointer); overload;
 function  getLastError : AnsiString;
 function  getBuildDate : AnsiString;
 function  getVersion : AnsiString;
+
 
 
 {$REGION 'Documentation'}
@@ -166,12 +175,15 @@ function  getCapabilities : AnsiString;
 function  evalModel : boolean;
 function  getFullJacobian : T2DDoubleArray;
 function  getReducedJacobian : T2DDoubleArray;
+function  mGetReducedJacobian : TMatrix;
 
 function  getStoichiometryMatrix : T2DDoubleArray;
+function  mGetStoichiometryMatrix : TMatrix;
 function  getLinkMatrix : T2DDoubleArray;
 function  getNrMatrix : T2DDoubleArray;
 function  getL0Matrix : T2DDoubleArray;
 function  getConservationMatrix : T2DDoubleArray;
+function  mGetConservationMatrix : TMatrix;
 
 function  getReactionRates : TDoubleArray;
 function  getRatesOfChange : TDoubleArray;
@@ -212,6 +224,7 @@ function  computeSteadyStateValues : TDoubleArray;
 function  setSteadyStateSelectionList (strList : TStringList) : boolean;
 
 function  getEigenvalues : T2DDoubleArray;
+function  mGetEigenvalues : TMatrix;
 function  getEigenvaluesMatrix (m : T2DDoubleArray) : T2DDoubleArray;
 
 function  getuCC (variable : AnsiString; parameter : AnsiString) : double;
@@ -232,17 +245,18 @@ procedure setRoadRunnerLibraryName (newLibName : AnsiString);
 function  loadRoadRunner (var errMsg : AnsiString; methodList : TStringList) : boolean;
 procedure releaseRoadRunnerLibrary;
 
+procedure setMatrixElement ();
 
 implementation
 
 type
-  TLibGetAvailableSymbols = function : PRRListRecordHandle; stdcall;
-  TlibSetInitialConditions = function (vec : PRRDoubleVectorHandle) : bool; stdcall;
-  TlibComputeSteadyStateValues = function : PRRDoubleVectorHandle;
+  TLibGetAvailableSymbols = function (rrHandle : Pointer) : PRRListRecordHandle; stdcall;
+  TlibSetInitialConditions = function (rrHandle : Pointer; vec : PRRDoubleVectorHandle) : bool; stdcall;
+  TlibComputeSteadyStateValues = function (rrHandle : Pointer): PRRDoubleVectorHandle;
 
 
 var DLLHandle : Cardinal;
-    libName : AnsiString = 'rr_c_API.dll';
+    libName : AnsiString = 'rrc_API.dll';
     instance : Pointer = nil;
 
     libLoadSBML : TCharBoolFunc;
@@ -267,15 +281,15 @@ var DLLHandle : Cardinal;
     libFreeRRInstance : TFreeRRInstance;
     libFreeResult : TFreeRRResult;
 
-    libSimulate : TPointerVoidFunc;
+    libSimulate : THandlePointerFunc;
     libSimulateEx : TSimulateEx;
     libGetValue : TGetValue;
     libSetValue : TSetValue;
     libSetTimeCourseSelectionList : TSetSelectionList;
     libGetReactionIds : TGetReactionIds;
     libReset : TReset;
-    libSetFloatingSpeciesInitialConcentrations : function (value : Pointer) : boolean; stdcall;
-    libGetCapabilities : TVoidCharFunc;
+    libSetFloatingSpeciesInitialConcentrations : function (rrHandle : Pointer; value : Pointer) : boolean; stdcall;
+    libGetCapabilities : THandleCharFunc;
     libSetCapabilities : TCharBoolFunc;
     libEvalModel : TVoidBoolFunc;
     libGetFullJacobian : function : PRRMatrixHandle;
@@ -285,48 +299,48 @@ var DLLHandle : Cardinal;
     libSetTimeEnd : TSetTimeEnd;
     libSetNumberOfPoints : TSetNumPoints;
 
-    libGetNumberOfReactions : TVoidIntFunc;
-    libGetNumberOfBoundarySpecies : TVoidIntFunc;
-    libGetNumberOfFloatingSpecies : TVoidIntFunc;
-    libGetNumberOfGlobalParameters : TVoidIntFunc;
-    libGetNumberOfCompartments : TVoidIntFunc;
+    libGetNumberOfReactions : THandleIntFunc;
+    libGetNumberOfBoundarySpecies : THandleIntFunc;
+    libGetNumberOfFloatingSpecies : THandleIntFunc;
+    libGetNumberOfGlobalParameters : THandleIntFunc;
+    libGetNumberOfCompartments : THandleIntFunc;
 
-    libSetCompartmentByIndex     : function (var index : integer; var value : double) : boolean; stdcall;
-    libSetFloatingSpeciesByIndex : function (var index : integer; var value : double) : boolean; stdcall;
-    libSetBoundarySpeciesByIndex : function (var index : integer; var value : double) : boolean; stdcall;
-    libSetGlobalParameterByIndex : function (var index : integer; var value : double) : boolean; stdcall;
+    libSetCompartmentByIndex     : function (rrHandle : Pointer; var index : integer; var value : double) : boolean; stdcall;
+    libSetFloatingSpeciesByIndex : function (rrHandle : Pointer; var index : integer; var value : double) : boolean; stdcall;
+    libSetBoundarySpeciesByIndex : function (rrHandle : Pointer; var index : integer; var value : double) : boolean; stdcall;
+    libSetGlobalParameterByIndex : function (rrHandle : Pointer; var index : integer; var value : double) : boolean; stdcall;
 
-    libGetCompartmentByIndex     : function (var index : integer; var value : double) : boolean; stdcall;
-    libGetGlobalParameterByIndex : function (var index : integer; var value : double) : boolean; stdcall;
-    libGetFloatingSpeciesByIndex : function (var index : integer; var value : double) : boolean; stdcall;
-    libGetBoundarySpeciesByIndex : function (var index : integer; var value : double) : boolean; stdcall;
+    libGetCompartmentByIndex     : function (rrHandle : Pointer; var index : integer; var value : double) : boolean; stdcall;
+    libGetGlobalParameterByIndex : function (rrHandle : Pointer; var index : integer; var value : double) : boolean; stdcall;
+    libGetFloatingSpeciesByIndex : function (rrHandle : Pointer; var index : integer; var value : double) : boolean; stdcall;
+    libGetBoundarySpeciesByIndex : function (rrHandle : Pointer; var index : integer; var value : double) : boolean; stdcall;
 
-    libGetFloatingSpeciesConcentrations : function : PRRDoubleVectorHandle; stdcall;
-    libGetBoundarySpeciesConcentrations : function : PRRDoubleVectorHandle; stdcall;
+    libGetFloatingSpeciesConcentrations : function (rrHandle : Pointer) : PRRDoubleVectorHandle; stdcall;
+    libGetBoundarySpeciesConcentrations : function (rrHandle : Pointer) : PRRDoubleVectorHandle; stdcall;
 
-    libSetFloatingSpeciesConcentrations : function (values : PRRDoubleVectorHandle) : boolean; stdcall;
-    libSetBoundarySpeciesConcentrations : function (values : PRRDoubleVectorHandle) : boolean; stdcall;
+    libSetFloatingSpeciesConcentrations : function (rrHandle : Pointer; values : PRRDoubleVectorHandle) : boolean; stdcall;
+    libSetBoundarySpeciesConcentrations : function (rrHandle : Pointer; values : PRRDoubleVectorHandle) : boolean; stdcall;
 
-    libGetNumberOfDependentSpecies : function : integer; stdcall;
-    libGetNumberOfIndependentSpecies : function : integer; stdcall;
+    libGetNumberOfDependentSpecies : function (rrHandle : Pointer) : integer; stdcall;
+    libGetNumberOfIndependentSpecies : function (rrHandle : Pointer) : integer; stdcall;
 
     libSteadyState : TSteadyState;
-    libGetReactionRate : TIntDoubleFunc;
-    libGetReactionRates : TVoidVectorFunc;
-    libGetRatesOfChange : TVoidVectorFunc;
+    libGetReactionRate : THandleIntDoubleFunc;
+    libGetReactionRates : THandleVectorFunc;
+    libGetRatesOfChange : THandleVectorFunc;
     libOneStep : TOneStep;
 
-    libGetCompartmentIds     : TVoidStringListFunc;
-    libGetBoundarySpeciesIds : TVoidStringListFunc;
-    libGetFloatingSpeciesIds : TVoidStringListFunc;
-    libGetGlobalParameterIds : TVoidStringListFunc;
-    libGetRatesOfChangeIds   : TVoidStringListFunc;
-    libGetEigenvalueIds      : TVoidStringListFunc;
-    libGetElasticityIds      : TVoidStringListFunc;
+    libGetCompartmentIds     : THandleStringListFunc;
+    libGetBoundarySpeciesIds : THandleStringListFunc;
+    libGetFloatingSpeciesIds : THandleStringListFunc;
+    libGetGlobalParameterIds : THandleStringListFunc;
+    libGetRatesOfChangeIds   : THandleStringListFunc;
+    libGetEigenvalueIds      : THandleStringListFunc;
+    libGetElasticityIds      : THandleStringListFunc;
 
     libSetSteadyStateSelectionList : TCharBoolFunc;
-    libGetSteadyStateSelectionList : function : PRRListRecordHandle; stdcall;
-    libGetTimeCourseSelectionList  : function : PRRListRecordHandle; stdcall;
+    libGetSteadyStateSelectionList : function (internalRRHandle : Pointer) : PRRListRecordHandle; stdcall;
+    libGetTimeCourseSelectionList  : function (internalRRHandle : Pointer) : PRRListRecordHandle; stdcall;
     libGetAvailableTimeCourseSymbols : TLibGetAvailableSymbols;
 
     libGetAvailableSteadyStateSymbols : TLibGetAvailableSymbols;
@@ -362,6 +376,7 @@ var DLLHandle : Cardinal;
     libFreeText : TCharBoolFunc;
     libFreeDoubleVector : TFreeRRDoubleVector;
 
+
 // Utility Routines
 // --------------------------------------------------------------
 function getArrayOfStrings (pList: PRRStringArray) : TStringList;
@@ -385,7 +400,8 @@ begin
       end;
 end;
 
-function loadIntoMatrix (matrix : PRRMatrixHandle) : TMatrix;
+
+function loadIntoMatrix (matrix : PRRMatrixHandle) : TMatrix; overload;
 var nr, nc : integer;
     i, j : integer;
 begin
@@ -447,6 +463,20 @@ begin
   end;
 end;
 
+
+function loadIntoMatrix (matrix : T2DDoubleArray) : TMatrix;
+var nr, nc : integer;
+    i, j : integer;
+begin
+  nr := getRows (matrix);
+  nc := getColumns (matrix);
+  result := TMatrix.Create (nr, nc);
+  for i := 0 to nr - 1 do
+      for j := 0 to nc - 1 do
+          result[i+1,j+1] := matrix[i, j];
+end;
+
+
 // -----------------------------------------------------------------
 // For doumentation, see the C API docs at:
 //      http://code.google.com/p/roadrunnerwork/
@@ -456,6 +486,12 @@ function createRRInstance : Pointer;
 begin
   result := libCreateRRInstance;
 end;
+
+function createInternalRRInstance : Pointer;
+begin
+  internalRRHandle := libCreateRRInstance;
+end;
+
 
 procedure freeRRInstance (myInstance : Pointer);
 begin
@@ -497,7 +533,7 @@ end;
 
 function hasError : boolean;
 begin
-  result := libHasError (rrHandle);
+  result := libHasError (internalRRHandle);
 end;
 
 
@@ -508,7 +544,7 @@ end;
 
 function enableLoggingToFile : boolean;
 begin
-  result := libEnableLoggingToFile (rrHandle);
+  result := libEnableLoggingToFile (internalRRHandle);
   loggingEnabled := true;
 end;
 
@@ -527,7 +563,7 @@ end;
 
 function setTempFolder (name : AnsiString) : boolean;
 begin
-  result := libSetTempFolder (rrHandle, PAnsiChar (name));
+  result := libSetTempFolder (internalRRHandle, PAnsiChar (name));
 end;
 
 
@@ -548,7 +584,7 @@ end;
 
 function loadSBML (sbmlStr : AnsiString) : boolean;
 begin
-  result := libLoadSBML (rrHandle, PAnsiChar (sbmlStr));
+  result := libLoadSBML (internalRRHandle, PAnsiChar (sbmlStr));
 end;
 
 
@@ -557,7 +593,7 @@ var str : AnsiString;
 begin
   if FileExists (fileName) then
      begin
-     result := libLoadSBMLFromFile (rrHandle, PAnsiChar (fileName));
+     result := libLoadSBMLFromFile (internalRRHandle, PAnsiChar (fileName));
      end
   else
      raise Exception.Create ('Unable to locate SBML file [' + fileName + ']');
@@ -572,14 +608,14 @@ end;
 
 function getValue (Id : AnsiString) : double;
 begin
-  if not libGetValue (PAnsiChar (Id), result) then
+  if not libGetValue (internalRRHandle, PAnsiChar (Id), result) then
      raise Exception.Create ('Error in getVlaue');
 end;
 
 
 function setValue (Id : AnsiString; value : double) : boolean;
 begin
-  result := libSetValue (PAnsiChar (Id), value);
+  result := libSetValue (internalRRHandle, PAnsiChar (Id), value);
 end;
 
 
@@ -595,26 +631,26 @@ begin
  p := libCreateVector (length (value));
  for i := 0 to length (value) - 1 do
      p^.data[i] := value[i];
- result := libSetFloatingSpeciesInitialConcentrations (p);
+ result := libSetFloatingSpeciesInitialConcentrations (internalRRHandle, p);
  libFreeDoubleVector (p);
 end;
 
 
 function getCapabilities : AnsiString;
 begin
-  result := libGetCapabilities;
+  result := libGetCapabilities (internalRRHandle);
 end;
 
 
 function setCapabilities (str : AnsiString) : boolean;
 begin
-  result := libSetCapabilities (rrHandle, PAnsiChar (str));
+  result := libSetCapabilities (internalRRHandle, PAnsiChar (str));
 end;
 
 
 function evalModel : boolean;
 begin
-  result := libEvalModel (rrHandle);
+  result := libEvalModel (internalRRHandle);
 end;
 
 
@@ -644,6 +680,17 @@ begin
 end;
 
 
+function mGetReducedJacobian : TMatrix;
+var p : PRRMatrixHandle;
+begin
+  p := libGetReducedJacobian;
+  try
+    result := loadIntoMatrix(p);
+  finally
+    libFreeMatrix (p);
+  end;
+end;
+
 function setTimeCourseSelectionList (strList : TStringList) : boolean;
 var i : integer;
 begin
@@ -653,7 +700,7 @@ begin
   selectionList := strList[0];
   for i := 1 to strList.Count - 1 do
       selectionList := selectionList + ' ' + strList[i];
-  if not libSetTimeCourseSelectionList (PAnsiChar (selectionList)) then
+  if not libSetTimeCourseSelectionList (internalRRHandle, PAnsiChar (selectionList)) then
      raise Exception.Create ('Error calling setSelectionList');
 end;
 
@@ -661,28 +708,28 @@ end;
 function getTimeCourseSelectionList: TRRList;
 var ptr : PRRListRecordHandle;
 begin
-  ptr := libGetTimeCourseSelectionList;
+  ptr := libGetTimeCourseSelectionList (internalRRHandle);
   result := extractList (ptr);
 end;
 
 
 procedure setTimeStart (value : double);
 begin
-  if not libSetTimeStart (value) then
+  if not libSetTimeStart (internalRRHandle, value) then
      raise Exception.Create ('Error while calling setTimeStart');
 end;
 
 
 procedure setTimeEnd (value : double);
 begin
-  if not libSetTimeEnd (value) then
+  if not libSetTimeEnd (internalRRHandle, value) then
      raise Exception.Create ('Error while calling setTimeEnd');
 end;
 
 
 procedure setNumberOfPoints (value : integer);
 begin
-  if not libSetNumberOfPoints (value) then
+  if not libSetNumberOfPoints (internalRRHandle, value) then
      raise Exception.Create ('Error while calling setNumberOfPoints');
 end;
 
@@ -693,7 +740,7 @@ var RRResult : PRRResultHandle;
     i, j : integer;
     nr, nc : integer;
 begin
-  RRResult := libSimulate;
+  RRResult := libSimulate (internalRRHandle);
 
   if RRResult = nil then
      raise Exception.Create (getLastError());
@@ -715,7 +762,7 @@ var RRResult : PRRResultHandle;
     i, j : integer;
     nr, nc : integer;
 begin
-  RRResult := libSimulate;
+  RRResult := libSimulate (internalRRHandle);
 
   if RRResult = nil then
      raise Exception.Create (getLastError());
@@ -737,7 +784,7 @@ var RRResult : PRRResultHandle;
     i, j : integer;
     nr, nc : integer;
 begin
-  RRResult := libSimulateEx (timeStart, timeEnd, numberOfPoints);
+  RRResult := libSimulateEx (internalRRHandle, timeStart, timeEnd, numberOfPoints);
   if RRResult = nil then
      raise Exception.Create (getLastError());
   try
@@ -755,14 +802,14 @@ end;
 
 function oneStep (var currentTime : double; var stepSize : double) : double;
 begin
-  result := libOneStep (currentTime, stepSize);
+  result := libOneStep (internalRRHandle, currentTime, stepSize);
 end;
 
 
 function getReactionIds : TStringList;
 var pList : PRRStringArray;
 begin
-  pList := libGetReactionIds;
+  pList := libGetReactionIds (internalRRHandle);
   if pList <> nil then
      try
        result := getArrayOfStrings(pList);
@@ -776,19 +823,19 @@ end;
 
 function getNumberOfReactions : integer;
 begin
-  result := libGetNumberOfReactions;
+  result := libGetNumberOfReactions (internalRRHandle);
 end;
 
 function getNumberOfBoundarySpecies : integer;
 begin
-  result := libGetNumberOfBoundarySpecies;
+  result := libGetNumberOfBoundarySpecies (internalRRHandle);
 end;
 
 
 function getBoundarySpeciesIds : TStringList;
 var p : PRRStringArray;
 begin
-  p := libGetBoundarySpeciesIds;
+  p := libGetBoundarySpeciesIds (internalRRHandle);
   try
     if p = nil then
        result := TStringList.Create
@@ -803,7 +850,7 @@ end;
 function getFloatingSpeciesIds : TStringList;
 var p : PRRStringArray;
 begin
-  p := libGetFloatingSpeciesIds;
+  p := libGetFloatingSpeciesIds (internalRRHandle);
   try
     if p = nil then
        result := TStringList.Create
@@ -818,7 +865,7 @@ end;
 function getGlobalParameterIds : TStringList;
 var p : PRRStringArray;
 begin
-  p := libGetGlobalParameterIds;
+  p := libGetGlobalParameterIds (internalRRHandle);
   try
     if p = nil then
        result := TStringList.Create
@@ -833,7 +880,7 @@ end;
 function getFloatingSpeciesConcentrations : TDoubleArray;
 var p : PRRDoubleVectorHandle; i : integer;
 begin
-  p := libGetFloatingSpeciesConcentrations;
+  p := libGetFloatingSpeciesConcentrations (internalRRHandle);
   try
     setLength (result, p^.count);
     for i := 0 to p^.count - 1 do
@@ -847,7 +894,7 @@ end;
 function getBoundarySpeciesConcentrations : TDoubleArray;
 var p : PRRDoubleVectorHandle; i : integer;
 begin
-  p := libGetBoundarySpeciesConcentrations;
+  p := libGetBoundarySpeciesConcentrations (internalRRHandle);
   try
     setLength (result, p^.count);
     for i := 0 to p^.count - 1 do
@@ -862,7 +909,7 @@ end;
 function getRatesOfChangeIds : TStringList;
 var p : PRRStringArray;
 begin
-  p := libGetRatesOfChangeIds;
+  p := libGetRatesOfChangeIds (internalRRHandle);
   try
     if p = nil then
        result := TStringList.Create
@@ -877,7 +924,7 @@ end;
 function getEigenvalueIds : TStringList;
 var p : PRRStringArray;
 begin
-  p := libGetEigenvalueIds;
+  p := libGetEigenvalueIds (internalRRHandle);
   try
     if p = nil then
        result := TStringList.Create
@@ -892,7 +939,7 @@ end;
 function getElasticityIds : TStringList;
 var p : PRRStringArray;
 begin
-  p := libGetElasticityIds;
+  p := libGetElasticityIds (internalRRHandle);
   try
     if p = nil then
        result := TStringList.Create
@@ -905,26 +952,26 @@ end;
 
 function getNumberOfFloatingSpecies : integer;
 begin
-  result := libGetNumberOfFloatingSpecies;
+  result := libGetNumberOfFloatingSpecies (internalRRHandle);
 end;
 
 
 function getNumberOfGlobalParameters : integer;
 begin
-  result := libGetNumberOfGlobalParameters;
+  result := libGetNumberOfGlobalParameters (internalRRHandle);
 end;
 
 
 function getNumberOfCompartments : integer;
 begin
-  result := libGetNumberOfCompartments;
+  result := libGetNumberOfCompartments (internalRRHandle);
 end;
 
 
 function getCompartmentIds : TStringList;
 var pList : PRRStringArray;
 begin
-  pList := libGetCompartmentIds;
+  pList := libGetCompartmentIds (internalRRHandle);
   if pList <> nil then
      try
        result := getArrayOfStrings(pList);
@@ -938,71 +985,71 @@ end;
 
 function setCompartmentByIndex (index : integer; value : double) : boolean;
 begin
-  result := libSetCompartmentByIndex (index, value);
+  result := libSetCompartmentByIndex (internalRRHandle, index, value);
 end;
 
 
 function setFloatingSpeciesByIndex (index : integer; value : double) : boolean;
 begin
-  result := libSetFloatingSpeciesByIndex (index, value);
+  result := libSetFloatingSpeciesByIndex (internalRRHandle, index, value);
 end;
 
 
 function setBoundarySpeciesByIndex (index : integer; value : double) : boolean;
 begin
-  result := libSetBoundarySpeciesByIndex (index, value);
+  result := libSetBoundarySpeciesByIndex (internalRRHandle, index, value);
 end;
 
 
 function setGlobalParameterByIndex (index : integer; value : double) : boolean;
 begin
-  result := libSetGlobalParameterByIndex (index, value);
+  result := libSetGlobalParameterByIndex (internalRRHandle, index, value);
 end;
 
 
 function getCompartmentByIndex (index : integer) : double;
 begin
-  if not libGetCompartmentByIndex (index, result) then
+  if not libGetCompartmentByIndex (internalRRHandle, index, result) then
      raise Exception.Create ('Index out of range in getCompartmentByIndex');
 end;
 
 
 function getFloatingSpeciesByIndex (index : integer) : double;
 begin
-  if not libGetFloatingSpeciesByIndex (index, result) then
+  if not libGetFloatingSpeciesByIndex (internalRRHandle, index, result) then
      raise Exception.Create ('Index out of range in getFloatingSpeciesByIndex');
 end;
 
 
 function getBoundarySpeciesByIndex (index : integer) : double;
 begin
-  if not libGetBoundarySpeciesByIndex (index, result) then
+  if not libGetBoundarySpeciesByIndex (internalRRHandle, index, result) then
      raise Exception.Create ('Index out of range in getBoundarySpeciesByIndex');
 end;
 
 
 function getGlobalParameterByIndex (index : integer) : double;
 begin
-  if not libGetGlobalParameterByIndex (index, result) then
+  if not libGetGlobalParameterByIndex (internalRRHandle, index, result) then
      raise Exception.Create ('Index out of range in getGlobalParameterByIndex');
 end;
 
 
 function getNumberOfDependentSpecies : integer;
 begin
-  result := libGetNumberOfDependentSpecies;
+  result := libGetNumberOfDependentSpecies (internalRRHandle);
 end;
 
 function getNumberOfIndependentSpecies : integer;
 begin
-  result := libGetNumberOfIndependentSpecies;
+  result := libGetNumberOfIndependentSpecies (internalRRHandle);
 end;
 
 
 function steadyState : double;
 var errMsg : AnsiString;
 begin
-  if not libSteadyState (result) then
+  if not libSteadyState (internalRRHandle, result) then
      begin
      errMsg := getLastError;
      raise Exception.Create (errMsg);
@@ -1013,7 +1060,7 @@ end;
 function computeSteadyStateValues : TDoubleArray;
 var p : PRRDoubleVectorHandle; i : integer;
 begin
-  p := libComputeSteadyStateValues;
+  p := libComputeSteadyStateValues (internalRRHandle);
   try
     setLength (result, p.count);
     for i := 0 to p.count - 1 do
@@ -1032,6 +1079,20 @@ begin
      raise Exception.Create ('No Eigenvalue matrix');
   try
     result := loadInTo2DArray (p);
+  finally
+    libFreeMatrix (p);
+  end;
+end;
+
+
+function mGetEigenvalues : TMatrix;
+var p : PRRMatrixHandle;
+begin
+  //p := libGetEigenvalues (rrHandle);
+  if p = nil then
+     raise Exception.Create ('No Eigenvalue matrix');
+  try
+    result := loadInToMatrix (p);
   finally
     libFreeMatrix (p);
   end;
@@ -1062,7 +1123,7 @@ begin
      str := strList[0];
      for i := 1 to strList.Count - 1 do
          str := ' ' + strList[i];
-     libSetSteadyStateSelectionList (rrHandle, PAnsiChar (str));
+     libSetSteadyStateSelectionList (internalRRHandle, PAnsiChar (str));
      end;
   result := true;
 end;
@@ -1071,7 +1132,7 @@ end;
 function getSteadyStateSelectionList: TRRList;
 var ptr : PRRListRecordHandle;
 begin
-  ptr := libGetSteadyStateSelectionList;
+  ptr := libGetSteadyStateSelectionList (internalRRHandle);
   result := extractList (ptr);
 end;
 
@@ -1079,7 +1140,7 @@ end;
 function getUnscaledFluxControlCoefficientMatrix : T2DDoubleArray;
 var p1 : PRRMatrixHandle;
 begin
-  p1 := libGetuFCC(rrHandle);
+  p1 := libGetuFCC (internalRRHandle);
   if p1 = nil then
      exit;
 
@@ -1090,7 +1151,7 @@ end;
 function  getScaledFluxControlCoefficientMatrix : T2DDoubleArray;
 var p1 : PRRMatrixHandle;
 begin
-  p1 := libGetFCC(rrHandle);
+  p1 := libGetFCC (internalRRHandle);
   if p1 = nil then
      raise Exception.Create ('Error in FCC function' + getLastError);
 
@@ -1100,28 +1161,28 @@ end;
 
 function getuCC (variable : AnsiString; parameter : AnsiString) : double;
 begin
-  if not libgetuCC (PAnsiChar (variable), PAnsiChar (parameter), result) then
+  if not libgetuCC (internalRRHandle, PAnsiChar (variable), PAnsiChar (parameter), result) then
      raise Exception.Create ('Error in getCC function');
 end;
 
 
 function getCC (variable : AnsiString; parameter : AnsiString) : double;
 begin
-  if not libgetCC (PAnsiChar (variable), PAnsiChar (parameter), result) then
+  if not libgetCC (internalRRHandle, PAnsiChar (variable), PAnsiChar (parameter), result) then
      raise Exception.Create ('Error in getCC function');
 end;
 
 
 function getuEE (variable : AnsiString; parameter : AnsiString) : double;
 begin
-  if not libgetuEE (PAnsiChar (variable), PAnsiChar (parameter), result) then
+  if not libgetuEE (internalRRHandle, PAnsiChar (variable), PAnsiChar (parameter), result) then
      raise Exception.Create ('Error in getCC function');
 end;
 
 
 function getEE (variable : AnsiString; parameter : AnsiString) : double;
 begin
-  if not libgetEE (PAnsiChar (variable), PAnsiChar (parameter), result) then
+  if not libgetEE (internalRRHandle, PAnsiChar (variable), PAnsiChar (parameter), result) then
      raise Exception.Create ('Error in getCC function');
 end;
 
@@ -1129,7 +1190,7 @@ end;
 function getAvailableTimeCourseSymbols : TRRList;
 var ptr : PRRListRecordHandle;
 begin
-  ptr := libGetAvailableTimeCourseSymbols();
+  ptr := libGetAvailableTimeCourseSymbols (internalRRHandle);
   result := extractList (ptr);
 end;
 
@@ -1137,7 +1198,7 @@ end;
 function getAvailableSteadStateSymbols : TRRList;
 var ptr : PRRListRecordHandle;
 begin
-  ptr := libGetAvailableSteadyStateSymbols();
+  ptr := libGetAvailableSteadyStateSymbols (internalRRHandle);
   result := extractList (ptr);
 end;
 
@@ -1148,10 +1209,9 @@ var subList : TRRList; st : TStringList;
     i : integer;
     ptr : PRRListRecordHandle;
 begin
-  ptr := libGetAvailableTimeCourseSymbols();
+  ptr := libGetAvailableTimeCourseSymbols (internalRRHandle);
   result := extractList (ptr);
   exit;
-
 
   subList := TRRList.Create;
   subList.Add (TRRListItem.Create ('time'));
@@ -1159,13 +1219,13 @@ begin
 
   subList := TRRList.Create;
   subList.Add (TRRListItem.Create ('Floating Species'));
-  st := getFloatingSpeciesIds();
+  st := getFloatingSpeciesIds ();
   for i := 0 to st.Count - 1 do
       subList.Add (TRRListItem.Create (st[i]));
   result.Add (TRRListItem.Create (subList));
   st.Free;
 
-  st := getBoundarySpeciesIds();
+  st := getBoundarySpeciesIds ();
   subList := TRRList.Create;
   subList.Add (TRRListItem.Create ('Boundary Species'));
   for i := 0 to st.Count - 1 do
@@ -1187,7 +1247,7 @@ begin
   lresultist.Add (TRRListItem.Create (subList));
   st.Free;}
 
-  st := getGlobalParameterIds();
+  st := getGlobalParameterIds ();
   subList := TRRList.Create;
   subList.Add (TRRListItem.Create ('Global Parameter Ids'));
   for i := 0 to st.Count - 1 do
@@ -1203,7 +1263,7 @@ begin
   result.Add (TRRListItem.Create (subList));
   st.Free;}
 
-  st := getReactionIds();
+  st := getReactionIds ();
   subList := TRRList.Create;
   subList.Add (TRRListItem.Create ('Reaction Ids'));
   for i := 0 to st.Count - 1 do
@@ -1255,14 +1315,14 @@ end;
 
 function getReactionRate (index : integer) : double;
 begin
-  result := libGetReactionRate (index);
+  result := libGetReactionRate (internalRRHandle, index);
 end;
 
 
 function getReactionRates : TDoubleArray;
 var p : PRRDoubleVectorHandle; i : integer;
 begin
-  p := libGetReactionRates;
+  p := libGetReactionRates (internalRRHandle);
   try
     if p = nil then
        begin
@@ -1281,7 +1341,7 @@ end;
 function getRatesOfChange : TDoubleArray;
 var p : PRRDoubleVectorHandle; i : integer;
 begin
-  p := libGetRatesOfChange;
+  p := libGetRatesOfChange (internalRRHandle);
   try
     if p = nil then
        begin
@@ -1301,7 +1361,7 @@ function getStoichiometryMatrix : T2DDoubleArray;
 var st : PRRMatrixHandle;
     i : integer;
 begin
-  st := libGetStoichiometryMatrix (rrHandle);
+  st := libGetStoichiometryMatrix (internalRRHandle);
   try
     if st = nil then
        begin
@@ -1316,11 +1376,30 @@ begin
 end;
 
 
+function mGetStoichiometryMatrix : TMatrix;
+var st : PRRMatrixHandle;
+    i : integer;
+begin
+  st := libGetStoichiometryMatrix (internalRRHandle);
+  try
+    if st = nil then
+       begin
+       result := nil;
+       exit;
+       end;
+
+    result := loadInToMatrix (st);
+  finally
+    libFreeMatrix (st);
+  end;
+end;
+
+
 function getLinkMatrix : T2DDoubleArray;
 var st : PRRMatrixHandle;
     i, j : integer;
 begin
-  st := libGetLinkMatrix (rrHandle);
+  st := libGetLinkMatrix (internalRRHandle);
   try
     if st = nil then
        begin
@@ -1338,7 +1417,7 @@ end;
 function getNrMatrix : T2DDoubleArray;
 var st : PRRMatrixHandle;
 begin
-  st := libGetNrMatrix (rrHandle);
+  st := libGetNrMatrix (internalRRHandle);
   try
     if st = nil then
        begin
@@ -1356,7 +1435,7 @@ end;
 function getL0Matrix : T2DDoubleArray;
 var st : PRRMatrixHandle;
 begin
-  st := libGetL0Matrix (rrHandle);
+  st := libGetL0Matrix (internalRRHandle);
   try
     if st = nil then
        begin
@@ -1374,7 +1453,7 @@ end;
 function getConservationMatrix : T2DDoubleArray;
 var st : PRRMatrixHandle;
 begin
-  st := libGetConservationMatrix (rrHandle);
+  st := libGetConservationMatrix (internalRRHandle);
   try
     if st = nil then
        begin
@@ -1386,6 +1465,29 @@ begin
   finally
     libFreeMatrix (st);
   end;
+end;
+
+
+function mGetConservationMatrix : TMatrix;
+var st : PRRMatrixHandle;
+begin
+  st := libGetConservationMatrix (internalRRHandle);
+  try
+    if st = nil then
+       begin
+       result := nil;
+       exit;
+       end;
+
+    result := loadInToMatrix (st);
+  finally
+    libFreeMatrix (st);
+  end;
+end;
+
+
+procedure setMatrixElement ();
+begin
 end;
 
 // ---------------------------------------------------------------------
