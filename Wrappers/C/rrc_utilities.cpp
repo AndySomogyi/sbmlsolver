@@ -80,11 +80,12 @@ bool rrCallConv compileSource(RRHandle handle, const char* sourceFileName)
     CATCH_BOOL_MACRO
 }
 
+#if defined(WIN32) || defined (_WIN32)
 int WINAPI DllEntryPoint(HINSTANCE hinst, unsigned long reason, void* lpReserved)
 {
     return 1;
 }
-
+#endif
 
 }
 
