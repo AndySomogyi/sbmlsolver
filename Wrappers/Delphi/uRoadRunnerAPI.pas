@@ -34,7 +34,7 @@ unit uRoadRunnerAPI;
 interface
 
 Uses SysUtils, Classes, Windows, uMatrix, Generics.Collections, IOUtils, uRRList,
-     uRRTypes, uSBWArray;
+     uRRTypes, uSBWArray, Dialogs;
 
 {
 C_DECL_SPEC bool                    rrCallConv  setLogLevelFromString(const char* lvl);
@@ -272,7 +272,7 @@ var DLLHandle : Cardinal;
     libSetTempFolder : function (rrHandle : Pointer; folder : PAnsiChar) : bool; stdcall;
 
     libGetBuildDate : TVoidCharFunc;
-    libGetVersion : TVoidCharFunc;
+    libGetVersion : THandleCharFunc;
     libGetCopyright : TGetCopyright;
     libGetTempFolder : TVoidCharFunc;
     libGetCCode : TGetCCode;
@@ -514,7 +514,7 @@ end;
 
 function getVersion : AnsiString;
 begin
-  result := libGetVersion;
+  result := libGetVersion (internalRRHandle);
 end;
 
 
@@ -1674,7 +1674,9 @@ begin
   else
      begin
      DLLLoaded := False;
+     showmessage ('Stage Y');
      errMsg := 'Unable to locate roadRunner library at:[' + getCurrentDir + ']';
+     showmessage ('Stage Z');
      end;
 end;
 
