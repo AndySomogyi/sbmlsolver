@@ -108,14 +108,19 @@ ${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib
 )
 
 #=== COMPILER FLAGS 
+
+# UNIX matches ALL Unicies, including Apple
 if(${UNIX})
-SET (CMAKE_CXX_FLAGS 			"${CMAKE_CXX_FLAGS} -fPIC")
-SET (CMAKE_C_FLAGS 				"${CMAKE_C_FLAGS} -fPIC")
+  SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+  SET (CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -fPIC")
 endif()
 
-#if(${MSVC})
-#SET (CMAKE_C_FLAGS_RELEASE 			"/MD /Od /Ob0 /D NDEBUG /P")
-#endif()
+# Only matches Linux, Linux has some system headers that conflict with std::isnan
+# when building libsbml
+if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
+  SET (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC -std=gnu++0x")
+endif()
+
 
 if(${BORLAND})
 add_definitions(
