@@ -41,9 +41,15 @@
 // an un-needed depencency, as we can write our own getch easily.
 // We do need the standard Posix termio headers though.
 #if defined __unix__ || defined __APPLE__
+#include <stdlib.h>
 #include <termios.h>
-#include <stdio.h>
 #endif
+
+#if defined __APPLE__
+#include <limits.h>  //PATH_MAX
+#include <mach-o/dyld.h>
+#endif
+
 
 //---------------------------------------------------------------------------
 
@@ -136,7 +142,14 @@ string getCurrentExeFolder()
 		return aPath;
     }
     return "";
-#else
+#elif defined __APPLE__
+    char path[PATH_MAX+1];
+    unsigned  bufsize = sizeof(path);
+    if (_NSGetExecutablePath(path, &bufsize) == 0) {
+	    string aPath(ExtractFilePath(path));
+		return aPath;
+    }
+#elif defined __linux
         char arg1[20];
         char exepath[PATH_MAX + 1] = {0};
 

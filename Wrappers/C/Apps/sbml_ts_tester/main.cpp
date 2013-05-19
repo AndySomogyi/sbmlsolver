@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
     ProcessCommandLineArguments(argc, argv, args);
 
     string thisExeFolder = getCurrentExeFolder();
-    clog<<"RoadRunner bin location is: "<<thisExeFolder<<endl;
+    cout << "RoadRunner bin location is: "<<thisExeFolder<<endl;
 
     //Assume(!) this is the bin folder of roadrunner install
 	gRRInstallFolder = getParentFolder(thisExeFolder);	//Go up one folder

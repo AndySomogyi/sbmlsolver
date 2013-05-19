@@ -38,7 +38,7 @@ const string		gEmptyModelMessage 			= "A model needs to be loaded before one can
 #elif defined(__unix__) || defined(__APPLE__)
     // the default compiler on Unix systems is 'cc', the standard enviornment
     // for the default compiler is 'CC'.
-    const string		gDefaultCompiler    = getenv("CC") ? getenv("CC") : "cc";
+    const string		gDefaultCompiler    = getenv("CC") ? getenv("CC") : "gcc";
     const char       	gPathSeparator      = '/';
     const string		gExeSuffix          = "";
 #else  //Something else...

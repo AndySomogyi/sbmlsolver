@@ -66,8 +66,10 @@ bool Compiler::compileSource(const string& sourceFileName)
     //Compile the code and load the resulting dll, and call an exported function in it...
 #if defined(_WIN32) || defined(__CODEGEARC__)
     string dllFName(ChangeFileExtensionTo(ExtractFileName(sourceFileName), "dll"));
-#else
+#elif defined __unix__
     string dllFName(ChangeFileExtensionTo(ExtractFileName(sourceFileName), "so"));
+#elif defined __APPLE__
+    string dllFName(ChangeFileExtensionTo(ExtractFileName(sourceFileName), "dylib"));
 #endif
     mDLLFileName = JoinPath(ExtractFilePath(sourceFileName), dllFName);
 
@@ -137,8 +139,12 @@ bool Compiler::setupCompilerEnvironment()
     if(ExtractFileNameNoExtension(mCompilerName) == "tcc" || ExtractFileNameNoExtension(mCompilerName) == "gcc")
     {
         mCompilerFlags.push_back("-g");         //-g adds runtime debug information
+#if defined __unix__
         mCompilerFlags.push_back("-shared");
         mCompilerFlags.push_back("-rdynamic");  //-rdynamic : Export global symbols to the dynamic linker
+#elif defined __APPLE__
+        mCompilerFlags.push_back("-dynamiclib");
+#endif
                                                 //-b : Generate additional support code to check memory allocations and array/pointer bounds. `-g' is implied.
 
         mCompilerFlags.push_back("-fPIC"); // shared lib
@@ -190,8 +196,11 @@ bool Compiler::setupCompilerEnvironment()
 string Compiler::createCompilerCommand(const string& sourceFileName)
 {
     stringstream exeCmd;
-    if(ExtractFileNameNoExtension(mCompilerName) == "tcc" || ExtractFileNameNoExtension(mCompilerName) == "gcc")
+    if(ExtractFileNameNoExtension(mCompilerName) == "tcc" 
+       || ExtractFileNameNoExtension(mCompilerName) == "gcc"
+       || ExtractFileNameNoExtension(mCompilerName) == "cc")
     {
+        // standard unix compiler options
         exeCmd<<JoinPath(mCompilerLocation, mCompilerName);
         //Add compiler flags
         for(int i = 0; i < mCompilerFlags.size(); i++)
