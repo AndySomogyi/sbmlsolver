@@ -37,7 +37,44 @@
 #include "rrLogger.h"
 #include "rrMisc.h"
 
+// Most Unix systems have a getch in libcurses, but this introduces 
+// an un-needed depencency, as we can write our own getch easily.
+// We do need the standard Posix termio headers though.
+#if defined __unix__ || defined __APPLE__
+#include <termios.h>
+#include <stdio.h>
+#endif
+
 //---------------------------------------------------------------------------
+
+
+// A function to get a character from the console without echo.
+// equivalent of Windows / Curses getch function
+#if defined __unix__ || defined __APPLE__
+
+static char __getch() 
+{
+    char ch;
+    termios _old, _new;
+
+    /* Initialize new terminal i/o settings */
+    tcgetattr(0, &_old); /* grab old terminal i/o settings */
+    _new = _old; /* make new settings same as old settings */
+    _new.c_lflag &= ~ICANON; /* disable buffered i/o */
+    _new.c_lflag &= ~ECHO; /* set no echo mode */
+    tcsetattr(0, TCSANOW, &_new); /* use these new terminal i/o settings now */
+
+    ch = getchar();
+
+    /* Restore old terminal i/o settings */
+    tcsetattr(0, TCSANOW, &_old);
+    return ch;
+}
+
+#else
+#define __getch getch
+#endif
+
 
 namespace rr
 {
@@ -254,10 +291,8 @@ void Pause(bool doIt, const string& msg)
     	cout<<msg;
     }
     cin.ignore(0,'\n');
-#if !defined(__linux)    
-    getch();
-#endif    
 
+    __getch();
 }
 
 bool FileExists(const string& fName)
