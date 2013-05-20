@@ -36,18 +36,6 @@ interface
 Uses SysUtils, Classes, Windows, uMatrix, Generics.Collections, IOUtils, uRRList,
      uRRTypes, uSBWArray, Dialogs;
 
-{
-C_DECL_SPEC bool                    rrCallConv  setLogLevelFromString(const char* lvl);
-C_DECL_SPEC bool                    rrCallConv  getLogLevel(int& lvl);
-C_DECL_SPEC char*                   rrCallConv  getLogFileName();
-
-C_DECL_SPEC char*                   rrCallConv  getBuildDate();
-C_DECL_SPEC char*                   rrCallConv  getCopyright();
-C_DECL_SPEC bool                    rrCallConv  setTempFolder(const char* folder);
-C_DECL_SPEC char*                   rrCallConv  getTempFolder();
-}
-
-
 type
   TAnsiCharArray = array[0..100000] of AnsiChar;
   PAnsiCharArray = ^TAnsiCharArray;
@@ -89,7 +77,7 @@ type
   TSetNumPoints = function (rrHandle : Pointer; value : integer) : bool; stdcall;
   TSimulateEx = function (rrHandle : Pointer; timeStart : double; timeEnd : double; numberOfPoints : integer) : PRRResultHandle; stdcall;
   TGetMatrix = function (rrHandle : Pointer) : PRRMatrixHandle; stdcall;
-  TGetSetMatrix = function (mat : PRRMatrixHandle) : PRRMatrixHandle; stdcall;
+  TGetSetMatrix = function (rrHandle : Pointer; mat : PRRMatrixHandle) : PRRMatrixHandle; stdcall;
   TFreeRRResult = function (ptr : PRRResultHandle) : boolean; stdcall;
   TFreeRRInstance = procedure (instance : Pointer); stdcall;
   THandleVectorFunc = function (rrHandle : Pointer) : PRRDoubleVectorHandle; stdcall;
@@ -1099,6 +1087,7 @@ begin
 end;
 
 
+
 function  getEigenvaluesMatrix (m : T2DDoubleArray) : T2DDoubleArray;
 var p1, p2 : PRRMatrixHandle;
 begin
@@ -1106,7 +1095,7 @@ begin
   if p1 = nil then
      exit;
 
-  p2 := libGetEigenvaluesMatrix (p1);
+  p2 := libGetEigenvaluesMatrix (internalRRHandle, p1);
   if p2 = nil then
      exit;
 
@@ -1668,15 +1657,13 @@ begin
          begin
          errStr := SysErrorMessage(Windows.GetLastError);
          DLLLoaded := False;
-         errMsg := 'Failed to load roadRunner at:[' + getCurrentDir + ']: ' + errStr;
+         errMsg := 'Failed to load roadRunner at:[' + ExtractFilePath (path) + ']: ' + errStr;
          end;
      end
   else
      begin
      DLLLoaded := False;
-     showmessage ('Stage Y');
-     errMsg := 'Unable to locate roadRunner library at:[' + getCurrentDir + ']';
-     showmessage ('Stage Z');
+     errMsg := 'Unable to locate roadRunner library at:[' + ExtractFilePath (path) + ']';
      end;
 end;
 
