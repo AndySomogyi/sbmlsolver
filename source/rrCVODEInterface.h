@@ -12,7 +12,7 @@ namespace rr
 using std::string;
 
 class Event;
-class ModelFromC;
+class ExecutableModel;
 class RoadRunner;
 
 class RR_DECLSPEC CvodeInterface : public rrObject
@@ -35,7 +35,7 @@ class RR_DECLSPEC CvodeInterface : public rrObject
         int                         mDefaultMaxBDFOrder;
         double                      mLastTimeValue;
         double                      mLastEvent;
-        ModelFromC*					mTheModel;
+        ExecutableModel*					mTheModel;
         int                         mOneStepCount;
         bool                        mFollowEvents;
         RoadRunner				   *mRR;
@@ -54,7 +54,7 @@ class RR_DECLSPEC CvodeInterface : public rrObject
 	 	int         				rootInit (const int& numRoots);//, TRootCallBack callBack, void *gdata);
 		int         				reInit (const double& t0);
 		int          				allocateCvodeMem ();
-        void                        initializeCVODEInterface(ModelFromC *oModel);
+        void                        initializeCVODEInterface(ExecutableModel *oModel);
         void                        setAbsTolerance(int index, double dValue);
 
 
@@ -72,22 +72,22 @@ class RR_DECLSPEC CvodeInterface : public rrObject
         int         		        mCount;
 
 	public:
-                                    CvodeInterface(RoadRunner* rr, ModelFromC* oModel, const double& abTol = 1.e-12, const double& relTol = 1.e-12);
+                                    CvodeInterface(RoadRunner* rr, ExecutableModel* oModel, const double& abTol = 1.e-12, const double& relTol = 1.e-12);
                                    ~CvodeInterface();
 
 		void 						setTolerances(const double& aTol, const double& rTol);
         void                        assignResultsToModel();
-		ModelFromC*					getModel();
+		ExecutableModel*					getModel();
         void                        testRootsAtInitialTime();
         bool                        haveVariables();
 
         double                      oneStep(const double& timeStart, const double& hstep);
         vector<double>              buildEvalArgument();
-        void                        assignNewVector(ModelFromC *model);
-        void                        assignNewVector(ModelFromC *oModel, bool bAssignNewTolerances);
+        void                        assignNewVector(ExecutableModel *model);
+        void                        assignNewVector(ExecutableModel *oModel, bool bAssignNewTolerances);
 
         							// Restart the simulation using a different initial condition
-        void                        reStart(double timeStart, ModelFromC* model);
+        void                        reStart(double timeStart, ExecutableModel* model);
 
 };
 }
