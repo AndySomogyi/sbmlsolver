@@ -8,12 +8,12 @@
 
 namespace rr
 {
-ModelState::ModelState(ExecutableModel& model)
+ModelState::ModelState(ModelFromC& model)
 {
     InitializeFromModel(model);
 }
 
-void ModelState::InitializeFromModel(ExecutableModel& model)
+void ModelState::InitializeFromModel(ModelFromC& model)
 {
     model.convertToConcentrations();
 //    CopyCArrayToStdVector(model.y,                        mFloatingSpeciesConcentrations,       *model.ySize);
@@ -31,7 +31,7 @@ void ModelState::InitializeFromModel(ExecutableModel& model)
     mTime = model.mData.time;
 }
 
-void ModelState::AssignToModel(ExecutableModel& model)
+void ModelState::AssignToModel(ModelFromC& model)
 {
 //    CopyStdVectorToCArray(mFloatingSpeciesConcentrations,   model.y,                        *model.ySize                        );
     CopyStdVectorToCArray(mBoundarySpeciesConcentrations,   model.mData.bc,                       model.mData.bcSize                       );

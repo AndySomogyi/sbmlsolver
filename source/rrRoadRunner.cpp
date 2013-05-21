@@ -14,7 +14,7 @@
 #include "rrCSharpGenerator.h"
 #include "rrCGenerator.h"
 #include "rrUtils.h"
-#include "rrExecutableModel.h"
+#include "rrModelFromC.h"
 #include "rrSBMLModelSimulation.h"
 #include "rr-libstruct/lsLA.h"
 #include "rr-libstruct/lsLibla.h"
@@ -69,6 +69,7 @@ mConservedTotalChanged(false)
 {
     setTempFileFolder(tempFolder);
 	Log(lDebug4)<<"In RoadRunner ctor";
+    mLS 			  ;	//= new LibStructural();
     mCSharpGenerator    = new CSharpGenerator(mLS, mNOM);
     mCGenerator         = new CGenerator(mLS, mNOM);
     mModelGenerator     = mCGenerator;
@@ -94,7 +95,7 @@ RoadRunner::~RoadRunner()
 	mInstanceCount--;
 }
 
-ExecutableModel*	RoadRunner::getModel()
+ModelFromC*	RoadRunner::getModel()
 {
 	return mModel;
 }
@@ -891,7 +892,7 @@ bool RoadRunner::compileModel()
     return true;
 }
 
-ExecutableModel* RoadRunner::createModel()
+ModelFromC* RoadRunner::createModel()
 {
     if(mModel)
     {
@@ -903,7 +904,7 @@ ExecutableModel* RoadRunner::createModel()
     if(mModelLib.isLoaded())
     {
         CGenerator *codeGen = dynamic_cast<CGenerator*>(mModelGenerator);
-        ExecutableModel *rrCModel = new ExecutableModel(*codeGen, mModelLib);
+        ModelFromC *rrCModel = new ModelFromC(*codeGen, mModelLib);
         mModel = rrCModel;
     }
     else

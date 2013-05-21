@@ -5,7 +5,7 @@
 #include <math.h>
 #include "rrException.h"
 #include "rrNLEQInterface.h"
-#include "rrExecutableModel.h"
+#include "rrModelFromC.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
 #include "rrRoadRunner.h"
@@ -18,7 +18,7 @@ namespace rr
 {
 
 string ErrorForStatus(const int& error);
-ExecutableModel* NLEQInterface::model = NULL;     // Model generated from the SBML
+ModelFromC* NLEQInterface::model = NULL;     // Model generated from the SBML
 long		NLEQInterface::n	 = 0;
 
 long  NLEQInterface::getN()
@@ -26,12 +26,12 @@ long  NLEQInterface::getN()
 	return NLEQInterface::n;
 }
 
-ExecutableModel* NLEQInterface::getModel()
+ModelFromC* NLEQInterface::getModel()
 {
     return NLEQInterface::model;
 }
 
-NLEQInterface::NLEQInterface(ExecutableModel *_model)
+NLEQInterface::NLEQInterface(ModelFromC *_model)
 :
 nOpts(50),
 defaultMaxInterations(100),
@@ -181,7 +181,7 @@ double NLEQInterface::solve(const vector<double>& yin)
 
 void ModelFunction(int* nx, double* y, double* fval, int* pErr)
 {
-    ExecutableModel* model = NLEQInterface::getModel();
+    ModelFromC* model = NLEQInterface::getModel();
     if (model == NULL)
     {
         return;

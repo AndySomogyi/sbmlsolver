@@ -5,7 +5,7 @@
 #include <iostream>
 #include "rrException.h"
 #include "rrLogger.h"
-#include "rrExecutableModel.h"
+#include "rrModelFromC.h"
 #include "rrCGenerator.h"
 #include "rrUtils.h"
 //---------------------------------------------------------------------------
@@ -13,7 +13,7 @@ using namespace std;
 namespace rr
 {
 
-ExecutableModel::ExecutableModel(CGenerator& generator, ModelSharedLibrary& dll)
+ModelFromC::ModelFromC(CGenerator& generator, ModelSharedLibrary& dll)
 :
 mDummyInt(0),
 mDummyDouble(0),
@@ -36,87 +36,87 @@ mDLL(dll)
     }
     else
     {
-    	Log(lError)<<"The Model DLL is not loaded in ExecutableModel ctor..";
+    	Log(lError)<<"The Model DLL is not loaded in ModelFromC ctor..";
     }
 }
 
-ExecutableModel::~ExecutableModel()
+ModelFromC::~ModelFromC()
 {
     delete [] mDummyDoubleArray;
 }
 
-string ExecutableModel::getModelName()
+string ModelFromC::getModelName()
 {
 	return mData.modelName;
 }
 
-void ExecutableModel::assignCVodeInterface(CvodeInterface* cvodeI)
+void ModelFromC::assignCVodeInterface(CvodeInterface* cvodeI)
 {
     mCvodeInterface = cvodeI;
 }
 
-void ExecutableModel::setTime(double _time)
+void ModelFromC::setTime(double _time)
 {
     mData.time = _time;
 }
 
-double ExecutableModel::getTime()
+double ModelFromC::getTime()
 {
 	return mData.time;
 }
 
 /////////////////// The following used to be in IModel
-int ExecutableModel::getNumIndependentVariables()
+int ModelFromC::getNumIndependentVariables()
 {
     return mData.numIndependentVariables;
 }
 
-int ExecutableModel::getNumDependentVariables()
+int ModelFromC::getNumDependentVariables()
 {
     return mData.numDependentVariables;
 }
 
-int ExecutableModel::getNumTotalVariables()
+int ModelFromC::getNumTotalVariables()
 {
     return mData.numTotalVariables;
 }
 
-int ExecutableModel::getNumBoundarySpecies()
+int ModelFromC::getNumBoundarySpecies()
 {
     return mData.numBoundaryVariables;    //Todos: bad naming - is Variables/Species, choose one..
 }
 
-int ExecutableModel::getNumGlobalParameters()
+int ModelFromC::getNumGlobalParameters()
 {
     return mData.numGlobalParameters;
 }
 
-int ExecutableModel::getNumCompartments()
+int ModelFromC::getNumCompartments()
 {
     return mData.numCompartments;
 }
 
-int ExecutableModel::getNumReactions()
+int ModelFromC::getNumReactions()
 {
     return mData.numReactions;
 }
 
-int ExecutableModel::getNumRules()
+int ModelFromC::getNumRules()
 {
     return mData.numRules;
 }
 
-int ExecutableModel::getNumEvents()
+int ModelFromC::getNumEvents()
 {
     return mData.numEvents;
 }
 
-double ExecutableModel::getAmounts(const int& i)
+double ModelFromC::getAmounts(const int& i)
 {
     return (mData.amounts ) ? mData.amounts[i] : -1;
 }
 
-bool ExecutableModel::setupDLLFunctions()
+bool ModelFromC::setupDLLFunctions()
 {
     //Exported functions in the dll need to be assigned to a function pointer here..
     if(!mDLL.isLoaded())
@@ -157,7 +157,7 @@ bool ExecutableModel::setupDLLFunctions()
     return true;
 }
 
-bool ExecutableModel::setupModelData()
+bool ModelFromC::setupModelData()
 {
 	//See CGenerator writeInitModelDataFunction to see how this initialization was done in the DLL before
 	mData.modelName 					= createText(mNOM.getModelName());
@@ -292,7 +292,7 @@ bool ExecutableModel::setupModelData()
     return true;
 }
 
-void ExecutableModel::setCompartmentVolumes()
+void ModelFromC::setCompartmentVolumes()
 {
     if(!csetCompartmentVolumes)
     {
@@ -303,7 +303,7 @@ void ExecutableModel::setCompartmentVolumes()
     csetCompartmentVolumes(&mData);
 }
 
-void  ExecutableModel::setConcentration(int index, double value)
+void  ModelFromC::setConcentration(int index, double value)
 {
     if(!csetConcentration)
     {
@@ -314,7 +314,7 @@ void  ExecutableModel::setConcentration(int index, double value)
     csetConcentration(&mData, index, value);
 }
 
-void  ExecutableModel::computeReactionRates (double time, double* y)
+void  ModelFromC::computeReactionRates (double time, double* y)
 {
 	if(!cComputeReactionRates)
     {
@@ -325,7 +325,7 @@ void  ExecutableModel::computeReactionRates (double time, double* y)
 	cComputeReactionRates(&mData, time, y);
 }
 
-vector<double> ExecutableModel::getCurrentValues()
+vector<double> ModelFromC::getCurrentValues()
 {
     vector<double> vals;
     if(!cGetCurrentValues)
@@ -348,7 +348,7 @@ vector<double> ExecutableModel::getCurrentValues()
     return vals;
 }
 
-double ExecutableModel::getConcentration(int index)
+double ModelFromC::getConcentration(int index)
 {
     if(!cgetConcentration)
     {
@@ -359,7 +359,7 @@ double ExecutableModel::getConcentration(int index)
     return cgetConcentration(&mData, index);
 }
 
-int ExecutableModel::getNumLocalParameters(int reactionId)
+int ModelFromC::getNumLocalParameters(int reactionId)
 {
     if(!cgetNumLocalParameters)
     {
@@ -370,7 +370,7 @@ int ExecutableModel::getNumLocalParameters(int reactionId)
     return cgetNumLocalParameters(&mData, reactionId);
 }
 
-void ExecutableModel::initializeInitialConditions()
+void ModelFromC::initializeInitialConditions()
 {
     if(!cinitializeInitialConditions)
     {
@@ -380,8 +380,8 @@ void ExecutableModel::initializeInitialConditions()
     cinitializeInitialConditions(&mData);
 }
 
-//void ExecutableModel::setInitialConditions(){}
-void ExecutableModel::setParameterValues()
+//void ModelFromC::setInitialConditions(){}
+void ModelFromC::setParameterValues()
 {
     if(!csetParameterValues)
     {
@@ -391,7 +391,7 @@ void ExecutableModel::setParameterValues()
     csetParameterValues(&mData);
 }
 
-void ExecutableModel::setBoundaryConditions()
+void ModelFromC::setBoundaryConditions()
 {
     if(!csetBoundaryConditions)
     {
@@ -401,7 +401,7 @@ void ExecutableModel::setBoundaryConditions()
     csetBoundaryConditions(&mData);
 }
 
-void ExecutableModel::initializeRates()
+void ModelFromC::initializeRates()
 {
     if(!cInitializeRates)
     {
@@ -411,7 +411,7 @@ void ExecutableModel::initializeRates()
     cInitializeRates(&mData);
 }
 
-void ExecutableModel::assignRates()
+void ModelFromC::assignRates()
 {
     if(!cAssignRates_a)
     {
@@ -421,7 +421,7 @@ void ExecutableModel::assignRates()
     cAssignRates_a(&mData);
 }
 
-void ExecutableModel::assignRates(vector<double>& _rates)
+void ModelFromC::assignRates(vector<double>& _rates)
 {
     if(!cAssignRates_b)
     {
@@ -435,7 +435,7 @@ void ExecutableModel::assignRates(vector<double>& _rates)
     delete [] local_rates;
 }
 
-void ExecutableModel::computeConservedTotals()
+void ModelFromC::computeConservedTotals()
 {
     if(!ccomputeConservedTotals)
     {
@@ -445,7 +445,7 @@ void ExecutableModel::computeConservedTotals()
     ccomputeConservedTotals(&mData);
 }
 
-void ExecutableModel::computeEventPriorites()
+void ModelFromC::computeEventPriorites()
 {
     if(!ccomputeEventPriorities)
     {
@@ -455,7 +455,7 @@ void ExecutableModel::computeEventPriorites()
     ccomputeEventPriorities(&mData);
 }
 
-void ExecutableModel::convertToAmounts()
+void ModelFromC::convertToAmounts()
 {
     if(!cconvertToAmounts)
     {
@@ -465,7 +465,7 @@ void ExecutableModel::convertToAmounts()
     cconvertToAmounts(&mData);
 }
 
-void ExecutableModel::convertToConcentrations()
+void ModelFromC::convertToConcentrations()
 {
     if(!cconvertToConcentrations)
     {
@@ -475,7 +475,7 @@ void ExecutableModel::convertToConcentrations()
     cconvertToConcentrations(&mData);
 }
 
-void ExecutableModel::updateDependentSpeciesValues(double* y_vec)
+void ModelFromC::updateDependentSpeciesValues(double* y_vec)
 {
     if(!cupdateDependentSpeciesValues)
     {
@@ -486,14 +486,14 @@ void ExecutableModel::updateDependentSpeciesValues(double* y_vec)
     cupdateDependentSpeciesValues(&mData, y_vec);
 }
 
-void ExecutableModel::computeRules(vector<double>& arr)
+void ModelFromC::computeRules(vector<double>& arr)
 {
     double* cArr = CreateVector(arr);
     computeRules(cArr, arr.size());
     delete [] cArr;
 
 }
-void ExecutableModel::computeRules(double* y, int size)
+void ModelFromC::computeRules(double* y, int size)
 {
     if(!ccomputeRules)
     {
@@ -504,7 +504,7 @@ void ExecutableModel::computeRules(double* y, int size)
     ccomputeRules(&mData, y);
 }
 
-void ExecutableModel::setInitialConditions()
+void ModelFromC::setInitialConditions()
 {
     if(!csetInitialConditions)
     {
@@ -515,8 +515,8 @@ void ExecutableModel::setInitialConditions()
     csetInitialConditions(&mData);
 }
 
-//void ExecutableModel::computeReactionRates(double time, vector<double>& y){}
-void ExecutableModel::computeAllRatesOfChange()
+//void ModelFromC::computeReactionRates(double time, vector<double>& y){}
+void ModelFromC::computeAllRatesOfChange()
 {
     if(!ccomputeAllRatesOfChange)
     {
@@ -526,7 +526,7 @@ void ExecutableModel::computeAllRatesOfChange()
     ccomputeAllRatesOfChange(&mData);
 }
 
-void ExecutableModel::evalModel(const double& timein, const vector<double>& y)
+void ModelFromC::evalModel(const double& timein, const vector<double>& y)
 {
     if(!cevalModel)
     {
@@ -539,7 +539,7 @@ void ExecutableModel::evalModel(const double& timein, const vector<double>& y)
     delete [] oAmounts;
 }
 
-void ExecutableModel::evalEvents(const double& timeIn, const vector<double>& y)
+void ModelFromC::evalEvents(const double& timeIn, const vector<double>& y)
 {
     if(!cevalEvents)
     {
@@ -551,7 +551,7 @@ void ExecutableModel::evalEvents(const double& timeIn, const vector<double>& y)
     delete [] oAmounts;
 }
 
-void ExecutableModel::resetEvents()
+void ModelFromC::resetEvents()
 {
     if(!cresetEvents)
     {
@@ -562,7 +562,7 @@ void ExecutableModel::resetEvents()
     cresetEvents(&mData);
 }
 
-void ExecutableModel::evalInitialAssignments()
+void ModelFromC::evalInitialAssignments()
 {
     if(!cevalInitialAssignments)
     {
@@ -573,7 +573,7 @@ void ExecutableModel::evalInitialAssignments()
     cevalInitialAssignments(&mData);
 }
 
-void ExecutableModel::testConstraints()
+void ModelFromC::testConstraints()
 {
     if(!ctestConstraints)
     {
@@ -584,7 +584,7 @@ void ExecutableModel::testConstraints()
     ctestConstraints(&mData);
 }
 
-void ExecutableModel::initializeRateRuleSymbols()
+void ModelFromC::initializeRateRuleSymbols()
 {
     if(!cInitializeRateRuleSymbols)
     {
