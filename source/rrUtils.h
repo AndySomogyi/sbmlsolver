@@ -2,7 +2,7 @@
 #define rrUtilsH
 
 //---------------------------------------------------------------------------
-#if defined(WIN32)
+#if defined(_WIN32)
 #include <windows.h>
 #endif
 
@@ -19,7 +19,6 @@ using std::vector;
 using std::string;
 namespace rr
 {
-
 RR_DECLSPEC string 			getCurrentDateTime();
 RR_DECLSPEC string 			getMD5(const string& text);
 RR_DECLSPEC void		 	sleep(int ms);

@@ -10,4 +10,4 @@ pathToModels = 'C:\\vs\\trunk\\Wrappers\\Python\\Testing\\'
 #  1) The path to the results and model file
 #  2) The name of the results and model file
 
-rrTester.runTester (pathToModels, 'Test_1.txt')
+rrTester.runTester (pathToModels, 'results_roadRunnerTest_1.txt')
