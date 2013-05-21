@@ -30,7 +30,7 @@ rrLoggerUtils
 rrLogLevel
 rrLogOutput
 rrMisc
-rrModelFromC
+rrExecutableModel
 rrModelState
 rrNOMSupport
 rrObject
@@ -88,6 +88,7 @@ rrRoadRunnerThread
 rrLoadModelThread
 rrSimulate
 rrSimulateThread
+rrModelGeneratorFactory
 )
 
 #Build both static and shared version

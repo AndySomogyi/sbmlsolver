@@ -5,7 +5,7 @@
 #include <math.h>
 #include "rrException.h"
 #include "rrNLEQInterface.h"
-#include "rrModelFromC.h"
+#include "rrExecutableModel.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
 #include "rrRoadRunner.h"

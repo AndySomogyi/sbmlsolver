@@ -2,7 +2,7 @@
 #define rrNLEQInterfaceH
 #include <vector>
 #include "rrObject.h"
-#include "rrModelFromC.h"
+#include "rrExecutableModel.h"
 #include "rrSteadyStateSolver.h"
 using std::vector;
 
