@@ -14,7 +14,7 @@
 #include "rrCSharpGenerator.h"
 #include "rrCGenerator.h"
 #include "rrUtils.h"
-#include "rrModelFromC.h"
+#include "rrExecutableModel.h"
 #include "rrSBMLModelSimulation.h"
 #include "rr-libstruct/lsLA.h"
 #include "rr-libstruct/lsLibla.h"
@@ -69,7 +69,6 @@ mConservedTotalChanged(false)
 {
     setTempFileFolder(tempFolder);
 	Log(lDebug4)<<"In RoadRunner ctor";
-    mLS 			  ;	//= new LibStructural();
     mCSharpGenerator    = new CSharpGenerator(mLS, mNOM);
     mCGenerator         = new CGenerator(mLS, mNOM);
     mModelGenerator     = mCGenerator;

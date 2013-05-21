@@ -4,7 +4,7 @@
 #include <istream>
 #include <vector>
 #include "rrObject.h"
-#include "rrModelFromC.h"
+#include "rrExecutableModel.h"
 
 using std::vector;
 using std::istream;

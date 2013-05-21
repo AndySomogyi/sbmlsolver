@@ -5,7 +5,7 @@
 #include <iostream>
 #include "rrException.h"
 #include "rrLogger.h"
-#include "rrModelFromC.h"
+#include "rrExecutableModel.h"
 #include "rrCGenerator.h"
 #include "rrUtils.h"
 //---------------------------------------------------------------------------

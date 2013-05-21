@@ -9,7 +9,7 @@
 #include "nvector/nvector_serial.h"
 #include "cvode/cvode_dense.h"
 #include "rrRoadRunner.h"
-#include "rrModelFromC.h"
+#include "rrExecutableModel.h"
 #include "rrException.h"
 #include "rrModelState.h"
 #include "rrLogger.h"
