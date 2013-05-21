@@ -37,28 +37,31 @@
 #include "rrLogger.h"
 #include "rrMisc.h"
 
-// Most Unix systems have a getch in libcurses, but this introduces 
+// Most Unix systems have a getch in libcurses, but this introduces
 // an un-needed depencency, as we can write our own getch easily.
 // We do need the standard Posix termio headers though.
-#if defined __unix__ || defined __APPLE__
+#if defined (__unix__) || defined(__APPLE__)
 #include <stdlib.h>
 #include <termios.h>
 #endif
 
-#if defined __APPLE__
+#if defined(__APPLE__)
 #include <limits.h>  //PATH_MAX
 #include <mach-o/dyld.h>
 #endif
 
 
 //---------------------------------------------------------------------------
+namespace rr
+{
+using namespace std;
+using namespace Poco;
 
 
 // A function to get a character from the console without echo.
 // equivalent of Windows / Curses getch function
-#if defined __unix__ || defined __APPLE__
-
-static char __getch() 
+#if defined(__unix__) || defined(__APPLE__)
+char getch()
 {
     char ch;
     termios _old, _new;
@@ -77,15 +80,7 @@ static char __getch()
     return ch;
 }
 
-#else
-#define __getch getch
 #endif
-
-
-namespace rr
-{
-using namespace std;
-using namespace Poco;
 
 string getMD5(const string& text)
 {
@@ -142,7 +137,7 @@ string getCurrentExeFolder()
 		return aPath;
     }
     return "";
-#elif defined __APPLE__
+#elif defined(__APPLE__)
     char path[PATH_MAX+1];
     unsigned  bufsize = sizeof(path);
     if (_NSGetExecutablePath(path, &bufsize) == 0) {
@@ -305,7 +300,7 @@ void Pause(bool doIt, const string& msg)
     }
     cin.ignore(0,'\n');
 
-    __getch();
+    getch();
 }
 
 bool FileExists(const string& fName)

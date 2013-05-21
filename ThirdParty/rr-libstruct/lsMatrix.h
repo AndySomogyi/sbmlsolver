@@ -1,7 +1,7 @@
 #ifndef lsMatrixH
 #define lsMatrixH
 
-#if defined __unix || defined __APPLE__
+#if defined __unix || defined(__APPLE__)
 #include <cstring> //for memset on unix platforms
 #endif
 #include <ostream>
