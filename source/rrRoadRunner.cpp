@@ -95,7 +95,7 @@ RoadRunner::~RoadRunner()
 	mInstanceCount--;
 }
 
-ModelFromC*	RoadRunner::getModel()
+ExecutableModel*	RoadRunner::getModel()
 {
 	return mModel;
 }
@@ -892,7 +892,7 @@ bool RoadRunner::compileModel()
     return true;
 }
 
-ModelFromC* RoadRunner::createModel()
+ExecutableModel* RoadRunner::createModel()
 {
     if(mModel)
     {
@@ -904,7 +904,7 @@ ModelFromC* RoadRunner::createModel()
     if(mModelLib.isLoaded())
     {
         CGenerator *codeGen = dynamic_cast<CGenerator*>(mModelGenerator);
-        ModelFromC *rrCModel = new ModelFromC(*codeGen, mModelLib);
+        ExecutableModel *rrCModel = new ExecutableModel(*codeGen, mModelLib);
         mModel = rrCModel;
     }
     else

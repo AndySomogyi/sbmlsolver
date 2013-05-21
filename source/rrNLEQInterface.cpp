@@ -18,7 +18,7 @@ namespace rr
 {
 
 string ErrorForStatus(const int& error);
-ModelFromC* NLEQInterface::model = NULL;     // Model generated from the SBML
+ExecutableModel* NLEQInterface::model = NULL;     // Model generated from the SBML
 long		NLEQInterface::n	 = 0;
 
 long  NLEQInterface::getN()
@@ -26,12 +26,12 @@ long  NLEQInterface::getN()
 	return NLEQInterface::n;
 }
 
-ModelFromC* NLEQInterface::getModel()
+ExecutableModel* NLEQInterface::getModel()
 {
     return NLEQInterface::model;
 }
 
-NLEQInterface::NLEQInterface(ModelFromC *_model)
+NLEQInterface::NLEQInterface(ExecutableModel *_model)
 :
 nOpts(50),
 defaultMaxInterations(100),
@@ -181,7 +181,7 @@ double NLEQInterface::solve(const vector<double>& yin)
 
 void ModelFunction(int* nx, double* y, double* fval, int* pErr)
 {
-    ModelFromC* model = NLEQInterface::getModel();
+    ExecutableModel* model = NLEQInterface::getModel();
     if (model == NULL)
     {
         return;

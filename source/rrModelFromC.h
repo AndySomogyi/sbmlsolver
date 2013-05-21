@@ -31,7 +31,7 @@ typedef TComputeEventAssignmentDelegate* (callConv *c_TComputeEventAssignmentDel
 typedef TEventDelayDelegate* (callConv *c_GetEventDelayDelegatesStar)();
 
 
-class RR_DECLSPEC ModelFromC : public rrObject
+class RR_DECLSPEC ExecutableModel : public rrObject
 {
     protected:
 												//This structure holds data generated/used in the shared model lib..
@@ -103,8 +103,8 @@ class RR_DECLSPEC ModelFromC : public rrObject
 		c_void_MDS_double_doubleStar            cComputeReactionRates;
         c_void_MDS                              ccomputeEventPriorities;
 
-		                                        ModelFromC(CGenerator& generator, ModelSharedLibrary& dll);
-                                               ~ModelFromC();
+		                                        ExecutableModel(CGenerator& generator, ModelSharedLibrary& dll);
+                                               ~ExecutableModel();
         //Non inherited
         bool                                    setupModelData();
         bool                                    setupDLLFunctions();
