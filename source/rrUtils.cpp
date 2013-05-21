@@ -59,9 +59,11 @@ using namespace Poco;
 
 
 // A function to get a character from the console without echo.
-// equivalent of Windows / Curses getch function
+// equivalent of Windows / Curses getch function. Note, that the 
+// curses library has the same thing, but not all systems have curses, 
+// and makes no sense have a dependency on it for one simple function. 
 #if defined(__unix__) || defined(__APPLE__)
-char getch()
+static char rrGetch()
 {
     char ch;
     termios _old, _new;
@@ -79,7 +81,9 @@ char getch()
     tcsetattr(0, TCSANOW, &_old);
     return ch;
 }
-
+#elif defined (_WIN32)
+// Windows has get built into conio
+#define rrGetch getch
 #endif
 
 string getMD5(const string& text)
@@ -300,7 +304,8 @@ void Pause(bool doIt, const string& msg)
     }
     cin.ignore(0,'\n');
 
-    getch();
+    // On Windows this just calls the built in getch.
+    rrGetch();
 }
 
 bool FileExists(const string& fName)

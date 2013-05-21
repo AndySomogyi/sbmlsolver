@@ -19,10 +19,6 @@ using std::vector;
 using std::string;
 namespace rr
 {
-#if defined(__unix__) || defined(__APPLE__)
-RR_DECLSPEC char 			getch();
-#endif
-
 RR_DECLSPEC string 			getCurrentDateTime();
 RR_DECLSPEC string 			getMD5(const string& text);
 RR_DECLSPEC void		 	sleep(int ms);
