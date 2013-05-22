@@ -27,7 +27,7 @@ namespace rr
 //CSharpModelGenerator::CSharpModelGenerator(RoadRunner* rr)
 CSharpModelGenerator::CSharpModelGenerator(LibStructural *ls, NOMSupport *nom)
 :
-ModelGenerator(ls, nom)
+ModelGenerator()
 {
 }
 
@@ -99,7 +99,7 @@ string CSharpModelGenerator::generateModelCode(const string& sbmlStr, const bool
     Log(lDebug3)<<"Message from StructAnalysis.LoadSBML function\n"<<msg;
 
 //    if (mRR != NULL && mRR->computeAndAssignConservationLaws())
-	if(computeAndAssignConsevationLaws)
+    if(computeAndAssignConsevationLaws)
     {
         mNumIndependentSpecies = mLibStruct->getNumIndSpecies();
         mIndependentSpeciesList = mLibStruct->getIndependentSpecies();
@@ -114,17 +114,17 @@ string CSharpModelGenerator::generateModelCode(const string& sbmlStr, const bool
     sb<<Append("//************************************************************************** " + NL());
 
     // Load the compartment array (name and value)
-    mNumCompartments         		= readCompartments();
+    mNumCompartments                 = readCompartments();
 
     // Read FloatingSpecies
-    mNumFloatingSpecies     		= readFloatingSpecies();
-    mNumDependentSpecies     		= mNumFloatingSpecies - mNumIndependentSpecies;
+    mNumFloatingSpecies             = readFloatingSpecies();
+    mNumDependentSpecies             = mNumFloatingSpecies - mNumIndependentSpecies;
 
     // Load the boundary species array (name and value)
-    mNumBoundarySpecies     		= readBoundarySpecies();
+    mNumBoundarySpecies             = readBoundarySpecies();
 
     // Get all the parameters into a list, global and local
-    mNumGlobalParameters     		= readGlobalParameters();
+    mNumGlobalParameters             = readGlobalParameters();
     mNumModifiableSpeciesReferences = readModifiableSpeciesReferences();
 
     // Load up local parameters next
@@ -931,7 +931,7 @@ int CSharpModelGenerator::readFloatingSpecies()
     // Load a reordered list into the variable list.
     StringList reOrderedList;
 //    if (mRR && mRR->mComputeAndAssignConservationLaws)
-	if(mComputeAndAssignConsevationLaws)
+    if(mComputeAndAssignConsevationLaws)
     {
        reOrderedList = mLibStruct->getReorderedSpecies();
     }
@@ -2480,17 +2480,17 @@ bool CSharpModelGenerator::setTemporaryDirectory(const string& path)
 
 Compiler* CSharpModelGenerator::getCompiler()
 {
-	return 0;
+    return 0;
 }
 
 bool CSharpModelGenerator::setCompiler(const string& compiler)
 {
-	return false;
+    return false;
 }
 
 string CSharpModelGenerator::getTemporaryDirectory()
 {
-	return "";
+    return "";
 }
 
 }//rr namespace
