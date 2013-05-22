@@ -26,6 +26,9 @@ class RR_DECLSPEC CModelGenerator : public ModelGenerator
 
         string                              mCurrentSBML;
 
+        // the shared lib thats created.
+        // this needs to belong to the model
+        // TODO: fix this!
         ModelSharedLibrary                  mModelLib;
 
         Compiler                            mCompiler;
@@ -34,7 +37,7 @@ class RR_DECLSPEC CModelGenerator : public ModelGenerator
 
         bool generateModelCode(const string& sbml, const string& modelName, bool computeAndAssignConsevationLaws);
 
-        static Mutex                    mCompileMutex;
+        static Mutex                        mCompileMutex;
 
         bool compileModel();
 
@@ -63,7 +66,7 @@ class RR_DECLSPEC CModelGenerator : public ModelGenerator
         void                                substituteWords(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb);
         void                                substituteToken(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb);
         string                              findSymbol(const string& varName);
-		void 								write_getModelNameFunction(CodeBuilder& ignore, CodeBuilder& source);
+        void                                 write_getModelNameFunction(CodeBuilder& ignore, CodeBuilder& source);
         void                                writeOutSymbolTables(CodeBuilder& sb);
         void                                writeComputeAllRatesOfChange(CodeBuilder& sb, const int& numIndependentSpecies, const int& numDependentSpecies, DoubleMatrix& L0);
         void                                writeComputeConservedTotals(CodeBuilder& sb, const int& numFloatingSpecies, const int& numDependentSpecies);
@@ -95,13 +98,18 @@ class RR_DECLSPEC CModelGenerator : public ModelGenerator
         int                                 readFloatingSpecies();
         int                                 readBoundarySpecies();
 
-    public:
-                                            CModelGenerator(const string& tempFolder, const string& supportCodeFolder, const string& compiler,
-                                                    LibStructural *ls, NOMSupport *nom);
-        virtual                            ~CModelGenerator();
+        // Generates the Model Code from the SBML string
+        // TODO major clean up
+        string                              generateModelCode(const string& sbmlStr, const bool& _computeAndAssignConsevationLaws);
 
         // Generates the Model Code from th e SBML string
-        string                              generateModelCode(const string& sbmlStr, const bool& _computeAndAssignConsevationLaws = false);
+        // TODO major clean up also
+        string                              generateModelCode(const string& sbmlStr, LibStructural *ls, NOMSupport *nom,
+                                                                      const bool& _computeAndAssignConsevationLaws = false);
+
+    public:
+                                            CModelGenerator(const string& tempFolder, const string& supportCodeFolder, const string& compiler);
+        virtual                            ~CModelGenerator();
 
         //C Specifics..
         string                              getHeaderCode();
@@ -127,13 +135,13 @@ class RR_DECLSPEC CModelGenerator : public ModelGenerator
          *
          * TODO: Make Compiler an interface.
          */
-        virtual 							Compiler* getCompiler();
+        virtual                             Compiler* getCompiler();
 
         /**
          * Set the name of the compiler to use. As this is a C source code compiler, this
          * is the name of the external C compiler, which would typically be 'gcc', 'cc', 'icc', etc...
          */
-        virtual 							bool setCompiler(const string& compiler);
+        virtual                             bool setCompiler(const string& compiler);
 
         /**
          * load a model from an existing shared library.

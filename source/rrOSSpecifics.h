@@ -12,13 +12,15 @@
 #pragma warning(disable : 4251) // _CRT_SECURE_NO_WARNINGS
 #pragma warning(disable : 4221) // empty cpp file
 
-#define __FUNC__ "not defined in VS"
-#define __func__ "not defined in VS"
+// supported in visual studio:
+// http://msdn.microsoft.com/en-us/library/b0084kay(v=vs.80).aspx
+#define __FUNC__ __FUNCDNAME__
+#define __func__ __FUNCDNAME__
 #endif
 
 #if defined(__CODEGEARC__)
-#pragma warn -8012 			//comparing unsigned and signed
-#pragma warn -8004 			//variable never used
+#pragma warn -8012             //comparing unsigned and signed
+#pragma warn -8004             //variable never used
 #endif
 
 #if defined(WIN32)
@@ -29,7 +31,7 @@
 
 //---------------------------------------------------------------------------
 #if defined (__MINGW32__) || defined(__linux) || defined (__APPLE__)
-#define __FUNC__ __FUNCTION__
+#define __FUNC__ __PRETTY_FUNCTION__
 #endif
 
 #ifdef _MSC_VER

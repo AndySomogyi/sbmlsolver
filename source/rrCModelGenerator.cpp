@@ -23,10 +23,9 @@ namespace rr
 
 Mutex               CModelGenerator::mCompileMutex;
 
-CModelGenerator::CModelGenerator(const string& tempFolder, const string& supportCodeFolder, const string& compiler,
-        LibStructural *ls, NOMSupport *nom)
+CModelGenerator::CModelGenerator(const string& tempFolder, const string& supportCodeFolder, const string& compiler)
 :
-ModelGenerator(ls, nom),
+ModelGenerator(),
 mTempFileFolder(tempFolder),
 mCompiler(supportCodeFolder, compiler),
 mModel(0)
@@ -63,8 +62,8 @@ string CModelGenerator::getSourceCodeFileName()
 // Generates the Model Code from the SBML string
 string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _computeAndAssignConsevationLaws)
 {
-	//This function now assume that the sbml already been loaded into NOM and libstruct..
-	mComputeAndAssignConsevationLaws  = _computeAndAssignConsevationLaws;
+    //This function now assume that the sbml already been loaded into NOM and libstruct..
+    mComputeAndAssignConsevationLaws  = _computeAndAssignConsevationLaws;
     Log(lDebug2)<<"Entering CModelGenerators generateModelCode function";
     StringList  Warnings;
     CodeBuilder ignore;     //The Write functions below are inherited with a CodeBuilder in the
@@ -98,9 +97,9 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
     mFunctionNames.empty();
     mFunctionParameters.empty();
 
-	if(mComputeAndAssignConsevationLaws)
+    if(mComputeAndAssignConsevationLaws)
     {
-        mNumIndependentSpecies 	= mLibStruct->getNumIndSpecies();
+        mNumIndependentSpecies     = mLibStruct->getNumIndSpecies();
         mIndependentSpeciesList = mLibStruct->getIndependentSpecies();
         mDependentSpeciesList   = mLibStruct->getDependentSpecies();
     }
@@ -168,7 +167,7 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
     int numOfRules = writeComputeRules(ignore, mNumReactions);
 
     writeComputeAllRatesOfChange(ignore, mNumIndependentSpecies, mNumDependentSpecies, *aL0);
-	delete aL0;
+    delete aL0;
     writeComputeReactionRates(ignore, mNumReactions);
     writeEvalModel(ignore, mNumReactions, mNumIndependentSpecies, mNumFloatingSpecies, numOfRules);
     writeEvalEvents(ignore, mNumEvents, mNumFloatingSpecies);
@@ -180,7 +179,7 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
     writeInitFunction(mHeader, mSource);
 
     mHeader<<"\n\n#endif //modelH"<<NL();
-	string modelCode = mHeader.ToString() + mSource.ToString();
+    string modelCode = mHeader.ToString() + mSource.ToString();
 
     Log(lDebug5)<<" ------ Model Code --------\n"
             <<modelCode
@@ -596,7 +595,7 @@ string CModelGenerator::findSymbol(const string& varName)
       }
       else
       {
-      	throw Exception(Format("Unable to locate lefthand side symbol in assignment[{0}]", varName));
+          throw Exception(Format("Unable to locate lefthand side symbol in assignment[{0}]", varName));
       }
 }
 
@@ -782,9 +781,9 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
                         //temp = ReplaceWord("time", "md->time", temp);
 
                         if(temp.find("spf_piecewise") != string::npos)
-            			{
-                			ConvertFunctionCallToUseVarArgsSyntax("spf_piecewise", temp);
-            			}
+                        {
+                            ConvertFunctionCallToUseVarArgsSyntax("spf_piecewise", temp);
+                        }
                         temp = RemoveNewLines(temp);
                         mSource<<temp;
                     }
@@ -843,11 +842,11 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
         string varName = (string) mapVariables[i];
         if(varName.size())
         {
-        	double value = mNOM->getValue(varName);
-	        if (!IsNaN(value))
-    	    {
-        	    mSource<<gTab<<mMapRateRule[i] << " = " << ToString(value, mDoubleFormat) << ";" << NL();
-        	}
+            double value = mNOM->getValue(varName);
+            if (!IsNaN(value))
+            {
+                mSource<<gTab<<mMapRateRule[i] << " = " << ToString(value, mDoubleFormat) << ";" << NL();
+            }
         }
     }
 
@@ -936,7 +935,7 @@ void CModelGenerator::writeComputeReactionRates(CodeBuilder& ignore, const int& 
             ConvertFunctionCallToUseVarArgsSyntax("spf_squarewave", expression);
         }
 
-		if(expression.find("spf_piecewise") != string::npos)
+        if(expression.find("spf_piecewise") != string::npos)
         {
             ConvertFunctionCallToUseVarArgsSyntax("spf_piecewise", expression);
         }
@@ -1515,7 +1514,7 @@ int CModelGenerator::readFloatingSpecies()
     // Load a reordered list into the variable list.
     StringList reOrderedList;
 
-	if(mComputeAndAssignConsevationLaws)
+    if(mComputeAndAssignConsevationLaws)
     {
        reOrderedList = mLibStruct->getReorderedSpecies();
     }
@@ -1667,11 +1666,11 @@ void CModelGenerator::writeInitModelDataFunction(CodeBuilder& ignore, CodeBuilde
     source.Line("\n//Function to initialize the model data structure. Returns an integer indicating result");
     source.Line("int InitModelData(ModelData* md)");
     source.Line("{");
-	source.Line("\tprintf(\"Size of md   %d\\n\",  (int) sizeof(md));");
-//	source.Line("\tprintf(\"Size of SModelData  %d\",  (int) sizeof(SModelData));");
-	source.Line("\tprintf(\"Size of ModelData   %d\\n\",  (int) sizeof(ModelData));");
-//	source.Line("\tprintf(\"Size of ModelData*  %d\\n\", (int) sizeof(&ModelData));");
-	source.Line("\tprintf(\"Size of ModelData.eventDelays  %d\\n\", (int) sizeof(md->eventDelays));");
+    source.Line("\tprintf(\"Size of md   %d\\n\",  (int) sizeof(md));");
+//    source.Line("\tprintf(\"Size of SModelData  %d\",  (int) sizeof(SModelData));");
+    source.Line("\tprintf(\"Size of ModelData   %d\\n\",  (int) sizeof(ModelData));");
+//    source.Line("\tprintf(\"Size of ModelData*  %d\\n\", (int) sizeof(&ModelData));");
+    source.Line("\tprintf(\"Size of ModelData.eventDelays  %d\\n\", (int) sizeof(md->eventDelays));");
     source.TLine("return 0;");
     source.Line("}");
     source.NewLine();
@@ -1731,7 +1730,7 @@ void CModelGenerator::write_getModelNameFunction(CodeBuilder& ignore, CodeBuilde
 
 bool CModelGenerator::saveSourceCodeToFolder(const string& folder, const string& baseName)
 {
-    string fName 		= ExtractFileName(baseName);
+    string fName         = ExtractFileName(baseName);
     mHeaderCodeFileName = JoinPath(folder, fName);
     mHeaderCodeFileName = ChangeFileExtensionTo(mHeaderCodeFileName, ".h");
 
@@ -1981,10 +1980,10 @@ string CModelGenerator::convertUserFunctionExpression(const string& equation)
                     {
                         mSource<<Append("spf_root");
                     }
-					else if (theToken == "squarewave")
-					{
-						mSource<<Append("spf_squarewave");
-					}
+                    else if (theToken == "squarewave")
+                    {
+                        mSource<<Append("spf_squarewave");
+                    }
                     else if(theToken == "piecewise")
                     {
                         mSource<<Append("spf_piecewise");
@@ -2291,10 +2290,10 @@ void CModelGenerator::substituteEquation(const string& reactionName, Scanner& s,
     {
         mSource<<Append("spf_root");
     }
-	else if(theToken == "squarewave")
-	{
-		mSource<<Append("spf_squarewave");
-	}
+    else if(theToken == "squarewave")
+    {
+        mSource<<Append("spf_squarewave");
+    }
     else if(theToken == "piecewise")
     {
         mSource<<Append("spf_piecewise");
@@ -2746,7 +2745,7 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
 
 Compiler* CModelGenerator::getCompiler()
 {
-	return &mCompiler;
+    return &mCompiler;
 }
 
 
@@ -2757,7 +2756,7 @@ bool CModelGenerator::setCompiler(const string& compiler)
 
 string CModelGenerator::getTemporaryDirectory()
 {
-	return mTempFileFolder;
+    return mTempFileFolder;
 }
 
 }//Namespace
