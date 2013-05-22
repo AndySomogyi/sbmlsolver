@@ -119,7 +119,6 @@
         <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <BCC_AllCodeguardOptions>true</BCC_AllCodeguardOptions>
         <LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
         <UsePackages>false</UsePackages>
         <BCC_PCHInject>..\..\source\rr_pch.h</BCC_PCHInject>

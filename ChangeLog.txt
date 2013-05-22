@@ -6,3 +6,6 @@ Feb 6 2013
  * Addition of a Plugin Manager, allowing to load/unload plugins
  * Introducing thread execution of RoadRunner functions
  * Got Python bindigns working on Ubuntu 64 bit
+
+May 14 2013
+ * Testing git - svn integration

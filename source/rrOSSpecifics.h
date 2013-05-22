@@ -28,7 +28,7 @@
 #endif
 
 //---------------------------------------------------------------------------
-#if defined (__MINGW32__) || defined(__linux)
+#if defined (__MINGW32__) || defined(__linux) || defined (__APPLE__)
 #define __FUNC__ __FUNCTION__
 #endif
 
