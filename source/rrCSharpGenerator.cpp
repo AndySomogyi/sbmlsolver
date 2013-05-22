@@ -2473,4 +2473,8 @@ ExecutableModel *CSharpGenerator::createModel(const string& sbml, LibStructural 
     return 0;
 }
 
+bool CSharpGenerator::setTemporaryDirectory(const string& path)
+{
+    return false;
+}
 }//rr namespace

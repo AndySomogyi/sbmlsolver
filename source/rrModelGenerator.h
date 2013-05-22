@@ -146,6 +146,13 @@ class RR_DECLSPEC ModelGenerator : public rrObject
         virtual bool                     	saveSourceCodeToFolder(const string& folder, const string& codeBaseName);
 //        void                                SetXMLModelFileName(const string& name);
 
+        /**
+         * certain model generators, such as the compiler based ones
+         * generate files such as shared libraries. This specifies the
+         * location where they are stored.
+         */
+        virtual bool                        setTemporaryDirectory(const string& path) = 0;
+
         virtual ExecutableModel             *createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
                                                                  bool forceReCompile, bool computeAndAssignConsevationLaws) = 0;
 };

@@ -2580,6 +2580,26 @@ ExecutableModel* CGenerator::createModel()
     return mModel;
 }
 
+bool CGenerator::setTemporaryDirectory(const string& path)
+{
+    if(FolderExists(path))
+    {
+        Log(lDebug)<<"Setting temp file folder to "<< path;
+        mCompiler.setOutputPath(path);
+        mTempFileFolder = path;
+        return true;
+    }
+    else
+    {
+        stringstream msg;
+        msg<<"The folder: "<<path<<" don't exist...";
+        Log(lError)<<msg.str();
+
+        CoreException e(msg.str());
+        throw(e);
+        //      return false;
+    }
+}
 
 bool CGenerator::initializeModel()
 {

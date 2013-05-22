@@ -111,6 +111,8 @@ class RR_DECLSPEC CGenerator : public ModelGenerator
 
         virtual ExecutableModel             *createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
                                                          bool forceReCompile, bool computeAndAssignConsevationLaws);
+
+        virtual bool                        setTemporaryDirectory(const string& path);
 };
 }
 

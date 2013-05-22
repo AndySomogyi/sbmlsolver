@@ -189,23 +189,7 @@ CSharpGenerator* RoadRunner::getCSharpGenerator()
 
 bool RoadRunner::setTempFileFolder(const string& folder)
 {
-	if(FolderExists(folder))
-	{
-		Log(lDebug)<<"Setting temp file folder to "<<folder;
-	    mCompiler.setOutputPath(folder);
-		mTempFileFolder = folder;
-		return true;
-	}
-	else
-	{
-    	stringstream msg;
-        msg<<"The folder: "<<folder<<" don't exist...";
-		Log(lError)<<msg.str();
-
-		CoreException e(msg.str());
-        throw(e);
-//		return false;
-	}
+    return mModelGenerator ? mModelGenerator->setTemporaryDirectory(folder) : false;
 }
 
 string RoadRunner::getTempFolder()
@@ -660,6 +644,8 @@ bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
 {
     mCurrentSBML = sbml;
 
+
+
     //clear temp folder of roadrunner generated files, only if roadRunner instance == 1
     Log(lDebug)<<"Loading SBML into simulator";
     if (!sbml.size())
@@ -672,6 +658,14 @@ bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
    		Mutex::ScopedLock lock(mLibSBMLMutex);
     	loadSBMLIntoNOM(sbml);	//There is something in here that is not threadsafe... causes crash with multiple threads, without mutex
 	}
+
+	this->mModel = mCGenerator->createModel(sbml, &mLS, &mNOM, forceReCompile, computeAndAssignConservationLaws());
+
+
+	cout << "mModel: " << mModel << "\n";
+	cout << "mModel: " << this->mModel << "\n";
+
+	/*
 
 //    string modelName  = createModelName(mCurrentSBMLFileName);
 	string modelName = getMD5(sbml);
@@ -735,6 +729,8 @@ bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
 
 
     createModel();
+
+    */
 
     //Finally intitilaize the model..
     if(!initializeModel())
@@ -918,13 +914,7 @@ ExecutableModel* RoadRunner::createModel()
 //Reset the simulator back to the initial conditions specified in the SBML model
 void RoadRunner::reset()
 {
-    if (!mModelLib.isLoaded())
-    {
-        // rather make sure that the simulator is!!!! in a stable state
-        mModel = NULL;
-        mCurrentSBML = "";
-    }
-    else
+    if (mModel)
     {
         mModel->setTime(0.0);
 
@@ -3115,7 +3105,6 @@ StringList RoadRunner::getFloatingSpeciesIds()
     {
         throw CoreException(gEmptyModelMessage);
     }
-
     return mModelGenerator->getFloatingSpeciesConcentrationList(); // Reordered list
 }
 

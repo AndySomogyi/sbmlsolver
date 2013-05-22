@@ -158,6 +158,11 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		void                            setTimeStart(const double& startTime);
 		void                            setTimeEnd(const double& endTime);
 		void                            setNumPoints(const int& nummberOfPoints);
+
+		/**
+		 * Reset the simulator back to the initial conditions specified in the SBML model,
+		 * provided an SBML model is loaded.
+		 */
 		void                            reset();
 		void                            changeInitialConditions(const vector<double>& ic);
 
