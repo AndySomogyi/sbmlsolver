@@ -20,8 +20,8 @@ mDummyDouble(0),
 mDummyDoubleArray(new double[1]),
 mData(),
 mCG(generator),
-mNOM(generator.mNOM),
-mLibStruct(generator.mLibStruct),
+mNOM(*generator.mNOM),
+mLibStruct(*generator.mLibStruct),
 mIsInitialized(false),
 mDLL(dll)
 {

@@ -9,6 +9,7 @@
 #include "rrCodeBuilder.h"
 #include "rrNOMSupport.h"
 #include "rrScanner.h"
+#include "rrExecutableModel.h"
 #include "rr-libstruct/lsMatrix.h"
 #include "rr-libstruct/lsLibStructural.h"
 
@@ -43,8 +44,8 @@ class RR_DECLSPEC ModelGenerator : public rrObject
         StringList                          mDependentSpeciesList;
         StringList                          mIndependentSpeciesList;
         int                                 mNumModifiableSpeciesReferences;
-		LibStructural&                      mLibStruct;                          //Refernce to libstruct library
-        NOMSupport&                         mNOM;                                //Object that provide some wrappers and new "NOM" functions.
+		LibStructural*                      mLibStruct;                          //Refernce to libstruct library
+        NOMSupport*                         mNOM;                                //Object that provide some wrappers and new "NOM" functions.
         IntStringHashTable                  mMapRateRule;
         SymbolList                          mBoundarySpeciesList;
         SymbolList                          mCompartmentList;
@@ -55,6 +56,11 @@ class RR_DECLSPEC ModelGenerator : public rrObject
         vector<SymbolList>                  mLocalParameterList;
         SymbolList                          mReactionList;
         StringList                          mWarnings;
+
+        /**
+         * get various information about the model in a user displayable format.
+         */
+        virtual string                      getInfo();
 
         //Pure Virtual functions... =====================================
         virtual string                      convertUserFunctionExpression(const string& equation) = 0;
@@ -111,7 +117,7 @@ class RR_DECLSPEC ModelGenerator : public rrObject
         SymbolList                          mModifiableSpeciesReferenceList;
 
     public:
-                                            ModelGenerator(LibStructural& ls, NOMSupport& nom);
+                                            ModelGenerator(LibStructural *ls, NOMSupport *nom);
         virtual                             ~ModelGenerator();
         void                                reset();
         int                                 getNumberOfReactions();
@@ -139,6 +145,9 @@ class RR_DECLSPEC ModelGenerator : public rrObject
         virtual string                      generateModelCode(const string& sbmlStr, const bool& _computeAndAssignConsevationLaws) = 0;    //Any decendant need to implement at least this one
         virtual bool                     	saveSourceCodeToFolder(const string& folder, const string& codeBaseName);
 //        void                                SetXMLModelFileName(const string& name);
+
+        virtual ExecutableModel             *createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
+                                                                 bool forceReCompile, bool computeAndAssignConsevationLaws) = 0;
 };
 }
 

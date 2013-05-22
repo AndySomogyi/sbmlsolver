@@ -96,6 +96,10 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		vector<TSelectionRecord>        getSteadyStateSelection(const StringList& newSelectionList);
 		StringList                      getParameterIds();
 		bool 							loadSBMLIntoNOM(const string& sbml);
+
+		/**
+		 * load the sbml into the structural analysis module, mLS.
+		 */
 		bool 							loadSBMLIntoLibStruct(const string& sbml);
 		string 							createModelName(const string& mCurrentSBMLFileName);
 
@@ -241,7 +245,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		double                          computeSteadyStateValue(const string& sId);
 		vector<double>                  getSelectedValues();
 
-        //		void                     		reMultiplyCompartments(const bool& bValue);
 
 		void                     		computeAndAssignConservationLaws(const bool& bValue);
 		double*                         steadyStateParameterScan(const string& symbol, const double& startValue, const double& endValue, const double& stepSize);

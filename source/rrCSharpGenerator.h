@@ -51,13 +51,16 @@ class RR_DECLSPEC CSharpGenerator : public ModelGenerator
         int              					readBoundarySpecies();
 
     public:
-                                            CSharpGenerator(LibStructural& ls, NOMSupport& nom);
+                                            CSharpGenerator(LibStructural *ls, NOMSupport *nom);
         virtual                            ~CSharpGenerator();
 
         // Generates the Model Code from the SBML string
         string                              generateModelCode(const string& sbmlStr, const bool& computeAndAssignConsevationLaws = false);
         bool                                saveSourceCodeToFolder(const string& folder, const string& baseName);
         string                              getSourceCode();
+
+        virtual ExecutableModel             *createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
+                                                                 bool forceReCompile, bool computeAndAssignConsevationLaws);
 };
 
 }

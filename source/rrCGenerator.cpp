@@ -21,9 +21,14 @@ using namespace ls;
 namespace rr
 {
 
-CGenerator::CGenerator(LibStructural& ls, NOMSupport& nom)
+Mutex               CGenerator::mCompileMutex;
+
+CGenerator::CGenerator(const string& tempFolder, const string& supportCodeFolder, const string& compiler,
+        LibStructural *ls, NOMSupport *nom)
 :
-ModelGenerator(ls, nom)
+ModelGenerator(ls, nom),
+mTempFileFolder(tempFolder),
+mCompiler(supportCodeFolder, compiler)
 {}
 
 CGenerator::~CGenerator(){}
@@ -68,7 +73,7 @@ string CGenerator::generateModelCode(const string& sbmlStr, const bool& _compute
     mHeader.Clear();
     mSource.Clear();
 
-    mModelName = mNOM.getModelName();
+    mModelName = mNOM->getModelName();
     if(!mModelName.size())
     {
         Log(lWarning)<<"Model name is empty. ModelName is assigned 'NameNotSet'.";
@@ -76,7 +81,7 @@ string CGenerator::generateModelCode(const string& sbmlStr, const bool& _compute
     }
 
     Log(lDebug1)<<"Processing model: "<<mModelName;
-    mNumReactions  = mNOM.getNumReactions();
+    mNumReactions  = mNOM->getNumReactions();
 
     Log(lDebug3)<<"Number of reactions:"<<mNumReactions;
 
@@ -94,14 +99,14 @@ string CGenerator::generateModelCode(const string& sbmlStr, const bool& _compute
 
 	if(mComputeAndAssignConsevationLaws)
     {
-        mNumIndependentSpecies 	= mLibStruct.getNumIndSpecies();
-        mIndependentSpeciesList = mLibStruct.getIndependentSpecies();
-        mDependentSpeciesList   = mLibStruct.getDependentSpecies();
+        mNumIndependentSpecies 	= mLibStruct->getNumIndSpecies();
+        mIndependentSpeciesList = mLibStruct->getIndependentSpecies();
+        mDependentSpeciesList   = mLibStruct->getDependentSpecies();
     }
     else
     {
-        mNumIndependentSpecies = mLibStruct.getNumSpecies();
-        mIndependentSpeciesList = mLibStruct.getSpecies();
+        mNumIndependentSpecies = mLibStruct->getNumSpecies();
+        mIndependentSpeciesList = mLibStruct->getSpecies();
     }
 
     // Load the compartment array (name and value)
@@ -120,7 +125,7 @@ string CGenerator::generateModelCode(const string& sbmlStr, const bool& _compute
 
     // Load up local parameters next
     readLocalParameters(mNumReactions, mLocalParameterDimensions, mTotalLocalParmeters);
-    mNumEvents = mNOM.getNumEvents();
+    mNumEvents = mNOM->getNumEvents();
 
     //Write model to String builder...
     writeClassHeader(ignore);
@@ -291,7 +296,7 @@ void CGenerator::writeComputeConservedTotals(CodeBuilder& ignore, const int& num
     if (numDependentSpecies > 0)
     {
         string factor;
-        ls::DoubleMatrix *gamma = mLibStruct.getGammaMatrix();
+        ls::DoubleMatrix *gamma = mLibStruct->getGammaMatrix();
 
 
         for (int i = 0; i < numDependentSpecies; i++)
@@ -420,11 +425,11 @@ void CGenerator::writeUpdateDependentSpecies(CodeBuilder& ignore, const int& num
 
 void CGenerator::writeUserDefinedFunctions(CodeBuilder& ignore)
 {
-    for (int i = 0; i < mNOM.getNumFunctionDefinitions(); i++)
+    for (int i = 0; i < mNOM->getNumFunctionDefinitions(); i++)
     {
         try
         {
-            StringListContainer oList = mNOM.getNthFunctionDefinition(i);
+            StringListContainer oList = mNOM->getNthFunctionDefinition(i);
             StringList aList = oList[0];
 
               string sName = aList[0];
@@ -600,12 +605,12 @@ void CGenerator::writeTestConstraints(CodeBuilder& ignore)
     mSource<<Append("void testConstraints(ModelData* md)" + NL());
     mSource<<Append("{");
 
-    for (int i = 0; i < mNOM.getNumConstraints(); i++)
+    for (int i = 0; i < mNOM->getNumConstraints(); i++)
     {
         string sMessage;
-        string sCheck = mNOM.getNthConstraint(i, sMessage);
+        string sCheck = mNOM->getNthConstraint(i, sMessage);
 
-        mSource<<Append("\tif (" + substituteTerms(mNOM.getNumReactions(), "", sCheck) + " == 0.0 )" + NL());
+        mSource<<Append("\tif (" + substituteTerms(mNOM->getNumReactions(), "", sCheck) + " == 0.0 )" + NL());
         mSource<<Append("\t\tthrow new Exception(\"" + sMessage + "\");" + NL());
     }
 
@@ -618,15 +623,15 @@ void CGenerator::writeEvalInitialAssignments(CodeBuilder& ignore, const int& num
     mSource<<Append("void evalInitialAssignments(ModelData* md)" + NL());
     mSource<<Append("{\n");
 
-    int numInitialAssignments = mNOM.getNumInitialAssignments();
+    int numInitialAssignments = mNOM->getNumInitialAssignments();
 
     if (numInitialAssignments > 0)
     {
         vector< pair<string, string> > oList;// = new List<Pair<string, string>>();
         for (int i = 0; i < numInitialAssignments; i++)
         {
-            pair<string, string> pair = mNOM.getNthInitialAssignmentPair(i);
-            oList.push_back(mNOM.getNthInitialAssignmentPair(i));
+            pair<string, string> pair = mNOM->getNthInitialAssignmentPair(i);
+            oList.push_back(mNOM->getNthInitialAssignmentPair(i));
         }
 
         // sort them ...
@@ -677,9 +682,9 @@ void CGenerator::writeEvalInitialAssignments(CodeBuilder& ignore, const int& num
             }
         }
     }
-    for (int i = 0; i < mNOM.GetModel()->getNumEvents(); i++)
+    for (int i = 0; i < mNOM->GetModel()->getNumEvents(); i++)
     {
-        libsbml::Event *current = mNOM.GetModel()->getEvent(i);
+        libsbml::Event *current = mNOM->GetModel()->getEvent(i);
         string initialTriggerValue = ToString(current->getTrigger()->getInitialValue());//.ToString().ToLowerInvariant();
         mSource<<Append("\tmd->eventStatusArray[" + ToString(i) + "] = " + initialTriggerValue + ";" + NL());
         mSource<<Append("\tmd->previousEventStatusArray[" + ToString(i) + "] = " + initialTriggerValue + ";" + NL());
@@ -692,7 +697,7 @@ int CGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
     IntStringHashTable mapVariables;
     mapVariables.clear();
     int numRateRules = 0;
-    int numOfRules = mNOM.getNumRules();
+    int numOfRules = mNOM->getNumRules();
 
     mHeader.AddFunctionExport("void", "computeRules(ModelData* md, double* y)");
     mSource<<"void computeRules(ModelData* md, double* y)\n{\n";
@@ -703,10 +708,10 @@ int CGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
         {
             string leftSideRule = "";
             string rightSideRule = "";
-            string ruleType = mNOM.getNthRuleType(i);
+            string ruleType = mNOM->getNthRuleType(i);
 
             // We only support assignment and ode rules at the moment
-            string eqnRule = mNOM.getNthRule(i);
+            string eqnRule = mNOM->getNthRule(i);
             RRRule aRule(eqnRule, ruleType);
             string varName       = Trim(aRule.GetLHS());
             string rightSide     = Trim(aRule.GetRHS());
@@ -745,8 +750,8 @@ int CGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
             // Run the equation through MathML to carry out any conversions (eg ^ to Pow)
             if(rightSide.size())
             {
-                string rightSideMathml    = mNOM.convertStringToMathML(rightSide);
-                rightSideRule             = mNOM.convertMathMLToString(rightSideMathml);
+                string rightSideMathml    = mNOM->convertStringToMathML(rightSide);
+                rightSideRule             = mNOM->convertMathMLToString(rightSideMathml);
             }
 
             if (leftSideRule.size())
@@ -758,7 +763,7 @@ int CGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
                 Symbol* symbol = (speciesIndex != -1) ? &(mFloatingSpeciesConcentrationList[speciesIndex]) : NULL;
                 string sCompartment;
 
-                if(isRateRule && mNOM.MultiplyCompartment(varName, sCompartment) && (rightSide.find(sCompartment) == string::npos))
+                if(isRateRule && mNOM->MultiplyCompartment(varName, sCompartment) && (rightSide.find(sCompartment) == string::npos))
                 {
                     string temp = Format("({0}) * {1};{2}", substituteTerms(numReactions, "", rightSideRule), findSymbol(sCompartment), NL());
                     //temp = ReplaceWord("time", "md->time", temp);
@@ -784,7 +789,7 @@ int CGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
                     }
                 }
 
-                if (mNOM.IsCompartment(varName))
+                if (mNOM->IsCompartment(varName))
                 {
                     mSource<<Append("\n\tconvertToConcentrations(md);\n");
                 }
@@ -837,7 +842,7 @@ int CGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
         string varName = (string) mapVariables[i];
         if(varName.size())
         {
-        	double value = mNOM.getValue(varName);
+        	double value = mNOM->getValue(varName);
 	        if (!IsNaN(value))
     	    {
         	    mSource<<gTab<<mMapRateRule[i] << " = " << ToString(value, mDoubleFormat) << ";" << NL();
@@ -888,7 +893,7 @@ void CGenerator::writeComputeReactionRates(CodeBuilder& ignore, const int& numRe
 
     for (int i = 0; i < numReactions; i++)
     {
-        string kineticLaw = mNOM.getKineticLaw(i);
+        string kineticLaw = mNOM->getKineticLaw(i);
 
         // The following code is for the case when the kineticLaw contains a ^ in place
         // of pow for exponent handling. It would not be needed in the case when there is
@@ -896,8 +901,8 @@ void CGenerator::writeComputeReactionRates(CodeBuilder& ignore, const int& numRe
         string subKineticLaw;
 //        if (kineticLaw.IndexOf("^", System.StringComparison.Ordinal) > 0) //Todo: fix this...
 //        {
-//            string kineticLaw_mathml = mNOM.convertStringToMathML(kineticLaw);
-//            subKineticLaw = mNOM.convertMathMLToString(kineticLaw_mathml);
+//            string kineticLaw_mathml = mNOM->convertStringToMathML(kineticLaw);
+//            subKineticLaw = mNOM->convertMathMLToString(kineticLaw_mathml);
 //        }
 //        else
         {
@@ -968,7 +973,7 @@ void CGenerator::writeEvalEvents(CodeBuilder& ignore, const int& numEvents, cons
 
     for (int i = 0; i < numEvents; i++)
     {
-        ArrayList ev = mNOM.getNthEvent(i);
+        ArrayList ev = mNOM->getNthEvent(i);
         StringList tempList = ev[0];
         string eventString = tempList[0];
 
@@ -1025,7 +1030,7 @@ void CGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReactions, co
         string floatingSpeciesName = mIndependentSpeciesList[i];
         for (int j = 0; j < numReactions; j++)
         {
-            Reaction *oReaction = mNOM.GetModel()->getReaction(j);
+            Reaction *oReaction = mNOM->GetModel()->getReaction(j);
             int numProducts = (int) oReaction->getNumProducts();
             double productStoichiometry;
             for (int k1 = 0; k1 < numProducts; k1++)
@@ -1142,20 +1147,20 @@ void CGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReactions, co
             finalStr = "    0.0";
         }
 
-        if (mNOM.GetSBMLDocument()->getLevel() > 2)
+        if (mNOM->GetSBMLDocument()->getLevel() > 2)
         {
             // remember to take the conversion factor into account
             string factor = "";
-            Species* species = mNOM.GetModel()->getSpecies(floatingSpeciesName);
+            Species* species = mNOM->GetModel()->getSpecies(floatingSpeciesName);
             if (species != NULL)
             {
                 if (species->isSetConversionFactor())
                 {
                     factor = species->getConversionFactor();
                 }
-                else if (mNOM.GetModel()->isSetConversionFactor())
+                else if (mNOM->GetModel()->isSetConversionFactor())
                 {
-                    factor = mNOM.GetModel()->getConversionFactor();
+                    factor = mNOM->GetModel()->getConversionFactor();
                 }
             }
 
@@ -1192,9 +1197,9 @@ void CGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numReacti
         mSource<<Append("// Event assignments" + NL());
         for (int i = 0; i < numEvents; i++)
         {
-            ArrayList ev = mNOM.getNthEvent(i);
-            eventType.push_back(mNOM.getNthUseValuesFromTriggerTime(i));
-            eventPersistentType.push_back(mNOM.GetModel()->getEvent(i)->getTrigger()->getPersistent());
+            ArrayList ev = mNOM->getNthEvent(i);
+            eventType.push_back(mNOM->getNthUseValuesFromTriggerTime(i));
+            eventPersistentType.push_back(mNOM->GetModel()->getEvent(i)->getTrigger()->getPersistent());
 
             StringList event = ev[1];
             int numItems = event.Count();
@@ -1290,7 +1295,7 @@ void CGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numReacti
     mSource<<"void computeEventPriorities(ModelData* md)\n{";
     for (int i = 0; i < numEvents; i++)
     {
-        libsbml::Event* current = mNOM.GetModel()->getEvent(i);
+        libsbml::Event* current = mNOM->GetModel()->getEvent(i);
 
         if (current->isSetPriority() && current->getPriority()->isSetMath())
         {
@@ -1350,7 +1355,7 @@ void CGenerator::writeSetCompartmentVolumes(CodeBuilder& ignore)
 
         // at this point we also have to take care of all initial assignments for compartments as well as
         // the assignment rules on compartments ... otherwise we are in trouble :)
-        stack<string> initializations = mNOM.GetMatchForSymbol(mCompartmentList[i].name);
+        stack<string> initializations = mNOM->GetMatchForSymbol(mCompartmentList[i].name);
         while (initializations.size() > 0)
         {
             string term(initializations.top());
@@ -1511,14 +1516,14 @@ int CGenerator::readFloatingSpecies()
 
 	if(mComputeAndAssignConsevationLaws)
     {
-       reOrderedList = mLibStruct.getReorderedSpecies();
+       reOrderedList = mLibStruct->getReorderedSpecies();
     }
     else
     {
-        reOrderedList = mLibStruct.getSpecies();
+        reOrderedList = mLibStruct->getSpecies();
     }
 
-    StringListContainer oFloatingSpecies = mNOM.getListOfFloatingSpecies();
+    StringListContainer oFloatingSpecies = mNOM->getListOfFloatingSpecies();
 
     for (int i = 0; i < reOrderedList.Count(); i++)
     {
@@ -1530,7 +1535,7 @@ int CGenerator::readFloatingSpecies()
                   continue;
               }
 
-            string compartmentName = mNOM.getNthFloatingSpeciesCompartmentName(j);
+            string compartmentName = mNOM->getNthFloatingSpeciesCompartmentName(j);
             bool bIsConcentration  = ToBool(oTempList[2]);
             double dValue = ToDouble(oTempList[1]);
             if (IsNaN(dValue))
@@ -1563,9 +1568,9 @@ int CGenerator::readFloatingSpecies()
                   formula.str());
             }
 
-            if(mNOM.GetModel())
+            if(mNOM->GetModel())
             {
-                Species *aSpecies = mNOM.GetModel()->getSpecies(reOrderedList[i]);
+                Species *aSpecies = mNOM->GetModel()->getSpecies(reOrderedList[i]);
                 if(aSpecies)
                 {
                     symbol->hasOnlySubstance = aSpecies->getHasOnlySubstanceUnits();
@@ -1591,13 +1596,13 @@ int CGenerator::readFloatingSpecies()
 int CGenerator::readBoundarySpecies()
 {
     int numBoundarySpecies;
-    StringListContainer oBoundarySpecies = mNOM.getListOfBoundarySpecies();
+    StringListContainer oBoundarySpecies = mNOM->getListOfBoundarySpecies();
     numBoundarySpecies = oBoundarySpecies.Count(); // sp1.size();
     for (int i = 0; i < numBoundarySpecies; i++)
     {
         StringList oTempList     = oBoundarySpecies[i];
         string sName             = oTempList[0];
-        string compartmentName     = mNOM.getNthBoundarySpeciesCompartmentName(i);
+        string compartmentName     = mNOM->getNthBoundarySpeciesCompartmentName(i);
         bool bIsConcentration     = ToBool(oTempList[2]);
         double dValue             = ToDouble(oTempList[1]);
         if (IsNaN(dValue))
@@ -1634,9 +1639,9 @@ int CGenerator::readBoundarySpecies()
                                 formula.str());
         }
 
-        if(mNOM.GetModel())
+        if(mNOM->GetModel())
         {
-            Species* species = mNOM.GetModel()->getSpecies(sName);
+            Species* species = mNOM->GetModel()->getSpecies(sName);
             if(species)
             {
                 symbol->hasOnlySubstance = species->getHasOnlySubstanceUnits();
@@ -2428,7 +2433,7 @@ void CGenerator::substituteToken(const string& reactionName, bool bFixAmounts, S
         case CodeTypes::tEqualsToken:
             mSource<<Format(" = {0}\t", NL());
             break;
-      case CodeTypes::tTimeWord1:
+        case CodeTypes::tTimeWord1:
             mSource<<Append("md->time");
             break;
         case CodeTypes::tTimeWord2:
@@ -2468,6 +2473,254 @@ void CGenerator::substituteToken(const string& reactionName, bool bFixAmounts, S
                  "Exception raised in Module:roadRunner, Method:substituteTerms"));
          throw ae;
     }
+}
+
+bool CGenerator::generateModelCode(const string& sbml, const string& modelName, bool computeAndAssignConsevationLaws)
+{
+    if(sbml.size())
+    {
+        mCurrentSBML = sbml;
+    }
+
+    string modelCode = generateModelCode(mCurrentSBML, computeAndAssignConsevationLaws);
+
+    if(!modelCode.size())
+    {
+        Log(lError)<<"Failed to generate model code";
+        return false;
+    }
+
+    // just use the temp folder we're given
+    //*string tempFileFolder;
+    //*if(mSimulation)
+    //*{
+    //*    tempFileFolder = mSimulation->GetTempDataFolder();
+    //*}
+    //*else
+    //*{
+    //*    tempFileFolder = mTempFileFolder;
+    //*}
+
+    if(!saveSourceCodeToFolder(mTempFileFolder, modelName))
+    {
+        Log(lError)<<"Failed saving generated source code";
+    }
+
+    return true;
+}
+
+
+bool CGenerator::compileModel()
+{
+    //Make sure the dll is unloaded
+    unLoadModelDLL();
+
+    if(!compileCurrentModel())
+    {
+        Log(lError)<<"Failed compiling model";
+        return false;
+    }
+
+    return true;
+}
+
+bool CGenerator::unLoadModelDLL()
+{
+    //Make sure the dll is unloaded
+    if(mModelLib.isLoaded())    //Make sure the dll is unloaded
+    {
+        mModelLib.unload();
+        return (!mModelLib.isLoaded()) ? true : false;
+    }
+    return true;//No model is loaded..
+}
+
+bool CGenerator::compileCurrentModel()
+{
+    //*CGenerator *codeGen = dynamic_cast<CGenerator*>(mModelGenerator);
+    //*if(!codeGen)
+    //*{
+    //*    //CodeGenerator has not been allocaed
+    //*    Log(lError)<<"Generate code before compiling....";
+    //*    return false;
+    //*}
+
+    //Compile the model
+    if(!mCompiler.compileSource(getSourceCodeFileName()))
+    {
+        Log(lError)<<"Model failed compilation";
+        return false;
+    }
+    Log(lDebug)<<"Model compiled successfully. ";
+    Log(lDebug)<<mModelLib.getFullFileName()<<" was created";
+    return true;
+}
+
+ExecutableModel* CGenerator::createModel()
+{
+    if(mModel)
+    {
+        delete mModel;
+        mModel = NULL;
+    }
+
+    //Create a model
+    if(mModelLib.isLoaded())
+    {
+        //*CGenerator *codeGen = dynamic_cast<CGenerator*>(mModelGenerator);
+        ExecutableModel *rrCModel = new ExecutableModel(*this, mModelLib);
+        mModel = rrCModel;
+    }
+    else
+    {
+        Log(lError)<<"Failed to create model from DLL";
+        mModel = NULL;
+    }
+
+    return mModel;
+}
+
+
+bool CGenerator::initializeModel()
+{
+    if(!mModel)
+    {
+        //Now create the Model using the compiled DLL
+        mModel = createModel();
+
+        if(!mModel)
+        {
+            Log(lError)<<"Failed Creating Model";
+            return false ;
+        }
+    }
+
+    //*mConservedTotalChanged = false;
+    mModel->setCompartmentVolumes();
+    mModel->initializeInitialConditions();
+    mModel->setParameterValues();
+    mModel->setCompartmentVolumes();
+    mModel->setBoundaryConditions();
+    mModel->setInitialConditions();
+    mModel->convertToAmounts();
+    mModel->evalInitialAssignments();
+
+    mModel->computeRules(mModel->mData.y, mModel->mData.ySize);
+    mModel->convertToAmounts();
+
+    //*if (mComputeAndAssignConservationLaws)
+    //*{
+    //*    mModel->computeConservedTotals();
+    //*}
+
+    //*if(mCVode)
+    //*{
+    //*    delete mCVode;
+    //*}
+    //*mCVode = new CvodeInterface(this, mModel);
+    //*mModel->assignCVodeInterface(mCVode);
+
+    reset();
+    return true;
+}
+
+
+ExecutableModel *CGenerator::createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
+        bool forceReCompile, bool computeAndAssignConsevationLaws)
+{
+    mLibStruct = ls;
+    mNOM = nom;
+    mCurrentSBML = sbml;
+
+
+
+    //clear temp folder of roadrunner generated files, only if roadRunner instance == 1
+    Log(lDebug)<<"Loading SBML into simulator";
+    if (!sbml.size())
+    {
+        throw(CoreException("SBML string is empty!"));
+    }
+
+    // the RoadRunner object has already loaded the libstruct and nom.
+    //*loadSBMLIntoLibStruct(sbml);
+    //*{   //Scope for Mutex
+    //*    Mutex::ScopedLock lock(mLibSBMLMutex);
+    //*    loadSBMLIntoNOM(sbml);  //There is something in here that is not threadsafe... causes crash with multiple threads, without mutex
+    //*}
+
+    //    string modelName  = createModelName(mCurrentSBMLFileName);
+    string modelName = getMD5(sbml);
+
+    //Check if model has been compiled
+    mModelLib.setPath(mTempFileFolder);
+
+    //Creates a name for the shared lib
+    mModelLib.createName(modelName);
+    if(forceReCompile)
+    {
+        //If the dll is loaded.. unload it..
+        if (mModelLib.isLoaded())
+        {
+            mModelLib.unload();
+        }
+    }
+
+    generateModelCode(sbml, modelName, computeAndAssignConsevationLaws);
+
+    Mutex::ScopedLock lock(mCompileMutex);
+    try
+    {
+        //Can't have multiple threads compiling to the same dll at the same time..
+        if(!FileExists(mModelLib.getFullFileName()) || forceReCompile == true)
+        {
+            if(!compileModel())
+            {
+                Log(lError)<<"Failed to generate and compile model";
+                return 0;
+            }
+
+            if(!mModelLib.load())
+            {
+                Log(lError)<<"Failed to load model DLL";
+                return 0;
+            }
+        }
+        else
+        {
+            Log(lDebug)<<"Model compiled files already generated.";
+            if(!mModelLib.isLoaded())
+            {
+                if(!mModelLib.load())
+                {
+                    Log(lError)<<"Failed to load model DLL";
+                    return 0;
+                }
+            }
+            else
+            {
+                Log(lDebug)<<"Model lib is already loaded.";
+            }
+        }
+
+    }//End of scope for compile Mutex
+    catch(const Exception& ex)
+    {
+        Log(lError)<<"Compiler problem: "<<ex.what();
+    }
+
+
+    createModel();
+
+    //Finally intitilaize the model..
+    if(!initializeModel())
+    {
+        Log(lError)<<"Failed Initializing C Model";
+        return 0;
+    }
+
+    //*createDefaultSelectionLists();
+    return mModel;
+
 }
 
 }//Namespace

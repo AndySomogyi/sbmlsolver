@@ -3,18 +3,52 @@
 //---------------------------------------------------------------------------
 #include "rrModelGenerator.h"
 #include "rrCodeBuilder.h"
+#include "rrCompiler.h"
+#include "Poco/Thread.h"
+
 namespace rr
 {
 
+using Poco::Mutex;
 
 class RR_DECLSPEC CGenerator : public ModelGenerator
 {
-    protected:
+    private:
         CodeBuilder                         mHeader;
         CodeBuilder                         mSource;
 
         string                              mHeaderCodeFileName;
         string                              mSourceCodeFileName;
+
+        string                              mCurrentSBML;
+
+        ModelSharedLibrary                  mModelLib;
+
+        Compiler                            mCompiler;
+
+        string                              mTempFileFolder;
+
+        bool generateModelCode(const string& sbml, const string& modelName, bool computeAndAssignConsevationLaws);
+
+        static Mutex                    mCompileMutex;
+
+        bool compileModel();
+
+        bool unLoadModelDLL();
+
+        bool compileCurrentModel();
+
+        ExecutableModel* createModel();
+
+        ExecutableModel* mModel;
+
+        /**
+         * perform some basic initialization on the model.
+         *
+         * If the caller has mComputeAndAssignConservationLaws or mCVode, it
+         * needs to make the model aware of these.
+         */
+        bool initializeModel();
 
         string                              convertUserFunctionExpression(const string& equation);
         string                              convertCompartmentToC(const string& compartmentName);
@@ -60,7 +94,8 @@ class RR_DECLSPEC CGenerator : public ModelGenerator
         int                                 readBoundarySpecies();
 
     public:
-                                            CGenerator(LibStructural& ls, NOMSupport& nom);
+                                            CGenerator(const string& tempFolder, const string& supportCodeFolder, const string& compiler,
+                                                    LibStructural *ls, NOMSupport *nom);
         virtual                            ~CGenerator();
 
         // Generates the Model Code from th e SBML string
@@ -73,6 +108,9 @@ class RR_DECLSPEC CGenerator : public ModelGenerator
         string                              getHeaderCodeFileName();
         bool                                saveSourceCodeToFolder(const string& folder, const string& baseName);
         int                                 getNumberOfFloatingSpecies();
+
+        virtual ExecutableModel             *createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
+                                                         bool forceReCompile, bool computeAndAssignConsevationLaws);
 };
 }
 

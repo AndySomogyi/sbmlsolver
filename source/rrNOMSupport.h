@@ -23,6 +23,10 @@ namespace rr
 
 //You HAVE to define LIBSBML_USE_CPP_NAMESPACE for your project to compile this!
 using namespace libsbml;
+
+/**
+ * Methods to query various information from an SBML document.
+ */
 class RR_DECLSPEC NOMSupport : public rrObject
 {
     protected:

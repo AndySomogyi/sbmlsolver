@@ -16,7 +16,7 @@ using namespace std;
 
 namespace rr
 {
-ModelGenerator::ModelGenerator(LibStructural& ls, NOMSupport& nom)
+ModelGenerator::ModelGenerator(LibStructural *ls, NOMSupport *nom)
 :
 mComputeAndAssignConsevationLaws(false),
 mDoubleFormat("%.19G"),
@@ -24,8 +24,8 @@ mFixAmountCompartments("*"),
 mLibStruct(ls),
 mNOM(nom)
 {
-    mNOM.reset();
-    mLibStruct.Reset();
+    mNOM->reset();
+    mLibStruct->Reset();
 }
 
 ModelGenerator::~ModelGenerator(){}
@@ -63,9 +63,8 @@ bool  ModelGenerator::saveSourceCodeToFolder(const string& folder, const string&
 
 void ModelGenerator::reset()
 {
-    mNOM.reset();
-    mLibStruct.Reset();
-//    floatingSpeciesConcentrationList.Clear();
+    mNOM->reset();
+    mLibStruct->Reset();
 }
 
 int ModelGenerator::numAdditionalRates()
@@ -81,6 +80,14 @@ StringList ModelGenerator::getCompartmentList()
         tmp.Add(mCompartmentList[i].name);
     }
     return tmp;
+}
+
+string ModelGenerator::getInfo()
+{
+    // TODO placeholder for
+    //info<<"Compiler location: "     <<  getCompiler()->getCompilerLocation()<<endl;
+    //info<<"Support Code Folder: "   <<  getCompiler()->getSupportCodeFolder()<<endl;
+    return "";
 }
 
 string ModelGenerator::substituteTerms(const int& numReactions, const string& reactionName, const string& equation)
@@ -210,7 +217,7 @@ ls::DoubleMatrix* ModelGenerator::initializeL0(int& nrRows, int& nrCols)
         {
             vector<string> RowLabels;
             vector<string> ColumnLabels; //Todo: Filling these out here is meaningless?
-            L0 = mLibStruct.getL0Matrix();//(RowLabels, ColumnLabels);
+            L0 = mLibStruct->getL0Matrix();//(RowLabels, ColumnLabels);
             nrRows = L0->RSize();//.size();
             nrCols = L0->CSize();//.size();
         }
@@ -232,7 +239,7 @@ ls::DoubleMatrix* ModelGenerator::initializeL0(int& nrRows, int& nrCols)
 int ModelGenerator::readGlobalParameters()
 {
     int numGlobalParameters;
-    ArrayList oParameters = mNOM.getListOfParameters();
+    ArrayList oParameters = mNOM->getListOfParameters();
     numGlobalParameters = oParameters.Count();
     for (u_int i = 0; i < numGlobalParameters; i++)
     {
@@ -259,15 +266,15 @@ void ModelGenerator::readLocalParameters(const int& numReactions,  vector<int>& 
     localParameterDimensions.resize(numReactions);
     for (int i = 0; i < numReactions; i++)
     {
-        numLocalParameters = mNOM.getNumParameters(i);
-        reactionName = mNOM.getNthReactionId(i);
+        numLocalParameters = mNOM->getNumParameters(i);
+        reactionName = mNOM->getNthReactionId(i);
         mReactionList.Add(Symbol(reactionName, 0.0));
         SymbolList newList;
         for (u_int j = 0; j < numLocalParameters; j++)
         {
             localParameterDimensions[i] = numLocalParameters;
-            name = mNOM.getNthParameterId(i, j);
-            value = mNOM.getNthParameterValue(i, j);
+            name = mNOM->getNthParameterId(i, j);
+            value = mNOM->getNthParameterValue(i, j);
             newList.Add(Symbol(reactionName, name, value));
         }
         mLocalParameterList.push_back(newList);
@@ -329,11 +336,11 @@ string ModelGenerator::writeDouble(const double& value, const string& format)
 
 int ModelGenerator::readCompartments()
 {
-    int numCompartments = mNOM.getNumCompartments();
+    int numCompartments = mNOM->getNumCompartments();
     for (u_int i = 0; i < numCompartments; i++)
     {
-        string sCompartmentId = mNOM.getNthCompartmentId(i);
-        double value = mNOM.getValue(sCompartmentId);
+        string sCompartmentId = mNOM->getNthCompartmentId(i);
+        double value = mNOM->getValue(sCompartmentId);
 
         if(IsNaN(value))
         {
@@ -346,14 +353,14 @@ int ModelGenerator::readCompartments()
 
 int ModelGenerator::readModifiableSpeciesReferences()
 {
-    if(!mNOM.GetSBMLDocument())
+    if(!mNOM->GetSBMLDocument())
     {
         return -1;
     }
-    SBMLDocument &SBMLDoc = *mNOM.GetSBMLDocument();
-    Model &SbmlModel  = *mNOM.GetModel();
+    SBMLDocument &SBMLDoc = *mNOM->GetSBMLDocument();
+    Model &SbmlModel  = *mNOM->GetModel();
 
-    if(mNOM.GetSBMLDocument()->getLevel() < 3)
+    if(mNOM->GetSBMLDocument()->getLevel() < 3)
     {
         return 0;
     }

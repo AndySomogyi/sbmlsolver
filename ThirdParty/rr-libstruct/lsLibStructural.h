@@ -21,6 +21,10 @@ namespace ls
     typedef Matrix< ls::Complex >       	            ComplexMatrix;
 
     class SBMLmodel;
+
+    /**
+     * analyze the structural properties of stoichiometric networks.
+     */
     class LIB_EXTERN LibStructural
     {
     public:

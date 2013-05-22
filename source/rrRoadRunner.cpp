@@ -69,8 +69,9 @@ mConservedTotalChanged(false)
 {
     setTempFileFolder(tempFolder);
 	Log(lDebug4)<<"In RoadRunner ctor";
-    mCSharpGenerator    = new CSharpGenerator(mLS, mNOM);
-    mCGenerator         = new CGenerator(mLS, mNOM);
+    mCSharpGenerator    = new CSharpGenerator(&mLS, &mNOM);
+    mCGenerator         = new CGenerator(tempFolder, supportCodeFolder, compiler,
+            &mLS, &mNOM);
     mModelGenerator     = mCGenerator;
     mPluginManager.setRoadRunnerInstance(this);
 
@@ -114,8 +115,7 @@ string RoadRunner::getInfo()
     info<<"ConservationAnalysis: "	<<	(mComputeAndAssignConservationLaws ? "true" : "false")<<endl;
     info<<"libSBML version: "		<<	getlibSBMLVersion()<<endl;
     info<<"Temporary folder: "		<<	getTempFolder()<<endl;
-    info<<"Compiler location: "		<<	getCompiler()->getCompilerLocation()<<endl;
-    info<<"Support Code Folder: "	<<	getCompiler()->getSupportCodeFolder()<<endl;
+
     info<<"Working Directory: "		<<	getCWD()<<endl;
 	return info.str();
 }
@@ -278,7 +278,7 @@ string RoadRunner::getParamPromotedSBML(const string& sArg)
 {
 	if(mModelGenerator)
     {
-    	return mModelGenerator->mNOM.getParamPromotedSBML(sArg);
+    	return mNOM.getParamPromotedSBML(sArg);
     }
 
     return "";
@@ -2689,13 +2689,13 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
 
 string RoadRunner::getModelName()
 {
-    return mModelGenerator->mNOM.getModelName();
+    return mNOM.getModelName();
 }
 
 // Help("Returns the SBML with the current parameterset")
 string RoadRunner::writeSBML()
 {
-    NOMSupport& NOM = mModelGenerator->mNOM;
+    NOMSupport& NOM = *mModelGenerator->mNOM;
 
     NOM.loadSBML(NOM.getParamPromotedSBML(mCurrentSBML));
 
