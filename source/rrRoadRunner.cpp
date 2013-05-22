@@ -33,7 +33,6 @@ using namespace ls;
 
 //The incance count increases/decreases as instances are created/destroyed.
 int 				RoadRunner::mInstanceCount = 0;
-Mutex 				RoadRunner::mCompileMutex;
 Mutex 				RoadRunner::mLibSBMLMutex;
 
 int	RoadRunner::getInstanceCount()
@@ -52,12 +51,10 @@ mUseKinsol(false),
 mDiffStepSize(0.05),
 mModelFolder("models"),
 mSteadyStateThreshold(1.E-2),
-mSupportCodeFolder(supportCodeFolder),
 mSimulation(NULL),
 mCurrentSBMLFileName(""),
 mCVode(NULL),
 mSteadyStateSolver(NULL),
-mCompiler(supportCodeFolder, compiler),
 mComputeAndAssignConservationLaws(false),
 mTimeStart(0),
 mTimeEnd(10),
@@ -67,6 +64,8 @@ mCurrentSBML(""),
 mPluginManager(JoinPath(getParentFolder(supportCodeFolder), "plugins")),
 mConservedTotalChanged(false)
 {
+	// for now, dump out who we are
+	cout << "RoadRunner::RoadRunner(...), running refactored modelgen\n";
     setTempFileFolder(tempFolder);
 	Log(lDebug4)<<"In RoadRunner ctor";
     mCSharpGenerator    = new CSharpGenerator(&mLS, &mNOM);
@@ -87,10 +86,7 @@ RoadRunner::~RoadRunner()
     delete mCGenerator;
     delete mModel;
     delete mCVode;
-	if(mModelLib.isLoaded())
-    {
-    	mModelLib.unload();
-    }
+
     //delete mLS;
 	mInstanceCount--;
 }
@@ -132,7 +128,7 @@ NOMSupport* RoadRunner::getNOM()
 
 Compiler* RoadRunner::getCompiler()
 {
-	return &mCompiler;
+	return mModelGenerator ? mModelGenerator->getCompiler() : 0;
 }
 
 CvodeInterface* RoadRunner::getCVodeInterface()
@@ -146,7 +142,7 @@ CvodeInterface* RoadRunner::getCVodeInterface()
 
 bool RoadRunner::setCompiler(const string& compiler)
 {
-    return mCompiler.setCompiler(compiler);
+	return mModelGenerator ? mModelGenerator->setCompiler(compiler) : false;
 }
 
 NLEQInterface* RoadRunner::getNLEQInterface()
@@ -177,16 +173,6 @@ bool RoadRunner::computeAndAssignConservationLaws()
 	return mComputeAndAssignConservationLaws;
 }
 
-CGenerator*	RoadRunner::getCGenerator()
-{
-	return dynamic_cast<CGenerator*>(mCGenerator);
-}
-
-CSharpGenerator* RoadRunner::getCSharpGenerator()
-{
-	return dynamic_cast<CSharpGenerator*>(mCSharpGenerator);
-}
-
 bool RoadRunner::setTempFileFolder(const string& folder)
 {
     return mModelGenerator ? mModelGenerator->setTemporaryDirectory(folder) : false;
@@ -194,7 +180,7 @@ bool RoadRunner::setTempFileFolder(const string& folder)
 
 string RoadRunner::getTempFolder()
 {
-	return mTempFileFolder;
+	return mModelGenerator ? mModelGenerator->getTemporaryDirectory() : "";
 }
 
 int RoadRunner::createDefaultTimeCourseSelectionList()
@@ -252,7 +238,7 @@ int RoadRunner::createTimeCourseSelectionList()
 	return mSelectionList.size();
 }
 
-ModelGenerator* RoadRunner::getCodeGenerator()
+ModelGenerator* RoadRunner::getModelGenerator()
 {
 	return mModelGenerator;
 }
@@ -276,75 +262,43 @@ void RoadRunner::resetModelGenerator()
 	}
 }
 
-
-string RoadRunner::getCSharpCode()
-{
-    if(mCSharpGenerator)
-    {
-        return mCSharpGenerator->getSourceCode();
-    }
-    return "";
-}
-
-string RoadRunner::getCHeaderCode()
-{
-    if(mCGenerator)
-    {
-        return mCGenerator->getHeaderCode();
-    }
-    return "";
-}
-
-string RoadRunner::getCSourceCode()
-{
-    if(mCGenerator)
-    {
-        return mCGenerator->getSourceCode();
-    }
-    return "";
-}
-
 bool RoadRunner::initializeModel()
 {
-    if(!mModel)
-    {
-        //Now create the Model using the compiled DLL
-        mModel = createModel();
+	if(mModel)
+	{
+		mConservedTotalChanged = false;
+		mModel->setCompartmentVolumes();
+		mModel->initializeInitialConditions();
+		mModel->setParameterValues();
+		mModel->setCompartmentVolumes();
+		mModel->setBoundaryConditions();
+		mModel->setInitialConditions();
+		mModel->convertToAmounts();
+		mModel->evalInitialAssignments();
 
-        if(!mModel)
-        {
-			Log(lError)<<"Failed Creating Model";
-            return false ;
-        }
-    }
+		mModel->computeRules(mModel->mData.y, mModel->mData.ySize);
+		mModel->convertToAmounts();
 
-    mConservedTotalChanged = false;
-    mModel->setCompartmentVolumes();
-    mModel->initializeInitialConditions();
-    mModel->setParameterValues();
-    mModel->setCompartmentVolumes();
-    mModel->setBoundaryConditions();
-    mModel->setInitialConditions();
-    mModel->convertToAmounts();
-    mModel->evalInitialAssignments();
+		if (mComputeAndAssignConservationLaws)
+		{
+			mModel->computeConservedTotals();
+		}
 
-    mModel->computeRules(mModel->mData.y, mModel->mData.ySize);
-    mModel->convertToAmounts();
+		if(mCVode)
+		{
+			delete mCVode;
+		}
+		mCVode = new CvodeInterface(this, mModel);
+		mModel->assignCVodeInterface(mCVode);
 
-    if (mComputeAndAssignConservationLaws)
-    {
-        mModel->computeConservedTotals();
-    }
-
-    if(mCVode)
-    {
-        delete mCVode;
-    }
-    mCVode = new CvodeInterface(this, mModel);
-	mModel->assignCVodeInterface(mCVode);
-
-    reset();
-    return true;
+		// reset the simulation state
+		reset();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
 SimulationData RoadRunner::getSimulationResult()
@@ -786,129 +740,15 @@ bool RoadRunner::loadSimulationSettings(const string& fName)
     return true;
 }
 
-bool RoadRunner::generateModelCode(const string& sbml, const string& modelName)
-{
-    if(sbml.size())
-    {
-        mCurrentSBML = sbml;
-    }
-
-    string modelCode = mModelGenerator->generateModelCode(mCurrentSBML, computeAndAssignConservationLaws());
-
-    if(!modelCode.size())
-    {
-        Log(lError)<<"Failed to generate model code";
-        return false;
-    }
-
-    string tempFileFolder;
-    if(mSimulation)
-    {
-        tempFileFolder = mSimulation->GetTempDataFolder();
-    }
-    else
-    {
-        tempFileFolder = mTempFileFolder;
-    }
-
-    if(!mModelGenerator->saveSourceCodeToFolder(tempFileFolder, modelName))
-    {
-        Log(lError)<<"Failed saving generated source code";
-    }
-
-    return true;
-}
-
-bool RoadRunner::compileCurrentModel()
-{
-    CGenerator *codeGen = dynamic_cast<CGenerator*>(mModelGenerator);
-    if(!codeGen)
-    {
-        //CodeGenerator has not been allocaed
-        Log(lError)<<"Generate code before compiling....";
-        return false;
-    }
-
-     //Compile the model
-    if(!mCompiler.compileSource(codeGen->getSourceCodeFileName()))
-    {
-        Log(lError)<<"Model failed compilation";
-        return false;
-    }
-    Log(lDebug)<<"Model compiled successfully. ";
-    Log(lDebug)<<mModelLib.getFullFileName()<<" was created";
-    return true;
-}
-
-bool RoadRunner::compileSource(const string& modelSourceCodeName)
-{
-     //Compile the model
-    if(!mCompiler.compileSource(modelSourceCodeName))
-    {
-        Log(lError)<<"Model in source file: \""<<modelSourceCodeName<<"\" failed compilation";
-        return false;
-    }
-
-	return true;
-}
-
 bool RoadRunner::unLoadModel()
 {
+	// The model owns the shared library (if it exists), when the model is deleted,
+	// its dtor unloads the shared lib.
     if(mModel)
     {
         delete mModel;
         mModel = NULL;
     }
-    return unLoadModelDLL();
-}
-
-bool RoadRunner::unLoadModelDLL()
-{
-    //Make sure the dll is unloaded
-    if(mModelLib.isLoaded())	//Make sure the dll is unloaded
-    {
-	    mModelLib.unload();
-        return (!mModelLib.isLoaded()) ? true : false;
-    }
-    return true;//No model is loaded..
-}
-
-bool RoadRunner::compileModel()
-{
-    //Make sure the dll is unloaded
-    unLoadModelDLL();
-
-    if(!compileCurrentModel())
-    {
-        Log(lError)<<"Failed compiling model";
-        return false;
-    }
-
-    return true;
-}
-
-ExecutableModel* RoadRunner::createModel()
-{
-    if(mModel)
-    {
-        delete mModel;
-        mModel = NULL;
-    }
-
-    //Create a model
-    if(mModelLib.isLoaded())
-    {
-        CGenerator *codeGen = dynamic_cast<CGenerator*>(mModelGenerator);
-        ExecutableModel *rrCModel = new ExecutableModel(*codeGen, mModelLib);
-        mModel = rrCModel;
-    }
-    else
-    {
-        Log(lError)<<"Failed to create model from DLL";
-        mModel = NULL;
-    }
-
-    return mModel;
 }
 
 //Reset the simulator back to the initial conditions specified in the SBML model

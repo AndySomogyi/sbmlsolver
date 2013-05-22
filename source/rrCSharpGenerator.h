@@ -63,6 +63,25 @@ class RR_DECLSPEC CSharpGenerator : public ModelGenerator
                                                                  bool forceReCompile, bool computeAndAssignConsevationLaws);
 
         virtual bool                        setTemporaryDirectory(const string& path);
+
+        /**
+         * Get the location where this model generator creates source file and shared libraries.
+         */
+        virtual string                      getTemporaryDirectory();
+
+        /**
+         * Get the compiler object that the model generator is using to
+         * 'compile' sbml.
+         *
+         * TODO: Make Compiler an interface.
+         */
+        virtual 							Compiler* getCompiler();
+
+        /**
+         * Set the name of the compiler to use. For C# model generators,
+         * could this be 'gmcs'? Presumably, on Windows, this would be 'mcs'.
+         */
+        virtual 							bool setCompiler(const string& compiler);
 };
 
 }

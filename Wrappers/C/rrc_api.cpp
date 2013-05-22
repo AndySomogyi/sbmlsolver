@@ -2406,7 +2406,7 @@ char* rrCallConv getCSourceFileName(RRHandle handle)
             return NULL;
         }
 
-        CGenerator* generator = rri->getCGenerator();
+        CGenerator* generator = dynamic_cast<CGenerator*>(rri->getModelGenerator());
         if(!generator)
         {
             return NULL;
@@ -2432,7 +2432,7 @@ RRCCode* rrCallConv getCCode(RRHandle handle)
     {
     	RoadRunner* rri = castFrom(handle);
 
-        CGenerator* generator = rri->getCGenerator();
+    	CGenerator* generator = dynamic_cast<CGenerator*>(rri->getModelGenerator());
         if(!generator)
         {
             return NULL;

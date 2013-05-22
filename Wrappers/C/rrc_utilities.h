@@ -63,7 +63,7 @@ C_DECL_SPEC char* rrCallConv getFileContent(const char* fName);
 
 ///////////////////////////////////////////////////////////////////////////////////
 // TEST UTILITY functions (to be documented later. Only for internal testing)
-C_DECL_SPEC bool rrCallConv compileSource(RRHandle handle, const char* sourceFileName);
+DEPRECATED(C_DECL_SPEC bool rrCallConv compileSource(RRHandle handle, const char* sourceFileName));
 
 
 

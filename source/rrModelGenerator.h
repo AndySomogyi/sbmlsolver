@@ -19,7 +19,7 @@ using std::list;
 using namespace ls;
 namespace rr
 {
-class RoadRunner;
+class Compiler;
 
 class RR_DECLSPEC ModelGenerator : public rrObject
 {
@@ -153,8 +153,32 @@ class RR_DECLSPEC ModelGenerator : public rrObject
          */
         virtual bool                        setTemporaryDirectory(const string& path) = 0;
 
+        /**
+         * certain model generators, such as the compiler based ones
+         * generate files such as shared libraries. This specifies the
+         * location where they are stored.
+         */
+        virtual string                      getTemporaryDirectory() = 0;
+
         virtual ExecutableModel             *createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
                                                                  bool forceReCompile, bool computeAndAssignConsevationLaws) = 0;
+
+        /**
+         * Get the compiler object that the model generator is using to
+         * 'compile' sbml. Certain model generators may be interpreters, in this
+         * case, the Compiler interface should still be sufficiently general to
+         * manipulate interpreters as well.
+         *
+         * TODO: Make Compiler an interface.
+         */
+        virtual 							Compiler *getCompiler() = 0;
+
+        /**
+         * Set the name of the compiler to use. In the case of source code generating
+         * model generators, this is the exectuable name of the external compiler, i.e.
+         * 'gcc', 'icc', etc... For JITing generators, this may have no effect.
+         */
+        virtual 							bool setCompiler(const string& compiler) = 0;
 };
 }
 
