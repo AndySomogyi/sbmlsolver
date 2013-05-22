@@ -2743,5 +2743,21 @@ ExecutableModel *CGenerator::createModel(const string& sbml, LibStructural *ls, 
 
 }
 
+Compiler* CGenerator::getCompiler()
+{
+	return &mCompiler;
+}
+
+
+bool CGenerator::setCompiler(const string& compiler)
+{
+    return mCompiler.setCompiler(compiler);
+}
+
+string CGenerator::getTemporaryDirectory()
+{
+	return mTempFileFolder;
+}
+
 }//Namespace
 

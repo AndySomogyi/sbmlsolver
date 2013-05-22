@@ -38,8 +38,6 @@ class RR_DECLSPEC CGenerator : public ModelGenerator
 
         bool compileCurrentModel();
 
-        ExecutableModel* createModel();
-
         ExecutableModel* mModel;
 
         /**
@@ -113,6 +111,31 @@ class RR_DECLSPEC CGenerator : public ModelGenerator
                                                          bool forceReCompile, bool computeAndAssignConsevationLaws);
 
         virtual bool                        setTemporaryDirectory(const string& path);
+
+        /**
+         * Get the location where this model generator creates source file and shared libraries.
+         */
+        virtual string                      getTemporaryDirectory();
+
+        /**
+         * Get the compiler object that the model generator is using to
+         * 'compile' sbml.
+         *
+         * TODO: Make Compiler an interface.
+         */
+        virtual 							Compiler* getCompiler();
+
+        /**
+         * Set the name of the compiler to use. As this is a C source code compiler, this
+         * is the name of the external C compiler, which would typically be 'gcc', 'cc', 'icc', etc...
+         */
+        virtual 							bool setCompiler(const string& compiler);
+
+        /**
+         * load a model from an existing shared library.
+         * TODO: find out if this is working and documented as intended.
+         */
+        ExecutableModel* createModel();
 };
 }
 

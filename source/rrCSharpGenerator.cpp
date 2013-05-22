@@ -2477,4 +2477,20 @@ bool CSharpGenerator::setTemporaryDirectory(const string& path)
 {
     return false;
 }
+
+Compiler* CSharpGenerator::getCompiler()
+{
+	return 0;
+}
+
+bool CSharpGenerator::setCompiler(const string& compiler)
+{
+	return false;
+}
+
+string CSharpGenerator::getTemporaryDirectory()
+{
+	return "";
+}
+
 }//rr namespace

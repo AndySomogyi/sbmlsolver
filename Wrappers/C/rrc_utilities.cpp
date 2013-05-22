@@ -72,12 +72,7 @@ char* rrCallConv getFileContent(const char* fName)
 
 bool rrCallConv compileSource(RRHandle handle, const char* sourceFileName)
 {
-	try
-    {
-        RoadRunner* rri = castFrom(handle);
-        return rri->compileSource(sourceFileName);
-    }
-    CATCH_BOOL_MACRO
+	return true;
 }
 
 #if defined(WIN32) || defined (_WIN32)
