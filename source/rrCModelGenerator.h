@@ -1,5 +1,5 @@
-#ifndef rrCGeneratorH
-#define rrCGeneratorH
+#ifndef CModelGenerator_H_
+#define CModelGenerator_H_
 //---------------------------------------------------------------------------
 #include "rrModelGenerator.h"
 #include "rrCodeBuilder.h"
@@ -11,7 +11,11 @@ namespace rr
 
 using Poco::Mutex;
 
-class RR_DECLSPEC CGenerator : public ModelGenerator
+/**
+ * Generate executable SBML models by generating and compiling C
+ * source code into shared libraries with an external C compiler.
+ */
+class RR_DECLSPEC CModelGenerator : public ModelGenerator
 {
     private:
         CodeBuilder                         mHeader;
@@ -92,9 +96,9 @@ class RR_DECLSPEC CGenerator : public ModelGenerator
         int                                 readBoundarySpecies();
 
     public:
-                                            CGenerator(const string& tempFolder, const string& supportCodeFolder, const string& compiler,
+                                            CModelGenerator(const string& tempFolder, const string& supportCodeFolder, const string& compiler,
                                                     LibStructural *ls, NOMSupport *nom);
-        virtual                            ~CGenerator();
+        virtual                            ~CModelGenerator();
 
         // Generates the Model Code from th e SBML string
         string                              generateModelCode(const string& sbmlStr, const bool& _computeAndAssignConsevationLaws = false);

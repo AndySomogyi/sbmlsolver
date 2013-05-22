@@ -9,6 +9,11 @@ namespace rr
 
 using Poco::SharedLibrary;
 
+/**
+ * Access an actual compiled shared library (.so, .dll or .dylib) that
+ * was compiled by a ModelGenerator and provides access to the exported
+ * C functions.
+ */
 class RR_DECLSPEC ModelSharedLibrary : public rrObject
 {
 	protected:

@@ -274,7 +274,7 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
     ExecutableModel *model = cvInstance->getModel();
     ModelState oldState(*model);
 
-    int size = model->mData.amountsSize + model->mData.rateRulesSize;
+    int size = model->getModelData().amountsSize + model->getModelData().rateRulesSize;
     vector<double> dCVodeArgument(size);
 
     for(int i = 0; i < min((int) dCVodeArgument.size(), n); i++)
@@ -292,11 +292,11 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
 
     model->evalModel(time, dCVodeArgument);
 
-    CopyCArrayToStdVector(model->mData.rateRules,    dCVodeArgument, (model->mData.rateRulesSize));
+    CopyCArrayToStdVector(model->getModelData().rateRules,    dCVodeArgument, (model->getModelData().rateRulesSize));
 
-    for(u_int i = 0 ; i < (model->mData.dydtSize); i++)
+    for(u_int i = 0 ; i < (model->getModelData().dydtSize); i++)
     {
-        dCVodeArgument.push_back(model->mData.dydt[i]);
+        dCVodeArgument.push_back(model->getModelData().dydt[i]);
     }
 
     //msg<<"\tcount = "<<CvodeInterface::mCount << "\t" ;
@@ -331,19 +331,19 @@ void EventFcn(double time, double* y, double* gdot, void* userData)
 
     vector<double> args = cvInstance->buildEvalArgument();
     model->evalModel(time, args);
-    model->mCvodeInterface->assignResultsToModel();
+    model->getCvodeInterface()->assignResultsToModel();
 
     args = cvInstance->buildEvalArgument();
     model->evalEvents(time, args);
 
     for(int i = 0; i < model->getNumEvents(); i++)
     {
-        gdot[i] = model->mData.eventTests[i];
+        gdot[i] = model->getModelData().eventTests[i];
     }
 
-//    Log(lDebug3)<<"S1 Value"<<model->mData.amounts[0];
+//    Log(lDebug3)<<"S1 Value"<<model->getModelData().amounts[0];
 //    Log(lDebug3)<<"Rootfunction Out: t="<<time<<" ("<< cvInstance->mRootCount <<"): ";
-//    for (int i = 0; i < *model->mData.eventTestsSize; i++)
+//    for (int i = 0; i < *model->getModelData().eventTestsSize; i++)
 //    {
 //        Log(lDebug3)<<ToString(model->mData.eventTests[i])<<" p="<<model->mData.previousEventStatusArray[i]<<" c="<<ToString(model->mData.eventStatusArray[i])<<", ";
 //    }
@@ -369,7 +369,7 @@ void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
     {
         mTheModel = oModel;
         mNumIndependentVariables = oModel->getNumIndependentVariables();
-        mNumAdditionalRules = (oModel->mData.rateRulesSize);
+        mNumAdditionalRules = (oModel->getModelData().rateRulesSize);
 
         if (mNumAdditionalRules + mNumIndependentVariables > 0)
         {
@@ -466,7 +466,7 @@ void CvodeInterface::assignPendingEvents(const double& timeEnd, const double& to
             mTheModel->setTime(tout);
             assignResultsToModel();
             mTheModel->convertToConcentrations();
-            mTheModel->updateDependentSpeciesValues(mTheModel->mData.y);
+            mTheModel->updateDependentSpeciesValues(mTheModel->getModelData().y);
             mAssignments[i].AssignToModel();
 
             if (mRR && !mRR->mConservedTotalChanged)
@@ -516,12 +516,12 @@ vector<int> CvodeInterface::retestEvents(const double& timeEnd, const vector<int
     for (int i = 0; i < mTheModel->getNumEvents(); i++)
     {
         bool containsI = (std::find(handledEvents.begin(), handledEvents.end(), i) != handledEvents.end()) ? true : false;
-        if (mTheModel->mData.eventStatusArray[i] == true && oldState->mEventStatusArray[i] == false && !containsI)
+        if (mTheModel->getModelData().eventStatusArray[i] == true && oldState->mEventStatusArray[i] == false && !containsI)
         {
             result.push_back(i);
         }
 
-        if (mTheModel->mData.eventStatusArray[i] == false && oldState->mEventStatusArray[i] == true && !mTheModel->mData.eventPersistentType[i])
+        if (mTheModel->getModelData().eventStatusArray[i] == false && oldState->mEventStatusArray[i] == true && !mTheModel->getModelData().eventPersistentType[i])
         {
             removeEvents.push_back(i);
         }
@@ -583,7 +583,7 @@ void CvodeInterface::sortEventsByPriority(vector<rr::Event>& firedEvents)
 		Log(lDebug3)<<"Sorting event priorities";
         for(int i = 0; i < firedEvents.size(); i++)
         {
-        	firedEvents[i].SetPriority(mTheModel->mData.eventPriorities[firedEvents[i].GetID()]);
+        	firedEvents[i].SetPriority(mTheModel->getModelData().eventPriorities[firedEvents[i].GetID()]);
         	Log(lDebug3)<<firedEvents[i];
         }
         sort(firedEvents.begin(), firedEvents.end(), SortByPriority());
@@ -610,7 +610,7 @@ void CvodeInterface::sortEventsByPriority(vector<int>& firedEvents)
 		Log(lDebug3)<<"Sorting event priorities";
         for(int i = 0; i < firedEvents.size(); i++)
         {
-        	dummy[i].SetPriority(mTheModel->mData.eventPriorities[dummy[i].GetID()]);
+        	dummy[i].SetPriority(mTheModel->getModelData().eventPriorities[dummy[i].GetID()]);
         	Log(lDebug3)<<dummy[i];
         }
         sort(dummy.begin(), dummy.end(), SortByPriority());
@@ -632,7 +632,7 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
 {
     assignResultsToModel();
     mTheModel->convertToConcentrations();
-    mTheModel->updateDependentSpeciesValues(mTheModel->mData.y);
+    mTheModel->updateDependentSpeciesValues(mTheModel->getModelData().y);
     vector<double> args = buildEvalArgument();
     mTheModel->evalEvents(timeEnd, args);
 
@@ -644,19 +644,19 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
         // We only fire an event if we transition from false to true
         if (rootsFound[i] == 1)
         {
-            if (mTheModel->mData.eventStatusArray[i])
+            if (mTheModel->getModelData().eventStatusArray[i])
             {
                 firedEvents.push_back(i);
-                if (mTheModel->mData.eventType[i])
+                if (mTheModel->getModelData().eventType[i])
                 {
-                    preComputedAssignments[i] = mTheModel->mData.computeEventAssignments[i](&(mTheModel->mData));
+                    preComputedAssignments[i] = mTheModel->getModelData().computeEventAssignments[i](&(mTheModel->getModelData()));
                 }
             }
         }
         else
         {
             // if the trigger condition is not supposed to be persistent, remove the event from the firedEvents list;
-            if (!mTheModel->mData.eventPersistentType[i])
+            if (!mTheModel->getModelData().eventPersistentType[i])
             {
                 removePendingAssignmentForIndex(i);
             }
@@ -673,17 +673,17 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
             int currentEvent = firedEvents[i];//.GetID();
 
             // We only fire an event if we transition from false to true
-            mTheModel->mData.previousEventStatusArray[currentEvent] = mTheModel->mData.eventStatusArray[currentEvent];
-            double eventDelay = mTheModel->mData.eventDelays[currentEvent](&(mTheModel->mData));
+            mTheModel->getModelData().previousEventStatusArray[currentEvent] = mTheModel->getModelData().eventStatusArray[currentEvent];
+            double eventDelay = mTheModel->getModelData().eventDelays[currentEvent](&(mTheModel->getModelData()));
             if (eventDelay == 0)
             {
-                if (mTheModel->mData.eventType[currentEvent] && preComputedAssignments.count(currentEvent) > 0)
+                if (mTheModel->getModelData().eventType[currentEvent] && preComputedAssignments.count(currentEvent) > 0)
                 {
-                    mTheModel->mData.performEventAssignments[currentEvent](&(mTheModel->mData), preComputedAssignments[currentEvent]);
+                    mTheModel->getModelData().performEventAssignments[currentEvent](&(mTheModel->getModelData()), preComputedAssignments[currentEvent]);
                 }
                 else
                 {
-                    mTheModel->mData.eventAssignments[currentEvent]();
+                    mTheModel->getModelData().eventAssignments[currentEvent]();
                 }
 
                 handled.push_back(currentEvent);
@@ -695,13 +695,13 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
                 for (int j = 0; j < additionalEvents.size(); j++)
                 {
                     int newEvent = additionalEvents[j];
-                    if (mTheModel->mData.eventType[newEvent])
+                    if (mTheModel->getModelData().eventType[newEvent])
                     {
-                        preComputedAssignments[newEvent] = mTheModel->mData.computeEventAssignments[newEvent](&(mTheModel->mData));
+                        preComputedAssignments[newEvent] = mTheModel->getModelData().computeEventAssignments[newEvent](&(mTheModel->getModelData()));
                     }
                 }
 
-                mTheModel->mData.eventStatusArray[currentEvent] = false;
+                mTheModel->getModelData().eventStatusArray[currentEvent] = false;
                 Log(lDebug3)<<"Fired Event with ID:"<<currentEvent;
                 firedEvents.erase(firedEvents.begin() + i);
 
@@ -724,20 +724,20 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
                     mAssignmentTimes.push_back(timeEnd + eventDelay);
                 }
 
-                PendingAssignment *pending = new PendingAssignment( &(mTheModel->mData),
+                PendingAssignment *pending = new PendingAssignment( &(mTheModel->getModelData()),
                 													timeEnd + eventDelay,
-                                                                    mTheModel->mData.computeEventAssignments[currentEvent],
-                                                                    mTheModel->mData.performEventAssignments[currentEvent],
-                                                                    mTheModel->mData.eventType[currentEvent],
+                                                                    mTheModel->getModelData().computeEventAssignments[currentEvent],
+                                                                    mTheModel->getModelData().performEventAssignments[currentEvent],
+                                                                    mTheModel->getModelData().eventType[currentEvent],
                                                                     currentEvent);
 
-                if (mTheModel->mData.eventType[currentEvent] && preComputedAssignments.count(currentEvent) == 1)
+                if (mTheModel->getModelData().eventType[currentEvent] && preComputedAssignments.count(currentEvent) == 1)
                 {
                     pending->ComputedValues = preComputedAssignments[currentEvent];
                 }
 
                 mAssignments.push_back(*pending);
-                mTheModel->mData.eventStatusArray[currentEvent] = false;
+                mTheModel->getModelData().eventStatusArray[currentEvent] = false;
                 firedEvents.erase(firedEvents.begin() + i);
                 break;
             }
@@ -762,7 +762,7 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
 
     for (int k = 0; k < mNumIndependentVariables; k++)
     {
-        SetVector((N_Vector) mAmounts, k + mNumAdditionalRules, mTheModel->mData.amounts[k]);
+        SetVector((N_Vector) mAmounts, k + mNumAdditionalRules, mTheModel->getModelData().amounts[k]);
     }
 
     reInit(timeEnd);//, mAmounts, mRelTol, mAbstolArray);
@@ -771,19 +771,19 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
 
 void CvodeInterface::assignResultsToModel()
 {
-    mTheModel->updateDependentSpeciesValues(mTheModel->mData.y);
+    mTheModel->updateDependentSpeciesValues(mTheModel->getModelData().y);
     vector<double> dTemp(mNumAdditionalRules);
 
     for (int i = 0; i < mNumAdditionalRules; i++)
     {
         dTemp[i] = GetVector((_generic_N_Vector*) mAmounts, i);
-        mTheModel->mData.amounts[i] = dTemp[i];
+        mTheModel->getModelData().amounts[i] = dTemp[i];
     }
 
     for (int i = 0; i < mNumIndependentVariables; i++)
     {
         double val = GetVector((_generic_N_Vector*) mAmounts, i + mNumAdditionalRules);
-        mTheModel->mData.amounts[i] = (val);
+        mTheModel->getModelData().amounts[i] = (val);
         Log(lDebug5)<<"Amount "<<setprecision(16)<<val;
     }
 
@@ -817,7 +817,7 @@ void CvodeInterface::assignNewVector(ExecutableModel *oModel, bool bAssignNewTol
     {
         if (oModel->getAmounts(i) > 0 && oModel->getAmounts(i)/1000.0 < dMin)    //Todo: was calling oModel->amounts[i]  is this in fact GetAmountsForSpeciesNr(i) ??
         {
-            dMin = oModel->mData.amounts[i]/1000.0;
+            dMin = oModel->getModelData().amounts[i]/1000.0;
         }
     }
 
@@ -885,7 +885,7 @@ void CvodeInterface::reStart(double timeStart, ExecutableModel* model)
 vector<double> CvodeInterface::buildEvalArgument()
 {
     vector<double> dResult;
-    dResult.resize(mTheModel->mData.amountsSize + mTheModel->mData.rateRulesSize);
+    dResult.resize(mTheModel->getModelData().amountsSize + mTheModel->getModelData().rateRulesSize);
 
     vector<double> dCurrentValues = mTheModel->getCurrentValues();
     for(int i = 0; i < dCurrentValues.size(); i++)
@@ -893,9 +893,9 @@ vector<double> CvodeInterface::buildEvalArgument()
         dResult[i] = dCurrentValues[i];
     }
 
-    for(int i = 0; i < mTheModel->mData.amountsSize; i++)
+    for(int i = 0; i < mTheModel->getModelData().amountsSize; i++)
     {
-        dResult[i + mTheModel->mData.rateRulesSize] = mTheModel->mData.amounts[i];
+        dResult[i + mTheModel->getModelData().rateRulesSize] = mTheModel->getModelData().amounts[i];
     }
 
     Log(lDebug4)<<"Size of dResult in BuildEvalArgument: "<<dResult.size();

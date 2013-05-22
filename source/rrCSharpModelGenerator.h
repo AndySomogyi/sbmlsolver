@@ -6,7 +6,7 @@
 namespace rr
 {
 
-class RR_DECLSPEC CSharpGenerator : public ModelGenerator
+class RR_DECLSPEC CSharpModelGenerator : public ModelGenerator
 {
     protected:
         string                          	mSourceCodeFileName;
@@ -51,8 +51,8 @@ class RR_DECLSPEC CSharpGenerator : public ModelGenerator
         int              					readBoundarySpecies();
 
     public:
-                                            CSharpGenerator(LibStructural *ls, NOMSupport *nom);
-        virtual                            ~CSharpGenerator();
+        									CSharpModelGenerator(LibStructural *ls, NOMSupport *nom);
+        virtual                             ~CSharpModelGenerator();
 
         // Generates the Model Code from the SBML string
         string                              generateModelCode(const string& sbmlStr, const bool& computeAndAssignConsevationLaws = false);
@@ -82,6 +82,7 @@ class RR_DECLSPEC CSharpGenerator : public ModelGenerator
          * could this be 'gmcs'? Presumably, on Windows, this would be 'mcs'.
          */
         virtual 							bool setCompiler(const string& compiler);
+
 };
 
 }

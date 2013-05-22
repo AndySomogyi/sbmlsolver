@@ -11,8 +11,8 @@
 #include "rrLogger.h"
 #include "rrRoadRunner.h"
 #include "rrException.h"
-#include "rrCGenerator.h"
-#include "rrCSharpGenerator.h"
+#include "rrCModelGenerator.h"
+#include "rrCompiledExecutableModel.h"
 //---------------------------------------------------------------------------
 
 using namespace std;
@@ -21,50 +21,51 @@ using namespace ls;
 namespace rr
 {
 
-Mutex               CGenerator::mCompileMutex;
+Mutex               CModelGenerator::mCompileMutex;
 
-CGenerator::CGenerator(const string& tempFolder, const string& supportCodeFolder, const string& compiler,
+CModelGenerator::CModelGenerator(const string& tempFolder, const string& supportCodeFolder, const string& compiler,
         LibStructural *ls, NOMSupport *nom)
 :
 ModelGenerator(ls, nom),
 mTempFileFolder(tempFolder),
-mCompiler(supportCodeFolder, compiler)
+mCompiler(supportCodeFolder, compiler),
+mModel(0)
 {}
 
-CGenerator::~CGenerator(){}
+CModelGenerator::~CModelGenerator(){}
 
-int CGenerator::getNumberOfFloatingSpecies()
+int CModelGenerator::getNumberOfFloatingSpecies()
 {
     return mFloatingSpeciesConcentrationList.size();    //Todo: is there a list of floating species?
 }
 
-string CGenerator::getHeaderCode()
+string CModelGenerator::getHeaderCode()
 {
     return mHeader.ToString();
 }
 
-string CGenerator::getSourceCode()
+string CModelGenerator::getSourceCode()
 {
     return mSource.ToString();
 }
 
-string CGenerator::getHeaderCodeFileName()
+string CModelGenerator::getHeaderCodeFileName()
 {
     return mHeaderCodeFileName;
 }
 
-string CGenerator::getSourceCodeFileName()
+string CModelGenerator::getSourceCodeFileName()
 {
     return mSourceCodeFileName;
 }
 
 
 // Generates the Model Code from the SBML string
-string CGenerator::generateModelCode(const string& sbmlStr, const bool& _computeAndAssignConsevationLaws)
+string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _computeAndAssignConsevationLaws)
 {
 	//This function now assume that the sbml already been loaded into NOM and libstruct..
 	mComputeAndAssignConsevationLaws  = _computeAndAssignConsevationLaws;
-    Log(lDebug2)<<"Entering CGenerators generateModelCode function";
+    Log(lDebug2)<<"Entering CModelGenerators generateModelCode function";
     StringList  Warnings;
     CodeBuilder ignore;     //The Write functions below are inherited with a CodeBuilder in the
                             //prototype that is not to be used..
@@ -188,7 +189,7 @@ string CGenerator::generateModelCode(const string& sbmlStr, const bool& _compute
     return modelCode;
 }
 
-void CGenerator::writeClassHeader(CodeBuilder& ignore)
+void CModelGenerator::writeClassHeader(CodeBuilder& ignore)
 {
     //Create c code header file....
     mHeader<<"#ifndef modelH"<<endl;
@@ -219,11 +220,11 @@ void CGenerator::writeClassHeader(CodeBuilder& ignore)
     mSource<<"#include \"rrSupport.h\"\t     //Supportfunctions for event handling.."<<endl;
 }
 
-void CGenerator::writeOutVariables(CodeBuilder& ignore)
+void CModelGenerator::writeOutVariables(CodeBuilder& ignore)
 {}
 
 
-void CGenerator::writeComputeAllRatesOfChange(CodeBuilder& ignore, const int& numIndependentSpecies, const int& numDependentSpecies, DoubleMatrix& L0)
+void CModelGenerator::writeComputeAllRatesOfChange(CodeBuilder& ignore, const int& numIndependentSpecies, const int& numDependentSpecies, DoubleMatrix& L0)
 {
      //In header
        mHeader.AddFunctionExport("void", "computeAllRatesOfChange(ModelData* md)");
@@ -287,7 +288,7 @@ void CGenerator::writeComputeAllRatesOfChange(CodeBuilder& ignore, const int& nu
     mSource<<Format("}{0}{0}", NL());
 }
 
-void CGenerator::writeComputeConservedTotals(CodeBuilder& ignore, const int& numFloatingSpecies, const int& numDependentSpecies)
+void CModelGenerator::writeComputeConservedTotals(CodeBuilder& ignore, const int& numFloatingSpecies, const int& numDependentSpecies)
 {
     mHeader.AddFunctionExport("void", "computeConservedTotals(ModelData* md)");
     mSource<<"// Uses the equation: C = Sd - L0*Si"<<endl;
@@ -350,7 +351,7 @@ void CGenerator::writeComputeConservedTotals(CodeBuilder& ignore, const int& num
     mSource<<"}\n\n";
 }
 
-void CGenerator::writeUpdateDependentSpecies(CodeBuilder& ignore, const int& numIndependentSpecies, const int& numDependentSpecies, DoubleMatrix& L0)
+void CModelGenerator::writeUpdateDependentSpecies(CodeBuilder& ignore, const int& numIndependentSpecies, const int& numDependentSpecies, DoubleMatrix& L0)
 {
     mHeader.AddFunctionExport("void", "updateDependentSpeciesValues(ModelData* md, double* y)");
     mSource<<Append("// Compute values of dependent species " + NL());
@@ -423,7 +424,7 @@ void CGenerator::writeUpdateDependentSpecies(CodeBuilder& ignore, const int& num
     mSource<<Format("}{0}{0}", NL());
 }
 
-void CGenerator::writeUserDefinedFunctions(CodeBuilder& ignore)
+void CModelGenerator::writeUserDefinedFunctions(CodeBuilder& ignore)
 {
     for (int i = 0; i < mNOM->getNumFunctionDefinitions(); i++)
     {
@@ -486,7 +487,7 @@ void CGenerator::writeUserDefinedFunctions(CodeBuilder& ignore)
     }
 }
 
-void CGenerator::writeResetEvents(CodeBuilder& ignore, const int& numEvents)
+void CModelGenerator::writeResetEvents(CodeBuilder& ignore, const int& numEvents)
 {
       mHeader.AddFunctionExport("void", "resetEvents(ModelData* md)");
       mSource<<"void resetEvents(ModelData* md)\n{";
@@ -502,7 +503,7 @@ void CGenerator::writeResetEvents(CodeBuilder& ignore, const int& numEvents)
       mSource<<Format("}{0}", NL());
 }
 
-void CGenerator::writeSetConcentration(CodeBuilder& ignore)
+void CModelGenerator::writeSetConcentration(CodeBuilder& ignore)
 {
     mHeader.AddFunctionExport("void", "setConcentration(ModelData* md, int index, double value)");
     mSource<<"\nvoid setConcentration(ModelData* md, int index, double value)\n{";
@@ -525,7 +526,7 @@ void CGenerator::writeSetConcentration(CodeBuilder& ignore)
     mSource<<Format("}{0}{0}", NL());
 }
 
-void CGenerator::writeGetConcentration(CodeBuilder& ignore)
+void CModelGenerator::writeGetConcentration(CodeBuilder& ignore)
 {
     mHeader.AddFunctionExport("double", "getConcentration(ModelData* md,int index)");
     mSource<<Format("double getConcentration(ModelData* md, int index)\n{{0}", NL());
@@ -533,7 +534,7 @@ void CGenerator::writeGetConcentration(CodeBuilder& ignore)
     mSource<<Format("}{0}{0}", NL());
 }
 
-void CGenerator::writeConvertToAmounts(CodeBuilder& ignore)
+void CModelGenerator::writeConvertToAmounts(CodeBuilder& ignore)
 {
     mHeader.AddFunctionExport("void", "convertToAmounts(ModelData* md)");
     mSource<<Format("void convertToAmounts(ModelData* md)\n{{0}", NL());
@@ -547,7 +548,7 @@ void CGenerator::writeConvertToAmounts(CodeBuilder& ignore)
     mSource<<Format("}{0}{0}", NL());
 }
 
-void CGenerator::writeConvertToConcentrations(CodeBuilder& ignore)
+void CModelGenerator::writeConvertToConcentrations(CodeBuilder& ignore)
 {
     mHeader.AddFunctionExport("void", "convertToConcentrations(ModelData* md)");
     mSource<<"void convertToConcentrations(ModelData* md)\n{";
@@ -559,18 +560,18 @@ void CGenerator::writeConvertToConcentrations(CodeBuilder& ignore)
     mSource<<Append("\n}" + NL() + NL());
 }
 
-void CGenerator::writeProperties(CodeBuilder& ignore)
+void CModelGenerator::writeProperties(CodeBuilder& ignore)
 {
 }
 
-void CGenerator::writeAccessors(CodeBuilder& ignore)
+void CModelGenerator::writeAccessors(CodeBuilder& ignore)
 {
     mHeader.AddFunctionExport("int", "getNumLocalParameters(ModelData* md, int reactionId)");
     mSource<<"int getNumLocalParameters(ModelData* md, int reactionId)\n{\n\t";
     mSource<<"return md->localParameterDimensions[reactionId];\n}\n\n";
 }
 
-string CGenerator::findSymbol(const string& varName)
+string CModelGenerator::findSymbol(const string& varName)
 {
       int index = 0;
       if (mFloatingSpeciesConcentrationList.find(varName, index))
@@ -599,7 +600,7 @@ string CGenerator::findSymbol(const string& varName)
       }
 }
 
-void CGenerator::writeTestConstraints(CodeBuilder& ignore)
+void CModelGenerator::writeTestConstraints(CodeBuilder& ignore)
 {
     mHeader.AddFunctionExport("void", "testConstraints(ModelData* md)");
     mSource<<Append("void testConstraints(ModelData* md)" + NL());
@@ -617,7 +618,7 @@ void CGenerator::writeTestConstraints(CodeBuilder& ignore)
     mSource<<Append("}" + NL() + NL());
 }
 
-void CGenerator::writeEvalInitialAssignments(CodeBuilder& ignore, const int& numReactions)
+void CModelGenerator::writeEvalInitialAssignments(CodeBuilder& ignore, const int& numReactions)
 {
     mHeader.AddFunctionExport("void", "evalInitialAssignments(ModelData* md)");
     mSource<<Append("void evalInitialAssignments(ModelData* md)" + NL());
@@ -692,7 +693,7 @@ void CGenerator::writeEvalInitialAssignments(CodeBuilder& ignore, const int& num
     mSource<<Append("}" + NL() + NL());
 }
 
-int CGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
+int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
 {
     IntStringHashTable mapVariables;
     mapVariables.clear();
@@ -884,7 +885,7 @@ int CGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReactions)
     return numOfRules;
 }
 
-void CGenerator::writeComputeReactionRates(CodeBuilder& ignore, const int& numReactions)
+void CModelGenerator::writeComputeReactionRates(CodeBuilder& ignore, const int& numReactions)
 {
     mHeader.AddFunctionExport("void", "computeReactionRates(ModelData* md, double time, double *y)");
     mSource<<Append("// Compute the reaction rates" + NL());
@@ -947,7 +948,7 @@ void CGenerator::writeComputeReactionRates(CodeBuilder& ignore, const int& numRe
     mSource<<Format("}{0}{0}", NL());
 }
 
-void CGenerator::writeEvalEvents(CodeBuilder& ignore, const int& numEvents, const int& numFloatingSpecies)
+void CModelGenerator::writeEvalEvents(CodeBuilder& ignore, const int& numEvents, const int& numFloatingSpecies)
 {
     mSource<<Append("//Event handling function" + NL());
     mHeader.AddFunctionExport("void", "evalEvents(ModelData* md, double timeIn, double *oAmounts)");
@@ -992,7 +993,7 @@ void CGenerator::writeEvalEvents(CodeBuilder& ignore, const int& numEvents, cons
     mSource<<Append("}" + NL() + NL());
 }
 
-void CGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReactions, const int& numIndependentSpecies, const int& numFloatingSpecies, const int& numOfRules)
+void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReactions, const int& numIndependentSpecies, const int& numFloatingSpecies, const int& numOfRules)
 {
     mHeader.AddFunctionExport("void", "__evalModel(ModelData* md, double, double*)");
     mSource<<Append("//Model Function" + NL());
@@ -1182,7 +1183,7 @@ void CGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReactions, co
     mSource<<Append("}" + NL() + NL());
 }
 
-void CGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numReactions, const int& numEvents)
+void CModelGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numReactions, const int& numEvents)
 {
     StringList delays;
     vector<bool> eventType;
@@ -1311,7 +1312,7 @@ void CGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numReacti
     mSource<<Format("}{0}{0}", NL());
 }
 
-void CGenerator::writeSetParameterValues(CodeBuilder& ignore, const int& numReactions)
+void CModelGenerator::writeSetParameterValues(CodeBuilder& ignore, const int& numReactions)
 {
     mHeader.AddFunctionExport("void", "setParameterValues(ModelData* md)");
     mSource<<"void setParameterValues(ModelData* md)\n{";
@@ -1343,7 +1344,7 @@ void CGenerator::writeSetParameterValues(CodeBuilder& ignore, const int& numReac
     mSource<<Append("}" + NL() + NL());
 }
 
-void CGenerator::writeSetCompartmentVolumes(CodeBuilder& ignore)
+void CModelGenerator::writeSetCompartmentVolumes(CodeBuilder& ignore)
 {
     mHeader.AddFunctionExport("void", "setCompartmentVolumes(ModelData* md)");
     mSource << "void setCompartmentVolumes(ModelData* md)\n{";
@@ -1368,7 +1369,7 @@ void CGenerator::writeSetCompartmentVolumes(CodeBuilder& ignore)
     mSource<<Append("}" + NL() + NL());
 }
 
-void CGenerator::writeSetBoundaryConditions(CodeBuilder& ignore)
+void CModelGenerator::writeSetBoundaryConditions(CodeBuilder& ignore)
 {
     mHeader.AddFunctionExport("void", "setBoundaryConditions(ModelData* md)");
     mSource<<"void setBoundaryConditions(ModelData* md)\n{\n";
@@ -1390,7 +1391,7 @@ void CGenerator::writeSetBoundaryConditions(CodeBuilder& ignore)
 }
 
 
-void CGenerator::writeSetInitialConditions(CodeBuilder& ignore, const int& numFloatingSpecies)
+void CModelGenerator::writeSetInitialConditions(CodeBuilder& ignore, const int& numFloatingSpecies)
 {
     mHeader.AddFunctionExport("void", "initializeInitialConditions(ModelData* md)");
     mSource<<"void initializeInitialConditions(ModelData* md)\n{";
@@ -1426,7 +1427,7 @@ void CGenerator::writeSetInitialConditions(CodeBuilder& ignore, const int& numFl
     mSource<<Append("}" + NL() + NL());
 }
 
-string CGenerator::convertSpeciesToY(const string& speciesName)
+string CModelGenerator::convertSpeciesToY(const string& speciesName)
 {
     int index;
     if (mFloatingSpeciesConcentrationList.find(speciesName, index))
@@ -1437,7 +1438,7 @@ string CGenerator::convertSpeciesToY(const string& speciesName)
     throw new CoreException("Internal Error: Unable to locate species: " + speciesName);
 }
 
-string CGenerator::convertSpeciesToBc(const string& speciesName)
+string CModelGenerator::convertSpeciesToBc(const string& speciesName)
 {
     int index;
     if (mBoundarySpeciesList.find(speciesName, index))
@@ -1448,7 +1449,7 @@ string CGenerator::convertSpeciesToBc(const string& speciesName)
     throw CoreException("Internal Error: Unable to locate species: " + speciesName);
 }
 
-string CGenerator::convertCompartmentToC(const string& compartmentName)
+string CModelGenerator::convertCompartmentToC(const string& compartmentName)
 {
     int index;
     if (mCompartmentList.find(compartmentName, index))
@@ -1459,7 +1460,7 @@ string CGenerator::convertCompartmentToC(const string& compartmentName)
     throw CoreException("Internal Error: Unable to locate compartment: " + compartmentName);
 }
 
-string CGenerator::convertSymbolToGP(const string& parameterName)
+string CModelGenerator::convertSymbolToGP(const string& parameterName)
 {
     int index;
     if (mGlobalParameterList.find(parameterName, index))
@@ -1469,7 +1470,7 @@ string CGenerator::convertSymbolToGP(const string& parameterName)
       throw CoreException("Internal Error: Unable to locate parameter: " + parameterName);
 }
 
-string CGenerator::convertSymbolToC(const string& compartmentName)
+string CModelGenerator::convertSymbolToC(const string& compartmentName)
 {
     int index;
     if (mCompartmentList.find(compartmentName, index))
@@ -1479,7 +1480,7 @@ string CGenerator::convertSymbolToC(const string& compartmentName)
       throw CoreException("Internal Error: Unable to locate compartment: " + compartmentName);
 }
 
-void CGenerator::writeOutSymbolTables(CodeBuilder& ignore)
+void CModelGenerator::writeOutSymbolTables(CodeBuilder& ignore)
 {
     mSource<<Append("void loadSymbolTables(ModelData* md)\n{");
 
@@ -1509,7 +1510,7 @@ void CGenerator::writeOutSymbolTables(CodeBuilder& ignore)
     mSource<<Format("}{0}{0}", NL());
 }
 
-int CGenerator::readFloatingSpecies()
+int CModelGenerator::readFloatingSpecies()
 {
     // Load a reordered list into the variable list.
     StringList reOrderedList;
@@ -1593,7 +1594,7 @@ int CGenerator::readFloatingSpecies()
       return oFloatingSpecies.Count();
 }
 
-int CGenerator::readBoundarySpecies()
+int CModelGenerator::readBoundarySpecies()
 {
     int numBoundarySpecies;
     StringListContainer oBoundarySpecies = mNOM->getListOfBoundarySpecies();
@@ -1661,7 +1662,7 @@ int CGenerator::readBoundarySpecies()
 }
 
 //This function is obsolete.. initialize all model data in roadrunner instead..
-void CGenerator::writeInitModelDataFunction(CodeBuilder& ignore, CodeBuilder& source)
+void CModelGenerator::writeInitModelDataFunction(CodeBuilder& ignore, CodeBuilder& source)
 {
     source.Line("\n//Function to initialize the model data structure. Returns an integer indicating result");
     source.Line("int InitModelData(ModelData* md)");
@@ -1677,7 +1678,7 @@ void CGenerator::writeInitModelDataFunction(CodeBuilder& ignore, CodeBuilder& so
 }
 
 //This function is obsolete.. initialize all model data in roadrunner instead..
-void CGenerator::writeInitFunction(CodeBuilder& ignore, CodeBuilder& source)
+void CModelGenerator::writeInitFunction(CodeBuilder& ignore, CodeBuilder& source)
 {
     source.Line("\n//Function to initialize the model data structure. Returns an integer indicating result");
     source.Line("int InitModel(ModelData* md)");
@@ -1719,7 +1720,7 @@ void CGenerator::writeInitFunction(CodeBuilder& ignore, CodeBuilder& source)
     source.NewLine();
 }
 
-void CGenerator::write_getModelNameFunction(CodeBuilder& ignore, CodeBuilder& source)
+void CModelGenerator::write_getModelNameFunction(CodeBuilder& ignore, CodeBuilder& source)
 {
     source.Line("char* getModelName(ModelData* md)");
     source<<"{"                                         <<endl;
@@ -1728,7 +1729,7 @@ void CGenerator::write_getModelNameFunction(CodeBuilder& ignore, CodeBuilder& so
     source.NewLine();
 }
 
-bool CGenerator::saveSourceCodeToFolder(const string& folder, const string& baseName)
+bool CModelGenerator::saveSourceCodeToFolder(const string& folder, const string& baseName)
 {
     string fName 		= ExtractFileName(baseName);
     mHeaderCodeFileName = JoinPath(folder, fName);
@@ -1761,7 +1762,7 @@ bool CGenerator::saveSourceCodeToFolder(const string& folder, const string& base
     return true;
 }
 
-string CGenerator::convertUserFunctionExpression(const string& equation)
+string CModelGenerator::convertUserFunctionExpression(const string& equation)
 {
     if(!equation.size())
     {
@@ -2081,7 +2082,7 @@ string CGenerator::convertUserFunctionExpression(const string& equation)
     return mSource.ToString();
 }
 
-void CGenerator::substituteEquation(const string& reactionName, Scanner& s, CodeBuilder& mSource)
+void CModelGenerator::substituteEquation(const string& reactionName, Scanner& s, CodeBuilder& mSource)
 {
     string theToken(s.tokenString);
     if(theToken == "pow")
@@ -2330,7 +2331,7 @@ void CGenerator::substituteEquation(const string& reactionName, Scanner& s, Code
     }
 }
 
-void CGenerator::substituteWords(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& mSource)
+void CModelGenerator::substituteWords(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& mSource)
 {
     // Global parameters have priority
     int index;
@@ -2388,7 +2389,7 @@ void CGenerator::substituteWords(const string& reactionName, bool bFixAmounts, S
     }
 }
 
-void CGenerator::substituteToken(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& mSource)
+void CModelGenerator::substituteToken(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& mSource)
 {
     string aToken = s.tokenString;
     CodeTypes codeType = s.token();
@@ -2475,7 +2476,7 @@ void CGenerator::substituteToken(const string& reactionName, bool bFixAmounts, S
     }
 }
 
-bool CGenerator::generateModelCode(const string& sbml, const string& modelName, bool computeAndAssignConsevationLaws)
+bool CModelGenerator::generateModelCode(const string& sbml, const string& modelName, bool computeAndAssignConsevationLaws)
 {
     if(sbml.size())
     {
@@ -2510,7 +2511,7 @@ bool CGenerator::generateModelCode(const string& sbml, const string& modelName, 
 }
 
 
-bool CGenerator::compileModel()
+bool CModelGenerator::compileModel()
 {
     //Make sure the dll is unloaded
     unLoadModelDLL();
@@ -2524,7 +2525,7 @@ bool CGenerator::compileModel()
     return true;
 }
 
-bool CGenerator::unLoadModelDLL()
+bool CModelGenerator::unLoadModelDLL()
 {
     //Make sure the dll is unloaded
     if(mModelLib.isLoaded())    //Make sure the dll is unloaded
@@ -2535,9 +2536,9 @@ bool CGenerator::unLoadModelDLL()
     return true;//No model is loaded..
 }
 
-bool CGenerator::compileCurrentModel()
+bool CModelGenerator::compileCurrentModel()
 {
-    //*CGenerator *codeGen = dynamic_cast<CGenerator*>(mModelGenerator);
+    //*CModelGenerator *codeGen = dynamic_cast<CModelGenerator*>(mModelGenerator);
     //*if(!codeGen)
     //*{
     //*    //CodeGenerator has not been allocaed
@@ -2556,7 +2557,7 @@ bool CGenerator::compileCurrentModel()
     return true;
 }
 
-ExecutableModel* CGenerator::createModel()
+ExecutableModel* CModelGenerator::createModel()
 {
     if(mModel)
     {
@@ -2567,8 +2568,8 @@ ExecutableModel* CGenerator::createModel()
     //Create a model
     if(mModelLib.isLoaded())
     {
-        //*CGenerator *codeGen = dynamic_cast<CGenerator*>(mModelGenerator);
-        ExecutableModel *rrCModel = new ExecutableModel(*this, mModelLib);
+        //*CModelGenerator *codeGen = dynamic_cast<CModelGenerator*>(mModelGenerator);
+        ExecutableModel *rrCModel = new CompiledExecutableModel(*this, mModelLib);
         mModel = rrCModel;
     }
     else
@@ -2580,7 +2581,7 @@ ExecutableModel* CGenerator::createModel()
     return mModel;
 }
 
-bool CGenerator::setTemporaryDirectory(const string& path)
+bool CModelGenerator::setTemporaryDirectory(const string& path)
 {
     if(FolderExists(path))
     {
@@ -2601,7 +2602,7 @@ bool CGenerator::setTemporaryDirectory(const string& path)
     }
 }
 
-bool CGenerator::initializeModel()
+bool CModelGenerator::initializeModel()
 {
     if(!mModel)
     {
@@ -2625,7 +2626,7 @@ bool CGenerator::initializeModel()
     mModel->convertToAmounts();
     mModel->evalInitialAssignments();
 
-    mModel->computeRules(mModel->mData.y, mModel->mData.ySize);
+    mModel->computeRules(mModel->getModelData().y, mModel->getModelData().ySize);
     mModel->convertToAmounts();
 
     //*if (mComputeAndAssignConservationLaws)
@@ -2645,7 +2646,7 @@ bool CGenerator::initializeModel()
 }
 
 
-ExecutableModel *CGenerator::createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
+ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
         bool forceReCompile, bool computeAndAssignConsevationLaws)
 {
     mLibStruct = ls;
@@ -2743,18 +2744,18 @@ ExecutableModel *CGenerator::createModel(const string& sbml, LibStructural *ls, 
 
 }
 
-Compiler* CGenerator::getCompiler()
+Compiler* CModelGenerator::getCompiler()
 {
 	return &mCompiler;
 }
 
 
-bool CGenerator::setCompiler(const string& compiler)
+bool CModelGenerator::setCompiler(const string& compiler)
 {
     return mCompiler.setCompiler(compiler);
 }
 
-string CGenerator::getTemporaryDirectory()
+string CModelGenerator::getTemporaryDirectory()
 {
 	return mTempFileFolder;
 }
