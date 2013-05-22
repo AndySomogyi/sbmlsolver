@@ -30,7 +30,7 @@ rrLoggerUtils
 rrLogLevel
 rrLogOutput
 rrMisc
-rrExecutableModel
+rrCompiledExecutableModel
 rrModelState
 rrNOMSupport
 rrObject
@@ -54,10 +54,10 @@ rrTextWriter
 rrTParameterType
 rrTVariableType
 rrUtils
-rrCGenerator
+rrCModelGenerator
 rrCodeBuilder
 rrCompiler
-rrCSharpGenerator
+rrCSharpModelGenerator
 rrModelGenerator
 rrScanner
 rrToken

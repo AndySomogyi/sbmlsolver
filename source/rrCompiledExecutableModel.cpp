@@ -5,15 +5,15 @@
 #include <iostream>
 #include "rrException.h"
 #include "rrLogger.h"
-#include "rrExecutableModel.h"
-#include "rrCGenerator.h"
+#include "rrCompiledExecutableModel.h"
+#include "rrCModelGenerator.h"
 #include "rrUtils.h"
 //---------------------------------------------------------------------------
 using namespace std;
 namespace rr
 {
 
-ExecutableModel::ExecutableModel(CGenerator& generator, ModelSharedLibrary& dll)
+CompiledExecutableModel::CompiledExecutableModel(CModelGenerator& generator, ModelSharedLibrary& dll)
 :
 mDummyInt(0),
 mDummyDouble(0),
@@ -26,7 +26,7 @@ mIsInitialized(false),
 mDLL(dll)
 {
 	//Zero data structure..
-	memset(&mData, 0, sizeof(ModelData));
+	memset(&mData, 0, sizeof(rr::ModelData));
     mDummyDoubleArray[0] = 1;
 
     if(mDLL.isLoaded())
@@ -36,87 +36,87 @@ mDLL(dll)
     }
     else
     {
-    	Log(lError)<<"The Model DLL is not loaded in ExecutableModel ctor..";
+    	Log(lError)<<"The Model DLL is not loaded in CompiledExecutableModel ctor..";
     }
 }
 
-ExecutableModel::~ExecutableModel()
+CompiledExecutableModel::~CompiledExecutableModel()
 {
     delete [] mDummyDoubleArray;
 }
 
-string ExecutableModel::getModelName()
+string CompiledExecutableModel::getModelName()
 {
 	return mData.modelName;
 }
 
-void ExecutableModel::assignCVodeInterface(CvodeInterface* cvodeI)
+void CompiledExecutableModel::assignCVodeInterface(CvodeInterface* cvodeI)
 {
     mCvodeInterface = cvodeI;
 }
 
-void ExecutableModel::setTime(double _time)
+void CompiledExecutableModel::setTime(double _time)
 {
     mData.time = _time;
 }
 
-double ExecutableModel::getTime()
+double CompiledExecutableModel::getTime()
 {
 	return mData.time;
 }
 
 /////////////////// The following used to be in IModel
-int ExecutableModel::getNumIndependentVariables()
+int CompiledExecutableModel::getNumIndependentVariables()
 {
     return mData.numIndependentVariables;
 }
 
-int ExecutableModel::getNumDependentVariables()
+int CompiledExecutableModel::getNumDependentVariables()
 {
     return mData.numDependentVariables;
 }
 
-int ExecutableModel::getNumTotalVariables()
+int CompiledExecutableModel::getNumTotalVariables()
 {
     return mData.numTotalVariables;
 }
 
-int ExecutableModel::getNumBoundarySpecies()
+int CompiledExecutableModel::getNumBoundarySpecies()
 {
     return mData.numBoundaryVariables;    //Todos: bad naming - is Variables/Species, choose one..
 }
 
-int ExecutableModel::getNumGlobalParameters()
+int CompiledExecutableModel::getNumGlobalParameters()
 {
     return mData.numGlobalParameters;
 }
 
-int ExecutableModel::getNumCompartments()
+int CompiledExecutableModel::getNumCompartments()
 {
     return mData.numCompartments;
 }
 
-int ExecutableModel::getNumReactions()
+int CompiledExecutableModel::getNumReactions()
 {
     return mData.numReactions;
 }
 
-int ExecutableModel::getNumRules()
+int CompiledExecutableModel::getNumRules()
 {
     return mData.numRules;
 }
 
-int ExecutableModel::getNumEvents()
+int CompiledExecutableModel::getNumEvents()
 {
     return mData.numEvents;
 }
 
-double ExecutableModel::getAmounts(const int& i)
+double CompiledExecutableModel::getAmounts(const int& i)
 {
     return (mData.amounts ) ? mData.amounts[i] : -1;
 }
 
-bool ExecutableModel::setupDLLFunctions()
+bool CompiledExecutableModel::setupDLLFunctions()
 {
     //Exported functions in the dll need to be assigned to a function pointer here..
     if(!mDLL.isLoaded())
@@ -157,7 +157,7 @@ bool ExecutableModel::setupDLLFunctions()
     return true;
 }
 
-bool ExecutableModel::setupModelData()
+bool CompiledExecutableModel::setupModelData()
 {
 	//See CGenerator writeInitModelDataFunction to see how this initialization was done in the DLL before
 	mData.modelName 					= createText(mNOM.getModelName());
@@ -292,7 +292,7 @@ bool ExecutableModel::setupModelData()
     return true;
 }
 
-void ExecutableModel::setCompartmentVolumes()
+void CompiledExecutableModel::setCompartmentVolumes()
 {
     if(!csetCompartmentVolumes)
     {
@@ -303,7 +303,7 @@ void ExecutableModel::setCompartmentVolumes()
     csetCompartmentVolumes(&mData);
 }
 
-void  ExecutableModel::setConcentration(int index, double value)
+void  CompiledExecutableModel::setConcentration(int index, double value)
 {
     if(!csetConcentration)
     {
@@ -314,7 +314,7 @@ void  ExecutableModel::setConcentration(int index, double value)
     csetConcentration(&mData, index, value);
 }
 
-void  ExecutableModel::computeReactionRates (double time, double* y)
+void  CompiledExecutableModel::computeReactionRates (double time, double* y)
 {
 	if(!cComputeReactionRates)
     {
@@ -325,7 +325,7 @@ void  ExecutableModel::computeReactionRates (double time, double* y)
 	cComputeReactionRates(&mData, time, y);
 }
 
-vector<double> ExecutableModel::getCurrentValues()
+vector<double> CompiledExecutableModel::getCurrentValues()
 {
     vector<double> vals;
     if(!cGetCurrentValues)
@@ -348,7 +348,7 @@ vector<double> ExecutableModel::getCurrentValues()
     return vals;
 }
 
-double ExecutableModel::getConcentration(int index)
+double CompiledExecutableModel::getConcentration(int index)
 {
     if(!cgetConcentration)
     {
@@ -359,7 +359,7 @@ double ExecutableModel::getConcentration(int index)
     return cgetConcentration(&mData, index);
 }
 
-int ExecutableModel::getNumLocalParameters(int reactionId)
+int CompiledExecutableModel::getNumLocalParameters(int reactionId)
 {
     if(!cgetNumLocalParameters)
     {
@@ -370,7 +370,7 @@ int ExecutableModel::getNumLocalParameters(int reactionId)
     return cgetNumLocalParameters(&mData, reactionId);
 }
 
-void ExecutableModel::initializeInitialConditions()
+void CompiledExecutableModel::initializeInitialConditions()
 {
     if(!cinitializeInitialConditions)
     {
@@ -380,8 +380,8 @@ void ExecutableModel::initializeInitialConditions()
     cinitializeInitialConditions(&mData);
 }
 
-//void ExecutableModel::setInitialConditions(){}
-void ExecutableModel::setParameterValues()
+//void CompiledExecutableModel::setInitialConditions(){}
+void CompiledExecutableModel::setParameterValues()
 {
     if(!csetParameterValues)
     {
@@ -391,7 +391,7 @@ void ExecutableModel::setParameterValues()
     csetParameterValues(&mData);
 }
 
-void ExecutableModel::setBoundaryConditions()
+void CompiledExecutableModel::setBoundaryConditions()
 {
     if(!csetBoundaryConditions)
     {
@@ -401,7 +401,7 @@ void ExecutableModel::setBoundaryConditions()
     csetBoundaryConditions(&mData);
 }
 
-void ExecutableModel::initializeRates()
+void CompiledExecutableModel::initializeRates()
 {
     if(!cInitializeRates)
     {
@@ -411,7 +411,7 @@ void ExecutableModel::initializeRates()
     cInitializeRates(&mData);
 }
 
-void ExecutableModel::assignRates()
+void CompiledExecutableModel::assignRates()
 {
     if(!cAssignRates_a)
     {
@@ -421,7 +421,7 @@ void ExecutableModel::assignRates()
     cAssignRates_a(&mData);
 }
 
-void ExecutableModel::assignRates(vector<double>& _rates)
+void CompiledExecutableModel::assignRates(vector<double>& _rates)
 {
     if(!cAssignRates_b)
     {
@@ -435,7 +435,7 @@ void ExecutableModel::assignRates(vector<double>& _rates)
     delete [] local_rates;
 }
 
-void ExecutableModel::computeConservedTotals()
+void CompiledExecutableModel::computeConservedTotals()
 {
     if(!ccomputeConservedTotals)
     {
@@ -445,7 +445,7 @@ void ExecutableModel::computeConservedTotals()
     ccomputeConservedTotals(&mData);
 }
 
-void ExecutableModel::computeEventPriorites()
+void CompiledExecutableModel::computeEventPriorites()
 {
     if(!ccomputeEventPriorities)
     {
@@ -455,7 +455,7 @@ void ExecutableModel::computeEventPriorites()
     ccomputeEventPriorities(&mData);
 }
 
-void ExecutableModel::convertToAmounts()
+void CompiledExecutableModel::convertToAmounts()
 {
     if(!cconvertToAmounts)
     {
@@ -465,7 +465,7 @@ void ExecutableModel::convertToAmounts()
     cconvertToAmounts(&mData);
 }
 
-void ExecutableModel::convertToConcentrations()
+void CompiledExecutableModel::convertToConcentrations()
 {
     if(!cconvertToConcentrations)
     {
@@ -475,7 +475,7 @@ void ExecutableModel::convertToConcentrations()
     cconvertToConcentrations(&mData);
 }
 
-void ExecutableModel::updateDependentSpeciesValues(double* y_vec)
+void CompiledExecutableModel::updateDependentSpeciesValues(double* y_vec)
 {
     if(!cupdateDependentSpeciesValues)
     {
@@ -486,14 +486,14 @@ void ExecutableModel::updateDependentSpeciesValues(double* y_vec)
     cupdateDependentSpeciesValues(&mData, y_vec);
 }
 
-void ExecutableModel::computeRules(vector<double>& arr)
+void CompiledExecutableModel::computeRules(vector<double>& arr)
 {
     double* cArr = CreateVector(arr);
     computeRules(cArr, arr.size());
     delete [] cArr;
 
 }
-void ExecutableModel::computeRules(double* y, int size)
+void CompiledExecutableModel::computeRules(double* y, int size)
 {
     if(!ccomputeRules)
     {
@@ -504,7 +504,7 @@ void ExecutableModel::computeRules(double* y, int size)
     ccomputeRules(&mData, y);
 }
 
-void ExecutableModel::setInitialConditions()
+void CompiledExecutableModel::setInitialConditions()
 {
     if(!csetInitialConditions)
     {
@@ -515,8 +515,8 @@ void ExecutableModel::setInitialConditions()
     csetInitialConditions(&mData);
 }
 
-//void ExecutableModel::computeReactionRates(double time, vector<double>& y){}
-void ExecutableModel::computeAllRatesOfChange()
+//void CompiledExecutableModel::computeReactionRates(double time, vector<double>& y){}
+void CompiledExecutableModel::computeAllRatesOfChange()
 {
     if(!ccomputeAllRatesOfChange)
     {
@@ -526,7 +526,7 @@ void ExecutableModel::computeAllRatesOfChange()
     ccomputeAllRatesOfChange(&mData);
 }
 
-void ExecutableModel::evalModel(const double& timein, const vector<double>& y)
+void CompiledExecutableModel::evalModel(const double& timein, const vector<double>& y)
 {
     if(!cevalModel)
     {
@@ -539,7 +539,7 @@ void ExecutableModel::evalModel(const double& timein, const vector<double>& y)
     delete [] oAmounts;
 }
 
-void ExecutableModel::evalEvents(const double& timeIn, const vector<double>& y)
+void CompiledExecutableModel::evalEvents(const double& timeIn, const vector<double>& y)
 {
     if(!cevalEvents)
     {
@@ -551,7 +551,7 @@ void ExecutableModel::evalEvents(const double& timeIn, const vector<double>& y)
     delete [] oAmounts;
 }
 
-void ExecutableModel::resetEvents()
+void CompiledExecutableModel::resetEvents()
 {
     if(!cresetEvents)
     {
@@ -562,7 +562,7 @@ void ExecutableModel::resetEvents()
     cresetEvents(&mData);
 }
 
-void ExecutableModel::evalInitialAssignments()
+void CompiledExecutableModel::evalInitialAssignments()
 {
     if(!cevalInitialAssignments)
     {
@@ -573,7 +573,7 @@ void ExecutableModel::evalInitialAssignments()
     cevalInitialAssignments(&mData);
 }
 
-void ExecutableModel::testConstraints()
+void CompiledExecutableModel::testConstraints()
 {
     if(!ctestConstraints)
     {
@@ -584,7 +584,7 @@ void ExecutableModel::testConstraints()
     ctestConstraints(&mData);
 }
 
-void ExecutableModel::initializeRateRuleSymbols()
+void CompiledExecutableModel::initializeRateRuleSymbols()
 {
     if(!cInitializeRateRuleSymbols)
     {
@@ -593,6 +593,26 @@ void ExecutableModel::initializeRateRuleSymbols()
     }
 
     cInitializeRateRuleSymbols(&mData);
+}
+
+string CompiledExecutableModel::getInfo()
+{
+	stringstream info;
+	info << "CompiledExecutableModel" << endl;
+	info << "ModelName: "			<<  getModelName()<<endl;
+	info << "Model DLL Loaded: "	<< (mDLL.isLoaded() ? "true" : "false")	<<endl;
+	info << "Initialized: "		<< (mIsInitialized ? "true" : "false")	<<endl;
+	return info.str();
+}
+
+ModelData& CompiledExecutableModel::getModelData()
+{
+	return mData;
+}
+
+CvodeInterface* CompiledExecutableModel::getCvodeInterface()
+{
+	return mCvodeInterface;
 }
 
 } //Namespace rr

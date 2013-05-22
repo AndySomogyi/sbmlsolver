@@ -20,7 +20,6 @@
 #include <iomanip>
 #include "rrLogger.h"
 #include "rrRoadRunner.h"
-#include "rrCGenerator.h"
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrSBMLModelSimulation.h"

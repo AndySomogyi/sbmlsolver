@@ -51,7 +51,7 @@
 #include "rrLoadModelThread.h"
 #include "rrSimulate.h"
 #include "rrSimulateThread.h"
-#include "rrCGenerator.h"
+#include "rrCModelGenerator.h"
 #include "rrLogger.h"
 #include "rrException.h"
 #include "rrUtils.h"
@@ -2406,7 +2406,7 @@ char* rrCallConv getCSourceFileName(RRHandle handle)
             return NULL;
         }
 
-        CGenerator* generator = dynamic_cast<CGenerator*>(rri->getModelGenerator());
+        CModelGenerator* generator = dynamic_cast<CModelGenerator*>(rri->getModelGenerator());
         if(!generator)
         {
             return NULL;
@@ -2432,7 +2432,7 @@ RRCCode* rrCallConv getCCode(RRHandle handle)
     {
     	RoadRunner* rri = castFrom(handle);
 
-    	CGenerator* generator = dynamic_cast<CGenerator*>(rri->getModelGenerator());
+    	CModelGenerator* generator = dynamic_cast<CModelGenerator*>(rri->getModelGenerator());
         if(!generator)
         {
             return NULL;

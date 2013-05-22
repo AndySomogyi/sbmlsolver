@@ -3,6 +3,7 @@
 #include <vector>
 #include "rrObject.h"
 #include "rrStringList.h"
+#include "Poco/SharedLibrary.h"
 //---------------------------------------------------------------------------
 /* A minimalistic Plugin manager. */
 namespace rr
@@ -11,6 +12,7 @@ namespace rr
 //Abstract class for plugins
 class RoadRunner;
 class Plugin;
+using Poco::SharedLibrary;
 
 class RR_DECLSPEC PluginManager : public rrObject
 {
