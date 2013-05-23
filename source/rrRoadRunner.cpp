@@ -567,7 +567,7 @@ bool RoadRunner::simulateSBMLFile(const string& fileName, const bool& useConserv
         throw(Exception("Failed to open the model file:" + mModelXMLFileName));
     }
 
-    Log(lInfo)<<"\n\n ===== Reading model file:"<<mModelXMLFileName<<" ==============";
+    Log(lInfo)<<"\n\n ===== Reading model file: " <<mModelXMLFileName <<" ==============";
     string sbml((std::istreambuf_iterator<char>(fs)), std::istreambuf_iterator<char>());
     fs.close();
 
@@ -1215,8 +1215,10 @@ void RoadRunner::computeAndAssignConservationLaws(const bool& bValue)
     {
     	Log(lWarning)<<"The compute and assign conservation laws flag already set to : "<<ToString(bValue);
     }
-    mComputeAndAssignConservationLaws = bValue;
-    if(mModel != NULL)
+	
+	mComputeAndAssignConservationLaws = bValue;
+    
+	if(mModel != NULL)
     {
     	if(!loadSBML(mCurrentSBML, true))
         {
