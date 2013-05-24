@@ -48,8 +48,7 @@ string CSharpModelGenerator::generateModelCode(const string& sbmlStr, const bool
     mSource.Clear();
     CodeBuilder&     sb = mSource;
 
-    mNOM->reset();
-    string sASCII = mNOM->convertTime(sbmlStr, "time");
+    string sASCII = NOMSupport::convertTime(sbmlStr, "time");
 
     Log(lDebug4)<<"Loading SBML into NOM";
     mNOM->loadSBML(sASCII.c_str(), "time");
@@ -985,9 +984,9 @@ int CSharpModelGenerator::readFloatingSpecies()
                   formula.str());
             }
 
-            if(mNOM->GetModel())
+            if(mNOM->getModel())
             {
-                Species *aSpecies = mNOM->GetModel()->getSpecies(reOrderedList[i]);
+                Species *aSpecies = mNOM->getModel()->getSpecies(reOrderedList[i]);
                 if(aSpecies)
                 {
                     symbol->hasOnlySubstance = aSpecies->getHasOnlySubstanceUnits();
@@ -1054,9 +1053,9 @@ int CSharpModelGenerator::readBoundarySpecies()
                                 formula.str());
         }
 
-        if(mNOM->GetModel())
+        if(mNOM->getModel())
         {
-            Species* species = mNOM->GetModel()->getSpecies(sName);
+            Species* species = mNOM->getModel()->getSpecies(sName);
             if(species)
             {
                 symbol->hasOnlySubstance = species->getHasOnlySubstanceUnits();
@@ -1783,9 +1782,9 @@ void CSharpModelGenerator::writeEvalInitialAssignments(CodeBuilder& sb, const in
             }
         }
     }
-    for (int i = 0; i < mNOM->GetModel()->getNumEvents(); i++)
+    for (int i = 0; i < mNOM->getModel()->getNumEvents(); i++)
     {
-        libsbml::Event *current = mNOM->GetModel()->getEvent(i);
+        libsbml::Event *current = mNOM->getModel()->getEvent(i);
         string initialTriggerValue = ToString(current->getTrigger()->getInitialValue());//.ToString().ToLowerInvariant();
         sb<<Append("\t\t_eventStatusArray[" + ToString(i) + "] = " + initialTriggerValue + ";" + NL());
         sb<<Append("\t\t_previousEventStatusArray[" + ToString(i) + "] = " + initialTriggerValue + ";" + NL());
@@ -1848,8 +1847,8 @@ int CSharpModelGenerator::writeComputeRules(CodeBuilder& sb, const int& numReact
             }
 
             // Run the equation through MathML to carry out any conversions (eg ^ to Pow)
-            string rightSideMathml = mNOM->convertStringToMathML(rightSide);
-            rightSideRule = mNOM->convertMathMLToString(rightSideMathml);
+            string rightSideMathml = NOMSupport::convertStringToMathML(rightSide);
+            rightSideRule = NOMSupport::convertMathMLToString(rightSideMathml);
             if (leftSideRule.size())// != NULL)
             {
                 sb<<Append(leftSideRule + " = ");
@@ -1859,7 +1858,7 @@ int CSharpModelGenerator::writeComputeRules(CodeBuilder& sb, const int& numReact
                 Symbol* symbol = (speciesIndex != -1) ? &(mFloatingSpeciesConcentrationList[speciesIndex]) : NULL;
                 string sCompartment;
 
-                if(isRateRule && mNOM->MultiplyCompartment(varName, sCompartment) && (rightSide.find(sCompartment) == string::npos))
+                if(isRateRule && mNOM->multiplyCompartment(varName, sCompartment) && (rightSide.find(sCompartment) == string::npos))
                 {
                     sb<<Format("({0}) * {1};{2}", substituteTerms(numReactions, "", rightSideRule), findSymbol(sCompartment), NL());
                 }
@@ -1875,7 +1874,7 @@ int CSharpModelGenerator::writeComputeRules(CodeBuilder& sb, const int& numReact
                     }
                 }
 
-                if (mNOM->IsCompartment(varName))
+                if (mNOM->isCompartment(varName))
                 {
                     sb<<Append("\t\tconvertToConcentrations();");
                 }
@@ -2053,7 +2052,7 @@ void CSharpModelGenerator::writeEvalModel(CodeBuilder& sb, const int& numReactio
         string floatingSpeciesName = mIndependentSpeciesList[i];
         for (int j = 0; j < numReactions; j++)
         {
-            Reaction *oReaction = mNOM->GetModel()->getReaction(j);
+            Reaction *oReaction = mNOM->getModel()->getReaction(j);
             int numProducts = (int) oReaction->getNumProducts();
             double productStoichiometry;
             for (int k1 = 0; k1 < numProducts; k1++)
@@ -2170,20 +2169,20 @@ void CSharpModelGenerator::writeEvalModel(CodeBuilder& sb, const int& numReactio
             final = "    0.0";
         }
 
-        if (mNOM->GetSBMLDocument()->getLevel() > 2)
+        if (mNOM->getSBMLDocument()->getLevel() > 2)
         {
             // remember to take the conversion factor into account
             string factor = "";
-            Species* species = mNOM->GetModel()->getSpecies(floatingSpeciesName);
+            Species* species = mNOM->getModel()->getSpecies(floatingSpeciesName);
             if (species != NULL)
             {
                 if (species->isSetConversionFactor())
                 {
                     factor = species->getConversionFactor();
                 }
-                else if (mNOM->GetModel()->isSetConversionFactor())
+                else if (mNOM->getModel()->isSetConversionFactor())
                 {
-                    factor = mNOM->GetModel()->getConversionFactor();
+                    factor = mNOM->getModel()->getConversionFactor();
                 }
             }
 
@@ -2217,7 +2216,7 @@ void CSharpModelGenerator::writeEventAssignments(CodeBuilder& sb, const int& num
         {
             ArrayList ev = mNOM->getNthEvent(i);
             eventType.push_back(mNOM->getNthUseValuesFromTriggerTime(i));
-            eventPersistentType.push_back(mNOM->GetModel()->getEvent(i)->getTrigger()->getPersistent());
+            eventPersistentType.push_back(mNOM->getModel()->getEvent(i)->getTrigger()->getPersistent());
 
             StringList event = ev[1];
             int numItems = event.Count();
@@ -2293,7 +2292,7 @@ void CSharpModelGenerator::writeEventAssignments(CodeBuilder& sb, const int& num
     sb<<Format("{0}{0}\tpublic void computeEventPriorites() { {0}", NL());
     for (int i = 0; i < numEvents; i++)
     {
-        libsbml::Event* current = mNOM->GetModel()->getEvent(i);
+        libsbml::Event* current = mNOM->getModel()->getEvent(i);
 
         if (current->isSetPriority() && current->getPriority()->isSetMath())
         {
@@ -2346,7 +2345,7 @@ void CSharpModelGenerator::writeSetCompartmentVolumes(CodeBuilder& sb)
 
         // at this point we also have to take care of all initial assignments for compartments as well as
         // the assignment rules on compartments ... otherwise we are in trouble :)
-        stack<string> initializations = mNOM->GetMatchForSymbol(mCompartmentList[i].name);
+        stack<string> initializations = mNOM->getMatchForSymbol(mCompartmentList[i].name);
         while (initializations.size() > 0)
         {
             string term(initializations.top());

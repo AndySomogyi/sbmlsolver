@@ -78,9 +78,8 @@ SymbolList& ModelGenerator::getConservationListReference()
 
 void ModelGenerator::reset()
 {
-    CHECK_LIB_NOM();
-    mNOM->reset();
-    mLibStruct->Reset();
+    mNOM = NULL;
+    mLibStruct = NULL;
 }
 
 int ModelGenerator::numAdditionalRates()
@@ -377,14 +376,14 @@ int ModelGenerator::readModifiableSpeciesReferences()
 {
     CHECK_LIB_NOM();
 
-    if(!mNOM->GetSBMLDocument())
+    if(!mNOM->getSBMLDocument())
     {
         return -1;
     }
-    SBMLDocument &SBMLDoc = *mNOM->GetSBMLDocument();
-    Model &SbmlModel  = *mNOM->GetModel();
+    SBMLDocument &SBMLDoc = *mNOM->getSBMLDocument();
+    Model &SbmlModel  = *mNOM->getModel();
 
-    if(mNOM->GetSBMLDocument()->getLevel() < 3)
+    if(mNOM->getSBMLDocument()->getLevel() < 3)
     {
         return 0;
     }

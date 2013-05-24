@@ -91,7 +91,7 @@ RoadRunner::~RoadRunner()
     mInstanceCount--;
 }
 
-ExecutableModel*    RoadRunner::getModel()
+ExecutableModel* RoadRunner::getModel()
 {
     return mModel;
 }
@@ -244,12 +244,7 @@ ModelGenerator* RoadRunner::getModelGenerator()
 //NOM exposure ====================================================
 string RoadRunner::getParamPromotedSBML(const string& sArg)
 {
-    if(mModelGenerator)
-    {
-        return mNOM.getParamPromotedSBML(sArg);
-    }
-
-    return "";
+    NOMSupport::getParamPromotedSBML(sArg);
 }
 
 void RoadRunner::resetModelGenerator()
@@ -547,8 +542,7 @@ bool RoadRunner::loadSBMLFromFile(const string& fileName, const bool& forceReCom
 
 bool RoadRunner::loadSBMLIntoNOM(const string& sbml)
 {
-    mNOM.reset();
-    string sASCII = mNOM.convertTime(sbml, "time");
+    string sASCII = NOMSupport::convertTime(sbml, "time");
 
     Log(lDebug4)<<"Loading SBML into NOM";
     mNOM.loadSBML(sASCII.c_str(), "time");
@@ -596,8 +590,6 @@ bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
 {
     mCurrentSBML = sbml;
 
-
-
     //clear temp folder of roadrunner generated files, only if roadRunner instance == 1
     Log(lDebug)<<"Loading SBML into simulator";
     if (!sbml.size())
@@ -611,75 +603,8 @@ bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
         loadSBMLIntoNOM(sbml);    //There is something in here that is not threadsafe... causes crash with multiple threads, without mutex
     }
 
+    delete mModel;
     mModel = mModelGenerator->createModel(sbml, &mLS, &mNOM, forceReCompile, computeAndAssignConservationLaws());
-
-
-    /*
-
-//    string modelName  = createModelName(mCurrentSBMLFileName);
-    string modelName = getMD5(sbml);
-
-    //Check if model has been compiled
-    mModelLib.setPath(getTempFolder());
-
-    //Creates a name for the shared lib
-       mModelLib.createName(modelName);
-    if(forceReCompile)
-    {
-        //If the dll is loaded.. unload it..
-        if (mModelLib.isLoaded())
-        {
-            mModelLib.unload();
-        }
-    }
-
-    generateModelCode(sbml, modelName);
-
-       Mutex::ScopedLock lock(mCompileMutex);
-    try
-    {
-        //Can't have multiple threads compiling to the same dll at the same time..
-        if(!FileExists(mModelLib.getFullFileName()) || forceReCompile == true)
-        {
-            if(!compileModel())
-            {
-                Log(lError)<<"Failed to generate and compile model";
-                return false;
-            }
-
-            if(!mModelLib.load())
-            {
-                Log(lError)<<"Failed to load model DLL";
-                return false;
-            }
-        }
-        else
-        {
-            Log(lDebug)<<"Model compiled files already generated.";
-            if(!mModelLib.isLoaded())
-            {
-                if(!mModelLib.load())
-                {
-                    Log(lError)<<"Failed to load model DLL";
-                    return false;
-                }
-            }
-            else
-            {
-                Log(lDebug)<<"Model lib is already loaded.";
-            }
-        }
-
-    }//End of scope for compile Mutex
-    catch(const Exception& ex)
-    {
-        Log(lError)<<"Compiler problem: "<<ex.what();
-    }
-
-
-    createModel();
-
-    */
 
     //Finally intitilaize the model..
     if(!initializeModel())
@@ -1041,10 +966,10 @@ void RoadRunner::computeAndAssignConservationLaws(const bool& bValue)
     {
         Log(lWarning)<<"The compute and assign conservation laws flag already set to : "<<ToString(bValue);
     }
-	
-	mComputeAndAssignConservationLaws = bValue;
-    
-	if(mModel != NULL)
+
+    mComputeAndAssignConservationLaws = bValue;
+
+    if(mModel != NULL)
     {
         if(!loadSBML(mCurrentSBML, true))
         {

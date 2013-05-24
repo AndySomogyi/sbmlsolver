@@ -682,9 +682,9 @@ void CModelGenerator::writeEvalInitialAssignments(CodeBuilder& ignore, const int
             }
         }
     }
-    for (int i = 0; i < mNOM->GetModel()->getNumEvents(); i++)
+    for (int i = 0; i < mNOM->getModel()->getNumEvents(); i++)
     {
-        libsbml::Event *current = mNOM->GetModel()->getEvent(i);
+        libsbml::Event *current = mNOM->getModel()->getEvent(i);
         string initialTriggerValue = ToString(current->getTrigger()->getInitialValue());//.ToString().ToLowerInvariant();
         mSource<<Append("\tmd->eventStatusArray[" + ToString(i) + "] = " + initialTriggerValue + ";" + NL());
         mSource<<Append("\tmd->previousEventStatusArray[" + ToString(i) + "] = " + initialTriggerValue + ";" + NL());
@@ -750,8 +750,8 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
             // Run the equation through MathML to carry out any conversions (eg ^ to Pow)
             if(rightSide.size())
             {
-                string rightSideMathml    = mNOM->convertStringToMathML(rightSide);
-                rightSideRule             = mNOM->convertMathMLToString(rightSideMathml);
+                string rightSideMathml    = NOMSupport::convertStringToMathML(rightSide);
+                rightSideRule             = NOMSupport::convertMathMLToString(rightSideMathml);
             }
 
             if (leftSideRule.size())
@@ -763,7 +763,7 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
                 Symbol* symbol = (speciesIndex != -1) ? &(mFloatingSpeciesConcentrationList[speciesIndex]) : NULL;
                 string sCompartment;
 
-                if(isRateRule && mNOM->MultiplyCompartment(varName, sCompartment) && (rightSide.find(sCompartment) == string::npos))
+                if(isRateRule && mNOM->multiplyCompartment(varName, sCompartment) && (rightSide.find(sCompartment) == string::npos))
                 {
                     string temp = Format("({0}) * {1};{2}", substituteTerms(numReactions, "", rightSideRule), findSymbol(sCompartment), NL());
                     //temp = ReplaceWord("time", "md->time", temp);
@@ -789,7 +789,7 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
                     }
                 }
 
-                if (mNOM->IsCompartment(varName))
+                if (mNOM->isCompartment(varName))
                 {
                     mSource<<Append("\n\tconvertToConcentrations(md);\n");
                 }
@@ -1030,7 +1030,7 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
         string floatingSpeciesName = mIndependentSpeciesList[i];
         for (int j = 0; j < numReactions; j++)
         {
-            Reaction *oReaction = mNOM->GetModel()->getReaction(j);
+            Reaction *oReaction = mNOM->getModel()->getReaction(j);
             int numProducts = (int) oReaction->getNumProducts();
             double productStoichiometry;
             for (int k1 = 0; k1 < numProducts; k1++)
@@ -1147,20 +1147,20 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
             finalStr = "    0.0";
         }
 
-        if (mNOM->GetSBMLDocument()->getLevel() > 2)
+        if (mNOM->getSBMLDocument()->getLevel() > 2)
         {
             // remember to take the conversion factor into account
             string factor = "";
-            Species* species = mNOM->GetModel()->getSpecies(floatingSpeciesName);
+            Species* species = mNOM->getModel()->getSpecies(floatingSpeciesName);
             if (species != NULL)
             {
                 if (species->isSetConversionFactor())
                 {
                     factor = species->getConversionFactor();
                 }
-                else if (mNOM->GetModel()->isSetConversionFactor())
+                else if (mNOM->getModel()->isSetConversionFactor())
                 {
-                    factor = mNOM->GetModel()->getConversionFactor();
+                    factor = mNOM->getModel()->getConversionFactor();
                 }
             }
 
@@ -1199,7 +1199,7 @@ void CModelGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numR
         {
             ArrayList ev = mNOM->getNthEvent(i);
             eventType.push_back(mNOM->getNthUseValuesFromTriggerTime(i));
-            eventPersistentType.push_back(mNOM->GetModel()->getEvent(i)->getTrigger()->getPersistent());
+            eventPersistentType.push_back(mNOM->getModel()->getEvent(i)->getTrigger()->getPersistent());
 
             StringList event = ev[1];
             int numItems = event.Count();
@@ -1295,7 +1295,7 @@ void CModelGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numR
     mSource<<"void computeEventPriorities(ModelData* md)\n{";
     for (int i = 0; i < numEvents; i++)
     {
-        libsbml::Event* current = mNOM->GetModel()->getEvent(i);
+        libsbml::Event* current = mNOM->getModel()->getEvent(i);
 
         if (current->isSetPriority() && current->getPriority()->isSetMath())
         {
@@ -1355,7 +1355,7 @@ void CModelGenerator::writeSetCompartmentVolumes(CodeBuilder& ignore)
 
         // at this point we also have to take care of all initial assignments for compartments as well as
         // the assignment rules on compartments ... otherwise we are in trouble :)
-        stack<string> initializations = mNOM->GetMatchForSymbol(mCompartmentList[i].name);
+        stack<string> initializations = mNOM->getMatchForSymbol(mCompartmentList[i].name);
         while (initializations.size() > 0)
         {
             string term(initializations.top());
@@ -1568,9 +1568,9 @@ int CModelGenerator::readFloatingSpecies()
                   formula.str());
             }
 
-            if(mNOM->GetModel())
+            if(mNOM->getModel())
             {
-                Species *aSpecies = mNOM->GetModel()->getSpecies(reOrderedList[i]);
+                Species *aSpecies = mNOM->getModel()->getSpecies(reOrderedList[i]);
                 if(aSpecies)
                 {
                     symbol->hasOnlySubstance = aSpecies->getHasOnlySubstanceUnits();
@@ -1639,9 +1639,9 @@ int CModelGenerator::readBoundarySpecies()
                                 formula.str());
         }
 
-        if(mNOM->GetModel())
+        if(mNOM->getModel())
         {
-            Species* species = mNOM->GetModel()->getSpecies(sName);
+            Species* species = mNOM->getModel()->getSpecies(sName);
             if(species)
             {
                 symbol->hasOnlySubstance = species->getHasOnlySubstanceUnits();
