@@ -18,7 +18,7 @@ namespace ls
 {
     typedef Matrix< int >                               IntMatrix;
     typedef Matrix< double >                            DoubleMatrix;
-    typedef Matrix< ls::Complex >       	            ComplexMatrix;
+    typedef Matrix< ls::Complex >                       ComplexMatrix;
 
     class SBMLmodel;
 
@@ -27,12 +27,15 @@ namespace ls
      */
     class LIB_EXTERN LibStructural
     {
-    public:
-        void                                            Reset();        //Call between loading different models
-
     private:
+        /**
+         * Clears everything. The load... metthods automatically call this,
+         * as well as the dtor.
+         */
+        void                                            Reset();
+
         double                                          _Tolerance;
-//        LibStructural*      		                    _Instance;
+//        LibStructural*                                  _Instance;
         SBMLmodel* _Model;
         int                                             _NumRows;
         int                                             _NumCols;
@@ -227,11 +230,11 @@ namespace ls
         /*! \brief Uses LU Decomposition for Conservation analysis
 
             This method performs the actual analysis of the stoichiometry matrix (loaded either
-            via ls::LibStructural::loadStoichiometryMatrix or ls::LibStructural::loadSBML. Only after 
+            via ls::LibStructural::loadStoichiometryMatrix or ls::LibStructural::loadSBML. Only after
             one of the analysis methods below has been called are the structural matrices (L0, K0...)
-            available. 
+            available.
 
-            \li ls::LibStructural::analyzeWithQR, 
+            \li ls::LibStructural::analyzeWithQR,
             \li ls::LibStructural::analyzeWithLU,
             \li ls::LibStructural::analyzeWithLUandRunTests,
             \li ls::LibStructural::analyzeWithFullyPivotedLU or
@@ -243,13 +246,13 @@ namespace ls
         /*! \brief Uses LU Decomposition for Conservation analysis
 
             This method performs the actual analysis of the stoichiometry matrix (loaded either
-            via ls::LibStructural::loadStoichiometryMatrix or ls::LibStructural::loadSBML. Only after 
+            via ls::LibStructural::loadStoichiometryMatrix or ls::LibStructural::loadSBML. Only after
             one of the analysis methods below has been called are the structural matrices (L0, K0...)
-            available. 
+            available.
 
-            \li ls::LibStructural::analyzeWithQR, 
+            \li ls::LibStructural::analyzeWithQR,
             \li ls::LibStructural::analyzeWithLU,
-            \li ls::LibStructural::analyzeWithLUandRunTests, 
+            \li ls::LibStructural::analyzeWithLUandRunTests,
             \li ls::LibStructural::analyzeWithFullyPivotedLU or
             \li ls::LibStructural::analyzeWithFullyPivotedLUwithTests
 
@@ -262,13 +265,13 @@ namespace ls
         /*! \brief Uses fully pivoted LU Decomposition for Conservation analysis
 
             This method performs the actual analysis of the stoichiometry matrix (loaded either
-            via ls::LibStructural::loadStoichiometryMatrix or ls::LibStructural::loadSBML. Only after 
+            via ls::LibStructural::loadStoichiometryMatrix or ls::LibStructural::loadSBML. Only after
             one of the analysis methods below has been called are the structural matrices (L0, K0...)
-            available. 
+            available.
 
-            \li ls::LibStructural::analyzeWithQR, 
-            \li ls::LibStructural::analyzeWithLU, 
-            \li ls::LibStructural::analyzeWithLUandRunTests, 
+            \li ls::LibStructural::analyzeWithQR,
+            \li ls::LibStructural::analyzeWithLU,
+            \li ls::LibStructural::analyzeWithLUandRunTests,
             \li ls::LibStructural::analyzeWithFullyPivotedLU or
             \li ls::LibStructural::analyzeWithFullyPivotedLUwithTests
 
@@ -281,11 +284,11 @@ namespace ls
             This method performs the actual analysis of the stoichiometry matrix (loaded either
             via ls::LibStructural::loadStoichiometryMatrix or ls::LibStructural::loadSBML. Only after
             one of the analysis methods below has been called are the structural matrices (L0, K0...)
-            available. 
+            available.
 
-            \li ls::LibStructural::analyzeWithQR, 
-            \li ls::LibStructural::analyzeWithLU, 
-            \li ls::LibStructural::analyzeWithLUandRunTests, 
+            \li ls::LibStructural::analyzeWithQR,
+            \li ls::LibStructural::analyzeWithLU,
+            \li ls::LibStructural::analyzeWithLUandRunTests,
             \li ls::LibStructural::analyzeWithFullyPivotedLU or
             \li ls::LibStructural::analyzeWithFullyPivotedLUwithTests
 
@@ -297,7 +300,7 @@ namespace ls
 
         /*! \brief Returns the L0 Matrix.
 
-            L0 is defined such that  L0 Nr = N0. L0 forms part of the link matrix, L.  N0 is the set of 
+            L0 is defined such that  L0 Nr = N0. L0 forms part of the link matrix, L.  N0 is the set of
             linear dependent rows from the lower portion of the reordered stoichiometry matrix.
 
         */
@@ -309,7 +312,7 @@ namespace ls
         */
          void getL0MatrixLabels(std::vector< std::string > &oRows, std::vector< std::string > &oCols );
 
-        /*! \brief Returns the Nr Matrix. 
+        /*! \brief Returns the Nr Matrix.
 
             The rows of the Nr matrix will be linearly independent.
 
@@ -349,7 +352,7 @@ namespace ls
         */
          void getNDCMatrixLabels(std::vector< std::string > &oRows, std::vector< std::string > &oCols );
 
-        /*! \brief Returns the N0 Matrix. 
+        /*! \brief Returns the N0 Matrix.
 
             The N0 matrix is the set of linearly dependent rows of N where L0 Nr = N0.
         */
@@ -361,7 +364,7 @@ namespace ls
         */
          void getN0MatrixLabels(std::vector< std::string > &oRows, std::vector< std::string > &oCols );
 
-        /*! \brief Returns L, the Link Matrix, left nullspace (aka nullspace of the transpose Nr). 
+        /*! \brief Returns L, the Link Matrix, left nullspace (aka nullspace of the transpose Nr).
 
             L will have the structure, [I L0]', such that L Nr  = N
         */
@@ -385,7 +388,7 @@ namespace ls
         */
          void getK0MatrixLabels(std::vector< std::string > &oRows, std::vector< std::string > &oCols );
 
-        /*! \brief Returns the K matrix (right nullspace of Nr) 
+        /*! \brief Returns the K matrix (right nullspace of Nr)
 
             The K matrix has the structure, [I K0]'
         */
@@ -397,13 +400,13 @@ namespace ls
         */
          void getKMatrixLabels(std::vector< std::string > &oRows, std::vector< std::string > &oCols );
 
-        /*! \brief Returns Gamma, the conservation law array. 
+        /*! \brief Returns Gamma, the conservation law array.
 
-            Each row represents a single conservation law where the column indicate the 
-            participating molecular species. The number of rows is therefore equal to the 
-            number of conservation laws. Columns are ordered according to the rows in the 
-            reordered stoichiometry matrix, see ls::LibStructural::getReorderedSpeciesId and 
-            ls::LibStructural::getReorderedStoichiometryMatrix. 
+            Each row represents a single conservation law where the column indicate the
+            participating molecular species. The number of rows is therefore equal to the
+            number of conservation laws. Columns are ordered according to the rows in the
+            reordered stoichiometry matrix, see ls::LibStructural::getReorderedSpeciesId and
+            ls::LibStructural::getReorderedStoichiometryMatrix.
 
             Gamma is calculated based on: Gamma = [ -L0 I ]
 
@@ -412,10 +415,10 @@ namespace ls
          DoubleMatrix* getGammaMatrix();
 
 
-        /*! \brief Returns Gamma, the conservation law array. 
+        /*! \brief Returns Gamma, the conservation law array.
 
-            Each row represents a single conservation law where the column indicate the 
-            participating molecular species. The number of rows is therefore equal to the 
+            Each row represents a single conservation law where the column indicate the
+            participating molecular species. The number of rows is therefore equal to the
             number of conservation laws.
 
             In this case the Gamma Matrix is recalculated for the given stoichiometry matrix.
@@ -423,16 +426,16 @@ namespace ls
             Gamma is calculated based on R =   GaussJordan ( [ stoichiometry  I ] ), where
             R has the form
 
-                           R = [ R11 R12  
+                           R = [ R11 R12
                                   0  GAMMA ]
 
 
-            The RowLabels should be an increasing number, to numerate the conservation law, the 
+            The RowLabels should be an increasing number, to numerate the conservation law, the
             column label will be the same label as the stoichiometry matrix;
 
             \param stoichiometry the stoichiometry matrix that will be used to calculate gamma
 
-            
+
 
         */
          DoubleMatrix* getGammaMatrixGJ(DoubleMatrix &stoichiometry);
@@ -449,9 +452,9 @@ namespace ls
                              labels for the gamma matrix.
         */
          DoubleMatrix* findPositiveGammaMatrix(DoubleMatrix &stoichiometry,
-                                                         std::vector< std::string> &rowLabels); 
-        
-        
+                                                         std::vector< std::string> &rowLabels);
+
+
         /*! \brief Returns the row and column labels for Gamma, the conservation law array.
             \param oRows a string vector that will be overwritten to hold the row labels
             \param oCols a string vector that will be overwritten to hold the column labels.
@@ -594,10 +597,10 @@ namespace ls
 
     public:
         //! Constructor of a new instance of LibStructural
-    						LibStructural();
-       					   ~LibStructural();
+                            LibStructural();
+                              ~LibStructural();
 
-         LibStructural*  	getInstance();
+         LibStructural*      getInstance();
 };    //End of class
 
 } //namespace
