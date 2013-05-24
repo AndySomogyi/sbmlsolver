@@ -8,41 +8,50 @@
 #include "rrc_api.h"
 #include "rrc_support.h"
 
+#if defined(_WIN32)
+#include <windef.h>
+#define RR_MAX_PATH MAX_PATH
+#elif defined(__unix__) || defined(__APPLE__)
+#include <limits.h>
+#define RR_MAX_PATH PATH_MAX
+#endif
+
 namespace rrc
 {
 using namespace rr;
 using namespace std;
 
-const char* ALLOCATE_API_ERROR_MSG 		= "Allocate a handle to the roadrunner API before calling any API function";
-const char* INVALID_HANDLE_ERROR_MSG 	= "The HANDLE passed to this function was invalid";
-char* 		gLastError      			= NULL;
-char* 		gInstallFolder 				= NULL;
+const char* ALLOCATE_API_ERROR_MSG     = "Allocate a handle to the roadrunner API before calling any API function";
+const char* INVALID_HANDLE_ERROR_MSG   = "The HANDLE passed to this function was invalid";
+char*       gLastError                 = NULL;
+char        gInstallFolderBuffer[RR_MAX_PATH+1] = {0};
+char*       gInstallFolder = gInstallFolderBuffer;
 
 RoadRunner* castFrom(RRHandle CHandle)
 {
-	RoadRunner* handle = (RoadRunner*) CHandle;
+    RoadRunner* handle = (RoadRunner*) CHandle;
     if(handle) //Will only fail if CHandle is NULL...
     {
-    	return handle;
+        return handle;
     }
     else
     {
-    	Exception ex("Failed to cast to a valid RoadRunner handle");
-    	throw(ex);
+        Exception ex("Failed to cast to a valid RoadRunner handle");
+        throw(ex);
     }
 }
 
 RoadRunnerList* getRRList(RRInstanceListHandle listHandle)
 {
-	RoadRunnerList* handle = (RoadRunnerList*) listHandle->RRList;
+    RoadRunnerList* handle = (RoadRunnerList*) listHandle->RRList;
     if(handle)
     {
-    	return handle;
+        return handle;
     }
     else
     {
-    	Exception ex("Failed to create a valid RoadRunnerList handle");
-    	throw(ex);
+        Exception ex("Failed to create a valid RoadRunnerList handle");
+        throw(ex);
     }
 }
 
@@ -58,22 +67,22 @@ void setError(const string& err)
 
 //char* createText(const string& str)
 //{
-//	if(str.size() == 0)
+//    if(str.size() == 0)
 //    {
-//    	return NULL;
+//        return NULL;
 //    }
 //
-//	char* text = new char[str.size() + 1];
-//	std::copy(str.begin(), str.end(), text);
-//	text[str.size()] = '\0'; //terminating 0!
-//	return text;
+//    char* text = new char[str.size() + 1];
+//    std::copy(str.begin(), str.end(), text);
+//    text[str.size()] = '\0'; //terminating 0!
+//    return text;
 //}
 
 RRMatrix* createMatrix(const ls::DoubleMatrix* mat)
 {
-	if(!mat)
+    if(!mat)
     {
-    	return NULL;
+        return NULL;
     }
     RRMatrixHandle matrix = new RRMatrix;
 
@@ -82,11 +91,11 @@ RRMatrix* createMatrix(const ls::DoubleMatrix* mat)
     int dim =  matrix->RSize * matrix->CSize;
     if(dim)
     {
-    	matrix->Data =  new double[mat->RSize()*mat->CSize()];
+        matrix->Data =  new double[mat->RSize()*mat->CSize()];
     }
     else
     {
-    	delete matrix;
+        delete matrix;
         return NULL;
     }
 
@@ -181,8 +190,8 @@ RRStringArrayHandle createList(const StringList& sList)
 //    }
 //
 //    RRListItemHandle myItem;
-//	// Setup a RRStringArrayList structure from aList
-// 	RRListHandle theList = createRRList();
+//    // Setup a RRStringArrayList structure from aList
+//     RRListHandle theList = createRRList();
 //
 //    int itemCount = aList.Count();
 //    for(int i = 0; i < itemCount; i++)
@@ -194,16 +203,16 @@ RRStringArrayHandle createList(const StringList& sList)
 ////            string item =  *ptr->mValue;
 ////            char* str = (char *) new char[item.size() + 1];
 ////            strcpy(str, item.c_str());
-////			myItem = createStringItem (str);
-////   			addItem (theList, &myItem);
+////            myItem = createStringItem (str);
+////               addItem (theList, &myItem);
 ////        }
 ////        else if(ptr->mLinkedList)
 ////        {
 ////            //ArrayListItem<ArrayList2Item>* listItem = dynamic_cast<ArrayListItem<ArrayList2Item>*>(ptr);
-////			RRListHandle myList = createList (*(ptr->mLinkedList));
+////            RRListHandle myList = createList (*(ptr->mLinkedList));
 ////
-////			RRListItemHandle myListItem = createListItem (myList);
-////			addItem (theList, &myListItem);
+////            RRListItemHandle myListItem = createListItem (myList);
+////            addItem (theList, &myListItem);
 ////
 ////        }
 //    }
@@ -218,8 +227,8 @@ RRList* createList(const rr::NewArrayList& aList)
     }
 
     RRListItemHandle myItem;
-	// Setup a RRStringArrayList structure from aList
- 	RRListHandle theList = createRRList();
+    // Setup a RRStringArrayList structure from aList
+     RRListHandle theList = createRRList();
 
     int itemCount = aList.Count();
     for(int i = 0; i < itemCount; i++)
@@ -230,41 +239,41 @@ RRList* createList(const rr::NewArrayList& aList)
         {
             int val = (int) *(dynamic_cast<NewArrayListItem<int>*>(ptr));
             myItem = createIntegerItem (val);
-			addItem (theList, &myItem);
+            addItem (theList, &myItem);
         }
         else if(dynamic_cast<NewArrayListItem<double>*>(ptr))
         {
             double val = (double) *(dynamic_cast<NewArrayListItem<double>*>(ptr));
             myItem = createDoubleItem (val);
-			addItem (theList, &myItem);
+            addItem (theList, &myItem);
         }
         else if(dynamic_cast<NewArrayListItem<string>*>(ptr))
         {
             string item = (string) *(dynamic_cast<NewArrayListItem<string>*>(ptr));
             char* str = (char *) new char[item.size() + 1];
             strcpy (str, item.c_str());
-			myItem = createStringItem (str);
-   			addItem (theList, &myItem);
+            myItem = createStringItem (str);
+               addItem (theList, &myItem);
         }
         else if(dynamic_cast<NewArrayListItem<StringList>*>(ptr))
         {
-            StringList list 			= (StringList) *(dynamic_cast<NewArrayListItem<StringList>*>(ptr));
-			NewArrayList  aList;
+            StringList list             = (StringList) *(dynamic_cast<NewArrayListItem<StringList>*>(ptr));
+            NewArrayList  aList;
             for(int i = 0; i < list.Count(); i++)
             {
-            	aList.Add(list[i]);
+                aList.Add(list[i]);
             }
-			RRListHandle myList 			= createList (aList);
-			myItem 						    = createListItem(myList);
-   			addItem (theList, &myItem);
+            RRListHandle myList             = createList (aList);
+            myItem                             = createListItem(myList);
+               addItem (theList, &myItem);
         }
 
         else if(dynamic_cast<NewArrayListItem<NewArrayList>*>(ptr))
         {
             NewArrayList list = (NewArrayList) *(dynamic_cast<NewArrayListItem<NewArrayList>*>(ptr));
-			RRListHandle myList 			= createList (list);
-			RRListItemHandle myListItem 	= createListItem (myList);
-			addItem (theList, &myListItem);
+            RRListHandle myList             = createList (list);
+            RRListItemHandle myListItem     = createListItem (myList);
+            addItem (theList, &myListItem);
         }
 
     }
@@ -275,16 +284,16 @@ RRParameter* createParameter(const rr::BaseParameter& para)
 {
     if(para.getType() == "integer")
     {
-    	Parameter<int> *thePara = dynamic_cast< Parameter<int>* >(const_cast< BaseParameter* >(&para));
+        Parameter<int> *thePara = dynamic_cast< Parameter<int>* >(const_cast< BaseParameter* >(&para));
 
-	    RRParameter* aPara 	= new RRParameter;
-        aPara->ParaType 	= ptInteger;
-        aPara->data.iValue 	= thePara->getValue();
-        aPara->mName		= createText(thePara->getName());
-        aPara->mHint		= createText(thePara->getHint());
+        RRParameter* aPara     = new RRParameter;
+        aPara->ParaType     = ptInteger;
+        aPara->data.iValue     = thePara->getValue();
+        aPara->mName        = createText(thePara->getName());
+        aPara->mHint        = createText(thePara->getHint());
         return aPara;
     }
-	return NULL;
+    return NULL;
 }
 
 }//Namespace
