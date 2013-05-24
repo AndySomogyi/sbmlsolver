@@ -101,6 +101,12 @@ void RR_DECLSPEC initModelData(ModelData &data);
  * The data.modelName field will be a newly allocated null terminated c string.
  *
  * The ModelData structure buffers should be freed with freeModelDataBuffers.
+ * TODO: figure out if
+ * char**                              variableTable;
+ * char**                              boundaryTable;
+ * char**                              globalParameterTable;
+ *
+ * need allocation or freeing.
  */
 void RR_DECLSPEC allocModelDataBuffers(ModelData &data, const string& modelName);
 

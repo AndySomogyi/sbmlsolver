@@ -25,13 +25,19 @@ static void *rrCalloc(size_t nmemb, size_t size)
 
 void allocModelDataBuffers(ModelData &data, const string& modelName)
 {
-    data.modelName = createText(modelName);
+    data.modelName = strdup(modelName.c_str());
 
     // in certain cases, the data returned by c++ new is alligned differently than
     // malloc, so just use rrCalloc here just to be safe, plus rrCalloc returns zero
     // initialized memory.
 
-    data.amounts = (double*)rrCalloc(data.amountsSize, sizeof(double));
+    // in rrNLEQInterface there is a loop like
+    // for(int i = model->mData.rateRulesSize; i < model->mData.amountsSize + model->mData.rateRulesSize; i++) {
+    //    dTemp[i] = model->getModelData().amounts[i];
+    // so to fix the memory corruption issues, allocate it to the used, not the indicated size.
+    // TODO fix this correctly!
+
+    data.amounts = (double*)rrCalloc(data.amountsSize + data.rateRulesSize, sizeof(double));
     data.dydt = (double*)rrCalloc(data.dydtSize, sizeof(double));
     data.rateRules = (double*)rrCalloc(data.rateRulesSize, sizeof(double));
     data.y = (double*)rrCalloc(data.ySize, sizeof(double));
@@ -64,7 +70,7 @@ void allocModelDataBuffers(ModelData &data, const string& modelName)
 
 void  freeModelDataBuffers(ModelData &data)
 {
-    delete data.modelName;
+    free(data.modelName);
 
     free(data.amounts);
     free(data.dydt);
