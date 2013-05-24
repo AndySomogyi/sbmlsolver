@@ -13,50 +13,59 @@ void initModelData(ModelData &data)
     memset(&data, 0, sizeof(rr::ModelData));
 }
 
+/**
+ * many implementations have a rrCalloc which returns a non zero pointer
+ * if a zero size data block is requested, this returns zero which
+ * makes debugging easier.
+ */
+static void *rrCalloc(size_t nmemb, size_t size)
+{
+    return nmemb * size != 0 ? calloc(nmemb, size) : 0;
+}
+
 void allocModelDataBuffers(ModelData &data, const string& modelName)
 {
     data.modelName = createText(modelName);
 
     // in certain cases, the data returned by c++ new is alligned differently than
-    // malloc, so just use calloc here just to be safe, plus calloc returns zero
+    // malloc, so just use rrCalloc here just to be safe, plus rrCalloc returns zero
     // initialized memory.
 
-    data.amounts = (double*)calloc(data.amountsSize, sizeof(double));
-    data.dydt = (double*)calloc(data.dydtSize, sizeof(double));
-    data.rateRules = (double*)calloc(data.rateRulesSize, sizeof(double));
-    data.y = (double*)calloc(data.ySize, sizeof(double));
-    data.rates = (double*)calloc(data.ratesSize, sizeof(double));
-    data.ct = (double*)calloc(data.ctSize, sizeof(double));
-    data.init_y = (double*)calloc(data.init_ySize, sizeof(double));
-    data.gp = (double*)calloc(data.gpSize, sizeof(double));
-    data.c = (double*)calloc(data.cSize, sizeof(double));
-    data.bc = (double*)calloc(data.bcSize, sizeof(double));
-    data.lp = (double*)calloc(data.lpSize, sizeof(double));
-    data.sr = (double*)calloc(data.srSize, sizeof(double));
-    data.localParameterDimensions = (int*)calloc(data.localParameterDimensionsSize, sizeof(int));
-    data.eventPriorities = (double*)calloc(data.eventPrioritiesSize, sizeof(double));
-    data.eventStatusArray = (bool*)calloc(data.eventStatusArraySize, sizeof(bool));
-    data.previousEventStatusArray = (bool*)calloc(data.previousEventStatusArraySize, sizeof(bool));
-    data.eventPersistentType = (bool*)calloc(data.eventPersistentTypeSize, sizeof(bool));
-    data.eventTests = (double*)calloc(data.eventTestsSize, sizeof(double));
-    data.eventType = (bool*)calloc(data.eventTypeSize, sizeof(bool));
+    data.amounts = (double*)rrCalloc(data.amountsSize, sizeof(double));
+    data.dydt = (double*)rrCalloc(data.dydtSize, sizeof(double));
+    data.rateRules = (double*)rrCalloc(data.rateRulesSize, sizeof(double));
+    data.y = (double*)rrCalloc(data.ySize, sizeof(double));
+    data.rates = (double*)rrCalloc(data.ratesSize, sizeof(double));
+    data.ct = (double*)rrCalloc(data.ctSize, sizeof(double));
+    data.init_y = (double*)rrCalloc(data.init_ySize, sizeof(double));
+    data.gp = (double*)rrCalloc(data.gpSize, sizeof(double));
+    data.c = (double*)rrCalloc(data.cSize, sizeof(double));
+    data.bc = (double*)rrCalloc(data.bcSize, sizeof(double));
+    data.lp = (double*)rrCalloc(data.lpSize, sizeof(double));
+    data.sr = (double*)rrCalloc(data.srSize, sizeof(double));
+    data.localParameterDimensions = (int*)rrCalloc(data.localParameterDimensionsSize, sizeof(int));
+    data.eventPriorities = (double*)rrCalloc(data.eventPrioritiesSize, sizeof(double));
+    data.eventStatusArray = (bool*)rrCalloc(data.eventStatusArraySize, sizeof(bool));
+    data.previousEventStatusArray = (bool*)rrCalloc(data.previousEventStatusArraySize, sizeof(bool));
+    data.eventPersistentType = (bool*)rrCalloc(data.eventPersistentTypeSize, sizeof(bool));
+    data.eventTests = (double*)rrCalloc(data.eventTestsSize, sizeof(double));
+    data.eventType = (bool*)rrCalloc(data.eventTypeSize, sizeof(bool));
 
-    if (data.numEvents > 0)
-    {
-        //Event function pointer stuff
-        data.eventAssignments =
-                (TEventAssignmentDelegate*)calloc(data.numEvents, sizeof(TEventAssignmentDelegate*));
-        data.computeEventAssignments =
-                (TComputeEventAssignmentDelegate*)calloc(data.numEvents, sizeof(TComputeEventAssignmentDelegate*));
-        data.performEventAssignments =
-                (TPerformEventAssignmentDelegate*)calloc(data.numEvents, sizeof(TPerformEventAssignmentDelegate*));
-        data.eventDelays =
-                (TEventDelayDelegate*)calloc(data.numEvents, sizeof(TEventDelayDelegate*));
-    }
+    //Event function pointer stuff
+    data.eventAssignments =
+            (TEventAssignmentDelegate*)rrCalloc(data.numEvents, sizeof(TEventAssignmentDelegate*));
+    data.computeEventAssignments =
+            (TComputeEventAssignmentDelegate*)rrCalloc(data.numEvents, sizeof(TComputeEventAssignmentDelegate*));
+    data.performEventAssignments =
+            (TPerformEventAssignmentDelegate*)rrCalloc(data.numEvents, sizeof(TPerformEventAssignmentDelegate*));
+    data.eventDelays =
+            (TEventDelayDelegate*)rrCalloc(data.numEvents, sizeof(TEventDelayDelegate*));
 }
 
 void  freeModelDataBuffers(ModelData &data)
 {
+    delete data.modelName;
+
     free(data.amounts);
     free(data.dydt);
     free(data.rateRules);
