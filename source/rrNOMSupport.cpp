@@ -29,8 +29,9 @@ STR_DoubleFormat("%.5G")
 
 NOMSupport::~NOMSupport()
 {
-//    delete mModel;
-//    delete mSBMLDoc;
+    cout << __FUNC__ << "\n";
+    // the mModel is owned by the sbml doc.
+    delete mSBMLDoc;
 }
 
 
@@ -3440,67 +3441,17 @@ string NOMSupport::GetInitialAssignmentFor(const string& sbmlId)
 //            }
 //        }
 //
-void NOMSupport::loadSBML(const string& var0)
+void NOMSupport::loadSBML(const string& sbmlStr)
 {
-    //byte[] oBuffer = ASCIIEncoding.ASCII.GetBytes(var0.ToCharArray());      //Todo: Check what we can do in C++
-    //System.IO.MemoryStream oStream = new System.IO.MemoryStream(oBuffer);
-//    string sTemp = new System.IO.StreamReader(oStream).ReadToEnd();
-    string sTemp = var0;
-    if (mSBMLDoc != NULL)
-    {
-        try
-        {
-            if (mModel != NULL)
-            {
-                //delete mModel;//.Dispose();
-                //mModel = NULL;
-            }
-            //delete mSBMLDoc;//mSBMLDoc.Dispose();
-            //mSBMLDoc = NULL;
-        }
-        catch(...)
-        {
-            // never mind ....
-        }
+    delete mSBMLDoc;
 
-    }
+    // model is owned by the sbml doc.
 
-    // we also need to collect all namespaces from the file, or rather
-    // all registered prefixes:
-
-    //Todo: How to deal with namespaces in SBML file???
-
-//    //string regex=@"^.*?xmlns:(?<prefix>\w+?)^.*= "(?<namespace>.+?).*?$";
-//    string regex = "xmlns:(?<prefix>\\w+?)\\s*=\\s*(?:\"(?<namespace>[^\"]*)\"|(?<namespace>\\S+))";
-//    RegexOptions options = RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.IgnorePatternWhitespace | RegexOptions.CultureInvariant;
-//    string input = var0;
-//
-//    Namespaces = new List<string>();
-//    List<string> prefixes = new List<string>();
-//    MatchCollection matches = Regex.Matches(input, regex, options);
-//    foreach (Match match in matches)
-//    {
-//        //Console.WriteLine(match.Value);
-//        string prefix = match.Value.Substring(0, match.Value.IndexOf('='));
-//        if (!prefixes.Contains(prefix) && !Namespaces.Contains(match.Value))
-//        {
-//            Namespaces.Add(match.Value);
-//            prefixes.Add(prefix);
-//        }
-//
-//        //Console.WriteLine("prefix:" + match.Groups["prefix"].Value);
-//        //Console.WriteLine("namespace:" + match.Groups["namespace"].Value);
-//
-//    }
-
-//    _ParameterSets = new ParameterSets(sTemp);
-
-	//Who is to delete this document??
-    mSBMLDoc = readSBMLFromString(sTemp.c_str());
+    mSBMLDoc = readSBMLFromString(sbmlStr.c_str());
     mModel = mSBMLDoc->getModel();
     if (mModel == NULL)
     {
-        throw NOMException(validateSBML(sTemp));
+        throw NOMException(validateSBML(sbmlStr));
     }
 }
 
