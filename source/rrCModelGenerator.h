@@ -2,6 +2,7 @@
 #define CModelGenerator_H_
 //---------------------------------------------------------------------------
 #include "rrModelGenerator.h"
+#include "rrModelSharedLibrary.h"
 #include "rrCodeBuilder.h"
 #include "rrCompiler.h"
 #include "Poco/Thread.h"

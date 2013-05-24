@@ -25,8 +25,8 @@ mLibStruct(*generator.mLibStruct),
 mIsInitialized(false),
 mDLL(dll)
 {
-	//Zero data structure..
-	memset(&mData, 0, sizeof(rr::ModelData));
+    //Zero data structure..
+    memset(&mData, 0, sizeof(rr::ModelData));
     mDummyDoubleArray[0] = 1;
 
     if(mDLL.isLoaded())
@@ -36,18 +36,21 @@ mDLL(dll)
     }
     else
     {
-    	Log(lError)<<"The Model DLL is not loaded in CompiledExecutableModel ctor..";
+        Log(lError)<<"The Model DLL is not loaded in CompiledExecutableModel ctor..";
     }
 }
 
 CompiledExecutableModel::~CompiledExecutableModel()
 {
+    cout << "in " << __FUNC__ << "\n";
+    // only free buffers, mData is stack allocated.
+    freeModelDataBuffers(mData);
     delete [] mDummyDoubleArray;
 }
 
 string CompiledExecutableModel::getModelName()
 {
-	return mData.modelName;
+    return mData.modelName;
 }
 
 void CompiledExecutableModel::assignCVodeInterface(CvodeInterface* cvodeI)
@@ -62,7 +65,7 @@ void CompiledExecutableModel::setTime(double _time)
 
 double CompiledExecutableModel::getTime()
 {
-	return mData.time;
+    return mData.time;
 }
 
 /////////////////// The following used to be in IModel
@@ -126,8 +129,8 @@ bool CompiledExecutableModel::setupDLLFunctions()
     }
 
     //Load functions..
-    cInitModel                          = (c_int_MDS)         			   mDLL.getSymbol("InitModel");
-    cInitModelData                      = (c_int_MDS)         			   mDLL.getSymbol("InitModelData");
+    cInitModel                          = (c_int_MDS)                      mDLL.getSymbol("InitModel");
+    cInitModelData                      = (c_int_MDS)                      mDLL.getSymbol("InitModelData");
     cinitializeInitialConditions        = (c_void_MDS)                     mDLL.getSymbol("initializeInitialConditions");
     csetParameterValues                 = (c_void_MDS)                     mDLL.getSymbol("setParameterValues");
     csetCompartmentVolumes              = (c_void_MDS)                     mDLL.getSymbol("setCompartmentVolumes");
@@ -157,137 +160,135 @@ bool CompiledExecutableModel::setupDLLFunctions()
     return true;
 }
 
+
 bool CompiledExecutableModel::setupModelData()
 {
-	//See CGenerator writeInitModelDataFunction to see how this initialization was done in the DLL before
-	mData.modelName 					= createText(mNOM.getModelName());
+    // zero out the structure
+    initModelData(mData);
+
+    // set the buffer sizes
+    mData.numIndependentVariables       = mCG.mNumIndependentSpecies;
+    mData.numDependentVariables         = mCG.mNumDependentSpecies;
+    mData.numTotalVariables             = mCG.mNumFloatingSpecies;        //???
+    mData.numBoundaryVariables          = mCG.mNumBoundarySpecies;
+    mData.numGlobalParameters           = mCG.mGlobalParameterList.size();
+    mData.numCompartments               = mCG.mCompartmentList.size();
+    mData.numReactions                  = mCG.mReactionList.size();
+    mData.numEvents                     = mCG.mNumEvents;
+    mData.amountsSize                   = mCG.mFloatingSpeciesConcentrationList.Count();
+    mData.dydtSize                      = mCG.mFloatingSpeciesConcentrationList.size();
+    mData.rateRulesSize                 = mCG.mMapRateRule.size();
+    mData.ySize                         = mCG.mFloatingSpeciesConcentrationList.size();
+    mData.ratesSize                     = mCG.mNumReactions;
+    mData.ctSize                        = mCG.mNumDependentSpecies;
+    mData.init_ySize                    = mCG.mFloatingSpeciesConcentrationList.Count();
+    mData.gpSize                        = mCG.mNumGlobalParameters + mCG.mTotalLocalParmeters;
+    mData.cSize                         = mCG.mNumCompartments;
+    mData.bcSize                        = mCG.mNumBoundarySpecies;
+    mData.lpSize                        = mCG.mNumReactions;
+    mData.srSize                        = mCG.mNumModifiableSpeciesReferences;
+    mData.localParameterDimensionsSize  = mCG.mNumReactions;
+    mData.eventPrioritiesSize           = mCG.mNumEvents;
+    mData.eventStatusArraySize          = mCG.mNumEvents;
+    mData.previousEventStatusArraySize  = mCG.mNumEvents;
+    mData.eventPersistentTypeSize       = mCG.mNumEvents;
+    mData.eventTestsSize                = mCG.mNumEvents;
+    mData.eventTypeSize                 = mCG.mNumEvents;
+
+    // allocate the data buffers
+    allocModelDataBuffers(mData, mNOM.getModelName());
+
+    if(cInitModel)
+    {
+        cInitModel(&mData);
+    }
+    return true;
+}
+
+
+bool CompiledExecutableModel::oldsetupModelData()
+{
+    //See CGenerator writeInitModelDataFunction to see how this initialization was done in the DLL before
+    mData.modelName                     = createText(mNOM.getModelName());
 
     //Variables...
-	mData.numIndependentVariables 		= mCG.mNumIndependentSpecies;
-	mData.numDependentVariables   		= mCG.mNumDependentSpecies;
-	mData.numTotalVariables				= mCG.mNumFloatingSpecies;        //???
-    mData.numBoundaryVariables			= mCG.mNumBoundarySpecies;
-    mData.numGlobalParameters			= mCG.mGlobalParameterList.size();
-	mData.numCompartments				= mCG.mCompartmentList.size();
-    mData.numReactions					= mCG.mReactionList.size();
-    mData.numEvents						= mCG.mNumEvents;
+    mData.numIndependentVariables         = mCG.mNumIndependentSpecies;
+    mData.numDependentVariables           = mCG.mNumDependentSpecies;
+    mData.numTotalVariables                = mCG.mNumFloatingSpecies;        //???
+    mData.numBoundaryVariables            = mCG.mNumBoundarySpecies;
+    mData.numGlobalParameters            = mCG.mGlobalParameterList.size();
+    mData.numCompartments                = mCG.mCompartmentList.size();
+    mData.numReactions                    = mCG.mReactionList.size();
+    mData.numEvents                        = mCG.mNumEvents;
 
-	mData.amountsSize					= mCG.mFloatingSpeciesConcentrationList.Count();
-    mData.amounts 						= new double[mData.amountsSize];
+    mData.amountsSize                    = mCG.mFloatingSpeciesConcentrationList.Count();
+    mData.amounts                         = new double[mData.amountsSize];
 
-    mData.dydtSize						= mCG.mFloatingSpeciesConcentrationList.size();
-	mData.dydt							= new double[mData.dydtSize];
+    mData.dydtSize                        = mCG.mFloatingSpeciesConcentrationList.size();
+    mData.dydt                            = new double[mData.dydtSize];
 
-    mData.rateRulesSize					= mCG.mMapRateRule.size();
-	mData.rateRules						= new double[mData.rateRulesSize];
+    mData.rateRulesSize                    = mCG.mMapRateRule.size();
+    mData.rateRules                        = new double[mData.rateRulesSize];
 
-    mData.ySize							= mCG.mFloatingSpeciesConcentrationList.size();
-    mData.y								= new double[mData.ySize];
+    mData.ySize                            = mCG.mFloatingSpeciesConcentrationList.size();
+    mData.y                                = new double[mData.ySize];
 
-    mData.ratesSize						= mCG.mNumReactions;
-    mData.rates							= new double[mData.ratesSize];
+    mData.ratesSize                        = mCG.mNumReactions;
+    mData.rates                            = new double[mData.ratesSize];
 
-    mData.ctSize						= mCG.mNumDependentSpecies;
-    mData.ct							= new double[mData.ctSize];
+    mData.ctSize                        = mCG.mNumDependentSpecies;
+    mData.ct                            = new double[mData.ctSize];
 
-    mData.init_ySize					= mCG.mFloatingSpeciesConcentrationList.Count();
+    mData.init_ySize                    = mCG.mFloatingSpeciesConcentrationList.Count();
     mData.init_y                        = new double[mData.init_ySize];
 
-    mData.gpSize						=  mCG.mNumGlobalParameters + mCG.mTotalLocalParmeters;
-    mData.gp							= new double[mData.gpSize];
+    mData.gpSize                        =  mCG.mNumGlobalParameters + mCG.mTotalLocalParmeters;
+    mData.gp                            = new double[mData.gpSize];
 
-    mData.cSize							= mCG.mNumCompartments;
-    mData.c								= new double[mData.cSize];
+    mData.cSize                            = mCG.mNumCompartments;
+    mData.c                                = new double[mData.cSize];
 
-    mData.bcSize						= mCG.mNumBoundarySpecies;
- 	mData.bc							= new double[mData.bcSize];
+    mData.bcSize                        = mCG.mNumBoundarySpecies;
+     mData.bc                            = new double[mData.bcSize];
 
-    mData.lpSize 						= mCG.mNumReactions;
-	mData.lp							= new double[mData.lpSize];
+    mData.lpSize                         = mCG.mNumReactions;
+    mData.lp                            = new double[mData.lpSize];
 
-    mData.srSize  						= mCG.mNumModifiableSpeciesReferences;
-    mData.sr							= new double[mData.srSize];
+    mData.srSize                          = mCG.mNumModifiableSpeciesReferences;
+    mData.sr                            = new double[mData.srSize];
 
-	mData.localParameterDimensionsSize	= mCG.mNumReactions;
-	mData.localParameterDimensions		= new int[mData.localParameterDimensionsSize];
+    mData.localParameterDimensionsSize    = mCG.mNumReactions;
+    mData.localParameterDimensions        = new int[mData.localParameterDimensionsSize];
 
-    mData.eventPrioritiesSize 			= mCG.mNumEvents;
-    mData.eventPriorities				= new double[mData.eventPrioritiesSize];
+    mData.eventPrioritiesSize             = mCG.mNumEvents;
+    mData.eventPriorities                = new double[mData.eventPrioritiesSize];
 
-    mData.eventStatusArraySize			= mCG.mNumEvents;
-    mData.eventStatusArray				= new bool[mData.eventStatusArraySize];
+    mData.eventStatusArraySize            = mCG.mNumEvents;
+    mData.eventStatusArray                = new bool[mData.eventStatusArraySize];
 
-    mData.previousEventStatusArraySize	= mCG.mNumEvents;
-    mData.previousEventStatusArray		= new bool[mData.previousEventStatusArraySize];
+    mData.previousEventStatusArraySize    = mCG.mNumEvents;
+    mData.previousEventStatusArray        = new bool[mData.previousEventStatusArraySize];
 
-    mData.eventPersistentTypeSize		= mCG.mNumEvents;
-    mData.eventPersistentType			= new bool[mData.eventPersistentTypeSize];
+    mData.eventPersistentTypeSize        = mCG.mNumEvents;
+    mData.eventPersistentType            = new bool[mData.eventPersistentTypeSize];
 
-    mData.eventTestsSize				= mCG.mNumEvents;
- 	mData.eventTests					= new double[mData.eventTestsSize];
+    mData.eventTestsSize                = mCG.mNumEvents;
+     mData.eventTests                    = new double[mData.eventTestsSize];
 
-    mData.eventTypeSize					= mCG.mNumEvents;
-    mData.eventType						= new bool[mData.eventTypeSize];
+    mData.eventTypeSize                    = mCG.mNumEvents;
+    mData.eventType                        = new bool[mData.eventTypeSize];
 
     if(mData.numEvents > 0)
     {
     //Event function pointer stuff
-//    if(mDLL.hasSymbol("Get_eventAssignments"))
-//    {
-//        c_TEventAssignmentDelegateStar Get_eventAssignments;
-//        Get_eventAssignments  	= (c_TEventAssignmentDelegateStar) mDLL.getSymbol("Get_eventAssignments");
-//        mData.eventAssignments 		= Get_eventAssignments();
-//        source<<Append("\tmd->eventAssignments = (TEventAssignmentDelegate*) malloc(sizeof(TEventAssignmentDelegate)*md->numEvents);" , NL());
-        mData.eventAssignments 		= (TEventAssignmentDelegate*)  new TEventAssignmentDelegate[mData.numEvents];
-//    }
-//    else
-//    {
-//	    mData.eventAssignments = NULL;
-//    }
-//
-//    if(mDLL.hasSymbol("Get_computeEventAssignments"))
-//    {
-//        c_TComputeEventAssignmentDelegateStar     Get_computeEventAssignments;
-//        Get_computeEventAssignments      = (c_TComputeEventAssignmentDelegateStar) mDLL.getSymbol("Get_computeEventAssignments");
-//        mData.computeEventAssignments = Get_computeEventAssignments();
-//        source<<Append("\tmd->computeEventAssignments = (TComputeEventAssignmentDelegate*) malloc(sizeof(TComputeEventAssignmentDelegate)*md->numEvents);" , NL());
-        mData.computeEventAssignments 	= (TComputeEventAssignmentDelegate*)  new TComputeEventAssignmentDelegate[mData.numEvents];
-//    }
-//    else
-//    {
-//		mData.computeEventAssignments = NULL;
-//    }
-//
-//    if(mDLL.hasSymbol("Get_performEventAssignments"))
-//    {
-//     	c_TPerformEventAssignmentDelegateStar Get_performEventAssignments;
-//    	Get_performEventAssignments  = (c_TPerformEventAssignmentDelegateStar) mDLL.getSymbol("Get_performEventAssignments");
-//        mData.performEventAssignments = Get_performEventAssignments();
-//        source<<Append("\tmd->performEventAssignments = (TPerformEventAssignmentDelegate*) malloc(sizeof(TPerformEventAssignmentDelegate)*md->numEvents);" , NL());
+        mData.eventAssignments         = (TEventAssignmentDelegate*)  new TEventAssignmentDelegate[mData.numEvents];
+        mData.computeEventAssignments     = (TComputeEventAssignmentDelegate*)  new TComputeEventAssignmentDelegate[mData.numEvents];
         mData.performEventAssignments = (TPerformEventAssignmentDelegate*)  new TPerformEventAssignmentDelegate[mData.numEvents];
-//    }
-//    else
-//    {
-//        mData.performEventAssignments = NULL;
-//    }
-
-
-//    if(mDLL.hasSymbol("GetEventDelays"))
-//    {
-//        c_GetEventDelayDelegatesStar GetEventDelays;
-//        GetEventDelays  = (c_GetEventDelayDelegatesStar) mDLL.getSymbol("GetEventDelays");
-//        mData.eventDelays = GetEventDelays();
-//        mData.eventDelays =
-		mData.eventDelays = new TEventDelayDelegate[mData.numEvents];
-//    }
-//    else
-//    {
-//		mData.eventDelays = NULL;
-//    }
-	}
+        mData.eventDelays =             new TEventDelayDelegate[mData.numEvents];
+    }
     if(cInitModel)
     {
-	    cInitModel(&mData);
+        cInitModel(&mData);
     }
     return true;
 }
@@ -316,13 +317,13 @@ void  CompiledExecutableModel::setConcentration(int index, double value)
 
 void  CompiledExecutableModel::computeReactionRates (double time, double* y)
 {
-	if(!cComputeReactionRates)
+    if(!cComputeReactionRates)
     {
         Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
-	cComputeReactionRates(&mData, time, y);
+    cComputeReactionRates(&mData, time, y);
 }
 
 vector<double> CompiledExecutableModel::getCurrentValues()
@@ -534,7 +535,7 @@ void CompiledExecutableModel::evalModel(const double& timein, const vector<doubl
         return;
     }
 
-	double *oAmounts = CreateVector(y);
+    double *oAmounts = CreateVector(y);
     cevalModel(&mData, timein, oAmounts);
     delete [] oAmounts;
 }
@@ -546,7 +547,7 @@ void CompiledExecutableModel::evalEvents(const double& timeIn, const vector<doub
         Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
-	double *oAmounts = CreateVector(y);
+    double *oAmounts = CreateVector(y);
     cevalEvents(&mData, timeIn, oAmounts);
     delete [] oAmounts;
 }
@@ -597,22 +598,22 @@ void CompiledExecutableModel::initializeRateRuleSymbols()
 
 string CompiledExecutableModel::getInfo()
 {
-	stringstream info;
-	info << "CompiledExecutableModel" << endl;
-	info << "ModelName: "			<<  getModelName()<<endl;
-	info << "Model DLL Loaded: "	<< (mDLL.isLoaded() ? "true" : "false")	<<endl;
-	info << "Initialized: "		<< (mIsInitialized ? "true" : "false")	<<endl;
-	return info.str();
+    stringstream info;
+    info << "CompiledExecutableModel" << endl;
+    info << "ModelName: "            <<  getModelName()<<endl;
+    info << "Model DLL Loaded: "    << (mDLL.isLoaded() ? "true" : "false")    <<endl;
+    info << "Initialized: "        << (mIsInitialized ? "true" : "false")    <<endl;
+    return info.str();
 }
 
 ModelData& CompiledExecutableModel::getModelData()
 {
-	return mData;
+    return mData;
 }
 
 CvodeInterface* CompiledExecutableModel::getCvodeInterface()
 {
-	return mCvodeInterface;
+    return mCvodeInterface;
 }
 
 } //Namespace rr

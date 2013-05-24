@@ -62,9 +62,11 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		CvodeInterface                 *mCVode;
 		ISteadyStateSolver             *mSteadyStateSolver;
 		vector<TSelectionRecord>        mSelectionList;
-		ModelGenerator                 *mModelGenerator;    //Pointer to one of the below ones..
-		CSharpModelGenerator           *mCSharpGenerator;
-		CModelGenerator                *mCGenerator;
+
+		/**
+		 * Model generator we obtain from the model gen factory.
+		 */
+		ModelGenerator                 *mModelGenerator;
 
 		bool                     		mComputeAndAssignConservationLaws;
 

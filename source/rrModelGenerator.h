@@ -28,6 +28,117 @@ class Compiler;
  */
 class RR_DECLSPEC ModelGenerator : public rrObject
 {
+
+public:
+    void                                reset();
+    int                                 getNumberOfReactions();
+    int                                 numAdditionalRates();        //this variable is the size of moMapRateRule
+
+    StringList                          getCompartmentList();
+    StringList                          getConservationList();
+
+    StringList                          getGlobalParameterList();
+    StringList                          getLocalParameterList(int reactionId);
+
+    StringList                          getReactionIds();
+    SymbolList&                         getReactionListReference();
+
+    StringList                          getFloatingSpeciesConcentrationList();    //Just returns the Ids...!
+    SymbolList&                         getFloatingSpeciesConcentrationListReference();
+
+    StringList                          getBoundarySpeciesList();
+    SymbolList&                         getBoundarySpeciesListReference();
+    SymbolList&                         getGlobalParameterListReference();
+    SymbolList&                         getConservationListReference();
+
+
+
+    /**
+     * certain model generators, such as the compiler based ones
+     * generate files such as shared libraries. This specifies the
+     * location where they are stored.
+     */
+    virtual bool                        setTemporaryDirectory(const string& path) = 0;
+
+    /**
+     * certain model generators, such as the compiler based ones
+     * generate files such as shared libraries. This specifies the
+     * location where they are stored.
+     */
+    virtual string                      getTemporaryDirectory() = 0;
+
+    /**
+     * Create an executable model from an sbml string, a LibStructural and a NOMSupport.
+     * The libstruct and nom objects must already have the sbml loaded into them.
+     *
+     * For the time being, this sets up a bunch of ivars, such as mLibStruct and mNOM,
+     * and in order to preserve compatibility, thise will remain pointing to whatever
+     * was passed in.
+     * Eventually these ivars will either go away or will be cleared. The ModelGenerator
+     * is intended ONLY to make models, not query NOM info.
+     */
+    virtual ExecutableModel             *createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
+            bool forceReCompile, bool computeAndAssignConsevationLaws) = 0;
+
+    /**
+     * Get the compiler object that the model generator is using to
+     * 'compile' sbml. Certain model generators may be interpreters, in this
+     * case, the Compiler interface should still be sufficiently general to
+     * manipulate interpreters as well.
+     *
+     * TODO: Make Compiler an interface.
+     */
+    virtual                             Compiler *getCompiler() = 0;
+
+    /**
+     * Set the name of the compiler to use. In the case of source code generating
+     * model generators, this is the exectuable name of the external compiler, i.e.
+     * 'gcc', 'icc', etc... For JITing generators, this may have no effect.
+     */
+    virtual                             bool setCompiler(const string& compiler) = 0;
+
+    /**
+     * public dtor, one can and most certainly delete an object of this class.
+     */
+    virtual                             ~ModelGenerator();
+
+    int                                 mNumModifiableSpeciesReferences;
+
+    /**
+     * Refernce to libstruct library
+     * this are set by createModel, and for the time being remain after createModel
+     * completes.
+     */
+    LibStructural*                      mLibStruct;
+
+    /**
+     * Object that provide some wrappers and new "NOM" functions.
+     * this are set by createModel, and for the time being remain after createModel
+     * completes.
+     */
+    NOMSupport*                         mNOM;
+
+
+    IntStringHashTable                  mMapRateRule;
+    SymbolList                          mBoundarySpeciesList;
+    SymbolList                          mCompartmentList;
+    SymbolList                          mConservationList;
+    SymbolList                          mFloatingSpeciesAmountsList;
+    SymbolList                          mFloatingSpeciesConcentrationList;
+    SymbolList                          mGlobalParameterList;
+    int                                 mNumBoundarySpecies;
+    int                                 mNumCompartments;
+    int                                 mNumDependentSpecies;
+    int                                 mNumEvents;
+    int                                 mNumFloatingSpecies;
+    int                                 mNumGlobalParameters;
+    int                                 mNumIndependentSpecies;
+    int                                 mNumReactions;
+    int                                 mTotalLocalParmeters;
+    SymbolList                          mReactionList;
+
+
+
 protected:
 
     /**
@@ -110,110 +221,9 @@ protected:
     SymbolList                          mModifiableSpeciesReferenceList;
 
 
-    virtual                             ~ModelGenerator();
+
 
     string                              writeDouble(const double& value, const string& format = "%G");
-
-public:
-    int                                 mNumModifiableSpeciesReferences;
-
-    /**
-     * Refernce to libstruct library
-     * this are set by createModel, and for the time being remain after createModel
-     * completes.
-     */
-    LibStructural*                      mLibStruct;
-
-    /**
-     * Object that provide some wrappers and new "NOM" functions.
-     * this are set by createModel, and for the time being remain after createModel
-     * completes.
-     */
-    NOMSupport*                         mNOM;
-
-
-    IntStringHashTable                  mMapRateRule;
-    SymbolList                          mBoundarySpeciesList;
-    SymbolList                          mCompartmentList;
-    SymbolList                          mConservationList;
-    SymbolList                          mFloatingSpeciesAmountsList;
-    SymbolList                          mFloatingSpeciesConcentrationList;
-    SymbolList                          mGlobalParameterList;
-    int                                 mNumBoundarySpecies;
-    int                                 mNumCompartments;
-    int                                 mNumDependentSpecies;
-    int                                 mNumEvents;
-    int                                 mNumFloatingSpecies;
-    int                                 mNumGlobalParameters;
-    int                                 mNumIndependentSpecies;
-    int                                 mNumReactions;
-    int                                 mTotalLocalParmeters;
-    SymbolList                          mReactionList;
-
-    void                                reset();
-    int                                 getNumberOfReactions();
-    int                                 numAdditionalRates();        //this variable is the size of moMapRateRule
-
-    StringList                          getCompartmentList();
-    StringList                          getConservationList();
-
-    StringList                          getGlobalParameterList();
-    StringList                          getLocalParameterList(int reactionId);
-
-    StringList                          getReactionIds();
-    SymbolList&                         getReactionListReference();
-
-    StringList                          getFloatingSpeciesConcentrationList();    //Just returns the Ids...!
-    SymbolList&                         getFloatingSpeciesConcentrationListReference();
-
-    StringList                          getBoundarySpeciesList();
-    SymbolList&                         getBoundarySpeciesListReference();
-    SymbolList&                         getGlobalParameterListReference();
-    SymbolList&                         getConservationListReference();
-
-    /**
-     * certain model generators, such as the compiler based ones
-     * generate files such as shared libraries. This specifies the
-     * location where they are stored.
-     */
-    virtual bool                        setTemporaryDirectory(const string& path) = 0;
-
-    /**
-     * certain model generators, such as the compiler based ones
-     * generate files such as shared libraries. This specifies the
-     * location where they are stored.
-     */
-    virtual string                      getTemporaryDirectory() = 0;
-
-    /**
-     * Create an executable model from an sbml string, a LibStructural and a NOMSupport.
-     * The libstruct and nom objects must already have the sbml loaded into them.
-     *
-     * For the time being, this sets up a bunch of ivars, such as mLibStruct and mNOM,
-     * and in order to preserve compatibility, thise will remain pointing to whatever
-     * was passed in.
-     * Eventually these ivars will either go away or will be cleared. The ModelGenerator
-     * is intended ONLY to make models, not query NOM info.
-     */
-    virtual ExecutableModel             *createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
-            bool forceReCompile, bool computeAndAssignConsevationLaws) = 0;
-
-    /**
-     * Get the compiler object that the model generator is using to
-     * 'compile' sbml. Certain model generators may be interpreters, in this
-     * case, the Compiler interface should still be sufficiently general to
-     * manipulate interpreters as well.
-     *
-     * TODO: Make Compiler an interface.
-     */
-    virtual                             Compiler *getCompiler() = 0;
-
-    /**
-     * Set the name of the compiler to use. In the case of source code generating
-     * model generators, this is the exectuable name of the external compiler, i.e.
-     * 'gcc', 'icc', etc... For JITing generators, this may have no effect.
-     */
-    virtual                             bool setCompiler(const string& compiler) = 0;
 };
 }
 

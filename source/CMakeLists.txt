@@ -31,6 +31,7 @@ rrLogLevel
 rrLogOutput
 rrMisc
 rrCompiledExecutableModel
+rrExecutableModel
 rrModelState
 rrNOMSupport
 rrObject
