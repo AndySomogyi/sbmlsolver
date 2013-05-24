@@ -84,5 +84,32 @@ public:
 	 */
 	virtual											~ExecutableModel() {};
 };
+
+/**
+ * zero out the memory occupied by a ModelData struct, equivalent to
+ * memset(&data, 0, sizeof(ModelData));
+ *
+ * performs NO allocaation of memory.
+ *
+ */
+void RR_DECLSPEC initModelData(ModelData &data);
+
+/**
+ * Allocate memory for all the data buffers in a ModelData structure,
+ * based on what each buffer size variable indicates, i.e.
+ * if data.ySize is 10, data.y will now point to a length 10 double array.
+ * The data.modelName field will be a newly allocated null terminated c string.
+ *
+ * The ModelData structure buffers should be freed with freeModelDataBuffers.
+ */
+void RR_DECLSPEC allocModelDataBuffers(ModelData &data, const string& modelName);
+
+/**
+ * Free all the data referenced by the ModelData pointers.
+ * Does NOT free the ModelData itself, ONLY the buffer data.
+ */
+void RR_DECLSPEC freeModelDataBuffers(ModelData &data);
+
+
 }
 #endif

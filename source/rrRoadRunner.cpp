@@ -11,8 +11,7 @@
 #include "rrCompiler.h"
 #include "rrStreamWriter.h"
 #include "rrLogger.h"
-#include "rrCSharpModelGenerator.h"
-#include "rrCModelGenerator.h"
+#include "rrModelGeneratorFactory.h"
 #include "rrUtils.h"
 #include "rrExecutableModel.h"
 #include "rrSBMLModelSimulation.h"
@@ -32,15 +31,15 @@ using namespace ls;
 
 
 //The incance count increases/decreases as instances are created/destroyed.
-int                 RoadRunner::mInstanceCount = 0;
+int                   RoadRunner::mInstanceCount = 0;
 Mutex                 RoadRunner::mLibSBMLMutex;
 
-int    RoadRunner::getInstanceCount()
+int RoadRunner::getInstanceCount()
 {
     return mInstanceCount;
 }
 
-int    RoadRunner::getInstanceID()
+int RoadRunner::getInstanceID()
 {
     return mInstanceID;
 }
@@ -64,13 +63,13 @@ mCurrentSBML(""),
 mPluginManager(JoinPath(getParentFolder(supportCodeFolder), "plugins")),
 mConservedTotalChanged(false)
 {
-    // for now, dump out who we are
-    cout << "RoadRunner::RoadRunner(...), running refactored modelgen\n";
-    setTempFileFolder(tempFolder);
     Log(lDebug4)<<"In RoadRunner ctor";
-    mCSharpGenerator    = new CSharpModelGenerator(&mLS, &mNOM);
-    mCGenerator         = new CModelGenerator(tempFolder, supportCodeFolder, compiler);
-    mModelGenerator     = mCGenerator;
+
+    // for now, dump out who we are
+    cout << "RoadRunner::RoadRunner(...), running refactored modelgen r1\n";
+
+    mModelGenerator = ModelGeneratorFactory::createModelGenerator("CModelGenerator", tempFolder, supportCodeFolder, compiler);
+
     mPluginManager.setRoadRunnerInstance(this);
 
     //Increase instance count..
@@ -81,8 +80,10 @@ mConservedTotalChanged(false)
 RoadRunner::~RoadRunner()
 {
     Log(lDebug4)<<"In RoadRunner DTOR";
-    delete mCSharpGenerator;
-    delete mCGenerator;
+
+    cout << "In " << __FUNC__ << "\n";
+
+    delete mModelGenerator;
     delete mModel;
     delete mCVode;
 
@@ -610,7 +611,7 @@ bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
         loadSBMLIntoNOM(sbml);    //There is something in here that is not threadsafe... causes crash with multiple threads, without mutex
     }
 
-    mModel = mCGenerator->createModel(sbml, &mLS, &mNOM, forceReCompile, computeAndAssignConservationLaws());
+    mModel = mModelGenerator->createModel(sbml, &mLS, &mNOM, forceReCompile, computeAndAssignConservationLaws());
 
 
     /*
