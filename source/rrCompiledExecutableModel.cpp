@@ -26,7 +26,7 @@ mIsInitialized(false),
 mDLL(dll)
 {
     //Zero data structure..
-    memset(&mData, 0, sizeof(rr::ModelData));
+    initModelData(mData);
     mDummyDoubleArray[0] = 1;
 
     if(mDLL.isLoaded())

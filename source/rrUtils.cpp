@@ -405,7 +405,7 @@ bool CopyValues(vector<double>& dest, double* source, const int& nrVals, const i
 
 bool CopyStdVectorToCArray(const vector<double>& src, double* dest,  int size)
 {
-    if(!dest || size > src.size())
+    if((size && !dest) || size > src.size())
     {
         Log(lError)<<"Tried to copy to NULL vector, or incompatible size of vectors";
         return false;
@@ -420,12 +420,11 @@ bool CopyStdVectorToCArray(const vector<double>& src, double* dest,  int size)
 
 bool CopyStdVectorToCArray(const vector<bool>&   src,  bool*  dest,  int size)
 {
-    if(!dest || size > src.size())
+    if((size && !dest) || size > src.size())
     {
         Log(lError)<<"Tried to copy to NULL vector, or incompatible size of vectors";
         return false;
     }
-
 
     for(int i = 0; i < size; i++)
     {
@@ -437,7 +436,7 @@ bool CopyStdVectorToCArray(const vector<bool>&   src,  bool*  dest,  int size)
 vector<double> CreateVector(const double* src, const int& size)
 {
     vector<double> dest;
-    if(!src)
+    if(size && !src)
     {
         Log(lError)<<"Tried to copy from NULL vector";
         return dest;
@@ -453,7 +452,7 @@ vector<double> CreateVector(const double* src, const int& size)
 
 bool CopyCArrayToStdVector(const int* src, vector<int>& dest, int size)
 {
-    if(!src)
+    if(size && !src)
     {
         Log(lError)<<"Tried to copy from NULL vector";
         return false;
@@ -469,7 +468,7 @@ bool CopyCArrayToStdVector(const int* src, vector<int>& dest, int size)
 
 bool CopyCArrayToStdVector(const double* src, vector<double>& dest, int size)
 {
-    if(!src)
+    if(size && !src)
     {
         Log(lError)<<"Tried to copy from NULL vector";
         return false;
@@ -485,7 +484,7 @@ bool CopyCArrayToStdVector(const double* src, vector<double>& dest, int size)
 
 bool CopyCArrayToStdVector(const bool* src, vector<bool>& dest, int size)
 {
-    if(!src)
+    if(size && !src)
     {
         Log(lError)<<"Tried to copy from NULL vector";
         return false;
