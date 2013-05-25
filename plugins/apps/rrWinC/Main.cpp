@@ -24,9 +24,10 @@ mModel("r:\\models\\test_1.xml"),
 mUIIsStartingUp(true),
 mData(NULL)
 {
-	TrrSettingFrame1->infoMemo = infoMemo;
+	simFrame->infoMemo = infoMemo;
 	startupTimer->Enabled = true;
 }
+
 //---------------------------------------------------------------------------
 void __fastcall TMainF::FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift)
 {
@@ -55,12 +56,14 @@ void __fastcall TMainF::startupTimerTimer(TObject *Sender)
 		vector<string> lines = rr::SplitString(info, "\n");
 		for(int i =0; i < lines.size(); i++)
 		{
-			infoMemo->Lines->Add(lines[i].c_str());
+			Log()<<lines[i];
 		}
-        TrrSettingFrame1->assignRRHandle(mInstanceH);
+
+        simFrame->assignRRHandle(mInstanceH);
         enableLoggingToFile(mInstanceH);
         setLogLevel("Debug2");
 	}
+	loadPluginsAExecute(NULL);
 	mUIIsStartingUp = false;
 }
 
@@ -110,7 +113,7 @@ void __fastcall TMainF::pluginListClick(TObject *Sender)
     }
 
     string pluginName = std_str(pluginList->Items->Strings[pluginList->ItemIndex]);
-    Log()<<std_str(pluginName);
+    Log()<<pluginName;
 
     string test = getPluginInfo(mInstanceH, pluginName.c_str());
 
@@ -122,7 +125,6 @@ void __fastcall TMainF::pluginListClick(TObject *Sender)
     pluginParasCB->Clear();
 
     RRStringArray* caps = getPluginCapabilities(mInstanceH, pluginName.c_str());
-
 
     if(!caps)
     {
@@ -167,7 +169,6 @@ void TMainF::UpdateNoisePanel()
     {
 		Log()<<"Name: "<<sigma->mName;
     }
-
 }
 
 //---------------------------------------------------------------------------
@@ -198,7 +199,6 @@ string TMainF::getCurrentSelectedParameter()
 
     string pluginParaName = std_str(pluginParasCB->Items->Strings[pluginParasCB->ItemIndex]);
 	return pluginParaName;
-
 }
 
 void __fastcall TMainF::pluginCBChange(TObject *Sender)
@@ -220,7 +220,6 @@ void __fastcall TMainF::pluginCBChange(TObject *Sender)
             Log()<<"No parameters!";
             pluginCBChange(NULL);
             return;
-
         }
 
         for(int i =0; i < paras->Count; i++)
@@ -228,8 +227,6 @@ void __fastcall TMainF::pluginCBChange(TObject *Sender)
             pluginParasCB->AddItem(paras->String[i], NULL);
         }
         pluginParasCB->ItemIndex = 0;
-
-
     }
 
     if(pluginParasCB == (TComboBox*)(Sender))
@@ -261,13 +258,11 @@ void __fastcall TMainF::SetParaBtnClick(TObject *Sender)
 {
 	setPluginParameter(mInstanceH, getCurrentPluginName().c_str(), getCurrentSelectedParameter().c_str(), std_str(paraEdit->Text).c_str());
 }
-//---------------------------------------------------------------------------
 
 void __fastcall TMainF::executePluginAExecute(TObject *Sender)
 {
 	executePlugin(mInstanceH, getCurrentPluginName().c_str());
 }
-//---------------------------------------------------------------------------
 
 void __fastcall TMainF::getLastErrorAExecute(TObject *Sender)
 {
@@ -314,7 +309,7 @@ void __fastcall TMainF::loadModelJobTimerTimer(TObject *Sender)
 				Log() << "Problem deleting a job..";
 				throw rr::Exception(getLastError());
             }
-			TrrSettingFrame1->loadSelectionList();
+			simFrame->loadSelectionList();
         }
         else
         {
@@ -336,7 +331,6 @@ void TMainF::Plot(const rr::SimulationData& data)
     Chart1->RemoveAllSeries();
 
     //Fill out data for all series
-//    Log()<<"Simulation Result"<<data;
     int nrOfSeries = data.cSize() -1; //First one is time
     StringList colNames = data.getColumnNames();
     vector<TLineSeries*> series;
@@ -344,7 +338,6 @@ void TMainF::Plot(const rr::SimulationData& data)
     {
         TLineSeries* aSeries = new TLineSeries(Chart1);
         aSeries->Title = colNames[i+1].c_str();
-//        aSeries->Color = GetColor(i);
         aSeries->LinePen->Width = 3;
         series.push_back(aSeries);
         Chart1->AddSeries(aSeries);
@@ -362,7 +355,6 @@ void TMainF::Plot(const rr::SimulationData& data)
     }
     Chart1->Update();
 }
-
 
 void TMainF::Plot1D()
 {
@@ -405,7 +397,6 @@ void TMainF::Plot1D()
     Chart1->Update();
 }
 
-
 void __fastcall TMainF::PlotAExecute(TObject *Sender)
 {
 	RoadRunner *aRR = (RoadRunner*) mInstanceH;
@@ -423,36 +414,66 @@ void __fastcall TMainF::noiseSigmaEKeyDown(TObject *Sender, WORD &Key, TShiftSta
 	if(Key == VK_RETURN)
     {
     	double val = noiseSigmaE->Text.ToDouble();
-		if(setPluginParameter(mInstanceH, "AddNoise", "Sigma", (char*) &val))
-        {
-        	Log()<<"Sigma was updated";
-        }
-        else
-        {
-        	Log()<<"Failed to update Sigma";
-        }
+		string msg = (setPluginParameter(mInstanceH, "AddNoise", "Sigma", (char*) &val)) ? "Sigma was updated" : "Failed to update Sigma";
+        Log() << msg;
     }
+}
+
+void TMainF::configurePlugin(const string& pluginName)
+{
+	if(pluginName == "AddNoise")
+    {
+    	double val = noiseSigmaE->Text.ToDouble();
+		string msg = (setPluginParameter(mInstanceH, "AddNoise", "Sigma", (char*) &val)) ? "Sigma was updated" : "Failed to update Sigma";
+        Log() << msg;
+
+		RoadRunner *aRR = (RoadRunner*) mInstanceH;
+    	if(!aRR)
+	    {
+    		return;
+    	}
+
+    	SimulationData data = aRR->getSimulationResult();
+
+    	//Excute the noise plugin
+    	//Populate its data with data from roadrunner
+        if(mData)
+        {
+        	freeResult(mData);
+        }
+    	mData = createRRResult(data);
+
+        //Assign the dataPtr to the plugin
+		msg = setPluginParameter(mInstanceH, "AddNoise", "Data", (char*) mData) ? "Sigma was updated" : "Failed to update Sigma";
+        Log() << msg;
+
+     }
 }
 
 void __fastcall TMainF::Button6Click(TObject *Sender)
 {
-	RoadRunner *aRR = (RoadRunner*) mInstanceH;
-    if(aRR)
-    {
-        SimulationData data = aRR->getSimulationResult();
+	configurePlugin("AddNoise");
 
-        //Excute the noise plugin
-        //Populate its data with vector data from roadrunner
-        mData = createRRResult(data);
-
-        //Fill out the data
-        setPluginParameter(mInstanceH, "AddNoise", "Data", (char*) mData);
-        executePlugin(mInstanceH, "AddNoise");
-        Plot1D();
-    }
-
+    //Fill out the data
+    executePlugin(mInstanceH, "AddNoise");
+    Plot1D();
 }
 
+void __fastcall TMainF::onSimulationStarted()
+{
+	Log()<<"A simulation was started";
+}
 
+void __fastcall TMainF::onSimulationFinished()
+{
+	Log()<<"Simulation was finishe.. Plot result";
+    PlotAExecute(NULL);
+}
+
+void __fastcall TMainF::simFramesimBtnClick(TObject *Sender)
+{
+	simFrame->onSimulationFinished = onSimulationFinished;
+	mSimulateModelJob = simFrame->simulate();
+}
 
 

@@ -1,15 +1,15 @@
-#ifndef fit_one_parameterH
-#define fit_one_parameterH
+#ifndef full_space_minimizationH
+#define full_space_minimizationH
 #include "rrCapability.h"
 #include "rrParameter.h"
 #include "rrPlugin.h"
 
 //---------------------------------------------------------------------------
-namespace fitOne
+namespace fullSpaceFit
 {
 using namespace rr;
 
-class FitOneParameter : public Plugin
+class FullSpaceMinimization : public Plugin
 {
 	private:
     	Capability				mOneParameterFit;
@@ -22,8 +22,8 @@ class FitOneParameter : public Plugin
 
 
     public:
-    							FitOneParameter(rr::RoadRunner* aRR = NULL);
-					   		   ~FitOneParameter();
+    							FullSpaceMinimization(rr::RoadRunner* aRR = NULL);
+					   		   ~FullSpaceMinimization();
 		bool					execute();
 
 };

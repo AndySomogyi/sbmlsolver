@@ -74,7 +74,7 @@ object rrSettingFrame: TrrSettingFrame
       Height = 237
       Align = alRight
       TabOrder = 0
-      object Button1: TButton
+      object simBtn: TButton
         Left = 16
         Top = 16
         Width = 75

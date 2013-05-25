@@ -49,7 +49,6 @@ bool AddNoise::execute()
 			data->Data[row*data->CSize + col + 1] = yData;
         }
     }
-
 	return true;
 }
 

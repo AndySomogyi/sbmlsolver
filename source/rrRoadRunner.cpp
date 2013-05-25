@@ -992,26 +992,19 @@ void RoadRunner::reset()
 
 DoubleMatrix RoadRunner::simulate()
 {
-    try
+    if (!mModel)
     {
-        if (!mModel)
-        {
-            throw Exception(gEmptyModelMessage);
-        }
+        throw Exception(gEmptyModelMessage);
+    }
 
-        if (mTimeEnd <= mTimeStart)
-        {
-            throw Exception("Error: time end must be greater than time start");
-        }
-        return runSimulation();
-    }
-    catch (const Exception& e)
+    if (mTimeEnd <= mTimeStart)
     {
-        throw CoreException("Unexpected error from simulate(): " + e.Message());
+        throw Exception("Error: time end must be greater than time start");
     }
+    return runSimulation();
 }
 
-bool RoadRunner::simulate2()
+bool RoadRunner::simulate2(const double& startTime, const double& endTime, const int& numberOfPoints)
 {
     if(!mModel)
     {
@@ -1019,7 +1012,7 @@ bool RoadRunner::simulate2()
         throw(Exception("There is no model loaded, can't simulate"));
     }
 
- 	mRawSimulationData = simulate();
+ 	mRawSimulationData = simulateEx(startTime, endTime, numberOfPoints);
 
     //Populate simulation result
     populateResult();
@@ -1028,8 +1021,8 @@ bool RoadRunner::simulate2()
 
 bool RoadRunner::populateResult()
 {
-    NewArrayList l 	= getAvailableTimeCourseSymbols();
     StringList list = getTimeCourseSelectionList();
+
     mSimulationData.setColumnNames(list);
     mSimulationData.setData(mRawSimulationData);
     return true;

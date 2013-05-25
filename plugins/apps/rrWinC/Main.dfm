@@ -108,7 +108,7 @@ object MainF: TMainF
       Top = 30
       Width = 289
       Height = 287
-      ActivePage = TabSheet5
+      ActivePage = TabSheet4
       Align = alLeft
       TabOrder = 3
       object TabSheet3: TTabSheet
@@ -197,6 +197,24 @@ object MainF: TMainF
       object TabSheet4: TTabSheet
         Caption = 'Fitting'
         ImageIndex = 1
+        object PageControl3: TPageControl
+          Left = 0
+          Top = 0
+          Width = 281
+          Height = 259
+          ActivePage = TabSheet2
+          Align = alClient
+          TabOrder = 0
+          ExplicitLeft = 40
+          ExplicitTop = 48
+          ExplicitWidth = 289
+          ExplicitHeight = 193
+          object TabSheet2: TTabSheet
+            Caption = 'Full Space'
+            ExplicitWidth = 281
+            ExplicitHeight = 165
+          end
+        end
       end
       object TabSheet5: TTabSheet
         Caption = 'Make Noise'
@@ -210,7 +228,7 @@ object MainF: TMainF
           EditLabel.Height = 13
           EditLabel.Caption = 'Sigma'
           TabOrder = 0
-          Text = '0.00'
+          Text = '1e-6'
           OnKeyDown = noiseSigmaEKeyDown
         end
         object Button6: TButton
@@ -307,7 +325,7 @@ object MainF: TMainF
           TabOrder = 0
         end
       end
-      inline TrrSettingFrame1: TrrSettingFrame
+      inline simFrame: TrrSettingFrame
         Left = 1
         Top = 148
         Width = 206
@@ -325,6 +343,9 @@ object MainF: TMainF
         inherited GroupBox1: TGroupBox
           Width = 206
           ExplicitWidth = 206
+          inherited mNrOfSimulationPointsE: mtkIntLabeledEdit
+            Text = '500'
+          end
           inherited mEndTimeE: mtkFloatLabeledEdit
             Text = '5'
           end
@@ -339,8 +360,8 @@ object MainF: TMainF
             Height = 168
             ExplicitLeft = 87
             ExplicitHeight = 168
-            inherited Button1: TButton
-              OnClick = nil
+            inherited simBtn: TButton
+              OnClick = simFramesimBtnClick
             end
           end
           inherited SelList: TCheckListBox
@@ -362,7 +383,7 @@ object MainF: TMainF
     Align = alClient
     TabOrder = 2
     object TabSheet1: TTabSheet
-      Caption = 'TabSheet1'
+      Caption = 'RR Data'
       object Chart1: TChart
         Left = 0
         Top = 29
@@ -380,7 +401,6 @@ object MainF: TMainF
         Align = alClient
         Color = clGray
         TabOrder = 0
-        ExplicitTop = 28
         ColorPaletteIndex = 13
         object Series1: TLineSeries
           Marks.Arrow.Visible = True
@@ -416,21 +436,17 @@ object MainF: TMainF
         end
       end
     end
-    object TabSheet2: TTabSheet
-      Caption = 'TabSheet2'
-      ImageIndex = 1
-    end
   end
   object startupTimer: TTimer
     Enabled = False
     Interval = 100
     OnTimer = startupTimerTimer
-    Left = 656
-    Top = 24
+    Left = 152
+    Top = 608
   end
   object ActionList1: TActionList
-    Left = 552
-    Top = 176
+    Left = 408
+    Top = 456
     object loadPluginsA: TAction
       Caption = 'Load'
       OnExecute = loadPluginsAExecute
@@ -471,8 +487,12 @@ object MainF: TMainF
       OnUpdate = loadModelAUpdate
     end
     object PlotA: TAction
-      Caption = 'PlotA'
+      Caption = 'Plot'
       OnExecute = PlotAExecute
+    end
+    object executeNoisePluginA: TAction
+      Category = 'PluginActions'
+      Caption = 'Execute'
     end
   end
   object ApplicationEvents1: TApplicationEvents

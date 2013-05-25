@@ -290,8 +290,8 @@ RRParameter* createParameter(const rr::BaseParameter& para)
     	Parameter<double> *thePara = dynamic_cast< Parameter<double>* >(const_cast< BaseParameter* >(&para));
 
 	    RRParameter* aPara 	= new RRParameter;
-        aPara->ParaType 	= ptInteger;
-        aPara->data.iValue 	= thePara->getValue();
+		aPara->ParaType 	= ptDouble;
+		aPara->data.dValue	= thePara->getValue();
         aPara->mName		= createText(thePara->getName());
         aPara->mHint		= createText(thePara->getHint());
         return aPara;

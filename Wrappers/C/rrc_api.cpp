@@ -952,7 +952,7 @@ RRResultHandle rrCallConv simulate(RRHandle handle)
     {
         RoadRunner* rri = castFrom(handle);
 
-        if(!rri->simulate2())
+        if(!rri->simulate2(rri->getTimeStart(), rri->getTimeEnd(), rri->getNumPoints()))
         {
             return NULL;
         }
@@ -986,8 +986,6 @@ RRResultHandle rrCallConv getSimulationResult(RRHandle handle)
         for(int i = 0; i < result.cSize(); i++)
         {
             aResult->ColumnHeaders[i] = createText(result.getColumnNames()[i]);
-            //new char(32);
-            //strcpy(aResult->ColumnHeaders[i], result.GetColumnNames()[i].c_str());
         }
 
         aResult->RSize = result.rSize();
@@ -2961,6 +2959,15 @@ bool rrCallConv freeResult(RRResultHandle handle)
 {
 	try
     {
+    	delete [] handle->Data;
+
+        for(int i = 0; i < handle->CSize; i++)
+        {
+        	freeText(handle->ColumnHeaders[i]);
+        }
+
+        delete [] handle->ColumnHeaders;
+
         delete handle;
         return true;
     }
@@ -3295,6 +3302,7 @@ void rrCallConv freeRRList (RRListHandle theList)
         {
               delete [] theList->Items[i]->data.sValue;
         }
+
         if(theList->Items[i]->ItemType == litList)
         {
             freeRRList ((RRList *) theList->Items[i]->data.lValue);
@@ -3303,7 +3311,6 @@ void rrCallConv freeRRList (RRListHandle theList)
     }
 	delete [] theList->Items;
     delete theList;
-    theList = NULL;
 }
 
 RRListItemHandle rrCallConv createIntegerItem (int value)

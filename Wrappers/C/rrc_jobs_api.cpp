@@ -241,7 +241,7 @@ RRJobHandle rrCallConv simulateJob(RRHandle rrHandle)
 	try
     {
         RoadRunner *rr = castFrom(rrHandle);
-        SimulateThread *t = new SimulateThread();
+        SimulateThread *t = new SimulateThread(NULL, false);
 
         if(!t)
         {
@@ -260,6 +260,35 @@ RRJobHandle rrCallConv simulateJob(RRHandle rrHandle)
     }
 }
 
+RRJobHandle rrCallConv simulateJobEx(	RRHandle rrHandle,
+										double timeStart,
+                                        double timeEnd,
+                                        int numberOfPoints,
+                                        jobStartedCB f1,
+                                        jobFinishedCB f2,
+                                        void* userData)
+{
+	try
+    {
+        RoadRunner *rr = castFrom(rrHandle);
+        SimulateThread *t = new SimulateThread(NULL, timeStart, timeEnd, numberOfPoints, f1, f2, userData, false);
+
+        if(!t)
+        {
+            setError("Failed to create a Simulate Thread Pool");
+        }
+        t->addJob(rr);
+        t->start();
+        return t;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return NULL;
+    }
+}
 RRJobHandle rrCallConv simulateJobs(RRInstanceListHandle _handles, int nrOfThreads)
 {
 	try

@@ -33,6 +33,8 @@ using std::vector;
 //---------------------------------------------------------------------------
 using namespace rrc;;
 
+typedef void __fastcall (__closure *TOnSimulationFinished)();
+
 class TMainF : public TForm
 {
 __published:	// IDE-managed Components
@@ -79,11 +81,10 @@ __published:	// IDE-managed Components
 	TAction *loadModelA;
 	TTimer *loadModelJobTimer;
 	TAction *unLoadModelA;
-	TrrSettingFrame *TrrSettingFrame1;
+	TrrSettingFrame *simFrame;
 	TChart *Chart1;
 	TPageControl *PageControl1;
 	TTabSheet *TabSheet1;
-	TTabSheet *TabSheet2;
 	TToolBar *ToolBar2;
 	TAction *PlotA;
 	TButton *Button5;
@@ -94,6 +95,9 @@ __published:	// IDE-managed Components
 	mtkFloatLabeledEdit *noiseSigmaE;
 	TButton *Button6;
 	TLineSeries *Series1;
+	TAction *executeNoisePluginA;
+	TPageControl *PageControl3;
+	TTabSheet *TabSheet2;
 	void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall startupTimerTimer(TObject *Sender);
 	void __fastcall loadPluginsAExecute(TObject *Sender);
@@ -112,6 +116,7 @@ __published:	// IDE-managed Components
 	void __fastcall PlotAExecute(TObject *Sender);
 	void __fastcall noiseSigmaEKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall Button6Click(TObject *Sender);
+	void __fastcall simFramesimBtnClick(TObject *Sender);
 
 
 private:	// User declarations
@@ -119,6 +124,7 @@ private:	// User declarations
     RRResult* 							mData;
     RRJobHandle	                        mLoadModelJob;
     RRJobHandle	                        mSimulateModelJob;
+	TOnSimulationFinished				OnSimulationFinsihed;
     string 		                        mModel;
     bool								mUIIsStartingUp;
 	string 		                        getCurrentPluginName();
@@ -126,9 +132,13 @@ private:	// User declarations
 	void 								Plot(const rr::SimulationData& result);
 	void 								Plot1D();
 	void								UpdateNoisePanel();
+    void								configurePlugin(const string& pluginName);
+
 
 public:		// User declarations
-	__fastcall 							TMainF(TComponent* Owner);
+			__fastcall 					TMainF(TComponent* Owner);
+	void 	__fastcall 					onSimulationStarted();
+	void 	__fastcall 					onSimulationFinished();
 
 };
 

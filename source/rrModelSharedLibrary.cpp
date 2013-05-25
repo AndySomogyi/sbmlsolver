@@ -5,11 +5,12 @@
 #include "rrLogger.h"
 #include "rrUtils.h"
 //---------------------------------------------------------------------------
-using Poco::UUID;
-using Poco::UUIDGenerator;
+
 
 namespace rr
 {
+using Poco::UUID;
+using Poco::UUIDGenerator;
 
 ModelSharedLibrary::ModelSharedLibrary(const string& pathTo)
 {

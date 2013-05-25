@@ -21,7 +21,7 @@
         <Projects Include="..\Wrappers\C\rrc_api.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="apps\test_pluginsUI\PluginApp.cbproj">
+        <Projects Include="apps\test_pluginsUI\rrWinC.cbproj">
             <Dependencies>fit_one_parameter\fit_one_parameter.cbproj;add_noise\add_noise.cbproj;..\source\roadrunner.cbproj;..\Wrappers\C\rrc_api.cbproj</Dependencies>
         </Projects>
     </ItemGroup>
@@ -86,23 +86,23 @@
     <Target Name="rrc_api:Make">
         <MSBuild Projects="..\Wrappers\C\rrc_api.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="PluginApp" DependsOnTargets="fit_one_parameter;add_noise;roadrunner;rrc_api">
-        <MSBuild Projects="apps\test_pluginsUI\PluginApp.cbproj"/>
+    <Target Name="rrWinC" DependsOnTargets="fit_one_parameter;add_noise;roadrunner;rrc_api">
+        <MSBuild Projects="apps\test_pluginsUI\rrWinC.cbproj"/>
     </Target>
-    <Target Name="PluginApp:Clean" DependsOnTargets="fit_one_parameter:Clean;add_noise:Clean;roadrunner:Clean;rrc_api:Clean">
-        <MSBuild Projects="apps\test_pluginsUI\PluginApp.cbproj" Targets="Clean"/>
+    <Target Name="rrWinC:Clean" DependsOnTargets="fit_one_parameter:Clean;add_noise:Clean;roadrunner:Clean;rrc_api:Clean">
+        <MSBuild Projects="apps\test_pluginsUI\rrWinC.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="PluginApp:Make" DependsOnTargets="fit_one_parameter:Make;add_noise:Make;roadrunner:Make;rrc_api:Make">
-        <MSBuild Projects="apps\test_pluginsUI\PluginApp.cbproj" Targets="Make"/>
+    <Target Name="rrWinC:Make" DependsOnTargets="fit_one_parameter:Make;add_noise:Make;roadrunner:Make;rrc_api:Make">
+        <MSBuild Projects="apps\test_pluginsUI\rrWinC.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="roadrunner;plugin_checker;TestPlugin;add_noise;fit_one_parameter;rrc_api;PluginApp"/>
+        <CallTarget Targets="roadrunner;plugin_checker;TestPlugin;add_noise;fit_one_parameter;rrc_api;rrWinC"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="roadrunner:Clean;plugin_checker:Clean;TestPlugin:Clean;add_noise:Clean;fit_one_parameter:Clean;rrc_api:Clean;PluginApp:Clean"/>
+        <CallTarget Targets="roadrunner:Clean;plugin_checker:Clean;TestPlugin:Clean;add_noise:Clean;fit_one_parameter:Clean;rrc_api:Clean;rrWinC:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="roadrunner:Make;plugin_checker:Make;TestPlugin:Make;add_noise:Make;fit_one_parameter:Make;rrc_api:Make;PluginApp:Make"/>
+        <CallTarget Targets="roadrunner:Make;plugin_checker:Make;TestPlugin:Make;add_noise:Make;fit_one_parameter:Make;rrc_api:Make;rrWinC:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

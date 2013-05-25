@@ -23,17 +23,12 @@ class AddNoise : public Plugin
     	Capability				mAddGaussianNoise;
         Parameter<double>		mSigma;
         Parameter<RRResult*>  	mData;
+
     public:
-    							AddNoise(rr::RoadRunner* aRR = NULL);
+    							AddNoise(RoadRunner* aRR = NULL);
 					   		   ~AddNoise();
 		bool					execute();
-
 };
-
-
-
-
-
 
 extern "C"
 {

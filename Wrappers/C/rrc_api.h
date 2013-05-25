@@ -581,13 +581,11 @@ C_DECL_SPEC RRResultHandle rrCallConv getSimulationResult(RRHandle handle);
 
  Example:
  \code
-    double timeStart, timeEnd;
-	int numberOfPoints;
 	RRResultHandle m;
 
-	timeStart = 0.0;
-	timeEnd = 25;
-	numberOfPoints = 200;
+	double timeStart = 0.0;
+	double timeEnd = 25;
+	int numberOfPoints = 200;
 
     m = simulateEx (rrHandle, timeStart, timeEnd, numberOfPoints);
     \endcode

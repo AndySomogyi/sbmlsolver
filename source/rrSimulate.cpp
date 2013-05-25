@@ -13,7 +13,7 @@ ThreadPool()
     //create nrThreads that can load SBML models
     for(int i = 0; i < nrThreads; i++)
     {
-        SimulateThread* sThread = new SimulateThread();
+        SimulateThread* sThread = new SimulateThread(NULL, false);
         mThreads.push_back(sThread);
     }
 

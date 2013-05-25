@@ -11,7 +11,14 @@ extern "C"
 {
 #endif
 
+typedef void    (*jobStartedCB)(void*);
+typedef void    (*jobFinishedCB)(void*);
+
 C_DECL_SPEC RRJobHandle rrCallConv simulateJob(RRHandle rrHandle);
+
+C_DECL_SPEC RRJobHandle rrCallConv simulateJobEx(RRHandle rrHandle, double timeStart, double timeEnd, int numberOfPoints, jobStartedCB fnc, jobFinishedCB, void* userData);
+
+
 C_DECL_SPEC RRJobsHandle rrCallConv simulateJobs(RRInstanceListHandle rrHandles, int nrOfThreads);
 
 
@@ -35,15 +42,6 @@ C_DECL_SPEC RRJobHandle rrCallConv loadSBMLFromFileJob(RRHandle rrHandle, const 
 */
 
 C_DECL_SPEC RRJobHandle rrCallConv loadSBMLFromFileJobEx(RRHandle rrHandle, const char* fileName, bool reCompile);
-
-/*!
- \brief Free a job handle
- \param[in] RRJobHandle
- \return Returns true or false indicating if the function was succesful
- \ingroup multiThreading
-*/
-
-C_DECL_SPEC bool rrCallConv freeJob(RRJobHandle jobHandle);
 
 /*!
  \brief Load a model from a SBML file into a set of RoadRunner instances
@@ -93,6 +91,16 @@ C_DECL_SPEC bool rrCallConv areJobsFinished(RRJobsHandle handle);
  \ingroup multiThreading
 */
 C_DECL_SPEC int rrCallConv getNumberOfRemainingJobs(RRJobsHandle handle);
+
+
+/*!
+ \brief Free a job handle
+ \param[in] RRJobHandle
+ \return Returns true or false indicating if the function was succesful
+ \ingroup multiThreading
+*/
+
+C_DECL_SPEC bool rrCallConv freeJob(RRJobHandle jobHandle);
 
 
 #if defined(__cplusplus)

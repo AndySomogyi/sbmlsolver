@@ -1,15 +1,15 @@
 #pragma hdrstop
-#include "fit_one_parameter.h"
+#include "full_space_minimization.h"
 #include "rrRoadRunner.h"
 
 //---------------------------------------------------------------------------
-namespace fitOne
+namespace fullSpaceFit
 {
 using namespace rr;
 
-FitOneParameter::FitOneParameter(rr::RoadRunner* aRR)
+FullSpaceMinimization::FullSpaceMinimization(rr::RoadRunner* aRR)
 :
-Plugin(				    "FitOneParameter", 			"No Category", 		aRR),
+Plugin(				    "FullSpaceMinimization", 			"No Category", 		aRR),
 mOneParameterFit(	    "OneParameterFit", 			"Run", 				"Runs a one parameter fit"),
 mDataToFitFileName(	    "Input Data File Name",   	"<none>",    		"File name for data to fit"),
 mParameterToFit(	    "Parameter to fit", 		"k",   				"Parameter to Fit"),
@@ -27,12 +27,12 @@ mData(					"Some Data", 				NULL,				"Result..")
     mCapabilities.push_back(mOneParameterFitResult);
 }
 
-FitOneParameter::~FitOneParameter()
+FullSpaceMinimization::~FullSpaceMinimization()
 {}
 
-bool FitOneParameter::execute()
+bool FullSpaceMinimization::execute()
 {
-	pLog()<<"Executing the FitOneParameter plugin";
+	pLog()<<"Executing the FullSpaceMinimization plugin";
     //Create a fitting thread, start it and then return..
 	mRR->loadSBMLFromFile("r:\\models\\feedback.xml");
     for(int i = 0; i < mMaxNrOfIterations.getValue(); i++)
@@ -47,7 +47,7 @@ bool FitOneParameter::execute()
 rr::Plugin* __stdcall createPlugin(rr::RoadRunner* aRR)
 {
     //allocate a new object and return it
-	return new FitOneParameter(aRR);
+	return new FullSpaceMinimization(aRR);
 }
 
 }
