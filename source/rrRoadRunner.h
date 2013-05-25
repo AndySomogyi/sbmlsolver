@@ -137,8 +137,10 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
 		//Simulation stuff
 		DoubleMatrix                    simulate();
-		bool                            simulate2(const double& startTime = 0, const double& endTime = 5, const int& numberOfPoints = 50);
+		bool                            simulate2();
 		DoubleMatrix                    simulateEx(const double& startTime, const double& endTime, const int& numberOfPoints);
+		bool                            simulate2Ex(const double& startTime = 0, const double& endTime = 5, const int& numberOfPoints = 50);
+
 		void                            partOfSimulation(SBMLModelSimulation* simulation){mSimulation = simulation;}
 		SimulationData                  getSimulationResult();
         bool							loadSimulationSettings(const string& fName);

@@ -213,6 +213,9 @@
         <CppCompile Include="..\..\source\rrLoadModel.cpp">
             <BuildOrder>76</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\rrLoadModelFromFile.cpp">
+            <BuildOrder>79</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrLoadModelThread.cpp">
             <DependentOn>..\..\source\rrLoadModelThread.h</DependentOn>
             <BuildOrder>75</BuildOrder>
@@ -276,6 +279,9 @@
         <CppCompile Include="..\..\source\rrNLEQInterface.cpp">
             <DependentOn>..\..\source\rrNLEQInterface.h</DependentOn>
             <BuildOrder>34</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrNoise.cpp">
+            <BuildOrder>80</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrNOMSupport.cpp">
             <DependentOn>..\..\source\rrNOMSupport.h</DependentOn>

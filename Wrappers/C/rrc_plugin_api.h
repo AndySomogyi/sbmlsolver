@@ -11,6 +11,8 @@ extern "C"
 {
 #endif
 
+typedef void (rrcCallConv *pluginCallback)(void*);
+
 /*!
  \brief load plugins
 
@@ -18,7 +20,7 @@ extern "C"
  \ingroup pluginRoutines
 */
 
-C_DECL_SPEC bool rrCallConv loadPlugins(RRHandle handle);
+C_DECL_SPEC bool rrcCallConv loadPlugins(RRHandle handle);
 
 /*!
  \brief unload plugins
@@ -27,7 +29,7 @@ C_DECL_SPEC bool rrCallConv loadPlugins(RRHandle handle);
  \ingroup pluginRoutines
 */
 
-C_DECL_SPEC bool rrCallConv unLoadPlugins(RRHandle handle);
+C_DECL_SPEC bool rrcCallConv unLoadPlugins(RRHandle handle);
 
 /*!
  \brief Get Number of loaded plugins
@@ -36,64 +38,107 @@ C_DECL_SPEC bool rrCallConv unLoadPlugins(RRHandle handle);
  \ingroup pluginRoutines
 */
 
-C_DECL_SPEC int rrCallConv getNumberOfPlugins(RRHandle handle);
+C_DECL_SPEC int rrcCallConv getNumberOfPlugins(RRHandle handle);
 
 /*!
  \brief GetPluginNames
  \return Returns names for loaded plugins, NULL otherwise
  \ingroup pluginRoutines
 */
-C_DECL_SPEC struct RRStringArray* rrCallConv getPluginNames(RRHandle handle);
+C_DECL_SPEC struct RRStringArray* rrcCallConv getPluginNames(RRHandle handle);
+
+/*!
+ \brief GetPluginHandle
+ \return Returns a handle to a plugin, with namem name. Returns NULL if plugin is not found
+ \ingroup pluginRoutines
+*/
+C_DECL_SPEC RRPluginHandle rrcCallConv getPlugin(RRHandle handle, const char* pluginName);
 
 /*!
  \brief GetPluginCapabilities
  \return Returns available capabilities for a particular plugin, NULL otherwise
  \ingroup pluginRoutines
 */
-C_DECL_SPEC struct RRStringArray* rrCallConv getPluginCapabilities(RRHandle handle, const char* pluginName);
+C_DECL_SPEC struct RRStringArray* rrcCallConv getPluginCapabilities(RRPluginHandle handle);
 
 /*!
  \brief GetPluginParameters
  \return Returns available parameters for a particular plugin, NULL otherwise
  \ingroup pluginRoutines
 */
-C_DECL_SPEC struct RRStringArray* rrCallConv getPluginParameters(RRHandle handle, const char* pluginName, const char* capability);
+C_DECL_SPEC struct RRStringArray* rrcCallConv getPluginParameters(RRPluginHandle handle, const char* capability);
 
 /*!
  \brief GetPluginParameter
  \return Returns a pointer to a parameter for a particular plugin. Returns NULL if absent parameter
  \ingroup pluginRoutines
 */
-C_DECL_SPEC RRParameterHandle rrCallConv getPluginParameter(RRHandle handle, const char* pluginName, const char* parameterName, const char* capabilitiesName = NULL);
+C_DECL_SPEC RRParameterHandle rrcCallConv getPluginParameter(RRPluginHandle handle, const char* parameterName, const char* capabilitiesName);
 
 /*!
  \brief SetPluginParameter
  \return true if succesful, false otherwise
  \ingroup pluginRoutines
 */
-C_DECL_SPEC bool rrCallConv setPluginParameter(RRHandle handle, const char* pluginName, const char* parameterName, const char* value);
+C_DECL_SPEC bool rrcCallConv setPluginParameter(RRPluginHandle handle, const char* parameterName, const char* value);
 
 /*!
- \brief GetPluginInfo (PluginName)
- \param[in] string name of queried plugin
+ \brief GetPluginInfo
+ \param[in] RRPluginHandle handle to plugin
  \return Returns info, as a string, for the plugin, NULL otherwise
  \ingroup pluginRoutines
 */
-C_DECL_SPEC char* rrCallConv getPluginInfo(RRHandle handle, const char* name);
+C_DECL_SPEC char* rrcCallConv getPluginInfo(RRPluginHandle handle);
 
 /*!
  \brief executePlugin (PluginName)
- \param[in] string name of plugin to execute
+ \param[in] RRPluginHandle handle to plugin
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
 */
+C_DECL_SPEC bool rrcCallConv executePlugin(RRPluginHandle handle);
 
-C_DECL_SPEC bool rrCallConv executePlugin(RRHandle handle, const char* name);
+/*!
+ \brief executePlugin (PluginName)
+ \param[in] RRPluginHandle handle to plugin
+ \param[in] void*  pointer to user data. Plugin dependent.
+ \return Returns true or false indicating success/failure
+ \ingroup pluginRoutines
+*/
+C_DECL_SPEC bool rrcCallConv executePluginEx(RRPluginHandle handle, void* userData);
+
+/*!
+ \brief assignCallbacks
+ \param[in] RRPluginHandle handle to plugin
+ \param[in] void*  pointer to user data. Plugin dependent.
+ \return Returns true or false indicating success/failure
+ \ingroup pluginRoutines
+*/
+C_DECL_SPEC bool rrcCallConv assignCallbacks(RRPluginHandle handle, pluginCallback cb1, pluginCallback cb2, void* userData);
 
 
 #if defined(__cplusplus)
 }	//Extern "C"
-}	//namespace
+
+}	//rrc namespace
 #endif
+
+
+
+
+//#if defined(__cplusplus)
+//#include "rrParameter.h"
+//namespace rr
+//{
+//using namespace rrc;
+//template<>
+//std::string Parameter< RRDataHandle >::getType() const
+//{
+//    return "RRDataHandle";
+//}
+//}
+//#endif
+
+
 
 #endif

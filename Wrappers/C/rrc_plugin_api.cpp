@@ -1,6 +1,4 @@
-
 #pragma hdrstop
-//---------------------------------------------------------------------------
 #include <sstream>
 #include "rrParameter.h"
 #include "rrRoadRunner.h"
@@ -13,20 +11,12 @@
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrStringUtils.h"
-
-
-using namespace rrc;
-using namespace rr;
-using rr::Exception;
-rr::RoadRunner*     gRRHandle;
+//---------------------------------------------------------------------------
 
 namespace rrc
 {
 using namespace std;
 using namespace rr;
-using namespace rrc;
-
-
 
 //PLUGIN Functions
 bool rrCallConv loadPlugins(RRHandle handle)
@@ -36,13 +26,7 @@ bool rrCallConv loadPlugins(RRHandle handle)
         RoadRunner* rri = castFrom(handle);
     	return rri->getPluginManager().load();
     }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return false;
-    }
+    catch_bool_macro
 }
 
 bool rrCallConv unLoadPlugins(RRHandle handle)
@@ -52,13 +36,7 @@ bool rrCallConv unLoadPlugins(RRHandle handle)
         RoadRunner* rri = castFrom(handle);
     	return rri->getPluginManager().unload();
     }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return false;
-    }
+    catch_bool_macro
 }
 
 int rrCallConv getNumberOfPlugins(RRHandle handle)
@@ -68,13 +46,18 @@ int rrCallConv getNumberOfPlugins(RRHandle handle)
         RoadRunner* rri = castFrom(handle);
     	return rri->getPluginManager().getNumberOfPlugins();
     }
-    catch(Exception& ex)
+    catch_int_macro
+}
+
+RRPluginHandle rrcCallConv getPlugin(RRHandle handle, const char* pluginName)
+{
+	try
     {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return -1;
+        RoadRunner* rr = castFrom(handle);
+        Plugin* aPlugin = rr->getPluginManager().getPlugin(pluginName);
+        return aPlugin;
     }
+    catch_ptr_macro
 }
 
 RRStringArray* rrCallConv getPluginNames(RRHandle handle)
@@ -85,21 +68,14 @@ RRStringArray* rrCallConv getPluginNames(RRHandle handle)
         StringList names = rri->getPluginManager().getPluginNames();
         return createList(names);
     }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
+    catch_ptr_macro
 }
 
-RRStringArray* rrCallConv getPluginCapabilities(RRHandle handle, const char* pluginName)
+RRStringArray* rrCallConv getPluginCapabilities(RRPluginHandle handle)
 {
 	try
     {
-        RoadRunner* rri = castFrom(handle);
-        Plugin* aPlugin = rri->getPluginManager().getPlugin(pluginName);
+        Plugin* aPlugin = castToPlugin(handle);
         if(aPlugin)
         {
         	StringList aList;
@@ -120,21 +96,14 @@ RRStringArray* rrCallConv getPluginCapabilities(RRHandle handle, const char* plu
 	        return NULL;
         }
     }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
+	catch_ptr_macro
 }
 
-RRStringArray* rrCallConv getPluginParameters(RRHandle handle, const char* pluginName, const char* capability)
+RRStringArray* rrCallConv getPluginParameters(RRPluginHandle handle, const char* capability)
 {
 	try
     {
-        RoadRunner* rri = castFrom(handle);
-        Plugin* aPlugin = rri->getPluginManager().getPlugin(pluginName);
+        Plugin* aPlugin = castToPlugin(handle);
         if(aPlugin)
         {
         	StringList aList;
@@ -155,21 +124,14 @@ RRStringArray* rrCallConv getPluginParameters(RRHandle handle, const char* plugi
 	        return NULL;
         }
     }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
+	catch_ptr_macro
 }
 
-RRParameter* rrCallConv getPluginParameter(RRHandle handle, const char* pluginName, const char* parameterName, const char* capabilitiesName)
+RRParameter* rrCallConv getPluginParameter(RRPluginHandle handle, const char* parameterName, const char* capabilitiesName)
 {
 	try
     {
-        RoadRunner* rri = castFrom(handle);
-        Plugin* aPlugin = rri->getPluginManager().getPlugin(pluginName);
+        Plugin* aPlugin = castToPlugin(handle);
         rr::BaseParameter *para = NULL;
         if(aPlugin)
         {
@@ -190,83 +152,54 @@ RRParameter* rrCallConv getPluginParameter(RRHandle handle, const char* pluginNa
         return NULL;
 
     }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
+	catch_ptr_macro
 }
 
-bool rrCallConv setPluginParameter(RRHandle handle, const char* pluginName, const char* parameterName, const char* value)
+bool rrCallConv setPluginParameter(RRPluginHandle handle, const char* parameterName, const char* value)
 {
 	try
     {
-        RoadRunner* rri = castFrom(handle);
-        Plugin* aPlugin = rri->getPluginManager().getPlugin(pluginName);
-        if(aPlugin)
-        {
-            return aPlugin->setParameter(parameterName, value);
-        }
-		return false;
-
+        Plugin* aPlugin = castToPlugin(handle);
+        return aPlugin->setParameter(parameterName, value);
     }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
+	catch_bool_macro
 }
 
-char* rrCallConv getPluginInfo(RRHandle handle, const char* name)
+char* rrCallConv getPluginInfo(RRPluginHandle handle)
 {
 	try
     {
-        RoadRunner* rri = castFrom(handle);
-        Plugin* aPlugin = rri->getPluginManager().getPlugin(name);
-        if(aPlugin)
-        {
-        	return createText(aPlugin->getInfo());
-        }
-        else
-        {
-	        return createText("No such plugin: " + string(name));
-        }
+        Plugin* aPlugin = castToPlugin(handle);
+       	return createText(aPlugin->getInfo());
     }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
+    catch_ptr_macro
 }
 
-bool rrCallConv executePlugin(RRHandle handle, const char* name)
+bool rrCallConv executePlugin(RRPluginHandle handle)
+{
+	return executePluginEx(handle, NULL);
+}
+
+bool rrCallConv executePluginEx(RRPluginHandle handle, void* userData)
 {
 	try
     {
-        RoadRunner* rri = castFrom(handle);
-        Plugin* aPlugin = rri->getPluginManager().getPlugin(name);
-        if(aPlugin)
-        {
-        	return aPlugin->execute();
-        }
-        else
-        {
-			return false;
-        }
+
+        Plugin* aPlugin = castToPlugin(handle);
+        return (aPlugin) ? aPlugin->execute(userData) : false;
     }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
+    catch_bool_macro
 }
+
+bool rrCallConv assignCallbacks(RRPluginHandle handle, pluginCallback cb1, pluginCallback cb2, void* userData)
+{
+	try
+    {
+        Plugin* aPlugin = castToPlugin(handle);
+        return (aPlugin) ? aPlugin->assignCallbacks(cb1, cb2, userData) : false;
+    }
+    catch_bool_macro
+}
+
 
 }

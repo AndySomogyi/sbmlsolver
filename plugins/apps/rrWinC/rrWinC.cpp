@@ -1,13 +1,10 @@
-//---------------------------------------------------------------------------
 #include <vcl.h>
 #pragma hdrstop
 
-#pragma comment(lib, "rrc_api.lib")
-#pragma comment(lib, "roadrunner.lib")
-
+USEFORM("..\..\..\vcl_source\TSimulationFrame.cpp", SimulateFrame); /* TFrame: File Type */
+USEFORM("..\..\..\vcl_source\TFullSpaceFittingFrame.cpp", FullSpaceFittingFrame);
+USEFORM("MainForm.cpp", MainF);
 //---------------------------------------------------------------------------
-USEFORM("..\..\..\vcl_source\rrSimulationFrame.cpp", rrSettingFrame); /* TFrame: File Type */
-USEFORM("Main.cpp", MainF);
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	try
@@ -35,3 +32,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	return 0;
 }
 //---------------------------------------------------------------------------
+#if defined(STATIC_RR)
+//	#pragma comment(lib, "rrc_api-static.lib")
+//	#pragma comment(lib, "roadrunner-static.lib")
+#else
+	#pragma comment(lib, "rrc_api.lib")
+	#pragma comment(lib, "roadrunner.lib")
+#endif
+
+#pragma comment(lib, "poco_foundation-static.lib")
+
+

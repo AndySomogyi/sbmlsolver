@@ -38,7 +38,7 @@ class RR_DECLSPEC SimulationData : public rrObject
         void                    setTimeDataPrecision(const int& prec);
         void                    setDataPrecision(const int& prec);
 
-        void                    setNrOfCols(const int& cols);
+		void					reSize(int rows, int cols);
         int						rSize() const;
         int						cSize() const;
         void                    setData(const DoubleMatrix& theData);

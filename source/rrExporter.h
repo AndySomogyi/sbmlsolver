@@ -15,6 +15,13 @@
     #define RR_DECLSPEC
 #endif
 
-#include "rrOSSpecifics.h"
+//#include "rrOSSpecifics.h"
+
+#if defined(_MSC_VER) || defined(__CODEGEARC__)
+	#define rrCallConv __stdcall
+#else
+	#define rrCallConv
+#endif
+
 
 #endif

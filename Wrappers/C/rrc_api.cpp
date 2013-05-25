@@ -44,7 +44,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include "rrParameter.h"
+//#include "rrParameter.h"
 #include "rrRoadRunner.h"
 #include "rrRoadRunnerList.h"
 #include "rrCGenerator.h"
@@ -748,7 +748,7 @@ bool rrCallConv isModelLoaded(RRHandle handle)
       	RoadRunner* rri = castFrom(handle);
         return rri->isModelLoaded();
     }
-    CATCH_BOOL_MACRO
+    catch_bool_macro
 }
 
 bool rrCallConv unLoadModel(RRHandle handle)
@@ -946,13 +946,13 @@ RRStringArrayHandle rrCallConv getTimeCourseSelectionList(RRHandle handle)
 
 }
 
-RRResultHandle rrCallConv simulate(RRHandle handle)
+RRDataHandle rrCallConv simulate(RRHandle handle)
 {
 	try
     {
         RoadRunner* rri = castFrom(handle);
 
-        if(!rri->simulate2(rri->getTimeStart(), rri->getTimeEnd(), rri->getNumPoints()))
+        if(!rri->simulate2Ex(rri->getTimeStart(), rri->getTimeEnd(), rri->getNumPoints()))
         {
             return NULL;
         }
@@ -960,7 +960,7 @@ RRResultHandle rrCallConv simulate(RRHandle handle)
         SimulationData result = rri->getSimulationResult();
 
         //Extract the data and return struct..
-	    RRResult* aResult  = createRRResult(result);
+	    RRData* aResult  = createRRData(result);
 	    return aResult;
     }
     catch(Exception& ex)
@@ -972,7 +972,7 @@ RRResultHandle rrCallConv simulate(RRHandle handle)
     }
 }
 
-RRResultHandle rrCallConv getSimulationResult(RRHandle handle)
+RRDataHandle rrCallConv getSimulationResult(RRHandle handle)
 {
 	try
     {
@@ -981,7 +981,7 @@ RRResultHandle rrCallConv getSimulationResult(RRHandle handle)
         SimulationData result = rri->getSimulationResult();
 
         //Extract the data and return struct..
-        RRResult* aResult  = new RRResult;
+        RRData* aResult  = new RRData;
         aResult->ColumnHeaders = new char*[result.cSize()];
         for(int i = 0; i < result.cSize(); i++)
         {
@@ -1014,7 +1014,7 @@ RRResultHandle rrCallConv getSimulationResult(RRHandle handle)
 }
 
 
-RRResultHandle rrCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
+RRDataHandle rrCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
 {
 	try
     {
@@ -2799,7 +2799,7 @@ char* rrCallConv stringArrayToString (const RRStringArrayHandle list)
     }
 }
 
-char* rrCallConv resultToString(const RRResultHandle result)
+char* rrCallConv resultToString(const RRDataHandle result)
 {
 	try
     {
@@ -2808,7 +2808,7 @@ char* rrCallConv resultToString(const RRResultHandle result)
             return NULL;
         }
 		stringstream resStr;
-		//RRResult is a 2D matrix, and column headers (strings)
+		//RRData is a 2D matrix, and column headers (strings)
         //First header....
 	    for(int i = 0; i < result->CSize; i++)
         {
@@ -2955,7 +2955,7 @@ bool rrCallConv freeMatrix(RRMatrixHandle matrix)
     }
 }
 
-bool rrCallConv freeResult(RRResultHandle handle)
+bool rrCallConv freeResult(RRDataHandle handle)
 {
 	try
     {
@@ -3199,7 +3199,7 @@ bool rrCallConv setMatrixElement (RRMatrixHandle m, int r, int c, double value)
 	return true;
 }
 
-int rrCallConv  getResultNumRows (RRResultHandle result)
+int rrCallConv  getResultNumRows (RRDataHandle result)
 {
 	if (result == NULL)
     {
@@ -3209,7 +3209,7 @@ int rrCallConv  getResultNumRows (RRResultHandle result)
 	return result->RSize;
 }
 
-int  rrCallConv  getResultNumCols (RRResultHandle result)
+int  rrCallConv  getResultNumCols (RRDataHandle result)
 {
 	if (result == NULL)
     {
@@ -3219,7 +3219,7 @@ int  rrCallConv  getResultNumCols (RRResultHandle result)
 	return result->CSize;
 }
 
-bool  rrCallConv getResultElement(RRResultHandle result, int r, int c, double *value)
+bool  rrCallConv getResultElement(RRDataHandle result, int r, int c, double *value)
 {
 	if (result == NULL)
     {
@@ -3239,7 +3239,7 @@ bool  rrCallConv getResultElement(RRResultHandle result, int r, int c, double *v
 	return true;
 }
 
-char*  rrCallConv getResultColumnLabel (RRResultHandle result, int column)
+char*  rrCallConv getResultColumnLabel (RRDataHandle result, int column)
 {
 	if (result == NULL)
     {

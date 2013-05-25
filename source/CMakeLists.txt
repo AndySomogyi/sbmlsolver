@@ -84,6 +84,7 @@ rrBaseParameter
 rrRoadRunnerList
 rrThreadPool
 rrLoadModel
+rrLoadModelFromFile
 rrRoadRunnerThread
 rrLoadModelThread
 rrSimulate

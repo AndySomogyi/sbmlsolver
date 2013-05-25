@@ -65,8 +65,9 @@ RR_DECLSPEC string              ToString(const unsigned short n, const int nBase
 RR_DECLSPEC string              ToString(const short n, const int nBase=10);
 RR_DECLSPEC string              ToString(const char n);
 RR_DECLSPEC string              ToString(const unsigned char n);
-RR_DECLSPEC string              ToString(const string & s);
+RR_DECLSPEC string              ToString(const string& s);
 RR_DECLSPEC string              ToString(const char* str);
+RR_DECLSPEC string              ToString(const vector<string>& vec);
 
 RR_DECLSPEC string              Format(const string& src, const int& arg);
 RR_DECLSPEC string              Format(const string& str, const int& arg1);

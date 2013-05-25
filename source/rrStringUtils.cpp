@@ -795,12 +795,34 @@ string ToString(const unsigned char n)
 {
     char sBuffer[256];
     sprintf(sBuffer, "%c", n);
-       return string(sBuffer);
+    return string(sBuffer);
 }
+
+string ToString(const string& str)
+{
+	return str;
+}
+
+string ToString(const vector<string>& vec)
+{
+	stringstream text;
+    text<<"{";
+    for(int i = 0; i < vec.size(); i++)
+    {
+    	text<<vec[i];
+        if(i < vec.size() + 1)
+        {
+        	text<<", ";
+        }
+    }
+    text<<"}";
+    return text.str();
+}
+
 
 int CompareNoCase(const string& str1, const string& str2)
 {
-#if defined(WIN32)        
+#if defined(WIN32)
     int res = stricmp(str1.c_str(), str2.c_str());
 #else
     int res = strcasecmp(str1.c_str(), str2.c_str());

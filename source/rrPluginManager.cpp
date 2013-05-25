@@ -1,6 +1,7 @@
 //---------------------------------------------------------------------------
 #pragma hdrstop
 #include <sstream>
+#include "Poco/Glob.h"
 #include "Poco/SharedLibrary.h"
 #include "rrPluginManager.h"
 #include "rrPlugin.h"
@@ -8,12 +9,12 @@
 #include "rrException.h"
 #include "rrLogger.h"
 
-using std::stringstream;
-using std::pair;
-using Poco::SharedLibrary;
-
 namespace rr
 {
+
+using namespace std;
+using Poco::SharedLibrary;
+using Poco::Glob;
 
 bool destroyRRPlugin(Plugin *plugin);
 
@@ -22,6 +23,14 @@ PluginManager::PluginManager(const std::string& folder, const bool& autoLoad, Ro
 mPluginFolder(folder),
 mRR(aRR)
 {
+#if defined(WIN32)
+mPluginExtension = "dll";
+#elif defined(UNIX)
+mPluginExtension = "a";
+#else
+mPluginExtension = "b";
+#endif
+
     if(autoLoad)
     {
         load();
@@ -64,20 +73,39 @@ typedef bool    (*destroyRRPluginFunc)(Plugin* );
 
 bool PluginManager::load()
 {
-	bool result = false;
+	bool result = true;
     //Throw if plugin folder don't exist
     if(!FolderExists(mPluginFolder))
     {
-        throw Exception("Plugin folder do not exists");
+        Log(lError)<<"Plugin folder: "<<mPluginFolder<<" do not exist..";
+        return false;
     }
-    //Look for shared libraries in this folder
 
-//    for(int i = 0; i < nrOfLibs; i++)
+ 	//Get all plugins in plugin folder
+    std::set<std::string> files;
+    string globPath =  JoinPath(mPluginFolder, "*." + mPluginExtension);
+    Glob::glob(globPath, files);
+    std::set<std::string>::iterator it = files.begin();
+
+    for (; it != files.end(); ++it)
     {
-    	//Load and create the plugins
-	    result = loadPlugin("TestPlugin.dll");
-	    result = loadPlugin("fit_one_parameter.dll");
-	    result = loadPlugin("add_noise.dll");
+    	string plugin = ExtractFileName(*it);
+        Log(lInfo)<<"Loading plugin: "<<plugin;
+		try
+        {
+	    	bool res = loadPlugin(plugin);
+            if(!res)
+            {
+            	//Find out what was wrong..?
+				Log(lError)<<"There was a slight problem loading plugin: "<<plugin;
+            }
+        }
+        catch(...)
+        {
+			Log(lError)<<"There was a serious problem loading plugin: "<<plugin;
+            result = false;
+        }
+        //catch(poco exception....
     }
     return result;
 }
@@ -110,7 +138,6 @@ bool PluginManager::loadPlugin(const string& sharedLib)
         }
         return true;
     }
-
     catch(const Exception& e)
     {
     	stringstream msg;

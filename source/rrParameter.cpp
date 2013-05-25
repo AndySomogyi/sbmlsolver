@@ -9,16 +9,4 @@
 namespace rr
 {
 
-template<>
-string rr::Parameter<double>::getValueAsString() const
-{
-    return ToString(mValue, "%G");
-}
-
-template<>
-string rr::Parameter<int>::getValueAsString() const
-{
-    return ToString(mValue);
-}
-
 }

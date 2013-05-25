@@ -56,21 +56,27 @@ extern "C"
     #endif
 #endif
 
-/*!@brief Void pointer to RRHandle */
-typedef void* RRHandle; /*! Void pointer to RRHandle */
+/*!@brief Void pointer to a RoadRunner instance */
+typedef void* RRHandle; /*! Void pointer to a RoadRunner instance */
 
-/*!@brief Void pointer to T(hread) Handle */
-typedef void* RRJobHandle; /*! Void pointer to RRJobHandle */
+/*!@brief Void pointer to Job Instance */
+typedef void* RRJobHandle; /*! Void pointer to a JobInstance */
 
-/*!@brief Void pointer to T(hread)P(ool)Handle */
-typedef void* RRJobsHandle; /*! Void pointer to RRJobsHandle */
+/*!@brief Void pointer to Jobs Instances */
+typedef void* RRJobsHandle; /*! Void pointer to Jobs instance */
+
+/*!@brief Void pointer to a Plugin instance */
+typedef void* RRPluginHandle;
+
+/*!@brief Void pointer to a PluginParameter instance */
+typedef void* RRPluginParameterHandle;
 
 /*!@struct*/
 /*!@brief Structure for a set of RoadRunner handles */
 typedef struct RRInstanceList
 {
-    int             Count;  	/*!< The number of elements in the vector */
-    RRHandle*       Handle;   	/*!< Points to an array of double items */
+    int             Count;  				/*!< The number of elements in the vector */
+    RRHandle*       Handle;   				/*!< Points to an array of double items */
     void* 			RRList;
 } *RRInstanceListHandle;          			/*!< Pointer to RRVectorHandle struct */
 
@@ -102,13 +108,13 @@ typedef struct RRMatrix
 
 /*!@struct*/
 /*!@brief Structure for the result type from the simulate calls */
-typedef struct RRResult
+typedef struct RRData
 {
-    int             RSize;  			/*!< The number of rows in the result matrix */
-    int             CSize;  			/*!< The number of columns in the result matrix */
+    int             RSize;  			/*!< The number of rows in the data matrix */
+    int             CSize;  			/*!< The number of columns in the data matrix */
     double*         Data;   			/*!< A pointer to the data stored in the matrix. Access an element using Data[row*CSize + col] */
     char**          ColumnHeaders;   	/*!< Pointer to an array of column header strings */
-} *RRResultHandle;          			/*!< Pointer to RRResultHandle struct */
+} *RRDataHandle;          			/*!< Pointer to RRDataHandle struct */
 
 /*!@struct*/
 /*!@brief Convenient structure for storing the header and main body source for the generate simulation C code */
@@ -125,10 +131,9 @@ enum ListItemType {litString, litInteger, litDouble, litList};
 
 // The above enums correspond to the currently supported types in an RRArrayList
 // char, int, double, RRArrayList
-// The void pointer pValue need to be casted to corresponding type to retrieve its value
-
 
 struct RRList;	//Forward declaration for RRListItem
+
 /*!@struct*/
 /*!@brief A single list element type */
 typedef struct RRListItem
@@ -153,7 +158,7 @@ typedef struct RRList
 }  *RRListHandle;                /*!< Pointer to cRRArrayListHandle struct */
 
 /*!@enum*/
-/*!@brief The parameter type scan be string, integer or double */
+/*!@brief A parameters type can be string, integer, double, vector or a matrix */
 enum RRParameterType {ptString, ptInteger, ptDouble, ptVector, ptMatrix};
 
 /*!@struct*/
@@ -172,7 +177,6 @@ typedef struct RRParameter
     char* 				mHint;
 	char* 				mName;
 } *RRParameterHandle;             /*!< Pointer to cRRParameter */
-
 
 #if defined( __cplusplus)
 }

@@ -21,11 +21,11 @@
 #pragma warn -8004 			//variable never used
 #endif
 
-#if defined(WIN32)
-#define callConv __cdecl
-#else
-#define callConv
-#endif
+//#if defined(WIN32)
+//#define callConv __cdecl
+//#else
+//#define callConv
+//#endif
 
 //---------------------------------------------------------------------------
 #if defined (__MINGW32__) || defined(__linux) || defined (__APPLE__)

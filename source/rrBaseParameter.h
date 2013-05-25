@@ -13,13 +13,13 @@ class RR_DECLSPEC BaseParameter : public rrObject
                                             BaseParameter(const string& name, const string& hint);
         virtual                            ~BaseParameter();
         RR_DECLSPEC
-        	friend ostream&                 operator<<(ostream& stream, const BaseParameter& outMe);
+        friend ostream&                 	operator<<(ostream& stream, const BaseParameter& outMe);
 
         string                              asString() 	const;
-        string                              getType() 	const;
         string                              getName() 	const;
         string                              getHint() 	const;
-        string                              getValueAsString() 	const;
+        virtual string      	            getType() 	const;
+        virtual string                      getValueAsString() 	const;
 };
 
 }

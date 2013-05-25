@@ -2,17 +2,13 @@
 #define rrThreadPoolH
 #include <list>
 #include <vector>
-#include "Poco/Thread.h"
-#include "Poco/Mutex.h"
-#include "Poco/ScopedLock.h"
 #include "rrRoadRunnerThread.h"
-
 //---------------------------------------------------------------------------
-using namespace std;
-using namespace rr;
+
 
 namespace rr
 {
+using namespace std;
 
 class RR_DECLSPEC ThreadPool
 {
@@ -21,6 +17,7 @@ class RR_DECLSPEC ThreadPool
 
     public:
 								   	ThreadPool();
+		virtual					   ~ThreadPool();
 		void						addJob(RoadRunner* rri);
 		bool						isJobQueueEmpty();
 		int							getNumberOfRemainingJobs();
@@ -29,7 +26,6 @@ class RR_DECLSPEC ThreadPool
 		void						exitAll();
 		void						waitForStart();
 		void						waitForFinish();
-
 };
 
 }

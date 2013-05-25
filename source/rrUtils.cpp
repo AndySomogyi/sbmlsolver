@@ -259,9 +259,9 @@ string getCWD()
 	return cwd;
 }
 
-void sleep(int ms)
+void sleep(int milliSeconds)
 {
-    Poco::Thread::sleep(10);
+    Poco::Thread::sleep(milliSeconds);
 }
 
 const char getPathSeparator()

@@ -6,9 +6,8 @@
 #include <stdarg.h>
 #include <string.h>
 #include "rrUtils.h"
-#include "rrStringUtils.h"
+#include "rrOSSpecifics.h"
 #include "rrLogger.h"
-#include "rrUtils.h"
 #include "rrIniFile.h"
 
 #undef CreateFile

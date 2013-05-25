@@ -38,6 +38,10 @@ mRecompileOnLoad(recompileOnLoad)
 LoadModelThread::~LoadModelThread()
 {
 }
+void LoadModelThread::setSBML(const string& sbml)
+{
+	mSBML = sbml;
+}
 
 void LoadModelThread::addJob(RoadRunner* rr)
 {
@@ -106,8 +110,15 @@ void LoadModelThread::worker()
         //Do the job
         if(rri)
         {
-            Log(lInfo)<<"Loading model into instance: "<<rri->getInstanceID();
-            rri->loadSBMLFromFile(mModelFileName, mRecompileOnLoad);
+            Log(lDebug2)<<"Loading model into instance: "<<rri->getInstanceID();
+            if(mModelFileName.size())
+            {
+            	rri->loadSBMLFromFile(mModelFileName, mRecompileOnLoad);
+            }
+            else if(mSBML.size())
+            {
+				rri->loadSBML(mSBML, mRecompileOnLoad);
+            }
         }
         else
         {

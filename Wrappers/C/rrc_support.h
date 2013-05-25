@@ -8,6 +8,7 @@
 #include "rrNewArrayList.h"
 #include "rrParameter.h"
 #include "rrUtils.h"
+#include "rrc_exporter.h"
 #include "rrc_types.h"
 //---------------------------------------------------------------------------
 
@@ -15,6 +16,7 @@ namespace rr
 {
 class RoadRunner;
 class RoadRunnerList;
+class Plugin;
 }
 
 namespace rrc
@@ -28,6 +30,7 @@ extern char* gInstallFolder;
 //Error/Warning Messages
 extern const char* 	ALLOCATE_API_ERROR_MSG;
 extern const char* 	INVALID_HANDLE_ERROR_MSG;
+
 
 //Internal prototypes (not exported)
 void                setError(const string& err);
@@ -45,10 +48,13 @@ RRListHandle 		createList(const rr::NewArrayList& aList);
 RRParameterHandle	createParameter(const rr::BaseParameter& para);
 
 //Result data
-C_DECL_SPEC RRResultHandle rrCallConv createRRResult(const rr::SimulationData& result);
+C_DECL_SPEC RRDataHandle rrcCallConv createRRData(const rr::SimulationData& result);
 
 //Cast void* handle to RoadRunner instance pointer, throw if it fails
 rr::RoadRunner* 	castFrom(RRHandle rrHandle);
+
+//Cast void* handle to RoadRunner instance pointer, throw if it fails
+rr::Plugin* 		castToPlugin(RRPluginHandle handle);
 
 //Cast
 rr::RoadRunnerList* getRRList(RRInstanceListHandle handle);
@@ -57,7 +63,7 @@ rr::RoadRunnerList* getRRList(RRInstanceListHandle handle);
 }
 
 
-#define  CATCH_BOOL_MACRO                                   \
+#define  catch_bool_macro                                   \
 	catch(Exception& ex)                                    \
 	{                                                       \
 		stringstream msg;                                   \
@@ -66,7 +72,7 @@ rr::RoadRunnerList* getRRList(RRInstanceListHandle handle);
 		return false;                               		\
 	}
 
-#define  CATCH_PTR_MACRO                                    \
+#define  catch_ptr_macro                                    \
 	catch(Exception& ex)                                    \
 	{                                                       \
 		stringstream msg;                                   \
@@ -74,5 +80,14 @@ rr::RoadRunnerList* getRRList(RRInstanceListHandle handle);
 		setError(msg.str());                                \
 		return NULL;                                        \
 	}
+
+#define catch_int_macro                                     \
+    catch(Exception& ex)                                    \
+    {                                                       \
+    	stringstream msg;                                   \
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;     \
+        setError(msg.str());                                \
+	    return -1;                                          \
+    }
 
 #endif

@@ -47,7 +47,7 @@ int main()
 
     //waitForJob will block until the thread haa finished
 	//Instead, one can could check for activeJob, i.e. non blocking (see below)
-   waitForJob(jobHandle);
+   	waitForJob(jobHandle);
 
     //Set parameters
     logMsg(clInfo, " ---------- SETTING PARAMETERS -------------");
@@ -71,7 +71,7 @@ int main()
 
  	//Write data to a file
     strcpy(dataFile, "oneJobData.dat");
-    strcat(msg,"Writing data to file: ");
+    strcpy(msg,"Writing data to file: ");
     strcat(msg, dataFile);
     logMsg(clInfo, msg);
     writeRRData(rrHandle, dataFile);

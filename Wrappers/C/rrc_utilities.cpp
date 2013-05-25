@@ -64,7 +64,7 @@ char* rrCallConv getFileContent(const char* fName)
     	string fContent = GetFileContent(fName);
         return createText(fContent);
     }
-    CATCH_PTR_MACRO
+    catch_ptr_macro
 
 }
 
@@ -75,7 +75,7 @@ bool rrCallConv compileSource(RRHandle handle, const char* sourceFileName)
         RoadRunner* rri = castFrom(handle);
         return rri->compileSource(sourceFileName);
     }
-    CATCH_BOOL_MACRO
+    catch_bool_macro
 }
 
 #if defined(WIN32) || defined (_WIN32)

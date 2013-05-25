@@ -165,9 +165,19 @@ void SimulationData::setColumnNames(const StringList& colNames)
     Log(lDebug3)<<"Simulation Data Columns: "<<mColumnNames;
 }
 
-void SimulationData::setNrOfCols(const int& cols)
+//void SimulationData::setNrOfCols(const int& cols)
+//{
+//    mTheData.Allocate(1, cols);
+//}
+//
+//void SimulationData::setNrOfRows(const int& rows)
+//{
+//    mTheData.Allocate(rows, cols);
+//}
+
+void SimulationData::reSize(int rows, int cols)
 {
-    mTheData.Allocate(1, cols);
+    mTheData.Allocate(rows, cols);
 }
 
 void SimulationData::setData(const DoubleMatrix& theData)

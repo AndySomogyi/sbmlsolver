@@ -218,7 +218,6 @@ bool RoadRunner::setTempFileFolder(const string& folder)
 
 		CoreException e(msg.str());
         throw(e);
-//		return false;
 	}
 }
 
@@ -1004,7 +1003,22 @@ DoubleMatrix RoadRunner::simulate()
     return runSimulation();
 }
 
-bool RoadRunner::simulate2(const double& startTime, const double& endTime, const int& numberOfPoints)
+bool RoadRunner::simulate2()
+{
+    if(!mModel)
+    {
+        Log(lError)<<"No model is loaded, can't simulate..";
+        throw(Exception("There is no model loaded, can't simulate"));
+    }
+
+ 	mRawSimulationData = simulateEx(mTimeStart, mTimeEnd, mNumPoints);
+
+    //Populate simulation result
+    populateResult();
+    return true;
+}
+
+bool RoadRunner::simulate2Ex(const double& startTime, const double& endTime, const int& numberOfPoints)
 {
     if(!mModel)
     {

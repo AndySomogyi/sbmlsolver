@@ -27,7 +27,16 @@ ThreadPool()
     if(!isJobQueueEmpty() && nrThreads > 0)
     {
 		start();
-    	waitForStart();	//Make sure it get started before moving on..
+    }
+}
+
+Simulate::~Simulate()
+{
+    list<RoadRunnerThread*>::iterator	iter;
+    for(iter = mThreads.begin(); iter != mThreads.end(); iter++)
+    {
+        RoadRunnerThread* t = (*iter);
+        delete t;
     }
 }
 

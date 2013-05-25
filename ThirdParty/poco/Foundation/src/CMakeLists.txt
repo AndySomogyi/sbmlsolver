@@ -147,11 +147,14 @@ Environment
 UUID
 UUIDGenerator
 Void
-deflate.c
-zutil.c
-adler32.c
-crc32.c
-trees.c
+deflate
+zutil
+adler32
+crc32
+trees
+pcre_ucd
+pcre_exec
+pcre_tables
 )
 
 if(${BORLAND})
@@ -192,14 +195,7 @@ endif()
 include_directories(
 ${poco_include_folder}
 )
-#add_library(${target} SHARED ${sources})
-#
-#set_property(TARGET ${target}  
-#             PROPERTY  COMPILE_DEFINITIONS 
-#                       WIN32
-#                       SHARED_NLEQ
-#             ) 
-#
+
 #Then the static version
 add_library(${target}-static STATIC ${sources})
 set_property(TARGET ${target}-static  

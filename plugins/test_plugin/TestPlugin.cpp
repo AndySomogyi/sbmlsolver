@@ -14,12 +14,13 @@
 //---------------------------------------------------------------------------
 namespace TestPlugin
 {
+using namespace rr;
+
 TestPlugin::TestPlugin(rr::RoadRunner* aRR, int testParameter)
 :
-rr::Plugin("TestPlugin", "No Category", aRR),
-mTestParameter("NrOfIterations", 123, "Hint for Nr of iterations"),
-mTestCapability("A Plugin Capability", "RunMe", "Exposing the RunMe Function")
-
+Plugin("TestPlugin", "No Category", aRR),
+mTestCapability("A Plugin Capability", "RunMe", "Exposing the RunMe Function"),
+mTestParameter("NrOfIterations", 123, "Hint for Nr of iterations")
 {
 	mTestCapability.setup("TestPlugin", "SetTimeCourseSelectionList", "A function in a plugin");
     mTestCapability.add(&mTestParameter);
@@ -29,7 +30,7 @@ mTestCapability("A Plugin Capability", "RunMe", "Exposing the RunMe Function")
 TestPlugin::~TestPlugin()
 {}
 
-bool TestPlugin::execute()
+bool TestPlugin::execute(void* userData)
 {
 	cout<<"Executing plugin...\n";
 	if(mRR)

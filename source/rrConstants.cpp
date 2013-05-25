@@ -4,7 +4,6 @@
 #pragma hdrstop
 #include "rrStringUtils.h"
 #include "rrConstants.h"
-#include <stdlib.h>
 
 //---------------------------------------------------------------------------
 namespace rr
@@ -18,8 +17,9 @@ const char* 		gDoubleFormat 	            = "%f";
 const char* 		gIntFormat  	            = "%d";;
 
 const string    	gEmptyString 				= "";
+const string    	gNoneString 				= "<none>";
 
-//Observe, the following functions are executed BEFORE any main..
+//Observe, the following function, JoinPath, is executed BEFORE any main..
 const string		gDefaultSupportCodeFolder 	= JoinPath("..", "rr_support");
 const string		gDefaultTempFolder 			= ".";
 

@@ -9,24 +9,32 @@
 using namespace std;
 namespace rr
 {
-Plugin::Plugin(const std::string& name, const std::string& cat, RoadRunner* aRR)
+Plugin::Plugin(const std::string& name, const std::string& cat, RoadRunner* aRR, PluginWorkStartedCB fn1, PluginWorkFinishedCB fn2)
 :
 mName(name),
 mAuthor("Totte Karlsson"),
 mCategory(cat),
 mVersion("0.1"),
 mCopyright("Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012"),
-mRR(aRR)//,
-//mCapability("PluginCapabilities", "", "")
-{
-}
+mRR(aRR),
+mWorkStartedCB(fn1),
+mWorkFinishedCB(fn2)
+{}
 
 Plugin::~Plugin()
 {}
 
-vector<string>& Plugin::getLog()
+bool Plugin::assignCallbacks(PluginWorkStartedCB fnc1, PluginWorkFinishedCB fnc2, void* userData)
 {
-	return mLog;
+	mUserData = userData;
+	mWorkStartedCB = fnc1;
+	mWorkFinishedCB = fnc2;
+	return true;
+}
+
+bool Plugin::isWorking()
+{
+	return false;
 }
 
 bool Plugin::setParameter(const string& nameOf, void* value, Capability& capability)
@@ -97,22 +105,35 @@ bool Plugin::setParameter(const string& nameOf, const char* value)
                 return true;
             }
 
+            if(dynamic_cast< Parameter<string>* >(aParameter))
+            {
+                Parameter<string> *aPar = dynamic_cast< Parameter<string>* >(aParameter);
+                string aVal = * ((string*) value);
+                aPar->setValue( aVal);
+                return true;
+            }
+
             if(dynamic_cast< Parameter<rrc::RRVector*>* >(aParameter))
             {
                 Parameter<rrc::RRVector*> *aPar = dynamic_cast< Parameter<rrc::RRVector*>* >(aParameter);
-//                aPar->assignData();
                 aPar->setValue( (rrc::RRVector*) value);
                 return true;
             }
 
-            if(dynamic_cast< Parameter<rrc::RRResult*>* >(aParameter))
+            if(dynamic_cast< Parameter<rrc::RRData*>* >(aParameter))
             {
-                Parameter<rrc::RRResult*> *aPar = dynamic_cast< Parameter<rrc::RRResult*>* >(aParameter);
-//                aPar->assignData();
-                aPar->setValue( (rrc::RRResult*) value);
+                Parameter<rrc::RRData*> *aPar = dynamic_cast< Parameter<rrc::RRData*>* >(aParameter);
+                aPar->setValue( (rrc::RRData*) value);
                 return true;
             }
 
+            if(dynamic_cast< Parameter< vector<string> >* >(aParameter))
+            {
+                Parameter< vector<string> > *aPar = dynamic_cast< Parameter< vector<string> >* >(aParameter);
+                vector<string> val = * ((vector<string>*) value);
+                aPar->setValue( val);
+                return true;
+            }
         }
     }
 
@@ -224,27 +245,27 @@ Capability* Plugin::getCapability(const string& name)
     return NULL;
 }
 
-PluginLogger::PluginLogger(vector<string>* container)
-:
-mLogs(container)
-{}
-
-PluginLogger::~PluginLogger()
-{
-	vector<string> lines = rr::SplitString(mStream.str(),"\n");
-
-    for(int i = 0; i < lines.size(); i++)
-    {
-	   mLogs->push_back(lines[i].c_str());
-
-    }
-}
-
-std::ostringstream& PluginLogger::Get()
-{
-	return mStream;
-}
-
+//PluginLogger::PluginLogger(vector<string>* container)
+//:
+//mLogs(container)
+//{}
+//
+//PluginLogger::~PluginLogger()
+//{
+//	vector<string> lines = rr::SplitString(mStream.str(),"\n");
+//
+//    for(int i = 0; i < lines.size(); i++)
+//    {
+//	   mLogs->push_back(lines[i].c_str());
+//
+//    }
+//}
+//
+//std::ostringstream& PluginLogger::Get()
+//{
+//	return mStream;
+//}
+//
 
 }
 

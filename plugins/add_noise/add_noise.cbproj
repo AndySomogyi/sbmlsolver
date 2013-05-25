@@ -98,6 +98,8 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <Defines>POCO_STATIC;$(Defines)</Defines>
+        <DynamicRTL>true</DynamicRTL>
         <IncludePath>..\..\Source;$(RR_DEBUG)\include;..\..\Wrappers\C;$(IncludePath)</IncludePath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <FinalOutputDir>$(RR_DEBUG)\plugins</FinalOutputDir>
@@ -113,12 +115,13 @@
         <CppCompile Include="add_noise.cpp">
             <BuildOrder>1</BuildOrder>
         </CppCompile>
-        <None Include="add_noise.h">
-            <BuildOrder>2</BuildOrder>
-        </None>
         <PCHCompile Include="add_noise_pch.h">
             <BuildOrder>0</BuildOrder>
         </PCHCompile>
+        <CppCompile Include="add_noise_thread.cpp">
+            <DependentOn>add_noise_thread.h</DependentOn>
+            <BuildOrder>3</BuildOrder>
+        </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

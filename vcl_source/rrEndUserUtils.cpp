@@ -1,7 +1,7 @@
 #pragma hdrstop
 #include "rrEndUserUtils.h"
 #include "rrLogger.h"
-#include "utils.h"
+#include "rrVCLUtils.h"
 //---------------------------------------------------------------------------
 
 using namespace rr;
@@ -34,18 +34,26 @@ NewArrayList convertCList(RRListHandle inList)
     return theList;
 }
 
-StringList GetCheckedItems(TCheckListBox* listBox)
+StringList convertCStringArray(RRStringArrayHandle inList)
 {
-    //Go trough the listbox and return checked items
-    StringList checked;
-    for(int i = 0; i < listBox->Count; i++)
+	StringList theList;
+
+    if(!inList)
     {
-        if(listBox->Checked[i])
+    	return theList;
+    }
+
+	for(int i = 0; i < inList->Count; i++)
+    {
+
+    	char* item = inList->String[i];
+        if(item)
         {
-            String anItem = listBox->Items->Strings[i];
-            checked.Add(std_str(anItem));
+          	theList.Add(item);
         }
     }
-    return checked;
+
+	Log(lDebug) << "List :" << theList;
+    return theList;
 }
 

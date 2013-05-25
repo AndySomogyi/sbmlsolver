@@ -129,6 +129,10 @@
         <BCC_PCHName_Clang>full_space_minimization_pch.h</BCC_PCHName_Clang>
     </PropertyGroup>
     <ItemGroup>
+        <CppCompile Include="full_space_fit_thread.cpp">
+            <DependentOn>full_space_fit_thread.h</DependentOn>
+            <BuildOrder>2</BuildOrder>
+        </CppCompile>
         <CppCompile Include="full_space_minimization.cpp">
             <DependentOn>full_space_minimization.h</DependentOn>
             <BuildOrder>1</BuildOrder>

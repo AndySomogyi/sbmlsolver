@@ -5,8 +5,8 @@
 
 namespace rr
 {
-    typedef void                         (callConv *TEventAssignmentDelegate)();          //FuncPointer taking no args and returning void
-    typedef TEventAssignmentDelegate*    (callConv *c_TEventAssignmentDelegateStar)();    //Array of function pointers
+    typedef void                         (rrCallConv *TEventAssignmentDelegate)();          //FuncPointer taking no args and returning void
+    typedef TEventAssignmentDelegate*    (rrCallConv *c_TEventAssignmentDelegateStar)();    //Array of function pointers
 }
 
 #endif

@@ -48,6 +48,15 @@
         <Projects Include="..\..\Wrappers\C\Examples\threads_2\rr_threads_2.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\..\plugins\add_noise\add_noise.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\plugins\full_space_minimization\full_space_minimization.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\plugins\apps\rrWinC\rrWinC.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -191,14 +200,41 @@
     <Target Name="rr_threads_2:Make">
         <MSBuild Projects="..\..\Wrappers\C\Examples\threads_2\rr_threads_2.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="add_noise">
+        <MSBuild Projects="..\..\plugins\add_noise\add_noise.cbproj"/>
+    </Target>
+    <Target Name="add_noise:Clean">
+        <MSBuild Projects="..\..\plugins\add_noise\add_noise.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="add_noise:Make">
+        <MSBuild Projects="..\..\plugins\add_noise\add_noise.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="full_space_minimization">
+        <MSBuild Projects="..\..\plugins\full_space_minimization\full_space_minimization.cbproj"/>
+    </Target>
+    <Target Name="full_space_minimization:Clean">
+        <MSBuild Projects="..\..\plugins\full_space_minimization\full_space_minimization.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="full_space_minimization:Make">
+        <MSBuild Projects="..\..\plugins\full_space_minimization\full_space_minimization.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="rrWinC">
+        <MSBuild Projects="..\..\plugins\apps\rrWinC\rrWinC.cbproj"/>
+    </Target>
+    <Target Name="rrWinC:Clean">
+        <MSBuild Projects="..\..\plugins\apps\rrWinC\rrWinC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="rrWinC:Make">
+        <MSBuild Projects="..\..\plugins\apps\rrWinC\rrWinC.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="roadrunner;roadrunner-static;rrc_api;c_api_tests;cxx_api_tests;rr;rrc;one_rr;two_rrs;one_thread;many_threads;get_c_code;sbml_ts_tester;rr_threads_1;rr_threads_2"/>
+        <CallTarget Targets="roadrunner;roadrunner-static;rrc_api;c_api_tests;cxx_api_tests;rr;rrc;one_rr;two_rrs;one_thread;many_threads;get_c_code;sbml_ts_tester;rr_threads_1;rr_threads_2;add_noise;full_space_minimization;rrWinC"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="roadrunner:Clean;roadrunner-static:Clean;rrc_api:Clean;c_api_tests:Clean;cxx_api_tests:Clean;rr:Clean;rrc:Clean;one_rr:Clean;two_rrs:Clean;one_thread:Clean;many_threads:Clean;get_c_code:Clean;sbml_ts_tester:Clean;rr_threads_1:Clean;rr_threads_2:Clean"/>
+        <CallTarget Targets="roadrunner:Clean;roadrunner-static:Clean;rrc_api:Clean;c_api_tests:Clean;cxx_api_tests:Clean;rr:Clean;rrc:Clean;one_rr:Clean;two_rrs:Clean;one_thread:Clean;many_threads:Clean;get_c_code:Clean;sbml_ts_tester:Clean;rr_threads_1:Clean;rr_threads_2:Clean;add_noise:Clean;full_space_minimization:Clean;rrWinC:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="roadrunner:Make;roadrunner-static:Make;rrc_api:Make;c_api_tests:Make;cxx_api_tests:Make;rr:Make;rrc:Make;one_rr:Make;two_rrs:Make;one_thread:Make;many_threads:Make;get_c_code:Make;sbml_ts_tester:Make;rr_threads_1:Make;rr_threads_2:Make"/>
+        <CallTarget Targets="roadrunner:Make;roadrunner-static:Make;rrc_api:Make;c_api_tests:Make;cxx_api_tests:Make;rr:Make;rrc:Make;one_rr:Make;two_rrs:Make;one_thread:Make;many_threads:Make;get_c_code:Make;sbml_ts_tester:Make;rr_threads_1:Make;rr_threads_2:Make;add_noise:Make;full_space_minimization:Make;rrWinC:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

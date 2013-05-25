@@ -45,8 +45,14 @@
         <Cfg_2>true</Cfg_2>
         <Base>true</Base>
     </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win64)'!=''">
+        <Cfg_2_Win64>true</Cfg_2_Win64>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <BCC_PCHInject>rrWinCPCH1.h</BCC_PCHInject>
+        <BCC_PCHInject>rrWinC_pch.h</BCC_PCHInject>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>None</Manifest_File>
@@ -56,8 +62,8 @@
         <_TCHARMapping>char</_TCHARMapping>
         <ProjectType>CppVCLApplication</ProjectType>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
-        <ILINK_LibraryPath>..\..\..\vcl_source\;R:\rrl\plugins\TestUI\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <IncludePath>..\..\..\vcl_source\;R:\rrl\plugins\TestUI\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\..\full_space_minimization\;..\..\..\vcl_source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\..\full_space_minimization\;..\..\..\vcl_source\;$(IncludePath)</IncludePath>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
         <DynamicRTL>true</DynamicRTL>
         <UsePackages>true</UsePackages>
@@ -77,7 +83,7 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <PackageImports>VCLCommon;bindcompfmx;DBXSqliteDriver;fmx;rtl;dbrtl;DbxClientDriver;IndySystem;bindcomp;inetdb;DBXInterBaseDriver;DataSnapCommon;xmlrtl;DbxCommonDriver;vclimg;IndyProtocols;dbxcds;DBXMySQLDriver;soaprtl;vclactnband;bindengine;vcldb;bindcompdbx;vcldsnap;bindcompvcl;vclie;vcltouch;websnap;CustomIPTransport;dsnap;IndyIPServer;fmxase;vcl;IndyCore;IndyIPCommon;dsnapcon;inet;fmxobj;vclx;inetdbxpress;webdsnap;fmxdae;dbexpress;IndyIPClient;$(PackageImports)</PackageImports>
-        <BCC_PCHName_Clang>rrWinCPCH1.h</BCC_PCHName_Clang>
+        <BCC_PCHName_Clang>rrWinC_pch.h</BCC_PCHName_Clang>
         <IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
@@ -113,46 +119,63 @@
         <LinkPackageImports>rtl.bpi;vcl.bpi;DuneComponents.bpi;VCLCommon.bpi;vclactnband.bpi;vclx.bpi;Tee.bpi;vclimg.bpi</LinkPackageImports>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <BCC_PCHInject>rrWinC_pch.h</BCC_PCHInject>
         <Defines>NDEBUG;$(Defines)</Defines>
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <LinkPackageImports>rtl.bpi;vcl.bpi;DuneComponents.bpi;VCLCommon.bpi;vclactnband.bpi;vclx.bpi;Tee.bpi;vclimg.bpi</LinkPackageImports>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
+        <BCC_PCHName_Clang>rrWinC_pch.h</BCC_PCHName_Clang>
+    </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="Main.cpp">
+        <CppCompile Include="MainForm.cpp">
             <Form>MainF</Form>
             <FormType>dfm</FormType>
-            <DependentOn>Main.h</DependentOn>
+            <DependentOn>MainForm.h</DependentOn>
             <BuildOrder>2</BuildOrder>
         </CppCompile>
-        <CppCompile Include="memoLogger.cpp">
-            <DependentOn>memoLogger.h</DependentOn>
-            <BuildOrder>4</BuildOrder>
+        <CppCompile Include="rrLogFileReader.cpp">
+            <DependentOn>rrLogFileReader.h</DependentOn>
+            <BuildOrder>9</BuildOrder>
         </CppCompile>
         <CppCompile Include="rrWinC.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
-        <PCHCompile Include="rrWinCPCH1.h">
+        <CppCompile Include="rrWinCMisc.cpp">
+            <BuildOrder>8</BuildOrder>
+        </CppCompile>
+        <PCHCompile Include="rrWinC_pch.h">
             <BuildOrder>1</BuildOrder>
         </PCHCompile>
         <CppCompile Include="..\..\..\vcl_source\rrEndUserUtils.cpp">
             <DependentOn>..\..\..\vcl_source\rrEndUserUtils.h</DependentOn>
             <BuildOrder>6</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\..\vcl_source\rrSimulationFrame.cpp">
-            <Form>rrSettingFrame</Form>
-            <FormType>dfm</FormType>
-            <DesignClass>TFrame</DesignClass>
-            <DependentOn>..\..\..\vcl_source\rrSimulationFrame.h</DependentOn>
-            <BuildOrder>5</BuildOrder>
+        <CppCompile Include="..\..\..\vcl_source\rrMemoLogger.cpp">
+            <DependentOn>..\..\..\vcl_source\rrMemoLogger.h</DependentOn>
+            <BuildOrder>4</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\..\vcl_source\vcl_utils.cpp">
-            <DependentOn>..\..\..\vcl_source\vcl_utils.h</DependentOn>
+        <CppCompile Include="..\..\..\vcl_source\rrVCLUtils.cpp">
+            <DependentOn>..\..\..\vcl_source\rrVCLUtils.h</DependentOn>
             <BuildOrder>3</BuildOrder>
         </CppCompile>
-        <FormResources Include="..\..\..\vcl_source\rrSimulationFrame.dfm"/>
-        <FormResources Include="Main.dfm"/>
+        <CppCompile Include="..\..\..\vcl_source\TFullSpaceFittingFrame.cpp">
+            <Form>FullSpaceFittingFrame</Form>
+            <BuildOrder>7</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\..\vcl_source\TSimulationFrame.cpp">
+            <Form>SimulateFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>..\..\..\vcl_source\TSimulationFrame.h</DependentOn>
+            <BuildOrder>5</BuildOrder>
+        </CppCompile>
+        <FormResources Include="..\..\..\vcl_source\TSimulationFrame.dfm"/>
+        <FormResources Include="..\..\..\vcl_source\TFullSpaceFittingFrame.dfm"/>
+        <FormResources Include="MainForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -1,4 +1,5 @@
 #pragma hdrstop
+#include "rrLogger.h"
 #include "add_noise.h"
 #include "rrRoadRunner.h"
 #include "rrNoise.h"
@@ -8,47 +9,35 @@ namespace addNoise
 {
 using namespace rr;
 
-AddNoise::AddNoise(rr::RoadRunner* aRR)
+AddNoise::AddNoise(rr::RoadRunner* aRR, WorkStartedCB fn1, WorkFinishedCB fn2)
 :
-Plugin(				    "AddNoise", 				"No Category", 			aRR),
+Plugin(				    "AddNoise", 				"No Category", 			aRR, fn1, fn2),
 mSelectNoiseType(	    "Select Noise Type", 		"selectNoiseType", 		"Select the noise type"),
 mNoiseType(	       		"NoiseType", 				ntGaussian, 	 		"Noise Type"),
 mAddGaussianNoise(	    "Add noise", 				"...", 					"Add Gaussian Noise in particular"),
 mSigma(	    			"Sigma", 					1, 						"Sigma"),
-mData(					"Data", 					NULL,					"Data to add noise to..")
+mAddNoiseThread()
 {
 	//Setup the plugins capabilities
     mSelectNoiseType.add(&mNoiseType);
 
 	mAddGaussianNoise.add(&mSigma);
-    mAddGaussianNoise.add(&mData);
 
     mCapabilities.push_back(mAddGaussianNoise);
     mCapabilities.push_back(mSelectNoiseType);
-    mData.setValue(NULL);
 }
 
 AddNoise::~AddNoise()
 {}
 
-bool AddNoise::execute()
+bool AddNoise::execute(void* inputData)
 {
-	pLog()<<"Executing the AddNoise plugin";
+	Log(lDebug)<<"Executing the AddNoise plugin";
 
-    rrc::RRResultHandle data = mData.getValue();
-
-	Noise noise(0, mSigma.getValue());
-
-	for(int row = 0; row < data->RSize; row++)
-    {
-        double xVal = data->Data[row*data->CSize];	//Time
-        for(int col = 0; col < data->CSize - 1; col++)
-        {
-            double yData = data->Data[row*data->CSize + col + 1] + noise.GetNoise();
-
-			data->Data[row*data->CSize + col + 1] = yData;
-        }
-    }
+    //go away and carry out the work in a thread
+    //Assign callback functions to communicate the progress of the thread
+	mAddNoiseThread.assignCallBacks(mWorkStartedCB, mWorkFinishedCB, mUserData);
+    mAddNoiseThread.start(inputData, mSigma.getValue());
 	return true;
 }
 
@@ -66,6 +55,8 @@ rr::Plugin* __stdcall createPlugin(rr::RoadRunner* aRR)
     #else
     	#pragma comment(lib, "roadrunner.lib")
     #endif
+
+#pragma comment(lib, "poco_foundation-static.lib")
 #endif
 
 

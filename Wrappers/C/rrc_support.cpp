@@ -18,16 +18,30 @@ const char* INVALID_HANDLE_ERROR_MSG 	= "The HANDLE passed to this function was 
 char* 		gLastError      			= NULL;
 char* 		gInstallFolder 				= NULL;
 
-RoadRunner* castFrom(RRHandle CHandle)
+RoadRunner* castFrom(RRHandle handle)
 {
-	RoadRunner* handle = (RoadRunner*) CHandle;
-    if(handle) //Will only fail if CHandle is NULL...
+	RoadRunner* rr = (RoadRunner*) handle;
+    if(rr) //Will only fail if handle is NULL...
     {
-    	return handle;
+    	return rr;
     }
     else
     {
     	Exception ex("Failed to cast to a valid RoadRunner handle");
+    	throw(ex);
+    }
+}
+
+Plugin* castToPlugin(RRPluginHandle handle)
+{
+	Plugin* plugin = (Plugin*) handle;
+    if(plugin) //Will only fail if handle is NULL...
+    {
+    	return plugin;
+    }
+    else
+    {
+    	Exception ex("Failed to cast to a valid Plugin handle");
     	throw(ex);
     }
 }
@@ -311,9 +325,9 @@ RRParameter* createParameter(const rr::BaseParameter& para)
 	return NULL;
 }
 
-RRResultHandle rrCallConv createRRResult(const SimulationData& result)
+RRDataHandle rrCallConv createRRData(const SimulationData& result)
 {
-    RRResult* aResult  = new RRResult;
+    RRData* aResult  = new RRData;
     aResult->ColumnHeaders = new char*[result.cSize()];
     for(int i = 0; i < result.cSize(); i++)
     {

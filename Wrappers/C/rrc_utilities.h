@@ -58,12 +58,12 @@ extern "C"
 // \return Content of file as a string, returns null if it fails
 // \ingroup utilities
 //*/
-C_DECL_SPEC char* rrCallConv getFileContent(const char* fName);
+C_DECL_SPEC char* rrcCallConv getFileContent(const char* fName);
 
 
 ///////////////////////////////////////////////////////////////////////////////////
 // TEST UTILITY functions (to be documented later. Only for internal testing)
-C_DECL_SPEC bool rrCallConv compileSource(RRHandle handle, const char* sourceFileName);
+C_DECL_SPEC bool rrcCallConv compileSource(RRHandle handle, const char* sourceFileName);
 
 
 #if defined(__cplusplus)

@@ -9,6 +9,7 @@
 #include "rrModelData.h"
 #include "rrNOMSupport.h"
 #include "rr-libstruct/lsLibStructural.h"
+#include "rrExporter.h"
 namespace rr
 {
 using namespace ls;
@@ -16,19 +17,19 @@ using Poco::SharedLibrary;
 class CGenerator;
 class CvodeInterface;
 
-typedef void    (callConv *c_void_MDS)(ModelData*);//MDS stands for ModelDataStructure
-typedef int     (callConv *c_int_MDS)(ModelData*);
-typedef int     (callConv *c_int_MDS_int)(ModelData*, int);
-typedef char*   (callConv *c_charStar_MDS)(ModelData*);
-typedef void    (callConv *c_void_MDS_doubleStar)(ModelData*, double*);
-typedef double  (callConv *c_double_MDS_int)(ModelData*, int);
-typedef double* (callConv *c_doubleStar_MDS)(ModelData*);
-typedef void    (callConv *c_void_MDS_double_doubleStar)(ModelData*, double, double*);
-typedef void    (callConv *c_void_MDS_int_double)(ModelData*, int, double);
+typedef void    (rrCallConv *c_void_MDS)(ModelData*);//MDS stands for ModelDataStructure
+typedef int     (rrCallConv *c_int_MDS)(ModelData*);
+typedef int     (rrCallConv *c_int_MDS_int)(ModelData*, int);
+typedef char*   (rrCallConv *c_charStar_MDS)(ModelData*);
+typedef void    (rrCallConv *c_void_MDS_doubleStar)(ModelData*, double*);
+typedef double  (rrCallConv *c_double_MDS_int)(ModelData*, int);
+typedef double* (rrCallConv *c_doubleStar_MDS)(ModelData*);
+typedef void    (rrCallConv *c_void_MDS_double_doubleStar)(ModelData*, double, double*);
+typedef void    (rrCallConv *c_void_MDS_int_double)(ModelData*, int, double);
 
 
-typedef TComputeEventAssignmentDelegate* (callConv *c_TComputeEventAssignmentDelegateStar)();
-typedef TEventDelayDelegate* (callConv *c_GetEventDelayDelegatesStar)();
+typedef TComputeEventAssignmentDelegate* (rrCallConv *c_TComputeEventAssignmentDelegateStar)();
+typedef TEventDelayDelegate* (rrCallConv *c_GetEventDelayDelegatesStar)();
 
 
 class RR_DECLSPEC ModelFromC : public rrObject

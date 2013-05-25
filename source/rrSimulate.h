@@ -10,7 +10,8 @@ namespace rr
 class RR_DECLSPEC Simulate : public ThreadPool
 {
     public:
-    	Simulate(RoadRunnerList& rrs, const int& nrThreads = 16);
+    					Simulate(RoadRunnerList& rrs, const int& nrThreads = 16);
+					   ~Simulate();
 
 };
 

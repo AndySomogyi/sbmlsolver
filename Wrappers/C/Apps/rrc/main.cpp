@@ -155,7 +155,7 @@ int main(int argc, char* argv[])
         }
     }
 
-	RRResultHandle result;
+	RRDataHandle result;
 	if(doMore)
     {
 	    setTimeStart(rrHandle, args.StartTime);

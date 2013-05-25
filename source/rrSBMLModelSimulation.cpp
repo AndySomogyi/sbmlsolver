@@ -182,7 +182,7 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
         if(it != settings.end())
         {
             vector<string> vars = SplitString((*it).second, ",");
-            for(int i=0; i < vars.size(); i++)
+            for(u_int i = 0; i < vars.size(); i++)
             {
                 mSettings.mVariables.push_back(Trim(vars[i]));
             }
@@ -192,7 +192,7 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
         if(it != settings.end())
         {
             vector<string> vars = SplitString((*it).second, ",");
-            for(int i=0; i < vars.size(); i++)
+            for(u_int i = 0; i < vars.size(); i++)
             {
                 string rec = Trim(vars[i]);
                 if(rec.size())
@@ -206,7 +206,7 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
         if(it != settings.end())
         {
             vector<string> vars = SplitString((*it).second, ",");
-            for(int i=0; i < vars.size(); i++)
+            for(u_int i=0; i < vars.size(); i++)
             {
                 string rec = Trim(vars[i]);
                 if(rec.size())
@@ -250,7 +250,7 @@ bool SBMLModelSimulation::SetNumberOfPoints(const int& steps)
 bool SBMLModelSimulation::SetSelectionList(const string& selectionList)
 {
     vector<string> vars = SplitString(selectionList, ", ");
-    for(int i=0; i < vars.size(); i++)
+    for(u_int i = 0; i < vars.size(); i++)
     {
         mSettings.mVariables.push_back(Trim(vars[i]));
     }

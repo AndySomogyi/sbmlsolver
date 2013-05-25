@@ -19,9 +19,9 @@
 
 
 #if defined(_MSC_VER) || defined(__CODEGEARC__)
-#define rrCallConv __stdcall
+	#define rrcCallConv __stdcall
 #else
-#define rrCallConv
+	#define rrcCallConv
 #endif
 
 #endif

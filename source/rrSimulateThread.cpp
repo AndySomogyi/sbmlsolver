@@ -53,6 +53,11 @@ RoadRunnerThread()
     }
 }
 
+SimulateThread::~SimulateThread()
+{
+
+}
+
 void SimulateThread::addJob(RoadRunner* rr)
 {
 	//getMutex
@@ -104,9 +109,20 @@ void SimulateThread::worker()
         if(rri)
         {
             Log(lInfo)<<"Simulating RR instance: "<<rri->getInstanceID();
-            if(!rri->simulate2(mTimeStart, mTimeEnd, mNrPoints))
+
+            if(mSimulateEx)
             {
-                Log(lError)<<"Failed simulating instance: "<<rri->getInstanceID();
+                if(!rri->simulate2Ex(mTimeStart, mTimeEnd, mNrPoints))
+                {
+                    Log(lError)<<"Failed simulating instance: "<<rri->getInstanceID();
+                }
+            }
+            else
+            {
+                if(!rri->simulate2())
+                {
+                    Log(lError)<<"Failed simulating instance: "<<rri->getInstanceID();
+                }
             }
         }
         else

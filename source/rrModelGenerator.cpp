@@ -234,7 +234,7 @@ int ModelGenerator::readGlobalParameters()
     int numGlobalParameters;
     ArrayList oParameters = mNOM.getListOfParameters();
     numGlobalParameters = oParameters.Count();
-    for (u_int i = 0; i < numGlobalParameters; i++)
+    for (int i = 0; i < numGlobalParameters; i++)
     {
         StringList parameter = oParameters[i];
 
@@ -263,7 +263,7 @@ void ModelGenerator::readLocalParameters(const int& numReactions,  vector<int>& 
         reactionName = mNOM.getNthReactionId(i);
         mReactionList.Add(Symbol(reactionName, 0.0));
         SymbolList newList;
-        for (u_int j = 0; j < numLocalParameters; j++)
+        for (int j = 0; j < numLocalParameters; j++)
         {
             localParameterDimensions[i] = numLocalParameters;
             name = mNOM.getNthParameterId(i, j);
@@ -330,7 +330,7 @@ string ModelGenerator::writeDouble(const double& value, const string& format)
 int ModelGenerator::readCompartments()
 {
     int numCompartments = mNOM.getNumCompartments();
-    for (u_int i = 0; i < numCompartments; i++)
+    for (int i = 0; i < numCompartments; i++)
     {
         string sCompartmentId = mNOM.getNthCompartmentId(i);
         double value = mNOM.getValue(sCompartmentId);
@@ -361,7 +361,7 @@ int ModelGenerator::readModifiableSpeciesReferences()
     string id;
     double value;
     int numReactions = SbmlModel.getNumReactions();
-    for (u_int i = 0; i < numReactions; i++)
+    for (int i = 0; i < numReactions; i++)
     {
         Reaction &reaction = *(SbmlModel.getReaction(i));
         for (u_int j = 0; j < reaction.getNumReactants(); j++)
@@ -407,7 +407,7 @@ int ModelGenerator::readModifiableSpeciesReferences()
 StringList ModelGenerator::getReactionIds()
 {
     StringList tmp;
-    for (int i = 0; i < mReactionList.size(); i++)
+    for (u_int i = 0; i < mReactionList.size(); i++)
     {
         tmp.Add(mReactionList[i].name);
     }
@@ -417,7 +417,7 @@ StringList ModelGenerator::getReactionIds()
 StringList ModelGenerator::getFloatingSpeciesConcentrationList()
 {
     StringList tmp;
-    for (int i = 0; i < mFloatingSpeciesConcentrationList.size(); i++)
+    for (u_int i = 0; i < mFloatingSpeciesConcentrationList.size(); i++)
     {
         tmp.Add(mFloatingSpeciesConcentrationList[i].name);
     }
@@ -427,7 +427,7 @@ StringList ModelGenerator::getFloatingSpeciesConcentrationList()
 StringList ModelGenerator::getBoundarySpeciesList()
 {
     StringList tmp;
-    for (int i = 0; i < mBoundarySpeciesList.size(); i++)
+    for (u_int i = 0; i < mBoundarySpeciesList.size(); i++)
     {
         tmp.Add(mBoundarySpeciesList[i].name);
     }
@@ -437,12 +437,12 @@ StringList ModelGenerator::getBoundarySpeciesList()
 StringList ModelGenerator::getGlobalParameterList()
 {
     StringList tmp;
-    for (int i = 0; i < mGlobalParameterList.size(); i++)
+    for (u_int i = 0; i < mGlobalParameterList.size(); i++)
     {
         tmp.Add(mGlobalParameterList[i].name);
     }
 
-    for (int i = 0; i < mConservationList.Count(); i++)
+    for (u_int i = 0; i < mConservationList.Count(); i++)
     {
         tmp.Add(mConservationList[i].name);
     }
@@ -582,7 +582,7 @@ int ModelGenerator::getNumberOfReactions()
 StringList ModelGenerator::getConservationList()
 {
     StringList tmp;// = new ArrayList();
-    for (int i = 0; i < mConservationList.Count(); i++)
+    for (u_int i = 0; i < mConservationList.Count(); i++)
     {
         tmp.Add(mConservationList[i].name);
     }

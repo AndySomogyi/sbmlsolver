@@ -18,7 +18,7 @@ class TestPlugin : public Plugin
     public:
     					TestPlugin(rr::RoadRunner* aRR = NULL, int testParameter = 0);
 					   ~TestPlugin();
-		bool			execute();
+		bool			execute(void* userData);
 
 };
 

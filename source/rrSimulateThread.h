@@ -7,9 +7,10 @@
 
 namespace rr
 {
+//typedef void    (rrcCallConv *callBackFunc)(void*);
 
-typedef void    (*JobStartedCB)(void*);
-typedef void    (callConv *JobFinishedCB)(void*);
+typedef void    (rrCallConv *JobStartedCB)(void*);
+typedef void    (rrCallConv *JobFinishedCB)(void*);
 
 using std::list;
 using Poco::Mutex;
@@ -36,12 +37,13 @@ class RR_DECLSPEC SimulateThread : public RoadRunnerThread
 
 
 	public:
-    								//SimulateThread(RoadRunner* rri = NULL, bool autoStart = false);
+//    								SimulateThread(RoadRunner* rri = NULL, bool autoStart = false);
     								SimulateThread(RoadRunner* rri = NULL,
                                     				const double& ts = 0, const double& te = 0,
                                                     const int& nrPoints = 0,
                                                     JobStartedCB f1 = NULL, JobFinishedCB f2 = NULL, void* userData = NULL,
                                                     bool autoStart = false);
+								   ~SimulateThread();
 
     	void 						worker();
 		void 			            addJob(RoadRunner* rr);

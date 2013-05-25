@@ -7,15 +7,17 @@
 #include "rrSimulate.h"
 #include "rrSimulateThread.h"
 #include "rrRoadRunnerList.h"
+
+using namespace rr;
 int main(int argc, char** argv)
 {
 	try
     {
         LogOutput::mLogToConsole = true;
-
+       	gLog.SetCutOffLogLevel(lDebug);
         //Create some roadrunners
-        const int 	instanceCount 	= 1000;
-        const int 	threadCount  	= 8;
+        const int 	instanceCount 	= 1;
+        const int 	threadCount  	= 1;
 		const char* rootPath 		= "..";
 
 		string tmpFolder = JoinPath(rootPath, "temp");
@@ -23,11 +25,12 @@ int main(int argc, char** argv)
         RoadRunnerList rrs(instanceCount, tmpFolder);
 
         const string modelFile = JoinPath(rootPath, "models", "test_1.xml");
-
+		string sbml = GetFileContent(modelFile);
         //Load modelFiles..
         Log(lInfo)<<" ---------- LOADING/GENERATING MODELS ------";
 
-        LoadModel loadModel(rrs, modelFile, threadCount);
+
+        LoadModel loadModel(rrs, sbml, threadCount);
         loadModel.waitForFinish();
 
       	//Set parameters
