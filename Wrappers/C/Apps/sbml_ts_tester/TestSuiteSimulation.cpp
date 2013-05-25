@@ -125,7 +125,7 @@ bool RunTest(const string& version, int caseNumber)
  	RRHandle gRR;
 
     //Create instance..
-    gRR = createRRInstanceE(gTempFolder.c_str());
+    gRR = createRRInstanceEx(gTempFolder.c_str());
 
     if(gDebug && gRR)
     {

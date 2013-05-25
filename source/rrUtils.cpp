@@ -197,7 +197,7 @@ string getCWD()
 
 	string cwd;
 	// Get the current working directory:
-	if( (buffer = getcwd( NULL, 0 )) == NULL )
+	if( (buffer = getcwd( NULL, 512 )) == NULL )
 	{
 		Log(lError)<<"getCWD failed";
 		return "";

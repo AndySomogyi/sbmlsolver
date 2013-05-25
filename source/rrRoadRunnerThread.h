@@ -21,6 +21,7 @@ class RR_DECLSPEC RoadRunnerThread : public Poco::Runnable, public rrObject
 
     public:
 	    					        RoadRunnerThread();
+		virtual				       ~RoadRunnerThread();
 
 		void				        setName(const string& name);
 		string 				        getName();

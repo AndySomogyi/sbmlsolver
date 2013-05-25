@@ -13,6 +13,9 @@ mWasStarted(false),
 mIsWorking(false)
 {}
 
+RoadRunnerThread::~RoadRunnerThread()
+{}
+
 bool RoadRunnerThread::wasStarted()
 {
 	return mWasStarted;

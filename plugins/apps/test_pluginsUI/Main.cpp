@@ -14,7 +14,9 @@ TMainF *MainF;
 //---------------------------------------------------------------------------
 __fastcall TMainF::TMainF(TComponent* Owner)
 :
-TForm(Owner)
+TForm(Owner),
+mModel("r:\\models\\test_1.xml"),
+mUIIsStartingUp(true)
 {
 	startupTimer->Enabled = true;
 }
@@ -30,19 +32,18 @@ void __fastcall TMainF::FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shif
 void __fastcall TMainF::startupTimerTimer(TObject *Sender)
 {
 	startupTimer->Enabled = false;
-	mTheAPI = createRRInstance();
-	if(!mTheAPI)
+	mInstanceH = createRRInstanceEx("r:\\cTemp");
+	if(!mInstanceH)
 	{
-
+		Log() << "Problem creating rr instance.";
+		throw Exception(getLastError());
 	}
 	else
 	{
-    	char* fileName = "R:\\installs\\cg\\xe3\\debug\\models\\test_1.xml";
-    	loadSBMLFromFile(mTheAPI, fileName);
-		apiVersionLBL->Caption = getVersion(mTheAPI);
+		apiVersionLBL->Caption = getAPIVersion();
 		buildDateLbl->Caption  = getBuildDate();
 		buildTimeLbl->Caption  = getBuildTime();
-		string info 		   = getInfo(mTheAPI);
+		string info 		   = getExtendedAPIInfo();
 
 		vector<string> lines = rr::SplitString(info, "\n");
 		for(int i =0; i < lines.size(); i++)
@@ -50,19 +51,20 @@ void __fastcall TMainF::startupTimerTimer(TObject *Sender)
 			infoMemo->Lines->Add(lines[i].c_str());
 		}
 	}
+	mUIIsStartingUp = false;
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TMainF::loadPluginsAExecute(TObject *Sender)
 {
-	if(!loadPlugins(mTheAPI))
+	if(!loadPlugins(mInstanceH))
 	{
 		Log() << "failed loading plugins..";
 		throw Exception(getLastError());
 	}
 
 	//Populate list box with plugins
-	RRStringArray* pluginNames = getPluginNames(mTheAPI);
+	RRStringArray* pluginNames = getPluginNames(mInstanceH);
 
 	for(int i = 0; i < pluginNames->Count; i++)
 	{
@@ -74,7 +76,7 @@ void __fastcall TMainF::loadPluginsAExecute(TObject *Sender)
 
 void __fastcall TMainF::unloadPluginsExecute(TObject *Sender)
 {
-	if(!unLoadPlugins(mTheAPI))
+	if(!unLoadPlugins(mInstanceH))
 	{
 		Log() << "failed un-loading plugins..";
 		throw Exception(getLastError());
@@ -101,7 +103,7 @@ void __fastcall TMainF::pluginListClick(TObject *Sender)
     string pluginName = std_str(pluginList->Items->Strings[pluginList->ItemIndex]);
     Log()<<std_str(pluginName);
 
-    string test = getPluginInfo(mTheAPI, pluginName.c_str());
+    string test = getPluginInfo(mInstanceH, pluginName.c_str());
 
     infoMemo->Clear();
     Log()<<test;
@@ -110,7 +112,7 @@ void __fastcall TMainF::pluginListClick(TObject *Sender)
 	pluginCapsCB->Clear();
     pluginParasCB->Clear();
 
-    RRStringArray* caps = getPluginCapabilities(mTheAPI, pluginName.c_str());
+    RRStringArray* caps = getPluginCapabilities(mInstanceH, pluginName.c_str());
 
 
     if(!caps)
@@ -133,13 +135,12 @@ void __fastcall TMainF::clearMemoExecute(TObject *Sender)
 {
 	infoMemo->Clear();
 }
+
 //---------------------------------------------------------------------------
-
-
 void __fastcall TMainF::getPluginInfoAExecute(TObject *Sender)
 {
 	string pName = getCurrentPluginName();
-    Log()<<getPluginInfo(mTheAPI, pName.c_str());
+    Log()<<getPluginInfo(mInstanceH, pName.c_str());
 }
 
 //---------------------------------------------------------------------------
@@ -177,7 +178,7 @@ void __fastcall TMainF::pluginCBChange(TObject *Sender)
 		pluginParasCB->Clear();
 
         string capa = std_str(pluginCapsCB->Items->Strings[pluginCapsCB->ItemIndex]);
-        RRStringArray* paras = getPluginParameters(mTheAPI, pluginName.c_str(), capa.c_str());
+        RRStringArray* paras = getPluginParameters(mInstanceH, pluginName.c_str(), capa.c_str());
         pluginParasCB->Clear();
 
         if(!paras)
@@ -200,7 +201,7 @@ void __fastcall TMainF::pluginCBChange(TObject *Sender)
     if(pluginParasCB == (TComboBox*)(Sender))
     {
         //Query the current plugin for the current value of selected parameter
-        RRParameterHandle para = getPluginParameter(mTheAPI, getCurrentPluginName().c_str(), getCurrentSelectedParameter().c_str());
+        RRParameterHandle para = getPluginParameter(mInstanceH, getCurrentPluginName().c_str(), getCurrentSelectedParameter().c_str());
         if(!para)
         {
             paraEdit->Enabled = false;
@@ -224,13 +225,13 @@ void __fastcall TMainF::pluginCBChange(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainF::SetParaBtnClick(TObject *Sender)
 {
-	setPluginParameter(mTheAPI, getCurrentPluginName().c_str(), getCurrentSelectedParameter().c_str(), std_str(paraEdit->Text).c_str());
+	setPluginParameter(mInstanceH, getCurrentPluginName().c_str(), getCurrentSelectedParameter().c_str(), std_str(paraEdit->Text).c_str());
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TMainF::executePluginAExecute(TObject *Sender)
 {
-	executePlugin(mTheAPI, getCurrentPluginName().c_str());
+	executePlugin(mInstanceH, getCurrentPluginName().c_str());
 }
 //---------------------------------------------------------------------------
 
@@ -238,3 +239,59 @@ void __fastcall TMainF::getLastErrorAExecute(TObject *Sender)
 {
 	Log()<<getLastError();
 }
+
+void __fastcall TMainF::loadModelAExecute(TObject *Sender)
+{
+	TAction* anAction = (TAction*)(Sender);
+
+    if(anAction == loadModelA)
+    {
+		//load model
+    	mTheJob = loadSBMLFromFileJobEx(mInstanceH, mModel.c_str(), true);
+    }
+
+    if(anAction == unLoadModelA)
+    {
+		//unLoad model
+    	if(!unLoadModel(mInstanceH))
+        {
+            Log() << "Problem unloading model.";
+            throw Exception(getLastError());
+        }
+        Log() << "Model was unloaded.";
+    }
+}
+
+void __fastcall TMainF::JobTimerTimer(TObject *Sender)
+{
+	if(mTheJob)
+    {
+    	if(isJobFinished(mTheJob))
+        {
+    		Log () << "Job did finish. Cleaning up.";
+            if(freeJob(mTheJob))
+            {
+            	mTheJob = NULL;
+            }
+            else
+            {
+				Log() << "Problem deleting a job..";
+				throw Exception(getLastError());
+            }
+        }
+        else
+        {
+    		Log () << "Busy...";
+        }
+    }
+}
+
+
+void __fastcall TMainF::loadModelAUpdate(TObject *Sender)
+{
+	if(!mUIIsStartingUp)
+    {
+		loadBtn->Action = isModelLoaded(mInstanceH) ? unLoadModelA : loadModelA;
+    }
+}
+

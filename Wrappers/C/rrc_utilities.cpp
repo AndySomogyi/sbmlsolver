@@ -49,7 +49,6 @@
 #include "rrException.h"
 #include "rrc_utilities.h" 			// Need to include this before the support header..
 #include "rrc_support.h"   //Support functions, not exposed as api functions and or data
-
 //---------------------------------------------------------------------------
 
 namespace rrc
@@ -68,7 +67,6 @@ char* rrCallConv getFileContent(const char* fName)
     CATCH_PTR_MACRO
 
 }
-
 
 bool rrCallConv compileSource(RRHandle handle, const char* sourceFileName)
 {

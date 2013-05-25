@@ -101,7 +101,6 @@ __published:	// IDE-managed Components
     TAction *LogCurrentDataA;
     TCheckBox *ConservationAnalysisCB;
     TComboBox *LogLevelCB;
-    TLabel *Label1;
     TTabSheet *TabSheet3;
     TImage *testSuitePic;
     TGroupBox *GroupBox4;

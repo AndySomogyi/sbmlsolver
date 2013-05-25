@@ -2,7 +2,7 @@ object MForm: TMForm
   Left = 0
   Top = 0
   Caption = 'RoadRunner UI'
-  ClientHeight = 735
+  ClientHeight = 613
   ClientWidth = 1226
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -21,12 +21,12 @@ object MForm: TMForm
     Left = 0
     Top = 0
     Width = 217
-    Height = 716
+    Height = 594
     Align = alLeft
     TabOrder = 0
     object Splitter3: TSplitter
       Left = 1
-      Top = 293
+      Top = 325
       Width = 215
       Height = 3
       Cursor = crVSplit
@@ -89,9 +89,9 @@ object MForm: TMForm
     end
     object Panel4: TPanel
       Left = 1
-      Top = 296
+      Top = 328
       Width = 215
-      Height = 419
+      Height = 265
       Align = alBottom
       TabOrder = 1
       object GroupBox3: TGroupBox
@@ -143,14 +143,14 @@ object MForm: TMForm
         Left = 1
         Top = 65
         Width = 213
-        Height = 353
+        Height = 199
         Align = alClient
         TabOrder = 1
         object SelList: TCheckListBox
           Left = 1
           Top = 1
           Width = 79
-          Height = 351
+          Height = 197
           Align = alClient
           ItemHeight = 13
           TabOrder = 0
@@ -160,7 +160,7 @@ object MForm: TMForm
           Left = 80
           Top = 1
           Width = 132
-          Height = 351
+          Height = 197
           Align = alRight
           Caption = 'Model'
           TabOrder = 1
@@ -171,49 +171,21 @@ object MForm: TMForm
             Height = 13
             Caption = 'Model Name'
           end
-          object Label1: TLabel
-            Left = 24
-            Top = 77
-            Width = 42
-            Height = 13
-            Caption = 'Log level'
-          end
           object Button3: TButton
-            Left = 24
-            Top = 136
-            Width = 75
+            Left = 6
+            Top = 66
+            Width = 73
             Height = 25
             Action = SimulateA
             TabOrder = 0
           end
           object loadUnloadBtn: TButton
-            Left = 24
+            Left = 6
             Top = 35
             Width = 75
             Height = 25
             Action = LoadModelA
             TabOrder = 1
-          end
-          object LogLevelCB: TComboBox
-            Left = 24
-            Top = 96
-            Width = 73
-            Height = 21
-            ItemIndex = 0
-            TabOrder = 2
-            Text = 'ERRORS'
-            OnChange = LogLevelCBChange
-            Items.Strings = (
-              'ERRORS'
-              'WARNINGS'
-              'INFO'
-              'DEBUG'
-              'DEBUG1'
-              'DEBUG2'
-              'DEBUG3'
-              'DEBUG4'
-              'DEBUG5'
-              '')
           end
         end
       end
@@ -222,14 +194,14 @@ object MForm: TMForm
       Left = 1
       Top = 129
       Width = 215
-      Height = 164
+      Height = 196
       Align = alClient
       TabOrder = 2
     end
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 716
+    Top = 594
     Width = 1226
     Height = 19
     Panels = <>
@@ -238,12 +210,12 @@ object MForm: TMForm
     Left = 217
     Top = 0
     Width = 1009
-    Height = 716
+    Height = 594
     Align = alClient
     TabOrder = 2
     object Splitter2: TSplitter
       Left = 1
-      Top = 462
+      Top = 340
       Width = 1007
       Height = 3
       Cursor = crVSplit
@@ -254,14 +226,18 @@ object MForm: TMForm
     end
     object PageControl1: TPageControl
       Left = 1
-      Top = 465
+      Top = 343
       Width = 1007
       Height = 250
-      ActivePage = TabSheet3
+      ActivePage = TabSheet2
       Align = alBottom
       TabOrder = 0
       object TabSheet1: TTabSheet
         Caption = 'Log'
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object Panel3: TPanel
           Left = 0
           Top = 0
@@ -314,18 +290,43 @@ object MForm: TMForm
         Caption = 'Settings'
         ImageIndex = 1
         object ConservationAnalysisCB: TCheckBox
-          Left = 3
-          Top = 24
+          Left = 11
+          Top = 48
           Width = 126
           Height = 17
           Caption = 'ConservationAnalysis'
           TabOrder = 0
           OnClick = ConservationAnalysisCBClick
         end
+        object LogLevelCB: TComboBox
+          Left = 11
+          Top = 21
+          Width = 73
+          Height = 21
+          ItemIndex = 0
+          TabOrder = 1
+          Text = 'ERRORS'
+          OnChange = LogLevelCBChange
+          Items.Strings = (
+            'ERRORS'
+            'WARNINGS'
+            'INFO'
+            'DEBUG'
+            'DEBUG1'
+            'DEBUG2'
+            'DEBUG3'
+            'DEBUG4'
+            'DEBUG5'
+            '')
+        end
       end
       object TabSheet3: TTabSheet
         Caption = 'Test Suite'
         ImageIndex = 2
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object Button2: TButton
           Left = 408
           Top = 112
@@ -344,6 +345,10 @@ object MForm: TMForm
           TabOrder = 1
           object TabSheet4: TTabSheet
             Caption = 'General'
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
             object testSuitePic: TImage
               Left = 676
               Top = 29
@@ -1263,8 +1268,6 @@ object MForm: TMForm
               Align = alLeft
               Caption = 'Model Info'
               TabOrder = 0
-              ExplicitLeft = -3
-              ExplicitTop = 32
               object WebBrowser1: TWebBrowser
                 Left = 2
                 Top = 15
@@ -1304,12 +1307,20 @@ object MForm: TMForm
           object TabSheet5: TTabSheet
             Caption = 'TabSheet5'
             ImageIndex = 1
+            ExplicitLeft = 0
+            ExplicitTop = 0
+            ExplicitWidth = 0
+            ExplicitHeight = 0
           end
         end
       end
       object TabSheet6: TTabSheet
         Caption = 'Other Tests'
         ImageIndex = 3
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object runCountMemo: TMemo
           Left = 208
           Top = 0
@@ -1371,7 +1382,7 @@ object MForm: TMForm
       Left = 1
       Top = 1
       Width = 1007
-      Height = 461
+      Height = 339
       Legend.Visible = False
       Title.Text.Strings = (
         'TChart')
@@ -1400,8 +1411,8 @@ object MForm: TMForm
     end
   end
   object RRActions: TActionList
-    Left = 528
-    Top = 512
+    Left = 384
+    Top = 24
     object CompileA: TAction
       Caption = 'CompileA'
     end
@@ -1456,8 +1467,8 @@ object MForm: TMForm
     Enabled = False
     Interval = 100
     OnTimer = startupTimerTimer
-    Left = 712
-    Top = 512
+    Left = 568
+    Top = 24
   end
   object TVPopupMenu: TPopupMenu
     Left = 112
@@ -1470,8 +1481,8 @@ object MForm: TMForm
     end
   end
   object MiscActions: TActionList
-    Left = 584
-    Top = 512
+    Left = 440
+    Top = 24
     object ClearMemoA: TAction
       Caption = 'Clear'
       OnExecute = ClearMemoAExecute
@@ -1482,8 +1493,8 @@ object MForm: TMForm
     end
   end
   object MemoPopup: TPopupMenu
-    Left = 648
-    Top = 512
+    Left = 504
+    Top = 24
     object Clear1: TMenuItem
       Action = ClearMemoA
     end
@@ -1503,8 +1514,8 @@ object MForm: TMForm
     end
   end
   object TestSuiteActions: TActionList
-    Left = 432
-    Top = 512
+    Left = 288
+    Top = 24
     object PlotTestTestSuiteData: TAction
       Caption = 'Plot'
       OnExecute = PlotTestTestSuiteDataExecute
@@ -1514,13 +1525,13 @@ object MForm: TMForm
     Enabled = False
     Interval = 100
     OnTimer = ShutDownTimerTimer
-    Left = 928
-    Top = 512
+    Left = 784
+    Top = 24
   end
   object CheckThreadTimer: TTimer
     Interval = 500
     OnTimer = CheckThreadTimerTimer
-    Left = 824
-    Top = 512
+    Left = 680
+    Top = 24
   end
 end

@@ -30,7 +30,7 @@ RRHandle gRR = NULL;
 
 	TEST(DATA_FILES)
 	{
-    	gRR 						= createRRInstanceE(gTempFolder.c_str());
+    	gRR 						= createRRInstanceEx(gTempFolder.c_str());
 		string testDataFileName 	= JoinPath(gTestDataFolder, TestDataFileName);
 		clog<<"Checking file: "<<testDataFileName<<endl;
 		CHECK(FileExists(testDataFileName));

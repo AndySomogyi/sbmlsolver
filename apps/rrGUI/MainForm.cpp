@@ -37,7 +37,8 @@ mLogString(NULL)
 
     //This is roadrunners logger
     mRRLogFileName = rr::JoinPath(mTempDataFolder, "RoadRunnerUI.log");
-    gLog.Init("", gLog.GetLogLevel(), new LogFile(mRRLogFileName ));
+//    gLog.Init("", gLog.GetLogLevel(), new LogFile(mRRLogFileName ));
+    gLog.Init("", gLog.GetLogLevel(), NULL);
 
     //Setup a logfile sniffer and propagate logs to memo...
     mLogFileSniffer.SetFileName(mRRLogFileName);

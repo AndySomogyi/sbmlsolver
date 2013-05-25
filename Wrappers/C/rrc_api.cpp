@@ -47,10 +47,6 @@
 #include "rrParameter.h"
 #include "rrRoadRunner.h"
 #include "rrRoadRunnerList.h"
-#include "rrLoadModel.h"
-#include "rrLoadModelThread.h"
-#include "rrSimulate.h"
-#include "rrSimulateThread.h"
 #include "rrCGenerator.h"
 #include "rrLogger.h"
 #include "rrException.h"
@@ -102,7 +98,7 @@ RRHandle rrCallConv createRRInstance()
     }
 }
 
-RRHandle rrCallConv createRRInstanceE(const char* tempFolder)
+RRHandle rrCallConv createRRInstanceEx(const char* tempFolder)
 {
 	try
     {
@@ -226,12 +222,11 @@ bool rrCallConv setInstallFolder(const char* folder)
     }
 }
 
-char* rrCallConv getVersion(RRHandle handle)
+char* rrCallConv getAPIVersion()
 {
 	try
     {
-   		RoadRunner* rri = castFrom(handle);
-		return createText(rri->getVersion());
+		return createText("0.99");
     }
     catch(Exception& ex)
     {
@@ -242,6 +237,30 @@ char* rrCallConv getVersion(RRHandle handle)
     }
 }
 
+char* rrCallConv getCPPAPIVersion()
+{
+	try
+    {
+    	RRHandle handle = createRRInstance();
+        if(!handle)
+        {
+        	return NULL;
+        }
+
+   		RoadRunner* rri = castFrom(handle);
+        char* text = createText(rri->getVersion());
+        freeRRInstance(handle);
+
+        return text;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return NULL;
+    }
+}
 
 char* rrCallConv getRRCAPILocation()
 {
@@ -302,6 +321,30 @@ char* rrCallConv getInfo(RRHandle handle)
         {
             text = createText(rri->getInfo());
         }
+        return text;
+    }
+    catch(Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        setError(msg.str());
+		return NULL;
+    }
+}
+
+char* rrCallConv getExtendedAPIInfo()
+{
+	try
+    {
+    	RRHandle handle = createRRInstance();
+        if(!handle)
+        {
+        	return NULL;
+        }
+
+   		RoadRunner* rri = castFrom(handle);
+        char* text = createText(rri->getExtendedVersionInfo());
+        freeRRInstance(handle);
         return text;
     }
     catch(Exception& ex)
@@ -613,173 +656,6 @@ bool rrCallConv loadSBMLFromFileE(RRHandle _handle, const char* fileName, bool f
     }
 }
 
-RRJobHandle rrCallConv loadSBMLFromFileJob(RRHandle rrHandle, const char* fileName)
-{
-
-	try
-    {
-        //Check if file exists first
-        if(!FileExists(fileName))
-        {
-            stringstream msg;
-            msg<<"The file "<<fileName<<" do not exist";
-            setError(msg.str());
-            return NULL;
-        }
-
-        RoadRunner* rr = castFrom(rrHandle);
-        LoadModelThread* loadThread = new LoadModelThread(fileName);
-
-        if(!loadThread)
-        {
-            setError("Failed to create a LoadModel Thread");
-        }
-        loadThread->addJob(rr);
-        loadThread->start();
-        return loadThread;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return NULL;
-    }
-}
-
-RRJobsHandle rrCallConv loadSBMLFromFileJobs(RRInstanceListHandle _handles, const char* fileName, int nrOfThreads)
-{
-	try
-    {
-        //Check if file exists first
-        if(!FileExists(fileName))
-        {
-            stringstream msg;
-            msg<<"The file "<<fileName<<" do not exist";
-            setError(msg.str());
-            return NULL;
-        }
-
-        RoadRunnerList *rrs = getRRList(_handles);
-        LoadModel* tp = new LoadModel(*rrs, fileName, nrOfThreads);
-
-        if(!tp)
-        {
-            setError("Failed to create a LoadModel Thread Pool");
-        }
-        return tp;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return NULL;
-    }
-}
-
-bool rrCallConv waitForJob(RRJobHandle handle)
-{
-	try
-    {
-        RoadRunnerThread* aThread = (RoadRunnerThread*) handle;
-        if(aThread)
-        {
-			aThread->waitForFinish();
-            return true;
-        }
-		return false;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return false;
-    }
-}
-
-bool rrCallConv waitForJobs(RRJobsHandle handle)
-{
-	try
-    {
-        ThreadPool* aTP = (ThreadPool*) handle;
-        if(aTP)
-        {
-			aTP->waitForFinish();
-            return true;
-        }
-		return false;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return false;
-    }
-}
-
-bool rrCallConv isJobFinished(RRJobHandle handle)
-{
-	try
-    {
-        RoadRunnerThread* aT = (RoadRunnerThread*) handle;
-        if(aT)
-        {
-			return ! aT->isActive();
-        }
-		return false;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return false;
-    }
-}
-
-bool rrCallConv areJobsFinished(RRJobsHandle handle)
-{
-	try
-    {
-        ThreadPool* aTP = (ThreadPool*) handle;
-        if(aTP)
-        {
-			return ! aTP->isWorking();
-        }
-		return false;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return false;
-    }
-}
-
-int rrCallConv getNumberOfRemainingJobs(RRJobHandle handle)
-{
-	try
-    {
-        ThreadPool* aTP = (ThreadPool*) handle;
-        if(aTP)
-        {
-            return aTP->getNumberOfRemainingJobs();
-        }
-    	return -1;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return -1;
-    }
-}
-
 bool rrCallConv loadSBML(RRHandle handle, const char* sbml)
 {
 	try
@@ -863,6 +739,16 @@ char* rrCallConv getSBML(RRHandle handle)
         setError(msg.str());
 	  	return NULL;
     }
+}
+
+bool rrCallConv isModelLoaded(RRHandle handle)
+{
+	try
+    {
+      	RoadRunner* rri = castFrom(handle);
+        return rri->isModelLoaded();
+    }
+    CATCH_BOOL_MACRO
 }
 
 bool rrCallConv unLoadModel(RRHandle handle)
@@ -1149,51 +1035,6 @@ RRResultHandle rrCallConv getSimulationResult(RRHandle handle)
     }
 }
 
-RRJobHandle rrCallConv simulateJob(RRHandle rrHandle)
-{
-	try
-    {
-        RoadRunner *rr = castFrom(rrHandle);
-        SimulateThread *t = new SimulateThread();
-
-        if(!t)
-        {
-            setError("Failed to create a Simulate Thread Pool");
-        }
-        t->addJob(rr);
-        t->start();
-        return t;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
-
-RRJobHandle rrCallConv simulateJobs(RRInstanceListHandle _handles, int nrOfThreads)
-{
-	try
-    {
-        RoadRunnerList *rrs = getRRList(_handles);
-        Simulate* tp = new Simulate(*rrs, nrOfThreads);
-
-        if(!tp)
-        {
-            setError("Failed to create a Simulate Thread Pool");
-        }
-        return tp;
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-		return NULL;
-    }
-}
 
 RRResultHandle rrCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
 {
@@ -3735,235 +3576,6 @@ bool rrCallConv writeMultipleRRData(RRInstanceListHandle rrHandles, const char* 
 }
 
 
-//PLUGIN Functions
-bool rrCallConv loadPlugins(RRHandle handle)
-{
-	try
-    {
-        RoadRunner* rri = castFrom(handle);
-    	return rri->getPluginManager().load();
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return false;
-    }
-}
-
-bool rrCallConv unLoadPlugins(RRHandle handle)
-{
-	try
-    {
-        RoadRunner* rri = castFrom(handle);
-    	return rri->getPluginManager().unload();
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return false;
-    }
-}
-
-int rrCallConv getNumberOfPlugins(RRHandle handle)
-{
-	try
-    {
-        RoadRunner* rri = castFrom(handle);
-    	return rri->getPluginManager().getNumberOfPlugins();
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return -1;
-    }
-}
-
-RRStringArray* rrCallConv getPluginNames(RRHandle handle)
-{
-	try
-    {
-        RoadRunner* rri = castFrom(handle);
-        StringList names = rri->getPluginManager().getPluginNames();
-        return createList(names);
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
-}
-
-RRStringArray* rrCallConv getPluginCapabilities(RRHandle handle, const char* pluginName)
-{
-	try
-    {
-        RoadRunner* rri = castFrom(handle);
-        Plugin* aPlugin = rri->getPluginManager().getPlugin(pluginName);
-        if(aPlugin)
-        {
-        	StringList aList;
-            vector<Capability>* caps = aPlugin->getCapabilities();
-            if(!caps)
-            {
-            	return NULL;
-            }
-
-            for(int i = 0; i < caps->size(); i++)
-            {
-            	aList.Add((*caps)[i].getName());
-            }
-        	return createList(aList);
-        }
-        else
-        {
-	        return NULL;
-        }
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
-}
-
-RRStringArray* rrCallConv getPluginParameters(RRHandle handle, const char* pluginName, const char* capability)
-{
-	try
-    {
-        RoadRunner* rri = castFrom(handle);
-        Plugin* aPlugin = rri->getPluginManager().getPlugin(pluginName);
-        if(aPlugin)
-        {
-        	StringList aList;
-            Parameters* paras = aPlugin->getParameters(capability);
-            if(!paras)
-            {
-            	return NULL;
-            }
-
-            for(int i = 0; i < paras->size(); i++)
-            {
-            	aList.Add((*paras)[i]->getName());
-            }
-        	return createList(aList);
-        }
-        else
-        {
-	        return NULL;
-        }
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
-}
-
-RRParameter* rrCallConv getPluginParameter(RRHandle handle, const char* pluginName, const char* parameterName)
-{
-	try
-    {
-        RoadRunner* rri = castFrom(handle);
-        Plugin* aPlugin = rri->getPluginManager().getPlugin(pluginName);
-        if(aPlugin)
-        {
-
-            rr::BaseParameter *para = aPlugin->getParameter(parameterName);
-        	return createParameter( *(para) );
-        }
-        return NULL;
-
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
-}
-
-bool rrCallConv setPluginParameter(RRHandle handle, const char* pluginName, const char* parameterName, const char* value)
-{
-	try
-    {
-        RoadRunner* rri = castFrom(handle);
-        Plugin* aPlugin = rri->getPluginManager().getPlugin(pluginName);
-        if(aPlugin)
-        {
-            return aPlugin->setParameter(parameterName, value);
-        }
-		return false;
-
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
-}
-
-char* rrCallConv getPluginInfo(RRHandle handle, const char* name)
-{
-	try
-    {
-        RoadRunner* rri = castFrom(handle);
-        Plugin* aPlugin = rri->getPluginManager().getPlugin(name);
-        if(aPlugin)
-        {
-        	return createText(aPlugin->getInfo());
-        }
-        else
-        {
-	        return createText("No such plugin: " + string(name));
-        }
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
-}
-
-bool rrCallConv executePlugin(RRHandle handle, const char* name)
-{
-	try
-    {
-        RoadRunner* rri = castFrom(handle);
-        Plugin* aPlugin = rri->getPluginManager().getPlugin(name);
-        if(aPlugin)
-        {
-        	return aPlugin->execute();
-        }
-        else
-        {
-			return false;
-        }
-    }
-    catch(Exception& ex)
-    {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-  	    return NULL;
-    }
-}
 
 // LOGGING ROUTINES
 void rrCallConv logMsg(CLogLevel lvl, const char* msg)
@@ -4087,7 +3699,6 @@ char* rrCallConv getBuildDateTime()
     return createText(string(__DATE__) + string(" ") + string(__TIME__));
 }
 
-
 int rrCallConv getInstanceCount(RRInstanceListHandle iList)
 {
 	return iList->Count;
@@ -4097,7 +3708,6 @@ RRHandle rrCallConv getRRHandle(RRInstanceListHandle iList, int index)
 {
 	return iList->Handle[index];
 }
-
 
 }
 //We only need to give the linker the folder where libs are

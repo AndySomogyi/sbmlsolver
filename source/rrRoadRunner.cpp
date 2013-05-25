@@ -121,6 +121,19 @@ string RoadRunner::getInfo()
 	return info.str();
 }
 
+string RoadRunner::getExtendedVersionInfo()
+{
+	stringstream info;
+    info<<"RoadRunner Info ("<<getCurrentDateTime()<<")\n";
+    info<<"\n\n";
+    info<<"libSBML version: "		<<	getlibSBMLVersion()<<endl;
+    info<<"Temporary folder: "		<<	getTempFolder()<<endl;
+    info<<"Compiler location: "		<<	getCompiler()->getCompilerLocation()<<endl;
+    info<<"Support Code Folder: "	<<	getCompiler()->getSupportCodeFolder()<<endl;
+    info<<"Working Directory: "		<<	getCWD()<<endl;
+	return info.str();
+}
+
 PluginManager&	RoadRunner::getPluginManager()
 {
 	return mPluginManager;

@@ -34,13 +34,11 @@ object MainF: TMainF
     Align = alBottom
     Caption = 'Panel1'
     TabOrder = 0
-    ExplicitTop = 184
-    ExplicitWidth = 832
     object infoMemo: TMemo
       Left = 1
-      Top = 1
+      Top = 30
       Width = 944
-      Height = 243
+      Height = 214
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -52,7 +50,25 @@ object MainF: TMainF
       ScrollBars = ssBoth
       TabOrder = 0
       WordWrap = False
-      ExplicitWidth = 830
+      ExplicitTop = 1
+      ExplicitHeight = 243
+    end
+    object ToolBar1: TToolBar
+      Left = 1
+      Top = 1
+      Width = 944
+      Height = 29
+      ButtonHeight = 23
+      Caption = 'ToolBar1'
+      TabOrder = 1
+      object Button4: TButton
+        Left = 0
+        Top = 0
+        Width = 69
+        Height = 23
+        Action = getLastErrorA
+        TabOrder = 0
+      end
     end
   end
   object Panel2: TPanel
@@ -62,7 +78,6 @@ object MainF: TMainF
     Height = 339
     Align = alLeft
     TabOrder = 1
-    ExplicitHeight = 181
     object Panel3: TPanel
       Left = 1
       Top = 1
@@ -70,7 +85,6 @@ object MainF: TMainF
       Height = 337
       Align = alLeft
       TabOrder = 0
-      ExplicitHeight = 179
       object GroupBox1: TGroupBox
         Left = 1
         Top = 1
@@ -122,13 +136,22 @@ object MainF: TMainF
           Caption = 'buildTimeLbl'
         end
       end
-      object Button4: TButton
-        Left = 17
-        Top = 96
-        Width = 75
-        Height = 25
-        Action = getLastErrorA
+      object Model: TGroupBox
+        Left = 1
+        Top = 82
+        Width = 174
+        Height = 109
+        Align = alTop
+        Caption = 'Model'
         TabOrder = 1
+        object loadBtn: TButton
+          Left = 3
+          Top = 24
+          Width = 75
+          Height = 25
+          Action = loadModelA
+          TabOrder = 0
+        end
       end
     end
     object Panel4: TPanel
@@ -138,7 +161,6 @@ object MainF: TMainF
       Height = 337
       Align = alClient
       TabOrder = 1
-      ExplicitHeight = 179
       object GroupBox2: TGroupBox
         Left = 1
         Top = 1
@@ -176,7 +198,6 @@ object MainF: TMainF
     Align = alLeft
     Caption = 'Plugin Actions'
     TabOrder = 2
-    ExplicitHeight = 181
     object Button2: TButton
       Left = 16
       Top = 21
@@ -237,9 +258,6 @@ object MainF: TMainF
       Align = alBottom
       Caption = 'Capability'
       TabOrder = 3
-      ExplicitLeft = 4
-      ExplicitTop = 97
-      ExplicitWidth = 185
       object pluginCapsCB: TComboBox
         Left = 4
         Top = 25
@@ -256,12 +274,12 @@ object MainF: TMainF
     Enabled = False
     Interval = 100
     OnTimer = startupTimerTimer
-    Left = 728
-    Top = 80
+    Left = 656
+    Top = 24
   end
   object ActionList1: TActionList
-    Left = 728
-    Top = 16
+    Left = 560
+    Top = 120
     object loadPluginsA: TAction
       Caption = 'Load'
       OnExecute = loadPluginsAExecute
@@ -289,6 +307,18 @@ object MainF: TMainF
       Caption = 'Last Error'
       OnExecute = getLastErrorAExecute
     end
+    object loadModelA: TAction
+      Category = 'C_API'
+      Caption = 'Load'
+      OnExecute = loadModelAExecute
+      OnUpdate = loadModelAUpdate
+    end
+    object unLoadModelA: TAction
+      Category = 'C_API'
+      Caption = 'Unload'
+      OnExecute = loadModelAExecute
+      OnUpdate = loadModelAUpdate
+    end
   end
   object ApplicationEvents1: TApplicationEvents
     OnException = ApplicationEvents1Exception
@@ -301,5 +331,11 @@ object MainF: TMainF
     object Clear1: TMenuItem
       Action = clearMemo
     end
+  end
+  object JobTimer: TTimer
+    Interval = 40
+    OnTimer = JobTimerTimer
+    Left = 560
+    Top = 72
   end
 end

@@ -19,9 +19,10 @@ Poco::Mutex 		LoadModelThread::mJobsMutex;
 Poco::Condition		LoadModelThread::mJobsCondition;
 
 
-LoadModelThread::LoadModelThread(const string& modelFile, RoadRunner* rri, bool autoStart)
+LoadModelThread::LoadModelThread(const string& modelFile, bool recompileOnLoad, RoadRunner* rri, bool autoStart)
 :
-mModelFileName(modelFile)
+mModelFileName(modelFile),
+mRecompileOnLoad(recompileOnLoad)
 {
 	if(rri)
     {
@@ -32,6 +33,10 @@ mModelFileName(modelFile)
     {
     	start();
     }
+}
+
+LoadModelThread::~LoadModelThread()
+{
 }
 
 void LoadModelThread::addJob(RoadRunner* rr)
@@ -102,7 +107,7 @@ void LoadModelThread::worker()
         if(rri)
         {
             Log(lInfo)<<"Loading model into instance: "<<rri->getInstanceID();
-            rri->loadSBMLFromFile(mModelFileName);
+            rri->loadSBMLFromFile(mModelFileName, mRecompileOnLoad);
         }
         else
         {

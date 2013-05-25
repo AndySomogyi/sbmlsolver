@@ -22,11 +22,13 @@ RoadRunnerThread()
     {
     	addJob(rri);
     }
-
-	if(autoStart && rri != NULL)
-    {
-    	start();
-    }
+	if(autoStart && rri != NULL)    {    	start();
+    }
+}
+
+SimulateThreadUI::~SimulateThreadUI()
+{
+
 }
 
 void SimulateThreadUI::addJob(RoadRunner* rr)

@@ -296,6 +296,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		//These functions are better placed in a separate file, as non class members, but part of the roadrunner namespace?
 		string                          getName();
 		string                          getVersion();
+		string							getExtendedVersionInfo();	//Include info about dependent libs versions..
 		string                          getAuthor();
 		string                          getDescription();
 		string                          getDisplayName();

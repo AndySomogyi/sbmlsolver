@@ -118,6 +118,10 @@
         <CppCompile Include="rrc_api.cpp">
             <BuildOrder>3</BuildOrder>
         </CppCompile>
+        <CppCompile Include="rrc_jobs_api.cpp">
+            <DependentOn>rrc_jobs_api.h</DependentOn>
+            <BuildOrder>4</BuildOrder>
+        </CppCompile>
         <CppCompile Include="rrc_plugin_api.cpp">
             <BuildOrder>3</BuildOrder>
         </CppCompile>

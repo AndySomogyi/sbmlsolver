@@ -11,10 +11,12 @@
 #include <Vcl.ActnList.hpp>
 #include <Vcl.AppEvnts.hpp>
 #include <Vcl.Menus.hpp>
-#include <string>
+#include <Vcl.ComCtrls.hpp>
+
+#include <Vcl.ToolWin.hpp>#include <string>
 #include <vector>
 #include <sstream>
-#include "rr_c_types.h"
+#include "rrc_types.h"
 #include "memoLogger.h"
 using std::string;
 using std::vector;
@@ -61,6 +63,12 @@ __published:	// IDE-managed Components
 	TAction *getLastErrorA;
 	TGroupBox *GroupBox5;
 	TComboBox *pluginCapsCB;
+	TGroupBox *Model;
+	TToolBar *ToolBar1;
+	TButton *loadBtn;
+	TAction *loadModelA;
+	TTimer *JobTimer;
+	TAction *unLoadModelA;
 	void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall startupTimerTimer(TObject *Sender);
 	void __fastcall loadPluginsAExecute(TObject *Sender);
@@ -73,12 +81,18 @@ __published:	// IDE-managed Components
 	void __fastcall SetParaBtnClick(TObject *Sender);
 	void __fastcall executePluginAExecute(TObject *Sender);
 	void __fastcall getLastErrorAExecute(TObject *Sender);
+	void __fastcall loadModelAExecute(TObject *Sender);
+	void __fastcall JobTimerTimer(TObject *Sender);
+	void __fastcall loadModelAUpdate(TObject *Sender);
 
 
 private:	// User declarations
-   	RRHandle	mTheAPI;
-	string 		getCurrentPluginName();
-	string 		getCurrentSelectedParameter();
+   	RRHandle	                        mInstanceH;
+    RRJobHandle	                        mTheJob;
+    string 		                        mModel;
+    bool								mUIIsStartingUp;
+	string 		                        getCurrentPluginName();
+	string 		                        getCurrentSelectedParameter();
 
 public:		// User declarations
 	__fastcall TMainF(TComponent* Owner);

@@ -40,10 +40,11 @@
 */
 #ifndef rrC_APIH
 #define rrC_APIH
-
 #include "rrc_exporter.h"
 #include "rrc_types.h"
 #include "rrc_utilities.h"
+#include "rrc_jobs_api.h"
+#include "rrc_plugin_api.h"
 
 #if defined(__cplusplus)
 namespace rrc
@@ -52,16 +53,13 @@ extern "C"
 {
 #endif
 
-
-//extern char* gInstallFolder; //On linux, we may have to set this one manually in any application using the API
-
 ///*!
 // \brief Initialize a new roadRunner instance and return a handle to it.
 // \return Returns a RoadRunner instance, returns null if it fails
 // \ingroup initialization
 //*/
 C_DECL_SPEC RRHandle rrCallConv createRRInstance(void);
-C_DECL_SPEC RRHandle rrCallConv createRRInstanceE(const char* tempFolder);
+C_DECL_SPEC RRHandle rrCallConv createRRInstanceEx(const char* tempFolder);
 
 ///*!
 // \brief Initialize new roadRunner instances and return a handle to them.
@@ -89,11 +87,25 @@ C_DECL_SPEC char* rrCallConv  getInstallFolder(void);
 C_DECL_SPEC bool  rrCallConv  setInstallFolder(const char* folder);
 
 /*!
- \brief Retrieve the current version number of the library
- \return Returns null if it fails, otherwise it returns the version number of the library
+ \brief Retrieve the current version number of the C API library
+ \return Returns null if it fails, otherwise it returns the version number of the C API library
  \ingroup utility
 */
-C_DECL_SPEC char* rrCallConv getVersion(RRHandle handle);
+C_DECL_SPEC char* rrCallConv getAPIVersion();
+
+/*!
+ \brief Retrieve the current version number of the C++ API (Core RoadRunner API) library
+ \return Returns null if it fails, otherwise it returns the version number of the C++ API library
+ \ingroup utility
+*/
+C_DECL_SPEC char* rrCallConv getCPPAPIVersion();
+
+/*!
+ \brief Retrieve extended API info.
+ \return Returns null if it fails, otherwise it returns a string with the info
+ \ingroup utility
+*/
+C_DECL_SPEC char*  rrCallConv getExtendedAPIInfo();
 
 /*!
  \brief Retrieve the current build date of the library
@@ -393,64 +405,20 @@ C_DECL_SPEC bool rrCallConv loadSBMLFromFile(RRHandle handle, const char* fileNa
 */
 C_DECL_SPEC bool rrCallConv loadSBMLFromFileE(RRHandle handle, const char* fileName, bool forceRecompile);
 
-/*!
- \brief Load a model from a SBML file into a RoadRunner instances, using a Job
- \param[in] rrHandle - RoadRunner handle
- \param[in] fileName file name (or full path) to file that holds the SBML model
- \return Returns a handle to the Job if succesful, otherwise returns NULL
- \ingroup multiThreading
-*/
-
-C_DECL_SPEC RRJobHandle rrCallConv loadSBMLFromFileJob(RRHandle rrHandle, const char* fileName);
 
 /*!
- \brief Load a model from a SBML file into a set of RoadRunner instances
- \param[in] rrHandles - RoadRunner handles structure
- \param[in] fileName file name (or full path) to file that holds the SBML model
- \return Returns a handle to the Jobs if succesful, otherwise returns NULL
- \ingroup multiThreading
+ \brief Unload current model
+ \return Returns true if sucessful
+ \ingroup loadsave
 */
-C_DECL_SPEC RRJobsHandle rrCallConv loadSBMLFromFileJobs(RRInstanceListHandle rrHandles, const char* fileName, int nrOfThreads);
+C_DECL_SPEC bool rrCallConv unLoadModel(RRHandle handle);
 
 /*!
- \brief Wait for jobs in thread to finish
- \param[in] RRJobHandle - aHandle to a roadrunner thread
- \return Returns true if thread finsihed up properly, otherwise returns false
- \ingroup multiThreading
+ \brief check if a model is loaded
+ \return Returns true/false indicating whether a model is loaded or not
+ \ingroup loadsave
 */
-C_DECL_SPEC bool rrCallConv waitForJob(RRJobHandle handle);
-
-/*!
- \brief Wait for jobs in thread pool to finish
- \param[in] RRJobsHandle - aHandle to a threadPool
- \return Returns true if threadpool finished up properly, otherwise returns false
- \ingroup multiThreading
-*/
-C_DECL_SPEC bool rrCallConv waitForJobs(RRJobsHandle handle);
-
-/*!
- \brief Check if there are work being done on a job
- \param[in] RRJobsHandle - aHandle to a threadPool
- \return Returns true if there are running threads, otherwise returns false
- \ingroup multiThreading
-*/
-C_DECL_SPEC bool rrCallConv isJobFinished(RRJobHandle handle);
-
-/*!
- \brief Check if there are work being done on jobs
- \param[in] RRJobsHandle - aHandle to a threadPool
- \return Returns true if there are running threads, otherwise returns false
- \ingroup multiThreading
-*/
-C_DECL_SPEC bool rrCallConv areJobsFinished(RRJobsHandle handle);
-
-/*!
- \brief Get number of remaining jobs in a threadPool
- \param[in] RRJobsHandle - aHandle to a threadPool
- \return Returns number of remaining, unfinished jobs. Returns -1 on failure
- \ingroup multiThreading
-*/
-C_DECL_SPEC int rrCallConv getNumberOfRemainingJobs(RRJobsHandle handle);
+C_DECL_SPEC bool rrCallConv isModelLoaded(RRHandle handle);
 
 /*!
  \brief Load simulation settings from a file
@@ -476,13 +444,6 @@ C_DECL_SPEC char* rrCallConv getCurrentSBML(RRHandle handle);
 C_DECL_SPEC char* rrCallConv getSBML(RRHandle handle);
 
 
-/*!
- \brief Unload current model
- \return Returns true if sucessful
- \ingroup loadsave
-*/
-C_DECL_SPEC bool rrCallConv unLoadModel(RRHandle handle);
-
 // -------------------------------------------------------------------------
 // SBML utility methods
 // -----------------------------------------------------------------------
@@ -490,11 +451,11 @@ C_DECL_SPEC bool rrCallConv unLoadModel(RRHandle handle);
 
 /*!
  \brief Promote any local parameters to global status.
- 
+
  This routine will convert any local reaction parameters and promote
  them to global status. The promoted parameters are prefixed with the
  name of the reaction to make them unique.
- 
+
  \param[in] sArg points to the SBML model to promote
  \return Returns null if it fails otherwise it returns the promoted SBML model as a string
  \ingroup sbml
@@ -609,10 +570,6 @@ setNumPoints etc to set the simulation characteristics.
  \ingroup simulation
 */
 C_DECL_SPEC RRResultHandle rrCallConv simulate(RRHandle handle);
-
-C_DECL_SPEC RRJobHandle rrCallConv simulateJob(RRHandle rrHandle);
-
-C_DECL_SPEC RRJobsHandle rrCallConv simulateJobs(RRInstanceListHandle rrHandles, int nrOfThreads);
 
 C_DECL_SPEC RRResultHandle rrCallConv getSimulationResult(RRHandle handle);
 
@@ -1979,86 +1936,6 @@ C_DECL_SPEC bool rrCallConv writeRRData(RRHandle rrHandle, const char* faileName
 C_DECL_SPEC bool rrCallConv writeMultipleRRData(RRInstanceListHandle rrHandles, const char* faileNameAndPath);
 
 
-//=============================== PLUGIN ROUTINES =========================================
-
-/*!
- \brief load plugins
-
- \return Returns true if Plugins are loaded, false otherwise
- \ingroup pluginRoutines
-*/
-
-C_DECL_SPEC bool rrCallConv loadPlugins(RRHandle handle);
-
-/*!
- \brief unload plugins
-
- \return Returns true if Plugins are unloaded succesfully, false otherwise
- \ingroup pluginRoutines
-*/
-
-C_DECL_SPEC bool rrCallConv unLoadPlugins(RRHandle handle);
-
-/*!
- \brief Get Number of loaded plugins
-
- \return Returns the number of loaded plugins, -1 if a problem is encountered
- \ingroup pluginRoutines
-*/
-
-C_DECL_SPEC int rrCallConv getNumberOfPlugins(RRHandle handle);
-
-/*!
- \brief GetPluginNames
- \return Returns names for loaded plugins, NULL otherwise
- \ingroup pluginRoutines
-*/
-C_DECL_SPEC struct RRStringArray* rrCallConv getPluginNames(RRHandle handle);
-
-/*!
- \brief GetPluginCapabilities
- \return Returns available capabilities for a particular plugin, NULL otherwise
- \ingroup pluginRoutines
-*/
-C_DECL_SPEC struct RRStringArray* rrCallConv getPluginCapabilities(RRHandle handle, const char* pluginName);
-
-/*!
- \brief GetPluginParameters
- \return Returns available parameters for a particular plugin, NULL otherwise
- \ingroup pluginRoutines
-*/
-C_DECL_SPEC struct RRStringArray* rrCallConv getPluginParameters(RRHandle handle, const char* pluginName, const char* capability);
-
-/*!
- \brief GetPluginParameter
- \return Returns a pointer to a parameter for a particular plugin. Returns NULL if absent parameter
- \ingroup pluginRoutines
-*/
-C_DECL_SPEC RRParameterHandle rrCallConv getPluginParameter(RRHandle handle, const char* pluginName, const char* parameterName);
-
-/*!
- \brief SetPluginParameter
- \return true if succesful, false otherwise
- \ingroup pluginRoutines
-*/
-C_DECL_SPEC bool rrCallConv setPluginParameter(RRHandle handle, const char* pluginName, const char* parameterName, const char* value);
-
-/*!
- \brief GetPluginInfo (PluginName)
- \param[in] string name of queried plugin
- \return Returns info, as a string, for the plugin, NULL otherwise
- \ingroup pluginRoutines
-*/
-C_DECL_SPEC char* rrCallConv getPluginInfo(RRHandle handle, const char* name);
-
-/*!
- \brief executePlugin (PluginName)
- \param[in] string name of plugin to execute
- \return Returns true or false indicating success/failure
- \ingroup pluginRoutines
-*/
-
-C_DECL_SPEC bool rrCallConv executePlugin(RRHandle handle, const char* name);
 
 
 #if defined( __cplusplus)

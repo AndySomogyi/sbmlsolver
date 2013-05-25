@@ -15,6 +15,7 @@ class RR_DECLSPEC LoadModelThread : public RoadRunnerThread
 {
 	protected:
 		string						mModelFileName;
+        bool						mRecompileOnLoad;
     	static list<RoadRunner*>    mJobs;
 		static Poco::Mutex	 		mJobsMutex;
         static Poco::Condition		mJobsCondition;
@@ -26,7 +27,8 @@ class RR_DECLSPEC LoadModelThread : public RoadRunnerThread
         void						signalExit();
 
 	public:
-    					            LoadModelThread(const string& modelFile, RoadRunner* rri = NULL, bool autoStart = false);
+    					            LoadModelThread(const string& modelFile, bool recompileOnLoad = true, RoadRunner* rri = NULL, bool autoStart = false);
+    					           ~LoadModelThread();
     	void 			            worker();
 		void 			            addJob(RoadRunner* rr);
 		unsigned int  				getNrOfJobsInQueue();

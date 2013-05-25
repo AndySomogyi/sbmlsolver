@@ -38,7 +38,7 @@ SUITE(CORE_TESTS)
 {
 	TEST(COMPILER)
 	{
-    	RRHandle aRR 		  		= createRRInstanceE(gTempFolder.c_str());
+    	RRHandle aRR 		  		= createRRInstanceEx(gTempFolder.c_str());
         //Copy test model sources to temp folder, and compile there
 
 		Poco::File headerFile(JoinPath(gTestDataFolder, "ModelSourceTest.h"));
@@ -53,7 +53,7 @@ SUITE(CORE_TESTS)
 
     TEST(RELOADING_MODEL_MODEL_RECOMPILIATION)
     {
-    	RRHandle aRR 		  		= createRRInstanceE(gTempFolder.c_str());
+    	RRHandle aRR 		  		= createRRInstanceEx(gTempFolder.c_str());
 		string TestModelFileName 	= JoinPath(gTestDataFolder, "Test_1.xml");
 		CHECK(FileExists(TestModelFileName));
 
@@ -66,7 +66,7 @@ SUITE(CORE_TESTS)
 
     TEST(RELOADING_MODEL_NO_MODEL_RECOMPILIATION)
     {
-    	RRHandle aRR 		  		= createRRInstanceE(gTempFolder.c_str());
+    	RRHandle aRR 		  		= createRRInstanceEx(gTempFolder.c_str());
 		string TestModelFileName 	= JoinPath(gTestDataFolder, "Test_1.xml");
 		CHECK(FileExists(TestModelFileName));
 
@@ -79,8 +79,8 @@ SUITE(CORE_TESTS)
 
     TEST(LOADING_MODEL_MULTIPLE_INSTANCES)
     {
-    	RRHandle aRR1 		  		= createRRInstanceE(gTempFolder.c_str());
-    	RRHandle aRR2 		  		= createRRInstanceE(gTempFolder.c_str());
+    	RRHandle aRR1 		  		= createRRInstanceEx(gTempFolder.c_str());
+    	RRHandle aRR2 		  		= createRRInstanceEx(gTempFolder.c_str());
 		string TestModelFileName 	= JoinPath(gTestDataFolder, "Test_1.xml");
 
 		CHECK(loadSBMLFromFileE(aRR1, TestModelFileName.c_str(), true));
@@ -113,8 +113,8 @@ SUITE(CORE_TESTS)
     TEST(LOAD_MODEL_FROM_STRING)
     {
         string xml = GetFileContent(JoinPath(gTestDataFolder, "Test_1.xml"));
-    	RRHandle aRR1 		  		= createRRInstanceE(gTempFolder.c_str());
-    	RRHandle aRR2 		  		= createRRInstanceE(gTempFolder.c_str());
+    	RRHandle aRR1 		  		= createRRInstanceEx(gTempFolder.c_str());
+    	RRHandle aRR2 		  		= createRRInstanceEx(gTempFolder.c_str());
 		CHECK(loadSBML(aRR1, xml.c_str()));
 		CHECK(loadSBMLE(aRR2, xml.c_str(), true));
 
