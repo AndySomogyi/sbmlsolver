@@ -128,7 +128,7 @@ include(CPack)
 #
 
 # Build static / shared library
-# option(BUILD_SHARED_LIBS  "Build shared library. (Set to OFF to build static libraries.)" OFF)
+ option(BUILD_SHARED_LIBS  "Build shared library. (Set to OFF to build static libraries.)" OFF)
 
 # Whether to compile examples
 option(WITH_EXAMPLES "Compile the libSBML example programs."  OFF)

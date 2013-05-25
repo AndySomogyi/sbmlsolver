@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "rrLogger.h"
+#include "rrException.h"
 #include "rrUtils.h"
 #include "Args.h"
 #include "rrc_api.h"
@@ -9,7 +10,6 @@
 
 using namespace std;
 using namespace rr;
-//using namespace rrc;
 
 string 	gTempFolder		   		= "";
 string 	gRRInstallFolder 		= "";
@@ -20,6 +20,8 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 //call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder"
 int main(int argc, char* argv[])
 {
+	try
+	{
     enableLoggingToConsole();
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
@@ -48,6 +50,11 @@ int main(int argc, char* argv[])
 	Log(lInfo)<<"Testing model: "<<args.ModelNumber;
 
     RunTest("l2v4", args.ModelNumber);
+	}
+	catch(const Exception& ex)
+	{
+		Log(lInfo)<<"There was a problem: "<<ex.what();
+	}
     return 0;
 }
 
