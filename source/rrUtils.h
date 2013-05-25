@@ -19,6 +19,7 @@ using std::vector;
 using std::string;
 namespace rr
 {
+RR_DECLSPEC double 			gaussNoise(double mean, double sigma);
 RR_DECLSPEC string 			getCurrentDateTime();
 RR_DECLSPEC string 			getMD5(const string& text);
 RR_DECLSPEC void		 	sleep(int ms);

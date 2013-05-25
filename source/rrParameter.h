@@ -16,6 +16,7 @@ class Parameter : public BaseParameter
                                             Parameter(const string& name, const T& value, const string& hint);
 		void								setValue(const T& val){mValue = val;}
         T									getValue();
+        T*									getValuePointer();
         string                      		getValueAsString() const;
 };
 
@@ -36,6 +37,12 @@ template<class T>
 T Parameter<T>::getValue()
 {
     return mValue;
+}
+
+template<class T>
+T* Parameter<T>::getValuePointer()
+{
+    return &mValue;
 }
 
 #if defined(_MSC_VER)

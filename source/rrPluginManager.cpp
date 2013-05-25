@@ -6,6 +6,7 @@
 #include "rrPlugin.h"
 #include "rrUtils.h"
 #include "rrException.h"
+#include "rrLogger.h"
 
 using std::stringstream;
 using std::pair;
@@ -76,6 +77,7 @@ bool PluginManager::load()
     	//Load and create the plugins
 	    result = loadPlugin("TestPlugin.dll");
 	    result = loadPlugin("fit_one_parameter.dll");
+	    result = loadPlugin("add_noise.dll");
     }
     return result;
 }
@@ -88,9 +90,9 @@ bool PluginManager::loadPlugin(const string& sharedLib)
         aLib->load(JoinPath(mPluginFolder, sharedLib));
 
         //Validate the plugin
-        if(aLib->hasSymbol("createRRPlugin"))
+        if(aLib->hasSymbol("createPlugin"))
         {
-            createRRPluginFunc create = (createRRPluginFunc) aLib->getSymbol("createRRPlugin");
+            createRRPluginFunc create = (createRRPluginFunc) aLib->getSymbol("createPlugin");
             //This plugin
             Plugin* aPlugin = create(mRR);
             if(aPlugin)
@@ -101,23 +103,27 @@ bool PluginManager::loadPlugin(const string& sharedLib)
         }
         else
         {
-            //Log some warnings about a bad plugin...?
+	        stringstream msg;
+            msg<<"The plugin library: "<<sharedLib<<" do not have a createPlugin function. Can't load";
+            Log(lError)<<msg.str();
+            return false;
         }
         return true;
     }
+
     catch(const Exception& e)
     {
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<e.what()<<endl;
-		Exception ex(msg.str());
-    	throw ex;
+		Log(lError)<<msg.str();
+		return false;
     }
     catch(const Poco::Exception& ex)
     {
 		stringstream msg;
     	msg<<"Poco exception: "<<ex.displayText()<<endl;
-    	Exception newMsg(msg.str());
-    	throw newMsg;
+   		Log(lError)<<msg.str();
+		return false;
     }
 }
 

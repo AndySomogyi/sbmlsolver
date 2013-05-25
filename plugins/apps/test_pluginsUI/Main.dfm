@@ -2,8 +2,8 @@ object MainF: TMainF
   Left = 0
   Top = 0
   Caption = 'RoadRunner PluginTester'
-  ClientHeight = 587
-  ClientWidth = 946
+  ClientHeight = 718
+  ClientWidth = 1065
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,8 +17,8 @@ object MainF: TMainF
   TextHeight = 13
   object Splitter1: TSplitter
     Left = 0
-    Top = 339
-    Width = 946
+    Top = 397
+    Width = 1065
     Height = 3
     Cursor = crVSplit
     Align = alBottom
@@ -28,17 +28,17 @@ object MainF: TMainF
   end
   object Panel1: TPanel
     Left = 0
-    Top = 342
-    Width = 946
-    Height = 245
+    Top = 400
+    Width = 1065
+    Height = 318
     Align = alBottom
     Caption = 'Panel1'
     TabOrder = 0
     object infoMemo: TMemo
-      Left = 1
+      Left = 386
       Top = 30
-      Width = 944
-      Height = 214
+      Width = 678
+      Height = 287
       Align = alClient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -50,13 +50,11 @@ object MainF: TMainF
       ScrollBars = ssBoth
       TabOrder = 0
       WordWrap = False
-      ExplicitTop = 1
-      ExplicitHeight = 243
     end
     object ToolBar1: TToolBar
       Left = 1
       Top = 1
-      Width = 944
+      Width = 1063
       Height = 29
       ButtonHeight = 23
       Caption = 'ToolBar1'
@@ -70,25 +68,181 @@ object MainF: TMainF
         TabOrder = 0
       end
     end
+    object Panel4: TPanel
+      Left = 1
+      Top = 30
+      Width = 96
+      Height = 287
+      Align = alLeft
+      TabOrder = 2
+      object GroupBox2: TGroupBox
+        Left = 1
+        Top = 1
+        Width = 94
+        Height = 56
+        Align = alTop
+        Caption = 'Plugins'
+        TabOrder = 0
+        object Button1: TButton
+          Left = 6
+          Top = 23
+          Width = 75
+          Height = 25
+          Action = loadPluginsA
+          TabOrder = 0
+        end
+      end
+      object pluginList: TListBox
+        Left = 1
+        Top = 57
+        Width = 94
+        Height = 229
+        Align = alClient
+        ItemHeight = 13
+        TabOrder = 1
+        OnClick = pluginListClick
+      end
+    end
+    object PageControl2: TPageControl
+      Left = 97
+      Top = 30
+      Width = 289
+      Height = 287
+      ActivePage = TabSheet5
+      Align = alLeft
+      TabOrder = 3
+      object TabSheet3: TTabSheet
+        Caption = 'Test'
+        object GroupBox3: TGroupBox
+          Left = 0
+          Top = 0
+          Width = 281
+          Height = 211
+          Align = alTop
+          Caption = 'Plugin Actions'
+          TabOrder = 0
+          object Button2: TButton
+            Left = 3
+            Top = 21
+            Width = 75
+            Height = 25
+            Action = getPluginInfoA
+            TabOrder = 0
+          end
+          object GroupBox4: TGroupBox
+            Left = 2
+            Top = 128
+            Width = 277
+            Height = 81
+            Align = alBottom
+            Caption = 'Parameters'
+            TabOrder = 1
+            object pluginParasCB: TComboBox
+              Left = 3
+              Top = 24
+              Width = 174
+              Height = 21
+              AutoDropDown = True
+              Style = csDropDownList
+              TabOrder = 0
+              OnChange = pluginCBChange
+            end
+            object paraEdit: TEdit
+              Left = 3
+              Top = 53
+              Width = 121
+              Height = 21
+              TabOrder = 1
+              Text = 'paraEdit'
+            end
+            object SetParaBtn: TButton
+              Left = 130
+              Top = 51
+              Width = 47
+              Height = 25
+              Caption = 'set'
+              TabOrder = 2
+              OnClick = SetParaBtnClick
+            end
+          end
+          object Button3: TButton
+            Left = 84
+            Top = 21
+            Width = 75
+            Height = 25
+            Action = executePluginA
+            TabOrder = 2
+          end
+          object GroupBox5: TGroupBox
+            Left = 2
+            Top = 64
+            Width = 277
+            Height = 64
+            Align = alBottom
+            Caption = 'Capability'
+            TabOrder = 3
+            object pluginCapsCB: TComboBox
+              Left = 3
+              Top = 25
+              Width = 174
+              Height = 21
+              AutoDropDown = True
+              Style = csDropDownList
+              TabOrder = 0
+              OnChange = pluginCBChange
+            end
+          end
+        end
+      end
+      object TabSheet4: TTabSheet
+        Caption = 'Fitting'
+        ImageIndex = 1
+      end
+      object TabSheet5: TTabSheet
+        Caption = 'Make Noise'
+        ImageIndex = 2
+        object noiseSigmaE: mtkFloatLabeledEdit
+          Left = 13
+          Top = 32
+          Width = 84
+          Height = 21
+          EditLabel.Width = 28
+          EditLabel.Height = 13
+          EditLabel.Caption = 'Sigma'
+          TabOrder = 0
+          Text = '0.00'
+          OnKeyDown = noiseSigmaEKeyDown
+        end
+        object Button6: TButton
+          Left = 13
+          Top = 72
+          Width = 75
+          Height = 25
+          Caption = 'Do It'
+          TabOrder = 1
+          OnClick = Button6Click
+        end
+      end
+    end
   end
   object Panel2: TPanel
     Left = 0
     Top = 0
-    Width = 337
-    Height = 339
+    Width = 209
+    Height = 397
     Align = alLeft
     TabOrder = 1
     object Panel3: TPanel
       Left = 1
       Top = 1
-      Width = 176
-      Height = 337
+      Width = 208
+      Height = 395
       Align = alLeft
       TabOrder = 0
       object GroupBox1: TGroupBox
         Left = 1
         Top = 1
-        Width = 174
+        Width = 206
         Height = 81
         Align = alTop
         Caption = 'RoadRunner C-API'
@@ -139,8 +293,8 @@ object MainF: TMainF
       object Model: TGroupBox
         Left = 1
         Top = 82
-        Width = 174
-        Height = 109
+        Width = 206
+        Height = 66
         Align = alTop
         Caption = 'Model'
         TabOrder = 1
@@ -153,121 +307,118 @@ object MainF: TMainF
           TabOrder = 0
         end
       end
-    end
-    object Panel4: TPanel
-      Left = 177
-      Top = 1
-      Width = 159
-      Height = 337
-      Align = alClient
-      TabOrder = 1
-      object GroupBox2: TGroupBox
+      inline TrrSettingFrame1: TrrSettingFrame
         Left = 1
-        Top = 1
-        Width = 157
-        Height = 56
-        Align = alTop
-        Caption = 'Plugins'
-        TabOrder = 0
-        object Button1: TButton
-          Left = 6
-          Top = 23
-          Width = 75
-          Height = 25
-          Action = loadPluginsA
-          TabOrder = 0
-        end
-      end
-      object pluginList: TListBox
-        Left = 1
-        Top = 57
-        Width = 157
-        Height = 279
+        Top = 148
+        Width = 206
+        Height = 246
         Align = alClient
-        ItemHeight = 13
-        TabOrder = 1
-        OnClick = pluginListClick
+        TabOrder = 2
+        ExplicitLeft = 1
+        ExplicitTop = 148
+        ExplicitWidth = 206
+        ExplicitHeight = 246
+        inherited Splitter1: TSplitter
+          Width = 206
+          ExplicitWidth = 206
+        end
+        inherited GroupBox1: TGroupBox
+          Width = 206
+          ExplicitWidth = 206
+          inherited mEndTimeE: mtkFloatLabeledEdit
+            Text = '5'
+          end
+        end
+        inherited Panel1: TPanel
+          Width = 206
+          Height = 170
+          ExplicitWidth = 206
+          ExplicitHeight = 170
+          inherited Panel2: TPanel
+            Left = 87
+            Height = 168
+            ExplicitLeft = 87
+            ExplicitHeight = 168
+            inherited Button1: TButton
+              OnClick = nil
+            end
+          end
+          inherited SelList: TCheckListBox
+            Width = 86
+            Height = 168
+            ExplicitWidth = 86
+            ExplicitHeight = 168
+          end
+        end
       end
     end
   end
-  object GroupBox3: TGroupBox
-    Left = 337
+  object PageControl1: TPageControl
+    Left = 209
     Top = 0
-    Width = 185
-    Height = 339
-    Align = alLeft
-    Caption = 'Plugin Actions'
+    Width = 856
+    Height = 397
+    ActivePage = TabSheet1
+    Align = alClient
     TabOrder = 2
-    object Button2: TButton
-      Left = 16
-      Top = 21
-      Width = 75
-      Height = 25
-      Action = getPluginInfoA
-      TabOrder = 0
-    end
-    object GroupBox4: TGroupBox
-      Left = 2
-      Top = 192
-      Width = 181
-      Height = 145
-      Align = alBottom
-      Caption = 'Parameters'
-      TabOrder = 1
-      object pluginParasCB: TComboBox
-        Left = 4
-        Top = 17
-        Width = 174
-        Height = 21
-        AutoDropDown = True
-        Style = csDropDownList
+    object TabSheet1: TTabSheet
+      Caption = 'TabSheet1'
+      object Chart1: TChart
+        Left = 0
+        Top = 29
+        Width = 848
+        Height = 340
+        Legend.Visible = False
+        Title.Text.Strings = (
+          'TChart')
+        Title.Visible = False
+        LeftAxis.AxisValuesFormat = '#.0 "x10" E+0'
+        LeftAxis.LabelsAlign = alOpposite
+        LeftAxis.LabelStyle = talValue
+        LeftAxis.RoundFirstLabel = False
+        View3D = False
+        Align = alClient
+        Color = clGray
         TabOrder = 0
-        OnChange = pluginCBChange
+        ExplicitTop = 28
+        ColorPaletteIndex = 13
+        object Series1: TLineSeries
+          Marks.Arrow.Visible = True
+          Marks.Callout.Brush.Color = clBlack
+          Marks.Callout.Arrow.Visible = True
+          Marks.Visible = False
+          Brush.BackColor = clDefault
+          Pointer.Brush.Gradient.EndColor = 10708548
+          Pointer.Gradient.EndColor = 10708548
+          Pointer.InflateMargins = True
+          Pointer.Style = psRectangle
+          Pointer.Visible = True
+          XValues.Name = 'X'
+          XValues.Order = loAscending
+          YValues.Name = 'Y'
+          YValues.Order = loNone
+        end
       end
-      object paraEdit: TEdit
-        Left = 4
-        Top = 56
-        Width = 121
-        Height = 21
+      object ToolBar2: TToolBar
+        Left = 0
+        Top = 0
+        Width = 848
+        Height = 29
+        Caption = 'ToolBar2'
         TabOrder = 1
-        Text = 'paraEdit'
-      end
-      object SetParaBtn: TButton
-        Left = 131
-        Top = 54
-        Width = 47
-        Height = 25
-        Caption = 'set'
-        TabOrder = 2
-        OnClick = SetParaBtnClick
+        object Button5: TButton
+          Left = 0
+          Top = 0
+          Width = 75
+          Height = 22
+          Action = PlotA
+          TabOrder = 0
+        end
       end
     end
-    object Button3: TButton
-      Left = 97
-      Top = 21
-      Width = 75
-      Height = 25
-      Action = executePluginA
-      TabOrder = 2
-    end
-    object GroupBox5: TGroupBox
-      Left = 2
-      Top = 128
-      Width = 181
-      Height = 64
-      Align = alBottom
-      Caption = 'Capability'
-      TabOrder = 3
-      object pluginCapsCB: TComboBox
-        Left = 4
-        Top = 25
-        Width = 174
-        Height = 21
-        AutoDropDown = True
-        Style = csDropDownList
-        TabOrder = 0
-        OnChange = pluginCBChange
-      end
+    object TabSheet2: TTabSheet
+      Caption = 'TabSheet2'
+      ImageIndex = 1
     end
   end
   object startupTimer: TTimer
@@ -278,8 +429,8 @@ object MainF: TMainF
     Top = 24
   end
   object ActionList1: TActionList
-    Left = 560
-    Top = 120
+    Left = 552
+    Top = 176
     object loadPluginsA: TAction
       Caption = 'Load'
       OnExecute = loadPluginsAExecute
@@ -319,23 +470,27 @@ object MainF: TMainF
       OnExecute = loadModelAExecute
       OnUpdate = loadModelAUpdate
     end
+    object PlotA: TAction
+      Caption = 'PlotA'
+      OnExecute = PlotAExecute
+    end
   end
   object ApplicationEvents1: TApplicationEvents
     OnException = ApplicationEvents1Exception
-    Left = 560
-    Top = 16
+    Left = 576
+    Top = 56
   end
   object PopupMenu1: TPopupMenu
-    Left = 192
-    Top = 304
+    Left = 168
+    Top = 112
     object Clear1: TMenuItem
       Action = clearMemo
     end
   end
-  object JobTimer: TTimer
+  object loadModelJobTimer: TTimer
     Interval = 40
-    OnTimer = JobTimerTimer
-    Left = 560
-    Top = 72
+    OnTimer = loadModelJobTimerTimer
+    Left = 552
+    Top = 104
   end
 end

@@ -66,7 +66,6 @@ C_DECL_SPEC char* rrCallConv getFileContent(const char* fName);
 C_DECL_SPEC bool rrCallConv compileSource(RRHandle handle, const char* sourceFileName);
 
 
-
 #if defined(__cplusplus)
 }	//Extern "C"
 }	//namespace

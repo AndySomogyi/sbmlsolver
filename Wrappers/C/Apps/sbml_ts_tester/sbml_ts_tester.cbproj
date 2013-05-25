@@ -102,7 +102,6 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <IntermediateOutputDir>.\$(Config)\$(Platform)</IntermediateOutputDir>
         <DynamicRTL>false</DynamicRTL>
-        <Defines>STATIC_RR;STATIC_RTL;STATIC_RR_C_API;$(Defines)</Defines>
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
         <BCC_MonitorThis>true</BCC_MonitorThis>
@@ -117,9 +116,6 @@
         <Icns_MainIcns>$(BDS)\bin\cbuilder_PROJECTICNS.icns</Icns_MainIcns>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="..\..\..\..\source\rrUnresolvedSTDExternals.cpp">
-            <BuildOrder>7</BuildOrder>
-        </CppCompile>
         <CppCompile Include="Args.cpp">
             <BuildOrder>3</BuildOrder>
         </CppCompile>

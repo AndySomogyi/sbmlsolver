@@ -14,12 +14,13 @@ mMemo(aMemo)
 
 MemoLogger::~MemoLogger()
 {
-	vector<string> lines = rr::SplitString(mStream.str(),"\n");
-
-    for(int i = 0; i < lines.size(); i++)
+	if(mMemo)
     {
-	    mMemo->Lines->Add(lines[i].c_str());
-
+        vector<string> lines = rr::SplitString(mStream.str(),"\n");
+        for(int i = 0; i < lines.size(); i++)
+        {
+            mMemo->Lines->Add(lines[i].c_str());
+        }
     }
 }
 

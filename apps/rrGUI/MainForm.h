@@ -167,7 +167,6 @@ private:	// User declarations
 
     mtkIniParameter<int>        	mSelectionListHeight;
     mtkIniParameter<int>        	mPageControlHeight;
-
     mtkIniParameter<mtk::LogLevel>	mLogLevel;
     mtkIniParameter<string>     	mCurrentModelsFolder;
     mtkIniParameter<string>     	mCurrentModelFileName;
@@ -181,8 +180,7 @@ private:	// User declarations
 
     void            	__fastcall  SetupINIParameters();
     void                        	Plot(const rr::SimulationData& result);
-    void                        	EnableDisableSimulation(bool enable);
-    void            	__fastcall  CheckUI();
+    void                        	EnableDisableSimulation();
     StringList                      GetCheckedSpecies();
     TColor                          GetColor(int i);
     void                            AddItemsToListBox(const StringList& items);

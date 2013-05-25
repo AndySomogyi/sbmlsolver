@@ -1,4 +1,4 @@
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{25739709-F398-4779-8C01-8036F472E59C}</ProjectGuid>
         <ProjectVersion>14.4</ProjectVersion>
@@ -51,12 +51,12 @@
         <Manifest_File>None</Manifest_File>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <Multithreaded>true</Multithreaded>
-        <AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib;DuneComponents.lib;VCLCommon.lib;vclactnband.lib;vclx.lib;Tee.lib;vclimg.lib</AllPackageLibs>
         <_TCHARMapping>char</_TCHARMapping>
         <ProjectType>CppVCLApplication</ProjectType>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
-        <ILINK_LibraryPath>R:\rrl\plugins\TestUI\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <IncludePath>R:\rrl\plugins\TestUI\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\..\..\vcl_source\;R:\rrl\plugins\TestUI\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\..\..\vcl_source\;R:\rrl\plugins\TestUI\;$(IncludePath)</IncludePath>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
         <DynamicRTL>true</DynamicRTL>
         <UsePackages>true</UsePackages>
@@ -102,13 +102,14 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <Debugger_DebugSourcePath>R:\rrl\plugins\TestPlugin\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
+        <Defines>LIBSBML_USE_CPP_NAMESPACE;$(Defines)</Defines>
+        <Debugger_DebugSourcePath>R:\rrl\plugins\TestPlugin\;P:\mtk\Components\Dune\;R:\rrl\source\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <ILINK_LibraryPath>$(RR_DEBUG)/lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <IncludePath>$(RR_ROOT)\source;$(RR_ROOT)\Wrappers\C;$(IncludePath)</IncludePath>
+        <IncludePath>$(RR_ROOT)\source;$(RR_ROOT)\Wrappers\C;$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
         <FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
-        <LinkPackageImports>rtl.bpi;vcl.bpi</LinkPackageImports>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;DuneComponents.bpi;VCLCommon.bpi;vclactnband.bpi;vclx.bpi;Tee.bpi;vclimg.bpi</LinkPackageImports>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -134,10 +135,22 @@
         <PCHCompile Include="PluginAppPCH1.h">
             <BuildOrder>1</BuildOrder>
         </PCHCompile>
-        <CppCompile Include="utils.cpp">
-            <DependentOn>utils.h</DependentOn>
+        <CppCompile Include="..\..\..\vcl_source\rrEndUserUtils.cpp">
+            <DependentOn>..\..\..\vcl_source\rrEndUserUtils.h</DependentOn>
+            <BuildOrder>6</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\..\vcl_source\rrSimulationFrame.cpp">
+            <Form>rrSettingFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>..\..\..\vcl_source\rrSimulationFrame.h</DependentOn>
+            <BuildOrder>5</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\..\vcl_source\vcl_utils.cpp">
+            <DependentOn>..\..\..\vcl_source\vcl_utils.h</DependentOn>
             <BuildOrder>3</BuildOrder>
         </CppCompile>
+        <FormResources Include="..\..\..\vcl_source\rrSimulationFrame.dfm"/>
         <FormResources Include="Main.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>

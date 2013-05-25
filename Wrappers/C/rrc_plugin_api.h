@@ -64,7 +64,7 @@ C_DECL_SPEC struct RRStringArray* rrCallConv getPluginParameters(RRHandle handle
  \return Returns a pointer to a parameter for a particular plugin. Returns NULL if absent parameter
  \ingroup pluginRoutines
 */
-C_DECL_SPEC RRParameterHandle rrCallConv getPluginParameter(RRHandle handle, const char* pluginName, const char* parameterName);
+C_DECL_SPEC RRParameterHandle rrCallConv getPluginParameter(RRHandle handle, const char* pluginName, const char* parameterName, const char* capabilitiesName = NULL);
 
 /*!
  \brief SetPluginParameter

@@ -297,7 +297,7 @@ void __fastcall TMForm::loadAvailableSymbolsAExecute(TObject *Sender)
             AddItemsToListBox(gp);
             AddItemsToListBox(fluxes);
         }
-        CheckUI();
+        EnableDisableSimulation();
     }
 }
 
@@ -426,26 +426,21 @@ void __fastcall TMForm::PlotTestTestSuiteDataExecute(TObject *Sender)
 
 }
 
-void __fastcall TMForm::CheckUI()
+//---------------------------------------------------------------------------
+void TMForm::EnableDisableSimulation()
 {
     //Check if there is at least one checked species in the list box
-    bool hasOneSelected = false;
+    bool enableDisable = false;
 
     for(int i = 0; i < SelList->Count; i++)
     {
         if(SelList->Checked[i])
         {
-            hasOneSelected = true;
+            enableDisable = true;
             break;
         }
     }
 
-    EnableDisableSimulation(hasOneSelected);
-}
-
-//---------------------------------------------------------------------------
-void TMForm::EnableDisableSimulation(bool enableDisable)
-{
     if(enableDisable)
     {
         Log(rr::lInfo)<<"Enabling simulation..";
@@ -462,7 +457,7 @@ void TMForm::EnableDisableSimulation(bool enableDisable)
 
 void __fastcall TMForm::SelListClick(TObject *Sender)
 {
-    CheckUI();
+    EnableDisableSimulation();
 }
 
 void __fastcall TMForm::LoadModelAUpdate(TObject *Sender)

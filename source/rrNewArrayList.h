@@ -34,8 +34,8 @@ class RR_DECLSPEC NewArrayList : public rrObject
         void                                Add(const string& lbl, const NewArrayList& list);
 
 
-        const NewArrayListItemObject&          operator[](int pos) const;
-        NewArrayListItemObject&                operator[](int pos);
+        const NewArrayListItemObject&       operator[](int pos) const;
+        NewArrayListItemObject&             operator[](int pos);
         void                                operator = (const NewArrayList& rhs);
         StringList                          GetStringList(const string& lName);
         StringList                          GetStringList(const int& index);

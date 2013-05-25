@@ -4,12 +4,11 @@
 #include "rrUtils.h"
 #include "rrPlugin.h"
 #include "rrParameter.h"
-
+#include "../Wrappers/C/rrc_types.h" //We may want to move this header to the Source folder
 //---------------------------------------------------------------------------
 using namespace std;
 namespace rr
 {
-
 Plugin::Plugin(const std::string& name, const std::string& cat, RoadRunner* aRR)
 :
 mName(name),
@@ -80,14 +79,43 @@ bool Plugin::setParameter(const string& nameOf, const char* value)
     {
         BaseParameter* aParameter = const_cast<BaseParameter*>( &(capability[i]) );
 
-        if(dynamic_cast< Parameter<int>* >(aParameter))
+        if(aParameter->mName == nameOf)
         {
-	        Parameter<int> *aIntPar = dynamic_cast< Parameter<int>* >(aParameter);
-            int aVal = rr::ToInt(value);
-        	aIntPar->setValue( aVal);
-            return true;
+            if(dynamic_cast< Parameter<int>* >(aParameter))
+            {
+                Parameter<int> *aIntPar = dynamic_cast< Parameter<int>* >(aParameter);
+                int aVal = *((int*) value);
+                aIntPar->setValue( aVal);
+                return true;
+            }
+
+            if(dynamic_cast< Parameter<double>* >(aParameter))
+            {
+                Parameter<double> *aPar = dynamic_cast< Parameter<double>* >(aParameter);
+                double aVal = * ((double*) value);
+                aPar->setValue( aVal);
+                return true;
+            }
+
+            if(dynamic_cast< Parameter<rrc::RRVector*>* >(aParameter))
+            {
+                Parameter<rrc::RRVector*> *aPar = dynamic_cast< Parameter<rrc::RRVector*>* >(aParameter);
+//                aPar->assignData();
+                aPar->setValue( (rrc::RRVector*) value);
+                return true;
+            }
+
+            if(dynamic_cast< Parameter<rrc::RRResult*>* >(aParameter))
+            {
+                Parameter<rrc::RRResult*> *aPar = dynamic_cast< Parameter<rrc::RRResult*>* >(aParameter);
+//                aPar->assignData();
+                aPar->setValue( (rrc::RRResult*) value);
+                return true;
+            }
+
         }
     }
+
 	return false;
 }
 
@@ -159,11 +187,22 @@ Parameters* Plugin::getParameters(Capability& capability)
 	return capability.getParameters();
 }
 
-BaseParameter* Plugin::getParameter(const string& para)
+BaseParameter* Plugin::getParameter(const string& para, const string& capability)
 {
-	if(mCapabilities.size())
+	//If capability string is empty, search all capabilites
+    if(capability.size())
     {
-		return mCapabilities[0].getParameter(para);
+    	//Capability cap = get
+    }
+    else	//Search all capabilities
+    {
+    	for(int i = 0; i < mCapabilities.size(); i++)
+        {
+        	if(mCapabilities[i].getParameter(para))
+            {
+            	return mCapabilities[i].getParameter(para);
+            }
+        }
     }
     return NULL;
 }

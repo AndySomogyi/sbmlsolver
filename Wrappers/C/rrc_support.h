@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "rr-libstruct/lsMatrix.h"
+#include "rrSimulationData.h"
 #include "rrStringList.h"
 #include "rrNewArrayList.h"
 #include "rrParameter.h"
@@ -43,11 +44,16 @@ RRListHandle 		createList(const rr::NewArrayList& aList);
 //Parameters
 RRParameterHandle	createParameter(const rr::BaseParameter& para);
 
+//Result data
+C_DECL_SPEC RRResultHandle rrCallConv createRRResult(const rr::SimulationData& result);
+
 //Cast void* handle to RoadRunner instance pointer, throw if it fails
 rr::RoadRunner* 	castFrom(RRHandle rrHandle);
 
 //Cast
 rr::RoadRunnerList* getRRList(RRInstanceListHandle handle);
+
+//
 }
 
 

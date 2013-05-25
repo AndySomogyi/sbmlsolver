@@ -164,17 +164,28 @@ RRStringArray* rrCallConv getPluginParameters(RRHandle handle, const char* plugi
     }
 }
 
-RRParameter* rrCallConv getPluginParameter(RRHandle handle, const char* pluginName, const char* parameterName)
+RRParameter* rrCallConv getPluginParameter(RRHandle handle, const char* pluginName, const char* parameterName, const char* capabilitiesName)
 {
 	try
     {
         RoadRunner* rri = castFrom(handle);
         Plugin* aPlugin = rri->getPluginManager().getPlugin(pluginName);
+        rr::BaseParameter *para = NULL;
         if(aPlugin)
         {
+			if(capabilitiesName != NULL)
+            {
+				para = aPlugin->getParameter(parameterName, capabilitiesName);
+            }
+            else
+            {
+            	para = aPlugin->getParameter(parameterName);
+            }
 
-            rr::BaseParameter *para = aPlugin->getParameter(parameterName);
-        	return createParameter( *(para) );
+            if(para)
+            {
+        		return createParameter( *(para) );
+            }
         }
         return NULL;
 

@@ -104,11 +104,11 @@ typedef struct RRMatrix
 /*!@brief Structure for the result type from the simulate calls */
 typedef struct RRResult
 {
-    int             RSize;  /*!< The number of rows in the result matrix */
-    int             CSize;  /*!< The number of columns in the result matrix */
-    double*         Data;   /*!< A pointer to the data stored in the matrix. Access an element using Data[i*CSize + j] */
-    char**          ColumnHeaders;   /*!< Pointer to an array of column header strings */
-} *RRResultHandle;          /*!< Pointer to RRResultHandle struct */
+    int             RSize;  			/*!< The number of rows in the result matrix */
+    int             CSize;  			/*!< The number of columns in the result matrix */
+    double*         Data;   			/*!< A pointer to the data stored in the matrix. Access an element using Data[row*CSize + col] */
+    char**          ColumnHeaders;   	/*!< Pointer to an array of column header strings */
+} *RRResultHandle;          			/*!< Pointer to RRResultHandle struct */
 
 /*!@struct*/
 /*!@brief Convenient structure for storing the header and main body source for the generate simulation C code */
@@ -139,7 +139,7 @@ typedef struct RRListItem
        int 	     		iValue;  /*!< Integer value */
 	   double    		dValue;  /*!< Double value */
 	   char*     		sValue;  /*!< String value */
-	   struct RRList*  		lValue;  /*!< List value */
+	   struct RRList*  	lValue;  /*!< List value */
 	} data;                      /*!< Union */
 } *RRListItemHandle;             /*!< Pointer to cRRArrayListItemHandle struct */
 
@@ -154,7 +154,7 @@ typedef struct RRList
 
 /*!@enum*/
 /*!@brief The parameter type scan be string, integer or double */
-enum RRParameterType {ptString, ptInteger, ptDouble};
+enum RRParameterType {ptString, ptInteger, ptDouble, ptVector, ptMatrix};
 
 /*!@struct*/
 /*!@brief A single parameter type */
@@ -166,6 +166,8 @@ typedef struct RRParameter
        int 	     		iValue;  /*!< Integer value */
 	   double    		dValue;  /*!< Double value */
 	   char*     		sValue;  /*!< String value */
+       struct RRVector* vValue;  /*!< Vector value */
+       struct RRMatrix* mValue;  /*!< Matrix value */
 	} data;                      /*!< Union */
     char* 				mHint;
 	char* 				mName;

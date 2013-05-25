@@ -11,32 +11,31 @@ int main()
 {
 	try
     {
-    //Create a RoadRunner object
-	RoadRunner rr("r:\\installs\\cg\\xe3\\debug\\rr_support");
+        //Create a RoadRunner object
+        RoadRunner rr("r:\\temp");
 
-    //Get the plugin manager
-    PluginManager& plugins = rr.getPluginManager();
+        //Get the plugin manager
+        PluginManager& plugins = rr.getPluginManager();
 
-    if(!plugins.load())
-    {
-    	clog<<"Failed loading plugins..\n";
-    }
-
-    if(plugins.getNumberOfPlugins() > 0)
-    {
-    	cout<<"The following plugins are loaded:\n";
-        for(int i = 0; i < plugins.getNumberOfPlugins(); i++)
+        if(!plugins.load())
         {
-        	Plugin* aPlugin = plugins[i];
-            cout<<"Plugin "<<i<<": "<<aPlugin->getName()<<"\n";
-            cout<<aPlugin->getInfo();
-            aPlugin->execute();
+            clog<<"Failed loading plugins..\n";
         }
-    }
 
-    plugins.unload();
-    Pause(true);
-    rr.~RoadRunner();
+        if(plugins.getNumberOfPlugins() > 0)
+        {
+            cout<<"The following plugins are loaded:\n";
+            for(int i = 0; i < plugins.getNumberOfPlugins(); i++)
+            {
+                Plugin* aPlugin = plugins[i];
+                cout<<"Plugin "<<i<<": "<<aPlugin->getName()<<"\n";
+                cout<<aPlugin->getInfo();
+                aPlugin->execute();
+            }
+        }
+
+        plugins.unload();
+        Pause(true);
     }
     catch(const rr::Exception& ex)
     {
@@ -45,5 +44,7 @@ int main()
 	return 0;
 }
 
-#pragma comment(lib, "roadrunner-static.lib")
+#pragma comment(lib, "roadrunner.lib")
+
+#pragma comment(lib, "rr-libstruct-static.lib")
 #pragma comment(lib, "poco_foundation-static.lib")

@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
     cout << "RoadRunner bin location is: "<<thisExeFolder<<endl;
 
     //Assume(!) this is the bin folder of roadrunner install
-	gRRInstallFolder = getParentFolder(thisExeFolder);	//Go up one folder
+	gRRInstallFolder 	= getParentFolder(thisExeFolder);	//Go up one folder
     gDebug				= args.EnableLogging;
     gTSModelsPath 		= args.SBMLModelsFilePath;
     gTempFolder			= args.TempDataFolder;
@@ -101,11 +101,11 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 #pragma comment(lib, "rrc_api.lib")
 //#endif
 
-//#if defined(STATIC_RR)
+#if defined(STATIC_RR)
 	#pragma comment(lib, "roadrunner-static.lib")
-//#else
-//	#pragma comment(lib, "roadrunner.lib")
-//#endif
+#else
+	#pragma comment(lib, "roadrunner.lib")
+#endif
 
 #pragma comment(lib, "sundials_cvode")
 #pragma comment(lib, "sundials_nvecserial")

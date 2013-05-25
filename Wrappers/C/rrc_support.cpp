@@ -284,7 +284,57 @@ RRParameter* createParameter(const rr::BaseParameter& para)
         aPara->mHint		= createText(thePara->getHint());
         return aPara;
     }
+
+    if(para.getType() == "double")
+    {
+    	Parameter<double> *thePara = dynamic_cast< Parameter<double>* >(const_cast< BaseParameter* >(&para));
+
+	    RRParameter* aPara 	= new RRParameter;
+        aPara->ParaType 	= ptInteger;
+        aPara->data.iValue 	= thePara->getValue();
+        aPara->mName		= createText(thePara->getName());
+        aPara->mHint		= createText(thePara->getHint());
+        return aPara;
+    }
+
+    if(para.getType() == "vector")
+    {
+    	Parameter<RRVector*> *thePara = dynamic_cast< Parameter<RRVector*>* >(const_cast< BaseParameter* >(&para));
+
+	    RRParameter* aPara 	= new RRParameter;
+        aPara->ParaType 	= ptVector;
+        aPara->data.vValue 	= thePara->getValue();
+        aPara->mName		= createText(thePara->getName());
+        aPara->mHint		= createText(thePara->getHint());
+        return aPara;
+    }
 	return NULL;
+}
+
+RRResultHandle rrCallConv createRRResult(const SimulationData& result)
+{
+    RRResult* aResult  = new RRResult;
+    aResult->ColumnHeaders = new char*[result.cSize()];
+    for(int i = 0; i < result.cSize(); i++)
+    {
+        aResult->ColumnHeaders[i] = createText(result.getColumnNames()[i]);
+    }
+
+    aResult->RSize = result.rSize();
+    aResult->CSize = result.cSize();
+    int size = aResult->RSize*aResult->CSize;
+    aResult->Data = new double[size];
+
+    int index = 0;
+    //The data layout is simple row after row, in one single long row...
+    for(int row = 0; row < aResult->RSize; row++)
+    {
+        for(int col = 0; col < aResult->CSize; col++)
+        {
+            aResult->Data[index++] = result(row, col);
+        }
+    }
+	return aResult;
 }
 
 }//Namespace

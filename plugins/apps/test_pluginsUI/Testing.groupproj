@@ -16,7 +16,7 @@
             <Dependencies/>
         </Projects>
         <Projects Include="PluginApp.cbproj">
-            <Dependencies>..\..\..\Wrappers\C\rrc_api.cbproj</Dependencies>
+            <Dependencies>..\..\..\source\roadrunner.cbproj;..\..\..\Wrappers\C\rrc_api.cbproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -62,13 +62,13 @@
     <Target Name="TestPlugin:Make">
         <MSBuild Projects="..\..\test_plugin\TestPlugin.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="PluginApp" DependsOnTargets="rrc_api">
+    <Target Name="PluginApp" DependsOnTargets="roadrunner;rrc_api">
         <MSBuild Projects="PluginApp.cbproj"/>
     </Target>
-    <Target Name="PluginApp:Clean" DependsOnTargets="rrc_api:Clean">
+    <Target Name="PluginApp:Clean" DependsOnTargets="roadrunner:Clean;rrc_api:Clean">
         <MSBuild Projects="PluginApp.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="PluginApp:Make" DependsOnTargets="rrc_api:Make">
+    <Target Name="PluginApp:Make" DependsOnTargets="roadrunner:Make;rrc_api:Make">
         <MSBuild Projects="PluginApp.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">

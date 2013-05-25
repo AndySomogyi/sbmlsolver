@@ -1,13 +1,18 @@
 //---------------------------------------------------------------------------
 #include <vcl.h>
 #pragma hdrstop
+#include "rrRoadRunner.h"
+#include "rrSimulationData.h"
 #include "rrUtils.h"
 #include "Main.h"
 #include "rrc_api.h"
 #include "rrException.h"
-#include "utils.h"
+#include "vcl_utils.h"
+#include "../../../Wrappers/C/rrc_support.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+#pragma link "rrSimulationFrame"
+#pragma link "mtkFloatLabeledEdit"
 #pragma resource "*.dfm"
 TMainF *MainF;
 
@@ -16,8 +21,10 @@ __fastcall TMainF::TMainF(TComponent* Owner)
 :
 TForm(Owner),
 mModel("r:\\models\\test_1.xml"),
-mUIIsStartingUp(true)
+mUIIsStartingUp(true),
+mData(NULL)
 {
+	TrrSettingFrame1->infoMemo = infoMemo;
 	startupTimer->Enabled = true;
 }
 //---------------------------------------------------------------------------
@@ -36,7 +43,7 @@ void __fastcall TMainF::startupTimerTimer(TObject *Sender)
 	if(!mInstanceH)
 	{
 		Log() << "Problem creating rr instance.";
-		throw Exception(getLastError());
+		throw rr::Exception(getLastError());
 	}
 	else
 	{
@@ -50,6 +57,9 @@ void __fastcall TMainF::startupTimerTimer(TObject *Sender)
 		{
 			infoMemo->Lines->Add(lines[i].c_str());
 		}
+        TrrSettingFrame1->assignRRHandle(mInstanceH);
+        enableLoggingToFile(mInstanceH);
+        setLogLevel("Debug2");
 	}
 	mUIIsStartingUp = false;
 }
@@ -59,8 +69,7 @@ void __fastcall TMainF::loadPluginsAExecute(TObject *Sender)
 {
 	if(!loadPlugins(mInstanceH))
 	{
-		Log() << "failed loading plugins..";
-		throw Exception(getLastError());
+		Log() << "There was some problems loading plugins, check the log file.";
 	}
 
 	//Populate list box with plugins
@@ -79,7 +88,7 @@ void __fastcall TMainF::unloadPluginsExecute(TObject *Sender)
 	if(!unLoadPlugins(mInstanceH))
 	{
 		Log() << "failed un-loading plugins..";
-		throw Exception(getLastError());
+		throw rr::Exception(getLastError());
 	}
 
     pluginList->Clear();
@@ -87,7 +96,7 @@ void __fastcall TMainF::unloadPluginsExecute(TObject *Sender)
     Button1->Action = loadPluginsA;
 }
 
-void __fastcall TMainF::ApplicationEvents1Exception(TObject *Sender, Exception *E)
+void __fastcall TMainF::ApplicationEvents1Exception(TObject *Sender, Sysutils::Exception *E)
 {
 	Log() << std_str(E->ToString()) <<endl;
 }
@@ -108,7 +117,7 @@ void __fastcall TMainF::pluginListClick(TObject *Sender)
     infoMemo->Clear();
     Log()<<test;
 
-    //Populate plugin frame (not a frame yet..)
+    //Populate plugin frame
 	pluginCapsCB->Clear();
     pluginParasCB->Clear();
 
@@ -129,11 +138,36 @@ void __fastcall TMainF::pluginListClick(TObject *Sender)
 
     pluginCapsCB->ItemIndex = 0;
     pluginCBChange(pluginCapsCB);
+
+	UpdateNoisePanel();
 }
 
 void __fastcall TMainF::clearMemoExecute(TObject *Sender)
 {
 	infoMemo->Clear();
+}
+
+void TMainF::UpdateNoisePanel()
+{
+	//This function is called if the Plugin list box is clicked
+    string pluginName = std_str(pluginList->Items->Strings[pluginList->ItemIndex]);
+	if(pluginName != "AddNoise")
+    {
+    	return;
+    }
+
+	//At this point we know the capabilities and parameters of this plugin
+	RRParameter* sigma = getPluginParameter(mInstanceH, "AddNoise", "Sigma");
+
+	if(!sigma)
+    {
+    	Log()<<"Failed to get parameter: Sigma";
+    }
+    else
+    {
+		Log()<<"Name: "<<sigma->mName;
+    }
+
 }
 
 //---------------------------------------------------------------------------
@@ -247,7 +281,8 @@ void __fastcall TMainF::loadModelAExecute(TObject *Sender)
     if(anAction == loadModelA)
     {
 		//load model
-    	mTheJob = loadSBMLFromFileJobEx(mInstanceH, mModel.c_str(), true);
+    	mLoadModelJob = loadSBMLFromFileJobEx(mInstanceH, mModel.c_str(), true);
+		loadModelJobTimer->Enabled = true;
     }
 
     if(anAction == unLoadModelA)
@@ -256,28 +291,30 @@ void __fastcall TMainF::loadModelAExecute(TObject *Sender)
     	if(!unLoadModel(mInstanceH))
         {
             Log() << "Problem unloading model.";
-            throw Exception(getLastError());
+            throw rr::Exception(getLastError());
         }
         Log() << "Model was unloaded.";
     }
 }
 
-void __fastcall TMainF::JobTimerTimer(TObject *Sender)
+void __fastcall TMainF::loadModelJobTimerTimer(TObject *Sender)
 {
-	if(mTheJob)
+	if(mLoadModelJob)
     {
-    	if(isJobFinished(mTheJob))
+    	if(isJobFinished(mLoadModelJob))
         {
     		Log () << "Job did finish. Cleaning up.";
-            if(freeJob(mTheJob))
+            if(freeJob(mLoadModelJob))
             {
-            	mTheJob = NULL;
+            	mLoadModelJob = NULL;
+				loadModelJobTimer->Enabled = false;
             }
             else
             {
 				Log() << "Problem deleting a job..";
-				throw Exception(getLastError());
+				throw rr::Exception(getLastError());
             }
+			TrrSettingFrame1->loadSelectionList();
         }
         else
         {
@@ -286,7 +323,6 @@ void __fastcall TMainF::JobTimerTimer(TObject *Sender)
     }
 }
 
-
 void __fastcall TMainF::loadModelAUpdate(TObject *Sender)
 {
 	if(!mUIIsStartingUp)
@@ -294,4 +330,129 @@ void __fastcall TMainF::loadModelAUpdate(TObject *Sender)
 		loadBtn->Action = isModelLoaded(mInstanceH) ? unLoadModelA : loadModelA;
     }
 }
+
+void TMainF::Plot(const rr::SimulationData& data)
+{
+    Chart1->RemoveAllSeries();
+
+    //Fill out data for all series
+//    Log()<<"Simulation Result"<<data;
+    int nrOfSeries = data.cSize() -1; //First one is time
+    StringList colNames = data.getColumnNames();
+    vector<TLineSeries*> series;
+    for(int i = 0; i < nrOfSeries; i++)
+    {
+        TLineSeries* aSeries = new TLineSeries(Chart1);
+        aSeries->Title = colNames[i+1].c_str();
+//        aSeries->Color = GetColor(i);
+        aSeries->LinePen->Width = 3;
+        series.push_back(aSeries);
+        Chart1->AddSeries(aSeries);
+    }
+
+    for(int j = 0; j < data.rSize(); j++)
+    {
+        double xVal = data(j,0);
+
+        for(int i = 0; i < nrOfSeries; i++)
+        {
+            double yData = data(j, i+1);
+            series[i]->AddXY(xVal, yData);
+        }
+    }
+    Chart1->Update();
+}
+
+
+void TMainF::Plot1D()
+{
+	if(!mData)
+    {
+    	return;
+    }
+    Chart1->RemoveAllSeries();
+
+    //Fill out data for all series
+    Log()<<"Plotting internal data";
+    int nrOfSeries = mData->CSize -1; //First one is time
+
+    vector<TLineSeries*> series;
+    for(int i = 0; i < nrOfSeries; i++)
+    {
+        TLineSeries* aSeries = new TLineSeries(Chart1);
+        if(mData->ColumnHeaders)
+        {
+        	aSeries->Title = mData->ColumnHeaders[i+1];
+        }
+        else
+        {
+        	aSeries->Title = "No title";
+        }
+        aSeries->LinePen->Width = 3;
+        series.push_back(aSeries);
+        Chart1->AddSeries(aSeries);
+    }
+
+    for(int row = 0; row < mData->RSize; row++)
+    {
+        double xVal = mData->Data[row*mData->CSize];	//Time
+        for(int col = 0; col < nrOfSeries; col++)
+        {
+            double yData = mData->Data[row*mData->CSize + col + 1];
+            series[col]->AddXY(xVal, yData);
+        }
+    }
+    Chart1->Update();
+}
+
+
+void __fastcall TMainF::PlotAExecute(TObject *Sender)
+{
+	RoadRunner *aRR = (RoadRunner*) mInstanceH;
+
+    if(aRR)
+    {
+        SimulationData data = aRR->getSimulationResult();
+    	Plot(data);
+    }
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMainF::noiseSigmaEKeyDown(TObject *Sender, WORD &Key, TShiftState Shift)
+{
+	if(Key == VK_RETURN)
+    {
+    	double val = noiseSigmaE->Text.ToDouble();
+		if(setPluginParameter(mInstanceH, "AddNoise", "Sigma", (char*) &val))
+        {
+        	Log()<<"Sigma was updated";
+        }
+        else
+        {
+        	Log()<<"Failed to update Sigma";
+        }
+    }
+}
+
+void __fastcall TMainF::Button6Click(TObject *Sender)
+{
+	RoadRunner *aRR = (RoadRunner*) mInstanceH;
+    if(aRR)
+    {
+        SimulationData data = aRR->getSimulationResult();
+
+        //Excute the noise plugin
+        //Populate its data with vector data from roadrunner
+        mData = createRRResult(data);
+
+        //Fill out the data
+        setPluginParameter(mInstanceH, "AddNoise", "Data", (char*) mData);
+        executePlugin(mInstanceH, "AddNoise");
+        Plot1D();
+    }
+
+}
+
+
+
 

@@ -4,9 +4,7 @@
 #include "rrParameter.h"
 #include "rrPlugin.h"
 
-
 //---------------------------------------------------------------------------
-
 namespace fitOne
 {
 using namespace rr;
@@ -15,8 +13,9 @@ class FitOneParameter : public Plugin
 {
 	private:
     	Capability				mOneParameterFit;
-    	Parameter<int>			mNrOfIterations;
-
+		Parameter<string> 		mParameterToFit;
+    	Parameter<int>			mMaxNrOfIterations;
+		Parameter<string>		mDataToFitFileName;
     	Capability				mOneParameterFitResult;
    		Parameter<double>		mChiSquare;
         Parameter<double*>		mData;
@@ -33,7 +32,7 @@ class FitOneParameter : public Plugin
 extern "C"
 {
 #define EXP_FUNC __declspec(dllexport)
-EXP_FUNC rr::Plugin* __stdcall	createRRPlugin(rr::RoadRunner* aRR);
+EXP_FUNC rr::Plugin* __stdcall	createPlugin(rr::RoadRunner* aRR);
 
 }
 

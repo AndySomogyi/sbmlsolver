@@ -13,11 +13,21 @@
 #include <Vcl.Menus.hpp>
 #include <Vcl.ComCtrls.hpp>
 
-#include <Vcl.ToolWin.hpp>#include <string>
+#include <Vcl.ToolWin.hpp>
+#include "rrSimulationFrame.h"
+#include <VCLTee.Chart.hpp>
+
+#include <VCLTee.TeEngine.hpp>
+#include <VCLTee.TeeProcs.hpp>
+#include <VCLTee.TeeProcs.hpp>
+#include <VCLTee.Series.hpp>
+#include "mtkFloatLabeledEdit.h"
+#include <string>
 #include <vector>
 #include <sstream>
 #include "rrc_types.h"
 #include "memoLogger.h"
+#include "rrSimulationData.h"
 using std::string;
 using std::vector;
 //---------------------------------------------------------------------------
@@ -67,8 +77,23 @@ __published:	// IDE-managed Components
 	TToolBar *ToolBar1;
 	TButton *loadBtn;
 	TAction *loadModelA;
-	TTimer *JobTimer;
+	TTimer *loadModelJobTimer;
 	TAction *unLoadModelA;
+	TrrSettingFrame *TrrSettingFrame1;
+	TChart *Chart1;
+	TPageControl *PageControl1;
+	TTabSheet *TabSheet1;
+	TTabSheet *TabSheet2;
+	TToolBar *ToolBar2;
+	TAction *PlotA;
+	TButton *Button5;
+	TPageControl *PageControl2;
+	TTabSheet *TabSheet3;
+	TTabSheet *TabSheet4;
+	TTabSheet *TabSheet5;
+	mtkFloatLabeledEdit *noiseSigmaE;
+	TButton *Button6;
+	TLineSeries *Series1;
 	void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall startupTimerTimer(TObject *Sender);
 	void __fastcall loadPluginsAExecute(TObject *Sender);
@@ -82,20 +107,29 @@ __published:	// IDE-managed Components
 	void __fastcall executePluginAExecute(TObject *Sender);
 	void __fastcall getLastErrorAExecute(TObject *Sender);
 	void __fastcall loadModelAExecute(TObject *Sender);
-	void __fastcall JobTimerTimer(TObject *Sender);
+	void __fastcall loadModelJobTimerTimer(TObject *Sender);
 	void __fastcall loadModelAUpdate(TObject *Sender);
+	void __fastcall PlotAExecute(TObject *Sender);
+	void __fastcall noiseSigmaEKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+	void __fastcall Button6Click(TObject *Sender);
 
 
 private:	// User declarations
    	RRHandle	                        mInstanceH;
-    RRJobHandle	                        mTheJob;
+    RRResult* 							mData;
+    RRJobHandle	                        mLoadModelJob;
+    RRJobHandle	                        mSimulateModelJob;
     string 		                        mModel;
     bool								mUIIsStartingUp;
 	string 		                        getCurrentPluginName();
 	string 		                        getCurrentSelectedParameter();
+	void 								Plot(const rr::SimulationData& result);
+	void 								Plot1D();
+	void								UpdateNoisePanel();
 
 public:		// User declarations
-	__fastcall TMainF(TComponent* Owner);
+	__fastcall 							TMainF(TComponent* Owner);
+
 };
 
 extern PACKAGE TMainF *MainF;

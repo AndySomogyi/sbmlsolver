@@ -1,0 +1,17 @@
+#pragma hdrstop
+#include "rrNoise.h"
+#include "rrUtils.h"
+//---------------------------------------------------------------------------
+namespace rr
+{
+Noise::Noise(double m, double s)
+:
+mean(m),
+sigma(s){}
+
+double Noise::GetNoise()
+{
+	return gaussNoise(mean, sigma);
+}
+
+}

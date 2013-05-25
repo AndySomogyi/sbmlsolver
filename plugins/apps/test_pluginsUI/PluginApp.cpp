@@ -6,8 +6,8 @@
 #pragma comment(lib, "roadrunner.lib")
 
 //---------------------------------------------------------------------------
+USEFORM("..\..\..\vcl_source\rrSimulationFrame.cpp", rrSettingFrame); /* TFrame: File Type */
 USEFORM("Main.cpp", MainF);
-//---------------------------------------------------------------------------
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	try

@@ -960,27 +960,7 @@ RRResultHandle rrCallConv simulate(RRHandle handle)
         SimulationData result = rri->getSimulationResult();
 
         //Extract the data and return struct..
-        RRResult* aResult  = new RRResult;
-        aResult->ColumnHeaders = new char*[result.cSize()];
-        for(int i = 0; i < result.cSize(); i++)
-        {
-            aResult->ColumnHeaders[i] = createText(result.getColumnNames()[i]);
-        }
-
-        aResult->RSize = result.rSize();
-        aResult->CSize = result.cSize();
-        int size = aResult->RSize*aResult->CSize;
-        aResult->Data = new double[size];
-
-        int index = 0;
-        //The data layout is simple row after row, in one single long row...
-        for(int row = 0; row < aResult->RSize; row++)
-        {
-            for(int col = 0; col < aResult->CSize; col++)
-            {
-                aResult->Data[index++] = result(row, col);
-            }
-        }
+	    RRResult* aResult  = createRRResult(result);
 	    return aResult;
     }
     catch(Exception& ex)

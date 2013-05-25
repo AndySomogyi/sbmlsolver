@@ -40,7 +40,7 @@ bool TestPlugin::execute()
 }
 
 // Plugin factory function
-rr::Plugin* __stdcall createRRPlugin(rr::RoadRunner* aRR)
+rr::Plugin* __stdcall createPlugin(rr::RoadRunner* aRR)
 {
     //allocate a new object and return it
 	return new TestPlugin(aRR);
