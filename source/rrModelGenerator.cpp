@@ -126,21 +126,21 @@ ASTNode* ModelGenerator::cleanEquation(ASTNode* astP)
         result->setValue(1);
         return result;
     }
-    else if (ast.getType() == AST_PLUS && ast.getNumChildren() == 1)
+    else if ((ast.getType() == AST_PLUS && ast.getNumChildren() == 1) ||
+            (ast.getType() == AST_TIMES && ast.getNumChildren() == 1))
     {
-        return ast.getChild(0);
-    }
-    else if (ast.getType() == AST_TIMES && ast.getNumChildren() == 1)
-    {
-        return ast.getChild(0);
+        ASTNode *p = ast.getChild(0);
+        return p ? new ASTNode(*p) : p;
     }
 
     for (int i = (int) ast.getNumChildren() - 1; i >= 0; i--)
     {
-        ast.replaceChild(i, cleanEquation(ast.getChild(i)));
+        ASTNode *p = ast.getChild(i);
+        ast.replaceChild(i, cleanEquation(p));
+        delete p;
     }
 
-    return astP;
+    return new ASTNode(ast);
 }
 
 string ModelGenerator::cleanEquation(const string& eqn)
@@ -187,8 +187,15 @@ string ModelGenerator::cleanEquation(const string& eqn)
         }
     }
 
-    ast = cleanEquation(ast);
-    return SBML_formulaToString(ast);
+    ASTNode *ast2 = cleanEquation(ast);
+    char* cstr = SBML_formulaToString(ast2);
+
+    string result = cstr;
+
+    delete ast;
+    delete ast2;
+    free(cstr);
+    return result;
 }
 
 string ModelGenerator::substituteTerms(const string& reactionName, const string& inputEquation, bool bFixAmounts)
