@@ -207,8 +207,12 @@ protected:
 
     //Non virtuals..
     string                              substituteTerms(const int& numReactions, const string& reactionName, const string& equation);
-    ASTNode*                            cleanEquation(ASTNode* ast);
-    string                              cleanEquation(const string& equation);
+
+    /**
+     * creates a new AST node
+     */
+    static ASTNode*                     cleanEquation(ASTNode* ast);
+    static string                       cleanEquation(const string& equation);
     string                              substituteTerms(const string& reactionName, const string& inputEquation, bool bFixAmounts);
     ls::DoubleMatrix*                   initializeL0(int& nrRows, int& nrCols);
     bool                                expressionContainsSymbol(ASTNode* ast, const string& symbol);

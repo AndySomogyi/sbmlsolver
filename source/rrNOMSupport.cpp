@@ -731,36 +731,41 @@ string NOMSupport::convertStringToMathML(const string& var0)
 
 string NOMSupport::convertTime(const string& sArg, const string& sTimeSymbol)
 {
-    SBMLDocument* oSBMLDoc = NULL;
-    Model* oModel = NULL;
+    // we own sbml doc, and it creates a cstr, but it owns the model.
+    SBMLDocument* oSBMLDoc = 0;
+    char *cstr = 0;
+    Model* oModel = 0;
+    string sbml;
+
     Log(lDebug4)<<"Entering function "<<__FUNC__<<" in file "<<__FILE__;
     try
     {
         oSBMLDoc = readSBMLFromString(sArg.c_str());
         if(oSBMLDoc)
         {
-            oModel = oSBMLDoc->getModel();
-        }
-
-        if (oModel == NULL)
-        {
-            throw NOMException("SBML Validation failed");
-        }
-        else
-        {
-            NOMSupport::changeTimeSymbol(*oModel, sTimeSymbol);
-            string sbml(writeSBMLToString(oSBMLDoc));
-            delete oSBMLDoc;
-            return sbml;
+            if((oModel = oSBMLDoc->getModel()) != 0)
+            {
+                NOMSupport::changeTimeSymbol(*oModel, sTimeSymbol);
+                cstr = writeSBMLToString(oSBMLDoc);
+                sbml = cstr;
+            }
+            else
+            {
+                throw NOMException("SBML Validation failed");
+            }
         }
     }
-    catch(...)
+    catch(std::exception &e)
     {
+        // clean up our mess
         delete oSBMLDoc;
-        throw NOMException("SBML Validation failed");
+        free(cstr);
+        throw e;
     }
 
-    return string("");
+    delete oSBMLDoc;
+    free(cstr);
+    return sbml;
 }
 
 //        void NOMSupport::ChangeConstantForRules(Model model)
