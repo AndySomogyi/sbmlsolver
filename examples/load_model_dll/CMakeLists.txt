@@ -35,7 +35,7 @@ lapack
 blas
 f2c
 libsbml-static.a
-libxml2.so
+xml2
 sundials_nvecserial.a
 sundials_cvode.a
 pthread
