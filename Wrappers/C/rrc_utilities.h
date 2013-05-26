@@ -600,7 +600,7 @@ C_DECL_SPEC char* rrcCallConv getCSourceFileName(RRHandle handle);
  \return Returns result struct as a character string
  \ingroup toString
 */
-C_DECL_SPEC char* rrcCallConv resultToString(const RRDataHandle result);
+C_DECL_SPEC char* rrcCallConv rrDataToString(const RRDataHandle result);
 
 /*!
  \brief Returns a matrix in string form.

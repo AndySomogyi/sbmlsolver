@@ -4,7 +4,7 @@
 #include "lm_A_thread.h"
 #include "rrNoise.h"
 #include "lm_A.h"
-#include "lmfit-3.5/lib/lmcurve.h"
+#include "lmfit/lmcurve.h"
 #include "../../Wrappers/C/rrc_api.h"
 #include "../../Wrappers/C/rrc_utilities.h"
 

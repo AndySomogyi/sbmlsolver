@@ -2,6 +2,7 @@
 #define rrParameterH
 #include <vector>
 #include "rrObject.h"
+#include "rrConstants.h"
 #include "rrBaseParameter.h"
 #include "rrStringUtils.h"
 #include "../Wrappers/C/rrc_types.h"
@@ -17,11 +18,11 @@ class Parameter : public BaseParameter
         T&                                  mValue;
 
     public:
-                                            Parameter(const string& name, const T& value, const string& hint);
-                                            Parameter(const string& name, T& value, const string& hint);
+                                            Parameter(const string& name, const T& value, const string& hint = gEmptyString);
                                             Parameter(const Parameter<T>& para);
+		void								setValue(T* val);
 		void								setValue(const T& val);
-		//void								setValue(const string& val){setValueFromString(val);}
+		//void								setValue(const string& val);//{setValueFromString(val);}
 		void								setValueFromString(const string& val);
         T									getValue() const;
         T*									getValuePointer();
@@ -30,12 +31,12 @@ class Parameter : public BaseParameter
 	 	string								getType() const;
 };
 
-template<class T>
-inline Parameter<T>::Parameter(const string& name, T& value, const string& hint)
-:
-rr::BaseParameter(name, hint),
-mValue(value)
-{}
+//template<class T>
+//inline Parameter<T>::Parameter(const string& name, const T& value, const string& hint)
+//:
+//rr::BaseParameter(name, hint),
+//mValue(value)
+//{}
 
 template<class T>
 Parameter<T>::Parameter(const string& name, const T& value, const string& hint)

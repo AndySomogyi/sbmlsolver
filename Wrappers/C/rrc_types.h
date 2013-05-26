@@ -109,7 +109,7 @@ typedef struct RRData
     int             CSize;  			/*!< The number of columns in the data matrix */
     double*         Data;   			/*!< A pointer to the data stored in the matrix. Access an element using Data[row*CSize + col] */
     char**          ColumnHeaders;   	/*!< Pointer to an array of column header strings */
-} *RRDataHandle;          			/*!< Pointer to RRDataHandle struct */
+} *RRDataHandle;          				/*!< Pointer to RRDataHandle struct */
 
 /*!@struct*/
 /*!@brief Convenient structure for storing the header and main body source for the generate simulation C code */

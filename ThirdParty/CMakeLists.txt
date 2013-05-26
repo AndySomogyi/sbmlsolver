@@ -154,6 +154,7 @@ add_subdirectory(unit_test)
 add_subdirectory(compilers)
 add_subdirectory(poco)
 add_subdirectory(rr_support)
+add_subdirectory(lmfit)
 
 #==== SYSTEM FILES (COMPILER SPECIFICS) =================================================
 if(${BORLAND})

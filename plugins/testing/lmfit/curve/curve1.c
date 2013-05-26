@@ -58,3 +58,7 @@ int main()
 
     return 0;
 }
+
+#if defined(CG_IDE)
+#pragma comment(lib, "lmfit-static.lib")
+#endif

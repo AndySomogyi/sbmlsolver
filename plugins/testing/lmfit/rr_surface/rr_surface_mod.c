@@ -1,15 +1,6 @@
-/*
- * Project:  LevenbergMarquardtLeastSquaresFitting
- * File:     surface1.c
- * Contents: Example for fitting data y_i(t_i) by a function f(t;p),
- *           where each t_i is a vector of dimension k=2.
- * Author:   Joachim Wuttke 2010, following a suggestion by Mario Rudolphi
- * Homepage: joachimwuttke.de/lmfit
- * Licence:  I don't care
- */
-
 #include <stdio.h>
-#include "lmcurve.h"
+//#include "lmfit/lmmin.h"
+#include "../../../Wrappers/C/rrc_api.h"
 
 /* Standard monitoring routine. */
 void my_printout(	int n_par,
@@ -37,11 +28,11 @@ typedef struct
 } data_struct;
 
 /* function evaluation, determination of residues */
-void evaluate_surface(	const double *par,
-						int m_dat,
-                        const void *data,
-                       	double *fvec,
-                        int *info )
+void rr_evaluate(	const double *par,  //Parameter vector
+						int m_dat,          //Dimension of residue vector
+                        const void *data,   //Data structure
+                       	double *fvec,       //residue vector..
+                        int *info )         //
 {
     int i;
 
@@ -57,12 +48,11 @@ void evaluate_surface(	const double *par,
 
 int main()
 {
+	RRHandle rrHandle;
 	int i;
     double ff;
-
-    /* parameter vector */
-    int n_par = 3; // number of parameters in model function f
-    double par[3] = { -1, 0, 1 }; // arbitrary starting value
+    int n_par = 3; 					// number of parameters in model function f
+    double par[3] = { -1, 0, 1 }; 	// arbitrary starting value
 
     lm_status_struct status;
     lm_control_struct control;
@@ -89,7 +79,7 @@ int main()
     		par,
             m_dat,
             (const void*) &data,
-            evaluate_surface,
+            rr_evaluate,
             &control,
             &status,
             my_printout);
@@ -121,19 +111,12 @@ int main()
 void my_printout( 	int n_par,
 					const double *par,
                     int m_dat,
-                    const void *data,
+                    const void *data,   //data  : for soft control of printout behaviour, add control variables to the data struct
                     const double *fvec,
                     int printflags,
-                    int iflag,
-                    int iter,
-                    int nfev)
-/*
- *       data  : for soft control of printout behaviour, add control
- *                 variables to the data struct
- *       iflag : 0 (init) 1 (outer loop) 2(inner loop) -1(terminated)
- *       iter  : outer loop counter
- *       nfev  : number of calls to *evaluate
- */
+                    int iflag,          //iflag : 0 (init) 1 (outer loop) 2(inner loop) -1(terminated)
+                    int iter,           //iter  : outer loop counter
+                    int nfev)			//nfev  : number of calls to *evaluate
 {
     int i;
 
@@ -186,3 +169,7 @@ void my_printout( 	int n_par,
     }
 }
 
+#if defined(CG_IDE)
+#pragma comment(lib, "rrc_api.lib")
+#pragma comment(lib, "lmfit-static.lib")
+#endif
