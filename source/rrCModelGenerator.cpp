@@ -25,7 +25,7 @@ Mutex               CModelGenerator::mCompileMutex;
 
 CModelGenerator::CModelGenerator(const string& tempFolder, const string& supportCodeFolder, const string& compiler)
 :
-ModelGenerator(),
+CompiledModelGenerator(),
 mTempFileFolder(tempFolder),
 mCompiler(supportCodeFolder, compiler),
 mModel(0)

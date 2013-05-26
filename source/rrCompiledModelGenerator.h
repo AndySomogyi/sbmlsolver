@@ -9,6 +9,9 @@
 #define RRCOMPILEDMODELGENERATOR_H_
 
 #include "rrModelGenerator.h"
+#include "rrModelSharedLibrary.h"
+#include "rrCodeBuilder.h"
+#include "rrCompiler.h"
 
 namespace rr {
 
@@ -16,7 +19,7 @@ namespace rr {
  * Both compiled model generators (C and CSharp) share a lot of functionality,
  * so implement that here.
  */
-class CompiledModelGenerator : ModelGenerator {
+class CompiledModelGenerator : public ModelGenerator {
 public:
     CompiledModelGenerator();
     virtual ~CompiledModelGenerator();

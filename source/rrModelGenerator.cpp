@@ -51,30 +51,6 @@ mNumDependentSpecies(0)
 
 ModelGenerator::~ModelGenerator() {}
 
-SymbolList& ModelGenerator::getReactionListReference()
-{
-    return mReactionList;
-}
-
-SymbolList& ModelGenerator::getFloatingSpeciesConcentrationListReference()
-{
-    return mFloatingSpeciesConcentrationList;
-}
-
-SymbolList& ModelGenerator::getBoundarySpeciesListReference()
-{
-    return mBoundarySpeciesList;
-}
-
-SymbolList& ModelGenerator::getGlobalParameterListReference()
-{
-    return mGlobalParameterList;
-}
-
-SymbolList& ModelGenerator::getConservationListReference()
-{
-    return mConservationList;
-}
 
 void ModelGenerator::reset()
 {

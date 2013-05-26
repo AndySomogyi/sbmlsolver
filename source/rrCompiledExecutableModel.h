@@ -90,14 +90,20 @@ public:
     virtual void                                    initializeRateRuleSymbols();
     virtual string                                  getInfo();
 
+    virtual SymbolList                              &getReactions();
+    virtual SymbolList                              &getGlobalParameters();
+    virtual SymbolList                              &getBoundarySpecies();
+    virtual SymbolList                              &getCompartments();
+    virtual SymbolList                              &getConservations();
+    virtual SymbolList                              &getFloatingSpeciesAmounts();
+    virtual SymbolList                              &getFloatingSpeciesConcentrations();
+
 private:
 
     /**
      * initialize and allocate space for the ModelData buffers.
      */
     bool setupModelData();
-
-    bool oldsetupModelData();
 
     /**
      * setup the function pointer variables to point to the C functions

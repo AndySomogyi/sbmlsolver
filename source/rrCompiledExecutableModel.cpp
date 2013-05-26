@@ -206,93 +206,6 @@ bool CompiledExecutableModel::setupModelData()
 }
 
 
-bool CompiledExecutableModel::oldsetupModelData()
-{
-    //See CGenerator writeInitModelDataFunction to see how this initialization was done in the DLL before
-    mData.modelName                     = createText(mNOM.getModelName());
-
-    //Variables...
-    mData.numIndependentVariables         = mCG.mNumIndependentSpecies;
-    mData.numDependentVariables           = mCG.mNumDependentSpecies;
-    mData.numTotalVariables                = mCG.mNumFloatingSpecies;        //???
-    mData.numBoundaryVariables            = mCG.mNumBoundarySpecies;
-    mData.numGlobalParameters            = mCG.mGlobalParameterList.size();
-    mData.numCompartments                = mCG.mCompartmentList.size();
-    mData.numReactions                    = mCG.mReactionList.size();
-    mData.numEvents                        = mCG.mNumEvents;
-
-    mData.amountsSize                    = mCG.mFloatingSpeciesConcentrationList.Count();
-    mData.amounts                         = new double[mData.amountsSize];
-
-    mData.dydtSize                        = mCG.mFloatingSpeciesConcentrationList.size();
-    mData.dydt                            = new double[mData.dydtSize];
-
-    mData.rateRulesSize                    = mCG.mMapRateRule.size();
-    mData.rateRules                        = new double[mData.rateRulesSize];
-
-    mData.ySize                            = mCG.mFloatingSpeciesConcentrationList.size();
-    mData.y                                = new double[mData.ySize];
-
-    mData.ratesSize                        = mCG.mNumReactions;
-    mData.rates                            = new double[mData.ratesSize];
-
-    mData.ctSize                        = mCG.mNumDependentSpecies;
-    mData.ct                            = new double[mData.ctSize];
-
-    mData.init_ySize                    = mCG.mFloatingSpeciesConcentrationList.Count();
-    mData.init_y                        = new double[mData.init_ySize];
-
-    mData.gpSize                        =  mCG.mNumGlobalParameters + mCG.mTotalLocalParmeters;
-    mData.gp                            = new double[mData.gpSize];
-
-    mData.cSize                            = mCG.mNumCompartments;
-    mData.c                                = new double[mData.cSize];
-
-    mData.bcSize                        = mCG.mNumBoundarySpecies;
-     mData.bc                            = new double[mData.bcSize];
-
-    mData.lpSize                         = mCG.mNumReactions;
-    mData.lp                            = new double[mData.lpSize];
-
-    mData.srSize                          = mCG.mNumModifiableSpeciesReferences;
-    mData.sr                            = new double[mData.srSize];
-
-    mData.localParameterDimensionsSize    = mCG.mNumReactions;
-    mData.localParameterDimensions        = new int[mData.localParameterDimensionsSize];
-
-    mData.eventPrioritiesSize             = mCG.mNumEvents;
-    mData.eventPriorities                = new double[mData.eventPrioritiesSize];
-
-    mData.eventStatusArraySize            = mCG.mNumEvents;
-    mData.eventStatusArray                = new bool[mData.eventStatusArraySize];
-
-    mData.previousEventStatusArraySize    = mCG.mNumEvents;
-    mData.previousEventStatusArray        = new bool[mData.previousEventStatusArraySize];
-
-    mData.eventPersistentTypeSize        = mCG.mNumEvents;
-    mData.eventPersistentType            = new bool[mData.eventPersistentTypeSize];
-
-    mData.eventTestsSize                = mCG.mNumEvents;
-     mData.eventTests                    = new double[mData.eventTestsSize];
-
-    mData.eventTypeSize                    = mCG.mNumEvents;
-    mData.eventType                        = new bool[mData.eventTypeSize];
-
-    if(mData.numEvents > 0)
-    {
-    //Event function pointer stuff
-        mData.eventAssignments         = (TEventAssignmentDelegate*)  new TEventAssignmentDelegate[mData.numEvents];
-        mData.computeEventAssignments     = (TComputeEventAssignmentDelegate*)  new TComputeEventAssignmentDelegate[mData.numEvents];
-        mData.performEventAssignments = (TPerformEventAssignmentDelegate*)  new TPerformEventAssignmentDelegate[mData.numEvents];
-        mData.eventDelays =             new TEventDelayDelegate[mData.numEvents];
-    }
-    if(cInitModel)
-    {
-        cInitModel(&mData);
-    }
-    return true;
-}
-
 void CompiledExecutableModel::setCompartmentVolumes()
 {
     if(!csetCompartmentVolumes)
@@ -611,9 +524,44 @@ ModelData& CompiledExecutableModel::getModelData()
     return mData;
 }
 
-CvodeInterface* CompiledExecutableModel::getCvodeInterface()
-{
+CvodeInterface* CompiledExecutableModel::getCvodeInterface() {
     return mCvodeInterface;
 }
+
+SymbolList &CompiledExecutableModel::getReactions() {
+    return mCG.mReactionList;
+}
+
+SymbolList &CompiledExecutableModel::getGlobalParameters()
+{
+    return mCG.mGlobalParameterList;
+}
+
+SymbolList &CompiledExecutableModel::getBoundarySpecies()
+{
+    return mCG.mBoundarySpeciesList;
+}
+
+SymbolList &CompiledExecutableModel::getCompartments()
+{
+    return mCG.mCompartmentList;
+}
+
+SymbolList &CompiledExecutableModel::getConservations()
+{
+    return mCG.mConservationList;
+}
+
+SymbolList &CompiledExecutableModel::getFloatingSpeciesAmounts()
+{
+    return mCG.mFloatingSpeciesAmountsList;
+}
+
+SymbolList &CompiledExecutableModel::getFloatingSpeciesConcentrations()
+{
+    return mCG.mFloatingSpeciesConcentrationList;
+}
+
+
 
 } //Namespace rr

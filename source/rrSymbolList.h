@@ -1,5 +1,5 @@
 #ifndef rrSymbolListH
-#define rrSymbolList
+#define rrSymbolListH
 #include <vector>
 #include "rrObject.h"
 #include "rrSymbol.h"

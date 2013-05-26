@@ -2,10 +2,10 @@
 #define CModelGenerator_H_
 //---------------------------------------------------------------------------
 #include "rrModelGenerator.h"
+#include "rrCompiledModelGenerator.h"
 #include "rrModelSharedLibrary.h"
 #include "rrCodeBuilder.h"
 #include "rrCompiler.h"
-#include "Poco/Thread.h"
 
 namespace rr
 {
@@ -16,7 +16,7 @@ using Poco::Mutex;
  * Generate executable SBML models by generating and compiling C
  * source code into shared libraries with an external C compiler.
  */
-class RR_DECLSPEC CModelGenerator : public ModelGenerator
+class RR_DECLSPEC CModelGenerator : public CompiledModelGenerator
 {
     private:
         CodeBuilder                         mHeader;
