@@ -22,7 +22,7 @@
             <Dependencies/>
         </Projects>
         <Projects Include="apps\rrWinC\rrWinC.cbproj">
-            <Dependencies>..\source\roadrunner.cbproj;add_noise\add_noise.cbproj;..\Wrappers\C\rrc_api.cbproj</Dependencies>
+            <Dependencies>..\source\roadrunner.cbproj;..\Wrappers\C\rrc_api.cbproj;add_noise\add_noise.cbproj;lmfit\lm.cbproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -86,13 +86,13 @@
     <Target Name="lm:Make">
         <MSBuild Projects="lmfit\lm.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="rrWinC" DependsOnTargets="roadrunner;add_noise;rrc_api">
+    <Target Name="rrWinC" DependsOnTargets="roadrunner;rrc_api;add_noise;lm">
         <MSBuild Projects="apps\rrWinC\rrWinC.cbproj"/>
     </Target>
-    <Target Name="rrWinC:Clean" DependsOnTargets="roadrunner:Clean;add_noise:Clean;rrc_api:Clean">
+    <Target Name="rrWinC:Clean" DependsOnTargets="roadrunner:Clean;rrc_api:Clean;add_noise:Clean;lm:Clean">
         <MSBuild Projects="apps\rrWinC\rrWinC.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="rrWinC:Make" DependsOnTargets="roadrunner:Make;add_noise:Make;rrc_api:Make">
+    <Target Name="rrWinC:Make" DependsOnTargets="roadrunner:Make;rrc_api:Make;add_noise:Make;lm:Make">
         <MSBuild Projects="apps\rrWinC\rrWinC.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">

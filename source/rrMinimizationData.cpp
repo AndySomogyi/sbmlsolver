@@ -40,19 +40,24 @@ bool MinimizationData::reset()
 	mParameters.clear();
 }
 
-void MinimizationData::setSelectionList(const string& selList)
+void MinimizationData::setExperimentalDataSelectionList(const string& selList)
 {
- 	mSelectionList = StringList(selList);
+ 	mExperimentalDataSelectionList = StringList(selList);
 }
 
-void MinimizationData::setSelectionList(const StringList& selList)
+StringList MinimizationData::getExperimentalDataSelectionList()
 {
- 	mSelectionList = selList;
+	return mExperimentalDataSelectionList;
 }
 
-StringList MinimizationData::getSelectionList()
+void MinimizationData::setModelDataSelectionList(const string& selList)
 {
-	return mSelectionList;
+ 	mModelDataSelectionList = StringList(selList);
+}
+
+StringList MinimizationData::getModelDataSelectionList()
+{
+	return mModelDataSelectionList;
 }
 
 RoadRunnerData MinimizationData::getObservedData()

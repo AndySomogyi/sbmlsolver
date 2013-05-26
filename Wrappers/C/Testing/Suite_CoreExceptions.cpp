@@ -40,8 +40,8 @@ RRHandle gRR;
 		clog<<"Loaded test data from file: "<< testDataFileName;
 		if(iniFile.GetSection("SBML_FILES"))
 		{
-			rrIniSection* sbml = iniFile.GetSection("SBML_FILES");
-			rrIniKey* fNameKey = sbml->GetKey("FNAME1");
+			IniSection* sbml = iniFile.GetSection("SBML_FILES");
+			IniKey* fNameKey = sbml->GetKey("FNAME1");
 			if(fNameKey)
 			{
 				TestModelFileName  = joinPath(gTestDataFolder, fNameKey->mValue);

@@ -63,7 +63,7 @@ bool TSimulateFrame::loadSelectionList()
         	double value;
             if(!getValue(mRRI, parName.c_str(), &value))
             {
-            	Log()<<"There was a problem with parameter: "<<parName;
+            	ML()<<"There was a problem with parameter: "<<parName;
             }
             else
             {
@@ -98,11 +98,11 @@ void TSimulateFrame::EnableDisableSimulation()
 
     if(enableDisable)
     {
-        Log()<<"Enabling simulation..";
+        ML()<<"Enabling simulation..";
     }
     else
     {
-        Log()<<"Disabling simulation..";
+        ML()<<"Disabling simulation..";
     }
     mStartTimeE->Enabled            = enableDisable;
     mEndTimeE->Enabled              = enableDisable;
@@ -154,12 +154,12 @@ void __stdcall TSimulateFrame::ThreadExitCB(void *UserData)
 
 void __fastcall TSimulateFrame::simulationStarted()
 {
-	Log()<<"Simulation was started at: " << getTime();
+	ML()<<"Simulation was started at: " << getTime();
 }
 
 void __fastcall TSimulateFrame::simulationFinished()
 {
-	Log()<<"Simulation was finished at: "<< getTime();
+	ML()<<"Simulation was finished at: "<< getTime();
     if(onSimulationFinished)
     {
         onSimulationFinished();	//
@@ -177,7 +177,8 @@ void __fastcall TSimulateFrame::paraListClick(TObject *Sender)
 
     Parameter<double>* para = (Parameter<double>*) paraList->Items->Objects[paraList->ItemIndex];
 
-   	Log()<<"Parameter "<<para->getName()<<" = "<<para->getValue();
+   	ML()<<"Parameter "<<para->getName()<<" = "<<para->getValue();
+	paraEdit->EditLabel->Caption = vclstr(para->getName());
     paraEdit->FNumber = para->getValuePointer();
 	paraEdit->Update();
 
@@ -193,7 +194,7 @@ void __fastcall TSimulateFrame::paraEditKeyDown(TObject *Sender, WORD &Key, TShi
         	Parameter<double>* para = (Parameter<double>*) mParameters[i];
             if(!setValue(mRRI, para->getName().c_str(), para->getValue() ))
             {
-            	Log()<<"There was a problem with parameter: "<<para->getName();
+            	ML()<<"There was a problem with parameter: "<<para->getName();
             }
         }
 		//Simulate...

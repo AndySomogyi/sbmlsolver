@@ -412,28 +412,40 @@ RRList* createArrayList(const rr::NewArrayList& aList)
 
 RRDataHandle rrCallConv createRRData(const RoadRunnerData& result)
 {
-    RRData* aResult  = new RRData;
-    aResult->ColumnHeaders = new char*[result.cSize()];
+    RRData* rrCData  = new RRData;
+    memset(rrCData, 0, sizeof(RRData));
+
+    rrCData->ColumnHeaders = new char*[result.cSize()];
     for(int i = 0; i < result.cSize(); i++)
     {
-        aResult->ColumnHeaders[i] = createText(result.getColumnNames()[i]);
+        rrCData->ColumnHeaders[i] = createText(result.getColumnNames()[i]);
     }
 
-    aResult->RSize = result.rSize();
-    aResult->CSize = result.cSize();
-    int size = aResult->RSize*aResult->CSize;
-    aResult->Data = new double[size];
+    rrCData->RSize = result.rSize();
+    rrCData->CSize = result.cSize();
+    int size = rrCData->RSize*rrCData->CSize;
+    rrCData->Data = new double[size];
+
+    if(result.hasWeights())
+    {
+    	rrCData->Weights = new double[size];
+    }
 
     int index = 0;
     //The data layout is simple row after row, in one single long row...
-    for(int row = 0; row < aResult->RSize; row++)
+    for(int row = 0; row < rrCData->RSize; row++)
     {
-        for(int col = 0; col < aResult->CSize; col++)
+        for(int col = 0; col < rrCData->CSize; col++)
         {
-            aResult->Data[index++] = result(row, col);
+            rrCData->Data[index] = result(row, col);
+            if(result.hasWeights())
+            {
+            	rrCData->Weights[index] = result.weight(row, col);
+            }
+            ++index;
         }
     }
-	return aResult;
+	return rrCData;
 }
 
 char* rrCallConv getFileContent(const char* fName)
@@ -956,7 +968,7 @@ bool rrCallConv setMatrixElement (RRMatrixHandle m, int r, int c, double value)
 	return true;
 }
 
-int rrCallConv  getResultNumRows (RRDataHandle result)
+int rrCallConv  getRRDataNumRows (RRDataHandle result)
 {
 	if (result == NULL)
     {
@@ -966,7 +978,7 @@ int rrCallConv  getResultNumRows (RRDataHandle result)
 	return result->RSize;
 }
 
-int  rrCallConv  getResultNumCols (RRDataHandle result)
+int  rrCallConv  getRRDataNumCols (RRDataHandle result)
 {
 	if (result == NULL)
     {
@@ -976,7 +988,7 @@ int  rrCallConv  getResultNumCols (RRDataHandle result)
 	return result->CSize;
 }
 
-bool  rrCallConv getResultElement(RRDataHandle result, int r, int c, double *value)
+bool  rrCallConv getRRDataElement(RRDataHandle result, int r, int c, double *value)
 {
 	if (result == NULL)
     {
@@ -996,7 +1008,7 @@ bool  rrCallConv getResultElement(RRDataHandle result, int r, int c, double *val
 	return true;
 }
 
-char*  rrCallConv getResultColumnLabel (RRDataHandle result, int column)
+char*  rrCallConv getRRDataColumnLabel (RRDataHandle result, int column)
 {
 	if (result == NULL)
     {

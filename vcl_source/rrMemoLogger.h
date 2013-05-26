@@ -16,7 +16,7 @@ class TMemoLogger
         std::ostringstream&         Get();
 };
 
-#define Log() \
+#define ML() \
     TMemoLogger(infoMemo).Get()
 
 #endif

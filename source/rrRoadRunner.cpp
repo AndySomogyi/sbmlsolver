@@ -130,8 +130,6 @@ vector<SelectionRecord> RoadRunner::getSelectionList()
 string RoadRunner::getInfo()
 {
 	stringstream info;
-    info<<"RoadRunner Info ("<<getDateTime()<<")\n";
-    info<<"\n\n";
     info<<"Model Loaded: "<<(mModel == NULL ? "false" : "true")<<endl;
     if(mModel)
     {
@@ -151,8 +149,6 @@ string RoadRunner::getInfo()
 string RoadRunner::getExtendedVersionInfo()
 {
 	stringstream info;
-    info<<"RoadRunner Info ("<<getDateTime()<<")\n";
-    info<<"\n\n";
     info<<"libSBML version: "		<<	getlibSBMLVersion()<<endl;
     info<<"Temporary folder: "		<<	getTempFolder()<<endl;
     info<<"Compiler location: "		<<	getCompiler()->getCompilerLocation()<<endl;
@@ -258,10 +254,10 @@ int RoadRunner::createDefaultTimeCourseSelectionList()
 	StringList theList;
     StringList oFloating  = getFloatingSpeciesIds();
 
-	theList.Add("time");
+	theList.add("time");
     for(int i = 0; i < oFloating.Count(); i++)
     {
-        theList.Add(oFloating[i]);
+        theList.add(oFloating[i]);
     }
 
     setTimeCourseSelectionList(theList);
@@ -282,13 +278,13 @@ int RoadRunner::createTimeCourseSelectionList()
     if(theList.Count() < 2)
     {
         //AutoSelect
-        theList.Add("Time");
+        theList.add("Time");
 
         //Get All floating species
        StringList oFloating  = getFloatingSpeciesIds();
        for(int i = 0; i < oFloating.Count(); i++)
        {
-            theList.Add(oFloating[i]);
+            theList.add(oFloating[i]);
        }
     }
 
@@ -1106,7 +1102,7 @@ StringList RoadRunner::getTimeCourseSelectionList()
 
     if (!mModel)
     {
-        oResult.Add("time");
+        oResult.add("time");
         return oResult;
     }
 
@@ -1125,43 +1121,43 @@ StringList RoadRunner::getTimeCourseSelectionList()
         switch (record.selectionType)
         {
             case SelectionType::clTime:
-                oResult.Add("time");
+                oResult.add("time");
                 break;
             case SelectionType::clBoundaryAmount:
-                oResult.Add(format("[{0}]", oBoundary[record.index]));
+                oResult.add(format("[{0}]", oBoundary[record.index]));
                 break;
             case SelectionType::clBoundarySpecies:
-                oResult.Add(oBoundary[record.index]);
+                oResult.add(oBoundary[record.index]);
                 break;
             case SelectionType::clFloatingAmount:
-                oResult.Add(format("[{0}]", oFloating[record.index]));
+                oResult.add(format("[{0}]", oFloating[record.index]));
                 break;
             case SelectionType::clFloatingSpecies:
-                oResult.Add(oFloating[record.index]);
+                oResult.add(oFloating[record.index]);
                 break;
             case SelectionType::clVolume:
-                oResult.Add(oVolumes[record.index]);
+                oResult.add(oVolumes[record.index]);
                 break;
             case SelectionType::clFlux:
-                oResult.Add(oFluxes[record.index]);
+                oResult.add(oFluxes[record.index]);
                 break;
             case SelectionType::clRateOfChange:
-                oResult.Add(oRates[record.index]);
+                oResult.add(oRates[record.index]);
                 break;
             case SelectionType::clParameter:
-                oResult.Add(oParameters[record.index]);
+                oResult.add(oParameters[record.index]);
                 break;
             case SelectionType::clEigenValue:
-                oResult.Add("eigen_" + record.p1);
+                oResult.add("eigen_" + record.p1);
                 break;
             case SelectionType::clElasticity:
-                oResult.Add(format("EE:{0},{1}", record.p1, record.p2));
+                oResult.add(format("EE:{0},{1}", record.p1, record.p2));
                 break;
             case SelectionType::clUnscaledElasticity:
-                oResult.Add(format("uEE:{0},{1}", record.p1, record.p2));
+                oResult.add(format("uEE:{0},{1}", record.p1, record.p2));
                 break;
             case SelectionType::clStoichiometry:
-                oResult.Add(record.p1);
+                oResult.add(record.p1);
                 break;
         }
     }
@@ -2091,17 +2087,17 @@ NewArrayList RoadRunner::getFluxControlCoefficientIds()
 
         for(int i = 0; i < oParameters.Count(); i++)
         {
-            oInner.Add("CC:" + s + "," + oParameters[i]);
+            oInner.add("CC:" + s + "," + oParameters[i]);
         }
 
         for(int i = 0; i < oBoundary.Count(); i++)
         {
-            oInner.Add("CC:" + s + "," + oBoundary[i]);
+            oInner.add("CC:" + s + "," + oBoundary[i]);
         }
 
         for(int i = 0; i < oConservation.Count(); i++)
         {
-            oInner.Add("CC:" + s + "," + oConservation[i]);
+            oInner.add("CC:" + s + "," + oConservation[i]);
         }
 
         oCCReaction.Add(oInner);
@@ -2135,17 +2131,17 @@ NewArrayList RoadRunner::getUnscaledFluxControlCoefficientIds()
 
         for(int i = 0; i < oParameters.Count(); i++)
         {
-            oInner.Add("uCC:" + s + "," + oParameters[i]);
+            oInner.add("uCC:" + s + "," + oParameters[i]);
         }
 
         for(int i = 0; i < oBoundary.Count(); i++)
         {
-            oInner.Add("uCC:" + s + "," + oBoundary[i]);
+            oInner.add("uCC:" + s + "," + oBoundary[i]);
         }
 
         for(int i = 0; i < oConservation.Count(); i++)
         {
-            oInner.Add("uCC:" + s + "," + oConservation[i]);
+            oInner.add("uCC:" + s + "," + oConservation[i]);
         }
 
         oCCReaction.Add(oInner);
@@ -2178,17 +2174,17 @@ NewArrayList RoadRunner::getConcentrationControlCoefficientIds()
 
         for(int i = 0; i < oParameters.Count(); i++)
         {
-            oInner.Add("CC:" + s + "," + oParameters[i]);
+            oInner.add("CC:" + s + "," + oParameters[i]);
         }
 
         for(int i = 0; i < oBoundary.Count(); i++)
         {
-            oInner.Add("CC:" + s + "," + oBoundary[i]);
+            oInner.add("CC:" + s + "," + oBoundary[i]);
         }
 
         for(int i = 0; i < oConservation.Count(); i++)
         {
-            oInner.Add("CC:" + s + "," + oConservation[i]);
+            oInner.add("CC:" + s + "," + oConservation[i]);
         }
 
         oCCFloating.Add(oInner);
@@ -2221,17 +2217,17 @@ NewArrayList RoadRunner::getUnscaledConcentrationControlCoefficientIds()
 
         for(int i = 0; i < oParameters.Count(); i++)
         {
-            oInner.Add("uCC:" + s + "," + oParameters[i]);
+            oInner.add("uCC:" + s + "," + oParameters[i]);
         }
 
         for(int i = 0; i < oBoundary.Count(); i++)
         {
-            oInner.Add("uCC:" + s + "," + oBoundary[i]);
+            oInner.add("uCC:" + s + "," + oBoundary[i]);
         }
 
         for(int i = 0; i < oConservation.Count(); i++)
         {
-            oInner.Add("uCC:" + s + "," + oConservation[i]);
+            oInner.add("uCC:" + s + "," + oConservation[i]);
         }
 
         oCCFloating.Add(oInner);
@@ -2265,22 +2261,22 @@ NewArrayList RoadRunner::getElasticityCoefficientIds()
 
         for(int j = 0; j < floatingSpeciesNames.Count(); j++)
         {
-            oInner.Add(format("EE:{0},{1}", reac_name, floatingSpeciesNames[j]));
+            oInner.add(format("EE:{0},{1}", reac_name, floatingSpeciesNames[j]));
         }
 
         for(int j = 0; j < boundarySpeciesNames.Count(); j++)
         {
-            oInner.Add(format("EE:{0},{1}", reac_name, boundarySpeciesNames[j]));
+            oInner.add(format("EE:{0},{1}", reac_name, boundarySpeciesNames[j]));
         }
 
         for(int j = 0; j < globalParameterNames.Count(); j++)
         {
-            oInner.Add(format("EE:{0},{1}", reac_name, globalParameterNames[j]));
+            oInner.add(format("EE:{0},{1}", reac_name, globalParameterNames[j]));
         }
 
         for(int j = 0; j < conservationNames.Count(); j++)
         {
-            oInner.Add(format("EE:{0},{1}", reac_name, conservationNames[j]));
+            oInner.add(format("EE:{0},{1}", reac_name, conservationNames[j]));
         }
 
         oCCReaction.Add(oInner);
@@ -2315,25 +2311,25 @@ NewArrayList RoadRunner::getUnscaledElasticityCoefficientIds()
         for(int j = 0; j < oFloating.Count(); j++)
         {
             string variable = oFloating[j];
-            oInner.Add(format("uEE:{0},{1}", reac_name, variable));
+            oInner.add(format("uEE:{0},{1}", reac_name, variable));
         }
 
         for(int j = 0; j < oBoundary.Count(); j++)
         {
             string variable = oBoundary[j];
-            oInner.Add(format("uEE:{0},{1}", reac_name, variable));
+            oInner.add(format("uEE:{0},{1}", reac_name, variable));
         }
 
         for(int j = 0; j < oGlobalParameters.Count(); j++)
         {
             string variable = oGlobalParameters[j];
-            oInner.Add(format("uEE:{0},{1}", reac_name, variable));
+            oInner.add(format("uEE:{0},{1}", reac_name, variable));
         }
 
         for(int j = 0; j < oConservation.Count(); j++)
         {
             string variable = oConservation[j];
-            oInner.Add(format("uEE:{0},{1}", reac_name, variable));
+            oInner.add(format("uEE:{0},{1}", reac_name, variable));
         }
 
         oCCReaction.Add(oInner);
@@ -2356,7 +2352,7 @@ StringList RoadRunner::getEigenvalueIds()
 
     for(int i = 0; i < floating.Count(); i++)
     {
-        result.Add("eigen_" + floating[i]);
+        result.add("eigen_" + floating[i]);
     }
 
     return result;
@@ -2434,43 +2430,43 @@ StringList RoadRunner::getSteadyStateSelectionList()
         switch (record.selectionType)
         {
             case SelectionType::clTime:
-                result.Add("time");
+                result.add("time");
             break;
             case SelectionType::clBoundaryAmount:
-                result.Add(format("[{0}]", oBoundary[record.index]));
+                result.add(format("[{0}]", oBoundary[record.index]));
             break;
             case SelectionType::clBoundarySpecies:
-                result.Add(oBoundary[record.index]);
+                result.add(oBoundary[record.index]);
             break;
             case SelectionType::clFloatingAmount:
-                result.Add("[" + (string)oFloating[record.index] + "]");
+                result.add("[" + (string)oFloating[record.index] + "]");
             break;
             case SelectionType::clFloatingSpecies:
-                result.Add(oFloating[record.index]);
+                result.add(oFloating[record.index]);
             break;
             case SelectionType::clVolume:
-                result.Add(oVolumes[record.index]);
+                result.add(oVolumes[record.index]);
             break;
             case SelectionType::clFlux:
-                result.Add(oFluxes[record.index]);
+                result.add(oFluxes[record.index]);
             break;
             case SelectionType::clRateOfChange:
-                result.Add(oRates[record.index]);
+                result.add(oRates[record.index]);
             break;
             case SelectionType::clParameter:
-                result.Add(oParameters[record.index]);
+                result.add(oParameters[record.index]);
             break;
             case SelectionType::clEigenValue:
-                result.Add("eigen_" + record.p1);
+                result.add("eigen_" + record.p1);
             break;
             case SelectionType::clElasticity:
-                result.Add("EE:" + record.p1 + "," + record.p2);
+                result.add("EE:" + record.p1 + "," + record.p2);
             break;
             case SelectionType::clUnscaledElasticity:
-                result.Add("uEE:" + record.p1 + "," + record.p2);
+                result.add("uEE:" + record.p1 + "," + record.p2);
             break;
             case SelectionType::clUnknown:
-                result.Add(record.p1);
+                result.add(record.p1);
                 break;
         }
     }
@@ -2996,10 +2992,10 @@ StringList RoadRunner::getBoundarySpeciesAmountIds()
 {
     StringList result;// = new ArrayList();
     StringList list = getBoundarySpeciesIds();
-//    foreach (string s in getBoundarySpeciesIds()) oResult.Add("[" + s + "]");
+//    foreach (string s in getBoundarySpeciesIds()) oResult.add("[" + s + "]");
     for(int item = 0; item < list.Count(); item++)// (object item in floatingSpeciesNames)
     {
-        result.Add(format("[{0}]", list[item]));
+        result.add(format("[{0}]", list[item]));
     }
 
     return result;
@@ -3179,7 +3175,7 @@ StringList RoadRunner::getFloatingSpeciesInitialConditionIds()
     StringList result;// = new ArrayList();
     for(int item = 0; item < floatingSpeciesNames.Count(); item++)// (object item in floatingSpeciesNames)
     {
-        result.Add(format("init({0})", floatingSpeciesNames[item]));
+        result.add(format("init({0})", floatingSpeciesNames[item]));
     }
     return result;
 }
@@ -3192,7 +3188,7 @@ StringList RoadRunner::getFloatingSpeciesAmountIds()
 
     for(int i = 0; i < list.Count(); i++)
     {
-        oResult.push_back(format("[{0}]", list[i]));
+        oResult.add(format("[{0}]", list[i]));
     }
     return oResult;
 }
@@ -3887,7 +3883,7 @@ DoubleMatrix RoadRunner::getUnscaledFluxControlCoefficientMatrix()
 
 			DoubleMatrix T1 = mult(uee, ucc);
 			
-			// Add an identity matrix I to T1, that is add a 1 to every diagonal of T1
+			// add an identity matrix I to T1, that is add a 1 to every diagonal of T1
 			for (int i=0; i<T1.RSize(); i++)
 				T1[i][i] = T1[i][i] + 1;
 			return T1;//Matrix.convertToDouble(T1);
@@ -5153,7 +5149,7 @@ vector<double> RoadRunner::getSelectedValues()
 //                var currentRow = new List<double> {current};
 //                currentRow.AddRange(getSelectedValues());
 //
-//                results.Add(currentRow.ToArray());
+//                results.add(currentRow.ToArray());
 //                current += stepSize;
 //            }
 //            setValue(symbol, initialValue);
@@ -5208,13 +5204,13 @@ vector<double> RoadRunner::getSelectedValues()
 //            {
 //                var tuple = new ArrayList();
 //                ArrayList lpList = mModelGenerator->getLocalParameterList(i);
-//                tuple.Add(i);
+//                tuple.add(i);
 //                for (int j = 0; j < lpList.Count; j++)
 //                {
-//                    tuple.Add(lpList[j]);
-//                    tuple.Add(mModel->mData.lp[i][j]);
+//                    tuple.add(lpList[j]);
+//                    tuple.add(mModel->mData.lp[i][j]);
 //                }
-//                tupleList.Add(tuple);
+//                tupleList.add(tuple);
 //            }
 //            return tupleList;
 //        }

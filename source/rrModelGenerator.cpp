@@ -79,7 +79,7 @@ StringList ModelGenerator::getCompartmentList()
     StringList tmp;
     for (u_int i = 0; i < mCompartmentList.size(); i++)
     {
-        tmp.Add(mCompartmentList[i].name);
+        tmp.add(mCompartmentList[i].name);
     }
     return tmp;
 }
@@ -410,7 +410,7 @@ StringList ModelGenerator::getReactionIds()
     StringList tmp;
     for (u_int i = 0; i < mReactionList.size(); i++)
     {
-        tmp.Add(mReactionList[i].name);
+        tmp.add(mReactionList[i].name);
     }
     return tmp;
 }
@@ -420,7 +420,7 @@ StringList ModelGenerator::getFloatingSpeciesConcentrationList()
     StringList tmp;
     for (u_int i = 0; i < mFloatingSpeciesConcentrationList.size(); i++)
     {
-        tmp.Add(mFloatingSpeciesConcentrationList[i].name);
+        tmp.add(mFloatingSpeciesConcentrationList[i].name);
     }
     return tmp;
 }
@@ -430,7 +430,7 @@ StringList ModelGenerator::getBoundarySpeciesList()
     StringList tmp;
     for (u_int i = 0; i < mBoundarySpeciesList.size(); i++)
     {
-        tmp.Add(mBoundarySpeciesList[i].name);
+        tmp.add(mBoundarySpeciesList[i].name);
     }
     return tmp;
 }
@@ -440,12 +440,12 @@ StringList ModelGenerator::getGlobalParameterList()
     StringList tmp;
     for (u_int i = 0; i < mGlobalParameterList.size(); i++)
     {
-        tmp.Add(mGlobalParameterList[i].name);
+        tmp.add(mGlobalParameterList[i].name);
     }
 
     for (u_int i = 0; i < mConservationList.Count(); i++)
     {
-        tmp.Add(mConservationList[i].name);
+        tmp.add(mConservationList[i].name);
     }
 
     return tmp;
@@ -568,7 +568,7 @@ int ModelGenerator::getNumberOfReactions()
 ////        {
 ////            var tmp = new ArrayList();
 ////            for (int i = 0; i < mCompartmentList.Count; i++)
-////                tmp.Add(mCompartmentList[i].name);
+////                tmp.add(mCompartmentList[i].name);
 ////            return tmp;
 ////        }
 ////
@@ -576,7 +576,7 @@ int ModelGenerator::getNumberOfReactions()
 ////        {
 ////            var tmp = new ArrayList();
 ////            for (int i = 0; i < mFloatingSpeciesConcentrationList.Count; i++)
-////                tmp.Add(mFloatingSpeciesConcentrationList[i].name);
+////                tmp.add(mFloatingSpeciesConcentrationList[i].name);
 ////            return tmp;
 ////        }
 ////
@@ -585,7 +585,7 @@ StringList ModelGenerator::getConservationList()
     StringList tmp;// = new ArrayList();
     for (u_int i = 0; i < mConservationList.Count(); i++)
     {
-        tmp.Add(mConservationList[i].name);
+        tmp.add(mConservationList[i].name);
     }
     return tmp;
 }
@@ -595,7 +595,7 @@ StringList ModelGenerator::getConservationList()
 ////        {
 ////            var tmp = new ArrayList();
 ////            for (int i = 0; i < mBoundarySpeciesList.Count; i++)
-////                tmp.Add(mBoundarySpeciesList[i].name);
+////                tmp.add(mBoundarySpeciesList[i].name);
 ////            return tmp;
 ////        }
 ////
@@ -603,10 +603,10 @@ StringList ModelGenerator::getConservationList()
 ////        {
 ////            var tmp = new ArrayList();
 ////            for (int i = 0; i < mGlobalParameterList.Count; i++)
-////                tmp.Add(mGlobalParameterList[i].name);
+////                tmp.add(mGlobalParameterList[i].name);
 ////
 ////            for (int i = 0; i < mConservationList.Count; i++)
-////                tmp.Add(mConservationList[i].name);
+////                tmp.add(mConservationList[i].name);
 ////
 ////            return tmp;
 ////        }
@@ -615,7 +615,7 @@ StringList ModelGenerator::getConservationList()
 ////        {
 ////            var tmp = new ArrayList();
 ////            for (int i = 0; i < mLocalParameterList[reactionId].Count; i++)
-////                tmp.Add(mLocalParameterList[reactionId][i].name);
+////                tmp.add(mLocalParameterList[reactionId][i].name);
 ////            return tmp;
 ////        }
 ////
@@ -623,7 +623,7 @@ StringList ModelGenerator::getConservationList()
 ////        {
 ////            var tmp = new ArrayList();
 ////            for (int i = 0; i < mReactionList.Count; i++)
-////                tmp.Add(mReactionList[i].name);
+////                tmp.add(mReactionList[i].name);
 ////            return tmp;
 ////        }
 ////
@@ -1065,7 +1065,7 @@ StringList ModelGenerator::getConservationList()
 ////                    break;
 ////                case "delay":
 ////                    sb.Append("supportFunctions._delay");
-////                    Warnings.Add("RoadRunner does not yet support delay differential equations in SBML, they will be ignored (i.e. treated as delay = 0).");
+////                    Warnings.add("RoadRunner does not yet support delay differential equations in SBML, they will be ignored (i.e. treated as delay = 0).");
 ////                    break;
 ////                default:
 ////                    bool bReplaced = false;
@@ -1433,7 +1433,7 @@ StringList ModelGenerator::getConservationList()
 ////                    }
 ////                    symbol.hasOnlySubstance = NOM.SbmlModel.getSpecies(reOrderedList[i]).getHasOnlySubstanceUnits();
 ////                    symbol.constant = NOM.SbmlModel.getSpecies(reOrderedList[i]).getConstant();
-////                    mFloatingSpeciesConcentrationList.Add(symbol);
+////                    mFloatingSpeciesConcentrationList.add(symbol);
 ////                    break;
 ////                }
 ////                //throw new SBWApplicationException("Reordered Species " + reOrderedList[i] + " not found.");
@@ -1468,7 +1468,7 @@ StringList ModelGenerator::getConservationList()
 ////                }
 ////                symbol.hasOnlySubstance = NOM.SbmlModel.getSpecies(sName).getHasOnlySubstanceUnits();
 ////                symbol.constant = NOM.SbmlModel.getSpecies(sName).getConstant();
-////                mBoundarySpeciesList.Add(symbol);
+////                mBoundarySpeciesList.add(symbol);
 ////            }
 ////            return numBoundarySpecies;
 ////        }
@@ -1484,7 +1484,7 @@ StringList ModelGenerator::getConservationList()
 ////            {
 ////                name = (string)((ArrayList)oParameters[i])[0];
 ////                value = (double)((ArrayList)oParameters[i])[1];
-////                mGlobalParameterList.Add(new Symbol(name, value));
+////                mGlobalParameterList.add(new Symbol(name, value));
 ////            }
 ////            return numGlobalParameters;
 ////        }
@@ -1502,14 +1502,14 @@ StringList ModelGenerator::getConservationList()
 ////            {
 ////                numLocalParameters = NOM.getNumParameters(i);
 ////                reactionName = NOM.getNthReactionId(i);
-////                mReactionList.Add(new Symbol(reactionName, 0.0));
+////                mReactionList.add(new Symbol(reactionName, 0.0));
 ////                mLocalParameterList[i] = new SymbolList();
 ////                for (int j = 0; j < numLocalParameters; j++)
 ////                {
 ////                    localParameterDimensions[i] = numLocalParameters;
 ////                    name = NOM.getNthParameterId(i, j);
 ////                    value = NOM.getNthParameterValue(i, j);
-////                    mLocalParameterList[i].Add(new Symbol(reactionName, name, value));
+////                    mLocalParameterList[i].add(new Symbol(reactionName, name, value));
 ////                }
 ////            }
 ////        }
@@ -1616,7 +1616,7 @@ StringList ModelGenerator::getConservationList()
 ////                    }
 ////                    sb.Append(";" + NL());
 ////
-////                    mConservationList.Add(new Symbol("CSUM" + i, double.NaN));
+////                    mConservationList.add(new Symbol("CSUM" + i, double.NaN));
 ////                }
 ////            }
 ////            sb.Append("    }" + NL() + NL());
@@ -1707,7 +1707,7 @@ StringList ModelGenerator::getConservationList()
 ////                    ArrayList oList = NOM.getNthFunctionDefinition(i);
 ////                    var sName = (string)oList[0];
 ////                    sName.Trim();
-////                    _functionNames.Add(sName);
+////                    _functionNames.add(sName);
 ////                    var oArguments = (ArrayList)oList[1];
 ////                    var sBody = (string)oList[2];
 ////
@@ -1718,7 +1718,7 @@ StringList ModelGenerator::getConservationList()
 ////                    for (int j = 0; j < oArguments.Count; j++)
 ////                    {
 ////                        sb.Append("double " + (string)oArguments[j]);
-////                        _functionParameters.Add((string)oArguments[j]);
+////                        _functionParameters.add((string)oArguments[j]);
 ////                        if (j < oArguments.Count - 1)
 ////                            sb.Append(", ");
 ////                    }
@@ -2202,7 +2202,7 @@ StringList ModelGenerator::getConservationList()
 ////            {
 ////                var oList = new List<Pair<string, string>>();
 ////                for (int i = 0; i < numInitialAssignments; i++)
-////                    oList.Add(NOM.getNthInitialAssignmentPair(i));
+////                    oList.add(NOM.getNthInitialAssignmentPair(i));
 ////
 ////                // sort them ...
 ////                bool bChange = true;
@@ -2285,7 +2285,7 @@ StringList ModelGenerator::getConservationList()
 ////                    switch (ruleType)
 ////                    {
 ////                        case "Algebraic_Rule":
-////                            Warnings.Add("RoadRunner does not yet support algebraic rules in SBML, they will be ignored.");
+////                            Warnings.add("RoadRunner does not yet support algebraic rules in SBML, they will be ignored.");
 ////                            leftSideRule = null;
 ////                            break;
 ////
@@ -2708,9 +2708,9 @@ StringList ModelGenerator::getConservationList()
 ////                for (int i = 0; i < numEvents; i++)
 ////                {
 ////                    var ev = NOM.getNthEvent(i);
-////                    eventType.Add(NOM.getNthUseValuesFromTriggerTime(i));
-////                    eventPersistentType.Add(NOM.SbmlModel.getEvent(i).getTrigger().getPersistent());
-////                    delays.Add(substituteTerms(numReactions, "", (string)ev[1]));
+////                    eventType.add(NOM.getNthUseValuesFromTriggerTime(i));
+////                    eventPersistentType.add(NOM.SbmlModel.getEvent(i).getTrigger().getPersistent());
+////                    delays.add(substituteTerms(numReactions, "", (string)ev[1]));
 ////                    sb.AppendFormat("\tpublic void eventAssignment_{0} () {{{1}", i, NL());
 ////                    sb.AppendFormat("\t\tperformEventAssignment_{0}( computeEventAssignment_{0}() );{1}", i, NL());
 ////                    sb.Append("\t}" + NL());
@@ -2740,8 +2740,8 @@ StringList ModelGenerator::getConservationList()
 ////
 ////                        string sTempVar = string.Format("values[{0}]", nCount);
 ////
-////                        oTemp.Add(assignmentVar);
-////                        oValue.Add(sTempVar);
+////                        oTemp.add(assignmentVar);
+////                        oValue.add(sTempVar);
 ////
 ////                        str = sTempVar + str.Substring(str.IndexOf(" = ", System.StringComparison.Ordinal));
 ////
@@ -2911,7 +2911,7 @@ StringList ModelGenerator::getConservationList()
 ////                string sCompartmentId = NOM.getNthCompartmentId(i);
 ////                double value = NOM.getValue(sCompartmentId);
 ////                if (double.isNaN(value)) value = 1;
-////                mCompartmentList.Add(new Symbol(sCompartmentId, value));
+////                mCompartmentList.add(new Symbol(sCompartmentId, value));
 ////            }
 ////            return numCompartments;
 ////        }
@@ -2935,7 +2935,7 @@ StringList ModelGenerator::getConservationList()
 ////                        value = 1;
 ////                    if (reference.isSetId())
 ////                    {
-////                        mModifiableSpeciesReferenceList.Add(new Symbol(id, value));
+////                        mModifiableSpeciesReferenceList.add(new Symbol(id, value));
 ////                    }
 ////                }
 ////                for (int j = 0; j < reaction.getNumProducts(); j++)
@@ -2948,7 +2948,7 @@ StringList ModelGenerator::getConservationList()
 ////                        value = 1;
 ////                    if (reference.isSetId())
 ////                    {
-////                        mModifiableSpeciesReferenceList.Add(new Symbol(id, value));
+////                        mModifiableSpeciesReferenceList.add(new Symbol(id, value));
 ////                    }
 ////                }
 ////            }

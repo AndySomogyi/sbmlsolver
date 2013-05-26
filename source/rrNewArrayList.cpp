@@ -101,7 +101,7 @@ StringList NewArrayList::GetStringList(const string& lName)
                             for(int i = 0; i < list.Count(); i++)
                             {
                             	string str = list[i];
-                                aList.Add(str);
+                                aList.add(str);
                             }
                         }
                         if(dynamic_cast<NewArrayListItem<NewArrayList> *>(anItem))
@@ -111,7 +111,7 @@ StringList NewArrayList::GetStringList(const string& lName)
                             for(int i = 0; i < list.Count(); i++)
                             {
                             	string str = list.GetString(i);
-                                aList.Add(str);
+                                aList.add(str);
                             }
                         }
 

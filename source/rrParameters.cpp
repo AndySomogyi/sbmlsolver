@@ -26,7 +26,7 @@ StringList Parameters::asStringList() const
 	StringList list;
     for(int i = 0; i < count(); i++)
     {
-    	list.Add(mParas[i]->mName);
+    	list.add(mParas[i]->mName);
     }
     return list;
 }

@@ -57,7 +57,7 @@ StringList Capabilities::asStringList()
     for(int i = 0; i < count(); i++)
     {
     	Capability& aCapability = *(mCapabilities[i]);
-		caps.Add(aCapability.getName());
+		caps.add(aCapability.getName());
     }
 
 	return caps;

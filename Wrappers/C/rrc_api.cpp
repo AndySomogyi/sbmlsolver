@@ -2764,7 +2764,6 @@ bool rrCallConv enableLoggingToFile(RRHandle handle)
 		string logFile = joinPath(tempFolder, "RoadRunner.log") ;
         freeText(tempFolder);
 
-//        gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));
         gLog.Init("", gLog.GetLogLevel(), new LogFile(logFile.c_str()));
     	return true;
     }
@@ -2782,7 +2781,7 @@ char* rrCallConv testString (char* testStr)
 	return testStr;
 }
 
-bool rrCallConv setLogLevel(char* _lvl)
+bool rrCallConv setLogLevel(const char* _lvl)
 {
 	try
     {

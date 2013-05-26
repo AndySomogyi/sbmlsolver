@@ -204,7 +204,7 @@ StringList PluginManager::getPluginNames()
             Plugin*		   aPlugin 	= aPluginLib->second;
 
             //Then unload
-            names.Add(aPlugin->getName());
+            names.add(aPlugin->getName());
         }
     }
     return names;

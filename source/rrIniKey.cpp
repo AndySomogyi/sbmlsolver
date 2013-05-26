@@ -7,23 +7,23 @@
 using namespace rr;
 namespace rr
 {
-rrIniKey::rrIniKey(const string& key)
+IniKey::IniKey(const string& key)
 {
     SetupKey(key);
 }
 
-void rrIniKey::ReKey(const string& key)
+void IniKey::ReKey(const string& key)
 {
     SetupKey(key);
 }
 
-ostream&  operator<<(ostream& stream, const rrIniKey& aKey)
+ostream&  operator<<(ostream& stream, const IniKey& aKey)
 {
     stream<<aKey.AsString();
     return stream;
 }
 
-string rrIniKey::AsString() const
+string IniKey::AsString() const
 {
     string tmp = mKey;
     tmp += " = ";
@@ -31,22 +31,22 @@ string rrIniKey::AsString() const
     return tmp;
 }
 
-int rrIniKey::AsBool() const
+int IniKey::AsBool() const
 {
     return toBool(mValue);
 }
 
-int rrIniKey::AsInt() const
+int IniKey::AsInt() const
 {
     return toInt(mValue);
 }
 
-double rrIniKey::AsFloat() const
+double IniKey::AsFloat() const
 {
     return toDouble(mValue);
 }
 
-complex<double> rrIniKey::AsComplex() const
+complex<double> IniKey::AsComplex() const
 {
 	vector<string> vals = splitString(mValue,",");
     if(vals.size() == 2)
@@ -56,7 +56,7 @@ complex<double> rrIniKey::AsComplex() const
     return complex<double>(toDouble(mValue), 0 );
 }
 
-void rrIniKey::SetupKey(const string& key)
+void IniKey::SetupKey(const string& key)
 {
     if(key.size())
     {

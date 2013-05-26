@@ -428,7 +428,7 @@ void CGenerator::writeUserDefinedFunctions(CodeBuilder& ignore)
 
               string sName = aList[0];
               //sName.Trim();
-            mFunctionNames.Add(sName);
+            mFunctionNames.add(sName);
             StringList oArguments = oList[1];
             StringList list2 = oList[2];
             string sBody = list2[0];
@@ -439,7 +439,7 @@ void CGenerator::writeUserDefinedFunctions(CodeBuilder& ignore)
             for (int j = 0; j < oArguments.Count(); j++)
             {
                 mSource<<append("double " + (string)oArguments[j]);
-                mFunctionParameters.Add((string)oArguments[j]);
+                mFunctionParameters.add((string)oArguments[j]);
                 if (j < oArguments.Count() - 1)
                 {
                     mSource<<append(", ");
@@ -1198,7 +1198,7 @@ void CGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numReacti
             StringList event = ev[1];
             int numItems = event.Count();
             string str = substituteTerms(numReactions, "", event[0]);
-            delays.Add(str);
+            delays.add(str);
 
             mSource<<format("void eventAssignment_{0}(ModelData* md) \n{{1}", i, NL());
 
@@ -1237,8 +1237,8 @@ void CGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numReacti
 
                 string sTempVar = format("values[{0}]", nCount);
 
-                oTemp.Add(assignmentVar);
-                oValue.Add(sTempVar);
+                oTemp.add(assignmentVar);
+                oValue.add(sTempVar);
 
                 str = sTempVar+ str.substr(str.find(" ="));
                 nCount++;

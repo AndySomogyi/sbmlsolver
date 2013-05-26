@@ -97,7 +97,7 @@ RRStringArray* rrCallConv getPluginCapabilities(RRPluginHandle handle)
 
             for(int i = 0; i < caps->count(); i++)
             {
-            	aList.Add((*caps)[i]->getName());
+            	aList.add((*caps)[i]->getName());
             }
         	return createList(aList);
         }
@@ -125,7 +125,7 @@ RRStringArray* rrCallConv getPluginParameters(RRPluginHandle handle, const char*
 
             for(int i = 0; i < paras->count(); i++)
             {
-            	aList.Add((*paras)[i]->getName());
+            	aList.add((*paras)[i]->getName());
             }
         	return createList(aList);
         }

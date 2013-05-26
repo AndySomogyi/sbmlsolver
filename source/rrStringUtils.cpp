@@ -643,6 +643,10 @@ double toDouble(const string& str)
     if(!str.size())
         return 0;
 
+	if(str == "-")
+    {
+    	return gDoubleNaN;
+    }
     char *endptr = NULL;
     return strtod(str.c_str(), &endptr);
 }

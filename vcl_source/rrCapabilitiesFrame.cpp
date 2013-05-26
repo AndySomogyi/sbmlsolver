@@ -98,7 +98,7 @@ void __fastcall TcapFrame::capDropDownChange(TObject *Sender)
 
     if(!paras)
     {
-        Log()<<"No parameters!";
+        ML()<<"No parameters!";
         return;
     }
 
@@ -164,7 +164,7 @@ void __fastcall TcapFrame::SetParaBtnClick(TObject *Sender)
 
     if(!setParameter(para, text.c_str()))
     {
-    	Log()<<"Bad....";
+    	ML()<<"Bad....";
     }
 }
 

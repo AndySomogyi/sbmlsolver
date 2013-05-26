@@ -92,7 +92,7 @@ bool SimulationSettings::LoadFromFile(const string& _FName)
             vector<string> vars = splitString((*it).second, ",");
             for(int i=0; i < vars.size(); i++)
             {
-                mVariables.push_back(trim(vars[i]));
+                mVariables.add(trim(vars[i]));
             }
         }
 
@@ -105,7 +105,7 @@ bool SimulationSettings::LoadFromFile(const string& _FName)
                 string rec = trim(vars[i]);
                 if(rec.size())
                 {
-                    mAmount.push_back(rec);
+                    mAmount.add(rec);
                 }
             }
         }
@@ -119,7 +119,7 @@ bool SimulationSettings::LoadFromFile(const string& _FName)
                 string rec = trim(vars[i]);
                 if(rec.size())
                 {
-                    mConcentration.push_back(rec);
+                    mConcentration.add(rec);
                 }
             }
         }

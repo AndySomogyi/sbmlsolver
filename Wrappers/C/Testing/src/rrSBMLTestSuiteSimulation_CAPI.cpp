@@ -98,7 +98,7 @@ RoadRunnerData convertCAPIResultData(RRDataHandle	result)
 	//Copy column names
     for(int i = 0; i < result->CSize; i++)
     {
-    	colNames.Add(result->ColumnHeaders[i]);
+    	colNames.add(result->ColumnHeaders[i]);
     }
 
 	resultData.setColumnNames(colNames);

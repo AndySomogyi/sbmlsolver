@@ -22,14 +22,22 @@ extern "C"
 C_DECL_SPEC bool rrcCallConv addDoubleParameter(RRMinimizationDataHandle handle, const char* name, double value);
 
 /*!
- \brief Set minimization objects selection list
+ \brief Set minimization objects selection list related to experimental data
  \param[in] RRMinimizationDataHandle
  \param[in] RRStringArrayHandle
  \return Returns true if sucessful, false otherwise
  \ingroup Minimization
 */
-C_DECL_SPEC bool rrcCallConv setMinimizationSelectionList(RRMinimizationDataHandle handle, const char* listHandle);
+C_DECL_SPEC bool rrcCallConv setMinimizationExperimentalDataSelectionList(RRMinimizationDataHandle handle, const char* listHandle);
 
+/*!
+ \brief Set minimization objects selection list related to model data
+ \param[in] RRMinimizationDataHandle
+ \param[in] RRStringArrayHandle
+ \return Returns true if sucessful, false otherwise
+ \ingroup Minimization
+*/
+C_DECL_SPEC bool rrcCallConv setMinimizationModelDataSelectionList(RRMinimizationDataHandle handle, const char* listHandle);
 
 #if defined(__cplusplus)
 }	//Extern "C"

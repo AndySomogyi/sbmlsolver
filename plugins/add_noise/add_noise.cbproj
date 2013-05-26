@@ -98,6 +98,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <Debugger_HostApplication>R:\installs\cg\xe3\debug\bin\rrWinC.exe</Debugger_HostApplication>
         <Defines>POCO_STATIC;$(Defines)</Defines>
         <DynamicRTL>true</DynamicRTL>
         <IncludePath>..\..\Source;$(RR_DEBUG)\include;..\..\Wrappers\C;$(IncludePath)</IncludePath>

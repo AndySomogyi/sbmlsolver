@@ -3,10 +3,12 @@
 #if defined(_WIN32)
 #include <windows.h>
 #endif
+
 #include <float.h>    //ms compatible IEEE functions, e.g. _isnan
 #include <vector>
 #include <string>
 #include <iostream>
+#include <set>
 #include "rrExporter.h"
 #include "rrConstants.h"
 #include "rrStringList.h"
@@ -14,10 +16,13 @@
 #include "rrStringUtils.h"
 //---------------------------------------------------------------------------
 
-using std::vector;
-using std::string;
 namespace rr
 {
+
+using std::vector;
+using std::string;
+using std::set;
+
 RR_DECLSPEC double 			gaussNoise(double mean, double sigma);
 RR_DECLSPEC string 			getTime();
 RR_DECLSPEC string 			getDateTime();
@@ -33,6 +38,7 @@ RR_DECLSPEC void            pause(bool doIt = true, const string& msg = gEmptySt
 RR_DECLSPEC string          removeTrailingSeparator(const string& fldr, const char sep = gPathSeparator);//"\\");
 
 //File  Utilities
+RR_DECLSPEC int 			populateFileSet(const string& modelsFolder, set<string>& models);
 RR_DECLSPEC bool            fileExists(const string& fileN);
 RR_DECLSPEC bool            folderExists(const string& folderN);
 RR_DECLSPEC bool            createFolder(const string& path);

@@ -9,7 +9,7 @@
 #include "rrUtils.h"
 #include "rrVCLUtils.h"
 #include "../../../Wrappers/C/rrc_utilities.h"
-//---------------------------------------------------------------------------
+#include "aboutForm.h"
 #pragma package(smart_init)
 #pragma link "mtkFloatLabeledEdit"
 #pragma link "TSimulationFrame"
@@ -21,20 +21,18 @@
 TMainF *MainF;
 //---------------------------------------------------------------------------
 using namespace rr;
-//using namespace mtk;
 
 using mtk::mtkBaseIniParameter;
 
 __fastcall TMainF::TMainF(TComponent* Owner)
 :
-TRegistryForm(Owner, "RoadRunnerPluginTester"),
+TRegistryForm(Owner, "RoadRunner-UI"),
 mModel(""),
-mModelsFolder("r:\\models"),
+mModelsFolder("..\\models"),
 mUIIsStartingUp(true),
 mLogFileSniffer("", this),
 mCurrentlySelectedPlugin(NULL),
 mAddNoisePlugin(NULL),
-mMinimizePlugin(NULL),
 mAppInfo(Application)
 {
 
@@ -47,7 +45,6 @@ mAppInfo(Application)
 
     //Log to one memo
 	simFrame->infoMemo = infoMemo;
-    TcapFrame1->infoMemo = infoMemo;
 	startupTimer->Enabled = true;
 }
 
@@ -61,15 +58,19 @@ void TMainF::SetupAndReadParameters()
 	mIniParas.Insert( (mtkBaseIniParameter*) &mLowerPanelHeight.Setup(            "LOWER_PANEL_HEIGHT", 	            250, 			true));
 	mIniParas.Insert( (mtkBaseIniParameter*) &mBottomLeftPanelWidth.Setup(        "BOTTOM_LEFT_PANEL_WIDTH",            450, 			true));
 	mIniParas.Insert( (mtkBaseIniParameter*) &mModel.Setup(       				  "MODEL_FILE", 			            "Test_1.xml", 	true));
+	mIniParas.Insert( (mtkBaseIniParameter*) &mLogLevel.Setup(       	  		  "LOG_LEVEL", 				            "INFO", 		true));
+
 	mIniParas.Read();
 
-    lowerPanel->Height = mLowerPanelHeight;
+    lowerPanel->Height 			= mLowerPanelHeight;
 	bottomLeftPanelWidth->Width = mBottomLeftPanelWidth;
 }
 
 __fastcall	TMainF::~TMainF()
 {
+    mCurrentData.~RoadRunnerData();
 	freeRRInstance(mRRI);
+
 }
 
 void __fastcall	TMainF::LogMessage()
@@ -78,6 +79,7 @@ void __fastcall	TMainF::LogMessage()
     {
         infoMemo->Lines->Add(mLogString->c_str());
         delete mLogString;
+
         // Signal to the data sink thread that we can now accept another message...
         mLogString = NULL;
     }
@@ -88,7 +90,7 @@ void __fastcall TMainF::loadPluginsAExecute(TObject *Sender)
 {
 	if(!loadPlugins(mRRI))
 	{
-		Log() << "There was some problems loading plugins, check the log file.";
+		ML() << "There were some problems loading plugins, please check the log file.";
 	}
 
 	//Populate list box with plugins
@@ -96,7 +98,7 @@ void __fastcall TMainF::loadPluginsAExecute(TObject *Sender)
 
     if(!pluginNames)
     {
-    	Log()<<"No plugins to load...";
+    	ML()<<"No plugins to load...";
         return;
     }
 
@@ -104,12 +106,11 @@ void __fastcall TMainF::loadPluginsAExecute(TObject *Sender)
 	{
 		pluginList->AddItem(pluginNames->String[i], NULL);
 	}
-	Log() << "Loaded plugins..";
+	ML() << "Loaded plugins..";
 
     mAddNoisePlugin = getPlugin(mRRI, "AddNoise");
-	mMinimizePlugin = getPlugin(mRRI, "FullSpaceMinimization");
    	mLMPlugin       = getPlugin(mRRI, "Levenberg-Marquardt Minimization");
-   	mLMAPlugin       = getPlugin(mRRI, "LM_A");
+
     Button1->Action = unloadPlugins;
 
 	if(mLMPlugin)
@@ -128,26 +129,9 @@ void __fastcall TMainF::loadPluginsAExecute(TObject *Sender)
         mLMFrame->onFittingStarted  = onLMFittingStarted;
         mLMFrame->onFittingFinished = onLMFittingFinished;
         mLMFrame->infoMemo = infoMemo;
+        mLMFrame->assignChart(mFittingChart);
         MainPC->TabIndex = MainPC->PageCount -1;
-    }
-
-	if(mLMAPlugin)
-    {
-    	//Create the plugin frame
-        mLMAFrame = new TLMFittingFrame(MainPC);
-        mLMAFrame->Name = "LM_A";
-        //Create a new tab
-        TTabSheet* page = new TTabSheet(MainPC);
-		page->Caption = vclstr(string(getPluginName(mLMAPlugin)));
-        mLMAFrame->Parent = page;
-        mLMAFrame->Align = alClient;
-        page->PageControl =  MainPC;
-        mLMAFrame->assignPluginHandle(mLMAPlugin);
-        mLMAFrame->assignRRHandle(mRRI);
-        mLMAFrame->onFittingStarted  = onLMFittingStarted;
-        mLMAFrame->onFittingFinished = onLMFittingFinished;
-        mLMAFrame->infoMemo = infoMemo;
-        MainPC->TabIndex = MainPC->PageCount -1;
+        mLMFrame->setModelsFolder(mModelsFolder);
     }
 
     freeStringArray(pluginNames);
@@ -160,7 +144,7 @@ void __fastcall TMainF::executePluginAExecute(TObject *Sender)
 
 void __fastcall TMainF::getLastErrorAExecute(TObject *Sender)
 {
-	Log()<<getLastError();
+	ML()<<getLastError();
 }
 
 void __fastcall TMainF::loadModelAExecute(TObject *Sender)
@@ -169,8 +153,8 @@ void __fastcall TMainF::loadModelAExecute(TObject *Sender)
 
     if(anAction == loadModelA)
     {
-    	mModel = rr::stdstr(modelDD->Items->Strings[modelDD->ItemIndex]);
-        mModel +=".xml";
+    	mModel  = rr::stdstr(modelDD->Items->Strings[modelDD->ItemIndex]);
+        mModel += ".xml";
 		//load model
     	mLoadModelJob = loadSBMLFromFileJobEx(mRRI, rr::joinPath(mModelsFolder, mModel).c_str(), true);
 		loadModelJobTimer->Enabled = true;
@@ -181,10 +165,10 @@ void __fastcall TMainF::loadModelAExecute(TObject *Sender)
 		//unLoad model
     	if(!unLoadModel(mRRI))
         {
-            Log() << "Problem unloading model.";
+            ML() << "Problem unloading model.";
             throw rr::Exception(getLastError());
         }
-        Log() << "Model was unloaded.";
+        ML() << "Model was unloaded.";
     }
 }
 
@@ -219,7 +203,10 @@ void TMainF::Plot(const rr::RoadRunnerData& data)
         for(int i = 0; i < nrOfSeries; i++)
         {
             double yData = data(j, i+1);
-            series[i]->AddXY(xVal, yData);
+            if(!isNaN(yData))
+            {
+            	series[i]->AddXY(xVal, yData);
+            }
         }
     }
     Chart1->Update();
@@ -238,7 +225,7 @@ void TMainF::configurePlugin(RRPluginHandle plugin)
     {
     	string val = rr::stdstr(noiseSigmaE->Text);
 		string msg = (setPluginParameter(mAddNoisePlugin, "Sigma", val.c_str())) ? "Sigma was updated" : "Failed to update Sigma";
-        Log() << msg;
+        ML() << msg;
 
         assignCallbacks(mAddNoisePlugin, addNoiseStartedCB, addNoiseFinishedCB, this);
      }
@@ -252,27 +239,28 @@ void __fastcall TMainF::addNoiseBtnClick(TObject *Sender)
 
 void __fastcall TMainF::onSimulationStarted()
 {
-	Log()<<"A simulation was started";
+	ML()<<"A simulation was started";
 }
 
 void __fastcall TMainF::onSimulationFinished()
 {
-	Log()<<"Simulation was finishe.. Plot result";
+	ML()<<"Simulation was finishe.. Plot result";
 	RoadRunner *aRR = (RoadRunner*) mRRI;
     mCurrentData = aRR->getSimulationResult();
     PlotAExecute(NULL);
+
     //Switch page control to show new data..
     PC1->TabIndex = 0;
 }
 
 void __fastcall TMainF::onAddNoiseStarted()
 {
-	Log()<<"Add noise started. Plot result";
+	ML()<<"Add noise started. Plot result";
 }
 
 void __fastcall TMainF::onAddNoiseFinished()
 {
-	Log()<<"Add noise finished.. Plot result";
+	ML()<<"Add noise finished.. Plot result";
     Plot(mCurrentData);
 }
 
@@ -298,13 +286,17 @@ void __fastcall TMainF::getCapabilitiesAExecute(TObject *Sender)
 {
 	RRStringArray* list = getListOfCapabilities(mRRI);
     StringList caps(list);
-    TcapFrame1->Populate(mRRI, caps);
+   	ML()<<"Capabilities";
+    for(int i = 0; i < caps.Count(); i++)
+    {
+	   	ML()<<caps[i];
+    }
 }
 
 void __fastcall TMainF::getCapabilitiesAsXMLAExecute(TObject *Sender)
 {
 	char* caps = getCapabilities(mRRI);
-	Log()<<caps;
+	ML()<<caps;
 }
 
 //---------------------------------------------------------------------------
@@ -315,8 +307,8 @@ void __fastcall TMainF::getAllSymbolsExecute(TObject *Sender)
     if(list)
     {
     	char* text = listToString(list);
-    	Log()<<"Time Course Symbols";
-        Log()<<text;
+    	ML()<<"Time Course Symbols";
+        ML()<<text;
         freeText(text);
         freeRRList(list);
     }
@@ -344,30 +336,24 @@ void __fastcall TMainF::ShutDownTimerTimer(TObject *Sender)
     Close();
 }
 
-void __fastcall TMainF::fullSpaceFitFrameexecuteBtnClick(TObject *Sender)
-{
-//	fullSpaceFitFrame->onFittingFinished = onFittingFinished;
-//  	fullSpaceFitFrame->executeBtnClick(Sender);
-}
-
 void __fastcall TMainF::onLMFittingStarted()
 {
-	Log()<<"LM Fitting was started..";
+	ML()<<"LM Fitting was started..";
 //    string result = fullSpaceFitFrame->getResult();
-	Log()<<"==================================";
-//    Log()<<result;
-	Log()<<"==================================";
+	ML()<<"==================================";
+//    ML()<<result;
+	ML()<<"==================================";
 //    //Switch page control to show new data..
 //    PC1->TabIndex = 1;
 }
 
 void __fastcall TMainF::onLMFittingFinished()
 {
-	Log()<<"LM Fitting was finished..";
+	ML()<<"LM Fitting was finished..";
 //    string result = fullSpaceFitFrame->getResult();
-	Log()<<"==================================";
-//    Log()<<result;
-	Log()<<"==================================";
+	ML()<<"==================================";
+//    ML()<<result;
+	ML()<<"==================================";
 //    //Switch page control to show new data..
 //    PC1->TabIndex = 1;
 }
@@ -404,10 +390,14 @@ void __fastcall TMainF::saveCurrentDataAExecute(TObject *Sender)
     {
         fileName = changeFileExtensionTo(fileName, "dat");
     }
+
+    mCurrentData.allocateWeights();
+
     ofstream theFile(fileName.c_str());
     theFile << mCurrentData;
     theFile.close();
-    Log()<<"The file "<<fileName<<" was written to the file system";
+
+    ML()<<"The file "<<fileName<<" was written to the file system";
 }
 
 void __fastcall TMainF::openDataAExecute(TObject *Sender)
@@ -426,7 +416,8 @@ void __fastcall TMainF::openDataAExecute(TObject *Sender)
 
     theFile >> mCurrentData;
     theFile.close();
-    Log()<<"The file "<<fileName<<" was read";
+    ML()<<"The file "<<fileName<<" was read";
+    PlotA->Execute();
 
 }
 
@@ -436,5 +427,25 @@ void __fastcall TMainF::exitAExecute(TObject *Sender)
 	Close();
 }
 
+
+
+void __fastcall TMainF::logLevelCBChange(TObject *Sender)
+{
+	//Change the loglevel
+    if(logLevelCB->ItemIndex != -1)
+    {
+    	mLogLevel = stdstr(logLevelCB->Items->Strings[logLevelCB->ItemIndex]);
+        setLogLevel(mLogLevel.GetValueAsString().c_str());
+        ML()<<"The log level was changed to: "<<mLogLevel;
+    }
+}
+
+void __fastcall TMainF::AboutExecute(TObject *Sender)
+{
+	TrrAboutForm* f = new TrrAboutForm(mRRI, this);
+    f->ShowModal();
+
+    delete f;
+}
 
 

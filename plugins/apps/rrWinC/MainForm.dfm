@@ -52,65 +52,14 @@ object MainF: TMainF
       Height = 376
       Align = alLeft
       TabOrder = 0
-      object GroupBox1: TGroupBox
-        Left = 1
-        Top = 1
-        Width = 206
-        Height = 81
-        Align = alTop
-        Caption = 'RoadRunner C-API'
-        TabOrder = 0
-        object Label1: TLabel
-          Left = 16
-          Top = 24
-          Width = 39
-          Height = 13
-          Caption = 'Version:'
-        end
-        object Label2: TLabel
-          Left = 16
-          Top = 43
-          Width = 52
-          Height = 13
-          Caption = 'Build Date:'
-        end
-        object apiVersionLBL: TLabel
-          Left = 112
-          Top = 24
-          Width = 65
-          Height = 13
-          Caption = 'apiVersionLBL'
-        end
-        object buildDateLbl: TLabel
-          Left = 112
-          Top = 43
-          Width = 58
-          Height = 13
-          Caption = 'buildDateLbl'
-        end
-        object Label3: TLabel
-          Left = 16
-          Top = 62
-          Width = 51
-          Height = 13
-          Caption = 'Build Time:'
-        end
-        object buildTimeLbl: TLabel
-          Left = 112
-          Top = 62
-          Width = 57
-          Height = 13
-          Caption = 'buildTimeLbl'
-        end
-      end
       object Model: TGroupBox
         Left = 1
-        Top = 82
+        Top = 1
         Width = 206
         Height = 47
         Align = alTop
         Caption = 'Model'
-        TabOrder = 1
+        TabOrder = 0
         object loadBtn: TButton
           Left = 130
           Top = 16
@@ -131,15 +80,15 @@ object MainF: TMainF
       end
       inline simFrame: TSimulateFrame
         Left = 1
-        Top = 129
+        Top = 48
         Width = 206
-        Height = 246
+        Height = 327
         Align = alClient
-        TabOrder = 2
+        TabOrder = 1
         ExplicitLeft = 1
-        ExplicitTop = 129
+        ExplicitTop = 48
         ExplicitWidth = 206
-        ExplicitHeight = 246
+        ExplicitHeight = 327
         inherited GroupBox1: TGroupBox
           Width = 206
           ExplicitWidth = 206
@@ -152,36 +101,40 @@ object MainF: TMainF
         end
         inherited Panel1: TPanel
           Width = 109
-          Height = 179
+          Height = 260
           ExplicitWidth = 109
-          ExplicitHeight = 179
+          ExplicitHeight = 260
           inherited Panel2: TPanel
             Width = 107
-            Height = 177
+            Height = 258
             ExplicitWidth = 107
-            ExplicitHeight = 177
+            ExplicitHeight = 258
+            inherited paraEdit: mtkFloatLabeledEdit
+              EditLabel.ExplicitLeft = 0
+              EditLabel.ExplicitTop = -16
+            end
           end
         end
         inherited Panel3: TPanel
-          Height = 179
-          ExplicitHeight = 179
+          Height = 260
+          ExplicitHeight = 260
           inherited Splitter1: TSplitter
-            Top = 64
+            Top = 145
             ExplicitLeft = 1
             ExplicitTop = 19
             ExplicitWidth = 95
           end
           inherited GroupBox2: TGroupBox
-            Height = 63
-            ExplicitHeight = 63
+            Height = 144
+            ExplicitHeight = 144
             inherited SelList: TCheckListBox
-              Height = 46
-              ExplicitHeight = 46
+              Height = 127
+              ExplicitHeight = 127
             end
           end
           inherited GroupBox3: TGroupBox
-            Top = 67
-            ExplicitTop = 67
+            Top = 148
+            ExplicitTop = 148
           end
         end
         inherited ActionList1: TActionList
@@ -196,7 +149,7 @@ object MainF: TMainF
     Top = 40
     Width = 907
     Height = 378
-    ActivePage = TabSheet1
+    ActivePage = TabSheet6
     Align = alClient
     DoubleBuffered = False
     ParentDoubleBuffered = False
@@ -258,7 +211,7 @@ object MainF: TMainF
     object TabSheet6: TTabSheet
       Caption = 'Fit Results'
       ImageIndex = 1
-      object Chart2: TChart
+      object mFittingChart: TChart
         Left = 0
         Top = 0
         Width = 899
@@ -302,18 +255,28 @@ object MainF: TMainF
     Height = 253
     Align = alBottom
     TabOrder = 2
-    object Panel5: TPanel
-      Left = 469
+    object Splitter3: TSplitter
+      Left = 577
       Top = 1
-      Width = 649
+      Height = 251
+      ExplicitLeft = 464
+      ExplicitTop = 16
+      ExplicitHeight = 100
+    end
+    object Panel5: TPanel
+      Left = 580
+      Top = 1
+      Width = 538
       Height = 251
       Align = alClient
       Caption = 'Panel5'
       TabOrder = 0
+      ExplicitLeft = 469
+      ExplicitWidth = 649
       object infoMemo: TMemo
         Left = 1
         Top = 30
-        Width = 647
+        Width = 536
         Height = 220
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
@@ -326,14 +289,16 @@ object MainF: TMainF
         ScrollBars = ssBoth
         TabOrder = 0
         WordWrap = False
+        ExplicitWidth = 647
       end
       object ToolBar3: TToolBar
         Left = 1
         Top = 1
-        Width = 647
+        Width = 536
         Height = 29
         Caption = 'ToolBar3'
         TabOrder = 1
+        ExplicitWidth = 647
         object Button2: TButton
           Left = 0
           Top = 0
@@ -347,7 +312,7 @@ object MainF: TMainF
     object bottomLeftPanelWidth: TPanel
       Left = 1
       Top = 1
-      Width = 468
+      Width = 576
       Height = 251
       Align = alLeft
       Caption = 'bottomLeftPanelWidth'
@@ -357,11 +322,12 @@ object MainF: TMainF
       object ToolBar1: TToolBar
         Left = 1
         Top = 1
-        Width = 466
+        Width = 574
         Height = 29
         ButtonHeight = 23
         Caption = 'ToolBar1'
         TabOrder = 0
+        ExplicitWidth = 466
         object Button4: TButton
           Left = 0
           Top = 0
@@ -389,7 +355,7 @@ object MainF: TMainF
         object Button3: TButton
           Left = 245
           Top = 0
-          Width = 75
+          Width = 116
           Height = 23
           Action = getCapabilitiesAsXMLA
           TabOrder = 3
@@ -433,45 +399,16 @@ object MainF: TMainF
       object MainPC: TPageControl
         Left = 97
         Top = 30
-        Width = 370
+        Width = 478
         Height = 220
-        ActivePage = TabSheet3
+        ActivePage = TabSheet5
         Align = alClient
         TabOrder = 2
-        object TabSheet3: TTabSheet
-          Caption = 'Capabilities'
-          inline TcapFrame1: TcapFrame
-            Left = 0
-            Top = 0
-            Width = 362
-            Height = 192
-            Align = alClient
-            TabOrder = 0
-            ExplicitWidth = 362
-            ExplicitHeight = 192
-            inherited Panel1: TPanel
-              Width = 362
-              Height = 192
-              ExplicitWidth = 362
-              ExplicitHeight = 192
-              inherited GroupBox3: TGroupBox
-                Width = 360
-                ExplicitWidth = 360
-              end
-              inherited GroupBox4: TGroupBox
-                Width = 360
-                ExplicitWidth = 360
-                inherited paraEdit: TEdit
-                  Height = 19
-                  ExplicitHeight = 19
-                end
-              end
-            end
-          end
-        end
+        ExplicitWidth = 370
         object TabSheet5: TTabSheet
           Caption = 'Make Noise'
           ImageIndex = 2
+          ExplicitWidth = 362
           object noiseSigmaE: mtkFloatLabeledEdit
             Left = 13
             Top = 32
@@ -481,7 +418,7 @@ object MainF: TMainF
             EditLabel.Height = 13
             EditLabel.Caption = 'Sigma'
             TabOrder = 0
-            Text = '1'
+            Text = '0.1'
             OnKeyDown = noiseSigmaEKeyDown
           end
           object addNoiseBtn: TButton
@@ -504,19 +441,18 @@ object MainF: TMainF
     Height = 40
     Align = alTop
     TabOrder = 3
-    object Splitter3: TSplitter
-      Left = 1077
+    object Splitter4: TSplitter
+      Left = 869
       Top = 1
       Height = 38
       Align = alRight
-      ExplicitLeft = 1125
-      ExplicitTop = 2
-      ExplicitHeight = 39
+      ExplicitLeft = 945
+      ExplicitTop = 3
     end
     object ToolBar4: TToolBar
       Left = 1
       Top = 1
-      Width = 1076
+      Width = 868
       Height = 38
       Align = alClient
       ButtonHeight = 40
@@ -536,9 +472,9 @@ object MainF: TMainF
       end
     end
     object ToolBar5: TToolBar
-      Left = 1080
+      Left = 1040
       Top = 1
-      Width = 38
+      Width = 78
       Height = 38
       Align = alRight
       ButtonHeight = 40
@@ -546,10 +482,55 @@ object MainF: TMainF
       Caption = 'ToolBar5'
       Images = ImageList1
       TabOrder = 1
-      object ToolButton1: TToolButton
+      object ToolButton4: TToolButton
         Left = 0
         Top = 0
+        Action = About
+      end
+      object ToolButton1: TToolButton
+        Left = 40
+        Top = 0
         Action = exitA
+      end
+    end
+    object ToolBar6: TToolBar
+      Left = 872
+      Top = 1
+      Width = 168
+      Height = 38
+      Align = alRight
+      ButtonHeight = 33
+      Caption = 'ToolBar6'
+      TabOrder = 2
+      object Panel6: TPanel
+        Left = 0
+        Top = 0
+        Width = 217
+        Height = 33
+        BevelEdges = []
+        BevelOuter = bvNone
+        TabOrder = 0
+        object logLevelCB: TComboBox
+          Left = 16
+          Top = 7
+          Width = 145
+          Height = 21
+          Hint = 'Set LogLevel'
+          ItemIndex = 2
+          TabOrder = 0
+          Text = 'Info'
+          OnChange = logLevelCBChange
+          Items.Strings = (
+            'Error'
+            'Warning'
+            'Info'
+            'Debug'
+            'Debug1'
+            'Debug2'
+            'Debug3'
+            'Debug4'
+            'Debug5')
+        end
       end
     end
   end
@@ -557,13 +538,13 @@ object MainF: TMainF
     Enabled = False
     Interval = 100
     OnTimer = startupTimerTimer
-    Left = 320
-    Top = 24
+    Left = 592
+    Top = 208
   end
   object mainActionList: TActionList
     Images = ImageList1
-    Left = 488
-    Top = 264
+    Left = 512
+    Top = 144
     object loadPluginsA: TAction
       Caption = 'Load'
       OnExecute = loadPluginsAExecute
@@ -623,7 +604,7 @@ object MainF: TMainF
     end
     object getCapabilitiesAsXMLA: TAction
       Category = 'C_API'
-      Caption = 'getCapabilitiesAsXMLA'
+      Caption = 'Capabilities As XML'
       OnExecute = getCapabilitiesAsXMLAExecute
     end
     object saveCurrentDataA: TAction
@@ -645,15 +626,21 @@ object MainF: TMainF
       ImageIndex = 2
       OnExecute = exitAExecute
     end
+    object About: TAction
+      Category = 'Help'
+      Caption = 'About'
+      ImageIndex = 10
+      OnExecute = AboutExecute
+    end
   end
   object ApplicationEvents1: TApplicationEvents
     OnException = ApplicationEvents1Exception
-    Left = 520
-    Top = 24
+    Left = 792
+    Top = 296
   end
   object PopupMenu1: TPopupMenu
-    Left = 168
-    Top = 112
+    Left = 848
+    Top = 240
     object Clear1: TMenuItem
       Action = clearMemo
     end
@@ -661,25 +648,25 @@ object MainF: TMainF
   object loadModelJobTimer: TTimer
     Interval = 40
     OnTimer = loadModelJobTimerTimer
-    Left = 416
-    Top = 24
+    Left = 520
+    Top = 208
   end
   object ShutDownTimer: TTimer
     Enabled = False
     Interval = 100
     OnTimer = ShutDownTimerTimer
-    Left = 712
-    Top = 72
+    Left = 592
+    Top = 144
   end
   object mIniFile: mtkIniFileC
     IniFileName = 'RRWinC.ini'
     RootFolder = '.'
-    Left = 408
-    Top = 344
+    Left = 456
+    Top = 144
   end
   object MainMenu1: TMainMenu
-    Left = 360
-    Top = 240
+    Left = 400
+    Top = 144
     object File1: TMenuItem
       Caption = 'File'
       object Open1: TMenuItem
@@ -698,14 +685,20 @@ object MainF: TMainF
         Action = exitA
       end
     end
+    object Help1: TMenuItem
+      Caption = 'Help'
+      object About1: TMenuItem
+        Action = About
+      end
+    end
   end
   object ImageList1: TImageList
     Height = 32
     Width = 32
-    Left = 824
-    Top = 96
+    Left = 400
+    Top = 200
     Bitmap = {
-      494C01010C001800200020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010C0018004C0020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000008000000001002000000000000000
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -2828,12 +2821,14 @@ object MainF: TMainF
     FileName = 'rrData'
     Filter = 'dat|*.dat'
     FilterIndex = 0
-    Left = 768
+    Left = 904
+    Top = 240
   end
   object OpenDialog1: TOpenDialog
     DefaultExt = 'dat'
     FileName = 'R:\test.dat'
     Filter = 'dat|*.dat'
-    Left = 688
+    Left = 792
+    Top = 240
   end
 end

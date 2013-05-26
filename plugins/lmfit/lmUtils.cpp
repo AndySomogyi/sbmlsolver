@@ -23,11 +23,11 @@ void my_printout( 	int n_par,
         /* location of printout call within lmdif */
         if (iflag == 2)
         {
-            Log(lInfo)<<("trying step in gradient direction  ");
+            Log(lDebug)<<("trying step in gradient direction  ");
         }
         else if (iflag == 1)
         {
-            Log(lInfo)<<("determining gradient (iteration %2d)", iter);
+            Log(lDebug)<<("determining gradient (iteration %2d)", iter);
         }
         else if (iflag == 0)
         {
@@ -41,25 +41,25 @@ void my_printout( 	int n_par,
 
     if( printflags & 2 )
     {
-        Log(lInfo)<<("  par: ");
+        Log(lDebug)<<("par: ");
         for (int i = 0; i < n_par; ++i)
         {
-            Log(lInfo)<<(" %18.11g", par[i]);
+            Log(lDebug)<<(" %18.11g", par[i]);
         }
-        Log(lInfo)<<(" => norm: %18.11g", lm_enorm(m_dat, fvec));
+        Log(lDebug)<<(" => norm: %18.11g", lm_enorm(m_dat, fvec));
     }
 
     if( printflags & 3 )
     {
-        Log(lInfo)<<( "\n" );
+        Log(lDebug)<<( "\n" );
     }
 
     if ( (printflags & 8) || ((printflags & 4) && iflag == -1) )
     {
-        Log(lInfo)<<("  residuals:\n");
+        Log(lDebug)<<("residuals:\n");
         for (int i = 0; i < m_dat; ++i)
         {
-        	Log(lInfo)<<("    fvec[%2d]=%12g\n", i, fvec[i] );
+        	Log(lDebug)<<("    fvec[%2d]=%12g\n", i, fvec[i] );
         }
     }
 }

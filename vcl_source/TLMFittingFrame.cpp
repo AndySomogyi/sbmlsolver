@@ -20,16 +20,35 @@
 TLMFittingFrame *LMFittingFrame;
 
 using namespace rr;
-//---------------------------------------------------------------------------
+
 __fastcall TLMFittingFrame::TLMFittingFrame(TComponent* Owner)
 	:
 TFrame(Owner),
-infoMemo(NULL)
-{}
+infoMemo(NULL),
+mChart(NULL)
+{
+    mColors.push_back(clRed);
+    mColors.push_back(clBlue);
+    mColors.push_back(clGreen);
+    mRRI = createRRInstance();
+}
+
+void TLMFittingFrame::setModelsFolder(const string& folder)
+{
+	mModelsFolder = folder;
+    populateFileSet(folder, mModelFiles);
+    populateDropDown(mModelFiles, modelDD);
+    modelDD->ItemIndex = 0;
+}
 
 void TLMFittingFrame::assignRRHandle(RRHandle aHandle)
 {
-	mRRI = aHandle;
+//	mRRI = aHandle;
+}
+
+void TLMFittingFrame::assignChart(TChart* aChart)
+{
+	mChart = aChart;
 }
 
 void TLMFittingFrame::assignPluginHandle(RRPluginHandle aHandle)
@@ -40,8 +59,6 @@ void TLMFittingFrame::assignPluginHandle(RRPluginHandle aHandle)
 void TLMFittingFrame::populate()
 {
 	string modelName = getModelName(mRRI);
-	nameLbl->Caption = vclstr(modelName);
-
 	loadSpeciesList();
 	loadParameterList();
 }
@@ -63,13 +80,14 @@ void TLMFittingFrame::loadParameterList()
         double value;
         if(!getValue(mRRI, parName.c_str(), &value))
         {
-            Log()<<"There was a problem with parameter: "<<parName;
+            ML()<<"There was a problem with parameter: "<<parName;
         }
         else
         {
             mParameters.add(new Parameter<double>(parName, value, ""));
         }
     }
+
     for(int i = 0; i < mParameters.count(); i++)
     {
        int index = paraList->Items->Add(mParameters[i]->getName().c_str());
@@ -107,7 +125,8 @@ void __fastcall TLMFittingFrame::paraListClick(TObject *Sender)
     }
 
     Parameter<double>* para = (Parameter<double>*) paraList->Items->Objects[paraList->ItemIndex];
-   	Log()<<"Parameter "<<para->getName()<<" = "<<para->getValue();
+   	ML()<<"Parameter "<<para->getName()<<" = "<<para->getValue();
+	paraEdit->EditLabel->Caption = vclstr(para->getName());
     paraEdit->FNumber = para->getValuePointer();
 	paraEdit->Update();
 }
@@ -126,7 +145,7 @@ void __fastcall TLMFittingFrame::executeBtnClick(TObject *Sender)
 
     if(checkedItem == -1)
     {
-    	Log()<<"Error: Please select a parameter to fit";
+    	ML()<<"Error: Please select a parameter to fit";
         return;
     }
 
@@ -149,27 +168,40 @@ void __fastcall TLMFittingFrame::executeBtnClick(TObject *Sender)
     	addDoubleParameter(minData, para->getName().c_str(), para->getValue());
     }
 
-    //Add selected species to minimization data structure
-    StringList checkedSpecies = getCheckedItems(speciesList);
-    setMinimizationSelectionList(minData, checkedSpecies.AsString().c_str());
-
     //Set input data to fit to
     RRData* rrData = rrc::createRRData(MainF->mCurrentData);
 	setInputData(mPlugin, rrData);
+
+    //Add species to minimization data structure.. The species are defined in the input data
+    StringList modelSpecies = getCheckedItems(speciesList);
+    setMinimizationModelDataSelectionList(minData, modelSpecies.AsString().c_str());
+
+    StringList checkedSpecies(rrData->ColumnHeaders, rrData->CSize);
+    if(checkedSpecies.indexOf("time") != -1)
+    {
+    	checkedSpecies.removeAt(checkedSpecies.indexOf("time"));
+    }
+
+    setMinimizationExperimentalDataSelectionList(minData, checkedSpecies.AsString().c_str());
     freeRRData(rrData);
 
-    string strVal;
-	string msg;
-    strVal = getTempFolder(mRRI);
+    //Requirement!! the modDataSelection list must be equal or larger than the expSelectionlist!
+    if(checkedSpecies.Count() > modelSpecies.Count())
+    {
+    	Log(lError)<<"The minimization engine requires modelspecies to be equal or larger than selected exp species!";
+        Log(lError)<<"Exiting minimization.....";
+        return;
+    }
 
-    msg = setPluginParameter(mPlugin, "TempFolder", strVal.c_str())
+    string strVal = getTempFolder(mRRI);
+	string msg	  = setPluginParameter(mPlugin, "TempFolder", strVal.c_str())
     		? "Updated tempfolder" : "Failed to set tempFolder";
-    		Log() << msg;
+    		ML() << msg;
 
     strVal = getSBML(mRRI);
     msg = setPluginParameter(mPlugin, "SBML", strVal.c_str())
     		? "Assigned SBML" : "Failed assigning SBML";
-    		Log() << msg;
+    		ML() << msg;
 
 	assignCallbacks(mPlugin, fittingStartedCB, fittingFinishedCB, this);
     TMainF *mainForm = (TMainF*) this->Owner;
@@ -193,7 +225,7 @@ void __stdcall TLMFittingFrame::fittingFinishedCB(void *UserData)
 
 void __fastcall TLMFittingFrame::fittingStarted()
 {
-	Log()<<"Full space fitting was started";
+	ML()<<"Full space fitting was started";
     if(onFittingStarted)
     {
         onFittingStarted();
@@ -207,7 +239,7 @@ string TLMFittingFrame::getResult()
 
 void __fastcall TLMFittingFrame::fittingFinished()
 {
-	Log()<<"Full space fitting was finished";
+	ML()<<"Levenberg-Marquard fitting was finished";
     if(onFittingFinished)
     {
         onFittingFinished();
@@ -220,105 +252,171 @@ void __fastcall TLMFittingFrame::fittingFinished()
     	throw("bad....");
     }
 
-    RRMinimizationDataHandle _minData 	= getParameterValueAsPointer(minDataParaHandle);
-    MinimizationData& minData 			= *(MinimizationData*) _minData;
+    MinimizationData& minData 			= *(MinimizationData*) getParameterValueAsPointer(minDataParaHandle);
     RoadRunnerData obsData 				= minData.getObservedData();
 	RoadRunnerData modelData 			= minData.getModelData();
 	RoadRunnerData resData	 			= minData.getResidualsData();
 
-	//Clear the chart
-    Chart1->RemoveAllSeries();
-    Chart1->ClearChart();
-	Chart1->View3D = false;
-    //There will be 3 x nrOfSpecies series
-	vector<TLineSeries*> modDataSeries;
+    if(mChart == NULL)
+    {
+    	Log(lInfo)<<"No chart is assigned to the minimization frame...";
+    	return;
+    }
+
+    ClearChart();
 	vector<TLineSeries*> obsDataSeries;
 	vector<TLineSeries*> resDataSeries;
+	vector<TLineSeries*> modDataSeries;
 
-    vector<TColor> colors;
-    colors.push_back(clRed);
-    colors.push_back(clBlue);
-    colors.push_back(clGreen);
-  	StringList selList = minData.getSelectionList();
-    int nrOfSpecies = selList.Count();
-    for(int i = 0; i < selList.Count(); i++)
+  	StringList expSelList 	= minData.getExperimentalDataSelectionList();
+  	StringList modelSelList = minData.getModelDataSelectionList();
+
+    //The user may have generated data for species that were not fitted. These are in modelSelList.
+    for(int i = 0; i < modelSelList.Count(); i++)
     {
-	    TColor color;
-    	if(i < colors.size())
-        {
-			color = colors[i];
-        }
-        else
-        {
-        	color = clPurple;
-        }
+	    TColor color = (i < mColors.size() ) ? mColors[i] : clPurple;
 
 		//ModelData
     	TLineSeries* aSerie;
-        aSerie = new TLineSeries(Chart1);
+        aSerie = new TLineSeries(mChart);
 		modDataSeries.push_back(aSerie);
         aSerie->Color = color;
-        aSerie->Pen->Width = 5;
-		Chart1->AddSeries(aSerie);
-        aSerie->Title = vclstr(selList[i] + "-Model");
+        aSerie->Pen->Width = 3;
+		mChart->AddSeries(aSerie);
+        aSerie->Title = vclstr(modelSelList[i] + "-Model");
+    }
 
+    for(int i = 0; i < expSelList.Count(); i++)
+    {
+	    TColor color = (i < mColors.size() ) ? mColors[i] : clPurple;
+
+    	TLineSeries* aSerie;
         //Experimental data
-    	aSerie = new TLineSeries(Chart1);
+    	aSerie = new TLineSeries(mChart);
         aSerie->Color = color;
 		aSerie->Pointer->Visible = true;
         aSerie->Pointer->Style  = psDownTriangle;
         aSerie->Pointer->Size = 3;
         aSerie->LinePen->Visible = false;
 		obsDataSeries.push_back(aSerie);
-		Chart1->AddSeries(aSerie);
-        aSerie->Title = vclstr(selList[i] + "-Observed");
+		mChart->AddSeries(aSerie);
+        aSerie->Title = vclstr(expSelList[i] + "-Observed");
+
+    }
+    for(int i = 0; i < expSelList.Count(); i++)
+    {
+	    TColor color = (i < mColors.size() ) ? mColors[i] : clPurple;
+
+    	TLineSeries* aSerie;
 
 		//Residual data
-    	aSerie = new TLineSeries(Chart1);
+    	aSerie = new TLineSeries(mChart);
 		resDataSeries.push_back(aSerie);
         aSerie->Color = color;
         aSerie->Pointer->Style  = psDiamond;
         aSerie->Pointer->Size = 2;
 		aSerie->Pointer->Visible = true;
         aSerie->LinePen->Visible = false;
-		Chart1->AddSeries(aSerie);
-        aSerie->Title = vclstr(selList[i] + "-Residual");
-    }
+		mChart->AddSeries(aSerie);
+        aSerie->Title = vclstr(expSelList[i] + "-Residual");
+	}
 
-    //Plot the input, model and residual data..
-    for(int i = 0; i < modelData.rSize(); i++)
-    {
-        for(int sel = 0; sel < nrOfSpecies; sel++)
-        {
-            double xVal;
-            double yVal;
-            xVal = modelData(i,0);
-            yVal = modelData(i, sel + 1);
-            modDataSeries[sel]->AddXY(xVal, yVal);
-
-            xVal = obsData(i,0);
-            yVal = obsData(i, sel + 1);
-            obsDataSeries[sel]->AddXY(xVal, yVal);
-
-            xVal = resData(i,0);
-            yVal = resData(i, sel + 1);
-            resDataSeries[sel]->AddXY(xVal, yVal);
-        }
-    }
+    //Plot the data..
+    PlotData(obsData, obsDataSeries, expSelList);
+    PlotData(resData, resDataSeries, expSelList);
+    PlotData(modelData, modDataSeries, modelSelList);
 
 	for(int i = 0; i < modDataSeries.size(); i++)
     {
-		Chart1->AddSeries(modDataSeries[i]);
-		Chart1->AddSeries(obsDataSeries[i]);
-		Chart1->AddSeries(resDataSeries[i]);
+		mChart->AddSeries(modDataSeries[i]);
     }
 
-	Chart1->Legend->ResizeChart = false;
-    Chart1->Update();
+	for(int i = 0; i < obsDataSeries.size(); i++)
+    {
+		mChart->AddSeries(obsDataSeries[i]);
+		mChart->AddSeries(resDataSeries[i]);
+    }
+
+	mChart->Legend->ResizeChart = false;
+    mChart->Update();
+}
+
+//This selection list do not contain time... but the data does!
+void __fastcall TLMFittingFrame::PlotData(RoadRunnerData& rrData, vector<TLineSeries*>& series, StringList& selList)
+{
+    for(int i = 0; i < rrData.rSize(); i++)
+    {
+        for(int sel = 0; sel < selList.Count(); sel++)
+        {
+            double xVal = rrData(i, 0);
+            double yVal = rrData(i, sel + 1);
+            if(!isNaN(yVal))
+            {
+            	series[sel]->AddXY(xVal, yVal);
+            }
+        }
+    }
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TLMFittingFrame::logResultAExecute(TObject *Sender)
 {
-	Log()<< getPluginResult(mPlugin);
+	char*  res = getPluginResult(mPlugin);
+    if(res)
+    {
+		ML()<< res;
+    }
+    else
+    {
+    	ML()<<"No result available..";
+    }
 }
+
+void TLMFittingFrame::ClearChart()
+{
+	//Clear the chart
+    mChart->RemoveAllSeries();
+    mChart->ClearChart();
+	mChart->View3D = false;
+}
+void __fastcall TLMFittingFrame::modelDDChange(TObject *Sender)
+{
+	string model = stdstr(modelDD->Items->Strings[modelDD->ItemIndex]);
+
+    model += ".xml";
+    //load model
+    mLoadModelJob = loadSBMLFromFileJobEx(mRRI, rr::joinPath(mModelsFolder, model).c_str(), true);
+    loadModelJobTimer->Enabled = true;
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TLMFittingFrame::loadModelJobTimerTimer(TObject *Sender)
+{
+	if(mLoadModelJob)
+    {
+    	if(isJobFinished(mLoadModelJob))
+        {
+	        loadModelJobTimer->Enabled = false;
+    		ML() << "Job did finish. Cleaning up.";
+            if(freeJob(mLoadModelJob))
+            {
+            	mLoadModelJob = NULL;
+				loadModelJobTimer->Enabled = false;
+            }
+            else
+            {
+				ML() << "Problem deleting a job..";
+				throw rr::Exception(getLastError());
+            }
+
+            populate();
+
+        }
+        else
+        {
+    		ML() << "Busy...";
+        }
+    }
+}
+//---------------------------------------------------------------------------
+

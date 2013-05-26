@@ -76,9 +76,8 @@ object SimulateFrame: TSimulateFrame
         Top = 52
         Width = 76
         Height = 21
-        EditLabel.Width = 40
+        EditLabel.Width = 3
         EditLabel.Height = 13
-        EditLabel.Caption = 'paraEdit'
         TabOrder = 1
         Text = '0.00'
         OnKeyDown = paraEditKeyDown
@@ -109,7 +108,7 @@ object SimulateFrame: TSimulateFrame
       Width = 95
       Height = 132
       Align = alClient
-      Caption = 'Species'
+      Caption = 'Selection List'
       TabOrder = 0
       object SelList: TCheckListBox
         Left = 2

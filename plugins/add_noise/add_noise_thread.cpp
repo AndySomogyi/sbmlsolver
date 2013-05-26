@@ -43,14 +43,13 @@ void AddNoiseThread::run()
 
     RoadRunnerData& data = *(RoadRunnerData*) (mInputData);
 	Noise noise(0, mSigma);
-
+    noise.randomize();
 	for(int row = 0; row < data.rSize(); row++)
     {
         double xVal = data(row, 0);	//Time
         for(int col = 0; col < data.cSize() - 1; col++)
         {
-            double yData = data(row, col + 1) + noise.GetNoise();
-
+            double yData = data(row, col + 1) + noise.getNoise();
 			data(row, col + 1) = yData;
         }
     }

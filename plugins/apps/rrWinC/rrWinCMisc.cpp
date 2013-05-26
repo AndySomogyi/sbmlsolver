@@ -1,6 +1,5 @@
 #include <vcl.h>
 #pragma hdrstop
-#include "Poco/Glob.h"
 #include "Poco/SharedLibrary.h"
 #include "rrUtils.h"
 #include "MainForm.h"
@@ -12,41 +11,31 @@
 
 using namespace std;
 using Poco::SharedLibrary;
-using Poco::Glob;
 
 void __fastcall TMainF::startupTimerTimer(TObject *Sender)
 {
 	startupTimer->Enabled = false;
-	mRRI = createRRInstanceEx("r:\\cTemp");
+	mRRI = createRRInstanceEx("..\\Temp");
 	if(!mRRI)
 	{
-		Log() << "Problem creating rr instance.";
+		ML() << "Problem creating rr instance.";
 		throw rr::Exception(getLastError());
 	}
 	else
 	{
-		apiVersionLBL->Caption = getAPIVersion();
-		buildDateLbl->Caption  = getBuildDate();
-		buildTimeLbl->Caption  = getBuildTime();
-		string info 		   = getExtendedAPIInfo();
-
-		vector<string> lines = rr::splitString(info, "\n");
-		for(int i =0; i < lines.size(); i++)
-		{
-			Log()<<lines[i];
-		}
-
         simFrame->assignRRHandle(mRRI);
-//        fullSpaceFitFrame->assignRRHandle(mRRI);
         enableLoggingToFile(mRRI);
-        setLogLevel("Debug");
+
+        string lvl = mLogLevel;
+	    setLogLevel(lvl.c_str());
 	}
 
     mLogFileSniffer.SetFileName(getLogFileName());
     mLogFileSniffer.start();
 	loadPluginsAExecute(NULL);
 
-	populateModelsDropDown();
+	populateFileSet(mModelsFolder, mModelFiles);
+	populateDropDown(mModelFiles, modelDD);
 
     string modelNameNoExtension = getFileNameNoExtension(mModel);
     int index = modelDD->Items->IndexOf(vclstr(modelNameNoExtension));
@@ -56,39 +45,22 @@ void __fastcall TMainF::startupTimerTimer(TObject *Sender)
     loadModelA->Execute();
 }
 
-void TMainF::populateModelsDropDown()
-{
-	//Populate the drop down.
- 	//Get all models in models  folder
-    std::set<std::string> files;
-    string globPath =  rr::joinPath(mModelsFolder, "*.xml");
-    Glob::glob(globPath, files);
-    std::set<std::string>::iterator it = files.begin();
-	modelDD->Clear();
-    for (; it != files.end(); ++it)
-    {
-    	string model  = getFileNameNoExtension(*it);
-        Log()<<"Adding model: "<<model;
-		modelDD->Items->Add(model.c_str());
-    }
-}
-
 void __fastcall TMainF::unloadPluginsExecute(TObject *Sender)
 {
 	if(!unLoadPlugins(mRRI))
 	{
-		Log() << "failed un-loading plugins..";
+		ML() << "failed un-loading plugins..";
 		throw rr::Exception(getLastError());
 	}
 
     pluginList->Clear();
-	Log() << "Un-Loaded plugins..";
+	ML() << "Un-Loaded plugins..";
     Button1->Action = loadPluginsA;
 }
 
 void __fastcall TMainF::ApplicationEvents1Exception(TObject *Sender, Sysutils::Exception *E)
 {
-	Log() << stdstr(E->ToString()) <<endl;
+	ML() << stdstr(E->ToString()) <<endl;
 }
 
 void __fastcall TMainF::pluginListClick(TObject *Sender)
@@ -100,7 +72,7 @@ void __fastcall TMainF::pluginListClick(TObject *Sender)
     }
 
     string pluginName = stdstr(pluginList->Items->Strings[pluginList->ItemIndex]);
-    Log()<<pluginName;
+    ML()<<pluginName;
 
 	mCurrentlySelectedPlugin = getPlugin(mRRI, pluginName.c_str());
 	if(!mCurrentlySelectedPlugin)
@@ -110,7 +82,7 @@ void __fastcall TMainF::pluginListClick(TObject *Sender)
     string test = getPluginInfo(mCurrentlySelectedPlugin);
 
     infoMemo->Clear();
-    Log()<<test;
+    ML()<<test;
 }
 
 void TMainF::UpdateNoisePanel()
@@ -127,11 +99,11 @@ void TMainF::UpdateNoisePanel()
 
 	if(!sigma)
     {
-    	Log()<<"Failed to get parameter: Sigma";
+    	ML()<<"Failed to get parameter: Sigma";
     }
     else
     {
-		Log()<<"Name: "<<getParameterName(sigma);
+		ML()<<"Name: "<<getParameterName(sigma);
     }
 }
 
@@ -140,7 +112,7 @@ void __fastcall TMainF::getPluginInfoAExecute(TObject *Sender)
 {
 	string pName = getCurrentPluginName();
     mCurrentlySelectedPlugin = getPlugin(mRRI, pName.c_str());
-    Log()<<getPluginInfo(mCurrentlySelectedPlugin);
+    ML()<<getPluginInfo(mCurrentlySelectedPlugin);
 }
 
 //---------------------------------------------------------------------------
@@ -161,7 +133,7 @@ void __fastcall TMainF::loadModelJobTimerTimer(TObject *Sender)
     {
     	if(isJobFinished(mLoadModelJob))
         {
-    		Log () << "Job did finish. Cleaning up.";
+    		ML() << "Job did finish. Cleaning up.";
             if(freeJob(mLoadModelJob))
             {
             	mLoadModelJob = NULL;
@@ -169,26 +141,16 @@ void __fastcall TMainF::loadModelJobTimerTimer(TObject *Sender)
             }
             else
             {
-				Log() << "Problem deleting a job..";
+				ML() << "Problem deleting a job..";
 				throw rr::Exception(getLastError());
             }
 
 			simFrame->loadSelectionList();
-
-			if(mLMFrame)
-            {
-            	mLMFrame->populate();
-            }
-
-			if(mLMAFrame)
-            {
-            	mLMAFrame->loadParameterList();
-            }
             simFramesimBtnClick(NULL);
         }
         else
         {
-    		Log () << "Busy...";
+    		ML() << "Busy...";
         }
     }
 }
@@ -217,7 +179,7 @@ void __fastcall TMainF::noiseSigmaEKeyDown(TObject *Sender, WORD &Key, TShiftSta
     {
     	string val = stdstr(noiseSigmaE->Text);
 		string msg = (setPluginParameter(mAddNoisePlugin, "Sigma", val.c_str())) ? "Sigma was updated" : "Failed to update Sigma";
-        Log() << msg;
+        ML() << msg;
     }
 }
 

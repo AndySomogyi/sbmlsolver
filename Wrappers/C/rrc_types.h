@@ -108,6 +108,7 @@ typedef struct RRData
     int             RSize;  			/*!< The number of rows in the data matrix */
     int             CSize;  			/*!< The number of columns in the data matrix */
     double*         Data;   			/*!< A pointer to the data stored in the matrix. Access an element using Data[row*CSize + col] */
+    double*         Weights;   			/*!< A pointer to weights stored in the Weights matrix. Access an element using Weights[row*CSize + col] */
     char**          ColumnHeaders;   	/*!< Pointer to an array of column header strings */
 } *RRDataHandle;          				/*!< Pointer to RRDataHandle struct */
 

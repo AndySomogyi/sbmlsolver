@@ -1,6 +1,5 @@
 #ifndef MainFormH
 #define MainFormH
-//---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>
 #include <Vcl.StdCtrls.hpp>
@@ -30,6 +29,7 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <set>
 #include "TRegistryForm.h"
 #include "rrc_types.h"
 #include "rrRoadRunnerData.h"
@@ -37,8 +37,10 @@
 #include "rrMemoLogger.h"
 #include "mtkIniParameters.h"
 #include "mtkApplicationInfo.h"
+
 using std::string;
 using std::vector;
+
 //---------------------------------------------------------------------------
 using namespace rr;
 using namespace rrc;
@@ -49,14 +51,7 @@ typedef void __fastcall (__closure *TOnSimulationFinished)();
 class TMainF : public TRegistryForm
 {
 __published:	// IDE-managed Components
-	TGroupBox *GroupBox1;
-	TLabel *Label1;
-	TLabel *Label2;
-	TLabel *apiVersionLBL;
-	TLabel *buildDateLbl;
 	TTimer *startupTimer;
-	TLabel *Label3;
-	TLabel *buildTimeLbl;
 	TMemo *infoMemo;
 	TPanel *bottomLeftPanelWidth;
 	TActionList *mainActionList;
@@ -90,7 +85,6 @@ __published:	// IDE-managed Components
 	TAction *PlotA;
 	TButton *Button5;
 	TPageControl *MainPC;
-	TTabSheet *TabSheet3;
 	TLineSeries *Series1;
 	TAction *executeNoisePluginA;
 	TSimulateFrame *simFrame;
@@ -100,10 +94,9 @@ __published:	// IDE-managed Components
 	TAction *getAllSymbols;
 	TComboBox *modelDD;
 	TTabSheet *TabSheet6;
-	TChart *Chart2;
+	TChart *mFittingChart;
 	TLineSeries *LineSeries1;
 	TTimer *ShutDownTimer;
-	TcapFrame *TcapFrame1;
 	TPanel *Panel5;
 	TPanel *lowerPanel;
 	TToolBar *ToolBar3;
@@ -128,13 +121,21 @@ __published:	// IDE-managed Components
 	TPanel *Panel1;
 	TToolBar *ToolBar4;
 	TToolBar *ToolBar5;
-	TSplitter *Splitter3;
 	TToolButton *ToolButton1;
 	TImageList *ImageList1;
 	TToolButton *ToolButton2;
 	TToolButton *ToolButton3;
 	TSaveDialog *saveRRDataDialog;
 	TOpenDialog *OpenDialog1;
+	TToolBar *ToolBar6;
+	TSplitter *Splitter4;
+	TPanel *Panel6;
+	TComboBox *logLevelCB;
+	TMenuItem *Help1;
+	TMenuItem *About1;
+	TAction *About;
+	TToolButton *ToolButton4;
+	TSplitter *Splitter3;
 	void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall startupTimerTimer(TObject *Sender);
 	void __fastcall loadPluginsAExecute(TObject *Sender);
@@ -157,29 +158,33 @@ __published:	// IDE-managed Components
 	void __fastcall modelDDChange(TObject *Sender);
 	void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);
-	void __fastcall fullSpaceFitFrameexecuteBtnClick(TObject *Sender);
 	void __fastcall getCapabilitiesAsXMLAExecute(TObject *Sender);
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 	void __fastcall saveCurrentDataAExecute(TObject *Sender);
 	void __fastcall openDataAExecute(TObject *Sender);
 	void __fastcall exitAExecute(TObject *Sender);
+	void __fastcall logLevelCBChange(TObject *Sender);
+	void __fastcall AboutExecute(TObject *Sender);
 
 private:
 	mtkApplicationInfo					mAppInfo;
+    string								mModelsFolder;
+    set<string> 						mModelFiles;	//Holds model filenames in models folder
+
     LogFileReader       	    		mLogFileSniffer;
    	RRHandle	                        mRRI;
     RRPluginHandle						mCurrentlySelectedPlugin;
+
     RRPluginHandle						mAddNoisePlugin;
-    RRPluginHandle						mMinimizePlugin;
+
     RRPluginHandle						mLMPlugin;
-    RRPluginHandle						mLMAPlugin;
     TLMFittingFrame					   *mLMFrame;
-    TLMFittingFrame					   *mLMAFrame;
+
     RRData* 							mData;
     RRJobHandle	                        mLoadModelJob;
     RRJobHandle	                        mSimulateModelJob;
 	TOnSimulationFinished				OnSimulationFinsihed;
-    string								mModelsFolder;
+
     bool								mUIIsStartingUp;
 	string 		                        getCurrentPluginName();
 	string 		                        getCurrentSelectedParameter();
@@ -191,14 +196,16 @@ private:
     void								populateModelsDropDown();
 	void								SetupAndReadParameters();
 
+
 public:
 	mtkIniParameters					mIniParas;
 	mtkIniParameter<int>				mLowerPanelHeight;
 	mtkIniParameter<int>				mBottomLeftPanelWidth;
+    mtkIniParameter<string>				mLogLevel;
 	mtkIniParameter<string>				mModel;
 
 	RoadRunnerData						mCurrentData;
-	RoadRunnerData						mMinimizationData;
+
 			__fastcall 					TMainF(TComponent* Owner);
 			__fastcall 				   ~TMainF();
 	void 	__fastcall 					onSimulationStarted();

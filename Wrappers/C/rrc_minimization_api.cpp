@@ -22,16 +22,26 @@ bool rrcCallConv addDoubleParameter(RRMinimizationDataHandle handle, const char*
     catch_bool_macro
 }
 
-bool rrcCallConv setMinimizationSelectionList(RRMinimizationDataHandle handle, const char* selections)
+bool rrcCallConv setMinimizationExperimentalDataSelectionList(RRMinimizationDataHandle handle, const char* selections)
 {
 	try
     {
     	MinimizationData* data = castToMinimizationData(handle);
-        data->setSelectionList(selections);
+        data->setExperimentalDataSelectionList(selections);
         return true;
     }
     catch_bool_macro
 }
 
+bool rrcCallConv setMinimizationModelDataSelectionList(RRMinimizationDataHandle handle, const char* selections)
+{
+	try
+    {
+    	MinimizationData* data = castToMinimizationData(handle);
+        data->setModelDataSelectionList(selections);
+        return true;
+    }
+    catch_bool_macro
+}
 
 }

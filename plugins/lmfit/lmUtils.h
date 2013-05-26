@@ -7,13 +7,14 @@
 typedef struct
 {
 	int			            nrOfSpecies;
-	int			            nrOfParameters;			//Number of parameters to fit
+	int			            nrOfParameters;				//Number of parameters to fit
     int 		            nrOfTimePoints;
-    int						nrOfResiduePoints;		//This is the number "m_dat", typically nrOfSpecies * nrOfTimePoints
-    double*					parameters;				//Vector holding the numbers for each parameter
+    int						nrOfResiduePoints;			//This is the number "m_dat", typically nrOfSpecies * nrOfTimePoints
+    double*					parameters;					//Vector holding the numbers for each parameter
     char**  	            speciesLabels;
-    char**  	            parameterLabels;    	//Labels for the parameters to fit, eg k1, k2 etc
-    double**	            experimentalData;		//Species experimental time data
+    char**  	            parameterLabels;    		//Labels for the parameters to fit, eg k1, k2 etc
+    double**	            experimentalData;			//Species experimental time data
+    double**	            experimentalDataWeights;	//experimental weights..
 	double		            timeStart;
 	double		            timeEnd;
     rrc::RRHandle	 		rrHandle;

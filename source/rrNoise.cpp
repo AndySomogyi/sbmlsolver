@@ -7,11 +7,19 @@ namespace rr
 Noise::Noise(double m, double s)
 :
 mean(m),
-sigma(s){}
+sigma(s)
+{
 
-double Noise::GetNoise()
+}
+
+double Noise::getNoise()
 {
 	return gaussNoise(mean, sigma);
+}
+
+void Noise::randomize()
+{
+   	srand( time( NULL ) );
 }
 
 }

@@ -72,9 +72,17 @@ bool LM::setInputData(void* inputData)
     	return false;
 	}
 
-    RoadRunnerData rrData;
-    rrData.reSize(data->RSize, data->CSize);
+    RoadRunnerData rrData(data->RSize, data->CSize);
 
+	//Column Names
+    StringList colNames;
+    for(int c = 0; c < data->CSize; c++)
+    {
+		colNames.add(data->ColumnHeaders[c]);
+    }
+    rrData.setColumnNames(colNames);
+
+    //The data
     for(int r = 0; r < data->RSize; r++)
     {
     	for(int c = 0; c < data->CSize; c++)
@@ -83,16 +91,22 @@ bool LM::setInputData(void* inputData)
         }
     }
 
-    StringList colNames;
-    for(int c = 0; c < data->CSize; c++)
+	//Weights ?
+    if(data->Weights != NULL)
     {
-		colNames.Add(data->ColumnHeaders[c]);
+    	rrData.allocateWeights();
+        for(int r = 0; r < data->RSize; r++)
+        {
+            for(int c = 0; c < data->CSize; c++)
+            {
+                rrData.setWeight(r,c) = data->Weights[r*data->CSize + c];
+            }
+        }
     }
 
-    rrData.setColumnNames(colNames);
+
 
 	MinimizationData& minData = getMinimizationData();
-
     minData.setInputData(rrData);
     return true;
 }

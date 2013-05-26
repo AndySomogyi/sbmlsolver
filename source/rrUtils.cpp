@@ -34,6 +34,7 @@
 #endif
 #include "Poco/MD5Engine.h"
 #include "Poco/Thread.h"
+#include "Poco/Glob.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
 #include "rrLogger.h"
@@ -89,7 +90,7 @@ double gaussNoise(double mean, double sigma)
     }
 
     /* generate and return a Gaussian-distributed random number using r and u */
-    return( (double) (mean + r * cos(2 * M_PI * u) ) );
+    return( (double) (mean + r * cos(2. * M_PI * u) ) );
 }
 
 // A function to get a character from the console without echo.
@@ -575,12 +576,12 @@ StringList getSelectionListFromSettings(const SimulationSettings& settings)
 
 	for(int i = 0; i < settings.mAmount.Count(); i++)
 	{
-		theList.Add("[" + settings.mAmount[i] + "]");        //In the setSelection list below, the [] selects the correct 'type'
+		theList.add("[" + settings.mAmount[i] + "]");        //In the setSelection list below, the [] selects the correct 'type'
 	}
 
 	for(int i = 0; i < settings.mConcentration.Count(); i++)
 	{
-		theList.Add(settings.mConcentration[i]);
+		theList.add(settings.mConcentration[i]);
 	}
 
     //We may have variables
@@ -595,7 +596,7 @@ StringList getSelectionListFromSettings(const SimulationSettings& settings)
             string aVar = settings.mVariables[i];
             if(settings.mAmount.DontContain(aVar) && settings.mConcentration.DontContain(aVar))
             {
-			    theList.Add(settings.mVariables[i]);
+			    theList.add(settings.mVariables[i]);
             }
 
         }
@@ -638,6 +639,14 @@ string getWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
     LocalFree(lpMsgBuf);
     LocalFree(lpDisplayBuf);
     return errorMsg;
+}
+
+int populateFileSet(const string& folder, set<string>& files)
+{
+ 	//Get models file names in models folder
+    string globPath =  rr::joinPath(folder, "*.xml");
+    Glob::glob(globPath, files);
+	return files.size();
 }
 
 #endif

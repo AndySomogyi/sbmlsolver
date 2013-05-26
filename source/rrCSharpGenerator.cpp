@@ -730,7 +730,7 @@ void CSharpGenerator::substituteEquation(const string& reactionName, Scanner& s,
     else if(theToken == "delay")
     {
         sb<<append("supportFunctions._delay");
-        mWarnings.Add("RoadRunner does not yet support delay differential equations in SBML, they will be ignored (i.e. treated as delay = 0).");
+        mWarnings.add("RoadRunner does not yet support delay differential equations in SBML, they will be ignored (i.e. treated as delay = 0).");
     }
     else
     {
@@ -1278,7 +1278,7 @@ void CSharpGenerator::writeUserDefinedFunctions(CodeBuilder& sb)
 
               string sName = aList[0];
               //sName.Trim();
-            mFunctionNames.Add(sName);
+            mFunctionNames.add(sName);
             StringList oArguments = oList[1];
             StringList list2 = oList[2];
             string sBody = list2[0];
@@ -1289,7 +1289,7 @@ void CSharpGenerator::writeUserDefinedFunctions(CodeBuilder& sb)
             for (int j = 0; j < oArguments.Count(); j++)
             {
                 sb<<append("double " + (string)oArguments[j]);
-                mFunctionParameters.Add((string)oArguments[j]);
+                mFunctionParameters.add((string)oArguments[j]);
                 if (j < oArguments.Count() - 1)
                     sb<<append(", ");
             }
@@ -1820,7 +1820,7 @@ int CSharpGenerator::writeComputeRules(CodeBuilder& sb, const int& numReactions)
             switch (aRule.GetType())
             {
                 case rtAlgebraic:
-                    mWarnings.Add("RoadRunner does not yet support algebraic rules in SBML, they will be ignored.");
+                    mWarnings.add("RoadRunner does not yet support algebraic rules in SBML, they will be ignored.");
                     leftSideRule = "";//NULL;
                 break;
 
@@ -2222,7 +2222,7 @@ void CSharpGenerator::writeEventAssignments(CodeBuilder& sb, const int& numReact
             StringList event = ev[1];
             int numItems = event.Count();
             string str = substituteTerms(numReactions, "", event[0]);
-            delays.Add(str);
+            delays.add(str);
 
             sb<<format("\tpublic void eventAssignment_{0} () {{1}", i, NL());
             sb<<format("\t\tperformEventAssignment_{0}( computeEventAssignment_{0}() );{1}", i, NL());
@@ -2253,8 +2253,8 @@ void CSharpGenerator::writeEventAssignments(CodeBuilder& sb, const int& numReact
 
                 string sTempVar = format("values[{0}]", nCount);
 
-                oTemp.Add(assignmentVar);
-                oValue.Add(sTempVar);
+                oTemp.add(assignmentVar);
+                oValue.add(sTempVar);
 
                 str = sTempVar+ str.substr(str.find(" ="));
                 nCount++;

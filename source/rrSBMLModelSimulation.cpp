@@ -184,7 +184,7 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
             vector<string> vars = splitString((*it).second, ",");
             for(u_int i = 0; i < vars.size(); i++)
             {
-                mSettings.mVariables.push_back(trim(vars[i]));
+                mSettings.mVariables.add(trim(vars[i]));
             }
         }
 
@@ -197,7 +197,7 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
                 string rec = trim(vars[i]);
                 if(rec.size())
                 {
-                    mSettings.mAmount.push_back(rec);
+                    mSettings.mAmount.add(rec);
                 }
             }
         }
@@ -211,7 +211,7 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
                 string rec = trim(vars[i]);
                 if(rec.size())
                 {
-                    mSettings.mConcentration.push_back(rec);
+                    mSettings.mConcentration.add(rec);
                 }
             }
         }
@@ -252,7 +252,7 @@ bool SBMLModelSimulation::SetSelectionList(const string& selectionList)
     vector<string> vars = splitString(selectionList, ", ");
     for(u_int i = 0; i < vars.size(); i++)
     {
-        mSettings.mVariables.push_back(trim(vars[i]));
+        mSettings.mVariables.add(trim(vars[i]));
     }
 
     mEngine->useSimulationSettings(mSettings);

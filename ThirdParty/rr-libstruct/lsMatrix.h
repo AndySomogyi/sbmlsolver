@@ -14,7 +14,6 @@ namespace ls
 {
     /*! \class ls::Matrix
         \brief ls::Matrix is the matrix class used by ls::LibLA and LIB_STRUTURAL::LibStructural
-
         This class implements a template to hold real, ls::Complex and integer matrices. It also implements basic
         operations on matrices.
     */
@@ -50,6 +49,7 @@ class Matrix
                                     ~Matrix();
 
         T*                          GetPointer();
+        bool						isAllocated() const;
         unsigned int                CSize() const;                      //! returns the number of columns
         unsigned int                RSize() const;
         unsigned int                Length() const;
@@ -289,7 +289,7 @@ inline Matrix<T>::~Matrix()
   if (_Array)
   {
       delete [] _Array;
-      _Array = NULL;
+//      _Array = NULL;
   }
 }
 
@@ -298,6 +298,13 @@ inline unsigned int Matrix<T>::Length() const
 {
     return _Rows*_Cols;
 }
+
+template<class T>
+inline bool Matrix<T>::isAllocated() const
+{
+    return (_Array != NULL) ? true : false;
+}
+
 template<class T>
 T* Matrix<T>::GetPointer()
 {

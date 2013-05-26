@@ -52,7 +52,7 @@ void IniFile::Clear()
 	mIsDirty = true;			//A save after clear, will clear the phuysica; file
 	for(unsigned int i = 0; i < mSections.size(); i++)
 	{
-		rrIniSection* section = mSections[i];
+		IniSection* section = mSections[i];
 		delete section;
 	}
 	mSections.clear();
@@ -65,7 +65,7 @@ bool IniFile::SetFilePath(const string& path)
 
 bool IniFile::ClearSection(const string& aSection)
 {
-	rrIniSection* section = GetSection(aSection);
+	IniSection* section = GetSection(aSection);
 	if(section)
 	{
 		section->Clear();
@@ -106,14 +106,13 @@ bool IniFile::Load(const string& newfName)
 									Log(lDebug3)<<"Loading IniFile: " <<mIniFileName.Get();
 	}
 
-
     if(!fileExists(mIniFileName))
     {
 									Log(lDebug2)<<"The ini file: \"" <<mIniFileName.Get()<<"\" does not exist. It will be created";
         if(!createFile(mIniFileName))
         {
     								Log(lError)<<"Failed to create ini file.. returning..";
-            return false;                                    
+            return false;
         }
 	}
 
@@ -135,9 +134,7 @@ bool IniFile::Load(const string& newfName)
 		bool bDone = false;
 		bool bAutoKey = (mFlags & mAutoCreateKeys) 		== mAutoCreateKeys;
 		bool bAutoSec = (mFlags & mAutoCreateSections) 	== mAutoCreateSections;
-
-
-		rrIniSection* pSection = GetSection("");
+		IniSection* pSection = GetSection("");
 
 		// These need to be set, we'll restore the original values later.
 		mFlags |= mAutoCreateKeys;
@@ -222,14 +219,13 @@ bool IniFile::Load(const string& newfName)
 			mFlags &= ~mAutoCreateSections;
         }
 	}
-
 	file.close();
 	return true;
 }
 
-rrIniSection* IniFile::LoadSection(const string& theSection)
+IniSection* IniFile::LoadSection(const string& theSection)
 {
-    rrIniSection* pSection = NULL;
+    IniSection* pSection = NULL;
 	if(mIniFileName.size() < 1)
 	{
 									Log(lError)<<"Ini file name is not set!";
@@ -366,8 +362,8 @@ bool IniFile::Save(ios_base::openmode openMode)
 	{
 		SectionItor s_pos;
 		KeyItor k_pos;
-		rrIniSection* Section;
-		rrIniKey* Key;
+		IniSection* Section;
+		IniKey* Key;
 
 		for (s_pos = mSections.begin(); s_pos != mSections.end(); s_pos++)
 		{
@@ -421,7 +417,7 @@ bool IniFile::Save(ios_base::openmode openMode)
 bool IniFile::SetKeyComment(const string& mKey, const string& mComment, const string& szSection)
 {
 	KeyItor k_pos;
-	rrIniSection* pSection;
+	IniSection* pSection;
 
 	if ( (pSection = GetSection(szSection)) == NULL )
 		return false;
@@ -462,7 +458,7 @@ bool IniFile::SetSectionComment(const string& Section, const string& Comment)
 bool IniFile::SectionExists(const string& section)
 {
 	SectionItor s_pos;
-	rrIniSection* Section;
+	IniSection* Section;
 
     for (s_pos = mSections.begin(); s_pos != mSections.end(); s_pos++)
 	{
@@ -479,8 +475,8 @@ bool IniFile::SectionExists(const string& section)
 // the proper value and place it in the section requested.
 bool IniFile::WriteValue(const string& mKey, const string& mValue, const string& mComment, const string& szSection)
 {
-	rrIniKey* 		pKey 		= GetKey(mKey, szSection);
-	rrIniSection* 	pSection 	= GetSection(szSection);
+	IniKey* 		pKey 		= GetKey(mKey, szSection);
+	IniSection* 	pSection 	= GetSection(szSection);
 
 	if (pSection == NULL)
 	{
@@ -498,7 +494,7 @@ bool IniFile::WriteValue(const string& mKey, const string& mValue, const string&
 	// is not string("") then add the new key.
 	if ( pKey == NULL && mValue.size() > 0 && (mFlags & mAutoCreateKeys))
 	{
-		pKey = new rrIniKey;
+		pKey = new IniKey;
 
 		pKey->mKey = mKey;
 		pKey->mValue = mValue;
@@ -521,7 +517,7 @@ bool IniFile::WriteValue(const string& mKey, const string& mValue, const string&
 
 bool IniFile::WriteNonKey(const string& nonKey, const string& section)
 {
-	rrIniSection* 	pSection 	= GetSection(section);
+	IniSection* 	pSection 	= GetSection(section);
 	if (pSection == NULL)
 	{
 		if ( !(mFlags & mAutoCreateSections) || !CreateSection(section))
@@ -566,7 +562,7 @@ bool IniFile::WriteBool(const string& mKey, bool bValue, const string& mComment,
 // string("") indicates that the key could not be found.
 string IniFile::ReadValue(const string& mKey, const string& szSection)
 {
-	rrIniKey* pKey = GetKey(mKey, szSection);
+	IniKey* pKey = GetKey(mKey, szSection);
   	mWasFound = pKey ? true : false;
 
     string value;
@@ -656,7 +652,7 @@ bool IniFile::DeleteSection(const string& Section)
 		if ( compareNoCase( (*s_pos)->mName, Section ) == 0 )
 		{
         	//Found a section..
-            rrIniSection *aSection =  (*s_pos);
+            IniSection *aSection =  (*s_pos);
 			mSections.erase(s_pos);
             delete (aSection);
 			return true;
@@ -673,7 +669,7 @@ bool IniFile::DeleteSectionsWithKeyValue(const string& keyName, const string& va
     s_pos = mSections.begin();
 	while (s_pos != mSections.end())
 	{
-		rrIniKey* key = GetKey(keyName, (*s_pos)->mName);
+		IniKey* key = GetKey(keyName, (*s_pos)->mName);
         {
         	if(key && key->mValue == value)
             {
@@ -695,7 +691,7 @@ bool IniFile::DeleteSectionsWithKeyValue(const string& keyName, const string& va
 bool IniFile::DeleteKey(const string& Key, const string& FromSection)
 {
 	KeyItor k_pos;
-	rrIniSection* pSection;
+	IniSection* pSection;
 
 	if ( (pSection = GetSection(FromSection)) == NULL )
 		return false;
@@ -704,7 +700,7 @@ bool IniFile::DeleteKey(const string& Key, const string& FromSection)
 	{
 		if ( compareNoCase( (*k_pos)->mKey, Key ) == 0 )
 		{
-        	rrIniKey* aKey = (*k_pos);
+        	IniKey* aKey = (*k_pos);
 			pSection->mKeys.erase(k_pos);
             delete aKey;
 			return true;
@@ -741,7 +737,7 @@ bool IniFile::CreateKey(const string& mKey, const string& mValue, const string& 
 // sucessfully created, or false otherwise.
 bool IniFile::CreateSection(const string& Section, const string& mComment)
 {
-	rrIniSection* pSection = GetSection(Section);
+	IniSection* pSection = GetSection(Section);
 
 	if ( pSection )
 	{
@@ -749,7 +745,7 @@ bool IniFile::CreateSection(const string& Section, const string& mComment)
 		return false;
 	}
 
-	pSection = new rrIniSection;
+	pSection = new IniSection;
 	pSection->mName = Section;
 	pSection->mComment = mComment;
 	mSections.push_back(pSection);
@@ -767,7 +763,7 @@ bool IniFile::CreateSection(const string& Section, const string& Comment, KeyLis
 	if ( !CreateSection(Section, Comment) )
 		return false;
 
-	rrIniSection* pSection = GetSection(Section);
+	IniSection* pSection = GetSection(Section);
 
 	if ( !pSection )
 		return false;
@@ -777,7 +773,7 @@ bool IniFile::CreateSection(const string& Section, const string& Comment, KeyLis
 	pSection->mName = Section;
 	for (k_pos = Keys.begin(); k_pos != Keys.end(); k_pos++)
 	{
-		rrIniKey* pKey = new rrIniKey;
+		IniKey* pKey = new IniKey;
 		pKey->mComment = (*k_pos)->mComment;
 		pKey->mKey = (*k_pos)->mKey;
 		pKey->mValue = (*k_pos)->mValue;
@@ -811,15 +807,15 @@ int IniFile::KeyCount()
 int IniFile::KeyCount(const string& section)
 {
 	//Get the section
-    rrIniSection* iniSection = GetSection(section);
+    IniSection* iniSection = GetSection(section);
     return iniSection->KeyCount();
 }
 
 // Given a key and section name, looks up the key and if found, returns a
 // pointer to that key, otherwise returns NULL.
-rrIniKey*	IniFile::GetKey(const string& Key, const string& Section)
+IniKey*	IniFile::GetKey(const string& Key, const string& Section)
 {
-	rrIniSection* pSection;
+	IniSection* pSection;
 	KeyItor k_pos;
 
 	// Since our default section has a name value of string("") this should
@@ -839,7 +835,7 @@ rrIniKey*	IniFile::GetKey(const string& Key, const string& Section)
 
 // Given a section name, locates that section in the list and returns a pointer
 // to it. If the section was not found, returns NULL
-rrIniSection* IniFile::GetSection(const string& Section, bool create)
+IniSection* IniFile::GetSection(const string& Section, bool create)
 {
 	SectionItor s_pos;
 	for (s_pos = mSections.begin(); s_pos != mSections.end(); s_pos++)
@@ -851,7 +847,7 @@ rrIniSection* IniFile::GetSection(const string& Section, bool create)
         string secName = (*s_pos)->mName;
 		if ( compareNoCase( secName, Section ) == 0 )
         {
-        	rrIniSection* sec = (*s_pos);
+        	IniSection* sec = (*s_pos);
 			return sec;
         }
 	}
@@ -865,7 +861,7 @@ rrIniSection* IniFile::GetSection(const string& Section, bool create)
 	return NULL;
 }
 
-rrIniSection* IniFile::GetSection(const unsigned int sectionNr)
+IniSection* IniFile::GetSection(const unsigned int sectionNr)
 {
 	if(sectionNr < mSections.size() && mSections.size() > 0)
     	return mSections[sectionNr];

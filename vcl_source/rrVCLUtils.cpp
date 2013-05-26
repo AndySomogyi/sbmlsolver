@@ -1,6 +1,6 @@
 #pragma hdrstop
 #include "rrVCLUtils.h"
-
+#include "rrUtils.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 namespace rr
@@ -56,7 +56,7 @@ StringList getCheckedItems(TCheckListBox* listBox)
         if(listBox->Checked[i])
         {
             String anItem = listBox->Items->Strings[i];
-            checked.Add(stdstr(anItem));
+            checked.add(stdstr(anItem));
         }
     }
     return checked;
@@ -77,6 +77,19 @@ void addItemsToListBox(const rr::StringList& items, TListBox *lb)
     {
         int index = lb->Items->Add(items[i].c_str());
     }
+}
+
+int populateDropDown(set<string>& files, TComboBox *CB)
+{
+	//Populate the drop down.
+	CB->Clear();
+    set<string>::iterator it = files.begin();
+    for (; it != files.end(); ++it)
+    {
+    	string file  = getFileNameNoExtension(*it);
+		CB->Items->Add(file.c_str());
+    }
+	return files.size();
 }
 
 }

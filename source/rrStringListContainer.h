@@ -13,7 +13,6 @@ namespace rr
 class RR_DECLSPEC StringListContainer : public rrObject
 {
     protected:
-//        string                          mLabel;
         vector<StringList>              mContainer;
 
     public:
@@ -23,7 +22,6 @@ class RR_DECLSPEC StringListContainer : public rrObject
                                         StringListContainer(const StringList& cp);
         void                            operator=(const StringListContainer& rhs);
         void                            Add(const StringListContainer& lists);
-//        void                            Add(const string& lbl, const StringListContainer& lists);
         void                            Add(const string& listName, const StringList& coll);
         void                            Add(const StringList& coll);
         void                            Add(const string& coll);

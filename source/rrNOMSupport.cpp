@@ -174,10 +174,10 @@ StringListContainer NOMSupport::getListOfBoundarySpecies()
         if (oSpecies->getBoundaryCondition())
         {
             StringList oSpeciesValues;
-            oSpeciesValues.Add(oSpecies->getId());
+            oSpeciesValues.add(oSpecies->getId());
             double concentration = oSpecies->isSetInitialConcentration() ? oSpecies->getInitialConcentration() : oSpecies->getInitialAmount();
-            oSpeciesValues.Add( toString(concentration, STR_DoubleFormat) );
-            oSpeciesValues.Add( toString(oSpecies->isSetInitialConcentration()) );
+            oSpeciesValues.add( toString(concentration, STR_DoubleFormat) );
+            oSpeciesValues.add( toString(oSpecies->isSetInitialConcentration()) );
 
             boundarySpeciesList.Add(oSpeciesValues);
         }
@@ -1298,10 +1298,10 @@ StringListContainer NOMSupport::getListOfFloatingSpecies()
         if (oSpecies && !oSpecies->getBoundaryCondition())
         {
             StringList oSpeciesValues;
-            oSpeciesValues.Add( oSpecies->getId() );
+            oSpeciesValues.add( oSpecies->getId() );
             double concentration = oSpecies->isSetInitialConcentration() ? oSpecies->getInitialConcentration() : oSpecies->getInitialAmount();
-            oSpeciesValues.Add( toString(concentration, STR_DoubleFormat) );
-            oSpeciesValues.Add( toString(oSpecies->isSetInitialConcentration()));
+            oSpeciesValues.add( toString(concentration, STR_DoubleFormat) );
+            oSpeciesValues.add( toString(oSpecies->isSetInitialConcentration()));
 
             floatingSpeciesList.Add(oSpeciesValues);
         }
@@ -1348,7 +1348,7 @@ ArrayList NOMSupport::getListOfParameters()
         double paramValue;
         string paramStr = parameter->getId();
         StringList tempStrValueList;
-        tempStrValueList.Add(paramStr);
+        tempStrValueList.add(paramStr);
 
         if ((parameter->isSetValue()))
         {
@@ -1358,7 +1358,7 @@ ArrayList NOMSupport::getListOfParameters()
         {
             paramValue = 0.0;
         }
-        tempStrValueList.Add(toString(paramValue, STR_DoubleFormat));
+        tempStrValueList.add(toString(paramValue, STR_DoubleFormat));
 
         paramStrValueList.Add(tempStrValueList);
     }
@@ -1383,7 +1383,7 @@ ArrayList NOMSupport::getListOfParameters()
                 string paramStr = parameter->getId();
                 StringList tempStrValueList;
                 double paramValue;
-                tempStrValueList.Add(paramStr);
+                tempStrValueList.add(paramStr);
                 if (parameter->isSetValue())
                 {
                     paramValue = parameter->getValue();
@@ -1392,7 +1392,7 @@ ArrayList NOMSupport::getListOfParameters()
                 {
                     paramValue = 0.0;
                 }
-                tempStrValueList.Add(toString(paramValue, STR_DoubleFormat));
+                tempStrValueList.add(toString(paramValue, STR_DoubleFormat));
                 paramStrValueList.Add(tempStrValueList);
             }
         }
@@ -1697,8 +1697,8 @@ ArrayList NOMSupport::getNthEvent(const int& arg)
         string lValue = ea->getVariable();
         string rValue = SBML_formulaToString(ea->getMath());
 
-        assignmentList.Add(lValue);
-        assignmentList.Add(rValue);
+        assignmentList.add(lValue);
+        assignmentList.add(rValue);
         triggerAssignmentsList.Add(assignmentList);
     }
     return triggerAssignmentsList;
@@ -1812,7 +1812,7 @@ ArrayList NOMSupport::getNthFunctionDefinition(const int& arg)
     StringList argList;
     for(int n = 0; n < numArgs; n++)
     {
-        argList.Add(fnDefn->getArgument(n)->getName());
+        argList.add(fnDefn->getArgument(n)->getName());
     }
 
     fnDefnList.Add(argList);
@@ -1883,7 +1883,7 @@ ArrayList NOMSupport::getNthFunctionDefinition(const int& arg)
 //            int numModifiers = (int)r.getNumModifiers();
 //            for (int i = 0; i < numModifiers; i++)
 //            {
-//                modifierList.Add(r.getModifier(i).getSpecies());
+//                modifierList.add(r.getModifier(i).getSpecies());
 //            }
 //            return modifierList;
 //        }
@@ -1910,9 +1910,9 @@ ArrayList NOMSupport::getNthFunctionDefinition(const int& arg)
 //                string stoichiometryMath = "";
 //                if (product.isSetStoichiometryMath() && product.getStoichiometryMath().isSetMath())
 //                    stoichiometryMath = libsbml.formulaToString(product.getStoichiometryMath().getMath());
-//                ArrayList oTemp = new ArrayList(); oTemp.Add(product.getSpecies()); oTemp.Add(product.getStoichiometry());
-//                oTemp.Add(stoichiometryMath);
-//                productList.Add(oTemp);
+//                ArrayList oTemp = new ArrayList(); oTemp.add(product.getSpecies()); oTemp.add(product.getStoichiometry());
+//                oTemp.add(stoichiometryMath);
+//                productList.add(oTemp);
 //            }
 //            return productList;
 //        }
@@ -1939,9 +1939,9 @@ ArrayList NOMSupport::getNthFunctionDefinition(const int& arg)
 //                string stoichiometryMath = "";
 //                if (reactant.isSetStoichiometryMath() && reactant.getStoichiometryMath().isSetMath())
 //                    stoichiometryMath = libsbml.formulaToString(reactant.getStoichiometryMath().getMath());
-//                ArrayList oTemp = new ArrayList(); oTemp.Add(reactant.getSpecies()); oTemp.Add(reactant.getStoichiometry());
-//                oTemp.Add(stoichiometryMath);
-//                reactantList.Add(oTemp);
+//                ArrayList oTemp = new ArrayList(); oTemp.add(reactant.getSpecies()); oTemp.add(reactant.getStoichiometry());
+//                oTemp.add(stoichiometryMath);
+//                reactantList.add(oTemp);
 //            }
 //            return reactantList;
 //        }
@@ -2703,7 +2703,7 @@ string NOMSupport::getSBML()
     //Todo: how to deal with parametersets...?
     //    if (_ParameterSets != NULL && mModel != NULL)
 //    {
-//        _ParameterSets.AddToModel(mModel);
+//        _ParameterSets.addToModel(mModel);
 //    }
 
     return libsbml::writeSBMLToString(mSBMLDoc);
@@ -2976,7 +2976,7 @@ void NOMSupport::GetSymbols(ASTNode* aNode, StringList& list)
         string name = node.getName();
         if (!list.Contains(name))
         {
-            list.Add(name);
+            list.add(name);
         }
     }
 
@@ -3045,7 +3045,7 @@ deque<Rule> NOMSupport::ReorderAssignmentRules(deque<Rule>& assignmentRules)
         {
             allSymbols[index] = GetSymbols((ASTNode*) rule->getMath());
         }
-        idList.Add(variable);
+        idList.add(variable);
         map[variable] = StringList();//new List<string>();
     }
 
@@ -3066,7 +3066,7 @@ deque<Rule> NOMSupport::ReorderAssignmentRules(deque<Rule>& assignmentRules)
         {
             if (allSymbols[index].Contains( (*id) ))
             {
-                map[(assignmentRules[index]).getVariable()].Add( (*id) );
+                map[(assignmentRules[index]).getVariable()].add( (*id) );
             }
         }
     }
@@ -3158,7 +3158,7 @@ void NOMSupport::ReorderRules(SBMLDocument& doc, Model& model)
     //TODO: Need to load suitable XML file to test and convert following code..
     assignmentRules = ReorderAssignmentRules(assignmentRules);
 
-    //Add rules back to the model..
+    //add rules back to the model..
     //    assignmentRules.ForEach(item => model.addRule(item));
     for(int i = 0; i < assignmentRules.size(); i++)
     {
@@ -3336,7 +3336,7 @@ void NOMSupport::UpdateDependencies(const string& sbmlId)
 
 //        foreach (string dependency in dependentSymbols)
 //            if (dependency != current.Id)
-//                current.Dependencies.Add((SBMLSymbol)mSymbolTable[dependency]);
+//                current.Dependencies.add((SBMLSymbol)mSymbolTable[dependency]);
     }
 
     if (current.HasRule())
@@ -3353,7 +3353,7 @@ void NOMSupport::UpdateDependencies(const string& sbmlId)
         }
 //        foreach (string dependency in dependentSymbols)
 //            if (dependency != current.Id)
-//                current.Dependencies.Add((SBMLSymbol)mSymbolTable[dependency]);
+//                current.Dependencies.add((SBMLSymbol)mSymbolTable[dependency]);
     }
 }
 
@@ -3380,7 +3380,7 @@ void NOMSupport::addDependenciesToList(const ASTNode *node, StringList& sResult)
 
     if (node->isName() && mSymbolTable.ContainsKey(node->getName()))
     {
-        sResult.Add(node->getName());
+        sResult.add(node->getName());
     }
 }
 
@@ -3485,8 +3485,8 @@ void NOMSupport::loadSBML(const string& var0)
 //        string prefix = match.Value.Substring(0, match.Value.IndexOf('='));
 //        if (!prefixes.Contains(prefix) && !Namespaces.Contains(match.Value))
 //        {
-//            Namespaces.Add(match.Value);
-//            prefixes.Add(prefix);
+//            Namespaces.add(match.Value);
+//            prefixes.add(prefix);
 //        }
 //
 //        //Console.WriteLine("prefix:" + match.Groups["prefix"].Value);

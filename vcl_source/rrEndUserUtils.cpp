@@ -49,7 +49,7 @@ StringList convertCStringArray(RRStringArrayHandle inList)
     	char* item = inList->String[i];
         if(item)
         {
-          	theList.Add(item);
+          	theList.add(item);
         }
     }
 

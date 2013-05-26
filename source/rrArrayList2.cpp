@@ -83,7 +83,7 @@ StringList ArrayList2::GetSubList(const string& lName)
                                 if(dynamic_cast<ArrayListItem<string>*>(anItem))
                                 {
                                     string str = (string) *dynamic_cast<ArrayListItem<string>*>(anItem);
-                                    aList.Add(str);
+                                    aList.add(str);
                                 }
                             }
                         }

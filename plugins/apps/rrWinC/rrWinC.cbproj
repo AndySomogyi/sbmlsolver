@@ -135,6 +135,12 @@
         <BCC_PCHName_Clang>rrWinC_pch.h</BCC_PCHName_Clang>
     </PropertyGroup>
     <ItemGroup>
+        <CppCompile Include="aboutForm.cpp">
+            <Form>rrAboutForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>aboutForm.h</DependentOn>
+            <BuildOrder>11</BuildOrder>
+        </CppCompile>
         <CppCompile Include="MainForm.cpp">
             <Form>MainF</Form>
             <FormType>dfm</FormType>
@@ -184,10 +190,11 @@
             <DependentOn>..\..\..\vcl_source\TSimulationFrame.h</DependentOn>
             <BuildOrder>5</BuildOrder>
         </CppCompile>
+        <FormResources Include="..\..\..\vcl_source\rrCapabilitiesFrame.dfm"/>
         <FormResources Include="..\..\..\vcl_source\TSimulationFrame.dfm"/>
         <FormResources Include="..\..\..\vcl_source\TLMFittingFrame.dfm"/>
-        <FormResources Include="..\..\..\vcl_source\rrCapabilitiesFrame.dfm"/>
         <FormResources Include="MainForm.dfm"/>
+        <FormResources Include="aboutForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

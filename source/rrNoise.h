@@ -14,7 +14,8 @@ class RR_DECLSPEC Noise : public rrObject
 
     public:
         			Noise(double m = 0, double s = 1);
-        double 		GetNoise();
+        double 		getNoise();
+        void		randomize();
 };
 
 }

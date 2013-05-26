@@ -307,7 +307,7 @@ C_DECL_SPEC char* rrcCallConv testString (char* testStr);
  \return Ruturns true if succesful
  \ingroup errorfunctions
 */
-C_DECL_SPEC bool rrcCallConv setLogLevel(char* lvl);
+C_DECL_SPEC bool rrcCallConv setLogLevel(const char* lvl);
 
 /*!
  \brief Get the logging status level as a pointer to a string
@@ -1474,7 +1474,7 @@ C_DECL_SPEC char* rrcCallConv getModelName(RRHandle handle);
 // \defgroup initialization Library initialization and termination methods
 // \brief Initialize library and terminate library instance
 //
-// \defgroup loadsave Read and Write models
+// \defgroup loadsave Read and write models
 // \brief Read and write models to files or strings. Support for SBML formats.
 //
 // \defgroup utility Utility functions
@@ -1489,7 +1489,7 @@ C_DECL_SPEC char* rrcCallConv getModelName(RRHandle handle);
 // \defgroup simulation Time-course simulation
 // \brief Deterministic, stochastic, and hybrid simulation algorithms
 //
-// \defgroup steadystate Steady State Routines
+// \defgroup steadystate Steady state routines
 // \brief Compute and obtain basic information about the steady state
 //
 // \defgroup reaction Reaction group
@@ -1513,7 +1513,7 @@ C_DECL_SPEC char* rrcCallConv getModelName(RRHandle handle);
 // \defgroup compartment Compartment group
 // \brief Set and Get information on compartments
 //
-// \defgroup mca Metabolic Control Analysis
+// \defgroup mca Metabolic control analysis
 // \brief Calculate control coefficients and sensitivities
 //
 // \defgroup Stoich Stoichiometry analysis
@@ -1522,20 +1522,20 @@ C_DECL_SPEC char* rrcCallConv getModelName(RRHandle handle);
 // \defgroup NOM Network object model (NOM) functions
 // \brief Network objwct model functions
 //
-// \defgroup LinearAlgebra Linear Algebra functions
+// \defgroup LinearAlgebra Linear algebra functions
 // \brief Linear algebra utility functions
 //
-// \defgroup list List Handling Routines
+// \defgroup list List handling routines
 // \brief Some methods return lists (heterogeneous arrayts of data),
 // these routines make it easier to manipulate listse
 //
-// \defgroup helperRoutines Helper Routines
+// \defgroup helperRoutines Helper routines
 // \brief Helper routines for acessing the various C API types, eg lists and arrays
 //
-// \defgroup toString ToString Routines
+// \defgroup toString ToString routines
 // \brief Render various result data types as strings
 //
-// \defgroup stringArray StringArray Routines
+// \defgroup stringArray StringArray routines
 // \brief Utility rountines to deal with the string array type
 //
 // \defgroup freeRoutines Free memory routines

@@ -54,6 +54,7 @@
 //---------------------------------------------------------------------------
 
 #if defined(__cplusplus)
+
 namespace rr
 {
 class RoadRunner;
@@ -61,22 +62,11 @@ class RoadRunnerList;
 class Plugin;
 class MinimizationData;
 }
-
-namespace rrc
-{
-extern "C"
-{
-#endif
-
 using std::vector;
 using std::string;
 
-extern char* gLastError;
-extern char* gInstallFolder;
-
-//Error/Warning Messages
-extern const char* 	ALLOCATE_API_ERROR_MSG;
-extern const char* 	INVALID_HANDLE_ERROR_MSG;
+namespace rrc
+{
 
 //Internal prototypes (not exported)
 void                                    setError(const string& err);
@@ -88,6 +78,18 @@ RRMatrixHandle                          createMatrix(const ls::DoubleMatrix* mat
 //Lists and arrays
 RRStringArrayHandle                     createList(const rr::StringList& aList);
 RRListHandle 		                    createArrayList(const rr::NewArrayList& aList);
+
+extern "C"
+{
+#endif
+
+
+extern char* gLastError;
+extern char* gInstallFolder;
+
+//Error/Warning Messages
+extern const char* 	ALLOCATE_API_ERROR_MSG;
+extern const char* 	INVALID_HANDLE_ERROR_MSG;
 
 /*!
  \brief Retrieves the the content of a file.
@@ -507,56 +509,56 @@ C_DECL_SPEC bool rrcCallConv setMatrixElement (RRMatrixHandle m, int r, int c, d
 
 
 /*!
- \brief Retrieve the number of rows in the given result data (returned from simulate(RRHandle handle))
+ \brief Retrieve the number of rows in the given RoadRunner numberical data (returned from simulate(RRHandle handle))
 
- Example: \code nRows = getResultNumRows (result); \endcode
+ Example: \code nRows = getRRDataNumRows (result); \endcode
 
- \param[in] result A pointer to a result type variable
+ \param[in] rrData A pointer to a RoadRunner numerical data type variable
  \return Returns -1 if fails, otherwise returns the number of rows
  \ingroup helperRoutines
 */
-C_DECL_SPEC int rrcCallConv getResultNumRows (RRDataHandle result);
+C_DECL_SPEC int rrcCallConv getRRDataNumRows (RRDataHandle rrData);
 
 /*!
- \brief Retrieve the number of columns in the given result data (returned form simulat(RRHandle handle))
+ \brief Retrieve the number of columns in the given rrData data (returned form simulat(RRHandle handle))
 
- Example: \code nRows = getResultNumCols (result); \endcode
+ Example: \code nRows = getResultNumCols (rrData); \endcode
 
- \param[in] result A pointer to a result type variable
+ \param[in] rrData A pointer to a rrData type variable
  \return Returns -1 if fails, otherwise returns the number of columns
  \ingroup helperRoutines
 */
-C_DECL_SPEC int rrcCallConv getResultNumCols (RRDataHandle result);
+C_DECL_SPEC int rrcCallConv getRRDataNumCols (RRDataHandle rrData);
 
 /*!
- \brief Retrieves an element at a given row and column from a result type variable
+ \brief Retrieves an element at a given row and column from a RoadRunner data type variable
 
- Result data are indexed from zero
+ RoadRunner numerical data are indexed from zero
 
- Example: \code status = getResultElement (result, 2, 4, *value); \endcode
+ Example: \code status = getRRDataElement (rrData, 2, 4, *value); \endcode
 
- \param[in] result A pointer to a result type variable
- \param[in] r -The row index to the result data
- \param[in] c - The column index to the result data
- \param[out] value - The retrieved value from the result data
+ \param[in] rrData A pointer to a rrData type variable
+ \param[in] r -The row index to the rrData data
+ \param[in] c - The column index to the rrData data
+ \param[out] value - The retrieved value from the rrData data
  \return Returns true if succesful
  \ingroup helperRoutines
 */
-C_DECL_SPEC bool rrcCallConv getResultElement (RRDataHandle result, int r, int c, double *value);
+C_DECL_SPEC bool rrcCallConv getRRDataElement (RRDataHandle rrData, int r, int c, double *value);
 
 /*!
- \brief Retrieves a label for a given column in a result type variable
+ \brief Retrieves a label for a given column in a rrData type variable
 
  Result data are indexed from zero
 
- Example: \code str = getResultColumnLabel (result, 2, 4); \endcode
+ Example: \code str = getResultColumnLabel (rrData, 2, 4); \endcode
 
- \param[in] result A pointer to a result type variable
- \param[in] column - The column index for the result data (indexing from zero)
+ \param[in] rrData A pointer to a rrData type variable
+ \param[in] column - The column index for the rrData data (indexing from zero)
  \return Returns null if fails, otherwise returns a pointer to the string column label
  \ingroup helperRoutines
 */
-C_DECL_SPEC char* rrcCallConv getResultColumnLabel (RRDataHandle result, int column);
+C_DECL_SPEC char* rrcCallConv getRRDataColumnLabel (RRDataHandle rrData, int column);
 
 /*!
  \brief Retrieve the header file for the current model (if applicable)
@@ -596,11 +598,11 @@ C_DECL_SPEC char* rrcCallConv getCSourceFileName(RRHandle handle);
 // --------------------------------------------------------------------------------
 
 /*!
- \brief Returns a result struct in string form.
- \return Returns result struct as a character string
+ \brief Returns a rrData struct in string form.
+ \return Returns rrData struct as a character string
  \ingroup toString
 */
-C_DECL_SPEC char* rrcCallConv rrDataToString(const RRDataHandle result);
+C_DECL_SPEC char* rrcCallConv rrDataToString(const RRDataHandle rrData);
 
 /*!
  \brief Returns a matrix in string form.
@@ -660,8 +662,9 @@ C_DECL_SPEC bool rrcCallConv compileSource(RRHandle handle, const char* sourceFi
 
 
 #if defined(__cplusplus)
-}	//Extern "C"
+
 }	//namespace
+}	//Extern "C"
 #endif
 
 #endif
