@@ -17,6 +17,7 @@
 #pragma resource "*.dfm"
 TFullSpaceFittingFrame *FullSpaceFittingFrame;
 
+using namespace rr;
 typedef TFullSpaceFittingFrame fsff;
 //---------------------------------------------------------------------------
 __fastcall TFullSpaceFittingFrame::TFullSpaceFittingFrame(TComponent* Owner)
@@ -98,22 +99,31 @@ void __fastcall TFullSpaceFittingFrame::executeBtnClick(TObject *Sender)
 void __stdcall TFullSpaceFittingFrame::fsfStartedCB(void *UserData)
 {
     TFullSpaceFittingFrame *pThis = (TFullSpaceFittingFrame*) UserData;
-    TThread::Synchronize(NULL, pThis->onFSFStarted);
+    TThread::Synchronize(NULL, pThis->fittingStarted);
 }
 
 void __stdcall TFullSpaceFittingFrame::fsfFinishedCB(void *UserData)
 {
     TFullSpaceFittingFrame *pThis = (TFullSpaceFittingFrame*) UserData;
-    TThread::Synchronize(NULL, pThis->onFSFFinished);
+    TThread::Synchronize(NULL, pThis->fittingFinished);
 }
 
-void __fastcall TFullSpaceFittingFrame::onFSFStarted()
+void __fastcall TFullSpaceFittingFrame::fittingStarted()
 {
 	Log()<<"Full space fitting was started";
+    if(onFittingStarted)
+    {
+        onFittingStarted();
+    }
 }
 
-void __fastcall TFullSpaceFittingFrame::onFSFFinished()
+void __fastcall TFullSpaceFittingFrame::fittingFinished()
 {
-	Log()<<"Full space fitting finished";
+	Log()<<"Full space fitting was started";
+    if(onFittingFinished)
+    {
+        onFittingFinished();	//
+    }
+
 }
 

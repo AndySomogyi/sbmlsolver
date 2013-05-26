@@ -2443,7 +2443,7 @@ char* rrCallConv getCapabilities(RRHandle handle)
 	try
     {
         RoadRunner* rri = castFrom(handle);
-        return createText(rri->getCapabilities());
+        return createText(rri->getCapabilitiesAsXML());
     }
     catch(Exception& ex)
     {
@@ -2453,6 +2453,87 @@ char* rrCallConv getCapabilities(RRHandle handle)
 	    return NULL;
     }
 }
+
+RRStringArrayHandle rrCallConv getListOfCapabilities(RRHandle handle)
+{
+	try
+    {
+        RoadRunner* rri = castFrom(handle);
+        StringList list = rri->getListOfCapabilities();
+        return createList(list);
+    }
+    catch_ptr_macro
+}
+
+RRStringArrayHandle rrcCallConv getListOfParameters(RRHandle handle, const char* cap_name)
+{
+	try
+    {
+        RoadRunner* rri = castFrom(handle);
+        StringList list = rri->getListOfParameters(cap_name);
+        return createList(list);
+    }
+    catch_ptr_macro
+}
+
+RRParameterHandle rrcCallConv getParameter(RRHandle handle, const char* cap_name, const char* parName)
+{
+	try
+    {
+        RoadRunner* rri = castFrom(handle);
+        Capability* cap = rri->getCapability(cap_name);
+		if(!cap)
+        {
+        	return NULL;
+        }
+        return cap->getParameter(parName);
+    }
+    catch_ptr_macro
+}
+
+bool rrcCallConv setParameter(RRParameterHandle handle, const char* value)
+{
+	try
+    {
+        BaseParameter* para = castToParameter(handle);
+        para->setValue(value);
+        return true;
+    }
+    catch_bool_macro
+}
+
+char* rrcCallConv getParameterValue(RRParameterHandle handle)
+{
+	try
+    {
+        BaseParameter* para = castToParameter(handle);
+        string val = para->getValueAsString();
+        return createText(val);
+    }
+    catch_ptr_macro
+}
+
+char* rrcCallConv getParameterName(RRParameterHandle handle)
+{
+	try
+    {
+        BaseParameter* para = castToParameter(handle);
+        return createText(para->getName());
+    }
+    catch_ptr_macro
+}
+
+char* rrcCallConv getParameterHint(RRParameterHandle handle)
+{
+	try
+    {
+        BaseParameter* para = castToParameter(handle);
+        return createText(para->getHint());
+    }
+    catch_ptr_macro
+}
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 RRStringArrayHandle rrCallConv getEigenvalueIds(RRHandle handle)
@@ -2836,13 +2917,7 @@ char* rrCallConv resultToString(const RRDataHandle result)
         }
         return createText(resStr.str());
     }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return NULL;
-    }
+    catch_ptr_macro
 }
 
 char* rrCallConv matrixToString(const RRMatrixHandle matrixHandle)

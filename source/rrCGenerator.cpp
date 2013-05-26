@@ -1,7 +1,5 @@
 #pragma hdrstop
 #include <algorithm>
-#include "sbml/Model.h"
-#include "sbml/SBMLDocument.h"
 #include "rr-libstruct/lsLibStructural.h"
 #include "rrStringListContainer.h"
 #include "rrStringUtils.h"
@@ -13,14 +11,15 @@
 #include "rrException.h"
 #include "rrCGenerator.h"
 #include "rrCSharpGenerator.h"
+#include "sbml/Model.h"
+#include "sbml/SBMLDocument.h"
+
 //---------------------------------------------------------------------------
-
-using namespace std;
-using namespace ls;
-
 namespace rr
 {
-
+using namespace std;
+using namespace ls;
+using namespace libsbml;
 CGenerator::CGenerator(LibStructural& ls, NOMSupport& nom)
 :
 ModelGenerator(ls, nom)

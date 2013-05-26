@@ -1,18 +1,23 @@
 #pragma hdrstop
-
 #include "rrVCLUtils.h"
+
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+namespace rr
+{
 using namespace std;
 using namespace rr;
+
+
+//Passing a NULL string, returns a empty std string..
+string stdstr(const char* str)
+{
+	return (str != NULL) ? string(str) : string("");
+}
+
 string stdstr(const string& str)
 {
 	return str;
-}
-
-string stdstr(const char* str)
-{
-	return string(str);
 }
 
 string stdstr(const String& str)
@@ -65,3 +70,4 @@ void AddItemsToListBox(const rr::StringList& items, TCheckListBox *lb)
     }
 }
 
+}

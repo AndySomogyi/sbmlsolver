@@ -100,16 +100,5 @@ ostream& operator<<(ostream& stream, const BaseParameter& outMe)
     return stream;
 }
 
-//template<>
-//string BaseParameterType<double>::getValueAsString() const
-//{
-//    return ToString(mValue, "%G");
-//}
-//
-//template<>
-//string BaseParameterType<int>::getValueAsString() const
-//{
-//    return ToString(mValue);
-//}
 
 }

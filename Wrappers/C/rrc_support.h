@@ -45,7 +45,7 @@ RRStringArrayHandle createList(const rr::StringList& aList);
 RRListHandle 		createList(const rr::NewArrayList& aList);
 
 //Parameters
-RRParameterHandle	createParameter(const rr::BaseParameter& para);
+//RRParameterHandle	createParameter(const rr::BaseParameter& para);
 
 //Result data
 C_DECL_SPEC RRDataHandle rrcCallConv createRRData(const rr::SimulationData& result);
@@ -55,6 +55,9 @@ rr::RoadRunner* 	castFrom(RRHandle rrHandle);
 
 //Cast void* handle to RoadRunner instance pointer, throw if it fails
 rr::Plugin* 		castToPlugin(RRPluginHandle handle);
+
+//Cast void* handle to RoadRunner instance pointer, throw if it fails
+rr::BaseParameter*	castToParameter(RRParameterHandle handle);
 
 //Cast
 rr::RoadRunnerList* getRRList(RRInstanceListHandle handle);

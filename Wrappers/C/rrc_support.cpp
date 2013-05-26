@@ -46,6 +46,20 @@ Plugin* castToPlugin(RRPluginHandle handle)
     }
 }
 
+BaseParameter* castToParameter(RRParameterHandle handle)
+{
+	BaseParameter* para = (BaseParameter*) handle;
+    if(para) //Will only fail if handle is NULL...
+    {
+    	return para;
+    }
+    else
+    {
+    	Exception ex("Failed to cast to a valid Parameter handle");
+    	throw(ex);
+    }
+}
+
 RoadRunnerList* getRRList(RRInstanceListHandle listHandle)
 {
 	RoadRunnerList* handle = (RoadRunnerList*) listHandle->RRList;
@@ -285,45 +299,57 @@ RRList* createList(const rr::NewArrayList& aList)
     return theList;
 }
 
-RRParameter* createParameter(const rr::BaseParameter& para)
-{
-    if(para.getType() == "integer")
-    {
-    	Parameter<int> *thePara = dynamic_cast< Parameter<int>* >(const_cast< BaseParameter* >(&para));
-
-	    RRParameter* aPara 	= new RRParameter;
-        aPara->ParaType 	= ptInteger;
-        aPara->data.iValue 	= thePara->getValue();
-        aPara->mName		= createText(thePara->getName());
-        aPara->mHint		= createText(thePara->getHint());
-        return aPara;
-    }
-
-    if(para.getType() == "double")
-    {
-    	Parameter<double> *thePara = dynamic_cast< Parameter<double>* >(const_cast< BaseParameter* >(&para));
-
-	    RRParameter* aPara 	= new RRParameter;
-		aPara->ParaType 	= ptDouble;
-		aPara->data.dValue	= thePara->getValue();
-        aPara->mName		= createText(thePara->getName());
-        aPara->mHint		= createText(thePara->getHint());
-        return aPara;
-    }
-
-    if(para.getType() == "vector")
-    {
-    	Parameter<RRVector*> *thePara = dynamic_cast< Parameter<RRVector*>* >(const_cast< BaseParameter* >(&para));
-
-	    RRParameter* aPara 	= new RRParameter;
-        aPara->ParaType 	= ptVector;
-        aPara->data.vValue 	= thePara->getValue();
-        aPara->mName		= createText(thePara->getName());
-        aPara->mHint		= createText(thePara->getHint());
-        return aPara;
-    }
-	return NULL;
-}
+//RRParameterHandle createParameter(const rr::BaseParameter& para)
+//{
+//    if(para.getType() == "bool")
+//    {
+//    	Parameter<bool> *thePara = dynamic_cast< Parameter<bool>* >(const_cast< BaseParameter* >(&para));
+//
+//	    RRParameter* aPara 	= new RRParameter;
+//        aPara->ParaType 	= ptBool;
+//        aPara->data.bValue 	= thePara->getValue();
+//        aPara->mName		= createText(thePara->getName());
+//        aPara->mHint		= createText(thePara->getHint());
+//        return aPara;
+//    }
+//
+//    if(para.getType() == "integer")
+//    {
+//    	Parameter<int> *thePara = dynamic_cast< Parameter<int>* >(const_cast< BaseParameter* >(&para));
+//
+//	    RRParameter* aPara 	= new RRParameter;
+//        aPara->ParaType 	= ptInteger;
+//        aPara->data.iValue 	= thePara->getValue();
+//        aPara->mName		= createText(thePara->getName());
+//        aPara->mHint		= createText(thePara->getHint());
+//        return aPara;
+//    }
+//
+//    if(para.getType() == "double")
+//    {
+//    	Parameter<double> *thePara = dynamic_cast< Parameter<double>* >(const_cast< BaseParameter* >(&para));
+//
+//	    RRParameter* aPara 	= new RRParameter;
+//        aPara->ParaType 	= ptInteger;
+//        aPara->data.iValue 	= thePara->getValue();
+//        aPara->mName		= createText(thePara->getName());
+//        aPara->mHint		= createText(thePara->getHint());
+//        return aPara;
+//    }
+//
+//    if(para.getType() == "vector")
+//    {
+//    	Parameter<RRVector*> *thePara = dynamic_cast< Parameter<RRVector*>* >(const_cast< BaseParameter* >(&para));
+//
+//	    RRParameter* aPara 	= new RRParameter;
+//        aPara->ParaType 	= ptVector;
+//        aPara->data.vValue 	= thePara->getValue();
+//        aPara->mName		= createText(thePara->getName());
+//        aPara->mHint		= createText(thePara->getHint());
+//        return aPara;
+//    }
+//	return NULL;
+//}
 
 RRDataHandle rrCallConv createRRData(const SimulationData& result)
 {

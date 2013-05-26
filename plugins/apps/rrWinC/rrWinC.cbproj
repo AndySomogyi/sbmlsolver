@@ -1,6 +1,6 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{25739709-F398-4779-8C01-8036F472E59C}</ProjectGuid>
+        <ProjectGuid>{CC84D8C6-3D19-4AFF-B1F5-6652B21F6E97}</ProjectGuid>
         <ProjectVersion>14.4</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
         <AppType>Application</AppType>
@@ -62,8 +62,8 @@
         <_TCHARMapping>char</_TCHARMapping>
         <ProjectType>CppVCLApplication</ProjectType>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
-        <ILINK_LibraryPath>..\..\full_space_minimization\;..\..\..\vcl_source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <IncludePath>..\..\full_space_minimization\;..\..\..\vcl_source\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\..\..\source\;..\..\full_space_minimization\;..\..\..\vcl_source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\..\..\source\;..\..\full_space_minimization\;..\..\..\vcl_source\;$(IncludePath)</IncludePath>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
         <DynamicRTL>true</DynamicRTL>
         <UsePackages>true</UsePackages>
@@ -110,7 +110,7 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <Defines>LIBSBML_USE_CPP_NAMESPACE;$(Defines)</Defines>
-        <Debugger_DebugSourcePath>R:\rrl\plugins\TestPlugin\;P:\mtk\Components\Dune\;R:\rrl\source\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
+        <Debugger_DebugSourcePath>R:\rrl\plugins\TestPlugin\;P:\mtk\Components\Dune\;R:\rrl\source\;P:\mtk\VCL\Common\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <ILINK_LibraryPath>$(RR_DEBUG)/lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
@@ -150,6 +150,20 @@
         <PCHCompile Include="rrWinC_pch.h">
             <BuildOrder>1</BuildOrder>
         </PCHCompile>
+        <CppCompile Include="..\..\..\source\rrParameters.cpp">
+            <DependentOn>..\..\..\source\rrParameters.h</DependentOn>
+            <BuildOrder>12</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\..\source\rrSteadyStateSolver.cpp">
+            <BuildOrder>10</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\..\vcl_source\rrCapabilitiesFrame.cpp">
+            <Form>capFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>..\..\..\vcl_source\rrCapabilitiesFrame.h</DependentOn>
+            <BuildOrder>11</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\..\vcl_source\rrEndUserUtils.cpp">
             <DependentOn>..\..\..\vcl_source\rrEndUserUtils.h</DependentOn>
             <BuildOrder>6</BuildOrder>
@@ -173,6 +187,7 @@
             <DependentOn>..\..\..\vcl_source\TSimulationFrame.h</DependentOn>
             <BuildOrder>5</BuildOrder>
         </CppCompile>
+        <FormResources Include="..\..\..\vcl_source\rrCapabilitiesFrame.dfm"/>
         <FormResources Include="..\..\..\vcl_source\TSimulationFrame.dfm"/>
         <FormResources Include="..\..\..\vcl_source\TFullSpaceFittingFrame.dfm"/>
         <FormResources Include="MainForm.dfm"/>
@@ -236,10 +251,6 @@
                     <ProjectProperties Name="ManagePaths">True</ProjectProperties>
                     <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
                 </ProjectProperties>
-                <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k170.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp170.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
-                </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment/>
             <Platforms>

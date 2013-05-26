@@ -22,6 +22,8 @@
 #include "TFullSpaceFittingFrame.h"
 #include "rrSimulationData.h"
 #include "TSimulationFrame.h"
+#include "rrCapabilitiesFrame.h"
+#include "mtkIniFileC.h"
 #include <string>
 #include <vector>
 #include <sstream>
@@ -30,12 +32,15 @@
 #include "rrSimulationData.h"
 #include "rrLogFileReader.h"
 #include "rrMemoLogger.h"
+#include "mtkIniParameters.h"
+#include "mtkApplicationInfo.h"
 using std::string;
 using std::vector;
 //---------------------------------------------------------------------------
 using namespace rr;
 using namespace rrc;
-
+using mtk::mtkIniParameters;
+using mtk::mtkIniParameter;
 typedef void __fastcall (__closure *TOnSimulationFinished)();
 
 class TMainF : public TRegistryForm
@@ -61,23 +66,14 @@ __published:	// IDE-managed Components
 	TPanel *Panel3;
 	TPanel *Panel4;
 	TGroupBox *GroupBox2;
-	TGroupBox *GroupBox3;
 	TSplitter *Splitter1;
 	TPopupMenu *PopupMenu1;
 	TAction *clearMemo;
 	TMenuItem *Clear1;
-	TButton *Button2;
 	TAction *getPluginInfoA;
-	TGroupBox *GroupBox4;
-	TComboBox *pluginParasCB;
-	TEdit *paraEdit;
-	TButton *SetParaBtn;
-	TButton *Button3;
 	TAction *executePluginA;
 	TButton *Button4;
 	TAction *getLastErrorA;
-	TGroupBox *GroupBox5;
-	TComboBox *pluginCapsCB;
 	TGroupBox *Model;
 	TToolBar *ToolBar1;
 	TButton *loadBtn;
@@ -85,7 +81,7 @@ __published:	// IDE-managed Components
 	TTimer *loadModelJobTimer;
 	TAction *unLoadModelA;
 	TChart *Chart1;
-	TPageControl *PageControl1;
+	TPageControl *PC1;
 	TTabSheet *TabSheet1;
 	TToolBar *ToolBar2;
 	TAction *PlotA;
@@ -104,7 +100,6 @@ __published:	// IDE-managed Components
 	TFullSpaceFittingFrame *fullSpaceFitFrame;
 	TButton *Button6;
 	TAction *getCapabilitiesA;
-	TRadioGroup *RadioGroup1;
 	TButton *Button7;
 	TAction *getAllSymbols;
 	TComboBox *modelDD;
@@ -112,6 +107,14 @@ __published:	// IDE-managed Components
 	TChart *Chart2;
 	TLineSeries *LineSeries1;
 	TTimer *ShutDownTimer;
+	TcapFrame *TcapFrame1;
+	TPanel *Panel5;
+	TPanel *lowerPanel;
+	TToolBar *ToolBar3;
+	TButton *Button2;
+	TButton *Button3;
+	TAction *getCapabilitiesAsXMLA;
+	mtkIniFileC *mIniFile;
 	void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall startupTimerTimer(TObject *Sender);
 	void __fastcall loadPluginsAExecute(TObject *Sender);
@@ -120,8 +123,6 @@ __published:	// IDE-managed Components
 	void __fastcall unloadPluginsExecute(TObject *Sender);
 	void __fastcall clearMemoExecute(TObject *Sender);
 	void __fastcall getPluginInfoAExecute(TObject *Sender);
-	void __fastcall pluginCBChange(TObject *Sender);
-	void __fastcall SetParaBtnClick(TObject *Sender);
 	void __fastcall executePluginAExecute(TObject *Sender);
 	void __fastcall getLastErrorAExecute(TObject *Sender);
 	void __fastcall loadModelAExecute(TObject *Sender);
@@ -136,8 +137,12 @@ __published:	// IDE-managed Components
 	void __fastcall modelDDChange(TObject *Sender);
 	void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
 	void __fastcall ShutDownTimerTimer(TObject *Sender);
+	void __fastcall fullSpaceFitFrameexecuteBtnClick(TObject *Sender);
+	void __fastcall getCapabilitiesAsXMLAExecute(TObject *Sender);
+	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 
-private:	// User declarations
+private:
+	mtkApplicationInfo					mAppInfo;
     LogFileReader       	    		mLogFileSniffer;
    	RRHandle	                        mRRI;
     RRPluginHandle						mCurrentlySelectedPlugin;
@@ -158,9 +163,12 @@ private:	// User declarations
     static void __stdcall	   			addNoiseStartedCB(void *UserData);
     static void __stdcall	   			addNoiseFinishedCB(void *UserData);
     void								populateModelsDropDown();
+	void								SetupAndReadParameters();
 
+public:
+	mtkIniParameters					mIniParas;
+	mtkIniParameter<int>				mLowerPanelHeight;
 
-public:		// User declarations
 	SimulationData						mCurrentData;
 			__fastcall 					TMainF(TComponent* Owner);
 	void 	__fastcall 					onSimulationStarted();
@@ -168,6 +176,8 @@ public:		// User declarations
 
 	void 	__fastcall 					onAddNoiseStarted();
 	void 	__fastcall 					onAddNoiseFinished();
+
+	void 	__fastcall 					onFittingFinished();
 
  	void    __fastcall					LogMessage();			//Called from logfile reader
     string                         	   *mLogString; 			//Data exchanged with the logFileReader THread

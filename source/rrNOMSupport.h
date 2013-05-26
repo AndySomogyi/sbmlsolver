@@ -11,30 +11,37 @@
 #include "rrObject.h"
 #include "rrStringListContainer.h"
 #include "rrHashTable.h"
+
+//---------------------------------------------------------------------------
+namespace rr
+{
 using std::vector;
 using std::string;
 using std::pair;
 using std::list;
 using std::stack;
 using std::deque;
-//---------------------------------------------------------------------------
-namespace rr
-{
 
 //You HAVE to define LIBSBML_USE_CPP_NAMESPACE for your project to compile this!
-using namespace libsbml;
+//using namespace libsbml;
+using libsbml::ASTNode;
+using libsbml::Model;
+using libsbml::SBase;
+using libsbml::SBMLDocument;
+using libsbml::KineticLaw;
+using libsbml::Rule;
 class RR_DECLSPEC NOMSupport : public rrObject
 {
     protected:
 
         StringList             mNamespaces;
-        SBMLDocument           *mSBMLDoc;
-        Model                  *mModel;
+        libsbml::SBMLDocument  *mSBMLDoc;
+        libsbml::Model         *mModel;
         const string            STR_DoubleFormat;
         StringSymbolHashTable   mSymbolTable;
 
-        ArrayList               returnUnitDefinition(UnitDefinition oDefinition);
-        const ASTNode*          changeSymbol(ASTNode* node, const string& time, const int& targetType);
+        ArrayList               returnUnitDefinition(libsbml::UnitDefinition oDefinition);
+        const libsbml::ASTNode* changeSymbol(libsbml::ASTNode* node, const string& time, const int& targetType);
         ASTNode                 changeTimeToCSymbol(ASTNode* node, const string& name, const int& type);
         bool                    addMissingModifiers(Model *oModel);
         StringList              GetSymbols(const string& formula);

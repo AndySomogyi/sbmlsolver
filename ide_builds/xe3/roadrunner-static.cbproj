@@ -134,13 +134,13 @@
             <DependentOn>..\..\source\rrBaseParameter.h</DependentOn>
             <BuildOrder>73</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\rrCapabilities.cpp">
+            <DependentOn>..\..\source\rrCapabilities.h</DependentOn>
+            <BuildOrder>7</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrCapability.cpp">
             <DependentOn>..\..\source\rrCapability.h</DependentOn>
             <BuildOrder>6</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\rrCapsSupport.cpp">
-            <DependentOn>..\..\source\rrCapsSupport.h</DependentOn>
-            <BuildOrder>7</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrCGenerator.cpp">
             <DependentOn>..\..\source\rrCGenerator.h</DependentOn>
@@ -291,13 +291,8 @@
             <DependentOn>..\..\source\rrObject.h</DependentOn>
             <BuildOrder>36</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\rrParameterSet.cpp">
-            <DependentOn>..\..\source\rrParameterSet.h</DependentOn>
-            <BuildOrder>37</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\rrParameterSets.cpp">
-            <DependentOn>..\..\source\rrParameterSets.h</DependentOn>
-            <BuildOrder>38</BuildOrder>
+        <CppCompile Include="..\..\source\rrParameters.cpp">
+            <BuildOrder>80</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrPendingAssignment.cpp">
             <DependentOn>..\..\source\rrPendingAssignment.h</DependentOn>
@@ -361,6 +356,9 @@
         <CppCompile Include="..\..\source\rrSimulationSettings.cpp">
             <DependentOn>..\..\source\rrSimulationSettings.h</DependentOn>
             <BuildOrder>48</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrSteadyStateSolver.cpp">
+            <BuildOrder>81</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrStopWatch.cpp">
             <DependentOn>..\..\source\rrStopWatch.h</DependentOn>

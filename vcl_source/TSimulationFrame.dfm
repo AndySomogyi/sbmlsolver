@@ -99,7 +99,6 @@ object SimulateFrame: TSimulateFrame
       Align = alClient
       Caption = 'Species'
       TabOrder = 0
-      ExplicitHeight = 175
       object SelList: TCheckListBox
         Left = 2
         Top = 15
@@ -109,7 +108,6 @@ object SimulateFrame: TSimulateFrame
         ItemHeight = 13
         TabOrder = 0
         OnClick = SelListClick
-        ExplicitHeight = 98
       end
     end
     object GroupBox3: TGroupBox
@@ -128,9 +126,6 @@ object SimulateFrame: TSimulateFrame
         Align = alClient
         ItemHeight = 13
         TabOrder = 0
-        ExplicitLeft = 3
-        ExplicitTop = -33
-        ExplicitHeight = 91
       end
     end
   end

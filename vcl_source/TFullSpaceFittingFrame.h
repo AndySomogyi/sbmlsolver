@@ -13,10 +13,11 @@
 #include <Vcl.CheckLst.hpp>
 #include "rrStringList.h"
 
+
 using namespace rr;
 using namespace rrc;
 
-typedef void __fastcall (__closure *TOnFittingFinished)();
+typedef void __fastcall (__closure *TOnEvent)();
 
 //---------------------------------------------------------------------------
 class TFullSpaceFittingFrame : public TFrame
@@ -39,23 +40,27 @@ __published:	// IDE-managed Components
         static void 		                    ThreadEnterCB(void *UserData);
         static void 		                    ThreadExitCB(void *UserData);
 
-        void 					__fastcall      fittingStarted();
-        void 				   	__fastcall      fittingFinished();
+		//If we want to interact with the C threads
         static void 			__stdcall  		fsfStartedCB(void *UserData);
         static void 			__stdcall  		fsfFinishedCB(void *UserData);
 
+        void 					__fastcall      fittingStarted();
+        void 				   	__fastcall      fittingFinished();
 
 	public:		// User declarations
                         		__fastcall      TFullSpaceFittingFrame(TComponent* Owner);
         TMemo			               		   *infoMemo;	//For the logger
         RRJobHandle	  			__fastcall	    simulate();
-        TOnFittingFinished	   				    onFittingFinished;
+
         void								    loadParameterList();
 		void 								    assignRRHandle(RRHandle aHandle);
 		void 								    assignPluginHandle(RRPluginHandle aHandle);
 
-    	void 					__fastcall 		onFSFStarted();
-    	void 					__fastcall 		onFSFFinished();
+
+
+		//Assign in parent
+        TOnEvent			   				    onFittingStarted;
+        TOnEvent	   						    onFittingFinished;
 
 };
 //---------------------------------------------------------------------------

@@ -13,8 +13,14 @@
 #pragma link "mtkFloatLabeledEdit"
 #pragma link "TFullSpaceFittingFrame"
 #pragma link "TSimulationFrame"
+#pragma link "rrCapabilitiesFrame"
+#pragma link "mtkIniFileC"
 #pragma resource "*.dfm"
 TMainF *MainF;
+//---------------------------------------------------------------------------
+using namespace rr;
+using namespace mtk;
+
 
 __fastcall TMainF::TMainF(TComponent* Owner)
 :
@@ -25,17 +31,35 @@ mUIIsStartingUp(true),
 mLogFileSniffer("", this),
 mCurrentlySelectedPlugin(NULL),
 mAddNoisePlugin(NULL),
-mMinimizePlugin(NULL)
+mMinimizePlugin(NULL),
+mAppInfo(Application)
 {
+
+    mIniFile->SetFilePath(mAppInfo.mExePath);
+	mIniFile->Load();
+
+	mIniParas.SetIniFile(mIniFile->GetIniFile());
+  	mIniParas.SetIniSection("GENERAL");
+	SetupAndReadParameters();
+
     //Log to one memo
 	simFrame->infoMemo = infoMemo;
 	fullSpaceFitFrame->infoMemo = infoMemo;
+    TcapFrame1->infoMemo = infoMemo;
 	startupTimer->Enabled = true;
 }
 
 void __fastcall TMainF::clearMemoExecute(TObject *Sender)
 {
 	infoMemo->Clear();
+}
+
+void TMainF::SetupAndReadParameters()
+{
+	mIniParas.Insert( (mtkBaseIniParameter*) &mLowerPanelHeight.Setup(            "LOWER_PANEL_HEIGHT", 	            250, 	true));
+	mIniParas.Read();
+
+    lowerPanel->Height = mLowerPanelHeight;
 }
 
 void __fastcall	TMainF::LogMessage()
@@ -65,7 +89,7 @@ void __fastcall TMainF::loadModelAExecute(TObject *Sender)
 
     if(anAction == loadModelA)
     {
-    	mModel = stdstr(modelDD->Items->Strings[modelDD->ItemIndex]);
+    	mModel = rr::stdstr(modelDD->Items->Strings[modelDD->ItemIndex]);
         mModel +=".xml";
 		//load model
     	mLoadModelJob = loadSBMLFromFileJobEx(mRRI, rr::JoinPath(mModelsFolder, mModel).c_str(), true);
@@ -118,11 +142,7 @@ void TMainF::Plot(const rr::SimulationData& data)
 
 void __fastcall TMainF::PlotAExecute(TObject *Sender)
 {
-//    if(aRR)
-    {
-
-    	Plot(mCurrentData);
-    }
+	Plot(mCurrentData);
 }
 
 void TMainF::configurePlugin(RRPluginHandle plugin)
@@ -136,8 +156,8 @@ void TMainF::configurePlugin(RRPluginHandle plugin)
 
 	if(plugin == mAddNoisePlugin)
     {
-    	double val = noiseSigmaE->Text.ToDouble();
-		string msg = (setPluginParameter(mAddNoisePlugin, "Sigma", (char*) &val)) ? "Sigma was updated" : "Failed to update Sigma";
+    	string val = rr::stdstr(noiseSigmaE->Text);
+		string msg = (setPluginParameter(mAddNoisePlugin, "Sigma", val.c_str())) ? "Sigma was updated" : "Failed to update Sigma";
         Log() << msg;
 
         assignCallbacks(mAddNoisePlugin, addNoiseStartedCB, addNoiseFinishedCB, this);
@@ -161,6 +181,8 @@ void __fastcall TMainF::onSimulationFinished()
 	RoadRunner *aRR = (RoadRunner*) mRRI;
     mCurrentData = aRR->getSimulationResult();
     PlotAExecute(NULL);
+    //Switch page control to show new data..
+    PC1->TabIndex = 0;
 }
 
 void __fastcall TMainF::onAddNoiseStarted()
@@ -192,28 +214,17 @@ void __stdcall TMainF::addNoiseFinishedCB(void *UserData)
     TThread::Synchronize(NULL, pThis->onAddNoiseFinished);
 }
 
-void __fastcall TSimulateFrame::simulationStarted()
-{
-	Log()<<"Simulation was started at: " << getTime();
-}
-
-void __fastcall TSimulateFrame::simulationFinished()
-{
-	Log()<<"Simulation was finished at: "<< getTime();
-    if(onSimulationFinished)
-    {
-        onSimulationFinished();
-    }
-}
-
 void __fastcall TMainF::getCapabilitiesAExecute(TObject *Sender)
 {
-	char* list = getCapabilities(mRRI);
-    if(list)
-    {
-    	Log()<<"Capabilities";
-        Log()<<list;
-    }
+	RRStringArray* list = getListOfCapabilities(mRRI);
+    StringList caps(list);
+    TcapFrame1->Populate(mRRI, caps);
+}
+
+void __fastcall TMainF::getCapabilitiesAsXMLAExecute(TObject *Sender)
+{
+	char* caps = getCapabilities(mRRI);
+	Log()<<caps;
 }
 
 //---------------------------------------------------------------------------
@@ -251,6 +262,29 @@ void __fastcall TMainF::ShutDownTimerTimer(TObject *Sender)
 	ShutDownTimer->Enabled = false;
 	mLogFileSniffer.shutDown();
     Close();
+}
+
+void __fastcall TMainF::fullSpaceFitFrameexecuteBtnClick(TObject *Sender)
+{
+	fullSpaceFitFrame->onFittingFinished = onFittingFinished;
+  	fullSpaceFitFrame->executeBtnClick(Sender);
+}
+
+void __fastcall TMainF::onFittingFinished()
+{
+	Log()<<"Fitting was finished.. Plot result";
+
+    //Switch page control to show new data..
+    PC1->TabIndex = 1;
+}
+
+//---------------------------------------------------------------------------
+
+void __fastcall TMainF::FormClose(TObject *Sender, TCloseAction &Action)
+{
+	mLowerPanelHeight = lowerPanel->Height;
+	mIniParas.Write();
+    mIniFile->Save();
 }
 
 

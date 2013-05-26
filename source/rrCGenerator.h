@@ -6,7 +6,6 @@
 namespace rr
 {
 
-
 class RR_DECLSPEC CGenerator : public ModelGenerator
 {
     protected:

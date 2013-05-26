@@ -15,7 +15,10 @@ ${THIRD_PARTY_INSTALL_FOLDER}/include/cvode
 
 set(rrSources 
 rrParameter
+rrParameters
+rrSteadyStateSolver
 rrCapability
+rrCapabilities
 rrConstants
 rrArrayList2
 rrArrayListItem
@@ -64,7 +67,6 @@ rrToken
 rrCVODEInterface
 rrNLEQInterface
 rrDLLEntry
-rrCapsSupport
 rrStopWatch
 rrEvent
 rrTestSuiteModelSimulation
@@ -91,7 +93,7 @@ rrSimulate
 rrSimulateThread
 )
 
-#Build both static and shared version
+if(RR_BUILD_SHARED_CORE)
 #Link with static libs
 add_library(${target} SHARED ${rrSources})
 
@@ -134,6 +136,16 @@ else()
 target_link_libraries (${target}    
  libsbml
 )
+endif()
+if(${INSTALL_CXX_API})
+
+install(TARGETS ${target} 
+        RUNTIME DESTINATION bin COMPONENT rr_core
+        LIBRARY DESTINATION lib COMPONENT rr_core
+        ARCHIVE DESTINATION lib COMPONENT rr_core
+)
+endif()
+
 endif()
 
 add_library(${target}-static STATIC ${rrSources})
@@ -184,12 +196,6 @@ endif()
 
 #--- INSTALL STUFF
 if(${INSTALL_CXX_API})
-
-install(TARGETS ${target} 
-        RUNTIME DESTINATION bin COMPONENT rr_core
-        LIBRARY DESTINATION lib COMPONENT rr_core
-        ARCHIVE DESTINATION lib COMPONENT rr_core
-)
 
 #if(INSTALL_STATIC_LIB)
 install(TARGETS ${target}-static 

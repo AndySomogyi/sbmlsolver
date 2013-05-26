@@ -2,11 +2,7 @@
 #include "rr_pch.h"
 #endif
 #pragma hdrstop
-#include "rrParameter.h"
-#include "rrStringUtils.h"
+#include "rrParameterSets.h"
 //---------------------------------------------------------------------------
 
-namespace rr
-{
 
-}

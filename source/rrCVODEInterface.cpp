@@ -18,6 +18,7 @@
 #include "rrCVODEInterface.h"
 #include "rrUtils.h"
 #include "rrEvent.h"
+#include "rrParameter.h"
 //---------------------------------------------------------------------------
 
 using namespace std;
@@ -57,14 +58,23 @@ mMinStep(0.0),
 mMaxStep(0.0),
 mMaxNumSteps(mDefaultMaxNumSteps),
 mRelTol(_relTol),
-mAbsTol(_absTol)
+mAbsTol(_absTol),
+mCVODECapability("Integration", "CVODE", "CVODE Integrator")
 {
-	if(rr)
-	{
-		mTempPathstring = rr->getTempFolder();
-	}
+    //Setup capability
+    mCVODECapability.addParameter(new Parameter<int>(    "BDFOrder", 	 mMaxBDFOrder,     "Maximum order for BDF Method"));
+    mCVODECapability.addParameter(new Parameter<int>(    "AdamsOrder",   mMaxAdamsOrder,   "Maximum order for Adams Method"));
+    mCVODECapability.addParameter(new Parameter<double>( "rtol",         mRelTol,          "Relative Tolerance"));
+    mCVODECapability.addParameter(new Parameter<double>( "atol",         mAbsTol,          "Absolute Tolerance"));
+    mCVODECapability.addParameter(new Parameter<int>(    "maxsteps",     mMaxNumSteps,     "Maximum number of internal stepsc"));
+    mCVODECapability.addParameter(new Parameter<double>( "initstep",     mInitStep,        "the initial step size"));
+    mCVODECapability.addParameter(new Parameter<double>( "minstep",      mMinStep,         "specifies a lower bound on the magnitude of the step size."));
+    mCVODECapability.addParameter(new Parameter<double>( "maxstep",      mMaxStep,         "specifies an upper bound on the	magnitude of the step size."));
 
-    initializeCVODEInterface(aModel);
+	if(aModel)
+    {
+    	initializeCVODEInterface(aModel);
+	}
 }
 
 CvodeInterface::~CvodeInterface()
@@ -97,22 +107,25 @@ ModelFromC*	CvodeInterface::getModel()
 	return mTheModel;
 }
 
+Capability&	CvodeInterface::getCapability()
+{
+	return mCVODECapability;
+}
+
 int CvodeInterface::allocateCvodeMem ()
 {
-
     if (mCVODE_Memory == NULL)
     {
         return CV_SUCCESS;
     }
 
-    double t0 = 0.0;
     if(CVodeSetUserData(mCVODE_Memory, (void*) this) != CV_SUCCESS)
     {
     	Log(lError)<<"Problem in setting CVODE User data";
     }
 
+    double t0 = 0.0;
     int result =  CVodeInit(mCVODE_Memory, InternalFunctionCall, t0, mAmounts);
-
 
     if (result != CV_SUCCESS)
     {
@@ -906,8 +919,19 @@ void CvodeInterface::handleCVODEError(const int& errCode)
 {
     if (errCode < 0)
     {
+         string tempFolder;
+
+		if(mRR)
+        {
+        	tempFolder = mRR->getTempFolder();
+        }
+        else
+        {
+        	tempFolder = ".";
+        }
+
         string msg = "";
-        string errorFile = mTempPathstring + mLogFile + ToString(mErrorFileCounter) + ".txt";
+        string errorFile = JoinPath(tempFolder, mLogFile) + ToString(mErrorFileCounter) + ".txt";
 
         // and open a new file handle
         mErrorFileCounter++;

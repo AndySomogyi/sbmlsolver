@@ -79,15 +79,15 @@ RRStringArray* rrCallConv getPluginCapabilities(RRPluginHandle handle)
         if(aPlugin)
         {
         	StringList aList;
-            vector<Capability>* caps = aPlugin->getCapabilities();
+            Capabilities* caps = aPlugin->getCapabilities();
             if(!caps)
             {
             	return NULL;
             }
 
-            for(int i = 0; i < caps->size(); i++)
+            for(int i = 0; i < caps->count(); i++)
             {
-            	aList.Add((*caps)[i].getName());
+            	aList.Add((*caps)[i]->getName());
             }
         	return createList(aList);
         }
@@ -113,7 +113,7 @@ RRStringArray* rrCallConv getPluginParameters(RRPluginHandle handle, const char*
             	return NULL;
             }
 
-            for(int i = 0; i < paras->size(); i++)
+            for(int i = 0; i < paras->count(); i++)
             {
             	aList.Add((*paras)[i]->getName());
             }
@@ -127,7 +127,7 @@ RRStringArray* rrCallConv getPluginParameters(RRPluginHandle handle, const char*
 	catch_ptr_macro
 }
 
-RRParameter* rrCallConv getPluginParameter(RRPluginHandle handle, const char* parameterName, const char* capabilitiesName)
+RRParameterHandle rrCallConv getPluginParameter(RRPluginHandle handle, const char* parameterName, const char* capabilitiesName)
 {
 	try
     {
@@ -143,11 +143,8 @@ RRParameter* rrCallConv getPluginParameter(RRPluginHandle handle, const char* pa
             {
             	para = aPlugin->getParameter(parameterName);
             }
+       		return para;
 
-            if(para)
-            {
-        		return createParameter( *(para) );
-            }
         }
         return NULL;
 
@@ -160,7 +157,9 @@ bool rrCallConv setPluginParameter(RRPluginHandle handle, const char* parameterN
 	try
     {
         Plugin* aPlugin = castToPlugin(handle);
-        return aPlugin->setParameter(parameterName, value);
+        BaseParameter* aParameter = (BaseParameter*) getPluginParameter(aPlugin, parameterName, NULL);
+        return setParameter(aParameter, value);
+//        return aPlugin->setParameter(parameterName, value);
     }
 	catch_bool_macro
 }

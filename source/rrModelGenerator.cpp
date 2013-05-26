@@ -13,6 +13,7 @@
 //---------------------------------------------------------------------------
 
 using namespace std;
+using namespace libsbml;
 
 namespace rr
 {

@@ -39,7 +39,7 @@ void ArrayList2::Add(const string& lbl, const StringList& list)
 void ArrayList2::Add(const StringList& list)
 {
     ArrayList2 temp;
-    for(int i = 0; i < list.Count(); i++)
+    for(u_int i = 0; i < list.Count(); i++)
     {
         temp.Add(list[i]);
     }
@@ -77,7 +77,7 @@ StringList ArrayList2::GetSubList(const string& lName)
                         {
                             //This is the sublist of strings..
                             ArrayList2Item  list = (ArrayList2Item) *(dynamic_cast<ArrayListItem<ArrayList2Item>*>(anItem));
-                            for(int i = 0; i < list.Count(); i++)
+                            for(u_int i = 0; i < list.Count(); i++)
                             {
                                 ArrayListItemBase* anItem = &list[i];
                                 if(dynamic_cast<ArrayListItem<string>*>(anItem))

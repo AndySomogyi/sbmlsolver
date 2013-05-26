@@ -501,8 +501,65 @@ C_DECL_SPEC bool rrcCallConv setCapabilities (RRHandle handle, const char* caps)
 
  \return Returns null if it fails, otherwise it returns the simulator's capabilities in the form of an XML string
  \ingroup simulation
-*/C_DECL_SPEC char* rrcCallConv getCapabilities(RRHandle handle);
+*/
+C_DECL_SPEC char* rrcCallConv getCapabilities(RRHandle handle);
 
+/*!
+ \brief Get string list of capabilities
+ \param[in] rrHandle
+ \return Returns RRStringList if sucessful, NULL otherwise
+ \ingroup simulation
+*/
+C_DECL_SPEC RRStringArrayHandle rrcCallConv getListOfCapabilities(RRHandle handle);
+
+/*!
+ \brief Get string list of parameters for a particular capability
+ \param[in] rrHandle, capability_name
+ \return Returns RRStringList if sucessful, NULL otherwise
+ \ingroup simulation
+*/
+C_DECL_SPEC RRStringArrayHandle rrcCallConv getListOfParameters(RRHandle handle, const char* cap_name);
+
+/*!
+ \brief Set a parameter
+ \param[in] rrHandle, capability_name and parameter name
+ \return Returns true if sucessful, false otherwise
+ \ingroup simulation
+*/
+C_DECL_SPEC bool rrcCallConv setParameter(RRParameterHandle handle, const char* value);
+
+
+/*!
+ \brief Get a parameter handle
+ \param[in] rrHandle, capability_name and parameter name
+ \return Returns RRParameterHandle if sucessful, NULL otherwise
+ \ingroup simulation
+*/
+C_DECL_SPEC RRParameterHandle rrcCallConv getParameter(RRHandle handle, const char* cap_name, const char* parName);
+
+/*!
+ \brief Get a parameters value as char*
+ \param[in] RRParameterHandle
+ \return Returns the parameters value if sucessful, NULL otherwise
+ \ingroup simulation
+*/
+C_DECL_SPEC char* rrcCallConv getParameterValue(RRParameterHandle handle);
+
+/*!
+ \brief Get a parameters name
+ \param[in] RRParameterHandle
+ \return Returns the parameters name if sucessful, NULL otherwise
+ \ingroup simulation
+*/
+C_DECL_SPEC char* rrcCallConv getParameterName(RRParameterHandle handle);
+
+/*!
+ \brief Get a parameters hint
+ \param[in] RRParameterHandle
+ \return Returns the parameters hint if sucessful, NULL otherwise
+ \ingroup simulation
+*/
+C_DECL_SPEC char* rrcCallConv getParameterHint(RRParameterHandle handle);
 /*!
  \brief Set the time start for a time course simulation
  \param[in] timeStart
@@ -819,8 +876,8 @@ C_DECL_SPEC bool rrcCallConv getBoundarySpeciesByIndex(RRHandle handle, const in
 C_DECL_SPEC bool rrcCallConv getFloatingSpeciesByIndex(RRHandle handle, const int index, double* value);
 
 /*!
- \brief Retrieve the global parameter value 
- \param index The index to the global parameter (corresponds to position in getGlboalParametersIds(RRHandle handle))
+ \brief Retrieve the global parameter value
+ \param index The index to the global parameter (corresponds to position in getGlobalParametersIds(RRHandle handle))
  \param value The value returned by the method
  \return Returns true if successful
  \ingroup parameters

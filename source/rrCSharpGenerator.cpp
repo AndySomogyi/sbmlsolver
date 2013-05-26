@@ -20,7 +20,7 @@
 
 using namespace std;
 using namespace ls;
-
+using namespace libsbml;
 namespace rr
 {
 

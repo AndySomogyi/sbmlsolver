@@ -133,26 +133,6 @@ void __fastcall TMainF::pluginListClick(TObject *Sender)
     infoMemo->Clear();
     Log()<<test;
 
-    //Populate plugin frame
-	pluginCapsCB->Clear();
-    pluginParasCB->Clear();
-
-    RRStringArray* caps = getPluginCapabilities(mCurrentlySelectedPlugin);
-
-    if(!caps)
-    {
-	    GroupBox5->Enabled = false;
-    	return;
-    }
-
-    GroupBox5->Enabled = true;
-    for(int i =0; i < caps->Count; i++)
-    {
-        pluginCapsCB->AddItem(caps->String[i], NULL);
-    }
-
-    pluginCapsCB->ItemIndex = 0;
-    pluginCBChange(pluginCapsCB);
 
 	UpdateNoisePanel();
 }
@@ -167,7 +147,7 @@ void TMainF::UpdateNoisePanel()
     }
 
 	//At this point we know the capabilities and parameters of this plugin
-	RRParameter* sigma = getPluginParameter(mAddNoisePlugin, "Sigma", NULL);
+	RRParameterHandle sigma = getPluginParameter(mAddNoisePlugin, "Sigma", NULL);
 
 	if(!sigma)
     {
@@ -175,7 +155,7 @@ void TMainF::UpdateNoisePanel()
     }
     else
     {
-		Log()<<"Name: "<<sigma->mName;
+		Log()<<"Name: "<<getParameterName(sigma);
     }
 }
 
@@ -199,89 +179,6 @@ string TMainF::getCurrentPluginName()
 	return pluginName;
 }
 
-string TMainF::getCurrentSelectedParameter()
-{
-    if(pluginParasCB->ItemIndex == -1)
-    {
-    	return "";
-    }
-
-    string pluginParaName = stdstr(pluginParasCB->Items->Strings[pluginParasCB->ItemIndex]);
-	return pluginParaName;
-}
-
-void __fastcall TMainF::pluginCBChange(TObject *Sender)
-{
-
-	if(pluginCapsCB == (TComboBox*)(Sender))
-    {
-        string pluginName = stdstr(pluginList->Items->Strings[pluginList->ItemIndex]);
-		mCurrentlySelectedPlugin = getPlugin(mRRI, pluginName.c_str());
-
-		//Change available parameters in the parsCB...
-		pluginParasCB->Clear();
-
-        string capa = stdstr(pluginCapsCB->Items->Strings[pluginCapsCB->ItemIndex]);
-        RRStringArray* paras = getPluginParameters(mCurrentlySelectedPlugin, capa.c_str());
-        pluginParasCB->Clear();
-
-        if(!paras)
-        {
-            Log()<<"No parameters!";
-            pluginCBChange(NULL);
-            return;
-        }
-
-        for(int i =0; i < paras->Count; i++)
-        {
-            pluginParasCB->AddItem(paras->String[i], NULL);
-        }
-        pluginParasCB->ItemIndex = 0;
-    }
-
-    if(pluginParasCB == (TComboBox*)(Sender))
-    {
-        //Query the current plugin for the current value of selected parameter
-        RRParameterHandle para = getPluginParameter(mCurrentlySelectedPlugin, getCurrentSelectedParameter().c_str(), NULL);
-        if(!para)
-        {
-            paraEdit->Enabled = false;
-            return;
-        }
-
-        paraEdit->Enabled = true;
-        pluginParasCB->Hint = para->mHint;
-
-        if(para->ParaType == ptInteger)
-        {
-            paraEdit->Text = rr::ToString(para->data.iValue).c_str();
-        }
-        else
-        {
-            paraEdit->Text = "not implemented";
-        }
-    }
-}
-
-//---------------------------------------------------------------------------
-void __fastcall TMainF::SetParaBtnClick(TObject *Sender)
-{
-	int iVal;
-    double dVal;
-	string paraText = stdstr(paraEdit->Text);
-
-	switch(RadioGroup1->ItemIndex)
-    {
-    	case 0:
-        break;
-        case 1:
-        break;
-        case 3:
-        	dVal =  rr::ToDouble(paraText);
-			setPluginParameter(mCurrentlySelectedPlugin, getCurrentSelectedParameter().c_str(), (char*) &dVal);
-        break;
-    }
-}
 
 void __fastcall TMainF::loadModelJobTimerTimer(TObject *Sender)
 {
@@ -333,8 +230,8 @@ void __fastcall TMainF::noiseSigmaEKeyDown(TObject *Sender, WORD &Key, TShiftSta
 {
 	if(Key == VK_RETURN)
     {
-    	double val = noiseSigmaE->Text.ToDouble();
-		string msg = (setPluginParameter(mAddNoisePlugin, "Sigma", (char*) &val)) ? "Sigma was updated" : "Failed to update Sigma";
+    	string val = stdstr(noiseSigmaE->Text);
+		string msg = (setPluginParameter(mAddNoisePlugin, "Sigma", val.c_str())) ? "Sigma was updated" : "Failed to update Sigma";
         Log() << msg;
     }
 }

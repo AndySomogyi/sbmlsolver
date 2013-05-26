@@ -18,7 +18,8 @@ mVersion("0.1"),
 mCopyright("Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012"),
 mRR(aRR),
 mWorkStartedCB(fn1),
-mWorkFinishedCB(fn2)
+mWorkFinishedCB(fn2),
+mCapabilities(name, "<none>")
 {}
 
 Plugin::~Plugin()
@@ -37,38 +38,42 @@ bool Plugin::isWorking()
 	return false;
 }
 
-bool Plugin::setParameter(const string& nameOf, void* value, Capability& capability)
-{
-
-	//Go trough the parameter container and look for parameter
-    for(int i = 0; i < capability.nrOfParameters(); i++)
-    {
-        BaseParameter* aParameter = const_cast<BaseParameter*>( &(capability[i]) );
-
-        if(dynamic_cast< Parameter<int>* >(aParameter))
-        {
-	        Parameter<int> *aIntPar = dynamic_cast< Parameter<int>* >(aParameter);
-            int *aVal = reinterpret_cast<int*>(value);
-        	aIntPar->setValue( *aVal);
-            return true;
-        }
-    }
-	return false;
-}
+//bool Plugin::setParameter(const string& nameOf, void* value, Capability& capability)
+//{
+//
+//	//Go trough the parameter container and look for parameter
+//    for(int i = 0; i < capability.nrOfParameters(); i++)
+//    {
+//        BaseParameter* aParameter = const_cast<BaseParameter*>( &(capability[i]) );
+//
+//        if(dynamic_cast< Parameter<int>* >(aParameter))
+//        {
+//	        Parameter<int> *aIntPar = dynamic_cast< Parameter<int>* >(aParameter);
+//            int *aVal = reinterpret_cast<int*>(value);
+//        	aIntPar->setValue( *aVal);
+//            return true;
+//        }
+//    }
+//	return false;
+//}
 
 bool Plugin::setParameter(const string& nameOf, const char* value, Capability& capability)
 {
 	//Go trough the parameter container and look for parameter
     for(int i = 0; i < capability.nrOfParameters(); i++)
     {
-        BaseParameter* aParameter = const_cast<BaseParameter*>( &(capability[i]) );
+        BaseParameter* aPar = const_cast<BaseParameter*>( &(capability[i]) );
 
-        if(dynamic_cast< Parameter<int>* >(aParameter))
+
+        if(aPar->mName == nameOf)
         {
-	        Parameter<int> *aIntPar = dynamic_cast< Parameter<int>* >(aParameter);
-            int aVal = rr::ToInt(value);
-        	aIntPar->setValue( aVal);
-            return true;
+//            if(dynamic_cast< Parameter<int>* >(aParameter))
+//            {
+//                Parameter<int> *aIntPar = dynamic_cast< Parameter<int>* >(aParameter);
+//                int aVal = rr::ToInt(value);
+                aPar->setValue( value);
+//                return true;
+            //}
         }
     }
 	return false;
@@ -76,68 +81,12 @@ bool Plugin::setParameter(const string& nameOf, const char* value, Capability& c
 
 bool Plugin::setParameter(const string& nameOf, const char* value)
 {
-	if(!mCapabilities.size())
+	if(!mCapabilities.count())
     {
     	return false;
     }
-    Capability& capability = mCapabilities[0];
 
-	//Go trough the parameter container and look for parameter
-    for(int i = 0; i < capability.nrOfParameters(); i++)
-    {
-        BaseParameter* aParameter = const_cast<BaseParameter*>( &(capability[i]) );
-
-        if(aParameter->mName == nameOf)
-        {
-            if(dynamic_cast< Parameter<int>* >(aParameter))
-            {
-                Parameter<int> *aIntPar = dynamic_cast< Parameter<int>* >(aParameter);
-                int aVal = *((int*) value);
-                aIntPar->setValue( aVal);
-                return true;
-            }
-
-            if(dynamic_cast< Parameter<double>* >(aParameter))
-            {
-                Parameter<double> *aPar = dynamic_cast< Parameter<double>* >(aParameter);
-                double aVal = * ((double*) value);
-                aPar->setValue( aVal);
-                return true;
-            }
-
-            if(dynamic_cast< Parameter<string>* >(aParameter))
-            {
-                Parameter<string> *aPar = dynamic_cast< Parameter<string>* >(aParameter);
-                string aVal = * ((string*) value);
-                aPar->setValue( aVal);
-                return true;
-            }
-
-            if(dynamic_cast< Parameter<rrc::RRVector*>* >(aParameter))
-            {
-                Parameter<rrc::RRVector*> *aPar = dynamic_cast< Parameter<rrc::RRVector*>* >(aParameter);
-                aPar->setValue( (rrc::RRVector*) value);
-                return true;
-            }
-
-            if(dynamic_cast< Parameter<rrc::RRData*>* >(aParameter))
-            {
-                Parameter<rrc::RRData*> *aPar = dynamic_cast< Parameter<rrc::RRData*>* >(aParameter);
-                aPar->setValue( (rrc::RRData*) value);
-                return true;
-            }
-
-            if(dynamic_cast< Parameter< vector<string> >* >(aParameter))
-            {
-                Parameter< vector<string> > *aPar = dynamic_cast< Parameter< vector<string> >* >(aParameter);
-                vector<string> val = * ((vector<string>*) value);
-                aPar->setValue( val);
-                return true;
-            }
-        }
-    }
-
-	return false;
+    return mCapabilities.setParameter(nameOf, value);
 }
 
 string Plugin::getName()
@@ -177,14 +126,14 @@ string Plugin::getInfo() //Obs. subclasses may over ride this function and add m
     msg<<setw(30)<<left<<"Copyright"<<mCopyright<<"\n";
 
 	msg<<"=== Capabilities ====\n";
-    for(int i = 0; i < mCapabilities.size(); i++)
+    for(int i = 0; i < mCapabilities.count(); i++)
     {
     	msg<<mCapabilities[i];
     }
     return msg.str();
 }
 
-vector<Capability>*	 Plugin::getCapabilities()
+Capabilities*	 Plugin::getCapabilities()
 {
 	return &mCapabilities;
 }
@@ -192,11 +141,11 @@ vector<Capability>*	 Plugin::getCapabilities()
 Parameters* Plugin::getParameters(const string& capName)
 {
 	//Return parameters for capability with name
-    for(int i = 0; i < mCapabilities.size(); i++)
+    for(int i = 0; i < mCapabilities.count(); i++)
     {
-        if(mCapabilities[i].getName() == capName)
+        if(mCapabilities[i]->getName() == capName)
         {
-            return mCapabilities[i].getParameters();
+            return mCapabilities[i]->getParameters();
         }
     }
 
@@ -217,11 +166,11 @@ BaseParameter* Plugin::getParameter(const string& para, const string& capability
     }
     else	//Search all capabilities
     {
-    	for(int i = 0; i < mCapabilities.size(); i++)
+    	for(int i = 0; i < mCapabilities.count(); i++)
         {
-        	if(mCapabilities[i].getParameter(para))
+        	if(mCapabilities[i]->getParameter(para))
             {
-            	return mCapabilities[i].getParameter(para);
+            	return mCapabilities[i]->getParameter(para);
             }
         }
     }
@@ -235,11 +184,11 @@ BaseParameter* Plugin::getParameter(const string& para, Capability& capability)
 
 Capability* Plugin::getCapability(const string& name)
 {
-	for(int i = 0; i < mCapabilities.size(); i++)
+	for(int i = 0; i < mCapabilities.count(); i++)
     {
-		if(mCapabilities[i].getName() == name)
+		if(mCapabilities[i]->getName() == name)
         {
-        	return &(mCapabilities[i]);
+        	return (mCapabilities[i]);
         }
     }
     return NULL;

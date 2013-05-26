@@ -55,7 +55,7 @@
             <Dependencies/>
         </Projects>
         <Projects Include="..\..\plugins\apps\rrWinC\rrWinC.cbproj">
-            <Dependencies/>
+            <Dependencies>roadrunner.cbproj;..\..\Wrappers\C\rrc_api.cbproj;..\..\plugins\add_noise\add_noise.cbproj;..\..\plugins\full_space_minimization\full_space_minimization.cbproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -218,13 +218,13 @@
     <Target Name="full_space_minimization:Make">
         <MSBuild Projects="..\..\plugins\full_space_minimization\full_space_minimization.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="rrWinC">
+    <Target Name="rrWinC" DependsOnTargets="roadrunner;rrc_api;add_noise;full_space_minimization">
         <MSBuild Projects="..\..\plugins\apps\rrWinC\rrWinC.cbproj"/>
     </Target>
-    <Target Name="rrWinC:Clean">
+    <Target Name="rrWinC:Clean" DependsOnTargets="roadrunner:Clean;rrc_api:Clean;add_noise:Clean;full_space_minimization:Clean">
         <MSBuild Projects="..\..\plugins\apps\rrWinC\rrWinC.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="rrWinC:Make">
+    <Target Name="rrWinC:Make" DependsOnTargets="roadrunner:Make;rrc_api:Make;add_noise:Make;full_space_minimization:Make">
         <MSBuild Projects="..\..\plugins\apps\rrWinC\rrWinC.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">

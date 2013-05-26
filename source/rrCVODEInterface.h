@@ -3,9 +3,9 @@
 #include <string>
 #include "rrObject.h"
 #include "rrPendingAssignment.h"
+#include "rrCapability.h"
 #include "cvode/cvode.h"
-
-
+                      
 namespace rr
 {
 
@@ -22,7 +22,7 @@ class RR_DECLSPEC CvodeInterface : public rrObject
         const double                mDefaultAbsTol;
         const int                   mDefaultMaxNumSteps;
 
-        string        		        mTempPathstring;
+        //string        		        mTempPathstring;
         int                  		mErrorFileCounter;
         int                         mNumIndependentVariables;
         N_Vector                    mAmounts;
@@ -70,10 +70,13 @@ class RR_DECLSPEC CvodeInterface : public rrObject
         vector<PendingAssignment>   mAssignments;
         int                  		mRootCount;
         int         		        mCount;
+        Capability					mCVODECapability;
 
 	public:
                                     CvodeInterface(RoadRunner* rr, ModelFromC* oModel, const double& abTol = 1.e-12, const double& relTol = 1.e-12);
                                    ~CvodeInterface();
+
+        Capability&					getCapability();	//Only one capability
 
 		void 						setTolerances(const double& aTol, const double& rTol);
         void                        assignResultsToModel();
@@ -88,7 +91,6 @@ class RR_DECLSPEC CvodeInterface : public rrObject
 
         							// Restart the simulation using a different initial condition
         void                        reStart(double timeStart, ModelFromC* model);
-
 };
 }
 

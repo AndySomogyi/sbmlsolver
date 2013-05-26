@@ -20,7 +20,7 @@
 #include "rr-libstruct/lsLibla.h"
 #include "rrModelState.h"
 #include "rrArrayList2.h"
-#include "rrCapsSupport.h"
+#include "rrCapabilities.h"
 #include "rrConstants.h"
 #include "rrVersionInfo.h"
 //---------------------------------------------------------------------------
@@ -58,18 +58,27 @@ mCurrentSBMLFileName(""),
 mCVode(NULL),
 mSteadyStateSolver(NULL),
 mCompiler(supportCodeFolder, compiler),
-mComputeAndAssignConservationLaws(false),
+mComputeAndAssignConservationLaws("Conservation", false, "enables (=true) or disables \
+(=false) the conservation analysis \
+of models for timecourse simulations."),
 mTimeStart(0),
 mTimeEnd(10),
 mNumPoints(21),
 mModel(NULL),
 mCurrentSBML(""),
 mPluginManager(JoinPath(getParentFolder(supportCodeFolder), "plugins")),
-mConservedTotalChanged(false)
+mConservedTotalChanged(false),
+mCapabilities("RoadRunner", "RoadRunner Capabilities"),
+mRRCoreCapabilities("Road Runner Core", "", "Core RoadRunner Parameters")
 {
+	//Roadrunner is a "single" capability with many parameters
+	mRRCoreCapabilities.addParameter(&mComputeAndAssignConservationLaws);
+
+    mCapabilities.add(mRRCoreCapabilities);
+
     setTempFileFolder(tempFolder);
 	Log(lDebug4)<<"In RoadRunner ctor";
-    mLS 			  ;	//= new LibStructural();
+    mLS;
     mCSharpGenerator    = new CSharpGenerator(mLS, mNOM);
     mCGenerator         = new CGenerator(mLS, mNOM);
     mModelGenerator     = mCGenerator;
@@ -78,6 +87,20 @@ mConservedTotalChanged(false)
 	//Increase instance count..
 	mInstanceCount++;
     mInstanceID = mInstanceCount;
+
+	//Setup additonal objects
+    mCVode = new CvodeInterface(this, NULL);
+
+    if(mCVode)
+    {
+    	mCapabilities.add(mCVode->getCapability());
+    }
+
+	mSteadyStateSolver = getNLEQInterface();
+    if(mSteadyStateSolver)
+    {
+    	mCapabilities.add(mSteadyStateSolver->getCapability());
+    }
 }
 
 RoadRunner::~RoadRunner()
@@ -91,7 +114,6 @@ RoadRunner::~RoadRunner()
     {
     	mModelLib.unload();
     }
-    //delete mLS;
 	mInstanceCount--;
 }
 
@@ -112,7 +134,7 @@ string RoadRunner::getInfo()
         info<<"Model DLL Loaded: "	<< (mModel->mDLL.isLoaded() ? "true" : "false")	<<endl;
         info<<"Initialized: "		<< (mModel->mIsInitialized ? "true" : "false")	<<endl;
     }
-    info<<"ConservationAnalysis: "	<<	(mComputeAndAssignConservationLaws ? "true" : "false")<<endl;
+    info<<"ConservationAnalysis: "	<<	(mComputeAndAssignConservationLaws.getValue() ? "true" : "false")<<endl;
     info<<"libSBML version: "		<<	getlibSBMLVersion()<<endl;
     info<<"Temporary folder: "		<<	getTempFolder()<<endl;
     info<<"Compiler location: "		<<	getCompiler()->getCompilerLocation()<<endl;
@@ -151,7 +173,7 @@ Compiler* RoadRunner::getCompiler()
 
 CvodeInterface* RoadRunner::getCVodeInterface()
 {
-    if(!mCVode && mModel != NULL)
+    if(!mCVode)// && mModel != NULL)
     {
         mCVode = new CvodeInterface(this, mModel);
     }
@@ -165,7 +187,7 @@ bool RoadRunner::setCompiler(const string& compiler)
 
 NLEQInterface* RoadRunner::getNLEQInterface()
 {
-    if(!mSteadyStateSolver && mModel != NULL)
+    if(!mSteadyStateSolver)// && mModel != NULL)
     {
         mSteadyStateSolver = new NLEQInterface(mModel);
     }
@@ -188,7 +210,7 @@ bool RoadRunner::useSimulationSettings(SimulationSettings& settings)
 
 bool RoadRunner::computeAndAssignConservationLaws()
 {
-	return mComputeAndAssignConservationLaws;
+	return mComputeAndAssignConservationLaws.getValue();
 }
 
 CGenerator*	RoadRunner::getCGenerator()
@@ -360,7 +382,7 @@ bool RoadRunner::initializeModel()
     mModel->computeRules(mModel->mData.y, mModel->mData.ySize);
     mModel->convertToAmounts();
 
-    if (mComputeAndAssignConservationLaws)
+    if (mComputeAndAssignConservationLaws.getValue())
     {
         mModel->computeConservedTotals();
     }
@@ -965,7 +987,7 @@ void RoadRunner::reset()
 
         mModel->convertToAmounts();
 
-        if (mComputeAndAssignConservationLaws && !mConservedTotalChanged)
+        if (mComputeAndAssignConservationLaws.getValue() && !mConservedTotalChanged)
         {
             mModel->computeConservedTotals();
         }
@@ -1231,12 +1253,12 @@ double RoadRunner::getParameterValue(const TParameterType& parameterType, const 
 //              + "By default roadRunner will discover conservation cycles and reduce the model accordingly.")
 void RoadRunner::computeAndAssignConservationLaws(const bool& bValue)
 {
-	if(bValue == mComputeAndAssignConservationLaws)
+	if(bValue == mComputeAndAssignConservationLaws.getValue())
     {
     	Log(lWarning)<<"The compute and assign conservation laws flag already set to : "<<ToString(bValue);
     }
 	
-	mComputeAndAssignConservationLaws = bValue;
+    mComputeAndAssignConservationLaws.set(bValue);
     
 	if(mModel != NULL)
     {
@@ -1725,7 +1747,7 @@ vector< Complex > RoadRunner::getEigenvaluesCpx()
 		}
 
 		DoubleMatrix mat;
-		if (mComputeAndAssignConservationLaws)
+		if (mComputeAndAssignConservationLaws.getValue())
 		{
 		   mat = getReducedJacobian();
 		}
@@ -1752,7 +1774,7 @@ DoubleMatrix RoadRunner::getFullJacobian()
 		}
 		DoubleMatrix uelast = getUnscaledElasticityMatrix();
 		DoubleMatrix rsm;
-		if (mComputeAndAssignConservationLaws)
+		if (mComputeAndAssignConservationLaws.getValue())
 		{
 			rsm = getReorderedStoichiometryMatrix();
 		}
@@ -1797,7 +1819,7 @@ DoubleMatrix RoadRunner::getReducedJacobian()
 	        throw CoreException(gEmptyModelMessage);
         }
 
-        if(mComputeAndAssignConservationLaws == false)
+        if(mComputeAndAssignConservationLaws.getValue() == false)
         {
         	throw CoreException("The reduced Jacobian matrix can only be computed if conservation law detection is enabled");
         }
@@ -4051,10 +4073,50 @@ StringList RoadRunner::getReactionIds()
 // Start of Level 2 API Methods
 // ---------------------------------------------------------------------
 // Help("Get Simulator Capabilities")
-string RoadRunner::getCapabilities()
+string RoadRunner::getCapabilitiesAsXML()
 {
-    CapsSupport current = CapsSupport(this);
-    return current.AsXMLString();
+    return mCapabilities.asXML();
+}
+
+Capability* RoadRunner::getCapability(const string& cap_name)
+{
+	return mCapabilities.get(cap_name);
+}
+
+StringList RoadRunner::getListOfCapabilities()
+{
+    return mCapabilities.asStringList();
+}
+
+bool RoadRunner::addCapability(Capability& cap)
+{
+	mCapabilities.add(cap);
+	return true;
+}
+
+bool RoadRunner::addCapabilities(Capabilities& caps)
+{
+	for(int i = 0; i < caps.count(); i++)
+    {
+    	addCapability(*(caps[i]));
+    }
+    return true;
+}
+
+StringList RoadRunner::getListOfParameters(const string& cap)
+{
+	Capability *aCap = mCapabilities.get(cap);
+    if(!aCap)
+    {
+    	stringstream msg;
+    	msg<<"No such capability: "<<cap;
+		throw(CoreException(msg.str()));
+    }
+    Parameters* paras = aCap->getParameters();
+    if(paras)
+    {
+    	return paras->asStringList();
+    }
 }
 
 void RoadRunner::setTolerances(const double& aTol, const double& rTol)
@@ -4062,15 +4124,6 @@ void RoadRunner::setTolerances(const double& aTol, const double& rTol)
 	if(mCVode)
     {
     	mCVode->setTolerances(aTol, rTol);
-    }
-}
-
-void RoadRunner::setTolerances(const double& aTol, const double& rTol, const int& maxSteps)
-{
-	if(mCVode)
-    {
-    	mCVode->setTolerances(aTol, rTol);
-    	mCVode->mMaxNumSteps = maxSteps;
     }
 }
 
@@ -4251,7 +4304,7 @@ double RoadRunner::getValue(const string& sId)
 
 		//DoubleMatrix mat = getReducedJacobian();
 		DoubleMatrix mat;
-		if (mComputeAndAssignConservationLaws)
+		if (mComputeAndAssignConservationLaws.getValue())
 		{
 		   mat = getReducedJacobian();
 		}

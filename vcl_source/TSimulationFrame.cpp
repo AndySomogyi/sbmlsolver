@@ -132,7 +132,6 @@ void __stdcall TSimulateFrame::ThreadExitCB(void *UserData)
 void __fastcall TSimulateFrame::simulationStarted()
 {
 	Log()<<"Simulation was started at: " << getTime();
-
 }
 
 void __fastcall TSimulateFrame::simulationFinished()
@@ -140,7 +139,9 @@ void __fastcall TSimulateFrame::simulationFinished()
 	Log()<<"Simulation was finished at: "<< getTime();
     if(onSimulationFinished)
     {
-        onSimulationFinished();
+        onSimulationFinished();	//
     }
 }
+
+
 

@@ -133,7 +133,7 @@ void ThreadPool::waitForFinish()
     //This could be checked in a thread, and using a condition Variable
     while(isWorking())
     {
-        Poco::Thread::sleep(50);
+        Poco::Thread::sleep(5);
     };
 }
 

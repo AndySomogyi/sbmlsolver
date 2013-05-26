@@ -25,6 +25,8 @@
 #include "rrNewArrayList.h"
 #include "rrPluginManager.h"
 #include "rrModelSharedLibrary.h"
+#include "rrCapabilities.h"
+#include "rrParameter.h"
 #include "Poco/Thread.h"
 
 namespace rr
@@ -46,7 +48,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
     	int	  							mInstanceID;
 		bool                            mUseKinsol;
 		const double                    mDiffStepSize;
-
+		Capabilities					mCapabilities;
+		Capability						mRRCoreCapabilities;
         const string					mModelFolder;			//Folder for XML models
 		const double                    mSteadyStateThreshold;
         DoubleMatrix                    mRawSimulationData;
@@ -58,14 +61,14 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		SBMLModelSimulation            *mSimulation;
 
 		CvodeInterface                 *mCVode;
-		ISteadyStateSolver             *mSteadyStateSolver;
+		SteadyStateSolver              *mSteadyStateSolver;
 		vector<TSelectionRecord>        mSelectionList;
 		ModelGenerator                 *mModelGenerator;    //Pointer to one of the below ones..
 		CSharpGenerator                *mCSharpGenerator;
 		CGenerator                     *mCGenerator;
 		Compiler                        mCompiler;
 
-		bool                     		mComputeAndAssignConservationLaws;
+		Parameter<bool>            		mComputeAndAssignConservationLaws;
 
 		vector<TSelectionRecord>        mSteadyStateSelection;
 		double                          mTimeStart;
@@ -120,6 +123,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		//Compiling
    		Compiler*						getCompiler();
         bool							compileSource(const string& modelSourceCodeName);
+
 		//Functions --------------------------------------------------------------------
         bool                            isModelLoaded();
         bool                            setCompiler(const string& compiler);
@@ -184,11 +188,21 @@ class RR_DECLSPEC RoadRunner : public rrObject
  		// ---------------------------------------------------------------------
 		// Start of Level 2 API Methods
 		// ---------------------------------------------------------------------
-		string                          getCapabilities();
-		void                            setTolerances(const double& aTol, const double& rTol);
-		void                            setTolerances(const double& aTol, const double& rTol, const int& maxSteps);
-		void                            correctMaxStep();
+		Capabilities&                   getCapabilities();
+		Capability* 	                getCapability(const string& cap_name);
+		string                          getCapabilitiesAsXML();
+		StringList                      getListOfCapabilities();
+		StringList                      getListOfParameters(const string& capName);
+
+        bool						  	addCapability(Capability& cap);
+        bool						  	addCapabilities(Capabilities& caps);
+        bool							setCapabilityParameter(const string& cap, const string& parameter, const string& value);
+
 		void                            setCapabilities(const string& capsStr);
+
+		void                            setTolerances(const double& aTol, const double& rTol);
+		void                            correctMaxStep();
+
 		bool                            setValue(const string& sId, const double& dValue);
 		double                          getValue(const string& sId);
 		NewArrayList                    getAvailableTimeCourseSymbols();

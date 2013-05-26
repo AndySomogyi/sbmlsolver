@@ -28,16 +28,16 @@ mChiSquare(			    "ChiSquare", 			   	0.123, 				"ChiSquare"),
 mFullSpaceFitThread(*this)
 {
 	//Setup the plugins capabilities
-    mOneParameterFit.add(&mTempFolder);
-    mOneParameterFit.add(&mInputData);
-    mOneParameterFit.add(&mSBML);
-	mOneParameterFit.add(&mStepsPerDimension);
-    mOneParameterFit.add(&mNumberOfThreads);
-    mOneParameterFit.add(&mParameterSweepRange);
-    mOneParameterFit.add(&mParametersToFit);
-	mOneParameterFit.add(&mChiSquare);
+    mOneParameterFit.addParameter(&mTempFolder);
+    mOneParameterFit.addParameter(&mInputData);
+    mOneParameterFit.addParameter(&mSBML);
+	mOneParameterFit.addParameter(&mStepsPerDimension);
+    mOneParameterFit.addParameter(&mNumberOfThreads);
+    mOneParameterFit.addParameter(&mParameterSweepRange);
+    mOneParameterFit.addParameter(&mParametersToFit);
+	mOneParameterFit.addParameter(&mChiSquare);
 
-    mCapabilities.push_back(mOneParameterFit);
+    mCapabilities.add(mOneParameterFit);
 }
 
 FullSpaceMinimization::~FullSpaceMinimization()

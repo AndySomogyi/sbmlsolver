@@ -24,9 +24,9 @@ mTheHost(host)
 
 void FullSpaceFitThread::assignCallBacks(ThreadCB fn1, ThreadCB fn2, void* userData)
 {
-	threadEnterCB = fn1;
-	threadExitCB = fn2;
-    mUserData = userData;
+	threadEnterCB 	= fn1;
+	threadExitCB  	= fn2;
+    mUserData 		= userData;
 }
 
 void FullSpaceFitThread::start(SimulationData* inputData)
@@ -39,14 +39,14 @@ void FullSpaceFitThread::start(SimulationData* inputData)
         return;
     }
 
-	mThread.start(*this);
+	mThread.start(*this);	//Will spawn the run function below in a thread
 }
 
 void FullSpaceFitThread::run()
 {
 	if(threadEnterCB)
     {
-		threadEnterCB(mUserData);
+		threadEnterCB(mUserData);	//Tell anyone who wants to know
     }
 
     SimulationData& inputData = *(mInputData);
@@ -66,11 +66,12 @@ void FullSpaceFitThread::run()
 	//loadSBML models in threads
     RRJobsHandle jobsHandle = loadSBMLJobsEx(rrs, mTheHost.getSBML().c_str(), threadCount, false);
 
-    while(!areJobsFinished(jobsHandle))
-    {
-    	Log(lInfo)<<"Loading models... ";
-        sleep(100);
-    };
+    waitForJobs(jobsHandle);
+//    while(!areJobsFinished(jobsHandle))
+//    {
+//    	Log(lInfo)<<"Loading models... ";
+//        sleep(10);
+//    };
 
     freeJobs(jobsHandle);
     vector<string> parasToFit = mTheHost.getParametersToFit();

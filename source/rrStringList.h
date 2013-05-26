@@ -3,13 +3,14 @@
 #include <vector>
 #include <string>
 #include "rrObject.h"
+#include "../Wrappers/C/rrc_types.h"
 
+namespace rr
+{
 using std::vector;
 using std::string;
 using std::ostream;
 
-namespace rr
-{
 
 class RR_DECLSPEC StringList : public rrObject
 {
@@ -23,6 +24,7 @@ class RR_DECLSPEC StringList : public rrObject
                                     StringList(const string& str, const string& delimiters = ", ");
                                     StringList(const vector<string>& strings);
                                     StringList(const StringList& cp);
+                                    StringList(rrc::RRStringArrayHandle cp);
                                    ~StringList();
 
         void                        InsertAt(const int& index, const string& item);

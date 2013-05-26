@@ -2,7 +2,6 @@
 #define rrParameterH
 #include <vector>
 #include "rrObject.h"
-#include "rrConstants.h"
 #include "rrBaseParameter.h"
 #include "rrStringUtils.h"
 #include "../Wrappers/C/rrc_types.h"
@@ -14,11 +13,14 @@ template<class T>
 class Parameter : public BaseParameter
 {
     protected:
-        T                                   mValue;
+		T									mDummy;
+        T&                                  mValue;
 
     public:
                                             Parameter(const string& name, const T& value, const string& hint);
-		void								setValue(const T& val){mValue = val;}
+                                            Parameter(const string& name, T& value, const string& hint);
+		void								set(const T& val){mValue = val;}
+		void								setValue(const string& val);
         T									getValue();
         T*									getValuePointer();
         string                      		getValueAsString() const;
@@ -26,11 +28,25 @@ class Parameter : public BaseParameter
 };
 
 template<class T>
-Parameter<T>::Parameter(const string& name, const T& value, const string& hint)
+Parameter<T>::Parameter(const string& name, T& value, const string& hint)
 :
 rr::BaseParameter(name, hint),
 mValue(value)
 {}
+
+template<class T>
+Parameter<T>::Parameter(const string& name, const T& value, const string& hint)
+:
+rr::BaseParameter(name, hint),
+mDummy(value),
+mValue(mDummy)
+{}
+
+template<class T>
+void setValue(const T& val)
+{
+	mValue = val;
+}
 
 template<class T>
 string Parameter<T>::getValueAsString() const
@@ -58,11 +74,23 @@ inline string Parameter<bool>::getType() const
     return "bool";
 }
 
+template<>
+inline void Parameter<bool>::setValue(const string& val)
+{
+	mValue = rr::ToBool(val);
+}
+
 //Integer parameter specialization
 template<>
 inline string Parameter<int>::getType() const
 {
     return "int";
+}
+
+template<>
+inline void Parameter<int>::setValue(const string& val)
+{
+	mValue = rr::ToInt(val);
 }
 
 template<>
@@ -79,9 +107,9 @@ inline string Parameter<double>::getType() const
 }
 
 template<>
-inline string rr::Parameter<double>::getValueAsString() const
+inline void Parameter<double>::setValue(const string& val)
 {
-    return ToString(mValue, "%G");
+	mValue = rr::ToDouble(val);
 }
 
 template<>
@@ -91,32 +119,35 @@ inline string Parameter<string>::getType() const
 }
 
 template<>
+inline void Parameter<string>::setValue(const string& val)
+{
+	mValue = val;
+}
+
+template<>
 inline string Parameter< vector<string> >::getType() const
 {
     return "vector<string>";
 }
 
-
 template<>
-inline string Parameter< rrc::RRData >::getType() const
+inline void Parameter< vector<string> >::setValue(const string& val)
 {
-    return "RRData";
+	mValue = SplitString(val,", ");
 }
 
 template<>
-inline string Parameter<rrc::RRData>::getValueAsString() const
+inline void Parameter< rrc::RRDataHandle >::setValue(const string& val)
 {
-    return "Bla...";//ToString(mValue);
+	//mValue = SplitString(val,", ");
 }
 
-//#if defined(_MSC_VER)
-//template<>
-//string Parameter<int>::getValueAsString() const;
-//
-//template<>
-//string Parameter<double>::getValueAsString() const;
-//#endif
 
+template<>
+inline string rr::Parameter<double>::getValueAsString() const
+{
+    return ToString(mValue, "%G");
+}
 
 }
 #endif

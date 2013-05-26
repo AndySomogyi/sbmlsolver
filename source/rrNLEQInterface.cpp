@@ -21,6 +21,7 @@ string ErrorForStatus(const int& error);
 ModelFromC* NLEQInterface::model = NULL;     // Model generated from the SBML
 long		NLEQInterface::n	 = 0;
 
+//Static functions... :(
 long  NLEQInterface::getN()
 {
 	return NLEQInterface::n;
@@ -33,13 +34,29 @@ ModelFromC* NLEQInterface::getModel()
 
 NLEQInterface::NLEQInterface(ModelFromC *_model)
 :
+SteadyStateSolver("NLEQ2", "NLEQ2 Steady State Solver"),
 nOpts(50),
 defaultMaxInterations(100),
 maxIterations(defaultMaxInterations),
 defaultTolerance(1.e-4),
 relativeTolerance(defaultTolerance)
 {
-	model = _model;
+    model = _model;
+
+	mCapability.addParameter(new Parameter<int>("MaxIterations", maxIterations, "Maximum number of newton iterations"));
+    mCapability.addParameter(new Parameter<double>("relativeTolerance", relativeTolerance, "Relative precision of solution components"));
+
+	if(model)
+    {
+    	setup();
+    }
+}
+
+NLEQInterface::~NLEQInterface()
+{}
+
+void NLEQInterface::setup()
+{
     n = model->getNumIndependentVariables();
 
     // Allocate space, see NLEQ docs for details
@@ -78,6 +95,11 @@ relativeTolerance(defaultTolerance)
     }
 
     RWK[22 - 1] = 1E-16; // Minimal allowed damping factor
+}
+
+Capability&	NLEQInterface::getCapability()
+{
+	return mCapability;
 }
 
 bool NLEQInterface::isAvailable()
@@ -139,10 +161,18 @@ double NLEQInterface::solve(const vector<double>& yin)
 
     //NLEQ1(ref n, fcn, null, model->amounts, XScal, ref tmpTol, iopt, ref ierr, ref LIWK, IWK, ref LWRK, RWK);
 
-    NLEQ1( &n, 				&ModelFunction, NULL,
-           model->mData.amounts,	XScal,        	&tmpTol,
-           iopt,           	&ierr,          &LIWK,
-           IWK,           	&LWRK,          RWK);
+    NLEQ1( 	&n,
+    		&ModelFunction,
+            NULL,
+           	model->mData.amounts,
+            XScal,
+            &tmpTol,
+           	iopt,
+            &ierr,
+            &LIWK,
+           	IWK,
+            &LWRK,
+            RWK);
 
     if (ierr == 2) // retry
     {

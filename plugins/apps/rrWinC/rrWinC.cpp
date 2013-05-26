@@ -1,11 +1,15 @@
+//---------------------------------------------------------------------------
+
 #include <vcl.h>
 #pragma hdrstop
-
+#include <tchar.h>
+//---------------------------------------------------------------------------
 USEFORM("..\..\..\vcl_source\TSimulationFrame.cpp", SimulateFrame); /* TFrame: File Type */
 USEFORM("..\..\..\vcl_source\TFullSpaceFittingFrame.cpp", FullSpaceFittingFrame);
 USEFORM("MainForm.cpp", MainF);
+USEFORM("..\..\..\vcl_source\rrCapabilitiesFrame.cpp", capFrame); /* TFrame: File Type */
 //---------------------------------------------------------------------------
-int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
 	try
 	{
@@ -40,6 +44,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	#pragma comment(lib, "roadrunner.lib")
 #endif
 
+#pragma comment(lib, "mtkCommon-static.lib")
 #pragma comment(lib, "poco_foundation-static.lib")
 
 

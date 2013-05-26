@@ -68,8 +68,8 @@ typedef void* RRJobsHandle; /*! Void pointer to Jobs instance */
 /*!@brief Void pointer to a Plugin instance */
 typedef void* RRPluginHandle;
 
-/*!@brief Void pointer to a PluginParameter instance */
-typedef void* RRPluginParameterHandle;
+/*!@brief Void pointer to a Parameter instance */
+typedef void* RRParameterHandle;
 
 /*!@struct*/
 /*!@brief Structure for a set of RoadRunner handles */
@@ -158,25 +158,27 @@ typedef struct RRList
 }  *RRListHandle;                /*!< Pointer to cRRArrayListHandle struct */
 
 /*!@enum*/
-/*!@brief A parameters type can be string, integer, double, vector or a matrix */
-enum RRParameterType {ptString, ptInteger, ptDouble, ptVector, ptMatrix};
+/*!@brief A parameters type can be string, bool, integer, double, vector or a matrix */
+enum RRParameterType {ptString, ptBool, ptInteger, ptDouble, ptVector, ptMatrix};
 
-/*!@struct*/
-/*!@brief A single parameter type */
-typedef struct RRParameter
-{
-    enum RRParameterType ParaType;  	 /*!< The type of the item held by the parameter */
-    union
-    {
-       int 	     		iValue;  /*!< Integer value */
-	   double    		dValue;  /*!< Double value */
-	   char*     		sValue;  /*!< String value */
-       struct RRVector* vValue;  /*!< Vector value */
-       struct RRMatrix* mValue;  /*!< Matrix value */
-	} data;                      /*!< Union */
-    char* 				mHint;
-	char* 				mName;
-} *RRParameterHandle;             /*!< Pointer to cRRParameter */
+///*!@struct*/
+///*!@brief A single parameter type */
+//typedef struct RRParameter
+//{
+//    enum RRParameterType ParaType;  	 /*!< The type of the item held by the parameter */
+//    union
+//    {
+//		bool			bValue;
+//       	int 	   		iValue;  /*!< Integer value */
+//	   	double    		dValue;  /*!< Double value */
+//	   	char*     		sValue;  /*!< String value */
+//       	struct RRVector* vValue;  /*!< Vector value */
+//       	struct RRMatrix* mValue;  /*!< Matrix value */
+//	} data;                      /*!< Union */
+//	char* 				mHint;
+//	char* 				mName;
+//    void* 				mHandle;	//This is a handle to an internal roadRunner parameter
+//} *RRParameterHandle;             /*!< Pointer to cRRParameter */
 
 #if defined( __cplusplus)
 }

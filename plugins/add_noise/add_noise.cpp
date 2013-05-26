@@ -12,19 +12,15 @@ using namespace rr;
 AddNoise::AddNoise(rr::RoadRunner* aRR, WorkStartedCB fn1, WorkFinishedCB fn2)
 :
 Plugin(				    "AddNoise", 				"No Category", 			aRR, fn1, fn2),
-mSelectNoiseType(	    "Select Noise Type", 		"selectNoiseType", 		"Select the noise type"),
+mAddNoise(	   			"Add noise", 				"...", 					"Add Noise"),
 mNoiseType(	       		"NoiseType", 				ntGaussian, 	 		"Noise Type"),
-mAddGaussianNoise(	    "Add noise", 				"...", 					"Add Gaussian Noise in particular"),
 mSigma(	    			"Sigma", 					1, 						"Sigma"),
 mAddNoiseThread()
 {
 	//Setup the plugins capabilities
-    mSelectNoiseType.add(&mNoiseType);
-
-	mAddGaussianNoise.add(&mSigma);
-
-    mCapabilities.push_back(mAddGaussianNoise);
-    mCapabilities.push_back(mSelectNoiseType);
+    mCapabilities.add(mAddNoise);
+    mAddNoise.addParameter(&mNoiseType);
+	mAddNoise.addParameter(&mSigma);
 }
 
 AddNoise::~AddNoise()

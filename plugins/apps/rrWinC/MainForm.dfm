@@ -1,9 +1,9 @@
 object MainF: TMainF
   Left = 0
   Top = 0
-  Caption = 'RoadRunner PluginTester'
-  ClientHeight = 610
-  ClientWidth = 973
+  Caption = 'RoadRunner UI'
+  ClientHeight = 701
+  ClientWidth = 1081
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,14 +12,15 @@ object MainF: TMainF
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
+  OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
   object Splitter1: TSplitter
     Left = 0
-    Top = 363
-    Width = 973
+    Top = 497
+    Width = 1081
     Height = 3
     Cursor = crVSplit
     Align = alBottom
@@ -27,297 +28,20 @@ object MainF: TMainF
     ExplicitTop = 0
     ExplicitWidth = 256
   end
-  object Panel1: TPanel
-    Left = 0
-    Top = 366
-    Width = 973
-    Height = 244
-    Align = alBottom
-    Caption = 'Panel1'
-    TabOrder = 0
-    ExplicitTop = 342
-    object infoMemo: TMemo
-      Left = 386
-      Top = 30
-      Width = 586
-      Height = 213
-      Align = alClient
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Courier New'
-      Font.Style = []
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      ScrollBars = ssBoth
-      TabOrder = 0
-      WordWrap = False
-    end
-    object ToolBar1: TToolBar
-      Left = 1
-      Top = 1
-      Width = 971
-      Height = 29
-      ButtonHeight = 23
-      Caption = 'ToolBar1'
-      TabOrder = 1
-      object Button4: TButton
-        Left = 0
-        Top = 0
-        Width = 69
-        Height = 23
-        Action = getLastErrorA
-        TabOrder = 0
-      end
-      object Button6: TButton
-        Left = 69
-        Top = 0
-        Width = 75
-        Height = 23
-        Action = getCapabilitiesA
-        TabOrder = 1
-      end
-      object Button7: TButton
-        Left = 144
-        Top = 0
-        Width = 75
-        Height = 23
-        Action = getAllSymbols
-        TabOrder = 2
-      end
-    end
-    object Panel4: TPanel
-      Left = 1
-      Top = 30
-      Width = 96
-      Height = 213
-      Align = alLeft
-      TabOrder = 2
-      object GroupBox2: TGroupBox
-        Left = 1
-        Top = 1
-        Width = 94
-        Height = 56
-        Align = alTop
-        Caption = 'Plugins'
-        TabOrder = 0
-        object Button1: TButton
-          Left = 3
-          Top = 25
-          Width = 75
-          Height = 25
-          Action = loadPluginsA
-          TabOrder = 0
-        end
-      end
-      object pluginList: TListBox
-        Left = 1
-        Top = 57
-        Width = 94
-        Height = 155
-        Align = alClient
-        ItemHeight = 13
-        TabOrder = 1
-        OnClick = pluginListClick
-      end
-    end
-    object PageControl2: TPageControl
-      Left = 97
-      Top = 30
-      Width = 289
-      Height = 213
-      ActivePage = TabSheet4
-      Align = alLeft
-      TabOrder = 3
-      object TabSheet3: TTabSheet
-        Caption = 'Test'
-        object GroupBox3: TGroupBox
-          Left = 0
-          Top = 0
-          Width = 281
-          Height = 211
-          Align = alTop
-          Caption = 'Plugin Actions'
-          TabOrder = 0
-          object Button2: TButton
-            Left = 3
-            Top = 21
-            Width = 75
-            Height = 25
-            Action = getPluginInfoA
-            TabOrder = 0
-          end
-          object GroupBox4: TGroupBox
-            Left = 2
-            Top = 128
-            Width = 277
-            Height = 81
-            Align = alBottom
-            Caption = 'Parameters'
-            TabOrder = 1
-            object pluginParasCB: TComboBox
-              Left = 3
-              Top = 24
-              Width = 174
-              Height = 21
-              AutoDropDown = True
-              Style = csDropDownList
-              TabOrder = 0
-              OnChange = pluginCBChange
-            end
-            object paraEdit: TEdit
-              Left = 3
-              Top = 53
-              Width = 121
-              Height = 21
-              TabOrder = 1
-              Text = 'paraEdit'
-            end
-            object SetParaBtn: TButton
-              Left = 130
-              Top = 51
-              Width = 47
-              Height = 25
-              Caption = 'set'
-              TabOrder = 2
-              OnClick = SetParaBtnClick
-            end
-            object RadioGroup1: TRadioGroup
-              Left = 183
-              Top = 15
-              Width = 92
-              Height = 64
-              Align = alRight
-              Caption = 'Type'
-              ItemIndex = 0
-              Items.Strings = (
-                'bool'
-                'char*'
-                'int'
-                'double'
-                'string')
-              TabOrder = 3
-            end
-          end
-          object Button3: TButton
-            Left = 84
-            Top = 21
-            Width = 75
-            Height = 25
-            Action = executePluginA
-            TabOrder = 2
-          end
-          object GroupBox5: TGroupBox
-            Left = 2
-            Top = 64
-            Width = 277
-            Height = 64
-            Align = alBottom
-            Caption = 'Capability'
-            TabOrder = 3
-            object pluginCapsCB: TComboBox
-              Left = 3
-              Top = 25
-              Width = 174
-              Height = 21
-              AutoDropDown = True
-              Style = csDropDownList
-              TabOrder = 0
-              OnChange = pluginCBChange
-            end
-          end
-        end
-      end
-      object TabSheet4: TTabSheet
-        Caption = 'Fitting'
-        ImageIndex = 1
-        object PageControl3: TPageControl
-          Left = 0
-          Top = 0
-          Width = 281
-          Height = 185
-          ActivePage = TabSheet2
-          Align = alClient
-          TabOrder = 0
-          object TabSheet2: TTabSheet
-            Caption = 'Full Space'
-            inline fullSpaceFitFrame: TFullSpaceFittingFrame
-              Left = 0
-              Top = 0
-              Width = 273
-              Height = 157
-              Align = alClient
-              TabOrder = 0
-              ExplicitWidth = 273
-              ExplicitHeight = 157
-              inherited sweepE: TGroupBox
-                Width = 273
-                Height = 157
-                Align = alClient
-                ExplicitWidth = 273
-                ExplicitHeight = 157
-                inherited executeBtn: TButton
-                  Left = 184
-                  Top = 128
-                  ExplicitLeft = 184
-                  ExplicitTop = 128
-                end
-                inherited paraList: TCheckListBox
-                  Height = 140
-                  ExplicitHeight = 140
-                end
-              end
-              inherited ActionList1: TActionList
-                Left = 168
-                Top = 32
-              end
-            end
-          end
-        end
-      end
-      object TabSheet5: TTabSheet
-        Caption = 'Make Noise'
-        ImageIndex = 2
-        object noiseSigmaE: mtkFloatLabeledEdit
-          Left = 13
-          Top = 32
-          Width = 84
-          Height = 21
-          EditLabel.Width = 28
-          EditLabel.Height = 13
-          EditLabel.Caption = 'Sigma'
-          TabOrder = 0
-          Text = '10e-6'
-          OnKeyDown = noiseSigmaEKeyDown
-        end
-        object addNoiseBtn: TButton
-          Left = 13
-          Top = 72
-          Width = 75
-          Height = 25
-          Caption = 'Do It'
-          TabOrder = 1
-          OnClick = addNoiseBtnClick
-        end
-      end
-    end
-  end
   object Panel2: TPanel
     Left = 0
     Top = 0
     Width = 209
-    Height = 363
+    Height = 497
     Align = alLeft
-    TabOrder = 1
-    ExplicitHeight = 339
+    TabOrder = 0
     object Panel3: TPanel
       Left = 1
       Top = 1
       Width = 208
-      Height = 361
+      Height = 495
       Align = alLeft
       TabOrder = 0
-      ExplicitHeight = 337
       object GroupBox1: TGroupBox
         Left = 1
         Top = 1
@@ -399,13 +123,13 @@ object MainF: TMainF
         Left = 1
         Top = 129
         Width = 206
-        Height = 231
+        Height = 365
         Align = alClient
         TabOrder = 2
         ExplicitLeft = 1
         ExplicitTop = 129
         ExplicitWidth = 206
-        ExplicitHeight = 207
+        ExplicitHeight = 365
         inherited GroupBox1: TGroupBox
           Width = 206
           ExplicitWidth = 206
@@ -418,58 +142,62 @@ object MainF: TMainF
         end
         inherited Panel1: TPanel
           Width = 109
-          Height = 164
+          Height = 298
           ExplicitWidth = 109
-          ExplicitHeight = 140
+          ExplicitHeight = 298
           inherited Panel2: TPanel
             Width = 107
-            Height = 162
+            Height = 296
             ExplicitWidth = 107
-            ExplicitHeight = 138
+            ExplicitHeight = 296
           end
         end
         inherited Panel3: TPanel
-          Height = 164
-          ExplicitHeight = 140
+          Height = 298
+          ExplicitHeight = 298
           inherited Splitter1: TSplitter
-            Top = 49
+            Top = 183
             ExplicitLeft = 1
             ExplicitTop = 19
             ExplicitWidth = 95
           end
           inherited GroupBox2: TGroupBox
-            Height = 48
-            ExplicitHeight = 24
+            Height = 182
+            ExplicitHeight = 182
             inherited SelList: TCheckListBox
-              Height = 31
-              ExplicitHeight = 7
+              Height = 165
+              ExplicitHeight = 165
             end
           end
           inherited GroupBox3: TGroupBox
-            Top = 52
-            ExplicitTop = 28
+            Top = 186
+            ExplicitTop = 186
           end
         end
       end
     end
   end
-  object PageControl1: TPageControl
+  object PC1: TPageControl
     Left = 209
     Top = 0
-    Width = 764
-    Height = 363
-    ActivePage = TabSheet6
+    Width = 872
+    Height = 497
+    ActivePage = TabSheet1
     Align = alClient
-    TabOrder = 2
-    ExplicitHeight = 339
+    DoubleBuffered = False
+    ParentDoubleBuffered = False
+    TabOrder = 1
     object TabSheet1: TTabSheet
       Caption = 'RR Data'
-      ExplicitHeight = 311
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Chart1: TChart
         Left = 0
         Top = 29
-        Width = 756
-        Height = 306
+        Width = 864
+        Height = 440
         Legend.Visible = False
         Title.Text.Strings = (
           'TChart')
@@ -482,7 +210,6 @@ object MainF: TMainF
         Align = alClient
         Color = 14145495
         TabOrder = 0
-        ExplicitHeight = 282
         ColorPaletteIndex = 13
         object Series1: TLineSeries
           Marks.Arrow.Visible = True
@@ -504,7 +231,7 @@ object MainF: TMainF
       object ToolBar2: TToolBar
         Left = 0
         Top = 0
-        Width = 756
+        Width = 864
         Height = 29
         Caption = 'ToolBar2'
         TabOrder = 1
@@ -521,12 +248,15 @@ object MainF: TMainF
     object TabSheet6: TTabSheet
       Caption = 'Fit Results'
       ImageIndex = 1
-      ExplicitHeight = 311
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Chart2: TChart
         Left = 0
         Top = 0
-        Width = 756
-        Height = 335
+        Width = 864
+        Height = 469
         Legend.Visible = False
         Title.Text.Strings = (
           'TChart')
@@ -539,7 +269,6 @@ object MainF: TMainF
         Align = alClient
         Color = 14145495
         TabOrder = 0
-        ExplicitHeight = 311
         ColorPaletteIndex = 13
         object LineSeries1: TLineSeries
           Marks.Arrow.Visible = True
@@ -560,6 +289,261 @@ object MainF: TMainF
       end
     end
   end
+  object lowerPanel: TPanel
+    Left = 0
+    Top = 500
+    Width = 1081
+    Height = 201
+    Align = alBottom
+    TabOrder = 2
+    object Panel5: TPanel
+      Left = 393
+      Top = 1
+      Width = 687
+      Height = 199
+      Align = alClient
+      Caption = 'Panel5'
+      TabOrder = 0
+      object infoMemo: TMemo
+        Left = 1
+        Top = 30
+        Width = 685
+        Height = 168
+        Align = alClient
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Courier New'
+        Font.Style = []
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        ScrollBars = ssBoth
+        TabOrder = 0
+        WordWrap = False
+      end
+      object ToolBar3: TToolBar
+        Left = 1
+        Top = 1
+        Width = 685
+        Height = 29
+        Caption = 'ToolBar3'
+        TabOrder = 1
+        object Button2: TButton
+          Left = 0
+          Top = 0
+          Width = 75
+          Height = 22
+          Action = clearMemo
+          TabOrder = 0
+        end
+      end
+    end
+    object Panel1: TPanel
+      Left = 1
+      Top = 1
+      Width = 392
+      Height = 199
+      Align = alLeft
+      Caption = 'Panel1'
+      TabOrder = 1
+      object ToolBar1: TToolBar
+        Left = 1
+        Top = 1
+        Width = 390
+        Height = 29
+        ButtonHeight = 23
+        Caption = 'ToolBar1'
+        TabOrder = 0
+        object Button4: TButton
+          Left = 0
+          Top = 0
+          Width = 69
+          Height = 23
+          Action = getLastErrorA
+          TabOrder = 0
+        end
+        object Button6: TButton
+          Left = 69
+          Top = 0
+          Width = 101
+          Height = 23
+          Action = getCapabilitiesA
+          TabOrder = 1
+        end
+        object Button7: TButton
+          Left = 170
+          Top = 0
+          Width = 75
+          Height = 23
+          Action = getAllSymbols
+          TabOrder = 2
+        end
+        object Button3: TButton
+          Left = 245
+          Top = 0
+          Width = 75
+          Height = 23
+          Action = getCapabilitiesAsXMLA
+          TabOrder = 3
+        end
+      end
+      object Panel4: TPanel
+        Left = 1
+        Top = 30
+        Width = 96
+        Height = 168
+        Align = alLeft
+        TabOrder = 1
+        object GroupBox2: TGroupBox
+          Left = 1
+          Top = 1
+          Width = 94
+          Height = 56
+          Align = alTop
+          Caption = 'Plugins'
+          TabOrder = 0
+          object Button1: TButton
+            Left = 3
+            Top = 25
+            Width = 75
+            Height = 25
+            Action = loadPluginsA
+            TabOrder = 0
+          end
+        end
+        object pluginList: TListBox
+          Left = 1
+          Top = 57
+          Width = 94
+          Height = 110
+          Align = alClient
+          ItemHeight = 13
+          TabOrder = 1
+          OnClick = pluginListClick
+        end
+      end
+      object PageControl2: TPageControl
+        Left = 97
+        Top = 30
+        Width = 289
+        Height = 168
+        ActivePage = TabSheet3
+        Align = alLeft
+        TabOrder = 2
+        object TabSheet3: TTabSheet
+          Caption = 'Capabilities'
+          inline TcapFrame1: TcapFrame
+            Left = 0
+            Top = 0
+            Width = 281
+            Height = 140
+            Align = alClient
+            TabOrder = 0
+            ExplicitWidth = 281
+            ExplicitHeight = 140
+            inherited Panel1: TPanel
+              Width = 281
+              Height = 140
+              ExplicitWidth = 281
+              ExplicitHeight = 140
+              inherited GroupBox3: TGroupBox
+                Width = 279
+                ExplicitWidth = 279
+              end
+              inherited GroupBox4: TGroupBox
+                Width = 279
+                ExplicitWidth = 279
+              end
+            end
+          end
+        end
+        object TabSheet4: TTabSheet
+          Caption = 'Fitting'
+          ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
+          object PageControl3: TPageControl
+            Left = 0
+            Top = 0
+            Width = 281
+            Height = 140
+            ActivePage = TabSheet2
+            Align = alClient
+            TabOrder = 0
+            object TabSheet2: TTabSheet
+              Caption = 'Full Space'
+              inline fullSpaceFitFrame: TFullSpaceFittingFrame
+                Left = 0
+                Top = 0
+                Width = 273
+                Height = 112
+                Align = alClient
+                TabOrder = 0
+                ExplicitWidth = 273
+                ExplicitHeight = 112
+                inherited sweepE: TGroupBox
+                  Width = 273
+                  Height = 112
+                  Align = alClient
+                  ExplicitWidth = 273
+                  ExplicitHeight = 112
+                  inherited executeBtn: TButton
+                    Left = 184
+                    Top = 128
+                    OnClick = fullSpaceFitFrameexecuteBtnClick
+                    ExplicitLeft = 184
+                    ExplicitTop = 128
+                  end
+                  inherited paraList: TCheckListBox
+                    Height = 95
+                    ExplicitHeight = 95
+                  end
+                  inherited sweepRangeE: mtkFloatLabeledEdit
+                    Text = '0.00'
+                  end
+                end
+                inherited ActionList1: TActionList
+                  Left = 88
+                  Top = 0
+                end
+              end
+            end
+          end
+        end
+        object TabSheet5: TTabSheet
+          Caption = 'Make Noise'
+          ImageIndex = 2
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
+          object noiseSigmaE: mtkFloatLabeledEdit
+            Left = 13
+            Top = 32
+            Width = 84
+            Height = 21
+            EditLabel.Width = 28
+            EditLabel.Height = 13
+            EditLabel.Caption = 'Sigma'
+            TabOrder = 0
+            Text = '0.00'
+            OnKeyDown = noiseSigmaEKeyDown
+          end
+          object addNoiseBtn: TButton
+            Left = 13
+            Top = 72
+            Width = 75
+            Height = 25
+            Caption = 'Do It'
+            TabOrder = 1
+            OnClick = addNoiseBtnClick
+          end
+        end
+      end
+    end
+  end
   object startupTimer: TTimer
     Enabled = False
     Interval = 100
@@ -568,8 +552,8 @@ object MainF: TMainF
     Top = 24
   end
   object ActionList1: TActionList
-    Left = 408
-    Top = 456
+    Left = 464
+    Top = 448
     object loadPluginsA: TAction
       Caption = 'Load'
       OnExecute = loadPluginsAExecute
@@ -619,13 +603,18 @@ object MainF: TMainF
     end
     object getCapabilitiesA: TAction
       Category = 'C_API'
-      Caption = 'Capabilities'
+      Caption = 'RR Capabilities'
       OnExecute = getCapabilitiesAExecute
     end
     object getAllSymbols: TAction
       Category = 'C_API'
       Caption = 'getAllSymbols'
       OnExecute = getAllSymbolsExecute
+    end
+    object getCapabilitiesAsXMLA: TAction
+      Category = 'C_API'
+      Caption = 'getCapabilitiesAsXMLA'
+      OnExecute = getCapabilitiesAsXMLAExecute
     end
   end
   object ApplicationEvents1: TApplicationEvents
@@ -652,5 +641,11 @@ object MainF: TMainF
     OnTimer = ShutDownTimerTimer
     Left = 712
     Top = 72
+  end
+  object mIniFile: mtkIniFileC
+    IniFileName = 'RRWinC.ini'
+    RootFolder = '.'
+    Left = 408
+    Top = 344
   end
 end

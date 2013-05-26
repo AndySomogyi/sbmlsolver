@@ -23,10 +23,9 @@ class AddNoise : public Plugin
     	enum NoiseType {ntGaussian = 0};
 
 	private:
-	    Capability				mSelectNoiseType;
-		Parameter<NoiseType> 	mNoiseType;
+    	Capability				mAddNoise;
 
-    	Capability				mAddGaussianNoise;
+		Parameter<NoiseType> 	mNoiseType;
         Parameter<double>		mSigma;
 		AddNoiseThread			mAddNoiseThread;
 
@@ -56,6 +55,13 @@ string Parameter<addNoise::AddNoise::NoiseType>::getValueAsString() const
 {
 	return "Gaussian";
 }
+
+template<>
+void Parameter< addNoise::AddNoise::NoiseType >::setValue(const string& val)
+{
+	mValue = addNoise::AddNoise::ntGaussian;
+}
+
 }
 
 #endif

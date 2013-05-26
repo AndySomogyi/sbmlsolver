@@ -1,7 +1,7 @@
 #ifndef rr_pchH
 #define rr_pchH
 #include <windows.h>
-//#include <strsafe.h>
+
 
 //STD includes
 #include <algorithm>
@@ -43,8 +43,7 @@
 #include "rrCGenerator.h"
 #include "rrUtils.h"
 #include "rrCapability.h"
-//#include "rrParameter.h"
-#include "rrCapsSupport.h"
+#include "rrCapabilities.h"
 #include "rrCGenerator.h"
 #include "rrCSharpGenerator.h"
 #include "rrCVODEInterface.h"

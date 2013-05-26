@@ -41,10 +41,9 @@ __published:	// IDE-managed Components
 	void __fastcall simulateAExecute(TObject *Sender);
 
 
-    private:	// User declarations
+    private:
         RRHandle					mRRHandle;
         RRJobHandle					mSimJobH;
-//        void						AddItemsToListBox(const StringList& items);
 
         static void __stdcall	   	ThreadEnterCB(void *UserData);					//These need to be static in order to be passed to the C API thread function
         static void __stdcall	   	ThreadExitCB(void *UserData);
@@ -52,8 +51,7 @@ __published:	// IDE-managed Components
         void 		__fastcall     	simulationStarted();
         void 		__fastcall     	simulationFinished();
 
-	public:		// User declarations
-        void		__fastcall		callBack();
+	public:
                     __fastcall     	TSimulateFrame(TComponent* Owner);
         TMemo			           *infoMemo;	//For the logger
         void			           	assignRRHandle(RRHandle aHandle);
@@ -61,8 +59,9 @@ __published:	// IDE-managed Components
         void 					    EnableDisableSimulation();
 
         RRJobHandle	__fastcall		simulate();
-        TOnSimulationFinished	   	onSimulationFinished;
+        TOnSimulationFinished	   	onSimulationFinished;	//Function pointer, called in main form
 };
+
 //---------------------------------------------------------------------------
 extern PACKAGE TSimulateFrame *SimulateFrame;
 //---------------------------------------------------------------------------

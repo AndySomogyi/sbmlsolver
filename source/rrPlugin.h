@@ -5,6 +5,7 @@
 #include "rrObject.h"
 #include "rrExporter.h"
 #include "rrCapability.h"
+#include "rrCapabilities.h"
 //---------------------------------------------------------------------------
 
 /* Abstract plugin */
@@ -32,7 +33,7 @@ class RR_DECLSPEC Plugin : public rrObject
 	    PluginWorkFinishedCB        mWorkFinishedCB;
 		void*						mUserData;
 
-        vector<Capability>   		mCapabilities;	//Create a capabilities class..
+        Capabilities	   			mCapabilities;
 
     public:
 	    				           	Plugin(const std::string& name = gEmptyString, const std::string& cat = gNoneString, RoadRunner* aRR = NULL, PluginWorkStartedCB fn1 = NULL, PluginWorkFinishedCB fn2 = NULL);
@@ -45,7 +46,7 @@ class RR_DECLSPEC Plugin : public rrObject
         string			           	getVersion();
         string			           	getCopyright();
         string                      getInfo();
-        vector<Capability>*			getCapabilities();
+        Capabilities* 				getCapabilities();
         Capability*   				getCapability(const string& name);
 
         Parameters*					getParameters(Capability& capability); //Each capability has a set of parameters
@@ -54,9 +55,9 @@ class RR_DECLSPEC Plugin : public rrObject
         BaseParameter*				getParameter(const string& param, const string& capability = gEmptyString);
         BaseParameter*				getParameter(const string& param, Capability& capability);
 
-        bool						setParameter(const string& nameOf, void* value);
+//        bool						setParameter(const string& nameOf, void* value);
         bool						setParameter(const string& nameOf, const char* value);
-        bool						setParameter(const string& nameOf, void* value, 		Capability& capability);
+//        bool						setParameter(const string& nameOf, void* value, 		Capability& capability);
         bool						setParameter(const string& nameOf, const char* value, 	Capability& capability);
 
         //Logging

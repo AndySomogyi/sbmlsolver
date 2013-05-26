@@ -6,6 +6,8 @@
 #include "rrStringlist.h"
 
 
+namespace rr
+{
 using std::string;
 using std::wstring;
 //---------------------------------------------------------------------------
@@ -21,4 +23,7 @@ String                 	vclstr(const std::ostringstream& s);
 
 rr::StringList 	       	GetCheckedItems(TCheckListBox* listBox);
 void 			   		AddItemsToListBox(const rr::StringList& items, TCheckListBox *lb);
+
+}
+
 #endif

@@ -7,7 +7,9 @@
 #include "rrPlugin.h"
 #include "rrUtils.h"
 #include "rrException.h"
+#include "rrCapabilities.h"
 #include "rrLogger.h"
+#include "rrRoadRunner.h"
 
 namespace rr
 {
@@ -125,8 +127,13 @@ bool PluginManager::loadPlugin(const string& sharedLib)
             Plugin* aPlugin = create(mRR);
             if(aPlugin)
             {
+            	//Add plugins capabilities to roadrunner
+                Capabilities *caps = aPlugin->getCapabilities();
+
                 pair< Poco::SharedLibrary*, Plugin* > storeMe(aLib, aPlugin);
                 mPlugins.push_back( storeMe );
+
+                mRR->addCapabilities(*(caps));
             }
         }
         else

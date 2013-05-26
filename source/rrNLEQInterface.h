@@ -11,7 +11,7 @@ namespace rr
 
 void ModelFunction(int* nx, double* y, double* fval, int* pErr);
 
-class RR_DECLSPEC NLEQInterface : public ISteadyStateSolver
+class RR_DECLSPEC NLEQInterface : public SteadyStateSolver
 {
     protected:
         int                             nOpts;
@@ -24,8 +24,16 @@ class RR_DECLSPEC NLEQInterface : public ISteadyStateSolver
         long                           *iopt;
         static ModelFromC              *model;     // Model generated from the SBML. Static so we can access it from standalone function
         static long                     n;
+        void							setup();
 
     public:
+                                        /// <summary>
+                                        /// Creates a new Instance of NLEQ for the given Model
+                                        /// </summary>
+                                        /// <param name="model">the model to create NLEQ for</param>
+                                        NLEQInterface(ModelFromC *_model = NULL);
+                                       ~NLEQInterface();
+		Capability&						getCapability();
         bool                            isAvailable();
         static ModelFromC*              getModel();
         static long						getN();
@@ -34,11 +42,6 @@ class RR_DECLSPEC NLEQInterface : public ISteadyStateSolver
         double                          defaultTolerance;
         double                          relativeTolerance;
 
-                                        /// <summary>
-                                        /// Creates a new Instance of NLEQ for the given Model
-                                        /// </summary>
-                                        /// <param name="model">the model to create NLEQ for</param>
-                                        NLEQInterface(ModelFromC *_model = NULL);
 
                                         /// <summary>
                                         /// Sets the Scaling Factors

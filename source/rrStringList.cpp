@@ -9,10 +9,14 @@
 #include "rrStringList.h"
 #include "rrUtils.h"
 #include "rrException.h"
+
+
 //---------------------------------------------------------------------------
 
 namespace rr
 {
+
+using namespace rrc;
 
 StringList::StringList()
 {}
@@ -22,8 +26,18 @@ StringList::StringList(const vector<string>& strings)
 mStrings(strings)
 {}
 
-StringList::~StringList()
-{}
+StringList::StringList(RRStringArrayHandle cp)
+{
+	if(!cp)
+    {
+    	return;
+    }
+
+	for(int i = 0; i < cp->Count; i++)
+    {
+    	mStrings.push_back(cp->String[i]);
+    }
+}
 
 StringList::StringList(const string& str, const string& delimiter)
 {
@@ -34,6 +48,9 @@ StringList::StringList(const StringList& cp)
 {
     mStrings = cp.mStrings;
 }
+
+StringList::~StringList()
+{}
 
 vector<string>::iterator StringList::begin()
 {
