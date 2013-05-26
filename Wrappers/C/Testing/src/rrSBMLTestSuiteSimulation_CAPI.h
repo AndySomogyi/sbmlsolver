@@ -18,7 +18,7 @@ class SBMLTestSuiteSimulation_CAPI : public rr::TestSuiteModelSimulation
         bool                   	LoadSettings(const string& fName = "");
 		bool 			       	Simulate();
         bool                   	SaveResult();
-        rr::SimulationData      GetResult();
+        rr::RoadRunnerData      GetResult();
 };
 
 #endif

@@ -37,7 +37,7 @@
 #include "rrStringUtils.h"
 #include "rrUtils.h"
 #include "rrLogger.h"
-#include "rrMisc.h"
+#include "rrSelectionRecord.h"
 
 // Most Unix systems have a getch in libcurses, but this introduces
 // an un-needed depencency, as we can write our own getch easily.
@@ -142,9 +142,9 @@ string getTime()
     return buf;
 }
 
-string getCurrentDateTime()
+string getDateTime()
 {
-// Get current date/time, format is YYYY-MM-DD.HH:mm:ss
+	// Get current date/time, format is YYYY-MM-DD.HH:mm:ss
     time_t     now = time(0);
     struct tm  tstruct;
     char       buf[80];
@@ -569,7 +569,7 @@ StringList getSelectionListFromSettings(const SimulationSettings& settings)
 {
 	//read from settings the variables found in the amounts and concentrations lists
 	StringList theList;
-	TSelectionRecord record;
+	SelectionRecord record;
 
     int nrOfVars = settings.mVariables.Count();
 

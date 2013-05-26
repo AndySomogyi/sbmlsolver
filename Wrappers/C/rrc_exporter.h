@@ -24,4 +24,14 @@
 	#define rrcCallConv
 #endif
 
+#if !defined(__cplusplus)
+    #if !defined(_MSC_VER)
+    	#include "stdbool.h"
+    #else	//VS don't have stdbool.h
+    	typedef int bool;
+    	#define false 0
+    	#define true 1
+    #endif
+#endif
+
 #endif

@@ -62,11 +62,11 @@ int main(int argc, char** argv)
         //Write data to a file
         if(instanceCount < 500)
         {
-            SimulationData allData;
+            RoadRunnerData allData;
             for(int i = instanceCount -1 ; i >-1 ; i--) //"Backwards" because bad plotting program..
             {
                 RoadRunner* rr = rrs[i];
-                SimulationData data = rr->getSimulationResult();
+                RoadRunnerData data = rr->getSimulationResult();
                 allData.append(data);
             }
 

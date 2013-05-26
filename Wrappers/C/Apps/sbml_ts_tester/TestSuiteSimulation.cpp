@@ -1,14 +1,14 @@
 #pragma hdrstop
 #include "rrException.h"
 #include "rrUtils.h"
-#include "rrSimulationData.h"
+#include "rrRoadRunnerData.h"
 #include "TestSuiteSimulation.h"
 
 extern string gTSModelsPath;
 extern string gTempFolder;
 extern bool gDebug;
 using namespace rr;
-SimulationData convertCAPIResultData(RRDataHandle		resultsHandle);
+RoadRunnerData convertCAPIResultData(RRDataHandle		resultsHandle);
 
 TestSuiteSimulation::TestSuiteSimulation(const string& dataOutputFolder, const string& modelFilePath, const string& modelFileName)
 :
@@ -69,7 +69,7 @@ bool TestSuiteSimulation::Simulate()
     return mResultHandle ? true : false;
 }
 
-SimulationData TestSuiteSimulation::GetResult()
+RoadRunnerData TestSuiteSimulation::GetResult()
 {
 	return mResultData; //Not that pretty.
 }
@@ -90,9 +90,9 @@ bool TestSuiteSimulation::SaveResult()
     return true;
 }
 
-SimulationData convertCAPIResultData(RRDataHandle	result)
+RoadRunnerData convertCAPIResultData(RRDataHandle	result)
 {
-	SimulationData resultData;
+	RoadRunnerData resultData;
 
 	StringList colNames;
 	//Copy column names

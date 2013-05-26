@@ -31,7 +31,7 @@ using namespace std;
 using namespace ls;
 
 
-//The incance count increases/decreases as instances are created/destroyed.
+//The instance count increases/decreases as instances are created/destroyed.
 int 				RoadRunner::mInstanceCount = 0;
 Mutex 				RoadRunner::mCompileMutex;
 Mutex 				RoadRunner::mLibSBMLMutex;
@@ -122,10 +122,15 @@ ModelFromC*	RoadRunner::getModel()
 	return mModel;
 }
 
+vector<SelectionRecord> RoadRunner::getSelectionList()
+{
+	return mSelectionList;
+}
+
 string RoadRunner::getInfo()
 {
 	stringstream info;
-    info<<"RoadRunner Info ("<<getCurrentDateTime()<<")\n";
+    info<<"RoadRunner Info ("<<getDateTime()<<")\n";
     info<<"\n\n";
     info<<"Model Loaded: "<<(mModel == NULL ? "false" : "true")<<endl;
     if(mModel)
@@ -146,7 +151,7 @@ string RoadRunner::getInfo()
 string RoadRunner::getExtendedVersionInfo()
 {
 	stringstream info;
-    info<<"RoadRunner Info ("<<getCurrentDateTime()<<")\n";
+    info<<"RoadRunner Info ("<<getDateTime()<<")\n";
     info<<"\n\n";
     info<<"libSBML version: "		<<	getlibSBMLVersion()<<endl;
     info<<"Temporary folder: "		<<	getTempFolder()<<endl;
@@ -398,38 +403,38 @@ bool RoadRunner::initializeModel()
     return true;
 }
 
-SimulationData RoadRunner::getSimulationResult()
+RoadRunnerData RoadRunner::getSimulationResult()
 {
-    return mSimulationData;
+    return mRoadRunnerData;
 }
 
-double RoadRunner::getValueForRecord(const TSelectionRecord& record)
+double RoadRunner::getValueForRecord(const SelectionRecord& record)
 {
     double dResult;
 
     switch (record.selectionType)
     {
-        case TSelectionType::clFloatingSpecies:
+        case SelectionType::clFloatingSpecies:
             dResult = mModel->getConcentration(record.index);
 		break;
 
-        case TSelectionType::clBoundarySpecies:
+        case SelectionType::clBoundarySpecies:
             dResult = mModel->mData.bc[record.index];
         break;
 
-        case TSelectionType::clFlux:
+        case SelectionType::clFlux:
             dResult = mModel->mData.rates[record.index];
         break;
 
-        case TSelectionType::clRateOfChange:
+        case SelectionType::clRateOfChange:
             dResult = mModel->mData.dydt[record.index];
         break;
 
-        case TSelectionType::clVolume:
+        case SelectionType::clVolume:
             dResult = mModel->mData.c[record.index];
         break;
 
-        case TSelectionType::clParameter:
+        case SelectionType::clParameter:
             {
                 if (record.index > ((mModel->mData.gpSize) - 1))
                 {
@@ -442,11 +447,11 @@ double RoadRunner::getValueForRecord(const TSelectionRecord& record)
             }
 		break;
 
-        case TSelectionType::clFloatingAmount:
+        case SelectionType::clFloatingAmount:
             dResult = mModel->mData.amounts[record.index];
         break;
 
-        case TSelectionType::clBoundaryAmount:
+        case SelectionType::clBoundaryAmount:
             int nIndex;
             if (mModelGenerator->mCompartmentList.find(mModelGenerator->mBoundarySpeciesList[record.index].compartmentName, nIndex))
             {
@@ -458,16 +463,16 @@ double RoadRunner::getValueForRecord(const TSelectionRecord& record)
             }
         break;
 
-        case TSelectionType::clElasticity:
+        case SelectionType::clElasticity:
             dResult = getEE(record.p1, record.p2, false);
         break;
 
-        case TSelectionType::clUnscaledElasticity:
+        case SelectionType::clUnscaledElasticity:
             dResult = getuEE(record.p1, record.p2, false);
         break;
 
 		// ********  Todo: Enable this.. ***********
-        case TSelectionType::clEigenValue:
+        case SelectionType::clEigenValue:
 //            vector< complex<double> >oComplex = LA.GetEigenValues(getReducedJacobian());
 //            if (oComplex.Length > record.index)
 //            {
@@ -478,7 +483,7 @@ double RoadRunner::getValueForRecord(const TSelectionRecord& record)
                 dResult = 0.0;
         break;
 
-        case TSelectionType::clStoichiometry:
+        case SelectionType::clStoichiometry:
             dResult = mModel->mData.sr[record.index];
         break;
 
@@ -491,9 +496,9 @@ double RoadRunner::getValueForRecord(const TSelectionRecord& record)
 
 double RoadRunner::getNthSelectedOutput(const int& index, const double& dCurrentTime)
 {
-    TSelectionRecord record = mSelectionList[index];
+    SelectionRecord record = mSelectionList[index];
 
-    if (record.selectionType == TSelectionType::clTime)
+    if (record.selectionType == SelectionType::clTime)
     {
         return dCurrentTime;
     }
@@ -609,7 +614,7 @@ bool RoadRunner::simulateSBMLFile(const string& fileName, const bool& useConserv
 	mCurrentSBMLFileName = fileName;
 	loadSBML(sbml);
 
-    mRawSimulationData = simulate();
+    mRawRoadRunnerData = simulate();
 
     StringList list = getTimeCourseSelectionList();
     return true;
@@ -1033,7 +1038,7 @@ bool RoadRunner::simulate2()
         throw(Exception("There is no model loaded, can't simulate"));
     }
 
- 	mRawSimulationData = simulateEx(mTimeStart, mTimeEnd, mNumPoints);
+ 	mRawRoadRunnerData = simulateEx(mTimeStart, mTimeEnd, mNumPoints);
 
     //Populate simulation result
     populateResult();
@@ -1048,7 +1053,7 @@ bool RoadRunner::simulate2Ex(const double& startTime, const double& endTime, con
         throw(Exception("There is no model loaded, can't simulate"));
     }
 
- 	mRawSimulationData = simulateEx(startTime, endTime, numberOfPoints);
+ 	mRawRoadRunnerData = simulateEx(startTime, endTime, numberOfPoints);
 
     //Populate simulation result
     populateResult();
@@ -1059,8 +1064,8 @@ bool RoadRunner::populateResult()
 {
     StringList list = getTimeCourseSelectionList();
 
-    mSimulationData.setColumnNames(list);
-    mSimulationData.setData(mRawSimulationData);
+    mRoadRunnerData.setColumnNames(list);
+    mRoadRunnerData.setData(mRawRoadRunnerData);
     return true;
 }
 
@@ -1084,9 +1089,9 @@ DoubleMatrix RoadRunner::simulateEx(const double& startTime, const double& endTi
         mTimeEnd            = endTime;
         mTimeStart          = startTime;
         mNumPoints          = numberOfPoints;
-        mRawSimulationData  = runSimulation();
+        mRawRoadRunnerData  = runSimulation();
         populateResult();
-        return mRawSimulationData;
+        return mRawRoadRunnerData;
     }
     catch(const Exception& e)
     {
@@ -1112,50 +1117,50 @@ StringList RoadRunner::getTimeCourseSelectionList()
     StringList oRates       = getRateOfChangeIds();
     StringList oParameters  = getParameterIds();
 
-    vector<TSelectionRecord>::iterator iter;
+    vector<SelectionRecord>::iterator iter;
 
     for(iter = mSelectionList.begin(); iter != mSelectionList.end(); iter++)
     {
-        TSelectionRecord record = (*iter);
+        SelectionRecord record = (*iter);
         switch (record.selectionType)
         {
-            case TSelectionType::clTime:
+            case SelectionType::clTime:
                 oResult.Add("time");
                 break;
-            case TSelectionType::clBoundaryAmount:
+            case SelectionType::clBoundaryAmount:
                 oResult.Add(format("[{0}]", oBoundary[record.index]));
                 break;
-            case TSelectionType::clBoundarySpecies:
+            case SelectionType::clBoundarySpecies:
                 oResult.Add(oBoundary[record.index]);
                 break;
-            case TSelectionType::clFloatingAmount:
+            case SelectionType::clFloatingAmount:
                 oResult.Add(format("[{0}]", oFloating[record.index]));
                 break;
-            case TSelectionType::clFloatingSpecies:
+            case SelectionType::clFloatingSpecies:
                 oResult.Add(oFloating[record.index]);
                 break;
-            case TSelectionType::clVolume:
+            case SelectionType::clVolume:
                 oResult.Add(oVolumes[record.index]);
                 break;
-            case TSelectionType::clFlux:
+            case SelectionType::clFlux:
                 oResult.Add(oFluxes[record.index]);
                 break;
-            case TSelectionType::clRateOfChange:
+            case SelectionType::clRateOfChange:
                 oResult.Add(oRates[record.index]);
                 break;
-            case TSelectionType::clParameter:
+            case SelectionType::clParameter:
                 oResult.Add(oParameters[record.index]);
                 break;
-            case TSelectionType::clEigenValue:
+            case SelectionType::clEigenValue:
                 oResult.Add("eigen_" + record.p1);
                 break;
-            case TSelectionType::clElasticity:
+            case SelectionType::clElasticity:
                 oResult.Add(format("EE:{0},{1}", record.p1, record.p2));
                 break;
-            case TSelectionType::clUnscaledElasticity:
+            case SelectionType::clUnscaledElasticity:
                 oResult.Add(format("uEE:{0},{1}", record.p1, record.p2));
                 break;
-            case TSelectionType::clStoichiometry:
+            case SelectionType::clStoichiometry:
                 oResult.Add(record.p1);
                 break;
         }
@@ -1257,10 +1262,8 @@ void RoadRunner::computeAndAssignConservationLaws(const bool& bValue)
     {
     	Log(lWarning)<<"The compute and assign conservation laws flag already set to : "<<toString(bValue);
     }
-	
-    mComputeAndAssignConservationLaws.set(bValue);
-    
-	if(mModel != NULL)
+    mComputeAndAssignConservationLaws.setValue(bValue);
+    if(mModel != NULL)
     {
     	if(!loadSBML(mCurrentSBML, true))
         {
@@ -1535,7 +1538,7 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
     {
     	if (toUpper(newSelectionList[i]) == toUpper("time"))
         {
-        	mSelectionList.push_back(TSelectionRecord(0, clTime));
+        	mSelectionList.push_back(SelectionRecord(0, clTime));
         }
 
         // Check for species
@@ -1543,20 +1546,20 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
         {
             if (newSelectionList[i] == fs[j])
             {
-               	mSelectionList.push_back(TSelectionRecord(j, TSelectionType::clFloatingSpecies));
+               	mSelectionList.push_back(SelectionRecord(j, SelectionType::clFloatingSpecies));
                 break;
             }
 
             if (newSelectionList[i] == "[" + fs[j] + "]")
             {
-               	mSelectionList.push_back(TSelectionRecord(j, clFloatingAmount));
+               	mSelectionList.push_back(SelectionRecord(j, clFloatingAmount));
                 break;
             }
 
             // Check for species rate of change
             if (newSelectionList[i] == fs[j] + "'")
             {
-                mSelectionList.push_back(TSelectionRecord(j, clRateOfChange));
+                mSelectionList.push_back(SelectionRecord(j, clRateOfChange));
                 break;
             }
         }
@@ -1566,12 +1569,12 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
         {
             if (newSelectionList[i] == bs[j])
             {
-                mSelectionList.push_back(TSelectionRecord(j, clBoundarySpecies));
+                mSelectionList.push_back(SelectionRecord(j, clBoundarySpecies));
                 break;
             }
             if (newSelectionList[i] == "[" + bs[j] + "]")
             {
-                mSelectionList.push_back(TSelectionRecord(j, clBoundaryAmount));
+                mSelectionList.push_back(SelectionRecord(j, clBoundaryAmount));
                 break;
             }
         }
@@ -1581,7 +1584,7 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
             // Check for reaction rate
             if (newSelectionList[i] == rs[j])
             {
-                mSelectionList.push_back(TSelectionRecord(j, clFlux));
+                mSelectionList.push_back(SelectionRecord(j, clFlux));
                 break;
             }
         }
@@ -1591,13 +1594,13 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
             // Check for volume
             if (newSelectionList[i] == vol[j])
             {
-                mSelectionList.push_back(TSelectionRecord(j, clVolume));
+                mSelectionList.push_back(SelectionRecord(j, clVolume));
                 break;
             }
 
             if (newSelectionList[i] == "[" + vol[j] + "]")
             {
-                mSelectionList.push_back(TSelectionRecord(j, clVolume));
+                mSelectionList.push_back(SelectionRecord(j, clVolume));
                 break;
             }
         }
@@ -1606,7 +1609,7 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
         {
             if (newSelectionList[i] == gp[j])
             {
-                mSelectionList.push_back(TSelectionRecord(j, clParameter));
+                mSelectionList.push_back(SelectionRecord(j, clParameter));
                 break;
             }
         }
@@ -1616,8 +1619,8 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
         if (startsWith(tmp, "eigen_"))
         {
         	string species = tmp.substr(tmp.find_last_of("eigen_") + 1);
-            mSelectionList.push_back(TSelectionRecord(i, clEigenValue, species));
-//            mSelectionList[i].selectionType = TSelectionType::clEigenValue;
+            mSelectionList.push_back(SelectionRecord(i, clEigenValue, species));
+//            mSelectionList[i].selectionType = SelectionType::clEigenValue;
 //            mSelectionList[i].p1 = species;
 			int aIndex = fs.find(species);
             mSelectionList[i].index = aIndex;
@@ -1629,7 +1632,7 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
 //            string parameters = ((string)newSelectionList[i]).Substring(3);
 //            var p1 = parameters.Substring(0, parameters.IndexOf(","));
 //            var p2 = parameters.Substring(parameters.IndexOf(",") + 1);
-//            mSelectionList[i].selectionType = TSelectionType::clElasticity;
+//            mSelectionList[i].selectionType = SelectionType::clElasticity;
 //            mSelectionList[i].p1 = p1;
 //            mSelectionList[i].p2 = p2;
 //        }
@@ -1639,14 +1642,14 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
 //            string parameters = ((string)newSelectionList[i]).Substring(4);
 //            var p1 = parameters.Substring(0, parameters.IndexOf(","));
 //            var p2 = parameters.Substring(parameters.IndexOf(",") + 1);
-//            mSelectionList[i].selectionType = TSelectionType::clUnscaledElasticity;
+//            mSelectionList[i].selectionType = SelectionType::clUnscaledElasticity;
 //            mSelectionList[i].p1 = p1;
 //            mSelectionList[i].p2 = p2;
 //        }
 //        if (((string)newSelectionList[i]).StartsWith("eigen_"))
 //        {
 //            var species = ((string)newSelectionList[i]).Substring("eigen_".Length);
-//            mSelectionList[i].selectionType = TSelectionType::clEigenValue;
+//            mSelectionList[i].selectionType = SelectionType::clEigenValue;
 //            mSelectionList[i].p1 = species;
 //            mModelGenerator->floatingSpeciesConcentrationList.find(species, out mSelectionList[i].index);
 //        }
@@ -1654,7 +1657,7 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
 //        int index;
 //        if (sr.find((string)newSelectionList[i], out index))
 //        {
-//            mSelectionList[i].selectionType = TSelectionType::clStoichiometry;
+//            mSelectionList[i].selectionType = SelectionType::clStoichiometry;
 //            mSelectionList[i].index = index;
 //            mSelectionList[i].p1 = (string) newSelectionList[i];
 //        }
@@ -1662,7 +1665,7 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
 }
 
 // Help(
-//            "Carry out a single integration step using a stepsize as indicated in the method call (the intergrator is reset to take into account all variable changes). Arguments: double CurrentTime, double StepSize, Return Value: new CurrentTime."
+// "Carry out a single integration step using a stepsize as indicated in the method call (the intergrator is reset to take into account all variable changes). Arguments: double CurrentTime, double StepSize, Return Value: new CurrentTime."
 //            )
 double RoadRunner::oneStep(const double& currentTime, const double& stepSize)
 {
@@ -2395,8 +2398,8 @@ int RoadRunner::createDefaultSteadyStateSelectionList()
     mSteadyStateSelection.resize(floatingSpecies.Count());
     for (int i = 0; i < floatingSpecies.Count(); i++)
     {
-        TSelectionRecord aRec;
-        aRec.selectionType = TSelectionType::clFloatingSpecies;
+        SelectionRecord aRec;
+        aRec.selectionType = SelectionType::clFloatingSpecies;
         aRec.p1 = floatingSpecies[i];
         aRec.index = i;
         mSteadyStateSelection[i] = aRec;
@@ -2427,46 +2430,46 @@ StringList RoadRunner::getSteadyStateSelectionList()
     StringList result;
     for(int i = 0; i < mSteadyStateSelection.size(); i++)
     {
-        TSelectionRecord record = mSteadyStateSelection[i];
+        SelectionRecord record = mSteadyStateSelection[i];
         switch (record.selectionType)
         {
-            case TSelectionType::clTime:
+            case SelectionType::clTime:
                 result.Add("time");
             break;
-            case TSelectionType::clBoundaryAmount:
+            case SelectionType::clBoundaryAmount:
                 result.Add(format("[{0}]", oBoundary[record.index]));
             break;
-            case TSelectionType::clBoundarySpecies:
+            case SelectionType::clBoundarySpecies:
                 result.Add(oBoundary[record.index]);
             break;
-            case TSelectionType::clFloatingAmount:
+            case SelectionType::clFloatingAmount:
                 result.Add("[" + (string)oFloating[record.index] + "]");
             break;
-            case TSelectionType::clFloatingSpecies:
+            case SelectionType::clFloatingSpecies:
                 result.Add(oFloating[record.index]);
             break;
-            case TSelectionType::clVolume:
+            case SelectionType::clVolume:
                 result.Add(oVolumes[record.index]);
             break;
-            case TSelectionType::clFlux:
+            case SelectionType::clFlux:
                 result.Add(oFluxes[record.index]);
             break;
-            case TSelectionType::clRateOfChange:
+            case SelectionType::clRateOfChange:
                 result.Add(oRates[record.index]);
             break;
-            case TSelectionType::clParameter:
+            case SelectionType::clParameter:
                 result.Add(oParameters[record.index]);
             break;
-            case TSelectionType::clEigenValue:
+            case SelectionType::clEigenValue:
                 result.Add("eigen_" + record.p1);
             break;
-            case TSelectionType::clElasticity:
+            case SelectionType::clElasticity:
                 result.Add("EE:" + record.p1 + "," + record.p2);
             break;
-            case TSelectionType::clUnscaledElasticity:
+            case SelectionType::clUnscaledElasticity:
                 result.Add("uEE:" + record.p1 + "," + record.p2);
             break;
-            case TSelectionType::clUnknown:
+            case SelectionType::clUnknown:
                 result.Add(record.p1);
                 break;
         }
@@ -2474,9 +2477,9 @@ StringList RoadRunner::getSteadyStateSelectionList()
     return result ;
 }
 
-vector<TSelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& newSelectionList)
+vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& newSelectionList)
 {
-    vector<TSelectionRecord> steadyStateSelection;
+    vector<SelectionRecord> steadyStateSelection;
 	steadyStateSelection.resize(newSelectionList.Count());
     StringList fs = mModelGenerator->getFloatingSpeciesConcentrationList();
     StringList bs = mModelGenerator->getBoundarySpeciesList();
@@ -2493,7 +2496,7 @@ vector<TSelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& n
             if ((string)newSelectionList[i] == (string)fs[j])
             {
                 steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = TSelectionType::clFloatingSpecies;
+                steadyStateSelection[i].selectionType = SelectionType::clFloatingSpecies;
                 set = true;
                 break;
             }
@@ -2501,7 +2504,7 @@ vector<TSelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& n
             if ((string)newSelectionList[i] == "[" + (string)fs[j] + "]")
             {
                 steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = TSelectionType::clFloatingAmount;
+                steadyStateSelection[i].selectionType = SelectionType::clFloatingAmount;
                 set = true;
                 break;
             }
@@ -2510,7 +2513,7 @@ vector<TSelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& n
             if ((string)newSelectionList[i] == (string)fs[j] + "'")
             {
                 steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = TSelectionType::clRateOfChange;
+                steadyStateSelection[i].selectionType = SelectionType::clRateOfChange;
                 set = true;
                 break;
             }
@@ -2527,14 +2530,14 @@ vector<TSelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& n
             if ((string)newSelectionList[i] == (string)bs[j])
             {
                 steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = TSelectionType::clBoundarySpecies;
+                steadyStateSelection[i].selectionType = SelectionType::clBoundarySpecies;
                 set = true;
                 break;
             }
             if ((string)newSelectionList[i] == "[" + (string)bs[j] + "]")
             {
                 steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = TSelectionType::clBoundaryAmount;
+                steadyStateSelection[i].selectionType = SelectionType::clBoundaryAmount;
                 set = true;
                 break;
             }
@@ -2547,7 +2550,7 @@ vector<TSelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& n
 
         if ((string)newSelectionList[i] == "time")
         {
-            steadyStateSelection[i].selectionType = TSelectionType::clTime;
+            steadyStateSelection[i].selectionType = SelectionType::clTime;
             set = true;
         }
 
@@ -2557,7 +2560,7 @@ vector<TSelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& n
             if ((string)newSelectionList[i] == (string)rs[j])
             {
                 steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = TSelectionType::clFlux;
+                steadyStateSelection[i].selectionType = SelectionType::clFlux;
                 set = true;
                 break;
             }
@@ -2569,7 +2572,7 @@ vector<TSelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& n
             if ((string)newSelectionList[i] == (string)vol[j])
             {
                 steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = TSelectionType::clVolume;
+                steadyStateSelection[i].selectionType = SelectionType::clVolume;
                 set = true;
                 break;
             }
@@ -2581,7 +2584,7 @@ vector<TSelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& n
             if ((string)newSelectionList[i] == (string)gp[j])
             {
                 steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = TSelectionType::clParameter;
+                steadyStateSelection[i].selectionType = SelectionType::clParameter;
                 set = true;
                 break;
             }
@@ -2593,7 +2596,7 @@ vector<TSelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& n
         }
 
         // it is another symbol
-        steadyStateSelection[i].selectionType = TSelectionType::clUnknown;
+        steadyStateSelection[i].selectionType = SelectionType::clUnknown;
         steadyStateSelection[i].p1 = (string)newSelectionList[i];
     }
     return steadyStateSelection;
@@ -2607,7 +2610,7 @@ void RoadRunner::setSteadyStateSelectionList(const StringList& newSelectionList)
         throw CoreException(gEmptyModelMessage);
     }
 
-    vector<TSelectionRecord> ssSelection = getSteadyStateSelection(newSelectionList);
+    vector<SelectionRecord> ssSelection = getSteadyStateSelection(newSelectionList);
     mSteadyStateSelection = ssSelection;
 }
 
@@ -2625,7 +2628,7 @@ vector<double> RoadRunner::computeSteadyStateValues()
     return computeSteadyStateValues(mSteadyStateSelection, true);
 }
 
-vector<double> RoadRunner::computeSteadyStateValues(const vector<TSelectionRecord>& selection, const bool& computeSteadyState)
+vector<double> RoadRunner::computeSteadyStateValues(const vector<SelectionRecord>& selection, const bool& computeSteadyState)
 {
     if (computeSteadyState)
     {
@@ -2641,14 +2644,14 @@ vector<double> RoadRunner::computeSteadyStateValues(const vector<TSelectionRecor
 
 }
 
-double RoadRunner::computeSteadyStateValue(const TSelectionRecord& record)
+double RoadRunner::computeSteadyStateValue(const SelectionRecord& record)
 {
     if (!mModel)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    if (record.selectionType == TSelectionType::clUnknown)
+    if (record.selectionType == SelectionType::clUnknown)
     {
         return computeSteadyStateValue(record.p1);
     }
@@ -5101,19 +5104,23 @@ string RoadRunner::getlibSBMLVersion()
 
 
 // Help("Returns the values selected with setTimeCourseSelectionList() for the current model time / timestep")
-//        double[] RoadRunner::getSelectedValues()
-//        {
-//            if (!mModel) throw CoreException(gEmptyModelMessage);
-//
-//            var result = new double[mSelectionList.Length];
-//
-//            for (int j = 0; j < mSelectionList.Length; j++)
-//            {
-//                result[j] = getNthSelectedOutput(j, mModel->mData.GetTime());
-//            }
-//            return result;
-//        }
-//
+vector<double> RoadRunner::getSelectedValues()
+{
+    if (!mModel)
+    {
+    	throw CoreException(gEmptyModelMessage);
+    }
+
+    vector<double> result;
+    result.resize(mSelectionList.size());
+
+    for (int i = 0; i < mSelectionList.size(); i++)
+    {
+    	result[i] = getNthSelectedOutput(i, mModel->mData.time);
+    }
+    return result;
+}
+
 
 // Help("When turned on, this method will cause rates, event assignments, rules and such to be multiplied " +
 //              "with the compartment volume, if species are defined as initialAmounts. By default this behavior is off.")

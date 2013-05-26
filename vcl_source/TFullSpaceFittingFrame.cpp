@@ -43,7 +43,6 @@ void TFullSpaceFittingFrame::loadParameterList()
         paraList->Clear();
         RRStringArrayHandle cSymbolsIDs = getGlobalParameterIds(mRRI);
 		StringList symbols = convertCStringArray(cSymbolsIDs);
-
         AddItemsToListBox(symbols, paraList);
     }
 }
@@ -65,35 +64,78 @@ void __fastcall TFullSpaceFittingFrame::paraListClick(TObject *Sender)
     }
 }
 
+void __fastcall TFullSpaceFittingFrame::paraListClickCheck(TObject *Sender)
+{
+	//Fit only one parameter at a time
+    int index = paraList->ItemIndex;
+    if(index == -1)
+    {
+    	return;
+    }
+
+    for(int i = 0; i < paraList->Count; i++)
+    {
+    	if(i != index)
+        {
+			paraList->Checked[i] = false;
+        }
+    }
+}
+
 void __fastcall TFullSpaceFittingFrame::executeBtnClick(TObject *Sender)
 {
-    string strVal = getTempFolder(mRRI);
-    string msg = (setPluginParameter(mPlugin, "TempFolder", (char*) &strVal)) ? "Updated tempfolder" : "Failed to set tempFolder";
+	int checkedItem = -1;
+	for(int i = 0; i < paraList->Count; i++)
+    {
+        if(paraList->Checked[i])
+        {
+        	checkedItem = i;
+            break;
+        }
+    }
+
+    if(checkedItem == -1)
+    {
+    	Log()<<"Error: Please select a parameter to fit";
+        return;
+    }
+
+    string strVal = stdstr(paraList->Items->Strings[checkedItem]);
+
+	string msg = setPluginParameter(mPlugin, "Parameter to fit", strVal.c_str())
+    	? "Assigned fitting parameter" : "Failed assigning fitting parameter";
+    Log() << msg;
+
+    strVal = getTempFolder(mRRI);
+
+    msg = setPluginParameter(mPlugin, "TempFolder", strVal.c_str())
+    ? "Updated tempfolder" : "Failed to set tempFolder";
     Log() << msg;
 
     strVal = getSBML(mRRI);
-    msg = (setPluginParameter(mPlugin, "SBML", (char*) &strVal)) ? "Assigned SBML" : "Failed assigning SBML";
+    msg = setPluginParameter(mPlugin, "SBML", strVal.c_str())
+    ? "Assigned SBML" : "Failed assigning SBML";
     Log() << msg;
 
-	vector<string> parasToFit;
-    parasToFit.push_back("k1");
+	if(stepsE->GetNumber() < 1)
+    {
+    	Log()<<"Error: Submit number of steps for fitting";
+        return;
+    }
 
-    int dummy = stepsE->GetValue();
-    setPluginParameter(mPlugin, "Steps per dimension", (char*) &dummy);
+    strVal = stepsE->GetNumberAsStdString();
+    setPluginParameter(mPlugin, "Steps per dimension", strVal.c_str());
 
-    double dummyDbl = sweepRangeE->GetValue();
-    setPluginParameter(mPlugin, "Parameter sweep range", (char*) &dummyDbl);
+    strVal = sweepRangeE->GetNumberAsStdString();
+    setPluginParameter(mPlugin, "Parameter sweep range", strVal.c_str());
 
-
-	msg = setPluginParameter(mPlugin, "Parameters to fit", (char*) &parasToFit) ? "Assigned fitting parameter" : "Failed assigning fitting parameter";
-    Log() << msg;
 
 	assignCallbacks(mPlugin, fsfStartedCB, fsfFinishedCB, this);
-    TMainF *mf = (TMainF*) this->Owner;
+    TMainF *mainForm = (TMainF*) this->Owner;
 
     //This call returns before the result has been created, non blocking.
     //The result is returned in the callback assigned in the configurePlugin function
-    executePluginEx(mPlugin, (void*) &(mf->mCurrentData));
+    executePluginEx(mPlugin, (void*) &(mainForm->mCurrentData));
 }
 
 void __stdcall TFullSpaceFittingFrame::fsfStartedCB(void *UserData)
@@ -117,13 +159,25 @@ void __fastcall TFullSpaceFittingFrame::fittingStarted()
     }
 }
 
+string TFullSpaceFittingFrame::getResult()
+{
+	return getPluginResult(mPlugin);
+}
+
 void __fastcall TFullSpaceFittingFrame::fittingFinished()
 {
-	Log()<<"Full space fitting was started";
+	Log()<<"Full space fitting was finished";
     if(onFittingFinished)
     {
-        onFittingFinished();	//
+        onFittingFinished();
     }
-
 }
+
+//---------------------------------------------------------------------------
+void __fastcall TFullSpaceFittingFrame::logResultAExecute(TObject *Sender)
+{
+	Log()<< getPluginResult(mPlugin);
+}
+
+
 

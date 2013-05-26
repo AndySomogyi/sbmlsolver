@@ -23,8 +23,8 @@ mTestCapability("A Plugin Capability", "RunMe", "Exposing the RunMe Function"),
 mTestParameter("NrOfIterations", 123, "Hint for Nr of iterations")
 {
 	mTestCapability.setup("TestPlugin", "SetTimeCourseSelectionList", "A function in a plugin");
-    mTestCapability.add(&mTestParameter);
-    mCapabilities.push_back(mTestCapability);
+    mTestCapability.addParameter(&mTestParameter);
+    mCapabilities.add(mTestCapability);
 }
 
 TestPlugin::~TestPlugin()

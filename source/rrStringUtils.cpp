@@ -810,7 +810,7 @@ string toString(const vector<string>& vec)
     for(int i = 0; i < vec.size(); i++)
     {
     	text<<vec[i];
-        if(i < vec.size() + 1)
+        if(i < vec.size() - 1)
         {
         	text<<", ";
         }

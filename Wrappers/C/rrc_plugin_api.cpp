@@ -71,6 +71,16 @@ RRStringArray* rrCallConv getPluginNames(RRHandle handle)
     catch_ptr_macro
 }
 
+char* rrCallConv getPluginName(RRPluginHandle handle)
+{
+	try
+    {
+        Plugin* aPlugin = castToPlugin(handle);
+        return createText(aPlugin->getName());
+    }
+    catch_ptr_macro
+}
+
 RRStringArray* rrCallConv getPluginCapabilities(RRPluginHandle handle)
 {
 	try
@@ -159,7 +169,6 @@ bool rrCallConv setPluginParameter(RRPluginHandle handle, const char* parameterN
         Plugin* aPlugin = castToPlugin(handle);
         BaseParameter* aParameter = (BaseParameter*) getPluginParameter(aPlugin, parameterName, NULL);
         return setParameter(aParameter, value);
-//        return aPlugin->setParameter(parameterName, value);
     }
 	catch_bool_macro
 }
@@ -200,5 +209,16 @@ bool rrCallConv assignCallbacks(RRPluginHandle handle, pluginCallback cb1, plugi
     catch_bool_macro
 }
 
+char* rrcCallConv getPluginResult(RRPluginHandle handle)
+{
+	try
+    {
+        Plugin* aPlugin = castToPlugin(handle);
+        RRStringArray* aList = NULL;
+
+        return createText(aPlugin->getResult());
+    }
+    catch_ptr_macro
+}
 
 }

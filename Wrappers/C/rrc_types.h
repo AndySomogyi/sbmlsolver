@@ -46,14 +46,6 @@
 namespace rrc {
 extern "C"
 {
-#else
-    #if defined(_MSC_VER)
-    	typedef int bool;
-    	#define false 0
-    	#define true 1
-    #else
-    	#include "stdbool.h"
-    #endif
 #endif
 
 /*!@brief Void pointer to a RoadRunner instance */
@@ -132,7 +124,7 @@ enum ListItemType {litString, litInteger, litDouble, litList};
 // The above enums correspond to the currently supported types in an RRArrayList
 // char, int, double, RRArrayList
 
-struct RRList;	//Forward declaration for RRListItem
+struct RRList;	//Forward declaration for RRListItem, needed for RRListItem
 
 /*!@struct*/
 /*!@brief A single list element type */
@@ -162,24 +154,12 @@ typedef struct RRList
 enum RRParameterType {ptString, ptBool, ptInteger, ptDouble, ptVector, ptMatrix};
 
 ///*!@struct*/
-///*!@brief A single parameter type */
-//typedef struct RRParameter
+///*!@brief Result from minimization run */
+//typedef struct RRMinimizationResult
 //{
-//    enum RRParameterType ParaType;  	 /*!< The type of the item held by the parameter */
-//    union
-//    {
-//		bool			bValue;
-//       	int 	   		iValue;  /*!< Integer value */
-//	   	double    		dValue;  /*!< Double value */
-//	   	char*     		sValue;  /*!< String value */
-//       	struct RRVector* vValue;  /*!< Vector value */
-//       	struct RRMatrix* mValue;  /*!< Matrix value */
-//	} data;                      /*!< Union */
-//	char* 				mHint;
-//	char* 				mName;
-//    void* 				mHandle;	//This is a handle to an internal roadRunner parameter
-//} *RRParameterHandle;             /*!< Pointer to cRRParameter */
-
+//
+//} *RRMinimizationResultHandle;
+//
 #if defined( __cplusplus)
 }
 }//Namespace

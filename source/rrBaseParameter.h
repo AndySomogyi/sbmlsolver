@@ -16,14 +16,12 @@ class RR_DECLSPEC BaseParameter : public rrObject
         RR_DECLSPEC
         friend ostream&                 	operator<<(ostream& stream, const BaseParameter& outMe);
 
-        string                              asString() 	        const;
-        string                              getName() 	        const;
-        string                              getHint() 	        const;
-        virtual string                      getValueAsString() 	const;
-        virtual	void						setValue(const string& value) = 0;//Interesting!
-        virtual string      	            getType() 	        const = 0;
-
-
+        string                              asString() const;
+        string                              getName() const;
+        string                              getHint() const;
+        virtual string                      getValueAsString() const;
+        virtual	void						setValueFromString(const string& value) = 0;
+        virtual string      	            getType() const = 0;
 };
 
 }

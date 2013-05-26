@@ -230,7 +230,7 @@ void __fastcall TMForm::SimulateAExecute(TObject *Sender)
 
         mRR->simulateEx(mStartTimeE->GetValue(), *mEndTimeE, mNrOfSimulationPointsE->GetValue());
 
-        SimulationData data = mRR->getSimulationResult();
+        RoadRunnerData data = mRR->getSimulationResult();
         string resultFileName(rr::joinPath(mRR->getTempFolder(), mRR->getModelName()));
         resultFileName = rr::changeFileExtensionTo(resultFileName, ".csv");
 
@@ -346,7 +346,7 @@ void __fastcall TMForm::PlotFromThread()
     	Log(rr::lWarning)<<"Tried to plot NULL data";
     }
 }
-void TMForm::Plot(const rr::SimulationData& result)
+void TMForm::Plot(const rr::RoadRunnerData& result)
 {
     Chart1->RemoveAllSeries();
 
@@ -391,7 +391,7 @@ void __fastcall TMForm::PlotTestTestSuiteDataExecute(TObject *Sender)
         tsDataFile = rr::joinPath(path, (caseNr + "-results.csv"));
     }
 
-    SimulationData result;
+    RoadRunnerData result;
     if(!result.load(tsDataFile))
     {
         return;
@@ -505,7 +505,7 @@ void __fastcall TMForm::LogCurrentDataAExecute(TObject *Sender)
 {
     if(mRR)
     {
-        SimulationData data = mRR->getSimulationResult();
+        RoadRunnerData data = mRR->getSimulationResult();
         Log(rr::lInfo)<<data;
     }
 }

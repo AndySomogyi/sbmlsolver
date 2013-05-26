@@ -83,6 +83,14 @@ C_DECL_SPEC RRParameterHandle rrcCallConv getPluginParameter(RRPluginHandle hand
 C_DECL_SPEC bool rrcCallConv setPluginParameter(RRPluginHandle handle, const char* parameterName, const char* value);
 
 /*!
+ \brief getPluginName
+ \param[in] RRPluginHandle handle to plugin
+ \return Returns the plugins full name, as a string, NULL otherwise
+ \ingroup pluginRoutines
+*/
+C_DECL_SPEC char* rrcCallConv getPluginName(RRPluginHandle handle);
+
+/*!
  \brief GetPluginInfo
  \param[in] RRPluginHandle handle to plugin
  \return Returns info, as a string, for the plugin, NULL otherwise
@@ -108,6 +116,14 @@ C_DECL_SPEC bool rrcCallConv executePlugin(RRPluginHandle handle);
 C_DECL_SPEC bool rrcCallConv executePluginEx(RRPluginHandle handle, void* userData);
 
 /*!
+ \brief getPluginResult (PluginName)
+ \param[in] RRPluginHandle handle to plugin
+ \return Returns plugin result if available. NULL otherwise
+ \ingroup pluginRoutines
+*/
+C_DECL_SPEC char* rrcCallConv getPluginResult(RRPluginHandle handle);
+
+/*!
  \brief assignCallbacks
  \param[in] RRPluginHandle handle to plugin
  \param[in] void*  pointer to user data. Plugin dependent.
@@ -122,8 +138,6 @@ C_DECL_SPEC bool rrcCallConv assignCallbacks(RRPluginHandle handle, pluginCallba
 
 }	//rrc namespace
 #endif
-
-
 
 
 //#if defined(__cplusplus)

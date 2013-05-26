@@ -55,15 +55,15 @@ class RR_DECLSPEC Plugin : public rrObject
         BaseParameter*				getParameter(const string& param, const string& capability = gEmptyString);
         BaseParameter*				getParameter(const string& param, Capability& capability);
 
-//        bool						setParameter(const string& nameOf, void* value);
         bool						setParameter(const string& nameOf, const char* value);
-//        bool						setParameter(const string& nameOf, void* value, 		Capability& capability);
         bool						setParameter(const string& nameOf, const char* value, 	Capability& capability);
 
         //Logging
         vector<string>&				getLog();
         bool						emptyLog(); //Has to be made thread safe
 
+		//Virtuals
+        virtual string				getResult();
 		//Pure virtuals
         virtual bool	           	execute(void* userData = NULL) = 0;
         virtual bool				isWorking();

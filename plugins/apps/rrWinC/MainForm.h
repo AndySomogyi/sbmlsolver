@@ -20,16 +20,17 @@
 #include <VCLTee.Series.hpp>
 #include "mtkFloatLabeledEdit.h"
 #include "TFullSpaceFittingFrame.h"
-#include "rrSimulationData.h"
+#include "rrRoadRunnerData.h"
 #include "TSimulationFrame.h"
 #include "rrCapabilitiesFrame.h"
 #include "mtkIniFileC.h"
+#include "TLMFittingFrame.h"
 #include <string>
 #include <vector>
 #include <sstream>
 #include "TRegistryForm.h"
 #include "rrc_types.h"
-#include "rrSimulationData.h"
+#include "rrRoadRunnerData.h"
 #include "rrLogFileReader.h"
 #include "rrMemoLogger.h"
 #include "mtkIniParameters.h"
@@ -86,18 +87,11 @@ __published:	// IDE-managed Components
 	TToolBar *ToolBar2;
 	TAction *PlotA;
 	TButton *Button5;
-	TPageControl *PageControl2;
+	TPageControl *MainPC;
 	TTabSheet *TabSheet3;
-	TTabSheet *TabSheet4;
-	TTabSheet *TabSheet5;
-	mtkFloatLabeledEdit *noiseSigmaE;
-	TButton *addNoiseBtn;
 	TLineSeries *Series1;
 	TAction *executeNoisePluginA;
-	TPageControl *PageControl3;
-	TTabSheet *TabSheet2;
 	TSimulateFrame *simFrame;
-	TFullSpaceFittingFrame *fullSpaceFitFrame;
 	TButton *Button6;
 	TAction *getCapabilitiesA;
 	TButton *Button7;
@@ -115,6 +109,9 @@ __published:	// IDE-managed Components
 	TButton *Button3;
 	TAction *getCapabilitiesAsXMLA;
 	mtkIniFileC *mIniFile;
+	TTabSheet *TabSheet5;
+	mtkFloatLabeledEdit *noiseSigmaE;
+	TButton *addNoiseBtn;
 	void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall startupTimerTimer(TObject *Sender);
 	void __fastcall loadPluginsAExecute(TObject *Sender);
@@ -148,6 +145,8 @@ private:
     RRPluginHandle						mCurrentlySelectedPlugin;
     RRPluginHandle						mAddNoisePlugin;
     RRPluginHandle						mMinimizePlugin;
+    RRPluginHandle						mLMPlugin;
+    TLMFittingFrame					   *mLMFrame;
     RRData* 							mData;
     RRJobHandle	                        mLoadModelJob;
     RRJobHandle	                        mSimulateModelJob;
@@ -157,7 +156,7 @@ private:
     bool								mUIIsStartingUp;
 	string 		                        getCurrentPluginName();
 	string 		                        getCurrentSelectedParameter();
-	void 								Plot(const rr::SimulationData& result);
+	void 								Plot(const rr::RoadRunnerData& result);
 	void								UpdateNoisePanel();
     void								configurePlugin(RRPluginHandle plugin);
     static void __stdcall	   			addNoiseStartedCB(void *UserData);
@@ -170,7 +169,8 @@ public:
 	mtkIniParameter<int>				mLowerPanelHeight;
 	mtkIniParameter<string>				mModel;
 
-	SimulationData						mCurrentData;
+	RoadRunnerData						mCurrentData;
+	RoadRunnerData						mMinimizationData;
 			__fastcall 					TMainF(TComponent* Owner);
 	void 	__fastcall 					onSimulationStarted();
 	void 	__fastcall 					onSimulationFinished();
@@ -178,7 +178,8 @@ public:
 	void 	__fastcall 					onAddNoiseStarted();
 	void 	__fastcall 					onAddNoiseFinished();
 
-	void 	__fastcall 					onFittingFinished();
+	void 	__fastcall 					onLMFittingStarted();
+	void 	__fastcall 					onLMFittingFinished();
 
  	void    __fastcall					LogMessage();			//Called from logfile reader
     string                         	   *mLogString; 			//Data exchanged with the logFileReader THread

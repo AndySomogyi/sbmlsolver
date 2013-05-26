@@ -162,7 +162,7 @@ int main(int argc, char * argv[])
 			else
 			{
 				//Write to std out
-				SimulationData result = simulation.GetResult();
+				RoadRunnerData result = simulation.GetResult();
 				Log(lShowAlways)<<result;
 			}
 		}

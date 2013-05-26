@@ -1,7 +1,7 @@
 #include <vcl.h>
 #pragma hdrstop
 #include "rrRoadRunner.h"
-#include "rrSimulationData.h"
+#include "rrRoadRunnerData.h"
 #include "rrUtils.h"
 #include "MainForm.h"
 #include "rrc_api.h"
@@ -15,12 +15,14 @@
 #pragma link "TSimulationFrame"
 #pragma link "rrCapabilitiesFrame"
 #pragma link "mtkIniFileC"
+#pragma link "TLMFittingFrame"
 #pragma resource "*.dfm"
 TMainF *MainF;
 //---------------------------------------------------------------------------
 using namespace rr;
-using namespace mtk;
+//using namespace mtk;
 
+using mtk::mtkBaseIniParameter;
 
 __fastcall TMainF::TMainF(TComponent* Owner)
 :
@@ -44,7 +46,7 @@ mAppInfo(Application)
 
     //Log to one memo
 	simFrame->infoMemo = infoMemo;
-	fullSpaceFitFrame->infoMemo = infoMemo;
+//	fullSpaceFitFrame->infoMemo = infoMemo;
     TcapFrame1->infoMemo = infoMemo;
 	startupTimer->Enabled = true;
 }
@@ -73,6 +75,54 @@ void __fastcall	TMainF::LogMessage()
         mLogString = NULL;
     }
 }
+
+//---------------------------------------------------------------------------
+void __fastcall TMainF::loadPluginsAExecute(TObject *Sender)
+{
+	if(!loadPlugins(mRRI))
+	{
+		Log() << "There was some problems loading plugins, check the log file.";
+	}
+
+	//Populate list box with plugins
+	RRStringArray* pluginNames = getPluginNames(mRRI);
+
+    if(!pluginNames)
+    {
+    	Log()<<"No plugins to load...";
+        return;
+    }
+
+	for(int i = 0; i < pluginNames->Count; i++)
+	{
+		pluginList->AddItem(pluginNames->String[i], NULL);
+	}
+	Log() << "Loaded plugins..";
+
+    mAddNoisePlugin = getPlugin(mRRI, "AddNoise");
+	mMinimizePlugin = getPlugin(mRRI, "FullSpaceMinimization");
+   	mLMPlugin       = getPlugin(mRRI, "Levenberg-Marquardt Minimization");
+    Button1->Action = unloadPlugins;
+
+//	fullSpaceFitFrame->assignPluginHandle(mMinimizePlugin);
+	if(mLMPlugin)
+    {
+    	//Create the plugin frame
+        mLMFrame = new TLMFittingFrame(MainPC);
+        //Create a new tab
+        TTabSheet* page = new TTabSheet(MainPC);
+		page->Caption = vclstr(string(getPluginName(mLMPlugin)));
+        mLMFrame->Parent = page;
+        mLMFrame->Align = alClient;
+        page->PageControl =  MainPC;
+        mLMFrame->assignPluginHandle(mLMPlugin);
+        mLMFrame->assignRRHandle(mRRI);
+        mLMFrame->onFittingStarted  = onLMFittingStarted;
+        mLMFrame->onFittingFinished = onLMFittingFinished;
+        mLMFrame->infoMemo = infoMemo;
+    }
+}
+
 
 void __fastcall TMainF::executePluginAExecute(TObject *Sender)
 {
@@ -109,7 +159,7 @@ void __fastcall TMainF::loadModelAExecute(TObject *Sender)
     }
 }
 
-void TMainF::Plot(const rr::SimulationData& data)
+void TMainF::Plot(const rr::RoadRunnerData& data)
 {
     Chart1->RemoveAllSeries();
 
@@ -267,20 +317,33 @@ void __fastcall TMainF::ShutDownTimerTimer(TObject *Sender)
 
 void __fastcall TMainF::fullSpaceFitFrameexecuteBtnClick(TObject *Sender)
 {
-	fullSpaceFitFrame->onFittingFinished = onFittingFinished;
-  	fullSpaceFitFrame->executeBtnClick(Sender);
+//	fullSpaceFitFrame->onFittingFinished = onFittingFinished;
+//  	fullSpaceFitFrame->executeBtnClick(Sender);
 }
 
-void __fastcall TMainF::onFittingFinished()
+void __fastcall TMainF::onLMFittingStarted()
 {
-	Log()<<"Fitting was finished.. Plot result";
+	Log()<<"LM Fitting was started..";
+//    string result = fullSpaceFitFrame->getResult();
+	Log()<<"==================================";
+//    Log()<<result;
+	Log()<<"==================================";
+//    //Switch page control to show new data..
+//    PC1->TabIndex = 1;
+}
 
-    //Switch page control to show new data..
-    PC1->TabIndex = 1;
+void __fastcall TMainF::onLMFittingFinished()
+{
+	Log()<<"LM Fitting was finished..";
+//    string result = fullSpaceFitFrame->getResult();
+	Log()<<"==================================";
+//    Log()<<result;
+	Log()<<"==================================";
+//    //Switch page control to show new data..
+//    PC1->TabIndex = 1;
 }
 
 //---------------------------------------------------------------------------
-
 void __fastcall TMainF::FormClose(TObject *Sender, TCloseAction &Action)
 {
 	mLowerPanelHeight = lowerPanel->Height;

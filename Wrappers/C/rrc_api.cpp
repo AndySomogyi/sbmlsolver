@@ -957,7 +957,7 @@ RRDataHandle rrCallConv simulate(RRHandle handle)
             return NULL;
         }
 
-        SimulationData result = rri->getSimulationResult();
+        RoadRunnerData result = rri->getSimulationResult();
 
         //Extract the data and return struct..
 	    RRData* aResult  = createRRData(result);
@@ -978,7 +978,7 @@ RRDataHandle rrCallConv getSimulationResult(RRHandle handle)
     {
         RoadRunner* rri = castFrom(handle);
 
-        SimulationData result = rri->getSimulationResult();
+        RoadRunnerData result = rri->getSimulationResult();
 
         //Extract the data and return struct..
         RRData* aResult  = new RRData;
@@ -2496,7 +2496,7 @@ bool rrcCallConv setParameter(RRParameterHandle handle, const char* value)
 	try
     {
         BaseParameter* para = castToParameter(handle);
-        para->setValue(value);
+        para->setValueFromString(value);
         return true;
     }
     catch_bool_macro
@@ -3592,7 +3592,7 @@ bool rrCallConv writeRRData(RRHandle rrHandle, const char* fileNameAndPath)
 	try
     {
         RoadRunner *rr = castFrom(rrHandle);
-        SimulationData data;
+        RoadRunnerData data;
         data = rr->getSimulationResult();
 
         data.writeTo(fileNameAndPath);
@@ -3614,13 +3614,13 @@ bool rrCallConv writeMultipleRRData(RRInstanceListHandle rrHandles, const char* 
         RoadRunnerList *rrs = getRRList(rrHandles);
 
         int rrCount = rrs->count();
-        SimulationData allData;
+        RoadRunnerData allData;
         for(int i = rrCount -1 ; i >-1 ; i--) //"Backwards" because bad plotting program..
         {
             RoadRunner* rr = (*rrs)[i];
             if(rr)
             {
-            	SimulationData data = rr->getSimulationResult();
+            	RoadRunnerData data = rr->getSimulationResult();
 	            allData.append(data);
             }
         }

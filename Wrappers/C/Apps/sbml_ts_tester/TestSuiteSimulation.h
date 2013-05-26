@@ -21,7 +21,7 @@ class TestSuiteSimulation : public rr::TestSuiteModelSimulation
         bool            	LoadSettings(const string& fName = "");
 		bool 				Simulate();
         bool            	SaveResult();
-        SimulationData  	GetResult();
+        RoadRunnerData  	GetResult();
 };
 
 //Utility function..

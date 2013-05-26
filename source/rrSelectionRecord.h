@@ -1,19 +1,15 @@
-#ifndef rrMiscH
-#define rrMiscH
+#ifndef rrSelectionRecordH
+#define rrSelectionRecordH
 #include <string>
 #include <iomanip>
 #include <ostream>
 #include "rrExporter.h"
 #include "rrObject.h"
-using std::ostream;
-
-using std::string;
-using std::endl;
 //---------------------------------------------------------------------------
 namespace rr
 {
 
-enum TSelectionType
+enum SelectionType
 {
         clTime = 0,
         clBoundarySpecies,
@@ -31,18 +27,18 @@ enum TSelectionType
         clStoichiometry
 };
 
-class RR_DECLSPEC TSelectionRecord : public rrObject
+class RR_DECLSPEC SelectionRecord : public rrObject
 {
     public:
         unsigned int        index;
         string              p1;
         string              p2;
-        TSelectionType      selectionType;
-                            TSelectionRecord(const int& index = 0, const TSelectionType type = clUnknown, const string& p1 = gEmptyString, const string& p2 = gEmptyString);
+        SelectionType       selectionType;
+                            SelectionRecord(const int& index = 0, const SelectionType type = clUnknown, const string& p1 = gEmptyString, const string& p2 = gEmptyString);
 
 };
 
-ostream& operator<< (ostream& stream, const TSelectionRecord& rec);
+ostream& operator<< (ostream& stream, const SelectionRecord& rec);
 }
 
 

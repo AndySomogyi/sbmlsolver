@@ -1,5 +1,5 @@
 #pragma hdrstop
-#include "rrSimulationData.h"
+#include "rrRoadRunnerData.h"
 #include "rrLogger.h"
 #include "add_noise_thread.h"
 #include "rrNoise.h"
@@ -41,7 +41,7 @@ void AddNoiseThread::run()
 		threadEnterCB(mUserData);
     }
 
-    SimulationData& data = *(SimulationData*) (mInputData);
+    RoadRunnerData& data = *(RoadRunnerData*) (mInputData);
 	Noise noise(0, mSigma);
 
 	for(int row = 0; row < data.rSize(); row++)

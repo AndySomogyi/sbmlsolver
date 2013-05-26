@@ -8,6 +8,15 @@ Parameters::Parameters()
 
 }
 
+void Parameters::clear()
+{
+	for(int i = 0; i < mParas.size(); i++)
+    {
+    	delete mParas[i];
+    }
+	mParas.clear();
+}
+
 void Parameters::add(BaseParameter* me)
 {
 	mParas.push_back(me);

@@ -10,7 +10,6 @@
 namespace rr
 {
 
-//typedef vector<rr::BaseParameter*> Parameters;
 class RR_DECLSPEC Parameters : public rrObject
 {
     protected:
@@ -27,11 +26,10 @@ class RR_DECLSPEC Parameters : public rrObject
         string                              getName() const;
         string                              getDescription() const;
         BaseParameter*	   					getParameter(const string& paraName);
+        void								clear();
 
 		RR_DECLSPEC friend ostream&   		operator <<(ostream& os, const Parameters& pars);
 };
-
-
 
 }
 

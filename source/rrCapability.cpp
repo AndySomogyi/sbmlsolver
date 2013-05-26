@@ -96,12 +96,18 @@ BaseParameter* Capability::getParameter(const string& paraName)
 
 ostream& operator <<(ostream& os, const Capability& caps)
 {
-	os<<"Capabilities for "<<caps.mName<<"\n";
+	os<<"Parameters for capability: "<<caps.mName<<"\n";
 
 	for(u_int i = 0; i < caps.nrOfParameters(); i++)
     {
     	os<< *(caps.mParameters[i]);
+
+        if(i < caps.nrOfParameters() -1 )
+        {
+        	os<<"  "<<endl;
+        }
     }
 	return os;
 }
+
 }

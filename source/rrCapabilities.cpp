@@ -124,7 +124,7 @@ bool Capabilities::setParameter(const string& name, const string& value)
         	BaseParameter* aParameter = paras->getParameter(name);
         	if(aParameter)
         	{
-                aParameter->setValue(value);
+                aParameter->setValueFromString(value);
                 return true;
             }
         }

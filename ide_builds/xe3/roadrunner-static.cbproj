@@ -244,6 +244,9 @@
             <DependentOn>..\..\source\rrLogOutput.h</DependentOn>
             <BuildOrder>29</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\rrMinimizationResult.cpp">
+            <BuildOrder>81</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrMisc.cpp">
             <DependentOn>..\..\source\rrMisc.h</DependentOn>
             <BuildOrder>30</BuildOrder>
@@ -314,6 +317,10 @@
             <DependentOn>..\..\source\rrRoadRunner.h</DependentOn>
             <BuildOrder>41</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\rrRoadRunnerData.cpp">
+            <DependentOn>..\..\source\rrRoadRunnerData.h</DependentOn>
+            <BuildOrder>47</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrRoadRunnerList.cpp">
             <DependentOn>..\..\source\rrRoadRunnerList.h</DependentOn>
             <BuildOrder>73</BuildOrder>
@@ -348,10 +355,6 @@
         </CppCompile>
         <CppCompile Include="..\..\source\rrSimulateThread.cpp">
             <BuildOrder>79</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\rrSimulationData.cpp">
-            <DependentOn>..\..\source\rrSimulationData.h</DependentOn>
-            <BuildOrder>47</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrSimulationSettings.cpp">
             <DependentOn>..\..\source\rrSimulationSettings.h</DependentOn>

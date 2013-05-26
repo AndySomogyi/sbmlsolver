@@ -34,7 +34,7 @@
 namespace rr
 {
 class RoadRunner;
-class SimulationData;
+class RoadRunnerData;
 
 }
 
@@ -179,7 +179,7 @@ private:	// User declarations
     rr::LogFileReader           	mLogFileSniffer;
 
     void            	__fastcall  SetupINIParameters();
-    void                        	Plot(const rr::SimulationData& result);
+    void                        	Plot(const rr::RoadRunnerData& result);
     void                        	EnableDisableSimulation();
     StringList                      GetCheckedSpecies();
     TColor                          GetColor(int i);
@@ -190,7 +190,7 @@ private:	// User declarations
     string                          GetCurrentModelPath();
     string                          GetSettingsFile();
     SimulateThreadUI			    mSimulateThread;
-	SimulationData 				   *mData;				//The data is created by the thread and consumed by the UI
+	RoadRunnerData 				   *mData;				//The data is created by the thread and consumed by the UI
     friend SimulateThreadUI;
     void            __fastcall    	PlotFromThread();
 

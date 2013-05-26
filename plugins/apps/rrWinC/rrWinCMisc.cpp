@@ -37,7 +37,7 @@ void __fastcall TMainF::startupTimerTimer(TObject *Sender)
 		}
 
         simFrame->assignRRHandle(mRRI);
-        fullSpaceFitFrame->assignRRHandle(mRRI);
+//        fullSpaceFitFrame->assignRRHandle(mRRI);
         enableLoggingToFile(mRRI);
         setLogLevel("Info");
 	}
@@ -47,6 +47,13 @@ void __fastcall TMainF::startupTimerTimer(TObject *Sender)
 	loadPluginsAExecute(NULL);
 
 	populateModelsDropDown();
+
+    string modelNameNoExtension = extractFileNameNoExtension(mModel);
+    int index = modelDD->Items->IndexOf(vclstr(modelNameNoExtension));
+
+    modelDD->ItemIndex = (index > -1) ? index : 2;
+
+
 	mUIIsStartingUp = false;
     loadModelA->Execute();
 }
@@ -66,33 +73,6 @@ void TMainF::populateModelsDropDown()
         Log()<<"Adding model: "<<model;
 		modelDD->Items->Add(model.c_str());
     }
-
-    string modelNameNoExtension = extractFileNameNoExtension(mModel);
-    modelDD->ItemIndex = 2;
-
-}
-
-//---------------------------------------------------------------------------
-void __fastcall TMainF::loadPluginsAExecute(TObject *Sender)
-{
-	if(!loadPlugins(mRRI))
-	{
-		Log() << "There was some problems loading plugins, check the log file.";
-	}
-
-	//Populate list box with plugins
-	RRStringArray* pluginNames = getPluginNames(mRRI);
-
-	for(int i = 0; i < pluginNames->Count; i++)
-	{
-		pluginList->AddItem(pluginNames->String[i], NULL);
-	}
-	Log() << "Loaded plugins..";
-
-    mAddNoisePlugin = getPlugin(mRRI, "AddNoise");
-	mMinimizePlugin = getPlugin(mRRI, "FullSpaceMinimization");
-    Button1->Action = unloadPlugins;
-	fullSpaceFitFrame->assignPluginHandle(mMinimizePlugin);
 }
 
 void __fastcall TMainF::unloadPluginsExecute(TObject *Sender)
@@ -180,7 +160,6 @@ string TMainF::getCurrentPluginName()
 	return pluginName;
 }
 
-
 void __fastcall TMainF::loadModelJobTimerTimer(TObject *Sender)
 {
 	if(mLoadModelJob)
@@ -199,7 +178,12 @@ void __fastcall TMainF::loadModelJobTimerTimer(TObject *Sender)
 				throw rr::Exception(getLastError());
             }
 			simFrame->loadSelectionList();
-            fullSpaceFitFrame->loadParameterList();
+//            fullSpaceFitFrame->loadParameterList();
+
+			if(mLMFrame)
+            {
+            	mLMFrame->loadParameterList();
+            }
             simFramesimBtnClick(NULL);
         }
         else

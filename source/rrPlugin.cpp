@@ -25,6 +25,7 @@ mCapabilities(name, "<none>")
 Plugin::~Plugin()
 {}
 
+
 bool Plugin::assignCallbacks(PluginWorkStartedCB fnc1, PluginWorkFinishedCB fnc2, void* userData)
 {
 	mUserData = userData;
@@ -71,7 +72,7 @@ bool Plugin::setParameter(const string& nameOf, const char* value, Capability& c
 //            {
 //                Parameter<int> *aIntPar = dynamic_cast< Parameter<int>* >(aParameter);
 //                int aVal = rr::ToInt(value);
-                aPar->setValue( value);
+                aPar->setValueFromString( value);
 //                return true;
             //}
         }
@@ -117,7 +118,6 @@ string Plugin::getCopyright()
 string Plugin::getInfo() //Obs. subclasses may over ride this function and add more info
 {
     stringstream msg;
-
     msg<<setfill('.');
     msg<<setw(30)<<left<<"Name"<<mName<<"\n";
     msg<<setw(30)<<left<<"Author"<<mAuthor<<"\n";
@@ -128,12 +128,15 @@ string Plugin::getInfo() //Obs. subclasses may over ride this function and add m
 	msg<<"=== Capabilities ====\n";
     for(int i = 0; i < mCapabilities.count(); i++)
     {
-    	msg<<mCapabilities[i];
+    	if(mCapabilities[i])
+        {
+    		msg<< *(mCapabilities[i]);
+        }
     }
     return msg.str();
 }
 
-Capabilities*	 Plugin::getCapabilities()
+Capabilities* Plugin::getCapabilities()
 {
 	return &mCapabilities;
 }
@@ -194,27 +197,10 @@ Capability* Plugin::getCapability(const string& name)
     return NULL;
 }
 
-//PluginLogger::PluginLogger(vector<string>* container)
-//:
-//mLogs(container)
-//{}
-//
-//PluginLogger::~PluginLogger()
-//{
-//	vector<string> lines = rr::splitString(mStream.str(),"\n");
-//
-//    for(int i = 0; i < lines.size(); i++)
-//    {
-//	   mLogs->push_back(lines[i].c_str());
-//
-//    }
-//}
-//
-//std::ostringstream& PluginLogger::Get()
-//{
-//	return mStream;
-//}
-//
+string Plugin::getResult()
+{
+	return "This plugin don't have any result..";
+}
 
 }
 

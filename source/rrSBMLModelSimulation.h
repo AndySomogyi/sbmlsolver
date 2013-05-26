@@ -5,7 +5,7 @@
 #include "rrObject.h"
 #include "rrStringUtils.h"
 #include "rrSimulationSettings.h"
-#include "rrSimulationData.h"
+#include "rrRoadRunnerData.h"
 
 namespace rr
 {
@@ -55,7 +55,7 @@ class RR_DECLSPEC SBMLModelSimulation : public rrObject
         virtual bool            Simulate();
         virtual bool            SaveResult();
         virtual bool            LoadSettings(const string& fName = gEmptyString);
-        virtual SimulationData  GetResult();
+        virtual RoadRunnerData  GetResult();
 };
 
 }

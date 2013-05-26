@@ -22,7 +22,7 @@ String                 	vclstr(const AnsiString& s);
 String                 	vclstr(const std::ostringstream& s);
 
 rr::StringList 	       	GetCheckedItems(TCheckListBox* listBox);
-void 			   		AddItemsToListBox(const rr::StringList& items, TCheckListBox *lb);
+void 			   		AddItemsToListBox(const rr::StringList& items, TCheckListBox *lb, bool checked = false);
 
 }
 

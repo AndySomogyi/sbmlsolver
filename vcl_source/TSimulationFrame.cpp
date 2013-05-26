@@ -44,7 +44,7 @@ bool TSimulateFrame::loadSelectionList()
         int count = symbols.Count();
 
         StringList fs       = symbols.GetStringList("Floating Species");
-        AddItemsToListBox(fs, SelList);
+        AddItemsToListBox(fs, SelList, true);
 
         StringList bs       = symbols.GetStringList("Boundary Species");
         AddItemsToListBox(bs, SelList);

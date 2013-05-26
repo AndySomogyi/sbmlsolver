@@ -61,12 +61,12 @@ StringList GetCheckedItems(TCheckListBox* listBox)
     }
     return checked;
 }
-void AddItemsToListBox(const rr::StringList& items, TCheckListBox *lb)
+void AddItemsToListBox(const rr::StringList& items, TCheckListBox *lb, bool checked)
 {
     for(int i = 0; i < items.Count(); i++)
     {
         int index = lb->Items->Add(items[i].c_str());
-        lb->Checked[index] = true;
+        lb->Checked[index] = checked;
     }
 }
 

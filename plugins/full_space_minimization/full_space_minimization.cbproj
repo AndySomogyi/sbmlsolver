@@ -1,6 +1,6 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{EA3D96B5-9D4D-4206-91A6-E9917DD57A68}</ProjectGuid>
+        <ProjectGuid>{3B006355-C318-439E-BC9D-39C058C9CE5A}</ProjectGuid>
         <ProjectVersion>14.4</ProjectVersion>
         <FrameworkType>None</FrameworkType>
         <Base>True</Base>
@@ -113,7 +113,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <Debugger_HostApplication>R:\installs\cg\xe3\debug\bin\PluginApp.exe</Debugger_HostApplication>
+        <Debugger_HostApplication>R:\installs\cg\xe3\debug\bin\rrWinC.exe</Debugger_HostApplication>
         <FinalOutputDir>$(RR_DEBUG)\plugins</FinalOutputDir>
         <ILINK_LibraryPath>$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>

@@ -45,7 +45,7 @@ bool SBMLModelSimulation::SetModelFilePath(const string& path)
     return true;
 }
 
-SimulationData SBMLModelSimulation::GetResult()
+RoadRunnerData SBMLModelSimulation::GetResult()
 {
     if(mEngine)
     {
@@ -53,7 +53,7 @@ SimulationData SBMLModelSimulation::GetResult()
     }
     else
     {
-        return SimulationData();
+        return RoadRunnerData();
     }
 }
 
@@ -341,7 +341,7 @@ bool SBMLModelSimulation::SaveResult()
     string resultFileName(joinPath(mDataOutputFolder, "rr_" + mModelFileName));
     resultFileName = changeFileExtensionTo(resultFileName, ".csv");
     Log(lInfo)<<"Saving result to file: "<<resultFileName;
-    SimulationData resultData = mEngine->getSimulationResult();
+    RoadRunnerData resultData = mEngine->getSimulationResult();
 
     ofstream fs(resultFileName.c_str());
     fs << resultData;

@@ -351,7 +351,7 @@ RRList* createList(const rr::NewArrayList& aList)
 //	return NULL;
 //}
 
-RRDataHandle rrCallConv createRRData(const SimulationData& result)
+RRDataHandle rrCallConv createRRData(const RoadRunnerData& result)
 {
     RRData* aResult  = new RRData;
     aResult->ColumnHeaders = new char*[result.cSize()];

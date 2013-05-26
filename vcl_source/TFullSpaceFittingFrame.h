@@ -13,10 +13,8 @@
 #include <Vcl.CheckLst.hpp>
 #include "rrStringList.h"
 
-
 using namespace rr;
 using namespace rrc;
-
 typedef void __fastcall (__closure *TOnEvent)();
 
 //---------------------------------------------------------------------------
@@ -29,8 +27,12 @@ __published:	// IDE-managed Components
 	TCheckListBox *paraList;
 	mtkIntLabeledEdit *stepsE;
 	mtkFloatLabeledEdit *sweepRangeE;
+	TButton *Button1;
+	TAction *logResultA;
 	void __fastcall paraListClick(TObject *Sender);
 	void __fastcall executeBtnClick(TObject *Sender);
+	void __fastcall logResultAExecute(TObject *Sender);
+	void __fastcall paraListClickCheck(TObject *Sender);
 
     private:	// User declarations
         RRHandle			                   	mRRI;
@@ -55,9 +57,7 @@ __published:	// IDE-managed Components
         void								    loadParameterList();
 		void 								    assignRRHandle(RRHandle aHandle);
 		void 								    assignPluginHandle(RRPluginHandle aHandle);
-
-
-
+	    string									getResult();
 		//Assign in parent
         TOnEvent			   				    onFittingStarted;
         TOnEvent	   						    onFittingFinished;

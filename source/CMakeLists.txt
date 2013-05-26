@@ -32,7 +32,6 @@ rrLogContainer
 rrLoggerUtils
 rrLogLevel
 rrLogOutput
-rrMisc
 rrModelFromC
 rrModelState
 rrNOMSupport
@@ -44,7 +43,6 @@ rrRule
 rrSBMLModelSimulation
 rrSBMLSymbol
 rrSBMLSymbolDependencies
-rrSimulationData
 rrSimulationSettings
 rrStreamWriter
 rrStringBuilder
@@ -91,6 +89,8 @@ rrRoadRunnerThread
 rrLoadModelThread
 rrSimulate
 rrSimulateThread
+rrRoadRunnerData
+rrSelectionRecord
 )
 
 if(RR_BUILD_SHARED_CORE)
@@ -165,12 +165,12 @@ POCO_NO_AUTOMATIC_LIBS
 
 #libraries to link with static lib
 target_link_libraries (${target}-static 
-   sbml-static${staticLibExt}
+   libsbml-static${staticLibExt}
    sundials_cvode
    sundials_nvecserial
    blas
    lapack
-   f2c${staticLibExt}
+   libf2c${staticLibExt}
    pugi-static
    nleq-static
    rr-libstruct-static

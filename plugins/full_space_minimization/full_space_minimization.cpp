@@ -4,14 +4,15 @@
 #include "../../Wrappers/C/rrc_api.h"
 #include "../../Wrappers/C/rrc_support.h"
 #include "rrRoadRunner.h"
-#include "rrSimulationData.h"
+#include "rrRoadRunnerData.h"
+#include "rrUtils.h"
 //---------------------------------------------------------------------------
 namespace fullSpaceFit
 {
 using namespace rr;
 using namespace rrc;
 
-vector<string> tmp;
+
 FullSpaceMinimization::FullSpaceMinimization(rr::RoadRunner* aRR)
 :
 Plugin(				    "FullSpaceMinimization",   	"No Category", 		aRR),
@@ -22,8 +23,7 @@ mSBML(	    			"SBML", 					"<none>",			"SBML, i.e. the model to be used in the f
 mStepsPerDimension(		"Steps per dimension",		10,					"Steps..."),
 mNumberOfThreads(		"Nr of threads to use",		4,					"Number of threads to use"),
 mParameterSweepRange(	"Parameter sweep range",	10,					"Sweep range in precent"),
-mParametersToFit(	    "Parameters to fit", 		tmp,   				"Parameter to Fit"),
-mResultData(	   	 	"ResultData", 				NULL,				"Output Data"),
+mParameterToFit(	    "Parameter to fit", 		"",   				"Parameter to Fit"),
 mChiSquare(			    "ChiSquare", 			   	0.123, 				"ChiSquare"),
 mFullSpaceFitThread(*this)
 {
@@ -34,9 +34,8 @@ mFullSpaceFitThread(*this)
 	mOneParameterFit.addParameter(&mStepsPerDimension);
     mOneParameterFit.addParameter(&mNumberOfThreads);
     mOneParameterFit.addParameter(&mParameterSweepRange);
-    mOneParameterFit.addParameter(&mParametersToFit);
+    mOneParameterFit.addParameter(&mParameterToFit);
 	mOneParameterFit.addParameter(&mChiSquare);
-
     mCapabilities.add(mOneParameterFit);
 }
 
@@ -53,20 +52,32 @@ string FullSpaceMinimization::getSBML()
 	return mSBML.getValue();
 }
 
-vector<string> FullSpaceMinimization::getParametersToFit()
+Parameter<string> FullSpaceMinimization::getParameterToFit()
 {
-	return mParametersToFit.getValue();
+	return mParameterToFit;
+}
+
+string FullSpaceMinimization::getResult()
+{
+	mResult<<"Parameters: ";
+    string para = mParameterToFit.asString();
+
+    mResult<<para;
+    mResult<<"\n";
+    mResult<<"Steps per dimension: "<<mStepsPerDimension.getValue()<<"\n";
+    mResult<<"Parameter sweep range (%): "<<mParameterSweepRange.getValue()<<"\n";
+	return mResult.getReport();
 }
 
 bool FullSpaceMinimization::execute(void* inputData)
 {
    	Log(lInfo)<<"Executing the FullSpaceMinimization plugin";
-
-    SimulationData& data = *(SimulationData*) (inputData);
-
+	mResult <<"FullSpaceMinimization was started on: "<<getDateTime() <<"\n";
     //go away and carry out the work in a thread
     //Assign callback functions to communicate the progress of the thread
 	mFullSpaceFitThread.assignCallBacks(mWorkStartedCB, mWorkFinishedCB, mUserData);
+
+    RoadRunnerData& data = *(RoadRunnerData*) (inputData);
     mFullSpaceFitThread.start(&data);
 	return true;
 }

@@ -13,9 +13,9 @@ object FullSpaceFittingFrame: TFullSpaceFittingFrame
     Caption = 'Settings'
     TabOrder = 0
     object executeBtn: TButton
-      Left = 168
-      Top = 120
-      Width = 75
+      Left = 129
+      Top = 112
+      Width = 48
       Height = 25
       Caption = 'Run'
       TabOrder = 0
@@ -26,6 +26,7 @@ object FullSpaceFittingFrame: TFullSpaceFittingFrame
       Top = 15
       Width = 121
       Height = 144
+      OnClickCheck = paraListClickCheck
       Align = alLeft
       ItemHeight = 13
       TabOrder = 1
@@ -40,7 +41,7 @@ object FullSpaceFittingFrame: TFullSpaceFittingFrame
       EditLabel.Height = 13
       EditLabel.Caption = 'Steps per dimension'
       TabOrder = 2
-      Text = '50'
+      Text = '0'
     end
     object sweepRangeE: mtkFloatLabeledEdit
       Left = 129
@@ -53,9 +54,21 @@ object FullSpaceFittingFrame: TFullSpaceFittingFrame
       TabOrder = 3
       Text = '10'
     end
+    object Button1: TButton
+      Left = 179
+      Top = 112
+      Width = 62
+      Height = 25
+      Action = logResultA
+      TabOrder = 4
+    end
   end
   object ActionList1: TActionList
     Left = 56
     Top = 128
+    object logResultA: TAction
+      Caption = 'Log Result'
+      OnExecute = logResultAExecute
+    end
   end
 end

@@ -19,9 +19,11 @@ class Parameter : public BaseParameter
     public:
                                             Parameter(const string& name, const T& value, const string& hint);
                                             Parameter(const string& name, T& value, const string& hint);
-		void								set(const T& val){mValue = val;}
-		void								setValue(const string& val);
-        T									getValue();
+                                            Parameter(const Parameter<T>& para);
+		void								setValue(const T& val);
+		//void								setValue(const string& val){setValueFromString(val);}
+		void								setValueFromString(const string& val);
+        T									getValue() const;
         T*									getValuePointer();
         string                      		getValueAsString() const;
 	 	string								getType() const;
@@ -43,6 +45,19 @@ mValue(mDummy)
 {}
 
 
+template<class T>
+Parameter<T>::Parameter(const Parameter<T>& para)
+:
+rr::BaseParameter(para.getName(), para.getHint()),
+mDummy(para.getValue()),
+mValue(mDummy)
+{ }
+
+//template<class T>
+//void Parameter<T>::setValue(const T& val)
+//{
+//	mValue = val;
+//}
 
 template<class T>
 string Parameter<T>::getValueAsString() const
@@ -51,7 +66,7 @@ string Parameter<T>::getValueAsString() const
 }
 
 template<class T>
-T Parameter<T>::getValue()
+T Parameter<T>::getValue() const
 {
     return mValue;
 }
@@ -70,8 +85,15 @@ inline string Parameter<bool>::getType() const
     return "bool";
 }
 
+
 template<>
-inline void Parameter<bool>::setValue(const string& val)
+inline void Parameter<bool>::setValue(const bool& val)
+{
+	mValue = val;
+}
+
+template<>
+inline void Parameter<bool>::setValueFromString(const string& val)
 {
 	mValue = rr::toBool(val);
 }
@@ -84,7 +106,7 @@ inline string Parameter<int>::getType() const
 }
 
 template<>
-inline void Parameter<int>::setValue(const string& val)
+inline void Parameter<int>::setValueFromString(const string& val)
 {
 	mValue = rr::toInt(val);
 }
@@ -102,8 +124,14 @@ inline string Parameter<double>::getType() const
     return "double";
 }
 
+//template<>
+//void Parameter<double>::setValue(const double& val)
+//{
+//	mValue = val;
+//}
+
 template<>
-inline void Parameter<double>::setValue(const string& val)
+inline void Parameter<double>::setValueFromString(const string& val)
 {
 	mValue = rr::toDouble(val);
 }
@@ -114,8 +142,14 @@ inline string Parameter<string>::getType() const
     return "string";
 }
 
+//template<>
+//void Parameter<string>::setValue(const string& val)
+//{
+//	mValue = val;
+//}
+
 template<>
-inline void Parameter<string>::setValue(const string& val)
+inline void Parameter<string>::setValueFromString(const string& val)
 {
 	mValue = val;
 }
@@ -127,22 +161,16 @@ inline string Parameter< vector<string> >::getType() const
 }
 
 template<>
-inline void Parameter< vector<string> >::setValue(const string& val)
+inline void Parameter< vector<string> >::setValueFromString(const string& val)
 {
 	mValue = splitString(val,", ");
 }
 
 template<>
-inline void Parameter< rrc::RRDataHandle >::setValue(const string& val)
+inline void Parameter< rrc::RRDataHandle >::setValueFromString(const string& val)
 {
 	//mValue = splitString(val,", ");
 }
-
-//template<>
-//string Parameter<int>::getValueAsString() const
-//{
-//    return toString(mValue);
-//}
 
 template<>
 inline string rr::Parameter<double>::getValueAsString() const

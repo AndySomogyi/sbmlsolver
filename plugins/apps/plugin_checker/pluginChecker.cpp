@@ -4,6 +4,7 @@
 #include "rrException.h"
 #include "rrRoadRunner.h"
 #include "rrPlugin.h"
+#include "rrUtils.h"
 using namespace rr;
 using namespace std;
 
@@ -35,7 +36,7 @@ int main()
         }
 
         plugins.unload();
-        Pause(true);
+        pause(true);
     }
     catch(const rr::Exception& ex)
     {
