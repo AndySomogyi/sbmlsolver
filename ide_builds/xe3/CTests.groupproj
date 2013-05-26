@@ -3,7 +3,7 @@
         <ProjectGuid>{8AA929FD-F762-4676-B2BC-2AD621E4E45C}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="roadrunner.cbproj">
+        <Projects Include="..\..\source\roadrunner.cbproj">
             <Dependencies/>
         </Projects>
         <Projects Include="roadrunner-static.cbproj">
@@ -27,13 +27,13 @@
         </BorlandProject>
     </ProjectExtensions>
     <Target Name="roadrunner">
-        <MSBuild Projects="roadrunner.cbproj"/>
+        <MSBuild Projects="..\..\source\roadrunner.cbproj"/>
     </Target>
     <Target Name="roadrunner:Clean">
-        <MSBuild Projects="roadrunner.cbproj" Targets="Clean"/>
+        <MSBuild Projects="..\..\source\roadrunner.cbproj" Targets="Clean"/>
     </Target>
     <Target Name="roadrunner:Make">
-        <MSBuild Projects="roadrunner.cbproj" Targets="Make"/>
+        <MSBuild Projects="..\..\source\roadrunner.cbproj" Targets="Make"/>
     </Target>
     <Target Name="roadrunner-static">
         <MSBuild Projects="roadrunner-static.cbproj"/>

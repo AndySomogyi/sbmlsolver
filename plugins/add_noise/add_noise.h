@@ -57,7 +57,7 @@ string Parameter<addNoise::AddNoise::NoiseType>::getValueAsString() const
 }
 
 template<>
-void Parameter< addNoise::AddNoise::NoiseType >::setValue(const string& val)
+void Parameter< addNoise::AddNoise::NoiseType >::setValueFromString(const string& val)
 {
 	mValue = addNoise::AddNoise::ntGaussian;
 }

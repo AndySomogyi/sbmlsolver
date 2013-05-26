@@ -247,10 +247,6 @@
         <CppCompile Include="..\..\source\rrMinimizationResult.cpp">
             <BuildOrder>81</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\rrMisc.cpp">
-            <DependentOn>..\..\source\rrMisc.h</DependentOn>
-            <BuildOrder>30</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\source\rrModelFromC.cpp">
             <DependentOn>..\..\source\rrModelFromC.h</DependentOn>
             <BuildOrder>31</BuildOrder>

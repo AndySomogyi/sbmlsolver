@@ -3,7 +3,6 @@
 #endif
 #pragma hdrstop
 #include <iostream>
-#include <complex>
 #include "Poco/File.h"
 #include "rrRoadRunner.h"
 #include "rrException.h"

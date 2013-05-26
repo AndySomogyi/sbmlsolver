@@ -12,12 +12,12 @@
 #include "rr-libstruct/lsMatrix.h"
 #include "rr-libstruct/lsLibStructural.h"
 
+namespace rr
+{
 using std::string;
 using std::vector;
 using std::list;
 using namespace ls;
-namespace rr
-{
 class RoadRunner;
 
 class RR_DECLSPEC ModelGenerator : public rrObject

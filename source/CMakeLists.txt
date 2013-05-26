@@ -164,6 +164,8 @@ POCO_NO_AUTOMATIC_LIBS
 ) 
 
 #libraries to link with static lib
+#======== We need to split up this one to satisfy linking in both windows and posix.
+#=== windows need libsbml-static and libf2c and posix uses sbml-static and f2c
 target_link_libraries (${target}-static 
    libsbml-static${staticLibExt}
    sundials_cvode
