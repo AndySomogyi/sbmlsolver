@@ -143,7 +143,7 @@ string ModelGenerator::cleanEquation(const string& eqn)
     if (ast == NULL)
     {
         // we are in trouble!
-        if (EndsWith(equation, "* "))
+        if (endsWith(equation, "* "))
         {
               equation = equation.substr(0, equation.size() - 2);
         }
@@ -240,7 +240,7 @@ int ModelGenerator::readGlobalParameters()
         StringList parameter = oParameters[i];
 
         string name     = parameter[0];
-        double value     = ToDouble(parameter[1]);
+        double value     = toDouble(parameter[1]);
         Symbol aSymbol(name, value);
         Log(lDebug5)<<"Adding symbol"<<aSymbol<<" to global parameters";
 
@@ -277,12 +277,12 @@ void ModelGenerator::readLocalParameters(const int& numReactions,  vector<int>& 
 
 bool ModelGenerator::expressionContainsSymbol(ASTNode *ast, const string& symbol)
 {
-    if (ast == NULL || IsNullOrEmpty(symbol))
+    if (ast == NULL || isNullOrEmpty(symbol))
     {
         return false;
     }
 
-    if (ast->getType() == libsbml::AST_NAME && Trim(ast->getName()) == Trim(symbol))
+    if (ast->getType() == libsbml::AST_NAME && trim(ast->getName()) == trim(symbol))
     {
         return true;
     }
@@ -300,7 +300,7 @@ bool ModelGenerator::expressionContainsSymbol(ASTNode *ast, const string& symbol
 
 bool ModelGenerator::expressionContainsSymbol(const string& expression,const string& symbol)
 {
-      if (IsNullOrEmpty(expression) || IsNullOrEmpty(symbol))
+      if (isNullOrEmpty(expression) || isNullOrEmpty(symbol))
       {
           return false;
       }
@@ -325,7 +325,7 @@ Symbol* ModelGenerator::getSpecies(const string& id)
 
 string ModelGenerator::writeDouble(const double& value, const string& format)
 {
-    return ToString(value, format);
+    return toString(value, format);
 }
 
 int ModelGenerator::readCompartments()
@@ -336,7 +336,7 @@ int ModelGenerator::readCompartments()
         string sCompartmentId = mNOM.getNthCompartmentId(i);
         double value = mNOM.getValue(sCompartmentId);
 
-        if(IsNaN(value))
+        if(isNaN(value))
         {
             value = 1;
         }
@@ -374,7 +374,7 @@ int ModelGenerator::readModifiableSpeciesReferences()
                 continue;
             }
             value = reference.getStoichiometry();
-            if (IsNaN(value))
+            if (isNaN(value))
                 value = 1;
 
             if (reference.isSetId())
@@ -386,12 +386,12 @@ int ModelGenerator::readModifiableSpeciesReferences()
         {
             SpeciesReference &reference = *(reaction.getProduct(j));
             id = reference.getId();
-            if (IsNullOrEmpty(id))
+            if (isNullOrEmpty(id))
             {
                 continue;
             }
             value = reference.getStoichiometry();
-            if (IsNaN(value))
+            if (isNaN(value))
             {
                 value = 1;
             }
@@ -1413,7 +1413,7 @@ StringList ModelGenerator::getConservationList()
 ////                    string compartmentName = NOM.getNthFloatingSpeciesCompartmentName(j);
 ////                    var bIsConcentration = (bool)oTempList[2];
 ////                    var dValue = (double)oTempList[1];
-////                    if (double.IsNaN(dValue))
+////                    if (double.isNaN(dValue))
 ////                        dValue = 0;
 ////                    Symbol symbol = null;
 ////                    if (bIsConcentration)
@@ -1425,7 +1425,7 @@ StringList ModelGenerator::getConservationList()
 ////                        int nCompartmentIndex;
 ////                        mCompartmentList.find(compartmentName, out nCompartmentIndex);
 ////                        double dVolume = mCompartmentList[nCompartmentIndex].value;
-////                        if (double.IsNaN(dVolume)) dVolume = 1;
+////                        if (double.isNaN(dVolume)) dVolume = 1;
 ////                        symbol = new Symbol(reOrderedList[i],
 ////                            dValue / dVolume,
 ////                            compartmentName,
@@ -1453,7 +1453,7 @@ StringList ModelGenerator::getConservationList()
 ////                string compartmentName = NOM.getNthBoundarySpeciesCompartmentName(i);
 ////                var bIsConcentration = (bool)oTempList[2];
 ////                var dValue = (double)oTempList[1];
-////                if (double.IsNaN(dValue)) dValue = 0;
+////                if (double.isNaN(dValue)) dValue = 0;
 ////                Symbol symbol = null;
 ////                if (bIsConcentration)
 ////                    symbol = new Symbol(sName, dValue, compartmentName);
@@ -1462,7 +1462,7 @@ StringList ModelGenerator::getConservationList()
 ////                    int nCompartmentIndex;
 ////                    mCompartmentList.find(compartmentName, out nCompartmentIndex);
 ////                    double dVolume = mCompartmentList[nCompartmentIndex].value;
-////                    if (double.IsNaN(dVolume)) dVolume = 1;
+////                    if (double.isNaN(dVolume)) dVolume = 1;
 ////                    symbol = new Symbol(sName, dValue / dVolume, compartmentName,
 ////                                                       string.Format("{0}/ _c[{1}]", dValue, nCompartmentIndex));
 ////                }
@@ -1591,7 +1591,7 @@ StringList ModelGenerator::getConservationList()
 ////
 ////                        if (current != 0.0)
 ////                        {
-////                            if (double.IsNaN(current))
+////                            if (double.isNaN(current))
 ////                            {
 ////                                // TODO: fix this
 ////                                factor = "";
@@ -2391,7 +2391,7 @@ StringList ModelGenerator::getConservationList()
 ////            {
 ////                var varName = (string)mapVariables[i];
 ////                double value = NOM.getValue(varName);
-////                if (!double.IsNaN(value))
+////                if (!double.isNaN(value))
 ////                    sb.Append((string)_oMapRateRule[i] + " = " + value + ";" + NL());
 ////            }
 ////            sb.Append("\t}" + NL() + NL());
@@ -2801,7 +2801,7 @@ StringList ModelGenerator::getConservationList()
 ////                return "double.NegativeInfinity";
 ////            if (double.IsPositiveInfinity(value))
 ////                return "double.PositiveInfinity";
-////            if (double.IsNaN(value))
+////            if (double.isNaN(value))
 ////                return "double.NaN";
 ////            return value.ToString(STR_DoubleFormat, oInfo);
 ////        }
@@ -2910,7 +2910,7 @@ StringList ModelGenerator::getConservationList()
 ////            {
 ////                string sCompartmentId = NOM.getNthCompartmentId(i);
 ////                double value = NOM.getValue(sCompartmentId);
-////                if (double.IsNaN(value)) value = 1;
+////                if (double.isNaN(value)) value = 1;
 ////                mCompartmentList.Add(new Symbol(sCompartmentId, value));
 ////            }
 ////            return numCompartments;
@@ -2931,7 +2931,7 @@ StringList ModelGenerator::getConservationList()
 ////                    id = reference.getId();
 ////                    if (string.IsNullOrEmpty(id)) continue;
 ////                    value = reference.getStoichiometry();
-////                    if (double.IsNaN(value))
+////                    if (double.isNaN(value))
 ////                        value = 1;
 ////                    if (reference.isSetId())
 ////                    {
@@ -2944,7 +2944,7 @@ StringList ModelGenerator::getConservationList()
 ////                    id = reference.getId();
 ////                    if (string.IsNullOrEmpty(id)) continue;
 ////                    value = reference.getStoichiometry();
-////                    if (double.IsNaN(value))
+////                    if (double.isNaN(value))
 ////                        value = 1;
 ////                    if (reference.isSetId())
 ////                    {

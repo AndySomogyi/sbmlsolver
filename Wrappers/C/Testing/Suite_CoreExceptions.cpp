@@ -11,8 +11,8 @@ using namespace std;
 using namespace UnitTest;
 using namespace rrc;
 
-using rr::JoinPath;
-using rr::FileExists;
+using rr::joinPath;
+using rr::fileExists;
 
 extern string   gTempFolder;
 extern string   gDataOutputFolder;
@@ -31,10 +31,10 @@ RRHandle gRR;
 
 	TEST(DATA_FILES)
 	{
-		gTestDataFolder 			= JoinPath(gRRInstallFolder, "tests");
-		string testDataFileName 	= JoinPath(gTestDataFolder, TestDataFileName);
+		gTestDataFolder 			= joinPath(gRRInstallFolder, "tests");
+		string testDataFileName 	= joinPath(gTestDataFolder, TestDataFileName);
 
-		CHECK(FileExists(testDataFileName));
+		CHECK(fileExists(testDataFileName));
 		CHECK(iniFile.Load(testDataFileName));
 
 		clog<<"Loaded test data from file: "<< testDataFileName;
@@ -44,8 +44,8 @@ RRHandle gRR;
 			rrIniKey* fNameKey = sbml->GetKey("FNAME1");
 			if(fNameKey)
 			{
-				TestModelFileName  = JoinPath(gTestDataFolder, fNameKey->mValue);
-				CHECK(FileExists(TestModelFileName));
+				TestModelFileName  = joinPath(gTestDataFolder, fNameKey->mValue);
+				CHECK(fileExists(TestModelFileName));
 			}
 		}
         else

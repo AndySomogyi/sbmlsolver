@@ -27,7 +27,8 @@ namespace rr
 
 int InternalFunctionCall(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *f_data);
 int InternalRootCall (realtype t, N_Vector y, realtype *gout, void *g_data);
-
+
+
 void ModelFcn(int n, 	double time, double* y, double* ydot, void* userData);
 void EventFcn(			double time, double* y, double* gdot, void* userData);
 
@@ -35,8 +36,10 @@ void EventFcn(			double time, double* y, double* gdot, void* userData);
 RR_DECLSPEC void        SetVector (N_Vector v, int Index, double Value);
 RR_DECLSPEC double      GetVector (N_Vector v, int Index);
 
-CvodeInterface::CvodeInterface(RoadRunner* rr, ModelFromC *aModel, const double& _absTol, const double& _relTol)
-:
+
+CvodeInterface::CvodeInterface(RoadRunner* rr, ModelFromC *aModel, const double& _absTol, const double& _relTol)
+
+:
 mDefaultReltol(_relTol),
 mDefaultAbsTol(_absTol),
 mDefaultMaxNumSteps(10000),
@@ -253,7 +256,7 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
             }
             catch (const Exception& e)
             {
-                Log(lWarning)<<"Constraint Violated at time = " + ToString(timeEnd)<<": " + e.Message();
+                Log(lWarning)<<"Constraint Violated at time = " + toString(timeEnd)<<": " + e.Message();
 
             }
 
@@ -305,7 +308,7 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
 
     model->evalModel(time, dCVodeArgument);
 
-    CopyCArrayToStdVector(model->mData.rateRules,    dCVodeArgument, (model->mData.rateRulesSize));
+    copyCArrayToStdVector(model->mData.rateRules,    dCVodeArgument, (model->mData.rateRulesSize));
 
     for(u_int i = 0 ; i < (model->mData.dydtSize); i++)
     {
@@ -556,7 +559,7 @@ void CvodeInterface::handleRootsFound(double &timeEnd, const double& tout)
     // Create some space for the CVGetRootInfo call
     int* _rootsFound = new int[mTheModel->getNumEvents()];
     CVodeGetRootInfo(mCVODE_Memory, _rootsFound);
-    CopyCArrayToStdVector(_rootsFound, rootsFound, mTheModel->getNumEvents());
+    copyCArrayToStdVector(_rootsFound, rootsFound, mTheModel->getNumEvents());
     delete [] _rootsFound;
     handleRootsForTime(timeEnd, rootsFound);
 }
@@ -931,7 +934,7 @@ void CvodeInterface::handleCVODEError(const int& errCode)
         }
 
         string msg = "";
-        string errorFile = JoinPath(tempFolder, mLogFile) + ToString(mErrorFileCounter) + ".txt";
+        string errorFile = joinPath(tempFolder, mLogFile) + toString(mErrorFileCounter) + ".txt";
 
         // and open a new file handle
         mErrorFileCounter++;

@@ -3,6 +3,7 @@
 #endif
 #pragma hdrstop
 #include <Classes.hpp>
+#include "rrUtils.h"
 #include "rrLogFileReader.h"
 #include "rrLogger.h"
 #include "MainForm.h"
@@ -13,7 +14,7 @@ LogFileReader::LogFileReader(const string& file, TMainF* mainForm)
 mFileName(file),
 mMainForm(mainForm)
 {
-    if(FileExists(mFileName.c_str()))
+    if(fileExists(mFileName.c_str()))
     {
         mFS.open(file.c_str());
     }

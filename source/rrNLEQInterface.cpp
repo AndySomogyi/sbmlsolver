@@ -382,7 +382,7 @@ string ErrorForStatus(const int& error)
             case 81:    return ("Error signalled by linear solver routine N1SOLV, in NLEQ");
             case 82:    return ("Possible negative concentrations in solution (NLEQ)");
             case 83:    return ("Error signalled by user routine JAC in NLEQ");
-            default:    return (Format("Unknown error in NLEQ, errCode = {0}", error));
+            default:    return (format("Unknown error in NLEQ, errCode = {0}", error));
         }   
 }
 
@@ -393,7 +393,7 @@ double NLEQInterface::computeSumsOfSquares()
 //    dTemp.resize(model->mData.amounts.size() + model->mData.rateRules.size());
 
     //    dTemp = model->mData.rateRules;//model->mData.rateRules.CopyTo(dTemp, 0);
-    CopyCArrayToStdVector(model->mData.rateRules,   dTemp, (model->mData.rateRulesSize));//model->mData.rateRules.CopyTo(dTemp, 0);
+    copyCArrayToStdVector(model->mData.rateRules,   dTemp, (model->mData.rateRulesSize));//model->mData.rateRules.CopyTo(dTemp, 0);
     //model->mData.amounts.CopyTo(dTemp, model->mData.rateRules.Length);
 //    for(int i = 0; i < model->mData.amounts.size(); i++)
     for(int i = 0; i < model->getNumIndependentVariables(); i++)

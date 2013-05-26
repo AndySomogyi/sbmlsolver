@@ -156,7 +156,7 @@ string getCurrentDateTime()
     return buf;
 }
 
-string GetUsersTempDataFolder()
+string getUsersTempDataFolder()
 {
     //Default for temporary data output is the users AppData/Local/Temp Folder
     //  Gets the temp path env string (no guarantee it's a valid path).
@@ -185,7 +185,7 @@ string getCurrentExeFolder()
 	char path[MAX_PATH];
 	if(GetModuleFileNameA(NULL, path, ARRAYSIZE(path)) != 0)
     {
-	    string aPath(ExtractFilePath(path));
+	    string aPath(extractFilePath(path));
 		return aPath;
     }
     return "";
@@ -202,7 +202,7 @@ string getCurrentExeFolder()
 
         sprintf( arg1, "/proc/%d/exe", getpid() );
         readlink( arg1, exepath, 1024 );
-		string thePath = ExtractFilePath(exepath); 
+		string thePath = extractFilePath(exepath);
 		Log(lDebug1)<<"Current exe folder says:"<<thePath;
         return thePath;
 #endif
@@ -215,13 +215,13 @@ string getParentFolder(const string& path)
     {
     	return "";
     }
-	vector<string> fldrs = SplitString(path, gPathSeparator);
+	vector<string> fldrs = splitString(path, gPathSeparator);
     string parent("");
     if(fldrs.size() > 1)
 	{
     	for(int i = 0; i < fldrs.size() -1; i++)
         {
-			parent = JoinPath(parent, fldrs[i]);
+			parent = joinPath(parent, fldrs[i]);
         }
 
         string pathSep;
@@ -269,11 +269,11 @@ const char getPathSeparator()
 	return gPathSeparator;
 }
 
-string GetFileContent(const string& fName)
+string getFileContent(const string& fName)
 {
 	string content;
 
-    vector<string> lines = GetLinesInFile(fName);
+    vector<string> lines = getLinesInFile(fName);
     for(int i = 0; i < lines.size(); i++)
     {
         content += lines[i];
@@ -283,7 +283,7 @@ string GetFileContent(const string& fName)
     return content;
 }
 
-vector<string> GetLinesInFile(const string& fName)
+vector<string> getLinesInFile(const string& fName)
 {
     vector<string> lines;
 
@@ -295,11 +295,11 @@ vector<string> GetLinesInFile(const string& fName)
     }
 
     std::string oneLine((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
-    lines = SplitString(oneLine, "\n");
+    lines = splitString(oneLine, "\n");
     return lines;
 }
 
-std::size_t IndexOf(std::vector<std::string>& vec, const std::string& elem )
+std::size_t indexOf(std::vector<std::string>& vec, const std::string& elem )
 {
     int index = distance(vec.begin(), find(vec.begin(), vec.end(), elem));
     return index;
@@ -307,7 +307,7 @@ std::size_t IndexOf(std::vector<std::string>& vec, const std::string& elem )
 
 // String utils
 //string RemoveTrailingSeparator(const string& fldr, const char sep = gPathSeparator);//"\\");
-string RemoveTrailingSeparator(const string& _folder, const char sep)
+string removeTrailingSeparator(const string& _folder, const char sep)
 {
     if((_folder.size() > 0) && (_folder[_folder.size() -1] == sep))
     {
@@ -321,7 +321,7 @@ string RemoveTrailingSeparator(const string& _folder, const char sep)
     }
 }
 
-bool IsNaN(const double& aNum)
+bool isNaN(const double& aNum)
 {
 #if defined(WIN32)
     return _isnan(aNum) > 0 ? true : false;
@@ -330,12 +330,12 @@ bool IsNaN(const double& aNum)
 #endif
 }
 
-bool IsNullOrEmpty(const string& str)
+bool isNullOrEmpty(const string& str)
 {
     return !str.size();
 }
 
-void Pause(bool doIt, const string& msg)
+void pause(bool doIt, const string& msg)
 {
     if(!doIt)
     {
@@ -351,18 +351,19 @@ void Pause(bool doIt, const string& msg)
     	cout<<msg;
     }
     cin.ignore(0,'\n');
+#if !defined(__linux)
+    getch();
+#endif
 
-    // On Windows this just calls the built in getch.
-    rrGetch();
 }
 
-bool FileExists(const string& fName)
+bool fileExists(const string& fName)
 {
     if (!fName.size())
     {
         return false;
     }
-    
+
 #if defined(__linux)
     ifstream test(fName);
     return test;
@@ -370,10 +371,10 @@ bool FileExists(const string& fName)
 
     bool res = (access(fName.c_str(), 0) == 0);
     return res;
-#endif    
+#endif
 }
 
-bool FolderExists(const string& folderName)
+bool folderExists(const string& folderName)
 {
 #if defined(WIN32)
     LPCTSTR szPath = folderName.c_str();
@@ -385,7 +386,7 @@ bool FolderExists(const string& folderName)
 #endif
 }
 
-void CreateTestSuiteFileNameParts(int caseNr, const string& postFixPart, string& modelFilePath, string& modelName, string& settingsFName)
+void createTestSuiteFileNameParts(int caseNr, const string& postFixPart, string& modelFilePath, string& modelName, string& settingsFName)
 {
     stringstream modelSubPath;
     stringstream modelFileName;
@@ -393,22 +394,22 @@ void CreateTestSuiteFileNameParts(int caseNr, const string& postFixPart, string&
 
     modelSubPath<<setfill('0')<<setw(5)<<caseNr;        //create the "00023" subfolder format
     modelFileName<<setfill('0')<<setw(5)<<caseNr<<postFixPart;
-    modelFilePath = JoinPath(modelFilePath, modelSubPath.str());
+    modelFilePath = joinPath(modelFilePath, modelSubPath.str());
     modelName =  modelFileName.str();
     settingsFileName <<setfill('0')<<setw(5)<<caseNr<<"-settings.txt";
 	settingsFName = settingsFileName.str();
 }
 
-string GetTestSuiteSubFolderName(int caseNr)
+string getTestSuiteSubFolderName(int caseNr)
 {
     stringstream modelSubPath;
     modelSubPath<<setfill('0')<<setw(5)<<caseNr;        //create the "00023" subfolder format
     return modelSubPath.str();
 }
 
-bool CreateFolder(const string& folder)
+bool createFolder(const string& folder)
 {
-    if(FileExists(folder))
+    if(fileExists(folder))
     {
         return true;
     }
@@ -427,15 +428,15 @@ bool CreateFolder(const string& folder)
     return (res==0) ? true : false;
 }
 
-bool CreateFile(const string& fName, std::ios_base::openmode mode)
+bool createFile(const string& fName, std::ios_base::openmode mode)
 {
     ofstream test;
     test.open(fName.c_str(), mode);
     test.close();
-    return FileExists(fName);
+    return fileExists(fName);
 }
 
-bool CopyValues(vector<double>& dest, double* source, const int& nrVals, const int& startIndex)
+bool copyValues(vector<double>& dest, double* source, const int& nrVals, const int& startIndex)
 {
     if(!dest.size() || !source || startIndex > dest.size())
     {
@@ -451,7 +452,7 @@ bool CopyValues(vector<double>& dest, double* source, const int& nrVals, const i
 
 }
 
-bool CopyStdVectorToCArray(const vector<double>& src, double* dest,  int size)
+bool copyStdVectorToCArray(const vector<double>& src, double* dest,  int size)
 {
     if(!dest || size > src.size())
     {
@@ -466,7 +467,7 @@ bool CopyStdVectorToCArray(const vector<double>& src, double* dest,  int size)
     return true;
 }
 
-bool CopyStdVectorToCArray(const vector<bool>&   src,  bool*  dest,  int size)
+bool copyStdVectorToCArray(const vector<bool>&   src,  bool*  dest,  int size)
 {
     if(!dest || size > src.size())
     {
@@ -482,7 +483,7 @@ bool CopyStdVectorToCArray(const vector<bool>&   src,  bool*  dest,  int size)
     return true;
 }
 
-vector<double> CreateVector(const double* src, const int& size)
+vector<double> createVector(const double* src, const int& size)
 {
     vector<double> dest;
     if(!src)
@@ -499,7 +500,7 @@ vector<double> CreateVector(const double* src, const int& size)
     return dest;
 }
 
-bool CopyCArrayToStdVector(const int* src, vector<int>& dest, int size)
+bool copyCArrayToStdVector(const int* src, vector<int>& dest, int size)
 {
     if(!src)
     {
@@ -515,7 +516,7 @@ bool CopyCArrayToStdVector(const int* src, vector<int>& dest, int size)
     return true;
 }
 
-bool CopyCArrayToStdVector(const double* src, vector<double>& dest, int size)
+bool copyCArrayToStdVector(const double* src, vector<double>& dest, int size)
 {
     if(!src)
     {
@@ -531,7 +532,7 @@ bool CopyCArrayToStdVector(const double* src, vector<double>& dest, int size)
     return true;
 }
 
-bool CopyCArrayToStdVector(const bool* src, vector<bool>& dest, int size)
+bool copyCArrayToStdVector(const bool* src, vector<bool>& dest, int size)
 {
     if(!src)
     {
@@ -547,7 +548,7 @@ bool CopyCArrayToStdVector(const bool* src, vector<bool>& dest, int size)
     return true;
 }
 
-double* CreateVector(const vector<double>& vec)
+double* createVector(const vector<double>& vec)
 {
     double* avec = new double[vec.size()];
     if(!avec)
@@ -606,7 +607,7 @@ StringList getSelectionListFromSettings(const SimulationSettings& settings)
 
 #if defined(_WIN32) || defined(WIN32)
 
-string GetWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
+string getWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
 {
  	LPVOID lpMsgBuf;
     LPVOID lpDisplayBuf;

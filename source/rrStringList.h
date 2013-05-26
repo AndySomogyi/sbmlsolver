@@ -38,7 +38,7 @@ class RR_DECLSPEC StringList : public rrObject
         StringList                  operator-(const StringList& rhs);
 
         int                         find(const string& item);
-        int                         IndexOf(const string& item);
+        int                         indexOf(const string& item);
         void                        clear();
         void                        empty();
         bool                        Contains(const string& item) const;

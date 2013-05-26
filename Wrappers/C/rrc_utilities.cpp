@@ -61,7 +61,7 @@ char* rrCallConv getFileContent(const char* fName)
 {
 	try
     {
-    	string fContent = GetFileContent(fName);
+    	string fContent = getFileContent(fName);
         return createText(fContent);
     }
     catch_ptr_macro

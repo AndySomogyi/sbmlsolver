@@ -10,7 +10,7 @@ using std::string;
 using std::ostringstream;
 using std::ostream;
 
-string ExtractFileName(const string& fName);
+string extractFileName(const string& fName);
 const string currentDateTime();
 namespace {
 
@@ -127,7 +127,7 @@ void XmlTestReporter::AddFailure(std::ostream& os, DeferredTestResult const& res
          ++it)
     {
         string const escapedMessage = XmlEscape(it->second);
-        string fileNoPath = ExtractFileName(result.failureFile);
+        string fileNoPath = extractFileName(result.failureFile);
         string const message = BuildFailureMessage(fileNoPath, it->first, escapedMessage);
 
         os << "<failure" << " message=\"" << message << "\"" << "/>";
@@ -135,7 +135,7 @@ void XmlTestReporter::AddFailure(std::ostream& os, DeferredTestResult const& res
 }
 }//End of namespace
 
-string ExtractFileName(const string& fileN)
+string extractFileName(const string& fileN)
 {
     string fName;
     if(fileN.find_last_of( '\\' ) != std::string::npos)

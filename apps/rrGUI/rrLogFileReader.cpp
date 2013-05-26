@@ -15,7 +15,7 @@ LogFileReader::LogFileReader(const string& file, TMForm* mainForm)
 mFileName(file),
 mMainForm(mainForm)
 {
-    if(FileExists(mFileName.c_str()))
+    if(fileExists(mFileName.c_str()))
     {
         mFS.open(file.c_str());
     }

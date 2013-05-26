@@ -12,8 +12,8 @@ using namespace UnitTest;
 using namespace ls;
 using namespace rrc;
 
-using rr::JoinPath;
-using rr::FileExists;
+using rr::joinPath;
+using rr::fileExists;
 
 extern string   gTempFolder;
 extern string 	gTestDataFolder;
@@ -31,9 +31,9 @@ RRHandle gRR = NULL;
 	TEST(DATA_FILES)
 	{
     	gRR 						= createRRInstanceEx(gTempFolder.c_str());
-		string testDataFileName 	= JoinPath(gTestDataFolder, TestDataFileName);
+		string testDataFileName 	= joinPath(gTestDataFolder, TestDataFileName);
 		clog<<"Checking file: "<<testDataFileName<<endl;
-		CHECK(FileExists(testDataFileName));
+		CHECK(fileExists(testDataFileName));
 		CHECK(iniFile.Load(testDataFileName));
 
 		clog<<"Loaded test data from file: "<< testDataFileName;
@@ -43,8 +43,8 @@ RRHandle gRR = NULL;
 			rrIniKey* fNameKey = sbml->GetKey("FNAME1");
 			if(fNameKey)
 			{
-				TestModelFileName  = JoinPath(gTestDataFolder, fNameKey->mValue);
-				CHECK(FileExists(TestModelFileName));
+				TestModelFileName  = joinPath(gTestDataFolder, fNameKey->mValue);
+				CHECK(fileExists(TestModelFileName));
 			}
 		}
 		CHECK(loadSBMLFromFileE(gRR, TestModelFileName.c_str(), true));
@@ -104,7 +104,7 @@ RRHandle gRR = NULL;
 			CHECK(false);
 			return;
 		}
-		vector<string> selList = SplitString(aKey->mValue," ,");
+		vector<string> selList = splitString(aKey->mValue," ,");
 		CHECK(selList.size() == list->Count);
 		for(int i = 0; i < selList.size(); i++)
 		{
@@ -688,7 +688,7 @@ RRHandle gRR = NULL;
             CHECK(false);
             return;
         }
-        vector<string> selList = SplitString(aKey->mValue," ,");
+        vector<string> selList = splitString(aKey->mValue," ,");
         CHECK(selList.size() == list->Count);
         for(int i = 0; i < selList.size(); i++)
         {
@@ -719,7 +719,7 @@ RRHandle gRR = NULL;
             CHECK(false);
             return;
         }
-        vector<string> selList = SplitString(aKey->mValue," ,");
+        vector<string> selList = splitString(aKey->mValue," ,");
         CHECK(selList.size() == list->Count);
         for(int i = 0; i < selList.size(); i++)
         {
@@ -750,7 +750,7 @@ RRHandle gRR = NULL;
             CHECK(false);
             return;
         }
-        vector<string> selList = SplitString(aKey->mValue," ,");
+        vector<string> selList = splitString(aKey->mValue," ,");
         CHECK(selList.size() == list->Count);
         for(int i = 0; i < selList.size(); i++)
         {
@@ -781,7 +781,7 @@ RRHandle gRR = NULL;
             CHECK(false);
             return;
         }
-        vector<string> selList = SplitString(aKey->mValue," ,");
+        vector<string> selList = splitString(aKey->mValue," ,");
         CHECK(selList.size() == list->Count);
         for(int i = 0; i < selList.size(); i++)
         {
@@ -812,7 +812,7 @@ RRHandle gRR = NULL;
             CHECK(false);
             return;
         }
-        vector<string> selList = SplitString(aKey->mValue," ,");
+        vector<string> selList = splitString(aKey->mValue," ,");
         CHECK(selList.size() == list->Count);
         for(int i = 0; i < selList.size(); i++)
         {
@@ -843,7 +843,7 @@ RRHandle gRR = NULL;
             CHECK(false);
             return;
         }
-        vector<string> selList = SplitString(aKey->mValue," ,");
+        vector<string> selList = splitString(aKey->mValue," ,");
         CHECK(selList.size() == list->Count);
         for(int i = 0; i < selList.size(); i++)
         {
@@ -874,7 +874,7 @@ RRHandle gRR = NULL;
             CHECK(false);
             return;
         }
-        vector<string> selList = SplitString(aKey->mValue," ,");
+        vector<string> selList = splitString(aKey->mValue," ,");
         CHECK(selList.size() == list->Count);
         for(int i = 0; i < selList.size(); i++)
         {
@@ -905,7 +905,7 @@ RRHandle gRR = NULL;
             CHECK(false);
             return;
         }
-        vector<string> selList = SplitString(aKey->mValue," ,");
+        vector<string> selList = splitString(aKey->mValue," ,");
         CHECK(selList.size() == list->Count);
         for(int i = 0; i < selList.size(); i++)
         {
@@ -959,7 +959,7 @@ RRHandle gRR = NULL;
             CHECK(false);
             return;
         }
-        vector<string> selList = SplitString(aKey->mValue," ,");
+        vector<string> selList = splitString(aKey->mValue," ,");
         CHECK(selList.size() == list->Count);
         for(int i = 0; i < selList.size(); i++)
         {
@@ -1013,7 +1013,7 @@ RRHandle gRR = NULL;
             CHECK(false);
             return;
         }
-        vector<string> selList = SplitString(aKey->mValue," ,");
+        vector<string> selList = splitString(aKey->mValue," ,");
         CHECK(selList.size() == list->Count);
         for(int i = 0; i < selList.size(); i++)
         {
@@ -1132,7 +1132,7 @@ RRHandle gRR = NULL;
 
         RRVector* values = getGlobalParameterValues(gRR);
 
-        vector<string> refList = SplitString(aKey->mValue," ,");
+        vector<string> refList = splitString(aKey->mValue," ,");
 
         if(!values || values->Count != refList.size())
         {
@@ -1144,9 +1144,9 @@ RRHandle gRR = NULL;
         {
 
             //Check concentrations
-            CHECK_CLOSE(ToDouble(refList[i]), values->Data[i], 1e-6);
+            CHECK_CLOSE(toDouble(refList[i]), values->Data[i], 1e-6);
             clog<<"\n";
-            clog<<"Ref:\t"<<ToDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
+            clog<<"Ref:\t"<<toDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
         }
     }
 
@@ -1171,7 +1171,7 @@ RRHandle gRR = NULL;
 
         RRVector* values = getFloatingSpeciesInitialConcentrations(gRR);
 
-        vector<string> refList = SplitString(aKey->mValue," ,");
+        vector<string> refList = splitString(aKey->mValue," ,");
 
         if(!values || values->Count != refList.size())
         {
@@ -1183,9 +1183,9 @@ RRHandle gRR = NULL;
         {
 
             //Check concentrations
-            CHECK_CLOSE(ToDouble(refList[i]), values->Data[i], 1e-6);
+            CHECK_CLOSE(toDouble(refList[i]), values->Data[i], 1e-6);
             clog<<"\n";
-            clog<<"Ref:\t"<<ToDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
+            clog<<"Ref:\t"<<toDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
         }
     }
 
@@ -1210,7 +1210,7 @@ RRHandle gRR = NULL;
 
         RRVector* values = getReactionRates(gRR);
 
-        vector<string> refList = SplitString(aKey->mValue," ,");
+        vector<string> refList = splitString(aKey->mValue," ,");
 
         if(!values || values->Count != refList.size())
         {
@@ -1222,9 +1222,9 @@ RRHandle gRR = NULL;
         {
 
             //Check concentrations
-            CHECK_CLOSE(ToDouble(refList[i]), values->Data[i], 1e-6);
+            CHECK_CLOSE(toDouble(refList[i]), values->Data[i], 1e-6);
             clog<<"\n";
-            clog<<"Ref:\t"<<ToDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
+            clog<<"Ref:\t"<<toDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
         }
     }
 
@@ -1247,7 +1247,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        vector<string> refList = SplitString(aKey->mValue," ,");
+        vector<string> refList = splitString(aKey->mValue," ,");
 
         if(refList.size() != getNumberOfReactions(gRR))
         {
@@ -1264,9 +1264,9 @@ RRHandle gRR = NULL;
               }
 
             //Check concentrations
-            CHECK_CLOSE(ToDouble(refList[i]), value, 1e-6);
+            CHECK_CLOSE(toDouble(refList[i]), value, 1e-6);
             clog<<"\n";
-            clog<<"Ref:\t"<<ToDouble(refList[i])<<"\tActual:\t "<<value<<endl;
+            clog<<"Ref:\t"<<toDouble(refList[i])<<"\tActual:\t "<<value<<endl;
         }
     }
 
@@ -1351,7 +1351,7 @@ RRHandle gRR = NULL;
 
         RRVector* values = getRatesOfChange(gRR);
 
-        vector<string> refList = SplitString(aKey->mValue," ,");
+        vector<string> refList = splitString(aKey->mValue," ,");
 
         if(!values || values->Count != refList.size())
         {
@@ -1362,9 +1362,9 @@ RRHandle gRR = NULL;
         for(int i = 0 ; i < refList.size(); i++)
         {
             //Check concentrations
-            CHECK_CLOSE(ToDouble(refList[i]), values->Data[i], 1e-6);
+            CHECK_CLOSE(toDouble(refList[i]), values->Data[i], 1e-6);
             clog<<"\n";
-            clog<<"Ref:\t"<<ToDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
+            clog<<"Ref:\t"<<toDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
         }
     }
 
@@ -1394,14 +1394,14 @@ RRHandle gRR = NULL;
             return;
         }
 
-          vector<string> refList = SplitString(refs->mValue," ");
+          vector<string> refList = splitString(refs->mValue," ");
 
-          vector<string> concList = SplitString(conc->mValue," ");
+          vector<string> concList = splitString(conc->mValue," ");
           RRVector* aVector = createVector(concList.size());
 
           for(int i = 0; i < concList.size(); i++)
           {
-            aVector->Data[i] = ToDouble(concList[i]);
+            aVector->Data[i] = toDouble(concList[i]);
           }
 
         RRVector* values = getReactionRatesEx(gRR, aVector);
@@ -1416,9 +1416,9 @@ RRHandle gRR = NULL;
         for(int i = 0 ; i < refList.size(); i++)
         {
             //Check concentrations
-            CHECK_CLOSE(ToDouble(refList[i]), values->Data[i], 1e-6);
+            CHECK_CLOSE(toDouble(refList[i]), values->Data[i], 1e-6);
             clog<<"\n";
-            clog<<"Ref:\t"<<ToDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
+            clog<<"Ref:\t"<<toDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
         }
     }
 
@@ -1448,14 +1448,14 @@ RRHandle gRR = NULL;
             return;
         }
 
-          vector<string> refList = SplitString(refs->mValue," ");
+          vector<string> refList = splitString(refs->mValue," ");
 
-          vector<string> concList = SplitString(conc->mValue," ");
+          vector<string> concList = splitString(conc->mValue," ");
           RRVector* aVector = createVector(concList.size());
 
           for(int i = 0; i < concList.size(); i++)
           {
-            aVector->Data[i] = ToDouble(concList[i]);
+            aVector->Data[i] = toDouble(concList[i]);
           }
 
         RRVector* values = getRatesOfChangeEx(gRR, aVector);
@@ -1470,9 +1470,9 @@ RRHandle gRR = NULL;
         for(int i = 0 ; i < refList.size(); i++)
         {
             //Check concentrations
-            CHECK_CLOSE(ToDouble(refList[i]), values->Data[i], 1e-6);
+            CHECK_CLOSE(toDouble(refList[i]), values->Data[i], 1e-6);
             clog<<"\n";
-            clog<<"Ref:\t"<<ToDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
+            clog<<"Ref:\t"<<toDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
         }
     }
 
@@ -1502,14 +1502,14 @@ RRHandle gRR = NULL;
             return;
         }
 
-          vector<string> refList = SplitString(refs->mValue," ");
+          vector<string> refList = splitString(refs->mValue," ");
 
-          vector<string> concList = SplitString(conc->mValue," ");
+          vector<string> concList = splitString(conc->mValue," ");
           RRVector* aVector = createVector(concList.size());
 
           for(int i = 0; i < concList.size(); i++)
           {
-            aVector->Data[i] = ToDouble(concList[i]);
+            aVector->Data[i] = toDouble(concList[i]);
           }
 
         for(int i = 0 ; i < refList.size(); i++)
@@ -1521,9 +1521,9 @@ RRHandle gRR = NULL;
               }
 
             //Check concentrations
-            CHECK_CLOSE(ToDouble(refList[i]), value, 1e-6);
+            CHECK_CLOSE(toDouble(refList[i]), value, 1e-6);
             clog<<"\n";
-            clog<<"Ref:\t"<<ToDouble(refList[i])<<"\tActual:\t "<<value<<endl;
+            clog<<"Ref:\t"<<toDouble(refList[i])<<"\tActual:\t "<<value<<endl;
         }
     }
 

@@ -51,7 +51,7 @@ void setValue(const T& val)
 template<class T>
 string Parameter<T>::getValueAsString() const
 {
-    return ToString(mValue);
+    return toString(mValue);
 }
 
 template<class T>
@@ -77,7 +77,7 @@ inline string Parameter<bool>::getType() const
 template<>
 inline void Parameter<bool>::setValue(const string& val)
 {
-	mValue = rr::ToBool(val);
+	mValue = rr::toBool(val);
 }
 
 //Integer parameter specialization
@@ -90,13 +90,13 @@ inline string Parameter<int>::getType() const
 template<>
 inline void Parameter<int>::setValue(const string& val)
 {
-	mValue = rr::ToInt(val);
+	mValue = rr::toInt(val);
 }
 
 template<>
 inline string Parameter<int>::getValueAsString() const
 {
-    return ToString(mValue);
+    return toString(mValue);
 }
 
 //Double parameter specialization
@@ -109,7 +109,7 @@ inline string Parameter<double>::getType() const
 template<>
 inline void Parameter<double>::setValue(const string& val)
 {
-	mValue = rr::ToDouble(val);
+	mValue = rr::toDouble(val);
 }
 
 template<>
@@ -133,20 +133,25 @@ inline string Parameter< vector<string> >::getType() const
 template<>
 inline void Parameter< vector<string> >::setValue(const string& val)
 {
-	mValue = SplitString(val,", ");
+	mValue = splitString(val,", ");
 }
 
 template<>
 inline void Parameter< rrc::RRDataHandle >::setValue(const string& val)
 {
-	//mValue = SplitString(val,", ");
+	//mValue = splitString(val,", ");
 }
 
+//template<>
+//string Parameter<int>::getValueAsString() const
+//{
+//    return toString(mValue);
+//}
 
 template<>
 inline string rr::Parameter<double>::getValueAsString() const
 {
-    return ToString(mValue, "%G");
+    return toString(mValue, "%G");
 }
 
 }

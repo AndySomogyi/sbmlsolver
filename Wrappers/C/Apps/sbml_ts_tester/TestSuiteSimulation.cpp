@@ -47,7 +47,7 @@ bool TestSuiteSimulation::LoadSettings(const string& settingsFName)
 
     if(!mModelSettingsFileName.size())
     {
-        mModelSettingsFileName = JoinPath(mModelFilePath, GetSettingsFileNameForCase(mCurrentCaseNumber));
+        mModelSettingsFileName = joinPath(mModelFilePath, GetSettingsFileNameForCase(mCurrentCaseNumber));
     }
 	SBMLModelSimulation::LoadSettings(mModelSettingsFileName);
 
@@ -76,8 +76,8 @@ SimulationData TestSuiteSimulation::GetResult()
 
 bool TestSuiteSimulation::SaveResult()
 {
-    string resultFileName(JoinPath(mDataOutputFolder, "rrCAPI_" + mModelFileName));
-    resultFileName = ChangeFileExtensionTo(resultFileName, ".csv");
+    string resultFileName(joinPath(mDataOutputFolder, "rrCAPI_" + mModelFileName));
+    resultFileName = changeFileExtensionTo(resultFileName, ".csv");
 
     if(!mResultHandle)
     {
@@ -154,12 +154,12 @@ bool RunTest(const string& version, int caseNumber)
         string settingsFileName;
 
         //Create a log file name
-        CreateTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, settingsFileName);
+        createTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, settingsFileName);
 
         //Create subfolder for data output
-        dataOutputFolder = JoinPath(dataOutputFolder, GetTestSuiteSubFolderName(caseNumber));
+        dataOutputFolder = joinPath(dataOutputFolder, getTestSuiteSubFolderName(caseNumber));
 
-        if(!CreateFolder(dataOutputFolder))
+        if(!createFolder(dataOutputFolder))
         {
 			string msg("Failed creating output folder for data output: " + dataOutputFolder);
             throw(rr::Exception(msg));
@@ -174,7 +174,7 @@ bool RunTest(const string& version, int caseNumber)
         string modelFileName;
 
         simulation.SetCaseNumber(caseNumber);
-        CreateTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName);
+        createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName);
 
         //The following will load and compile and simulate the sbml model in the file
         simulation.SetModelFilePath(modelFilePath);

@@ -189,10 +189,6 @@ object MainF: TMainF
     TabOrder = 1
     object TabSheet1: TTabSheet
       Caption = 'RR Data'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Chart1: TChart
         Left = 0
         Top = 29
@@ -248,10 +244,6 @@ object MainF: TMainF
     object TabSheet6: TTabSheet
       Caption = 'Fit Results'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object Chart2: TChart
         Left = 0
         Top = 0
@@ -460,10 +452,6 @@ object MainF: TMainF
         object TabSheet4: TTabSheet
           Caption = 'Fitting'
           ImageIndex = 1
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object PageControl3: TPageControl
             Left = 0
             Top = 0
@@ -515,10 +503,6 @@ object MainF: TMainF
         object TabSheet5: TTabSheet
           Caption = 'Make Noise'
           ImageIndex = 2
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 0
-          ExplicitHeight = 0
           object noiseSigmaE: mtkFloatLabeledEdit
             Left = 13
             Top = 32

@@ -30,7 +30,7 @@ void StringBuilder::Clear()
 stringstream& StringBuilder::operator<<(const string& str)
 {
     mStringing<<str;
-    Log(lDebug5)<<"Appended :"<<RemoveNewLines(str, 1);
+    Log(lDebug5)<<"Appended :"<<removeNewLines(str, 1);
     return mStringing;
 }
 

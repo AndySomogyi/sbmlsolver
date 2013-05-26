@@ -77,7 +77,7 @@ SBMLSymbol SBMLSymbol::GetDependency(const int& i)
 
 bool SBMLSymbol::HasValue()
 {
-    return IsNaN(mValue) ? false : true;
+    return isNaN(mValue) ? false : true;
 }
 
 bool SBMLSymbol::HasInitialAssignment() const
@@ -104,7 +104,7 @@ ostream& operator<<(ostream& stream, const SBMLSymbol& symbol)
         stream<<"Intial Assignment = "<<symbol.mInitialAssignment            <<endl;
     }
 
-    stream<<"Has Rule = "<<        ToString(symbol.mHasRule)                <<endl;
+    stream<<"Has Rule = "<<        toString(symbol.mHasRule)                <<endl;
     if(symbol.mHasRule)
     {
         stream<<"Rule = "<<        symbol.mRule                    <<endl;

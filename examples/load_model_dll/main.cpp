@@ -16,14 +16,14 @@ int main(int argc, char** argv)
 		const char* rootPath = "..";
 
         gLog.SetCutOffLogLevel(lInfo);
-		string tmpFolder = JoinPath(rootPath, "temp");
+		string tmpFolder = joinPath(rootPath, "temp");
 
-        const string modelFile = JoinPath(rootPath, "models", "test_1.xml");
+        const string modelFile = joinPath(rootPath, "models", "test_1.xml");
 
 #if defined(WIN32)
-        const string modelLib  = JoinPath(rootPath, "temp", "test_1.dll");
+        const string modelLib  = joinPath(rootPath, "temp", "test_1.dll");
 #else
-        const string modelLib  = JoinPath(rootPath, "temp", "test_1.so");
+        const string modelLib  = joinPath(rootPath, "temp", "test_1.so");
 #endif
         
 

@@ -25,7 +25,7 @@ RRJobHandle rrCallConv loadSBMLFromFileJob(RRHandle rrHandle, const char* fileNa
 	try
     {
         //Check if file exists first
-        if(!FileExists(fileName))
+        if(!fileExists(fileName))
         {
             stringstream msg;
             msg<<"The file "<<fileName<<" do not exist";
@@ -71,7 +71,7 @@ RRJobHandle rrCallConv loadSBMLFromFileJobEx(RRHandle rrHandle, const char* file
 	try
     {
         //Check if file exists first
-        if(!FileExists(fileName))
+        if(!fileExists(fileName))
         {
             stringstream msg;
             msg<<"The file "<<fileName<<" do not exist";
@@ -120,7 +120,7 @@ RRJobsHandle rrCallConv loadSBMLFromFileJobs(RRInstanceListHandle _handles, cons
 	try
     {
         //Check if file exists first
-        if(!FileExists(fileName))
+        if(!fileExists(fileName))
         {
             stringstream msg;
             msg<<"The file "<<fileName<<" do not exist";

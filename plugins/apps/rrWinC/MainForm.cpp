@@ -56,7 +56,8 @@ void __fastcall TMainF::clearMemoExecute(TObject *Sender)
 
 void TMainF::SetupAndReadParameters()
 {
-	mIniParas.Insert( (mtkBaseIniParameter*) &mLowerPanelHeight.Setup(            "LOWER_PANEL_HEIGHT", 	            250, 	true));
+	mIniParas.Insert( (mtkBaseIniParameter*) &mLowerPanelHeight.Setup(            "LOWER_PANEL_HEIGHT", 	            250, 			true));
+	mIniParas.Insert( (mtkBaseIniParameter*) &mModel.Setup(       				  "MODEL_FILE", 			            "Test_1.xml", 	true));
 	mIniParas.Read();
 
     lowerPanel->Height = mLowerPanelHeight;
@@ -92,7 +93,7 @@ void __fastcall TMainF::loadModelAExecute(TObject *Sender)
     	mModel = rr::stdstr(modelDD->Items->Strings[modelDD->ItemIndex]);
         mModel +=".xml";
 		//load model
-    	mLoadModelJob = loadSBMLFromFileJobEx(mRRI, rr::JoinPath(mModelsFolder, mModel).c_str(), true);
+    	mLoadModelJob = loadSBMLFromFileJobEx(mRRI, rr::joinPath(mModelsFolder, mModel).c_str(), true);
 		loadModelJobTimer->Enabled = true;
     }
 

@@ -66,7 +66,7 @@ mTimeEnd(10),
 mNumPoints(21),
 mModel(NULL),
 mCurrentSBML(""),
-mPluginManager(JoinPath(getParentFolder(supportCodeFolder), "plugins")),
+mPluginManager(joinPath(getParentFolder(supportCodeFolder), "plugins")),
 mConservedTotalChanged(false),
 mCapabilities("RoadRunner", "RoadRunner Capabilities"),
 mRRCoreCapabilities("Road Runner Core", "", "Core RoadRunner Parameters")
@@ -225,7 +225,7 @@ CSharpGenerator* RoadRunner::getCSharpGenerator()
 
 bool RoadRunner::setTempFileFolder(const string& folder)
 {
-	if(FolderExists(folder))
+	if(folderExists(folder))
 	{
 		Log(lDebug)<<"Setting temp file folder to "<<folder;
 	    mCompiler.setOutputPath(folder);
@@ -617,7 +617,7 @@ bool RoadRunner::simulateSBMLFile(const string& fileName, const bool& useConserv
 
 bool RoadRunner::loadSBMLFromFile(const string& fileName, const bool& forceReCompile)
 {
-	if(!FileExists(fileName))
+	if(!fileExists(fileName))
     {
         stringstream msg;
         msg<<"File: "<<fileName<<" don't exist";
@@ -668,11 +668,11 @@ string RoadRunner::createModelName(const string& mCurrentSBMLFileName)
     string modelName;
     if(mCurrentSBMLFileName.size())
     {
-    	modelName = ExtractFileNameNoExtension(mCurrentSBMLFileName);
+    	modelName = extractFileNameNoExtension(mCurrentSBMLFileName);
     }
     else
     {
-		modelName = ToString(mInstanceID);
+		modelName = toString(mInstanceID);
     }
     return modelName;
 }
@@ -681,7 +681,7 @@ bool cleanFolder(const string& folder, const string& baseName, const StringList&
 {
 	for(int i = 0; i < extensions.Count(); i++)
    	{
-    	string aFName = JoinPath(folder, baseName) + "." + extensions[i];
+    	string aFName = joinPath(folder, baseName) + "." + extensions[i];
         Poco::File aFile(aFName);
         if(aFile.exists())
         {
@@ -731,7 +731,7 @@ bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
     try
     {
     	//Can't have multiple threads compiling to the same dll at the same time..
-        if(!FileExists(mModelLib.getFullFileName()) || forceReCompile == true)
+        if(!fileExists(mModelLib.getFullFileName()) || forceReCompile == true)
         {
             if(!compileModel())
             {
@@ -1123,13 +1123,13 @@ StringList RoadRunner::getTimeCourseSelectionList()
                 oResult.Add("time");
                 break;
             case TSelectionType::clBoundaryAmount:
-                oResult.Add(Format("[{0}]", oBoundary[record.index]));
+                oResult.Add(format("[{0}]", oBoundary[record.index]));
                 break;
             case TSelectionType::clBoundarySpecies:
                 oResult.Add(oBoundary[record.index]);
                 break;
             case TSelectionType::clFloatingAmount:
-                oResult.Add(Format("[{0}]", oFloating[record.index]));
+                oResult.Add(format("[{0}]", oFloating[record.index]));
                 break;
             case TSelectionType::clFloatingSpecies:
                 oResult.Add(oFloating[record.index]);
@@ -1150,10 +1150,10 @@ StringList RoadRunner::getTimeCourseSelectionList()
                 oResult.Add("eigen_" + record.p1);
                 break;
             case TSelectionType::clElasticity:
-                oResult.Add(Format("EE:{0},{1}", record.p1, record.p2));
+                oResult.Add(format("EE:{0},{1}", record.p1, record.p2));
                 break;
             case TSelectionType::clUnscaledElasticity:
-                oResult.Add(Format("uEE:{0},{1}", record.p1, record.p2));
+                oResult.Add(format("uEE:{0},{1}", record.p1, record.p2));
                 break;
             case TSelectionType::clStoichiometry:
                 oResult.Add(record.p1);
@@ -1184,7 +1184,7 @@ double RoadRunner::steadyState()
 
     //Get a std vector for the solver
     vector<double> someAmounts;
-    CopyCArrayToStdVector(mModel->mData.amounts, someAmounts, mModel->getNumIndependentVariables());
+    copyCArrayToStdVector(mModel->mData.amounts, someAmounts, mModel->getNumIndependentVariables());
 
     double ss = mSteadyStateSolver->solve(someAmounts);
     if(ss < 0)
@@ -1255,7 +1255,7 @@ void RoadRunner::computeAndAssignConservationLaws(const bool& bValue)
 {
 	if(bValue == mComputeAndAssignConservationLaws.getValue())
     {
-    	Log(lWarning)<<"The compute and assign conservation laws flag already set to : "<<ToString(bValue);
+    	Log(lWarning)<<"The compute and assign conservation laws flag already set to : "<<toString(bValue);
     }
 	
     mComputeAndAssignConservationLaws.set(bValue);
@@ -1339,7 +1339,7 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
     // Check the reaction name
     if (!mModelGenerator->getReactionListReference().find(reactionName, reactionIndex))
     {
-        throw CoreException(Format("Unable to locate reaction name: [{0}]", reactionName));
+        throw CoreException(format("Unable to locate reaction name: [{0}]", reactionName));
     }
 
     // Find out what kind of parameter we are dealing with
@@ -1361,7 +1361,7 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
     }
     else
     {
-        throw CoreException(Format("Unable to locate variable: [{0}]", parameterName));
+        throw CoreException(format("Unable to locate variable: [{0}]", parameterName));
     }
 
     mModel->computeReactionRates(mModel->getTime(), mModel->mData.y);
@@ -1533,7 +1533,7 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
 
     for (int i = 0; i < _selList.Count(); i++)
     {
-    	if (ToUpper(newSelectionList[i]) == ToUpper("time"))
+    	if (toUpper(newSelectionList[i]) == toUpper("time"))
         {
         	mSelectionList.push_back(TSelectionRecord(0, clTime));
         }
@@ -1613,7 +1613,7 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
 
         //((string)newSelectionList[i]).StartsWith("eigen_")
         string tmp = newSelectionList[i];
-        if (StartsWith(tmp, "eigen_"))
+        if (startsWith(tmp, "eigen_"))
         {
         	string species = tmp.substr(tmp.find_last_of("eigen_") + 1);
             mSelectionList.push_back(TSelectionRecord(i, clEigenValue, species));
@@ -2262,22 +2262,22 @@ NewArrayList RoadRunner::getElasticityCoefficientIds()
 
         for(int j = 0; j < floatingSpeciesNames.Count(); j++)
         {
-            oInner.Add(Format("EE:{0},{1}", reac_name, floatingSpeciesNames[j]));
+            oInner.Add(format("EE:{0},{1}", reac_name, floatingSpeciesNames[j]));
         }
 
         for(int j = 0; j < boundarySpeciesNames.Count(); j++)
         {
-            oInner.Add(Format("EE:{0},{1}", reac_name, boundarySpeciesNames[j]));
+            oInner.Add(format("EE:{0},{1}", reac_name, boundarySpeciesNames[j]));
         }
 
         for(int j = 0; j < globalParameterNames.Count(); j++)
         {
-            oInner.Add(Format("EE:{0},{1}", reac_name, globalParameterNames[j]));
+            oInner.Add(format("EE:{0},{1}", reac_name, globalParameterNames[j]));
         }
 
         for(int j = 0; j < conservationNames.Count(); j++)
         {
-            oInner.Add(Format("EE:{0},{1}", reac_name, conservationNames[j]));
+            oInner.Add(format("EE:{0},{1}", reac_name, conservationNames[j]));
         }
 
         oCCReaction.Add(oInner);
@@ -2312,25 +2312,25 @@ NewArrayList RoadRunner::getUnscaledElasticityCoefficientIds()
         for(int j = 0; j < oFloating.Count(); j++)
         {
             string variable = oFloating[j];
-            oInner.Add(Format("uEE:{0},{1}", reac_name, variable));
+            oInner.Add(format("uEE:{0},{1}", reac_name, variable));
         }
 
         for(int j = 0; j < oBoundary.Count(); j++)
         {
             string variable = oBoundary[j];
-            oInner.Add(Format("uEE:{0},{1}", reac_name, variable));
+            oInner.Add(format("uEE:{0},{1}", reac_name, variable));
         }
 
         for(int j = 0; j < oGlobalParameters.Count(); j++)
         {
             string variable = oGlobalParameters[j];
-            oInner.Add(Format("uEE:{0},{1}", reac_name, variable));
+            oInner.Add(format("uEE:{0},{1}", reac_name, variable));
         }
 
         for(int j = 0; j < oConservation.Count(); j++)
         {
             string variable = oConservation[j];
-            oInner.Add(Format("uEE:{0},{1}", reac_name, variable));
+            oInner.Add(format("uEE:{0},{1}", reac_name, variable));
         }
 
         oCCReaction.Add(oInner);
@@ -2360,7 +2360,7 @@ StringList RoadRunner::getEigenvalueIds()
 }
 
 // Help(
-//            "Returns symbols of the currently loaded model, that can be used for steady state analysis. Format: array of arrays  { { \"groupname\", { \"item1\", \"item2\" ... } } }  or { { \"groupname\", { \"subgroup\", { \"item1\" ... } } } }."
+//            "Returns symbols of the currently loaded model, that can be used for steady state analysis. format: array of arrays  { { \"groupname\", { \"item1\", \"item2\" ... } } }  or { { \"groupname\", { \"subgroup\", { \"item1\" ... } } } }."
 //            )
 NewArrayList RoadRunner::getAvailableSteadyStateSymbols()
 {
@@ -2434,7 +2434,7 @@ StringList RoadRunner::getSteadyStateSelectionList()
                 result.Add("time");
             break;
             case TSelectionType::clBoundaryAmount:
-                result.Add(Format("[{0}]", oBoundary[record.index]));
+                result.Add(format("[{0}]", oBoundary[record.index]));
             break;
             case TSelectionType::clBoundarySpecies:
                 result.Add(oBoundary[record.index]);
@@ -2719,7 +2719,7 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
 				}
 				return gDoubleNaN;
 			}
-			throw CoreException(Format("Found unknown floating species '{0}' in computeSteadyStateValue()", sSpecies));
+			throw CoreException(format("Found unknown floating species '{0}' in computeSteadyStateValue()", sSpecies));
 		}
 		try
 		{
@@ -2727,7 +2727,7 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
 		}
         catch (Exception )
         {
-            throw CoreException(Format("Found unknown symbol '{0}' in computeSteadyStateValue()", sId));
+            throw CoreException(format("Found unknown symbol '{0}' in computeSteadyStateValue()", sId));
         }
     }
 }
@@ -2802,7 +2802,7 @@ double RoadRunner::getLocalParameterByIndex	(const int& reactionId, const int& i
     }
     else
     {
-     	throw CoreException(Format("Index in getLocalParameterByIndex out of range: [{0}]", index));
+     	throw CoreException(format("Index in getLocalParameterByIndex out of range: [{0}]", index));
     }
 }
 
@@ -2832,7 +2832,7 @@ double RoadRunner::getReactionRate(const int& index)
     }
     else
     {
-        throw CoreException(Format("Index in getReactionRate out of range: [{0}]", index));
+        throw CoreException(format("Index in getReactionRate out of range: [{0}]", index));
     }
 }
 
@@ -2850,7 +2850,7 @@ double RoadRunner::getRateOfChange(const int& index)
         return mModel->mData.dydt[index];
 	}
 
-    throw CoreException(Format("Index in getRateOfChange out of range: [{0}]", index));
+    throw CoreException(format("Index in getRateOfChange out of range: [{0}]", index));
 }
 
 // Help("Returns the rates of changes given an array of new floating species concentrations")
@@ -2868,8 +2868,8 @@ vector<double> RoadRunner::getReactionRatesEx(const vector<double>& values)
         throw CoreException(gEmptyModelMessage);
     }
 
-	mModel->computeReactionRates(0.0, CreateVector(values));
-    return CreateVector(mModel->mData.rates, mModel->mData.ratesSize);
+	mModel->computeReactionRates(0.0, createVector(values));
+    return createVector(mModel->mData.rates, mModel->mData.ratesSize);
 }
 
 // Help("Get the number of compartments")
@@ -2896,7 +2896,7 @@ void RoadRunner::setCompartmentByIndex(const int& index, const double& value)
     }
     else
     {
-        throw CoreException(Format("Index in getCompartmentByIndex out of range: [{0}]", index));
+        throw CoreException(format("Index in getCompartmentByIndex out of range: [{0}]", index));
     }
 }
 
@@ -2913,7 +2913,7 @@ double RoadRunner::getCompartmentByIndex(const int& index)
         return mModel->mData.c[index];
     }
 
-    throw CoreException(Format("Index in getCompartmentByIndex out of range: [{0}]", index));
+    throw CoreException(format("Index in getCompartmentByIndex out of range: [{0}]", index));
 }
 
 // Help("Get the number of boundary species")
@@ -2940,7 +2940,7 @@ void RoadRunner::setBoundarySpeciesByIndex(const int& index, const double& value
     }
     else
     {
-        throw Exception(Format("Index in getBoundarySpeciesByIndex out of range: [{0}]", index));
+        throw Exception(format("Index in getBoundarySpeciesByIndex out of range: [{0}]", index));
     }
 }
 
@@ -2955,7 +2955,7 @@ double RoadRunner::getBoundarySpeciesByIndex(const int& index)
     {
         return mModel->mData.bc[index];
     }
-    throw Exception(Format("Index in getBoundarySpeciesByIndex out of range: [{0}]", index));
+    throw Exception(format("Index in getBoundarySpeciesByIndex out of range: [{0}]", index));
 }
 
 // Help("Returns an array of boundary species concentrations")
@@ -2967,7 +2967,7 @@ vector<double> RoadRunner::getBoundarySpeciesConcentrations()
     }
 
     mModel->convertToConcentrations();
-	return CreateVector(mModel->mData.bc, mModel->mData.bcSize);
+	return createVector(mModel->mData.bc, mModel->mData.bcSize);
 }
 
 // Help("Set the concentrations for all boundary species in the model")
@@ -2996,7 +2996,7 @@ StringList RoadRunner::getBoundarySpeciesAmountIds()
 //    foreach (string s in getBoundarySpeciesIds()) oResult.Add("[" + s + "]");
     for(int item = 0; item < list.Count(); item++)// (object item in floatingSpeciesNames)
     {
-        result.Add(Format("[{0}]", list[item]));
+        result.Add(format("[{0}]", list[item]));
     }
 
     return result;
@@ -3027,7 +3027,7 @@ void RoadRunner::setFloatingSpeciesInitialConcentrationByIndex(const int& index,
     }
     else
     {
-        throw CoreException(Format("Index in setFloatingSpeciesInitialConcentrationByIndex out of range: [{0}]", index));
+        throw CoreException(format("Index in setFloatingSpeciesInitialConcentrationByIndex out of range: [{0}]", index));
     }
 }
 
@@ -3049,7 +3049,7 @@ void RoadRunner::setFloatingSpeciesByIndex(const int& index, const double& value
     }
     else
     {
-        throw CoreException(Format("Index in setFloatingSpeciesByIndex out of range: [{0}]", index));
+        throw CoreException(format("Index in setFloatingSpeciesByIndex out of range: [{0}]", index));
     }
 }
 
@@ -3065,7 +3065,7 @@ double RoadRunner::getFloatingSpeciesByIndex(const int& index)
     {
         return mModel->getConcentration(index);
     }
-    throw CoreException(Format("Index in getFloatingSpeciesByIndex out of range: [{0}]", index));
+    throw CoreException(format("Index in getFloatingSpeciesByIndex out of range: [{0}]", index));
 }
 
 // Help("Returns an array of floating species concentrations")
@@ -3077,7 +3077,7 @@ vector<double> RoadRunner::getFloatingSpeciesConcentrations()
     }
 
     mModel->convertToConcentrations();
-    return CreateVector(mModel->mData.y, mModel->mData.ySize);
+    return createVector(mModel->mData.y, mModel->mData.ySize);
 }
 
 // Help("returns an array of floating species initial conditions")
@@ -3088,7 +3088,7 @@ vector<double> RoadRunner::getFloatingSpeciesInitialConcentrations()
         throw CoreException(gEmptyModelMessage);
     }
     vector<double> initYs;
-    CopyCArrayToStdVector(mModel->mData.init_y, initYs, mModel->mData.init_ySize);
+    copyCArrayToStdVector(mModel->mData.init_y, initYs, mModel->mData.init_ySize);
     return initYs;
 }
 
@@ -3176,7 +3176,7 @@ StringList RoadRunner::getFloatingSpeciesInitialConditionIds()
     StringList result;// = new ArrayList();
     for(int item = 0; item < floatingSpeciesNames.Count(); item++)// (object item in floatingSpeciesNames)
     {
-        result.Add(Format("init({0})", floatingSpeciesNames[item]));
+        result.Add(format("init({0})", floatingSpeciesNames[item]));
     }
     return result;
 }
@@ -3189,7 +3189,7 @@ StringList RoadRunner::getFloatingSpeciesAmountIds()
 
     for(int i = 0; i < list.Count(); i++)
     {
-        oResult.push_back(Format("[{0}]", list[i]));
+        oResult.push_back(format("[{0}]", list[i]));
     }
     return oResult;
 }
@@ -3227,7 +3227,7 @@ void RoadRunner::setGlobalParameterByIndex(const int& index, const double& value
     }
     else
     {
-        throw CoreException(Format("Index in getNumGlobalParameters out of range: [{0}]", index));
+        throw CoreException(format("Index in getNumGlobalParameters out of range: [{0}]", index));
     }
 }
 
@@ -3258,7 +3258,7 @@ double RoadRunner::getGlobalParameterByIndex(const int& index)
         return result[index];
     }
 
-    throw CoreException(Format("Index in getNumGlobalParameters out of range: [{0}]", index));
+    throw CoreException(format("Index in getNumGlobalParameters out of range: [{0}]", index));
 }
 
 // Help("Set the values for all global parameters in the model")
@@ -3296,14 +3296,14 @@ vector<double> RoadRunner::getGlobalParameterValues()
         result.resize(mModel->mData.gpSize + mModel->mData.ctSize);
 
         //mModel->mData.gp.CopyTo(result, 0);
-        CopyValues(result,mModel->mData.gp, mModel->mData.gpSize, 0);
+        copyValues(result,mModel->mData.gp, mModel->mData.gpSize, 0);
 
         //mModel->mData.ct.CopyTo(result, mModel->mData.gp.Length);
-        CopyValues(result, mModel->mData.ct, mModel->mData.ctSize, mModel->mData.gpSize);
+        copyValues(result, mModel->mData.ct, mModel->mData.ctSize, mModel->mData.gpSize);
         return result;
     }
 
-    return CreateVector(mModel->mData.gp, mModel->mData.gpSize);
+    return createVector(mModel->mData.gp, mModel->mData.gpSize);
 }
 
 // Help("Gets the list of parameter names")
@@ -3588,7 +3588,7 @@ DoubleMatrix RoadRunner::getScaledReorderedElasticityMatrix()
         mModel->convertToConcentrations();
         mModel->computeReactionRates(mModel->getTime(), mModel->mData.y);
         vector<double> rates;
-        if(!CopyCArrayToStdVector(mModel->mData.rates, rates, mModel->mData.ratesSize))
+        if(!copyCArrayToStdVector(mModel->mData.rates, rates, mModel->mData.ratesSize))
         {
             throw CoreException("Failed to copy model->rates");
         }
@@ -4039,7 +4039,7 @@ vector<double> RoadRunner::getReactionRates()
 	mModel->computeReactionRates(0.0, mModel->mData.y);
 
 	vector<double> _rates;
-	CopyCArrayToStdVector(mModel->mData.rates, _rates, mModel->mData.ratesSize);
+	copyCArrayToStdVector(mModel->mData.rates, _rates, mModel->mData.ratesSize);
 	return _rates;
 }
 
@@ -4053,7 +4053,7 @@ vector<double> RoadRunner::getRatesOfChange()
 
 	mModel->computeAllRatesOfChange();
 	vector<double> result;
-	CopyCArrayToStdVector(mModel->mData.dydt, result, mModel->mData.dydtSize);
+	copyCArrayToStdVector(mModel->mData.dydt, result, mModel->mData.dydtSize);
 
 	return result;
 }
@@ -4217,13 +4217,13 @@ bool RoadRunner::setValue(const string& sId, const double& dValue)
 
     if (initialConditions.Contains(sId))
     {
-        int index = initialConditions.IndexOf(sId);
+        int index = initialConditions.indexOf(sId);
         mModel->mData.init_y[index] = dValue;
         reset();
         return true;
     }
 
-    Log(lError)<<Format("Given Id: '{0}' not found.", sId) + "Only species and global parameter values can be set";
+    Log(lError)<<format("Given Id: '{0}' not found.", sId) + "Only species and global parameter values can be set";
     return false;
 }
 
@@ -4273,7 +4273,7 @@ double RoadRunner::getValue(const string& sId)
     StringList initialConditions = getFloatingSpeciesInitialConditionIds();
     if (initialConditions.Contains(sId))
     {
-        int index = initialConditions.IndexOf(sId);
+        int index = initialConditions.indexOf(sId);
         return mModel->mData.init_y[index];
     }
 
@@ -5082,7 +5082,7 @@ string RoadRunner::getlibSBMLVersion()
 //            if (values.Length < mModel->getNumCompartments)
 //                mModel->mData.c = values;
 //            else
-//                throw (new CoreException(String.Format("Size of vector out not in range in setCompartmentValues: [{0}]", values.Length)));
+//                throw (new CoreException(String.format("Size of vector out not in range in setCompartmentValues: [{0}]", values.Length)));
 //        }
 //
 
@@ -5095,7 +5095,7 @@ string RoadRunner::getlibSBMLVersion()
 //                (index >= 0) && (index < mModel->getNumLocalParameters(reactionId)))
 //                mModel->mData.lp[reactionId][index] = value;
 //            else
-//                throw CoreException(string.Format("Index in setLocalParameterByIndex out of range: [{0}]", index));
+//                throw CoreException(string.format("Index in setLocalParameterByIndex out of range: [{0}]", index));
 //        }
 //
 
@@ -5123,7 +5123,7 @@ string RoadRunner::getlibSBMLVersion()
 //            _ReMultiplyCompartments = bValue;
 //        }
 //
-// Help("Performs a steady state parameter scan with the given parameters returning all elments from the mSelectionList: (Format: symnbol, startValue, endValue, stepSize)")
+// Help("Performs a steady state parameter scan with the given parameters returning all elments from the mSelectionList: (format: symnbol, startValue, endValue, stepSize)")
 //        double[][] RoadRunner::steadyStateParameterScan(string symbol, double startValue, double endValue, double stepSize)
 //        {
 //            var results = new List<double[]>();
@@ -5165,7 +5165,7 @@ string RoadRunner::getlibSBMLVersion()
 //            if ((reactionId >= 0) && (reactionId < mModel->getNumReactions))
 //                mModel->mData.lp[reactionId] = values;
 //            else
-//                throw CoreException(String.Format("Index in setLocalParameterValues out of range: [{0}]", reactionId));
+//                throw CoreException(String.format("Index in setLocalParameterValues out of range: [{0}]", reactionId));
 //        }
 //
 // Help("Get the values for all global parameters in the model")
@@ -5176,7 +5176,7 @@ string RoadRunner::getlibSBMLVersion()
 //
 //            if ((reactionId >= 0) && (reactionId < mModel->getNumReactions))
 //                return mModel->mData.lp[reactionId];
-//            throw CoreException(String.Format("Index in getLocalParameterValues out of range: [{0}]", reactionId));
+//            throw CoreException(String.format("Index in getLocalParameterValues out of range: [{0}]", reactionId));
 //        }
 //
 // Help("Gets the list of parameter names")

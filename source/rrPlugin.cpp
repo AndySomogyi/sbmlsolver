@@ -201,7 +201,7 @@ Capability* Plugin::getCapability(const string& name)
 //
 //PluginLogger::~PluginLogger()
 //{
-//	vector<string> lines = rr::SplitString(mStream.str(),"\n");
+//	vector<string> lines = rr::splitString(mStream.str(),"\n");
 //
 //    for(int i = 0; i < lines.size(); i++)
 //    {

@@ -95,7 +95,7 @@ void __fastcall TMForm::startupTimerTimer(TObject *Sender)
     //Select  models folder
     modelFoldersCBSelect(NULL);
 
-    TTreeNode* aNode = FindTreeNodeBasedOnLabel(FSF->TreeView1->Items, rr::ExtractFileName(mCurrentModelFileName).c_str());
+    TTreeNode* aNode = FindTreeNodeBasedOnLabel(FSF->TreeView1->Items, rr::extractFileName(mCurrentModelFileName).c_str());
 
     if(aNode)
     {
@@ -109,7 +109,7 @@ void __fastcall TMForm::logModelFileAExecute(TObject *Sender)
     if(fName.size())
     {
         Log(rr::lInfo)<<"Model File: "<<fName;
-        if(!rr::FileExists(fName))
+        if(!rr::fileExists(fName))
         {
             return;
         }
@@ -117,7 +117,7 @@ void __fastcall TMForm::logModelFileAExecute(TObject *Sender)
         ifstream aFile(fName.c_str());
         string  str((std::istreambuf_iterator<char>(aFile)), std::istreambuf_iterator<char>());
 
-        vector<string> strings = rr::SplitString(str,"\n");
+        vector<string> strings = rr::splitString(str,"\n");
         for(int i = 0; i < strings.size(); i++)
         {
             Log(rr::lInfo)<<strings[i];

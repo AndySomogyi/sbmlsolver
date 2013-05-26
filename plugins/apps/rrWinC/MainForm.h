@@ -152,7 +152,7 @@ private:
     RRJobHandle	                        mLoadModelJob;
     RRJobHandle	                        mSimulateModelJob;
 	TOnSimulationFinished				OnSimulationFinsihed;
-    string 		                        mModel;
+//    string 		                        mModel;
     string								mModelsFolder;
     bool								mUIIsStartingUp;
 	string 		                        getCurrentPluginName();
@@ -168,6 +168,7 @@ private:
 public:
 	mtkIniParameters					mIniParas;
 	mtkIniParameter<int>				mLowerPanelHeight;
+	mtkIniParameter<string>				mModel;
 
 	SimulationData						mCurrentData;
 			__fastcall 					TMainF(TComponent* Owner);

@@ -28,8 +28,8 @@ namespace rr
 Compiler::Compiler(const string& supportCodeFolder, const string& compiler)
 :
 mSupportCodeFolder(supportCodeFolder),
-mCompilerName(ExtractFileName(compiler)),
-mCompilerLocation(ExtractFilePath(compiler))
+mCompilerName(extractFileName(compiler)),
+mCompilerLocation(extractFilePath(compiler))
 {
 	if(mSupportCodeFolder.size() > 0)
     {
@@ -46,7 +46,7 @@ bool Compiler::setupCompiler(const string& supportCodeFolder)
 {
     mSupportCodeFolder = supportCodeFolder;
 
-    if(!FolderExists(mSupportCodeFolder))
+    if(!folderExists(mSupportCodeFolder))
     {
     	Log(lError)<<"The roadrunner support code folder : "<<mSupportCodeFolder<<" does not exist.";
         return false;
@@ -65,13 +65,13 @@ bool Compiler::compileSource(const string& sourceFileName)
 {
     //Compile the code and load the resulting dll, and call an exported function in it...
 #if defined(_WIN32) || defined(__CODEGEARC__)
-    string dllFName(ChangeFileExtensionTo(ExtractFileName(sourceFileName), "dll"));
+    string dllFName(changeFileExtensionTo(extractFileName(sourceFileName), "dll"));
 #elif defined(__unix__)
     string dllFName(ChangeFileExtensionTo(ExtractFileName(sourceFileName), "so"));
 #elif defined(__APPLE__)
     string dllFName(ChangeFileExtensionTo(ExtractFileName(sourceFileName), "dylib"));
 #endif
-    mDLLFileName = JoinPath(ExtractFilePath(sourceFileName), dllFName);
+    mDLLFileName = joinPath(extractFilePath(sourceFileName), dllFName);
 
     //Setup compiler environment
     setupCompilerEnvironment();
@@ -89,19 +89,19 @@ bool Compiler::compileSource(const string& sourceFileName)
     }
 
     //Check if the DLL exists...
-    return FileExists(mDLLFileName);
+    return fileExists(mDLLFileName);
 }
 
 bool Compiler::setCompiler(const string& compiler)
 {
-	mCompilerName = ExtractFileName(compiler);
-	mCompilerLocation = ExtractFilePath(compiler);
+	mCompilerName = extractFileName(compiler);
+	mCompilerLocation = extractFilePath(compiler);
 	return true;
 }
 
 bool Compiler::setCompilerLocation(const string& path)
 {
-	if(!FolderExists(path))
+	if(!folderExists(path))
 	{
 		Log(lError)<<"Tried to set invalid path: "<<path<<" for compiler location";
 		return false;
@@ -117,7 +117,7 @@ string	Compiler::getCompilerLocation()
 
 bool Compiler::setSupportCodeFolder(const string& path)
 {
-	if(!FolderExists(path))
+	if(!folderExists(path))
 	{
 		Log(lError)<<"Tried to set invalid path: "<<path<<" for compiler location";
 		return false;
@@ -136,7 +136,7 @@ bool Compiler::setupCompilerEnvironment()
     mIncludePaths.clear();
     mLibraryPaths.clear();
     mCompilerFlags.clear();
-    if(ExtractFileNameNoExtension(mCompilerName) == "tcc" || ExtractFileNameNoExtension(mCompilerName) == "gcc")
+    if(extractFileNameNoExtension(mCompilerName) == "tcc" || extractFileNameNoExtension(mCompilerName) == "gcc")
     {
         mCompilerFlags.push_back("-g");         //-g adds runtime debug information
 #if defined(__unix__) || defined(_WIN32)
@@ -151,14 +151,14 @@ bool Compiler::setupCompilerEnvironment()
         mCompilerFlags.push_back("-O0"); // turn off optimization
 
         //LogLevel                              //-v is for verbose
-        if(ExtractFileNameNoExtension(mCompilerName) == "tcc")
+        if(extractFileNameNoExtension(mCompilerName) == "tcc")
         {
             mIncludePaths.push_back(".");
             mIncludePaths.push_back("r:/rrl/source");
 
-            mIncludePaths.push_back(JoinPath(mCompilerLocation, "include"));
+            mIncludePaths.push_back(joinPath(mCompilerLocation, "include"));
             mLibraryPaths.push_back(".");
-            mLibraryPaths.push_back(JoinPath(mCompilerLocation, "lib"));
+            mLibraryPaths.push_back(joinPath(mCompilerLocation, "lib"));
             if(gLog.GetLogLevel() < lDebug)
             {
                 mCompilerFlags.push_back("-v"); // suppress warnings
@@ -172,7 +172,7 @@ bool Compiler::setupCompilerEnvironment()
                 mCompilerFlags.push_back("-vvv");
             }
         }
-        else if(ExtractFileNameNoExtension(mCompilerName) == "gcc")
+        else if(extractFileNameNoExtension(mCompilerName) == "gcc")
         {
             if(gLog.GetLogLevel() < lDebug)
             {
@@ -196,18 +196,18 @@ bool Compiler::setupCompilerEnvironment()
 string Compiler::createCompilerCommand(const string& sourceFileName)
 {
     stringstream exeCmd;
-    if(ExtractFileNameNoExtension(mCompilerName) == "tcc" 
-       || ExtractFileNameNoExtension(mCompilerName) == "gcc"
-       || ExtractFileNameNoExtension(mCompilerName) == "cc")
+    if(extractFileNameNoExtension(mCompilerName) == "tcc" 
+       || extractFileNameNoExtension(mCompilerName) == "gcc"
+       || extractFileNameNoExtension(mCompilerName) == "cc")
     {
         // standard unix compiler options
-        exeCmd<<JoinPath(mCompilerLocation, mCompilerName);
+        exeCmd<<joinPath(mCompilerLocation, mCompilerName);
         //Add compiler flags
         for(int i = 0; i < mCompilerFlags.size(); i++)
         {
             exeCmd<<" "<<mCompilerFlags[i];
         }
-        exeCmd<<" \""<<sourceFileName<<"\" \""<<JoinPath(mSupportCodeFolder, "rrSupport.c")<<"\"";
+        exeCmd<<" \""<<sourceFileName<<"\" \""<<joinPath(mSupportCodeFolder, "rrSupport.c")<<"\"";
 
 
         exeCmd<<" -o\""<<mDLLFileName<<"\"";
@@ -251,7 +251,7 @@ bool Compiler::compile(const string& cmdLine)
     sao.lpSecurityDescriptor=NULL;
     sao.bInheritHandle=1;
 
-    string compilerTempFile(JoinPath(mOutputPath, ExtractFileNameNoExtension(mDLLFileName)));
+    string compilerTempFile(joinPath(mOutputPath, extractFileNameNoExtension(mDLLFileName)));
     compilerTempFile.append("C.log");
 
     Poco::File aFile(compilerTempFile);
@@ -272,7 +272,7 @@ bool Compiler::compile(const string& cmdLine)
     {
         // Retrieve the system error message for the last-error code
         DWORD errorCode = GetLastError();
-        string anError = GetWINAPIError(errorCode, TEXT("CreateFile"));
+        string anError = getWINAPIError(errorCode, TEXT("CreateFile"));
         Log(lError)<<"WIN API Error (after CreateFile): "<<anError;
         Log(lError)<<"Failed creating logFile for compiler output";
     }
@@ -312,7 +312,7 @@ bool Compiler::compile(const string& cmdLine)
     {
 		DWORD errorCode = GetLastError();
 
-        string anError = GetWINAPIError(errorCode, TEXT("CreateProcess"));
+        string anError = getWINAPIError(errorCode, TEXT("CreateProcess"));
         Log(lError)<<"WIN API Error: (after CreateProcess) "<<anError;
 
         // Close process and thread handles.
@@ -332,7 +332,7 @@ bool Compiler::compile(const string& cmdLine)
     DWORD errorCode = GetLastError();
     if(errorCode != 0)
     {
-    	string anError = GetWINAPIError(errorCode, TEXT("CloseHandle"));
+    	string anError = getWINAPIError(errorCode, TEXT("CloseHandle"));
     	Log(lDebug)<<"WIN API error: (pi.hProcess)"<<anError;
     }
 
@@ -340,14 +340,14 @@ bool Compiler::compile(const string& cmdLine)
     errorCode = GetLastError();
     if(errorCode != 0)
     {
-    	string anError = GetWINAPIError(errorCode, TEXT("CloseHandle"));
+    	string anError = getWINAPIError(errorCode, TEXT("CloseHandle"));
     	Log(lDebug)<<"WIN API error: (pi.hThread)"<<anError;
     }
 
     //Read the log file and log it
-    if(FileExists(compilerTempFile))
+    if(fileExists(compilerTempFile))
     {
-    	string log = GetFileContent(compilerTempFile.c_str());
+    	string log = getFileContent(compilerTempFile.c_str());
     	Log(lDebug)<<"Compiler output: "<<log<<endl;
     }
 
@@ -360,7 +360,7 @@ bool Compiler::compile(const string& cmdLine)
 {
     string toFile(cmdLine);
     toFile += " >> ";
-    toFile += JoinPath(mOutputPath, "compilation.log");
+    toFile += joinPath(mOutputPath, "compilation.log");
     toFile += " 2>&1";
 
     Log(lDebug)<<"Compiler command: "<<toFile;

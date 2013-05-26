@@ -26,7 +26,7 @@ mIsDirty(true),
 mName(gEmptyString),
 mComment(gEmptyString)
 {
-	vector<string> keys = SplitString(nameValueString, sep);
+	vector<string> keys = splitString(nameValueString, sep);
 
     //Insert each key in the section
     for(unsigned int i = 0; i < keys.size(); i++)
@@ -54,7 +54,7 @@ rrIniKey*	rrIniSection::GetKey(const string& keyName, bool create)
    	KeyItor k_pos;
 	for (k_pos = mKeys.begin(); k_pos != mKeys.end(); k_pos++)
 	{
-		if ( CompareNoCase( (*k_pos)->mKey, keyName ) == 0 )
+		if ( compareNoCase( (*k_pos)->mKey, keyName ) == 0 )
 			return *k_pos;
 	}
 

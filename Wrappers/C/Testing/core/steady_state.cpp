@@ -9,8 +9,8 @@ using namespace std;
 using namespace UnitTest;
 
 //Add using clauses..
-using rr::JoinPath;
-using rr::FileExists;
+using rr::joinPath;
+using rr::fileExists;
 
 extern RRHandle gRR;	//Global roadrunner C handle
 extern string 	gBinPath;
@@ -29,10 +29,10 @@ string TestModelFileName;
 	//Test that model files and reference data for the tests in this suite are present
 	TEST(DATA_FILES)
 	{
-		gTestDataFolder 			= JoinPath(gRRInstallFolder, "tests");
-		string testDataFileName 	= JoinPath(gTestDataFolder, TestDataFileName);
+		gTestDataFolder 			= joinPath(gRRInstallFolder, "tests");
+		string testDataFileName 	= joinPath(gTestDataFolder, TestDataFileName);
 
-		CHECK(FileExists(testDataFileName));
+		CHECK(fileExists(testDataFileName));
 		CHECK(iniFile.Load(testDataFileName));
 		clog<<"Loaded test data from file: "<< testDataFileName;
 		if(iniFile.GetSection("SBML_FILES"))
@@ -41,8 +41,8 @@ string TestModelFileName;
 			rrIniKey* fNameKey = sbml->GetKey("FNAME1");
 			if(fNameKey)
 			{
-				TestModelFileName  = JoinPath(gTestDataFolder, fNameKey->mValue);
-				CHECK(FileExists(TestModelFileName));
+				TestModelFileName  = joinPath(gTestDataFolder, fNameKey->mValue);
+				CHECK(fileExists(TestModelFileName));
 			}
 		}
 	}

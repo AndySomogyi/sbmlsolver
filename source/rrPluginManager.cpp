@@ -77,7 +77,7 @@ bool PluginManager::load()
 {
 	bool result = true;
     //Throw if plugin folder don't exist
-    if(!FolderExists(mPluginFolder))
+    if(!folderExists(mPluginFolder))
     {
         Log(lError)<<"Plugin folder: "<<mPluginFolder<<" do not exist..";
         return false;
@@ -85,13 +85,13 @@ bool PluginManager::load()
 
  	//Get all plugins in plugin folder
     std::set<std::string> files;
-    string globPath =  JoinPath(mPluginFolder, "*." + mPluginExtension);
+    string globPath =  joinPath(mPluginFolder, "*." + mPluginExtension);
     Glob::glob(globPath, files);
     std::set<std::string>::iterator it = files.begin();
 
     for (; it != files.end(); ++it)
     {
-    	string plugin = ExtractFileName(*it);
+    	string plugin = extractFileName(*it);
         Log(lInfo)<<"Loading plugin: "<<plugin;
 		try
         {
@@ -117,7 +117,7 @@ bool PluginManager::loadPlugin(const string& sharedLib)
 	try
     {
         SharedLibrary *aLib = new SharedLibrary;
-        aLib->load(JoinPath(mPluginFolder, sharedLib));
+        aLib->load(joinPath(mPluginFolder, sharedLib));
 
         //Validate the plugin
         if(aLib->hasSymbol("createPlugin"))

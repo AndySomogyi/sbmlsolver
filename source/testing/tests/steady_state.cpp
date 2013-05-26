@@ -31,10 +31,10 @@ string TestModelFileName;
 	//Test that model files and reference data for the tests in this suite are present
     TEST(DATA_FILES)
     {
-		gTestDataFolder 	= JoinPath(gRRInstallFolder, "tests");
-		TestDataFileName 	= JoinPath(gTestDataFolder, TestDataFileName);
+		gTestDataFolder 	= joinPath(gRRInstallFolder, "tests");
+		TestDataFileName 	= joinPath(gTestDataFolder, TestDataFileName);
 
-    	CHECK(FileExists(TestDataFileName));
+    	CHECK(fileExists(TestDataFileName));
         CHECK(iniFile.Load(TestDataFileName));
         clog<<"Loaded test data from file: "<< TestDataFileName;
         if(iniFile.GetSection("SBML_FILES"))
@@ -43,8 +43,8 @@ string TestModelFileName;
             rrIniKey* fNameKey = sbml->GetKey("FNAME1");
             if(fNameKey)
             {
-            	TestModelFileName  = JoinPath(gTestDataFolder, fNameKey->mValue);
-            	CHECK(FileExists(TestModelFileName));
+            	TestModelFileName  = joinPath(gTestDataFolder, fNameKey->mValue);
+            	CHECK(fileExists(TestModelFileName));
             }
         }
     }

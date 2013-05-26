@@ -47,7 +47,7 @@ gCompiler = "gcc";
 	string reportFile(args.ResultOutputFile);
 
     gSBMLModelsPath 	= args.SBMLModelsFilePath;
-    gTSModelsPath 		= JoinPath(JoinPath(gSBMLModelsPath, "cases"), "semantic");
+    gTSModelsPath 		= joinPath(joinPath(gSBMLModelsPath, "cases"), "semantic");
 
     gTempFolder			= args.TempDataFolder;
 
@@ -57,13 +57,13 @@ gCompiler = "gcc";
     //Assume(!) this is the bin folder of roadrunner install
 	gRRInstallFolder = getParentFolder(thisExeFolder);	//Go up one folder
 
-    gCompiler	 		= JoinPath(gRRInstallFolder, gCompiler);
-	gSupportCodeFolder 	= JoinPath(gRRInstallFolder, "rr_support");
-	gTestDataFolder     = JoinPath(gRRInstallFolder, "tests");
+    gCompiler	 		= joinPath(gRRInstallFolder, gCompiler);
+	gSupportCodeFolder 	= joinPath(gRRInstallFolder, "rr_support");
+	gTestDataFolder     = joinPath(gRRInstallFolder, "tests");
    	bool doLogging  	= args.EnableLogging;
     if(doLogging)
     {
-    	string logFile = JoinPath(gTempFolder, "RoadRunner.log");
+    	string logFile = joinPath(gTempFolder, "RoadRunner.log");
         gLog.Init("", lDebug5);//, unique_ptr<LogFile>(new LogFile(logFile)));
         LogOutput::mLogToConsole = true;
     }
@@ -133,7 +133,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     if(argc < 2)
     {
         cout<<Usage(argv[0])<<endl;
-       	rr::Pause();
+       	rr::pause();
         cout<<"\n";
         exit(0);
     }

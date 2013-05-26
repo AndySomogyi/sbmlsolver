@@ -80,14 +80,14 @@ RRHandle rrCallConv createRRInstance()
     	string rrInstallFolder(getParentFolder(getRRCAPILocation()));
 
 #if defined(_WIN32) || defined(WIN32)
-            string compiler(JoinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"));
+            string compiler(joinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"));
 #elif defined(__linux)
             string compiler("gcc");
 #else
             string compiler("gcc");
 #endif
 	//RoadRunner(const string& tempFolder, const string& supportCodeFolder, const string& compiler)
-	        return new RoadRunner(GetUsersTempDataFolder(), JoinPath(rrInstallFolder, "rr_support"), compiler);
+	        return new RoadRunner(getUsersTempDataFolder(), joinPath(rrInstallFolder, "rr_support"), compiler);
     }
 	catch(Exception& ex)
     {
@@ -108,13 +108,13 @@ RRHandle rrCallConv createRRInstanceEx(const char* tempFolder)
         freeText(text1);
 
 #if defined(_WIN32) || defined(WIN32)
-            string compiler(JoinPath(rrInstallFolder, "compilers\\tcc\\tcc.exe"));
+            string compiler(joinPath(rrInstallFolder, "compilers\\tcc\\tcc.exe"));
 #elif defined(__linux)
             string compiler("gcc");
 #else
             string compiler("gcc");
 #endif
-		if(tempFolder != NULL && !FileExists(tempFolder))
+		if(tempFolder != NULL && !fileExists(tempFolder))
     	{
         	stringstream msg;
             msg<<"The temporary folder: "<<tempFolder<<" do not exist";
@@ -123,11 +123,11 @@ RRHandle rrCallConv createRRInstanceEx(const char* tempFolder)
         }
         else if(tempFolder)
         {
-	        return new RoadRunner(tempFolder, JoinPath(rrInstallFolder, "rr_support"), compiler);
+	        return new RoadRunner(tempFolder, joinPath(rrInstallFolder, "rr_support"), compiler);
         }
         else
         {
-	        return new RoadRunner(GetUsersTempDataFolder(), JoinPath(rrInstallFolder, "rr_support"), compiler);
+	        return new RoadRunner(getUsersTempDataFolder(), joinPath(rrInstallFolder, "rr_support"), compiler);
         }
     }
 	catch(Exception& ex)
@@ -143,7 +143,7 @@ RRInstanceListHandle rrCallConv createRRInstances(int count)
 {
 	try
     {    	
-		string tempFolder = GetUsersTempDataFolder();
+		string tempFolder = getUsersTempDataFolder();
 
 		RoadRunnerList* listHandle = new RoadRunnerList(count, tempFolder);
 
@@ -272,13 +272,13 @@ char* rrCallConv getRRCAPILocation()
     int nrChars = GetModuleFileNameA(handle, path, sizeof(path));
 	if(nrChars != 0)
     {
-	    string aPath = ExtractFilePath(path);
+	    string aPath = extractFilePath(path);
         char* text = createText(aPath);
 		return text;
     }
     return NULL;
 #else
-	return createText(JoinPath(getInstallFolder(),"/lib"));
+	return createText(joinPath(getInstallFolder(),"/lib"));
 #endif
 }
 
@@ -601,7 +601,7 @@ bool rrCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
 	try
     {
         //Check first if file exists first
-        if(!FileExists(fileName))
+        if(!fileExists(fileName))
         {
             stringstream msg;
             msg<<"The file "<<fileName<<" was not found";
@@ -631,7 +631,7 @@ bool rrCallConv loadSBMLFromFileE(RRHandle _handle, const char* fileName, bool f
 	try
     {
         //Check first if file exists first
-        if(!FileExists(fileName))
+        if(!fileExists(fileName))
         {
             stringstream msg;
             msg<<"The file "<<fileName<<" was not found";
@@ -699,7 +699,7 @@ bool rrCallConv loadSimulationSettings(RRHandle handle, const char* fileName)
 	try
     {
         //Check first if file exists first
-        if(!FileExists(fileName))
+        if(!fileExists(fileName))
         {
             stringstream msg;
             msg<<"The file "<<fileName<<" was not found";
@@ -2233,7 +2233,7 @@ char* rrCallConv getCSourceFileName(RRHandle handle)
 
         string fNameS = generator->getSourceCodeFileName();
 
-        fNameS = ExtractFileNameNoExtension(fNameS);
+        fNameS = extractFileNameNoExtension(fNameS);
 		return createText(fNameS);
     }
     catch(Exception& ex)
@@ -3129,7 +3129,7 @@ bool rrCallConv freeCCode(RRCCodeHandle code)
 /////////////////////////////////////////////////////////////
 void rrCallConv pause()
 {
-    rr::Pause(true, "Hit any key to continue..\n");
+    rr::pause(true, "Hit any key to continue..\n");
 }
 
 RRVectorHandle rrCallConv createVector (int size)
@@ -3676,7 +3676,7 @@ bool rrCallConv enableLoggingToFile(RRHandle handle)
     {
         RoadRunner* rri = castFrom(handle);
         char* tempFolder = getTempFolder(handle);
-		string logFile = JoinPath(tempFolder, "RoadRunner.log") ;
+		string logFile = joinPath(tempFolder, "RoadRunner.log") ;
         freeText(tempFolder);
 
 //        gLog.Init("", gLog.GetLogLevel(), unique_ptr<LogFile>(new LogFile(logFile.c_str())));

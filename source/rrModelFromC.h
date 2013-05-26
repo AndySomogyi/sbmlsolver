@@ -981,7 +981,7 @@ class RR_DECLSPEC ModelFromC : public rrObject
 ////        }
 ////        private static string CleanEquation(string equation)
 ////        {
-////            if (string.IsNullOrEmpty(equation)) return "0";
+////            if (string.isNullOrEmpty(equation)) return "0";
 ////
 ////            if (equation == " + ") return "0";
 ////            if (equation == " * ") return "1";
@@ -1009,7 +1009,7 @@ class RR_DECLSPEC ModelFromC : public rrObject
 ////        private string substituteTerms(string reactionName, string inputEquation, bool bFixAmounts)
 ////        {
 ////            string equation = CleanEquation(inputEquation);
-////            if (string.IsNullOrEmpty(equation)) return "0";
+////            if (string.isNullOrEmpty(equation)) return "0";
 ////
 ////            var s = new Scanner.Scanner();
 ////            Stream ss = new MemoryStream(Encoding.Default.GetBytes(equation));
@@ -2443,7 +2443,7 @@ class RR_DECLSPEC ModelFromC : public rrObject
 ////                    for (int j = 0; j < oTemp.Count; j++)
 ////                    {
 ////                        sb.AppendFormat("\t\t{0} = values[{1}];{2}", oTemp[j], j, NL());
-////                        if (((string)oTemp[j]).Trim().StartsWith("_c["))
+////                        if (((string)oTemp[j]).Trim().startsWith("_c["))
 ////                        {
 ////                            sb.Append("\t\tconvertToConcentrations();" + NL());
 ////                        }

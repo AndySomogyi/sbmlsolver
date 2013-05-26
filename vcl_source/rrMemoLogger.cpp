@@ -15,7 +15,7 @@ mMemo(aMemo)
 
 TMemoLogger::~TMemoLogger()
 {
-	vector<string> lines = SplitString(mStream.str(),"\n");
+	vector<string> lines = splitString(mStream.str(),"\n");
 
     for(int i = 0; i < lines.size(); i++)
     {

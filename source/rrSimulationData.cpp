@@ -199,12 +199,12 @@ bool SimulationData::check() const
 
 bool SimulationData::load(const string& fName)
 {
-    if(!FileExists(fName))
+    if(!fileExists(fName))
     {
         return false;
     }
 
-    vector<string> lines = GetLinesInFile(fName.c_str());
+    vector<string> lines = getLinesInFile(fName.c_str());
     if(!lines.size())
     {
         Log(lError)<<"Failed reading/opening file "<<fName;
@@ -221,7 +221,7 @@ bool SimulationData::load(const string& fName)
         StringList aLine(lines[i+1]);
         for(int j = 0; j < aLine.Count(); j++)
         {
-            mTheData(i,j) = ToDouble(aLine[j]);
+            mTheData(i,j) = toDouble(aLine[j]);
         }
     }
 

@@ -60,7 +60,7 @@ int main(int argc, char * argv[])
 
         if(args.UseOSTempFolder)
         {
-            args.TempDataFolder = GetUsersTempDataFolder();
+            args.TempDataFolder = getUsersTempDataFolder();
         }
 
 		if(args.TempDataFolder == ".")
@@ -72,8 +72,8 @@ int main(int argc, char * argv[])
 
         if(args.ModelFileName.size())
         {
-            string logName = ExtractFileName(args.ModelFileName);
-            logName = ChangeFileExtensionTo(logName, ".log");
+            string logName = extractFileName(args.ModelFileName);
+            logName = changeFileExtensionTo(logName, ".log");
             gLog.Init("", gLog.GetLogLevel());
         }
         else
@@ -177,7 +177,7 @@ int main(int argc, char * argv[])
 	Log(lInfo)<<"RoadRunner is exiting...";
 	if(args.Pause)
 	{
-		Pause();
+		pause();
 	}
     return 0;
 }
@@ -198,9 +198,9 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
             case ('m'): args.ModelFileName                  = rrOptArg;                       break;
             case ('u'): args.UseOSTempFolder                = true;                         break;
             case ('l'): args.SelectionList                  = rrOptArg;                       break;
-            case ('s'): args.StartTime                      = ToDouble(rrOptArg);             break;
-            case ('e'): args.EndTime                        = ToDouble(rrOptArg);             break;
-            case ('z'): args.Steps                          = ToInt(rrOptArg);                break;
+            case ('s'): args.StartTime                      = toDouble(rrOptArg);             break;
+            case ('e'): args.EndTime                        = toDouble(rrOptArg);             break;
+            case ('z'): args.Steps                          = toInt(rrOptArg);                break;
             case ('f'): args.SaveResultToFile               = true;                         break;
             case ('?'):
             {

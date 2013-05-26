@@ -429,7 +429,7 @@ void ModelFromC::assignRates(vector<double>& _rates)
         return;
     }
 
-    double* local_rates = CreateVector(_rates);
+    double* local_rates = createVector(_rates);
 
     cAssignRates_b(&mData, local_rates);
     delete [] local_rates;
@@ -488,7 +488,7 @@ void ModelFromC::updateDependentSpeciesValues(double* y_vec)
 
 void ModelFromC::computeRules(vector<double>& arr)
 {
-    double* cArr = CreateVector(arr);
+    double* cArr = createVector(arr);
     computeRules(cArr, arr.size());
     delete [] cArr;
 
@@ -534,7 +534,7 @@ void ModelFromC::evalModel(const double& timein, const vector<double>& y)
         return;
     }
 
-	double *oAmounts = CreateVector(y);
+	double *oAmounts = createVector(y);
     cevalModel(&mData, timein, oAmounts);
     delete [] oAmounts;
 }
@@ -546,7 +546,7 @@ void ModelFromC::evalEvents(const double& timeIn, const vector<double>& y)
         Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
-	double *oAmounts = CreateVector(y);
+	double *oAmounts = createVector(y);
     cevalEvents(&mData, timeIn, oAmounts);
     delete [] oAmounts;
 }

@@ -33,34 +33,34 @@ string rrIniKey::AsString() const
 
 int rrIniKey::AsBool() const
 {
-    return ToBool(mValue);
+    return toBool(mValue);
 }
 
 int rrIniKey::AsInt() const
 {
-    return ToInt(mValue);
+    return toInt(mValue);
 }
 
 double rrIniKey::AsFloat() const
 {
-    return ToDouble(mValue);
+    return toDouble(mValue);
 }
 
 complex<double> rrIniKey::AsComplex() const
 {
-	vector<string> vals = SplitString(mValue,",");
+	vector<string> vals = splitString(mValue,",");
     if(vals.size() == 2)
     {
-    	return complex<double>(ToDouble(vals[0]), ToDouble(vals[1]));
+    	return complex<double>(toDouble(vals[0]), toDouble(vals[1]));
     }
-    return complex<double>(ToDouble(mValue), 0 );
+    return complex<double>(toDouble(mValue), 0 );
 }
 
 void rrIniKey::SetupKey(const string& key)
 {
     if(key.size())
     {
-        vector<string> recs = SplitString(key, "=");
+        vector<string> recs = splitString(key, "=");
         if(recs.size() > 0)
         {
             mKey = recs[0];

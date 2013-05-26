@@ -19,7 +19,7 @@ int main()
     Log(lInfo)<<lRR.getInfo();
     Log(lInfo)<<"======================";
 
-    string model = JoinPath("..", "models", "test_1.xml");
+    string model = joinPath("..", "models", "test_1.xml");
     LoadModelThread load(model, false, &lRR);
 
     load.start();

@@ -80,7 +80,7 @@ bool IniFile::ClearSection(const string& aSection)
 // object by hand versus loading it from a file
 void IniFile::SetFileName(const string& FileName)
 {
-	if (mIniFileName.size() != 0 && CompareNoCase(FileName, mIniFileName) != 0)
+	if (mIniFileName.size() != 0 && compareNoCase(FileName, mIniFileName) != 0)
 	{
 		mIsDirty = true;
 	}
@@ -109,10 +109,10 @@ bool IniFile::Load(const string& newfName)
 	}
 
 
-    if(!FileExists(mIniFileName))
+    if(!fileExists(mIniFileName))
     {
 									Log(lDebug2)<<"The ini file: \"" <<mIniFileName.Get()<<"\" does not exist. It will be created";
-        if(!CreateFile(mIniFileName))
+        if(!createFile(mIniFileName))
         {
     								Log(lError)<<"Failed to create ini file.. returning..";
             return false;                                    
@@ -178,7 +178,7 @@ bool IniFile::Load(const string& newfName)
                 string Key = "";
                 string Value = "";
 
-            	vector<string> record = SplitString(Line, mEqualIndicator + mCommentIndicators);
+            	vector<string> record = splitString(Line, mEqualIndicator + mCommentIndicators);
                 if(record.size() > 1)
 				{
 	                string Comment = "";
@@ -243,7 +243,7 @@ rrIniSection* IniFile::LoadSection(const string& theSection)
 	}
 
     fstream file;
-    if(!FileExists(mIniFileName))
+    if(!fileExists(mIniFileName))
     {
 									Log(lDebug2)<<"The ini file: \"" <<mIniFileName.Get()<<"\" does not exist. It will be created";
 	}
@@ -430,7 +430,7 @@ bool IniFile::SetKeyComment(const string& mKey, const string& mComment, const st
 
 	for (k_pos = pSection->mKeys.begin(); k_pos != pSection->mKeys.end(); k_pos++)
 	{
-		if ( CompareNoCase( (*k_pos)->mKey, mKey ) == 0 )
+		if ( compareNoCase( (*k_pos)->mKey, mKey ) == 0 )
 		{
 			(*k_pos)->mComment = mComment;
 			mIsDirty = true;
@@ -450,7 +450,7 @@ bool IniFile::SetSectionComment(const string& Section, const string& Comment)
 	for (s_pos = mSections.begin(); s_pos != mSections.end(); s_pos++)
 	{
     	string name = (*s_pos)->mName;
-		if ( CompareNoCase( name , Section ) == 0 )
+		if ( compareNoCase( name , Section ) == 0 )
 		{
 		    (*s_pos)->mComment = Comment;
 			mIsDirty = true;
@@ -633,8 +633,8 @@ bool IniFile::ReadBool(const string& mKey, const string& szSection, bool def_val
 	if(mWasFound)
 	{
 		if ( mValue.find("1") 						== 0 	
-				|| CompareNoCase(mValue, "true") 	== 0 
-				|| CompareNoCase(mValue, "yes") 	== 0 )
+				|| compareNoCase(mValue, "true") 	== 0 
+				|| compareNoCase(mValue, "yes") 	== 0 )
 		{
 			bValue = true;
 		}
@@ -655,7 +655,7 @@ bool IniFile::DeleteSection(const string& Section)
 
 	for (s_pos = mSections.begin(); s_pos != mSections.end(); s_pos++)
 	{
-		if ( CompareNoCase( (*s_pos)->mName, Section ) == 0 )
+		if ( compareNoCase( (*s_pos)->mName, Section ) == 0 )
 		{
         	//Found a section..
             rrIniSection *aSection =  (*s_pos);
@@ -704,7 +704,7 @@ bool IniFile::DeleteKey(const string& Key, const string& FromSection)
 
 	for (k_pos = pSection->mKeys.begin(); k_pos != pSection->mKeys.end(); k_pos++)
 	{
-		if ( CompareNoCase( (*k_pos)->mKey, Key ) == 0 )
+		if ( compareNoCase( (*k_pos)->mKey, Key ) == 0 )
 		{
         	rrIniKey* aKey = (*k_pos);
 			pSection->mKeys.erase(k_pos);
@@ -832,7 +832,7 @@ rrIniKey*	IniFile::GetKey(const string& Key, const string& Section)
 
 	for (k_pos = pSection->mKeys.begin(); k_pos != pSection->mKeys.end(); k_pos++)
 	{
-		if ( CompareNoCase( (*k_pos)->mKey, Key ) == 0 )
+		if ( compareNoCase( (*k_pos)->mKey, Key ) == 0 )
 			return (*k_pos);
 	}
 
@@ -851,7 +851,7 @@ rrIniSection* IniFile::GetSection(const string& Section, bool create)
         	return NULL;
         }
         string secName = (*s_pos)->mName;
-		if ( CompareNoCase( secName, Section ) == 0 )
+		if ( compareNoCase( secName, Section ) == 0 )
         {
         	rrIniSection* sec = (*s_pos);
 			return sec;

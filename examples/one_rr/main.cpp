@@ -14,9 +14,9 @@ int main(int argc, char** argv)
     {
         LogOutput::mLogToConsole = true;
         gLog.SetCutOffLogLevel(lInfo);
-		string tmpFolder = JoinPath(rootPath, "temp");
+		string tmpFolder = joinPath(rootPath, "temp");
 
-        const string modelFile = JoinPath(rootPath, "models", "test_1.xml");
+        const string modelFile = joinPath(rootPath, "models", "test_1.xml");
 
         //Load modelFiles..
         Log(lInfo)<<" ---------- LOADING/GENERATING MODELS ------";

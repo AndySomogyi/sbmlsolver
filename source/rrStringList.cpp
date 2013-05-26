@@ -41,7 +41,7 @@ StringList::StringList(RRStringArrayHandle cp)
 
 StringList::StringList(const string& str, const string& delimiter)
 {
-    mStrings = SplitString(str, delimiter);
+    mStrings = splitString(str, delimiter);
 }
 
 StringList::StringList(const StringList& cp)
@@ -164,12 +164,12 @@ void StringList::push_back(const string& item)
 
 int StringList::find(const string& item)
 {
-    return rr::IndexOf(mStrings, item);
+    return rr::indexOf(mStrings, item);
 }
 
-int StringList::IndexOf(const string& item)
+int StringList::indexOf(const string& item)
 {
-    return rr::IndexOf(mStrings, item);
+    return rr::indexOf(mStrings, item);
 }
 
 bool StringList::Contains(const string& item) const

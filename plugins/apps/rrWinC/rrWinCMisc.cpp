@@ -2,7 +2,6 @@
 #pragma hdrstop
 #include "Poco/Glob.h"
 #include "Poco/SharedLibrary.h"
-
 #include "rrUtils.h"
 #include "MainForm.h"
 #include "rrException.h"
@@ -31,7 +30,7 @@ void __fastcall TMainF::startupTimerTimer(TObject *Sender)
 		buildTimeLbl->Caption  = getBuildTime();
 		string info 		   = getExtendedAPIInfo();
 
-		vector<string> lines = rr::SplitString(info, "\n");
+		vector<string> lines = rr::splitString(info, "\n");
 		for(int i =0; i < lines.size(); i++)
 		{
 			Log()<<lines[i];
@@ -57,16 +56,18 @@ void TMainF::populateModelsDropDown()
 	//Populate the drop down.
  	//Get all models in models  folder
     std::set<std::string> files;
-    string globPath =  rr::JoinPath(mModelsFolder, "*.xml");
+    string globPath =  rr::joinPath(mModelsFolder, "*.xml");
     Glob::glob(globPath, files);
     std::set<std::string>::iterator it = files.begin();
 	modelDD->Clear();
     for (; it != files.end(); ++it)
     {
-    	string model  = ExtractFileNameNoExtension(*it);
+    	string model  = extractFileNameNoExtension(*it);
         Log()<<"Adding model: "<<model;
 		modelDD->Items->Add(model.c_str());
     }
+
+    string modelNameNoExtension = extractFileNameNoExtension(mModel);
     modelDD->ItemIndex = 2;
 
 }

@@ -20,12 +20,12 @@ int main(int argc, char** argv)
         const int 	threadCount  	= 1;
 		const char* rootPath 		= "..";
 
-		string tmpFolder = JoinPath(rootPath, "temp");
+		string tmpFolder = joinPath(rootPath, "temp");
         //Use a list of roadrunners
         RoadRunnerList rrs(instanceCount, tmpFolder);
 
-        const string modelFile = JoinPath(rootPath, "models", "test_1.xml");
-		string sbml = GetFileContent(modelFile);
+        const string modelFile = joinPath(rootPath, "models", "test_1.xml");
+		string sbml = getFileContent(modelFile);
         //Load modelFiles..
         Log(lInfo)<<" ---------- LOADING/GENERATING MODELS ------";
 
@@ -70,7 +70,7 @@ int main(int argc, char** argv)
                 allData.append(data);
             }
 
-        	allData.writeTo(JoinPath(rootPath, "temp", "allData.dat"));
+        	allData.writeTo(joinPath(rootPath, "temp", "allData.dat"));
         }
         else
         {

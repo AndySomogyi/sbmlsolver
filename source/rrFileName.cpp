@@ -38,8 +38,8 @@ FileName& FileName::operator=(const FileName& fN)
 FileName& FileName::operator=(const string& fN)
 {
 	mPathAndName = fN;
-	mPath = ExtractFilePath(fN);
-	mName = rr::ExtractFileName(fN);
+	mPath = extractFilePath(fN);
+	mName = rr::extractFileName(fN);
 	return *this;
 }
 
@@ -63,7 +63,7 @@ string FileName::Get()
 string FileName::GetFileNameNoExtension()
 {
     //remove extension
-	string fname = ExtractFileNameNoExtension(GetFileName());
+	string fname = extractFileNameNoExtension(GetFileName());
     return fname;
 }
 
@@ -97,8 +97,8 @@ void FileName::SetFileNameAndPath(const string& file)
 	}
 	else
 	{
-		mName = ExtractFileName(file);
-		mPath = ExtractFilePath(file);
+		mName = extractFileName(file);
+		mPath = extractFilePath(file);
 		MakeFileString();
 	}
 }

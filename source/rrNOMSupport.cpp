@@ -176,8 +176,8 @@ StringListContainer NOMSupport::getListOfBoundarySpecies()
             StringList oSpeciesValues;
             oSpeciesValues.Add(oSpecies->getId());
             double concentration = oSpecies->isSetInitialConcentration() ? oSpecies->getInitialConcentration() : oSpecies->getInitialAmount();
-            oSpeciesValues.Add( ToString(concentration, STR_DoubleFormat) );
-            oSpeciesValues.Add( ToString(oSpecies->isSetInitialConcentration()) );
+            oSpeciesValues.Add( toString(concentration, STR_DoubleFormat) );
+            oSpeciesValues.Add( toString(oSpecies->isSetInitialConcentration()) );
 
             boundarySpeciesList.Add(oSpeciesValues);
         }
@@ -1300,8 +1300,8 @@ StringListContainer NOMSupport::getListOfFloatingSpecies()
             StringList oSpeciesValues;
             oSpeciesValues.Add( oSpecies->getId() );
             double concentration = oSpecies->isSetInitialConcentration() ? oSpecies->getInitialConcentration() : oSpecies->getInitialAmount();
-            oSpeciesValues.Add( ToString(concentration, STR_DoubleFormat) );
-            oSpeciesValues.Add( ToString(oSpecies->isSetInitialConcentration()));
+            oSpeciesValues.Add( toString(concentration, STR_DoubleFormat) );
+            oSpeciesValues.Add( toString(oSpecies->isSetInitialConcentration()));
 
             floatingSpeciesList.Add(oSpeciesValues);
         }
@@ -1358,7 +1358,7 @@ ArrayList NOMSupport::getListOfParameters()
         {
             paramValue = 0.0;
         }
-        tempStrValueList.Add(ToString(paramValue, STR_DoubleFormat));
+        tempStrValueList.Add(toString(paramValue, STR_DoubleFormat));
 
         paramStrValueList.Add(tempStrValueList);
     }
@@ -1392,7 +1392,7 @@ ArrayList NOMSupport::getListOfParameters()
                 {
                     paramValue = 0.0;
                 }
-                tempStrValueList.Add(ToString(paramValue, STR_DoubleFormat));
+                tempStrValueList.Add(toString(paramValue, STR_DoubleFormat));
                 paramStrValueList.Add(tempStrValueList);
             }
         }
@@ -2252,7 +2252,7 @@ string NOMSupport::getNthConstraint(const int& nIndex, string& sMessage)
 
     if (!oConstraint->isSetMessage())
     {
-        sMessage = "Constraint: " + ToString(nIndex) + " was violated.";
+        sMessage = "Constraint: " + toString(nIndex) + " was violated.";
     }
     else
     {
@@ -3360,7 +3360,7 @@ void NOMSupport::UpdateDependencies(const string& sbmlId)
 StringList NOMSupport::GetSymbols(const string& formula)
 {
     StringList sResult;
-    if (IsNullOrEmpty(formula))
+    if (isNullOrEmpty(formula))
     {
         return sResult;
     }
@@ -3725,7 +3725,7 @@ void NOMSupport::setValue(Model* model, const string& id, const double& value, c
 
     if (throwIfNotFound)
     {
-        throw Exception(Format("Invalid string name. The id '{0}' does not exist in the model", id));
+        throw Exception(format("Invalid string name. The id '{0}' does not exist in the model", id));
     }
 }
 
@@ -4081,7 +4081,7 @@ void NOMSupport::FillStack(stack<string>& stack, SBMLSymbol& symbol)
     }
     if (symbol.HasValue())
     {
-        stack.push(symbol.mId + " = " + ToString(symbol.mValue, STR_DoubleFormat));
+        stack.push(symbol.mId + " = " + toString(symbol.mValue, STR_DoubleFormat));
     }
 
     for(int i = 0; i < symbol.NumberOfDependencies(); i++)
