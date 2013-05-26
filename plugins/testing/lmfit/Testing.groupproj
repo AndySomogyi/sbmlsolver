@@ -15,6 +15,9 @@
         <Projects Include="rr_surface\rr_surface_mod.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\..\..\ThirdParty\lmfit\lmfit-static.cbproj">
+            <Dependencies/>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -59,14 +62,23 @@
     <Target Name="rr_surface_mod:Make">
         <MSBuild Projects="rr_surface\rr_surface_mod.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="lmfit-static">
+        <MSBuild Projects="..\..\..\ThirdParty\lmfit\lmfit-static.cbproj"/>
+    </Target>
+    <Target Name="lmfit-static:Clean">
+        <MSBuild Projects="..\..\..\ThirdParty\lmfit\lmfit-static.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="lmfit-static:Make">
+        <MSBuild Projects="..\..\..\ThirdParty\lmfit\lmfit-static.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="roadrunner;rrc_api;Curve1;rr_surface_mod"/>
+        <CallTarget Targets="roadrunner;rrc_api;Curve1;rr_surface_mod;lmfit-static"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="roadrunner:Clean;rrc_api:Clean;Curve1:Clean;rr_surface_mod:Clean"/>
+        <CallTarget Targets="roadrunner:Clean;rrc_api:Clean;Curve1:Clean;rr_surface_mod:Clean;lmfit-static:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="roadrunner:Make;rrc_api:Make;Curve1:Make;rr_surface_mod:Make"/>
+        <CallTarget Targets="roadrunner:Make;rrc_api:Make;Curve1:Make;rr_surface_mod:Make;lmfit-static:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

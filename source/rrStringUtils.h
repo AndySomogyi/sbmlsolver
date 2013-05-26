@@ -26,9 +26,10 @@ RR_DECLSPEC string				toUpperOrLowerCase(const string& inStr, int (*func)(int));
 RR_DECLSPEC string 				toUpper(const string& str);
 RR_DECLSPEC string 				toLower(const string& str);
 
-RR_DECLSPEC string              extractFilePath(const string& fileN);
-RR_DECLSPEC string              extractFileName(const string& fileN);
-RR_DECLSPEC string              extractFileNameNoExtension(const string& fileN);
+RR_DECLSPEC string              getFilePath(const string& fileN);
+RR_DECLSPEC string              getFileName(const string& fileN);
+RR_DECLSPEC string              getFileNameNoExtension(const string& fileN);
+RR_DECLSPEC string              getFileExtension(const string& fileN);
 
 RR_DECLSPEC string              changeFileExtensionTo(const string& theFileName, const string& newExtension);
 
@@ -71,6 +72,8 @@ RR_DECLSPEC string              toString(const vector<string>& vec);
 
 RR_DECLSPEC string              format(const string& src, const int& arg);
 RR_DECLSPEC string              format(const string& str, const int& arg1);
+RR_DECLSPEC string              format(const string& str1, const int& arg1, const double& arg2);
+
 RR_DECLSPEC string              format(const string& src, const string& arg);
 RR_DECLSPEC string              format(const string& src, const string& arg1, const string& arg2, const string& arg3);
 RR_DECLSPEC string              format(const string& src, const string& arg1, const string& arg2);
@@ -79,13 +82,15 @@ RR_DECLSPEC string              format(const string& src, const string& arg1, co
 RR_DECLSPEC string              format(const string& str1, const string& str2);
 RR_DECLSPEC string              format(const string& str1, const string& arg1, const string& arg2);
 RR_DECLSPEC string              format(const string& str1, const string& arg1, const int& arg2);
+RR_DECLSPEC string              format(const string& str1, const string& arg1, const int& arg2, const string& arg3);
 RR_DECLSPEC string              format(const string& str1, const string& arg1, const string& arg2, const string& arg3);
 RR_DECLSPEC string              format(const string& str1, const string& arg1, const string& arg2, const string& arg3, const string& arg4);
 RR_DECLSPEC string              format(const string& str1, const string& arg1, const string& arg2, const string& arg3, const string& arg4, const string& arg5);
 
 RR_DECLSPEC string              format(const string& str1, const unsigned int& arg1, const string& arg2);
+
 RR_DECLSPEC string              format(const string& str1, const unsigned int& arg1, const string& arg2, const string& arg3);
-RR_DECLSPEC string              format(const string& str1, const string& arg1, const int& arg2, const string& arg3);
+
 RR_DECLSPEC string              format(const string& str1, const unsigned int& arg1, const unsigned int& arg2, const string& arg3, const string& arg4);
 
 RR_DECLSPEC string              append(const string& str);
@@ -98,6 +103,7 @@ RR_DECLSPEC string              append(const string& s1, const unsigned int& s2,
 
 RR_DECLSPEC string              substitute(const string& src, const string& thisOne, const string& withThisOne, const int& howMany = -1);
 RR_DECLSPEC string              substitute(const string& src, const string& thisOne, const int& withThisOne, const int& howMany = -1);
+//RR_DECLSPEC string              substitute(const string& src, const string& thisOne, const double& withThisOne, const int& howMany = -1);
 RR_DECLSPEC string              removeNewLines(const string& str, const int& howMany = -1);
 }
 #endif

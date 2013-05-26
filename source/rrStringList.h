@@ -33,6 +33,8 @@ class RR_DECLSPEC StringList : public rrObject
         string                      AsString(const string& delimiter = gComma) const;
         unsigned int                Count() const;
         StringList&                 operator=(const StringList& rhs);
+        StringList&                 operator=(const vector<string>& rhs);
+
         string&                     operator[](const int& index);
         const string&               operator[](const int& index) const;
         StringList                  operator-(const StringList& rhs);

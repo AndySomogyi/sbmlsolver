@@ -91,7 +91,7 @@ bool PluginManager::load()
 
     for (; it != files.end(); ++it)
     {
-    	string plugin = extractFileName(*it);
+    	string plugin = getFileName(*it);
         Log(lInfo)<<"Loading plugin: "<<plugin;
 		try
         {

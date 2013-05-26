@@ -6,12 +6,12 @@
 #include "MainForm.h"
 #include "rrc_api.h"
 #include "rrException.h"
+#include "rrUtils.h"
 #include "rrVCLUtils.h"
 #include "../../../Wrappers/C/rrc_utilities.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "mtkFloatLabeledEdit"
-#pragma link "TFullSpaceFittingFrame"
 #pragma link "TSimulationFrame"
 #pragma link "rrCapabilitiesFrame"
 #pragma link "mtkIniFileC"
@@ -188,12 +188,17 @@ void __fastcall TMainF::loadModelAExecute(TObject *Sender)
     }
 }
 
+void __fastcall TMainF::PlotAExecute(TObject *Sender)
+{
+	Plot(mCurrentData);
+}
+
 void TMainF::Plot(const rr::RoadRunnerData& data)
 {
     Chart1->RemoveAllSeries();
 
     //Fill out data for all series
-    int nrOfSeries = data.cSize() -1; //First one is time
+    int nrOfSeries = data.cSize() -1; //First one has to be time
     StringList colNames = data.getColumnNames();
     vector<TLineSeries*> series;
     for(int i = 0; i < nrOfSeries; i++)
@@ -218,11 +223,6 @@ void TMainF::Plot(const rr::RoadRunnerData& data)
         }
     }
     Chart1->Update();
-}
-
-void __fastcall TMainF::PlotAExecute(TObject *Sender)
-{
-	Plot(mCurrentData);
 }
 
 void TMainF::configurePlugin(RRPluginHandle plugin)
@@ -380,5 +380,61 @@ void __fastcall TMainF::FormClose(TObject *Sender, TCloseAction &Action)
 	mIniParas.Write();
     mIniFile->Save();
 }
+
+void __fastcall TMainF::saveCurrentDataAExecute(TObject *Sender)
+{
+	//Open a file save dialog
+    if(!saveRRDataDialog->Execute())
+    {
+    	return;
+    }
+    	//Get the filename
+    string fileName = stdstr(saveRRDataDialog->FileName);
+    if(rr::fileExists(fileName))
+    {
+        if(MessageDlg("The file exists. OverWrite?", mtInformation, TMsgDlgButtons() << mbYes<<mbCancel, 0) == mbCancel)
+        {
+            return;
+        }
+    }
+
+    //Start writing...
+    //Create fileName
+    if(getFileExtension(fileName) != "dat")
+    {
+        fileName = changeFileExtensionTo(fileName, "dat");
+    }
+    ofstream theFile(fileName.c_str());
+    theFile << mCurrentData;
+    theFile.close();
+    Log()<<"The file "<<fileName<<" was written to the file system";
+}
+
+void __fastcall TMainF::openDataAExecute(TObject *Sender)
+{
+	//Open a file open dialog
+    if(!OpenDialog1->Execute())
+    {
+    	return;
+    }
+    	//Get the filename
+    string fileName = stdstr(OpenDialog1->FileName);
+
+    //Start reading ...
+    //Create fileName
+    ifstream theFile(fileName.c_str());
+
+    theFile >> mCurrentData;
+    theFile.close();
+    Log()<<"The file "<<fileName<<" was read";
+
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TMainF::exitAExecute(TObject *Sender)
+{
+	Close();
+}
+
 
 

@@ -19,13 +19,14 @@
 #include <VCLTee.TeeProcs.hpp>
 #include <VCLTee.Series.hpp>
 #include "mtkFloatLabeledEdit.h"
-#include "TFullSpaceFittingFrame.h"
 #include "rrRoadRunnerData.h"
 #include "TSimulationFrame.h"
 #include "rrCapabilitiesFrame.h"
 #include "mtkIniFileC.h"
 #include "TLMFittingFrame.h"
 #include "TRegistryForm.h"
+#include <Vcl.ImgList.hpp>
+#include <Vcl.Dialogs.hpp>
 #include <string>
 #include <vector>
 #include <sstream>
@@ -58,7 +59,7 @@ __published:	// IDE-managed Components
 	TLabel *buildTimeLbl;
 	TMemo *infoMemo;
 	TPanel *bottomLeftPanelWidth;
-	TActionList *ActionList1;
+	TActionList *mainActionList;
 	TAction *loadPluginsA;
 	TAction *unloadPlugins;
 	TButton *Button1;
@@ -114,6 +115,26 @@ __published:	// IDE-managed Components
 	mtkFloatLabeledEdit *noiseSigmaE;
 	TButton *addNoiseBtn;
 	TSplitter *Splitter2;
+	TMainMenu *MainMenu1;
+	TAction *saveCurrentDataA;
+	TAction *openDataA;
+	TMenuItem *File1;
+	TMenuItem *Exit1;
+	TMenuItem *N1;
+	TMenuItem *Open1;
+	TMenuItem *Save1;
+	TMenuItem *N2;
+	TAction *exitA;
+	TPanel *Panel1;
+	TToolBar *ToolBar4;
+	TToolBar *ToolBar5;
+	TSplitter *Splitter3;
+	TToolButton *ToolButton1;
+	TImageList *ImageList1;
+	TToolButton *ToolButton2;
+	TToolButton *ToolButton3;
+	TSaveDialog *saveRRDataDialog;
+	TOpenDialog *OpenDialog1;
 	void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall startupTimerTimer(TObject *Sender);
 	void __fastcall loadPluginsAExecute(TObject *Sender);
@@ -139,6 +160,9 @@ __published:	// IDE-managed Components
 	void __fastcall fullSpaceFitFrameexecuteBtnClick(TObject *Sender);
 	void __fastcall getCapabilitiesAsXMLAExecute(TObject *Sender);
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
+	void __fastcall saveCurrentDataAExecute(TObject *Sender);
+	void __fastcall openDataAExecute(TObject *Sender);
+	void __fastcall exitAExecute(TObject *Sender);
 
 private:
 	mtkApplicationInfo					mAppInfo;

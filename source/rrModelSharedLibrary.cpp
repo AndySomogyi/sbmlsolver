@@ -50,8 +50,8 @@ bool ModelSharedLibrary::load()
 
 bool ModelSharedLibrary::load(const string& libName)
 {
-	mPathToLib = extractFilePath(libName);
-    mLibName = extractFileName(libName);
+	mPathToLib = getFilePath(libName);
+    mLibName = getFileName(libName);
 #if defined(_WIN32)    
 	mTheLib.load(libName);
 #elif defined(__linux)

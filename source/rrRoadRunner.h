@@ -1,10 +1,8 @@
 #ifndef rrRoadRunnerH
 #define rrRoadRunnerH
-
 #include <string>
 #include "rr-libstruct/lsMatrix.h"
 #include "rr-libstruct/lsLibStructural.h"
-
 #include "rrObject.h"
 #include "rrTVariableType.h"
 #include "rrTParameterType.h"

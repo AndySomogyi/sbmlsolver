@@ -59,12 +59,12 @@ RoadRunnerData SBMLModelSimulation::GetResult()
 
 bool SBMLModelSimulation::SetModelFileName(const string& name)
 {
-    if(extractFilePath(name).size() > 0)
+    if(getFilePath(name).size() > 0)
     {
-        mModelFilePath = extractFilePath(name);
+        mModelFilePath = getFilePath(name);
     }
 
-    mModelFileName = extractFileName(name);
+    mModelFileName = getFileName(name);
 
     if(!fileExists(joinPath(mModelFilePath, mModelFileName)))
     {

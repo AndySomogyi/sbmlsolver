@@ -5,7 +5,6 @@
 #include <string>
 #include "rrStringlist.h"
 
-
 namespace rr
 {
 using std::string;

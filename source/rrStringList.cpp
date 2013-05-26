@@ -198,6 +198,12 @@ StringList& StringList::operator=(const StringList& rhs)
 	return *this;
 }
 
+StringList& StringList::operator=(const vector<string>& rhs)
+{
+    mStrings = rhs;
+	return *this;
+}
+
 ostream& operator<<(ostream& stream, const StringList& list)
 {
 	stream<<"{";

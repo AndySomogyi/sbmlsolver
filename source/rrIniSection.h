@@ -7,6 +7,7 @@
 
 namespace rr
 {
+
 class rrIniKey;
 typedef std::vector<rrIniKey*>     		KeyList;
 typedef KeyList::iterator 		    	KeyItor;

@@ -1,0 +1,84 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{4F4168A5-56EE-4872-ABD3-98DB8CB9A01C}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\..\..\..\source\roadrunner.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\..\source\roadrunner-static.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\..\Wrappers\C\rrc_api.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\..\ThirdParty\lmfit\lmfit-static.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="lm_demo.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="roadrunner">
+        <MSBuild Projects="..\..\..\..\source\roadrunner.cbproj"/>
+    </Target>
+    <Target Name="roadrunner:Clean">
+        <MSBuild Projects="..\..\..\..\source\roadrunner.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="roadrunner:Make">
+        <MSBuild Projects="..\..\..\..\source\roadrunner.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="roadrunner-static">
+        <MSBuild Projects="..\..\..\..\source\roadrunner-static.cbproj"/>
+    </Target>
+    <Target Name="roadrunner-static:Clean">
+        <MSBuild Projects="..\..\..\..\source\roadrunner-static.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="roadrunner-static:Make">
+        <MSBuild Projects="..\..\..\..\source\roadrunner-static.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="rrc_api">
+        <MSBuild Projects="..\..\..\..\Wrappers\C\rrc_api.cbproj"/>
+    </Target>
+    <Target Name="rrc_api:Clean">
+        <MSBuild Projects="..\..\..\..\Wrappers\C\rrc_api.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="rrc_api:Make">
+        <MSBuild Projects="..\..\..\..\Wrappers\C\rrc_api.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="lmfit-static">
+        <MSBuild Projects="..\..\..\..\ThirdParty\lmfit\lmfit-static.cbproj"/>
+    </Target>
+    <Target Name="lmfit-static:Clean">
+        <MSBuild Projects="..\..\..\..\ThirdParty\lmfit\lmfit-static.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="lmfit-static:Make">
+        <MSBuild Projects="..\..\..\..\ThirdParty\lmfit\lmfit-static.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="lm_demo">
+        <MSBuild Projects="lm_demo.cbproj"/>
+    </Target>
+    <Target Name="lm_demo:Clean">
+        <MSBuild Projects="lm_demo.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="lm_demo:Make">
+        <MSBuild Projects="lm_demo.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="roadrunner;roadrunner-static;rrc_api;lmfit-static;lm_demo"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="roadrunner:Clean;roadrunner-static:Clean;rrc_api:Clean;lmfit-static:Clean;lm_demo:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="roadrunner:Make;roadrunner-static:Make;rrc_api:Make;lmfit-static:Make;lm_demo:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

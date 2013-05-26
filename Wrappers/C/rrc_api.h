@@ -445,12 +445,9 @@ C_DECL_SPEC char* rrcCallConv getCurrentSBML(RRHandle handle);
 */
 C_DECL_SPEC char* rrcCallConv getSBML(RRHandle handle);
 
-
 // -------------------------------------------------------------------------
 // SBML utility methods
 // -----------------------------------------------------------------------
-
-
 /*!
  \brief Promote any local parameters to global status.
 
@@ -471,7 +468,6 @@ C_DECL_SPEC char* rrcCallConv getParamPromotedSBML(RRHandle handle, const char* 
  \ingroup simulation
 */
 C_DECL_SPEC bool rrcCallConv setCapabilities (RRHandle handle, const char* caps);
-
 
 /*!
  \brief Get the simulator's capabilities
@@ -821,7 +817,7 @@ C_DECL_SPEC bool rrcCallConv setGlobalParameterByIndex(RRHandle handle, const in
 C_DECL_SPEC bool rrcCallConv getBoundarySpeciesByIndex(RRHandle handle, const int index, double* value);
 
 /*!
- \brief Retrieve the concentration for a particular floating species. 
+ \brief Retrieve the concentration for a particular floating species.
 
  \param index The index to the floating species (corresponds to position in getFloatingSpeciesIds(RRHandle handle))
  \param value The value returned by the method
@@ -1406,6 +1402,14 @@ C_DECL_SPEC bool rrcCallConv getScaledFloatingSpeciesElasticity(RRHandle handle,
  \ingroup NOM functions
 */
 C_DECL_SPEC int rrcCallConv getNumberOfRules(RRHandle handle);
+
+/*!
+ \brief Returns the name of currently loaded SBML model
+ \return Returns a char* containing the name if succesful, NULL otherwise
+ \ingroup NOM functions
+*/
+C_DECL_SPEC char* rrcCallConv getModelName(RRHandle handle);
+
 
 #if defined( __cplusplus)
 }

@@ -16,13 +16,11 @@ using std::ostream;
 class RR_DECLSPEC MinimizationData : public rrObject
 {
 	protected:
-		RoadRunnerData                 	mExperimentalData;			//Observed data
+		RoadRunnerData                 	mObservedData;				//Observed data
 		RoadRunnerData                 	mModelData;					//Observed data
 		RoadRunnerData                 	mResidualsData;				//Observed data
-		stringstream			       	mReport;
         Parameters				    	mParameters;				//Parameters to fit
         StringList						mSelectionList;
-
 
     public:
 					                   	MinimizationData();
@@ -33,16 +31,19 @@ class RR_DECLSPEC MinimizationData : public rrObject
 
         void							addParameter(const string& name, const double& value);
         void							addParameter(const string& name, const int& value);
+        void							setSelectionList(const string& list);
         void							setSelectionList(const StringList& selList);
-        void							setInputData(RoadRunnerData& data);
-        void							setModelData(RoadRunnerData& data);
-        void							setResidualsData(RoadRunnerData& data);
+        StringList						getSelectionList();
 
-        RoadRunnerData					getInputData();
+        void							setInputData(const RoadRunnerData& data);
+        void							setModelData(const RoadRunnerData& data);
+        void							setResidualsData(const RoadRunnerData& data);
+
+        RoadRunnerData					getObservedData();
         RoadRunnerData					getModelData();
         RoadRunnerData					getResidualsData();
 
-        RoadRunnerData&					getInputDataReference();
+        RoadRunnerData&					getObservedDataReference();
         RoadRunnerData&					getModelDataReference();
         RoadRunnerData&					getResidualsDataReference();
 

@@ -39,7 +39,7 @@ void __fastcall TMainF::startupTimerTimer(TObject *Sender)
         simFrame->assignRRHandle(mRRI);
 //        fullSpaceFitFrame->assignRRHandle(mRRI);
         enableLoggingToFile(mRRI);
-        setLogLevel("Info");
+        setLogLevel("Debug");
 	}
 
     mLogFileSniffer.SetFileName(getLogFileName());
@@ -48,7 +48,7 @@ void __fastcall TMainF::startupTimerTimer(TObject *Sender)
 
 	populateModelsDropDown();
 
-    string modelNameNoExtension = extractFileNameNoExtension(mModel);
+    string modelNameNoExtension = getFileNameNoExtension(mModel);
     int index = modelDD->Items->IndexOf(vclstr(modelNameNoExtension));
 
     modelDD->ItemIndex = (index > -1) ? index : 2;
@@ -67,7 +67,7 @@ void TMainF::populateModelsDropDown()
 	modelDD->Clear();
     for (; it != files.end(); ++it)
     {
-    	string model  = extractFileNameNoExtension(*it);
+    	string model  = getFileNameNoExtension(*it);
         Log()<<"Adding model: "<<model;
 		modelDD->Items->Add(model.c_str());
     }
@@ -111,9 +111,6 @@ void __fastcall TMainF::pluginListClick(TObject *Sender)
 
     infoMemo->Clear();
     Log()<<test;
-
-
-	UpdateNoisePanel();
 }
 
 void TMainF::UpdateNoisePanel()
@@ -175,12 +172,12 @@ void __fastcall TMainF::loadModelJobTimerTimer(TObject *Sender)
 				Log() << "Problem deleting a job..";
 				throw rr::Exception(getLastError());
             }
+
 			simFrame->loadSelectionList();
-//            fullSpaceFitFrame->loadParameterList();
 
 			if(mLMFrame)
             {
-            	mLMFrame->loadParameterList();
+            	mLMFrame->populate();
             }
 
 			if(mLMAFrame)

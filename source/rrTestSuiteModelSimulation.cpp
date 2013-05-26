@@ -41,7 +41,7 @@ bool TestSuiteModelSimulation::CopyFilesToOutputFolder()
         mModelSettingsFileName = joinPath(mModelFilePath, GetSettingsFileNameForCase(mCurrentCaseNumber));
     }
 
-    string fName = extractFileName(mModelSettingsFileName);
+    string fName = getFileName(mModelSettingsFileName);
     fName = joinPath(mDataOutputFolder, fName);
 #if defined(WIN32)    
 	return CopyFileA(mModelSettingsFileName.c_str(), fName.c_str(), false) == TRUE ? true : false;

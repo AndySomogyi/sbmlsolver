@@ -22,13 +22,12 @@ bool rrcCallConv addDoubleParameter(RRMinimizationDataHandle handle, const char*
     catch_bool_macro
 }
 
-bool rrcCallConv setMinimizationSelectionList(RRMinimizationDataHandle handle, RRStringArrayHandle listHandle)
+bool rrcCallConv setMinimizationSelectionList(RRMinimizationDataHandle handle, const char* selections)
 {
 	try
     {
     	MinimizationData* data = castToMinimizationData(handle);
-//        StringList aList =
-
+        data->setSelectionList(selections);
         return true;
     }
     catch_bool_macro

@@ -28,7 +28,7 @@ C_DECL_SPEC bool rrcCallConv addDoubleParameter(RRMinimizationDataHandle handle,
  \return Returns true if sucessful, false otherwise
  \ingroup Minimization
 */
-C_DECL_SPEC bool rrcCallConv setMinimizationSelectionList(RRMinimizationDataHandle handle, RRStringArrayHandle listHandle);
+C_DECL_SPEC bool rrcCallConv setMinimizationSelectionList(RRMinimizationDataHandle handle, const char* listHandle);
 
 
 #if defined(__cplusplus)

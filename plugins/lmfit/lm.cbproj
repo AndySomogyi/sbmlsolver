@@ -133,15 +133,13 @@
             <DependentOn>lm.h</DependentOn>
             <BuildOrder>1</BuildOrder>
         </CppCompile>
-        <CppCompile Include="lmfit-3.5\lib\lmcurve.c">
-            <BuildOrder>3</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="lmfit-3.5\lib\lmmin.c">
-            <BuildOrder>4</BuildOrder>
-        </CppCompile>
         <PCHCompile Include="lmPCH1.h">
             <BuildOrder>0</BuildOrder>
         </PCHCompile>
+        <CppCompile Include="lmUtils.cpp">
+            <DependentOn>lmUtils.h</DependentOn>
+            <BuildOrder>4</BuildOrder>
+        </CppCompile>
         <CppCompile Include="lm_thread.cpp">
             <DependentOn>lm_thread.h</DependentOn>
             <BuildOrder>2</BuildOrder>

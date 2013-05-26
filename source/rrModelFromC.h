@@ -2,10 +2,6 @@
 #define rrModelFromCH
 #include <list>
 #include "rrModelSharedLibrary.h"
-//#include "rrTEventDelayDelegate.h"
-//#include "rrTEventAssignmentDelegate.h"
-//#include "rrTComputeEventAssignmentDelegate.h"
-//#include "rrTPerformEventAssignmentDelegate.h"
 #include "rrModelData.h"
 #include "rrNOMSupport.h"
 #include "rr-libstruct/lsLibStructural.h"
@@ -27,7 +23,6 @@ typedef double* (rrCallConv *c_doubleStar_MDS)(ModelData*);
 typedef void    (rrCallConv *c_void_MDS_double_doubleStar)(ModelData*, double, double*);
 typedef void    (rrCallConv *c_void_MDS_int_double)(ModelData*, int, double);
 
-
 typedef TComputeEventAssignmentDelegate* (rrCallConv *c_TComputeEventAssignmentDelegateStar)();
 typedef TEventDelayDelegate* (rrCallConv *c_GetEventDelayDelegatesStar)();
 
@@ -36,7 +31,6 @@ class RR_DECLSPEC ModelFromC : public rrObject
 {
     protected:
 												//This structure holds data generated/used in the shared model lib..
-                                                //some of it could be made global in the dll later on, like modelName..
         int                                     mDummyInt;
         int                                     mDummyDouble;
         double*                                 mDummyDoubleArray;

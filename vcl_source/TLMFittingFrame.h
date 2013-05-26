@@ -26,16 +26,22 @@ typedef void __fastcall (__closure *TOnEvent)();
 class TLMFittingFrame : public TFrame
 {
 __published:	// IDE-managed Components
-	TGroupBox *fittingFrame;
 	TActionList *ActionList1;
 	TButton *executeBtn;
 	TCheckListBox *paraList;
 	TAction *logResultA;
 	mtkFloatLabeledEdit *paraEdit;
 	TChart *Chart1;
+	TCheckListBox *speciesList;
+	TPanel *Panel1;
+	TSplitter *Splitter1;
+	TGroupBox *GroupBox2;
+	TGroupBox *GroupBox3;
+	TGroupBox *GroupBox4;
+	TSplitter *Splitter3;
+	TGroupBox *GroupBox1;
+	TLabel *nameLbl;
 	TLineSeries *Series1;
-	TPointSeries *Series2;
-	TLineSeries *Series3;
 	void __fastcall paraListClick(TObject *Sender);
 	void __fastcall executeBtnClick(TObject *Sender);
 	void __fastcall logResultAExecute(TObject *Sender);
@@ -61,10 +67,11 @@ __published:	// IDE-managed Components
         TMemo			               		   *infoMemo;	//For the logger
 
         void								    loadParameterList();
+        void								    loadSpeciesList();
 		void 								    assignRRHandle(RRHandle aHandle);
 		void 								    assignPluginHandle(RRPluginHandle aHandle);
 	    string									getResult();
-
+		void 								    populate();
 		//Assign in parent
         TOnEvent			   				    onFittingStarted;
         TOnEvent	   						    onFittingFinished;

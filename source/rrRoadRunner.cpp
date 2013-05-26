@@ -673,7 +673,7 @@ string RoadRunner::createModelName(const string& mCurrentSBMLFileName)
     string modelName;
     if(mCurrentSBMLFileName.size())
     {
-    	modelName = extractFileNameNoExtension(mCurrentSBMLFileName);
+    	modelName = getFileNameNoExtension(mCurrentSBMLFileName);
     }
     else
     {

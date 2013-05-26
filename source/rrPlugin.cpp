@@ -51,25 +51,6 @@ bool Plugin::isWorking()
 	return false;
 }
 
-//bool Plugin::setParameter(const string& nameOf, void* value, Capability& capability)
-//{
-//
-//	//Go trough the parameter container and look for parameter
-//    for(int i = 0; i < capability.nrOfParameters(); i++)
-//    {
-//        BaseParameter* aParameter = const_cast<BaseParameter*>( &(capability[i]) );
-//
-//        if(dynamic_cast< Parameter<int>* >(aParameter))
-//        {
-//	        Parameter<int> *aIntPar = dynamic_cast< Parameter<int>* >(aParameter);
-//            int *aVal = reinterpret_cast<int*>(value);
-//        	aIntPar->setValue( *aVal);
-//            return true;
-//        }
-//    }
-//	return false;
-//}
-
 bool Plugin::setParameter(const string& nameOf, const char* value, Capability& capability)
 {
 	//Go trough the parameter container and look for parameter
@@ -137,14 +118,14 @@ string Plugin::getInfo() //Obs. subclasses may over ride this function and add m
     msg<<setw(30)<<left<<"Version"<<mVersion<<"\n";
     msg<<setw(30)<<left<<"Copyright"<<mCopyright<<"\n";
 
-	msg<<"=== Capabilities ====\n";
-    for(int i = 0; i < mCapabilities.count(); i++)
-    {
-    	if(mCapabilities[i])
-        {
-    		msg<< *(mCapabilities[i]);
-        }
-    }
+//	msg<<"=== Capabilities ====\n";
+//    for(int i = 0; i < mCapabilities.count(); i++)
+//    {
+//    	if(mCapabilities[i])
+//        {
+//    		msg<< *(mCapabilities[i]);
+//        }
+//    }
     return msg.str();
 }
 

@@ -3,7 +3,7 @@
 #endif
 #pragma hdrstop
 
-#if defined(WIN32)
+#if defined(_WIN32)
 #include <windows.h>
 #include <io.h>
 #include <conio.h>
@@ -185,7 +185,7 @@ string getCurrentExeFolder()
 	char path[MAX_PATH];
 	if(GetModuleFileNameA(NULL, path, ARRAYSIZE(path)) != 0)
     {
-	    string aPath(extractFilePath(path));
+	    string aPath(getFilePath(path));
 		return aPath;
     }
     return "";
@@ -202,7 +202,7 @@ string getCurrentExeFolder()
 
         sprintf( arg1, "/proc/%d/exe", getpid() );
         readlink( arg1, exepath, 1024 );
-		string thePath = extractFilePath(exepath);
+		string thePath = getFilePath(exepath);
 		Log(lDebug1)<<"Current exe folder says:"<<thePath;
         return thePath;
 #endif

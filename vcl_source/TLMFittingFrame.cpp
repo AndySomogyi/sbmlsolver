@@ -11,6 +11,7 @@
 #include "rrVCLUtils.h"
 #include "MainForm.h"
 #include "rrMinimizationData.h"
+#include "rrc_api.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "mtkFloatLabeledEdit"
@@ -36,34 +37,63 @@ void TLMFittingFrame::assignPluginHandle(RRPluginHandle aHandle)
 	mPlugin = aHandle;
 }
 
+void TLMFittingFrame::populate()
+{
+	string modelName = getModelName(mRRI);
+	nameLbl->Caption = vclstr(modelName);
+
+	loadSpeciesList();
+	loadParameterList();
+}
+
 void TLMFittingFrame::loadParameterList()
 {
-    if(mRRI)
+    if(!mRRI)
     {
-        paraList->Clear();
-        mParameters.clear();
-        RRStringArrayHandle cSymbolsIDs = getGlobalParameterIds(mRRI);
-		StringList symbols = convertCStringArray(cSymbolsIDs);
+        return;
+    }
+    paraList->Clear();
+    mParameters.clear();
+    RRStringArrayHandle cSymbolsIDs = getGlobalParameterIds(mRRI);
+    StringList symbols = convertCStringArray(cSymbolsIDs);
 
-        for(int i = 0; i < symbols.Count(); i++)
+    for(int i = 0; i < symbols.Count(); i++)
+    {
+        string parName = symbols[i];
+        double value;
+        if(!getValue(mRRI, parName.c_str(), &value))
         {
-        	string parName = symbols[i];
-        	double value;
-            if(!getValue(mRRI, parName.c_str(), &value))
-            {
-            	Log()<<"There was a problem with parameter: "<<parName;
-            }
-            else
-            {
-        		mParameters.add(new Parameter<double>(parName, value, ""));
-            }
+            Log()<<"There was a problem with parameter: "<<parName;
         }
- 	  	for(int i = 0; i < mParameters.count(); i++)
-    	{
-	       int index = paraList->Items->Add(mParameters[i]->getName().c_str());
-           paraList->Items->Objects[i] = (TObject*) mParameters[i];
-           paraList->Checked[index] = true;
+        else
+        {
+            mParameters.add(new Parameter<double>(parName, value, ""));
         }
+    }
+    for(int i = 0; i < mParameters.count(); i++)
+    {
+       int index = paraList->Items->Add(mParameters[i]->getName().c_str());
+       paraList->Items->Objects[i] = (TObject*) mParameters[i];
+       paraList->Checked[index] = true;
+    }
+}
+
+void TLMFittingFrame::loadSpeciesList()
+{
+    if(!mRRI)
+    {
+    	return;
+    }
+
+    speciesList->Clear();
+
+    RRStringArrayHandle cSpecies = getFloatingSpeciesIds(mRRI);
+    StringList species = convertCStringArray(cSpecies);
+
+    for(int i = 0; i < species.Count(); i++)
+    {
+		speciesList->Items->Add(species[i].c_str());
+        speciesList->Checked[i] = true;
     }
 }
 
@@ -112,31 +142,34 @@ void __fastcall TLMFittingFrame::executeBtnClick(TObject *Sender)
 
     RRMinimizationDataHandle minData = getParameterValueAsPointer(minDataParaHandle);
 
+	//Add parameters to minimization structure
     for(int i = 0; i < mParameters.count(); i++)
     {
     	Parameter<double>* para = (Parameter<double>*) mParameters[i];
     	addDoubleParameter(minData, para->getName().c_str(), para->getValue());
     }
 
-    RRStringArrayHandle selList = getTimeCourseSelectionList(mRRI);
+    //Add selected species to minimization data structure
+    StringList checkedSpecies = getCheckedItems(speciesList);
+    setMinimizationSelectionList(minData, checkedSpecies.AsString().c_str());
 
-	setMinimizationSelectionList(minData, selList);
-
+    //Set input data to fit to
     RRData* rrData = rrc::createRRData(MainF->mCurrentData);
 	setInputData(mPlugin, rrData);
+    freeRRData(rrData);
 
     string strVal;
 	string msg;
     strVal = getTempFolder(mRRI);
 
     msg = setPluginParameter(mPlugin, "TempFolder", strVal.c_str())
-    ? "Updated tempfolder" : "Failed to set tempFolder";
-    Log() << msg;
+    		? "Updated tempfolder" : "Failed to set tempFolder";
+    		Log() << msg;
 
     strVal = getSBML(mRRI);
     msg = setPluginParameter(mPlugin, "SBML", strVal.c_str())
-    ? "Assigned SBML" : "Failed assigning SBML";
-    Log() << msg;
+    		? "Assigned SBML" : "Failed assigning SBML";
+    		Log() << msg;
 
 	assignCallbacks(mPlugin, fittingStartedCB, fittingFinishedCB, this);
     TMainF *mainForm = (TMainF*) this->Owner;
@@ -187,30 +220,100 @@ void __fastcall TLMFittingFrame::fittingFinished()
     	throw("bad....");
     }
 
-    RRMinimizationDataHandle _minData = getParameterValueAsPointer(minDataParaHandle);
-    MinimizationData& minData = *(MinimizationData*) _minData;
-    RoadRunnerData inputData = minData.getInputData();
-	RoadRunnerData modelData = minData.getModelData();
-	RoadRunnerData residuals = minData.getResidualsData();
+    RRMinimizationDataHandle _minData 	= getParameterValueAsPointer(minDataParaHandle);
+    MinimizationData& minData 			= *(MinimizationData*) _minData;
+    RoadRunnerData obsData 				= minData.getObservedData();
+	RoadRunnerData modelData 			= minData.getModelData();
+	RoadRunnerData resData	 			= minData.getResidualsData();
 
-	Chart1->Series[0]->Clear();
-	Chart1->Series[1]->Clear();
-	Chart1->Series[2]->Clear();
-    //Plot the input, model and residual data..
-    for(int i = 0; i < inputData.rSize(); i++)
+	//Clear the chart
+    Chart1->RemoveAllSeries();
+    Chart1->ClearChart();
+	Chart1->View3D = false;
+    //There will be 3 x nrOfSpecies series
+	vector<TLineSeries*> modDataSeries;
+	vector<TLineSeries*> obsDataSeries;
+	vector<TLineSeries*> resDataSeries;
+
+    vector<TColor> colors;
+    colors.push_back(clRed);
+    colors.push_back(clBlue);
+    colors.push_back(clGreen);
+  	StringList selList = minData.getSelectionList();
+    int nrOfSpecies = selList.Count();
+    for(int i = 0; i < selList.Count(); i++)
     {
-        double xVal = inputData(i,0);
-        double yData = modelData(i, 1);
+	    TColor color;
+    	if(i < colors.size())
+        {
+			color = colors[i];
+        }
+        else
+        {
+        	color = clPurple;
+        }
 
-        Chart1->Series[0]->AddXY(xVal, yData);
+		//ModelData
+    	TLineSeries* aSerie;
+        aSerie = new TLineSeries(Chart1);
+		modDataSeries.push_back(aSerie);
+        aSerie->Color = color;
+        aSerie->Pen->Width = 5;
+		Chart1->AddSeries(aSerie);
+        aSerie->Title = vclstr(selList[i] + "-Model");
 
-        yData = inputData(i, 1);
-        Chart1->Series[1]->AddXY(xVal, yData);
+        //Experimental data
+    	aSerie = new TLineSeries(Chart1);
+        aSerie->Color = color;
+		aSerie->Pointer->Visible = true;
+        aSerie->Pointer->Style  = psDownTriangle;
+        aSerie->Pointer->Size = 3;
+        aSerie->LinePen->Visible = false;
+		obsDataSeries.push_back(aSerie);
+		Chart1->AddSeries(aSerie);
+        aSerie->Title = vclstr(selList[i] + "-Observed");
 
-        yData = residuals(i, 1);
-        Chart1->Series[2]->AddXY(xVal, yData);
-
+		//Residual data
+    	aSerie = new TLineSeries(Chart1);
+		resDataSeries.push_back(aSerie);
+        aSerie->Color = color;
+        aSerie->Pointer->Style  = psDiamond;
+        aSerie->Pointer->Size = 2;
+		aSerie->Pointer->Visible = true;
+        aSerie->LinePen->Visible = false;
+		Chart1->AddSeries(aSerie);
+        aSerie->Title = vclstr(selList[i] + "-Residual");
     }
+
+    //Plot the input, model and residual data..
+    for(int i = 0; i < modelData.rSize(); i++)
+    {
+        for(int sel = 0; sel < nrOfSpecies; sel++)
+        {
+            double xVal;
+            double yVal;
+            xVal = modelData(i,0);
+            yVal = modelData(i, sel + 1);
+            modDataSeries[sel]->AddXY(xVal, yVal);
+
+            xVal = obsData(i,0);
+            yVal = obsData(i, sel + 1);
+            obsDataSeries[sel]->AddXY(xVal, yVal);
+
+            xVal = resData(i,0);
+            yVal = resData(i, sel + 1);
+            resDataSeries[sel]->AddXY(xVal, yVal);
+        }
+    }
+
+	for(int i = 0; i < modDataSeries.size(); i++)
+    {
+		Chart1->AddSeries(modDataSeries[i]);
+		Chart1->AddSeries(obsDataSeries[i]);
+		Chart1->AddSeries(resDataSeries[i]);
+    }
+
+	Chart1->Legend->ResizeChart = false;
     Chart1->Update();
 }
 
@@ -219,6 +322,3 @@ void __fastcall TLMFittingFrame::logResultAExecute(TObject *Sender)
 {
 	Log()<< getPluginResult(mPlugin);
 }
-
-
-

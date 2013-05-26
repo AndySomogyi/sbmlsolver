@@ -272,7 +272,7 @@ char* rrCallConv getRRCAPILocation()
     int nrChars = GetModuleFileNameA(handle, path, sizeof(path));
 	if(nrChars != 0)
     {
-	    string aPath = extractFilePath(path);
+	    string aPath = getFilePath(path);
         char* text = createText(aPath);
 		return text;
     }
@@ -2207,7 +2207,7 @@ char* rrCallConv getCSourceFileName(RRHandle handle)
 
         string fNameS = generator->getSourceCodeFileName();
 
-        fNameS = extractFileNameNoExtension(fNameS);
+        fNameS = getFileNameNoExtension(fNameS);
 		return createText(fNameS);
     }
     catch(Exception& ex)
@@ -2271,11 +2271,6 @@ int rrCallConv getNumberOfRules(RRHandle handle)
 	try
     {
         RoadRunner* rri = castFrom(handle);
-        if(!rri)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return -1;
-        }
         if(!rri->getNOM())
         {
             Log(lWarning)<<"NOM is not allocated.";
@@ -2284,13 +2279,22 @@ int rrCallConv getNumberOfRules(RRHandle handle)
         int value = rri->getNOM()->getNumRules();
         return value;
     }
-    catch(Exception& ex)
+    catch_int_macro
+}
+
+char* rrcCallConv getModelName(RRHandle handle)
+{
+	try
     {
-    	stringstream msg;
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-	    return -1;
+        RoadRunner* rri = castFrom(handle);
+        if(!rri->getNOM())
+        {
+            Log(lWarning)<<"NOM is not allocated.";
+        	return NULL;
+        }
+        return createText(rri->getNOM()->getModelName());
     }
+    catch_ptr_macro
 }
 
 bool rrCallConv getScaledFloatingSpeciesElasticity(RRHandle handle, const char* reactionId, const char* speciesId, double *value)

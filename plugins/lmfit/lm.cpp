@@ -119,13 +119,14 @@ rr::Plugin* __stdcall createPlugin(rr::RoadRunner* aRR)
 
 
 #if defined(CG_UI)
-    #if defined(STATIC_BUILD)
-//    	#pragma comment(lib, "roadrunner-static.lib")
+    #if defined(STATIC_RR)
+    	#pragma comment(lib, "roadrunner-static.lib")
     #else
     	#pragma comment(lib, "rrc_api.lib")
     	#pragma comment(lib, "roadrunner.lib")
     	#pragma comment(lib, "poco_foundation-static.lib")
     	#pragma comment(lib, "rr-libstruct-static.lib")
+		#pragma comment(lib, "lmfit-static.lib")
     #endif
 #endif
 

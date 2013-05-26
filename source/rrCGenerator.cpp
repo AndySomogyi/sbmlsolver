@@ -1724,7 +1724,7 @@ void CGenerator::write_getModelNameFunction(CodeBuilder& ignore, CodeBuilder& so
 
 bool CGenerator::saveSourceCodeToFolder(const string& folder, const string& baseName)
 {
-    string fName 		= extractFileName(baseName);
+    string fName 		= getFileName(baseName);
     mHeaderCodeFileName = joinPath(folder, fName);
     mHeaderCodeFileName = changeFileExtensionTo(mHeaderCodeFileName, ".h");
 
@@ -1747,7 +1747,7 @@ bool CGenerator::saveSourceCodeToFolder(const string& folder, const string& base
     string headerFName = fNameParts[fNameParts.size() - 1];
 
     headerFName = changeFileExtensionTo(headerFName, ".h");
-    outFile<<"#include \""<<extractFileName(headerFName)<<"\"\n"<<endl;
+    outFile<<"#include \""<<getFileName(headerFName)<<"\"\n"<<endl;
     outFile<<getSourceCode();
     outFile.close();
     Log(lDebug3)<<"Wrote source code to file: "<<mSourceCodeFileName;

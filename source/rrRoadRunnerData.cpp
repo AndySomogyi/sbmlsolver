@@ -3,6 +3,7 @@
 #endif
 #pragma hdrstop
 #include <iomanip>
+#include "rrException.h"
 #include "rrLogger.h"
 #include "rrUtils.h"
 #include "rrStringUtils.h"
@@ -34,6 +35,28 @@ int RoadRunnerData::cSize() const
 int RoadRunnerData::rSize() const
 {
     return mTheData.RSize();
+}
+
+double RoadRunnerData::getTimeStart()
+{
+	//Find time column
+    int timeCol = mColumnNames.indexOf("time");
+    if(timeCol != -1)
+    {
+    	return mTheData(0,timeCol);
+    }
+    return gDoubleNaN;
+}
+
+double RoadRunnerData::getTimeEnd()
+{
+	//Find time column
+    int timeCol = mColumnNames.indexOf("time");
+    if(timeCol != -1)
+    {
+    	return mTheData(rSize() -1 ,timeCol);
+    }
+    return gDoubleNaN;
 }
 
 void RoadRunnerData::setName(const string& name)
@@ -287,6 +310,49 @@ ostream& operator << (ostream& ss, const RoadRunnerData& data)
             {
                 ss << endl;
             }
+        }
+    }
+
+    return ss;
+}
+
+//Stream data from a file
+istream& operator >> (istream& ss, RoadRunnerData& data)
+{
+	//Read in all lines into a string
+    std::string oneLine((std::istreambuf_iterator<char>(ss)), std::istreambuf_iterator<char>());
+
+	StringList lines(splitString(oneLine, "\n"));
+
+    if(lines.Count() < 1)
+    {
+		throw(CoreException("Bad roadrunner data file"));
+    }
+
+    //Check that the dimensions of col header and data is ok
+    //First line is a simple header
+    StringList firstLine = splitString(lines[0], ',');
+    int rDim = lines.Count() - 1; //-1 cause the header
+	int cDim = firstLine.Count();
+    data.reSize(rDim, cDim);
+
+	//Setup header
+    data.setColumnNames(firstLine);
+
+    for(int row = 1; row < lines.Count(); row++)
+    {
+    	string oneLine = lines[row];
+    	StringList aLine(splitString(oneLine, ','));
+        if(aLine.Count() != cDim)
+        {
+        	throw(CoreException("Bad roadrunner data in data file"));
+        }
+
+    	for(int col = 0; col < cDim; col++)
+        {
+        	Log(lDebug5)<<"Word "<<aLine[col];
+        	double value = toDouble(aLine[col]);
+    		data(row - 1, col) = value;
         }
     }
 

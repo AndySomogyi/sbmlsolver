@@ -3,7 +3,7 @@
 #endif
 #pragma hdrstop
 #include <sstream>
-#if defined(WIN32)
+#if defined(_WIN32)
 #include <windows.h>
 #include <strsafe.h>
 #if defined(__CODEGEARC__)
@@ -28,8 +28,8 @@ namespace rr
 Compiler::Compiler(const string& supportCodeFolder, const string& compiler)
 :
 mSupportCodeFolder(supportCodeFolder),
-mCompilerName(extractFileName(compiler)),
-mCompilerLocation(extractFilePath(compiler))
+mCompilerName(getFileName(compiler)),
+mCompilerLocation(getFilePath(compiler))
 {
 	if(mSupportCodeFolder.size() > 0)
     {
@@ -65,13 +65,13 @@ bool Compiler::compileSource(const string& sourceFileName)
 {
     //Compile the code and load the resulting dll, and call an exported function in it...
 #if defined(_WIN32) || defined(__CODEGEARC__)
-    string dllFName(changeFileExtensionTo(extractFileName(sourceFileName), "dll"));
+    string dllFName(changeFileExtensionTo(getFileName(sourceFileName), "dll"));
 #elif defined(__unix__)
-    string dllFName(changeFileExtensionTo(extractFileName(sourceFileName), "so"));
+    string dllFName(changeFileExtensionTo(getFileName(sourceFileName), "so"));
 #elif defined(__APPLE__)
-    string dllFName(changeFileExtensionTo(extractFileName(sourceFileName), "dylib"));
+    string dllFName(changeFileExtensionTo(getFileName(sourceFileName), "dylib"));
 #endif
-    mDLLFileName = joinPath(extractFilePath(sourceFileName), dllFName);
+    mDLLFileName = joinPath(getFilePath(sourceFileName), dllFName);
 
     //Setup compiler environment
     setupCompilerEnvironment();
@@ -94,8 +94,8 @@ bool Compiler::compileSource(const string& sourceFileName)
 
 bool Compiler::setCompiler(const string& compiler)
 {
-	mCompilerName = extractFileName(compiler);
-	mCompilerLocation = extractFilePath(compiler);
+	mCompilerName = getFileName(compiler);
+	mCompilerLocation = getFilePath(compiler);
 	return true;
 }
 
@@ -136,7 +136,7 @@ bool Compiler::setupCompilerEnvironment()
     mIncludePaths.clear();
     mLibraryPaths.clear();
     mCompilerFlags.clear();
-    if(extractFileNameNoExtension(mCompilerName) == "tcc" || extractFileNameNoExtension(mCompilerName) == "gcc")
+    if(getFileNameNoExtension(mCompilerName) == "tcc" || getFileNameNoExtension(mCompilerName) == "gcc")
     {
         mCompilerFlags.push_back("-g");         //-g adds runtime debug information
 #if defined(__unix__) || defined(_WIN32)
@@ -151,7 +151,7 @@ bool Compiler::setupCompilerEnvironment()
         mCompilerFlags.push_back("-O0"); // turn off optimization
 
         //LogLevel                              //-v is for verbose
-        if(extractFileNameNoExtension(mCompilerName) == "tcc")
+        if(getFileNameNoExtension(mCompilerName) == "tcc")
         {
             mIncludePaths.push_back(".");
             mIncludePaths.push_back("r:/rrl/source");
@@ -172,7 +172,7 @@ bool Compiler::setupCompilerEnvironment()
                 mCompilerFlags.push_back("-vvv");
             }
         }
-        else if(extractFileNameNoExtension(mCompilerName) == "gcc")
+        else if(getFileNameNoExtension(mCompilerName) == "gcc")
         {
             if(gLog.GetLogLevel() < lDebug)
             {
@@ -196,9 +196,9 @@ bool Compiler::setupCompilerEnvironment()
 string Compiler::createCompilerCommand(const string& sourceFileName)
 {
     stringstream exeCmd;
-    if(extractFileNameNoExtension(mCompilerName) == "tcc" 
-       || extractFileNameNoExtension(mCompilerName) == "gcc"
-       || extractFileNameNoExtension(mCompilerName) == "cc")
+    if(getFileNameNoExtension(mCompilerName) == "tcc" 
+       || getFileNameNoExtension(mCompilerName) == "gcc"
+       || getFileNameNoExtension(mCompilerName) == "cc")
     {
         // standard unix compiler options
         exeCmd<<joinPath(mCompilerLocation, mCompilerName);
@@ -251,7 +251,7 @@ bool Compiler::compile(const string& cmdLine)
     sao.lpSecurityDescriptor=NULL;
     sao.bInheritHandle=1;
 
-    string compilerTempFile(joinPath(mOutputPath, extractFileNameNoExtension(mDLLFileName)));
+    string compilerTempFile(joinPath(mOutputPath, getFileNameNoExtension(mDLLFileName)));
     compilerTempFile.append("C.log");
 
     Poco::File aFile(compilerTempFile);

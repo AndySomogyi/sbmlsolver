@@ -186,7 +186,7 @@ int main(int argc, char* argv[])
 		else
 		{
 			
-			string outPutFName = joinPath(args.TempDataFolder, extractFileName(args.ModelFileName));
+			string outPutFName = joinPath(args.TempDataFolder, getFileName(args.ModelFileName));
 			outPutFName = changeFileExtensionTo(outPutFName, ".csv");
 			ofstream fOut(outPutFName.c_str());
 			if(!fOut)

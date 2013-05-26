@@ -9,16 +9,15 @@
 #include "rrIniKey.h"
 #include "rrFileName.h"
 
-using namespace rr;
 
+namespace rr
+{
 
 using std::string;
 using std::fstream;
 using std::ios;
 using std::ios_base;
 
-namespace rr
-{
 const int MAX_LINE_BUFFER_SIZE = 2048;
 class rrIniKey;
 class rrIniSection;

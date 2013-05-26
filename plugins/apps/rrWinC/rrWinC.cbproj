@@ -173,12 +173,6 @@
             <DependentOn>..\..\..\vcl_source\rrVCLUtils.h</DependentOn>
             <BuildOrder>3</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\..\vcl_source\TFullSpaceFittingFrame.cpp">
-            <Form>FullSpaceFittingFrame</Form>
-            <DesignClass>TFrame</DesignClass>
-            <DependentOn>..\..\..\vcl_source\TFullSpaceFittingFrame.h</DependentOn>
-            <BuildOrder>11</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\..\vcl_source\TLMFittingFrame.cpp">
             <Form>LMFittingFrame</Form>
             <BuildOrder>7</BuildOrder>
@@ -192,9 +186,8 @@
         </CppCompile>
         <FormResources Include="..\..\..\vcl_source\TSimulationFrame.dfm"/>
         <FormResources Include="..\..\..\vcl_source\TLMFittingFrame.dfm"/>
-        <FormResources Include="..\..\..\vcl_source\TFullSpaceFittingFrame.dfm"/>
-        <FormResources Include="MainForm.dfm"/>
         <FormResources Include="..\..\..\vcl_source\rrCapabilitiesFrame.dfm"/>
+        <FormResources Include="MainForm.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

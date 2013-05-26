@@ -9,11 +9,11 @@
         <Projects Include="..\..\Wrappers\C\rrc_api.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="lm.cbproj">
-            <Dependencies/>
-        </Projects>
         <Projects Include="..\add_noise\add_noise.cbproj">
             <Dependencies/>
+        </Projects>
+        <Projects Include="lm.cbproj">
+            <Dependencies>..\..\source\roadrunner.cbproj</Dependencies>
         </Projects>
         <Projects Include="..\apps\rrWinC\rrWinC.cbproj">
             <Dependencies>..\..\source\roadrunner.cbproj;..\..\Wrappers\C\rrc_api.cbproj;lm.cbproj</Dependencies>
@@ -44,15 +44,6 @@
     <Target Name="rrc_api:Make">
         <MSBuild Projects="..\..\Wrappers\C\rrc_api.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="lm">
-        <MSBuild Projects="lm.cbproj"/>
-    </Target>
-    <Target Name="lm:Clean">
-        <MSBuild Projects="lm.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="lm:Make">
-        <MSBuild Projects="lm.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="add_noise">
         <MSBuild Projects="..\add_noise\add_noise.cbproj"/>
     </Target>
@@ -61,6 +52,15 @@
     </Target>
     <Target Name="add_noise:Make">
         <MSBuild Projects="..\add_noise\add_noise.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="lm" DependsOnTargets="roadrunner">
+        <MSBuild Projects="lm.cbproj"/>
+    </Target>
+    <Target Name="lm:Clean" DependsOnTargets="roadrunner:Clean">
+        <MSBuild Projects="lm.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="lm:Make" DependsOnTargets="roadrunner:Make">
+        <MSBuild Projects="lm.cbproj" Targets="Make"/>
     </Target>
     <Target Name="rrWinC" DependsOnTargets="roadrunner;rrc_api;lm">
         <MSBuild Projects="..\apps\rrWinC\rrWinC.cbproj"/>
@@ -72,13 +72,13 @@
         <MSBuild Projects="..\apps\rrWinC\rrWinC.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="roadrunner;rrc_api;lm;add_noise;rrWinC"/>
+        <CallTarget Targets="roadrunner;rrc_api;add_noise;lm;rrWinC"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="roadrunner:Clean;rrc_api:Clean;lm:Clean;add_noise:Clean;rrWinC:Clean"/>
+        <CallTarget Targets="roadrunner:Clean;rrc_api:Clean;add_noise:Clean;lm:Clean;rrWinC:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="roadrunner:Make;rrc_api:Make;lm:Make;add_noise:Make;rrWinC:Make"/>
+        <CallTarget Targets="roadrunner:Make;rrc_api:Make;add_noise:Make;lm:Make;rrWinC:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

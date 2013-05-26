@@ -712,7 +712,7 @@ bool rrCallConv freeMatrix(RRMatrixHandle matrix)
     }
 }
 
-bool rrCallConv freeResult(RRDataHandle handle)
+bool rrCallConv freeRRData(RRDataHandle handle)
 {
 	try
     {

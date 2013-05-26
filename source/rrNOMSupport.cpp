@@ -101,7 +101,7 @@ double NOMSupport::getValue(const string& sId)
         return oCompartment->getVolume();
     }
 
-    Parameter *oParameter = mModel->getParameter(sId);
+    libsbml::Parameter *oParameter = mModel->getParameter(sId);
     if (oParameter != NULL)
     {
         return oParameter->getValue();
@@ -921,7 +921,7 @@ void NOMSupport::changeSymbol(Model& oModel, const string& sTimeSymbol, const in
 
     for (int i = 0; i < oModel.getNumEvents(); i++)
     {
-        Event *oEvent = oModel.getEvent(i);
+        libsbml::Event *oEvent = oModel.getEvent(i);
         if (oEvent->getTrigger()->isSetMath())
         {
             oEvent->getTrigger()->setMath((const ASTNode*) changeSymbol((ASTNode*) oEvent->getTrigger()->getMath(), sTimeSymbol, targetType));
@@ -1344,7 +1344,7 @@ ArrayList NOMSupport::getListOfParameters()
 
     for (int i = 0; i < numOfGlobalParameters; i++)
     {
-        Parameter *parameter = mModel->getParameter(i);
+        libsbml::Parameter *parameter = mModel->getParameter(i);
         double paramValue;
         string paramStr = parameter->getId();
         StringList tempStrValueList;
@@ -1379,7 +1379,7 @@ ArrayList NOMSupport::getListOfParameters()
             int numOfLocalParameters = kl->getNumParameters();
             for (int j = 0; j < numOfLocalParameters; j++)
             {
-                Parameter *parameter = kl->getParameter(j);
+                libsbml::Parameter *parameter = kl->getParameter(j);
                 string paramStr = parameter->getId();
                 StringList tempStrValueList;
                 double paramValue;
@@ -1641,7 +1641,7 @@ bool NOMSupport::getNthUseValuesFromTriggerTime(const int& arg)
         throw Exception("You need to load the model first");
     }
 
-    Event *oEvent = mModel->getEvent((int)arg);
+    libsbml::Event *oEvent = mModel->getEvent((int)arg);
 
     if (oEvent == NULL)
     {
@@ -1658,7 +1658,7 @@ ArrayList NOMSupport::getNthEvent(const int& arg)
     }
 
     ArrayList triggerAssignmentsList;
-    Event *oEvent = mModel->getEvent((int)arg);
+    libsbml::Event *oEvent = mModel->getEvent((int)arg);
 
     if (oEvent == NULL)
     {
@@ -2571,7 +2571,7 @@ void NOMSupport::modifyKineticLawsForLocalParameters(KineticLaw& oLaw, const str
                 ChangeParameterName(*((ASTNode*) oLaw.getMath()), parameterId, sPrefix);
             }
 
-            Parameter *p = oModel.createParameter();
+            libsbml::Parameter *p = oModel.createParameter();
             p->setId(sPrefix + parameterId);
             p->setNotes(localParameter->getNotesString());
             p->setAnnotation(localParameter->getAnnotationString());
@@ -2600,7 +2600,7 @@ void NOMSupport::modifyKineticLawsForReaction(KineticLaw& oLaw, const string& re
 //        StringCollection oList = new StringCollection();
         for (int j = numLocalParameters; j > 0; j--)
         {
-            Parameter *parameter = (Parameter*) oLaw.getParameter(j - 1)->clone();
+            libsbml::Parameter *parameter = (libsbml::Parameter*) oLaw.getParameter(j - 1)->clone();
             if(!parameter)
             {
             	throw(NOMException("Null parameter pointer in modifyKineticLawsForReaction"));
@@ -2621,7 +2621,7 @@ void NOMSupport::modifyKineticLawsForReaction(KineticLaw& oLaw, const string& re
             {
                 ChangeParameterName( *(ASTNode*)oLaw.getMath(), parameterId, sPrefix);
             }
-            Parameter *oTemp = (Parameter*)oLaw.getListOfParameters()->remove(j - 1);
+            libsbml::Parameter *oTemp = (libsbml::Parameter*)oLaw.getListOfParameters()->remove(j - 1);
             if(!oTemp)
             {
             	throw(NOMException("Null parameter pointer in modifyKineticLawsForReaction"));
@@ -3249,7 +3249,7 @@ void NOMSupport::BuildSymbolTable()
     // Read Parameter Symbols
     for (int i = 0; i < mModel->getNumParameters(); i++)
     {
-        Parameter *temp = mModel->getParameter(i);
+        libsbml::Parameter *temp = mModel->getParameter(i);
         Log(lDebug1)<<"Processing parameter with ID:"<<temp->getId();
         SBMLSymbol symbol;
         symbol.mId = temp->getId();
@@ -3693,7 +3693,7 @@ void NOMSupport::setValue(Model* model, const string& id, const double& value, c
         oCompartment->setVolume(value); return;
     }
 
-    Parameter* oParameter = model->getParameter(id);
+    libsbml::Parameter* oParameter = model->getParameter(id);
     if (oParameter != NULL)
     {
         oParameter->setValue(value);

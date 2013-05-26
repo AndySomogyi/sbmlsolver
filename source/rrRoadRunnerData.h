@@ -49,6 +49,9 @@ class RR_DECLSPEC RoadRunnerData : public rrObject
 		RR_DECLSPEC
         friend std::ostream&    operator << (std::ostream& ss, const RoadRunnerData& data);
 
+		RR_DECLSPEC
+        friend std::istream&    operator >> (std::istream& ss, RoadRunnerData& data);
+
         double&                 operator() (const unsigned& row, const unsigned& col);
         double                  operator() (const unsigned& row, const unsigned& col) const;
         RoadRunnerData&			operator=  (const RoadRunnerData& rhs);
@@ -56,7 +59,8 @@ class RR_DECLSPEC RoadRunnerData : public rrObject
         string                  getName() const;
         pair<int,int>           dimension() const;
         bool					append(const RoadRunnerData& data);
-
+        double					getTimeStart();
+        double					getTimeEnd();
 };
 
 }

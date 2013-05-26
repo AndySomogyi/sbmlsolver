@@ -72,7 +72,7 @@ int main(int argc, char * argv[])
 
         if(args.ModelFileName.size())
         {
-            string logName = extractFileName(args.ModelFileName);
+            string logName = getFileName(args.ModelFileName);
             logName = changeFileExtensionTo(logName, ".log");
             gLog.Init("", gLog.GetLogLevel());
         }

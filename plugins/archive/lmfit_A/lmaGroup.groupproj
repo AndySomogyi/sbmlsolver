@@ -15,9 +15,6 @@
         <Projects Include="..\apps\rrWinC\rrWinC.cbproj">
             <Dependencies>lm_A.cbproj;..\..\Wrappers\C\rrc_api.cbproj;..\..\source\roadrunner.cbproj</Dependencies>
         </Projects>
-        <Projects Include="..\lmfit\lmfit-3.5\demo\surface\surface.cbproj">
-            <Dependencies/>
-        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -62,23 +59,14 @@
     <Target Name="rrWinC:Make" DependsOnTargets="lm_A:Make;rrc_api:Make;roadrunner:Make">
         <MSBuild Projects="..\apps\rrWinC\rrWinC.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="surface">
-        <MSBuild Projects="..\lmfit\lmfit-3.5\demo\surface\surface.cbproj"/>
-    </Target>
-    <Target Name="surface:Clean">
-        <MSBuild Projects="..\lmfit\lmfit-3.5\demo\surface\surface.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="surface:Make">
-        <MSBuild Projects="..\lmfit\lmfit-3.5\demo\surface\surface.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="roadrunner;rrc_api;lm_A;rrWinC;surface"/>
+        <CallTarget Targets="roadrunner;rrc_api;lm_A;rrWinC"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="roadrunner:Clean;rrc_api:Clean;lm_A:Clean;rrWinC:Clean;surface:Clean"/>
+        <CallTarget Targets="roadrunner:Clean;rrc_api:Clean;lm_A:Clean;rrWinC:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="roadrunner:Make;rrc_api:Make;lm_A:Make;rrWinC:Make;surface:Make"/>
+        <CallTarget Targets="roadrunner:Make;rrc_api:Make;lm_A:Make;rrWinC:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

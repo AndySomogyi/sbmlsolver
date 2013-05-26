@@ -12,8 +12,6 @@
 
 #undef CreateFile
 
-using namespace rr;
-
 namespace rr
 {
 //const bool IniFile::mAutoCreateSections = true;

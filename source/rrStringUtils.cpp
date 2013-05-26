@@ -216,7 +216,7 @@ string NL()
 }
 
 
-string extractFileName(const string& fileN)
+string getFileName(const string& fileN)
 {
     string fName;
     if(fileN.find_last_of( '\\' ) != std::string::npos)
@@ -233,7 +233,7 @@ string extractFileName(const string& fileN)
     return fileN; //There was no path in present..
 }
 
-string extractFileNameNoExtension(const string& fileN)
+string getFileNameNoExtension(const string& fileN)
 {
     string fName;
     if(fileN.find_last_of( '\\' ) != std::string::npos)
@@ -252,7 +252,24 @@ string extractFileNameNoExtension(const string& fileN)
 	return changeFileExtensionTo(fName, "");
 }
 
-string extractFilePath(const string& fileN)
+string getFileExtension(const string& fileN)
+{
+    string fExtension;
+
+    fExtension = getFileName(fileN);
+
+    if(fileN.find_last_of( '.' ) != std::string::npos)
+    {
+        fExtension = fileN.substr(fileN.find_last_of('.')+ 1);
+        return fExtension;
+    }
+    else
+    {
+        return "";
+    }
+}
+
+string getFilePath(const string& fileN)
 {
     string path;
     if(fileN.find_last_of( '\\' ) != std::string::npos)
@@ -274,8 +291,8 @@ string changeFileExtensionTo(const string& _fName, const string& newExtension)
     //Be aware of the case
     //".\\fName"
     //where  the . is not part of the filename
-    string path = extractFilePath(_fName);
-    string fName = extractFileName(_fName);
+    string path = getFilePath(_fName);
+    string fName = getFileName(_fName);
     //First create the file name, remove current extension if it exists
 
     if(fName.find_last_of('.') != string::npos)
@@ -347,6 +364,17 @@ string format(const string& src, const int& arg)
     return substitute(src, "{0}", toString(arg));
 }
 
+string format(const string& str1, const int& arg1, const double& arg2)
+{
+    string token1("{0}");
+    string token2("{1}");
+    string newString(str1);
+
+    newString = substitute(newString, token1, arg1);
+    newString = substitute(newString, token2, arg2);
+    return newString;
+}
+
 string format(const string& src, const string& arg1, const string& arg2)
 {
     string tmp = substitute(src, "{0}", arg1);
@@ -364,7 +392,7 @@ string format(const string& src, const string& arg1, const string& arg2, const s
     string tmp(src);
     tmp = substitute(tmp, "{0}", arg1);
     tmp = substitute(tmp, "{1}", arg2);
-     tmp = substitute(tmp, "{2}", arg3);
+    tmp = substitute(tmp, "{2}", arg3);
     return tmp;
 }
 
@@ -413,7 +441,7 @@ string format(const string& str1, const unsigned int& arg1, const string& arg2)
     string token2("{1}");
     string newString(str1);
 
-    newString = substitute(newString, token1, arg1);
+    newString = substitute(newString, token1, (int) arg1);
     newString = substitute(newString, token2, arg2);
     return newString;
 }
@@ -452,6 +480,11 @@ string substitute(const string& src, const string& thisOne, const int& withThisO
 {
     return substitute(src, thisOne, toString(withThisOne), howMany);
 }
+
+//string substitute(const string& src, const string& thisOne, const double& withThisOne, const int& howMany)
+//{
+//    return substitute(src, thisOne, toString(withThisOne), howMany);
+//}
 
 string substitute(const string& src, const string& thisOne, const string& withThisOne, const int& howMany)
 {
@@ -822,7 +855,7 @@ string toString(const vector<string>& vec)
 
 int compareNoCase(const string& str1, const string& str2)
 {
-#if defined(WIN32)
+#if defined(_WIN32)
     int res = stricmp(str1.c_str(), str2.c_str());
 #else
     int res = strcasecmp(str1.c_str(), str2.c_str());
