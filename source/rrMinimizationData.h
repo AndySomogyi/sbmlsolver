@@ -62,7 +62,7 @@ std::string Parameter< MinimizationData >::getType() const
 template<>
 string Parameter< MinimizationData >::getValueAsString() const
 {
-    throw("You can't get the value of this structure as string.. :(");
+    throw("You can't get the value of this structure as string.. ");
 }
 
 template<>

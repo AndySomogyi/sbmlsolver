@@ -1,20 +1,21 @@
 object LMFittingFrame: TLMFittingFrame
   Left = 0
   Top = 0
-  Width = 757
-  Height = 290
+  Width = 730
+  Height = 325
   Align = alClient
   TabOrder = 0
-  ExplicitWidth = 501
-  ExplicitHeight = 251
+  ExplicitWidth = 451
+  ExplicitHeight = 304
   object fittingFrame: TGroupBox
     Left = 0
     Top = 0
     Width = 201
-    Height = 290
+    Height = 325
     Align = alLeft
     Caption = 'Parameters'
     TabOrder = 0
+    ExplicitHeight = 304
     object executeBtn: TButton
       Left = 129
       Top = 24
@@ -28,12 +29,12 @@ object LMFittingFrame: TLMFittingFrame
       Left = 2
       Top = 15
       Width = 121
-      Height = 273
+      Height = 308
       Align = alLeft
       ItemHeight = 13
       TabOrder = 1
       OnClick = paraListClick
-      ExplicitHeight = 144
+      ExplicitHeight = 287
     end
     object paraEdit: mtkFloatLabeledEdit
       Left = 129
@@ -50,8 +51,8 @@ object LMFittingFrame: TLMFittingFrame
   object Chart1: TChart
     Left = 201
     Top = 0
-    Width = 556
-    Height = 290
+    Width = 529
+    Height = 325
     Legend.ResizeChart = False
     Legend.TopPos = 6
     Legend.Transparent = True
@@ -61,10 +62,8 @@ object LMFittingFrame: TLMFittingFrame
     View3D = False
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = 336
-    ExplicitTop = 72
-    ExplicitWidth = 400
-    ExplicitHeight = 250
+    ExplicitWidth = 250
+    ExplicitHeight = 304
     ColorPaletteIndex = 13
     object Series1: TLineSeries
       LegendTitle = 'Model'
@@ -90,8 +89,8 @@ object LMFittingFrame: TLMFittingFrame
       Marks.Callout.Arrow.Visible = True
       Marks.Visible = False
       ClickableLine = False
-      Pointer.Brush.Gradient.EndColor = 3513587
-      Pointer.Gradient.EndColor = 3513587
+      Pointer.Brush.Gradient.EndColor = 10708548
+      Pointer.Gradient.EndColor = 10708548
       Pointer.InflateMargins = True
       Pointer.Style = psCircle
       Pointer.Visible = True

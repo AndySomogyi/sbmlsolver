@@ -7,7 +7,6 @@
 #include "rrCGenerator.h"
 #include "rrLogger.h"           //Might be useful for debugging later on
 #include "rrc_api.h"
-#include "rrc_support.h"   //Support functions, not exposed as api functions and or data
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrStringUtils.h"

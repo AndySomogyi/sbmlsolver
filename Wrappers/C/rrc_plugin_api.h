@@ -19,7 +19,6 @@ typedef void (rrcCallConv *pluginCallback)(void*);
  \return Returns true if Plugins are loaded, false otherwise
  \ingroup pluginRoutines
 */
-
 C_DECL_SPEC bool rrcCallConv loadPlugins(RRHandle handle);
 
 /*!
@@ -28,7 +27,6 @@ C_DECL_SPEC bool rrcCallConv loadPlugins(RRHandle handle);
  \return Returns true if Plugins are unloaded succesfully, false otherwise
  \ingroup pluginRoutines
 */
-
 C_DECL_SPEC bool rrcCallConv unLoadPlugins(RRHandle handle);
 
 /*!
@@ -37,7 +35,6 @@ C_DECL_SPEC bool rrcCallConv unLoadPlugins(RRHandle handle);
  \return Returns the number of loaded plugins, -1 if a problem is encountered
  \ingroup pluginRoutines
 */
-
 C_DECL_SPEC int rrcCallConv getNumberOfPlugins(RRHandle handle);
 
 /*!
@@ -149,22 +146,6 @@ C_DECL_SPEC bool rrcCallConv setInputData(RRPluginHandle handle, void* userData)
 
 }	//rrc namespace
 #endif
-
-
-//#if defined(__cplusplus)
-//#include "rrParameter.h"
-//namespace rr
-//{
-//using namespace rrc;
-//template<>
-//std::string Parameter< RRDataHandle >::getType() const
-//{
-//    return "RRDataHandle";
-//}
-//
-//}
-//#endif
-
 
 
 #endif

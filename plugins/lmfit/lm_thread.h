@@ -28,7 +28,7 @@ class LMFitThread : public Poco::Runnable
 
         LM&     					mTheHost;
         MinimizationData&       	mMinData;
-
+		bool					    setupRoadRunner();
 	public:
 							       	LMFitThread(LM& host);
       	void				       	assignCallBacks(ThreadCB fn1, ThreadCB fn2, void* userData);

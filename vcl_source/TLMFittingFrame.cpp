@@ -11,7 +11,6 @@
 #include "rrVCLUtils.h"
 #include "MainForm.h"
 #include "rrMinimizationData.h"
-#include "rrc_support.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "mtkFloatLabeledEdit"
@@ -20,7 +19,6 @@
 TLMFittingFrame *LMFittingFrame;
 
 using namespace rr;
-//typedef TLMFittingFrame fsff;
 //---------------------------------------------------------------------------
 __fastcall TLMFittingFrame::TLMFittingFrame(TComponent* Owner)
 	:

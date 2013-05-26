@@ -73,7 +73,7 @@ object SimulateFrame: TSimulateFrame
       end
       object paraEdit: mtkFloatLabeledEdit
         Left = 5
-        Top = 150
+        Top = 52
         Width = 76
         Height = 21
         EditLabel.Width = 40
@@ -143,8 +143,8 @@ object SimulateFrame: TSimulateFrame
     end
   end
   object ActionList1: TActionList
-    Left = 128
-    Top = 120
+    Left = 184
+    Top = 144
     object simulateA: TAction
       Caption = 'Simulate'
       OnExecute = simulateAExecute

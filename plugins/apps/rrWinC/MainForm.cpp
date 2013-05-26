@@ -7,7 +7,7 @@
 #include "rrc_api.h"
 #include "rrException.h"
 #include "rrVCLUtils.h"
-#include "../../../Wrappers/C/rrc_support.h"
+#include "../../../Wrappers/C/rrc_utilities.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "mtkFloatLabeledEdit"
@@ -16,6 +16,7 @@
 #pragma link "rrCapabilitiesFrame"
 #pragma link "mtkIniFileC"
 #pragma link "TLMFittingFrame"
+#pragma link "TRegistryForm"
 #pragma resource "*.dfm"
 TMainF *MainF;
 //---------------------------------------------------------------------------
@@ -46,7 +47,6 @@ mAppInfo(Application)
 
     //Log to one memo
 	simFrame->infoMemo = infoMemo;
-//	fullSpaceFitFrame->infoMemo = infoMemo;
     TcapFrame1->infoMemo = infoMemo;
 	startupTimer->Enabled = true;
 }
@@ -65,7 +65,6 @@ void TMainF::SetupAndReadParameters()
 
     lowerPanel->Height = mLowerPanelHeight;
 	bottomLeftPanelWidth->Width = mBottomLeftPanelWidth;
-
 }
 
 __fastcall	TMainF::~TMainF()
@@ -110,12 +109,14 @@ void __fastcall TMainF::loadPluginsAExecute(TObject *Sender)
     mAddNoisePlugin = getPlugin(mRRI, "AddNoise");
 	mMinimizePlugin = getPlugin(mRRI, "FullSpaceMinimization");
    	mLMPlugin       = getPlugin(mRRI, "Levenberg-Marquardt Minimization");
+   	mLMAPlugin       = getPlugin(mRRI, "LM_A");
     Button1->Action = unloadPlugins;
 
 	if(mLMPlugin)
     {
     	//Create the plugin frame
         mLMFrame = new TLMFittingFrame(MainPC);
+        mLMFrame->Name = "LM";
         //Create a new tab
         TTabSheet* page = new TTabSheet(MainPC);
 		page->Caption = vclstr(string(getPluginName(mLMPlugin)));
@@ -129,9 +130,28 @@ void __fastcall TMainF::loadPluginsAExecute(TObject *Sender)
         mLMFrame->infoMemo = infoMemo;
         MainPC->TabIndex = MainPC->PageCount -1;
     }
+
+	if(mLMAPlugin)
+    {
+    	//Create the plugin frame
+        mLMAFrame = new TLMFittingFrame(MainPC);
+        mLMAFrame->Name = "LM_A";
+        //Create a new tab
+        TTabSheet* page = new TTabSheet(MainPC);
+		page->Caption = vclstr(string(getPluginName(mLMAPlugin)));
+        mLMAFrame->Parent = page;
+        mLMAFrame->Align = alClient;
+        page->PageControl =  MainPC;
+        mLMAFrame->assignPluginHandle(mLMAPlugin);
+        mLMAFrame->assignRRHandle(mRRI);
+        mLMAFrame->onFittingStarted  = onLMFittingStarted;
+        mLMAFrame->onFittingFinished = onLMFittingFinished;
+        mLMAFrame->infoMemo = infoMemo;
+        MainPC->TabIndex = MainPC->PageCount -1;
+    }
+
     freeStringArray(pluginNames);
 }
-
 
 void __fastcall TMainF::executePluginAExecute(TObject *Sender)
 {

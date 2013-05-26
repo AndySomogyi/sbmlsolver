@@ -62,8 +62,8 @@
         <_TCHARMapping>char</_TCHARMapping>
         <ProjectType>CppVCLApplication</ProjectType>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
-        <ILINK_LibraryPath>..\..\..\Wrappers\C\;..\..\..\source\;..\..\full_space_minimization\;..\..\..\vcl_source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <IncludePath>..\..\..\Wrappers\C\;..\..\..\source\;..\..\full_space_minimization\;..\..\..\vcl_source\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>p:\mtk\VCL\Common\;..\..\..\Wrappers\C\;..\..\..\source\;..\..\full_space_minimization\;..\..\..\vcl_source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>p:\mtk\VCL\Common\;..\..\..\Wrappers\C\;..\..\..\source\;..\..\full_space_minimization\;..\..\..\vcl_source\;$(IncludePath)</IncludePath>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
         <DynamicRTL>true</DynamicRTL>
         <UsePackages>true</UsePackages>

@@ -2,7 +2,7 @@
 #include "rrLogger.h"
 #include "lm.h"
 #include "../../Wrappers/C/rrc_api.h"
-#include "../../Wrappers/C/rrc_support.h"
+#include "../../Wrappers/C/rrc_utilities.h"
 #include "rrRoadRunner.h"
 #include "rrRoadRunnerData.h"
 #include "rrUtils.h"

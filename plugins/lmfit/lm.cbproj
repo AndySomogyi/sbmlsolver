@@ -1,6 +1,6 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{EA3D96B5-9D4D-4206-91A6-E9917DD57A68}</ProjectGuid>
+        <ProjectGuid>{21B0E6A3-A3C9-4F74-B728-5524A13997E3}</ProjectGuid>
         <ProjectVersion>14.4</ProjectVersion>
         <FrameworkType>None</FrameworkType>
         <Base>True</Base>
@@ -113,7 +113,6 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <LinkPackageStatics>vcl.lib;rtl.lib;vclx.lib;DuneComponents.lib;VCLCommon.lib;vclactnband.lib</LinkPackageStatics>
         <Debugger_HostApplication>R:\installs\cg\xe3\debug\bin\rrWinC.exe</Debugger_HostApplication>
         <FinalOutputDir>$(RR_DEBUG)\plugins</FinalOutputDir>
         <ILINK_LibraryPath>$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>

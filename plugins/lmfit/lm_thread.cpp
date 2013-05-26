@@ -6,7 +6,7 @@
 #include "lm.h"
 #include "lmfit-3.5/lib/lmcurve.h"
 #include "../../Wrappers/C/rrc_api.h"
-#include "../../Wrappers/C/rrc_support.h"
+#include "../../Wrappers/C/rrc_utilities.h"
 
 //Global roadrunner... because lm fit don't allow void* to be passed in...
 RoadRunner* rri;
@@ -55,14 +55,7 @@ void LMFitThread::run()
 		threadEnterCB(mUserData);	//Tell anyone who wants to know
     }
 
-   	if(rri)
-    {
-    	delete rri;
-    }
-
-    rri = new RoadRunner;
-    rri->loadSBML(mTheHost.mSBML.getValue(), false);
-
+    setupRoadRunner();
     Log(lInfo)<<"The following parameters are to be minimized";
     gParas =  mMinData.getParameters();
 
@@ -72,7 +65,7 @@ void LMFitThread::run()
     }
 
     RoadRunnerData inputData = mMinData.getInputData();
-    Log(lInfo)<<"The following data is to be used for fitting";
+    Log(lInfo)<<"The following data is used as input:";
     Log(lInfo)<<inputData;
 
 	//Create data vector appropriate for lmcurve_fit
@@ -89,20 +82,22 @@ void LMFitThread::run()
     double *time 	= new double[count];
     double *y 		= new double[count];
 
-    //populate time and y
+    //populate time and y arrays
     for(int i = 0; i < count; i++)
     {
     	time[i] = inputData(i,0);
     	y[i] 	= inputData(i,1);
     }
 
-    //Aux parameters
+    //Some parameters to the Algorithm..
     lm_status_struct status;
     lm_control_struct control = lm_control_double;
     control.printflags = 3;
 
+
     rri->setTimeCourseSelectionList("S1");
 
+	// Do the fitting here...
     lmcurve_fit(    n_par,
     			    par,
                     count,
@@ -115,15 +110,16 @@ void LMFitThread::run()
 
     Log(lInfo)<<"The LM algorithm finished with the following status: "<<lm_infmsg[status.info];
     Log(lInfo)<<"After "<<status.nfev<<" evaluations.";
+    Log(lInfo)<<"Norm: "<<status.fnorm;
     for(int i = 0; i < gParas.count(); i++)
     {
 	    Log(lInfo)<<"Parameter "<< gParas[i]->getName() <<" is "<<par[i];
     }
     delete [] y;
     delete [] time;
-
     rri->reset();
-    //Calculate model data
+
+	//Populate result data structures and exit the thread...
     RoadRunnerData modelData;
     RoadRunnerData residualsData;
     modelData.reSize(inputData.rSize(), inputData.cSize());
@@ -131,12 +127,12 @@ void LMFitThread::run()
 	for(int row = 0; row < inputData.rSize(); row++)
     {
         //Time....
-		modelData(row, 0) = inputData(row,0);
-		residualsData(row, 0) = inputData(row,0);
+		modelData(row, 0) 		= inputData(row,0);
+		residualsData(row, 0) 	= inputData(row,0);
 
         //Y
-        modelData(row, 1) = f(inputData(row,0), par);
-        residualsData(row, 1) = inputData(row, 1) - modelData(row, 1);
+        modelData(row, 1) 		= f(inputData(row,0), par);
+        residualsData(row, 1) 	= inputData(row, 1) - modelData(row, 1);
     }
 
     //Populate minDataObject
@@ -149,10 +145,19 @@ void LMFitThread::run()
     }
 }
 
+bool LMFitThread::setupRoadRunner()
+{
+   	if(rri)
+    {
+    	delete rri;
+    }
+
+    rri = new RoadRunner;
+    return rri->loadSBML(mTheHost.mSBML.getValue(), false);
+}
+
 double f(double time, const double* paras)
 {
-	double timeStep = 1.e-7;
-
 	//set model parameters, contained in gParas
     for(int i = 0; i < gParas.count(); i++)
     {
@@ -160,6 +165,8 @@ double f(double time, const double* paras)
     	setValue(rri, aPar->getName().c_str(), paras[i]);
 		aPar->setValue(paras[i]);
     }
+
+    rri->reset();
 
     if(time != 0)
     {
@@ -177,6 +184,10 @@ double f(double time, const double* paras)
     	//value += rri->getValueForRecord(sel[i]);
 		value = rri->getValueForRecord(sel[i]);
     }
+    //Log(lInfo)<<"rr: "<<value;
+
+	double value2 = 1.0*exp(-paras[0] * time);
+    //Log(lInfo)<<"exact: "<<value;
 
     return value;
 }

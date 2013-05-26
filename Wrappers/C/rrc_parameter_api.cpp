@@ -3,9 +3,9 @@
 #include "rrRoadRunner.h"
 #include "rrException.h"
 #include "rrc_parameter_api.h"
-#include "rrLogger.h"           //Might be useful for debugging later on
+#include "rrLogger.h"
 #include "rrc_api.h"
-#include "rrc_support.h"   		//Support functions, not exposed as api functions and or data
+#include "rrc_utilities.h"   		//Support functions, not exposed as api functions and or data
 //---------------------------------------------------------------------------
 
 namespace rrc

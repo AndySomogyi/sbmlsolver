@@ -25,6 +25,7 @@
 #include "rrCapabilitiesFrame.h"
 #include "mtkIniFileC.h"
 #include "TLMFittingFrame.h"
+#include "TRegistryForm.h"
 #include <string>
 #include <vector>
 #include <sstream>
@@ -147,12 +148,13 @@ private:
     RRPluginHandle						mAddNoisePlugin;
     RRPluginHandle						mMinimizePlugin;
     RRPluginHandle						mLMPlugin;
+    RRPluginHandle						mLMAPlugin;
     TLMFittingFrame					   *mLMFrame;
+    TLMFittingFrame					   *mLMAFrame;
     RRData* 							mData;
     RRJobHandle	                        mLoadModelJob;
     RRJobHandle	                        mSimulateModelJob;
 	TOnSimulationFinished				OnSimulationFinsihed;
-//    string 		                        mModel;
     string								mModelsFolder;
     bool								mUIIsStartingUp;
 	string 		                        getCurrentPluginName();

@@ -13,7 +13,6 @@ ${THIRD_PARTY_INSTALL_FOLDER}/include
 #The C-api is built as a shared library..
 add_library(${target} SHARED
 rrc_api
-rrc_support
 rrc_utilities
 rrc_plugin_api
 rrc_jobs_api

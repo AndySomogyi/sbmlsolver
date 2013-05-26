@@ -12,6 +12,7 @@ object MainF: TMainF
   Font.Style = []
   KeyPreview = True
   OldCreateOrder = False
+  Position = poDefault
   OnClose = FormClose
   OnCloseQuery = FormCloseQuery
   OnKeyDown = FormKeyDown
@@ -174,6 +175,10 @@ object MainF: TMainF
             ExplicitTop = 107
           end
         end
+        inherited ActionList1: TActionList
+          Left = 104
+          Top = 128
+        end
       end
     end
   end
@@ -189,6 +194,10 @@ object MainF: TMainF
     TabOrder = 1
     object TabSheet1: TTabSheet
       Caption = 'RR Data'
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Chart1: TChart
         Left = 0
         Top = 29
@@ -465,6 +474,10 @@ object MainF: TMainF
         object TabSheet5: TTabSheet
           Caption = 'Make Noise'
           ImageIndex = 2
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object noiseSigmaE: mtkFloatLabeledEdit
             Left = 13
             Top = 32

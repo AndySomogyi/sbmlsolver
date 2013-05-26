@@ -182,6 +182,11 @@ void __fastcall TMainF::loadModelJobTimerTimer(TObject *Sender)
             {
             	mLMFrame->loadParameterList();
             }
+
+			if(mLMAFrame)
+            {
+            	mLMAFrame->loadParameterList();
+            }
             simFramesimBtnClick(NULL);
         }
         else

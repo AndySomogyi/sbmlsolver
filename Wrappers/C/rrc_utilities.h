@@ -51,8 +51,8 @@
 #include "rrUtils.h"
 #include "rrc_exporter.h"
 #include "rrc_macros.h"
-
 //---------------------------------------------------------------------------
+
 #if defined(__cplusplus)
 namespace rr
 {
@@ -67,19 +67,6 @@ namespace rrc
 extern "C"
 {
 #endif
-
-
-///*!
-// \brief Retrieves the the content of a file.
-// \return Content of file as a string, returns null if it fails
-// \ingroup utilities
-//*/
-C_DECL_SPEC char* rrcCallConv getFileContent(const char* fName);
-
-
-///////////////////////////////////////////////////////////////////////////////////
-// TEST UTILITY functions (to be documented later. Only for internal testing)
-C_DECL_SPEC bool rrcCallConv compileSource(RRHandle handle, const char* sourceFileName);
 
 using std::vector;
 using std::string;
@@ -101,6 +88,13 @@ RRMatrixHandle                          createMatrix(const ls::DoubleMatrix* mat
 //Lists and arrays
 RRStringArrayHandle                     createList(const rr::StringList& aList);
 RRListHandle 		                    createArrayList(const rr::NewArrayList& aList);
+
+/*!
+ \brief Retrieves the the content of a file.
+ \return Content of file as a string, returns null if it fails
+ \ingroup utilities
+*/
+C_DECL_SPEC char* 		 rrcCallConv 	getFileContent(const char* fName);
 
 //Result data
 C_DECL_SPEC RRDataHandle rrcCallConv 	createRRData(const rr::RoadRunnerData& result);
@@ -659,6 +653,10 @@ C_DECL_SPEC RRHandle 	rrcCallConv 	getRRHandle(RRInstanceListHandle iList, int i
 //======================== DATA WRITING ROUTINES =============================
 C_DECL_SPEC bool rrcCallConv writeRRData(RRHandle rrHandle, const char* faileNameAndPath);
 C_DECL_SPEC bool rrcCallConv writeMultipleRRData(RRInstanceListHandle rrHandles, const char* faileNameAndPath);
+
+///////////////////////////////////////////////////////////////////////////////////
+// TEST UTILITY functions (to be documented later. Only for internal testing)
+C_DECL_SPEC bool rrcCallConv compileSource(RRHandle handle, const char* sourceFileName);
 
 
 #if defined(__cplusplus)
