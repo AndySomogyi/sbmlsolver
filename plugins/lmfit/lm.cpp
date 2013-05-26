@@ -17,25 +17,34 @@ Plugin(				    "Levenberg-Marquardt Minimization",   			"No Category", 		aRR),
 mLMFit(	 	  	 		"LMFit", 					"", 				"Run a one species fit"),	//The 'capability'
 mTempFolder(			"TempFolder", 	  			"",  				"Tempfolder used in the fitting"),
 mSBML(	    			"SBML", 					"<none>",			"SBML, i.e. the model to be used in the fitting"),
-mMinimizationData(		"MinData", 					NULL,			"Data structure holding minimization data"),
+mMinimizationData(		"MinData", 					MinimizationData(),	"Data structure holding minimization data"),
 mLMFitThread(*this)
 {
 	//Setup the plugins capabilities
     mLMFit.addParameter(&mTempFolder);
-
     mLMFit.addParameter(&mSBML);
     mLMFit.addParameter(&mMinimizationData);
     mCapabilities.add(mLMFit);
 }
 
 LM::~LM()
-{
+{}
 
+bool LM::resetPlugin()
+{
+	if(mLMFitThread.isRuning())
+    {
+    	return false;
+    }
+
+	MinimizationData& data = getMinimizationData();
+    data.reset();
+	return true;
 }
 
-MinimizationResult*	LM::getMinimizationData()
+MinimizationData& LM::getMinimizationData()
 {
-	return mMinimizationData.getValue();
+	return *(mMinimizationData.getValuePointer());
 }
 
 string LM::getTempFolder()
@@ -50,25 +59,54 @@ string LM::getSBML()
 
 string LM::getResult()
 {
-//	mResult<<"Parameters: ";
-//    string para = mParameterToFit.asString();
-//
-//    mResult<<para;
-//    mResult<<"\n";
-//	return mResult.getReport();
 	return "";
+}
+
+bool LM::setInputData(void* inputData)
+{
+	//Cast data to RRData structire
+    RRDataHandle data = (RRData*) inputData;
+
+    if(!data)
+    {
+    	return false;
+	}
+
+    RoadRunnerData rrData;
+    rrData.reSize(data->RSize, data->CSize);
+
+    for(int r = 0; r < data->RSize; r++)
+    {
+    	for(int c = 0; c < data->CSize; c++)
+    	{
+			rrData(r,c) = data->Data[r*data->CSize + c];
+        }
+    }
+
+    StringList colNames;
+    for(int c = 0; c < data->CSize; c++)
+    {
+		colNames.Add(data->ColumnHeaders[c]);
+    }
+
+    rrData.setColumnNames(colNames);
+
+	MinimizationData& minData = getMinimizationData();
+
+    minData.setInputData(rrData);
+    return true;
 }
 
 bool LM::execute(void* inputData)
 {
    	Log(lInfo)<<"Executing the LM plugin";
-//	mResult <<"LM was started on: "<<getDateTime() <<"\n";
+	//	mResult <<"LM was started on: "<<getDateTime() <<"\n";
+
     //go away and carry out the work in a thread
     //Assign callback functions to communicate the progress of the thread
 	mLMFitThread.assignCallBacks(mWorkStartedCB, mWorkFinishedCB, mUserData);
 
-    RoadRunnerData& data = *(RoadRunnerData*) (inputData);
-    mLMFitThread.start(&data);
+    mLMFitThread.start();
 	return true;
 }
 

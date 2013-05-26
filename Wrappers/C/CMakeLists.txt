@@ -17,6 +17,7 @@ rrc_support
 rrc_utilities
 rrc_plugin_api
 rrc_jobs_api
+rrc_parameter_api
 )
 
 if(${MSVC})

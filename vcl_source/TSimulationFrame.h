@@ -12,7 +12,7 @@
 #include "rrc_types.h"
 #include <Vcl.CheckLst.hpp>
 #include "rrStringList.h"
-
+#include "rrParameters.h"
 using namespace rr;
 using namespace rrc;
 
@@ -35,15 +35,18 @@ __published:	// IDE-managed Components
 	TGroupBox *GroupBox2;
 	TPanel *Panel3;
 	TGroupBox *GroupBox3;
-	TCheckListBox *paraListB;
 	TSplitter *Splitter1;
+	mtkFloatLabeledEdit *paraEdit;
+	TListBox *paraList;
 	void __fastcall SelListClick(TObject *Sender);
 	void __fastcall simulateAExecute(TObject *Sender);
-
+	void __fastcall paraListClick(TObject *Sender);
+	void __fastcall paraEditKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 
     private:
-        RRHandle					mRRHandle;
+        RRHandle					mRRI;
         RRJobHandle					mSimJobH;
+		Parameters					mParameters;	//Parameters for the current model
 
         static void __stdcall	   	ThreadEnterCB(void *UserData);					//These need to be static in order to be passed to the C API thread function
         static void __stdcall	   	ThreadExitCB(void *UserData);

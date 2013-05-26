@@ -124,6 +124,14 @@ C_DECL_SPEC bool rrcCallConv executePluginEx(RRPluginHandle handle, void* userDa
 C_DECL_SPEC char* rrcCallConv getPluginResult(RRPluginHandle handle);
 
 /*!
+ \brief resetPlugin (PluginName)
+ \param[in] RRPluginHandle handle to plugin
+ \return Returns true or false indicating success/failure
+ \ingroup pluginRoutines
+*/
+C_DECL_SPEC bool rrcCallConv resetPlugin(RRPluginHandle handle);
+
+/*!
  \brief assignCallbacks
  \param[in] RRPluginHandle handle to plugin
  \param[in] void*  pointer to user data. Plugin dependent.
@@ -131,6 +139,9 @@ C_DECL_SPEC char* rrcCallConv getPluginResult(RRPluginHandle handle);
  \ingroup pluginRoutines
 */
 C_DECL_SPEC bool rrcCallConv assignCallbacks(RRPluginHandle handle, pluginCallback cb1, pluginCallback cb2, void* userData);
+
+
+C_DECL_SPEC bool rrcCallConv setInputData(RRPluginHandle handle, void* userData);
 
 
 #if defined(__cplusplus)
@@ -150,6 +161,7 @@ C_DECL_SPEC bool rrcCallConv assignCallbacks(RRPluginHandle handle, pluginCallba
 //{
 //    return "RRDataHandle";
 //}
+//
 //}
 //#endif
 

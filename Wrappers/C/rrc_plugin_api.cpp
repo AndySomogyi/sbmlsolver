@@ -11,6 +11,7 @@
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrStringUtils.h"
+#include "rrc_macros.h"
 //---------------------------------------------------------------------------
 
 namespace rrc
@@ -214,11 +215,30 @@ char* rrcCallConv getPluginResult(RRPluginHandle handle)
 	try
     {
         Plugin* aPlugin = castToPlugin(handle);
-        RRStringArray* aList = NULL;
-
         return createText(aPlugin->getResult());
     }
     catch_ptr_macro
+}
+
+bool rrCallConv setInputData(RRPluginHandle handle, void* data)
+{
+	try
+    {
+        Plugin* aPlugin = castToPlugin(handle);
+        return (aPlugin) ? aPlugin->setInputData(data) : false;
+    }
+    catch_bool_macro
+}
+
+bool rrcCallConv resetPlugin(RRPluginHandle handle)
+{
+	try
+    {
+        Plugin* aPlugin = castToPlugin(handle);
+
+        return aPlugin->resetPlugin();
+    }
+    catch_bool_macro
 }
 
 }

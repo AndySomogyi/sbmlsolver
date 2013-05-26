@@ -8,10 +8,10 @@
  * Author:   Joachim Wuttke 2004-2013
  *
  * Licence:  see ../COPYING (FreeBSD)
- * 
+ *
  * Homepage: joachimwuttke.de/lmfit
  */
- 
+
 #ifndef LMMIN_H
 #define LMMIN_H
 
@@ -19,11 +19,11 @@
 extern "C" {
 #endif
 
-
 /** Compact high-level interface. **/
 
 /* Collection of control (input) parameters. */
-typedef struct {
+typedef struct
+{
     double ftol;      /* relative error desired in the sum of squares. */
     double xtol;      /* relative error between last two approximations. */
     double gtol;      /* orthogonality desired between fvec and its derivs. */
@@ -35,7 +35,8 @@ typedef struct {
 } lm_control_struct;
 
 /* Collection of status (output) parameters. */
-typedef struct {
+typedef struct
+{
     double fnorm;     /* norm of the residue vector fvec. */
     int nfev;         /* actual number of iterations. */
     int info;         /* status (index for lm_infmsg and lm_shortmsg). */
@@ -54,13 +55,14 @@ void lm_printout_std( int n_par, const double *par, int m_dat,
 double lm_enorm( int, const double * );
 
 /* The actual minimization. */
-void lmmin( int n_par, double *par, int m_dat, const void *data, 
-            void (*evaluate) (const double *par, int m_dat, const void *data,
-                              double *fvec, int *info),
+void lmmin( int 		n_par,
+			double 	   *par,
+            int 		m_dat,
+            const void *data,
+            void (*evaluate) (const double *par, int m_dat, const void *data, double *fvec, int *info),
             const lm_control_struct *control, lm_status_struct *status,
-            void (*printout) (int n_par, const double *par, int m_dat,
-                              const void *data, const double *fvec,
-                              int printflags, int iflag, int iter, int nfev) );
+            void (*printout) (int n_par, const double *par, int m_dat, const void *data, const double *fvec, int printflags, int iflag, int iter, int nfev)
+            );
 
 
 /** Legacy low-level interface. **/
@@ -72,12 +74,11 @@ void lm_lmdif( int m, int n, double *x, double *fvec, double ftol,
                double *diag, int mode, double factor, int *info, int *nfev,
                double *fjac, int *ipvt, double *qtf, double *wa1,
                double *wa2, double *wa3, double *wa4,
-               void (*evaluate) (const double *par, int m_dat, const void *data,
-                                 double *fvec, int *info),
-               void (*printout) (int n_par, const double *par, int m_dat,
-                                 const void *data, const double *fvec,
-                                 int printflags, int iflag, int iter, int nfev),
-               int printflags, const void *data );
+               void (*evaluate) (const double *par, int m_dat, const void *data, double *fvec, int *info),
+               void (*printout) (int n_par, const double *par, int m_dat, const void *data, const double *fvec, int printflags, int iflag, int iter, int nfev),
+               int printflags,
+               const void *data
+               );
 
 extern const char *lm_infmsg[];
 extern const char *lm_shortmsg[];

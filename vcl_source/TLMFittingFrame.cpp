@@ -10,6 +10,8 @@
 #include "rrEndUserUtils.h"
 #include "rrVCLUtils.h"
 #include "MainForm.h"
+#include "rrMinimizationData.h"
+#include "rrc_support.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "mtkFloatLabeledEdit"
@@ -18,7 +20,7 @@
 TLMFittingFrame *LMFittingFrame;
 
 using namespace rr;
-typedef TLMFittingFrame fsff;
+//typedef TLMFittingFrame fsff;
 //---------------------------------------------------------------------------
 __fastcall TLMFittingFrame::TLMFittingFrame(TComponent* Owner)
 	:
@@ -26,12 +28,12 @@ TFrame(Owner),
 infoMemo(NULL)
 {}
 
-void fsff::assignRRHandle(RRHandle aHandle)
+void TLMFittingFrame::assignRRHandle(RRHandle aHandle)
 {
 	mRRI = aHandle;
 }
 
-void fsff::assignPluginHandle(RRPluginHandle aHandle)
+void TLMFittingFrame::assignPluginHandle(RRPluginHandle aHandle)
 {
 	mPlugin = aHandle;
 }
@@ -41,9 +43,29 @@ void TLMFittingFrame::loadParameterList()
     if(mRRI)
     {
         paraList->Clear();
+        mParameters.clear();
         RRStringArrayHandle cSymbolsIDs = getGlobalParameterIds(mRRI);
 		StringList symbols = convertCStringArray(cSymbolsIDs);
-        AddItemsToListBox(symbols, paraList);
+
+        for(int i = 0; i < symbols.Count(); i++)
+        {
+        	string parName = symbols[i];
+        	double value;
+            if(!getValue(mRRI, parName.c_str(), &value))
+            {
+            	Log()<<"There was a problem with parameter: "<<parName;
+            }
+            else
+            {
+        		mParameters.add(new Parameter<double>(parName, value, ""));
+            }
+        }
+ 	  	for(int i = 0; i < mParameters.count(); i++)
+    	{
+	       int index = paraList->Items->Add(mParameters[i]->getName().c_str());
+           paraList->Items->Objects[i] = (TObject*) mParameters[i];
+           paraList->Checked[index] = true;
+        }
     }
 }
 
@@ -56,13 +78,12 @@ void __fastcall TLMFittingFrame::paraListClick(TObject *Sender)
     	return;
     }
 
-    string para = stdstr(paraList->Items->Strings[paraList->ItemIndex]);
-    double val = 0;
-    if(getGlobalParameterByIndex(mRRI, index, &val))
-    {
-    	Log()<<"Parameter "<<para<<" = "<<val;
-    }
+    Parameter<double>* para = (Parameter<double>*) paraList->Items->Objects[paraList->ItemIndex];
+   	Log()<<"Parameter "<<para->getName()<<" = "<<para->getValue();
+    paraEdit->FNumber = para->getValuePointer();
+	paraEdit->Update();
 }
+
 void __fastcall TLMFittingFrame::executeBtnClick(TObject *Sender)
 {
 	int checkedItem = -1;
@@ -81,13 +102,33 @@ void __fastcall TLMFittingFrame::executeBtnClick(TObject *Sender)
         return;
     }
 
+    //Reset on each run
+	resetPlugin(mPlugin);
 
-    string strVal = stdstr(paraList->Items->Strings[checkedItem]);
+    //Get the plugins minimizationData handle
+    RRParameterHandle minDataParaHandle = getPluginParameter(mPlugin, "MinData", NULL);
+    if(!minDataParaHandle)
+    {
+    	throw("bad....");
+    }
 
-	string msg = setPluginParameter(mPlugin, "Parameter to fit", strVal.c_str())
-    	? "Assigned fitting parameter" : "Failed assigning fitting parameter";
-    Log() << msg;
+    RRMinimizationDataHandle minData = getParameterValueAsPointer(minDataParaHandle);
 
+    for(int i = 0; i < mParameters.count(); i++)
+    {
+    	Parameter<double>* para = (Parameter<double>*) mParameters[i];
+    	addDoubleParameter(minData, para->getName().c_str(), para->getValue());
+    }
+
+    RRStringArrayHandle selList = getTimeCourseSelectionList(mRRI);
+
+	setMinimizationSelectionList(minData, selList);
+
+    RRData* rrData = rrc::createRRData(MainF->mCurrentData);
+	setInputData(mPlugin, rrData);
+
+    string strVal;
+	string msg;
     strVal = getTempFolder(mRRI);
 
     msg = setPluginParameter(mPlugin, "TempFolder", strVal.c_str())
@@ -99,7 +140,7 @@ void __fastcall TLMFittingFrame::executeBtnClick(TObject *Sender)
     ? "Assigned SBML" : "Failed assigning SBML";
     Log() << msg;
 
-	assignCallbacks(mPlugin, fsfStartedCB, fsfFinishedCB, this);
+	assignCallbacks(mPlugin, fittingStartedCB, fittingFinishedCB, this);
     TMainF *mainForm = (TMainF*) this->Owner;
 
     //This call returns before the result has been created, non blocking.
@@ -107,13 +148,13 @@ void __fastcall TLMFittingFrame::executeBtnClick(TObject *Sender)
     executePluginEx(mPlugin, (void*) &(mainForm->mCurrentData));
 }
 
-void __stdcall TLMFittingFrame::fsfStartedCB(void *UserData)
+void __stdcall TLMFittingFrame::fittingStartedCB(void *UserData)
 {
     TLMFittingFrame *pThis = (TLMFittingFrame*) UserData;
     TThread::Synchronize(NULL, pThis->fittingStarted);
 }
 
-void __stdcall TLMFittingFrame::fsfFinishedCB(void *UserData)
+void __stdcall TLMFittingFrame::fittingFinishedCB(void *UserData)
 {
     TLMFittingFrame *pThis = (TLMFittingFrame*) UserData;
     TThread::Synchronize(NULL, pThis->fittingFinished);
@@ -140,6 +181,39 @@ void __fastcall TLMFittingFrame::fittingFinished()
     {
         onFittingFinished();
     }
+
+    //Get the plugins minimizationData handle
+    RRParameterHandle minDataParaHandle = getPluginParameter(mPlugin, "MinData", NULL);
+    if(!minDataParaHandle)
+    {
+    	throw("bad....");
+    }
+
+    RRMinimizationDataHandle _minData = getParameterValueAsPointer(minDataParaHandle);
+    MinimizationData& minData = *(MinimizationData*) _minData;
+    RoadRunnerData inputData = minData.getInputData();
+	RoadRunnerData modelData = minData.getModelData();
+	RoadRunnerData residuals = minData.getResidualsData();
+
+	Chart1->Series[0]->Clear();
+	Chart1->Series[1]->Clear();
+	Chart1->Series[2]->Clear();
+    //Plot the input, model and residual data..
+    for(int i = 0; i < inputData.rSize(); i++)
+    {
+        double xVal = inputData(i,0);
+        double yData = modelData(i, 1);
+
+        Chart1->Series[0]->AddXY(xVal, yData);
+
+        yData = inputData(i, 1);
+        Chart1->Series[1]->AddXY(xVal, yData);
+
+        yData = residuals(i, 1);
+        Chart1->Series[2]->AddXY(xVal, yData);
+
+    }
+    Chart1->Update();
 }
 
 //---------------------------------------------------------------------------

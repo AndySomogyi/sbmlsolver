@@ -64,26 +64,17 @@ class RR_DECLSPEC Plugin : public rrObject
 
 		//Virtuals
         virtual string				getResult();
+        virtual bool				isWorking();
+        virtual bool				resetPlugin();
+        virtual bool				setInputData(void* data);
 		//Pure virtuals
         virtual bool	           	execute(void* userData = NULL) = 0;
-        virtual bool				isWorking();
+
+
 
 };
 
-//class RR_DECLSPEC PluginLogger
-//{
-//    protected:
-//        std::ostringstream          mStream;
-//		vector<string>			   *mLogs;
-//    public:
-//                                    PluginLogger(vector<string>* container);
-//        virtual                    ~PluginLogger();
-//        std::ostringstream&         Get();
-//};
-//
-//#define pLog() \
-//    PluginLogger(&mLog).Get()
-//
+
 }
 
 #endif

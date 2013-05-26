@@ -43,7 +43,7 @@ void TFullSpaceFittingFrame::loadParameterList()
         paraList->Clear();
         RRStringArrayHandle cSymbolsIDs = getGlobalParameterIds(mRRI);
 		StringList symbols = convertCStringArray(cSymbolsIDs);
-        AddItemsToListBox(symbols, paraList);
+        addItemsToListBox(symbols, paraList);
     }
 }
 

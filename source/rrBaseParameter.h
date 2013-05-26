@@ -20,6 +20,7 @@ class RR_DECLSPEC BaseParameter : public rrObject
         string                              getName() const;
         string                              getHint() const;
         virtual string                      getValueAsString() const;
+		virtual void*						getValueAsPointer() = 0;
         virtual	void						setValueFromString(const string& value) = 0;
         virtual string      	            getType() const = 0;
 };

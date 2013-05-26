@@ -56,7 +56,7 @@ __published:	// IDE-managed Components
 	TLabel *Label3;
 	TLabel *buildTimeLbl;
 	TMemo *infoMemo;
-	TPanel *Panel1;
+	TPanel *bottomLeftPanelWidth;
 	TActionList *ActionList1;
 	TAction *loadPluginsA;
 	TAction *unloadPlugins;
@@ -112,6 +112,7 @@ __published:	// IDE-managed Components
 	TTabSheet *TabSheet5;
 	mtkFloatLabeledEdit *noiseSigmaE;
 	TButton *addNoiseBtn;
+	TSplitter *Splitter2;
 	void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall startupTimerTimer(TObject *Sender);
 	void __fastcall loadPluginsAExecute(TObject *Sender);
@@ -167,11 +168,13 @@ private:
 public:
 	mtkIniParameters					mIniParas;
 	mtkIniParameter<int>				mLowerPanelHeight;
+	mtkIniParameter<int>				mBottomLeftPanelWidth;
 	mtkIniParameter<string>				mModel;
 
 	RoadRunnerData						mCurrentData;
 	RoadRunnerData						mMinimizationData;
 			__fastcall 					TMainF(TComponent* Owner);
+			__fastcall 				   ~TMainF();
 	void 	__fastcall 					onSimulationStarted();
 	void 	__fastcall 					onSimulationFinished();
 

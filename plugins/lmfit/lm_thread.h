@@ -3,16 +3,18 @@
 #include "Poco/Thread.h"
 #include "Poco/Runnable.h"
 #include "rrRoadRunner.h"
-#include "rrMinimizationResult.h"
+#include "rrMinimizationData.h"
 //---------------------------------------------------------------------------
 
 typedef void (__stdcall *ThreadCB)(void*);
 
 class LM;
+class rr::RoadRunner;
 class rr::RoadRunnerData;
 
-class rr::RoadRunner;
-extern rr::RoadRunner *rri;
+using rr::MinimizationData;
+
+//extern rr::RoadRunner *rri;
 
 class LMFitThread : public Poco::Runnable
 {
@@ -25,14 +27,14 @@ class LMFitThread : public Poco::Runnable
         void*				       	mUserData;   	//Used for plugin callbacks..
 
         LM&     					mTheHost;
-//        rr::RoadRunnerData	       *mInputData;		//This is Experimental input data
-        rr::MinimizationResult     *mResult;
+        MinimizationData&       	mMinData;
 
 	public:
 							       	LMFitThread(LM& host);
       	void				       	assignCallBacks(ThreadCB fn1, ThreadCB fn2, void* userData);
-        void				       	start(rr::RoadRunnerData* inputData);
+        void				       	start();
         void				   		run();
+        bool						isRuning();
 };
 
 

@@ -126,7 +126,7 @@ void __fastcall TcapFrame::parameterDropDownChange(TObject *Sender)
 	SetParaBtn->Enabled = true;
     parameterDropDown->Hint = getParameterHint(para);
 
-    string value = stdstr(getParameterValue(para));
+    string value = stdstr(getParameterValueAsString(para));
     if(value.size())
     {
 		paraEdit->Text = vclstr(value);

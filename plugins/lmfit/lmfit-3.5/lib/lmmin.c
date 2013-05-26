@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Project:  LevenbergMarquardtLeastSquaresFitting
  *
  * File:     lmmin.c
@@ -26,7 +26,6 @@
 #include <float.h>
 #include "lmmin.h"
 
-
 /*****************************************************************************/
 /*  set numeric constants                                                    */
 /*****************************************************************************/
@@ -40,9 +39,9 @@
 
 /* If the above values do not work, the following seem good for an x86:
  LM_MACHEP     .555e-16
- LM_DWARF      9.9e-324 
- LM_SQRT_DWARF 1.e-160   
- LM_SQRT_GIANT 1.e150 
+ LM_DWARF      9.9e-324
+ LM_SQRT_DWARF 1.e-160
+ LM_SQRT_GIANT 1.e150
  LM_USER_TOL   1.e-14
    The following values should work on any machine:
  LM_MACHEP     1.2e-16
@@ -52,10 +51,8 @@
  LM_USER_TOL   1.e-14
 */
 
-const lm_control_struct lm_control_double = {
-    LM_USERTOL, LM_USERTOL, LM_USERTOL, LM_USERTOL, 100., 100, 1, 0 };
-const lm_control_struct lm_control_float = {
-    1.e-7, 1.e-7, 1.e-7, 1.e-7, 100., 100, 0, 0 };
+const lm_control_struct lm_control_double = {LM_USERTOL, LM_USERTOL, LM_USERTOL, LM_USERTOL, 100., 100, 1, 0 };
+const lm_control_struct lm_control_float  = {1.e-7, 1.e-7, 1.e-7, 1.e-7, 100., 100, 0, 0 };
 
 
 /*****************************************************************************/

@@ -62,8 +62,8 @@
         <_TCHARMapping>char</_TCHARMapping>
         <ProjectType>CppVCLApplication</ProjectType>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
-        <ILINK_LibraryPath>..\..\..\source\;..\..\full_space_minimization\;..\..\..\vcl_source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <IncludePath>..\..\..\source\;..\..\full_space_minimization\;..\..\..\vcl_source\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\..\..\Wrappers\C\;..\..\..\source\;..\..\full_space_minimization\;..\..\..\vcl_source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\..\..\Wrappers\C\;..\..\..\source\;..\..\full_space_minimization\;..\..\..\vcl_source\;$(IncludePath)</IncludePath>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
         <DynamicRTL>true</DynamicRTL>
         <UsePackages>true</UsePackages>
@@ -109,6 +109,10 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
+        <ILINK_DisableIncrementalLinking>true</ILINK_DisableIncrementalLinking>
+        <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
+        <BCC_MonitorThis>true</BCC_MonitorThis>
         <Defines>LIBSBML_USE_CPP_NAMESPACE;$(Defines)</Defines>
         <Debugger_DebugSourcePath>R:\rrl\plugins\TestPlugin\;P:\mtk\Components\Dune\;R:\rrl\source\;P:\mtk\VCL\Common\;R:\rrl\plugins\add_noise\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
@@ -251,6 +255,10 @@
                     <ProjectProperties Name="ManagePaths">True</ProjectProperties>
                     <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
                 </ProjectProperties>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k170.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp170.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment/>
             <Platforms>

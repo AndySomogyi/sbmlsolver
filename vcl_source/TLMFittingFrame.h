@@ -12,6 +12,11 @@
 #include "../../Wrappers/C/rrc_types.h"
 #include <Vcl.CheckLst.hpp>
 #include "rrStringList.h"
+#include "rrParameters.h"
+#include <VCLTee.Chart.hpp>
+#include <VCLTee.Series.hpp>
+#include <VCLTee.TeEngine.hpp>
+#include <VCLTee.TeeProcs.hpp>
 
 using namespace rr;
 using namespace rrc;
@@ -21,12 +26,16 @@ typedef void __fastcall (__closure *TOnEvent)();
 class TLMFittingFrame : public TFrame
 {
 __published:	// IDE-managed Components
-	TGroupBox *sweepE;
+	TGroupBox *fittingFrame;
 	TActionList *ActionList1;
 	TButton *executeBtn;
 	TCheckListBox *paraList;
-	TButton *Button1;
 	TAction *logResultA;
+	mtkFloatLabeledEdit *paraEdit;
+	TChart *Chart1;
+	TLineSeries *Series1;
+	TPointSeries *Series2;
+	TLineSeries *Series3;
 	void __fastcall paraListClick(TObject *Sender);
 	void __fastcall executeBtnClick(TObject *Sender);
 	void __fastcall logResultAExecute(TObject *Sender);
@@ -35,13 +44,14 @@ __published:	// IDE-managed Components
         RRHandle			                   	mRRI;
         RRPluginHandle							mPlugin;
         RRJobHandle			                   	mSimJobH;
+		Parameters								mParameters;	//Parameters for the current model
 
         static void 		                    ThreadEnterCB(void *UserData);
         static void 		                    ThreadExitCB(void *UserData);
 
 		//If we want to interact with the C threads
-        static void 			__stdcall  		fsfStartedCB(void *UserData);
-        static void 			__stdcall  		fsfFinishedCB(void *UserData);
+        static void 			__stdcall  		fittingStartedCB(void *UserData);
+        static void 			__stdcall  		fittingFinishedCB(void *UserData);
 
         void 					__fastcall      fittingStarted();
         void 				   	__fastcall      fittingFinished();
@@ -49,12 +59,12 @@ __published:	// IDE-managed Components
 	public:		// User declarations
                         		__fastcall      TLMFittingFrame(TComponent* Owner);
         TMemo			               		   *infoMemo;	//For the logger
-        RRJobHandle	  			__fastcall	    simulate();
 
         void								    loadParameterList();
 		void 								    assignRRHandle(RRHandle aHandle);
 		void 								    assignPluginHandle(RRPluginHandle aHandle);
 	    string									getResult();
+
 		//Assign in parent
         TOnEvent			   				    onFittingStarted;
         TOnEvent	   						    onFittingFinished;

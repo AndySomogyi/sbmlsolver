@@ -2,7 +2,7 @@ object MainF: TMainF
   Left = 0
   Top = 0
   Caption = 'RoadRunner UI'
-  ClientHeight = 755
+  ClientHeight = 674
   ClientWidth = 1119
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,7 +19,7 @@ object MainF: TMainF
   TextHeight = 13
   object Splitter1: TSplitter
     Left = 0
-    Top = 499
+    Top = 418
     Width = 1119
     Height = 3
     Cursor = crVSplit
@@ -32,14 +32,14 @@ object MainF: TMainF
     Left = 0
     Top = 0
     Width = 209
-    Height = 499
+    Height = 418
     Align = alLeft
     TabOrder = 0
     object Panel3: TPanel
       Left = 1
       Top = 1
       Width = 208
-      Height = 497
+      Height = 416
       Align = alLeft
       TabOrder = 0
       object GroupBox1: TGroupBox
@@ -123,13 +123,13 @@ object MainF: TMainF
         Left = 1
         Top = 129
         Width = 206
-        Height = 367
+        Height = 286
         Align = alClient
         TabOrder = 2
         ExplicitLeft = 1
         ExplicitTop = 129
         ExplicitWidth = 206
-        ExplicitHeight = 367
+        ExplicitHeight = 286
         inherited GroupBox1: TGroupBox
           Width = 206
           ExplicitWidth = 206
@@ -142,36 +142,36 @@ object MainF: TMainF
         end
         inherited Panel1: TPanel
           Width = 109
-          Height = 300
+          Height = 219
           ExplicitWidth = 109
-          ExplicitHeight = 300
+          ExplicitHeight = 219
           inherited Panel2: TPanel
             Width = 107
-            Height = 298
+            Height = 217
             ExplicitWidth = 107
-            ExplicitHeight = 298
+            ExplicitHeight = 217
           end
         end
         inherited Panel3: TPanel
-          Height = 300
-          ExplicitHeight = 300
+          Height = 219
+          ExplicitHeight = 219
           inherited Splitter1: TSplitter
-            Top = 185
+            Top = 104
             ExplicitLeft = 1
             ExplicitTop = 19
             ExplicitWidth = 95
           end
           inherited GroupBox2: TGroupBox
-            Height = 184
-            ExplicitHeight = 184
+            Height = 103
+            ExplicitHeight = 103
             inherited SelList: TCheckListBox
-              Height = 167
-              ExplicitHeight = 167
+              Height = 86
+              ExplicitHeight = 86
             end
           end
           inherited GroupBox3: TGroupBox
-            Top = 188
-            ExplicitTop = 188
+            Top = 107
+            ExplicitTop = 107
           end
         end
       end
@@ -181,7 +181,7 @@ object MainF: TMainF
     Left = 209
     Top = 0
     Width = 910
-    Height = 499
+    Height = 418
     ActivePage = TabSheet6
     Align = alClient
     DoubleBuffered = False
@@ -193,7 +193,7 @@ object MainF: TMainF
         Left = 0
         Top = 29
         Width = 902
-        Height = 442
+        Height = 361
         Legend.Visible = False
         Title.Text.Strings = (
           'TChart')
@@ -248,7 +248,7 @@ object MainF: TMainF
         Left = 0
         Top = 0
         Width = 902
-        Height = 471
+        Height = 390
         Legend.Visible = False
         Title.Text.Strings = (
           'TChart')
@@ -283,15 +283,22 @@ object MainF: TMainF
   end
   object lowerPanel: TPanel
     Left = 0
-    Top = 502
+    Top = 421
     Width = 1119
     Height = 253
     Align = alBottom
     TabOrder = 2
-    object Panel5: TPanel
+    object Splitter2: TSplitter
       Left = 469
       Top = 1
-      Width = 649
+      Height = 251
+      ExplicitLeft = 554
+      ExplicitTop = 17
+    end
+    object Panel5: TPanel
+      Left = 472
+      Top = 1
+      Width = 646
       Height = 251
       Align = alClient
       Caption = 'Panel5'
@@ -299,7 +306,7 @@ object MainF: TMainF
       object infoMemo: TMemo
         Left = 1
         Top = 30
-        Width = 647
+        Width = 644
         Height = 220
         Align = alClient
         Font.Charset = DEFAULT_CHARSET
@@ -316,7 +323,7 @@ object MainF: TMainF
       object ToolBar3: TToolBar
         Left = 1
         Top = 1
-        Width = 647
+        Width = 644
         Height = 29
         Caption = 'ToolBar3'
         TabOrder = 1
@@ -330,13 +337,15 @@ object MainF: TMainF
         end
       end
     end
-    object Panel1: TPanel
+    object bottomLeftPanelWidth: TPanel
       Left = 1
       Top = 1
       Width = 468
       Height = 251
       Align = alLeft
-      Caption = 'Panel1'
+      Caption = 'bottomLeftPanelWidth'
+      Ctl3D = False
+      ParentCtl3D = False
       TabOrder = 1
       object ToolBar1: TToolBar
         Left = 1
@@ -445,6 +454,10 @@ object MainF: TMainF
               inherited GroupBox4: TGroupBox
                 Width = 360
                 ExplicitWidth = 360
+                inherited paraEdit: TEdit
+                  Height = 19
+                  ExplicitHeight = 19
+                end
               end
             end
           end
@@ -456,12 +469,12 @@ object MainF: TMainF
             Left = 13
             Top = 32
             Width = 84
-            Height = 21
+            Height = 19
             EditLabel.Width = 28
             EditLabel.Height = 13
             EditLabel.Caption = 'Sigma'
             TabOrder = 0
-            Text = '0.00'
+            Text = '1'
             OnKeyDown = noiseSigmaEKeyDown
           end
           object addNoiseBtn: TButton
@@ -485,8 +498,8 @@ object MainF: TMainF
     Top = 24
   end
   object ActionList1: TActionList
-    Left = 464
-    Top = 448
+    Left = 536
+    Top = 376
     object loadPluginsA: TAction
       Caption = 'Load'
       OnExecute = loadPluginsAExecute

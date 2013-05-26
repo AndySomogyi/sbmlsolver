@@ -3,10 +3,9 @@
 
 namespace rr
 {
-Parameters::Parameters()
-{
 
-}
+Parameters::Parameters()
+{}
 
 void Parameters::clear()
 {

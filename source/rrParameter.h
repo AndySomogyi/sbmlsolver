@@ -25,12 +25,13 @@ class Parameter : public BaseParameter
 		void								setValueFromString(const string& val);
         T									getValue() const;
         T*									getValuePointer();
+        void*								getValueAsPointer();
         string                      		getValueAsString() const;
 	 	string								getType() const;
 };
 
 template<class T>
-Parameter<T>::Parameter(const string& name, T& value, const string& hint)
+inline Parameter<T>::Parameter(const string& name, T& value, const string& hint)
 :
 rr::BaseParameter(name, hint),
 mValue(value)
@@ -45,13 +46,13 @@ mValue(mDummy)
 {}
 
 
-template<class T>
-Parameter<T>::Parameter(const Parameter<T>& para)
-:
-rr::BaseParameter(para.getName(), para.getHint()),
-mDummy(para.getValue()),
-mValue(mDummy)
-{ }
+//template<class T>
+//Parameter<T>::Parameter(const Parameter<T>& para)
+//:
+//rr::BaseParameter(para.getName(), para.getHint()),
+//mDummy(para.getValue()),
+//mValue(mDummy)
+//{ }
 
 //template<class T>
 //void Parameter<T>::setValue(const T& val)
@@ -77,8 +78,15 @@ T* Parameter<T>::getValuePointer()
     return &mValue;
 }
 
-// =========================== SPECIALIZATONS
-//bool parameter specialization
+template<class T>
+void* Parameter<T>::getValueAsPointer()
+{
+    return (void*) &mValue;
+}
+
+//=========================SPECIALIZATIONS ===================================
+
+//================= BOOL ===============================
 template<>
 inline string Parameter<bool>::getType() const
 {

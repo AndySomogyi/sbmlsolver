@@ -26,6 +26,18 @@ Plugin::~Plugin()
 {}
 
 
+bool Plugin::resetPlugin()
+{
+	//Do whats needed in descendants
+    return true;
+}
+
+bool Plugin::setInputData(void* data)
+{
+	//Do whats needed in descendants
+    return true;
+}
+
 bool Plugin::assignCallbacks(PluginWorkStartedCB fnc1, PluginWorkFinishedCB fnc2, void* userData)
 {
 	mUserData = userData;

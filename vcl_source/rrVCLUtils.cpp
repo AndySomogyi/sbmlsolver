@@ -47,7 +47,7 @@ String vclstr(const std::ostringstream& s)
 	return vclstr(s.str());
 }
 
-StringList GetCheckedItems(TCheckListBox* listBox)
+StringList getCheckedItems(TCheckListBox* listBox)
 {
     //Go trough the listbox and return checked items
     StringList checked;
@@ -61,12 +61,21 @@ StringList GetCheckedItems(TCheckListBox* listBox)
     }
     return checked;
 }
-void AddItemsToListBox(const rr::StringList& items, TCheckListBox *lb, bool checked)
+
+void addItemsToListBox(const rr::StringList& items, TCheckListBox *lb, bool checked)
 {
     for(int i = 0; i < items.Count(); i++)
     {
         int index = lb->Items->Add(items[i].c_str());
         lb->Checked[index] = checked;
+    }
+}
+
+void addItemsToListBox(const rr::StringList& items, TListBox *lb)
+{
+    for(int i = 0; i < items.Count(); i++)
+    {
+        int index = lb->Items->Add(items[i].c_str());
     }
 }
 

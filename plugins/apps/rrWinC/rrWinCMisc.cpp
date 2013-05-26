@@ -52,8 +52,6 @@ void __fastcall TMainF::startupTimerTimer(TObject *Sender)
     int index = modelDD->Items->IndexOf(vclstr(modelNameNoExtension));
 
     modelDD->ItemIndex = (index > -1) ? index : 2;
-
-
 	mUIIsStartingUp = false;
     loadModelA->Execute();
 }

@@ -71,6 +71,18 @@ object SimulateFrame: TSimulateFrame
         Action = simulateA
         TabOrder = 0
       end
+      object paraEdit: mtkFloatLabeledEdit
+        Left = 5
+        Top = 150
+        Width = 76
+        Height = 21
+        EditLabel.Width = 40
+        EditLabel.Height = 13
+        EditLabel.Caption = 'paraEdit'
+        TabOrder = 1
+        Text = '0.00'
+        OnKeyDown = paraEditKeyDown
+      end
     end
   end
   object Panel3: TPanel
@@ -118,7 +130,7 @@ object SimulateFrame: TSimulateFrame
       Align = alBottom
       Caption = 'Parameters'
       TabOrder = 1
-      object paraListB: TCheckListBox
+      object paraList: TListBox
         Left = 2
         Top = 15
         Width = 91
@@ -126,6 +138,7 @@ object SimulateFrame: TSimulateFrame
         Align = alClient
         ItemHeight = 13
         TabOrder = 0
+        OnClick = paraListClick
       end
     end
   end

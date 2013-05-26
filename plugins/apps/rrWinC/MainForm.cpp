@@ -59,10 +59,18 @@ void __fastcall TMainF::clearMemoExecute(TObject *Sender)
 void TMainF::SetupAndReadParameters()
 {
 	mIniParas.Insert( (mtkBaseIniParameter*) &mLowerPanelHeight.Setup(            "LOWER_PANEL_HEIGHT", 	            250, 			true));
+	mIniParas.Insert( (mtkBaseIniParameter*) &mBottomLeftPanelWidth.Setup(        "BOTTOM_LEFT_PANEL_WIDTH",            450, 			true));
 	mIniParas.Insert( (mtkBaseIniParameter*) &mModel.Setup(       				  "MODEL_FILE", 			            "Test_1.xml", 	true));
 	mIniParas.Read();
 
     lowerPanel->Height = mLowerPanelHeight;
+	bottomLeftPanelWidth->Width = mBottomLeftPanelWidth;
+
+}
+
+__fastcall	TMainF::~TMainF()
+{
+	freeRRInstance(mRRI);
 }
 
 void __fastcall	TMainF::LogMessage()
@@ -104,7 +112,6 @@ void __fastcall TMainF::loadPluginsAExecute(TObject *Sender)
    	mLMPlugin       = getPlugin(mRRI, "Levenberg-Marquardt Minimization");
     Button1->Action = unloadPlugins;
 
-//	fullSpaceFitFrame->assignPluginHandle(mMinimizePlugin);
 	if(mLMPlugin)
     {
     	//Create the plugin frame
@@ -120,7 +127,9 @@ void __fastcall TMainF::loadPluginsAExecute(TObject *Sender)
         mLMFrame->onFittingStarted  = onLMFittingStarted;
         mLMFrame->onFittingFinished = onLMFittingFinished;
         mLMFrame->infoMemo = infoMemo;
+        MainPC->TabIndex = MainPC->PageCount -1;
     }
+    freeStringArray(pluginNames);
 }
 
 
@@ -346,7 +355,8 @@ void __fastcall TMainF::onLMFittingFinished()
 //---------------------------------------------------------------------------
 void __fastcall TMainF::FormClose(TObject *Sender, TCloseAction &Action)
 {
-	mLowerPanelHeight = lowerPanel->Height;
+	mLowerPanelHeight 		= lowerPanel->Height;
+	mBottomLeftPanelWidth 	= bottomLeftPanelWidth->Width;
 	mIniParas.Write();
     mIniFile->Save();
 }

@@ -9,6 +9,7 @@
 #include "rrc_api.h"
 #include "rrMemoLogger.h"
 #include "rrEndUserUtils.h"
+#include "rrParameter.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "mtkFloatLabeledEdit"
@@ -16,7 +17,6 @@
 #pragma resource "*.dfm"
 TSimulateFrame *SimulateFrame;
 
-//---------------------------------------------------------------------------
 __fastcall TSimulateFrame::TSimulateFrame(TComponent* Owner)
 	:
 TFrame(Owner),
@@ -27,36 +27,59 @@ onSimulationFinished(NULL)
 //---------------------------------------------------------------------------
 void TSimulateFrame::assignRRHandle(RRHandle aHandle)
 {
-	mRRHandle = aHandle;
+	mRRI = aHandle;
 }
 
 bool TSimulateFrame::loadSelectionList()
 {
-    if(mRRHandle)
+    if(mRRI)
     {
         SelList->Clear();
-		paraListB->Clear();
+		paraList->Clear();
+        mParameters.clear();
+
         SelList->Items->Add("Time");
         SelList->Checked[0] = true;
-        RRListHandle cSymbols = getAvailableTimeCourseSymbols(mRRHandle);
-		NewArrayList symbols = convertCList(cSymbols);
+        RRListHandle cSymbols = getAvailableTimeCourseSymbols(mRRI);
+		NewArrayList symbolArray = convertCList(cSymbols);
 
-        int count = symbols.Count();
+        int count = symbolArray.Count();
 
-        StringList fs       = symbols.GetStringList("Floating Species");
-        AddItemsToListBox(fs, SelList, true);
+        StringList fs       = symbolArray.GetStringList("Floating Species");
+        addItemsToListBox(fs, SelList, true);
 
-        StringList bs       = symbols.GetStringList("Boundary Species");
-        AddItemsToListBox(bs, SelList);
-
-        StringList gp       = symbols.GetStringList("Global Parameters");
-        AddItemsToListBox(gp, paraListB);
+        StringList bs       = symbolArray.GetStringList("Boundary Species");
+        addItemsToListBox(bs, SelList);
 
         EnableDisableSimulation();
+        freeRRList(cSymbols);
+
+        RRStringArrayHandle cSymbolsIDs = getGlobalParameterIds(mRRI);
+		StringList symbols = convertCStringArray(cSymbolsIDs);
+
+        for(int i = 0; i < symbols.Count(); i++)
+        {
+        	string parName = symbols[i];
+        	double value;
+            if(!getValue(mRRI, parName.c_str(), &value))
+            {
+            	Log()<<"There was a problem with parameter: "<<parName;
+            }
+            else
+            {
+        		mParameters.add(new Parameter<double>(parName, value, ""));
+            }
+        }
+
+ 	  	for(int i = 0; i < mParameters.count(); i++)
+    	{
+	       int index = paraList->Items->Add(mParameters[i]->getName().c_str());
+           paraList->Items->Objects[i] = (TObject*) mParameters[i];
+        }
+	    freeStringArray(cSymbolsIDs);
     }
     return true;
 }
-
 
 //---------------------------------------------------------------------------
 void TSimulateFrame::EnableDisableSimulation()
@@ -100,13 +123,13 @@ void __fastcall TSimulateFrame::simulateAExecute(TObject *Sender)
 RRJobHandle __fastcall TSimulateFrame::simulate()
 {
     //Setup selection list
-    StringList list = GetCheckedItems(SelList);
+    StringList list = getCheckedItems(SelList);
     string selected = list.AsString();
-    setTimeCourseSelectionList(mRRHandle, selected.c_str());
+    setTimeCourseSelectionList(mRRI, selected.c_str());
 
-	reset(mRRHandle);
+	reset(mRRI);
 
-    mSimJobH = simulateJobEx(	mRRHandle,
+    mSimJobH = simulateJobEx(	mRRI,
     							mStartTimeE->GetValue(),
                                 mEndTimeE->GetValue(),
                                 mNrOfSimulationPointsE->GetValue(),
@@ -143,5 +166,39 @@ void __fastcall TSimulateFrame::simulationFinished()
     }
 }
 
+void __fastcall TSimulateFrame::paraListClick(TObject *Sender)
+{
+	//Get the currently selected parameter
+    int index = paraList->ItemIndex;
+    if(index == -1)
+    {
+    	return;
+    }
+
+    Parameter<double>* para = (Parameter<double>*) paraList->Items->Objects[paraList->ItemIndex];
+
+   	Log()<<"Parameter "<<para->getName()<<" = "<<para->getValue();
+    paraEdit->FNumber = para->getValuePointer();
+	paraEdit->Update();
+
+}
+
+void __fastcall TSimulateFrame::paraEditKeyDown(TObject *Sender, WORD &Key, TShiftState Shift)
+{
+	if(Key == VK_RETURN)
+    {
+    	//Update parameter values
+        for(int i = 0; i < mParameters.count(); i++)
+        {
+        	Parameter<double>* para = (Parameter<double>*) mParameters[i];
+            if(!setValue(mRRI, para->getName().c_str(), para->getValue() ))
+            {
+            	Log()<<"There was a problem with parameter: "<<para->getName();
+            }
+        }
+		//Simulate...
+		simulateA->Execute();
+    }
+}
 
 

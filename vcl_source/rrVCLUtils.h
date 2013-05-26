@@ -21,9 +21,9 @@ String                 	vclstr(const char* s);
 String                 	vclstr(const AnsiString& s);
 String                 	vclstr(const std::ostringstream& s);
 
-rr::StringList 	       	GetCheckedItems(TCheckListBox* listBox);
-void 			   		AddItemsToListBox(const rr::StringList& items, TCheckListBox *lb, bool checked = false);
-
+rr::StringList 	       	getCheckedItems(TCheckListBox* listBox);
+void 			   		addItemsToListBox(const rr::StringList& items, TCheckListBox *lb, bool checked = false);
+void 			   		addItemsToListBox(const rr::StringList& items, TListBox *lb);
 }
 
 #endif

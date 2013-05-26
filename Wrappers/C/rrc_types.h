@@ -63,6 +63,9 @@ typedef void* RRPluginHandle;
 /*!@brief Void pointer to a Parameter instance */
 typedef void* RRParameterHandle;
 
+/*!@brief Void pointer to a MinimizationData instance */
+typedef void* RRMinimizationDataHandle;
+
 /*!@struct*/
 /*!@brief Structure for a set of RoadRunner handles */
 typedef struct RRInstanceList
@@ -153,13 +156,6 @@ typedef struct RRList
 /*!@brief A parameters type can be string, bool, integer, double, vector or a matrix */
 enum RRParameterType {ptString, ptBool, ptInteger, ptDouble, ptVector, ptMatrix};
 
-///*!@struct*/
-///*!@brief Result from minimization run */
-//typedef struct RRMinimizationResult
-//{
-//
-//} *RRMinimizationResultHandle;
-//
 #if defined( __cplusplus)
 }
 }//Namespace

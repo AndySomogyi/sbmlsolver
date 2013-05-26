@@ -6,9 +6,9 @@
 //---------------------------------------------------------------------------
 USEFORM("..\..\..\vcl_source\TSimulationFrame.cpp", SimulateFrame); /* TFrame: File Type */
 USEFORM("..\..\..\vcl_source\TLMFittingFrame.cpp", LMFittingFrame);
-USEFORM("..\..\..\vcl_source\rrCapabilitiesFrame.cpp", capFrame); /* TFrame: File Type */
-USEFORM("MainForm.cpp", MainF);
 USEFORM("..\..\..\vcl_source\TFullSpaceFittingFrame.cpp", FullSpaceFittingFrame); /* TFrame: File Type */
+USEFORM("MainForm.cpp", MainF);
+USEFORM("..\..\..\vcl_source\rrCapabilitiesFrame.cpp", capFrame); /* TFrame: File Type */
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {

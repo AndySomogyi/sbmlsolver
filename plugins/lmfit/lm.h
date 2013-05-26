@@ -5,7 +5,7 @@
 #include "rrParameter.h"
 #include "rrPlugin.h"
 #include "rrRoadRunner.h"
-#include "rrMinimizationResult.h"
+#include "rrMinimizationData.h"
 #include "../../Wrappers/C/rrc_types.h"
 #include "lm_thread.h"
 //---------------------------------------------------------------------------
@@ -22,22 +22,24 @@ class LM : public Plugin
     	Capability						    mLMFit;
 		Parameter<string> 				    mTempFolder;
 		Parameter<string> 				    mSBML;					//This is the model
-        Parameter<MinimizationResult*>		mMinimizationData;				//Generate its own
+        Parameter<MinimizationData>			mMinimizationData;		//Generate its own
 
         //Utility functions for the thread
         string							    getTempFolder();
         string							    getSBML();
 		Parameter<string>				    getParameterToFit();
-        MinimizationResult*					getMinimizationData();
-        //This thread is doing the work
-		LMFitThread							mLMFitThread;
+        MinimizationData&					getMinimizationData();
 
+        //The thread is doing the work
+		LMFitThread							mLMFitThread;
 
     public:
     							            LM(rr::RoadRunner* aRR = NULL);
 					   		   	           ~LM();
 		bool					            execute(void* inputData);
         string								getResult();
+        bool								resetPlugin();
+		bool								setInputData(void* data);
 };
 
 extern "C"
