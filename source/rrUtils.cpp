@@ -193,7 +193,7 @@ string getCurrentExeFolder()
     char path[PATH_MAX+1];
     unsigned  bufsize = sizeof(path);
     if (_NSGetExecutablePath(path, &bufsize) == 0) {
-	    string aPath(ExtractFilePath(path));
+	    string aPath(extractFilePath(path));
 		return aPath;
     }
 #elif defined __linux
@@ -351,9 +351,9 @@ void pause(bool doIt, const string& msg)
     	cout<<msg;
     }
     cin.ignore(0,'\n');
-#if !defined(__linux)
-    getch();
-#endif
+
+    rrGetch();
+
 
 }
 

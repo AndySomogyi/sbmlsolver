@@ -67,9 +67,9 @@ bool Compiler::compileSource(const string& sourceFileName)
 #if defined(_WIN32) || defined(__CODEGEARC__)
     string dllFName(changeFileExtensionTo(extractFileName(sourceFileName), "dll"));
 #elif defined(__unix__)
-    string dllFName(ChangeFileExtensionTo(ExtractFileName(sourceFileName), "so"));
+    string dllFName(changeFileExtensionTo(extractFileName(sourceFileName), "so"));
 #elif defined(__APPLE__)
-    string dllFName(ChangeFileExtensionTo(ExtractFileName(sourceFileName), "dylib"));
+    string dllFName(changeFileExtensionTo(extractFileName(sourceFileName), "dylib"));
 #endif
     mDLLFileName = joinPath(extractFilePath(sourceFileName), dllFName);
 

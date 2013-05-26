@@ -42,11 +42,7 @@ mDummy(value),
 mValue(mDummy)
 {}
 
-template<class T>
-void setValue(const T& val)
-{
-	mValue = val;
-}
+
 
 template<class T>
 string Parameter<T>::getValueAsString() const

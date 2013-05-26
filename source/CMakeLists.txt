@@ -165,12 +165,12 @@ POCO_NO_AUTOMATIC_LIBS
 
 #libraries to link with static lib
 target_link_libraries (${target}-static 
-   libsbml-static${staticLibExt}
+   sbml-static${staticLibExt}
    sundials_cvode
    sundials_nvecserial
    blas
    lapack
-   libf2c${staticLibExt}
+   f2c${staticLibExt}
    pugi-static
    nleq-static
    rr-libstruct-static
