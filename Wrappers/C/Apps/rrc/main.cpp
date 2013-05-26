@@ -268,7 +268,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 }
 
 #if defined(CG_IDE) || defined(_MSC_VER)
-#pragma comment(lib, "IPHLPAPI.lib")
+#pragma comment(lib, "IPHLPAPI.lib")	//Poco, getadapters info...
 #pragma comment(lib, "roadrunner-static.lib")
 #pragma comment(lib, "rrc_api.lib")
 #endif
