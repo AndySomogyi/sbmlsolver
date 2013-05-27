@@ -66,7 +66,7 @@ mConservedTotalChanged(false)
     Log(lDebug4)<<"In RoadRunner ctor";
 
     // for now, dump out who we are
-    cout << "RoadRunner::RoadRunner(...), running refactored modelgen lists\n";
+    cout << "RoadRunner::RoadRunner(...), running refactored modelgen NOMFix\n";
 
     mModelGenerator = ModelGeneratorFactory::createModelGenerator("CModelGenerator", tempFolder, supportCodeFolder, compiler);
 
