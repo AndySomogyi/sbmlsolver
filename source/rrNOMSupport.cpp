@@ -426,6 +426,7 @@ string NOMSupport::convertMathMLToString(const string& sMathML)
 {
     ASTNode* node = libsbml::readMathMLFromString(sMathML.c_str());
     string sResult = SBML_formulaToString(node);
+    delete node;
     return sResult;
 }
 //
