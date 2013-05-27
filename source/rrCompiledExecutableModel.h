@@ -37,7 +37,7 @@ typedef TEventDelayDelegate* (callConv *c_GetEventDelayDelegatesStar)();
 class RR_DECLSPEC CompiledExecutableModel : public ExecutableModel, public rrObject
 {
 public:
-    CompiledExecutableModel(CModelGenerator& generator, ModelSharedLibrary& dll);
+    CompiledExecutableModel(CModelGenerator& generator, ModelSharedLibrary* dll);
     virtual                                         ~CompiledExecutableModel();
 
     virtual string                                  getModelName();
@@ -90,14 +90,27 @@ public:
     virtual void                                    initializeRateRuleSymbols();
     virtual string                                  getInfo();
 
+    virtual SymbolList                              &getReactions();
+    virtual SymbolList                              &getGlobalParameters();
+    virtual SymbolList                              &getBoundarySpecies();
+    virtual SymbolList                              &getCompartments();
+    virtual SymbolList                              &getConservations();
+    virtual SymbolList                              &getFloatingSpeciesAmounts();
+    virtual SymbolList                              &getFloatingSpeciesConcentrations();
+
+    virtual StringList                              getCompartmentNames();
+    virtual StringList                              getConservationNames();
+    virtual StringList                              getGlobalParameterNames();
+    virtual StringList                              getReactionNames();
+    virtual StringList                              getFloatingSpeciesConcentrationNames();    //Just returns the Ids...!
+    virtual StringList                              getBoundarySpeciesNames();
+
 private:
 
     /**
      * initialize and allocate space for the ModelData buffers.
      */
     bool setupModelData();
-
-    bool oldsetupModelData();
 
     /**
      * setup the function pointer variables to point to the C functions
@@ -136,7 +149,7 @@ private:
      */
     bool mIsInitialized;
 
-    ModelSharedLibrary& mDLL;
+    ModelSharedLibrary* mDLL;
 
     //Function pointers...
     c_int_MDS                               cInitModel;

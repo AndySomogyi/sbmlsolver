@@ -28,30 +28,7 @@ class Compiler;
  */
 class RR_DECLSPEC ModelGenerator : public rrObject
 {
-
 public:
-    void                                reset();
-    int                                 getNumberOfReactions();
-    int                                 numAdditionalRates();        //this variable is the size of moMapRateRule
-
-    StringList                          getCompartmentList();
-    StringList                          getConservationList();
-
-    StringList                          getGlobalParameterList();
-    StringList                          getLocalParameterList(int reactionId);
-
-    StringList                          getReactionIds();
-    SymbolList&                         getReactionListReference();
-
-    StringList                          getFloatingSpeciesConcentrationList();    //Just returns the Ids...!
-    SymbolList&                         getFloatingSpeciesConcentrationListReference();
-
-    StringList                          getBoundarySpeciesList();
-    SymbolList&                         getBoundarySpeciesListReference();
-    SymbolList&                         getGlobalParameterListReference();
-    SymbolList&                         getConservationListReference();
-
-
 
     /**
      * certain model generators, such as the compiler based ones
@@ -102,7 +79,11 @@ public:
      */
     virtual                             ~ModelGenerator();
 
-    int                                 mNumModifiableSpeciesReferences;
+protected:
+
+    void                                reset();
+
+    int                                 numAdditionalRates();        //this variable is the size of moMapRateRule
 
     /**
      * Refernce to libstruct library
@@ -118,14 +99,16 @@ public:
      */
     NOMSupport*                         mNOM;
 
+    int                                 mNumModifiableSpeciesReferences;
 
-    IntStringHashTable                  mMapRateRule;
     SymbolList                          mBoundarySpeciesList;
     SymbolList                          mCompartmentList;
     SymbolList                          mConservationList;
     SymbolList                          mFloatingSpeciesAmountsList;
     SymbolList                          mFloatingSpeciesConcentrationList;
     SymbolList                          mGlobalParameterList;
+    SymbolList                          mReactionList;
+    IntStringHashTable                  mMapRateRule;
     int                                 mNumBoundarySpecies;
     int                                 mNumCompartments;
     int                                 mNumDependentSpecies;
@@ -135,11 +118,6 @@ public:
     int                                 mNumIndependentSpecies;
     int                                 mNumReactions;
     int                                 mTotalLocalParmeters;
-    SymbolList                          mReactionList;
-
-
-
-protected:
 
     /**
      * protected ctor, this is an partially abstract class.
@@ -224,10 +202,12 @@ protected:
     int                                 readModifiableSpeciesReferences();
     SymbolList                          mModifiableSpeciesReferenceList;
 
-
-
-
     string                              writeDouble(const double& value, const string& format = "%G");
+
+    // for the time being, we'll store the state vars here until
+    // we move them to the model, but we have cleaned up the interface,
+    // so ONLY this executableModel access the state vars.
+    friend class CompiledExecutableModel;
 };
 }
 

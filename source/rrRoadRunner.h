@@ -204,7 +204,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
 		//Model generation
 		ExecutableModel*				getModel();
-		void                            resetModelGenerator();
 
 		bool                            loadSBMLFromFile(const string& fileName, const bool& forceReCompile = false);
 		bool                            loadSBML(const string& sbml, const bool& forceReCompile = false);
@@ -279,6 +278,10 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
 		void                     		computeAndAssignConservationLaws(const bool& bValue);
 		double*                         steadyStateParameterScan(const string& symbol, const double& startValue, const double& endValue, const double& stepSize);
+
+		/**
+		 * Returns the SBML with the current parameterset.
+		 */
 		string                          writeSBML();
 		int                             getNumberOfLocalParameters(const int& reactionId);
 		void                            setLocalParameterByIndex(const int& reactionId, const int index, const double& value);

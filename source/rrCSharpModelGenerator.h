@@ -1,12 +1,12 @@
 #ifndef rrCSharpGeneratorH
 #define rrCSharpGeneratorH
 //---------------------------------------------------------------------------
-#include "rrModelGenerator.h"
+#include "rrCompiledModelGenerator.h"
 
 namespace rr
 {
 
-class RR_DECLSPEC CSharpModelGenerator : public ModelGenerator
+class RR_DECLSPEC CSharpModelGenerator : public CompiledModelGenerator
 {
     protected:
         string                          	mSourceCodeFileName;

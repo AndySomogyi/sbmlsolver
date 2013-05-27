@@ -51,30 +51,6 @@ mNumDependentSpecies(0)
 
 ModelGenerator::~ModelGenerator() {}
 
-SymbolList& ModelGenerator::getReactionListReference()
-{
-    return mReactionList;
-}
-
-SymbolList& ModelGenerator::getFloatingSpeciesConcentrationListReference()
-{
-    return mFloatingSpeciesConcentrationList;
-}
-
-SymbolList& ModelGenerator::getBoundarySpeciesListReference()
-{
-    return mBoundarySpeciesList;
-}
-
-SymbolList& ModelGenerator::getGlobalParameterListReference()
-{
-    return mGlobalParameterList;
-}
-
-SymbolList& ModelGenerator::getConservationListReference()
-{
-    return mConservationList;
-}
 
 void ModelGenerator::reset()
 {
@@ -85,16 +61,6 @@ void ModelGenerator::reset()
 int ModelGenerator::numAdditionalRates()
 {
     return mMapRateRule.size();
-}
-
-StringList ModelGenerator::getCompartmentList()
-{
-    StringList tmp;
-    for (u_int i = 0; i < mCompartmentList.size(); i++)
-    {
-        tmp.Add(mCompartmentList[i].name);
-    }
-    return tmp;
 }
 
 string ModelGenerator::getInfo()
@@ -440,68 +406,6 @@ int ModelGenerator::readModifiableSpeciesReferences()
     }
     return mModifiableSpeciesReferenceList.size();
 }
-
-StringList ModelGenerator::getReactionIds()
-{
-    StringList tmp;
-    for (int i = 0; i < mReactionList.size(); i++)
-    {
-        tmp.Add(mReactionList[i].name);
-    }
-    return tmp;
-}
-
-StringList ModelGenerator::getFloatingSpeciesConcentrationList()
-{
-    StringList tmp;
-    for (int i = 0; i < mFloatingSpeciesConcentrationList.size(); i++)
-    {
-        tmp.Add(mFloatingSpeciesConcentrationList[i].name);
-    }
-    return tmp;
-}
-
-StringList ModelGenerator::getBoundarySpeciesList()
-{
-    StringList tmp;
-    for (int i = 0; i < mBoundarySpeciesList.size(); i++)
-    {
-        tmp.Add(mBoundarySpeciesList[i].name);
-    }
-    return tmp;
-}
-
-StringList ModelGenerator::getGlobalParameterList()
-{
-    StringList tmp;
-    for (int i = 0; i < mGlobalParameterList.size(); i++)
-    {
-        tmp.Add(mGlobalParameterList[i].name);
-    }
-
-    for (int i = 0; i < mConservationList.Count(); i++)
-    {
-        tmp.Add(mConservationList[i].name);
-    }
-
-    return tmp;
-}
-
-int ModelGenerator::getNumberOfReactions()
-{
-    return mReactionList.size();
-}
-
-StringList ModelGenerator::getConservationList()
-{
-    StringList tmp;// = new ArrayList();
-    for (int i = 0; i < mConservationList.Count(); i++)
-    {
-        tmp.Add(mConservationList[i].name);
-    }
-    return tmp;
-}
-
 
 
 }//rr namespace

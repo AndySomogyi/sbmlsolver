@@ -6,6 +6,8 @@
 
 #include "rrOSSpecifics.h"
 #include "rrModelData.h"
+#include "rrSymbolList.h"
+#include "rrStringList.h"
 
 namespace rr
 {
@@ -75,6 +77,21 @@ public:
 	virtual void                                    testConstraints() = 0;
 	virtual void                                    initializeRateRuleSymbols() = 0;
 	virtual string									getInfo() = 0;
+
+	virtual SymbolList                              &getReactions() = 0;
+	virtual SymbolList                              &getGlobalParameters() = 0;
+	virtual SymbolList                              &getBoundarySpecies() = 0;
+	virtual SymbolList                              &getCompartments() = 0;
+	virtual SymbolList                              &getConservations() = 0;
+	virtual SymbolList                              &getFloatingSpeciesAmounts() = 0;
+	virtual SymbolList                              &getFloatingSpeciesConcentrations() = 0;
+
+    virtual StringList                              getCompartmentNames() = 0;
+    virtual StringList                              getConservationNames() = 0;
+    virtual StringList                              getGlobalParameterNames() = 0;
+    virtual StringList                              getReactionNames() = 0;
+    virtual StringList                              getFloatingSpeciesConcentrationNames() = 0;    //Just returns the Ids...!
+    virtual StringList                              getBoundarySpeciesNames() = 0;
 
 	/**
 	 * need a virtual destructor as object implementing this interface

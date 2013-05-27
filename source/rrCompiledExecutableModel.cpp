@@ -13,8 +13,7 @@ using namespace std;
 namespace rr
 {
 
-CompiledExecutableModel::CompiledExecutableModel(CModelGenerator& generator, ModelSharedLibrary& dll)
-:
+CompiledExecutableModel::CompiledExecutableModel(CModelGenerator& generator, ModelSharedLibrary* dll) :
 mDummyInt(0),
 mDummyDouble(0),
 mDummyDoubleArray(new double[1]),
@@ -29,7 +28,7 @@ mDLL(dll)
     initModelData(mData);
     mDummyDoubleArray[0] = 1;
 
-    if(mDLL.isLoaded())
+    if(mDLL->isLoaded())
     {
         setupDLLFunctions();
         setupModelData();
@@ -46,6 +45,11 @@ CompiledExecutableModel::~CompiledExecutableModel()
     // only free buffers, mData is stack allocated.
     freeModelDataBuffers(mData);
     delete [] mDummyDoubleArray;
+    if(mDLL)
+    {
+        mDLL->unload();
+    }
+    delete mDLL;
 }
 
 string CompiledExecutableModel::getModelName()
@@ -122,41 +126,41 @@ double CompiledExecutableModel::getAmounts(const int& i)
 bool CompiledExecutableModel::setupDLLFunctions()
 {
     //Exported functions in the dll need to be assigned to a function pointer here..
-    if(!mDLL.isLoaded())
+    if(!mDLL->isLoaded())
     {
         Log(lError)<<"DLL handle not valid in SetupModel function";
         return false;
     }
 
     //Load functions..
-    cInitModel                          = (c_int_MDS)                      mDLL.getSymbol("InitModel");
-    cInitModelData                      = (c_int_MDS)                      mDLL.getSymbol("InitModelData");
-    cinitializeInitialConditions        = (c_void_MDS)                     mDLL.getSymbol("initializeInitialConditions");
-    csetParameterValues                 = (c_void_MDS)                     mDLL.getSymbol("setParameterValues");
-    csetCompartmentVolumes              = (c_void_MDS)                     mDLL.getSymbol("setCompartmentVolumes");
-    cgetNumLocalParameters              = (c_int_MDS_int)                  mDLL.getSymbol("getNumLocalParameters");
-    csetBoundaryConditions              = (c_void_MDS)                     mDLL.getSymbol("setBoundaryConditions");
-    csetInitialConditions               = (c_void_MDS)                     mDLL.getSymbol("setInitialConditions");
-    cevalInitialAssignments             = (c_void_MDS)                     mDLL.getSymbol("evalInitialAssignments");
-    ccomputeRules                       = (c_void_MDS_doubleStar)          mDLL.getSymbol("computeRules");
-    cconvertToAmounts                   = (c_void_MDS)                     mDLL.getSymbol("convertToAmounts");
-    ccomputeConservedTotals             = (c_void_MDS)                     mDLL.getSymbol("computeConservedTotals");
-    cgetConcentration                   = (c_double_MDS_int)               mDLL.getSymbol("getConcentration");
-    cGetCurrentValues                   = (c_doubleStar_MDS)               mDLL.getSymbol("GetCurrentValues");
-    cevalModel                          = (c_void_MDS_double_doubleStar)   mDLL.getSymbol("__evalModel");
-    cconvertToConcentrations            = (c_void_MDS)                     mDLL.getSymbol("convertToConcentrations");
-    cevalEvents                         = (c_void_MDS_double_doubleStar)   mDLL.getSymbol("evalEvents");
-    cupdateDependentSpeciesValues       = (c_void_MDS_doubleStar)          mDLL.getSymbol("updateDependentSpeciesValues");
-    ccomputeAllRatesOfChange            = (c_void_MDS)                     mDLL.getSymbol("computeAllRatesOfChange");
-    cAssignRates_a                      = (c_void_MDS)                     mDLL.getSymbol("AssignRatesA");
-    cAssignRates_b                      = (c_void_MDS_doubleStar)          mDLL.getSymbol("AssignRatesB");
-    ctestConstraints                    = (c_void_MDS)                     mDLL.getSymbol("testConstraints");
-    cresetEvents                        = (c_void_MDS)                     mDLL.getSymbol("resetEvents");
-    cInitializeRateRuleSymbols          = (c_void_MDS)                     mDLL.getSymbol("InitializeRateRuleSymbols");
-    cInitializeRates                    = (c_void_MDS)                     mDLL.getSymbol("InitializeRates");
-    csetConcentration                   = (c_void_MDS_int_double)          mDLL.getSymbol("setConcentration");
-    cComputeReactionRates               = (c_void_MDS_double_doubleStar)   mDLL.getSymbol("computeReactionRates");
-    ccomputeEventPriorities             = (c_void_MDS)                     mDLL.getSymbol("computeEventPriorities");
+    cInitModel                          = (c_int_MDS)                      mDLL->getSymbol("InitModel");
+    cInitModelData                      = (c_int_MDS)                      mDLL->getSymbol("InitModelData");
+    cinitializeInitialConditions        = (c_void_MDS)                     mDLL->getSymbol("initializeInitialConditions");
+    csetParameterValues                 = (c_void_MDS)                     mDLL->getSymbol("setParameterValues");
+    csetCompartmentVolumes              = (c_void_MDS)                     mDLL->getSymbol("setCompartmentVolumes");
+    cgetNumLocalParameters              = (c_int_MDS_int)                  mDLL->getSymbol("getNumLocalParameters");
+    csetBoundaryConditions              = (c_void_MDS)                     mDLL->getSymbol("setBoundaryConditions");
+    csetInitialConditions               = (c_void_MDS)                     mDLL->getSymbol("setInitialConditions");
+    cevalInitialAssignments             = (c_void_MDS)                     mDLL->getSymbol("evalInitialAssignments");
+    ccomputeRules                       = (c_void_MDS_doubleStar)          mDLL->getSymbol("computeRules");
+    cconvertToAmounts                   = (c_void_MDS)                     mDLL->getSymbol("convertToAmounts");
+    ccomputeConservedTotals             = (c_void_MDS)                     mDLL->getSymbol("computeConservedTotals");
+    cgetConcentration                   = (c_double_MDS_int)               mDLL->getSymbol("getConcentration");
+    cGetCurrentValues                   = (c_doubleStar_MDS)               mDLL->getSymbol("GetCurrentValues");
+    cevalModel                          = (c_void_MDS_double_doubleStar)   mDLL->getSymbol("__evalModel");
+    cconvertToConcentrations            = (c_void_MDS)                     mDLL->getSymbol("convertToConcentrations");
+    cevalEvents                         = (c_void_MDS_double_doubleStar)   mDLL->getSymbol("evalEvents");
+    cupdateDependentSpeciesValues       = (c_void_MDS_doubleStar)          mDLL->getSymbol("updateDependentSpeciesValues");
+    ccomputeAllRatesOfChange            = (c_void_MDS)                     mDLL->getSymbol("computeAllRatesOfChange");
+    cAssignRates_a                      = (c_void_MDS)                     mDLL->getSymbol("AssignRatesA");
+    cAssignRates_b                      = (c_void_MDS_doubleStar)          mDLL->getSymbol("AssignRatesB");
+    ctestConstraints                    = (c_void_MDS)                     mDLL->getSymbol("testConstraints");
+    cresetEvents                        = (c_void_MDS)                     mDLL->getSymbol("resetEvents");
+    cInitializeRateRuleSymbols          = (c_void_MDS)                     mDLL->getSymbol("InitializeRateRuleSymbols");
+    cInitializeRates                    = (c_void_MDS)                     mDLL->getSymbol("InitializeRates");
+    csetConcentration                   = (c_void_MDS_int_double)          mDLL->getSymbol("setConcentration");
+    cComputeReactionRates               = (c_void_MDS_double_doubleStar)   mDLL->getSymbol("computeReactionRates");
+    ccomputeEventPriorities             = (c_void_MDS)                     mDLL->getSymbol("computeEventPriorities");
     return true;
 }
 
@@ -205,93 +209,6 @@ bool CompiledExecutableModel::setupModelData()
     return true;
 }
 
-
-bool CompiledExecutableModel::oldsetupModelData()
-{
-    //See CGenerator writeInitModelDataFunction to see how this initialization was done in the DLL before
-    mData.modelName                     = createText(mNOM.getModelName());
-
-    //Variables...
-    mData.numIndependentVariables         = mCG.mNumIndependentSpecies;
-    mData.numDependentVariables           = mCG.mNumDependentSpecies;
-    mData.numTotalVariables                = mCG.mNumFloatingSpecies;        //???
-    mData.numBoundaryVariables            = mCG.mNumBoundarySpecies;
-    mData.numGlobalParameters            = mCG.mGlobalParameterList.size();
-    mData.numCompartments                = mCG.mCompartmentList.size();
-    mData.numReactions                    = mCG.mReactionList.size();
-    mData.numEvents                        = mCG.mNumEvents;
-
-    mData.amountsSize                    = mCG.mFloatingSpeciesConcentrationList.Count();
-    mData.amounts                         = new double[mData.amountsSize];
-
-    mData.dydtSize                        = mCG.mFloatingSpeciesConcentrationList.size();
-    mData.dydt                            = new double[mData.dydtSize];
-
-    mData.rateRulesSize                    = mCG.mMapRateRule.size();
-    mData.rateRules                        = new double[mData.rateRulesSize];
-
-    mData.ySize                            = mCG.mFloatingSpeciesConcentrationList.size();
-    mData.y                                = new double[mData.ySize];
-
-    mData.ratesSize                        = mCG.mNumReactions;
-    mData.rates                            = new double[mData.ratesSize];
-
-    mData.ctSize                        = mCG.mNumDependentSpecies;
-    mData.ct                            = new double[mData.ctSize];
-
-    mData.init_ySize                    = mCG.mFloatingSpeciesConcentrationList.Count();
-    mData.init_y                        = new double[mData.init_ySize];
-
-    mData.gpSize                        =  mCG.mNumGlobalParameters + mCG.mTotalLocalParmeters;
-    mData.gp                            = new double[mData.gpSize];
-
-    mData.cSize                            = mCG.mNumCompartments;
-    mData.c                                = new double[mData.cSize];
-
-    mData.bcSize                        = mCG.mNumBoundarySpecies;
-     mData.bc                            = new double[mData.bcSize];
-
-    mData.lpSize                         = mCG.mNumReactions;
-    mData.lp                            = new double[mData.lpSize];
-
-    mData.srSize                          = mCG.mNumModifiableSpeciesReferences;
-    mData.sr                            = new double[mData.srSize];
-
-    mData.localParameterDimensionsSize    = mCG.mNumReactions;
-    mData.localParameterDimensions        = new int[mData.localParameterDimensionsSize];
-
-    mData.eventPrioritiesSize             = mCG.mNumEvents;
-    mData.eventPriorities                = new double[mData.eventPrioritiesSize];
-
-    mData.eventStatusArraySize            = mCG.mNumEvents;
-    mData.eventStatusArray                = new bool[mData.eventStatusArraySize];
-
-    mData.previousEventStatusArraySize    = mCG.mNumEvents;
-    mData.previousEventStatusArray        = new bool[mData.previousEventStatusArraySize];
-
-    mData.eventPersistentTypeSize        = mCG.mNumEvents;
-    mData.eventPersistentType            = new bool[mData.eventPersistentTypeSize];
-
-    mData.eventTestsSize                = mCG.mNumEvents;
-     mData.eventTests                    = new double[mData.eventTestsSize];
-
-    mData.eventTypeSize                    = mCG.mNumEvents;
-    mData.eventType                        = new bool[mData.eventTypeSize];
-
-    if(mData.numEvents > 0)
-    {
-    //Event function pointer stuff
-        mData.eventAssignments         = (TEventAssignmentDelegate*)  new TEventAssignmentDelegate[mData.numEvents];
-        mData.computeEventAssignments     = (TComputeEventAssignmentDelegate*)  new TComputeEventAssignmentDelegate[mData.numEvents];
-        mData.performEventAssignments = (TPerformEventAssignmentDelegate*)  new TPerformEventAssignmentDelegate[mData.numEvents];
-        mData.eventDelays =             new TEventDelayDelegate[mData.numEvents];
-    }
-    if(cInitModel)
-    {
-        cInitModel(&mData);
-    }
-    return true;
-}
 
 void CompiledExecutableModel::setCompartmentVolumes()
 {
@@ -600,9 +517,9 @@ string CompiledExecutableModel::getInfo()
 {
     stringstream info;
     info << "CompiledExecutableModel" << endl;
-    info << "ModelName: "            <<  getModelName()<<endl;
-    info << "Model DLL Loaded: "    << (mDLL.isLoaded() ? "true" : "false")    <<endl;
-    info << "Initialized: "        << (mIsInitialized ? "true" : "false")    <<endl;
+    info << "ModelName: "             <<  getModelName()<<endl;
+    info << "Model DLL Loaded: "      << (mDLL->isLoaded() ? "true" : "false")    <<endl;
+    info << "Initialized: "           << (mIsInitialized ? "true" : "false")    <<endl;
     return info.str();
 }
 
@@ -611,9 +528,109 @@ ModelData& CompiledExecutableModel::getModelData()
     return mData;
 }
 
-CvodeInterface* CompiledExecutableModel::getCvodeInterface()
-{
+CvodeInterface* CompiledExecutableModel::getCvodeInterface() {
     return mCvodeInterface;
 }
+
+SymbolList &CompiledExecutableModel::getReactions() {
+    return mCG.mReactionList;
+}
+
+SymbolList &CompiledExecutableModel::getGlobalParameters()
+{
+    return mCG.mGlobalParameterList;
+}
+
+SymbolList &CompiledExecutableModel::getBoundarySpecies()
+{
+    return mCG.mBoundarySpeciesList;
+}
+
+SymbolList &CompiledExecutableModel::getCompartments()
+{
+    return mCG.mCompartmentList;
+}
+
+SymbolList &CompiledExecutableModel::getConservations()
+{
+    return mCG.mConservationList;
+}
+
+SymbolList &CompiledExecutableModel::getFloatingSpeciesAmounts()
+{
+    return mCG.mFloatingSpeciesAmountsList;
+}
+
+SymbolList &CompiledExecutableModel::getFloatingSpeciesConcentrations()
+{
+    return mCG.mFloatingSpeciesConcentrationList;
+}
+
+StringList CompiledExecutableModel::getCompartmentNames()
+{
+    StringList tmp;
+    for (u_int i = 0; i < mCG.mCompartmentList.size(); i++)
+    {
+        tmp.Add(mCG.mCompartmentList[i].name);
+    }
+    return tmp;
+}
+
+StringList CompiledExecutableModel::getConservationNames()
+{
+    StringList tmp; // = new ArrayList();
+    for (int i = 0; i < mCG.mConservationList.Count(); i++)
+    {
+        tmp.Add(mCG.mConservationList[i].name);
+    }
+    return tmp;
+}
+
+StringList CompiledExecutableModel::getGlobalParameterNames()
+{
+    StringList tmp;
+    for (int i = 0; i < mCG.mGlobalParameterList.size(); i++)
+    {
+        tmp.Add(mCG.mGlobalParameterList[i].name);
+    }
+
+    for (int i = 0; i < mCG.mConservationList.Count(); i++)
+    {
+        tmp.Add(mCG.mConservationList[i].name);
+    }
+
+    return tmp;
+}
+
+StringList CompiledExecutableModel::getReactionNames()
+{
+    StringList tmp;
+    for (int i = 0; i < mCG.mReactionList.size(); i++)
+    {
+        tmp.Add(mCG.mReactionList[i].name);
+    }
+    return tmp;
+}
+
+StringList CompiledExecutableModel::getFloatingSpeciesConcentrationNames()
+{
+    StringList tmp;
+    for (int i = 0; i < mCG.mFloatingSpeciesConcentrationList.size(); i++)
+    {
+        tmp.Add(mCG.mFloatingSpeciesConcentrationList[i].name);
+    }
+    return tmp;
+}
+
+StringList CompiledExecutableModel::getBoundarySpeciesNames()
+{
+    StringList tmp;
+    for (int i = 0; i < mCG.mBoundarySpeciesList.size(); i++)
+    {
+        tmp.Add(mCG.mBoundarySpeciesList[i].name);
+    }
+    return tmp;
+}
+
 
 } //Namespace rr

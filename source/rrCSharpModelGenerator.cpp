@@ -25,9 +25,8 @@ namespace rr
 {
 
 //CSharpModelGenerator::CSharpModelGenerator(RoadRunner* rr)
-CSharpModelGenerator::CSharpModelGenerator(LibStructural *ls, NOMSupport *nom)
-:
-ModelGenerator()
+CSharpModelGenerator::CSharpModelGenerator(LibStructural *ls, NOMSupport *nom) :
+CompiledModelGenerator()
 {
 }
 
