@@ -30,7 +30,7 @@ class RR_DECLSPEC CModelGenerator : public CompiledModelGenerator
         // the shared lib thats created.
         // this needs to belong to the model
         // TODO: fix this!
-        ModelSharedLibrary                  mModelLib;
+        ModelSharedLibrary                  *mModelLib;
 
         Compiler                            mCompiler;
 

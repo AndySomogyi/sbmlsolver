@@ -37,7 +37,7 @@ typedef TEventDelayDelegate* (callConv *c_GetEventDelayDelegatesStar)();
 class RR_DECLSPEC CompiledExecutableModel : public ExecutableModel, public rrObject
 {
 public:
-    CompiledExecutableModel(CModelGenerator& generator, ModelSharedLibrary& dll);
+    CompiledExecutableModel(CModelGenerator& generator, ModelSharedLibrary* dll);
     virtual                                         ~CompiledExecutableModel();
 
     virtual string                                  getModelName();
@@ -98,6 +98,13 @@ public:
     virtual SymbolList                              &getFloatingSpeciesAmounts();
     virtual SymbolList                              &getFloatingSpeciesConcentrations();
 
+    virtual StringList                              getCompartmentNames();
+    virtual StringList                              getConservationNames();
+    virtual StringList                              getGlobalParameterNames();
+    virtual StringList                              getReactionNames();
+    virtual StringList                              getFloatingSpeciesConcentrationNames();    //Just returns the Ids...!
+    virtual StringList                              getBoundarySpeciesNames();
+
 private:
 
     /**
@@ -142,7 +149,7 @@ private:
      */
     bool mIsInitialized;
 
-    ModelSharedLibrary& mDLL;
+    ModelSharedLibrary* mDLL;
 
     //Function pointers...
     c_int_MDS                               cInitModel;

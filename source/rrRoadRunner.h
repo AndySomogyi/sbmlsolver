@@ -204,7 +204,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
 		//Model generation
 		ExecutableModel*				getModel();
-		void                            resetModelGenerator();
 
 		bool                            loadSBMLFromFile(const string& fileName, const bool& forceReCompile = false);
 		bool                            loadSBML(const string& sbml, const bool& forceReCompile = false);

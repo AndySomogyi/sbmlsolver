@@ -28,23 +28,7 @@ class Compiler;
  */
 class RR_DECLSPEC ModelGenerator : public rrObject
 {
-
 public:
-    void                                reset();
-    int                                 getNumberOfReactions();
-    int                                 numAdditionalRates();        //this variable is the size of moMapRateRule
-
-    StringList                          getCompartmentList();
-    StringList                          getConservationList();
-
-    StringList                          getGlobalParameterList();
-    StringList                          getLocalParameterList(int reactionId);
-
-    StringList                          getReactionIds();
-
-    StringList                          getFloatingSpeciesConcentrationList();    //Just returns the Ids...!
-
-    StringList                          getBoundarySpeciesList();
 
     /**
      * certain model generators, such as the compiler based ones
@@ -97,7 +81,9 @@ public:
 
 protected:
 
+    void                                reset();
 
+    int                                 numAdditionalRates();        //this variable is the size of moMapRateRule
 
     /**
      * Refernce to libstruct library

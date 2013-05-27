@@ -28,7 +28,8 @@ CModelGenerator::CModelGenerator(const string& tempFolder, const string& support
 CompiledModelGenerator(),
 mTempFileFolder(tempFolder),
 mCompiler(supportCodeFolder, compiler),
-mModel(0)
+mModel(0),
+mModelLib(0)
 {}
 
 CModelGenerator::~CModelGenerator(){}
@@ -2527,10 +2528,10 @@ bool CModelGenerator::compileModel()
 bool CModelGenerator::unLoadModelDLL()
 {
     //Make sure the dll is unloaded
-    if(mModelLib.isLoaded())    //Make sure the dll is unloaded
+    if(mModelLib->isLoaded())    //Make sure the dll is unloaded
     {
-        mModelLib.unload();
-        return (!mModelLib.isLoaded()) ? true : false;
+        mModelLib->unload();
+        return (!mModelLib->isLoaded()) ? true : false;
     }
     return true;//No model is loaded..
 }
@@ -2552,7 +2553,7 @@ bool CModelGenerator::compileCurrentModel()
         return false;
     }
     Log(lDebug)<<"Model compiled successfully. ";
-    Log(lDebug)<<mModelLib.getFullFileName()<<" was created";
+    Log(lDebug)<<mModelLib->getFullFileName()<<" was created";
     return true;
 }
 
@@ -2565,7 +2566,7 @@ ExecutableModel* CModelGenerator::createModel()
     }
 
     //Create a model
-    if(mModelLib.isLoaded())
+    if(mModelLib->isLoaded())
     {
         //*CModelGenerator *codeGen = dynamic_cast<CModelGenerator*>(mModelGenerator);
         ExecutableModel *rrCModel = new CompiledExecutableModel(*this, mModelLib);
@@ -2651,6 +2652,7 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
     mLibStruct = ls;
     mNOM = nom;
     mCurrentSBML = sbml;
+    mModelLib = new ModelSharedLibrary();
 
 
 
@@ -2672,16 +2674,16 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
     string modelName = getMD5(sbml);
 
     //Check if model has been compiled
-    mModelLib.setPath(mTempFileFolder);
+    mModelLib->setPath(mTempFileFolder);
 
     //Creates a name for the shared lib
-    mModelLib.createName(modelName);
+    mModelLib->createName(modelName);
     if(forceReCompile)
     {
         //If the dll is loaded.. unload it..
-        if (mModelLib.isLoaded())
+        if (mModelLib->isLoaded())
         {
-            mModelLib.unload();
+            mModelLib->unload();
         }
     }
 
@@ -2691,7 +2693,7 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
     try
     {
         //Can't have multiple threads compiling to the same dll at the same time..
-        if(!FileExists(mModelLib.getFullFileName()) || forceReCompile == true)
+        if(!FileExists(mModelLib->getFullFileName()) || forceReCompile == true)
         {
             if(!compileModel())
             {
@@ -2699,7 +2701,7 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
                 return 0;
             }
 
-            if(!mModelLib.load())
+            if(!mModelLib->load())
             {
                 Log(lError)<<"Failed to load model DLL";
                 return 0;
@@ -2708,9 +2710,9 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
         else
         {
             Log(lDebug)<<"Model compiled files already generated.";
-            if(!mModelLib.isLoaded())
+            if(!mModelLib->isLoaded())
             {
-                if(!mModelLib.load())
+                if(!mModelLib->load())
                 {
                     Log(lError)<<"Failed to load model DLL";
                     return 0;
@@ -2728,8 +2730,17 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
         Log(lError)<<"Compiler problem: "<<ex.what();
     }
 
-
-    createModel();
+    //Create a model
+    if(mModelLib->isLoaded())
+    {
+        ExecutableModel *rrCModel = new CompiledExecutableModel(*this, mModelLib);
+        mModel = rrCModel;
+    }
+    else
+    {
+        Log(lError)<<"Failed to create model from DLL";
+        mModel = NULL;
+    }
 
     //Finally intitilaize the model..
     if(!initializeModel())
@@ -2738,9 +2749,12 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
         return 0;
     }
 
-    //*createDefaultSelectionLists();
-    return mModel;
+    // returning the completed model, we're done with it.
+    ExecutableModel *result = mModel;
+    mModel = 0;
+    mModelLib = 0;
 
+    return result;
 }
 
 Compiler* CModelGenerator::getCompiler()
