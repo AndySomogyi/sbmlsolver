@@ -16,11 +16,6 @@
 #include "rrOSSpecifics.h"
 //---------------------------------------------------------------------------
 
-static int gcount = 0;
-void hello() {
-    cout << "hello << " << gcount << "\n";
-}
-
 using namespace std;
 namespace rr
 {
@@ -48,7 +43,6 @@ NOMSupport::NOMSupport()
 mSBMLDoc(NULL),
 mModel(NULL)
 {
-    gcount++;
 }
 
 NOMSupport::~NOMSupport()
@@ -56,9 +50,6 @@ NOMSupport::~NOMSupport()
     cout << __FUNC__ << "\n";
     // the mModel is owned by the sbml doc.
     delete mSBMLDoc;
-
-    gcount--;
-    hello();
 }
 
 
