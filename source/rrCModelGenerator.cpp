@@ -226,13 +226,16 @@ void CModelGenerator::writeOutVariables(CodeBuilder& ignore)
 
 void CModelGenerator::writeComputeAllRatesOfChange(CodeBuilder& ignore, const int& numIndependentSpecies, const int& numDependentSpecies, DoubleMatrix& L0)
 {
-     //In header
-       mHeader.AddFunctionExport("void", "computeAllRatesOfChange(ModelData* md)");
+    //In header
+    mHeader.AddFunctionExport("void", "computeAllRatesOfChange(ModelData* md)");
     mSource<<Append("//Uses the equation: dSd/dt = L0 dSi/dt" + NL());
     mSource<<"void computeAllRatesOfChange(ModelData* md)\n{";
 
     mSource<<gNL<<gTab<<"int i;\n";
-    mSource<<"\n\tdouble* dTemp = (double*) malloc( sizeof(double)* (md->amountsSize + md->rateRulesSize) );\n"; //Todo: Check this
+
+    // calloc is often preferable as it creates zero initialized memory.
+    // this is free'd just before this function exits.
+    mSource<<"\n\tdouble* dTemp = (double*) calloc((md->amountsSize + md->rateRulesSize), sizeof(double));\n";
 
     for (int i = 0; i < numAdditionalRates(); i++)
     {
@@ -285,6 +288,8 @@ void CModelGenerator::writeComputeAllRatesOfChange(CodeBuilder& ignore, const in
         mSource<<"\n";
     }
 
+    // done with temp buffer
+    mSource << "\n\tfree(dTemp);\n";
     mSource<<Format("}{0}{0}", NL());
 }
 
