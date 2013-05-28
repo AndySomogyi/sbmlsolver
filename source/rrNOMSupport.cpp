@@ -2579,8 +2579,10 @@ void NOMSupport::modifyKineticLawsForLocalParameters(KineticLaw& oLaw, const str
                 {
                     ASTNode *node = readMathMLFromString(oLaw.getFormula().c_str());
                     changeParameterName(*node, parameterId, sPrefix);
-                    string sNode = SBML_formulaToString(node);
-                    oLaw.setFormula(sNode);
+                    char* cstr = SBML_formulaToString(node);
+                    oLaw.setFormula(cstr);
+                    delete node;
+                    free(cstr);
                 }
             }
             else
@@ -2630,8 +2632,10 @@ void NOMSupport::modifyKineticLawsForReaction(KineticLaw& oLaw, const string& re
                 {
                     ASTNode *node = readMathMLFromString(oLaw.getFormula().c_str());
                     changeParameterName(*node, parameterId, sPrefix);
-                    string sNode = SBML_formulaToString(node);
-                    oLaw.setFormula(sNode);
+                    char* cstr = SBML_formulaToString(node);
+                    oLaw.setFormula(cstr);
+                    delete node;
+                    free(cstr);
                 }
             }
             else

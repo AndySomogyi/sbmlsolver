@@ -252,7 +252,10 @@ vector<double> CompiledExecutableModel::getCurrentValues()
         return vals;
     }
 
-    double* values = cGetCurrentValues(&mData);     //The size of this double* is mMapRateRule.size(); ??
+    // in CModelGenerator::writeComputeRules, in effect, the following
+    // line is writen in the generated code:
+    // dResult = (double*) calloc( numAdditionalRates() sizeof(double))
+    double* values = cGetCurrentValues(&mData);
 
     int count = mCG.numAdditionalRates();
     if(values)
@@ -262,6 +265,9 @@ vector<double> CompiledExecutableModel::getCurrentValues()
             vals.push_back(values[i]);
         }
     }
+
+    // allocated in C, free'd here
+    free(values);
 
     return vals;
 }

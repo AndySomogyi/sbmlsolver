@@ -873,7 +873,7 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
     mSource<<Append("}" + NL() + NL());
     mHeader.AddFunctionExport("double*", "GetCurrentValues(ModelData* md)");
     mSource<<"double* GetCurrentValues(ModelData* md)\n{";
-    mSource<<"\n\tdouble* dResult = (double*) malloc(sizeof(double)*"<<numAdditionalRates()<<");\n";
+    mSource<<"\n\tdouble* dResult = (double*) calloc(" << numAdditionalRates() << ", sizeof(double));\n";
 
     for (int i = 0; i < mMapRateRule.size(); i++)
     {
