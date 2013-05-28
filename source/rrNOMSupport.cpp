@@ -16,23 +16,49 @@
 #include "rrOSSpecifics.h"
 //---------------------------------------------------------------------------
 
+static int gcount = 0;
+void hello() {
+    cout << "hello << " << gcount << "\n";
+}
+
 using namespace std;
 namespace rr
 {
 
 const string NOMSupport::STR_DoubleFormat("%.5G");
 
+/**
+ * some helper functions for changeSymbol.
+ * These are private symbols inside this file so they
+ * are not even visible anywhere else.
+ *
+ * Recursivly go through a ASTNode tree and change the name to time
+ */
+static void changeSymbol(ASTNode *node, const string& time, const int& targetType);
+
+/**
+ * Many sbml classes have isSetMath, setMath and getMath methods.
+ * This template replaces the name of each ASTNode item with sTimeSymbol
+ */
+template <class MathT>
+static void changeSymbolT(MathT* thing, const string& sTimeSymbol, const int& targetType);
+
 NOMSupport::NOMSupport()
 :
 mSBMLDoc(NULL),
 mModel(NULL)
-{}
+{
+    gcount++;
+}
 
 NOMSupport::~NOMSupport()
 {
     cout << __FUNC__ << "\n";
     // the mModel is owned by the sbml doc.
     delete mSBMLDoc;
+
+    gcount--;
+    hello();
 }
 
 
@@ -425,9 +451,12 @@ string NOMSupport::getName(SBase* element)
 string NOMSupport::convertMathMLToString(const string& sMathML)
 {
     ASTNode* node = libsbml::readMathMLFromString(sMathML.c_str());
-    string sResult = SBML_formulaToString(node);
+    char* cstr = SBML_formulaToString(node);
     delete node;
-    return sResult;
+
+    string str = cstr;
+    free(cstr);
+    return str;
 }
 //
 //        string NOMSupport::convertPowImpl(string sSBML)
@@ -719,15 +748,15 @@ string NOMSupport::convertMathMLToString(const string& sMathML)
 string NOMSupport::convertStringToMathML(const string& var0)
 {
     ASTNode *node = SBML_parseFormula(var0.c_str());
-    try
-    {
-        string sResult = writeMathMLToString(node);
-        return sResult;
-    }
-    catch(const Exception& msg)
-    {
-        throw(msg);
-    }
+    char *cstr = 0;
+
+    cstr = writeMathMLToString(node);
+    string result = cstr;
+
+    delete node;
+    free(cstr);
+
+    return result;
 }
 
 string NOMSupport::convertTime(const string& sArg, const string& sTimeSymbol)
@@ -875,6 +904,10 @@ string NOMSupport::convertTime(const string& sArg, const string& sTimeSymbol)
 //            }
 //        }
 //
+
+
+
+
 void NOMSupport::changeSymbol(Model& oModel, const string& sTimeSymbol, const int& targetType)
 {
     for (int i = 0; i < oModel.getNumReactions(); i++)
@@ -885,53 +918,59 @@ void NOMSupport::changeSymbol(Model& oModel, const string& sTimeSymbol, const in
             continue;
         }
 
-        if (r->getKineticLaw() != NULL && r->getKineticLaw()->isSetMath())
-        {
-            const ASTNode* node = (ASTNode*) r->getKineticLaw()->getMath();
-            const ASTNode* math = NOMSupport::changeSymbol((ASTNode*) node, sTimeSymbol, targetType);
-            r->getKineticLaw()->setMath(math);
-        }
+        changeSymbolT<KineticLaw>(r->getKineticLaw(), sTimeSymbol, targetType);
     }
 
     for (int i = 0; i < oModel.getNumRules(); i++)
     {
         Rule* r = oModel.getRule(i);
-        if (r->isSetMath())
-        {
-            r->setMath(changeSymbol((ASTNode*) r->getMath(), sTimeSymbol, targetType));
-        }
+        changeSymbolT<Rule>(r, sTimeSymbol, targetType);
     }
 
     for (int i = 0; i < oModel.getNumInitialAssignments(); i++)
     {
         InitialAssignment *initialAssignment = oModel.getInitialAssignment(i);
-        if (initialAssignment->isSetMath())
-        {
-            initialAssignment->setMath(changeSymbol((ASTNode*) initialAssignment->getMath(), sTimeSymbol, targetType));
-        }
+        changeSymbolT<InitialAssignment>(initialAssignment, sTimeSymbol, targetType);
     }
 
     for (int i = 0; i < oModel.getNumEvents(); i++)
     {
         Event *oEvent = oModel.getEvent(i);
-        if (oEvent->getTrigger()->isSetMath())
-        {
-            oEvent->getTrigger()->setMath((const ASTNode*) changeSymbol((ASTNode*) oEvent->getTrigger()->getMath(), sTimeSymbol, targetType));
-        }
+        Trigger *trigger = oEvent->getTrigger();
+        changeSymbolT<Trigger>(trigger, sTimeSymbol, targetType);
 
-        if (oEvent->isSetDelay() && oEvent->getDelay()->isSetMath())
-        {
-            oEvent->getDelay()->setMath((ASTNode*) changeSymbol((ASTNode*) oEvent->getDelay()->getMath(), sTimeSymbol, targetType));
-        }
+
+        Delay *delay = oEvent->getDelay();
+        changeSymbolT<Delay>(delay, sTimeSymbol, targetType);
 
         for (int j = 0; j < oEvent->getNumEventAssignments(); j++)
         {
             EventAssignment *assignment = oEvent->getEventAssignment(j);
-            if (assignment->isSetMath())
-            {
-                assignment->setMath(changeSymbol((ASTNode*) assignment->getMath(), sTimeSymbol, targetType));
-            }
+            changeSymbolT<EventAssignment>(assignment, sTimeSymbol, targetType);
         }
+    }
+}
+
+static void changeSymbol(ASTNode *node, const string& time, const int& targetType)
+{
+    int c;
+    if (node->getType() == targetType)
+        node->setName(time.c_str());
+
+    for (c = 0; c < node->getNumChildren(); c++)
+        changeSymbol(node->getChild(c), time, targetType);
+}
+
+
+template <class MathT>
+static void changeSymbolT(MathT* thing, const string& sTimeSymbol, const int& targetType)
+{
+    if (thing && thing->isSetMath())
+    {
+        ASTNode *math = new ASTNode(*thing->getMath());
+        changeSymbol(math, sTimeSymbol, targetType);
+        thing->setMath(math);
+        delete math;
     }
 }
 
@@ -957,16 +996,10 @@ void NOMSupport::changeSymbol(Model& oModel, const string& sTimeSymbol, const in
 //            }
 //        }
 //
-const ASTNode* NOMSupport::changeSymbol(ASTNode* node, const string& time, const int& targetType)
-{
-    int c;
-    if (node->getType() == targetType)
-        node->setName(time.c_str());
 
-    for (c = 0; c < node->getNumChildren(); c++)
-        changeSymbol(node->getChild(c), time, targetType);
-    return node;
-}
+
+
+
 
 //        ASTNode NOMSupport::ReplaceSymbol(ASTNode node, string oldId, string newId)
 //        {
@@ -1657,8 +1690,9 @@ ArrayList NOMSupport::getNthEvent(const int& arg)
         throw Exception("The model does not have a Event corresponding to the index provided");
     }
 
-    string trigger = SBML_formulaToString(oEvent->getTrigger()->getMath());
+    char* trigger  = SBML_formulaToString(oEvent->getTrigger()->getMath());
     triggerAssignmentsList.Add(trigger);
+    free(trigger);
 
     string delay;
     if (!oEvent->isSetDelay())
@@ -2993,7 +3027,7 @@ StringList NOMSupport::getSymbols(ASTNode* math)
 }
 
 
-deque<Rule> NOMSupport::reorderAssignmentRules(deque<Rule>& assignmentRules)
+deque<Rule*> NOMSupport::reorderAssignmentRules(deque<Rule*>& assignmentRules)
 {
     if (assignmentRules.size() < 2)
     {
@@ -3002,7 +3036,7 @@ deque<Rule> NOMSupport::reorderAssignmentRules(deque<Rule>& assignmentRules)
 
     //Todo: Need XML file to test this:
 ////            var result = new List<Rule>();
-    deque<Rule> result;
+    deque<Rule*> result;
 
 //    var allSymbols = new Dictionary<int, List<string>>();
     map<int, StringList > allSymbols;
@@ -3015,8 +3049,7 @@ deque<Rule> NOMSupport::reorderAssignmentRules(deque<Rule>& assignmentRules)
     // read id list, initialize all symbols
     for (int index = 0; index < assignmentRules.size(); index++)
     {
-        Rule aRule = assignmentRules[index];
-        AssignmentRule *rule = (AssignmentRule*) &aRule;
+        AssignmentRule *rule = (AssignmentRule*)assignmentRules[index];
         string variable = rule->getVariable();
         if (!rule->isSetMath())
         {
@@ -3047,7 +3080,7 @@ deque<Rule> NOMSupport::reorderAssignmentRules(deque<Rule>& assignmentRules)
         {
             if (allSymbols[index].Contains( (*id) ))
             {
-                map[(assignmentRules[index]).getVariable()].Add( (*id) );
+                map[(assignmentRules[index])->getVariable()].Add( (*id) );
             }
         }
     }
@@ -3077,8 +3110,8 @@ deque<Rule> NOMSupport::reorderAssignmentRules(deque<Rule>& assignmentRules)
             {
                 int second = order[j];
 
-                string secondVar = assignmentRules[second].getVariable();
-                string firstVar = assignmentRules[first].getVariable();
+                string secondVar = assignmentRules[second]->getVariable();
+                string firstVar = assignmentRules[first]->getVariable();
 
                 if (map[firstVar].Contains(secondVar))
                 {
@@ -3109,10 +3142,10 @@ deque<Rule> NOMSupport::reorderAssignmentRules(deque<Rule>& assignmentRules)
 
 void NOMSupport::reorderRules(SBMLDocument& doc, Model& model)
 {
-    int numRules = (int) model.getNumRules();
-    deque<Rule> assignmentRules;
-    deque<Rule> rateRules;
-    deque<Rule> algebraicRules;
+    const int numRules = (int) model.getNumRules();
+    deque<Rule*> assignmentRules;
+    deque<Rule*> rateRules;
+    deque<Rule*> algebraicRules;
 
     for (int i = numRules - 1; i >= 0; i--)
     {
@@ -3120,14 +3153,14 @@ void NOMSupport::reorderRules(SBMLDocument& doc, Model& model)
         switch (current->getTypeCode())
         {
             case SBML_ALGEBRAIC_RULE:
-                algebraicRules.push_front(*current);
+                algebraicRules.push_front(current);
                 break;
             case SBML_RATE_RULE:
-                rateRules.push_front(*current);
+                rateRules.push_front(current);
                 break;
             default:
             case SBML_ASSIGNMENT_RULE:
-                assignmentRules.push_front(*current);
+                assignmentRules.push_front(current);
                 break;
         }
     }
@@ -3139,21 +3172,27 @@ void NOMSupport::reorderRules(SBMLDocument& doc, Model& model)
     //    assignmentRules.ForEach(item => model.addRule(item));
     for(int i = 0; i < assignmentRules.size(); i++)
     {
-        model.addRule( new Rule(assignmentRules[i]));
+        model.addRule(assignmentRules[i]);
     }
 
     //    rateRules.ForEach(item => model.addRule(item));
     for(int i = 0; i < rateRules.size(); i++)
     {
-        model.addRule(new Rule(rateRules[i]));
+        model.addRule(rateRules[i]);
     }
 
     //    algebraicRules.ForEach(item => model.addRule(item));
     for(int i = 0; i < algebraicRules.size(); i++)
     {
-        model.addRule(new Rule(algebraicRules[i]));
+        model.addRule(algebraicRules[i]);
     }
 
+    if (numRules != model.getNumRules())
+    {
+        string msg = "Fatal error, the mumber of rules in a model was changed by ";
+        msg = msg + __FUNC__;
+        throw Exception(msg);
+    }
 }
 
 void NOMSupport::loadSBML(const string& var0, const string& sTimeSymbol)
@@ -3165,14 +3204,11 @@ void NOMSupport::loadSBML(const string& var0, const string& sTimeSymbol)
         return;
     }
 
-    Model &aModel = *mModel;
+    changeTimeSymbol(*mModel, sTimeSymbol);
+    changeSymbol(*mModel, "avogadro", AST_NAME_AVOGADRO);
 
-    changeTimeSymbol(aModel, sTimeSymbol);
-    changeSymbol(aModel, "avogadro", AST_NAME_AVOGADRO);
-    SBMLDocument &sbmlDoc = *mSBMLDoc;
-
-    modifyKineticLaws(sbmlDoc, aModel);
-    reorderRules(sbmlDoc, aModel);
+    modifyKineticLaws(*mSBMLDoc, *mModel);
+    reorderRules(*mSBMLDoc, *mModel);
     buildSymbolTable();
 }
 
@@ -3410,7 +3446,6 @@ string NOMSupport::getInitialAssignmentFor(const string& sbmlId)
 void NOMSupport::loadSBML(const string& sbmlStr)
 {
     delete mSBMLDoc;
-
     // model is owned by the sbml doc.
 
     mSBMLDoc = readSBMLFromString(sbmlStr.c_str());
@@ -3489,17 +3524,17 @@ void NOMSupport::setValue(const string& sId, const double& dValue)
 string NOMSupport::validateSBML(const string& sModel)
 {
     SBMLDocument *oDoc = readSBMLFromString(sModel.c_str());
+    StringBuilder oBuilder;
     if (oDoc->getNumErrors() > 0)
     {
-        StringBuilder oBuilder;// = new StringBuilder();
         for (int i = 0; i < oDoc->getNumErrors(); i++)
         {
             ArrayList oList = getNthError(i);
-
-            //oBuilder.Append(oList[0] + ": (" + oList[1] + ":" + oList[2] + "[" + oList[3] + "]) " + oList[4] + Environment.NewLine);
         }
+        delete oDoc;
         throw Exception("SBML Validation failed: " + oBuilder.ToString());
     }
+    delete oDoc;
     return "Validation Successfull";
 }
 
