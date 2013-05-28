@@ -9,7 +9,7 @@
 #include "nvector/nvector_serial.h"
 #include "cvode/cvode_dense.h"
 #include "rrRoadRunner.h"
-#include "rrModelFromC.h"
+#include "rrExecutableModel.h"
 #include "rrException.h"
 #include "rrModelState.h"
 #include "rrLogger.h"
@@ -18,7 +18,6 @@
 #include "rrCVODEInterface.h"
 #include "rrUtils.h"
 #include "rrEvent.h"
-#include "rrParameter.h"
 //---------------------------------------------------------------------------
 
 using namespace std;
@@ -28,7 +27,6 @@ namespace rr
 int InternalFunctionCall(realtype t, N_Vector cv_y, N_Vector cv_ydot, void *f_data);
 int InternalRootCall (realtype t, N_Vector y, realtype *gout, void *g_data);
 
-
 void ModelFcn(int n, 	double time, double* y, double* ydot, void* userData);
 void EventFcn(			double time, double* y, double* gdot, void* userData);
 
@@ -37,7 +35,7 @@ RR_DECLSPEC void        SetVector (N_Vector v, int Index, double Value);
 RR_DECLSPEC double      GetVector (N_Vector v, int Index);
 
 
-CvodeInterface::CvodeInterface(RoadRunner* rr, ModelFromC *aModel, const double& _absTol, const double& _relTol)
+CvodeInterface::CvodeInterface(RoadRunner* rr, ExecutableModel *aModel, const double& _absTol, const double& _relTol)
 
 :
 mDefaultReltol(_relTol),
@@ -105,7 +103,7 @@ void CvodeInterface::setTolerances(const double& aTol, const double& rTol)
 	mRelTol = rTol;
 }
 
-ModelFromC*	CvodeInterface::getModel()
+ExecutableModel*	CvodeInterface::getModel()
 {
 	return mTheModel;
 }
@@ -122,12 +120,12 @@ int CvodeInterface::allocateCvodeMem ()
         return CV_SUCCESS;
     }
 
+    double t0 = 0.0;
     if(CVodeSetUserData(mCVODE_Memory, (void*) this) != CV_SUCCESS)
     {
     	Log(lError)<<"Problem in setting CVODE User data";
     }
 
-    double t0 = 0.0;
     int result =  CVodeInit(mCVODE_Memory, InternalFunctionCall, t0, mAmounts);
 
     if (result != CV_SUCCESS)
@@ -287,7 +285,7 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
     	return;
     }
 
-    ModelFromC *model = cvInstance->getModel();
+    ExecutableModel *model = cvInstance->getModel();
     ModelState oldState(*model);
 
     int size = model->mData.amountsSize + model->mData.rateRulesSize;
@@ -341,7 +339,7 @@ void EventFcn(double time, double* y, double* gdot, void* userData)
     	return;
     }
 
-    ModelFromC *model = cvInstance->getModel();
+    ExecutableModel *model = cvInstance->getModel();
 
     ModelState* oldState = new ModelState(*model);
 
@@ -374,7 +372,7 @@ bool CvodeInterface::haveVariables()
     return (mNumAdditionalRules + mNumIndependentVariables > 0) ? true : false;
 }
 
-void CvodeInterface::initializeCVODEInterface(ModelFromC *oModel)
+void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
 {
     if(!oModel)
     {
@@ -810,13 +808,13 @@ void CvodeInterface::assignResultsToModel()
     mTheModel->computeAllRatesOfChange();
 }
 
-void CvodeInterface::assignNewVector(ModelFromC *model)
+void CvodeInterface::assignNewVector(ExecutableModel *model)
 {
     assignNewVector(model, false);
 }
 
 // Restart the simulation using a different initial condition
-void CvodeInterface::assignNewVector(ModelFromC *oModel, bool bAssignNewTolerances)
+void CvodeInterface::assignNewVector(ExecutableModel *oModel, bool bAssignNewTolerances)
 {
     vector<double> dTemp = mTheModel->getCurrentValues();
     double dMin = mAbsTol;
@@ -885,7 +883,7 @@ void CvodeInterface::setAbsTolerance(int index, double dValue)
     SetVector(mAbstolArray, index, dTolerance);
 }
 
-void CvodeInterface::reStart(double timeStart, ModelFromC* model)
+void CvodeInterface::reStart(double timeStart, ExecutableModel* model)
 {
     assignNewVector(model);
 

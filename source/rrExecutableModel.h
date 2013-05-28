@@ -2,6 +2,10 @@
 #define rrModelFromCH
 #include <list>
 #include "rrModelSharedLibrary.h"
+//#include "rrTEventDelayDelegate.h"
+//#include "rrTEventAssignmentDelegate.h"
+//#include "rrTComputeEventAssignmentDelegate.h"
+//#include "rrTPerformEventAssignmentDelegate.h"
 #include "rrModelData.h"
 #include "rrNOMSupport.h"
 #include "rr-libstruct/lsLibStructural.h"
@@ -23,14 +27,16 @@ typedef double* (rrCallConv *c_doubleStar_MDS)(ModelData*);
 typedef void    (rrCallConv *c_void_MDS_double_doubleStar)(ModelData*, double, double*);
 typedef void    (rrCallConv *c_void_MDS_int_double)(ModelData*, int, double);
 
+
 typedef TComputeEventAssignmentDelegate* (rrCallConv *c_TComputeEventAssignmentDelegateStar)();
 typedef TEventDelayDelegate* (rrCallConv *c_GetEventDelayDelegatesStar)();
 
 
-class RR_DECLSPEC ModelFromC : public rrObject
+class RR_DECLSPEC ExecutableModel : public rrObject
 {
     protected:
 												//This structure holds data generated/used in the shared model lib..
+                                                //some of it could be made global in the dll later on, like modelName..
         int                                     mDummyInt;
         int                                     mDummyDouble;
         double*                                 mDummyDoubleArray;
@@ -98,8 +104,8 @@ class RR_DECLSPEC ModelFromC : public rrObject
 		c_void_MDS_double_doubleStar            cComputeReactionRates;
         c_void_MDS                              ccomputeEventPriorities;
 
-		                                        ModelFromC(CGenerator& generator, ModelSharedLibrary& dll);
-                                               ~ModelFromC();
+		                                        ExecutableModel(CGenerator& generator, ModelSharedLibrary& dll);
+                                               ~ExecutableModel();
         //Non inherited
         bool                                    setupModelData();
         bool                                    setupDLLFunctions();
@@ -975,7 +981,7 @@ class RR_DECLSPEC ModelFromC : public rrObject
 ////        }
 ////        private static string CleanEquation(string equation)
 ////        {
-////            if (string.isNullOrEmpty(equation)) return "0";
+////            if (string.IsNullOrEmpty(equation)) return "0";
 ////
 ////            if (equation == " + ") return "0";
 ////            if (equation == " * ") return "1";
@@ -1003,7 +1009,7 @@ class RR_DECLSPEC ModelFromC : public rrObject
 ////        private string substituteTerms(string reactionName, string inputEquation, bool bFixAmounts)
 ////        {
 ////            string equation = CleanEquation(inputEquation);
-////            if (string.isNullOrEmpty(equation)) return "0";
+////            if (string.IsNullOrEmpty(equation)) return "0";
 ////
 ////            var s = new Scanner.Scanner();
 ////            Stream ss = new MemoryStream(Encoding.Default.GetBytes(equation));
@@ -2437,7 +2443,7 @@ class RR_DECLSPEC ModelFromC : public rrObject
 ////                    for (int j = 0; j < oTemp.Count; j++)
 ////                    {
 ////                        sb.AppendFormat("\t\t{0} = values[{1}];{2}", oTemp[j], j, NL());
-////                        if (((string)oTemp[j]).Trim().startsWith("_c["))
+////                        if (((string)oTemp[j]).Trim().StartsWith("_c["))
 ////                        {
 ////                            sb.Append("\t\tconvertToConcentrations();" + NL());
 ////                        }

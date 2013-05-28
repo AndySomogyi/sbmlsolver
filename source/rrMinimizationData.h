@@ -57,20 +57,20 @@ class RR_DECLSPEC MinimizationData : public rrObject
 };
 
 template<>
-std::string Parameter< MinimizationData >::getType() const
+inline std::string Parameter< MinimizationData >::getType() const
 {
     return "Pointer To Minimization Result";
 }
 
 template<>
-string Parameter< MinimizationData >::getValueAsString() const
+inline string Parameter< MinimizationData >::getValueAsString() const
 {
     Log(lInfo)<<"Getting minimization data object as a string is not implemented";
 	return "";//    throw("You can't get the value of this structure as string.. ");
 }
 
 template<>
-void Parameter< MinimizationData >::setValueFromString(const string& val)
+inline void Parameter< MinimizationData >::setValueFromString(const string& val)
 {
 	//We can't setup this data structure from a string... :(
     Log(lInfo)<<"Setting minimization data object from string is not implemented";
@@ -78,7 +78,7 @@ void Parameter< MinimizationData >::setValueFromString(const string& val)
 }
 
 template<>
-void Parameter< MinimizationData >::setValue(MinimizationData* val)
+inline void Parameter< MinimizationData >::setValue(MinimizationData* val)
 {
 	mValue = *(val);
 }

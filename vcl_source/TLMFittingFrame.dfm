@@ -1,11 +1,10 @@
 object LMFittingFrame: TLMFittingFrame
   Left = 0
   Top = 0
-  Width = 815
+  Width = 451
   Height = 304
   Align = alClient
   TabOrder = 0
-  ExplicitWidth = 451
   object Splitter3: TSplitter
     Left = 177
     Top = 0
@@ -132,8 +131,9 @@ object LMFittingFrame: TLMFittingFrame
         Top = 32
         Width = 83
         Height = 21
-        EditLabel.Width = 3
+        EditLabel.Width = 40
         EditLabel.Height = 13
+        EditLabel.Caption = 'paraEdit'
         TabOrder = 0
         Text = '0.00'
       end

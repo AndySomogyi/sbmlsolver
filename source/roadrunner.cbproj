@@ -197,6 +197,9 @@
             <DependentOn>rrException.h</DependentOn>
             <BuildOrder>18</BuildOrder>
         </CppCompile>
+        <CppCompile Include="rrExecutableModel.cpp">
+            <BuildOrder>80</BuildOrder>
+        </CppCompile>
         <CppCompile Include="rrFileLog.cpp">
             <DependentOn>rrFileLog.h</DependentOn>
             <BuildOrder>19</BuildOrder>
@@ -260,10 +263,6 @@
         <CppCompile Include="rrMinimizationData.cpp">
             <DependentOn>rrMinimizationData.h</DependentOn>
             <BuildOrder>80</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="rrModelFromC.cpp">
-            <DependentOn>rrModelFromC.h</DependentOn>
-            <BuildOrder>29</BuildOrder>
         </CppCompile>
         <CppCompile Include="rrModelGenerator.cpp">
             <DependentOn>rrModelGenerator.h</DependentOn>

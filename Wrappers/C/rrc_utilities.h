@@ -43,41 +43,39 @@
 #define rrc_utilitiesH
 #include "rrc_exporter.h"
 #include "rrc_types.h"
-#include "rr-libstruct/lsMatrix.h"
-#include "rrRoadRunnerData.h"
-#include "rrStringList.h"
-#include "rrNewArrayList.h"
-#include "rrParameter.h"
-#include "rrUtils.h"
+//#include "rr-libstruct/lsMatrix.h"
+//#include "rrRoadRunnerData.h"
+//#include "rrStringList.h"
+//#include "rrNewArrayList.h"
+//#include "rrParameter.h"
+//#include "rrUtils.h"
 #include "rrc_exporter.h"
 #include "rrc_macros.h"
 //---------------------------------------------------------------------------
 
 #if defined(__cplusplus)
-
-namespace rr
-{
-class RoadRunner;
-class RoadRunnerList;
-class Plugin;
-class MinimizationData;
-}
-using std::vector;
-using std::string;
+//namespace rr
+//{
+//class RoadRunner;
+//class RoadRunnerList;
+//class Plugin;
+//class MinimizationData;
+//}
+//using std::vector;
+//using std::string;
 
 namespace rrc
 {
 
-//Internal prototypes (not exported)
-void                                    setError(const string& err);
-bool                                    copyVector(const RRVector* source, vector<double>& dest);
-RRVectorHandle                          createVectorFromVector_double(const vector<double>& vec);
-vector<double>                          createVectorFromRRVector(const RRVector* vec);
-RRMatrixHandle                          createMatrix(const ls::DoubleMatrix* mat);
+
+//bool                                    copyVector(const RRVector* source, vector<double>& dest);
+//RRVectorHandle                          createVectorFromVector_double(const vector<double>& vec);
+//vector<double>                          createVectorFromRRVector(const RRVector* vec);
+//RRMatrixHandle                          createMatrix(const ls::DoubleMatrix* mat);
 
 //Lists and arrays
-RRStringArrayHandle                     createList(const rr::StringList& aList);
-RRListHandle 		                    createArrayList(const rr::NewArrayList& aList);
+//RRStringArrayHandle                     createList(const rr::StringList& aList);
+//RRListHandle 		                    createArrayList(const rr::NewArrayList& aList);
 
 extern "C"
 {
@@ -99,22 +97,22 @@ extern const char* 	INVALID_HANDLE_ERROR_MSG;
 C_DECL_SPEC char* 		 rrcCallConv 	getFileContent(const char* fName);
 
 //Result data
-C_DECL_SPEC RRDataHandle rrcCallConv 	createRRData(const rr::RoadRunnerData& result);
+//C_DECL_SPEC RRDataHandle rrcCallConv 	createRRData(const rr::RoadRunnerData& result);
 
 //Cast void* handle to RoadRunner instance pointer, throw if it fails
-rr::RoadRunner* 						castFrom(RRHandle rrHandle);
+//rr::RoadRunner* 						castFrom(RRHandle rrHandle);
 
 //Cast void* handle to RoadRunner instance pointer, throw if it fails
-rr::Plugin* 							castToPlugin(RRPluginHandle handle);
+//rr::Plugin* 							castToPlugin(RRPluginHandle handle);
 
 //Cast void* handle to RoadRunner instance pointer, throw if it fails
-rr::BaseParameter*						castToParameter(RRParameterHandle handle);
+//rr::BaseParameter*						castToParameter(RRParameterHandle handle);
 
 //Cast void* handle to MinimizationData instance pointer, throw if it fails
-rr::MinimizationData*					castToMinimizationData(RRMinimizationDataHandle handle);
+//rr::MinimizationData*					castToMinimizationData(RRMinimizationDataHandle handle);
 
 //Cast
-rr::RoadRunnerList* 					getRRList(RRInstanceListHandle handle);
+//rr::RoadRunnerList* 					getRRList(RRInstanceListHandle handle);
 
 // --------------------------------------------------------------------
 // List support routines

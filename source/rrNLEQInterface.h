@@ -2,7 +2,7 @@
 #define rrNLEQInterfaceH
 #include <vector>
 #include "rrObject.h"
-#include "rrModelFromC.h"
+#include "rrExecutableModel.h"
 #include "rrSteadyStateSolver.h"
 using std::vector;
 
@@ -22,7 +22,7 @@ class RR_DECLSPEC NLEQInterface : public SteadyStateSolver
         double                         *XScal;
         long                            ierr;
         long                           *iopt;
-        static ModelFromC              *model;     // Model generated from the SBML. Static so we can access it from standalone function
+        static ExecutableModel         *model;     // Model generated from the SBML. Static so we can access it from standalone function
         static long                     n;
         void							setup();
 
@@ -31,11 +31,11 @@ class RR_DECLSPEC NLEQInterface : public SteadyStateSolver
                                         /// Creates a new Instance of NLEQ for the given Model
                                         /// </summary>
                                         /// <param name="model">the model to create NLEQ for</param>
-                                        NLEQInterface(ModelFromC *_model = NULL);
+                                        NLEQInterface(ExecutableModel *_model = NULL);
                                        ~NLEQInterface();
 		Capability&						getCapability();
         bool                            isAvailable();
-        static ModelFromC*              getModel();
+        static ExecutableModel*         getModel();
         static long						getN();
         int                             defaultMaxInterations;
         int                             maxIterations;
@@ -90,5 +90,3 @@ class RR_DECLSPEC NLEQInterface : public SteadyStateSolver
 }
 
 #endif
-
-

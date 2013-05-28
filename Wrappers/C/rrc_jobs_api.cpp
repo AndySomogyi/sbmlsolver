@@ -11,6 +11,7 @@
 #include "rrLoadModelThread.h"
 #include "rrSimulateThread.h"
 #include "rrc_utilities.h" 		// Need to include this before the support header..
+#include "rrc_cpp_support.h" 		// Need to include this before the support header..
 #include "rrc_jobs_api.h"
 //---------------------------------------------------------------------------
 

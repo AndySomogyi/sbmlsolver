@@ -35,7 +35,7 @@ using namespace ls;
 
 class ModelGenerator;
 class SBMLModelSimulation;
-class ModelFromC;
+class ExecutableModel;
 class CSharpGenerator;
 class CGenerator;
 
@@ -75,7 +75,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
    		static Mutex	 				mLibSBMLMutex;
    		static Mutex	 				mCompileMutex;
-		ModelFromC*                     mModel;
+		ExecutableModel*                     mModel;
 		ModelSharedLibrary	  	  		mModelLib;
 		string                          mCurrentSBML;
 		LibStructural                   mLS;                                //libstruct library
@@ -168,13 +168,13 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
 
 		//Model generation
-		ModelFromC*						getModel();
+		ExecutableModel*				getModel();
 		CGenerator*						getCGenerator();
 		CSharpGenerator*				getCSharpGenerator();
 		void                            resetModelGenerator();
 		bool                            compileModel();
 		bool                            compileCurrentModel();
-		ModelFromC*                     createModel();
+		ExecutableModel*                createModel();
 		bool                            generateModelCode(const string& sbml = gEmptyString, const string& baseName = gEmptyString);
 		ModelGenerator*                 getCodeGenerator();
 		string                          getCHeaderCode();

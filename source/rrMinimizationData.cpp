@@ -38,6 +38,7 @@ void MinimizationData::init()
 bool MinimizationData::reset()
 {
 	mParameters.clear();
+	return true;
 }
 
 void MinimizationData::setExperimentalDataSelectionList(const string& selList)

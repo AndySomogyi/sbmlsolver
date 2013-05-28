@@ -11,6 +11,7 @@
 #include "rrUtils.h"
 #include "rrStringUtils.h"
 #include "rrc_macros.h"
+#include "rrc_cpp_support.h"
 //---------------------------------------------------------------------------
 
 namespace rrc

@@ -185,6 +185,9 @@
             <DependentOn>..\..\source\rrException.h</DependentOn>
             <BuildOrder>17</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\rrExecutableModel.cpp">
+            <BuildOrder>80</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrFileLog.cpp">
             <DependentOn>..\..\source\rrFileLog.h</DependentOn>
             <BuildOrder>18</BuildOrder>
@@ -246,10 +249,6 @@
         </CppCompile>
         <CppCompile Include="..\..\source\rrMinimizationResult.cpp">
             <BuildOrder>81</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="..\..\source\rrModelFromC.cpp">
-            <DependentOn>..\..\source\rrModelFromC.h</DependentOn>
-            <BuildOrder>31</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrModelGenerator.cpp">
             <DependentOn>..\..\source\rrModelGenerator.h</DependentOn>
@@ -344,6 +343,9 @@
         <CppCompile Include="..\..\source\rrScanner.cpp">
             <DependentOn>..\..\source\rrScanner.h</DependentOn>
             <BuildOrder>46</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrSelectionRecord.cpp">
+            <BuildOrder>81</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrSimulate.cpp">
             <DependentOn>..\..\source\rrSimulate.h</DependentOn>

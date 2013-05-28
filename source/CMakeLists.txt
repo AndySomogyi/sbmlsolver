@@ -32,7 +32,7 @@ rrLogContainer
 rrLoggerUtils
 rrLogLevel
 rrLogOutput
-rrModelFromC
+rrExecutableModel
 rrModelState
 rrNOMSupport
 rrObject
@@ -91,6 +91,7 @@ rrSimulate
 rrSimulateThread
 rrRoadRunnerData
 rrSelectionRecord
+rrMinimizationData
 )
 
 if(RR_BUILD_SHARED_CORE)

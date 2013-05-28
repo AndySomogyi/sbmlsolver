@@ -13,7 +13,7 @@
 #include "rrCSharpGenerator.h"
 #include "rrCGenerator.h"
 #include "rrUtils.h"
-#include "rrModelFromC.h"
+#include "rrExecutableModel.h"
 #include "rrSBMLModelSimulation.h"
 #include "rr-libstruct/lsLA.h"
 #include "rr-libstruct/lsLibla.h"
@@ -77,7 +77,6 @@ mRRCoreCapabilities("Road Runner Core", "", "Core RoadRunner Parameters")
 
     setTempFileFolder(tempFolder);
 	Log(lDebug4)<<"In RoadRunner ctor";
-    mLS;
     mCSharpGenerator    = new CSharpGenerator(mLS, mNOM);
     mCGenerator         = new CGenerator(mLS, mNOM);
     mModelGenerator     = mCGenerator;
@@ -116,7 +115,7 @@ RoadRunner::~RoadRunner()
 	mInstanceCount--;
 }
 
-ModelFromC*	RoadRunner::getModel()
+ExecutableModel*	RoadRunner::getModel()
 {
 	return mModel;
 }
@@ -926,7 +925,7 @@ bool RoadRunner::compileModel()
     return true;
 }
 
-ModelFromC* RoadRunner::createModel()
+ExecutableModel* RoadRunner::createModel()
 {
     if(mModel)
     {
@@ -938,7 +937,7 @@ ModelFromC* RoadRunner::createModel()
     if(mModelLib.isLoaded())
     {
         CGenerator *codeGen = dynamic_cast<CGenerator*>(mModelGenerator);
-        ModelFromC *rrCModel = new ModelFromC(*codeGen, mModelLib);
+        ExecutableModel *rrCModel = new ExecutableModel(*codeGen, mModelLib);
         mModel = rrCModel;
     }
     else
@@ -1013,16 +1012,24 @@ void RoadRunner::reset()
 
 DoubleMatrix RoadRunner::simulate()
 {
-    if (!mModel)
+    try
     {
-        throw Exception(gEmptyModelMessage);
+        if (!mModel)
+        {
+            throw Exception(gEmptyModelMessage);
+        }
+
+        if (mTimeEnd <= mTimeStart)
+        {
+            throw Exception("Error: time end must be greater than time start");
+        }
+    	return runSimulation();
+    }
+    catch (const Exception& e)
+    {
+        Log(lWarning)<<"Problem in simulate: "<<e.Message();
     }
 
-    if (mTimeEnd <= mTimeStart)
-    {
-        throw Exception("Error: time end must be greater than time start");
-    }
-    return runSimulation();
 }
 
 bool RoadRunner::simulate2()

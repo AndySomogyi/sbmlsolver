@@ -12,6 +12,7 @@
 #include "MainForm.h"
 #include "rrMinimizationData.h"
 #include "rrc_api.h"
+#include "rrc_cpp_support.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma link "mtkFloatLabeledEdit"

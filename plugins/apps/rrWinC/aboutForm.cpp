@@ -3,6 +3,7 @@
 #include "aboutForm.h"
 #include "rrStringList.h"
 #include "rrVCLUtils.h"
+#include "rrStringUtils.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
