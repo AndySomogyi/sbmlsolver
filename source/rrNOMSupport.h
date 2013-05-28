@@ -212,7 +212,7 @@ public:
      * @param assignmentRules assignment rules in original ordering
      * @return assignment rules in independent order
      */
-    static deque<Rule>      reorderAssignmentRules(deque<Rule>& assignmentRules);
+    static deque<Rule*>     reorderAssignmentRules(deque<Rule*>& assignmentRules);
 
     static void             fillStack(stack<string>& stack, SBMLSymbol& symbol);
 
@@ -284,7 +284,8 @@ protected:
     static void             modifyKineticLawsForReaction(KineticLaw& oLaw, const string& reactionId, Model &oModel);
     static void             changeSymbol(Model& oModel, const string& sTimeSymbol, const int& targetType);
     static void             changeTimeSymbol(Model& model, const string& timeSymbol);
-    static const ASTNode*   changeSymbol(ASTNode* node, const string& time, const int& targetType);
+
+
     static void             changeParameterName(ASTNode& node, const string& sParameterName, const string& sPrefix);
     static void             getSymbols(ASTNode* node, StringList& list);
 
