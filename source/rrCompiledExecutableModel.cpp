@@ -267,7 +267,7 @@ vector<double> CompiledExecutableModel::getCurrentValues()
     }
 
     // allocated in C, free'd here
-//    free(values);
+    //free(values);
 
     return vals;
 }
