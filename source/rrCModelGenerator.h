@@ -1,19 +1,60 @@
-#ifndef rrCGeneratorH
-#define rrCGeneratorH
+#ifndef CModelGenerator_H_
+#define CModelGenerator_H_
 //---------------------------------------------------------------------------
 #include "rrModelGenerator.h"
+#include "rrCompiledModelGenerator.h"
+#include "rrModelSharedLibrary.h"
 #include "rrCodeBuilder.h"
+#include "rrCompiler.h"
+
 namespace rr
 {
 
-class RR_DECLSPEC CGenerator : public ModelGenerator
+using Poco::Mutex;
+
+/**
+ * Generate executable SBML models by generating and compiling C
+ * source code into shared libraries with an external C compiler.
+ */
+class RR_DECLSPEC CModelGenerator : public CompiledModelGenerator
 {
-    protected:
+    private:
         CodeBuilder                         mHeader;
         CodeBuilder                         mSource;
 
         string                              mHeaderCodeFileName;
         string                              mSourceCodeFileName;
+
+        string                              mCurrentSBML;
+
+        // the shared lib thats created.
+        // this needs to belong to the model
+        // TODO: fix this!
+        ModelSharedLibrary                  *mModelLib;
+
+        Compiler                            mCompiler;
+
+        string                              mTempFileFolder;
+
+        bool generateModelCode(const string& sbml, const string& modelName, bool computeAndAssignConsevationLaws);
+
+        static Mutex                        mCompileMutex;
+
+        bool compileModel();
+
+        bool unLoadModelDLL();
+
+        bool compileCurrentModel();
+
+        ExecutableModel* mModel;
+
+        /**
+         * perform some basic initialization on the model.
+         *
+         * If the caller has mComputeAndAssignConservationLaws or mCVode, it
+         * needs to make the model aware of these.
+         */
+        bool initializeModel();
 
         string                              convertUserFunctionExpression(const string& equation);
         string                              convertCompartmentToC(const string& compartmentName);
@@ -26,7 +67,7 @@ class RR_DECLSPEC CGenerator : public ModelGenerator
         void                                substituteWords(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb);
         void                                substituteToken(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb);
         string                              findSymbol(const string& varName);
-		void 								write_getModelNameFunction(CodeBuilder& ignore, CodeBuilder& source);
+        void                                 write_getModelNameFunction(CodeBuilder& ignore, CodeBuilder& source);
         void                                writeOutSymbolTables(CodeBuilder& sb);
         void                                writeComputeAllRatesOfChange(CodeBuilder& sb, const int& numIndependentSpecies, const int& numDependentSpecies, DoubleMatrix& L0);
         void                                writeComputeConservedTotals(CodeBuilder& sb, const int& numFloatingSpecies, const int& numDependentSpecies);
@@ -58,12 +99,18 @@ class RR_DECLSPEC CGenerator : public ModelGenerator
         int                                 readFloatingSpecies();
         int                                 readBoundarySpecies();
 
-    public:
-                                            CGenerator(LibStructural& ls, NOMSupport& nom);
-        virtual                            ~CGenerator();
+        // Generates the Model Code from the SBML string
+        // TODO major clean up
+        string                              generateModelCode(const string& sbmlStr, const bool& _computeAndAssignConsevationLaws);
 
         // Generates the Model Code from th e SBML string
-        string                              generateModelCode(const string& sbmlStr, const bool& _computeAndAssignConsevationLaws = false);
+        // TODO major clean up also
+        string                              generateModelCode(const string& sbmlStr, LibStructural *ls, NOMSupport *nom,
+                                                                      const bool& _computeAndAssignConsevationLaws = false);
+
+    public:
+                                            CModelGenerator(const string& tempFolder, const string& supportCodeFolder, const string& compiler);
+        virtual                            ~CModelGenerator();
 
         //C Specifics..
         string                              getHeaderCode();
@@ -72,6 +119,36 @@ class RR_DECLSPEC CGenerator : public ModelGenerator
         string                              getHeaderCodeFileName();
         bool                                saveSourceCodeToFolder(const string& folder, const string& baseName);
         int                                 getNumberOfFloatingSpecies();
+
+        virtual ExecutableModel             *createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
+                                                         bool forceReCompile, bool computeAndAssignConsevationLaws);
+
+        virtual bool                        setTemporaryDirectory(const string& path);
+
+        /**
+         * Get the location where this model generator creates source file and shared libraries.
+         */
+        virtual string                      getTemporaryDirectory();
+
+        /**
+         * Get the compiler object that the model generator is using to
+         * 'compile' sbml.
+         *
+         * TODO: Make Compiler an interface.
+         */
+        virtual                             Compiler* getCompiler();
+
+        /**
+         * Set the name of the compiler to use. As this is a C source code compiler, this
+         * is the name of the external C compiler, which would typically be 'gcc', 'cc', 'icc', etc...
+         */
+        virtual                             bool setCompiler(const string& compiler);
+
+        /**
+         * load a model from an existing shared library.
+         * TODO: find out if this is working and documented as intended.
+         */
+        ExecutableModel* createModel();
 };
 }
 

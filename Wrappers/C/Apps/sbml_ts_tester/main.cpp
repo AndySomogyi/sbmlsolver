@@ -7,6 +7,7 @@
 #include "rrc_api.h"
 #include "rrGetOptions.h"
 #include "TestSuiteSimulation.h"
+#include "rrException.h"
 
 using namespace std;
 using namespace rr;
@@ -20,42 +21,47 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 //call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder"
 int main(int argc, char* argv[])
 {
-	try
-	{
-    enableLoggingToConsole();
-    Args args;
-    ProcessCommandLineArguments(argc, argv, args);
-
-    string thisExeFolder = getCurrentExeFolder();
-    cout << "RoadRunner bin location is: "<<thisExeFolder<<endl;
-
-    //Assume(!) this is the bin folder of roadrunner install
-	gRRInstallFolder 	= getParentFolder(thisExeFolder);	//Go up one folder
-    gDebug				= args.EnableLogging;
-    gTSModelsPath 		= args.SBMLModelsFilePath;
-    gTempFolder			= args.TempDataFolder;
-	setInstallFolder(gRRInstallFolder.c_str());
-
-    if(gDebug)
+    try
     {
-	    enableLoggingToConsole();
-        setLogLevel("Debug5");
-    }
-    else
-    {
-      setLogLevel("lInfo");
-    }
-    // set full model path (read from cmd line)
-    gTSModelsPath = joinPath(joinPath(gTSModelsPath, "cases"), "semantic");
-	Log(lInfo)<<"Testing model: "<<args.ModelNumber;
+        enableLoggingToConsole();
+        Args args;
+        ProcessCommandLineArguments(argc, argv, args);
 
-    RunTest("l2v4", args.ModelNumber);
-	}
-	catch(const Exception& ex)
-	{
-		Log(lInfo)<<"There was a problem: "<<ex.what();
-	}
-    return 0;
+        string thisExeFolder = getCurrentExeFolder();
+        cout << "RoadRunner bin location is: "<<thisExeFolder<<endl;
+
+        //Assume(!) this is the bin folder of roadrunner install
+        gRRInstallFolder = getParentFolder(thisExeFolder);	//Go up one folder
+        gDebug				= args.EnableLogging;
+        gTSModelsPath 		= args.SBMLModelsFilePath;
+        gTempFolder			= args.TempDataFolder;
+        setInstallFolder(gRRInstallFolder.c_str());
+
+        if(gDebug)
+        {
+            enableLoggingToConsole();
+            setLogLevel("Debug5");
+        }
+        else
+        {
+            setLogLevel("lInfo");
+        }
+        // set full model path (read from cmd line)
+        gTSModelsPath = joinPath(joinPath(gTSModelsPath, "cases"), "semantic");
+        Log(lInfo)<<"Testing model: "<<args.ModelNumber;
+
+        RunTest("l2v4", args.ModelNumber);
+        return 0;
+    }
+    catch (char* msg)
+    {
+        cout << "caught char*: " << msg << "\n";
+    }
+    catch (Exception& e)
+    {
+        cout << "caught Exception: " << e.what() << "\n";
+    }
+    return -1;
 }
 
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args)

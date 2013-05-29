@@ -22,7 +22,7 @@ class RR_DECLSPEC CvodeInterface : public rrObject
         const double                mDefaultAbsTol;
         const int                   mDefaultMaxNumSteps;
 
-        //string        		        mTempPathstring;
+        string        		        mTempPathstring;
         int                  		mErrorFileCounter;
         int                         mNumIndependentVariables;
         N_Vector                    mAmounts;

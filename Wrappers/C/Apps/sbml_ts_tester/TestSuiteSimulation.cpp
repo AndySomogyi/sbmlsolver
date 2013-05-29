@@ -12,7 +12,7 @@ RoadRunnerData convertCAPIResultData(RRDataHandle		resultsHandle);
 
 TestSuiteSimulation::TestSuiteSimulation(const string& dataOutputFolder, const string& modelFilePath, const string& modelFileName)
 :
-rr::TestSuiteModelSimulation(dataOutputFolder, modelFilePath, modelFileName)
+        rr::TestSuiteModelSimulation(dataOutputFolder, modelFilePath, modelFileName)
 {
 }
 
@@ -23,19 +23,19 @@ TestSuiteSimulation::~TestSuiteSimulation()
 
 void TestSuiteSimulation::UseHandle(RRHandle handle)
 {
-	mRRHandle = handle;
+    mRRHandle = handle;
     if(mRRHandle)
     {
-    	this->UseEngine((RoadRunner*) mRRHandle);
+        this->UseEngine((RoadRunner*) mRRHandle);
     }
 }
 
 
 bool TestSuiteSimulation::LoadSBMLFromFile()
 {
-	if(!mRRHandle)
+    if(!mRRHandle)
     {
-    	return false;
+        return false;
     }
 
     return loadSBMLFromFileE(mRRHandle, GetModelsFullFilePath().c_str(), true);
@@ -60,18 +60,18 @@ bool TestSuiteSimulation::Simulate()
     {
         return false;
     }
-	mResultHandle = simulate(mRRHandle);
+    mResultHandle = simulate(mRRHandle);
 
     if(mResultHandle)
     {
-		mResultData = convertCAPIResultData(mResultHandle);
+        mResultData = convertCAPIResultData(mResultHandle);
     }
     return mResultHandle ? true : false;
 }
 
 RoadRunnerData TestSuiteSimulation::GetResult()
 {
-	return mResultData; //Not that pretty.
+    return mResultData; //Not that pretty.
 }
 
 bool TestSuiteSimulation::SaveResult()
@@ -81,7 +81,7 @@ bool TestSuiteSimulation::SaveResult()
 
     if(!mResultHandle)
     {
-    	return false;
+        return false;
     }
 
     ofstream fs(resultFileName.c_str());
@@ -94,14 +94,14 @@ RoadRunnerData convertCAPIResultData(RRDataHandle	result)
 {
 	RoadRunnerData resultData;
 
-	StringList colNames;
-	//Copy column names
+    StringList colNames;
+    //Copy column names
     for(int i = 0; i < result->CSize; i++)
     {
     	colNames.add(result->ColumnHeaders[i]);
     }
 
-	resultData.setColumnNames(colNames);
+    resultData.setColumnNames(colNames);
 
     //Then the data
     int index = 0;
@@ -115,21 +115,21 @@ RoadRunnerData convertCAPIResultData(RRDataHandle	result)
         }
     }
 
-	return resultData;
+    return resultData;
 }
 
 
 bool RunTest(const string& version, int caseNumber)
 {
-	bool result(false);
- 	RRHandle gRR;
+    bool result = false;
+    RRHandle gRR = 0;
 
     //Create instance..
     gRR = createRRInstanceEx(gTempFolder.c_str());
 
     if(gDebug && gRR)
     {
-	    enableLoggingToConsole();
+        enableLoggingToConsole();
         setLogLevel("Debug5");
     }
     else
@@ -137,17 +137,17 @@ bool RunTest(const string& version, int caseNumber)
         setLogLevel("Error");
     }
 
-	//Setup environment
+    //Setup environment
     setTempFolder(gRR, gTempFolder.c_str());
 
     if(!gRR)
     {
-    	return false;
+        return false;
     }
 
     try
     {
-		clog<<"Running Test: "<<caseNumber<<endl;
+        clog<<"Running Test: "<<caseNumber<<endl;
         string dataOutputFolder(gTempFolder);
         string dummy;
         string logFileName;
@@ -161,13 +161,13 @@ bool RunTest(const string& version, int caseNumber)
 
         if(!createFolder(dataOutputFolder))
         {
-			string msg("Failed creating output folder for data output: " + dataOutputFolder);
+            string msg("Failed creating output folder for data output: " + dataOutputFolder);
             throw(rr::Exception(msg));
         }
 
-       	TestSuiteSimulation simulation(dataOutputFolder);
+        TestSuiteSimulation simulation(dataOutputFolder);
 
-		simulation.UseHandle(gRR);
+        simulation.UseHandle(gRR);
 
         //Read SBML models.....
         string modelFilePath(gTSModelsPath);
@@ -181,7 +181,7 @@ bool RunTest(const string& version, int caseNumber)
         simulation.SetModelFileName(modelFileName);
         simulation.ReCompileIfDllExists(true);
         simulation.CopyFilesToOutputFolder();
-	    setTempFolder(gRR, simulation.GetDataOutputFolder().c_str());
+        setTempFolder(gRR, simulation.GetDataOutputFolder().c_str());
         setComputeAndAssignConservationLaws(gRR, false);
 
         if(!simulation.LoadSBMLFromFile())
@@ -220,18 +220,21 @@ bool RunTest(const string& version, int caseNumber)
         simulation.SaveModelAsXML(dataOutputFolder);
         if(!result)
         {
-        	clog<<"\t\tTest failed..\n";
+            clog<<"\t\tTest failed..\n";
         }
         else
         {
-			clog<<"\t\tTest passed..\n";
+            clog<<"\t\tTest passed..\n";
         }
-  	}
+    }
     catch(rr::Exception& ex)
     {
         string error = ex.what();
         cerr<<"Case "<<caseNumber<<": Exception: "<<error<<endl;
-    	return false;
+        result = false;;
     }
- 	return result;
+
+    // done with rr
+    freeRRInstance(gRR);
+    return result;
 }

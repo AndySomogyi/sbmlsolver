@@ -6,7 +6,7 @@
 #include "sbml/SBMLDocument.h"
 #include "rr-libstruct/lsLibStructural.h"
 
-#include "rrCSharpGenerator.h"
+#include "rrCSharpModelGenerator.h"
 #include "rr-libstruct/lsLibStructural.h"
 #include "rrStringListContainer.h"
 #include "rrStringUtils.h"
@@ -18,44 +18,42 @@
 #include "rrException.h"
 //---------------------------------------------------------------------------
 
+namespace rr
+{
 using namespace std;
 using namespace ls;
 using namespace libsbml;
-namespace rr
-{
 
-//CSharpGenerator::CSharpGenerator(RoadRunner* rr)
-CSharpGenerator::CSharpGenerator(LibStructural& ls, NOMSupport& nom)
-:
-ModelGenerator(ls, nom)
+//CSharpModelGenerator::CSharpModelGenerator(RoadRunner* rr)
+CSharpModelGenerator::CSharpModelGenerator(LibStructural *ls, NOMSupport *nom) :
+CompiledModelGenerator()
 {
 }
 
-CSharpGenerator::~CSharpGenerator(){}
+CSharpModelGenerator::~CSharpModelGenerator(){}
 
-string CSharpGenerator::getSourceCode()
+string CSharpModelGenerator::getSourceCode()
 {
     return mSource.ToString();
 }
 
 // Generates the Model Code from the SBML string
-string CSharpGenerator::generateModelCode(const string& sbmlStr, const bool& computeAndAssignConsevationLaws)
+string CSharpModelGenerator::generateModelCode(const string& sbmlStr, const bool& computeAndAssignConsevationLaws)
 {
-    Log(lDebug4)<<"Entering CSharpGenerators generateModelCode(string) function";
+    Log(lDebug4)<<"Entering CSharpModelGenerators generateModelCode(string) function";
 
     StringList      Warnings;
 
     mSource.Clear();
     CodeBuilder&     sb = mSource;
 
-    mNOM.reset();
-    string sASCII = mNOM.convertTime(sbmlStr, "time");
+    string sASCII = NOMSupport::convertTime(sbmlStr, "time");
 
     Log(lDebug4)<<"Loading SBML into NOM";
-    mNOM.loadSBML(sASCII.c_str(), "time");
+    mNOM->loadSBML(sASCII.c_str(), "time");
 
 
-    mModelName = mNOM.getModelName();
+    mModelName = mNOM->getModelName();
     if(!mModelName.size())
     {
         Log(lError)<<"Model name is empty! Exiting...";
@@ -63,7 +61,7 @@ string CSharpGenerator::generateModelCode(const string& sbmlStr, const bool& com
     }
 
     Log(lDebug3)<<"Model name is "<<mModelName;
-    mNumReactions = mNOM.getNumReactions();
+    mNumReactions = mNOM->getNumReactions();
 
     Log(lDebug3)<<"Number of reactions:"<<mNumReactions;
 
@@ -84,7 +82,7 @@ string CSharpGenerator::generateModelCode(const string& sbmlStr, const bool& com
     try
     {
         Log(lDebug)<<"Loading sbml into StructAnalysis";
-        msg = mLibStruct.loadSBML(sASCII);
+        msg = mLibStruct->loadSBML(sASCII);
         if(!msg.size())
         {
             Log(lError)<<"Failed loading sbml into StructAnalysis";
@@ -99,37 +97,37 @@ string CSharpGenerator::generateModelCode(const string& sbmlStr, const bool& com
     Log(lDebug3)<<"Message from StructAnalysis.LoadSBML function\n"<<msg;
 
 //    if (mRR != NULL && mRR->computeAndAssignConservationLaws())
-	if(computeAndAssignConsevationLaws)
+    if(computeAndAssignConsevationLaws)
     {
-        mNumIndependentSpecies = mLibStruct.getNumIndSpecies();
-        mIndependentSpeciesList = mLibStruct.getIndependentSpecies();
-        mDependentSpeciesList   = mLibStruct.getDependentSpecies();
+        mNumIndependentSpecies = mLibStruct->getNumIndSpecies();
+        mIndependentSpeciesList = mLibStruct->getIndependentSpecies();
+        mDependentSpeciesList   = mLibStruct->getDependentSpecies();
     }
     else
     {
-        mNumIndependentSpecies = mLibStruct.getNumSpecies();
-        mIndependentSpeciesList = mLibStruct.getSpecies();
+        mNumIndependentSpecies = mLibStruct->getNumSpecies();
+        mIndependentSpeciesList = mLibStruct->getSpecies();
     }
 
     sb<<append("//************************************************************************** " + NL());
 
     // Load the compartment array (name and value)
-    mNumCompartments         		= readCompartments();
+    mNumCompartments                 = readCompartments();
 
     // Read FloatingSpecies
-    mNumFloatingSpecies     		= readFloatingSpecies();
-    mNumDependentSpecies     		= mNumFloatingSpecies - mNumIndependentSpecies;
+    mNumFloatingSpecies             = readFloatingSpecies();
+    mNumDependentSpecies             = mNumFloatingSpecies - mNumIndependentSpecies;
 
     // Load the boundary species array (name and value)
-    mNumBoundarySpecies     		= readBoundarySpecies();
+    mNumBoundarySpecies             = readBoundarySpecies();
 
     // Get all the parameters into a list, global and local
-    mNumGlobalParameters     		= readGlobalParameters();
+    mNumGlobalParameters             = readGlobalParameters();
     mNumModifiableSpeciesReferences = readModifiableSpeciesReferences();
 
     // Load up local parameters next
     readLocalParameters(mNumReactions, mLocalParameterDimensions, mTotalLocalParmeters);
-    mNumEvents = mNOM.getNumEvents();
+    mNumEvents = mNOM->getNumEvents();
 
     writeClassHeader(sb);
     writeOutVariables(sb);
@@ -167,7 +165,7 @@ string CSharpGenerator::generateModelCode(const string& sbmlStr, const bool& com
     return sb.ToString();
 }
 
-bool CSharpGenerator::saveSourceCodeToFolder(const string& folder, const string& codeBaseName)
+bool CSharpModelGenerator::saveSourceCodeToFolder(const string& folder, const string& codeBaseName)
 {
     mSourceCodeFileName = folder + string("\\") + getFileName(codeBaseName);
     mSourceCodeFileName = changeFileExtensionTo(mSourceCodeFileName, ".cs");
@@ -188,7 +186,7 @@ bool CSharpGenerator::saveSourceCodeToFolder(const string& folder, const string&
     return true;
 }
 
-string CSharpGenerator::convertUserFunctionExpression(const string& equation)
+string CSharpModelGenerator::convertUserFunctionExpression(const string& equation)
 {
     if(!equation.size())
     {
@@ -503,14 +501,14 @@ string CSharpGenerator::convertUserFunctionExpression(const string& equation)
                s.nextToken();
         }
     }
-    catch (Exception e)
+    catch (Exception &e)
     {
        throw new CoreException(e.Message());
     }
     return sb.ToString();
 }
 
-void CSharpGenerator::substituteEquation(const string& reactionName, Scanner& s, CodeBuilder& sb)
+void CSharpModelGenerator::substituteEquation(const string& reactionName, Scanner& s, CodeBuilder& sb)
 {
     string theToken(s.tokenString);
     if(theToken == "pow")
@@ -759,7 +757,7 @@ void CSharpGenerator::substituteEquation(const string& reactionName, Scanner& s,
     }
 }
 
-void CSharpGenerator::substituteWords(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb)
+void CSharpModelGenerator::substituteWords(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb)
 {
     // Global parameters have priority
     int index;
@@ -817,7 +815,7 @@ void CSharpGenerator::substituteWords(const string& reactionName, bool bFixAmoun
     }
 }
 
-void CSharpGenerator::substituteToken(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb)
+void CSharpModelGenerator::substituteToken(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb)
 {
     string aToken = s.tokenString;
     CodeTypes codeType = s.token();
@@ -904,7 +902,7 @@ void CSharpGenerator::substituteToken(const string& reactionName, bool bFixAmoun
     }
 }
 
-void CSharpGenerator::writeOutSymbolTables(CodeBuilder& sb)
+void CSharpModelGenerator::writeOutSymbolTables(CodeBuilder& sb)
 {
     sb<<append("\tvoid loadSymbolTables() {" + NL());
 
@@ -926,21 +924,21 @@ void CSharpGenerator::writeOutSymbolTables(CodeBuilder& sb)
     sb<<format("\t}{0}{0}", NL());
 }
 
-int CSharpGenerator::readFloatingSpecies()
+int CSharpModelGenerator::readFloatingSpecies()
 {
     // Load a reordered list into the variable list.
     StringList reOrderedList;
 //    if (mRR && mRR->mComputeAndAssignConservationLaws)
-	if(mComputeAndAssignConsevationLaws)
+    if(mComputeAndAssignConsevationLaws)
     {
-       reOrderedList = mLibStruct.getReorderedSpecies();
+       reOrderedList = mLibStruct->getReorderedSpecies();
     }
     else
     {
-        reOrderedList = mLibStruct.getSpecies();
+        reOrderedList = mLibStruct->getSpecies();
     }
 
-    StringListContainer oFloatingSpecies = mNOM.getListOfFloatingSpecies();
+    StringListContainer oFloatingSpecies = mNOM->getListOfFloatingSpecies();
 
     for (int i = 0; i < reOrderedList.Count(); i++)
     {
@@ -952,7 +950,7 @@ int CSharpGenerator::readFloatingSpecies()
                   continue;
               }
 
-            string compartmentName = mNOM.getNthFloatingSpeciesCompartmentName(j);
+            string compartmentName = mNOM->getNthFloatingSpeciesCompartmentName(j);
             bool bIsConcentration  = toBool(oTempList[2]);
             double dValue = toDouble(oTempList[1]);
             if (isNaN(dValue))
@@ -985,9 +983,9 @@ int CSharpGenerator::readFloatingSpecies()
                   formula.str());
             }
 
-            if(mNOM.GetModel())
+            if(mNOM->getModel())
             {
-                Species *aSpecies = mNOM.GetModel()->getSpecies(reOrderedList[i]);
+                Species *aSpecies = mNOM->getModel()->getSpecies(reOrderedList[i]);
                 if(aSpecies)
                 {
                     symbol->hasOnlySubstance = aSpecies->getHasOnlySubstanceUnits();
@@ -1009,16 +1007,16 @@ int CSharpGenerator::readFloatingSpecies()
       return oFloatingSpecies.Count();
 }
 
-int CSharpGenerator::readBoundarySpecies()
+int CSharpModelGenerator::readBoundarySpecies()
 {
     int numBoundarySpecies;
-    StringListContainer oBoundarySpecies = mNOM.getListOfBoundarySpecies();
+    StringListContainer oBoundarySpecies = mNOM->getListOfBoundarySpecies();
     numBoundarySpecies = oBoundarySpecies.Count(); // sp1.size();
     for (int i = 0; i < numBoundarySpecies; i++)
     {
         StringList oTempList     = oBoundarySpecies[i];
         string sName             = oTempList[0];
-        string compartmentName     = mNOM.getNthBoundarySpeciesCompartmentName(i);
+        string compartmentName     = mNOM->getNthBoundarySpeciesCompartmentName(i);
         bool bIsConcentration     = toBool(oTempList[2]);
         double dValue             = toDouble(oTempList[1]);
         if (isNaN(dValue))
@@ -1054,9 +1052,9 @@ int CSharpGenerator::readBoundarySpecies()
                                 formula.str());
         }
 
-        if(mNOM.GetModel())
+        if(mNOM->getModel())
         {
-            Species* species = mNOM.GetModel()->getSpecies(sName);
+            Species* species = mNOM->getModel()->getSpecies(sName);
             if(species)
             {
                 symbol->hasOnlySubstance = species->getHasOnlySubstanceUnits();
@@ -1075,7 +1073,7 @@ int CSharpGenerator::readBoundarySpecies()
     return numBoundarySpecies;
 }
 
-void CSharpGenerator::writeComputeAllRatesOfChange(CodeBuilder& sb, const int& numIndependentSpecies, const int& numDependentSpecies, DoubleMatrix& L0)
+void CSharpModelGenerator::writeComputeAllRatesOfChange(CodeBuilder& sb, const int& numIndependentSpecies, const int& numDependentSpecies, DoubleMatrix& L0)
 {
     sb<<append("\t// Uses the equation: dSd/dt = L0 dSi/dt" + NL());
     sb<<append("\tpublic void computeAllRatesOfChange ()" + NL());
@@ -1132,7 +1130,7 @@ void CSharpGenerator::writeComputeAllRatesOfChange(CodeBuilder& sb, const int& n
     sb<<format("\t}{0}{0}", NL());
 }
 
-void CSharpGenerator::writeComputeConservedTotals(CodeBuilder& sb, const int& numFloatingSpecies, const int& numDependentSpecies)
+void CSharpModelGenerator::writeComputeConservedTotals(CodeBuilder& sb, const int& numFloatingSpecies, const int& numDependentSpecies)
 {
     sb<<append("\t// Uses the equation: C = Sd - L0*Si" + NL());
     sb<<append("\tpublic void computeConservedTotals ()" + NL());
@@ -1140,7 +1138,7 @@ void CSharpGenerator::writeComputeConservedTotals(CodeBuilder& sb, const int& nu
     if (numDependentSpecies > 0)
     {
         string factor;
-        ls::DoubleMatrix* gamma = mLibStruct.getGammaMatrix();
+        ls::DoubleMatrix* gamma = mLibStruct->getGammaMatrix();
 
 //        DoubleMatrix gamma(matPtr, numDependentSpecies, numFloatingSpecies);
         for (int i = 0; i < numDependentSpecies; i++)
@@ -1192,7 +1190,7 @@ void CSharpGenerator::writeComputeConservedTotals(CodeBuilder& sb, const int& nu
     sb<<append("    }" + NL() + NL());
 }
 
-void CSharpGenerator::writeUpdateDependentSpecies(CodeBuilder& sb, const int& numIndependentSpecies, const int& numDependentSpecies, DoubleMatrix& L0)
+void CSharpModelGenerator::writeUpdateDependentSpecies(CodeBuilder& sb, const int& numIndependentSpecies, const int& numDependentSpecies, DoubleMatrix& L0)
 {
     sb<<append("\t// Compute values of dependent species " + NL());
     sb<<append("\t// Uses the equation: Sd = C + L0*Si" + NL());
@@ -1267,17 +1265,17 @@ void CSharpGenerator::writeUpdateDependentSpecies(CodeBuilder& sb, const int& nu
     sb<<format("\t}{0}{0}", NL());
 }
 
-void CSharpGenerator::writeUserDefinedFunctions(CodeBuilder& sb)
+void CSharpModelGenerator::writeUserDefinedFunctions(CodeBuilder& sb)
 {
-    for (int i = 0; i < mNOM.getNumFunctionDefinitions(); i++)
+    for (int i = 0; i < mNOM->getNumFunctionDefinitions(); i++)
     {
         try
         {
-            StringListContainer oList = mNOM.getNthFunctionDefinition(i);
+            StringListContainer oList = mNOM->getNthFunctionDefinition(i);
             StringList aList = oList[0];
 
               string sName = aList[0];
-              //sName.Trim();
+              //sName.trim();
             mFunctionNames.add(sName);
             StringList oArguments = oList[1];
             StringList list2 = oList[2];
@@ -1306,7 +1304,7 @@ void CSharpGenerator::writeUserDefinedFunctions(CodeBuilder& sb)
     }
 }
 
-void CSharpGenerator::writeResetEvents(CodeBuilder& sb, const int& numEvents)
+void CSharpModelGenerator::writeResetEvents(CodeBuilder& sb, const int& numEvents)
 {
       sb<<format("{0}\tpublic void resetEvents() {{0}", NL());
       for (int i = 0; i < numEvents; i++)
@@ -1317,7 +1315,7 @@ void CSharpGenerator::writeResetEvents(CodeBuilder& sb, const int& numEvents)
       sb<<format("\t}{0}{0}", NL());
 }
 
-void CSharpGenerator::writeSetConcentration(CodeBuilder& sb)
+void CSharpModelGenerator::writeSetConcentration(CodeBuilder& sb)
 {
     sb<<format("\tpublic void setConcentration(int index, double value) {{0}", NL());
     sb<<format("\t\tdouble volume = 0.0;{0}", NL());
@@ -1336,14 +1334,14 @@ void CSharpGenerator::writeSetConcentration(CodeBuilder& sb)
     sb<<format("\t}{0}{0}", NL());
 }
 
-void CSharpGenerator::writeGetConcentration(CodeBuilder& sb)
+void CSharpModelGenerator::writeGetConcentration(CodeBuilder& sb)
 {
     sb<<format("\tpublic double getConcentration(int index) {{0}", NL());
     sb<<format("\t\treturn _y[index];{0}", NL());
     sb<<format("\t}{0}{0}", NL());
 }
 
-void CSharpGenerator::writeConvertToAmounts(CodeBuilder& sb)
+void CSharpModelGenerator::writeConvertToAmounts(CodeBuilder& sb)
 {
     sb<<format("\tpublic void convertToAmounts() {{0}", NL());
     for (int i = 0; i < mFloatingSpeciesConcentrationList.size(); i++)
@@ -1356,7 +1354,7 @@ void CSharpGenerator::writeConvertToAmounts(CodeBuilder& sb)
     sb<<format("\t}{0}{0}", NL());
 }
 
-void CSharpGenerator::writeConvertToConcentrations(CodeBuilder& sb)
+void CSharpModelGenerator::writeConvertToConcentrations(CodeBuilder& sb)
 {
     sb<<append("\tpublic void convertToConcentrations() {" + NL());
     for (int i = 0; i < mFloatingSpeciesConcentrationList.size(); i++)
@@ -1367,7 +1365,7 @@ void CSharpGenerator::writeConvertToConcentrations(CodeBuilder& sb)
     sb<<append("\t}" + NL() + NL());
 }
 
-void CSharpGenerator::writeProperties(CodeBuilder& sb)
+void CSharpModelGenerator::writeProperties(CodeBuilder& sb)
 {
     sb<<append("\tpublic double[] y {" + NL());
     sb<<append("\t\tget { return _y; } " + NL());
@@ -1485,7 +1483,7 @@ void CSharpGenerator::writeProperties(CodeBuilder& sb)
     sb<<append("\t}" + NL() + NL());
 }
 
-void CSharpGenerator::writeAccessors(CodeBuilder& sb)
+void CSharpModelGenerator::writeAccessors(CodeBuilder& sb)
 {
     sb<<append("\tpublic int getNumIndependentVariables {" + NL());
     sb<<append("\t\tget { return numIndependentVariables; }" + NL());
@@ -1534,7 +1532,7 @@ void CSharpGenerator::writeAccessors(CodeBuilder& sb)
     sb<<append("\t}" + NL() + NL());
 }
 
- void CSharpGenerator::writeOutVariables(CodeBuilder& sb)
+ void CSharpModelGenerator::writeOutVariables(CodeBuilder& sb)
 {
       sb<<append("\tprivate List<string> _Warnings = new List<string>();" + NL());
       sb<<append("\tprivate double[] _gp = new double[" + toString(mNumGlobalParameters + mTotalLocalParmeters) +
@@ -1656,7 +1654,7 @@ void CSharpGenerator::writeAccessors(CodeBuilder& sb)
       sb<<append("\t}" + NL() + NL());
 }
 
-void CSharpGenerator::writeClassHeader(CodeBuilder& sb)
+void CSharpModelGenerator::writeClassHeader(CodeBuilder& sb)
 {
     sb<<append("using System;" + NL());
     sb<<append("using System.IO;" + NL());
@@ -1677,7 +1675,7 @@ void CSharpGenerator::writeClassHeader(CodeBuilder& sb)
     sb<<append(NL());
 }
 
-string CSharpGenerator::findSymbol(const string& varName)
+string CSharpModelGenerator::findSymbol(const string& varName)
 {
       int index = 0;
       if (mFloatingSpeciesConcentrationList.find(varName, index))
@@ -1703,37 +1701,37 @@ string CSharpGenerator::findSymbol(const string& varName)
           throw Exception(format("Unable to locate lefthand side symbol in assignment[{0}]", varName));
 }
 
-void CSharpGenerator::writeTestConstraints(CodeBuilder& sb)
+void CSharpModelGenerator::writeTestConstraints(CodeBuilder& sb)
 {
     sb<<append("\tpublic void testConstraints()" + NL());
     sb<<append("\t{" + NL());
 
-    for (int i = 0; i < mNOM.getNumConstraints(); i++)
+    for (int i = 0; i < mNOM->getNumConstraints(); i++)
     {
         string sMessage;
-        string sCheck = mNOM.getNthConstraint(i, sMessage);
+        string sCheck = mNOM->getNthConstraint(i, sMessage);
 
-        sb<<append("\t\tif (" + substituteTerms(mNOM.getNumReactions(), "", sCheck) + " == 0.0 )" + NL());
+        sb<<append("\t\tif (" + substituteTerms(mNOM->getNumReactions(), "", sCheck) + " == 0.0 )" + NL());
         sb<<append("\t\t\tthrow new Exception(\"" + sMessage + "\");" + NL());
     }
 
     sb<<append("\t}" + NL() + NL());
 }
 
-void CSharpGenerator::writeEvalInitialAssignments(CodeBuilder& sb, const int& numReactions)
+void CSharpModelGenerator::writeEvalInitialAssignments(CodeBuilder& sb, const int& numReactions)
 {
     sb<<append("\tpublic void evalInitialAssignments()" + NL());
     sb<<append("\t{" + NL());
 
-    int numInitialAssignments = mNOM.getNumInitialAssignments();
+    int numInitialAssignments = mNOM->getNumInitialAssignments();
 
     if (numInitialAssignments > 0)
     {
         vector< pair<string, string> > oList;// = new List<Pair<string, string>>();
         for (int i = 0; i < numInitialAssignments; i++)
         {
-            pair<string, string> pair = mNOM.getNthInitialAssignmentPair(i);
-            oList.push_back(mNOM.getNthInitialAssignmentPair(i));
+            pair<string, string> pair = mNOM->getNthInitialAssignmentPair(i);
+            oList.push_back(mNOM->getNthInitialAssignmentPair(i));
         }
 
         // sort them ...
@@ -1783,9 +1781,9 @@ void CSharpGenerator::writeEvalInitialAssignments(CodeBuilder& sb, const int& nu
             }
         }
     }
-    for (int i = 0; i < mNOM.GetModel()->getNumEvents(); i++)
+    for (int i = 0; i < mNOM->getModel()->getNumEvents(); i++)
     {
-        libsbml::Event *current = mNOM.GetModel()->getEvent(i);
+        libsbml::Event *current = mNOM->getModel()->getEvent(i);
         string initialTriggerValue = toString(current->getTrigger()->getInitialValue());//.toString().ToLowerInvariant();
         sb<<append("\t\t_eventStatusArray[" + toString(i) + "] = " + initialTriggerValue + ";" + NL());
         sb<<append("\t\t_previousEventStatusArray[" + toString(i) + "] = " + initialTriggerValue + ";" + NL());
@@ -1793,11 +1791,11 @@ void CSharpGenerator::writeEvalInitialAssignments(CodeBuilder& sb, const int& nu
     sb<<append("\t}" + NL() + NL());
 }
 
-int CSharpGenerator::writeComputeRules(CodeBuilder& sb, const int& numReactions)
+int CSharpModelGenerator::writeComputeRules(CodeBuilder& sb, const int& numReactions)
 {
     IntStringHashTable mapVariables;
     int numRateRules = 0;
-    int numOfRules = mNOM.getNumRules();
+    int numOfRules = mNOM->getNumRules();
 
     sb<<append("\tpublic void computeRules(double[] y) {" + NL());
     // ------------------------------------------------------------------------------
@@ -1807,13 +1805,13 @@ int CSharpGenerator::writeComputeRules(CodeBuilder& sb, const int& numReactions)
         {
             string leftSideRule = "";
             string rightSideRule = "";
-            string ruleType = mNOM.getNthRuleType(i);
+            string ruleType = mNOM->getNthRuleType(i);
 
             // We only support assignment and ode rules at the moment
-            string eqnRule = mNOM.getNthRule(i);
+            string eqnRule = mNOM->getNthRule(i);
             RRRule aRule(eqnRule, ruleType);
-            string varName =  trim(aRule.GetLHS());    //eqnRule.Substring(0, index).Trim();
-            string rightSide = trim(aRule.GetRHS());    //eqnRule.Substring(index + 1).Trim();
+            string varName =  trim(aRule.GetLHS());    //eqnRule.Substring(0, index).trim();
+            string rightSide = trim(aRule.GetRHS());    //eqnRule.Substring(index + 1).trim();
 
             bool isRateRule = false;
 
@@ -1848,8 +1846,8 @@ int CSharpGenerator::writeComputeRules(CodeBuilder& sb, const int& numReactions)
             }
 
             // Run the equation through MathML to carry out any conversions (eg ^ to Pow)
-            string rightSideMathml = mNOM.convertStringToMathML(rightSide);
-            rightSideRule = mNOM.convertMathMLToString(rightSideMathml);
+            string rightSideMathml = NOMSupport::convertStringToMathML(rightSide);
+            rightSideRule = NOMSupport::convertMathMLToString(rightSideMathml);
             if (leftSideRule.size())// != NULL)
             {
                 sb<<append(leftSideRule + " = ");
@@ -1859,7 +1857,7 @@ int CSharpGenerator::writeComputeRules(CodeBuilder& sb, const int& numReactions)
                 Symbol* symbol = (speciesIndex != -1) ? &(mFloatingSpeciesConcentrationList[speciesIndex]) : NULL;
                 string sCompartment;
 
-                if(isRateRule && mNOM.MultiplyCompartment(varName, sCompartment) && (rightSide.find(sCompartment) == string::npos))
+                if(isRateRule && mNOM->multiplyCompartment(varName, sCompartment) && (rightSide.find(sCompartment) == string::npos))
                 {
                     sb<<format("({0}) * {1};{2}", substituteTerms(numReactions, "", rightSideRule), findSymbol(sCompartment), NL());
                 }
@@ -1875,7 +1873,7 @@ int CSharpGenerator::writeComputeRules(CodeBuilder& sb, const int& numReactions)
                     }
                 }
 
-                if (mNOM.IsCompartment(varName))
+                if (mNOM->isCompartment(varName))
                 {
                     sb<<append("\t\tconvertToConcentrations();");
                 }
@@ -1912,7 +1910,7 @@ int CSharpGenerator::writeComputeRules(CodeBuilder& sb, const int& numReactions)
     for (int i = 0; i < mMapRateRule.size(); i++)
     {
         string varName = (string)mapVariables[i];
-        double value = mNOM.getValue(varName);
+        double value = mNOM->getValue(varName);
         if (!isNaN(value))
         {
             sb<< mMapRateRule[i] << " = " << toString(value, mDoubleFormat) << ";" << NL();
@@ -1941,7 +1939,7 @@ int CSharpGenerator::writeComputeRules(CodeBuilder& sb, const int& numReactions)
     return numOfRules;
 }
 
-void CSharpGenerator::writeComputeReactionRates(CodeBuilder& sb, const int& numReactions)
+void CSharpModelGenerator::writeComputeReactionRates(CodeBuilder& sb, const int& numReactions)
 {
     sb<<append("\t// Compute the reaction rates" + NL());
     sb<<append("\tpublic void computeReactionRates (double time, double[] y)" + NL());
@@ -1949,7 +1947,7 @@ void CSharpGenerator::writeComputeReactionRates(CodeBuilder& sb, const int& numR
 
     for (int i = 0; i < numReactions; i++)
     {
-        string kineticLaw = mNOM.getKineticLaw(i);
+        string kineticLaw = mNOM->getKineticLaw(i);
 
         // The following code is for the case when the kineticLaw contains a ^ in place
         // of pow for exponent handling. It would not be needed in the case when there is
@@ -1957,8 +1955,8 @@ void CSharpGenerator::writeComputeReactionRates(CodeBuilder& sb, const int& numR
         string subKineticLaw;
 //        if (kineticLaw.IndexOf("^", System.StringComparison.Ordinal) > 0) //Todo: fix this...
 //        {
-//            string kineticLaw_mathml = mNOM.convertStringToMathML(kineticLaw);
-//            subKineticLaw = mNOM.convertMathMLToString(kineticLaw_mathml);
+//            string kineticLaw_mathml = mNOM->convertStringToMathML(kineticLaw);
+//            subKineticLaw = mNOM->convertMathMLToString(kineticLaw_mathml);
 //        }
 //        else
         {
@@ -1974,7 +1972,7 @@ void CSharpGenerator::writeComputeReactionRates(CodeBuilder& sb, const int& numR
     sb<<format("\t}{0}{0}", NL());
 }
 
-void CSharpGenerator::writeEvalEvents(CodeBuilder& sb, const int& numEvents, const int& numFloatingSpecies)
+void CSharpModelGenerator::writeEvalEvents(CodeBuilder& sb, const int& numEvents, const int& numFloatingSpecies)
 {
     sb<<append("\t// Event handling function" + NL());
     sb<<append("\tpublic void evalEvents (double timeIn, double[] oAmounts)" + NL());
@@ -1999,7 +1997,7 @@ void CSharpGenerator::writeEvalEvents(CodeBuilder& sb, const int& numEvents, con
 
     for (int i = 0; i < numEvents; i++)
     {
-        ArrayList ev = mNOM.getNthEvent(i);
+        ArrayList ev = mNOM->getNthEvent(i);
         StringList tempList = ev[0];
         string eventString = tempList[0];
 
@@ -2016,7 +2014,7 @@ void CSharpGenerator::writeEvalEvents(CodeBuilder& sb, const int& numEvents, con
     sb<<append("\t}" + NL() + NL());
 }
 
-void CSharpGenerator::writeEvalModel(CodeBuilder& sb, const int& numReactions, const int& numIndependentSpecies, const int& numFloatingSpecies, const int& numOfRules)
+void CSharpModelGenerator::writeEvalModel(CodeBuilder& sb, const int& numReactions, const int& numIndependentSpecies, const int& numFloatingSpecies, const int& numOfRules)
 {
     sb<<append("\t// Model Function" + NL());
     sb<<append("\tpublic void evalModel (double timein, double[] oAmounts)" + NL());
@@ -2053,7 +2051,7 @@ void CSharpGenerator::writeEvalModel(CodeBuilder& sb, const int& numReactions, c
         string floatingSpeciesName = mIndependentSpeciesList[i];
         for (int j = 0; j < numReactions; j++)
         {
-            Reaction *oReaction = mNOM.GetModel()->getReaction(j);
+            Reaction *oReaction = mNOM->getModel()->getReaction(j);
             int numProducts = (int) oReaction->getNumProducts();
             double productStoichiometry;
             for (int k1 = 0; k1 < numProducts; k1++)
@@ -2163,27 +2161,27 @@ void CSharpGenerator::writeEvalModel(CodeBuilder& sb, const int& numReactions, c
             }
         }
 
-        string final = eqnBuilder.ToString();//.Trim();
+        string final = eqnBuilder.ToString();//.trim();
 
         if (isNullOrEmpty(final))
         {
             final = "    0.0";
         }
 
-        if (mNOM.GetSBMLDocument()->getLevel() > 2)
+        if (mNOM->getSBMLDocument()->getLevel() > 2)
         {
             // remember to take the conversion factor into account
             string factor = "";
-            Species* species = mNOM.GetModel()->getSpecies(floatingSpeciesName);
+            Species* species = mNOM->getModel()->getSpecies(floatingSpeciesName);
             if (species != NULL)
             {
                 if (species->isSetConversionFactor())
                 {
                     factor = species->getConversionFactor();
                 }
-                else if (mNOM.GetModel()->isSetConversionFactor())
+                else if (mNOM->getModel()->isSetConversionFactor())
                 {
-                    factor = mNOM.GetModel()->getConversionFactor();
+                    factor = mNOM->getModel()->getConversionFactor();
                 }
             }
 
@@ -2205,7 +2203,7 @@ void CSharpGenerator::writeEvalModel(CodeBuilder& sb, const int& numReactions, c
     sb<<append("\t}" + NL() + NL());
 }
 
-void CSharpGenerator::writeEventAssignments(CodeBuilder& sb, const int& numReactions, const int& numEvents)
+void CSharpModelGenerator::writeEventAssignments(CodeBuilder& sb, const int& numReactions, const int& numEvents)
 {
     StringList delays;
     vector<bool> eventType;
@@ -2215,9 +2213,9 @@ void CSharpGenerator::writeEventAssignments(CodeBuilder& sb, const int& numReact
         sb<<append("\t// Event assignments" + NL());
         for (int i = 0; i < numEvents; i++)
         {
-            ArrayList ev = mNOM.getNthEvent(i);
-            eventType.push_back(mNOM.getNthUseValuesFromTriggerTime(i));
-            eventPersistentType.push_back(mNOM.GetModel()->getEvent(i)->getTrigger()->getPersistent());
+            ArrayList ev = mNOM->getNthEvent(i);
+            eventType.push_back(mNOM->getNthUseValuesFromTriggerTime(i));
+            eventPersistentType.push_back(mNOM->getModel()->getEvent(i)->getTrigger()->getPersistent());
 
             StringList event = ev[1];
             int numItems = event.Count();
@@ -2293,7 +2291,7 @@ void CSharpGenerator::writeEventAssignments(CodeBuilder& sb, const int& numReact
     sb<<format("{0}{0}\tpublic void computeEventPriorites() { {0}", NL());
     for (int i = 0; i < numEvents; i++)
     {
-        libsbml::Event* current = mNOM.GetModel()->getEvent(i);
+        libsbml::Event* current = mNOM->getModel()->getEvent(i);
 
         if (current->isSetPriority() && current->getPriority()->isSetMath())
         {
@@ -2308,7 +2306,7 @@ void CSharpGenerator::writeEventAssignments(CodeBuilder& sb, const int& numReact
     sb<<format("\t}{0}{0}", NL());
 }
 
-void CSharpGenerator::writeSetParameterValues(CodeBuilder& sb, const int& numReactions)
+void CSharpModelGenerator::writeSetParameterValues(CodeBuilder& sb, const int& numReactions)
 {
     sb<<append("\tpublic void setParameterValues ()" + NL());
     sb<<append("\t{" + NL());
@@ -2335,7 +2333,7 @@ void CSharpGenerator::writeSetParameterValues(CodeBuilder& sb, const int& numRea
     sb<<append("\t}" + NL() + NL());
 }
 
-void CSharpGenerator::writeSetCompartmentVolumes(CodeBuilder& sb)
+void CSharpModelGenerator::writeSetCompartmentVolumes(CodeBuilder& sb)
 {
     sb<<append("\tpublic void setCompartmentVolumes ()" + NL());
     sb<<append("\t{" + NL());
@@ -2346,7 +2344,7 @@ void CSharpGenerator::writeSetCompartmentVolumes(CodeBuilder& sb)
 
         // at this point we also have to take care of all initial assignments for compartments as well as
         // the assignment rules on compartments ... otherwise we are in trouble :)
-        stack<string> initializations = mNOM.GetMatchForSymbol(mCompartmentList[i].name);
+        stack<string> initializations = mNOM->getMatchForSymbol(mCompartmentList[i].name);
         while (initializations.size() > 0)
         {
             string term(initializations.top());
@@ -2359,7 +2357,7 @@ void CSharpGenerator::writeSetCompartmentVolumes(CodeBuilder& sb)
     sb<<append("\t}" + NL() + NL());
 }
 
-void CSharpGenerator::writeSetBoundaryConditions(CodeBuilder& sb)
+void CSharpModelGenerator::writeSetBoundaryConditions(CodeBuilder& sb)
 {
     sb<<append("\tpublic void setBoundaryConditions ()" + NL());
     sb<<append("\t{" + NL());
@@ -2380,7 +2378,7 @@ void CSharpGenerator::writeSetBoundaryConditions(CodeBuilder& sb)
 }
 
 
-void CSharpGenerator::writeSetInitialConditions(CodeBuilder& sb, const int& numFloatingSpecies)
+void CSharpModelGenerator::writeSetInitialConditions(CodeBuilder& sb, const int& numFloatingSpecies)
 {
     sb<<append("\tpublic void initializeInitialConditions ()" + NL());
     sb<<append("\t{" + NL());
@@ -2416,7 +2414,7 @@ void CSharpGenerator::writeSetInitialConditions(CodeBuilder& sb, const int& numF
     sb<<append("\t}" + NL() + NL());
 }
 
-string CSharpGenerator::convertSpeciesToY(const string& speciesName)
+string CSharpModelGenerator::convertSpeciesToY(const string& speciesName)
 {
     int index;
     if (mFloatingSpeciesConcentrationList.find(speciesName, index))
@@ -2426,7 +2424,7 @@ string CSharpGenerator::convertSpeciesToY(const string& speciesName)
     throw new CoreException("Internal Error: Unable to locate species: " + speciesName);
 }
 
-string CSharpGenerator::convertSpeciesToBc(const string& speciesName)
+string CSharpModelGenerator::convertSpeciesToBc(const string& speciesName)
 {
     int index;
     if (mBoundarySpeciesList.find(speciesName, index))
@@ -2436,7 +2434,7 @@ string CSharpGenerator::convertSpeciesToBc(const string& speciesName)
     throw CoreException("Internal Error: Unable to locate species: " + speciesName);
 }
 
-string CSharpGenerator::convertCompartmentToC(const string& compartmentName)
+string CSharpModelGenerator::convertCompartmentToC(const string& compartmentName)
 {
     int index;
     if (mCompartmentList.find(compartmentName, index))
@@ -2447,7 +2445,7 @@ string CSharpGenerator::convertCompartmentToC(const string& compartmentName)
     throw CoreException("Internal Error: Unable to locate compartment: " + compartmentName);
 }
 
-string CSharpGenerator::convertSymbolToGP(const string& parameterName)
+string CSharpModelGenerator::convertSymbolToGP(const string& parameterName)
 {
     int index;
     if (mGlobalParameterList.find(parameterName, index))
@@ -2457,7 +2455,7 @@ string CSharpGenerator::convertSymbolToGP(const string& parameterName)
       throw CoreException("Internal Error: Unable to locate parameter: " + parameterName);
 }
 
-string CSharpGenerator::convertSymbolToC(const string& compartmentName)
+string CSharpModelGenerator::convertSymbolToC(const string& compartmentName)
 {
     int index;
     if (mCompartmentList.find(compartmentName, index))
@@ -2467,6 +2465,30 @@ string CSharpGenerator::convertSymbolToC(const string& compartmentName)
       throw CoreException("Internal Error: Unable to locate compartment: " + compartmentName);
 }
 
+ExecutableModel *CSharpModelGenerator::createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
+                                                         bool forceReCompile, bool computeAndAssignConsevationLaws)
+{
+    return 0;
+}
 
+bool CSharpModelGenerator::setTemporaryDirectory(const string& path)
+{
+    return false;
+}
+
+Compiler* CSharpModelGenerator::getCompiler()
+{
+    return 0;
+}
+
+bool CSharpModelGenerator::setCompiler(const string& compiler)
+{
+    return false;
+}
+
+string CSharpModelGenerator::getTemporaryDirectory()
+{
+    return "";
+}
 
 }//rr namespace

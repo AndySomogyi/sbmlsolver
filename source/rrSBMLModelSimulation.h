@@ -35,15 +35,9 @@ class RR_DECLSPEC SBMLModelSimulation : public rrObject
         string                  GetTempDataFolder();
         bool                    UseEngine(RoadRunner* engine);
 
-
-
-        bool                    GenerateModelCode();
-        bool                    CreateModel();
-        bool                    CompileModel();
         bool                    InitializeModel();
-        bool                    GenerateAndCompileModel();
-        void                    ReCompileIfDllExists(const bool& doIt);
-        bool                    DoCompileIfDllExists();
+
+
         bool                    SaveModelAsXML(const string& folder);
 
         //API
@@ -56,6 +50,15 @@ class RR_DECLSPEC SBMLModelSimulation : public rrObject
         virtual bool            SaveResult();
         virtual bool            LoadSettings(const string& fName = gEmptyString);
         virtual RoadRunnerData  GetResult();
+
+        void                    ReCompileIfDllExists(const bool& doIt);
+        bool                    DoCompileIfDllExists();
+
+//        // models are created by loadSBML, if a shared lib already exits, it is loaded.
+        bool                    CreateModel();
+        bool                    GenerateModelCode();
+        bool                    CompileModel();
+        bool                    GenerateAndCompileModel();
 };
 
 }

@@ -1,12 +1,12 @@
 #ifndef rrCSharpGeneratorH
 #define rrCSharpGeneratorH
 //---------------------------------------------------------------------------
-#include "rrModelGenerator.h"
+#include "rrCompiledModelGenerator.h"
 
 namespace rr
 {
 
-class RR_DECLSPEC CSharpGenerator : public ModelGenerator
+class RR_DECLSPEC CSharpModelGenerator : public CompiledModelGenerator
 {
     protected:
         string                          	mSourceCodeFileName;
@@ -51,13 +51,38 @@ class RR_DECLSPEC CSharpGenerator : public ModelGenerator
         int              					readBoundarySpecies();
 
     public:
-                                            CSharpGenerator(LibStructural& ls, NOMSupport& nom);
-        virtual                            ~CSharpGenerator();
+        									CSharpModelGenerator(LibStructural *ls, NOMSupport *nom);
+        virtual                             ~CSharpModelGenerator();
 
         // Generates the Model Code from the SBML string
         string                              generateModelCode(const string& sbmlStr, const bool& computeAndAssignConsevationLaws = false);
         bool                                saveSourceCodeToFolder(const string& folder, const string& baseName);
         string                              getSourceCode();
+
+        virtual ExecutableModel             *createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
+                                                                 bool forceReCompile, bool computeAndAssignConsevationLaws);
+
+        virtual bool                        setTemporaryDirectory(const string& path);
+
+        /**
+         * Get the location where this model generator creates source file and shared libraries.
+         */
+        virtual string                      getTemporaryDirectory();
+
+        /**
+         * Get the compiler object that the model generator is using to
+         * 'compile' sbml.
+         *
+         * TODO: Make Compiler an interface.
+         */
+        virtual 							Compiler* getCompiler();
+
+        /**
+         * Set the name of the compiler to use. For C# model generators,
+         * could this be 'gmcs'? Presumably, on Windows, this would be 'mcs'.
+         */
+        virtual 							bool setCompiler(const string& compiler);
+
 };
 
 }

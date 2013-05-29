@@ -1,6 +1,11 @@
 #ifndef rrModelDataH
 #define rrModelDataH
 
+/**
+ * This file is included by the generated C sbml model code, so
+ * BE AWARE OF THIS AND BE VERY CAREFULL MODIFYING IT!
+ */
+
 #if defined __cplusplus
 namespace rr
 {
@@ -11,7 +16,20 @@ typedef double* (*TComputeEventAssignmentDelegate)(ModelDataP);
 typedef void 	(*TPerformEventAssignmentDelegate)(ModelDataP, double*);
 typedef void 	(*TEventAssignmentDelegate)();
 
-//Data that is used in SBML models
+
+/**
+ * A data structure that is that allows data to be exchanged
+ * with running SBML models. In the case of CExecutableModels, A pointer to
+ * this struct is given to the compiled shared library, and the C code
+ * there modifies the buffers of this structure.
+ *
+ * There are some functions in ExecutableModel.h that manage ModelData
+ * memory. These would have made more sense here, but in order to prevent
+ * any issues with generated code interacting with them, they were placed
+ * there.
+ *
+ * \see ExecutableModel.h
+ */
 typedef struct SModelData
 {
     double	                       	    time;
@@ -97,6 +115,7 @@ typedef struct SModelData
     TPerformEventAssignmentDelegate*    performEventAssignments;
 
 } ModelData;
+//#pragma pack(pop)
 
 #if defined __cplusplus
 }

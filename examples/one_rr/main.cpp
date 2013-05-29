@@ -31,7 +31,7 @@ int main(int argc, char** argv)
     	SModelData data;
 	    clog<<"Size: "<<sizeof(SModelData)<<endl;
 	    clog<<"Size ptr: "<<sizeof(data.eventDelays)<<endl;
-        rr1.getModel()->cInitModelData(&data);
+        //rr1.getModel()->cInitModelData(&data);
         Log(lInfo)<<" ---------- SIMULATE ---------------------";
         Log(lInfo)<<"Data:"<<rr1.simulate();
 

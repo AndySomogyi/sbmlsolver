@@ -6,7 +6,14 @@
  */
 
 #include "rrModelGeneratorFactory.h"
+#include "rrCModelGenerator.h"
 
 namespace rr {
+
+ModelGenerator* ModelGeneratorFactory::createModelGenerator(const string& mgid, const string& tempFolder,
+    		const string& supportCodeFolder, const string& compiler)
+{
+	return new CModelGenerator(tempFolder, supportCodeFolder, compiler);
+}
 
 } /* namespace rr */

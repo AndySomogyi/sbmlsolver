@@ -108,21 +108,12 @@ bool SBMLModelSimulation::UseEngine(RoadRunner* engine)
 
 bool SBMLModelSimulation::GenerateModelCode()
 {
-    if(!mEngine)
-    {
-        return false;
-    }
-    return mEngine->generateModelCode("");
+    return true;
 }
 
 bool SBMLModelSimulation::CompileModel()
 {
-    if(!mEngine)
-    {
-        return false;
-    }
-
-    return mEngine->compileCurrentModel();
+    return true;
 }
 
 bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
@@ -300,7 +291,7 @@ bool SBMLModelSimulation::CreateModel()
         return false;
     }
 
-    return (mEngine->createModel() != NULL) ? true : false;
+    return true;
 }
 
 bool SBMLModelSimulation::InitializeModel()
@@ -315,15 +306,7 @@ bool SBMLModelSimulation::InitializeModel()
 
 bool SBMLModelSimulation::GenerateAndCompileModel()
 {
-    if(!mEngine)
-    {
-        return false;
-    }
-    if(!mEngine->generateModelCode(""))
-    {
-    	return false;
-    }
-    return mEngine->compileModel();
+    return true;
 }
 
 bool SBMLModelSimulation::Simulate()

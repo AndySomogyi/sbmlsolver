@@ -32,6 +32,7 @@ rrLogContainer
 rrLoggerUtils
 rrLogLevel
 rrLogOutput
+rrCompiledExecutableModel
 rrExecutableModel
 rrModelState
 rrNOMSupport
@@ -55,11 +56,12 @@ rrTextWriter
 rrTParameterType
 rrTVariableType
 rrUtils
-rrCGenerator
+rrModelGenerator
+rrCompiledModelGenerator
+rrCModelGenerator
+rrCSharpModelGenerator
 rrCodeBuilder
 rrCompiler
-rrCSharpGenerator
-rrModelGenerator
 rrScanner
 rrToken
 rrCVODEInterface
@@ -92,6 +94,7 @@ rrSimulateThread
 rrRoadRunnerData
 rrSelectionRecord
 rrMinimizationData
+rrModelGeneratorFactory
 )
 
 if(RR_BUILD_SHARED_CORE)

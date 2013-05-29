@@ -163,13 +163,18 @@
             <DependentOn>rrCapability.h</DependentOn>
             <BuildOrder>69</BuildOrder>
         </CppCompile>
-        <CppCompile Include="rrCGenerator.cpp">
-            <DependentOn>rrCGenerator.h</DependentOn>
-            <BuildOrder>60</BuildOrder>
+        <CppCompile Include="rrCModelGenerator.cpp">
+            <BuildOrder>80</BuildOrder>
         </CppCompile>
         <CppCompile Include="rrCodeBuilder.cpp">
             <DependentOn>rrCodeBuilder.h</DependentOn>
             <BuildOrder>60</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="rrCompiledExecutableModel.cpp">
+            <BuildOrder>81</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="rrCompiledModelGenerator.cpp">
+            <BuildOrder>82</BuildOrder>
         </CppCompile>
         <CppCompile Include="rrCompiler.cpp">
             <DependentOn>rrCompiler.h</DependentOn>
@@ -178,10 +183,6 @@
         <CppCompile Include="rrConstants.cpp">
             <DependentOn>rrConstants.h</DependentOn>
             <BuildOrder>68</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="rrCSharpGenerator.cpp">
-            <DependentOn>rrCSharpGenerator.h</DependentOn>
-            <BuildOrder>62</BuildOrder>
         </CppCompile>
         <CppCompile Include="rrCVODEInterface.cpp">
             <DependentOn>rrCVODEInterface.h</DependentOn>
@@ -267,6 +268,9 @@
         <CppCompile Include="rrModelGenerator.cpp">
             <DependentOn>rrModelGenerator.h</DependentOn>
             <BuildOrder>63</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="rrModelGeneratorFactory.cpp">
+            <BuildOrder>79</BuildOrder>
         </CppCompile>
         <CppCompile Include="rrModelSharedLibrary.cpp">
             <DependentOn>rrModelSharedLibrary.h</DependentOn>

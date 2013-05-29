@@ -4,7 +4,7 @@
 #include "rrRoadRunner.h"
 #include "rrPluginManager.h"
 #include "rrPlugin.h"
-#include "rrCGenerator.h"
+//#include "rrCModelGenerator.h"
 #include "rrLogger.h"           //Might be useful for debugging later on
 #include "rrc_api.h"
 #include "rrException.h"

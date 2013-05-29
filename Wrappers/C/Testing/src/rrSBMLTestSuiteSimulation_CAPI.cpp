@@ -186,32 +186,32 @@ bool RunTest(const string& version, int caseNumber)
 
         if(!simulation.LoadSBMLFromFile())
         {
-            throw("Failed loading sbml from file");
+            throw(Exception("Failed loading sbml from file"));
         }
 
         //Then read settings file if it exists..
         string settingsOveride("");
         if(!simulation.LoadSettings(settingsOveride))
         {
-            throw("Failed loading simulation settings");
+            throw(Exception("Failed loading simulation settings"));
         }
 
         //Then Simulate model
         if(!simulation.Simulate())
         {
-            throw("Failed running simulation");
+            throw(Exception("Failed running simulation"));
         }
 
         //Write result
         if(!simulation.SaveResult())
         {
             //Failed to save data
-            throw("Failed saving result");
+            throw(Exception("Failed saving result"));
         }
 
         if(!simulation.LoadReferenceData())
         {
-            throw("Failed Loading reference data");
+            throw(Exception("Failed Loading reference data"));
         }
 
         simulation.CreateErrorData();
@@ -227,11 +227,13 @@ bool RunTest(const string& version, int caseNumber)
 			clog<<"\t\tTest passed..\n";
         }
   	}
-    catch(rr::Exception& ex)
+    catch(std::exception& ex)
     {
         string error = ex.what();
         cerr<<"Case "<<caseNumber<<": Exception: "<<error<<endl;
     	return false;
     }
+
+    freeRRInstance(gRR);
  	return result;
 }

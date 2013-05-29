@@ -142,9 +142,8 @@
             <DependentOn>..\..\source\rrCapability.h</DependentOn>
             <BuildOrder>6</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\rrCGenerator.cpp">
-            <DependentOn>..\..\source\rrCGenerator.h</DependentOn>
-            <BuildOrder>8</BuildOrder>
+        <CppCompile Include="..\..\source\rrCModelGenerator.cpp">
+            <BuildOrder>83</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrCodeBuilder.cpp">
             <DependentOn>..\..\source\rrCodeBuilder.h</DependentOn>
@@ -154,6 +153,12 @@
             <DependentOn>..\..\source\rrCodeTypes.h</DependentOn>
             <BuildOrder>10</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\rrCompiledExecutableModel.cpp">
+            <BuildOrder>82</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrCompiledModelGenerator.cpp">
+            <BuildOrder>81</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrCompiler.cpp">
             <DependentOn>..\..\source\rrCompiler.h</DependentOn>
             <BuildOrder>11</BuildOrder>
@@ -162,9 +167,8 @@
             <DependentOn>..\..\source\rrConstants.h</DependentOn>
             <BuildOrder>60</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\rrCSharpGenerator.cpp">
-            <DependentOn>..\..\source\rrCSharpGenerator.h</DependentOn>
-            <BuildOrder>12</BuildOrder>
+        <CppCompile Include="..\..\source\rrCSharpModelGenerator.cpp">
+            <BuildOrder>84</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrCvodeInterface.cpp">
             <DependentOn>..\..\source\rrCvodeInterface.h</DependentOn>
@@ -253,6 +257,9 @@
         <CppCompile Include="..\..\source\rrModelGenerator.cpp">
             <DependentOn>..\..\source\rrModelGenerator.h</DependentOn>
             <BuildOrder>32</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrModelGeneratorFactory.cpp">
+            <BuildOrder>80</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrModelSharedLibrary.cpp">
             <DependentOn>..\..\source\rrModelSharedLibrary.h</DependentOn>
