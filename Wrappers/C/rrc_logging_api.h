@@ -1,5 +1,5 @@
 /**
- * @file rrc_logging.h
+ * @file rrc_logging_api.h
  * @brief roadRunner C API 2012
  * @author Totte Karlsson & Herbert M Sauro
  *
@@ -86,7 +86,6 @@ C_DECL_SPEC bool rrcCallConv enableLoggingToFile(RRHandle handle);
 
 /*!
  \brief Set the logging status level
-
  The logging level is determined by the following strings
 
  "ANY", "DEBUG5", "DEBUG4", "DEBUG3", "DEBUG2", "DEBUG1",
@@ -94,8 +93,10 @@ C_DECL_SPEC bool rrcCallConv enableLoggingToFile(RRHandle handle);
 
  Example: \code setLogLevel ("DEBUG4") \endcode
 
+ Wiil show log messages with levels DEBUG4, DEBUG3 -> Error
+
  \param lvl Pointer to the logging level string.
- \return Ruturns true if succesful
+ \return Returns true if succesful
  \ingroup logging
 */
 C_DECL_SPEC bool rrcCallConv setLogLevel(const char* lvl);
@@ -138,3 +139,4 @@ C_DECL_SPEC char* rrcCallConv testString (char* testStr);
 #endif
 
 #endif
+

@@ -1668,7 +1668,7 @@ bool rrCallConv setGlobalParameterByIndex(RRHandle handle, const int index, cons
     }
 }
 
-bool rrCallConv setFloatingSpeciesInitialConcentrations(RRHandle handle, const RRVector* vec)
+bool rrCallConv setFloatingSpeciesInitialConcentrations(RRHandle handle, const struct RRVector* vec)
 {
     try
     {
@@ -1687,7 +1687,7 @@ bool rrCallConv setFloatingSpeciesInitialConcentrations(RRHandle handle, const R
     }
 }
 
-bool rrCallConv setFloatingSpeciesConcentrations(RRHandle handle, const RRVector* vec)
+bool rrCallConv setFloatingSpeciesConcentrations(RRHandle handle, const struct RRVector* vec)
 {
     try
     {
@@ -1709,7 +1709,7 @@ bool rrCallConv setFloatingSpeciesConcentrations(RRHandle handle, const RRVector
     }
 }
 
-bool rrCallConv setBoundarySpeciesConcentrations(RRHandle handle, const RRVector* vec)
+bool rrCallConv setBoundarySpeciesConcentrations(RRHandle handle, const struct RRVector* vec)
 {
     try
     {
@@ -2269,7 +2269,7 @@ RRCCode* rrCallConv getCCode(RRHandle handle)
 // *******  Not yet implemented  ********
 // codeGenerationMode = 0 if mode is C code generation
 // codeGenerationMode = 1 ig mode is internal math interpreter
-bool rrCallConv setCodeGenerationMode (int _mode)
+bool rrCallConv setCodeGenerationMode (RRHandle handle, int mode)
 {
     return false;
 }
@@ -2745,16 +2745,6 @@ char* rrCallConv getBuildTime()
 char* rrCallConv getBuildDateTime()
 {
     return createText(string(__DATE__) + string(" ") + string(__TIME__));
-}
-
-int rrCallConv getInstanceCount(RRInstanceListHandle iList)
-{
-    return iList->Count;
-}
-
-RRHandle rrCallConv getRRHandle(RRInstanceListHandle iList, int index)
-{
-    return iList->Handle[index];
 }
 
 bool rrCallConv freeRRInstance(RRHandle handle)

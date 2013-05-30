@@ -1,11 +1,11 @@
 /**
- * @file rr_c_types.h
+ * @file rrc_types.h
  * @brief roadRunner C API 2012
  * @author Totte Karlsson & Herbert M Sauro
  *
  * <--------------------------------------------------------------
  * This file is part of cRoadRunner.
- * See http://code.google.com/p/roadrunnerwork/ for more details.
+ * See http://code.google.com/p/roadrunnerlib/ for more details.
  *
  * Copyright (C) 2012
  *   University of Washington, Seattle, WA, USA

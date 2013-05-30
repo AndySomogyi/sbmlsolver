@@ -5,7 +5,7 @@
  *
  * <--------------------------------------------------------------
  * This file is part of cRoadRunner.
- * See http://code.google.com/p/roadrunnerwork/ for more details.
+ * See http://code.google.com/p/roadrunnerlib/ for more details.
  *
  * Copyright (C) 2012
  *   University of Washington, Seattle, WA, USA
@@ -80,7 +80,7 @@ C_DECL_SPEC RRInstanceListHandle rrcCallConv createRRInstances(int count);
 
 /*!
  \brief Free the roadRunner instance
- \param[in] handle Free the roadRunner instance given in the argument
+ \param[in] handle Handle to a RoadRunner instance
  \ingroup initialization
 */
 C_DECL_SPEC bool rrcCallConv freeRRInstance(RRHandle handle);
@@ -92,8 +92,19 @@ C_DECL_SPEC bool rrcCallConv freeRRInstance(RRHandle handle);
 */
 C_DECL_SPEC bool  rrcCallConv  freeRRInstances(RRInstanceListHandle handle);
 
-
+/*!
+ \brief Returns the folder in which the RoadRunner API is installed
+ \return Pointer to string holding the install folder
+ \ingroup initialization
+*/
 C_DECL_SPEC char* rrcCallConv  getInstallFolder(void);
+
+/*!
+ \brief Set the internal string containing the folder in where the RoadRunner C API is installed
+ \param[in] folder Pointer to string holding the install folder
+ \return Boolean indicating success
+ \ingroup initialization
+*/
 C_DECL_SPEC bool  rrcCallConv  setInstallFolder(const char* folder);
 
 /*!
@@ -147,6 +158,7 @@ C_DECL_SPEC char*  rrcCallConv getCopyright(void);
 
 /*!
  \brief Retrieve info about current state of roadrunner, e.g. loaded model, conservationAnalysis etc.
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise it returns a string with the info
  \ingroup utility
 */
@@ -154,6 +166,7 @@ C_DECL_SPEC char*  rrcCallConv getInfo(RRHandle handle);
 
  /*!
  \brief Retrieve the current version number of the libSBML library
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise it returns the version number of the library
  \ingroup utility
 */
@@ -164,6 +177,8 @@ C_DECL_SPEC char* rrcCallConv getlibSBMLVersion(RRHandle handle);
 
  When cRoadRunner is run in C generation mode its uses a temporary folder to store the
  generated C source code. This method can be used to set the temporary folder path if necessary.
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] folder Pointer to string holdind folder path
 
  \return Returns true if succesful
  \ingroup utility                                                 onsole
@@ -176,7 +191,7 @@ C_DECL_SPEC bool rrcCallConv setTempFolder(RRHandle handle, const char* folder);
  When cRoadRunner is run in C generation mode its uses a temporary folder to store the
  generate C source code. This method can be used to get the current value
  for the the temporary folder path.
-
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise it returns the path
  \ingroup utility
 */
@@ -201,24 +216,28 @@ C_DECL_SPEC char* rrcCallConv getRRCAPILocation(void);
 
 /*!
  \brief Set the path and filename to the compiler to be used by roadrunner.
-
-  \return Returns true if succesful
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] fNameWithPath Pointer to string holding the fileName and path to a compiler
+ \return Returns true if succesful
  \ingroup utility
 */
 C_DECL_SPEC bool rrcCallConv setCompiler(RRHandle handle, const char* fNameWithPath);
 
 /*!
  \brief Set the path to a folder containing the compiler to be used.
+ \param[in] handle Handle to a RoadRunner instance
 
-  \return Returns true if succesful
+ \param[in] folder Pointer to string holding the path to a compiler
+ \return Returns true if succesful
  \ingroup utility
 */
 C_DECL_SPEC bool rrcCallConv setCompilerLocation(RRHandle handle, const char* folder);
 
 /*!
  \brief Get the path to a folder containing the compiler being used.
+ \param[in] handle Handle to a RoadRunner instance
 
-  \return Returns the path if succesful, NULL otherwise
+ \return Returns the path if succesful, NULL otherwise
  \ingroup utility
 */
 
@@ -226,8 +245,9 @@ C_DECL_SPEC char* rrcCallConv getCompilerLocation(RRHandle handle);
 
 /*!
  \brief Set the path to a folder containing support code for model generation.
-
-  \return Returns true if succesful
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] folder Pointer to string holding the path to the support code folder
+ \return Returns true if succesful
  \ingroup utility
 */
 C_DECL_SPEC bool rrcCallConv setSupportCodeFolder(RRHandle handle, const char* folder);
@@ -235,7 +255,8 @@ C_DECL_SPEC bool rrcCallConv setSupportCodeFolder(RRHandle handle, const char* f
 /*!
  \brief Get the path to a folder containing support code.
 
-  \return Returns the path if succesful, NULL otherwise
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns the path if succesful, NULL otherwise
  \ingroup utility
 */
 
@@ -248,6 +269,7 @@ C_DECL_SPEC char* rrcCallConv getSupportCodeFolder(RRHandle handle);
  generated C source code. This method can be used to obtain the header and main source
  code after a model has been loaded.
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise it returns a pointer to the RRCode structure
  \ingroup utility
 */
@@ -261,12 +283,13 @@ C_DECL_SPEC RRCCodeHandle rrcCallConv getCCode(RRHandle handle);
  C code or it can employ an internal interpreter to evaluate the model equations. The
  later method is useful when the OS forbids the compiling of externally generated code.
 
- \param[in] _mode is set to 0 cRoadRunner generates C Code,
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] mode is set to 0 cRoadRunner generates C Code,
  if set to 1 cRoadRunner uses its internal math interpreter.
  \return Returns false if it fails,
  \ingroup utility
 */
-C_DECL_SPEC bool rrcCallConv setCodeGenerationMode(RRHandle handle, int _mode);
+C_DECL_SPEC bool rrcCallConv setCodeGenerationMode(RRHandle handle, int mode);
 
 
 /*!
@@ -292,6 +315,7 @@ C_DECL_SPEC char* rrcCallConv getLastError(void);
 // Flags/Options
 /*!
  \brief Enable or disable conservation analysis
+ \param[in] handle Handle to a RoadRunner instance
  \param[in] On_Or_Off Set true to switch on conservation analysis
  \return Returns true if successful
  \ingroup initialization
@@ -304,6 +328,7 @@ C_DECL_SPEC bool rrcCallConv setComputeAndAssignConservationLaws(RRHandle handle
 
 /*!
  \brief Load a model from an SBML string
+ \param[in] handle Handle to a RoadRunner instance
  \param[in] sbml string
  \return Returns true if sucessful
  \ingroup loadsave
@@ -312,8 +337,9 @@ C_DECL_SPEC bool rrcCallConv loadSBML(RRHandle handle, const char* sbml);
 
 /*!
  \brief Load a model from an SBML string
+ \param[in] handle Handle to a RoadRunner instance
  \param[in] sbml string
- \param[in] foreceRecompilation, boolean. True means the model is recompiled. False causes roadrunner to use an already compiled model
+ \param[in] forceRecompile boolean. True means the model is recompiled. False causes roadrunner to use an already compiled model
  \return Returns true if sucessful
  \ingroup loadsave
 */
@@ -321,6 +347,7 @@ C_DECL_SPEC bool rrcCallConv loadSBMLE(RRHandle handle, const char* sbml, bool f
 
 /*!
  \brief Load a model from a SBML file
+ \param[in] handle Handle to a RoadRunner instance
  \param[in] fileName file name (or full path) to file that holds the SBML model
  \return Returns true if sucessful
  \ingroup loadsave
@@ -330,8 +357,9 @@ C_DECL_SPEC bool rrcCallConv loadSBMLFromFile(RRHandle handle, const char* fileN
 
 /*!
  \brief Load a model from a SBML file, force recompilation
+ \param[in] handle Handle to a RoadRunner instance
  \param[in] fileName file name (or full path) to file that holds the SBML model
- \param[in] forceRecompile. Boolean that forces recompilation if true. If false, no compilation occur if model dll exists
+ \param[in] forceRecompile Boolean that forces recompilation if true. If false, no compilation occur if model dll exists
  \return Returns true if sucessful
  \ingroup loadsave
 */
@@ -340,6 +368,7 @@ C_DECL_SPEC bool rrcCallConv loadSBMLFromFileE(RRHandle handle, const char* file
 
 /*!
  \brief Unload current model
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns true if sucessful
  \ingroup loadsave
 */
@@ -347,6 +376,7 @@ C_DECL_SPEC bool rrcCallConv unLoadModel(RRHandle handle);
 
 /*!
  \brief check if a model is loaded
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns true/false indicating whether a model is loaded or not
  \ingroup loadsave
 */
@@ -354,6 +384,7 @@ C_DECL_SPEC bool rrcCallConv isModelLoaded(RRHandle handle);
 
 /*!
  \brief Load simulation settings from a file
+ \param[in] handle Handle to a RoadRunner instance
  \param[in] fileName file name (or full path) to file that holds simulation settings
  \return Returns true if sucessful
  \ingroup loadsave
@@ -363,13 +394,15 @@ C_DECL_SPEC bool rrcCallConv loadSimulationSettings(RRHandle handle, const char*
 
 /*!
  \brief Retrieve the <b>current state</b> of the model in the form of an SBML string
-  \return Returns null if the call fails, otherwise returns a pointer to the SBML string
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns null if the call fails, otherwise returns a pointer to the SBML string
  \ingroup loadsave
 */
 C_DECL_SPEC char* rrcCallConv getCurrentSBML(RRHandle handle);
 
 /*!
  \brief Retrieve the SBML model that was last loaded into roadRunner
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if the call fails, otherwise returns a pointer to the SBML string
  \ingroup loadsave
 */
@@ -385,6 +418,7 @@ C_DECL_SPEC char* rrcCallConv getSBML(RRHandle handle);
  them to global status. The promoted parameters are prefixed with the
  name of the reaction to make them unique.
 
+ \param[in] handle Handle to a RoadRunner instance
  \param[in] sArg points to the SBML model to promote
  \return Returns null if it fails otherwise it returns the promoted SBML model as a string
  \ingroup sbml
@@ -393,6 +427,7 @@ C_DECL_SPEC char* rrcCallConv getParamPromotedSBML(RRHandle handle, const char* 
 
 /*!
  \brief Set the simulator's capabilities
+ \param[in] handle Handle to a RoadRunner instance
  \param[out] caps An XML string that specifies the simulators capabilities
  \return Returns true if sucessful
  \ingroup simulation
@@ -427,6 +462,7 @@ C_DECL_SPEC bool rrcCallConv setCapabilities (RRHandle handle, const char* caps)
 </caps>
 \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise it returns the simulator's capabilities in the form of an XML string
  \ingroup simulation
 */
@@ -434,7 +470,7 @@ C_DECL_SPEC char* rrcCallConv getCapabilities(RRHandle handle);
 
 /*!
  \brief Get string list of capabilities
- \param[in] rrHandle
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns RRStringList if sucessful, NULL otherwise
  \ingroup simulation
 */
@@ -443,6 +479,7 @@ C_DECL_SPEC RRStringArrayHandle rrcCallConv getListOfCapabilities(RRHandle handl
 
 /*!
  \brief Set the time start for a time course simulation
+ \param[in] handle Handle to a RoadRunner instance
  \param[in] timeStart
  \return Returns True if sucessful
  \ingroup simulation
@@ -451,6 +488,7 @@ C_DECL_SPEC bool rrcCallConv setTimeStart(RRHandle handle, double timeStart);
 
 /*!
  \brief Set the time end for a time course simulation
+ \param[in] handle Handle to a RoadRunner instance
  \param[in] timeEnd
  \return Returns true if sucessful
  \ingroup simulation
@@ -459,7 +497,8 @@ C_DECL_SPEC bool rrcCallConv setTimeEnd(RRHandle handle, double timeEnd);
 
 /*!
  \brief Set the number of points to generate in a time course simulation
- \param[in] nrPoints Number of points to generate in the time course simulation
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] numberOfPoints Number of points to generate in the time course simulation
  \return Returns true if sucessful
  \ingroup simulation
 */
@@ -468,6 +507,7 @@ C_DECL_SPEC bool rrcCallConv setNumPoints(RRHandle handle, int numberOfPoints);
 /*!
  \brief Creates a default timeCourse selection List
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns true if sucessful
  \ingroup simulation
 */
@@ -484,6 +524,7 @@ C_DECL_SPEC bool rrcCallConv createTimeCourseSelectionList(RRHandle handle);
 
  setTimeCourseSelectionList ("Time S1 J1 J2")
 
+ \param[in] handle Handle to a RoadRunner instance
  \param[in] list A string of Ids separated by spaces <b>or</b> comma characters
  \return Returns true if sucessful
  \ingroup simulation
@@ -494,6 +535,7 @@ C_DECL_SPEC bool rrcCallConv setTimeCourseSelectionList(RRHandle handle, const c
 /*!
  \brief Get the current selection list for simulate(void) or simulateEx(void)
 
+ \param[in] handle Handle to a RoadRunner instance
  \return A list of symbol Ids indicating the current selection list
  \ingroup simulation
 */
@@ -503,15 +545,20 @@ C_DECL_SPEC RRStringArrayHandle rrcCallConv getTimeCourseSelectionList(RRHandle 
  \brief Carry out a time-course simulation, use setTimeStart, setTimeEnd and
 setNumPoints etc to set the simulation characteristics.
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns an array (RRDataHandle) of columns containing the results of the 
  simulation including string labels for the individual columms. 
  \ingroup simulation
 */
 C_DECL_SPEC RRDataHandle rrcCallConv simulate(RRHandle handle);
 
-C_DECL_SPEC RRDataHandle rrcCallConv getSimulationResult(RRHandle handle);
-
-
+/*!
+ \brief Retrieve the result of the last simulation.
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns an array (RRDataHandle) of columns containing the results of the 
+ simulation including string labels for the individual columms. 
+ \ingroup simulation
+*/C_DECL_SPEC RRDataHandle rrcCallConv getSimulationResult(RRHandle handle);
 
 /*!
  \brief Carry out a time-course simulation based on the given arguments, time start,
@@ -528,6 +575,7 @@ C_DECL_SPEC RRDataHandle rrcCallConv getSimulationResult(RRHandle handle);
     m = simulateEx (rrHandle, timeStart, timeEnd, numberOfPoints);
     \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \param[in] timeStart Time start
  \param[in] timeEnd Time end
  \param[in] numberOfPoints Number of points to generate
@@ -543,6 +591,7 @@ C_DECL_SPEC RRDataHandle rrcCallConv simulateEx(RRHandle handle, const double ti
 
  Example: \code status = OneStep (rrHandle, currentTime, timeStep, newTimeStep); \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \param[in] currentTime The current time in the simulation
  \param[in] stepSize The step size to use in the integration
  \param[in] value The new time (currentTime + stepSize)
@@ -557,6 +606,7 @@ C_DECL_SPEC bool rrcCallConv oneStep(RRHandle handle, const double currentTime, 
 
  Example: \code status = getTimeStart (rrHandle, &timeStart); \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \param[out] timeStart The current value for the time start
  \return Returns true if successful
  \ingroup simulation
@@ -568,6 +618,7 @@ C_DECL_SPEC bool rrcCallConv getTimeStart(RRHandle handle, double* timeStart);
 
  Example: \code status = getTimeEnd (rrHandle, &timeEnd); \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \param timeEnd The current value for the time end
  \return Returns true if successful
  \ingroup simulation
@@ -579,6 +630,7 @@ C_DECL_SPEC bool rrcCallConv getTimeEnd(RRHandle handle, double* timeEnd);
 
  Example: \code status = getNumPoints (rrHandle, &numberOfPoints); \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \param numPoints The current value for the number of points
  \return Returns true if successful
  \ingroup simulation
@@ -590,6 +642,7 @@ C_DECL_SPEC bool rrcCallConv getNumPoints (RRHandle handle, int* numPoints);
 
  Example: \code status = steadyState (rrHandle, &closenessToSteadyState); \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \param value This value is set during the call and indicates how close the solution is to the steady state.
  The smaller the value the better. Values less than 1E-6 usually indicate a steady state has been found. If necessary
  call the method a second time to improve the solution.
@@ -601,8 +654,9 @@ C_DECL_SPEC bool rrcCallConv steadyState(RRHandle handle, double* value);
 /*!
  \brief A convenient method for returning a vector of the steady state species concentrations
 
- Example: code RRVectorHandle values = computeSteadyStateValues (void); \endcode
+ Example: \code RRVectorHandle values = computeSteadyStateValues (void); \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns the vector of steady state values or null if an error occured. The order of
  species in the vector is indicated by the order of species Ids in a call to getFloatingSpeciesIds(void)
  \ingroup steadystate
@@ -624,6 +678,7 @@ C_DECL_SPEC RRVectorHandle rrcCallConv computeSteadyStateValues(RRHandle handle)
  setSteadyStateSelectionList ("S1 J1 J2")
  \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \param[in] list The string argument should be a space separated list of symbols. 
  
  \return Returns true if successful
@@ -634,6 +689,7 @@ C_DECL_SPEC bool rrcCallConv setSteadyStateSelectionList(RRHandle handle, const 
 /*!
  \brief Get the selection list for the steady state analysis
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise it returns a list of strings representing symbols in the selection list
  \ingroup steadystate
 */
@@ -649,6 +705,7 @@ C_DECL_SPEC RRStringArrayHandle rrcCallConv getSteadyStateSelectionList(RRHandle
 
  Example: \code status = getValue (rrHandle, "S1", &value); \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \param symbolId The symbol that we wish to obtain the value for
  \param value The value that will be retrievd
  \return Returns true if succesful
@@ -662,6 +719,7 @@ C_DECL_SPEC bool rrcCallConv getValue(RRHandle handle, const char* symbolId, dou
 
  Example: \code status = setValue (rrHandle, "S1", 0.5); \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \param symbolId The symbol that we wish to set the value
  \param value The value that will be set to the symbol
  \return Returns true if succesful
@@ -675,6 +733,7 @@ C_DECL_SPEC bool rrcCallConv setValue(RRHandle handle, const char* symbolId, con
 
  Example: \code RRVectorHandle values = getFloatingSpeciesConcentrations (void); \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns the vector of flaoting species concentrations or null if an error occured
  \ingroup floating
 */
@@ -686,6 +745,7 @@ C_DECL_SPEC RRVectorHandle rrcCallConv getFloatingSpeciesConcentrations(RRHandle
 
  Example: \code RRVectorHandle values = getBoundarySpeciesConcentrations (void); \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns the vector of boundary species concentrations or null if an error occured
  \ingroup boundary
 */
@@ -700,6 +760,7 @@ C_DECL_SPEC RRVectorHandle rrcCallConv getBoundarySpeciesConcentrations(RRHandle
 
  Example: \code RRVectorHandle values = getGlobalParameterValues (void); \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns the vector of global parameter values or null if an error occured
  \ingroup parameters
 */
@@ -708,6 +769,7 @@ C_DECL_SPEC RRVectorHandle rrcCallConv getGlobalParameterValues(RRHandle handle)
 /*!
  \brief Set the concentration for a particular boundary species. 
 
+ \param[in] handle Handle to a RoadRunner instance
  \param index The index to the boundary species (corresponds to position in getBoundarySpeciesIds(void))
  \param value The concentration of the species to set
  \return Returns true if successful
@@ -718,6 +780,7 @@ C_DECL_SPEC bool rrcCallConv setBoundarySpeciesByIndex(RRHandle handle, const in
 /*!
  \brief Set the concentration for a particular floating species.
 
+ \param[in] handle Handle to a RoadRunner instance
  \param index The index to the floating species (corresponds to position in getFloatingSpeciesIds(RRHandle handle))
  \param value The concentration of the species to set
  \return Returns true if successful
@@ -728,6 +791,7 @@ C_DECL_SPEC bool rrcCallConv setFloatingSpeciesByIndex(RRHandle handle, const in
 /*!
  \brief Set the value for a particular global parameter
 
+ \param[in] handle Handle to a RoadRunner instance
  \param index The index to the global parameter (corresponds to position in getGlobalParameterIds(RRHandle handle))
  \param value The value of the parameter to set
  \return Returns true if successful
@@ -739,6 +803,7 @@ C_DECL_SPEC bool rrcCallConv setGlobalParameterByIndex(RRHandle handle, const in
 /*!
  \brief Retrieve the concentration for a particular floating species. 
 
+ \param[in] handle Handle to a RoadRunner instance
  \param index The index to the boundary species (corresponds to position in getBoundarySpeciesIds(RRHandle handle))
  \param value The value returned by the method
  \return Returns true if successful
@@ -749,6 +814,7 @@ C_DECL_SPEC bool rrcCallConv getBoundarySpeciesByIndex(RRHandle handle, const in
 /*!
  \brief Retrieve the concentration for a particular floating species.
 
+ \param[in] handle Handle to a RoadRunner instance
  \param index The index to the floating species (corresponds to position in getFloatingSpeciesIds(RRHandle handle))
  \param value The value returned by the method
  \return Returns true if successful
@@ -758,9 +824,10 @@ C_DECL_SPEC bool rrcCallConv getFloatingSpeciesByIndex(RRHandle handle, const in
 
 /*!
  \brief Retrieve the global parameter value
+ \param[in] handle Handle to a RoadRunner instance
  \param index The index to the global parameter (corresponds to position in getGlobalParametersIds(RRHandle handle))
  \param value The value returned by the method
- \return Returns true if successful
+ \return Returns true if successful, false otherwise 
  \ingroup parameters
 */
 C_DECL_SPEC bool rrcCallConv getGlobalParameterByIndex(RRHandle handle, const int index, double* value);
@@ -768,9 +835,10 @@ C_DECL_SPEC bool rrcCallConv getGlobalParameterByIndex(RRHandle handle, const in
 /*!
  \brief Retrieve the compartment volume for a particular compartment. 
 
- \param index The index to the compartment (corresponds to position in getCompartmentIds(RRHandle handle))
- \param value The value returned by the method
- \return Returns true if successful
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] index The index to the compartment (corresponds to position in getCompartmentIds(RRHandle handle))
+ \param[in] value The value returned by the method
+ \return Returns true if successful, false otherwise
  \ingroup compartment
 */
 C_DECL_SPEC bool rrcCallConv getCompartmentByIndex (RRHandle handle, const int index, double* value);
@@ -779,11 +847,11 @@ C_DECL_SPEC bool rrcCallConv getCompartmentByIndex (RRHandle handle, const int i
 /*!
  \brief Set the volume for a particular compartment
 
- \param index The index to the compartment (corresponds to position in getCompartmentIds(RRHandle handle))
- \param value The volume of the compartment to set
- \return Returns true if successful
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] index The index to the compartment (corresponds to position in getCompartmentIds(RRHandle handle))
+ \param[in] value The volume of the compartment to set
+ \return Returns true if successful, false otherwise 
  \ingroup compartment
-
 */
 C_DECL_SPEC bool rrcCallConv setCompartmentByIndex (RRHandle handle, const int index, const double value);
 
@@ -801,7 +869,8 @@ C_DECL_SPEC bool rrcCallConv setCompartmentByIndex (RRHandle handle, const int i
  setFloatingSpeciesConcentrations(myVector);
  \endcode
  
- \param vec A vector of floating species concentrations
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] vec Pointer to a RRVector
  \return Returns true if successful
  \ingroup floating
 */
@@ -820,6 +889,7 @@ C_DECL_SPEC bool rrcCallConv setFloatingSpeciesConcentrations(RRHandle handle, c
  setBoundarySpeciesConcentrations(myVector);
 \endcode
  
+ \param[in] handle Handle to a RoadRunner instance
  \param vec A vector of boundary species concentrations
  \return Returns true if successful
  \ingroup boundary
@@ -830,6 +900,7 @@ C_DECL_SPEC bool rrcCallConv setBoundarySpeciesConcentrations(RRHandle handle, c
 /*!
  \brief Retrieve the full Jacobian for the current model
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise returns the full Jacobian matrix 
  \ingroup Stoich
 */
@@ -840,6 +911,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getFullJacobian(RRHandle handle);
  
  setComputeAndAssignConservationLaws (true) must be enabled.
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise returns the reduced Jacobian matrix
  \ingroup Stoich
 */
@@ -848,6 +920,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getReducedJacobian(RRHandle handle);
 /*!
  \brief Retrieve the eigenvalue matrix for the current model
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise returns a matrix of eigenvalues.
  The first column will contain the real values and the second column the imaginary values
  \ingroup Stoich
@@ -861,6 +934,8 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getEigenvalues(RRHandle handle);
 /*!
  \brief Compute the eigenvalues of the matrix
 
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] mat Handle to input matrix
  \return Returns null if it fails, otherwise returns a matrix of eigenvalues.
  The first column will contain the real values and the second column the imaginary values
  \ingroup LinearAlgebra
@@ -874,6 +949,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getEigenvaluesMatrix (RRHandle handle, co
 /*!
  \brief Retrieve the stoichiometry matrix for the current model
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise returns the stoichiometry matrix.
  \ingroup Stoich
 */
@@ -882,6 +958,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getStoichiometryMatrix(RRHandle handle);
 /*!
  \brief Retrieve the Link matrix for the current model
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise returns the Link matrix.
  \ingroup Stoich
 */
@@ -890,6 +967,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getLinkMatrix(RRHandle handle);
 /*!
  \brief Retrieve the reduced stoichiometry matrix for the current model
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise returns reduced stoichiometry matrix
  \ingroup Stoich
 */
@@ -898,6 +976,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getNrMatrix(RRHandle handle);
 /*!
  \brief Retrieve the L0 matrix for the current model
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise returns the L0 matrix.
  \ingroup Stoich
 */
@@ -908,6 +987,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getL0Matrix(RRHandle handle);
 
  The conservation laws as describe by row where the columns indicate the species Id.
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise returns the conservation matrix.
  \ingroup Stoich
 */
@@ -922,6 +1002,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getConservationMatrix(RRHandle handle);
 
  Example: \code status = reset (RRHandle handle); \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns true if successful
  \ingroup simulation
 */
@@ -932,6 +1013,7 @@ C_DECL_SPEC bool rrcCallConv reset(RRHandle handle);
 
  Example: \code status = setFloatingSpeciesInitialConcentrations (vec); \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \param vec A vector of species concentrations: order given by getFloatingSpeciesIds(RRHandle handle)
  \return Returns true if successful
  \ingroup initialConditions
@@ -943,6 +1025,7 @@ C_DECL_SPEC bool rrcCallConv setFloatingSpeciesInitialConcentrations (RRHandle h
 
  Example: \code vec = getFloatingSpeciesInitialConcentrations (RRHandle handle); \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails otherwise returns a vector containing the initial conditions
  \ingroup initialConditions
 */
@@ -953,6 +1036,7 @@ C_DECL_SPEC RRVectorHandle rrcCallConv getFloatingSpeciesInitialConcentrations (
 
  Example: \code vec = getFloatingSpeciesInitialConditionIds (RRHandle handle); \endcode
  
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails otherwise returns a vector containing names of the floating species
  \ingroup initialConditions
 */
@@ -967,6 +1051,7 @@ C_DECL_SPEC RRStringArrayHandle rrcCallConv getFloatingSpeciesInitialConditionId
 
  Example: \code number = getNumberOfReactions (RRHandle handle); \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns -1 if it fails, if succesful it return 0 or more, indicating the number of reactions
  \ingroup reaction
 */
@@ -976,6 +1061,7 @@ C_DECL_SPEC int rrcCallConv getNumberOfReactions(RRHandle handle);
 /*!
  \brief Retrieve a give reaction rate as indicated by the index parameter
 
+ \param[in] handle Handle to a RoadRunner instance
  \param index - The index is used to specify which reaction rate to retrieve
  \param rate - The reaction rate is returned in the rate argument
  \return Returns false if it fails
@@ -987,6 +1073,7 @@ C_DECL_SPEC bool rrcCallConv getReactionRate(RRHandle handle, const int index, d
 /*!
  \brief Retrieve a vector of reaction rates as determined by the current state of the model
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise it returns a vector of reaction rates
  \ingroup reaction
 */
@@ -996,6 +1083,7 @@ C_DECL_SPEC RRVectorHandle rrcCallConv getReactionRates(RRHandle handle);
 /*!
  \brief Retrieve a vector of reaction rates given a vector of species concentrations
 
+ \param[in] handle Handle to a RoadRunner instance
  \param vec The vector of floating species concentrations
  \return Returns null if it fails otherwise it returns a vector of reaction rates
  \ingroup reaction
@@ -1008,6 +1096,7 @@ C_DECL_SPEC RRVectorHandle rrcCallConv getReactionRatesEx (RRHandle handle, cons
 
  Example: \code values = getRatesOfChange (RRHandle handle); \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise returns a vector of rates of change values
  \ingroup rateOfChange
 */
@@ -1018,6 +1107,7 @@ C_DECL_SPEC RRVectorHandle rrcCallConv getRatesOfChange(RRHandle handle);
 
  Example: \code Ids = getRatesOfChangeIds (RRHandle handle); \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise returns a list of rates of change Ids
  \ingroup rateOfChange
 */
@@ -1029,6 +1119,8 @@ C_DECL_SPEC RRStringArrayHandle rrcCallConv getRatesOfChangeIds(RRHandle handle)
 
  Example: \code status = getRateOfChange (&index, *value); \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
+ \param[out] value Pointer to double, holding the rate of change
  \return Returns false if it fails, otherwise value contains the rate of change.
  \ingroup rateOfChange
 */
@@ -1040,6 +1132,8 @@ C_DECL_SPEC bool rrcCallConv getRateOfChange(RRHandle handle, const int, double*
 
  Example: \code values = getRatesOfChangeEx (vector); \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] vec Vector handle holding rates of change
  \return Returns null if it fails
  \ingroup rateOfChange
 */
@@ -1048,6 +1142,7 @@ C_DECL_SPEC RRVectorHandle rrcCallConv getRatesOfChangeEx (RRHandle handle, cons
 /*!
  \brief Evaluate the current model, that it update all assignments and rates of change. Do not carry out an integration step
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns false if it fails
  \ingroup state
 */
@@ -1056,6 +1151,8 @@ C_DECL_SPEC bool rrcCallConv evalModel(RRHandle handle);
 // Get number family
 /*!
  \brief Returns the number of compartments in the model
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns number of compartments
  \ingroup compartment
 */
 C_DECL_SPEC int rrcCallConv getNumberOfCompartments (RRHandle handle);
@@ -1063,6 +1160,7 @@ C_DECL_SPEC int rrcCallConv getNumberOfCompartments (RRHandle handle);
 
 /*!
  \brief Returns the number of boundary species in the model
+ \param[in] handle Handle to a RoadRunner instance
  \ingroup boundary
 */
 C_DECL_SPEC int rrcCallConv getNumberOfBoundarySpecies(RRHandle handle);
@@ -1070,6 +1168,7 @@ C_DECL_SPEC int rrcCallConv getNumberOfBoundarySpecies(RRHandle handle);
 
 /*!
  \brief Returns the number of floating species in the model
+ \param[in] handle Handle to a RoadRunner instance
  \ingroup floating
 */
 C_DECL_SPEC int rrcCallConv getNumberOfFloatingSpecies(RRHandle handle);
@@ -1077,6 +1176,7 @@ C_DECL_SPEC int rrcCallConv getNumberOfFloatingSpecies(RRHandle handle);
 
 /*!
  \brief Returns the number of global parameters in the model
+ \param[in] handle Handle to a RoadRunner instance
  \ingroup parameters
 */
 C_DECL_SPEC int rrcCallConv getNumberOfGlobalParameters(RRHandle handle);
@@ -1087,6 +1187,7 @@ C_DECL_SPEC int rrcCallConv getNumberOfGlobalParameters(RRHandle handle);
 
 /*!
  \brief Returns the number of dependent species in the model
+ \param[in] handle Handle to a RoadRunner instance
  \ingroup floating
 */
 C_DECL_SPEC int rrcCallConv getNumberOfDependentSpecies(RRHandle handle);
@@ -1095,6 +1196,7 @@ C_DECL_SPEC int rrcCallConv getNumberOfDependentSpecies(RRHandle handle);
 /*!
  \brief Returns the number of independent species in the model
  
+ \param[in] handle Handle to a RoadRunner instance
  \ingroup floating
 */
 C_DECL_SPEC int rrcCallConv getNumberOfIndependentSpecies(RRHandle handle);
@@ -1106,6 +1208,7 @@ C_DECL_SPEC int rrcCallConv getNumberOfIndependentSpecies(RRHandle handle);
 /*!
  \brief Obtain the list of reaction Ids
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, if succesful it returns a pointer to a RRStringArrayHandle struct
  \ingroup reaction
 */
@@ -1114,6 +1217,7 @@ C_DECL_SPEC RRStringArrayHandle rrcCallConv getReactionIds(RRHandle handle);
 /*!
  \brief Obtain the list of boundary species Ids
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, if succesful it returns a pointer to a RRStringArrayHandle struct
  \ingroup boundary
 */
@@ -1122,6 +1226,7 @@ C_DECL_SPEC RRStringArrayHandle rrcCallConv getBoundarySpeciesIds(RRHandle handl
 /*!
  \brief Obtain the list of floating species Id
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, if succesful it returns a pointer to a RRStringArrayHandle struct
  \ingroup floating
 */
@@ -1130,6 +1235,7 @@ C_DECL_SPEC RRStringArrayHandle rrcCallConv getFloatingSpeciesIds(RRHandle handl
 /*!
  \brief Obtain the list of global parameter Ids
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, if succesful it returns a pointer to a RRStringArrayHandle struct
  \ingroup parameters
 */
@@ -1140,6 +1246,7 @@ C_DECL_SPEC RRStringArrayHandle rrcCallConv getGlobalParameterIds(RRHandle handl
 
  Example: \code str = getCompartmentIds (RRHandle handle); \endcode
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns -1 if it fails, if succesful it returns a pointer to a RRStringArrayHandle struct
  \ingroup compartment
 */
@@ -1148,6 +1255,7 @@ C_DECL_SPEC RRStringArrayHandle rrcCallConv getCompartmentIds(RRHandle handle);
 /*!
  \brief Obtain the list of eigenvalue Ids
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns -1 if it fails, if succesful it returns a pointer to a RRStringArrayHandle struct
  \ingroup state
 */
@@ -1156,6 +1264,7 @@ C_DECL_SPEC RRStringArrayHandle rrcCallConv getEigenvalueIds(RRHandle handle);
 /*!
  \brief Obtain the list of all available symbols
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns -1 if it fails, if succesful it returns a pointer to a RRListHandle struct
  \ingroup state
 */
@@ -1164,6 +1273,7 @@ C_DECL_SPEC RRListHandle rrcCallConv getAvailableTimeCourseSymbols(RRHandle hand
 /*!
  \brief Obtain the list of all available steady state symbols
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns -1 if it fails, if succesful it returns a pointer to a RRListHandle struct
  \ingroup state
 */
@@ -1176,6 +1286,7 @@ C_DECL_SPEC RRListHandle rrcCallConv getAvailableSteadyStateSymbols(RRHandle han
 /*!
  \brief Obtain the list of elasticity coefficient Ids
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, if succesful it returns a list
  \ingroup mca 
 */
@@ -1184,6 +1295,7 @@ C_DECL_SPEC RRListHandle rrcCallConv getElasticityCoefficientIds(RRHandle handle
 /*!
  \brief Obtain the list of unscaled flux control coefficient Ids
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, if succesful it returns a list of Ids
  \ingroup mca
 */
@@ -1192,6 +1304,7 @@ C_DECL_SPEC RRListHandle rrcCallConv getUnscaledFluxControlCoefficientIds(RRHand
 /*!
  \brief Obtain the list of flux control coefficient Ids
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, if succesful it returns a list of Ids
  \ingroup mca
 */
@@ -1200,6 +1313,7 @@ C_DECL_SPEC RRListHandle rrcCallConv getFluxControlCoefficientIds(RRHandle handl
 /*!
  \brief Obtain the list of unscaled concentration control coefficient Ids
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, if succesful it returns a list of Ids
  \ingroup mca
 */
@@ -1208,6 +1322,7 @@ C_DECL_SPEC RRListHandle rrcCallConv getUnscaledConcentrationControlCoefficientI
 /*!
  \brief Obtain the list of concentration coefficient Ids
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, if succesful it returns a list of Ids
  \ingroup mca 
 */
@@ -1216,6 +1331,7 @@ C_DECL_SPEC RRListHandle rrcCallConv getConcentrationControlCoefficientIds(RRHan
 /*!
  \brief Retrieve the unscaled elasticity matrix for the current model
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns nil if it fails, otherwise returns a matrix of unscaled elasticities
  \ingroup mca
 */
@@ -1224,6 +1340,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getUnscaledElasticityMatrix(RRHandle hand
 /*!
  \brief Retrieve the scaled elasticity matrix for the current model
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise returns a matrix of scaled elasticities.
  \ingroup mca
 */
@@ -1233,6 +1350,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getScaledElasticityMatrix(RRHandle handle
 /*!
  \brief Retrieve the scaled elasticity matrix for the current model
 
+ \param[in] handle Handle to a RoadRunner instance
  \param[in] reactionId The reaction Id for computing the elasticity
  \param[in] speciesId The floating species to compute the elasticity for
  \param[out] value The return value for the elasticity
@@ -1244,6 +1362,7 @@ C_DECL_SPEC bool rrcCallConv getScaledFloatingSpeciesElasticity(RRHandle handle,
 /*!
  \brief Retrieve the matrix of unscaled concentration control coefficients for the current model
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise returns a matrix of unscaled concentration control coefficients 
  The first column will contain the real values and the second column the imaginary values
  \ingroup mca
@@ -1254,6 +1373,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getUnscaledConcentrationControlCoefficien
 /*!
  \brief Retrieve the matrix of scaled concentration control coefficients for the current model
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise returns a matrix of scaled concentration control coefficients
  \ingroup mca
 */
@@ -1262,6 +1382,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getScaledConcentrationControlCoefficientM
 /*!
  \brief Retrieve the matrix of unscaled flux control coefficients for the current model
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise returns a matrix of unscaled flux control coefficients 
  \ingroup mca
 */
@@ -1270,6 +1391,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getUnscaledFluxControlCoefficientMatrix(R
 /*!
  \brief Retrieve the matrix of scaled flux control coefficients for the current model
 
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise returns a matrix of scaled flux control coefficients 
  \ingroup mca
 */
@@ -1278,6 +1400,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getScaledFluxControlCoefficientMatrix(RRH
 /*!
  \brief Retrieve a single unscaled control coefficient
 
+ \param[in] handle Handle to a RoadRunner instance
  \param[in] variable This is the dependent variable of the coefficient, for example a flux or species concentration
  \param[in] parameter This is the independent parameter, for example a kinetic constant or boundary species
  \param[out] value This is the value of the unscaled control coefficeint returns to the caller
@@ -1289,6 +1412,7 @@ C_DECL_SPEC bool rrcCallConv getuCC (RRHandle handle, const char* variable, cons
 /*!
  \brief Retrieve a single control coefficient
 
+ \param[in] handle Handle to a RoadRunner instance
  \param[in] variable This is the dependent variable of the coefficient, for example a flux or species concentration
  \param[in] parameter This is the independent parameter, for example a kinetic constant or boundary species
  \param[out] value This is the value of the control coefficeint returns to the caller
@@ -1300,6 +1424,7 @@ C_DECL_SPEC bool  rrcCallConv getCC (RRHandle handle, const char* variable, cons
 /*!
  \brief Retrieve a single elasticity coefficient
 
+ \param[in] handle Handle to a RoadRunner instance
  \param[in] name This is the reaction variable for the elasticity
  \param[in] species This is the independent parameter, for example a floating of boundary species
  \param[out] value This is the value of the elasticity coefficient returns to the caller
@@ -1311,6 +1436,7 @@ C_DECL_SPEC bool rrcCallConv getEE(RRHandle handle, const char* name, const char
 /*!
  \brief Retrieve a single unscaled elasticity coefficient
 
+ \param[in] handle Handle to a RoadRunner instance
  \param[in] name This is the reaction variable for the unscaled elasticity
  \param[in] species This is the independent parameter, for example a floating of boundary species
  \param[out] value This is the value of the unscaled elasticity coefficient returns to the caller
@@ -1328,6 +1454,7 @@ C_DECL_SPEC bool rrcCallConv getScaledFloatingSpeciesElasticity(RRHandle handle,
 
 /*!
  \brief Returns the number of rules in the current model
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns an integer larger or equal to 0 if succesful, or -1 on failure
  \ingroup NOM functions
 */
@@ -1335,6 +1462,7 @@ C_DECL_SPEC int rrcCallConv getNumberOfRules(RRHandle handle);
 
 /*!
  \brief Returns the name of currently loaded SBML model
+ \param[in] handle Handle to a RoadRunner instance
  \return Returns a char* containing the name if succesful, NULL otherwise
  \ingroup NOM functions
 */
@@ -1401,6 +1529,39 @@ C_DECL_SPEC char* rrcCallConv getModelName(RRHandle handle);
 // *
 // * Installation documentation is provided in the main google code page.
 //
+// * \section license_sec License
+// * Copyright (C) 2012
+// *   University of Washington, Seattle, WA, USA
+// *
+// * Licensed under the Apache License, Version 2.0 (the "License");
+// * you may not use this file except in compliance with the License.
+// * You may obtain a copy of the License at
+// *
+// *     http://www.apache.org/licenses/LICENSE-2.0
+// *
+// * Unless required by applicable law or agreed to in writing, software
+// * distributed under the License is distributed on an "AS IS" BASIS,
+// * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// * See the License for the specific language governing permissions and
+// * limitations under the License.
+// *
+// * In plain english this means:
+// *
+// * You CAN freely download and use this software, in whole or in part, for personal,
+// * company internal, or commercial purposes;
+// *
+// * You CAN use the software in packages or distributions that you create.
+// *
+// * You SHOULD include a copy of the license in any redistribution you may make;
+// *
+// * You are NOT required include the source of software, or of any modifications you may
+// * have made to it, in any redistribution you may assemble that includes it.
+// *
+// * YOU CANNOT:
+// *
+// * redistribute any piece of this software without proper attribution;
+
+
 // \defgroup initialization Library initialization and termination methods
 // \brief Initialize library and terminate library instance
 //
@@ -1412,6 +1573,9 @@ C_DECL_SPEC char* rrcCallConv getModelName(RRHandle handle);
 //
 // \defgroup errorfunctions Error handling functions
 // \brief Error handlining routines
+//
+// \defgroup logging Logging functionality
+// \brief RoadRunners logging routines
 //
 // \defgroup state Current state of system
 // \brief Compute derivatives, fluxes, and other values of the system at the current state
@@ -1437,7 +1601,7 @@ C_DECL_SPEC char* rrcCallConv getModelName(RRHandle handle);
 // \defgroup initialConditions Initial conditions group
 // \brief Set or get initial conditions
 //
-// \defgroup Parameters parameters group
+// \defgroup Parameters Parameters group
 // \brief Set and get global and local parameters
 //
 // \defgroup compartment Compartment group
@@ -1472,7 +1636,9 @@ C_DECL_SPEC char* rrcCallConv getModelName(RRHandle handle);
 // \brief Routines that should be used to free various data structures generated during the course of using the library
 //
 // \defgroup pluginRoutines Plugin functionality
-// \brief Routines used dealing with plugins
+// \brief Routines dealing with plugins
+//
+// Detailed description of RoadRunners plugin framework 
 //
 //*/
 //

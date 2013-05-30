@@ -122,7 +122,7 @@ C_DECL_SPEC bool rrcCallConv setPluginParameter(RRPluginHandle handle, const cha
 
 /*!
  \brief getPluginName
- \param[in] RRPluginHandle handle to plugin
+ \param[in] handle A RRPluginHandle to plugin
  \return Returns the plugins full name, as a string, NULL otherwise
  \ingroup pluginRoutines
 */
@@ -130,7 +130,7 @@ C_DECL_SPEC char* rrcCallConv getPluginName(RRPluginHandle handle);
 
 /*!
  \brief GetPluginInfo
- \param[in] RRPluginHandle handle to plugin
+ \param[in] handle A RRPluginHandle to plugin
  \return Returns info, as a string, for the plugin, NULL otherwise
  \ingroup pluginRoutines
 */
@@ -138,7 +138,7 @@ C_DECL_SPEC char* rrcCallConv getPluginInfo(RRPluginHandle handle);
 
 /*!
  \brief executePlugin (PluginName)
- \param[in] RRPluginHandle handle to plugin
+ \param[in] handle A RRPluginHandle to plugin
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
 */
@@ -146,8 +146,7 @@ C_DECL_SPEC bool rrcCallConv executePlugin(RRPluginHandle handle);
 
 /*!
  \brief executePlugin (PluginName)
- \param[in] RRPluginHandle handle to plugin
- \param[in] void*  pointer to user data. Plugin dependent.
+ \param[in] handle A RRPluginHandle to plugin
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
 */
@@ -155,7 +154,7 @@ C_DECL_SPEC bool rrcCallConv executePluginEx(RRPluginHandle handle, void* userDa
 
 /*!
  \brief getPluginResult (PluginName)
- \param[in] RRPluginHandle handle to plugin
+ \param[in] handle A RRPluginHandle to plugin
  \return Returns plugin result if available. NULL otherwise
  \ingroup pluginRoutines
 */
@@ -163,7 +162,7 @@ C_DECL_SPEC char* rrcCallConv getPluginResult(RRPluginHandle handle);
 
 /*!
  \brief resetPlugin (PluginName)
- \param[in] RRPluginHandle handle to plugin
+ \param[in] handle A RRPluginHandle to plugin
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
 */
@@ -171,8 +170,9 @@ C_DECL_SPEC bool rrcCallConv resetPlugin(RRPluginHandle handle);
 
 /*!
  \brief assignCallbacks
- \param[in] RRPluginHandle handle to plugin
- \param[in] void*  pointer to user data. Plugin dependent.
+ \param[in] handle A RRPluginHandle to plugin
+ \param[in] cb1, cb2  function pointers to callback routines
+ \param[in] userData void* pointer to user data. Plugin dependent.
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
 */

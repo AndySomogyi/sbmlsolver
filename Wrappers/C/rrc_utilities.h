@@ -48,33 +48,11 @@
 //---------------------------------------------------------------------------
 
 #if defined(__cplusplus)
-//namespace rr
-//{
-//class RoadRunner;
-//class RoadRunnerList;
-//class Plugin;
-//class MinimizationData;
-//}
-//using std::vector;
-//using std::string;
-
 namespace rrc
 {
-
-
-//bool                                    copyVector(const RRVector* source, vector<double>& dest);
-//RRVectorHandle                          createVectorFromVector_double(const vector<double>& vec);
-//vector<double>                          createVectorFromRRVector(const RRVector* vec);
-//RRMatrixHandle                          createMatrix(const ls::DoubleMatrix* mat);
-
-//Lists and arrays
-//RRStringArrayHandle                     createList(const rr::StringList& aList);
-//RRListHandle 		                    createArrayList(const rr::NewArrayList& aList);
-
 extern "C"
 {
 #endif
-
 
 extern char* gLastError;
 extern char* gInstallFolder;
@@ -640,17 +618,53 @@ C_DECL_SPEC char* rrcCallConv listToString(const RRListHandle list);
 
 
 //=== Utility functions on rrInstanceLists
+/*!
+ \brief Returns number of instances in InstanceList.
+ \param iList Handle to a Roadrunner InstanceList handle
+ \return Returns an integer indicating the instance count
+ \ingroup helperRoutines
+*/
 C_DECL_SPEC int 		rrcCallConv 	getInstanceCount(RRInstanceListHandle iList);
+
+/*!
+ \brief Returns a RoadRunner handle from Roadrunnerlist
+ \param iList Handle to a Roadrunner InstanceList handle
+ \param index Index to a specific item in the list
+ \return Returna a handle to RoadRunner instance. 
+ \ingroup helperRoutines
+*/
 C_DECL_SPEC RRHandle 	rrcCallConv 	getRRHandle(RRInstanceListHandle iList, int index);
 
 
 //======================== DATA WRITING ROUTINES =============================
-C_DECL_SPEC bool rrcCallConv writeRRData(RRHandle rrHandle, const char* faileNameAndPath);
-C_DECL_SPEC bool rrcCallConv writeMultipleRRData(RRInstanceListHandle rrHandles, const char* faileNameAndPath);
+/*!
+ \brief Writes RoadRunner data to file
+ \param handle Handle to a Roadrunner Instance
+ \param fileNameAndPath Pointer to string holding the file(with path) to write data to 
+ \return Returna a boolean indicating the result 
+ \ingroup helperRoutines
+*/
+C_DECL_SPEC bool rrcCallConv writeRRData(RRHandle handle, const char* fileNameAndPath);
+
+/*!
+ \brief Writes multiple RoadRunner data to file
+ \param handle Handle to a RRInstanceList
+ \param fileNameAndPath Pointer to string holding the file(with path) to write data to 
+ \return Returna a boolean indicating the result 
+ \ingroup helperRoutines
+*/
+C_DECL_SPEC bool rrcCallConv writeMultipleRRData(RRInstanceListHandle handle, const char* fileNameAndPath);
 
 ///////////////////////////////////////////////////////////////////////////////////
 // TEST UTILITY functions (to be documented later. Only for internal testing)
-C_DECL_SPEC bool rrcCallConv compileSource(RRHandle handle, const char* sourceFileName);
+/*!
+ \brief Compiles source code
+ \param handle Handle to a RRInstance
+ \param sourceFileNameAndPath Pointer to string holding the file(with path) to compile 
+ \return Returna a boolean indicating the result 
+ \ingroup helperRoutines
+*/
+C_DECL_SPEC bool rrcCallConv compileSource(RRHandle handle, const char* sourceFileNameAndPath);
 
 
 #if defined(__cplusplus)
