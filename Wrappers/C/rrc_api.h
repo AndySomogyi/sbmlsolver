@@ -270,6 +270,7 @@ C_DECL_SPEC bool rrcCallConv setCodeGenerationMode(RRHandle handle, int _mode);
  \ingroup errorfunctions
 */
 C_DECL_SPEC bool rrcCallConv enableLoggingToConsole(void);
+
 C_DECL_SPEC bool rrcCallConv enableLoggingToFile(RRHandle handle);
 
 enum  CLogLevel

@@ -15,9 +15,6 @@
         <Projects Include="..\..\Wrappers\C\Testing\tests.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\Wrappers\C\Apps\sbml_ts_tester\sbml_ts_tester.cbproj">
-            <Dependencies/>
-        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -62,23 +59,14 @@
     <Target Name="tests:Make">
         <MSBuild Projects="..\..\Wrappers\C\Testing\tests.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="sbml_ts_tester">
-        <MSBuild Projects="..\..\Wrappers\C\Apps\sbml_ts_tester\sbml_ts_tester.cbproj"/>
-    </Target>
-    <Target Name="sbml_ts_tester:Clean">
-        <MSBuild Projects="..\..\Wrappers\C\Apps\sbml_ts_tester\sbml_ts_tester.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="sbml_ts_tester:Make">
-        <MSBuild Projects="..\..\Wrappers\C\Apps\sbml_ts_tester\sbml_ts_tester.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="Build">
-        <CallTarget Targets="roadrunner;roadrunner-static;rr_c_api;c_api_tests"/>
+        <CallTarget Targets="roadrunner;roadrunner-static;rrc_api;tests"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="roadrunner:Clean;roadrunner-static:Clean;rr_c_api:Clean;c_api_tests:Clean"/>
+        <CallTarget Targets="roadrunner:Clean;roadrunner-static:Clean;rrc_api:Clean;tests:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="roadrunner:Make;roadrunner-static:Make;rr_c_api:Make;c_api_tests:Make"/>
+        <CallTarget Targets="roadrunner:Make;roadrunner-static:Make;rrc_api:Make;tests:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

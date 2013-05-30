@@ -162,10 +162,8 @@ double NOMSupport::getValue(const string& sId)
         }
     }
 
-
     throw Exception("Invalid string name. The id '" + sId + "' does not exist in the model");
 }
-
 
 //double NOMSupport::getValue(const string& id)
 //{
