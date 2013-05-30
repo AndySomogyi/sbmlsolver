@@ -52,9 +52,11 @@ extern "C"
 {
 #endif
 
+/*!
+ \brief Log level enum
+*/
 enum  CLogLevel
     {
-        clShowAlways = -1,
         clError      = 0,
         clWarning    = 1,
         clInfo       = 2,
@@ -64,8 +66,7 @@ enum  CLogLevel
         clDebug3     = 6,
         clDebug4     = 7,
         clDebug5     = 8,
-        clAny        = 9,
-        clUser
+        clAny        = 9
     };
 
 /*!
@@ -127,9 +128,12 @@ C_DECL_SPEC char* rrcCallConv getLogLevel(void);
 C_DECL_SPEC char* rrcCallConv getLogFileName(void);
 
 
-C_DECL_SPEC void rrcCallConv logMsg(enum CLogLevel lvl, const char* msg);
-
-C_DECL_SPEC char* rrcCallConv testString (char* testStr);
+/*!
+ \brief Create a log message
+ \param lvl Loglevel for message
+ \param msg Log message 
+ \ingroup logging
+*/C_DECL_SPEC void rrcCallConv logMsg(enum CLogLevel lvl, const char* msg);
 
 
 #if defined(__cplusplus)

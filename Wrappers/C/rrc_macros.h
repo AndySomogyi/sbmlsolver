@@ -43,6 +43,10 @@
 
 
 //=================== MACROS ================================
+/*!
+ \brief macro for catch statement in a routine returning a bool 
+ \ingroup macros
+*/
 #define  catch_bool_macro                                   \
 	catch(Exception& ex)                                    \
 	{                                                       \
@@ -52,6 +56,10 @@
 		return false;                               		\
 	}
 
+/*!
+ \brief macro for catch statement in a routine returning a pointer 
+ \ingroup macros
+*/
 #define  catch_ptr_macro                                    \
 	catch(Exception& ex)                                    \
 	{                                                       \
@@ -61,6 +69,10 @@
 		return NULL;                                        \
 	}
 
+/*!
+ \brief macro for catch statement in a routine returning a positive integer  
+ \ingroup macros
+*/
 #define catch_int_macro                                     \
     catch(Exception& ex)                                    \
     {                                                       \

@@ -54,9 +54,9 @@ extern "C"
 
 /*!
  \brief Add parameter to fit to minimization data structure
- \param[in] RRMinimizationDataHandle
- \param[in] char* name
- \param[in] double value
+ \param[in] handle Handle to a Minimization data structure
+ \param[in] name Name of parameter
+ \param[in] value value for the paramaeter 
  \return Returns true if sucessful, false otherwise
  \ingroup Minimization
 */
@@ -64,21 +64,21 @@ C_DECL_SPEC bool rrcCallConv addDoubleParameter(RRMinimizationDataHandle handle,
 
 /*!
  \brief Set minimization objects selection list related to experimental data
- \param[in] RRMinimizationDataHandle
- \param[in] RRStringArrayHandle
+ \param[in] handle Handle to a Minimization data structure
+ \param[in] list Selectionlist as a string 
  \return Returns true if sucessful, false otherwise
  \ingroup Minimization
 */
-C_DECL_SPEC bool rrcCallConv setMinimizationExperimentalDataSelectionList(RRMinimizationDataHandle handle, const char* listHandle);
+C_DECL_SPEC bool rrcCallConv setMinimizationExperimentalDataSelectionList(RRMinimizationDataHandle handle, const char* list);
 
 /*!
  \brief Set minimization objects selection list related to model data
- \param[in] RRMinimizationDataHandle
- \param[in] RRStringArrayHandle
+ \param[in] handle Handle to a Minimization data structure
+ \param[in] list Selectionlist as a string 
  \return Returns true if sucessful, false otherwise
  \ingroup Minimization
 */
-C_DECL_SPEC bool rrcCallConv setMinimizationModelDataSelectionList(RRMinimizationDataHandle handle, const char* listHandle);
+C_DECL_SPEC bool rrcCallConv setMinimizationModelDataSelectionList(RRMinimizationDataHandle handle, const char* list);
 
 #if defined(__cplusplus)
 }	//Extern "C"
