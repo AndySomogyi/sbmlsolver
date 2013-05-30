@@ -38,8 +38,8 @@
  *
  * redistribute any piece of this software without proper attribution;
 */
-#ifndef rrC_APIH
-#define rrC_APIH
+#ifndef rrc_apiH
+#define rrc_apiH
 #include "rrc_exporter.h"
 #include "rrc_types.h"
 #include "rrc_utilities.h"
@@ -47,7 +47,7 @@
 #include "rrc_plugin_api.h"
 #include "rrc_parameter_api.h"
 #include "rrc_minimization_api.h"
-
+#include "rrc_logging_api.h"
 #if defined(__cplusplus)
 namespace rrc
 {
@@ -61,6 +61,14 @@ extern "C"
 // \ingroup initialization
 //*/
 C_DECL_SPEC RRHandle rrcCallConv createRRInstance(void);
+
+///*!
+// \brief Initialize a new roadRunner instance and return a handle to it.
+// \param[in] tempFolder set roadrunners temporary folder
+// \return Returns a RoadRunner instance, returns null if it fails
+// \ingroup initialization
+//*/
+
 C_DECL_SPEC RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder);
 
 ///*!
@@ -260,85 +268,6 @@ C_DECL_SPEC RRCCodeHandle rrcCallConv getCCode(RRHandle handle);
 */
 C_DECL_SPEC bool rrcCallConv setCodeGenerationMode(RRHandle handle, int _mode);
 
-// -----------------------------------------------------------------------
-// Logging Routines
-// -----------------------------------------------------------------------
-
-/*!
- \brief Enable logging to log file and/or console
- \return Returns true if succesful
- \ingroup errorfunctions
-*/
-C_DECL_SPEC bool rrcCallConv enableLoggingToConsole(void);
-
-C_DECL_SPEC bool rrcCallConv enableLoggingToFile(RRHandle handle);
-
-enum  CLogLevel
-    {
-        clShowAlways = -1,
-        clError      = 0,
-        clWarning    = 1,
-        clInfo       = 2,
-        clDebug      = 3,
-        clDebug1     = 4,
-        clDebug2     = 5,
-        clDebug3     = 6,
-        clDebug4     = 7,
-        clDebug5     = 8,
-        clAny        = 9,
-        clUser
-    };
-
-
-C_DECL_SPEC void rrcCallConv logMsg(enum CLogLevel lvl, const char* msg);
-
-C_DECL_SPEC char* rrcCallConv testString (char* testStr);
-
-/*!
- \brief Set the logging status level
-
- The logging level is determined by the following strings
-
- "ANY", "DEBUG5", "DEBUG4", "DEBUG3", "DEBUG2", "DEBUG1",
- "DEBUG", "INFO", "WARNING", "ERROR"
-
- Example: \code setLogLevel ("DEBUG4") \endcode
-
- \param lvl Pointer to the logging level string.
- \return Ruturns true if succesful
- \ingroup errorfunctions
-*/
-C_DECL_SPEC bool rrcCallConv setLogLevel(const char* lvl);
-
-/*!
- \brief Get the logging status level as a pointer to a string
-
- The logging level can be one of the following strings
-
- "ANY", "DEBUG5", "DEBUG4", "DEBUG3", "DEBUG2", "DEBUG1",
- "DEBUG", "INFO", "WARNING", "ERROR"
-
- Example: \code str = getLogLevel (void) \endcode
-
- \return Returns null if it fails else returns a pointer to the logging string
- \ingroup errorfunctions
-*/
-C_DECL_SPEC char* rrcCallConv getLogLevel(void);
-
-/*!
- \brief Get a pointer to the string that holds the logging file name path
-
- The logging level can be one of the following strings
-
- "ANY", "DEBUG5", "DEBUG4", "DEBUG3", "DEBUG2", "DEBUG1",
- "DEBUG", "INFO", "WARNING", "ERROR"
-
- Example: str = getLogFileName (void)
-
- \return Returns null if it fails else returns the full path to the logging file name
- \ingroup errorfunctions
-*/
-C_DECL_SPEC char* rrcCallConv getLogFileName(void);
 
 /*!
  \brief Check if there is an error string to retrieve
