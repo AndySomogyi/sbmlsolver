@@ -52,89 +52,130 @@ extern "C"
 {
 #endif
 
+/*!
+ \brief Typedef for callback function, taking a void* parameter
+ \ingroup multithreading
+*/
 typedef void    (rrcCallConv *callBackFunc)(void*);
 
-C_DECL_SPEC RRJobHandle 	rrcCallConv simulateJob(RRHandle rrHandle);
-C_DECL_SPEC RRJobHandle 	rrcCallConv simulateJobEx(RRHandle rrHandle, double timeStart,
+/*!
+ \brief Run a roadrunner simulation in a thread
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns a handle to the Job if succesful, otherwise returns NULL
+ \ingroup multiThreading
+*/
+C_DECL_SPEC RRJobHandle 	rrcCallConv simulateJob(RRHandle handle);
+
+/*!
+ \brief Run a roadrunner simulation in a thread
+ \param[in] handle Handle to a RoadRunner instance
+ \param timeStart,timeEnd,numberOfPoints Parameters for the simulation
+ \param fn1,fn2 Callback functions that are used internally in the thread. 
+ \param userData User supplied data that can be used in the supplied callback functions
+ \return Returns a handle to the Job if succesful, otherwise returns NULL
+ \ingroup multiThreading
+*/
+C_DECL_SPEC RRJobHandle 	rrcCallConv simulateJobEx(RRHandle handle, double timeStart,
 														double timeEnd,	int numberOfPoints,
                                                         callBackFunc fn1, callBackFunc fn2, void* userData);
 
-C_DECL_SPEC RRJobsHandle 	rrcCallConv simulateJobs(RRInstanceListHandle rrHandles, int nrOfThreads);
-C_DECL_SPEC RRJobsHandle 	rrcCallConv simulateJobsEx(RRInstanceListHandle rrHandles,
-														int nrOfThreads, double timeStart,
-                                                        double timeEnd, int numberOfPoints,
+/*!
+ \brief Run multiple simulations in a set of threads
+ \param[in] handles Handle to a list of RoadRunner instances
+ \param[in] nrOfThreads Number of threads to allocate in order to execute the jobs
+ \return Returns a handle to a list of jobs if succesful, otherwise returns NULL
+ \ingroup multiThreading
+*/
+C_DECL_SPEC RRJobsHandle 	rrcCallConv simulateJobs(RRInstanceListHandle handles, int nrOfThreads);
+
+
+/*!
+ \brief Run multiple simulations in a set of threads
+ \param[in] handles Handle to a list of RoadRunner instances
+ \param[in] nrOfThreads Number of threads to allocate in order to execute the jobs
+ \param timeStart,timeEnd,numberOfPoints Parameters for the simulation
+ \param fn1,fn2 Callback functions that are used internally in the thread. 
+ \param userData User supplied data that can be used in the supplied callback functions
+ \return Returns a handle to a list of jobs if succesful, otherwise returns NULL
+ \ingroup multiThreading
+*/C_DECL_SPEC RRJobsHandle 	rrcCallConv simulateJobsEx(RRInstanceListHandle handles, int nrOfThreads, 
+                                                        double timeStart, double timeEnd, int numberOfPoints,
                                                         callBackFunc fn1, callBackFunc fn2, void* userData);
 
 /*!
  \brief Load a model from a SBML file into a RoadRunner instances, using a Job
- \param[in] rrHandle - RoadRunner handle
- \param[in] fileName file name (or full path) to file that holds the SBML model
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] fileName file name (with optional full path) to a file that holds the SBML model
  \return Returns a handle to the Job if succesful, otherwise returns NULL
  \ingroup multiThreading
 */
 
-C_DECL_SPEC RRJobHandle rrcCallConv loadSBMLFromFileJob(RRHandle rrHandle, const char* fileName);
+C_DECL_SPEC RRJobHandle rrcCallConv loadSBMLFromFileJob(RRHandle handle, const char* fileName);
 
 /*!
  \brief Load a model from a SBML file into a RoadRunner instances, using a Job
- \param[in] rrHandle - RoadRunner handle
+ \param[in] handle Handle to a RoadRunner instance
  \param[in] fileName file name (or full path) to file that holds the SBML model
- \param[in] recompileFlag, Boolean that forces recompilation if true. If false, no compilation occur if model dll exists
+ \param[in] reCompile Boolean that forces recompilation if true. If false, no compilation occur if model dll exists
  \return Returns a handle to the Job if succesful, otherwise returns NULL
  \ingroup multiThreading
 */
 
-C_DECL_SPEC RRJobHandle rrcCallConv loadSBMLFromFileJobEx(RRHandle rrHandle, const char* fileName, bool reCompile);
+C_DECL_SPEC RRJobHandle rrcCallConv loadSBMLFromFileJobEx(RRHandle handle, const char* fileName, bool reCompile);
 
 /*!
  \brief Load a model from a SBML file into a set of RoadRunner instances
- \param[in] rrHandles - RoadRunner handles structure
+ \param[in] handles Handle to a list of RoadRunner instances
  \param[in] fileName file name (or full path) to file that holds the SBML model
+ \param[in] nrOfThreads Number of threads to allocate in order to execute the job
  \return Returns a handle to the Jobs if succesful, otherwise returns NULL
  \ingroup multiThreading
 */
-C_DECL_SPEC RRJobsHandle rrcCallConv loadSBMLFromFileJobs(RRInstanceListHandle rrHandles, const char* fileName, int nrOfThreads);
+C_DECL_SPEC RRJobsHandle rrcCallConv loadSBMLFromFileJobs(RRInstanceListHandle handles, const char* fileName, int nrOfThreads);
 
 /*!
  \brief Load a model from a SBML text string into a RoadRunner instances, using a Job
- \param[in] rrHandle - RoadRunner handle
- \param[in] sbml string that holds the SBML model
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] sbml String that holds the SBML model
  \return Returns a handle to the Job if succesful, otherwise returns NULL
  \ingroup multiThreading
 */
-C_DECL_SPEC RRJobHandle rrcCallConv loadSBMLJob(RRHandle rrHandle, const char* sbml);
+C_DECL_SPEC RRJobHandle rrcCallConv loadSBMLJob(RRHandle handle, const char* sbml);
 
 /*!
  \brief Load a model from a SBML text string into a RoadRunner instances, using a Job
- \param[in] rrHandle - RoadRunner handle
- \param[in] sbml string that holds the SBML model
- \param[in] recompileFlag, Boolean that forces recompilation if true. If false, no compilation occur if model dll exists
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] sbml String that holds the SBML model
+ \param[in] reCompile Boolean that forces recompilation if true. If false, no compilation occur if model dll exists
  \return Returns a handle to the Job if succesful, otherwise returns NULL
  \ingroup multiThreading
 */
-C_DECL_SPEC RRJobHandle rrcCallConv loadSBMLJobEx(RRHandle rrHandle, const char* sbml, bool reCompile);
+C_DECL_SPEC RRJobHandle rrcCallConv loadSBMLJobEx(RRHandle handle, const char* sbml, bool reCompile);
 
 /*!
  \brief Load a model from a SBML tesxt string into a set of RoadRunner instances
- \param[in] rrHandles - RoadRunner handles structure
- \param[in] sbml string that holds the SBML model
+ \param[in] handles Handle to a list of RoadRunner instances
+ \param[in] sbml String that holds the SBML model
+ \param[in] nrOfThreads Number of threads to allocate in order to execute the job
  \return Returns a handle to the Jobs if succesful, otherwise returns NULL
  \ingroup multiThreading
 */
-C_DECL_SPEC RRJobsHandle rrcCallConv loadSBMLJobs(RRInstanceListHandle rrHandles, const char* sbml, int nrOfThreads);
+C_DECL_SPEC RRJobsHandle rrcCallConv loadSBMLJobs(RRInstanceListHandle handles, const char* sbml, int nrOfThreads);
 
 /*!
  \brief Load a model from a SBML file into a set of RoadRunner instances
- \param[in] rrHandles - RoadRunner handles structure
+ \param[in] handles Handle to a list of RoadRunner instances
  \param[in] sbml string that holds the SBML model
+ \param[in] nrOfThreads Number of threads to allocate in order to execute the job
+ \param[in] force_recompile Indicates if a forced recompilation of the model should be executed
  \return Returns a handle to the Jobs if succesful, otherwise returns NULL
  \ingroup multiThreading
 */
-C_DECL_SPEC RRJobsHandle rrcCallConv loadSBMLJobsEx(RRInstanceListHandle rrHandles, const char* sbml, int nrOfThreads, bool recompile);
+C_DECL_SPEC RRJobsHandle rrcCallConv loadSBMLJobsEx(RRInstanceListHandle handles, const char* sbml, int nrOfThreads, bool force_recompile);
 
 /*!
  \brief Wait for jobs in thread to finish
- \param[in] RRJobHandle - aHandle to a roadrunner thread
+ \param[in] handle Handle to a RoadRunner job
  \return Returns true if thread finsihed up properly, otherwise returns false
  \ingroup multiThreading
 */
@@ -142,7 +183,7 @@ C_DECL_SPEC bool rrcCallConv waitForJob(RRJobHandle handle);
 
 /*!
  \brief Wait for jobs in thread pool to finish
- \param[in] RRJobsHandle - aHandle to a threadPool
+ \param[in] handle Handle to a list of RoadRunner jobs
  \return Returns true if threadpool finished up properly, otherwise returns false
  \ingroup multiThreading
 */
@@ -150,7 +191,7 @@ C_DECL_SPEC bool rrcCallConv waitForJobs(RRJobsHandle handle);
 
 /*!
  \brief Check if there are work being done on a job
- \param[in] RRJobsHandle - aHandle to a threadPool
+ \param[in] handle Handle to a RoadRunner job
  \return Returns true if there are running threads, otherwise returns false
  \ingroup multiThreading
 */
@@ -158,15 +199,15 @@ C_DECL_SPEC bool rrcCallConv isJobFinished(RRJobHandle handle);
 
 /*!
  \brief Check if there are work being done on jobs
- \param[in] RRJobsHandle - aHandle to a threadPool
+ \param[in] handle Handle to a list of RoadRunner jobs
  \return Returns true if there are running threads, otherwise returns false
  \ingroup multiThreading
 */
 C_DECL_SPEC bool rrcCallConv areJobsFinished(RRJobsHandle handle);
 
 /*!
- \brief Get number of remaining jobs in a threadPool
- \param[in] RRJobsHandle - aHandle to a threadPool
+ \brief Get number of remaining jobs in a job list
+ \param[in] handle Handle to a list of RoadRunner jobs
  \return Returns number of remaining, unfinished jobs. Returns -1 on failure
  \ingroup multiThreading
 */
@@ -175,17 +216,15 @@ C_DECL_SPEC int rrcCallConv getNumberOfRemainingJobs(RRJobsHandle handle);
 
 /*!
  \brief Free a job handle
- \param[in] RRJobHandle
+ \param[in] handle Handle to a roadrunner job
  \return Returns true or false indicating if the function was succesful
  \ingroup multiThreading
 */
-
 C_DECL_SPEC bool rrcCallConv freeJob(RRJobHandle handle);
-
 
 /*!
  \brief Free a jobs handle
- \param[in] RRJobsHandle
+ \param[in] handle Handle to a list of roadrunner jobs
  \return Returns true or false indicating if the function was succesful
  \ingroup multiThreading
 */
