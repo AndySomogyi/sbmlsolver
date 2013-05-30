@@ -1668,7 +1668,7 @@ bool rrCallConv setGlobalParameterByIndex(RRHandle handle, const int index, cons
     }
 }
 
-bool rrCallConv setFloatingSpeciesInitialConcentrations(RRHandle handle, const RRVector* vec)
+bool rrCallConv setFloatingSpeciesInitialConcentrations(RRHandle handle, const struct RRVector* vec)
 {
     try
     {
@@ -1687,7 +1687,7 @@ bool rrCallConv setFloatingSpeciesInitialConcentrations(RRHandle handle, const R
     }
 }
 
-bool rrCallConv setFloatingSpeciesConcentrations(RRHandle handle, const RRVector* vec)
+bool rrCallConv setFloatingSpeciesConcentrations(RRHandle handle, const struct RRVector* vec)
 {
     try
     {
@@ -1709,7 +1709,7 @@ bool rrCallConv setFloatingSpeciesConcentrations(RRHandle handle, const RRVector
     }
 }
 
-bool rrCallConv setBoundarySpeciesConcentrations(RRHandle handle, const RRVector* vec)
+bool rrCallConv setBoundarySpeciesConcentrations(RRHandle handle, const struct RRVector* vec)
 {
     try
     {
@@ -2269,7 +2269,7 @@ RRCCode* rrCallConv getCCode(RRHandle handle)
 // *******  Not yet implemented  ********
 // codeGenerationMode = 0 if mode is C code generation
 // codeGenerationMode = 1 ig mode is internal math interpreter
-bool rrCallConv setCodeGenerationMode (int _mode)
+bool rrCallConv setCodeGenerationMode (RRHandle handle, int mode)
 {
     return false;
 }
@@ -2732,113 +2732,6 @@ bool rrCallConv getRateOfChange(RRHandle handle, const int index, double* value)
     }
 }
 
-
-// LOGGING ROUTINES
-void rrCallConv logMsg(CLogLevel lvl, const char* msg)
-{
-    try
-    {
-        Log((LogLevel) lvl)<<msg;
-    }
-    catch(const Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-    }
-}
-
-bool rrCallConv enableLoggingToConsole()
-{
-    try
-    {
-        LogOutput::mLogToConsole = true;
-        return true;
-    }
-    catch(const Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-          return false;
-    }
-}
-
-bool rrCallConv enableLoggingToFile(RRHandle handle)
-{
-    try
-    {
-        RoadRunner* rri = castFrom(handle);
-        char* tempFolder = getTempFolder(handle);
-		string logFile = joinPath(tempFolder, "RoadRunner.log") ;
-        freeText(tempFolder);
-
-        gLog.Init("", gLog.GetLogLevel(), new LogFile(logFile.c_str()));
-        return true;
-    }
-    catch(const Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-          return false;
-    }
-}
-
-char* rrCallConv testString (char* testStr)
-{
-    return testStr;
-}
-
-bool rrCallConv setLogLevel(const char* _lvl)
-{
-    try
-    {
-        LogLevel lvl = GetLogLevel(_lvl);
-        gLog.SetCutOffLogLevel(lvl);
-        return true;
-    }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-          return false;
-    }
-}
-
-char* rrCallConv getLogLevel()
-{
-    try
-    {
-        string level = gLog.GetCurrentLogLevel();
-        char* lvl = createText(level.c_str());
-        return lvl;
-    }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-          return NULL;
-    }
-}
-
-char* rrCallConv getLogFileName()
-{
-    try
-    {
-        return createText(gLog.GetLogFileName().c_str());
-    }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-          return NULL;
-    }
-}
-
 char* rrCallConv getBuildDate()
 {
     return createText(__DATE__);
@@ -2852,16 +2745,6 @@ char* rrCallConv getBuildTime()
 char* rrCallConv getBuildDateTime()
 {
     return createText(string(__DATE__) + string(" ") + string(__TIME__));
-}
-
-int rrCallConv getInstanceCount(RRInstanceListHandle iList)
-{
-    return iList->Count;
-}
-
-RRHandle rrCallConv getRRHandle(RRInstanceListHandle iList, int index)
-{
-    return iList->Handle[index];
 }
 
 bool rrCallConv freeRRInstance(RRHandle handle)

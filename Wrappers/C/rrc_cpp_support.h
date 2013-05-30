@@ -59,33 +59,113 @@
 namespace rrc
 {
 using std::vector;
+
+/*!
+ \brief Set API error
+
+ \param[in] error A string containg the error
+ \ingroup cpp_support 
+*/
 void 									setError(const string& err);
-//Cast void* handle to RoadRunner instance pointer, throw if it fails
+
+/*!
+ \brief Cast a handle to RoadRunner instance pointer, throws if it fails
+ \param[in] handle  A handle to a roadrunner instance
+ \return Pointer to a roadrunner instance
+ \ingroup cpp_support 
+*/
 rr::RoadRunner* 						castFrom(rrc::RRHandle rrHandle);
 
-//Cast void* handle to RoadRunner instance pointer, throw if it fails
+/*!
+ \brief Cast a handle to RoadRunner instance pointer, throws if it fails
+ \param[in] handle  A handle to a roadrunner plugin instance
+ \return Pointer to a plugin instance
+ \ingroup cpp_support 
+*/
 rr::Plugin* 							castToPlugin(rrc::RRPluginHandle handle);
 
-//Cast void* handle to RoadRunner instance pointer, throw if it fails
-rr::BaseParameter*						castToParameter(rrc::RRParameterHandle handle);
+/*!
+ \brief Cast a handle to RoadRunner BaseParameter pointer, throws if it fails
+ \param[in] handle  A handle to a roadrunner parameter instance
+ \return Pointer to a baseparameter instance
+ \ingroup cpp_support 
+*/
+rr::BaseParameter*					    castToParameter(rrc::RRParameterHandle handle);
 
-//Cast void* handle to MinimizationData instance pointer, throw if it fails
+/*!
+ \brief Cast a handle to RoadRunner MinimizationData pointer, throws if it fails
+ \param[in] handle  A handle to a roadrunner minimization data instance
+ \return Pointer to a minimization data instance
+ \ingroup cpp_support 
+*/
 rr::MinimizationData*					castToMinimizationData(rrc::RRMinimizationDataHandle handle);
 
-//Cast
+/*!
+ \brief Cast a handle to RoadRunner Instance list ro a RoadRunnerList pointer, throws if it fails
+ \param[in] handle  A handle to a RRInstanceList handle
+ \return Pointer to a RoadRunnerList instance
+ \ingroup cpp_support 
+*/
 rr::RoadRunnerList* 					getRRList(rrc::RRInstanceListHandle handle);
-void                                    setError(const string& err);
+
+/*!
+ \brief Copy a C vector to a std::vector 
+ \param[in] source Pointer to a RRVector structure instance
+ \param[in] dest  Destination std::vector
+ \return True or false, indicating the result 
+ \ingroup cpp_support 
+*/
 bool                                    copyVector(const rrc::RRVector* source, vector<double>& dest);
+
+/*!
+ \brief Creates a C vector from a std::vector 
+ \param[in] vec Input double vector 
+ \return A handle to a RRVector. Null if it fails 
+ \ingroup cpp_support 
+*/
 rrc::RRVectorHandle                     createVectorFromVector_double(const vector<double>& vec);
+
+/*!
+ \brief Creates a std vector from a C vector 
+ \param[in] vec Input C vector 
+ \return A std vector object  
+ \ingroup cpp_support 
+*/
 vector<double>                          createVectorFromRRVector(const rrc::RRVector* vec);
+
+/*!
+ \brief Creates a C matrix  from a ls::DoubleMatrix, supplied as a pointer  
+ \param[in] mat  Input DoubleMatrix 
+ \return A handle to a RRMatrix. Null if it fails 
+ \ingroup cpp_support 
+*/
 rrc::RRMatrixHandle                     createMatrix(const ls::DoubleMatrix* mat);
 
 //Lists and arrays
-rrc::RRStringArrayHandle                createList(const rr::StringList& aList);
-rrc::RRListHandle 		                createArrayList(const rr::NewArrayList& aList);
+/*!
+ \brief Creates a C StringArray from a rr::StringList  
+ \param[in] list  Input StringList  
+ \return A handle to a RRStringArray. Null if it fails 
+ \ingroup cpp_support 
+*/
+rrc::RRStringArrayHandle                createList(const rr::StringList& list);
+
+/*!
+ \brief Creates a heterogenoeus RRList from a rr::NewArrayList   
+ \param[in] list  Input Array list  
+ \return A handle to a RRList. Null if it fails 
+ \ingroup cpp_support 
+*/
+rrc::RRListHandle 		            createArrayList(const rr::NewArrayList& list);
 
 //Result data
-C_DECL_SPEC rrc::RRDataHandle 			createRRData(const rr::RoadRunnerData& result);
+/*!
+ \brief Creates a RRData structure from rr::RoadRunnerData object   
+ \param[in] data  Input RoadRunner data  
+ \return A handle to a RRData structure. Null if it fails 
+ \ingroup cpp_support 
+*/
+C_DECL_SPEC rrc::RRDataHandle 			createRRData(const rr::RoadRunnerData& data);
 
 }
 #endif

@@ -128,6 +128,10 @@
             <DependentOn>rrc_jobs_api.h</DependentOn>
             <BuildOrder>4</BuildOrder>
         </CppCompile>
+        <CppCompile Include="rrc_logging_api.cpp">
+            <DependentOn>rrc_logging_api.h</DependentOn>
+            <BuildOrder>8</BuildOrder>
+        </CppCompile>
         <CppCompile Include="rrc_minimization_api.cpp">
             <BuildOrder>7</BuildOrder>
         </CppCompile>
