@@ -1601,7 +1601,7 @@ C_DECL_SPEC char* rrcCallConv getModelName(RRHandle handle);
 // \defgroup initialConditions Initial conditions group
 // \brief Set or get initial conditions
 //
-// \defgroup Parameters Parameters group
+// \defgroup parameters Parameters group
 // \brief Set and get global and local parameters
 //
 // \defgroup compartment Compartment group
