@@ -54,37 +54,34 @@ extern "C"
 {
 #endif
 
+/*!
+ \brief Global parameter holding last error, if any
+*/
 extern char* gLastError;
+
+/*!
+ \brief Global parameter holding C API install folder
+*/
 extern char* gInstallFolder;
 
 //Error/Warning Messages
+/*!
+ \brief Global parameter holding message for an un-allocated API
+*/
 extern const char* 	ALLOCATE_API_ERROR_MSG;
+
+/*!
+ \brief Global parameter holding message when an invalid is handed to a function
+*/
 extern const char* 	INVALID_HANDLE_ERROR_MSG;
 
 /*!
  \brief Retrieves the the content of a file.
+ \param[in] fName Pointer to a string holding the name and optionla path to a file
  \return Content of file as a string, returns null if it fails
  \ingroup utilities
 */
 C_DECL_SPEC char* 		 rrcCallConv 	getFileContent(const char* fName);
-
-//Result data
-//C_DECL_SPEC RRDataHandle rrcCallConv 	createRRData(const rr::RoadRunnerData& result);
-
-//Cast void* handle to RoadRunner instance pointer, throw if it fails
-//rr::RoadRunner* 						castFrom(RRHandle rrHandle);
-
-//Cast void* handle to RoadRunner instance pointer, throw if it fails
-//rr::Plugin* 							castToPlugin(RRPluginHandle handle);
-
-//Cast void* handle to RoadRunner instance pointer, throw if it fails
-//rr::BaseParameter*						castToParameter(RRParameterHandle handle);
-
-//Cast void* handle to MinimizationData instance pointer, throw if it fails
-//rr::MinimizationData*					castToMinimizationData(RRMinimizationDataHandle handle);
-
-//Cast
-//rr::RoadRunnerList* 					getRRList(RRInstanceListHandle handle);
 
 // --------------------------------------------------------------------
 // List support routines
@@ -398,7 +395,6 @@ C_DECL_SPEC bool rrcCallConv getVectorElement (RRVectorHandle vector, int index,
 */
 C_DECL_SPEC bool rrcCallConv setVectorElement (RRVectorHandle vector, int index, double value);
 
-
 /*!
  \brief Create an empty matrix of size r by c
 
@@ -406,12 +402,11 @@ C_DECL_SPEC bool rrcCallConv setVectorElement (RRVectorHandle vector, int index,
 
  Example: \code m = createRRMatrix (2, 3); \endcode
 
- \param m A pointer to a matrix type variable
+ \param r,c Row and column sizes
  \return Returns NULL if fails, otherwise returns a handle to the matrix
  \ingroup helperRoutines
 */
 C_DECL_SPEC RRMatrixHandle rrcCallConv createRRMatrix (int r, int c);
-
 
 /*!
  \brief Retrieve the number of rows in the given matrix

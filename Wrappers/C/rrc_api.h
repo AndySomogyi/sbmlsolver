@@ -1637,11 +1637,11 @@ C_DECL_SPEC char* rrcCallConv getModelName(RRHandle handle);
 //
 // \defgroup pluginRoutines Plugin functionality
 // \brief Routines dealing with plugins
+// Detailed description of RoadRunners plugin framework goes here..
 //
 // \defgroup multiThreading Multithreading (jobs) routines
 // \brief Routines dealing with jobs executed in threads
 
-// Detailed description of RoadRunners plugin framework 
 //
 //*/
 //
