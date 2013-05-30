@@ -1,5 +1,5 @@
 /**
- * @file rrc_test_utilities.cpp
+ * @file rrc_utilities.h
  * @brief roadRunner C API 2012
  * @author Totte Karlsson & Herbert M Sauro
  *
@@ -43,12 +43,6 @@
 #define rrc_utilitiesH
 #include "rrc_exporter.h"
 #include "rrc_types.h"
-//#include "rr-libstruct/lsMatrix.h"
-//#include "rrRoadRunnerData.h"
-//#include "rrStringList.h"
-//#include "rrNewArrayList.h"
-//#include "rrParameter.h"
-//#include "rrUtils.h"
 #include "rrc_exporter.h"
 #include "rrc_macros.h"
 //---------------------------------------------------------------------------

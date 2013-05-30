@@ -1,5 +1,5 @@
 /**
- * @file utilities.cpp
+ * @file rrc_utilities.cpp
  * @brief roadRunner C API 2012
  * @author Totte Karlsson & Herbert M Sauro
  *
