@@ -68,8 +68,6 @@ mRRCoreCapabilities("Road Runner Core", "", "Core RoadRunner Parameters")
     //Roadrunner is a "single" capability with many parameters
     mRRCoreCapabilities.addParameter(&mComputeAndAssignConservationLaws);
 
-    cout << "develop\n";
-
     mCapabilities.add(mRRCoreCapabilities);
     Log(lDebug4)<<"In RoadRunner ctor";
 
