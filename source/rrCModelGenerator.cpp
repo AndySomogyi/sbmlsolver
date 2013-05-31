@@ -2516,12 +2516,8 @@ bool CModelGenerator::generateModelCode(const string& sbml, const string& modelN
     return true;
 }
 
-
 bool CModelGenerator::compileModel()
 {
-    //Make sure the dll is unloaded
-    unLoadModelDLL();
-
     if(!compileCurrentModel())
     {
         Log(lError)<<"Failed compiling model";
@@ -2529,17 +2525,6 @@ bool CModelGenerator::compileModel()
     }
 
     return true;
-}
-
-bool CModelGenerator::unLoadModelDLL()
-{
-    //Make sure the dll is unloaded
-    if(mModelLib->isLoaded())    //Make sure the dll is unloaded
-    {
-        mModelLib->unload();
-        return (!mModelLib->isLoaded()) ? true : false;
-    }
-    return true;//No model is loaded..
 }
 
 bool CModelGenerator::compileCurrentModel()
@@ -2563,29 +2548,6 @@ bool CModelGenerator::compileCurrentModel()
     return true;
 }
 
-ExecutableModel* CModelGenerator::createModel()
-{
-    if(mModel)
-    {
-        delete mModel;
-        mModel = NULL;
-    }
-
-    //Create a model
-    if(mModelLib->isLoaded())
-    {
-        //*CModelGenerator *codeGen = dynamic_cast<CModelGenerator*>(mModelGenerator);
-        ExecutableModel *rrCModel = new CompiledExecutableModel(*this, mModelLib);
-        mModel = rrCModel;
-    }
-    else
-    {
-        Log(lError)<<"Failed to create model from DLL";
-        mModel = NULL;
-    }
-
-    return mModel;
-}
 
 bool CModelGenerator::setTemporaryDirectory(const string& path)
 {
@@ -2612,14 +2574,7 @@ bool CModelGenerator::initializeModel()
 {
     if(!mModel)
     {
-        //Now create the Model using the compiled DLL
-        mModel = createModel();
-
-        if(!mModel)
-        {
-            Log(lError)<<"Failed Creating Model";
-            return false ;
-        }
+        throw Exception("CModelGenerator::initializeModel() called without model");
     }
 
     //*mConservedTotalChanged = false;
@@ -2635,19 +2590,6 @@ bool CModelGenerator::initializeModel()
     mModel->computeRules(mModel->getModelData().y, mModel->getModelData().ySize);
     mModel->convertToAmounts();
 
-    //*if (mComputeAndAssignConservationLaws)
-    //*{
-    //*    mModel->computeConservedTotals();
-    //*}
-
-    //*if(mCVode)
-    //*{
-    //*    delete mCVode;
-    //*}
-    //*mCVode = new CvodeInterface(this, mModel);
-    //*mModel->assignCVodeInterface(mCVode);
-
-    reset();
     return true;
 }
 
@@ -2759,6 +2701,9 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
     ExecutableModel *result = mModel;
     mModel = 0;
     mModelLib = 0;
+
+    // clear state
+    ModelGenerator::reset();
 
     return result;
 }

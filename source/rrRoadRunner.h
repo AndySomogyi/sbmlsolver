@@ -36,8 +36,6 @@ using namespace ls;
 class ModelGenerator;
 class SBMLModelSimulation;
 class ExecutableModel;
-class CSharpModelGenerator;
-class CModelGenerator;
 
 class RR_DECLSPEC RoadRunner : public rrObject
 {
@@ -59,12 +57,9 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		SBMLModelSimulation            *mSimulation;
 
 		CvodeInterface                 *mCVode;
-		SteadyStateSolver              *mSteadyStateSolver;
 		vector<SelectionRecord>         mSelectionList;
 		ModelGenerator                 *mModelGenerator;    //Pointer to one of the below ones..
-		CSharpModelGenerator                *mCSharpGenerator;
-		CModelGenerator                     *mCGenerator;
-//		Compiler                        mCompiler;
+
 
 		Parameter<bool>            		mComputeAndAssignConservationLaws;
 
@@ -153,7 +148,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
         bool                            unLoadModel();
         bool                            unLoadModelDLL();
         CvodeInterface*                 getCVodeInterface();
-        NLEQInterface*                  getNLEQInterface();
         int 							createDefaultSteadyStateSelectionList();
         int                             createDefaultTimeCourseSelectionList();
 		int                             createTimeCourseSelectionList();

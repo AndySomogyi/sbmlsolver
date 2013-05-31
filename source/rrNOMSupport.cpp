@@ -905,12 +905,10 @@ void NOMSupport::changeSymbol(Model& oModel, const string& sTimeSymbol, const in
     for (int i = 0; i < oModel.getNumReactions(); i++)
     {
         Reaction *r = oModel.getReaction(i);
-        if(!r)
+        if(r)
         {
-            continue;
+            changeSymbolT<KineticLaw>(r->getKineticLaw(), sTimeSymbol, targetType);
         }
-
-        changeSymbolT<KineticLaw>(r->getKineticLaw(), sTimeSymbol, targetType);
     }
 
     for (int i = 0; i < oModel.getNumRules(); i++)

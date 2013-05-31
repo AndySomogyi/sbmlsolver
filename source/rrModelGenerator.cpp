@@ -71,10 +71,6 @@ string ModelGenerator::getInfo()
     return "";
 }
 
-string ModelGenerator::substituteTerms(const int& numReactions, const string& reactionName, const string& equation)
-{
-    return substituteTerms(reactionName, equation, false);
-}
 
 ASTNode* ModelGenerator::cleanEquation(ASTNode* astP)
 {
@@ -164,37 +160,7 @@ string ModelGenerator::cleanEquation(const string& eqn)
     return result;
 }
 
-string ModelGenerator::substituteTerms(const string& reactionName, const string& inputEquation, bool bFixAmounts)
-{
-    string equation = cleanEquation(inputEquation);
-    if (equation.size() < 1)
-    {
-        return string("0");
-    }
 
-     Scanner s;
-     stringstream ss;
-     ss<<equation;
-
-     s.AssignStream(ss);
-     s.startScanner();
-     s.nextToken();
-     CodeBuilder sb;
-
-    try
-    {
-        while (s.token() != CodeTypes::tEndOfStreamToken)
-        {
-            substituteToken(reactionName, bFixAmounts, s, sb);
-            s.nextToken();
-        }
-    }
-    catch (const Exception& e)
-    {
-       throw Exception(e.Message());
-    }
-    return sb.ToString();
-}
 
 ls::DoubleMatrix* ModelGenerator::initializeL0(int& nrRows, int& nrCols)
 {

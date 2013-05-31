@@ -267,7 +267,10 @@ vector<double> CompiledExecutableModel::getCurrentValues()
     }
 
     // allocated in C, free'd here
-    //free(values);
+    // for now, we'll just leak in Windows.
+#if defined (__unix__) || defined(__APPLE__)
+    free(values);
+#endif
 
     return vals;
 }
