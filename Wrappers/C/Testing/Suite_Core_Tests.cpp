@@ -106,7 +106,6 @@ SUITE(CORE_TESTS)
         MD5Engine md5;
         md5.update(content);
 		string digestString(Poco::DigestEngine::digestToHex(md5.digest()));
-//        clog<<digestString;
 		CHECK_EQUAL("8b0f11b35815fd421d32ab98750576ef", digestString);
     }
 
@@ -121,12 +120,9 @@ SUITE(CORE_TESTS)
         //Load the same model again, but do not recompile the model DLL..
         CHECK(loadSBMLE(aRR1, xml.c_str(), false));
         CHECK(loadSBMLE(aRR2, xml.c_str(), false));
-
         freeRRInstance(aRR1);
         freeRRInstance(aRR2);
-
     }
-
 }
 
 string getListOfReactionsText(const string& fName)
