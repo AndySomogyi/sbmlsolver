@@ -70,7 +70,7 @@
 	}
 
 /*!
- \brief macro for catch statement in a routine returning a positive integer  
+ \brief macro for catch statement in a routine returning a positive integer
  \ingroup macros
 */
 #define catch_int_macro                                     \
@@ -81,5 +81,17 @@
         setError(msg.str());                                \
 	    return -1;                                          \
     }
+
+/*!
+ \brief macro for catch statement in a routine returning void
+ \ingroup macros
+*/
+#define catch_void_macro				                    \
+    catch(const Exception& ex)								\
+    {                                                       \
+        stringstream msg;                                   \
+        msg<<"RoadRunner exception: "<<ex.what()<<endl;     \
+        setError(msg.str());                                \
+    }                                                       \
 
 #endif

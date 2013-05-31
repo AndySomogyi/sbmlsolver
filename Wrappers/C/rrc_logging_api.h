@@ -77,6 +77,13 @@ enum  CLogLevel
 C_DECL_SPEC bool rrcCallConv enableLoggingToConsole(void);
 
 /*!
+ \brief Disable logging to console
+ \return Returns true if succesful, false otherwise
+ \ingroup logging
+*/
+C_DECL_SPEC bool rrcCallConv disableLoggingToConsole(void);
+
+/*!
  \brief Enable logging to logFile
  \return Returns true if succesful, false otherwise
  \ingroup logging
@@ -84,6 +91,12 @@ C_DECL_SPEC bool rrcCallConv enableLoggingToConsole(void);
 
 C_DECL_SPEC bool rrcCallConv enableLoggingToFile(RRHandle handle);
 
+/*!
+ \brief Disable logging to logFile
+ \return Returns true if succesful, false otherwise
+ \ingroup logging
+*/
+C_DECL_SPEC bool rrcCallConv disableLoggingToFile();
 
 /*!
  \brief Set the logging status level

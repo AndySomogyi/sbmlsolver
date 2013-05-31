@@ -36,9 +36,20 @@ string getListOfReactionsText(const string& fName);
 
 SUITE(CORE_TESTS)
 {
+	TEST(LOGGING)
+    {
+    	RRHandle aRR 		  		= createRRInstanceEx(gTempFolder.c_str());
+		setLogLevel("INFO");
+        enableLoggingToFile(aRR);
+        logMsg(clInfo, "A log message before closing the logger");
+        disableLoggingToFile();
+        logMsg(clInfo, "This message is not written to the logger");
+        freeRRInstance(aRR);
+    }
+
 	TEST(COMPILER)
 	{
-    	RRHandle aRR 		  		= createRRInstanceEx(gTempFolder.c_str());
+
         //Copy test model sources to temp folder, and compile there
 
 		Poco::File headerFile(joinPath(gTestDataFolder, "ModelSourceTest.h"));
@@ -47,6 +58,8 @@ SUITE(CORE_TESTS)
         sourceFile.copyTo(gTempFolder);
 
         string testSource = joinPath(gTempFolder, "ModelSourceTest.c");
+
+    	RRHandle aRR 		  		= createRRInstanceEx(gTempFolder.c_str());
 		compileSource(aRR, testSource.c_str());
         freeRRInstance(aRR);
 	}
