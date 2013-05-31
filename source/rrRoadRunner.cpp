@@ -2785,6 +2785,23 @@ int RoadRunner::getNumberOfFloatingSpecies()
     return mModel->getNumTotalVariables();
 }
 
+double RoadRunner::getFloatingSpeciesInitialConcentrationByIndex(const int& index)
+{
+    if (!mModel)
+    {
+        throw CoreException(gEmptyModelMessage);
+    }
+
+    if ((index >= 0) && (index < mModel->getNumTotalVariables()))
+    {
+        return mModel->getModelData().init_y[index];
+    }
+    else
+    {
+        throw CoreException(format("Index in setFloatingSpeciesInitialConcentrationByIndex out of range: [{0}]", index));
+    }
+}
+
 // Help("Sets the value of a floating species by its index")
 void RoadRunner::setFloatingSpeciesInitialConcentrationByIndex(const int& index, const double& value)
 {

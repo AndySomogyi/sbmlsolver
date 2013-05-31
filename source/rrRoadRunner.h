@@ -326,6 +326,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
 		StringList                      getBoundarySpeciesAmountIds();
 		int                             getNumberOfFloatingSpecies();
 		void                            setFloatingSpeciesByIndex(const int& index, const double& value);
+		double                          getFloatingSpeciesInitialConcentrationByIndex(const int& index);
 		double                          getFloatingSpeciesByIndex(const int& index);
 		vector<double>                  getFloatingSpeciesConcentrations();
 		vector<double>                  getFloatingSpeciesInitialConcentrations();

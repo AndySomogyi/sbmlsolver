@@ -1552,6 +1552,17 @@ RRStringArrayHandle rrCallConv getGlobalParameterIds(RRHandle handle)
     }
 }
 
+bool rrCallConv getFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, const int& index, double* value)
+{
+    try
+    {
+        RoadRunner* rri = castFrom(handle);
+        *value  =  rri->getFloatingSpeciesInitialConcentrationByIndex(index);
+        return true;
+    }
+    catch_bool_macro
+}
+
 RRVectorHandle rrCallConv getFloatingSpeciesConcentrations(RRHandle handle)
 {
     try
@@ -1563,13 +1574,7 @@ RRVectorHandle rrCallConv getFloatingSpeciesConcentrations(RRHandle handle)
         RRVector* aVec = createVectorFromVector_double(vec);
         return aVec;
     }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-        return NULL;
-    }
+    catch_ptr_macro
 }
 
 RRVectorHandle rrCallConv getBoundarySpeciesConcentrations(RRHandle handle)
@@ -1659,13 +1664,18 @@ bool rrCallConv setGlobalParameterByIndex(RRHandle handle, const int index, cons
         rri->setGlobalParameterByIndex(index, value);
         return true;
     }
-    catch(Exception& ex)
+    catch_bool_macro
+}
+
+bool rrCallConv setFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, const int& index, const double& value)
+{
+    try
     {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-          return false;
+        RoadRunner* rri = castFrom(handle);
+        rri->setFloatingSpeciesInitialConcentrationByIndex(index, value);
+        return true;
     }
+    catch_bool_macro
 }
 
 bool rrCallConv setFloatingSpeciesInitialConcentrations(RRHandle handle, const struct RRVector* vec)

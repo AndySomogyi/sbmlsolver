@@ -904,6 +904,16 @@ def getFloatingSpeciesConcentrations():
 def setFloatingSpeciesByIndex(index, value):
     return rrLib.setFloatingSpeciesByIndex(gHandle, c_int(index), c_double(value))
 
+##\brief Sets the initial concentration for a floating species by its index. Species are indexed starting at 0.
+#
+#Example: rrPython.setFloatingSpeciesInitialConcentrationByIndex(0, .5)
+#
+#\param index The index to the floating species (corresponds to position in getFloatingSpeciesIds()) starting at 0
+#\param value The initial concentration of the species to set
+#\return Returns True if successful
+def setFloatingSpeciesInitialConcentrationByIndex(index, value):
+    return rrLib.setFloatingSpeciesInitialConcentrationByIndex(gHandle, c_int(index), c_double(value))
+
 ##\brief Returns the concentration of a floating species by its index. Species are indexed starting at 0.
 #
 #Example: value = rrPython.getFloatingSpeciesByIndex()
@@ -913,6 +923,19 @@ def setFloatingSpeciesByIndex(index, value):
 def getFloatingSpeciesByIndex(index):
     value = c_double()
     if rrLib.getFloatingSpeciesByIndex(gHandle, c_int(index), pointer(value)) == True:
+        return value.value;
+    else:
+        raise RuntimeError('Index out of range')
+
+##\brief Returns the initial concentration of a floating species by its index. Species are indexed starting at 0.
+#
+#Example: value = rrPython.getFloatingSpeciesInitialConcentrationByIndex()
+#
+#\param index The index to the floating species (corresponds to position in getFloatingSpeciesIds()) starting at 0
+#\return Returns the initial concentration of the species if successful
+def getFloatingSpeciesInitialConcentrationByIndex(index):
+    value = c_double()
+    if rrLib.getFloatingSpeciesInitialConcentrationByIndex(gHandle, c_int(index), pointer(value)) == True:
         return value.value;
     else:
         raise RuntimeError('Index out of range')
@@ -2003,17 +2026,20 @@ def createRRMatrix (marray):
 def loadPlugins():
     return rrLib.loadPlugins(gHandle)
 
+def getPluginNames():
+    return rrLib.getPluginNames(gHandle)
+
 def unLoadPlugins():
     return rrLib.unLoadPlugins(gHandle)
 
 def getNumberOfPlugins():
     return rrLib.getNumberOfPlugins(gHandle)
 
-def getPluginInfo(pluginName):
-    return rrLib.getPluginInfo(gHandle, pluginName)
+def getPluginInfo(pluginHandle):
+    return rrLib.getPluginInfo(pluginHandle)
 
-def executePlugin(pluginName):
-    return rrLib.executePlugin(gHandle, pluginName)
+def executePlugin(pluginHandle):
+    return rrLib.executePlugin(pluginHandle)
 
 
 def compileSource(sourceFileName, rrHandle = None):
