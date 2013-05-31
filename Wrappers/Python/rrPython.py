@@ -13,7 +13,7 @@ libHandle=None
 if sys.platform.startswith('win32'):
     rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'bin'))
     os.environ['PATH'] = rrInstallFolder + ';' + "c:\\Python27" + ';' + "c:\\Python27\\Lib\\site-packages" + ';' + os.environ['PATH']
-    sharedLib=os.path.join(rrInstallFolder, 'rr_c_api.dll')
+    sharedLib=os.path.join(rrInstallFolder, 'rrc_api.dll')
     libHandle=windll.kernel32.LoadLibraryA(sharedLib)
     rrLib = WinDLL (None, handle=libHandle)
 
@@ -117,7 +117,7 @@ gHandle = rrLib.createRRInstance()
 
 # Utility and informational methods
 rrLib.getInfo.restype = c_char_p
-rrLib.getVersion.restype = c_char_p
+rrLib.getAPIVersion.restype = c_char_p
 rrLib.getBuildDate.restype = c_char_p
 rrLib.getBuildTime.restype = c_char_p
 rrLib.getBuildDateTime.restype = c_char_p
@@ -187,10 +187,10 @@ rrLib.getMatrixNumCols.restype = c_int
 rrLib.getMatrixElement.restype = c_bool
 rrLib.setMatrixElement.restype = c_bool
 rrLib.setMatrixElement.argtypes = [c_int, c_int, c_int, c_double]
-rrLib.getResultNumRows.restype = c_int
-rrLib.getResultNumCols.restype = c_int
-rrLib.getResultElement.restype = c_bool
-rrLib.getResultColumnLabel.restype = c_char_p
+rrLib.getRRDataNumRows.restype = c_int
+rrLib.getRRDataNumCols.restype = c_int
+rrLib.getRRDataElement.restype = c_bool
+rrLib.getRRDataColumnLabel.restype = c_char_p
 rrLib.getCCodeHeader.restype = c_char_p
 rrLib.getCCodeSource.restype = c_char_p
 
@@ -221,7 +221,7 @@ rrLib.getScaledFloatingSpeciesElasticity.restype = c_bool
 # Free memory functions
 
 # Print/format functions
-rrLib.resultToString.restype = c_char_p
+rrLib.rrDataToString.restype = c_char_p
 rrLib.matrixToString.restype = c_char_p
 rrLib.vectorToString.restype = c_char_p
 rrLib.stringArrayToString.restype = c_char_p
@@ -333,8 +333,8 @@ def getInfo():
 
 ##\brief Retrieve the current version number of the library
 #\return char* version - Returns null if it fails, otherwise it returns the version number of the library
-def getVersion():
-    return rrLib.getVersion(gHandle)
+def getAPIVersion():
+    return rrLib.getAPIVersion()
 
 ##\brief Retrieve the current build date of the library
 #\return Returns null if it fails, otherwise it returns the build date
@@ -353,10 +353,8 @@ def getBuildDateTime():
 
 ##\brief Retrieve the current copyright notice for the library
 #\return Returns null if it fails, otherwise it returns the copyright string
-def getCopyright(aHandle = None):
-    if aHandle is None:
-        aHandle = gHandle
-    return rrLib.getCopyright(aHandle)
+def getCopyright():
+    return rrLib.getCopyright()
 
 ##\brief Sets the write location for the temporary file
 #
@@ -638,17 +636,17 @@ def simulate(aHandle = None):
         aHandle = gHandle
     result = rrLib.simulate(aHandle)
     #TODO: Check result
-    rowCount = rrLib.getResultNumRows(result)
-    colCount = rrLib.getResultNumCols(result)
+    rowCount = rrLib.getRRDataNumRows(result)
+    colCount = rrLib.getRRDataNumCols(result)
     resultArray = zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 rvalue = m
                 cvalue = n
                 value = c_double()
-                if rrLib.getResultElement(result, rvalue, cvalue, pointer(value)) == True:
+                if rrLib.getRRDataElement(result, rvalue, cvalue, pointer(value)) == True:
                     resultArray[m, n] = value.value
-    rrLib.freeResult(result)
+    rrLib.freeRRData(result)
     return resultArray
 
 ##\brief Carry out a time-course simulation in a thread, use setTimeStart etc to set
@@ -688,20 +686,20 @@ def getSimulationResult(aHandle = None):
     result = rrLib.getSimulationResult(aHandle)
 
     #TODO: Check result
-    rowCount = rrLib.getResultNumRows(result)
-    colCount = rrLib.getResultNumCols(result)
+    rowCount = rrLib.getRRDataNumRows(result)
+    colCount = rrLib.getRRDataNumCols(result)
     resultArray = zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 rvalue = m
                 cvalue = n
                 value = c_double()
-                if rrLib.getResultElement(result, rvalue, cvalue, pointer(value)) == True:
+                if rrLib.getRRDataElement(result, rvalue, cvalue, pointer(value)) == True:
                     resultArray[m, n] = value.value
-    rrLib.freeResult(result)
+    rrLib.freeRRData(result)
     return resultArray
 
-#use getResultElement and other helper routines to build array that can be used in numpy to plot with matplotlib
+#use getRRDataElement and other helper routines to build array that can be used in numpy to plot with matplotlib
 #get num cols, get num rows, create array, fill array with two loops
 
 
@@ -716,17 +714,17 @@ def simulateEx(timeStart, timeEnd, numberOfPoints):
     nrPoints = c_int(numberOfPoints)
     result = rrLib.simulateEx(gHandle, startValue, endValue, nrPoints)
     #TODO: Check result
-    rowCount = rrLib.getResultNumRows(result)
-    colCount = rrLib.getResultNumCols(result)
+    rowCount = rrLib.getRRDataNumRows(result)
+    colCount = rrLib.getRRDataNumCols(result)
     resultArray = zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 value = c_double()
                 rvalue = m
                 cvalue = n
-                if rrLib.getResultElement(result, rvalue, cvalue, pointer(value)) == True:
+                if rrLib.getRRDataElement(result, rvalue, cvalue, pointer(value)) == True:
                     resultArray[m, n] = value.value
-    rrLib.freeResult(result)
+    rrLib.freeRRData(result)
     return resultArray;
 
 ##\brief Carry out a one step integration of the model
@@ -1681,8 +1679,8 @@ def getNumberOfRules():
 
 ##\brief Returns a result struct in string form.
 #\return Returns a result struct as a string
-def resultToString(result):
-    return rrLib.resultToString(result)
+def rrDataString(result):
+    return rrLib.rrDataToString(result)
 
 ##\brief Returns a matrix in string form.
 #\return Returns a matrix as a string
@@ -1714,8 +1712,8 @@ def listToString(aList):
 
 
 ##\brief Free the result structure rrLib returned by simulate() and simulateEx()
-def freeResult(rrLib):
-    return rrLib.freeresult(rrLib)
+def freeRRData(rrData):
+    return rrLib.freeRRData(rrData)
 
 ##\brief Free char* generated by the C library routines
 def freeText(text):
@@ -1841,31 +1839,31 @@ def getMatrixElement(matrix, row, column):
 
 ##\brief Retrieve the number of rows in the given result data
 #
-#Example: nRows = rrPython.getResultNumRows(result)
+#Example: nRows = rrPython.getRRDataNumRows(result)
 #
 #\param result A result rrLib
 #\return Returns -1 if fails, otherwise returns the number of rows
-def getResultNumRows(result):
-    return rrLib.getResultNumRows(result)
+def getRRDataNumRows(result):
+    return rrLib.getRRDataNumRows(result)
 
 ##\brief Retrieve the number of columns in the given result data
 #
-#Example: nRows = rrPython.getResultNumCols(result);
+#Example: nRows = rrPython.getRRDataNumCols(result);
 #
 #\param result A result rrLib
 #\return Returns -1 if fails, otherwise returns the number of columns
-def getResultNumCols(result):
-    return rrLib.getResultNumCols(result)
+def getRRDataNumCols(result):
+    return rrLib.getRRDataNumCols(result)
 
 ##\brief Retrieves an element at a given row and column from a result type variable
 #
-#Example: status = rrPython.getResultElement(result, 2, 4);
+#Example: status = rrPython.getRRDataElement(result, 2, 4);
 #
 #\param result A result rrLib
-#\param row The row index to the result data
-#\param column The column index to the result data
+#\param row The row index to the roadrunner  data
+#\param column The column index to the roadrunner data
 #\return Returns true if succesful
-def getResultElement(result, row, column):
+def getRRDataElement(result, row, column):
     value = c_double()
     rvalue = c_int(row)
     cvalue = c_int(column)
@@ -1876,15 +1874,14 @@ def getResultElement(result, row, column):
 
 ##\brief Retrieves an element at a given row and column from a result type variable
 #
-#Example: str = getResultColumnLabel (result, 2, 4);
+#Example: str = getRRDataColumnLabel (data, 2, 4);
 #
-#\param result A result rrLib
+#\param data A RoadRunnerData
 #\param column The column index for the result data (indexing from zero)
 #\return Returns NONE if fails, otherwise returns the string column label
-def getResultColumnLabel(result, column):
+def getRRDataColumnLabel(result, column):
     cvalue = c_int(column)
-    return rrLib.getResultColumnLabel(result, cvalue)
-
+    return rrLib.getRRDataColumnLabel(result, cvalue)
 
 ##\brief Retrieve the header file code for the current model (if applicable)
 #
