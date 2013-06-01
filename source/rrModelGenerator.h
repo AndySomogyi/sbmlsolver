@@ -102,20 +102,20 @@ protected:
 
     int                                 mNumModifiableSpeciesReferences;
 
-    SymbolList                          mBoundarySpeciesList;
-    SymbolList                          mCompartmentList;
+
+
     SymbolList                          mConservationList;
     SymbolList                          mFloatingSpeciesAmountsList;
-    SymbolList                          mFloatingSpeciesConcentrationList;
-    SymbolList                          mGlobalParameterList;
+
+
     SymbolList                          mReactionList;
     IntStringHashTable                  mMapRateRule;
-    int                                 mNumBoundarySpecies;
-    int                                 mNumCompartments;
-    int                                 mNumDependentSpecies;
+
+
+
     int                                 mNumEvents;
-    int                                 mNumFloatingSpecies;
-    int                                 mNumGlobalParameters;
+
+
 
     int                                 mTotalLocalParmeters;
 
@@ -133,7 +133,7 @@ protected:
 
     StringList                          mFunctionNames;
     StringList                          mFunctionParameters;
-    StringList                          mDependentSpeciesList;
+
     StringList                          mIndependentSpeciesList;
 
 
@@ -174,6 +174,16 @@ protected:
     //int                                 mNumReactions;
     //vector<SymbolList>                  mLocalParameterList;
     //int                                 mNumIndependentSpecies;
+    //StringList                          mDependentSpeciesList;
+    //SymbolList                          mCompartmentList;
+    //int                                 mNumCompartments;
+    //SymbolList                          mFloatingSpeciesConcentrationList;
+    //int                                 mNumFloatingSpecies;
+    //int                                 mNumDependentSpecies;
+    //SymbolList                          mBoundarySpeciesList;
+    //int                                 mNumBoundarySpecies;
+    //SymbolList                          mGlobalParameterList;
+    //int                                 mNumGlobalParameters;
 
 
     // for the time being, we'll store the state vars here until

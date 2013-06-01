@@ -32,14 +32,14 @@ mCompiler(supportCodeFolder, compiler),
 mModel(0),
 mModelLib(0)
 {
-    cout << "mNumIndependentSpecies\n";
+    cout << "mNumGlobalParameters\n";
 }
 
 CModelGenerator::~CModelGenerator(){}
 
 int CModelGenerator::getNumberOfFloatingSpecies()
 {
-    return mFloatingSpeciesConcentrationList.size();    //Todo: is there a list of floating species?
+    return ms.mFloatingSpeciesConcentrationList.size();    //Todo: is there a list of floating species?
 }
 
 string CModelGenerator::getHeaderCode()
@@ -89,14 +89,14 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
 
     Log(lDebug3)<<"Number of reactions:"<< ms.mNumReactions;
 
-    mGlobalParameterList.Clear();
+    ms.mGlobalParameterList.Clear();
     mModifiableSpeciesReferenceList.Clear();
     ms.mLocalParameterList.reserve(ms.mNumReactions);
     mReactionList.Clear();
-    mBoundarySpeciesList.Clear();
-    mFloatingSpeciesConcentrationList.Clear();
+    ms.mBoundarySpeciesList.Clear();
+    ms.mFloatingSpeciesConcentrationList.Clear();
     mFloatingSpeciesAmountsList.Clear();
-    mCompartmentList.Clear();
+    ms.mCompartmentList.Clear();
     mConservationList.Clear();
     mFunctionNames.empty();
     mFunctionParameters.empty();
@@ -105,7 +105,7 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
     {
         ms.mNumIndependentSpecies     = mLibStruct->getNumIndSpecies();
         mIndependentSpeciesList = mLibStruct->getIndependentSpecies();
-        mDependentSpeciesList   = mLibStruct->getDependentSpecies();
+        ms.mDependentSpeciesList   = mLibStruct->getDependentSpecies();
     }
     else
     {
@@ -114,17 +114,17 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
     }
 
     // Load the compartment array (name and value)
-    mNumCompartments            = readCompartments();
+    ms.mNumCompartments            = readCompartments();
 
     // Read FloatingSpecies
-    mNumFloatingSpecies         = readFloatingSpecies();
-    mNumDependentSpecies        = mNumFloatingSpecies - ms.mNumIndependentSpecies;
+    ms.mNumFloatingSpecies         = readFloatingSpecies();
+    ms.mNumDependentSpecies        = ms.mNumFloatingSpecies - ms.mNumIndependentSpecies;
 
     // Load the boundary species array (name and value)
-    mNumBoundarySpecies     = readBoundarySpecies();
+    ms.mNumBoundarySpecies     = readBoundarySpecies();
 
     // Get all the parameters into a list, global and local
-    mNumGlobalParameters     = readGlobalParameters();
+    ms.mNumGlobalParameters     = readGlobalParameters();
     mNumModifiableSpeciesReferences = readModifiableSpeciesReferences();
 
     // Load up local parameters next
@@ -156,25 +156,25 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
     writeProperties(ignore);
     writeAccessors(ignore);
     writeUserDefinedFunctions(ignore);
-    writeSetInitialConditions(ignore, mNumFloatingSpecies);
+    writeSetInitialConditions(ignore, ms.mNumFloatingSpecies);
     writeSetBoundaryConditions(ignore);
     writeSetCompartmentVolumes(ignore);
     writeSetParameterValues(ignore, ms.mNumReactions);
-    writeComputeConservedTotals(ignore, mNumFloatingSpecies, mNumDependentSpecies);
+    writeComputeConservedTotals(ignore, ms.mNumFloatingSpecies, ms.mNumDependentSpecies);
 
     // Get the L0 matrix
     int nrRows;
     int nrCols;
 
     ls::DoubleMatrix* aL0 = initializeL0(nrRows, nrCols);     //Todo: What is this doing? answer.. it is used below..
-    writeUpdateDependentSpecies(ignore, ms.mNumIndependentSpecies, mNumDependentSpecies, *aL0);
+    writeUpdateDependentSpecies(ignore, ms.mNumIndependentSpecies, ms.mNumDependentSpecies, *aL0);
     int numOfRules = writeComputeRules(ignore, ms.mNumReactions);
 
-    writeComputeAllRatesOfChange(ignore, ms.mNumIndependentSpecies, mNumDependentSpecies, *aL0);
+    writeComputeAllRatesOfChange(ignore, ms.mNumIndependentSpecies, ms.mNumDependentSpecies, *aL0);
     delete aL0;
     writeComputeReactionRates(ignore, ms.mNumReactions);
-    writeEvalModel(ignore, ms.mNumReactions, ms.mNumIndependentSpecies, mNumFloatingSpecies, numOfRules);
-    writeEvalEvents(ignore, mNumEvents, mNumFloatingSpecies);
+    writeEvalModel(ignore, ms.mNumReactions, ms.mNumIndependentSpecies, ms.mNumFloatingSpecies, numOfRules);
+    writeEvalEvents(ignore, mNumEvents, ms.mNumFloatingSpecies);
     writeEventAssignments(ignore, ms.mNumReactions, mNumEvents);
     writeEvalInitialAssignments(ignore, ms.mNumReactions);
     writeTestConstraints(ignore);
@@ -204,10 +204,10 @@ void CModelGenerator::writeClassHeader(CodeBuilder& ignore)
 
 
     mHeader<<append("//************************************************************************** " + NL());
-    mHeader<<"//Number of floating species: "<<mFloatingSpeciesConcentrationList.size()<<endl;
-    for (int i = 0; i < mFloatingSpeciesConcentrationList.size(); i++)
+    mHeader<<"//Number of floating species: "<<ms.mFloatingSpeciesConcentrationList.size()<<endl;
+    for (int i = 0; i < ms.mFloatingSpeciesConcentrationList.size(); i++)
     {
-        mHeader<<"\t// y["<<i<<"] = "<<mFloatingSpeciesConcentrationList[i].name<<endl;//{2}", NL());
+        mHeader<<"\t// y["<<i<<"] = "<<ms.mFloatingSpeciesConcentrationList[i].name<<endl;//{2}", NL());
     }
 
     mHeader<<append("//************************************************************************** " + NL());
@@ -334,17 +334,17 @@ void CModelGenerator::writeComputeConservedTotals(CodeBuilder& ignore, const int
 
                     if (current > 0)
                     {
-                        string cYY = convertSpeciesToY(mFloatingSpeciesConcentrationList[j].name);
-                        string cTC = convertCompartmentToC(mFloatingSpeciesConcentrationList[j].compartmentName);
+                        string cYY = convertSpeciesToY(ms.mFloatingSpeciesConcentrationList[j].name);
+                        string cTC = convertCompartmentToC(ms.mFloatingSpeciesConcentrationList[j].compartmentName);
                         mSource<<append(" + " + factor + "md->" + cYY +
                                   mFixAmountCompartments +
-                                  convertCompartmentToC(mFloatingSpeciesConcentrationList[j].compartmentName));
+                                  convertCompartmentToC(ms.mFloatingSpeciesConcentrationList[j].compartmentName));
                     }
                     else
                     {
-                        mSource<<append(" - " + factor + convertSpeciesToY(mFloatingSpeciesConcentrationList[j].name) +
+                        mSource<<append(" - " + factor + convertSpeciesToY(ms.mFloatingSpeciesConcentrationList[j].name) +
                                   mFixAmountCompartments +
-                                  convertCompartmentToC(mFloatingSpeciesConcentrationList[j].compartmentName));
+                                  convertCompartmentToC(ms.mFloatingSpeciesConcentrationList[j].compartmentName));
                     }
                 }
             }
@@ -376,12 +376,12 @@ void CModelGenerator::writeUpdateDependentSpecies(CodeBuilder& ignore, const int
             mSource<<format("(md->ct[{0}]", i);
             string cLeftName =
                 convertCompartmentToC(
-                    mFloatingSpeciesConcentrationList[i + numIndependentSpecies].compartmentName);
+                    ms.mFloatingSpeciesConcentrationList[i + numIndependentSpecies].compartmentName);
 
             for (int j = 0; j < numIndependentSpecies; j++)
             {
                 string yName = format("y[{0}]", j);
-                string cName = convertCompartmentToC(mFloatingSpeciesConcentrationList[j].compartmentName);
+                string cName = convertCompartmentToC(ms.mFloatingSpeciesConcentrationList[j].compartmentName);
                 double* mat = L0.GetPointer();
                 double matElementValue = L0(i,j);
 
@@ -519,11 +519,11 @@ void CModelGenerator::writeSetConcentration(CodeBuilder& ignore)
     mSource<<format("\tmd->y[index] = value;{0}", NL());
     mSource<<format("\tswitch (index)\n\t{{0}", NL());
 
-    for (int i = 0; i < mFloatingSpeciesConcentrationList.size(); i++)
+    for (int i = 0; i < ms.mFloatingSpeciesConcentrationList.size(); i++)
     {
         mSource<<format("\t\tcase {0}:\n\t\t\tvolume = {1};{2}",
           i,
-          convertCompartmentToC(mFloatingSpeciesConcentrationList[i].compartmentName),
+          convertCompartmentToC(ms.mFloatingSpeciesConcentrationList[i].compartmentName),
           NL());
       mSource<<format("\t\tbreak;{0}", NL());
     }
@@ -546,11 +546,11 @@ void CModelGenerator::writeConvertToAmounts(CodeBuilder& ignore)
 {
     mHeader.AddFunctionExport("void", "convertToAmounts(ModelData* md)");
     mSource<<format("void convertToAmounts(ModelData* md)\n{{0}", NL());
-    for (int i = 0; i < mFloatingSpeciesConcentrationList.size(); i++)
+    for (int i = 0; i < ms.mFloatingSpeciesConcentrationList.size(); i++)
     {
         mSource<<format("\tmd->amounts[{0}] = md->y[{0}]*{1};{2}",
             i,
-            convertCompartmentToC(mFloatingSpeciesConcentrationList[i].compartmentName),
+            convertCompartmentToC(ms.mFloatingSpeciesConcentrationList[i].compartmentName),
             NL());
     }
     mSource<<format("}{0}{0}", NL());
@@ -560,10 +560,10 @@ void CModelGenerator::writeConvertToConcentrations(CodeBuilder& ignore)
 {
     mHeader.AddFunctionExport("void", "convertToConcentrations(ModelData* md)");
     mSource<<"void convertToConcentrations(ModelData* md)\n{";
-    for (int i = 0; i < mFloatingSpeciesConcentrationList.size(); i++)
+    for (int i = 0; i < ms.mFloatingSpeciesConcentrationList.size(); i++)
     {
         mSource<<"\n\tmd->y[" << i << "] = md->amounts[" << i << "] / " <<
-                  convertCompartmentToC(mFloatingSpeciesConcentrationList[i].compartmentName) << ";";
+                  convertCompartmentToC(ms.mFloatingSpeciesConcentrationList[i].compartmentName) << ";";
     }
     mSource<<append("\n}" + NL() + NL());
 }
@@ -582,19 +582,19 @@ void CModelGenerator::writeAccessors(CodeBuilder& ignore)
 string CModelGenerator::findSymbol(const string& varName)
 {
       int index = 0;
-      if (mFloatingSpeciesConcentrationList.find(varName, index))
+      if (ms.mFloatingSpeciesConcentrationList.find(varName, index))
       {
           return format("md->y[{0}]", index);
       }
-      else if (mGlobalParameterList.find(varName, index))
+      else if (ms.mGlobalParameterList.find(varName, index))
       {
           return format("md->gp[{0}]", index);
       }
-      else if (mBoundarySpeciesList.find(varName, index))
+      else if (ms.mBoundarySpeciesList.find(varName, index))
       {
           return format("md->bc[{0}]", index);
       }
-      else if (mCompartmentList.find(varName, index))
+      else if (ms.mCompartmentList.find(varName, index))
       {
           return format("md->c[{0}]", index);
       }
@@ -741,10 +741,10 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
                 case rtRate:
                     isRateRule = true;
                     int index;
-                    if (mFloatingSpeciesConcentrationList.find(varName,  index))
+                    if (ms.mFloatingSpeciesConcentrationList.find(varName,  index))
                     {
                         leftSideRule = format("\n\tmd->dydt[{0}]", index);
-                        mFloatingSpeciesConcentrationList[index].rateRule = true;
+                        ms.mFloatingSpeciesConcentrationList[index].rateRule = true;
                     }
                     else
                     {
@@ -767,9 +767,9 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
             {
                 mSource<<gTab<<append(leftSideRule + " = ");
                 int speciesIndex;
-                bool isSpecies = mFloatingSpeciesConcentrationList.find(varName, speciesIndex);
+                bool isSpecies = ms.mFloatingSpeciesConcentrationList.find(varName, speciesIndex);
 
-                Symbol* symbol = (speciesIndex != -1) ? &(mFloatingSpeciesConcentrationList[speciesIndex]) : NULL;
+                Symbol* symbol = (speciesIndex != -1) ? &(ms.mFloatingSpeciesConcentrationList[speciesIndex]) : NULL;
                 string sCompartment;
 
                 if(isRateRule && mNOM->multiplyCompartment(varName, sCompartment) && (rightSide.find(sCompartment) == string::npos))
@@ -972,7 +972,7 @@ void CModelGenerator::writeEvalEvents(CodeBuilder& ignore, const int& numEvents,
         for (int i = 0; i < numFloatingSpecies; i++)
         {
             mSource<<"\tmd->y[" << i << "] = oAmounts[" << (i + numAdditionalRates()) << "]/" <<
-                      convertCompartmentToC(mFloatingSpeciesConcentrationList[i].compartmentName) << ";" << NL();
+                      convertCompartmentToC(ms.mFloatingSpeciesConcentrationList[i].compartmentName) << ";" << NL();
         }
     }
 
@@ -1016,7 +1016,7 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
     for (int i = 0; i < numFloatingSpecies; i++)
     {
         mSource<<"\n\tmd->y[" << i << "] = oAmounts[" << i + numAdditionalRates() << "]/" <<
-                  convertCompartmentToC(mFloatingSpeciesConcentrationList[i].compartmentName) << ";" << NL();
+                  convertCompartmentToC(ms.mFloatingSpeciesConcentrationList[i].compartmentName) << ";" << NL();
     }
 
     mSource<<append(NL());
@@ -1181,7 +1181,7 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
 
         // If the floating species has a raterule then prevent the dydt
         // in the model function from overriding it. I think this is expected behavior.
-        if (!mFloatingSpeciesConcentrationList[i].rateRule)
+        if (!ms.mFloatingSpeciesConcentrationList[i].rateRule)
         {
             mSource<<"\tmd->dydt[" << i << "] =" << finalStr << ";" << NL();
         }
@@ -1326,12 +1326,12 @@ void CModelGenerator::writeSetParameterValues(CodeBuilder& ignore, const int& nu
     mSource<<"void setParameterValues(ModelData* md)\n{";
 
 
-    for (int i = 0; i < mGlobalParameterList.size(); i++)
+    for (int i = 0; i < ms.mGlobalParameterList.size(); i++)
     {
         //If !+INF
         string para = format("\n\t{0} = (double){1};{2}",
-                      convertSymbolToGP(mGlobalParameterList[i].name),
-                      writeDouble(mGlobalParameterList[i].value),
+                      convertSymbolToGP(ms.mGlobalParameterList[i].name),
+                      writeDouble(ms.mGlobalParameterList[i].value),
                       NL());
         //If a parameter is INF, it means it is not initialized properly ??
         if(para.find("INF") == string::npos && para.find("NAN") == string::npos)
@@ -1357,14 +1357,14 @@ void CModelGenerator::writeSetCompartmentVolumes(CodeBuilder& ignore)
     mHeader.AddFunctionExport("void", "setCompartmentVolumes(ModelData* md)");
     mSource << "void setCompartmentVolumes(ModelData* md)\n{";
 
-    for (int i = 0; i < mCompartmentList.size(); i++)
+    for (int i = 0; i < ms.mCompartmentList.size(); i++)
     {
-        mSource<<append("\n\t" + convertSymbolToC(mCompartmentList[i].name) + " = (double)" +
-                  writeDouble(mCompartmentList[i].value) + ";" + NL());
+        mSource<<append("\n\t" + convertSymbolToC(ms.mCompartmentList[i].name) + " = (double)" +
+                  writeDouble(ms.mCompartmentList[i].value) + ";" + NL());
 
         // at this point we also have to take care of all initial assignments for compartments as well as
         // the assignment rules on compartments ... otherwise we are in trouble :)
-        stack<string> initializations = mNOM->getMatchForSymbol(mCompartmentList[i].name);
+        stack<string> initializations = mNOM->getMatchForSymbol(ms.mCompartmentList[i].name);
         while (initializations.size() > 0)
         {
             string term(initializations.top());
@@ -1382,17 +1382,17 @@ void CModelGenerator::writeSetBoundaryConditions(CodeBuilder& ignore)
     mHeader.AddFunctionExport("void", "setBoundaryConditions(ModelData* md)");
     mSource<<"void setBoundaryConditions(ModelData* md)\n{\n";
 
-    for (int i = 0; i < mBoundarySpeciesList.size(); i++)
+    for (int i = 0; i < ms.mBoundarySpeciesList.size(); i++)
     {
-        if (isNullOrEmpty(mBoundarySpeciesList[i].formula))
+        if (isNullOrEmpty(ms.mBoundarySpeciesList[i].formula))
         {
-            mSource<<append("\t" + convertSpeciesToBc(mBoundarySpeciesList[i].name) + " = (double)" +
-                      writeDouble(mBoundarySpeciesList[i].value) + ";" + NL());
+            mSource<<append("\t" + convertSpeciesToBc(ms.mBoundarySpeciesList[i].name) + " = (double)" +
+                      writeDouble(ms.mBoundarySpeciesList[i].value) + ";" + NL());
         }
         else
         {
-            mSource<<append("\t\t" + convertSpeciesToBc(mBoundarySpeciesList[i].name) + " = (double)" +
-                      mBoundarySpeciesList[i].formula + ";" + NL());
+            mSource<<append("\t\t" + convertSpeciesToBc(ms.mBoundarySpeciesList[i].name) + " = (double)" +
+                      ms.mBoundarySpeciesList[i].formula + ";" + NL());
         }
     }
     mSource<<append("}" + NL() + NL());
@@ -1404,17 +1404,17 @@ void CModelGenerator::writeSetInitialConditions(CodeBuilder& ignore, const int& 
     mHeader.AddFunctionExport("void", "initializeInitialConditions(ModelData* md)");
     mSource<<"void initializeInitialConditions(ModelData* md)\n{";
 
-    for (int i = 0; i < mFloatingSpeciesConcentrationList.size(); i++)
+    for (int i = 0; i < ms.mFloatingSpeciesConcentrationList.size(); i++)
     {
-        if (isNullOrEmpty(mFloatingSpeciesConcentrationList[i].formula))
+        if (isNullOrEmpty(ms.mFloatingSpeciesConcentrationList[i].formula))
         {
-            mSource<<append("\n\tmd->init_" + convertSpeciesToY(mFloatingSpeciesConcentrationList[i].name) + " = (double)" +
-                      writeDouble(mFloatingSpeciesConcentrationList[i].value) + ";");
+            mSource<<append("\n\tmd->init_" + convertSpeciesToY(ms.mFloatingSpeciesConcentrationList[i].name) + " = (double)" +
+                      writeDouble(ms.mFloatingSpeciesConcentrationList[i].value) + ";");
         }
         else
         {
-            string formula = mFloatingSpeciesConcentrationList[i].formula;
-            mSource<<append("\n\tmd->init_" + convertSpeciesToY(mFloatingSpeciesConcentrationList[i].name) + " = (double) " +
+            string formula = ms.mFloatingSpeciesConcentrationList[i].formula;
+            mSource<<append("\n\tmd->init_" + convertSpeciesToY(ms.mFloatingSpeciesConcentrationList[i].name) + " = (double) " +
                       formula + ";");
         }
     }
@@ -1430,7 +1430,7 @@ void CModelGenerator::writeSetInitialConditions(CodeBuilder& ignore, const int& 
     {
         mSource<<"\n\tmd->y[" << i << "] =  md->init_y[" << i << "];";
         mSource<<"\n\tmd->amounts[" << i << "] = md->y[" << i << "]*" <<
-                  convertCompartmentToC(mFloatingSpeciesConcentrationList[i].compartmentName) << ";" << NL();
+                  convertCompartmentToC(ms.mFloatingSpeciesConcentrationList[i].compartmentName) << ";" << NL();
     }
     mSource<<append("}" + NL() + NL());
 }
@@ -1438,7 +1438,7 @@ void CModelGenerator::writeSetInitialConditions(CodeBuilder& ignore, const int& 
 string CModelGenerator::convertSpeciesToY(const string& speciesName)
 {
     int index;
-    if (mFloatingSpeciesConcentrationList.find(speciesName, index))
+    if (ms.mFloatingSpeciesConcentrationList.find(speciesName, index))
     {
         return "y[" + toString(index) + "]";
     }
@@ -1449,7 +1449,7 @@ string CModelGenerator::convertSpeciesToY(const string& speciesName)
 string CModelGenerator::convertSpeciesToBc(const string& speciesName)
 {
     int index;
-    if (mBoundarySpeciesList.find(speciesName, index))
+    if (ms.mBoundarySpeciesList.find(speciesName, index))
     {
         return "md->bc[" + toString(index) + "]";
     }
@@ -1460,7 +1460,7 @@ string CModelGenerator::convertSpeciesToBc(const string& speciesName)
 string CModelGenerator::convertCompartmentToC(const string& compartmentName)
 {
     int index;
-    if (mCompartmentList.find(compartmentName, index))
+    if (ms.mCompartmentList.find(compartmentName, index))
     {
         return "md->c[" + toString(index) + "]";
     }
@@ -1471,7 +1471,7 @@ string CModelGenerator::convertCompartmentToC(const string& compartmentName)
 string CModelGenerator::convertSymbolToGP(const string& parameterName)
 {
     int index;
-    if (mGlobalParameterList.find(parameterName, index))
+    if (ms.mGlobalParameterList.find(parameterName, index))
     {
         return "md->gp[" + toString(index) + "]";
     }
@@ -1481,7 +1481,7 @@ string CModelGenerator::convertSymbolToGP(const string& parameterName)
 string CModelGenerator::convertSymbolToC(const string& compartmentName)
 {
     int index;
-    if (mCompartmentList.find(compartmentName, index))
+    if (ms.mCompartmentList.find(compartmentName, index))
     {
         return "md->c[" + toString(index) + "]";
     }
@@ -1493,22 +1493,22 @@ void CModelGenerator::writeOutSymbolTables(CodeBuilder& ignore)
     mSource<<append("void loadSymbolTables(ModelData* md)\n{");
 
     int nrFuncs = 0;
-    for (int i = 0; i < mFloatingSpeciesConcentrationList.size(); i++)
+    for (int i = 0; i < ms.mFloatingSpeciesConcentrationList.size(); i++)
     {
-        mSource<<format("\n\tmd->variableTable[{0}] = \"{1}\";", i, mFloatingSpeciesConcentrationList[i].name);
+        mSource<<format("\n\tmd->variableTable[{0}] = \"{1}\";", i, ms.mFloatingSpeciesConcentrationList[i].name);
         nrFuncs++;
     }
 
-    for (int i = 0; i < mBoundarySpeciesList.size(); i++)
+    for (int i = 0; i < ms.mBoundarySpeciesList.size(); i++)
     {
-        mSource<<format("\n\tmd->boundaryTable[{0}] = \"{1}\";", i, mBoundarySpeciesList[i].name);
+        mSource<<format("\n\tmd->boundaryTable[{0}] = \"{1}\";", i, ms.mBoundarySpeciesList[i].name);
         nrFuncs++;
     }
 
-    for (int i = 0; i < mGlobalParameterList.size(); i++)
+    for (int i = 0; i < ms.mGlobalParameterList.size(); i++)
     {
-        string name = mGlobalParameterList[i].name;
-           mSource<<format("\n\tmd->globalParameterTable[{0}] = \"{1}\";", i, mGlobalParameterList[i].name);
+        string name = ms.mGlobalParameterList[i].name;
+           mSource<<format("\n\tmd->globalParameterTable[{0}] = \"{1}\";", i, ms.mGlobalParameterList[i].name);
         nrFuncs++;
     }
     if(nrFuncs > 0)
@@ -1560,9 +1560,9 @@ int CModelGenerator::readFloatingSpecies()
             else
             {
               int nCompartmentIndex;
-              mCompartmentList.find(compartmentName, nCompartmentIndex);
+              ms.mCompartmentList.find(compartmentName, nCompartmentIndex);
 
-              double dVolume = mCompartmentList[nCompartmentIndex].value;
+              double dVolume = ms.mCompartmentList[nCompartmentIndex].value;
               if (isNaN(dVolume))
               {
                 dVolume = 1;
@@ -1592,8 +1592,8 @@ int CModelGenerator::readFloatingSpecies()
                 //Log an error...
                 symbol->hasOnlySubstance = false;
             }
-            Log(lDebug5)<<"Adding symbol to mFloatingSpeciesConcentrationList:"<<(*symbol);
-            mFloatingSpeciesConcentrationList.Add(*(symbol));
+            Log(lDebug5)<<"Adding symbol to ms.mFloatingSpeciesConcentrationList:"<<(*symbol);
+            ms.mFloatingSpeciesConcentrationList.Add(*(symbol));
             delete symbol;
             break;
           }
@@ -1629,9 +1629,9 @@ int CModelGenerator::readBoundarySpecies()
         {
             int nCompartmentIndex;
             double dVolume;
-            if(mCompartmentList.find(compartmentName, nCompartmentIndex))
+            if(ms.mCompartmentList.find(compartmentName, nCompartmentIndex))
             {
-                dVolume = mCompartmentList[nCompartmentIndex].value;
+                dVolume = ms.mCompartmentList[nCompartmentIndex].value;
             }
             else
             {
@@ -1664,7 +1664,7 @@ int CModelGenerator::readBoundarySpecies()
             symbol->hasOnlySubstance = false;
 
         }
-        mBoundarySpeciesList.Add(*symbol);
+        ms.mBoundarySpeciesList.Add(*symbol);
     }
     return numBoundarySpecies;
 }
@@ -2326,7 +2326,7 @@ void CModelGenerator::substituteEquation(const string& reactionName, Scanner& s,
             }
         }
 
-        if (mBoundarySpeciesList.find(s.tokenString, index))
+        if (ms.mBoundarySpeciesList.find(s.tokenString, index))
         {
             mSource<<append("_bc[" + toString(index) + "]");
             bReplaced = true;
@@ -2343,29 +2343,29 @@ void CModelGenerator::substituteWords(const string& reactionName, bool bFixAmoun
 {
     // Global parameters have priority
     int index;
-    if (mGlobalParameterList.find(s.tokenString, index))
+    if (ms.mGlobalParameterList.find(s.tokenString, index))
     {
         mSource<<format("md->gp[{0}]", index);
     }
-    else if (mBoundarySpeciesList.find(s.tokenString, index))
+    else if (ms.mBoundarySpeciesList.find(s.tokenString, index))
     {
         mSource<<format("md->bc[{0}]", index);
 
-        Symbol symbol = mBoundarySpeciesList[index];
+        Symbol symbol = ms.mBoundarySpeciesList[index];
         if (symbol.hasOnlySubstance)
         {
             // we only store concentration for the boundary so we better
             // fix that.
             int nCompIndex = 0;
-            if (mCompartmentList.find(symbol.compartmentName, nCompIndex))
+            if (ms.mCompartmentList.find(symbol.compartmentName, nCompIndex))
             {
                 mSource<<format("{0}_c[{1}]", mFixAmountCompartments, nCompIndex);
             }
         }
     }
-    else if (mFloatingSpeciesConcentrationList.find(s.tokenString, index))
+    else if (ms.mFloatingSpeciesConcentrationList.find(s.tokenString, index))
     {
-        Symbol floating1 = mFloatingSpeciesConcentrationList[index];
+        Symbol floating1 = ms.mFloatingSpeciesConcentrationList[index];
         if (floating1.hasOnlySubstance)
         {
             mSource<<format("md->amounts[{0}]", index);
@@ -2375,7 +2375,7 @@ void CModelGenerator::substituteWords(const string& reactionName, bool bFixAmoun
             mSource<<format("md->y[{0}]", index);
         }
     }
-    else if (mCompartmentList.find(s.tokenString, index))
+    else if (ms.mCompartmentList.find(s.tokenString, index))
     {
         mSource<<format("md->c[{0}]", index);
     }

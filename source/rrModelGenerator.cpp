@@ -35,14 +35,9 @@ mDoubleFormat("%.19G"),
 mFixAmountCompartments("*"),
 mLibStruct(0),
 mNOM(0),
-mNumBoundarySpecies(0),
-mNumCompartments(0),
 mTotalLocalParmeters(0),
 mNumEvents(0),
-mNumGlobalParameters(0),
-mNumModifiableSpeciesReferences(0),
-mNumFloatingSpecies(0),
-mNumDependentSpecies(0)
+mNumModifiableSpeciesReferences(0)
 
 {
 }
@@ -165,7 +160,7 @@ ls::DoubleMatrix* ModelGenerator::initializeL0(int& nrRows, int& nrCols)
     ls::DoubleMatrix* L0;
     try
     {
-        if (mNumDependentSpecies > 0)
+        if (ms.mNumDependentSpecies > 0)
         {
             vector<string> RowLabels;
             vector<string> ColumnLabels; //Todo: Filling these out here is meaningless?
@@ -204,7 +199,7 @@ int ModelGenerator::readGlobalParameters()
         Symbol aSymbol(name, value);
         Log(lDebug5)<<"Adding symbol"<<aSymbol<<" to global parameters";
 
-        mGlobalParameterList.Add(aSymbol);
+        ms.mGlobalParameterList.Add(aSymbol);
     }
     return numGlobalParameters;
 }
@@ -273,14 +268,14 @@ bool ModelGenerator::expressionContainsSymbol(const string& expression,const str
 Symbol* ModelGenerator::getSpecies(const string& id)
 {
     int index;
-    if (mFloatingSpeciesConcentrationList.find(id, index))
+    if (ms.mFloatingSpeciesConcentrationList.find(id, index))
     {
-        return &(mFloatingSpeciesConcentrationList[index]);
+        return &(ms.mFloatingSpeciesConcentrationList[index]);
     }
 
-    if (mBoundarySpeciesList.find(id, index))
+    if (ms.mBoundarySpeciesList.find(id, index))
     {
-        return &(mBoundarySpeciesList[index]);
+        return &(ms.mBoundarySpeciesList[index]);
     }
     return NULL;
 }
@@ -304,7 +299,7 @@ int ModelGenerator::readCompartments()
         {
             value = 1;
         }
-        mCompartmentList.Add(Symbol(sCompartmentId, value));
+        ms.mCompartmentList.Add(Symbol(sCompartmentId, value));
     }
     return numCompartments;
 }
