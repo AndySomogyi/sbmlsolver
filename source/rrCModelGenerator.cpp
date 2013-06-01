@@ -32,7 +32,7 @@ mCompiler(supportCodeFolder, compiler),
 mModel(0),
 mModelLib(0)
 {
-    cout << "mNumGlobalParameters\n";
+    cout << "mMapRateRule\n";
 }
 
 CModelGenerator::~CModelGenerator(){}
@@ -90,16 +90,16 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
     Log(lDebug3)<<"Number of reactions:"<< ms.mNumReactions;
 
     ms.mGlobalParameterList.Clear();
-    mModifiableSpeciesReferenceList.Clear();
+    ms.mModifiableSpeciesReferenceList.Clear();
     ms.mLocalParameterList.reserve(ms.mNumReactions);
-    mReactionList.Clear();
+    ms.mReactionList.Clear();
     ms.mBoundarySpeciesList.Clear();
     ms.mFloatingSpeciesConcentrationList.Clear();
-    mFloatingSpeciesAmountsList.Clear();
+    ms.mFloatingSpeciesAmountsList.Clear();
     ms.mCompartmentList.Clear();
-    mConservationList.Clear();
-    mFunctionNames.empty();
-    mFunctionParameters.empty();
+    ms.mConservationList.Clear();
+    ms.mFunctionNames.empty();
+    ms.mFunctionParameters.empty();
 
     if(mComputeAndAssignConsevationLaws)
     {
@@ -125,11 +125,11 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
 
     // Get all the parameters into a list, global and local
     ms.mNumGlobalParameters     = readGlobalParameters();
-    mNumModifiableSpeciesReferences = readModifiableSpeciesReferences();
+    ms.mNumModifiableSpeciesReferences = readModifiableSpeciesReferences();
 
     // Load up local parameters next
-    readLocalParameters(ms.mNumReactions, mLocalParameterDimensions, mTotalLocalParmeters);
-    mNumEvents = mNOM->getNumEvents();
+    readLocalParameters(ms.mNumReactions, ms.mLocalParameterDimensions, ms.mTotalLocalParmeters);
+    ms.mNumEvents = mNOM->getNumEvents();
 
     //Write model to String builder...
     writeClassHeader(ignore);
@@ -148,7 +148,7 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
     mHeader.AddFunctionExport("char*", "getModelName(ModelData* md)");
     ///////////////
 
-    writeResetEvents(ignore, mNumEvents);
+    writeResetEvents(ignore, ms.mNumEvents);
     writeSetConcentration(ignore);
     writeGetConcentration(ignore);
     writeConvertToAmounts(ignore);
@@ -174,8 +174,8 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
     delete aL0;
     writeComputeReactionRates(ignore, ms.mNumReactions);
     writeEvalModel(ignore, ms.mNumReactions, ms.mNumIndependentSpecies, ms.mNumFloatingSpecies, numOfRules);
-    writeEvalEvents(ignore, mNumEvents, ms.mNumFloatingSpecies);
-    writeEventAssignments(ignore, ms.mNumReactions, mNumEvents);
+    writeEvalEvents(ignore, ms.mNumEvents, ms.mNumFloatingSpecies);
+    writeEventAssignments(ignore, ms.mNumReactions, ms.mNumEvents);
     writeEvalInitialAssignments(ignore, ms.mNumReactions);
     writeTestConstraints(ignore);
 
@@ -242,7 +242,7 @@ void CModelGenerator::writeComputeAllRatesOfChange(CodeBuilder& ignore, const in
 
     for (int i = 0; i < numAdditionalRates(); i++)
     {
-        mSource<<format("\tdTemp[{0}] = {1};{2}", i, mMapRateRule[i], NL());
+        mSource<<format("\tdTemp[{0}] = {1};{2}", i, ms.mRateRules[i], NL());
     }
 
     mSource<<gTab<<"for(i = 0; i < md->amountsSize; i++)\n";
@@ -349,7 +349,7 @@ void CModelGenerator::writeComputeConservedTotals(CodeBuilder& ignore, const int
                 }
             }
             mSource<<append(";" + NL());
-            mConservationList.Add(Symbol("CSUM" + toString(i))); //TODO: how to deal with this?
+            ms.mConservationList.Add(Symbol("CSUM" + toString(i))); //TODO: how to deal with this?
         }
     }
     else
@@ -443,7 +443,7 @@ void CModelGenerator::writeUserDefinedFunctions(CodeBuilder& ignore)
 
               string sName = aList[0];
               //sName.Trim();
-            mFunctionNames.add(sName);
+            ms.mFunctionNames.add(sName);
             StringList oArguments = oList[1];
             StringList list2 = oList[2];
             string sBody = list2[0];
@@ -454,7 +454,7 @@ void CModelGenerator::writeUserDefinedFunctions(CodeBuilder& ignore)
             for (int j = 0; j < oArguments.Count(); j++)
             {
                 mSource<<append("double " + (string)oArguments[j]);
-                mFunctionParameters.add((string)oArguments[j]);
+                ms.mFunctionParameters.add((string)oArguments[j]);
                 if (j < oArguments.Count() - 1)
                 {
                     mSource<<append(", ");
@@ -598,7 +598,7 @@ string CModelGenerator::findSymbol(const string& varName)
       {
           return format("md->c[{0}]", index);
       }
-      else if (mModifiableSpeciesReferenceList.find(varName, index))
+      else if (ms.mModifiableSpeciesReferenceList.find(varName, index))
       {
           return format("md->sr[{0}]", index);
       }
@@ -749,7 +749,7 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
                     else
                     {
                         leftSideRule = "\n\tmd->rateRules[" + toString(numRateRules) + "]";
-                        mMapRateRule[numRateRules] = findSymbol(varName);
+                        ms.mRateRules[numRateRules] = findSymbol(varName);
                         mapVariables[numRateRules] = varName;
                         numRateRules++;
                     }
@@ -820,7 +820,7 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
 
     for (int i = 0; i < numRateRules; i++)
     {
-        mSource<<"\n\tmd->rateRules[" << i << "] = " << mMapRateRule[i] << ";" << NL();
+        mSource<<"\n\tmd->rateRules[" << i << "] = " << ms.mRateRules[i] << ";" << NL();
     }
 
     mSource<<append("}" + NL() + NL());
@@ -828,20 +828,20 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
     mHeader.AddFunctionExport("void", "AssignRatesA(ModelData* md)");
     mSource<<append("void AssignRatesA(ModelData* md)\n{" + NL());
 
-    for (int i = 0; i < mMapRateRule.size(); i++)
+    for (int i = 0; i < ms.mRateRules.size(); i++)
     {
         if(!i)
         {
             mSource<<"\n";
         }
-        mSource<<"\t"<<(string) mMapRateRule[i] << " = md->rateRules[" << i << "];\n";
+        mSource<<"\t"<<(string) ms.mRateRules[i] << " = md->rateRules[" << i << "];\n";
     }
 
     mSource<<append("}" + NL() + NL());
 
     mHeader.AddFunctionExport("void", "InitializeRateRuleSymbols(ModelData* md)");
     mSource<<"void InitializeRateRuleSymbols(ModelData* md) \n{";
-    for (int i = 0; i < mMapRateRule.size(); i++)
+    for (int i = 0; i < ms.mRateRules.size(); i++)
     {
         if(!i)
         {
@@ -854,7 +854,7 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
             double value = mNOM->getValue(varName);
             if (!isNaN(value))
             {
-                mSource<<gTab<<mMapRateRule[i] << " = " << toString(value, mDoubleFormat) << ";" << NL();
+                mSource<<gTab<<ms.mRateRules[i] << " = " << toString(value, ms.mDoubleFormat) << ";" << NL();
             }
         }
     }
@@ -863,14 +863,14 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
     mHeader.AddFunctionExport("void", "AssignRatesB(ModelData* md, double oRates[])");
     mSource<<"void AssignRatesB(ModelData* md, double oRates[])\n{";
 
-    for (int i = 0; i < mMapRateRule.size(); i++)
+    for (int i = 0; i < ms.mRateRules.size(); i++)
     {
         if(!i)
         {
             mSource<<"\n";
         }
 
-        mSource<< mMapRateRule[i] << " = oRates[" << i << "];" << NL();
+        mSource<< ms.mRateRules[i] << " = oRates[" << i << "];" << NL();
     }
 
     mSource<<append("}" + NL() + NL());
@@ -878,14 +878,14 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
     mSource<<"double* GetCurrentValues(ModelData* md)\n{";
     mSource<<"\n\tdouble* dResult = (double*) calloc(" << numAdditionalRates() << ", sizeof(double));\n";
 
-    for (int i = 0; i < mMapRateRule.size(); i++)
+    for (int i = 0; i < ms.mRateRules.size(); i++)
     {
            if(!i)
         {
             mSource<<"\n";
         }
 
-        mSource<<"\tdResult[" << i << "] = " << mMapRateRule[i] << ";" << NL();
+        mSource<<"\tdResult[" << i << "] = " << ms.mRateRules[i] << ";" << NL();
     }
     mSource<<"\treturn dResult;\n";
 
@@ -918,7 +918,7 @@ void CModelGenerator::writeComputeReactionRates(CodeBuilder& ignore, const int& 
             subKineticLaw = kineticLaw;
         }
 
-        string modKineticLaw = substituteTerms(mReactionList[i].name, subKineticLaw, true) + ";";
+        string modKineticLaw = substituteTerms(ms.mReactionList[i].name, subKineticLaw, true) + ";";
 
         // modify to use current y ...
         modKineticLaw = substitute(modKineticLaw, "_y[", "y[");
@@ -967,7 +967,7 @@ void CModelGenerator::writeEvalEvents(CodeBuilder& ignore, const int& numEvents,
     {
         for (int i = 0; i < numAdditionalRates(); i++)
         {
-            mSource<<gTab<<(string) mMapRateRule[i] << " = oAmounts[" << i << "];" << NL();
+            mSource<<gTab<<(string) ms.mRateRules[i] << " = oAmounts[" << i << "];" << NL();
         }
         for (int i = 0; i < numFloatingSpecies; i++)
         {
@@ -1010,7 +1010,7 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
 
     for (int i = 0; i < numAdditionalRates(); i++)
     {
-        mSource<<"\n"<<(string)mMapRateRule[i] << " = oAmounts[" << i << "];" << NL();
+        mSource<<"\n"<<(string)ms.mRateRules[i] << " = oAmounts[" << i << "];" << NL();
     }
 
     for (int i = 0; i < numFloatingSpecies; i++)
@@ -1569,7 +1569,7 @@ int CModelGenerator::readFloatingSpecies()
               }
 
               stringstream formula;
-              formula<<toString(dValue,mDoubleFormat)<<"/ md->c["<<nCompartmentIndex<<"]";
+              formula<<toString(dValue,ms.mDoubleFormat)<<"/ md->c["<<nCompartmentIndex<<"]";
 
               symbol = new Symbol(reOrderedList[i],
                   dValue / dVolume,
@@ -1641,7 +1641,7 @@ int CModelGenerator::readBoundarySpecies()
                 }
             }
             stringstream formula;
-            formula<<toString(dValue, mDoubleFormat)<<"/ md->c["<<nCompartmentIndex<<"]";
+            formula<<toString(dValue, ms.mDoubleFormat)<<"/ md->c["<<nCompartmentIndex<<"]";
             symbol = new Symbol(sName,
                                 dValue / dVolume,
                                 compartmentName,
@@ -1697,9 +1697,9 @@ void CModelGenerator::writeInitFunction(CodeBuilder& ignore, CodeBuilder& source
     source<<"\t"<<append("InitializeDelays(md);" , NL());
 
     // Declare any eventAssignment delegates
-    if (mNumEvents > 0)
+    if (ms.mNumEvents > 0)
     {
-        for (int i = 0; i < mNumEvents; i++)
+        for (int i = 0; i < ms.mNumEvents; i++)
         {
             string iStr = toString(i);
             source<<append("\tmd->eventAssignments[" + iStr + "] = eventAssignment_" + iStr +";" + NL());
@@ -1714,11 +1714,11 @@ void CModelGenerator::writeInitFunction(CodeBuilder& ignore, CodeBuilder& source
         source<<append(NL());
     }
 
-    if (mNumModifiableSpeciesReferences > 0)
+    if (ms.mNumModifiableSpeciesReferences > 0)
     {
-        for (int i = 0; i < mModifiableSpeciesReferenceList.size(); i++)
+        for (int i = 0; i < ms.mModifiableSpeciesReferenceList.size(); i++)
         {
-            source<<append("\t\tmd->sr[" + toString(i) + "] = " + writeDouble(mModifiableSpeciesReferenceList[i].value) + ";" + NL());
+            source<<append("\t\tmd->sr[" + toString(i) + "] = " + writeDouble(ms.mModifiableSpeciesReferenceList[i].value) + ";" + NL());
         }
         source<<append(NL());
     }
@@ -1997,7 +1997,7 @@ string CModelGenerator::convertUserFunctionExpression(const string& equation)
                     {
                         mSource<<append("spf_piecewise");
                     }
-                    else if (!mFunctionParameters.Contains(s.tokenString))
+                    else if (!ms.mFunctionParameters.Contains(s.tokenString))
                     {
                         throw Exception("Token '" + s.tokenString + "' not recognized.");
                     }
@@ -2316,7 +2316,7 @@ void CModelGenerator::substituteEquation(const string& reactionName, Scanner& s,
     {
         bool bReplaced = false;
         int index;
-        if (mReactionList.find(reactionName, index))
+        if (ms.mReactionList.find(reactionName, index))
         {
             int nParamIndex = 0;
             if (ms.mLocalParameterList[index].find(s.tokenString, nParamIndex))
@@ -2332,7 +2332,7 @@ void CModelGenerator::substituteEquation(const string& reactionName, Scanner& s,
             bReplaced = true;
         }
         if (!bReplaced &&
-            (mFunctionParameters.Count() != 0 && !mFunctionParameters.Contains(s.tokenString)))
+            (ms.mFunctionParameters.Count() != 0 && !ms.mFunctionParameters.Contains(s.tokenString)))
         {
             throw Exception("Token '" + s.tokenString + "' not recognized.");
         }
@@ -2379,15 +2379,15 @@ void CModelGenerator::substituteWords(const string& reactionName, bool bFixAmoun
     {
         mSource<<format("md->c[{0}]", index);
     }
-    else if (mFunctionNames.Contains(s.tokenString))
+    else if (ms.mFunctionNames.Contains(s.tokenString))
     {
         mSource<<format("{0} ", s.tokenString);
     }
-    else if (mModifiableSpeciesReferenceList.find(s.tokenString, index))
+    else if (ms.mModifiableSpeciesReferenceList.find(s.tokenString, index))
     {
         mSource<<format("md->sr[{0}]", index);
     }
-    else if (mReactionList.find(s.tokenString, index))
+    else if (ms.mReactionList.find(s.tokenString, index))
     {
         mSource<<format("md->rates[{0}]", index);
     }

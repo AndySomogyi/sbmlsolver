@@ -52,43 +52,7 @@ public:
     SymbolList mFloatingSpeciesAmountsList;
     static const string                 mDoubleFormat;
 
-    /*
 
-     int                                 mNumModifiableSpeciesReferences;
-
-     SymbolList                          mBoundarySpeciesList;
-     SymbolList                          mCompartmentList;
-     SymbolList                          mConservationList;
-     SymbolList                          mFloatingSpeciesAmountsList;
-     SymbolList                          mFloatingSpeciesConcentrationList;
-     SymbolList                          mGlobalParameterList;
-     SymbolList                          mReactionList;
-     SymbolList                          mModifiableSpeciesReferenceList;
-     IntStringHashTable                  mMapRateRule;
-
-     mIndependentSpeciesList;
-     StringList                          mDependentSpeciesList;
-
-     int                                 mNumBoundarySpecies;
-     int                                 mNumCompartments;
-     int                                 mNumDependentSpecies;
-     int                                 mNumEvents;
-     int                                 mNumFloatingSpecies;
-     int                                 mNumGlobalParameters;
-     int                                 mNumIndependentSpecies;
-     int                                 mNumReactions;
-     int                                 mTotalLocalParmeters;
-
-
-
-     vector<SymbolList>                  mLocalParameterList;
-
-     vector<int>                         mLocalParameterDimensions;
-
-     StringList                          mFunctionNames;
-     StringList                          mFunctionParameters;
-
-     */
 
     void print();
 

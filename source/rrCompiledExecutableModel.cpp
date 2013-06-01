@@ -177,27 +177,27 @@ bool CompiledExecutableModel::setupModelData()
     mData.numBoundaryVariables          = mCG.ms.mNumBoundarySpecies;
     mData.numGlobalParameters           = mCG.ms.mGlobalParameterList.size();
     mData.numCompartments               = mCG.ms.mCompartmentList.size();
-    mData.numReactions                  = mCG.mReactionList.size();
-    mData.numEvents                     = mCG.mNumEvents;
+    mData.numReactions                  = mCG.ms.mReactionList.size();
+    mData.numEvents                     = mCG.ms.mNumEvents;
     mData.amountsSize                   = mCG.ms.mFloatingSpeciesConcentrationList.Count();
     mData.dydtSize                      = mCG.ms.mFloatingSpeciesConcentrationList.size();
-    mData.rateRulesSize                 = mCG.mMapRateRule.size();
+    mData.rateRulesSize                 = mCG.ms.mRateRules.size();
     mData.ySize                         = mCG.ms.mFloatingSpeciesConcentrationList.size();
     mData.ratesSize                     = mCG.ms.mNumReactions;
     mData.ctSize                        = mCG.ms.mNumDependentSpecies;
     mData.init_ySize                    = mCG.ms.mFloatingSpeciesConcentrationList.Count();
-    mData.gpSize                        = mCG.ms.mNumGlobalParameters + mCG.mTotalLocalParmeters;
+    mData.gpSize                        = mCG.ms.mNumGlobalParameters + mCG.ms.mTotalLocalParmeters;
     mData.cSize                         = mCG.ms.mNumCompartments;
     mData.bcSize                        = mCG.ms.mNumBoundarySpecies;
     mData.lpSize                        = mCG.ms.mNumReactions;
-    mData.srSize                        = mCG.mNumModifiableSpeciesReferences;
+    mData.srSize                        = mCG.ms.mNumModifiableSpeciesReferences;
     mData.localParameterDimensionsSize  = mCG.ms.mNumReactions;
-    mData.eventPrioritiesSize           = mCG.mNumEvents;
-    mData.eventStatusArraySize          = mCG.mNumEvents;
-    mData.previousEventStatusArraySize  = mCG.mNumEvents;
-    mData.eventPersistentTypeSize       = mCG.mNumEvents;
-    mData.eventTestsSize                = mCG.mNumEvents;
-    mData.eventTypeSize                 = mCG.mNumEvents;
+    mData.eventPrioritiesSize           = mCG.ms.mNumEvents;
+    mData.eventStatusArraySize          = mCG.ms.mNumEvents;
+    mData.previousEventStatusArraySize  = mCG.ms.mNumEvents;
+    mData.eventPersistentTypeSize       = mCG.ms.mNumEvents;
+    mData.eventTestsSize                = mCG.ms.mNumEvents;
+    mData.eventTypeSize                 = mCG.ms.mNumEvents;
 
     // allocate the data buffers
     allocModelDataBuffers(mData, mNOM.getModelName());
@@ -542,7 +542,7 @@ CvodeInterface* CompiledExecutableModel::getCvodeInterface() {
 }
 
 SymbolList &CompiledExecutableModel::getReactions() {
-    return mCG.mReactionList;
+    return mCG.ms.mReactionList;
 }
 
 SymbolList &CompiledExecutableModel::getGlobalParameters()
@@ -562,12 +562,12 @@ SymbolList &CompiledExecutableModel::getCompartments()
 
 SymbolList &CompiledExecutableModel::getConservations()
 {
-    return mCG.mConservationList;
+    return mCG.ms.mConservationList;
 }
 
 SymbolList &CompiledExecutableModel::getFloatingSpeciesAmounts()
 {
-    return mCG.mFloatingSpeciesAmountsList;
+    return mCG.ms.mFloatingSpeciesAmountsList;
 }
 
 SymbolList &CompiledExecutableModel::getFloatingSpeciesConcentrations()
@@ -588,9 +588,9 @@ StringList CompiledExecutableModel::getCompartmentNames()
 StringList CompiledExecutableModel::getConservationNames()
 {
     StringList tmp; // = new ArrayList();
-    for (int i = 0; i < mCG.mConservationList.Count(); i++)
+    for (int i = 0; i < mCG.ms.mConservationList.Count(); i++)
     {
-        tmp.add(mCG.mConservationList[i].name);
+        tmp.add(mCG.ms.mConservationList[i].name);
     }
     return tmp;
 }
@@ -603,9 +603,9 @@ StringList CompiledExecutableModel::getGlobalParameterNames()
         tmp.add(mCG.ms.mGlobalParameterList[i].name);
     }
 
-    for (int i = 0; i < mCG.mConservationList.Count(); i++)
+    for (int i = 0; i < mCG.ms.mConservationList.Count(); i++)
     {
-        tmp.add(mCG.mConservationList[i].name);
+        tmp.add(mCG.ms.mConservationList[i].name);
     }
 
     return tmp;
@@ -614,9 +614,9 @@ StringList CompiledExecutableModel::getGlobalParameterNames()
 StringList CompiledExecutableModel::getReactionNames()
 {
     StringList tmp;
-    for (int i = 0; i < mCG.mReactionList.size(); i++)
+    for (int i = 0; i < mCG.ms.mReactionList.size(); i++)
     {
-        tmp.add(mCG.mReactionList[i].name);
+        tmp.add(mCG.ms.mReactionList[i].name);
     }
     return tmp;
 }

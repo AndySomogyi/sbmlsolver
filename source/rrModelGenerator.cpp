@@ -31,13 +31,9 @@ using namespace libsbml;
 ModelGenerator::ModelGenerator()
 :
 mComputeAndAssignConsevationLaws(false),
-mDoubleFormat("%.19G"),
 mFixAmountCompartments("*"),
 mLibStruct(0),
-mNOM(0),
-mTotalLocalParmeters(0),
-mNumEvents(0),
-mNumModifiableSpeciesReferences(0)
+mNOM(0)
 
 {
 }
@@ -53,7 +49,7 @@ void ModelGenerator::reset()
 
 int ModelGenerator::numAdditionalRates()
 {
-    return mMapRateRule.size();
+    return ms.mRateRules.size();
 }
 
 string ModelGenerator::getInfo()
@@ -219,7 +215,7 @@ void ModelGenerator::readLocalParameters(const int& numReactions,  vector<int>& 
     {
         numLocalParameters = mNOM->getNumParameters(i);
         reactionName = mNOM->getNthReactionId(i);
-        mReactionList.Add(Symbol(reactionName, 0.0));
+        ms.mReactionList.Add(Symbol(reactionName, 0.0));
         SymbolList newList;
         for (u_int j = 0; j < numLocalParameters; j++)
         {
@@ -340,7 +336,7 @@ int ModelGenerator::readModifiableSpeciesReferences()
 
             if (reference.isSetId())
             {
-                mModifiableSpeciesReferenceList.Add(Symbol(id, value));
+                ms.mModifiableSpeciesReferenceList.Add(Symbol(id, value));
             }
         }
         for (u_int j = 0; j < reaction.getNumProducts(); j++)
@@ -359,11 +355,11 @@ int ModelGenerator::readModifiableSpeciesReferences()
 
             if (reference.isSetId())
             {
-                mModifiableSpeciesReferenceList.Add(Symbol(id, value));
+                ms.mModifiableSpeciesReferenceList.Add(Symbol(id, value));
             }
         }
     }
-    return mModifiableSpeciesReferenceList.size();
+    return ms.mModifiableSpeciesReferenceList.size();
 }
 
 

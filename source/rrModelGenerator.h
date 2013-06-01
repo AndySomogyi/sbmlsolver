@@ -100,42 +100,17 @@ protected:
      */
     NOMSupport*                         mNOM;
 
-    int                                 mNumModifiableSpeciesReferences;
-
-
-
-    SymbolList                          mConservationList;
-    SymbolList                          mFloatingSpeciesAmountsList;
-
-
-    SymbolList                          mReactionList;
-    IntStringHashTable                  mMapRateRule;
-
-
-
-    int                                 mNumEvents;
-
-
-
-    int                                 mTotalLocalParmeters;
-
     /**
      * protected ctor, this is an partially abstract class.
      */
     ModelGenerator();
 
     bool                                mComputeAndAssignConsevationLaws;
-    const string                        mDoubleFormat;
+
     const string                        mFixAmountCompartments;
-    vector<int>                         mLocalParameterDimensions;
 
-
-
-    StringList                          mFunctionNames;
-    StringList                          mFunctionParameters;
 
     StringList                          mIndependentSpeciesList;
-
 
 
     StringList                          mWarnings;
@@ -144,7 +119,6 @@ protected:
      * get various information about the model in a user displayable format.
      */
     virtual string                      getInfo();
-
 
 
     //Non virtuals..
@@ -164,27 +138,17 @@ protected:
     void                                readLocalParameters(const int& numReactions,  vector<int>& localParameterDimensions, int& totalLocalParmeters);
     int                                 readCompartments();
     int                                 readModifiableSpeciesReferences();
-    SymbolList                          mModifiableSpeciesReferenceList;
 
     string                              writeDouble(const double& value, const string& format = "%G");
 
+    /**
+     * hold all the symbolic (AKA metadata) information in the model
+     * The idea is that all the memebers of this class will be const, and the entire
+     * thing will be created anew each time createModel is called.
+     *
+     * This thing will creted in one shot, then all the code building will access it.
+     */
     ModelSymbols ms;
-
-    //string                              mModelName;
-    //int                                 mNumReactions;
-    //vector<SymbolList>                  mLocalParameterList;
-    //int                                 mNumIndependentSpecies;
-    //StringList                          mDependentSpeciesList;
-    //SymbolList                          mCompartmentList;
-    //int                                 mNumCompartments;
-    //SymbolList                          mFloatingSpeciesConcentrationList;
-    //int                                 mNumFloatingSpecies;
-    //int                                 mNumDependentSpecies;
-    //SymbolList                          mBoundarySpeciesList;
-    //int                                 mNumBoundarySpecies;
-    //SymbolList                          mGlobalParameterList;
-    //int                                 mNumGlobalParameters;
-
 
     // for the time being, we'll store the state vars here until
     // we move them to the model, but we have cleaned up the interface,
