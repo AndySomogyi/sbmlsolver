@@ -39,7 +39,11 @@ class RR_DECLSPEC CompiledExecutableModel : public ExecutableModel, public rrObj
 {
 
 public:
-    CompiledExecutableModel(CModelGenerator& generator, ModelSharedLibrary* dll);
+    /**
+     * makes a copy of the ModelSymbols and keeps it.
+     * takes ownership of the shared lib.
+     */
+    CompiledExecutableModel(const ModelSymbols& symbols, ModelSharedLibrary* dll);
     virtual                                        ~CompiledExecutableModel();
 
     virtual string                                  getModelName();
@@ -118,31 +122,21 @@ private:
      * setup the function pointer variables to point to the C functions
      * in the loaded shared library.
      */
-    virtual bool 						setupDLLFunctions();
+    virtual bool                         setupDLLFunctions();
 
     //This structure holds data generated/used in the shared model lib..
     //some of it could be made global in the dll later on, like modelName..
-    int 								mDummyInt;
-    int									mDummyDouble;
-    double* 							mDummyDoubleArray;
+    int                                 mDummyInt;
+    int                                    mDummyDouble;
+    double*                             mDummyDoubleArray;
 
     /**
      * the data that is exchanged with the loaded shared lib,
      * and all sorts of other routines such as CVODE.
      */
-    ModelData 							mData;
-    CvodeInterface* 					mCvodeInterface;
-    CModelGenerator& 					mCG;
-
-    /**
-     * Reference to libstruct library
-     */
-    LibStructural& 						mLibStruct;
-
-    /**
-     * Object that provide some wrappers and new "NOM" functions.
-     */
-    NOMSupport& 						mNOM;
+    ModelData                             mData;
+    CvodeInterface*                     mCvodeInterface;
+    ModelSymbols                     ms;
 
     /**
      * If all functions are found properly in the dll, this one is true

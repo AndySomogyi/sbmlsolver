@@ -32,7 +32,6 @@ mCompiler(supportCodeFolder, compiler),
 mModel(0),
 mModelLib(0)
 {
-    cout << "mMapRateRule\n";
 }
 
 CModelGenerator::~CModelGenerator(){}
@@ -2683,7 +2682,7 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
     //Create a model
     if(mModelLib->isLoaded())
     {
-        ExecutableModel *rrCModel = new CompiledExecutableModel(*this, mModelLib);
+        ExecutableModel *rrCModel = new CompiledExecutableModel(ms, mModelLib);
         mModel = rrCModel;
     }
     else
