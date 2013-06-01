@@ -56,6 +56,7 @@ rrTextWriter
 rrTParameterType
 rrTVariableType
 rrUtils
+rrModelSymbols
 rrModelGenerator
 rrCompiledModelGenerator
 rrCModelGenerator
