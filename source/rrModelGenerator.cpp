@@ -40,8 +40,6 @@ mNumCompartments(0),
 mTotalLocalParmeters(0),
 mNumEvents(0),
 mNumGlobalParameters(0),
-mNumIndependentSpecies(0),
-mNumReactions(0),
 mNumModifiableSpeciesReferences(0),
 mNumFloatingSpecies(0),
 mNumDependentSpecies(0)
@@ -235,7 +233,7 @@ void ModelGenerator::readLocalParameters(const int& numReactions,  vector<int>& 
             value = mNOM->getNthParameterValue(i, j);
             newList.Add(Symbol(reactionName, name, value));
         }
-        mLocalParameterList.push_back(newList);
+        ms.mLocalParameterList.push_back(newList);
     }
 }
 

@@ -53,21 +53,21 @@ string CSharpModelGenerator::generateModelCode(const string& sbmlStr, const bool
     mNOM->loadSBML(sASCII.c_str(), "time");
 
 
-    mModelName = mNOM->getModelName();
-    if(!mModelName.size())
+    ms.mModelName = mNOM->getModelName();
+    if(!ms.mModelName.size())
     {
         Log(lError)<<"Model name is empty! Exiting...";
         return "";
     }
 
-    Log(lDebug3)<<"Model name is "<<mModelName;
-    mNumReactions = mNOM->getNumReactions();
+    Log(lDebug3)<<"Model name is "<< ms.mModelName;
+    ms.mNumReactions = mNOM->getNumReactions();
 
-    Log(lDebug3)<<"Number of reactions:"<<mNumReactions;
+    Log(lDebug3)<<"Number of reactions:"<< ms.mNumReactions;
 
     mGlobalParameterList.Clear();
     mModifiableSpeciesReferenceList.Clear();
-    mLocalParameterList.reserve(mNumReactions);
+    ms.mLocalParameterList.reserve(ms.mNumReactions);
     mReactionList.Clear();
     mBoundarySpeciesList.Clear();
     mFloatingSpeciesConcentrationList.Clear();
@@ -99,13 +99,13 @@ string CSharpModelGenerator::generateModelCode(const string& sbmlStr, const bool
 //    if (mRR != NULL && mRR->computeAndAssignConservationLaws())
     if(computeAndAssignConsevationLaws)
     {
-        mNumIndependentSpecies = mLibStruct->getNumIndSpecies();
+    	ms.mNumIndependentSpecies = mLibStruct->getNumIndSpecies();
         mIndependentSpeciesList = mLibStruct->getIndependentSpecies();
         mDependentSpeciesList   = mLibStruct->getDependentSpecies();
     }
     else
     {
-        mNumIndependentSpecies = mLibStruct->getNumSpecies();
+    	ms.mNumIndependentSpecies = mLibStruct->getNumSpecies();
         mIndependentSpeciesList = mLibStruct->getSpecies();
     }
 
@@ -116,7 +116,7 @@ string CSharpModelGenerator::generateModelCode(const string& sbmlStr, const bool
 
     // Read FloatingSpecies
     mNumFloatingSpecies             = readFloatingSpecies();
-    mNumDependentSpecies             = mNumFloatingSpecies - mNumIndependentSpecies;
+    mNumDependentSpecies             = mNumFloatingSpecies - ms.mNumIndependentSpecies;
 
     // Load the boundary species array (name and value)
     mNumBoundarySpecies             = readBoundarySpecies();
@@ -126,7 +126,7 @@ string CSharpModelGenerator::generateModelCode(const string& sbmlStr, const bool
     mNumModifiableSpeciesReferences = readModifiableSpeciesReferences();
 
     // Load up local parameters next
-    readLocalParameters(mNumReactions, mLocalParameterDimensions, mTotalLocalParmeters);
+    readLocalParameters(ms.mNumReactions, mLocalParameterDimensions, mTotalLocalParmeters);
     mNumEvents = mNOM->getNumEvents();
 
     writeClassHeader(sb);
@@ -143,7 +143,7 @@ string CSharpModelGenerator::generateModelCode(const string& sbmlStr, const bool
     writeSetInitialConditions(sb, mNumFloatingSpecies);
     writeSetBoundaryConditions(sb);
     writeSetCompartmentVolumes(sb);
-    writeSetParameterValues(sb, mNumReactions);
+    writeSetParameterValues(sb, ms.mNumReactions);
     writeComputeConservedTotals(sb, mNumFloatingSpecies, mNumDependentSpecies);
 
     // Get the L0 matrix
@@ -152,14 +152,14 @@ string CSharpModelGenerator::generateModelCode(const string& sbmlStr, const bool
     DoubleMatrix* aL0 = initializeL0(nrRows, nrCols);     //Todo: What is this doing? answer.. it is used below..
 //    DoubleMatrix L0(aL0,nrRows, nrCols);         //How many rows and cols?? We need to know that in order to use the matrix properly!
 
-    writeUpdateDependentSpecies(sb, mNumIndependentSpecies, mNumDependentSpecies, *aL0);
-    int numOfRules = writeComputeRules(sb, mNumReactions);
-    writeComputeAllRatesOfChange(sb, mNumIndependentSpecies, mNumDependentSpecies, *aL0);
-    writeComputeReactionRates(sb, mNumReactions);
-    writeEvalModel(sb, mNumReactions, mNumIndependentSpecies, mNumFloatingSpecies, numOfRules);
+    writeUpdateDependentSpecies(sb, ms.mNumIndependentSpecies, mNumDependentSpecies, *aL0);
+    int numOfRules = writeComputeRules(sb, ms.mNumReactions);
+    writeComputeAllRatesOfChange(sb, ms.mNumIndependentSpecies, mNumDependentSpecies, *aL0);
+    writeComputeReactionRates(sb, ms.mNumReactions);
+    writeEvalModel(sb, ms.mNumReactions, ms.mNumIndependentSpecies, mNumFloatingSpecies, numOfRules);
     writeEvalEvents(sb, mNumEvents, mNumFloatingSpecies);
-    writeEventAssignments(sb, mNumReactions, mNumEvents);
-    writeEvalInitialAssignments(sb, mNumReactions);
+    writeEventAssignments(sb, ms.mNumReactions, mNumEvents);
+    writeEvalInitialAssignments(sb, ms.mNumReactions);
     writeTestConstraints(sb);
     sb<<format("}{0}{0}", NL());
     return sb.ToString();
@@ -737,7 +737,7 @@ void CSharpModelGenerator::substituteEquation(const string& reactionName, Scanne
         if (mReactionList.find(reactionName, index))
         {
             int nParamIndex = 0;
-            if (mLocalParameterList[index].find(s.tokenString, nParamIndex))
+            if (ms.mLocalParameterList[index].find(s.tokenString, nParamIndex))
             {
                 sb<<append("_lp[" + toString(index) + "][" + toString(nParamIndex) + "]");
                 bReplaced = true;
@@ -1539,7 +1539,7 @@ void CSharpModelGenerator::writeAccessors(CodeBuilder& sb)
                 "];           // Vector containing all the global parameters in the System  " + NL());
       sb<<append("\tprivate double[] _sr = new double[" + toString(mNumModifiableSpeciesReferences) +
                 "];           // Vector containing all the modifiable species references  " + NL());
-      sb<<append("\tprivate double[][] _lp = new double[" + toString(mNumReactions) +
+      sb<<append("\tprivate double[][] _lp = new double[" + toString(ms.mNumReactions) +
                 "][];       // Vector containing all the local parameters in the System  " + NL());
 
       sb<<append("\tprivate double[] _y = new double[", mFloatingSpeciesConcentrationList.size(),
@@ -1560,7 +1560,7 @@ void CSharpModelGenerator::writeAccessors(CodeBuilder& sb)
       sb<<append("\tprivate double[] _dydt = new double[" , mFloatingSpeciesConcentrationList.size() ,
                 "];         // Vector containing rates of changes of all species   " , NL());
 
-      sb<<append("\tprivate double[] _rates = new double[" , mNumReactions ,
+      sb<<append("\tprivate double[] _rates = new double[" , ms.mNumReactions ,
                 "];        // Vector containing the rate laws of all reactions    " , NL());
 
       sb<<append("\tprivate double[] _ct = new double[" , mNumDependentSpecies ,
@@ -1591,7 +1591,7 @@ void CSharpModelGenerator::writeAccessors(CodeBuilder& sb)
       sb<<append("\tstring[] variableTable = new string[" , mFloatingSpeciesConcentrationList.size() , "];" , NL());
       sb<<append("\tstring[] boundaryTable = new string[" , mBoundarySpeciesList.size() , "];" , NL());
       sb<<append("\tstring[] globalParameterTable = new string[" , mGlobalParameterList.size() , "];" , NL());
-      sb<<append("\tint[] localParameterDimensions = new int[" , mNumReactions , "];" , NL());
+      sb<<append("\tint[] localParameterDimensions = new int[" , ms.mNumReactions , "];" , NL());
       sb<<append("\tprivate TEventAssignmentDelegate[] _eventAssignments;" , NL());
       sb<<append("\tprivate double[] _eventPriorities;" , NL());
       sb<<append("\tprivate TComputeEventAssignmentDelegate[] _computeEventAssignments;" , NL());
@@ -1602,7 +1602,7 @@ void CSharpModelGenerator::writeAccessors(CodeBuilder& sb)
       sb<<append("\tpublic TModel ()  " , NL());
       sb<<append("\t{" , NL());
 
-      sb<<append("\t\tnumIndependentVariables = " , mNumIndependentSpecies , ";" , NL());
+      sb<<append("\t\tnumIndependentVariables = " , ms.mNumIndependentSpecies , ";" , NL());
       sb<<append("\t\tnumDependentVariables = " , mNumDependentSpecies , ";" , NL());
       sb<<append("\t\tnumTotalVariables = " , mNumFloatingSpecies , ";" , NL());
       sb<<append("\t\tnumBoundaryVariables = " , mNumBoundarySpecies , ";" , NL());
@@ -1645,7 +1645,7 @@ void CSharpModelGenerator::writeAccessors(CodeBuilder& sb)
       }
 
       // Declare space for local parameters
-      for (int i = 0; i < mNumReactions; i++)
+      for (int i = 0; i < ms.mNumReactions; i++)
       {
           sb<<append("\t\tlocalParameterDimensions[" + toString(i) + "] = " , mLocalParameterDimensions[i] , ";" + NL());
           sb<<append("\t\t_lp[" + toString(i) + "] = new double[" , mLocalParameterDimensions[i] , "];" , NL());
@@ -2322,11 +2322,11 @@ void CSharpModelGenerator::writeSetParameterValues(CodeBuilder& sb, const int& n
     // Initialize local parameter values
     for (int i = 0; i < numReactions; i++)
     {
-        for (int j = 0; j < mLocalParameterList[i].size(); j++)
+        for (int j = 0; j < ms.mLocalParameterList[i].size(); j++)
             sb<<format("\t\t_lp[{0}][{1}] = (double){2};{3}",
                           i,
                           j,
-                          writeDouble(mLocalParameterList[i][j].value),
+                          writeDouble(ms.mLocalParameterList[i][j].value),
                           NL());
     }
 
@@ -2348,7 +2348,7 @@ void CSharpModelGenerator::writeSetCompartmentVolumes(CodeBuilder& sb)
         while (initializations.size() > 0)
         {
             string term(initializations.top());
-            string sub = substituteTerms(mNumReactions, "", term);
+            string sub = substituteTerms(ms.mNumReactions, "", term);
             sb<<append("\t\t" + sub + ";" + NL());
             initializations.pop();
         }

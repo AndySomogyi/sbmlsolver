@@ -171,7 +171,7 @@ bool CompiledExecutableModel::setupModelData()
     initModelData(mData);
 
     // set the buffer sizes
-    mData.numIndependentVariables       = mCG.mNumIndependentSpecies;
+    mData.numIndependentVariables       = mCG.ms.mNumIndependentSpecies;
     mData.numDependentVariables         = mCG.mNumDependentSpecies;
     mData.numTotalVariables             = mCG.mNumFloatingSpecies;        //???
     mData.numBoundaryVariables          = mCG.mNumBoundarySpecies;
@@ -183,15 +183,15 @@ bool CompiledExecutableModel::setupModelData()
     mData.dydtSize                      = mCG.mFloatingSpeciesConcentrationList.size();
     mData.rateRulesSize                 = mCG.mMapRateRule.size();
     mData.ySize                         = mCG.mFloatingSpeciesConcentrationList.size();
-    mData.ratesSize                     = mCG.mNumReactions;
+    mData.ratesSize                     = mCG.ms.mNumReactions;
     mData.ctSize                        = mCG.mNumDependentSpecies;
     mData.init_ySize                    = mCG.mFloatingSpeciesConcentrationList.Count();
     mData.gpSize                        = mCG.mNumGlobalParameters + mCG.mTotalLocalParmeters;
     mData.cSize                         = mCG.mNumCompartments;
     mData.bcSize                        = mCG.mNumBoundarySpecies;
-    mData.lpSize                        = mCG.mNumReactions;
+    mData.lpSize                        = mCG.ms.mNumReactions;
     mData.srSize                        = mCG.mNumModifiableSpeciesReferences;
-    mData.localParameterDimensionsSize  = mCG.mNumReactions;
+    mData.localParameterDimensionsSize  = mCG.ms.mNumReactions;
     mData.eventPrioritiesSize           = mCG.mNumEvents;
     mData.eventStatusArraySize          = mCG.mNumEvents;
     mData.previousEventStatusArraySize  = mCG.mNumEvents;

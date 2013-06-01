@@ -31,7 +31,9 @@ mTempFileFolder(tempFolder),
 mCompiler(supportCodeFolder, compiler),
 mModel(0),
 mModelLib(0)
-{}
+{
+    cout << "mNumIndependentSpecies\n";
+}
 
 CModelGenerator::~CModelGenerator(){}
 
@@ -75,21 +77,21 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
     mHeader.Clear();
     mSource.Clear();
 
-    mModelName = mNOM->getModelName();
-    if(!mModelName.size())
+    ms.mModelName = mNOM->getModelName();
+    if(!ms.mModelName.size())
     {
         Log(lWarning)<<"Model name is empty. ModelName is assigned 'NameNotSet'.";
-        mModelName = "NameNotSet";
+        ms.mModelName = "NameNotSet";
     }
 
-    Log(lDebug1)<<"Processing model: "<<mModelName;
-    mNumReactions  = mNOM->getNumReactions();
+    Log(lDebug1)<<"Processing model: "<< ms.mModelName;
+    ms.mNumReactions  = mNOM->getNumReactions();
 
-    Log(lDebug3)<<"Number of reactions:"<<mNumReactions;
+    Log(lDebug3)<<"Number of reactions:"<< ms.mNumReactions;
 
     mGlobalParameterList.Clear();
     mModifiableSpeciesReferenceList.Clear();
-    mLocalParameterList.reserve(mNumReactions);
+    ms.mLocalParameterList.reserve(ms.mNumReactions);
     mReactionList.Clear();
     mBoundarySpeciesList.Clear();
     mFloatingSpeciesConcentrationList.Clear();
@@ -101,13 +103,13 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
 
     if(mComputeAndAssignConsevationLaws)
     {
-        mNumIndependentSpecies     = mLibStruct->getNumIndSpecies();
+        ms.mNumIndependentSpecies     = mLibStruct->getNumIndSpecies();
         mIndependentSpeciesList = mLibStruct->getIndependentSpecies();
         mDependentSpeciesList   = mLibStruct->getDependentSpecies();
     }
     else
     {
-        mNumIndependentSpecies = mLibStruct->getNumSpecies();
+        ms.mNumIndependentSpecies = mLibStruct->getNumSpecies();
         mIndependentSpeciesList = mLibStruct->getSpecies();
     }
 
@@ -116,7 +118,7 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
 
     // Read FloatingSpecies
     mNumFloatingSpecies         = readFloatingSpecies();
-    mNumDependentSpecies        = mNumFloatingSpecies - mNumIndependentSpecies;
+    mNumDependentSpecies        = mNumFloatingSpecies - ms.mNumIndependentSpecies;
 
     // Load the boundary species array (name and value)
     mNumBoundarySpecies     = readBoundarySpecies();
@@ -126,7 +128,7 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
     mNumModifiableSpeciesReferences = readModifiableSpeciesReferences();
 
     // Load up local parameters next
-    readLocalParameters(mNumReactions, mLocalParameterDimensions, mTotalLocalParmeters);
+    readLocalParameters(ms.mNumReactions, mLocalParameterDimensions, mTotalLocalParmeters);
     mNumEvents = mNOM->getNumEvents();
 
     //Write model to String builder...
@@ -157,7 +159,7 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
     writeSetInitialConditions(ignore, mNumFloatingSpecies);
     writeSetBoundaryConditions(ignore);
     writeSetCompartmentVolumes(ignore);
-    writeSetParameterValues(ignore, mNumReactions);
+    writeSetParameterValues(ignore, ms.mNumReactions);
     writeComputeConservedTotals(ignore, mNumFloatingSpecies, mNumDependentSpecies);
 
     // Get the L0 matrix
@@ -165,16 +167,16 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
     int nrCols;
 
     ls::DoubleMatrix* aL0 = initializeL0(nrRows, nrCols);     //Todo: What is this doing? answer.. it is used below..
-    writeUpdateDependentSpecies(ignore, mNumIndependentSpecies, mNumDependentSpecies, *aL0);
-    int numOfRules = writeComputeRules(ignore, mNumReactions);
+    writeUpdateDependentSpecies(ignore, ms.mNumIndependentSpecies, mNumDependentSpecies, *aL0);
+    int numOfRules = writeComputeRules(ignore, ms.mNumReactions);
 
-    writeComputeAllRatesOfChange(ignore, mNumIndependentSpecies, mNumDependentSpecies, *aL0);
+    writeComputeAllRatesOfChange(ignore, ms.mNumIndependentSpecies, mNumDependentSpecies, *aL0);
     delete aL0;
-    writeComputeReactionRates(ignore, mNumReactions);
-    writeEvalModel(ignore, mNumReactions, mNumIndependentSpecies, mNumFloatingSpecies, numOfRules);
+    writeComputeReactionRates(ignore, ms.mNumReactions);
+    writeEvalModel(ignore, ms.mNumReactions, ms.mNumIndependentSpecies, mNumFloatingSpecies, numOfRules);
     writeEvalEvents(ignore, mNumEvents, mNumFloatingSpecies);
-    writeEventAssignments(ignore, mNumReactions, mNumEvents);
-    writeEvalInitialAssignments(ignore, mNumReactions);
+    writeEventAssignments(ignore, ms.mNumReactions, mNumEvents);
+    writeEvalInitialAssignments(ignore, ms.mNumReactions);
     writeTestConstraints(ignore);
 
     writeInitModelDataFunction(mHeader, mSource);
@@ -1341,9 +1343,9 @@ void CModelGenerator::writeSetParameterValues(CodeBuilder& ignore, const int& nu
     // Initialize local parameter values
     for (int i = 0; i < numReactions; i++)
     {
-        for (int j = 0; j < mLocalParameterList[i].size(); j++)
+        for (int j = 0; j < ms.mLocalParameterList[i].size(); j++)
         {
-            mSource<<format("\n\t_lp[{0}][{1}] = (double){2};{3}", i, j, writeDouble(mLocalParameterList[i][j].value), NL());
+            mSource<<format("\n\t_lp[{0}][{1}] = (double){2};{3}", i, j, writeDouble(ms.mLocalParameterList[i][j].value), NL());
         }
     }
 
@@ -1366,7 +1368,7 @@ void CModelGenerator::writeSetCompartmentVolumes(CodeBuilder& ignore)
         while (initializations.size() > 0)
         {
             string term(initializations.top());
-            string sub = substituteTerms(mNumReactions, "", term);
+            string sub = substituteTerms(ms.mNumReactions, "", term);
             mSource<<append("\t" + sub + ";" + NL());
             initializations.pop();
         }
@@ -2317,7 +2319,7 @@ void CModelGenerator::substituteEquation(const string& reactionName, Scanner& s,
         if (mReactionList.find(reactionName, index))
         {
             int nParamIndex = 0;
-            if (mLocalParameterList[index].find(s.tokenString, nParamIndex))
+            if (ms.mLocalParameterList[index].find(s.tokenString, nParamIndex))
             {
                 mSource<<append("_lp[" + toString(index) + "][" + toString(nParamIndex) + "]");
                 bReplaced = true;

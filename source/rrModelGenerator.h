@@ -10,6 +10,7 @@
 #include "rrNOMSupport.h"
 #include "rrScanner.h"
 #include "rrExecutableModel.h"
+#include "rrModelSymbols.h"
 #include "rr-libstruct/lsMatrix.h"
 #include "rr-libstruct/lsLibStructural.h"
 
@@ -115,8 +116,7 @@ protected:
     int                                 mNumEvents;
     int                                 mNumFloatingSpecies;
     int                                 mNumGlobalParameters;
-    int                                 mNumIndependentSpecies;
-    int                                 mNumReactions;
+
     int                                 mTotalLocalParmeters;
 
     /**
@@ -128,14 +128,15 @@ protected:
     const string                        mDoubleFormat;
     const string                        mFixAmountCompartments;
     vector<int>                         mLocalParameterDimensions;
-    string                              mModelName;
+
+
 
     StringList                          mFunctionNames;
     StringList                          mFunctionParameters;
     StringList                          mDependentSpeciesList;
     StringList                          mIndependentSpeciesList;
 
-    vector<SymbolList>                  mLocalParameterList;
+
 
     StringList                          mWarnings;
 
@@ -166,6 +167,14 @@ protected:
     SymbolList                          mModifiableSpeciesReferenceList;
 
     string                              writeDouble(const double& value, const string& format = "%G");
+
+    ModelSymbols ms;
+
+    //string                              mModelName;
+    //int                                 mNumReactions;
+    //vector<SymbolList>                  mLocalParameterList;
+    //int                                 mNumIndependentSpecies;
+
 
     // for the time being, we'll store the state vars here until
     // we move them to the model, but we have cleaned up the interface,
