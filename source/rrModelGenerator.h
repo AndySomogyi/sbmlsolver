@@ -146,11 +146,6 @@ protected:
      * This thing will creted in one shot, then all the code building will access it.
      */
     ModelSymbols ms;
-
-    // for the time being, we'll store the state vars here until
-    // we move them to the model, but we have cleaned up the interface,
-    // so ONLY this executableModel access the state vars.
-    friend class CompiledExecutableModel;
 };
 }
 
