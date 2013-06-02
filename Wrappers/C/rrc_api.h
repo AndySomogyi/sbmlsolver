@@ -786,7 +786,7 @@ C_DECL_SPEC bool rrcCallConv setBoundarySpeciesByIndex(RRHandle handle, const in
  \return Returns true if successful
  \ingroup floating
 */
-C_DECL_SPEC bool rrcCallConv setFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, const int& index, const double& value);
+C_DECL_SPEC bool rrcCallConv setFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, int index, double value);
 
 /*!
  \brief Get the initial concentration for a particular floating species.
@@ -797,7 +797,7 @@ C_DECL_SPEC bool rrcCallConv setFloatingSpeciesInitialConcentrationByIndex(RRHan
  \return Returns true if successful
  \ingroup floating
 */
-C_DECL_SPEC bool rrcCallConv getFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, const int& index, double* value);
+C_DECL_SPEC bool rrcCallConv getFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, int index, double* value);
 
 /*!
  \brief Set the concentration for a particular floating species.

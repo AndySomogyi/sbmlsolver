@@ -1552,7 +1552,7 @@ RRStringArrayHandle rrCallConv getGlobalParameterIds(RRHandle handle)
     }
 }
 
-bool rrCallConv getFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, const int& index, double* value)
+bool rrCallConv getFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, int index, double* value)
 {
     try
     {
@@ -1667,7 +1667,7 @@ bool rrCallConv setGlobalParameterByIndex(RRHandle handle, const int index, cons
     catch_bool_macro
 }
 
-bool rrCallConv setFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, const int& index, const double& value)
+bool rrCallConv setFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, const int index, const double value)
 {
     try
     {

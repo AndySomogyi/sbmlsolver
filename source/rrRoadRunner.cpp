@@ -793,6 +793,7 @@ DoubleMatrix RoadRunner::simulate()
     catch (const Exception& e)
     {
         Log(lWarning)<<"Problem in simulate: "<<e.Message();
+
     }
 
 }
