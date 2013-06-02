@@ -3003,20 +3003,22 @@ double RoadRunner::getGlobalParameterByIndex(const int& index)
     if ((index >= 0) && (index < (mModel->getNumGlobalParameters() + mModel->getModelData().ctSize)))
     {
         int arraySize = mModel->getModelData().gpSize + mModel->getModelData().ctSize;
-        double* result = new double[arraySize];
+        double* data = new double[arraySize];
 
         for(int i = 0; i < mModel->getModelData().gpSize; i++)
         {
-            result[i] = mModel->getModelData().gp[i];
+            data[i] = mModel->getModelData().gp[i];
         }
 
         int tempIndex = 0;
         for(int i = mModel->getModelData().gpSize; i < arraySize; i++)
         {
-            result[i] = mModel->getModelData().ct[tempIndex++];
+            data[i] = mModel->getModelData().ct[tempIndex++];
         }
 
-        return result[index];
+        double result = data[index];
+        delete[] data;
+        return result;
     }
 
     throw CoreException(format("Index in getNumGlobalParameters out of range: [{0}]", index));

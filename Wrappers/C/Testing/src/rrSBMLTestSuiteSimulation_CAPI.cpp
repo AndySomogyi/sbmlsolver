@@ -237,6 +237,7 @@ bool RunTest(const string& version, int caseNumber)
     {
         string error = ex.what();
         cerr<<"Case "<<caseNumber<<": Exception: "<<error<<endl;
+        freeRRInstance(gRR);
     	return false;
     }
 

@@ -16,139 +16,140 @@ using rr::joinPath;
 using rr::fileExists;
 
 extern string   gTempFolder;
-extern string 	gTestDataFolder;
+extern string     gTestDataFolder;
 extern string   gRRInstallFolder;
-extern bool 	gDebug;
+extern bool     gDebug;
 
 //This tests is mimicking the Python tests
 SUITE(TEST_MODEL_1)
 {
-string TestDataFileName 	= "Test_1.dat";
+string TestDataFileName     = "Test_1.dat";
 IniFile iniFile;
 string TestModelFileName;
 RRHandle gRR = NULL;
 
-	TEST(DATA_FILES)
-	{
-    	gRR 						= createRRInstanceEx(gTempFolder.c_str());
-		string testDataFileName 	= joinPath(gTestDataFolder, TestDataFileName);
-		clog<<"Checking file: "<<testDataFileName<<endl;
-		CHECK(fileExists(testDataFileName));
-		CHECK(iniFile.Load(testDataFileName));
+    TEST(DATA_FILES)
+    {
+        gRR                         = createRRInstanceEx(gTempFolder.c_str());
+        string testDataFileName     = joinPath(gTestDataFolder, TestDataFileName);
+        clog<<"Checking file: "<<testDataFileName<<endl;
+        CHECK(fileExists(testDataFileName));
+        CHECK(iniFile.Load(testDataFileName));
 
-		clog<<"Loaded test data from file: "<< testDataFileName;
-		if(iniFile.GetSection("SBML_FILES"))
-		{
-			IniSection* sbml = iniFile.GetSection("SBML_FILES");
-			IniKey* fNameKey = sbml->GetKey("FNAME1");
-			if(fNameKey)
-			{
-				TestModelFileName  = joinPath(gTestDataFolder, fNameKey->mValue);
-				CHECK(fileExists(TestModelFileName));
-			}
-		}
-		CHECK(loadSBMLFromFileE(gRR, TestModelFileName.c_str(), true));
-	}
+        clog<<"Loaded test data from file: "<< testDataFileName;
+        if(iniFile.GetSection("SBML_FILES"))
+        {
+            IniSection* sbml = iniFile.GetSection("SBML_FILES");
+            IniKey* fNameKey = sbml->GetKey("FNAME1");
+            if(fNameKey)
+            {
+                TestModelFileName  = joinPath(gTestDataFolder, fNameKey->mValue);
+                CHECK(fileExists(TestModelFileName));
+            }
+        }
+        CHECK(loadSBMLFromFileE(gRR, TestModelFileName.c_str(), true));
+    }
 
-	TEST(SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS)
-	{
-		CHECK(gRR!=NULL);
-		bool res = setComputeAndAssignConservationLaws(gRR, true);
-		CHECK(res);
-		clog<<"\nConversation laws: "<<res<<endl;
-	}
+    TEST(SET_COMPUTE_AND_ASSIGN_CONSERVATION_LAWS)
+    {
+        CHECK(gRR!=NULL);
+        bool res = setComputeAndAssignConservationLaws(gRR, true);
+        CHECK(res);
+        clog<<"\nConversation laws: "<<res<<endl;
+    }
 
-	TEST(SET_STEADY_STATE_SELECTION_LIST)
-	{
-		CHECK(gRR!=NULL);
+    TEST(SET_STEADY_STATE_SELECTION_LIST)
+    {
+        CHECK(gRR!=NULL);
 
-		//Load reference data
-		IniSection* aSection = iniFile.GetSection("Set Steady State Selection List");
-		if(!aSection || !gRR)
-		{
-			CHECK(false);
-			return;
-		}
+        //Load reference data
+        IniSection* aSection = iniFile.GetSection("Set Steady State Selection List");
+        if(!aSection || !gRR)
+        {
+            CHECK(false);
+            return;
+        }
 
-		IniKey* aKey = aSection->GetKey("list");
-		if(!aKey)
-		{
-			CHECK(false);
-			return;
-		}
+        IniKey* aKey = aSection->GetKey("list");
+        if(!aKey)
+        {
+            CHECK(false);
+            return;
+        }
 
-		bool res = setSteadyStateSelectionList(gRR, aKey->mValue.c_str());
-		CHECK(res);
-	}
+        bool res = setSteadyStateSelectionList(gRR, aKey->mValue.c_str());
+        CHECK(res);
+    }
 
-	TEST(GET_STEADY_STATE_SELECTION_LIST)
-	{
-		IniSection* aSection = iniFile.GetSection("Get Steady State Selection List");
-		if(!aSection || !gRR)
-		{
-			CHECK(false);
-			return;
-		}
+    TEST(GET_STEADY_STATE_SELECTION_LIST)
+    {
+        IniSection* aSection = iniFile.GetSection("Get Steady State Selection List");
+        if(!aSection || !gRR)
+        {
+            CHECK(false);
+            return;
+        }
 
-		IniKey* aKey = aSection->GetKey("list");
-		if(!aKey)
-		{
-			CHECK(false);
-			return;
-		}
+        IniKey* aKey = aSection->GetKey("list");
+        if(!aKey)
+        {
+            CHECK(false);
+            return;
+        }
 
-		RRStringArrayHandle list = getSteadyStateSelectionList(gRR);
+        RRStringArrayHandle list = getSteadyStateSelectionList(gRR);
 
-		if(!list)
-		{
-			CHECK(false);
-			return;
-		}
-		vector<string> selList = splitString(aKey->mValue," ,");
-		CHECK(selList.size() == list->Count);
-		for(int i = 0; i < selList.size(); i++)
-		{
-			CHECK(selList[i] == list->String[i]);
-		}
-	}
+        if(!list)
+        {
+            CHECK(false);
+            return;
+        }
+        vector<string> selList = splitString(aKey->mValue," ,");
+        CHECK(selList.size() == list->Count);
+        for(int i = 0; i < selList.size(); i++)
+        {
+            CHECK(selList[i] == list->String[i]);
+        }
+        freeStringArray(list);
+    }
 
-	TEST(COMPUTE_STEADY_STATE)
-	{
-		double val;
-		CHECK( steadyState(gRR, &val));
-		CHECK_CLOSE(0, val, 1e-6);
-	}
+    TEST(COMPUTE_STEADY_STATE)
+    {
+        double val;
+        CHECK( steadyState(gRR, &val));
+        CHECK_CLOSE(0, val, 1e-6);
+    }
 
-	TEST(SPECIES_CONCENTRATIONS)
-	{
-		CHECK(gRR!=NULL);
+    TEST(SPECIES_CONCENTRATIONS)
+    {
+        CHECK(gRR!=NULL);
 
-		//Read in the reference data, from the ini file
-		IniSection* aSection = iniFile.GetSection("Species Concentrations");
-		if(!aSection || !gRR)
-		{
-			CHECK(false);
-			return;
-		}
+        //Read in the reference data, from the ini file
+        IniSection* aSection = iniFile.GetSection("Species Concentrations");
+        if(!aSection || !gRR)
+        {
+            CHECK(false);
+            return;
+        }
 
-		for(int i = 0 ; i < aSection->KeyCount(); i++)
-		{
-			IniKey *aKey = aSection->GetKey(i);
+        for(int i = 0 ; i < aSection->KeyCount(); i++)
+        {
+            IniKey *aKey = aSection->GetKey(i);
 
-			double val;
+            double val;
 
-			//API Function getValue
-			if(!getValue(gRR, aKey->mKey.c_str(), &val))
-			{
-				CHECK(false);
-			}
+            //API Function getValue
+            if(!getValue(gRR, aKey->mKey.c_str(), &val))
+            {
+                CHECK(false);
+            }
 
-			//Check concentrations
-			CHECK_CLOSE(aKey->AsFloat(), val, 1e-6);
-			clog<<"\n";
-			clog<<"Ref:\t"<<aKey->AsFloat()<<"\tActual:\t "<<val<<endl;
-		}
-	}
+            //Check concentrations
+            CHECK_CLOSE(aKey->AsFloat(), val, 1e-6);
+            clog<<"\n";
+            clog<<"Ref:\t"<<aKey->AsFloat()<<"\tActual:\t "<<val<<endl;
+        }
+    }
 
     TEST(FLUXES)
     {
@@ -189,8 +190,8 @@ RRHandle gRR = NULL;
             return;
         }
 
-        RRMatrixHandle 		jActual 	= getFullJacobian(gRR);
-        ls::DoubleMatrix 	jRef 		= ParseFromText(aSection->GetNonKeysAsString());
+        RRMatrixHandle         jActual     = getFullJacobian(gRR);
+        ls::DoubleMatrix     jRef         = ParseFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions
         if(jActual->RSize != jRef.RSize() || jActual->CSize != jRef.CSize())
@@ -253,7 +254,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        ls::DoubleMatrix 	ref = ParseFromText(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix     ref = ParseFromText(aSection->GetNonKeysAsString());
 
         RRMatrixHandle matrix = getEigenvalues(gRR);
         if(!matrix)
@@ -302,7 +303,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-		ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix     ref         = ParseFromText(aSection->GetNonKeysAsString());
 
         RRMatrixHandle matrix = getStoichiometryMatrix(gRR);
         if(!matrix)
@@ -348,7 +349,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-       	ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
+           ls::DoubleMatrix     ref         = ParseFromText(aSection->GetNonKeysAsString());
 
         RRMatrixHandle matrix = getLinkMatrix(gRR);
         if(!matrix)
@@ -394,7 +395,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-       	ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
+           ls::DoubleMatrix     ref         = ParseFromText(aSection->GetNonKeysAsString());
 
         RRMatrixHandle matrix = getUnscaledElasticityMatrix(gRR);
         if(!matrix)
@@ -440,7 +441,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix     ref         = ParseFromText(aSection->GetNonKeysAsString());
 
         double test;
         steadyState(gRR, &test);
@@ -478,7 +479,7 @@ RRHandle gRR = NULL;
 
     TEST(UNSCALED_CONCENTRATION_CONTROL_MATRIX)
     {
-    	clog<<"\n==== UNSCALED_CONCENTRATION_CONTROL_MATRIX ====\n\n";
+        clog<<"\n==== UNSCALED_CONCENTRATION_CONTROL_MATRIX ====\n\n";
 
         CHECK(gRR!=NULL);
 
@@ -490,7 +491,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix     ref         = ParseFromText(aSection->GetNonKeysAsString());
 
         RRMatrixHandle matrix = getUnscaledConcentrationControlCoefficientMatrix(gRR);
         if(!matrix)
@@ -524,7 +525,7 @@ RRHandle gRR = NULL;
         freeMatrix(matrix);
     }
 
-	TEST(SCALED_CONCENTRATION_CONTROL_MATRIX)
+    TEST(SCALED_CONCENTRATION_CONTROL_MATRIX)
     {
         clog<<"\n==== SCALED_CONCENTRATION_CONTROL_MATRIX ====\n\n";
         CHECK(gRR!=NULL);
@@ -537,7 +538,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix     ref         = ParseFromText(aSection->GetNonKeysAsString());
 
         RRMatrixHandle matrix = getScaledConcentrationControlCoefficientMatrix(gRR);
         if(!matrix)
@@ -573,7 +574,7 @@ RRHandle gRR = NULL;
 
     TEST(UNSCALED_FLUX_CONTROL_MATRIX)
     {
-    	clog<<"\n==== UNSCALED_FLUX_CONTROL_MATRIX ====\n\n";
+        clog<<"\n==== UNSCALED_FLUX_CONTROL_MATRIX ====\n\n";
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -584,7 +585,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix     ref         = ParseFromText(aSection->GetNonKeysAsString());
 
         RRMatrixHandle matrix = getUnscaledFluxControlCoefficientMatrix(gRR);
         if(!matrix)
@@ -618,9 +619,9 @@ RRHandle gRR = NULL;
         freeMatrix(matrix);
       }
 
-	TEST(SCALED_FLUX_CONTROL_MATRIX)
+    TEST(SCALED_FLUX_CONTROL_MATRIX)
     {
-    	clog<<"\n==== SCALED_FLUX_CONTROL_MATRIX ====\n\n";
+        clog<<"\n==== SCALED_FLUX_CONTROL_MATRIX ====\n\n";
         CHECK(gRR!=NULL);
 
         //Read in the reference data, from the ini file
@@ -631,7 +632,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        ls::DoubleMatrix 	ref 		= ParseFromText(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix     ref         = ParseFromText(aSection->GetNonKeysAsString());
 
         RRMatrixHandle matrix = getScaledFluxControlCoefficientMatrix(gRR);
         if(!matrix)
@@ -694,6 +695,7 @@ RRHandle gRR = NULL;
         {
             CHECK(selList[i] == list->String[i]);
         }
+        freeStringArray(list);
     }
 
     TEST(BOUNDARY_SPECIES_IDS)
@@ -725,6 +727,7 @@ RRHandle gRR = NULL;
         {
             CHECK(selList[i] == list->String[i]);
         }
+        freeStringArray(list);
     }
 
     TEST(GLOBAL_PARAMETER_IDS)
@@ -756,6 +759,7 @@ RRHandle gRR = NULL;
         {
             CHECK(selList[i] == list->String[i]);
         }
+        freeStringArray(list);
     }
 
     TEST(COMPARTMENT_IDS)
@@ -787,6 +791,7 @@ RRHandle gRR = NULL;
         {
             CHECK(selList[i] == list->String[i]);
         }
+        freeStringArray(list);
     }
 
     TEST(REACTION_IDS)
@@ -818,6 +823,7 @@ RRHandle gRR = NULL;
         {
             CHECK(selList[i] == list->String[i]);
         }
+        freeStringArray(list);
     }
 
     TEST(SPECIES_INITIAL_CONDITION_IDS)
@@ -849,6 +855,7 @@ RRHandle gRR = NULL;
         {
             CHECK(selList[i] == list->String[i]);
         }
+        freeStringArray(list);
     }
 
     TEST(GET_EIGENVALUE_IDS)
@@ -880,6 +887,7 @@ RRHandle gRR = NULL;
         {
             CHECK(selList[i] == list->String[i]);
         }
+        freeStringArray(list);
     }
 
     TEST(GET_RATES_OF_CHANGE_IDS)
@@ -911,6 +919,7 @@ RRHandle gRR = NULL;
         {
             CHECK(selList[i] == list->String[i]);
         }
+        freeStringArray(list);
     }
 
     TEST(SET_STEADY_STATE_SELECTION_LIST_2)
@@ -965,6 +974,7 @@ RRHandle gRR = NULL;
         {
             CHECK(selList[i] == list->String[i]);
         }
+        freeStringArray(list);
     }
 
     TEST(SET_TIME_COURSE_SELECTION_LIST)
@@ -1019,6 +1029,7 @@ RRHandle gRR = NULL;
         {
             CHECK(selList[i] == list->String[i]);
         }
+        freeStringArray(list);
     }
 
     TEST(COMPUTE_STEADY_STATE_VALUES)
@@ -1034,6 +1045,7 @@ RRHandle gRR = NULL;
 
         if(!values || values->Count != aSection->KeyCount())
         {
+            freeVector(values);
             CHECK(false);
             return;
         }
@@ -1047,6 +1059,7 @@ RRHandle gRR = NULL;
             clog<<"\n";
             clog<<"Ref:\t"<<aKey->AsFloat()<<"\tActual:\t "<<values->Data[i]<<endl;
         }
+        freeVector(values);
     }
 
     TEST(FLOATING_SPECIES_CONCENTRATIONS)
@@ -1066,6 +1079,7 @@ RRHandle gRR = NULL;
         if(!values || values->Count != aSection->KeyCount())
         {
             CHECK(false);
+            freeVector(values);
             return;
         }
 
@@ -1078,6 +1092,7 @@ RRHandle gRR = NULL;
             clog<<"\n";
             clog<<"Ref:\t"<<aKey->AsFloat()<<"\tActual:\t "<<values->Data[i]<<endl;
         }
+        freeVector(values);
     }
 
         TEST(BOUNDARY_SPECIES_CONCENTRATIONS)
@@ -1097,6 +1112,7 @@ RRHandle gRR = NULL;
         if(!values || values->Count != aSection->KeyCount())
         {
             CHECK(false);
+            freeVector(values);
             return;
         }
 
@@ -1109,6 +1125,7 @@ RRHandle gRR = NULL;
             clog<<"\n";
             clog<<"Ref:\t"<<aKey->AsFloat()<<"\tActual:\t "<<values->Data[i]<<endl;
         }
+        freeVector(values);
     }
 
     TEST(GET_GLOBABL_PARAMETER_VALUES)
@@ -1137,6 +1154,7 @@ RRHandle gRR = NULL;
         if(!values || values->Count != refList.size())
         {
             CHECK(false);
+            freeVector(values);
             return;
         }
 
@@ -1148,6 +1166,7 @@ RRHandle gRR = NULL;
             clog<<"\n";
             clog<<"Ref:\t"<<toDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
         }
+        freeVector(values);
     }
 
     TEST(GET_INITIAL_FLOATING_SPECIES_CONCENTRATIONS)
@@ -1176,6 +1195,7 @@ RRHandle gRR = NULL;
         if(!values || values->Count != refList.size())
         {
             CHECK(false);
+            freeVector(values);
             return;
         }
 
@@ -1187,6 +1207,7 @@ RRHandle gRR = NULL;
             clog<<"\n";
             clog<<"Ref:\t"<<toDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
         }
+        freeVector(values);
     }
 
     TEST(GET_REACTION_RATES)
@@ -1215,6 +1236,7 @@ RRHandle gRR = NULL;
         if(!values || values->Count != refList.size())
         {
             CHECK(false);
+            freeVector(values);
             return;
         }
 
@@ -1226,6 +1248,7 @@ RRHandle gRR = NULL;
             clog<<"\n";
             clog<<"Ref:\t"<<toDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
         }
+        freeVector(values);
     }
 
     TEST(GET_REACTION_RATE_BY_INDEX)
@@ -1330,7 +1353,7 @@ RRHandle gRR = NULL;
           CHECK(aKey->AsInt() ==  val);
     }
 
-	TEST(GET_RATES_OF_CHANGE)
+    TEST(GET_RATES_OF_CHANGE)
     {
         CHECK(gRR!=NULL);
 
@@ -1356,6 +1379,7 @@ RRHandle gRR = NULL;
         if(!values || values->Count != refList.size())
         {
             CHECK(false);
+            freeVector(values);
             return;
         }
 
@@ -1366,6 +1390,7 @@ RRHandle gRR = NULL;
             clog<<"\n";
             clog<<"Ref:\t"<<toDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
         }
+        freeVector(values);
     }
 
     TEST(GET_REACTION_RATES_EX)
@@ -1410,6 +1435,8 @@ RRHandle gRR = NULL;
         if(!values || values->Count != refList.size())
         {
             CHECK(false);
+            freeVector(values);
+            freeVector(aVector);
             return;
         }
 
@@ -1420,6 +1447,8 @@ RRHandle gRR = NULL;
             clog<<"\n";
             clog<<"Ref:\t"<<toDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
         }
+        freeVector(values);
+        freeVector(aVector);
     }
 
     TEST(GET_RATES_OF_CHANGE_EX)
@@ -1458,12 +1487,14 @@ RRHandle gRR = NULL;
             aVector->Data[i] = toDouble(concList[i]);
           }
 
-        RRVector* values = getRatesOfChangeEx(gRR, aVector);
+          RRVector* values = getRatesOfChangeEx(gRR, aVector);
 
 
         if(!values || values->Count != refList.size())
         {
             CHECK(false);
+            freeVector(values);
+            freeVector(aVector);
             return;
         }
 
@@ -1474,6 +1505,8 @@ RRHandle gRR = NULL;
             clog<<"\n";
             clog<<"Ref:\t"<<toDouble(refList[i])<<"\tActual:\t "<<values->Data[i]<<endl;
         }
+        freeVector(values);
+        freeVector(aVector);
     }
 
     TEST(GET_RATE_OF_CHANGE_BY_INDEX)
@@ -1525,6 +1558,7 @@ RRHandle gRR = NULL;
             clog<<"\n";
             clog<<"Ref:\t"<<toDouble(refList[i])<<"\tActual:\t "<<value<<endl;
         }
+        freeVector(aVector);
     }
 
     TEST(FREE_RR_INSTANCE)
