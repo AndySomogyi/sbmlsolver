@@ -76,59 +76,43 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
     mHeader.Clear();
     mSource.Clear();
 
-    ms.mModelName = mNOM->getModelName();
-    if(!ms.mModelName.size())
-    {
-        Log(lWarning)<<"Model name is empty. ModelName is assigned 'NameNotSet'.";
-        ms.mModelName = "NameNotSet";
-    }
+
 
     Log(lDebug1)<<"Processing model: "<< ms.mModelName;
-    ms.mNumReactions  = mNOM->getNumReactions();
 
     Log(lDebug3)<<"Number of reactions:"<< ms.mNumReactions;
 
-    ms.mGlobalParameterList.Clear();
-    ms.mModifiableSpeciesReferenceList.Clear();
-    ms.mLocalParameterList.reserve(ms.mNumReactions);
-    ms.mReactionList.Clear();
-    ms.mBoundarySpeciesList.Clear();
-    ms.mFloatingSpeciesConcentrationList.Clear();
-    ms.mFloatingSpeciesAmountsList.Clear();
-    ms.mCompartmentList.Clear();
-    ms.mConservationList.Clear();
-    ms.mFunctionNames.empty();
-    ms.mFunctionParameters.empty();
+    //! ms.mGlobalParameterList.Clear();
+    //! ms.mModifiableSpeciesReferenceList.Clear();
+    //!ms.mLocalParameterList.reserve(ms.mNumReactions);
+    //!ms.mReactionList.Clear();
+    //! ms.mBoundarySpeciesList.Clear();
+    //! ms.mFloatingSpeciesConcentrationList.Clear();
+    //! ms.mFloatingSpeciesAmountsList.Clear();
+    //! ms.mCompartmentList.Clear();
+    //! ms.mConservationList.Clear();
+    //! ms.mFunctionNames.empty();
+    //! ms.mFunctionParameters.empty();
 
-    if(mComputeAndAssignConsevationLaws)
-    {
-        ms.mNumIndependentSpecies     = mLibStruct->getNumIndSpecies();
-        mIndependentSpeciesList = mLibStruct->getIndependentSpecies();
-        ms.mDependentSpeciesList   = mLibStruct->getDependentSpecies();
-    }
-    else
-    {
-        ms.mNumIndependentSpecies = mLibStruct->getNumSpecies();
-        mIndependentSpeciesList = mLibStruct->getSpecies();
-    }
 
-    // Load the compartment array (name and value)
-    ms.mNumCompartments            = readCompartments();
 
-    // Read FloatingSpecies
-    ms.mNumFloatingSpecies         = readFloatingSpecies();
-    ms.mNumDependentSpecies        = ms.mNumFloatingSpecies - ms.mNumIndependentSpecies;
+    //! // Load the compartment array (name and value)
+    //! ms.mNumCompartments            = readCompartments();
 
-    // Load the boundary species array (name and value)
-    ms.mNumBoundarySpecies     = readBoundarySpecies();
+    //! // Read FloatingSpecies
+    //! ms.mNumFloatingSpecies         = readFloatingSpecies();
+    //! ms.mNumDependentSpecies        = ms.mNumFloatingSpecies - ms.mNumIndependentSpecies;
+
+    //!// Load the boundary species array (name and value)
+    //! ms.mNumBoundarySpecies     = readBoundarySpecies();
 
     // Get all the parameters into a list, global and local
-    ms.mNumGlobalParameters     = readGlobalParameters();
-    ms.mNumModifiableSpeciesReferences = readModifiableSpeciesReferences();
+    //! ms.mNumGlobalParameters     = readGlobalParameters();
+    //! ms.mNumModifiableSpeciesReferences = readModifiableSpeciesReferences();
 
     // Load up local parameters next
-    readLocalParameters(ms.mNumReactions, ms.mLocalParameterDimensions, ms.mTotalLocalParmeters);
-    ms.mNumEvents = mNOM->getNumEvents();
+    //!readLocalParameters(ms.mNumReactions, ms.mLocalParameterDimensions, ms.mTotalLocalParmeters);
+    //! ms.mNumEvents = mNOM->getNumEvents();
 
     //Write model to String builder...
     writeClassHeader(ignore);
@@ -241,7 +225,7 @@ void CModelGenerator::writeComputeAllRatesOfChange(CodeBuilder& ignore, const in
 
     for (int i = 0; i < numAdditionalRates(); i++)
     {
-        mSource<<format("\tdTemp[{0}] = {1};{2}", i, ms.mRateRules[i], NL());
+        mSource<<format("\tdTemp[{0}] = {1};{2}", i, ms.mRateRules.find(i)->second, NL());
     }
 
     mSource<<gTab<<"for(i = 0; i < md->amountsSize; i++)\n";
@@ -348,7 +332,7 @@ void CModelGenerator::writeComputeConservedTotals(CodeBuilder& ignore, const int
                 }
             }
             mSource<<append(";" + NL());
-            ms.mConservationList.Add(Symbol("CSUM" + toString(i))); //TODO: how to deal with this?
+            //! ms.mConservationList.Add(Symbol("CSUM" + toString(i))); //TODO: how to deal with this?
         }
     }
     else
@@ -442,7 +426,7 @@ void CModelGenerator::writeUserDefinedFunctions(CodeBuilder& ignore)
 
               string sName = aList[0];
               //sName.Trim();
-            ms.mFunctionNames.add(sName);
+            //! ms.mFunctionNames.add(sName);
             StringList oArguments = oList[1];
             StringList list2 = oList[2];
             string sBody = list2[0];
@@ -453,7 +437,7 @@ void CModelGenerator::writeUserDefinedFunctions(CodeBuilder& ignore)
             for (int j = 0; j < oArguments.Count(); j++)
             {
                 mSource<<append("double " + (string)oArguments[j]);
-                ms.mFunctionParameters.add((string)oArguments[j]);
+                //! ms.mFunctionParameters.add((string)oArguments[j]);
                 if (j < oArguments.Count() - 1)
                 {
                     mSource<<append(", ");
@@ -743,12 +727,12 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
                     if (ms.mFloatingSpeciesConcentrationList.find(varName,  index))
                     {
                         leftSideRule = format("\n\tmd->dydt[{0}]", index);
-                        ms.mFloatingSpeciesConcentrationList[index].rateRule = true;
+                        //! ms.mFloatingSpeciesConcentrationList[index].rateRule = true;
                     }
                     else
                     {
                         leftSideRule = "\n\tmd->rateRules[" + toString(numRateRules) + "]";
-                        ms.mRateRules[numRateRules] = findSymbol(varName);
+                        //! ms.mRateRules[numRateRules] = findSymbol(varName);
                         mapVariables[numRateRules] = varName;
                         numRateRules++;
                     }
@@ -768,7 +752,7 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
                 int speciesIndex;
                 bool isSpecies = ms.mFloatingSpeciesConcentrationList.find(varName, speciesIndex);
 
-                Symbol* symbol = (speciesIndex != -1) ? &(ms.mFloatingSpeciesConcentrationList[speciesIndex]) : NULL;
+                const Symbol* symbol = (speciesIndex != -1) ? &(ms.mFloatingSpeciesConcentrationList[speciesIndex]) : NULL;
                 string sCompartment;
 
                 if(isRateRule && mNOM->multiplyCompartment(varName, sCompartment) && (rightSide.find(sCompartment) == string::npos))
@@ -819,7 +803,7 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
 
     for (int i = 0; i < numRateRules; i++)
     {
-        mSource<<"\n\tmd->rateRules[" << i << "] = " << ms.mRateRules[i] << ";" << NL();
+        mSource<<"\n\tmd->rateRules[" << i << "] = " << ms.mRateRules.find(i)->second << ";" << NL();
     }
 
     mSource<<append("}" + NL() + NL());
@@ -833,7 +817,7 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
         {
             mSource<<"\n";
         }
-        mSource<<"\t"<<(string) ms.mRateRules[i] << " = md->rateRules[" << i << "];\n";
+        mSource<<"\t"<<(string) ms.mRateRules.find(i)->second << " = md->rateRules[" << i << "];\n";
     }
 
     mSource<<append("}" + NL() + NL());
@@ -853,7 +837,7 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
             double value = mNOM->getValue(varName);
             if (!isNaN(value))
             {
-                mSource<<gTab<<ms.mRateRules[i] << " = " << toString(value, ms.mDoubleFormat) << ";" << NL();
+                mSource<<gTab<<ms.mRateRules.find(i)->second << " = " << toString(value, ms.mDoubleFormat) << ";" << NL();
             }
         }
     }
@@ -869,7 +853,7 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
             mSource<<"\n";
         }
 
-        mSource<< ms.mRateRules[i] << " = oRates[" << i << "];" << NL();
+        mSource<< ms.mRateRules.find(i)->second << " = oRates[" << i << "];" << NL();
     }
 
     mSource<<append("}" + NL() + NL());
@@ -884,7 +868,7 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
             mSource<<"\n";
         }
 
-        mSource<<"\tdResult[" << i << "] = " << ms.mRateRules[i] << ";" << NL();
+        mSource<<"\tdResult[" << i << "] = " << ms.mRateRules.find(i)->second << ";" << NL();
     }
     mSource<<"\treturn dResult;\n";
 
@@ -966,7 +950,7 @@ void CModelGenerator::writeEvalEvents(CodeBuilder& ignore, const int& numEvents,
     {
         for (int i = 0; i < numAdditionalRates(); i++)
         {
-            mSource<<gTab<<(string) ms.mRateRules[i] << " = oAmounts[" << i << "];" << NL();
+            mSource<<gTab<<(string) ms.mRateRules.find(i)->second << " = oAmounts[" << i << "];" << NL();
         }
         for (int i = 0; i < numFloatingSpecies; i++)
         {
@@ -1009,7 +993,7 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
 
     for (int i = 0; i < numAdditionalRates(); i++)
     {
-        mSource<<"\n"<<(string)ms.mRateRules[i] << " = oAmounts[" << i << "];" << NL();
+        mSource<<"\n"<<(string)ms.mRateRules.find(i)->second << " = oAmounts[" << i << "];" << NL();
     }
 
     for (int i = 0; i < numFloatingSpecies; i++)
@@ -1035,7 +1019,7 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
     for (int i = 0; i < numIndependentSpecies; i++)
     {
         CodeBuilder eqnBuilder;// = new CodeBuilder(" ");
-        string floatingSpeciesName = mIndependentSpeciesList[i];
+        string floatingSpeciesName = ms.mIndependentSpeciesList[i];
         for (int j = 0; j < numReactions; j++)
         {
             Reaction *oReaction = mNOM->getModel()->getReaction(j);
@@ -1237,7 +1221,7 @@ void CModelGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numR
                 //string assignmentVar = substituteTerms(numReactions, "", (string)asgn[0]);
                 string assignmentVar = findSymbol((string)asgn[0]);
                 string str;
-                Symbol *species = getSpecies(assignmentVar);
+                const Symbol *species = getSpecies(assignmentVar);
 
 
                 if (species != NULL && species->hasOnlySubstance)
@@ -1517,156 +1501,8 @@ void CModelGenerator::writeOutSymbolTables(CodeBuilder& ignore)
     mSource<<format("}{0}{0}", NL());
 }
 
-int CModelGenerator::readFloatingSpecies()
-{
-    // Load a reordered list into the variable list.
-    StringList reOrderedList;
 
-    if(mComputeAndAssignConsevationLaws)
-    {
-       reOrderedList = mLibStruct->getReorderedSpecies();
-    }
-    else
-    {
-        reOrderedList = mLibStruct->getSpecies();
-    }
 
-    StringListContainer oFloatingSpecies = mNOM->getListOfFloatingSpecies();
-
-    for (int i = 0; i < reOrderedList.Count(); i++)
-    {
-        for (int j = 0; j < oFloatingSpecies.Count(); j++)
-        {
-            StringList oTempList = oFloatingSpecies[j];
-              if(reOrderedList[i] != (const string&) oTempList[0])
-              {
-                  continue;
-              }
-
-            string compartmentName = mNOM->getNthFloatingSpeciesCompartmentName(j);
-            bool bIsConcentration  = toBool(oTempList[2]);
-            double dValue = toDouble(oTempList[1]);
-            if (isNaN(dValue))
-            {
-                  dValue = 0;
-            }
-
-            Symbol *symbol = NULL;
-            if (bIsConcentration)
-            {
-              symbol = new Symbol(reOrderedList[i], dValue, compartmentName);
-            }
-            else
-            {
-              int nCompartmentIndex;
-              ms.mCompartmentList.find(compartmentName, nCompartmentIndex);
-
-              double dVolume = ms.mCompartmentList[nCompartmentIndex].value;
-              if (isNaN(dVolume))
-              {
-                dVolume = 1;
-              }
-
-              stringstream formula;
-              formula<<toString(dValue,ms.mDoubleFormat)<<"/ md->c["<<nCompartmentIndex<<"]";
-
-              symbol = new Symbol(reOrderedList[i],
-                  dValue / dVolume,
-                  compartmentName,
-                  formula.str());
-            }
-
-            if(mNOM->getModel())
-            {
-                Species *aSpecies = mNOM->getModel()->getSpecies(reOrderedList[i]);
-                if(aSpecies)
-                {
-                    symbol->hasOnlySubstance = aSpecies->getHasOnlySubstanceUnits();
-                    symbol->constant = aSpecies->getConstant();
-                }
-            }
-            else
-            {
-                //TODO: How to report error...?
-                //Log an error...
-                symbol->hasOnlySubstance = false;
-            }
-            Log(lDebug5)<<"Adding symbol to ms.mFloatingSpeciesConcentrationList:"<<(*symbol);
-            ms.mFloatingSpeciesConcentrationList.Add(*(symbol));
-            delete symbol;
-            break;
-          }
-          //throw RRException("Reordered Species " + reOrderedList[i] + " not found.");
-      }
-      return oFloatingSpecies.Count();
-}
-
-int CModelGenerator::readBoundarySpecies()
-{
-    int numBoundarySpecies;
-    StringListContainer oBoundarySpecies = mNOM->getListOfBoundarySpecies();
-    numBoundarySpecies = oBoundarySpecies.Count(); // sp1.size();
-    for (int i = 0; i < numBoundarySpecies; i++)
-    {
-        StringList oTempList     = oBoundarySpecies[i];
-        string sName             = oTempList[0];
-        string compartmentName     = mNOM->getNthBoundarySpeciesCompartmentName(i);
-        bool bIsConcentration     = toBool(oTempList[2]);
-        double dValue             = toDouble(oTempList[1]);
-        if (isNaN(dValue))
-        {
-            dValue = 0;
-        }
-
-        Symbol *symbol = NULL;
-        if (bIsConcentration)
-        {
-            //Todo: memoryleak
-            symbol = new Symbol(sName, dValue, compartmentName);
-        }
-        else
-        {
-            int nCompartmentIndex;
-            double dVolume;
-            if(ms.mCompartmentList.find(compartmentName, nCompartmentIndex))
-            {
-                dVolume = ms.mCompartmentList[nCompartmentIndex].value;
-            }
-            else
-            {
-                if (isNaN(dVolume))
-                {
-                    dVolume = 1;
-                }
-            }
-            stringstream formula;
-            formula<<toString(dValue, ms.mDoubleFormat)<<"/ md->c["<<nCompartmentIndex<<"]";
-            symbol = new Symbol(sName,
-                                dValue / dVolume,
-                                compartmentName,
-                                formula.str());
-        }
-
-        if(mNOM->getModel())
-        {
-            Species* species = mNOM->getModel()->getSpecies(sName);
-            if(species)
-            {
-                symbol->hasOnlySubstance = species->getHasOnlySubstanceUnits();
-                symbol->constant = species->getConstant();
-            }
-        }
-        else
-        {
-            //TODO: How to report error...?
-            //Log an error...
-            symbol->hasOnlySubstance = false;
-
-        }
-        ms.mBoundarySpeciesList.Add(*symbol);
-    }
-    return numBoundarySpecies;
-}
 
 //This function is obsolete.. initialize all model data in roadrunner instead..
 void CModelGenerator::writeInitModelDataFunction(CodeBuilder& ignore, CodeBuilder& source)
@@ -2602,7 +2438,9 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
     mNOM = nom;
     mCurrentSBML = sbml;
     mModelLib = new ModelSharedLibrary();
+    mComputeAndAssignConsevationLaws = computeAndAssignConsevationLaws;
 
+    ms = ModelSymbols(*nom, *ls, computeAndAssignConsevationLaws);
 
 
     //clear temp folder of roadrunner generated files, only if roadRunner instance == 1
@@ -2612,14 +2450,6 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
         throw(CoreException("SBML string is empty!"));
     }
 
-    // the RoadRunner object has already loaded the libstruct and nom.
-    //*loadSBMLIntoLibStruct(sbml);
-    //*{   //Scope for Mutex
-    //*    Mutex::ScopedLock lock(mLibSBMLMutex);
-    //*    loadSBMLIntoNOM(sbml);  //There is something in here that is not threadsafe... causes crash with multiple threads, without mutex
-    //*}
-
-    //    string modelName  = createModelName(mCurrentSBMLFileName);
     string modelName = getMD5(sbml);
 
     //Check if model has been compiled

@@ -147,7 +147,7 @@ private:
     void                                writeInitModelDataFunction(CodeBuilder& sbh, CodeBuilder& sbc);
 
     int                                 readFloatingSpecies();
-    int                                 readBoundarySpecies();
+    // int                                 readBoundarySpecies();
 
     // Generates the Model Code from the SBML string
     // TODO major clean up

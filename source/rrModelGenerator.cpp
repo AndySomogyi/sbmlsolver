@@ -179,54 +179,9 @@ ls::DoubleMatrix* ModelGenerator::initializeL0(int& nrRows, int& nrCols)
     return L0;
 }
 
-int ModelGenerator::readGlobalParameters()
-{
-    CHECK_LIB_NOM();
 
-    int numGlobalParameters;
-    ArrayList oParameters = mNOM->getListOfParameters();
-    numGlobalParameters = oParameters.Count();
-    for (u_int i = 0; i < numGlobalParameters; i++)
-    {
-        StringList parameter = oParameters[i];
 
-        string name     = parameter[0];
-        double value     = toDouble(parameter[1]);
-        Symbol aSymbol(name, value);
-        Log(lDebug5)<<"Adding symbol"<<aSymbol<<" to global parameters";
 
-        ms.mGlobalParameterList.Add(aSymbol);
-    }
-    return numGlobalParameters;
-}
-
-//Todo: totalLocalParmeters is not used
-void ModelGenerator::readLocalParameters(const int& numReactions,  vector<int>& localParameterDimensions, int& totalLocalParmeters)
-{
-    CHECK_LIB_NOM();
-
-    string name;
-    double value;
-    int numLocalParameters;
-    totalLocalParmeters = 0;
-    string reactionName;
-    localParameterDimensions.resize(numReactions);
-    for (int i = 0; i < numReactions; i++)
-    {
-        numLocalParameters = mNOM->getNumParameters(i);
-        reactionName = mNOM->getNthReactionId(i);
-        ms.mReactionList.Add(Symbol(reactionName, 0.0));
-        SymbolList newList;
-        for (u_int j = 0; j < numLocalParameters; j++)
-        {
-            localParameterDimensions[i] = numLocalParameters;
-            name = mNOM->getNthParameterId(i, j);
-            value = mNOM->getNthParameterValue(i, j);
-            newList.Add(Symbol(reactionName, name, value));
-        }
-        ms.mLocalParameterList.push_back(newList);
-    }
-}
 
 bool ModelGenerator::expressionContainsSymbol(ASTNode *ast, const string& symbol)
 {
@@ -261,7 +216,7 @@ bool ModelGenerator::expressionContainsSymbol(const string& expression,const str
       return expressionContainsSymbol(ast, symbol);
 }
 
-Symbol* ModelGenerator::getSpecies(const string& id)
+const Symbol* ModelGenerator::getSpecies(const string& id)
 {
     int index;
     if (ms.mFloatingSpeciesConcentrationList.find(id, index))
@@ -279,87 +234,6 @@ Symbol* ModelGenerator::getSpecies(const string& id)
 string ModelGenerator::writeDouble(const double& value, const string& format)
 {
     return toString(value, format);
-}
-
-int ModelGenerator::readCompartments()
-{
-    CHECK_LIB_NOM();
-
-    int numCompartments = mNOM->getNumCompartments();
-    for (u_int i = 0; i < numCompartments; i++)
-    {
-        string sCompartmentId = mNOM->getNthCompartmentId(i);
-        double value = mNOM->getValue(sCompartmentId);
-
-        if(isNaN(value))
-        {
-            value = 1;
-        }
-        ms.mCompartmentList.Add(Symbol(sCompartmentId, value));
-    }
-    return numCompartments;
-}
-
-int ModelGenerator::readModifiableSpeciesReferences()
-{
-    CHECK_LIB_NOM();
-
-    if(!mNOM->getSBMLDocument())
-    {
-        return -1;
-    }
-    SBMLDocument &SBMLDoc = *mNOM->getSBMLDocument();
-    Model &SbmlModel  = *mNOM->getModel();
-
-    if(mNOM->getSBMLDocument()->getLevel() < 3)
-    {
-        return 0;
-    }
-
-    string id;
-    double value;
-    int numReactions = SbmlModel.getNumReactions();
-    for (u_int i = 0; i < numReactions; i++)
-    {
-        Reaction &reaction = *(SbmlModel.getReaction(i));
-        for (u_int j = 0; j < reaction.getNumReactants(); j++)
-        {
-            SpeciesReference &reference = *(reaction.getReactant(j));
-            id = reference.getId();
-            if (!(id.size()))
-            {
-                continue;
-            }
-            value = reference.getStoichiometry();
-            if (isNaN(value))
-                value = 1;
-
-            if (reference.isSetId())
-            {
-                ms.mModifiableSpeciesReferenceList.Add(Symbol(id, value));
-            }
-        }
-        for (u_int j = 0; j < reaction.getNumProducts(); j++)
-        {
-            SpeciesReference &reference = *(reaction.getProduct(j));
-            id = reference.getId();
-            if (isNullOrEmpty(id))
-            {
-                continue;
-            }
-            value = reference.getStoichiometry();
-            if (isNaN(value))
-            {
-                value = 1;
-            }
-
-            if (reference.isSetId())
-            {
-                ms.mModifiableSpeciesReferenceList.Add(Symbol(id, value));
-            }
-        }
-    }
-    return ms.mModifiableSpeciesReferenceList.size();
 }
 
 

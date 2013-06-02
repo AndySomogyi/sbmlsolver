@@ -110,9 +110,6 @@ protected:
     const string                        mFixAmountCompartments;
 
 
-    StringList                          mIndependentSpeciesList;
-
-
     StringList                          mWarnings;
 
     /**
@@ -133,11 +130,11 @@ protected:
     ls::DoubleMatrix*                   initializeL0(int& nrRows, int& nrCols);
     bool                                expressionContainsSymbol(ASTNode* ast, const string& symbol);
     bool                                expressionContainsSymbol(const string& expression, const string& symbol);
-    Symbol*                             getSpecies(const string& id);
+    const Symbol*                       getSpecies(const string& id);
     int                                 readGlobalParameters();
     void                                readLocalParameters(const int& numReactions,  vector<int>& localParameterDimensions, int& totalLocalParmeters);
     int                                 readCompartments();
-    int                                 readModifiableSpeciesReferences();
+
 
     string                              writeDouble(const double& value, const string& format = "%G");
 

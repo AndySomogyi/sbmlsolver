@@ -177,7 +177,7 @@ bool CompiledExecutableModel::setupModelData()
     mData.numCompartments               = ms.mCompartmentList.size();
     mData.numReactions                  = ms.mReactionList.size();
     mData.numEvents                     = ms.mNumEvents;
-    mData.amountsSize                   = ms.mFloatingSpeciesConcentrationList.Count();
+    mData.amountsSize                   = ms.mFloatingSpeciesConcentrationList.size();
     mData.dydtSize                      = ms.mFloatingSpeciesConcentrationList.size();
     mData.rateRulesSize                 = ms.mRateRules.size();
     mData.ySize                         = ms.mFloatingSpeciesConcentrationList.size();
@@ -539,41 +539,41 @@ CvodeInterface* CompiledExecutableModel::getCvodeInterface() {
     return mCvodeInterface;
 }
 
-SymbolList &CompiledExecutableModel::getReactions() {
+const SymbolList &CompiledExecutableModel::getReactions() {
     return ms.mReactionList;
 }
 
-SymbolList &CompiledExecutableModel::getGlobalParameters()
+const SymbolList &CompiledExecutableModel::getGlobalParameters()
 {
     return ms.mGlobalParameterList;
 }
 
-SymbolList &CompiledExecutableModel::getBoundarySpecies()
+const SymbolList &CompiledExecutableModel::getBoundarySpecies()
 {
     return ms.mBoundarySpeciesList;
 }
 
-SymbolList &CompiledExecutableModel::getCompartments()
+const SymbolList &CompiledExecutableModel::getCompartments()
 {
     return ms.mCompartmentList;
 }
 
-SymbolList &CompiledExecutableModel::getConservations()
+const SymbolList &CompiledExecutableModel::getConservations()
 {
     return ms.mConservationList;
 }
 
-SymbolList &CompiledExecutableModel::getFloatingSpeciesAmounts()
+const SymbolList &CompiledExecutableModel::getFloatingSpeciesAmounts()
 {
     return ms.mFloatingSpeciesAmountsList;
 }
 
-SymbolList &CompiledExecutableModel::getFloatingSpeciesConcentrations()
+const SymbolList &CompiledExecutableModel::getFloatingSpeciesConcentrations()
 {
     return ms.mFloatingSpeciesConcentrationList;
 }
 
-StringList CompiledExecutableModel::getCompartmentNames()
+const StringList CompiledExecutableModel::getCompartmentNames()
 {
     StringList tmp;
     for (u_int i = 0; i < ms.mCompartmentList.size(); i++)
@@ -583,7 +583,7 @@ StringList CompiledExecutableModel::getCompartmentNames()
     return tmp;
 }
 
-StringList CompiledExecutableModel::getConservationNames()
+const StringList CompiledExecutableModel::getConservationNames()
 {
     StringList tmp; // = new ArrayList();
     for (int i = 0; i < ms.mConservationList.Count(); i++)
@@ -593,7 +593,7 @@ StringList CompiledExecutableModel::getConservationNames()
     return tmp;
 }
 
-StringList CompiledExecutableModel::getGlobalParameterNames()
+const StringList CompiledExecutableModel::getGlobalParameterNames()
 {
     StringList tmp;
     for (int i = 0; i < ms.mGlobalParameterList.size(); i++)
@@ -609,7 +609,7 @@ StringList CompiledExecutableModel::getGlobalParameterNames()
     return tmp;
 }
 
-StringList CompiledExecutableModel::getReactionNames()
+const StringList CompiledExecutableModel::getReactionNames()
 {
     StringList tmp;
     for (int i = 0; i < ms.mReactionList.size(); i++)
@@ -619,7 +619,7 @@ StringList CompiledExecutableModel::getReactionNames()
     return tmp;
 }
 
-StringList CompiledExecutableModel::getFloatingSpeciesConcentrationNames()
+const StringList CompiledExecutableModel::getFloatingSpeciesConcentrationNames()
 {
     StringList tmp;
     for (int i = 0; i < ms.mFloatingSpeciesConcentrationList.size(); i++)
@@ -629,7 +629,7 @@ StringList CompiledExecutableModel::getFloatingSpeciesConcentrationNames()
     return tmp;
 }
 
-StringList CompiledExecutableModel::getBoundarySpeciesNames()
+const StringList CompiledExecutableModel::getBoundarySpeciesNames()
 {
     StringList tmp;
     for (int i = 0; i < ms.mBoundarySpeciesList.size(); i++)

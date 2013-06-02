@@ -256,7 +256,7 @@ string NOMSupport::getId(SBase& element)
 //            return "";
 //        }
 
-string NOMSupport::getName(SBase* element)
+string NOMSupport::getName(const SBase* element)
 {
     if(!element)
     {
@@ -1424,7 +1424,7 @@ ArrayList NOMSupport::getListOfParameters()
 //            return getId(mModel);
 //        }
 //
-string NOMSupport::getModelName()
+string NOMSupport::getModelName() const
 {
     if (mModel == NULL)
     {
@@ -3396,6 +3396,8 @@ string NOMSupport::getRuleFor(const string& sbmlId)
     for (int i = 0; i < mModel->getNumRules(); i++)
     {
         Rule* oRule = mModel->getRule(i);
+
+        // TODO: figure out WTF is going on here.
         switch (oRule->getTypeCode())
         {
             case SBML_PARAMETER_RULE:
@@ -3406,7 +3408,7 @@ string NOMSupport::getRuleFor(const string& sbmlId)
                 {
                     if (sbmlId == oRule->getVariable())
                         return oRule->getFormula();
-                }
+                } break;
             //case libsbml::SBML_ALGEBRAIC_RULE:
             //    {
             //        string rValue = oRule->getFormula();
