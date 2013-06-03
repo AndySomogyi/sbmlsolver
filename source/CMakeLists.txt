@@ -126,7 +126,6 @@ target_link_libraries (${target}
  sundials_nvecserial
  blas
  lapack
- f2c${staticLibExt}
  pugi-static
  nleq-static
  rr-libstruct-static
@@ -137,10 +136,12 @@ target_link_libraries (${target}
  pthread
  sbml
  dl
-)
+ f2c${staticLibExt}
+ )
 else()
 target_link_libraries (${target}
- sbml
+ libf2c
+ libsbml
 )
 endif()
 if(${INSTALL_CXX_API})

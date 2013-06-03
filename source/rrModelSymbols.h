@@ -16,7 +16,7 @@
 namespace rr
 {
 
-class ModelSymbols
+class RR_DECLSPEC ModelSymbols
 {
 public:
     ModelSymbols();

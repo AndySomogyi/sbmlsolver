@@ -280,6 +280,9 @@
             <DependentOn>rrModelState.h</DependentOn>
             <BuildOrder>30</BuildOrder>
         </CppCompile>
+        <CppCompile Include="rrModelSymbols.cpp">
+            <BuildOrder>83</BuildOrder>
+        </CppCompile>
         <CppCompile Include="rrNewArrayList.cpp">
             <DependentOn>rrNewArrayList.h</DependentOn>
             <BuildOrder>61</BuildOrder>
