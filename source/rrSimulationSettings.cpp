@@ -47,10 +47,10 @@ bool SimulationSettings::LoadFromFile(const string& _FName)
         map<string, string> settings;
         map<string, string>::iterator it;
         //Read each line in the settings file
-        vector<string> lines = GetLinesInFile(fName);
+        vector<string> lines = getLinesInFile(fName);
         for(int i = 0; i < lines.size(); i++)
         {
-            vector<string> line = SplitString(lines[i], ":");
+            vector<string> line = splitString(lines[i], ":");
             if(line.size() == 2)
             {
                 settings.insert( pair<string, string>(line[0], line[1]));
@@ -70,42 +70,42 @@ bool SimulationSettings::LoadFromFile(const string& _FName)
 
         //Assign values
         it = settings.find("start");
-        mStartTime = (it != settings.end())   ? ToDouble((*it).second) : 0;
+        mStartTime = (it != settings.end())   ? toDouble((*it).second) : 0;
 
         it = settings.find("duration");
-        mDuration = (it != settings.end())    ? ToDouble((*it).second) : 0;
+        mDuration = (it != settings.end())    ? toDouble((*it).second) : 0;
 
         it = settings.find("steps");
-        mSteps = (it != settings.end())       ? ToInt((*it).second) : 50;
+        mSteps = (it != settings.end())       ? toInt((*it).second) : 50;
 
         it = settings.find("absolute");
-        mAbsolute = (it != settings.end())    ? ToDouble((*it).second) : 1.e-7;
+        mAbsolute = (it != settings.end())    ? toDouble((*it).second) : 1.e-7;
 
         it = settings.find("relative");
-        mRelative = (it != settings.end())    ? ToDouble((*it).second) : 1.e-4;
+        mRelative = (it != settings.end())    ? toDouble((*it).second) : 1.e-4;
 
         mEndTime = mStartTime + mDuration;
 
         it = settings.find("variables");
         if(it != settings.end())
         {
-            vector<string> vars = SplitString((*it).second, ",");
+            vector<string> vars = splitString((*it).second, ",");
             for(int i=0; i < vars.size(); i++)
             {
-                mVariables.push_back(Trim(vars[i]));
+                mVariables.add(trim(vars[i]));
             }
         }
 
         it = settings.find("amount");
         if(it != settings.end())
         {
-            vector<string> vars = SplitString((*it).second, ",");
+            vector<string> vars = splitString((*it).second, ",");
             for(int i=0; i < vars.size(); i++)
             {
-                string rec = Trim(vars[i]);
+                string rec = trim(vars[i]);
                 if(rec.size())
                 {
-                    mAmount.push_back(rec);
+                    mAmount.add(rec);
                 }
             }
         }
@@ -113,13 +113,13 @@ bool SimulationSettings::LoadFromFile(const string& _FName)
         it = settings.find("concentration");
         if(it != settings.end())
         {
-            vector<string> vars = SplitString((*it).second, ",");
+            vector<string> vars = splitString((*it).second, ",");
             for(int i=0; i < vars.size(); i++)
             {
-                string rec = Trim(vars[i]);
+                string rec = trim(vars[i]);
                 if(rec.size())
                 {
-                    mConcentration.push_back(rec);
+                    mConcentration.add(rec);
                 }
             }
         }

@@ -1,6 +1,8 @@
 # The following reference data is taken using C# roadrunner version 2.0.1
 # Input model for the data below is TestModel_1.xml. This model file can be found in roadrunners reference_data folder.
 
+[SBML_FILE]
+sbmlFile=Test_1.xml
 
 [STEADY_STATE_CONCENTRATIONS]
 S1 = 0.569694868238558

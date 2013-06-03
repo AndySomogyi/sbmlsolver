@@ -3,18 +3,18 @@
 #include "rrLoadModel.h"
 
 //---------------------------------------------------------------------------
-
 namespace rr
 {
 
-LoadModel::LoadModel(RoadRunnerList& rrs, const string& model, const int& nrThreads)
+LoadModel::LoadModel(RoadRunnerList& rrs, const string& sbml, const int& nrThreads, bool reCompile)
 :
 ThreadPool()
 {
     //create nrThreads that can load SBML models
     for(int i = 0; i < nrThreads; i++)
     {
-        LoadModelThread* lmThread = new LoadModelThread(model);
+        LoadModelThread* lmThread = new LoadModelThread("", reCompile);
+        lmThread->setSBML(sbml);
         mThreads.push_back(lmThread);
     }
 
@@ -28,9 +28,17 @@ ThreadPool()
     if(!isJobQueueEmpty() && nrThreads > 0)
     {
 		start();
-    	waitForStart();	//Make sure it get started before moving on..
     }
 }
 
+LoadModel::~LoadModel()
+{
+    list<RoadRunnerThread*>::iterator	iter;
+    for(iter = mThreads.begin(); iter != mThreads.end(); iter++)
+    {
+        RoadRunnerThread* t = (*iter);
+        delete t;
+    }
+}
 
 }

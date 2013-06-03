@@ -27,6 +27,7 @@ class SimulateThreadUI : public RoadRunnerThread
 
 	public:
     								SimulateThreadUI(RoadRunner* rri = NULL, bool autoStart = false);
+    							   ~SimulateThreadUI();
     	void 						worker();
 		void 			            addJob(RoadRunner* rr);
 		unsigned int  				getNrOfJobsInQueue();

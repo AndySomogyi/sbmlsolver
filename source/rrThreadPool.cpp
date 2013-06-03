@@ -8,6 +8,11 @@ namespace rr
 ThreadPool::ThreadPool()
 {}
 
+ThreadPool::~ThreadPool()
+{
+
+}
+
 void ThreadPool::addJob(RoadRunner* rri)
 {
     //We add jobs to the threads (static) queue. Means that at least one thread has to exist
@@ -80,7 +85,17 @@ bool ThreadPool::isWorking()
 {
     if(mThreads.size())
     {
-		return mThreads.front()->isAnyWorking();
+    	//Go trought the threads and see if there is any activity
+        list<RoadRunnerThread*>::iterator	iter;
+
+        for(iter = mThreads.begin(); iter != mThreads.end(); iter++)
+        {
+			RoadRunnerThread* aThread = (*iter);
+            if(aThread->isActive())
+            {
+            	return true;
+            }
+        }
     }
     return false;
 }
@@ -107,22 +122,18 @@ void ThreadPool::exitAll()
 
 void ThreadPool::waitForStart()
 {
-    bool res = isWorking();
-    while(res == false)
-    {
-        Poco::Thread::sleep(10);
-        res = isWorking();
-    };
+//    while(isWorking())
+//    {
+//        Poco::Thread::sleep(50);
+//    };
 }
 
 void ThreadPool::waitForFinish()
 {
-    //This should be checked in a thread, and using a condition Variable
-    bool res = isWorking();
-    while(res == true)
+    //This could be checked in a thread, and using a condition Variable
+    while(isWorking())
     {
-        Poco::Thread::sleep(50);
-        res = isWorking();
+        Poco::Thread::sleep(5);
     };
 }
 

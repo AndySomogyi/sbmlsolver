@@ -744,11 +744,11 @@ string Scanner::tokenToString(const CodeTypes& code)
     switch (code)
     {
         case CodeTypes::tIntToken:
-            return "<Integer: " + ToString(tokenInteger) + ">";
+            return "<Integer: " + toString(tokenInteger) + ">";
         case CodeTypes::tDoubleToken:
-            return "<Double: " + ToString(tokenDouble) + ">";
+            return "<Double: " + toString(tokenDouble) + ">";
         case CodeTypes::tComplexToken:
-            return "<Complex: " + ToString(tokenDouble) + "i>";
+            return "<Complex: " + toString(tokenDouble) + "i>";
         case CodeTypes::tStringToken:
             return "<String: " + tokenString + ">";
         case CodeTypes::tWordToken:

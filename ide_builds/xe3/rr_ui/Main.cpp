@@ -63,9 +63,9 @@ string TMainForm::GetSelectedFileName()
 	mtkFileItem* 	fileItem 	= dynamic_cast<mtkFileItem*>(info);
     itemName = ToSTDString(fsf->GetSelected()->Text);
 
-	string path = JoinPath(mrrModelsRoot, ToSTDString(aNode->Text));
-	string fullName = JoinPath(path, itemName);
-    return  mtk::FileExists(fullName) ? fullName : string("");
+	string path = joinPath(mrrModelsRoot, ToSTDString(aNode->Text));
+	string fullName = joinPath(path, itemName);
+    return  mtk::fileExists(fullName) ? fullName : string("");
 
 }
 //---------------------------------------------------------------------------
@@ -92,8 +92,8 @@ void __fastcall TMainForm::TestModelAExecute(TObject *Sender)
 
  	//Get test suite number from selected file
 	string fName = ToSTDString(mModelFileName->Text);
-    fName = ExtractFileName(fName);
-    vector<string> parts = SplitString(fName,"-");
+    fName = extractFileName(fName);
+    vector<string> parts = splitString(fName,"-");
 
     //First part is the model number
     int nTheNumber = ToInt(parts[0]);

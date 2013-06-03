@@ -1,0 +1,72 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{F1AB80FA-81B1-43BC-BF2C-0BC2C9C3817E}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\..\source\roadrunner.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\Wrappers\C\rrc_api.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="lm_A.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\apps\rrWinC\rrWinC.cbproj">
+            <Dependencies>lm_A.cbproj;..\..\Wrappers\C\rrc_api.cbproj;..\..\source\roadrunner.cbproj</Dependencies>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="roadrunner">
+        <MSBuild Projects="..\..\source\roadrunner.cbproj"/>
+    </Target>
+    <Target Name="roadrunner:Clean">
+        <MSBuild Projects="..\..\source\roadrunner.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="roadrunner:Make">
+        <MSBuild Projects="..\..\source\roadrunner.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="rrc_api">
+        <MSBuild Projects="..\..\Wrappers\C\rrc_api.cbproj"/>
+    </Target>
+    <Target Name="rrc_api:Clean">
+        <MSBuild Projects="..\..\Wrappers\C\rrc_api.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="rrc_api:Make">
+        <MSBuild Projects="..\..\Wrappers\C\rrc_api.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="lm_A">
+        <MSBuild Projects="lm_A.cbproj"/>
+    </Target>
+    <Target Name="lm_A:Clean">
+        <MSBuild Projects="lm_A.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="lm_A:Make">
+        <MSBuild Projects="lm_A.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="rrWinC" DependsOnTargets="lm_A;rrc_api;roadrunner">
+        <MSBuild Projects="..\apps\rrWinC\rrWinC.cbproj"/>
+    </Target>
+    <Target Name="rrWinC:Clean" DependsOnTargets="lm_A:Clean;rrc_api:Clean;roadrunner:Clean">
+        <MSBuild Projects="..\apps\rrWinC\rrWinC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="rrWinC:Make" DependsOnTargets="lm_A:Make;rrc_api:Make;roadrunner:Make">
+        <MSBuild Projects="..\apps\rrWinC\rrWinC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="roadrunner;rrc_api;lm_A;rrWinC"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="roadrunner:Clean;rrc_api:Clean;lm_A:Clean;rrWinC:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="roadrunner:Make;rrc_api:Make;lm_A:Make;rrWinC:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

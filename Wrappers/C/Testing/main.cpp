@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
     gTSModelsPath 		= args.ModelsFilePath;
     gTempFolder			= args.TempDataFolder;
 
-	gTestDataFolder  	= JoinPath(gRRInstallFolder, "testing");
+	gTestDataFolder  	= joinPath(gRRInstallFolder, "testing");
 
 
 	setInstallFolder(gRRInstallFolder.c_str());
@@ -56,7 +56,7 @@ int main(int argc, char* argv[])
       setLogLevel("Error");
     }
     // set test suite model path (read from cmd line)
-    gTSModelsPath = JoinPath(JoinPath(gTSModelsPath, "cases"), "semantic");
+    gTSModelsPath = joinPath(joinPath(gTSModelsPath, "cases"), "semantic");
 
 	string reportFile(args.ResultOutputFile);
  	fstream aFile(reportFile.c_str(), ios::out);
@@ -115,7 +115,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     if(argc < 2)
     {
         cout<<Usage(argv[0])<<endl;
-       	rr::Pause();
+       	rr::pause();
         cout<<"\n";
         exit(0);
     }

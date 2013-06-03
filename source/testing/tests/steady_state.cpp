@@ -31,20 +31,20 @@ string TestModelFileName;
 	//Test that model files and reference data for the tests in this suite are present
     TEST(DATA_FILES)
     {
-		gTestDataFolder 	= JoinPath(gRRInstallFolder, "tests");
-		TestDataFileName 	= JoinPath(gTestDataFolder, TestDataFileName);
+		gTestDataFolder 	= joinPath(gRRInstallFolder, "tests");
+		TestDataFileName 	= joinPath(gTestDataFolder, TestDataFileName);
 
-    	CHECK(FileExists(TestDataFileName));
+    	CHECK(fileExists(TestDataFileName));
         CHECK(iniFile.Load(TestDataFileName));
         clog<<"Loaded test data from file: "<< TestDataFileName;
         if(iniFile.GetSection("SBML_FILES"))
         {
-        	rrIniSection* sbml = iniFile.GetSection("SBML_FILES");
-            rrIniKey* fNameKey = sbml->GetKey("FNAME1");
+        	IniSection* sbml = iniFile.GetSection("SBML_FILES");
+            IniKey* fNameKey = sbml->GetKey("FNAME1");
             if(fNameKey)
             {
-            	TestModelFileName  = JoinPath(gTestDataFolder, fNameKey->mValue);
-            	CHECK(FileExists(TestModelFileName));
+            	TestModelFileName  = joinPath(gTestDataFolder, fNameKey->mValue);
+            	CHECK(fileExists(TestModelFileName));
             }
         }
     }
@@ -74,7 +74,7 @@ string TestModelFileName;
 
     TEST(STEADY_STATE_CONCENTRATIONS)
 	{
-        rrIniSection* aSection = iniFile.GetSection("STEADY_STATE_CONCENTRATIONS");
+        IniSection* aSection = iniFile.GetSection("STEADY_STATE_CONCENTRATIONS");
         //Read in the reference data, from the ini file
 		if(!aSection || !aRR)
         {
@@ -84,7 +84,7 @@ string TestModelFileName;
 
         for(int i = 0 ; i < aSection->KeyCount(); i++)
         {
-            rrIniKey *aKey = aSection->GetKey(i);
+            IniKey *aKey = aSection->GetKey(i);
             double val = aRR->getValue(aKey->mKey);
 
             //Check concentrations
@@ -95,7 +95,7 @@ string TestModelFileName;
 	//This test is using the function getValue("eigen_...")
     TEST(GET_EIGENVALUES_1)
 	{
-        rrIniSection* aSection = iniFile.GetSection("EIGEN_VALUES");
+        IniSection* aSection = iniFile.GetSection("EIGEN_VALUES");
         //Read in the reference data, from the ini file
 		if(!aSection || !aRR)
         {
@@ -117,7 +117,7 @@ string TestModelFileName;
             {
             	if(aSection->mKeys[i]->mKey == ids[j])
                 {
-                    rrIniKey *aKey = aSection->GetKey(i);
+                    IniKey *aKey = aSection->GetKey(i);
                     clog<<"\n";
                     clog<<"Ref_EigenValue: "<<aKey->mKey<<": "<<aKey->mValue<<endl;
 
@@ -131,7 +131,7 @@ string TestModelFileName;
 
     TEST(GET_EIGENVALUES_2)
 	{
-        rrIniSection* aSection = iniFile.GetSection("EIGEN_VALUES");
+        IniSection* aSection = iniFile.GetSection("EIGEN_VALUES");
         //Read in the reference data, from the ini file
 		if(!aSection || !aRR)
         {
@@ -148,7 +148,7 @@ string TestModelFileName;
 
         for(int i = 0 ; i < aSection->KeyCount(); i++)
         {
-            rrIniKey *aKey = aSection->GetKey(i);
+            IniKey *aKey = aSection->GetKey(i);
             clog<<"\n";
             clog<<"Ref_EigenValue: "<<aKey->mKey<<": "<<aKey->mValue<<endl;
 
@@ -159,7 +159,7 @@ string TestModelFileName;
 
     TEST(FULL_JACOBIAN)
 	{
-		rrIniSection* aSection = iniFile.GetSection("FULL_JACOBIAN");
+		IniSection* aSection = iniFile.GetSection("FULL_JACOBIAN");
    		if(!aSection)
         {
         	CHECK(false);
@@ -182,7 +182,7 @@ string TestModelFileName;
 
     TEST(REDUCED_JACOBIAN)
 	{
-		rrIniSection* aSection = iniFile.GetSection("REDUCED_REORDERED_JACOBIAN");
+		IniSection* aSection = iniFile.GetSection("REDUCED_REORDERED_JACOBIAN");
    		if(!aSection)
         {
         	CHECK(false);
@@ -204,7 +204,7 @@ string TestModelFileName;
 
     TEST(FULL_REORDERED_JACOBIAN)
 	{
-		rrIniSection* aSection = iniFile.GetSection("FULL_REORDERED_JACOBIAN");
+		IniSection* aSection = iniFile.GetSection("FULL_REORDERED_JACOBIAN");
    		if(!aSection)
         {
         	CHECK(false);
@@ -230,7 +230,7 @@ string TestModelFileName;
 
     TEST(REDUCED_REORDERED_JACOBIAN)
 	{
-		rrIniSection* aSection = iniFile.GetSection("FULL_REORDERED_JACOBIAN");
+		IniSection* aSection = iniFile.GetSection("FULL_REORDERED_JACOBIAN");
    		if(!aSection)
         {
         	CHECK(false);
@@ -256,7 +256,7 @@ string TestModelFileName;
 
     TEST(STOICHIOMETRY_MATRIX)
 	{
-		rrIniSection* aSection = iniFile.GetSection("STOICHIOMETRY_MATRIX");
+		IniSection* aSection = iniFile.GetSection("STOICHIOMETRY_MATRIX");
    		if(!aSection)
         {
         	CHECK(false);
@@ -279,7 +279,7 @@ string TestModelFileName;
 
     TEST(REORDERED_STOICHIOMETRY_MATRIX)
 	{
-		rrIniSection* aSection = iniFile.GetSection("REORDERED_STOICHIOMETRY_MATRIX");
+		IniSection* aSection = iniFile.GetSection("REORDERED_STOICHIOMETRY_MATRIX");
    		if(!aSection)
         {
         	CHECK(false);
@@ -302,7 +302,7 @@ string TestModelFileName;
 
     TEST(FULLY_REORDERED_STOICHIOMETRY_MATRIX)
 	{
-		rrIniSection* aSection = iniFile.GetSection("FULLY_REORDERED_STOICHIOMETRY_MATRIX");
+		IniSection* aSection = iniFile.GetSection("FULLY_REORDERED_STOICHIOMETRY_MATRIX");
    		if(!aSection)
         {
         	CHECK(false);
@@ -325,7 +325,7 @@ string TestModelFileName;
 
     TEST(LINK_MATRIX)
 	{
-		rrIniSection* aSection = iniFile.GetSection("LINK_MATRIX");
+		IniSection* aSection = iniFile.GetSection("LINK_MATRIX");
    		if(!aSection)
         {
         	CHECK(false);
@@ -348,7 +348,7 @@ string TestModelFileName;
 
     TEST(UNSCALED_ELASTICITY_MATRIX)
 	{
-		rrIniSection* aSection = iniFile.GetSection("UNSCALED_ELASTICITY_MATRIX");
+		IniSection* aSection = iniFile.GetSection("UNSCALED_ELASTICITY_MATRIX");
    		if(!aSection)
         {
         	CHECK(false);
@@ -371,7 +371,7 @@ string TestModelFileName;
 
     TEST(SCALED_ELASTICITY_MATRIX)
 	{
-		rrIniSection* aSection = iniFile.GetSection("SCALED_ELASTICITY_MATRIX");
+		IniSection* aSection = iniFile.GetSection("SCALED_ELASTICITY_MATRIX");
    		if(!aSection)
         {
         	CHECK(false);
@@ -394,7 +394,7 @@ string TestModelFileName;
 
     TEST(UNSCALED_CONCENTRATION_CONTROL_MATRIX)
 	{
-		rrIniSection* aSection = iniFile.GetSection("UNSCALED_CONCENTRATION_CONTROL_MATRIX");
+		IniSection* aSection = iniFile.GetSection("UNSCALED_CONCENTRATION_CONTROL_MATRIX");
    		if(!aSection)
         {
         	CHECK(false);
@@ -417,7 +417,7 @@ string TestModelFileName;
 
     TEST(UNSCALED_FLUX_CONTROL_MATRIX)
 	{
-		rrIniSection* aSection = iniFile.GetSection("UNSCALED_FLUX_CONTROL_MATRIX");
+		IniSection* aSection = iniFile.GetSection("UNSCALED_FLUX_CONTROL_MATRIX");
    		if(!aSection)
         {
         	CHECK(false);

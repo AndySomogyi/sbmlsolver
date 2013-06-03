@@ -11,7 +11,7 @@ using namespace rr;
 
 namespace rr
 {
-rrIniSection::rrIniSection()
+IniSection::IniSection()
 :
 mIsDirty(true),
 mName(gEmptyString),
@@ -20,41 +20,41 @@ mComment(gEmptyString)
 
 }
 
-rrIniSection::rrIniSection(const string& nameValueString, const char& sep)
+IniSection::IniSection(const string& nameValueString, const char& sep)
 :
 mIsDirty(true),
 mName(gEmptyString),
 mComment(gEmptyString)
 {
-	vector<string> keys = SplitString(nameValueString, sep);
+	vector<string> keys = splitString(nameValueString, sep);
 
     //Insert each key in the section
     for(unsigned int i = 0; i < keys.size(); i++)
     {
-        rrIniKey *aKey = new rrIniKey(keys[i]);
+        IniKey *aKey = new IniKey(keys[i]);
     	mKeys.push_back(aKey);
     }
 }
 
-rrIniSection::~rrIniSection()
+IniSection::~IniSection()
 {
 	//detete all keys
     for(unsigned int i = 0; i < mKeys.size(); i++)
     {
-    	rrIniKey *key = mKeys[i];
+    	IniKey *key = mKeys[i];
    		delete key;
     }
 	mKeys.clear();
 }
 
 //IniKey function
-rrIniKey*	rrIniSection::GetKey(const string& keyName, bool create)
+IniKey*	IniSection::GetKey(const string& keyName, bool create)
 {
 	//Go trough the key list and return key with key name
    	KeyItor k_pos;
 	for (k_pos = mKeys.begin(); k_pos != mKeys.end(); k_pos++)
 	{
-		if ( CompareNoCase( (*k_pos)->mKey, keyName ) == 0 )
+		if ( compareNoCase( (*k_pos)->mKey, keyName ) == 0 )
 			return *k_pos;
 	}
 
@@ -68,7 +68,7 @@ rrIniKey*	rrIniSection::GetKey(const string& keyName, bool create)
 }
 
 //IniKey function
-rrIniKey*	rrIniSection::GetKey(const int& keyNr)
+IniKey*	IniSection::GetKey(const int& keyNr)
 {
 	//Go trough the key list and return key with key name
 
@@ -80,7 +80,7 @@ rrIniKey*	rrIniSection::GetKey(const int& keyNr)
 	return NULL;
 }
 
-string rrIniSection::GetNonKeysAsString()
+string IniSection::GetNonKeysAsString()
 {
 	string tmp = "";
    	NonKeyItor listPos;
@@ -102,7 +102,7 @@ string rrIniSection::GetNonKeysAsString()
 	return tmp;
 }
 
-string rrIniSection::AsString()
+string IniSection::AsString()
 {
 	string tmp = "";
    	KeyItor listPos;
@@ -118,9 +118,9 @@ string rrIniSection::AsString()
     return tmp;
 }
 
-rrIniKey* rrIniSection::CreateKey(const string& mKey, const string& mValue, const string& mComment)
+IniKey* IniSection::CreateKey(const string& mKey, const string& mValue, const string& mComment)
 {
-    rrIniKey* 		pKey = GetKey(mKey);
+    IniKey* 		pKey = GetKey(mKey);
 
     //Check if the key exists
     if(pKey)
@@ -131,7 +131,7 @@ rrIniKey* rrIniSection::CreateKey(const string& mKey, const string& mValue, cons
     }
 
     //Create the key
-    pKey = new rrIniKey;
+    pKey = new IniKey;
 
     pKey->mKey = mKey;
     pKey->mValue = mValue;

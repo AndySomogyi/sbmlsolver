@@ -5,15 +5,16 @@
 #include "rrLogger.h"
 #include "rrUtils.h"
 //---------------------------------------------------------------------------
-using Poco::UUID;
-using Poco::UUIDGenerator;
+
 
 namespace rr
 {
+using Poco::UUID;
+using Poco::UUIDGenerator;
 
 ModelSharedLibrary::ModelSharedLibrary(const string& pathTo)
 {
-	if(FileExists(pathTo))
+	if(fileExists(pathTo))
     {
     	load(pathTo);
     }
@@ -49,8 +50,8 @@ bool ModelSharedLibrary::load()
 
 bool ModelSharedLibrary::load(const string& libName)
 {
-	mPathToLib = ExtractFilePath(libName);
-    mLibName = ExtractFileName(libName);
+	mPathToLib = getFilePath(libName);
+    mLibName = getFileName(libName);
 #if defined(_WIN32)    
 	mTheLib.load(libName);
 #elif defined(__linux)
@@ -76,7 +77,7 @@ string ModelSharedLibrary::getName()
 
 string ModelSharedLibrary::getFullFileName()
 {
-	return JoinPath(mPathToLib, mLibName);
+	return joinPath(mPathToLib, mLibName);
 }
 
 string ModelSharedLibrary::createName(const string& baseName)

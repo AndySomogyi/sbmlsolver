@@ -95,7 +95,7 @@ const char ArrayListItem<string>::operator[](const int& pos) const
 ostream& operator<<(ostream& stream, const ArrayList2Item& item)
 {
     stream<<"{";
-    for(int i = 0; i < item.Count(); i++)
+    for(u_int i = 0; i < item.Count(); i++)
     {
         stream<<item[i];
         if(i < item.Count() -1)

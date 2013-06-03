@@ -45,7 +45,7 @@ bool SBMLModelSimulation::SetModelFilePath(const string& path)
     return true;
 }
 
-SimulationData SBMLModelSimulation::GetResult()
+RoadRunnerData SBMLModelSimulation::GetResult()
 {
     if(mEngine)
     {
@@ -53,22 +53,22 @@ SimulationData SBMLModelSimulation::GetResult()
     }
     else
     {
-        return SimulationData();
+        return RoadRunnerData();
     }
 }
 
 bool SBMLModelSimulation::SetModelFileName(const string& name)
 {
-    if(ExtractFilePath(name).size() > 0)
+    if(getFilePath(name).size() > 0)
     {
-        mModelFilePath = ExtractFilePath(name);
+        mModelFilePath = getFilePath(name);
     }
 
-    mModelFileName = ExtractFileName(name);
+    mModelFileName = getFileName(name);
 
-    if(!FileExists(JoinPath(mModelFilePath, mModelFileName)))
+    if(!fileExists(joinPath(mModelFilePath, mModelFileName)))
     {
-        Log(lError)<<"The file: "<<JoinPath(mModelFilePath, mModelFileName)<<" don't exist.";
+        Log(lError)<<"The file: "<<joinPath(mModelFilePath, mModelFileName)<<" don't exist.";
         return false;
     }
 
@@ -83,7 +83,7 @@ bool SBMLModelSimulation::SetDataOutputFolder(const string& name)
 
 string  SBMLModelSimulation::GetModelsFullFilePath()
 {
-    return JoinPath(mModelFilePath, mModelFileName);
+    return joinPath(mModelFilePath, mModelFileName);
 }
 
 string  SBMLModelSimulation::GetDataOutputFolder()
@@ -108,21 +108,12 @@ bool SBMLModelSimulation::UseEngine(RoadRunner* engine)
 
 bool SBMLModelSimulation::GenerateModelCode()
 {
-    if(!mEngine)
-    {
-        return false;
-    }
-    return mEngine->generateModelCode("");
+    return true;
 }
 
 bool SBMLModelSimulation::CompileModel()
 {
-    if(!mEngine)
-    {
-        return false;
-    }
-
-    return mEngine->compileCurrentModel();
+    return true;
 }
 
 bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
@@ -139,10 +130,10 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
         map<string, string> settings;
         map<string, string>::iterator it;
         //Read each line in the settings file
-        vector<string> lines = GetLinesInFile(fName);
+        vector<string> lines = getLinesInFile(fName);
         for(u_int i = 0; i < lines.size(); i++)
         {
-            vector<string> line = SplitString(lines[i], ":");
+            vector<string> line = splitString(lines[i], ":");
             if(line.size() == 2)
             {
                 settings.insert( pair<string, string>(line[0], line[1]));
@@ -162,42 +153,42 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
 
         //Assign values
         it = settings.find("start");
-        mSettings.mStartTime = (it != settings.end())   ? ToDouble((*it).second) : 0;
+        mSettings.mStartTime = (it != settings.end())   ? toDouble((*it).second) : 0;
 
         it = settings.find("duration");
-        mSettings.mDuration = (it != settings.end())    ? ToDouble((*it).second) : 0;
+        mSettings.mDuration = (it != settings.end())    ? toDouble((*it).second) : 0;
 
         it = settings.find("steps");
-        mSettings.mSteps = (it != settings.end())       ? ToInt((*it).second) : 50;
+        mSettings.mSteps = (it != settings.end())       ? toInt((*it).second) : 50;
 
         it = settings.find("absolute");
-        mSettings.mAbsolute = (it != settings.end())    ? ToDouble((*it).second) : 1.e-7;
+        mSettings.mAbsolute = (it != settings.end())    ? toDouble((*it).second) : 1.e-7;
 
         it = settings.find("relative");
-        mSettings.mRelative = (it != settings.end())    ? ToDouble((*it).second) : 1.e-4;
+        mSettings.mRelative = (it != settings.end())    ? toDouble((*it).second) : 1.e-4;
 
         mSettings.mEndTime = mSettings.mStartTime + mSettings.mDuration;
 
         it = settings.find("variables");
         if(it != settings.end())
         {
-            vector<string> vars = SplitString((*it).second, ",");
-            for(int i=0; i < vars.size(); i++)
+            vector<string> vars = splitString((*it).second, ",");
+            for(u_int i = 0; i < vars.size(); i++)
             {
-                mSettings.mVariables.push_back(Trim(vars[i]));
+                mSettings.mVariables.add(trim(vars[i]));
             }
         }
 
         it = settings.find("amount");
         if(it != settings.end())
         {
-            vector<string> vars = SplitString((*it).second, ",");
-            for(int i=0; i < vars.size(); i++)
+            vector<string> vars = splitString((*it).second, ",");
+            for(u_int i = 0; i < vars.size(); i++)
             {
-                string rec = Trim(vars[i]);
+                string rec = trim(vars[i]);
                 if(rec.size())
                 {
-                    mSettings.mAmount.push_back(rec);
+                    mSettings.mAmount.add(rec);
                 }
             }
         }
@@ -205,13 +196,13 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
         it = settings.find("concentration");
         if(it != settings.end())
         {
-            vector<string> vars = SplitString((*it).second, ",");
-            for(int i=0; i < vars.size(); i++)
+            vector<string> vars = splitString((*it).second, ",");
+            for(u_int i=0; i < vars.size(); i++)
             {
-                string rec = Trim(vars[i]);
+                string rec = trim(vars[i]);
                 if(rec.size())
                 {
-                    mSettings.mConcentration.push_back(rec);
+                    mSettings.mConcentration.add(rec);
                 }
             }
         }
@@ -249,10 +240,10 @@ bool SBMLModelSimulation::SetNumberOfPoints(const int& steps)
 
 bool SBMLModelSimulation::SetSelectionList(const string& selectionList)
 {
-    vector<string> vars = SplitString(selectionList, ", ");
-    for(int i=0; i < vars.size(); i++)
+    vector<string> vars = splitString(selectionList, ", ");
+    for(u_int i = 0; i < vars.size(); i++)
     {
-        mSettings.mVariables.push_back(Trim(vars[i]));
+        mSettings.mVariables.add(trim(vars[i]));
     }
 
     mEngine->useSimulationSettings(mSettings);
@@ -278,8 +269,8 @@ bool SBMLModelSimulation::SaveModelAsXML(const string& folder)
     {
         return false;
     }
-    string fName = JoinPath(folder, mModelFileName);
-    fName = ChangeFileExtensionTo(fName, "xml");
+    string fName = joinPath(folder, mModelFileName);
+    fName = changeFileExtensionTo(fName, "xml");
 
     fstream fs(fName.c_str(), fstream::out);
 
@@ -300,7 +291,7 @@ bool SBMLModelSimulation::CreateModel()
         return false;
     }
 
-    return (mEngine->createModel() != NULL) ? true : false;
+    return true;
 }
 
 bool SBMLModelSimulation::InitializeModel()
@@ -315,15 +306,7 @@ bool SBMLModelSimulation::InitializeModel()
 
 bool SBMLModelSimulation::GenerateAndCompileModel()
 {
-    if(!mEngine)
-    {
-        return false;
-    }
-    if(!mEngine->generateModelCode(""))
-    {
-    	return false;
-    }
-    return mEngine->compileModel();
+    return true;
 }
 
 bool SBMLModelSimulation::Simulate()
@@ -338,10 +321,10 @@ bool SBMLModelSimulation::Simulate()
 
 bool SBMLModelSimulation::SaveResult()
 {
-    string resultFileName(JoinPath(mDataOutputFolder, "rr_" + mModelFileName));
-    resultFileName = ChangeFileExtensionTo(resultFileName, ".csv");
+    string resultFileName(joinPath(mDataOutputFolder, "rr_" + mModelFileName));
+    resultFileName = changeFileExtensionTo(resultFileName, ".csv");
     Log(lInfo)<<"Saving result to file: "<<resultFileName;
-    SimulationData resultData = mEngine->getSimulationResult();
+    RoadRunnerData resultData = mEngine->getSimulationResult();
 
     ofstream fs(resultFileName.c_str());
     fs << resultData;

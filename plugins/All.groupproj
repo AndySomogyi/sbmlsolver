@@ -3,14 +3,26 @@
         <ProjectGuid>{F1AB80FA-81B1-43BC-BF2C-0BC2C9C3817E}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="..\ide_builds\xe3\roadrunner-static.cbproj">
+        <Projects Include="..\source\roadrunner.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="TestPlugin\TestPlugin.cbproj">
+        <Projects Include="..\Wrappers\C\rrc_api.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="Apps\plugin_checker.cbproj">
-            <Dependencies>TestPlugin\TestPlugin.cbproj;..\ide_builds\xe3\roadrunner-static.cbproj</Dependencies>
+        <Projects Include="apps\plugin_checker\plugin_checker.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="test_plugin\TestPlugin.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="add_noise\add_noise.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="lmfit\lm.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="apps\rrWinC\rrWinC.cbproj">
+            <Dependencies>..\source\roadrunner.cbproj;..\Wrappers\C\rrc_api.cbproj;add_noise\add_noise.cbproj;lmfit\lm.cbproj</Dependencies>
         </Projects>
     </ItemGroup>
     <ProjectExtensions>
@@ -20,41 +32,77 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="roadrunner-static">
-        <MSBuild Projects="..\ide_builds\xe3\roadrunner-static.cbproj"/>
+    <Target Name="roadrunner">
+        <MSBuild Projects="..\source\roadrunner.cbproj"/>
     </Target>
-    <Target Name="roadrunner-static:Clean">
-        <MSBuild Projects="..\ide_builds\xe3\roadrunner-static.cbproj" Targets="Clean"/>
+    <Target Name="roadrunner:Clean">
+        <MSBuild Projects="..\source\roadrunner.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="roadrunner-static:Make">
-        <MSBuild Projects="..\ide_builds\xe3\roadrunner-static.cbproj" Targets="Make"/>
+    <Target Name="roadrunner:Make">
+        <MSBuild Projects="..\source\roadrunner.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="rrc_api">
+        <MSBuild Projects="..\Wrappers\C\rrc_api.cbproj"/>
+    </Target>
+    <Target Name="rrc_api:Clean">
+        <MSBuild Projects="..\Wrappers\C\rrc_api.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="rrc_api:Make">
+        <MSBuild Projects="..\Wrappers\C\rrc_api.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="plugin_checker">
+        <MSBuild Projects="apps\plugin_checker\plugin_checker.cbproj"/>
+    </Target>
+    <Target Name="plugin_checker:Clean">
+        <MSBuild Projects="apps\plugin_checker\plugin_checker.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="plugin_checker:Make">
+        <MSBuild Projects="apps\plugin_checker\plugin_checker.cbproj" Targets="Make"/>
     </Target>
     <Target Name="TestPlugin">
-        <MSBuild Projects="TestPlugin\TestPlugin.cbproj"/>
+        <MSBuild Projects="test_plugin\TestPlugin.cbproj"/>
     </Target>
     <Target Name="TestPlugin:Clean">
-        <MSBuild Projects="TestPlugin\TestPlugin.cbproj" Targets="Clean"/>
+        <MSBuild Projects="test_plugin\TestPlugin.cbproj" Targets="Clean"/>
     </Target>
     <Target Name="TestPlugin:Make">
-        <MSBuild Projects="TestPlugin\TestPlugin.cbproj" Targets="Make"/>
+        <MSBuild Projects="test_plugin\TestPlugin.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="plugin_checker" DependsOnTargets="TestPlugin;roadrunner-static">
-        <MSBuild Projects="Apps\plugin_checker.cbproj"/>
+    <Target Name="add_noise">
+        <MSBuild Projects="add_noise\add_noise.cbproj"/>
     </Target>
-    <Target Name="plugin_checker:Clean" DependsOnTargets="TestPlugin:Clean;roadrunner-static:Clean">
-        <MSBuild Projects="Apps\plugin_checker.cbproj" Targets="Clean"/>
+    <Target Name="add_noise:Clean">
+        <MSBuild Projects="add_noise\add_noise.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="plugin_checker:Make" DependsOnTargets="TestPlugin:Make;roadrunner-static:Make">
-        <MSBuild Projects="Apps\plugin_checker.cbproj" Targets="Make"/>
+    <Target Name="add_noise:Make">
+        <MSBuild Projects="add_noise\add_noise.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="lm">
+        <MSBuild Projects="lmfit\lm.cbproj"/>
+    </Target>
+    <Target Name="lm:Clean">
+        <MSBuild Projects="lmfit\lm.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="lm:Make">
+        <MSBuild Projects="lmfit\lm.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="rrWinC" DependsOnTargets="roadrunner;rrc_api;add_noise;lm">
+        <MSBuild Projects="apps\rrWinC\rrWinC.cbproj"/>
+    </Target>
+    <Target Name="rrWinC:Clean" DependsOnTargets="roadrunner:Clean;rrc_api:Clean;add_noise:Clean;lm:Clean">
+        <MSBuild Projects="apps\rrWinC\rrWinC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="rrWinC:Make" DependsOnTargets="roadrunner:Make;rrc_api:Make;add_noise:Make;lm:Make">
+        <MSBuild Projects="apps\rrWinC\rrWinC.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="roadrunner-static;TestPlugin;plugin_checker"/>
+        <CallTarget Targets="roadrunner;rrc_api;plugin_checker;TestPlugin;add_noise;lm;rrWinC"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="roadrunner-static:Clean;TestPlugin:Clean;plugin_checker:Clean"/>
+        <CallTarget Targets="roadrunner:Clean;rrc_api:Clean;plugin_checker:Clean;TestPlugin:Clean;add_noise:Clean;lm:Clean;rrWinC:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="roadrunner-static:Make;TestPlugin:Make;plugin_checker:Make"/>
+        <CallTarget Targets="roadrunner:Make;rrc_api:Make;plugin_checker:Make;TestPlugin:Make;add_noise:Make;lm:Make;rrWinC:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

@@ -30,20 +30,20 @@ SUITE(ssThreeSpecies)
 	//Test that model files and reference data for the tests in this suite are present
     TEST(DATA_FILES)
     {
-		gTestDataFolder = JoinPath(gRRInstallFolder, "tests");
-		TestDataFileName 	= JoinPath(gTestDataFolder, TestDataFileName);
+		gTestDataFolder = joinPath(gRRInstallFolder, "tests");
+		TestDataFileName 	= joinPath(gTestDataFolder, TestDataFileName);
 
-    	CHECK(FileExists(TestDataFileName));
+    	CHECK(fileExists(TestDataFileName));
         CHECK(iniFile.Load(TestDataFileName));
         clog<<"Loaded test data from file: "<< TestDataFileName;
         if(iniFile.GetSection("SBML_FILES"))
         {
-        	rrIniSection* sbml = iniFile.GetSection("SBML_FILES");
-            rrIniKey* fNameKey = sbml->GetKey("FNAME1");
+        	IniSection* sbml = iniFile.GetSection("SBML_FILES");
+            IniKey* fNameKey = sbml->GetKey("FNAME1");
             if(fNameKey)
             {
-            	TestModelFileName  = JoinPath(gTestDataFolder, fNameKey->mValue);
-            	CHECK(FileExists(TestModelFileName));
+            	TestModelFileName  = joinPath(gTestDataFolder, fNameKey->mValue);
+            	CHECK(fileExists(TestModelFileName));
             }
         }
     }
@@ -73,7 +73,7 @@ SUITE(ssThreeSpecies)
 
     TEST(STEADY_STATE_CONCENTRATIONS)
 	{
-        rrIniSection* aSection = iniFile.GetSection("STEADY_STATE_CONCENTRATIONS");
+        IniSection* aSection = iniFile.GetSection("STEADY_STATE_CONCENTRATIONS");
         //Read in the reference data, from the ini file
 		if(!aSection || !aRR)
         {
@@ -83,7 +83,7 @@ SUITE(ssThreeSpecies)
 
         for(int i = 0 ; i < aSection->KeyCount(); i++)
         {
-            rrIniKey *aKey = aSection->GetKey(i);
+            IniKey *aKey = aSection->GetKey(i);
             double val = aRR->getValue(aKey->mKey);
 
             //Check concentrations
@@ -93,7 +93,7 @@ SUITE(ssThreeSpecies)
 
     TEST(FULL_JACOBIAN)
 	{
-		rrIniSection* aSection = iniFile.GetSection("FULL_JACOBIAN");
+		IniSection* aSection = iniFile.GetSection("FULL_JACOBIAN");
    		if(!aSection)
         {
         	CHECK(false);
@@ -116,7 +116,7 @@ SUITE(ssThreeSpecies)
 
     TEST(REDUCED_JACOBIAN)
 	{
-		rrIniSection* aSection = iniFile.GetSection("REDUCED_JACOBIAN");
+		IniSection* aSection = iniFile.GetSection("REDUCED_JACOBIAN");
    		if(!aSection)
         {
         	CHECK(false);
@@ -138,7 +138,7 @@ SUITE(ssThreeSpecies)
 
     TEST(FULL_REORDERED_JACOBIAN)
 	{
-		rrIniSection* aSection = iniFile.GetSection("FULL_REORDERED_JACOBIAN");
+		IniSection* aSection = iniFile.GetSection("FULL_REORDERED_JACOBIAN");
    		if(!aSection)
         {
         	CHECK(false);
@@ -164,7 +164,7 @@ SUITE(ssThreeSpecies)
 
     TEST(EIGEN_VALUES)
 	{
-        rrIniSection* aSection = iniFile.GetSection("EIGEN_VALUES");
+        IniSection* aSection = iniFile.GetSection("EIGEN_VALUES");
         //Read in the reference data, from the ini file
 		if(!aSection || !aRR)
         {
@@ -182,7 +182,7 @@ SUITE(ssThreeSpecies)
         for(int i = 0 ; i < aSection->KeyCount(); i++)
         {
         	clog<<"EigenValue "<<i<<"_ref: "<<aSection->GetKey(i)->AsString()<<endl;
-            rrIniKey *aKey = aSection->GetKey(i);
+            IniKey *aKey = aSection->GetKey(i);
             std::complex<double> eig(aKey->AsComplex());
         	clog<<"EigenValue "<<i<<": "<<real(eigenVals[i])<<endl;
             CHECK_CLOSE(aKey->AsFloat(), real(eigenVals[i]), 1e-6);
@@ -191,7 +191,7 @@ SUITE(ssThreeSpecies)
 
     TEST(STOICHIOMETRY_MATRIX)
 	{
-		rrIniSection* aSection = iniFile.GetSection("STOICHIOMETRY_MATRIX");
+		IniSection* aSection = iniFile.GetSection("STOICHIOMETRY_MATRIX");
    		if(!aSection)
         {
         	CHECK(false);
@@ -214,7 +214,7 @@ SUITE(ssThreeSpecies)
 
     TEST(REORDERED_STOICHIOMETRY_MATRIX)
 	{
-		rrIniSection* aSection = iniFile.GetSection("REORDERED_STOICHIOMETRY_MATRIX");
+		IniSection* aSection = iniFile.GetSection("REORDERED_STOICHIOMETRY_MATRIX");
    		if(!aSection)
         {
         	CHECK(false);
@@ -237,7 +237,7 @@ SUITE(ssThreeSpecies)
 
     TEST(FULLY_REORDERED_STOICHIOMETRY_MATRIX)
 	{
-		rrIniSection* aSection = iniFile.GetSection("FULLY_REORDERED_STOICHIOMETRY_MATRIX");
+		IniSection* aSection = iniFile.GetSection("FULLY_REORDERED_STOICHIOMETRY_MATRIX");
    		if(!aSection)
         {
         	CHECK(false);
@@ -260,7 +260,7 @@ SUITE(ssThreeSpecies)
 
     TEST(LINK_MATRIX)
 	{
-		rrIniSection* aSection = iniFile.GetSection("LINK_MATRIX");
+		IniSection* aSection = iniFile.GetSection("LINK_MATRIX");
    		if(!aSection)
         {
         	CHECK(false);
@@ -283,7 +283,7 @@ SUITE(ssThreeSpecies)
 
     TEST(UNSCALED_ELASTICITY_MATRIX)
 	{
-		rrIniSection* aSection = iniFile.GetSection("UNSCALED_ELASTICITY_MATRIX");
+		IniSection* aSection = iniFile.GetSection("UNSCALED_ELASTICITY_MATRIX");
    		if(!aSection)
         {
         	CHECK(false);
@@ -306,7 +306,7 @@ SUITE(ssThreeSpecies)
 
     TEST(SCALED_ELASTICITY_MATRIX)
 	{
-		rrIniSection* aSection = iniFile.GetSection("SCALED_ELASTICITY_MATRIX");
+		IniSection* aSection = iniFile.GetSection("SCALED_ELASTICITY_MATRIX");
    		if(!aSection)
         {
         	CHECK(false);
@@ -329,7 +329,7 @@ SUITE(ssThreeSpecies)
 
     TEST(UNSCALED_CONCENTRATION_CONTROL_MATRIX)
 	{
-		rrIniSection* aSection = iniFile.GetSection("UNSCALED_CONCENTRATION_CONTROL_MATRIX");
+		IniSection* aSection = iniFile.GetSection("UNSCALED_CONCENTRATION_CONTROL_MATRIX");
    		if(!aSection)
         {
         	CHECK(false);
@@ -352,7 +352,7 @@ SUITE(ssThreeSpecies)
 
     TEST(UNSCALED_FLUX_CONTROL_MATRIX)
 	{
-		rrIniSection* aSection = iniFile.GetSection("UNSCALED_FLUX_CONTROL_MATRIX");
+		IniSection* aSection = iniFile.GetSection("UNSCALED_FLUX_CONTROL_MATRIX");
    		if(!aSection)
         {
         	CHECK(false);

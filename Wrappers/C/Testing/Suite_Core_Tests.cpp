@@ -38,24 +38,24 @@ SUITE(CORE_TESTS)
 {
 	TEST(COMPILER)
 	{
-    	RRHandle aRR 		  		= createRRInstanceE(gTempFolder.c_str());
+    	RRHandle aRR 		  		= createRRInstanceEx(gTempFolder.c_str());
         //Copy test model sources to temp folder, and compile there
 
-		Poco::File headerFile(JoinPath(gTestDataFolder, "ModelSourceTest.h"));
-		Poco::File sourceFile(JoinPath(gTestDataFolder, "ModelSourceTest.c"));
+		Poco::File headerFile(joinPath(gTestDataFolder, "ModelSourceTest.h"));
+		Poco::File sourceFile(joinPath(gTestDataFolder, "ModelSourceTest.c"));
         headerFile.copyTo(gTempFolder);
         sourceFile.copyTo(gTempFolder);
 
-        string testSource = JoinPath(gTempFolder, "ModelSourceTest.c");
+        string testSource = joinPath(gTempFolder, "ModelSourceTest.c");
 		compileSource(aRR, testSource.c_str());
         freeRRInstance(aRR);
 	}
 
     TEST(RELOADING_MODEL_MODEL_RECOMPILIATION)
     {
-    	RRHandle aRR 		  		= createRRInstanceE(gTempFolder.c_str());
-		string TestModelFileName 	= JoinPath(gTestDataFolder, "Test_1.xml");
-		CHECK(FileExists(TestModelFileName));
+    	RRHandle aRR 		  		= createRRInstanceEx(gTempFolder.c_str());
+		string TestModelFileName 	= joinPath(gTestDataFolder, "Test_1.xml");
+		CHECK(fileExists(TestModelFileName));
 
 		CHECK(loadSBMLFromFileE(aRR, TestModelFileName.c_str(), true));
 
@@ -66,9 +66,9 @@ SUITE(CORE_TESTS)
 
     TEST(RELOADING_MODEL_NO_MODEL_RECOMPILIATION)
     {
-    	RRHandle aRR 		  		= createRRInstanceE(gTempFolder.c_str());
-		string TestModelFileName 	= JoinPath(gTestDataFolder, "Test_1.xml");
-		CHECK(FileExists(TestModelFileName));
+    	RRHandle aRR 		  		= createRRInstanceEx(gTempFolder.c_str());
+		string TestModelFileName 	= joinPath(gTestDataFolder, "Test_1.xml");
+		CHECK(fileExists(TestModelFileName));
 
 		CHECK(loadSBMLFromFileE(aRR, TestModelFileName.c_str(), true));
 
@@ -79,9 +79,9 @@ SUITE(CORE_TESTS)
 
     TEST(LOADING_MODEL_MULTIPLE_INSTANCES)
     {
-    	RRHandle aRR1 		  		= createRRInstanceE(gTempFolder.c_str());
-    	RRHandle aRR2 		  		= createRRInstanceE(gTempFolder.c_str());
-		string TestModelFileName 	= JoinPath(gTestDataFolder, "Test_1.xml");
+    	RRHandle aRR1 		  		= createRRInstanceEx(gTempFolder.c_str());
+    	RRHandle aRR2 		  		= createRRInstanceEx(gTempFolder.c_str());
+		string TestModelFileName 	= joinPath(gTestDataFolder, "Test_1.xml");
 
 		CHECK(loadSBMLFromFileE(aRR1, TestModelFileName.c_str(), true));
 		CHECK(loadSBMLFromFileE(aRR2, TestModelFileName.c_str(), true));
@@ -96,13 +96,13 @@ SUITE(CORE_TESTS)
 
     TEST(PARSING_MODEL_XML)
     {
-    	string modelXML = getListOfReactionsText(JoinPath(gTestDataFolder, "Test_1.xml").c_str());
+    	string modelXML = getListOfReactionsText(joinPath(gTestDataFolder, "Test_1.xml").c_str());
         CHECK(modelXML.size() > 0);
     }
 
     TEST(GENERATING_MODEL_HASH)
     {
-        string content = getListOfReactionsText(JoinPath(gTestDataFolder, "Test_1.xml"));
+        string content = getListOfReactionsText(joinPath(gTestDataFolder, "Test_1.xml"));
         MD5Engine md5;
         md5.update(content);
 		string digestString(Poco::DigestEngine::digestToHex(md5.digest()));
@@ -112,9 +112,9 @@ SUITE(CORE_TESTS)
 
     TEST(LOAD_MODEL_FROM_STRING)
     {
-        string xml = GetFileContent(JoinPath(gTestDataFolder, "Test_1.xml"));
-    	RRHandle aRR1 		  		= createRRInstanceE(gTempFolder.c_str());
-    	RRHandle aRR2 		  		= createRRInstanceE(gTempFolder.c_str());
+        string xml = getFileContent(joinPath(gTestDataFolder, "Test_1.xml"));
+    	RRHandle aRR1 		  		= createRRInstanceEx(gTempFolder.c_str());
+    	RRHandle aRR2 		  		= createRRInstanceEx(gTempFolder.c_str());
 		CHECK(loadSBML(aRR1, xml.c_str()));
 		CHECK(loadSBMLE(aRR2, xml.c_str(), true));
 
@@ -131,7 +131,7 @@ SUITE(CORE_TESTS)
 
 string getListOfReactionsText(const string& fName)
 {
-		ifstream in(JoinPath(gTestDataFolder, "Test_1.xml").c_str());
+		ifstream in(joinPath(gTestDataFolder, "Test_1.xml").c_str());
         InputSource src(in);
         DOMParser parser;
         AutoPtr<Document> pDoc = parser.parse(&src);
@@ -143,7 +143,7 @@ string getListOfReactionsText(const string& fName)
         {
 			clog<<pNode->nodeName()<<endl;
             string nodeID = "listOfReactions";
-        	if(ToUpper(pNode->nodeName()) == ToUpper(nodeID))
+        	if(toUpper(pNode->nodeName()) == toUpper(nodeID))
             {
             	DOMWriter aWriter;
                 stringstream xml;

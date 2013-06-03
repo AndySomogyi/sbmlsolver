@@ -3,15 +3,12 @@
 #include <string>
 #include <vector>
 #include "rrObject.h"
-#include "rrBaseParameter.h"
+#include "rrParameters.h"
 //---------------------------------------------------------------------------
 
 namespace rr
 {
-//Create a class later on - Parameters;
-typedef vector<rr::BaseParameter*> Parameters;
 
-//Will be renamed to Capability
 class RR_DECLSPEC Capability : public rrObject
 {
     protected:
@@ -24,10 +21,10 @@ class RR_DECLSPEC Capability : public rrObject
                                             Capability(const string& name, const string& method, const string& descr);
                                             Capability(const Capability& fromMe);
 		void							 	setup(const string& name, const string& method, const string& descr);
-        void                                add(rr::BaseParameter* me);
+        void                                addParameter(rr::BaseParameter* me);
         string                              asString() const;
         u_int                               nrOfParameters() const;
-        const rr::BaseParameter&            operator[](const int& i) const;
+        rr::BaseParameter&            		operator[](const int& i);
         string                              getName() const;
         string                              getDescription() const;
         string                              getMethod() const;

@@ -18,7 +18,7 @@ class TestPlugin : public Plugin
     public:
     					TestPlugin(rr::RoadRunner* aRR = NULL, int testParameter = 0);
 					   ~TestPlugin();
-		bool			execute();
+		bool			execute(void* userData);
 
 };
 
@@ -30,10 +30,10 @@ class TestPlugin : public Plugin
 extern "C"
 {
 #define EXP_FUNC __declspec(dllexport)
-EXP_FUNC rr::Plugin* __stdcall	createRRPlugin(rr::RoadRunner* aRR);
+EXP_FUNC rr::Plugin* __stdcall	createPlugin(rr::RoadRunner* aRR);
 
 // Plugin cleanup function
-EXP_FUNC bool		__stdcall	destroyRRPlugin(rr::Plugin *plugin);
+EXP_FUNC bool		__stdcall	destroyPlugin(rr::Plugin *plugin);
 
 }
 

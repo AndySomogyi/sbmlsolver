@@ -13,7 +13,7 @@ ThreadPool()
     //create nrThreads that can load SBML models
     for(int i = 0; i < nrThreads; i++)
     {
-        SimulateThread* sThread = new SimulateThread();
+        SimulateThread* sThread = new SimulateThread(NULL, false);
         mThreads.push_back(sThread);
     }
 
@@ -27,7 +27,16 @@ ThreadPool()
     if(!isJobQueueEmpty() && nrThreads > 0)
     {
 		start();
-    	waitForStart();	//Make sure it get started before moving on..
+    }
+}
+
+Simulate::~Simulate()
+{
+    list<RoadRunnerThread*>::iterator	iter;
+    for(iter = mThreads.begin(); iter != mThreads.end(); iter++)
+    {
+        RoadRunnerThread* t = (*iter);
+        delete t;
     }
 }
 

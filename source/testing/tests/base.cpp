@@ -64,7 +64,7 @@ SUITE(Base)
 
     	for(int i = 0 ; i < gModels.size(); i++)
         {
-    		CHECK(FileExists(JoinPath(gSBMLModelsPath, gModels[i])));
+    		CHECK(fileExists(joinPath(gSBMLModelsPath, gModels[i])));
         }
     }
 
@@ -72,7 +72,7 @@ SUITE(Base)
 	{
     	for(int i = 0 ; i < gModels.size(); i++)
         {
-			string model =  JoinPath(gSBMLModelsPath, gModels[i]);
+			string model =  joinPath(gSBMLModelsPath, gModels[i]);
 			CHECK(gRR->loadSBMLFromFile(model));
         }
 	}

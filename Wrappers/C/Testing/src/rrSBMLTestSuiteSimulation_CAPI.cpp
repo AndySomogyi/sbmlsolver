@@ -1,7 +1,7 @@
 #pragma hdrstop
 #include "rrException.h"
 #include "rrUtils.h"
-#include "rrSimulationData.h"
+#include "rrRoadRunnerData.h"
 #include "rrSBMLTestSuiteSimulation_CAPI.h"
 
 using namespace rrc;
@@ -10,16 +10,21 @@ extern string gTempFolder;
 extern string gTSModelsPath;
 extern bool gDebug;
 using namespace rr;
-SimulationData convertCAPIResultData(RRResultHandle		resultsHandle);
+RoadRunnerData convertCAPIResultData(RRDataHandle		resultsHandle);
 
 SBMLTestSuiteSimulation_CAPI::SBMLTestSuiteSimulation_CAPI(const string& dataOutputFolder, const string& modelFilePath, const string& modelFileName)
 :
-rr::TestSuiteModelSimulation(dataOutputFolder, modelFilePath, modelFileName)
+rr::TestSuiteModelSimulation(dataOutputFolder, modelFilePath, modelFileName),
+mRRHandle(0),
+mResultHandle(0)
 {
 }
 
 SBMLTestSuiteSimulation_CAPI::~SBMLTestSuiteSimulation_CAPI()
-{}
+{
+    // we own the result, but not the RR instance.
+    freeRRData(mResultHandle);
+}
 
 void SBMLTestSuiteSimulation_CAPI::UseHandle(RRHandle handle)
 {
@@ -47,7 +52,7 @@ bool SBMLTestSuiteSimulation_CAPI::LoadSettings(const string& settingsFName)
 
     if(!mModelSettingsFileName.size())
     {
-        mModelSettingsFileName = JoinPath(mModelFilePath, GetSettingsFileNameForCase(mCurrentCaseNumber));
+        mModelSettingsFileName = joinPath(mModelFilePath, GetSettingsFileNameForCase(mCurrentCaseNumber));
     }
 	SBMLModelSimulation::LoadSettings(mModelSettingsFileName);
 
@@ -66,18 +71,19 @@ bool SBMLTestSuiteSimulation_CAPI::Simulate()
     {
 		mResultData = convertCAPIResultData(mResultHandle);
     }
+
     return mResultHandle ? true : false;
 }
 
-SimulationData SBMLTestSuiteSimulation_CAPI::GetResult()
+RoadRunnerData SBMLTestSuiteSimulation_CAPI::GetResult()
 {
 	return mResultData; //Not that pretty.
 }
 
 bool SBMLTestSuiteSimulation_CAPI::SaveResult()
 {
-    string resultFileName(JoinPath(mDataOutputFolder, "rrCAPI_" + mModelFileName));
-    resultFileName = ChangeFileExtensionTo(resultFileName, ".csv");
+    string resultFileName(joinPath(mDataOutputFolder, "rrCAPI_" + mModelFileName));
+    resultFileName = changeFileExtensionTo(resultFileName, ".csv");
 
     if(!mResultHandle)
     {
@@ -90,15 +96,15 @@ bool SBMLTestSuiteSimulation_CAPI::SaveResult()
     return true;
 }
 
-SimulationData convertCAPIResultData(RRResultHandle	result)
+RoadRunnerData convertCAPIResultData(RRDataHandle	result)
 {
-	SimulationData resultData;
+	RoadRunnerData resultData;
 
 	StringList colNames;
 	//Copy column names
     for(int i = 0; i < result->CSize; i++)
     {
-    	colNames.Add(result->ColumnHeaders[i]);
+    	colNames.add(result->ColumnHeaders[i]);
     }
 
 	resultData.setColumnNames(colNames);
@@ -125,7 +131,7 @@ bool RunTest(const string& version, int caseNumber)
  	RRHandle gRR;
 
     //Create instance..
-    gRR = createRRInstanceE(gTempFolder.c_str());
+    gRR = createRRInstanceEx(gTempFolder.c_str());
 
     if(gDebug && gRR)
     {
@@ -154,12 +160,12 @@ bool RunTest(const string& version, int caseNumber)
         string settingsFileName;
 
         //Create a log file name
-        CreateTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, settingsFileName);
+        createTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, settingsFileName);
 
         //Create subfolder for data output
-        dataOutputFolder = JoinPath(dataOutputFolder, GetTestSuiteSubFolderName(caseNumber));
+        dataOutputFolder = joinPath(dataOutputFolder, getTestSuiteSubFolderName(caseNumber));
 
-        if(!CreateFolder(dataOutputFolder))
+        if(!createFolder(dataOutputFolder))
         {
 			string msg("Failed creating output folder for data output: " + dataOutputFolder);
             throw(rr::Exception(msg));
@@ -174,7 +180,7 @@ bool RunTest(const string& version, int caseNumber)
         string modelFileName;
 
         simulation.SetCaseNumber(caseNumber);
-        CreateTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName);
+        createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName);
 
         //The following will load and compile and simulate the sbml model in the file
         simulation.SetModelFilePath(modelFilePath);
@@ -186,32 +192,32 @@ bool RunTest(const string& version, int caseNumber)
 
         if(!simulation.LoadSBMLFromFile())
         {
-            throw("Failed loading sbml from file");
+            throw(Exception("Failed loading sbml from file"));
         }
 
         //Then read settings file if it exists..
         string settingsOveride("");
         if(!simulation.LoadSettings(settingsOveride))
         {
-            throw("Failed loading simulation settings");
+            throw(Exception("Failed loading simulation settings"));
         }
 
         //Then Simulate model
         if(!simulation.Simulate())
         {
-            throw("Failed running simulation");
+            throw(Exception("Failed running simulation"));
         }
 
         //Write result
         if(!simulation.SaveResult())
         {
             //Failed to save data
-            throw("Failed saving result");
+            throw(Exception("Failed saving result"));
         }
 
         if(!simulation.LoadReferenceData())
         {
-            throw("Failed Loading reference data");
+            throw(Exception("Failed Loading reference data"));
         }
 
         simulation.CreateErrorData();
@@ -227,11 +233,14 @@ bool RunTest(const string& version, int caseNumber)
 			clog<<"\t\tTest passed..\n";
         }
   	}
-    catch(rr::Exception& ex)
+    catch(std::exception& ex)
     {
         string error = ex.what();
         cerr<<"Case "<<caseNumber<<": Exception: "<<error<<endl;
+        freeRRInstance(gRR);
     	return false;
     }
+
+    freeRRInstance(gRR);
  	return result;
 }

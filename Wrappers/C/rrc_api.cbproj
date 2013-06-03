@@ -118,12 +118,29 @@
         <CppCompile Include="rrc_api.cpp">
             <BuildOrder>3</BuildOrder>
         </CppCompile>
+        <DefFile Include="rrc_api.def">
+            <BuildOrder>5</BuildOrder>
+        </DefFile>
+        <CppCompile Include="rrc_cpp_support.cpp">
+            <BuildOrder>7</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="rrc_jobs_api.cpp">
+            <DependentOn>rrc_jobs_api.h</DependentOn>
+            <BuildOrder>4</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="rrc_logging_api.cpp">
+            <DependentOn>rrc_logging_api.h</DependentOn>
+            <BuildOrder>8</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="rrc_minimization_api.cpp">
+            <BuildOrder>7</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="rrc_parameter_api.cpp">
+            <DependentOn>rrc_parameter_api.h</DependentOn>
+            <BuildOrder>6</BuildOrder>
+        </CppCompile>
         <CppCompile Include="rrc_plugin_api.cpp">
             <BuildOrder>3</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="rrc_support.cpp">
-            <DependentOn>rrc_support.h</DependentOn>
-            <BuildOrder>2</BuildOrder>
         </CppCompile>
         <CppCompile Include="rrc_utilities.cpp">
             <DependentOn>rrc_utilities.h</DependentOn>

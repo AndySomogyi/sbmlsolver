@@ -1024,12 +1024,12 @@ bool RunTest(const string& version, int caseNumber)
         string logFileName;
 
         //Create log file name, e.g. 00001.log
-        CreateTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, dummy);
+        createTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, dummy);
 
         //Create subfolder for data output
-        string dataOutputFolder = JoinPath(gTempFolder, GetTestSuiteSubFolderName(caseNumber));
+        string dataOutputFolder = joinPath(gTempFolder, getTestSuiteSubFolderName(caseNumber));
 
-        if(!CreateFolder(dataOutputFolder))
+        if(!createFolder(dataOutputFolder))
         {
             throw(rr::Exception("Failed creating output folder for data output"));
         }
@@ -1043,7 +1043,7 @@ bool RunTest(const string& version, int caseNumber)
         string modelFilePath(gTSModelsPath);
         string modelFileName;
         string settingsFileName;
-        CreateTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName);
+        createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName);
 
         //The following will load and compile and simulate the sbml model in the file
         simulation.SetCaseNumber(caseNumber);

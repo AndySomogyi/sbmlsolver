@@ -103,7 +103,7 @@ void StringListContainer::Add(const string& listName, const StringList& aList)
 void StringListContainer::Add(const string& item)
 {
     StringList list;
-    list.push_back(item);
+    list.add(item);
     Add(list);
 
 }

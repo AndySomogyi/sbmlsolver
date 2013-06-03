@@ -13,10 +13,14 @@ mWasStarted(false),
 mIsWorking(false)
 {}
 
+RoadRunnerThread::~RoadRunnerThread()
+{}
+
 bool RoadRunnerThread::wasStarted()
 {
 	return mWasStarted;
 }
+
 bool RoadRunnerThread::isWorking()
 {
 	return mIsWorking;
@@ -62,11 +66,11 @@ void RoadRunnerThread::start(RoadRunner* instance)
 	mIsWorking = false;
 
 	mThread.start(*this);
-	waitForStart();
 }
 
 void RoadRunnerThread::run()
 {
+	mWasStarted = true;
 	worker();
 }
 
@@ -82,7 +86,8 @@ bool RoadRunnerThread::isActive()
 
 void RoadRunnerThread::waitForStart()
 {
-    while(wasStarted() == false)
+
+    while(mThread.isRunning() == false)
     {
         Poco::Thread::sleep(1);
     };

@@ -13,14 +13,13 @@ class RR_DECLSPEC RoadRunnerThread : public Poco::Runnable, public rrObject
 {
 	protected:
 	    Poco::Thread 				mThread;
-
         bool						mIsTimeToDie;
         bool						mWasStarted;
         bool						mIsWorking;
 
-
     public:
 	    					        RoadRunnerThread();
+		virtual				       ~RoadRunnerThread();
 
 		void				        setName(const string& name);
 		string 				        getName();

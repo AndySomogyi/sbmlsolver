@@ -9,24 +9,22 @@
 #include "rrIniKey.h"
 #include "rrFileName.h"
 
-using namespace rr;
-
+namespace rr
+{
 
 using std::string;
 using std::fstream;
 using std::ios;
 using std::ios_base;
 
-namespace rr
-{
 const int MAX_LINE_BUFFER_SIZE = 2048;
-class rrIniKey;
-class rrIniSection;
+class IniKey;
+class IniSection;
 
 // IniFile typedefs
-typedef std::vector<rrIniKey*>     		KeyList;
+typedef std::vector<IniKey*>     		KeyList;
 typedef std::vector<string> 	    	NonKeyList;
-typedef std::vector<rrIniSection*>  	SectionList;
+typedef std::vector<IniSection*>  		SectionList;
 typedef SectionList::iterator       	SectionItor;
 
 class RR_DECLSPEC IniFile : public rrObject
@@ -63,7 +61,7 @@ class RR_DECLSPEC IniFile : public rrObject
 		virtual		        ~IniFile();
 
         int					GetNumberOfSections(){return mSections.size();}
-        rrIniSection*		GetSection(int i){return mSections[i];}
+        IniSection*		GetSection(int i){return mSections[i];}
 
 		// File handling methods
 		string              GetFilePath(){return mIniFileName.GetPath();}
@@ -71,7 +69,7 @@ class RR_DECLSPEC IniFile : public rrObject
         string              GetFullFileName(){return mIniFileName.GetPathAndFileName();}
         bool                SetFilePath(const string& path);
 		bool		        Load(const string& fName = rr::gEmptyString);
-		rrIniSection*      	LoadSection(const string& theSection);
+		IniSection*      	LoadSection(const string& theSection);
 		bool		        Save(ios_base::openmode openMode = ios::out|ios::trunc);
 		bool		        UnLoad(){return Save();}
         bool                WasItFound(){return mWasFound;} //!Boolean indicating if the last key was found in the ini file
@@ -113,9 +111,9 @@ class RR_DECLSPEC IniFile : public rrObject
 		void			    Clear();
 		void			    SetFileName(const string& fName);
 		string			    CommentStr(string& Comment);
-		rrIniKey*		    GetKey(const string& Key, const string& Section);
-		rrIniSection*	    GetSection(const string& Section, bool create = false);
-		rrIniSection*	    GetSection(const unsigned int secNr);
+		IniKey*		    	GetKey(const string& Key, const string& Section);
+		IniSection*	    	GetSection(const string& Section, bool create = false);
+		IniSection*	    	GetSection(const unsigned int secNr);
         bool 			    ClearSection(const string& section);
         bool 			    IsModified(){return mIsDirty;}
 };

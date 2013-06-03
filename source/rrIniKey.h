@@ -8,7 +8,6 @@
 #include "rrStringUtils.h"
 #include "rrIniSection.h"
 
-
 using namespace rr;
 using std::string;
 using std::complex;
@@ -19,7 +18,7 @@ namespace rr
 // This class stores the definition of a key. A key is a named identifier
 // that is associated with a value. It may or may not have a comment.  All comments
 // must PRECEDE the key on the line in the config file.
-class RR_DECLSPEC rrIniKey : public rrObject
+class RR_DECLSPEC IniKey : public rrObject
 {
     protected:
         void SetupKey(const string& key);
@@ -29,8 +28,8 @@ class RR_DECLSPEC rrIniKey : public rrObject
 		string	              	mValue;
 		string	              	mComment;
 
-				              	rrIniKey(const string& key = gEmptyString);
-				               ~rrIniKey(){}
+				              	IniKey(const string& key = gEmptyString);
+				               ~IniKey(){}
         void 	              	ReKey(const string& key);
         string 	              	AsString() const;
         int 	              	AsBool() const;
@@ -38,7 +37,7 @@ class RR_DECLSPEC rrIniKey : public rrObject
         double 	              	AsFloat() const;
         complex<double> 		AsComplex() const;
 		RR_DECLSPEC
-        friend ostream& 		operator<<(ostream& stream, const rrIniKey& aKey);
+        friend ostream& 		operator<<(ostream& stream, const IniKey& aKey);
 };
 }
 

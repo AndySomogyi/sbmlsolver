@@ -54,7 +54,7 @@ endif()
 
 if(UNIX) #Don't know why static roadrunner fails....?
 target_link_libraries (${target} 
-roadrunner
+roadrunner-static
 libunit_test-static${staticLibPrefix}
 #nleq-static.a
 #rr-libstruct-static

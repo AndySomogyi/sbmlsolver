@@ -11,7 +11,7 @@ class TestSuiteSimulation : public rr::TestSuiteModelSimulation
 {
 	private:
 		RRHandle 			mRRHandle;
-		RRResultHandle		mResultHandle;
+		RRDataHandle		mResultHandle;
 
     public:
     						TestSuiteSimulation(const string& dataOutputFolder = "", const string& modelFilePath = "", const string& modelFileName = "");
@@ -21,7 +21,7 @@ class TestSuiteSimulation : public rr::TestSuiteModelSimulation
         bool            	LoadSettings(const string& fName = "");
 		bool 				Simulate();
         bool            	SaveResult();
-        SimulationData  	GetResult();
+        RoadRunnerData  	GetResult();
 };
 
 //Utility function..

@@ -101,9 +101,20 @@ StringList NewArrayList::GetStringList(const string& lName)
                             for(int i = 0; i < list.Count(); i++)
                             {
                             	string str = list[i];
-                                aList.Add(str);
+                                aList.add(str);
                             }
                         }
+                        if(dynamic_cast<NewArrayListItem<NewArrayList> *>(anItem))
+                        {
+                            //Assume this list only contains strings!
+                            NewArrayList  list = (NewArrayList) *(dynamic_cast<NewArrayListItem<NewArrayList>*>(anItem));
+                            for(int i = 0; i < list.Count(); i++)
+                            {
+                            	string str = list.GetString(i);
+                                aList.add(str);
+                            }
+                        }
+
                     }
                 }
             }
@@ -158,11 +169,6 @@ NewArrayList::NewArrayList(const NewArrayList& copyMe)
         {
             mList[i] = new NewArrayListItem<NewArrayList>(*(dynamic_cast<NewArrayListItem<NewArrayList>*>(ptr)));
         }
-
-//        else if(dynamic_cast<NewArrayListItem<NewArrayListItem>*>(ptr))
-//        {
-//            mList[i] = new NewArrayListItem<NewArrayListItem>(*(dynamic_cast<NewArrayListItem<NewArrayListItem>*>(ptr)));
-//        }
         else
         {
             mList[i] = NULL;

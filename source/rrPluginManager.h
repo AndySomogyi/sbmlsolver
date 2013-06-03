@@ -3,6 +3,7 @@
 #include <vector>
 #include "rrObject.h"
 #include "rrStringList.h"
+#include "Poco/SharedLibrary.h"
 //---------------------------------------------------------------------------
 /* A minimalistic Plugin manager. */
 namespace rr
@@ -11,14 +12,17 @@ namespace rr
 //Abstract class for plugins
 class RoadRunner;
 class Plugin;
+using Poco::SharedLibrary;
 
 class RR_DECLSPEC PluginManager : public rrObject
 {
 	private:
         string			   			mPluginFolder;
-        vector< pair< Poco::SharedLibrary*, Plugin* > >
-        					 		mPlugins;
-        RoadRunner		   *mRR;		//This is a handle to the roadRunner instance, creating the pluginManager
+        string			   			mPluginExtension;	//Different on different OS's
+
+        vector< pair< Poco::SharedLibrary*, Plugin* > >	mPlugins;
+
+        RoadRunner		   			*mRR;		//This is a handle to the roadRunner instance, creating the pluginManager
 
     public:
 	    				           	PluginManager(const std::string& pluginFolder = gEmptyString, const bool& autoLoad = false, RoadRunner* aRR = NULL);
@@ -37,7 +41,6 @@ class RR_DECLSPEC PluginManager : public rrObject
         StringList					getPluginNames();
 
 };
+
 }
-
-
 #endif

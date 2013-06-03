@@ -34,7 +34,7 @@
 namespace rr
 {
 class RoadRunner;
-class SimulationData;
+class RoadRunnerData;
 
 }
 
@@ -101,7 +101,6 @@ __published:	// IDE-managed Components
     TAction *LogCurrentDataA;
     TCheckBox *ConservationAnalysisCB;
     TComboBox *LogLevelCB;
-    TLabel *Label1;
     TTabSheet *TabSheet3;
     TImage *testSuitePic;
     TGroupBox *GroupBox4;
@@ -168,7 +167,6 @@ private:	// User declarations
 
     mtkIniParameter<int>        	mSelectionListHeight;
     mtkIniParameter<int>        	mPageControlHeight;
-
     mtkIniParameter<mtk::LogLevel>	mLogLevel;
     mtkIniParameter<string>     	mCurrentModelsFolder;
     mtkIniParameter<string>     	mCurrentModelFileName;
@@ -181,9 +179,8 @@ private:	// User declarations
     rr::LogFileReader           	mLogFileSniffer;
 
     void            	__fastcall  SetupINIParameters();
-    void                        	Plot(const rr::SimulationData& result);
-    void                        	EnableDisableSimulation(bool enable);
-    void            	__fastcall  CheckUI();
+    void                        	Plot(const rr::RoadRunnerData& result);
+    void                        	EnableDisableSimulation();
     StringList                      GetCheckedSpecies();
     TColor                          GetColor(int i);
     void                            AddItemsToListBox(const StringList& items);
@@ -193,7 +190,7 @@ private:	// User declarations
     string                          GetCurrentModelPath();
     string                          GetSettingsFile();
     SimulateThreadUI			    mSimulateThread;
-	SimulationData 				   *mData;				//The data is created by the thread and consumed by the UI
+	RoadRunnerData 				   *mData;				//The data is created by the thread and consumed by the UI
     friend SimulateThreadUI;
     void            __fastcall    	PlotFromThread();
 

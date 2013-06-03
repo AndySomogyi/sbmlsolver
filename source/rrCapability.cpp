@@ -37,8 +37,9 @@ Parameters* Capability::getParameters()
 	return &mParameters;
 }
 
-const rr::BaseParameter& Capability::operator[](const int& i) const
+rr::BaseParameter& Capability::operator[](const int& i)
 {
+
     return *(mParameters[i]);
 }
 
@@ -59,32 +60,31 @@ string Capability::getMethod() const
 
 u_int Capability::nrOfParameters() const
 {
-    return mParameters.size();
+    return mParameters.count();
 }
 
-void Capability::add(rr::BaseParameter* me)
+void Capability::addParameter(rr::BaseParameter* me)
 {
-    mParameters.push_back(me);
+    mParameters.add(me);
 }
 
 string Capability::asString()  const
 {
     stringstream caps;
-    caps<<"Section: " << mName <<endl;
+    caps<<"Name: " << mName <<endl;
     caps<<"Method: " << mMethod<<endl;
     caps<<"Description: " << mDescription<<endl;
 
     for(int i = 0; i < nrOfParameters(); i++)
     {
-        caps <<*(mParameters[i])<<endl;
+        caps << *(mParameters[i]) <<endl;
     }
     return caps.str();
 }
 
-
 BaseParameter* Capability::getParameter(const string& paraName)
 {
-	for(int i = 0; i < mParameters.size(); i++)
+	for(u_int i = 0; i < mParameters.count(); i++)
     {
 		if(mParameters[i] && mParameters[i]->mName == paraName)
         {
@@ -96,12 +96,18 @@ BaseParameter* Capability::getParameter(const string& paraName)
 
 ostream& operator <<(ostream& os, const Capability& caps)
 {
-	os<<"Capabilities for "<<caps.mName<<"\n";
+	os<<"Parameters for capability: "<<caps.mName<<"\n";
 
-	for(int i = 0; i < caps.nrOfParameters(); i++)
+	for(u_int i = 0; i < caps.nrOfParameters(); i++)
     {
     	os<< *(caps.mParameters[i]);
+
+        if(i < caps.nrOfParameters() -1 )
+        {
+        	os<<"  "<<endl;
+        }
     }
 	return os;
 }
+
 }

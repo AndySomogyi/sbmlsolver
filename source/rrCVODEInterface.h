@@ -3,8 +3,9 @@
 #include <string>
 #include "rrObject.h"
 #include "rrPendingAssignment.h"
+#include "rrCapability.h"
+#include "rrParameter.h"
 #include "cvode/cvode.h"
-
 
 namespace rr
 {
@@ -12,7 +13,7 @@ namespace rr
 using std::string;
 
 class Event;
-class ModelFromC;
+class ExecutableModel;
 class RoadRunner;
 
 class RR_DECLSPEC CvodeInterface : public rrObject
@@ -22,8 +23,8 @@ class RR_DECLSPEC CvodeInterface : public rrObject
         const double                mDefaultAbsTol;
         const int                   mDefaultMaxNumSteps;
 
-        string        		        mTempPathstring;
-        int                  		mErrorFileCounter;
+        string                        mTempPathstring;
+        int                          mErrorFileCounter;
         int                         mNumIndependentVariables;
         N_Vector                    mAmounts;
         N_Vector                    mAbstolArray;
@@ -35,10 +36,10 @@ class RR_DECLSPEC CvodeInterface : public rrObject
         int                         mDefaultMaxBDFOrder;
         double                      mLastTimeValue;
         double                      mLastEvent;
-        ModelFromC*					mTheModel;
+        ExecutableModel*                    mTheModel;
         int                         mOneStepCount;
         bool                        mFollowEvents;
-        RoadRunner				   *mRR;
+        RoadRunner                   *mRR;
 
         void                        handleCVODEError(const int& errCode);
         void                        assignPendingEvents(const double& timeEnd, const double& tout);
@@ -51,14 +52,14 @@ class RR_DECLSPEC CvodeInterface : public rrObject
         void                        sortEventsByPriority(vector<int>& firedEvents);
         void                        sortEventsByPriority(vector<Event>& firedEvents);
         void                        handleRootsForTime(const double& timeEnd, vector<int>& rootsFound);
-	 	int         				rootInit (const int& numRoots);//, TRootCallBack callBack, void *gdata);
-		int         				reInit (const double& t0);
-		int          				allocateCvodeMem ();
-        void                        initializeCVODEInterface(ModelFromC *oModel);
+         int                         rootInit (const int& numRoots);//, TRootCallBack callBack, void *gdata);
+        int                         reInit (const double& t0);
+        int                          allocateCvodeMem ();
+        void                        initializeCVODEInterface(ExecutableModel *oModel);
         void                        setAbsTolerance(int index, double dValue);
 
 
-    public:	//Hide these later on...
+    public:    //Hide these later on...
         int                         mMaxAdamsOrder;
         int                         mMaxBDFOrder;
         double                      mInitStep;
@@ -68,27 +69,43 @@ class RR_DECLSPEC CvodeInterface : public rrObject
         double                      mRelTol;
         double                      mAbsTol;
         vector<PendingAssignment>   mAssignments;
-        int                  		mRootCount;
-        int         		        mCount;
+        int                          mRootCount;
+        int                         mCount;
+        Capability                    mCVODECapability;
 
-	public:
-                                    CvodeInterface(RoadRunner* rr, ModelFromC* oModel, const double& abTol = 1.e-12, const double& relTol = 1.e-12);
+    public:
+                                    CvodeInterface(RoadRunner* rr, ExecutableModel* oModel, const double& abTol = 1.e-12, const double& relTol = 1.e-12);
                                    ~CvodeInterface();
 
-		void 						setTolerances(const double& aTol, const double& rTol);
+        Capability&                    getCapability();    //Only one capability
+
+        void                         setTolerances(const double& aTol, const double& rTol);
         void                        assignResultsToModel();
-		ModelFromC*					getModel();
+        ExecutableModel*                    getModel();
         void                        testRootsAtInitialTime();
         bool                        haveVariables();
 
         double                      oneStep(const double& timeStart, const double& hstep);
         vector<double>              buildEvalArgument();
-        void                        assignNewVector(ModelFromC *model);
-        void                        assignNewVector(ModelFromC *oModel, bool bAssignNewTolerances);
+        void                        assignNewVector(ExecutableModel *model);
+        void                        assignNewVector(ExecutableModel *oModel, bool bAssignNewTolerances);
 
-        							// Restart the simulation using a different initial condition
-        void                        reStart(double timeStart, ModelFromC* model);
+                                    // Restart the simulation using a different initial condition
+        void                        reStart(double timeStart, ExecutableModel* model);
 
+    private:
+        /**
+         * parameters we add to the capabities list. Just allocate them as ivars
+         * so we don't have to delete them later.
+         */
+        Parameter<int> paramBDFOrder;
+        Parameter<int> paramAdamsOrder;
+        Parameter<double> paramRTol;
+        Parameter<double> paramATol;
+        Parameter<int> paramMaxSteps;
+        Parameter<double> paramInitSteps;
+        Parameter<double> paramMinStep;
+        Parameter<double> paramMaxStep;
 };
 }
 

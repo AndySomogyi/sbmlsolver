@@ -36,8 +36,9 @@ mLogString(NULL)
     mTempDataFolder = "R:\\temp";
 
     //This is roadrunners logger
-    mRRLogFileName = rr::JoinPath(mTempDataFolder, "RoadRunnerUI.log");
-    gLog.Init("", gLog.GetLogLevel(), new LogFile(mRRLogFileName ));
+    mRRLogFileName = rr::joinPath(mTempDataFolder, "RoadRunnerUI.log");
+//    gLog.Init("", gLog.GetLogLevel(), new LogFile(mRRLogFileName ));
+    gLog.Init("", gLog.GetLogLevel(), NULL);
 
     //Setup a logfile sniffer and propagate logs to memo...
     mLogFileSniffer.SetFileName(mRRLogFileName);
@@ -110,7 +111,7 @@ void __fastcall TMForm::selectModelsFolderExecute(TObject *Sender)
     string fldr = ToSTDString(folder);
     fldr = RemoveTrailingSeparator(fldr, '\\');
     fldr = RemoveTrailingSeparator(fldr, '\\');
-    if(!rr::FolderExists(fldr))
+    if(!rr::folderExists(fldr))
     {
         return;
     }
@@ -151,7 +152,7 @@ void __fastcall TMForm::FSFTreeView1Click(TObject *Sender)
 {
     //If a valid model file is selected, enable Load action
     string fName = FSF->GetSelectedFileInTree();
-    if(rr::FileExists(fName))
+    if(rr::fileExists(fName))
     {
         LoadModelA->Enabled = true;
         UpdateTestSuiteInfo();
@@ -229,9 +230,9 @@ void __fastcall TMForm::SimulateAExecute(TObject *Sender)
 
         mRR->simulateEx(mStartTimeE->GetValue(), *mEndTimeE, mNrOfSimulationPointsE->GetValue());
 
-        SimulationData data = mRR->getSimulationResult();
-        string resultFileName(rr::JoinPath(mRR->getTempFolder(), mRR->getModelName()));
-        resultFileName = rr::ChangeFileExtensionTo(resultFileName, ".csv");
+        RoadRunnerData data = mRR->getSimulationResult();
+        string resultFileName(rr::joinPath(mRR->getTempFolder(), mRR->getModelName()));
+        resultFileName = rr::changeFileExtensionTo(resultFileName, ".csv");
 
         Log(rr::lInfo)<<"Saving result to file: "<<resultFileName;
         ofstream fs(resultFileName.c_str());
@@ -267,7 +268,7 @@ void __fastcall TMForm::loadAvailableSymbolsAExecute(TObject *Sender)
     {
         SelList->Clear();
         string settingsFile = GetSettingsFile();
-        if(FileExists(settingsFile))
+        if(fileExists(settingsFile))
         {
             if(mSettings.LoadFromFile(settingsFile))
             {
@@ -296,20 +297,20 @@ void __fastcall TMForm::loadAvailableSymbolsAExecute(TObject *Sender)
             AddItemsToListBox(gp);
             AddItemsToListBox(fluxes);
         }
-        CheckUI();
+        EnableDisableSimulation();
     }
 }
 
 string TMForm::GetSettingsFile()
 {
     string file =  FSF->GetSelectedFileInTree();
-    string path =  rr::ExtractFilePath(file);
-    vector<string> dirs = rr::SplitString(path,"\\");
+    string path =  rr::extractFilePath(file);
+    vector<string> dirs = rr::splitString(path,"\\");
 
     if(dirs.size())
     {
         string caseNr = dirs[dirs.size() -1];
-        string setFile = rr::JoinPath(path, (caseNr + "-settings.txt"));
+        string setFile = rr::joinPath(path, (caseNr + "-settings.txt"));
         return setFile;
     }
     return "";
@@ -318,7 +319,7 @@ string TMForm::GetSettingsFile()
 string TMForm::GetCurrentModelPath()
 {
     string file =  FSF->GetSelectedFileInTree();
-    return  rr::ExtractFilePath(file);
+    return  rr::extractFilePath(file);
 }
 
 void TMForm::AddItemsToListBox(const StringList& items)
@@ -345,7 +346,7 @@ void __fastcall TMForm::PlotFromThread()
     	Log(rr::lWarning)<<"Tried to plot NULL data";
     }
 }
-void TMForm::Plot(const rr::SimulationData& result)
+void TMForm::Plot(const rr::RoadRunnerData& result)
 {
     Chart1->RemoveAllSeries();
 
@@ -381,16 +382,16 @@ void __fastcall TMForm::PlotTestTestSuiteDataExecute(TObject *Sender)
 {
     //Read the test suite data
     string file =  FSF->GetSelectedFileInTree();
-    string path =  rr::ExtractFilePath(file);
-    vector<string> dirs = rr::SplitString(path,"\\");
+    string path =  rr::extractFilePath(file);
+    vector<string> dirs = rr::splitString(path,"\\");
     string tsDataFile;
     if(dirs.size())
     {
         string caseNr = dirs[dirs.size() -1];
-        tsDataFile = rr::JoinPath(path, (caseNr + "-results.csv"));
+        tsDataFile = rr::joinPath(path, (caseNr + "-results.csv"));
     }
 
-    SimulationData result;
+    RoadRunnerData result;
     if(!result.load(tsDataFile))
     {
         return;
@@ -425,26 +426,21 @@ void __fastcall TMForm::PlotTestTestSuiteDataExecute(TObject *Sender)
 
 }
 
-void __fastcall TMForm::CheckUI()
+//---------------------------------------------------------------------------
+void TMForm::EnableDisableSimulation()
 {
     //Check if there is at least one checked species in the list box
-    bool hasOneSelected = false;
+    bool enableDisable = false;
 
     for(int i = 0; i < SelList->Count; i++)
     {
         if(SelList->Checked[i])
         {
-            hasOneSelected = true;
+            enableDisable = true;
             break;
         }
     }
 
-    EnableDisableSimulation(hasOneSelected);
-}
-
-//---------------------------------------------------------------------------
-void TMForm::EnableDisableSimulation(bool enableDisable)
-{
     if(enableDisable)
     {
         Log(rr::lInfo)<<"Enabling simulation..";
@@ -461,7 +457,7 @@ void TMForm::EnableDisableSimulation(bool enableDisable)
 
 void __fastcall TMForm::SelListClick(TObject *Sender)
 {
-    CheckUI();
+    EnableDisableSimulation();
 }
 
 void __fastcall TMForm::LoadModelAUpdate(TObject *Sender)
@@ -509,7 +505,7 @@ void __fastcall TMForm::LogCurrentDataAExecute(TObject *Sender)
 {
     if(mRR)
     {
-        SimulationData data = mRR->getSimulationResult();
+        RoadRunnerData data = mRR->getSimulationResult();
         Log(rr::lInfo)<<data;
     }
 }
@@ -522,29 +518,29 @@ void __fastcall TMForm::LogLevelCBChange(TObject *Sender)
 void __fastcall TMForm::UpdateTestSuiteInfo()
 {
     string file =  FSF->GetSelectedFileInTree();
-    string path =  rr::ExtractFilePath(file);
-    vector<string> dirs = rr::SplitString(path,"\\");
+    string path =  rr::extractFilePath(file);
+    vector<string> dirs = rr::splitString(path,"\\");
 
     if(dirs.size())
     {
         string caseNr = dirs[dirs.size() -1];
-        string htmlDoc = rr::JoinPath(path, (caseNr + "-model.html"));
-        if(rr::FileExists(htmlDoc)) //This is a test suite folder
+        string htmlDoc = rr::joinPath(path, (caseNr + "-model.html"));
+        if(rr::fileExists(htmlDoc)) //This is a test suite folder
         {
             //If this is a testsuite folder.. show the http
             WebBrowser1->Navigate(htmlDoc.c_str());
-            string aFile = rr::JoinPath(path, (caseNr + "-plot.jpg"));
+            string aFile = rr::joinPath(path, (caseNr + "-plot.jpg"));
             //Picture..
-            if(rr::FileExists(aFile))
+            if(rr::fileExists(aFile))
             {
                 testSuitePic->Picture->LoadFromFile(aFile.c_str());
             }
 
             //Open and load settings
-            aFile = rr::JoinPath(path, (caseNr + "-settings.txt"));
-            if(rr::FileExists(aFile))
+            aFile = rr::joinPath(path, (caseNr + "-settings.txt"));
+            if(rr::fileExists(aFile))
             {
-                vector<string> fContent = rr::GetLinesInFile(aFile);
+                vector<string> fContent = rr::getLinesInFile(aFile);
                 Log(rr::lInfo)<<"Model Settings:\n"<<fContent;
             }
         }
@@ -561,7 +557,7 @@ void __fastcall TMForm::LogCCodeAExecute(TObject *Sender)
     if(mRR)
     {
         cCode = mRR->getCSourceCode();
-        vector<string> lines(rr::SplitString(cCode, "\n"));
+        vector<string> lines(rr::splitString(cCode, "\n"));
         for(int i = 0; i < lines.size(); i++)
         {
             string aLine = lines[i];

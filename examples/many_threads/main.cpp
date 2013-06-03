@@ -7,27 +7,30 @@
 #include "rrSimulate.h"
 #include "rrSimulateThread.h"
 #include "rrRoadRunnerList.h"
+
+using namespace rr;
 int main(int argc, char** argv)
 {
 	try
     {
         LogOutput::mLogToConsole = true;
-
+       	gLog.SetCutOffLogLevel(lDebug);
         //Create some roadrunners
-        const int 	instanceCount 	= 1000;
-        const int 	threadCount  	= 8;
+        const int 	instanceCount 	= 1;
+        const int 	threadCount  	= 1;
 		const char* rootPath 		= "..";
 
-		string tmpFolder = JoinPath(rootPath, "temp");
+		string tmpFolder = joinPath(rootPath, "temp");
         //Use a list of roadrunners
         RoadRunnerList rrs(instanceCount, tmpFolder);
 
-        const string modelFile = JoinPath(rootPath, "models", "test_1.xml");
-
+        const string modelFile = joinPath(rootPath, "models", "test_1.xml");
+		string sbml = getFileContent(modelFile);
         //Load modelFiles..
         Log(lInfo)<<" ---------- LOADING/GENERATING MODELS ------";
 
-        LoadModel loadModel(rrs, modelFile, threadCount);
+
+        LoadModel loadModel(rrs, sbml, threadCount);
         loadModel.waitForFinish();
 
       	//Set parameters
@@ -59,15 +62,15 @@ int main(int argc, char** argv)
         //Write data to a file
         if(instanceCount < 500)
         {
-            SimulationData allData;
+            RoadRunnerData allData;
             for(int i = instanceCount -1 ; i >-1 ; i--) //"Backwards" because bad plotting program..
             {
                 RoadRunner* rr = rrs[i];
-                SimulationData data = rr->getSimulationResult();
+                RoadRunnerData data = rr->getSimulationResult();
                 allData.append(data);
             }
 
-        	allData.writeTo(JoinPath(rootPath, "temp", "allData.dat"));
+        	allData.writeTo(joinPath(rootPath, "temp", "allData.dat"));
         }
         else
         {

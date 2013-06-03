@@ -3,7 +3,7 @@
 #endif
 #pragma hdrstop
 
-#if defined(WIN32)
+#if defined(_WIN32)
 #include <windows.h>
 #include <io.h>
 #include <conio.h>
@@ -20,6 +20,8 @@
 #include <limits.h>  //PATH_MAX
 #endif
 
+#define _USE_MATH_DEFINES
+
 #include <algorithm>
 #include <iostream>
 #include <fstream>
@@ -27,22 +29,97 @@
 #include <cmath>
 #include <math.h>
 #include <float.h>
-#if defined(WIN32)
+#if defined(_WIN32)
 #include <strsafe.h> //StringCchPrintf need to be included AFTER all other system headers :(
 #endif
 #include "Poco/MD5Engine.h"
 #include "Poco/Thread.h"
+#include "Poco/Glob.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
 #include "rrLogger.h"
-#include "rrMisc.h"
+#include "rrSelectionRecord.h"
+
+// Most Unix systems have a getch in libcurses, but this introduces
+// an un-needed depencency, as we can write our own getch easily.
+// We do need the standard Posix termio headers though.
+#if defined (__unix__) || defined(__APPLE__)
+#include <stdlib.h>
+#include <termios.h>
+#endif
+
+#if defined(__APPLE__)
+#include <limits.h>  //PATH_MAX
+#include <mach-o/dyld.h>
+#endif
 
 //---------------------------------------------------------------------------
-
 namespace rr
 {
 using namespace std;
 using namespace Poco;
+
+/* This uses the fact that a Rayleigh-distributed random variable R, with
+the probability distribution F(R) = 0 if R < 0 and F(R) =
+1 - exp(-R^2/2*sigma^2) if R >= 0, is related to a pair of Gaussian
+variables C and D through the transformation C = R * cos(theta) and
+D = R * sin(theta), where theta is a uniformly distributed variable
+in the interval (0, 2*pi()). From Contemporary Communication Systems
+USING MATLAB(R), by John G. Proakis and Masoud Salehi, published by
+PWS Publishing Company, 1998, pp 49-50. This is a pretty good book. */
+
+double gaussNoise(double mean, double sigma)
+{
+    double u, r;            /* uniform and Rayleigh random variables */
+
+    /* generate a uniformly distributed random number u between 0 and 1 - 1E-6*/
+    u = ( double) rand() / RAND_MAX;
+    if (u == 1.0)
+    {
+        u = 0.999999999;
+    }
+
+    /* generate a Rayleigh-distributed random number r using u */
+    r = sigma * sqrt( 2.0 * log( 1.0 / (1.0 - u) ) );
+
+    /* generate another uniformly-distributed random number u as before*/
+    u = (double) rand() / RAND_MAX;
+    if (u == 1.0)
+    {
+        u = 0.999999999;
+    }
+
+    /* generate and return a Gaussian-distributed random number using r and u */
+    return( (double) (mean + r * cos(2. * M_PI * u) ) );
+}
+
+// A function to get a character from the console without echo.
+// equivalent of Windows / Curses getch function. Note, that the
+// curses library has the same thing, but not all systems have curses,
+// and makes no sense have a dependency on it for one simple function.
+#if defined(__unix__) || defined(__APPLE__)
+static char rrGetch()
+{
+    char ch;
+    termios _old, _new;
+
+    /* Initialize new terminal i/o settings */
+    tcgetattr(0, &_old); /* grab old terminal i/o settings */
+    _new = _old; /* make new settings same as old settings */
+    _new.c_lflag &= ~ICANON; /* disable buffered i/o */
+    _new.c_lflag &= ~ECHO; /* set no echo mode */
+    tcsetattr(0, TCSANOW, &_new); /* use these new terminal i/o settings now */
+
+    ch = getchar();
+
+    /* Restore old terminal i/o settings */
+    tcsetattr(0, TCSANOW, &_old);
+    return ch;
+}
+#elif defined (_WIN32)
+// Windows has get built into conio
+#define rrGetch getch
+#endif
 
 string getMD5(const string& text)
 {
@@ -52,9 +129,23 @@ string getMD5(const string& text)
     return digestString;
 }
 
-string getCurrentDateTime()
+string getTime()
 {
 // Get current date/time, format is YYYY-MM-DD.HH:mm:ss
+    time_t     now = time(0);
+    struct tm  tstruct;
+    char       buf[80];
+    tstruct = *localtime(&now);
+    // Visit http://www.cplusplus.com/reference/clibrary/ctime/strftime/
+    // for more information about date/time format
+    strftime(buf, sizeof(buf), "%X", &tstruct);
+
+    return buf;
+}
+
+string getDateTime()
+{
+    // Get current date/time, format is YYYY-MM-DD.HH:mm:ss
     time_t     now = time(0);
     struct tm  tstruct;
     char       buf[80];
@@ -66,7 +157,7 @@ string getCurrentDateTime()
     return buf;
 }
 
-string GetUsersTempDataFolder()
+string getUsersTempDataFolder()
 {
     //Default for temporary data output is the users AppData/Local/Temp Folder
     //  Gets the temp path env string (no guarantee it's a valid path).
@@ -92,91 +183,100 @@ return ".";
 string getCurrentExeFolder()
 {
 #if defined(_WIN32) || defined(WIN32)
-	char path[MAX_PATH];
-	if(GetModuleFileNameA(NULL, path, ARRAYSIZE(path)) != 0)
+    char path[MAX_PATH];
+    if(GetModuleFileNameA(NULL, path, ARRAYSIZE(path)) != 0)
     {
-	    string aPath(ExtractFilePath(path));
-		return aPath;
+        string aPath(getFilePath(path));
+        return aPath;
     }
     return "";
-#else
-        char arg1[20];
-        char exepath[PATH_MAX + 1] = {0};
-
-        sprintf( arg1, "/proc/%d/exe", getpid() );
-        readlink( arg1, exepath, 1024 );
-		string thePath = ExtractFilePath(exepath); 
-		Log(lDebug1)<<"Current exe folder says:"<<thePath;
+#elif defined(__APPLE__)
+    char exepath[PATH_MAX+1] = {0};
+    unsigned  bufsize = sizeof(exepath);
+    if (_NSGetExecutablePath(exepath, &bufsize) == 0)
+    {
+        string thePath = getFilePath(exepath);
+        Log(lDebug1)<<"Current exe folder says:"<<thePath;
         return thePath;
+    }
+#elif defined (__linux)
+    char arg1[20];
+    char exepath[PATH_MAX+1] = {0};
+
+    sprintf( arg1, "/proc/%d/exe", getpid() );
+    readlink( arg1, exepath, 1024 );
+    string thePath = getFilePath(exepath);
+    Log(lDebug1)<<"Current exe folder says:"<<thePath;
+    return thePath;
 #endif
 
 }
 
 string getParentFolder(const string& path)
 {
-	if(path.size() < 1)
+    if(path.size() < 1)
     {
-    	return "";
+        return "";
     }
-	vector<string> fldrs = SplitString(path, gPathSeparator);
+    vector<string> fldrs = splitString(path, gPathSeparator);
     string parent("");
     if(fldrs.size() > 1)
-	{
-    	for(int i = 0; i < fldrs.size() -1; i++)
+    {
+        for(int i = 0; i < fldrs.size() -1; i++)
         {
-			parent = JoinPath(parent, fldrs[i]);
+            parent = joinPath(parent, fldrs[i]);
         }
 
         string pathSep;
         pathSep.push_back(gPathSeparator);
         if(path.compare(0,1, pathSep) == 0)
-		{
-			parent = gPathSeparator + parent;
-		}
-		return parent;
+        {
+            parent = gPathSeparator + parent;
+        }
+        return parent;
     }
     else
     {
-    	return path;
+        return path;
     }
 }
 
 string getCWD()
 {
     //Get the working directory
-	char *buffer;
+    char *buffer;
 
-	string cwd;
-	// Get the current working directory:
-	if( (buffer = getcwd( NULL, 0 )) == NULL )
-	{
-		Log(lError)<<"getCWD failed";
-		return "";
-	}
-	else
-	{
+    string cwd;
+    // Get the current working directory:
+    if( (buffer = getcwd( NULL, 512 )) == NULL )
+    {
+        Log(lError)<<"getCWD failed";
+        return "";
+    }
+    else
+    {
       cwd = buffer;
       free(buffer);
-	}
+    }
 
-	return cwd;
+    return cwd;
 }
 
-void sleep(int ms)
+void sleep(int milliSeconds)
 {
-    Poco::Thread::sleep(10);
+    Poco::Thread::sleep(milliSeconds);
 }
 
 const char getPathSeparator()
 {
-	return gPathSeparator;
+    return gPathSeparator;
 }
 
-string GetFileContent(const string& fName)
+string getFileContent(const string& fName)
 {
-	string content;
+    string content;
 
-    vector<string> lines = GetLinesInFile(fName);
+    vector<string> lines = getLinesInFile(fName);
     for(int i = 0; i < lines.size(); i++)
     {
         content += lines[i];
@@ -186,7 +286,7 @@ string GetFileContent(const string& fName)
     return content;
 }
 
-vector<string> GetLinesInFile(const string& fName)
+vector<string> getLinesInFile(const string& fName)
 {
     vector<string> lines;
 
@@ -198,11 +298,11 @@ vector<string> GetLinesInFile(const string& fName)
     }
 
     std::string oneLine((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
-    lines = SplitString(oneLine, "\n");
+    lines = splitString(oneLine, "\n");
     return lines;
 }
 
-std::size_t IndexOf(std::vector<std::string>& vec, const std::string& elem )
+std::size_t indexOf(std::vector<std::string>& vec, const std::string& elem )
 {
     int index = distance(vec.begin(), find(vec.begin(), vec.end(), elem));
     return index;
@@ -210,7 +310,7 @@ std::size_t IndexOf(std::vector<std::string>& vec, const std::string& elem )
 
 // String utils
 //string RemoveTrailingSeparator(const string& fldr, const char sep = gPathSeparator);//"\\");
-string RemoveTrailingSeparator(const string& _folder, const char sep)
+string removeTrailingSeparator(const string& _folder, const char sep)
 {
     if((_folder.size() > 0) && (_folder[_folder.size() -1] == sep))
     {
@@ -224,7 +324,7 @@ string RemoveTrailingSeparator(const string& _folder, const char sep)
     }
 }
 
-bool IsNaN(const double& aNum)
+bool isNaN(const double& aNum)
 {
 #if defined(WIN32)
     return _isnan(aNum) > 0 ? true : false;
@@ -233,12 +333,12 @@ bool IsNaN(const double& aNum)
 #endif
 }
 
-bool IsNullOrEmpty(const string& str)
+bool isNullOrEmpty(const string& str)
 {
     return !str.size();
 }
 
-void Pause(bool doIt, const string& msg)
+void pause(bool doIt, const string& msg)
 {
     if(!doIt)
     {
@@ -247,26 +347,26 @@ void Pause(bool doIt, const string& msg)
 
     if(msg.size() == 0)
     {
-    	cout<<"Hit any key to exit...";
+        cout<<"Hit any key to exit...";
     }
     else
     {
-    	cout<<msg;
+        cout<<msg;
     }
     cin.ignore(0,'\n');
-#if !defined(__linux)    
-    getch();
-#endif    
+
+    rrGetch();
+
 
 }
 
-bool FileExists(const string& fName)
+bool fileExists(const string& fName)
 {
     if (!fName.size())
     {
         return false;
     }
-    
+
 #if defined(__linux)
     ifstream test(fName);
     return test;
@@ -274,10 +374,10 @@ bool FileExists(const string& fName)
 
     bool res = (access(fName.c_str(), 0) == 0);
     return res;
-#endif    
+#endif
 }
 
-bool FolderExists(const string& folderName)
+bool folderExists(const string& folderName)
 {
 #if defined(WIN32)
     LPCTSTR szPath = folderName.c_str();
@@ -289,7 +389,7 @@ bool FolderExists(const string& folderName)
 #endif
 }
 
-void CreateTestSuiteFileNameParts(int caseNr, const string& postFixPart, string& modelFilePath, string& modelName, string& settingsFName)
+void createTestSuiteFileNameParts(int caseNr, const string& postFixPart, string& modelFilePath, string& modelName, string& settingsFName)
 {
     stringstream modelSubPath;
     stringstream modelFileName;
@@ -297,22 +397,22 @@ void CreateTestSuiteFileNameParts(int caseNr, const string& postFixPart, string&
 
     modelSubPath<<setfill('0')<<setw(5)<<caseNr;        //create the "00023" subfolder format
     modelFileName<<setfill('0')<<setw(5)<<caseNr<<postFixPart;
-    modelFilePath = JoinPath(modelFilePath, modelSubPath.str());
+    modelFilePath = joinPath(modelFilePath, modelSubPath.str());
     modelName =  modelFileName.str();
     settingsFileName <<setfill('0')<<setw(5)<<caseNr<<"-settings.txt";
-	settingsFName = settingsFileName.str();
+    settingsFName = settingsFileName.str();
 }
 
-string GetTestSuiteSubFolderName(int caseNr)
+string getTestSuiteSubFolderName(int caseNr)
 {
     stringstream modelSubPath;
     modelSubPath<<setfill('0')<<setw(5)<<caseNr;        //create the "00023" subfolder format
     return modelSubPath.str();
 }
 
-bool CreateFolder(const string& folder)
+bool createFolder(const string& folder)
 {
-    if(FileExists(folder))
+    if(fileExists(folder))
     {
         return true;
     }
@@ -320,26 +420,26 @@ bool CreateFolder(const string& folder)
 #if defined(WIN32)
     int res = mkdir(folder.c_str());
 #else
-	int temp;
+    int temp;
 #define MY_MASK 0777
-// 	printf("Default mask: %o\n", MY_MASK & ~022 & MY_MASK);
-  	temp = umask(0);
-//  	printf("Previous umask = %o\n", temp);
+//     printf("Default mask: %o\n", MY_MASK & ~022 & MY_MASK);
+      temp = umask(0);
+//      printf("Previous umask = %o\n", temp);
     int res = mkdir(folder.c_str(), S_IRWXU | S_IRWXG | S_IRWXO);
 #endif
 
     return (res==0) ? true : false;
 }
 
-bool CreateFile(const string& fName, std::ios_base::openmode mode)
+bool createFile(const string& fName, std::ios_base::openmode mode)
 {
     ofstream test;
     test.open(fName.c_str(), mode);
     test.close();
-    return FileExists(fName);
+    return fileExists(fName);
 }
 
-bool CopyValues(vector<double>& dest, double* source, const int& nrVals, const int& startIndex)
+bool copyValues(vector<double>& dest, double* source, const int& nrVals, const int& startIndex)
 {
     if(!dest.size() || !source || startIndex > dest.size())
     {
@@ -355,9 +455,9 @@ bool CopyValues(vector<double>& dest, double* source, const int& nrVals, const i
 
 }
 
-bool CopyStdVectorToCArray(const vector<double>& src, double* dest,  int size)
+bool copyStdVectorToCArray(const vector<double>& src, double* dest,  int size)
 {
-    if(!dest || size > src.size())
+    if((size && !dest) || size > src.size())
     {
         Log(lError)<<"Tried to copy to NULL vector, or incompatible size of vectors";
         return false;
@@ -370,14 +470,13 @@ bool CopyStdVectorToCArray(const vector<double>& src, double* dest,  int size)
     return true;
 }
 
-bool CopyStdVectorToCArray(const vector<bool>&   src,  bool*  dest,  int size)
+bool copyStdVectorToCArray(const vector<bool>&   src,  bool*  dest,  int size)
 {
-    if(!dest || size > src.size())
+    if((size && !dest) || size > src.size())
     {
         Log(lError)<<"Tried to copy to NULL vector, or incompatible size of vectors";
         return false;
     }
-
 
     for(int i = 0; i < size; i++)
     {
@@ -386,10 +485,10 @@ bool CopyStdVectorToCArray(const vector<bool>&   src,  bool*  dest,  int size)
     return true;
 }
 
-vector<double> CreateVector(const double* src, const int& size)
+vector<double> createVector(const double* src, const int& size)
 {
     vector<double> dest;
-    if(!src)
+    if(size && !src)
     {
         Log(lError)<<"Tried to copy from NULL vector";
         return dest;
@@ -403,9 +502,9 @@ vector<double> CreateVector(const double* src, const int& size)
     return dest;
 }
 
-bool CopyCArrayToStdVector(const int* src, vector<int>& dest, int size)
+bool copyCArrayToStdVector(const int* src, vector<int>& dest, int size)
 {
-    if(!src)
+    if(size && !src)
     {
         Log(lError)<<"Tried to copy from NULL vector";
         return false;
@@ -419,9 +518,9 @@ bool CopyCArrayToStdVector(const int* src, vector<int>& dest, int size)
     return true;
 }
 
-bool CopyCArrayToStdVector(const double* src, vector<double>& dest, int size)
+bool copyCArrayToStdVector(const double* src, vector<double>& dest, int size)
 {
-    if(!src)
+    if(size && !src)
     {
         Log(lError)<<"Tried to copy from NULL vector";
         return false;
@@ -435,9 +534,9 @@ bool CopyCArrayToStdVector(const double* src, vector<double>& dest, int size)
     return true;
 }
 
-bool CopyCArrayToStdVector(const bool* src, vector<bool>& dest, int size)
+bool copyCArrayToStdVector(const bool* src, vector<bool>& dest, int size)
 {
-    if(!src)
+    if(size && !src)
     {
         Log(lError)<<"Tried to copy from NULL vector";
         return false;
@@ -451,7 +550,7 @@ bool CopyCArrayToStdVector(const bool* src, vector<bool>& dest, int size)
     return true;
 }
 
-double* CreateVector(const vector<double>& vec)
+double* createVector(const vector<double>& vec)
 {
     double* avec = new double[vec.size()];
     if(!avec)
@@ -470,49 +569,49 @@ double* CreateVector(const vector<double>& vec)
 
 StringList getSelectionListFromSettings(const SimulationSettings& settings)
 {
-	//read from settings the variables found in the amounts and concentrations lists
-	StringList theList;
-	TSelectionRecord record;
+    //read from settings the variables found in the amounts and concentrations lists
+    StringList theList;
+    SelectionRecord record;
 
     int nrOfVars = settings.mVariables.Count();
 
-	for(int i = 0; i < settings.mAmount.Count(); i++)
-	{
-		theList.Add("[" + settings.mAmount[i] + "]");        //In the setSelection list below, the [] selects the correct 'type'
-	}
+    for(int i = 0; i < settings.mAmount.Count(); i++)
+    {
+        theList.add("[" + settings.mAmount[i] + "]");        //In the setSelection list below, the [] selects the correct 'type'
+    }
 
-	for(int i = 0; i < settings.mConcentration.Count(); i++)
-	{
-		theList.Add(settings.mConcentration[i]);
-	}
+    for(int i = 0; i < settings.mConcentration.Count(); i++)
+    {
+        theList.add(settings.mConcentration[i]);
+    }
 
     //We may have variables
     //A variable 'exists' only in "variables", not in the amount or concentration section
     int currCount = theList.Count();
-	if( nrOfVars > currCount)
-	{
+    if( nrOfVars > currCount)
+    {
         //Look for a variable that is not in the list
 
         for(int i = 0; i < settings.mVariables.Count(); i++)
-		{
+        {
             string aVar = settings.mVariables[i];
             if(settings.mAmount.DontContain(aVar) && settings.mConcentration.DontContain(aVar))
             {
-			    theList.Add(settings.mVariables[i]);
+                theList.add(settings.mVariables[i]);
             }
 
         }
     }
 
-  	theList.InsertAt(0, "time");
+      theList.InsertAt(0, "time");
     return theList;
 }
 
 #if defined(_WIN32) || defined(WIN32)
 
-string GetWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
+string getWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
 {
- 	LPVOID lpMsgBuf;
+     LPVOID lpMsgBuf;
     LPVOID lpDisplayBuf;
     DWORD dw = GetLastError();
 
@@ -531,9 +630,9 @@ string GetWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
     lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, (lstrlen((LPCTSTR)lpMsgBuf) + lstrlen((LPCTSTR)lpszFunction) + 40) * sizeof(TCHAR));
 
     StringCchPrintf((LPTSTR)lpDisplayBuf,
-        				LocalSize(lpDisplayBuf) / sizeof(TCHAR),
-        				TEXT("%s failed with error %d: %s"),
-        				lpszFunction,
+                        LocalSize(lpDisplayBuf) / sizeof(TCHAR),
+                        TEXT("%s failed with error %d: %s"),
+                        lpszFunction,
                         dw,
                         lpMsgBuf);
 
@@ -541,6 +640,14 @@ string GetWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
     LocalFree(lpMsgBuf);
     LocalFree(lpDisplayBuf);
     return errorMsg;
+}
+
+int populateFileSet(const string& folder, set<string>& files)
+{
+     //Get models file names in models folder
+    string globPath =  rr::joinPath(folder, "*.xml");
+    Glob::glob(globPath, files);
+    return files.size();
 }
 
 #endif

@@ -27,8 +27,7 @@ namespace ls
 
 //LibStructural* LibStructural::_Instance = NULL;
 
-LibStructural::LibStructural()
-:
+LibStructural::LibStructural() :
 _Tolerance(1.0E-9),
 _Model(NULL),
 _NumRows(0),
@@ -50,32 +49,83 @@ _IC(NULL),
 _BC(NULL),
 spVec(NULL),
 colVec(NULL),
+numReactions(0),
+_Sparsity(0),
+numBoundary(0),
+_NumDependent(0),
+zero_nmat(0),
+_QrRankNmat(0),
+nz_count(0),
+_SvdRankNr(0),
+_svd_rank_Nmat(0),
+_SvdRankNmat(0),
+numFloating(0),
+_NumIndependent(0),
+_qr_rank_Nrmat(0),
+_svd_rank_Nrmat(0),
+_Pvalue(0),
 _sModelName("untitled")
 {}
 
 LibStructural::~LibStructural()
 {
-//    Reset();
-    delete _L;
-    delete _L0;
-//    delete _N;
-    delete _Nr;
+    Reset();
 }
 
 double LibStructural::getTolerance()
 {
-	return _Tolerance;
+    return _Tolerance;
 }
 
 void LibStructural::Reset()
 {
+    delete _Model; _Model = 0;
+    FreeMatrices();
+
+    _Tolerance = 1.0E-9;
+    _Model = NULL;
+    _NumRows = 0;
+    _NumCols = 0;
+    _K0 = NULL;
+    _N0 = NULL;
+    _Nr = NULL;
+    _L0 = NULL;
+    _L = NULL;
+    _K = NULL;
+    _NullN = NULL;
+    _G = NULL;
+    _Nmat = NULL;
+    _Nmat_orig = NULL;
+    _NmatT = NULL;
+    _NmatT_orig = NULL;
+    _Totals = NULL;
+    _IC = NULL;
+    _BC = NULL;
+    spVec = NULL;
+    colVec = NULL;
+    numReactions = 0;
+    _Sparsity = 0;
+    numBoundary = 0;
+    _NumDependent = 0;
+    zero_nmat =0;
+    _QrRankNmat = 0;
+    nz_count = 0;
+    _SvdRankNr = 0;
+    _svd_rank_Nmat = 0;
+    _SvdRankNmat = 0;
+    numFloating = 0;
     _NumIndependent = 0;
+    _qr_rank_Nrmat = 0;
+    _svd_rank_Nrmat = 0;
+    _Pvalue = 0;
+    _sModelName = "untitled";
+    _NumIndependent = 0 ;
     _Sparsity = 0;
     _Pvalue = 0;
     _svd_rank_Nmat = 0;
     _svd_rank_Nrmat = 0;
     _qr_rank_Nrmat = 0;
-    _NumIndependent = 0;                    // number of independent species;
+    _NumIndependent = 0;                    // number of independent specie;
     _NumDependent = 0;
 
     nz_count = 0;
@@ -83,7 +133,6 @@ void LibStructural::Reset()
     numReactions = 0;
     numBoundary = 0;
     zero_nmat = 0;
-    FreeMatrices();
 }
 
 // ----------------------------------------------------------------------------------------
@@ -99,18 +148,18 @@ void LibStructural::Reset()
 // ----------------------------------------------------------------------------------------
 string LibStructural::loadSBML(string sSBML)
 {
-    DELETE_IF_NON_NULL(_Model);
+    Reset();
     _Model = new SBMLmodel(sSBML); //Todo: memoryleak
 
     string msg = "";
 
-    msg = analyzeWithQR();	//Todo: memoryleaks!
+    msg = analyzeWithQR();    //Todo: memoryleaks!
     return msg;
 }
 
 string LibStructural::loadSBMLFromFile(string sFileName)
 {
-    DELETE_IF_NON_NULL(_Model);
+    Reset();
     _Model = SBMLmodel::FromFile(sFileName);
     return analyzeWithQR();
 }
@@ -118,7 +167,8 @@ string LibStructural::loadSBMLFromFile(string sFileName)
 //Initialization method, takes SBML as input
 string LibStructural::loadSBMLwithTests(string sSBML)
 {
-    DELETE_IF_NON_NULL(_Model);        _Model = new SBMLmodel(sSBML);
+    Reset();
+    _Model = new SBMLmodel(sSBML);
 
     stringstream oResult;
 
@@ -130,7 +180,6 @@ string LibStructural::loadSBMLwithTests(string sSBML)
 
 void LibStructural::InitializeFromModel(ls::SBMLmodel& oModel)
 {
-    Reset();
     numFloating = oModel.numFloatingSpecies();
     numReactions = oModel.numReactions();
     numBoundary = oModel.getModel()->getNumSpeciesWithBoundaryCondition();
@@ -222,8 +271,8 @@ string LibStructural::GenerateResultString()
     oBuffer << LINE << endl << LINE << endl << "STRUCTURAL ANALYSIS MODULE : Results " << endl
         << LINE << endl << LINE << endl;
 
-    oBuffer << "Size of Stochiometric Matrix: " << _NumRows << " x "  << _NumCols 
-        << " (Rank is  " << _NumIndependent << ")";        
+    oBuffer << "Size of Stochiometric Matrix: " << _NumRows << " x "  << _NumCols
+        << " (Rank is  " << _NumIndependent << ")";
 
     if (_NumCols > 0)
     {
@@ -231,7 +280,7 @@ string LibStructural::GenerateResultString()
             << "  (" << _Sparsity << "% full)" << endl;
 
     }
-    else 
+    else
     {
         oBuffer << "This model has no reactions. " << endl;
     }
@@ -241,16 +290,16 @@ string LibStructural::GenerateResultString()
     for (int i = 0; i < _NumIndependent; i++)
     {
         oBuffer << _speciesIndexList[spVec[i]];
-        if (i+1 < _NumIndependent) oBuffer << ", ";            
+        if (i+1 < _NumIndependent) oBuffer << ", ";
     }
 
     oBuffer << endl << endl << "Dependent Species ";
-    if ((_NumRows == _NumIndependent) || (_NumCols == 0) || (zero_nmat))  
+    if ((_NumRows == _NumIndependent) || (_NumCols == 0) || (zero_nmat))
     {
         oBuffer << ": NONE" << endl << endl;
     }
-    else 
-    { 
+    else
+    {
         oBuffer << "(" << _NumDependent << ") :" << endl;
 
         for (int i = _NumIndependent; i < _NumRows; i++)
@@ -262,11 +311,11 @@ string LibStructural::GenerateResultString()
     }
 
     oBuffer << "L0 : ";
-    if ((_NumRows == _NumIndependent)) 
+    if ((_NumRows == _NumIndependent))
     {
         oBuffer << "There are no dependencies. L0 is an EMPTY matrix";
     }
-    else if ((_NumCols == 0)) 
+    else if ((_NumCols == 0))
     {
         oBuffer << "There are " << _NumRows << " dependencies. L0 is a " << _NumRows << "x" << _NumRows << " matrix.";
     }
@@ -281,23 +330,23 @@ string LibStructural::GenerateResultString()
             << " L0 is a " << _NumDependent << "x" << _NumIndependent << " matrix.";
     }
 
-    oBuffer << endl << endl << "Conserved Entities";        
+    oBuffer << endl << endl << "Conserved Entities";
 
 
-    if ((_NumCols == 0) || (zero_nmat)) 
+    if ((_NumCols == 0) || (zero_nmat))
     {
         oBuffer << endl;
-        for (int i=0; i<_NumRows; i++) 
+        for (int i=0; i<_NumRows; i++)
         {
             oBuffer << (i+1) << ": " << _speciesIndexList[spVec[i]] << endl;
-        }            
+        }
     }
-    else if (_NumRows == _NumIndependent) 
+    else if (_NumRows == _NumIndependent)
     {
         oBuffer << ": NONE" << endl;
     }
     else
-    { 
+    {
         oBuffer << endl;
         for (int i = 0; i < _NumDependent; i++)
         {
@@ -305,7 +354,7 @@ string LibStructural::GenerateResultString()
         }
     }
 
-    oBuffer << LINE << endl << LINE << endl 
+    oBuffer << LINE << endl << LINE << endl
         << "Developed by the Computational Systems Biology Group at Keck Graduate Institute " << endl
         << "and the Saurolab at the Bioengineering Departmant at  University of Washington." << endl
         << "Contact : Frank T. Bergmann (fbergman@u.washington.edu) or Herbert M. Sauro.   " << endl << endl
@@ -379,7 +428,7 @@ void LibStructural::InitializeFromStoichiometryMatrix(DoubleMatrix& oMatrix,
     _consv_list.clear();
 
     for (int i = 0; i < numFloating; i++)
-    {        
+    {
         _speciesIndexList[i] = speciesNames[i];
         _speciesNamesList[i] = speciesNames[i];
         _speciesNamesList2[_speciesNamesList[i]] = i;
@@ -490,7 +539,7 @@ void  LibStructural::BuildStoichiometryMatrixFromModel(ls::SBMLmodel& oModel)
     _NumRows = numFloating;
     _NumCols = numReactions;
     DELETE_IF_NON_NULL(_Nmat);
-    _Nmat = new DoubleMatrix(numFloating, numReactions);	//Todo: a matrix is created with zeros columns.. casues problems later on!
+    _Nmat = new DoubleMatrix(numFloating, numReactions);    //Todo: a matrix is created with zeros columns.. casues problems later on!
 
     for (int i = 0; i < numReactions; i++)
     {
@@ -633,7 +682,7 @@ void LibStructural::computeN0Matrix()
 
     for (int i=0; i<_NumDependent; i++)
     {
-        for (int j=0; j<_NumCols; j++) 
+        for (int j=0; j<_NumCols; j++)
         {
             (*_N0)(i,j) = (*_NmatT_orig)(j,spVec[_NumIndependent+i]);
         }
@@ -650,9 +699,9 @@ void LibStructural::computeLinkMatrix()
         (*_L)(i,i) = 1.0;
     }
 
-    for (int i=_NumIndependent; i<_NumRows; i++) 
+    for (int i=_NumIndependent; i<_NumRows; i++)
     {
-        for (int j=0; j<_NumIndependent; j++) 
+        for (int j=0; j<_NumIndependent; j++)
         {
             (*_L)(i,j) = (*_L0)(i-_NumIndependent,j);
         }
@@ -663,14 +712,14 @@ void LibStructural::computeConservedSums()
 {
     //Todo: memoryleak
     CREATE_ARRAY(_IC,double,numFloating);
-    for (int i=0; i<numFloating; i++) 
+    for (int i=0; i<numFloating; i++)
     {
         _IC[i] = _speciesValueList[_speciesIndexList[spVec[i]]];
     }
 
     //Todo: memoryleak
     CREATE_ARRAY(_BC,double,numBoundary);
-    for (int i=0; i<numBoundary; i++) 
+    for (int i=0; i<numBoundary; i++)
     {
         _BC[i] = _bSpeciesValueList[_bSpeciesIndexList[i]];
     }
@@ -680,21 +729,21 @@ void LibStructural::computeConservedSums()
     if ((_NumCols == 0) || (zero_nmat))
     {
         _Totals = new double[numFloating];
-        for (int i=0; i<numFloating; i++) 
+        for (int i=0; i<numFloating; i++)
         {
             _Totals[i] = _IC[i];
         }
     }
-    else 
+    else
     {
         _Totals = new double[_NumDependent]; //Todo: memoryleak
         memset(_Totals, 0, sizeof(double)*_NumDependent);
 
-        for (int i=0; i<_NumDependent; i++) 
+        for (int i=0; i<_NumDependent; i++)
         {
             for (int j=0; j<numFloating; j++)
             {
-                if (fabs((*_G)(i,j)) > _Tolerance) 
+                if (fabs((*_G)(i,j)) > _Tolerance)
                 {
                     _Totals[i] = _Totals[i] + (*_G)(i,j)*_IC[j];
                 }
@@ -711,8 +760,8 @@ void LibStructural::computeConservedEntities()
     _consv_list.clear();
 
     if (_NumCols > 0)
-    {        
-        for (int i=0; i<(_NumDependent); i++) 
+    {
+        for (int i=0; i<(_NumDependent); i++)
         {
 
             stringstream oBuilder;
@@ -720,7 +769,7 @@ void LibStructural::computeConservedEntities()
             for (int j=0; j<numFloating; j++)
             {
                 gval = (*_G)(i,j);
-                if (fabs(gval) > 0.0) 
+                if (fabs(gval) > 0.0)
                 {
                     spname = _speciesIndexList[spVec[j]];
                     if (gval < 0)
@@ -728,23 +777,23 @@ void LibStructural::computeConservedEntities()
                         if (fabs(gval + 1) < _Tolerance)
                             oBuilder << " - " << spname;
                         else
-                            oBuilder << " - "  << fabs(gval) << " " << spname;                                
+                            oBuilder << " - "  << fabs(gval) << " " << spname;
                     }
-                    if (gval > 0) 
+                    if (gval > 0)
                     {
-                        if (fabs(gval - 1) < _Tolerance) 
+                        if (fabs(gval - 1) < _Tolerance)
                             oBuilder << " + " << spname;
                         else
-                            oBuilder << " + "  << fabs(gval) << " " << spname;                                
+                            oBuilder << " + "  << fabs(gval) << " " << spname;
                     }
                 }
             }
             _consv_list.push_back (oBuilder.str());
         }
     }
-    else 
+    else
     {
-        for (int i=0; i<_NumRows; i++) 
+        for (int i=0; i<_NumRows; i++)
         {
             _consv_list.push_back ( _speciesIndexList[spVec[i]] );
         }
@@ -764,7 +813,7 @@ void LibStructural::computeK0andKMatrices()
 
     DoubleMatrix *Q; DoubleMatrix *R; DoubleMatrix *P;
 
-    if ((_NumRows == 1 )  && ( _NumCols == 1 )) 
+    if ((_NumRows == 1 )  && ( _NumCols == 1 ))
     {
         Q = new DoubleMatrix(1,1); (*Q)(0,0) = 1.0;
         R = new DoubleMatrix(1,1); (*R)(0,0) = (*_NmatT)(0,0);
@@ -773,11 +822,11 @@ void LibStructural::computeK0andKMatrices()
     else if ((_NumRows == 1 )  && ( _NumCols > 1 ))
     {
         Q = new DoubleMatrix(1,1); (*Q)(0,0) = 1.0;
-        R = new DoubleMatrix(1,_NumCols); 
+        R = new DoubleMatrix(1,_NumCols);
         P = new DoubleMatrix(_NumCols,_NumCols);
         for (int i = 0; i < _NumCols; i++)
         {
-            (*R)(0,i) = Nmat_h(0,i);    
+            (*R)(0,i) = Nmat_h(0,i);
             (*P)(i,i) = 1.0;
         }
     }
@@ -795,10 +844,10 @@ void LibStructural::computeK0andKMatrices()
 
     DELETE_IF_NON_NULL(_K0); _K0 = new DoubleMatrix(_NumIndependent, nDependent);
 
-    for (int i=0;  i <_NumIndependent; i++) 
+    for (int i=0;  i <_NumIndependent; i++)
     {
-        for (int j=0; j< _NumCols-_NumIndependent ; j++) 
-        {            
+        for (int j=0; j< _NumCols-_NumIndependent ; j++)
+        {
             (*_K0)(i,j) = ls::RoundToTolerance( - (*R)(i,j+_NumIndependent), _Tolerance);
         }
     }
@@ -806,11 +855,11 @@ void LibStructural::computeK0andKMatrices()
     DELETE_IF_NON_NULL(_K);    _K = new DoubleMatrix(_NumCols, _NumCols - _NumIndependent);
 
 
-    for (int i=0; i<(_NumCols - _NumIndependent); i++) 
+    for (int i=0; i<(_NumCols - _NumIndependent); i++)
     {
         (*_K)(i,i) = 1.0;
     }
-    for (int i=0; i<_NumIndependent ; i++) 
+    for (int i=0; i<_NumIndependent ; i++)
     {
         for (int j=0; j<(_NumCols - _NumIndependent); j++)
         {
@@ -865,10 +914,10 @@ string LibStructural::analyzeWithLU()
         IntMatrix* P = oLUResult->P;
 
         // nInfo is zero if there are no singular values on Umat pivot positions
-        // if there are zeros, the columns of NmatT have to be permuted. 
-        // First we check if nInfo is < 0 (illegal value) or if it is > 0 (this 
+        // if there are zeros, the columns of NmatT have to be permuted.
+        // First we check if nInfo is < 0 (illegal value) or if it is > 0 (this
         // means a zero has been encountered on the diagonal while computing LU
-        // factorization). nInfo = 0 implies a successful exit. So we have to 
+        // factorization). nInfo = 0 implies a successful exit. So we have to
         // to swap the cols only if nInfo > 0
         int nInfo = oLUResult->nInfo;
 
@@ -883,11 +932,11 @@ string LibStructural::analyzeWithLU()
             //int nz_pivot = nInfo;
             unsigned int pvt_id, col1, col2, col1_next;
             col1 = z_pivot;
-            while (col1 < U->numRows()) 
+            while (col1 < U->numRows())
             {
                 col2 = col1 + 1;
                 col1_next = col2;
-                while (col2 < U->numRows()) 
+                while (col2 < U->numRows())
                 {
                     pvt_id = z_pivot;
                     if (fabs((*U)(col2,col2)) < _Tolerance) { // then the pivot at U[i][i] is a zero
@@ -901,7 +950,7 @@ string LibStructural::analyzeWithLU()
                     int tmp = spVec[col1];
                     spVec[col1] = spVec[col2];
                     spVec[col2] = tmp;
-                    break;                    
+                    break;
                 }
                 col1 = col1_next;
             }
@@ -914,11 +963,11 @@ string LibStructural::analyzeWithLU()
 
         }
 
-        ls::gaussJordan(*U, _Tolerance);        
+        ls::gaussJordan(*U, _Tolerance);
 
 
         // The rank is obtained by looking at the number of zero rows of R, which is
-        // a lower trapezoidal matrix. 
+        // a lower trapezoidal matrix.
         _NumIndependent = ls::findRank(*U, _Tolerance);
 
         _NumDependent = _NumRows - _NumIndependent;
@@ -937,7 +986,7 @@ string LibStructural::analyzeWithLU()
 
         DELETE_IF_NON_NULL(_G);    _G = new DoubleMatrix(_NumDependent, _NumRows);
         for (int i = 0; i < _NumDependent; i++)
-        {                
+        {
             for (int j = 0; j < _NumIndependent; j++)
             {
                 (*_G)(i,j) = -(*_L0)(i,j);
@@ -1028,7 +1077,7 @@ string LibStructural::analyzeWithFullyPivotedLU()
                 {
                     col2 = col1 + 1;
                     col1_next = col2;
-                    while (col2 < U->numRows()) 
+                    while (col2 < U->numRows())
                     {
                         pvt_id = z_pivot;
                         if (fabs((*U)(col2,col2)) < _Tolerance) { // then the pivot at U[i][i] is a zero
@@ -1089,7 +1138,7 @@ string LibStructural::analyzeWithFullyPivotedLU()
 
             DELETE_IF_NON_NULL(_G); _G = new DoubleMatrix(_NumDependent, _NumRows);
             for (int i = 0; i < _NumDependent; i++)
-            {                
+            {
                 for (int j = 0; j < _NumIndependent; j++)
                 {
                     (*_G)(i,j) = -(*_L0)(i,j);
@@ -1133,7 +1182,7 @@ DoubleMatrix* LibStructural::getL0Matrix()
 {
     if ( (_NumRows == _NumIndependent) || (_NumRows == 0) || _L0 == NULL)
     {
-        return new DoubleMatrix();	//Todo: Client has to delete this.. MemoryLeak
+        return new DoubleMatrix();    //Todo: Client has to delete this.. MemoryLeak
     }
     else if (_NumCols == 0 || zero_nmat)
     {
@@ -1150,7 +1199,7 @@ DoubleMatrix* LibStructural::getL0Matrix()
             }
         }
         return oMatrix;
-    }    
+    }
 }
 
 void LibStructural::getL0MatrixLabels(vector< string > &oRows, vector< string > &oCols )
@@ -1233,7 +1282,7 @@ void LibStructural::getKMatrixLabels(vector< string > &oRows, vector< string > &
     vector<string> oReactionLables = getReorderedReactions();
     DoubleMatrix *k0 = getK0Matrix();
 
-    
+
     int nDependent = k0->numCols();
     int nIndependent = k0->numRows();
 
@@ -1243,7 +1292,7 @@ void LibStructural::getKMatrixLabels(vector< string > &oRows, vector< string > &
         oRows.push_back(oReactionLables[nIndependent + i]);
     }
 
-    
+
     for (int i = 0; i < nIndependent; i++)
     {
         oRows.push_back(oReactionLables[i]);
@@ -1262,24 +1311,23 @@ vector< string > LibStructural::getReorderedReactions()
 }
 
 //Returns the reordered list of species
-vector< string > LibStructural::getReorderedSpecies()
+vector< string > LibStructural::getReorderedSpecies() const
 {
     vector< string >    oResult;
     for (int i = 0; i < numFloating; i++)
     {
-        string species =_speciesIndexList[spVec[i]];
-        oResult.push_back(_speciesIndexList[spVec[i]]);
+        oResult.push_back(_speciesIndexList.find(spVec[i])->second);
     }
     return oResult;
 }
 
-//Returns the list of species 
-vector< string > LibStructural::getSpecies()
+//Returns the list of species
+vector< string > LibStructural::getSpecies() const
 {
     vector< string >    oResult;
     for (int i = 0; i < numFloating; i++)
     {
-        oResult.push_back(_speciesIndexList[i]);
+        oResult.push_back(_speciesIndexList.find(i)->second);
     }
     return oResult;
 }
@@ -1295,8 +1343,8 @@ vector< string > LibStructural::getReorderedSpeciesNamesList()
     return oResult;
 }
 
-//Returns the list of independent species 
-vector< string > LibStructural::getIndependentSpecies()
+//Returns the list of independent species
+vector< string > LibStructural::getIndependentSpecies() const
 {
     vector< string >    oResult;
 
@@ -1308,15 +1356,15 @@ vector< string > LibStructural::getIndependentSpecies()
     }
     else
     {
-        for (int i=0; i<_NumIndependent; i++) 
+        for (int i=0; i<_NumIndependent; i++)
         {
-            oResult.push_back(_speciesIndexList[spVec[i]]);
+            oResult.push_back(_speciesIndexList.find(spVec[i])->second);
         }
     }
 
     return oResult;
 }
-//! Returns the list of independent reactions 
+//! Returns the list of independent reactions
 vector< string > LibStructural::getIndependentReactionIds()
 {
     vector <string> result;
@@ -1325,12 +1373,12 @@ vector< string > LibStructural::getIndependentReactionIds()
 
     for (int j = 0; j < nIndependent; j++)
     {
-        result.push_back(_reactionIndexList[colVec[j]]);         
+        result.push_back(_reactionIndexList[colVec[j]]);
     }
     return result;
 
 }
-//! Returns the list of dependent reactions 
+//! Returns the list of dependent reactions
 vector< string > LibStructural::getDependentReactionIds()
 {
     vector<string> result;
@@ -1338,7 +1386,7 @@ vector< string > LibStructural::getDependentReactionIds()
     int nIndependent = _Nr->numCols() - nDependent;
     for (int j = 0; j < nDependent; j++)
     {
-        result.push_back(_reactionIndexList[colVec[j + nIndependent]]);         
+        result.push_back(_reactionIndexList[colVec[j + nIndependent]]);
     }
     return result;
 
@@ -1357,7 +1405,7 @@ vector< string > LibStructural::getIndependentSpeciesNamesList()
     }
     else
     {
-        for (int i=0; i<_NumIndependent; i++) 
+        for (int i=0; i<_NumIndependent; i++)
         {
             oResult.push_back(_speciesNamesList[spVec[i]]);
         }
@@ -1366,24 +1414,23 @@ vector< string > LibStructural::getIndependentSpeciesNamesList()
     return oResult;
 }
 
-//Returns the list of dependent species 
-vector< string > LibStructural::getDependentSpecies()
+//Returns the list of dependent species
+vector<string> LibStructural::getDependentSpecies() const
 {
-    vector< string >    oResult;
+    vector<string>    oResult;
 
     if (numFloating == 0 || numReactions == 0 || zero_nmat || _NumRows == _NumIndependent)
         return oResult;
 
     for (int i = 0; i < _NumDependent; i++)
     {
-        oResult.push_back( _speciesIndexList[spVec[_NumIndependent+i]] );
+        oResult.push_back(_speciesIndexList.find(spVec[_NumIndependent+i])->second);
     }
-
 
     return oResult;
 }
 
-//Returns the actual names of the dependent species 
+//Returns the actual names of the dependent species
 vector< string > LibStructural::getDependentSpeciesNamesList()
 {
     vector< string >    oResult;
@@ -1406,12 +1453,12 @@ vector< pair <string, double> > LibStructural::getInitialConditions()
     vector< pair <string, double> > oResult;
     for (int i = 0; i < _NumRows; i++)
     {
-        oResult.push_back( pair< string, double> (_speciesIndexList[spVec[i]], _IC[i]));    
+        oResult.push_back( pair< string, double> (_speciesIndexList[spVec[i]], _IC[i]));
     }
     return oResult;
 }
 
-//Returns the list of Reactions 
+//Returns the list of Reactions
 vector< string > LibStructural::getReactions()
 {
     vector< string > oResult;
@@ -1433,7 +1480,7 @@ vector< string > LibStructural::getReactionsNamesList()
     return oResult;
 }
 
-//Returns Gamma, the conservation law array 
+//Returns Gamma, the conservation law array
 DoubleMatrix* LibStructural::getGammaMatrix()
 {
     return _G;
@@ -1472,12 +1519,12 @@ DoubleMatrix* LibStructural::findPositiveGammaMatrix(DoubleMatrix &stoichiometry
         {
             int j = tempPermutation[i];
             if (i == j ) continue;
-            
-            // find position 
+
+            // find position
             int pos = -1;
             for (unsigned int k = i; k < tempPermutation.size(); k++)
             {
-                if (k == i) 
+                if (k == i)
                 {
                     pos = k;
                 }
@@ -1491,13 +1538,13 @@ DoubleMatrix* LibStructural::findPositiveGammaMatrix(DoubleMatrix &stoichiometry
         }
 
         current = getGammaMatrixGJ(tempStoichiometry);
-        if (ls::isPositive(*current, _Tolerance)) 
-        {            
+        if (ls::isPositive(*current, _Tolerance))
+        {
             rowLabels.assign(tempRowLabels.begin(), tempRowLabels.end());
             return current;
         }
-        DELETE_IF_NON_NULL(current);            
-                
+        DELETE_IF_NON_NULL(current);
+
     }
 #ifdef DEBUG
     cout << "went through all " << nCount << " permutations without finding a positive gamma matrix" << endl;
@@ -1545,7 +1592,7 @@ DoubleMatrix* LibStructural::getGammaMatrixGJ(DoubleMatrix &stoichiometry)
 void LibStructural::getGammaMatrixLabels(vector< string > &oRows, vector< string > &oCols )
 {
     DoubleMatrix *G = getGammaMatrix();
-    
+
     for (unsigned int i = 0; i < G->numRows(); i++)
     {
         stringstream stream; stream << i;
@@ -1556,7 +1603,7 @@ void LibStructural::getGammaMatrixLabels(vector< string > &oRows, vector< string
 
 }
 
-//Returns algebraic expressions for conserved cycles 
+//Returns algebraic expressions for conserved cycles
 vector< string > LibStructural::getConservedLaws()
 {
     vector <string > oResult;
@@ -1581,7 +1628,7 @@ vector< string > LibStructural::getConservedLaws()
     return oResult;
 }
 
-//Returns values for conserved cycles using Initial conditions 
+//Returns values for conserved cycles using Initial conditions
 vector< double > LibStructural::getConservedSums()
 {
 
@@ -1658,7 +1705,7 @@ bool LibStructural::testConservationLaw_2()
     if (_Nmat_orig == NULL) return false;
     vector <double> singularVals = getSingularValsBySVD(*_Nmat_orig);
     _SvdRankNmat = min(_NumRows, _NumCols);
-    for (unsigned int i=0; i<singularVals.size(); i++) 
+    for (unsigned int i=0; i<singularVals.size(); i++)
     {
         if (fabs(singularVals[i]) < _Tolerance) _SvdRankNmat--;
     }
@@ -1671,7 +1718,7 @@ bool LibStructural::testConservationLaw_3()
     if (_Nr == NULL) return false;
     vector <double> singularVals = getSingularValsBySVD(*_Nr);
     _SvdRankNr = _NumIndependent;
-    for (unsigned int i=0; i<singularVals.size(); i++) 
+    for (unsigned int i=0; i<singularVals.size(); i++)
     {
         if (fabs(singularVals[i]) < _Tolerance) _SvdRankNr--;
     }
@@ -1683,7 +1730,7 @@ bool LibStructural::testConservationLaw_4()
 {
     if (_Nmat == NULL)
     {
-    	return false;
+        return false;
     }
     vector < DoubleMatrix* > oResult = getQRWithPivot(*_Nmat);
 
@@ -1697,7 +1744,7 @@ bool LibStructural::testConservationLaw_4()
 
     _QrRankNmat = 0;
     double absval = 0.0;
-    for (unsigned int i=0; i<q11Eigenvalues.size(); i++) 
+    for (unsigned int i=0; i<q11Eigenvalues.size(); i++)
     {
         absval = sqrt( (q11Eigenvalues[i].Real)*(q11Eigenvalues[i].Real) + (q11Eigenvalues[i].Imag)*(q11Eigenvalues[i].Imag) );
         if (absval > _Tolerance) _QrRankNmat++;
@@ -1705,7 +1752,7 @@ bool LibStructural::testConservationLaw_4()
 
     bool test4 = (_QrRankNmat == _NumIndependent);
 
-    DELETE_IF_NON_NULL(Q); DELETE_IF_NON_NULL(R); DELETE_IF_NON_NULL(P); DELETE_IF_NON_NULL(Q11);    
+    DELETE_IF_NON_NULL(Q); DELETE_IF_NON_NULL(R); DELETE_IF_NON_NULL(P); DELETE_IF_NON_NULL(Q11);
 
     return test4;
 }
@@ -1715,7 +1762,7 @@ bool LibStructural::testConservationLaw_5()
     if (_Nmat == NULL || _L0 == NULL) return false;
     vector < DoubleMatrix* > oResult = getQRWithPivot(*_Nmat);
 
-    DoubleMatrix* Q = oResult[0]; 
+    DoubleMatrix* Q = oResult[0];
     DoubleMatrix* R = oResult[1];
     DoubleMatrix* P = oResult[2];
 
@@ -1729,7 +1776,7 @@ bool LibStructural::testConservationLaw_5()
         Q11inv = new DoubleMatrix(0,0);
     }
     else
-    {    
+    {
     try { Q11inv = inverse(*Q11); } catch (...) {}      //todo: (MTK) Don't have empty exception handlers
 
     if (Q11inv == NULL)
@@ -1743,12 +1790,12 @@ bool LibStructural::testConservationLaw_5()
 
     bool test5 = true;
     double val = 0.0;
-    for (unsigned int i=0; i<(Q->numRows() - _NumIndependent); i++) 
+    for (unsigned int i=0; i<(Q->numRows() - _NumIndependent); i++)
     {
-        for (int j=0; j<_NumIndependent; j++) 
+        for (int j=0; j<_NumIndependent; j++)
         {
             val = (*L0x)(i,j) - (*_L0)(i,j);
-            if (fabs(val) > _Tolerance) 
+            if (fabs(val) > _Tolerance)
             {
                 test5 = false;
             }
@@ -2082,7 +2129,7 @@ LibStructural* LibStructural::getInstance()
 //        _Instance = new LibStructural();//Todo: memoryleak
 //    }
 //    return _Instance;
-	return this;
+    return this;
 }
 
 

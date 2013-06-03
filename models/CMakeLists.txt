@@ -11,6 +11,9 @@ ss_threeSpecies.xml
 squareWaveModel.xml
 )
 
+if(BUILD_TESTS)
+add_subdirectory(test_models)
+endif()
 
 install(    FILES ${models}
             DESTINATION models 	

@@ -3,6 +3,7 @@
 #include "rrSimulateThread.h"
 #include "rrLogger.h"
 #include "rrRoadRunner.h"
+#include "rrUtils.h"
 
 using namespace std;
 using namespace rr;
@@ -12,18 +13,20 @@ int main()
 {
 	RoadRunner lRR;
 	LogOutput::mLogToConsole = true;
-	gLog.SetCutOffLogLevel(lInfo);
+	gLog.SetCutOffLogLevel(lDebug);
 
     Log(lInfo)<<"======================";
     Log(lInfo)<<lRR.getInfo();
     Log(lInfo)<<"======================";
-    
-    LoadModelThread load(JoinPath("..", "models", "feedback.xml"), &lRR);
+
+    string model = joinPath("..", "models", "test_1.xml");
+    LoadModelThread load(model, false, &lRR);
 
     load.start();
     load.waitForFinish();
 
-    SimulateThread sim(&lRR);
+    Sleep(1000);
+    SimulateThread sim(&lRR, false);
 	sim.start();
     sim.waitForFinish();
 

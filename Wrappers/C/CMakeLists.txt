@@ -12,9 +12,13 @@ ${THIRD_PARTY_INSTALL_FOLDER}/include
 
 #The C-api is built as a shared library..
 add_library(${target} SHARED
-rrc_api.cpp
-rrc_support.cpp
+rrc_api
 rrc_utilities
+rrc_plugin_api
+rrc_jobs_api
+rrc_parameter_api
+rrc_logging_api
+rrc_cpp_support
 )
 
 if(${MSVC})
@@ -48,7 +52,7 @@ STATIC_LIBSTRUCT
 )
 
 target_link_libraries ( ${target} 
-roadrunner
+roadrunner-static
 blas
 lapack
 f2c

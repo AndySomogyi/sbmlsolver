@@ -8,7 +8,8 @@ namespace rr
 {
 
 int 				SimulateThreadUI::mNrOfWorkers = 0;
-Poco::Mutex 		SimulateThreadUI::mNrOfWorkersMutex;
+Poco::Mutex 		SimulateThreadUI::mNrOfWorkersMutex;
+
 
 list<RoadRunner*>   SimulateThreadUI::mJobs;
 Mutex 				SimulateThreadUI::mJobsMutex;
@@ -19,14 +20,21 @@ SimulateThreadUI::SimulateThreadUI(RoadRunner* rri, bool autoStart)
 RoadRunnerThread()
 {
 	if(rri)
-    {
-    	addJob(rri);
-    }
-
+    {
+
+    	addJob(rri);
+
+    }
+
 	if(autoStart && rri != NULL)
-    {
-    	start();
-    }
+    {
+    	start();
+    }
+}
+
+SimulateThreadUI::~SimulateThreadUI()
+{
+
 }
 
 void SimulateThreadUI::addJob(RoadRunner* rr)
@@ -38,26 +46,38 @@ void SimulateThreadUI::addJob(RoadRunner* rr)
 }
 
 bool SimulateThreadUI::isAnyWorking()
-{
-	bool result = false;
-   	Mutex::ScopedLock lock(mNrOfWorkersMutex);
-    return mNrOfWorkers > 0 ? true : false;
-}
+{
+
+	bool result = false;
+
+   	Mutex::ScopedLock lock(mNrOfWorkersMutex);
+
+    return mNrOfWorkers > 0 ? true : false;
+
+}
+
 
 bool SimulateThreadUI::isWorking()
-{
-	return mIsWorking;
-}
+{
+
+	return mIsWorking;
+
+}
+
 
 void SimulateThreadUI::worker()
 {
     mWasStarted = true;
-	mIsWorking  = true;
+	mIsWorking  = true;
+
 
    	Mutex::ScopedLock lock(mNrOfWorkersMutex);
-    mNrOfWorkers++;
-    mNrOfWorkersMutex.unlock();
-
+    mNrOfWorkers++;
+
+    mNrOfWorkersMutex.unlock();
+
+
+
     RoadRunner *rri = NULL;
 	//////////////////////////////////
     while(!mIsTimeToDie)
@@ -65,10 +85,14 @@ void SimulateThreadUI::worker()
         {	//Scope for the mutex lock...
             Mutex::ScopedLock lock(mJobsMutex);
             if(mJobs.size() == 0 )//|| mIsTimeToDie)
-            {
-                break;	//ends the life of the thread..
-            }
-                rri = mJobs.front();
+            {
+
+                break;	//ends the life of the thread..
+
+            }
+
+                rri = mJobs.front();
+
                 mJobs.pop_front();
          }		//Causes the scoped lock to unlock
 
@@ -82,8 +106,10 @@ void SimulateThreadUI::worker()
             }
         }
         else
-        {
-        	Log(lError)<<"Null job pointer...!";
+        {
+
+        	Log(lError)<<"Null job pointer...!";
+
         }
     }
 
@@ -91,7 +117,8 @@ void SimulateThreadUI::worker()
 
   	mIsWorking  = false;
    	Mutex::ScopedLock lock2(mNrOfWorkersMutex);
-    mNrOfWorkers--;
+    mNrOfWorkers--;
+
 }
 
 void SimulateThreadUI::signalExit()
@@ -122,7 +149,7 @@ void SimulateThreadUI::signalAll()
 //#include "rrRoadRunner.h"
 //#include "rrSimulateThreadUIUI.h"
 //#include "rrException.h"
-//#include "rrSimulationData.h"
+//#include "rrRoadRunnerData.h"
 //#include "MainForm.h"
 ////---------------------------------------------------------------------------
 //#pragma package(smart_init)
@@ -154,7 +181,7 @@ void SimulateThreadUI::signalAll()
 //        {
 //        	if(!mHost->mData)
 //            {
-//                mHost->mData = new SimulationData;
+//                mHost->mData = new RoadRunnerData;
 //                try
 //                {
 //                	mRR->simulateEx(0, 1+ nrOfSimulations, 1000);

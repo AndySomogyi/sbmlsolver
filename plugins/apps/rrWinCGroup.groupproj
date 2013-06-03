@@ -1,0 +1,84 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{F1AB80FA-81B1-43BC-BF2C-0BC2C9C3817E}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\..\source\roadrunner.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\Wrappers\C\rrc_api.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\add_noise\add_noise.cbproj">
+            <Dependencies>..\..\source\roadrunner.cbproj;..\..\Wrappers\C\rrc_api.cbproj</Dependencies>
+        </Projects>
+        <Projects Include="..\full_space_minimization\full_space_minimization.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="rrWinC\rrWinC.cbproj">
+            <Dependencies>..\..\source\roadrunner.cbproj;..\add_noise\add_noise.cbproj;..\..\Wrappers\C\rrc_api.cbproj;..\full_space_minimization\full_space_minimization.cbproj</Dependencies>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="roadrunner">
+        <MSBuild Projects="..\..\source\roadrunner.cbproj"/>
+    </Target>
+    <Target Name="roadrunner:Clean">
+        <MSBuild Projects="..\..\source\roadrunner.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="roadrunner:Make">
+        <MSBuild Projects="..\..\source\roadrunner.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="rrc_api">
+        <MSBuild Projects="..\..\Wrappers\C\rrc_api.cbproj"/>
+    </Target>
+    <Target Name="rrc_api:Clean">
+        <MSBuild Projects="..\..\Wrappers\C\rrc_api.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="rrc_api:Make">
+        <MSBuild Projects="..\..\Wrappers\C\rrc_api.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="add_noise" DependsOnTargets="roadrunner;rrc_api">
+        <MSBuild Projects="..\add_noise\add_noise.cbproj"/>
+    </Target>
+    <Target Name="add_noise:Clean" DependsOnTargets="roadrunner:Clean;rrc_api:Clean">
+        <MSBuild Projects="..\add_noise\add_noise.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="add_noise:Make" DependsOnTargets="roadrunner:Make;rrc_api:Make">
+        <MSBuild Projects="..\add_noise\add_noise.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="full_space_minimization">
+        <MSBuild Projects="..\full_space_minimization\full_space_minimization.cbproj"/>
+    </Target>
+    <Target Name="full_space_minimization:Clean">
+        <MSBuild Projects="..\full_space_minimization\full_space_minimization.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="full_space_minimization:Make">
+        <MSBuild Projects="..\full_space_minimization\full_space_minimization.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="rrWinC" DependsOnTargets="roadrunner;add_noise;rrc_api;full_space_minimization">
+        <MSBuild Projects="rrWinC\rrWinC.cbproj"/>
+    </Target>
+    <Target Name="rrWinC:Clean" DependsOnTargets="roadrunner:Clean;add_noise:Clean;rrc_api:Clean;full_space_minimization:Clean">
+        <MSBuild Projects="rrWinC\rrWinC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="rrWinC:Make" DependsOnTargets="roadrunner:Make;add_noise:Make;rrc_api:Make;full_space_minimization:Make">
+        <MSBuild Projects="rrWinC\rrWinC.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="roadrunner;rrc_api;add_noise;full_space_minimization;rrWinC"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="roadrunner:Clean;rrc_api:Clean;add_noise:Clean;full_space_minimization:Clean;rrWinC:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="roadrunner:Make;rrc_api:Make;add_noise:Make;full_space_minimization:Make;rrWinC:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

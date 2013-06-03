@@ -1,0 +1,60 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{1ACADACD-1424-4CD9-9B66-D568FF4B70E9}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="curve\Curve1.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="surface\surface.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\lmfit-static.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Curve1">
+        <MSBuild Projects="curve\Curve1.cbproj"/>
+    </Target>
+    <Target Name="Curve1:Clean">
+        <MSBuild Projects="curve\Curve1.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Curve1:Make">
+        <MSBuild Projects="curve\Curve1.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="surface">
+        <MSBuild Projects="surface\surface.cbproj"/>
+    </Target>
+    <Target Name="surface:Clean">
+        <MSBuild Projects="surface\surface.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="surface:Make">
+        <MSBuild Projects="surface\surface.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="lmfit-static">
+        <MSBuild Projects="..\lmfit-static.cbproj"/>
+    </Target>
+    <Target Name="lmfit-static:Clean">
+        <MSBuild Projects="..\lmfit-static.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="lmfit-static:Make">
+        <MSBuild Projects="..\lmfit-static.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Curve1;surface;lmfit-static"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Curve1:Clean;surface:Clean;lmfit-static:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Curve1:Make;surface:Make;lmfit-static:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

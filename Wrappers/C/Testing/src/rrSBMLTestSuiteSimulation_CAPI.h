@@ -8,7 +8,7 @@ class SBMLTestSuiteSimulation_CAPI : public rr::TestSuiteModelSimulation
 {
 	private:
 		rrc::RRHandle 		 	mRRHandle;
-		rrc::RRResultHandle		mResultHandle;
+		rrc::RRDataHandle		mResultHandle;
 
     public:
     					       	SBMLTestSuiteSimulation_CAPI(const string& dataOutputFolder = "", const string& modelFilePath = "", const string& modelFileName = "");
@@ -18,7 +18,7 @@ class SBMLTestSuiteSimulation_CAPI : public rr::TestSuiteModelSimulation
         bool                   	LoadSettings(const string& fName = "");
 		bool 			       	Simulate();
         bool                   	SaveResult();
-        rr::SimulationData      GetResult();
+        rr::RoadRunnerData      GetResult();
 };
 
 #endif

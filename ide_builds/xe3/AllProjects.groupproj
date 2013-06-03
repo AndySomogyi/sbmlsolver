@@ -3,10 +3,10 @@
         <ProjectGuid>{8AA929FD-F762-4676-B2BC-2AD621E4E45C}</ProjectGuid>
     </PropertyGroup>
     <ItemGroup>
-        <Projects Include="roadrunner.cbproj">
+        <Projects Include="roadrunner-static.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="roadrunner-static.cbproj">
+        <Projects Include="..\..\source\roadrunner.cbproj">
             <Dependencies/>
         </Projects>
         <Projects Include="..\..\Wrappers\C\rrc_api.cbproj">
@@ -19,7 +19,7 @@
             <Dependencies>..\..\Wrappers\C\rrc_api.cbproj;roadrunner-static.cbproj</Dependencies>
         </Projects>
         <Projects Include="rr.cbproj">
-            <Dependencies>roadrunner.cbproj</Dependencies>
+            <Dependencies>..\..\Wrappers\C\rrc_api.cbproj</Dependencies>
         </Projects>
         <Projects Include="..\..\Wrappers\C\Apps\rrc\rrc.cbproj">
             <Dependencies/>
@@ -48,6 +48,12 @@
         <Projects Include="..\..\Wrappers\C\Examples\threads_2\rr_threads_2.cbproj">
             <Dependencies/>
         </Projects>
+        <Projects Include="..\..\plugins\add_noise\add_noise.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\plugins\apps\rrWinC\rrWinC.cbproj">
+            <Dependencies>..\..\plugins\add_noise\add_noise.cbproj;..\..\Wrappers\C\rrc_api.cbproj</Dependencies>
+        </Projects>
     </ItemGroup>
     <ProjectExtensions>
         <Borland.Personality>Default.Personality.12</Borland.Personality>
@@ -56,15 +62,6 @@
             <Default.Personality/>
         </BorlandProject>
     </ProjectExtensions>
-    <Target Name="roadrunner">
-        <MSBuild Projects="roadrunner.cbproj"/>
-    </Target>
-    <Target Name="roadrunner:Clean">
-        <MSBuild Projects="roadrunner.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="roadrunner:Make">
-        <MSBuild Projects="roadrunner.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="roadrunner-static">
         <MSBuild Projects="roadrunner-static.cbproj"/>
     </Target>
@@ -73,6 +70,15 @@
     </Target>
     <Target Name="roadrunner-static:Make">
         <MSBuild Projects="roadrunner-static.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="roadrunner">
+        <MSBuild Projects="..\..\source\roadrunner.cbproj"/>
+    </Target>
+    <Target Name="roadrunner:Clean">
+        <MSBuild Projects="..\..\source\roadrunner.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="roadrunner:Make">
+        <MSBuild Projects="..\..\source\roadrunner.cbproj" Targets="Make"/>
     </Target>
     <Target Name="rrc_api">
         <MSBuild Projects="..\..\Wrappers\C\rrc_api.cbproj"/>
@@ -101,13 +107,13 @@
     <Target Name="cxx_api_tests:Make" DependsOnTargets="rrc_api:Make;roadrunner-static:Make">
         <MSBuild Projects="cxx_api_tests.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="rr" DependsOnTargets="roadrunner">
+    <Target Name="rr" DependsOnTargets="rrc_api">
         <MSBuild Projects="rr.cbproj"/>
     </Target>
-    <Target Name="rr:Clean" DependsOnTargets="roadrunner:Clean">
+    <Target Name="rr:Clean" DependsOnTargets="rrc_api:Clean">
         <MSBuild Projects="rr.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="rr:Make" DependsOnTargets="roadrunner:Make">
+    <Target Name="rr:Make" DependsOnTargets="rrc_api:Make">
         <MSBuild Projects="rr.cbproj" Targets="Make"/>
     </Target>
     <Target Name="rrc">
@@ -191,14 +197,32 @@
     <Target Name="rr_threads_2:Make">
         <MSBuild Projects="..\..\Wrappers\C\Examples\threads_2\rr_threads_2.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="add_noise">
+        <MSBuild Projects="..\..\plugins\add_noise\add_noise.cbproj"/>
+    </Target>
+    <Target Name="add_noise:Clean">
+        <MSBuild Projects="..\..\plugins\add_noise\add_noise.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="add_noise:Make">
+        <MSBuild Projects="..\..\plugins\add_noise\add_noise.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="rrWinC" DependsOnTargets="add_noise;rrc_api">
+        <MSBuild Projects="..\..\plugins\apps\rrWinC\rrWinC.cbproj"/>
+    </Target>
+    <Target Name="rrWinC:Clean" DependsOnTargets="add_noise:Clean;rrc_api:Clean">
+        <MSBuild Projects="..\..\plugins\apps\rrWinC\rrWinC.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="rrWinC:Make" DependsOnTargets="add_noise:Make;rrc_api:Make">
+        <MSBuild Projects="..\..\plugins\apps\rrWinC\rrWinC.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="Build">
-        <CallTarget Targets="roadrunner;roadrunner-static;rrc_api;c_api_tests;cxx_api_tests;rr;rrc;one_rr;two_rrs;one_thread;many_threads;get_c_code;sbml_ts_tester;rr_threads_1;rr_threads_2"/>
+        <CallTarget Targets="roadrunner-static;roadrunner;rrc_api;c_api_tests;cxx_api_tests;rr;rrc;one_rr;two_rrs;one_thread;many_threads;get_c_code;sbml_ts_tester;rr_threads_1;rr_threads_2;add_noise;rrWinC"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="roadrunner:Clean;roadrunner-static:Clean;rrc_api:Clean;c_api_tests:Clean;cxx_api_tests:Clean;rr:Clean;rrc:Clean;one_rr:Clean;two_rrs:Clean;one_thread:Clean;many_threads:Clean;get_c_code:Clean;sbml_ts_tester:Clean;rr_threads_1:Clean;rr_threads_2:Clean"/>
+        <CallTarget Targets="roadrunner-static:Clean;roadrunner:Clean;rrc_api:Clean;c_api_tests:Clean;cxx_api_tests:Clean;rr:Clean;rrc:Clean;one_rr:Clean;two_rrs:Clean;one_thread:Clean;many_threads:Clean;get_c_code:Clean;sbml_ts_tester:Clean;rr_threads_1:Clean;rr_threads_2:Clean;add_noise:Clean;rrWinC:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="roadrunner:Make;roadrunner-static:Make;rrc_api:Make;c_api_tests:Make;cxx_api_tests:Make;rr:Make;rrc:Make;one_rr:Make;two_rrs:Make;one_thread:Make;many_threads:Make;get_c_code:Make;sbml_ts_tester:Make;rr_threads_1:Make;rr_threads_2:Make"/>
+        <CallTarget Targets="roadrunner-static:Make;roadrunner:Make;rrc_api:Make;c_api_tests:Make;cxx_api_tests:Make;rr:Make;rrc:Make;one_rr:Make;two_rrs:Make;one_thread:Make;many_threads:Make;get_c_code:Make;sbml_ts_tester:Make;rr_threads_1:Make;rr_threads_2:Make;add_noise:Make;rrWinC:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

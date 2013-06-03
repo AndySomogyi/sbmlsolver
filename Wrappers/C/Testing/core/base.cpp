@@ -7,8 +7,8 @@ using namespace std;
 using namespace UnitTest;
 
 //Add using clauses..
-using rr::JoinPath;
-using rr::FileExists;
+using rr::joinPath;
+using rr::fileExists;
 
 extern RRHandle gRR;	//Global roadrunner C handle
 extern string 	gBinPath;
@@ -60,10 +60,10 @@ SUITE(Base)
 
     TEST(MODEL_FILES)	//Test that model files for the tests are present
     {
-    	CHECK(FileExists(JoinPath(gSBMLModelsPath, "feedback.xml")));
-    	CHECK(FileExists(JoinPath(gSBMLModelsPath, "ss_threeSpecies.xml")));
-        CHECK(FileExists(JoinPath(gSBMLModelsPath, "ss_TurnOnConservationAnalysis.xml")));
-        CHECK(FileExists(JoinPath(gSBMLModelsPath, "squareWaveModel.xml")));
+    	CHECK(fileExists(joinPath(gSBMLModelsPath, "feedback.xml")));
+    	CHECK(fileExists(joinPath(gSBMLModelsPath, "ss_threeSpecies.xml")));
+        CHECK(fileExists(joinPath(gSBMLModelsPath, "ss_TurnOnConservationAnalysis.xml")));
+        CHECK(fileExists(joinPath(gSBMLModelsPath, "squareWaveModel.xml")));
     }
 
     TEST(LOAD_SBML)
@@ -74,7 +74,7 @@ SUITE(Base)
 			return;
 		}
 
-		string model = JoinPath(gSBMLModelsPath, "ss_threeSpecies.xml");
+		string model = joinPath(gSBMLModelsPath, "ss_threeSpecies.xml");
 		CHECK(loadSBMLFromFile(model.c_str()));
 	}
 

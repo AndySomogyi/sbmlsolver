@@ -7,16 +7,17 @@
 
 namespace rr
 {
-class rrIniKey;
-typedef std::vector<rrIniKey*>     		KeyList;
+
+class IniKey;
+typedef std::vector<IniKey*>     		KeyList;
 typedef KeyList::iterator 		    	KeyItor;
 typedef std::vector<string> 	    	NonKeyList;
 typedef NonKeyList::iterator 		    NonKeyItor;
 
 
 // This class stores the definition of a section. A section contains any number
-// of keys (see rrIniKeys), and may or may not have a comment.
-class RR_DECLSPEC rrIniSection : public rrObject
+// of keys (see IniKeys), and may or may not have a comment.
+class RR_DECLSPEC IniSection : public rrObject
 {
     private:
         bool            mIsDirty;
@@ -27,12 +28,12 @@ class RR_DECLSPEC rrIniSection : public rrObject
 		KeyList		    mKeys;			//vector of pointers to keys
 		NonKeyList 	    mNonKeys; 		//vector of pointers to non_keys
 
-                        rrIniSection();
-                        rrIniSection(const std::string& nameValueString, const char& sep);
-                       ~rrIniSection();
-        rrIniKey*  		CreateKey(const string& _keyName, const string& Value = gEmptyString, const string& Comment = gEmptyString);
-        rrIniKey*		GetKey(const int& i);
-        rrIniKey*		GetKey(const string& keyName, bool create = false);
+                        IniSection();
+                        IniSection(const std::string& nameValueString, const char& sep);
+                       ~IniSection();
+        IniKey*  		CreateKey(const string& _keyName, const string& Value = gEmptyString, const string& Comment = gEmptyString);
+        IniKey*			GetKey(const int& i);
+        IniKey*			GetKey(const string& keyName, bool create = false);
         size_t 			KeyCount(){return mKeys.size();}
         size_t 			NonKeyCount(){return mNonKeys.size();}
         void			Clear(){mKeys.clear(); mNonKeys.clear();}

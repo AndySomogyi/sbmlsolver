@@ -1,5 +1,5 @@
 #ifndef rrSymbolListH
-#define rrSymbolList
+#define rrSymbolListH
 #include <vector>
 #include "rrObject.h"
 #include "rrSymbol.h"
@@ -17,9 +17,9 @@ class RR_DECLSPEC SymbolList : public rrObject, public vector<Symbol> //Using ve
         double                   getValue(const int& index);
         string                   getName(const int& index);
         string                   getKeyName(const int& index);
-        bool                     find(const string& name, int& index);
-        bool                     find(const string& keyName, const string& name, int& index);
-        unsigned int             Count(){return size();}
+        bool                     find(const string& name, int& index) const;
+        bool                     find(const string& keyName, const string& name, int& index) const;
+        unsigned int             Count() const {return size();}
 }; //class
 
 }//namespace rr

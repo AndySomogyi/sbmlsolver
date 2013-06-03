@@ -5,7 +5,7 @@
 #include <math.h>
 #include "rrException.h"
 #include "rrNLEQInterface.h"
-#include "rrModelFromC.h"
+#include "rrExecutableModel.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
 #include "rrRoadRunner.h"
@@ -16,30 +16,58 @@
 
 namespace rr
 {
+// private (file scope only) variables.
+// thread local pointer.
+#if defined(__unix__) || defined(__APPLE__)
+static __thread ExecutableModel *gModel = 0;
+#else
+static __declspec(thread) ExecutableModel *gModel = 0;
+#endif
+
+// the NLEQ callback
+static void ModelFunction(int* nx, double* y, double* fval, int* pErr);
 
 string ErrorForStatus(const int& error);
-ModelFromC* NLEQInterface::model = NULL;     // Model generated from the SBML
-long		NLEQInterface::n	 = 0;
 
-long  NLEQInterface::getN()
+NLEQInterface::NLEQInterface(ExecutableModel *_model) :
+    SteadyStateSolver("NLEQ2", "NLEQ2 Steady State Solver"),
+    IWK(0),
+    LIWK(0),
+    LWRK(0),
+    RWK(0),
+    XScal(0),
+    ierr(0),
+    iopt(0),
+    model(0),
+    nOpts(50),
+    defaultMaxInterations(100),
+    maxIterations(defaultMaxInterations),
+    defaultTolerance(1.e-4),
+    relativeTolerance(defaultTolerance),
+    maxIterationsParam("MaxIterations", maxIterations, "Maximum number of newton iterations"),
+    relativeToleranceParam("relativeTolerance", relativeTolerance, "Relative precision of solution components")
 {
-	return NLEQInterface::n;
+    model = _model;
+
+    mCapability.addParameter(&maxIterationsParam);
+    mCapability.addParameter(&relativeToleranceParam);
+
+    if(model)
+    {
+        setup();
+    }
 }
 
-ModelFromC* NLEQInterface::getModel()
+NLEQInterface::~NLEQInterface()
 {
-    return NLEQInterface::model;
+    delete IWK;
+    delete RWK;
+    delete XScal;
+    delete iopt;
 }
 
-NLEQInterface::NLEQInterface(ModelFromC *_model)
-:
-nOpts(50),
-defaultMaxInterations(100),
-maxIterations(defaultMaxInterations),
-defaultTolerance(1.e-4),
-relativeTolerance(defaultTolerance)
+void NLEQInterface::setup()
 {
-	model = _model;
     n = model->getNumIndependentVariables();
 
     // Allocate space, see NLEQ docs for details
@@ -78,6 +106,11 @@ relativeTolerance(defaultTolerance)
     }
 
     RWK[22 - 1] = 1E-16; // Minimal allowed damping factor
+}
+
+Capability&	NLEQInterface::getCapability()
+{
+	return mCapability;
 }
 
 bool NLEQInterface::isAvailable()
@@ -137,12 +170,30 @@ double NLEQInterface::solve(const vector<double>& yin)
     // For some reason NLEQ modifies the tolerance value, use a local copy instead
     double tmpTol = relativeTolerance;
 
-    //NLEQ1(ref n, fcn, null, model->amounts, XScal, ref tmpTol, iopt, ref ierr, ref LIWK, IWK, ref LWRK, RWK);
+    // set up the thread local variables, only this thread
+    // access them.
+    if (gModel)
+    {
+        throw(Exception("gModel is set, this should never occur here."));
+    }
 
-    NLEQ1( &n, 				&ModelFunction, NULL,
-           model->mData.amounts,	XScal,        	&tmpTol,
-           iopt,           	&ierr,          &LIWK,
-           IWK,           	&LWRK,          RWK);
+    gModel = model;
+
+    NLEQ1( 	&n,
+    		&ModelFunction,
+            NULL,
+           	model->getModelData().amounts,
+            XScal,
+            &tmpTol,
+           	iopt,
+            &ierr,
+            &LIWK,
+           	IWK,
+            &LWRK,
+            RWK);
+
+    // done, clear it.
+    gModel = 0;
 
     if (ierr == 2) // retry
     {
@@ -154,19 +205,7 @@ double NLEQInterface::solve(const vector<double>& yin)
         iopt[31 - 1] = 3; // Set for Highly nonlinear problem
         iopt[0] = 1; // Try again but tell NLEQ not to reinitialize
         tmpTol = relativeTolerance;
-//        NLEQ1(  &n,
-//                &NLEQModelFcn,
-//                NULL,//Jacobian,
-//                model->amounts,
-//                XScal,
-//                &tmpTol,
-//                iopt,
-//                &ierr,
-//                &LIWK,
-//                IWK,
-//                &LWRK,
-//                RWK);
-                // If we get the same error then give up
+
     }
 
     if(ierr > 0 )
@@ -181,7 +220,7 @@ double NLEQInterface::solve(const vector<double>& yin)
 
 void ModelFunction(int* nx, double* y, double* fval, int* pErr)
 {
-    ModelFromC* model = NLEQInterface::getModel();
+    ExecutableModel* model = gModel;
     if (model == NULL)
     {
         return;
@@ -189,31 +228,31 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
 
     try
     {
-    	long n = NLEQInterface::getN();
+    	long n = model->getNumIndependentVariables();
 		for(long i = 0; i < n; i++)
         {
-        	model->mData.amounts[i] = y[i];
+        	model->getModelData().amounts[i] = y[i];
         }
 
-        int size = model->mData.amountsSize + model->mData.rateRulesSize;
+        int size = model->getModelData().amountsSize + model->getModelData().rateRulesSize;
         vector<double> dTemp;
         dTemp.resize(size);
 
-		for(int i = 0; i < model->mData.rateRulesSize; i++)
+		for(int i = 0; i < model->getModelData().rateRulesSize; i++)
         {
-        	dTemp[i] = model->mData.rateRules[i];
+        	dTemp[i] = model->getModelData().rateRules[i];
         }
 
-        for(int i = model->mData.rateRulesSize; i < model->mData.amountsSize + model->mData.rateRulesSize; i++)
+        for(int i = model->getModelData().rateRulesSize; i < model->getModelData().amountsSize + model->getModelData().rateRulesSize; i++)
         {
-        	dTemp[i] = model->mData.amounts[i];
+        	dTemp[i] = model->getModelData().amounts[i];
         }
 
         model->evalModel(0.0, dTemp);
 
 		for(int i = 0; i < n; i++)
         {
-        	fval[i] = model->mData.dydt[i];
+        	fval[i] = model->getModelData().dydt[i];
         }
 
         pErr = 0;
@@ -223,83 +262,6 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
     	throw(ex);	//catch at a higher level
     }
 }
-
-////        private void ModelFcn(IntPtr nx, IntPtr y, IntPtr fval, IntPtr pErr)
-////        {
-////            if (model == null)
-////            {
-////                var temp = new double[n];
-////                Marshal.Copy(temp, 0, fval, n);
-////                Marshal.WriteInt32(pErr, 0);
-////                return;
-////            }
-////
-////
-////            try
-////            {
-////                Marshal.Copy(y, model.amounts, 0, n);
-////                var dTemp = new double[model.amounts.Length + model.rateRules.Length];
-////                model.rateRules.CopyTo(dTemp, 0);
-////                model.amounts.CopyTo(dTemp, model.rateRules.Length);
-////                model.evalModel(0.0, dTemp);
-////                //                bool bError = false;
-////
-////                //                for (int i = 0; i < model.amounts.Length; i++)
-////                //                    if (model.amounts[i] < 0)
-////                //                    {
-////                //                        bError = true;
-////                //                        break;
-////                //                    }
-////                //
-////
-////                Marshal.Copy(model.dydt, 0, fval, n);
-////                //                if (bError)
-////                //                    Marshal.WriteInt32(pErr, -1);
-////                //                else
-////                Marshal.WriteInt32(pErr, 0);
-////            }
-////            catch (Exception)
-////            {
-////            }
-////        }
-////
-
-////        // NLEQ2 seems to have problems with some models so we drop back to NLEQ1 for now.
-////
-////        //        [DllImport ("nleq2", EntryPoint="NLEQ2", ExactSpelling=false,
-////        //             CharSet=CharSet.Unicode, SetLastError=true, CallingConvention=CallingConvention.Cdecl
-////        //             )]
-////        [DllImport("NleqLib", EntryPoint = "NLEQ1")]
-////        //         NLEQ is a FORTRAN routine, therefore everything must be a reference
-////        public static extern IntPtr NLEQ1(
-////            ref int n,
-////            TCallBackModelFcn fcn,
-////            [In, Out] double[,] Jacobian,
-////            [In, Out] double[] x,
-////            [In, Out] double[] xscal,
-////            ref double rtol,
-////            [In, Out] int[] iopt,
-////            ref int ierr,
-////            ref int LIWK,
-////            [In, Out] int[] IWK,
-////            ref int LRWK,
-////            [In, Out] double[] RWK);
-////
-////        //                [DllImport ("nleq2", EntryPoint="NLEQ2")                     ]
-////        ////         NLEQ is a FORTRAN routine, therefore everything must be a reference
-////        //        public static extern IntPtr NLEQ2(
-////        //            ref int n,
-////        //            TCallBackModelFcn fcn,
-////        //            [In, Out] double[,] Jacobian,
-////        //            [In, Out] double[] x,
-////        //            [In, Out] double[] xscal,
-////        //            ref double rtol,
-////        //            [In, Out] int[] iopt,
-////        //            ref int ierr,
-////        //            ref int LIWK,
-////        //            [In, Out] int[] IWK,
-////        //            ref int LRWK,
-////        //            [In, Out] double[] RWK);
 
 void NLEQInterface::setScalingFactors(const vector<double>& sx)
 {
@@ -336,46 +298,46 @@ int NLEQInterface::getNumberOfModelEvaluationsForJacobian()
 
 string ErrorForStatus(const int& error)
 {
-        switch (error)
-        {
-            case 1:     return ("Jacobian matrix singular in NLEQ");
-            case 2:     return ("Maximum iterations exceeded");
-            case 3:     return ("Damping factor has became to small to continue");
-            case 4:     return ("Warning: Superlinear or quadratic convergence slowed down near the solution");
-            case 5:     return ("Warning: Error Tolerance reached but solution is suspect");
-            case 10:    return ("Integer or real workspace too small in NLEQ");
-            case 20:    return ("Bad input to size of model parameter");
-            case 21:    return ("Nonpositive value for RTOL supplied to NLEQ");
-            case 22:    return ("Negative scaling value via vector XSCAL supplied");
-            case 30:    return ("One or more fields specified in IOPT are invalid (NLEQ)");
-            case 80:    return ("Error signalled by linear solver routine N1FACT, in NLEQ");
-            case 81:    return ("Error signalled by linear solver routine N1SOLV, in NLEQ");
-            case 82:    return ("Possible negative concentrations in solution (NLEQ)");
-            case 83:    return ("Error signalled by user routine JAC in NLEQ");
-            default:    return (Format("Unknown error in NLEQ, errCode = {0}", error));
-        }   
+    switch (error)
+    {
+    case 1:     return ("Jacobian matrix singular in NLEQ");
+    case 2:     return ("Maximum iterations exceeded");
+    case 3:     return ("Damping factor has became to small to continue");
+    case 4:     return ("Warning: Superlinear or quadratic convergence slowed down near the solution");
+    case 5:     return ("Warning: Error Tolerance reached but solution is suspect");
+    case 10:    return ("Integer or real workspace too small in NLEQ");
+    case 20:    return ("Bad input to size of model parameter");
+    case 21:    return ("Nonpositive value for RTOL supplied to NLEQ");
+    case 22:    return ("Negative scaling value via vector XSCAL supplied");
+    case 30:    return ("One or more fields specified in IOPT are invalid (NLEQ)");
+    case 80:    return ("Error signalled by linear solver routine N1FACT, in NLEQ");
+    case 81:    return ("Error signalled by linear solver routine N1SOLV, in NLEQ");
+    case 82:    return ("Possible negative concentrations in solution (NLEQ)");
+    case 83:    return ("Error signalled by user routine JAC in NLEQ");
+    default:    return (format("Unknown error in NLEQ, errCode = {0}", error));
+    }
 }
 
 double NLEQInterface::computeSumsOfSquares()
 {
     // Compute the sums of squares and return value to caller
-    vector<double> dTemp;// = new double[model->mData.amounts.Length + model->mData.rateRules.Length];
-//    dTemp.resize(model->mData.amounts.size() + model->mData.rateRules.size());
+    vector<double> dTemp;// = new double[model->getModelData().amounts.Length + model->getModelData().rateRules.Length];
+    //    dTemp.resize(model->getModelData().amounts.size() + model->getModelData().rateRules.size());
 
-    //    dTemp = model->mData.rateRules;//model->mData.rateRules.CopyTo(dTemp, 0);
-    CopyCArrayToStdVector(model->mData.rateRules,   dTemp, (model->mData.rateRulesSize));//model->mData.rateRules.CopyTo(dTemp, 0);
-    //model->mData.amounts.CopyTo(dTemp, model->mData.rateRules.Length);
-//    for(int i = 0; i < model->mData.amounts.size(); i++)
+    //    dTemp = model->getModelData().rateRules;//model->getModelData().rateRules.CopyTo(dTemp, 0);
+    copyCArrayToStdVector(model->getModelData().rateRules,   dTemp, (model->getModelData().rateRulesSize));//model->mData.rateRules.CopyTo(dTemp, 0);
+    //model->getModelData().amounts.CopyTo(dTemp, model->getModelData().rateRules.Length);
+    //    for(int i = 0; i < model->getModelData().amounts.size(); i++)
     for(int i = 0; i < model->getNumIndependentVariables(); i++)
     {
-        dTemp.push_back(model->mData.amounts[i]);
+        dTemp.push_back(model->getModelData().amounts[i]);
     }
 
     model->evalModel(0.0, dTemp);
     double sum = 0;
     for (int i = 0; i < n; i++)
     {
-        sum = sum + pow(model->mData.dydt[i], 2.0);
+        sum = sum + pow(model->getModelData().dydt[i], 2.0);
     }
     return sqrt(sum);
 }

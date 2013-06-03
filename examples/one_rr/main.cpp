@@ -14,9 +14,9 @@ int main(int argc, char** argv)
     {
         LogOutput::mLogToConsole = true;
         gLog.SetCutOffLogLevel(lInfo);
-		string tmpFolder = JoinPath(rootPath, "temp");
+		string tmpFolder = joinPath(rootPath, "temp");
 
-        const string modelFile = JoinPath(rootPath, "models", "test_1.xml");
+        const string modelFile = joinPath(rootPath, "models", "test_1.xml");
 
         //Load modelFiles..
         Log(lInfo)<<" ---------- LOADING/GENERATING MODELS ------";
@@ -31,7 +31,7 @@ int main(int argc, char** argv)
     	SModelData data;
 	    clog<<"Size: "<<sizeof(SModelData)<<endl;
 	    clog<<"Size ptr: "<<sizeof(data.eventDelays)<<endl;
-        rr1.getModel()->cInitModelData(&data);
+        //rr1.getModel()->cInitModelData(&data);
         Log(lInfo)<<" ---------- SIMULATE ---------------------";
         Log(lInfo)<<"Data:"<<rr1.simulate();
 

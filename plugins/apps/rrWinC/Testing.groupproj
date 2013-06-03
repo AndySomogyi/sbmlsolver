@@ -1,0 +1,84 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{E787F67D-E107-46B6-B6BD-3DA7276AC4FE}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\..\..\source\roadrunner.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\..\Wrappers\C\rrc_api.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\fit_one_parameter\fit_one_parameter.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\test_plugin\TestPlugin.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="PluginApp.cbproj">
+            <Dependencies>..\..\..\source\roadrunner.cbproj;..\..\..\Wrappers\C\rrc_api.cbproj</Dependencies>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="roadrunner">
+        <MSBuild Projects="..\..\..\source\roadrunner.cbproj"/>
+    </Target>
+    <Target Name="roadrunner:Clean">
+        <MSBuild Projects="..\..\..\source\roadrunner.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="roadrunner:Make">
+        <MSBuild Projects="..\..\..\source\roadrunner.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="rrc_api">
+        <MSBuild Projects="..\..\..\Wrappers\C\rrc_api.cbproj"/>
+    </Target>
+    <Target Name="rrc_api:Clean">
+        <MSBuild Projects="..\..\..\Wrappers\C\rrc_api.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="rrc_api:Make">
+        <MSBuild Projects="..\..\..\Wrappers\C\rrc_api.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="fit_one_parameter">
+        <MSBuild Projects="..\..\fit_one_parameter\fit_one_parameter.cbproj"/>
+    </Target>
+    <Target Name="fit_one_parameter:Clean">
+        <MSBuild Projects="..\..\fit_one_parameter\fit_one_parameter.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="fit_one_parameter:Make">
+        <MSBuild Projects="..\..\fit_one_parameter\fit_one_parameter.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="TestPlugin">
+        <MSBuild Projects="..\..\test_plugin\TestPlugin.cbproj"/>
+    </Target>
+    <Target Name="TestPlugin:Clean">
+        <MSBuild Projects="..\..\test_plugin\TestPlugin.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="TestPlugin:Make">
+        <MSBuild Projects="..\..\test_plugin\TestPlugin.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="PluginApp" DependsOnTargets="roadrunner;rrc_api">
+        <MSBuild Projects="PluginApp.cbproj"/>
+    </Target>
+    <Target Name="PluginApp:Clean" DependsOnTargets="roadrunner:Clean;rrc_api:Clean">
+        <MSBuild Projects="PluginApp.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="PluginApp:Make" DependsOnTargets="roadrunner:Make;rrc_api:Make">
+        <MSBuild Projects="PluginApp.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="roadrunner;rrc_api;fit_one_parameter;TestPlugin;PluginApp"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="roadrunner:Clean;rrc_api:Clean;fit_one_parameter:Clean;TestPlugin:Clean;PluginApp:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="roadrunner:Make;rrc_api:Make;fit_one_parameter:Make;TestPlugin:Make;PluginApp:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

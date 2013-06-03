@@ -5,7 +5,7 @@
 #include "rrSBMLModelSimulation.h"
 #include "rrStringUtils.h"
 #include "rrSimulationSettings.h"
-#include "rrSimulationData.h"
+#include "rrRoadRunnerData.h"
 
 namespace rr
 {
@@ -15,9 +15,9 @@ class RR_DECLSPEC TestSuiteModelSimulation : public SBMLModelSimulation
     protected:
         int                     mCurrentCaseNumber;                     //If simulating test suite cases...
         string                  mModelSettingsFileName;
-        SimulationData          mResultData;
-        SimulationData          mReferenceData;
-        SimulationData          mErrorData;
+        RoadRunnerData          mResultData;
+        RoadRunnerData          mReferenceData;
+        RoadRunnerData          mErrorData;
         string                  GetSettingsFileNameForCase(int sim_case);
         string                  GetReferenceDataFileNameForCase(int caseNr);
         int                     mNrOfFailingPoints;

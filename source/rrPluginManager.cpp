@@ -1,18 +1,22 @@
 //---------------------------------------------------------------------------
 #pragma hdrstop
 #include <sstream>
+#include "Poco/Glob.h"
 #include "Poco/SharedLibrary.h"
 #include "rrPluginManager.h"
 #include "rrPlugin.h"
 #include "rrUtils.h"
 #include "rrException.h"
-
-using std::stringstream;
-using std::pair;
-using Poco::SharedLibrary;
+#include "rrCapabilities.h"
+#include "rrLogger.h"
+#include "rrRoadRunner.h"
 
 namespace rr
 {
+
+using namespace std;
+using Poco::SharedLibrary;
+using Poco::Glob;
 
 bool destroyRRPlugin(Plugin *plugin);
 
@@ -21,6 +25,14 @@ PluginManager::PluginManager(const std::string& folder, const bool& autoLoad, Ro
 mPluginFolder(folder),
 mRR(aRR)
 {
+#if defined(WIN32)
+mPluginExtension = "dll";
+#elif defined(UNIX)
+mPluginExtension = "a";
+#else
+mPluginExtension = "b";
+#endif
+
     if(autoLoad)
     {
         load();
@@ -63,19 +75,39 @@ typedef bool    (*destroyRRPluginFunc)(Plugin* );
 
 bool PluginManager::load()
 {
-	bool result = false;
+	bool result = true;
     //Throw if plugin folder don't exist
-    if(!FolderExists(mPluginFolder))
+    if(!folderExists(mPluginFolder))
     {
-        throw Exception("Plugin folder do not exists");
+        Log(lError)<<"Plugin folder: "<<mPluginFolder<<" do not exist..";
+        return false;
     }
-    //Look for shared libraries in this folder
 
-//    for(int i = 0; i < nrOfLibs; i++)
+ 	//Get all plugins in plugin folder
+    std::set<std::string> files;
+    string globPath =  joinPath(mPluginFolder, "*." + mPluginExtension);
+    Glob::glob(globPath, files);
+    std::set<std::string>::iterator it = files.begin();
+
+    for (; it != files.end(); ++it)
     {
-    	//Load and create the plugins
-	    result = loadPlugin("TestPlugin.dll");
-	    result = loadPlugin("fit_one_parameter.dll");
+    	string plugin = getFileName(*it);
+        Log(lInfo)<<"Loading plugin: "<<plugin;
+		try
+        {
+	    	bool res = loadPlugin(plugin);
+            if(!res)
+            {
+            	//Find out what was wrong..?
+				Log(lError)<<"There was a slight problem loading plugin: "<<plugin;
+            }
+        }
+        catch(...)
+        {
+			Log(lError)<<"There was a serious problem loading plugin: "<<plugin;
+            result = false;
+        }
+        //catch(poco exception....
     }
     return result;
 }
@@ -85,23 +117,31 @@ bool PluginManager::loadPlugin(const string& sharedLib)
 	try
     {
         SharedLibrary *aLib = new SharedLibrary;
-        aLib->load(JoinPath(mPluginFolder, sharedLib));
+        aLib->load(joinPath(mPluginFolder, sharedLib));
 
         //Validate the plugin
-        if(aLib->hasSymbol("createRRPlugin"))
+        if(aLib->hasSymbol("createPlugin"))
         {
-            createRRPluginFunc create = (createRRPluginFunc) aLib->getSymbol("createRRPlugin");
+            createRRPluginFunc create = (createRRPluginFunc) aLib->getSymbol("createPlugin");
             //This plugin
             Plugin* aPlugin = create(mRR);
             if(aPlugin)
             {
+            	//Add plugins capabilities to roadrunner
+                Capabilities *caps = aPlugin->getCapabilities();
+
                 pair< Poco::SharedLibrary*, Plugin* > storeMe(aLib, aPlugin);
                 mPlugins.push_back( storeMe );
+
+                mRR->addCapabilities(*(caps));
             }
         }
         else
         {
-            //Log some warnings about a bad plugin...?
+	        stringstream msg;
+            msg<<"The plugin library: "<<sharedLib<<" do not have a createPlugin function. Can't load";
+            Log(lError)<<msg.str();
+            return false;
         }
         return true;
     }
@@ -109,15 +149,15 @@ bool PluginManager::loadPlugin(const string& sharedLib)
     {
     	stringstream msg;
     	msg<<"RoadRunner exception: "<<e.what()<<endl;
-		Exception ex(msg.str());
-    	throw ex;
+		Log(lError)<<msg.str();
+		return false;
     }
     catch(const Poco::Exception& ex)
     {
 		stringstream msg;
     	msg<<"Poco exception: "<<ex.displayText()<<endl;
-    	Exception newMsg(msg.str());
-    	throw newMsg;
+   		Log(lError)<<msg.str();
+		return false;
     }
 }
 
@@ -164,7 +204,7 @@ StringList PluginManager::getPluginNames()
             Plugin*		   aPlugin 	= aPluginLib->second;
 
             //Then unload
-            names.Add(aPlugin->getName());
+            names.add(aPlugin->getName());
         }
     }
     return names;

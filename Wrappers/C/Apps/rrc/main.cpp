@@ -93,7 +93,7 @@ int main(int argc, char* argv[])
 		freeText(text);
 	}
 
-    if(args.ModelFileName.size() > 1 &&  !FileExists(args.ModelFileName))
+    if(args.ModelFileName.size() > 1 &&  !fileExists(args.ModelFileName))
     {
         cerr<<"The xml model file:"<<args.ModelFileName<<" don't exist. Please supply a sbml model file name, using option -m<modelfilename>";
         doMore = false;
@@ -112,7 +112,7 @@ int main(int argc, char* argv[])
 
     if(doMore)
     {
-//    	if(!loadSBML(GetFileContent(args.ModelFileName).c_str()))
+//    	if(!loadSBML(getFileContent(args.ModelFileName).c_str()))
     	if(!loadSBMLFromFile(rrHandle, args.ModelFileName.c_str()))
 	    {
     	    char* error = getLastError();
@@ -155,7 +155,7 @@ int main(int argc, char* argv[])
         }
     }
 
-	RRResultHandle result;
+	RRDataHandle result;
 	if(doMore)
     {
 	    setTimeStart(rrHandle, args.StartTime);
@@ -181,13 +181,13 @@ int main(int argc, char* argv[])
 	{
 		if(!args.SaveResultToFile)	
 		{
-			cout<<resultToString(result);	
+			cout<<rrDataToString(result);	
 		}
 		else
 		{
 			
-			string outPutFName = JoinPath(args.TempDataFolder, ExtractFileName(args.ModelFileName));
-			outPutFName = ChangeFileExtensionTo(outPutFName, ".csv");
+			string outPutFName = joinPath(args.TempDataFolder, getFileName(args.ModelFileName));
+			outPutFName = changeFileExtensionTo(outPutFName, ".csv");
 			ofstream fOut(outPutFName.c_str());
 			if(!fOut)
 			{
@@ -196,7 +196,7 @@ int main(int argc, char* argv[])
 			else
 			{
 				cout<<"Saving data to file: "<<outPutFName<<"\n";
-				fOut<<resultToString(result);
+				fOut<<rrDataToString(result);
 			}
 		}				
 	}
@@ -215,7 +215,7 @@ int main(int argc, char* argv[])
 
     if(args.Pause)
     {
-        rr::Pause();
+        rr::pause();
     }
     return 0;
 }
@@ -237,9 +237,9 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 			case ('f'): args.SaveResultToFile                       = true;                         break;
             case ('m'): args.ModelFileName                          = optArg;                       break;
             case ('l'): args.SelectionList                          = optArg;                       break;
-            case ('s'): args.StartTime                              = ToDouble(optArg);             break;
-            case ('e'): args.EndTime                                = ToDouble(optArg);             break;
-            case ('z'): args.Steps                                  = ToInt(optArg);                break;
+            case ('s'): args.StartTime                              = toDouble(optArg);             break;
+            case ('e'): args.EndTime                                = toDouble(optArg);             break;
+            case ('z'): args.Steps                                  = toInt(optArg);                break;
             case ('x'): args.CalculateSteadyState                   = true;                			break;
             case ('y'): args.ComputeAndAssignConservationLaws  		= false;                  		break;
             case ('?'):
@@ -267,7 +267,8 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     }
 }
 
-#if defined(CG_IDE)
+#if defined(CG_IDE) || defined(_MSC_VER)
+#pragma comment(lib, "IPHLPAPI.lib")	//Poco, getadapters info...
 #pragma comment(lib, "roadrunner-static.lib")
 #pragma comment(lib, "rrc_api.lib")
 #endif

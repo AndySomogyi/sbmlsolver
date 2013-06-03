@@ -13,21 +13,27 @@ FileLog gLog;
 
 int FileLog::mNrOfInstances = 0;
 
-FileLog::FileLog()
+FileLog::FileLog(const string& logFileName)
 :
 //mLogFile(unique_ptr<LogFile>(new LogFile("Log.txt"))),
-mLogFile(new LogFile("Log.txt")),
 mLogPrefix("none"),
 mLogLevel(lInfo),
 mLogToServer(false)
 {
-
+	if(logFileName.size())
+    {
+	    mLogFile = new LogFile(logFileName);
+    }
     mNrOfInstances++;
 }
 
 FileLog::~FileLog()
 {
     mNrOfInstances--;
+    if(!mNrOfInstances)
+    {
+    	delete mLogFile;
+    }
 }
 
 int  FileLog::GetNrOfInstances()

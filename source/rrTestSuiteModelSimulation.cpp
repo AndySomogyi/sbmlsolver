@@ -38,11 +38,11 @@ bool TestSuiteModelSimulation::CopyFilesToOutputFolder()
 {
     if(!mModelSettingsFileName.size())
     {
-        mModelSettingsFileName = JoinPath(mModelFilePath, GetSettingsFileNameForCase(mCurrentCaseNumber));
+        mModelSettingsFileName = joinPath(mModelFilePath, GetSettingsFileNameForCase(mCurrentCaseNumber));
     }
 
-    string fName = ExtractFileName(mModelSettingsFileName);
-    fName = JoinPath(mDataOutputFolder, fName);
+    string fName = getFileName(mModelSettingsFileName);
+    fName = joinPath(mDataOutputFolder, fName);
 #if defined(WIN32)    
 	return CopyFileA(mModelSettingsFileName.c_str(), fName.c_str(), false) == TRUE ? true : false;
 #else
@@ -56,7 +56,7 @@ bool TestSuiteModelSimulation::LoadSettings(const string& settingsFName)
 
     if(!mModelSettingsFileName.size())
     {
-        mModelSettingsFileName = JoinPath(mModelFilePath, GetSettingsFileNameForCase(mCurrentCaseNumber));
+        mModelSettingsFileName = joinPath(mModelFilePath, GetSettingsFileNameForCase(mCurrentCaseNumber));
     }
     return SBMLModelSimulation::LoadSettings(mModelSettingsFileName);
 }
@@ -64,14 +64,14 @@ bool TestSuiteModelSimulation::LoadSettings(const string& settingsFName)
 bool TestSuiteModelSimulation::LoadReferenceData()
 {
     //The reference data is located in the folder where the model is located
-    string refDataFileName = JoinPath(mModelFilePath, GetReferenceDataFileNameForCase(mCurrentCaseNumber));
-    if(!FileExists(refDataFileName))
+    string refDataFileName = joinPath(mModelFilePath, GetReferenceDataFileNameForCase(mCurrentCaseNumber));
+    if(!fileExists(refDataFileName))
     {
         Log(lWarning)<<"Could not open reference data file: "<<refDataFileName;
         return false;
     }
 
-    vector<string> lines = GetLinesInFile(refDataFileName);
+    vector<string> lines = getLinesInFile(refDataFileName);
     if(!lines.size())
     {
         Log(lWarning)<<"This file is empty..";
@@ -81,7 +81,7 @@ bool TestSuiteModelSimulation::LoadReferenceData()
     //Create the data..
     for(int row = 0; row < lines.size(); row++)
     {
-           vector<string> recs = SplitString(lines[row], ",");
+           vector<string> recs = splitString(lines[row], ",");
         if(row == 0) //This is the header
         {
             mReferenceData.setColumnNames(recs);
@@ -92,7 +92,7 @@ bool TestSuiteModelSimulation::LoadReferenceData()
         {
             for(int col = 0; col < mReferenceData.cSize(); col++)
             {
-            	double val = ToDouble(recs[col]);
+            	double val = toDouble(recs[col]);
                 mReferenceData(row - 1,col) = val; //First line is the header..
              }
         }
@@ -154,7 +154,7 @@ bool TestSuiteModelSimulation::SaveAllData()
     //Save all data to one file that can be plotted "as one"
 
     //First save the reference data to a file for comparison to result data
-    string refDataFileName = JoinPath(mDataOutputFolder, GetReferenceDataFileNameForCase(mCurrentCaseNumber));
+    string refDataFileName = joinPath(mDataOutputFolder, GetReferenceDataFileNameForCase(mCurrentCaseNumber));
     ofstream fs(refDataFileName.c_str());
     fs<<mReferenceData;
     fs.close();
@@ -162,8 +162,8 @@ bool TestSuiteModelSimulation::SaveAllData()
     string outputAllFileName;
     string dummy;
     string dummy2;
-    CreateTestSuiteFileNameParts(mCurrentCaseNumber, "-result-comparison.csv", dummy, outputAllFileName, dummy2);
-    fs.open(JoinPath(mDataOutputFolder, outputAllFileName).c_str());
+    createTestSuiteFileNameParts(mCurrentCaseNumber, "-result-comparison.csv", dummy, outputAllFileName, dummy2);
+    fs.open(joinPath(mDataOutputFolder, outputAllFileName).c_str());
 
     //Check matrices dimension, if they are not equal, bail..?
     if(mResultData.dimension() != mReferenceData.dimension() ||
