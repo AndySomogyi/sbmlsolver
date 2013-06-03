@@ -57,6 +57,11 @@ void allocModelDataBuffers(ModelData &data, const string& modelName)
     data.eventTests = (double*)rrCalloc(data.eventTestsSize, sizeof(double));
     data.eventType = (bool*)rrCalloc(data.eventTypeSize, sizeof(bool));
 
+    // allocate space for the symbolic names of things
+    data.variableTable = (char**)rrCalloc(data.numTotalVariables, sizeof(char*));
+    data.boundaryTable = (char**)rrCalloc(data.numBoundaryVariables, sizeof(char*));
+    data.globalParameterTable = (char**)rrCalloc(data.numGlobalParameters, sizeof(char*));
+
     //Event function pointer stuff
     data.eventAssignments =
             (TEventAssignmentDelegate*)rrCalloc(data.numEvents, sizeof(TEventAssignmentDelegate*));
@@ -91,6 +96,11 @@ void  freeModelDataBuffers(ModelData &data)
     free(data.eventPersistentType);
     free(data.eventTests);
     free(data.eventType);
+
+    // free names
+    free(data.variableTable);
+    free(data.boundaryTable);
+    free(data.globalParameterTable);
 
     //Event function pointer stuff
     free(data.eventAssignments);
