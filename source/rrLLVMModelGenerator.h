@@ -2,7 +2,7 @@
  * rrLLVMModelGenerator.h
  *
  *  Created on: Jun 3, 2013
- *      Author: andy
+ *      Author: Andy Somogyi, andy.somogyi@gmail.com
  */
 
 #ifndef RRLLVMMODELGENERATOR_H_
