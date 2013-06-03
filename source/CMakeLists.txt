@@ -96,6 +96,9 @@ rrRoadRunnerData
 rrSelectionRecord
 rrMinimizationData
 rrModelGeneratorFactory
+rrLLVMModelGenerator
+rrLLVMExecutableModel
+rrLLVMCompiler
 )
 
 if(RR_BUILD_SHARED_CORE)
