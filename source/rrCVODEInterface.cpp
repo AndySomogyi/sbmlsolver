@@ -35,8 +35,11 @@ RR_DECLSPEC void        SetVector (N_Vector v, int Index, double Value);
 RR_DECLSPEC double      GetVector (N_Vector v, int Index);
 
 
-CvodeInterface::CvodeInterface(RoadRunner* rr, ExecutableModel *aModel, const double& _absTol, const double& _relTol)
 
+
+
+
+CvodeInterface::CvodeInterface(RoadRunner* rr, ExecutableModel *aModel, const double& _absTol, const double& _relTol)
 :
 mDefaultReltol(_relTol),
 mDefaultAbsTol(_absTol),
@@ -60,17 +63,25 @@ mMaxStep(0.0),
 mMaxNumSteps(mDefaultMaxNumSteps),
 mRelTol(_relTol),
 mAbsTol(_absTol),
+paramBDFOrder("BDFOrder", mMaxBDFOrder, "Maximum order for BDF Method"),
+paramAdamsOrder("AdamsOrder", mMaxAdamsOrder, "Maximum order for Adams Method"),
+paramRTol("rtol", mRelTol, "Relative Tolerance"),
+paramATol("atol", mAbsTol, "Absolute Tolerance"),
+paramMaxSteps("maxsteps", mMaxNumSteps, "Maximum number of internal stepsc"),
+paramInitSteps("initstep", mInitStep, "the initial step size"),
+paramMinStep("minstep", mMinStep, "specifies a lower bound on the magnitude of the step size."),
+paramMaxStep("maxstep", mMaxStep, "specifies an upper bound on the	magnitude of the step size."),
 mCVODECapability("Integration", "CVODE", "CVODE Integrator")
 {
     //Setup capability
-    mCVODECapability.addParameter(new Parameter<int>(    "BDFOrder", 	 mMaxBDFOrder,     "Maximum order for BDF Method"));
-    mCVODECapability.addParameter(new Parameter<int>(    "AdamsOrder",   mMaxAdamsOrder,   "Maximum order for Adams Method"));
-    mCVODECapability.addParameter(new Parameter<double>( "rtol",         mRelTol,          "Relative Tolerance"));
-    mCVODECapability.addParameter(new Parameter<double>( "atol",         mAbsTol,          "Absolute Tolerance"));
-    mCVODECapability.addParameter(new Parameter<int>(    "maxsteps",     mMaxNumSteps,     "Maximum number of internal stepsc"));
-    mCVODECapability.addParameter(new Parameter<double>( "initstep",     mInitStep,        "the initial step size"));
-    mCVODECapability.addParameter(new Parameter<double>( "minstep",      mMinStep,         "specifies a lower bound on the magnitude of the step size."));
-    mCVODECapability.addParameter(new Parameter<double>( "maxstep",      mMaxStep,         "specifies an upper bound on the	magnitude of the step size."));
+    mCVODECapability.addParameter(&paramBDFOrder);
+    mCVODECapability.addParameter(&paramAdamsOrder);
+    mCVODECapability.addParameter(&paramRTol);
+    mCVODECapability.addParameter(&paramATol);
+    mCVODECapability.addParameter(&paramMaxSteps);
+    mCVODECapability.addParameter(&paramInitSteps);
+    mCVODECapability.addParameter(&paramMinStep);
+    mCVODECapability.addParameter(&paramMaxStep);
 
 	if(rr)
 	{

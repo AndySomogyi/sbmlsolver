@@ -8,17 +8,19 @@ extern string gTSModelsPath;
 extern string gTempFolder;
 extern bool gDebug;
 using namespace rr;
-RoadRunnerData convertCAPIResultData(RRDataHandle		resultsHandle);
+RoadRunnerData convertCAPIResultData(RRDataHandle        resultsHandle);
 
 TestSuiteSimulation::TestSuiteSimulation(const string& dataOutputFolder, const string& modelFilePath, const string& modelFileName)
 :
-        rr::TestSuiteModelSimulation(dataOutputFolder, modelFilePath, modelFileName)
+        rr::TestSuiteModelSimulation(dataOutputFolder, modelFilePath, modelFileName),
+        mRRHandle(0),
+        mResultHandle(0)
 {
 }
 
 TestSuiteSimulation::~TestSuiteSimulation()
 {
-
+    freeRRData(mResultHandle);
 }
 
 void TestSuiteSimulation::UseHandle(RRHandle handle)
@@ -49,9 +51,9 @@ bool TestSuiteSimulation::LoadSettings(const string& settingsFName)
     {
         mModelSettingsFileName = joinPath(mModelFilePath, GetSettingsFileNameForCase(mCurrentCaseNumber));
     }
-	SBMLModelSimulation::LoadSettings(mModelSettingsFileName);
+    SBMLModelSimulation::LoadSettings(mModelSettingsFileName);
 
-	return loadSimulationSettings(mRRHandle, mModelSettingsFileName.c_str());
+    return loadSimulationSettings(mRRHandle, mModelSettingsFileName.c_str());
 }
 
 bool TestSuiteSimulation::Simulate()
@@ -90,15 +92,15 @@ bool TestSuiteSimulation::SaveResult()
     return true;
 }
 
-RoadRunnerData convertCAPIResultData(RRDataHandle	result)
+RoadRunnerData convertCAPIResultData(RRDataHandle    result)
 {
-	RoadRunnerData resultData;
+    RoadRunnerData resultData;
 
     StringList colNames;
     //Copy column names
     for(int i = 0; i < result->CSize; i++)
     {
-    	colNames.add(result->ColumnHeaders[i]);
+        colNames.add(result->ColumnHeaders[i]);
     }
 
     resultData.setColumnNames(colNames);

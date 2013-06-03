@@ -3143,7 +3143,9 @@ void NOMSupport::reorderRules(SBMLDocument& doc, Model& model)
 
     for (int i = numRules - 1; i >= 0; i--)
     {
-        Rule* current = model.removeRule(i);   //Todo: The rule is removed here. Is this for a copy? of the model??
+        // removes a rule pointer from the model, we now
+        // take ownership of it.
+        Rule* current = model.removeRule(i);
         switch (current->getTypeCode())
         {
             case SBML_ALGEBRAIC_RULE:
@@ -3162,23 +3164,32 @@ void NOMSupport::reorderRules(SBMLDocument& doc, Model& model)
     //TODO: Need to load suitable XML file to test and convert following code..
     assignmentRules = NOMSupport::reorderAssignmentRules(assignmentRules);
 
+    // IMPORTANT: model.addRule inserts a COPY of the rule object,
+    // we still retain ownership, so we have to delete them.
+
     //add rules back to the model..
     //    assignmentRules.ForEach(item => model.addRule(item));
     for(int i = 0; i < assignmentRules.size(); i++)
     {
-        model.addRule(assignmentRules[i]);
+        Rule* rule = assignmentRules[i];
+        model.addRule(rule);
+        delete rule;
     }
 
     //    rateRules.ForEach(item => model.addRule(item));
     for(int i = 0; i < rateRules.size(); i++)
     {
-        model.addRule(rateRules[i]);
+        Rule* rule = rateRules[i];
+        model.addRule(rule);
+        delete rule;
     }
 
     //    algebraicRules.ForEach(item => model.addRule(item));
     for(int i = 0; i < algebraicRules.size(); i++)
     {
-        model.addRule(algebraicRules[i]);
+        Rule *rule = algebraicRules[i];
+        model.addRule(rule);
+        delete rule;
     }
 
     if (numRules != model.getNumRules())
