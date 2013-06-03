@@ -830,7 +830,7 @@ bool RoadRunner::populateResult()
     return true;
 }
 
-// Help("Extension method to simulate (time start, time end, number of points). This routine resets the model to its initial condition before running the simulation (unlike simulate())"
+
 DoubleMatrix RoadRunner::simulateEx(const double& startTime, const double& endTime, const int& numberOfPoints)
 {
     try
