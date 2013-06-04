@@ -115,11 +115,6 @@ public:
     int                     getNumReactions();
     int                     getNumRules();
     int                     getSBOTerm(const string& sId);
-
-
-
-
-
     pair<string, string>    getNthInitialAssignmentPair(const int& nIndex);
     SBase*                  getElement(const string& sId);
 
@@ -133,15 +128,13 @@ public:
     string                  convertPowImpl(const string& sSBML);
     string                  convertSBML(const string& sModel, const int& nLevel, const int& nVersion);
     string                  convertSBML(const string& sModel, const int& nLevel, const int& nVersion, bool throwError);
-
-
     string                  convertTimeToCSymbol(const string& sArg, const string& sTimeSymbol);
     string                  fixCommonIssues(const string& sbml);
     string                  fixCommonIssues(const string& sbml, const string& programName, const string& programVersion);
     string                  fetAnnotatedModel(const string& targetSBML, const string& sourceSBML, bool checkModelId);
+
     string                  getAnnotation(const string& sId);
     string                  getCompartmentIdBySpeciesId(const string& sId);
-
     string                  getKineticLaw(const int& index);
     string                  getMetaId(const string& sId);
     string                  getModelId();
@@ -271,12 +264,9 @@ protected:
     void                    addMissingParameter(const string& parameterId, SBMLDocument *doc);
     void                    buildSymbolTable();
     void                    changeNameToCSymbol(Model* model, const string& name, const int& type);
-
     void                    changePow(ASTNode* node);
-
     void                    checkForMissingNames(ASTNode *node, StringListContainer results, StringListContainer symbols);
-
-    void                    lookForDependencies();
+   	void                    lookForDependencies();
     void                    removeSpatialSizeUnitsFromSpecies(SBMLDocument* doc);
     void                    removeSubstanceUnitsFromKineticLaws(SBMLDocument* doc);
     void                    removeTimeUnitsFromKineticLaws(SBMLDocument* doc);
@@ -287,8 +277,6 @@ protected:
      * clear the state of this object, free any objects we own.
      */
     void                    reset();
-
-
     /**
      * returns empty string if element is null, otherwise gets the element's
      * name if its set, otherwise gets the element's id.
@@ -299,7 +287,6 @@ protected:
     static void             modifyKineticLawsForReaction(KineticLaw& oLaw, const string& reactionId, Model &oModel);
     static void             changeSymbol(Model& oModel, const string& sTimeSymbol, const int& targetType);
     static void             changeTimeSymbol(Model& model, const string& timeSymbol);
-
 
     static void             changeParameterName(ASTNode& node, const string& sParameterName, const string& sPrefix);
     static void             getSymbols(ASTNode* node, StringList& list);
@@ -312,6 +299,3 @@ protected:
 
 }//namespace rr
 #endif
-
-
-

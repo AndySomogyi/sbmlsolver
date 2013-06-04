@@ -1617,7 +1617,7 @@ DoubleMatrix* RoadRunner::getLinkMatrix()
     }
     catch (const Exception& e)
     {
-         throw CoreException("Unexpected error from getLinkMatrix()", e.Message());
+    	throw CoreException("Unexpected error from getLinkMatrix()", e.Message());
     }
 }
 
