@@ -198,7 +198,8 @@ bool CompiledExecutableModel::setupModelData()
     mData.eventTypeSize                 = ms.mNumEvents;
 
     // allocate the data buffers
-    allocModelDataBuffers(mData, ms.mModelName);
+    string test = ms.mModelName;
+    allocModelDataBuffers(mData, test);//mCG.ms.mModelName);//.getModelName());
 
     if(cInitModel)
     {

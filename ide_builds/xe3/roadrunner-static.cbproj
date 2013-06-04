@@ -266,6 +266,9 @@
             <DependentOn>..\..\source\rrModelState.h</DependentOn>
             <BuildOrder>33</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\rrModelSymbols.cpp">
+            <BuildOrder>84</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrNewArrayList.cpp">
             <DependentOn>..\..\source\rrNewArrayList.h</DependentOn>
             <BuildOrder>62</BuildOrder>

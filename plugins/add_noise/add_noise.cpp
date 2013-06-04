@@ -55,6 +55,10 @@ rr::Plugin* __stdcall createPlugin(rr::RoadRunner* aRR)
 #pragma comment(lib, "poco_foundation-static.lib")
 #endif
 
+#if defined(_MSC_VER)
+#pragma comment(lib, "IPHLPAPI.lib")
+#endif
+
 
 
 

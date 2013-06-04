@@ -491,7 +491,7 @@ static StringList readIndependentSpeciesList(const LibStructural &libs, bool mCo
 static StringList readDependentSpeciesList(const LibStructural &libs, bool mComputeAndAssignConsevationLaws)
 {
     // cout << __FUNC__ << "\n";
-    return mComputeAndAssignConsevationLaws ? libs.getDependentSpecies() : StringList();
+    return mComputeAndAssignConsevationLaws ? StringList(libs.getDependentSpecies()) : StringList();
 }
 
 static SymbolList readFloatingSpeciesConcentrationList(NOMSupport& nom, LibStructural &libs,
