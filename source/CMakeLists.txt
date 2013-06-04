@@ -96,6 +96,7 @@ rrRoadRunnerData
 rrSelectionRecord
 rrMinimizationData
 rrModelGeneratorFactory
+rrNoise
 )
 
 if(RR_BUILD_SHARED_CORE)
