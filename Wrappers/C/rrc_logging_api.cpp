@@ -17,20 +17,23 @@ bool rrcCallConv enableLoggingToConsole()
         LogOutput::mLogToConsole = true;
         return true;
     }
-    catch(const Exception& ex)
+    catch_bool_macro
+}
+
+bool rrcCallConv disableLoggingToConsole()
+{
+    try
     {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-        return false;
+        LogOutput::mLogToConsole = false;
+        return true;
     }
+    catch_bool_macro
 }
 
 bool rrcCallConv enableLoggingToFile(RRHandle handle)
 {
     try
     {
-        RoadRunner* rri = castFrom(handle);
         char* tempFolder = getTempFolder(handle);
 		string logFile = joinPath(tempFolder, "RoadRunner.log") ;
         freeText(tempFolder);
@@ -38,13 +41,17 @@ bool rrcCallConv enableLoggingToFile(RRHandle handle)
         gLog.Init("", gLog.GetLogLevel(), new LogFile(logFile.c_str()));
         return true;
     }
-    catch(const Exception& ex)
+    catch_bool_macro
+}
+
+bool rrcCallConv disableLoggingToFile()
+{
+    try
     {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-          return false;
+        gLog.StopLogging();
+        return true;
     }
+    catch_bool_macro
 }
 
 bool rrcCallConv setLogLevel(const char* _lvl)
@@ -55,13 +62,7 @@ bool rrcCallConv setLogLevel(const char* _lvl)
         gLog.SetCutOffLogLevel(lvl);
         return true;
     }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-          return false;
-    }
+	catch_bool_macro
 }
 
 char* rrcCallConv getLogLevel()
@@ -72,13 +73,7 @@ char* rrcCallConv getLogLevel()
         char* lvl = createText(level.c_str());
         return lvl;
     }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-          return NULL;
-    }
+	catch_ptr_macro
 }
 
 char* rrcCallConv getLogFileName()
@@ -87,13 +82,7 @@ char* rrcCallConv getLogFileName()
     {
         return createText(gLog.GetLogFileName().c_str());
     }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-          return NULL;
-    }
+	catch_ptr_macro
 }
 
 void rrcCallConv logMsg(CLogLevel lvl, const char* msg)
@@ -102,12 +91,7 @@ void rrcCallConv logMsg(CLogLevel lvl, const char* msg)
     {
         Log((LogLevel) lvl)<<msg;
     }
-    catch(const Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-    }
+	catch_void_macro
 }
 
 }

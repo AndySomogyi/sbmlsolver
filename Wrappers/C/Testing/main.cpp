@@ -43,7 +43,6 @@ int main(int argc, char* argv[])
 
 	gTestDataFolder  	= joinPath(gRRInstallFolder, "testing");
 
-
 	setInstallFolder(gRRInstallFolder.c_str());
 
     if(gDebug)
@@ -55,6 +54,7 @@ int main(int argc, char* argv[])
     {
       setLogLevel("Error");
     }
+
     // set test suite model path (read from cmd line)
     gTSModelsPath = joinPath(joinPath(gTSModelsPath, "cases"), "semantic");
 

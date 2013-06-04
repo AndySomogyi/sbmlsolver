@@ -151,6 +151,139 @@ RRHandle gRR = NULL;
         }
     }
 
+	TEST(GET_SPECIES_INITIAL_CONCENTRATIONS)
+	{
+		CHECK(gRR!=NULL);
+
+		//Read in the reference data, from the ini file
+		IniSection* aSection = iniFile.GetSection("Get Species Initial Concentrations");
+		if(!aSection || !gRR)
+		{
+			CHECK(false);
+			return;
+		}
+
+		for(int i = 0 ; i < aSection->KeyCount(); i++)
+		{
+			IniKey *aKey = aSection->GetKey(i);
+			double val;
+			if(!getValue(gRR, aKey->mKey.c_str(), &val))
+			{
+				CHECK(false);
+			}
+
+			//Check concentrations
+			CHECK_CLOSE(aKey->AsFloat(), val, 1e-6);
+			clog<<"\n";
+			clog<<"Ref:\t"<<aKey->AsFloat()<<"\tActual:\t "<<val<<endl;
+		}
+	}
+
+	TEST(GET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX)
+	{
+		CHECK(gRR!=NULL);
+
+		//Read in the reference data, from the ini file
+		IniSection* aSection = iniFile.GetSection("Get Species Initial Concentrations By Index");
+		if(!aSection || !gRR)
+		{
+			CHECK(false);
+			return;
+		}
+
+		RRStringArray *arr = getFloatingSpeciesIds(gRR);
+		for(int i = 0 ; i < aSection->KeyCount(); i++)
+		{
+			IniKey *aKey = aSection->GetKey(i);
+			double val;
+			if(!getFloatingSpeciesInitialConcentrationByIndex(gRR, i, &val))
+			{
+				CHECK(false);
+			}
+
+			//Check concentrations
+			CHECK_CLOSE(aKey->AsFloat(), val, 1e-6);
+			clog<<"\n";
+			clog<<"Ref:\t"<<aKey->AsFloat()<<"\tActual:\t "<<val<<endl;
+		}
+	}
+
+	TEST(SET_SPECIES_INITIAL_CONCENTRATION_BY_INDEX)
+	{
+		CHECK(gRR!=NULL);
+
+		//Read in the reference data, from the ini file
+		IniSection* aSection = iniFile.GetSection("Set Species Initial Concentrations By Index");
+		if(!aSection || !gRR)
+		{
+			CHECK(false);
+			return;
+		}
+
+		RRStringArray *arr = getFloatingSpeciesIds(gRR);
+		for(int i = 0 ; i < aSection->KeyCount(); i++)
+		{
+			IniKey *aKey = aSection->GetKey(i);
+
+			//Set the value..
+            setFloatingSpeciesInitialConcentrationByIndex(gRR, i, aKey->AsFloat());
+
+			double val;
+            //Read it back
+			if(!getFloatingSpeciesInitialConcentrationByIndex(gRR, i, &val))
+			{
+				CHECK(false);
+			}
+
+			//Check concentrations
+			CHECK_CLOSE(aKey->AsFloat(), val, 1e-6);
+			clog<<"\n";
+			clog<<"Ref:\t"<<aKey->AsFloat()<<"\tActual:\t "<<val<<endl;
+		}
+
+        double val;
+        reset(gRR);
+        steadyState(gRR, &val);
+	}
+
+	TEST(SET_SPECIES_INITIAL_CONCENTRATIONS)
+	{
+		CHECK(gRR!=NULL);
+
+		//Read in the reference data, from the ini file
+		IniSection* aSection = iniFile.GetSection("Set Species Initial Concentrations");
+		if(!aSection || !gRR)
+		{
+			CHECK(false);
+			return;
+		}
+
+		for(int i = 0 ; i < aSection->KeyCount(); i++)
+		{
+			IniKey *aKey = aSection->GetKey(i);
+
+			//Set the value..
+            setValue(gRR, aKey->mKey.c_str(), aKey->AsFloat());
+
+			double val;
+            //Read it back
+			if(!getValue(gRR, aKey->mKey.c_str(), &val))
+			{
+				CHECK(false);
+			}
+
+			//Check concentrations
+			CHECK_CLOSE(aKey->AsFloat(), val, 1e-6);
+			clog<<"\n";
+			clog<<"Ref:\t"<<aKey->AsFloat()<<"\tActual:\t "<<val<<endl;
+		}
+
+		//We need to set back the values to concentrations, after running steady state..
+        double val;
+        reset(gRR);
+        steadyState(gRR, &val);
+	}
+
     TEST(FLUXES)
     {
         CHECK(gRR!=NULL);

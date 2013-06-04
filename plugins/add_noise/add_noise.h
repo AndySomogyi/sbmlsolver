@@ -18,7 +18,7 @@ typedef void    (rrCallConv *WorkStartedCB)(void*);
 typedef void    (rrCallConv *WorkFinishedCB)(void*);
 
 
-class RR_DECLSPEC AddNoise : public Plugin
+class AddNoise : public Plugin
 {
     public:
         enum NoiseType {ntGaussian = 0};
@@ -38,7 +38,7 @@ class RR_DECLSPEC AddNoise : public Plugin
 
 extern "C"
 {
-RR_DECLSPEC rr::Plugin* rrCallConv    createPlugin(rr::RoadRunner* aRR);
+PLUGIN_DECLSPEC rr::Plugin* rrCallConv    createPlugin(rr::RoadRunner* aRR);
 }
 
 }

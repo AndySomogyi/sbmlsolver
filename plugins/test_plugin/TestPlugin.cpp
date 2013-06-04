@@ -4,13 +4,6 @@
 #include "rrRoadRunner.h"
 #include "rrParameter.h"
 
-#if defined(CG_UI)
-    #if defined(STATIC_BUILD)
-    	#pragma comment(lib, "roadrunner-static.lib")
-    #else
-    	#pragma comment(lib, "roadrunner.lib")
-    #endif
-#endif
 //---------------------------------------------------------------------------
 namespace TestPlugin
 {
@@ -48,4 +41,12 @@ rr::Plugin* __stdcall createPlugin(rr::RoadRunner* aRR)
 }
 
 }
+
+#if defined(CG_UI)
+    #if defined(STATIC_BUILD)
+    	#pragma comment(lib, "roadrunner-static.lib")
+    #else
+    	#pragma comment(lib, "roadrunner.lib")
+    #endif
+#endif
 

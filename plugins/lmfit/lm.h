@@ -14,7 +14,7 @@ using namespace rr;
 using namespace rrc;
 using namespace std;
 
-class RR_DECLSPEC LM : public Plugin
+class LM : public Plugin
 {
     friend LMFitThread;
 
@@ -44,7 +44,7 @@ class RR_DECLSPEC LM : public Plugin
 
 extern "C"
 {
-RR_DECLSPEC rr::Plugin* rrCallConv    createPlugin(rr::RoadRunner* aRR);
+PLUGIN_DECLSPEC rr::Plugin* rrCallConv    createPlugin(rr::RoadRunner* aRR);
 }
 
 

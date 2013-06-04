@@ -778,6 +778,28 @@ C_DECL_SPEC RRVectorHandle rrcCallConv getGlobalParameterValues(RRHandle handle)
 C_DECL_SPEC bool rrcCallConv setBoundarySpeciesByIndex(RRHandle handle, const int index, const double value);
 
 /*!
+ \brief Set the initial concentration for a particular floating species.
+
+ \param[in] handle Handle to a RoadRunner instance
+ \param index The index to the floating species (corresponds to position in getFloatingSpeciesIds(RRHandle handle))
+ \param value The concentration of the species to set
+ \return Returns true if successful
+ \ingroup floating
+*/
+C_DECL_SPEC bool rrcCallConv setFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, int index, double value);
+
+/*!
+ \brief Get the initial concentration for a particular floating species.
+
+ \param[in] handle Handle to a RoadRunner instance
+ \param index The index to the floating species (corresponds to position in getFloatingSpeciesIds(RRHandle handle))
+ \param[in] value The concentration of the species
+ \return Returns true if successful
+ \ingroup floating
+*/
+C_DECL_SPEC bool rrcCallConv getFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, int index, double* value);
+
+/*!
  \brief Set the concentration for a particular floating species.
 
  \param[in] handle Handle to a RoadRunner instance

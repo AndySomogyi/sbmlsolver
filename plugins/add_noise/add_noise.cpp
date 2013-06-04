@@ -11,10 +11,10 @@ using namespace rr;
 
 AddNoise::AddNoise(rr::RoadRunner* aRR, WorkStartedCB fn1, WorkFinishedCB fn2)
 :
-Plugin(                    "AddNoise",                 "No Category",             aRR, fn1, fn2),
-mAddNoise(                   "Add noise",                 "...",                     "Add Noise"),
-mNoiseType(                   "NoiseType",                 ntGaussian,              "Noise Type"),
-mSigma(                    "Sigma",                     1,                         "Sigma"),
+Plugin(                    "AddNoise",                 "No Category",				aRR, fn1, fn2),
+mAddNoise(                 "Add noise",                 "...",						"Add Noise"),
+mNoiseType(                "NoiseType",                 ntGaussian,					"Noise Type"),
+mSigma(                    "Sigma",                     1,							"Sigma"),
 mAddNoiseThread()
 {
     //Setup the plugins capabilities
@@ -38,7 +38,7 @@ bool AddNoise::execute(void* inputData)
 }
 
 // Plugin factory function
-rr::Plugin* rrCallConv createPlugin(rr::RoadRunner* aRR)
+PLUGIN_DECLSPEC rr::Plugin* rrCallConv createPlugin(rr::RoadRunner* aRR)
 {
     //allocate a new object and return it
     return new AddNoise(aRR);
@@ -52,11 +52,11 @@ rr::Plugin* rrCallConv createPlugin(rr::RoadRunner* aRR)
         #pragma comment(lib, "roadrunner.lib")
     #endif
 
-#pragma comment(lib, "poco_foundation-static.lib")
+	#pragma comment(lib, "poco_foundation-static.lib")
 #endif
 
 #if defined(_MSC_VER)
-#pragma comment(lib, "IPHLPAPI.lib")
+	#pragma comment(lib, "IPHLPAPI.lib")
 #endif
 
 

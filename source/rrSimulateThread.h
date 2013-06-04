@@ -2,6 +2,7 @@
 #define rrSimulateThreadH
 #include <list>
 #include "rrRoadRunnerThread.h"
+#include "rrOSSpecifics.h"
 #include "Poco/Condition.h"
 //---------------------------------------------------------------------------
 

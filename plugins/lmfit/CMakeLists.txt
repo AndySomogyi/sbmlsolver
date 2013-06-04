@@ -10,7 +10,6 @@ ${THIRD_PARTY_INSTALL_FOLDER}/include
 set(sources 
 lm 
 lm_thread
-lmDataStructure
 lmUtils
 )
 
@@ -23,6 +22,7 @@ add_definitions(
 -DSTATIC_LIBSTRUCT
 -DLIBLAX_STATIC  
 -DSTATIC_NLEQ
+-DEXPORT_PLUGIN
 )
 
 add_library(${target} SHARED ${sources})
