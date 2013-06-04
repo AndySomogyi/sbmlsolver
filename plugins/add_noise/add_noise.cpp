@@ -11,16 +11,16 @@ using namespace rr;
 
 AddNoise::AddNoise(rr::RoadRunner* aRR, WorkStartedCB fn1, WorkFinishedCB fn2)
 :
-Plugin(				    "AddNoise", 				"No Category", 			aRR, fn1, fn2),
-mAddNoise(	   			"Add noise", 				"...", 					"Add Noise"),
-mNoiseType(	       		"NoiseType", 				ntGaussian, 	 		"Noise Type"),
-mSigma(	    			"Sigma", 					1, 						"Sigma"),
+Plugin(                    "AddNoise",                 "No Category",             aRR, fn1, fn2),
+mAddNoise(                   "Add noise",                 "...",                     "Add Noise"),
+mNoiseType(                   "NoiseType",                 ntGaussian,              "Noise Type"),
+mSigma(                    "Sigma",                     1,                         "Sigma"),
 mAddNoiseThread()
 {
-	//Setup the plugins capabilities
+    //Setup the plugins capabilities
     mCapabilities.add(mAddNoise);
     mAddNoise.addParameter(&mNoiseType);
-	mAddNoise.addParameter(&mSigma);
+    mAddNoise.addParameter(&mSigma);
 }
 
 AddNoise::~AddNoise()
@@ -28,28 +28,28 @@ AddNoise::~AddNoise()
 
 bool AddNoise::execute(void* inputData)
 {
-	Log(lDebug)<<"Executing the AddNoise plugin";
+    Log(lDebug)<<"Executing the AddNoise plugin";
 
     //go away and carry out the work in a thread
     //Assign callback functions to communicate the progress of the thread
-	mAddNoiseThread.assignCallBacks(mWorkStartedCB, mWorkFinishedCB, mUserData);
+    mAddNoiseThread.assignCallBacks(mWorkStartedCB, mWorkFinishedCB, mUserData);
     mAddNoiseThread.start(inputData, mSigma.getValue());
-	return true;
+    return true;
 }
 
 // Plugin factory function
-rr::Plugin* __stdcall createPlugin(rr::RoadRunner* aRR)
+rr::Plugin* rrCallConv createPlugin(rr::RoadRunner* aRR)
 {
     //allocate a new object and return it
-	return new AddNoise(aRR);
+    return new AddNoise(aRR);
 }
 }
 
 #if defined(CG_UI)
     #if defined(STATIC_BUILD)
-    	#pragma comment(lib, "roadrunner-static.lib")
+        #pragma comment(lib, "roadrunner-static.lib")
     #else
-    	#pragma comment(lib, "roadrunner.lib")
+        #pragma comment(lib, "roadrunner.lib")
     #endif
 
 #pragma comment(lib, "poco_foundation-static.lib")
@@ -88,6 +88,6 @@ rr::Plugin* __stdcall createPlugin(rr::RoadRunner* aRR)
 
 extern "C" int _libmain(unsigned long reason)
 {
-	return 1;
+    return 1;
 }
 
