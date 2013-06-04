@@ -11,10 +11,10 @@ namespace rr
 {
 #endif
 typedef struct   SModelData *ModelDataP;
-typedef double 	(*TEventDelayDelegate)(ModelDataP);
+typedef double     (*TEventDelayDelegate)(ModelDataP);
 typedef double* (*TComputeEventAssignmentDelegate)(ModelDataP);
-typedef void 	(*TPerformEventAssignmentDelegate)(ModelDataP, double*);
-typedef void 	(*TEventAssignmentDelegate)();
+typedef void     (*TPerformEventAssignmentDelegate)(ModelDataP, double*);
+typedef void     (*TEventAssignmentDelegate)();
 
 
 /**
@@ -32,86 +32,102 @@ typedef void 	(*TEventAssignmentDelegate)();
  */
 typedef struct SModelData
 {
-    double	                       	    time;
-    int                            	    numIndependentVariables;
-    int                            	    numDependentVariables;
-    int                            	    numTotalVariables;
-    int                            	    numBoundaryVariables;
-    int                            	    numGlobalParameters;
-    int                            	    numCompartments;
-    int                            	    numReactions;
-    int                            	    numRules;
-    int                            	    numEvents;
+    double                              time;
+    int                                 numIndependentVariables;
+    int                                 numDependentVariables;
+    int                                 numTotalVariables;
+    int                                 numBoundaryVariables;
+    int                                 numGlobalParameters;
+    int                                 numCompartments;
+    int                                 numReactions;
+    int                                 numRules;
+    int                                 numEvents;
 
+    /**
+     * Is set by the model to the names of the FloatingSpeciesConcentrationList.
+     * The model should set each variableTable[i] to a static null terminated string.
+     * allocModelDataBuffers should allocate space for numTotalVariables.
+     * strings.
+     */
     char**                              variableTable;
+
+    /**
+     * names of boundary table species, set by the model to a static string.
+     * allocModelDataBuffers should allocate numBoundaryVariables length char** array.
+     */
     char**                              boundaryTable;
+
+    /**
+     * names of global parameters. populated by the model.
+     * allocModelDataBuffers should allocate length numGlobalParameters  char** array.
+     */
     char**                              globalParameterTable;
 
-	//These need allocation...
-	char*		                        modelName;
+    //These need allocation...
+    char*                               modelName;
 
     int                                 ySize;
     double*                             y;
 
- 	int                                 gpSize;
-	double* 	                        gp;
+     int                                gpSize;
+    double*                             gp;
 
-	int		 	                        srSize;
-	double* 	                        sr;
+    int                                 srSize;
+    double*                             sr;
 
-    int									lpSize;
-    double*		                        lp;
+    int                                 lpSize;
+    double*                             lp;
 
-	int									init_ySize;
-    double*		                        init_y;
+    int                                 init_ySize;
+    double*                             init_y;
 
-    int									amountsSize;
-    double*	                            amounts;
+    int                                 amountsSize;
+    double*                             amounts;
 
-    int									bcSize;
-    double*	                            bc;
+    int                                 bcSize;
+    double*                             bc;
 
-    int		                            cSize;
-    double*	                            c;
+    int                                 cSize;
+    double*                             c;
 
-	int                                 dydtSize;
-    double*	                            dydt;
+    int                                 dydtSize;
+    double*                             dydt;
 
-    int									ratesSize;
-    double*	                            rates;
+    int                                 ratesSize;
+    double*                             rates;
 
-    int									rateRulesSize;
-    double*	                            rateRules;
+    int                                 rateRulesSize;
+    double*                             rateRules;
 
-	int									ctSize;
-    double*	                            ct;
+    int                                 ctSize;
+    double*                             ct;
 
-    int                           	    localParameterDimensionsSize;
-    int*                           	    localParameterDimensions;
+    int                                 localParameterDimensionsSize;
+    int*                                localParameterDimensions;
 
-	//Event stuff
-	int									eventTypeSize;
-    bool*                          	    eventType;
+    //Event stuff
+    int                                 eventTypeSize;
+    bool*                               eventType;
 
-	int									eventPersistentTypeSize;
-    bool*                          	    eventPersistentType;
+    int                                 eventPersistentTypeSize;
+    bool*                               eventPersistentType;
 
-	int									eventTestsSize;
-    double*	                            eventTests;
+    int                                 eventTestsSize;
+    double*                             eventTests;
 
-	int									eventPrioritiesSize;
-	double*	                     	    eventPriorities;
+    int                                 eventPrioritiesSize;
+    double*                             eventPriorities;
 
-    int		                            eventStatusArraySize;
+    int                                 eventStatusArraySize;
     bool*                               eventStatusArray;
 
-	int									previousEventStatusArraySize;
+    int                                 previousEventStatusArraySize;
     bool*                               previousEventStatusArray;
 
     TEventDelayDelegate*                eventDelays;
-	TEventAssignmentDelegate*       	eventAssignments;
+    TEventAssignmentDelegate*           eventAssignments;
 
-    TComputeEventAssignmentDelegate* 	computeEventAssignments;
+    TComputeEventAssignmentDelegate*    computeEventAssignments;
     TPerformEventAssignmentDelegate*    performEventAssignments;
 
 } ModelData;

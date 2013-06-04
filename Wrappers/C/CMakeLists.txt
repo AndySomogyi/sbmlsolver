@@ -17,6 +17,7 @@ rrc_utilities
 rrc_plugin_api
 rrc_jobs_api
 rrc_parameter_api
+rrc_logging_api
 rrc_cpp_support
 )
 
@@ -51,7 +52,7 @@ STATIC_LIBSTRUCT
 )
 
 target_link_libraries ( ${target} 
-roadrunner
+roadrunner-static
 blas
 lapack
 f2c

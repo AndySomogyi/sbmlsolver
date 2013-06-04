@@ -52,7 +52,6 @@ mSteadyStateThreshold(1.E-2),
 mSimulation(NULL),
 mCurrentSBMLFileName(""),
 mCVode(NULL),
-mSteadyStateSolver(NULL),
 mComputeAndAssignConservationLaws("Conservation", false, "enables (=true) or disables \
 (=false) the conservation analysis \
 of models for timecourse simulations."),
@@ -66,8 +65,8 @@ mConservedTotalChanged(false),
 mCapabilities("RoadRunner", "RoadRunner Capabilities"),
 mRRCoreCapabilities("Road Runner Core", "", "Core RoadRunner Parameters")
 {
-	//Roadrunner is a "single" capability with many parameters
-	mRRCoreCapabilities.addParameter(&mComputeAndAssignConservationLaws);
+    //Roadrunner is a "single" capability with many parameters
+    mRRCoreCapabilities.addParameter(&mComputeAndAssignConservationLaws);
 
     mCapabilities.add(mRRCoreCapabilities);
     Log(lDebug4)<<"In RoadRunner ctor";
@@ -80,23 +79,23 @@ mRRCoreCapabilities("Road Runner Core", "", "Core RoadRunner Parameters")
     setTempFileFolder(tempFolder);
     mPluginManager.setRoadRunnerInstance(this);
 
-	//Increase instance count..
-	mInstanceCount++;
+    //Increase instance count..
+    mInstanceCount++;
     mInstanceID = mInstanceCount;
 
-	//Setup additonal objects
+    //Setup additonal objects
     mCVode = new CvodeInterface(this, NULL);
 
     if(mCVode)
     {
-    	mCapabilities.add(mCVode->getCapability());
+        mCapabilities.add(mCVode->getCapability());
     }
 
-	mSteadyStateSolver = getNLEQInterface();
-    if(mSteadyStateSolver)
-    {
-    	mCapabilities.add(mSteadyStateSolver->getCapability());
-    }
+    // we currently use NLEQInterface as the only steady state solver.
+    // should this change in the future, this should be replaced
+    // with a factory pattern.
+    NLEQInterface ss = NLEQInterface();
+    mCapabilities.add(ss.getCapability());
 }
 
 RoadRunner::~RoadRunner()
@@ -118,39 +117,40 @@ ExecutableModel* RoadRunner::getModel()
     return mModel;
 }
 
+
 vector<SelectionRecord> RoadRunner::getSelectionList()
 {
-	return mSelectionList;
+    return mSelectionList;
 }
 
 string RoadRunner::getInfo()
 {
-	stringstream info;
+    stringstream info;
     info<<"Model Loaded: "<<(mModel == NULL ? "false" : "true")<<endl;
     if(mModel)
     {
-    	info<<"ModelName: "			<<  mModel->getModelName()<<endl;
-//        info<<"Model DLL Loaded: "	<< (mModel->mDLL.isLoaded() ? "true" : "false")	<<endl;
-//        info<<"Initialized: "		<< (mModel->mIsInitialized ? "true" : "false")	<<endl;
+        info<<"ModelName: "            <<  mModel->getModelName()<<endl;
+//        info<<"Model DLL Loaded: "    << (mModel->mDLL.isLoaded() ? "true" : "false")    <<endl;
+//        info<<"Initialized: "        << (mModel->mIsInitialized ? "true" : "false")    <<endl;
     }
-    info<<"ConservationAnalysis: "	<<	(mComputeAndAssignConservationLaws.getValue() ? "true" : "false")<<endl;
-    info<<"libSBML version: "		<<	getlibSBMLVersion()<<endl;
-    info<<"Temporary folder: "		<<	getTempFolder()<<endl;
-    info<<"Compiler location: "		<<	getCompiler()->getCompilerLocation()<<endl;
-    info<<"Support Code Folder: "	<<	getCompiler()->getSupportCodeFolder()<<endl;
-    info<<"Working Directory: "		<<	getCWD()<<endl;
-	return info.str();
+    info<<"ConservationAnalysis: "    <<    (mComputeAndAssignConservationLaws.getValue() ? "true" : "false")<<endl;
+    info<<"libSBML version: "        <<    getlibSBMLVersion()<<endl;
+    info<<"Temporary folder: "        <<    getTempFolder()<<endl;
+    info<<"Compiler location: "        <<    getCompiler()->getCompilerLocation()<<endl;
+    info<<"Support Code Folder: "    <<    getCompiler()->getSupportCodeFolder()<<endl;
+    info<<"Working Directory: "        <<    getCWD()<<endl;
+    return info.str();
 }
 
 string RoadRunner::getExtendedVersionInfo()
 {
-	stringstream info;
-    info<<"libSBML version: "		<<	getlibSBMLVersion()<<endl;
-    info<<"Temporary folder: "		<<	getTempFolder()<<endl;
-    info<<"Compiler location: "		<<	getCompiler()->getCompilerLocation()<<endl;
-    info<<"Support Code Folder: "	<<	getCompiler()->getSupportCodeFolder()<<endl;
-    info<<"Working Directory: "		<<	getCWD()<<endl;
-	return info.str();
+    stringstream info;
+    info<<"libSBML version: "        <<    getlibSBMLVersion()<<endl;
+    info<<"Temporary folder: "        <<    getTempFolder()<<endl;
+    info<<"Compiler location: "        <<    getCompiler()->getCompilerLocation()<<endl;
+    info<<"Support Code Folder: "    <<    getCompiler()->getSupportCodeFolder()<<endl;
+    info<<"Working Directory: "        <<    getCWD()<<endl;
+    return info.str();
 }
 
 PluginManager&    RoadRunner::getPluginManager()
@@ -181,15 +181,9 @@ bool RoadRunner::setCompiler(const string& compiler)
 {
     return mModelGenerator ? mModelGenerator->setCompiler(compiler) : false;
 }
+/*
 
-NLEQInterface* RoadRunner::getNLEQInterface()
-{
-    if(!mSteadyStateSolver)// && mModel != NULL)
-    {
-        mSteadyStateSolver = new NLEQInterface(mModel);
-    }
-    return dynamic_cast<NLEQInterface*>(mSteadyStateSolver);
-}
+*/
 
 bool RoadRunner::isModelLoaded()
 {
@@ -207,32 +201,32 @@ bool RoadRunner::useSimulationSettings(SimulationSettings& settings)
 
 bool RoadRunner::computeAndAssignConservationLaws()
 {
-	return mComputeAndAssignConservationLaws.getValue();
+    return mComputeAndAssignConservationLaws.getValue();
 }
 
 bool RoadRunner::setTempFileFolder(const string& folder)
 {
-	if(folderExists(folder))
-	{
-		Log(lDebug)<<"Setting temp file folder to "<<folder;
-	    mModelGenerator->setTemporaryDirectory(folder);
-		mTempFileFolder = folder;
-		return true;
-	}
-	else
-	{
-    	stringstream msg;
+    if(folderExists(folder))
+    {
+        Log(lDebug)<<"Setting temp file folder to "<<folder;
+        mModelGenerator->setTemporaryDirectory(folder);
+        mTempFileFolder = folder;
+        return true;
+    }
+    else
+    {
+        stringstream msg;
         msg<<"The folder: "<<folder<<" don't exist...";
-		Log(lError)<<msg.str();
+        Log(lError)<<msg.str();
 
-		CoreException e(msg.str());
+        CoreException e(msg.str());
         throw(e);
-	}
+    }
 }
 
 string RoadRunner::getTempFolder()
 {
-	return mTempFileFolder;
+    return mTempFileFolder;
 }
 
 int RoadRunner::createDefaultTimeCourseSelectionList()
@@ -240,7 +234,7 @@ int RoadRunner::createDefaultTimeCourseSelectionList()
     StringList theList;
     StringList oFloating  = getFloatingSpeciesIds();
 
-	theList.add("time");
+    theList.add("time");
     for(int i = 0; i < oFloating.Count(); i++)
     {
         theList.add(oFloating[i]);
@@ -560,7 +554,7 @@ bool RoadRunner::simulateSBMLFile(const string& fileName, const bool& useConserv
 
 bool RoadRunner::loadSBMLFromFile(const string& fileName, const bool& forceReCompile)
 {
-	if(!fileExists(fileName))
+    if(!fileExists(fileName))
     {
         stringstream msg;
         msg<<"File: "<<fileName<<" don't exist";
@@ -610,11 +604,11 @@ string RoadRunner::createModelName(const string& mCurrentSBMLFileName)
     string modelName;
     if(mCurrentSBMLFileName.size())
     {
-    	modelName = getFileNameNoExtension(mCurrentSBMLFileName);
+        modelName = getFileNameNoExtension(mCurrentSBMLFileName);
     }
     else
     {
-		modelName = toString(mInstanceID);
+        modelName = toString(mInstanceID);
     }
     return modelName;
 }
@@ -623,7 +617,7 @@ bool cleanFolder(const string& folder, const string& baseName, const StringList&
 {
     for(int i = 0; i < extensions.Count(); i++)
        {
-    	string aFName = joinPath(folder, baseName) + "." + extensions[i];
+        string aFName = joinPath(folder, baseName) + "." + extensions[i];
         Poco::File aFile(aFName);
         if(aFile.exists())
         {
@@ -788,11 +782,12 @@ DoubleMatrix RoadRunner::simulate()
         {
             throw Exception("Error: time end must be greater than time start");
         }
-    	return runSimulation();
+        return runSimulation();
     }
     catch (const Exception& e)
     {
         Log(lWarning)<<"Problem in simulate: "<<e.Message();
+
     }
 
 }
@@ -805,7 +800,7 @@ bool RoadRunner::simulate2()
         throw(Exception("There is no model loaded, can't simulate"));
     }
 
- 	mRawRoadRunnerData = simulateEx(mTimeStart, mTimeEnd, mNumPoints);
+     mRawRoadRunnerData = simulateEx(mTimeStart, mTimeEnd, mNumPoints);
 
     //Populate simulation result
     populateResult();
@@ -820,7 +815,7 @@ bool RoadRunner::simulate2Ex(const double& startTime, const double& endTime, con
         throw(Exception("There is no model loaded, can't simulate"));
     }
 
- 	mRawRoadRunnerData = simulateEx(startTime, endTime, numberOfPoints);
+     mRawRoadRunnerData = simulateEx(startTime, endTime, numberOfPoints);
 
     //Populate simulation result
     populateResult();
@@ -836,7 +831,7 @@ bool RoadRunner::populateResult()
     return true;
 }
 
-// Help("Extension method to simulate (time start, time end, number of points). This routine resets the model to its initial condition before running the simulation (unlike simulate())"
+
 DoubleMatrix RoadRunner::simulateEx(const double& startTime, const double& endTime, const int& numberOfPoints)
 {
     try
@@ -949,24 +944,19 @@ double RoadRunner::steadyState()
             Log(lError)<<"Kinsol solver is not enabled...";
             return -1;
     }
-    else
-    {
-        mSteadyStateSolver = new NLEQInterface(mModel);
-    }
+
+    NLEQInterface steadyStateSolver(mModel);
 
     //Get a std vector for the solver
     vector<double> someAmounts;
     copyCArrayToStdVector(mModel->getModelData().amounts, someAmounts, mModel->getNumIndependentVariables());
 
-    double ss = mSteadyStateSolver->solve(someAmounts);
+    double ss = steadyStateSolver.solve(someAmounts);
     if(ss < 0)
     {
         Log(lError)<<"Steady State solver failed...";
     }
     mModel->convertToConcentrations();
-
-    delete mSteadyStateSolver;
-    mSteadyStateSolver = NULL;
 
     return ss;
 }
@@ -1025,9 +1015,9 @@ double RoadRunner::getParameterValue(const TParameterType& parameterType, const 
 //              + "By default roadRunner will discover conservation cycles and reduce the model accordingly.")
 void RoadRunner::computeAndAssignConservationLaws(const bool& bValue)
 {
-	if(bValue == mComputeAndAssignConservationLaws.getValue())
+    if(bValue == mComputeAndAssignConservationLaws.getValue())
     {
-    	Log(lWarning)<<"The compute and assign conservation laws flag already set to : "<<toString(bValue);
+        Log(lWarning)<<"The compute and assign conservation laws flag already set to : "<<toString(bValue);
     }
 
     mComputeAndAssignConservationLaws.setValue(bValue);
@@ -1305,9 +1295,9 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
 
     for (int i = 0; i < _selList.Count(); i++)
     {
-    	if (toUpper(newSelectionList[i]) == toUpper("time"))
+        if (toUpper(newSelectionList[i]) == toUpper("time"))
         {
-        	mSelectionList.push_back(SelectionRecord(0, clTime));
+            mSelectionList.push_back(SelectionRecord(0, clTime));
         }
 
         // Check for species
@@ -1315,13 +1305,13 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
         {
             if (newSelectionList[i] == fs[j])
             {
-               	mSelectionList.push_back(SelectionRecord(j, SelectionType::clFloatingSpecies));
+                   mSelectionList.push_back(SelectionRecord(j, SelectionType::clFloatingSpecies));
                 break;
             }
 
             if (newSelectionList[i] == "[" + fs[j] + "]")
             {
-               	mSelectionList.push_back(SelectionRecord(j, clFloatingAmount));
+                   mSelectionList.push_back(SelectionRecord(j, clFloatingAmount));
                 break;
             }
 
@@ -1519,7 +1509,7 @@ vector< Complex > RoadRunner::getEigenvaluesCpx()
         }
 
         DoubleMatrix mat;
-		if (mComputeAndAssignConservationLaws.getValue())
+        if (mComputeAndAssignConservationLaws.getValue())
         {
            mat = getReducedJacobian();
         }
@@ -1546,7 +1536,7 @@ DoubleMatrix RoadRunner::getFullJacobian()
         }
         DoubleMatrix uelast = getUnscaledElasticityMatrix();
         DoubleMatrix rsm;
-		if (mComputeAndAssignConservationLaws.getValue())
+        if (mComputeAndAssignConservationLaws.getValue())
         {
             rsm = getReorderedStoichiometryMatrix();
         }
@@ -2491,7 +2481,7 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
                 }
                 return gDoubleNaN;
             }
-			throw CoreException(format("Found unknown floating species '{0}' in computeSteadyStateValue()", sSpecies));
+            throw CoreException(format("Found unknown floating species '{0}' in computeSteadyStateValue()", sSpecies));
         }
         try
         {
@@ -2575,7 +2565,7 @@ double RoadRunner::getLocalParameterByIndex    (const int& reactionId, const int
     }
     else
     {
-     	throw CoreException(format("Index in getLocalParameterByIndex out of range: [{0}]", index));
+         throw CoreException(format("Index in getLocalParameterByIndex out of range: [{0}]", index));
     }
 }
 
@@ -2783,6 +2773,23 @@ int RoadRunner::getNumberOfFloatingSpecies()
         throw CoreException(gEmptyModelMessage);
     }
     return mModel->getNumTotalVariables();
+}
+
+double RoadRunner::getFloatingSpeciesInitialConcentrationByIndex(const int& index)
+{
+    if (!mModel)
+    {
+        throw CoreException(gEmptyModelMessage);
+    }
+
+    if ((index >= 0) && (index < mModel->getNumTotalVariables()))
+    {
+        return mModel->getModelData().init_y[index];
+    }
+    else
+    {
+        throw CoreException(format("Index in setFloatingSpeciesInitialConcentrationByIndex out of range: [{0}]", index));
+    }
 }
 
 // Help("Sets the value of a floating species by its index")
@@ -3014,20 +3021,22 @@ double RoadRunner::getGlobalParameterByIndex(const int& index)
     if ((index >= 0) && (index < (mModel->getNumGlobalParameters() + mModel->getModelData().ctSize)))
     {
         int arraySize = mModel->getModelData().gpSize + mModel->getModelData().ctSize;
-        double* result = new double[arraySize];
+        double* data = new double[arraySize];
 
         for(int i = 0; i < mModel->getModelData().gpSize; i++)
         {
-            result[i] = mModel->getModelData().gp[i];
+            data[i] = mModel->getModelData().gp[i];
         }
 
         int tempIndex = 0;
         for(int i = mModel->getModelData().gpSize; i < arraySize; i++)
         {
-            result[i] = mModel->getModelData().ct[tempIndex++];
+            data[i] = mModel->getModelData().ct[tempIndex++];
         }
 
-        return result[index];
+        double result = data[index];
+        delete[] data;
+        return result;
     }
 
     throw CoreException(format("Index in getNumGlobalParameters out of range: [{0}]", index));
@@ -3656,7 +3665,7 @@ DoubleMatrix RoadRunner::getUnscaledFluxControlCoefficientMatrix()
 
             DoubleMatrix T1 = mult(uee, ucc);
 
-			// Add an identity matrix I to T1, that is add a 1 to every diagonal of T1
+            // Add an identity matrix I to T1, that is add a 1 to every diagonal of T1
             for (int i=0; i<T1.RSize(); i++)
                 T1[i][i] = T1[i][i] + 1;
             return T1;//Matrix.convertToDouble(T1);
@@ -3852,7 +3861,7 @@ string RoadRunner::getCapabilitiesAsXML()
 
 Capability* RoadRunner::getCapability(const string& cap_name)
 {
-	return mCapabilities.get(cap_name);
+    return mCapabilities.get(cap_name);
 }
 
 StringList RoadRunner::getListOfCapabilities()
@@ -3862,32 +3871,32 @@ StringList RoadRunner::getListOfCapabilities()
 
 bool RoadRunner::addCapability(Capability& cap)
 {
-	mCapabilities.add(cap);
-	return true;
+    mCapabilities.add(cap);
+    return true;
 }
 
 bool RoadRunner::addCapabilities(Capabilities& caps)
 {
-	for(int i = 0; i < caps.count(); i++)
+    for(int i = 0; i < caps.count(); i++)
     {
-    	addCapability(*(caps[i]));
+        addCapability(*(caps[i]));
     }
     return true;
 }
 
 StringList RoadRunner::getListOfParameters(const string& cap)
 {
-	Capability *aCap = mCapabilities.get(cap);
+    Capability *aCap = mCapabilities.get(cap);
     if(!aCap)
     {
-    	stringstream msg;
-    	msg<<"No such capability: "<<cap;
-		throw(CoreException(msg.str()));
+        stringstream msg;
+        msg<<"No such capability: "<<cap;
+        throw(CoreException(msg.str()));
     }
     Parameters* paras = aCap->getParameters();
     if(paras)
     {
-    	return paras->asStringList();
+        return paras->asStringList();
     }
 }
 
@@ -4076,7 +4085,7 @@ double RoadRunner::getValue(const string& sId)
 
         //DoubleMatrix mat = getReducedJacobian();
         DoubleMatrix mat;
-		if (mComputeAndAssignConservationLaws.getValue())
+        if (mComputeAndAssignConservationLaws.getValue())
         {
            mat = getReducedJacobian();
         }
@@ -4877,7 +4886,7 @@ vector<double> RoadRunner::getSelectedValues()
 {
     if (!mModel)
     {
-    	throw CoreException(gEmptyModelMessage);
+        throw CoreException(gEmptyModelMessage);
     }
 
     vector<double> result;
@@ -4885,7 +4894,7 @@ vector<double> RoadRunner::getSelectedValues()
 
     for (int i = 0; i < mSelectionList.size(); i++)
     {
-    	result[i] = getNthSelectedOutput(i, mModel->getModelData().time);
+        result[i] = getNthSelectedOutput(i, mModel->getModelData().time);
     }
     return result;
 }

@@ -76,7 +76,7 @@ double gaussNoise(double mean, double sigma)
     u = ( double) rand() / RAND_MAX;
     if (u == 1.0)
     {
-    	u = 0.999999999;
+        u = 0.999999999;
     }
 
     /* generate a Rayleigh-distributed random number r using u */
@@ -86,7 +86,7 @@ double gaussNoise(double mean, double sigma)
     u = (double) rand() / RAND_MAX;
     if (u == 1.0)
     {
-    	u = 0.999999999;
+        u = 0.999999999;
     }
 
     /* generate and return a Gaussian-distributed random number using r and u */
@@ -94,9 +94,9 @@ double gaussNoise(double mean, double sigma)
 }
 
 // A function to get a character from the console without echo.
-// equivalent of Windows / Curses getch function. Note, that the 
-// curses library has the same thing, but not all systems have curses, 
-// and makes no sense have a dependency on it for one simple function. 
+// equivalent of Windows / Curses getch function. Note, that the
+// curses library has the same thing, but not all systems have curses,
+// and makes no sense have a dependency on it for one simple function.
 #if defined(__unix__) || defined(__APPLE__)
 static char rrGetch()
 {
@@ -145,7 +145,7 @@ string getTime()
 
 string getDateTime()
 {
-	// Get current date/time, format is YYYY-MM-DD.HH:mm:ss
+    // Get current date/time, format is YYYY-MM-DD.HH:mm:ss
     time_t     now = time(0);
     struct tm  tstruct;
     char       buf[80];
@@ -183,81 +183,83 @@ return ".";
 string getCurrentExeFolder()
 {
 #if defined(_WIN32) || defined(WIN32)
-	char path[MAX_PATH];
-	if(GetModuleFileNameA(NULL, path, ARRAYSIZE(path)) != 0)
+    char path[MAX_PATH];
+    if(GetModuleFileNameA(NULL, path, ARRAYSIZE(path)) != 0)
     {
-	    string aPath(getFilePath(path));
-		return aPath;
+        string aPath(getFilePath(path));
+        return aPath;
     }
     return "";
 #elif defined(__APPLE__)
-    char path[PATH_MAX+1];
-    unsigned  bufsize = sizeof(path);
-    if (_NSGetExecutablePath(path, &bufsize) == 0) {
-	    string aPath(extractFilePath(path));
-		return aPath;
-    }
-#elif defined __linux
-        char arg1[20];
-        char exepath[PATH_MAX + 1] = {0};
-
-        sprintf( arg1, "/proc/%d/exe", getpid() );
-        readlink( arg1, exepath, 1024 );
-		string thePath = getFilePath(exepath);
-		Log(lDebug1)<<"Current exe folder says:"<<thePath;
+    char exepath[PATH_MAX+1] = {0};
+    unsigned  bufsize = sizeof(exepath);
+    if (_NSGetExecutablePath(exepath, &bufsize) == 0)
+    {
+        string thePath = getFilePath(exepath);
+        Log(lDebug1)<<"Current exe folder says:"<<thePath;
         return thePath;
+    }
+#elif defined (__linux)
+    char arg1[20];
+    char exepath[PATH_MAX+1] = {0};
+
+    sprintf( arg1, "/proc/%d/exe", getpid() );
+    readlink( arg1, exepath, 1024 );
+    string thePath = getFilePath(exepath);
+    Log(lDebug1)<<"Current exe folder says:"<<thePath;
+    return thePath;
 #endif
 
 }
 
 string getParentFolder(const string& path)
 {
-	if(path.size() < 1)
+    if(path.size() < 1)
     {
-    	return "";
+        return "";
     }
-	vector<string> fldrs = splitString(path, gPathSeparator);
+    vector<string> fldrs = splitString(path, gPathSeparator);
     string parent("");
     if(fldrs.size() > 1)
-	{
-    	for(int i = 0; i < fldrs.size() -1; i++)
+    {
+        for(int i = 0; i < fldrs.size() -1; i++)
         {
-			parent = joinPath(parent, fldrs[i]);
+            parent = joinPath(parent, fldrs[i]);
         }
 
         string pathSep;
         pathSep.push_back(gPathSeparator);
         if(path.compare(0,1, pathSep) == 0)
-		{
-			parent = gPathSeparator + parent;
-		}
-		return parent;
+        {
+            parent = gPathSeparator + parent;
+        }
+        return parent;
     }
     else
     {
-    	return path;
+        return path;
     }
 }
 
 string getCWD()
 {
     //Get the working directory
-	char *buffer;
+    char *buffer;
 
-	string cwd;
-	// Get the current working directory:
-	if( (buffer = getcwd( NULL, 512 )) == NULL )
-	{
-		Log(lError)<<"getCWD failed";
-		return "";
-	}
-	else
-	{
+    string cwd;
+    // Get the current working directory:
+    if( (buffer = getcwd( NULL, 512 )) == NULL )
+    {
+        Log(lError)<<"getCWD failed";
+        return "";
+    }
+    else
+    {
       cwd = buffer;
       free(buffer);
-	}
+    }
 
-	return cwd;
+    return cwd;
 }
 
 void sleep(int milliSeconds)
@@ -267,12 +269,12 @@ void sleep(int milliSeconds)
 
 const char getPathSeparator()
 {
-	return gPathSeparator;
+    return gPathSeparator;
 }
 
 string getFileContent(const string& fName)
 {
-	string content;
+    string content;
 
     vector<string> lines = getLinesInFile(fName);
     for(int i = 0; i < lines.size(); i++)
@@ -345,11 +347,11 @@ void pause(bool doIt, const string& msg)
 
     if(msg.size() == 0)
     {
-    	cout<<"Hit any key to exit...";
+        cout<<"Hit any key to exit...";
     }
     else
     {
-    	cout<<msg;
+        cout<<msg;
     }
     cin.ignore(0,'\n');
 
@@ -398,7 +400,7 @@ void createTestSuiteFileNameParts(int caseNr, const string& postFixPart, string&
     modelFilePath = joinPath(modelFilePath, modelSubPath.str());
     modelName =  modelFileName.str();
     settingsFileName <<setfill('0')<<setw(5)<<caseNr<<"-settings.txt";
-	settingsFName = settingsFileName.str();
+    settingsFName = settingsFileName.str();
 }
 
 string getTestSuiteSubFolderName(int caseNr)
@@ -418,11 +420,11 @@ bool createFolder(const string& folder)
 #if defined(WIN32)
     int res = mkdir(folder.c_str());
 #else
-	int temp;
+    int temp;
 #define MY_MASK 0777
-// 	printf("Default mask: %o\n", MY_MASK & ~022 & MY_MASK);
-  	temp = umask(0);
-//  	printf("Previous umask = %o\n", temp);
+//     printf("Default mask: %o\n", MY_MASK & ~022 & MY_MASK);
+      temp = umask(0);
+//      printf("Previous umask = %o\n", temp);
     int res = mkdir(folder.c_str(), S_IRWXU | S_IRWXG | S_IRWXO);
 #endif
 
@@ -567,41 +569,41 @@ double* createVector(const vector<double>& vec)
 
 StringList getSelectionListFromSettings(const SimulationSettings& settings)
 {
-	//read from settings the variables found in the amounts and concentrations lists
-	StringList theList;
-	SelectionRecord record;
+    //read from settings the variables found in the amounts and concentrations lists
+    StringList theList;
+    SelectionRecord record;
 
     int nrOfVars = settings.mVariables.Count();
 
-	for(int i = 0; i < settings.mAmount.Count(); i++)
-	{
-		theList.add("[" + settings.mAmount[i] + "]");        //In the setSelection list below, the [] selects the correct 'type'
-	}
+    for(int i = 0; i < settings.mAmount.Count(); i++)
+    {
+        theList.add("[" + settings.mAmount[i] + "]");        //In the setSelection list below, the [] selects the correct 'type'
+    }
 
-	for(int i = 0; i < settings.mConcentration.Count(); i++)
-	{
-		theList.add(settings.mConcentration[i]);
-	}
+    for(int i = 0; i < settings.mConcentration.Count(); i++)
+    {
+        theList.add(settings.mConcentration[i]);
+    }
 
     //We may have variables
     //A variable 'exists' only in "variables", not in the amount or concentration section
     int currCount = theList.Count();
-	if( nrOfVars > currCount)
-	{
+    if( nrOfVars > currCount)
+    {
         //Look for a variable that is not in the list
 
         for(int i = 0; i < settings.mVariables.Count(); i++)
-		{
+        {
             string aVar = settings.mVariables[i];
             if(settings.mAmount.DontContain(aVar) && settings.mConcentration.DontContain(aVar))
             {
-			    theList.add(settings.mVariables[i]);
+                theList.add(settings.mVariables[i]);
             }
 
         }
     }
 
-  	theList.InsertAt(0, "time");
+      theList.InsertAt(0, "time");
     return theList;
 }
 
@@ -609,7 +611,7 @@ StringList getSelectionListFromSettings(const SimulationSettings& settings)
 
 string getWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
 {
- 	LPVOID lpMsgBuf;
+     LPVOID lpMsgBuf;
     LPVOID lpDisplayBuf;
     DWORD dw = GetLastError();
 
@@ -628,9 +630,9 @@ string getWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
     lpDisplayBuf = (LPVOID)LocalAlloc(LMEM_ZEROINIT, (lstrlen((LPCTSTR)lpMsgBuf) + lstrlen((LPCTSTR)lpszFunction) + 40) * sizeof(TCHAR));
 
     StringCchPrintf((LPTSTR)lpDisplayBuf,
-        				LocalSize(lpDisplayBuf) / sizeof(TCHAR),
-        				TEXT("%s failed with error %d: %s"),
-        				lpszFunction,
+                        LocalSize(lpDisplayBuf) / sizeof(TCHAR),
+                        TEXT("%s failed with error %d: %s"),
+                        lpszFunction,
                         dw,
                         lpMsgBuf);
 
@@ -642,10 +644,10 @@ string getWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
 
 int populateFileSet(const string& folder, set<string>& files)
 {
- 	//Get models file names in models folder
+     //Get models file names in models folder
     string globPath =  rr::joinPath(folder, "*.xml");
     Glob::glob(globPath, files);
-	return files.size();
+    return files.size();
 }
 
 #endif

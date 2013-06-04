@@ -1311,24 +1311,23 @@ vector< string > LibStructural::getReorderedReactions()
 }
 
 //Returns the reordered list of species
-vector< string > LibStructural::getReorderedSpecies()
+vector< string > LibStructural::getReorderedSpecies() const
 {
     vector< string >    oResult;
     for (int i = 0; i < numFloating; i++)
     {
-        string species =_speciesIndexList[spVec[i]];
-        oResult.push_back(_speciesIndexList[spVec[i]]);
+        oResult.push_back(_speciesIndexList.find(spVec[i])->second);
     }
     return oResult;
 }
 
 //Returns the list of species
-vector< string > LibStructural::getSpecies()
+vector< string > LibStructural::getSpecies() const
 {
     vector< string >    oResult;
     for (int i = 0; i < numFloating; i++)
     {
-        oResult.push_back(_speciesIndexList[i]);
+        oResult.push_back(_speciesIndexList.find(i)->second);
     }
     return oResult;
 }
@@ -1345,7 +1344,7 @@ vector< string > LibStructural::getReorderedSpeciesNamesList()
 }
 
 //Returns the list of independent species
-vector< string > LibStructural::getIndependentSpecies()
+vector< string > LibStructural::getIndependentSpecies() const
 {
     vector< string >    oResult;
 
@@ -1359,7 +1358,7 @@ vector< string > LibStructural::getIndependentSpecies()
     {
         for (int i=0; i<_NumIndependent; i++)
         {
-            oResult.push_back(_speciesIndexList[spVec[i]]);
+            oResult.push_back(_speciesIndexList.find(spVec[i])->second);
         }
     }
 
@@ -1416,18 +1415,17 @@ vector< string > LibStructural::getIndependentSpeciesNamesList()
 }
 
 //Returns the list of dependent species
-vector< string > LibStructural::getDependentSpecies()
+vector<string> LibStructural::getDependentSpecies() const
 {
-    vector< string >    oResult;
+    vector<string>    oResult;
 
     if (numFloating == 0 || numReactions == 0 || zero_nmat || _NumRows == _NumIndependent)
         return oResult;
 
     for (int i = 0; i < _NumDependent; i++)
     {
-        oResult.push_back( _speciesIndexList[spVec[_NumIndependent+i]] );
+        oResult.push_back(_speciesIndexList.find(spVec[_NumIndependent+i])->second);
     }
-
 
     return oResult;
 }

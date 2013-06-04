@@ -16,36 +16,35 @@ using namespace std;
 
 class LM : public Plugin
 {
-	friend LMFitThread;
+    friend LMFitThread;
 
-	protected:
-    	Capability						    mLMFit;
-		Parameter<string> 				    mTempFolder;
-		Parameter<string> 				    mSBML;					//This is the model
-        Parameter<MinimizationData>			mMinimizationData;		//Generate its own
+    protected:
+        Capability                              mLMFit;
+        Parameter<string>                       mTempFolder;
+        Parameter<string>                       mSBML;                    //This is the model
+        Parameter<MinimizationData>             mMinimizationData;        //Generate its own
 
         //Utility functions for the thread
-        string							    getTempFolder();
-        string							    getSBML();
-		Parameter<string>				    getParameterToFit();
-        MinimizationData&					getMinimizationData();
+        string                                  getTempFolder();
+        string                                  getSBML();
+        Parameter<string>                       getParameterToFit();
+        MinimizationData&                       getMinimizationData();
 
         //The thread is doing the work
-		LMFitThread							mLMFitThread;
+        LMFitThread                             mLMFitThread;
 
     public:
-    							            LM(rr::RoadRunner* aRR = NULL);
-					   		   	           ~LM();
-		bool					            execute(void* inputData);
-        string								getResult();
-        bool								resetPlugin();
-		bool								setInputData(void* data);
+                                                LM(rr::RoadRunner* aRR = NULL);
+                                                ~LM();
+        bool                                    execute(void* inputData);
+        string                                  getResult();
+        bool                                    resetPlugin();
+        bool                                    setInputData(void* data);
 };
 
 extern "C"
 {
-#define EXP_FUNC __declspec(dllexport)
-EXP_FUNC rr::Plugin* __stdcall	createPlugin(rr::RoadRunner* aRR);
+PLUGIN_DECLSPEC rr::Plugin* rrCallConv    createPlugin(rr::RoadRunner* aRR);
 }
 
 

@@ -251,9 +251,6 @@
             <DependentOn>..\..\source\rrLogOutput.h</DependentOn>
             <BuildOrder>29</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\source\rrMinimizationResult.cpp">
-            <BuildOrder>81</BuildOrder>
-        </CppCompile>
         <CppCompile Include="..\..\source\rrModelGenerator.cpp">
             <DependentOn>..\..\source\rrModelGenerator.h</DependentOn>
             <BuildOrder>32</BuildOrder>
@@ -268,6 +265,9 @@
         <CppCompile Include="..\..\source\rrModelState.cpp">
             <DependentOn>..\..\source\rrModelState.h</DependentOn>
             <BuildOrder>33</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\..\source\rrModelSymbols.cpp">
+            <BuildOrder>84</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\..\source\rrNewArrayList.cpp">
             <DependentOn>..\..\source\rrNewArrayList.h</DependentOn>
