@@ -1,12 +1,13 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
 PROJECT(RR_C_API_Tests)
 
-set(target c_api_tests)
+set(target run_test_suite)
 
 set(tests
 Suite_Core_Tests
 Suite_TestModel_1
 Suite_SBML_Tests
+Suite_NOM_Tests
 )
 
 add_executable( ${target} 

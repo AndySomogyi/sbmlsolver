@@ -44,7 +44,6 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-//#include "rrParameter.h"
 #include "rrRoadRunner.h"
 #include "rrRoadRunnerList.h"
 #include "rrCModelGenerator.h"
@@ -2283,38 +2282,6 @@ RRCCode* rrCallConv getCCode(RRHandle handle)
 bool rrCallConv setCodeGenerationMode (RRHandle handle, int mode)
 {
     return false;
-}
-
-//NOM forwarded functions
-int rrCallConv getNumberOfRules(RRHandle handle)
-{
-    try
-    {
-        RoadRunner* rri = castFrom(handle);
-        if(!rri->getNOM())
-        {
-            Log(lWarning)<<"NOM is not allocated.";
-            return -1;
-        }
-        int value = rri->getNOM()->getNumRules();
-        return value;
-    }
-    catch_int_macro
-}
-
-char* rrcCallConv getModelName(RRHandle handle)
-{
-    try
-    {
-        RoadRunner* rri = castFrom(handle);
-        if(!rri->getNOM())
-        {
-            Log(lWarning)<<"NOM is not allocated.";
-            return NULL;
-        }
-        return createText(rri->getNOM()->getModelName());
-    }
-    catch_ptr_macro
 }
 
 bool rrCallConv getScaledFloatingSpeciesElasticity(RRHandle handle, const char* reactionId, const char* speciesId, double *value)

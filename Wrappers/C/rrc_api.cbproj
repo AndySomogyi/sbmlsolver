@@ -135,6 +135,10 @@
         <CppCompile Include="rrc_minimization_api.cpp">
             <BuildOrder>7</BuildOrder>
         </CppCompile>
+        <CppCompile Include="rrc_nom_api.cpp">
+            <DependentOn>rrc_nom_api.h</DependentOn>
+            <BuildOrder>9</BuildOrder>
+        </CppCompile>
         <CppCompile Include="rrc_parameter_api.cpp">
             <DependentOn>rrc_parameter_api.h</DependentOn>
             <BuildOrder>6</BuildOrder>

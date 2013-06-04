@@ -48,6 +48,7 @@
 #include "rrc_parameter_api.h"
 #include "rrc_minimization_api.h"
 #include "rrc_logging_api.h"
+#include "rrc_nom_api.h"
 #if defined(__cplusplus)
 namespace rrc
 {
@@ -1469,26 +1470,6 @@ C_DECL_SPEC bool rrcCallConv getuEE(RRHandle handle, const char* name, const cha
 
 // What's this, not sure if we need it?
 C_DECL_SPEC bool rrcCallConv getScaledFloatingSpeciesElasticity(RRHandle handle, const char* reactionName, const char* speciesName, double* value);
-
-// --------------------------------------------------------------------------------
-// Network Object Model (NOM) library forwarded functions
-// --------------------------------------------------------------------------------
-
-/*!
- \brief Returns the number of rules in the current model
- \param[in] handle Handle to a RoadRunner instance
- \return Returns an integer larger or equal to 0 if succesful, or -1 on failure
- \ingroup NOM functions
-*/
-C_DECL_SPEC int rrcCallConv getNumberOfRules(RRHandle handle);
-
-/*!
- \brief Returns the name of currently loaded SBML model
- \param[in] handle Handle to a RoadRunner instance
- \return Returns a char* containing the name if succesful, NULL otherwise
- \ingroup NOM functions
-*/
-C_DECL_SPEC char* rrcCallConv getModelName(RRHandle handle);
 
 
 #if defined( __cplusplus)

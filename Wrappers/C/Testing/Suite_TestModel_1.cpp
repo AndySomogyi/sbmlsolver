@@ -16,7 +16,7 @@ using rr::joinPath;
 using rr::fileExists;
 
 extern string   gTempFolder;
-extern string     gTestDataFolder;
+extern string   gTestDataFolder;
 extern string   gRRInstallFolder;
 extern bool     gDebug;
 

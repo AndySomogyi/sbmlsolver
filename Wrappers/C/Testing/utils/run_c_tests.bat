@@ -19,6 +19,6 @@ set report_file=%wc%\reports\%compiler%\%compiler_version%\c_tests_%build_type%.
 
 set temp_folder=r:\temp\%compiler_version%
 
-c_api_tests.exe -m%model_folder% -r%report_file% -t%temp_folder% 
+run_test_suite.exe -m%model_folder% -r%report_file% -t%temp_folder% 
 
 echo done...

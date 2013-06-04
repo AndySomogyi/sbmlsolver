@@ -14,11 +14,12 @@ ${THIRD_PARTY_INSTALL_FOLDER}/include
 add_library(${target} SHARED
 rrc_api
 rrc_utilities
+rrc_cpp_support
 rrc_plugin_api
 rrc_jobs_api
 rrc_parameter_api
 rrc_logging_api
-rrc_cpp_support
+rrc_nom_api
 )
 
 if(${MSVC})
