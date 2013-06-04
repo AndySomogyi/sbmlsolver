@@ -491,22 +491,22 @@ namespace ls
          void getFullyReorderedStoichiometryMatrixLabels(std::vector< std::string > &oRows, std::vector< std::string > &oCols );
 
         //! Returns the reordered list of molecular species. (choosing the SBML Id if possible )
-         std::vector< std::string > getReorderedSpecies();
+         std::vector< std::string > getReorderedSpecies() const;
 
         //!  Returns the unordered list of species Ids
-         std::vector< std::string > getSpecies();
+         std::vector< std::string > getSpecies() const;
 
         //! Returns the reordered list of molecular species.  (choosing the SBML Name if possible )
          std::vector< std::string > getReorderedSpeciesNamesList();
 
         //! Returns the list of independent species
-         std::vector< std::string > getIndependentSpecies();
+         std::vector< std::string > getIndependentSpecies() const;
 
         //! Returns the actual names of the independent species
          std::vector< std::string > getIndependentSpeciesNamesList();
 
         //! Returns the list of dependent species
-         std::vector< std::string > getDependentSpecies();
+         std::vector< std::string > getDependentSpecies() const;
 
         //! Returns the actual names of the dependent species
          std::vector< std::string > getDependentSpeciesNamesList();

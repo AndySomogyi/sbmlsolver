@@ -36,6 +36,13 @@ FileLog::~FileLog()
     }
 }
 
+bool FileLog::StopLogging()
+{
+	delete mLogFile;
+    mLogFile = NULL;
+    return true;
+}
+
 int  FileLog::GetNrOfInstances()
 {
     return mNrOfInstances;
@@ -101,11 +108,11 @@ string FileLog::GetLogPrefix()
 
 void FileLog::write(const char* str)
 {
-//    if(!mLogFile.get())
     if(!mLogFile || !mLogFile->mFILEHandle)
     {
         return;
     }
+
     fprintf(mLogFile->mFILEHandle, "%s", str);
 
     if (EOF == fflush(mLogFile->mFILEHandle))

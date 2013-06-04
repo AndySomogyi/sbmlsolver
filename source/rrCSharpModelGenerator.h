@@ -9,8 +9,8 @@ namespace rr
 class RR_DECLSPEC CSharpModelGenerator : public CompiledModelGenerator
 {
     protected:
-        string                          	mSourceCodeFileName;
-        CodeBuilder                        	mSource;
+        string                              mSourceCodeFileName;
+        CodeBuilder                            mSource;
         string                              convertUserFunctionExpression(const string& equation);
         string                              convertCompartmentToC(const string& compartmentName);
         string                              convertSpeciesToBc(const string& speciesName);
@@ -47,11 +47,10 @@ class RR_DECLSPEC CSharpModelGenerator : public CompiledModelGenerator
         void                                writeSetCompartmentVolumes(CodeBuilder& sb);
         void                                writeSetBoundaryConditions(CodeBuilder& sb);
         void                                writeSetInitialConditions(CodeBuilder& sb, const int& numFloatingSpecies);
-        int                                 readFloatingSpecies();
-        int              					readBoundarySpecies();
+
 
     public:
-        									CSharpModelGenerator(LibStructural *ls, NOMSupport *nom);
+                                            CSharpModelGenerator(LibStructural *ls, NOMSupport *nom);
         virtual                             ~CSharpModelGenerator();
 
         // Generates the Model Code from the SBML string
@@ -75,13 +74,13 @@ class RR_DECLSPEC CSharpModelGenerator : public CompiledModelGenerator
          *
          * TODO: Make Compiler an interface.
          */
-        virtual 							Compiler* getCompiler();
+        virtual                             Compiler* getCompiler();
 
         /**
          * Set the name of the compiler to use. For C# model generators,
          * could this be 'gmcs'? Presumably, on Windows, this would be 'mcs'.
          */
-        virtual 							bool setCompiler(const string& compiler);
+        virtual                             bool setCompiler(const string& compiler);
 
 };
 

@@ -254,7 +254,7 @@ string NOMSupport::getId(SBase& element)
 //            return "";
 //        }
 
-string NOMSupport::getName(SBase* element)
+string NOMSupport::getName(const SBase* element)
 {
     if(!element)
     {
@@ -903,12 +903,10 @@ void NOMSupport::changeSymbol(Model& oModel, const string& sTimeSymbol, const in
     for (int i = 0; i < oModel.getNumReactions(); i++)
     {
         Reaction *r = oModel.getReaction(i);
-        if(!r)
+        if(r)
         {
-            continue;
+            changeSymbolT<KineticLaw>(r->getKineticLaw(), sTimeSymbol, targetType);
         }
-
-        changeSymbolT<KineticLaw>(r->getKineticLaw(), sTimeSymbol, targetType);
     }
 
     for (int i = 0; i < oModel.getNumRules(); i++)
@@ -1424,7 +1422,7 @@ ArrayList NOMSupport::getListOfParameters()
 //            return getId(mModel);
 //        }
 //
-string NOMSupport::getModelName()
+string NOMSupport::getModelName() const
 {
     if (mModel == NULL)
     {
@@ -3143,7 +3141,9 @@ void NOMSupport::reorderRules(SBMLDocument& doc, Model& model)
 
     for (int i = numRules - 1; i >= 0; i--)
     {
-        Rule* current = model.removeRule(i);   //Todo: The rule is removed here. Is this for a copy? of the model??
+        // removes a rule pointer from the model, we now
+        // take ownership of it.
+        Rule* current = model.removeRule(i);
         switch (current->getTypeCode())
         {
             case SBML_ALGEBRAIC_RULE:
@@ -3162,23 +3162,32 @@ void NOMSupport::reorderRules(SBMLDocument& doc, Model& model)
     //TODO: Need to load suitable XML file to test and convert following code..
     assignmentRules = NOMSupport::reorderAssignmentRules(assignmentRules);
 
+    // IMPORTANT: model.addRule inserts a COPY of the rule object,
+    // we still retain ownership, so we have to delete them.
+
     //add rules back to the model..
     //    assignmentRules.ForEach(item => model.addRule(item));
     for(int i = 0; i < assignmentRules.size(); i++)
     {
-        model.addRule(assignmentRules[i]);
+        Rule* rule = assignmentRules[i];
+        model.addRule(rule);
+        delete rule;
     }
 
     //    rateRules.ForEach(item => model.addRule(item));
     for(int i = 0; i < rateRules.size(); i++)
     {
-        model.addRule(rateRules[i]);
+        Rule* rule = rateRules[i];
+        model.addRule(rule);
+        delete rule;
     }
 
     //    algebraicRules.ForEach(item => model.addRule(item));
     for(int i = 0; i < algebraicRules.size(); i++)
     {
-        model.addRule(algebraicRules[i]);
+        Rule *rule = algebraicRules[i];
+        model.addRule(rule);
+        delete rule;
     }
 
     if (numRules != model.getNumRules())
@@ -3396,6 +3405,8 @@ string NOMSupport::getRuleFor(const string& sbmlId)
     for (int i = 0; i < mModel->getNumRules(); i++)
     {
         Rule* oRule = mModel->getRule(i);
+
+        // TODO: figure out WTF is going on here.
         switch (oRule->getTypeCode())
         {
             case SBML_PARAMETER_RULE:
@@ -3406,7 +3417,7 @@ string NOMSupport::getRuleFor(const string& sbmlId)
                 {
                     if (sbmlId == oRule->getVariable())
                         return oRule->getFormula();
-                }
+                } break;
             //case libsbml::SBML_ALGEBRAIC_RULE:
             //    {
             //        string rValue = oRule->getFormula();

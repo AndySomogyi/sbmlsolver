@@ -138,7 +138,7 @@ public:
     string                  getKineticLaw(const int& index);
     string                  getMetaId(const string& sId);
     string                  getModelId();
-    string                  getModelName();
+    string                  getModelName() const;
     string                  getNotes(const string& sId);
     string                  getNthBoundarySpeciesId(const int& nIndex);
     string                  getNthBoundarySpeciesName(const int& nIndex);
@@ -277,7 +277,11 @@ protected:
      * clear the state of this object, free any objects we own.
      */
     void                    reset();
-    static string           getName(SBase* element);
+    /**
+     * returns empty string if element is null, otherwise gets the element's
+     * name if its set, otherwise gets the element's id.
+     */
+    static string           getName(const SBase* element);
     static void             modifyKineticLaws(SBMLDocument& oSBMLDoc, Model &oModel);
     static void             modifyKineticLawsForLocalParameters(KineticLaw& oLaw, const string& reactionId, Model &oModel);
     static void             modifyKineticLawsForReaction(KineticLaw& oLaw, const string& reactionId, Model &oModel);

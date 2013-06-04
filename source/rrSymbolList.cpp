@@ -38,7 +38,7 @@ string SymbolList::getKeyName(const int& index)
 }
 
 
-bool SymbolList::find(const string& name, int& index)
+bool SymbolList::find(const string& name, int& index) const
 {
     index = -1;
     for (unsigned int i = 0; i < size(); i++)
@@ -53,7 +53,7 @@ bool SymbolList::find(const string& name, int& index)
     return false;
 }
 
-bool SymbolList::find(const string& keyName, const string& name, int& index)
+bool SymbolList::find(const string& keyName, const string& name, int& index) const
 {
     index = -1;
     for(unsigned int i = 0; i < size(); i++)

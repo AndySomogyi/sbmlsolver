@@ -13,14 +13,12 @@ using namespace std;
 namespace rr
 {
 
-CompiledExecutableModel::CompiledExecutableModel(CModelGenerator& generator, ModelSharedLibrary* dll) :
+CompiledExecutableModel::CompiledExecutableModel(const ModelSymbols& symbols, ModelSharedLibrary* dll) :
 mDummyInt(0),
 mDummyDouble(0),
 mDummyDoubleArray(new double[1]),
 mData(),
-mCG(generator),
-mNOM(*generator.mNOM),
-mLibStruct(*generator.mLibStruct),
+ms(symbols),
 mIsInitialized(false),
 mDLL(dll)
 {
@@ -171,36 +169,37 @@ bool CompiledExecutableModel::setupModelData()
     initModelData(mData);
 
     // set the buffer sizes
-    mData.numIndependentVariables       = mCG.mNumIndependentSpecies;
-    mData.numDependentVariables         = mCG.mNumDependentSpecies;
-    mData.numTotalVariables             = mCG.mNumFloatingSpecies;        //???
-    mData.numBoundaryVariables          = mCG.mNumBoundarySpecies;
-    mData.numGlobalParameters           = mCG.mGlobalParameterList.size();
-    mData.numCompartments               = mCG.mCompartmentList.size();
-    mData.numReactions                  = mCG.mReactionList.size();
-    mData.numEvents                     = mCG.mNumEvents;
-    mData.amountsSize                   = mCG.mFloatingSpeciesConcentrationList.Count();
-    mData.dydtSize                      = mCG.mFloatingSpeciesConcentrationList.size();
-    mData.rateRulesSize                 = mCG.mMapRateRule.size();
-    mData.ySize                         = mCG.mFloatingSpeciesConcentrationList.size();
-    mData.ratesSize                     = mCG.mNumReactions;
-    mData.ctSize                        = mCG.mNumDependentSpecies;
-    mData.init_ySize                    = mCG.mFloatingSpeciesConcentrationList.Count();
-    mData.gpSize                        = mCG.mNumGlobalParameters + mCG.mTotalLocalParmeters;
-    mData.cSize                         = mCG.mNumCompartments;
-    mData.bcSize                        = mCG.mNumBoundarySpecies;
-    mData.lpSize                        = mCG.mNumReactions;
-    mData.srSize                        = mCG.mNumModifiableSpeciesReferences;
-    mData.localParameterDimensionsSize  = mCG.mNumReactions;
-    mData.eventPrioritiesSize           = mCG.mNumEvents;
-    mData.eventStatusArraySize          = mCG.mNumEvents;
-    mData.previousEventStatusArraySize  = mCG.mNumEvents;
-    mData.eventPersistentTypeSize       = mCG.mNumEvents;
-    mData.eventTestsSize                = mCG.mNumEvents;
-    mData.eventTypeSize                 = mCG.mNumEvents;
+    mData.numIndependentVariables       = ms.mNumIndependentSpecies;
+    mData.numDependentVariables         = ms.mNumDependentSpecies;
+    mData.numTotalVariables             = ms.mNumFloatingSpecies;        //???
+    mData.numBoundaryVariables          = ms.mNumBoundarySpecies;
+    mData.numGlobalParameters           = ms.mGlobalParameterList.size();
+    mData.numCompartments               = ms.mCompartmentList.size();
+    mData.numReactions                  = ms.mReactionList.size();
+    mData.numEvents                     = ms.mNumEvents;
+    mData.amountsSize                   = ms.mFloatingSpeciesConcentrationList.size();
+    mData.dydtSize                      = ms.mFloatingSpeciesConcentrationList.size();
+    mData.rateRulesSize                 = ms.mRateRules.size();
+    mData.ySize                         = ms.mFloatingSpeciesConcentrationList.size();
+    mData.ratesSize                     = ms.mNumReactions;
+    mData.ctSize                        = ms.mNumDependentSpecies;
+    mData.init_ySize                    = ms.mFloatingSpeciesConcentrationList.Count();
+    mData.gpSize                        = ms.mNumGlobalParameters + ms.mTotalLocalParmeters;
+    mData.cSize                         = ms.mNumCompartments;
+    mData.bcSize                        = ms.mNumBoundarySpecies;
+    mData.lpSize                        = ms.mNumReactions;
+    mData.srSize                        = ms.mNumModifiableSpeciesReferences;
+    mData.localParameterDimensionsSize  = ms.mNumReactions;
+    mData.eventPrioritiesSize           = ms.mNumEvents;
+    mData.eventStatusArraySize          = ms.mNumEvents;
+    mData.previousEventStatusArraySize  = ms.mNumEvents;
+    mData.eventPersistentTypeSize       = ms.mNumEvents;
+    mData.eventTestsSize                = ms.mNumEvents;
+    mData.eventTypeSize                 = ms.mNumEvents;
 
     // allocate the data buffers
-    allocModelDataBuffers(mData, mNOM.getModelName());
+    string test = ms.mModelName;
+    allocModelDataBuffers(mData, test);//mCG.ms.mModelName);//.getModelName());
 
     if(cInitModel)
     {
@@ -257,7 +256,7 @@ vector<double> CompiledExecutableModel::getCurrentValues()
     // dResult = (double*) calloc( numAdditionalRates() sizeof(double))
     double* values = cGetCurrentValues(&mData);
 
-    int count = mCG.numAdditionalRates();
+    int count = ms.mRateRules.size();
     if(values)
     {
         for(int i = 0; i < count; i++)
@@ -267,7 +266,10 @@ vector<double> CompiledExecutableModel::getCurrentValues()
     }
 
     // allocated in C, free'd here
-    //free(values);
+    // for now, we'll just leak in Windows.
+#if defined (__unix__) || defined(__APPLE__)
+    free(values);
+#endif
 
     return vals;
 }
@@ -538,102 +540,102 @@ CvodeInterface* CompiledExecutableModel::getCvodeInterface() {
     return mCvodeInterface;
 }
 
-SymbolList &CompiledExecutableModel::getReactions() {
-    return mCG.mReactionList;
+const SymbolList &CompiledExecutableModel::getReactions() {
+    return ms.mReactionList;
 }
 
-SymbolList &CompiledExecutableModel::getGlobalParameters()
+const SymbolList &CompiledExecutableModel::getGlobalParameters()
 {
-    return mCG.mGlobalParameterList;
+    return ms.mGlobalParameterList;
 }
 
-SymbolList &CompiledExecutableModel::getBoundarySpecies()
+const SymbolList &CompiledExecutableModel::getBoundarySpecies()
 {
-    return mCG.mBoundarySpeciesList;
+    return ms.mBoundarySpeciesList;
 }
 
-SymbolList &CompiledExecutableModel::getCompartments()
+const SymbolList &CompiledExecutableModel::getCompartments()
 {
-    return mCG.mCompartmentList;
+    return ms.mCompartmentList;
 }
 
-SymbolList &CompiledExecutableModel::getConservations()
+const SymbolList &CompiledExecutableModel::getConservations()
 {
-    return mCG.mConservationList;
+    return ms.mConservationList;
 }
 
-SymbolList &CompiledExecutableModel::getFloatingSpeciesAmounts()
+const SymbolList &CompiledExecutableModel::getFloatingSpeciesAmounts()
 {
-    return mCG.mFloatingSpeciesAmountsList;
+    return ms.mFloatingSpeciesAmountsList;
 }
 
-SymbolList &CompiledExecutableModel::getFloatingSpeciesConcentrations()
+const SymbolList &CompiledExecutableModel::getFloatingSpeciesConcentrations()
 {
-    return mCG.mFloatingSpeciesConcentrationList;
+    return ms.mFloatingSpeciesConcentrationList;
 }
 
-StringList CompiledExecutableModel::getCompartmentNames()
+const StringList CompiledExecutableModel::getCompartmentNames()
 {
     StringList tmp;
-    for (u_int i = 0; i < mCG.mCompartmentList.size(); i++)
+    for (u_int i = 0; i < ms.mCompartmentList.size(); i++)
     {
-        tmp.add(mCG.mCompartmentList[i].name);
+        tmp.add(ms.mCompartmentList[i].name);
     }
     return tmp;
 }
 
-StringList CompiledExecutableModel::getConservationNames()
+const StringList CompiledExecutableModel::getConservationNames()
 {
     StringList tmp; // = new ArrayList();
-    for (int i = 0; i < mCG.mConservationList.Count(); i++)
+    for (int i = 0; i < ms.mConservationList.Count(); i++)
     {
-        tmp.add(mCG.mConservationList[i].name);
+        tmp.add(ms.mConservationList[i].name);
     }
     return tmp;
 }
 
-StringList CompiledExecutableModel::getGlobalParameterNames()
+const StringList CompiledExecutableModel::getGlobalParameterNames()
 {
     StringList tmp;
-    for (int i = 0; i < mCG.mGlobalParameterList.size(); i++)
+    for (int i = 0; i < ms.mGlobalParameterList.size(); i++)
     {
-        tmp.add(mCG.mGlobalParameterList[i].name);
+        tmp.add(ms.mGlobalParameterList[i].name);
     }
 
-    for (int i = 0; i < mCG.mConservationList.Count(); i++)
+    for (int i = 0; i < ms.mConservationList.Count(); i++)
     {
-        tmp.add(mCG.mConservationList[i].name);
+        tmp.add(ms.mConservationList[i].name);
     }
 
     return tmp;
 }
 
-StringList CompiledExecutableModel::getReactionNames()
+const StringList CompiledExecutableModel::getReactionNames()
 {
     StringList tmp;
-    for (int i = 0; i < mCG.mReactionList.size(); i++)
+    for (int i = 0; i < ms.mReactionList.size(); i++)
     {
-        tmp.add(mCG.mReactionList[i].name);
+        tmp.add(ms.mReactionList[i].name);
     }
     return tmp;
 }
 
-StringList CompiledExecutableModel::getFloatingSpeciesConcentrationNames()
+const StringList CompiledExecutableModel::getFloatingSpeciesConcentrationNames()
 {
     StringList tmp;
-    for (int i = 0; i < mCG.mFloatingSpeciesConcentrationList.size(); i++)
+    for (int i = 0; i < ms.mFloatingSpeciesConcentrationList.size(); i++)
     {
-        tmp.add(mCG.mFloatingSpeciesConcentrationList[i].name);
+        tmp.add(ms.mFloatingSpeciesConcentrationList[i].name);
     }
     return tmp;
 }
 
-StringList CompiledExecutableModel::getBoundarySpeciesNames()
+const StringList CompiledExecutableModel::getBoundarySpeciesNames()
 {
     StringList tmp;
-    for (int i = 0; i < mCG.mBoundarySpeciesList.size(); i++)
+    for (int i = 0; i < ms.mBoundarySpeciesList.size(); i++)
     {
-        tmp.add(mCG.mBoundarySpeciesList[i].name);
+        tmp.add(ms.mBoundarySpeciesList[i].name);
     }
     return tmp;
 }

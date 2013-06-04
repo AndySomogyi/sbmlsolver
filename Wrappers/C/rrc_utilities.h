@@ -1,5 +1,5 @@
 /**
- * @file rrc_test_utilities.cpp
+ * @file rrc_utilities.h
  * @brief roadRunner C API 2012
  * @author Totte Karlsson & Herbert M Sauro
  *
@@ -43,76 +43,45 @@
 #define rrc_utilitiesH
 #include "rrc_exporter.h"
 #include "rrc_types.h"
-//#include "rr-libstruct/lsMatrix.h"
-//#include "rrRoadRunnerData.h"
-//#include "rrStringList.h"
-//#include "rrNewArrayList.h"
-//#include "rrParameter.h"
-//#include "rrUtils.h"
 #include "rrc_exporter.h"
 #include "rrc_macros.h"
 //---------------------------------------------------------------------------
 
 #if defined(__cplusplus)
-//namespace rr
-//{
-//class RoadRunner;
-//class RoadRunnerList;
-//class Plugin;
-//class MinimizationData;
-//}
-//using std::vector;
-//using std::string;
-
 namespace rrc
 {
-
-
-//bool                                    copyVector(const RRVector* source, vector<double>& dest);
-//RRVectorHandle                          createVectorFromVector_double(const vector<double>& vec);
-//vector<double>                          createVectorFromRRVector(const RRVector* vec);
-//RRMatrixHandle                          createMatrix(const ls::DoubleMatrix* mat);
-
-//Lists and arrays
-//RRStringArrayHandle                     createList(const rr::StringList& aList);
-//RRListHandle 		                    createArrayList(const rr::NewArrayList& aList);
-
 extern "C"
 {
 #endif
 
-
+/*!
+ \brief Global parameter holding last error, if any
+*/
 extern char* gLastError;
+
+/*!
+ \brief Global parameter holding C API install folder
+*/
 extern char* gInstallFolder;
 
 //Error/Warning Messages
+/*!
+ \brief Global parameter holding message for an un-allocated API
+*/
 extern const char* 	ALLOCATE_API_ERROR_MSG;
+
+/*!
+ \brief Global parameter holding message when an invalid is handed to a function
+*/
 extern const char* 	INVALID_HANDLE_ERROR_MSG;
 
 /*!
  \brief Retrieves the the content of a file.
+ \param[in] fName Pointer to a string holding the name and optionla path to a file
  \return Content of file as a string, returns null if it fails
  \ingroup utilities
 */
 C_DECL_SPEC char* 		 rrcCallConv 	getFileContent(const char* fName);
-
-//Result data
-//C_DECL_SPEC RRDataHandle rrcCallConv 	createRRData(const rr::RoadRunnerData& result);
-
-//Cast void* handle to RoadRunner instance pointer, throw if it fails
-//rr::RoadRunner* 						castFrom(RRHandle rrHandle);
-
-//Cast void* handle to RoadRunner instance pointer, throw if it fails
-//rr::Plugin* 							castToPlugin(RRPluginHandle handle);
-
-//Cast void* handle to RoadRunner instance pointer, throw if it fails
-//rr::BaseParameter*						castToParameter(RRParameterHandle handle);
-
-//Cast void* handle to MinimizationData instance pointer, throw if it fails
-//rr::MinimizationData*					castToMinimizationData(RRMinimizationDataHandle handle);
-
-//Cast
-//rr::RoadRunnerList* 					getRRList(RRInstanceListHandle handle);
 
 // --------------------------------------------------------------------
 // List support routines
@@ -426,7 +395,6 @@ C_DECL_SPEC bool rrcCallConv getVectorElement (RRVectorHandle vector, int index,
 */
 C_DECL_SPEC bool rrcCallConv setVectorElement (RRVectorHandle vector, int index, double value);
 
-
 /*!
  \brief Create an empty matrix of size r by c
 
@@ -434,12 +402,11 @@ C_DECL_SPEC bool rrcCallConv setVectorElement (RRVectorHandle vector, int index,
 
  Example: \code m = createRRMatrix (2, 3); \endcode
 
- \param m A pointer to a matrix type variable
+ \param r,c Row and column sizes
  \return Returns NULL if fails, otherwise returns a handle to the matrix
  \ingroup helperRoutines
 */
 C_DECL_SPEC RRMatrixHandle rrcCallConv createRRMatrix (int r, int c);
-
 
 /*!
  \brief Retrieve the number of rows in the given matrix
@@ -646,17 +613,53 @@ C_DECL_SPEC char* rrcCallConv listToString(const RRListHandle list);
 
 
 //=== Utility functions on rrInstanceLists
+/*!
+ \brief Returns number of instances in InstanceList.
+ \param iList Handle to a Roadrunner InstanceList handle
+ \return Returns an integer indicating the instance count
+ \ingroup helperRoutines
+*/
 C_DECL_SPEC int 		rrcCallConv 	getInstanceCount(RRInstanceListHandle iList);
+
+/*!
+ \brief Returns a RoadRunner handle from Roadrunnerlist
+ \param iList Handle to a Roadrunner InstanceList handle
+ \param index Index to a specific item in the list
+ \return Returna a handle to RoadRunner instance. 
+ \ingroup helperRoutines
+*/
 C_DECL_SPEC RRHandle 	rrcCallConv 	getRRHandle(RRInstanceListHandle iList, int index);
 
 
 //======================== DATA WRITING ROUTINES =============================
-C_DECL_SPEC bool rrcCallConv writeRRData(RRHandle rrHandle, const char* faileNameAndPath);
-C_DECL_SPEC bool rrcCallConv writeMultipleRRData(RRInstanceListHandle rrHandles, const char* faileNameAndPath);
+/*!
+ \brief Writes RoadRunner data to file
+ \param handle Handle to a Roadrunner Instance
+ \param fileNameAndPath Pointer to string holding the file(with path) to write data to 
+ \return Returna a boolean indicating the result 
+ \ingroup helperRoutines
+*/
+C_DECL_SPEC bool rrcCallConv writeRRData(RRHandle handle, const char* fileNameAndPath);
+
+/*!
+ \brief Writes multiple RoadRunner data to file
+ \param handle Handle to a RRInstanceList
+ \param fileNameAndPath Pointer to string holding the file(with path) to write data to 
+ \return Returna a boolean indicating the result 
+ \ingroup helperRoutines
+*/
+C_DECL_SPEC bool rrcCallConv writeMultipleRRData(RRInstanceListHandle handle, const char* fileNameAndPath);
 
 ///////////////////////////////////////////////////////////////////////////////////
 // TEST UTILITY functions (to be documented later. Only for internal testing)
-C_DECL_SPEC bool rrcCallConv compileSource(RRHandle handle, const char* sourceFileName);
+/*!
+ \brief Compiles source code
+ \param handle Handle to a RRInstance
+ \param sourceFileNameAndPath Pointer to string holding the file(with path) to compile 
+ \return Returna a boolean indicating the result 
+ \ingroup helperRoutines
+*/
+C_DECL_SPEC bool rrcCallConv compileSource(RRHandle handle, const char* sourceFileNameAndPath);
 
 
 #if defined(__cplusplus)

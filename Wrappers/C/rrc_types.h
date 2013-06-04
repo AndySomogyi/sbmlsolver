@@ -1,11 +1,11 @@
 /**
- * @file rr_c_types.h
+ * @file rrc_types.h
  * @brief roadRunner C API 2012
  * @author Totte Karlsson & Herbert M Sauro
  *
  * <--------------------------------------------------------------
  * This file is part of cRoadRunner.
- * See http://code.google.com/p/roadrunnerwork/ for more details.
+ * See http://code.google.com/p/roadrunnerlib/ for more details.
  *
  * Copyright (C) 2012
  *   University of Washington, Seattle, WA, USA
@@ -70,10 +70,10 @@ typedef void* RRMinimizationDataHandle;
 /*!@brief Structure for a set of RoadRunner handles */
 typedef struct RRInstanceList
 {
-    int             Count;  				/*!< The number of elements in the vector */
-    RRHandle*       Handle;   				/*!< Points to an array of double items */
-    void* 			RRList;
-} *RRInstanceListHandle;          			/*!< Pointer to RRVectorHandle struct */
+    int             Count;  				/*!< The number of elements in the list */
+    RRHandle*       Handle;   				/*!< Pointer to a RoadRunner instance */
+    void* 			RRList;                 /*!< Pointer to a RoadRunnerList instance */
+} *RRInstanceListHandle;          			/*!< Pointer to RRInstanceList */
 
 /*!@struct*/
 /*!@brief Structure for a simple vector of doubles */

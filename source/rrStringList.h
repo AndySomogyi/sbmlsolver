@@ -29,16 +29,25 @@ class RR_DECLSPEC StringList : public rrObject
                                    ~StringList();
 
         void                        InsertAt(const int& index, const string& item);
-		void 						Append(const StringList& list);
+        void                         Append(const StringList& list);
         string                      AsString(const string& delimiter = gComma) const;
+
+        /**
+         * get the size to be compatible with vector<string>
+         */
+        unsigned int size() const;
+
+
         unsigned int                Count() const;
+
+
         StringList&                 operator=(const StringList& rhs);
         StringList&                 operator=(const vector<string>& rhs);
 
         string&                     operator[](const int& index);
         const string&               operator[](const int& index) const;
         StringList                  operator-(const StringList& rhs);
-		void						removeAt(const int& index);
+        void                        removeAt(const int& index);
         int                         find(const string& item);
         int                         indexOf(const string& item);
         void                        clear();
@@ -50,8 +59,8 @@ class RR_DECLSPEC StringList : public rrObject
         vector<string>::iterator    end();
         void                        PreFix(const string& fix);
         void                        PostFix(const string& fix);
-		RR_DECLSPEC
-        friend ostream& 			operator<<(ostream& stream, const StringList& list);
+        RR_DECLSPEC
+        friend ostream&             operator<<(ostream& stream, const StringList& list);
 };
 
 

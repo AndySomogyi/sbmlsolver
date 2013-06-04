@@ -4,6 +4,8 @@
 #include <string>
 #include "rrObject.h"
 #include "rrExporter.h"
+#include "rrOSSpecifics.h"
+#include "rrPluginExporter.h"
 #include "rrCapability.h"
 #include "rrCapabilities.h"
 //---------------------------------------------------------------------------
