@@ -3,14 +3,12 @@
 #include "Poco/Thread.h"
 #include "Poco/Runnable.h"
 #include "rrExporter.h"
+#include "rrOSSpecifics.h"
 //---------------------------------------------------------------------------
-
-
 
 typedef void (rrCallConv *ThreadCB)(void*);
 
-
-class RR_DECLSPEC AddNoiseThread : public Poco::Runnable
+class AddNoiseThread : public Poco::Runnable
 {
     protected:
         Poco::Thread             mThread;
@@ -29,6 +27,5 @@ class RR_DECLSPEC AddNoiseThread : public Poco::Runnable
         void                     start(void* inputData, double sigma);
         void                     run();
 };
-
 
 #endif

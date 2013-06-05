@@ -113,6 +113,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <Defines>EXPORT_PLUGIN;$(Defines)</Defines>
         <Debugger_HostApplication>R:\installs\cg\xe3\debug\bin\rrWinC.exe</Debugger_HostApplication>
         <FinalOutputDir>$(RR_DEBUG)\plugins</FinalOutputDir>
         <ILINK_LibraryPath>$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>

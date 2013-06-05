@@ -787,6 +787,7 @@ DoubleMatrix RoadRunner::simulate()
     catch (const Exception& e)
     {
         Log(lWarning)<<"Problem in simulate: "<<e.Message();
+
     }
 
 }
@@ -1616,7 +1617,7 @@ DoubleMatrix* RoadRunner::getLinkMatrix()
     }
     catch (const Exception& e)
     {
-         throw CoreException("Unexpected error from getLinkMatrix()", e.Message());
+    	throw CoreException("Unexpected error from getLinkMatrix()", e.Message());
     }
 }
 
@@ -2772,6 +2773,23 @@ int RoadRunner::getNumberOfFloatingSpecies()
         throw CoreException(gEmptyModelMessage);
     }
     return mModel->getNumTotalVariables();
+}
+
+double RoadRunner::getFloatingSpeciesInitialConcentrationByIndex(const int& index)
+{
+    if (!mModel)
+    {
+        throw CoreException(gEmptyModelMessage);
+    }
+
+    if ((index >= 0) && (index < mModel->getNumTotalVariables()))
+    {
+        return mModel->getModelData().init_y[index];
+    }
+    else
+    {
+        throw CoreException(format("Index in setFloatingSpeciesInitialConcentrationByIndex out of range: [{0}]", index));
+    }
 }
 
 // Help("Sets the value of a floating species by its index")

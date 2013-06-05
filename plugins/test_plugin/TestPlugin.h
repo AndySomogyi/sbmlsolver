@@ -23,17 +23,17 @@ class TestPlugin : public Plugin
 };
 
 /////////////////////////////////////////////////////////////////////////
-// Plugin "factory" functions. This is for plugins that create a class
+// Plugin factory functions. This is for plugins that create a class
 //If we are to create a plugin not in C++, then another set of API functions need to be
 //exposed..
 
 extern "C"
 {
-#define EXP_FUNC __declspec(dllexport)
-EXP_FUNC rr::Plugin* __stdcall	createPlugin(rr::RoadRunner* aRR);
+
+PLUGIN_DECLSPEC rr::Plugin* __stdcall	createPlugin(rr::RoadRunner* aRR);
 
 // Plugin cleanup function
-EXP_FUNC bool		__stdcall	destroyPlugin(rr::Plugin *plugin);
+PLUGIN_DECLSPEC bool		__stdcall	destroyPlugin(rr::Plugin *plugin);
 
 }
 

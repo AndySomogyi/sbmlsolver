@@ -39,6 +39,7 @@ class RR_DECLSPEC FileLog : public rrObject
         int                     GetNrOfInstances();
         FILE*                   GetLogFileHandle();
         string					GetCurrentLogLevel();
+        bool					StopLogging();
 };
 
 RR_DECLSPEC extern FileLog gLog;

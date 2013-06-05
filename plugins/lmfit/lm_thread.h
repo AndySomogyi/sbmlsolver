@@ -5,7 +5,6 @@
 #include "rrRoadRunner.h"
 #include "rrMinimizationData.h"
 #include "lmUtils.h"
-#include "rrExporter.h"
 //---------------------------------------------------------------------------
 
 typedef void (rrCallConv *ThreadCB)(void*);
@@ -16,7 +15,7 @@ using rr::RoadRunnerData;
 using rr::MinimizationData;
 
 
-class RR_DECLSPEC LMFitThread : public Poco::Runnable
+class LMFitThread : public Poco::Runnable
 {
     protected:
         lmDataStructure             mLMData;        //LevenbergMarq.. data
