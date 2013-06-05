@@ -63,6 +63,12 @@ int main(int argc, char* argv[])
 
     if(args.Suites.find('D') != std::string::npos)
     {
+		clog<<"Running Suite LibStruct TESTS\n";
+		runner1.RunTestsIf(Test::GetTestList(), "LIBSTRUCT_TESTS", 	 	True(), 0);
+	}
+
+    if(args.Suites.find('E') != std::string::npos)
+    {
 
 		clog<<"Running Suite SBML_l2v4\n";
     	clog<<"ModelPath "<<gTSModelsPath;

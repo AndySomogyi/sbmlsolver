@@ -106,7 +106,7 @@ typedef struct RRComplex
 {
     double          re;  				/*!< Real part of complex number */
     double	       	imag;   			/*!< imag part of complex number */
-} *RRComplexHandle;    		      			/*!< Pointer to a RRComplex number */
+} *RRComplexHandle;    		      		/*!< Pointer to a RRComplex number */
 
 /*!@struct*/
 /*!@brief Structure for a simple complex Matrix type */

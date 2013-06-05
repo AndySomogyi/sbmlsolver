@@ -1279,19 +1279,11 @@ RRMatrixHandle rrCallConv getL0Matrix(RRHandle handle)
 {
     try
     {
-        RoadRunner* rri = castFrom(handle);
-
-        DoubleMatrix *tempMat = rri->getL0Matrix();
-
+        RoadRunner* 	rri 		= castFrom(handle);
+        DoubleMatrix* 	tempMat 	= rri->getL0Matrix();
         return createMatrix(tempMat);
     }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-        return NULL;
-    }
+    catch_ptr_macro
 }
 
 RRMatrixHandle rrCallConv getNrMatrix(RRHandle handle)
@@ -1308,13 +1300,7 @@ RRMatrixHandle rrCallConv getNrMatrix(RRHandle handle)
 
         return createMatrix(tempMat);
     }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-        return NULL;
-    }
+    catch_ptr_macro
 }
 
 C_DECL_SPEC bool rrCallConv hasError()

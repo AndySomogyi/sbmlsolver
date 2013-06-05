@@ -323,8 +323,8 @@ RRHandle gRR = NULL;
             return;
         }
 
-        RRMatrixHandle         jActual     = getFullJacobian(gRR);
-        ls::DoubleMatrix     jRef         = ParseFromText(aSection->GetNonKeysAsString());
+        RRMatrixHandle       jActual     = getFullJacobian(gRR);
+        ls::DoubleMatrix     jRef        = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
         //Check dimensions
         if(jActual->RSize != jRef.RSize() || jActual->CSize != jRef.CSize())
@@ -387,7 +387,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        ls::DoubleMatrix     ref = ParseFromText(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
         RRMatrixHandle matrix = getEigenvalues(gRR);
         if(!matrix)
@@ -436,7 +436,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        ls::DoubleMatrix     ref         = ParseFromText(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
         RRMatrixHandle matrix = getStoichiometryMatrix(gRR);
         if(!matrix)
@@ -482,7 +482,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-           ls::DoubleMatrix     ref         = ParseFromText(aSection->GetNonKeysAsString());
+           ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
         RRMatrixHandle matrix = getLinkMatrix(gRR);
         if(!matrix)
@@ -528,7 +528,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-           ls::DoubleMatrix     ref         = ParseFromText(aSection->GetNonKeysAsString());
+           ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
         RRMatrixHandle matrix = getUnscaledElasticityMatrix(gRR);
         if(!matrix)
@@ -574,7 +574,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        ls::DoubleMatrix     ref         = ParseFromText(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
         double test;
         steadyState(gRR, &test);
@@ -624,7 +624,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        ls::DoubleMatrix     ref         = ParseFromText(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
         RRMatrixHandle matrix = getUnscaledConcentrationControlCoefficientMatrix(gRR);
         if(!matrix)
@@ -671,7 +671,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        ls::DoubleMatrix     ref         = ParseFromText(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
         RRMatrixHandle matrix = getScaledConcentrationControlCoefficientMatrix(gRR);
         if(!matrix)
@@ -718,7 +718,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        ls::DoubleMatrix     ref         = ParseFromText(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
         RRMatrixHandle matrix = getUnscaledFluxControlCoefficientMatrix(gRR);
         if(!matrix)
@@ -765,7 +765,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        ls::DoubleMatrix     ref         = ParseFromText(aSection->GetNonKeysAsString());
+        ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
         RRMatrixHandle matrix = getScaledFluxControlCoefficientMatrix(gRR);
         if(!matrix)
