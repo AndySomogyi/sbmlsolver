@@ -140,6 +140,23 @@ vector<double>                          createVectorFromRRVector(const rrc::RRVe
 */
 rrc::RRMatrixHandle                     createMatrix(const ls::DoubleMatrix* mat);
 
+/*!
+ \brief Creates a ls::DoubleMatrix  from a RRMatrix, supplied as a pointer
+ \param[in] mat  Input RRMatrix pointer
+ \return A handle to a DoubleMatrix. Null if it fails
+ \ingroup cpp_support
+*/
+ls::DoubleMatrix*                     	createMatrix(const rrc::RRMatrix* mat);
+
+
+/*!
+ \brief Creates a C complex matrix from a ls::ComplexMatrix, supplied as a pointer
+ \param[in] mat  Input ls::ComplexMatrix
+ \return A handle to a RRComplexMatrix. Null if it fails
+ \ingroup cpp_support
+*/
+rrc::RRComplexMatrixHandle              createMatrix(const ls::ComplexMatrix* mat);
+
 //Lists and arrays
 /*!
  \brief Creates a C StringArray from a rr::StringList

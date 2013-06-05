@@ -20,6 +20,7 @@ rrc_jobs_api
 rrc_parameter_api
 rrc_logging_api
 rrc_nom_api
+rrc_libstruct_api
 )
 
 if(${MSVC})

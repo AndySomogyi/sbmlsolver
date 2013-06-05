@@ -95,7 +95,6 @@ Plugin* castToPlugin(RRPluginHandle handle)
     }
 }
 
-
 //char* createText(const string& str)
 //{
 //	if(str.size() == 0)
@@ -137,6 +136,61 @@ RRMatrix* createMatrix(const ls::DoubleMatrix* mat)
         {
             matrix->Data[index++] = (*mat)(row,col);
         }
+    }
+    return matrix;
+}
+
+DoubleMatrix* createMatrix(const rrc::RRMatrix* mat)
+{
+	if(!mat)
+    {
+    	return NULL;
+    }
+
+    DoubleMatrix *matrix = new DoubleMatrix(mat->RSize, mat->CSize);
+
+    int index = 0;
+    for(rr::u_int row = 0; row < mat->RSize; row++)
+    {
+        for(rr::u_int col = 0; col < mat->CSize; col++)
+        {
+            (*matrix)(row,col) = mat->Data[index++];
+        }
+    }
+    return matrix;
+}
+
+RRComplexMatrix* createMatrix(const ls::ComplexMatrix* mat)
+{
+	if(!mat)
+    {
+    	return NULL;
+    }
+    RRComplexMatrixHandle matrix = new RRComplexMatrix;
+
+    matrix->RSize = mat->RSize();
+    matrix->CSize = mat->CSize();
+    int dim =  matrix->RSize * matrix->CSize;
+    if(dim)
+    {
+    	matrix->Data =  new RRComplex[mat->RSize()*mat->CSize()];
+    }
+    else
+    {
+    	delete matrix;
+        return NULL;
+    }
+
+    int index = 0;
+    for(rr::u_int row = 0; row < mat->RSize(); row++)
+    {
+        for(rr::u_int col = 0; col < mat->CSize(); col++)
+        {
+            matrix->Data[index].re 		= (*mat)(row,col).Real;
+            matrix->Data[index].imag 	= (*mat)(row,col).Imag;
+            index++;
+        }
+
     }
     return matrix;
 }

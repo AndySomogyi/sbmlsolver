@@ -128,6 +128,10 @@
             <DependentOn>rrc_jobs_api.h</DependentOn>
             <BuildOrder>4</BuildOrder>
         </CppCompile>
+        <CppCompile Include="rrc_libstruct_api.cpp">
+            <DependentOn>rrc_libstruct_api.h</DependentOn>
+            <BuildOrder>9</BuildOrder>
+        </CppCompile>
         <CppCompile Include="rrc_logging_api.cpp">
             <DependentOn>rrc_logging_api.h</DependentOn>
             <BuildOrder>8</BuildOrder>
@@ -137,7 +141,7 @@
         </CppCompile>
         <CppCompile Include="rrc_nom_api.cpp">
             <DependentOn>rrc_nom_api.h</DependentOn>
-            <BuildOrder>9</BuildOrder>
+            <BuildOrder>10</BuildOrder>
         </CppCompile>
         <CppCompile Include="rrc_parameter_api.cpp">
             <DependentOn>rrc_parameter_api.h</DependentOn>

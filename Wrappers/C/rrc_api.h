@@ -49,6 +49,7 @@
 #include "rrc_minimization_api.h"
 #include "rrc_logging_api.h"
 #include "rrc_nom_api.h"
+#include "rrc_libstruct_api.h"
 #if defined(__cplusplus)
 namespace rrc
 {
@@ -1617,7 +1618,10 @@ C_DECL_SPEC bool rrcCallConv getScaledFloatingSpeciesElasticity(RRHandle handle,
 // \brief Linear algebra based methods for analyzing a reaction network
 //
 // \defgroup NOM Network object model (NOM) functions
-// \brief Network objwct model functions
+// \brief Network object model functions
+//
+// \defgroup LibStruct functions
+// \brief Functions originating in the LibStruct library
 //
 // \defgroup LinearAlgebra Linear algebra functions
 // \brief Linear algebra utility functions

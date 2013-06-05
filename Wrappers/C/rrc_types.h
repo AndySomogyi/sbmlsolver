@@ -41,7 +41,6 @@
 
 #ifndef rrc_typesH
 #define rrc_typesH
-
 #if defined(__cplusplus)
 namespace rrc {
 extern "C"
@@ -92,7 +91,7 @@ typedef struct RRStringArray
 } *RRStringArrayHandle;      /*!< Pointer to RRStringListHandle struct */
 
 /*!@struct*/
-/*!@brief Structure for a simple Matrix type */
+/*!@brief Structure for a simple double Matrix type */
 typedef struct RRMatrix
 {
     int             RSize;  /*!< The number of rows in the matrix */
@@ -100,6 +99,24 @@ typedef struct RRMatrix
     double*         Data;   /*!< Items in the matrix stored as a linear array. Access an element using Data[row*CSize + col],
 							  where i,j represent the row and column numberof the element. Indexing is from zero */
 } *RRMatrixHandle;          /*!< Pointer to RRMatrixHandle struct */
+
+/*!@struct*/
+/*!@brief Structure for a complex number */
+typedef struct RRComplex
+{
+    double          re;  				/*!< Real part of complex number */
+    double	       	imag;   			/*!< imag part of complex number */
+} *RRComplexHandle;    		      			/*!< Pointer to a RRComplex number */
+
+/*!@struct*/
+/*!@brief Structure for a simple complex Matrix type */
+typedef struct RRComplexMatrix
+{
+    int             	RSize;  /*!< The number of rows in the matrix */
+    int             	CSize;  /*!< The number of columns in the matrix */
+    RRComplexHandle		Data;   /*!< Items in the matrix stored as a linear array. Access an element using Data[row*CSize + col],
+							  		where i,j represent the row and column numberof the element. Indexing is from zero */
+} *RRComplexMatrixHandle;       /*!< Pointer to RRMatrixHandle struct */
 
 /*!@struct*/
 /*!@brief Structure for the result type from the simulate calls */
