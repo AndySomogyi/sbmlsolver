@@ -2,7 +2,7 @@
 #define rrMinimizationDataH
 #include <ostream>
 #include "rrObject.h"
-#include "rrStringlist.h"
+#include "rrStringList.h"
 #include "rrRoadRunnerData.h"
 #include "rrParameter.h"
 #include "rrParameters.h"
