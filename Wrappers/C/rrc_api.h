@@ -998,15 +998,6 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getLinkMatrix(RRHandle handle);
 C_DECL_SPEC RRMatrixHandle rrcCallConv getNrMatrix(RRHandle handle);
 
 /*!
- \brief Retrieve the L0 matrix for the current model
-
- \param[in] handle Handle to a RoadRunner instance
- \return Returns null if it fails, otherwise returns the L0 matrix.
- \ingroup Stoich
-*/
-C_DECL_SPEC RRMatrixHandle rrcCallConv getL0Matrix(RRHandle handle);
-
-/*!
  \brief Retrieve the conservation matrix for the current model.
 
  The conservation laws as describe by row where the columns indicate the species Id.

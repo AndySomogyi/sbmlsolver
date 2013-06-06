@@ -1275,16 +1275,7 @@ RRMatrixHandle rrCallConv getLinkMatrix(RRHandle handle)
     }
 }
 
-RRMatrixHandle rrCallConv getL0Matrix(RRHandle handle)
-{
-    try
-    {
-        RoadRunner* 	rri 		= castFrom(handle);
-        DoubleMatrix* 	tempMat 	= rri->getL0Matrix();
-        return createMatrix(tempMat);
-    }
-    catch_ptr_macro
-}
+
 
 RRMatrixHandle rrCallConv getNrMatrix(RRHandle handle)
 {

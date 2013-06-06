@@ -146,6 +146,16 @@ using namespace ls;	//Libstruct namespace
 //}
 //
 ////Returns L0 Matrix
+RRMatrixHandle rrCallConv getL0Matrix(RRHandle handle)
+{
+    try
+    {
+        RoadRunner* 	rri 		= castFrom(handle);
+        DoubleMatrix* 	tempMat 	= rri->getL0Matrix();
+        return createMatrix(tempMat);
+    }
+    catch_ptr_macro
+}
 ///*LIB_EXTERN*/  int LibStructural_getL0Matrix(double** *outMatrix, int* outRows, int *outCols)
 //{
 //    DoubleMatrix *oTemp = LibStructural::getInstance()->getL0Matrix();

@@ -51,7 +51,6 @@ extern "C"
 {
 #endif
 
-
 ///// Part of ORIGINAL libstruct C wrapper  below.. uncomment and cleanup to
 ///// use with roadrunner
 //---------------------------------------------------------------------------
@@ -81,19 +80,8 @@ extern "C"
 //an error occurred
 //*/
 //  int LibStructural_loadStoichiometryMatrix (const double ** oMatrix, const int nRows, const int nCols);
-///*!    \example examples/c/loadstoichiometry.c
-//This is an example of how to load a (unlabeled) stoichiometry matrix and read test details.
 //*/
 //
-///*!    \example examples/c/loadlabelledstoichiometry.c
-//This is an example of how to load a labeled stoichiometry matrix and read test results.
-//The example also shows how to print the reordered stoichiometry matrix as well as the
-//Gamma matrix.
-//*/
-//
-///*!    \example examples/c/loadsbmlfromfile.c
-//This is an example of how to load a SBML file and print structural analysis test results.
-//*/
 //
 ///*! \brief Load species names and initial values.
 //
@@ -130,48 +118,9 @@ extern "C"
 //\remarks This method should only be called after ::LibStructural_loadStoichiometryMatrix
 //
 //*/
-//#ifndef NO_SBML
 //
 //  int LibStructural_loadReactionNames ( const char** reactionNames, const int nLength);
 //
-///*! \brief Load a SBML model.
-//\param sSBML the SBML string to load into the library
-//\param outMessage a pointer to a string that the library can use to provide information
-//about the loaded SBML
-//\param nLength is the length of the above message
-//
-//\return The return value will be zero (0) when successful, and negative (-1) in case
-//an error occurred (invalid SBML)
-//
-//*/
-//  int LibStructural_loadSBML(const char* sSBML, char* *outMessage, int *nLength);
-//
-///*! \brief Load a SBML model from the specified file.
-//\param sFileName the full path to the SBML file to be loaded.
-//\param outMessage a pointer to a string that the library can use to provide information
-//about the loaded SBML
-//\param nLength is the length of the above message
-//
-//\remarks To avoid unintentional errors be sure to pass in the full path to the SBML file.
-//
-//\return The return value will be zero (0) when successful, and negative (-1) in case
-//an error occurred (invalid SBML, file not readable ...).
-//
-//*/
-//  int LibStructural_loadSBMLFromFile(const char* sFileName, char* *outMessage, int *nLength);
-//
-///*! \brief Load an SBML model into the library and carry out tests using the internal test suite.
-//\param sSBML the SBML string to load into the library
-//\param outMessage a pointer to a string that contains information about the loaded
-//model as well as the test results of the internal test suite.
-//\param nLength is the length of the above message
-//
-//\return The return value will be zero (0) when successful, and negative (-1) in case
-//an error occurred (invalid SBML)
-//
-//*/
-//  int LibStructural_loadSBMLwithTests(const char* sSBML, char* *outMessage, int *nLength);
-//#endif
 ///*! \brief Uses QR factorization for structural analysis
 //
 //This method performs the actual analysis of the stoichiometry matrix (loaded either
@@ -300,25 +249,23 @@ extern "C"
 //or ::LibStructural_loadSBML or ::LibStructural_loadSBMLFromFile
 //*/
 //  int LibStructural_analyzeWithFullyPivotedLUwithTests(char* *outMessage, int *nLength);
-//
-///*! \brief Returns the L0 Matrix.
-//
-//L0 is defined such that  L0 Nr = N0. L0 forms part of the link matrix, L.  N0 is the set of
-//linear dependent rows from the lower portion of the reordered stoichiometry matrix.
-//
-//\param outMatrix a pointer to a double array that holds the output
-//\param outRows will be overwritten with the number of rows
-//\param outCols will be overwritten with the number of columns.
-//
-//\return The return value will be zero (0) when successful, and negative (-1) in case
-//no stoichiometry matrix was loaded beforehand or none of the analysis methods have
-//been called yet.
-//
-//\remarks To free the returned matrix call ::LibStructural_freeMatrix with the outMatrix
-//and outRows as parameter.
-//*/
+
+/*! \brief Returns the L0 Matrix.
+
+L0 is defined such that  L0 Nr = N0. L0 forms part of the link matrix, L.  N0 is the set of
+linear dependent rows from the lower portion of the reordered stoichiometry matrix.
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns null if it fails, otherwise returns the L0 matrix.
+
+\remarks To free the returned matrix call freeMatrix with the matrix
+as parameter.
+ \ingroup Stoich
+*/
+C_DECL_SPEC RRMatrixHandle rrcCallConv getL0Matrix(RRHandle handle);
+
 //  int LibStructural_getL0Matrix(double** *outMatrix, int* outRows, int *outCols);
-//
+
 ///*! \brief Returns the L0 Matrix row and column labels.
 //
 //\param outRowLabels a pointer to a string array where the row labels will be allocated
@@ -1043,92 +990,6 @@ extern "C"
 ////  double LibStructural_getNthConservedSum(int n);
 //
 //} //namespace ..
-//END_C_DECLS;
-//#endif
-//
-//#endif
-//
-//
-        //            string test = matrixToString(actual);
-//            clog<<test;
-///*! \mainpage Structural Analysis Library
-//
-//\par
-//This document describes the application programming interface (API) of LibLA and LibStructural  an open source (BSD) library for computing structural characteristics of cellular networks.
-//\par
-//LibLA is a linear algebra library derives much of its functionality from the standard CLAPACK library with additional linear algebra functions not directly supported by CLAPACK. The libStructural library supports a range of methods for the structural analysis of cellular networks (derived either from SBML or stoichiometry matrices) and utilizes LibLA for some of its internal computations.
-//\par Installing
-//To make the Structural Analysis Library easily accessible we have created binary installers for Windows as wel as OS X (version 10.4 and above).
-//We also habe a source distribution, complete with Visual Studio, XCode, Scons and Qt project files that allow to build the library on Windows, Linux and OS X. For detailed instructions on how to build the library see the file INSTALL included with the source distribution.
-//\par Dependencies
-//These libraries depend on two third-party libraries, LAPACK and libSBML.  Both are provided with the binary installation where necessary.
-//\par
-        //            string test = matrixToString(actual);
-//            clog<<test;
-//This work was supported by a grant from the NIH (1R01GM0819070-01).
-//
-//
-//\author  Frank T. Bergmann (fbergman@u.washington.edu)
-//\author     Herbert M. Sauro
-//\author     Ravishankar Rao Vallabhajosyula (developed a previous version of the sructural analysis code)
-//
-//\par License
-//\par
-//Copyright (c) 2008, Frank T Bergmann and Herbert M Sauro\n
-//All rights reserved.
-//
-//\par
-//Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-//
-//\li Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-//
-//\li Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-//
-//\li Neither the name of University of Washington nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-//
-//\par
-//THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
-//
-//*/
-////-----------------------------------------------------------
-//
-////\par
-////This document describes two
-////
-////all classes in the ls and ls namespace.
-////Among others the ls::LibStructural class, that performs structural analysis on SBML models,
-////or even just (labeled) stoichiometry matrices.
-////
-////\par
-////Furthermore you will find a utility class, ls::LibLA, wrapping commonly used LAPACK
-////functionality such as eigenvalue computations, or the inverse of matrices.
-////
-////\par
-////The remaining classes represent utility classes for support of complex numbers and the
-////structured return of LU and QR matrix decompositions.
-////
-////\par
-////For more information about this topic, please see our reference publication at XXXXXXX or
-        //            string test = matrixToString(actual);
-//            clog<<test;
-////
-////\par
-////Vallabhajosyula RR, Chickarmane V, Sauro HM.
-////Conservation analysis of large biochemical networks.
-////Bioinformatics 2005 Nov 29
-////http://bioinformatics.oxfordjournals.org/cgi/content/abstract/bti800v1
-////
-////\par
-////An updated version of this library will be posted on http://sys-bio.org
-        //            string test = matrixToString(actual);
-//            clog<<test;
-//
-//
-//
-//
-////From lsLibLA
-//BEGIN_C_DECLS;
 ///*! \brief Returns the currently used tolerance
 //
 //This function returns the tolerance currently used by the library to determine what value
