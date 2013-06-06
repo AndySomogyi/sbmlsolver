@@ -1,19 +1,107 @@
-#ifndef lsC_APIH
-#define lsC_APIH
+/**
+ * @file rrc_libstruct_api.h
+ * @brief roadRunner C API 2012
+ * @author Totte Karlsson & Herbert M Sauro
+ *
+ * <--------------------------------------------------------------
+ * This file is part of cRoadRunner.
+ * See http://code.google.com/p/roadrunnerlib for more details.
+ *
+ * Copyright (C) 2012-2013
+ *   University of Washington, Seattle, WA, USA
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * In plain english this means:
+ *
+ * You CAN freely download and use this software, in whole or in part, for personal,
+ * company internal, or commercial purposes;
+ *
+ * You CAN use the software in packages or distributions that you create.
+ *
+ * You SHOULD include a copy of the license in any redistribution you may make;
+ *
+ * You are NOT required include the source of software, or of any modifications you may
+ * have made to it, in any redistribution you may assemble that includes it.
+ *
+ * YOU CANNOT:
+ *
+ * redistribute any piece of this software without proper attribution;
+*/
+#ifndef rrc_libstruct_apiH
+#define rrc_libstruct_apiH
+#include "rrc_exporter.h"
+#include "rrc_types.h"
 //---------------------------------------------------------------------------
-//
-////#ifndef SWIG
-//
-//#if defined(__cplusplus)
-//#  define BEGIN_C_DECLS extern "C" { //
-//#  define END_C_DECLS   } //
-//#else
-//#  define BEGIN_C_DECLS
-//#  define END_C_DECLS
-//#endif
-//
-//BEGIN_C_DECLS;
-//
+#if defined(__cplusplus)
+namespace rrc
+{
+extern "C"
+{
+#endif
+
+/*! \brief Returns the L0 Matrix.
+
+L0 is defined such that  L0 Nr = N0. L0 forms part of the link matrix, L.  N0 is the set of
+linear dependent rows from the lower portion of the reordered stoichiometry matrix.
+
+\param[in] handle Handle to a RoadRunner instance
+\return Returns null if it fails, otherwise returns the L0 matrix.
+
+\remarks To free the returned matrix call freeMatrix with the matrix
+as parameter.
+\ingroup Stoich
+*/
+C_DECL_SPEC RRMatrixHandle rrcCallConv getL0Matrix(RRHandle handle);
+
+/*! \brief Calculates the eigen-vectors of a square real matrix.
+This function calculates the complex (right)eigenvectors of the given real matrix. The complex matrix
+returned contains the eigenvectors in the columns, in the same order as LibLA_getEigenValues.
+
+The right eigenvector v(j) of A satisfies:
+\par
+A * v(j) = lambda(j) * v(j)
+\param[in] matrix Handle to a RRMatrix
+\return Returns null if it fails, otherwise returns a RRComplexMatrix.
+\ingroup Stoich
+*/
+C_DECL_SPEC RRComplexMatrixHandle rrcCallConv getEigenVectors(RRMatrixHandle matrix);
+
+
+/*! \brief Calculates the eigen-vectors of a square nonsymmetrix complex matrix.
+This function calculates the complex (right)eigenvectors of the given real matrix. The complex matrix
+returned contains the eigenvectors in the columns, in the same order as getZEigenValues.
+The right eigenvector v(j) of A satisfies:
+\par
+A * v(j) = lambda(j) * v(j)
+\param[in] matrix Handle to a RRComplexMatrix
+\return Returns null if it fails, otherwise returns a RRComplexMatrix.
+\ingroup Stoich
+*/
+C_DECL_SPEC RRComplexMatrixHandle rrcCallConv getZEigenVectors(RRComplexMatrixHandle matrix);
+
+
+//---------------------------------------------------------------------------
+#if defined(__cplusplus)
+}
+}
+#endif //rrc namespace and extern "C" scopes
+
+
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+/* Part of ORIGINAL libstruct C wrappers below.. uncomment and cleanup to use with roadrunner, and move above this line */
+//---------------------------------------------------------------------------
+
 ///*! \brief Load a new stoichiometry matrix.
 //
 //Loads the stoichiometry matrix into the library. To analyze the stoichiometry
@@ -38,19 +126,8 @@
 //an error occurred
 //*/
 //  int LibStructural_loadStoichiometryMatrix (const double ** oMatrix, const int nRows, const int nCols);
-///*!    \example examples/c/loadstoichiometry.c
-//This is an example of how to load a (unlabeled) stoichiometry matrix and read test details.
 //*/
 //
-///*!    \example examples/c/loadlabelledstoichiometry.c
-//This is an example of how to load a labeled stoichiometry matrix and read test results.
-//The example also shows how to print the reordered stoichiometry matrix as well as the
-//Gamma matrix.
-//*/
-//
-///*!    \example examples/c/loadsbmlfromfile.c
-//This is an example of how to load a SBML file and print structural analysis test results.
-//*/
 //
 ///*! \brief Load species names and initial values.
 //
@@ -87,48 +164,9 @@
 //\remarks This method should only be called after ::LibStructural_loadStoichiometryMatrix
 //
 //*/
-//#ifndef NO_SBML
 //
 //  int LibStructural_loadReactionNames ( const char** reactionNames, const int nLength);
 //
-///*! \brief Load a SBML model.
-//\param sSBML the SBML string to load into the library
-//\param outMessage a pointer to a string that the library can use to provide information
-//about the loaded SBML
-//\param nLength is the length of the above message
-//
-//\return The return value will be zero (0) when successful, and negative (-1) in case
-//an error occurred (invalid SBML)
-//
-//*/
-//  int LibStructural_loadSBML(const char* sSBML, char* *outMessage, int *nLength);
-//
-///*! \brief Load a SBML model from the specified file.
-//\param sFileName the full path to the SBML file to be loaded.
-//\param outMessage a pointer to a string that the library can use to provide information
-//about the loaded SBML
-//\param nLength is the length of the above message
-//
-//\remarks To avoid unintentional errors be sure to pass in the full path to the SBML file.
-//
-//\return The return value will be zero (0) when successful, and negative (-1) in case
-//an error occurred (invalid SBML, file not readable ...).
-//
-//*/
-//  int LibStructural_loadSBMLFromFile(const char* sFileName, char* *outMessage, int *nLength);
-//
-///*! \brief Load an SBML model into the library and carry out tests using the internal test suite.
-//\param sSBML the SBML string to load into the library
-//\param outMessage a pointer to a string that contains information about the loaded
-//model as well as the test results of the internal test suite.
-//\param nLength is the length of the above message
-//
-//\return The return value will be zero (0) when successful, and negative (-1) in case
-//an error occurred (invalid SBML)
-//
-//*/
-//  int LibStructural_loadSBMLwithTests(const char* sSBML, char* *outMessage, int *nLength);
-//#endif
 ///*! \brief Uses QR factorization for structural analysis
 //
 //This method performs the actual analysis of the stoichiometry matrix (loaded either
@@ -257,25 +295,7 @@
 //or ::LibStructural_loadSBML or ::LibStructural_loadSBMLFromFile
 //*/
 //  int LibStructural_analyzeWithFullyPivotedLUwithTests(char* *outMessage, int *nLength);
-//
-///*! \brief Returns the L0 Matrix.
-//
-//L0 is defined such that  L0 Nr = N0. L0 forms part of the link matrix, L.  N0 is the set of
-//linear dependent rows from the lower portion of the reordered stoichiometry matrix.
-//
-//\param outMatrix a pointer to a double array that holds the output
-//\param outRows will be overwritten with the number of rows
-//\param outCols will be overwritten with the number of columns.
-//
-//\return The return value will be zero (0) when successful, and negative (-1) in case
-//no stoichiometry matrix was loaded beforehand or none of the analysis methods have
-//been called yet.
-//
-//\remarks To free the returned matrix call ::LibStructural_freeMatrix with the outMatrix
-//and outRows as parameter.
-//*/
-//  int LibStructural_getL0Matrix(double** *outMatrix, int* outRows, int *outCols);
-//
+
 ///*! \brief Returns the L0 Matrix row and column labels.
 //
 //\param outRowLabels a pointer to a string array where the row labels will be allocated
@@ -678,6 +698,8 @@
 //\param outMatrix a pointer to a double array that holds the output
 //\param outRows will be overwritten with the number of rows
 //\param outCols will be overwritten with the number of columns.
+        //            string test = matrixToString(actual);
+//            clog<<test;
 //
 //\return The return value will be zero (0) when successful, and negative (-1) in case
 //no stoichiometry matrix was loaded beforehand or none of the analysis methods has
@@ -721,6 +743,8 @@
 //(outRowCount or outColCount)
 //*/
 //  int LibStructural_getFullyReorderedStoichiometryMatrixLabels(char** *outRowLabels, int *outRowCount, char** *outColLabels, int *outColCount);
+        //            string test = matrixToString(actual);
+//            clog<<test;
 //
 ///*! \brief Returns the row and column labels for the reordered stoichiometry matrix (row reordered stoichiometry matrix)
 //
@@ -764,6 +788,8 @@
 //\return The return value will be zero (0) when successful, and negative (-1) in case
 //no stoichiometry matrix was loaded beforehand or none of the analysis methods has
 //been called yet.
+        //            string test = matrixToString(actual);
+//            clog<<test;
 //
 //*/
 //  int LibStructural_getSpeciesIds(char** *outArray, int *outLength);
@@ -788,6 +814,8 @@
 //\return The return value will be zero (0) when successful, and negative (-1) in case
 //no stoichiometry matrix was loaded beforehand or none of the analysis methods has
 //been called yet.
+        //            string test = matrixToString(actual);
+//            clog<<test;
 //
 //*/
 //  int LibStructural_getIndependentSpeciesIds(char** *outArray, int *outLength);
@@ -803,6 +831,8 @@
 //
 //*/
 //  int LibStructural_getDependentSpeciesIds(char** *outArray, int *outLength);
+        //            string test = matrixToString(actual);
+//            clog<<test;
 //
 ///*! \brief Returns the list of independent reaction ids.
 //\param outArray pointer to string array that will be allocated and filled with the independent reaction Ids
@@ -818,6 +848,8 @@
 //
 ///*! \brief Returns the list of dependent reaction Ids.
 //\param outArray pointer to string array that will be allocated and filled with the dependent reaction Ids
+        //            string test = matrixToString(actual);
+//            clog<<test;
 //\param outLength the number of dependent reactions
 //\remarks free outArray using ::LibStructural_freeMatrix with the outLength parameter
 //\return The return value will be zero (0) when successful, and negative (-1) in case
@@ -934,6 +966,8 @@
 //  int LibStructural_getNumSpecies();
 //
 ////! Returns the number of independent species.
+        //            string test = matrixToString(actual);
+//            clog<<test;
 //  int LibStructural_getNumIndSpecies();
 //
 ////! Returns the number of dependent species.
@@ -948,6 +982,8 @@
 //  int LibStructural_getRank();
 ////! Returns the percentage of nonzero values in the stoichiometry matrix
 //  double LibStructural_getNmatrixSparsity();
+        //            string test = matrixToString(actual);
+//            clog<<test;
 //
 ///*! \brief Set user specified tolerance
 //
@@ -984,84 +1020,6 @@
 ////  double LibStructural_getNthConservedSum(int n);
 //
 //} //namespace ..
-//END_C_DECLS;
-//#endif
-//
-//#endif
-//
-//
-///*! \mainpage Structural Analysis Library
-//
-//\par
-//This document describes the application programming interface (API) of LibLA and LibStructural  an open source (BSD) library for computing structural characteristics of cellular networks.
-//\par
-//LibLA is a linear algebra library derives much of its functionality from the standard CLAPACK library with additional linear algebra functions not directly supported by CLAPACK. The libStructural library supports a range of methods for the structural analysis of cellular networks (derived either from SBML or stoichiometry matrices) and utilizes LibLA for some of its internal computations.
-//\par Installing
-//To make the Structural Analysis Library easily accessible we have created binary installers for Windows as wel as OS X (version 10.4 and above).
-//We also habe a source distribution, complete with Visual Studio, XCode, Scons and Qt project files that allow to build the library on Windows, Linux and OS X. For detailed instructions on how to build the library see the file INSTALL included with the source distribution.
-//\par Dependencies
-//These libraries depend on two third-party libraries, LAPACK and libSBML.  Both are provided with the binary installation where necessary.
-//\par
-//This work was supported by a grant from the NIH (1R01GM0819070-01).
-//
-//
-//\author  Frank T. Bergmann (fbergman@u.washington.edu)
-//\author     Herbert M. Sauro
-//\author     Ravishankar Rao Vallabhajosyula (developed a previous version of the sructural analysis code)
-//
-//\par License
-//\par
-//Copyright (c) 2008, Frank T Bergmann and Herbert M Sauro\n
-//All rights reserved.
-//
-//\par
-//Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-//
-//\li Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-//
-//\li Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-//
-//\li Neither the name of University of Washington nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-//
-//\par
-//THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
-//
-//*/
-////-----------------------------------------------------------
-//
-////\par
-////This document describes two
-////
-////all classes in the ls and ls namespace.
-////Among others the ls::LibStructural class, that performs structural analysis on SBML models,
-////or even just (labeled) stoichiometry matrices.
-////
-////\par
-////Furthermore you will find a utility class, ls::LibLA, wrapping commonly used LAPACK
-////functionality such as eigenvalue computations, or the inverse of matrices.
-////
-////\par
-////The remaining classes represent utility classes for support of complex numbers and the
-////structured return of LU and QR matrix decompositions.
-////
-////\par
-////For more information about this topic, please see our reference publication at XXXXXXX or
-////
-////\par
-////Vallabhajosyula RR, Chickarmane V, Sauro HM.
-////Conservation analysis of large biochemical networks.
-////Bioinformatics 2005 Nov 29
-////http://bioinformatics.oxfordjournals.org/cgi/content/abstract/bti800v1
-////
-////\par
-////An updated version of this library will be posted on http://sys-bio.org
-//
-//
-//
-//
-////From lsLibLA
-//BEGIN_C_DECLS;
 ///*! \brief Returns the currently used tolerance
 //
 //This function returns the tolerance currently used by the library to determine what value
@@ -1104,6 +1062,8 @@
 //
 //This function calculates the complex eigenvalues of the given complex matrix. The input matrix
 //should be broken up into two matrices representing the real and imaginary parts respectively.
+        //            string test = matrixToString(actual);
+//            clog<<test;
 //The complex vector of eigenvalues will be returned in two  real vectors, one for the real and
 //one for the imaginary part.
 //
@@ -1125,6 +1085,8 @@
 //
 ///*!    \brief This function computes the QR factorization of the given real M-by-N matrix A with column pivoting.
 //
+        //            string test = matrixToString(actual);
+//            clog<<test;
 //The LAPACK method dgeqp3 is used followed by an orthonormalization of Q through the use of DORGQR.
 //The factorized form is:
 //
@@ -1143,6 +1105,8 @@
 //\param outRRows number of rows of the R matrix
 //\param outRCols number of columns of the R matrix
 //\param outP pointer to a real matrix where P will be written
+        //            string test = matrixToString(actual);
+//            clog<<test;
 //\param outPRows number of rows of the P matrix
 //\param outPCols number of columns of the P matrix
 //
@@ -1158,6 +1122,8 @@
 //                                    double** *outP, int *outPRows, int * outPCols);
 //
 ///*!    \brief This function computes the QR factorization of the given real M-by-N matrix A with column pivoting.
+        //            string test = matrixToString(actual);
+//            clog<<test;
 //
 //The LAPACK method dgeqp3 is used followed by an orthonormalization of Q through the use of DORGQR.
 //The factorized form is:
@@ -1192,6 +1158,8 @@
 //\param inMatrix real matrix
 //\param numRows number of rows of the matrix
 //\param numCols number of columns of the matrix
+        //            string test = matrixToString(actual);
+//            clog<<test;
 //
 //\param outSingularVals pointer to the double array where the singular values will be stored
 //\param outLength number of singular values
@@ -1227,6 +1195,8 @@
 //
 ///*! \brief This function computes the LU factorization of the given real M-by-N matrix A
 //
+        //            string test = matrixToString(actual);
+//            clog<<test;
 //using partial pivoting with row interchanges. This procedure is carried out by the
 //LAPACK method dgetrf.
 //
@@ -1327,6 +1297,8 @@
 ///*! \brief This method calculates the Gauss Jordan or row echelon form of the given matrix.
 //
 //Only row swaps are used. These permutations will be returned in the 'pivots' vector.
+        //            string test = matrixToString(actual);
+//            clog<<test;
 //
 //If no permutations have occurred this vector will be in ascending form [ 0, 1, 2, 3 ];
 //However if say row one and three would be swapped this vector would look like: [ 0, 3, 2, 1 ];
@@ -1369,31 +1341,6 @@
 //LIB_EXTERN void LibLA_freeMatrix(void** matrix, int numRows);
 //
 //
-///*! \brief Calculates the eigen-vectors of a square real matrix.
-//
-//This function calculates the complex (right)eigenvectors of the given real matrix. The complex matrix
-//returned contains the eigenvectors in the columns, in the same order as LibLA_getEigenValues.
-//
-//The right eigenvector v(j) of A satisfies:
-//\par
-//A * v(j) = lambda(j) * v(j)
-//
-//
-//*/
-//LIB_EXTERN int LibLA_getEigenVectors(double** inMatrix, int numRows, int numCols,
-//                                     double** *outMatrixReal, double** *outMatrixImag, int *outRows, int *outCols);
-///*! \brief Calculates the eigen-vectors of a square nonsymmetrix complex matrix.
-//
-//This function calculates the complex (right)eigenvectors of the given real matrix. The complex matrix
-//returned contains the eigenvectors in the columns, in the same order as LibLA_ZgetEigenValues.
-//The right eigenvector v(j) of A satisfies:
-//\par
-//A * v(j) = lambda(j) * v(j)
-//
-//
-//*/
-//LIB_EXTERN int LibLA_ZgetEigenVectors(double** inMatrixReal,   double **  inMatrixImag, int numRows, int numCols,
-//                                       double** *outMatrixReal, double** *outMatrixImag, int *outRows, int *outCols);
 ///*! \brief Factorizes the given matrix using SVD
 //
 //This function computes the singular value decomposition (SVD) of the given real matrix.
@@ -1429,7 +1376,8 @@
 //                       double** *outUReal, double** *outUImag, int *outRowsU, int *outColsU,
 //                       double* *outSingVals, int *outLength,
 //                       double** *outVReal, double** *outVImag, int *outRowsV, int *outColsV);
-//
-//END_C_DECLS;
-//
-#endif
+
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
+
+#endif //Header guard
+

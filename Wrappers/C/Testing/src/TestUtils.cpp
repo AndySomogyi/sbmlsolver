@@ -6,7 +6,7 @@ using namespace std;
 using namespace rr;
 using namespace ls;
 
-ls::DoubleMatrix ParseFromText(const string& textMatrix)
+ls::DoubleMatrix getDoubleMatrixFromString(const string& textMatrix)
 {
 	DoubleMatrix mat;
 
@@ -23,6 +23,30 @@ ls::DoubleMatrix ParseFromText(const string& textMatrix)
             }
 
             mat(row, col) = toDouble(values[col]);
+        }
+    }
+	return mat;
+}
+
+ls::ComplexMatrix getComplexMatrixFromString(const string& textMatrix)
+{
+	ComplexMatrix mat;
+
+    //Parse the matrix
+    vector<string> rows = splitString(textMatrix, "\n");
+    for(int row = 0; row < rows.size(); row++)
+    {
+        vector<string> values = splitString(rows[row], " \t");
+        for(int col = 0; col < values.size(); col++)
+        {
+        	if(!mat.size())
+            {
+                mat.resize(rows.size(), values.size());
+            }
+
+            std::complex<double> val = toComplex(values[col]);
+            mat(row, col).Real = real(val);
+			mat(row, col).Imag = imag(val);
         }
     }
 	return mat;

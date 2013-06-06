@@ -1,5 +1,6 @@
 #ifndef rrUtilsH
 #define rrUtilsH
+
 #if defined(_WIN32)
 #include <windows.h>
 #endif
@@ -71,7 +72,7 @@ RR_DECLSPEC bool            copyStdVectorToCArray(const vector<bool>&   src,  bo
 //SelectionList
 RR_DECLSPEC StringList      getSelectionListFromSettings(const SimulationSettings& settings);
 
-#if defined(WIN32)
+#if defined(_WIN32)
 RR_DECLSPEC HINSTANCE       loadDLL(const string& dll);
 RR_DECLSPEC bool       		unLoadDLL(HINSTANCE dllHandle);
 RR_DECLSPEC FARPROC 		getFunctionPtr(const string& funcName, HINSTANCE DLLHandle);

@@ -48,6 +48,8 @@
 #include "rrc_parameter_api.h"
 #include "rrc_minimization_api.h"
 #include "rrc_logging_api.h"
+#include "rrc_nom_api.h"
+#include "rrc_libstruct_api.h"
 #if defined(__cplusplus)
 namespace rrc
 {
@@ -954,7 +956,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getEigenvalues(RRHandle handle);
 // --------------------------------------------------------------------------------
 
 /*!
- \brief Compute the eigenvalues of the matrix
+ \brief Compute the eigenvalues of a double matrix
 
  \param[in] handle Handle to a RoadRunner instance
  \param[in] mat Handle to input matrix
@@ -994,15 +996,6 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getLinkMatrix(RRHandle handle);
  \ingroup Stoich
 */
 C_DECL_SPEC RRMatrixHandle rrcCallConv getNrMatrix(RRHandle handle);
-
-/*!
- \brief Retrieve the L0 matrix for the current model
-
- \param[in] handle Handle to a RoadRunner instance
- \return Returns null if it fails, otherwise returns the L0 matrix.
- \ingroup Stoich
-*/
-C_DECL_SPEC RRMatrixHandle rrcCallConv getL0Matrix(RRHandle handle);
 
 /*!
  \brief Retrieve the conservation matrix for the current model.
@@ -1470,26 +1463,6 @@ C_DECL_SPEC bool rrcCallConv getuEE(RRHandle handle, const char* name, const cha
 // What's this, not sure if we need it?
 C_DECL_SPEC bool rrcCallConv getScaledFloatingSpeciesElasticity(RRHandle handle, const char* reactionName, const char* speciesName, double* value);
 
-// --------------------------------------------------------------------------------
-// Network Object Model (NOM) library forwarded functions
-// --------------------------------------------------------------------------------
-
-/*!
- \brief Returns the number of rules in the current model
- \param[in] handle Handle to a RoadRunner instance
- \return Returns an integer larger or equal to 0 if succesful, or -1 on failure
- \ingroup NOM functions
-*/
-C_DECL_SPEC int rrcCallConv getNumberOfRules(RRHandle handle);
-
-/*!
- \brief Returns the name of currently loaded SBML model
- \param[in] handle Handle to a RoadRunner instance
- \return Returns a char* containing the name if succesful, NULL otherwise
- \ingroup NOM functions
-*/
-C_DECL_SPEC char* rrcCallConv getModelName(RRHandle handle);
-
 
 #if defined( __cplusplus)
 }
@@ -1636,7 +1609,10 @@ C_DECL_SPEC char* rrcCallConv getModelName(RRHandle handle);
 // \brief Linear algebra based methods for analyzing a reaction network
 //
 // \defgroup NOM Network object model (NOM) functions
-// \brief Network objwct model functions
+// \brief Network object model functions
+//
+// \defgroup LibStruct functions
+// \brief Functions originating in the LibStruct library
 //
 // \defgroup LinearAlgebra Linear algebra functions
 // \brief Linear algebra utility functions

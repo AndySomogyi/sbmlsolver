@@ -25,6 +25,7 @@ string Usage(const string& prg)
     usage<<setw(25)<<"-m<FilePath>"                 <<" Folder where the program will read sbml models. \n";
 	usage<<setw(25)<<"-r<FilePath>"                 <<" Results output file, with path.\n";
     usage<<setw(25)<<"-t<FilePath>"                 <<" Temporary data output folder. If not given, temp files are output to current directory\n";
+    usage<<setw(25)<<"-s"                 			<<" Select Suites, e.g. -sABDE selects suite ABD and E";
     usage<<setw(25)<<"-v"                 			<<" Enable Logging\n";
     usage<<setw(25)<<"-?"                           <<" Shows the help screen.\n\n";
 

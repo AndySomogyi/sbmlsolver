@@ -17,7 +17,7 @@ typedef char *address;
 typedef short int shortint;
 typedef float f2c_real;
 typedef double doublereal;
-typedef struct { f2c_real r, i; } complex;
+typedef struct { f2c_real r, i; } f2c_complex;
 typedef struct { doublereal r, i; } doublecomplex;
 typedef long int logical;
 typedef short int shortlogical;
@@ -135,7 +135,7 @@ union Multitype {	/* for multiple entry points */
 	/* longint j; */
 	f2c_real r;
 	doublereal d;
-	complex c;
+	f2c_complex c;
 	doublecomplex z;
 	};
 

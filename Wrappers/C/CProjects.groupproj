@@ -9,7 +9,7 @@
         <Projects Include="rrc_api.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="Testing\tests.cbproj">
+        <Projects Include="Testing\run_test_suite.cbproj">
             <Dependencies>rrc_api.cbproj</Dependencies>
         </Projects>
         <Projects Include="Apps\sbml_ts_tester\sbml_ts_tester.cbproj">
@@ -50,14 +50,14 @@
     <Target Name="rrc_api:Make">
         <MSBuild Projects="rrc_api.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="tests" DependsOnTargets="rrc_api">
-        <MSBuild Projects="Testing\tests.cbproj"/>
+    <Target Name="run_test_suite" DependsOnTargets="rrc_api">
+        <MSBuild Projects="Testing\run_test_suite.cbproj"/>
     </Target>
-    <Target Name="tests:Clean" DependsOnTargets="rrc_api:Clean">
-        <MSBuild Projects="Testing\tests.cbproj" Targets="Clean"/>
+    <Target Name="run_test_suite:Clean" DependsOnTargets="rrc_api:Clean">
+        <MSBuild Projects="Testing\run_test_suite.cbproj" Targets="Clean"/>
     </Target>
-    <Target Name="tests:Make" DependsOnTargets="rrc_api:Make">
-        <MSBuild Projects="Testing\tests.cbproj" Targets="Make"/>
+    <Target Name="run_test_suite:Make" DependsOnTargets="rrc_api:Make">
+        <MSBuild Projects="Testing\run_test_suite.cbproj" Targets="Make"/>
     </Target>
     <Target Name="sbml_ts_tester">
         <MSBuild Projects="Apps\sbml_ts_tester\sbml_ts_tester.cbproj"/>
@@ -96,13 +96,13 @@
         <MSBuild Projects="Examples\get_c_code\get_c_code.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="roadrunner;rrc_api;tests;sbml_ts_tester;rr_threads_1;rr_threads_2;get_c_code"/>
+        <CallTarget Targets="roadrunner;rrc_api;run_test_suite;sbml_ts_tester;rr_threads_1;rr_threads_2;get_c_code"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="roadrunner:Clean;rrc_api:Clean;tests:Clean;sbml_ts_tester:Clean;rr_threads_1:Clean;rr_threads_2:Clean;get_c_code:Clean"/>
+        <CallTarget Targets="roadrunner:Clean;rrc_api:Clean;run_test_suite:Clean;sbml_ts_tester:Clean;rr_threads_1:Clean;rr_threads_2:Clean;get_c_code:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="roadrunner:Make;rrc_api:Make;tests:Make;sbml_ts_tester:Make;rr_threads_1:Make;rr_threads_2:Make;get_c_code:Make"/>
+        <CallTarget Targets="roadrunner:Make;rrc_api:Make;run_test_suite:Make;sbml_ts_tester:Make;rr_threads_1:Make;rr_threads_2:Make;get_c_code:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

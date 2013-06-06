@@ -651,6 +651,40 @@ double toDouble(const string& str)
     return strtod(str.c_str(), &endptr);
 }
 
+complex<double> toComplex(const string& str)
+{
+	vector<string> parts(splitString(str,"(,)"));
+
+    if(parts.size() != 2)
+    {
+    	//should throw...
+        return complex<double>(0,0);
+    }
+
+    char *endptr = NULL;
+    complex<double> num;
+	if(parts[0] == "-")
+    {
+        if(parts[1] == "-")
+        {
+            return complex<double>(gDoubleNaN, gDoubleNaN);
+        }
+        double im = strtod(parts[1].c_str(), &endptr);
+        return complex<double>(gDoubleNaN,im);
+    }
+
+	if(parts[1] == "-")
+    {
+        double re = strtod(parts[0].c_str(), &endptr);
+        return complex<double>(re,gDoubleNaN);
+    }
+
+	double re = strtod(parts[0].c_str(), &endptr);
+    double im = strtod(parts[1].c_str(), &endptr);
+
+    return complex<double>(re,im);
+}
+
 string toUpperOrLowerCase(const string& inStr, int (*func)(int))
 {
     string rString(inStr);

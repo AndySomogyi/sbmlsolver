@@ -558,6 +558,48 @@ bool rrCallConv setMatrixElement (RRMatrixHandle m, int r, int c, double value)
     return true;
 }
 
+bool rrcCallConv getComplexMatrixElement (RRComplexMatrixHandle m, int r, int c, RRComplexHandle value)
+{
+    if (m == NULL)
+    {
+        setError ("Matrix argument is null in getComplexMatrixElement");
+        return false;
+    }
+
+    if ((r < 0) || (c < 0) || (r >= m->RSize) || (c >= m->CSize))
+    {
+        stringstream msg;
+        msg << "Index out range in getComplexMatrixElement: " << r << ", " << c;
+        setError(msg.str());
+        return false;
+    }
+
+    value->re = m->Data[r*m->CSize + c].re;
+    value->imag = m->Data[r*m->CSize + c].imag;
+    return true;
+}
+
+bool rrcCallConv setComplexMatrixElement (RRComplexMatrixHandle m, int r, int c, RRComplex* value)
+{
+    if (m == NULL)
+    {
+        setError ("Matrix argument is null in setComplexMatrixElement");
+        return false;
+    }
+
+    if ((r < 0) || (c < 0) || (r >= m->RSize) || (c >= m->CSize))
+    {
+        stringstream msg;
+        msg << "Index out range in setComplexMatrixElement: " << r << ", " << c;
+        setError(msg.str());
+        return false;
+    }
+
+    m->Data[r*m->CSize + c].re = value->re;
+    m->Data[r*m->CSize + c].imag = value->imag;
+    return true;
+}
+
 int rrCallConv  getRRDataNumRows (RRDataHandle result)
 {
     if (result == NULL)
@@ -827,6 +869,36 @@ char* rrCallConv matrixToString(const RRMatrixHandle matrixHandle)
         setError(msg.str());
         return NULL;
     }
+}
+
+char* rrCallConv complexMatrixToString(const RRComplexMatrixHandle matrixHandle)
+{
+    try
+    {
+        if(!matrixHandle)
+        {
+            return NULL;
+        }
+
+        RRComplexMatrix& mat = *matrixHandle;
+        stringstream ss;
+        //ss<<"\nmatrix dimension: "<<mat.RSize<<"x"<<mat.CSize<<" --\n";
+        ss<<"\n";
+        for(int row = 0; row < mat.RSize; row++)
+        {
+            for(int col = 0; col < mat.CSize; col++)
+            {
+                ss<<"("<<mat.Data[row*mat.CSize + col].re<<","<<mat.Data[row*mat.CSize + col].imag<<")";
+                if(col < mat.CSize + 1)
+                {
+                    ss<<"\t";
+                }
+            }
+            ss<<endl;
+        }
+        return createText(ss.str());
+    }
+    catch_ptr_macro
 }
 
 char* rrCallConv vectorToString(RRVectorHandle vecHandle)
