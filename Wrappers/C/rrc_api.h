@@ -956,7 +956,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getEigenvalues(RRHandle handle);
 // --------------------------------------------------------------------------------
 
 /*!
- \brief Compute the eigenvalues of the matrix
+ \brief Compute the eigenvalues of a double matrix
 
  \param[in] handle Handle to a RoadRunner instance
  \param[in] mat Handle to input matrix

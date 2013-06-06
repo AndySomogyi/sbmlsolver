@@ -44,18 +44,57 @@
 #include "rrc_types.h"
 //---------------------------------------------------------------------------
 
-#if defined(__cplusplus)
-namespace rrc
-{
-extern "C"
-{
+#if defined(__cplusplus) namespace rrc { extern "C" { #endif
+
+/*! \brief Returns the L0 Matrix.
+
+L0 is defined such that  L0 Nr = N0. L0 forms part of the link matrix, L.  N0 is the set of
+linear dependent rows from the lower portion of the reordered stoichiometry matrix.
+
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns null if it fails, otherwise returns the L0 matrix.
+
+\remarks To free the returned matrix call freeMatrix with the matrix
+as parameter.
+\ingroup Stoich
+*/
+C_DECL_SPEC RRMatrixHandle rrcCallConv getL0Matrix(RRHandle handle);
+
+/*! \brief Calculates the eigen-vectors of a square real matrix.
+This function calculates the complex (right)eigenvectors of the given real matrix. The complex matrix
+returned contains the eigenvectors in the columns, in the same order as LibLA_getEigenValues.
+
+The right eigenvector v(j) of A satisfies:
+\par
+A * v(j) = lambda(j) * v(j)
+\param[in] matrix Handle to a RRMatrix
+\return Returns null if it fails, otherwise returns a RRComplexMatrix.
+\ingroup Stoich
+*/
+C_DECL_SPEC RRComplexMatrixHandle rrcCallConv getEigenVectors(RRMatrixHandle matrix);
+
+
+/*! \brief Calculates the eigen-vectors of a square nonsymmetrix complex matrix.
+This function calculates the complex (right)eigenvectors of the given real matrix. The complex matrix
+returned contains the eigenvectors in the columns, in the same order as getZEigenValues.
+The right eigenvector v(j) of A satisfies:
+\par
+A * v(j) = lambda(j) * v(j)
+\param[in] matrix Handle to a RRComplexMatrix
+\return Returns null if it fails, otherwise returns a RRComplexMatrix.
+\ingroup Stoich
+*/
+C_DECL_SPEC RRComplexMatrixHandle rrcCallConv getZEigenVectors(RRComplexMatrixHandle matrix);
+
+
+//---------------------------------------------------------------------------
+#if defined(__cplusplus) }	} #endif //rrc namespace and extern "C" scopes
 #endif
 
-///// Part of ORIGINAL libstruct C wrapper  below.. uncomment and cleanup to
-///// use with roadrunner
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+/* Part of ORIGINAL libstruct C wrappers below.. uncomment and cleanup to use with roadrunner, and move above this line */
 //---------------------------------------------------------------------------
 
-//
 ///*! \brief Load a new stoichiometry matrix.
 //
 //Loads the stoichiometry matrix into the library. To analyze the stoichiometry
@@ -249,22 +288,6 @@ extern "C"
 //or ::LibStructural_loadSBML or ::LibStructural_loadSBMLFromFile
 //*/
 //  int LibStructural_analyzeWithFullyPivotedLUwithTests(char* *outMessage, int *nLength);
-
-/*! \brief Returns the L0 Matrix.
-
-L0 is defined such that  L0 Nr = N0. L0 forms part of the link matrix, L.  N0 is the set of
-linear dependent rows from the lower portion of the reordered stoichiometry matrix.
-
- \param[in] handle Handle to a RoadRunner instance
- \return Returns null if it fails, otherwise returns the L0 matrix.
-
-\remarks To free the returned matrix call freeMatrix with the matrix
-as parameter.
- \ingroup Stoich
-*/
-C_DECL_SPEC RRMatrixHandle rrcCallConv getL0Matrix(RRHandle handle);
-
-//  int LibStructural_getL0Matrix(double** *outMatrix, int* outRows, int *outCols);
 
 ///*! \brief Returns the L0 Matrix row and column labels.
 //
@@ -1311,35 +1334,6 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getL0Matrix(RRHandle handle);
 //LIB_EXTERN void LibLA_freeMatrix(void** matrix, int numRows);
 //
 //
-/*! \brief Calculates the eigen-vectors of a square real matrix.
-
-This function calculates the complex (right)eigenvectors of the given real matrix. The complex matrix
-returned contains the eigenvectors in the columns, in the same order as LibLA_getEigenValues.
-
-The right eigenvector v(j) of A satisfies:
-\par
-A * v(j) = lambda(j) * v(j)
-
-
-*/
-//LIB_EXTERN int LibLA_getEigenVectors(double** inMatrix, int numRows, int numCols,
-//                                     double** *outMatrixReal, double** *outMatrixImag, int *outRows, int *outCols);
-
-C_DECL_SPEC RRComplexMatrixHandle rrcCallConv getEigenVectors(RRMatrixHandle inMatrix);
-
-
-/*! \brief Calculates the eigen-vectors of a square nonsymmetrix complex matrix.
-This function calculates the complex (right)eigenvectors of the given real matrix. The complex matrix
-returned contains the eigenvectors in the columns, in the same order as LibLA_ZgetEigenValues.
-The right eigenvector v(j) of A satisfies:
-\par
-A * v(j) = lambda(j) * v(j)
-*/
-//LIB_EXTERN int LibLA_ZgetEigenVectors(double** inMatrixReal,   double **  inMatrixImag, int numRows, int numCols,
-//                                       double** *outMatrixReal, double** *outMatrixImag, int *outRows, int *outCols);
-
-C_DECL_SPEC RRComplexMatrixHandle rrcCallConv getZEigenVectors(RRComplexMatrixHandle inMatrix);
-
 ///*! \brief Factorizes the given matrix using SVD
 //
 //This function computes the singular value decomposition (SVD) of the given real matrix.
@@ -1376,11 +1370,6 @@ C_DECL_SPEC RRComplexMatrixHandle rrcCallConv getZEigenVectors(RRComplexMatrixHa
 //                       double* *outSingVals, int *outLength,
 //                       double** *outVReal, double** *outVImag, int *outRowsV, int *outColsV);
 
-//---------------------------------------------------------------------------
-#if defined(__cplusplus)
-}	//Extern "C"
-}	//rrc namespace
-#endif
+#endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
-#endif
 
