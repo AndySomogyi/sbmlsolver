@@ -43,16 +43,20 @@
 #include "rrc_exporter.h"
 #include "rrc_types.h"
 //---------------------------------------------------------------------------
-
-#if defined(__cplusplus) namespace rrc { extern "C" { #endif
+#if defined(__cplusplus)
+namespace rrc
+{
+extern "C"
+{
+#endif
 
 /*! \brief Returns the L0 Matrix.
 
 L0 is defined such that  L0 Nr = N0. L0 forms part of the link matrix, L.  N0 is the set of
 linear dependent rows from the lower portion of the reordered stoichiometry matrix.
 
- \param[in] handle Handle to a RoadRunner instance
- \return Returns null if it fails, otherwise returns the L0 matrix.
+\param[in] handle Handle to a RoadRunner instance
+\return Returns null if it fails, otherwise returns the L0 matrix.
 
 \remarks To free the returned matrix call freeMatrix with the matrix
 as parameter.
@@ -88,8 +92,11 @@ C_DECL_SPEC RRComplexMatrixHandle rrcCallConv getZEigenVectors(RRComplexMatrixHa
 
 
 //---------------------------------------------------------------------------
-#if defined(__cplusplus) }	} #endif //rrc namespace and extern "C" scopes
-#endif
+#if defined(__cplusplus)
+}
+}
+#endif //rrc namespace and extern "C" scopes
+
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 /* Part of ORIGINAL libstruct C wrappers below.. uncomment and cleanup to use with roadrunner, and move above this line */
@@ -1372,4 +1379,5 @@ C_DECL_SPEC RRComplexMatrixHandle rrcCallConv getZEigenVectors(RRComplexMatrixHa
 
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
+#endif //Header guard
 
