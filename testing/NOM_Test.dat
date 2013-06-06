@@ -2,5 +2,5 @@
 
 [NOM_TESTS]
 InputFile=feedback.xml
-ModelName = feedback
+ModelName = Feedback
 NumberOfRules = 0

@@ -3,6 +3,7 @@ PROJECT(tests)
 
 set(tests
 NOM_Test.dat
+LibStructTest.dat
 Test_1.dat
 Test_1.xml
 Test_1.txt

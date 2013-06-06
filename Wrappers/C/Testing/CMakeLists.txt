@@ -8,6 +8,7 @@ Suite_Core_Tests
 Suite_TestModel_1
 Suite_SBML_Tests
 Suite_NOM_Tests
+Suite_LibStruct_Tests
 )
 
 add_executable( ${target} 
