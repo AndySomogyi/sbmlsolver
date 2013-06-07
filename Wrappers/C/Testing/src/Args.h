@@ -13,6 +13,7 @@ class Args
         string                          ResultOutputFile;                         	//option r:
         string                          TempDataFolder;                           	//option t:
 		bool                            EnableLogging;                    	     	//option v:
+        string							Suites;                                     //option s:
 };
 
 #endif

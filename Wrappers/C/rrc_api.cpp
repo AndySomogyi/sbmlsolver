@@ -44,7 +44,6 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-//#include "rrParameter.h"
 #include "rrRoadRunner.h"
 #include "rrRoadRunnerList.h"
 #include "rrCModelGenerator.h"
@@ -65,38 +64,40 @@
 #elif defined(__BORLANDC__)
       #include <dir.h>
 #else
-#include <unistd.h>
+    #include <unistd.h>
 #endif
 
-// max path stuff
-#if defined(_WIN32)
-#include <windef.h>
-#define RR_MAX_PATH MAX_PATH
+/*!
+ \brief macro for MAX_PATH
+ \ingroup macros
+*/
+ #if defined(_WIN32)
+    #include <windef.h>
+   #define RR_MAX_PATH MAX_PATH
 #else
-#include <limits.h>
-#define RR_MAX_PATH PATH_MAX
+    #include <limits.h>
+    #define RR_MAX_PATH PATH_MAX
 #endif
-
-
 //---------------------------------------------------------------------------
 
 namespace rrc
 {
+
 using namespace std;
 using namespace rr;
 
-RRHandle rrCallConv createRRInstance()
+RRHandle rrcCallConv createRRInstance()
 {
     try
     {
         string rrInstallFolder(getParentFolder(getRRCAPILocation()));
 
 #if defined(_WIN32) || defined(WIN32)
-            string compiler(joinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"));
+        string compiler(joinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"));
 #elif defined(__linux)
-            string compiler("gcc");
+        string compiler("gcc");
 #else
-            string compiler("gcc");
+        string compiler("gcc");
 #endif
     //RoadRunner(const string& tempFolder, const string& supportCodeFolder, const string& compiler)
             return new RoadRunner(getUsersTempDataFolder(), joinPath(rrInstallFolder, "rr_support"), compiler);
@@ -110,7 +111,7 @@ RRHandle rrCallConv createRRInstance()
     }
 }
 
-RRHandle rrCallConv createRRInstanceEx(const char* tempFolder)
+RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder)
 {
     try
     {
@@ -151,7 +152,7 @@ RRHandle rrCallConv createRRInstanceEx(const char* tempFolder)
     }
 }
 
-RRInstanceListHandle rrCallConv createRRInstances(int count)
+RRInstanceListHandle rrcCallConv createRRInstances(int count)
 {
     try
     {
@@ -183,7 +184,7 @@ RRInstanceListHandle rrCallConv createRRInstances(int count)
     }
 }
 
-bool rrCallConv freeRRInstances(RRInstanceListHandle rrList)
+bool rrcCallConv freeRRInstances(RRInstanceListHandle rrList)
 {
     try
     {
@@ -208,7 +209,7 @@ bool rrCallConv freeRRInstances(RRInstanceListHandle rrList)
     }
 }
 
-char* rrCallConv getInstallFolder()
+char* rrcCallConv getInstallFolder()
 {
     if(!gInstallFolder[0])
     {
@@ -217,7 +218,7 @@ char* rrCallConv getInstallFolder()
     return gInstallFolder;
 }
 
-bool rrCallConv setInstallFolder(const char* folder)
+bool rrcCallConv setInstallFolder(const char* folder)
 {
     try
     {
@@ -232,7 +233,7 @@ bool rrCallConv setInstallFolder(const char* folder)
     }
 }
 
-char* rrCallConv getAPIVersion()
+char* rrcCallConv getAPIVersion()
 {
     try
     {
@@ -247,7 +248,7 @@ char* rrCallConv getAPIVersion()
     }
 }
 
-char* rrCallConv getCPPAPIVersion()
+char* rrcCallConv getCPPAPIVersion()
 {
     try
     {
@@ -257,7 +258,7 @@ char* rrCallConv getCPPAPIVersion()
             return NULL;
         }
 
-           RoadRunner* rri = castFrom(handle);
+        RoadRunner* rri = castFrom(handle);
         char* text = createText(rri->getVersion());
         freeRRInstance(handle);
 
@@ -272,7 +273,7 @@ char* rrCallConv getCPPAPIVersion()
     }
 }
 
-char* rrCallConv getRRCAPILocation()
+char* rrcCallConv getRRCAPILocation()
 {
 #if defined(_WIN32) || defined(WIN32)
     char path[MAX_PATH];
@@ -292,7 +293,7 @@ char* rrCallConv getRRCAPILocation()
 #endif
 }
 
-char* rrCallConv getCopyright()
+char* rrcCallConv getCopyright()
 {
     try
     {
@@ -317,7 +318,7 @@ char* rrCallConv getCopyright()
     }
 }
 
-char* rrCallConv getInfo(RRHandle handle)
+char* rrcCallConv getInfo(RRHandle handle)
 {
     try
     {
@@ -342,7 +343,7 @@ char* rrCallConv getInfo(RRHandle handle)
     }
 }
 
-char* rrCallConv getExtendedAPIInfo()
+char* rrcCallConv getExtendedAPIInfo()
 {
     try
     {
@@ -366,7 +367,7 @@ char* rrCallConv getExtendedAPIInfo()
     }
 }
 
-char* rrCallConv getlibSBMLVersion(RRHandle handle)
+char* rrcCallConv getlibSBMLVersion(RRHandle handle)
 {
     try
     {
@@ -391,7 +392,7 @@ char* rrCallConv getlibSBMLVersion(RRHandle handle)
     }
 }
 
-char* rrCallConv getCurrentSBML(RRHandle handle)
+char* rrcCallConv getCurrentSBML(RRHandle handle)
 {
     try
     {
@@ -417,7 +418,7 @@ char* rrCallConv getCurrentSBML(RRHandle handle)
 }
 
 //Flags and Options
-bool rrCallConv setComputeAndAssignConservationLaws(RRHandle handle, const bool OnOrOff)
+bool rrcCallConv setComputeAndAssignConservationLaws(RRHandle handle, const bool OnOrOff)
 {
     try
     {
@@ -434,7 +435,7 @@ bool rrCallConv setComputeAndAssignConservationLaws(RRHandle handle, const bool 
      }
 }
 
-bool rrCallConv setTempFolder(RRHandle handle, const char* folder)
+bool rrcCallConv setTempFolder(RRHandle handle, const char* folder)
 {
     try
     {
@@ -450,7 +451,7 @@ bool rrCallConv setTempFolder(RRHandle handle, const char* folder)
     }
 }
 
-char* rrCallConv getTempFolder(RRHandle handle)
+char* rrcCallConv getTempFolder(RRHandle handle)
 {
     try
     {
@@ -466,7 +467,7 @@ char* rrCallConv getTempFolder(RRHandle handle)
     }
 }
 
-bool rrCallConv setCompiler(RRHandle handle, const char* fName)
+bool rrcCallConv setCompiler(RRHandle handle, const char* fName)
 {
     try
     {
@@ -494,7 +495,7 @@ bool rrCallConv setCompiler(RRHandle handle, const char* fName)
     }
 }
 
-bool rrCallConv setCompilerLocation(RRHandle handle, const char* folder)
+bool rrcCallConv setCompilerLocation(RRHandle handle, const char* folder)
 {
     try
     {
@@ -522,7 +523,7 @@ bool rrCallConv setCompilerLocation(RRHandle handle, const char* folder)
     }
 }
 
-char* rrCallConv getCompilerLocation(RRHandle handle)
+char* rrcCallConv getCompilerLocation(RRHandle handle)
 {
     try
     {
@@ -544,7 +545,7 @@ char* rrCallConv getCompilerLocation(RRHandle handle)
     }
 }
 
-bool rrCallConv setSupportCodeFolder(RRHandle handle,const char* folder)
+bool rrcCallConv setSupportCodeFolder(RRHandle handle,const char* folder)
 {
     try
     {
@@ -572,7 +573,7 @@ bool rrCallConv setSupportCodeFolder(RRHandle handle,const char* folder)
     }
 }
 
-char* rrCallConv getSupportCodeFolder(RRHandle handle)
+char* rrcCallConv getSupportCodeFolder(RRHandle handle)
 {
     try
     {
@@ -591,7 +592,7 @@ char* rrCallConv getSupportCodeFolder(RRHandle handle)
 }
 
 
-char* rrCallConv getWorkingDirectory()
+char* rrcCallConv getWorkingDirectory()
 {
     try
     {
@@ -606,7 +607,7 @@ char* rrCallConv getWorkingDirectory()
     }
 }
 
-bool rrCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
+bool rrcCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
 {
     try
     {
@@ -636,7 +637,7 @@ bool rrCallConv loadSBMLFromFile(RRHandle _handle, const char* fileName)
     }
 }
 
-bool rrCallConv loadSBMLFromFileE(RRHandle _handle, const char* fileName, bool forceRecompile)
+bool rrcCallConv loadSBMLFromFileE(RRHandle _handle, const char* fileName, bool forceRecompile)
 {
     try
     {
@@ -666,7 +667,7 @@ bool rrCallConv loadSBMLFromFileE(RRHandle _handle, const char* fileName, bool f
     }
 }
 
-bool rrCallConv loadSBML(RRHandle handle, const char* sbml)
+bool rrcCallConv loadSBML(RRHandle handle, const char* sbml)
 {
     try
     {
@@ -682,7 +683,7 @@ bool rrCallConv loadSBML(RRHandle handle, const char* sbml)
     }
 }
 
-bool rrCallConv loadSBMLE(RRHandle handle, const char* sbml, bool forceRecompilation)
+bool rrcCallConv loadSBMLE(RRHandle handle, const char* sbml, bool forceRecompilation)
 {
     try
     {
@@ -704,7 +705,7 @@ bool rrCallConv loadSBMLE(RRHandle handle, const char* sbml, bool forceRecompila
 }
 
 
-bool rrCallConv loadSimulationSettings(RRHandle handle, const char* fileName)
+bool rrcCallConv loadSimulationSettings(RRHandle handle, const char* fileName)
 {
     try
     {
@@ -735,7 +736,7 @@ bool rrCallConv loadSimulationSettings(RRHandle handle, const char* fileName)
     }
 }
 
-char* rrCallConv getSBML(RRHandle handle)
+char* rrcCallConv getSBML(RRHandle handle)
 {
     try
     {
@@ -751,7 +752,7 @@ char* rrCallConv getSBML(RRHandle handle)
     }
 }
 
-bool rrCallConv isModelLoaded(RRHandle handle)
+bool rrcCallConv isModelLoaded(RRHandle handle)
 {
     try
     {
@@ -761,7 +762,7 @@ bool rrCallConv isModelLoaded(RRHandle handle)
     catch_bool_macro
 }
 
-bool rrCallConv unLoadModel(RRHandle handle)
+bool rrcCallConv unLoadModel(RRHandle handle)
 {
     try
     {
@@ -783,7 +784,7 @@ bool rrCallConv unLoadModel(RRHandle handle)
     }
 }
 
-bool rrCallConv setTimeStart(RRHandle handle, const double timeStart)
+bool rrcCallConv setTimeStart(RRHandle handle, const double timeStart)
 {
     try
     {
@@ -800,7 +801,7 @@ bool rrCallConv setTimeStart(RRHandle handle, const double timeStart)
     }
 }
 
-bool rrCallConv setTimeEnd(RRHandle handle, const double timeEnd)
+bool rrcCallConv setTimeEnd(RRHandle handle, const double timeEnd)
 {
     try
     {
@@ -817,7 +818,7 @@ bool rrCallConv setTimeEnd(RRHandle handle, const double timeEnd)
     }
 }
 
-bool rrCallConv setNumPoints(RRHandle handle, const int nrPoints)
+bool rrcCallConv setNumPoints(RRHandle handle, const int nrPoints)
 {
     try
     {
@@ -834,7 +835,7 @@ bool rrCallConv setNumPoints(RRHandle handle, const int nrPoints)
     }
 }
 
-bool rrCallConv getTimeStart(RRHandle handle, double* timeStart)
+bool rrcCallConv getTimeStart(RRHandle handle, double* timeStart)
 {
     try
     {
@@ -857,7 +858,7 @@ bool rrCallConv getTimeStart(RRHandle handle, double* timeStart)
       return false;
 }
 
-bool rrCallConv getTimeEnd(RRHandle handle, double* timeEnd)
+bool rrcCallConv getTimeEnd(RRHandle handle, double* timeEnd)
 {
     try
     {
@@ -874,7 +875,7 @@ bool rrCallConv getTimeEnd(RRHandle handle, double* timeEnd)
     }
 }
 
-bool rrCallConv getNumPoints(RRHandle handle, int* numPoints)
+bool rrcCallConv getNumPoints(RRHandle handle, int* numPoints)
 {
     try
     {
@@ -891,7 +892,7 @@ bool rrCallConv getNumPoints(RRHandle handle, int* numPoints)
     }
 }
 
-bool rrCallConv setTimeCourseSelectionList(RRHandle handle, const char* list)
+bool rrcCallConv setTimeCourseSelectionList(RRHandle handle, const char* list)
 {
     try
     {
@@ -908,7 +909,7 @@ bool rrCallConv setTimeCourseSelectionList(RRHandle handle, const char* list)
     }
 }
 
-bool rrCallConv createTimeCourseSelectionList(RRHandle handle)
+bool rrcCallConv createTimeCourseSelectionList(RRHandle handle)
 {
     try
     {
@@ -926,7 +927,7 @@ bool rrCallConv createTimeCourseSelectionList(RRHandle handle)
     }
 }
 
-RRStringArrayHandle rrCallConv getTimeCourseSelectionList(RRHandle handle)
+RRStringArrayHandle rrcCallConv getTimeCourseSelectionList(RRHandle handle)
 {
     try
     {
@@ -956,7 +957,7 @@ RRStringArrayHandle rrCallConv getTimeCourseSelectionList(RRHandle handle)
 
 }
 
-RRDataHandle rrCallConv simulate(RRHandle handle)
+RRDataHandle rrcCallConv simulate(RRHandle handle)
 {
     try
     {
@@ -982,7 +983,7 @@ RRDataHandle rrCallConv simulate(RRHandle handle)
     }
 }
 
-RRDataHandle rrCallConv getSimulationResult(RRHandle handle)
+RRDataHandle rrcCallConv getSimulationResult(RRHandle handle)
 {
     try
     {
@@ -998,7 +999,7 @@ RRDataHandle rrCallConv getSimulationResult(RRHandle handle)
 }
 
 
-RRDataHandle rrCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
+RRDataHandle rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
 {
     try
     {
@@ -1016,7 +1017,7 @@ RRDataHandle rrCallConv simulateEx(RRHandle handle, const double timeStart, cons
     }
 }
 
-RRStringArrayHandle rrCallConv getReactionIds(RRHandle handle)
+RRStringArrayHandle rrcCallConv getReactionIds(RRHandle handle)
 {
     try
     {
@@ -1040,7 +1041,7 @@ RRStringArrayHandle rrCallConv getReactionIds(RRHandle handle)
     }
 }
 
-RRVectorHandle rrCallConv getRatesOfChange(RRHandle handle)
+RRVectorHandle rrcCallConv getRatesOfChange(RRHandle handle)
 {
     try
     {
@@ -1077,7 +1078,7 @@ RRVectorHandle rrCallConv getRatesOfChange(RRHandle handle)
     }
 }
 
-RRStringArrayHandle rrCallConv getRatesOfChangeIds(RRHandle handle)
+RRStringArrayHandle rrcCallConv getRatesOfChangeIds(RRHandle handle)
 {
     try
     {
@@ -1102,7 +1103,7 @@ RRStringArrayHandle rrCallConv getRatesOfChangeIds(RRHandle handle)
     return NULL;
 }
 
-RRMatrixHandle rrCallConv getUnscaledElasticityMatrix(RRHandle handle)
+RRMatrixHandle rrcCallConv getUnscaledElasticityMatrix(RRHandle handle)
 {
     try
     {
@@ -1127,7 +1128,7 @@ RRMatrixHandle rrCallConv getUnscaledElasticityMatrix(RRHandle handle)
     }
 }
 
-RRMatrixHandle rrCallConv getScaledElasticityMatrix(RRHandle handle)
+RRMatrixHandle rrcCallConv getScaledElasticityMatrix(RRHandle handle)
 {
     try
     {
@@ -1149,7 +1150,7 @@ RRMatrixHandle rrCallConv getScaledElasticityMatrix(RRHandle handle)
     }
 }
 
-bool rrCallConv getValue(RRHandle handle, const char* symbolId, double *value)
+bool rrcCallConv getValue(RRHandle handle, const char* symbolId, double *value)
 {
     try
     {
@@ -1166,7 +1167,7 @@ bool rrCallConv getValue(RRHandle handle, const char* symbolId, double *value)
     }
 }
 
-bool rrCallConv setValue(RRHandle handle, const char* symbolId, const double value)
+bool rrcCallConv setValue(RRHandle handle, const char* symbolId, const double value)
 {
     try
     {
@@ -1183,7 +1184,7 @@ bool rrCallConv setValue(RRHandle handle, const char* symbolId, const double val
 }
 
 
-RRMatrixHandle rrCallConv getStoichiometryMatrix(RRHandle handle)
+RRMatrixHandle rrcCallConv getStoichiometryMatrix(RRHandle handle)
 {
     try
     {
@@ -1220,7 +1221,7 @@ RRMatrixHandle rrCallConv getStoichiometryMatrix(RRHandle handle)
     }
 }
 
-RRMatrixHandle rrCallConv getConservationMatrix(RRHandle handle)
+RRMatrixHandle rrcCallConv getConservationMatrix(RRHandle handle)
 {
     try
     {
@@ -1253,7 +1254,7 @@ RRMatrixHandle rrCallConv getConservationMatrix(RRHandle handle)
     }
 }
 
-RRMatrixHandle rrCallConv getLinkMatrix(RRHandle handle)
+RRMatrixHandle rrcCallConv getLinkMatrix(RRHandle handle)
 {
     try
     {
@@ -1276,26 +1277,9 @@ RRMatrixHandle rrCallConv getLinkMatrix(RRHandle handle)
     }
 }
 
-RRMatrixHandle rrCallConv getL0Matrix(RRHandle handle)
-{
-    try
-    {
-        RoadRunner* rri = castFrom(handle);
 
-        DoubleMatrix *tempMat = rri->getL0Matrix();
 
-        return createMatrix(tempMat);
-    }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-        return NULL;
-    }
-}
-
-RRMatrixHandle rrCallConv getNrMatrix(RRHandle handle)
+RRMatrixHandle rrcCallConv getNrMatrix(RRHandle handle)
 {
     try
     {
@@ -1309,21 +1293,15 @@ RRMatrixHandle rrCallConv getNrMatrix(RRHandle handle)
 
         return createMatrix(tempMat);
     }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-        return NULL;
-    }
+    catch_ptr_macro
 }
 
-C_DECL_SPEC bool rrCallConv hasError()
+C_DECL_SPEC bool rrcCallConv hasError()
 {
     return (gLastError != NULL) ? true : false;
 }
 
-char* rrCallConv getLastError()
+char* rrcCallConv getLastError()
 {
     if(!gLastError)
     {
@@ -1332,7 +1310,7 @@ char* rrCallConv getLastError()
     return gLastError;
 }
 
-bool rrCallConv reset(RRHandle handle)
+bool rrcCallConv reset(RRHandle handle)
 {
     try
     {
@@ -1350,7 +1328,7 @@ bool rrCallConv reset(RRHandle handle)
     }
 }
 
-int rrCallConv getNumberOfReactions(RRHandle handle)
+int rrcCallConv getNumberOfReactions(RRHandle handle)
 {
      try
     {
@@ -1371,7 +1349,7 @@ int rrCallConv getNumberOfReactions(RRHandle handle)
     }
 }
 
-bool rrCallConv getReactionRate(RRHandle handle, const int rateNr, double* value)
+bool rrcCallConv getReactionRate(RRHandle handle, const int rateNr, double* value)
 {
     try
     {
@@ -1388,7 +1366,7 @@ bool rrCallConv getReactionRate(RRHandle handle, const int rateNr, double* value
     }
 }
 
-RRVectorHandle rrCallConv getReactionRates(RRHandle handle)
+RRVectorHandle rrcCallConv getReactionRates(RRHandle handle)
 {
     try
     {
@@ -1408,7 +1386,7 @@ RRVectorHandle rrCallConv getReactionRates(RRHandle handle)
     }
 }
 
-int rrCallConv getNumberOfBoundarySpecies(RRHandle handle)
+int rrcCallConv getNumberOfBoundarySpecies(RRHandle handle)
 {
     try
     {
@@ -1429,7 +1407,7 @@ int rrCallConv getNumberOfBoundarySpecies(RRHandle handle)
     }
 }
 
-RRStringArrayHandle rrCallConv getBoundarySpeciesIds(RRHandle handle)
+RRStringArrayHandle rrcCallConv getBoundarySpeciesIds(RRHandle handle)
 {
     try
     {
@@ -1458,7 +1436,7 @@ RRStringArrayHandle rrCallConv getBoundarySpeciesIds(RRHandle handle)
     }
 }
 
-int rrCallConv getNumberOfFloatingSpecies(RRHandle handle)
+int rrcCallConv getNumberOfFloatingSpecies(RRHandle handle)
 {
     try
     {
@@ -1479,7 +1457,7 @@ int rrCallConv getNumberOfFloatingSpecies(RRHandle handle)
     }
 }
 
-RRStringArrayHandle rrCallConv getFloatingSpeciesIds(RRHandle handle)
+RRStringArrayHandle rrcCallConv getFloatingSpeciesIds(RRHandle handle)
 {
     try
     {
@@ -1504,7 +1482,7 @@ RRStringArrayHandle rrCallConv getFloatingSpeciesIds(RRHandle handle)
     }
 }
 
-int rrCallConv getNumberOfGlobalParameters(RRHandle handle)
+int rrcCallConv getNumberOfGlobalParameters(RRHandle handle)
 {
     try
     {
@@ -1525,7 +1503,7 @@ int rrCallConv getNumberOfGlobalParameters(RRHandle handle)
     }
 }
 
-RRStringArrayHandle rrCallConv getGlobalParameterIds(RRHandle handle)
+RRStringArrayHandle rrcCallConv getGlobalParameterIds(RRHandle handle)
 {
     try
     {
@@ -1553,7 +1531,7 @@ RRStringArrayHandle rrCallConv getGlobalParameterIds(RRHandle handle)
     }
 }
 
-bool rrCallConv getFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, int index, double* value)
+bool rrcCallConv getFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, int index, double* value)
 {
     try
     {
@@ -1564,7 +1542,7 @@ bool rrCallConv getFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, i
     catch_bool_macro
 }
 
-RRVectorHandle rrCallConv getFloatingSpeciesConcentrations(RRHandle handle)
+RRVectorHandle rrcCallConv getFloatingSpeciesConcentrations(RRHandle handle)
 {
     try
     {
@@ -1578,7 +1556,7 @@ RRVectorHandle rrCallConv getFloatingSpeciesConcentrations(RRHandle handle)
     catch_ptr_macro
 }
 
-RRVectorHandle rrCallConv getBoundarySpeciesConcentrations(RRHandle handle)
+RRVectorHandle rrcCallConv getBoundarySpeciesConcentrations(RRHandle handle)
 {
     try
     {
@@ -1603,7 +1581,7 @@ RRVectorHandle rrCallConv getBoundarySpeciesConcentrations(RRHandle handle)
 }
 
 
-RRVectorHandle rrCallConv getFloatingSpeciesInitialConcentrations(RRHandle handle)
+RRVectorHandle rrcCallConv getFloatingSpeciesInitialConcentrations(RRHandle handle)
 {
     try
     {
@@ -1623,7 +1601,7 @@ RRVectorHandle rrCallConv getFloatingSpeciesInitialConcentrations(RRHandle handl
     }
 }
 
-bool rrCallConv setFloatingSpeciesByIndex (RRHandle handle, const int index, const double value)
+bool rrcCallConv setFloatingSpeciesByIndex (RRHandle handle, const int index, const double value)
 {
     try
     {
@@ -1640,7 +1618,7 @@ bool rrCallConv setFloatingSpeciesByIndex (RRHandle handle, const int index, con
     }
 }
 
-bool rrCallConv setBoundarySpeciesByIndex (RRHandle handle, const int index, const double value)
+bool rrcCallConv setBoundarySpeciesByIndex (RRHandle handle, const int index, const double value)
 {
     try
     {
@@ -1657,7 +1635,7 @@ bool rrCallConv setBoundarySpeciesByIndex (RRHandle handle, const int index, con
     }
 }
 
-bool rrCallConv setGlobalParameterByIndex(RRHandle handle, const int index, const double value)
+bool rrcCallConv setGlobalParameterByIndex(RRHandle handle, const int index, const double value)
 {
     try
     {
@@ -1668,7 +1646,7 @@ bool rrCallConv setGlobalParameterByIndex(RRHandle handle, const int index, cons
     catch_bool_macro
 }
 
-bool rrCallConv setFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, const int index, const double value)
+bool rrcCallConv setFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, const int index, const double value)
 {
     try
     {
@@ -1679,7 +1657,7 @@ bool rrCallConv setFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, c
     catch_bool_macro
 }
 
-bool rrCallConv setFloatingSpeciesInitialConcentrations(RRHandle handle, const struct RRVector* vec)
+bool rrcCallConv setFloatingSpeciesInitialConcentrations(RRHandle handle, const struct RRVector* vec)
 {
     try
     {
@@ -1698,7 +1676,7 @@ bool rrCallConv setFloatingSpeciesInitialConcentrations(RRHandle handle, const s
     }
 }
 
-bool rrCallConv setFloatingSpeciesConcentrations(RRHandle handle, const struct RRVector* vec)
+bool rrcCallConv setFloatingSpeciesConcentrations(RRHandle handle, const struct RRVector* vec)
 {
     try
     {
@@ -1720,7 +1698,7 @@ bool rrCallConv setFloatingSpeciesConcentrations(RRHandle handle, const struct R
     }
 }
 
-bool rrCallConv setBoundarySpeciesConcentrations(RRHandle handle, const struct RRVector* vec)
+bool rrcCallConv setBoundarySpeciesConcentrations(RRHandle handle, const struct RRVector* vec)
 {
     try
     {
@@ -1739,7 +1717,7 @@ bool rrCallConv setBoundarySpeciesConcentrations(RRHandle handle, const struct R
     }
 }
 
-bool rrCallConv oneStep(RRHandle handle, const double currentTime, const double stepSize, double *value)
+bool rrcCallConv oneStep(RRHandle handle, const double currentTime, const double stepSize, double *value)
 {
     try
     {
@@ -1756,7 +1734,7 @@ bool rrCallConv oneStep(RRHandle handle, const double currentTime, const double 
     }
 }
 
-RRVectorHandle rrCallConv getGlobalParameterValues(RRHandle handle)
+RRVectorHandle rrcCallConv getGlobalParameterValues(RRHandle handle)
 {
     try
     {
@@ -1774,7 +1752,7 @@ RRVectorHandle rrCallConv getGlobalParameterValues(RRHandle handle)
     }
 }
 
-RRListHandle rrCallConv getAvailableTimeCourseSymbols(RRHandle handle)
+RRListHandle rrcCallConv getAvailableTimeCourseSymbols(RRHandle handle)
 {
     try
     {
@@ -1791,7 +1769,7 @@ RRListHandle rrCallConv getAvailableTimeCourseSymbols(RRHandle handle)
     }
 }
 
-RRListHandle rrCallConv getAvailableSteadyStateSymbols(RRHandle handle)
+RRListHandle rrcCallConv getAvailableSteadyStateSymbols(RRHandle handle)
 {
     try
     {
@@ -1808,7 +1786,7 @@ RRListHandle rrCallConv getAvailableSteadyStateSymbols(RRHandle handle)
     }
 }
 
-bool rrCallConv getBoundarySpeciesByIndex (RRHandle handle, const int index, double* value)
+bool rrcCallConv getBoundarySpeciesByIndex (RRHandle handle, const int index, double* value)
 {
     try
     {
@@ -1825,7 +1803,7 @@ bool rrCallConv getBoundarySpeciesByIndex (RRHandle handle, const int index, dou
     }
 }
 
-bool rrCallConv getFloatingSpeciesByIndex (RRHandle handle, const int index, double *value)
+bool rrcCallConv getFloatingSpeciesByIndex (RRHandle handle, const int index, double *value)
 {
     try
     {
@@ -1842,7 +1820,7 @@ bool rrCallConv getFloatingSpeciesByIndex (RRHandle handle, const int index, dou
     }
 }
 
-bool rrCallConv getGlobalParameterByIndex (RRHandle handle, const int index, double *value)
+bool rrcCallConv getGlobalParameterByIndex (RRHandle handle, const int index, double *value)
 {
     try
     {
@@ -1859,7 +1837,7 @@ bool rrCallConv getGlobalParameterByIndex (RRHandle handle, const int index, dou
     }
 }
 
-bool rrCallConv getuCC (RRHandle handle, const char* variable, const char* parameter, double *value)
+bool rrcCallConv getuCC (RRHandle handle, const char* variable, const char* parameter, double *value)
 {
     try
     {
@@ -1883,7 +1861,7 @@ bool rrCallConv getuCC (RRHandle handle, const char* variable, const char* param
 }
 
 
-bool rrCallConv getCC (RRHandle handle, const char* variable, const char* parameter, double *value)
+bool rrcCallConv getCC (RRHandle handle, const char* variable, const char* parameter, double *value)
 {
     try
     {
@@ -1900,7 +1878,7 @@ bool rrCallConv getCC (RRHandle handle, const char* variable, const char* parame
     }
 }
 
-bool rrCallConv getuEE(RRHandle handle, const char* name, const char* species, double* value)
+bool rrcCallConv getuEE(RRHandle handle, const char* name, const char* species, double* value)
 {
     try
     {
@@ -1917,7 +1895,7 @@ bool rrCallConv getuEE(RRHandle handle, const char* name, const char* species, d
     }
 }
 
-bool rrCallConv getEE(RRHandle handle, const char* name, const char* species, double *value)
+bool rrcCallConv getEE(RRHandle handle, const char* name, const char* species, double *value)
 {
     try
     {
@@ -1934,7 +1912,7 @@ bool rrCallConv getEE(RRHandle handle, const char* name, const char* species, do
     }
 }
 
-int rrCallConv getNumberOfDependentSpecies(RRHandle handle)
+int rrcCallConv getNumberOfDependentSpecies(RRHandle handle)
 {
     try
     {
@@ -1956,7 +1934,7 @@ int rrCallConv getNumberOfDependentSpecies(RRHandle handle)
     }
 }
 
-int rrCallConv getNumberOfIndependentSpecies(RRHandle handle)
+int rrcCallConv getNumberOfIndependentSpecies(RRHandle handle)
 {
     try
     {
@@ -1979,7 +1957,7 @@ int rrCallConv getNumberOfIndependentSpecies(RRHandle handle)
 }
 
 
-bool rrCallConv steadyState(RRHandle handle, double* value)
+bool rrcCallConv steadyState(RRHandle handle, double* value)
 {
     try
     {
@@ -1996,7 +1974,7 @@ bool rrCallConv steadyState(RRHandle handle, double* value)
     }
 }
 
-bool rrCallConv evalModel(RRHandle handle)
+bool rrcCallConv evalModel(RRHandle handle)
 {
     try
     {
@@ -2018,7 +1996,7 @@ bool rrCallConv evalModel(RRHandle handle)
     }
 }
 
-char* rrCallConv getParamPromotedSBML(RRHandle handle, const char* sArg)
+char* rrcCallConv getParamPromotedSBML(RRHandle handle, const char* sArg)
 {
     try
     {
@@ -2043,7 +2021,7 @@ char* rrCallConv getParamPromotedSBML(RRHandle handle, const char* sArg)
     }
 }
 
-RRVectorHandle rrCallConv computeSteadyStateValues(RRHandle handle)
+RRVectorHandle rrcCallConv computeSteadyStateValues(RRHandle handle)
 {
     try
     {
@@ -2067,7 +2045,7 @@ RRVectorHandle rrCallConv computeSteadyStateValues(RRHandle handle)
     }
 }
 
-bool rrCallConv setSteadyStateSelectionList(RRHandle handle, const char* list)
+bool rrcCallConv setSteadyStateSelectionList(RRHandle handle, const char* list)
 {
     try
     {
@@ -2085,7 +2063,7 @@ bool rrCallConv setSteadyStateSelectionList(RRHandle handle, const char* list)
     }
 }
 
-RRStringArrayHandle rrCallConv getSteadyStateSelectionList(RRHandle handle)
+RRStringArrayHandle rrcCallConv getSteadyStateSelectionList(RRHandle handle)
 {
     try
     {
@@ -2108,7 +2086,7 @@ RRStringArrayHandle rrCallConv getSteadyStateSelectionList(RRHandle handle)
     }
 }
 
-RRMatrixHandle rrCallConv getFullJacobian(RRHandle handle)
+RRMatrixHandle rrcCallConv getFullJacobian(RRHandle handle)
 {
     try
     {
@@ -2125,7 +2103,7 @@ RRMatrixHandle rrCallConv getFullJacobian(RRHandle handle)
     }
 }
 
-RRMatrixHandle rrCallConv getReducedJacobian(RRHandle handle)
+RRMatrixHandle rrcCallConv getReducedJacobian(RRHandle handle)
 {
     try
     {
@@ -2148,7 +2126,7 @@ RRMatrixHandle rrCallConv getReducedJacobian(RRHandle handle)
     }
 }
 
-RRMatrixHandle rrCallConv getEigenvalues(RRHandle handle)
+RRMatrixHandle rrcCallConv getEigenvalues(RRHandle handle)
 {
     try
     {
@@ -2166,7 +2144,7 @@ RRMatrixHandle rrCallConv getEigenvalues(RRHandle handle)
 }
 
 //Todo: this routine should not need a roadrunner handle
-RRMatrixHandle rrCallConv getEigenvaluesMatrix (RRHandle handle, const RRMatrixHandle mat)
+RRMatrixHandle rrcCallConv getEigenvaluesMatrix (RRHandle handle, const RRMatrixHandle mat)
 {
     try
     {
@@ -2177,9 +2155,10 @@ RRMatrixHandle rrCallConv getEigenvaluesMatrix (RRHandle handle, const RRMatrixH
             return NULL;
         }
 
-        if (mat == NULL) {
-             stringstream msg;
-            msg<<"RoadRunner exception: "<< "Matrix argument to getEigenvaluesMAtrix is NULL" <<endl;
+        if (mat == NULL) 
+        {
+            stringstream msg;
+            msg<<"RoadRunner exception: "<< "Matrix argument to getEigenvaluesMatrix is NULL" <<endl;
             setError(msg.str());
             return NULL;
         }
@@ -2199,16 +2178,10 @@ RRMatrixHandle rrCallConv getEigenvaluesMatrix (RRHandle handle, const RRMatrixH
         // Convert the DoubleMatrix result to a RRMatrixHandle type
         return createMatrix(&tempMat);
     }
-    catch(Exception& ex)
-    {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-        return NULL;
-    }
+    catch_ptr_macro
 }
 
-char* rrCallConv getCSourceFileName(RRHandle handle)
+char* rrcCallConv getCSourceFileName(RRHandle handle)
 {
     try
     {
@@ -2239,7 +2212,7 @@ char* rrCallConv getCSourceFileName(RRHandle handle)
     }
 }
 
-RRCCode* rrCallConv getCCode(RRHandle handle)
+RRCCode* rrcCallConv getCCode(RRHandle handle)
 {
     try
     {
@@ -2280,44 +2253,12 @@ RRCCode* rrCallConv getCCode(RRHandle handle)
 // *******  Not yet implemented  ********
 // codeGenerationMode = 0 if mode is C code generation
 // codeGenerationMode = 1 ig mode is internal math interpreter
-bool rrCallConv setCodeGenerationMode (RRHandle handle, int mode)
+bool rrcCallConv setCodeGenerationMode (RRHandle handle, int mode)
 {
     return false;
 }
 
-//NOM forwarded functions
-int rrCallConv getNumberOfRules(RRHandle handle)
-{
-    try
-    {
-        RoadRunner* rri = castFrom(handle);
-        if(!rri->getNOM())
-        {
-            Log(lWarning)<<"NOM is not allocated.";
-            return -1;
-        }
-        int value = rri->getNOM()->getNumRules();
-        return value;
-    }
-    catch_int_macro
-}
-
-char* rrcCallConv getModelName(RRHandle handle)
-{
-    try
-    {
-        RoadRunner* rri = castFrom(handle);
-        if(!rri->getNOM())
-        {
-            Log(lWarning)<<"NOM is not allocated.";
-            return NULL;
-        }
-        return createText(rri->getNOM()->getModelName());
-    }
-    catch_ptr_macro
-}
-
-bool rrCallConv getScaledFloatingSpeciesElasticity(RRHandle handle, const char* reactionId, const char* speciesId, double *value)
+bool rrcCallConv getScaledFloatingSpeciesElasticity(RRHandle handle, const char* reactionId, const char* speciesId, double *value)
 {
     try
     {
@@ -2334,7 +2275,7 @@ bool rrCallConv getScaledFloatingSpeciesElasticity(RRHandle handle, const char* 
     }
 }
 
-RRStringArrayHandle rrCallConv getFloatingSpeciesInitialConditionIds(RRHandle handle)
+RRStringArrayHandle rrcCallConv getFloatingSpeciesInitialConditionIds(RRHandle handle)
 {
     try
     {
@@ -2351,7 +2292,7 @@ RRStringArrayHandle rrCallConv getFloatingSpeciesInitialConditionIds(RRHandle ha
     }
 }
 
-RRVectorHandle rrCallConv getRatesOfChangeEx(RRHandle handle, const RRVectorHandle vec)
+RRVectorHandle rrcCallConv getRatesOfChangeEx(RRHandle handle, const RRVectorHandle vec)
 {
     try
     {
@@ -2374,7 +2315,7 @@ RRVectorHandle rrCallConv getRatesOfChangeEx(RRHandle handle, const RRVectorHand
     }
 }
 
-RRVectorHandle rrCallConv getReactionRatesEx(RRHandle handle, const RRVectorHandle vec)
+RRVectorHandle rrcCallConv getReactionRatesEx(RRHandle handle, const RRVectorHandle vec)
 {
     try
     {
@@ -2392,7 +2333,7 @@ RRVectorHandle rrCallConv getReactionRatesEx(RRHandle handle, const RRVectorHand
     }
 }
 
-RRListHandle rrCallConv getElasticityCoefficientIds(RRHandle handle)
+RRListHandle rrcCallConv getElasticityCoefficientIds(RRHandle handle)
 {
     try
     {
@@ -2415,7 +2356,7 @@ RRListHandle rrCallConv getElasticityCoefficientIds(RRHandle handle)
     }
 }
 
-bool rrCallConv setCapabilities(RRHandle handle, const char* caps)
+bool rrcCallConv setCapabilities(RRHandle handle, const char* caps)
 {
     try
     {
@@ -2436,7 +2377,7 @@ bool rrCallConv setCapabilities(RRHandle handle, const char* caps)
     }
 }
 
-char* rrCallConv getCapabilities(RRHandle handle)
+char* rrcCallConv getCapabilities(RRHandle handle)
 {
     try
     {
@@ -2452,7 +2393,7 @@ char* rrCallConv getCapabilities(RRHandle handle)
     }
 }
 
-RRStringArrayHandle rrCallConv getListOfCapabilities(RRHandle handle)
+RRStringArrayHandle rrcCallConv getListOfCapabilities(RRHandle handle)
 {
     try
     {
@@ -2464,7 +2405,7 @@ RRStringArrayHandle rrCallConv getListOfCapabilities(RRHandle handle)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-RRStringArrayHandle rrCallConv getEigenvalueIds(RRHandle handle)
+RRStringArrayHandle rrcCallConv getEigenvalueIds(RRHandle handle)
 {
     try
     {
@@ -2487,7 +2428,7 @@ RRStringArrayHandle rrCallConv getEigenvalueIds(RRHandle handle)
     }
 }
 
-RRListHandle rrCallConv getFluxControlCoefficientIds(RRHandle handle)
+RRListHandle rrcCallConv getFluxControlCoefficientIds(RRHandle handle)
 {
     try
     {
@@ -2503,7 +2444,7 @@ RRListHandle rrCallConv getFluxControlCoefficientIds(RRHandle handle)
     }
 }
 
-RRMatrixHandle rrCallConv getUnscaledConcentrationControlCoefficientMatrix(RRHandle handle)
+RRMatrixHandle rrcCallConv getUnscaledConcentrationControlCoefficientMatrix(RRHandle handle)
 {
     try
     {
@@ -2526,7 +2467,7 @@ RRMatrixHandle rrCallConv getUnscaledConcentrationControlCoefficientMatrix(RRHan
     }
 }
 
-RRMatrixHandle rrCallConv getScaledConcentrationControlCoefficientMatrix(RRHandle handle)
+RRMatrixHandle rrcCallConv getScaledConcentrationControlCoefficientMatrix(RRHandle handle)
 {
     try
     {
@@ -2543,7 +2484,7 @@ RRMatrixHandle rrCallConv getScaledConcentrationControlCoefficientMatrix(RRHandl
     }
 }
 
-RRMatrixHandle rrCallConv getUnscaledFluxControlCoefficientMatrix(RRHandle handle)
+RRMatrixHandle rrcCallConv getUnscaledFluxControlCoefficientMatrix(RRHandle handle)
 {
     try
     {
@@ -2567,7 +2508,7 @@ RRMatrixHandle rrCallConv getUnscaledFluxControlCoefficientMatrix(RRHandle handl
     }
 }
 
-RRMatrixHandle rrCallConv getScaledFluxControlCoefficientMatrix(RRHandle handle)
+RRMatrixHandle rrcCallConv getScaledFluxControlCoefficientMatrix(RRHandle handle)
 {
     try
     {
@@ -2585,7 +2526,7 @@ RRMatrixHandle rrCallConv getScaledFluxControlCoefficientMatrix(RRHandle handle)
     }
 }
 
-RRListHandle rrCallConv getUnscaledFluxControlCoefficientIds(RRHandle handle)
+RRListHandle rrcCallConv getUnscaledFluxControlCoefficientIds(RRHandle handle)
 {
     try
     {
@@ -2607,7 +2548,7 @@ RRListHandle rrCallConv getUnscaledFluxControlCoefficientIds(RRHandle handle)
     }
 }
 
-RRList* rrCallConv getConcentrationControlCoefficientIds(RRHandle handle)
+RRList* rrcCallConv getConcentrationControlCoefficientIds(RRHandle handle)
 {
     try
     {
@@ -2624,7 +2565,7 @@ RRList* rrCallConv getConcentrationControlCoefficientIds(RRHandle handle)
     }
 }
 
-RRListHandle rrCallConv getUnscaledConcentrationControlCoefficientIds(RRHandle handle)
+RRListHandle rrcCallConv getUnscaledConcentrationControlCoefficientIds(RRHandle handle)
 {
     try
     {
@@ -2645,7 +2586,7 @@ RRListHandle rrCallConv getUnscaledConcentrationControlCoefficientIds(RRHandle h
     }
 }
 
-int rrCallConv getNumberOfCompartments(RRHandle handle)
+int rrcCallConv getNumberOfCompartments(RRHandle handle)
 {
     try
     {
@@ -2666,7 +2607,7 @@ int rrCallConv getNumberOfCompartments(RRHandle handle)
     }
 }
 
-bool rrCallConv getCompartmentByIndex(RRHandle handle, const int index, double *value)
+bool rrcCallConv getCompartmentByIndex(RRHandle handle, const int index, double *value)
 {
     try
     {
@@ -2688,7 +2629,7 @@ bool rrCallConv getCompartmentByIndex(RRHandle handle, const int index, double *
     }
 }
 
-bool rrCallConv setCompartmentByIndex (RRHandle handle, const int index, const double value)
+bool rrcCallConv setCompartmentByIndex (RRHandle handle, const int index, const double value)
 {
     try
     {
@@ -2705,7 +2646,7 @@ bool rrCallConv setCompartmentByIndex (RRHandle handle, const int index, const d
     }
 }
 
-RRStringArrayHandle rrCallConv getCompartmentIds(RRHandle handle)
+RRStringArrayHandle rrcCallConv getCompartmentIds(RRHandle handle)
 {
     try
     {
@@ -2726,7 +2667,7 @@ RRStringArrayHandle rrCallConv getCompartmentIds(RRHandle handle)
     }
 }
 
-bool rrCallConv getRateOfChange(RRHandle handle, const int index, double* value)
+bool rrcCallConv getRateOfChange(RRHandle handle, const int index, double* value)
 {
     try
     {
@@ -2743,22 +2684,22 @@ bool rrCallConv getRateOfChange(RRHandle handle, const int index, double* value)
     }
 }
 
-char* rrCallConv getBuildDate()
+char* rrcCallConv getBuildDate()
 {
     return createText(__DATE__);
 }
 
-char* rrCallConv getBuildTime()
+char* rrcCallConv getBuildTime()
 {
     return createText(__TIME__);
 }
 
-char* rrCallConv getBuildDateTime()
+char* rrcCallConv getBuildDateTime()
 {
     return createText(string(__DATE__) + string(" ") + string(__TIME__));
 }
 
-bool rrCallConv freeRRInstance(RRHandle handle)
+bool rrcCallConv freeRRInstance(RRHandle handle)
 {
     try
     {

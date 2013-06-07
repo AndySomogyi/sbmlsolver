@@ -50,7 +50,6 @@
 #include "rrPlugin.h"
 #include "rrNewArrayList.h"
 #include "rrParameter.h"
-#include "rrUtils.h"
 #include "rrMinimizationData.h"
 #include "rrc_types.h"
 #include "rrc_exporter.h"
@@ -64,7 +63,7 @@ using std::vector;
  \brief Set API error
 
  \param[in] error A string containg the error
- \ingroup cpp_support 
+ \ingroup cpp_support
 */
 void 									setError(const string& err);
 
@@ -72,7 +71,7 @@ void 									setError(const string& err);
  \brief Cast a handle to RoadRunner instance pointer, throws if it fails
  \param[in] handle  A handle to a roadrunner instance
  \return Pointer to a roadrunner instance
- \ingroup cpp_support 
+ \ingroup cpp_support
 */
 rr::RoadRunner* 						castFrom(rrc::RRHandle rrHandle);
 
@@ -80,7 +79,7 @@ rr::RoadRunner* 						castFrom(rrc::RRHandle rrHandle);
  \brief Cast a handle to RoadRunner instance pointer, throws if it fails
  \param[in] handle  A handle to a roadrunner plugin instance
  \return Pointer to a plugin instance
- \ingroup cpp_support 
+ \ingroup cpp_support
 */
 rr::Plugin* 							castToPlugin(rrc::RRPluginHandle handle);
 
@@ -88,7 +87,7 @@ rr::Plugin* 							castToPlugin(rrc::RRPluginHandle handle);
  \brief Cast a handle to RoadRunner BaseParameter pointer, throws if it fails
  \param[in] handle  A handle to a roadrunner parameter instance
  \return Pointer to a baseparameter instance
- \ingroup cpp_support 
+ \ingroup cpp_support
 */
 rr::BaseParameter*					    castToParameter(rrc::RRParameterHandle handle);
 
@@ -96,7 +95,7 @@ rr::BaseParameter*					    castToParameter(rrc::RRParameterHandle handle);
  \brief Cast a handle to RoadRunner MinimizationData pointer, throws if it fails
  \param[in] handle  A handle to a roadrunner minimization data instance
  \return Pointer to a minimization data instance
- \ingroup cpp_support 
+ \ingroup cpp_support
 */
 rr::MinimizationData*					castToMinimizationData(rrc::RRMinimizationDataHandle handle);
 
@@ -104,59 +103,76 @@ rr::MinimizationData*					castToMinimizationData(rrc::RRMinimizationDataHandle h
  \brief Cast a handle to RoadRunner Instance list ro a RoadRunnerList pointer, throws if it fails
  \param[in] handle  A handle to a RRInstanceList handle
  \return Pointer to a RoadRunnerList instance
- \ingroup cpp_support 
+ \ingroup cpp_support
 */
 rr::RoadRunnerList* 					getRRList(rrc::RRInstanceListHandle handle);
 
 /*!
- \brief Copy a C vector to a std::vector 
+ \brief Copy a C vector to a std::vector
  \param[in] source Pointer to a RRVector structure instance
  \param[in] dest  Destination std::vector
- \return True or false, indicating the result 
- \ingroup cpp_support 
+ \return True or false, indicating the result
+ \ingroup cpp_support
 */
 bool                                    copyVector(const rrc::RRVector* source, vector<double>& dest);
 
 /*!
- \brief Creates a C vector from a std::vector 
- \param[in] vec Input double vector 
- \return A handle to a RRVector. Null if it fails 
- \ingroup cpp_support 
+ \brief Creates a C vector from a std::vector
+ \param[in] vec Input double vector
+ \return A handle to a RRVector. Null if it fails
+ \ingroup cpp_support
 */
 rrc::RRVectorHandle                     createVectorFromVector_double(const vector<double>& vec);
 
 /*!
- \brief Creates a std vector from a C vector 
- \param[in] vec Input C vector 
- \return A std vector object  
- \ingroup cpp_support 
+ \brief Creates a std vector from a C vector
+ \param[in] vec Input C vector
+ \return A std vector object
+ \ingroup cpp_support
 */
 vector<double>                          createVectorFromRRVector(const rrc::RRVector* vec);
 
 /*!
- \brief Creates a C matrix  from a ls::DoubleMatrix, supplied as a pointer  
- \param[in] mat  Input DoubleMatrix 
- \return A handle to a RRMatrix. Null if it fails 
- \ingroup cpp_support 
+ \brief Creates a C matrix  from a ls::DoubleMatrix, supplied as a pointer
+ \param[in] mat  Input DoubleMatrix
+ \return A handle to a RRMatrix. Null if it fails
+ \ingroup cpp_support
 */
 rrc::RRMatrixHandle                     createMatrix(const ls::DoubleMatrix* mat);
 
+/*!
+ \brief Creates a ls::DoubleMatrix  from a RRMatrix, supplied as a pointer
+ \param[in] mat  Input RRMatrix pointer
+ \return A handle to a DoubleMatrix. Null if it fails
+ \ingroup cpp_support
+*/
+ls::DoubleMatrix*                     	createMatrix(const rrc::RRMatrix* mat);
+
+
+/*!
+ \brief Creates a C complex matrix from a ls::ComplexMatrix, supplied as a pointer
+ \param[in] mat  Input ls::ComplexMatrix
+ \return A handle to a RRComplexMatrix. Null if it fails
+ \ingroup cpp_support
+*/
+rrc::RRComplexMatrixHandle              createMatrix(const ls::ComplexMatrix* mat);
+
 //Lists and arrays
 /*!
- \brief Creates a C StringArray from a rr::StringList  
- \param[in] list  Input StringList  
- \return A handle to a RRStringArray. Null if it fails 
- \ingroup cpp_support 
+ \brief Creates a C StringArray from a rr::StringList
+ \param[in] list  Input StringList
+ \return A handle to a RRStringArray. Null if it fails
+ \ingroup cpp_support
 */
 rrc::RRStringArrayHandle                createList(const rr::StringList& list);
 
 /*!
- \brief Creates a heterogenoeus RRList from a rr::NewArrayList   
- \param[in] list  Input Array list  
- \return A handle to a RRList. Null if it fails 
- \ingroup cpp_support 
+ \brief Creates a heterogenoeus RRList from a rr::NewArrayList
+ \param[in] list  Input Array list
+ \return A handle to a RRList. Null if it fails
+ \ingroup cpp_support
 */
-rrc::RRListHandle 		            createArrayList(const rr::NewArrayList& list);
+rrc::RRListHandle 		            	createArrayList(const rr::NewArrayList& list);
 
 //Result data
 /*!

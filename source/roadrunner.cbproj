@@ -51,7 +51,7 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <BCC_PCHInject>rr_pch.h</BCC_PCHInject>
+        <BCC_PCHInject>..\Wrappers\C\rrc_pch.h</BCC_PCHInject>
         <Manifest_File>None</Manifest_File>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
@@ -74,8 +74,8 @@
         <_TCHARMapping>char</_TCHARMapping>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
-        <IncludePath>mtrand\;..\..\source\;..\..\source\mtrand\;..\..\ThirdParty\pugi\src\;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>..\ThirdParty\pugi\src\;mtrand\;R:\builds\xe\debug\ThirdParty\lib\;R:\installs\xe\debug\lib\;..\..\ThirdParty\pugi\src\;..\..\source\mtrand\;..\..\source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\Wrappers\C\;mtrand\;..\..\source\;..\..\source\mtrand\;..\..\ThirdParty\pugi\src\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\Wrappers\C\;..\ThirdParty\pugi\src\;mtrand\;R:\builds\xe\debug\ThirdParty\lib\;R:\installs\xe\debug\lib\;..\..\ThirdParty\pugi\src\;..\..\source\mtrand\;..\..\source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <Multithreaded>true</Multithreaded>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
         <DynamicRTL>true</DynamicRTL>
@@ -125,6 +125,7 @@
         <IncludePath>$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <BCC_PCHInject>..\Wrappers\C\rrc_pch.h</BCC_PCHInject>
         <Defines>NDEBUG;$(Defines)</Defines>
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
@@ -443,7 +444,7 @@
             <DependentOn>rrUtils.h</DependentOn>
             <BuildOrder>59</BuildOrder>
         </CppCompile>
-        <None Include="rr_pch.h">
+        <None Include="..\Wrappers\C\rrc_pch.h">
             <BuildOrder>69</BuildOrder>
         </None>
         <BuildConfiguration Include="Release">

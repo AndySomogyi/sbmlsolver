@@ -474,6 +474,45 @@ C_DECL_SPEC bool rrcCallConv setMatrixElement (RRMatrixHandle m, int r, int c, d
 
 
 /*!
+ \brief Retrieve an element at a given row and column from a complex matrix type variable
+
+ Matrices are indexed from zero
+
+ Example:
+ \code
+ status = getComplexMatrixElement (m, 2, 4, &value);
+ \endcode
+
+ \param[in] m A pointer to a complex matrix type variable
+ \param[in] r The row index to the matrix
+ \param[in] c The column index to the matrix
+ \param[out] value The retrieved value from the matrix
+ \return Returns True if succesful
+ \ingroup helperRoutines
+*/
+C_DECL_SPEC bool rrcCallConv getComplexMatrixElement (RRComplexMatrixHandle m, int r, int c, RRComplexHandle value);
+
+
+/*!
+ \brief Set an element at a given row and column with a given value in a complex matrix type variable
+
+ Matrices are indexed from zero
+
+ Example:
+ \code
+ status = setComplexMatrixElement (m, 2, 4, value);
+ \endcode
+
+ \param[in] m A pointer to a complex matrix type variable
+ \param[in] r The row index to the matrix
+ \param[in] c The column index to the matrix
+ \param[out] value The value to set to the complex matrix element
+ \return Returns True if succesful
+ \ingroup helperRoutines
+*/
+C_DECL_SPEC bool rrcCallConv setComplexMatrixElement (RRComplexMatrixHandle m, int r, int c, RRComplex* value);
+
+/*!
  \brief Retrieve the number of rows in the given RoadRunner numberical data (returned from simulate(RRHandle handle))
 
  Example: \code nRows = getRRDataNumRows (result); \endcode
@@ -575,6 +614,13 @@ C_DECL_SPEC char* rrcCallConv rrDataToString(const RRDataHandle rrData);
  \ingroup toString
 */
 C_DECL_SPEC char* rrcCallConv matrixToString(const RRMatrixHandle mat);
+
+/*!
+ \brief Returns a complex matrix in string form.
+ \return Returns complex matrix as a character string
+ \ingroup toString
+*/
+C_DECL_SPEC char* rrcCallConv complexMatrixToString(const RRComplexMatrixHandle mat);
 
 /*!
  \brief Returns a vector in string form.

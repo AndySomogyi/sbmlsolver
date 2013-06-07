@@ -163,6 +163,11 @@ NOMSupport* RoadRunner::getNOM()
     return &mNOM;
 }
 
+LibStructural* RoadRunner::getLibStruct()
+{
+    return &mLS;
+}
+
 Compiler* RoadRunner::getCompiler()
 {
     return mModelGenerator ? mModelGenerator->getCompiler() : 0;

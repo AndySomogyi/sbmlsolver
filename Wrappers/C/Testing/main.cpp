@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <fstream>
 #include "rrLogger.h"
@@ -14,24 +13,75 @@ using namespace std;
 using namespace rr;
 using namespace rrc;
 using namespace UnitTest;
+using std::string;
 
 string 	gTempFolder		   		= "";
 string 	gRRInstallFolder 		= "";
 string  gTestDataFolder			= "";
 bool	gDebug			    	= false;
-
 string 	gTSModelsPath;
 
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
+bool setup(Args& args);
 
 //call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder"
 int main(int argc, char* argv[])
 {
     enableLoggingToConsole();
-
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
+	setup(args);
 
+	string reportFile(args.ResultOutputFile);
+ 	fstream aFile(reportFile.c_str(), ios::out);
+    if(!aFile)
+    {
+    	cerr<<"Failed opening report file: "<<reportFile<<" in rrc_api testing executable.\n";
+    	return false;
+    }
+
+	XmlTestReporter reporter1(aFile);
+	TestRunner runner1(reporter1);
+
+    if(args.Suites.find('A') != std::string::npos)
+    {
+		clog<<"Running Suite CORE_TESTS\n";
+		runner1.RunTestsIf(Test::GetTestList(), "CORE_TESTS", 			True(), 0);
+    }
+
+    if(args.Suites.find('B') != std::string::npos)
+    {
+		clog<<"Running Suite TEST_MODEL_1\n";
+		runner1.RunTestsIf(Test::GetTestList(), "TEST_MODEL_1",  		True(), 0);
+    }
+
+    if(args.Suites.find('C') != std::string::npos)
+    {
+		clog<<"Running Suite NOM TESTS\n";
+		runner1.RunTestsIf(Test::GetTestList(), "NOM_TESTS", 			True(), 0);
+	}
+
+    if(args.Suites.find('D') != std::string::npos)
+    {
+		clog<<"Running Suite LibStruct TESTS\n";
+		runner1.RunTestsIf(Test::GetTestList(), "LIBSTRUCT_TESTS", 	 	True(), 0);
+	}
+
+    if(args.Suites.find('E') != std::string::npos)
+    {
+
+		clog<<"Running Suite SBML_l2v4\n";
+    	clog<<"ModelPath "<<gTSModelsPath;
+    	runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4", 			True(), 0);
+	}
+
+    //Finish outputs result to xml file
+    runner1.Finish();
+    return 0;
+}
+
+bool setup(Args& args)
+{
     string thisExeFolder = getCurrentExeFolder();
     clog<<"RoadRunner bin location is: "<<thisExeFolder<<endl;
 
@@ -40,8 +90,12 @@ int main(int argc, char* argv[])
     gDebug				= args.EnableLogging;
     gTSModelsPath 		= args.ModelsFilePath;
     gTempFolder			= args.TempDataFolder;
-
 	gTestDataFolder  	= joinPath(gRRInstallFolder, "testing");
+    if(args.Suites.size() == 0)
+    {
+    	//Run all
+        args.Suites = "ABCDEF";
+    }
 
 	setInstallFolder(gRRInstallFolder.c_str());
 
@@ -57,47 +111,22 @@ int main(int argc, char* argv[])
 
     // set test suite model path (read from cmd line)
     gTSModelsPath = joinPath(joinPath(gTSModelsPath, "cases"), "semantic");
-
-	string reportFile(args.ResultOutputFile);
- 	fstream aFile(reportFile.c_str(), ios::out);
-    if(!aFile)
-    {
-    	cerr<<"Failed opening report file: "<<reportFile<<" in rrc_api testing executable.\n";
-    	return -1;
-    }
-
-	XmlTestReporter reporter1(aFile);
-	TestRunner runner1(reporter1);
-
-	clog<<"Running Suite CORE_TESTS\n";
-	runner1.RunTestsIf(Test::GetTestList(), "CORE_TESTS", 			True(), 0);
-
-	clog<<"Running Suite TEST_MODEL_1\n";
-	runner1.RunTestsIf(Test::GetTestList(), "TEST_MODEL_1", 			True(), 0);
-
-////	clog<<"Running Suite CORE_EXCEPTIONS\n";
-////	runner1.RunTestsIf(Test::GetTestList(), "CORE_EXCEPTIONS", 		True(), 0);
-
-	clog<<"Running Suite SBML_l2v4\n";
-    clog<<"ModelPath "<<gTSModelsPath;
-    runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4", 	True(), 0);
-
-    //Finish outputs result to xml file
-    runner1.Finish();
-    return 0;
+    return true;
 }
 
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
     char c;
-    while ((c = GetOptions(argc, argv, ("vi:d:m:l:r:s:t:"))) != -1)
+    while ((c = GetOptions(argc, argv, ("m:r:t:vs:"))) != -1)
     {
         switch (c)
         {
             case ('m'): args.ModelsFilePath      	               = rrOptArg;                       break;
             case ('r'): args.ResultOutputFile                       = rrOptArg;                       break;
 			case ('t'): args.TempDataFolder        		            = rrOptArg;                       break;
-			case ('v'): args.EnableLogging        		            = true;                       break;
+			case ('v'): args.EnableLogging        		            = true;
+            case ('s'): args.Suites            					    = rrOptArg;
+            break;
             case ('?'): cout<<Usage(argv[0])<<endl;
             default:
             {

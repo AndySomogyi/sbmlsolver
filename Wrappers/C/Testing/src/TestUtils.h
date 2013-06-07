@@ -5,7 +5,8 @@
 
 //using namespace ls;
 using std::string;
-ls::DoubleMatrix ParseFromText(const string& textMatrix);
+ls::DoubleMatrix getDoubleMatrixFromString(const string& textMatrix);
+ls::ComplexMatrix getComplexMatrixFromString(const string& textMatrix);
 
 
 #endif

@@ -45,6 +45,7 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
+        <AllPackageLibs>rtl.lib</AllPackageLibs>
         <_TCHARMapping>char</_TCHARMapping>
         <Manifest_File>None</Manifest_File>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
@@ -99,6 +100,8 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <LinkPackageStatics>rtl.lib</LinkPackageStatics>
+        <BCC_PCHInject>rrc_pch.h</BCC_PCHInject>
         <DynamicRTL>true</DynamicRTL>
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
@@ -128,6 +131,10 @@
             <DependentOn>rrc_jobs_api.h</DependentOn>
             <BuildOrder>4</BuildOrder>
         </CppCompile>
+        <CppCompile Include="rrc_libstruct_api.cpp">
+            <DependentOn>rrc_libstruct_api.h</DependentOn>
+            <BuildOrder>9</BuildOrder>
+        </CppCompile>
         <CppCompile Include="rrc_logging_api.cpp">
             <DependentOn>rrc_logging_api.h</DependentOn>
             <BuildOrder>8</BuildOrder>
@@ -135,10 +142,17 @@
         <CppCompile Include="rrc_minimization_api.cpp">
             <BuildOrder>7</BuildOrder>
         </CppCompile>
+        <CppCompile Include="rrc_nom_api.cpp">
+            <DependentOn>rrc_nom_api.h</DependentOn>
+            <BuildOrder>10</BuildOrder>
+        </CppCompile>
         <CppCompile Include="rrc_parameter_api.cpp">
             <DependentOn>rrc_parameter_api.h</DependentOn>
             <BuildOrder>6</BuildOrder>
         </CppCompile>
+        <None Include="rrc_pch.h">
+            <BuildOrder>11</BuildOrder>
+        </None>
         <CppCompile Include="rrc_plugin_api.cpp">
             <BuildOrder>3</BuildOrder>
         </CppCompile>
