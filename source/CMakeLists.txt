@@ -96,9 +96,6 @@ rrRoadRunnerData
 rrSelectionRecord
 rrMinimizationData
 rrModelGeneratorFactory
-rrLLVMModelGenerator
-rrLLVMExecutableModel
-rrLLVMCompiler
 rrNoise
 )
 
