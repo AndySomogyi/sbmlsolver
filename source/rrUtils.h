@@ -57,17 +57,13 @@ RR_DECLSPEC string          getTestSuiteSubFolderName(int caseNr);
 
 //CArray utilities
 RR_DECLSPEC bool            copyCArrayToStdVector(const int* src,     vector<int>& dest, int size);
-
 RR_DECLSPEC bool            copyCArrayToStdVector(const double* src,  vector<double>& dest, int size);
-RR_DECLSPEC double*         createVector(const vector<double>& vec);
-
 RR_DECLSPEC bool            copyValues(vector<double>& dest, double* source, const int& nrVals, const int& startIndex);
-
-RR_DECLSPEC vector<double>  createVector(const double* src, const int& size);
-
 RR_DECLSPEC bool            copyCArrayToStdVector(const bool* src,    vector<bool>& dest, int size);
 RR_DECLSPEC bool            copyStdVectorToCArray(const vector<double>& src, double* dest,  int size);
 RR_DECLSPEC bool            copyStdVectorToCArray(const vector<bool>&   src,  bool*  dest,  int size);
+RR_DECLSPEC double*         createVector(const vector<double>& vec);
+RR_DECLSPEC vector<double>  createVector(const double* src, const int& size);
 
 //SelectionList
 RR_DECLSPEC StringList      getSelectionListFromSettings(const SimulationSettings& settings);

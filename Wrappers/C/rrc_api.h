@@ -943,7 +943,6 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getReducedJacobian(RRHandle handle);
 
 /*!
  \brief Retrieve the eigenvalue matrix for the current model
-
  \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise returns a matrix of eigenvalues.
  The first column will contain the real values and the second column the imaginary values
@@ -951,20 +950,6 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getReducedJacobian(RRHandle handle);
 */
 C_DECL_SPEC RRMatrixHandle rrcCallConv getEigenvalues(RRHandle handle);
 
-// --------------------------------------------------------------------------------
-// General purpose linear algebra methods
-// --------------------------------------------------------------------------------
-
-/*!
- \brief Compute the eigenvalues of a double matrix
-
- \param[in] handle Handle to a RoadRunner instance
- \param[in] mat Handle to input matrix
- \return Returns null if it fails, otherwise returns a matrix of eigenvalues.
- The first column will contain the real values and the second column the imaginary values
- \ingroup LinearAlgebra
-*/
-C_DECL_SPEC RRMatrixHandle rrcCallConv getEigenvaluesMatrix (RRHandle handle, const RRMatrixHandle mat);
 
 // --------------------------------------------------------------------------------
 // Stoichiometry methods

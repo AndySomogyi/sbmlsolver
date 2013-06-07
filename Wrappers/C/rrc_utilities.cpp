@@ -914,7 +914,6 @@ char* rrCallConv vectorToString(RRVectorHandle vecHandle)
         RRVector& vec = *vecHandle;
 
         stringstream ss;
-        ss<<"vector dimension: "<<vec.Count<<" \n";
 
         for(int index = 0; index < vec.Count; index++)
         {
@@ -927,13 +926,34 @@ char* rrCallConv vectorToString(RRVectorHandle vecHandle)
         ss<<endl;
         return createText(ss.str());
     }
-    catch(Exception& ex)
+    catch_ptr_macro
+}
+
+char* rrCallConv complexVectorToString(RRComplexVectorHandle vecHandle)
+{
+    try
     {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-        return NULL;
+        if(!vecHandle)
+        {
+            setError("Null vector in vectorToString");
+            return NULL;
+        }
+
+        RRComplexVector& vec = *vecHandle;
+
+        stringstream ss;
+        for(int index = 0; index < vec.Count; index++)
+        {
+        	ss<<"("<<vec.Data[index].re<<","<<vec.Data[index].imag<<")";
+            if(index < vec.Count + 1)
+            {
+                ss<<"\t";
+            }
+        }
+        ss<<endl;
+        return createText(ss.str());
     }
+    catch_ptr_macro
 }
 
 }

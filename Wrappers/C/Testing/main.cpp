@@ -24,7 +24,7 @@ string 	gTSModelsPath;
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 bool setup(Args& args);
 
-//call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder"
+//call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder" -s"Suites"
 int main(int argc, char* argv[])
 {
     enableLoggingToConsole();

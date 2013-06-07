@@ -441,9 +441,25 @@ RRMatrixHandle rrCallConv getL0Matrix(RRHandle handle)
 //    free(matrix);
 //}
 //
-//
-///*LIB_EXTERN*/ int LibStructural_getConservedSums(double* *outArray, int *outLength)
-//{
+
+RRVectorHandle getConservedSums(RRHandle handle)
+{
+    try
+    {
+        RoadRunner* rri = castFrom(handle); //Will throw if it can't cast
+		if(rri->getLibStruct())
+        {
+	        vector<double> 	tempMat 	= rri->getLibStruct()->getConservedSums();
+	        return rrc::createVector(tempMat);
+        }
+        else
+        {
+        	return NULL;
+ 	    }
+    }
+    catch_ptr_macro
+}
+
 //    vector<double> oSums = LibStructural::getInstance()->getConservedSums();
 //    ls::CopyDoubleVector(oSums, *outArray, *outLength);
 //    return 0;
@@ -766,6 +782,58 @@ RRMatrixHandle rrCallConv getL0Matrix(RRHandle handle)
 //    getInstance()->setTolerance(value);
 //}
 //
+
+RRMatrixHandle rrcCallConv getEigenvaluesMatrix(const RRMatrixHandle mat)
+{
+    try
+    {
+        if (mat == NULL)
+        {
+            stringstream msg;
+            msg<<"RoadRunner exception: "<< "Matrix argument to getEigenvaluesMatrix is NULL" <<endl;
+            setError(msg.str());
+            return NULL;
+        }
+
+        // Convert RRMatrixHandle mat to a DoubleMatrix
+        DoubleMatrix *dmat = createMatrix (mat);
+
+        vector<Complex> vals = ls::getEigenValues((*dmat));
+        DoubleMatrix result(vals.size(), 2);
+
+        for (int i = 0; i < vals.size(); i++)
+        {
+            result[i][0] = real(vals[i]);
+            result[i][1] = imag(vals[i]);
+        }
+        // Convert the DoubleMatrix result to a RRMatrixHandle type
+        return createMatrix(&result);
+    }
+    catch_ptr_macro
+}
+
+RRComplexVectorHandle rrcCallConv getEigenvaluesVector(const RRMatrixHandle mat)
+{
+    try
+    {
+        if (mat == NULL)
+        {
+            stringstream msg;
+            msg<<"RoadRunner exception: "<< "Argument to getEigenvaluesVector is NULL" <<endl;
+            setError(msg.str());
+            return NULL;
+        }
+
+        // Convert RRMatrixHandle mat to a DoubleMatrix
+        DoubleMatrix *dmat = createMatrix (mat);
+        vector<Complex> vals = ls::getEigenValues((*dmat));
+
+        // Convert the DoubleMatrix result to a RRMatrixHandle type
+        return createVector(vals);
+    }
+    catch_ptr_macro
+}
+
 //LIB_EXTERN int LibLA_getEigenValues(double** inMatrix, int numRows, int numCols,
 //                                    double* *outReal, double * *outImag, int *outLength)
 //{

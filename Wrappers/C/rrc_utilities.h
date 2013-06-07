@@ -602,6 +602,20 @@ C_DECL_SPEC char* rrcCallConv getCSourceFileName(RRHandle handle);
 // --------------------------------------------------------------------------------
 
 /*!
+ \brief Returns a vector in string form.
+ \return Returns vector as a character string
+ \ingroup toString
+*/
+C_DECL_SPEC char* rrcCallConv vectorToString(const RRVectorHandle vec);
+
+/*!
+ \brief Returns a complex vector in string form.
+ \return Returns complex vector as a character string
+ \ingroup toString
+*/
+C_DECL_SPEC char* rrcCallConv complexVectorToString(const RRComplexVectorHandle vec);
+
+/*!
  \brief Returns a rrData struct in string form.
  \return Returns rrData struct as a character string
  \ingroup toString
@@ -621,13 +635,6 @@ C_DECL_SPEC char* rrcCallConv matrixToString(const RRMatrixHandle mat);
  \ingroup toString
 */
 C_DECL_SPEC char* rrcCallConv complexMatrixToString(const RRComplexMatrixHandle mat);
-
-/*!
- \brief Returns a vector in string form.
- \return Returns vector as a character string
- \ingroup toString
-*/
-C_DECL_SPEC char* rrcCallConv vectorToString(const RRVectorHandle vec);
 
 /*!
  \brief Returns the length of a string array

@@ -71,9 +71,6 @@ class RR_DECLSPEC Plugin : public rrObject
         virtual bool				setInputData(void* data);
 		//Pure virtuals
         virtual bool	           	execute(void* userData = NULL) = 0;
-
-
-
 };
 
 

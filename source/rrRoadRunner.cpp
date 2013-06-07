@@ -1483,26 +1483,26 @@ DoubleMatrix RoadRunner::getEigenvalues()
 
 // Returns eigenvalues, first column real part, second column imaginary part
 // -------------------------------------------------------------------------
-DoubleMatrix RoadRunner::getEigenvaluesFromMatrix (DoubleMatrix m)
-{
-    try
-    {
-        vector<Complex> vals = ls::getEigenValues(m);
-
-        DoubleMatrix result(vals.size(), 2);
-
-        for (int i = 0; i < vals.size(); i++)
-        {
-            result[i][0] = real(vals[i]);
-            result[i][1] = imag(vals[i]);
-        }
-        return result;
-    }
-    catch (const Exception& e)
-    {
-        throw CoreException("Unexpected error from getEigenvalues()", e.Message());
-    }
-}
+//DoubleMatrix RoadRunner::getEigenvaluesFromMatrix (DoubleMatrix m)
+//{
+//    try
+//    {
+//        vector<Complex> vals = ls::getEigenValues(m);
+//
+//        DoubleMatrix result(vals.size(), 2);
+//
+//        for (int i = 0; i < vals.size(); i++)
+//        {
+//            result[i][0] = real(vals[i]);
+//            result[i][1] = imag(vals[i]);
+//        }
+//        return result;
+//    }
+//    catch (const Exception& e)
+//    {
+//        throw CoreException("Unexpected error from getEigenvalues()", e.Message());
+//    }
+//}
 
 vector< Complex > RoadRunner::getEigenvaluesCpx()
 {

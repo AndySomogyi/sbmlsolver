@@ -109,6 +109,15 @@ typedef struct RRComplex
 } *RRComplexHandle;    		      		/*!< Pointer to a RRComplex number */
 
 /*!@struct*/
+/*!@brief Structure for a simple complex Vector type */
+typedef struct RRComplexVector
+{
+    int             	Count;   /*!< The number of elements in the vector */
+    RRComplexHandle		Data;   /*!< Access an element using Data[i],
+							  		where i represent the index of the element. Indexing is from zero */
+} *RRComplexVectorHandle;       /*!< Pointer to RRVectorHandle struct */
+
+/*!@struct*/
 /*!@brief Structure for a simple complex Matrix type */
 typedef struct RRComplexMatrix
 {

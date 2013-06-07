@@ -1374,7 +1374,7 @@ RRVectorHandle rrcCallConv getReactionRates(RRHandle handle)
 
         vector<double> vec =  rri->getReactionRates();
 
-        RRVector* aVec = createVectorFromVector_double(vec);
+        RRVector* aVec = rrc::createVector(vec);
         return aVec;
     }
     catch(Exception& ex)
@@ -1550,7 +1550,7 @@ RRVectorHandle rrcCallConv getFloatingSpeciesConcentrations(RRHandle handle)
 
 
         vector<double> vec =  rri->getFloatingSpeciesConcentrations();
-        RRVector* aVec = createVectorFromVector_double(vec);
+        RRVector* aVec = rrc::createVector(vec);
         return aVec;
     }
     catch_ptr_macro
@@ -1568,7 +1568,7 @@ RRVectorHandle rrcCallConv getBoundarySpeciesConcentrations(RRHandle handle)
         }
 
         vector<double> vec =  rri->getBoundarySpeciesConcentrations();
-        RRVector* aVec = createVectorFromVector_double(vec);
+        RRVector* aVec = rrc::createVector(vec);
         return aVec;
     }
     catch(Exception& ex)
@@ -1589,7 +1589,7 @@ RRVectorHandle rrcCallConv getFloatingSpeciesInitialConcentrations(RRHandle hand
 
 
         vector<double> vec =  rri->getFloatingSpeciesInitialConcentrations();
-        RRVector* aVec = createVectorFromVector_double(vec);
+        RRVector* aVec = rrc::createVector(vec);
         return aVec;
     }
     catch(Exception& ex)
@@ -1740,7 +1740,7 @@ RRVectorHandle rrcCallConv getGlobalParameterValues(RRHandle handle)
     {
         RoadRunner* rri = castFrom(handle);
         vector<double> vec =  rri->getGlobalParameterValues();
-        RRVector* aVec = createVectorFromVector_double(vec);
+        RRVector* aVec = rrc::createVector(vec);
         return aVec;
     }
     catch(Exception& ex)
@@ -2033,7 +2033,7 @@ RRVectorHandle rrcCallConv computeSteadyStateValues(RRHandle handle)
         }
         vector<double> vec =  rri->computeSteadyStateValues();
 
-        RRVector* aVec = createVectorFromVector_double(vec);
+        RRVector* aVec = rrc::createVector(vec);
         return aVec;
     }
     catch(Exception& ex)
@@ -2141,44 +2141,6 @@ RRMatrixHandle rrcCallConv getEigenvalues(RRHandle handle)
         setError(msg.str());
         return NULL;
     }
-}
-
-//Todo: this routine should not need a roadrunner handle
-RRMatrixHandle rrcCallConv getEigenvaluesMatrix (RRHandle handle, const RRMatrixHandle mat)
-{
-    try
-    {
-        RoadRunner* rri = castFrom(handle);
-        if(!rri)
-        {
-            setError(ALLOCATE_API_ERROR_MSG);
-            return NULL;
-        }
-
-        if (mat == NULL) 
-        {
-            stringstream msg;
-            msg<<"RoadRunner exception: "<< "Matrix argument to getEigenvaluesMatrix is NULL" <<endl;
-            setError(msg.str());
-            return NULL;
-        }
-
-        // Convert RRMatrixHandle mat to a DoubleMatrix
-        DoubleMatrix dmat (mat->RSize, mat->CSize);
-        double value;
-        for (int i=0; i<mat->RSize; i++)
-        {
-            for (int j=0; j<mat->CSize; j++)
-            {
-                getMatrixElement (mat, i, j, &value);
-                dmat(i,j) = value;
-            }
-        }
-        DoubleMatrix tempMat = rri->getEigenvaluesFromMatrix (dmat);
-        // Convert the DoubleMatrix result to a RRMatrixHandle type
-        return createMatrix(&tempMat);
-    }
-    catch_ptr_macro
 }
 
 char* rrcCallConv getCSourceFileName(RRHandle handle)
@@ -2302,9 +2264,9 @@ RRVectorHandle rrcCallConv getRatesOfChangeEx(RRHandle handle, const RRVectorHan
             setError(ALLOCATE_API_ERROR_MSG);
             return NULL;
         }
-        vector<double> tempList = createVectorFromRRVector(vec);
+        vector<double> tempList = rrc::createVector(vec);
         tempList = rri->getRatesOfChangeEx(tempList);
-        return createVectorFromVector_double (tempList);
+        return rrc::createVector (tempList);
     }
     catch(Exception& ex)
     {
@@ -2320,9 +2282,9 @@ RRVectorHandle rrcCallConv getReactionRatesEx(RRHandle handle, const RRVectorHan
     try
     {
         RoadRunner* rri = castFrom(handle);
-        vector<double> tempList = createVectorFromRRVector(vec);
+        vector<double> tempList = rrc::createVector(vec);
         tempList = rri->getReactionRatesEx(tempList);
-        return createVectorFromVector_double(tempList);;
+        return rrc::createVector(tempList);;
     }
     catch(Exception& ex)
     {

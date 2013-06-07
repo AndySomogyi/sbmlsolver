@@ -195,7 +195,7 @@ RRComplexMatrix* createMatrix(const ls::ComplexMatrix* mat)
     return matrix;
 }
 
-vector<double> createVectorFromRRVector(const RRVector* vec)
+vector<double> createVector(const RRVector* vec)
 {
     vector<double> aVec;
 
@@ -213,7 +213,7 @@ vector<double> createVectorFromRRVector(const RRVector* vec)
     return aVec;
 }
 
-RRVector* createVectorFromVector_double(const vector<double>& vec)
+RRVector* createVector(const vector<double>& vec)
 {
     RRVector* aVec = new RRVector;
     aVec->Count = vec.size();
@@ -226,6 +226,25 @@ RRVector* createVectorFromVector_double(const vector<double>& vec)
     for(int i = 0; i < aVec->Count; i++)
     {
         aVec->Data[i] =  vec[i];
+    }
+
+    return aVec;
+}
+
+RRComplexVector* createVector(const vector<ls::Complex>& vec)
+{
+    RRComplexVector* aVec = new RRComplexVector;
+    aVec->Count = vec.size();
+
+    if(aVec->Count)
+    {
+        aVec->Data = new RRComplex[aVec->Count];
+    }
+
+    for(int i = 0; i < aVec->Count; i++)
+    {
+        aVec->Data[i].re 	=  real(vec[i]);
+        aVec->Data[i].imag 	=  imag(vec[i]);
     }
 
     return aVec;

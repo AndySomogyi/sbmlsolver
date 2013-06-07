@@ -1,21 +1,22 @@
-
 [LS_TESTS]
 InputFile=feedback.xml
 ModelName = Feedback
 
-[Stoichiometry Matrix]
-         1         -1          0          0 
-         0          0          1         -1 
-         0          1         -1          0 
 
-[L0_MATRIX]
+[getLinkMatrix]
 1    0    0    0 
 0    1    0    0
 0    0    1    0
 0    0    0    1
 
-[EIGEN_VECTOR_MATRIX]
-(1,0) (0,0) (0,0) (0,0)
-(0,0) (1,0) (0,0) (0,0)
-(0,0) (0,0) (1,0) (0,0)
-(0,0) (0,0) (0,0) (1,0)
+[getEigenvaluesMatrix]
+1 0
+1 0 
+1 0
+1 0
+
+[getEigenvaluesVector]
+(1,0) 
+(1,0) 
+(1,0) 
+(1,0) 
