@@ -53,7 +53,6 @@ RRHandle gRR = NULL;
     TEST(getLinkMatrix)
     {
     	string section("getLinkMatrix");
-
         if(iniFile.GetSection(section))
         {
             IniSection* 	  isec		= iniFile.GetSection(section);
@@ -139,8 +138,3 @@ RRHandle gRR = NULL;
     }
 
 }
-
-
-
-
-
