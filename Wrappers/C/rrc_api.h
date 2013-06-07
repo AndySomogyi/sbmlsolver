@@ -743,7 +743,7 @@ C_DECL_SPEC RRVectorHandle rrcCallConv getFloatingSpeciesConcentrations(RRHandle
 
 
 /*!
- \brief Retrieve the concentrations for all the boundary species in a vector 
+ \brief Retrieve the concentrations for all the boundary species in a vector
 
  Example: \code RRVectorHandle values = getBoundarySpeciesConcentrations (void); \endcode
 
@@ -758,7 +758,7 @@ C_DECL_SPEC RRVectorHandle rrcCallConv getBoundarySpeciesConcentrations(RRHandle
 // --------------------------------------------------------------------------------
 
 /*!
- \brief Retrieve the values for all the lgobal parameter values in a vector 
+ \brief Retrieve the values for all the lgobal parameter values in a vector
 
  Example: \code RRVectorHandle values = getGlobalParameterValues (void); \endcode
 
@@ -823,10 +823,8 @@ C_DECL_SPEC bool rrcCallConv setFloatingSpeciesByIndex(RRHandle handle, const in
 */
 C_DECL_SPEC bool rrcCallConv setGlobalParameterByIndex(RRHandle handle, const int index, const double value);
 
-
 /*!
- \brief Retrieve the concentration for a particular floating species. 
-
+ \brief Retrieve the concentration for a particular floating species.
  \param[in] handle Handle to a RoadRunner instance
  \param index The index to the boundary species (corresponds to position in getBoundarySpeciesIds(RRHandle handle))
  \param value The value returned by the method
