@@ -30,13 +30,13 @@ int main()
 
 		Plugin* demoPlugin = plugins.getPlugin("c_plugin_demo");
         char* rrInfo;
-        if(!demoPlugin->execute(rrInfo))
+        if(!demoPlugin->execute(&rrInfo))
         {
         	cout<<"There was a problem executing the plugin...";
         }
 
-        cout<<"After Execute: "<< rrInfo;
-        freeText((char*)rrInfo);
+        cout<< endl << "After Execute: "<< rrInfo << endl;
+        freeText(rrInfo);
 
         cout<<demoPlugin->getInfo();
         plugins.unload();
@@ -50,6 +50,5 @@ int main()
 }
 
 #pragma comment(lib, "roadrunner.lib")
-#pragma comment(lib, "rrc_api.lib")
 #pragma comment(lib, "rr-libstruct-static.lib")
 #pragma comment(lib, "poco_foundation-static.lib")
