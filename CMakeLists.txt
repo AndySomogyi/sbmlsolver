@@ -10,6 +10,15 @@ SET(RR_BUILDS_ROOT      "~/builds")
 SET(RR_INSTALLS_ROOT    "~/installs")
 endif()
 
+# add cmake files to find things
+SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/)
+set(LLVM_MIN_VERSION       "3000000")
+set(LLVM_MIN_VERSION_TEXT  "3.0")
+find_package(LLVM REQUIRED)
+
+# should we use LLVM ?
+option (BUILD_LLVM "Build the optional LLVM back end" OFF)
+
 mark_as_advanced(
 BUILD_TESTS
 INSTALL_APPS
@@ -42,26 +51,26 @@ set(RR_ROADRUNNER_INSTALL_PATH ${CMAKE_INSTALL_PREFIX})
 set(RR_ROADRUNNER_INSTALL_LIB_PATH ${RR_ROADRUNNER_INSTALL_PATH}/lib)
 set(RR_SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
-OPTION (INSTALL_CXX_API 		"Generate C++ api" 	        	    ON)
-OPTION (INSTALL_C_API	 		"Generate C API" 		            ON)
-OPTION (INSTALL_PYTHON 			"Package Python wrapper" 		    ON)
-OPTION (INSTALL_APPS	    	"Build and install Apps"	    	ON)
-OPTION (INSTALL_EXAMPLES		"Build and install Examples"		OFF)
-OPTION (INSTALL_STATIC_LIB		"Install RoadRunner CXX static lib"	OFF)
-OPTION (RR_BUILD_SHARED_CORE	"Build RoadRunner Core Shared library"	OFF)
-OPTION (BUILD_TESTS		        "Build API Tests"		            OFF)
-OPTION (INSTALL_SBML_MODELS		"Install SBML Models"		        ON)
-OPTION (BUILD_PLUGINS		    "Build and Install Plugins"	        ON)
+OPTION (INSTALL_CXX_API         "Generate C++ api"                     ON)
+OPTION (INSTALL_C_API             "Generate C API"                     ON)
+OPTION (INSTALL_PYTHON             "Package Python wrapper"             ON)
+OPTION (INSTALL_APPS            "Build and install Apps"            ON)
+OPTION (INSTALL_EXAMPLES        "Build and install Examples"        OFF)
+OPTION (INSTALL_STATIC_LIB        "Install RoadRunner CXX static lib"    OFF)
+OPTION (RR_BUILD_SHARED_CORE    "Build RoadRunner Core Shared library"    OFF)
+OPTION (BUILD_TESTS                "Build API Tests"                    OFF)
+OPTION (INSTALL_SBML_MODELS        "Install SBML Models"                ON)
+OPTION (BUILD_PLUGINS            "Build and Install Plugins"            ON)
 
 #Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
-set(BUILD_SHARED_LIBS 												ON)
+set(BUILD_SHARED_LIBS                                                 ON)
 
-set(RR_ROOT 					${CMAKE_CURRENT_SOURCE_DIR})
-set(RR_SOURCE_ROOT 				${CMAKE_CURRENT_SOURCE_DIR}/source)
-set(THIRD_PARTY_FOLDER 			${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty)
+set(RR_ROOT                     ${CMAKE_CURRENT_SOURCE_DIR})
+set(RR_SOURCE_ROOT                 ${CMAKE_CURRENT_SOURCE_DIR}/source)
+set(THIRD_PARTY_FOLDER             ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty)
 
-set(exe_path		 			${PROJECT_BINARY_DIR}/bin)
-set(lib_path		 			${PROJECT_BINARY_DIR}/lib)
+set(exe_path                     ${PROJECT_BINARY_DIR}/bin)
+set(lib_path                     ${PROJECT_BINARY_DIR}/lib)
 
 set(CMAKE_BUILD_TYPE "Debug" CACHE STRING
     "Choose the build type. The options are: None (CMAKE_CXX_FLAGS or
@@ -86,9 +95,9 @@ IF(WIN32)
     ENDIF(${MSVC})
 ENDIF(WIN32)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY 	${PROJECT_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY 	${PROJECT_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY 	${PROJECT_BINARY_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY     ${PROJECT_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY     ${PROJECT_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY     ${PROJECT_BINARY_DIR}/bin)
 
 include_directories(
 ${RR_ROOT}
@@ -107,18 +116,18 @@ add_definitions(
 -DPOCO_NO_AUTOMATIC_LIBS
 -D_CRT_SECURE_NO_WARNINGS   #MS wanting you to changes basically all standard C functions :(
 )
-SET (CMAKE_CXX_FLAGS 			"${CMAKE_CXX_FLAGS} /EHsc ")
-SET (CMAKE_SHARED_LINKER_FLAGS 	"${CMAKE_SHARED_LINKER_FLAGS} ") #/FORCE:MULTIPLE")
+SET (CMAKE_CXX_FLAGS             "${CMAKE_CXX_FLAGS} /EHsc ")
+SET (CMAKE_SHARED_LINKER_FLAGS     "${CMAKE_SHARED_LINKER_FLAGS} ") #/FORCE:MULTIPLE")
 endif()
 
-#=== COMPILER FLAGS 
+#=== COMPILER FLAGS
 #Common compiler definitions
 add_definitions(
--DLIBSBML_USE_CPP_NAMESPACE                     
-) 
+-DLIBSBML_USE_CPP_NAMESPACE
+)
 
 if(${MINGW})
-SET (CMAKE_CXX_FLAGS 			"${CMAKE_CXX_FLAGS} -std=gnu++0x")
+SET (CMAKE_CXX_FLAGS             "${CMAKE_CXX_FLAGS} -std=gnu++0x")
 endif()
 
 if(${BORLAND})
@@ -137,7 +146,7 @@ if(UNIX)
         set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC --std=c++0x")
         set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
     endif()
-endif()    
+endif()
 
 #How do we move forward from this folder? Moving on to subfolders
 #Source Code Folder
@@ -171,23 +180,23 @@ add_subdirectory(models)
 endif()
 
 if(INSTALL_CXX_API)
-install(FILES source/rr_pch.h	
-        DESTINATION include 
+install(FILES source/rr_pch.h
+        DESTINATION include
         COMPONENT rr_core)
 endif()
 
-install(FILES Readme.txt License.txt	
-        DESTINATION . 	
+install(FILES Readme.txt License.txt
+        DESTINATION .
         COMPONENT info
         )
 
 #=== ThirdParties
 if(${BORLAND})
-set(CG_RUNTIMES		cc32110MT.dll)
+set(CG_RUNTIMES        cc32110MT.dll)
 foreach(runtime ${CG_RUNTIMES})
-install (FILES 
-            ${THIRD_PARTY_FOLDER}/dependencies/cg/xe/${runtime} 
-            DESTINATION bin 
+install (FILES
+            ${THIRD_PARTY_FOLDER}/dependencies/cg/xe/${runtime}
+            DESTINATION bin
             COMPONENT rr_core)
 endforeach()
 endif()
@@ -196,8 +205,8 @@ if(WIN32)
 #One day these may be statically linked
 set(RUNTIMES libxml2.DLL iconv.dll zlib1.dll)
 foreach(runtime ${RUNTIMES})
-install(    FILES 	${THIRD_PARTY_FOLDER}/dependencies/libsbml/bin/${runtime} 
-            DESTINATION bin 
+install(    FILES     ${THIRD_PARTY_FOLDER}/dependencies/libsbml/bin/${runtime}
+            DESTINATION bin
             COMPONENT rr_core)
 endforeach()
 endif()
