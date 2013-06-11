@@ -19,6 +19,10 @@ find_package(LLVM REQUIRED)
 # should we use LLVM ?
 option (BUILD_LLVM "Build the optional LLVM back end" OFF)
 
+if(BUILD_LLVM AND NOT LLVM_FOUND)
+    message(FATAL_ERROR "BUILD_LLVM is enabled, but no LLVM instalation was found")
+endif()
+
 mark_as_advanced(
 BUILD_TESTS
 INSTALL_APPS
