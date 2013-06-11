@@ -1,7 +1,7 @@
 #pragma hdrstop
 #include "rrRoadRunner.h"
 #include "rrException.h"
-#include "rr-libstruct/lsLibLA.h"
+#include "rr-libstruct/lsLibla.h"
 #include "rrc_libstruct_api.h"
 #include "rrc_cpp_support.h"
 #include "rrc_utilities.h"

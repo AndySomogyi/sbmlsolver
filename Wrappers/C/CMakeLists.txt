@@ -54,6 +54,7 @@ STATIC_LIBSTRUCT
 )
 
 target_link_libraries ( ${target} 
+sbml-static
 roadrunner-static
 blas
 lapack
