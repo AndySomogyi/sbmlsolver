@@ -2,6 +2,12 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 set(target roadrunner)
 
+if(BUILD_LLVM)
+    set(RR_HAVE_LLVM 1)
+else()
+    set(RR_HAVE_LLVM 0)
+endif(BUILD_LLVM)
+
 configure_file(rrConfigure.h.in rrConfigure.h)
 
 include_directories(${RR_GENERATED_HEADER_PATH}) #we have to do this to get the generated header
