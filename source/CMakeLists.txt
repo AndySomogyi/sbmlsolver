@@ -97,6 +97,9 @@ rrSelectionRecord
 rrMinimizationData
 rrModelGeneratorFactory
 rrNoise
+rrLLVMCompiler
+rrLLVMModelGenerator
+rrLLVMExecutableModel
 )
 
 if(RR_BUILD_SHARED_CORE)
