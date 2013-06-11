@@ -99,6 +99,17 @@ set(rrSources
     rrNoise
     )
 
+# Add the LLVM sources to compilation
+if(BUILD_LLVM)
+    set(rrSources 
+        ${rrSources}
+        rrLLVMModelGenerator
+        rrLLVMExecutableModel
+        rrLLVMCompiler
+        )
+endif(BUILD_LLVM)
+
+# set up linking libs
 if(RR_BUILD_SHARED_CORE)
     #Link with static libs
     add_library(${target} SHARED ${rrSources})
@@ -120,7 +131,7 @@ if(RR_BUILD_SHARED_CORE)
         set(staticLibExt ".a")
     else()
         set(staticLibExt "")
-    endif()
+    endif(UNIX)
     
     target_link_libraries (${target}
         sundials_cvode
@@ -132,6 +143,7 @@ if(RR_BUILD_SHARED_CORE)
         rr-libstruct-static
         poco_foundation-static
         )
+
     if(UNIX)
         target_link_libraries (${target}
             pthread
@@ -144,15 +156,23 @@ if(RR_BUILD_SHARED_CORE)
             libf2c
             libsbml
             )
-    endif()
+    endif(UNIX)
+  
     if(${INSTALL_CXX_API})
-        
         install(TARGETS ${target}
             RUNTIME DESTINATION bin COMPONENT rr_core
             LIBRARY DESTINATION lib COMPONENT rr_core
             ARCHIVE DESTINATION lib COMPONENT rr_core
             )
     endif()
+
+
+    if(BUILD_LLVM) 
+        target_link_libraries(${target}
+            ${LLVM_LIBRARIES}
+            )
+    endif(BUILD_LLVM)
+
     
 endif(RR_BUILD_SHARED_CORE)
 
@@ -194,6 +214,7 @@ if(WIN32)
         )
 endif(WIN32)
 
+
 if(UNIX)
     target_link_libraries (${target}-static
         sbml-static
@@ -202,7 +223,13 @@ if(UNIX)
         dl
         pthread
         )
-endif()
+endif(UNIX)
+
+if(BUILD_LLVM) 
+    target_link_libraries(${target}-static
+        ${LLVM_LIBRARIES}
+        )
+endif(BUILD_LLVM)
 
 #Libxml we can't build right now
 if(${BORLAND})

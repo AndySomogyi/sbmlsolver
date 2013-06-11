@@ -1627,7 +1627,7 @@ ArrayList NOMSupport::getNthError(const int& nIndex)
         throw Exception("Index out of Bounds.");
     }
 
-    SBMLError *error = (SBMLError*) mSBMLDoc->getError(nIndex);
+    const SBMLError *error = mSBMLDoc->getError(nIndex);
     ArrayList oResult;// = new ArrayList();
 
     switch (error->getSeverity())
@@ -2584,7 +2584,12 @@ void NOMSupport::modifyKineticLawsForLocalParameters(KineticLaw& oLaw, const str
             }
             else
             {
-                changeParameterName(*((ASTNode*) oLaw.getMath()), parameterId, sPrefix);
+                //changeParameterName(*((ASTNode*) oLaw.getMath()), parameterId, sPrefix);
+                ASTNode *math = new ASTNode(*oLaw.getMath());
+                changeParameterName(*math, parameterId, sPrefix);
+                oLaw.setMath(math);
+                delete math;
+
             }
 
             libsbml::Parameter *p = oModel.createParameter();
@@ -2637,7 +2642,11 @@ void NOMSupport::modifyKineticLawsForReaction(KineticLaw& oLaw, const string& re
             }
             else
             {
-                changeParameterName( *(ASTNode*)oLaw.getMath(), parameterId, sPrefix);
+                //changeParameterName(*((ASTNode*) oLaw.getMath()), parameterId, sPrefix);
+                ASTNode *math = new ASTNode(*oLaw.getMath());
+                changeParameterName(*math, parameterId, sPrefix);
+                oLaw.setMath(math);
+                delete math;
             }
             libsbml::Parameter *oTemp = (libsbml::Parameter*)oLaw.getListOfParameters()->remove(j - 1);
             if(!oTemp)
@@ -2981,13 +2990,13 @@ string NOMSupport::getSBML()
 //            return r.getReversible();
 //        }
 
-void NOMSupport::getSymbols(ASTNode* aNode, StringList& list)
+void NOMSupport::getSymbols(const ASTNode* aNode, StringList& list)
 {
     if(!aNode)
     {
         return;
     }
-    ASTNode& node = *aNode;
+    const ASTNode& node = *aNode;
 
     if (node.isName())
     {
@@ -3006,7 +3015,7 @@ void NOMSupport::getSymbols(ASTNode* aNode, StringList& list)
 }
 
 
-StringList NOMSupport::getSymbols(ASTNode* math)
+StringList NOMSupport::getSymbols(const ASTNode* math)
 {
     StringList result; //= new List<string>();
     if (math == NULL)
@@ -3049,7 +3058,7 @@ deque<Rule*> NOMSupport::reorderAssignmentRules(deque<Rule*>& assignmentRules)
         }
         else
         {
-            allSymbols[index] = NOMSupport::getSymbols((ASTNode*) rule->getMath());
+            allSymbols[index] = NOMSupport::getSymbols(rule->getMath());
         }
         idList.add(variable);
         map[variable] = StringList();//new List<string>();
