@@ -11,7 +11,7 @@ using namespace rr;
 
 TestPlugin::TestPlugin(rr::RoadRunner* aRR, int testParameter)
 :
-Plugin("TestPlugin", "No Category", aRR),
+CPPPlugin("TestPlugin", "No Category", aRR),
 mTestCapability("A Plugin Capability", "RunMe", "Exposing the RunMe Function"),
 mTestParameter("NrOfIterations", 123, "Hint for Nr of iterations")
 {
@@ -33,15 +33,19 @@ bool TestPlugin::execute(void* userData)
 	return true;
 }
 
-// Plugin factory function
-rr::Plugin* __stdcall createPlugin(rr::RoadRunner* aRR)
+// Plugin rrraw C functions
+rr::Plugin* rrCallConv createPlugin(rr::RoadRunner* aRR)
 {
     //allocate a new object and return it
 	return new TestPlugin(aRR);
 }
 
+char* rrCallConv getImplementationLanguage()
+{
+	return "CPP";
 }
 
+}
 #if defined(CG_UI)
     #if defined(STATIC_BUILD)
     	#pragma comment(lib, "roadrunner-static.lib")

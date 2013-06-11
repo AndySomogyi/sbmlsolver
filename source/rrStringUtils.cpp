@@ -10,8 +10,8 @@
 #include <sstream>
 #include <cstring>
 #include "rrStringUtils.h"
-
 //---------------------------------------------------------------------------
+
 using namespace std;
 namespace rr
 {
@@ -27,6 +27,12 @@ char* createText(const string& str)
 	std::copy(str.begin(), str.end(), text);
 	text[str.size()] = '\0'; //terminating 0!
 	return text;
+}
+
+bool freeText(char* str)
+{
+	delete [] str;
+    return true;
 }
 
 string replaceWord(const string& str1, const string& str2, const string& theString)

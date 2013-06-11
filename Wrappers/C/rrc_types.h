@@ -41,6 +41,7 @@
 
 #ifndef rrc_typesH
 #define rrc_typesH
+
 #if defined(__cplusplus)
 namespace rrc {
 extern "C"

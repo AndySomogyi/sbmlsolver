@@ -114,14 +114,14 @@ C_DECL_SPEC bool  rrcCallConv  setInstallFolder(const char* folder);
  \return Returns null if it fails, otherwise it returns the version number of the C API library
  \ingroup utility
 */
-C_DECL_SPEC char* rrcCallConv getAPIVersion();
+C_DECL_SPEC char* rrcCallConv getAPIVersion(void);
 
 /*!
  \brief Retrieve the current version number of the C++ API (Core RoadRunner API) library
  \return Returns null if it fails, otherwise it returns the version number of the C++ API library
  \ingroup utility
 */
-C_DECL_SPEC char* rrcCallConv getCPPAPIVersion();
+C_DECL_SPEC char* rrcCallConv getCPPAPIVersion(void);
 
 /*!
  \brief Retrieve extended API info.

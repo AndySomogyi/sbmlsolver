@@ -24,6 +24,7 @@ using std::vector;
 using std::string;
 using std::set;
 
+RR_DECLSPEC bool 			cleanFolder(const string& folder, const string& baseName, const StringList& extensions);
 RR_DECLSPEC double 			gaussNoise(double mean, double sigma);
 RR_DECLSPEC string 			getTime();
 RR_DECLSPEC string 			getDateTime();

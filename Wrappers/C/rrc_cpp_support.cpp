@@ -66,7 +66,6 @@ void setError(const string& err)
     gLastError = createText(err);
 }
 
-
 RoadRunner* castFrom(RRHandle handle)
 {
 	RoadRunner* rr = (RoadRunner*) handle;

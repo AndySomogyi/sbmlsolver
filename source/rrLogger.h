@@ -10,9 +10,6 @@
 #include "rrFileLog.h"
 #include "rrLogOutput.h"
 
-//using std::string;
-//using std::ostringstream;
-
 namespace rr
 {
 

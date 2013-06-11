@@ -112,7 +112,7 @@ RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder)
         char* text1 = getRRCAPILocation();
         string text2 = getParentFolder(text1);
         string rrInstallFolder(text2);
-        freeText(text1);
+        rr::freeText(text1);
 
 #if defined(_WIN32) || defined(WIN32)
             string compiler(joinPath(rrInstallFolder, "compilers\\tcc\\tcc.exe"));

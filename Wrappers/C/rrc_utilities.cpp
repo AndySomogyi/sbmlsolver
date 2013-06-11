@@ -33,6 +33,11 @@ char*       gLastError                  = NULL;
 char gInstallFolderBuffer[RR_MAX_PATH] = {0};
 char* gInstallFolder = gInstallFolderBuffer;
 
+char* rrcCallConv createText(const char* text)
+{
+	return rr::createText(text);
+}
+
 char* rrCallConv getFileContent(const char* fName)
 {
     try
@@ -265,7 +270,7 @@ char* rrCallConv listToString (RRListHandle list)
                     {
                         char* text = listToString(lVal);
                         resStr<<text;
-                        freeText(text);
+                        rrc::freeText(text);
                     }
                     else
                     {
@@ -322,7 +327,7 @@ bool rrCallConv freeRRData(RRDataHandle handle)
 
         for(int i = 0; i < handle->CSize; i++)
         {
-            freeText(handle->ColumnHeaders[i]);
+            rr::freeText(handle->ColumnHeaders[i]);
         }
 
         delete [] handle->ColumnHeaders;
@@ -343,8 +348,8 @@ bool rrCallConv freeText(char* text)
 {
     try
     {
-        delete [] text;
-        return true;
+
+        return rr::freeText(text);
     }
     catch(Exception& ex)
     {
