@@ -20,7 +20,7 @@ find_package(LLVM REQUIRED)
 option (BUILD_LLVM "Build the optional LLVM back end" OFF)
 
 if(BUILD_LLVM AND NOT LLVM_FOUND)
-    message(FATAL_ERROR "BUILD_LLVM is enabled, but no LLVM instalation was found")
+    message(FATAL_ERROR "BUILD_LLVM is enabled, but no LLVM installation was found")
 endif()
 
 mark_as_advanced(
@@ -151,6 +151,10 @@ if(UNIX)
         set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
     endif()
 endif()
+
+if(BUILD_LLVM)
+    add_definitions(${LLVM_CXXFLAGS})
+endif(BUILD_LLVM)
 
 #How do we move forward from this folder? Moving on to subfolders
 #Source Code Folder

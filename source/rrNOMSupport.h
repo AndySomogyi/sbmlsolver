@@ -200,7 +200,7 @@ public:
      * @param math ASTNode
      * @returns List of all symbols
      */
-    static StringList       getSymbols(ASTNode* math);
+    static StringList       getSymbols(const ASTNode* math);
 
     /**
      * This should return an initialization for the given sbmlId that is sideeffect free
@@ -266,7 +266,7 @@ protected:
     void                    changeNameToCSymbol(Model* model, const string& name, const int& type);
     void                    changePow(ASTNode* node);
     void                    checkForMissingNames(ASTNode *node, StringListContainer results, StringListContainer symbols);
-   	void                    lookForDependencies();
+       void                    lookForDependencies();
     void                    removeSpatialSizeUnitsFromSpecies(SBMLDocument* doc);
     void                    removeSubstanceUnitsFromKineticLaws(SBMLDocument* doc);
     void                    removeTimeUnitsFromKineticLaws(SBMLDocument* doc);
@@ -289,7 +289,7 @@ protected:
     static void             changeTimeSymbol(Model& model, const string& timeSymbol);
 
     static void             changeParameterName(ASTNode& node, const string& sParameterName, const string& sPrefix);
-    static void             getSymbols(ASTNode* node, StringList& list);
+    static void             getSymbols(const ASTNode* node, StringList& list);
 
     /**
      * type of formating we should use for printing doubles.
