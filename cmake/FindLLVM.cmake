@@ -54,115 +54,114 @@ find_program(LLVM_CONFIG_EXECUTABLE
     PATHS /opt/local/bin /usr/local/bin
     HINTS "$ENV{LLVM_DIR}/bin"
     DOC "llvm-config executable"
- )
+    )
 
 if (LLVM_CONFIG_EXECUTABLE)
     message(STATUS "LLVM llvm-config found at: ${LLVM_CONFIG_EXECUTABLE}")
+    
+    execute_process(
+        COMMAND ${LLVM_CONFIG_EXECUTABLE} --version
+        OUTPUT_VARIABLE LLVM_VERSION
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+    
+    # Version Info
+    execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --version OUTPUT_VARIABLE LLVM_STRING_VERSION )
+    string(REGEX REPLACE "^([0-9]+)\\.([0-9]+)([^\n\r\t ]*)" "\\1" LLVM_VERSION_MAJOR
+        "${LLVM_VERSION}")
+    string(REGEX REPLACE "^([0-9]+)\\.([0-9]+)([^\n\r\t ]*)" "\\2" LLVM_VERSION_MINOR
+        "${LLVM_VERSION}")
+    string(REGEX REPLACE "^([0-9]+)\\.([0-9]+)([^\n\r\t ]*)" "\\3" LLVM_VERSION_PATCH
+        "${LLVM_VERSION}")
+    message(STATUS "LLVM_VERSION_MAJOR: ${LLVM_VERSION_MAJOR}")
+    message(STATUS "LLVM_VERSION_MINOR: ${LLVM_VERSION_MINOR}")
+    message(STATUS "LLVM_VERSION_PATCH: ${LLVM_VERSION_PATCH}")
+    
+    execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --bindir OUTPUT_VARIABLE LLVM_BIN_DIR )
+    execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --libdir OUTPUT_VARIABLE LLVM_LIB_DIR )
+    MESSAGE(STATUS "LLVM_BIN_DIR: " ${LLVM_BIN_DIR})
+    MESSAGE(STATUS "LLVM_LIB_DIR: " ${LLVM_LIB_DIR})
+    
+    # Include Dir
+    execute_process(
+        COMMAND ${LLVM_CONFIG_EXECUTABLE} --includedir
+        OUTPUT_VARIABLE LLVM_INCLUDE_DIR
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+    message(STATUS "LLVM_INCLUDE_DIR: ${LLVM_INCLUDE_DIR}")
+    
+    # Lib Dir
+    execute_process(
+        COMMAND ${LLVM_CONFIG_EXECUTABLE} --libdir
+        OUTPUT_VARIABLE LLVM_LIBRARY_DIR
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+    message(STATUS "LLVM_LIBRARY_DIR:  ${LLVM_LIBRARY_DIR}")
+    
+    # C++ Flags, strip out stuff that CMake build adds
+    execute_process(
+        COMMAND ${LLVM_CONFIG_EXECUTABLE} --cxxflags
+        OUTPUT_VARIABLE LLVM_CXXFLAGS
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+    # strip this from llvm's version, we should add this ourselves in
+    # production mode to main CFLAGS
+    STRING(REPLACE "-DNDEBUG" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
+    STRING(REPLACE "-D_DEBUG" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
+    # remove optimization from flags
+    STRING(REGEX REPLACE "-O[0-9]" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
+    STRING(REPLACE "-fno-rtti" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
+    STRING(REPLACE "-fno-exceptions" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
+    MESSAGE(STATUS "LLVM_CXXFLAGS: " ${LLVM_CXXFLAGS})
+    
+    
+    # C Flags - used for compiling C files
+    execute_process(
+        COMMAND ${LLVM_CONFIG_EXECUTABLE} --cflags
+        OUTPUT_VARIABLE LLVM_CFLAGS
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+    # strip this from llvm's version, we should add this ourselves in
+    # production mode to main CFLAGS
+    STRING(REPLACE "-DNDEBUG" "" LLVM_CFLAGS ${LLVM_CFLAGS})
+    STRING(REPLACE "-D_DEBUG" "" LLVM_CFLAGS ${LLVM_CFLAGS})
+    # remove optimization from flags
+    STRING(REGEX REPLACE "-O[0-9]" "" LLVM_CFLAGS ${LLVM_CFLAGS})
+    MESSAGE(STATUS "LLVM_CFLAGS: " ${LLVM_CFLAGS})
+    
+    # ld flags
+    execute_process(
+        COMMAND ${LLVM_CONFIG_EXECUTABLE} --ldflags
+        OUTPUT_VARIABLE LLVM_LDFLAGS
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+    
+    # strip -ldl this is due to order of link with libcwd
+    STRING(REPLACE "-ldl" "" LLVM_LDFLAGS ${LLVM_LDFLAGS})
+    MESSAGE(STATUS "LLVM_LDFLAGS: " ${LLVM_LDFLAGS})
+    
+    
+    # link libraries, currently only need core, jit and native. 
+    # TODO: in future, replace this with something like LLVM_CORE_LIBS, LLVM_JIT_LIBS...
+    execute_process(
+        COMMAND ${LLVM_CONFIG_EXECUTABLE} --libs core jit native
+        OUTPUT_VARIABLE LLVM_LIBRARIES
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+    
+    message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
+    
+    
+    if(LLVM_INCLUDE_DIR)
+        set(LLVM_FOUND TRUE)
+        message(STATUS "Found LLVM: ${LLVM_INCLUDE_DIR}")
+    endif(LLVM_INCLUDE_DIR)
+    
+
 else (LLVM_CONFIG_EXECUTABLE)
-    message(FATAL_ERROR "Could NOT find LLVM executable")
+    message(STATUS "Could NOT find LLVM executable")
 endif (LLVM_CONFIG_EXECUTABLE)
 
-execute_process(
-    COMMAND ${LLVM_CONFIG_EXECUTABLE} --version
-    OUTPUT_VARIABLE LLVM_VERSION
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-
-# Version Info
-execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --version OUTPUT_VARIABLE LLVM_STRING_VERSION )
-string(REGEX REPLACE "^([0-9]+)\\.([0-9]+)([^\n\r\t ]*)" "\\1" LLVM_VERSION_MAJOR
-    "${LLVM_VERSION}")
-string(REGEX REPLACE "^([0-9]+)\\.([0-9]+)([^\n\r\t ]*)" "\\2" LLVM_VERSION_MINOR
-    "${LLVM_VERSION}")
-string(REGEX REPLACE "^([0-9]+)\\.([0-9]+)([^\n\r\t ]*)" "\\3" LLVM_VERSION_PATCH
-    "${LLVM_VERSION}")
-message(STATUS "LLVM_VERSION_MAJOR: ${LLVM_VERSION_MAJOR}")
-message(STATUS "LLVM_VERSION_MINOR: ${LLVM_VERSION_MINOR}")
-message(STATUS "LLVM_VERSION_PATCH: ${LLVM_VERSION_PATCH}")
-
-execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --bindir OUTPUT_VARIABLE LLVM_BIN_DIR )
-execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --libdir OUTPUT_VARIABLE LLVM_LIB_DIR )
-MESSAGE(STATUS "LLVM_BIN_DIR: " ${LLVM_BIN_DIR})
-MESSAGE(STATUS "LLVM_LIB_DIR: " ${LLVM_LIB_DIR})
-
-# Include Dir
-execute_process(
-    COMMAND ${LLVM_CONFIG_EXECUTABLE} --includedir
-    OUTPUT_VARIABLE LLVM_INCLUDE_DIR
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-message(STATUS "LLVM_INCLUDE_DIR: ${LLVM_INCLUDE_DIR}")
-
-# Lib Dir
-execute_process(
-  COMMAND ${LLVM_CONFIG_EXECUTABLE} --libdir
-  OUTPUT_VARIABLE LLVM_LIBRARY_DIR
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-message(STATUS "LLVM_LIBRARY_DIR:  ${LLVM_LIBRARY_DIR}")
-
-# C++ Flags, strip out stuff that CMake build adds
-execute_process(
-    COMMAND ${LLVM_CONFIG_EXECUTABLE} --cxxflags
-    OUTPUT_VARIABLE LLVM_CXXFLAGS
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-# strip this from llvm's version, we should add this ourselves in
-# production mode to main CFLAGS
-STRING(REPLACE "-DNDEBUG" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
-STRING(REPLACE "-D_DEBUG" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
-# remove optimization from flags
-STRING(REGEX REPLACE "-O[0-9]" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
-STRING(REPLACE "-fno-rtti" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
-STRING(REPLACE "-fno-exceptions" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
-MESSAGE(STATUS "LLVM_CXXFLAGS: " ${LLVM_CXXFLAGS})
-
-
-# C Flags - used for compiling C files
-execute_process(
-    COMMAND ${LLVM_CONFIG_EXECUTABLE} --cflags
-    OUTPUT_VARIABLE LLVM_CFLAGS
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-# strip this from llvm's version, we should add this ourselves in
-# production mode to main CFLAGS
-STRING(REPLACE "-DNDEBUG" "" LLVM_CFLAGS ${LLVM_CFLAGS})
-STRING(REPLACE "-D_DEBUG" "" LLVM_CFLAGS ${LLVM_CFLAGS})
-# remove optimization from flags
-STRING(REGEX REPLACE "-O[0-9]" "" LLVM_CFLAGS ${LLVM_CFLAGS})
-MESSAGE(STATUS "LLVM_CFLAGS: " ${LLVM_CFLAGS})
-
-# ld flags
-execute_process(
-    COMMAND ${LLVM_CONFIG_EXECUTABLE} --ldflags
-    OUTPUT_VARIABLE LLVM_LDFLAGS
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-
-# strip -ldl this is due to order of link with libcwd
-STRING(REPLACE "-ldl" "" LLVM_LDFLAGS ${LLVM_LDFLAGS})
-MESSAGE(STATUS "LLVM_LDFLAGS: " ${LLVM_LDFLAGS})
-
-
-# link libraries, currently only need core, jit and native. 
-# TODO: in future, replace this with something like LLVM_CORE_LIBS, LLVM_JIT_LIBS...
-execute_process(
-  COMMAND ${LLVM_CONFIG_EXECUTABLE} --libs core jit native
-  OUTPUT_VARIABLE LLVM_LIBRARIES
-  OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-
-message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
-
-
-if(LLVM_INCLUDE_DIR)
-    set(LLVM_FOUND TRUE)
-endif(LLVM_INCLUDE_DIR)
-
-if(LLVM_FOUND)
-    message(STATUS "Found LLVM: ${LLVM_INCLUDE_DIR}")
-else(LLVM_FOUND)
-    if(LLVM_FIND_REQUIRED)
-        message(FATAL_ERROR "Could NOT find LLVM")
-    endif(LLVM_FIND_REQUIRED)
-endif(LLVM_FOUND)
+if(NOT LLVM_FOUND AND LLVM_FIND_REQUIRED)
+    message(FATAL_ERROR "Could NOT find LLVM")
+endif(NOT LLVM_FOUND AND LLVM_FIND_REQUIRED)

@@ -14,7 +14,7 @@ endif()
 SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/)
 set(LLVM_MIN_VERSION       "3000000")
 set(LLVM_MIN_VERSION_TEXT  "3.0")
-find_package(LLVM REQUIRED)
+find_package(LLVM)
 
 # should we use LLVM ?
 option (BUILD_LLVM "Build the optional LLVM back end" OFF)
