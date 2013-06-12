@@ -193,6 +193,7 @@ bool LMFitThread::setup()
 
 	mLMData.rrHandle				= mRRI;
     mRRI->setTimeCourseSelectionList(species.AsString());
+	return true;
 }
 
 bool LMFitThread::setupRoadRunner()

@@ -974,9 +974,9 @@ TEST(949) { CHECK(RunTest("l2v4", 949)); }
 //TEST(950) { CHECK(RunTest("l2v4", 950)); }
 //TEST(951) { CHECK(RunTest("l2v4", 951)); }
 
-//#if !defined(_MSC_VER)
+#if !defined(_MSC_VER)
 TEST(952) { CHECK(RunTest("l3v1", 952)); }		//This one is erratic.. it sometimes passes and sometimes end in a segfault!
-//#endif
+#endif
 
 TEST(953) { CHECK(RunTest("l3v1", 953)); }
 

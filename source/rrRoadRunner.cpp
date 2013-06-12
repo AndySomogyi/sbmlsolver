@@ -777,8 +777,11 @@ DoubleMatrix RoadRunner::simulate()
     }
     catch (const Exception& e)
     {
-        Log(lWarning)<<"Problem in simulate: "<<e.Message();
+		stringstream msg;
+		msg<<"Problem in simulate: "<<e.Message();
+		Log(lError)<<msg.str();
 
+		throw(CoreException(msg.str()));
     }
 
 }
@@ -3889,11 +3892,13 @@ StringList RoadRunner::getListOfParameters(const string& cap)
         msg<<"No such capability: "<<cap;
         throw(CoreException(msg.str()));
     }
+
     Parameters* paras = aCap->getParameters();
     if(paras)
     {
         return paras->asStringList();
     }
+	return StringList();
 }
 
 void RoadRunner::setTolerances(const double& aTol, const double& rTol)

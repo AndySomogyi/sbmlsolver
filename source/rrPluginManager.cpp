@@ -180,6 +180,10 @@ bool PluginManager::loadPlugin(const string& pluginName)
    		Log(lError)<<msg.str();
 		return false;
     }
+	catch(...)
+	{
+		return false;
+	}
 }
 
 bool PluginManager::unload()
@@ -318,10 +322,12 @@ Plugin* PluginManager::createCPlugin(SharedLibrary *libHandle)
 
         return aPlugin;
     }
-    catch(Poco::NotFoundException& ex)
+    catch(const Poco::NotFoundException& ex)
     {
-		return false;
+		Log(lError)<<"Error in createCPlugin: " <<ex.message();
+		return NULL;
     }
+	return NULL;
 }
 
 
