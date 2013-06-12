@@ -207,7 +207,7 @@ char* rrcCallConv getAPIVersion()
 {
     try
     {
-        return createText("0.99");
+        return rr::createText("0.99");
     }
     catch_ptr_macro
 }
@@ -223,7 +223,7 @@ char* rrcCallConv getCPPAPIVersion()
         }
 
         RoadRunner* rri = castFrom(handle);
-        char* text = createText(rri->getVersion());
+        char* text = rr::createText(rri->getVersion());
         freeRRInstance(handle);
 
         return text;
@@ -242,12 +242,12 @@ char* rrcCallConv getRRCAPILocation()
     if(nrChars != 0)
     {
         string aPath = getFilePath(path);
-        char* text = createText(aPath);
+        char* text = rr::createText(aPath);
         return text;
     }
     return NULL;
 #else
-    return createText(joinPath(getInstallFolder(),"/lib"));
+    return rr::createText(joinPath(getInstallFolder(),"/lib"));
 #endif
 }
 
@@ -262,7 +262,7 @@ char* rrcCallConv getCopyright()
         }
 
            RoadRunner* rri = castFrom(handle);
-        char* text = createText(rri->getCopyright());
+        char* text = rr::createText(rri->getCopyright());
         freeRRInstance(handle);
 
         return text;
@@ -275,7 +275,7 @@ char* rrcCallConv getInfo(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-		return createText(rri->getInfo());
+		return rr::createText(rri->getInfo());
     }
     catch_ptr_macro
 }
@@ -286,7 +286,7 @@ char* rrcCallConv getExtendedAPIInfo()
     {
         RRHandle handle = createRRInstance();
         RoadRunner* rri = castFrom(handle);
-        char* text = createText(rri->getExtendedVersionInfo());
+        char* text = rr::createText(rri->getExtendedVersionInfo());
         freeRRInstance(handle);
         return text;
     }
@@ -298,7 +298,7 @@ char* rrcCallConv getlibSBMLVersion(RRHandle handle)
     try
     {
     	RoadRunner* rri = castFrom(handle);
-		return createText(rri->getlibSBMLVersion());
+		return rr::createText(rri->getlibSBMLVersion());
     }
     catch_ptr_macro
 }
@@ -308,7 +308,7 @@ char* rrcCallConv getCurrentSBML(RRHandle handle)
     try
     {
     	RoadRunner* rri = castFrom(handle);
-        return createText(rri->writeSBML());
+        return rr::createText(rri->writeSBML());
     }
     catch_ptr_macro
 }
@@ -340,7 +340,7 @@ char* rrcCallConv getTempFolder(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        return createText(rri->getTempFolder());
+        return rr::createText(rri->getTempFolder());
     }
     catch_ptr_macro
 }
@@ -384,7 +384,7 @@ char* rrcCallConv getCompilerLocation(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        return createText(rri->getCompiler()->getCompilerLocation());
+        return rr::createText(rri->getCompiler()->getCompilerLocation());
     }
     catch_ptr_macro
 }
@@ -411,7 +411,7 @@ char* rrcCallConv getSupportCodeFolder(RRHandle handle)
     try
     {
     	RoadRunner* rri = castFrom(handle);
-        return createText(rri->getCompiler()->getSupportCodeFolder());
+        return rr::createText(rri->getCompiler()->getSupportCodeFolder());
     }
     catch_ptr_macro
 }
@@ -420,7 +420,7 @@ char* rrcCallConv getWorkingDirectory()
 {
     try
     {
-        return createText(rr::getCWD());
+        return rr::createText(rr::getCWD());
     }
     catch_ptr_macro
 }
@@ -528,7 +528,7 @@ char* rrcCallConv getSBML(RRHandle handle)
     try
     {
           RoadRunner* rri = castFrom(handle);
-        return createText(rri->getSBML());
+        return rr::createText(rri->getSBML());
     }
     catch_ptr_macro
 }
@@ -883,7 +883,7 @@ char* rrcCallConv getLastError()
 {
     if(!gLastError)
     {
-        gLastError = createText("No Error");
+        gLastError = rr::createText("No Error");
     }
     return gLastError;
 }
@@ -1317,7 +1317,7 @@ char* rrcCallConv getParamPromotedSBML(RRHandle handle, const char* sArg)
     {
         RoadRunner* rri = castFrom(handle);
         string param =  rri->getParamPromotedSBML(sArg);
-        char* text = createText(param.c_str());
+        char* text = rr::createText(param.c_str());
         return text;
     }
     catch_ptr_macro
@@ -1410,7 +1410,7 @@ char* rrcCallConv getCSourceFileName(RRHandle handle)
         string fNameS = generator->getSourceCodeFileName();
 
         fNameS = getFileNameNoExtension(fNameS);
-        return createText(fNameS);
+        return rr::createText(fNameS);
     }
     catch_ptr_macro
 }
@@ -1434,12 +1434,12 @@ RRCCode* rrcCallConv getCCode(RRHandle handle)
 
         if(header.size())
         {
-            cCode->Header = createText(header);
+            cCode->Header = rr::createText(header);
         }
 
         if(source.size())
         {
-            cCode->Source = createText(source);
+            cCode->Source = rr::createText(source);
         }
         return cCode;
     }
@@ -1532,7 +1532,7 @@ char* rrcCallConv getCapabilities(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        return createText(rri->getCapabilitiesAsXML());
+        return rr::createText(rri->getCapabilitiesAsXML());
     }
     catch_ptr_macro
 }
@@ -1702,17 +1702,17 @@ bool rrcCallConv getRateOfChange(RRHandle handle, const int index, double* value
 
 char* rrcCallConv getBuildDate()
 {
-    return createText(__DATE__);
+    return rr::createText(__DATE__);
 }
 
 char* rrcCallConv getBuildTime()
 {
-    return createText(__TIME__);
+    return rr::createText(__TIME__);
 }
 
 char* rrcCallConv getBuildDateTime()
 {
-    return createText(string(__DATE__) + string(" ") + string(__TIME__));
+    return rr::createText(string(__DATE__) + string(" ") + string(__TIME__));
 }
 
 bool rrcCallConv freeRRInstance(RRHandle handle)

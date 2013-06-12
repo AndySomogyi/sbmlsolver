@@ -6,7 +6,7 @@
 namespace rr
 {
 
-typedef bool __stdcall (*executeFunc)(void*);
+typedef bool  (rrCallConv *executeFunc)(void*);
 
 class RR_DECLSPEC CPlugin : public Plugin
 {

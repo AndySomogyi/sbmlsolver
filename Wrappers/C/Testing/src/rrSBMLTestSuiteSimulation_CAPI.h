@@ -4,6 +4,8 @@
 #include "rrc_api.h"
 //---------------------------------------------------------------------------
 
+bool RunTest(const string& version, int number);
+
 class SBMLTestSuiteSimulation_CAPI : public rr::TestSuiteModelSimulation
 {
 	private:

@@ -43,7 +43,7 @@ char* rrCallConv getFileContent(const char* fName)
     try
     {
         string fContent = getFileContent(fName);
-        return createText(fContent);
+        return rr::createText(fContent);
     }
     catch_ptr_macro
 }
@@ -118,7 +118,7 @@ RRListItemHandle rrCallConv createStringItem (char* value)
 {
     RRListItemHandle item = new RRListItem;
     item->ItemType = litString;
-    item->data.sValue = createText(value);
+    item->data.sValue = rr::createText(value);
     return item;
 }
 
@@ -285,7 +285,7 @@ char* rrCallConv listToString (RRListHandle list)
             }
         }
         resStr<<"}";
-        return createText(resStr.str());
+        return rr::createText(resStr.str());
 
     }
     catch(Exception& ex)
@@ -759,7 +759,7 @@ char* rrCallConv getStringElement (RRStringArrayHandle list, int index)
          return NULL;
       }
 
-      return createText(list->String[index]);
+      return rr::createText(list->String[index]);
     }
     catch(Exception& ex)
     {
@@ -789,7 +789,7 @@ char* rrCallConv stringArrayToString (const RRStringArrayHandle list)
             }
         }
 
-        return createText(resStr.str());
+        return rr::createText(resStr.str());
     }
     catch(Exception& ex)
     {
@@ -835,7 +835,7 @@ char* rrCallConv rrDataToString(const RRDataHandle result)
             }
             resStr <<"\n";
         }
-        return createText(resStr.str());
+        return rr::createText(resStr.str());
     }
     catch_ptr_macro
 }
@@ -865,7 +865,7 @@ char* rrCallConv matrixToString(const RRMatrixHandle matrixHandle)
             }
             ss<<endl;
         }
-        return createText(ss.str());
+        return rr::createText(ss.str());
     }
     catch(Exception& ex)
     {
@@ -901,7 +901,7 @@ char* rrCallConv complexMatrixToString(const RRComplexMatrixHandle matrixHandle)
             }
             ss<<endl;
         }
-        return createText(ss.str());
+        return rr::createText(ss.str());
     }
     catch_ptr_macro
 }
@@ -929,7 +929,7 @@ char* rrCallConv vectorToString(RRVectorHandle vecHandle)
             }
         }
         ss<<endl;
-        return createText(ss.str());
+        return rr::createText(ss.str());
     }
     catch_ptr_macro
 }
@@ -956,7 +956,7 @@ char* rrCallConv complexVectorToString(RRComplexVectorHandle vecHandle)
             }
         }
         ss<<endl;
-        return createText(ss.str());
+        return rr::createText(ss.str());
     }
     catch_ptr_macro
 }

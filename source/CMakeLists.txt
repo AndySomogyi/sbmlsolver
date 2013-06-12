@@ -63,6 +63,7 @@ rrCModelGenerator
 rrCSharpModelGenerator
 rrCodeBuilder
 rrCompiler
+rrCPlugin
 rrScanner
 rrToken
 rrCVODEInterface

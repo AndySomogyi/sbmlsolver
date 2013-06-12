@@ -76,7 +76,7 @@ char* rrCallConv getPluginName(RRPluginHandle handle)
 	try
     {
         Plugin* aPlugin = castToPlugin(handle);
-        return createText(aPlugin->getName());
+        return rr::createText(aPlugin->getName());
     }
     catch_ptr_macro
 }
@@ -178,7 +178,7 @@ char* rrCallConv getPluginInfo(RRPluginHandle handle)
 	try
     {
         Plugin* aPlugin = castToPlugin(handle);
-       	return createText(aPlugin->getInfo());
+       	return rr::createText(aPlugin->getInfo());
     }
     catch_ptr_macro
 }
@@ -214,7 +214,7 @@ char* rrcCallConv getPluginResult(RRPluginHandle handle)
 	try
     {
         Plugin* aPlugin = castToPlugin(handle);
-        return createText(aPlugin->getResult());
+        return rr::createText(aPlugin->getResult());
     }
     catch_ptr_macro
 }

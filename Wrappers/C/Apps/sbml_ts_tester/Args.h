@@ -4,6 +4,7 @@
 using std::string;
 
 string Usage(const string& prg);
+enum ModelVersions {l2v4 = 0, l3v1};
 class Args
 {
     public:
@@ -13,6 +14,7 @@ class Args
         string                          TempDataFolder;                           	//option t:
 		bool                            EnableLogging;                    	     	//option v:
         int								ModelNumber;								//option i:
+        ModelVersions   				ModelVersion;								//Option a:
 };
 
 #endif
