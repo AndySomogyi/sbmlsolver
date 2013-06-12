@@ -6,6 +6,8 @@
 #  LLVM_LIBRARY_DIR  - where to find llvm libs
 #  LLVM_LDFLAGS      - llvm linker flags
 #  LLVM_LIBRARIES    - list of llvm libs for working with modules.
+#                      This is a list of absolute path file names, which is
+#                      evidently the cmake convention.
 #  LLVM_CFLAGS       - flags to add to the C compiler for llvm support
 #  LLVM_CXXFLAGS     - flags to add to the CXX compiler for llvm support
 
@@ -144,11 +146,12 @@ if (LLVM_CONFIG_EXECUTABLE)
     # link libraries, currently only need core, jit and native. 
     # TODO: in future, replace this with something like LLVM_CORE_LIBS, LLVM_JIT_LIBS...
     execute_process(
-        COMMAND ${LLVM_CONFIG_EXECUTABLE} --libs core jit native
+        COMMAND ${LLVM_CONFIG_EXECUTABLE} --libfiles core jit native
         OUTPUT_VARIABLE LLVM_LIBRARIES
         OUTPUT_STRIP_TRAILING_WHITESPACE
         )
-    
+    # we get a space sep list from llvm-config, make it a cmake ; separated list.
+    STRING(REGEX REPLACE "[\n\t\r ]+" ";" LLVM_LIBRARIES ${LLVM_LIBRARIES})
     message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
     
     

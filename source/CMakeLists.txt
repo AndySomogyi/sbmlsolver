@@ -2,28 +2,16 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 set(target roadrunner)
 
-if(BUILD_LLVM)
-    set(RR_HAVE_LLVM 1)
-else()
-    set(RR_HAVE_LLVM 0)
-endif(BUILD_LLVM)
-
 configure_file(rrConfigure.h.in rrConfigure.h)
-
 include_directories(${RR_GENERATED_HEADER_PATH}) #we have to do this to get the generated header
 
-include_directories(    .
+include_directories(
+    .
     ${THIRD_PARTY_INSTALL_FOLDER}/include
     ${THIRD_PARTY_INSTALL_FOLDER}/include/rr-libstruct
     ${THIRD_PARTY_INSTALL_FOLDER}/include/sbml
     ${THIRD_PARTY_INSTALL_FOLDER}/include/cvode
     )
-
-if(BUILD_LLVM)
-    include_directories(
-        ${LLVM_INCLUDE_DIR}
-        )
-endif(BUILD_LLVM)
 
 set(rrSources
     rrParameter
@@ -121,6 +109,7 @@ if(BUILD_LLVM)
         )
 endif(BUILD_LLVM)
 
+# set up linking libs
 if(RR_BUILD_SHARED_CORE)
     #Link with static libs
     add_library(${target} SHARED ${rrSources})
@@ -142,7 +131,7 @@ if(RR_BUILD_SHARED_CORE)
         set(staticLibExt ".a")
     else()
         set(staticLibExt "")
-    endif()
+    endif(UNIX)
     
     target_link_libraries (${target}
         sundials_cvode
@@ -154,12 +143,6 @@ if(RR_BUILD_SHARED_CORE)
         rr-libstruct-static
         poco_foundation-static
         )
-    
-    if(BUILD_LLVM) 
-        target_link_libraries(${target}
-            ${LLVM_LIBRARIES}
-            )
-    endif(BUILD_LLVM)
 
     if(UNIX)
         target_link_libraries (${target}
@@ -174,7 +157,7 @@ if(RR_BUILD_SHARED_CORE)
             libsbml
             )
     endif(UNIX)
-    
+  
     if(${INSTALL_CXX_API})
         install(TARGETS ${target}
             RUNTIME DESTINATION bin COMPONENT rr_core
@@ -182,7 +165,18 @@ if(RR_BUILD_SHARED_CORE)
             ARCHIVE DESTINATION lib COMPONENT rr_core
             )
     endif()
+
+
+    if(BUILD_LLVM) 
+        target_link_libraries(${target}
+            ${LLVM_LIBRARIES}
+            )
+    endif(BUILD_LLVM)
+
+    
 endif(RR_BUILD_SHARED_CORE)
+
+# static allways gets build
 
 add_library(${target}-static STATIC ${rrSources})
 
@@ -213,25 +207,29 @@ target_link_libraries (${target}-static
     poco_foundation-static
     )
 
-if(BUILD_LLVM) 
-    target_link_libraries(${target}-static
-        ${LLVM_LIBRARIES}
-        )
-endif(BUILD_LLVM)
-
 if(WIN32)
     target_link_libraries (${target}-static
         libsbml-static
         libf2c
         )
-endif()
+endif(WIN32)
 
-if(APPLE)
+
+if(UNIX)
     target_link_libraries (${target}-static
         sbml-static
-        f2c.a
+        f2c
+        xml2
+        dl
+        pthread
         )
-endif()
+endif(UNIX)
+
+if(BUILD_LLVM) 
+    target_link_libraries(${target}-static
+        ${LLVM_LIBRARIES}
+        )
+endif(BUILD_LLVM)
 
 #Libxml we can't build right now
 if(${BORLAND})
@@ -244,13 +242,6 @@ if(${MSVC})
     target_link_libraries(${target}-static libxml2)
 endif()
 
-if(${UNIX})
-    target_link_libraries (${target}-static
-        xml2
-        dl
-        pthread
-        )
-endif()
 
 if(BUILD_TESTS)
     add_subdirectory(testing)
