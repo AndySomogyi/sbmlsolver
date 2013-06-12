@@ -113,10 +113,13 @@ if (LLVM_CONFIG_EXECUTABLE)
     # production mode to main CFLAGS
     STRING(REPLACE "-DNDEBUG" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
     STRING(REPLACE "-D_DEBUG" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
-    # remove optimization from flags
+    # remove optimization from flags, our cmake build will decide what optimization to use
     STRING(REGEX REPLACE "-O[0-9]" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
     STRING(REPLACE "-fno-rtti" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
     STRING(REPLACE "-fno-exceptions" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
+    # this causes problems as most other libs compiled without this. 
+    # should be OK linking to LLVM as this just results in a slightly larger lib (I think, I hope...)
+    string(REPLACE "-fvisibility-inlines-hidden" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
     MESSAGE(STATUS "LLVM_CXXFLAGS: " ${LLVM_CXXFLAGS})
     
     
