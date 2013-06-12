@@ -10,7 +10,10 @@
 #                      evidently the cmake convention.
 #  LLVM_CFLAGS       - flags to add to the C compiler for llvm support
 #  LLVM_CXXFLAGS     - flags to add to the CXX compiler for llvm support
-
+#  LLVM_VERSION_MAJOR
+#  LLVM_VERSION_MINOR
+#  LLVM_VERSION_PATCH
+#################################################################################
 
 # this function borrowed from PlPlot, Copyright (C) 2006  Alan W. Irwin
 function(TRANSFORM_VERSION numerical_result version)

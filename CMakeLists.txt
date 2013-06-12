@@ -47,7 +47,7 @@ endif()
 
 set(THIRD_PARTY_INSTALL_FOLDER ${RR_INSTALLS_ROOT}/${FOLDER_POSTFIX}/release CACHE PATH "Directory containing ThirdParty libraries.")
 if("${THIRD_PARTY_INSTALL_FOLDER}" STREQUAL "")
-  set(THIRD_PARTY_INSTALL_FOLDER ${RR_INSTALLS_ROOT}/${FOLDER_POSTFIX}/release CACHE PATH "Directory containing ThirdParty libraries" FORCE)
+    set(THIRD_PARTY_INSTALL_FOLDER ${RR_INSTALLS_ROOT}/${FOLDER_POSTFIX}/release CACHE PATH "Directory containing ThirdParty libraries" FORCE)
 endif()
 
 set(RR_GENERATED_HEADER_PATH ${CMAKE_CURRENT_BINARY_DIR}/source)
@@ -55,16 +55,16 @@ set(RR_ROADRUNNER_INSTALL_PATH ${CMAKE_INSTALL_PREFIX})
 set(RR_ROADRUNNER_INSTALL_LIB_PATH ${RR_ROADRUNNER_INSTALL_PATH}/lib)
 set(RR_SOURCE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
-OPTION (INSTALL_CXX_API         "Generate C++ api"                     ON)
-OPTION (INSTALL_C_API             "Generate C API"                     ON)
-OPTION (INSTALL_PYTHON             "Package Python wrapper"             ON)
-OPTION (INSTALL_APPS            "Build and install Apps"            ON)
-OPTION (INSTALL_EXAMPLES        "Build and install Examples"        OFF)
-OPTION (INSTALL_STATIC_LIB        "Install RoadRunner CXX static lib"    OFF)
-OPTION (RR_BUILD_SHARED_CORE    "Build RoadRunner Core Shared library"    OFF)
-OPTION (BUILD_TESTS                "Build API Tests"                    OFF)
-OPTION (INSTALL_SBML_MODELS        "Install SBML Models"                ON)
-OPTION (BUILD_PLUGINS            "Build and Install Plugins"            ON)
+OPTION (INSTALL_CXX_API          "Generate C++ api"                        ON )
+OPTION (INSTALL_C_API            "Generate C API"                          ON )
+OPTION (INSTALL_PYTHON           "Package Python wrapper"                  ON )
+OPTION (INSTALL_APPS             "Build and install Apps"                  ON )
+OPTION (INSTALL_EXAMPLES         "Build and install Examples"              OFF)
+OPTION (INSTALL_STATIC_LIB       "Install RoadRunner CXX static lib"       OFF)
+OPTION (RR_BUILD_SHARED_CORE     "Build RoadRunner Core Shared library"    OFF)
+OPTION (BUILD_TESTS              "Build API Tests"                         OFF)
+OPTION (INSTALL_SBML_MODELS      "Install SBML Models"                     ON )
+OPTION (BUILD_PLUGINS            "Build and Install Plugins"               ON )
 
 #Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
 set(BUILD_SHARED_LIBS                                                 ON)
@@ -80,8 +80,8 @@ set(CMAKE_BUILD_TYPE "Debug" CACHE STRING
     "Choose the build type. The options are: None (CMAKE_CXX_FLAGS or
      CMAKE_C_FLAGS are used), Debug, Release, RelWithDebInfo, MinSizeRel.")
 if("${CMAKE_BUILD_TYPE}" STREQUAL "")
-  set(CMAKE_BUILD_TYPE "Debug" CACHE STRING
-  "Choose the build type. The options are: None (CMAKE_CXX_FLAGS or
+    set(CMAKE_BUILD_TYPE "Debug" CACHE STRING
+        "Choose the build type. The options are: None (CMAKE_CXX_FLAGS or
   CMAKE_C_FLAGS are used), Debug, Release, RelWithDebInfo, MinSizeRel." FORCE)
 endif()
 
@@ -153,38 +153,47 @@ if(UNIX)
 endif()
 
 if(BUILD_LLVM)
+    message(STATUS "using LLVM, version ${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}")
     add_definitions(${LLVM_CXXFLAGS})
+    include_directories(${LLVM_INCLUDE_DIR})
+else()
+    message(STATUS "NOT using LLVM") 
 endif(BUILD_LLVM)
 
-#How do we move forward from this folder? Moving on to subfolders
-#Source Code Folder
 
-add_subdirectory(source)        # We alway have to build the roadrunner core
+# We alway have to build the roadrunner core, everything depends on this
+add_subdirectory(source)        
 
 if(INSTALL_CXX_API)
     if(INSTALL_APPS)
-    add_subdirectory(apps)
+        add_subdirectory(apps)
     endif()
 
     if(INSTALL_EXAMPLES)
-    add_subdirectory(examples)
+        add_subdirectory(examples)
     endif()
-endif()
+endif(INSTALL_CXX_API)
 
 add_subdirectory(Wrappers)
 
 if(BUILD_TESTS)
-add_subdirectory(testing)
-endif()
+    message(STATUS "building tests")
+    add_subdirectory(testing)
+else()
+    message(STATUS "NOT building tests")
+endif(BUILD_TESTS)
 
 if(BUILD_PLUGINS)
-add_subdirectory(plugins)
-endif()
+    message(STATUS "building plugins")
+    add_subdirectory(plugins)
+else()
+    message(STATUS "NOT building plugins")
+endif(BUILD_PLUGINS)
 
 #======================= INSTALL STUFF ========================================================
 #What sub folders to move into...?
 if(${INSTALL_SBML_MODELS})
-add_subdirectory(models)
+    add_subdirectory(models)
 endif()
 
 if(INSTALL_CXX_API)
@@ -200,13 +209,13 @@ install(FILES Readme.txt License.txt
 
 #=== ThirdParties
 if(${BORLAND})
-set(CG_RUNTIMES        cc32110MT.dll)
-foreach(runtime ${CG_RUNTIMES})
-install (FILES
+    set(CG_RUNTIMES        cc32110MT.dll)
+    foreach(runtime ${CG_RUNTIMES})
+        install (FILES
             ${THIRD_PARTY_FOLDER}/dependencies/cg/xe/${runtime}
             DESTINATION bin
             COMPONENT rr_core)
-endforeach()
+    endforeach()
 endif()
 
 if(WIN32)
