@@ -6,6 +6,19 @@ using namespace std;
 using namespace rr;
 using namespace ls;
 
+vector< complex<double> > getComplexVectorFromString(const string& text)
+{
+	vector< complex<double> > vec;
+
+    //Parse the vector
+    vector<string> rows = splitString(text, "\n");
+    for(int row = 0; row < rows.size(); row++)
+    {
+		vec.push_back(toComplex(rows[row]));
+    }
+	return vec;
+}
+
 ls::DoubleMatrix getDoubleMatrixFromString(const string& textMatrix)
 {
 	DoubleMatrix mat;

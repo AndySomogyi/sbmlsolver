@@ -122,7 +122,15 @@ bool                                    copyVector(const rrc::RRVector* source, 
  \return A handle to a RRVector. Null if it fails
  \ingroup cpp_support
 */
-rrc::RRVectorHandle                     createVectorFromVector_double(const vector<double>& vec);
+rrc::RRVectorHandle                     createVector(const vector<double>& vec);
+
+/*!
+ \brief Creates a C Complex vector from a std::vector<ls::Complex>
+ \param[in] vec Input Complex vector
+ \return A handle to a RRComplexVector. Null if it fails
+ \ingroup cpp_support
+*/
+rrc::RRComplexVectorHandle              createVector(const vector<ls::Complex>& vec);
 
 /*!
  \brief Creates a std vector from a C vector
@@ -130,7 +138,7 @@ rrc::RRVectorHandle                     createVectorFromVector_double(const vect
  \return A std vector object
  \ingroup cpp_support
 */
-vector<double>                          createVectorFromRRVector(const rrc::RRVector* vec);
+vector<double>                          createVector(const rrc::RRVector* vec);
 
 /*!
  \brief Creates a C matrix  from a ls::DoubleMatrix, supplied as a pointer

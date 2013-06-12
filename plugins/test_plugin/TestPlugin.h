@@ -1,6 +1,6 @@
 #ifndef TestPluginH
 #define TestPluginH
-#include "rrPlugin.h"
+#include "rrCPPPlugin.h"
 #include "rrCapability.h"
 #include "rrParameter.h"
 //---------------------------------------------------------------------------
@@ -9,7 +9,7 @@ namespace TestPlugin
 {
 using namespace rr;
 
-class TestPlugin : public Plugin
+class TestPlugin : public CPPPlugin
 {
 	private:
         Capability		mTestCapability;
@@ -30,13 +30,17 @@ class TestPlugin : public Plugin
 extern "C"
 {
 
-PLUGIN_DECLSPEC rr::Plugin* __stdcall	createPlugin(rr::RoadRunner* aRR);
+PLUGIN_DECLSPEC char* 			rrCallConv	getImplementationLanguage();
+rr::Plugin* PLUGIN_DECLSPEC	rrCallConv	createPlugin(rr::RoadRunner* aRR);
 
 // Plugin cleanup function
-PLUGIN_DECLSPEC bool		__stdcall	destroyPlugin(rr::Plugin *plugin);
+PLUGIN_DECLSPEC bool			rrCallConv	destroyPlugin(rr::Plugin *plugin);
 
 }
 
-}
+}	//Namespace
+
+
+
 
 #endif

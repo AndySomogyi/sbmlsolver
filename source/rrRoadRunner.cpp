@@ -618,20 +618,6 @@ string RoadRunner::createModelName(const string& mCurrentSBMLFileName)
     return modelName;
 }
 
-bool cleanFolder(const string& folder, const string& baseName, const StringList& extensions)
-{
-    for(int i = 0; i < extensions.Count(); i++)
-       {
-        string aFName = joinPath(folder, baseName) + "." + extensions[i];
-        Poco::File aFile(aFName);
-        if(aFile.exists())
-        {
-            aFile.remove();
-        }
-    }
-    return true;
-}
-
 bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
 {
     mCurrentSBML = sbml;
@@ -1289,6 +1275,11 @@ void RoadRunner::setTimeCourseSelectionList(const string& list)
 //              " time, species names, , volume, reaction rates and rates of change (speciesName')")
 void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
 {
+    if (!mModel)
+    {
+        throw CoreException(gEmptyModelMessage);
+    }
+
     mSelectionList.clear();
     StringList newSelectionList(_selList);
     StringList fs = mModel->getFloatingSpeciesConcentrationNames();
@@ -1483,26 +1474,26 @@ DoubleMatrix RoadRunner::getEigenvalues()
 
 // Returns eigenvalues, first column real part, second column imaginary part
 // -------------------------------------------------------------------------
-DoubleMatrix RoadRunner::getEigenvaluesFromMatrix (DoubleMatrix m)
-{
-    try
-    {
-        vector<Complex> vals = ls::getEigenValues(m);
-
-        DoubleMatrix result(vals.size(), 2);
-
-        for (int i = 0; i < vals.size(); i++)
-        {
-            result[i][0] = real(vals[i]);
-            result[i][1] = imag(vals[i]);
-        }
-        return result;
-    }
-    catch (const Exception& e)
-    {
-        throw CoreException("Unexpected error from getEigenvalues()", e.Message());
-    }
-}
+//DoubleMatrix RoadRunner::getEigenvaluesFromMatrix (DoubleMatrix m)
+//{
+//    try
+//    {
+//        vector<Complex> vals = ls::getEigenValues(m);
+//
+//        DoubleMatrix result(vals.size(), 2);
+//
+//        for (int i = 0; i < vals.size(); i++)
+//        {
+//            result[i][0] = real(vals[i]);
+//            result[i][1] = imag(vals[i]);
+//        }
+//        return result;
+//    }
+//    catch (const Exception& e)
+//    {
+//        throw CoreException("Unexpected error from getEigenvalues()", e.Message());
+//    }
+//}
 
 vector< Complex > RoadRunner::getEigenvaluesCpx()
 {

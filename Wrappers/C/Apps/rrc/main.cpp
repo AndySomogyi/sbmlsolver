@@ -90,7 +90,7 @@ int main(int argc, char* argv[])
 	if(text)
 	{
 		cout<<"Build date: "<<text<<endl;
-		freeText(text);
+		rrc::freeText(text);
 	}
 
     if(args.ModelFileName.size() > 1 &&  !fileExists(args.ModelFileName))

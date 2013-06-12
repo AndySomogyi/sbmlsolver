@@ -30,6 +30,11 @@ mLMFitThread(*this)
 LM::~LM()
 {}
 
+string LM::getImplementationLanguage()
+{
+    return "C++";
+}
+
 bool LM::resetPlugin()
 {
     if(mLMFitThread.isRuning())

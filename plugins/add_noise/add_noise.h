@@ -26,19 +26,21 @@ class AddNoise : public Plugin
     private:
         Capability               mAddNoise;
 
-        Parameter<NoiseType>     mNoiseType;
-        Parameter<double>        mSigma;
-        AddNoiseThread           mAddNoiseThread;
+        Parameter<NoiseType>    mNoiseType;
+        Parameter<double>       mSigma;
+        AddNoiseThread          mAddNoiseThread;
 
     public:
-                                 AddNoise(RoadRunner* aRR = NULL, WorkStartedCB fn1 = NULL, WorkFinishedCB fn2 = NULL);
-                                 ~AddNoise();
-        bool                     execute(void* userData);
+                                AddNoise(RoadRunner* aRR = NULL, WorkStartedCB fn1 = NULL, WorkFinishedCB fn2 = NULL);
+                               ~AddNoise();
+        bool                    execute(void* userData);
+        string                  getImplementationLanguage(){return "CPP";}
 };
 
 extern "C"
 {
 PLUGIN_DECLSPEC rr::Plugin* rrCallConv    createPlugin(rr::RoadRunner* aRR);
+PLUGIN_DECLSPEC char* 		rrCallConv    getImplementationLanguage() {return "CPP";}
 }
 
 }
@@ -50,6 +52,7 @@ string Parameter<addNoise::AddNoise::NoiseType>::getType() const
 {
     return "NoiseType";
 }
+
 template<>
 string Parameter<addNoise::AddNoise::NoiseType>::getValueAsString() const
 {

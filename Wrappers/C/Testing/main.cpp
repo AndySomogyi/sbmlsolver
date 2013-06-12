@@ -24,7 +24,7 @@ string 	gTSModelsPath;
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 bool setup(Args& args);
 
-//call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder"
+//call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder" -s"Suites"
 int main(int argc, char* argv[])
 {
     enableLoggingToConsole();
@@ -72,8 +72,9 @@ int main(int argc, char* argv[])
 
 		clog<<"Running Suite SBML_l2v4\n";
     	clog<<"ModelPath "<<gTSModelsPath;
-    	runner1.RunTestsIf(Test::GetTestList(), "SBML_l2v4", 			True(), 0);
+    	runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE", 			True(), 0);
 	}
+
 
     //Finish outputs result to xml file
     runner1.Finish();

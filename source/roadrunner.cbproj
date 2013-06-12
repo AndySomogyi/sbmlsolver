@@ -185,6 +185,12 @@
             <DependentOn>rrConstants.h</DependentOn>
             <BuildOrder>68</BuildOrder>
         </CppCompile>
+        <CppCompile Include="rrCPlugin.cpp">
+            <BuildOrder>84</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="rrCPPPlugin.cpp">
+            <BuildOrder>85</BuildOrder>
+        </CppCompile>
         <CppCompile Include="rrCVODEInterface.cpp">
             <DependentOn>rrCVODEInterface.h</DependentOn>
             <BuildOrder>60</BuildOrder>

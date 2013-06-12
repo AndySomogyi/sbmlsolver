@@ -15,15 +15,18 @@ RoadRunnerData convertCAPIResultData(RRDataHandle		resultsHandle);
 SBMLTestSuiteSimulation_CAPI::SBMLTestSuiteSimulation_CAPI(const string& dataOutputFolder, const string& modelFilePath, const string& modelFileName)
 :
 rr::TestSuiteModelSimulation(dataOutputFolder, modelFilePath, modelFileName),
-mRRHandle(0),
-mResultHandle(0)
+mRRHandle(NULL),
+mResultHandle(NULL)
 {
 }
 
 SBMLTestSuiteSimulation_CAPI::~SBMLTestSuiteSimulation_CAPI()
 {
     // we own the result, but not the RR instance.
-    freeRRData(mResultHandle);
+    if(mResultHandle)
+    {
+    	freeRRData(mResultHandle);
+    }
 }
 
 void SBMLTestSuiteSimulation_CAPI::UseHandle(RRHandle handle)
@@ -226,7 +229,7 @@ bool RunTest(const string& version, int caseNumber)
         simulation.SaveModelAsXML(dataOutputFolder);
         if(!result)
         {
-        	clog<<"\t\tTest failed..\n";
+        	clog<<"\t\t =============== Test "<<caseNumber<<" failed =============\n";
         }
         else
         {

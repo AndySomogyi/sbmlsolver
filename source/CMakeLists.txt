@@ -63,6 +63,7 @@ set(rrSources
     rrCSharpModelGenerator
     rrCodeBuilder
     rrCompiler
+rrCPlugin
     rrScanner
     rrToken
     rrCVODEInterface
@@ -157,7 +158,8 @@ if(RR_BUILD_SHARED_CORE)
             libsbml
             )
     endif(UNIX)
-  
+
+  
     if(${INSTALL_CXX_API})
         install(TARGETS ${target}
             RUNTIME DESTINATION bin COMPONENT rr_core

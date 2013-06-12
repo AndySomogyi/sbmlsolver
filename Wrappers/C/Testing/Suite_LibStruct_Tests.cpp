@@ -26,7 +26,7 @@ IniFile iniFile;
 string TestModelFileName;
 RRHandle gRR = NULL;
 
-    TEST(LS_TEST_DATA_FILES)
+    TEST(testLibStructTestsDataFiles)
     {
     	string sec("LS_TESTS");
         string key("InputFile");
@@ -50,14 +50,15 @@ RRHandle gRR = NULL;
         CHECK(loadSBMLFromFileE(gRR, TestModelFileName.c_str(), true));
     }
 
-    TEST(GET_L0_MATRIX)
+    TEST(getLinkMatrix)
     {
-    	string section("L0_MATRIX");
-
+    	string section("getLinkMatrix");
         if(iniFile.GetSection(section))
         {
             IniSection* 	  isec		= iniFile.GetSection(section);
             ls::DoubleMatrix  ref 		= getDoubleMatrixFromString(isec->GetNonKeysAsString());
+
+            //Testing call
             RRMatrix* 		  actual 	= getLinkMatrix(gRR);
 
             //Check dimensions
@@ -77,19 +78,20 @@ RRHandle gRR = NULL;
         }
     }
 
-    TEST(GET_EIGEN_VECTORS)
+    TEST(getEigenValuesMatrix)
     {
-    	string section("EIGEN_VECTOR_MATRIX");
+    	string section("getEigenValuesMatrix");
 
         if(iniFile.GetSection(section))
         {
-            IniSection* 	  isec		= iniFile.GetSection(section);
-            ls::ComplexMatrix ref 		= getComplexMatrixFromString(isec->GetNonKeysAsString());
-            RRMatrix* 		  input 	= getLinkMatrix(gRR);
-            RRComplexMatrix*  actual 	= getEigenVectors(input);
+            IniSection* 		isec	= iniFile.GetSection(section);
+            ls::DoubleMatrix  	ref 	= getDoubleMatrixFromString(isec->GetNonKeysAsString());
+            RRMatrix* 			input 	= getLinkMatrix(gRR);
 
-            char* mat = complexMatrixToString(actual);
-            clog<<mat;
+            //Testing call
+            RRMatrix*  	  		actual 	= getEigenvaluesMatrix(input);
+			/////////////////////////////////
+
             //Check dimensions
             if(actual->RSize != ref.RSize() || actual->CSize != ref.CSize())
             {
@@ -101,16 +103,38 @@ RRHandle gRR = NULL;
             {
                 for(int col = 0; col < actual->CSize; col++)
                 {
-                	CHECK_CLOSE(ref(row,col).Real, actual->Data[row*actual->CSize + col].re, 1e-6);
-                	CHECK_CLOSE(ref(row,col).Imag, actual->Data[row*actual->CSize + col].imag, 1e-6);
+                	CHECK_CLOSE(ref(row,col), actual->Data[row*actual->CSize + col], 1e-6);
                 }
             }
         }
     }
 
+    TEST(getEigenValuesVector)
+    {
+    	string section("getEigenvaluesVector");
+
+        if(iniFile.GetSection(section))
+        {
+            IniSection* 	  			isec  	= iniFile.GetSection(section);
+            vector< complex<double> > 	ref   	= getComplexVectorFromString(isec->GetNonKeysAsString());
+            RRMatrix* 		  			input 	= getLinkMatrix(gRR);
+            //Testing call
+            RRComplexVector*  			actual 	= getEigenvaluesVector(input);
+			//////////////////////////////////////////////////////////////////
+
+            //Check dimensions
+            if(actual->Count != ref.size())
+            {
+                CHECK(false);
+                return;
+            }
+
+            for(int row = 0; row < actual->Count; row++)
+            {
+                	CHECK_CLOSE(real(ref[row]), actual->Data[row].re, 1e-6);
+                	CHECK_CLOSE(imag(ref[row]), actual->Data[row].imag, 1e-6);
+            }
+        }
+    }
+
 }
-
-
-
-
-
