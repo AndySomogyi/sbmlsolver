@@ -110,6 +110,11 @@ private:
     string                              convertCompartmentToC(const string& compartmentName);
     string                              convertSpeciesToBc(const string& speciesName);
     string                              convertSpeciesToY(const string& speciesName);
+
+    /**
+     * creates a string of the format "md->c[comp_index]", where
+     * comp_index is the index of the named compartment
+     */
     string                              convertSymbolToC(const string& compartmentName);
     string                              convertSymbolToGP(const string& parameterName);
 

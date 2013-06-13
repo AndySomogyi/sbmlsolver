@@ -7,6 +7,12 @@
 
 #include "rrLLVMExecutableModel.h"
 
+#include "llvm/ExecutionEngine/ExecutionEngine.h"
+#include "llvm/ExecutionEngine/JIT.h"
+#include "llvm/LLVMContext.h"
+#include "llvm/Module.h"
+
+
 namespace rr
 {
 

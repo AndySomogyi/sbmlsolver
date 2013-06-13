@@ -535,7 +535,7 @@ static SymbolList readFloatingSpeciesConcentrationList(NOMSupport& nom, LibStruc
                 dValue = 0;
             }
 
-            Symbol symbol;;
+            Symbol symbol;
             if (bIsConcentration)
             {
                 symbol = Symbol(reOrderedList[i], dValue, compartmentName);
