@@ -243,6 +243,11 @@ class RR_DECLSPEC RoadRunner : public rrObject
         bool                            setValue(const string& sId, const double& dValue);
         double                          getValue(const string& sId);
         NewArrayList                    getAvailableTimeCourseSymbols();
+
+        /**
+         * Returns the currently selected columns that will be returned by
+         * calls to simulate() or simulateEx(,,).
+         */
         StringList                      getTimeCourseSelectionList();
         void                            setTimeCourseSelectionList(const string& List);
         void                            setTimeCourseSelectionList(const StringList& newSelectionList);
@@ -252,6 +257,10 @@ class RR_DECLSPEC RoadRunner : public rrObject
         // ---------------------------------------------------------------------
         // Start of Level 3 API Methods
         // ---------------------------------------------------------------------
+
+        /**
+         * Compute the steady state of the model, returns the sum of squares of the solution
+         */
         double                          steadyState();
         DoubleMatrix                    getFullJacobian();
         DoubleMatrix                    getFullReorderedJacobian();
@@ -311,6 +320,10 @@ class RR_DECLSPEC RoadRunner : public rrObject
         StringList                      getAllLocalParameterTupleList();
         int                             getNumberOfReactions();
         double                          getReactionRate(const int& index);
+
+        /**
+         * Returns the rate of changes of a species by its index
+         */
         double                          getRateOfChange(const int& index);
         StringList                      getRateOfChangeIds();
         vector<double>                  getRatesOfChangeEx(const vector<double>& values);
@@ -318,10 +331,27 @@ class RR_DECLSPEC RoadRunner : public rrObject
         vector<string>                  getFloatingSpeciesIdsArray();
         vector<string>                  getGlobalParameterIdsArray();
         int                             getNumberOfCompartments();
+
+        /**
+         * Sets the value of a compartment by its index
+         */
         void                            setCompartmentByIndex(const int& index, const double& value);
+
+        /**
+         * Returns the value of a compartment by its index
+         */
+
         double                          getCompartmentByIndex(const int& index);
-        void                            setCompartmentVolumes(const vector<double>& values);
+
+        // this was never implemented or called.
+        // TODO figure out if we need this.
+        // void                            setCompartmentVolumes(const vector<double>& values);
+
         StringList                      getCompartmentIds();
+
+        /**
+         * Get the number of boundary species
+         */
         int                             getNumberOfBoundarySpecies();
         void                            setBoundarySpeciesByIndex(const int& index, const double& value);
         double                          getBoundarySpeciesByIndex(const int& index);
@@ -331,7 +361,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
         StringList                      getBoundarySpeciesAmountIds();
         int                             getNumberOfFloatingSpecies();
         void                            setFloatingSpeciesByIndex(const int& index, const double& value);
-		double                          getFloatingSpeciesInitialConcentrationByIndex(const int& index);
+        double                          getFloatingSpeciesInitialConcentrationByIndex(const int& index);
         double                          getFloatingSpeciesByIndex(const int& index);
         vector<double>                  getFloatingSpeciesConcentrations();
         vector<double>                  getFloatingSpeciesInitialConcentrations();
@@ -377,14 +407,14 @@ class RR_DECLSPEC RoadRunner : public rrObject
         double                             getCC(const string& variableName, const string& parameterName);
 
         /**
-         * Get unscaled elasticity coefficient with respect to a global parameter or species")]
+         * Get unscaled elasticity coefficient with respect to a global parameter or species
          */
         double                             getuEE(const string& reactionName, const string& parameterName);
 
         /**
-           * Get unscaled elasticity coefficient with respect to a global parameter or species.
-           * Optionally the model is brought to steady state after the computation.
-           */
+         * Get unscaled elasticity coefficient with respect to a global parameter or species.
+         * Optionally the model is brought to steady state after the computation.
+         */
         double                             getuEE(const string& reactionName, const string& parameterName, bool computeSteadystate);
 
         /**
