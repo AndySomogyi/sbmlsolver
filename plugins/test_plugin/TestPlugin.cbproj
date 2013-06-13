@@ -1,6 +1,6 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
-        <ProjectGuid>{D3261685-C317-48E6-B0E0-974788B148B5}</ProjectGuid>
+        <ProjectGuid>{B878BFBB-B7D4-460B-951D-50D5EDE99679}</ProjectGuid>
         <ProjectVersion>14.4</ProjectVersion>
         <FrameworkType>None</FrameworkType>
         <Base>True</Base>
@@ -65,8 +65,8 @@
         <ProjectType>CppDynamicLibrary</ProjectType>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
-        <ILINK_LibraryPath>R:\rrl\plugins\TestPlugin\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <IncludePath>R:\rrl\plugins\TestPlugin\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\..\source\;R:\rrl\plugins\TestPlugin\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\..\source\;R:\rrl\plugins\TestPlugin\;$(IncludePath)</IncludePath>
         <Multithreaded>true</Multithreaded>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
         <IntermediateOutputDir>.\$(Platform)\$(Config)</IntermediateOutputDir>
@@ -91,7 +91,6 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <PackageImports>VCLCommon;bindcompfmx;DBXSqliteDriver;fmx;rtl;dbrtl;DbxClientDriver;IndySystem;bindcomp;inetdb;DBXInterBaseDriver;DataSnapCommon;xmlrtl;DbxCommonDriver;vclimg;IndyProtocols;dbxcds;DBXMySQLDriver;soaprtl;vclactnband;bindengine;vcldb;bindcompdbx;vcldsnap;bindcompvcl;vclie;vcltouch;websnap;CustomIPTransport;dsnap;IndyIPServer;fmxase;vcl;IndyCore;IndyIPCommon;dsnapcon;inet;fmxobj;vclx;inetdbxpress;webdsnap;fmxdae;dbexpress;IndyIPClient;$(PackageImports)</PackageImports>
-        <BCC_PCHName_Clang>TestPluginPCH1.h</BCC_PCHName_Clang>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
@@ -116,6 +115,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <Debugger_HostApplication>R:\installs\cg_debug\bin\c_demo_main.exe</Debugger_HostApplication>
         <Defines>EXPORT_PLUGIN;$(Defines)</Defines>
         <FinalOutputDir>$(RR_DEBUG)\plugins</FinalOutputDir>
         <ILINK_LibraryPath>$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
@@ -136,9 +136,6 @@
             <DependentOn>TestPlugin.h</DependentOn>
             <BuildOrder>1</BuildOrder>
         </CppCompile>
-        <PCHCompile Include="TestPluginPCH1.h">
-            <BuildOrder>0</BuildOrder>
-        </PCHCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

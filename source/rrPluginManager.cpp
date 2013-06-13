@@ -10,6 +10,7 @@
 #include "rrCapabilities.h"
 #include "rrLogger.h"
 #include "rrRoadRunner.h"
+#include "rrCPlugin.h"
 
 namespace rr
 {
@@ -71,6 +72,7 @@ Plugin*	PluginManager::operator[](const int& i)
 }
 
 typedef Plugin* (*createRRPluginFunc)(RoadRunner*);
+typedef char* 	(*getLangFunc)();
 typedef bool    (*destroyRRPluginFunc)(Plugin* );
 
 bool PluginManager::load()
@@ -98,8 +100,8 @@ bool PluginManager::load()
 	    	bool res = loadPlugin(plugin);
             if(!res)
             {
-            	//Find out what was wrong..?
-				Log(lError)<<"There was a slight problem loading plugin: "<<plugin;
+				Log(lError)<<"There was a problem loading plugin: "<<plugin;
+                result = false;
             }
         }
         catch(...)
@@ -112,53 +114,76 @@ bool PluginManager::load()
     return result;
 }
 
-bool PluginManager::loadPlugin(const string& sharedLib)
+bool PluginManager::loadPlugin(const string& pluginName)
 {
+	stringstream msg;
 	try
     {
-        SharedLibrary *aLib = new SharedLibrary;
-        aLib->load(joinPath(mPluginFolder, sharedLib));
+        SharedLibrary *libHandle = new SharedLibrary;
+        libHandle->load(joinPath(mPluginFolder, pluginName));
 
         //Validate the plugin
-        if(aLib->hasSymbol("createPlugin"))
+        if(!checkImplementationLanguage(libHandle))
         {
-            createRRPluginFunc create = (createRRPluginFunc) aLib->getSymbol("createPlugin");
+			return false;
+        }
+
+		//Check plugin language
+        char* language = getImplementationLanguage(libHandle);
+
+		if(strcmp(language, "C") == 0)
+        {
+        	//Gather enough library data in order to create a CPlugin object
+            //We need at least name, category and an execute function in order to setup a C plugin
+            Plugin* aPlugin = createCPlugin(libHandle);
+            Capabilities *caps = aPlugin->getCapabilities();
+            mRR->addCapabilities(*(caps));
+
+            pair< Poco::SharedLibrary*, Plugin* > storeMe(libHandle, aPlugin);
+            mPlugins.push_back( storeMe );
+
+
+        }
+        else if(libHandle->hasSymbol("createPlugin"))
+        {
+            createRRPluginFunc create = (createRRPluginFunc) libHandle->getSymbol("createPlugin");
             //This plugin
             Plugin* aPlugin = create(mRR);
             if(aPlugin)
             {
             	//Add plugins capabilities to roadrunner
                 Capabilities *caps = aPlugin->getCapabilities();
-
-                pair< Poco::SharedLibrary*, Plugin* > storeMe(aLib, aPlugin);
-                mPlugins.push_back( storeMe );
-
                 mRR->addCapabilities(*(caps));
+
+                pair< Poco::SharedLibrary*, Plugin* > storeMe(libHandle, aPlugin);
+                mPlugins.push_back( storeMe );
             }
+		    return true;
         }
         else
         {
 	        stringstream msg;
-            msg<<"The plugin library: "<<sharedLib<<" do not have a createPlugin function. Can't load";
-            Log(lError)<<msg.str();
+            msg<<"The plugin library: "<<pluginName<<" do not have enough data in order to create a plugin. Can't load";
+			Log(lWarning)<<msg.str();
             return false;
         }
-        return true;
     }
     catch(const Exception& e)
     {
-    	stringstream msg;
     	msg<<"RoadRunner exception: "<<e.what()<<endl;
 		Log(lError)<<msg.str();
 		return false;
     }
     catch(const Poco::Exception& ex)
     {
-		stringstream msg;
     	msg<<"Poco exception: "<<ex.displayText()<<endl;
    		Log(lError)<<msg.str();
 		return false;
     }
+	catch(...)
+	{
+		return false;
+	}
 }
 
 bool PluginManager::unload()
@@ -170,15 +195,15 @@ bool PluginManager::unload()
     	pair< Poco::SharedLibrary*, Plugin* >  *aPluginLib = &(mPlugins[i]);
         if(aPluginLib)
         {
-            SharedLibrary *aLib 	= aPluginLib->first;
-            Plugin*		   aPlugin 	= aPluginLib->second;
+            SharedLibrary *pluginLibHandle	= aPluginLib->first;
+            Plugin*		   aPlugin 			= aPluginLib->second;
 
             destroyRRPlugin(aPlugin);
 
             //Then unload
-			if(aLib)
+			if(pluginLibHandle)
 			{
-				aLib->unload();
+				pluginLibHandle->unload();
 			}
             //And remove from container
             aPluginLib->first = NULL;
@@ -189,6 +214,40 @@ bool PluginManager::unload()
     //Remove all from container...
     mPlugins.clear();
     return result;
+}
+
+bool PluginManager::checkImplementationLanguage(Poco::SharedLibrary* plugin)
+{
+	//Check that the plugin has a getImplementationLanguage function
+    try
+    {
+    	plugin->getSymbol("getImplementationLanguage");
+        return true;
+    }
+    catch(const Poco::Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"Poco exception: "<<ex.displayText()<<endl;
+   		Log(lError)<<msg.str();
+		return false;
+    }
+}
+
+char* PluginManager::getImplementationLanguage(Poco::SharedLibrary* plugin)
+{
+	//Check that the plugin has a getImplementationLanguage function
+    try
+    {
+	    getLangFunc func = 	(getLangFunc) plugin->getSymbol("getImplementationLanguage");
+        return func();
+    }
+    catch(const Poco::Exception& ex)
+    {
+    	stringstream msg;
+    	msg<<"Poco exception: "<<ex.displayText()<<endl;
+   		Log(lError)<<msg.str();
+		return NULL;
+    }
 }
 
 StringList PluginManager::getPluginNames()
@@ -241,6 +300,36 @@ Plugin*	PluginManager::getPlugin(const string& name)
     }
     return NULL;
 }
+
+typedef char* 		(rrCallConv *charStar)();
+typedef void* 		(rrCallConv *CPluginData)(RoadRunner*);
+typedef bool 		(rrCallConv *exec)(void*);
+
+Plugin* PluginManager::createCPlugin(SharedLibrary *libHandle)
+{
+	try
+    {
+        //Minimum bare bone plugin need these
+    	charStar 				getName 			= (charStar) 		libHandle->getSymbol("getName");
+        charStar 				getCategory 		= (charStar) 		libHandle->getSymbol("getCategory");
+		CPluginData		  		createCPluginData	= (CPluginData) 	libHandle->getSymbol("createCPluginData");
+		exec			  		executeFunc			= (exec) 			libHandle->getSymbol("execute");
+        char* name 	= getName();
+        char* cat 	= getCategory();
+        void* cDataHandle = createCPluginData(mRR);
+        CPlugin* aPlugin = new CPlugin(name, cat);
+        aPlugin->assignExecuteFunction(executeFunc);
+
+        return aPlugin;
+    }
+    catch(const Poco::NotFoundException& ex)
+    {
+		Log(lError)<<"Error in createCPlugin: " <<ex.message();
+		return NULL;
+    }
+	return NULL;
+}
+
 
 // Plugin cleanup function
 bool destroyRRPlugin(rr::Plugin *plugin)

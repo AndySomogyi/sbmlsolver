@@ -9,7 +9,7 @@
 using namespace std;
 namespace rr
 {
-Plugin::Plugin(const std::string& name, const std::string& cat, RoadRunner* aRR, PluginWorkStartedCB fn1, PluginWorkFinishedCB fn2)
+Plugin::Plugin(const std::string& name, const std::string& cat, RoadRunner* aRR, PluginWorkStartedCB fn1, PluginWorkFinishedCB fn2, const string& language)
 :
 mName(name),
 mAuthor("Totte Karlsson"),
@@ -19,7 +19,8 @@ mCopyright("Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012"),
 mRR(aRR),
 mWorkStartedCB(fn1),
 mWorkFinishedCB(fn2),
-mCapabilities(name, "<none>")
+mCapabilities(name, "<none>"),
+mImplementationLanguage(language)
 {}
 
 Plugin::~Plugin()

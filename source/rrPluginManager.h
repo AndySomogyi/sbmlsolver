@@ -23,6 +23,9 @@ class RR_DECLSPEC PluginManager : public rrObject
         vector< pair< Poco::SharedLibrary*, Plugin* > >	mPlugins;
 
         RoadRunner		   			*mRR;		//This is a handle to the roadRunner instance, creating the pluginManager
+		bool						checkImplementationLanguage(SharedLibrary* plugin);
+		char* 						getImplementationLanguage(SharedLibrary* plugin);
+        Plugin* 					createCPlugin(SharedLibrary *libHandle);
 
     public:
 	    				           	PluginManager(const std::string& pluginFolder = gEmptyString, const bool& autoLoad = false, RoadRunner* aRR = NULL);

@@ -36,7 +36,7 @@ bool rrcCallConv enableLoggingToFile(RRHandle handle)
     {
         char* tempFolder = getTempFolder(handle);
 		string logFile = joinPath(tempFolder, "RoadRunner.log") ;
-        freeText(tempFolder);
+        rr::freeText(tempFolder);
 
         gLog.Init("", gLog.GetLogLevel(), new LogFile(logFile.c_str()));
         return true;

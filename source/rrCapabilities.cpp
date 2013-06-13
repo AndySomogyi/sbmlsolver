@@ -33,7 +33,11 @@ void Capabilities::clear()
 
 Capability*	Capabilities::operator[](int i)
 {
-	return (mCapabilities[i]);
+	if(mCapabilities.size())
+    {
+		return (mCapabilities[i]);
+    }
+    return NULL;
 }
 
 Capability*	Capabilities::get(const string& capName)

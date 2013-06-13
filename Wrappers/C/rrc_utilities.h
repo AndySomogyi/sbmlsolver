@@ -83,6 +83,14 @@ extern const char* 	INVALID_HANDLE_ERROR_MSG;
 */
 C_DECL_SPEC char* 		 rrcCallConv 	getFileContent(const char* fName);
 
+/*!
+ \brief Creates memory for holding a string
+ \param[in] text Pointer to a string
+ \return Pointer to a memory holding a copy of the input string
+ \ingroup utilities
+*/
+C_DECL_SPEC char* 		 rrcCallConv 	createText(const char* text);
+
 // --------------------------------------------------------------------
 // List support routines
 // --------------------------------------------------------------------
@@ -130,6 +138,7 @@ C_DECL_SPEC void rrcCallConv freeRRList (RRListHandle list);
 \ingroup list
 */
 C_DECL_SPEC int rrcCallConv getListLength (RRListHandle myList);
+
 
 /*!
  \brief Create a list item to store an integer
@@ -510,7 +519,7 @@ C_DECL_SPEC bool rrcCallConv getComplexMatrixElement (RRComplexMatrixHandle m, i
  \return Returns True if succesful
  \ingroup helperRoutines
 */
-C_DECL_SPEC bool rrcCallConv setComplexMatrixElement (RRComplexMatrixHandle m, int r, int c, RRComplex* value);
+C_DECL_SPEC bool rrcCallConv setComplexMatrixElement (RRComplexMatrixHandle m, int r, int c, RRComplexHandle value);
 
 /*!
  \brief Retrieve the number of rows in the given RoadRunner numberical data (returned from simulate(RRHandle handle))
@@ -602,6 +611,20 @@ C_DECL_SPEC char* rrcCallConv getCSourceFileName(RRHandle handle);
 // --------------------------------------------------------------------------------
 
 /*!
+ \brief Returns a vector in string form.
+ \return Returns vector as a character string
+ \ingroup toString
+*/
+C_DECL_SPEC char* rrcCallConv vectorToString(const RRVectorHandle vec);
+
+/*!
+ \brief Returns a complex vector in string form.
+ \return Returns complex vector as a character string
+ \ingroup toString
+*/
+C_DECL_SPEC char* rrcCallConv complexVectorToString(const RRComplexVectorHandle vec);
+
+/*!
  \brief Returns a rrData struct in string form.
  \return Returns rrData struct as a character string
  \ingroup toString
@@ -621,13 +644,6 @@ C_DECL_SPEC char* rrcCallConv matrixToString(const RRMatrixHandle mat);
  \ingroup toString
 */
 C_DECL_SPEC char* rrcCallConv complexMatrixToString(const RRComplexMatrixHandle mat);
-
-/*!
- \brief Returns a vector in string form.
- \return Returns vector as a character string
- \ingroup toString
-*/
-C_DECL_SPEC char* rrcCallConv vectorToString(const RRVectorHandle vec);
 
 /*!
  \brief Returns the length of a string array

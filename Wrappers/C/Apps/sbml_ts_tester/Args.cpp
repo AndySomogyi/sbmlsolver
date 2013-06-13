@@ -13,8 +13,8 @@ Args::Args()
 SBMLModelsFilePath(""),
 TempDataFolder("."),
 EnableLogging(false),
-ModelNumber(1)
-
+ModelNumber(1),
+ModelVersion(l2v4)
 {}
 
 string Usage(const string& prg)
@@ -27,6 +27,7 @@ string Usage(const string& prg)
     usage<<setw(25)<<"-t<FilePath>"                 <<" Temporary data output folder. If not given, temp files are output to current directory\n";
     usage<<setw(25)<<"-v"                 			<<" Enable Logging\n";
     usage<<setw(25)<<"-i"                 			<<" Test Number\n";
+    usage<<setw(25)<<"-a"                 			<<" ModelVersion; 0 == l2v4, 1 == l3v1\n";
     usage<<setw(25)<<"-?"                           <<" Shows the help screen.\n\n";
 
 	usage<<"\nSystems Biology, UW 2012\n";

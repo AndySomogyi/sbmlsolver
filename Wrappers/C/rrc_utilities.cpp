@@ -33,12 +33,17 @@ char*       gLastError                  = NULL;
 char gInstallFolderBuffer[RR_MAX_PATH] = {0};
 char* gInstallFolder = gInstallFolderBuffer;
 
+char* rrcCallConv createText(const char* text)
+{
+	return rr::createText(text);
+}
+
 char* rrCallConv getFileContent(const char* fName)
 {
     try
     {
         string fContent = getFileContent(fName);
-        return createText(fContent);
+        return rr::createText(fContent);
     }
     catch_ptr_macro
 }
@@ -113,7 +118,7 @@ RRListItemHandle rrCallConv createStringItem (char* value)
 {
     RRListItemHandle item = new RRListItem;
     item->ItemType = litString;
-    item->data.sValue = createText(value);
+    item->data.sValue = rr::createText(value);
     return item;
 }
 
@@ -265,7 +270,7 @@ char* rrCallConv listToString (RRListHandle list)
                     {
                         char* text = listToString(lVal);
                         resStr<<text;
-                        freeText(text);
+                        rrc::freeText(text);
                     }
                     else
                     {
@@ -280,7 +285,7 @@ char* rrCallConv listToString (RRListHandle list)
             }
         }
         resStr<<"}";
-        return createText(resStr.str());
+        return rr::createText(resStr.str());
 
     }
     catch(Exception& ex)
@@ -322,7 +327,7 @@ bool rrCallConv freeRRData(RRDataHandle handle)
 
         for(int i = 0; i < handle->CSize; i++)
         {
-            freeText(handle->ColumnHeaders[i]);
+            rr::freeText(handle->ColumnHeaders[i]);
         }
 
         delete [] handle->ColumnHeaders;
@@ -343,8 +348,8 @@ bool rrCallConv freeText(char* text)
 {
     try
     {
-        delete [] text;
-        return true;
+
+        return rr::freeText(text);
     }
     catch(Exception& ex)
     {
@@ -754,7 +759,7 @@ char* rrCallConv getStringElement (RRStringArrayHandle list, int index)
          return NULL;
       }
 
-      return createText(list->String[index]);
+      return rr::createText(list->String[index]);
     }
     catch(Exception& ex)
     {
@@ -784,7 +789,7 @@ char* rrCallConv stringArrayToString (const RRStringArrayHandle list)
             }
         }
 
-        return createText(resStr.str());
+        return rr::createText(resStr.str());
     }
     catch(Exception& ex)
     {
@@ -830,7 +835,7 @@ char* rrCallConv rrDataToString(const RRDataHandle result)
             }
             resStr <<"\n";
         }
-        return createText(resStr.str());
+        return rr::createText(resStr.str());
     }
     catch_ptr_macro
 }
@@ -860,7 +865,7 @@ char* rrCallConv matrixToString(const RRMatrixHandle matrixHandle)
             }
             ss<<endl;
         }
-        return createText(ss.str());
+        return rr::createText(ss.str());
     }
     catch(Exception& ex)
     {
@@ -896,7 +901,7 @@ char* rrCallConv complexMatrixToString(const RRComplexMatrixHandle matrixHandle)
             }
             ss<<endl;
         }
-        return createText(ss.str());
+        return rr::createText(ss.str());
     }
     catch_ptr_macro
 }
@@ -914,7 +919,6 @@ char* rrCallConv vectorToString(RRVectorHandle vecHandle)
         RRVector& vec = *vecHandle;
 
         stringstream ss;
-        ss<<"vector dimension: "<<vec.Count<<" \n";
 
         for(int index = 0; index < vec.Count; index++)
         {
@@ -925,15 +929,36 @@ char* rrCallConv vectorToString(RRVectorHandle vecHandle)
             }
         }
         ss<<endl;
-        return createText(ss.str());
+        return rr::createText(ss.str());
     }
-    catch(Exception& ex)
+    catch_ptr_macro
+}
+
+char* rrCallConv complexVectorToString(RRComplexVectorHandle vecHandle)
+{
+    try
     {
-        stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
-        setError(msg.str());
-        return NULL;
+        if(!vecHandle)
+        {
+            setError("Null vector in vectorToString");
+            return NULL;
+        }
+
+        RRComplexVector& vec = *vecHandle;
+
+        stringstream ss;
+        for(int index = 0; index < vec.Count; index++)
+        {
+        	ss<<"("<<vec.Data[index].re<<","<<vec.Data[index].imag<<")";
+            if(index < vec.Count + 1)
+            {
+                ss<<"\t";
+            }
+        }
+        ss<<endl;
+        return rr::createText(ss.str());
     }
+    catch_ptr_macro
 }
 
 }

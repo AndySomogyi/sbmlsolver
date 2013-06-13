@@ -187,5 +187,11 @@ inline string rr::Parameter<double>::getValueAsString() const
     return toString(mValue, "%G");
 }
 
+template<>
+inline string rr::Parameter<rrc::RRDataHandle>::getValueAsString() const
+{
+    return "";
+}
+
 }
 #endif

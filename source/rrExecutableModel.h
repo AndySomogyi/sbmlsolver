@@ -1,5 +1,5 @@
-#ifndef rrExecutableModel_H_
-#define rrExecutableModel_H_
+#ifndef rrExecutableModelH
+#define rrExecutableModelH
 #include <list>
 #include <string>
 #include <vector>

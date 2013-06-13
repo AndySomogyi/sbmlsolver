@@ -5,6 +5,7 @@
 #include "rrRoadRunner.h"
 #include "rrPlugin.h"
 #include "rrUtils.h"
+#include "rrLogger.h"
 using namespace rr;
 using namespace std;
 
@@ -14,6 +15,10 @@ int main()
     {
         //Create a RoadRunner object
         RoadRunner rr("r:\\temp");
+        LogOutput::mLogToConsole = true;
+
+     	//Load a model
+        rr.loadSBMLFromFile("r:\\models\\feedback.xml");
 
         //Get the plugin manager
         PluginManager& plugins = rr.getPluginManager();
@@ -23,18 +28,17 @@ int main()
             clog<<"Failed loading plugins..\n";
         }
 
-        if(plugins.getNumberOfPlugins() > 0)
+		Plugin* demoPlugin = plugins.getPlugin("c_plugin_demo");
+        char* rrInfo;
+        if(!demoPlugin->execute(&rrInfo))
         {
-            cout<<"The following plugins are loaded:\n";
-            for(int i = 0; i < plugins.getNumberOfPlugins(); i++)
-            {
-                Plugin* aPlugin = plugins[i];
-                cout<<"Plugin "<<i<<": "<<aPlugin->getName()<<"\n";
-                cout<<aPlugin->getInfo();
-                aPlugin->execute();
-            }
+        	cout<<"There was a problem executing the plugin...";
         }
 
+        cout<< endl << "After Execute: "<< rrInfo << endl;
+        freeText(rrInfo);
+
+        cout<<demoPlugin->getInfo();
         plugins.unload();
         pause(true);
     }
@@ -46,6 +50,5 @@ int main()
 }
 
 #pragma comment(lib, "roadrunner.lib")
-
 #pragma comment(lib, "rr-libstruct-static.lib")
 #pragma comment(lib, "poco_foundation-static.lib")

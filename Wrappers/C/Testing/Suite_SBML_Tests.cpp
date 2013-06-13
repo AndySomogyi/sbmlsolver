@@ -15,9 +15,7 @@ extern string 	gTSModelsPath;
 extern string   gTempFolder;
 extern bool		gDebug;
 
-bool RunTest(const string& version, int number);
-
-SUITE(SBML_l2v4)
+SUITE(SBML_TEST_SUITE)
 {
  TEST(1) {CHECK(RunTest("l2v4", 1)); }
  TEST(2) { CHECK(RunTest("l2v4", 2)); }
@@ -943,21 +941,22 @@ TEST(917) { CHECK(RunTest("l2v4", 917)); }
 TEST(918) { CHECK(RunTest("l2v4", 918)); }
 TEST(919) { CHECK(RunTest("l2v4", 919)); }
 TEST(920) { CHECK(RunTest("l2v4", 920)); }
-TEST(921) { CHECK(RunTest("l2v4", 921)); } 
+TEST(921) { CHECK(RunTest("l2v4", 921)); }
 TEST(922) { CHECK(RunTest("l2v4", 922)); }
 TEST(923) { CHECK(RunTest("l2v4", 923)); }
 TEST(924) { CHECK(RunTest("l2v4", 924)); }
 TEST(925) { CHECK(RunTest("l2v4", 925)); }
 TEST(926) { CHECK(RunTest("l2v4", 926)); }
 TEST(927) { CHECK(RunTest("l2v4", 927)); }
-TEST(928) { CHECK(RunTest("l2v4", 928)); }
-TEST(929) { CHECK(RunTest("l2v4", 929)); }
-TEST(930) { CHECK(RunTest("l2v4", 930)); }
-TEST(931) { CHECK(RunTest("l2v4", 931)); }
-TEST(932) { CHECK(RunTest("l2v4", 932)); }
-TEST(933) { CHECK(RunTest("l2v4", 933)); }
-TEST(934) { CHECK(RunTest("l2v4", 934)); }
-TEST(935) { CHECK(RunTest("l2v4", 935)); }
+
+TEST(928) { CHECK(RunTest("l3v1", 928)); }
+TEST(929) { CHECK(RunTest("l3v1", 929)); }
+TEST(930) { CHECK(RunTest("l3v1", 930)); }
+TEST(931) { CHECK(RunTest("l3v1", 931)); }
+TEST(932) { CHECK(RunTest("l3v1", 932)); }
+TEST(934) { CHECK(RunTest("l3v1", 934)); }
+TEST(935) { CHECK(RunTest("l3v1", 935)); }
+
 TEST(936) { CHECK(RunTest("l2v4", 936)); }
 //TEST(937) { CHECK(RunTest("l2v4", 937)); }      //Not Supported
 //TEST(938) { CHECK(RunTest("l2v4", 938)); }	  //Not Supported
@@ -976,44 +975,263 @@ TEST(949) { CHECK(RunTest("l2v4", 949)); }
 //TEST(951) { CHECK(RunTest("l2v4", 951)); }
 
 #if !defined(_MSC_VER)
-TEST(952) { CHECK(RunTest("l2v4", 952)); }		//This one is erratic.. it sometimes passes and sometimes end in a segfault!
+TEST(952) { CHECK(RunTest("l3v1", 952)); }		//This one is erratic.. it sometimes passes and sometimes end in a segfault!
 #endif
 
-TEST(953) { CHECK(RunTest("l2v4", 953)); }
+TEST(953) { CHECK(RunTest("l3v1", 953)); }
+
 TEST(954) { CHECK(RunTest("l2v4", 954)); }
 //TEST(955) { CHECK(RunTest("l2v4", 955)); }
 TEST(956) { CHECK(RunTest("l2v4", 956)); }
 //TEST(957) { CHECK(RunTest("l2v4", 957)); }
 //TEST(958) { CHECK(RunTest("l2v4", 958)); }
 //TEST(959) { CHECK(RunTest("l2v4", 959)); }
-TEST(960) { CHECK(RunTest("l2v4", 960)); }
-TEST(961) { CHECK(RunTest("l2v4", 961)); }
-//TEST(962) { CHECK(RunTest("l2v4", 962)); }
+
+TEST(960) { CHECK(RunTest("l3v1", 960)); }
+TEST(961) { CHECK(RunTest("l3v1", 961)); }
+//TEST(962) { CHECK(RunTest("l3v1", 962)); }
 
 #if !defined(__CODEGEARC__)
-TEST(963) { CHECK(RunTest("l2v4", 963)); }
-TEST(964) { CHECK(RunTest("l2v4", 964)); }
+TEST(963) { CHECK(RunTest("l3v1", 963)); }
+TEST(964) { CHECK(RunTest("l3v1", 964)); }
 #endif
 
 #if !defined(_MSC_VER)
-//TEST(965) { CHECK(RunTest("l2v4", 965)); } //This one is erratic.. it sometimes passes and sometimes end in a segfault!
+//TEST(965) { CHECK(RunTest("l3v1", 965)); } //This one is erratic.. it sometimes passes and sometimes end in a segfault!
 #endif
-//TEST(966) { CHECK(RunTest("l2v4", 966)); }
-TEST(967) { CHECK(RunTest("l2v4", 967)); }
+
+//TEST(966) { CHECK(RunTest("l3v1", 966)); }
+TEST(967) { CHECK(RunTest("l3v1", 967)); }
+
+
+
 TEST(968) { CHECK(RunTest("l2v4", 968)); }
-TEST(969) { CHECK(RunTest("l2v4", 969)); }
-TEST(970) { CHECK(RunTest("l2v4", 970)); }
-TEST(971) { CHECK(RunTest("l2v4", 971)); }
-TEST(972) { CHECK(RunTest("l2v4", 972)); }
+TEST(969) { CHECK(RunTest("l3v1", 969)); }
+TEST(970) { CHECK(RunTest("l3v1", 970)); }
+TEST(971) { CHECK(RunTest("l3v1", 971)); }
+TEST(972) { CHECK(RunTest("l3v1", 972)); }
 TEST(973) { CHECK(RunTest("l2v4", 973)); }
-TEST(974) { CHECK(RunTest("l2v4", 974)); }
-TEST(975) { CHECK(RunTest("l2v4", 975)); }
-TEST(976) { CHECK(RunTest("l2v4", 976)); }
-TEST(977) { CHECK(RunTest("l2v4", 977)); }
-//TEST(978) { CHECK(RunTest("l2v4", 978)); }
+
+TEST(974) { CHECK(RunTest("l3v1", 974)); }
+TEST(975) { CHECK(RunTest("l3v1", 975)); }
+TEST(976) { CHECK(RunTest("l3v1", 976)); }
+TEST(977) { CHECK(RunTest("l3v1", 977)); }
+//TEST(978) { CHECK(RunTest("l3v1", 978)); }
+
 TEST(979) { CHECK(RunTest("l2v4", 979)); }
-TEST(980) { CHECK(RunTest("l2v4", 980)); }
+
+TEST(980)  { CHECK(RunTest("l3v1", 980 )); }
+
+//TEST(981)  { CHECK(RunTest("l3v1", 981  )); }
+//TEST(982)  { CHECK(RunTest("l3v1", 982  )); }
+//TEST(983)  { CHECK(RunTest("l3v1", 983  )); }
+//TEST(984)  { CHECK(RunTest("l3v1", 984  )); }
+//TEST(985)  { CHECK(RunTest("l3v1", 985  )); }
+//TEST(986)  { CHECK(RunTest("l3v1", 986  )); }
+//TEST(987)  { CHECK(RunTest("l3v1", 987  )); }
+//TEST(988)  { CHECK(RunTest("l3v1", 988  )); }
+TEST(989)  { CHECK(RunTest("l2v4", 989  )); }
+TEST(990)  { CHECK(RunTest("l2v4", 990  )); }
+TEST(991)  { CHECK(RunTest("l2v4", 991  )); }
+TEST(992)  { CHECK(RunTest("l2v4", 992  )); }
+//TEST(993)  { CHECK(RunTest("l2v4", 993  )); }
+TEST(994)  { CHECK(RunTest("l2v4", 994  )); }
+//TEST(995)  { CHECK(RunTest("l3v1", 995  )); }
+//TEST(996)  { CHECK(RunTest("l3v1", 996  )); }
+//TEST(997)  { CHECK(RunTest("l3v1", 997  )); }
+TEST(998)  { CHECK(RunTest("l3v1", 998  )); }
+TEST(999)  { CHECK(RunTest("l3v1", 999  )); }
+//TEST(1000) { CHECK(RunTest("l3v1", 1000 )); }
+TEST(1001) { CHECK(RunTest("l3v1", 1001 )); }
+TEST(1002) { CHECK(RunTest("l3v1", 1002 )); }
+TEST(1003) { CHECK(RunTest("l3v1", 1003 )); }
+TEST(1004) { CHECK(RunTest("l3v1", 1004 )); }
+TEST(1005) { CHECK(RunTest("l3v1", 1005 )); }
+TEST(1006) { CHECK(RunTest("l3v1", 1006 )); }
+TEST(1007) { CHECK(RunTest("l3v1", 1007 )); }
+TEST(1008) { CHECK(RunTest("l3v1", 1008 )); }
+TEST(1009) { CHECK(RunTest("l3v1", 1009 )); }
+TEST(1010) { CHECK(RunTest("l3v1", 1010 )); }
+TEST(1011) { CHECK(RunTest("l3v1", 1011 )); }
+TEST(1012) { CHECK(RunTest("l3v1", 1012 )); }
+TEST(1013) { CHECK(RunTest("l3v1", 1013 )); }
+TEST(1014) { CHECK(RunTest("l3v1", 1014 )); }
+TEST(1015) { CHECK(RunTest("l3v1", 1015 )); }
+TEST(1016) { CHECK(RunTest("l3v1", 1016 )); }
+TEST(1017) { CHECK(RunTest("l3v1", 1017 )); }
+TEST(1018) { CHECK(RunTest("l3v1", 1018 )); }
+TEST(1019) { CHECK(RunTest("l3v1", 1019 )); }
+TEST(1020) { CHECK(RunTest("l3v1", 1020 )); }
+TEST(1021) { CHECK(RunTest("l3v1", 1021 )); }
+TEST(1022) { CHECK(RunTest("l3v1", 1022 )); }
+TEST(1023) { CHECK(RunTest("l3v1", 1023 )); }
+TEST(1024) { CHECK(RunTest("l3v1", 1024 )); }
+TEST(1025) { CHECK(RunTest("l3v1", 1025 )); }
+TEST(1026) { CHECK(RunTest("l3v1", 1026 )); }
+TEST(1027) { CHECK(RunTest("l2v4", 1027 )); }
+TEST(1028) { CHECK(RunTest("l2v4", 1028 )); }
+TEST(1029) { CHECK(RunTest("l2v4", 1029 )); }
+TEST(1030) { CHECK(RunTest("l3v1", 1030 )); }
+TEST(1031) { CHECK(RunTest("l3v1", 1031 )); }
+TEST(1032) { CHECK(RunTest("l3v1", 1032 )); }
+TEST(1033) { CHECK(RunTest("l3v1", 1033 )); }
+TEST(1034) { CHECK(RunTest("l3v1", 1034 )); }
+TEST(1035) { CHECK(RunTest("l3v1", 1035 )); }
+TEST(1036) { CHECK(RunTest("l3v1", 1036 )); }
+TEST(1037) { CHECK(RunTest("l3v1", 1037 )); }
+TEST(1038) { CHECK(RunTest("l3v1", 1038 )); }
+TEST(1039) { CHECK(RunTest("l3v1", 1039 )); }
+TEST(1040) { CHECK(RunTest("l3v1", 1040 )); }
+TEST(1041) { CHECK(RunTest("l3v1", 1041 )); }
+TEST(1042) { CHECK(RunTest("l3v1", 1042 )); }
+TEST(1043) { CHECK(RunTest("l3v1", 1043 )); }
+//TEST(1044) { CHECK(RunTest("l3v1", 1044 )); }
+TEST(1045) { CHECK(RunTest("l3v1", 1045 )); }
+TEST(1046) { CHECK(RunTest("l3v1", 1046 )); }
+TEST(1047) { CHECK(RunTest("l3v1", 1047 )); }
+TEST(1048) { CHECK(RunTest("l3v1", 1048 )); }
+TEST(1049) { CHECK(RunTest("l3v1", 1049 )); }
+TEST(1050) { CHECK(RunTest("l3v1", 1050 )); }
+//TEST(1051) { CHECK(RunTest("l3v1", 1051 )); }
+//TEST(1052) { CHECK(RunTest("l3v1", 1052 )); }
+//TEST(1053) { CHECK(RunTest("l3v1", 1053 )); }
+//TEST(1054) { CHECK(RunTest("l3v1", 1054 )); }
+TEST(1055) { CHECK(RunTest("l3v1", 1055 )); }
+TEST(1056) { CHECK(RunTest("l3v1", 1056 )); }
+TEST(1057) { CHECK(RunTest("l3v1", 1057 )); }
+TEST(1058) { CHECK(RunTest("l3v1", 1058 )); }
+TEST(1059) { CHECK(RunTest("l3v1", 1059 )); }
+TEST(1060) { CHECK(RunTest("l3v1", 1060 )); }
+TEST(1061) { CHECK(RunTest("l3v1", 1061 )); }
+TEST(1062) { CHECK(RunTest("l3v1", 1062 )); }
+TEST(1063) { CHECK(RunTest("l3v1", 1063 )); }
+TEST(1064) { CHECK(RunTest("l3v1", 1064 )); }
+TEST(1065) { CHECK(RunTest("l3v1", 1065 )); }
+TEST(1066) { CHECK(RunTest("l3v1", 1066 )); }
+TEST(1067) { CHECK(RunTest("l3v1", 1067 )); }
+TEST(1068) { CHECK(RunTest("l3v1", 1068 )); }
+TEST(1069) { CHECK(RunTest("l3v1", 1069 )); }
+TEST(1070) { CHECK(RunTest("l3v1", 1070 )); }
+TEST(1071) { CHECK(RunTest("l3v1", 1071 )); }
+TEST(1072) { CHECK(RunTest("l3v1", 1072 )); }
+TEST(1073) { CHECK(RunTest("l3v1", 1073 )); }
+TEST(1074) { CHECK(RunTest("l3v1", 1074 )); }
+TEST(1075) { CHECK(RunTest("l3v1", 1075 )); }
+TEST(1076) { CHECK(RunTest("l3v1", 1076 )); }
+TEST(1077) { CHECK(RunTest("l3v1", 1077 )); }
+TEST(1078) { CHECK(RunTest("l3v1", 1078 )); }
+TEST(1079) { CHECK(RunTest("l3v1", 1079 )); }
+TEST(1080) { CHECK(RunTest("l3v1", 1080 )); }
+TEST(1081) { CHECK(RunTest("l3v1", 1081 )); }
+TEST(1082) { CHECK(RunTest("l3v1", 1082 )); }
+//TEST(1083) { CHECK(RunTest("l3v1", 1083 )); }
+//TEST(1084) { CHECK(RunTest("l3v1", 1084 )); }
+//TEST(1085) { CHECK(RunTest("l3v1", 1085 )); }
+//TEST(1086) { CHECK(RunTest("l3v1", 1086 )); }
+TEST(1087) { CHECK(RunTest("l3v1", 1087 )); }
+TEST(1088) { CHECK(RunTest("l3v1", 1088 )); }
+TEST(1089) { CHECK(RunTest("l3v1", 1089 )); }
+TEST(1090) { CHECK(RunTest("l3v1", 1090 )); }
+TEST(1091) { CHECK(RunTest("l3v1", 1091 )); }
+TEST(1092) { CHECK(RunTest("l3v1", 1092 )); }
+TEST(1093) { CHECK(RunTest("l3v1", 1093 )); }
+TEST(1094) { CHECK(RunTest("l3v1", 1094 )); }
+TEST(1095) { CHECK(RunTest("l3v1", 1095 )); }
+TEST(1096) { CHECK(RunTest("l3v1", 1096 )); }
+TEST(1097) { CHECK(RunTest("l3v1", 1097 )); }
+TEST(1098) { CHECK(RunTest("l3v1", 1098 )); }
+TEST(1099) { CHECK(RunTest("l3v1", 1099 )); }
+TEST(1100) { CHECK(RunTest("l3v1", 1100 )); }
+TEST(1101) { CHECK(RunTest("l3v1", 1101 )); }
+TEST(1102) { CHECK(RunTest("l3v1", 1102 )); }
+TEST(1103) { CHECK(RunTest("l3v1", 1103 )); }
+TEST(1104) { CHECK(RunTest("l3v1", 1104 )); }
+TEST(1105) { CHECK(RunTest("l3v1", 1105 )); }
+TEST(1106) { CHECK(RunTest("l3v1", 1106 )); }
+TEST(1107) { CHECK(RunTest("l3v1", 1107 )); }
+//TEST(1108) { CHECK(RunTest("l3v1", 1108 )); }
+TEST(1109) { CHECK(RunTest("l3v1", 1109 )); }
+TEST(1110) { CHECK(RunTest("l3v1", 1110 )); }
+TEST(1111) { CHECK(RunTest("l3v1", 1111 )); }
+//TEST(1112) { CHECK(RunTest("l3v1", 1112 )); }
+//TEST(1113) { CHECK(RunTest("l3v1", 1113 )); }
+//TEST(1114) { CHECK(RunTest("l3v1", 1114 )); }
+//TEST(1115) { CHECK(RunTest("l3v1", 1115 )); }
+TEST(1116) { CHECK(RunTest("l3v1", 1116 )); }
+TEST(1117) { CHECK(RunTest("l3v1", 1117 )); }
+//TEST(1118) { CHECK(RunTest("l3v1", 1118 )); }
+//TEST(1119) { CHECK(RunTest("l3v1", 1119 )); }
+//TEST(1120) { CHECK(RunTest("l3v1", 1120 )); }
+//TEST(1121) { CHECK(RunTest("l3v1", 1121 )); }
+//TEST(1122) { CHECK(RunTest("l3v1", 1122 )); }
+//TEST(1123) { CHECK(RunTest("l3v1", 1123 )); }
+TEST(1124) { CHECK(RunTest("l3v1", 1124 )); }
+TEST(1125) { CHECK(RunTest("l3v1", 1125 )); }
+//TEST(1126) { CHECK(RunTest("l3v1", 1126 )); }
+//TEST(1127) { CHECK(RunTest("l3v1", 1127 )); }
+//TEST(1128) { CHECK(RunTest("l3v1", 1128 )); }
+//TEST(1129) { CHECK(RunTest("l3v1", 1129 )); }
+//TEST(1130) { CHECK(RunTest("l3v1", 1130 )); }
+//TEST(1131) { CHECK(RunTest("l3v1", 1131 )); }
+//TEST(1132) { CHECK(RunTest("l3v1", 1132 )); }
+//TEST(1133) { CHECK(RunTest("l3v1", 1133 )); }
+//TEST(1134) { CHECK(RunTest("l3v1", 1134 )); }
+//TEST(1135) { CHECK(RunTest("l3v1", 1135 )); }
+//TEST(1136) { CHECK(RunTest("l3v1", 1136 )); }
+//TEST(1137) { CHECK(RunTest("l3v1", 1137 )); }
+//TEST(1138) { CHECK(RunTest("l3v1", 1138 )); }
+//TEST(1139) { CHECK(RunTest("l3v1", 1139 )); }
+//TEST(1140) { CHECK(RunTest("l3v1", 1140 )); }
+//TEST(1141) { CHECK(RunTest("l3v1", 1141 )); }
+//TEST(1142) { CHECK(RunTest("l3v1", 1142 )); }
+//TEST(1143) { CHECK(RunTest("l3v1", 1143 )); }
+//TEST(1144) { CHECK(RunTest("l3v1", 1144 )); }
+//TEST(1145) { CHECK(RunTest("l3v1", 1145 )); }
+//TEST(1146) { CHECK(RunTest("l3v1", 1146 )); }
+//TEST(1147) { CHECK(RunTest("l3v1", 1147 )); }
+//TEST(1148) { CHECK(RunTest("l3v1", 1148 )); }
+TEST(1149) { CHECK(RunTest("l3v1", 1149 )); }
+TEST(1150) { CHECK(RunTest("l3v1", 1150 )); }
+TEST(1151) { CHECK(RunTest("l3v1", 1151 )); }
+//TEST(1152) { CHECK(RunTest("l3v1", 1152 )); }
+//TEST(1153) { CHECK(RunTest("l3v1", 1153 )); }
+//TEST(1154) { CHECK(RunTest("l3v1", 1154 )); }
+//TEST(1155) { CHECK(RunTest("l3v1", 1155 )); }
+//TEST(1156) { CHECK(RunTest("l3v1", 1156 )); }
+//TEST(1157) { CHECK(RunTest("l3v1", 1157 )); }
+//TEST(1158) { CHECK(RunTest("l3v1", 1158 )); }
+//TEST(1159) { CHECK(RunTest("l3v1", 1159 )); }
+//TEST(1160) { CHECK(RunTest("l3v1", 1160 )); }
+//TEST(1161) { CHECK(RunTest("l3v1", 1161 )); }
+TEST(1162) { CHECK(RunTest("l3v1", 1162 )); }
+TEST(1163) { CHECK(RunTest("l3v1", 1163 )); }
+//TEST(1164) { CHECK(RunTest("l3v1", 1164 )); }
+//TEST(1165) { CHECK(RunTest("l3v1", 1165 )); }
+TEST(1166) { CHECK(RunTest("l3v1", 1166 )); }
+//TEST(1167) { CHECK(RunTest("l3v1", 1167 )); }
+//TEST(1168) { CHECK(RunTest("l3v1", 1168 )); }
+//TEST(1169) { CHECK(RunTest("l3v1", 1169 )); }
+//TEST(1170) { CHECK(RunTest("l3v1", 1170 )); }
+//TEST(1171) { CHECK(RunTest("l3v1", 1171 )); }
+//TEST(1172) { CHECK(RunTest("l3v1", 1172 )); }
+//TEST(1173) { CHECK(RunTest("l3v1", 1173 )); }
+//TEST(1174) { CHECK(RunTest("l3v1", 1174 )); }
+//TEST(1175) { CHECK(RunTest("l3v1", 1175 )); }
+//TEST(1176) { CHECK(RunTest("l3v1", 1176 )); }
+//TEST(1177) { CHECK(RunTest("l3v1", 1177 )); }
+//TEST(1178) { CHECK(RunTest("l3v1", 1178 )); }
+//TEST(1179) { CHECK(RunTest("l3v1", 1179 )); }
+//TEST(1180) { CHECK(RunTest("l3v1", 1180 )); }
+//TEST(1181) { CHECK(RunTest("l3v1", 1181 )); }
+//TEST(1182) { CHECK(RunTest("l3v1", 1182 )); }
+//TEST(1183) { CHECK(RunTest("l3v1", 1183 )); }
+TEST(1184) { CHECK(RunTest("l3v1", 1184 )); }
+TEST(1185) { CHECK(RunTest("l3v1", 1185 )); }
+
 }
+
+
+
 
 
 

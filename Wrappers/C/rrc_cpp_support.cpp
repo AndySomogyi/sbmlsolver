@@ -63,9 +63,8 @@ void setError(const string& err)
         delete [] gLastError;
     }
 
-    gLastError = createText(err);
+    gLastError = rr::createText(err);
 }
-
 
 RoadRunner* castFrom(RRHandle handle)
 {
@@ -95,18 +94,6 @@ Plugin* castToPlugin(RRPluginHandle handle)
     }
 }
 
-//char* createText(const string& str)
-//{
-//	if(str.size() == 0)
-//    {
-//    	return NULL;
-//    }
-//
-//	char* text = new char[str.size() + 1];
-//	std::copy(str.begin(), str.end(), text);
-//	text[str.size()] = '\0'; //terminating 0!
-//	return text;
-//}
 
 RRMatrix* createMatrix(const ls::DoubleMatrix* mat)
 {
@@ -195,7 +182,7 @@ RRComplexMatrix* createMatrix(const ls::ComplexMatrix* mat)
     return matrix;
 }
 
-vector<double> createVectorFromRRVector(const RRVector* vec)
+vector<double> createVector(const RRVector* vec)
 {
     vector<double> aVec;
 
@@ -213,7 +200,7 @@ vector<double> createVectorFromRRVector(const RRVector* vec)
     return aVec;
 }
 
-RRVector* createVectorFromVector_double(const vector<double>& vec)
+RRVector* createVector(const vector<double>& vec)
 {
     RRVector* aVec = new RRVector;
     aVec->Count = vec.size();
@@ -226,6 +213,25 @@ RRVector* createVectorFromVector_double(const vector<double>& vec)
     for(int i = 0; i < aVec->Count; i++)
     {
         aVec->Data[i] =  vec[i];
+    }
+
+    return aVec;
+}
+
+RRComplexVector* createVector(const vector<ls::Complex>& vec)
+{
+    RRComplexVector* aVec = new RRComplexVector;
+    aVec->Count = vec.size();
+
+    if(aVec->Count)
+    {
+        aVec->Data = new RRComplex[aVec->Count];
+    }
+
+    for(int i = 0; i < aVec->Count; i++)
+    {
+        aVec->Data[i].re 	=  real(vec[i]);
+        aVec->Data[i].imag 	=  imag(vec[i]);
     }
 
     return aVec;
@@ -262,7 +268,7 @@ RRStringArrayHandle createList(const StringList& sList)
 
     for(int i = 0; i < list->Count; i++)
     {
-        list->String[i] = createText(sList[i]);
+        list->String[i] = rr::createText(sList[i]);
     }
     return list;
 }
@@ -374,8 +380,8 @@ RRList* createArrayList(const rr::NewArrayList& aList)
 //	    RRParameter* aPara 	= new RRParameter;
 //        aPara->ParaType 	= ptBool;
 //        aPara->data.bValue 	= thePara->getValue();
-//        aPara->mName		= createText(thePara->getName());
-//        aPara->mHint		= createText(thePara->getHint());
+//        aPara->mName		= rr::createText(thePara->getName());
+//        aPara->mHint		= rr::createText(thePara->getHint());
 //        return aPara;
 //    }
 //
@@ -386,8 +392,8 @@ RRList* createArrayList(const rr::NewArrayList& aList)
 //	    RRParameter* aPara 	= new RRParameter;
 //        aPara->ParaType 	= ptInteger;
 //        aPara->data.iValue 	= thePara->getValue();
-//        aPara->mName		= createText(thePara->getName());
-//        aPara->mHint		= createText(thePara->getHint());
+//        aPara->mName		= rr::createText(thePara->getName());
+//        aPara->mHint		= rr::createText(thePara->getHint());
 //        return aPara;
 //    }
 //
@@ -398,8 +404,8 @@ RRList* createArrayList(const rr::NewArrayList& aList)
 //	    RRParameter* aPara 	= new RRParameter;
 //        aPara->ParaType 	= ptInteger;
 //        aPara->data.iValue 	= thePara->getValue();
-//        aPara->mName		= createText(thePara->getName());
-//        aPara->mHint		= createText(thePara->getHint());
+//        aPara->mName		= rr::createText(thePara->getName());
+//        aPara->mHint		= rr::createText(thePara->getHint());
 //        return aPara;
 //    }
 //
@@ -410,8 +416,8 @@ RRList* createArrayList(const rr::NewArrayList& aList)
 //	    RRParameter* aPara 	= new RRParameter;
 //        aPara->ParaType 	= ptVector;
 //        aPara->data.vValue 	= thePara->getValue();
-//        aPara->mName		= createText(thePara->getName());
-//        aPara->mHint		= createText(thePara->getHint());
+//        aPara->mName		= rr::createText(thePara->getName());
+//        aPara->mHint		= rr::createText(thePara->getHint());
 //        return aPara;
 //    }
 //	return NULL;
@@ -426,7 +432,7 @@ RRDataHandle createRRData(const RoadRunnerData& result)
     rrCData->ColumnHeaders = new char*[result.cSize()];
     for(int i = 0; i < result.cSize(); i++)
     {
-        rrCData->ColumnHeaders[i] = createText(result.getColumnNames()[i]);
+        rrCData->ColumnHeaders[i] = rr::createText(result.getColumnNames()[i]);
     }
 
     rrCData->RSize = result.rSize();

@@ -193,6 +193,7 @@ bool LMFitThread::setup()
 
 	mLMData.rrHandle				= mRRI;
     mRRI->setTimeCourseSelectionList(species.AsString());
+	return true;
 }
 
 bool LMFitThread::setupRoadRunner()
@@ -231,7 +232,7 @@ void evaluate(const double   *par,  		//Parameter vector
     {
     	char* lastError = getLastError();
         Log(lError)<<"Error in simulateEx: "<<lastError;
-        freeText(lastError);
+        rr::freeText(lastError);
         return;
     }
     //calculate fvec for each specie

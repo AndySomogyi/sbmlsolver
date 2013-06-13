@@ -50,7 +50,17 @@ int main(int argc, char* argv[])
         gTSModelsPath = joinPath(joinPath(gTSModelsPath, "cases"), "semantic");
         Log(lInfo)<<"Testing model: "<<args.ModelNumber;
 
-        RunTest("l2v4", args.ModelNumber);
+        switch(args.ModelVersion)
+        {
+	        case l2v4:
+            	RunTest("l2v4", args.ModelNumber);
+        	break;
+	        case l3v1:
+            	RunTest("l3v1", args.ModelNumber);
+        	break;
+
+        }
+
         return 0;
     }
     catch (char* msg)
@@ -67,11 +77,12 @@ int main(int argc, char* argv[])
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
     char c;
-    while ((c = GetOptions(argc, argv, ("vi:m:t:"))) != -1)
+    while ((c = GetOptions(argc, argv, ("vi:a:m:t:"))) != -1)
     {
         switch (c)
         {
             case ('i'): args.ModelNumber                     		= toInt(rrOptArg);                 break;
+            case ('a'): args.ModelVersion                     		= (ModelVersions) toInt(rrOptArg);                 break;
             case ('m'): args.SBMLModelsFilePath                     = rrOptArg;                       break;
 			case ('t'): args.TempDataFolder        		            = rrOptArg;                       break;
 			case ('v'): args.EnableLogging        		            = true;                       break;

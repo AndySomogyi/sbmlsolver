@@ -114,14 +114,14 @@ C_DECL_SPEC bool  rrcCallConv  setInstallFolder(const char* folder);
  \return Returns null if it fails, otherwise it returns the version number of the C API library
  \ingroup utility
 */
-C_DECL_SPEC char* rrcCallConv getAPIVersion();
+C_DECL_SPEC char* rrcCallConv getAPIVersion(void);
 
 /*!
  \brief Retrieve the current version number of the C++ API (Core RoadRunner API) library
  \return Returns null if it fails, otherwise it returns the version number of the C++ API library
  \ingroup utility
 */
-C_DECL_SPEC char* rrcCallConv getCPPAPIVersion();
+C_DECL_SPEC char* rrcCallConv getCPPAPIVersion(void);
 
 /*!
  \brief Retrieve extended API info.
@@ -743,7 +743,7 @@ C_DECL_SPEC RRVectorHandle rrcCallConv getFloatingSpeciesConcentrations(RRHandle
 
 
 /*!
- \brief Retrieve the concentrations for all the boundary species in a vector 
+ \brief Retrieve the concentrations for all the boundary species in a vector
 
  Example: \code RRVectorHandle values = getBoundarySpeciesConcentrations (void); \endcode
 
@@ -758,7 +758,7 @@ C_DECL_SPEC RRVectorHandle rrcCallConv getBoundarySpeciesConcentrations(RRHandle
 // --------------------------------------------------------------------------------
 
 /*!
- \brief Retrieve the values for all the lgobal parameter values in a vector 
+ \brief Retrieve the values for all the lgobal parameter values in a vector
 
  Example: \code RRVectorHandle values = getGlobalParameterValues (void); \endcode
 
@@ -823,10 +823,8 @@ C_DECL_SPEC bool rrcCallConv setFloatingSpeciesByIndex(RRHandle handle, const in
 */
 C_DECL_SPEC bool rrcCallConv setGlobalParameterByIndex(RRHandle handle, const int index, const double value);
 
-
 /*!
- \brief Retrieve the concentration for a particular floating species. 
-
+ \brief Retrieve the concentration for a particular floating species.
  \param[in] handle Handle to a RoadRunner instance
  \param index The index to the boundary species (corresponds to position in getBoundarySpeciesIds(RRHandle handle))
  \param value The value returned by the method
@@ -943,7 +941,6 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getReducedJacobian(RRHandle handle);
 
 /*!
  \brief Retrieve the eigenvalue matrix for the current model
-
  \param[in] handle Handle to a RoadRunner instance
  \return Returns null if it fails, otherwise returns a matrix of eigenvalues.
  The first column will contain the real values and the second column the imaginary values
@@ -951,20 +948,6 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getReducedJacobian(RRHandle handle);
 */
 C_DECL_SPEC RRMatrixHandle rrcCallConv getEigenvalues(RRHandle handle);
 
-// --------------------------------------------------------------------------------
-// General purpose linear algebra methods
-// --------------------------------------------------------------------------------
-
-/*!
- \brief Compute the eigenvalues of a double matrix
-
- \param[in] handle Handle to a RoadRunner instance
- \param[in] mat Handle to input matrix
- \return Returns null if it fails, otherwise returns a matrix of eigenvalues.
- The first column will contain the real values and the second column the imaginary values
- \ingroup LinearAlgebra
-*/
-C_DECL_SPEC RRMatrixHandle rrcCallConv getEigenvaluesMatrix (RRHandle handle, const RRMatrixHandle mat);
 
 // --------------------------------------------------------------------------------
 // Stoichiometry methods

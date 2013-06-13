@@ -57,7 +57,7 @@ char* rrcCallConv getParameterValueAsString(RRParameterHandle handle)
     {
         BaseParameter* para = castToParameter(handle);
         string val = para->getValueAsString();
-        return createText(val);
+        return rr::createText(val);
     }
     catch_ptr_macro
 }
@@ -77,7 +77,7 @@ char* rrcCallConv getParameterName(RRParameterHandle handle)
 	try
     {
         BaseParameter* para = castToParameter(handle);
-        return createText(para->getName());
+        return rr::createText(para->getName());
     }
     catch_ptr_macro
 }
@@ -87,7 +87,7 @@ char* rrcCallConv getParameterHint(RRParameterHandle handle)
 	try
     {
         BaseParameter* para = castToParameter(handle);
-        return createText(para->getHint());
+        return rr::createText(para->getHint());
     }
     catch_ptr_macro
 }

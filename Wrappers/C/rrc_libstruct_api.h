@@ -91,6 +91,44 @@ A * v(j) = lambda(j) * v(j)
 C_DECL_SPEC RRComplexMatrixHandle rrcCallConv getZEigenVectors(RRComplexMatrixHandle matrix);
 
 
+/*! \brief Returns values for conservation laws using the current initial conditions
+\remarks free vector using freeVector function
+
+\return The return value will be zero (0) when successful, and negative (-1) in case
+no stoichiometry matrix was loaded beforehand or none of the analysis methods has
+been called yet.
+\param[in] handle Handle to a RoadRunner instance
+\return Returns null if it fails, otherwise returns a RRVectorHandle.
+\ingroup Stoich
+
+*/
+// int LibStructural_getConservedSums(double* *outArray, int *outLength);
+RRVectorHandle getConservedSums(RRHandle handle);
+
+
+// --------------------------------------------------------------------------------
+// General purpose linear algebra methods
+// --------------------------------------------------------------------------------
+
+/*!
+ \brief Compute the eigenvalues of a double matrix
+
+ \param[in] mat Handle to input matrix
+ \return Returns null if it fails, otherwise returns a matrix of eigenvalues.
+ The first column will contain the real values and the second column the imaginary values
+ \ingroup LinearAlgebra
+*/
+C_DECL_SPEC RRMatrixHandle rrcCallConv getEigenvaluesMatrix(const RRMatrixHandle mat);
+
+/*!
+ \brief Compute the eigenvalues of a double matrix
+
+ \param[in] mat Handle to input matrix
+ \return Returns null if it fails, otherwise returns a complex vector of eigenvalues.
+ \ingroup LinearAlgebra
+*/
+C_DECL_SPEC RRComplexVectorHandle rrcCallConv getEigenvaluesVector(const RRMatrixHandle mat);
+
 //---------------------------------------------------------------------------
 #if defined(__cplusplus)
 }
@@ -887,19 +925,6 @@ C_DECL_SPEC RRComplexMatrixHandle rrcCallConv getZEigenVectors(RRComplexMatrixHa
 //\return the number of conservation laws
 //*/
 //  int LibStructural_getNumConservedSums();
-///*! \brief Returns values for conservation laws using the current initial conditions
-//
-//\param outArray will be allocated and filled with a double vector of all conserved sums
-//\param outLength is the number of conserved sums
-//\remarks free outArray using ::LibStructural_freeVector
-//
-//\return The return value will be zero (0) when successful, and negative (-1) in case
-//no stoichiometry matrix was loaded beforehand or none of the analysis methods has
-//been called yet.
-//
-//*/
-// int LibStructural_getConservedSums(double* *outArray, int *outLength);
-//
 ///*! \brief Returns the initial conditions used in the model.
 //\param outVariableNames a string vector of all species Ids
 //\param outValues a double vector of corresponding initial conditions

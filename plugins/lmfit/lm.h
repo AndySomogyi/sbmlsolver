@@ -40,6 +40,7 @@ class LM : public Plugin
         string                                  getResult();
         bool                                    resetPlugin();
         bool                                    setInputData(void* data);
+        string                                  getImplementationLanguage();
 };
 
 extern "C"
