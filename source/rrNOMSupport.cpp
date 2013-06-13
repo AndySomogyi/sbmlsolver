@@ -54,7 +54,7 @@ NOMSupport::~NOMSupport()
 }
 
 
-string    NOMSupport::getlibSBMLVersion()
+string NOMSupport::getlibSBMLVersion()
 {
     return getLibSBMLDottedVersion();
 }
@@ -1718,7 +1718,8 @@ ArrayList NOMSupport::getNthEvent(const int& arg)
     return triggerAssignmentsList;
 }
 
-string NOMSupport::getNthFloatingSpeciesCompartmentName(const int& nIndex)
+
+string NOMSupport::getNthFloatingSpeciesCompartmentName(int nIndex)
 {
     if (mModel == NULL)
     {

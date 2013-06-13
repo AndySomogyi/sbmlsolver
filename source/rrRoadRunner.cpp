@@ -777,11 +777,11 @@ DoubleMatrix RoadRunner::simulate()
     }
     catch (const Exception& e)
     {
-		stringstream msg;
-		msg<<"Problem in simulate: "<<e.Message();
-		Log(lError)<<msg.str();
+        stringstream msg;
+        msg<<"Problem in simulate: "<<e.Message();
+        Log(lError)<<msg.str();
 
-		throw(CoreException(msg.str()));
+        throw(CoreException(msg.str()));
     }
 
 }
@@ -855,7 +855,6 @@ DoubleMatrix RoadRunner::simulateEx(const double& startTime, const double& endTi
     }
 }
 
-//Returns the currently selected columns that will be returned by calls to simulate() or simulateEx(,,).
 StringList RoadRunner::getTimeCourseSelectionList()
 {
     StringList oResult;
@@ -924,7 +923,7 @@ StringList RoadRunner::getTimeCourseSelectionList()
     return oResult;
 }
 
-// Help("Compute the steady state of the model, returns the sum of squares of the solution")
+
 double RoadRunner::steadyState()
 {
     if (!mModel)
@@ -1080,7 +1079,6 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
     return getEE(reactionName, parameterName, true);
 }
 
-// [Help("Get scaled elasticity coefficient with respect to a global parameter or species. Optionally the model is brought to steady state after the computation.")]
 double RoadRunner::getEE(const string& reactionName, const string& parameterName, bool computeSteadyState)
 {
     TParameterType parameterType;
@@ -1130,7 +1128,7 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
     return getuEE(reactionName, parameterName, computeSteadyState) * parameterValue / variableValue;
 }
 
-//        [Help("Get unscaled elasticity coefficient with respect to a global parameter or species")]
+
 double RoadRunner::getuEE(const string& reactionName, const string& parameterName)
 {
     return getuEE(reactionName, parameterName, true);
@@ -1168,7 +1166,6 @@ class aFinalizer
                         }
 };
 
-//[Help("Get unscaled elasticity coefficient with respect to a global parameter or species. Optionally the model is brought to steady state after the computation.")]
 double RoadRunner::getuEE(const string& reactionName, const string& parameterName, bool computeSteadystate)
 {
     try
@@ -1616,7 +1613,7 @@ DoubleMatrix* RoadRunner::getLinkMatrix()
     }
     catch (const Exception& e)
     {
-    	throw CoreException("Unexpected error from getLinkMatrix()", e.Message());
+        throw CoreException("Unexpected error from getLinkMatrix()", e.Message());
     }
 }
 
@@ -2598,7 +2595,7 @@ double RoadRunner::getReactionRate(const int& index)
     }
 }
 
-// Help("Returns the rate of changes of a species by its index")
+
 double RoadRunner::getRateOfChange(const int& index)
 {
     if (!mModel)
@@ -2644,7 +2641,7 @@ int RoadRunner::getNumberOfCompartments()
     return mModel->getNumCompartments();
 }
 
-// Help("Sets the value of a compartment by its index")
+
 void RoadRunner::setCompartmentByIndex(const int& index, const double& value)
 {
     if (!mModel)
@@ -2662,7 +2659,6 @@ void RoadRunner::setCompartmentByIndex(const int& index, const double& value)
     }
 }
 
-// Help("Returns the value of a compartment by its index")
 double RoadRunner::getCompartmentByIndex(const int& index)
 {
     if (!mModel)
@@ -2678,7 +2674,6 @@ double RoadRunner::getCompartmentByIndex(const int& index)
     throw CoreException(format("Index in getCompartmentByIndex out of range: [{0}]", index));
 }
 
-// Help("Get the number of boundary species")
 int RoadRunner::getNumberOfBoundarySpecies()
 {
     if (!mModel)
@@ -3898,7 +3893,7 @@ StringList RoadRunner::getListOfParameters(const string& cap)
     {
         return paras->asStringList();
     }
-	return StringList();
+    return StringList();
 }
 
 void RoadRunner::setTolerances(const double& aTol, const double& rTol)
