@@ -15,11 +15,11 @@ using namespace rrc;
 using namespace UnitTest;
 using std::string;
 
-string 	gTempFolder		   		= "";
-string 	gRRInstallFolder 		= "";
-string  gTestDataFolder			= "";
-bool	gDebug			    	= false;
-string 	gTSModelsPath;
+string     gTempFolder                   = "";
+string     gRRInstallFolder         = "";
+string  gTestDataFolder            = "";
+bool    gDebug                    = false;
+string     gTSModelsPath;
 
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 bool setup(Args& args);
@@ -30,50 +30,50 @@ int main(int argc, char* argv[])
     enableLoggingToConsole();
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
-	setup(args);
+    setup(args);
 
-	string reportFile(args.ResultOutputFile);
- 	fstream aFile(reportFile.c_str(), ios::out);
+    string reportFile(args.ResultOutputFile);
+     fstream aFile(reportFile.c_str(), ios::out);
     if(!aFile)
     {
-    	cerr<<"Failed opening report file: "<<reportFile<<" in rrc_api testing executable.\n";
-    	return false;
+        cerr<<"Failed opening report file: "<<reportFile<<" in rrc_api testing executable.\n";
+        return false;
     }
 
-	XmlTestReporter reporter1(aFile);
-	TestRunner runner1(reporter1);
+    XmlTestReporter reporter1(aFile);
+    TestRunner runner1(reporter1);
 
     if(args.Suites.find('A') != std::string::npos)
     {
-		clog<<"Running Suite CORE_TESTS\n";
-		runner1.RunTestsIf(Test::GetTestList(), "CORE_TESTS", 			True(), 0);
+        clog<<"Running Suite CORE_TESTS\n";
+        runner1.RunTestsIf(Test::GetTestList(), "CORE_TESTS",             True(), 0);
     }
 
     if(args.Suites.find('B') != std::string::npos)
     {
-		clog<<"Running Suite TEST_MODEL_1\n";
-		runner1.RunTestsIf(Test::GetTestList(), "TEST_MODEL_1",  		True(), 0);
+        clog<<"Running Suite TEST_MODEL_1\n";
+        runner1.RunTestsIf(Test::GetTestList(), "TEST_MODEL_1",          True(), 0);
     }
 
     if(args.Suites.find('C') != std::string::npos)
     {
-		clog<<"Running Suite NOM TESTS\n";
-		runner1.RunTestsIf(Test::GetTestList(), "NOM_TESTS", 			True(), 0);
-	}
+        clog<<"Running Suite NOM TESTS\n";
+        runner1.RunTestsIf(Test::GetTestList(), "NOM_TESTS",             True(), 0);
+    }
 
     if(args.Suites.find('D') != std::string::npos)
     {
-		clog<<"Running Suite LibStruct TESTS\n";
-		runner1.RunTestsIf(Test::GetTestList(), "LIBSTRUCT_TESTS", 	 	True(), 0);
-	}
+        clog<<"Running Suite LibStruct TESTS\n";
+        runner1.RunTestsIf(Test::GetTestList(), "LIBSTRUCT_TESTS",          True(), 0);
+    }
 
     if(args.Suites.find('E') != std::string::npos)
     {
 
-		clog<<"Running Suite SBML_l2v4\n";
-    	clog<<"ModelPath "<<gTSModelsPath;
-    	runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE", 			True(), 0);
-	}
+        clog<<"Running Suite SBML_l2v4\n";
+        clog<<"ModelPath "<<gTSModelsPath;
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE",             True(), 0);
+    }
 
 
     //Finish outputs result to xml file
@@ -87,22 +87,22 @@ bool setup(Args& args)
     clog<<"RoadRunner bin location is: "<<thisExeFolder<<endl;
 
     //Assume(!) this is the bin folder of roadrunner install
-	gRRInstallFolder 	= getParentFolder(thisExeFolder);
-    gDebug				= args.EnableLogging;
-    gTSModelsPath 		= args.ModelsFilePath;
-    gTempFolder			= args.TempDataFolder;
-	gTestDataFolder  	= joinPath(gRRInstallFolder, "testing");
+    gRRInstallFolder     = getParentFolder(thisExeFolder);
+    gDebug                = args.EnableLogging;
+    gTSModelsPath         = args.ModelsFilePath;
+    gTempFolder            = args.TempDataFolder;
+    gTestDataFolder      = joinPath(gRRInstallFolder, "testing");
     if(args.Suites.size() == 0)
     {
-    	//Run all
+        //Run all
         args.Suites = "ABCDEF";
     }
 
-	setInstallFolder(gRRInstallFolder.c_str());
+    setInstallFolder(gRRInstallFolder.c_str());
 
     if(gDebug)
     {
-	    enableLoggingToConsole();
+        enableLoggingToConsole();
         setLogLevel("Debug5");
     }
     else
@@ -122,13 +122,12 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     {
         switch (c)
         {
-            case ('m'): args.ModelsFilePath      	               = rrOptArg;                       break;
-            case ('r'): args.ResultOutputFile                       = rrOptArg;                       break;
-			case ('t'): args.TempDataFolder        		            = rrOptArg;                       break;
-			case ('v'): args.EnableLogging        		            = true;
-            case ('s'): args.Suites            					    = rrOptArg;
-            break;
-            case ('?'): cout<<Usage(argv[0])<<endl;
+            case ('m'): args.ModelsFilePath     = rrOptArg; break;
+            case ('r'): args.ResultOutputFile   = rrOptArg; break;
+            case ('t'): args.TempDataFolder     = rrOptArg; break;
+            case ('v'): args.EnableLogging      = true;     break;
+            case ('s'): args.Suites             = rrOptArg; break;
+            case ('?'): cout << Usage(argv[0]) << endl;     break;
             default:
             {
                 string str = argv[rrOptInd-1];
@@ -145,7 +144,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     if(argc < 2)
     {
         cout<<Usage(argv[0])<<endl;
-       	rr::pause();
+           rr::pause();
         cout<<"\n";
         exit(0);
     }
@@ -160,9 +159,9 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 #endif
 
 #if defined(STATIC_RR)
-	#pragma comment(lib, "roadrunner-static.lib")
+    #pragma comment(lib, "roadrunner-static.lib")
 #else
-	#pragma comment(lib, "roadrunner.lib")
+    #pragma comment(lib, "roadrunner.lib")
 #endif
 
 #pragma comment(lib, "sundials_cvode")
