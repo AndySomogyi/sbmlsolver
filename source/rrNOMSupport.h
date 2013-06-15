@@ -105,10 +105,21 @@ public:
     int                     getNumFunctionDefinitions();
     int                     getNumGlobalParameters();
     int                     getNumInitialAssignments();
-    int                     getNumParameters(const int& var0);
+
+    /**
+     * @return the number of parameters for the i'th reaction, if reaction is
+     * not a kinetic law, 0 otherwise.
+     */
+    int                     getNumParameters(int reaction);
+
     int                     getNumProducts(const int& var0);
     int                     getNumReactants(const int& var0);
+
+    /**
+     * @return the number of Reactions in this Model.
+     */
     int                     getNumReactions();
+
     int                     getNumRules();
     int                     getSBOTerm(const string& sId);
     pair<string, string>    getNthInitialAssignmentPair(const int& nIndex);

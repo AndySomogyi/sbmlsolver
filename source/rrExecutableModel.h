@@ -21,6 +21,14 @@ class CvodeInterface;
  * The ExecutableModel interface provides a way to access an
  * sbml model that was compiled, JIT'd or interpreted
  * as executable (runnable) module.
+ *
+ * An ExecutableModel holds a ModelData structure, all the simulation
+ * values are stored in the ModelData struct, i.e. the dynamic state
+ * of the model is fully contained in the ModelData structure.
+ *
+ * An ExecutableModel shoud also contain all of the initial condisions,
+ * rules, functions and whatever other semantic information that was
+ * specified in the sbml model.
  */
 class RR_DECLSPEC ExecutableModel
 {
@@ -32,9 +40,35 @@ public:
     virtual void assignCVodeInterface(CvodeInterface* cvodeI) = 0;
     virtual void setTime(double _time) = 0;
     virtual double getTime() = 0;
+
+    /**
+     * get a reference to the internal ModelData structure.
+     */
     virtual ModelData& getModelData() = 0;
 
     virtual CvodeInterface* getCvodeInterface() = 0;
+
+    /**
+     * Sets the initial floating species concentrations, ModelData::init_y to
+     * the initial value specified in the sbml model. The initial concentration
+     * value can be spefied either by a constant value, or with an assigment rule.
+     *
+     * TODO: Perhaps this should be renamed 'initializeInitialConcentrations' ???
+     */
+    virtual void initializeInitialConditions() = 0;
+
+    /**
+     * Sets the the concentrations and ammounts to the values specified
+     * by the initial conditions, ModelData::init_y, i.e. the ModelData::amounts[:]
+     * are set to ModelData::init_y[:] * compartment volume, and ModelData::y[:] is
+     * set to ModelData::init_y[:].
+     *
+     * This sets the concentrations and ammounts to either initialAmount or
+     * initialConcentration (which ever exists) or 0 if they are missing. A
+     * later call to evalInitialAssignments will apply any initialAssigments to
+     * update the concentations and ammounts.
+     */
+    virtual void setInitialConditions() = 0;
 
     // functions --------------------------------------------------------
     virtual int getNumIndependentVariables() = 0;
@@ -50,18 +84,53 @@ public:
     virtual void setConcentration(int index, double value) = 0;
     virtual void computeReactionRates(double time, double* y) = 0;
 
+    /**
+     * Sets the compartment volumes to the conditions specified in the sbml model.
+     * Compartment volumes can be specified either with a fixed value, or
+     * a rule based assigment.
+     *
+     * TODO: would it make more sense to call this 'setInitialVolumes' ???
+     *       note, it is redundent using 'Compartment' and 'Volume' as
+     *       only compartments have volumes.
+     *
+     * This sets the compartment volumes to the size attribute specified in the
+     * smbl. If an initialAssigment element exists, it will will be applied
+     * by evalInitialAssignments.
+     */
     virtual void setCompartmentVolumes() = 0;
+
     virtual int getNumLocalParameters(int reactionId) = 0;
+
     virtual void computeRules(vector<double>& _y) = 0;
+
     virtual void computeRules(double* ay, int size) = 0;
-    virtual void initializeInitialConditions() = 0;
+
     virtual void setParameterValues() = 0;
+
+    /**
+     * set the concentations (ModelData::bc) to the initialConcentration or
+     * initialAmmount value specified in the sbml. If an initialAssigment
+     * element exists, it can be applied with evalInitialAssignments.
+     */
     virtual void setBoundaryConditions() = 0;
-    virtual void setInitialConditions() = 0;
+
+    /**
+     * evaluate and applies all of the initialAssigment rules. This
+     * will overwrite any values subseqently specified by initialConcentration,
+     * initialSize, ....
+     */
     virtual void evalInitialAssignments() = 0;
 
+    /**
+     * sets the ammounts (ModelData::ammounts) by multipying the concentations
+     * (ModelData::y) by the compartment volume that the species belongs to.
+     *
+     * Only for floating species.
+     */
     virtual void convertToAmounts() = 0;
+
     virtual void computeConservedTotals() = 0;
+
     virtual double getConcentration(int index) = 0;
 
     //Access dll data

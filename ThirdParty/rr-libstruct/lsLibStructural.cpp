@@ -25,51 +25,144 @@ using namespace std;
 namespace ls
 {
 
-//LibStructural* LibStructural::_Instance = NULL;
-
 LibStructural::LibStructural() :
-_Tolerance(1.0E-9),
-_Model(NULL),
-_NumRows(0),
-_NumCols(0),
-_K0(NULL),
-_N0(NULL),
-_Nr(NULL),
-_L0(NULL),
-_L(NULL),
-_K(NULL),
-_NullN(NULL),
-_G(NULL),
-_Nmat(NULL),
-_Nmat_orig(NULL),
-_NmatT(NULL),
-_NmatT_orig(NULL),
-_Totals(NULL),
-_IC(NULL),
-_BC(NULL),
-spVec(NULL),
-colVec(NULL),
-numReactions(0),
-_Sparsity(0),
-numBoundary(0),
-_NumDependent(0),
-zero_nmat(0),
-_QrRankNmat(0),
-nz_count(0),
-_SvdRankNr(0),
-_svd_rank_Nmat(0),
-_SvdRankNmat(0),
-numFloating(0),
-_NumIndependent(0),
-_qr_rank_Nrmat(0),
-_svd_rank_Nrmat(0),
-_Pvalue(0),
-_sModelName("untitled")
-{}
+    _Tolerance(1.0E-9),
+    _Model(NULL),
+    _NumRows(0),
+    _NumCols(0),
+    _K0(NULL),
+    _N0(NULL),
+    _Nr(NULL),
+    _L0(NULL),
+    _L(NULL),
+    _K(NULL),
+    _NullN(NULL),
+    _G(NULL),
+    _Nmat(NULL),
+    _Nmat_orig(NULL),
+    _NmatT(NULL),
+    _NmatT_orig(NULL),
+    _Totals(NULL),
+    _IC(NULL),
+    _BC(NULL),
+    spVec(NULL),
+    colVec(NULL),
+    numReactions(0),
+    _Sparsity(0),
+    numBoundary(0),
+    _NumDependent(0),
+    zero_nmat(0),
+    _QrRankNmat(0),
+    nz_count(0),
+    _SvdRankNr(0),
+    _svd_rank_Nmat(0),
+    _SvdRankNmat(0),
+    numFloating(0),
+    _NumIndependent(0),
+    _qr_rank_Nrmat(0),
+    _svd_rank_Nrmat(0),
+    _Pvalue(0),
+    _sModelName("untitled")
+{
+}
+
+LibStructural::LibStructural(const std::string &sbml) :
+    _Tolerance(1.0E-9),
+    _Model(new SBMLmodel(sbml)),
+    _NumRows(0),
+    _NumCols(0),
+    _K0(NULL),
+    _N0(NULL),
+    _Nr(NULL),
+    _L0(NULL),
+    _L(NULL),
+    _K(NULL),
+    _NullN(NULL),
+    _G(NULL),
+    _Nmat(NULL),
+    _Nmat_orig(NULL),
+    _NmatT(NULL),
+    _NmatT_orig(NULL),
+    _Totals(NULL),
+    _IC(NULL),
+    _BC(NULL),
+    spVec(NULL),
+    colVec(NULL),
+    numReactions(0),
+    _Sparsity(0),
+    numBoundary(0),
+    _NumDependent(0),
+    zero_nmat(0),
+    _QrRankNmat(0),
+    nz_count(0),
+    _SvdRankNr(0),
+    _svd_rank_Nmat(0),
+    _SvdRankNmat(0),
+    numFloating(0),
+    _NumIndependent(0),
+    _qr_rank_Nrmat(0),
+    _svd_rank_Nrmat(0),
+    _Pvalue(0),
+    _sModelName("untitled")
+{
+    analyzeWithQR();
+}
+
+/**
+ * Attach a LibStructural to an existing sbml model.
+ *
+ * Performs all of the same analysis as LibStructural::LibStructural(std::string sbml);
+ */
+LibStructural::LibStructural(const libsbml::Model *model) :
+    _Tolerance(1.0E-9),
+    _Model(new SBMLmodel(model)),
+    _NumRows(0),
+    _NumCols(0),
+    _K0(NULL),
+    _N0(NULL),
+    _Nr(NULL),
+    _L0(NULL),
+    _L(NULL),
+    _K(NULL),
+    _NullN(NULL),
+    _G(NULL),
+    _Nmat(NULL),
+    _Nmat_orig(NULL),
+    _NmatT(NULL),
+    _NmatT_orig(NULL),
+    _Totals(NULL),
+    _IC(NULL),
+    _BC(NULL),
+    spVec(NULL),
+    colVec(NULL),
+    numReactions(0),
+    _Sparsity(0),
+    numBoundary(0),
+    _NumDependent(0),
+    zero_nmat(0),
+    _QrRankNmat(0),
+    nz_count(0),
+    _SvdRankNr(0),
+    _svd_rank_Nmat(0),
+    _SvdRankNmat(0),
+    numFloating(0),
+    _NumIndependent(0),
+    _qr_rank_Nrmat(0),
+    _svd_rank_Nrmat(0),
+    _Pvalue(0),
+    _sModelName("untitled")
+{
+    analyzeWithQR();
+}
 
 LibStructural::~LibStructural()
 {
     Reset();
+}
+
+std::string LibStructural::getAnalysisMsg()
+{
+    return _analysisMsg;
 }
 
 double LibStructural::getTolerance()
@@ -149,11 +242,11 @@ void LibStructural::Reset()
 string LibStructural::loadSBML(string sSBML)
 {
     Reset();
-    _Model = new SBMLmodel(sSBML); //Todo: memoryleak
+    _Model = new SBMLmodel(sSBML); //Todo: memoryleak should be fixed, verify
 
     string msg = "";
 
-    msg = analyzeWithQR();    //Todo: memoryleaks!
+    msg = analyzeWithQR();    //Todo: memoryleaks should be fixed, verify
     return msg;
 }
 
@@ -648,7 +741,8 @@ string LibStructural::analyzeWithQR()
         oResult << GenerateResultString();
     }
 
-    return oResult.str();
+    _analysisMsg = oResult.str();
+    return _analysisMsg;
 }
 
 
@@ -1008,7 +1102,8 @@ string LibStructural::analyzeWithLU()
 
     DELETE_IF_NON_NULL(oLUResult);
 
-    return oResult.str();
+    _analysisMsg = oResult.str();
+    return _analysisMsg;
 }
 
 //Uses LU Decomposition for Conservation analysis
@@ -1020,8 +1115,8 @@ string LibStructural::analyzeWithLUandRunTests()
     oResult << endl << endl;
     oResult << getTestDetails();
 
-    return oResult.str();
-
+    _analysisMsg = oResult.str();
+    return _analysisMsg;
 }
 
 //Uses fully pivoted LU Decomposition for Conservation analysis
@@ -1162,7 +1257,8 @@ string LibStructural::analyzeWithFullyPivotedLU()
         oResult << GenerateResultString();
     }
 
-    return oResult.str();
+    _analysisMsg = oResult.str();
+    return _analysisMsg;
 }
 
 //Uses fully pivoted LU Decomposition for Conservation analysis
@@ -1174,7 +1270,8 @@ string LibStructural::analyzeWithFullyPivotedLUwithTests()
     oResult << endl << endl;
     oResult << getTestDetails();
 
-    return oResult.str();
+    _analysisMsg = oResult.str();
+    return _analysisMsg;
 }
 
 //Returns L0 Matrix
@@ -2122,15 +2219,6 @@ void LibStructural::setTolerance(double dTolerance)
     _Tolerance = dTolerance;
 }
 
-LibStructural* LibStructural::getInstance()
-{
-//    if (_Instance == NULL)
-//    {
-//        _Instance = new LibStructural();//Todo: memoryleak
-//    }
-//    return _Instance;
-    return this;
-}
 
 
 // load a new stoichiometry matrix and reset current loaded model
