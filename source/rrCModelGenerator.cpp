@@ -2534,7 +2534,7 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
     mModelLib = 0;
 
     // clear state
-    ModelGenerator::reset();
+    CompiledModelGenerator::reset();
 
     return result;
 }
