@@ -23,12 +23,11 @@ class RR_DECLSPEC CompiledModelGenerator : public ModelGenerator
 {
 protected:
     CompiledModelGenerator();
-    virtual 				   ~CompiledModelGenerator();
+    virtual    ~CompiledModelGenerator();
 
     string                              substituteTerms(const string& reactionName, const string& inputEquation, bool bFixAmounts);
     string                              substituteTerms(const int& numReactions, const string& reactionName, const string& equation);
 
-    //Pure Virtual functions... =====================================
     virtual string                      convertUserFunctionExpression(const string& equation) = 0;
     virtual void                        substituteEquation(const string& reactionName, Scanner& s, CodeBuilder& sb) = 0;
     virtual void                        substituteWords(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb) = 0;
@@ -64,6 +63,60 @@ protected:
     virtual string                      convertSpeciesToY(const string& speciesName) = 0;
     virtual string                      convertSymbolToC(const string& compartmentName) = 0;
     virtual string                      convertSymbolToGP(const string& parameterName) = 0;
+
+    void                                reset();
+
+    int                                 numAdditionalRates();        //this variable is the size of moMapRateRule
+
+    /**
+     * Refernce to libstruct library
+     * this are set by createModel, and for the time being remain after createModel
+     * completes.
+     */
+    LibStructural*                      mLibStruct;
+
+    /**
+     * Object that provide some wrappers and new "NOM" functions.
+     * this are set by createModel, and for the time being remain after createModel
+     * completes.
+     */
+    NOMSupport*                         mNOM;
+
+    bool                                mComputeAndAssignConsevationLaws;
+
+    const string                        mFixAmountCompartments;
+
+    StringList                          mWarnings;
+
+    /**
+     * get various information about the model in a user displayable format.
+     */
+    virtual string                      getInfo();
+
+    /**
+     * creates a new AST node
+     */
+    static ASTNode*                     cleanEquation(ASTNode* ast);
+    static string                       cleanEquation(const string& equation);
+
+    ls::DoubleMatrix*                   initializeL0(int& nrRows, int& nrCols);
+    bool                                expressionContainsSymbol(ASTNode* ast, const string& symbol);
+    bool                                expressionContainsSymbol(const string& expression, const string& symbol);
+    const Symbol*                       getSpecies(const string& id);
+    int                                 readGlobalParameters();
+    void                                readLocalParameters(const int& numReactions,  vector<int>& localParameterDimensions, int& totalLocalParmeters);
+    int                                 readCompartments();
+
+    string                              writeDouble(const double& value, const string& format = "%G");
+
+    /**
+     * hold all the symbolic (AKA metadata) information in the model
+     * The idea is that all the memebers of this class will be const, and the entire
+     * thing will be created anew each time createModel is called.
+     *
+     * This thing will creted in one shot, then all the code building will access it.
+     */
+    ModelSymbols                         ms;
 };
 
 } /* namespace rr */
