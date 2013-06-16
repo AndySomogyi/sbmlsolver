@@ -13,6 +13,14 @@
 namespace rr
 {
 
+/**
+ * General concepts:
+ *
+ * SBML defines chemical species.
+ *
+ * Floating Species: species whose value varies over time, i.e. they can 'float'
+ * Boundary Species: boundary condition species, values are fixed to initial conditions.
+ */
 class LLVMModelGenerator: public rr::ModelGenerator
 {
 public:
