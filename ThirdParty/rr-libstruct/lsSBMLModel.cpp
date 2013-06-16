@@ -13,22 +13,37 @@
 //---------------------------------------------------------------------------
 using namespace std;
 
+static const char* InvalidModelMessage = "Invalid SBML Model";
+static const char* InvalidModelDetailedMessage = "The SBML model was invalid. Please validate it using a SBML validator such as: http://sys-bio.org/validate.";
+
 namespace ls
 {
 
-SBMLmodel::SBMLmodel()
-	:
-	_Document(NULL),
-    _Model(NULL)
+SBMLmodel::SBMLmodel(const string &sSBML)
+    :
+    _Document(readSBMLFromString(sSBML.c_str())),
+    _Model(_Document->getModel())
 {
+    if (_Model == NULL)
+        throw new ApplicationException(InvalidModelMessage, InvalidModelDetailedMessage);
 }
 
-SBMLmodel::SBMLmodel(string &sSBML)
-	:
-    _Document(NULL),
-    _Model(NULL)
+SBMLmodel::SBMLmodel(SBMLDocument *document)
+    :
+    _Document(document),
+    _Model(_Document->getModel())
 {
-    InitializeFromSBML(sSBML);
+    if (_Model == NULL)
+        throw new ApplicationException(InvalidModelMessage, InvalidModelDetailedMessage);
+}
+
+SBMLmodel::SBMLmodel(const libsbml::Model *model)
+    :
+    _Document(0),
+    _Model(model)
+{
+    if (_Model == NULL)
+        throw new ApplicationException(InvalidModelMessage, InvalidModelDetailedMessage);
 }
 
 SBMLmodel::~SBMLmodel(void)
@@ -38,52 +53,32 @@ SBMLmodel::~SBMLmodel(void)
 
 SBMLmodel* SBMLmodel::FromFile(string &sFileName)
 {
-    SBMLmodel *oResult = new SBMLmodel();
-    oResult->InitializeFromFile(sFileName);
-    return oResult;
+    SBMLDocument *document = readSBMLFromFile(sFileName.c_str());
+    return new SBMLmodel(document);
 }
 
 SBMLmodel* SBMLmodel::FromSBML(string &sSBML)
 {
-    SBMLmodel *oResult = new SBMLmodel();
-    oResult->InitializeFromSBML(sSBML);
-    return oResult;
+    SBMLDocument *document = readSBMLFromString(sSBML.c_str());
+    return new SBMLmodel(document);
 }
 
-void SBMLmodel::InitializeFromSBML(std::string &sSBML)
+const Model* SBMLmodel::getModel() const
 {
-    SBMLReader oReader;
-    _Document = oReader.readSBMLFromString(sSBML);
-    _Model = _Document->getModel();
-    if (_Model == NULL)
-        throw new ApplicationException("Invalid SBML Model", "The SBML model was invalid. Please validate it using a SBML validator such as: http://sys-bio.org/validate.");
-
-}
-void SBMLmodel::InitializeFromFile(std::string &sFileName)
-{
-    SBMLReader oReader;
-    _Document = oReader.readSBML(sFileName);
-    _Model = _Document->getModel();
-    if (_Model == NULL)
-        throw new ApplicationException("Invalid SBML Model", "The SBML model was invalid. Please validate it using a SBML validator such as: http://sys-bio.org/validate.");
+    return _Model;
 }
 
-Model* SBMLmodel::getModel()
-{
-	return _Model;
-}
-
-int SBMLmodel::numFloatingSpecies()
+int SBMLmodel::numFloatingSpecies() const
 {
     return (int) _Model->getNumSpecies() - _Model->getNumSpeciesWithBoundaryCondition();
 }
 
-int SBMLmodel::numReactions()
+int SBMLmodel::numReactions() const
 {
     return (int) _Model->getNumReactions();
 }
 
-const Species* SBMLmodel::getNthFloatingSpecies(int n)
+const Species* SBMLmodel::getNthFloatingSpecies(int n) const
 {
     int nCount = 0;
     for (unsigned int i = 0; i < _Model->getNumSpecies(); i++)
@@ -98,7 +93,7 @@ const Species* SBMLmodel::getNthFloatingSpecies(int n)
     return NULL;
 }
 
-const Species* SBMLmodel::getNthBoundarySpecies(int n)
+const Species* SBMLmodel::getNthBoundarySpecies(int n) const
 {
     int nCount = 0;
     for (unsigned int i = 0; i < _Model->getNumSpecies(); i++)
@@ -113,7 +108,7 @@ const Species* SBMLmodel::getNthBoundarySpecies(int n)
     return NULL;
 }
 
-const Reaction* SBMLmodel::getNthReaction(int n)
+const Reaction* SBMLmodel::getNthReaction(int n) const
 {
     return _Model->getReaction(n);
 }

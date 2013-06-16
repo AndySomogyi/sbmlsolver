@@ -28,18 +28,66 @@ typedef void     (*TEventAssignmentDelegate)();
  * any issues with generated code interacting with them, they were placed
  * there.
  *
- * \see ExecutableModel.h
+ * Basic Nomencalture
+ * Compartments: A well stirred compartment which contains one or more species.
+ * the volume of a compartment can change durring the course of a simulation.
+ *
+ * Floating Species: these are chemical species who's values (ammount / concentration)
+ * change over time.
+ *
+ * Boundary Species: chemical species that who's values are fixed to their initial conditions,
+ * these function as boundary conditions.
+ *
+ * @see ExecutableModel.h
  */
 typedef struct SModelData
 {
     double                              time;
+
+    /**
+     * number of linearly independent rows in the stochiometry matrix.
+     */
     int                                 numIndependentVariables;
+
+    /**
+     * number of linerly dependent rows in the stoichiometry matrix.
+     */
     int                                 numDependentVariables;
+
+    /**
+     * total number of rows in the stochimetry matrix, this should be
+     * the same as the number of floating species.
+     */
     int                                 numTotalVariables;
+
+    /**
+     * number of boundary species, this will go away once the code is cleaed up.
+     * TODO: clean up whatever uses this.
+     */
     int                                 numBoundaryVariables;
+
+    /**
+     * number of global parameters, same as gpSize.
+     * TODO: clean up whatever uses this.
+     */
     int                                 numGlobalParameters;
+
+    /**
+     * number of compartments, same as cSize.
+     * TODO: clean up whatever uses this.
+     */
     int                                 numCompartments;
+
+    /**
+     * number of reactions, same as ratesSize.
+     * TODO: clean up whatever code that uses this.
+     */
     int                                 numReactions;
+
+    /**
+     * number of rate rules, same as rateRulesSize.
+     * TODO: clean up whatever code that uses this.
+     */
     int                                 numRules;
     int                                 numEvents;
 
@@ -76,6 +124,8 @@ typedef struct SModelData
 
     /**
      * number of global parameters and global parameter values.
+     * global parameters are all the parameters in a model, including
+     * the kinetic law parameters.
      */
     int                                 gpSize;
     double*                             gp;
