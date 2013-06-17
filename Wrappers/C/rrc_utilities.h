@@ -122,13 +122,13 @@ C_DECL_SPEC char* 		 rrcCallConv 	createText(const char* text);
  \return Returns null if fails, otherwise returns a pointer to a new list structure
  \ingroup list
 */
-C_DECL_SPEC RRListHandle rrcCallConv createRRList(void);
+C_DECL_SPEC RRListPtr rrcCallConv createRRList(void);
 
 /*!
- \brief Free RRListHandle structure, i.e destroy a list
+ \brief Free RRListPtr structure, i.e destroy a list
  \ingroup list
 */
-C_DECL_SPEC void rrcCallConv freeRRList (RRListHandle list);
+C_DECL_SPEC void rrcCallConv freeRRList (RRListPtr list);
 
 /*!
  \brief Returns the length of a given list
@@ -137,7 +137,7 @@ C_DECL_SPEC void rrcCallConv freeRRList (RRListHandle list);
  \return Length of list
 \ingroup list
 */
-C_DECL_SPEC int rrcCallConv getListLength (RRListHandle myList);
+C_DECL_SPEC int rrcCallConv getListLength (RRListPtr myList);
 
 
 /*!
@@ -147,7 +147,7 @@ C_DECL_SPEC int rrcCallConv getListLength (RRListHandle myList);
  \return A pointer to the list item
  \ingroup list
 */
-C_DECL_SPEC RRListItemHandle rrcCallConv createIntegerItem (int value);
+C_DECL_SPEC RRListItemPtr rrcCallConv createIntegerItem (int value);
 
 /*!
  \brief Create a list item to store a double value
@@ -156,7 +156,7 @@ C_DECL_SPEC RRListItemHandle rrcCallConv createIntegerItem (int value);
  \return A pointer to the list item
  \ingroup list
 */
-C_DECL_SPEC RRListItemHandle rrcCallConv createDoubleItem  (double value);
+C_DECL_SPEC RRListItemPtr rrcCallConv createDoubleItem  (double value);
 
 /*!
  \brief Create a list item to store a pointer to a char*
@@ -165,7 +165,7 @@ C_DECL_SPEC RRListItemHandle rrcCallConv createDoubleItem  (double value);
  \return A pointer to the list item
  \ingroup list
 */
-C_DECL_SPEC RRListItemHandle rrcCallConv createStringItem  (char* value);
+C_DECL_SPEC RRListItemPtr rrcCallConv createStringItem  (char* value);
 
 /*!
  \brief Create a list item to store a list
@@ -174,7 +174,7 @@ C_DECL_SPEC RRListItemHandle rrcCallConv createStringItem  (char* value);
  \return A pointer to the list item
  \ingroup list
 */
-C_DECL_SPEC RRListItemHandle rrcCallConv createListItem (struct RRList* value);
+C_DECL_SPEC RRListItemPtr rrcCallConv createListItem (struct RRList* value);
 
 /*!
  \brief Add a list item to a list and return index to the added item
@@ -190,7 +190,7 @@ C_DECL_SPEC RRListItemHandle rrcCallConv createListItem (struct RRList* value);
  \return The index to where the list item was added
  \ingroup list
 */
-C_DECL_SPEC int rrcCallConv addItem (RRListHandle list, RRListItemHandle *item);
+C_DECL_SPEC int rrcCallConv addItem (RRListPtr list, RRListItemPtr *item);
 
 
 /*!
@@ -202,7 +202,7 @@ C_DECL_SPEC int rrcCallConv addItem (RRListHandle list, RRListItemHandle *item);
  \return A pointer to the retrieved list item
  \ingroup list
 */
-C_DECL_SPEC RRListItemHandle rrcCallConv getListItem (RRListHandle list, int index);
+C_DECL_SPEC RRListItemPtr rrcCallConv getListItem (RRListPtr list, int index);
 
 /*!
  \brief Returns true or false if the list item is an integer
@@ -211,7 +211,7 @@ C_DECL_SPEC RRListItemHandle rrcCallConv getListItem (RRListHandle list, int ind
  \return If true, then the list item holds an integer
  \ingroup list
 */
-C_DECL_SPEC bool rrcCallConv isListItemInteger (RRListItemHandle item);
+C_DECL_SPEC bool rrcCallConv isListItemInteger (RRListItemPtr item);
 
 /*!
  \brief Returns true or false if the list item is a double
@@ -220,7 +220,7 @@ C_DECL_SPEC bool rrcCallConv isListItemInteger (RRListItemHandle item);
  \return If true, then the list item holds a double
  \ingroup list
 */
-C_DECL_SPEC bool rrcCallConv isListItemDouble (RRListItemHandle item);
+C_DECL_SPEC bool rrcCallConv isListItemDouble (RRListItemPtr item);
 
 /*!
  \brief Returns true or false if the list item is a character array
@@ -229,7 +229,7 @@ C_DECL_SPEC bool rrcCallConv isListItemDouble (RRListItemHandle item);
  \return If true, then the list item holds an characeter array
  \ingroup list
 */
-C_DECL_SPEC bool rrcCallConv isListItemString (RRListItemHandle item);
+C_DECL_SPEC bool rrcCallConv isListItemString (RRListItemPtr item);
 
 /*!
  \brief Returns true or false if the list item is a list itself
@@ -238,7 +238,7 @@ C_DECL_SPEC bool rrcCallConv isListItemString (RRListItemHandle item);
  \return If true, then the list item holds a list
  \ingroup list
 */
-C_DECL_SPEC bool rrcCallConv isListItemList (RRListItemHandle item);
+C_DECL_SPEC bool rrcCallConv isListItemList (RRListItemPtr item);
 
 /*!
  \brief Returns true or false if the list item is the given itemType
@@ -248,7 +248,7 @@ C_DECL_SPEC bool rrcCallConv isListItemList (RRListItemHandle item);
  \return If true, then the list item holds a list
  \ingroup list
 */
-C_DECL_SPEC bool rrcCallConv isListItem (RRListItemHandle item, enum ListItemType itemType);
+C_DECL_SPEC bool rrcCallConv isListItem (RRListItemPtr item, enum ListItemType itemType);
 
 /*!
  \brief Returns the integer from a list item
@@ -258,7 +258,7 @@ C_DECL_SPEC bool rrcCallConv isListItem (RRListItemHandle item, enum ListItemTyp
  \return Returns true is successful, else false
  \ingroup list
 */
-C_DECL_SPEC bool rrcCallConv getIntegerListItem (RRListItemHandle item, int *value);
+C_DECL_SPEC bool rrcCallConv getIntegerListItem (RRListItemPtr item, int *value);
 
 /*!
  \brief Returns the double from a list item
@@ -268,7 +268,7 @@ C_DECL_SPEC bool rrcCallConv getIntegerListItem (RRListItemHandle item, int *val
  \return Returns true is successful, else false
  \ingroup list
 */
-C_DECL_SPEC bool rrcCallConv getDoubleListItem (RRListItemHandle item, double *value);
+C_DECL_SPEC bool rrcCallConv getDoubleListItem (RRListItemPtr item, double *value);
 
 /*!
  \brief Returns the string from a list item
@@ -277,7 +277,7 @@ C_DECL_SPEC bool rrcCallConv getDoubleListItem (RRListItemHandle item, double *v
  \return Returns NULL if it fails, otherwise returns a pointer to the string
  \ingroup list
 */
-C_DECL_SPEC char* rrcCallConv getStringListItem (RRListItemHandle item);
+C_DECL_SPEC char* rrcCallConv getStringListItem (RRListItemPtr item);
 
 
 /*!
@@ -287,7 +287,7 @@ C_DECL_SPEC char* rrcCallConv getStringListItem (RRListItemHandle item);
  \return Returns NULL if item isn't a list, otherwise it returns a list from the item
 \ingroup list
 */
-C_DECL_SPEC RRListHandle rrcCallConv getList(RRListItemHandle item);
+C_DECL_SPEC RRListPtr rrcCallConv getList(RRListItemPtr item);
 
 // --------------------------------------------------------------------------------
 // Free memory functions
@@ -313,22 +313,22 @@ C_DECL_SPEC bool rrcCallConv freeText(char* text);
 //C_DECL_SPEC bool rrcCallConv freeStringList(RRStringListHandle sl);
 
 /*!
- \brief Free RRStringArrayHandle structures
+ \brief Free RRStringArrayPtr structures
  \ingroup freeRoutines
 */
-C_DECL_SPEC bool rrcCallConv freeStringArray(RRStringArrayHandle sl);
+C_DECL_SPEC bool rrcCallConv freeStringArray(RRStringArrayPtr sl);
 
 /*!
  \brief Free RRVectorHandle structures
  \ingroup freeRoutines
 */
-C_DECL_SPEC bool rrcCallConv freeVector(RRVectorHandle vector);
+C_DECL_SPEC bool rrcCallConv freeVector(RRVectorPtr vector);
 
 /*!
- \brief Free RRMatrixHandle structures
+ \brief Free RRDoubleMatrixPtr structures
  \ingroup freeRoutines
 */
-C_DECL_SPEC bool rrcCallConv freeMatrix(RRMatrixHandle matrix);
+C_DECL_SPEC bool rrcCallConv freeMatrix(RRDoubleMatrixPtr matrix);
 
 /*!
  \brief Free RRCCodeHandle structures
@@ -358,7 +358,7 @@ C_DECL_SPEC void rrcCallConv pause(void);
  \return Returns -1 if it fails, otherwise returns the number of elements in the vector
  \ingroup helperRoutines
 */
-C_DECL_SPEC int rrcCallConv getVectorLength (RRVectorHandle vector);
+C_DECL_SPEC int rrcCallConv getVectorLength (RRVectorPtr vector);
 
 /*!
  \brief Create a new vector with a given size
@@ -371,7 +371,7 @@ C_DECL_SPEC int rrcCallConv getVectorLength (RRVectorHandle vector);
  \return Returns null if it fails, otherwise returns a pointer to the new vector
  \ingroup helperRoutines
 */
-C_DECL_SPEC RRVectorHandle rrcCallConv createVector (int size);
+C_DECL_SPEC RRVectorPtr rrcCallConv createVector (int size);
 
 /*!
  \brief Get a particular element from a vector
@@ -386,7 +386,7 @@ C_DECL_SPEC RRVectorHandle rrcCallConv createVector (int size);
  \return Returns true if succesful
  \ingroup helperRoutines
 */
-C_DECL_SPEC bool rrcCallConv getVectorElement (RRVectorHandle vector, int index, double* value);
+C_DECL_SPEC bool rrcCallConv getVectorElement (RRVectorPtr vector, int index, double* value);
 
 
 /*!
@@ -402,7 +402,7 @@ C_DECL_SPEC bool rrcCallConv getVectorElement (RRVectorHandle vector, int index,
  \return Returns true if succesful
  \ingroup helperRoutines
 */
-C_DECL_SPEC bool rrcCallConv setVectorElement (RRVectorHandle vector, int index, double value);
+C_DECL_SPEC bool rrcCallConv setVectorElement (RRVectorPtr vector, int index, double value);
 
 /*!
  \brief Create an empty matrix of size r by c
@@ -415,7 +415,7 @@ C_DECL_SPEC bool rrcCallConv setVectorElement (RRVectorHandle vector, int index,
  \return Returns NULL if fails, otherwise returns a handle to the matrix
  \ingroup helperRoutines
 */
-C_DECL_SPEC RRMatrixHandle rrcCallConv createRRMatrix (int r, int c);
+C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv createRRMatrix (int r, int c);
 
 /*!
  \brief Retrieve the number of rows in the given matrix
@@ -428,7 +428,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv createRRMatrix (int r, int c);
  \return Returns -1 if fails, otherwise returns the number of rows
  \ingroup helperRoutines
 */
-C_DECL_SPEC int rrcCallConv getMatrixNumRows (RRMatrixHandle m);
+C_DECL_SPEC int rrcCallConv getMatrixNumRows (RRDoubleMatrixPtr m);
 
 /*!
  \brief Retrieve the number of columns in the given matrix
@@ -441,7 +441,7 @@ C_DECL_SPEC int rrcCallConv getMatrixNumRows (RRMatrixHandle m);
  \return Returns -1 if fails, otherwise returns the number of columns
  \ingroup helperRoutines
 */
-C_DECL_SPEC int rrcCallConv getMatrixNumCols (RRMatrixHandle m);
+C_DECL_SPEC int rrcCallConv getMatrixNumCols (RRDoubleMatrixPtr m);
 
 /*!
  \brief Retrieve an element at a given row and column from a matrix type variable
@@ -460,7 +460,7 @@ C_DECL_SPEC int rrcCallConv getMatrixNumCols (RRMatrixHandle m);
  \return Returns True if succesful
  \ingroup helperRoutines
 */
-C_DECL_SPEC bool rrcCallConv getMatrixElement (RRMatrixHandle m, int r, int c, double* value);
+C_DECL_SPEC bool rrcCallConv getMatrixElement (RRDoubleMatrixPtr m, int r, int c, double* value);
 
 /*!
  \brief Set an element at a given row and column with a given value in a matrix type variable
@@ -479,7 +479,7 @@ C_DECL_SPEC bool rrcCallConv getMatrixElement (RRMatrixHandle m, int r, int c, d
  \return Returns True if succesful
  \ingroup helperRoutines
 */
-C_DECL_SPEC bool rrcCallConv setMatrixElement (RRMatrixHandle m, int r, int c, double value);
+C_DECL_SPEC bool rrcCallConv setMatrixElement (RRDoubleMatrixPtr m, int r, int c, double value);
 
 
 /*!
@@ -615,7 +615,7 @@ C_DECL_SPEC char* rrcCallConv getCSourceFileName(RRHandle handle);
  \return Returns vector as a character string
  \ingroup toString
 */
-C_DECL_SPEC char* rrcCallConv vectorToString(const RRVectorHandle vec);
+C_DECL_SPEC char* rrcCallConv vectorToString(const RRVectorPtr vec);
 
 /*!
  \brief Returns a complex vector in string form.
@@ -636,7 +636,7 @@ C_DECL_SPEC char* rrcCallConv rrDataToString(const RRDataHandle rrData);
  \return Returns matrix as a character string
  \ingroup toString
 */
-C_DECL_SPEC char* rrcCallConv matrixToString(const RRMatrixHandle mat);
+C_DECL_SPEC char* rrcCallConv matrixToString(const RRDoubleMatrixPtr mat);
 
 /*!
  \brief Returns a complex matrix in string form.
@@ -650,28 +650,28 @@ C_DECL_SPEC char* rrcCallConv complexMatrixToString(const RRComplexMatrixHandle 
  \return Returns the length of a string array, return -1 if string array is NULL
  \ingroup stringArray
 */
-C_DECL_SPEC int rrcCallConv getNumberOfStringElements(const RRStringArrayHandle list);
+C_DECL_SPEC int rrcCallConv getNumberOfStringElements(const RRStringArrayPtr list);
 
 /*!
  \brief Returns the indexth element from the string array in the argument value
  \return Returns pointer to string else return null if error
  \ingroup stringArray
 */
-C_DECL_SPEC char* rrcCallConv getStringElement (RRStringArrayHandle list, int index);
+C_DECL_SPEC char* rrcCallConv getStringElement (RRStringArrayPtr list, int index);
 
 /*!
  \brief Returns a string list in string form.
  \return Returns string list as a character string
  \ingroup toString
 */
-C_DECL_SPEC char* rrcCallConv stringArrayToString(const RRStringArrayHandle list);
+C_DECL_SPEC char* rrcCallConv stringArrayToString(const RRStringArrayPtr list);
 
 /*!
  \brief Returns a list in string form.
  \return Returns list as a character string
  \ingroup toString
 */
-C_DECL_SPEC char* rrcCallConv listToString(const RRListHandle list);
+C_DECL_SPEC char* rrcCallConv listToString(const RRListPtr list);
 
 
 //=== Utility functions on rrInstanceLists
@@ -681,7 +681,7 @@ C_DECL_SPEC char* rrcCallConv listToString(const RRListHandle list);
  \return Returns an integer indicating the instance count
  \ingroup helperRoutines
 */
-C_DECL_SPEC int 		rrcCallConv 	getInstanceCount(RRInstanceListHandle iList);
+C_DECL_SPEC int 		rrcCallConv 	getInstanceCount(RRInstanceListPtr iList);
 
 /*!
  \brief Returns a RoadRunner handle from Roadrunnerlist
@@ -690,7 +690,7 @@ C_DECL_SPEC int 		rrcCallConv 	getInstanceCount(RRInstanceListHandle iList);
  \return Returna a handle to RoadRunner instance. 
  \ingroup helperRoutines
 */
-C_DECL_SPEC RRHandle 	rrcCallConv 	getRRHandle(RRInstanceListHandle iList, int index);
+C_DECL_SPEC RRHandle 	rrcCallConv 	getRRHandle(RRInstanceListPtr iList, int index);
 
 
 //======================== DATA WRITING ROUTINES =============================
@@ -710,7 +710,7 @@ C_DECL_SPEC bool rrcCallConv writeRRData(RRHandle handle, const char* fileNameAn
  \return Returna a boolean indicating the result 
  \ingroup helperRoutines
 */
-C_DECL_SPEC bool rrcCallConv writeMultipleRRData(RRInstanceListHandle handle, const char* fileNameAndPath);
+C_DECL_SPEC bool rrcCallConv writeMultipleRRData(RRInstanceListPtr handle, const char* fileNameAndPath);
 
 ///////////////////////////////////////////////////////////////////////////////////
 // TEST UTILITY functions (to be documented later. Only for internal testing)

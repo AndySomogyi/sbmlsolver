@@ -29,6 +29,10 @@ int main()
         }
 
 		Plugin* demoPlugin = plugins.getPlugin("c_plugin_demo");
+        if(!demoPlugin)
+        {
+        	throw("Demo plugin could not be retrieved from the Plugin Manger");
+        }
         char* rrInfo;
         if(!demoPlugin->execute(&rrInfo))
         {

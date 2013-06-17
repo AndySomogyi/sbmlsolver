@@ -115,7 +115,7 @@ RRJobHandle rrCallConv loadSBMLJobEx(RRHandle rrHandle, const char* sbml, bool r
     catch_ptr_macro
 }
 
-RRJobsHandle rrCallConv loadSBMLFromFileJobs(RRInstanceListHandle _handles, const char* fileName, int nrOfThreads)
+RRJobsHandle rrCallConv loadSBMLFromFileJobs(RRInstanceListPtr _handles, const char* fileName, int nrOfThreads)
 {
 	try
     {
@@ -140,7 +140,7 @@ RRJobsHandle rrCallConv loadSBMLFromFileJobs(RRInstanceListHandle _handles, cons
     catch_ptr_macro
 }
 
-RRJobsHandle rrCallConv loadSBMLJobs(RRInstanceListHandle _handles, const char* sbml, int nrOfThreads)
+RRJobsHandle rrCallConv loadSBMLJobs(RRInstanceListPtr _handles, const char* sbml, int nrOfThreads)
 {
 	try
     {
@@ -157,7 +157,7 @@ RRJobsHandle rrCallConv loadSBMLJobs(RRInstanceListHandle _handles, const char* 
     catch_ptr_macro
 }
 
-RRJobsHandle rrCallConv loadSBMLJobsEx(RRInstanceListHandle _handles, const char* sbml, int nrOfThreads, bool reCompile)
+RRJobsHandle rrCallConv loadSBMLJobsEx(RRInstanceListPtr _handles, const char* sbml, int nrOfThreads, bool reCompile)
 {
 	try
     {
@@ -288,7 +288,7 @@ RRJobHandle rrCallConv simulateJobEx(	RRHandle rrHandle,
 	catch_ptr_macro
 }
 
-RRJobHandle rrCallConv simulateJobs(RRInstanceListHandle _handles, int nrOfThreads)
+RRJobHandle rrCallConv simulateJobs(RRInstanceListPtr _handles, int nrOfThreads)
 {
 	try
     {
@@ -304,7 +304,7 @@ RRJobHandle rrCallConv simulateJobs(RRInstanceListHandle _handles, int nrOfThrea
 	catch_ptr_macro
 }
 
-RRJobHandle rrCallConv simulateJobsEx(	RRInstanceListHandle _handles,
+RRJobHandle rrCallConv simulateJobsEx(	RRInstanceListPtr _handles,
 										int nrOfThreads,
                                         double timeStart,
                                         double timeEnd,

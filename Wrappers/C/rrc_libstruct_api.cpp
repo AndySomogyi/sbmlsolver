@@ -146,7 +146,7 @@ using namespace ls;	//Libstruct namespace
 //}
 //
 ////Returns L0 Matrix
-RRMatrixHandle rrCallConv getL0Matrix(RRHandle handle)
+RRDoubleMatrixPtr rrCallConv getL0Matrix(RRHandle handle)
 {
     try
     {
@@ -442,7 +442,7 @@ RRMatrixHandle rrCallConv getL0Matrix(RRHandle handle)
 //}
 //
 
-RRVectorHandle getConservedSums(RRHandle handle)
+RRVectorPtr getConservedSums(RRHandle handle)
 {
     try
     {
@@ -783,7 +783,7 @@ RRVectorHandle getConservedSums(RRHandle handle)
 //}
 //
 
-RRMatrixHandle rrcCallConv getEigenvaluesMatrix(const RRMatrixHandle mat)
+RRDoubleMatrixPtr rrcCallConv getEigenvaluesMatrix(const RRDoubleMatrixPtr mat)
 {
     try
     {
@@ -795,7 +795,7 @@ RRMatrixHandle rrcCallConv getEigenvaluesMatrix(const RRMatrixHandle mat)
             return NULL;
         }
 
-        // Convert RRMatrixHandle mat to a DoubleMatrix
+        // Convert RRDoubleMatrixPtr mat to a DoubleMatrix
         DoubleMatrix *dmat = createMatrix (mat);
 
         vector<Complex> vals = ls::getEigenValues((*dmat));
@@ -806,13 +806,13 @@ RRMatrixHandle rrcCallConv getEigenvaluesMatrix(const RRMatrixHandle mat)
             result[i][0] = real(vals[i]);
             result[i][1] = imag(vals[i]);
         }
-        // Convert the DoubleMatrix result to a RRMatrixHandle type
+        // Convert the DoubleMatrix result to a RRDoubleMatrixPtr type
         return createMatrix(&result);
     }
     catch_ptr_macro
 }
 
-RRComplexVectorHandle rrcCallConv getEigenvaluesVector(const RRMatrixHandle mat)
+RRComplexVectorHandle rrcCallConv getEigenvaluesVector(const RRDoubleMatrixPtr mat)
 {
     try
     {
@@ -824,11 +824,11 @@ RRComplexVectorHandle rrcCallConv getEigenvaluesVector(const RRMatrixHandle mat)
             return NULL;
         }
 
-        // Convert RRMatrixHandle mat to a DoubleMatrix
+        // Convert RRDoubleMatrixPtr mat to a DoubleMatrix
         DoubleMatrix *dmat = createMatrix (mat);
         vector<Complex> vals = ls::getEigenValues((*dmat));
 
-        // Convert the DoubleMatrix result to a RRMatrixHandle type
+        // Convert the DoubleMatrix result to a RRDoubleMatrixPtr type
         return createVector(vals);
     }
     catch_ptr_macro
@@ -1160,7 +1160,7 @@ RRComplexVectorHandle rrcCallConv getEigenvaluesVector(const RRMatrixHandle mat)
 //    }
 //}
 
-RRComplexMatrixHandle rrcCallConv getEigenVectors(const RRMatrixHandle inMatrix)
+RRComplexMatrixHandle rrcCallConv getEigenVectors(const RRDoubleMatrixPtr inMatrix)
 {
     try
     {

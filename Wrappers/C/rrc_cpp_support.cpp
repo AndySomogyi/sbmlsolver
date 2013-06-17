@@ -42,7 +42,7 @@ MinimizationData* castToMinimizationData(RRMinimizationDataHandle handle)
     }
 }
 
-RoadRunnerList* getRRList(RRInstanceListHandle listHandle)
+RoadRunnerList* getRRList(RRInstanceListPtr listHandle)
 {
 	RoadRunnerList* handle = (RoadRunnerList*) listHandle->RRList;
     if(handle)
@@ -95,13 +95,13 @@ Plugin* castToPlugin(RRPluginHandle handle)
 }
 
 
-RRMatrix* createMatrix(const ls::DoubleMatrix* mat)
+RRDoubleMatrix* createMatrix(const ls::DoubleMatrix* mat)
 {
 	if(!mat)
     {
     	return NULL;
     }
-    RRMatrixHandle matrix = new RRMatrix;
+    RRDoubleMatrixPtr matrix = new RRDoubleMatrix;
 
     matrix->RSize = mat->RSize();
     matrix->CSize = mat->CSize();
@@ -127,7 +127,7 @@ RRMatrix* createMatrix(const ls::DoubleMatrix* mat)
     return matrix;
 }
 
-DoubleMatrix* createMatrix(const rrc::RRMatrix* mat)
+DoubleMatrix* createMatrix(const rrc::RRDoubleMatrixPtr mat)
 {
 	if(!mat)
     {
@@ -254,7 +254,7 @@ bool copyVector(const RRVector* src, vector<double>& dest)
     return true;
 }
 
-RRStringArrayHandle createList(const StringList& sList)
+RRStringArrayPtr createList(const StringList& sList)
 {
     if(!sList.Count())
     {
@@ -280,7 +280,7 @@ RRStringArrayHandle createList(const StringList& sList)
 //        return NULL;
 //    }
 //
-//    RRListItemHandle myItem;
+//    RRListItemPtr myItem;
 //	// Setup a RRStringArrayList structure from aList
 // 	RRListHandle theList = createRRList();
 //
@@ -302,7 +302,7 @@ RRStringArrayHandle createList(const StringList& sList)
 ////            //ArrayListItem<ArrayList2Item>* listItem = dynamic_cast<ArrayListItem<ArrayList2Item>*>(ptr);
 ////			RRListHandle myList = createList (*(ptr->mLinkedList));
 ////
-////			RRListItemHandle myListItem = createListItem (myList);
+////			RRListItemPtr myListItem = createListItem (myList);
 ////			addItem (theList, &myListItem);
 ////
 ////        }
@@ -317,10 +317,10 @@ RRList* createArrayList(const rr::NewArrayList& aList)
         return NULL;
     }
 
-    RRListItemHandle myItem;
+    RRListItemPtr myItem;
 
 	// Setup a RRStringArrayList structure from aList
- 	RRListHandle theList = createRRList();
+ 	RRListPtr theList = createRRList();
 
     int itemCount = aList.Count();
     for(int i = 0; i < itemCount; i++)
@@ -355,7 +355,7 @@ RRList* createArrayList(const rr::NewArrayList& aList)
             {
             	aList.Add(list[i]);
             }
-			RRListHandle myList 			= createArrayList (aList);
+			RRListPtr myList 			= createArrayList (aList);
 			myItem 						    = createListItem(myList);
    			addItem (theList, &myItem);
         }
@@ -363,8 +363,8 @@ RRList* createArrayList(const rr::NewArrayList& aList)
         else if(dynamic_cast<NewArrayListItem<NewArrayList>*>(ptr))
         {
             NewArrayList list = (NewArrayList) *(dynamic_cast<NewArrayListItem<NewArrayList>*>(ptr));
-			RRListHandle myList 			= createArrayList (list);
-			RRListItemHandle myListItem 	= createListItem (myList);
+			RRListPtr myList 			= createArrayList (list);
+			RRListItemPtr myListItem 	= createListItem (myList);
 			addItem (theList, &myListItem);
         }
     }
