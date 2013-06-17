@@ -45,7 +45,7 @@ void allocModelDataBuffers(ModelData &data, const string& modelName)
     data.init_y = (double*)rrCalloc(data.init_ySize, sizeof(double));
     data.gp = (double*)rrCalloc(data.gpSize, sizeof(double));
     data.c = (double*)rrCalloc(data.cSize, sizeof(double));
-    data.bc = (double*)rrCalloc(data.bcSize, sizeof(double));
+    data.boundarySpeciesConc = (double*)rrCalloc(data.bcSize, sizeof(double));
     data.lp = (double*)rrCalloc(data.lpSize, sizeof(double));
     data.sr = (double*)rrCalloc(data.srSize, sizeof(double));
     data.localParameterDimensions = (int*)rrCalloc(data.localParameterDimensionsSize, sizeof(int));
@@ -85,7 +85,7 @@ void  freeModelDataBuffers(ModelData &data)
     free(data.init_y);
     free(data.gp);
     free(data.c);
-    free(data.bc);
+    free(data.boundarySpeciesConc);
     free(data.lp);
     free(data.sr);
     free(data.localParameterDimensions);

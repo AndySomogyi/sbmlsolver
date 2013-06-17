@@ -165,7 +165,7 @@ typedef struct SModelData
      * Mass/Volume Percent= (Mass of Solute) / (Volume of Solution) x 100%
      */
     int                                 bcSize;
-    double*                             bc;
+    double*                             boundarySpeciesConc;
 
     /**
      * number of compartments, and compartment volumes.
