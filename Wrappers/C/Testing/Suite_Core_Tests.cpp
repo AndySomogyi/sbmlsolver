@@ -128,11 +128,11 @@ SUITE(CORE_TESTS)
     	RRHandle aRR1 		  		= createRRInstanceEx(gTempFolder.c_str());
     	RRHandle aRR2 		  		= createRRInstanceEx(gTempFolder.c_str());
 		CHECK(loadSBML(aRR1, xml.c_str()));
-		CHECK(loadSBMLE(aRR2, xml.c_str(), true));
+		CHECK(loadSBMLEx(aRR2, xml.c_str(), true));
 
         //Load the same model again, but do not recompile the model DLL..
-        CHECK(loadSBMLE(aRR1, xml.c_str(), false));
-        CHECK(loadSBMLE(aRR2, xml.c_str(), false));
+        CHECK(loadSBMLEx(aRR1, xml.c_str(), false));
+        CHECK(loadSBMLEx(aRR2, xml.c_str(), false));
         freeRRInstance(aRR1);
         freeRRInstance(aRR2);
     }

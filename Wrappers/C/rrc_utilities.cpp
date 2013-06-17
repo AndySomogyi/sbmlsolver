@@ -56,25 +56,25 @@ bool rrCallConv compileSource(RRHandle handle, const char* sourceFileName)
 // -------------------------------------------------------------------
 // List Routines
 // -------------------------------------------------------------------
-RRListHandle rrCallConv createRRList()
+RRListPtr rrCallConv createRRList()
 {
-    RRListHandle list = new RRList;
+    RRListPtr list = new RRList;
     list->Count = 0;
     list->Items = NULL;
     return list;
 }
 
-int rrCallConv getInstanceCount(RRInstanceListHandle iList)
+int rrCallConv getInstanceCount(RRInstanceListPtr iList)
 {
     return iList->Count;
 }
 
-RRHandle rrCallConv getRRHandle(RRInstanceListHandle iList, int index)
+RRHandle rrCallConv getRRHandle(RRInstanceListPtr iList, int index)
 {
     return iList->Handle[index];
 }
 
-void rrCallConv freeRRList (RRListHandle theList)
+void rrCallConv freeRRList (RRListPtr theList)
 {
     if(!theList)
     {
@@ -98,33 +98,33 @@ void rrCallConv freeRRList (RRListHandle theList)
     delete theList;
 }
 
-RRListItemHandle rrCallConv createIntegerItem (int value)
+RRListItemPtr rrCallConv createIntegerItem (int value)
 {
-    RRListItemHandle item =  new RRListItem;
+    RRListItemPtr item =  new RRListItem;
     item->ItemType = litInteger;
     item->data.iValue = value;
     return item;
 }
 
-RRListItemHandle rrCallConv createDoubleItem (double value)
+RRListItemPtr rrCallConv createDoubleItem (double value)
 {
-    RRListItemHandle item = new RRListItem;
+    RRListItemPtr item = new RRListItem;
     item->ItemType = litDouble;
     item->data.dValue = value;
     return item;
 }
 
-RRListItemHandle rrCallConv createStringItem (char* value)
+RRListItemPtr rrCallConv createStringItem (char* value)
 {
-    RRListItemHandle item = new RRListItem;
+    RRListItemPtr item = new RRListItem;
     item->ItemType = litString;
     item->data.sValue = rr::createText(value);
     return item;
 }
 
-RRListItemHandle rrCallConv createListItem (RRList* value)
+RRListItemPtr rrCallConv createListItem (RRList* value)
 {
-    RRListItemHandle item = new RRListItem;
+    RRListItemPtr item = new RRListItem;
     item->ItemType = litList;
     item->data.lValue = value;
     return item;
@@ -132,11 +132,11 @@ RRListItemHandle rrCallConv createListItem (RRList* value)
 
 // Add an item to a given list, returns the index to
 // the item in the list. Returns -1 if it fails.
-int rrCallConv addItem (RRListHandle list, RRListItemHandle *item)
+int rrCallConv addItem (RRListPtr list, RRListItemPtr *item)
 {
     int n = list->Count;
 
-    RRListItemHandle *newItems = new RRListItemHandle [n+1];
+    RRListItemPtr *newItems = new RRListItemPtr [n+1];
     if(!newItems)
     {
         setError("Failed allocating memory in addItem()");
@@ -149,7 +149,7 @@ int rrCallConv addItem (RRListHandle list, RRListItemHandle *item)
     }
 
     newItems[n] = *item;
-    RRListItemHandle *oldItems = list->Items;
+    RRListItemPtr *oldItems = list->Items;
     list->Items = newItems;
 
     delete [] oldItems;
@@ -158,32 +158,32 @@ int rrCallConv addItem (RRListHandle list, RRListItemHandle *item)
     return n;
 }
 
-bool rrCallConv isListItemInteger (RRListItemHandle item)
+bool rrCallConv isListItemInteger (RRListItemPtr item)
 {
     return (item->ItemType == litInteger) ? true : false;
 }
 
-bool rrCallConv isListItemDouble (RRListItemHandle item)
+bool rrCallConv isListItemDouble (RRListItemPtr item)
 {
     return (item->ItemType == litDouble) ? true : false;
 }
 
-bool rrCallConv isListItemString (RRListItemHandle item)
+bool rrCallConv isListItemString (RRListItemPtr item)
 {
     return (item->ItemType == litString) ? true : false;
 }
 
-bool rrCallConv isListItemList (RRListItemHandle item)
+bool rrCallConv isListItemList (RRListItemPtr item)
 {
     return (item->ItemType == litList) ? true : false;
 }
 
-RRListItemHandle rrCallConv getListItem (RRListHandle list, int index)
+RRListItemPtr rrCallConv getListItem (RRListPtr list, int index)
 {
     return (index >= list->Count) ? NULL : list->Items[index];
 }
 
-bool rrCallConv getIntegerListItem (RRListItemHandle item, int *value)
+bool rrCallConv getIntegerListItem (RRListItemPtr item, int *value)
 {
     if (item->ItemType == litInteger)
     {
@@ -193,7 +193,7 @@ bool rrCallConv getIntegerListItem (RRListItemHandle item, int *value)
     return false;
 }
 
-bool rrCallConv getDoubleListItem (RRListItemHandle item, double *value)
+bool rrCallConv getDoubleListItem (RRListItemPtr item, double *value)
 {
     if (item->ItemType == litDouble)
     {
@@ -204,27 +204,27 @@ bool rrCallConv getDoubleListItem (RRListItemHandle item, double *value)
     return false;
 }
 
-char* rrCallConv getStringListItem (RRListItemHandle item)
+char* rrCallConv getStringListItem (RRListItemPtr item)
 {
     return (item->ItemType == litString) ? item->data.sValue : NULL;
 }
 
-RRListHandle rrCallConv getList (RRListItemHandle item)
+RRListPtr rrCallConv getList (RRListItemPtr item)
 {
     return (item->ItemType == litList) ? item->data.lValue : NULL;
 }
 
-bool rrCallConv isListItem (RRListItemHandle item, ListItemType itemType)
+bool rrCallConv isListItem (RRListItemPtr item, ListItemType itemType)
 {
     return  (item->ItemType == itemType) ? true : false;
 }
 
-int rrCallConv getListLength (RRListHandle myList)
+int rrCallConv getListLength (RRListPtr myList)
 {
     return myList->Count;
 }
 
-char* rrCallConv listToString (RRListHandle list)
+char* rrCallConv listToString (RRListPtr list)
 {
     try
     {
@@ -299,7 +299,7 @@ char* rrCallConv listToString (RRListHandle list)
 
 
 // Free Functions =====================================================
-bool rrCallConv freeMatrix(RRMatrixHandle matrix)
+bool rrCallConv freeMatrix(RRDoubleMatrixPtr matrix)
 {
     try
     {
@@ -360,7 +360,7 @@ bool rrCallConv freeText(char* text)
     }
 }
 
-bool rrCallConv freeStringArray(RRStringArrayHandle sl)
+bool rrCallConv freeStringArray(RRStringArrayPtr sl)
 {
     try
     {
@@ -376,7 +376,7 @@ bool rrCallConv freeStringArray(RRStringArrayHandle sl)
     }
 }
 
-bool rrCallConv freeVector(RRVectorHandle vector)
+bool rrCallConv freeVector(RRVectorPtr vector)
 {
     try
     {
@@ -421,15 +421,15 @@ void rrCallConv pause()
     rr::pause(true, "Hit any key to continue..\n");
 }
 
-RRVectorHandle rrCallConv createVector (int size)
+RRVectorPtr rrCallConv createVector (int size)
 {
-   RRVectorHandle list = new RRVector;
+   RRVectorPtr list = new RRVector;
    list->Count = size;
    list->Data = new double[list->Count];
    return list;
 }
 
-int rrCallConv getVectorLength (RRVectorHandle vector)
+int rrCallConv getVectorLength (RRVectorPtr vector)
 {
     if (vector == NULL)
     {
@@ -442,7 +442,7 @@ int rrCallConv getVectorLength (RRVectorHandle vector)
     }
 }
 
-bool rrCallConv getVectorElement (RRVectorHandle vector, int index, double *value)
+bool rrCallConv getVectorElement (RRVectorPtr vector, int index, double *value)
 {
     if (vector == NULL)
     {
@@ -462,7 +462,7 @@ bool rrCallConv getVectorElement (RRVectorHandle vector, int index, double *valu
     return true;
 }
 
-bool rrCallConv setVectorElement (RRVectorHandle vector, int index, double value)
+bool rrCallConv setVectorElement (RRVectorPtr vector, int index, double value)
 {
     if (vector == NULL)
     {
@@ -485,9 +485,9 @@ bool rrCallConv setVectorElement (RRVectorHandle vector, int index, double value
 // Matrix Routines
 // ------------------------------------------------------------------------------------
 
-RRMatrixHandle rrCallConv createRRMatrix (int r, int c)
+RRDoubleMatrixPtr rrCallConv createRRMatrix (int r, int c)
 {
-       RRMatrixHandle matrix = new RRMatrix;
+       RRDoubleMatrixPtr matrix = new RRDoubleMatrix;
        matrix->RSize = r;
        matrix->CSize = c;
        int dim =  matrix->RSize * matrix->CSize;
@@ -499,12 +499,12 @@ RRMatrixHandle rrCallConv createRRMatrix (int r, int c)
        else
     {
         delete matrix;
-        setError ("Dimensions for new RRMatrix in createRRMatrix are zero");
+        setError ("Dimensions for new RRDoubleMatrix in createRRMatrix are zero");
         return NULL;
    }
 }
 
-int rrCallConv getMatrixNumRows (RRMatrixHandle m)
+int rrCallConv getMatrixNumRows (RRDoubleMatrixPtr m)
 {
     if (m == NULL) {
         setError ("Matrix argument is null in getMatrixNumRows");
@@ -513,7 +513,7 @@ int rrCallConv getMatrixNumRows (RRMatrixHandle m)
     return m->RSize;
 }
 
-int  rrCallConv getMatrixNumCols (RRMatrixHandle m)
+int  rrCallConv getMatrixNumCols (RRDoubleMatrixPtr m)
 {
     if (m == NULL) {
         setError ("Matrix argument is null in getMatrixNumCols");
@@ -523,7 +523,7 @@ int  rrCallConv getMatrixNumCols (RRMatrixHandle m)
     return m->CSize;
 }
 
-bool rrCallConv getMatrixElement (RRMatrixHandle m, int r, int c, double* value)
+bool rrCallConv getMatrixElement (RRDoubleMatrixPtr m, int r, int c, double* value)
 {
     if (m == NULL)
     {
@@ -543,7 +543,7 @@ bool rrCallConv getMatrixElement (RRMatrixHandle m, int r, int c, double* value)
     return true;
 }
 
-bool rrCallConv setMatrixElement (RRMatrixHandle m, int r, int c, double value)
+bool rrCallConv setMatrixElement (RRDoubleMatrixPtr m, int r, int c, double value)
 {
     if (m == NULL)
     {
@@ -705,7 +705,7 @@ bool rrCallConv writeRRData(RRHandle rrHandle, const char* fileNameAndPath)
     }
 }
 
-bool rrCallConv writeMultipleRRData(RRInstanceListHandle rrHandles, const char* fileNameAndPath)
+bool rrCallConv writeMultipleRRData(RRInstanceListPtr rrHandles, const char* fileNameAndPath)
 {
     try
     {
@@ -736,7 +736,7 @@ bool rrCallConv writeMultipleRRData(RRInstanceListHandle rrHandles, const char* 
 }
 
 // Utility functions ==========================================================
-int rrCallConv getNumberOfStringElements (const RRStringArrayHandle list)
+int rrCallConv getNumberOfStringElements (const RRStringArrayPtr list)
 {
     if (!list)
         return (-1);
@@ -744,7 +744,7 @@ int rrCallConv getNumberOfStringElements (const RRStringArrayHandle list)
         return (list->Count);
 }
 
-char* rrCallConv getStringElement (RRStringArrayHandle list, int index)
+char* rrCallConv getStringElement (RRStringArrayPtr list, int index)
 {
     try
     {
@@ -770,7 +770,7 @@ char* rrCallConv getStringElement (RRStringArrayHandle list, int index)
     }
 }
 
-char* rrCallConv stringArrayToString (const RRStringArrayHandle list)
+char* rrCallConv stringArrayToString (const RRStringArrayPtr list)
 {
     try
     {
@@ -840,7 +840,7 @@ char* rrCallConv rrDataToString(const RRDataHandle result)
     catch_ptr_macro
 }
 
-char* rrCallConv matrixToString(const RRMatrixHandle matrixHandle)
+char* rrCallConv matrixToString(const RRDoubleMatrixPtr matrixHandle)
 {
     try
     {
@@ -849,7 +849,7 @@ char* rrCallConv matrixToString(const RRMatrixHandle matrixHandle)
             return NULL;
         }
 
-        RRMatrix& mat = *matrixHandle;
+        RRDoubleMatrix& mat = *matrixHandle;
         stringstream ss;
         //ss<<"\nmatrix dimension: "<<mat.RSize<<"x"<<mat.CSize<<" --\n";
         ss<<"\n";
@@ -906,7 +906,7 @@ char* rrCallConv complexMatrixToString(const RRComplexMatrixHandle matrixHandle)
     catch_ptr_macro
 }
 
-char* rrCallConv vectorToString(RRVectorHandle vecHandle)
+char* rrCallConv vectorToString(RRVectorPtr vecHandle)
 {
     try
     {

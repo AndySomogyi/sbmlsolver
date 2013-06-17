@@ -56,7 +56,7 @@ extern "C"
  \brief Typedef for callback function, taking a void* parameter
  \ingroup multithreading
 */
-typedef void    (rrcCallConv *callBackFunc)(void*);
+typedef void (rrcCallConv *callBackFunc)(void*);
 
 /*!
  \brief Run a roadrunner simulation in a thread
@@ -64,18 +64,18 @@ typedef void    (rrcCallConv *callBackFunc)(void*);
  \return Returns a handle to the Job if succesful, otherwise returns NULL
  \ingroup multiThreading
 */
-C_DECL_SPEC RRJobHandle 	rrcCallConv simulateJob(RRHandle handle);
+C_DECL_SPEC RRJobHandle rrcCallConv simulateJob(RRHandle handle);
 
 /*!
  \brief Run a roadrunner simulation in a thread
  \param[in] handle Handle to a RoadRunner instance
  \param timeStart,timeEnd,numberOfPoints Parameters for the simulation
- \param fn1,fn2 Callback functions that are used internally in the thread. 
+ \param fn1,fn2 Callback functions that are used internally in the thread.
  \param userData User supplied data that can be used in the supplied callback functions
  \return Returns a handle to the Job if succesful, otherwise returns NULL
  \ingroup multiThreading
 */
-C_DECL_SPEC RRJobHandle 	rrcCallConv simulateJobEx(RRHandle handle, double timeStart,
+C_DECL_SPEC RRJobHandle rrcCallConv simulateJobEx(RRHandle handle, double timeStart,
 														double timeEnd,	int numberOfPoints,
                                                         callBackFunc fn1, callBackFunc fn2, void* userData);
 
@@ -86,7 +86,7 @@ C_DECL_SPEC RRJobHandle 	rrcCallConv simulateJobEx(RRHandle handle, double timeS
  \return Returns a handle to a list of jobs if succesful, otherwise returns NULL
  \ingroup multiThreading
 */
-C_DECL_SPEC RRJobsHandle 	rrcCallConv simulateJobs(RRInstanceListHandle handles, int nrOfThreads);
+C_DECL_SPEC RRJobsHandle rrcCallConv simulateJobs(RRInstanceListPtr handles, int nrOfThreads);
 
 
 /*!
@@ -94,11 +94,11 @@ C_DECL_SPEC RRJobsHandle 	rrcCallConv simulateJobs(RRInstanceListHandle handles,
  \param[in] handles Handle to a list of RoadRunner instances
  \param[in] nrOfThreads Number of threads to allocate in order to execute the jobs
  \param timeStart,timeEnd,numberOfPoints Parameters for the simulation
- \param fn1,fn2 Callback functions that are used internally in the thread. 
+ \param fn1,fn2 Callback functions that are used internally in the thread.
  \param userData User supplied data that can be used in the supplied callback functions
  \return Returns a handle to a list of jobs if succesful, otherwise returns NULL
  \ingroup multiThreading
-*/C_DECL_SPEC RRJobsHandle 	rrcCallConv simulateJobsEx(RRInstanceListHandle handles, int nrOfThreads, 
+*/C_DECL_SPEC RRJobsHandle 	rrcCallConv simulateJobsEx(RRInstanceListPtr handles, int nrOfThreads,
                                                         double timeStart, double timeEnd, int numberOfPoints,
                                                         callBackFunc fn1, callBackFunc fn2, void* userData);
 
@@ -131,7 +131,7 @@ C_DECL_SPEC RRJobHandle rrcCallConv loadSBMLFromFileJobEx(RRHandle handle, const
  \return Returns a handle to the Jobs if succesful, otherwise returns NULL
  \ingroup multiThreading
 */
-C_DECL_SPEC RRJobsHandle rrcCallConv loadSBMLFromFileJobs(RRInstanceListHandle handles, const char* fileName, int nrOfThreads);
+C_DECL_SPEC RRJobsHandle rrcCallConv loadSBMLFromFileJobs(RRInstanceListPtr handles, const char* fileName, int nrOfThreads);
 
 /*!
  \brief Load a model from a SBML text string into a RoadRunner instances, using a Job
@@ -160,7 +160,7 @@ C_DECL_SPEC RRJobHandle rrcCallConv loadSBMLJobEx(RRHandle handle, const char* s
  \return Returns a handle to the Jobs if succesful, otherwise returns NULL
  \ingroup multiThreading
 */
-C_DECL_SPEC RRJobsHandle rrcCallConv loadSBMLJobs(RRInstanceListHandle handles, const char* sbml, int nrOfThreads);
+C_DECL_SPEC RRJobsHandle rrcCallConv loadSBMLJobs(RRInstanceListPtr handles, const char* sbml, int nrOfThreads);
 
 /*!
  \brief Load a model from a SBML file into a set of RoadRunner instances
@@ -171,7 +171,7 @@ C_DECL_SPEC RRJobsHandle rrcCallConv loadSBMLJobs(RRInstanceListHandle handles, 
  \return Returns a handle to the Jobs if succesful, otherwise returns NULL
  \ingroup multiThreading
 */
-C_DECL_SPEC RRJobsHandle rrcCallConv loadSBMLJobsEx(RRInstanceListHandle handles, const char* sbml, int nrOfThreads, bool force_recompile);
+C_DECL_SPEC RRJobsHandle rrcCallConv loadSBMLJobsEx(RRInstanceListPtr handles, const char* sbml, int nrOfThreads, bool force_recompile);
 
 /*!
  \brief Wait for jobs in thread to finish

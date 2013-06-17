@@ -66,40 +66,41 @@ typedef void* RRParameterHandle;
 /*!@brief Void pointer to a MinimizationData instance */
 typedef void* RRMinimizationDataHandle;
 
+// ===================================== C DATA STRUCTURES =====================================
 /*!@struct*/
 /*!@brief Structure for a set of RoadRunner handles */
-typedef struct RRInstanceList
+typedef struct
 {
     int             Count;  				/*!< The number of elements in the list */
     RRHandle*       Handle;   				/*!< Pointer to a RoadRunner instance */
     void* 			RRList;                 /*!< Pointer to a RoadRunnerList instance */
-} *RRInstanceListHandle;          			/*!< Pointer to RRInstanceList */
+} *RRInstanceListPtr, RRInstanceList;          			/*!< Pointer to RRInstanceList */
 
 /*!@struct*/
 /*!@brief Structure for a simple vector of doubles */
-typedef struct RRVector
+typedef struct
 {
     int             Count;  /*!< The number of elements in the vector */
     double*         Data;   /*!< Points to an array of double items */
-} *RRVectorHandle;          /*!< Pointer to RRVectorHandle struct */
+} *RRVectorPtr, RRVector;          /*!< Pointer to RRVectorHandle struct */
 
 /*!@struct*/
 /*!@brief Structure for a simple vector of strings */
-typedef struct RRStringArray
+typedef struct
 {
     int             Count;  /*!< The number of elements in the string array */
     char**          String; /*!< Points to an array of string items */
-} *RRStringArrayHandle;      /*!< Pointer to RRStringListHandle struct */
+} *RRStringArrayPtr, RRStringArray;      /*!< Pointer to RRStringListHandle struct */
 
 /*!@struct*/
 /*!@brief Structure for a simple double Matrix type */
-typedef struct RRMatrix
+typedef struct
 {
     int             RSize;  /*!< The number of rows in the matrix */
     int             CSize;  /*!< The number of columns in the matrix */
     double*         Data;   /*!< Items in the matrix stored as a linear array. Access an element using Data[row*CSize + col],
 							  where i,j represent the row and column numberof the element. Indexing is from zero */
-} *RRMatrixHandle;          /*!< Pointer to RRMatrixHandle struct */
+} *RRDoubleMatrixPtr, RRDoubleMatrix;          /*!< Pointer to RRDoubleMatrixPtr struct */
 
 /*!@struct*/
 /*!@brief Structure for a complex number */
@@ -126,7 +127,7 @@ typedef struct RRComplexMatrix
     int             	CSize;  /*!< The number of columns in the matrix */
     RRComplexHandle		Data;   /*!< Items in the matrix stored as a linear array. Access an element using Data[row*CSize + col],
 							  		where i,j represent the row and column numberof the element. Indexing is from zero */
-} *RRComplexMatrixHandle;       /*!< Pointer to RRMatrixHandle struct */
+} *RRComplexMatrixHandle;       /*!< Pointer to RRDoubleMatrixPtr struct */
 
 /*!@struct*/
 /*!@brief Structure for the result type from the simulate calls */
@@ -152,6 +153,10 @@ typedef struct RRCCode
 /*!@brief The list type supports strings, integers, double and lists */
 enum ListItemType {litString, litInteger, litDouble, litList};
 
+/*!@enum*/
+/*!@brief A parameters type can be string, bool, integer, double, vector or a matrix */
+enum RRParameterType {ptString, ptBool, ptInteger, ptDouble, ptVector, ptMatrix};
+
 // The above enums correspond to the currently supported types in an RRArrayList
 // char, int, double, RRArrayList
 
@@ -169,20 +174,16 @@ typedef struct RRListItem
 	   char*     		sValue;  /*!< String value */
 	   struct RRList*  	lValue;  /*!< List value */
 	} data;                      /*!< Union */
-} *RRListItemHandle;             /*!< Pointer to cRRArrayListItemHandle struct */
+} *RRListItemPtr;             /*!< Pointer to cRRArrayListItemHandle struct */
 
 
 /*!@struct*/
 /*!@brief A list type, stores int, double, strings and lists */
 typedef struct RRList
 {
-    int                   Count; /*!< The number elements in this list */
-    RRListItemHandle    *Items;  /*!< A pointer to a list of items */
-}  *RRListHandle;                /*!< Pointer to cRRArrayListHandle struct */
-
-/*!@enum*/
-/*!@brief A parameters type can be string, bool, integer, double, vector or a matrix */
-enum RRParameterType {ptString, ptBool, ptInteger, ptDouble, ptVector, ptMatrix};
+    int             	Count; /*!< The number elements in this list */
+    RRListItemPtr      *Items;  /*!< A pointer to a list of items */
+}  *RRListPtr;                /*!< Pointer to cRRArrayListHandle struct */
 
 #if defined( __cplusplus)
 }
