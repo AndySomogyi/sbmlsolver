@@ -59,7 +59,7 @@ extern "C"
  \return Returns a handle to a StringArray if sucessful, NULL otherwise
  \ingroup parameters
 */
-C_DECL_SPEC RRStringArrayHandle rrcCallConv getListOfParameters(RRHandle handle, const char* cap_name);
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfParameters(RRHandle handle, const char* cap_name);
 
 /*!
  \brief Set a parameter

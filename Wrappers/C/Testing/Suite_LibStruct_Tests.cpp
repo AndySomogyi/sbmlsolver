@@ -59,7 +59,7 @@ RRHandle gRR = NULL;
             ls::DoubleMatrix  ref 		= getDoubleMatrixFromString(isec->GetNonKeysAsString());
 
             //Testing call
-            RRMatrix* 		  actual 	= getLinkMatrix(gRR);
+            RRDoubleMatrix* 		  actual 	= getLinkMatrix(gRR);
 
             //Check dimensions
             if(actual->RSize != ref.RSize() || actual->CSize != ref.CSize())
@@ -86,10 +86,10 @@ RRHandle gRR = NULL;
         {
             IniSection* 		isec	= iniFile.GetSection(section);
             ls::DoubleMatrix  	ref 	= getDoubleMatrixFromString(isec->GetNonKeysAsString());
-            RRMatrix* 			input 	= getLinkMatrix(gRR);
+            RRDoubleMatrix* 			input 	= getLinkMatrix(gRR);
 
             //Testing call
-            RRMatrix*  	  		actual 	= getEigenvaluesMatrix(input);
+            RRDoubleMatrix*  	  		actual 	= getEigenvaluesMatrix(input);
 			/////////////////////////////////
 
             //Check dimensions
@@ -117,7 +117,7 @@ RRHandle gRR = NULL;
         {
             IniSection* 	  			isec  	= iniFile.GetSection(section);
             vector< complex<double> > 	ref   	= getComplexVectorFromString(isec->GetNonKeysAsString());
-            RRMatrix* 		  			input 	= getLinkMatrix(gRR);
+            RRDoubleMatrix*	  			input 	= getLinkMatrix(gRR);
             //Testing call
             RRComplexVector*  			actual 	= getEigenvaluesVector(input);
 			//////////////////////////////////////////////////////////////////

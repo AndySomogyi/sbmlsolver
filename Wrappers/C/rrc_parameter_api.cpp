@@ -14,7 +14,7 @@ namespace rrc
 using namespace std;
 using namespace rr;
 
-RRStringArrayHandle rrcCallConv getListOfParameters(RRHandle handle, const char* cap_name)
+RRStringArrayPtr rrcCallConv getListOfParameters(RRHandle handle, const char* cap_name)
 {
 	try
     {

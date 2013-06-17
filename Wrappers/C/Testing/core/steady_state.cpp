@@ -118,7 +118,7 @@ string TestModelFileName;
         for(int i = 1 ; i < aSection->KeyCount(); i++) //OBS, ignore first key, which is computeAndAssignConservation Laws
         {
             IniKey *aKey = aSection->GetKey(i);
-            RRStringArrayHandle ids = getEigenvalueIds();
+            RRStringArrayPtr ids = getEigenvalueIds();
 
             if(ids != NULL && i < (ids->Count + 1))
             {
@@ -134,7 +134,7 @@ string TestModelFileName;
         //Todo: add a simple way to look for memory leak later on..
         for(int i = 0; i < 10000; i++)
         {
-        	RRStringArrayHandle ids = getEigenvalueIds();
+        	RRStringArrayPtr ids = getEigenvalueIds();
         	CHECK(getEigenvalueIds());
             freeStringArray(ids);
         }
@@ -182,7 +182,7 @@ string TestModelFileName;
             return;
         }
 
-        RRStringArrayHandle ids = getEigenvalueIds();
+        RRStringArrayPtr ids = getEigenvalueIds();
         if(!ids)
         {
         	CHECK(false);
@@ -219,7 +219,7 @@ string TestModelFileName;
             return;
         }
 
-        RRStringArrayHandle ids = getEigenvalueIds();
+        RRStringArrayPtr ids = getEigenvalueIds();
         if(!ids)
         {
         	CHECK(false);
@@ -271,7 +271,7 @@ string TestModelFileName;
             return;
         }
 
-        RRMatrixHandle eigenVals = getEigenvalues();
+        RRDoubleMatrixPtr eigenVals = getEigenvalues();
 		if(!eigenVals)
 		{
 			CHECK(false);
@@ -321,7 +321,7 @@ string TestModelFileName;
             return;
         }
 
-        RRMatrixHandle 		jActual 	= getFullJacobian();
+        RRDoubleMatrixPtr 		jActual 	= getFullJacobian();
         ls::DoubleMatrix 	jRef 		= ParseFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions

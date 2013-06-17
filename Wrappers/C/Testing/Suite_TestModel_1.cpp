@@ -97,7 +97,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        RRStringArrayHandle list = getSteadyStateSelectionList(gRR);
+        RRStringArrayPtr list = getSteadyStateSelectionList(gRR);
 
         if(!list)
         {
@@ -323,7 +323,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        RRMatrixHandle       jActual     = getFullJacobian(gRR);
+        RRDoubleMatrixPtr       jActual     = getFullJacobian(gRR);
         ls::DoubleMatrix     jRef        = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
         //Check dimensions
@@ -389,7 +389,7 @@ RRHandle gRR = NULL;
 
         ls::DoubleMatrix     ref = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
-        RRMatrixHandle matrix = getEigenvalues(gRR);
+        RRDoubleMatrixPtr matrix = getEigenvalues(gRR);
         if(!matrix)
         {
             CHECK(false);
@@ -438,7 +438,7 @@ RRHandle gRR = NULL;
 
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
-        RRMatrixHandle matrix = getStoichiometryMatrix(gRR);
+        RRDoubleMatrixPtr matrix = getStoichiometryMatrix(gRR);
         if(!matrix)
         {
             CHECK(false);
@@ -484,7 +484,7 @@ RRHandle gRR = NULL;
 
            ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
-        RRMatrixHandle matrix = getLinkMatrix(gRR);
+        RRDoubleMatrixPtr matrix = getLinkMatrix(gRR);
         if(!matrix)
         {
             CHECK(false);
@@ -530,7 +530,7 @@ RRHandle gRR = NULL;
 
            ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
-        RRMatrixHandle matrix = getUnscaledElasticityMatrix(gRR);
+        RRDoubleMatrixPtr matrix = getUnscaledElasticityMatrix(gRR);
         if(!matrix)
         {
             CHECK(false);
@@ -578,7 +578,7 @@ RRHandle gRR = NULL;
 
         double test;
         steadyState(gRR, &test);
-        RRMatrixHandle matrix = getScaledElasticityMatrix(gRR);
+        RRDoubleMatrixPtr matrix = getScaledElasticityMatrix(gRR);
         if(!matrix)
         {
             CHECK(false);
@@ -626,7 +626,7 @@ RRHandle gRR = NULL;
 
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
-        RRMatrixHandle matrix = getUnscaledConcentrationControlCoefficientMatrix(gRR);
+        RRDoubleMatrixPtr matrix = getUnscaledConcentrationControlCoefficientMatrix(gRR);
         if(!matrix)
         {
             CHECK(false);
@@ -673,7 +673,7 @@ RRHandle gRR = NULL;
 
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
-        RRMatrixHandle matrix = getScaledConcentrationControlCoefficientMatrix(gRR);
+        RRDoubleMatrixPtr matrix = getScaledConcentrationControlCoefficientMatrix(gRR);
         if(!matrix)
         {
             CHECK(false);
@@ -720,7 +720,7 @@ RRHandle gRR = NULL;
 
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
-        RRMatrixHandle matrix = getUnscaledFluxControlCoefficientMatrix(gRR);
+        RRDoubleMatrixPtr matrix = getUnscaledFluxControlCoefficientMatrix(gRR);
         if(!matrix)
         {
             CHECK(false);
@@ -767,7 +767,7 @@ RRHandle gRR = NULL;
 
         ls::DoubleMatrix     ref         = getDoubleMatrixFromString(aSection->GetNonKeysAsString());
 
-        RRMatrixHandle matrix = getScaledFluxControlCoefficientMatrix(gRR);
+        RRDoubleMatrixPtr matrix = getScaledFluxControlCoefficientMatrix(gRR);
         if(!matrix)
         {
             CHECK(false);
@@ -815,7 +815,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        RRStringArrayHandle list = getFloatingSpeciesIds(gRR);
+        RRStringArrayPtr list = getFloatingSpeciesIds(gRR);
 
         if(!list)
         {
@@ -847,7 +847,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        RRStringArrayHandle list = getBoundarySpeciesIds(gRR);
+        RRStringArrayPtr list = getBoundarySpeciesIds(gRR);
 
         if(!list)
         {
@@ -879,7 +879,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        RRStringArrayHandle list = getGlobalParameterIds(gRR);
+        RRStringArrayPtr list = getGlobalParameterIds(gRR);
 
         if(!list)
         {
@@ -911,7 +911,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        RRStringArrayHandle list = getCompartmentIds(gRR);
+        RRStringArrayPtr list = getCompartmentIds(gRR);
 
         if(!list)
         {
@@ -943,7 +943,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        RRStringArrayHandle list = getReactionIds(gRR);
+        RRStringArrayPtr list = getReactionIds(gRR);
 
         if(!list)
         {
@@ -975,7 +975,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        RRStringArrayHandle list = getFloatingSpeciesInitialConditionIds(gRR);
+        RRStringArrayPtr list = getFloatingSpeciesInitialConditionIds(gRR);
 
         if(!list)
         {
@@ -1007,7 +1007,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        RRStringArrayHandle list = getEigenvalueIds(gRR);
+        RRStringArrayPtr list = getEigenvalueIds(gRR);
 
         if(!list)
         {
@@ -1039,7 +1039,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        RRStringArrayHandle list = getRatesOfChangeIds(gRR);
+        RRStringArrayPtr list = getRatesOfChangeIds(gRR);
 
         if(!list)
         {
@@ -1094,7 +1094,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        RRStringArrayHandle list = getSteadyStateSelectionList(gRR);
+        RRStringArrayPtr list = getSteadyStateSelectionList(gRR);
 
         if(!list)
         {
@@ -1149,7 +1149,7 @@ RRHandle gRR = NULL;
             return;
         }
 
-        RRStringArrayHandle list = getTimeCourseSelectionList(gRR);
+        RRStringArrayPtr list = getTimeCourseSelectionList(gRR);
 
         if(!list)
         {

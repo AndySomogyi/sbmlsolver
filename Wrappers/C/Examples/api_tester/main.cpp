@@ -12,7 +12,7 @@
 using namespace std;
 using namespace rrc;
 
-void printMatrix(char* msg1, RRMatrixHandle mat);
+void printMatrix(char* msg1, RRDoubleMatrixPtr mat);
 int main(int argc, char* argv[])
 {
 	printf ("\n    Start of run\n");
@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 	RRListHandle myList = createRRList();
 
 	// First construct [5, 3.1415]
-	RRListItemHandle myItem = createIntegerItem (5);
+	RRListItemPtr myItem = createIntegerItem (5);
 	addItem (myList, &myItem);
 	myItem = createDoubleItem (3.1415);
 	addItem (myList, &myItem);
@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
 	// Next construct [5, 3.1415, [2.7182, "Hello"]]
 	myItem = createListItem (createRRList());
     addItem (myList, &myItem);
-	RRListItemHandle newItem = createDoubleItem (2.7182);
+	RRListItemPtr newItem = createDoubleItem (2.7182);
 	addItem (getList (myItem), &newItem);
 
 	newItem = createStringItem ("Hello");
@@ -422,7 +422,7 @@ int main(int argc, char* argv[])
     return 0;
 }
 
-void printMatrix(char* msg1, RRMatrixHandle mat)
+void printMatrix(char* msg1, RRDoubleMatrixPtr mat)
 {
 	cout<<msg1<<"\n";
 	cout<<("------------\n\n");

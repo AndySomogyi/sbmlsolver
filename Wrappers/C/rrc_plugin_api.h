@@ -91,7 +91,7 @@ C_DECL_SPEC int rrcCallConv getNumberOfPlugins(RRHandle handle);
  \return Returns names for loaded plugins, NULL otherwise
  \ingroup pluginRoutines
 */
-C_DECL_SPEC struct RRStringArray* rrcCallConv getPluginNames(RRHandle handle);
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getPluginNames(RRHandle handle);
 
 /*!
  \brief GetPluginHandle
@@ -108,16 +108,16 @@ C_DECL_SPEC RRPluginHandle rrcCallConv getPlugin(RRHandle handle, const char* pl
  \return Returns available capabilities for a particular plugin, NULL otherwise
  \ingroup pluginRoutines
 */
-C_DECL_SPEC struct RRStringArray* rrcCallConv getPluginCapabilities(RRPluginHandle handle);
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getPluginCapabilities(RRPluginHandle handle);
 
 /*!
  \brief Get PluginParameters for a specific capability
  \param[in] handle Handle to a plugin
- \param[in] capability Pointer to a string, holding the name of a capability. 
+ \param[in] capability Pointer to a string, holding the name of a capability.
  \return Returns available parameters for a particular capability in a plugin, NULL otherwise
  \ingroup pluginRoutines
 */
-C_DECL_SPEC struct RRStringArray* rrcCallConv getPluginParameters(RRPluginHandle handle, const char* capability);
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getPluginParameters(RRPluginHandle handle, const char* capability);
 
 /*!
  \brief Get a parameter handle in a secific capability

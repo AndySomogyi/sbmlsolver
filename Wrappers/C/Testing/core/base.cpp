@@ -96,7 +96,7 @@ SUITE(Base)
 		CHECK(myList!=NULL);
 
         // First construct [5, 3.1415]
-        RRListItemHandle myItem = createIntegerItem (5);
+        RRListItemPtr myItem = createIntegerItem (5);
         addItem (myList, &myItem);
         myItem = createDoubleItem (3.1415);
         addItem (myList, &myItem);
@@ -104,7 +104,7 @@ SUITE(Base)
         // Next construct [5, 3.1415, [2.7182, "Hello"]]
         myItem = createListItem (createRRList());
         addItem (myList, &myItem);
-        RRListItemHandle newItem = createDoubleItem (2.7182);
+        RRListItemPtr newItem = createDoubleItem (2.7182);
         addItem (getList (myItem), &newItem);
         newItem = createStringItem ("Hello");
         addItem (getList (myItem), &newItem);
