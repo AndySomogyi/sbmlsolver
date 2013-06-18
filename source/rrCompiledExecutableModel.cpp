@@ -176,12 +176,9 @@ bool CompiledExecutableModel::setupModelData()
     mData.numReactions                  = ms.mReactionList.size();
     mData.numEvents                     = ms.mNumEvents;
     mData.numFloatingSpecies            = ms.mFloatingSpeciesConcentrationList.size();
-    mData.dydtSize                      = ms.mFloatingSpeciesConcentrationList.size();
     mData.rateRulesSize                 = ms.mRateRules.size();
-    mData.ySize                         = ms.mFloatingSpeciesConcentrationList.size();
     mData.ratesSize                     = ms.mNumReactions;
     mData.ctSize                        = ms.mNumDependentSpecies;
-    mData.init_ySize                    = ms.mFloatingSpeciesConcentrationList.Count();
     mData.gpSize                        = ms.mNumGlobalParameters + ms.mTotalLocalParmeters;
     mData.numCompartments               = ms.mCompartmentList.size();
     mData.numBoundarySpecies            = ms.mNumBoundarySpecies;

@@ -719,7 +719,7 @@ static string findSymbol(const string& varName,
       int index = 0;
       if (floatingSpeciesConcentrationList.find(varName, index))
       {
-          return format("md->y[{0}]", index);
+          return format("md->floatingSpeciesConcentrations[{0}]", index);
       }
       else if (globalParameterList.find(varName, index))
       {
