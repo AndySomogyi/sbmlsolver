@@ -575,7 +575,7 @@ string CModelGenerator::findSymbol(const string& varName)
       }
       else if (ms.mBoundarySpeciesList.find(varName, index))
       {
-          return format("md->bc[{0}]", index);
+          return format("md->boundarySpeciesConc[{0}]", index);
       }
       else if (ms.mCompartmentList.find(varName, index))
       {
@@ -1434,7 +1434,7 @@ string CModelGenerator::convertSpeciesToBc(const string& speciesName)
     int index;
     if (ms.mBoundarySpeciesList.find(speciesName, index))
     {
-        return "md->bc[" + toString(index) + "]";
+        return "md->boundarySpeciesConc[" + toString(index) + "]";
     }
 
     throw CoreException("Internal Error: Unable to locate species: " + speciesName);
@@ -2184,7 +2184,7 @@ void CModelGenerator::substituteWords(const string& reactionName, bool bFixAmoun
     }
     else if (ms.mBoundarySpeciesList.find(s.tokenString, index))
     {
-        mSource<<format("md->bc[{0}]", index);
+        mSource<<format("md->boundarySpeciesConc[{0}]", index);
 
         Symbol symbol = ms.mBoundarySpeciesList[index];
         if (symbol.hasOnlySubstance)

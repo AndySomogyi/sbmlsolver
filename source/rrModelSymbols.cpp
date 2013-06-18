@@ -727,7 +727,7 @@ static string findSymbol(const string& varName,
       }
       else if (boundarySpeciesList.find(varName, index))
       {
-          return format("md->bc[{0}]", index);
+          return format("md->boundarySpeciesConc[{0}]", index);
       }
       else if (compartmentList.find(varName, index))
       {

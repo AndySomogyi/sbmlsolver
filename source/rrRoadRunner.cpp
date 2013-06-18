@@ -356,7 +356,7 @@ double RoadRunner::getValueForRecord(const SelectionRecord& record)
         break;
 
         case SelectionType::clBoundarySpecies:
-            dResult = mModel->getModelData().bc[record.index];
+            dResult = mModel->getModelData().boundarySpeciesConc[record.index];
         break;
 
         case SelectionType::clFlux:
@@ -392,7 +392,7 @@ double RoadRunner::getValueForRecord(const SelectionRecord& record)
             int nIndex;
             if (mModel->getCompartments().find(mModel->getBoundarySpecies()[record.index].compartmentName, nIndex))
             {
-                dResult = mModel->getModelData().bc[record.index] * mModel->getModelData().c[nIndex];
+                dResult = mModel->getModelData().boundarySpeciesConc[record.index] * mModel->getModelData().c[nIndex];
             }
             else
             {
@@ -959,7 +959,7 @@ void RoadRunner::setParameterValue(const TParameterType& parameterType, const in
     switch (parameterType)
     {
         case TParameterType::ptBoundaryParameter:
-            mModel->getModelData().bc[parameterIndex] = value;
+            mModel->getModelData().boundarySpeciesConc[parameterIndex] = value;
         break;
 
         case TParameterType::ptGlobalParameter:
@@ -984,7 +984,7 @@ double RoadRunner::getParameterValue(const TParameterType& parameterType, const 
     switch (parameterType)
     {
         case TParameterType::ptBoundaryParameter:
-            return mModel->getModelData().bc[parameterIndex];
+            return mModel->getModelData().boundarySpeciesConc[parameterIndex];
 
         case TParameterType::ptGlobalParameter:
             return mModel->getModelData().gp[parameterIndex];
@@ -1198,7 +1198,7 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
         else if (mModel->getBoundarySpecies().find(parameterName, parameterIndex))
         {
             parameterType = TParameterType::ptBoundaryParameter;
-            originalParameterValue = mModel->getModelData().bc[parameterIndex];
+            originalParameterValue = mModel->getModelData().boundarySpeciesConc[parameterIndex];
         }
         else if (mModel->getGlobalParameters().find(parameterName, parameterIndex))
         {
@@ -2693,7 +2693,7 @@ void RoadRunner::setBoundarySpeciesByIndex(const int& index, const double& value
 
     if ((index >= 0) && (index < mModel->getNumBoundarySpecies()))
     {
-        mModel->getModelData().bc[index] = value;
+        mModel->getModelData().boundarySpeciesConc[index] = value;
     }
     else
     {
@@ -2710,7 +2710,7 @@ double RoadRunner::getBoundarySpeciesByIndex(const int& index)
     }
     if ((index >= 0) && (index < mModel->getNumBoundarySpecies()))
     {
-        return mModel->getModelData().bc[index];
+        return mModel->getModelData().boundarySpeciesConc[index];
     }
     throw Exception(format("Index in getBoundarySpeciesByIndex out of range: [{0}]", index));
 }
@@ -2724,7 +2724,7 @@ vector<double> RoadRunner::getBoundarySpeciesConcentrations()
     }
 
     mModel->convertToConcentrations();
-    return createVector(mModel->getModelData().bc, mModel->getModelData().bcSize);
+    return createVector(mModel->getModelData().boundarySpeciesConc, mModel->getModelData().bcSize);
 }
 
 // Help("Set the concentrations for all boundary species in the model")
@@ -2920,7 +2920,7 @@ void RoadRunner::setBoundarySpeciesConcentrations(const vector<double>& values)
         mModel->setConcentration(i, values[i]);
         if ((mModel->getModelData().bcSize) > i)
         {
-            mModel->getModelData().bc[i] = values[i];
+            mModel->getModelData().boundarySpeciesConc[i] = values[i];
         }
     }
     mModel->convertToAmounts();
@@ -3140,7 +3140,7 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
         else if (mModel->getBoundarySpecies().find(parameterName, parameterIndex))
         {
             parameterType = TParameterType::ptBoundaryParameter;
-            originalParameterValue = mModel->getModelData().bc[parameterIndex];
+            originalParameterValue = mModel->getModelData().boundarySpeciesConc[parameterIndex];
         }
         else if (mModel->getConservations().find(parameterName, parameterIndex))
         {
@@ -3960,7 +3960,7 @@ bool RoadRunner::setValue(const string& sId, const double& dValue)
 
     if (mModel->getBoundarySpecies().find(sId, nIndex))
     {
-        mModel->getModelData().bc[nIndex] = dValue;
+        mModel->getModelData().boundarySpeciesConc[nIndex] = dValue;
         return true;
     }
 
@@ -4017,7 +4017,7 @@ double RoadRunner::getValue(const string& sId)
     }
     if (mModel->getBoundarySpecies().find(sId, nIndex))
     {
-        return mModel->getModelData().bc[nIndex];
+        return mModel->getModelData().boundarySpeciesConc[nIndex];
     }
 
     if (mModel->getFloatingSpeciesConcentrations().find(sId, nIndex))
