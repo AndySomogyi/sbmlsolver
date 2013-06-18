@@ -1,26 +1,27 @@
 /*
- * rrLLVMCompiler.cpp
+ * rrLLVMCodeGenerator.cpp
  *
- * Created on: Jun 3, 2013
+ * Created on: Jun 16, 2013
  *
  * Author: Andy Somogyi,
  *     email decode: V1 = "."; V2 = "@"; V3 = V1;
  *     andy V1 somogyi V2 gmail V3 com
  */
 
-#include "rrLLVMCompiler.h"
+#include "rrLLVMCodeGenerator.h"
 
 namespace rr
 {
 
-LLVMCompiler::LLVMCompiler() :
-        Compiler("", "")
+
+LLVMCodeGenerator::LLVMCodeGenerator()
 {
     // TODO Auto-generated constructor stub
 
 }
 
-LLVMCompiler::~LLVMCompiler()
+
+LLVMCodeGenerator::~LLVMCodeGenerator()
 {
     // TODO Auto-generated destructor stub
 }
