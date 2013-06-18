@@ -60,6 +60,10 @@ REPORT_FILE="${WC}/reports/${OS}_${ARCHITECTURE}/c_tests_${COMPILER_ID}_${COMPIL
 
 echo "run_test_suite -m$1 -r${REPORT_FILE}"
 
+# run the test
 run_test_suite -m$1 -r${REPORT_FILE}  
 
 echo "done, report file: ${REPORT_FILE}"
+
+# display the summary, this is the 3'rd line of the report xml
+sed -n '3p' ${REPORT_FILE}
