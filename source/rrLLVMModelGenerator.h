@@ -1,12 +1,10 @@
 /*
  * rrLLVMModelGenerator.h
  *
- * Created on: Jun 3, 2013
- *
- * Author: Andy Somogyi,
- *     email decode: V1 = "."; V2 = "@"; V3 = V1;
- *     andy V1 somogyi V2 gmail V3 com
+ *  Created on: Jun 3, 2013
+ *      Author: Andy Somogyi, andy.somogyi@gmail.com
  */
+
 #ifndef RRLLVMMODELGENERATOR_H_
 #define RRLLVMMODELGENERATOR_H_
 
@@ -15,14 +13,6 @@
 namespace rr
 {
 
-/**
- * General concepts:
- *
- * SBML defines chemical species.
- *
- * Floating Species: species whose value varies over time, i.e. they can 'float'
- * Boundary Species: boundary condition species, values are fixed to initial conditions.
- */
 class LLVMModelGenerator: public rr::ModelGenerator
 {
 public:

@@ -1,15 +1,12 @@
 /*
  * rrLLVMCompiler.h
  *
- * Created on: Jun 3, 2013
- *
- * Author: Andy Somogyi,
- *     email decode: V1 = "."; V2 = "@"; V3 = V1;
- *     andy V1 somogyi V2 gmail V3 com
+ *  Created on: Jun 3, 2013
+ *      Author: Andy Somogyi, andy.somogyi@gmail.com
  */
 
-#ifndef rrLLVMCompilerH
-#define rrLLVMCompilerH
+#ifndef RRLLVMCOMPILER_H_
+#define RRLLVMCOMPILER_H_
 
 #include <rrCompiler.h>
 
@@ -24,4 +21,4 @@ public:
 };
 
 } /* namespace rr */
-#endif /* rrLLVMCompilerH */
+#endif /* RRLLVMCOMPILER_H_ */

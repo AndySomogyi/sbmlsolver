@@ -102,13 +102,11 @@ rrCPlugin
 
 # Add the LLVM sources to compilation
 if(BUILD_LLVM)
-    set(rrSources
+    set(rrSources 
         ${rrSources}
-        rrLLVMCodeGenerator
-        rrLLVMCompiler
+        rrLLVMModelGenerator
         rrLLVMExecutableModel
-        rrLLVMModelDataSymbols
-        rrLLVMModelGenerator.cpp
+        rrLLVMCompiler
         )
 endif(BUILD_LLVM)
 
@@ -116,7 +114,7 @@ endif(BUILD_LLVM)
 if(RR_BUILD_SHARED_CORE)
     #Link with static libs
     add_library(${target} SHARED ${rrSources})
-
+    
     set_property(TARGET ${target}
         PROPERTY  COMPILE_DEFINITIONS
         EXPORT_RR
@@ -128,14 +126,14 @@ if(RR_BUILD_SHARED_CORE)
         POCO_STATIC
         POCO_NO_AUTOMATIC_LIBS
         )
-
+    
     #libraries to link with our shared lib
     if(UNIX)
         set(staticLibExt ".a")
     else()
         set(staticLibExt "")
     endif(UNIX)
-
+    
     target_link_libraries (${target}
         sundials_cvode
         sundials_nvecserial
@@ -161,7 +159,7 @@ if(RR_BUILD_SHARED_CORE)
             )
     endif(UNIX)
 
-
+  
     if(${INSTALL_CXX_API})
         install(TARGETS ${target}
             RUNTIME DESTINATION bin COMPONENT rr_core
@@ -171,13 +169,13 @@ if(RR_BUILD_SHARED_CORE)
     endif()
 
 
-    if(BUILD_LLVM)
+    if(BUILD_LLVM) 
         target_link_libraries(${target}
             ${LLVM_LIBRARIES}
             )
     endif(BUILD_LLVM)
 
-
+    
 endif(RR_BUILD_SHARED_CORE)
 
 # static allways gets build
@@ -229,7 +227,7 @@ if(UNIX)
         )
 endif(UNIX)
 
-if(BUILD_LLVM)
+if(BUILD_LLVM) 
     target_link_libraries(${target}-static
         ${LLVM_LIBRARIES}
         )
@@ -253,20 +251,20 @@ endif()
 
 #--- INSTALL STUFF
 if(${INSTALL_CXX_API})
-
+    
     #if(INSTALL_STATIC_LIB)
     install(TARGETS ${target}-static
         LIBRARY DESTINATION lib COMPONENT rr_core
         ARCHIVE DESTINATION lib COMPONENT rr_core
         )
     #endif()
-
+    
     #=== HEADERS
     set(subfolders
         .
         ./mtrand
         )
-
+    
     foreach(subfolder ${subfolders})
         FILE (GLOB headers ${subfolder}/*.h)
         install (   FILES ${headers}

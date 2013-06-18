@@ -1,12 +1,10 @@
 /*
  * rrLLVMModelGenerator.cpp
  *
- * Created on: Jun 3, 2013
- *
- * Author: Andy Somogyi,
- *     email decode: V1 = "."; V2 = "@"; V3 = V1;
- *     andy V1 somogyi V2 gmail V3 com
+ *  Created on: Jun 3, 2013
+ *      Author: andy
  */
+
 #include "rrLLVMModelGenerator.h"
 
 #include "llvm/Analysis/Passes.h"

@@ -15,20 +15,12 @@
 #include "rrCompiledExecutableModel.h"
 //---------------------------------------------------------------------------
 
-
 namespace rr
 {
 
 using namespace std;
 using namespace ls;
 using namespace libsbml;
-
-static void here(char* what) {
-
-    cout << "we're here: " << what << "\n";
-    assert(0);
-}
-
 
 Mutex               CModelGenerator::mCompileMutex;
 
@@ -1336,7 +1328,6 @@ void CModelGenerator::writeSetParameterValues(CodeBuilder& ignore, const int& nu
     {
         for (int j = 0; j < ms.mLocalParameterList[i].size(); j++)
         {
-            here("have local");
             mSource<<format("\n\t_lp[{0}][{1}] = (double){2};{3}", i, j, writeDouble(ms.mLocalParameterList[i][j].value), NL());
         }
     }

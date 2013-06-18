@@ -2,14 +2,11 @@
  * rrLLVMExecutableModel.h
  *
  *  Created on: Jun 3, 2013
- *
- * Author: Andy Somogyi,
- *     email decode: V1 = "."; V2 = "@"; V3 = V1;
- *     andy V1 somogyi V2 gmail V3 com
+ *      Author: Andy Somogyi, andy.somogyi@gmail.com
  */
 
-#ifndef rrLLVMExecutableModelH
-#define rrLLVMExecutableModelH
+#ifndef RRLLVMEXECUTABLEMODEL_H_
+#define RRLLVMEXECUTABLEMODEL_H_
 
 #include <rrExecutableModel.h>
 
@@ -94,4 +91,4 @@ public:
 };
 
 } /* namespace rr */
-#endif /* rrLLVMExecutableModelH */
+#endif /* RRLLVMEXECUTABLEMODEL_H_ */

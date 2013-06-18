@@ -33,15 +33,33 @@ then
 	exit 0
 fi
 
-echo "Running tests..."
+if [ ! -e "$1/cases" ]
+then
+	echo "error, the sbml test suite location $1 does not appear valid, is missing a \'cases\' subdirectory"
+	usage
+	exit 0
+fi
+
+# grab the first line of a git status
+GIT_STATUS=`git --git-dir=${WC}/.git --work-tree=${WC} status | head -1`
+
+# pick out the branch we're on
+GIT_BRANCH=`echo ${GIT_STATUS} | sed -E 's/.*branch[ \t]+(.*)/\1/'`
+
+# format the datetime as part of the filename
+FILE_DATETIME=`date +%Y-%m-%d"_"%H-%M`
+
+echo "git output: $GIT_STATUS"
+echo "git branch: $GIT_BRANCH"
+
 
 # could be on a new architecture, so make the dir if it does not exist
 mkdir -p "${WC}/reports/${OS}_${ARCHITECTURE}"
 
-REPORT_FILE="${WC}/reports/${OS}_${ARCHITECTURE}/c_tests_${COMPILER_ID}_${COMPILER_VERSION}_${BUILD_TYPE}.xml"
+REPORT_FILE="${WC}/reports/${OS}_${ARCHITECTURE}/c_tests_${COMPILER_ID}_${COMPILER_VERSION}_${BUILD_TYPE}_${GIT_BRANCH}_${FILE_DATETIME}.xml"
 
 echo "run_test_suite -m$1 -r${REPORT_FILE}"
 
 run_test_suite -m$1 -r${REPORT_FILE}  
 
-echo "done..."
+echo "done, report file: ${REPORT_FILE}"
