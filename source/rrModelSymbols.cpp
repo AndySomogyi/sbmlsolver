@@ -363,7 +363,7 @@ static SymbolList readBoundarySpecies(NOMSupport &nom, const SymbolList &compart
                 }
             }
             stringstream formula;
-            formula<<toString(dValue, ModelSymbols::mDoubleFormat)<<"/ md->c["<<nCompartmentIndex<<"]";
+            formula<<toString(dValue, ModelSymbols::mDoubleFormat)<<"/ md->compartmentVolumes["<<nCompartmentIndex<<"]";
             symbol = Symbol(sName,
                                 dValue / dVolume,
                                 compartmentName,
@@ -553,7 +553,7 @@ static SymbolList readFloatingSpeciesConcentrationList(NOMSupport& nom, LibStruc
 
                 stringstream formula;
                 formula << toString(dValue, ModelSymbols::mDoubleFormat)
-                            << "/ md->c[" << nCompartmentIndex << "]";
+                            << "/ md->compartmentVolumes[" << nCompartmentIndex << "]";
 
                 symbol = Symbol(reOrderedList[i], dValue / dVolume,
                         compartmentName, formula.str());
@@ -727,11 +727,11 @@ static string findSymbol(const string& varName,
       }
       else if (boundarySpeciesList.find(varName, index))
       {
-          return format("md->boundarySpeciesConc[{0}]", index);
+          return format("md->boundarySpeciesConcentrations[{0}]", index);
       }
       else if (compartmentList.find(varName, index))
       {
-          return format("md->c[{0}]", index);
+          return format("md->compartmentVolumes[{0}]", index);
       }
       else if (modifiableSpeciesReferenceList.find(varName, index))
       {

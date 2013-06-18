@@ -221,14 +221,14 @@ void CModelGenerator::writeComputeAllRatesOfChange(CodeBuilder& ignore, const in
 
     // calloc is often preferable as it creates zero initialized memory.
     // this is free'd just before this function exits.
-    mSource<<"\n\tdouble* dTemp = (double*) calloc((md->amountsSize + md->rateRulesSize), sizeof(double));\n";
+    mSource<<"\n\tdouble* dTemp = (double*) calloc((md->numFloatingSpecies + md->rateRulesSize), sizeof(double));\n";
 
     for (int i = 0; i < numAdditionalRates(); i++)
     {
         mSource<<format("\tdTemp[{0}] = {1};{2}", i, ms.mRateRules.find(i)->second, NL());
     }
 
-    mSource<<gTab<<"for(i = 0; i < md->amountsSize; i++)\n";
+    mSource<<gTab<<"for(i = 0; i < md->numFloatingSpecies; i++)\n";
     mSource<<gTab<<"{\n"<<gTab<<gTab<<"dTemp[i + md->rateRulesSize] = md->amounts[i];\n\t}";
     mSource<<append("\n\t//amounts.CopyTo(dTemp, rateRules.Length); " + NL());
 
@@ -575,11 +575,11 @@ string CModelGenerator::findSymbol(const string& varName)
       }
       else if (ms.mBoundarySpeciesList.find(varName, index))
       {
-          return format("md->boundarySpeciesConc[{0}]", index);
+          return format("md->boundarySpeciesConcentrations[{0}]", index);
       }
       else if (ms.mCompartmentList.find(varName, index))
       {
-          return format("md->c[{0}]", index);
+          return format("md->compartmentVolumes[{0}]", index);
       }
       else if (ms.mModifiableSpeciesReferenceList.find(varName, index))
       {
@@ -1253,7 +1253,7 @@ void CModelGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numR
                 string aStr = (string) oTemp[j];
                 aStr = trim(aStr);
 
-                if (startsWith(aStr, "md->c[")) //Todo:May have to trim?
+                if (startsWith(aStr, "md->compartmentVolumes[")) //Todo:May have to trim?
                 {
                     mSource<<append("\t\tconvertToConcentrations(md);" + NL());
                 }
@@ -1434,7 +1434,7 @@ string CModelGenerator::convertSpeciesToBc(const string& speciesName)
     int index;
     if (ms.mBoundarySpeciesList.find(speciesName, index))
     {
-        return "md->boundarySpeciesConc[" + toString(index) + "]";
+        return "md->boundarySpeciesConcentrations[" + toString(index) + "]";
     }
 
     throw CoreException("Internal Error: Unable to locate species: " + speciesName);
@@ -1445,7 +1445,7 @@ string CModelGenerator::convertCompartmentToC(const string& compartmentName)
     int index;
     if (ms.mCompartmentList.find(compartmentName, index))
     {
-        return "md->c[" + toString(index) + "]";
+        return "md->compartmentVolumes[" + toString(index) + "]";
     }
 
     throw CoreException("Internal Error: Unable to locate compartment: " + compartmentName);
@@ -1466,7 +1466,7 @@ string CModelGenerator::convertSymbolToC(const string& compartmentName)
     int index;
     if (ms.mCompartmentList.find(compartmentName, index))
     {
-        return "md->c[" + toString(index) + "]";
+        return "md->compartmentVolumes[" + toString(index) + "]";
     }
       throw CoreException("Internal Error: Unable to locate compartment: " + compartmentName);
 }
@@ -2184,7 +2184,7 @@ void CModelGenerator::substituteWords(const string& reactionName, bool bFixAmoun
     }
     else if (ms.mBoundarySpeciesList.find(s.tokenString, index))
     {
-        mSource<<format("md->boundarySpeciesConc[{0}]", index);
+        mSource<<format("md->boundarySpeciesConcentrations[{0}]", index);
 
         Symbol symbol = ms.mBoundarySpeciesList[index];
         if (symbol.hasOnlySubstance)
@@ -2212,7 +2212,7 @@ void CModelGenerator::substituteWords(const string& reactionName, bool bFixAmoun
     }
     else if (ms.mCompartmentList.find(s.tokenString, index))
     {
-        mSource<<format("md->c[{0}]", index);
+        mSource<<format("md->compartmentVolumes[{0}]", index);
     }
     else if (ms.mFunctionNames.Contains(s.tokenString))
     {
