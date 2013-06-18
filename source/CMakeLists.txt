@@ -108,7 +108,8 @@ if(BUILD_LLVM)
         rrLLVMCompiler
         rrLLVMExecutableModel
         rrLLVMModelDataSymbols
-        rrLLVMModelGenerator.cpp
+        rrLLVMModelGenerator
+        rrLLVMModelGeneratorContext
         )
 endif(BUILD_LLVM)
 
