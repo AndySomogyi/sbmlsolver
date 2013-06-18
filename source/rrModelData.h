@@ -66,11 +66,7 @@ typedef struct SModelData
      */
     int                                 numGlobalParameters;
 
-    /**
-     * number of compartments, same as cSize.
-     * TODO: clean up whatever uses this.
-     */
-    int                                 numCompartments;
+
 
     /**
      * number of reactions, same as ratesSize.
@@ -148,7 +144,7 @@ typedef struct SModelData
      * The total ammounts of the floating species, i.e.
      * concentration * compartment volume
      */
-    int                                 amountsSize;
+    int                                 numFloatingSpecies;
     double*                             amounts;
 
     /**
@@ -158,15 +154,15 @@ typedef struct SModelData
      * Volume Percent= (Volume of Solute) / (Volume of Solution) x 100%
      * Mass/Volume Percent= (Mass of Solute) / (Volume of Solution) x 100%
      */
-    int                                 boundarySpeciesNum;
-    double*                             boundarySpeciesConc;
+    int                                 numBoundarySpecies;
+    double*                             boundarySpeciesConcentrations;
 
     /**
      * number of compartments, and compartment volumes.
      * units: volume
      */
-    int                                 cSize;
-    double*                             c;
+    int                                 numCompartments;
+    double*                             compartmentVolumes;
 
     /**
      * concentration rates of change for floating species.

@@ -356,7 +356,7 @@ double RoadRunner::getValueForRecord(const SelectionRecord& record)
         break;
 
         case SelectionType::clBoundarySpecies:
-            dResult = mModel->getModelData().boundarySpeciesConc[record.index];
+            dResult = mModel->getModelData().boundarySpeciesConcentrations[record.index];
         break;
 
         case SelectionType::clFlux:
@@ -368,7 +368,7 @@ double RoadRunner::getValueForRecord(const SelectionRecord& record)
         break;
 
         case SelectionType::clVolume:
-            dResult = mModel->getModelData().c[record.index];
+            dResult = mModel->getModelData().compartmentVolumes[record.index];
         break;
 
         case SelectionType::clParameter:
@@ -392,7 +392,7 @@ double RoadRunner::getValueForRecord(const SelectionRecord& record)
             int nIndex;
             if (mModel->getCompartments().find(mModel->getBoundarySpecies()[record.index].compartmentName, nIndex))
             {
-                dResult = mModel->getModelData().boundarySpeciesConc[record.index] * mModel->getModelData().c[nIndex];
+                dResult = mModel->getModelData().boundarySpeciesConcentrations[record.index] * mModel->getModelData().compartmentVolumes[nIndex];
             }
             else
             {
@@ -460,7 +460,7 @@ void RoadRunner::addNthOutputToResult(DoubleMatrix& results, int nRow, double dC
 vector<double> RoadRunner::buildModelEvalArgument()
 {
     vector<double> dResult;
-    dResult.resize((mModel->getModelData().amountsSize) + (mModel->getModelData().rateRulesSize) );
+    dResult.resize((mModel->getModelData().numFloatingSpecies) + (mModel->getModelData().rateRulesSize) );
 
     vector<double> dCurrentRuleValues = mModel->getCurrentValues();
 
@@ -469,7 +469,7 @@ vector<double> RoadRunner::buildModelEvalArgument()
         dResult[i] = dCurrentRuleValues[i];
     }
 
-    for(int i = 0; i < (mModel->getModelData().amountsSize); i++)
+    for(int i = 0; i < (mModel->getModelData().numFloatingSpecies); i++)
     {
         dResult[i + (mModel->getModelData().rateRulesSize)] = mModel->getModelData().amounts[i];
     }
@@ -959,7 +959,7 @@ void RoadRunner::setParameterValue(const TParameterType& parameterType, const in
     switch (parameterType)
     {
         case TParameterType::ptBoundaryParameter:
-            mModel->getModelData().boundarySpeciesConc[parameterIndex] = value;
+            mModel->getModelData().boundarySpeciesConcentrations[parameterIndex] = value;
         break;
 
         case TParameterType::ptGlobalParameter:
@@ -984,7 +984,7 @@ double RoadRunner::getParameterValue(const TParameterType& parameterType, const 
     switch (parameterType)
     {
         case TParameterType::ptBoundaryParameter:
-            return mModel->getModelData().boundarySpeciesConc[parameterIndex];
+            return mModel->getModelData().boundarySpeciesConcentrations[parameterIndex];
 
         case TParameterType::ptGlobalParameter:
             return mModel->getModelData().gp[parameterIndex];
@@ -1198,7 +1198,7 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
         else if (mModel->getBoundarySpecies().find(parameterName, parameterIndex))
         {
             parameterType = TParameterType::ptBoundaryParameter;
-            originalParameterValue = mModel->getModelData().boundarySpeciesConc[parameterIndex];
+            originalParameterValue = mModel->getModelData().boundarySpeciesConcentrations[parameterIndex];
         }
         else if (mModel->getGlobalParameters().find(parameterName, parameterIndex))
         {
@@ -2651,7 +2651,7 @@ void RoadRunner::setCompartmentByIndex(const int& index, const double& value)
 
     if ((index >= 0) && (index < mModel->getNumCompartments()))
     {
-        mModel->getModelData().c[index] = value;
+        mModel->getModelData().compartmentVolumes[index] = value;
     }
     else
     {
@@ -2668,7 +2668,7 @@ double RoadRunner::getCompartmentByIndex(const int& index)
 
     if ((index >= 0) && (index < mModel->getNumCompartments()))
     {
-        return mModel->getModelData().c[index];
+        return mModel->getModelData().compartmentVolumes[index];
     }
 
     throw CoreException(format("Index in getCompartmentByIndex out of range: [{0}]", index));
@@ -2693,7 +2693,7 @@ void RoadRunner::setBoundarySpeciesByIndex(const int& index, const double& value
 
     if ((index >= 0) && (index < mModel->getNumBoundarySpecies()))
     {
-        mModel->getModelData().boundarySpeciesConc[index] = value;
+        mModel->getModelData().boundarySpeciesConcentrations[index] = value;
     }
     else
     {
@@ -2710,7 +2710,7 @@ double RoadRunner::getBoundarySpeciesByIndex(const int& index)
     }
     if ((index >= 0) && (index < mModel->getNumBoundarySpecies()))
     {
-        return mModel->getModelData().boundarySpeciesConc[index];
+        return mModel->getModelData().boundarySpeciesConcentrations[index];
     }
     throw Exception(format("Index in getBoundarySpeciesByIndex out of range: [{0}]", index));
 }
@@ -2724,7 +2724,7 @@ vector<double> RoadRunner::getBoundarySpeciesConcentrations()
     }
 
     mModel->convertToConcentrations();
-    return createVector(mModel->getModelData().boundarySpeciesConc, mModel->getModelData().boundarySpeciesNum);
+    return createVector(mModel->getModelData().boundarySpeciesConcentrations, mModel->getModelData().numBoundarySpecies);
 }
 
 // Help("Set the concentrations for all boundary species in the model")
@@ -2918,9 +2918,9 @@ void RoadRunner::setBoundarySpeciesConcentrations(const vector<double>& values)
     for (int i = 0; i < values.size(); i++)
     {
         mModel->setConcentration(i, values[i]);
-        if ((mModel->getModelData().boundarySpeciesNum) > i)
+        if ((mModel->getModelData().numBoundarySpecies) > i)
         {
-            mModel->getModelData().boundarySpeciesConc[i] = values[i];
+            mModel->getModelData().boundarySpeciesConcentrations[i] = values[i];
         }
     }
     mModel->convertToAmounts();
@@ -3140,7 +3140,7 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
         else if (mModel->getBoundarySpecies().find(parameterName, parameterIndex))
         {
             parameterType = TParameterType::ptBoundaryParameter;
-            originalParameterValue = mModel->getModelData().boundarySpeciesConc[parameterIndex];
+            originalParameterValue = mModel->getModelData().boundarySpeciesConcentrations[parameterIndex];
         }
         else if (mModel->getConservations().find(parameterName, parameterIndex))
         {
@@ -3960,13 +3960,13 @@ bool RoadRunner::setValue(const string& sId, const double& dValue)
 
     if (mModel->getBoundarySpecies().find(sId, nIndex))
     {
-        mModel->getModelData().boundarySpeciesConc[nIndex] = dValue;
+        mModel->getModelData().boundarySpeciesConcentrations[nIndex] = dValue;
         return true;
     }
 
     if (mModel->getCompartments().find(sId, nIndex))
     {
-        mModel->getModelData().c[nIndex] = dValue;
+        mModel->getModelData().compartmentVolumes[nIndex] = dValue;
         return true;
     }
 
@@ -4017,7 +4017,7 @@ double RoadRunner::getValue(const string& sId)
     }
     if (mModel->getBoundarySpecies().find(sId, nIndex))
     {
-        return mModel->getModelData().boundarySpeciesConc[nIndex];
+        return mModel->getModelData().boundarySpeciesConcentrations[nIndex];
     }
 
     if (mModel->getFloatingSpeciesConcentrations().find(sId, nIndex))
@@ -4035,7 +4035,7 @@ double RoadRunner::getValue(const string& sId)
 
     if (mModel->getCompartments().find(sId, nIndex))
     {
-        return mModel->getModelData().c[nIndex];
+        return mModel->getModelData().compartmentVolumes[nIndex];
     }
     if (mModel->getReactions().find(sId, nIndex))
     {

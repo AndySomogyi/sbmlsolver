@@ -304,7 +304,7 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
     ExecutableModel *model = cvInstance->getModel();
     ModelState oldState(*model);
 
-    int size = model->getModelData().amountsSize + model->getModelData().rateRulesSize;
+    int size = model->getModelData().numFloatingSpecies + model->getModelData().rateRulesSize;
     vector<double> dCVodeArgument(size);
 
     for(int i = 0; i < min((int) dCVodeArgument.size(), n); i++)
@@ -915,7 +915,7 @@ void CvodeInterface::reStart(double timeStart, ExecutableModel* model)
 vector<double> CvodeInterface::buildEvalArgument()
 {
     vector<double> dResult;
-    dResult.resize(mTheModel->getModelData().amountsSize + mTheModel->getModelData().rateRulesSize);
+    dResult.resize(mTheModel->getModelData().numFloatingSpecies + mTheModel->getModelData().rateRulesSize);
 
     vector<double> dCurrentValues = mTheModel->getCurrentValues();
     for(int i = 0; i < dCurrentValues.size(); i++)
@@ -923,7 +923,7 @@ vector<double> CvodeInterface::buildEvalArgument()
         dResult[i] = dCurrentValues[i];
     }
 
-    for(int i = 0; i < mTheModel->getModelData().amountsSize; i++)
+    for(int i = 0; i < mTheModel->getModelData().numFloatingSpecies; i++)
     {
         dResult[i + mTheModel->getModelData().rateRulesSize] = mTheModel->getModelData().amounts[i];
     }
