@@ -163,7 +163,7 @@ int main(int argc, char* argv[])
 	    setNumPoints(rrHandle, args.Steps);
     	setTimeCourseSelectionList(rrHandle, args.SelectionList.c_str());
 		cout<<"Roadrunner is about to simulate model\n";
-        RRStringArrayHandle list =  getTimeCourseSelectionList(rrHandle);
+        RRStringArrayPtr list =  getTimeCourseSelectionList(rrHandle);
 
         if(list)
         {

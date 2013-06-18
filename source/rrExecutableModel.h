@@ -49,7 +49,7 @@ public:
     virtual CvodeInterface* getCvodeInterface() = 0;
 
     /**
-     * Sets the initial floating species concentrations, ModelData::init_y to
+     * Sets the initial floating species concentrations, ModelData::floatingSpeciesInitConcentrations to
      * the initial value specified in the sbml model. The initial concentration
      * value can be spefied either by a constant value, or with an assigment rule.
      *
@@ -59,9 +59,9 @@ public:
 
     /**
      * Sets the the concentrations and ammounts to the values specified
-     * by the initial conditions, ModelData::init_y, i.e. the ModelData::amounts[:]
-     * are set to ModelData::init_y[:] * compartment volume, and ModelData::y[:] is
-     * set to ModelData::init_y[:].
+     * by the initial conditions, ModelData::floatingSpeciesInitConcentrations, i.e. the ModelData::amounts[:]
+     * are set to ModelData::floatingSpeciesInitConcentrations[:] * compartment volume, and ModelData::y[:] is
+     * set to ModelData::floatingSpeciesInitConcentrations[:].
      *
      * This sets the concentrations and ammounts to either initialAmount or
      * initialConcentration (which ever exists) or 0 if they are missing. A

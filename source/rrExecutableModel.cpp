@@ -31,21 +31,21 @@ void allocModelDataBuffers(ModelData &data, const string& modelName)
     // initialized memory.
 
     // in rrNLEQInterface there is a loop like
-    // for(int i = model->mData.rateRulesSize; i < model->mData.amountsSize + model->mData.rateRulesSize; i++) {
+    // for(int i = model->mData.rateRulesSize; i < model->mData.numFloatingSpecies + model->mData.rateRulesSize; i++) {
     //    dTemp[i] = model->getModelData().amounts[i];
     // so to fix the memory corruption issues, allocate it to the used, not the indicated size.
     // TODO fix this correctly!
 
-    data.amounts = (double*)rrCalloc(data.amountsSize + data.rateRulesSize, sizeof(double));
-    data.dydt = (double*)rrCalloc(data.dydtSize, sizeof(double));
+    data.amounts = (double*)rrCalloc(data.numFloatingSpecies + data.rateRulesSize, sizeof(double));
+    data.floatingSpeciesConcentrationRates = (double*)rrCalloc(data.numFloatingSpecies, sizeof(double));
     data.rateRules = (double*)rrCalloc(data.rateRulesSize, sizeof(double));
-    data.y = (double*)rrCalloc(data.ySize, sizeof(double));
+    data.floatingSpeciesConcentrations = (double*)rrCalloc(data.numFloatingSpecies, sizeof(double));
     data.rates = (double*)rrCalloc(data.ratesSize, sizeof(double));
     data.ct = (double*)rrCalloc(data.ctSize, sizeof(double));
-    data.init_y = (double*)rrCalloc(data.init_ySize, sizeof(double));
+    data.floatingSpeciesInitConcentrations = (double*)rrCalloc(data.numFloatingSpecies, sizeof(double));
     data.gp = (double*)rrCalloc(data.gpSize, sizeof(double));
-    data.c = (double*)rrCalloc(data.cSize, sizeof(double));
-    data.bc = (double*)rrCalloc(data.bcSize, sizeof(double));
+    data.compartmentVolumes = (double*)rrCalloc(data.numCompartments, sizeof(double));
+    data.boundarySpeciesConcentrations = (double*)rrCalloc(data.numBoundarySpecies, sizeof(double));
     data.lp = (double*)rrCalloc(data.lpSize, sizeof(double));
     data.sr = (double*)rrCalloc(data.srSize, sizeof(double));
     data.localParameterDimensions = (int*)rrCalloc(data.localParameterDimensionsSize, sizeof(int));
@@ -55,11 +55,14 @@ void allocModelDataBuffers(ModelData &data, const string& modelName)
     data.eventPersistentType = (bool*)rrCalloc(data.eventPersistentTypeSize, sizeof(bool));
     data.eventTests = (double*)rrCalloc(data.eventTestsSize, sizeof(double));
     data.eventType = (bool*)rrCalloc(data.eventTypeSize, sizeof(bool));
+    data.floatingSpeciesCompartments = (int*)rrCalloc(data.numFloatingSpecies, sizeof(int));
+    data.boundarySpeciesCompartments = (int*)rrCalloc(data.numBoundarySpecies, sizeof(int));
 
     // allocate space for the symbolic names of things
     data.variableTable = (char**)rrCalloc(data.numTotalVariables, sizeof(char*));
-    data.boundaryTable = (char**)rrCalloc(data.numBoundaryVariables, sizeof(char*));
+    data.boundaryTable = (char**)rrCalloc(data.numBoundarySpecies, sizeof(char*));
     data.globalParameterTable = (char**)rrCalloc(data.numGlobalParameters, sizeof(char*));
+
 
     //Event function pointer stuff
     data.eventAssignments =
@@ -77,15 +80,17 @@ void  freeModelDataBuffers(ModelData &data)
     free(data.modelName);
 
     free(data.amounts);
-    free(data.dydt);
+    free(data.floatingSpeciesConcentrationRates);
     free(data.rateRules);
-    free(data.y);
+    free(data.floatingSpeciesConcentrations);
+    free(data.floatingSpeciesCompartments);
     free(data.rates);
     free(data.ct);
-    free(data.init_y);
+    free(data.floatingSpeciesInitConcentrations);
     free(data.gp);
-    free(data.c);
-    free(data.bc);
+    free(data.compartmentVolumes);
+    free(data.boundarySpeciesConcentrations);
+    free(data.boundarySpeciesCompartments);
     free(data.lp);
     free(data.sr);
     free(data.localParameterDimensions);

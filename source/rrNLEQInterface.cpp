@@ -234,7 +234,7 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
         	model->getModelData().amounts[i] = y[i];
         }
 
-        int size = model->getModelData().amountsSize + model->getModelData().rateRulesSize;
+        int size = model->getModelData().numFloatingSpecies + model->getModelData().rateRulesSize;
         vector<double> dTemp;
         dTemp.resize(size);
 
@@ -243,7 +243,7 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
         	dTemp[i] = model->getModelData().rateRules[i];
         }
 
-        for(int i = model->getModelData().rateRulesSize; i < model->getModelData().amountsSize + model->getModelData().rateRulesSize; i++)
+        for(int i = model->getModelData().rateRulesSize; i < model->getModelData().numFloatingSpecies + model->getModelData().rateRulesSize; i++)
         {
         	dTemp[i] = model->getModelData().amounts[i];
         }
@@ -252,7 +252,7 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
 
 		for(int i = 0; i < n; i++)
         {
-        	fval[i] = model->getModelData().dydt[i];
+        	fval[i] = model->getModelData().floatingSpeciesConcentrationRates[i];
         }
 
         pErr = 0;
@@ -337,7 +337,7 @@ double NLEQInterface::computeSumsOfSquares()
     double sum = 0;
     for (int i = 0; i < n; i++)
     {
-        sum = sum + pow(model->getModelData().dydt[i], 2.0);
+        sum = sum + pow(model->getModelData().floatingSpeciesConcentrationRates[i], 2.0);
     }
     return sqrt(sum);
 }

@@ -88,7 +88,7 @@ int CompiledExecutableModel::getNumTotalVariables()
 
 int CompiledExecutableModel::getNumBoundarySpecies()
 {
-    return mData.numBoundaryVariables;    //Todos: bad naming - is Variables/Species, choose one..
+    return mData.numBoundarySpecies;
 }
 
 int CompiledExecutableModel::getNumGlobalParameters()
@@ -172,21 +172,16 @@ bool CompiledExecutableModel::setupModelData()
     mData.numIndependentVariables       = ms.mNumIndependentSpecies;
     mData.numDependentVariables         = ms.mNumDependentSpecies;
     mData.numTotalVariables             = ms.mNumFloatingSpecies;        //???
-    mData.numBoundaryVariables          = ms.mNumBoundarySpecies;
     mData.numGlobalParameters           = ms.mGlobalParameterList.size();
-    mData.numCompartments               = ms.mCompartmentList.size();
     mData.numReactions                  = ms.mReactionList.size();
     mData.numEvents                     = ms.mNumEvents;
-    mData.amountsSize                   = ms.mFloatingSpeciesConcentrationList.size();
-    mData.dydtSize                      = ms.mFloatingSpeciesConcentrationList.size();
+    mData.numFloatingSpecies            = ms.mFloatingSpeciesConcentrationList.size();
     mData.rateRulesSize                 = ms.mRateRules.size();
-    mData.ySize                         = ms.mFloatingSpeciesConcentrationList.size();
     mData.ratesSize                     = ms.mNumReactions;
     mData.ctSize                        = ms.mNumDependentSpecies;
-    mData.init_ySize                    = ms.mFloatingSpeciesConcentrationList.Count();
     mData.gpSize                        = ms.mNumGlobalParameters + ms.mTotalLocalParmeters;
-    mData.cSize                         = ms.mNumCompartments;
-    mData.bcSize                        = ms.mNumBoundarySpecies;
+    mData.numCompartments               = ms.mCompartmentList.size();
+    mData.numBoundarySpecies            = ms.mNumBoundarySpecies;
     mData.lpSize                        = ms.mNumReactions;
     mData.srSize                        = ms.mNumModifiableSpeciesReferences;
     mData.localParameterDimensionsSize  = ms.mNumReactions;

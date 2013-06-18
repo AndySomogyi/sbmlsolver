@@ -1204,7 +1204,7 @@ void CSharpModelGenerator::writeProperties(CodeBuilder& sb)
     sb<<append("\t\tset { _y = value; } " + NL());
     sb<<append("\t}" + NL() + NL());
 
-    sb<<append("\tpublic double[] init_y {" + NL());
+    sb<<append("\tpublic double[] floatingSpeciesInitConcentrations {" + NL());
     sb<<append("\t\tget { return _init_y; } " + NL());
     sb<<append("\t\tset { _init_y = value; } " + NL());
     sb<<append("\t}" + NL() + NL());

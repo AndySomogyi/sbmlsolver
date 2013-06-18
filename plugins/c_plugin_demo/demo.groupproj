@@ -1,0 +1,72 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{25DCAC61-0A01-450E-8F55-B035EBFF77F2}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="..\..\source\roadrunner.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\Wrappers\C\rrc_api.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="c_plugin_demo.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="c_demo_main.cbproj">
+            <Dependencies>c_plugin_demo.cbproj</Dependencies>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="roadrunner">
+        <MSBuild Projects="..\..\source\roadrunner.cbproj"/>
+    </Target>
+    <Target Name="roadrunner:Clean">
+        <MSBuild Projects="..\..\source\roadrunner.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="roadrunner:Make">
+        <MSBuild Projects="..\..\source\roadrunner.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="rrc_api">
+        <MSBuild Projects="..\..\Wrappers\C\rrc_api.cbproj"/>
+    </Target>
+    <Target Name="rrc_api:Clean">
+        <MSBuild Projects="..\..\Wrappers\C\rrc_api.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="rrc_api:Make">
+        <MSBuild Projects="..\..\Wrappers\C\rrc_api.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="c_plugin_demo">
+        <MSBuild Projects="c_plugin_demo.cbproj"/>
+    </Target>
+    <Target Name="c_plugin_demo:Clean">
+        <MSBuild Projects="c_plugin_demo.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="c_plugin_demo:Make">
+        <MSBuild Projects="c_plugin_demo.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="c_demo_main" DependsOnTargets="c_plugin_demo">
+        <MSBuild Projects="c_demo_main.cbproj"/>
+    </Target>
+    <Target Name="c_demo_main:Clean" DependsOnTargets="c_plugin_demo:Clean">
+        <MSBuild Projects="c_demo_main.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="c_demo_main:Make" DependsOnTargets="c_plugin_demo:Make">
+        <MSBuild Projects="c_demo_main.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="roadrunner;rrc_api;c_plugin_demo;c_demo_main"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="roadrunner:Clean;rrc_api:Clean;c_plugin_demo:Clean;c_demo_main:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="roadrunner:Make;rrc_api:Make;c_plugin_demo:Make;c_demo_main:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

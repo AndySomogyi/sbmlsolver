@@ -62,7 +62,7 @@ linear dependent rows from the lower portion of the reordered stoichiometry matr
 as parameter.
 \ingroup Stoich
 */
-C_DECL_SPEC RRMatrixHandle rrcCallConv getL0Matrix(RRHandle handle);
+C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv getL0Matrix(RRHandle handle);
 
 /*! \brief Calculates the eigen-vectors of a square real matrix.
 This function calculates the complex (right)eigenvectors of the given real matrix. The complex matrix
@@ -75,7 +75,7 @@ A * v(j) = lambda(j) * v(j)
 \return Returns null if it fails, otherwise returns a RRComplexMatrix.
 \ingroup Stoich
 */
-C_DECL_SPEC RRComplexMatrixHandle rrcCallConv getEigenVectors(RRMatrixHandle matrix);
+C_DECL_SPEC RRComplexMatrixHandle rrcCallConv getEigenVectors(RRDoubleMatrixPtr matrix);
 
 
 /*! \brief Calculates the eigen-vectors of a square nonsymmetrix complex matrix.
@@ -103,7 +103,7 @@ been called yet.
 
 */
 // int LibStructural_getConservedSums(double* *outArray, int *outLength);
-RRVectorHandle getConservedSums(RRHandle handle);
+RRVectorPtr getConservedSums(RRHandle handle);
 
 
 // --------------------------------------------------------------------------------
@@ -118,7 +118,7 @@ RRVectorHandle getConservedSums(RRHandle handle);
  The first column will contain the real values and the second column the imaginary values
  \ingroup LinearAlgebra
 */
-C_DECL_SPEC RRMatrixHandle rrcCallConv getEigenvaluesMatrix(const RRMatrixHandle mat);
+C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv getEigenvaluesMatrix(const RRDoubleMatrixPtr mat);
 
 /*!
  \brief Compute the eigenvalues of a double matrix
@@ -127,7 +127,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getEigenvaluesMatrix(const RRMatrixHandle
  \return Returns null if it fails, otherwise returns a complex vector of eigenvalues.
  \ingroup LinearAlgebra
 */
-C_DECL_SPEC RRComplexVectorHandle rrcCallConv getEigenvaluesVector(const RRMatrixHandle mat);
+C_DECL_SPEC RRComplexVectorHandle rrcCallConv getEigenvaluesVector(const RRDoubleMatrixPtr mat);
 
 //---------------------------------------------------------------------------
 #if defined(__cplusplus)

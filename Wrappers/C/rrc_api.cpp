@@ -140,7 +140,7 @@ RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder)
     catch_ptr_macro
 }
 
-RRInstanceListHandle rrcCallConv createRRInstances(int count)
+RRInstanceListPtr rrcCallConv createRRInstances(int count)
 {
     try
     {
@@ -149,7 +149,7 @@ RRInstanceListHandle rrcCallConv createRRInstances(int count)
         RoadRunnerList* listHandle = new RoadRunnerList(count, tempFolder);
 
         //Create the C list structure
-        RRInstanceListHandle rrList = new RRInstanceList;
+        RRInstanceListPtr rrList = new RRInstanceList;
         rrList->RRList = (void*) listHandle;
         rrList->Count = count;
 
@@ -166,7 +166,7 @@ RRInstanceListHandle rrcCallConv createRRInstances(int count)
     catch_ptr_macro
 }
 
-bool rrcCallConv freeRRInstances(RRInstanceListHandle rrList)
+bool rrcCallConv freeRRInstances(RRInstanceListPtr rrList)
 {
     try
     {
@@ -483,7 +483,7 @@ bool rrcCallConv loadSBML(RRHandle handle, const char* sbml)
     catch_bool_macro
 }
 
-bool rrcCallConv loadSBMLE(RRHandle handle, const char* sbml, bool forceRecompilation)
+bool rrcCallConv loadSBMLEx(RRHandle handle, const char* sbml, bool forceRecompilation)
 {
     try
     {
@@ -642,7 +642,7 @@ bool rrcCallConv createTimeCourseSelectionList(RRHandle handle)
     catch_bool_macro
 }
 
-RRStringArrayHandle rrcCallConv getTimeCourseSelectionList(RRHandle handle)
+RRStringArrayPtr rrcCallConv getTimeCourseSelectionList(RRHandle handle)
 {
     try
     {
@@ -705,7 +705,7 @@ RRDataHandle rrcCallConv simulateEx(RRHandle handle, const double timeStart, con
     catch_ptr_macro
 }
 
-RRStringArrayHandle rrcCallConv getReactionIds(RRHandle handle)
+RRStringArrayPtr rrcCallConv getReactionIds(RRHandle handle)
 {
     try
     {
@@ -721,7 +721,7 @@ RRStringArrayHandle rrcCallConv getReactionIds(RRHandle handle)
     catch_ptr_macro
 }
 
-RRVectorHandle rrcCallConv getRatesOfChange(RRHandle handle)
+RRVectorPtr rrcCallConv getRatesOfChange(RRHandle handle)
 {
     try
     {
@@ -738,7 +738,7 @@ RRVectorHandle rrcCallConv getRatesOfChange(RRHandle handle)
     catch_ptr_macro
 }
 
-RRStringArrayHandle rrcCallConv getRatesOfChangeIds(RRHandle handle)
+RRStringArrayPtr rrcCallConv getRatesOfChangeIds(RRHandle handle)
 {
     try
     {
@@ -755,25 +755,25 @@ RRStringArrayHandle rrcCallConv getRatesOfChangeIds(RRHandle handle)
     catch_ptr_macro
 }
 
-RRMatrixHandle rrcCallConv getUnscaledElasticityMatrix(RRHandle handle)
+RRDoubleMatrixPtr rrcCallConv getUnscaledElasticityMatrix(RRHandle handle)
 {
     try
     {
         RoadRunner* rri = castFrom(handle);
         DoubleMatrix tempMat = rri->getUnscaledElasticityMatrix();
-        RRMatrixHandle matrix = createMatrix(&tempMat);
+        RRDoubleMatrixPtr matrix = createMatrix(&tempMat);
         return matrix;
     }
     catch_ptr_macro
 }
 
-RRMatrixHandle rrcCallConv getScaledElasticityMatrix(RRHandle handle)
+RRDoubleMatrixPtr rrcCallConv getScaledElasticityMatrix(RRHandle handle)
 {
     try
     {
         RoadRunner* rri = castFrom(handle);
         DoubleMatrix tempMat = rri->getScaledReorderedElasticityMatrix();
-        RRMatrixHandle matrix = createMatrix(&tempMat);
+        RRDoubleMatrixPtr matrix = createMatrix(&tempMat);
         return matrix;
     }
     catch_ptr_macro
@@ -800,14 +800,14 @@ bool rrcCallConv setValue(RRHandle handle, const char* symbolId, const double va
     catch_bool_macro
 }
 
-RRMatrixHandle rrcCallConv getStoichiometryMatrix(RRHandle handle)
+RRDoubleMatrixPtr rrcCallConv getStoichiometryMatrix(RRHandle handle)
 {
     try
     {
         RoadRunner* rri = castFrom(handle);
         DoubleMatrix tempMat = rri->getStoichiometryMatrix();
 
-        RRMatrixHandle matrix = new RRMatrix;
+        RRDoubleMatrixPtr matrix = new RRDoubleMatrix;
         matrix->RSize = tempMat.RSize();
         matrix->CSize = tempMat.CSize();
         matrix->Data =  new double[tempMat.RSize()*tempMat.CSize()];
@@ -825,7 +825,7 @@ RRMatrixHandle rrcCallConv getStoichiometryMatrix(RRHandle handle)
     catch_ptr_macro
 }
 
-RRMatrixHandle rrcCallConv getConservationMatrix(RRHandle handle)
+RRDoubleMatrixPtr rrcCallConv getConservationMatrix(RRHandle handle)
 {
     try
     {
@@ -834,7 +834,7 @@ RRMatrixHandle rrcCallConv getConservationMatrix(RRHandle handle)
 
         DoubleMatrix tempMat = rri->getConservationMatrix();
 
-        RRMatrixHandle matrix = new RRMatrix;
+        RRDoubleMatrixPtr matrix = new RRDoubleMatrix;
         matrix->RSize = tempMat.RSize();
         matrix->CSize = tempMat.CSize();
         matrix->Data =  new double[tempMat.RSize()*tempMat.CSize()];
@@ -852,7 +852,7 @@ RRMatrixHandle rrcCallConv getConservationMatrix(RRHandle handle)
     catch_ptr_macro
 }
 
-RRMatrixHandle rrcCallConv getLinkMatrix(RRHandle handle)
+RRDoubleMatrixPtr rrcCallConv getLinkMatrix(RRHandle handle)
 {
     try
     {
@@ -863,7 +863,7 @@ RRMatrixHandle rrcCallConv getLinkMatrix(RRHandle handle)
     catch_ptr_macro
 }
 
-RRMatrixHandle rrcCallConv getNrMatrix(RRHandle handle)
+RRDoubleMatrixPtr rrcCallConv getNrMatrix(RRHandle handle)
 {
     try
     {
@@ -920,7 +920,7 @@ bool rrcCallConv getReactionRate(RRHandle handle, const int rateNr, double* valu
     catch_bool_macro
 }
 
-RRVectorHandle rrcCallConv getReactionRates(RRHandle handle)
+RRVectorPtr rrcCallConv getReactionRates(RRHandle handle)
 {
     try
     {
@@ -942,7 +942,7 @@ int rrcCallConv getNumberOfBoundarySpecies(RRHandle handle)
     catch_int_macro
 }
 
-RRStringArrayHandle rrcCallConv getBoundarySpeciesIds(RRHandle handle)
+RRStringArrayPtr rrcCallConv getBoundarySpeciesIds(RRHandle handle)
 {
     try
     {
@@ -969,7 +969,7 @@ int rrcCallConv getNumberOfFloatingSpecies(RRHandle handle)
     catch_int_macro
 }
 
-RRStringArrayHandle rrcCallConv getFloatingSpeciesIds(RRHandle handle)
+RRStringArrayPtr rrcCallConv getFloatingSpeciesIds(RRHandle handle)
 {
     try
     {
@@ -996,7 +996,7 @@ int rrcCallConv getNumberOfGlobalParameters(RRHandle handle)
     catch_ptr_macro
 }
 
-RRStringArrayHandle rrcCallConv getGlobalParameterIds(RRHandle handle)
+RRStringArrayPtr rrcCallConv getGlobalParameterIds(RRHandle handle)
 {
     try
     {
@@ -1024,7 +1024,7 @@ bool rrcCallConv getFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, 
     catch_bool_macro
 }
 
-RRVectorHandle rrcCallConv getFloatingSpeciesConcentrations(RRHandle handle)
+RRVectorPtr rrcCallConv getFloatingSpeciesConcentrations(RRHandle handle)
 {
     try
     {
@@ -1036,7 +1036,7 @@ RRVectorHandle rrcCallConv getFloatingSpeciesConcentrations(RRHandle handle)
     catch_ptr_macro
 }
 
-RRVectorHandle rrcCallConv getBoundarySpeciesConcentrations(RRHandle handle)
+RRVectorPtr rrcCallConv getBoundarySpeciesConcentrations(RRHandle handle)
 {
     try
     {
@@ -1048,7 +1048,7 @@ RRVectorHandle rrcCallConv getBoundarySpeciesConcentrations(RRHandle handle)
     catch_ptr_macro
 }
 
-RRVectorHandle rrcCallConv getFloatingSpeciesInitialConcentrations(RRHandle handle)
+RRVectorPtr rrcCallConv getFloatingSpeciesInitialConcentrations(RRHandle handle)
 {
     try
     {
@@ -1104,7 +1104,7 @@ bool rrcCallConv setFloatingSpeciesInitialConcentrationByIndex(RRHandle handle, 
     catch_bool_macro
 }
 
-bool rrcCallConv setFloatingSpeciesInitialConcentrations(RRHandle handle, const struct RRVector* vec)
+bool rrcCallConv setFloatingSpeciesInitialConcentrations(RRHandle handle, const RRVector* vec)
 {
     try
     {
@@ -1117,7 +1117,7 @@ bool rrcCallConv setFloatingSpeciesInitialConcentrations(RRHandle handle, const 
     catch_bool_macro
 }
 
-bool rrcCallConv setFloatingSpeciesConcentrations(RRHandle handle, const struct RRVector* vec)
+bool rrcCallConv setFloatingSpeciesConcentrations(RRHandle handle, const RRVector* vec)
 {
     try
     {
@@ -1133,7 +1133,7 @@ bool rrcCallConv setFloatingSpeciesConcentrations(RRHandle handle, const struct 
     catch_bool_macro
 }
 
-bool rrcCallConv setBoundarySpeciesConcentrations(RRHandle handle, const struct RRVector* vec)
+bool rrcCallConv setBoundarySpeciesConcentrations(RRHandle handle, const RRVector* vec)
 {
     try
     {
@@ -1157,7 +1157,7 @@ bool rrcCallConv oneStep(RRHandle handle, const double currentTime, const double
     catch_bool_macro
 }
 
-RRVectorHandle rrcCallConv getGlobalParameterValues(RRHandle handle)
+RRVectorPtr rrcCallConv getGlobalParameterValues(RRHandle handle)
 {
     try
     {
@@ -1169,7 +1169,7 @@ RRVectorHandle rrcCallConv getGlobalParameterValues(RRHandle handle)
     catch_ptr_macro
 }
 
-RRListHandle rrcCallConv getAvailableTimeCourseSymbols(RRHandle handle)
+RRListPtr rrcCallConv getAvailableTimeCourseSymbols(RRHandle handle)
 {
     try
     {
@@ -1180,7 +1180,7 @@ RRListHandle rrcCallConv getAvailableTimeCourseSymbols(RRHandle handle)
     catch_ptr_macro
 }
 
-RRListHandle rrcCallConv getAvailableSteadyStateSymbols(RRHandle handle)
+RRListPtr rrcCallConv getAvailableSteadyStateSymbols(RRHandle handle)
 {
     try
     {
@@ -1323,7 +1323,7 @@ char* rrcCallConv getParamPromotedSBML(RRHandle handle, const char* sArg)
     catch_ptr_macro
 }
 
-RRVectorHandle rrcCallConv computeSteadyStateValues(RRHandle handle)
+RRVectorPtr rrcCallConv computeSteadyStateValues(RRHandle handle)
 {
     try
     {
@@ -1347,7 +1347,7 @@ bool rrcCallConv setSteadyStateSelectionList(RRHandle handle, const char* list)
     catch_bool_macro
 }
 
-RRStringArrayHandle rrcCallConv getSteadyStateSelectionList(RRHandle handle)
+RRStringArrayPtr rrcCallConv getSteadyStateSelectionList(RRHandle handle)
 {
     try
     {
@@ -1363,7 +1363,7 @@ RRStringArrayHandle rrcCallConv getSteadyStateSelectionList(RRHandle handle)
     catch_ptr_macro
 }
 
-RRMatrixHandle rrcCallConv getFullJacobian(RRHandle handle)
+RRDoubleMatrixPtr rrcCallConv getFullJacobian(RRHandle handle)
 {
     try
     {
@@ -1374,7 +1374,7 @@ RRMatrixHandle rrcCallConv getFullJacobian(RRHandle handle)
     catch_ptr_macro
 }
 
-RRMatrixHandle rrcCallConv getReducedJacobian(RRHandle handle)
+RRDoubleMatrixPtr rrcCallConv getReducedJacobian(RRHandle handle)
 {
     try
     {
@@ -1385,7 +1385,7 @@ RRMatrixHandle rrcCallConv getReducedJacobian(RRHandle handle)
     catch_ptr_macro
 }
 
-RRMatrixHandle rrcCallConv getEigenvalues(RRHandle handle)
+RRDoubleMatrixPtr rrcCallConv getEigenvalues(RRHandle handle)
 {
     try
     {
@@ -1465,7 +1465,7 @@ bool rrcCallConv getScaledFloatingSpeciesElasticity(RRHandle handle, const char*
     catch_bool_macro
 }
 
-RRStringArrayHandle rrcCallConv getFloatingSpeciesInitialConditionIds(RRHandle handle)
+RRStringArrayPtr rrcCallConv getFloatingSpeciesInitialConditionIds(RRHandle handle)
 {
     try
     {
@@ -1476,7 +1476,7 @@ RRStringArrayHandle rrcCallConv getFloatingSpeciesInitialConditionIds(RRHandle h
     catch_ptr_macro
 }
 
-RRVectorHandle rrcCallConv getRatesOfChangeEx(RRHandle handle, const RRVectorHandle vec)
+RRVectorPtr rrcCallConv getRatesOfChangeEx(RRHandle handle, const RRVectorPtr vec)
 {
     try
     {
@@ -1488,7 +1488,7 @@ RRVectorHandle rrcCallConv getRatesOfChangeEx(RRHandle handle, const RRVectorHan
     catch_ptr_macro
 }
 
-RRVectorHandle rrcCallConv getReactionRatesEx(RRHandle handle, const RRVectorHandle vec)
+RRVectorPtr rrcCallConv getReactionRatesEx(RRHandle handle, const RRVectorPtr vec)
 {
     try
     {
@@ -1500,13 +1500,13 @@ RRVectorHandle rrcCallConv getReactionRatesEx(RRHandle handle, const RRVectorHan
     catch_ptr_macro
 }
 
-RRListHandle rrcCallConv getElasticityCoefficientIds(RRHandle handle)
+RRListPtr rrcCallConv getElasticityCoefficientIds(RRHandle handle)
 {
     try
     {
         RoadRunner* rri = castFrom(handle);
         NewArrayList aList = rri->getElasticityCoefficientIds();
-        RRListHandle bList = createArrayList(aList);
+        RRListPtr bList = createArrayList(aList);
         return bList;
     }
     catch_ptr_macro
@@ -1537,7 +1537,7 @@ char* rrcCallConv getCapabilities(RRHandle handle)
     catch_ptr_macro
 }
 
-RRStringArrayHandle rrcCallConv getListOfCapabilities(RRHandle handle)
+RRStringArrayPtr rrcCallConv getListOfCapabilities(RRHandle handle)
 {
     try
     {
@@ -1549,7 +1549,7 @@ RRStringArrayHandle rrcCallConv getListOfCapabilities(RRHandle handle)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-RRStringArrayHandle rrcCallConv getEigenvalueIds(RRHandle handle)
+RRStringArrayPtr rrcCallConv getEigenvalueIds(RRHandle handle)
 {
     try
     {
@@ -1560,7 +1560,7 @@ RRStringArrayHandle rrcCallConv getEigenvalueIds(RRHandle handle)
     catch_ptr_macro
 }
 
-RRListHandle rrcCallConv getFluxControlCoefficientIds(RRHandle handle)
+RRListPtr rrcCallConv getFluxControlCoefficientIds(RRHandle handle)
 {
     try
     {
@@ -1570,7 +1570,7 @@ RRListHandle rrcCallConv getFluxControlCoefficientIds(RRHandle handle)
     catch_ptr_macro
 }
 
-RRMatrixHandle rrcCallConv getUnscaledConcentrationControlCoefficientMatrix(RRHandle handle)
+RRDoubleMatrixPtr rrcCallConv getUnscaledConcentrationControlCoefficientMatrix(RRHandle handle)
 {
     try
     {
@@ -1582,7 +1582,7 @@ RRMatrixHandle rrcCallConv getUnscaledConcentrationControlCoefficientMatrix(RRHa
     catch_ptr_macro
 }
 
-RRMatrixHandle rrcCallConv getScaledConcentrationControlCoefficientMatrix(RRHandle handle)
+RRDoubleMatrixPtr rrcCallConv getScaledConcentrationControlCoefficientMatrix(RRHandle handle)
 {
     try
     {
@@ -1593,7 +1593,7 @@ RRMatrixHandle rrcCallConv getScaledConcentrationControlCoefficientMatrix(RRHand
     catch_ptr_macro
 }
 
-RRMatrixHandle rrcCallConv getUnscaledFluxControlCoefficientMatrix(RRHandle handle)
+RRDoubleMatrixPtr rrcCallConv getUnscaledFluxControlCoefficientMatrix(RRHandle handle)
 {
     try
     {
@@ -1604,7 +1604,7 @@ RRMatrixHandle rrcCallConv getUnscaledFluxControlCoefficientMatrix(RRHandle hand
     catch_ptr_macro
 }
 
-RRMatrixHandle rrcCallConv getScaledFluxControlCoefficientMatrix(RRHandle handle)
+RRDoubleMatrixPtr rrcCallConv getScaledFluxControlCoefficientMatrix(RRHandle handle)
 {
     try
     {
@@ -1615,7 +1615,7 @@ RRMatrixHandle rrcCallConv getScaledFluxControlCoefficientMatrix(RRHandle handle
     catch_ptr_macro
 }
 
-RRListHandle rrcCallConv getUnscaledFluxControlCoefficientIds(RRHandle handle)
+RRListPtr rrcCallConv getUnscaledFluxControlCoefficientIds(RRHandle handle)
 {
     try
     {
@@ -1637,7 +1637,7 @@ RRList* rrcCallConv getConcentrationControlCoefficientIds(RRHandle handle)
     catch_ptr_macro
 }
 
-RRListHandle rrcCallConv getUnscaledConcentrationControlCoefficientIds(RRHandle handle)
+RRListPtr rrcCallConv getUnscaledConcentrationControlCoefficientIds(RRHandle handle)
 {
     try
     {
@@ -1679,7 +1679,7 @@ bool rrcCallConv setCompartmentByIndex (RRHandle handle, const int index, const 
     catch_bool_macro
 }
 
-RRStringArrayHandle rrcCallConv getCompartmentIds(RRHandle handle)
+RRStringArrayPtr rrcCallConv getCompartmentIds(RRHandle handle)
 {
     try
     {

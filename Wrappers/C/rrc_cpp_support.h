@@ -105,7 +105,7 @@ rr::MinimizationData*					castToMinimizationData(rrc::RRMinimizationDataHandle h
  \return Pointer to a RoadRunnerList instance
  \ingroup cpp_support
 */
-rr::RoadRunnerList* 					getRRList(rrc::RRInstanceListHandle handle);
+rr::RoadRunnerList* 					getRRList(rrc::RRInstanceListPtr handle);
 
 /*!
  \brief Copy a C vector to a std::vector
@@ -122,7 +122,7 @@ bool                                    copyVector(const rrc::RRVector* source, 
  \return A handle to a RRVector. Null if it fails
  \ingroup cpp_support
 */
-rrc::RRVectorHandle                     createVector(const vector<double>& vec);
+rrc::RRVectorPtr                     createVector(const vector<double>& vec);
 
 /*!
  \brief Creates a C Complex vector from a std::vector<ls::Complex>
@@ -146,7 +146,7 @@ vector<double>                          createVector(const rrc::RRVector* vec);
  \return A handle to a RRMatrix. Null if it fails
  \ingroup cpp_support
 */
-rrc::RRMatrixHandle                     createMatrix(const ls::DoubleMatrix* mat);
+rrc::RRDoubleMatrixPtr                     createMatrix(const ls::DoubleMatrix* mat);
 
 /*!
  \brief Creates a ls::DoubleMatrix  from a RRMatrix, supplied as a pointer
@@ -154,7 +154,7 @@ rrc::RRMatrixHandle                     createMatrix(const ls::DoubleMatrix* mat
  \return A handle to a DoubleMatrix. Null if it fails
  \ingroup cpp_support
 */
-ls::DoubleMatrix*                     	createMatrix(const rrc::RRMatrix* mat);
+ls::DoubleMatrix*                     	createMatrix(const rrc::RRDoubleMatrixPtr mat);
 
 
 /*!
@@ -172,7 +172,7 @@ rrc::RRComplexMatrixHandle              createMatrix(const ls::ComplexMatrix* ma
  \return A handle to a RRStringArray. Null if it fails
  \ingroup cpp_support
 */
-rrc::RRStringArrayHandle                createList(const rr::StringList& list);
+rrc::RRStringArrayPtr                createList(const rr::StringList& list);
 
 /*!
  \brief Creates a heterogenoeus RRList from a rr::NewArrayList
@@ -180,7 +180,7 @@ rrc::RRStringArrayHandle                createList(const rr::StringList& list);
  \return A handle to a RRList. Null if it fails
  \ingroup cpp_support
 */
-rrc::RRListHandle 		            	createArrayList(const rr::NewArrayList& list);
+rrc::RRListPtr 		            	createArrayList(const rr::NewArrayList& list);
 
 //Result data
 /*!

@@ -304,7 +304,7 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
     ExecutableModel *model = cvInstance->getModel();
     ModelState oldState(*model);
 
-    int size = model->getModelData().amountsSize + model->getModelData().rateRulesSize;
+    int size = model->getModelData().numFloatingSpecies + model->getModelData().rateRulesSize;
     vector<double> dCVodeArgument(size);
 
     for(int i = 0; i < min((int) dCVodeArgument.size(), n); i++)
@@ -324,9 +324,9 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
 
     copyCArrayToStdVector(model->getModelData().rateRules,    dCVodeArgument, (model->getModelData().rateRulesSize));
 
-    for(u_int i = 0 ; i < (model->getModelData().dydtSize); i++)
+    for(u_int i = 0 ; i < (model->getModelData().numFloatingSpecies); i++)
     {
-        dCVodeArgument.push_back(model->getModelData().dydt[i]);
+        dCVodeArgument.push_back(model->getModelData().floatingSpeciesConcentrationRates[i]);
     }
 
     //msg<<"\tcount = "<<CvodeInterface::mCount << "\t" ;
@@ -496,7 +496,7 @@ void CvodeInterface::assignPendingEvents(const double& timeEnd, const double& to
             mTheModel->setTime(tout);
             assignResultsToModel();
             mTheModel->convertToConcentrations();
-            mTheModel->updateDependentSpeciesValues(mTheModel->getModelData().y);
+            mTheModel->updateDependentSpeciesValues(mTheModel->getModelData().floatingSpeciesConcentrations);
             mAssignments[i].AssignToModel();
 
             if (mRR && !mRR->mConservedTotalChanged)
@@ -662,7 +662,7 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
 {
     assignResultsToModel();
     mTheModel->convertToConcentrations();
-    mTheModel->updateDependentSpeciesValues(mTheModel->getModelData().y);
+    mTheModel->updateDependentSpeciesValues(mTheModel->getModelData().floatingSpeciesConcentrations);
     vector<double> args = buildEvalArgument();
     mTheModel->evalEvents(timeEnd, args);
 
@@ -801,7 +801,7 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
 
 void CvodeInterface::assignResultsToModel()
 {
-    mTheModel->updateDependentSpeciesValues(mTheModel->getModelData().y);
+    mTheModel->updateDependentSpeciesValues(mTheModel->getModelData().floatingSpeciesConcentrations);
     vector<double> dTemp(mNumAdditionalRules);
 
     for (int i = 0; i < mNumAdditionalRules; i++)
@@ -915,7 +915,7 @@ void CvodeInterface::reStart(double timeStart, ExecutableModel* model)
 vector<double> CvodeInterface::buildEvalArgument()
 {
     vector<double> dResult;
-    dResult.resize(mTheModel->getModelData().amountsSize + mTheModel->getModelData().rateRulesSize);
+    dResult.resize(mTheModel->getModelData().numFloatingSpecies + mTheModel->getModelData().rateRulesSize);
 
     vector<double> dCurrentValues = mTheModel->getCurrentValues();
     for(int i = 0; i < dCurrentValues.size(); i++)
@@ -923,7 +923,7 @@ vector<double> CvodeInterface::buildEvalArgument()
         dResult[i] = dCurrentValues[i];
     }
 
-    for(int i = 0; i < mTheModel->getModelData().amountsSize; i++)
+    for(int i = 0; i < mTheModel->getModelData().numFloatingSpecies; i++)
     {
         dResult[i + mTheModel->getModelData().rateRulesSize] = mTheModel->getModelData().amounts[i];
     }

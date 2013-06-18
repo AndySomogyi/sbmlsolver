@@ -78,7 +78,7 @@ C_DECL_SPEC RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder);
 // \return Returns count number of RoadRunner instances, returns null if it fails
 // \ingroup initialization
 //*/
-C_DECL_SPEC RRInstanceListHandle rrcCallConv createRRInstances(int count);
+C_DECL_SPEC RRInstanceListPtr rrcCallConv createRRInstances(int count);
 
 /*!
  \brief Free the roadRunner instance
@@ -92,7 +92,7 @@ C_DECL_SPEC bool rrcCallConv freeRRInstance(RRHandle handle);
  \param[in] handle Frees all roadRunner instances given in the argument
  \ingroup initialization
 */
-C_DECL_SPEC bool  rrcCallConv  freeRRInstances(RRInstanceListHandle handle);
+C_DECL_SPEC bool  rrcCallConv  freeRRInstances(RRInstanceListPtr handle);
 
 /*!
  \brief Returns the folder in which the RoadRunner API is installed
@@ -345,7 +345,7 @@ C_DECL_SPEC bool rrcCallConv loadSBML(RRHandle handle, const char* sbml);
  \return Returns true if sucessful
  \ingroup loadsave
 */
-C_DECL_SPEC bool rrcCallConv loadSBMLE(RRHandle handle, const char* sbml, bool forceRecompile);
+C_DECL_SPEC bool rrcCallConv loadSBMLEx(RRHandle handle, const char* sbml, bool forceRecompile);
 
 /*!
  \brief Load a model from a SBML file
@@ -366,7 +366,6 @@ C_DECL_SPEC bool rrcCallConv loadSBMLFromFile(RRHandle handle, const char* fileN
  \ingroup loadsave
 */
 C_DECL_SPEC bool rrcCallConv loadSBMLFromFileE(RRHandle handle, const char* fileName, bool forceRecompile);
-
 
 /*!
  \brief Unload current model
@@ -476,7 +475,7 @@ C_DECL_SPEC char* rrcCallConv getCapabilities(RRHandle handle);
  \return Returns RRStringList if sucessful, NULL otherwise
  \ingroup simulation
 */
-C_DECL_SPEC RRStringArrayHandle rrcCallConv getListOfCapabilities(RRHandle handle);
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfCapabilities(RRHandle handle);
 
 
 /*!
@@ -541,7 +540,7 @@ C_DECL_SPEC bool rrcCallConv setTimeCourseSelectionList(RRHandle handle, const c
  \return A list of symbol Ids indicating the current selection list
  \ingroup simulation
 */
-C_DECL_SPEC RRStringArrayHandle rrcCallConv getTimeCourseSelectionList(RRHandle handle);
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getTimeCourseSelectionList(RRHandle handle);
 
 /*!
  \brief Carry out a time-course simulation, use setTimeStart, setTimeEnd and
@@ -557,8 +556,8 @@ C_DECL_SPEC RRDataHandle rrcCallConv simulate(RRHandle handle);
 /*!
  \brief Retrieve the result of the last simulation.
  \param[in] handle Handle to a RoadRunner instance
- \return Returns an array (RRDataHandle) of columns containing the results of the 
- simulation including string labels for the individual columms. 
+ \return Returns an array (RRDataHandle) of columns containing the results of the
+ simulation including string labels for the individual columms.
  \ingroup simulation
 */C_DECL_SPEC RRDataHandle rrcCallConv getSimulationResult(RRHandle handle);
 
@@ -663,7 +662,7 @@ C_DECL_SPEC bool rrcCallConv steadyState(RRHandle handle, double* value);
  species in the vector is indicated by the order of species Ids in a call to getFloatingSpeciesIds(void)
  \ingroup steadystate
 */
-C_DECL_SPEC RRVectorHandle rrcCallConv computeSteadyStateValues(RRHandle handle);
+C_DECL_SPEC RRVectorPtr rrcCallConv computeSteadyStateValues(RRHandle handle);
 
 /*!
  \brief Set the selection list of the steady state analysis
@@ -695,7 +694,7 @@ C_DECL_SPEC bool rrcCallConv setSteadyStateSelectionList(RRHandle handle, const 
  \return Returns null if it fails, otherwise it returns a list of strings representing symbols in the selection list
  \ingroup steadystate
 */
-C_DECL_SPEC RRStringArrayHandle rrcCallConv getSteadyStateSelectionList(RRHandle handle);
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getSteadyStateSelectionList(RRHandle handle);
 
 
 // --------------------------------------------------------------------------------
@@ -733,25 +732,25 @@ C_DECL_SPEC bool rrcCallConv setValue(RRHandle handle, const char* symbolId, con
 /*!
  \brief Retrieve in a vector the concentrations for all the floating species
 
- Example: \code RRVectorHandle values = getFloatingSpeciesConcentrations (void); \endcode
+ Example: \code RRVectorPtr values = getFloatingSpeciesConcentrations (void); \endcode
 
  \param[in] handle Handle to a RoadRunner instance
  \return Returns the vector of flaoting species concentrations or null if an error occured
  \ingroup floating
 */
-C_DECL_SPEC RRVectorHandle rrcCallConv getFloatingSpeciesConcentrations(RRHandle handle);
+C_DECL_SPEC RRVectorPtr rrcCallConv getFloatingSpeciesConcentrations(RRHandle handle);
 
 
 /*!
  \brief Retrieve the concentrations for all the boundary species in a vector
 
- Example: \code RRVectorHandle values = getBoundarySpeciesConcentrations (void); \endcode
+ Example: \code RRVectorPtr values = getBoundarySpeciesConcentrations (void); \endcode
 
  \param[in] handle Handle to a RoadRunner instance
  \return Returns the vector of boundary species concentrations or null if an error occured
  \ingroup boundary
 */
-C_DECL_SPEC RRVectorHandle rrcCallConv getBoundarySpeciesConcentrations(RRHandle handle);
+C_DECL_SPEC RRVectorPtr rrcCallConv getBoundarySpeciesConcentrations(RRHandle handle);
 
 // --------------------------------------------------------------------------------
 // Parameter Group
@@ -760,13 +759,13 @@ C_DECL_SPEC RRVectorHandle rrcCallConv getBoundarySpeciesConcentrations(RRHandle
 /*!
  \brief Retrieve the values for all the lgobal parameter values in a vector
 
- Example: \code RRVectorHandle values = getGlobalParameterValues (void); \endcode
+ Example: \code RRVectorPtr values = getGlobalParameterValues (void); \endcode
 
  \param[in] handle Handle to a RoadRunner instance
  \return Returns the vector of global parameter values or null if an error occured
  \ingroup parameters
 */
-C_DECL_SPEC RRVectorHandle rrcCallConv getGlobalParameterValues(RRHandle handle);
+C_DECL_SPEC RRVectorPtr rrcCallConv getGlobalParameterValues(RRHandle handle);
 
 /*!
  \brief Set the concentration for a particular boundary species. 
@@ -896,7 +895,7 @@ C_DECL_SPEC bool rrcCallConv setCompartmentByIndex (RRHandle handle, const int i
  \return Returns true if successful
  \ingroup floating
 */
-C_DECL_SPEC bool rrcCallConv setFloatingSpeciesConcentrations(RRHandle handle, const struct RRVector* vec);
+C_DECL_SPEC bool rrcCallConv setFloatingSpeciesConcentrations(RRHandle handle, const RRVector* vec);
 
 /*!
  \brief Set the boundary species concentration to the vector vec
@@ -916,7 +915,7 @@ C_DECL_SPEC bool rrcCallConv setFloatingSpeciesConcentrations(RRHandle handle, c
  \return Returns true if successful
  \ingroup boundary
 */
-C_DECL_SPEC bool rrcCallConv setBoundarySpeciesConcentrations(RRHandle handle, const struct RRVector* vec);
+C_DECL_SPEC bool rrcCallConv setBoundarySpeciesConcentrations(RRHandle handle, const RRVector* vec);
 
 
 /*!
@@ -926,7 +925,7 @@ C_DECL_SPEC bool rrcCallConv setBoundarySpeciesConcentrations(RRHandle handle, c
  \return Returns null if it fails, otherwise returns the full Jacobian matrix 
  \ingroup Stoich
 */
-C_DECL_SPEC RRMatrixHandle rrcCallConv getFullJacobian(RRHandle handle);
+C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv getFullJacobian(RRHandle handle);
 
 /*!
  \brief Retrieve the reduced Jacobian for the current model 
@@ -937,7 +936,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getFullJacobian(RRHandle handle);
  \return Returns null if it fails, otherwise returns the reduced Jacobian matrix
  \ingroup Stoich
 */
-C_DECL_SPEC RRMatrixHandle rrcCallConv getReducedJacobian(RRHandle handle);
+C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv getReducedJacobian(RRHandle handle);
 
 /*!
  \brief Retrieve the eigenvalue matrix for the current model
@@ -946,7 +945,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getReducedJacobian(RRHandle handle);
  The first column will contain the real values and the second column the imaginary values
  \ingroup Stoich
 */
-C_DECL_SPEC RRMatrixHandle rrcCallConv getEigenvalues(RRHandle handle);
+C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv getEigenvalues(RRHandle handle);
 
 
 // --------------------------------------------------------------------------------
@@ -960,7 +959,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getEigenvalues(RRHandle handle);
  \return Returns null if it fails, otherwise returns the stoichiometry matrix.
  \ingroup Stoich
 */
-C_DECL_SPEC RRMatrixHandle rrcCallConv getStoichiometryMatrix(RRHandle handle);
+C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv getStoichiometryMatrix(RRHandle handle);
 
 /*!
  \brief Retrieve the Link matrix for the current model
@@ -969,7 +968,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getStoichiometryMatrix(RRHandle handle);
  \return Returns null if it fails, otherwise returns the Link matrix.
  \ingroup Stoich
 */
-C_DECL_SPEC RRMatrixHandle rrcCallConv getLinkMatrix(RRHandle handle);
+C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv getLinkMatrix(RRHandle handle);
 
 /*!
  \brief Retrieve the reduced stoichiometry matrix for the current model
@@ -978,7 +977,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getLinkMatrix(RRHandle handle);
  \return Returns null if it fails, otherwise returns reduced stoichiometry matrix
  \ingroup Stoich
 */
-C_DECL_SPEC RRMatrixHandle rrcCallConv getNrMatrix(RRHandle handle);
+C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv getNrMatrix(RRHandle handle);
 
 /*!
  \brief Retrieve the conservation matrix for the current model.
@@ -989,7 +988,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getNrMatrix(RRHandle handle);
  \return Returns null if it fails, otherwise returns the conservation matrix.
  \ingroup Stoich
 */
-C_DECL_SPEC RRMatrixHandle rrcCallConv getConservationMatrix(RRHandle handle);
+C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv getConservationMatrix(RRHandle handle);
 
 // --------------------------------------------------------------------------------
 // Initial condition Methods
@@ -1016,7 +1015,7 @@ C_DECL_SPEC bool rrcCallConv reset(RRHandle handle);
  \return Returns true if successful
  \ingroup initialConditions
 */
-C_DECL_SPEC bool rrcCallConv setFloatingSpeciesInitialConcentrations (RRHandle handle, const struct RRVector* vec);
+C_DECL_SPEC bool rrcCallConv setFloatingSpeciesInitialConcentrations (RRHandle handle, const RRVector* vec);
 
 /*!
  \brief Get the initial floating species concentrations
@@ -1027,7 +1026,7 @@ C_DECL_SPEC bool rrcCallConv setFloatingSpeciesInitialConcentrations (RRHandle h
  \return Returns null if it fails otherwise returns a vector containing the initial conditions
  \ingroup initialConditions
 */
-C_DECL_SPEC RRVectorHandle rrcCallConv getFloatingSpeciesInitialConcentrations (RRHandle handle);
+C_DECL_SPEC RRVectorPtr rrcCallConv getFloatingSpeciesInitialConcentrations (RRHandle handle);
 
 /*!
  \brief Get the initial floating species Ids
@@ -1038,7 +1037,7 @@ C_DECL_SPEC RRVectorHandle rrcCallConv getFloatingSpeciesInitialConcentrations (
  \return Returns null if it fails otherwise returns a vector containing names of the floating species
  \ingroup initialConditions
 */
-C_DECL_SPEC RRStringArrayHandle rrcCallConv getFloatingSpeciesInitialConditionIds(RRHandle handle);
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getFloatingSpeciesInitialConditionIds(RRHandle handle);
 
 // --------------------------------------------------------------------------------
 // Reaction rates
@@ -1075,7 +1074,7 @@ C_DECL_SPEC bool rrcCallConv getReactionRate(RRHandle handle, const int index, d
  \return Returns null if it fails, otherwise it returns a vector of reaction rates
  \ingroup reaction
 */
-C_DECL_SPEC RRVectorHandle rrcCallConv getReactionRates(RRHandle handle);
+C_DECL_SPEC RRVectorPtr rrcCallConv getReactionRates(RRHandle handle);
 
 
 /*!
@@ -1086,7 +1085,7 @@ C_DECL_SPEC RRVectorHandle rrcCallConv getReactionRates(RRHandle handle);
  \return Returns null if it fails otherwise it returns a vector of reaction rates
  \ingroup reaction
 */
-C_DECL_SPEC RRVectorHandle rrcCallConv getReactionRatesEx (RRHandle handle, const RRVectorHandle vec);
+C_DECL_SPEC RRVectorPtr rrcCallConv getReactionRatesEx (RRHandle handle, const RRVectorPtr vec);
 
 
 /*!
@@ -1098,7 +1097,7 @@ C_DECL_SPEC RRVectorHandle rrcCallConv getReactionRatesEx (RRHandle handle, cons
  \return Returns null if it fails, otherwise returns a vector of rates of change values
  \ingroup rateOfChange
 */
-C_DECL_SPEC RRVectorHandle rrcCallConv getRatesOfChange(RRHandle handle);
+C_DECL_SPEC RRVectorPtr rrcCallConv getRatesOfChange(RRHandle handle);
 
 /*!
  \brief Retrieve the string list of rates of change Ids
@@ -1109,7 +1108,7 @@ C_DECL_SPEC RRVectorHandle rrcCallConv getRatesOfChange(RRHandle handle);
  \return Returns null if it fails, otherwise returns a list of rates of change Ids
  \ingroup rateOfChange
 */
-C_DECL_SPEC RRStringArrayHandle rrcCallConv getRatesOfChangeIds(RRHandle handle);
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getRatesOfChangeIds(RRHandle handle);
 
 
 /*!
@@ -1135,7 +1134,7 @@ C_DECL_SPEC bool rrcCallConv getRateOfChange(RRHandle handle, const int, double*
  \return Returns null if it fails
  \ingroup rateOfChange
 */
-C_DECL_SPEC RRVectorHandle rrcCallConv getRatesOfChangeEx (RRHandle handle, const RRVectorHandle vec);
+C_DECL_SPEC RRVectorPtr rrcCallConv getRatesOfChangeEx (RRHandle handle, const RRVectorPtr vec);
 
 /*!
  \brief Evaluate the current model, that it update all assignments and rates of change. Do not carry out an integration step
@@ -1207,37 +1206,37 @@ C_DECL_SPEC int rrcCallConv getNumberOfIndependentSpecies(RRHandle handle);
  \brief Obtain the list of reaction Ids
 
  \param[in] handle Handle to a RoadRunner instance
- \return Returns null if it fails, if succesful it returns a pointer to a RRStringArrayHandle struct
+ \return Returns null if it fails, if succesful it returns a pointer to a RRStringArrayPtr struct
  \ingroup reaction
 */
-C_DECL_SPEC RRStringArrayHandle rrcCallConv getReactionIds(RRHandle handle);
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getReactionIds(RRHandle handle);
 
 /*!
  \brief Obtain the list of boundary species Ids
 
  \param[in] handle Handle to a RoadRunner instance
- \return Returns null if it fails, if succesful it returns a pointer to a RRStringArrayHandle struct
+ \return Returns null if it fails, if succesful it returns a pointer to a RRStringArrayPtr struct
  \ingroup boundary
 */
-C_DECL_SPEC RRStringArrayHandle rrcCallConv getBoundarySpeciesIds(RRHandle handle);
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getBoundarySpeciesIds(RRHandle handle);
 
 /*!
  \brief Obtain the list of floating species Id
 
  \param[in] handle Handle to a RoadRunner instance
- \return Returns null if it fails, if succesful it returns a pointer to a RRStringArrayHandle struct
+ \return Returns null if it fails, if succesful it returns a pointer to a RRStringArrayPtr struct
  \ingroup floating
 */
-C_DECL_SPEC RRStringArrayHandle rrcCallConv getFloatingSpeciesIds(RRHandle handle);
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getFloatingSpeciesIds(RRHandle handle);
 
 /*!
  \brief Obtain the list of global parameter Ids
 
  \param[in] handle Handle to a RoadRunner instance
- \return Returns null if it fails, if succesful it returns a pointer to a RRStringArrayHandle struct
+ \return Returns null if it fails, if succesful it returns a pointer to a RRStringArrayPtr struct
  \ingroup parameters
 */
-C_DECL_SPEC RRStringArrayHandle rrcCallConv getGlobalParameterIds(RRHandle handle);
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getGlobalParameterIds(RRHandle handle);
 
 /*!
  \brief Obtain the list of compartment Ids
@@ -1245,19 +1244,19 @@ C_DECL_SPEC RRStringArrayHandle rrcCallConv getGlobalParameterIds(RRHandle handl
  Example: \code str = getCompartmentIds (RRHandle handle); \endcode
 
  \param[in] handle Handle to a RoadRunner instance
- \return Returns -1 if it fails, if succesful it returns a pointer to a RRStringArrayHandle struct
+ \return Returns -1 if it fails, if succesful it returns a pointer to a RRStringArrayPtr struct
  \ingroup compartment
 */
-C_DECL_SPEC RRStringArrayHandle rrcCallConv getCompartmentIds(RRHandle handle);
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getCompartmentIds(RRHandle handle);
 
 /*!
  \brief Obtain the list of eigenvalue Ids
 
  \param[in] handle Handle to a RoadRunner instance
- \return Returns -1 if it fails, if succesful it returns a pointer to a RRStringArrayHandle struct
+ \return Returns -1 if it fails, if succesful it returns a pointer to a RRStringArrayPtr struct
  \ingroup state
 */
-C_DECL_SPEC RRStringArrayHandle rrcCallConv getEigenvalueIds(RRHandle handle);
+C_DECL_SPEC RRStringArrayPtr rrcCallConv getEigenvalueIds(RRHandle handle);
 
 /*!
  \brief Obtain the list of all available symbols
@@ -1266,16 +1265,16 @@ C_DECL_SPEC RRStringArrayHandle rrcCallConv getEigenvalueIds(RRHandle handle);
  \return Returns -1 if it fails, if succesful it returns a pointer to a RRListHandle struct
  \ingroup state
 */
-C_DECL_SPEC RRListHandle rrcCallConv getAvailableTimeCourseSymbols(RRHandle handle);
+C_DECL_SPEC RRListPtr rrcCallConv getAvailableTimeCourseSymbols(RRHandle handle);
 
 /*!
  \brief Obtain the list of all available steady state symbols
 
  \param[in] handle Handle to a RoadRunner instance
- \return Returns -1 if it fails, if succesful it returns a pointer to a RRListHandle struct
+ \return Returns -1 if it fails, if succesful it returns a pointer to a RRListPtr struct
  \ingroup state
 */
-C_DECL_SPEC RRListHandle rrcCallConv getAvailableSteadyStateSymbols(RRHandle handle);
+C_DECL_SPEC RRListPtr rrcCallConv getAvailableSteadyStateSymbols(RRHandle handle);
 
 // --------------------------------------------------------------------------------
 // MCA methods
@@ -1288,7 +1287,7 @@ C_DECL_SPEC RRListHandle rrcCallConv getAvailableSteadyStateSymbols(RRHandle han
  \return Returns null if it fails, if succesful it returns a list
  \ingroup mca 
 */
-C_DECL_SPEC RRListHandle rrcCallConv getElasticityCoefficientIds(RRHandle handle);
+C_DECL_SPEC RRListPtr rrcCallConv getElasticityCoefficientIds(RRHandle handle);
 
 /*!
  \brief Obtain the list of unscaled flux control coefficient Ids
@@ -1297,7 +1296,7 @@ C_DECL_SPEC RRListHandle rrcCallConv getElasticityCoefficientIds(RRHandle handle
  \return Returns null if it fails, if succesful it returns a list of Ids
  \ingroup mca
 */
-C_DECL_SPEC RRListHandle rrcCallConv getUnscaledFluxControlCoefficientIds(RRHandle handle);
+C_DECL_SPEC RRListPtr rrcCallConv getUnscaledFluxControlCoefficientIds(RRHandle handle);
 
 /*!
  \brief Obtain the list of flux control coefficient Ids
@@ -1306,7 +1305,7 @@ C_DECL_SPEC RRListHandle rrcCallConv getUnscaledFluxControlCoefficientIds(RRHand
  \return Returns null if it fails, if succesful it returns a list of Ids
  \ingroup mca
 */
-C_DECL_SPEC RRListHandle rrcCallConv getFluxControlCoefficientIds(RRHandle handle);
+C_DECL_SPEC RRListPtr rrcCallConv getFluxControlCoefficientIds(RRHandle handle);
 
 /*!
  \brief Obtain the list of unscaled concentration control coefficient Ids
@@ -1315,7 +1314,7 @@ C_DECL_SPEC RRListHandle rrcCallConv getFluxControlCoefficientIds(RRHandle handl
  \return Returns null if it fails, if succesful it returns a list of Ids
  \ingroup mca
 */
-C_DECL_SPEC RRListHandle rrcCallConv getUnscaledConcentrationControlCoefficientIds(RRHandle handle);
+C_DECL_SPEC RRListPtr rrcCallConv getUnscaledConcentrationControlCoefficientIds(RRHandle handle);
 
 /*!
  \brief Obtain the list of concentration coefficient Ids
@@ -1324,7 +1323,7 @@ C_DECL_SPEC RRListHandle rrcCallConv getUnscaledConcentrationControlCoefficientI
  \return Returns null if it fails, if succesful it returns a list of Ids
  \ingroup mca 
 */
-C_DECL_SPEC RRListHandle rrcCallConv getConcentrationControlCoefficientIds(RRHandle handle);
+C_DECL_SPEC RRListPtr rrcCallConv getConcentrationControlCoefficientIds(RRHandle handle);
 
 /*!
  \brief Retrieve the unscaled elasticity matrix for the current model
@@ -1333,7 +1332,7 @@ C_DECL_SPEC RRListHandle rrcCallConv getConcentrationControlCoefficientIds(RRHan
  \return Returns nil if it fails, otherwise returns a matrix of unscaled elasticities
  \ingroup mca
 */
-C_DECL_SPEC RRMatrixHandle rrcCallConv getUnscaledElasticityMatrix(RRHandle handle);
+C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv getUnscaledElasticityMatrix(RRHandle handle);
 
 /*!
  \brief Retrieve the scaled elasticity matrix for the current model
@@ -1342,7 +1341,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getUnscaledElasticityMatrix(RRHandle hand
  \return Returns null if it fails, otherwise returns a matrix of scaled elasticities.
  \ingroup mca
 */
-C_DECL_SPEC RRMatrixHandle rrcCallConv getScaledElasticityMatrix(RRHandle handle);
+C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv getScaledElasticityMatrix(RRHandle handle);
 
 
 /*!
@@ -1365,7 +1364,7 @@ C_DECL_SPEC bool rrcCallConv getScaledFloatingSpeciesElasticity(RRHandle handle,
  The first column will contain the real values and the second column the imaginary values
  \ingroup mca
 */
-C_DECL_SPEC RRMatrixHandle rrcCallConv getUnscaledConcentrationControlCoefficientMatrix(RRHandle handle);
+C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv getUnscaledConcentrationControlCoefficientMatrix(RRHandle handle);
 
 
 /*!
@@ -1375,7 +1374,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getUnscaledConcentrationControlCoefficien
  \return Returns null if it fails, otherwise returns a matrix of scaled concentration control coefficients
  \ingroup mca
 */
-C_DECL_SPEC RRMatrixHandle rrcCallConv getScaledConcentrationControlCoefficientMatrix(RRHandle handle);
+C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv getScaledConcentrationControlCoefficientMatrix(RRHandle handle);
 
 /*!
  \brief Retrieve the matrix of unscaled flux control coefficients for the current model
@@ -1384,7 +1383,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getScaledConcentrationControlCoefficientM
  \return Returns null if it fails, otherwise returns a matrix of unscaled flux control coefficients 
  \ingroup mca
 */
-C_DECL_SPEC RRMatrixHandle rrcCallConv getUnscaledFluxControlCoefficientMatrix(RRHandle handle);
+C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv getUnscaledFluxControlCoefficientMatrix(RRHandle handle);
 
 /*!
  \brief Retrieve the matrix of scaled flux control coefficients for the current model
@@ -1393,7 +1392,7 @@ C_DECL_SPEC RRMatrixHandle rrcCallConv getUnscaledFluxControlCoefficientMatrix(R
  \return Returns null if it fails, otherwise returns a matrix of scaled flux control coefficients 
  \ingroup mca
 */
-C_DECL_SPEC RRMatrixHandle rrcCallConv getScaledFluxControlCoefficientMatrix(RRHandle handle);
+C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv getScaledFluxControlCoefficientMatrix(RRHandle handle);
 
 /*!
  \brief Retrieve a single unscaled control coefficient

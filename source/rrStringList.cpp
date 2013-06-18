@@ -26,7 +26,7 @@ StringList::StringList(const vector<string>& strings)
 mStrings(strings)
 {}
 
-StringList::StringList(RRStringArrayHandle cp)
+StringList::StringList(RRStringArray* cp)
 {
     if(!cp)
     {

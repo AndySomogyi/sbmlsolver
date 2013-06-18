@@ -11,7 +11,7 @@
 using namespace std;
 using namespace rrc;
 
-void printMatrix(char* msg1, RRMatrixHandle mat);
+void printMatrix(char* msg1, RRDoubleMatrixPtr mat);
 int main(int argc, char* argv[])
 {
 	text = getLogFileName();
@@ -366,7 +366,7 @@ int main(int argc, char* argv[])
     return 0;
 }
 
-void printMatrix(char* msg1, RRMatrixHandle mat)
+void printMatrix(char* msg1, RRDoubleMatrixPtr mat)
 {
 	cout<<msg1<<"\n";
 	cout<<("------------\n\n");

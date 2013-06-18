@@ -61,22 +61,10 @@ typedef struct SModelData
     int                                 numTotalVariables;
 
     /**
-     * number of boundary species, this will go away once the code is cleaed up.
-     * TODO: clean up whatever uses this.
-     */
-    int                                 numBoundaryVariables;
-
-    /**
      * number of global parameters, same as gpSize.
      * TODO: clean up whatever uses this.
      */
     int                                 numGlobalParameters;
-
-    /**
-     * number of compartments, same as cSize.
-     * TODO: clean up whatever uses this.
-     */
-    int                                 numCompartments;
 
     /**
      * number of reactions, same as ratesSize.
@@ -117,10 +105,33 @@ typedef struct SModelData
     char*                               modelName;
 
     /**
+     * The total ammounts of the floating species, i.e.
+     * concentration * compartment volume.
+     * Everything named floatingSpecies??? has length numFloatingSpecies.
+     */
+    int                                 numFloatingSpecies;
+
+    /**
      * number of floating species and floating species concentrations.
      */
-    int                                 ySize;
-    double*                             y;
+    double*                             floatingSpeciesConcentrations;
+
+    /**
+     * initial concentration values for floating species.
+     */
+    double*                             floatingSpeciesInitConcentrations;
+
+    /**
+     * concentration rates of change for floating species.
+     */
+    double*                             floatingSpeciesConcentrationRates;
+
+    /**
+     * compartment index for each floating species,
+     * e.g. the volume of the i'th species is
+     * md->compartmentVolumes[md->floatingSpeciesCompartments[i]]
+     */
+    int*                                floatingSpeciesCompartments;
 
     /**
      * number of global parameters and global parameter values.
@@ -145,16 +156,12 @@ typedef struct SModelData
     double*                             lp;
 
     /**
-     * initial concentration values for floating species.
+     * in rrNLEQInterface there is a loop like
+     * for(int i = model->mData.rateRulesSize; i < model->mData.numFloatingSpecies + model->mData.rateRulesSize; i++) {
+     *    dTemp[i] = model->getModelData().amounts[i];
+     * so to fix the memory corruption issues, allocate it to the used, not the indicated size.
+     * TODO fix this correctly!
      */
-    int                                 init_ySize;
-    double*                             init_y;
-
-    /**
-     * The total ammounts of the floating species, i.e.
-     * concentration * compartment volume
-     */
-    int                                 amountsSize;
     double*                             amounts;
 
     /**
@@ -164,21 +171,22 @@ typedef struct SModelData
      * Volume Percent= (Volume of Solute) / (Volume of Solution) x 100%
      * Mass/Volume Percent= (Mass of Solute) / (Volume of Solution) x 100%
      */
-    int                                 bcSize;
-    double*                             bc;
+    int                                 numBoundarySpecies;
+    double*                             boundarySpeciesConcentrations;
+
+    /**
+     * compartment index for each boundary species,
+     * e.g. the volume of the i'th species is
+     * md->compartmentVolumes[md->boundarySpeciesCompartments[i]]
+     */
+    int*                                boundarySpeciesCompartments;
 
     /**
      * number of compartments, and compartment volumes.
      * units: volume
      */
-    int                                 cSize;
-    double*                             c;
-
-    /**
-     * concentration rates of change for floating species.
-     */
-    int                                 dydtSize;
-    double*                             dydt;
+    int                                 numCompartments;
+    double*                             compartmentVolumes;
 
     /**
      * number of reactions and the reaction rates
