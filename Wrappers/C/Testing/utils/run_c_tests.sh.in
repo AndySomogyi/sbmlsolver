@@ -1,23 +1,47 @@
+#!/bin/sh
+
+WC=@RR_SOURCE_PATH@
+BITNESS=@RR_BITNESS@
+OS=@RR_OS@
+ARCHITECTURE=@RR_ARCHITECTURE@
+COMPILER_VERSION=@RR_COMPILER_VERSION@
+COMPILER_ID=@CMAKE_CXX_COMPILER_ID@
+BUILD_TYPE=@CMAKE_BUILD_TYPE@
+
+usage () { 
+	echo "run_c_tests \'sbml_test_suite_directory\'"
+}
+
+if [ -z "$1" ]
+then
+    echo "No argument supplied"
+	usage
+	exit 0
+fi
+
+if [ ! -e $1 ]
+then
+	echo "error, the sbml test suite location $1 does not exist"
+	usage
+	exit 0
+fi
+
+if [ ! -e "$1/cases" ]
+then
+	echo "error, the sbml test suite location $1 does not appear valid, is missing a \'cases\' subdirectory"
+	usage
+	exit 0
+fi
 
 echo "Running tests..."
 
-# ===  Call with three arguments!!
-compiler=$1
-compiler_version=$2
-build_type=$3
+# could be on a new architecture, so make the dir if it does not exist
+mkdir -p "${WC}/reports/${OS}_${ARCHITECTURE}"
 
-install_folder=@RR_ROADRUNNER_INSTALL_PATH@
-lib_folder=$install_folder/lib
-model_folder=$install_folder/models
-wc=@RR_SOURCE_PATH@
-report_file=$wc/reports/$compiler/$compiler_version/cpp_tests_$build_type.xml
-temp_folder=/tmp
+REPORT_FILE="${WC}/reports/${OS}_${ARCHITECTURE}/c_tests_${COMPILER_ID}_${COMPILER_VERSION}_${BUILD_TYPE}.xml"
 
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$lib_folder
+echo "run_test_suite -m$1 -r${REPORT_FILE}"
 
-echo "./c_api_tests -m$model_folder -r$report_file -t$temp_folder"
-
-./c_api_tests -m$model_folder -r$report_file -t$temp_folder 
-# gdb ./c_api_tests
+run_test_suite -m$1 -r${REPORT_FILE}  
 
 echo "done..."
