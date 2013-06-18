@@ -88,7 +88,7 @@ int CompiledExecutableModel::getNumTotalVariables()
 
 int CompiledExecutableModel::getNumBoundarySpecies()
 {
-    return mData.numBoundaryVariables;    //Todos: bad naming - is Variables/Species, choose one..
+    return mData.boundarySpeciesNum;
 }
 
 int CompiledExecutableModel::getNumGlobalParameters()
@@ -172,7 +172,6 @@ bool CompiledExecutableModel::setupModelData()
     mData.numIndependentVariables       = ms.mNumIndependentSpecies;
     mData.numDependentVariables         = ms.mNumDependentSpecies;
     mData.numTotalVariables             = ms.mNumFloatingSpecies;        //???
-    mData.numBoundaryVariables          = ms.mNumBoundarySpecies;
     mData.numGlobalParameters           = ms.mGlobalParameterList.size();
     mData.numCompartments               = ms.mCompartmentList.size();
     mData.numReactions                  = ms.mReactionList.size();
@@ -186,7 +185,7 @@ bool CompiledExecutableModel::setupModelData()
     mData.init_ySize                    = ms.mFloatingSpeciesConcentrationList.Count();
     mData.gpSize                        = ms.mNumGlobalParameters + ms.mTotalLocalParmeters;
     mData.cSize                         = ms.mNumCompartments;
-    mData.bcSize                        = ms.mNumBoundarySpecies;
+    mData.boundarySpeciesNum            = ms.mNumBoundarySpecies;
     mData.lpSize                        = ms.mNumReactions;
     mData.srSize                        = ms.mNumModifiableSpeciesReferences;
     mData.localParameterDimensionsSize  = ms.mNumReactions;

@@ -45,7 +45,7 @@ void allocModelDataBuffers(ModelData &data, const string& modelName)
     data.init_y = (double*)rrCalloc(data.init_ySize, sizeof(double));
     data.gp = (double*)rrCalloc(data.gpSize, sizeof(double));
     data.c = (double*)rrCalloc(data.cSize, sizeof(double));
-    data.boundarySpeciesConc = (double*)rrCalloc(data.bcSize, sizeof(double));
+    data.boundarySpeciesConc = (double*)rrCalloc(data.boundarySpeciesNum, sizeof(double));
     data.lp = (double*)rrCalloc(data.lpSize, sizeof(double));
     data.sr = (double*)rrCalloc(data.srSize, sizeof(double));
     data.localParameterDimensions = (int*)rrCalloc(data.localParameterDimensionsSize, sizeof(int));
@@ -58,7 +58,7 @@ void allocModelDataBuffers(ModelData &data, const string& modelName)
 
     // allocate space for the symbolic names of things
     data.variableTable = (char**)rrCalloc(data.numTotalVariables, sizeof(char*));
-    data.boundaryTable = (char**)rrCalloc(data.numBoundaryVariables, sizeof(char*));
+    data.boundaryTable = (char**)rrCalloc(data.boundarySpeciesNum, sizeof(char*));
     data.globalParameterTable = (char**)rrCalloc(data.numGlobalParameters, sizeof(char*));
 
     //Event function pointer stuff

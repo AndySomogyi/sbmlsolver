@@ -61,12 +61,6 @@ typedef struct SModelData
     int                                 numTotalVariables;
 
     /**
-     * number of boundary species, this will go away once the code is cleaed up.
-     * TODO: clean up whatever uses this.
-     */
-    int                                 numBoundaryVariables;
-
-    /**
      * number of global parameters, same as gpSize.
      * TODO: clean up whatever uses this.
      */
@@ -164,7 +158,7 @@ typedef struct SModelData
      * Volume Percent= (Volume of Solute) / (Volume of Solution) x 100%
      * Mass/Volume Percent= (Mass of Solute) / (Volume of Solution) x 100%
      */
-    int                                 bcSize;
+    int                                 boundarySpeciesNum;
     double*                             boundarySpeciesConc;
 
     /**

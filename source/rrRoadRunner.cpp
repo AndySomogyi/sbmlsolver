@@ -2724,7 +2724,7 @@ vector<double> RoadRunner::getBoundarySpeciesConcentrations()
     }
 
     mModel->convertToConcentrations();
-    return createVector(mModel->getModelData().boundarySpeciesConc, mModel->getModelData().bcSize);
+    return createVector(mModel->getModelData().boundarySpeciesConc, mModel->getModelData().boundarySpeciesNum);
 }
 
 // Help("Set the concentrations for all boundary species in the model")
@@ -2918,7 +2918,7 @@ void RoadRunner::setBoundarySpeciesConcentrations(const vector<double>& values)
     for (int i = 0; i < values.size(); i++)
     {
         mModel->setConcentration(i, values[i]);
-        if ((mModel->getModelData().bcSize) > i)
+        if ((mModel->getModelData().boundarySpeciesNum) > i)
         {
             mModel->getModelData().boundarySpeciesConc[i] = values[i];
         }
