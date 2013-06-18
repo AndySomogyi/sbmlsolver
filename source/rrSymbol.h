@@ -18,7 +18,8 @@ class RR_DECLSPEC Symbol : public rrObject
 {
 public:
     /**
-     * Set if species also has a rate rule. Use to prevent a dydt being output
+     * Set if species also has a rate rule. Use to prevent a
+     * floatingSpeciesConcentrationRates being output
      * in the model function if there is a rate rule for it.
      */
     bool                rateRule;

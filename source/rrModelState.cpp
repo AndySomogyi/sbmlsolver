@@ -22,7 +22,7 @@ void ModelState::InitializeFromModel(ExecutableModel& model)
     copyCArrayToStdVector(modelData.compartmentVolumes,                   mCompartmentVolumes,                  modelData.numCompartments);
     copyCArrayToStdVector(modelData.gp,                                   mGlobalParameters,                    modelData.gpSize);
     copyCArrayToStdVector(modelData.ct,                                   mConservedTotals,                     modelData.ctSize);
-    copyCArrayToStdVector(modelData.dydt,                                 mDyDt,                                modelData.dydtSize);
+    copyCArrayToStdVector(modelData.floatingSpeciesConcentrationRates,    mDyDt,                                modelData.numFloatingSpecies);
     copyCArrayToStdVector(modelData.rates,                                mRates,                               modelData.ratesSize);
     copyCArrayToStdVector(modelData.rateRules,                            mRateRules,                           modelData.rateRulesSize);
     copyCArrayToStdVector(modelData.sr,                                   mModifiableSpeciesReferences,         modelData.srSize);
@@ -36,17 +36,17 @@ void ModelState::AssignToModel(ExecutableModel& model)
 {
     ModelData &modelData = model.getModelData();
 //    CopyStdVectorToCArray(mFloatingSpeciesConcentrations,   model.y,                        *model.ySize                        );
-    copyStdVectorToCArray(mBoundarySpeciesConcentrations,   modelData.boundarySpeciesConcentrations,        modelData.numBoundarySpecies                       );
-    copyStdVectorToCArray(mCompartmentVolumes,              modelData.compartmentVolumes,                   modelData.numCompartments                        );
+    copyStdVectorToCArray(mBoundarySpeciesConcentrations,   modelData.boundarySpeciesConcentrations,        modelData.numBoundarySpecies           );
+    copyStdVectorToCArray(mCompartmentVolumes,              modelData.compartmentVolumes,                   modelData.numCompartments              );
     copyStdVectorToCArray(mGlobalParameters,                modelData.gp,                                   modelData.gpSize                       );
     copyStdVectorToCArray(mConservedTotals,                 modelData.ct,                                   modelData.ctSize                       );
-    copyStdVectorToCArray(mDyDt,                            modelData.dydt,                                 modelData.dydtSize                     );
+    copyStdVectorToCArray(mDyDt,                            modelData.floatingSpeciesConcentrationRates,    modelData.numFloatingSpecies           );
     copyStdVectorToCArray(mRates,                           modelData.rates,                                modelData.ratesSize                    );
     copyStdVectorToCArray(mRateRules,                       modelData.rateRules,                            modelData.rateRulesSize                );
     copyStdVectorToCArray(mEventTests,                      modelData.eventTests,                           modelData.eventTestsSize               );
     copyStdVectorToCArray(mEventStatusArray,                modelData.eventStatusArray,                     modelData.eventStatusArraySize         );
     copyStdVectorToCArray(mPreviousEventStatusArray,        modelData.previousEventStatusArray,             modelData.previousEventStatusArraySize );
-    copyStdVectorToCArray(mModifiableSpeciesReferences,     modelData.sr,                                   modelData.srSize                        );
+    copyStdVectorToCArray(mModifiableSpeciesReferences,     modelData.sr,                                   modelData.srSize                       );
     model.convertToAmounts();
     model.setTime(mTime);
 }

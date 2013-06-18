@@ -324,9 +324,9 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
 
     copyCArrayToStdVector(model->getModelData().rateRules,    dCVodeArgument, (model->getModelData().rateRulesSize));
 
-    for(u_int i = 0 ; i < (model->getModelData().dydtSize); i++)
+    for(u_int i = 0 ; i < (model->getModelData().numFloatingSpecies); i++)
     {
-        dCVodeArgument.push_back(model->getModelData().dydt[i]);
+        dCVodeArgument.push_back(model->getModelData().floatingSpeciesConcentrationRates[i]);
     }
 
     //msg<<"\tcount = "<<CvodeInterface::mCount << "\t" ;
@@ -496,7 +496,7 @@ void CvodeInterface::assignPendingEvents(const double& timeEnd, const double& to
             mTheModel->setTime(tout);
             assignResultsToModel();
             mTheModel->convertToConcentrations();
-            mTheModel->updateDependentSpeciesValues(mTheModel->getModelData().y);
+            mTheModel->updateDependentSpeciesValues(mTheModel->getModelData().floatingSpeciesConcentrations);
             mAssignments[i].AssignToModel();
 
             if (mRR && !mRR->mConservedTotalChanged)
@@ -662,7 +662,7 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
 {
     assignResultsToModel();
     mTheModel->convertToConcentrations();
-    mTheModel->updateDependentSpeciesValues(mTheModel->getModelData().y);
+    mTheModel->updateDependentSpeciesValues(mTheModel->getModelData().floatingSpeciesConcentrations);
     vector<double> args = buildEvalArgument();
     mTheModel->evalEvents(timeEnd, args);
 
@@ -801,7 +801,7 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
 
 void CvodeInterface::assignResultsToModel()
 {
-    mTheModel->updateDependentSpeciesValues(mTheModel->getModelData().y);
+    mTheModel->updateDependentSpeciesValues(mTheModel->getModelData().floatingSpeciesConcentrations);
     vector<double> dTemp(mNumAdditionalRules);
 
     for (int i = 0; i < mNumAdditionalRules; i++)
