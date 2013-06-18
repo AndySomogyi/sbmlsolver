@@ -1,10 +1,12 @@
 /*
  * rrLLVMModelGenerator.h
  *
- *  Created on: Jun 3, 2013
- *      Author: Andy Somogyi, andy.somogyi@gmail.com
+ * Created on: Jun 3, 2013
+ *
+ * Author: Andy Somogyi,
+ *     email decode: V1 = "."; V2 = "@"; V3 = V1;
+ *     andy V1 somogyi V2 gmail V3 com
  */
-
 #ifndef RRLLVMMODELGENERATOR_H_
 #define RRLLVMMODELGENERATOR_H_
 
