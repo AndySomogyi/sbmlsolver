@@ -176,7 +176,7 @@ int main(int argc, char * argv[])
 	Log(lInfo)<<"RoadRunner is exiting...";
 	if(args.Pause)
 	{
-		pause();
+	    rr::pause();
 	}
     return 0;
 }
