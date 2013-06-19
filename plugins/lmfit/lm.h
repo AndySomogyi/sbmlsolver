@@ -16,7 +16,7 @@ using namespace std;
 
 class LM : public Plugin
 {
-    friend LMFitThread;
+    friend class LMFitThread;
 
     protected:
         Capability                              mLMFit;
