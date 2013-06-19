@@ -18,14 +18,16 @@ int main()
         LogOutput::mLogToConsole = true;
 
      	//Load a model
-        rr.loadSBMLFromFile("r:\\models\\feedback.xml");
+        rr.loadSBMLFromFile("r:\\models\\test_1.xml");
 
         //Get the plugin manager
         PluginManager& plugins = rr.getPluginManager();
 
+        //if(!plugins.load("c_plugin_demo"))
         if(!plugins.load())
         {
             clog<<"Failed loading plugins..\n";
+            return -1;
         }
 
 		Plugin* demoPlugin = plugins.getPlugin("c_plugin_demo");

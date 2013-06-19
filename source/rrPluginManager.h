@@ -32,7 +32,7 @@ class RR_DECLSPEC PluginManager : public rrObject
         				           ~PluginManager();
 		bool			           	setPluginFolder(const string& dir);
 		string			           	getPluginFolder();
-		bool 			           	load();
+		bool 			           	load(const string& pluginName = gEmptyString);
 		bool 			           	loadPlugin(const string& sharedLib);
 		bool 			           	unload();
         int				           	getNumberOfPlugins();

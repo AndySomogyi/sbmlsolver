@@ -7,12 +7,12 @@
 #include "rrcPluginFramework.h"
 //---------------------------------------------------------------------------
 
-RRPluginDataHandle		gPluginData;
+RRPluginDataPtr			gPluginData;
 
 char* 					PLUGIN_DECLSPEC rrCallConv 	getImplementationLanguage(void);
 char*                   PLUGIN_DECLSPEC rrCallConv 	getName(void);
 char*                   PLUGIN_DECLSPEC rrCallConv 	getCategory(void);
-RRPluginDataHandle		PLUGIN_DECLSPEC rrCallConv	createCPluginData(RRHandle aRR);
+RRPluginData*			PLUGIN_DECLSPEC rrCallConv	createCPluginData(RRHandle aRR);
 
 bool					PLUGIN_DECLSPEC rrCallConv	execute(void* userData);
 

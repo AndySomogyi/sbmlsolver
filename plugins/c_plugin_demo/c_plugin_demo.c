@@ -21,10 +21,10 @@ char* rrCallConv getCategory()
 	return "Demos";
 }
 
-RRPluginDataHandle  rrCallConv	createCPluginData(RRHandle aRR)
+RRPluginData*  rrCallConv	createCPluginData(RRHandle aRR)
 {
     //allocate a new object and return it
-    gPluginData = (RRPluginDataHandle) calloc(1, sizeof(struct RRPluginData));
+    gPluginData = (RRPluginData*) calloc(1, sizeof(RRPluginData));
 	gPluginData->mRR = aRR;
     return gPluginData;
 }

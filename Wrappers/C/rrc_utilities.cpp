@@ -42,7 +42,7 @@ char* rrCallConv getFileContent(const char* fName)
 {
     try
     {
-        string fContent = getFileContent(fName);
+        string fContent = rr::getFileContent(fName);
         return rr::createText(fContent);
     }
     catch_ptr_macro

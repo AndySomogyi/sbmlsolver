@@ -75,7 +75,7 @@ typedef Plugin* (*createRRPluginFunc)(RoadRunner*);
 typedef char* 	(*getLangFunc)();
 typedef bool    (*destroyRRPluginFunc)(Plugin* );
 
-bool PluginManager::load()
+bool PluginManager::load(const string& pluginName)
 {
 	bool result = true;
     //Throw if plugin folder don't exist
@@ -85,10 +85,19 @@ bool PluginManager::load()
         return false;
     }
 
- 	//Get all plugins in plugin folder
-    std::set<std::string> files;
+    set<string> files;
     string globPath =  joinPath(mPluginFolder, "*." + mPluginExtension);
-    Glob::glob(globPath, files);
+
+    if(pluginName.size())
+    {
+    	files.insert(joinPath(mPluginFolder, pluginName + "." + mPluginExtension));
+ 	}
+    else
+    {
+    	//Get all plugins in plugin folder
+    	Glob::glob(globPath, files);
+    }
+
     std::set<std::string>::iterator it = files.begin();
 
     for (; it != files.end(); ++it)
