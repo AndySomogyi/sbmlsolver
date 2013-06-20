@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include "UnitTest++.h"
-#include "rrc_api.h"
+#include "rrc_core_api.h"
 #include "rrUtils.h"
 #include "rrException.h"
 #include "src/rrSBMLTestSuiteSimulation_CAPI.h"

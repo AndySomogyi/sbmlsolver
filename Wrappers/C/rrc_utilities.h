@@ -91,6 +91,14 @@ C_DECL_SPEC char* 		 rrcCallConv 	getFileContent(const char* fName);
 */
 C_DECL_SPEC char* 		 rrcCallConv 	createText(const char* text);
 
+/*!
+ \brief Creates memory for holding a string
+ \param[in] count integer indicating number of elements to allocate
+ \return Pointer to string memory
+ \ingroup utilities
+*/
+C_DECL_SPEC char* 		 rrcCallConv 	createTextMemory(const int count);
+
 // --------------------------------------------------------------------
 // List support routines
 // --------------------------------------------------------------------

@@ -2390,7 +2390,7 @@ bool CModelGenerator::setTemporaryDirectory(const string& path)
 {
     if(folderExists(path))
     {
-        Log(lDebug)<<"Setting temp file folder to "<< path;
+        Log(lDebug2)<<"Setting model generators temp file folder to "<< path;
         mCompiler.setOutputPath(path);
         mTempFileFolder = path;
         return true;
@@ -2400,10 +2400,8 @@ bool CModelGenerator::setTemporaryDirectory(const string& path)
         stringstream msg;
         msg<<"The folder: "<<path<<" don't exist...";
         Log(lError)<<msg.str();
-
         CoreException e(msg.str());
         throw(e);
-        //      return false;
     }
 }
 

@@ -2,7 +2,7 @@
 #include <alloc.h>
 
 #include "rrCPluginFramework.h"
-#include "./../../Wrappers/C/rrc_api.h"
+#include "./../../Wrappers/C/rrc_core_api.h"
 #include "./../../Wrappers/C/rrc_utilities.h"
 #include "c_plugin_demo.h"
 
@@ -21,17 +21,30 @@ char* rrCallConv getCategory()
 	return "Demos";
 }
 
-RRPluginData*  rrCallConv	createCPluginData(RRHandle aRR)
+bool rrCallConv setupCPlugin(RRHandle aRR)
 {
-    //allocate a new object and return it
-    gPluginData = (RRPluginData*) calloc(1, sizeof(RRPluginData));
-	gPluginData->mRR = aRR;
-    return gPluginData;
+    gRR = aRR;
+    return true;
 }
 
 bool rrCallConv	execute(void* userData)
 {
-	*((char**) userData) = getAPIVersion();
+	char* text2;
+	char* text = createTextMemory(2048);
+    strcat(text, "C API Version: ");
+    strcat(text, getAPIVersion());
+	strcat(text, "\nCPP API Version: ");
+    text2 = getCPPAPIVersion(gRR);
+    if(text2)
+    {
+		strcat(text, text2);
+    }
+    else
+    {
+    	return false;
+    }
+
+	*((char**) userData) = text;
     return true;
 }
 

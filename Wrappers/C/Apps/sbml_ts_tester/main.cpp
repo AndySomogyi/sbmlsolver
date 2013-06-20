@@ -4,7 +4,7 @@
 #include "rrException.h"
 #include "rrUtils.h"
 #include "Args.h"
-#include "rrc_api.h"
+#include "rrc_core_api.h"
 #include "rrGetOptions.h"
 #include "TestSuiteSimulation.h"
 #include "rrException.h"

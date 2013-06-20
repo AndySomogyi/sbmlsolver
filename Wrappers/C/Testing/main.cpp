@@ -5,7 +5,7 @@
 #include "unit_test/UnitTest++.h"
 #include "unit_test/XmlTestReporter.h"
 #include "unit_test/TestReporterStdout.h"
-#include "rrc_api.h"
+#include "rrc_core_api.h"
 #include "rrGetOptions.h"
 #include "src/Args.h"
 

@@ -145,13 +145,16 @@ bool PluginManager::loadPlugin(const string& pluginName)
         	//Gather enough library data in order to create a CPlugin object
             //We need at least name, category and an execute function in order to setup a C plugin
             Plugin* aPlugin = createCPlugin(libHandle);
+            if(!aPlugin)
+            {
+            	return false;
+            }
+
             Capabilities *caps = aPlugin->getCapabilities();
             mRR->addCapabilities(*(caps));
-
             pair< Poco::SharedLibrary*, Plugin* > storeMe(libHandle, aPlugin);
             mPlugins.push_back( storeMe );
-
-
+            return true;
         }
         else if(libHandle->hasSymbol("createPlugin"))
         {
@@ -311,7 +314,7 @@ Plugin*	PluginManager::getPlugin(const string& name)
 }
 
 typedef char* 		(rrCallConv *charStar)();
-typedef void* 		(rrCallConv *CPluginData)(RoadRunner*);
+typedef bool 		(rrCallConv *setupCPluginFnc)(RoadRunner*);
 typedef bool 		(rrCallConv *exec)(void*);
 
 Plugin* PluginManager::createCPlugin(SharedLibrary *libHandle)
@@ -321,14 +324,13 @@ Plugin* PluginManager::createCPlugin(SharedLibrary *libHandle)
         //Minimum bare bone plugin need these
     	charStar 				getName 			= (charStar) 		libHandle->getSymbol("getName");
         charStar 				getCategory 		= (charStar) 		libHandle->getSymbol("getCategory");
-		CPluginData		  		createCPluginData	= (CPluginData) 	libHandle->getSymbol("createCPluginData");
+    	setupCPluginFnc	  		setupCPlugin		= (setupCPluginFnc)	libHandle->getSymbol("setupCPlugin");
 		exec			  		executeFunc			= (exec) 			libHandle->getSymbol("execute");
         char* name 	= getName();
         char* cat 	= getCategory();
-        void* cDataHandle = createCPluginData(mRR);
+        bool  res	= setupCPlugin(mRR);
         CPlugin* aPlugin = new CPlugin(name, cat);
         aPlugin->assignExecuteFunction(executeFunc);
-
         return aPlugin;
     }
     catch(const Poco::NotFoundException& ex)

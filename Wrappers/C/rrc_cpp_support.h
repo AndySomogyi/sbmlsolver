@@ -54,7 +54,7 @@
 #include "rrc_types.h"
 #include "rrc_exporter.h"
 
-//When using the rrc_api from C++, the following routines are useful
+//When using the rrc_core_api from C++, the following routines are useful
 namespace rrc
 {
 using std::vector;

@@ -1,5 +1,5 @@
 /**
- * @file rrc_api.cpp
+ * @file rrc_core_api.cpp
  * @brief roadRunner C API 2012
  * @author Totte Karlsson & Herbert M Sauro
  *
@@ -53,7 +53,7 @@
 #include "rrCapability.h"
 #include "rrPluginManager.h"
 #include "rrPlugin.h"
-#include "rrc_api.h"           // Need to include this before the support header..
+#include "rrc_core_api.h"           // Need to include this before the support header..
 #include "rrc_utilities.h"   //Support functions, not exposed as api functions and or data
 #include "rrc_cpp_support.h"   //Support functions, not exposed as api functions and or data
 
@@ -212,21 +212,12 @@ char* rrcCallConv getAPIVersion()
     catch_ptr_macro
 }
 
-char* rrcCallConv getCPPAPIVersion()
+char* rrcCallConv getCPPAPIVersion(RRHandle handle)
 {
     try
     {
-        RRHandle handle = createRRInstance();
-        if(!handle)
-        {
-            return NULL;
-        }
-
         RoadRunner* rri = castFrom(handle);
-        char* text = rr::createText(rri->getVersion());
-        freeRRInstance(handle);
-
-        return text;
+        return rr::createText(rri->getVersion());
     }
     catch_ptr_macro
 }
@@ -261,10 +252,9 @@ char* rrcCallConv getCopyright()
             return NULL;
         }
 
-           RoadRunner* rri = castFrom(handle);
+        RoadRunner* rri = castFrom(handle);
         char* text = rr::createText(rri->getCopyright());
         freeRRInstance(handle);
-
         return text;
     }
     catch_ptr_macro

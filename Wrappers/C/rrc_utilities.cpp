@@ -38,6 +38,11 @@ char* rrcCallConv createText(const char* text)
 	return rr::createText(text);
 }
 
+char* rrcCallConv createTextMemory(const int count)
+{
+	return rr::createText(count);
+}
+
 char* rrCallConv getFileContent(const char* fName)
 {
     try
