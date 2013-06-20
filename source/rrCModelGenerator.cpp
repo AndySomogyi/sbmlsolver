@@ -1066,7 +1066,7 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
                         {
                             stoich = "(" +
                                      substituteTerms(numReactions, "",
-                                        SBML_formulaToString(product->getStoichiometryMath()->getMath())) +
+                                         SBML_formulaToStdString(product->getStoichiometryMath()->getMath())) +
                                      ") * ";
                         }
                         else
@@ -1118,7 +1118,7 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
                         {
                             stoich = "(" +
                                      substituteTerms(numReactions, "",
-                                        SBML_formulaToString(reactant->getStoichiometryMath()->getMath())) +
+                                         SBML_formulaToStdString(reactant->getStoichiometryMath()->getMath())) +
                                      ") * ";
                         }
                         else
@@ -1291,7 +1291,7 @@ void CModelGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numR
 
         if (current->isSetPriority() && current->getPriority()->isSetMath())
         {
-            string priority = SBML_formulaToString(current->getPriority()->getMath());
+            string priority = SBML_formulaToStdString(current->getPriority()->getMath());
             mSource<<"\n"<<format("\tmd->eventPriorities[{0}] = {1};{2}", i, substituteTerms(numReactions, "", priority), NL());
 
         }

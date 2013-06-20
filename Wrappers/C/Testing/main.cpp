@@ -15,10 +15,10 @@ using namespace rrc;
 using namespace UnitTest;
 using std::string;
 
-string     gTempFolder                   = "";
+string     gTempFolder              = "";
 string     gRRInstallFolder         = "";
-string  gTestDataFolder            = "";
-bool    gDebug                    = false;
+string     gTestDataFolder          = "";
+bool       gDebug                   = false;
 string     gTSModelsPath;
 
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
@@ -46,33 +46,49 @@ int main(int argc, char* argv[])
     if(args.Suites.find('A') != std::string::npos)
     {
         clog<<"Running Suite CORE_TESTS\n";
-        runner1.RunTestsIf(Test::GetTestList(), "CORE_TESTS",             True(), 0);
+        runner1.RunTestsIf(Test::GetTestList(), "CORE_TESTS",        True(), 0);
     }
 
     if(args.Suites.find('B') != std::string::npos)
     {
         clog<<"Running Suite TEST_MODEL_1\n";
-        runner1.RunTestsIf(Test::GetTestList(), "TEST_MODEL_1",          True(), 0);
+        runner1.RunTestsIf(Test::GetTestList(), "TEST_MODEL_1",      True(), 0);
     }
 
     if(args.Suites.find('C') != std::string::npos)
     {
         clog<<"Running Suite NOM TESTS\n";
-        runner1.RunTestsIf(Test::GetTestList(), "NOM_TESTS",             True(), 0);
+        runner1.RunTestsIf(Test::GetTestList(), "NOM_TESTS",         True(), 0);
     }
 
     if(args.Suites.find('D') != std::string::npos)
     {
         clog<<"Running Suite LibStruct TESTS\n";
-        runner1.RunTestsIf(Test::GetTestList(), "LIBSTRUCT_TESTS",          True(), 0);
+        runner1.RunTestsIf(Test::GetTestList(), "LIBSTRUCT_TESTS",   True(), 0);
     }
 
     if(args.Suites.find('E') != std::string::npos)
     {
 
-        clog<<"Running Suite SBML_l2v4\n";
+        clog<<"Running Suite SBML_TEST_SUITE\n";
         clog<<"ModelPath "<<gTSModelsPath;
-        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE",             True(), 0);
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE",   True(), 0);
+    }
+
+    if(args.Suites.find('F') != std::string::npos)
+    {
+
+        clog<<"Running Suite Valgrind SBML_TEST_SUITE_VG1\n";
+        clog<<"ModelPath "<<gTSModelsPath;
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_VG1",   True(), 0);
+    }
+
+    if(args.Suites.find('G') != std::string::npos)
+    {
+
+        clog<<"Running Suite Valgrind SBML_TEST_SUITE_VG2\n";
+        clog<<"ModelPath "<<gTSModelsPath;
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_VG2",   True(), 0);
     }
 
 
@@ -88,14 +104,14 @@ bool setup(Args& args)
 
     //Assume(!) this is the bin folder of roadrunner install
     gRRInstallFolder     = getParentFolder(thisExeFolder);
-    gDebug                = args.EnableLogging;
-    gTSModelsPath         = args.ModelsFilePath;
-    gTempFolder            = args.TempDataFolder;
+    gDebug               = args.EnableLogging;
+    gTSModelsPath        = args.ModelsFilePath;
+    gTempFolder          = args.TempDataFolder;
     gTestDataFolder      = joinPath(gRRInstallFolder, "testing");
     if(args.Suites.size() == 0)
     {
         //Run all
-        args.Suites = "ABCDEF";
+        args.Suites = "ABCDE";
     }
 
     setInstallFolder(gRRInstallFolder.c_str());
