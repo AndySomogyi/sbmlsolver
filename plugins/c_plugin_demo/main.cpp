@@ -1,7 +1,5 @@
-#pragma hdrstop
-#pragma argsused
 #include <iostream>
-#include "rrc_core_api.h"
+#include "rrc_api.h"
 using namespace rrc;
 using namespace std;
 

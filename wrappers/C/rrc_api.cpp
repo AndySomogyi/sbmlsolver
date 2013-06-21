@@ -53,7 +53,7 @@
 #include "rrCapability.h"
 #include "rrPluginManager.h"
 #include "rrPlugin.h"
-#include "rrc_core_api.h"           // Need to include this before the support header..
+#include "rrc_api.h"           // Need to include this before the support header..
 #include "rrc_utilities.h"   //Support functions, not exposed as api functions and or data
 #include "rrc_cpp_support.h"   //Support functions, not exposed as api functions and or data
 

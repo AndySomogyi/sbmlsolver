@@ -1,10 +1,10 @@
-//---------------------------------------------------------------------------
 #pragma hdrstop
 #include "rrLogger.h"
 #include "rrException.h"
-#include "rrc_core_api.h"
+#include "rrc_api.h"
 #include "rrc_logging_api.h"
 #include "rrc_cpp_support.h"
+//---------------------------------------------------------------------------
 
 namespace rrc
 {

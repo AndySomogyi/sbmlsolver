@@ -5,7 +5,7 @@
 #include "rrPluginManager.h"
 #include "rrPlugin.h"
 #include "rrLogger.h"           //Might be useful for debugging later on
-#include "rrc_core_api.h"
+#include "rrc_api.h"
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrStringUtils.h"
