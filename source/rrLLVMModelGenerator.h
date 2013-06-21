@@ -17,7 +17,7 @@ namespace rr
 
 /**
  * General concepts:
- * test3
+ *
  * SBML defines chemical species.
  *
  * Floating Species: species whose value varies over time, i.e. they can 'float'
