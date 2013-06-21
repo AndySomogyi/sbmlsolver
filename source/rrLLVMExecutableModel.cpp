@@ -61,7 +61,7 @@ int LLVMExecutableModel::getNumIndependentSpecies()
     return 0;
 }
 
-int LLVMExecutableModel::getNumDependentVariables()
+int LLVMExecutableModel::getNumDependentSpecies()
 {
     return 0;
 }
