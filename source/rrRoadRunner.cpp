@@ -386,7 +386,7 @@ double RoadRunner::getValueForRecord(const SelectionRecord& record)
         break;
 
         case SelectionType::clFloatingAmount:
-            dResult = mModel->getModelData().amounts[record.index];
+            dResult = mModel->getModelData().floatingSpeciesAmounts[record.index];
         break;
 
         case SelectionType::clBoundaryAmount:
@@ -461,18 +461,18 @@ void RoadRunner::addNthOutputToResult(DoubleMatrix& results, int nRow, double dC
 vector<double> RoadRunner::buildModelEvalArgument()
 {
     vector<double> dResult;
-    dResult.resize((mModel->getModelData().numFloatingSpecies) + (mModel->getModelData().rateRulesSize) );
+    dResult.resize((mModel->getModelData().numFloatingSpecies) + (mModel->getModelData().numRateRules) );
 
     vector<double> dCurrentRuleValues = mModel->getCurrentValues();
 
-    for(int i = 0; i < (mModel->getModelData().rateRulesSize); i++)
+    for(int i = 0; i < (mModel->getModelData().numRateRules); i++)
     {
         dResult[i] = dCurrentRuleValues[i];
     }
 
     for(int i = 0; i < (mModel->getModelData().numFloatingSpecies); i++)
     {
-        dResult[i + (mModel->getModelData().rateRulesSize)] = mModel->getModelData().amounts[i];
+        dResult[i + (mModel->getModelData().numRateRules)] = mModel->getModelData().floatingSpeciesAmounts[i];
     }
 
     return dResult;
@@ -945,7 +945,7 @@ double RoadRunner::steadyState()
 
     //Get a std vector for the solver
     vector<double> someAmounts;
-    copyCArrayToStdVector(mModel->getModelData().amounts, someAmounts, mModel->getNumIndependentVariables());
+    copyCArrayToStdVector(mModel->getModelData().floatingSpeciesAmounts, someAmounts, mModel->getNumIndependentSpecies());
 
     double ss = steadyStateSolver.solve(someAmounts);
     if(ss < 0)
@@ -2611,7 +2611,7 @@ double RoadRunner::getRateOfChange(const int& index)
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < mModel->getNumTotalVariables()))
+    if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
     {
         mModel->computeAllRatesOfChange();
         return mModel->getModelData().floatingSpeciesConcentrationRates[index];
@@ -2774,7 +2774,7 @@ int RoadRunner::getNumberOfFloatingSpecies()
     {
         throw CoreException(gEmptyModelMessage);
     }
-    return mModel->getNumTotalVariables();
+    return mModel->getNumFloatingSpecies();
 }
 
 double RoadRunner::getFloatingSpeciesInitialConcentrationByIndex(const int& index)
@@ -2784,7 +2784,7 @@ double RoadRunner::getFloatingSpeciesInitialConcentrationByIndex(const int& inde
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < mModel->getNumTotalVariables()))
+    if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
     {
         return mModel->getModelData().floatingSpeciesInitConcentrations[index];
     }
@@ -2802,7 +2802,7 @@ void RoadRunner::setFloatingSpeciesInitialConcentrationByIndex(const int& index,
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < mModel->getNumTotalVariables()))
+    if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
     {
         mModel->getModelData().floatingSpeciesInitConcentrations[index] = value;
         reset();
@@ -2821,7 +2821,7 @@ void RoadRunner::setFloatingSpeciesByIndex(const int& index, const double& value
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < mModel->getNumTotalVariables()))
+    if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
     {
         mModel->setConcentration(index, value); // This updates the amount vector aswell
         if (!mConservedTotalChanged)
@@ -2843,7 +2843,7 @@ double RoadRunner::getFloatingSpeciesByIndex(const int& index)
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < mModel->getNumTotalVariables()))
+    if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
     {
         return mModel->getConcentration(index);
     }
@@ -3341,7 +3341,7 @@ DoubleMatrix RoadRunner::getUnscaledElasticityMatrix()
             throw CoreException(gEmptyModelMessage);
         }
 
-        DoubleMatrix uElastMatrix(mModel->getNumReactions(), mModel->getNumTotalVariables());
+        DoubleMatrix uElastMatrix(mModel->getNumReactions(), mModel->getNumFloatingSpecies());
         mModel->convertToConcentrations();
 
         // Compute reaction velocities at the current operating point
@@ -3350,7 +3350,7 @@ DoubleMatrix RoadRunner::getUnscaledElasticityMatrix()
 
         for (int i = 0; i < mModel->getNumReactions(); i++)
         {
-            for (int j = 0; j < mModel->getNumTotalVariables(); j++)
+            for (int j = 0; j < mModel->getNumFloatingSpecies(); j++)
             {
                 uElastMatrix[i][j] = getUnscaledSpeciesElasticity(i, j);
             }

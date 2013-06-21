@@ -112,7 +112,7 @@ void SimulateThread::worker()
 
             if(mSimulateEx)
             {
-                if(!rri->simulate2Ex(mTimeStart, mTimeEnd, mNrPoints))
+                if(!rri->simulate2Ex(rri->getTimeStart(), rri->getTimeEnd(), rri->getNumPoints()))
                 {
                     Log(lError)<<"Failed simulating instance: "<<rri->getInstanceID();
                 }

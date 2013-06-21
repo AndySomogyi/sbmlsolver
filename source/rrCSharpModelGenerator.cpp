@@ -1927,7 +1927,7 @@ void CSharpModelGenerator::writeEvalModel(CodeBuilder& sb, const int& numReactio
                         {
                             stoich = "(" +
                                      substituteTerms(numReactions, "",
-                                        SBML_formulaToString(product->getStoichiometryMath()->getMath())) +
+                                             SBML_formulaToStdString(product->getStoichiometryMath()->getMath())) +
                                      ") * ";
                         }
                         else
@@ -1979,7 +1979,7 @@ void CSharpModelGenerator::writeEvalModel(CodeBuilder& sb, const int& numReactio
                         {
                             stoich = "(" +
                                      substituteTerms(numReactions, "",
-                                        SBML_formulaToString(reactant->getStoichiometryMath()->getMath())) +
+                                             SBML_formulaToStdString(reactant->getStoichiometryMath()->getMath())) +
                                      ") * ";
                         }
                         else
@@ -2127,7 +2127,7 @@ void CSharpModelGenerator::writeEventAssignments(CodeBuilder& sb, const int& num
 
         if (current->isSetPriority() && current->getPriority()->isSetMath())
         {
-            string priority = SBML_formulaToString(current->getPriority()->getMath());
+            string priority = SBML_formulaToStdString(current->getPriority()->getMath());
             sb<<format("\t\t_eventPriorities[{0}] = {1};{2}", i, substituteTerms(numReactions, "", priority), NL());
         }
         else

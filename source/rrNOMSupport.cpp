@@ -21,6 +21,20 @@ using namespace libsbml;
 namespace rr
 {
 
+/**
+ * SBML_formulaToString is used all over the place here,
+ * SBML_formulaToString returns a char* that MUST BE FREED!!!
+ *
+ * This function frees the string and returns a std::string with its contents.
+ */
+std::string SBML_formulaToStdString(const ASTNode *tree)
+{
+    char* cstr = SBML_formulaToString(tree);
+    std::string result = cstr;
+    free(cstr);
+    return result;
+}
+
 const string NOMSupport::STR_DoubleFormat("%.5G");
 
 /**
@@ -218,11 +232,8 @@ string NOMSupport::getName(const SBase* element)
 string NOMSupport::convertMathMLToString(const string& sMathML)
 {
     ASTNode* node = libsbml::readMathMLFromString(sMathML.c_str());
-    char* cstr = SBML_formulaToString(node);
+    string str = SBML_formulaToStdString(node);
     delete node;
-
-    string str = cstr;
-    free(cstr);
     return str;
 }
 
@@ -578,9 +589,8 @@ ArrayList NOMSupport::getNthEvent(const int& arg)
         throw Exception("The model does not have a Event corresponding to the index provided");
     }
 
-    char* trigger  = SBML_formulaToString(oEvent->getTrigger()->getMath());
+    string trigger  = SBML_formulaToStdString(oEvent->getTrigger()->getMath());
     triggerAssignmentsList.Add(trigger);
-    free(trigger);
 
     string delay;
     if (!oEvent->isSetDelay())
@@ -592,7 +602,7 @@ ArrayList NOMSupport::getNthEvent(const int& arg)
         Delay *oDelay = oEvent->getDelay();
         if (oDelay->isSetMath())
         {
-            delay = SBML_formulaToString(oDelay->getMath());
+            delay = SBML_formulaToStdString(oDelay->getMath());
         }
         else
         {
@@ -609,7 +619,7 @@ ArrayList NOMSupport::getNthEvent(const int& arg)
 
         EventAssignment *ea = oEvent->getEventAssignment(i);
         string lValue = ea->getVariable();
-        string rValue = SBML_formulaToString(ea->getMath());
+        string rValue = SBML_formulaToStdString(ea->getMath());
 
         assignmentList.add(lValue);
         assignmentList.add(rValue);
@@ -666,7 +676,7 @@ ArrayList NOMSupport::getNthFunctionDefinition(const int& arg)
     }
 
     string fnId = fnDefn->getId();
-    string fnMath = SBML_formulaToString(fnDefn->getBody());
+    string fnMath = SBML_formulaToStdString(fnDefn->getBody());
 
     ArrayList fnDefnList;
     fnDefnList.Add(fnId);
@@ -785,8 +795,8 @@ pair<string, string> NOMSupport::getNthInitialAssignmentPair(const int& nIndex)
     {
         throw Exception("The InitialAssignment contains no math.");
     }
-    string second = SBML_formulaToString(oAssignment->getMath());
-    return pair<string, string> (oAssignment->getSymbol(), SBML_formulaToString(oAssignment->getMath()));
+    string second = SBML_formulaToStdString(oAssignment->getMath());
+    return pair<string, string> (oAssignment->getSymbol(), second);
 }
 
 string NOMSupport::getNthInitialAssignment(const int& nIndex)
@@ -807,7 +817,7 @@ string NOMSupport::getNthInitialAssignment(const int& nIndex)
         throw Exception("The InitialAssignment contains no math.");
     }
 
-    return oAssignment->getSymbol() + " = " + SBML_formulaToString(oAssignment->getMath());
+    return oAssignment->getSymbol() + " = " + SBML_formulaToStdString(oAssignment->getMath());
 
 }
 
@@ -840,7 +850,7 @@ string NOMSupport::getNthConstraint(const int& nIndex, string& sMessage)
         sMessage = node->toString();
     }
 
-    return SBML_formulaToString(oConstraint->getMath());
+    return SBML_formulaToStdString(oConstraint->getMath());
 }
 
 string NOMSupport::getNthRule(const int& nIndex)
@@ -1093,10 +1103,8 @@ void NOMSupport::modifyKineticLawsForLocalParameters(KineticLaw& oLaw, const str
                 {
                     ASTNode *node = readMathMLFromString(oLaw.getFormula().c_str());
                     changeParameterName(*node, parameterId, sPrefix);
-                    char* cstr = SBML_formulaToString(node);
-                    oLaw.setFormula(cstr);
+                    oLaw.setFormula(SBML_formulaToStdString(node));
                     delete node;
-                    free(cstr);
                 }
             }
             else
@@ -1151,15 +1159,12 @@ void NOMSupport::modifyKineticLawsForReaction(KineticLaw& oLaw, const string& re
                 {
                     ASTNode *node = readMathMLFromString(oLaw.getFormula().c_str());
                     changeParameterName(*node, parameterId, sPrefix);
-                    char* cstr = SBML_formulaToString(node);
-                    oLaw.setFormula(cstr);
+                    oLaw.setFormula(SBML_formulaToStdString(node));
                     delete node;
-                    free(cstr);
                 }
             }
             else
             {
-                //changeParameterName(*((ASTNode*) oLaw.getMath()), parameterId, sPrefix);
                 ASTNode *math = new ASTNode(*oLaw.getMath());
                 changeParameterName(*math, parameterId, sPrefix);
                 oLaw.setMath(math);
@@ -1171,18 +1176,14 @@ void NOMSupport::modifyKineticLawsForReaction(KineticLaw& oLaw, const string& re
                 throw(NOMException("Null parameter pointer in modifyKineticLawsForReaction"));
             }
 
-            if (oTemp != NULL)
-            {
-                //    oTemp.Dispose();
-            }
+            // we now own the removed parameter
+            delete oTemp;
+
             parameter->setId(sPrefix + parameterId);
-            //oModel.getListOfParameters().append(parameter);
-            //oModel.getListOfParameters().appendAndOwn(parameter);
+
+            // add a copy to the model
             oModel.addParameter(parameter);
-            if (parameter != NULL)
-            {
-                //parameter->Dispose();
-            }
+            delete parameter;
         }
     }
 }
@@ -1629,6 +1630,9 @@ StringList NOMSupport::getSymbols(const string& formula)
     ASTNode *node = SBML_parseFormula(formula.c_str());
 
     addDependenciesToList(node, sResult);
+
+    delete node;
+
     return sResult;
 }
 
@@ -1686,7 +1690,7 @@ string NOMSupport::getInitialAssignmentFor(const string& sbmlId)
             InitialAssignment *oAssignment = mModel->getInitialAssignment(i);
             if (oAssignment->getSymbol() == sbmlId && oAssignment->isSetMath())
             {
-                return SBML_formulaToString(oAssignment->getMath());
+                return SBML_formulaToStdString(oAssignment->getMath());
             }
         }
     }

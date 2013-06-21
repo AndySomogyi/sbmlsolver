@@ -56,17 +56,17 @@ CvodeInterface* LLVMExecutableModel::getCvodeInterface()
     return 0;
 }
 
-int LLVMExecutableModel::getNumIndependentVariables()
+int LLVMExecutableModel::getNumIndependentSpecies()
 {
     return 0;
 }
 
-int LLVMExecutableModel::getNumDependentVariables()
+int LLVMExecutableModel::getNumDependentSpecies()
 {
     return 0;
 }
 
-int LLVMExecutableModel::getNumTotalVariables()
+int LLVMExecutableModel::getNumFloatingSpecies()
 {
     return 0;
 }

@@ -51,14 +51,11 @@ typedef struct SModelData
 
     /**
      * number of linerly dependent rows in the stoichiometry matrix.
+     *
+     * numIndependentVariables + numDependentVariables had better
+     * be equal to numFloatingSpecies
      */
     int                                 numDependentVariables;
-
-    /**
-     * total number of rows in the stochimetry matrix, this should be
-     * the same as the number of floating species.
-     */
-    int                                 numTotalVariables;
 
     /**
      * number of global parameters, same as gpSize.
@@ -73,7 +70,7 @@ typedef struct SModelData
     int                                 numReactions;
 
     /**
-     * number of rate rules, same as rateRulesSize.
+     * number of rate rules, same as numRateRules.
      * TODO: clean up whatever code that uses this.
      */
     int                                 numRules;
@@ -127,42 +124,16 @@ typedef struct SModelData
     double*                             floatingSpeciesConcentrationRates;
 
     /**
+     * The total amount of a species in a compartment.
+     */
+    double*                             floatingSpeciesAmounts;
+
+    /**
      * compartment index for each floating species,
      * e.g. the volume of the i'th species is
      * md->compartmentVolumes[md->floatingSpeciesCompartments[i]]
      */
     int*                                floatingSpeciesCompartments;
-
-    /**
-     * number of global parameters and global parameter values.
-     * global parameters are all the parameters in a model, including
-     * the kinetic law parameters.
-     */
-    int                                 gpSize;
-    double*                             gp;
-
-    /**
-     * number of modifiable species references and
-     * modifiable species reference values.
-     */
-    int                                 srSize;
-    double*                             sr;
-
-    /**
-     * reactions???
-     * TODO: figure out if this is ever used.
-     */
-    int                                 lpSize;
-    double*                             lp;
-
-    /**
-     * in rrNLEQInterface there is a loop like
-     * for(int i = model->mData.rateRulesSize; i < model->mData.numFloatingSpecies + model->mData.rateRulesSize; i++) {
-     *    dTemp[i] = model->getModelData().amounts[i];
-     * so to fix the memory corruption issues, allocate it to the used, not the indicated size.
-     * TODO fix this correctly!
-     */
-    double*                             amounts;
 
     /**
      * number of boundary species and boundary species concentrations.
@@ -189,12 +160,36 @@ typedef struct SModelData
     double*                             compartmentVolumes;
 
     /**
+     * number of global parameters and global parameter values.
+     * global parameters are all the parameters in a model, including
+     * the kinetic law parameters.
+     */
+    int                                 gpSize;
+    double*                             gp;
+
+    /**
+     * number of modifiable species references and
+     * modifiable species reference values.
+     */
+    int                                 srSize;
+    double*                             sr;
+
+    /**
+     * reactions???
+     * TODO: figure out if this is ever used.
+     */
+    int                                 lpSize;
+    double*                             lp;
+
+
+
+    /**
      * number of reactions and the reaction rates
      */
     int                                 ratesSize;
     double*                             rates;
 
-    int                                 rateRulesSize;
+    int                                 numRateRules;
     double*                             rateRules;
 
     int                                 ctSize;

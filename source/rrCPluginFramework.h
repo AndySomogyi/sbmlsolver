@@ -12,11 +12,11 @@ extern "C"
 #endif
 
 /*!@brief C structure to hold C Plugin data */
-typedef struct RRPluginData
+typedef struct 
 {
     RRHandle	           	    mRR;			//This is a handle to the roadRunner instance, creating the plugin
 
-} *RRPluginDataHandle;
+} *RRPluginDataPtr, RRPluginData;
 
 
 

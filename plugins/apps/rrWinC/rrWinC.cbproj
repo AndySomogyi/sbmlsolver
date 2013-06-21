@@ -58,7 +58,7 @@
         <Manifest_File>None</Manifest_File>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <Multithreaded>true</Multithreaded>
-        <AllPackageLibs>rtl.lib;vcl.lib;DuneComponents.lib;VCLCommon.lib;vclactnband.lib;vclx.lib;Tee.lib;vclimg.lib</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib;vclactnband.lib;vclx.lib;Tee.lib;vclimg.lib</AllPackageLibs>
         <_TCHARMapping>char</_TCHARMapping>
         <ProjectType>CppVCLApplication</ProjectType>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
@@ -120,7 +120,7 @@
         <ILINK_LibraryPath>$(RR_DEBUG)/lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <IncludePath>$(RR_ROOT)\source;$(RR_ROOT)\Wrappers\C;$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
         <FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
-        <LinkPackageImports>rtl.bpi;vcl.bpi;DuneComponents.bpi;VCLCommon.bpi;vclactnband.bpi;vclx.bpi;Tee.bpi;vclimg.bpi</LinkPackageImports>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;vclactnband.bpi;vclx.bpi;Tee.bpi;vclimg.bpi</LinkPackageImports>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <BCC_PCHInject>rrWinC_pch.h</BCC_PCHInject>

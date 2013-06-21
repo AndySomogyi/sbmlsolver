@@ -59,7 +59,7 @@ public:
 
     /**
      * Sets the the concentrations and ammounts to the values specified
-     * by the initial conditions, ModelData::floatingSpeciesInitConcentrations, i.e. the ModelData::amounts[:]
+     * by the initial conditions, ModelData::floatingSpeciesInitConcentrations, i.e. the ModelData::floatingSpeciesAmounts[:]
      * are set to ModelData::floatingSpeciesInitConcentrations[:] * compartment volume, and ModelData::y[:] is
      * set to ModelData::floatingSpeciesInitConcentrations[:].
      *
@@ -71,9 +71,9 @@ public:
     virtual void setInitialConditions() = 0;
 
     // functions --------------------------------------------------------
-    virtual int getNumIndependentVariables() = 0;
-    virtual int getNumDependentVariables() = 0;
-    virtual int getNumTotalVariables() = 0;
+    virtual int getNumIndependentSpecies() = 0;
+    virtual int getNumDependentSpecies() = 0;
+    virtual int getNumFloatingSpecies() = 0;
     virtual int getNumBoundarySpecies() = 0;
     virtual int getNumGlobalParameters() = 0;
     virtual int getNumCompartments() = 0;

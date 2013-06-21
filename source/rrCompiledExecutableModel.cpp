@@ -71,19 +71,19 @@ double CompiledExecutableModel::getTime()
 }
 
 /////////////////// The following used to be in IModel
-int CompiledExecutableModel::getNumIndependentVariables()
+int CompiledExecutableModel::getNumIndependentSpecies()
 {
     return mData.numIndependentVariables;
 }
 
-int CompiledExecutableModel::getNumDependentVariables()
+int CompiledExecutableModel::getNumDependentSpecies()
 {
     return mData.numDependentVariables;
 }
 
-int CompiledExecutableModel::getNumTotalVariables()
+int CompiledExecutableModel::getNumFloatingSpecies()
 {
-    return mData.numTotalVariables;
+    return mData.numFloatingSpecies;
 }
 
 int CompiledExecutableModel::getNumBoundarySpecies()
@@ -118,7 +118,7 @@ int CompiledExecutableModel::getNumEvents()
 
 double CompiledExecutableModel::getAmounts(const int& i)
 {
-    return (mData.amounts ) ? mData.amounts[i] : -1;
+    return (mData.floatingSpeciesAmounts ) ? mData.floatingSpeciesAmounts[i] : -1;
 }
 
 bool CompiledExecutableModel::setupDLLFunctions()
@@ -171,12 +171,11 @@ bool CompiledExecutableModel::setupModelData()
     // set the buffer sizes
     mData.numIndependentVariables       = ms.mNumIndependentSpecies;
     mData.numDependentVariables         = ms.mNumDependentSpecies;
-    mData.numTotalVariables             = ms.mNumFloatingSpecies;        //???
     mData.numGlobalParameters           = ms.mGlobalParameterList.size();
     mData.numReactions                  = ms.mReactionList.size();
     mData.numEvents                     = ms.mNumEvents;
     mData.numFloatingSpecies            = ms.mFloatingSpeciesConcentrationList.size();
-    mData.rateRulesSize                 = ms.mRateRules.size();
+    mData.numRateRules                 = ms.mRateRules.size();
     mData.ratesSize                     = ms.mNumReactions;
     mData.ctSize                        = ms.mNumDependentSpecies;
     mData.gpSize                        = ms.mNumGlobalParameters + ms.mTotalLocalParmeters;

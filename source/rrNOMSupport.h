@@ -325,5 +325,13 @@ private:
     static const string     STR_DoubleFormat;
 };
 
+/**
+ * SBML_formulaToString is used all over the place here,
+ * SBML_formulaToString returns a char* that MUST BE FREED!!!
+ *
+ * This function frees the string and returns a std::string with its contents.
+ */
+std::string SBML_formulaToStdString(const ASTNode *tree);
+
 }//namespace rr
 #endif

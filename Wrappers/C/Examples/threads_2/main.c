@@ -10,7 +10,7 @@
 int main(int argc, char* argv[])
 {
    //Some Declarations (has to be here because this is C)
-	RRInstanceListHandle 	rrs;
+	RRInstanceListPtr	 	rrs;
     RRJobsHandle 		    jobsHandle;		//Jobs handle.. use to check when a pool of threads has finished..
     char tempFolder[1024];
 

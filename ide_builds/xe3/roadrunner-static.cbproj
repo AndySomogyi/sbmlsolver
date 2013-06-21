@@ -167,6 +167,9 @@
             <DependentOn>..\..\source\rrConstants.h</DependentOn>
             <BuildOrder>60</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\..\source\rrCPlugin.cpp">
+            <BuildOrder>85</BuildOrder>
+        </CppCompile>
         <CppCompile Include="..\..\source\rrCSharpModelGenerator.cpp">
             <BuildOrder>84</BuildOrder>
         </CppCompile>

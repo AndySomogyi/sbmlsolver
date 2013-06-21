@@ -179,13 +179,9 @@ string CompiledModelGenerator::cleanEquation(const string& eqn)
     }
 
     ASTNode *ast2 = cleanEquation(ast);
-    char* cstr = SBML_formulaToString(ast2);
-
-    string result = cstr;
-
+    string result = SBML_formulaToStdString(ast2);
     delete ast;
     delete ast2;
-    free(cstr);
     return result;
 }
 
