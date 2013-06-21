@@ -34,9 +34,9 @@ public:
     virtual CvodeInterface* getCvodeInterface();
 
     // functions --------------------------------------------------------
-    virtual int getNumIndependentVariables();
-    virtual int getNumDependentVariables();
-    virtual int getNumTotalVariables();
+    virtual int getNumIndependentSpecies();
+    virtual int getNumDependentSpecies();
+    virtual int getNumFloatingSpecies();
     virtual int getNumBoundarySpecies();
     virtual int getNumGlobalParameters();
     virtual int getNumCompartments();

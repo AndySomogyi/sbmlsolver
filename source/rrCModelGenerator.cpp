@@ -221,7 +221,7 @@ void CModelGenerator::writeComputeAllRatesOfChange(CodeBuilder& ignore, const in
 
     // calloc is often preferable as it creates zero initialized memory.
     // this is free'd just before this function exits.
-    mSource<<"\n\tdouble* dTemp = (double*) calloc((md->numFloatingSpecies + md->rateRulesSize), sizeof(double));\n";
+    mSource<<"\n\tdouble* dTemp = (double*) calloc((md->numFloatingSpecies + md->numRateRules), sizeof(double));\n";
 
     for (int i = 0; i < numAdditionalRates(); i++)
     {
@@ -229,7 +229,7 @@ void CModelGenerator::writeComputeAllRatesOfChange(CodeBuilder& ignore, const in
     }
 
     mSource<<gTab<<"for(i = 0; i < md->numFloatingSpecies; i++)\n";
-    mSource<<gTab<<"{\n"<<gTab<<gTab<<"dTemp[i + md->rateRulesSize] = md->amounts[i];\n\t}";
+    mSource<<gTab<<"{\n"<<gTab<<gTab<<"dTemp[i + md->numRateRules] = md->floatingSpeciesAmounts[i];\n\t}";
     mSource<<append("\n\t//amounts.CopyTo(dTemp, rateRules.Length); " + NL());
 
     mSource<<append("\t__evalModel(md, md->time, dTemp);" + NL());
@@ -513,7 +513,7 @@ void CModelGenerator::writeSetConcentration(CodeBuilder& ignore)
 
     mSource<<format("\t}{0}", NL());
 
-    mSource<<format("\tmd->amounts[index] = md->floatingSpeciesConcentrations[index]*volume;{0}", NL());
+    mSource<<format("\tmd->floatingSpeciesAmounts[index] = md->floatingSpeciesConcentrations[index]*volume;{0}", NL());
     mSource<<format("}{0}{0}", NL());
 }
 
@@ -531,7 +531,7 @@ void CModelGenerator::writeConvertToAmounts(CodeBuilder& ignore)
     mSource<<format("void convertToAmounts(ModelData* md)\n{{0}", NL());
     for (int i = 0; i < ms.mFloatingSpeciesConcentrationList.size(); i++)
     {
-        mSource<<format("\tmd->amounts[{0}] = md->floatingSpeciesConcentrations[{0}]*{1};{2}",
+        mSource<<format("\tmd->floatingSpeciesAmounts[{0}] = md->floatingSpeciesConcentrations[{0}]*{1};{2}",
             i,
             convertCompartmentToC(ms.mFloatingSpeciesConcentrationList[i].compartmentName),
             NL());
@@ -545,7 +545,7 @@ void CModelGenerator::writeConvertToConcentrations(CodeBuilder& ignore)
     mSource<<"void convertToConcentrations(ModelData* md)\n{";
     for (int i = 0; i < ms.mFloatingSpeciesConcentrationList.size(); i++)
     {
-        mSource<<"\n\tmd->floatingSpeciesConcentrations[" << i << "] = md->amounts[" << i << "] / " <<
+        mSource<<"\n\tmd->floatingSpeciesConcentrations[" << i << "] = md->floatingSpeciesAmounts[" << i << "] / " <<
                   convertCompartmentToC(ms.mFloatingSpeciesConcentrationList[i].compartmentName) << ";";
     }
     mSource<<append("\n}" + NL() + NL());
@@ -1412,7 +1412,7 @@ void CModelGenerator::writeSetInitialConditions(CodeBuilder& ignore, const int& 
     for (int i = 0; i < numFloatingSpecies; i++)
     {
         mSource<<"\n\tmd->floatingSpeciesConcentrations[" << i << "] = md->floatingSpeciesInitConcentrations[" << i << "];";
-        mSource<<"\n\tmd->amounts[" << i << "] = md->floatingSpeciesConcentrations[" << i << "]*" <<
+        mSource<<"\n\tmd->floatingSpeciesAmounts[" << i << "] = md->floatingSpeciesConcentrations[" << i << "]*" <<
                   convertCompartmentToC(ms.mFloatingSpeciesConcentrationList[i].compartmentName) << ";" << NL();
     }
     mSource<<append("}" + NL() + NL());
@@ -2203,7 +2203,7 @@ void CModelGenerator::substituteWords(const string& reactionName, bool bFixAmoun
         Symbol floating1 = ms.mFloatingSpeciesConcentrationList[index];
         if (floating1.hasOnlySubstance)
         {
-            mSource<<format("md->amounts[{0}]", index);
+            mSource<<format("md->floatingSpeciesAmounts[{0}]", index);
         }
         else
         {
