@@ -133,7 +133,7 @@ int CompiledExecutableModel::getGlobalParameterIndex(const std::string& name)
     return ms.mGlobalParameterList.find(name, result) ? result : -1;
 }
 
-string CompiledExecutableModel::getGlobalPameterName(int index)
+string CompiledExecutableModel::getGlobalParameterName(int index)
 {
     return ms.mGlobalParameterList[index].name;
 }
@@ -593,68 +593,12 @@ const SymbolList &CompiledExecutableModel::getConservations()
     return ms.mConservationList;
 }
 
-const StringList CompiledExecutableModel::getCompartmentNames()
-{
-    StringList tmp;
-    for (u_int i = 0; i < ms.mCompartmentList.size(); i++)
-    {
-        tmp.add(ms.mCompartmentList[i].name);
-    }
-    return tmp;
-}
-
 const StringList CompiledExecutableModel::getConservationNames()
 {
     StringList tmp; // = new ArrayList();
     for (int i = 0; i < ms.mConservationList.Count(); i++)
     {
         tmp.add(ms.mConservationList[i].name);
-    }
-    return tmp;
-}
-
-const StringList CompiledExecutableModel::getGlobalParameterNames()
-{
-    StringList tmp;
-    for (int i = 0; i < ms.mGlobalParameterList.size(); i++)
-    {
-        tmp.add(ms.mGlobalParameterList[i].name);
-    }
-
-    for (int i = 0; i < ms.mConservationList.Count(); i++)
-    {
-        tmp.add(ms.mConservationList[i].name);
-    }
-
-    return tmp;
-}
-
-const StringList CompiledExecutableModel::getReactionNames()
-{
-    StringList tmp;
-    for (int i = 0; i < ms.mReactionList.size(); i++)
-    {
-        tmp.add(ms.mReactionList[i].name);
-    }
-    return tmp;
-}
-
-const StringList CompiledExecutableModel::getFloatingSpeciesConcentrationNames()
-{
-    StringList tmp;
-    for (int i = 0; i < ms.mFloatingSpeciesConcentrationList.size(); i++)
-    {
-        tmp.add(ms.mFloatingSpeciesConcentrationList[i].name);
-    }
-    return tmp;
-}
-
-const StringList CompiledExecutableModel::getBoundarySpeciesNames()
-{
-    StringList tmp;
-    for (int i = 0; i < ms.mBoundarySpeciesList.size(); i++)
-    {
-        tmp.add(ms.mBoundarySpeciesList[i].name);
     }
     return tmp;
 }

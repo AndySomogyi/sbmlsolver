@@ -83,7 +83,7 @@ public:
 
     virtual int getNumGlobalParameters() = 0;
     virtual int getGlobalParameterIndex(const string& name) = 0;
-    virtual string getGlobalPameterName(int index) = 0;
+    virtual string getGlobalParameterName(int index) = 0;
 
     virtual int getNumCompartments() = 0;
     virtual int getCompartmentIndex(const string& name) = 0;
@@ -178,14 +178,7 @@ public:
 
 
     virtual const SymbolList &getConservations() = 0;
-
-
-    virtual const StringList getCompartmentNames() = 0;
     virtual const StringList getConservationNames() = 0;
-    virtual const StringList getGlobalParameterNames() = 0;
-    virtual const StringList getReactionNames() = 0;
-    virtual const StringList getFloatingSpeciesConcentrationNames() = 0; //Just returns the Ids...!
-    virtual const StringList getBoundarySpeciesNames() = 0;
 
     /**
      * need a virtual destructor as object implementing this interface

@@ -68,7 +68,7 @@ public:
 
     virtual int getNumGlobalParameters();
     virtual int getGlobalParameterIndex(const std::string& name);
-    virtual string getGlobalPameterName(int index);
+    virtual string getGlobalParameterName(int index);
 
     virtual int getNumCompartments();
     virtual int getCompartmentIndex(const string& name);
@@ -126,13 +126,7 @@ public:
     virtual string getInfo();
 
     virtual const SymbolList& getConservations();
-
-    virtual const StringList getCompartmentNames();
     virtual const StringList getConservationNames();
-    virtual const StringList getGlobalParameterNames();
-    virtual const StringList getReactionNames();
-    virtual const StringList getFloatingSpeciesConcentrationNames(); //Just returns the Ids...!
-    virtual const StringList getBoundarySpeciesNames();
 
 private:
 
