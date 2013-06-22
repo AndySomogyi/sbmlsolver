@@ -33,10 +33,6 @@ string LLVMExecutableModel::getModelName()
     return "";
 }
 
-void LLVMExecutableModel::assignCVodeInterface(CvodeInterface* cvodeI)
-{
-}
-
 void LLVMExecutableModel::setTime(double _time)
 {
 }
@@ -49,11 +45,6 @@ double LLVMExecutableModel::getTime()
 ModelData& LLVMExecutableModel::getModelData()
 {
     return *(ModelData*)0;
-}
-
-CvodeInterface* LLVMExecutableModel::getCvodeInterface()
-{
-    return 0;
 }
 
 int LLVMExecutableModel::getNumIndependentSpecies()

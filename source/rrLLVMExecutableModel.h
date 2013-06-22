@@ -26,12 +26,10 @@ public:
      * get the name of the model
      */
     virtual string getModelName();
-    virtual void assignCVodeInterface(CvodeInterface* cvodeI);
     virtual void setTime(double _time);
     virtual double getTime();
     virtual ModelData& getModelData();
 
-    virtual CvodeInterface* getCvodeInterface();
 
     // functions --------------------------------------------------------
     virtual int getNumIndependentSpecies();

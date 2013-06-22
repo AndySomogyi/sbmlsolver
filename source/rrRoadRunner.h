@@ -56,6 +56,10 @@ class RR_DECLSPEC RoadRunner : public rrObject
         string                          mCurrentSBMLFileName;
         SBMLModelSimulation            *mSimulation;
 
+        /**
+         * The Cvode object get created just after a model is created, it then
+         * gets a reference to the model and holds on to it.
+         */
         CvodeInterface                 *mCVode;
         vector<SelectionRecord>         mSelectionList;
 
