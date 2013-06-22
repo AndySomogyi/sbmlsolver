@@ -361,7 +361,7 @@ void EventFcn(double time, double* y, double* gdot, void* userData)
 
     vector<double> args = cvInstance->buildEvalArgument();
     model->evalModel(time, args);
-    model->getCvodeInterface()->assignResultsToModel();
+    cvInstance->assignResultsToModel();
 
     args = cvInstance->buildEvalArgument();
     model->evalEvents(time, args);

@@ -329,7 +329,6 @@ bool RoadRunner::initializeModel()
             delete mCVode;
         }
         mCVode = new CvodeInterface(this, mModel);
-        mModel->assignCVodeInterface(mCVode);
 
         // reset the simulation state
         reset();

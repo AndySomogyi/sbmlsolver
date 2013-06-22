@@ -37,7 +37,7 @@ public:
      * get the name of the model
      */
     virtual string getModelName() = 0;
-    virtual void assignCVodeInterface(CvodeInterface* cvodeI) = 0;
+
     virtual void setTime(double _time) = 0;
     virtual double getTime() = 0;
 
@@ -45,8 +45,6 @@ public:
      * get a reference to the internal ModelData structure.
      */
     virtual ModelData& getModelData() = 0;
-
-    virtual CvodeInterface* getCvodeInterface() = 0;
 
     /**
      * Sets the initial floating species concentrations, ModelData::floatingSpeciesInitConcentrations to

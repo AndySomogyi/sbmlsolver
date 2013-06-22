@@ -55,11 +55,6 @@ string CompiledExecutableModel::getModelName()
     return mData.modelName;
 }
 
-void CompiledExecutableModel::assignCVodeInterface(CvodeInterface* cvodeI)
-{
-    mCvodeInterface = cvodeI;
-}
-
 void CompiledExecutableModel::setTime(double _time)
 {
     mData.time = _time;
@@ -528,10 +523,6 @@ string CompiledExecutableModel::getInfo()
 ModelData& CompiledExecutableModel::getModelData()
 {
     return mData;
-}
-
-CvodeInterface* CompiledExecutableModel::getCvodeInterface() {
-    return mCvodeInterface;
 }
 
 const SymbolList &CompiledExecutableModel::getReactions() {
