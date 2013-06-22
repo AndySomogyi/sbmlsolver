@@ -1,6 +1,7 @@
 #ifndef rrRoadRunnerH
 #define rrRoadRunnerH
 #include <string>
+#include <vector>
 #include "rr-libstruct/lsMatrix.h"
 #include "rr-libstruct/lsLibStructural.h"
 #include "rrObject.h"
@@ -8,8 +9,6 @@
 #include "rrTParameterType.h"
 #include "rrCVODEInterface.h"
 #include "rrNLEQInterface.h"
-#include "rrStringList.h"
-#include "rrStringListContainer.h"
 #include "rrSelectionRecord.h"
 #include "rrTextWriter.h"
 #include "rrRoadRunnerData.h"
@@ -31,6 +30,7 @@ namespace rr
 {
 using Poco::Mutex;
 using std::string;
+using std::vector;
 using namespace ls;
 
 class ModelGenerator;
@@ -103,7 +103,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
         vector<double>                  buildModelEvalArgument();
         double                          getVariableValue(const TVariableType& variableType, const int& variableIndex);
 
-        StringList                      getParameterIds();
+        vector<string>                  getParameterIds();
         bool                            loadSBMLIntoNOM(const string& sbml);
 
         /**
@@ -134,7 +134,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
         PluginManager&                  getPluginManager();
 
 
-        vector<SelectionRecord>         getSteadyStateSelection(const StringList& newSelectionList);
+        vector<SelectionRecord>         getSteadyStateSelection(const vector<string>& newSelectionList);
         vector<SelectionRecord>         getSelectionList();
 
         /**
@@ -223,8 +223,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
         vector<double>                  getReactionRates();
         vector<double>                  getRatesOfChange();
-        StringList                      getSpeciesIds();
-        StringList                      getReactionIds();
+        vector<string>                  getSpeciesIds();
+        vector<string>                  getReactionIds();
 
         // ---------------------------------------------------------------------
         // Start of Level 2 API Methods
@@ -232,8 +232,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
         Capabilities&                   getCapabilities();
         Capability*                     getCapability(const string& cap_name);
         string                          getCapabilitiesAsXML();
-        StringList                      getListOfCapabilities();
-        StringList                      getListOfParameters(const string& capName);
+        vector<string>                  getListOfCapabilities();
+        vector<string>                  getListOfParameters(const string& capName);
 
         bool                            addCapability(Capability& cap);
         bool                            addCapabilities(Capabilities& caps);
@@ -252,9 +252,9 @@ class RR_DECLSPEC RoadRunner : public rrObject
          * Returns the currently selected columns that will be returned by
          * calls to simulate() or simulateEx(,,).
          */
-        StringList                      getTimeCourseSelectionList();
+        vector<string>                  getTimeCourseSelectionList();
         void                            setTimeCourseSelectionList(const string& List);
-        void                            setTimeCourseSelectionList(const StringList& newSelectionList);
+        void                            setTimeCourseSelectionList(const vector<string>& newSelectionList);
         double                          oneStep(const double& currentTime, const double& stepSize);
         double                          oneStep(const double& currentTime, const double& stepSize, const bool& reset);
 
@@ -296,13 +296,13 @@ class RR_DECLSPEC RoadRunner : public rrObject
         NewArrayList                    getConcentrationControlCoefficientIds();
         NewArrayList                    getElasticityCoefficientIds();
         NewArrayList                    getUnscaledElasticityCoefficientIds();
-        StringList                      getEigenvalueIds();
+        vector<string>                  getEigenvalueIds();
         NewArrayList                    getAvailableSteadyStateSymbols();
-        StringList                      getSteadyStateSelectionList();
-        void                            setSteadyStateSelectionList(const StringList& newSelectionList);
+        vector<string>                  getSteadyStateSelectionList();
+        void                            setSteadyStateSelectionList(const vector<string>& newSelectionList);
         double                          computeSteadyStateValue(const SelectionRecord& record);
         vector<double>                  computeSteadyStateValues();
-        vector<double>                  computeSteadyStateValues(const StringList& selection);
+        vector<double>                  computeSteadyStateValues(const vector<string>& selection);
         vector<double>                  computeSteadyStateValues(const vector<SelectionRecord>& selection, const bool& computeSteadyState);
         double                          computeSteadyStateValue(const string& sId);
         vector<double>                  getSelectedValues();
@@ -320,8 +320,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
         double                          getLocalParameterByIndex(const int& reactionId, const int& index);
         void                            setLocalParameterValues(const int& reactionId, const vector<double>& values);
         vector<double>                  getLocalParameterValues(const int& reactionId);
-        StringList                      getLocalParameterIds(const int& reactionId);
-        StringList                      getAllLocalParameterTupleList();
+        vector<string>                  getLocalParameterIds(const int& reactionId);
+        vector<string>                  getAllLocalParameterTupleList();
         int                             getNumberOfReactions();
         double                          getReactionRate(const int& index);
 
@@ -329,7 +329,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
          * Returns the rate of changes of a species by its index
          */
         double                          getRateOfChange(const int& index);
-        StringList                      getRateOfChangeIds();
+        vector<string>                  getRateOfChangeIds();
         vector<double>                  getRatesOfChangeEx(const vector<double>& values);
         vector<double>                  getReactionRatesEx(const vector<double>& values);
         vector<string>                  getFloatingSpeciesIdsArray();
@@ -351,7 +351,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
         // TODO figure out if we need this.
         // void                            setCompartmentVolumes(const vector<double>& values);
 
-        StringList                      getCompartmentIds();
+        vector<string>                  getCompartmentIds();
 
         /**
          * Get the number of boundary species
@@ -361,8 +361,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
         double                          getBoundarySpeciesByIndex(const int& index);
         vector<double>                  getBoundarySpeciesConcentrations();
         void                            setBoundarySpeciesConcentrations(const vector<double>& values);
-        StringList                      getBoundarySpeciesIds();
-        StringList                      getBoundarySpeciesAmountIds();
+        vector<string>                  getBoundarySpeciesIds();
+        vector<string>                  getBoundarySpeciesAmountIds();
         int                             getNumberOfFloatingSpecies();
         void                            setFloatingSpeciesByIndex(const int& index, const double& value);
         double                          getFloatingSpeciesInitialConcentrationByIndex(const int& index);
@@ -372,16 +372,16 @@ class RR_DECLSPEC RoadRunner : public rrObject
         void                            setFloatingSpeciesConcentrations(const vector<double>& values);
         void                            setFloatingSpeciesInitialConcentrationByIndex(const int& index, const double& value);
         void                            setFloatingSpeciesInitialConcentrations(const vector<double>& values);
-        StringList                      getFloatingSpeciesIds();
-        StringList                      getFloatingSpeciesInitialConditionIds();
-        StringList                      getFloatingSpeciesAmountIds();
+        vector<string>                  getFloatingSpeciesIds();
+        vector<string>                  getFloatingSpeciesInitialConditionIds();
+        vector<string>                  getFloatingSpeciesAmountIds();
         int                             getNumberOfGlobalParameters();
         void                            setGlobalParameterByIndex(const int& index, const double& value);
         double                          getGlobalParameterByIndex(const int& index);
         void                            setGlobalParameterValues(const vector<double>& values);
         vector<double>                  getGlobalParameterValues();
-        StringList                      getGlobalParameterIds();
-        StringList                      getAllGlobalParameterTupleList();
+        vector<string>                  getGlobalParameterIds();
+        vector<string>                  getAllGlobalParameterTupleList();
         void                            evalModel();
 
         //These functions are better placed in a separate file, as non class members, but part of the roadrunner namespace?
