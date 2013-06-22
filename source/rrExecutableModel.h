@@ -71,11 +71,40 @@ public:
     // functions --------------------------------------------------------
     virtual int getNumIndependentSpecies() = 0;
     virtual int getNumDependentSpecies() = 0;
+
     virtual int getNumFloatingSpecies() = 0;
+    virtual int getFloatingSpeciesIndex(const string& name) = 0;
+    virtual string getFloatingSpeciesName(int index) = 0;
+
     virtual int getNumBoundarySpecies() = 0;
+    virtual int getBoundarySpeciesIndex(const string &name) = 0;
+    virtual string getBoundarySpeciesName(int index) = 0;
+    virtual int getBoundarySpeciesCompartmentIndex(int index) = 0;
+
     virtual int getNumGlobalParameters() = 0;
+    virtual int getGlobalParameterIndex(const string& name) = 0;
+    virtual string getGlobalPameterName(int index) = 0;
+
     virtual int getNumCompartments() = 0;
+    virtual int getCompartmentIndex(const string& name) = 0;
+    virtual string getCompartmentName(int index) = 0;
+
+    /**
+     * get the number of reactions the model has
+     */
     virtual int getNumReactions() = 0;
+
+    /**
+     * get the index of a named reaction
+     * @returns >= 0 on success, < 0 on failure.
+     */
+    virtual int getReactionIndex(const std::string& reactionName) = 0;
+
+    /**
+     * get the name of the specified reaction
+     */
+    virtual std::string getReactionName(int index) = 0;
+
     virtual int getNumRules() = 0;
     virtual int getNumEvents() = 0;
     virtual void computeEventPriorites() = 0;
@@ -147,13 +176,9 @@ public:
     virtual void initializeRateRuleSymbols() = 0;
     virtual string getInfo() = 0;
 
-    virtual const SymbolList &getReactions() = 0;
-    virtual const SymbolList &getGlobalParameters() = 0;
-    virtual const SymbolList &getBoundarySpecies() = 0;
-    virtual const SymbolList &getCompartments() = 0;
+
     virtual const SymbolList &getConservations() = 0;
-    virtual const SymbolList &getFloatingSpeciesAmounts() = 0;
-    virtual const SymbolList &getFloatingSpeciesConcentrations() = 0;
+
 
     virtual const StringList getCompartmentNames() = 0;
     virtual const StringList getConservationNames() = 0;
