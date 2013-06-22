@@ -116,6 +116,69 @@ double CompiledExecutableModel::getAmounts(const int& i)
     return (mData.floatingSpeciesAmounts ) ? mData.floatingSpeciesAmounts[i] : -1;
 }
 
+int CompiledExecutableModel::getReactionIndex(const std::string& reactionName)
+{
+    int result = -1;
+    return ms.mReactionList.find(reactionName, result) ? result : -1;
+}
+
+std::string CompiledExecutableModel::getReactionName(int index)
+{
+    return ms.mReactionList[index].name;
+}
+
+int CompiledExecutableModel::getGlobalParameterIndex(const std::string& name)
+{
+    int result = -1;
+    return ms.mGlobalParameterList.find(name, result) ? result : -1;
+}
+
+string CompiledExecutableModel::getGlobalPameterName(int index)
+{
+    return ms.mGlobalParameterList[index].name;
+}
+
+int CompiledExecutableModel::getBoundarySpeciesIndex(const string& name)
+{
+    int result = -1;
+    return ms.mBoundarySpeciesList.find(name, result) ? result : -1;
+}
+
+string CompiledExecutableModel::getBoundarySpeciesName(int index)
+{
+    return ms.mBoundarySpeciesList[index].name;
+}
+
+int CompiledExecutableModel::getBoundarySpeciesCompartmentIndex(int index)
+{
+    // mModel->getCompartments().find(mModel->getBoundarySpecies()[record.index].compartmentName, nIndex))
+    string compartmentName = ms.mBoundarySpeciesList[index].compartmentName;
+    int compartmentIndex = -1;
+    return ms.mCompartmentList.find(compartmentName, compartmentIndex) ? compartmentIndex : -1;
+}
+
+int CompiledExecutableModel::getCompartmentIndex(const string& name)
+{
+    int result = -1;
+    return ms.mCompartmentList.find(name, result) ? result : -1;
+}
+
+string CompiledExecutableModel::getCompartmentName(int index)
+{
+    return ms.mCompartmentList[index].name;
+}
+
+int CompiledExecutableModel::getFloatingSpeciesIndex(const string& name)
+{
+    int result = -1;
+    return ms.mFloatingSpeciesConcentrationList.find(name, result) ? result : -1;
+}
+
+string CompiledExecutableModel::getFloatingSpeciesName(int index)
+{
+    return ms.mFloatingSpeciesConcentrationList[index].name;
+}
+
 bool CompiledExecutableModel::setupDLLFunctions()
 {
     //Exported functions in the dll need to be assigned to a function pointer here..
@@ -170,7 +233,7 @@ bool CompiledExecutableModel::setupModelData()
     mData.numReactions                  = ms.mReactionList.size();
     mData.numEvents                     = ms.mNumEvents;
     mData.numFloatingSpecies            = ms.mFloatingSpeciesConcentrationList.size();
-    mData.numRateRules                 = ms.mRateRules.size();
+    mData.numRateRules                  = ms.mRateRules.size();
     mData.ratesSize                     = ms.mNumReactions;
     mData.ctSize                        = ms.mNumDependentSpecies;
     mData.gpSize                        = ms.mNumGlobalParameters + ms.mTotalLocalParmeters;
@@ -525,38 +588,9 @@ ModelData& CompiledExecutableModel::getModelData()
     return mData;
 }
 
-const SymbolList &CompiledExecutableModel::getReactions() {
-    return ms.mReactionList;
-}
-
-const SymbolList &CompiledExecutableModel::getGlobalParameters()
-{
-    return ms.mGlobalParameterList;
-}
-
-const SymbolList &CompiledExecutableModel::getBoundarySpecies()
-{
-    return ms.mBoundarySpeciesList;
-}
-
-const SymbolList &CompiledExecutableModel::getCompartments()
-{
-    return ms.mCompartmentList;
-}
-
 const SymbolList &CompiledExecutableModel::getConservations()
 {
     return ms.mConservationList;
-}
-
-const SymbolList &CompiledExecutableModel::getFloatingSpeciesAmounts()
-{
-    return ms.mFloatingSpeciesAmountsList;
-}
-
-const SymbolList &CompiledExecutableModel::getFloatingSpeciesConcentrations()
-{
-    return ms.mFloatingSpeciesConcentrationList;
 }
 
 const StringList CompiledExecutableModel::getCompartmentNames()
