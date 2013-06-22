@@ -29,6 +29,32 @@ using namespace std;
 using namespace ls;
 
 
+// we can write a single function to pick the string lists out
+// of the model instead of duplicating it 6 times with
+// fun ptrs.
+typedef string (ExecutableModel::*GetNameFuncPtr)(int);
+typedef int (ExecutableModel::*GetNumFuncPtr)();
+
+// make this static here, hide our implementation...
+static vector<string> createModelStringList(ExecutableModel *model,
+        GetNumFuncPtr numFunc, GetNameFuncPtr nameFunc)
+{
+    if (!model)
+    {
+        throw CoreException(gEmptyModelMessage);
+    }
+    const int num = (model->*numFunc)();
+    vector<string> strings(num);
+
+    for(int i = 0; i < num; i++)
+    {
+        strings[i] = (model->*nameFunc)(i);
+    }
+
+    return strings;
+}
+
+
 //The instance count increases/decreases as instances are created/destroyed.
 int                   RoadRunner::mInstanceCount = 0;
 Mutex                 RoadRunner::mLibSBMLMutex;
@@ -236,13 +262,13 @@ string RoadRunner::getTempFolder()
 
 int RoadRunner::createDefaultTimeCourseSelectionList()
 {
-    StringList theList;
-    StringList oFloating  = getFloatingSpeciesIds();
+    vector<string> theList;
+    vector<string> oFloating  = getFloatingSpeciesIds();
 
-    theList.add("time");
-    for(int i = 0; i < oFloating.Count(); i++)
+    theList.push_back("time");
+    for(int i = 0; i < oFloating.size(); i++)
     {
-        theList.add(oFloating[i]);
+        theList.push_back(oFloating[i]);
     }
 
     setTimeCourseSelectionList(theList);
@@ -258,18 +284,18 @@ int RoadRunner::createDefaultTimeCourseSelectionList()
 int RoadRunner::createTimeCourseSelectionList()
 {
 
-    StringList theList = getSelectionListFromSettings(mSettings);
+    vector<string> theList = getSelectionListFromSettings(mSettings);
 
-    if(theList.Count() < 2)
+    if(theList.size() < 2)
     {
         //AutoSelect
-        theList.add("Time");
+        theList.push_back("Time");
 
         //Get All floating species
-       StringList oFloating  = getFloatingSpeciesIds();
-       for(int i = 0; i < oFloating.Count(); i++)
+        vector<string> oFloating  = getFloatingSpeciesIds();
+       for(int i = 0; i < oFloating.size(); i++)
        {
-            theList.add(oFloating[i]);
+            theList.push_back(oFloating[i]);
        }
     }
 
@@ -553,7 +579,8 @@ bool RoadRunner::simulateSBMLFile(const string& fileName, const bool& useConserv
 
     mRawRoadRunnerData = simulate();
 
-    StringList list = getTimeCourseSelectionList();
+    // why is this here???
+    vector<string> list = getTimeCourseSelectionList();
     return true;
 }
 
@@ -820,7 +847,7 @@ bool RoadRunner::simulate2Ex(const double& startTime, const double& endTime, con
 
 bool RoadRunner::populateResult()
 {
-    StringList list = getTimeCourseSelectionList();
+    vector<string> list = getTimeCourseSelectionList();
 
     mRoadRunnerData.setColumnNames(list);
     mRoadRunnerData.setData(mRawRoadRunnerData);
@@ -857,22 +884,22 @@ DoubleMatrix RoadRunner::simulateEx(const double& startTime, const double& endTi
     }
 }
 
-StringList RoadRunner::getTimeCourseSelectionList()
+vector<string> RoadRunner::getTimeCourseSelectionList()
 {
-    StringList oResult;
+    vector<string> oResult;
 
     if (!mModel)
     {
-        oResult.add("time");
+        oResult.push_back("time");
         return oResult;
     }
 
-    StringList oFloating    = mModel->getFloatingSpeciesConcentrationNames();
-    StringList oBoundary    = mModel->getBoundarySpeciesNames();
-    StringList oFluxes      = mModel->getReactionNames();
-    StringList oVolumes     = mModel->getCompartmentNames();
-    StringList oRates       = getRateOfChangeIds();
-    StringList oParameters  = getParameterIds();
+    vector<string> oFloating    = getFloatingSpeciesIds();
+    vector<string> oBoundary    = getBoundarySpeciesIds();
+    vector<string> oFluxes      = getReactionIds();
+    vector<string> oVolumes     = getCompartmentIds();
+    vector<string> oRates       = getRateOfChangeIds();
+    vector<string> oParameters  = getParameterIds();
 
     vector<SelectionRecord>::iterator iter;
 
@@ -882,43 +909,43 @@ StringList RoadRunner::getTimeCourseSelectionList()
         switch (record.selectionType)
         {
             case SelectionType::clTime:
-                oResult.add("time");
+                oResult.push_back("time");
                 break;
             case SelectionType::clBoundaryAmount:
-                oResult.add(format("[{0}]", oBoundary[record.index]));
+                oResult.push_back(format("[{0}]", oBoundary[record.index]));
                 break;
             case SelectionType::clBoundarySpecies:
-                oResult.add(oBoundary[record.index]);
+                oResult.push_back(oBoundary[record.index]);
                 break;
             case SelectionType::clFloatingAmount:
-                oResult.add(format("[{0}]", oFloating[record.index]));
+                oResult.push_back(format("[{0}]", oFloating[record.index]));
                 break;
             case SelectionType::clFloatingSpecies:
-                oResult.add(oFloating[record.index]);
+                oResult.push_back(oFloating[record.index]);
                 break;
             case SelectionType::clVolume:
-                oResult.add(oVolumes[record.index]);
+                oResult.push_back(oVolumes[record.index]);
                 break;
             case SelectionType::clFlux:
-                oResult.add(oFluxes[record.index]);
+                oResult.push_back(oFluxes[record.index]);
                 break;
             case SelectionType::clRateOfChange:
-                oResult.add(oRates[record.index]);
+                oResult.push_back(oRates[record.index]);
                 break;
             case SelectionType::clParameter:
-                oResult.add(oParameters[record.index]);
+                oResult.push_back(oParameters[record.index]);
                 break;
             case SelectionType::clEigenValue:
-                oResult.add("eigen_" + record.p1);
+                oResult.push_back("eigen_" + record.p1);
                 break;
             case SelectionType::clElasticity:
-                oResult.add(format("EE:{0},{1}", record.p1, record.p2));
+                oResult.push_back(format("EE:{0},{1}", record.p1, record.p2));
                 break;
             case SelectionType::clUnscaledElasticity:
-                oResult.add(format("uEE:{0},{1}", record.p1, record.p2));
+                oResult.push_back(format("uEE:{0},{1}", record.p1, record.p2));
                 break;
             case SelectionType::clStoichiometry:
-                oResult.add(record.p1);
+                oResult.push_back(record.p1);
                 break;
         }
     }
@@ -1040,15 +1067,15 @@ void RoadRunner::computeAndAssignConservationLaws(const bool& bValue)
 }
 
 // Help("Returns the names given to the rate of change of the floating species")
-StringList RoadRunner::getRateOfChangeIds()
+vector<string> RoadRunner::getRateOfChangeIds()
 {
     if (!mModel)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    StringList sp = mModel->getFloatingSpeciesConcentrationNames(); // Reordered list
-    for (int i = 0; i < sp.Count(); i++)
+    vector<string> sp = getFloatingSpeciesIds(); // Reordered list
+    for (int i = 0; i < sp.size(); i++)
     {
         sp[i] = sp[i] + "'";
     }
@@ -1056,23 +1083,16 @@ StringList RoadRunner::getRateOfChangeIds()
 }
 
 // Help("Gets the list of compartment names")
-StringList RoadRunner::getCompartmentIds()
+vector<string> RoadRunner::getCompartmentIds()
 {
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-    return mModel->getCompartmentNames();
+    return createModelStringList(mModel, &ExecutableModel::getNumCompartments,
+            &ExecutableModel::getCompartmentName);
 }
 
-StringList RoadRunner::getParameterIds()
+vector<string> RoadRunner::getParameterIds()
 {
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-    StringList sp = mModel->getGlobalParameterNames(); // Reordered list
-    return sp;
+    return createModelStringList(mModel, &ExecutableModel::getNumGlobalParameters,
+            &ExecutableModel::getGlobalParameterName);
 }
 
 // [Help("Get scaled elasticity coefficient with respect to a global parameter or species")]
@@ -1280,7 +1300,7 @@ void RoadRunner::setTimeCourseSelectionList(const string& list)
 
 // Help("Set the columns to be returned by simulate() or simulateEx(), valid symbol names include" +
 //              " time, species names, , volume, reaction rates and rates of change (speciesName')")
-void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
+void RoadRunner::setTimeCourseSelectionList(const vector<string>& _selList)
 {
     if (!mModel)
     {
@@ -1288,15 +1308,15 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
     }
 
     mSelectionList.clear();
-    StringList newSelectionList(_selList);
-    StringList fs = mModel->getFloatingSpeciesConcentrationNames();
-    StringList bs = mModel->getBoundarySpeciesNames();
-    StringList rs = mModel->getReactionNames();
-    StringList vol= mModel->getCompartmentNames();
-    StringList gp = mModel->getGlobalParameterNames();
+    vector<string> newSelectionList(_selList);
+    vector<string> fs = getFloatingSpeciesIds();
+    vector<string> bs = getBoundarySpeciesIds();
+    vector<string> rs = getReactionIds();
+    vector<string> vol= getCompartmentIds();
+    vector<string> gp = getGlobalParameterIds();
 //    StringList sr = mModelGenerator->ModifiableSpeciesReferenceList;
 
-    for (int i = 0; i < _selList.Count(); i++)
+    for (int i = 0; i < _selList.size(); i++)
     {
         if (toUpper(newSelectionList[i]) == toUpper("time"))
         {
@@ -1304,7 +1324,7 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
         }
 
         // Check for species
-        for (int j = 0; j < fs.Count(); j++)
+        for (int j = 0; j < fs.size(); j++)
         {
             if (newSelectionList[i] == fs[j])
             {
@@ -1327,7 +1347,7 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
         }
 
         // Check fgr boundary species
-        for (int j = 0; j < bs.Count(); j++)
+        for (int j = 0; j < bs.size(); j++)
         {
             if (newSelectionList[i] == bs[j])
             {
@@ -1341,7 +1361,7 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
             }
         }
 
-        for (int j = 0; j < rs.Count(); j++)
+        for (int j = 0; j < rs.size(); j++)
         {
             // Check for reaction rate
             if (newSelectionList[i] == rs[j])
@@ -1351,7 +1371,7 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
             }
         }
 
-        for (int j = 0; j < vol.Count(); j++)
+        for (int j = 0; j < vol.size(); j++)
         {
             // Check for volume
             if (newSelectionList[i] == vol[j])
@@ -1367,7 +1387,7 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
             }
         }
 
-        for (int j = 0; j < gp.Count(); j++)
+        for (int j = 0; j < gp.size(); j++)
         {
             if (newSelectionList[i] == gp[j])
             {
@@ -1384,7 +1404,7 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
             mSelectionList.push_back(SelectionRecord(i, clEigenValue, species));
 //            mSelectionList[i].selectionType = SelectionType::clEigenValue;
 //            mSelectionList[i].p1 = species;
-            int aIndex = fs.find(species);
+            int aIndex = indexOf(fs, species);
             mSelectionList[i].index = aIndex;
             //mModelGenerator->floatingSpeciesConcentrationList.find(species, mSelectionList[i].index);
         }
@@ -1838,12 +1858,12 @@ NewArrayList RoadRunner::getFluxControlCoefficientIds()
         return oResult;
     }
 
-    StringList oReactions       = getReactionIds();
-    StringList oParameters      = mModel->getGlobalParameterNames();
-    StringList oBoundary        = mModel->getBoundarySpeciesNames();
-    StringList oConservation    = mModel->getConservationNames();
+    vector<string> oReactions       = getReactionIds();
+    vector<string> oParameters      = getGlobalParameterIds();
+    vector<string> oBoundary        = getBoundarySpeciesIds();
+    vector<string> oConservation    = mModel->getConservationNames();
 
-    for(int i = 0; i < oReactions.Count(); i++)
+    for(int i = 0; i < oReactions.size(); i++)
     {
         string s = oReactions[i];
 
@@ -1851,17 +1871,17 @@ NewArrayList RoadRunner::getFluxControlCoefficientIds()
         StringList oInner;
         oCCReaction.Add(s);
 
-        for(int i = 0; i < oParameters.Count(); i++)
+        for(int i = 0; i < oParameters.size(); i++)
         {
             oInner.add("CC:" + s + "," + oParameters[i]);
         }
 
-        for(int i = 0; i < oBoundary.Count(); i++)
+        for(int i = 0; i < oBoundary.size(); i++)
         {
             oInner.add("CC:" + s + "," + oBoundary[i]);
         }
 
-        for(int i = 0; i < oConservation.Count(); i++)
+        for(int i = 0; i < oConservation.size(); i++)
         {
             oInner.add("CC:" + s + "," + oConservation[i]);
         }
@@ -1882,32 +1902,32 @@ NewArrayList RoadRunner::getUnscaledFluxControlCoefficientIds()
         return oResult;
     }
 
-    StringList oReactions = getReactionIds();
-    StringList oParameters = mModel->getGlobalParameterNames();
-    StringList oBoundary = mModel->getBoundarySpeciesNames();
-    StringList oConservation = mModel->getConservationNames();
+    vector<string> oReactions = getReactionIds();
+    vector<string> oParameters = getGlobalParameterIds();
+    vector<string> oBoundary = getBoundarySpeciesIds();
+    vector<string> oConservation = mModel->getConservationNames();
 
-    for(int i = 0; i < oReactions.Count(); i++)
+    for(int i = 0; i < oReactions.size(); i++)
     {
         string s = oReactions[i];
 
         NewArrayList oCCReaction;
-        StringList oInner;
+        vector<string> oInner;
         oCCReaction.Add(s);
 
-        for(int i = 0; i < oParameters.Count(); i++)
+        for(int i = 0; i < oParameters.size(); i++)
         {
-            oInner.add("uCC:" + s + "," + oParameters[i]);
+            oInner.push_back("uCC:" + s + "," + oParameters[i]);
         }
 
-        for(int i = 0; i < oBoundary.Count(); i++)
+        for(int i = 0; i < oBoundary.size(); i++)
         {
-            oInner.add("uCC:" + s + "," + oBoundary[i]);
+            oInner.push_back("uCC:" + s + "," + oBoundary[i]);
         }
 
-        for(int i = 0; i < oConservation.Count(); i++)
+        for(int i = 0; i < oConservation.size(); i++)
         {
-            oInner.add("uCC:" + s + "," + oConservation[i]);
+            oInner.push_back("uCC:" + s + "," + oConservation[i]);
         }
 
         oCCReaction.Add(oInner);
@@ -1926,29 +1946,29 @@ NewArrayList RoadRunner::getConcentrationControlCoefficientIds()
         return oResult;
     }
 
-    StringList oFloating        = getFloatingSpeciesIds();
-    StringList oParameters      = mModel->getGlobalParameterNames();
-    StringList oBoundary        = mModel->getBoundarySpeciesNames();
-    StringList oConservation    = mModel->getConservationNames();
+    vector<string> oFloating        = getFloatingSpeciesIds();
+    vector<string> oParameters      = getGlobalParameterIds();
+    vector<string> oBoundary        = getBoundarySpeciesIds();
+    vector<string> oConservation    = mModel->getConservationNames();
 
-    for(int i = 0; i < oFloating.Count(); i++)
+    for(int i = 0; i < oFloating.size(); i++)
     {
         string s = oFloating[i];
         NewArrayList oCCFloating;
         StringList oInner;
         oCCFloating.Add(s);
 
-        for(int i = 0; i < oParameters.Count(); i++)
+        for(int i = 0; i < oParameters.size(); i++)
         {
             oInner.add("CC:" + s + "," + oParameters[i]);
         }
 
-        for(int i = 0; i < oBoundary.Count(); i++)
+        for(int i = 0; i < oBoundary.size(); i++)
         {
             oInner.add("CC:" + s + "," + oBoundary[i]);
         }
 
-        for(int i = 0; i < oConservation.Count(); i++)
+        for(int i = 0; i < oConservation.size(); i++)
         {
             oInner.add("CC:" + s + "," + oConservation[i]);
         }
@@ -1969,31 +1989,31 @@ NewArrayList RoadRunner::getUnscaledConcentrationControlCoefficientIds()
         return oResult;
     }
 
-    StringList oFloating        = getFloatingSpeciesIds();
-    StringList oParameters      = mModel->getGlobalParameterNames();
-    StringList oBoundary        = mModel->getBoundarySpeciesNames();
-    StringList oConservation    = mModel->getConservationNames();
+    vector<string> oFloating        = getFloatingSpeciesIds();
+    vector<string> oParameters      = getGlobalParameterIds();
+    vector<string> oBoundary        = getBoundarySpeciesIds();
+    vector<string> oConservation    = mModel->getConservationNames();
 
-    for(int i = 0; i < oFloating.Count(); i++)
+    for(int i = 0; i < oFloating.size(); i++)
     {
         string s = oFloating[i];
         NewArrayList oCCFloating;
-        StringList oInner;
+        vector<string> oInner;
         oCCFloating.Add(s);
 
-        for(int i = 0; i < oParameters.Count(); i++)
+        for(int i = 0; i < oParameters.size(); i++)
         {
-            oInner.add("uCC:" + s + "," + oParameters[i]);
+            oInner.push_back("uCC:" + s + "," + oParameters[i]);
         }
 
-        for(int i = 0; i < oBoundary.Count(); i++)
+        for(int i = 0; i < oBoundary.size(); i++)
         {
-            oInner.add("uCC:" + s + "," + oBoundary[i]);
+            oInner.push_back("uCC:" + s + "," + oBoundary[i]);
         }
 
-        for(int i = 0; i < oConservation.Count(); i++)
+        for(int i = 0; i < oConservation.size(); i++)
         {
-            oInner.add("uCC:" + s + "," + oConservation[i]);
+            oInner.push_back("uCC:" + s + "," + oConservation[i]);
         }
 
         oCCFloating.Add(oInner);
@@ -2012,35 +2032,35 @@ NewArrayList RoadRunner::getElasticityCoefficientIds()
         return oResult;
     }
 
-    StringList reactionNames        = getReactionIds();
-    StringList floatingSpeciesNames = mModel->getFloatingSpeciesConcentrationNames();
-    StringList boundarySpeciesNames = mModel->getBoundarySpeciesNames();
-    StringList conservationNames    = mModel->getConservationNames();
-    StringList globalParameterNames = mModel->getGlobalParameterNames();
+    vector<string> reactionNames        = getReactionIds();
+    vector<string> floatingSpeciesNames = getFloatingSpeciesIds();
+    vector<string> boundarySpeciesNames = getBoundarySpeciesIds();
+    vector<string> conservationNames    = mModel->getConservationNames();
+    vector<string> globalParameterNames = getGlobalParameterIds();
 
-    for(int i = 0; i < reactionNames.Count(); i++)
+    for(int i = 0; i < reactionNames.size(); i++)
     {
         string reac_name = reactionNames[i];
         NewArrayList oCCReaction;
         oCCReaction.Add(reac_name);
         StringList oInner;
 
-        for(int j = 0; j < floatingSpeciesNames.Count(); j++)
+        for(int j = 0; j < floatingSpeciesNames.size(); j++)
         {
             oInner.add(format("EE:{0},{1}", reac_name, floatingSpeciesNames[j]));
         }
 
-        for(int j = 0; j < boundarySpeciesNames.Count(); j++)
+        for(int j = 0; j < boundarySpeciesNames.size(); j++)
         {
             oInner.add(format("EE:{0},{1}", reac_name, boundarySpeciesNames[j]));
         }
 
-        for(int j = 0; j < globalParameterNames.Count(); j++)
+        for(int j = 0; j < globalParameterNames.size(); j++)
         {
             oInner.add(format("EE:{0},{1}", reac_name, globalParameterNames[j]));
         }
 
-        for(int j = 0; j < conservationNames.Count(); j++)
+        for(int j = 0; j < conservationNames.size(); j++)
         {
             oInner.add(format("EE:{0},{1}", reac_name, conservationNames[j]));
         }
@@ -2061,38 +2081,38 @@ NewArrayList RoadRunner::getUnscaledElasticityCoefficientIds()
         return oResult;
     }
 
-    StringList oReactions( getReactionIds() );
-    StringList oFloating = mModel->getFloatingSpeciesConcentrationNames();
-    StringList oBoundary = mModel->getBoundarySpeciesNames();
-    StringList oGlobalParameters = mModel->getGlobalParameterNames();
-    StringList oConservation = mModel->getConservationNames();
+    vector<string> oReactions( getReactionIds() );
+    vector<string> oFloating = getFloatingSpeciesIds();
+    vector<string> oBoundary = getBoundarySpeciesIds();
+    vector<string> oGlobalParameters = getGlobalParameterIds();
+    vector<string> oConservation = mModel->getConservationNames();
 
-    for(int i = 0; i < oReactions.Count(); i++)
+    for(int i = 0; i < oReactions.size(); i++)
     {
         string reac_name = oReactions[i];
         NewArrayList oCCReaction;
         StringList oInner;
         oCCReaction.Add(reac_name);
 
-        for(int j = 0; j < oFloating.Count(); j++)
+        for(int j = 0; j < oFloating.size(); j++)
         {
             string variable = oFloating[j];
             oInner.add(format("uEE:{0},{1}", reac_name, variable));
         }
 
-        for(int j = 0; j < oBoundary.Count(); j++)
+        for(int j = 0; j < oBoundary.size(); j++)
         {
             string variable = oBoundary[j];
             oInner.add(format("uEE:{0},{1}", reac_name, variable));
         }
 
-        for(int j = 0; j < oGlobalParameters.Count(); j++)
+        for(int j = 0; j < oGlobalParameters.size(); j++)
         {
             string variable = oGlobalParameters[j];
             oInner.add(format("uEE:{0},{1}", reac_name, variable));
         }
 
-        for(int j = 0; j < oConservation.Count(); j++)
+        for(int j = 0; j < oConservation.size(); j++)
         {
             string variable = oConservation[j];
             oInner.add(format("uEE:{0},{1}", reac_name, variable));
@@ -2106,19 +2126,19 @@ NewArrayList RoadRunner::getUnscaledElasticityCoefficientIds()
 }
 
 // Help("Returns the Symbols of all Floating Species Eigenvalues.")
-StringList RoadRunner::getEigenvalueIds()
+vector<string> RoadRunner::getEigenvalueIds()
 {
     if (!mModel)
     {
-        return StringList();
+        return vector<string>();
     }
 
-    StringList result;
-    StringList floating = mModel->getFloatingSpeciesConcentrationNames();
+    vector<string> result;
+    vector<string> floating = getFloatingSpeciesIds();
 
-    for(int i = 0; i < floating.Count(); i++)
+    for(int i = 0; i < floating.size(); i++)
     {
-        result.add("eigen_" + floating[i]);
+        result.push_back("eigen_" + floating[i]);
     }
 
     return result;
@@ -2137,17 +2157,17 @@ NewArrayList RoadRunner::getAvailableSteadyStateSymbols()
 
     oResult.Add("Floating Species",                                 getFloatingSpeciesIds() );
     oResult.Add("Boundary Species",                                 getBoundarySpeciesIds() );
-    oResult.Add("Floating Species (amount)",                         getFloatingSpeciesAmountIds() );
-    oResult.Add("Boundary Species (amount)",                         getBoundarySpeciesAmountIds() );
-    oResult.Add("Global Parameters",                                 getParameterIds() );
-    oResult.Add("Volumes",                                             mModel->getCompartmentNames() );
-    oResult.Add("Fluxes",                                             getReactionIds() );
-    oResult.Add("Flux Control Coefficients",                         getFluxControlCoefficientIds() );
-    oResult.Add("Concentration Control Coefficients",                 getConcentrationControlCoefficientIds() );
-    oResult.Add("Unscaled Concentration Control Coefficients",        getUnscaledConcentrationControlCoefficientIds());
-    oResult.Add("Elasticity Coefficients",                             getElasticityCoefficientIds() );
+    oResult.Add("Floating Species (amount)",                        getFloatingSpeciesAmountIds() );
+    oResult.Add("Boundary Species (amount)",                        getBoundarySpeciesAmountIds() );
+    oResult.Add("Global Parameters",                                getParameterIds() );
+    oResult.Add("Volumes",                                          getCompartmentIds() );
+    oResult.Add("Fluxes",                                           getReactionIds() );
+    oResult.Add("Flux Control Coefficients",                        getFluxControlCoefficientIds() );
+    oResult.Add("Concentration Control Coefficients",               getConcentrationControlCoefficientIds() );
+    oResult.Add("Unscaled Concentration Control Coefficients",      getUnscaledConcentrationControlCoefficientIds());
+    oResult.Add("Elasticity Coefficients",                          getElasticityCoefficientIds() );
     oResult.Add("Unscaled Elasticity Coefficients",                 getUnscaledElasticityCoefficientIds() );
-    oResult.Add("Eigenvalues",                                         getEigenvalueIds() );
+    oResult.Add("Eigenvalues",                                      getEigenvalueIds() );
 
     return oResult;
 }
@@ -2156,9 +2176,9 @@ int RoadRunner::createDefaultSteadyStateSelectionList()
 {
     mSteadyStateSelection.clear();
     // default should be species only ...
-    StringList floatingSpecies = getFloatingSpeciesIds();
-    mSteadyStateSelection.resize(floatingSpecies.Count());
-    for (int i = 0; i < floatingSpecies.Count(); i++)
+    vector<string> floatingSpecies = getFloatingSpeciesIds();
+    mSteadyStateSelection.resize(floatingSpecies.size());
+    for (int i = 0; i < floatingSpecies.size(); i++)
     {
         SelectionRecord aRec;
         aRec.selectionType = SelectionType::clFloatingSpecies;
@@ -2170,7 +2190,7 @@ int RoadRunner::createDefaultSteadyStateSelectionList()
 }
 
 // Help("Returns the selection list as returned by computeSteadyStateValues().")
-StringList RoadRunner::getSteadyStateSelectionList()
+vector<string> RoadRunner::getSteadyStateSelectionList()
 {
     if (!mModel)
     {
@@ -2182,78 +2202,78 @@ StringList RoadRunner::getSteadyStateSelectionList()
           createDefaultSteadyStateSelectionList();
     }
 
-    StringList oFloating     = mModel->getFloatingSpeciesConcentrationNames();
-    StringList oBoundary     = mModel->getBoundarySpeciesNames();
-    StringList oFluxes       = mModel->getReactionNames();
-    StringList oVolumes      = mModel->getCompartmentNames();
-    StringList oRates        = getRateOfChangeIds();
-    StringList oParameters   = getParameterIds();
+    vector<string> oFloating     = getFloatingSpeciesIds();
+    vector<string> oBoundary     = getBoundarySpeciesIds();
+    vector<string> oFluxes       = getReactionIds();
+    vector<string> oVolumes      = getCompartmentIds();
+    vector<string> oRates        = getRateOfChangeIds();
+    vector<string> oParameters   = getParameterIds();
 
-    StringList result;
+    vector<string> result;
     for(int i = 0; i < mSteadyStateSelection.size(); i++)
     {
         SelectionRecord record = mSteadyStateSelection[i];
         switch (record.selectionType)
         {
             case SelectionType::clTime:
-                result.add("time");
+                result.push_back("time");
             break;
             case SelectionType::clBoundaryAmount:
-                result.add(format("[{0}]", oBoundary[record.index]));
+                result.push_back(format("[{0}]", oBoundary[record.index]));
             break;
             case SelectionType::clBoundarySpecies:
-                result.add(oBoundary[record.index]);
+                result.push_back(oBoundary[record.index]);
             break;
             case SelectionType::clFloatingAmount:
-                result.add("[" + (string)oFloating[record.index] + "]");
+                result.push_back("[" + (string)oFloating[record.index] + "]");
             break;
             case SelectionType::clFloatingSpecies:
-                result.add(oFloating[record.index]);
+                result.push_back(oFloating[record.index]);
             break;
             case SelectionType::clVolume:
-                result.add(oVolumes[record.index]);
+                result.push_back(oVolumes[record.index]);
             break;
             case SelectionType::clFlux:
-                result.add(oFluxes[record.index]);
+                result.push_back(oFluxes[record.index]);
             break;
             case SelectionType::clRateOfChange:
-                result.add(oRates[record.index]);
+                result.push_back(oRates[record.index]);
             break;
             case SelectionType::clParameter:
-                result.add(oParameters[record.index]);
+                result.push_back(oParameters[record.index]);
             break;
             case SelectionType::clEigenValue:
-                result.add("eigen_" + record.p1);
+                result.push_back("eigen_" + record.p1);
             break;
             case SelectionType::clElasticity:
-                result.add("EE:" + record.p1 + "," + record.p2);
+                result.push_back("EE:" + record.p1 + "," + record.p2);
             break;
             case SelectionType::clUnscaledElasticity:
-                result.add("uEE:" + record.p1 + "," + record.p2);
+                result.push_back("uEE:" + record.p1 + "," + record.p2);
             break;
             case SelectionType::clUnknown:
-                result.add(record.p1);
+                result.push_back(record.p1);
                 break;
         }
     }
     return result ;
 }
 
-vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& newSelectionList)
+vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const vector<string>& newSelectionList)
 {
     vector<SelectionRecord> steadyStateSelection;
-    steadyStateSelection.resize(newSelectionList.Count());
-    StringList fs = mModel->getFloatingSpeciesConcentrationNames();
-    StringList bs = mModel->getBoundarySpeciesNames();
-    StringList rs = mModel->getReactionNames();
-    StringList vol = mModel->getCompartmentNames();
-    StringList gp = mModel->getGlobalParameterNames();
+    steadyStateSelection.resize(newSelectionList.size());
+    vector<string> fs = getFloatingSpeciesIds();
+    vector<string> bs = getBoundarySpeciesIds();
+    vector<string> rs = getReactionIds();
+    vector<string> vol = getCompartmentIds();
+    vector<string> gp = getGlobalParameterIds();
 
-    for (int i = 0; i < newSelectionList.Count(); i++)
+    for (int i = 0; i < newSelectionList.size(); i++)
     {
         bool set = false;
         // Check for species
-        for (int j = 0; j < fs.Count(); j++)
+        for (int j = 0; j < fs.size(); j++)
         {
             if ((string)newSelectionList[i] == (string)fs[j])
             {
@@ -2287,7 +2307,7 @@ vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& ne
         }
 
         // Check fgr boundary species
-        for (int j = 0; j < bs.Count(); j++)
+        for (int j = 0; j < bs.size(); j++)
         {
             if ((string)newSelectionList[i] == (string)bs[j])
             {
@@ -2316,7 +2336,7 @@ vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& ne
             set = true;
         }
 
-        for (int j = 0; j < rs.Count(); j++)
+        for (int j = 0; j < rs.size(); j++)
         {
             // Check for reaction rate
             if ((string)newSelectionList[i] == (string)rs[j])
@@ -2328,7 +2348,7 @@ vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& ne
             }
         }
 
-        for (int j = 0; j < vol.Count(); j++)
+        for (int j = 0; j < vol.size(); j++)
         {
             // Check for volume
             if ((string)newSelectionList[i] == (string)vol[j])
@@ -2340,7 +2360,7 @@ vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& ne
             }
         }
 
-        for (int j = 0; j < gp.Count(); j++)
+        for (int j = 0; j < gp.size(); j++)
         {
             // Check for volume
             if ((string)newSelectionList[i] == (string)gp[j])
@@ -2365,7 +2385,7 @@ vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& ne
 }
 
 // Help("sets the selection list as returned by computeSteadyStateValues().")
-void RoadRunner::setSteadyStateSelectionList(const StringList& newSelectionList)
+void RoadRunner::setSteadyStateSelectionList(const vector<string>& newSelectionList)
 {
     if (!mModel)
     {
@@ -2510,26 +2530,26 @@ string RoadRunner::writeSBML()
     ModelState state(*mModel);
 //    var state = new ModelState(model);
 
-    StringList array = getFloatingSpeciesIds();
-    for (int i = 0; i < array.Count(); i++)
+    vector<string> array = getFloatingSpeciesIds();
+    for (int i = 0; i < array.size(); i++)
     {
         NOM.setValue((string)array[i], state.mFloatingSpeciesConcentrations[i]);
     }
 
     array = getBoundarySpeciesIds();
-    for (int i = 0; i < array.Count(); i++)
+    for (int i = 0; i < array.size(); i++)
     {
         NOM.setValue((string)array[i], state.mBoundarySpeciesConcentrations[i]);
     }
 
     array = getCompartmentIds();
-    for (int i = 0; i < array.Count(); i++)
+    for (int i = 0; i < array.size(); i++)
     {
         NOM.setValue((string)array[i], state.mCompartmentVolumes[i]);
     }
 
     array = getGlobalParameterIds();
-    for (int i = 0; i < min((int) array.Count(), (int) state.mGlobalParameters.size()); i++)
+    for (int i = 0; i < min((int) array.size(), (int) state.mGlobalParameters.size()); i++)
     {
         NOM.setValue((string)array[i], state.mGlobalParameters[i]);
     }
@@ -2731,33 +2751,24 @@ vector<double> RoadRunner::getBoundarySpeciesConcentrations()
     return createVector(mModel->getModelData().boundarySpeciesConcentrations, mModel->getModelData().numBoundarySpecies);
 }
 
-// Help("Set the concentrations for all boundary species in the model")
-//        void RoadRunner::setBoundarySpeciesConcentrations(double[] values)
-//        {
-//            if (!mModel) throw CoreException(gEmptyModelMessage);
-//
-//            mModel->getModelData().bc = values;
-//        }
+
 
 // Help("Gets the list of boundary species names")
-StringList RoadRunner::getBoundarySpeciesIds()
+vector<string> RoadRunner::getBoundarySpeciesIds()
 {
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-    return mModel->getBoundarySpeciesNames();
+    return createModelStringList(mModel, &ExecutableModel::getNumBoundarySpecies,
+            &ExecutableModel::getBoundarySpeciesName);
 }
 
 // Help("Gets the list of boundary species amount names")
-StringList RoadRunner::getBoundarySpeciesAmountIds()
+vector<string> RoadRunner::getBoundarySpeciesAmountIds()
 {
-    StringList result;// = new ArrayList();
-    StringList list = getBoundarySpeciesIds();
+    vector<string> result;// = new ArrayList();
+    vector<string> list = getBoundarySpeciesIds();
 //    foreach (string s in getBoundarySpeciesIds()) oResult.add("[" + s + "]");
-    for(int item = 0; item < list.Count(); item++)// (object item in floatingSpeciesNames)
+    for(int item = 0; item < list.size(); item++)// (object item in floatingSpeciesNames)
     {
-        result.add(format("[{0}]", list[item]));
+        result.push_back(format("[{0}]", list[item]));
     }
 
     return result;
@@ -2932,41 +2943,38 @@ void RoadRunner::setBoundarySpeciesConcentrations(const vector<double>& values)
 
 // This is a Level 1 method !
 // Help("Returns a list of floating species names")
-StringList RoadRunner::getFloatingSpeciesIds()
+vector<string> RoadRunner::getFloatingSpeciesIds()
 {
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-    return mModel->getFloatingSpeciesConcentrationNames(); // Reordered list
+    return createModelStringList(mModel, &ExecutableModel::getNumFloatingSpecies,
+            &ExecutableModel::getFloatingSpeciesName);
 }
 
 // Help("Returns a list of floating species initial condition names")
-StringList RoadRunner::getFloatingSpeciesInitialConditionIds()
+vector<string> RoadRunner::getFloatingSpeciesInitialConditionIds()
 {
     if (!mModel)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    StringList floatingSpeciesNames = mModel->getFloatingSpeciesConcentrationNames();
-    StringList result;// = new ArrayList();
-    for(int item = 0; item < floatingSpeciesNames.Count(); item++)// (object item in floatingSpeciesNames)
+    vector<string> floatingSpeciesNames = getFloatingSpeciesIds();
+    vector<string> result;// = new ArrayList();
+    for(int item = 0; item < floatingSpeciesNames.size(); item++)// (object item in floatingSpeciesNames)
     {
-        result.add(format("init({0})", floatingSpeciesNames[item]));
+        result.push_back(format("init({0})", floatingSpeciesNames[item]));
     }
     return result;
 }
 
 // Help("Returns the list of floating species amount names")
-StringList RoadRunner::getFloatingSpeciesAmountIds()
+vector<string> RoadRunner::getFloatingSpeciesAmountIds()
 {
-    StringList oResult;
-    StringList list = getFloatingSpeciesIds();
+    vector<string> oResult;
+    vector<string> list = getFloatingSpeciesIds();
 
-    for(int i = 0; i < list.Count(); i++)
+    for(int i = 0; i < list.size(); i++)
     {
-        oResult.add(format("[{0}]", list[i]));
+        oResult.push_back(format("[{0}]", list[i]));
     }
     return oResult;
 }
@@ -2978,7 +2986,7 @@ int RoadRunner::getNumberOfGlobalParameters()
     {
         throw CoreException(gEmptyModelMessage);
     }
-    return mModel->getGlobalParameterNames().Count();
+    return getGlobalParameterIds().size();
 }
 
 // Help("Sets the value of a global parameter by its index")
@@ -3065,13 +3073,10 @@ vector<double> RoadRunner::getGlobalParameterValues()
 }
 
 // Help("Gets the list of parameter names")
-StringList RoadRunner::getGlobalParameterIds()
+vector<string> RoadRunner::getGlobalParameterIds()
 {
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-    return mModel->getGlobalParameterNames();
+    return createModelStringList(mModel, &ExecutableModel::getNumGlobalParameters,
+            &ExecutableModel::getGlobalParameterName);
 }
 
 // Help("Returns a description of the module")
@@ -3706,14 +3711,10 @@ vector<double> RoadRunner::getRatesOfChange()
 }
 
 // Help("Returns a list of reaction names")
-StringList RoadRunner::getReactionIds()
+vector<string> RoadRunner::getReactionIds()
 {
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-
-    return mModel->getReactionNames();
+    return createModelStringList(mModel, &ExecutableModel::getNumReactions,
+            &ExecutableModel::getReactionName);
 }
 
 // ---------------------------------------------------------------------
@@ -3730,7 +3731,7 @@ Capability* RoadRunner::getCapability(const string& cap_name)
     return mCapabilities.get(cap_name);
 }
 
-StringList RoadRunner::getListOfCapabilities()
+vector<string> RoadRunner::getListOfCapabilities()
 {
     return mCapabilities.asStringList();
 }
@@ -3750,7 +3751,7 @@ bool RoadRunner::addCapabilities(Capabilities& caps)
     return true;
 }
 
-StringList RoadRunner::getListOfParameters(const string& cap)
+vector<string> RoadRunner::getListOfParameters(const string& cap)
 {
     Capability *aCap = mCapabilities.get(cap);
     if(!aCap)
@@ -3765,7 +3766,7 @@ StringList RoadRunner::getListOfParameters(const string& cap)
     {
         return paras->asStringList();
     }
-    return StringList();
+    return vector<string>();
 }
 
 void RoadRunner::setTolerances(const double& aTol, const double& rTol)
@@ -4000,7 +4001,7 @@ NewArrayList RoadRunner::getAvailableTimeCourseSymbols()
     oResult.Add("Global Parameters",                getParameterIds() );
     oResult.Add("Fluxes",                           getReactionIds() );
     oResult.Add("Rates of Change",                  getRateOfChangeIds() );
-    oResult.Add("Volumes",                          mModel->getCompartmentNames() );
+    oResult.Add("Volumes",                          getCompartmentIds() );
     oResult.Add("Elasticity Coefficients",          getElasticityCoefficientIds() );
     oResult.Add("Unscaled Elasticity Coefficients", getUnscaledElasticityCoefficientIds() );
     oResult.Add("Eigenvalues",                      getEigenvalueIds() );

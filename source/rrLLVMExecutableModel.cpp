@@ -214,44 +214,9 @@ string LLVMExecutableModel::getInfo()
     return "";
 }
 
-const SymbolList& LLVMExecutableModel::getReactions()
-{
-    return *(SymbolList*)0;
-}
-
-const SymbolList& LLVMExecutableModel::getGlobalParameters()
-{
-    return *(SymbolList*)0;
-}
-
-const SymbolList& LLVMExecutableModel::getBoundarySpecies()
-{
-    return *(SymbolList*)0;
-}
-
-const SymbolList& LLVMExecutableModel::getCompartments()
-{
-    return *(SymbolList*)0;
-}
-
 const SymbolList& LLVMExecutableModel::getConservations()
 {
     return *(SymbolList*)0;
-}
-
-const SymbolList& LLVMExecutableModel::getFloatingSpeciesAmounts()
-{
-    return *(SymbolList*)0;
-}
-
-const SymbolList& LLVMExecutableModel::getFloatingSpeciesConcentrations()
-{
-    return *(SymbolList*)0;
-}
-
-const StringList LLVMExecutableModel::getCompartmentNames()
-{
-    return 0;
 }
 
 const StringList LLVMExecutableModel::getConservationNames()
@@ -259,24 +224,64 @@ const StringList LLVMExecutableModel::getConservationNames()
     return 0;
 }
 
-const StringList LLVMExecutableModel::getGlobalParameterNames()
+int LLVMExecutableModel::getFloatingSpeciesIndex(const string& allocator)
 {
     return 0;
 }
 
-const StringList LLVMExecutableModel::getReactionNames()
+string LLVMExecutableModel::getFloatingSpeciesName(int int1)
+{
+    return string();
+}
+
+int LLVMExecutableModel::getBoundarySpeciesIndex(const string& allocator)
 {
     return 0;
 }
 
-const StringList LLVMExecutableModel::getFloatingSpeciesConcentrationNames()
+string LLVMExecutableModel::getBoundarySpeciesName(int int1)
+{
+    return string();
+}
+
+int LLVMExecutableModel::getBoundarySpeciesCompartmentIndex(int int1)
 {
     return 0;
 }
 
-const StringList LLVMExecutableModel::getBoundarySpeciesNames()
+int LLVMExecutableModel::getGlobalParameterIndex(const string& allocator)
 {
     return 0;
+}
+
+string LLVMExecutableModel::getGlobalParameterName(int int1)
+{
+    return string();
+}
+
+int LLVMExecutableModel::getCompartmentIndex(const string& allocator)
+{
+    return 0;
+}
+
+string LLVMExecutableModel::getCompartmentName(int int1)
+{
+    return string();
+}
+
+int LLVMExecutableModel::getReactionIndex(const string& allocator)
+{
+    return 0;
+}
+
+string LLVMExecutableModel::getReactionName(int int1)
+{
+    return string();
+}
+
+LLVMExecutableModel* LLVMExecutableModel::dummy()
+{
+    return new LLVMExecutableModel();
 }
 
 } /* namespace rr */

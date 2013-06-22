@@ -75,20 +75,25 @@ public:
     virtual void initializeRateRuleSymbols();
     virtual string getInfo();
 
-    virtual const SymbolList &getReactions();
-    virtual const SymbolList &getGlobalParameters();
-    virtual const SymbolList &getBoundarySpecies();
-    virtual const SymbolList &getCompartments();
-    virtual const SymbolList &getConservations();
-    virtual const SymbolList &getFloatingSpeciesAmounts();
-    virtual const SymbolList &getFloatingSpeciesConcentrations();
+    virtual int getFloatingSpeciesIndex(const string&);
+    virtual string getFloatingSpeciesName(int);
+    virtual int getBoundarySpeciesIndex(const string&);
+    virtual string getBoundarySpeciesName(int);
+    virtual int getBoundarySpeciesCompartmentIndex(int);
+    virtual int getGlobalParameterIndex(const string&);
+    virtual string getGlobalParameterName(int);
+    virtual int getCompartmentIndex(const string&);
+    virtual string getCompartmentName(int);
+    virtual int getReactionIndex(const string&);
+    virtual string getReactionName(int);
 
-    virtual const StringList getCompartmentNames();
+
+    virtual const SymbolList &getConservations();
+
     virtual const StringList getConservationNames();
-    virtual const StringList getGlobalParameterNames();
-    virtual const StringList getReactionNames();
-    virtual const StringList getFloatingSpeciesConcentrationNames(); //Just returns the Ids...!
-    virtual const StringList getBoundarySpeciesNames();
+
+    static LLVMExecutableModel* dummy();
+
 };
 
 } /* namespace rr */
