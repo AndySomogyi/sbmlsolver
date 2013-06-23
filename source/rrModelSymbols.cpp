@@ -185,7 +185,9 @@ static IntStringHashTable readRateRules(NOMSupport &nom,
 
 ModelSymbols::ModelSymbols() :
     mModelName("NameNotSet"),
+    mBoundarySpeciesList(),
     mNumBoundarySpecies(0),
+    mCompartmentList(),
     mNumCompartments(0),
     mTotalLocalParmeters(0),
     mNumEvents(0),
@@ -193,8 +195,13 @@ ModelSymbols::ModelSymbols() :
     mNumIndependentSpecies(0),
     mNumReactions(0),
     mNumModifiableSpeciesReferences(0),
+    mFloatingSpeciesConcentrationList(),
     mNumFloatingSpecies(0),
-    mNumDependentSpecies(0)
+    mNumDependentSpecies(0),
+    mGlobalParameterList(),
+    mModifiableSpeciesReferenceList(),
+    mReactionList(),
+    mConservationList()
 {
 }
 
