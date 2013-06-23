@@ -7,7 +7,6 @@
 #include "rrObject.h"
 #include "rrTVariableType.h"
 #include "rrTParameterType.h"
-#include "rrCVODEInterface.h"
 #include "rrNLEQInterface.h"
 #include "rrSelectionRecord.h"
 #include "rrRoadRunnerData.h"
@@ -59,7 +58,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
          * The Cvode object get created just after a model is created, it then
          * gets a reference to the model and holds on to it.
          */
-        CvodeInterface                 *mCVode;
+        class CvodeInterface           *mCVode;
         vector<SelectionRecord>         mSelectionList;
 
         /**
@@ -155,7 +154,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
         string                          getlibSBMLVersion();
         bool                            unLoadModel();
         bool                            unLoadModelDLL();
-        CvodeInterface*                 getCVodeInterface();
+
         int                             createDefaultSteadyStateSelectionList();
         int                             createDefaultTimeCourseSelectionList();
         int                             createTimeCourseSelectionList();

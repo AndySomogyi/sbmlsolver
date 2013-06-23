@@ -71,9 +71,9 @@ Plugin*	PluginManager::operator[](const int& i)
     }
 }
 
-typedef Plugin* (*createRRPluginFunc)(RoadRunner*);
-typedef char* 	(*getLangFunc)();
-typedef bool    (*destroyRRPluginFunc)(Plugin* );
+typedef Plugin*     (*createRRPluginFunc)(RoadRunner*);
+typedef const char* (*getLangFunc)();
+typedef bool        (*destroyRRPluginFunc)(Plugin* );
 
 bool PluginManager::load(const string& pluginName)
 {
@@ -138,7 +138,7 @@ bool PluginManager::loadPlugin(const string& pluginName)
         }
 
 		//Check plugin language
-        char* language = getImplementationLanguage(libHandle);
+        const char* language = getImplementationLanguage(libHandle);
 
 		if(strcmp(language, "C") == 0)
         {
@@ -242,7 +242,7 @@ bool PluginManager::checkImplementationLanguage(Poco::SharedLibrary* plugin)
     }
 }
 
-char* PluginManager::getImplementationLanguage(Poco::SharedLibrary* plugin)
+const char* PluginManager::getImplementationLanguage(Poco::SharedLibrary* plugin)
 {
 	//Check that the plugin has a getImplementationLanguage function
     try
