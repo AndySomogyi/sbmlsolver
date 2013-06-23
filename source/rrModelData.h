@@ -42,6 +42,14 @@ typedef void     (*TEventAssignmentDelegate)();
  */
 typedef struct SModelData
 {
+    /**
+     * model name
+     */
+    char*                               modelName;
+
+    /**
+     * current time.
+     */
     double                              time;
 
     /**
@@ -68,38 +76,7 @@ typedef struct SModelData
      * TODO: clean up whatever code that uses this.
      */
     int                                 numReactions;
-
-    /**
-     * number of rate rules, same as numRateRules.
-     * TODO: clean up whatever code that uses this.
-     */
-    int                                 numRules;
-    int                                 numEvents;
-
-    /**
-     * Is set by the model to the names of the FloatingSpeciesConcentrationList.
-     * The model should set each variableTable[i] to a static null terminated string.
-     * allocModelDataBuffers should allocate space for numTotalVariables.
-     * strings.
-     */
-    char**                              variableTable;
-
-    /**
-     * names of boundary table species, set by the model to a static string.
-     * allocModelDataBuffers should allocate numBoundaryVariables length char** array.
-     */
-    char**                              boundaryTable;
-
-    /**
-     * names of global parameters. populated by the model.
-     * allocModelDataBuffers should allocate length numGlobalParameters  char** array.
-     */
-    char**                              globalParameterTable;
-
-    /**
-     * model name
-     */
-    char*                               modelName;
+    double*                             reactionRates;
 
     /**
      * The total ammounts of the floating species, i.e.
@@ -183,12 +160,6 @@ typedef struct SModelData
 
 
 
-    /**
-     * number of reactions and the reaction rates
-     */
-    int                                 ratesSize;
-    double*                             rates;
-
     int                                 numRateRules;
     double*                             rateRules;
 
@@ -199,6 +170,7 @@ typedef struct SModelData
     int*                                localParameterDimensions;
 
     //Event stuff
+    int                                 numEvents;
     int                                 eventTypeSize;
     bool*                               eventType;
 
@@ -222,6 +194,26 @@ typedef struct SModelData
 
     TComputeEventAssignmentDelegate*    computeEventAssignments;
     TPerformEventAssignmentDelegate*    performEventAssignments;
+
+    /**
+     * Is set by the model to the names of the FloatingSpeciesConcentrationList.
+     * The model should set each variableTable[i] to a static null terminated string.
+     * allocModelDataBuffers should allocate space for numTotalVariables.
+     * strings.
+     */
+    char**                              variableTable;
+
+    /**
+     * names of boundary table species, set by the model to a static string.
+     * allocModelDataBuffers should allocate numBoundaryVariables length char** array.
+     */
+    char**                              boundaryTable;
+
+    /**
+     * names of global parameters. populated by the model.
+     * allocModelDataBuffers should allocate length numGlobalParameters  char** array.
+     */
+    char**                              globalParameterTable;
 
 } ModelData;
 //#pragma pack(pop)

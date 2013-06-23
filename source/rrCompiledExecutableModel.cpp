@@ -101,11 +101,6 @@ int CompiledExecutableModel::getNumReactions()
     return mData.numReactions;
 }
 
-int CompiledExecutableModel::getNumRules()
-{
-    return mData.numRules;
-}
-
 int CompiledExecutableModel::getNumEvents()
 {
     return mData.numEvents;
@@ -234,7 +229,6 @@ bool CompiledExecutableModel::setupModelData()
     mData.numEvents                     = ms.mNumEvents;
     mData.numFloatingSpecies            = ms.mFloatingSpeciesConcentrationList.size();
     mData.numRateRules                  = ms.mRateRules.size();
-    mData.ratesSize                     = ms.mNumReactions;
     mData.ctSize                        = ms.mNumDependentSpecies;
     mData.gpSize                        = ms.mNumGlobalParameters + ms.mTotalLocalParmeters;
     mData.numCompartments               = ms.mCompartmentList.size();
