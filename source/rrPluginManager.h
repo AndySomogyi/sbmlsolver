@@ -24,7 +24,7 @@ class RR_DECLSPEC PluginManager : public rrObject
 
         RoadRunner		   			*mRR;		//This is a handle to the roadRunner instance, creating the pluginManager
 		bool						checkImplementationLanguage(SharedLibrary* plugin);
-		char* 						getImplementationLanguage(SharedLibrary* plugin);
+		const char* 				getImplementationLanguage(SharedLibrary* plugin);
         Plugin* 					createCPlugin(SharedLibrary *libHandle);
 
     public:

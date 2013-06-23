@@ -21,6 +21,7 @@
 #include "rrCapabilities.h"
 #include "rrConstants.h"
 #include "rrVersionInfo.h"
+#include "rrCVODEInterface.h"
 //---------------------------------------------------------------------------
 
 namespace rr
@@ -199,14 +200,6 @@ Compiler* RoadRunner::getCompiler()
     return mModelGenerator ? mModelGenerator->getCompiler() : 0;
 }
 
-CvodeInterface* RoadRunner::getCVodeInterface()
-{
-    if(!mCVode)// && mModel != NULL)
-    {
-        mCVode = new CvodeInterface(this, mModel);
-    }
-    return mCVode;
-}
 
 bool RoadRunner::setCompiler(const string& compiler)
 {
