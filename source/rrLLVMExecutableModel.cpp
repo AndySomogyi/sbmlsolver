@@ -82,10 +82,6 @@ int LLVMExecutableModel::getNumReactions()
     return 0;
 }
 
-int LLVMExecutableModel::getNumRules()
-{
-    return 0;
-}
 
 int LLVMExecutableModel::getNumEvents()
 {

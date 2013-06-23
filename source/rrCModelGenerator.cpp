@@ -905,7 +905,7 @@ void CModelGenerator::writeComputeReactionRates(CodeBuilder& ignore, const int& 
 
         // modify to use current y ...
         modKineticLaw = substitute(modKineticLaw, "_y[", "y[");
-        string expression = format("\n\tmd->rates[{0}] = {1}{2}", i, modKineticLaw, NL());
+        string expression = format("\n\tmd->reactionRates[{0}] = {1}{2}", i, modKineticLaw, NL());
 
         if(expression.find("spf_and") != string::npos)
         {
@@ -1074,7 +1074,7 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
                             stoich = "";
                         }
                     }
-                    eqnBuilder<<format(" + {0}md->rates[{1}]", stoich, j);
+                    eqnBuilder<<format(" + {0}md->reactionRates[{1}]", stoich, j);
                 }
             }
 
@@ -1127,7 +1127,7 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
                         }
                     }
 
-                    eqnBuilder<<append(format(" - {0}md->rates[{1}]", stoich, j));
+                    eqnBuilder<<append(format(" - {0}md->reactionRates[{1}]", stoich, j));
                 }
             }
         }
@@ -2224,7 +2224,7 @@ void CModelGenerator::substituteWords(const string& reactionName, bool bFixAmoun
     }
     else if (ms.mReactionList.find(s.tokenString, index))
     {
-        mSource<<format("md->rates[{0}]", index);
+        mSource<<format("md->reactionRates[{0}]", index);
     }
     else
     {

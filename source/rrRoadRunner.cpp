@@ -379,7 +379,7 @@ double RoadRunner::getValueForRecord(const SelectionRecord& record)
         break;
 
         case SelectionType::clFlux:
-            dResult = mModel->getModelData().rates[record.index];
+            dResult = mModel->getModelData().reactionRates[record.index];
         break;
 
         case SelectionType::clRateOfChange:
@@ -1134,7 +1134,7 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
     }
 
     mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().floatingSpeciesConcentrations);
-    double variableValue = mModel->getModelData().rates[reactionIndex];
+    double variableValue = mModel->getModelData().reactionRates[reactionIndex];
     double parameterValue = getParameterValue(parameterType, parameterIndex);
     if (variableValue == 0)
     {
@@ -1243,22 +1243,22 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
         setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
         mModel->computeReactionRates(mModel->getTime(),
                 mModel->getModelData().floatingSpeciesConcentrations);
-        double fi = mModel->getModelData().rates[reactionIndex];
+        double fi = mModel->getModelData().reactionRates[reactionIndex];
 
         setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
         mModel->computeReactionRates(mModel->getTime(),
                 mModel->getModelData().floatingSpeciesConcentrations);
-        double fi2 = mModel->getModelData().rates[reactionIndex];
+        double fi2 = mModel->getModelData().reactionRates[reactionIndex];
 
         setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
         mModel->computeReactionRates(mModel->getTime(),
                 mModel->getModelData().floatingSpeciesConcentrations);
-        double fd = mModel->getModelData().rates[reactionIndex];
+        double fd = mModel->getModelData().reactionRates[reactionIndex];
 
         setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
         mModel->computeReactionRates(mModel->getTime(),
                 mModel->getModelData().floatingSpeciesConcentrations);
-        double fd2 = mModel->getModelData().rates[reactionIndex];
+        double fd2 = mModel->getModelData().reactionRates[reactionIndex];
 
         // Use instead the 5th order approximation double unscaledValue = (0.5/hstep)*(fi-fd);
         // The following separated lines avoid small amounts of roundoff error
@@ -1832,7 +1832,7 @@ double RoadRunner::getVariableValue(const TVariableType& variableType, const int
     switch (variableType)
     {
         case vtFlux:
-            return mModel->getModelData().rates[variableIndex];
+            return mModel->getModelData().reactionRates[variableIndex];
 
         case vtSpecies:
             return mModel->getModelData().floatingSpeciesConcentrations[variableIndex];
@@ -2604,7 +2604,7 @@ double RoadRunner::getReactionRate(const int& index)
     {
         mModel->convertToConcentrations();
         mModel->computeReactionRates(0.0, mModel->getModelData().floatingSpeciesConcentrations);
-        return mModel->getModelData().rates[index];
+        return mModel->getModelData().reactionRates[index];
     }
     else
     {
@@ -2645,7 +2645,7 @@ vector<double> RoadRunner::getReactionRatesEx(const vector<double>& values)
     }
 
     mModel->computeReactionRates(0.0, createVector(values));
-    return createVector(mModel->getModelData().rates, mModel->getModelData().ratesSize);
+    return createVector(mModel->getModelData().reactionRates, mModel->getModelData().numReactions);
 }
 
 // Help("Get the number of compartments")
@@ -3267,22 +3267,22 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
     {
         mModel->computeReactionRates(mModel->getTime(),
                 mModel->getModelData().floatingSpeciesConcentrations);
-        double fi = mModel->getModelData().rates[reactionId];
+        double fi = mModel->getModelData().reactionRates[reactionId];
 
         mModel->setConcentration(speciesIndex, originalParameterValue + 2*hstep);
         mModel->computeReactionRates(mModel->getTime(),
                 mModel->getModelData().floatingSpeciesConcentrations);
-        double fi2 = mModel->getModelData().rates[reactionId];
+        double fi2 = mModel->getModelData().reactionRates[reactionId];
 
         mModel->setConcentration(speciesIndex, originalParameterValue - hstep);
         mModel->computeReactionRates(mModel->getTime(),
                 mModel->getModelData().floatingSpeciesConcentrations);
-        double fd = mModel->getModelData().rates[reactionId];
+        double fd = mModel->getModelData().reactionRates[reactionId];
 
         mModel->setConcentration(speciesIndex, originalParameterValue - 2*hstep);
         mModel->computeReactionRates(mModel->getTime(),
                 mModel->getModelData().floatingSpeciesConcentrations);
-        double fd2 = mModel->getModelData().rates[reactionId];
+        double fd2 = mModel->getModelData().reactionRates[reactionId];
 
         // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
         // The following separated lines avoid small amounts of roundoff error
@@ -3353,7 +3353,7 @@ DoubleMatrix RoadRunner::getScaledReorderedElasticityMatrix()
         mModel->convertToConcentrations();
         mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().floatingSpeciesConcentrations);
         vector<double> rates;
-        if(!copyCArrayToStdVector(mModel->getModelData().rates, rates, mModel->getModelData().ratesSize))
+        if(!copyCArrayToStdVector(mModel->getModelData().reactionRates, rates, mModel->getModelData().numReactions))
         {
             throw CoreException("Failed to copy model->rates");
         }
@@ -3361,7 +3361,7 @@ DoubleMatrix RoadRunner::getScaledReorderedElasticityMatrix()
         for (int i = 0; i < uelast.RSize(); i++)
         {
             // Rows are rates
-            if (mModel->getModelData().ratesSize == 0 || rates[i] == 0)
+            if (mModel->getModelData().numReactions == 0 || rates[i] == 0)
             {
                 string name;
                 if(mModelGenerator && mModel->getNumReactions())
@@ -3414,7 +3414,7 @@ double RoadRunner::getScaledFloatingSpeciesElasticity(const string& reactionName
         }
 
         return getUnscaledSpeciesElasticity(reactionIndex, speciesIndex)*
-               mModel->getConcentration(speciesIndex)/mModel->getModelData().rates[reactionIndex];
+               mModel->getConcentration(speciesIndex)/mModel->getModelData().reactionRates[reactionIndex];
 
     }
     catch (const Exception& e)
@@ -3493,7 +3493,9 @@ DoubleMatrix RoadRunner::getScaledConcentrationControlCoefficientMatrix()
                     {
                         if(mModel->getConcentration(i) != 0.0)
                         {
-                            ucc[i][j] = ucc[i][j]*mModel->getModelData().rates[j]/mModel->getConcentration(i);
+                            ucc[i][j] = ucc[i][j] *
+                                    mModel->getModelData().reactionRates[j] /
+                                    mModel->getConcentration(i);
                         }
                         else
                         {
@@ -3565,9 +3567,9 @@ DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
             {
                 for (int j = 0; j < ufcc.CSize(); j++)
                 {
-                    if(mModel->getModelData().rates[i] !=0)
+                    if(mModel->getModelData().reactionRates[i] !=0)
                     {
-                        ufcc[i][j] = ufcc[i][j] * mModel->getModelData().rates[j]/mModel->getModelData().rates[i];
+                        ufcc[i][j] = ufcc[i][j] * mModel->getModelData().reactionRates[j]/mModel->getModelData().reactionRates[i];
                     }
                     else
                     {
@@ -3683,7 +3685,7 @@ vector<double> RoadRunner::getReactionRates()
     mModel->computeReactionRates(0.0, mModel->getModelData().floatingSpeciesConcentrations);
 
     vector<double> _rates;
-    copyCArrayToStdVector(mModel->getModelData().rates, _rates, mModel->getModelData().ratesSize);
+    copyCArrayToStdVector(mModel->getModelData().reactionRates, _rates, mModel->getModelData().numReactions);
     return _rates;
 }
 
@@ -3905,7 +3907,7 @@ double RoadRunner::getValue(const string& sId)
     }
     if ((nIndex = mModel->getReactionIndex(sId)) >= 0)
     {
-        return mModel->getModelData().rates[nIndex];
+        return mModel->getModelData().reactionRates[nIndex];
     }
 
     if (mModel->getConservations().find(sId, nIndex))

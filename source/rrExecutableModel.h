@@ -105,7 +105,6 @@ public:
      */
     virtual std::string getReactionName(int index) = 0;
 
-    virtual int getNumRules() = 0;
     virtual int getNumEvents() = 0;
     virtual void computeEventPriorites() = 0;
     virtual void setConcentration(int index, double value) = 0;

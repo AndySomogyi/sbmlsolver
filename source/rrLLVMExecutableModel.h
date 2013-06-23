@@ -39,7 +39,6 @@ public:
     virtual int getNumGlobalParameters();
     virtual int getNumCompartments();
     virtual int getNumReactions();
-    virtual int getNumRules();
     virtual int getNumEvents();
     virtual void computeEventPriorites();
     virtual void setConcentration(int index, double value);
