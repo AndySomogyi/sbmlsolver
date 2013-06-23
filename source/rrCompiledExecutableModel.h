@@ -90,7 +90,6 @@ public:
      */
     virtual string getReactionName(int index);
 
-    virtual int getNumRules();
     virtual int getNumEvents();
     virtual void computeEventPriorites();
     virtual void setConcentration(int index, double value);
