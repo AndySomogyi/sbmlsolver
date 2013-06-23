@@ -10,7 +10,6 @@
 #include "rrCVODEInterface.h"
 #include "rrNLEQInterface.h"
 #include "rrSelectionRecord.h"
-#include "rrTextWriter.h"
 #include "rrRoadRunnerData.h"
 #include "rrSimulationSettings.h"
 #include "rrCompiler.h"
