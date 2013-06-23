@@ -52,7 +52,6 @@ set(rrSources
     rrStringUtils
     rrSymbol
     rrSymbolList
-    rrTextWriter
     rrTParameterType
     rrTVariableType
     rrUtils
