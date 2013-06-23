@@ -95,7 +95,6 @@ public:
 
     const IntStringHashTable mRateRules;
 
-    const SymbolList mFloatingSpeciesAmountsList;
     static const string mDoubleFormat;
 
 };
