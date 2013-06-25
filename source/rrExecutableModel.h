@@ -84,6 +84,8 @@ public:
     virtual int getNumGlobalParameters() = 0;
     virtual int getGlobalParameterIndex(const string& name) = 0;
     virtual string getGlobalParameterName(int index) = 0;
+    virtual double getGlobalParameterValue(int index) = 0;
+    virtual void setGlobalParameterValue(int index, double value) = 0;
 
     virtual int getNumCompartments() = 0;
     virtual int getCompartmentIndex(const string& name) = 0;

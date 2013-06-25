@@ -392,13 +392,13 @@ double RoadRunner::getValueForRecord(const SelectionRecord& record)
 
         case SelectionType::clParameter:
             {
-                if (record.index > ((mModel->getModelData().gpSize) - 1))
+                if (record.index > ((mModel->getModelData().numGlobalParameters) - 1))
                 {
-                    dResult = mModel->getModelData().ct[record.index - (mModel->getModelData().gpSize)];
+                    dResult = mModel->getModelData().dependentSpeciesConservedSums[record.index - (mModel->getModelData().numGlobalParameters)];
                 }
                 else
                 {
-                    dResult = mModel->getModelData().gp[record.index];
+                    dResult = mModel->getModelData().globalParameters[record.index];
                 }
             }
         break;
@@ -985,7 +985,7 @@ void RoadRunner::setParameterValue(const TParameterType& parameterType, const in
         break;
 
         case TParameterType::ptGlobalParameter:
-            mModel->getModelData().gp[parameterIndex] = value;
+            mModel->getModelData().globalParameters[parameterIndex] = value;
         break;
 
         case TParameterType::ptFloatingSpecies:
@@ -993,7 +993,7 @@ void RoadRunner::setParameterValue(const TParameterType& parameterType, const in
         break;
 
         case TParameterType::ptConservationParameter:
-            mModel->getModelData().ct[parameterIndex] = value;
+            mModel->getModelData().dependentSpeciesConservedSums[parameterIndex] = value;
         break;
 
         case TParameterType::ptLocalParameter:
@@ -1009,14 +1009,14 @@ double RoadRunner::getParameterValue(const TParameterType& parameterType, const 
             return mModel->getModelData().boundarySpeciesConcentrations[parameterIndex];
 
         case TParameterType::ptGlobalParameter:
-            return mModel->getModelData().gp[parameterIndex];
+            return mModel->getModelData().globalParameters[parameterIndex];
 
         // Used when calculating elasticities
         case TParameterType::ptFloatingSpecies:
             return mModel->getModelData().floatingSpeciesConcentrations[parameterIndex];
 
         case TParameterType::ptConservationParameter:
-            return mModel->getModelData().ct[parameterIndex];
+            return mModel->getModelData().dependentSpeciesConservedSums[parameterIndex];
 
         case TParameterType::ptLocalParameter:
             throw Exception("Local parameters not permitted in getParameterValue (getCC?)");
@@ -1219,12 +1219,12 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
         else if ((parameterIndex = mModel->getGlobalParameterIndex(parameterName)) >= 0)
         {
             parameterType = TParameterType::ptGlobalParameter;
-            originalParameterValue = mModel->getModelData().gp[parameterIndex];
+            originalParameterValue = mModel->getModelData().globalParameters[parameterIndex];
         }
         else if (mModel->getConservations().find(parameterName, parameterIndex))
         {
             parameterType = TParameterType::ptConservationParameter;
-            originalParameterValue = mModel->getModelData().ct[parameterIndex];
+            originalParameterValue = mModel->getModelData().dependentSpeciesConservedSums[parameterIndex];
         }
         else
         {
@@ -2562,6 +2562,7 @@ int RoadRunner::getNumberOfLocalParameters(const int& reactionId)
 
 // Returns the value of a global parameter by its index
 // ***** SHOULD WE SUPPORT LOCAL PARAMETERS? ******** (Sept 2, 2012, HMS
+// ***** We will soon...., AS
 double RoadRunner::getLocalParameterByIndex    (const int& reactionId, const int& index)
 {
     if(!mModel)
@@ -2990,22 +2991,11 @@ void RoadRunner::setGlobalParameterByIndex(const int& index, const double& value
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < mModel->getNumGlobalParameters() + mModel->getModelData().ctSize))
+    mModel->setGlobalParameterValue(index, value);
+
+    if ((mModel->getNumGlobalParameters()) && (index < mModel->getNumGlobalParameters() + mModel->getModelData().numDependentSpecies))
     {
-        if (index >= mModel->getNumGlobalParameters())
-        {
-            mModel->getModelData().ct[index - mModel->getNumGlobalParameters()] = value;
-            mModel->updateDependentSpeciesValues(mModel->getModelData().floatingSpeciesConcentrations);
-            mConservedTotalChanged = true;
-        }
-        else
-        {
-            mModel->getModelData().gp[index] = value;
-        }
-    }
-    else
-    {
-        throw CoreException(format("Index in getNumGlobalParameters out of range: [{0}]", index));
+        mConservedTotalChanged = true;
     }
 }
 
@@ -3017,20 +3007,20 @@ double RoadRunner::getGlobalParameterByIndex(const int& index)
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < (mModel->getNumGlobalParameters() + mModel->getModelData().ctSize)))
+    if ((index >= 0) && (index < (mModel->getNumGlobalParameters() + mModel->getModelData().numDependentSpecies)))
     {
-        int arraySize = mModel->getModelData().gpSize + mModel->getModelData().ctSize;
+        int arraySize = mModel->getModelData().numGlobalParameters + mModel->getModelData().numDependentSpecies;
         double* data = new double[arraySize];
 
-        for(int i = 0; i < mModel->getModelData().gpSize; i++)
+        for(int i = 0; i < mModel->getModelData().numGlobalParameters; i++)
         {
-            data[i] = mModel->getModelData().gp[i];
+            data[i] = mModel->getModelData().globalParameters[i];
         }
 
         int tempIndex = 0;
-        for(int i = mModel->getModelData().gpSize; i < arraySize; i++)
+        for(int i = mModel->getModelData().numGlobalParameters; i < arraySize; i++)
         {
-            data[i] = mModel->getModelData().ct[tempIndex++];
+            data[i] = mModel->getModelData().dependentSpeciesConservedSums[tempIndex++];
         }
 
         double result = data[index];
@@ -3049,20 +3039,20 @@ vector<double> RoadRunner::getGlobalParameterValues()
         throw CoreException(gEmptyModelMessage);
     }
 
-    if (mModel->getModelData().ctSize > 0)
+    if (mModel->getModelData().numDependentSpecies > 0)
     {
         vector<double> result; //= new double[mModel->getModelData().gp.Length + mModel->getModelData().ct.Length];
-        result.resize(mModel->getModelData().gpSize + mModel->getModelData().ctSize);
+        result.resize(mModel->getModelData().numGlobalParameters + mModel->getModelData().numDependentSpecies);
 
         //mModel->getModelData().gp.CopyTo(result, 0);
-        copyValues(result,mModel->getModelData().gp, mModel->getModelData().gpSize, 0);
+        copyValues(result,mModel->getModelData().globalParameters, mModel->getModelData().numGlobalParameters, 0);
 
         //mModel->getModelData().ct.CopyTo(result, mModel->getModelData().gp.Length);
-        copyValues(result, mModel->getModelData().ct, mModel->getModelData().ctSize, mModel->getModelData().gpSize);
+        copyValues(result, mModel->getModelData().dependentSpeciesConservedSums, mModel->getModelData().numDependentSpecies, mModel->getModelData().numGlobalParameters);
         return result;
     }
 
-    return createVector(mModel->getModelData().gp, mModel->getModelData().gpSize);
+    return createVector(mModel->getModelData().globalParameters, mModel->getModelData().numGlobalParameters);
 }
 
 // Help("Gets the list of parameter names")
@@ -3116,7 +3106,7 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
         if ((parameterIndex = mModel->getGlobalParameterIndex(parameterName)) >= 0)
         {
             parameterType = TParameterType::ptGlobalParameter;
-            originalParameterValue = mModel->getModelData().gp[parameterIndex];
+            originalParameterValue = mModel->getModelData().globalParameters[parameterIndex];
         }
         else if ((parameterIndex = mModel->getBoundarySpeciesIndex(parameterName)) >= 0)
         {
@@ -3126,7 +3116,7 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
         else if (mModel->getConservations().find(parameterName, parameterIndex))
         {
             parameterType = TParameterType::ptConservationParameter;
-            originalParameterValue = mModel->getModelData().ct[parameterIndex];
+            originalParameterValue = mModel->getModelData().dependentSpeciesConservedSums[parameterIndex];
         }
         else
         {
@@ -3822,7 +3812,7 @@ bool RoadRunner::setValue(const string& sId, const double& dValue)
     int nIndex = -1;
     if ((nIndex = mModel->getGlobalParameterIndex(sId)) >= 0)
     {
-        mModel->getModelData().gp[nIndex] = dValue;
+        mModel->getModelData().globalParameters[nIndex] = dValue;
         return true;
     }
 
@@ -3851,7 +3841,7 @@ bool RoadRunner::setValue(const string& sId, const double& dValue)
 
     if (mModel->getConservations().find(sId, nIndex))
     {
-        mModel->getModelData().ct[nIndex] = dValue;
+        mModel->getModelData().dependentSpeciesConservedSums[nIndex] = dValue;
         mModel->updateDependentSpeciesValues(mModel->getModelData().floatingSpeciesConcentrations);
         mConservedTotalChanged = true;
         return true;
@@ -3881,7 +3871,7 @@ double RoadRunner::getValue(const string& sId)
     int nIndex = 0;
     if (( nIndex = mModel->getGlobalParameterIndex(sId)) >= 0)
     {
-        return mModel->getModelData().gp[nIndex];
+        return mModel->getModelData().globalParameters[nIndex];
     }
     if ((nIndex = mModel->getBoundarySpeciesIndex(sId)) >= 0)
     {
@@ -3912,7 +3902,7 @@ double RoadRunner::getValue(const string& sId)
 
     if (mModel->getConservations().find(sId, nIndex))
     {
-        return mModel->getModelData().ct[nIndex];
+        return mModel->getModelData().dependentSpeciesConservedSums[nIndex];
     }
 
     StringList initialConditions = getFloatingSpeciesInitialConditionIds();
