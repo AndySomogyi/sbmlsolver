@@ -37,6 +37,10 @@ public:
     virtual int getNumFloatingSpecies();
     virtual int getNumBoundarySpecies();
     virtual int getNumGlobalParameters();
+    virtual double getGlobalParameterValue(int index);
+    virtual void setGlobalParameterValue(int index, double value);
+
+
     virtual int getNumCompartments();
     virtual int getNumReactions();
     virtual int getNumEvents();
