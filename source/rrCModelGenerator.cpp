@@ -293,7 +293,7 @@ void CModelGenerator::writeComputeConservedTotals(CodeBuilder& ignore, const int
 
         for (int i = 0; i < numDependentSpecies; i++)
         {
-            mSource<<format("\n\tmd->ct[{0}] = ", i);
+            mSource<<format("\n\tmd->dependentSpeciesConservedSums[{0}] = ", i);
             for (int j = 0; j < numFloatingSpecies; j++)
             {
                 double current = (gamma != NULL) ? (*gamma)(i,j) : 1.0;    //Todo: This is a bug? We should not be here if the matrix is NULL.. Triggered by model 00029
@@ -356,14 +356,14 @@ void CModelGenerator::writeUpdateDependentSpecies(CodeBuilder& ignore, const int
         for (int i = 0; i < numDependentSpecies; i++)
         {
             mSource<<format("\n\tmd->floatingSpeciesConcentrations[{0}] = ", (i + numIndependentSpecies));
-            mSource<<format("(md->ct[{0}]", i);
+            mSource<<format("(md->dependentSpeciesConservedSums[{0}]", i);
             string cLeftName =
                 convertCompartmentToC(
                     ms.mFloatingSpeciesConcentrationList[i + numIndependentSpecies].compartmentName);
 
             for (int j = 0; j < numIndependentSpecies; j++)
             {
-                string yName = format("y[{0}]", j);
+                string yName = format("md->floatingSpeciesConcentrations[{0}]", j);
                 string cName = convertCompartmentToC(ms.mFloatingSpeciesConcentrationList[j].compartmentName);
                 double* mat = L0.GetPointer();
                 double matElementValue = L0(i,j);
@@ -558,8 +558,12 @@ void CModelGenerator::writeProperties(CodeBuilder& ignore)
 void CModelGenerator::writeAccessors(CodeBuilder& ignore)
 {
     mHeader.AddFunctionExport("int", "getNumLocalParameters(ModelData* md, int reactionId)");
-    mSource<<"int getNumLocalParameters(ModelData* md, int reactionId)\n{\n\t";
-    mSource<<"return md->localParameterDimensions[reactionId];\n}\n\n";
+    mSource << "int getNumLocalParameters(ModelData* md, int reactionId)\n{\n";
+    mSource << "\treturn 0;\n";
+    mSource << "}\n";
+
+    // This was never fully implemented in the C version.
+    //mSource<<"return md->localParameterDimensions[reactionId];\n}\n\n";
 }
 
 string CModelGenerator::findSymbol(const string& varName)
@@ -571,7 +575,7 @@ string CModelGenerator::findSymbol(const string& varName)
       }
       else if (ms.mGlobalParameterList.find(varName, index))
       {
-          return format("md->gp[{0}]", index);
+          return format("md->globalParameters[{0}]", index);
       }
       else if (ms.mBoundarySpeciesList.find(varName, index))
       {
@@ -1456,7 +1460,7 @@ string CModelGenerator::convertSymbolToGP(const string& parameterName)
     int index;
     if (ms.mGlobalParameterList.find(parameterName, index))
     {
-        return "md->gp[" + toString(index) + "]";
+        return "md->globalParameters[" + toString(index) + "]";
     }
       throw CoreException("Internal Error: Unable to locate parameter: " + parameterName);
 }
@@ -2180,7 +2184,7 @@ void CModelGenerator::substituteWords(const string& reactionName, bool bFixAmoun
     int index;
     if (ms.mGlobalParameterList.find(s.tokenString, index))
     {
-        mSource<<format("md->gp[{0}]", index);
+        mSource<<format("md->globalParameters[{0}]", index);
     }
     else if (ms.mBoundarySpeciesList.find(s.tokenString, index))
     {

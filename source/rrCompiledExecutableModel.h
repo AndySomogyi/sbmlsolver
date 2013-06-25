@@ -69,6 +69,8 @@ public:
     virtual int getNumGlobalParameters();
     virtual int getGlobalParameterIndex(const std::string& name);
     virtual string getGlobalParameterName(int index);
+    virtual double getGlobalParameterValue(int index);
+    virtual void setGlobalParameterValue(int index, double value);
 
     virtual int getNumCompartments();
     virtual int getCompartmentIndex(const string& name);

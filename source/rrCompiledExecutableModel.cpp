@@ -68,12 +68,12 @@ double CompiledExecutableModel::getTime()
 /////////////////// The following used to be in IModel
 int CompiledExecutableModel::getNumIndependentSpecies()
 {
-    return mData.numIndependentVariables;
+    return mData.numIndependentSpecies;
 }
 
 int CompiledExecutableModel::getNumDependentSpecies()
 {
-    return mData.numDependentVariables;
+    return mData.numDependentSpecies;
 }
 
 int CompiledExecutableModel::getNumFloatingSpecies()
@@ -174,6 +174,45 @@ string CompiledExecutableModel::getFloatingSpeciesName(int index)
     return ms.mFloatingSpeciesConcentrationList[index].name;
 }
 
+double CompiledExecutableModel::getGlobalParameterValue(int index)
+{
+    if ((index >= 0) && (index < getNumGlobalParameters() + getModelData().numDependentSpecies))
+    {
+        if (index >= getNumGlobalParameters())
+        {
+            return getModelData().dependentSpeciesConservedSums[index - getNumGlobalParameters()];
+        }
+        else
+        {
+            return getModelData().globalParameters[index];
+        }
+    }
+    else
+    {
+        throw CoreException(format("Index in getNumGlobalParameters out of range: [{0}]", index));
+    }
+}
+
+void CompiledExecutableModel::setGlobalParameterValue(int index, double value)
+{
+    if ((index >= 0) && (index < getNumGlobalParameters() + getModelData().numDependentSpecies))
+    {
+        if (index >= getNumGlobalParameters())
+        {
+            getModelData().dependentSpeciesConservedSums[index - getNumGlobalParameters()] = value;
+            updateDependentSpeciesValues(getModelData().floatingSpeciesConcentrations);
+        }
+        else
+        {
+            getModelData().globalParameters[index] = value;
+        }
+    }
+    else
+    {
+        throw CoreException(format("Index in getNumGlobalParameters out of range: [{0}]", index));
+    }
+}
+
 bool CompiledExecutableModel::setupDLLFunctions()
 {
     //Exported functions in the dll need to be assigned to a function pointer here..
@@ -222,20 +261,16 @@ bool CompiledExecutableModel::setupModelData()
     initModelData(mData);
 
     // set the buffer sizes
-    mData.numIndependentVariables       = ms.mNumIndependentSpecies;
-    mData.numDependentVariables         = ms.mNumDependentSpecies;
+    mData.numIndependentSpecies         = ms.mNumIndependentSpecies;
+    mData.numDependentSpecies           = ms.mNumDependentSpecies;
     mData.numGlobalParameters           = ms.mGlobalParameterList.size();
     mData.numReactions                  = ms.mReactionList.size();
     mData.numEvents                     = ms.mNumEvents;
     mData.numFloatingSpecies            = ms.mFloatingSpeciesConcentrationList.size();
     mData.numRateRules                  = ms.mRateRules.size();
-    mData.ctSize                        = ms.mNumDependentSpecies;
-    mData.gpSize                        = ms.mNumGlobalParameters + ms.mTotalLocalParmeters;
     mData.numCompartments               = ms.mCompartmentList.size();
     mData.numBoundarySpecies            = ms.mNumBoundarySpecies;
-    mData.lpSize                        = ms.mNumReactions;
     mData.srSize                        = ms.mNumModifiableSpeciesReferences;
-    mData.localParameterDimensionsSize  = ms.mNumReactions;
     mData.eventPrioritiesSize           = ms.mNumEvents;
     mData.eventStatusArraySize          = ms.mNumEvents;
     mData.previousEventStatusArraySize  = ms.mNumEvents;

@@ -730,7 +730,7 @@ static string findSymbol(const string& varName,
       }
       else if (globalParameterList.find(varName, index))
       {
-          return format("md->gp[{0}]", index);
+          return format("md->globalParameters[{0}]", index);
       }
       else if (boundarySpeciesList.find(varName, index))
       {
