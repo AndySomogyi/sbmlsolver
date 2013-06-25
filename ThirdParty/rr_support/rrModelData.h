@@ -55,7 +55,7 @@ typedef struct SModelData
     /**
      * number of linearly independent rows in the stochiometry matrix.
      */
-    int                                 numIndependentVariables;
+    int                                 numIndependentSpecies;
 
     /**
      * number of linerly dependent rows in the stoichiometry matrix.
@@ -63,25 +63,57 @@ typedef struct SModelData
      * numIndependentVariables + numDependentVariables had better
      * be equal to numFloatingSpecies
      */
-    int                                 numDependentVariables;
+    int                                 numDependentSpecies;
+    double*                             dependentSpeciesConservedSums;
 
     /**
-     * number of global parameters, same as gpSize.
-     * TODO: clean up whatever uses this.
+     * number of global parameters
      */
     int                                 numGlobalParameters;
+    double*                             globalParameters;
 
     /**
      * number of reactions, same as ratesSize.
-     * TODO: clean up whatever code that uses this.
      */
     int                                 numReactions;
     double*                             reactionRates;
 
     /**
+     * LLVM specific
+     * C version does not support local parameters
+     * This is the offset, or starting index of the local parameters
+     * for reaction i. Length is numReactions.
+     *
+     * Rationale: It is simple more effecient to store all the local
+     * parameters in a single dimensional array with offsets, as the
+     * offsets can be computed at compile time, whereas if we used
+     * a array of arrays, it would require an additional memory access
+     * to determine the location of the parameter.
+     */
+    int*                                localParametersOffsets;
+
+    /**
+     * the number of local parameters for each reaction,
+     * so legnth is numReactions. This is an array of counts,
+     * hence it is named differently than the rest of the num*** fields.
+     */
+    int*                                localParametersNum;
+
+    /**
+     * All local parameters are stored in this array. This has
+     * length sum(localParameterNum).
+     */
+    double*                             localParameters;
+
+    /**
      * The total ammounts of the floating species, i.e.
      * concentration * compartment volume.
      * Everything named floatingSpecies??? has length numFloatingSpecies.
+     *
+     * Note, the floating species consist of BOTH independent AND dependent
+     * species. Indexes [0,numIndpendentSpecies) values are the indenpendent
+     * species, and the [numIndependentSpecies,numIndendentSpecies+numDependentSpecies)
+     * contain the dependent species.
      */
     int                                 numFloatingSpecies;
 
@@ -136,38 +168,10 @@ typedef struct SModelData
     int                                 numCompartments;
     double*                             compartmentVolumes;
 
-    /**
-     * number of global parameters and global parameter values.
-     * global parameters are all the parameters in a model, including
-     * the kinetic law parameters.
-     */
-    int                                 gpSize;
-    double*                             gp;
-
-    /**
-     * number of modifiable species references and
-     * modifiable species reference values.
-     */
-    int                                 srSize;
-    double*                             sr;
-
-    /**
-     * reactions???
-     * TODO: figure out if this is ever used.
-     */
-    int                                 lpSize;
-    double*                             lp;
-
-
 
     int                                 numRateRules;
     double*                             rateRules;
 
-    int                                 ctSize;
-    double*                             ct;
-
-    int                                 localParameterDimensionsSize;
-    int*                                localParameterDimensions;
 
     //Event stuff
     int                                 numEvents;
@@ -214,6 +218,22 @@ typedef struct SModelData
      * allocModelDataBuffers should allocate length numGlobalParameters  char** array.
      */
     char**                              globalParameterTable;
+
+    /**
+     * C species references,
+     * not working correctly...
+     */
+    int                                 srSize;
+    double*                             sr;
+
+    /**
+     * Looks like these were going to be C local variables, but were
+     * never implemented...
+     */
+    //int                                 lpSize;
+    //double*                             lp;
+    //int                                 localParameterDimensionsSize;
+    //int*                                localParameterDimensions;
 
 } ModelData;
 //#pragma pack(pop)
