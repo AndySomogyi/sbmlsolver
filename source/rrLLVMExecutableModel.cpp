@@ -275,6 +275,15 @@ string LLVMExecutableModel::getReactionName(int int1)
     return string();
 }
 
+double LLVMExecutableModel::getGlobalParameterValue(int index)
+{
+    return 0;
+}
+
+void LLVMExecutableModel::setGlobalParameterValue(int index, double value)
+{
+}
+
 LLVMExecutableModel* LLVMExecutableModel::dummy()
 {
     return new LLVMExecutableModel();
