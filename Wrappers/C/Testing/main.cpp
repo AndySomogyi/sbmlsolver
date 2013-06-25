@@ -2,6 +2,7 @@
 #include <fstream>
 #include "rrLogger.h"
 #include "rrUtils.h"
+#include "rrVersionInfo.h"
 #include "unit_test/UnitTest++.h"
 #include "unit_test/XmlTestReporter.h"
 #include "unit_test/TestReporterStdout.h"
@@ -28,6 +29,8 @@ bool setup(Args& args);
 int main(int argc, char* argv[])
 {
     enableLoggingToConsole();
+
+    Log(lShowAlways) << "Roadrunner version " << RR_VERSION << ", compiled with " << RR_COMPILER << "\n";
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
     setup(args);
