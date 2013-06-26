@@ -3,6 +3,7 @@
 #include "Poco/Thread.h"
 #include "Poco/Runnable.h"
 #include "rrRoadRunner.h"
+#include "rrOSSpecifics.h"
 #include "rrMinimizationData.h"
 #include "lmUtils.h"
 //---------------------------------------------------------------------------

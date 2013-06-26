@@ -3,7 +3,6 @@
 #endif
 #pragma hdrstop
 #include <iostream>
-#include "Poco/File.h"
 #include "rrRoadRunner.h"
 #include "rrException.h"
 #include "rrModelGenerator.h"
@@ -21,12 +20,16 @@
 #include "rrConstants.h"
 #include "rrVersionInfo.h"
 #include "rrCVODEInterface.h"
+#include "rrNLEQInterface.h"
+#include "Poco/File.h"
+#include "Poco/Mutex.h"
 //---------------------------------------------------------------------------
 
 namespace rr
 {
 using namespace std;
 using namespace ls;
+using Poco::Mutex;
 
 
 // we can write a single function to pick the string lists out
@@ -57,7 +60,7 @@ static vector<string> createModelStringList(ExecutableModel *model,
 
 //The instance count increases/decreases as instances are created/destroyed.
 int                   RoadRunner::mInstanceCount = 0;
-Mutex                 RoadRunner::mLibSBMLMutex;
+
 
 int RoadRunner::getInstanceCount()
 {
@@ -639,6 +642,7 @@ string RoadRunner::createModelName(const string& mCurrentSBMLFileName)
 
 bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
 {
+    static Mutex libSBMLMutex;
     mCurrentSBML = sbml;
 
     //clear temp folder of roadrunner generated files, only if roadRunner instance == 1
@@ -650,7 +654,7 @@ bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
 
     loadSBMLIntoLibStruct(sbml);
     {    //Scope for Mutex
-           Mutex::ScopedLock lock(mLibSBMLMutex);
+        Mutex::ScopedLock lock(libSBMLMutex);
         loadSBMLIntoNOM(sbml);    //There is something in here that is not threadsafe... causes crash with multiple threads, without mutex
     }
 

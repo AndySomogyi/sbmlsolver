@@ -7,24 +7,18 @@
 #include "rrObject.h"
 #include "rrTVariableType.h"
 #include "rrTParameterType.h"
-#include "rrNLEQInterface.h"
 #include "rrSelectionRecord.h"
 #include "rrRoadRunnerData.h"
 #include "rrSimulationSettings.h"
-#include "rrCompiler.h"
-#include "rrXMLDocument.h"
 #include "rrNOMSupport.h"
 #include "rrConstants.h"
 #include "rrNewArrayList.h"
 #include "rrPluginManager.h"
-#include "rrModelSharedLibrary.h"
 #include "rrCapabilities.h"
 #include "rrParameter.h"
-#include "Poco/Thread.h"
 
 namespace rr
 {
-using Poco::Mutex;
 using std::string;
 using std::vector;
 using namespace ls;
@@ -71,11 +65,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
         double                          mTimeStart;
         double                          mTimeEnd;
         int                             mNumPoints;
-
-        /**
-         * something in libsbml or libstructural is not thread safe.
-         */
-        static Mutex                    mLibSBMLMutex;
 
         ExecutableModel*                mModel;
 
@@ -136,7 +125,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
         /**
          * The Compiler that the ModelGenerator is using to compile / interpret sbml code.
          */
-        Compiler*                       getCompiler();
+        class Compiler*                 getCompiler();
 
         /**
          * Set the name of the externa compiler to use. Some ModelGenerators may have no use
