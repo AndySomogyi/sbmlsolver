@@ -314,7 +314,7 @@ vector<string> getLinesInFile(const string& fName)
     }
 
     std::string oneLine((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
-    lines = splitString(oneLine, "\n");
+    lines = splitString(oneLine, "\r\n");
     return lines;
 }
 
