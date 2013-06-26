@@ -43,6 +43,12 @@ typedef void     (*TEventAssignmentDelegate)();
 typedef struct SModelData
 {
     /**
+     * sizeof this struct, make sure we use the correct
+     * size in LLVM land.
+     */
+    unsigned                             size;
+
+    /**
      * model name
      */
     char*                               modelName;
