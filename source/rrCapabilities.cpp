@@ -10,6 +10,7 @@
 #include "rrCapabilities.h"
 #include "rrCVODEInterface.h"
 #include "rrCapability.h"
+#include "rrXMLDocument.h"
 
 //---------------------------------------------------------------------------
 namespace rr
@@ -28,26 +29,26 @@ void Capabilities::add(Capability& capability)
 
 void Capabilities::clear()
 {
-	mCapabilities.clear();
+    mCapabilities.clear();
 }
 
-Capability*	Capabilities::operator[](int i)
+Capability*    Capabilities::operator[](int i)
 {
-	if(mCapabilities.size())
+    if(mCapabilities.size())
     {
-		return (mCapabilities[i]);
+        return (mCapabilities[i]);
     }
     return NULL;
 }
 
-Capability*	Capabilities::get(const string& capName)
+Capability*    Capabilities::get(const string& capName)
 {
     for(int i = 0; i < count(); i++)
     {
-    	Capability* aCap = (mCapabilities[i]);
-		if(aCap && aCap->getName() == capName)
+        Capability* aCap = (mCapabilities[i]);
+        if(aCap && aCap->getName() == capName)
         {
-        	return aCap;
+            return aCap;
         }
     }
     return NULL;
@@ -55,16 +56,16 @@ Capability*	Capabilities::get(const string& capName)
 
 StringList Capabilities::asStringList()
 {
-	StringList caps;
+    StringList caps;
 
     //Add capabilitys
     for(int i = 0; i < count(); i++)
     {
-    	Capability& aCapability = *(mCapabilities[i]);
-		caps.add(aCapability.getName());
+        Capability& aCapability = *(mCapabilities[i]);
+        caps.add(aCapability.getName());
     }
 
-	return caps;
+    return caps;
 }
 
 string Capabilities::asXML()
@@ -78,11 +79,11 @@ string Capabilities::asXML()
     //Add capabilitys
     for(int i = 0; i < count(); i++)
     {
-    	Capability& aCapability = *(mCapabilities[i]);
+        Capability& aCapability = *(mCapabilities[i]);
         xml_node capabilityNode = mainNode.append_child("capability");
-        capabilityNode.append_attribute("name") 	   	= aCapability.getName().c_str();
-        capabilityNode.append_attribute("method")	   	= aCapability.getMethod().c_str();
-        capabilityNode.append_attribute("description") 	= aCapability.getDescription().c_str();
+        capabilityNode.append_attribute("name")            = aCapability.getName().c_str();
+        capabilityNode.append_attribute("method")           = aCapability.getMethod().c_str();
+        capabilityNode.append_attribute("description")     = aCapability.getDescription().c_str();
 
         pugi::xml_node parameters = capabilityNode.append_child("parameters");
 
@@ -92,10 +93,10 @@ string Capabilities::asXML()
             rr::BaseParameter* parameter = const_cast<rr::BaseParameter*>(&(aCapability[j]));
 
             pugi::xml_node parameterNode = parameters.append_child("parameter");
-            parameterNode.append_attribute("name") 	= parameter->getName().c_str();
+            parameterNode.append_attribute("name")     = parameter->getName().c_str();
             parameterNode.append_attribute("value") = parameter->getValueAsString().c_str();
-            parameterNode.append_attribute("hint") 	= parameter->getHint().c_str();
-            parameterNode.append_attribute("type") 	= parameter->getType().c_str();
+            parameterNode.append_attribute("hint")     = parameter->getHint().c_str();
+            parameterNode.append_attribute("type")     = parameter->getType().c_str();
         }
     }
 
@@ -112,8 +113,8 @@ u_int Capabilities::count()
 //Not giving a capability name, search for first parameter with name 'name'
 bool Capabilities::setParameter(const string& name, const string& value)
 {
-	for(int i = 0; i < count(); i++)
-	{
+    for(int i = 0; i < count(); i++)
+    {
         Capability* capability = mCapabilities[i];
 
         if(!capability)
@@ -125,16 +126,16 @@ bool Capabilities::setParameter(const string& name, const string& value)
 
         if(paras)
         {
-        	BaseParameter* aParameter = paras->getParameter(name);
-        	if(aParameter)
-        	{
+            BaseParameter* aParameter = paras->getParameter(name);
+            if(aParameter)
+            {
                 aParameter->setValueFromString(value);
                 return true;
             }
         }
     }
 
-	return false;
+    return false;
 
 }
 
