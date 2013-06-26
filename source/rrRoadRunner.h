@@ -12,8 +12,6 @@
 #include "rrRoadRunnerData.h"
 #include "rrSimulationSettings.h"
 #include "rrCompiler.h"
-#include "rrArrayList.h"
-#include "rrArrayList2.h"
 #include "rrXMLDocument.h"
 #include "rrNOMSupport.h"
 #include "rrConstants.h"

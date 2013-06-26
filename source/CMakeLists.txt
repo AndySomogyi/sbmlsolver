@@ -20,13 +20,10 @@ set(rrSources
     rrCapability
     rrCapabilities
     rrConstants
-    rrArrayList2
-    rrArrayListItem
     rrException
     rrFileLog
     rrGetOptions
     rrHashTable
-    rrLogger
     rrLogFile
     rrLogContainer
     rrLoggerUtils
@@ -52,8 +49,6 @@ set(rrSources
     rrStringUtils
     rrSymbol
     rrSymbolList
-    rrTParameterType
-    rrTVariableType
     rrUtils
     rrModelSymbols
     rrModelGenerator
@@ -62,12 +57,11 @@ set(rrSources
     rrCSharpModelGenerator
     rrCodeBuilder
     rrCompiler
-rrCPlugin
+    rrCPlugin
     rrScanner
     rrToken
     rrCVODEInterface
     rrNLEQInterface
-    rrDLLEntry
     rrStopWatch
     rrEvent
     rrTestSuiteModelSimulation
@@ -81,7 +75,6 @@ rrCPlugin
     mtrand/mtrand
     rrPluginManager
     rrPlugin
-    rrOSSpecifics
     rrModelSharedLibrary
     rrBaseParameter
     rrRoadRunnerList
