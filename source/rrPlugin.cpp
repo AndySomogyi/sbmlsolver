@@ -26,7 +26,6 @@ mImplementationLanguage(language)
 Plugin::~Plugin()
 {}
 
-
 bool Plugin::resetPlugin()
 {
 	//Do whats needed in descendants
@@ -50,6 +49,11 @@ bool Plugin::assignCallbacks(PluginWorkStartedCB fnc1, PluginWorkFinishedCB fnc2
 bool Plugin::isWorking()
 {
 	return false;
+}
+
+void Plugin::setLibraryName(const string& libName)
+{
+	mLibraryName = libName;
 }
 
 bool Plugin::setParameter(const string& nameOf, const char* value, Capability& capability)
@@ -87,6 +91,11 @@ bool Plugin::setParameter(const string& nameOf, const char* value)
 string Plugin::getName()
 {
 	return mName;
+}
+
+string Plugin::getLibraryName()
+{
+	return mLibraryName;
 }
 
 string Plugin::getAuthor()

@@ -123,13 +123,13 @@ bool PluginManager::load(const string& pluginName)
     return result;
 }
 
-bool PluginManager::loadPlugin(const string& pluginName)
+bool PluginManager::loadPlugin(const string& libName)
 {
 	stringstream msg;
 	try
     {
         SharedLibrary *libHandle = new SharedLibrary;
-        libHandle->load(joinPath(mPluginFolder, pluginName));
+        libHandle->load(joinPath(mPluginFolder, libName));
 
         //Validate the plugin
         if(!checkImplementationLanguage(libHandle))
@@ -149,7 +149,7 @@ bool PluginManager::loadPlugin(const string& pluginName)
             {
             	return false;
             }
-
+            aPlugin->setLibraryName(getFileNameNoExtension(libName));
             Capabilities *caps = aPlugin->getCapabilities();
             mRR->addCapabilities(*(caps));
             pair< Poco::SharedLibrary*, Plugin* > storeMe(libHandle, aPlugin);
@@ -175,7 +175,7 @@ bool PluginManager::loadPlugin(const string& pluginName)
         else
         {
 	        stringstream msg;
-            msg<<"The plugin library: "<<pluginName<<" do not have enough data in order to create a plugin. Can't load";
+            msg<<"The plugin library: "<<libName<<" do not have enough data in order to create a plugin. Can't load";
 			Log(lWarning)<<msg.str();
             return false;
         }
@@ -305,6 +305,10 @@ Plugin*	PluginManager::getPlugin(const string& name)
         {
 			Plugin* aPlugin = (Plugin*) aPluginLib.second;
             if(aPlugin && aPlugin->getName() == name)
+            {
+               	return aPlugin;
+            }
+            if(aPlugin && aPlugin->getLibraryName() == name)
             {
                	return aPlugin;
             }

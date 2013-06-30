@@ -23,6 +23,7 @@ class RR_DECLSPEC Plugin : public rrObject /* Abstract plugin */
 {
 	protected:
 		string			           	mName;
+		string			           	mLibraryName;
         string			           	mAuthor;
 		string 		                mCategory;
         string			           	mVersion;
@@ -43,6 +44,8 @@ class RR_DECLSPEC Plugin : public rrObject /* Abstract plugin */
 
         bool						assignCallbacks(PluginWorkStartedCB fnc1, PluginWorkFinishedCB fnc2 = NULL, void* userData = NULL);
         string			           	getName();
+        void						setLibraryName(const string& libName);
+        string			           	getLibraryName();
         string			           	getAuthor();
         string			           	getCategory();
         string			           	getVersion();
