@@ -11,14 +11,61 @@
 #ifndef rrLLVMModelGeneratorContextH
 #define rrLLVMModelGeneratorContextH
 
+#include "rrLLVMModelData.h"
+#include <llvm/LLVMContext.h>
+#include <llvm/Module.h>
+#include <llvm/ExecutionEngine/ExecutionEngine.h>
+#include <sbml/Model.h>
+#include <sbml/SBMLDocument.h>
+#include <string>
+
+namespace libsbml {
+class SBMLDocument;
+class Model;
+}
+
 namespace rr
 {
 
 class LLVMModelGeneratorContext
 {
 public:
-	LLVMModelGeneratorContext();
-	~LLVMModelGeneratorContext();
+    LLVMModelGeneratorContext();
+    LLVMModelGeneratorContext(std::string const &sbml);
+    LLVMModelGeneratorContext(libsbml::SBMLDocument const *doc);
+    ~LLVMModelGeneratorContext();
+
+    LLVMModelDataValue &getModelDataSymbols();
+
+    const libsbml::SBMLDocument *getDocument();
+
+    const libsbml::Model *getModel();
+
+    /**
+     * get the llvm context for this thread.
+     */
+    llvm::LLVMContext &getContext();
+
+    llvm::ExecutionEngine *getExecutionEngine();
+
+    llvm::Module *getModule();
+
+private:
+    llvm::LLVMContext *context;
+    llvm::ExecutionEngine *executionEngine;
+    llvm::Module *module;
+    std::string *errString;
+
+    /**
+     * these point to the same location, ownedDoc is set if we create the doc,
+     * otherwise its 0, meaning we're borrowign the the doc.
+     */
+    libsbml::SBMLDocument *ownedDoc;
+
+    /**
+     * allways references the sbml doc.
+     */
+    libsbml::SBMLDocument const *doc;
 };
 
 } /* namespace rr */
