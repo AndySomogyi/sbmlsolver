@@ -21,6 +21,57 @@ class Value;
 namespace rr
 {
 
+enum ModelDataFields {
+    Size = 0,
+    ModelName,
+    Time,
+    NumIndependentSpecies,
+    NumDependentSpecies,
+    DependentSpeciesConservedSums,
+    NumGlobalParameters,
+    GlobalParameters,
+    NumReactions,
+    ReactionRates,
+    LocalParametersOffsets,
+    LocalParametersNum,
+    LocalParameters,
+    NumFloatingSpecies,
+    FloatingSpeciesConcentrations,
+    FloatingSpeciesInitConcentrations,
+    FloatingSpeciesConcentrationRates,
+    FloatingSpeciesAmounts,
+    FloatingSpeciesCompartments,
+    NumBoundarySpecies,
+    BoundarySpeciesConcentrations,
+    BoundarySpeciesCompartments,
+    NumCompartments,
+    CompartmentVolumes,
+    NumRateRules,
+    RateRules,
+    NumEvents,
+    EventTypeSize,
+    EventType,
+    EventPersistentTypeSize,
+    EventPersistentType,
+    EventTestsSize,
+    EventTests,
+    EventPrioritiesSize,
+    EventPriorities,
+    EventStatusArraySize,
+    EventStatusArray,
+    PreviousEventStatusArraySize,
+    PreviousEventStatusArray,
+    EventDelays,
+    EventAssignments,
+    ComputeEventAssignments,
+    PerformEventAssignments,
+    VariableTable,
+    BoundaryTable,
+    GlobalParameterTable,
+    SrSize,
+    Sr
+};
+
 /**
  * A class with a long name...
  *
@@ -33,68 +84,17 @@ namespace rr
 class LLVMModelDataValue
 {
 public:
-    enum ModelDataFields {
-        Size = 0,
-        ModelName,
-        Time,
-        NumIndependentSpecies,
-        NumDependentSpecies,
-        DependentSpeciesConservedSums,
-        NumGlobalParameters,
-        GlobalParameters,
-        NumReactions,
-        ReactionRates,
-        LocalParametersOffsets,
-        LocalParametersNum,
-        LocalParameters,
-        NumFloatingSpecies,
-        FloatingSpeciesConcentrations,
-        FloatingSpeciesInitConcentrations,
-        FloatingSpeciesConcentrationRates,
-        FloatingSpeciesAmounts,
-        FloatingSpeciesCompartments,
-        NumBoundarySpecies,
-        BoundarySpeciesConcentrations,
-        BoundarySpeciesCompartments,
-        NumCompartments,
-        CompartmentVolumes,
-        NumRateRules,
-        RateRules,
-        NumEvents,
-        EventTypeSize,
-        EventType,
-        EventPersistentTypeSize,
-        EventPersistentType,
-        EventTestsSize,
-        EventTests,
-        EventPrioritiesSize,
-        EventPriorities,
-        EventStatusArraySize,
-        EventStatusArray,
-        PreviousEventStatusArraySize,
-        PreviousEventStatusArray,
-        EventDelays,
-        EventAssignments,
-        ComputeEventAssignments,
-        PerformEventAssignments,
-        VariableTable,
-        BoundaryTable,
-        GlobalParameterTable,
-        SrSize,
-        Sr
-    };
+
 
     LLVMModelDataValue();
     LLVMModelDataValue(llvm::Value *rhs);
     ~LLVMModelDataValue();
 
 
-    LLVMModelDataValue& operator=(llvm::Value* rhs);
-    operator llvm::Value*() const;
 
     static llvm::StructType *getStructType(llvm::Module *module, llvm::ExecutionEngine *engine);
 
-    llvm::Value *getValue(ModelDataFields field);
+
 
 private:
     /**

@@ -12,17 +12,16 @@
 #include "rrLLVMModelGeneratorContext.h"
 #include "rrModelData.h"
 
-#include <llvm/ADT/ArrayRef.h>
-#include <llvm/DerivedTypes.h>
-#include <llvm/DataLayout.h>
-#include <llvm/ExecutionEngine/ExecutionEngine.h>
+#include "rrLLVMIncludes.h"
+#include "rrLLVMException.h"
+
 #include <vector>
 #include <string>
 
 using namespace std;
 using namespace llvm;
 
-static const char* ModelDataName = "rr::ModelData";
+
 
 namespace rr
 {
@@ -37,43 +36,12 @@ LLVMModelDataValue::~LLVMModelDataValue()
     // we don't own anything
 }
 
-LLVMModelDataValue::LLVMModelDataValue(llvm::Value* rhs)
-{
-    StructType *s = dyn_cast<StructType>(rhs->getType());
-    if(s)
-    {
-        string name = s->getName();
-        if(name.compare(ModelDataName) == 0)
-        {
-            value = rhs;
-        }
-        else
-        {
 
-        }
-    }
-    else
-    {
 
-    }
-}
-
-LLVMModelDataValue& LLVMModelDataValue::operator =(llvm::Value* rhs)
-{
-    if (value == rhs) return *this;
-    this->~LLVMModelDataValue();
-    new (this) LLVMModelDataValue(rhs);
-    return *this;
-}
-
-LLVMModelDataValue::operator llvm::Value*() const
-{
-    return value;
-}
 
 llvm::StructType *LLVMModelDataValue::getStructType(llvm::Module *module, llvm::ExecutionEngine *engine)
 {
-    StructType *structType = module->getTypeByName(ModelDataName);
+    StructType *structType = module->getTypeByName("rr::ModelData");
 
     if (!structType)
     {
@@ -137,7 +105,7 @@ llvm::StructType *LLVMModelDataValue::getStructType(llvm::Module *module, llvm::
         elements.push_back(Type::getInt32Ty(context));                        // int                                 srSize;
         elements.push_back(Type::getDoublePtrTy(context));                    // double*                             sr;
 
-        StructType *structType = StructType::create(context, elements, ModelDataName);
+        StructType *structType = StructType::create(context, elements, "rr::ModelData");
 
         const DataLayout *dl = engine->getDataLayout();
 
@@ -158,8 +126,6 @@ llvm::StructType *LLVMModelDataValue::getStructType(llvm::Module *module, llvm::
     return structType;
 }
 
-llvm::Value* LLVMModelDataValue::getValue(ModelDataFields field)
-{
-}
+
 
 } /* namespace rr */

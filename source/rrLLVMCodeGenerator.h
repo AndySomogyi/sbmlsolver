@@ -10,7 +10,7 @@
 #ifndef rrLLVMCodeGeneratorH
 #define rrLLVMCodeGeneratorH
 
-#include <llvm/IRBuilder.h>
+#include "rrLLVMIncludes.h"
 
 namespace libsbml
 {

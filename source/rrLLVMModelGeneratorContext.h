@@ -12,9 +12,7 @@
 #define rrLLVMModelGeneratorContextH
 
 #include "rrLLVMModelData.h"
-#include <llvm/LLVMContext.h>
-#include <llvm/Module.h>
-#include <llvm/ExecutionEngine/ExecutionEngine.h>
+#include "rrLLVMIncludes.h"
 #include <sbml/Model.h>
 #include <sbml/SBMLDocument.h>
 #include <string>

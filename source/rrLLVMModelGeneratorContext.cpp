@@ -6,12 +6,8 @@
  */
 
 #include "rrLLVMModelGeneratorContext.h"
-
-
-#include <llvm/ExecutionEngine/JIT.h>
-#include <llvm/Support/TargetSelect.h>
-
 #include <sbml/SBMLReader.h>
+#include "rrLLVMIncludes.h"
 
 
 #include <string>

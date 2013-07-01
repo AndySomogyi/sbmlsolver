@@ -12,9 +12,7 @@
 
 #include <sbml/math/ASTNode.h>
 
-#include <llvm/Value.h>
-#include <llvm/IRBuilder.h>
-#include "llvm/Intrinsics.h"
+#include "rrLLVMIncludes.h"
 
 using namespace libsbml;
 using namespace llvm;
