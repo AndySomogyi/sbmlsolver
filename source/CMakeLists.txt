@@ -100,6 +100,7 @@ if(BUILD_LLVM)
         rrLLVMCompiler
         rrLLVMExecutableModel
         rrLLVMModelData
+        rrLLVMModelDataIRBuilder
         rrLLVMModelDataSymbols
         rrLLVMModelGenerator
         rrLLVMModelGeneratorContext

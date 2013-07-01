@@ -8,11 +8,12 @@
  *     andy V1 somogyi V2 gmail V3 com
  */
 
-#ifndef LLVMModelDataSymbolsH
-#define LLVMModelDataSymbolsH
+#ifndef rrLLVMModelDataIRBuilderH
+#define rrLLVMModelDataIRBuilderH
 
 #include "rrLLVMModelData.h"
 #include "rrLLVMIncludes.h"
+#include "rrLLVMModelDataSymbols.h"
 
 #include <map>
 
@@ -21,30 +22,29 @@ namespace libsbml { class Model; }
 namespace rr
 {
 
-class LLVMModelDataSymbols
+class LLVMModelDataIRBuilder
 {
 public:
 
-    typedef std::map<std::string, int> StringIntMap;
-    typedef std::pair<std::string, int> StringIntPair;
-
-    LLVMModelDataSymbols();
-
-    LLVMModelDataSymbols(libsbml::Model const* model,
-            bool computeAndAssignConsevationLaws);
-
-    virtual ~LLVMModelDataSymbols();
 
 
+    LLVMModelDataIRBuilder(LLVMModelDataSymbols const&,
+            llvm::IRBuilder<> * = 0);
 
-    int getCompartmentIndex(std::string const&) const;
-    int getFloatingSpeciesIndex(std::string const&) const;
-    int getBoundarySpeciesIndex(std::string const&) const;
-    int getGlobalParameterIndex(std::string const&) const;
-    std::vector<std::string> getGlobalParameterIds() const;
+    virtual ~LLVMModelDataIRBuilder();
+
+    llvm::Value *createFloatSpeciesConcEP(llvm::Value *s, const std::string &id);
+    llvm::Value *createFloatSpeciedAmtEP(llvm::Value *s, const std::string &id);
+    llvm::Value *createFloatSpeciesConcFromAmtLoad(llvm::Value *s, const std::string &id);
+    llvm::Value *createFloatSpeciesAmtFromConcLoad(llvm::Value *s, const std::string &id);
+
+    llvm::Value *createGlobalParamEP(llvm::Value *s, const std::string &id);
 
 
 
+
+
+    llvm::Value *createGEP(llvm::Value *, ModelDataFields field);
 
 //     /**
 //      * number of linearly independent rows in the stochiometry matrix.
@@ -229,21 +229,27 @@ public:
 //     //int                                 localParameterDimensionsSize;
 //     //int*                                localParameterDimensions;
 
-    void print();
-    static const char* ModelDataName;
+
 
 private:
+    llvm::IRBuilder<> *builder;
+
+    LLVMModelDataSymbols const& symbols;
 
 
-    StringIntMap floatingSpeciesMap;
-    StringIntMap boundarySpeciesMap;
-    StringIntMap compartmentsMap;
-    StringIntMap globalParametersMap;
-    std::vector<int> floatingSpeciesCompartments;
-    std::vector<int> boundarySpeciesCompartments;
 
+    /**
+     * check to see that s is a ModelData struct pointer,
+     * throw an exception if not.
+     */
+    void validateStruct(llvm::Value *s, const char* funcName);
 
+    /**
+     * expensive to always validate the struct, so cache a pointer to it,
+     * so just commpare.
+     */
+    llvm::Value *cachedStructValue;
 };
 
 } /* namespace rr */
-#endif /* RRLLVMMODELDATASYMBOLS_H_ */
+#endif /* rrLLVMModelDataIRBuilderH */

@@ -85,9 +85,11 @@ bool RunTest(const string& version, int caseNumber)
 
         LLVMModelGeneratorContext c(doc);
 
-        StructType *s = LLVMModelDataValue::getStructType(c.getModule(), c.getExecutionEngine());
+        //StructType *s = LLVMModelDataValue::getStructType(c.getModule(), c.getExecutionEngine());
 
         LLVMModelDataSymbols symbols(doc->getModel(), true);
+
+        symbols.print();
 
 
 

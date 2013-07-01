@@ -34,9 +34,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols()
 }
 
 LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
-        bool computeAndAssignConsevationLaws, IRBuilder<> *b) :
-        builder(b),
-        cachedStructValue(0)
+        bool computeAndAssignConsevationLaws)
 {
     // get the compartments
     const ListOfCompartments *compartments = model->getListOfCompartments();
@@ -93,30 +91,6 @@ LLVMModelDataSymbols::~LLVMModelDataSymbols()
     // TODO Auto-generated destructor stub
 }
 
-llvm::Value* LLVMModelDataSymbols::createFloatSpeciesConcEP(llvm::Value* s,
-        const std::string& id)
-{
-}
-
-llvm::Value* LLVMModelDataSymbols::createFloatSpeciedAmtEP(llvm::Value* s,
-        const std::string& id)
-{
-}
-
-llvm::Value* LLVMModelDataSymbols::createFloatSpeciesConcFromAmtLoad(
-        llvm::Value* s, const std::string& id)
-{
-}
-
-llvm::Value* LLVMModelDataSymbols::createFloatSpeciesAmtFromConcLoad(
-        llvm::Value* s, const std::string& id)
-{
-}
-
-llvm::Value* LLVMModelDataSymbols::createGlobalParamEP(llvm::Value* s,
-        const std::string& id)
-{
-}
 
 int LLVMModelDataSymbols::getCompartmentIndex(
         const std::string& id) const
@@ -146,43 +120,56 @@ int LLVMModelDataSymbols::getBoundarySpeciesIndex(
 {
 }
 
-llvm::Value* LLVMModelDataSymbols::createGEP(llvm::Value* s,
-        ModelDataFields field)
+
+int LLVMModelDataSymbols::getGlobalParameterIndex(
+        const std::string& allocator) const
 {
-    Value *result = 0;
-    validateStruct(s, __FUNC__);
-    return builder->CreateStructGEP(s, field, "");
 }
 
-void LLVMModelDataSymbols::validateStruct(llvm::Value* s, const char* funcName)
+void LLVMModelDataSymbols::print()
 {
-    if (!builder)
+    for (StringIntMap::const_iterator i = floatingSpeciesMap.begin();
+            i != floatingSpeciesMap.end(); i++)
     {
-        string err = "error in ";
-        err += funcName;
-        err += ", builder is null";
-        throw LLVMException(err);
+        cout << "float species id: " << i->first << ", index: " << i->second
+                << "\n";
     }
 
-    if (s != cachedStructValue)
+    for (StringIntMap::const_iterator i = boundarySpeciesMap.begin();
+            i != boundarySpeciesMap.end(); i++)
     {
-        StructType *structType = dyn_cast<StructType>(s->getType());
-        if (structType)
-        {
-            if (structType->getName().compare(ModelDataName) == 0)
-            {
-                cachedStructValue = s;
-                return;
-            }
-        }
-        std::string str;
-        raw_string_ostream err(str);
-        err << "error in " << funcName << ", "
-                << "Invalid argument type, expected " << ModelDataName
-                << ", but received ";
-        s->getType()->print(err);
-        throw LLVMException(err.str());
+        cout << "boundary species id: " << i->first << ", index: " << i->second
+                << "\n";
     }
+
+    for (StringIntMap::const_iterator i = compartmentsMap.begin();
+            i != compartmentsMap.end(); i++)
+    {
+        cout << "compartment id: " << i->first << ", index: " << i->second
+                << "\n";
+    }
+
+    for (StringIntMap::const_iterator i = globalParametersMap.begin();
+            i != globalParametersMap.end(); i++)
+    {
+        cout << "global parameter id: " << i->first << ", index: " << i->second
+                << "\n";
+    }
+
 }
+
+std::vector<std::string> LLVMModelDataSymbols::getGlobalParameterIds() const
+{
+    vector<string> result;
+    result.resize(globalParametersMap.size());
+    for(StringIntMap::const_iterator i = floatingSpeciesMap.begin();
+            i != floatingSpeciesMap.end(); i++)
+    {
+        result[i->second] = i->first;
+    }
+    return result;
+}
+
+
 
 } /* namespace rr */
