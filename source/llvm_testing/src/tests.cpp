@@ -81,14 +81,14 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
 
     LLVMModelDataIRBuilder builder(c.getModelDataSymbols(), c.getBuilder());
 
-    builder.test(c.getModule(), c.getBuilder(), c.getExecutionEngine());
+    //builder.test(c.getModule(), c.getBuilder(), c.getExecutionEngine());
 
     builder.createAccessors(c.getModule());
 
     ExecutionEngine *engine = c.getExecutionEngine();
     Function *getFunc = engine->FindFunctionNamed("get_size");
 
-    getFunc->dump();
+    //getFunc->dump();
 
     // JIT the function, returning a function pointer.
 
@@ -111,23 +111,37 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
         md.floatingSpeciesConcentrations[i] = i+1;
     }
 
+    for(int i = 0; i < md.numCompartments; i++)
+    {
+        md.compartmentVolumes[i] = 1.5;
+    }
+
     for(int i = 0; i < floatSpeciesIds.size(); i++)
     {
         string getName = "get_floatingspecies_conc_" + floatSpeciesIds[i];
         Function *getFunc = engine->FindFunctionNamed(getName.c_str());
 
-        getFunc->dump();
+        //getFunc->dump();
 
         // JIT the function, returning a function pointer.
 
 
               // Cast it to the right type (takes no arguments, returns a double) so we
               // can call it as a native function.
-        double (*pfunc)(ModelData*) = (double (*)(ModelData*))(intptr_t)engine->getPointerToFunction(getFunc);
+        double (*pfunc)(ModelData*) = (double (*)(ModelData*))engine->getPointerToFunction(getFunc);
 
         double value = pfunc(&md);
 
         cout << getName << " returned " << value << "\n";
+
+        string setName = "set_floatingspecies_conc_" + floatSpeciesIds[i];
+        Function *setFunc = engine->FindFunctionNamed(setName.c_str());
+
+        void (*psetfunc)(ModelData*,double) = (void (*)(ModelData*,double))engine->getPointerToFunction(setFunc);
+
+        psetfunc(&md, i+1);
+
+        cout << "amount: " << md.floatingSpeciesAmounts[i] << ", conc: " << md.floatingSpeciesConcentrations[i] << "\n";
     }
 
 

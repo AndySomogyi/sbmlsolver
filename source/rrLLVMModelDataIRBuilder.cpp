@@ -395,9 +395,7 @@ llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcEP(llvm::Value* s,
 {
     validateStruct(s, __FUNC__);
     int index = symbols.getFloatingSpeciesIndex(id);
-    Value *gep = createGEP(s, FloatingSpeciesConcentrations);
-    Value *load = builder->CreateLoad(gep);
-    return builder->CreateConstGEP1_32(load, index);
+    return createGEP(s, FloatingSpeciesConcentrations, index);
 }
 
 llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciedAmtEP(llvm::Value* s,
@@ -452,7 +450,7 @@ void LLVMModelDataIRBuilder::createAccessors(Module *module)
                 i != getSizeFunc->arg_end(); i++)
         {
             Value *v = i;
-            v->dump();
+            //v->dump();
             getArgValues.push_back(i);
         }
 
@@ -466,16 +464,11 @@ void LLVMModelDataIRBuilder::createAccessors(Module *module)
 
         verifyFunction(*getSizeFunc);
 
-        getSizeFunc->dump();
-
+        //getSizeFunc->dump();
 
     }
 
-
 }
-
-
-
 
 pair<Function*, Function*> LLVMModelDataIRBuilder::createFloatingSpeciesAccessors(
         llvm::Module* module, const std::string id)
@@ -491,24 +484,23 @@ pair<Function*, Function*> LLVMModelDataIRBuilder::createFloatingSpeciesAccessor
         LLVMContext &context = module->getContext();
         StructType *structType = LLVMModelDataValue::getStructType(module);
         vector<Type*> getArgTypes(1, PointerType::get(structType, 0));
-        FunctionType *getFuncType = FunctionType::get(Type::getDoubleTy(context),
-                getArgTypes, false);
+        FunctionType *getFuncType = FunctionType::get(
+                Type::getDoubleTy(context), getArgTypes, false);
         result.first = Function::Create(getFuncType, Function::ExternalLinkage,
                 getName, module);
 
-        BasicBlock *getBlock = BasicBlock::Create(context, "entry", result.first);
-        builder->SetInsertPoint(getBlock);
+        BasicBlock *block = BasicBlock::Create(context, "entry",
+                result.first);
+        builder->SetInsertPoint(block);
         vector<Value*> getArgValues;
-        for(Function::arg_iterator i = result.first->arg_begin();
+        for (Function::arg_iterator i = result.first->arg_begin();
                 i != result.first->arg_end(); i++)
         {
             Value *v = i;
-            v->dump();
+            //v->dump();
             getArgValues.push_back(i);
 
         }
-
-
 
         Value *getEP = createFloatSpeciesConcEP(getArgValues[0], id);
 
@@ -518,7 +510,38 @@ pair<Function*, Function*> LLVMModelDataIRBuilder::createFloatingSpeciesAccessor
 
         verifyFunction(*result.first);
 
-        result.first->dump();
+        //result.first->dump();
+
+        vector<Type*> setArgTypes;
+        setArgTypes.push_back(PointerType::get(structType, 0));
+        setArgTypes.push_back(Type::getDoubleTy(context));
+        FunctionType *setFuncType = FunctionType::get(Type::getVoidTy(context),
+                setArgTypes, false);
+        result.second = Function::Create(setFuncType, Function::ExternalLinkage,
+                setName, module);
+
+        block = BasicBlock::Create(context, "entry",
+                result.second);
+        builder->SetInsertPoint(block);
+        vector<Value*> setArgValues;
+        for (Function::arg_iterator i = result.second->arg_begin();
+                i != result.second->arg_end(); i++)
+        {
+            Value *v = i;
+            //v->dump();
+            setArgValues.push_back(i);
+
+        }
+
+
+
+        Value *val = createFloatSpeciesConcStore(setArgValues[0], id, setArgValues[1]);
+
+        builder->CreateRetVoid();
+
+        verifyFunction(*result.second);
+
+        //result.second->dump();
 
         cout << "pause...\n";
 
@@ -527,10 +550,19 @@ pair<Function*, Function*> LLVMModelDataIRBuilder::createFloatingSpeciesAccessor
     return result;
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcStore(llvm::Value* s,
-        const std::string& id)
+llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcStore(Value* s,
+        const string& id, Value *conc)
 {
     validateStruct(s, __FUNC__);
+    int index = symbols.getFloatingSpeciesIndex(id);
+
+    Value *compEP = createFloatSpeciesCompEP(s, id);
+    Value *volume = builder->CreateLoad(compEP);
+    Value *amount = builder->CreateFMul(conc, volume);
+
+    builder->CreateStore(amount, createGEP(s, FloatingSpeciesAmounts, index));
+    return builder->CreateStore(conc, createGEP(s, FloatingSpeciesConcentrations, index));
+
 }
 
 llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesCompEP(llvm::Value* s,
@@ -570,7 +602,7 @@ void LLVMModelDataIRBuilder::validateStruct(llvm::Value* s, const char* funcName
 
         if (structType)
         {
-            structType->dump();
+            //structType->dump();
             string nm = structType->getName();
             string sname = structType->getStructName();
 

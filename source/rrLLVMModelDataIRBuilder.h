@@ -35,7 +35,8 @@ public:
 
     llvm::Value *createFloatSpeciesConcEP(llvm::Value *s, const std::string &id);
 
-    llvm::Value *createFloatSpeciesConcStore(llvm::Value *s, const std::string &id);
+    llvm::Value *createFloatSpeciesConcStore(llvm::Value *s, const std::string &id,
+            llvm::Value *value);
 
     llvm::Value *createFloatSpeciedAmtEP(llvm::Value *s, const std::string &id);
     llvm::Value *createFloatSpeciesConcFromAmtLoad(llvm::Value *s, const std::string &id);
