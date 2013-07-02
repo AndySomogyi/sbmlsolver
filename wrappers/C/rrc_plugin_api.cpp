@@ -201,6 +201,16 @@ char* rrCallConv getPluginInfo(RRPluginHandle handle)
     catch_ptr_macro
 }
 
+char* rrCallConv getPluginStatus(RRPluginHandle handle)
+{
+	try
+    {
+        Plugin* aPlugin = castToPlugin(handle);
+       	return rr::createText(aPlugin->getStatus());
+    }
+    catch_ptr_macro
+}
+
 bool rrCallConv executePlugin(RRPluginHandle handle)
 {
 	return executePluginEx(handle, NULL);
@@ -210,7 +220,6 @@ bool rrCallConv executePluginEx(RRPluginHandle handle, void* userData)
 {
 	try
     {
-
         Plugin* aPlugin = castToPlugin(handle);
         return (aPlugin) ? aPlugin->execute(userData) : false;
     }
@@ -237,7 +246,7 @@ char* rrcCallConv getPluginResult(RRPluginHandle handle)
     catch_ptr_macro
 }
 
-bool rrCallConv setInputData(RRPluginHandle handle, void* data)
+bool rrCallConv setPluginInputData(RRPluginHandle handle, void* data)
 {
 	try
     {
@@ -252,10 +261,18 @@ bool rrcCallConv resetPlugin(RRPluginHandle handle)
 	try
     {
         Plugin* aPlugin = castToPlugin(handle);
-
         return aPlugin->resetPlugin();
     }
     catch_bool_macro
 }
 
+bool rrcCallConv isPluginWorking(RRPluginHandle handle)
+{
+	try
+    {
+        Plugin* aPlugin = castToPlugin(handle);
+        return aPlugin->isWorking();
+    }
+    catch_bool_macro
+}
 }

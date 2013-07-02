@@ -153,7 +153,7 @@ RRComplexMatrix* createMatrix(const ls::ComplexMatrix* mat)
     {
     	return NULL;
     }
-    RRComplexMatrixHandle matrix = new RRComplexMatrix;
+    RRComplexMatrixPtr matrix = new RRComplexMatrix;
 
     matrix->RSize = mat->RSize();
     matrix->CSize = mat->CSize();
@@ -424,10 +424,10 @@ RRList* createArrayList(const rr::NewArrayList& aList)
 //}
 
 
-RRDataHandle createRRData(const RoadRunnerData& result)
+RRCDataPtr createRRCData(const RoadRunnerData& result)
 {
-    RRData* rrCData  = new RRData;
-    memset(rrCData, 0, sizeof(RRData));
+    RRCData* rrCData  = new RRCData;
+    memset(rrCData, 0, sizeof(RRCData));
 
     rrCData->ColumnHeaders = new char*[result.cSize()];
     for(int i = 0; i < result.cSize(); i++)

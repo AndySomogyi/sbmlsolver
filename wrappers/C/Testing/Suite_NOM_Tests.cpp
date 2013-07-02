@@ -3,7 +3,7 @@
 #include <vector>
 #include <fstream>
 #include "UnitTest++.h"
-#include "rrc_core_api.h"
+#include "rrc_api.h"
 #include "rrUtils.h"
 #include "rrIniFile.h"
 #include "rrException.h"

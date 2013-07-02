@@ -66,6 +66,9 @@ typedef void* RRParameterHandle;
 /*!@brief Void pointer to a MinimizationData instance */
 typedef void* RRMinimizationDataHandle;
 
+/*!@brief Void pointer to a RoadRunner data instance */
+typedef void* RRDataHandle;
+
 // ===================================== C DATA STRUCTURES =====================================
 /*!@struct*/
 /*!@brief Structure for a set of RoadRunner handles */
@@ -108,16 +111,16 @@ typedef struct RRComplex
 {
     double          re;  				/*!< Real part of complex number */
     double	       	imag;   			/*!< imag part of complex number */
-} *RRComplexHandle;    		      		/*!< Pointer to a RRComplex number */
+} *RRComplexPtr;    		      		/*!< Pointer to a RRComplex number */
 
 /*!@struct*/
 /*!@brief Structure for a simple complex Vector type */
 typedef struct RRComplexVector
 {
     int             	Count;   /*!< The number of elements in the vector */
-    RRComplexHandle		Data;   /*!< Access an element using Data[i],
+    RRComplexPtr		Data;   /*!< Access an element using Data[i],
 							  		where i represent the index of the element. Indexing is from zero */
-} *RRComplexVectorHandle;       /*!< Pointer to RRVectorHandle struct */
+} *RRComplexVectorPtr;       /*!< Pointer to RRVectorHandle struct */
 
 /*!@struct*/
 /*!@brief Structure for a simple complex Matrix type */
@@ -125,20 +128,20 @@ typedef struct RRComplexMatrix
 {
     int             	RSize;  /*!< The number of rows in the matrix */
     int             	CSize;  /*!< The number of columns in the matrix */
-    RRComplexHandle		Data;   /*!< Items in the matrix stored as a linear array. Access an element using Data[row*CSize + col],
+    RRComplexPtr		Data;   /*!< Items in the matrix stored as a linear array. Access an element using Data[row*CSize + col],
 							  		where i,j represent the row and column numberof the element. Indexing is from zero */
-} *RRComplexMatrixHandle;       /*!< Pointer to RRDoubleMatrixPtr struct */
+} *RRComplexMatrixPtr;       /*!< Pointer to RRDoubleMatrixPtr struct */
 
 /*!@struct*/
 /*!@brief Structure for the result type from the simulate calls */
-typedef struct RRData
+typedef struct RRCData
 {
     int             RSize;  			/*!< The number of rows in the data matrix */
     int             CSize;  			/*!< The number of columns in the data matrix */
     double*         Data;   			/*!< A pointer to the data stored in the matrix. Access an element using Data[row*CSize + col] */
     double*         Weights;   			/*!< A pointer to weights stored in the Weights matrix. Access an element using Weights[row*CSize + col] */
     char**          ColumnHeaders;   	/*!< Pointer to an array of column header strings */
-} *RRDataHandle;          				/*!< Pointer to RRDataHandle struct */
+} *RRCDataPtr;          				/*!< Pointer to RRDataPtr struct */
 
 /*!@struct*/
 /*!@brief Convenient structure for storing the header and main body source for the generate simulation C code */
@@ -147,7 +150,7 @@ typedef struct RRCCode
     char*   Header;  /*!< Header file *.h */
     char*   Source;  /*!< Main source code, *.c */
 
-} *RRCCodeHandle;    /*!< Pointer to RRCCodeHandle struct */
+} *RRCCodePtr;    /*!< Pointer to RRCCodePtr struct */
 
 /*!@enum*/
 /*!@brief The list type supports strings, integers, double and lists */

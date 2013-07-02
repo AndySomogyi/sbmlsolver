@@ -41,14 +41,14 @@ bool MinimizationData::reset()
 	return true;
 }
 
-void MinimizationData::setExperimentalDataSelectionList(const string& selList)
+void MinimizationData::setObservedDataSelectionList(const string& selList)
 {
- 	mExperimentalDataSelectionList = StringList(selList);
+ 	mObservedDataSelectionList = StringList(selList);
 }
 
-StringList MinimizationData::getExperimentalDataSelectionList()
+StringList MinimizationData::getObservedDataSelectionList()
 {
-	return mExperimentalDataSelectionList;
+	return mObservedDataSelectionList;
 }
 
 void MinimizationData::setModelDataSelectionList(const string& selList)
@@ -120,5 +120,32 @@ Parameters MinimizationData::getParameters()
 {
 	return mParameters;
 }
+
+string MinimizationData::getReport() const
+{
+	stringstream  msg;
+	msg<<"Parameters: \n";
+    msg<<mParameters.asStringList();
+	msg<<"\n";
+
+    msg<<"Observed Data ===============\n";
+    msg<<mObservedData<<"\n\n";
+
+    msg<<"ModelData Data ===============\n";
+    msg<<mModelData<<"\n\n";
+
+    msg<<"Residuals ===============\n";
+    msg<<mResidualsData<<"\n\n";
+
+    msg<<"End of minimization data report";
+	return msg.str();
+}
+
+ostream& operator<<(ostream& stream, const MinimizationData& outMe)
+{
+    stream<<outMe.getReport();   //virtual friend idiom
+    return stream;
+}
+
 }
 

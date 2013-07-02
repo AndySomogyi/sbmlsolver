@@ -8,7 +8,7 @@ extern string gTSModelsPath;
 extern string gTempFolder;
 extern bool gDebug;
 using namespace rr;
-RoadRunnerData convertCAPIResultData(RRDataHandle        resultsHandle);
+RoadRunnerData convertCAPIResultData(RRDataPtr        resultsHandle);
 
 TestSuiteSimulation::TestSuiteSimulation(const string& dataOutputFolder, const string& modelFilePath, const string& modelFileName)
 :
@@ -92,7 +92,7 @@ bool TestSuiteSimulation::SaveResult()
     return true;
 }
 
-RoadRunnerData convertCAPIResultData(RRDataHandle    result)
+RoadRunnerData convertCAPIResultData(RRDataPtr    result)
 {
     RoadRunnerData resultData;
 

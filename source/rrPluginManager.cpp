@@ -159,10 +159,12 @@ bool PluginManager::loadPlugin(const string& libName)
         else if(libHandle->hasSymbol("createPlugin"))
         {
             createRRPluginFunc create = (createRRPluginFunc) libHandle->getSymbol("createPlugin");
+
             //This plugin
             Plugin* aPlugin = create(mRR);
             if(aPlugin)
             {
+	            aPlugin->setLibraryName(getFileNameNoExtension(libName));
             	//Add plugins capabilities to roadrunner
                 Capabilities *caps = aPlugin->getCapabilities();
                 mRR->addCapabilities(*(caps));

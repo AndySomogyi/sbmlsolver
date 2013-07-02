@@ -183,6 +183,14 @@ C_DECL_SPEC bool rrcCallConv executePlugin(RRPluginHandle handle);
 C_DECL_SPEC bool rrcCallConv executePluginEx(RRPluginHandle handle, void* userData);
 
 /*!
+ \brief getPluginStatus (PluginName)
+ \param[in] handle Handle to a plugin
+ \return Returns plugin status if available. NULL otherwise
+ \ingroup pluginRoutines
+*/
+C_DECL_SPEC char* rrcCallConv getPluginStatus(RRPluginHandle handle);
+
+/*!
  \brief getPluginResult (PluginName)
  \param[in] handle Handle to a plugin
  \return Returns plugin result if available. NULL otherwise
@@ -215,8 +223,16 @@ C_DECL_SPEC bool rrcCallConv assignCallbacks(RRPluginHandle handle, pluginCallba
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
 */
-C_DECL_SPEC bool rrcCallConv setInputData(RRPluginHandle handle, void* userData);
+C_DECL_SPEC bool rrcCallConv setPluginInputData(RRPluginHandle handle, void* userData);
 
+
+/*!
+ \brief check if plugin is actively working
+ \param[in] handle Handle to a plugin
+ \return Returns true or false indicating i the plugin is busy or not
+ \ingroup pluginRoutines
+*/
+C_DECL_SPEC bool rrcCallConv isPluginWorking(RRPluginHandle handle);
 
 #if defined(__cplusplus)
 }	//Extern "C"

@@ -86,9 +86,9 @@ string BaseParameter::getType() const
         return "boolean";
     }
 
-    if(dynamic_cast< Parameter<rrc::RRData*>* >(ptr))
+    if(dynamic_cast< Parameter<rrc::RRCData*>* >(ptr))
     {
-        return "RRData";
+        return "RRCDataPtr";
     }
 
     return val;

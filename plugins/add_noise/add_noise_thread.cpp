@@ -35,6 +35,11 @@ void AddNoiseThread::start(void* inputData, double sigma)
 	mThread.start(*this);
 }
 
+bool AddNoiseThread::isRunning()
+{
+	return mThread.isRunning();
+}
+
 void AddNoiseThread::run()
 {
 	if(threadEnterCB)

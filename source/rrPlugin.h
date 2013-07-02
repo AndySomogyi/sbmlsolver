@@ -72,6 +72,7 @@ class RR_DECLSPEC Plugin : public rrObject /* Abstract plugin */
         virtual bool				isWorking();
         virtual bool				resetPlugin();
         virtual bool				setInputData(void* data);
+        virtual string				getStatus();
 
 		//Pure virtuals
         virtual string				getImplementationLanguage() = 0;

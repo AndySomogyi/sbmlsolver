@@ -699,6 +699,17 @@ def getSimulationResult(aHandle = None):
     rrLib.freeRRData(result)
     return resultArray
 
+def getSimulationResult2(aHandle = None):
+    if aHandle is None:
+        aHandle = gHandle
+
+    return rrLib.getSimulationResult(aHandle)
+
+def getRoadRunnerData(aHandle = None):
+    if aHandle is None:
+        aHandle = gHandle
+    return rrLib.getRoadRunnerData(aHandle)
+
 #use getRRDataElement and other helper routines to build array that can be used in numpy to plot with matplotlib
 #get num cols, get num rows, create array, fill array with two loops
 
@@ -2023,6 +2034,10 @@ def createRRMatrix (marray):
 #rrLib.unLoadPlugins.restyp = c_bool
 #rrLib.getNumberOfPlugins.restyp = c_int
 #rrLib.getPluginInfo.restyp = c_char_p
+
+def loadPlugin(libraryName):
+    return rrLib.loadPlugin(gHandle, libraryName)
+
 def loadPlugins():
     return rrLib.loadPlugins(gHandle)
 
@@ -2035,13 +2050,61 @@ def unLoadPlugins():
 def getNumberOfPlugins():
     return rrLib.getNumberOfPlugins(gHandle)
 
+rrLib.getPluginStatus.restype = c_char_p
 def getPluginInfo(pluginHandle):
     return rrLib.getPluginInfo(pluginHandle)
+
+def getPluginStatus(pluginHandle):
+    return rrLib.getPluginStatus(pluginHandle)
 
 def executePlugin(pluginHandle):
     return rrLib.executePlugin(pluginHandle)
 
+def executePluginEx(pluginHandle, userData):
+    return rrLib.executePluginEx(pluginHandle, c_void_p(userData))
 
+rrLib.getPluginResult.restype = c_char_p
+def getPluginResult(pluginHandle):
+    return rrLib.getPluginResult(pluginHandle)
+
+def getPluginParameter(pluginHandle, parameterName):
+    return rrLib.getPluginParameter(pluginHandle, parameterName, 0)
+
+def isPluginWorking(pluginHandle):
+    return rrLib.isPluginWorking(pluginHandle)
+
+def setPluginInputData(pluginHandle, userData):
+    return rrLib.setPluginInputData(pluginHandle, c_void_p(userData))
+
+def setPluginParameter(pluginHandle, parameterName, paraValue):
+    return rrLib.setPluginParameter(pluginHandle, parameterName, c_char_p(paraValue))
+
+#Parameter functionality
+def getParameterValueAsString(parameter):
+    value = rrLib.getParameterValueAsString(parameter)
+    return c_char_p(value).value
+
+def getParameterValueAsPointer(parHandle):
+    return c_void_p(rrLib.getParameterValueAsPointer(parHandle))
+
+def setParameter(parameter, value):
+    return rrLib.setParameter(parameter, value)
+
+#Minimization data funcionality
+def getMinimizationDataReport(minDataHandle):
+    value = rrLib.getMinimizationDataReport(minDataHandle)
+    return c_char_p(value).value
+
+def addDoubleParameter(minDataHandle, parLabel, parValue):
+    rrLib.addDoubleParameter(minDataHandle, parLabel, c_double(parValue))
+
+def setMinimizationModelDataSelectionList(minDataHandle, selectionList):
+    rrLib.setMinimizationModelDataSelectionList(minDataHandle, c_char_p(selectionList))
+
+def setMinimizationObservedDataSelectionList(minDataHandle, selectionList):
+    rrLib.setMinimizationObservedDataSelectionList(minDataHandle, c_char_p(selectionList))
+
+#Miscellaneous
 def compileSource(sourceFileName, rrHandle = None):
     if rrHandle is None:
         rrHandle = gHandle

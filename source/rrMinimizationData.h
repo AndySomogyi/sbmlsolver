@@ -18,10 +18,11 @@ class RR_DECLSPEC MinimizationData : public rrObject
 {
 	protected:
 		RoadRunnerData                 	mObservedData;				//Observed data
-		RoadRunnerData                 	mModelData;					//Observed data
-		RoadRunnerData                 	mResidualsData;				//Observed data
+		RoadRunnerData                 	mModelData;					//Model data
+		RoadRunnerData                 	mResidualsData;				//Residuals data
         Parameters				    	mParameters;				//Parameters to fit
-        StringList						mExperimentalDataSelectionList;
+
+        StringList						mObservedDataSelectionList;
         StringList						mModelDataSelectionList;
     public:
 					                   	MinimizationData();
@@ -32,8 +33,8 @@ class RR_DECLSPEC MinimizationData : public rrObject
 
         void							addParameter(const string& name, const double& value);
         void							addParameter(const string& name, const int& value);
-        void							setExperimentalDataSelectionList(const string& list);
-        StringList						getExperimentalDataSelectionList();
+        void							setObservedDataSelectionList(const string& list);
+        StringList						getObservedDataSelectionList();
         void							setModelDataSelectionList(const string& selList);
         StringList						getModelDataSelectionList();
 
@@ -49,11 +50,11 @@ class RR_DECLSPEC MinimizationData : public rrObject
         RoadRunnerData&					getModelDataReference();
         RoadRunnerData&					getResidualsDataReference();
 
-        ostream&	   			       	operator<<(const string& str);
-        string					       	getReport();
+        RR_DECLSPEC
+        friend ostream&                 operator<<(ostream& stream, const MinimizationData& outMe);
+        string					       	getReport() const;
 		Parameters					  	getParameters();
         bool							reset();
-
 };
 
 template<>

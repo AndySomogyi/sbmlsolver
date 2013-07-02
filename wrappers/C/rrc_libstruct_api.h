@@ -75,7 +75,7 @@ A * v(j) = lambda(j) * v(j)
 \return Returns null if it fails, otherwise returns a RRComplexMatrix.
 \ingroup Stoich
 */
-C_DECL_SPEC RRComplexMatrixHandle rrcCallConv getEigenVectors(RRDoubleMatrixPtr matrix);
+C_DECL_SPEC RRComplexMatrixPtr rrcCallConv getEigenVectors(RRDoubleMatrixPtr matrix);
 
 
 /*! \brief Calculates the eigen-vectors of a square nonsymmetrix complex matrix.
@@ -88,7 +88,7 @@ A * v(j) = lambda(j) * v(j)
 \return Returns null if it fails, otherwise returns a RRComplexMatrix.
 \ingroup Stoich
 */
-C_DECL_SPEC RRComplexMatrixHandle rrcCallConv getZEigenVectors(RRComplexMatrixHandle matrix);
+C_DECL_SPEC RRComplexMatrixPtr rrcCallConv getZEigenVectors(RRComplexMatrixPtr matrix);
 
 
 /*! \brief Returns values for conservation laws using the current initial conditions
@@ -127,7 +127,7 @@ C_DECL_SPEC RRDoubleMatrixPtr rrcCallConv getEigenvaluesMatrix(const RRDoubleMat
  \return Returns null if it fails, otherwise returns a complex vector of eigenvalues.
  \ingroup LinearAlgebra
 */
-C_DECL_SPEC RRComplexVectorHandle rrcCallConv getEigenvaluesVector(const RRDoubleMatrixPtr mat);
+C_DECL_SPEC RRComplexVectorPtr rrcCallConv getEigenvaluesVector(const RRDoubleMatrixPtr mat);
 
 //---------------------------------------------------------------------------
 #if defined(__cplusplus)

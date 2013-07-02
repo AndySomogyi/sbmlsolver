@@ -118,6 +118,22 @@ string Plugin::getCopyright()
 	return mCopyright;
 }
 
+string Plugin::getStatus()
+{
+	stringstream msg;
+    msg<<"Has RoadRunner instance: ";
+    if(mRR)
+    {
+    	msg<<" True\n";
+    }
+    else
+    {
+    	msg<<" False\n";
+    }
+
+    return msg.str();
+}
+
 string Plugin::getInfo() //Obs. subclasses may over ride this function and add more info
 {
     stringstream msg;
@@ -127,15 +143,6 @@ string Plugin::getInfo() //Obs. subclasses may over ride this function and add m
     msg<<setw(30)<<left<<"Category"<<mCategory<<"\n";
     msg<<setw(30)<<left<<"Version"<<mVersion<<"\n";
     msg<<setw(30)<<left<<"Copyright"<<mCopyright<<"\n";
-
-//	msg<<"=== Capabilities ====\n";
-//    for(int i = 0; i < mCapabilities.count(); i++)
-//    {
-//    	if(mCapabilities[i])
-//        {
-//    		msg<< *(mCapabilities[i]);
-//        }
-//    }
     return msg.str();
 }
 

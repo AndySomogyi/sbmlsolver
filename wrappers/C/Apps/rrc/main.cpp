@@ -15,7 +15,7 @@
 #include "rrStringUtils.h"
 #include "GetOptions.h"
 #include "Args.h"
-#include "rrc_core_api.h"
+#include "rrc_api.h"
 
 //---------------------------------------------------------------------------
 using namespace std;
@@ -155,7 +155,7 @@ int main(int argc, char* argv[])
         }
     }
 
-	RRDataHandle result;
+	RRDataPtr result;
 	if(doMore)
     {
 	    setTimeStart(rrHandle, args.StartTime);

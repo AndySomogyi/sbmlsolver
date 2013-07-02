@@ -180,7 +180,7 @@ private:
     RRPluginHandle						mLMPlugin;
     TLMFittingFrame					   *mLMFrame;
 
-    RRData* 							mData;
+    RRCData* 							mData;
     RRJobHandle	                        mLoadModelJob;
     RRJobHandle	                        mSimulateModelJob;
 	TOnSimulationFinished				OnSimulationFinsihed;
