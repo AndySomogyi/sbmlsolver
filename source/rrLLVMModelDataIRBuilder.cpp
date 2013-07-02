@@ -19,7 +19,7 @@
 #include <sstream>
 
 #include "llvm/ADT/APInt.h"
-#include "llvm/Intrinsics.h"
+
 
 using namespace libsbml;
 using namespace llvm;
