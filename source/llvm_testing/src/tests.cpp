@@ -1,0 +1,139 @@
+#include "tests.h"
+#include "rrLLVMModelGeneratorContext.h"
+#include "rrLLVMModelDataSymbols.h"
+#include "rrLLVMModelDataIRBuilder.h"
+#include "rrException.h"
+#include "rrUtils.h"
+#include "rrLLVMIncludes.h"
+
+
+#include <sbml/SBMLDocument.h>
+#include <sbml/Model.h>
+#include <sbml/SBMLReader.h>
+
+#include "rrModelData.h"
+
+#include <utility>
+#include <cstdlib>
+
+
+
+using namespace std;
+
+
+
+
+
+
+
+using namespace rr;
+
+
+
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+using namespace rr;
+using namespace llvm;
+
+using namespace libsbml;
+
+string getModelFileName(const string& version, int caseNumber)
+{
+    string dummy;
+    string logFileName;
+    string settingsFileName;
+
+    //Create a log file name
+    createTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName,
+            settingsFileName);
+
+    //Read SBML models.....
+    string home = getenv("HOME");
+    string modelFilePath = home + "/src/sbml_test/";
+
+    modelFilePath = joinPath(joinPath(modelFilePath, "cases"), "semantic");
+    string modelFileName;
+
+    createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml",
+            modelFilePath, modelFileName, settingsFileName);
+
+    modelFileName = joinPath(modelFilePath, modelFileName);
+
+    cout << modelFileName << "\n";
+
+    return modelFileName;
+}
+
+bool runModelDataAccessorTest(const string& version, int caseNumber)
+{
+    ModelData md;
+    string modelFileName = getModelFileName(version, caseNumber);
+
+    SBMLDocument *doc = readSBMLFromFile(modelFileName.c_str());
+
+    LLVMModelGeneratorContext c(doc, true);
+
+    c.getModelDataSymbols().initAllocModelDataBuffers(md);
+
+    md.size = sizeof(ModelData);
+
+    LLVMModelDataIRBuilder builder(c.getModelDataSymbols(), c.getBuilder());
+
+    builder.test(c.getModule(), c.getBuilder(), c.getExecutionEngine());
+
+    builder.createAccessors(c.getModule());
+
+    ExecutionEngine *engine = c.getExecutionEngine();
+    Function *getFunc = engine->FindFunctionNamed("get_size");
+
+    getFunc->dump();
+
+    // JIT the function, returning a function pointer.
+
+
+    // Cast it to the right type (takes no arguments, returns a double) so we
+    // can call it as a native function.
+    int (*pfunc)(ModelData*) = (int (*)(ModelData*))engine->getPointerToFunction(getFunc);
+
+    double value = pfunc(&md);
+
+    cout << "get_size returned " << value << "\n";
+
+
+
+    vector<string> floatSpeciesIds = c.getModelDataSymbols().getFloatingSpeciesIds();
+
+    for(int i = 0; i < floatSpeciesIds.size(); i++)
+    {
+        builder.createFloatingSpeciesAccessors(c.getModule(), floatSpeciesIds[i]);
+        md.floatingSpeciesConcentrations[i] = i+1;
+    }
+
+    for(int i = 0; i < floatSpeciesIds.size(); i++)
+    {
+        string getName = "get_floatingspecies_conc_" + floatSpeciesIds[i];
+        Function *getFunc = engine->FindFunctionNamed(getName.c_str());
+
+        getFunc->dump();
+
+        // JIT the function, returning a function pointer.
+
+
+              // Cast it to the right type (takes no arguments, returns a double) so we
+              // can call it as a native function.
+        double (*pfunc)(ModelData*) = (double (*)(ModelData*))(intptr_t)engine->getPointerToFunction(getFunc);
+
+        double value = pfunc(&md);
+
+        cout << getName << " returned " << value << "\n";
+    }
+
+
+    freeModelDataBuffers(md);
+
+    delete doc;
+
+    return true;
+}

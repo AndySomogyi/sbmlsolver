@@ -20,6 +20,11 @@ public:
             std::runtime_error(what)
     {
     }
+
+    explicit LLVMException(const std::string& what, const std::string &where) :
+            std::runtime_error("Error in " + where + ": " + what)
+    {
+    }
 };
 
 }

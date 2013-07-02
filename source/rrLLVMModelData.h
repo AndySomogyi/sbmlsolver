@@ -92,7 +92,8 @@ public:
 
 
 
-    static llvm::StructType *getStructType(llvm::Module *module, llvm::ExecutionEngine *engine);
+    static llvm::StructType *getStructType(llvm::Module *module,
+            llvm::ExecutionEngine *engine = 0);
 
 
 

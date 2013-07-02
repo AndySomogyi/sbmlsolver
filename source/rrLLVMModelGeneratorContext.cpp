@@ -21,9 +21,11 @@ using namespace libsbml;
 namespace rr
 {
 
-LLVMModelGeneratorContext::LLVMModelGeneratorContext(std::string const &sbml) :
+LLVMModelGeneratorContext::LLVMModelGeneratorContext(std::string const &sbml,
+        bool computeAndAssignConsevationLaws) :
     ownedDoc(readSBMLFromString((sbml.c_str()))),
-    doc(ownedDoc)
+    doc(ownedDoc),
+    symbols(doc->getModel(), computeAndAssignConsevationLaws)
 {
     // initialize LLVM
     // TODO check result
@@ -35,18 +37,19 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext(std::string const &sbml) :
 
     errString = new std::string();
 
+    builder = new IRBuilder<>(*context);
+
     EngineBuilder engineBuilder(module);
     //engineBuilder.setEngineKind(EngineKind::JIT);
     engineBuilder.setErrorStr(errString);
     executionEngine = engineBuilder.create();
-
-
-
 }
 
-LLVMModelGeneratorContext::LLVMModelGeneratorContext(libsbml::SBMLDocument const *doc) :
+LLVMModelGeneratorContext::LLVMModelGeneratorContext(libsbml::SBMLDocument const *doc,
+        bool computeAndAssignConsevationLaws) :
         ownedDoc(0),
-        doc(doc)
+        doc(doc),
+        symbols(doc->getModel(), computeAndAssignConsevationLaws)
 {
     // initialize LLVM
     // TODO check result
@@ -55,6 +58,8 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext(libsbml::SBMLDocument const
     context = new LLVMContext();
     // Make the module, which holds all the code.
     module = new Module("LLVM Module", *context);
+
+    builder = new IRBuilder<>(*context);
 
     errString = new std::string();
 
@@ -84,15 +89,13 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext() :
     //engineBuilder.setEngineKind(EngineKind::JIT);
     engineBuilder.setErrorStr(errString);
     executionEngine = engineBuilder.create();
-
-
-
 }
 
 
 LLVMModelGeneratorContext::~LLVMModelGeneratorContext()
 {
-
+    delete executionEngine;
+    delete context;
 }
 
 llvm::LLVMContext& LLVMModelGeneratorContext::getContext()
@@ -105,18 +108,19 @@ llvm::ExecutionEngine* LLVMModelGeneratorContext::getExecutionEngine()
     return executionEngine;
 }
 
-
-
-LLVMModelDataValue& LLVMModelGeneratorContext::getModelDataSymbols()
+LLVMModelDataSymbols& LLVMModelGeneratorContext::getModelDataSymbols()
 {
+    return symbols;
 }
 
 const libsbml::SBMLDocument* LLVMModelGeneratorContext::getDocument()
 {
+    return doc;
 }
 
 const libsbml::Model* LLVMModelGeneratorContext::getModel()
 {
+    return doc->getModel();
 }
 
 llvm::Module* LLVMModelGeneratorContext::getModule()
@@ -124,6 +128,9 @@ llvm::Module* LLVMModelGeneratorContext::getModule()
     return module;
 }
 
-
+llvm::IRBuilder<>* LLVMModelGeneratorContext::getBuilder()
+{
+    return builder;
+}
 
 } /* namespace rr */

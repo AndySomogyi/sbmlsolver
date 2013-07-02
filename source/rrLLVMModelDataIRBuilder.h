@@ -34,9 +34,14 @@ public:
     virtual ~LLVMModelDataIRBuilder();
 
     llvm::Value *createFloatSpeciesConcEP(llvm::Value *s, const std::string &id);
+
+    llvm::Value *createFloatSpeciesConcStore(llvm::Value *s, const std::string &id);
+
     llvm::Value *createFloatSpeciedAmtEP(llvm::Value *s, const std::string &id);
     llvm::Value *createFloatSpeciesConcFromAmtLoad(llvm::Value *s, const std::string &id);
     llvm::Value *createFloatSpeciesAmtFromConcLoad(llvm::Value *s, const std::string &id);
+
+    llvm::Value *createFloatSpeciesCompEP(llvm::Value *s, const std::string &id);
 
     llvm::Value *createGlobalParamEP(llvm::Value *s, const std::string &id);
 
@@ -45,6 +50,12 @@ public:
 
 
     llvm::Value *createGEP(llvm::Value *, ModelDataFields field);
+
+    /**
+     * create a GEP for an array which belongs to the ModelData struct,
+     * only valid for arrays, will crash on non-array fields.
+     */
+    llvm::Value *createGEP(llvm::Value *, ModelDataFields field, unsigned index);
 
 //     /**
 //      * number of linearly independent rows in the stochiometry matrix.
@@ -228,6 +239,14 @@ public:
 //     //double*                             lp;
 //     //int                                 localParameterDimensionsSize;
 //     //int*                                localParameterDimensions;
+
+    void createAccessors(llvm::Module *module);
+
+    std::pair<llvm::Function*, llvm::Function*> createFloatingSpeciesAccessors(llvm::Module *module,
+            const std::string id);
+
+    void test(llvm::Module *module,
+            llvm::IRBuilder<> *build, llvm::ExecutionEngine * engine);
 
 
 

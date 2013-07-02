@@ -11,7 +11,7 @@
 #ifndef rrLLVMModelGeneratorContextH
 #define rrLLVMModelGeneratorContextH
 
-#include "rrLLVMModelData.h"
+#include "rrLLVMModelDataSymbols.h"
 #include "rrLLVMIncludes.h"
 #include <sbml/Model.h>
 #include <sbml/SBMLDocument.h>
@@ -29,11 +29,11 @@ class LLVMModelGeneratorContext
 {
 public:
     LLVMModelGeneratorContext();
-    LLVMModelGeneratorContext(std::string const &sbml);
-    LLVMModelGeneratorContext(libsbml::SBMLDocument const *doc);
+    LLVMModelGeneratorContext(std::string const &sbml, bool computeAndAssignConsevationLaws);
+    LLVMModelGeneratorContext(libsbml::SBMLDocument const *doc, bool computeAndAssignConsevationLaws);
     ~LLVMModelGeneratorContext();
 
-    LLVMModelDataValue &getModelDataSymbols();
+    LLVMModelDataSymbols &getModelDataSymbols();
 
     const libsbml::SBMLDocument *getDocument();
 
@@ -48,11 +48,15 @@ public:
 
     llvm::Module *getModule();
 
+    llvm::IRBuilder<> *getBuilder();
+
 private:
     llvm::LLVMContext *context;
     llvm::ExecutionEngine *executionEngine;
     llvm::Module *module;
     std::string *errString;
+
+
 
     /**
      * these point to the same location, ownedDoc is set if we create the doc,
@@ -64,6 +68,10 @@ private:
      * allways references the sbml doc.
      */
     libsbml::SBMLDocument const *doc;
+
+    LLVMModelDataSymbols symbols;
+
+    llvm::IRBuilder<> *builder;
 };
 
 } /* namespace rr */

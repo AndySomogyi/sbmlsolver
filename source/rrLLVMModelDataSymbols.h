@@ -13,6 +13,8 @@
 
 #include "rrLLVMModelData.h"
 #include "rrLLVMIncludes.h"
+#include "rrModelData.h"
+#include "rrExecutableModel.h"
 
 #include <map>
 
@@ -40,8 +42,13 @@ public:
     int getCompartmentIndex(std::string const&) const;
     int getFloatingSpeciesIndex(std::string const&) const;
     int getBoundarySpeciesIndex(std::string const&) const;
+    int getFloatingSpeciesCompartmentIndex(std::string const&) const;
+    int getBoundarySpeciesCompartmentIndex(std::string const&) const;
     int getGlobalParameterIndex(std::string const&) const;
     std::vector<std::string> getGlobalParameterIds() const;
+    std::vector<std::string> getFloatingSpeciesIds() const;
+    std::vector<std::string> getCompartmentIds() const;
+    std::vector<std::string> getBoundarySpeciesIds() const;
 
 
 
@@ -229,12 +236,15 @@ public:
 //     //int                                 localParameterDimensionsSize;
 //     //int*                                localParameterDimensions;
 
+
+    void initAllocModelDataBuffers(ModelData& m);
+
     void print();
     static const char* ModelDataName;
 
 private:
 
-
+    std::string modelName;
     StringIntMap floatingSpeciesMap;
     StringIntMap boundarySpeciesMap;
     StringIntMap compartmentsMap;

@@ -12,6 +12,7 @@ set(tests
 
 add_executable( ${target}
     main
+    src/tests
 
     )
 

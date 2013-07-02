@@ -22,6 +22,18 @@ using namespace libsbml;
 using namespace llvm;
 using namespace std;
 
+static std::vector<std::string> getIds(const rr::LLVMModelDataSymbols::StringIntMap & m)
+{
+    vector<string> result;
+    result.resize(m.size());
+    for(rr::LLVMModelDataSymbols::StringIntMap::const_iterator i = m.begin();
+            i != m.end(); i++)
+    {
+        result[i->second] = i->first;
+    }
+    return result;
+}
+
 namespace rr
 {
 
@@ -36,6 +48,8 @@ LLVMModelDataSymbols::LLVMModelDataSymbols()
 LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
         bool computeAndAssignConsevationLaws)
 {
+    modelName = model->getName();
+
     // get the compartments
     const ListOfCompartments *compartments = model->getListOfCompartments();
     for (int i = 0; i < compartments->size(); i++)
@@ -102,28 +116,102 @@ int LLVMModelDataSymbols::getCompartmentIndex(
     }
     else
     {
-        string s;
-        raw_string_ostream err(s);
-        err << "error in " << __FUNC__;
-        err << "compartment id \"" << id << "\" not found in compartmentsMap";
-        throw LLVMException(err.str());
+        throw LLVMException("could not find compartment with id " + id, __FUNC__);
     }
 }
 
 int LLVMModelDataSymbols::getFloatingSpeciesIndex(
-        const std::string& allocator) const
+        const std::string& id) const
 {
+    StringIntMap::const_iterator i = floatingSpeciesMap.find(id);
+    if(i != floatingSpeciesMap.end())
+    {
+        return i->second;
+    }
+    else
+    {
+        throw LLVMException("could not find floating species with id " + id, __FUNC__);
+    }
 }
 
 int LLVMModelDataSymbols::getBoundarySpeciesIndex(
-        const std::string& allocator) const
+        const std::string& id) const
 {
+    StringIntMap::const_iterator i = boundarySpeciesMap.find(id);
+    if(i != boundarySpeciesMap.end())
+    {
+        return i->second;
+    }
+    else
+    {
+        throw LLVMException("could not find boundary species with id " + id, __FUNC__);
+    }
 }
 
 
 int LLVMModelDataSymbols::getGlobalParameterIndex(
-        const std::string& allocator) const
+        const std::string& id) const
 {
+    StringIntMap::const_iterator i = globalParametersMap.find(id);
+    if(i != globalParametersMap.end())
+    {
+        return i->second;
+    }
+    else
+    {
+        throw LLVMException("could not find global parameter species with id " + id, __FUNC__);
+    }
+}
+
+void LLVMModelDataSymbols::initAllocModelDataBuffers(ModelData& m)
+{
+    // zero out the structure
+    initModelData(m);
+
+    // set the buffer sizes
+    //mData.numIndependentSpecies         = ms.mNumIndependentSpecies;
+    //mData.numDependentSpecies           = ms.mNumDependentSpecies;
+    m.numGlobalParameters           = globalParametersMap.size();
+    //mData.numReactions                  = ms.mReactionList.size();
+    //mData.numEvents                     = ms.mNumEvents;
+    m.numFloatingSpecies            = floatingSpeciesMap.size();
+    //mData.numRateRules                  = ms.mRateRules.size();
+    m.numCompartments               = compartmentsMap.size();
+    m.numBoundarySpecies            = boundarySpeciesMap.size();
+    //mData.srSize                        = ms.mNumModifiableSpeciesReferences;
+    //mData.eventPrioritiesSize           = ms.mNumEvents;
+    //mData.eventStatusArraySize          = ms.mNumEvents;
+    //mData.previousEventStatusArraySize  = ms.mNumEvents;
+    //mData.eventPersistentTypeSize       = ms.mNumEvents;
+    //mData.eventTestsSize                = ms.mNumEvents;
+    //mData.eventTypeSize                 = ms.mNumEvents;
+
+    // allocate the data buffers
+    allocModelDataBuffers(m, modelName);
+}
+
+std::vector<std::string> LLVMModelDataSymbols::getCompartmentIds() const
+{
+    return getIds(compartmentsMap);
+}
+
+std::vector<std::string> LLVMModelDataSymbols::getBoundarySpeciesIds() const
+{
+    return getIds(boundarySpeciesMap);
+}
+
+int LLVMModelDataSymbols::getFloatingSpeciesCompartmentIndex(
+        const std::string& id) const
+{
+    int speciesIndex = getFloatingSpeciesIndex(id);
+    return floatingSpeciesCompartments[speciesIndex];
+}
+
+int LLVMModelDataSymbols::getBoundarySpeciesCompartmentIndex(
+        const std::string& id) const
+{
+    int speciesIndex = getBoundarySpeciesIndex(id);
+    return boundarySpeciesCompartments[speciesIndex];
 }
 
 void LLVMModelDataSymbols::print()
@@ -158,16 +246,15 @@ void LLVMModelDataSymbols::print()
 
 }
 
+
 std::vector<std::string> LLVMModelDataSymbols::getGlobalParameterIds() const
 {
-    vector<string> result;
-    result.resize(globalParametersMap.size());
-    for(StringIntMap::const_iterator i = floatingSpeciesMap.begin();
-            i != floatingSpeciesMap.end(); i++)
-    {
-        result[i->second] = i->first;
-    }
-    return result;
+    return getIds(globalParametersMap);
+}
+
+std::vector<std::string> LLVMModelDataSymbols::getFloatingSpeciesIds() const
+{
+    return getIds(floatingSpeciesMap);
 }
 
 

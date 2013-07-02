@@ -1,3 +1,5 @@
+#include "tests.h"
+
 #include "rrLLVMModelGeneratorContext.h"
 #include "rrLLVMModelDataSymbols.h"
 #include "rrException.h"
@@ -49,7 +51,7 @@ int main(int argc, char* argv[])
     getPairs(pairs, npairs);
 
     for (int i = 0; i < npairs; i++) {
-        RunTest(pairs[i].first, pairs[i].second);
+        runModelDataAccessorTest(pairs[i].first, pairs[i].second);
     }
 
 
@@ -62,28 +64,11 @@ bool RunTest(const string& version, int caseNumber)
     bool result = false;
     try
     {
-        string dummy;
-        string logFileName;
-        string settingsFileName;
-
-        //Create a log file name
-        createTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, settingsFileName);
-
-        //Read SBML models.....
-        string home = getenv("HOME");
-        string modelFilePath = home + "/src/sbml_test/";
-
-        modelFilePath = joinPath(joinPath(modelFilePath, "cases"), "semantic");
-        string modelFileName;
-
-        createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName);
-        modelFileName = joinPath(modelFilePath, modelFileName);
-
-        cout << modelFileName << "\n";
+        string modelFileName = getModelFileName(version, caseNumber);
 
         SBMLDocument *doc = readSBMLFromFile(modelFileName.c_str());
 
-        LLVMModelGeneratorContext c(doc);
+        LLVMModelGeneratorContext c(doc, true);
 
         //StructType *s = LLVMModelDataValue::getStructType(c.getModule(), c.getExecutionEngine());
 
