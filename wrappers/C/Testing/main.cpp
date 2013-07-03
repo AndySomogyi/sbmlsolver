@@ -2,7 +2,6 @@
 #include <fstream>
 #include "rrLogger.h"
 #include "rrUtils.h"
-#include "rrVersionInfo.h"
 #include "unit_test/UnitTest++.h"
 #include "unit_test/XmlTestReporter.h"
 #include "unit_test/TestReporterStdout.h"
@@ -29,8 +28,6 @@ bool setup(Args& args);
 int main(int argc, char* argv[])
 {
     enableLoggingToConsole();
-
-    Log(lShowAlways) << "Roadrunner version " << RR_VERSION << ", compiled with " << RR_COMPILER << "\n";
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
     setup(args);
@@ -73,25 +70,9 @@ int main(int argc, char* argv[])
     if(args.Suites.find('E') != std::string::npos)
     {
 
-        clog<<"Running Suite SBML_TEST_SUITE\n";
+        clog<<"Running Suite SBML_l2v4\n";
         clog<<"ModelPath "<<gTSModelsPath;
-        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE",   True(), 0);
-    }
-
-    if(args.Suites.find('F') != std::string::npos)
-    {
-
-        clog<<"Running Suite Valgrind SBML_TEST_SUITE_VG1\n";
-        clog<<"ModelPath "<<gTSModelsPath;
-        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_VG1",   True(), 0);
-    }
-
-    if(args.Suites.find('G') != std::string::npos)
-    {
-
-        clog<<"Running Suite Valgrind SBML_TEST_SUITE_VG2\n";
-        clog<<"ModelPath "<<gTSModelsPath;
-        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_VG2",   True(), 0);
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE",             True(), 0);
     }
 
 

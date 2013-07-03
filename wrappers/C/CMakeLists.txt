@@ -74,7 +74,8 @@ endif()
 #=============== INSTALL =====================
 install(
 FILES 
-    ${target}.h 
+#    ${target}.h 
+    rrc_core_api.h 
     rrc_utilities.h 
     rrc_types.h 
     rrc_exporter.h				 					
