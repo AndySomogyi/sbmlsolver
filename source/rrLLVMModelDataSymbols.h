@@ -11,8 +11,6 @@
 #ifndef LLVMModelDataSymbolsH
 #define LLVMModelDataSymbolsH
 
-#include "rrLLVMModelData.h"
-#include "rrLLVMIncludes.h"
 #include "rrModelData.h"
 #include "rrExecutableModel.h"
 
@@ -22,6 +20,57 @@ namespace libsbml { class Model; }
 
 namespace rr
 {
+
+enum ModelDataFields {
+    Size = 0,
+    ModelName,
+    Time,
+    NumIndependentSpecies,
+    NumDependentSpecies,
+    DependentSpeciesConservedSums,
+    NumGlobalParameters,
+    GlobalParameters,
+    NumReactions,
+    ReactionRates,
+    LocalParametersOffsets,
+    LocalParametersNum,
+    LocalParameters,
+    NumFloatingSpecies,
+    FloatingSpeciesConcentrations,
+    FloatingSpeciesInitConcentrations,
+    FloatingSpeciesConcentrationRates,
+    FloatingSpeciesAmounts,
+    FloatingSpeciesCompartments,
+    NumBoundarySpecies,
+    BoundarySpeciesConcentrations,
+    BoundarySpeciesCompartments,
+    NumCompartments,
+    CompartmentVolumes,
+    NumRateRules,
+    RateRules,
+    NumEvents,
+    EventTypeSize,
+    EventType,
+    EventPersistentTypeSize,
+    EventPersistentType,
+    EventTestsSize,
+    EventTests,
+    EventPrioritiesSize,
+    EventPriorities,
+    EventStatusArraySize,
+    EventStatusArray,
+    PreviousEventStatusArraySize,
+    PreviousEventStatusArray,
+    EventDelays,
+    EventAssignments,
+    ComputeEventAssignments,
+    PerformEventAssignments,
+    VariableTable,
+    BoundaryTable,
+    GlobalParameterTable,
+    SrSize,
+    Sr
+};
 
 class LLVMModelDataSymbols
 {
@@ -237,10 +286,11 @@ public:
 //     //int*                                localParameterDimensions;
 
 
-    void initAllocModelDataBuffers(ModelData& m);
+    void initAllocModelDataBuffers(ModelData& m) const;
 
-    void print();
-    static const char* ModelDataName;
+    void print() const;
+
+
 
 private:
 

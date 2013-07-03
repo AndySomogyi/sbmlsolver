@@ -8,15 +8,25 @@
 #ifndef RRLLVMINITIALVALUECODEGEN_H_
 #define RRLLVMINITIALVALUECODEGEN_H_
 
+#include "rrLLVMModelGeneratorContext.h"
+#include <sbml/SBMLVisitor.h>
+
+
+
+
 namespace rr
 {
 
-class LLVMInitialValueCodeGen
+using libsbml::SBMLVisitor;
+using llvm::Function;
+
+class LLVMInitialValueCodeGen : public SBMLVisitor
 {
 public:
-    LLVMInitialValueCodeGen();
+    LLVMInitialValueCodeGen(const LLVMModelGeneratorContext &mgc);
     ~LLVMInitialValueCodeGen();
 
+    Function *CodeGen();
 
 };
 
