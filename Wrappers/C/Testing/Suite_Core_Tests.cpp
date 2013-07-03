@@ -13,7 +13,7 @@
 #include "Poco/DOM/TreeWalker.h"
 #include "Poco/SAX/InputSource.h"
 #include "Poco/MD5Engine.h"
-#include "UnitTest++.h"
+#include "unit_test/UnitTest++.h"
 #include "rrc_core_api.h"
 #include "rrUtils.h"
 #include "rrException.h"

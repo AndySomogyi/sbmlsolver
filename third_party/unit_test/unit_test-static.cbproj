@@ -1,6 +1,6 @@
 	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 		<PropertyGroup>
-			<ProjectGuid>{5B8E3DCF-9D6E-46AB-AE81-6AF6AADE5AC0}</ProjectGuid>
+			<ProjectGuid>{A1915A1F-3406-4408-9F39-6152441D8F91}</ProjectGuid>
 			<ProjectVersion>12.3</ProjectVersion>
 			<Base>True</Base>
 			<Config Condition="'$(Config)'==''">Debug</Config>
@@ -22,15 +22,15 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
-			<Defines>STATIC_NLEQ;$(Defines)</Defines>
-			<IncludePath>..\..\source\nleq\;$(RR_ROOT)\trunk\third_party\clapack\3.2.1\include;$(IncludePath)</IncludePath>
+			<ShowGeneralMessages>true</ShowGeneralMessages>
 			<OutputExt>lib</OutputExt>
-			<PackageImports>vclx.bpi;vcl.bpi;rtl.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;vclimg.bpi;svnui.bpi;svn.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;bdertl.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;DbxClientDriver.bpi;dbexpress.bpi;AzureCloud.bpi;DbxCommonDriver.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;vclie.bpi;webdsnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;TeeTree2D15Tee9.bpi;bcbie.bpi;dbxcds.bpi;TeeImage915.bpi;TeeWorld915.bpi;TeeLanguage915.bpi;TeePro915.bpi;TeeGL915.bpi;TeeUI915.bpi;TeeDB915.bpi;Tee915.bpi;inetdb.bpi;websnap.bpi;DuneComponents.bpi;mtkCommonRTL.bpi;VCLCommonRTL.bpi;VCLData.bpi;mtkMathRTL.bpi;mtkDataRTL.bpi;vtkComponents.bpi;mtkGraphicsRTL.bpi;VCLMolecule.bpi;mtkMoleculeRTL.bpi;mtkSpinRTL.bpi</PackageImports>
-			<Multithreaded>true</Multithreaded>
+			<PackageImports>vcl.bpi;rtl.bpi;bcbie.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;vclimg.bpi;svnui.bpi;svn.bpi;bdertl.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;vclie.bpi;inet.bpi;inetdb.bpi;webdsnap.bpi;websnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;dbexpress.bpi;DbxCommonDriver.bpi;DbxClientDriver.bpi;AzureCloud.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbxcds.bpi;DuneComponents.bpi;VCLCommon.bpi</PackageImports>
 			<LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
-			<AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
-			<_TCHARMapping>char</_TCHARMapping>
 			<ProjectType>CppStaticLibrary</ProjectType>
+			<IncludePath>src\;src\Win32\;..\..\third_party\UnitTest\src\Win32\;..\..\third_party\UnitTest\src\;..\..\third_party\unit++\src\Win32\;..\..\third_party\unit++\src\;$(IncludePath)</IncludePath>
+			<_TCHARMapping>char</_TCHARMapping>
+			<AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
+			<Multithreaded>true</Multithreaded>
 			<DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
 			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE</DCC_UnitAlias>
 			<IntermediateOutputDir>.\$(Config)\$(Platform)</IntermediateOutputDir>
@@ -41,7 +41,10 @@
 			<ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1)'!=''">
+			<DynamicRTL>true</DynamicRTL>
+			<BCC_PCHUsage>None</BCC_PCHUsage>
 			<FinalOutputDir>$(RR_DEBUG)\lib</FinalOutputDir>
+			<BPILibOutputDir>$(RR_DEBUG)\lib\</BPILibOutputDir>
 			<BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
 			<BCC_DisableOptimizations>true</BCC_DisableOptimizations>
 			<DCC_Optimize>false</DCC_Optimize>
@@ -64,26 +67,56 @@
 			<TASM_Debugging>None</TASM_Debugging>
 		</PropertyGroup>
 		<ItemGroup>
-			<CppCompile Include="..\..\source\nleq\linalg_nleq1.c">
+			<CppCompile Include="src\AssertException.cpp">
 				<BuildOrder>1</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="..\..\source\nleq\nleq1.c">
+			<CppCompile Include="src\Checks.cpp">
 				<BuildOrder>2</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="..\..\source\nleq\nleq1e.c">
+			<CppCompile Include="src\CurrentTest.cpp">
 				<BuildOrder>3</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="..\..\source\nleq\wnorm.c">
+			<CppCompile Include="src\DeferredTestReporter.cpp">
 				<BuildOrder>4</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="..\..\source\nleq\zibconst.c">
+			<CppCompile Include="src\DeferredTestResult.cpp">
 				<BuildOrder>5</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="..\..\source\nleq\zibmon.c">
+			<CppCompile Include="src\MemoryOutStream.cpp">
 				<BuildOrder>6</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="..\..\source\nleq\zibsec.c">
+			<CppCompile Include="src\ReportAssert.cpp">
+				<BuildOrder>7</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="src\Test.cpp">
+				<BuildOrder>8</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="src\TestDetails.cpp">
+				<BuildOrder>9</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="src\TestList.cpp">
+				<BuildOrder>10</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="src\TestReporter.cpp">
+				<BuildOrder>11</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="src\TestReporterStdout.cpp">
+				<BuildOrder>12</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="src\TestResults.cpp">
+				<BuildOrder>13</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="src\TestRunner.cpp">
+				<BuildOrder>14</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="src\TimeConstraint.cpp">
+				<BuildOrder>15</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="src\Win32\TimeHelpers.cpp">
 				<BuildOrder>0</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="src\XmlTestReporter.cpp">
+				<BuildOrder>16</BuildOrder>
 			</CppCompile>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_2</Key>

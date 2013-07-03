@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include "UnitTest++.h"
+#include "unit_test/UnitTest++.h"
 #include "rrc_core_api.h"
 #include "rrUtils.h"
 #include "rrIniFile.h"

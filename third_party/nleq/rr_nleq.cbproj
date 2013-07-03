@@ -1,11 +1,11 @@
 	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 		<PropertyGroup>
-			<ProjectGuid>{5B8E3DCF-9D6E-46AB-AE81-6AF6AADE5AC0}</ProjectGuid>
+			<ProjectGuid>{9C185F60-088A-4052-AEF8-4E8A36F8133F}</ProjectGuid>
 			<ProjectVersion>12.3</ProjectVersion>
 			<Base>True</Base>
 			<Config Condition="'$(Config)'==''">Debug</Config>
 			<Platform>Win32</Platform>
-			<AppType>StaticLibrary</AppType>
+			<AppType>Library</AppType>
 			<FrameworkType>None</FrameworkType>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
@@ -22,26 +22,29 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
-			<Defines>STATIC_NLEQ;$(Defines)</Defines>
-			<IncludePath>..\..\source\nleq\;$(RR_ROOT)\trunk\third_party\clapack\3.2.1\include;$(IncludePath)</IncludePath>
-			<OutputExt>lib</OutputExt>
-			<PackageImports>vclx.bpi;vcl.bpi;rtl.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;vclimg.bpi;svnui.bpi;svn.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;bdertl.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;DbxClientDriver.bpi;dbexpress.bpi;AzureCloud.bpi;DbxCommonDriver.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;vclie.bpi;webdsnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;TeeTree2D15Tee9.bpi;bcbie.bpi;dbxcds.bpi;TeeImage915.bpi;TeeWorld915.bpi;TeeLanguage915.bpi;TeePro915.bpi;TeeGL915.bpi;TeeUI915.bpi;TeeDB915.bpi;Tee915.bpi;inetdb.bpi;websnap.bpi;DuneComponents.bpi;mtkCommonRTL.bpi;VCLCommonRTL.bpi;VCLData.bpi;mtkMathRTL.bpi;mtkDataRTL.bpi;vtkComponents.bpi;mtkGraphicsRTL.bpi;VCLMolecule.bpi;mtkMoleculeRTL.bpi;mtkSpinRTL.bpi</PackageImports>
-			<Multithreaded>true</Multithreaded>
 			<LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
+			<ILINK_LibraryPath>R:\builds\xe\third_party\lib\;C:\builds\xe\clapack\F2CLIBS\libf2c\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+			<ProjectType>CppDynamicLibrary</ProjectType>
+			<Defines>WIN32;$(Defines)</Defines>
+			<PackageImports>vclx.bpi;vcl.bpi;vclimg.bpi;dbrtl.bpi;Rave90VCL.bpi;bdertl.bpi;rtl.bpi;bcbie.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;svnui.bpi;svn.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;vcldb.bpi;vcldbx.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;vclib.bpi;ibxpress.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;vclie.bpi;inet.bpi;inetdb.bpi;webdsnap.bpi;websnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;dbexpress.bpi;DbxCommonDriver.bpi;DbxClientDriver.bpi;AzureCloud.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbxcds.bpi</PackageImports>
+			<NoVCL>true</NoVCL>
+			<OutputExt>dll</OutputExt>
+			<IncludePath>$(RR_ROOT)\trunk\third_party\clapack\3.2.1\INCLUDE;$(IncludePath)</IncludePath>
 			<AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
 			<_TCHARMapping>char</_TCHARMapping>
-			<ProjectType>CppStaticLibrary</ProjectType>
+			<BPILibOutputDir>$(RR_DEBUG)\lib</BPILibOutputDir>
+			<ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
 			<DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
 			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE</DCC_UnitAlias>
-			<IntermediateOutputDir>.\$(Config)\$(Platform)</IntermediateOutputDir>
-			<FinalOutputDir>.\$(Config)\$(Platform)</FinalOutputDir>
+			<DynamicRTL>true</DynamicRTL>
+			<IntermediateOutputDir>.\$(Config)\$(Platform)\nleq</IntermediateOutputDir>
+			<FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
 			<BCC_wpar>false</BCC_wpar>
 			<BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
 			<BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
 			<ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\release\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Cfg_1)'!=''">
-			<FinalOutputDir>$(RR_DEBUG)\lib</FinalOutputDir>
 			<BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
 			<BCC_DisableOptimizations>true</BCC_DisableOptimizations>
 			<DCC_Optimize>false</DCC_Optimize>
@@ -64,26 +67,20 @@
 			<TASM_Debugging>None</TASM_Debugging>
 		</PropertyGroup>
 		<ItemGroup>
-			<CppCompile Include="..\..\source\nleq\linalg_nleq1.c">
-				<BuildOrder>1</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="..\..\source\nleq\nleq1.c">
+			<CppCompile Include="nleq1.c">
 				<BuildOrder>2</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="..\..\source\nleq\nleq1e.c">
-				<BuildOrder>3</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="..\..\source\nleq\wnorm.c">
-				<BuildOrder>4</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="..\..\source\nleq\zibconst.c">
-				<BuildOrder>5</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="..\..\source\nleq\zibmon.c">
+			<CppCompile Include="wnorm.c">
 				<BuildOrder>6</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="..\..\source\nleq\zibsec.c">
-				<BuildOrder>0</BuildOrder>
+			<CppCompile Include="zibconst.c">
+				<BuildOrder>2</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="zibmon.c">
+				<BuildOrder>3</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="zibsec.c">
+				<BuildOrder>5</BuildOrder>
 			</CppCompile>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_2</Key>
@@ -101,7 +98,7 @@
 		<Import Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')" Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj"/>
 		<ProjectExtensions>
 			<Borland.Personality>CPlusPlusBuilder.Personality.12</Borland.Personality>
-			<Borland.ProjectType>CppStaticLibrary</Borland.ProjectType>
+			<Borland.ProjectType>CppDynamicLibrary</Borland.ProjectType>
 			<BorlandProject>
 				<CPlusPlusBuilder.Personality>
 					<VersionInfo>
