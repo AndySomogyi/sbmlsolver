@@ -11,9 +11,9 @@ using namespace UnitTest;
 using namespace std;
 using namespace rr;
 
-extern string     gTSModelsPath;
+extern string 	gTSModelsPath;
 extern string   gTempFolder;
-extern bool        gDebug;
+extern bool		gDebug;
 
 SUITE(SBML_TEST_SUITE)
 {
@@ -550,7 +550,7 @@ SUITE(SBML_TEST_SUITE)
  TEST(530) { CHECK(RunTest("l2v4", 530)); }
  //TEST(531) { CHECK(RunTest("l2v4", 531)); }       //Not Supported
  TEST(532) { CHECK(RunTest("l2v4", 532)); }
- //TEST(533) { CHECK(RunTest("l2v4", 533)); }        //Not Supported
+ //TEST(533) { CHECK(RunTest("l2v4", 533)); }		//Not Supported
  //TEST(534) { CHECK(RunTest("l2v4", 534)); }       //Not Supported
  //TEST(535) { CHECK(RunTest("l2v4", 535)); }       //Not Supported
  //TEST(536) { CHECK(RunTest("l2v4", 536)); }       //Not Supported
@@ -560,17 +560,17 @@ SUITE(SBML_TEST_SUITE)
  TEST(540) { CHECK(RunTest("l2v4", 540)); }
  TEST(541) { CHECK(RunTest("l2v4", 541)); }
  TEST(542) { CHECK(RunTest("l2v4", 542)); }
- //TEST(543) { CHECK(RunTest("l2v4", 543)); }         //Not Supported
+ //TEST(543) { CHECK(RunTest("l2v4", 543)); }     	//Not Supported
  TEST(544) { CHECK(RunTest("l2v4", 544)); }
  TEST(545) { CHECK(RunTest("l2v4", 545)); }
- //TEST(546) { CHECK(RunTest("l2v4", 546)); }           //Not Supported
+ //TEST(546) { CHECK(RunTest("l2v4", 546)); } 	  	//Not Supported
  TEST(547) { CHECK(RunTest("l2v4", 547)); }
  //TEST(548) { CHECK(RunTest("l2v4", 548)); }         //Not Supported
  //TEST(549) { CHECK(RunTest("l2v4", 549)); }         //Not Supported
  //TEST(550) { CHECK(RunTest("l2v4", 550)); }         //Not Supported
  //TEST(551) { CHECK(RunTest("l2v4", 551)); }         //Not Supported
  //TEST(552) { CHECK(RunTest("l2v4", 552)); }         //Not Supported
- //TEST(553) { CHECK(RunTest("l2v4", 553)); }           //Not Supported
+ //TEST(553) { CHECK(RunTest("l2v4", 553)); } 	      //Not Supported
  //TEST(554) { CHECK(RunTest("l2v4", 554)); }         //Not Supported
  //TEST(555) { CHECK(RunTest("l2v4", 555)); }         //Not Supported
  //TEST(556) { CHECK(RunTest("l2v4", 556)); }         //Not Supported
@@ -722,7 +722,7 @@ SUITE(SBML_TEST_SUITE)
  TEST(702) { CHECK(RunTest("l2v4", 702)); }
  TEST(703) { CHECK(RunTest("l2v4", 703)); }
  TEST(704) { CHECK(RunTest("l2v4", 704)); }
- //TEST(705) { CHECK(RunTest("l2v4", 705)); }         //Not Supported
+ //TEST(705) { CHECK(RunTest("l2v4", 705)); }     	//Not Supported
  TEST(706) { CHECK(RunTest("l2v4", 706)); }
  TEST(707) { CHECK(RunTest("l2v4", 707)); }
  TEST(708) { CHECK(RunTest("l2v4", 708)); }
@@ -860,11 +860,11 @@ SUITE(SBML_TEST_SUITE)
  TEST(838) { CHECK(RunTest("l2v4", 838)); }
  TEST(839) { CHECK(RunTest("l2v4", 839)); }
  TEST(840) { CHECK(RunTest("l2v4", 840)); }
- TEST(841) { CHECK(RunTest("l2v4", 841)); }
+ TEST(841) { CHECK(RunTest("l2v4", 841)); } 
 
 TEST(842) { CHECK(RunTest("l2v4", 842)); }
 TEST(843) { CHECK(RunTest("l2v4", 843)); }
-//TEST(844) { CHECK(RunTest("l2v4", 844)); }           //Not Supported
+//TEST(844) { CHECK(RunTest("l2v4", 844)); }  	 	//Not Supported
 TEST(845) { CHECK(RunTest("l2v4", 845)); }
 TEST(846) { CHECK(RunTest("l2v4", 846)); }
 TEST(847) { CHECK(RunTest("l2v4", 847)); }
@@ -959,7 +959,7 @@ TEST(935) { CHECK(RunTest("l3v1", 935)); }
 
 TEST(936) { CHECK(RunTest("l2v4", 936)); }
 //TEST(937) { CHECK(RunTest("l2v4", 937)); }      //Not Supported
-//TEST(938) { CHECK(RunTest("l2v4", 938)); }      //Not Supported
+//TEST(938) { CHECK(RunTest("l2v4", 938)); }	  //Not Supported
 //TEST(939) { CHECK(RunTest("l2v4", 939)); }      //Not Supported
 //TEST(940) { CHECK(RunTest("l2v4", 940)); }      //Not Supported
 //TEST(941) { CHECK(RunTest("l2v4", 941)); }      //Not Supported
@@ -975,7 +975,7 @@ TEST(949) { CHECK(RunTest("l2v4", 949)); }
 //TEST(951) { CHECK(RunTest("l2v4", 951)); }
 
 #if !defined(_MSC_VER)
-TEST(952) { CHECK(RunTest("l3v1", 952)); }        //This one is erratic.. it sometimes passes and sometimes end in a segfault!
+TEST(952) { CHECK(RunTest("l3v1", 952)); }		//This one is erratic.. it sometimes passes and sometimes end in a segfault!
 #endif
 
 TEST(953) { CHECK(RunTest("l3v1", 953)); }
@@ -1231,33 +1231,6 @@ TEST(1185) { CHECK(RunTest("l3v1", 1185 )); }
 }
 
 
-/*
- * <test suite="SBML_l2v4" name="15" time="0.248"/>
-<test suite="SBML_l2v4" name="16" time="0.239"/>
-<test suite="SBML_l2v4" name="17" time="0.221"/>
-<test suite="SBML_l2v4" name="18" time="0.246"/>
-<test suite="SBML_l2v4" name="19" time="0.25"/>
-<test suite="SBML_l2v4" name="20" time="0.257"/>
-<test suite="SBML_l2v4" name="21" time="0.201"/>
-<test suite="SBML_l2v4" name="22" time="0.243"/>
-<test suite="SBML_l2v4" name="23" time="0.247"/>
-<test suite="SBML_l2v4" name="24" time="0.249"/>
-<test suite="SBML_l2v4" name="25" time="0.199"/>
-<test suite="SBML_l2v4" name="26" time="0.258"/>
-<test suite="SBML_l2v4" name="27" time="0.236"/>
-<test suite="SBML_l2v4" name="28" time="0.231"/>
-<test suite="SBML_l2v4" name="29" time="166.702"/>
-<test suite="SBML_l2v4" name="30" time="108.012"/>
-<test suite="SBML_l2v4" name="31" time="0.184"/>
-<test suite="SBML_l2v4" name="889" time="0.245"/>
-<test suite="SBML_l2v4" name="890" time="0.249"/>
-<test suite="SBML_l2v4" name="891" time="0.229"/>
-<test suite="SBML_l2v4" name="892" time="0.221"/>
-<test suite="SBML_l2v4" name="893" time="0.232"/>
-<test suite="SBML_l2v4" name="894" time="0.241"/>
-<test suite="SBML_l2v4" name="895" time="0.262"/>
-<test suite="SBML_l2v4" name="896" time="0.249"/>
- */
 
 /**
  * The original test suite used for Valgrind testing
@@ -1302,10 +1275,5 @@ SUITE(SBML_TEST_SUITE_VG2)
     TEST(889)   { CHECK(RunTest("l2v4", 889));   }
     TEST(1046)  { CHECK(RunTest("l3v1", 1046 )); }
 }
-
-
-
-
-
 
 
