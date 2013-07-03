@@ -82,11 +82,12 @@ string LM::getResult()
 {
 	stringstream msg;
     MinimizationData& data = getMinimizationData();
-    Parameters pars = data.getParameters();
+    Parameters pars = data.getParametersOut();
     for(int i = 0; i < pars.count(); i++)
     {
 		msg<<pars[i]->asString();
     }
+    msg<<"Norm: "<<data.getNorm();
     return msg.str();
 }
 

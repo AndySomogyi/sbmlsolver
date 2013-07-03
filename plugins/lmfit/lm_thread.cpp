@@ -96,7 +96,14 @@ void LMFitThread::run()
 
     Log(lInfo)<<"Obtained norm:  "<<status.fnorm;
 
+
     //Populate minDataObject with data to 'report' back
+    for (int i = 0; i < mLMData.nrOfParameters; ++i)
+    {
+		mMinData.addFittedParameter(mLMData.parameterLabels[i], mLMData.parameters[i]);
+    }
+    mMinData.setNorm(status.fnorm);
+
     RoadRunnerData data = createModelData();
 	mMinData.setModelData(data);
 

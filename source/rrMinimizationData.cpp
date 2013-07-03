@@ -33,11 +33,14 @@ void MinimizationData::init()
 {
 	//Empty report
     mParameters.clear();
+    mParametersOut.clear();
+	mNorm = -1;
 }
 
 bool MinimizationData::reset()
 {
 	mParameters.clear();
+    mParametersOut.clear();
 	return true;
 }
 
@@ -96,6 +99,11 @@ void MinimizationData::addParameter(const string& name, const double& val)
 	mParameters.add(new Parameter<double>(name, val, ""));
 }
 
+void MinimizationData::addFittedParameter(const string& name, const double& val)
+{
+	mParametersOut.add(new Parameter<double>(name, val, ""));
+}
+
 void MinimizationData::addParameter(const string& name, const int& val)
 {
 	mParameters.add(new Parameter<int>(name, val, ""));
@@ -119,6 +127,21 @@ void MinimizationData::setResidualsData(const RoadRunnerData& data)
 Parameters MinimizationData::getParameters()
 {
 	return mParameters;
+}
+
+Parameters MinimizationData::getParametersOut()
+{
+	return mParametersOut;
+}
+
+void MinimizationData::setNorm(const double& norm)
+{
+	mNorm = norm;
+}
+
+double MinimizationData::getNorm()
+{
+	return mNorm;
 }
 
 string MinimizationData::getReport() const
