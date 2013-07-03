@@ -1,8 +1,8 @@
 #ifndef rrVersionInfoH
 #define rrVersionInfoH
+#include "rrExporter.h"
 
-
-const char* RR_VERSION =  "0.9.5";
+RR_DECLSPEC extern const char* RR_VERSION;
 
 #define RR_STRINGIZE2(s) #s
 #define RR_STRINGIZE(s) RR_STRINGIZE2(s)
