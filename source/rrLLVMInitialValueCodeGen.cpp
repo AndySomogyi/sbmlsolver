@@ -10,15 +10,15 @@
 namespace rr
 {
 
-LLVMInitialValueCodeGen::LLVMInitialValueCodeGen()
+LLVMInitialValueCodeGen::LLVMInitialValueCodeGen(const LLVMModelGeneratorContext &mgc)
 {
-	// TODO Auto-generated constructor stub
+    // TODO Auto-generated constructor stub
 
 }
 
 LLVMInitialValueCodeGen::~LLVMInitialValueCodeGen()
 {
-	// TODO Auto-generated destructor stub
+    // TODO Auto-generated destructor stub
 }
 
 } /* namespace rr */

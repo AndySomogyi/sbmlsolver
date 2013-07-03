@@ -20,7 +20,7 @@ namespace rr
 using libsbml::SBMLVisitor;
 using llvm::Function;
 
-class LLVMInitialValueCodeGen : public SBMLVisitor
+class LLVMInitialValueCodeGen : public libsbml::SBMLVisitor
 {
 public:
     LLVMInitialValueCodeGen(const LLVMModelGeneratorContext &mgc);

@@ -96,10 +96,12 @@ set(rrSources
 if(BUILD_LLVM)
     set(rrSources
         ${rrSources}
-		rrLLVMASTNodeCodeGen
+        rrLLVMAssignmentRuleEvaluator
+        rrLLVMASTNodeCodeGen
         rrLLVMCodeGenerator
         rrLLVMCompiler
         rrLLVMExecutableModel
+        rrLLVMInitialValueCodeGen
         rrLLVMModelDataIRBuilder
         rrLLVMModelDataSymbols
         rrLLVMModelGenerator
