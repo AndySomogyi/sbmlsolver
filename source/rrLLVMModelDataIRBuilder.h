@@ -11,7 +11,6 @@
 #ifndef rrLLVMModelDataIRBuilderH
 #define rrLLVMModelDataIRBuilderH
 
-#include "rrLLVMModelData.h"
 #include "rrLLVMIncludes.h"
 #include "rrLLVMModelDataSymbols.h"
 
@@ -248,6 +247,10 @@ public:
 
     void test(llvm::Module *module,
             llvm::IRBuilder<> *build, llvm::ExecutionEngine * engine);
+
+
+    static llvm::StructType *getStructType(llvm::Module *module, llvm::ExecutionEngine *engine = 0);
+    static const char* ModelDataName;
 
 
 

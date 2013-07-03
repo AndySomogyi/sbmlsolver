@@ -1,7 +1,7 @@
 #include "tests.h"
 
 #include "rrLLVMModelGeneratorContext.h"
-#include "rrLLVMModelDataSymbols.h"
+#include "rrLLVMModelDataIRBuilder.h"
 #include "rrException.h"
 #include "rrUtils.h"
 
@@ -42,9 +42,7 @@ int main(int argc, char* argv[])
 {
     cout << "hi\n";
 
-    LLVMModelGeneratorContext c;
 
-    StructType *s = LLVMModelDataValue::getStructType(c.getModule(), c.getExecutionEngine());
 
     StrIntPair *pairs;
     int npairs;

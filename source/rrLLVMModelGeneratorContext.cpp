@@ -71,25 +71,7 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext(libsbml::SBMLDocument const
 
 }
 
-LLVMModelGeneratorContext::LLVMModelGeneratorContext() :
-        ownedDoc(0),
-        doc(0)
-{
-    // initialize LLVM
-    // TODO check result
-    InitializeNativeTarget();
 
-    context = new LLVMContext();
-    // Make the module, which holds all the code.
-    module = new Module("LLVM Module", *context);
-
-    errString = new std::string();
-
-    EngineBuilder engineBuilder(module);
-    //engineBuilder.setEngineKind(EngineKind::JIT);
-    engineBuilder.setErrorStr(errString);
-    executionEngine = engineBuilder.create();
-}
 
 
 LLVMModelGeneratorContext::~LLVMModelGeneratorContext()
@@ -98,37 +80,37 @@ LLVMModelGeneratorContext::~LLVMModelGeneratorContext()
     delete context;
 }
 
-llvm::LLVMContext& LLVMModelGeneratorContext::getContext()
+llvm::LLVMContext& LLVMModelGeneratorContext::getContext() const
 {
     return *context;
 }
 
-llvm::ExecutionEngine* LLVMModelGeneratorContext::getExecutionEngine()
+llvm::ExecutionEngine* LLVMModelGeneratorContext::getExecutionEngine() const
 {
     return executionEngine;
 }
 
-LLVMModelDataSymbols& LLVMModelGeneratorContext::getModelDataSymbols()
+const LLVMModelDataSymbols& LLVMModelGeneratorContext::getModelDataSymbols() const
 {
     return symbols;
 }
 
-const libsbml::SBMLDocument* LLVMModelGeneratorContext::getDocument()
+const libsbml::SBMLDocument* LLVMModelGeneratorContext::getDocument() const
 {
     return doc;
 }
 
-const libsbml::Model* LLVMModelGeneratorContext::getModel()
+const libsbml::Model* LLVMModelGeneratorContext::getModel() const
 {
     return doc->getModel();
 }
 
-llvm::Module* LLVMModelGeneratorContext::getModule()
+llvm::Module* LLVMModelGeneratorContext::getModule() const
 {
     return module;
 }
 
-llvm::IRBuilder<>* LLVMModelGeneratorContext::getBuilder()
+llvm::IRBuilder<>* LLVMModelGeneratorContext::getBuilder() const
 {
     return builder;
 }

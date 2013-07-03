@@ -37,7 +37,9 @@ static std::vector<std::string> getIds(const rr::LLVMModelDataSymbols::StringInt
 namespace rr
 {
 
-const char* LLVMModelDataSymbols::ModelDataName = "rr::ModelData";
+
+
+
 
 LLVMModelDataSymbols::LLVMModelDataSymbols()
 {
@@ -163,7 +165,7 @@ int LLVMModelDataSymbols::getGlobalParameterIndex(
     }
 }
 
-void LLVMModelDataSymbols::initAllocModelDataBuffers(ModelData& m)
+void LLVMModelDataSymbols::initAllocModelDataBuffers(ModelData& m) const
 {
     // zero out the structure
     initModelData(m);
@@ -214,7 +216,7 @@ int LLVMModelDataSymbols::getBoundarySpeciesCompartmentIndex(
     return boundarySpeciesCompartments[speciesIndex];
 }
 
-void LLVMModelDataSymbols::print()
+void LLVMModelDataSymbols::print() const
 {
     for (StringIntMap::const_iterator i = floatingSpeciesMap.begin();
             i != floatingSpeciesMap.end(); i++)
@@ -256,6 +258,10 @@ std::vector<std::string> LLVMModelDataSymbols::getFloatingSpeciesIds() const
 {
     return getIds(floatingSpeciesMap);
 }
+
+
+
+
 
 
 
