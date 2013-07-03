@@ -2,7 +2,7 @@
 #define TestSuiteSimulationH
 //---------------------------------------------------------------------------
 #include "rrTestSuiteModelSimulation.h"
-#include "rrc_api.h"
+#include "rrc_core_api.h"
 
 using namespace rr;
 using namespace rrc;

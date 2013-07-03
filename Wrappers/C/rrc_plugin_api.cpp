@@ -5,7 +5,7 @@
 #include "rrPluginManager.h"
 #include "rrPlugin.h"
 #include "rrLogger.h"           //Might be useful for debugging later on
-#include "rrc_api.h"
+#include "rrc_core_api.h"
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrStringUtils.h"
@@ -19,6 +19,24 @@ using namespace std;
 using namespace rr;
 
 //PLUGIN Functions
+RRPluginHandle rrCallConv loadPlugin(RRHandle handle, char* pluginName)
+{
+	try
+    {
+        RoadRunner* rri = castFrom(handle);
+        if(rri->getPluginManager().load(pluginName))
+        {
+	    	return rri->getPluginManager().getPlugin(pluginName);
+        }
+        else
+        {
+        	setError("Failed loading plugin: " + string(pluginName));
+            return NULL;
+        }
+    }
+    catch_ptr_macro
+}
+
 bool rrCallConv loadPlugins(RRHandle handle)
 {
 	try

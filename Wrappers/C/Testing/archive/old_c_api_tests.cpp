@@ -4,7 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdio.h>
-#include "rrc_api.h"
+#include "rrc_core_api.h"
 #include "rrc_api_support.h"
 //---------------------------------------------------------------------------
 

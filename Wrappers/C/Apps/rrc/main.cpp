@@ -15,7 +15,7 @@
 #include "rrStringUtils.h"
 #include "GetOptions.h"
 #include "Args.h"
-#include "rrc_api.h"
+#include "rrc_core_api.h"
 
 //---------------------------------------------------------------------------
 using namespace std;

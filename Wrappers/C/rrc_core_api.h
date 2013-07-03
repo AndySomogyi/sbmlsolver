@@ -1,5 +1,5 @@
 /**
- * @file rrc_api.h
+ * @file rrc_core_api.h
  * @brief roadRunner C API 2012
  * @author Totte Karlsson & Herbert M Sauro
  *
@@ -38,8 +38,8 @@
  *
  * redistribute any piece of this software without proper attribution;
 */
-#ifndef rrc_apiH
-#define rrc_apiH
+#ifndef rrc_core_apiH
+#define rrc_core_apiH
 #include "rrc_exporter.h"
 #include "rrc_types.h"
 #include "rrc_utilities.h"
@@ -118,10 +118,11 @@ C_DECL_SPEC char* rrcCallConv getAPIVersion(void);
 
 /*!
  \brief Retrieve the current version number of the C++ API (Core RoadRunner API) library
+ \param[in] handle RoadRunner instance handle
  \return Returns null if it fails, otherwise it returns the version number of the C++ API library
  \ingroup utility
 */
-C_DECL_SPEC char* rrcCallConv getCPPAPIVersion(void);
+C_DECL_SPEC char* rrcCallConv getCPPAPIVersion(RRHandle handle);
 
 /*!
  \brief Retrieve extended API info.
@@ -1477,7 +1478,7 @@ C_DECL_SPEC bool rrcCallConv getScaledFloatingSpeciesElasticity(RRHandle handle,
 // \code
 // #include <stdlib.h>
 // #include <stdio.h>
-// #include "rrc_api.h"
+// #include "rrc_core_api.h"
 //
 // int main(int nargs, char** argv)
 // {

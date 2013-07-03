@@ -59,6 +59,16 @@ extern "C"
 typedef void (rrcCallConv *pluginCallback)(void*);
 
 /*!
+ \brief load a plugin
+
+ \param[in] handle Handle to a RoadRunner instance
+ \param[in] fileName name of the plugin to load. The plugin name is the plugins shared library name, without path and extension.
+ \return Returns a handle to a plugin, NULL if unsuccesfull
+ \ingroup pluginRoutines
+*/
+C_DECL_SPEC RRPluginHandle rrcCallConv loadPlugin(RRHandle handle, char* pluginName);
+
+/*!
  \brief load plugins
 
  \param[in] handle Handle to a RoadRunner instance
