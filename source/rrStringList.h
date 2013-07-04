@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 #include "rrObject.h"
-#include "../Wrappers/C/rrc_types.h"
+#include "../wrappers/C/rrc_types.h"
 
 namespace rr
 {

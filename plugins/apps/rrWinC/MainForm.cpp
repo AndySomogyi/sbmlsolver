@@ -8,7 +8,7 @@
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrVCLUtils.h"
-#include "../../../Wrappers/C/rrc_utilities.h"
+#include "../../../wrappers/C/rrc_utilities.h"
 #include "aboutForm.h"
 #pragma package(smart_init)
 #pragma link "mtkFloatLabeledEdit"

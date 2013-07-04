@@ -6,8 +6,8 @@
 #include "lm.h"
 #include "lmfit/lmmin.h"
 #include "rrStringUtils.h"
-#include "../../Wrappers/C/rrc_api.h"
-#include "../../Wrappers/C/rrc_utilities.h"
+#include "../../wrappers/C/rrc_api.h"
+#include "../../wrappers/C/rrc_utilities.h"
 
 //---------------------------------------------------------------------------
 using namespace rr;

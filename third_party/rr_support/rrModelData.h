@@ -42,62 +42,11 @@ typedef void     (*TEventAssignmentDelegate)();
  */
 typedef struct SModelData
 {
-    double                              time;
-
     /**
-     * number of linearly independent rows in the stochiometry matrix.
+     * sizeof this struct, make sure we use the correct
+     * size in LLVM land.
      */
-    int                                 numIndependentVariables;
-
-    /**
-     * number of linerly dependent rows in the stoichiometry matrix.
-     */
-    int                                 numDependentVariables;
-
-    /**
-     * total number of rows in the stochimetry matrix, this should be
-     * the same as the number of floating species.
-     */
-    int                                 numTotalVariables;
-
-    /**
-     * number of global parameters, same as gpSize.
-     * TODO: clean up whatever uses this.
-     */
-    int                                 numGlobalParameters;
-
-    /**
-     * number of reactions, same as ratesSize.
-     * TODO: clean up whatever code that uses this.
-     */
-    int                                 numReactions;
-
-    /**
-     * number of rate rules, same as rateRulesSize.
-     * TODO: clean up whatever code that uses this.
-     */
-    int                                 numRules;
-    int                                 numEvents;
-
-    /**
-     * Is set by the model to the names of the FloatingSpeciesConcentrationList.
-     * The model should set each variableTable[i] to a static null terminated string.
-     * allocModelDataBuffers should allocate space for numTotalVariables.
-     * strings.
-     */
-    char**                              variableTable;
-
-    /**
-     * names of boundary table species, set by the model to a static string.
-     * allocModelDataBuffers should allocate numBoundaryVariables length char** array.
-     */
-    char**                              boundaryTable;
-
-    /**
-     * names of global parameters. populated by the model.
-     * allocModelDataBuffers should allocate length numGlobalParameters  char** array.
-     */
-    char**                              globalParameterTable;
+    unsigned                             size;
 
     /**
      * model name
@@ -105,9 +54,72 @@ typedef struct SModelData
     char*                               modelName;
 
     /**
+     * current time.
+     */
+    double                              time;
+
+    /**
+     * number of linearly independent rows in the stochiometry matrix.
+     */
+    int                                 numIndependentSpecies;
+
+    /**
+     * number of linerly dependent rows in the stoichiometry matrix.
+     *
+     * numIndependentVariables + numDependentVariables had better
+     * be equal to numFloatingSpecies
+     */
+    int                                 numDependentSpecies;
+    double*                             dependentSpeciesConservedSums;
+
+    /**
+     * number of global parameters
+     */
+    int                                 numGlobalParameters;
+    double*                             globalParameters;
+
+    /**
+     * number of reactions, same as ratesSize.
+     */
+    int                                 numReactions;
+    double*                             reactionRates;
+
+    /**
+     * LLVM specific
+     * C version does not support local parameters
+     * This is the offset, or starting index of the local parameters
+     * for reaction i. Length is numReactions.
+     *
+     * Rationale: It is simple more effecient to store all the local
+     * parameters in a single dimensional array with offsets, as the
+     * offsets can be computed at compile time, whereas if we used
+     * a array of arrays, it would require an additional memory access
+     * to determine the location of the parameter.
+     */
+    int*                                localParametersOffsets;
+
+    /**
+     * the number of local parameters for each reaction,
+     * so legnth is numReactions. This is an array of counts,
+     * hence it is named differently than the rest of the num*** fields.
+     */
+    int*                                localParametersNum;
+
+    /**
+     * All local parameters are stored in this array. This has
+     * length sum(localParameterNum).
+     */
+    double*                             localParameters;
+
+    /**
      * The total ammounts of the floating species, i.e.
      * concentration * compartment volume.
      * Everything named floatingSpecies??? has length numFloatingSpecies.
+     *
+     * Note, the floating species consist of BOTH independent AND dependent
+     * species. Indexes [0,numIndpendentSpecies) values are the indenpendent
+     * species, and the [numIndependentSpecies,numIndendentSpecies+numDependentSpecies)
+     * contain the dependent species.
      */
     int                                 numFloatingSpecies;
 
@@ -127,42 +139,16 @@ typedef struct SModelData
     double*                             floatingSpeciesConcentrationRates;
 
     /**
+     * The total amount of a species in a compartment.
+     */
+    double*                             floatingSpeciesAmounts;
+
+    /**
      * compartment index for each floating species,
      * e.g. the volume of the i'th species is
      * md->compartmentVolumes[md->floatingSpeciesCompartments[i]]
      */
     int*                                floatingSpeciesCompartments;
-
-    /**
-     * number of global parameters and global parameter values.
-     * global parameters are all the parameters in a model, including
-     * the kinetic law parameters.
-     */
-    int                                 gpSize;
-    double*                             gp;
-
-    /**
-     * number of modifiable species references and
-     * modifiable species reference values.
-     */
-    int                                 srSize;
-    double*                             sr;
-
-    /**
-     * reactions???
-     * TODO: figure out if this is ever used.
-     */
-    int                                 lpSize;
-    double*                             lp;
-
-    /**
-     * in rrNLEQInterface there is a loop like
-     * for(int i = model->mData.rateRulesSize; i < model->mData.numFloatingSpecies + model->mData.rateRulesSize; i++) {
-     *    dTemp[i] = model->getModelData().amounts[i];
-     * so to fix the memory corruption issues, allocate it to the used, not the indicated size.
-     * TODO fix this correctly!
-     */
-    double*                             amounts;
 
     /**
      * number of boundary species and boundary species concentrations.
@@ -188,22 +174,13 @@ typedef struct SModelData
     int                                 numCompartments;
     double*                             compartmentVolumes;
 
-    /**
-     * number of reactions and the reaction rates
-     */
-    int                                 ratesSize;
-    double*                             rates;
 
-    int                                 rateRulesSize;
+    int                                 numRateRules;
     double*                             rateRules;
 
-    int                                 ctSize;
-    double*                             ct;
-
-    int                                 localParameterDimensionsSize;
-    int*                                localParameterDimensions;
 
     //Event stuff
+    int                                 numEvents;
     int                                 eventTypeSize;
     bool*                               eventType;
 
@@ -227,6 +204,42 @@ typedef struct SModelData
 
     TComputeEventAssignmentDelegate*    computeEventAssignments;
     TPerformEventAssignmentDelegate*    performEventAssignments;
+
+    /**
+     * Is set by the model to the names of the FloatingSpeciesConcentrationList.
+     * The model should set each variableTable[i] to a static null terminated string.
+     * allocModelDataBuffers should allocate space for numTotalVariables.
+     * strings.
+     */
+    char**                              variableTable;
+
+    /**
+     * names of boundary table species, set by the model to a static string.
+     * allocModelDataBuffers should allocate numBoundaryVariables length char** array.
+     */
+    char**                              boundaryTable;
+
+    /**
+     * names of global parameters. populated by the model.
+     * allocModelDataBuffers should allocate length numGlobalParameters  char** array.
+     */
+    char**                              globalParameterTable;
+
+    /**
+     * C species references,
+     * not working correctly...
+     */
+    int                                 srSize;
+    double*                             sr;
+
+    /**
+     * Looks like these were going to be C local variables, but were
+     * never implemented...
+     */
+    //int                                 lpSize;
+    //double*                             lp;
+    //int                                 localParameterDimensionsSize;
+    //int*                                localParameterDimensions;
 
 } ModelData;
 //#pragma pack(pop)

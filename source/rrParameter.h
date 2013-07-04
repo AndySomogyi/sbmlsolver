@@ -5,7 +5,7 @@
 #include "rrConstants.h"
 #include "rrBaseParameter.h"
 #include "rrStringUtils.h"
-#include "../Wrappers/C/rrc_types.h"
+#include "../wrappers/C/rrc_types.h"
 //---------------------------------------------------------------------------
 namespace rr
 {
