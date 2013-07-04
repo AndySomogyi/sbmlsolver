@@ -812,7 +812,7 @@ RRDoubleMatrixPtr rrcCallConv getEigenvaluesMatrix(const RRDoubleMatrixPtr mat)
     catch_ptr_macro
 }
 
-RRComplexVectorHandle rrcCallConv getEigenvaluesVector(const RRDoubleMatrixPtr mat)
+RRComplexVectorPtr rrcCallConv getEigenvaluesVector(const RRDoubleMatrixPtr mat)
 {
     try
     {
@@ -1160,7 +1160,7 @@ RRComplexVectorHandle rrcCallConv getEigenvaluesVector(const RRDoubleMatrixPtr m
 //    }
 //}
 
-RRComplexMatrixHandle rrcCallConv getEigenVectors(const RRDoubleMatrixPtr inMatrix)
+RRComplexMatrixPtr rrcCallConv getEigenVectors(const RRDoubleMatrixPtr inMatrix)
 {
     try
     {
@@ -1204,7 +1204,7 @@ RRComplexMatrixHandle rrcCallConv getEigenVectors(const RRDoubleMatrixPtr inMatr
 //    }
 //}
 
-RRComplexMatrixHandle rrcCallConv getZEigenVectors(RRComplexMatrixHandle inMatrix)
+RRComplexMatrixPtr rrcCallConv getZEigenVectors(RRComplexMatrixPtr inMatrix)
 {
     try
     {
@@ -1224,7 +1224,7 @@ RRComplexMatrixHandle rrcCallConv getZEigenVectors(RRComplexMatrixHandle inMatri
         }
 
         ComplexMatrix *oResult = ls::ZgetEigenVectors(mat);
-        RRComplexMatrixHandle out = createMatrix(oResult);
+        RRComplexMatrixPtr out = createMatrix(oResult);
         delete oResult;
         return out;
     }

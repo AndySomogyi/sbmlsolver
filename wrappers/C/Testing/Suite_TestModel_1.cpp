@@ -3,7 +3,7 @@
 #include "rrUtils.h"
 #include "rrIniFile.h"
 #include "UnitTest++.h"
-#include "rrc_core_api.h"
+#include "rrc_api.h"
 #include "src/TestUtils.h"
 
 //using..

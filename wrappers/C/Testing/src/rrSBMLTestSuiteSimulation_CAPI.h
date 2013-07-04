@@ -1,7 +1,7 @@
 #ifndef rrSBMLTestSuiteSimulation_CAPIH
 #define rrSBMLTestSuiteSimulation_CAPIH
 #include "rrTestSuiteModelSimulation.h"
-#include "rrc_core_api.h"
+#include "rrc_api.h"
 //---------------------------------------------------------------------------
 
 bool RunTest(const string& version, int number);
@@ -10,7 +10,7 @@ class SBMLTestSuiteSimulation_CAPI : public rr::TestSuiteModelSimulation
 {
 	private:
 		rrc::RRHandle 		 	mRRHandle;
-		rrc::RRDataHandle		mResultHandle;
+		rrc::RRCDataPtr		mResultHandle;
 
     public:
     					       	SBMLTestSuiteSimulation_CAPI(const string& dataOutputFolder = "", const string& modelFilePath = "", const string& modelFileName = "");

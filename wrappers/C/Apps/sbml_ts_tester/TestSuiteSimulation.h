@@ -2,7 +2,7 @@
 #define TestSuiteSimulationH
 //---------------------------------------------------------------------------
 #include "rrTestSuiteModelSimulation.h"
-#include "rrc_core_api.h"
+#include "rrc_api.h"
 
 using namespace rr;
 using namespace rrc;
@@ -11,7 +11,7 @@ class TestSuiteSimulation : public rr::TestSuiteModelSimulation
 {
 	private:
 		RRHandle 			mRRHandle;
-		RRDataHandle		mResultHandle;
+		RRCDataPtr		mResultHandle;
 
     public:
     						TestSuiteSimulation(const string& dataOutputFolder = "", const string& modelFilePath = "", const string& modelFileName = "");

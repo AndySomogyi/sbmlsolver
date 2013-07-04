@@ -40,7 +40,7 @@ bool TSimulateFrame::loadSelectionList()
 
         SelList->Items->Add("Time");
         SelList->Checked[0] = true;
-        RRListHandle cSymbols = getAvailableTimeCourseSymbols(mRRI);
+        RRList* cSymbols = getAvailableTimeCourseSymbols(mRRI);
 		NewArrayList symbolArray = convertCList(cSymbols);
 
         int count = symbolArray.Count();
@@ -54,7 +54,7 @@ bool TSimulateFrame::loadSelectionList()
         EnableDisableSimulation();
         freeRRList(cSymbols);
 
-        RRStringArrayHandle cSymbolsIDs = getGlobalParameterIds(mRRI);
+        RRStringArray* cSymbolsIDs = getGlobalParameterIds(mRRI);
 		StringList symbols = convertCStringArray(cSymbolsIDs);
 
         for(int i = 0; i < symbols.Count(); i++)

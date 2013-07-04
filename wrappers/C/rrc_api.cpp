@@ -53,7 +53,7 @@
 #include "rrCapability.h"
 #include "rrPluginManager.h"
 #include "rrPlugin.h"
-#include "rrc_core_api.h"           // Need to include this before the support header..
+#include "rrc_api.h"           // Need to include this before the support header..
 #include "rrc_utilities.h"   //Support functions, not exposed as api functions and or data
 #include "rrc_cpp_support.h"   //Support functions, not exposed as api functions and or data
 
@@ -649,7 +649,7 @@ RRStringArrayPtr rrcCallConv getTimeCourseSelectionList(RRHandle handle)
     catch_ptr_macro
 }
 
-RRDataHandle rrcCallConv simulate(RRHandle handle)
+RRCDataPtr rrcCallConv simulate(RRHandle handle)
 {
     try
     {
@@ -663,13 +663,13 @@ RRDataHandle rrcCallConv simulate(RRHandle handle)
         RoadRunnerData result = rri->getSimulationResult();
 
         //Extract the data and return struct..
-        RRData* aResult  = createRRData(result);
+        RRCData* aResult  = createRRCData(result);
         return aResult;
     }
     catch_ptr_macro
 }
 
-RRDataHandle rrcCallConv getSimulationResult(RRHandle handle)
+RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle)
 {
     try
     {
@@ -677,13 +677,22 @@ RRDataHandle rrcCallConv getSimulationResult(RRHandle handle)
         RoadRunnerData result = rri->getSimulationResult();
 
         //Extract the data and return struct..
-        RRData* aResult  = createRRData(result);
-        return aResult;
+        return  createRRCData(result);
     }
     catch_ptr_macro
 }
 
-RRDataHandle rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
+RRDataHandle rrcCallConv getRoadRunnerData(RRHandle handle)
+{
+    try
+    {
+        RoadRunner* rri = castFrom(handle);
+        return rri->getRoadRunnerData();
+    }
+    catch_ptr_macro
+}
+
+RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints)
 {
     try
     {

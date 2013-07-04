@@ -1,9 +1,10 @@
 #ifndef rrSimulateThreadH
 #define rrSimulateThreadH
 #include <list>
+#include "Poco/Condition.h"
 #include "rrRoadRunnerThread.h"
 #include "rrOSSpecifics.h"
-#include "Poco/Condition.h"
+
 //---------------------------------------------------------------------------
 
 namespace rr
@@ -39,10 +40,13 @@ class RR_DECLSPEC SimulateThread : public RoadRunnerThread
 
 	public:
 //    								SimulateThread(RoadRunner* rri = NULL, bool autoStart = false);
-    								SimulateThread(RoadRunner* rri = NULL,
-                                    				const double& ts = 0, const double& te = 0,
+    								SimulateThread( RoadRunner* rri = NULL,
+                                    				const double& ts = 0,
+                                                    const double& te = 0,
                                                     const int& nrPoints = 0,
-                                                    JobStartedCB f1 = NULL, JobFinishedCB f2 = NULL, void* userData = NULL,
+                                                    JobStartedCB f1 = NULL,
+                                                    JobFinishedCB f2 = NULL,
+                                                    void* userData = NULL,
                                                     bool autoStart = false);
 								   ~SimulateThread();
 

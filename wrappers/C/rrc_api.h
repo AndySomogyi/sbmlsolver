@@ -277,7 +277,7 @@ C_DECL_SPEC char* rrcCallConv getSupportCodeFolder(RRHandle handle);
  \ingroup utility
 */
 //C_DECL_SPEC RRCCode* rrcCallConv getCCode(void);
-C_DECL_SPEC RRCCodeHandle rrcCallConv getCCode(RRHandle handle);
+C_DECL_SPEC RRCCodePtr rrcCallConv getCCode(RRHandle handle);
 
 /*!
  \brief Set the runtime generation option [Not yet implemented]
@@ -548,19 +548,27 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getTimeCourseSelectionList(RRHandle han
 setNumPoints etc to set the simulation characteristics.
 
  \param[in] handle Handle to a RoadRunner instance
- \return Returns an array (RRDataHandle) of columns containing the results of the 
+ \return Returns an array (RRDataPtr) of columns containing the results of the 
  simulation including string labels for the individual columms. 
  \ingroup simulation
 */
-C_DECL_SPEC RRDataHandle rrcCallConv simulate(RRHandle handle);
+C_DECL_SPEC RRCDataPtr rrcCallConv simulate(RRHandle handle);
 
 /*!
  \brief Retrieve the result of the last simulation.
  \param[in] handle Handle to a RoadRunner instance
- \return Returns an array (RRDataHandle) of columns containing the results of the
+ \return Returns an array (RRCDataPtr) of columns containing the results of the
  simulation including string labels for the individual columms.
  \ingroup simulation
-*/C_DECL_SPEC RRDataHandle rrcCallConv getSimulationResult(RRHandle handle);
+*/C_DECL_SPEC RRCDataPtr rrcCallConv getSimulationResult(RRHandle handle);
+
+/*!
+ \brief Retrieve a handle to RoadRunners internal data
+ \param[in] handle Handle to a RoadRunner instance
+ \return Returns an handle to roadrunners internal data object
+ \ingroup simulation
+*/
+C_DECL_SPEC RRDataHandle rrcCallConv getRoadRunnerData(RRHandle handle);
 
 /*!
  \brief Carry out a time-course simulation based on the given arguments, time start,
@@ -568,7 +576,7 @@ C_DECL_SPEC RRDataHandle rrcCallConv simulate(RRHandle handle);
 
  Example:
  \code
-	RRDataHandle m;
+	RRCDataPtr m;
 
 	double timeStart = 0.0;
 	double timeEnd = 25;
@@ -582,11 +590,11 @@ C_DECL_SPEC RRDataHandle rrcCallConv simulate(RRHandle handle);
  \param[in] timeEnd Time end
  \param[in] numberOfPoints Number of points to generate
 
- \return Returns an array (RRDataHandle) of columns containing the results of the
+ \return Returns an array (RRCDataPtr) of columns containing the results of the
  simulation including string labels for the individual columms.
  \ingroup simulation
 */
-C_DECL_SPEC RRDataHandle rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints);
+C_DECL_SPEC RRCDataPtr rrcCallConv simulateEx(RRHandle handle, const double timeStart, const double timeEnd, const int numberOfPoints);
 
 /*!
  \brief Carry out a one step integration of the model
@@ -1464,7 +1472,7 @@ C_DECL_SPEC bool rrcCallConv getScaledFloatingSpeciesElasticity(RRHandle handle,
 // * and generate time series data we would call:
 // *
 // \code
-// RRDataHandle result;
+// RRCDataPtr result;
 //
 // if (!loadSBMLFromFile (rrHandle, "mymodel.xml"))
 //    exit;
@@ -1492,7 +1500,7 @@ C_DECL_SPEC bool rrcCallConv getScaledFloatingSpeciesElasticity(RRHandle handle,
 //           exit();
 //        }
 //
-//        RRDataHandle output = simulate (0, 100, 1000);  // start time, end time, and number of points
+//        RRCDataPtr output = simulate (0, 100, 1000);  // start time, end time, and number of points
 //
 //        printf("Output table has %i rows and %i columns\n", output->RSize, output->RCols);
 //        printResult (output);

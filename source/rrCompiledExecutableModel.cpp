@@ -254,7 +254,6 @@ bool CompiledExecutableModel::setupDLLFunctions()
     return true;
 }
 
-
 bool CompiledExecutableModel::setupModelData()
 {
     // zero out the structure
@@ -280,7 +279,7 @@ bool CompiledExecutableModel::setupModelData()
 
     // allocate the data buffers
     string test = ms.mModelName;
-    allocModelDataBuffers(mData, test);//mCG.ms.mModelName);//.getModelName());
+    allocModelDataBuffers(mData, test);
 
     if(cInitModel)
     {
@@ -288,7 +287,6 @@ bool CompiledExecutableModel::setupModelData()
     }
     return true;
 }
-
 
 void CompiledExecutableModel::setCompartmentVolumes()
 {

@@ -3,9 +3,12 @@
 
 import sys
 import os
+#import ctypes
+import numpy
 from ctypes import *
-from numpy import *
+#from numpy import *
 
+np = numpy
 os.chdir(os.path.dirname(__file__))
 sharedLib=''
 rrLib=None
@@ -13,14 +16,14 @@ libHandle=None
 if sys.platform.startswith('win32'):
     rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'bin'))
     os.environ['PATH'] = rrInstallFolder + ';' + "c:\\Python27" + ';' + "c:\\Python27\\Lib\\site-packages" + ';' + os.environ['PATH']
-    sharedLib=os.path.join(rrInstallFolder, 'rrc_api.dll')
+    sharedLib = os.path.join(rrInstallFolder, 'rrc_api.dll')
     libHandle=windll.kernel32.LoadLibraryA(sharedLib)
     rrLib = WinDLL (None, handle=libHandle)
 
 else:
     rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'lib'))
-    sharedLib=os.path.join(rrInstallFolder, 'librr_c_api.so')
-    rrLib=cdll.LoadLibrary(sharedLib)
+    sharedLib = os.path.join(rrInstallFolder, 'librr_c_api.so')
+    rrLib = cdll.LoadLibrary(sharedLib)
 
 
 ##\mainpage notitle
@@ -638,7 +641,7 @@ def simulate(aHandle = None):
     #TODO: Check result
     rowCount = rrLib.getRRDataNumRows(result)
     colCount = rrLib.getRRDataNumCols(result)
-    resultArray = zeros((rowCount, colCount))
+    resultArray = np.zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 rvalue = m
@@ -688,7 +691,7 @@ def getSimulationResult(aHandle = None):
     #TODO: Check result
     rowCount = rrLib.getRRDataNumRows(result)
     colCount = rrLib.getRRDataNumCols(result)
-    resultArray = zeros((rowCount, colCount))
+    resultArray = np.zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 rvalue = m
@@ -698,6 +701,17 @@ def getSimulationResult(aHandle = None):
                     resultArray[m, n] = value.value
     rrLib.freeRRData(result)
     return resultArray
+
+def getSimulationResult2(aHandle = None):
+    if aHandle is None:
+        aHandle = gHandle
+
+    return rrLib.getSimulationResult(aHandle)
+
+def getRoadRunnerData(aHandle = None):
+    if aHandle is None:
+        aHandle = gHandle
+    return rrLib.getRoadRunnerData(aHandle)
 
 #use getRRDataElement and other helper routines to build array that can be used in numpy to plot with matplotlib
 #get num cols, get num rows, create array, fill array with two loops
@@ -716,7 +730,7 @@ def simulateEx(timeStart, timeEnd, numberOfPoints):
     #TODO: Check result
     rowCount = rrLib.getRRDataNumRows(result)
     colCount = rrLib.getRRDataNumCols(result)
-    resultArray = zeros((rowCount, colCount))
+    resultArray = np.zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 value = c_double()
@@ -1077,7 +1091,7 @@ def getFullJacobian():
     rowCount = rrLib.getMatrixNumRows(matrix)
     colCount = rrLib.getMatrixNumCols(matrix)
     result = rrLib.matrixToString(matrix)
-    matrixArray = zeros((rowCount, colCount))
+    matrixArray = np.zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
             value = c_double()
@@ -1096,7 +1110,7 @@ def getReducedJacobian():
        return 0
     rowCount = rrLib.getMatrixNumRows(matrix)
     colCount = rrLib.getMatrixNumCols(matrix)
-    matrixArray = zeros((rowCount, colCount))
+    matrixArray = np.zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 value = c_double()
@@ -1113,7 +1127,7 @@ def getEigenvaluesMatrix (m):
        return 0
     rowCount = rrLib.getMatrixNumRows(matrix)
     colCount = rrLib.getMatrixNumCols(matrix)
-    matrixArray = zeros((rowCount, colCount))
+    matrixArray = np.zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 value = c_double()
@@ -1136,7 +1150,7 @@ def getEigenvalues():
 #    print c_char_p(result).value
 #    rrLib.freeText(result)
 
-    matrixArray = zeros((rowCount, colCount))
+    matrixArray = np.zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 value = c_double()
@@ -1156,7 +1170,7 @@ def getStoichiometryMatrix():
        return 0
     rowCount = rrLib.getMatrixNumRows(matrix)
     colCount = rrLib.getMatrixNumCols(matrix)
-    matrixArray = zeros((rowCount, colCount))
+    matrixArray = np.zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 value = c_double()
@@ -1177,7 +1191,7 @@ def getLinkMatrix():
     rowCount = rrLib.getMatrixNumRows(matrix)
     colCount = rrLib.getMatrixNumCols(matrix)
     #result = rrLib.matrixToString(matrix)
-    matrixArray = zeros((rowCount, colCount))
+    matrixArray = np.zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 value = c_double()
@@ -1197,7 +1211,7 @@ def getNrMatrix():
     rowCount = rrLib.getMatrixNumRows(matrix)
     colCount = rrLib.getMatrixNumCols(matrix)
     result = rrLib.matrixToString(matrix)
-    matrixArray = zeros((rowCount, colCount))
+    matrixArray = np.zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 value = c_double()
@@ -1218,7 +1232,7 @@ def getL0Matrix():
     rowCount = rrLib.getMatrixNumRows(matrix)
     colCount = rrLib.getMatrixNumCols(matrix)
     result = rrLib.matrixToString(matrix)
-    matrixArray = zeros((rowCount, colCount))
+    matrixArray = np.zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 value = c_double()
@@ -1237,7 +1251,7 @@ def getConservationMatrix():
        return 0
     rowCount = rrLib.getMatrixNumRows(matrix)
     colCount = rrLib.getMatrixNumCols(matrix)
-    matrixArray = zeros((rowCount, colCount))
+    matrixArray = np.zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
                 value = c_double()
@@ -1930,7 +1944,6 @@ def getCCodeSource(codeHandle):
 
 ##\brief Returns the number of elements in a string array
 #
-#
 #Example:  num = rrPython.getNumberOfStringElements(myStringArray)
 #
 #\param code A rrLib to the string array
@@ -1939,7 +1952,6 @@ def getNumberOfStringElements(myArray):
     return rrLib.getNumberOfStringElements(myArray)
 
 ##\brief Utility function to return the indexth element from a string array
-#
 #
 #Example:  num = rrPython.getStringElement (stringArray, 3)
 #
@@ -1972,7 +1984,7 @@ def rrVectorToPythonArray (vector):
     n = rrLib.getVectorLength(vector)
     if n == -1:
         raise RuntimeError ('vector is NULL in rrVectorToPythonArray')
-    pythonArray = zeros(n)
+    pythonArray = np.zeros(n)
     for i in range(n):
         pythonArray[i] = getVectorElement(vector, i)
     return pythonArray
@@ -1993,11 +2005,10 @@ def rrListToPythonList (values):
         result.append (rrLib.getStringListItem (item))
     return result
 
-
 def createMatrix (rrMatrix):
     rowCount = rrLib.getMatrixNumRows(rrMatrix)
     colCount = rrLib.getMatrixNumCols(rrMatrix)
-    matrixArray = zeros((rowCount, colCount))
+    matrixArray = np.zeros((rowCount, colCount))
     for m in range(rowCount):
         for n in range(colCount):
             value = c_double()
@@ -2023,6 +2034,10 @@ def createRRMatrix (marray):
 #rrLib.unLoadPlugins.restyp = c_bool
 #rrLib.getNumberOfPlugins.restyp = c_int
 #rrLib.getPluginInfo.restyp = c_char_p
+
+def loadPlugin(libraryName):
+    return rrLib.loadPlugin(gHandle, libraryName)
+
 def loadPlugins():
     return rrLib.loadPlugins(gHandle)
 
@@ -2035,13 +2050,61 @@ def unLoadPlugins():
 def getNumberOfPlugins():
     return rrLib.getNumberOfPlugins(gHandle)
 
+rrLib.getPluginStatus.restype = c_char_p
 def getPluginInfo(pluginHandle):
     return rrLib.getPluginInfo(pluginHandle)
+
+def getPluginStatus(pluginHandle):
+    return rrLib.getPluginStatus(pluginHandle)
 
 def executePlugin(pluginHandle):
     return rrLib.executePlugin(pluginHandle)
 
+def executePluginEx(pluginHandle, userData):
+    return rrLib.executePluginEx(pluginHandle, c_void_p(userData))
 
+rrLib.getPluginResult.restype = c_char_p
+def getPluginResult(pluginHandle):
+    return rrLib.getPluginResult(pluginHandle)
+
+def getPluginParameter(pluginHandle, parameterName):
+    return rrLib.getPluginParameter(pluginHandle, parameterName, 0)
+
+def isPluginWorking(pluginHandle):
+    return rrLib.isPluginWorking(pluginHandle)
+
+def setPluginInputData(pluginHandle, userData):
+    return rrLib.setPluginInputData(pluginHandle, c_void_p(userData))
+
+def setPluginParameter(pluginHandle, parameterName, paraValue):
+    return rrLib.setPluginParameter(pluginHandle, parameterName, c_char_p(paraValue))
+
+#Parameter functionality
+def getParameterValueAsString(parameter):
+    value = rrLib.getParameterValueAsString(parameter)
+    return c_char_p(value).value
+
+def getParameterValueAsPointer(parHandle):
+    return c_void_p(rrLib.getParameterValueAsPointer(parHandle))
+
+def setParameter(parameter, value):
+    return rrLib.setParameter(parameter, value)
+
+#Minimization data funcionality
+def getMinimizationDataReport(minDataHandle):
+    value = rrLib.getMinimizationDataReport(minDataHandle)
+    return c_char_p(value).value
+
+def addDoubleParameter(minDataHandle, parLabel, parValue):
+    rrLib.addDoubleParameter(minDataHandle, parLabel, c_double(parValue))
+
+def setMinimizationModelDataSelectionList(minDataHandle, selectionList):
+    rrLib.setMinimizationModelDataSelectionList(minDataHandle, c_char_p(selectionList))
+
+def setMinimizationObservedDataSelectionList(minDataHandle, selectionList):
+    rrLib.setMinimizationObservedDataSelectionList(minDataHandle, c_char_p(selectionList))
+
+#Miscellaneous
 def compileSource(sourceFileName, rrHandle = None):
     if rrHandle is None:
         rrHandle = gHandle

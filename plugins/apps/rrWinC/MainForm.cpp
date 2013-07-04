@@ -109,7 +109,7 @@ void __fastcall TMainF::loadPluginsAExecute(TObject *Sender)
 	ML() << "Loaded plugins..";
 
     mAddNoisePlugin = getPlugin(mRRI, "AddNoise");
-   	mLMPlugin       = getPlugin(mRRI, "Levenberg-Marquardt Minimization");
+   	mLMPlugin       = getPlugin(mRRI, "Levenberg-Marquardt");
 
     Button1->Action = unloadPlugins;
 
@@ -244,7 +244,7 @@ void __fastcall TMainF::onSimulationStarted()
 
 void __fastcall TMainF::onSimulationFinished()
 {
-	ML()<<"Simulation was finishe.. Plot result";
+	ML()<<"Simulation was finished.. Plot result";
 	RoadRunner *aRR = (RoadRunner*) mRRI;
     mCurrentData = aRR->getSimulationResult();
     PlotAExecute(NULL);
@@ -309,7 +309,7 @@ void __fastcall TMainF::getAllSymbolsExecute(TObject *Sender)
     	char* text = listToString(list);
     	ML()<<"Time Course Symbols";
         ML()<<text;
-        freeText(text);
+        rr::freeText(text);
         freeRRList(list);
     }
 }

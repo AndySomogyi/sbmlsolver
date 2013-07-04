@@ -6,7 +6,7 @@
 #include "rrPlugin.h"
 #include "rrRoadRunner.h"
 #include "rrMinimizationData.h"
-#include "../../Wrappers/C/rrc_types.h"
+#include "rrc_types.h"
 #include "lm_thread.h"
 //---------------------------------------------------------------------------
 
@@ -41,11 +41,14 @@ class LM : public Plugin
         bool                                    resetPlugin();
         bool                                    setInputData(void* data);
         string                                  getImplementationLanguage();
+        string									getStatus();
+		bool 									isWorking();
 };
 
 extern "C"
 {
 PLUGIN_DECLSPEC rr::Plugin* rrCallConv    createPlugin(rr::RoadRunner* aRR);
+PLUGIN_DECLSPEC char* 		rrCallConv    getImplementationLanguage();
 }
 
 

@@ -72,7 +72,7 @@ void TLMFittingFrame::loadParameterList()
     }
     paraList->Clear();
     mParameters.clear();
-    RRStringArrayHandle cSymbolsIDs = getGlobalParameterIds(mRRI);
+    RRStringArray* cSymbolsIDs = getGlobalParameterIds(mRRI);
     StringList symbols = convertCStringArray(cSymbolsIDs);
 
     for(int i = 0; i < symbols.Count(); i++)
@@ -106,7 +106,7 @@ void TLMFittingFrame::loadSpeciesList()
 
     speciesList->Clear();
 
-    RRStringArrayHandle cSpecies = getFloatingSpeciesIds(mRRI);
+    RRStringArray* cSpecies = getFloatingSpeciesIds(mRRI);
     StringList species = convertCStringArray(cSpecies);
 
     for(int i = 0; i < species.Count(); i++)
@@ -170,8 +170,8 @@ void __fastcall TLMFittingFrame::executeBtnClick(TObject *Sender)
     }
 
     //Set input data to fit to
-    RRData* rrData = rrc::createRRData(MainF->mCurrentData);
-	setInputData(mPlugin, rrData);
+    RRCData* rrData = rrc::createRRCData(MainF->mCurrentData);
+	setPluginInputData(mPlugin, rrData);
 
     //Add species to minimization data structure.. The species are defined in the input data
     StringList modelSpecies = getCheckedItems(speciesList);
@@ -183,7 +183,7 @@ void __fastcall TLMFittingFrame::executeBtnClick(TObject *Sender)
     	checkedSpecies.removeAt(checkedSpecies.indexOf("time"));
     }
 
-    setMinimizationExperimentalDataSelectionList(minData, checkedSpecies.AsString().c_str());
+    setMinimizationObservedDataSelectionList(minData, checkedSpecies.AsString().c_str());
     freeRRData(rrData);
 
     //Requirement!! the modDataSelection list must be equal or larger than the expSelectionlist!
@@ -209,7 +209,8 @@ void __fastcall TLMFittingFrame::executeBtnClick(TObject *Sender)
 
     //This call returns before the result has been created, non blocking.
     //The result is returned in the callback assigned in the configurePlugin function
-    executePluginEx(mPlugin, (void*) &(mainForm->mCurrentData));
+//    executePluginEx(mPlugin, (void*) &(mainForm->mCurrentData));
+	executePlugin(mPlugin);
 }
 
 void __stdcall TLMFittingFrame::fittingStartedCB(void *UserData)
@@ -269,7 +270,7 @@ void __fastcall TLMFittingFrame::fittingFinished()
 	vector<TLineSeries*> resDataSeries;
 	vector<TLineSeries*> modDataSeries;
 
-  	StringList expSelList 	= minData.getExperimentalDataSelectionList();
+  	StringList expSelList 	= minData.getObservedDataSelectionList();
   	StringList modelSelList = minData.getModelDataSelectionList();
 
     //The user may have generated data for species that were not fitted. These are in modelSelList.
@@ -292,7 +293,7 @@ void __fastcall TLMFittingFrame::fittingFinished()
 	    TColor color = (i < mColors.size() ) ? mColors[i] : clPurple;
 
     	TLineSeries* aSerie;
-        //Experimental data
+        //Observed data
     	aSerie = new TLineSeries(mChart);
         aSerie->Color = color;
 		aSerie->Pointer->Visible = true;

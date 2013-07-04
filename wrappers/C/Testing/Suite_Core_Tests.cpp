@@ -14,7 +14,7 @@
 #include "Poco/SAX/InputSource.h"
 #include "Poco/MD5Engine.h"
 #include "UnitTest++.h"
-#include "rrc_core_api.h"
+#include "rrc_api.h"
 #include "rrUtils.h"
 #include "rrException.h"
 

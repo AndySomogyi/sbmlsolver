@@ -1,6 +1,6 @@
 #ifndef rrCPluginFrameworkH
 #define rrCPluginFrameworkH
-#include "..\Wrappers\C\rrc_types.h"
+#include "rrc_types.h"
 //---------------------------------------------------------------------------
 
 //#if defined(__cplusplus)

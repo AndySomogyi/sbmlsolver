@@ -10,7 +10,7 @@ extern string gTempFolder;
 extern string gTSModelsPath;
 extern bool gDebug;
 using namespace rr;
-RoadRunnerData convertCAPIResultData(RRDataHandle		resultsHandle);
+RoadRunnerData convertCAPIResultData(RRCDataPtr		resultsHandle);
 
 SBMLTestSuiteSimulation_CAPI::SBMLTestSuiteSimulation_CAPI(const string& dataOutputFolder, const string& modelFilePath, const string& modelFileName)
 :
@@ -99,7 +99,7 @@ bool SBMLTestSuiteSimulation_CAPI::SaveResult()
     return true;
 }
 
-RoadRunnerData convertCAPIResultData(RRDataHandle	result)
+RoadRunnerData convertCAPIResultData(RRCDataPtr	result)
 {
 	RoadRunnerData resultData;
 

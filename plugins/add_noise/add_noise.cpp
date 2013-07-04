@@ -26,6 +26,11 @@ mAddNoiseThread()
 AddNoise::~AddNoise()
 {}
 
+bool AddNoise::isWorking()
+{
+	return mAddNoiseThread.isRunning();
+}
+
 bool AddNoise::execute(void* inputData)
 {
     Log(lDebug)<<"Executing the AddNoise plugin";

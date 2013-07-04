@@ -1,9 +1,4 @@
-#pragma hdrstop
-#include <alloc.h>
-
-#include "rrCPluginFramework.h"
-#include "./../../Wrappers/C/rrc_core_api.h"
-#include "./../../Wrappers/C/rrc_utilities.h"
+#include "rrc_api.h"
 #include "c_plugin_demo.h"
 
 char* rrCallConv getImplementationLanguage()
@@ -13,7 +8,7 @@ char* rrCallConv getImplementationLanguage()
 
 char* rrCallConv getName()
 {
-	return "c_plugin_demo";
+	return "Plugin Demo";
 }
 
 char* rrCallConv getCategory()
@@ -31,13 +26,12 @@ bool rrCallConv	execute(void* userData)
 {
 	char* text2;
 	char* text = createTextMemory(2048);
-    strcat(text, "C API Version: ");
-    strcat(text, getAPIVersion());
-	strcat(text, "\nCPP API Version: ");
+    strcat(text, "CPP API Version: ");
     text2 = getCPPAPIVersion(gRR);
     if(text2)
     {
 		strcat(text, text2);
+        freeText(text2);
     }
     else
     {
@@ -48,4 +42,6 @@ bool rrCallConv	execute(void* userData)
     return true;
 }
 
+#if defined(CG_IDE)
 #pragma comment(lib, "rrc_api.lib")
+#endif

@@ -324,7 +324,7 @@ bool rrCallConv freeMatrix(RRDoubleMatrixPtr matrix)
     }
 }
 
-bool rrCallConv freeRRData(RRDataHandle handle)
+bool rrCallConv freeRRData(RRCDataPtr handle)
 {
     try
     {
@@ -400,7 +400,7 @@ bool rrCallConv freeVector(RRVectorPtr vector)
     }
 }
 
-bool rrCallConv freeCCode(RRCCodeHandle code)
+bool rrCallConv freeCCode(RRCCodePtr code)
 {
     try
     {
@@ -568,7 +568,7 @@ bool rrCallConv setMatrixElement (RRDoubleMatrixPtr m, int r, int c, double valu
     return true;
 }
 
-bool rrcCallConv getComplexMatrixElement (RRComplexMatrixHandle m, int r, int c, RRComplexHandle value)
+bool rrcCallConv getComplexMatrixElement (RRComplexMatrixPtr m, int r, int c, RRComplexPtr value)
 {
     if (m == NULL)
     {
@@ -589,7 +589,7 @@ bool rrcCallConv getComplexMatrixElement (RRComplexMatrixHandle m, int r, int c,
     return true;
 }
 
-bool rrcCallConv setComplexMatrixElement (RRComplexMatrixHandle m, int r, int c, RRComplex* value)
+bool rrcCallConv setComplexMatrixElement (RRComplexMatrixPtr m, int r, int c, RRComplex* value)
 {
     if (m == NULL)
     {
@@ -610,7 +610,7 @@ bool rrcCallConv setComplexMatrixElement (RRComplexMatrixHandle m, int r, int c,
     return true;
 }
 
-int rrCallConv  getRRDataNumRows (RRDataHandle result)
+int rrCallConv  getRRDataNumRows (RRCDataPtr result)
 {
     if (result == NULL)
     {
@@ -620,7 +620,7 @@ int rrCallConv  getRRDataNumRows (RRDataHandle result)
     return result->RSize;
 }
 
-int  rrCallConv  getRRDataNumCols (RRDataHandle result)
+int  rrCallConv  getRRDataNumCols (RRCDataPtr result)
 {
     if (result == NULL)
     {
@@ -630,7 +630,7 @@ int  rrCallConv  getRRDataNumCols (RRDataHandle result)
     return result->CSize;
 }
 
-bool  rrCallConv getRRDataElement(RRDataHandle result, int r, int c, double *value)
+bool  rrCallConv getRRDataElement(RRCDataPtr result, int r, int c, double *value)
 {
     if (result == NULL)
     {
@@ -650,7 +650,7 @@ bool  rrCallConv getRRDataElement(RRDataHandle result, int r, int c, double *val
     return true;
 }
 
-char*  rrCallConv getRRDataColumnLabel (RRDataHandle result, int column)
+char*  rrCallConv getRRDataColumnLabel (RRCDataPtr result, int column)
 {
     if (result == NULL)
     {
@@ -669,7 +669,7 @@ char*  rrCallConv getRRDataColumnLabel (RRDataHandle result, int column)
     return result->ColumnHeaders[column];
 }
 
-char* rrCallConv getCCodeHeader(RRCCodeHandle code)
+char* rrCallConv getCCodeHeader(RRCCodePtr code)
 {
     if (code == NULL)
     {
@@ -679,7 +679,7 @@ char* rrCallConv getCCodeHeader(RRCCodeHandle code)
     return code->Header;
 }
 
-char* rrCallConv getCCodeSource(RRCCodeHandle code)
+char* rrCallConv getCCodeSource(RRCCodePtr code)
 {
     if (code == NULL)
     {
@@ -805,7 +805,7 @@ char* rrCallConv stringArrayToString (const RRStringArrayPtr list)
     }
 }
 
-char* rrCallConv rrDataToString(const RRDataHandle result)
+char* rrCallConv rrDataToString(const RRCDataPtr result)
 {
     try
     {
@@ -881,7 +881,7 @@ char* rrCallConv matrixToString(const RRDoubleMatrixPtr matrixHandle)
     }
 }
 
-char* rrCallConv complexMatrixToString(const RRComplexMatrixHandle matrixHandle)
+char* rrCallConv complexMatrixToString(const RRComplexMatrixPtr matrixHandle)
 {
     try
     {
@@ -939,7 +939,7 @@ char* rrCallConv vectorToString(RRVectorPtr vecHandle)
     catch_ptr_macro
 }
 
-char* rrCallConv complexVectorToString(RRComplexVectorHandle vecHandle)
+char* rrCallConv complexVectorToString(RRComplexVectorPtr vecHandle)
 {
     try
     {

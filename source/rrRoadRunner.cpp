@@ -336,8 +336,7 @@ bool RoadRunner::initializeModel()
         mModel->convertToAmounts();
         mModel->evalInitialAssignments();
 
-        mModel->computeRules(mModel->getModelData().floatingSpeciesConcentrations,
-                mModel->getModelData().numFloatingSpecies);
+        mModel->computeRules(mModel->getModelData().floatingSpeciesConcentrations, mModel->getModelData().numFloatingSpecies);
         mModel->convertToAmounts();
 
         if (mComputeAndAssignConservationLaws.getValue())
@@ -364,6 +363,11 @@ bool RoadRunner::initializeModel()
 RoadRunnerData RoadRunner::getSimulationResult()
 {
     return mRoadRunnerData;
+}
+
+RoadRunnerData* RoadRunner::getRoadRunnerData()
+{
+    return &mRoadRunnerData;
 }
 
 double RoadRunner::getValueForRecord(const SelectionRecord& record)

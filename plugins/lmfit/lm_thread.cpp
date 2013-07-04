@@ -6,7 +6,7 @@
 #include "lm.h"
 #include "lmfit/lmmin.h"
 #include "rrStringUtils.h"
-#include "../../Wrappers/C/rrc_core_api.h"
+#include "../../Wrappers/C/rrc_api.h"
 #include "../../Wrappers/C/rrc_utilities.h"
 
 //---------------------------------------------------------------------------
@@ -23,7 +23,7 @@ mRRI(NULL)
 	memset(&mLMData, 0, sizeof(lmDataStructure));
 }
 
-bool LMFitThread::isRuning()
+bool LMFitThread::isRunning()
 {
 	return mThread.isRunning();
 }
@@ -57,7 +57,7 @@ void LMFitThread::run()
 
     setupRoadRunner();
 
-    StringList species = mMinData.getExperimentalDataSelectionList();
+    StringList species = mMinData.getObservedDataSelectionList();
     Log(lInfo)<<"The following species are selected: "<<species.AsString();
 
     Parameters Paras =  mMinData.getParameters();
@@ -96,7 +96,14 @@ void LMFitThread::run()
 
     Log(lInfo)<<"Obtained norm:  "<<status.fnorm;
 
+
     //Populate minDataObject with data to 'report' back
+    for (int i = 0; i < mLMData.nrOfParameters; ++i)
+    {
+		mMinData.addFittedParameter(mLMData.parameterLabels[i], mLMData.parameters[i]);
+    }
+    mMinData.setNorm(status.fnorm);
+
     RoadRunnerData data = createModelData();
 	mMinData.setModelData(data);
 
@@ -112,7 +119,7 @@ void LMFitThread::run()
 bool LMFitThread::setup()
 {
 	//Setup the minimization data structure
-    StringList species 		= mMinData.getExperimentalDataSelectionList();   //Model data selection..
+    StringList species 		= mMinData.getObservedDataSelectionList();   //Model data selection..
     mLMData.nrOfSpecies 	= species.Count();
     Parameters parameters 	= mMinData.getParameters();
     mLMData.nrOfParameters	= parameters.count();
@@ -160,7 +167,7 @@ bool LMFitThread::setup()
         }
     }
 
-    //Populate Experimental Data
+    //Populate Observed Data
     for (int i = 0; i < mLMData.nrOfSpecies; i++)
     {
     	for(int timePoint = 0; timePoint < mLMData.nrOfTimePoints; timePoint++)
@@ -205,15 +212,15 @@ bool LMFitThread::setupRoadRunner()
 
     mRRI = new RoadRunner;
 	mRRI->loadSBML(mTheHost.mSBML.getValue(), false);
-    mRRI->setTimeCourseSelectionList(mMinData.getExperimentalDataSelectionList());
+    mRRI->setTimeCourseSelectionList(mMinData.getObservedDataSelectionList());
     return true;
 }
 
 /* function evaluation, determination of residues */
-void evaluate(const double   *par,  		//Parameter vector
+void evaluate(const double *par,  		//Parameter vector
 			  int 		  	m_dat,  	//Dimension of residue vector
-              const void     *userData,  	//Data structure
-              double 	   	   *fvec,   	//residue vector..
+              const void   *userData,  	//Data structure
+              double 	   *fvec,   	//residue vector..
               int 		   *infoIndex   //Index into info message array
 )
 {
@@ -226,7 +233,7 @@ void evaluate(const double   *par,  		//Parameter vector
         Log(lDebug)<<"k"<<i<<" = "<<par[i]<<endl;
     }
 
-    RRData* rrData = simulateEx(myData->rrHandle, myData->timeStart, myData->timeEnd, myData->nrOfTimePoints);
+    RRCData* rrData = simulateEx(myData->rrHandle, myData->timeStart, myData->timeEnd, myData->nrOfTimePoints);
 
     if(!rrData)
     {
@@ -303,6 +310,8 @@ RoadRunnerData LMFitThread::createResidualsData()
     RoadRunnerData& obsData = mMinData.getObservedDataReference();
 
     resData.reSize(modData.rSize(), modData.cSize());
+	//setup coulumn names
+    resData.setColumnNames(modData.getColumnNames());
 
 	for(int sel = 0; sel < mLMData.nrOfSpecies + 1; sel++)	//selection 1 becuase of time column..
     {

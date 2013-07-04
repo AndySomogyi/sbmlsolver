@@ -12,7 +12,7 @@ ${THIRD_PARTY_INSTALL_FOLDER}/include
 
 #The C-api is built as a shared library..
 add_library(${target} SHARED
-rrc_core_api
+rrc_api
 rrc_plugin_api
 rrc_jobs_api
 rrc_parameter_api
@@ -74,8 +74,7 @@ endif()
 #=============== INSTALL =====================
 install(
 FILES 
-#    ${target}.h 
-    rrc_core_api.h 
+    ${target}.h 
     rrc_utilities.h 
     rrc_types.h 
     rrc_exporter.h				 					
