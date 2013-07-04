@@ -177,7 +177,7 @@ if(INSTALL_CXX_API)
     endif()
 endif(INSTALL_CXX_API)
 
-add_subdirectory(Wrappers)
+add_subdirectory(wrappers)
 
 if(BUILD_TESTS)
     message(STATUS "building tests")

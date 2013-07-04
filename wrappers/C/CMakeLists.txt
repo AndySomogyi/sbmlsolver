@@ -1,6 +1,6 @@
 set(target rrc_api)
 
-set(C_API_INCLUDE_ROOT "${RR_ROOT}/Wrappers/C")
+set(C_API_INCLUDE_ROOT "${RR_ROOT}/wrappers/C")
 
 include_directories(${RR_GENERATED_HEADER_PATH}) #we have to do this to get the generated header
 

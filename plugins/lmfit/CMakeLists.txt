@@ -3,7 +3,7 @@ set(target lmfit)
 
 include_directories(
 ../../source 
-../../Wrappers/C 
+../../wrappers/C 
 ${THIRD_PARTY_INSTALL_FOLDER}/include
 )
 

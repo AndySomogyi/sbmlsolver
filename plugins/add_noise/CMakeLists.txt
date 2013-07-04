@@ -3,7 +3,7 @@ set(target add_noise)
 
 include_directories(
 ../../source 
-../../Wrappers/C 
+../../wrappers/C 
 ${THIRD_PARTY_INSTALL_FOLDER}/include
 )
 
