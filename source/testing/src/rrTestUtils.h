@@ -1,7 +1,7 @@
 #ifndef rrTestUtilsH
 #define rrTestUtilsH
 #include <string>
-#include "lsMatrix.h"
+#include "rr-libstruct/lsMatrix.h"
 
 using namespace ls;
 using std::string;

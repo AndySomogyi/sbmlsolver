@@ -15,6 +15,7 @@ using std::vector;
 using std::complex;
 
 RR_DECLSPEC char*   			createText(const string& str);
+RR_DECLSPEC char*   			createText(const int& count);
 RR_DECLSPEC bool   				freeText(char* str);
 RR_DECLSPEC string              replaceWord(const string& str1, const string& str2, const string& theString);
 RR_DECLSPEC bool                convertFunctionCallToUseVarArgsSyntax(const string& funcName, string& expression);

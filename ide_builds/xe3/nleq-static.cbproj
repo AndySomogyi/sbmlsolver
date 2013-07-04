@@ -23,7 +23,7 @@
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
 			<Defines>STATIC_NLEQ;$(Defines)</Defines>
-			<IncludePath>..\..\source\nleq\;$(RR_ROOT)\trunk\ThirdParty\clapack\3.2.1\include;$(IncludePath)</IncludePath>
+			<IncludePath>..\..\source\nleq\;$(RR_ROOT)\trunk\third_party\clapack\3.2.1\include;$(IncludePath)</IncludePath>
 			<OutputExt>lib</OutputExt>
 			<PackageImports>vclx.bpi;vcl.bpi;rtl.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;vclimg.bpi;svnui.bpi;svn.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;bdertl.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;DbxClientDriver.bpi;dbexpress.bpi;AzureCloud.bpi;DbxCommonDriver.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;vclie.bpi;webdsnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;TeeTree2D15Tee9.bpi;bcbie.bpi;dbxcds.bpi;TeeImage915.bpi;TeeWorld915.bpi;TeeLanguage915.bpi;TeePro915.bpi;TeeGL915.bpi;TeeUI915.bpi;TeeDB915.bpi;Tee915.bpi;inetdb.bpi;websnap.bpi;DuneComponents.bpi;mtkCommonRTL.bpi;VCLCommonRTL.bpi;VCLData.bpi;mtkMathRTL.bpi;mtkDataRTL.bpi;vtkComponents.bpi;mtkGraphicsRTL.bpi;VCLMolecule.bpi;mtkMoleculeRTL.bpi;mtkSpinRTL.bpi</PackageImports>
 			<Multithreaded>true</Multithreaded>

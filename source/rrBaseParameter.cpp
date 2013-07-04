@@ -3,7 +3,7 @@
 #endif
 #pragma hdrstop
 #include <sstream>
-#include "../Wrappers/C/rrc_types.h"
+#include "../wrappers/C/rrc_types.h"
 #include "rrStringUtils.h"
 #include "rrBaseParameter.h"
 #include "rrParameter.h"
@@ -86,9 +86,9 @@ string BaseParameter::getType() const
         return "boolean";
     }
 
-    if(dynamic_cast< Parameter<rrc::RRData*>* >(ptr))
+    if(dynamic_cast< Parameter<rrc::RRCData*>* >(ptr))
     {
-        return "RRData";
+        return "RRCDataPtr";
     }
 
     return val;

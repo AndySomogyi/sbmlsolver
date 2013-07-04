@@ -1,9 +1,4 @@
-#pragma hdrstop
-#include <alloc.h>
-
-#include "rrCPluginFramework.h"
-#include "./../../Wrappers/C/rrc_api.h"
-#include "./../../Wrappers/C/rrc_utilities.h"
+#include "rrc_api.h"
 #include "c_plugin_demo.h"
 
 char* rrCallConv getImplementationLanguage()
@@ -13,7 +8,7 @@ char* rrCallConv getImplementationLanguage()
 
 char* rrCallConv getName()
 {
-	return "c_plugin_demo";
+	return "Plugin Demo";
 }
 
 char* rrCallConv getCategory()
@@ -21,18 +16,32 @@ char* rrCallConv getCategory()
 	return "Demos";
 }
 
-RRPluginData*  rrCallConv	createCPluginData(RRHandle aRR)
+bool rrCallConv setupCPlugin(RRHandle aRR)
 {
-    //allocate a new object and return it
-    gPluginData = (RRPluginData*) calloc(1, sizeof(RRPluginData));
-	gPluginData->mRR = aRR;
-    return gPluginData;
+    gRR = aRR;
+    return true;
 }
 
 bool rrCallConv	execute(void* userData)
 {
-	*((char**) userData) = getAPIVersion();
+	char* text2;
+	char* text = createTextMemory(2048);
+    strcat(text, "CPP API Version: ");
+    text2 = getCPPAPIVersion(gRR);
+    if(text2)
+    {
+		strcat(text, text2);
+        freeText(text2);
+    }
+    else
+    {
+    	return false;
+    }
+
+	*((char**) userData) = text;
     return true;
 }
 
+#if defined(CG_IDE)
 #pragma comment(lib, "rrc_api.lib")
+#endif

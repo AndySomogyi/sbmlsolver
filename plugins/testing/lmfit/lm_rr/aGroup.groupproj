@@ -12,7 +12,7 @@
         <Projects Include="..\..\..\..\Wrappers\C\rrc_api.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="..\..\..\..\ThirdParty\lmfit\lmfit-static.cbproj">
+        <Projects Include="..\..\..\..\third_party\lmfit\lmfit-static.cbproj">
             <Dependencies/>
         </Projects>
         <Projects Include="lm_demo.cbproj">
@@ -54,13 +54,13 @@
         <MSBuild Projects="..\..\..\..\Wrappers\C\rrc_api.cbproj" Targets="Make"/>
     </Target>
     <Target Name="lmfit-static">
-        <MSBuild Projects="..\..\..\..\ThirdParty\lmfit\lmfit-static.cbproj"/>
+        <MSBuild Projects="..\..\..\..\third_party\lmfit\lmfit-static.cbproj"/>
     </Target>
     <Target Name="lmfit-static:Clean">
-        <MSBuild Projects="..\..\..\..\ThirdParty\lmfit\lmfit-static.cbproj" Targets="Clean"/>
+        <MSBuild Projects="..\..\..\..\third_party\lmfit\lmfit-static.cbproj" Targets="Clean"/>
     </Target>
     <Target Name="lmfit-static:Make">
-        <MSBuild Projects="..\..\..\..\ThirdParty\lmfit\lmfit-static.cbproj" Targets="Make"/>
+        <MSBuild Projects="..\..\..\..\third_party\lmfit\lmfit-static.cbproj" Targets="Make"/>
     </Target>
     <Target Name="lm_demo">
         <MSBuild Projects="lm_demo.cbproj"/>

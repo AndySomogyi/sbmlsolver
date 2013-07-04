@@ -25,7 +25,19 @@ char* createText(const string& str)
 
 	char* text = new char[str.size() + 1];
 	std::copy(str.begin(), str.end(), text);
-	text[str.size()] = '\0'; //terminating 0!
+	text[str.size()] = '\0'; //terminating NULL!
+	return text;
+}
+
+char* createText(const int& count)
+{
+	if(count == 0)
+    {
+    	return NULL;
+    }
+
+	char* text = new char[count + 1];
+	text[count] = '\0'; //terminating NULL!
 	return text;
 }
 

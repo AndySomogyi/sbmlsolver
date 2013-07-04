@@ -1,9 +1,9 @@
 #ifndef rrConstantsH
 #define rrConstantsH
-#include "rrExporter.h"
 #include <limits>
 #include <string>
 #include <cstdlib> 
+#include "rrExporter.h"
 using namespace std;
 
 namespace rr

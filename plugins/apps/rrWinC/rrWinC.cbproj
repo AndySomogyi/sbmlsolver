@@ -58,7 +58,7 @@
         <Manifest_File>None</Manifest_File>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <Multithreaded>true</Multithreaded>
-        <AllPackageLibs>rtl.lib;vcl.lib;vclactnband.lib;vclx.lib;Tee.lib;vclimg.lib</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib;vclactnband.lib;vclx.lib;Tee.lib;vclimg.lib;DuneComponents.lib;VCLCommon.lib</AllPackageLibs>
         <_TCHARMapping>char</_TCHARMapping>
         <ProjectType>CppVCLApplication</ProjectType>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
@@ -114,13 +114,13 @@
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
         <BCC_MonitorThis>true</BCC_MonitorThis>
         <Defines>LIBSBML_USE_CPP_NAMESPACE;$(Defines)</Defines>
-        <Debugger_DebugSourcePath>R:\rrl\plugins\TestPlugin\;P:\mtk\Components\Dune\;R:\rrl\source\;P:\mtk\VCL\Common\;R:\rrl\plugins\add_noise\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
+        <Debugger_DebugSourcePath>R:\rrl\plugins\TestPlugin\;P:\mtk\Components\Dune\;R:\rrl\source\;P:\mtk\VCL\Common\;R:\rrl\plugins\add_noise\;R:\rrl\third_party\poco\Foundation\src\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <ILINK_LibraryPath>$(RR_DEBUG)/lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <IncludePath>$(RR_ROOT)\source;$(RR_ROOT)\Wrappers\C;$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
         <FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
-        <LinkPackageImports>rtl.bpi;vcl.bpi;vclactnband.bpi;vclx.bpi;Tee.bpi;vclimg.bpi</LinkPackageImports>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;vclactnband.bpi;vclx.bpi;Tee.bpi;vclimg.bpi;DuneComponents.bpi;VCLCommon.bpi</LinkPackageImports>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <BCC_PCHInject>rrWinC_pch.h</BCC_PCHInject>

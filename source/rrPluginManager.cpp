@@ -123,13 +123,13 @@ bool PluginManager::load(const string& pluginName)
     return result;
 }
 
-bool PluginManager::loadPlugin(const string& pluginName)
+bool PluginManager::loadPlugin(const string& libName)
 {
 	stringstream msg;
 	try
     {
         SharedLibrary *libHandle = new SharedLibrary;
-        libHandle->load(joinPath(mPluginFolder, pluginName));
+        libHandle->load(joinPath(mPluginFolder, libName));
 
         //Validate the plugin
         if(!checkImplementationLanguage(libHandle))
@@ -145,21 +145,26 @@ bool PluginManager::loadPlugin(const string& pluginName)
         	//Gather enough library data in order to create a CPlugin object
             //We need at least name, category and an execute function in order to setup a C plugin
             Plugin* aPlugin = createCPlugin(libHandle);
+            if(!aPlugin)
+            {
+            	return false;
+            }
+            aPlugin->setLibraryName(getFileNameNoExtension(libName));
             Capabilities *caps = aPlugin->getCapabilities();
             mRR->addCapabilities(*(caps));
-
             pair< Poco::SharedLibrary*, Plugin* > storeMe(libHandle, aPlugin);
             mPlugins.push_back( storeMe );
-
-
+            return true;
         }
         else if(libHandle->hasSymbol("createPlugin"))
         {
             createRRPluginFunc create = (createRRPluginFunc) libHandle->getSymbol("createPlugin");
+
             //This plugin
             Plugin* aPlugin = create(mRR);
             if(aPlugin)
             {
+	            aPlugin->setLibraryName(getFileNameNoExtension(libName));
             	//Add plugins capabilities to roadrunner
                 Capabilities *caps = aPlugin->getCapabilities();
                 mRR->addCapabilities(*(caps));
@@ -172,7 +177,7 @@ bool PluginManager::loadPlugin(const string& pluginName)
         else
         {
 	        stringstream msg;
-            msg<<"The plugin library: "<<pluginName<<" do not have enough data in order to create a plugin. Can't load";
+            msg<<"The plugin library: "<<libName<<" do not have enough data in order to create a plugin. Can't load";
 			Log(lWarning)<<msg.str();
             return false;
         }
@@ -305,13 +310,17 @@ Plugin*	PluginManager::getPlugin(const string& name)
             {
                	return aPlugin;
             }
+            if(aPlugin && aPlugin->getLibraryName() == name)
+            {
+               	return aPlugin;
+            }
         }
     }
     return NULL;
 }
 
 typedef char* 		(rrCallConv *charStar)();
-typedef void* 		(rrCallConv *CPluginData)(RoadRunner*);
+typedef bool 		(rrCallConv *setupCPluginFnc)(RoadRunner*);
 typedef bool 		(rrCallConv *exec)(void*);
 
 Plugin* PluginManager::createCPlugin(SharedLibrary *libHandle)
@@ -321,14 +330,13 @@ Plugin* PluginManager::createCPlugin(SharedLibrary *libHandle)
         //Minimum bare bone plugin need these
     	charStar 				getName 			= (charStar) 		libHandle->getSymbol("getName");
         charStar 				getCategory 		= (charStar) 		libHandle->getSymbol("getCategory");
-		CPluginData		  		createCPluginData	= (CPluginData) 	libHandle->getSymbol("createCPluginData");
+    	setupCPluginFnc	  		setupCPlugin		= (setupCPluginFnc)	libHandle->getSymbol("setupCPlugin");
 		exec			  		executeFunc			= (exec) 			libHandle->getSymbol("execute");
         char* name 	= getName();
         char* cat 	= getCategory();
-        void* cDataHandle = createCPluginData(mRR);
+        bool  res	= setupCPlugin(mRR);
         CPlugin* aPlugin = new CPlugin(name, cat);
         aPlugin->assignExecuteFunction(executeFunc);
-
         return aPlugin;
     }
     catch(const Poco::NotFoundException& ex)

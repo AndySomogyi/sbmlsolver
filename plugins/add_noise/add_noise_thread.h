@@ -11,21 +11,22 @@ typedef void (rrCallConv *ThreadCB)(void*);
 class AddNoiseThread : public Poco::Runnable
 {
     protected:
-        Poco::Thread             mThread;
+        Poco::Thread            mThread;
 
         //Callbacks
-        ThreadCB                 threadEnterCB;
-        ThreadCB                 threadExitCB;
-        void*                    mUserData;
+        ThreadCB                threadEnterCB;
+        ThreadCB                threadExitCB;
+        void*                   mUserData;
 
-        void*                    mInputData;
-        double                   mSigma;
+        void*                   mInputData;
+        double                  mSigma;
 
     public:
-                                 AddNoiseThread();
-        void                     assignCallBacks(ThreadCB fn1, ThreadCB fn2, void* userData);
-        void                     start(void* inputData, double sigma);
-        void                     run();
+                                AddNoiseThread();
+        void                    assignCallBacks(ThreadCB fn1, ThreadCB fn2, void* userData);
+        void                    start(void* inputData, double sigma);
+        void                    run();
+        bool					isRunning();
 };
 
 #endif
