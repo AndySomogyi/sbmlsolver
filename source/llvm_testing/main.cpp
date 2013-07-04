@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
     getPairs(pairs, npairs);
 
     for (int i = 0; i < npairs; i++) {
-        runModelDataAccessorTest(pairs[i].first, pairs[i].second);
+        runInitialValueAssigmentTest(pairs[i].first, pairs[i].second);
     }
 
 

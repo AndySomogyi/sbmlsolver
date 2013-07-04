@@ -5,6 +5,7 @@
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrLLVMIncludes.h"
+#include "rrLLVMAssignmentRuleEvaluator.h"
 
 
 #include <sbml/SBMLDocument.h>
@@ -64,6 +65,30 @@ string getModelFileName(const string& version, int caseNumber)
     cout << modelFileName << "\n";
 
     return modelFileName;
+}
+
+bool runInitialValueAssigmentTest(const string& version, int caseNumber)
+{
+    ModelData md;
+    string modelFileName = getModelFileName(version, caseNumber);
+
+    SBMLDocument *doc = readSBMLFromFile(modelFileName.c_str());
+
+    LLVMModelGeneratorContext c(doc, true);
+
+    LLVMSymbolForest s;
+
+    LLVMAssignmentRuleEvaluator evaluator(s);
+
+    evaluator.evaluate(*c.getModel());
+
+
+
+
+
+    delete doc;
+
+    return true;
 }
 
 bool runModelDataAccessorTest(const string& version, int caseNumber)
