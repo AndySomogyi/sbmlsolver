@@ -80,10 +80,10 @@ StructType* getTestStructType() {
 }
 
 Value *getVar5(Value *testStructPtr, int index) {
-    GetElementPtrInst *gep = dynamic_cast<GetElementPtrInst*>(builder->CreateStructGEP(testStructPtr, 5, "var5_gep"));
+    GetElementPtrInst *gep = dyn_cast<GetElementPtrInst>(builder->CreateStructGEP(testStructPtr, 5, "var5_gep"));
     LoadInst * var5_load = builder->CreateLoad(gep, "var5_load");
     //Value *var5_load = loadFromStruct(Builder, testStructPtr, 5, "var5");
-    gep = dynamic_cast<GetElementPtrInst*>(builder->CreateConstGEP1_32(var5_load, index, "var5_elem_gep"));
+    gep = dyn_cast<GetElementPtrInst>(builder->CreateConstGEP1_32(var5_load, index, "var5_elem_gep"));
     return builder->CreateLoad(gep, "var5_elem");
 }
 

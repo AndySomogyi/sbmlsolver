@@ -57,6 +57,7 @@ if(UNIX)
         lapack
         blas
         f2c
+        dl
         )
 endif()
 
