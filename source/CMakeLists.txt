@@ -97,9 +97,13 @@ set(rrSources
 if(BUILD_LLVM)
     set(rrSources
         ${rrSources}
+        rrLLVMAssignmentRuleEvaluator
+        rrLLVMASTNodeCodeGen
         rrLLVMCodeGenerator
         rrLLVMCompiler
         rrLLVMExecutableModel
+        rrLLVMInitialValueCodeGen
+        rrLLVMModelDataIRBuilder
         rrLLVMModelDataSymbols
         rrLLVMModelGenerator
         rrLLVMModelGeneratorContext
@@ -240,6 +244,9 @@ if(${MSVC})
     target_link_libraries(${target}-static libxml2)
 endif()
 
+if(BUILD_LLVM)
+    add_subdirectory(llvm_testing)
+endif(BUILD_LLVM)
 
 if(BUILD_TESTS)
     add_subdirectory(testing)
