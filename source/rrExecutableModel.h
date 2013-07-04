@@ -170,6 +170,11 @@ public:
     virtual void convertToConcentrations() = 0;
     virtual void updateDependentSpeciesValues(double* _y) = 0;
     virtual void computeAllRatesOfChange() = 0;
+
+    /**
+     * the state vector y is the rate rule values and floating species
+     * concentrations concatenated. y is of length numFloatingSpecies + numRateRules.
+     */
     virtual void evalModel(const double& time, const vector<double>& y) = 0;
     virtual void evalEvents(const double& time, const vector<double>& y) = 0;
     virtual void resetEvents() = 0;
