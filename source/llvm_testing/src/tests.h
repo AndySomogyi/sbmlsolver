@@ -16,6 +16,8 @@ string getModelFileName(const string& version, int caseNumber);
 
 bool runModelDataAccessorTest(const string& version, int caseNumber);
 
+bool runInitialValueAssigmentTest(const string& version, int caseNumber) ;
+
 
 
 
