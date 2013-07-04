@@ -90,6 +90,7 @@ set(rrSources
     rrMinimizationData
     rrModelGeneratorFactory
     rrNoise
+    rrVersionInfo
     )
 
 # Add the LLVM sources to compilation

@@ -71,7 +71,7 @@ set(BUILD_SHARED_LIBS            ON)
 
 set(RR_ROOT                      ${CMAKE_CURRENT_SOURCE_DIR})
 set(RR_SOURCE_ROOT               ${CMAKE_CURRENT_SOURCE_DIR}/source)
-set(THIRD_PARTY_FOLDER           ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty)
+set(THIRD_PARTY_FOLDER           ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 
 set(exe_path                     ${PROJECT_BINARY_DIR}/bin)
 set(lib_path                     ${PROJECT_BINARY_DIR}/lib)
@@ -177,7 +177,7 @@ if(INSTALL_CXX_API)
     endif()
 endif(INSTALL_CXX_API)
 
-add_subdirectory(Wrappers)
+add_subdirectory(wrappers)
 
 if(BUILD_TESTS)
     message(STATUS "building tests")

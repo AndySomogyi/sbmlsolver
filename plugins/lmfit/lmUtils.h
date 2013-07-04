@@ -1,6 +1,6 @@
 #ifndef lmUtilsH
 #define lmUtilsH
-#include "../../Wrappers/C/rrc_types.h"
+#include "../../wrappers/C/rrc_types.h"
 //---------------------------------------------------------------------------
 
 /* data structure to transmit model data to function evalution */

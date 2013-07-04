@@ -109,10 +109,6 @@ object MainF: TMainF
             Height = 258
             ExplicitWidth = 107
             ExplicitHeight = 258
-            inherited paraEdit: mtkFloatLabeledEdit
-              EditLabel.ExplicitLeft = 0
-              EditLabel.ExplicitTop = -16
-            end
           end
         end
         inherited Panel3: TPanel
@@ -271,8 +267,6 @@ object MainF: TMainF
       Align = alClient
       Caption = 'Panel5'
       TabOrder = 0
-      ExplicitLeft = 469
-      ExplicitWidth = 649
       object infoMemo: TMemo
         Left = 1
         Top = 30
@@ -289,7 +283,6 @@ object MainF: TMainF
         ScrollBars = ssBoth
         TabOrder = 0
         WordWrap = False
-        ExplicitWidth = 647
       end
       object ToolBar3: TToolBar
         Left = 1
@@ -298,7 +291,6 @@ object MainF: TMainF
         Height = 29
         Caption = 'ToolBar3'
         TabOrder = 1
-        ExplicitWidth = 647
         object Button2: TButton
           Left = 0
           Top = 0
@@ -327,7 +319,6 @@ object MainF: TMainF
         ButtonHeight = 23
         Caption = 'ToolBar1'
         TabOrder = 0
-        ExplicitWidth = 466
         object Button4: TButton
           Left = 0
           Top = 0
@@ -404,11 +395,9 @@ object MainF: TMainF
         ActivePage = TabSheet5
         Align = alClient
         TabOrder = 2
-        ExplicitWidth = 370
         object TabSheet5: TTabSheet
           Caption = 'Make Noise'
           ImageIndex = 2
-          ExplicitWidth = 362
           object noiseSigmaE: mtkFloatLabeledEdit
             Left = 13
             Top = 32
@@ -698,7 +687,7 @@ object MainF: TMainF
     Left = 400
     Top = 200
     Bitmap = {
-      494C01010C0018004C0020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01010C001800540020002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000008000000001002000000000000000
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

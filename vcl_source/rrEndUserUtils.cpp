@@ -6,7 +6,7 @@
 
 using namespace rr;
 using namespace rrc;
-NewArrayList convertCList(RRListHandle inList)
+NewArrayList convertCList(RRList* inList)
 {
 	NewArrayList theList;
 
@@ -17,7 +17,7 @@ NewArrayList convertCList(RRListHandle inList)
 
 	for(int i = 0; i < inList->Count; i++)
     {
-    	RRListItemHandle item = inList->Items[i];
+    	RRListItem* item = inList->Items[i];
     	if(item->ItemType == litList)
         {
         	NewArrayList subList = convertCList(item->data.lValue);
@@ -34,7 +34,7 @@ NewArrayList convertCList(RRListHandle inList)
     return theList;
 }
 
-StringList convertCStringArray(RRStringArrayHandle inList)
+StringList convertCStringArray(RRStringArray* inList)
 {
 	StringList theList;
 

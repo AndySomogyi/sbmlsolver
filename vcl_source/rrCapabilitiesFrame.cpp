@@ -27,7 +27,7 @@ void TcapFrame::Populate(RRHandle rr, const StringList& caps)
     	return;
     }
 
-    for(int i = 0; i < caps.Count(); i++)
+    for(unsigned int i = 0; i < caps.Count(); i++)
     {
         capDropDown->AddItem(vclstr(caps[i]), NULL);
     }

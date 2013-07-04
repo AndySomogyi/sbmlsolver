@@ -3,10 +3,10 @@
 			<ProjectGuid>{C872E013-B2BC-4AC9-92EB-3AC8FB0F05CB}</ProjectGuid>
 		</PropertyGroup>
 		<ItemGroup>
-			<Projects Include="..\..\ThirdParty\nleq\nleq-static.cbproj">
+			<Projects Include="..\..\third_party\nleq\nleq-static.cbproj">
 				<Dependencies/>
 			</Projects>
-			<Projects Include="..\..\ThirdParty\nleq\rr_nleq.cbproj">
+			<Projects Include="..\..\third_party\nleq\rr_nleq.cbproj">
 				<Dependencies/>
 			</Projects>
 		</ItemGroup>
@@ -18,22 +18,22 @@
 			</BorlandProject>
 		</ProjectExtensions>
 		<Target Name="nleq-static">
-			<MSBuild Projects="..\..\ThirdParty\nleq\nleq-static.cbproj"/>
+			<MSBuild Projects="..\..\third_party\nleq\nleq-static.cbproj"/>
 		</Target>
 		<Target Name="nleq-static:Clean">
-			<MSBuild Projects="..\..\ThirdParty\nleq\nleq-static.cbproj" Targets="Clean"/>
+			<MSBuild Projects="..\..\third_party\nleq\nleq-static.cbproj" Targets="Clean"/>
 		</Target>
 		<Target Name="nleq-static:Make">
-			<MSBuild Projects="..\..\ThirdParty\nleq\nleq-static.cbproj" Targets="Make"/>
+			<MSBuild Projects="..\..\third_party\nleq\nleq-static.cbproj" Targets="Make"/>
 		</Target>
 		<Target Name="rr_nleq">
-			<MSBuild Projects="..\..\ThirdParty\nleq\rr_nleq.cbproj"/>
+			<MSBuild Projects="..\..\third_party\nleq\rr_nleq.cbproj"/>
 		</Target>
 		<Target Name="rr_nleq:Clean">
-			<MSBuild Projects="..\..\ThirdParty\nleq\rr_nleq.cbproj" Targets="Clean"/>
+			<MSBuild Projects="..\..\third_party\nleq\rr_nleq.cbproj" Targets="Clean"/>
 		</Target>
 		<Target Name="rr_nleq:Make">
-			<MSBuild Projects="..\..\ThirdParty\nleq\rr_nleq.cbproj" Targets="Make"/>
+			<MSBuild Projects="..\..\third_party\nleq\rr_nleq.cbproj" Targets="Make"/>
 		</Target>
 		<Target Name="Build">
 			<CallTarget Targets="nleq-static;rr_nleq"/>

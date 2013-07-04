@@ -172,7 +172,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
         double                          getValueForRecord(const SelectionRecord& record);
 
         void                            partOfSimulation(SBMLModelSimulation* simulation){mSimulation = simulation;}
-        RoadRunnerData                  getSimulationResult();
+        RoadRunnerData                  getSimulationResult();	//Todo: should probably be removed..
+        RoadRunnerData*                 getRoadRunnerData();
         bool                            loadSimulationSettings(const string& fName);
         bool                            useSimulationSettings(SimulationSettings& settings);
         DoubleMatrix                    runSimulation();

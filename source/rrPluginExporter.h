@@ -1,5 +1,6 @@
 #ifndef rrPluginExporterH
 #define rrPluginExporterH
+#include "rrOSSpecifics.h"
 
 #if defined(_WIN32) || defined(WIN32)
     #if defined(EXPORT_PLUGIN)
