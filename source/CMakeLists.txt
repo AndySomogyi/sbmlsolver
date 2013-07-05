@@ -99,6 +99,7 @@ if(BUILD_LLVM)
         ${rrSources}
         rrLLVMAssignmentRuleEvaluator
         rrLLVMASTNodeCodeGen
+        rrLLVMASTNodeFactory
         rrLLVMCodeGenerator
         rrLLVMCompiler
         rrLLVMExecutableModel

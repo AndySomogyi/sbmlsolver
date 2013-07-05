@@ -35,7 +35,7 @@ public:
 
     void evaluate(const libsbml::Model& model);
 
-    virtual bool visit (const libsbml::AssignmentRule            &x);
+    virtual bool visit (const libsbml::AssignmentRule  &x);
 
 protected:
     LLVMSymbolForest &symbols;
