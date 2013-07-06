@@ -140,7 +140,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
         string                          getModelName();
         string                          getlibSBMLVersion();
         bool                            unLoadModel();
-        bool                            unLoadModelDLL();
 
         int                             createDefaultSteadyStateSelectionList();
         int                             createDefaultTimeCourseSelectionList();
@@ -172,7 +171,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
         double                          getValueForRecord(const SelectionRecord& record);
 
         void                            partOfSimulation(SBMLModelSimulation* simulation){mSimulation = simulation;}
-        RoadRunnerData                  getSimulationResult();	//Todo: should probably be removed..
+        RoadRunnerData                  getSimulationResult();    //Todo: should probably be removed..
         RoadRunnerData*                 getRoadRunnerData();
         bool                            loadSimulationSettings(const string& fName);
         bool                            useSimulationSettings(SimulationSettings& settings);
@@ -215,7 +214,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
         // ---------------------------------------------------------------------
         // Start of Level 2 API Methods
         // ---------------------------------------------------------------------
-        Capabilities&                   getCapabilities();
         Capability*                     getCapability(const string& cap_name);
         string                          getCapabilitiesAsXML();
         vector<string>                  getListOfCapabilities();
@@ -223,7 +221,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
         bool                            addCapability(Capability& cap);
         bool                            addCapabilities(Capabilities& caps);
-        bool                            setCapabilityParameter(const string& cap, const string& parameter, const string& value);
 
         void                            setCapabilities(const string& capsStr);
 
@@ -368,6 +365,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
         vector<double>                  getGlobalParameterValues();
         vector<string>                  getGlobalParameterIds();
         vector<string>                  getAllGlobalParameterTupleList();
+
         void                            evalModel();
 
         //These functions are better placed in a separate file, as non class members, but part of the roadrunner namespace?

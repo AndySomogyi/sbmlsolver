@@ -6,6 +6,7 @@
 #include "rrUtils.h"
 #include "rrLLVMIncludes.h"
 #include "rrLLVMAssignmentRuleEvaluator.h"
+#include "rrLLVMInitialValueCodeGen.h"
 
 
 #include <sbml/SBMLDocument.h>
@@ -76,11 +77,13 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 
     LLVMModelGeneratorContext c(doc, true);
 
-    LLVMSymbolForest s;
 
-    LLVMAssignmentRuleEvaluator evaluator(s);
+    LLVMInitialValueCodeGen iv(c);
 
-    evaluator.evaluate(*c.getModel());
+    iv.codeGen();
+
+
+
 
 
 

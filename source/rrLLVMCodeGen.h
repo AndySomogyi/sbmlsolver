@@ -5,15 +5,15 @@
  *      Author: andy
  */
 
-#ifndef RRLLVMCODEGEN_H_
-#define RRLLVMCODEGEN_H_
+#ifndef LLVMCodeGenH
+#define LLVMCodeGenH
 
 #include "rrLLVMIncludes.h"
 
 class LLVMCodeGen
 {
 public:
-    virtual llvm::Value *CodeGen() = 0;
+    virtual llvm::Value *codeGen() = 0;
 protected:
     ~LLVMCodeGen() {};
 };
@@ -21,4 +21,4 @@ protected:
 
 
 
-#endif /* RRLLVMCODEGEN_H_ */
+#endif /* LLVMCodeGenH */

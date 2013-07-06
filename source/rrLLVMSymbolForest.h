@@ -35,12 +35,17 @@ using libsbml::ASTNode;
 class LLVMSymbolForest
 {
 public:
-    map<string, const ASTNode*> floatingSpecies;
-    map<string, const ASTNode*> boundarySpecies;
+    //typedef map<string, const ASTNode*> Map;
+    typedef std::pair<string, const ASTNode*> Pair;
+    typedef map<string, const ASTNode*>::iterator Iterator;
+
+    map<string, const ASTNode*> floatingSpeciesConcentrations;
+    map<string, const ASTNode*> floatingSpeciesAmounts;
+    map<string, const ASTNode*> boundarySpeciesConcentrations;
     map<string, const ASTNode*> compartments;
     map<string, const ASTNode*> globalParameters;
 };
 
+
 } /* namespace rr */
-#endif /* LLVMSymbolForestH
- */
+#endif /* LLVMSymbolForestH */
