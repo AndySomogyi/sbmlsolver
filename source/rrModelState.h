@@ -12,6 +12,16 @@ using std::ostream;
 
 namespace rr
 {
+
+/**
+ * Saves the 'state' of a Model.
+ *
+ * TODO: GET RID OF THIS! Give the a proper clone() method if we need
+ * modify it! Or at least, write a ModelData clone function!.
+ *
+ * This class re-implements ModelData, and copies the values out of and into
+ * a ModelData struct.
+ */
 class RR_DECLSPEC ModelState : public rrObject
 {
     protected:

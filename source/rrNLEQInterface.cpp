@@ -68,7 +68,7 @@ NLEQInterface::~NLEQInterface()
 
 void NLEQInterface::setup()
 {
-    n = model->getNumIndependentVariables();
+    n = model->getNumIndependentSpecies();
 
     // Allocate space, see NLEQ docs for details
     LWRK = (n + 2 + 15)*n + 61;
@@ -108,9 +108,9 @@ void NLEQInterface::setup()
     RWK[22 - 1] = 1E-16; // Minimal allowed damping factor
 }
 
-Capability&	NLEQInterface::getCapability()
+Capability&    NLEQInterface::getCapability()
 {
-	return mCapability;
+    return mCapability;
 }
 
 bool NLEQInterface::isAvailable()
@@ -135,7 +135,7 @@ double NLEQInterface::solve(const vector<double>& yin)
 
     // Set up a dummy Jacobian, actual Jacobian is computed
     // by NLEQ using finite differences
-	//    double* Jacobian = new double[1];
+    //    double* Jacobian = new double[1];
 
     ierr = 0;
     IWK[31 - 1] = maxIterations; // Max iterations
@@ -179,16 +179,16 @@ double NLEQInterface::solve(const vector<double>& yin)
 
     gModel = model;
 
-    NLEQ1( 	&n,
-    		&ModelFunction,
+    NLEQ1(     &n,
+            &ModelFunction,
             NULL,
-           	model->getModelData().amounts,
+               model->getModelData().floatingSpeciesAmounts,
             XScal,
             &tmpTol,
-           	iopt,
+               iopt,
             &ierr,
             &LIWK,
-           	IWK,
+               IWK,
             &LWRK,
             RWK);
 
@@ -210,7 +210,7 @@ double NLEQInterface::solve(const vector<double>& yin)
 
     if(ierr > 0 )
     {
-    	string err = ErrorForStatus(ierr);
+        string err = ErrorForStatus(ierr);
         Log(lError)<<"Error :"<<err;
         throw NLEQException(err);
     }
@@ -228,38 +228,38 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
 
     try
     {
-    	long n = model->getNumIndependentVariables();
-		for(long i = 0; i < n; i++)
+        long n = model->getNumIndependentSpecies();
+        for(long i = 0; i < n; i++)
         {
-        	model->getModelData().amounts[i] = y[i];
+            model->getModelData().floatingSpeciesAmounts[i] = y[i];
         }
 
-        int size = model->getModelData().amountsSize + model->getModelData().rateRulesSize;
+        int size = model->getModelData().numFloatingSpecies + model->getModelData().numRateRules;
         vector<double> dTemp;
         dTemp.resize(size);
 
-		for(int i = 0; i < model->getModelData().rateRulesSize; i++)
+        for(int i = 0; i < model->getModelData().numRateRules; i++)
         {
-        	dTemp[i] = model->getModelData().rateRules[i];
+            dTemp[i] = model->getModelData().rateRules[i];
         }
 
-        for(int i = model->getModelData().rateRulesSize; i < model->getModelData().amountsSize + model->getModelData().rateRulesSize; i++)
+        for(int i = 0; i < model->getModelData().numFloatingSpecies; i++)
         {
-        	dTemp[i] = model->getModelData().amounts[i];
+            dTemp[model->getModelData().numRateRules + i] = model->getModelData().floatingSpeciesAmounts[i];
         }
 
         model->evalModel(0.0, dTemp);
 
-		for(int i = 0; i < n; i++)
+        for(int i = 0; i < n; i++)
         {
-        	fval[i] = model->getModelData().dydt[i];
+            fval[i] = model->getModelData().floatingSpeciesConcentrationRates[i];
         }
 
         pErr = 0;
     }
     catch (const Exception& ex)
     {
-    	throw(ex);	//catch at a higher level
+        throw(ex);    //catch at a higher level
     }
 }
 
@@ -325,19 +325,19 @@ double NLEQInterface::computeSumsOfSquares()
     //    dTemp.resize(model->getModelData().amounts.size() + model->getModelData().rateRules.size());
 
     //    dTemp = model->getModelData().rateRules;//model->getModelData().rateRules.CopyTo(dTemp, 0);
-    copyCArrayToStdVector(model->getModelData().rateRules,   dTemp, (model->getModelData().rateRulesSize));//model->mData.rateRules.CopyTo(dTemp, 0);
+    copyCArrayToStdVector(model->getModelData().rateRules,   dTemp, (model->getModelData().numRateRules));//model->mData.rateRules.CopyTo(dTemp, 0);
     //model->getModelData().amounts.CopyTo(dTemp, model->getModelData().rateRules.Length);
     //    for(int i = 0; i < model->getModelData().amounts.size(); i++)
-    for(int i = 0; i < model->getNumIndependentVariables(); i++)
+    for(int i = 0; i < model->getNumIndependentSpecies(); i++)
     {
-        dTemp.push_back(model->getModelData().amounts[i]);
+        dTemp.push_back(model->getModelData().floatingSpeciesAmounts[i]);
     }
 
     model->evalModel(0.0, dTemp);
     double sum = 0;
     for (int i = 0; i < n; i++)
     {
-        sum = sum + pow(model->getModelData().dydt[i], 2.0);
+        sum = sum + pow(model->getModelData().floatingSpeciesConcentrationRates[i], 2.0);
     }
     return sqrt(sum);
 }

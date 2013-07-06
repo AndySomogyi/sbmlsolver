@@ -76,7 +76,7 @@
         <PackageImports>vclx.bpi;vcl.bpi;rtl.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;vclimg.bpi;svnui.bpi;svn.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;bdertl.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;DbxClientDriver.bpi;dbexpress.bpi;AzureCloud.bpi;DbxCommonDriver.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;vclie.bpi;webdsnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;TeeTree2D15Tee9.bpi;bcbie.bpi;dbxcds.bpi;TeeImage915.bpi;TeeWorld915.bpi;TeeLanguage915.bpi;TeePro915.bpi;TeeGL915.bpi;TeeUI915.bpi;TeeDB915.bpi;Tee915.bpi;inetdb.bpi;websnap.bpi;$(PackageImports)</PackageImports>
         <NoVCL>true</NoVCL>
         <LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
-        <IncludePath>..\..\source\;R:\roadrunnerwork\trunk\examples\threaded_rr\;R:\roadrunnerwork\trunk\ThirdParty\poco\Foundation\include;$(RR_ROOT)\trunk\source;$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\source\;R:\roadrunnerwork\trunk\examples\threaded_rr\;R:\roadrunnerwork\trunk\third_party\poco\Foundation\include;$(RR_ROOT)\trunk\source;$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
         <_TCHARMapping>char</_TCHARMapping>
         <ProjectType>CppConsoleApplication</ProjectType>
         <ILINK_LibraryPath>..\..\source\;R:\installs\xe\debug\lib\;R:\installs\poco\lib\;R:\roadrunnerwork\trunk\examples\threaded_rr\;$(ILINK_LibraryPath)</ILINK_LibraryPath>

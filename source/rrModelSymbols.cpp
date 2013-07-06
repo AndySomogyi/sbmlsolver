@@ -185,7 +185,9 @@ static IntStringHashTable readRateRules(NOMSupport &nom,
 
 ModelSymbols::ModelSymbols() :
     mModelName("NameNotSet"),
+    mBoundarySpeciesList(),
     mNumBoundarySpecies(0),
+    mCompartmentList(),
     mNumCompartments(0),
     mTotalLocalParmeters(0),
     mNumEvents(0),
@@ -193,8 +195,13 @@ ModelSymbols::ModelSymbols() :
     mNumIndependentSpecies(0),
     mNumReactions(0),
     mNumModifiableSpeciesReferences(0),
+    mFloatingSpeciesConcentrationList(),
     mNumFloatingSpecies(0),
-    mNumDependentSpecies(0)
+    mNumDependentSpecies(0),
+    mGlobalParameterList(),
+    mModifiableSpeciesReferenceList(),
+    mReactionList(),
+    mConservationList()
 {
 }
 
@@ -363,7 +370,7 @@ static SymbolList readBoundarySpecies(NOMSupport &nom, const SymbolList &compart
                 }
             }
             stringstream formula;
-            formula<<toString(dValue, ModelSymbols::mDoubleFormat)<<"/ md->c["<<nCompartmentIndex<<"]";
+            formula<<toString(dValue, ModelSymbols::mDoubleFormat)<<"/ md->compartmentVolumes["<<nCompartmentIndex<<"]";
             symbol = Symbol(sName,
                                 dValue / dVolume,
                                 compartmentName,
@@ -535,7 +542,7 @@ static SymbolList readFloatingSpeciesConcentrationList(NOMSupport& nom, LibStruc
                 dValue = 0;
             }
 
-            Symbol symbol;;
+            Symbol symbol;
             if (bIsConcentration)
             {
                 symbol = Symbol(reOrderedList[i], dValue, compartmentName);
@@ -553,7 +560,7 @@ static SymbolList readFloatingSpeciesConcentrationList(NOMSupport& nom, LibStruc
 
                 stringstream formula;
                 formula << toString(dValue, ModelSymbols::mDoubleFormat)
-                            << "/ md->c[" << nCompartmentIndex << "]";
+                            << "/ md->compartmentVolumes[" << nCompartmentIndex << "]";
 
                 symbol = Symbol(reOrderedList[i], dValue / dVolume,
                         compartmentName, formula.str());
@@ -719,19 +726,19 @@ static string findSymbol(const string& varName,
       int index = 0;
       if (floatingSpeciesConcentrationList.find(varName, index))
       {
-          return format("md->y[{0}]", index);
+          return format("md->floatingSpeciesConcentrations[{0}]", index);
       }
       else if (globalParameterList.find(varName, index))
       {
-          return format("md->gp[{0}]", index);
+          return format("md->globalParameters[{0}]", index);
       }
       else if (boundarySpeciesList.find(varName, index))
       {
-          return format("md->bc[{0}]", index);
+          return format("md->boundarySpeciesConcentrations[{0}]", index);
       }
       else if (compartmentList.find(varName, index))
       {
-          return format("md->c[{0}]", index);
+          return format("md->compartmentVolumes[{0}]", index);
       }
       else if (modifiableSpeciesReferenceList.find(varName, index))
       {

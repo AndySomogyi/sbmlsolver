@@ -13,8 +13,8 @@ wc=/home/sagrada/myhome/downloads/source/roadrunner/roadrunnerlib
 report_file=$wc/reports/$compiler/$compiler_version/cpp_tests.xml
 temp_folder=/tmp/$compiler_version
 
-echo "cxx_api_tests -m$model_folder -r$report_file -lgcc -s$install_folder/ThirdParty/rr_support -t$temp_folder -d$temp_folder"
+echo "cxx_api_tests -m$model_folder -r$report_file -lgcc -s$install_folder/third_party/rr_support -t$temp_folder -d$temp_folder"
 
-./cxx_api_tests -m$model_folder -r$report_file -lgcc -s$install_folder/ThirdParty/rr_support -t$temp_folder -d$temp_folder
+./cxx_api_tests -m$model_folder -r$report_file -lgcc -s$install_folder/third_party/rr_support -t$temp_folder -d$temp_folder
 
 echo "done..."

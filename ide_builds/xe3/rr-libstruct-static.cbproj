@@ -71,7 +71,7 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
-        <IncludePath>..\..\ThirdParty\rr-libstruct\;$(RR_DEBUG)\include\clapack;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\third_party\rr-libstruct\;$(RR_DEBUG)\include\clapack;$(IncludePath)</IncludePath>
         <Multithreaded>true</Multithreaded>
         <PackageImports>vclx.bpi;vcl.bpi;vclimg.bpi;dbrtl.bpi;Rave90VCL.bpi;bdertl.bpi;rtl.bpi;bcbie.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;svnui.bpi;svn.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;vcldb.bpi;vcldbx.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;vclib.bpi;ibxpress.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;intrawebdb_110_150.bpi;Intraweb_110_150.bpi;vclie.bpi;inetdb.bpi;webdsnap.bpi;websnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;dbexpress.bpi;DbxCommonDriver.bpi;DbxClientDriver.bpi;AzureCloud.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbxcds.bpi;$(PackageImports)</PackageImports>
         <LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
@@ -139,26 +139,26 @@
         <Defines>NDEBUG;$(Defines)</Defines>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="..\..\ThirdParty\rr-libstruct\lsComplex.cpp">
+        <CppCompile Include="..\..\third_party\rr-libstruct\lsComplex.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\rr-libstruct\lsLibla.cpp">
+        <CppCompile Include="..\..\third_party\rr-libstruct\lsLibla.cpp">
             <BuildOrder>3</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\rr-libstruct\lsLibStructural.cpp">
+        <CppCompile Include="..\..\third_party\rr-libstruct\lsLibStructural.cpp">
             <BuildOrder>1</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\rr-libstruct\lsLUResult.cpp">
-            <DependentOn>..\..\ThirdParty\rr-libstruct\lsLUResult.h</DependentOn>
+        <CppCompile Include="..\..\third_party\rr-libstruct\lsLUResult.cpp">
+            <DependentOn>..\..\third_party\rr-libstruct\lsLUResult.h</DependentOn>
             <BuildOrder>6</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\rr-libstruct\lsMatrix.cpp">
+        <CppCompile Include="..\..\third_party\rr-libstruct\lsMatrix.cpp">
             <BuildOrder>5</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\rr-libstruct\lsSBMLModel.cpp">
+        <CppCompile Include="..\..\third_party\rr-libstruct\lsSBMLModel.cpp">
             <BuildOrder>2</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\rr-libstruct\lsUtils.cpp">
+        <CppCompile Include="..\..\third_party\rr-libstruct\lsUtils.cpp">
             <BuildOrder>4</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">

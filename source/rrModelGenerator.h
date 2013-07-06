@@ -30,6 +30,7 @@ class Compiler;
 class RR_DECLSPEC ModelGenerator : public rrObject
 {
 public:
+    ModelGenerator();
 
     /**
      * certain model generators, such as the compiler based ones
@@ -80,72 +81,6 @@ public:
      */
     virtual                             ~ModelGenerator();
 
-protected:
-
-    void                                reset();
-
-    int                                 numAdditionalRates();        //this variable is the size of moMapRateRule
-
-    /**
-     * Refernce to libstruct library
-     * this are set by createModel, and for the time being remain after createModel
-     * completes.
-     */
-    LibStructural*                      mLibStruct;
-
-    /**
-     * Object that provide some wrappers and new "NOM" functions.
-     * this are set by createModel, and for the time being remain after createModel
-     * completes.
-     */
-    NOMSupport*                         mNOM;
-
-    /**
-     * protected ctor, this is an partially abstract class.
-     */
-    ModelGenerator();
-
-    bool                                mComputeAndAssignConsevationLaws;
-
-    const string                        mFixAmountCompartments;
-
-
-    StringList                          mWarnings;
-
-    /**
-     * get various information about the model in a user displayable format.
-     */
-    virtual string                      getInfo();
-
-
-    //Non virtuals..
-
-
-    /**
-     * creates a new AST node
-     */
-    static ASTNode*                     cleanEquation(ASTNode* ast);
-    static string                       cleanEquation(const string& equation);
-
-    ls::DoubleMatrix*                   initializeL0(int& nrRows, int& nrCols);
-    bool                                expressionContainsSymbol(ASTNode* ast, const string& symbol);
-    bool                                expressionContainsSymbol(const string& expression, const string& symbol);
-    const Symbol*                       getSpecies(const string& id);
-    int                                 readGlobalParameters();
-    void                                readLocalParameters(const int& numReactions,  vector<int>& localParameterDimensions, int& totalLocalParmeters);
-    int                                 readCompartments();
-
-
-    string                              writeDouble(const double& value, const string& format = "%G");
-
-    /**
-     * hold all the symbolic (AKA metadata) information in the model
-     * The idea is that all the memebers of this class will be const, and the entire
-     * thing will be created anew each time createModel is called.
-     *
-     * This thing will creted in one shot, then all the code building will access it.
-     */
-    ModelSymbols ms;
 };
 }
 

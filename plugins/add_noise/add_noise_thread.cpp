@@ -10,7 +10,8 @@ AddNoiseThread::AddNoiseThread()
 :
 threadEnterCB(NULL),
 threadExitCB(NULL),
-mUserData(NULL)
+mUserData(NULL),
+mInputData(NULL)
 {}
 
 void AddNoiseThread::assignCallBacks(ThreadCB fn1, ThreadCB fn2, void* userData)
@@ -34,6 +35,11 @@ void AddNoiseThread::start(void* inputData, double sigma)
 	mThread.start(*this);
 }
 
+bool AddNoiseThread::isRunning()
+{
+	return mThread.isRunning();
+}
+
 void AddNoiseThread::run()
 {
 	if(threadEnterCB)
@@ -41,16 +47,19 @@ void AddNoiseThread::run()
 		threadEnterCB(mUserData);
     }
 
-    RoadRunnerData& data = *(RoadRunnerData*) (mInputData);
-	Noise noise(0, mSigma);
-    noise.randomize();
-	for(int row = 0; row < data.rSize(); row++)
+    if(mInputData)
     {
-        double xVal = data(row, 0);	//Time
-        for(int col = 0; col < data.cSize() - 1; col++)
+        RoadRunnerData& data = *(RoadRunnerData*) (mInputData);
+        Noise noise(0, mSigma);
+        noise.randomize();
+        for(int row = 0; row < data.rSize(); row++)
         {
-            double yData = data(row, col + 1) + noise.getNoise();
-			data(row, col + 1) = yData;
+            double xVal = data(row, 0);	//Time
+            for(int col = 0; col < data.cSize() - 1; col++)
+            {
+                double yData = data(row, col + 1) + noise.getNoise();
+                data(row, col + 1) = yData;
+            }
         }
     }
 

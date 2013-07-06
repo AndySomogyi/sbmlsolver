@@ -85,7 +85,7 @@ endif()
 #endif()
 #
 #set(sbmlModelsDir       "${CMAKE_SOURCE_DIR}/models")
-#set(compilerFolder      "${CMAKE_SOURCE_DIR}/ThirdParty/compilers/tcc")
+#set(compilerFolder      "${CMAKE_SOURCE_DIR}/third_party/compilers/tcc")
 #set(supportCodeFolder   "/r/rrl/rr_support")
 #
 #if(UNIX)

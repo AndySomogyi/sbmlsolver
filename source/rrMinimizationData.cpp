@@ -33,22 +33,25 @@ void MinimizationData::init()
 {
 	//Empty report
     mParameters.clear();
+    mParametersOut.clear();
+	mNorm = -1;
 }
 
 bool MinimizationData::reset()
 {
 	mParameters.clear();
+    mParametersOut.clear();
 	return true;
 }
 
-void MinimizationData::setExperimentalDataSelectionList(const string& selList)
+void MinimizationData::setObservedDataSelectionList(const string& selList)
 {
- 	mExperimentalDataSelectionList = StringList(selList);
+ 	mObservedDataSelectionList = StringList(selList);
 }
 
-StringList MinimizationData::getExperimentalDataSelectionList()
+StringList MinimizationData::getObservedDataSelectionList()
 {
-	return mExperimentalDataSelectionList;
+	return mObservedDataSelectionList;
 }
 
 void MinimizationData::setModelDataSelectionList(const string& selList)
@@ -96,6 +99,11 @@ void MinimizationData::addParameter(const string& name, const double& val)
 	mParameters.add(new Parameter<double>(name, val, ""));
 }
 
+void MinimizationData::addFittedParameter(const string& name, const double& val)
+{
+	mParametersOut.add(new Parameter<double>(name, val, ""));
+}
+
 void MinimizationData::addParameter(const string& name, const int& val)
 {
 	mParameters.add(new Parameter<int>(name, val, ""));
@@ -120,5 +128,47 @@ Parameters MinimizationData::getParameters()
 {
 	return mParameters;
 }
+
+Parameters MinimizationData::getParametersOut()
+{
+	return mParametersOut;
+}
+
+void MinimizationData::setNorm(const double& norm)
+{
+	mNorm = norm;
+}
+
+double MinimizationData::getNorm()
+{
+	return mNorm;
+}
+
+string MinimizationData::getReport() const
+{
+	stringstream  msg;
+	msg<<"Parameters: \n";
+    msg<<mParameters.asStringList();
+	msg<<"\n";
+
+    msg<<"Observed Data ===============\n";
+    msg<<mObservedData<<"\n\n";
+
+    msg<<"ModelData Data ===============\n";
+    msg<<mModelData<<"\n\n";
+
+    msg<<"Residuals ===============\n";
+    msg<<mResidualsData<<"\n\n";
+
+    msg<<"End of minimization data report";
+	return msg.str();
+}
+
+ostream& operator<<(ostream& stream, const MinimizationData& outMe)
+{
+    stream<<outMe.getReport();   //virtual friend idiom
+    return stream;
+}
+
 }
 

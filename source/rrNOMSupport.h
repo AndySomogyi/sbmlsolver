@@ -11,8 +11,8 @@
 #include "rrObject.h"
 #include "rrStringListContainer.h"
 #include "rrHashTable.h"
-
 //---------------------------------------------------------------------------
+
 namespace rr
 {
 using std::vector;
@@ -22,8 +22,7 @@ using std::list;
 using std::stack;
 using std::deque;
 
-//You HAVE to define LIBSBML_USE_CPP_NAMESPACE for your project to compile this!
-//using namespace libsbml;
+// You HAVE to define LIBSBML_USE_CPP_NAMESPACE for your project to compile this!
 using libsbml::Model;
 using libsbml::SBMLDocument;
 using libsbml::ASTNode;
@@ -31,6 +30,7 @@ using libsbml::SBase;
 using libsbml::Rule;
 using libsbml::UnitDefinition;
 using libsbml::KineticLaw;
+
 /**
  * Methods to query various information from an SBML document.
  *
@@ -39,13 +39,9 @@ using libsbml::KineticLaw;
  */
 class RR_DECLSPEC NOMSupport : public rrObject
 {
-//        SBMLDocument           *mSBMLDoc;
-//        Model                  *mModel;
-//        ArrayList               returnUnitDefinition(UnitDefinition oDefinition);
-//        const ASTNode*          changeSymbol(ASTNode* node, const string& time, const int& targetType);
 public:
     NOMSupport();
-    virtual                ~NOMSupport();
+    ~NOMSupport();
     Model*                  getModel();
     SBMLDocument*           getSBMLDocument();
     static string           getlibSBMLVersion();
@@ -109,10 +105,21 @@ public:
     int                     getNumFunctionDefinitions();
     int                     getNumGlobalParameters();
     int                     getNumInitialAssignments();
-    int                     getNumParameters(const int& var0);
+
+    /**
+     * @return the number of parameters for the i'th reaction, if reaction is
+     * not a kinetic law, 0 otherwise.
+     */
+    int                     getNumParameters(int reaction);
+
     int                     getNumProducts(const int& var0);
     int                     getNumReactants(const int& var0);
+
+    /**
+     * @return the number of Reactions in this Model.
+     */
     int                     getNumReactions();
+
     int                     getNumRules();
     int                     getSBOTerm(const string& sId);
     pair<string, string>    getNthInitialAssignmentPair(const int& nIndex);
@@ -135,6 +142,10 @@ public:
 
     string                  getAnnotation(const string& sId);
     string                  getCompartmentIdBySpeciesId(const string& sId);
+    /**
+     * gets the kinetic law math formula for the i'th reaction.
+     * This will be changed to return a KineticLaw object soon.
+     */
     string                  getKineticLaw(const int& index);
     string                  getMetaId(const string& sId);
     string                  getModelId();
@@ -185,7 +196,23 @@ public:
     void                    testASTTime();
 
     string                  getNthBoundarySpeciesCompartmentName(const int& nIndex);
-    string                  getNthFloatingSpeciesCompartmentName(const int& nIndex);
+
+    /**
+     * gets the compartment name of the i'th species with boundary condition's
+     * compartment name. So, say we have a model like:
+     * model {
+     *     species{boundary = false}
+     *     species{boundary = true}
+     *     species{boundary = false}
+     *     species{boundary = true}
+     *     species{boundary = true}
+     *     ...
+     * }
+     * Using 0 based indexing, if index = 0, we'd get the compartment name for species 1,
+     * index = 1 yields compartment name for species 3,
+     * index = 2 yields compartment name for species 4, and so forth.
+     */
+    string                  getNthFloatingSpeciesCompartmentName(int index);
     StringListContainer     getListOfBoundarySpecies();
 
     /**
@@ -200,7 +227,7 @@ public:
      * @param math ASTNode
      * @returns List of all symbols
      */
-    static StringList       getSymbols(ASTNode* math);
+    static StringList       getSymbols(const ASTNode* math);
 
     /**
      * This should return an initialization for the given sbmlId that is sideeffect free
@@ -236,7 +263,7 @@ public:
 
     static string           convertStringToMathML(const string& var0);
 
-protected:
+private:
 
     /**
      * the loaded sbml doc, we own this.
@@ -289,13 +316,21 @@ protected:
     static void             changeTimeSymbol(Model& model, const string& timeSymbol);
 
     static void             changeParameterName(ASTNode& node, const string& sParameterName, const string& sPrefix);
-    static void             getSymbols(ASTNode* node, StringList& list);
+    static void             getSymbols(const ASTNode* node, StringList& list);
 
     /**
      * type of formating we should use for printing doubles.
      */
     static const string     STR_DoubleFormat;
 };
+
+/**
+ * SBML_formulaToString is used all over the place here,
+ * SBML_formulaToString returns a char* that MUST BE FREED!!!
+ *
+ * This function frees the string and returns a std::string with its contents.
+ */
+std::string SBML_formulaToStdString(const ASTNode *tree);
 
 }//namespace rr
 #endif

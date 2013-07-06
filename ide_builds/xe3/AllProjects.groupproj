@@ -15,9 +15,6 @@
         <Projects Include="c_api_tests.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="cxx_api_tests.cbproj">
-            <Dependencies>..\..\Wrappers\C\rrc_api.cbproj;roadrunner-static.cbproj</Dependencies>
-        </Projects>
         <Projects Include="rr.cbproj">
             <Dependencies>..\..\Wrappers\C\rrc_api.cbproj</Dependencies>
         </Projects>
@@ -49,6 +46,9 @@
             <Dependencies/>
         </Projects>
         <Projects Include="..\..\plugins\add_noise\add_noise.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\plugins\lmfit\lm.cbproj">
             <Dependencies/>
         </Projects>
         <Projects Include="..\..\plugins\apps\rrWinC\rrWinC.cbproj">
@@ -97,15 +97,6 @@
     </Target>
     <Target Name="c_api_tests:Make">
         <MSBuild Projects="c_api_tests.cbproj" Targets="Make"/>
-    </Target>
-    <Target Name="cxx_api_tests" DependsOnTargets="rrc_api;roadrunner-static">
-        <MSBuild Projects="cxx_api_tests.cbproj"/>
-    </Target>
-    <Target Name="cxx_api_tests:Clean" DependsOnTargets="rrc_api:Clean;roadrunner-static:Clean">
-        <MSBuild Projects="cxx_api_tests.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="cxx_api_tests:Make" DependsOnTargets="rrc_api:Make;roadrunner-static:Make">
-        <MSBuild Projects="cxx_api_tests.cbproj" Targets="Make"/>
     </Target>
     <Target Name="rr" DependsOnTargets="rrc_api">
         <MSBuild Projects="rr.cbproj"/>
@@ -206,6 +197,15 @@
     <Target Name="add_noise:Make">
         <MSBuild Projects="..\..\plugins\add_noise\add_noise.cbproj" Targets="Make"/>
     </Target>
+    <Target Name="lm">
+        <MSBuild Projects="..\..\plugins\lmfit\lm.cbproj"/>
+    </Target>
+    <Target Name="lm:Clean">
+        <MSBuild Projects="..\..\plugins\lmfit\lm.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="lm:Make">
+        <MSBuild Projects="..\..\plugins\lmfit\lm.cbproj" Targets="Make"/>
+    </Target>
     <Target Name="rrWinC" DependsOnTargets="add_noise;rrc_api">
         <MSBuild Projects="..\..\plugins\apps\rrWinC\rrWinC.cbproj"/>
     </Target>
@@ -216,13 +216,13 @@
         <MSBuild Projects="..\..\plugins\apps\rrWinC\rrWinC.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="roadrunner-static;roadrunner;rrc_api;c_api_tests;cxx_api_tests;rr;rrc;one_rr;two_rrs;one_thread;many_threads;get_c_code;sbml_ts_tester;rr_threads_1;rr_threads_2;add_noise;rrWinC"/>
+        <CallTarget Targets="roadrunner-static;roadrunner;rrc_api;c_api_tests;rr;rrc;one_rr;two_rrs;one_thread;many_threads;get_c_code;sbml_ts_tester;rr_threads_1;rr_threads_2;add_noise;lm;rrWinC"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="roadrunner-static:Clean;roadrunner:Clean;rrc_api:Clean;c_api_tests:Clean;cxx_api_tests:Clean;rr:Clean;rrc:Clean;one_rr:Clean;two_rrs:Clean;one_thread:Clean;many_threads:Clean;get_c_code:Clean;sbml_ts_tester:Clean;rr_threads_1:Clean;rr_threads_2:Clean;add_noise:Clean;rrWinC:Clean"/>
+        <CallTarget Targets="roadrunner-static:Clean;roadrunner:Clean;rrc_api:Clean;c_api_tests:Clean;rr:Clean;rrc:Clean;one_rr:Clean;two_rrs:Clean;one_thread:Clean;many_threads:Clean;get_c_code:Clean;sbml_ts_tester:Clean;rr_threads_1:Clean;rr_threads_2:Clean;add_noise:Clean;lm:Clean;rrWinC:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="roadrunner-static:Make;roadrunner:Make;rrc_api:Make;c_api_tests:Make;cxx_api_tests:Make;rr:Make;rrc:Make;one_rr:Make;two_rrs:Make;one_thread:Make;many_threads:Make;get_c_code:Make;sbml_ts_tester:Make;rr_threads_1:Make;rr_threads_2:Make;add_noise:Make;rrWinC:Make"/>
+        <CallTarget Targets="roadrunner-static:Make;roadrunner:Make;rrc_api:Make;c_api_tests:Make;rr:Make;rrc:Make;one_rr:Make;two_rrs:Make;one_thread:Make;many_threads:Make;get_c_code:Make;sbml_ts_tester:Make;rr_threads_1:Make;rr_threads_2:Make;add_noise:Make;lm:Make;rrWinC:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

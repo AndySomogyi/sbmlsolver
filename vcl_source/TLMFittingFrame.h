@@ -9,7 +9,7 @@
 #include "mtkIntLabeledEdit.h"
 #include <System.Actions.hpp>
 #include <Vcl.ActnList.hpp>
-#include "../../Wrappers/C/rrc_types.h"
+#include "../../wrappers/C/rrc_types.h"
 #include <Vcl.CheckLst.hpp>
 #include "rrStringList.h"
 #include "rrParameters.h"

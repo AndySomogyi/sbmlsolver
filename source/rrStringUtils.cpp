@@ -10,8 +10,8 @@
 #include <sstream>
 #include <cstring>
 #include "rrStringUtils.h"
-
 //---------------------------------------------------------------------------
+
 using namespace std;
 namespace rr
 {
@@ -25,8 +25,26 @@ char* createText(const string& str)
 
 	char* text = new char[str.size() + 1];
 	std::copy(str.begin(), str.end(), text);
-	text[str.size()] = '\0'; //terminating 0!
+	text[str.size()] = '\0'; //terminating NULL!
 	return text;
+}
+
+char* createText(const int& count)
+{
+	if(count == 0)
+    {
+    	return NULL;
+    }
+
+	char* text = new char[count + 1];
+	text[count] = '\0'; //terminating NULL!
+	return text;
+}
+
+bool freeText(char* str)
+{
+	delete [] str;
+    return true;
 }
 
 string replaceWord(const string& str1, const string& str2, const string& theString)
@@ -649,6 +667,40 @@ double toDouble(const string& str)
     }
     char *endptr = NULL;
     return strtod(str.c_str(), &endptr);
+}
+
+complex<double> toComplex(const string& str)
+{
+	vector<string> parts(splitString(str,"(,)"));
+
+    if(parts.size() != 2)
+    {
+    	//should throw...
+        return complex<double>(0,0);
+    }
+
+    char *endptr = NULL;
+    complex<double> num;
+	if(parts[0] == "-")
+    {
+        if(parts[1] == "-")
+        {
+            return complex<double>(gDoubleNaN, gDoubleNaN);
+        }
+        double im = strtod(parts[1].c_str(), &endptr);
+        return complex<double>(gDoubleNaN,im);
+    }
+
+	if(parts[1] == "-")
+    {
+        double re = strtod(parts[0].c_str(), &endptr);
+        return complex<double>(re,gDoubleNaN);
+    }
+
+	double re = strtod(parts[0].c_str(), &endptr);
+    double im = strtod(parts[1].c_str(), &endptr);
+
+    return complex<double>(re,im);
 }
 
 string toUpperOrLowerCase(const string& inStr, int (*func)(int))

@@ -49,8 +49,11 @@ public:
     const int mNumReactions;
 
     /**
-     * if we computeAndAssignConsevationLaws, this is the actual Independent species, otherwise, its
-     * just species.
+     * if we computeAndAssignConsevationLaws, this is the actual Independent
+     * species, otherwise, its just species.
+     *
+     * Independent species are the linearly independent species in the
+     * stochiometry matrix.
      */
     const StringList mIndependentSpeciesList;
     const int mNumIndependentSpecies;
@@ -92,7 +95,6 @@ public:
 
     const IntStringHashTable mRateRules;
 
-    const SymbolList mFloatingSpeciesAmountsList;
     static const string mDoubleFormat;
 
 };

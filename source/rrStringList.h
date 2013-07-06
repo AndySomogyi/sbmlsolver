@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 #include "rrObject.h"
-#include "../Wrappers/C/rrc_types.h"
+#include "../wrappers/C/rrc_types.h"
 
 namespace rr
 {
@@ -25,11 +25,11 @@ class RR_DECLSPEC StringList : public rrObject
                                     StringList(const string& str, const string& delimiters = ", ");
                                     StringList(const vector<string>& strings);
                                     StringList(const StringList& cp);
-                                    StringList(rrc::RRStringArrayHandle cp);
+                                    StringList(rrc::RRStringArrayPtr cp);
                                    ~StringList();
 
         void                        InsertAt(const int& index, const string& item);
-        void                         Append(const StringList& list);
+        void                        Append(const StringList& list);
         string                      AsString(const string& delimiter = gComma) const;
 
         /**
@@ -61,6 +61,13 @@ class RR_DECLSPEC StringList : public rrObject
         void                        PostFix(const string& fix);
         RR_DECLSPEC
         friend ostream&             operator<<(ostream& stream, const StringList& list);
+
+        /**
+         * so we can start getting rid of this and using
+         * standard vector<string>
+         */
+        //operator vector<string>() const { return mStrings; }
+        operator const vector<string>&() const { return mStrings;}
 };
 
 

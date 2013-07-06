@@ -35,6 +35,7 @@
 #include "Poco/MD5Engine.h"
 #include "Poco/Thread.h"
 #include "Poco/Glob.h"
+#include "Poco/File.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
 #include "rrLogger.h"
@@ -58,6 +59,21 @@ namespace rr
 {
 using namespace std;
 using namespace Poco;
+
+
+bool cleanFolder(const string& folder, const string& baseName, const StringList& extensions)
+{
+    for(int i = 0; i < extensions.Count(); i++)
+       {
+        string aFName = joinPath(folder, baseName) + "." + extensions[i];
+        Poco::File aFile(aFName);
+        if(aFile.exists())
+        {
+            aFile.remove();
+        }
+    }
+    return true;
+}
 
 /* This uses the fact that a Rayleigh-distributed random variable R, with
 the probability distribution F(R) = 0 if R < 0 and F(R) =
@@ -298,7 +314,7 @@ vector<string> getLinesInFile(const string& fName)
     }
 
     std::string oneLine((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
-    lines = splitString(oneLine, "\n");
+    lines = splitString(oneLine, "\r\n");
     return lines;
 }
 

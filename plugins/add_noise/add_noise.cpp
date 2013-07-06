@@ -26,6 +26,11 @@ mAddNoiseThread()
 AddNoise::~AddNoise()
 {}
 
+bool AddNoise::isWorking()
+{
+	return mAddNoiseThread.isRunning();
+}
+
 bool AddNoise::execute(void* inputData)
 {
     Log(lDebug)<<"Executing the AddNoise plugin";
@@ -45,6 +50,11 @@ PLUGIN_DECLSPEC rr::Plugin* rrCallConv createPlugin(rr::RoadRunner* aRR)
 }
 }
 
+extern "C" int _libmain(unsigned long reason)
+{
+    return 1;
+}
+
 #if defined(CG_UI)
     #if defined(STATIC_BUILD)
         #pragma comment(lib, "roadrunner-static.lib")
@@ -59,35 +69,4 @@ PLUGIN_DECLSPEC rr::Plugin* rrCallConv createPlugin(rr::RoadRunner* aRR)
 	#pragma comment(lib, "IPHLPAPI.lib")
 #endif
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-extern "C" int _libmain(unsigned long reason)
-{
-    return 1;
-}
 

@@ -5,7 +5,7 @@
 #include "rrConstants.h"
 #include "rrBaseParameter.h"
 #include "rrStringUtils.h"
-#include "../Wrappers/C/rrc_types.h"
+#include "../wrappers/C/rrc_types.h"
 //---------------------------------------------------------------------------
 namespace rr
 {
@@ -176,7 +176,7 @@ inline void Parameter< vector<string> >::setValueFromString(const string& val)
 }
 
 template<>
-inline void Parameter< rrc::RRDataHandle >::setValueFromString(const string& val)
+inline void Parameter< rrc::RRCDataPtr >::setValueFromString(const string& val)
 {
 	//mValue = splitString(val,", ");
 }
@@ -185,6 +185,12 @@ template<>
 inline string rr::Parameter<double>::getValueAsString() const
 {
     return toString(mValue, "%G");
+}
+
+template<>
+inline string rr::Parameter<rrc::RRCDataPtr>::getValueAsString() const
+{
+    return "";
 }
 
 }

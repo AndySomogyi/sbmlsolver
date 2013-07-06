@@ -36,7 +36,7 @@
         <PackageImports>vcl.bpi;rtl.bpi;bcbie.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;VclSmp.bpi;vclimg.bpi;svnui.bpi;svn.bpi;bdertl.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;vcldb.bpi;dbrtl.bpi;vcldbx.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;vclie.bpi;inet.bpi;inetdb.bpi;webdsnap.bpi;websnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;dbexpress.bpi;DbxCommonDriver.bpi;DbxClientDriver.bpi;AzureCloud.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbxcds.bpi;DuneComponents.bpi;VCLCommon.bpi;$(PackageImports)</PackageImports>
         <LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
         <ProjectType>CppStaticLibrary</ProjectType>
-        <IncludePath>..\..\ThirdParty\unit_test\src\Win32\;..\..\ThirdParty\unit_test\src\;src\;src\Win32\;..\..\ThirdParty\UnitTest\src\Win32\;..\..\ThirdParty\UnitTest\src\;..\..\ThirdParty\unit++\src\Win32\;..\..\ThirdParty\unit++\src\;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\third_party\unit_test\src\Win32\;..\..\third_party\unit_test\src\;src\;src\Win32\;..\..\third_party\UnitTest\src\Win32\;..\..\third_party\UnitTest\src\;..\..\third_party\unit++\src\Win32\;..\..\third_party\unit++\src\;$(IncludePath)</IncludePath>
         <_TCHARMapping>char</_TCHARMapping>
         <AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
         <Multithreaded>true</Multithreaded>
@@ -79,55 +79,55 @@
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="..\..\ThirdParty\unit_test\src\AssertException.cpp">
+        <CppCompile Include="..\..\third_party\unit_test\src\AssertException.cpp">
             <BuildOrder>1</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\unit_test\src\Checks.cpp">
+        <CppCompile Include="..\..\third_party\unit_test\src\Checks.cpp">
             <BuildOrder>2</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\unit_test\src\CurrentTest.cpp">
+        <CppCompile Include="..\..\third_party\unit_test\src\CurrentTest.cpp">
             <BuildOrder>3</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\unit_test\src\DeferredTestReporter.cpp">
+        <CppCompile Include="..\..\third_party\unit_test\src\DeferredTestReporter.cpp">
             <BuildOrder>4</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\unit_test\src\DeferredTestResult.cpp">
+        <CppCompile Include="..\..\third_party\unit_test\src\DeferredTestResult.cpp">
             <BuildOrder>5</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\unit_test\src\MemoryOutStream.cpp">
+        <CppCompile Include="..\..\third_party\unit_test\src\MemoryOutStream.cpp">
             <BuildOrder>6</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\unit_test\src\ReportAssert.cpp">
+        <CppCompile Include="..\..\third_party\unit_test\src\ReportAssert.cpp">
             <BuildOrder>7</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\unit_test\src\Test.cpp">
+        <CppCompile Include="..\..\third_party\unit_test\src\Test.cpp">
             <BuildOrder>8</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\unit_test\src\TestDetails.cpp">
+        <CppCompile Include="..\..\third_party\unit_test\src\TestDetails.cpp">
             <BuildOrder>9</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\unit_test\src\TestList.cpp">
+        <CppCompile Include="..\..\third_party\unit_test\src\TestList.cpp">
             <BuildOrder>10</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\unit_test\src\TestReporter.cpp">
+        <CppCompile Include="..\..\third_party\unit_test\src\TestReporter.cpp">
             <BuildOrder>11</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\unit_test\src\TestReporterStdout.cpp">
+        <CppCompile Include="..\..\third_party\unit_test\src\TestReporterStdout.cpp">
             <BuildOrder>12</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\unit_test\src\TestResults.cpp">
+        <CppCompile Include="..\..\third_party\unit_test\src\TestResults.cpp">
             <BuildOrder>13</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\unit_test\src\TestRunner.cpp">
+        <CppCompile Include="..\..\third_party\unit_test\src\TestRunner.cpp">
             <BuildOrder>14</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\unit_test\src\TimeConstraint.cpp">
+        <CppCompile Include="..\..\third_party\unit_test\src\TimeConstraint.cpp">
             <BuildOrder>15</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\unit_test\src\Win32\TimeHelpers.cpp">
+        <CppCompile Include="..\..\third_party\unit_test\src\Win32\TimeHelpers.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
-        <CppCompile Include="..\..\ThirdParty\unit_test\src\XmlTestReporter.cpp">
+        <CppCompile Include="..\..\third_party\unit_test\src\XmlTestReporter.cpp">
             <BuildOrder>16</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">

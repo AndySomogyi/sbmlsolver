@@ -55,11 +55,6 @@ string CompiledExecutableModel::getModelName()
     return mData.modelName;
 }
 
-void CompiledExecutableModel::assignCVodeInterface(CvodeInterface* cvodeI)
-{
-    mCvodeInterface = cvodeI;
-}
-
 void CompiledExecutableModel::setTime(double _time)
 {
     mData.time = _time;
@@ -71,24 +66,24 @@ double CompiledExecutableModel::getTime()
 }
 
 /////////////////// The following used to be in IModel
-int CompiledExecutableModel::getNumIndependentVariables()
+int CompiledExecutableModel::getNumIndependentSpecies()
 {
-    return mData.numIndependentVariables;
+    return mData.numIndependentSpecies;
 }
 
-int CompiledExecutableModel::getNumDependentVariables()
+int CompiledExecutableModel::getNumDependentSpecies()
 {
-    return mData.numDependentVariables;
+    return mData.numDependentSpecies;
 }
 
-int CompiledExecutableModel::getNumTotalVariables()
+int CompiledExecutableModel::getNumFloatingSpecies()
 {
-    return mData.numTotalVariables;
+    return mData.numFloatingSpecies;
 }
 
 int CompiledExecutableModel::getNumBoundarySpecies()
 {
-    return mData.numBoundaryVariables;    //Todos: bad naming - is Variables/Species, choose one..
+    return mData.numBoundarySpecies;
 }
 
 int CompiledExecutableModel::getNumGlobalParameters()
@@ -106,11 +101,6 @@ int CompiledExecutableModel::getNumReactions()
     return mData.numReactions;
 }
 
-int CompiledExecutableModel::getNumRules()
-{
-    return mData.numRules;
-}
-
 int CompiledExecutableModel::getNumEvents()
 {
     return mData.numEvents;
@@ -118,7 +108,109 @@ int CompiledExecutableModel::getNumEvents()
 
 double CompiledExecutableModel::getAmounts(const int& i)
 {
-    return (mData.amounts ) ? mData.amounts[i] : -1;
+    return (mData.floatingSpeciesAmounts ) ? mData.floatingSpeciesAmounts[i] : -1;
+}
+
+int CompiledExecutableModel::getReactionIndex(const std::string& reactionName)
+{
+    int result = -1;
+    return ms.mReactionList.find(reactionName, result) ? result : -1;
+}
+
+std::string CompiledExecutableModel::getReactionName(int index)
+{
+    return ms.mReactionList[index].name;
+}
+
+int CompiledExecutableModel::getGlobalParameterIndex(const std::string& name)
+{
+    int result = -1;
+    return ms.mGlobalParameterList.find(name, result) ? result : -1;
+}
+
+string CompiledExecutableModel::getGlobalParameterName(int index)
+{
+    return ms.mGlobalParameterList[index].name;
+}
+
+int CompiledExecutableModel::getBoundarySpeciesIndex(const string& name)
+{
+    int result = -1;
+    return ms.mBoundarySpeciesList.find(name, result) ? result : -1;
+}
+
+string CompiledExecutableModel::getBoundarySpeciesName(int index)
+{
+    return ms.mBoundarySpeciesList[index].name;
+}
+
+int CompiledExecutableModel::getBoundarySpeciesCompartmentIndex(int index)
+{
+    // mModel->getCompartments().find(mModel->getBoundarySpecies()[record.index].compartmentName, nIndex))
+    string compartmentName = ms.mBoundarySpeciesList[index].compartmentName;
+    int compartmentIndex = -1;
+    return ms.mCompartmentList.find(compartmentName, compartmentIndex) ? compartmentIndex : -1;
+}
+
+int CompiledExecutableModel::getCompartmentIndex(const string& name)
+{
+    int result = -1;
+    return ms.mCompartmentList.find(name, result) ? result : -1;
+}
+
+string CompiledExecutableModel::getCompartmentName(int index)
+{
+    return ms.mCompartmentList[index].name;
+}
+
+int CompiledExecutableModel::getFloatingSpeciesIndex(const string& name)
+{
+    int result = -1;
+    return ms.mFloatingSpeciesConcentrationList.find(name, result) ? result : -1;
+}
+
+string CompiledExecutableModel::getFloatingSpeciesName(int index)
+{
+    return ms.mFloatingSpeciesConcentrationList[index].name;
+}
+
+double CompiledExecutableModel::getGlobalParameterValue(int index)
+{
+    if ((index >= 0) && (index < getNumGlobalParameters() + getModelData().numDependentSpecies))
+    {
+        if (index >= getNumGlobalParameters())
+        {
+            return getModelData().dependentSpeciesConservedSums[index - getNumGlobalParameters()];
+        }
+        else
+        {
+            return getModelData().globalParameters[index];
+        }
+    }
+    else
+    {
+        throw CoreException(format("Index in getNumGlobalParameters out of range: [{0}]", index));
+    }
+}
+
+void CompiledExecutableModel::setGlobalParameterValue(int index, double value)
+{
+    if ((index >= 0) && (index < getNumGlobalParameters() + getModelData().numDependentSpecies))
+    {
+        if (index >= getNumGlobalParameters())
+        {
+            getModelData().dependentSpeciesConservedSums[index - getNumGlobalParameters()] = value;
+            updateDependentSpeciesValues(getModelData().floatingSpeciesConcentrations);
+        }
+        else
+        {
+            getModelData().globalParameters[index] = value;
+        }
+    }
+    else
+    {
+        throw CoreException(format("Index in getNumGlobalParameters out of range: [{0}]", index));
+    }
 }
 
 bool CompiledExecutableModel::setupDLLFunctions()
@@ -162,34 +254,22 @@ bool CompiledExecutableModel::setupDLLFunctions()
     return true;
 }
 
-
 bool CompiledExecutableModel::setupModelData()
 {
     // zero out the structure
     initModelData(mData);
 
     // set the buffer sizes
-    mData.numIndependentVariables       = ms.mNumIndependentSpecies;
-    mData.numDependentVariables         = ms.mNumDependentSpecies;
-    mData.numTotalVariables             = ms.mNumFloatingSpecies;        //???
-    mData.numBoundaryVariables          = ms.mNumBoundarySpecies;
+    mData.numIndependentSpecies         = ms.mNumIndependentSpecies;
+    mData.numDependentSpecies           = ms.mNumDependentSpecies;
     mData.numGlobalParameters           = ms.mGlobalParameterList.size();
-    mData.numCompartments               = ms.mCompartmentList.size();
     mData.numReactions                  = ms.mReactionList.size();
     mData.numEvents                     = ms.mNumEvents;
-    mData.amountsSize                   = ms.mFloatingSpeciesConcentrationList.size();
-    mData.dydtSize                      = ms.mFloatingSpeciesConcentrationList.size();
-    mData.rateRulesSize                 = ms.mRateRules.size();
-    mData.ySize                         = ms.mFloatingSpeciesConcentrationList.size();
-    mData.ratesSize                     = ms.mNumReactions;
-    mData.ctSize                        = ms.mNumDependentSpecies;
-    mData.init_ySize                    = ms.mFloatingSpeciesConcentrationList.Count();
-    mData.gpSize                        = ms.mNumGlobalParameters + ms.mTotalLocalParmeters;
-    mData.cSize                         = ms.mNumCompartments;
-    mData.bcSize                        = ms.mNumBoundarySpecies;
-    mData.lpSize                        = ms.mNumReactions;
+    mData.numFloatingSpecies            = ms.mFloatingSpeciesConcentrationList.size();
+    mData.numRateRules                  = ms.mRateRules.size();
+    mData.numCompartments               = ms.mCompartmentList.size();
+    mData.numBoundarySpecies            = ms.mNumBoundarySpecies;
     mData.srSize                        = ms.mNumModifiableSpeciesReferences;
-    mData.localParameterDimensionsSize  = ms.mNumReactions;
     mData.eventPrioritiesSize           = ms.mNumEvents;
     mData.eventStatusArraySize          = ms.mNumEvents;
     mData.previousEventStatusArraySize  = ms.mNumEvents;
@@ -199,7 +279,7 @@ bool CompiledExecutableModel::setupModelData()
 
     // allocate the data buffers
     string test = ms.mModelName;
-    allocModelDataBuffers(mData, test);//mCG.ms.mModelName);//.getModelName());
+    allocModelDataBuffers(mData, test);
 
     if(cInitModel)
     {
@@ -207,7 +287,6 @@ bool CompiledExecutableModel::setupModelData()
     }
     return true;
 }
-
 
 void CompiledExecutableModel::setCompartmentVolumes()
 {
@@ -536,52 +615,9 @@ ModelData& CompiledExecutableModel::getModelData()
     return mData;
 }
 
-CvodeInterface* CompiledExecutableModel::getCvodeInterface() {
-    return mCvodeInterface;
-}
-
-const SymbolList &CompiledExecutableModel::getReactions() {
-    return ms.mReactionList;
-}
-
-const SymbolList &CompiledExecutableModel::getGlobalParameters()
-{
-    return ms.mGlobalParameterList;
-}
-
-const SymbolList &CompiledExecutableModel::getBoundarySpecies()
-{
-    return ms.mBoundarySpeciesList;
-}
-
-const SymbolList &CompiledExecutableModel::getCompartments()
-{
-    return ms.mCompartmentList;
-}
-
 const SymbolList &CompiledExecutableModel::getConservations()
 {
     return ms.mConservationList;
-}
-
-const SymbolList &CompiledExecutableModel::getFloatingSpeciesAmounts()
-{
-    return ms.mFloatingSpeciesAmountsList;
-}
-
-const SymbolList &CompiledExecutableModel::getFloatingSpeciesConcentrations()
-{
-    return ms.mFloatingSpeciesConcentrationList;
-}
-
-const StringList CompiledExecutableModel::getCompartmentNames()
-{
-    StringList tmp;
-    for (u_int i = 0; i < ms.mCompartmentList.size(); i++)
-    {
-        tmp.add(ms.mCompartmentList[i].name);
-    }
-    return tmp;
 }
 
 const StringList CompiledExecutableModel::getConservationNames()
@@ -590,52 +626,6 @@ const StringList CompiledExecutableModel::getConservationNames()
     for (int i = 0; i < ms.mConservationList.Count(); i++)
     {
         tmp.add(ms.mConservationList[i].name);
-    }
-    return tmp;
-}
-
-const StringList CompiledExecutableModel::getGlobalParameterNames()
-{
-    StringList tmp;
-    for (int i = 0; i < ms.mGlobalParameterList.size(); i++)
-    {
-        tmp.add(ms.mGlobalParameterList[i].name);
-    }
-
-    for (int i = 0; i < ms.mConservationList.Count(); i++)
-    {
-        tmp.add(ms.mConservationList[i].name);
-    }
-
-    return tmp;
-}
-
-const StringList CompiledExecutableModel::getReactionNames()
-{
-    StringList tmp;
-    for (int i = 0; i < ms.mReactionList.size(); i++)
-    {
-        tmp.add(ms.mReactionList[i].name);
-    }
-    return tmp;
-}
-
-const StringList CompiledExecutableModel::getFloatingSpeciesConcentrationNames()
-{
-    StringList tmp;
-    for (int i = 0; i < ms.mFloatingSpeciesConcentrationList.size(); i++)
-    {
-        tmp.add(ms.mFloatingSpeciesConcentrationList[i].name);
-    }
-    return tmp;
-}
-
-const StringList CompiledExecutableModel::getBoundarySpeciesNames()
-{
-    StringList tmp;
-    for (int i = 0; i < ms.mBoundarySpeciesList.size(); i++)
-    {
-        tmp.add(ms.mBoundarySpeciesList[i].name);
     }
     return tmp;
 }

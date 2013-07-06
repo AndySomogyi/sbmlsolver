@@ -39,8 +39,8 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 }
 //---------------------------------------------------------------------------
 #if defined(STATIC_RR)
-//	#pragma comment(lib, "rrc_api-static.lib")
-//	#pragma comment(lib, "roadrunner-static.lib")
+	#pragma comment(lib, "rrc_api-static.lib")
+	#pragma comment(lib, "roadrunner-static.lib")
 #else
 	#pragma comment(lib, "rrc_api.lib")
 	#pragma comment(lib, "roadrunner.lib")

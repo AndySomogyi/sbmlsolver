@@ -3,6 +3,7 @@
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrLogger.h"
+#include "rrModelData.h"
 using namespace rr;
 
 int main(int argc, char** argv)
@@ -28,7 +29,7 @@ int main(int argc, char** argv)
             throw(Exception("Bad things in loadSBMLFromFile function"));
         }
 
-    	SModelData data;
+    	ModelData data;
 	    clog<<"Size: "<<sizeof(SModelData)<<endl;
 	    clog<<"Size ptr: "<<sizeof(data.eventDelays)<<endl;
         //rr1.getModel()->cInitModelData(&data);

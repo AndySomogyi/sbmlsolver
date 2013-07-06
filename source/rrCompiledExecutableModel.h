@@ -15,16 +15,16 @@ using Poco::SharedLibrary;
 class CGenerator;
 class CvodeInterface;
 
-typedef void (rrCallConv *c_void_MDS)(ModelData*); //MDS stands for ModelDataStructure
-typedef int (rrCallConv *c_int_MDS)(ModelData*);
-typedef int (rrCallConv *c_int_MDS_int)(ModelData*, int);
-typedef char* (rrCallConv *c_charStar_MDS)(ModelData*);
-typedef void (rrCallConv *c_void_MDS_doubleStar)(ModelData*, double*);
-typedef double (rrCallConv *c_double_MDS_int)(ModelData*, int);
-typedef double* (rrCallConv *c_doubleStar_MDS)(ModelData*);
-typedef void (rrCallConv *c_void_MDS_double_doubleStar)(ModelData*, double,
-        double*);
-typedef void (rrCallConv *c_void_MDS_int_double)(ModelData*, int, double);
+//Function pointer typedefs..
+typedef void     (rrCallConv *c_void_MDS)(ModelData*); //MDS stands for ModelDataStructure
+typedef int      (rrCallConv *c_int_MDS)(ModelData*);
+typedef int      (rrCallConv *c_int_MDS_int)(ModelData*, int);
+typedef char*    (rrCallConv *c_charStar_MDS)(ModelData*);
+typedef void     (rrCallConv *c_void_MDS_doubleStar)(ModelData*, double*);
+typedef double   (rrCallConv *c_double_MDS_int)(ModelData*, int);
+typedef double*  (rrCallConv *c_doubleStar_MDS)(ModelData*);
+typedef void     (rrCallConv *c_void_MDS_double_doubleStar)(ModelData*, double, double*);
+typedef void     (rrCallConv *c_void_MDS_int_double)(ModelData*, int, double);
 
 typedef TComputeEventAssignmentDelegate* (rrCallConv *c_TComputeEventAssignmentDelegateStar)();
 typedef TEventDelayDelegate* (rrCallConv *c_GetEventDelayDelegatesStar)();
@@ -48,21 +48,50 @@ public:
     virtual ~CompiledExecutableModel();
 
     virtual string getModelName();
-    virtual void assignCVodeInterface(CvodeInterface* cvodeI);
+
     virtual void setTime(double _time);
     virtual double getTime();
     virtual ModelData& getModelData();
-    virtual CvodeInterface* getCvodeInterface();
 
     // functions --------------------------------------------------------
-    virtual int getNumIndependentVariables();
-    virtual int getNumDependentVariables();
-    virtual int getNumTotalVariables();
+    virtual int getNumIndependentSpecies();
+    virtual int getNumDependentSpecies();
+
+    virtual int getNumFloatingSpecies();
+    virtual int getFloatingSpeciesIndex(const string& name);
+    virtual string getFloatingSpeciesName(int index);
+
     virtual int getNumBoundarySpecies();
+    virtual int getBoundarySpeciesIndex(const string &name);
+    virtual string getBoundarySpeciesName(int index);
+    virtual int getBoundarySpeciesCompartmentIndex(int index);
+
     virtual int getNumGlobalParameters();
+    virtual int getGlobalParameterIndex(const std::string& name);
+    virtual string getGlobalParameterName(int index);
+    virtual double getGlobalParameterValue(int index);
+    virtual void setGlobalParameterValue(int index, double value);
+
     virtual int getNumCompartments();
+    virtual int getCompartmentIndex(const string& name);
+    virtual string getCompartmentName(int index);
+
+    /**
+     * get the number of reactions the model has
+     */
     virtual int getNumReactions();
-    virtual int getNumRules();
+
+    /**
+     * get the index of a named reaction
+     * @returns >= 0 on success, < 0 on failure.
+     */
+    virtual int getReactionIndex(const std::string& reactionName);
+
+    /**
+     * get the name of the specified reaction
+     */
+    virtual string getReactionName(int index);
+
     virtual int getNumEvents();
     virtual void computeEventPriorites();
     virtual void setConcentration(int index, double value);
@@ -97,20 +126,8 @@ public:
     virtual void initializeRateRuleSymbols();
     virtual string getInfo();
 
-    virtual const SymbolList& getReactions();
-    virtual const SymbolList& getGlobalParameters();
-    virtual const SymbolList& getBoundarySpecies();
-    virtual const SymbolList& getCompartments();
     virtual const SymbolList& getConservations();
-    virtual const SymbolList& getFloatingSpeciesAmounts();
-    virtual const SymbolList& getFloatingSpeciesConcentrations();
-
-    virtual const StringList getCompartmentNames();
     virtual const StringList getConservationNames();
-    virtual const StringList getGlobalParameterNames();
-    virtual const StringList getReactionNames();
-    virtual const StringList getFloatingSpeciesConcentrationNames(); //Just returns the Ids...!
-    virtual const StringList getBoundarySpeciesNames();
 
 private:
 
@@ -135,47 +152,46 @@ private:
      * the data that is exchanged with the loaded shared lib,
      * and all sorts of other routines such as CVODE.
      */
-    ModelData mData;
-    CvodeInterface* mCvodeInterface;
-    ModelSymbols ms;
+    ModelData                         mData;
+    CvodeInterface*                   mCvodeInterface;
+    ModelSymbols                      ms;
 
     /**
      * If all functions are found properly in the dll, this one is true
      */
-    bool mIsInitialized;
-
-    ModelSharedLibrary* mDLL;
+    bool                              mIsInitialized;
+    ModelSharedLibrary*               mDLL;
 
     //Function pointers...
-    c_int_MDS cInitModel;
-    c_int_MDS cInitModelData;
-    c_charStar_MDS cgetModelName;
-    c_void_MDS cinitializeInitialConditions;
-    c_void_MDS csetParameterValues;
-    c_void_MDS csetCompartmentVolumes;
-    c_int_MDS_int cgetNumLocalParameters;
-    c_void_MDS csetBoundaryConditions;
-    c_void_MDS csetInitialConditions;
-    c_void_MDS cevalInitialAssignments;
-    c_void_MDS_doubleStar cupdateDependentSpeciesValues;
-    c_void_MDS_doubleStar ccomputeRules;
-    c_void_MDS cconvertToAmounts;
-    c_void_MDS ccomputeConservedTotals;
-    c_double_MDS_int cgetConcentration;
-    c_doubleStar_MDS cGetCurrentValues;
-    c_void_MDS_double_doubleStar cevalModel;
-    c_void_MDS cconvertToConcentrations;
-    c_void_MDS_double_doubleStar cevalEvents;
-    c_void_MDS ccomputeAllRatesOfChange;
-    c_void_MDS cAssignRates_a;
-    c_void_MDS_doubleStar cAssignRates_b;
-    c_void_MDS ctestConstraints;
-    c_void_MDS cresetEvents;
-    c_void_MDS cInitializeRates;
-    c_void_MDS cInitializeRateRuleSymbols;
-    c_void_MDS_int_double csetConcentration;
-    c_void_MDS_double_doubleStar cComputeReactionRates;
-    c_void_MDS ccomputeEventPriorities;
+    c_int_MDS                         cInitModel;
+    c_int_MDS                         cInitModelData;
+    c_charStar_MDS                    cgetModelName;
+    c_void_MDS                        cinitializeInitialConditions;
+    c_void_MDS                        csetParameterValues;
+    c_void_MDS                        csetCompartmentVolumes;
+    c_int_MDS_int                     cgetNumLocalParameters;
+    c_void_MDS                        csetBoundaryConditions;
+    c_void_MDS                        csetInitialConditions;
+    c_void_MDS                        cevalInitialAssignments;
+    c_void_MDS_doubleStar             cupdateDependentSpeciesValues;
+    c_void_MDS_doubleStar             ccomputeRules;
+    c_void_MDS                        cconvertToAmounts;
+    c_void_MDS                        ccomputeConservedTotals;
+    c_double_MDS_int                  cgetConcentration;
+    c_doubleStar_MDS                  cGetCurrentValues;
+    c_void_MDS_double_doubleStar      cevalModel;
+    c_void_MDS                        cconvertToConcentrations;
+    c_void_MDS_double_doubleStar      cevalEvents;
+    c_void_MDS                        ccomputeAllRatesOfChange;
+    c_void_MDS                        cAssignRates_a;
+    c_void_MDS_doubleStar             cAssignRates_b;
+    c_void_MDS                        ctestConstraints;
+    c_void_MDS                        cresetEvents;
+    c_void_MDS                        cInitializeRates;
+    c_void_MDS                        cInitializeRateRuleSymbols;
+    c_void_MDS_int_double             csetConcentration;
+    c_void_MDS_double_doubleStar      cComputeReactionRates;
+    c_void_MDS                        ccomputeEventPriorities;
 };
 }
 #endif

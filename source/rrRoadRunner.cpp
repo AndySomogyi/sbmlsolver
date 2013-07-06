@@ -3,7 +3,6 @@
 #endif
 #pragma hdrstop
 #include <iostream>
-#include "Poco/File.h"
 #include "rrRoadRunner.h"
 #include "rrException.h"
 #include "rrModelGenerator.h"
@@ -17,21 +16,51 @@
 #include "rr-libstruct/lsLA.h"
 #include "rr-libstruct/lsLibla.h"
 #include "rrModelState.h"
-#include "rrArrayList2.h"
 #include "rrCapabilities.h"
 #include "rrConstants.h"
 #include "rrVersionInfo.h"
+#include "rrCVODEInterface.h"
+#include "rrNLEQInterface.h"
+#include "Poco/File.h"
+#include "Poco/Mutex.h"
 //---------------------------------------------------------------------------
 
 namespace rr
 {
 using namespace std;
 using namespace ls;
+using Poco::Mutex;
+
+
+// we can write a single function to pick the string lists out
+// of the model instead of duplicating it 6 times with
+// fun ptrs.
+typedef string (ExecutableModel::*GetNameFuncPtr)(int);
+typedef int (ExecutableModel::*GetNumFuncPtr)();
+
+// make this static here, hide our implementation...
+static vector<string> createModelStringList(ExecutableModel *model,
+        GetNumFuncPtr numFunc, GetNameFuncPtr nameFunc)
+{
+    if (!model)
+    {
+        throw CoreException(gEmptyModelMessage);
+    }
+    const int num = (model->*numFunc)();
+    vector<string> strings(num);
+
+    for(int i = 0; i < num; i++)
+    {
+        strings[i] = (model->*nameFunc)(i);
+    }
+
+    return strings;
+}
 
 
 //The instance count increases/decreases as instances are created/destroyed.
 int                   RoadRunner::mInstanceCount = 0;
-Mutex                 RoadRunner::mLibSBMLMutex;
+
 
 int RoadRunner::getInstanceCount()
 {
@@ -163,19 +192,16 @@ NOMSupport* RoadRunner::getNOM()
     return &mNOM;
 }
 
+LibStructural* RoadRunner::getLibStruct()
+{
+    return &mLS;
+}
+
 Compiler* RoadRunner::getCompiler()
 {
     return mModelGenerator ? mModelGenerator->getCompiler() : 0;
 }
 
-CvodeInterface* RoadRunner::getCVodeInterface()
-{
-    if(!mCVode)// && mModel != NULL)
-    {
-        mCVode = new CvodeInterface(this, mModel);
-    }
-    return mCVode;
-}
 
 bool RoadRunner::setCompiler(const string& compiler)
 {
@@ -231,13 +257,13 @@ string RoadRunner::getTempFolder()
 
 int RoadRunner::createDefaultTimeCourseSelectionList()
 {
-    StringList theList;
-    StringList oFloating  = getFloatingSpeciesIds();
+    vector<string> theList;
+    vector<string> oFloating  = getFloatingSpeciesIds();
 
-    theList.add("time");
-    for(int i = 0; i < oFloating.Count(); i++)
+    theList.push_back("time");
+    for(int i = 0; i < oFloating.size(); i++)
     {
-        theList.add(oFloating[i]);
+        theList.push_back(oFloating[i]);
     }
 
     setTimeCourseSelectionList(theList);
@@ -253,18 +279,18 @@ int RoadRunner::createDefaultTimeCourseSelectionList()
 int RoadRunner::createTimeCourseSelectionList()
 {
 
-    StringList theList = getSelectionListFromSettings(mSettings);
+    vector<string> theList = getSelectionListFromSettings(mSettings);
 
-    if(theList.Count() < 2)
+    if(theList.size() < 2)
     {
         //AutoSelect
-        theList.add("Time");
+        theList.push_back("Time");
 
         //Get All floating species
-       StringList oFloating  = getFloatingSpeciesIds();
-       for(int i = 0; i < oFloating.Count(); i++)
+        vector<string> oFloating  = getFloatingSpeciesIds();
+       for(int i = 0; i < oFloating.size(); i++)
        {
-            theList.add(oFloating[i]);
+            theList.push_back(oFloating[i]);
        }
     }
 
@@ -310,7 +336,7 @@ bool RoadRunner::initializeModel()
         mModel->convertToAmounts();
         mModel->evalInitialAssignments();
 
-        mModel->computeRules(mModel->getModelData().y, mModel->getModelData().ySize);
+        mModel->computeRules(mModel->getModelData().floatingSpeciesConcentrations, mModel->getModelData().numFloatingSpecies);
         mModel->convertToAmounts();
 
         if (mComputeAndAssignConservationLaws.getValue())
@@ -323,7 +349,6 @@ bool RoadRunner::initializeModel()
             delete mCVode;
         }
         mCVode = new CvodeInterface(this, mModel);
-        mModel->assignCVodeInterface(mCVode);
 
         // reset the simulation state
         reset();
@@ -340,6 +365,11 @@ RoadRunnerData RoadRunner::getSimulationResult()
     return mRoadRunnerData;
 }
 
+RoadRunnerData* RoadRunner::getRoadRunnerData()
+{
+    return &mRoadRunnerData;
+}
+
 double RoadRunner::getValueForRecord(const SelectionRecord& record)
 {
     double dResult;
@@ -351,43 +381,43 @@ double RoadRunner::getValueForRecord(const SelectionRecord& record)
         break;
 
         case SelectionType::clBoundarySpecies:
-            dResult = mModel->getModelData().bc[record.index];
+            dResult = mModel->getModelData().boundarySpeciesConcentrations[record.index];
         break;
 
         case SelectionType::clFlux:
-            dResult = mModel->getModelData().rates[record.index];
+            dResult = mModel->getModelData().reactionRates[record.index];
         break;
 
         case SelectionType::clRateOfChange:
-            dResult = mModel->getModelData().dydt[record.index];
+            dResult = mModel->getModelData().floatingSpeciesConcentrationRates[record.index];
         break;
 
         case SelectionType::clVolume:
-            dResult = mModel->getModelData().c[record.index];
+            dResult = mModel->getModelData().compartmentVolumes[record.index];
         break;
 
         case SelectionType::clParameter:
             {
-                if (record.index > ((mModel->getModelData().gpSize) - 1))
+                if (record.index > ((mModel->getModelData().numGlobalParameters) - 1))
                 {
-                    dResult = mModel->getModelData().ct[record.index - (mModel->getModelData().gpSize)];
+                    dResult = mModel->getModelData().dependentSpeciesConservedSums[record.index - (mModel->getModelData().numGlobalParameters)];
                 }
                 else
                 {
-                    dResult = mModel->getModelData().gp[record.index];
+                    dResult = mModel->getModelData().globalParameters[record.index];
                 }
             }
         break;
 
         case SelectionType::clFloatingAmount:
-            dResult = mModel->getModelData().amounts[record.index];
+            dResult = mModel->getModelData().floatingSpeciesAmounts[record.index];
         break;
 
         case SelectionType::clBoundaryAmount:
             int nIndex;
-            if (mModel->getCompartments().find(mModel->getBoundarySpecies()[record.index].compartmentName, nIndex))
+            if ((nIndex = mModel->getBoundarySpeciesCompartmentIndex(record.index)) >= 0)
             {
-                dResult = mModel->getModelData().bc[record.index] * mModel->getModelData().c[nIndex];
+                dResult = mModel->getModelData().boundarySpeciesConcentrations[record.index] * mModel->getModelData().compartmentVolumes[nIndex];
             }
             else
             {
@@ -455,18 +485,18 @@ void RoadRunner::addNthOutputToResult(DoubleMatrix& results, int nRow, double dC
 vector<double> RoadRunner::buildModelEvalArgument()
 {
     vector<double> dResult;
-    dResult.resize((mModel->getModelData().amountsSize) + (mModel->getModelData().rateRulesSize) );
+    dResult.resize((mModel->getModelData().numFloatingSpecies) + (mModel->getModelData().numRateRules) );
 
     vector<double> dCurrentRuleValues = mModel->getCurrentValues();
 
-    for(int i = 0; i < (mModel->getModelData().rateRulesSize); i++)
+    for(int i = 0; i < (mModel->getModelData().numRateRules); i++)
     {
         dResult[i] = dCurrentRuleValues[i];
     }
 
-    for(int i = 0; i < (mModel->getModelData().amountsSize); i++)
+    for(int i = 0; i < (mModel->getModelData().numFloatingSpecies); i++)
     {
-        dResult[i + (mModel->getModelData().rateRulesSize)] = mModel->getModelData().amounts[i];
+        dResult[i + (mModel->getModelData().numRateRules)] = mModel->getModelData().floatingSpeciesAmounts[i];
     }
 
     return dResult;
@@ -548,7 +578,8 @@ bool RoadRunner::simulateSBMLFile(const string& fileName, const bool& useConserv
 
     mRawRoadRunnerData = simulate();
 
-    StringList list = getTimeCourseSelectionList();
+    // why is this here???
+    vector<string> list = getTimeCourseSelectionList();
     return true;
 }
 
@@ -613,22 +644,9 @@ string RoadRunner::createModelName(const string& mCurrentSBMLFileName)
     return modelName;
 }
 
-bool cleanFolder(const string& folder, const string& baseName, const StringList& extensions)
-{
-    for(int i = 0; i < extensions.Count(); i++)
-       {
-        string aFName = joinPath(folder, baseName) + "." + extensions[i];
-        Poco::File aFile(aFName);
-        if(aFile.exists())
-        {
-            aFile.remove();
-        }
-    }
-    return true;
-}
-
 bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
 {
+    static Mutex libSBMLMutex;
     mCurrentSBML = sbml;
 
     //clear temp folder of roadrunner generated files, only if roadRunner instance == 1
@@ -640,7 +658,7 @@ bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
 
     loadSBMLIntoLibStruct(sbml);
     {    //Scope for Mutex
-           Mutex::ScopedLock lock(mLibSBMLMutex);
+        Mutex::ScopedLock lock(libSBMLMutex);
         loadSBMLIntoNOM(sbml);    //There is something in here that is not threadsafe... causes crash with multiple threads, without mutex
     }
 
@@ -737,11 +755,13 @@ void RoadRunner::reset()
 
         // also we might need to set some initial assignment rules.
         mModel->convertToConcentrations();
-        mModel->computeRules(mModel->getModelData().y, mModel->getModelData().ySize);
+        mModel->computeRules(mModel->getModelData().floatingSpeciesConcentrations,
+                mModel->getModelData().numFloatingSpecies);
         mModel->initializeRates();
         mModel->initializeRateRuleSymbols();
         mModel->evalInitialAssignments();
-        mModel->computeRules(mModel->getModelData().y, mModel->getModelData().ySize);
+        mModel->computeRules(mModel->getModelData().floatingSpeciesConcentrations,
+                mModel->getModelData().numFloatingSpecies);
 
         mModel->convertToAmounts();
 
@@ -786,8 +806,11 @@ DoubleMatrix RoadRunner::simulate()
     }
     catch (const Exception& e)
     {
-        Log(lWarning)<<"Problem in simulate: "<<e.Message();
+        stringstream msg;
+        msg<<"Problem in simulate: "<<e.Message();
+        Log(lError)<<msg.str();
 
+        throw(CoreException(msg.str()));
     }
 
 }
@@ -824,7 +847,7 @@ bool RoadRunner::simulate2Ex(const double& startTime, const double& endTime, con
 
 bool RoadRunner::populateResult()
 {
-    StringList list = getTimeCourseSelectionList();
+    vector<string> list = getTimeCourseSelectionList();
 
     mRoadRunnerData.setColumnNames(list);
     mRoadRunnerData.setData(mRawRoadRunnerData);
@@ -861,23 +884,22 @@ DoubleMatrix RoadRunner::simulateEx(const double& startTime, const double& endTi
     }
 }
 
-//Returns the currently selected columns that will be returned by calls to simulate() or simulateEx(,,).
-StringList RoadRunner::getTimeCourseSelectionList()
+vector<string> RoadRunner::getTimeCourseSelectionList()
 {
-    StringList oResult;
+    vector<string> oResult;
 
     if (!mModel)
     {
-        oResult.add("time");
+        oResult.push_back("time");
         return oResult;
     }
 
-    StringList oFloating    = mModel->getFloatingSpeciesConcentrationNames();
-    StringList oBoundary    = mModel->getBoundarySpeciesNames();
-    StringList oFluxes      = mModel->getReactionNames();
-    StringList oVolumes     = mModel->getCompartmentNames();
-    StringList oRates       = getRateOfChangeIds();
-    StringList oParameters  = getParameterIds();
+    vector<string> oFloating    = getFloatingSpeciesIds();
+    vector<string> oBoundary    = getBoundarySpeciesIds();
+    vector<string> oFluxes      = getReactionIds();
+    vector<string> oVolumes     = getCompartmentIds();
+    vector<string> oRates       = getRateOfChangeIds();
+    vector<string> oParameters  = getParameterIds();
 
     vector<SelectionRecord>::iterator iter;
 
@@ -887,50 +909,50 @@ StringList RoadRunner::getTimeCourseSelectionList()
         switch (record.selectionType)
         {
             case SelectionType::clTime:
-                oResult.add("time");
+                oResult.push_back("time");
                 break;
             case SelectionType::clBoundaryAmount:
-                oResult.add(format("[{0}]", oBoundary[record.index]));
+                oResult.push_back(format("[{0}]", oBoundary[record.index]));
                 break;
             case SelectionType::clBoundarySpecies:
-                oResult.add(oBoundary[record.index]);
+                oResult.push_back(oBoundary[record.index]);
                 break;
             case SelectionType::clFloatingAmount:
-                oResult.add(format("[{0}]", oFloating[record.index]));
+                oResult.push_back(format("[{0}]", oFloating[record.index]));
                 break;
             case SelectionType::clFloatingSpecies:
-                oResult.add(oFloating[record.index]);
+                oResult.push_back(oFloating[record.index]);
                 break;
             case SelectionType::clVolume:
-                oResult.add(oVolumes[record.index]);
+                oResult.push_back(oVolumes[record.index]);
                 break;
             case SelectionType::clFlux:
-                oResult.add(oFluxes[record.index]);
+                oResult.push_back(oFluxes[record.index]);
                 break;
             case SelectionType::clRateOfChange:
-                oResult.add(oRates[record.index]);
+                oResult.push_back(oRates[record.index]);
                 break;
             case SelectionType::clParameter:
-                oResult.add(oParameters[record.index]);
+                oResult.push_back(oParameters[record.index]);
                 break;
             case SelectionType::clEigenValue:
-                oResult.add("eigen_" + record.p1);
+                oResult.push_back("eigen_" + record.p1);
                 break;
             case SelectionType::clElasticity:
-                oResult.add(format("EE:{0},{1}", record.p1, record.p2));
+                oResult.push_back(format("EE:{0},{1}", record.p1, record.p2));
                 break;
             case SelectionType::clUnscaledElasticity:
-                oResult.add(format("uEE:{0},{1}", record.p1, record.p2));
+                oResult.push_back(format("uEE:{0},{1}", record.p1, record.p2));
                 break;
             case SelectionType::clStoichiometry:
-                oResult.add(record.p1);
+                oResult.push_back(record.p1);
                 break;
         }
     }
     return oResult;
 }
 
-// Help("Compute the steady state of the model, returns the sum of squares of the solution")
+
 double RoadRunner::steadyState()
 {
     if (!mModel)
@@ -949,7 +971,7 @@ double RoadRunner::steadyState()
 
     //Get a std vector for the solver
     vector<double> someAmounts;
-    copyCArrayToStdVector(mModel->getModelData().amounts, someAmounts, mModel->getNumIndependentVariables());
+    copyCArrayToStdVector(mModel->getModelData().floatingSpeciesAmounts, someAmounts, mModel->getNumIndependentSpecies());
 
     double ss = steadyStateSolver.solve(someAmounts);
     if(ss < 0)
@@ -966,19 +988,19 @@ void RoadRunner::setParameterValue(const TParameterType& parameterType, const in
     switch (parameterType)
     {
         case TParameterType::ptBoundaryParameter:
-            mModel->getModelData().bc[parameterIndex] = value;
+            mModel->getModelData().boundarySpeciesConcentrations[parameterIndex] = value;
         break;
 
         case TParameterType::ptGlobalParameter:
-            mModel->getModelData().gp[parameterIndex] = value;
+            mModel->getModelData().globalParameters[parameterIndex] = value;
         break;
 
         case TParameterType::ptFloatingSpecies:
-            mModel->getModelData().y[parameterIndex] = value;
+            mModel->getModelData().floatingSpeciesConcentrations[parameterIndex] = value;
         break;
 
         case TParameterType::ptConservationParameter:
-            mModel->getModelData().ct[parameterIndex] = value;
+            mModel->getModelData().dependentSpeciesConservedSums[parameterIndex] = value;
         break;
 
         case TParameterType::ptLocalParameter:
@@ -991,17 +1013,17 @@ double RoadRunner::getParameterValue(const TParameterType& parameterType, const 
     switch (parameterType)
     {
         case TParameterType::ptBoundaryParameter:
-            return mModel->getModelData().bc[parameterIndex];
+            return mModel->getModelData().boundarySpeciesConcentrations[parameterIndex];
 
         case TParameterType::ptGlobalParameter:
-            return mModel->getModelData().gp[parameterIndex];
+            return mModel->getModelData().globalParameters[parameterIndex];
 
         // Used when calculating elasticities
         case TParameterType::ptFloatingSpecies:
-            return mModel->getModelData().y[parameterIndex];
+            return mModel->getModelData().floatingSpeciesConcentrations[parameterIndex];
 
         case TParameterType::ptConservationParameter:
-            return mModel->getModelData().ct[parameterIndex];
+            return mModel->getModelData().dependentSpeciesConservedSums[parameterIndex];
 
         case TParameterType::ptLocalParameter:
             throw Exception("Local parameters not permitted in getParameterValue (getCC?)");
@@ -1045,15 +1067,15 @@ void RoadRunner::computeAndAssignConservationLaws(const bool& bValue)
 }
 
 // Help("Returns the names given to the rate of change of the floating species")
-StringList RoadRunner::getRateOfChangeIds()
+vector<string> RoadRunner::getRateOfChangeIds()
 {
     if (!mModel)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    StringList sp = mModel->getFloatingSpeciesConcentrationNames(); // Reordered list
-    for (int i = 0; i < sp.Count(); i++)
+    vector<string> sp = getFloatingSpeciesIds(); // Reordered list
+    for (int i = 0; i < sp.size(); i++)
     {
         sp[i] = sp[i] + "'";
     }
@@ -1061,23 +1083,16 @@ StringList RoadRunner::getRateOfChangeIds()
 }
 
 // Help("Gets the list of compartment names")
-StringList RoadRunner::getCompartmentIds()
+vector<string> RoadRunner::getCompartmentIds()
 {
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-    return mModel->getCompartmentNames();
+    return createModelStringList(mModel, &ExecutableModel::getNumCompartments,
+            &ExecutableModel::getCompartmentName);
 }
 
-StringList RoadRunner::getParameterIds()
+vector<string> RoadRunner::getParameterIds()
 {
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-    StringList sp = mModel->getGlobalParameterNames(); // Reordered list
-    return sp;
+    return createModelStringList(mModel, &ExecutableModel::getNumGlobalParameters,
+            &ExecutableModel::getGlobalParameterName);
 }
 
 // [Help("Get scaled elasticity coefficient with respect to a global parameter or species")]
@@ -1086,7 +1101,6 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
     return getEE(reactionName, parameterName, true);
 }
 
-// [Help("Get scaled elasticity coefficient with respect to a global parameter or species. Optionally the model is brought to steady state after the computation.")]
 double RoadRunner::getEE(const string& reactionName, const string& parameterName, bool computeSteadyState)
 {
     TParameterType parameterType;
@@ -1099,21 +1113,21 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
     }
 
     // Check the reaction name
-    if (!mModel->getReactions().find(reactionName, reactionIndex))
+    if ((reactionIndex = mModel->getReactionIndex(reactionName)) < 0)
     {
         throw CoreException(format("Unable to locate reaction name: [{0}]", reactionName));
     }
 
     // Find out what kind of parameter we are dealing with
-    if (mModel->getFloatingSpeciesConcentrations().find(parameterName, parameterIndex))
+    if (( parameterIndex = mModel->getFloatingSpeciesIndex(parameterName)) >= 0)
     {
         parameterType = TParameterType::ptFloatingSpecies;
     }
-    else if (mModel->getBoundarySpecies().find(parameterName, parameterIndex))
+    else if ((parameterIndex = mModel->getBoundarySpeciesIndex(parameterName)) >= 0)
     {
         parameterType = TParameterType::ptBoundaryParameter;
     }
-    else if (mModel->getGlobalParameters().find(parameterName, parameterIndex))
+    else if ((parameterIndex = mModel->getGlobalParameterIndex(parameterName)) >= 0)
     {
         parameterType = TParameterType::ptGlobalParameter;
     }
@@ -1126,8 +1140,8 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
         throw CoreException(format("Unable to locate variable: [{0}]", parameterName));
     }
 
-    mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
-    double variableValue = mModel->getModelData().rates[reactionIndex];
+    mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().floatingSpeciesConcentrations);
+    double variableValue = mModel->getModelData().reactionRates[reactionIndex];
     double parameterValue = getParameterValue(parameterType, parameterIndex);
     if (variableValue == 0)
     {
@@ -1136,7 +1150,7 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
     return getuEE(reactionName, parameterName, computeSteadyState) * parameterValue / variableValue;
 }
 
-//        [Help("Get unscaled elasticity coefficient with respect to a global parameter or species")]
+
 double RoadRunner::getuEE(const string& reactionName, const string& parameterName)
 {
     return getuEE(reactionName, parameterName, true);
@@ -1166,7 +1180,8 @@ class aFinalizer
                             //this is a finally{} code block
                             // What ever happens, make sure we restore the parameter level
                             mRR->setParameterValue(mParameterType, mParameterIndex, mOriginalParameterValue);
-                            mRR->getModel()->computeReactionRates(mRR->getModel()->getTime(), mRR->getModel()->getModelData().y);
+                            mRR->getModel()->computeReactionRates(mRR->getModel()->getTime(),
+                                    mRR->getModel()->getModelData().floatingSpeciesConcentrations);
                             if (mComputeSteadyState)
                             {
                                 mRR->steadyState();
@@ -1174,7 +1189,6 @@ class aFinalizer
                         }
 };
 
-//[Help("Get unscaled elasticity coefficient with respect to a global parameter or species. Optionally the model is brought to steady state after the computation.")]
 double RoadRunner::getuEE(const string& reactionName, const string& parameterName, bool computeSteadystate)
 {
     try
@@ -1190,34 +1204,34 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
         int parameterIndex;
 
         mModel->convertToConcentrations();
-        mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
+        mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().floatingSpeciesConcentrations);
 
         // Check the reaction name
-        if (!mModel->getReactions().find(reactionName, reactionIndex))
+        if ((reactionIndex = mModel->getReactionIndex(reactionName)) < 0)
         {
             throw CoreException("Unable to locate reaction name: [" + reactionName + "]");
         }
 
         // Find out what kind of parameter we are dealing with
-        if (mModel->getFloatingSpeciesConcentrations().find(parameterName, parameterIndex))
+        if ((parameterIndex = mModel->getFloatingSpeciesIndex(parameterName)) >= 0)
         {
             parameterType = TParameterType::ptFloatingSpecies;
-            originalParameterValue = mModel->getModelData().y[parameterIndex];
+            originalParameterValue = mModel->getModelData().floatingSpeciesConcentrations[parameterIndex];
         }
-        else if (mModel->getBoundarySpecies().find(parameterName, parameterIndex))
+        else if ((parameterIndex = mModel->getBoundarySpeciesIndex(parameterName)) >= 0)
         {
             parameterType = TParameterType::ptBoundaryParameter;
-            originalParameterValue = mModel->getModelData().bc[parameterIndex];
+            originalParameterValue = mModel->getModelData().boundarySpeciesConcentrations[parameterIndex];
         }
-        else if (mModel->getGlobalParameters().find(parameterName, parameterIndex))
+        else if ((parameterIndex = mModel->getGlobalParameterIndex(parameterName)) >= 0)
         {
             parameterType = TParameterType::ptGlobalParameter;
-            originalParameterValue = mModel->getModelData().gp[parameterIndex];
+            originalParameterValue = mModel->getModelData().globalParameters[parameterIndex];
         }
         else if (mModel->getConservations().find(parameterName, parameterIndex))
         {
             parameterType = TParameterType::ptConservationParameter;
-            originalParameterValue = mModel->getModelData().ct[parameterIndex];
+            originalParameterValue = mModel->getModelData().dependentSpeciesConservedSums[parameterIndex];
         }
         else
         {
@@ -1234,20 +1248,24 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
         mModel->convertToConcentrations();
 
         setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
-        mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
-        double fi = mModel->getModelData().rates[reactionIndex];
+        mModel->computeReactionRates(mModel->getTime(),
+                mModel->getModelData().floatingSpeciesConcentrations);
+        double fi = mModel->getModelData().reactionRates[reactionIndex];
 
         setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
-        mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
-        double fi2 = mModel->getModelData().rates[reactionIndex];
+        mModel->computeReactionRates(mModel->getTime(),
+                mModel->getModelData().floatingSpeciesConcentrations);
+        double fi2 = mModel->getModelData().reactionRates[reactionIndex];
 
         setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
-        mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
-        double fd = mModel->getModelData().rates[reactionIndex];
+        mModel->computeReactionRates(mModel->getTime(),
+                mModel->getModelData().floatingSpeciesConcentrations);
+        double fd = mModel->getModelData().reactionRates[reactionIndex];
 
         setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
-        mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
-        double fd2 = mModel->getModelData().rates[reactionIndex];
+        mModel->computeReactionRates(mModel->getTime(),
+                mModel->getModelData().floatingSpeciesConcentrations);
+        double fd2 = mModel->getModelData().reactionRates[reactionIndex];
 
         // Use instead the 5th order approximation double unscaledValue = (0.5/hstep)*(fi-fd);
         // The following separated lines avoid small amounts of roundoff error
@@ -1282,18 +1300,23 @@ void RoadRunner::setTimeCourseSelectionList(const string& list)
 
 // Help("Set the columns to be returned by simulate() or simulateEx(), valid symbol names include" +
 //              " time, species names, , volume, reaction rates and rates of change (speciesName')")
-void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
+void RoadRunner::setTimeCourseSelectionList(const vector<string>& _selList)
 {
+    if (!mModel)
+    {
+        throw CoreException(gEmptyModelMessage);
+    }
+
     mSelectionList.clear();
-    StringList newSelectionList(_selList);
-    StringList fs = mModel->getFloatingSpeciesConcentrationNames();
-    StringList bs = mModel->getBoundarySpeciesNames();
-    StringList rs = mModel->getReactionNames();
-    StringList vol= mModel->getCompartmentNames();
-    StringList gp = mModel->getGlobalParameterNames();
+    vector<string> newSelectionList(_selList);
+    vector<string> fs = getFloatingSpeciesIds();
+    vector<string> bs = getBoundarySpeciesIds();
+    vector<string> rs = getReactionIds();
+    vector<string> vol= getCompartmentIds();
+    vector<string> gp = getGlobalParameterIds();
 //    StringList sr = mModelGenerator->ModifiableSpeciesReferenceList;
 
-    for (int i = 0; i < _selList.Count(); i++)
+    for (int i = 0; i < _selList.size(); i++)
     {
         if (toUpper(newSelectionList[i]) == toUpper("time"))
         {
@@ -1301,7 +1324,7 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
         }
 
         // Check for species
-        for (int j = 0; j < fs.Count(); j++)
+        for (int j = 0; j < fs.size(); j++)
         {
             if (newSelectionList[i] == fs[j])
             {
@@ -1324,7 +1347,7 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
         }
 
         // Check fgr boundary species
-        for (int j = 0; j < bs.Count(); j++)
+        for (int j = 0; j < bs.size(); j++)
         {
             if (newSelectionList[i] == bs[j])
             {
@@ -1338,7 +1361,7 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
             }
         }
 
-        for (int j = 0; j < rs.Count(); j++)
+        for (int j = 0; j < rs.size(); j++)
         {
             // Check for reaction rate
             if (newSelectionList[i] == rs[j])
@@ -1348,7 +1371,7 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
             }
         }
 
-        for (int j = 0; j < vol.Count(); j++)
+        for (int j = 0; j < vol.size(); j++)
         {
             // Check for volume
             if (newSelectionList[i] == vol[j])
@@ -1364,7 +1387,7 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
             }
         }
 
-        for (int j = 0; j < gp.Count(); j++)
+        for (int j = 0; j < gp.size(); j++)
         {
             if (newSelectionList[i] == gp[j])
             {
@@ -1381,7 +1404,7 @@ void RoadRunner::setTimeCourseSelectionList(const StringList& _selList)
             mSelectionList.push_back(SelectionRecord(i, clEigenValue, species));
 //            mSelectionList[i].selectionType = SelectionType::clEigenValue;
 //            mSelectionList[i].p1 = species;
-            int aIndex = fs.find(species);
+            int aIndex = indexOf(fs, species);
             mSelectionList[i].index = aIndex;
             //mModelGenerator->floatingSpeciesConcentrationList.find(species, mSelectionList[i].index);
         }
@@ -1478,26 +1501,26 @@ DoubleMatrix RoadRunner::getEigenvalues()
 
 // Returns eigenvalues, first column real part, second column imaginary part
 // -------------------------------------------------------------------------
-DoubleMatrix RoadRunner::getEigenvaluesFromMatrix (DoubleMatrix m)
-{
-    try
-    {
-        vector<Complex> vals = ls::getEigenValues(m);
-
-        DoubleMatrix result(vals.size(), 2);
-
-        for (int i = 0; i < vals.size(); i++)
-        {
-            result[i][0] = real(vals[i]);
-            result[i][1] = imag(vals[i]);
-        }
-        return result;
-    }
-    catch (const Exception& e)
-    {
-        throw CoreException("Unexpected error from getEigenvalues()", e.Message());
-    }
-}
+//DoubleMatrix RoadRunner::getEigenvaluesFromMatrix (DoubleMatrix m)
+//{
+//    try
+//    {
+//        vector<Complex> vals = ls::getEigenValues(m);
+//
+//        DoubleMatrix result(vals.size(), 2);
+//
+//        for (int i = 0; i < vals.size(); i++)
+//        {
+//            result[i][0] = real(vals[i]);
+//            result[i][1] = imag(vals[i]);
+//        }
+//        return result;
+//    }
+//    catch (const Exception& e)
+//    {
+//        throw CoreException("Unexpected error from getEigenvalues()", e.Message());
+//    }
+//}
 
 vector< Complex > RoadRunner::getEigenvaluesCpx()
 {
@@ -1617,7 +1640,7 @@ DoubleMatrix* RoadRunner::getLinkMatrix()
     }
     catch (const Exception& e)
     {
-    	throw CoreException("Unexpected error from getLinkMatrix()", e.Message());
+         throw CoreException("Unexpected error from getLinkMatrix()", e.Message());
     }
 }
 
@@ -1816,10 +1839,10 @@ double RoadRunner::getVariableValue(const TVariableType& variableType, const int
     switch (variableType)
     {
         case vtFlux:
-            return mModel->getModelData().rates[variableIndex];
+            return mModel->getModelData().reactionRates[variableIndex];
 
         case vtSpecies:
-            return mModel->getModelData().y[variableIndex];
+            return mModel->getModelData().floatingSpeciesConcentrations[variableIndex];
 
         default:
             throw CoreException("Unrecognised variable in getVariableValue");
@@ -1835,12 +1858,12 @@ NewArrayList RoadRunner::getFluxControlCoefficientIds()
         return oResult;
     }
 
-    StringList oReactions       = getReactionIds();
-    StringList oParameters      = mModel->getGlobalParameterNames();
-    StringList oBoundary        = mModel->getBoundarySpeciesNames();
-    StringList oConservation    = mModel->getConservationNames();
+    vector<string> oReactions       = getReactionIds();
+    vector<string> oParameters      = getGlobalParameterIds();
+    vector<string> oBoundary        = getBoundarySpeciesIds();
+    vector<string> oConservation    = mModel->getConservationNames();
 
-    for(int i = 0; i < oReactions.Count(); i++)
+    for(int i = 0; i < oReactions.size(); i++)
     {
         string s = oReactions[i];
 
@@ -1848,17 +1871,17 @@ NewArrayList RoadRunner::getFluxControlCoefficientIds()
         StringList oInner;
         oCCReaction.Add(s);
 
-        for(int i = 0; i < oParameters.Count(); i++)
+        for(int i = 0; i < oParameters.size(); i++)
         {
             oInner.add("CC:" + s + "," + oParameters[i]);
         }
 
-        for(int i = 0; i < oBoundary.Count(); i++)
+        for(int i = 0; i < oBoundary.size(); i++)
         {
             oInner.add("CC:" + s + "," + oBoundary[i]);
         }
 
-        for(int i = 0; i < oConservation.Count(); i++)
+        for(int i = 0; i < oConservation.size(); i++)
         {
             oInner.add("CC:" + s + "," + oConservation[i]);
         }
@@ -1879,32 +1902,32 @@ NewArrayList RoadRunner::getUnscaledFluxControlCoefficientIds()
         return oResult;
     }
 
-    StringList oReactions = getReactionIds();
-    StringList oParameters = mModel->getGlobalParameterNames();
-    StringList oBoundary = mModel->getBoundarySpeciesNames();
-    StringList oConservation = mModel->getConservationNames();
+    vector<string> oReactions = getReactionIds();
+    vector<string> oParameters = getGlobalParameterIds();
+    vector<string> oBoundary = getBoundarySpeciesIds();
+    vector<string> oConservation = mModel->getConservationNames();
 
-    for(int i = 0; i < oReactions.Count(); i++)
+    for(int i = 0; i < oReactions.size(); i++)
     {
         string s = oReactions[i];
 
         NewArrayList oCCReaction;
-        StringList oInner;
+        vector<string> oInner;
         oCCReaction.Add(s);
 
-        for(int i = 0; i < oParameters.Count(); i++)
+        for(int i = 0; i < oParameters.size(); i++)
         {
-            oInner.add("uCC:" + s + "," + oParameters[i]);
+            oInner.push_back("uCC:" + s + "," + oParameters[i]);
         }
 
-        for(int i = 0; i < oBoundary.Count(); i++)
+        for(int i = 0; i < oBoundary.size(); i++)
         {
-            oInner.add("uCC:" + s + "," + oBoundary[i]);
+            oInner.push_back("uCC:" + s + "," + oBoundary[i]);
         }
 
-        for(int i = 0; i < oConservation.Count(); i++)
+        for(int i = 0; i < oConservation.size(); i++)
         {
-            oInner.add("uCC:" + s + "," + oConservation[i]);
+            oInner.push_back("uCC:" + s + "," + oConservation[i]);
         }
 
         oCCReaction.Add(oInner);
@@ -1923,29 +1946,29 @@ NewArrayList RoadRunner::getConcentrationControlCoefficientIds()
         return oResult;
     }
 
-    StringList oFloating        = getFloatingSpeciesIds();
-    StringList oParameters      = mModel->getGlobalParameterNames();
-    StringList oBoundary        = mModel->getBoundarySpeciesNames();
-    StringList oConservation    = mModel->getConservationNames();
+    vector<string> oFloating        = getFloatingSpeciesIds();
+    vector<string> oParameters      = getGlobalParameterIds();
+    vector<string> oBoundary        = getBoundarySpeciesIds();
+    vector<string> oConservation    = mModel->getConservationNames();
 
-    for(int i = 0; i < oFloating.Count(); i++)
+    for(int i = 0; i < oFloating.size(); i++)
     {
         string s = oFloating[i];
         NewArrayList oCCFloating;
         StringList oInner;
         oCCFloating.Add(s);
 
-        for(int i = 0; i < oParameters.Count(); i++)
+        for(int i = 0; i < oParameters.size(); i++)
         {
             oInner.add("CC:" + s + "," + oParameters[i]);
         }
 
-        for(int i = 0; i < oBoundary.Count(); i++)
+        for(int i = 0; i < oBoundary.size(); i++)
         {
             oInner.add("CC:" + s + "," + oBoundary[i]);
         }
 
-        for(int i = 0; i < oConservation.Count(); i++)
+        for(int i = 0; i < oConservation.size(); i++)
         {
             oInner.add("CC:" + s + "," + oConservation[i]);
         }
@@ -1966,31 +1989,31 @@ NewArrayList RoadRunner::getUnscaledConcentrationControlCoefficientIds()
         return oResult;
     }
 
-    StringList oFloating        = getFloatingSpeciesIds();
-    StringList oParameters      = mModel->getGlobalParameterNames();
-    StringList oBoundary        = mModel->getBoundarySpeciesNames();
-    StringList oConservation    = mModel->getConservationNames();
+    vector<string> oFloating        = getFloatingSpeciesIds();
+    vector<string> oParameters      = getGlobalParameterIds();
+    vector<string> oBoundary        = getBoundarySpeciesIds();
+    vector<string> oConservation    = mModel->getConservationNames();
 
-    for(int i = 0; i < oFloating.Count(); i++)
+    for(int i = 0; i < oFloating.size(); i++)
     {
         string s = oFloating[i];
         NewArrayList oCCFloating;
-        StringList oInner;
+        vector<string> oInner;
         oCCFloating.Add(s);
 
-        for(int i = 0; i < oParameters.Count(); i++)
+        for(int i = 0; i < oParameters.size(); i++)
         {
-            oInner.add("uCC:" + s + "," + oParameters[i]);
+            oInner.push_back("uCC:" + s + "," + oParameters[i]);
         }
 
-        for(int i = 0; i < oBoundary.Count(); i++)
+        for(int i = 0; i < oBoundary.size(); i++)
         {
-            oInner.add("uCC:" + s + "," + oBoundary[i]);
+            oInner.push_back("uCC:" + s + "," + oBoundary[i]);
         }
 
-        for(int i = 0; i < oConservation.Count(); i++)
+        for(int i = 0; i < oConservation.size(); i++)
         {
-            oInner.add("uCC:" + s + "," + oConservation[i]);
+            oInner.push_back("uCC:" + s + "," + oConservation[i]);
         }
 
         oCCFloating.Add(oInner);
@@ -2009,35 +2032,35 @@ NewArrayList RoadRunner::getElasticityCoefficientIds()
         return oResult;
     }
 
-    StringList reactionNames        = getReactionIds();
-    StringList floatingSpeciesNames = mModel->getFloatingSpeciesConcentrationNames();
-    StringList boundarySpeciesNames = mModel->getBoundarySpeciesNames();
-    StringList conservationNames    = mModel->getConservationNames();
-    StringList globalParameterNames = mModel->getGlobalParameterNames();
+    vector<string> reactionNames        = getReactionIds();
+    vector<string> floatingSpeciesNames = getFloatingSpeciesIds();
+    vector<string> boundarySpeciesNames = getBoundarySpeciesIds();
+    vector<string> conservationNames    = mModel->getConservationNames();
+    vector<string> globalParameterNames = getGlobalParameterIds();
 
-    for(int i = 0; i < reactionNames.Count(); i++)
+    for(int i = 0; i < reactionNames.size(); i++)
     {
         string reac_name = reactionNames[i];
         NewArrayList oCCReaction;
         oCCReaction.Add(reac_name);
         StringList oInner;
 
-        for(int j = 0; j < floatingSpeciesNames.Count(); j++)
+        for(int j = 0; j < floatingSpeciesNames.size(); j++)
         {
             oInner.add(format("EE:{0},{1}", reac_name, floatingSpeciesNames[j]));
         }
 
-        for(int j = 0; j < boundarySpeciesNames.Count(); j++)
+        for(int j = 0; j < boundarySpeciesNames.size(); j++)
         {
             oInner.add(format("EE:{0},{1}", reac_name, boundarySpeciesNames[j]));
         }
 
-        for(int j = 0; j < globalParameterNames.Count(); j++)
+        for(int j = 0; j < globalParameterNames.size(); j++)
         {
             oInner.add(format("EE:{0},{1}", reac_name, globalParameterNames[j]));
         }
 
-        for(int j = 0; j < conservationNames.Count(); j++)
+        for(int j = 0; j < conservationNames.size(); j++)
         {
             oInner.add(format("EE:{0},{1}", reac_name, conservationNames[j]));
         }
@@ -2058,38 +2081,38 @@ NewArrayList RoadRunner::getUnscaledElasticityCoefficientIds()
         return oResult;
     }
 
-    StringList oReactions( getReactionIds() );
-    StringList oFloating = mModel->getFloatingSpeciesConcentrationNames();
-    StringList oBoundary = mModel->getBoundarySpeciesNames();
-    StringList oGlobalParameters = mModel->getGlobalParameterNames();
-    StringList oConservation = mModel->getConservationNames();
+    vector<string> oReactions( getReactionIds() );
+    vector<string> oFloating = getFloatingSpeciesIds();
+    vector<string> oBoundary = getBoundarySpeciesIds();
+    vector<string> oGlobalParameters = getGlobalParameterIds();
+    vector<string> oConservation = mModel->getConservationNames();
 
-    for(int i = 0; i < oReactions.Count(); i++)
+    for(int i = 0; i < oReactions.size(); i++)
     {
         string reac_name = oReactions[i];
         NewArrayList oCCReaction;
         StringList oInner;
         oCCReaction.Add(reac_name);
 
-        for(int j = 0; j < oFloating.Count(); j++)
+        for(int j = 0; j < oFloating.size(); j++)
         {
             string variable = oFloating[j];
             oInner.add(format("uEE:{0},{1}", reac_name, variable));
         }
 
-        for(int j = 0; j < oBoundary.Count(); j++)
+        for(int j = 0; j < oBoundary.size(); j++)
         {
             string variable = oBoundary[j];
             oInner.add(format("uEE:{0},{1}", reac_name, variable));
         }
 
-        for(int j = 0; j < oGlobalParameters.Count(); j++)
+        for(int j = 0; j < oGlobalParameters.size(); j++)
         {
             string variable = oGlobalParameters[j];
             oInner.add(format("uEE:{0},{1}", reac_name, variable));
         }
 
-        for(int j = 0; j < oConservation.Count(); j++)
+        for(int j = 0; j < oConservation.size(); j++)
         {
             string variable = oConservation[j];
             oInner.add(format("uEE:{0},{1}", reac_name, variable));
@@ -2103,19 +2126,19 @@ NewArrayList RoadRunner::getUnscaledElasticityCoefficientIds()
 }
 
 // Help("Returns the Symbols of all Floating Species Eigenvalues.")
-StringList RoadRunner::getEigenvalueIds()
+vector<string> RoadRunner::getEigenvalueIds()
 {
     if (!mModel)
     {
-        return StringList();
+        return vector<string>();
     }
 
-    StringList result;
-    StringList floating = mModel->getFloatingSpeciesConcentrationNames();
+    vector<string> result;
+    vector<string> floating = getFloatingSpeciesIds();
 
-    for(int i = 0; i < floating.Count(); i++)
+    for(int i = 0; i < floating.size(); i++)
     {
-        result.add("eigen_" + floating[i]);
+        result.push_back("eigen_" + floating[i]);
     }
 
     return result;
@@ -2134,17 +2157,17 @@ NewArrayList RoadRunner::getAvailableSteadyStateSymbols()
 
     oResult.Add("Floating Species",                                 getFloatingSpeciesIds() );
     oResult.Add("Boundary Species",                                 getBoundarySpeciesIds() );
-    oResult.Add("Floating Species (amount)",                         getFloatingSpeciesAmountIds() );
-    oResult.Add("Boundary Species (amount)",                         getBoundarySpeciesAmountIds() );
-    oResult.Add("Global Parameters",                                 getParameterIds() );
-    oResult.Add("Volumes",                                             mModel->getCompartmentNames() );
-    oResult.Add("Fluxes",                                             getReactionIds() );
-    oResult.Add("Flux Control Coefficients",                         getFluxControlCoefficientIds() );
-    oResult.Add("Concentration Control Coefficients",                 getConcentrationControlCoefficientIds() );
-    oResult.Add("Unscaled Concentration Control Coefficients",        getUnscaledConcentrationControlCoefficientIds());
-    oResult.Add("Elasticity Coefficients",                             getElasticityCoefficientIds() );
+    oResult.Add("Floating Species (amount)",                        getFloatingSpeciesAmountIds() );
+    oResult.Add("Boundary Species (amount)",                        getBoundarySpeciesAmountIds() );
+    oResult.Add("Global Parameters",                                getParameterIds() );
+    oResult.Add("Volumes",                                          getCompartmentIds() );
+    oResult.Add("Fluxes",                                           getReactionIds() );
+    oResult.Add("Flux Control Coefficients",                        getFluxControlCoefficientIds() );
+    oResult.Add("Concentration Control Coefficients",               getConcentrationControlCoefficientIds() );
+    oResult.Add("Unscaled Concentration Control Coefficients",      getUnscaledConcentrationControlCoefficientIds());
+    oResult.Add("Elasticity Coefficients",                          getElasticityCoefficientIds() );
     oResult.Add("Unscaled Elasticity Coefficients",                 getUnscaledElasticityCoefficientIds() );
-    oResult.Add("Eigenvalues",                                         getEigenvalueIds() );
+    oResult.Add("Eigenvalues",                                      getEigenvalueIds() );
 
     return oResult;
 }
@@ -2153,9 +2176,9 @@ int RoadRunner::createDefaultSteadyStateSelectionList()
 {
     mSteadyStateSelection.clear();
     // default should be species only ...
-    StringList floatingSpecies = getFloatingSpeciesIds();
-    mSteadyStateSelection.resize(floatingSpecies.Count());
-    for (int i = 0; i < floatingSpecies.Count(); i++)
+    vector<string> floatingSpecies = getFloatingSpeciesIds();
+    mSteadyStateSelection.resize(floatingSpecies.size());
+    for (int i = 0; i < floatingSpecies.size(); i++)
     {
         SelectionRecord aRec;
         aRec.selectionType = SelectionType::clFloatingSpecies;
@@ -2167,7 +2190,7 @@ int RoadRunner::createDefaultSteadyStateSelectionList()
 }
 
 // Help("Returns the selection list as returned by computeSteadyStateValues().")
-StringList RoadRunner::getSteadyStateSelectionList()
+vector<string> RoadRunner::getSteadyStateSelectionList()
 {
     if (!mModel)
     {
@@ -2179,78 +2202,78 @@ StringList RoadRunner::getSteadyStateSelectionList()
           createDefaultSteadyStateSelectionList();
     }
 
-    StringList oFloating     = mModel->getFloatingSpeciesConcentrationNames();
-    StringList oBoundary     = mModel->getBoundarySpeciesNames();
-    StringList oFluxes       = mModel->getReactionNames();
-    StringList oVolumes      = mModel->getCompartmentNames();
-    StringList oRates        = getRateOfChangeIds();
-    StringList oParameters   = getParameterIds();
+    vector<string> oFloating     = getFloatingSpeciesIds();
+    vector<string> oBoundary     = getBoundarySpeciesIds();
+    vector<string> oFluxes       = getReactionIds();
+    vector<string> oVolumes      = getCompartmentIds();
+    vector<string> oRates        = getRateOfChangeIds();
+    vector<string> oParameters   = getParameterIds();
 
-    StringList result;
+    vector<string> result;
     for(int i = 0; i < mSteadyStateSelection.size(); i++)
     {
         SelectionRecord record = mSteadyStateSelection[i];
         switch (record.selectionType)
         {
             case SelectionType::clTime:
-                result.add("time");
+                result.push_back("time");
             break;
             case SelectionType::clBoundaryAmount:
-                result.add(format("[{0}]", oBoundary[record.index]));
+                result.push_back(format("[{0}]", oBoundary[record.index]));
             break;
             case SelectionType::clBoundarySpecies:
-                result.add(oBoundary[record.index]);
+                result.push_back(oBoundary[record.index]);
             break;
             case SelectionType::clFloatingAmount:
-                result.add("[" + (string)oFloating[record.index] + "]");
+                result.push_back("[" + (string)oFloating[record.index] + "]");
             break;
             case SelectionType::clFloatingSpecies:
-                result.add(oFloating[record.index]);
+                result.push_back(oFloating[record.index]);
             break;
             case SelectionType::clVolume:
-                result.add(oVolumes[record.index]);
+                result.push_back(oVolumes[record.index]);
             break;
             case SelectionType::clFlux:
-                result.add(oFluxes[record.index]);
+                result.push_back(oFluxes[record.index]);
             break;
             case SelectionType::clRateOfChange:
-                result.add(oRates[record.index]);
+                result.push_back(oRates[record.index]);
             break;
             case SelectionType::clParameter:
-                result.add(oParameters[record.index]);
+                result.push_back(oParameters[record.index]);
             break;
             case SelectionType::clEigenValue:
-                result.add("eigen_" + record.p1);
+                result.push_back("eigen_" + record.p1);
             break;
             case SelectionType::clElasticity:
-                result.add("EE:" + record.p1 + "," + record.p2);
+                result.push_back("EE:" + record.p1 + "," + record.p2);
             break;
             case SelectionType::clUnscaledElasticity:
-                result.add("uEE:" + record.p1 + "," + record.p2);
+                result.push_back("uEE:" + record.p1 + "," + record.p2);
             break;
             case SelectionType::clUnknown:
-                result.add(record.p1);
+                result.push_back(record.p1);
                 break;
         }
     }
     return result ;
 }
 
-vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& newSelectionList)
+vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const vector<string>& newSelectionList)
 {
     vector<SelectionRecord> steadyStateSelection;
-    steadyStateSelection.resize(newSelectionList.Count());
-    StringList fs = mModel->getFloatingSpeciesConcentrationNames();
-    StringList bs = mModel->getBoundarySpeciesNames();
-    StringList rs = mModel->getReactionNames();
-    StringList vol = mModel->getCompartmentNames();
-    StringList gp = mModel->getGlobalParameterNames();
+    steadyStateSelection.resize(newSelectionList.size());
+    vector<string> fs = getFloatingSpeciesIds();
+    vector<string> bs = getBoundarySpeciesIds();
+    vector<string> rs = getReactionIds();
+    vector<string> vol = getCompartmentIds();
+    vector<string> gp = getGlobalParameterIds();
 
-    for (int i = 0; i < newSelectionList.Count(); i++)
+    for (int i = 0; i < newSelectionList.size(); i++)
     {
         bool set = false;
         // Check for species
-        for (int j = 0; j < fs.Count(); j++)
+        for (int j = 0; j < fs.size(); j++)
         {
             if ((string)newSelectionList[i] == (string)fs[j])
             {
@@ -2284,7 +2307,7 @@ vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& ne
         }
 
         // Check fgr boundary species
-        for (int j = 0; j < bs.Count(); j++)
+        for (int j = 0; j < bs.size(); j++)
         {
             if ((string)newSelectionList[i] == (string)bs[j])
             {
@@ -2313,7 +2336,7 @@ vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& ne
             set = true;
         }
 
-        for (int j = 0; j < rs.Count(); j++)
+        for (int j = 0; j < rs.size(); j++)
         {
             // Check for reaction rate
             if ((string)newSelectionList[i] == (string)rs[j])
@@ -2325,7 +2348,7 @@ vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& ne
             }
         }
 
-        for (int j = 0; j < vol.Count(); j++)
+        for (int j = 0; j < vol.size(); j++)
         {
             // Check for volume
             if ((string)newSelectionList[i] == (string)vol[j])
@@ -2337,7 +2360,7 @@ vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& ne
             }
         }
 
-        for (int j = 0; j < gp.Count(); j++)
+        for (int j = 0; j < gp.size(); j++)
         {
             // Check for volume
             if ((string)newSelectionList[i] == (string)gp[j])
@@ -2362,7 +2385,7 @@ vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const StringList& ne
 }
 
 // Help("sets the selection list as returned by computeSteadyStateValues().")
-void RoadRunner::setSteadyStateSelectionList(const StringList& newSelectionList)
+void RoadRunner::setSteadyStateSelectionList(const vector<string>& newSelectionList)
 {
     if (!mModel)
     {
@@ -2467,11 +2490,8 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
         {
             string sSpecies = sId.substr(tmp.size());
             int nIndex;
-            if (mModel->getFloatingSpeciesConcentrations().find(sSpecies, nIndex))
+            if ((nIndex = mModel->getFloatingSpeciesIndex(sSpecies)) >= 0)
             {
-                //SBWComplex[] oComplex = SBW_CLAPACK.getEigenValues(getReducedJacobian());
-                //LibLA LA;
-
                 DoubleMatrix mat = getReducedJacobian();
                 vector<Complex> oComplex = ls::getEigenValues(mat);
 
@@ -2510,26 +2530,26 @@ string RoadRunner::writeSBML()
     ModelState state(*mModel);
 //    var state = new ModelState(model);
 
-    StringList array = getFloatingSpeciesIds();
-    for (int i = 0; i < array.Count(); i++)
+    vector<string> array = getFloatingSpeciesIds();
+    for (int i = 0; i < array.size(); i++)
     {
         NOM.setValue((string)array[i], state.mFloatingSpeciesConcentrations[i]);
     }
 
     array = getBoundarySpeciesIds();
-    for (int i = 0; i < array.Count(); i++)
+    for (int i = 0; i < array.size(); i++)
     {
         NOM.setValue((string)array[i], state.mBoundarySpeciesConcentrations[i]);
     }
 
     array = getCompartmentIds();
-    for (int i = 0; i < array.Count(); i++)
+    for (int i = 0; i < array.size(); i++)
     {
         NOM.setValue((string)array[i], state.mCompartmentVolumes[i]);
     }
 
     array = getGlobalParameterIds();
-    for (int i = 0; i < min((int) array.Count(), (int) state.mGlobalParameters.size()); i++)
+    for (int i = 0; i < min((int) array.size(), (int) state.mGlobalParameters.size()); i++)
     {
         NOM.setValue((string)array[i], state.mGlobalParameters[i]);
     }
@@ -2549,6 +2569,7 @@ int RoadRunner::getNumberOfLocalParameters(const int& reactionId)
 
 // Returns the value of a global parameter by its index
 // ***** SHOULD WE SUPPORT LOCAL PARAMETERS? ******** (Sept 2, 2012, HMS
+// ***** We will soon...., AS
 double RoadRunner::getLocalParameterByIndex    (const int& reactionId, const int& index)
 {
     if(!mModel)
@@ -2590,8 +2611,8 @@ double RoadRunner::getReactionRate(const int& index)
     if ((index >= 0) && (index < mModel->getNumReactions()))
     {
         mModel->convertToConcentrations();
-        mModel->computeReactionRates(0.0, mModel->getModelData().y);
-        return mModel->getModelData().rates[index];
+        mModel->computeReactionRates(0.0, mModel->getModelData().floatingSpeciesConcentrations);
+        return mModel->getModelData().reactionRates[index];
     }
     else
     {
@@ -2599,7 +2620,7 @@ double RoadRunner::getReactionRate(const int& index)
     }
 }
 
-// Help("Returns the rate of changes of a species by its index")
+
 double RoadRunner::getRateOfChange(const int& index)
 {
     if (!mModel)
@@ -2607,10 +2628,10 @@ double RoadRunner::getRateOfChange(const int& index)
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < mModel->getNumTotalVariables()))
+    if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
     {
         mModel->computeAllRatesOfChange();
-        return mModel->getModelData().dydt[index];
+        return mModel->getModelData().floatingSpeciesConcentrationRates[index];
     }
 
     throw CoreException(format("Index in getRateOfChange out of range: [{0}]", index));
@@ -2632,7 +2653,7 @@ vector<double> RoadRunner::getReactionRatesEx(const vector<double>& values)
     }
 
     mModel->computeReactionRates(0.0, createVector(values));
-    return createVector(mModel->getModelData().rates, mModel->getModelData().ratesSize);
+    return createVector(mModel->getModelData().reactionRates, mModel->getModelData().numReactions);
 }
 
 // Help("Get the number of compartments")
@@ -2645,7 +2666,7 @@ int RoadRunner::getNumberOfCompartments()
     return mModel->getNumCompartments();
 }
 
-// Help("Sets the value of a compartment by its index")
+
 void RoadRunner::setCompartmentByIndex(const int& index, const double& value)
 {
     if (!mModel)
@@ -2655,7 +2676,7 @@ void RoadRunner::setCompartmentByIndex(const int& index, const double& value)
 
     if ((index >= 0) && (index < mModel->getNumCompartments()))
     {
-        mModel->getModelData().c[index] = value;
+        mModel->getModelData().compartmentVolumes[index] = value;
     }
     else
     {
@@ -2663,7 +2684,6 @@ void RoadRunner::setCompartmentByIndex(const int& index, const double& value)
     }
 }
 
-// Help("Returns the value of a compartment by its index")
 double RoadRunner::getCompartmentByIndex(const int& index)
 {
     if (!mModel)
@@ -2673,13 +2693,12 @@ double RoadRunner::getCompartmentByIndex(const int& index)
 
     if ((index >= 0) && (index < mModel->getNumCompartments()))
     {
-        return mModel->getModelData().c[index];
+        return mModel->getModelData().compartmentVolumes[index];
     }
 
     throw CoreException(format("Index in getCompartmentByIndex out of range: [{0}]", index));
 }
 
-// Help("Get the number of boundary species")
 int RoadRunner::getNumberOfBoundarySpecies()
 {
     if (!mModel)
@@ -2699,7 +2718,7 @@ void RoadRunner::setBoundarySpeciesByIndex(const int& index, const double& value
 
     if ((index >= 0) && (index < mModel->getNumBoundarySpecies()))
     {
-        mModel->getModelData().bc[index] = value;
+        mModel->getModelData().boundarySpeciesConcentrations[index] = value;
     }
     else
     {
@@ -2716,7 +2735,7 @@ double RoadRunner::getBoundarySpeciesByIndex(const int& index)
     }
     if ((index >= 0) && (index < mModel->getNumBoundarySpecies()))
     {
-        return mModel->getModelData().bc[index];
+        return mModel->getModelData().boundarySpeciesConcentrations[index];
     }
     throw Exception(format("Index in getBoundarySpeciesByIndex out of range: [{0}]", index));
 }
@@ -2730,36 +2749,27 @@ vector<double> RoadRunner::getBoundarySpeciesConcentrations()
     }
 
     mModel->convertToConcentrations();
-    return createVector(mModel->getModelData().bc, mModel->getModelData().bcSize);
+    return createVector(mModel->getModelData().boundarySpeciesConcentrations, mModel->getModelData().numBoundarySpecies);
 }
 
-// Help("Set the concentrations for all boundary species in the model")
-//        void RoadRunner::setBoundarySpeciesConcentrations(double[] values)
-//        {
-//            if (!mModel) throw CoreException(gEmptyModelMessage);
-//
-//            mModel->getModelData().bc = values;
-//        }
+
 
 // Help("Gets the list of boundary species names")
-StringList RoadRunner::getBoundarySpeciesIds()
+vector<string> RoadRunner::getBoundarySpeciesIds()
 {
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-    return mModel->getBoundarySpeciesNames();
+    return createModelStringList(mModel, &ExecutableModel::getNumBoundarySpecies,
+            &ExecutableModel::getBoundarySpeciesName);
 }
 
 // Help("Gets the list of boundary species amount names")
-StringList RoadRunner::getBoundarySpeciesAmountIds()
+vector<string> RoadRunner::getBoundarySpeciesAmountIds()
 {
-    StringList result;// = new ArrayList();
-    StringList list = getBoundarySpeciesIds();
+    vector<string> result;// = new ArrayList();
+    vector<string> list = getBoundarySpeciesIds();
 //    foreach (string s in getBoundarySpeciesIds()) oResult.add("[" + s + "]");
-    for(int item = 0; item < list.Count(); item++)// (object item in floatingSpeciesNames)
+    for(int item = 0; item < list.size(); item++)// (object item in floatingSpeciesNames)
     {
-        result.add(format("[{0}]", list[item]));
+        result.push_back(format("[{0}]", list[item]));
     }
 
     return result;
@@ -2772,7 +2782,7 @@ int RoadRunner::getNumberOfFloatingSpecies()
     {
         throw CoreException(gEmptyModelMessage);
     }
-    return mModel->getNumTotalVariables();
+    return mModel->getNumFloatingSpecies();
 }
 
 double RoadRunner::getFloatingSpeciesInitialConcentrationByIndex(const int& index)
@@ -2782,9 +2792,9 @@ double RoadRunner::getFloatingSpeciesInitialConcentrationByIndex(const int& inde
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < mModel->getNumTotalVariables()))
+    if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
     {
-        return mModel->getModelData().init_y[index];
+        return mModel->getModelData().floatingSpeciesInitConcentrations[index];
     }
     else
     {
@@ -2800,9 +2810,9 @@ void RoadRunner::setFloatingSpeciesInitialConcentrationByIndex(const int& index,
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < mModel->getNumTotalVariables()))
+    if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
     {
-        mModel->getModelData().init_y[index] = value;
+        mModel->getModelData().floatingSpeciesInitConcentrations[index] = value;
         reset();
     }
     else
@@ -2819,7 +2829,7 @@ void RoadRunner::setFloatingSpeciesByIndex(const int& index, const double& value
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < mModel->getNumTotalVariables()))
+    if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
     {
         mModel->setConcentration(index, value); // This updates the amount vector aswell
         if (!mConservedTotalChanged)
@@ -2841,7 +2851,7 @@ double RoadRunner::getFloatingSpeciesByIndex(const int& index)
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < mModel->getNumTotalVariables()))
+    if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
     {
         return mModel->getConcentration(index);
     }
@@ -2857,7 +2867,7 @@ vector<double> RoadRunner::getFloatingSpeciesConcentrations()
     }
 
     mModel->convertToConcentrations();
-    return createVector(mModel->getModelData().y, mModel->getModelData().ySize);
+    return createVector(mModel->getModelData().floatingSpeciesConcentrations, mModel->getModelData().numFloatingSpecies);
 }
 
 // Help("returns an array of floating species initial conditions")
@@ -2868,7 +2878,7 @@ vector<double> RoadRunner::getFloatingSpeciesInitialConcentrations()
         throw CoreException(gEmptyModelMessage);
     }
     vector<double> initYs;
-    copyCArrayToStdVector(mModel->getModelData().init_y, initYs, mModel->getModelData().init_ySize);
+    copyCArrayToStdVector(mModel->getModelData().floatingSpeciesInitConcentrations, initYs, mModel->getModelData().numFloatingSpecies);
     return initYs;
 }
 
@@ -2883,13 +2893,13 @@ void RoadRunner::setFloatingSpeciesInitialConcentrations(const vector<double>& v
     for (int i = 0; i < values.size(); i++)
     {
         mModel->setConcentration(i, values[i]);
-        if (mModel->getModelData().ySize > i)
+        if (mModel->getModelData().numFloatingSpecies > i)
         {
-            mModel->getModelData().init_y[i] = values[i];
+            mModel->getModelData().floatingSpeciesInitConcentrations[i] = values[i];
         }
     }
 
-//    mModel->getModelData().init_y = values;
+//    mModel->getModelData().floatingSpeciesInitConcentrations = values;
     reset();
 }
 
@@ -2904,9 +2914,9 @@ void RoadRunner::setFloatingSpeciesConcentrations(const vector<double>& values)
     for (int i = 0; i < values.size(); i++)
     {
         mModel->setConcentration(i, values[i]);
-        if (mModel->getModelData().ySize > i)
+        if (mModel->getModelData().numFloatingSpecies > i)
         {
-            mModel->getModelData().y[i] = values[i];
+            mModel->getModelData().floatingSpeciesConcentrations[i] = values[i];
         }
     }
     mModel->convertToAmounts();
@@ -2924,9 +2934,9 @@ void RoadRunner::setBoundarySpeciesConcentrations(const vector<double>& values)
     for (int i = 0; i < values.size(); i++)
     {
         mModel->setConcentration(i, values[i]);
-        if ((mModel->getModelData().bcSize) > i)
+        if ((mModel->getModelData().numBoundarySpecies) > i)
         {
-            mModel->getModelData().bc[i] = values[i];
+            mModel->getModelData().boundarySpeciesConcentrations[i] = values[i];
         }
     }
     mModel->convertToAmounts();
@@ -2934,41 +2944,38 @@ void RoadRunner::setBoundarySpeciesConcentrations(const vector<double>& values)
 
 // This is a Level 1 method !
 // Help("Returns a list of floating species names")
-StringList RoadRunner::getFloatingSpeciesIds()
+vector<string> RoadRunner::getFloatingSpeciesIds()
 {
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-    return mModel->getFloatingSpeciesConcentrationNames(); // Reordered list
+    return createModelStringList(mModel, &ExecutableModel::getNumFloatingSpecies,
+            &ExecutableModel::getFloatingSpeciesName);
 }
 
 // Help("Returns a list of floating species initial condition names")
-StringList RoadRunner::getFloatingSpeciesInitialConditionIds()
+vector<string> RoadRunner::getFloatingSpeciesInitialConditionIds()
 {
     if (!mModel)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    StringList floatingSpeciesNames = mModel->getFloatingSpeciesConcentrationNames();
-    StringList result;// = new ArrayList();
-    for(int item = 0; item < floatingSpeciesNames.Count(); item++)// (object item in floatingSpeciesNames)
+    vector<string> floatingSpeciesNames = getFloatingSpeciesIds();
+    vector<string> result;// = new ArrayList();
+    for(int item = 0; item < floatingSpeciesNames.size(); item++)// (object item in floatingSpeciesNames)
     {
-        result.add(format("init({0})", floatingSpeciesNames[item]));
+        result.push_back(format("init({0})", floatingSpeciesNames[item]));
     }
     return result;
 }
 
 // Help("Returns the list of floating species amount names")
-StringList RoadRunner::getFloatingSpeciesAmountIds()
+vector<string> RoadRunner::getFloatingSpeciesAmountIds()
 {
-    StringList oResult;
-    StringList list = getFloatingSpeciesIds();
+    vector<string> oResult;
+    vector<string> list = getFloatingSpeciesIds();
 
-    for(int i = 0; i < list.Count(); i++)
+    for(int i = 0; i < list.size(); i++)
     {
-        oResult.add(format("[{0}]", list[i]));
+        oResult.push_back(format("[{0}]", list[i]));
     }
     return oResult;
 }
@@ -2980,7 +2987,7 @@ int RoadRunner::getNumberOfGlobalParameters()
     {
         throw CoreException(gEmptyModelMessage);
     }
-    return mModel->getGlobalParameterNames().Count();
+    return getGlobalParameterIds().size();
 }
 
 // Help("Sets the value of a global parameter by its index")
@@ -2991,22 +2998,11 @@ void RoadRunner::setGlobalParameterByIndex(const int& index, const double& value
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < mModel->getNumGlobalParameters() + mModel->getModelData().ctSize))
+    mModel->setGlobalParameterValue(index, value);
+
+    if ((mModel->getNumGlobalParameters()) && (index < mModel->getNumGlobalParameters() + mModel->getModelData().numDependentSpecies))
     {
-        if (index >= mModel->getNumGlobalParameters())
-        {
-            mModel->getModelData().ct[index - mModel->getNumGlobalParameters()] = value;
-            mModel->updateDependentSpeciesValues(mModel->getModelData().y);
-            mConservedTotalChanged = true;
-        }
-        else
-        {
-            mModel->getModelData().gp[index] = value;
-        }
-    }
-    else
-    {
-        throw CoreException(format("Index in getNumGlobalParameters out of range: [{0}]", index));
+        mConservedTotalChanged = true;
     }
 }
 
@@ -3018,20 +3014,20 @@ double RoadRunner::getGlobalParameterByIndex(const int& index)
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < (mModel->getNumGlobalParameters() + mModel->getModelData().ctSize)))
+    if ((index >= 0) && (index < (mModel->getNumGlobalParameters() + mModel->getModelData().numDependentSpecies)))
     {
-        int arraySize = mModel->getModelData().gpSize + mModel->getModelData().ctSize;
+        int arraySize = mModel->getModelData().numGlobalParameters + mModel->getModelData().numDependentSpecies;
         double* data = new double[arraySize];
 
-        for(int i = 0; i < mModel->getModelData().gpSize; i++)
+        for(int i = 0; i < mModel->getModelData().numGlobalParameters; i++)
         {
-            data[i] = mModel->getModelData().gp[i];
+            data[i] = mModel->getModelData().globalParameters[i];
         }
 
         int tempIndex = 0;
-        for(int i = mModel->getModelData().gpSize; i < arraySize; i++)
+        for(int i = mModel->getModelData().numGlobalParameters; i < arraySize; i++)
         {
-            data[i] = mModel->getModelData().ct[tempIndex++];
+            data[i] = mModel->getModelData().dependentSpeciesConservedSums[tempIndex++];
         }
 
         double result = data[index];
@@ -3042,27 +3038,6 @@ double RoadRunner::getGlobalParameterByIndex(const int& index)
     throw CoreException(format("Index in getNumGlobalParameters out of range: [{0}]", index));
 }
 
-// Help("Set the values for all global parameters in the model")
-//        void RoadRunner::setGlobalParameterValues(double[] values)
-//        {
-//            if (!mModel) throw CoreException(gEmptyModelMessage);
-//            if (values.Length == mModel->getModelData().gp.Length)
-//                mModel->getModelData().gp = values;
-//            else
-//            {
-//                for (int i = 0; i < mModel->getModelData().gp.Length; i++)
-//                {
-//                    mModel->getModelData().gp[i] = values[i];
-//                }
-//                for (int i = 0; i < mModel->getModelData().ct.Length; i++)
-//                {
-//                    mModel->getModelData().gp[i] = values[i + mModel->getModelData().gp.Length];
-//                    mConservedTotalChanged = true;
-//                }
-//                mModel->getModelData().updateDependentSpeciesValues(mModel->getModelData().y);
-//            }
-//        }
-
 // Help("Get the values for all global parameters in the model")
 vector<double> RoadRunner::getGlobalParameterValues()
 {
@@ -3071,30 +3046,27 @@ vector<double> RoadRunner::getGlobalParameterValues()
         throw CoreException(gEmptyModelMessage);
     }
 
-    if (mModel->getModelData().ctSize > 0)
+    if (mModel->getModelData().numDependentSpecies > 0)
     {
         vector<double> result; //= new double[mModel->getModelData().gp.Length + mModel->getModelData().ct.Length];
-        result.resize(mModel->getModelData().gpSize + mModel->getModelData().ctSize);
+        result.resize(mModel->getModelData().numGlobalParameters + mModel->getModelData().numDependentSpecies);
 
         //mModel->getModelData().gp.CopyTo(result, 0);
-        copyValues(result,mModel->getModelData().gp, mModel->getModelData().gpSize, 0);
+        copyValues(result,mModel->getModelData().globalParameters, mModel->getModelData().numGlobalParameters, 0);
 
         //mModel->getModelData().ct.CopyTo(result, mModel->getModelData().gp.Length);
-        copyValues(result, mModel->getModelData().ct, mModel->getModelData().ctSize, mModel->getModelData().gpSize);
+        copyValues(result, mModel->getModelData().dependentSpeciesConservedSums, mModel->getModelData().numDependentSpecies, mModel->getModelData().numGlobalParameters);
         return result;
     }
 
-    return createVector(mModel->getModelData().gp, mModel->getModelData().gpSize);
+    return createVector(mModel->getModelData().globalParameters, mModel->getModelData().numGlobalParameters);
 }
 
 // Help("Gets the list of parameter names")
-StringList RoadRunner::getGlobalParameterIds()
+vector<string> RoadRunner::getGlobalParameterIds()
 {
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-    return mModel->getGlobalParameterNames();
+    return createModelStringList(mModel, &ExecutableModel::getNumGlobalParameters,
+            &ExecutableModel::getGlobalParameterName);
 }
 
 // Help("Returns a description of the module")
@@ -3121,14 +3093,14 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
         int parameterIndex;
 
         mModel->convertToConcentrations();
-        mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
+        mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().floatingSpeciesConcentrations);
 
         // Check the variable name
-        if (mModel->getReactions().find(variableName, variableIndex))
+        if ((variableIndex = mModel->getReactionIndex(variableName)) >= 0)
         {
             variableType = TVariableType::vtFlux;
         }
-        else if (mModel->getFloatingSpeciesConcentrations().find(variableName, variableIndex))
+        else if ((variableIndex = mModel->getFloatingSpeciesIndex(variableName)) >= 0)
         {
             variableType = TVariableType::vtSpecies;
         }
@@ -3138,20 +3110,20 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
         }
 
         // Check for the parameter name
-        if (mModel->getGlobalParameters().find(parameterName, parameterIndex))
+        if ((parameterIndex = mModel->getGlobalParameterIndex(parameterName)) >= 0)
         {
             parameterType = TParameterType::ptGlobalParameter;
-            originalParameterValue = mModel->getModelData().gp[parameterIndex];
+            originalParameterValue = mModel->getModelData().globalParameters[parameterIndex];
         }
-        else if (mModel->getBoundarySpecies().find(parameterName, parameterIndex))
+        else if ((parameterIndex = mModel->getBoundarySpeciesIndex(parameterName)) >= 0)
         {
             parameterType = TParameterType::ptBoundaryParameter;
-            originalParameterValue = mModel->getModelData().bc[parameterIndex];
+            originalParameterValue = mModel->getModelData().boundarySpeciesConcentrations[parameterIndex];
         }
         else if (mModel->getConservations().find(parameterName, parameterIndex))
         {
             parameterType = TParameterType::ptConservationParameter;
-            originalParameterValue = mModel->getModelData().ct[parameterIndex];
+            originalParameterValue = mModel->getModelData().dependentSpeciesConservedSums[parameterIndex];
         }
         else
         {
@@ -3173,22 +3145,26 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
 
             setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
             steadyState();
-            mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
+            mModel->computeReactionRates(mModel->getTime(),
+                    mModel->getModelData().floatingSpeciesConcentrations);
             double fi = getVariableValue(variableType, variableIndex);
 
             setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
             steadyState();
-            mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
+            mModel->computeReactionRates(mModel->getTime(),
+                    mModel->getModelData().floatingSpeciesConcentrations);
             double fi2 = getVariableValue(variableType, variableIndex);
 
             setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
             steadyState();
-            mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
+            mModel->computeReactionRates(mModel->getTime(),
+                    mModel->getModelData().floatingSpeciesConcentrations);
             double fd = getVariableValue(variableType, variableIndex);
 
             setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
             steadyState();
-            mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
+            mModel->computeReactionRates(mModel->getTime(),
+                    mModel->getModelData().floatingSpeciesConcentrations);
             double fd2 = getVariableValue(variableType, variableIndex);
 
             // Use instead the 5th order approximation double unscaledValue = (0.5/hstep)*(fi-fd);
@@ -3230,11 +3206,11 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
     }
 
     // Check the variable name
-    if (mModel->getReactions().find(variableName, variableIndex))
+    if ((variableIndex = mModel->getReactionIndex(variableName)) >= 0)
     {
         variableType = TVariableType::vtFlux;
     }
-    else if (mModel->getFloatingSpeciesConcentrations().find(variableName, variableIndex))
+    else if ((variableIndex = mModel->getFloatingSpeciesIndex(variableName)) >= 0)
     {
         variableType = TVariableType::vtSpecies;
     }
@@ -3244,11 +3220,11 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
     }
 
     // Check for the parameter name
-    if (mModel->getGlobalParameters().find(parameterName, parameterIndex))
+    if ((parameterIndex = mModel->getGlobalParameterIndex(parameterName)) >= 0)
     {
         parameterType = TParameterType::ptGlobalParameter;
     }
-    else if (mModel->getBoundarySpecies().find(parameterName, parameterIndex))
+    else if ((parameterIndex = mModel->getBoundarySpeciesIndex(parameterName)) >= 0)
     {
         parameterType = TParameterType::ptBoundaryParameter;
     }
@@ -3286,20 +3262,24 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
     mModel->setConcentration(speciesIndex, originalParameterValue + hstep);
     try
     {
-        mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
-        double fi = mModel->getModelData().rates[reactionId];
+        mModel->computeReactionRates(mModel->getTime(),
+                mModel->getModelData().floatingSpeciesConcentrations);
+        double fi = mModel->getModelData().reactionRates[reactionId];
 
         mModel->setConcentration(speciesIndex, originalParameterValue + 2*hstep);
-        mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
-        double fi2 = mModel->getModelData().rates[reactionId];
+        mModel->computeReactionRates(mModel->getTime(),
+                mModel->getModelData().floatingSpeciesConcentrations);
+        double fi2 = mModel->getModelData().reactionRates[reactionId];
 
         mModel->setConcentration(speciesIndex, originalParameterValue - hstep);
-        mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
-        double fd = mModel->getModelData().rates[reactionId];
+        mModel->computeReactionRates(mModel->getTime(),
+                mModel->getModelData().floatingSpeciesConcentrations);
+        double fd = mModel->getModelData().reactionRates[reactionId];
 
         mModel->setConcentration(speciesIndex, originalParameterValue - 2*hstep);
-        mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
-        double fd2 = mModel->getModelData().rates[reactionId];
+        mModel->computeReactionRates(mModel->getTime(),
+                mModel->getModelData().floatingSpeciesConcentrations);
+        double fd2 = mModel->getModelData().reactionRates[reactionId];
 
         // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
         // The following separated lines avoid small amounts of roundoff error
@@ -3331,15 +3311,16 @@ DoubleMatrix RoadRunner::getUnscaledElasticityMatrix()
             throw CoreException(gEmptyModelMessage);
         }
 
-        DoubleMatrix uElastMatrix(mModel->getNumReactions(), mModel->getNumTotalVariables());
+        DoubleMatrix uElastMatrix(mModel->getNumReactions(), mModel->getNumFloatingSpecies());
         mModel->convertToConcentrations();
 
         // Compute reaction velocities at the current operating point
-        mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
+        mModel->computeReactionRates(mModel->getTime(),
+                mModel->getModelData().floatingSpeciesConcentrations);
 
         for (int i = 0; i < mModel->getNumReactions(); i++)
         {
-            for (int j = 0; j < mModel->getNumTotalVariables(); j++)
+            for (int j = 0; j < mModel->getNumFloatingSpecies(); j++)
             {
                 uElastMatrix[i][j] = getUnscaledSpeciesElasticity(i, j);
             }
@@ -3367,9 +3348,9 @@ DoubleMatrix RoadRunner::getScaledReorderedElasticityMatrix()
 
         DoubleMatrix result(uelast.RSize(), uelast.CSize());// = new double[uelast.Length][];
         mModel->convertToConcentrations();
-        mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
+        mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().floatingSpeciesConcentrations);
         vector<double> rates;
-        if(!copyCArrayToStdVector(mModel->getModelData().rates, rates, mModel->getModelData().ratesSize))
+        if(!copyCArrayToStdVector(mModel->getModelData().reactionRates, rates, mModel->getModelData().numReactions))
         {
             throw CoreException("Failed to copy model->rates");
         }
@@ -3377,12 +3358,12 @@ DoubleMatrix RoadRunner::getScaledReorderedElasticityMatrix()
         for (int i = 0; i < uelast.RSize(); i++)
         {
             // Rows are rates
-            if (mModel->getModelData().ratesSize == 0 || rates[i] == 0)
+            if (mModel->getModelData().numReactions == 0 || rates[i] == 0)
             {
                 string name;
-                if(mModelGenerator && mModel->getReactions().size())
+                if(mModelGenerator && mModel->getNumReactions())
                 {
-                    name = mModel->getReactions()[i].name;
+                    name = mModel->getReactionName(i);
                 }
                 else
                 {
@@ -3418,19 +3399,19 @@ double RoadRunner::getScaledFloatingSpeciesElasticity(const string& reactionName
         int reactionIndex = 0;
 
         mModel->convertToConcentrations();
-        mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
+        mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().floatingSpeciesConcentrations);
 
-        if (!mModel->getFloatingSpeciesConcentrations().find(speciesName, speciesIndex))
+        if ((speciesIndex = mModel->getFloatingSpeciesIndex(speciesName)) < 0)
         {
             throw CoreException("Internal Error: unable to locate species name while computing unscaled elasticity");
         }
-        if (!mModel->getReactions().find(reactionName, reactionIndex))
+        if ((reactionIndex = mModel->getReactionIndex(reactionName)) < 0)
         {
             throw CoreException("Internal Error: unable to locate reaction name while computing unscaled elasticity");
         }
 
         return getUnscaledSpeciesElasticity(reactionIndex, speciesIndex)*
-               mModel->getConcentration(speciesIndex)/mModel->getModelData().rates[reactionIndex];
+               mModel->getConcentration(speciesIndex)/mModel->getModelData().reactionRates[reactionIndex];
 
     }
     catch (const Exception& e)
@@ -3439,128 +3420,7 @@ double RoadRunner::getScaledFloatingSpeciesElasticity(const string& reactionName
     }
 }
 
-//        [Ignore]
-//        // Changes a given parameter type by the given increment
-//        void changeParameter(TParameterType parameterType, int reactionIndex, int parameterIndex,
-//                                     double originalValue, double increment)
-//        {
-//            switch (parameterType)
-//            {
-//                case TParameterType::ptLocalParameter:
-//                    mModel->getModelData().lp[reactionIndex][parameterIndex] = originalValue + increment;
-//                    break;
-//                case TParameterType::ptGlobalParameter:
-//                    mModel->getModelData().gp[parameterIndex] = originalValue + increment;
-//                    break;
-//                case TParameterType::ptBoundaryParameter:
-//                    mModel->getModelData().bc[parameterIndex] = originalValue + increment;
-//                    break;
-//                case TParameterType::ptConservationParameter:
-//                    mModel->getModelData().ct[parameterIndex] = originalValue + increment;
-//                    break;
-//            }
-//        }
-//
-//
-//        [Help("Returns the unscaled elasticity for a named reaction with respect to a named parameter (local or global)"
-//            )]
-//        double getUnscaledParameterElasticity(string reactionName, string parameterName)
-//        {
-//            int reactionIndex;
-//            int parameterIndex;
-//            double originalParameterValue;
-//            TParameterType parameterType;
-//
-//            if (!mModel) throw CoreException(gEmptyModelMessage);
-//            mModel->convertToConcentrations();
-//            mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
-//
-//            if (!mModel->getReactions().find(reactionName, out reactionIndex))
-//                throw CoreException(
-//                    "Internal Error: unable to locate reaction name while computing unscaled elasticity");
-//
-//            // Look for the parameter name, check local parameters first, then global
-//            if (mModelGenerator->localParameterList[reactionIndex].find(reactionName, parameterName,
-//                                                                               out parameterIndex))
-//                parameterType = TParameterType::ptLocalParameter;
-//            else if (mModel->getGlobalParameters().find(parameterName, out parameterIndex))
-//                parameterType = TParameterType::ptGlobalParameter;
-//            else if (mModel->getBoundarySpecies().find(parameterName, out parameterIndex))
-//                parameterType = TParameterType::ptBoundaryParameter;
-//            else if (mModel->getConservations().find(parameterName, out parameterIndex))
-//                parameterType = TParameterType::ptConservationParameter;
-//            else
-//                return 0.0;
-//
-//            double f1, f2, fi, fi2, fd, fd2;
-//            originalParameterValue = 0.0;
-//            switch (parameterType)
-//            {
-//                case TParameterType::ptLocalParameter:
-//                    originalParameterValue = mModel->getModelData().lp[reactionIndex][parameterIndex];
-//                    break;
-//                case TParameterType::ptGlobalParameter:
-//                    originalParameterValue = mModel->getModelData().gp[parameterIndex];
-//                    break;
-//                case TParameterType::ptBoundaryParameter:
-//                    originalParameterValue = mModel->getModelData().bc[parameterIndex];
-//                    break;
-//                case TParameterType::ptConservationParameter:
-//                    originalParameterValue = mModel->getModelData().ct[parameterIndex];
-//                    break;
-//            }
-//
-//            double hstep = mDiffStepSize*originalParameterValue;
-//            if (Math.Abs(hstep) < 1E-12)
-//                hstep = mDiffStepSize;
-//
-//            try
-//            {
-//                changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, hstep);
-//                mModel->convertToConcentrations();
-//                mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
-//                fi = mModel->getModelData().rates[reactionIndex];
-//
-//                changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, 2*hstep);
-//                mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
-//                fi2 = mModel->getModelData().rates[reactionIndex];
-//
-//                changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, -hstep);
-//                mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
-//                fd = mModel->getModelData().rates[reactionIndex];
-//
-//                changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, -2*hstep);
-//                mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
-//                fd2 = mModel->getModelData().rates[reactionIndex];
-//
-//                // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
-//                // The following separated lines avoid small amounts of roundoff error
-//                f1 = fd2 + 8*fi;
-//                f2 = -(8*fd + fi2);
-//            }
-//            finally
-//            {
-//                // What ever happens, make sure we restore the species level
-//                switch (parameterType)
-//                {
-//                    case TParameterType::ptLocalParameter:
-//                        mModel->getModelData().lp[reactionIndex][parameterIndex] = originalParameterValue;
-//                        break;
-//                    case TParameterType::ptGlobalParameter:
-//                        mModel->getModelData().gp[parameterIndex] = originalParameterValue;
-//                        break;
-//                    case TParameterType::ptBoundaryParameter:
-//                        mModel->getModelData().bc[parameterIndex] = originalParameterValue;
-//                        break;
-//                    case TParameterType::ptConservationParameter:
-//                        mModel->getModelData().ct[parameterIndex] = originalParameterValue;
-//                        break;
-//                }
-//            }
-//            return 1/(12*hstep)*(f1 + f2);
-//        }
-//
-//
+
 // Use the formula: ucc = -L Jac^-1 Nr
 // [Help("Compute the matrix of unscaled concentration control coefficients")]
 DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
@@ -3623,14 +3483,16 @@ DoubleMatrix RoadRunner::getScaledConcentrationControlCoefficientMatrix()
             if (ucc.size() > 0 )
             {
                 mModel->convertToConcentrations();
-                mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
+                mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().floatingSpeciesConcentrations);
                 for (int i = 0; i < ucc.RSize(); i++)
                 {
                     for (int j = 0; j < ucc.CSize(); j++)
                     {
                         if(mModel->getConcentration(i) != 0.0)
                         {
-                            ucc[i][j] = ucc[i][j]*mModel->getModelData().rates[j]/mModel->getConcentration(i);
+                            ucc[i][j] = ucc[i][j] *
+                                    mModel->getModelData().reactionRates[j] /
+                                    mModel->getConcentration(i);
                         }
                         else
                         {
@@ -3697,14 +3559,14 @@ DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
         if (ufcc.RSize() > 0)
         {
             mModel->convertToConcentrations();
-            mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().y);
+            mModel->computeReactionRates(mModel->getTime(), mModel->getModelData().floatingSpeciesConcentrations);
             for (int i = 0; i < ufcc.RSize(); i++)
             {
                 for (int j = 0; j < ufcc.CSize(); j++)
                 {
-                    if(mModel->getModelData().rates[i] !=0)
+                    if(mModel->getModelData().reactionRates[i] !=0)
                     {
-                        ufcc[i][j] = ufcc[i][j] * mModel->getModelData().rates[j]/mModel->getModelData().rates[i];
+                        ufcc[i][j] = ufcc[i][j] * mModel->getModelData().reactionRates[j]/mModel->getModelData().reactionRates[i];
                     }
                     else
                     {
@@ -3800,9 +3662,9 @@ void RoadRunner::changeInitialConditions(const vector<double>& ic)
     for (int i = 0; i < ic.size(); i++)
     {
         mModel->setConcentration(i, ic[i]);
-        if ((mModel->getModelData().init_ySize) > i)
+        if ((mModel->getModelData().numFloatingSpecies) > i)
         {
-            mModel->getModelData().init_y[i] = ic[i];
+            mModel->getModelData().floatingSpeciesInitConcentrations[i] = ic[i];
         }
     }
     mModel->convertToAmounts();
@@ -3817,10 +3679,10 @@ vector<double> RoadRunner::getReactionRates()
         throw CoreException(gEmptyModelMessage);
     }
     mModel->convertToConcentrations();
-    mModel->computeReactionRates(0.0, mModel->getModelData().y);
+    mModel->computeReactionRates(0.0, mModel->getModelData().floatingSpeciesConcentrations);
 
     vector<double> _rates;
-    copyCArrayToStdVector(mModel->getModelData().rates, _rates, mModel->getModelData().ratesSize);
+    copyCArrayToStdVector(mModel->getModelData().reactionRates, _rates, mModel->getModelData().numReactions);
     return _rates;
 }
 
@@ -3834,20 +3696,17 @@ vector<double> RoadRunner::getRatesOfChange()
 
     mModel->computeAllRatesOfChange();
     vector<double> result;
-    copyCArrayToStdVector(mModel->getModelData().dydt, result, mModel->getModelData().dydtSize);
+    copyCArrayToStdVector(mModel->getModelData().floatingSpeciesConcentrationRates, result,
+            mModel->getModelData().numFloatingSpecies);
 
     return result;
 }
 
 // Help("Returns a list of reaction names")
-StringList RoadRunner::getReactionIds()
+vector<string> RoadRunner::getReactionIds()
 {
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-
-    return mModel->getReactionNames();
+    return createModelStringList(mModel, &ExecutableModel::getNumReactions,
+            &ExecutableModel::getReactionName);
 }
 
 // ---------------------------------------------------------------------
@@ -3864,7 +3723,7 @@ Capability* RoadRunner::getCapability(const string& cap_name)
     return mCapabilities.get(cap_name);
 }
 
-StringList RoadRunner::getListOfCapabilities()
+vector<string> RoadRunner::getListOfCapabilities()
 {
     return mCapabilities.asStringList();
 }
@@ -3884,7 +3743,7 @@ bool RoadRunner::addCapabilities(Capabilities& caps)
     return true;
 }
 
-StringList RoadRunner::getListOfParameters(const string& cap)
+vector<string> RoadRunner::getListOfParameters(const string& cap)
 {
     Capability *aCap = mCapabilities.get(cap);
     if(!aCap)
@@ -3893,11 +3752,13 @@ StringList RoadRunner::getListOfParameters(const string& cap)
         msg<<"No such capability: "<<cap;
         throw(CoreException(msg.str()));
     }
+
     Parameters* paras = aCap->getParameters();
     if(paras)
     {
         return paras->asStringList();
     }
+    return vector<string>();
 }
 
 void RoadRunner::setTolerances(const double& aTol, const double& rTol)
@@ -3956,25 +3817,25 @@ bool RoadRunner::setValue(const string& sId, const double& dValue)
     }
 
     int nIndex = -1;
-    if (mModel->getGlobalParameters().find(sId, nIndex))
+    if ((nIndex = mModel->getGlobalParameterIndex(sId)) >= 0)
     {
-        mModel->getModelData().gp[nIndex] = dValue;
+        mModel->getModelData().globalParameters[nIndex] = dValue;
         return true;
     }
 
-    if (mModel->getBoundarySpecies().find(sId, nIndex))
+    if ((nIndex = mModel->getBoundarySpeciesIndex(sId)) >= 0)
     {
-        mModel->getModelData().bc[nIndex] = dValue;
+        mModel->getModelData().boundarySpeciesConcentrations[nIndex] = dValue;
         return true;
     }
 
-    if (mModel->getCompartments().find(sId, nIndex))
+    if ((nIndex = mModel->getCompartmentIndex(sId)) >= 0)
     {
-        mModel->getModelData().c[nIndex] = dValue;
+        mModel->getModelData().compartmentVolumes[nIndex] = dValue;
         return true;
     }
 
-    if (mModel->getFloatingSpeciesConcentrations().find(sId, nIndex))
+    if ((nIndex = mModel->getFloatingSpeciesIndex(sId)) >= 0)
     {
         mModel->setConcentration(nIndex, dValue);
         mModel->convertToAmounts();
@@ -3987,8 +3848,8 @@ bool RoadRunner::setValue(const string& sId, const double& dValue)
 
     if (mModel->getConservations().find(sId, nIndex))
     {
-        mModel->getModelData().ct[nIndex] = dValue;
-        mModel->updateDependentSpeciesValues(mModel->getModelData().y);
+        mModel->getModelData().dependentSpeciesConservedSums[nIndex] = dValue;
+        mModel->updateDependentSpeciesValues(mModel->getModelData().floatingSpeciesConcentrations);
         mConservedTotalChanged = true;
         return true;
     }
@@ -3999,7 +3860,7 @@ bool RoadRunner::setValue(const string& sId, const double& dValue)
     if (initialConditions.Contains(sId))
     {
         int index = initialConditions.indexOf(sId);
-        mModel->getModelData().init_y[index] = dValue;
+        mModel->getModelData().floatingSpeciesInitConcentrations[index] = dValue;
         reset();
         return true;
     }
@@ -4015,47 +3876,47 @@ double RoadRunner::getValue(const string& sId)
         throw CoreException(gEmptyModelMessage);
 
     int nIndex = 0;
-    if (mModel->getGlobalParameters().find(sId, nIndex))
+    if (( nIndex = mModel->getGlobalParameterIndex(sId)) >= 0)
     {
-        return mModel->getModelData().gp[nIndex];
+        return mModel->getModelData().globalParameters[nIndex];
     }
-    if (mModel->getBoundarySpecies().find(sId, nIndex))
+    if ((nIndex = mModel->getBoundarySpeciesIndex(sId)) >= 0)
     {
-        return mModel->getModelData().bc[nIndex];
-    }
-
-    if (mModel->getFloatingSpeciesConcentrations().find(sId, nIndex))
-    {
-        return mModel->getModelData().y[nIndex];
+        return mModel->getModelData().boundarySpeciesConcentrations[nIndex];
     }
 
-    if (mModel->getFloatingSpeciesConcentrations().find(sId.substr(0, sId.size() - 1), nIndex))
+    if ((nIndex = mModel->getFloatingSpeciesIndex(sId)) >= 0)
+    {
+        return mModel->getModelData().floatingSpeciesConcentrations[nIndex];
+    }
+
+    if ((nIndex = mModel->getFloatingSpeciesIndex(sId.substr(0, sId.size() - 1))) >= 0)
     {
         mModel->computeAllRatesOfChange();
 
         //fs[j] + "'" will be interpreted as rate of change
-        return mModel->getModelData().dydt[nIndex];
+        return mModel->getModelData().floatingSpeciesConcentrationRates[nIndex];
     }
 
-    if (mModel->getCompartments().find(sId, nIndex))
+    if ((nIndex = mModel->getCompartmentIndex(sId)) >= 0)
     {
-        return mModel->getModelData().c[nIndex];
+        return mModel->getModelData().compartmentVolumes[nIndex];
     }
-    if (mModel->getReactions().find(sId, nIndex))
+    if ((nIndex = mModel->getReactionIndex(sId)) >= 0)
     {
-        return mModel->getModelData().rates[nIndex];
+        return mModel->getModelData().reactionRates[nIndex];
     }
 
     if (mModel->getConservations().find(sId, nIndex))
     {
-        return mModel->getModelData().ct[nIndex];
+        return mModel->getModelData().dependentSpeciesConservedSums[nIndex];
     }
 
     StringList initialConditions = getFloatingSpeciesInitialConditionIds();
     if (initialConditions.Contains(sId))
     {
         int index = initialConditions.indexOf(sId);
-        return mModel->getModelData().init_y[index];
+        return mModel->getModelData().floatingSpeciesInitConcentrations[index];
     }
 
     string tmp("EE:");
@@ -4080,8 +3941,8 @@ double RoadRunner::getValue(const string& sId)
     if (sId.compare(0, tmp.size(), tmp) == 0)
     {
         string species = sId.substr(tmp.size());
-        int index;
-        mModel->getFloatingSpeciesConcentrations().find(species, index);
+        int index = mModel->getFloatingSpeciesIndex(species);
+
 
         //DoubleMatrix mat = getReducedJacobian();
         DoubleMatrix mat;
@@ -4132,7 +3993,7 @@ NewArrayList RoadRunner::getAvailableTimeCourseSymbols()
     oResult.Add("Global Parameters",                getParameterIds() );
     oResult.Add("Fluxes",                           getReactionIds() );
     oResult.Add("Rates of Change",                  getRateOfChangeIds() );
-    oResult.Add("Volumes",                          mModel->getCompartmentNames() );
+    oResult.Add("Volumes",                          getCompartmentIds() );
     oResult.Add("Elasticity Coefficients",          getElasticityCoefficientIds() );
     oResult.Add("Unscaled Elasticity Coefficients", getUnscaledElasticityCoefficientIds() );
     oResult.Add("Eigenvalues",                      getEigenvalueIds() );

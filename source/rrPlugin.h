@@ -10,24 +10,25 @@
 #include "rrCapabilities.h"
 //---------------------------------------------------------------------------
 
-/* Abstract plugin */
+
 namespace rr
 {
-
 //Plugin callback functions
 typedef void    (rrCallConv *PluginWorkStartedCB)(void*);
 typedef void    (rrCallConv *PluginWorkFinishedCB)(void*);
 class RoadRunner;
 
 using std::string;
-class RR_DECLSPEC Plugin : public rrObject
+class RR_DECLSPEC Plugin : public rrObject /* Abstract plugin */
 {
 	protected:
 		string			           	mName;
+		string			           	mLibraryName;
         string			           	mAuthor;
 		string 		                mCategory;
         string			           	mVersion;
         string			           	mCopyright;
+        string						mImplementationLanguage;
         RoadRunner		           *mRR;			//This is a handle to the roadRunner instance, creating the plugin
 
 		//Plugin callbacks..
@@ -35,14 +36,16 @@ class RR_DECLSPEC Plugin : public rrObject
 	    PluginWorkFinishedCB        mWorkFinishedCB;
 		void*						mUserData;
 
-        Capabilities	   			mCapabilities;
+        Capabilities	   			mCapabilities;	//Container for parameter data that can be exchanged to/from the plugin
 
     public:
-	    				           	Plugin(const std::string& name = gEmptyString, const std::string& cat = gNoneString, RoadRunner* aRR = NULL, PluginWorkStartedCB fn1 = NULL, PluginWorkFinishedCB fn2 = NULL);
+	    				           	Plugin(const std::string& name = gEmptyString, const std::string& cat = gNoneString, RoadRunner* aRR = NULL, PluginWorkStartedCB fn1 = NULL, PluginWorkFinishedCB fn2 = NULL, const string& language = "<none>");
         virtual 		           ~Plugin();	//Gotta be virtual!
 
         bool						assignCallbacks(PluginWorkStartedCB fnc1, PluginWorkFinishedCB fnc2 = NULL, void* userData = NULL);
         string			           	getName();
+        void						setLibraryName(const string& libName);
+        string			           	getLibraryName();
         string			           	getAuthor();
         string			           	getCategory();
         string			           	getVersion();
@@ -55,9 +58,9 @@ class RR_DECLSPEC Plugin : public rrObject
         Parameters*					getParameters(const string& nameOfCapability = ""); //Each capability has a set of parameters
 
         BaseParameter*				getParameter(const string& param, const string& capability = gEmptyString);
-        BaseParameter*				getParameter(const string& param, Capability& capability);
-
         bool						setParameter(const string& nameOf, const char* value);
+
+        BaseParameter*				getParameter(const string& param, Capability& capability);
         bool						setParameter(const string& nameOf, const char* value, 	Capability& capability);
 
         //Logging
@@ -69,11 +72,11 @@ class RR_DECLSPEC Plugin : public rrObject
         virtual bool				isWorking();
         virtual bool				resetPlugin();
         virtual bool				setInputData(void* data);
+        virtual string				getStatus();
+
 		//Pure virtuals
+        virtual string				getImplementationLanguage() = 0;
         virtual bool	           	execute(void* userData = NULL) = 0;
-
-
-
 };
 
 

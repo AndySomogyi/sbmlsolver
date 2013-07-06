@@ -14,22 +14,6 @@ list<RoadRunner*>   SimulateThread::mJobs;
 Mutex 				SimulateThread::mJobsMutex;
 Condition			SimulateThread::mJobsCondition;
 
-//SimulateThread::SimulateThread(RoadRunner* rri, bool autoStart)
-//:
-//mSimulateEx(false),
-//RoadRunnerThread()
-//{
-//	if(rri)
-//    {
-//    	addJob(rri);
-//    }
-//
-//	if(autoStart && rri != NULL)
-//    {
-//    	start();
-//    }
-//}
-
 SimulateThread::SimulateThread(RoadRunner* rri, const double& ts, const double& te,
 											const int& nrPoints, JobStartedCB f1, JobFinishedCB f2, void* userData, bool autoStart)
 :
@@ -62,6 +46,12 @@ void SimulateThread::addJob(RoadRunner* rr)
 {
 	//getMutex
     Mutex::ScopedLock lock(mJobsMutex);
+    if(mSimulateEx)
+    {
+    	rr->setTimeStart(mTimeStart);
+    	rr->setTimeEnd(mTimeEnd);
+        rr->setNumPoints(mNrPoints);
+    }
     mJobs.push_back(rr);
 	mJobsCondition.signal();	//Tell the thread its time to go to work
 }
@@ -112,7 +102,7 @@ void SimulateThread::worker()
 
             if(mSimulateEx)
             {
-                if(!rri->simulate2Ex(mTimeStart, mTimeEnd, mNrPoints))
+                if(!rri->simulate2Ex(rri->getTimeStart(), rri->getTimeEnd(), rri->getNumPoints()))
                 {
                     Log(lError)<<"Failed simulating instance: "<<rri->getInstanceID();
                 }

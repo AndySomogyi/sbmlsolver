@@ -4,12 +4,12 @@
 #include "rrUtils.h"
 #include "rrPlugin.h"
 #include "rrParameter.h"
-#include "../Wrappers/C/rrc_types.h" //We may want to move this header to the Source folder
+#include "../wrappers/C/rrc_types.h" //We may want to move this header to the Source folder
 //---------------------------------------------------------------------------
 using namespace std;
 namespace rr
 {
-Plugin::Plugin(const std::string& name, const std::string& cat, RoadRunner* aRR, PluginWorkStartedCB fn1, PluginWorkFinishedCB fn2)
+Plugin::Plugin(const std::string& name, const std::string& cat, RoadRunner* aRR, PluginWorkStartedCB fn1, PluginWorkFinishedCB fn2, const string& language)
 :
 mName(name),
 mAuthor("Totte Karlsson"),
@@ -19,12 +19,12 @@ mCopyright("Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012"),
 mRR(aRR),
 mWorkStartedCB(fn1),
 mWorkFinishedCB(fn2),
-mCapabilities(name, "<none>")
+mCapabilities(name, "<none>"),
+mImplementationLanguage(language)
 {}
 
 Plugin::~Plugin()
 {}
-
 
 bool Plugin::resetPlugin()
 {
@@ -49,6 +49,11 @@ bool Plugin::assignCallbacks(PluginWorkStartedCB fnc1, PluginWorkFinishedCB fnc2
 bool Plugin::isWorking()
 {
 	return false;
+}
+
+void Plugin::setLibraryName(const string& libName)
+{
+	mLibraryName = libName;
 }
 
 bool Plugin::setParameter(const string& nameOf, const char* value, Capability& capability)
@@ -88,6 +93,11 @@ string Plugin::getName()
 	return mName;
 }
 
+string Plugin::getLibraryName()
+{
+	return mLibraryName;
+}
+
 string Plugin::getAuthor()
 {
 	return mAuthor;
@@ -108,6 +118,22 @@ string Plugin::getCopyright()
 	return mCopyright;
 }
 
+string Plugin::getStatus()
+{
+	stringstream msg;
+    msg<<"Has RoadRunner instance: ";
+    if(mRR)
+    {
+    	msg<<" True\n";
+    }
+    else
+    {
+    	msg<<" False\n";
+    }
+
+    return msg.str();
+}
+
 string Plugin::getInfo() //Obs. subclasses may over ride this function and add more info
 {
     stringstream msg;
@@ -117,15 +143,6 @@ string Plugin::getInfo() //Obs. subclasses may over ride this function and add m
     msg<<setw(30)<<left<<"Category"<<mCategory<<"\n";
     msg<<setw(30)<<left<<"Version"<<mVersion<<"\n";
     msg<<setw(30)<<left<<"Copyright"<<mCopyright<<"\n";
-
-//	msg<<"=== Capabilities ====\n";
-//    for(int i = 0; i < mCapabilities.count(); i++)
-//    {
-//    	if(mCapabilities[i])
-//        {
-//    		msg<< *(mCapabilities[i]);
-//        }
-//    }
     return msg.str();
 }
 

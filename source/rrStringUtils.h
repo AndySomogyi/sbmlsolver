@@ -3,6 +3,7 @@
 #include <string>
 #include <list>
 #include <vector>
+#include <complex>
 #include "rrConstants.h"
 #include "rrExporter.h"
 
@@ -11,8 +12,11 @@ namespace rr
 using std::string;
 using std::list;
 using std::vector;
+using std::complex;
 
 RR_DECLSPEC char*   			createText(const string& str);
+RR_DECLSPEC char*   			createText(const int& count);
+RR_DECLSPEC bool   				freeText(char* str);
 RR_DECLSPEC string              replaceWord(const string& str1, const string& str2, const string& theString);
 RR_DECLSPEC bool                convertFunctionCallToUseVarArgsSyntax(const string& funcName, string& expression);
 RR_DECLSPEC string              removeChars(const string& str, const string& chars);
@@ -54,7 +58,7 @@ RR_DECLSPEC vector<string>      splitString(const string& input, const char& del
 RR_DECLSPEC int                 toInt(const string& str);
 RR_DECLSPEC bool                toBool(const string& str);
 RR_DECLSPEC double              toDouble(const string& str);
-
+RR_DECLSPEC complex<double>     toComplex(const string& str);
 
 RR_DECLSPEC string              toString(const bool& b);
 RR_DECLSPEC string              toString(const double& d, const string& format = gDoubleFormat);

@@ -1,6 +1,5 @@
 #ifndef rrObjectH
 #define rrObjectH
-#include <string>
 #include "rrExporter.h"
 #include "rrConstants.h"
 namespace rr

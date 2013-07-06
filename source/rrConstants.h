@@ -2,6 +2,7 @@
 #define rrConstantsH
 #include <limits>
 #include <string>
+#include <cstdlib> 
 #include "rrExporter.h"
 using namespace std;
 
