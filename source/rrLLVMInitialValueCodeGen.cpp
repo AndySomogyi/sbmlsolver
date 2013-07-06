@@ -6,6 +6,7 @@
  */
 
 #include "rrLLVMInitialValueCodeGen.h"
+#include "rrLLVMException.h"
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaFormatter.h>
 
@@ -46,10 +47,54 @@ Value* LLVMInitialValueCodeGen::codeGen()
 
     }
 
+    cout << "floatingSpeciesAmounts: \n";
+    for (LLVMSymbolForest::Iterator i =
+            symbolForest.floatingSpeciesAmounts.begin();
+            i != symbolForest.floatingSpeciesAmounts.end(); i++)
+    {
+        char* formula = SBML_formulaToString(i->second);
+        cout << "\t" << i->first << ": " << formula << "\n";
+        free(formula);
+
+    }
+
+    cout << "boundarySpeciesConcentrations: \n";
+    for (LLVMSymbolForest::Iterator i =
+            symbolForest.boundarySpeciesConcentrations.begin();
+            i != symbolForest.boundarySpeciesConcentrations.end(); i++)
+    {
+        char* formula = SBML_formulaToString(i->second);
+        cout << "\t" << i->first << ": " << formula << "\n";
+        free(formula);
+
+    }
+
+    cout << "globalParameters: \n";
+    for (LLVMSymbolForest::Iterator i =
+            symbolForest.globalParameters.begin();
+            i != symbolForest.globalParameters.end(); i++)
+    {
+        char* formula = SBML_formulaToString(i->second);
+        cout << "\t" << i->first << ": " << formula << "\n";
+        free(formula);
+
+    }
+
+    cout << "compartments: \n";
+    for (LLVMSymbolForest::Iterator i =
+            symbolForest.compartments.begin();
+            i != symbolForest.compartments.end(); i++)
+    {
+        char* formula = SBML_formulaToString(i->second);
+        cout << "\t" << i->first << ": " << formula << "\n";
+        free(formula);
+
+    }
+
     return 0;
 }
 
-bool LLVMInitialValueCodeGen::visit(const Compartment& x)
+bool LLVMInitialValueCodeGen::visit(const libsbml::Compartment& x)
 {
     ASTNode *node = nodes.create(AST_REAL);
     node->setValue(x.getVolume());
@@ -57,57 +102,13 @@ bool LLVMInitialValueCodeGen::visit(const Compartment& x)
     return true;
 }
 
-bool LLVMInitialValueCodeGen::visit(const Species& x)
+bool LLVMInitialValueCodeGen::visit(const libsbml::Species& x)
 {
-    ASTNode *amt = 0;
-    ASTNode *conc = 0;
-    ASTNode *comp = 0;
-
-    if (x.isSetInitialAmount())
-    {
-        // ASTNode takes ownership of children
-        conc = nodes.create(AST_DIVIDE);
-        amt = new ASTNode(AST_REAL);
-        amt->setValue(x.getInitialAmount());
-        conc->addChild(amt);
-        comp = new ASTNode(AST_NAME);
-        comp->setName(x.getCompartment().c_str());
-        conc->addChild(comp);
-    }
-
-    else if (x.isSetInitialConcentration())
-    {
-        conc = new ASTNode(AST_REAL);
-        conc->setValue(x.getInitialConcentration());
-        amt = nodes.create(AST_TIMES);
-        amt->addChild(conc);
-        comp = new ASTNode(AST_NAME);
-        comp->setName(x.getCompartment().c_str());
-        amt->addChild(comp);
-    }
-    else
-    {
-        conc = nodes.create(AST_REAL);
-        conc->setValue(0);
-        amt = nodes.create(AST_REAL);
-        amt->setValue(0);
-    }
-
-
-    if (x.getBoundaryCondition())
-    {
-        symbolForest.boundarySpeciesConcentrations[x.getId()] = conc;
-    }
-    else
-    {
-         symbolForest.floatingSpeciesConcentrations[x.getId()] = conc;
-         symbolForest.floatingSpeciesAmounts[x.getId()] = amt;
-    }
-
+    processSpecies(&x, 0);
     return true;
 }
 
-bool LLVMInitialValueCodeGen::visit(const Parameter& x)
+bool LLVMInitialValueCodeGen::visit(const libsbml::Parameter& x)
 {
     ASTNode *value = nodes.create(AST_REAL);
     value->setValue(x.getValue());
@@ -117,15 +118,101 @@ bool LLVMInitialValueCodeGen::visit(const Parameter& x)
 
 bool LLVMInitialValueCodeGen::visit(const libsbml::AssignmentRule& x)
 {
+    cout << __FUNC__ << ", id: " << x.getId() << "\n";
+    SBase *element = model->getElementBySId(x.getVariable());
+    processElement(element, x.getMath());
     return true;
 }
 
 bool LLVMInitialValueCodeGen::visit(const libsbml::InitialAssignment& x)
 {
-
-
-
+    cout << __FUNC__ << ", id: " << x.getId() << "\n";
+    SBase *element = model->getElementBySId(x.getSymbol());
+    processElement(element, x.getMath());
     return true;
 }
+
+void LLVMInitialValueCodeGen::processElement(const libsbml::SBase *element,
+        const ASTNode* math)
+{
+    const Compartment *comp = 0;
+    const Parameter *param = 0;
+    const Species *species = 0;
+
+    if ((comp = dynamic_cast<const Compartment*>(element)))
+    {
+        symbolForest.compartments[comp->getId()] = math;
+    }
+    else if ((param = dynamic_cast<const Parameter*>(element)))
+    {
+        symbolForest.globalParameters[param->getId()] = math;
+    }
+    else if ((species = dynamic_cast<const Species*>(element)))
+    {
+        processSpecies(species, math);
+    }
+    else
+    {
+        cout << __FUNC__ << ", WARNING, unknown element type in "
+                << model->getSBMLDocument()->getName() << "\n";
+    }
+}
+
+void LLVMInitialValueCodeGen::processSpecies(const libsbml::Species *species,
+        const ASTNode* math)
+{
+    ASTNode *amt = 0;
+    ASTNode *conc = 0;
+    ASTNode *comp = 0;
+
+    // ASTNode takes ownership of children
+
+    if (species->isSetInitialConcentration())
+    {
+        if (math)
+        {
+            conc = new ASTNode(*math);
+        }
+        else
+        {
+            conc = new ASTNode(AST_REAL);
+            conc->setValue(species->getInitialConcentration());
+        }
+        amt = nodes.create(AST_TIMES);
+        amt->addChild(conc);
+        comp = new ASTNode(AST_NAME);
+        comp->setName(species->getCompartment().c_str());
+        amt->addChild(comp);
+    }
+    else
+    {
+        if (math)
+        {
+            amt = new ASTNode(*math);
+        }
+        else
+        {
+            amt = new ASTNode(AST_REAL);
+            amt->setValue(species->getInitialAmount());
+        }
+        conc = nodes.create(AST_DIVIDE);
+        conc->addChild(amt);
+        comp = new ASTNode(AST_NAME);
+        comp->setName(species->getCompartment().c_str());
+        conc->addChild(comp);
+    }
+
+    if (species->getBoundaryCondition())
+    {
+        symbolForest.boundarySpeciesConcentrations[species->getId()] = conc;
+    }
+    else
+    {
+        symbolForest.floatingSpeciesConcentrations[species->getId()] = conc;
+        symbolForest.floatingSpeciesAmounts[species->getId()] = amt;
+    }
+}
+
+
 
 } /* namespace rr */

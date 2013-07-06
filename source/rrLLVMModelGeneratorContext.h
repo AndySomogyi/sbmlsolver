@@ -80,7 +80,10 @@ public:
 
     const libsbml::SBMLDocument *getDocument() const;
 
-    const libsbml::Model *getModel() const;
+    /**
+     * TODO: this really really should be const, but const correctness is not 100% correct in libsbml.
+     */
+    libsbml::Model *getModel() const;
 
     llvm::LLVMContext &getContext() const;
 
@@ -105,7 +108,7 @@ private:
     /**
      * allways references the sbml doc.
      */
-    libsbml::SBMLDocument const *doc;
+    const libsbml::SBMLDocument *doc;
 
     LLVMModelDataSymbols symbols;
 

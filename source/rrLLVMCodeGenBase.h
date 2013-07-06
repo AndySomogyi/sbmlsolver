@@ -32,7 +32,7 @@ protected:
     };
 
     const LLVMModelDataSymbols &symbols;
-    const libsbml::Model *model;
+    libsbml::Model *model;
     llvm::LLVMContext &context;
     llvm::Module *module;
     llvm::IRBuilder<> *builder;

@@ -45,12 +45,18 @@ public:
 
 private:
 
-    virtual bool visit(const Compartment &x);
-    virtual bool visit(const Species &x);
-    virtual bool visit(const Parameter &x);
-    virtual bool visit (const libsbml::AssignmentRule  &x);
-    virtual bool visit (const libsbml::InitialAssignment        &x);
+    virtual bool visit(const libsbml::Compartment &x);
+    virtual bool visit(const libsbml::Species &x);
+    virtual bool visit(const libsbml::Parameter &x);
+    virtual bool visit(const libsbml::AssignmentRule  &x);
+    virtual bool visit(const libsbml::InitialAssignment &x);
 
+    void processElement(const libsbml::SBase *element, const ASTNode *math);
+
+    /**
+     * specialized logic to write both amounts and concentrations here.
+     */
+    void processSpecies(const libsbml::Species *element, const ASTNode *math);
 
     llvm::Function *initialValuesFunc;
     LLVMSymbolForest symbolForest;
