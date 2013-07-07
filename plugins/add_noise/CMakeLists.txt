@@ -52,6 +52,10 @@ dl
 )
 endif()
 
+if(${MSVC})
+set (CMAKE_SHARED_LINKER_FLAGS 	"${CMAKE_SHARED_LINKER_FLAGS} \"/DEF:${CMAKE_CURRENT_SOURCE_DIR}/add_noise.def\"")
+endif()
+
 install (TARGETS ${target} 		
 DESTINATION plugins 
 COMPONENT plugins
