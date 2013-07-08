@@ -394,7 +394,7 @@ LLVMModelDataIRBuilder::~LLVMModelDataIRBuilder()
     // TODO Auto-generated destructor stub
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcEP(llvm::Value* s,
+llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcGEP(llvm::Value* s,
         const std::string& id)
 {
     validateStruct(s, __FUNC__);
@@ -402,11 +402,7 @@ llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcEP(llvm::Value* s,
     return createGEP(s, FloatingSpeciesConcentrations, index);
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciedAmtEP(llvm::Value* s,
-        const std::string& id)
-{
-    throw LLVMException("not implemented", __FUNC__);
-}
+
 
 llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcFromAmtLoad(
         llvm::Value* s, const std::string& id)
@@ -420,7 +416,7 @@ llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtFromConcLoad(
     throw LLVMException("not implemented", __FUNC__);
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createGlobalParamEP(llvm::Value* s,
+llvm::Value* LLVMModelDataIRBuilder::createGlobalParamGEP(llvm::Value* s,
         const std::string& id)
 {
     validateStruct(s, __FUNC__);
@@ -509,7 +505,7 @@ pair<Function*, Function*> LLVMModelDataIRBuilder::createFloatingSpeciesAccessor
 
         }
 
-        Value *getEP = createFloatSpeciesConcEP(getArgValues[0], id);
+        Value *getEP = createFloatSpeciesConcGEP(getArgValues[0], id);
 
         Value *getRet = builder->CreateLoad(getEP);
 
@@ -563,7 +559,7 @@ llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcStore(Value* s,
     validateStruct(s, __FUNC__);
     int index = symbols.getFloatingSpeciesIndex(id);
 
-    Value *compEP = createFloatSpeciesCompEP(s, id);
+    Value *compEP = createFloatSpeciesCompGEP(s, id);
     Value *volume = builder->CreateLoad(compEP);
     Value *amount = builder->CreateFMul(conc, volume);
 
@@ -572,7 +568,7 @@ llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcStore(Value* s,
 
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesCompEP(llvm::Value* s,
+llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesCompGEP(llvm::Value* s,
         const std::string& id)
 {
     validateStruct(s, __FUNC__);
@@ -586,6 +582,21 @@ llvm::Value* LLVMModelDataIRBuilder::createGEP(llvm::Value* s,
     Value *fieldGEP = createGEP(s, field);
     Value *load = builder->CreateLoad(fieldGEP);
     return builder->CreateConstGEP1_32(load, index);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtGEP(llvm::Value* s,
+        const std::string& id)
+{
+    validateStruct(s, __FUNC__);
+    int index = symbols.getFloatingSpeciesIndex(id);
+    return createGEP(s, FloatingSpeciesAmounts, index);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtStore(
+        llvm::Value* modelData, const std::string& id, llvm::Value* value)
+{
+    Value *gep = createFloatSpeciesAmtGEP(modelData, id);
+    return builder->CreateStore(value, gep);
 }
 
 void LLVMModelDataIRBuilder::validateStruct(llvm::Value* s, const char* funcName)
@@ -710,6 +721,7 @@ llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, ll
         elements.push_back(Type::getInt32PtrTy(context));                     // int*                                floatingSpeciesCompartments;
         elements.push_back(Type::getInt32Ty(context));                        // int                                 numBoundarySpecies;
         elements.push_back(Type::getDoublePtrTy(context));                    // double*                             boundarySpeciesConcentrations;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             boundarySpeciesAmounts;
         elements.push_back(Type::getInt32PtrTy(context));                     // int*                                boundarySpeciesCompartments;
         elements.push_back(Type::getInt32Ty(context));                        // int                                 numCompartments;
         elements.push_back(Type::getDoublePtrTy(context));                    // double*                             compartmentVolumes;
@@ -728,6 +740,8 @@ llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, ll
         elements.push_back(boolPtrType);                                      // bool*                               eventStatusArray;
         elements.push_back(Type::getInt32Ty(context));                        // int                                 previousEventStatusArraySize;
         elements.push_back(boolPtrType);                                      // bool*                               previousEventStatusArray;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 workSize;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             work;
         elements.push_back(voidPtrType);                                      // TEventDelayDelegate*                eventDelays;
         elements.push_back(voidPtrType);                                      // TEventAssignmentDelegate*           eventAssignments;
         elements.push_back(voidPtrType);                                      // TComputeEventAssignmentDelegate*    computeEventAssignments;

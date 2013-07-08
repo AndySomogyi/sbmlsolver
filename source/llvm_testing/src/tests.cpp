@@ -82,13 +82,6 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 
     iv.codeGen();
 
-
-
-
-
-
-
-
     delete doc;
 
     return true;

@@ -46,7 +46,7 @@ typedef struct SModelData
      * sizeof this struct, make sure we use the correct
      * size in LLVM land.
      */
-    unsigned                             size;
+    unsigned                            size;
 
     /**
      * model name
@@ -159,6 +159,7 @@ typedef struct SModelData
      */
     int                                 numBoundarySpecies;
     double*                             boundarySpeciesConcentrations;
+    double*                             boundarySpeciesAmounts;
 
     /**
      * compartment index for each boundary species,
@@ -174,10 +175,8 @@ typedef struct SModelData
     int                                 numCompartments;
     double*                             compartmentVolumes;
 
-
     int                                 numRateRules;
     double*                             rateRules;
-
 
     //Event stuff
     int                                 numEvents;
@@ -198,6 +197,16 @@ typedef struct SModelData
 
     int                                 previousEventStatusArraySize;
     bool*                               previousEventStatusArray;
+
+    /**
+     * Work area for model implementations. The data stored here is entirely
+     * model implementation specific and should not be accessed
+     * anywhere else.
+     *
+     * allocated by allocModelDataBuffers based on the value of workSize;
+     */
+    int                                 workSize;
+    double*                             work;
 
     TEventDelayDelegate*                eventDelays;
     TEventAssignmentDelegate*           eventAssignments;
