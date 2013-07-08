@@ -10,7 +10,7 @@ Example showing how to obtain model generated C code
 int main()
 {
     RRHandle rrHandle;
-	RRCCodeHandle code;
+	RRCCodePtr code;
 	char* text;
 	char* sbml;
 

@@ -43,11 +43,16 @@ bool AddNoise::execute(void* inputData)
 }
 
 // Plugin factory function
-PLUGIN_DECLSPEC rr::Plugin* rrCallConv createPlugin(rr::RoadRunner* aRR)
+rr::Plugin* rrCallConv createPlugin(rr::RoadRunner* aRR)
 {
     //allocate a new object and return it
     return new AddNoise(aRR);
 }
+}
+
+extern "C" const char* rrCallConv    getImplementationLanguage() 
+{
+    return "CPP";
 }
 
 extern "C" int _libmain(unsigned long reason)

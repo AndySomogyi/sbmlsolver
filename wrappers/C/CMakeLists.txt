@@ -5,23 +5,24 @@ set(C_API_INCLUDE_ROOT "${RR_ROOT}/wrappers/C")
 include_directories(${RR_GENERATED_HEADER_PATH}) #we have to do this to get the generated header
 
 include_directories(   
-	${C_API_INCLUDE_ROOT}
-	${RR_ROOT}/source
-	${THIRD_PARTY_INSTALL_FOLDER}/include
-	)
+${C_API_INCLUDE_ROOT}
+${RR_ROOT}/source
+${THIRD_PARTY_INSTALL_FOLDER}/include
+)
 
 #The C-api is built as a shared library..
 add_library(${target} SHARED
-	rrc_api
-	rrc_plugin_api
-	rrc_jobs_api
-	rrc_parameter_api
-	rrc_logging_api
-	rrc_nom_api
-	rrc_libstruct_api
-	rrc_utilities
-	rrc_cpp_support
-	)
+rrc_api
+rrc_plugin_api
+rrc_jobs_api
+rrc_parameter_api
+rrc_logging_api
+rrc_nom_api
+rrc_libstruct_api
+rrc_minimization_api
+rrc_utilities
+rrc_cpp_support
+)
 
 if(${MSVC})
     set (CMAKE_SHARED_LINKER_FLAGS 	"${CMAKE_SHARED_LINKER_FLAGS} \"/DEF:${CMAKE_CURRENT_SOURCE_DIR}/rrc_api.def\"")
