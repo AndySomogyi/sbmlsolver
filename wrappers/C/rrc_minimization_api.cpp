@@ -50,7 +50,7 @@ char* rrcCallConv getMinimizationDataReport(RRMinimizationDataHandle handle)
 	try
     {
     	MinimizationData* data = castToMinimizationData(handle);
-        char* info = createText(data->getReport());
+        char* info = createText(data->getReport().c_str());
         return info;
     }
     catch_ptr_macro

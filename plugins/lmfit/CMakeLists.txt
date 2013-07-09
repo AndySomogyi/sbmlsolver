@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-set(target lmfit)
+set(target lm)
 
 include_directories(
 ../../source 
@@ -41,6 +41,10 @@ target_link_libraries (${target}
 lmfit-static
 rrc_api
 )
+endif()
+
+if(${MSVC})
+set (CMAKE_SHARED_LINKER_FLAGS 	"${CMAKE_SHARED_LINKER_FLAGS} \"/DEF:${CMAKE_CURRENT_SOURCE_DIR}/${target}.def\"")
 endif()
 
 install (TARGETS ${target} 		
