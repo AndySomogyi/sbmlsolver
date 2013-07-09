@@ -70,24 +70,47 @@ string getModelFileName(const string& version, int caseNumber)
 
 bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 {
-    ModelData md;
+    ModelData md = {0};
     string modelFileName = getModelFileName(version, caseNumber);
 
     SBMLDocument *doc = readSBMLFromFile(modelFileName.c_str());
 
-    LLVMModelGeneratorContext c(doc, true);
+    try
+    {
+
+        LLVMModelGeneratorContext c(doc, true);
+
+        c.getModelDataSymbols().initAllocModelDataBuffers(md);
+
+        ExecutionEngine *engine = c.getExecutionEngine();
+
+        StructType *s = LLVMModelDataIRBuilder::getStructType(c.getModule(),
+                c.getExecutionEngine());
+
+        LLVMInitialValueCodeGen iv(c);
+
+        Function *func = (Function*)iv.codeGen();
+
+        // Cast it to the right type (takes no arguments, returns a double) so we
+        // can call it as a native function.
+        void (*pfunc)(
+                ModelData*) = (void (*)(ModelData*))engine->getPointerToFunction(func);
+
+        pfunc(&md);
+
+        for (int i = 0; i < md.numFloatingSpecies; i++)
+        {
+            cout << md.floatingSpeciesAmounts[i] << ", ";
+        }
+        cout << "\n";
 
 
-    LLVMInitialValueCodeGen iv(c);
 
-    iv.codeGen();
-
-
-
-
-
-
-
+    }
+    catch(std::exception &e)
+    {
+        cout << "Failure in " << modelFileName.c_str() << ", " << e.what() << "\n";
+    }
 
     delete doc;
 

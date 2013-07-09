@@ -38,12 +38,45 @@ public:
     //typedef map<string, const ASTNode*> Map;
     typedef std::pair<string, const ASTNode*> Pair;
     typedef map<string, const ASTNode*>::iterator Iterator;
+    typedef map<string, const ASTNode*>::const_iterator ConstIterator;
 
-    map<string, const ASTNode*> floatingSpeciesConcentrations;
-    map<string, const ASTNode*> floatingSpeciesAmounts;
-    map<string, const ASTNode*> boundarySpeciesConcentrations;
+    map<string, const ASTNode*> floatingSpecies;
+    map<string, const ASTNode*> boundarySpecies;
     map<string, const ASTNode*> compartments;
     map<string, const ASTNode*> globalParameters;
+
+    /**
+     * find and end are designed to work identically to the map::find.
+     *
+     * Note that the resulting iterator is not iteratable, it is only suitable for
+     * comparing with end() and getting the value out of it.
+     */
+    ConstIterator find(const map<string, const ASTNode*>::key_type& x) const
+    {
+        ConstIterator result;
+
+        if ((result = floatingSpecies.find(x)) != floatingSpecies.end())
+        {
+            return result;
+        }
+        else if ((result = boundarySpecies.find(x)) != boundarySpecies.end())
+        {
+            return result;
+        }
+        else if ((result = compartments.find(x)) != compartments.end())
+        {
+            return result;
+        }
+        else
+        {
+            return globalParameters.find(x);
+        }
+    }
+
+    ConstIterator end() const
+    {
+        return globalParameters.end();
+    }
 };
 
 

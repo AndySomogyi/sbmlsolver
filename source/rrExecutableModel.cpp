@@ -41,6 +41,7 @@ void allocModelDataBuffers(ModelData &data, const string& modelName)
     data.globalParameters = (double*)rrCalloc(data.numGlobalParameters, sizeof(double));
     data.compartmentVolumes = (double*)rrCalloc(data.numCompartments, sizeof(double));
     data.boundarySpeciesConcentrations = (double*)rrCalloc(data.numBoundarySpecies, sizeof(double));
+    data.boundarySpeciesAmounts = (double*)rrCalloc(data.numBoundarySpecies, sizeof(double));
     data.sr = (double*)rrCalloc(data.srSize, sizeof(double));
     data.eventPriorities = (double*)rrCalloc(data.eventPrioritiesSize, sizeof(double));
     data.eventStatusArray = (bool*)rrCalloc(data.eventStatusArraySize, sizeof(bool));
@@ -50,6 +51,7 @@ void allocModelDataBuffers(ModelData &data, const string& modelName)
     data.eventType = (bool*)rrCalloc(data.eventTypeSize, sizeof(bool));
     data.floatingSpeciesCompartments = (int*)rrCalloc(data.numFloatingSpecies, sizeof(int));
     data.boundarySpeciesCompartments = (int*)rrCalloc(data.numBoundarySpecies, sizeof(int));
+    data.work = (double*)rrCalloc(data.workSize, sizeof(int));
 
     // allocate space for the symbolic names of things
     data.variableTable = (char**)rrCalloc(data.numFloatingSpecies, sizeof(char*));
@@ -84,6 +86,7 @@ void  freeModelDataBuffers(ModelData &data)
     free(data.compartmentVolumes);
     free(data.boundarySpeciesConcentrations);
     free(data.boundarySpeciesCompartments);
+    free(data.boundarySpeciesAmounts);
     free(data.sr);
     free(data.eventPriorities);
     free(data.eventStatusArray);
@@ -91,6 +94,7 @@ void  freeModelDataBuffers(ModelData &data)
     free(data.eventPersistentType);
     free(data.eventTests);
     free(data.eventType);
+    free(data.work);
 
     // free names
     free(data.variableTable);

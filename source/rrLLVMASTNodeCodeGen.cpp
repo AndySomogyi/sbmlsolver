@@ -9,40 +9,34 @@
  */
 
 #include "rrLLVMASTNodeCodeGen.h"
+#include "rrLLVMException.h"
 
 #include <sbml/math/ASTNode.h>
-
 #include "rrLLVMIncludes.h"
 
 using namespace libsbml;
 using namespace llvm;
+using namespace std;
 
 namespace rr
 {
 
-
-
-
-
-LLVMASTNodeCodeGen::LLVMASTNodeCodeGen() :
-        builder(getGlobalContext())
+LLVMASTNodeCodeGen::LLVMASTNodeCodeGen(llvm::IRBuilder<> &builder,
+        LLVMSymbolResolver &resolver) :
+        builder(builder), resolver(resolver)
 {
-    // TODO Auto-generated constructor stub
-
 }
-
 
 LLVMASTNodeCodeGen::~LLVMASTNodeCodeGen()
 {
-    // TODO Auto-generated destructor stub
 }
 
-Value *LLVMASTNodeCodeGen::BinaryExprCodegen(const ASTNode *ast)
+Value *LLVMASTNodeCodeGen::binaryExprCodeGen(const ASTNode *ast)
 {
     Value *result = 0;
 
-    Value *lhs = Codegen(ast->getLeftChild());
-    Value *rhs = Codegen(ast->getRightChild());
+    Value *lhs = codeGen(ast->getLeftChild());
+    Value *rhs = codeGen(ast->getRightChild());
     if (lhs == 0 || rhs == 0)
     {
         // TODO: report this error???
@@ -77,20 +71,45 @@ Value *LLVMASTNodeCodeGen::BinaryExprCodegen(const ASTNode *ast)
     return result;
 }
 
-llvm::Value* LLVMASTNodeCodeGen::Codegen(const libsbml::ASTNode* ast)
+llvm::Value* LLVMASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
 {
     Value *result = 0;
     switch (ast->getType())
     {
-    case AST_PLUS:      /* '+' */
-    case AST_MINUS:     /* '-' */
-    case AST_TIMES:     /* '*' */
-    case AST_DIVIDE:    /* '/' */
-        result = BinaryExprCodegen(ast);
+    case AST_PLUS:                  /* '+' */
+    case AST_MINUS:                 /* '-' */
+    case AST_TIMES:                 /* '*' */
+    case AST_DIVIDE:                /* '/' */
+        result = binaryExprCodeGen(ast);
         break;
-    case AST_POWER:         // '^' sbml considers this an operator,
-                            // left and right child nodes are the first
-                            // 2 child nodes for args.
+    case AST_POWER:                 // '^' sbml considers this an operator,
+                                    // left and right child nodes are the first
+                                    // 2 child nodes for args.
+        result = notImplemented(ast);
+        break;
+    case AST_INTEGER:
+        result = integerCodeGen(ast);
+        break;
+    case AST_REAL:
+    case AST_REAL_E:
+    case AST_RATIONAL:
+        result = realExprCodeGen(ast);
+        break;
+    case AST_NAME:
+    case AST_NAME_AVOGADRO:
+    case AST_NAME_TIME:
+        result = nameExprCodeGen(ast);
+        break;
+
+
+    case AST_CONSTANT_E:
+    case AST_CONSTANT_FALSE:
+    case AST_CONSTANT_PI:
+    case AST_CONSTANT_TRUE:
+
+    case AST_LAMBDA:
+
+    case AST_FUNCTION:
     case AST_FUNCTION_ABS:
     case AST_FUNCTION_ARCCOS:
     case AST_FUNCTION_ARCCOSH:
@@ -125,17 +144,41 @@ llvm::Value* LLVMASTNodeCodeGen::Codegen(const libsbml::ASTNode* ast)
     case AST_FUNCTION_SINH:
     case AST_FUNCTION_TAN:
     case AST_FUNCTION_TANH:
-        result = IntrinsicCallCodegen(ast);
+        result = notImplemented(ast);
         break;
 
     }
     return result;
 }
 
-llvm::Value* LLVMASTNodeCodeGen::IntrinsicCallCodegen(
+llvm::Value* LLVMASTNodeCodeGen::intrinsicCallCodeGen(
         const libsbml::ASTNode* ast)
 {
     return 0;
+}
+
+llvm::Value* LLVMASTNodeCodeGen::notImplemented(const libsbml::ASTNode* ast)
+{
+    char* formula = SBML_formulaToString(ast);
+    string str = formula;
+    free(formula);
+
+    throw LLVMException("AST type Not Implemented Yet: " + str);
+}
+
+llvm::Value* LLVMASTNodeCodeGen::nameExprCodeGen(const libsbml::ASTNode* ast)
+{
+    return resolver.symbolValue(ast->getName());
+}
+
+llvm::Value* LLVMASTNodeCodeGen::realExprCodeGen(const libsbml::ASTNode* ast)
+{
+    return ConstantFP::get(builder.getContext(), APFloat(ast->getReal()));
+}
+
+llvm::Value* LLVMASTNodeCodeGen::integerCodeGen(const libsbml::ASTNode* ast)
+{
+    return ConstantFP::get(builder.getContext(), APFloat((double)ast->getInteger()));
 }
 
 } /* namespace rr */

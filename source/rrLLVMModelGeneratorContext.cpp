@@ -40,7 +40,7 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext(std::string const &sbml,
     builder = new IRBuilder<>(*context);
 
     EngineBuilder engineBuilder(module);
-    //engineBuilder.setEngineKind(EngineKind::JIT);
+
     engineBuilder.setErrorStr(errString);
     executionEngine = engineBuilder.create();
 }
@@ -72,8 +72,6 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext(libsbml::SBMLDocument const
 }
 
 
-
-
 LLVMModelGeneratorContext::~LLVMModelGeneratorContext()
 {
     delete executionEngine;
@@ -100,10 +98,20 @@ const libsbml::SBMLDocument* LLVMModelGeneratorContext::getDocument() const
     return doc;
 }
 
-const libsbml::Model* LLVMModelGeneratorContext::getModel() const
+
+// TODO: this is freaking LAME, libsbml is not 100% const correct, so get around the
+// issues with these pragmas.
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcast-qual"
+#endif
+libsbml::Model* LLVMModelGeneratorContext::getModel() const
 {
-    return doc->getModel();
+    return (Model*)doc->getModel();
 }
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
 llvm::Module* LLVMModelGeneratorContext::getModule() const
 {

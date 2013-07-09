@@ -10,6 +10,9 @@
 
 #include "rrLLVMIncludes.h"
 
+namespace rr
+{
+
 class LLVMCodeGen
 {
 public:
@@ -18,7 +21,13 @@ protected:
     ~LLVMCodeGen() {};
 };
 
+class LLVMSymbolResolver
+{
+public:
+    virtual llvm::Value *symbolValue(const std::string& symbol) = 0;
+protected:
+    ~LLVMSymbolResolver() {};
+};
 
-
-
+} /* namespace rr */
 #endif /* LLVMCodeGenH */
