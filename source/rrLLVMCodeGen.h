@@ -10,6 +10,9 @@
 
 #include "rrLLVMIncludes.h"
 
+namespace rr
+{
+
 class LLVMCodeGen
 {
 public:
@@ -26,7 +29,5 @@ protected:
     ~LLVMSymbolResolver() {};
 };
 
-
-
-
+} /* namespace rr */
 #endif /* LLVMCodeGenH */

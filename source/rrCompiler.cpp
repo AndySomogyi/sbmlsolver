@@ -31,7 +31,7 @@ mSupportCodeFolder(supportCodeFolder),
 mCompilerName(getFileName(compiler)),
 mCompilerLocation(getFilePath(compiler))
 {
-	if(mSupportCodeFolder.size() > 0)
+    if(mSupportCodeFolder.size() > 0)
     {
         if(!setupCompiler(mSupportCodeFolder))
         {
@@ -48,7 +48,7 @@ bool Compiler::setupCompiler(const string& supportCodeFolder)
 
     if(!folderExists(mSupportCodeFolder))
     {
-    	Log(lError)<<"The roadrunner support code folder : "<<mSupportCodeFolder<<" does not exist.";
+        Log(lError)<<"The roadrunner support code folder : "<<mSupportCodeFolder<<" does not exist.";
         return false;
     }
 
@@ -57,8 +57,8 @@ bool Compiler::setupCompiler(const string& supportCodeFolder)
 
 bool Compiler::setOutputPath(const string& path)
 {
-	mOutputPath = path;
-	return true;
+    mOutputPath = path;
+    return true;
 }
 
 bool Compiler::compileSource(const string& sourceFileName)
@@ -94,41 +94,41 @@ bool Compiler::compileSource(const string& sourceFileName)
 
 bool Compiler::setCompiler(const string& compiler)
 {
-	mCompilerName = getFileName(compiler);
-	mCompilerLocation = getFilePath(compiler);
-	return true;
+    mCompilerName = getFileName(compiler);
+    mCompilerLocation = getFilePath(compiler);
+    return true;
 }
 
 bool Compiler::setCompilerLocation(const string& path)
 {
-	if(!folderExists(path))
-	{
-		Log(lError)<<"Tried to set invalid path: "<<path<<" for compiler location";
-		return false;
-	}
-	mCompilerLocation = path;
-	return true;
+    if(!folderExists(path))
+    {
+        Log(lError)<<"Tried to set invalid path: "<<path<<" for compiler location";
+        return false;
+    }
+    mCompilerLocation = path;
+    return true;
 }
 
-string	Compiler::getCompilerLocation()
+string    Compiler::getCompilerLocation()
 {
-	return mCompilerLocation;
+    return mCompilerLocation;
 }
 
 bool Compiler::setSupportCodeFolder(const string& path)
 {
-	if(!folderExists(path))
-	{
-		Log(lError)<<"Tried to set invalid path: "<<path<<" for compiler location";
-		return false;
-	}
-	mSupportCodeFolder = path;
-	return true;
+    if(!folderExists(path))
+    {
+        Log(lError)<<"Tried to set invalid path: "<<path<<" for compiler location";
+        return false;
+    }
+    mSupportCodeFolder = path;
+    return true;
 }
 
-string	Compiler::getSupportCodeFolder()
+string    Compiler::getSupportCodeFolder()
 {
-	return mSupportCodeFolder;
+    return mSupportCodeFolder;
 }
 
 bool Compiler::setupCompilerEnvironment()
@@ -196,7 +196,7 @@ bool Compiler::setupCompilerEnvironment()
 string Compiler::createCompilerCommand(const string& sourceFileName)
 {
     stringstream exeCmd;
-    if(getFileNameNoExtension(mCompilerName) == "tcc" 
+    if(getFileNameNoExtension(mCompilerName) == "tcc"
        || getFileNameNoExtension(mCompilerName) == "gcc"
        || getFileNameNoExtension(mCompilerName) == "cc")
     {
@@ -210,9 +210,9 @@ string Compiler::createCompilerCommand(const string& sourceFileName)
         exeCmd<<" \""<<sourceFileName<<"\" \""<<joinPath(mSupportCodeFolder, "rrSupport.c")<<"\"";
 
 
-        exeCmd<<" -o\""<<mDLLFileName<<"\"";
+        exeCmd<<" -o \""<<mDLLFileName<<"\"";
 #if defined(WIN32)
-		exeCmd<<" -DBUILD_MODEL_DLL ";
+        exeCmd<<" -DBUILD_MODEL_DLL ";
 #endif
         //Add include paths
         for(int i = 0; i < mIncludePaths.size(); i++)
@@ -257,11 +257,11 @@ bool Compiler::compile(const string& cmdLine)
     Poco::File aFile(compilerTempFile);
     if(aFile.exists())
     {
-    	aFile.remove();
+        aFile.remove();
     }
 
     HANDLE outFile;
-  	//Todo: there is a problem creating the logfile after first time creation..
+      //Todo: there is a problem creating the logfile after first time creation..
     if((outFile=CreateFileA(compilerTempFile.c_str(),
                             GENERIC_WRITE,
                             FILE_SHARE_DELETE,
@@ -310,7 +310,7 @@ bool Compiler::compile(const string& cmdLine)
         &pi )                           // Pointer to PROCESS_INFORMATION structure
     )
     {
-		DWORD errorCode = GetLastError();
+        DWORD errorCode = GetLastError();
 
         string anError = getWINAPIError(errorCode, TEXT("CreateProcess"));
         Log(lError)<<"WIN API Error: (after CreateProcess) "<<anError;
@@ -332,23 +332,23 @@ bool Compiler::compile(const string& cmdLine)
     DWORD errorCode = GetLastError();
     if(errorCode != 0)
     {
-    	string anError = getWINAPIError(errorCode, TEXT("CloseHandle"));
-    	Log(lDebug)<<"WIN API error: (pi.hProcess)"<<anError;
+        string anError = getWINAPIError(errorCode, TEXT("CloseHandle"));
+        Log(lDebug)<<"WIN API error: (pi.hProcess)"<<anError;
     }
 
     CloseHandle(pi.hThread);
     errorCode = GetLastError();
     if(errorCode != 0)
     {
-    	string anError = getWINAPIError(errorCode, TEXT("CloseHandle"));
-    	Log(lDebug)<<"WIN API error: (pi.hThread)"<<anError;
+        string anError = getWINAPIError(errorCode, TEXT("CloseHandle"));
+        Log(lDebug)<<"WIN API error: (pi.hThread)"<<anError;
     }
 
     //Read the log file and log it
     if(fileExists(compilerTempFile))
     {
-    	string log = getFileContent(compilerTempFile.c_str());
-    	Log(lDebug)<<"Compiler output: "<<log<<endl;
+        string log = getFileContent(compilerTempFile.c_str());
+        Log(lDebug)<<"Compiler output: "<<log<<endl;
     }
 
     return true;
@@ -369,12 +369,12 @@ bool Compiler::compile(const string& cmdLine)
     int val = system(toFile.c_str());
     if(val == 0)
     {
-    	Log(lDebug)<<"Compile system call was succesful";
+        Log(lDebug)<<"Compile system call was succesful";
         return true;
     }
     else
     {
-	    Log(lError)<<"Compile system call returned: "<<val;
+        Log(lError)<<"Compile system call returned: "<<val;
         return false;
     }
 }

@@ -244,9 +244,17 @@ public:
     void test(llvm::Module *module,
             llvm::IRBuilder<> *build, llvm::ExecutionEngine * engine);
 
+    /**
+     * get the struct type for the CSR sparse storage struct.
+     */
+    static llvm::StructType *getCSRSparseStructType(llvm::Module *module, llvm::ExecutionEngine *engine = 0);
+
 
     static llvm::StructType *getStructType(llvm::Module *module, llvm::ExecutionEngine *engine = 0);
+
+
     static const char* ModelDataName;
+    static const char* dcsr_matrixName;
 
 
 

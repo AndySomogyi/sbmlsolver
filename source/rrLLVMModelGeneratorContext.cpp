@@ -40,7 +40,7 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext(std::string const &sbml,
     builder = new IRBuilder<>(*context);
 
     EngineBuilder engineBuilder(module);
-    //engineBuilder.setEngineKind(EngineKind::JIT);
+
     engineBuilder.setErrorStr(errString);
     executionEngine = engineBuilder.create();
 }

@@ -88,7 +88,7 @@ llvm::Value* LLVMASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
         result = notImplemented(ast);
         break;
     case AST_INTEGER:
-        result = notImplemented(ast);
+        result = integerCodeGen(ast);
         break;
     case AST_REAL:
     case AST_REAL_E:
@@ -174,6 +174,11 @@ llvm::Value* LLVMASTNodeCodeGen::nameExprCodeGen(const libsbml::ASTNode* ast)
 llvm::Value* LLVMASTNodeCodeGen::realExprCodeGen(const libsbml::ASTNode* ast)
 {
     return ConstantFP::get(builder.getContext(), APFloat(ast->getReal()));
+}
+
+llvm::Value* LLVMASTNodeCodeGen::integerCodeGen(const libsbml::ASTNode* ast)
+{
+    return ConstantFP::get(builder.getContext(), APFloat((double)ast->getInteger()));
 }
 
 } /* namespace rr */
