@@ -25,29 +25,25 @@ class LLVMModelDataIRBuilder
 {
 public:
 
-
-
     LLVMModelDataIRBuilder(LLVMModelDataSymbols const&,
             llvm::IRBuilder<> * = 0);
 
     virtual ~LLVMModelDataIRBuilder();
 
-    llvm::Value *createFloatSpeciesConcEP(llvm::Value *s, const std::string &id);
+    llvm::Value *createFloatSpeciesConcGEP(llvm::Value *s, const std::string &id);
 
     llvm::Value *createFloatSpeciesConcStore(llvm::Value *s, const std::string &id,
             llvm::Value *value);
 
-    llvm::Value *createFloatSpeciedAmtEP(llvm::Value *s, const std::string &id);
+    llvm::Value *createFloatSpeciesAmtGEP(llvm::Value *s, const std::string &id);
+
+    llvm::Value *createFloatSpeciesAmtStore(llvm::Value *modelData, const std::string &id, llvm::Value *value);
     llvm::Value *createFloatSpeciesConcFromAmtLoad(llvm::Value *s, const std::string &id);
     llvm::Value *createFloatSpeciesAmtFromConcLoad(llvm::Value *s, const std::string &id);
 
-    llvm::Value *createFloatSpeciesCompEP(llvm::Value *s, const std::string &id);
+    llvm::Value *createFloatSpeciesCompGEP(llvm::Value *s, const std::string &id);
 
-    llvm::Value *createGlobalParamEP(llvm::Value *s, const std::string &id);
-
-
-
-
+    llvm::Value *createGlobalParamGEP(llvm::Value *s, const std::string &id);
 
     llvm::Value *createGEP(llvm::Value *, ModelDataFields field);
 
@@ -248,9 +244,17 @@ public:
     void test(llvm::Module *module,
             llvm::IRBuilder<> *build, llvm::ExecutionEngine * engine);
 
+    /**
+     * get the struct type for the CSR sparse storage struct.
+     */
+    static llvm::StructType *getCSRSparseStructType(llvm::Module *module, llvm::ExecutionEngine *engine = 0);
+
 
     static llvm::StructType *getStructType(llvm::Module *module, llvm::ExecutionEngine *engine = 0);
+
+
     static const char* ModelDataName;
+    static const char* dcsr_matrixName;
 
 
 

@@ -17,6 +17,54 @@ typedef void     (*TPerformEventAssignmentDelegate)(ModelDataP, double*);
 typedef void     (*TEventAssignmentDelegate)();
 
 
+
+/**
+ * sparse storage compressed row format matrix.
+ *
+ * This should eventually get replaced when we use a numeric library
+ * which support sparse storage.
+ *
+ * structure layout based on  Mark Hoemmen's BeBop sparse conversion lib.
+ */
+typedef struct dcsr_matrix_t
+{
+    /**
+     * number of rows
+     */
+    int m;
+
+    /**
+     * number of columns
+     */
+    int n;
+
+    /**
+     * number of stored (nonzero) entries.
+     */
+    int nnz;
+
+    /**
+     * array of stored (nonzero) entries of the matrix
+     * length: nnz
+     *
+     */
+    double* values;
+
+    /**
+     * array of column indices of the stored (nonzero) entries of the matrix,
+     * length: nnz
+     */
+    int* colidx;
+
+    /**
+     * array of indices into the colidx and values arrays, for each column,
+     * length: m+1
+     */
+    int* rowptr;
+
+} dcsr_matrix;
+
+
 /**
  * A data structure that is that allows data to be exchanged
  * with running SBML models. In the case of CExecutableModels, A pointer to
@@ -46,12 +94,9 @@ typedef struct SModelData
      * sizeof this struct, make sure we use the correct
      * size in LLVM land.
      */
-    unsigned                             size;
+    unsigned                            size;
 
-    /**
-     * model name
-     */
-    char*                               modelName;
+    unsigned                            flags;
 
     /**
      * current time.
@@ -80,9 +125,26 @@ typedef struct SModelData
 
     /**
      * number of reactions, same as ratesSize.
+     * These are the calcuated reaction rates, not the
+     * species rates.
      */
     int                                 numReactions;
     double*                             reactionRates;
+
+    int                                 numRateRules;
+    double*                             rateRules;
+
+    /**
+     * everything that has a rate (anything that changes) is
+     * stored in this single array. This way, a pointer to this
+     * array can be given to the integrator and it can integrate
+     * it in a single shot.
+     *
+     * All the other rate arrays are aliases into an offset in this
+     * array.
+     */
+    int                                 numRates;
+    double*                             rates;
 
     /**
      * LLVM specific
@@ -159,6 +221,7 @@ typedef struct SModelData
      */
     int                                 numBoundarySpecies;
     double*                             boundarySpeciesConcentrations;
+    double*                             boundarySpeciesAmounts;
 
     /**
      * compartment index for each boundary species,
@@ -174,9 +237,10 @@ typedef struct SModelData
     int                                 numCompartments;
     double*                             compartmentVolumes;
 
-
-    int                                 numRateRules;
-    double*                             rateRules;
+    /**
+     * stoichiometry matrix
+     */
+    dcsr_matrix                         stoichiometry;
 
 
     //Event stuff
@@ -199,11 +263,27 @@ typedef struct SModelData
     int                                 previousEventStatusArraySize;
     bool*                               previousEventStatusArray;
 
+    /**
+     * Work area for model implementations. The data stored here is entirely
+     * model implementation specific and should not be accessed
+     * anywhere else.
+     *
+     * allocated by allocModelDataBuffers based on the value of workSize;
+     */
+    int                                 workSize;
+    double*                             work;
+
     TEventDelayDelegate*                eventDelays;
     TEventAssignmentDelegate*           eventAssignments;
 
     TComputeEventAssignmentDelegate*    computeEventAssignments;
     TPerformEventAssignmentDelegate*    performEventAssignments;
+
+    /**
+     * model name
+     */
+    char*                               modelName;
+
 
     /**
      * Is set by the model to the names of the FloatingSpeciesConcentrationList.

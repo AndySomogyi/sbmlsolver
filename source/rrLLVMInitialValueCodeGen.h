@@ -9,9 +9,11 @@
 #define LLVMInitialValueCodeGenH
 
 #include "rrLLVMModelGeneratorContext.h"
+#include "rrLLVMCodeGen.h"
 #include "rrLLVMCodeGenBase.h"
 #include "rrLLVMSymbolForest.h"
 #include "rrLLVMASTNodeFactory.h"
+#include "rrLLVMModelDataIRBuilder.h"
 #include <sbml/Model.h>
 #include <sbml/SBMLVisitor.h>
 
@@ -23,7 +25,6 @@ using libsbml::SBMLVisitor;
 using libsbml::Species;
 using libsbml::Parameter;
 
-
 /**
  * Generates a function called 'modeldata_initialvalues_set', which evaluates
  * all of the initial conditions specified in the sbml model (initial values,
@@ -33,7 +34,9 @@ using libsbml::Parameter;
  * generated function signature:
  * void modeldata_initialvalues_set(ModelData *);
  */
-class LLVMInitialValueCodeGen: private SBMLVisitor, private LLVMCodeGenBase
+class LLVMInitialValueCodeGen: private SBMLVisitor,
+        private LLVMCodeGenBase,
+        private LLVMSymbolResolver
 {
     using SBMLVisitor::visit;
 
@@ -45,12 +48,26 @@ public:
 
 private:
 
-    virtual bool visit(const Compartment &x);
-    virtual bool visit(const Species &x);
-    virtual bool visit(const Parameter &x);
-    virtual bool visit (const libsbml::AssignmentRule  &x);
-    virtual bool visit (const libsbml::InitialAssignment        &x);
+    virtual bool visit(const libsbml::Compartment &x);
+    virtual bool visit(const libsbml::Species &x);
+    virtual bool visit(const libsbml::Parameter &x);
+    virtual bool visit(const libsbml::AssignmentRule  &x);
+    virtual bool visit(const libsbml::InitialAssignment &x);
 
+    /**
+     * tell the acceptor to process all rules, even the ones
+     * we don't handle so the iteration continues over all rules.
+     */
+    virtual bool visit(const libsbml::Rule &x);
+
+    void processElement(const libsbml::SBase *element, const ASTNode *math);
+
+    /**
+     * specialized logic to write both amounts and concentrations here.
+     */
+    void processSpecies(const libsbml::Species *element, const ASTNode *math);
+
+    virtual llvm::Value *symbolValue(const std::string& symbol);
 
     llvm::Function *initialValuesFunc;
     LLVMSymbolForest symbolForest;

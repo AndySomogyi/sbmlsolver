@@ -22,54 +22,61 @@ namespace rr
 {
 
 enum ModelDataFields {
-    Size = 0,
-    ModelName,
-    Time,
-    NumIndependentSpecies,
-    NumDependentSpecies,
-    DependentSpeciesConservedSums,
-    NumGlobalParameters,
-    GlobalParameters,
-    NumReactions,
-    ReactionRates,
-    LocalParametersOffsets,
-    LocalParametersNum,
-    LocalParameters,
-    NumFloatingSpecies,
-    FloatingSpeciesConcentrations,
-    FloatingSpeciesInitConcentrations,
-    FloatingSpeciesConcentrationRates,
-    FloatingSpeciesAmounts,
-    FloatingSpeciesCompartments,
-    NumBoundarySpecies,
-    BoundarySpeciesConcentrations,
-    BoundarySpeciesCompartments,
-    NumCompartments,
-    CompartmentVolumes,
-    NumRateRules,
-    RateRules,
-    NumEvents,
-    EventTypeSize,
-    EventType,
-    EventPersistentTypeSize,
-    EventPersistentType,
-    EventTestsSize,
-    EventTests,
-    EventPrioritiesSize,
-    EventPriorities,
-    EventStatusArraySize,
-    EventStatusArray,
-    PreviousEventStatusArraySize,
-    PreviousEventStatusArray,
-    EventDelays,
-    EventAssignments,
-    ComputeEventAssignments,
-    PerformEventAssignments,
-    VariableTable,
-    BoundaryTable,
-    GlobalParameterTable,
-    SrSize,
-    Sr
+    Size = 0,                                 // 0
+    Flags,                                    // 1
+    Time,                                     // 2
+    NumIndependentSpecies,                    // 3
+    NumDependentSpecies,                      // 4
+    DependentSpeciesConservedSums,            // 5
+    NumGlobalParameters,                      // 6
+    GlobalParameters,                         // 7
+    NumReactions,                             // 8
+    ReactionRates,                            // 9
+    NumRateRules,                             // 10
+    RateRules,                                // 11
+    NumRates,                                 // 12
+    Rates,                                    // 13
+    LocalParametersOffsets,                   // 14
+    LocalParametersNum,                       // 15
+    LocalParameters,                          // 16
+    NumFloatingSpecies,                       // 17
+    FloatingSpeciesConcentrations,            // 18
+    FloatingSpeciesInitConcentrations,        // 19
+    FloatingSpeciesConcentrationRates,        // 20
+    FloatingSpeciesAmounts,                   // 21
+    FloatingSpeciesCompartments,              // 22
+    NumBoundarySpecies,                       // 23
+    BoundarySpeciesConcentrations,            // 24
+    BoundarySpeciesAmounts,                   // 25
+    BoundarySpeciesCompartments,              // 26
+    NumCompartments,                          // 27
+    CompartmentVolumes,                       // 28
+    Stoichiometry,                            // 29
+    NumEvents,                                // 30
+    EventTypeSize,                            // 31
+    EventType,                                // 32
+    EventPersistentTypeSize,                  // 33
+    EventPersistentType,                      // 34
+    EventTestsSize,                           // 35
+    EventTests,                               // 36
+    EventPrioritiesSize,                      // 37
+    EventPriorities,                          // 38
+    EventStatusArraySize,                     // 39
+    EventStatusArray,                         // 40
+    PreviousEventStatusArraySize,             // 41
+    PreviousEventStatusArray,                 // 42
+    WorkSize,                                 // 43
+    Work,                                     // 44
+    EventDelays,                              // 45
+    EventAssignments,                         // 46
+    ComputeEventAssignments,                  // 47
+    PerformEventAssignments,                  // 48
+    ModelName,                                // 49
+    VariableTable,                            // 50
+    BoundaryTable,                            // 51
+    GlobalParameterTable,                     // 52
+    SrSize,                                   // 53
+    Sr                                        // 54
 };
 
 class LLVMModelDataSymbols
@@ -101,189 +108,6 @@ public:
 
 
 
-
-//     /**
-//      * number of linearly independent rows in the stochiometry matrix.
-//      */
-//     int                                 numIndependentSpecies;
-//
-//     /**
-//      * number of linerly dependent rows in the stoichiometry matrix.
-//      *
-//      * numIndependentVariables + numDependentVariables had better
-//      * be equal to numFloatingSpecies
-//      */
-//     int                                 numDependentSpecies;
-//     double*                             dependentSpeciesConservedSums;
-//
-//     /**
-//      * number of global parameters
-//      */
-//     int                                 numGlobalParameters;
-//     double*                             globalParameters;
-//
-//     /**
-//      * number of reactions, same as ratesSize.
-//      */
-//     int                                 numReactions;
-//     double*                             reactionRates;
-//
-//     /**
-//      * LLVM specific
-//      * C version does not support local parameters
-//      * This is the offset, or starting index of the local parameters
-//      * for reaction i. Length is numReactions.
-//      *
-//      * Rationale: It is simple more effecient to store all the local
-//      * parameters in a single dimensional array with offsets, as the
-//      * offsets can be computed at compile time, whereas if we used
-//      * a array of arrays, it would require an additional memory access
-//      * to determine the location of the parameter.
-//      */
-//     int*                                localParametersOffsets;
-//
-//     /**
-//      * the number of local parameters for each reaction,
-//      * so legnth is numReactions. This is an array of counts,
-//      * hence it is named differently than the rest of the num*** fields.
-//      */
-//     int*                                localParametersNum;
-//
-//     /**
-//      * All local parameters are stored in this array. This has
-//      * length sum(localParameterNum).
-//      */
-//     double*                             localParameters;
-//
-//     /**
-//      * The total ammounts of the floating species, i.e.
-//      * concentration * compartment volume.
-//      * Everything named floatingSpecies??? has length numFloatingSpecies.
-//      *
-//      * Note, the floating species consist of BOTH independent AND dependent
-//      * species. Indexes [0,numIndpendentSpecies) values are the indenpendent
-//      * species, and the [numIndependentSpecies,numIndendentSpecies+numDependentSpecies)
-//      * contain the dependent species.
-//      */
-//     int                                 numFloatingSpecies;
-//
-//     /**
-//      * number of floating species and floating species concentrations.
-//      */
-//     double*                             floatingSpeciesConcentrations;
-//
-//     /**
-//      * initial concentration values for floating species.
-//      */
-//     double*                             floatingSpeciesInitConcentrations;
-//
-//     /**
-//      * concentration rates of change for floating species.
-//      */
-//     double*                             floatingSpeciesConcentrationRates;
-//
-//     /**
-//      * The total amount of a species in a compartment.
-//      */
-//     double*                             floatingSpeciesAmounts;
-//
-//     /**
-//      * compartment index for each floating species,
-//      * e.g. the volume of the i'th species is
-//      * md->compartmentVolumes[md->floatingSpeciesCompartments[i]]
-//      */
-//     int*                                floatingSpeciesCompartments;
-//
-//     /**
-//      * number of boundary species and boundary species concentrations.
-//      * units: either
-//      * Mass Percent = (Mass of Solute) / (Mass of Solution) x 100%
-//      * Volume Percent= (Volume of Solute) / (Volume of Solution) x 100%
-//      * Mass/Volume Percent= (Mass of Solute) / (Volume of Solution) x 100%
-//      */
-//     int                                 numBoundarySpecies;
-//     double*                             boundarySpeciesConcentrations;
-//
-//     /**
-//      * compartment index for each boundary species,
-//      * e.g. the volume of the i'th species is
-//      * md->compartmentVolumes[md->boundarySpeciesCompartments[i]]
-//      */
-//     int*                                boundarySpeciesCompartments;
-//
-//     /**
-//      * number of compartments, and compartment volumes.
-//      * units: volume
-//      */
-//     int                                 numCompartments;
-//     double*                             compartmentVolumes;
-//
-//
-//     int                                 numRateRules;
-//     double*                             rateRules;
-//
-//
-//     //Event stuff
-//     int                                 numEvents;
-//     int                                 eventTypeSize;
-//     bool*                               eventType;
-//
-//     int                                 eventPersistentTypeSize;
-//     bool*                               eventPersistentType;
-//
-//     int                                 eventTestsSize;
-//     double*                             eventTests;
-//
-//     int                                 eventPrioritiesSize;
-//     double*                             eventPriorities;
-//
-//     int                                 eventStatusArraySize;
-//     bool*                               eventStatusArray;
-//
-//     int                                 previousEventStatusArraySize;
-//     bool*                               previousEventStatusArray;
-//
-//     TEventDelayDelegate*                eventDelays;
-//     TEventAssignmentDelegate*           eventAssignments;
-//
-//     TComputeEventAssignmentDelegate*    computeEventAssignments;
-//     TPerformEventAssignmentDelegate*    performEventAssignments;
-//
-//     /**
-//      * Is set by the model to the names of the FloatingSpeciesConcentrationList.
-//      * The model should set each variableTable[i] to a static null terminated string.
-//      * allocModelDataBuffers should allocate space for numTotalVariables.
-//      * strings.
-//      */
-//     char**                              variableTable;
-//
-//     /**
-//      * names of boundary table species, set by the model to a static string.
-//      * allocModelDataBuffers should allocate numBoundaryVariables length char** array.
-//      */
-//     char**                              boundaryTable;
-//
-//     /**
-//      * names of global parameters. populated by the model.
-//      * allocModelDataBuffers should allocate length numGlobalParameters  char** array.
-//      */
-//     char**                              globalParameterTable;
-//
-//     /**
-//      * C species references,
-//      * not working correctly...
-//      */
-//     int                                 srSize;
-//     double*                             sr;
-//
-//     /**
-//      * Looks like these were going to be C local variables, but were
-//      * never implemented...
-//      */
-//     //int                                 lpSize;
-//     //double*                             lp;
-//     //int                                 localParameterDimensionsSize;
-//     //int*                                localParameterDimensions;
 
 
     void initAllocModelDataBuffers(ModelData& m) const;

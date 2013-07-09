@@ -51,6 +51,8 @@ int main(int argc, char* argv[])
     for (int i = 0; i < npairs; i++) {
         runInitialValueAssigmentTest(pairs[i].first, pairs[i].second);
     }
+    //StrIntPair test = {"l3v1", 999  };
+    //runInitialValueAssigmentTest(test.first, test.second);
 
 
     return 0;
