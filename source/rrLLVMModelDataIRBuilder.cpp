@@ -29,6 +29,7 @@ namespace rr
 {
 
 const char* LLVMModelDataIRBuilder::ModelDataName = "rr::ModelData";
+const char* LLVMModelDataIRBuilder::dcsr_matrixName = "rr::dcsr_matrix";
 
 //
 //
@@ -599,6 +600,45 @@ llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtStore(
     return builder->CreateStore(value, gep);
 }
 
+llvm::StructType* LLVMModelDataIRBuilder::getCSRSparseStructType(
+        llvm::Module* module, llvm::ExecutionEngine* engine)
+{
+    StructType *structType = module->getTypeByName(dcsr_matrixName);
+
+    if (!structType)
+    {
+        LLVMContext &context = module->getContext();
+
+        vector<Type*> elements;
+
+        elements.push_back(Type::getInt32Ty(context));                        // int m;
+        elements.push_back(Type::getInt32Ty(context));                        // int n;
+        elements.push_back(Type::getInt32Ty(context));                        // int nnz;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double* values;
+        elements.push_back(Type::getInt32PtrTy(context));                     // int* colidx;
+        elements.push_back(Type::getInt32PtrTy(context));                     // int* rowptr;
+
+        structType = StructType::create(context, elements, dcsr_matrixName);
+
+        if (engine)
+        {
+            const DataLayout *dl = engine->getDataLayout();
+
+            size_t llvm_size = dl->getTypeStoreSize(structType);
+
+            if (sizeof(dcsr_matrix) != llvm_size)
+            {
+                stringstream err;
+                err << "llvm " << dcsr_matrixName << " size " << llvm_size <<
+                        " does NOT match C++ sizeof(dcsr_matrix) " <<
+                        sizeof(ModelData);
+                throw LLVMException(err.str(), __FUNC__);
+            }
+        }
+    }
+    return structType;
+}
+
 void LLVMModelDataIRBuilder::validateStruct(llvm::Value* s, const char* funcName)
 {
     if (!builder)
@@ -697,11 +737,12 @@ llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, ll
         Type *boolPtrType = boolType->getPointerTo();
         Type *charStarStarType = Type::getInt8PtrTy(context)->getPointerTo();
         Type *voidPtrType = Type::getInt8PtrTy(context);
+        Type *csrSparseType = getCSRSparseStructType(module, engine);
 
         vector<Type*> elements;
 
         elements.push_back(Type::getInt32Ty(context));                        // unsigned                            size;
-        elements.push_back(Type::getInt8PtrTy(context));                      // char*                               modelName;
+        elements.push_back(Type::getInt32Ty(context));                        // unsigned                            flags;
         elements.push_back(Type::getDoubleTy(context));                       // double                              time;
         elements.push_back(Type::getInt32Ty(context));                        // int                                 numIndependentSpecies;
         elements.push_back(Type::getInt32Ty(context));                        // int                                 numDependentSpecies;
@@ -710,6 +751,10 @@ llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, ll
         elements.push_back(Type::getDoublePtrTy(context));                    // double*                             globalParameters;
         elements.push_back(Type::getInt32Ty(context));                        // int                                 numReactions;
         elements.push_back(Type::getDoublePtrTy(context));                    // double*                             reactionRates;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 numRateRules;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             rateRules;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 numRates;                         // 13
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             rates;                            // 14
         elements.push_back(Type::getInt32PtrTy(context));                     // int*                                localParametersOffsets;
         elements.push_back(Type::getInt32PtrTy(context));                     // int*                                localParametersNum;
         elements.push_back(Type::getDoublePtrTy(context));                    // double*                             localParameters;
@@ -725,8 +770,7 @@ llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, ll
         elements.push_back(Type::getInt32PtrTy(context));                     // int*                                boundarySpeciesCompartments;
         elements.push_back(Type::getInt32Ty(context));                        // int                                 numCompartments;
         elements.push_back(Type::getDoublePtrTy(context));                    // double*                             compartmentVolumes;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 numRateRules;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             rateRules;
+        elements.push_back(csrSparseType);                                    // dcsr_matrix                         stoichiometry;
         elements.push_back(Type::getInt32Ty(context));                        // int                                 numEvents;
         elements.push_back(Type::getInt32Ty(context));                        // int                                 eventTypeSize;
         elements.push_back(boolPtrType);                                      // bool*                               eventType;
@@ -746,6 +790,7 @@ llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, ll
         elements.push_back(voidPtrType);                                      // TEventAssignmentDelegate*           eventAssignments;
         elements.push_back(voidPtrType);                                      // TComputeEventAssignmentDelegate*    computeEventAssignments;
         elements.push_back(voidPtrType);                                      // TPerformEventAssignmentDelegate*    performEventAssignments;
+        elements.push_back(Type::getInt8PtrTy(context));                      // char*                               modelName;
         elements.push_back(charStarStarType);                                 // char**                              variableTable;
         elements.push_back(charStarStarType);                                 // char**                              boundaryTable;
         elements.push_back(charStarStarType);                                 // char**                              globalParameterTable;

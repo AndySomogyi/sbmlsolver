@@ -51,6 +51,13 @@ public:
 
     llvm::Value *realExprCodeGen(const libsbml::ASTNode *ast);
 
+    /**
+     * for now, just convert to double,
+     *
+     * TODO: is this right???
+     */
+    llvm::Value *integerCodeGen(const libsbml::ASTNode *ast);
+
 private:
     llvm::IRBuilder<> &builder;
     LLVMSymbolResolver &resolver;

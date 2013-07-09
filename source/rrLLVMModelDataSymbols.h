@@ -22,57 +22,61 @@ namespace rr
 {
 
 enum ModelDataFields {
-    Size = 0,
-    ModelName,
-    Time,
-    NumIndependentSpecies,
-    NumDependentSpecies,
-    DependentSpeciesConservedSums,
-    NumGlobalParameters,
-    GlobalParameters,
-    NumReactions,
-    ReactionRates,
-    LocalParametersOffsets,
-    LocalParametersNum,
-    LocalParameters,
-    NumFloatingSpecies,
-    FloatingSpeciesConcentrations,
-    FloatingSpeciesInitConcentrations,
-    FloatingSpeciesConcentrationRates,
-    FloatingSpeciesAmounts,
-    FloatingSpeciesCompartments,
-    NumBoundarySpecies,
-    BoundarySpeciesConcentrations,
-    BoundarySpeciesAmounts,
-    BoundarySpeciesCompartments,
-    NumCompartments,
-    CompartmentVolumes,
-    NumRateRules,
-    RateRules,
-    NumEvents,
-    EventTypeSize,
-    EventType,
-    EventPersistentTypeSize,
-    EventPersistentType,
-    EventTestsSize,
-    EventTests,
-    EventPrioritiesSize,
-    EventPriorities,
-    EventStatusArraySize,
-    EventStatusArray,
-    PreviousEventStatusArraySize,
-    PreviousEventStatusArray,
-    WorkSize,
-    Work,
-    EventDelays,
-    EventAssignments,
-    ComputeEventAssignments,
-    PerformEventAssignments,
-    VariableTable,
-    BoundaryTable,
-    GlobalParameterTable,
-    SrSize,
-    Sr
+    Size = 0,                                 // 0
+    Flags,                                    // 1
+    Time,                                     // 2
+    NumIndependentSpecies,                    // 3
+    NumDependentSpecies,                      // 4
+    DependentSpeciesConservedSums,            // 5
+    NumGlobalParameters,                      // 6
+    GlobalParameters,                         // 7
+    NumReactions,                             // 8
+    ReactionRates,                            // 9
+    NumRateRules,                             // 10
+    RateRules,                                // 11
+    NumRates,                                 // 12
+    Rates,                                    // 13
+    LocalParametersOffsets,                   // 14
+    LocalParametersNum,                       // 15
+    LocalParameters,                          // 16
+    NumFloatingSpecies,                       // 17
+    FloatingSpeciesConcentrations,            // 18
+    FloatingSpeciesInitConcentrations,        // 19
+    FloatingSpeciesConcentrationRates,        // 20
+    FloatingSpeciesAmounts,                   // 21
+    FloatingSpeciesCompartments,              // 22
+    NumBoundarySpecies,                       // 23
+    BoundarySpeciesConcentrations,            // 24
+    BoundarySpeciesAmounts,                   // 25
+    BoundarySpeciesCompartments,              // 26
+    NumCompartments,                          // 27
+    CompartmentVolumes,                       // 28
+    Stoichiometry,                            // 29
+    NumEvents,                                // 30
+    EventTypeSize,                            // 31
+    EventType,                                // 32
+    EventPersistentTypeSize,                  // 33
+    EventPersistentType,                      // 34
+    EventTestsSize,                           // 35
+    EventTests,                               // 36
+    EventPrioritiesSize,                      // 37
+    EventPriorities,                          // 38
+    EventStatusArraySize,                     // 39
+    EventStatusArray,                         // 40
+    PreviousEventStatusArraySize,             // 41
+    PreviousEventStatusArray,                 // 42
+    WorkSize,                                 // 43
+    Work,                                     // 44
+    EventDelays,                              // 45
+    EventAssignments,                         // 46
+    ComputeEventAssignments,                  // 47
+    PerformEventAssignments,                  // 48
+    ModelName,                                // 49
+    VariableTable,                            // 50
+    BoundaryTable,                            // 51
+    GlobalParameterTable,                     // 52
+    SrSize,                                   // 53
+    Sr                                        // 54
 };
 
 class LLVMModelDataSymbols
