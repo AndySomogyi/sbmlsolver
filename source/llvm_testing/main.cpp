@@ -42,6 +42,10 @@ int main(int argc, char* argv[])
 {
     cout << "hi\n";
 
+    runSparseTest(33, 323, 50);
+
+    /*
+
 
 
     StrIntPair *pairs;
@@ -53,6 +57,9 @@ int main(int argc, char* argv[])
     }
     //StrIntPair test = {"l3v1", 999  };
     //runInitialValueAssigmentTest(test.first, test.second);
+
+
+     */
 
 
     return 0;

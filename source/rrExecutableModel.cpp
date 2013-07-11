@@ -3,6 +3,8 @@
 #include "rrExecutableModel.h"
 #include "rrStringUtils.h"
 
+using namespace std;
+
 namespace rr
 {
 
@@ -107,5 +109,7 @@ void  freeModelDataBuffers(ModelData &data)
     free(data.performEventAssignments);
     free(data.eventDelays);
 }
+
+
 
 } // namespace rr

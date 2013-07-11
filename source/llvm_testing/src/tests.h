@@ -18,6 +18,8 @@ bool runModelDataAccessorTest(const string& version, int caseNumber);
 
 bool runInitialValueAssigmentTest(const string& version, int caseNumber) ;
 
+bool runSparseTest(const int m, const int n, const int nnz);
+
 
 
 
