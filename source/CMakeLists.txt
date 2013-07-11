@@ -91,6 +91,7 @@ set(rrSources
     rrModelGeneratorFactory
     rrNoise
     rrVersionInfo
+    rrSparse
     )
 
 # Add the LLVM sources to compilation

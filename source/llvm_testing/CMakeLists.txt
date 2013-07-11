@@ -13,7 +13,7 @@ set(tests
 add_executable( ${target}
     main
     src/tests
-
+    src/cpplapack
     )
 
 set_property(TARGET ${target}
@@ -33,6 +33,7 @@ link_directories(
 include_directories(
     src
     ${RR_ROOT}
+    ${THIRD_PARTY_INSTALL_FOLDER}/include/clapack
     )
 
 if(UNIX)

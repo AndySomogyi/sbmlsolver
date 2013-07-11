@@ -17,7 +17,6 @@ typedef void     (*TPerformEventAssignmentDelegate)(ModelDataP, double*);
 typedef void     (*TEventAssignmentDelegate)();
 
 
-
 /**
  * sparse storage compressed row format matrix.
  *
@@ -26,7 +25,7 @@ typedef void     (*TEventAssignmentDelegate)();
  *
  * structure layout based on  Mark Hoemmen's BeBop sparse conversion lib.
  */
-typedef struct dcsr_matrix_t
+typedef struct csr_matrix_t
 {
     /**
      * number of rows
@@ -58,11 +57,17 @@ typedef struct dcsr_matrix_t
 
     /**
      * array of indices into the colidx and values arrays, for each column,
-     * length: m+1
+     * length: m + 1
+     *
+     * This CSR matrix has the property that even rows with zero non-zero
+     * values have an entry in this array, if the i'th row has zero no values,
+     * then rowptr[j] == rowptr[j+1]. This property makes it easy to set
+     * values.
      */
     int* rowptr;
 
-} dcsr_matrix;
+} csr_matrix;
+
 
 
 /**
@@ -240,7 +245,7 @@ typedef struct SModelData
     /**
      * stoichiometry matrix
      */
-    dcsr_matrix                         stoichiometry;                    // 29
+    csr_matrix*                        stoichiometry;                    // 29
 
 
     //Event stuff

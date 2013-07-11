@@ -626,7 +626,7 @@ llvm::StructType* LLVMModelDataIRBuilder::getCSRSparseStructType(
 
             size_t llvm_size = dl->getTypeStoreSize(structType);
 
-            if (sizeof(dcsr_matrix) != llvm_size)
+            if (sizeof(csr_matrix) != llvm_size)
             {
                 stringstream err;
                 err << "llvm " << dcsr_matrixName << " size " << llvm_size <<
@@ -738,6 +738,7 @@ llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, ll
         Type *charStarStarType = Type::getInt8PtrTy(context)->getPointerTo();
         Type *voidPtrType = Type::getInt8PtrTy(context);
         Type *csrSparseType = getCSRSparseStructType(module, engine);
+        Type *csrSparsePtrType = csrSparseType->getPointerTo();
 
         vector<Type*> elements;
 
@@ -770,7 +771,7 @@ llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, ll
         elements.push_back(Type::getInt32PtrTy(context));                     // int*                                boundarySpeciesCompartments;
         elements.push_back(Type::getInt32Ty(context));                        // int                                 numCompartments;
         elements.push_back(Type::getDoublePtrTy(context));                    // double*                             compartmentVolumes;
-        elements.push_back(csrSparseType);                                    // dcsr_matrix                         stoichiometry;
+        elements.push_back(csrSparsePtrType);                                 // dcsr_matrix                         stoichiometry;
         elements.push_back(Type::getInt32Ty(context));                        // int                                 numEvents;
         elements.push_back(Type::getInt32Ty(context));                        // int                                 eventTypeSize;
         elements.push_back(boolPtrType);                                      // bool*                               eventType;

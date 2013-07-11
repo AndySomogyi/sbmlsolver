@@ -15,8 +15,6 @@ namespace rr
 using std::string;
 using std::vector;
 
-class CvodeInterface;
-
 /**
  * The ExecutableModel interface provides a way to access an
  * sbml model that was compiled, JIT'd or interpreted
@@ -206,6 +204,7 @@ void RR_DECLSPEC initModelData(ModelData &data);
 
 /**
  * Allocate memory for all the data buffers in a ModelData structure,
+ * (with the exception of the stoichiometry struct),
  * based on what each buffer size variable indicates, i.e.
  * if data.ySize is 10, data.y will now point to a length 10 double array.
  * The data.modelName field will be a newly allocated null terminated c string.
@@ -226,7 +225,6 @@ void RR_DECLSPEC allocModelDataBuffers(ModelData &data, const string& modelName)
  * Does NOT free the ModelData itself, ONLY the buffer data.
  */
 void RR_DECLSPEC freeModelDataBuffers(ModelData &data);
-
 
 }
 #endif
