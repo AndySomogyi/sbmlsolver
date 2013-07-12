@@ -101,19 +101,19 @@ public:
     int getFloatingSpeciesCompartmentIndex(std::string const&) const;
     int getBoundarySpeciesCompartmentIndex(std::string const&) const;
     int getGlobalParameterIndex(std::string const&) const;
+
+    int getReactionIndex(std::string const&) const;
+    std::vector<std::string> getReactionIds() const;
+
     std::vector<std::string> getGlobalParameterIds() const;
     std::vector<std::string> getFloatingSpeciesIds() const;
     std::vector<std::string> getCompartmentIds() const;
     std::vector<std::string> getBoundarySpeciesIds() const;
 
 
-
-
-
     void initAllocModelDataBuffers(ModelData& m) const;
 
     void print() const;
-
 
 
 private:
@@ -123,8 +123,35 @@ private:
     StringIntMap boundarySpeciesMap;
     StringIntMap compartmentsMap;
     StringIntMap globalParametersMap;
+
+    /**
+     * all reactions are named.
+     */
+    StringIntMap reactionsMap;
+
+    /**
+     * compartment that a floating species belongs to,
+     * indexed by floating species index.
+     */
     std::vector<int> floatingSpeciesCompartments;
+
+    /**
+     * compartment that a boundary species belongs to,
+     * indexed by boundary species index.
+     */
     std::vector<int> boundarySpeciesCompartments;
+
+    /**
+     * the stochiometry matrix is # reactions rows by # species columns.
+     *
+     * the species indices go here.
+     */
+    std::vector<int> stoichColIndx;
+
+    /**
+     * and the reaction indices go here.
+     */
+    std::vector<int> stoichRowIndx;
 
 
 };

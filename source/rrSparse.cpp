@@ -14,8 +14,11 @@
 #include <cassert>
 #include "rrExecutableModel.h"
 #include "rrStringUtils.h"
+#include <iostream>
 
 namespace rr {
+
+using namespace std;
 
 // sorting predicate for vector of column values,
 // sort on the index, take value along for the ride.
@@ -95,6 +98,8 @@ csr_matrix* csr_matrix_new(int m, int n,
 
 bool csr_matrix_set_nz(csr_matrix* mat, int row, int col, double val)
 {
+    cout << __FUNC__ << ": " << row << ", " << col << ", " << val << "\n";
+
     if (mat && row <= mat->m && col <= mat->n)
     {
         for (int k = mat->rowptr[row]; k < mat->rowptr[row + 1]; k++)

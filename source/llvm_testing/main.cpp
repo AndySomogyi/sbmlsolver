@@ -4,6 +4,9 @@
 #include "rrLLVMModelDataIRBuilder.h"
 #include "rrException.h"
 #include "rrUtils.h"
+#include "CSRMatrixTest.h"
+
+#include "LLVMCSRMatrixTest.h"
 
 #include <sbml/SBMLDocument.h>
 #include <sbml/Model.h>
@@ -44,10 +47,13 @@ int main(int argc, char* argv[])
 
     runSparseTest(33, 323, 50);
 
+    runLLVMCSRMatrixTest(33, 323, 50);
+
+
+
+
+
     /*
-
-
-
     StrIntPair *pairs;
     int npairs;
     getPairs(pairs, npairs);
@@ -56,10 +62,14 @@ int main(int argc, char* argv[])
         runInitialValueAssigmentTest(pairs[i].first, pairs[i].second);
     }
     //StrIntPair test = {"l3v1", 999  };
+    //StrIntPair test = {"l2v4", 7};
     //runInitialValueAssigmentTest(test.first, test.second);
 
 
      */
+
+
+
 
 
     return 0;

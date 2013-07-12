@@ -74,6 +74,13 @@ public:
     LLVMModelGeneratorContext(libsbml::SBMLDocument const *doc,
             bool computeAndAssignConsevationLaws);
 
+    /**
+     * does not attach to any sbml doc,
+     *
+     * useful for testing out LLVM functionality.
+     */
+    LLVMModelGeneratorContext();
+
     ~LLVMModelGeneratorContext();
 
     const LLVMModelDataSymbols &getModelDataSymbols() const;
@@ -94,6 +101,13 @@ public:
     llvm::IRBuilder<> *getBuilder() const;
 
 private:
+
+    /**
+     * set the execution engine's global mappings to the rr functions
+     * that are accessible from the LLVM generated code.
+     */
+    void addGlobalMappings();
+
     llvm::LLVMContext *context;
     llvm::ExecutionEngine *executionEngine;
     llvm::Module *module;

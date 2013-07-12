@@ -8,6 +8,7 @@
 #include "lsLibStructural.h"
 #include "rrLLVMException.h"
 #include "rrOSSpecifics.h"
+#include "rrLogger.h"
 
 #include <sbml/Model.h>
 #include <sbml/SBMLDocument.h>
@@ -38,13 +39,9 @@ namespace rr
 {
 
 
-
-
-
 LLVMModelDataSymbols::LLVMModelDataSymbols()
 {
     // TODO Auto-generated constructor stub
-
 }
 
 LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
@@ -100,6 +97,55 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
         globalParametersMap.insert(StringIntPair(p->getId(), i));
     }
 
+    // get the reactions
+    const ListOfReactions *reactions = model->getListOfReactions();
+    for (int i = 0; i < reactions->size(); i++)
+    {
+        const Reaction *r = reactions->get(i);
+        reactionsMap.insert(StringIntPair(r->getId(), i));
+
+        // go through the reaction reactants and products to know how much to
+        // allocate space for the stochiometry matrix.
+        // all species that participate in reactions must be floating.
+        const ListOfSpeciesReferences *reactants = r->getListOfReactants();
+        for (int j = 0; j < reactants->size(); j++)
+        {
+            const SimpleSpeciesReference *r = reactants->get(j);
+            const string& speciesId = r->getSpecies();
+
+            // its OK if we do not reactants as floating species, they
+            // might be boundary species, so they do not change.
+            try
+            {
+                int speciesIdx = getFloatingSpeciesIndex(r->getSpecies());
+                stoichColIndx.push_back(speciesIdx);
+                stoichRowIndx.push_back(i);
+            } catch (exception&) {}
+        }
+
+        const ListOfSpeciesReferences *products = r->getListOfProducts();
+        for (int j = 0; j < products->size(); j++)
+        {
+            const SimpleSpeciesReference *p = products->get(j);
+            // products had better be in the stoich matrix.
+
+            try
+            {
+                int speciesIdx = getFloatingSpeciesIndex(p->getSpecies());
+                stoichColIndx.push_back(speciesIdx);
+                stoichRowIndx.push_back(i);
+            }
+            catch (exception&)
+            {
+                string err = "could not find product ";
+                err += p->getSpecies();
+                err += " in the list of floating species for reaction ";
+                err += r->getId();
+                err += ", this species will be ignored in this reaction.";
+                Log(lWarning) << err;
+            }
+        }
+    }
 }
 
 LLVMModelDataSymbols::~LLVMModelDataSymbols()
@@ -216,6 +262,24 @@ int LLVMModelDataSymbols::getBoundarySpeciesCompartmentIndex(
     return boundarySpeciesCompartments[speciesIndex];
 }
 
+int LLVMModelDataSymbols::getReactionIndex(const std::string& id) const
+{
+    StringIntMap::const_iterator i = reactionsMap.find(id);
+    if (i != globalParametersMap.end())
+    {
+        return i->second;
+    }
+    else
+    {
+        throw LLVMException("could not find reactions with id " + id, __FUNC__);
+    }
+}
+
+std::vector<std::string> LLVMModelDataSymbols::getReactionIds() const
+{
+    return getIds(reactionsMap);
+}
+
 void LLVMModelDataSymbols::print() const
 {
     for (StringIntMap::const_iterator i = floatingSpeciesMap.begin();
@@ -246,6 +310,12 @@ void LLVMModelDataSymbols::print() const
                 << "\n";
     }
 
+    for (StringIntMap::const_iterator i = reactionsMap.begin();
+            i != reactionsMap.end(); i++)
+    {
+        cout << "reaction id: " << i->first << ", index: " << i->second
+                << "\n";
+    }
 }
 
 

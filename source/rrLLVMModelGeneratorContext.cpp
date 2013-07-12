@@ -6,8 +6,11 @@
  */
 
 #include "rrLLVMModelGeneratorContext.h"
-#include <sbml/SBMLReader.h>
+#include "rrSparse.h"
 #include "rrLLVMIncludes.h"
+#include "rrLLVMModelDataIRBuilder.h"
+
+#include <sbml/SBMLReader.h>
 
 
 #include <string>
@@ -43,6 +46,8 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext(std::string const &sbml,
 
     engineBuilder.setErrorStr(errString);
     executionEngine = engineBuilder.create();
+
+    addGlobalMappings();
 }
 
 LLVMModelGeneratorContext::LLVMModelGeneratorContext(libsbml::SBMLDocument const *doc,
@@ -68,7 +73,31 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext(libsbml::SBMLDocument const
     engineBuilder.setErrorStr(errString);
     executionEngine = engineBuilder.create();
 
+    addGlobalMappings();
+}
 
+LLVMModelGeneratorContext::LLVMModelGeneratorContext() :
+        ownedDoc(0),
+        doc(0)
+{
+    // initialize LLVM
+    // TODO check result
+    InitializeNativeTarget();
+
+    context = new LLVMContext();
+    // Make the module, which holds all the code.
+    module = new Module("LLVM Module", *context);
+
+    builder = new IRBuilder<>(*context);
+
+    errString = new std::string();
+
+    EngineBuilder engineBuilder(module);
+    //engineBuilder.setEngineKind(EngineKind::JIT);
+    engineBuilder.setErrorStr(errString);
+    executionEngine = engineBuilder.create();
+
+    addGlobalMappings();
 }
 
 
@@ -122,5 +151,34 @@ llvm::IRBuilder<>* LLVMModelGeneratorContext::getBuilder() const
 {
     return builder;
 }
+
+
+
+/*********************** TESTING STUFF WILL GO AWAY EVENTUALLY ***********************/
+
+static void dispDouble(double d) {
+    cout << __FUNC__ << ": " << d << "\n";
+}
+
+static void dispInt(int i) {
+    cout << __FUNC__ << ": " << i << "\n";
+}
+
+static void dispChar(char c) {
+    cout << __FUNC__ << ": " << (int)c << "\n";
+}
+
+/*************************************************************************************/
+
+void LLVMModelGeneratorContext::addGlobalMappings()
+{
+    executionEngine->addGlobalMapping(LLVMModelDataIRBuilder::getCSRMatrixSetNZDecl(module), (void*)csr_matrix_set_nz);
+    executionEngine->addGlobalMapping(LLVMModelDataIRBuilder::getCSRMatrixGetNZDecl(module), (void*)csr_matrix_get_nz);
+    executionEngine->addGlobalMapping(LLVMModelDataIRBuilder::getDispIntDecl(module), (void*)dispInt);
+    executionEngine->addGlobalMapping(LLVMModelDataIRBuilder::getDispDoubleDecl(module), (void*)dispDouble);
+    executionEngine->addGlobalMapping(LLVMModelDataIRBuilder::getDispCharDecl(module), (void*)dispChar);
+}
+
+
 
 } /* namespace rr */

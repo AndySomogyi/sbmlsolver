@@ -14,6 +14,8 @@ add_executable( ${target}
     main
     src/tests
     src/cpplapack
+    src/CSRMatrixTest
+    src/LLVMCSRMatrixTest
     )
 
 set_property(TARGET ${target}
