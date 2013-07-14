@@ -766,7 +766,9 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
     args = buildEvalArgument();
     mTheModel->evalModel(timeEnd, &args[0]);
 
-    vector<double> dCurrentValues = mTheModel->getCurrentValues();
+    vector<double> dCurrentValues(mTheModel->getModelData().numRateRules, 0);
+    mTheModel->getRateRuleValues(&dCurrentValues[0]);
+
     for (int k = 0; k < mNumAdditionalRules; k++)
     {
         SetVector((N_Vector) mAmounts, k, dCurrentValues[k]);
@@ -800,7 +802,7 @@ void CvodeInterface::assignResultsToModel()
 
     vector<double> args = buildEvalArgument();
     mTheModel->computeRules(args);
-    mTheModel->assignRates(dTemp);
+    mTheModel->setRateRuleValues(&dTemp[0]);
 
     mTheModel->computeAllRatesOfChange();
 }
@@ -813,7 +815,9 @@ void CvodeInterface::assignNewVector(ExecutableModel *model)
 // Restart the simulation using a different initial condition
 void CvodeInterface::assignNewVector(ExecutableModel *oModel, bool bAssignNewTolerances)
 {
-    vector<double> dTemp = mTheModel->getCurrentValues();
+    vector<double> dTemp(mTheModel->getModelData().numRateRules, 0);
+    mTheModel->getRateRuleValues(&dTemp[0]);
+
     double dMin = mAbsTol;
 
     for (int i = 0; i < mNumAdditionalRules; i++)
@@ -898,7 +902,10 @@ vector<double> CvodeInterface::buildEvalArgument()
     vector<double> dResult;
     dResult.resize(mTheModel->getModelData().numFloatingSpecies + mTheModel->getModelData().numRateRules);
 
-    vector<double> dCurrentValues = mTheModel->getCurrentValues();
+    vector<double> dCurrentValues(mTheModel->getModelData().numRateRules, 0);
+    mTheModel->getRateRuleValues(&dCurrentValues[0]);
+
+
     for(int i = 0; i < dCurrentValues.size(); i++)
     {
         dResult[i] = dCurrentValues[i];

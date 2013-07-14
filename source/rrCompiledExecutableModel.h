@@ -21,7 +21,7 @@ typedef void     (rrCallConv *c_void_MDS)(ModelData*); //MDS stands for ModelDat
 typedef int      (rrCallConv *c_int_MDS)(ModelData*);
 typedef int      (rrCallConv *c_int_MDS_int)(ModelData*, int);
 typedef char*    (rrCallConv *c_charStar_MDS)(ModelData*);
-typedef void     (rrCallConv *c_void_MDS_doubleStar)(ModelData*, double*);
+typedef void     (rrCallConv *c_void_MDS_doubleStar)(ModelData*, const double*);
 typedef double   (rrCallConv *c_double_MDS_int)(ModelData*, int);
 typedef double*  (rrCallConv *c_doubleStar_MDS)(ModelData*);
 typedef void     (rrCallConv *c_void_MDS_double_doubleStar)(ModelData*, double, const double*);
@@ -130,11 +130,13 @@ public:
     virtual double getConcentration(int index);
 
     //Access dll data
-    virtual vector<double> getCurrentValues();
+    virtual void getRateRuleValues(double *rateRuleValues);
+
     virtual double getAmounts(const int& i);
     virtual void initializeRates();
-    virtual void assignRates();
-    virtual void assignRates(vector<double>& rates);
+
+    virtual void setRateRuleValues(const double *rateRuleValues);
+
     virtual void convertToConcentrations();
     virtual void updateDependentSpeciesValues(double* _y);
     virtual void computeAllRatesOfChange();

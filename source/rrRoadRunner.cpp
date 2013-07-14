@@ -486,7 +486,8 @@ vector<double> RoadRunner::buildModelEvalArgument()
     vector<double> dResult;
     dResult.resize((mModel->getModelData().numFloatingSpecies) + (mModel->getModelData().numRateRules) );
 
-    vector<double> dCurrentRuleValues = mModel->getCurrentValues();
+    vector<double> dCurrentRuleValues(mModel->getModelData().numRateRules, 0);
+    mModel->getRateRuleValues(&dCurrentRuleValues[0]);
 
     for(int i = 0; i < (mModel->getModelData().numRateRules); i++)
     {

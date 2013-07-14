@@ -81,11 +81,12 @@ public:
     virtual double getConcentration(int index);
 
     //Access dll data
-    virtual vector<double> getCurrentValues();
+    virtual void getRateRuleValues(double *rateRuleValues);
     virtual double getAmounts(const int& i);
     virtual void initializeRates();
-    virtual void assignRates();
-    virtual void assignRates(vector<double>& rates);
+
+    virtual void setRateRuleValues(const double *rateRuleValues);
+
     virtual void convertToConcentrations();
     virtual void updateDependentSpeciesValues(double* _y);
     virtual void computeAllRatesOfChange();

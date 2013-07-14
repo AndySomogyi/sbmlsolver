@@ -147,9 +147,8 @@ double LLVMExecutableModel::getConcentration(int index)
     return 0;
 }
 
-vector<double> LLVMExecutableModel::getCurrentValues()
+void LLVMExecutableModel::getRateRuleValues(double *rateRuleValues)
 {
-    return vector<double>();
 }
 
 double LLVMExecutableModel::getAmounts(const int& i)
@@ -161,11 +160,7 @@ void LLVMExecutableModel::initializeRates()
 {
 }
 
-void LLVMExecutableModel::assignRates()
-{
-}
-
-void LLVMExecutableModel::assignRates(vector<double>& rates)
+void LLVMExecutableModel::setRateRuleValues(const double * rates)
 {
 }
 

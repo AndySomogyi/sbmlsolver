@@ -11,9 +11,9 @@ using namespace UnitTest;
 using namespace std;
 using namespace rr;
 
-extern string 	gTSModelsPath;
+extern string     gTSModelsPath;
 extern string   gTempFolder;
-extern bool		gDebug;
+extern bool        gDebug;
 
 SUITE(SBML_TEST_SUITE)
 {
@@ -550,7 +550,7 @@ SUITE(SBML_TEST_SUITE)
  TEST(530) { CHECK(RunTest("l2v4", 530)); }
  //TEST(531) { CHECK(RunTest("l2v4", 531)); }       //Not Supported
  TEST(532) { CHECK(RunTest("l2v4", 532)); }
- //TEST(533) { CHECK(RunTest("l2v4", 533)); }		//Not Supported
+ //TEST(533) { CHECK(RunTest("l2v4", 533)); }        //Not Supported
  //TEST(534) { CHECK(RunTest("l2v4", 534)); }       //Not Supported
  //TEST(535) { CHECK(RunTest("l2v4", 535)); }       //Not Supported
  //TEST(536) { CHECK(RunTest("l2v4", 536)); }       //Not Supported
@@ -560,17 +560,17 @@ SUITE(SBML_TEST_SUITE)
  TEST(540) { CHECK(RunTest("l2v4", 540)); }
  TEST(541) { CHECK(RunTest("l2v4", 541)); }
  TEST(542) { CHECK(RunTest("l2v4", 542)); }
- //TEST(543) { CHECK(RunTest("l2v4", 543)); }     	//Not Supported
+ //TEST(543) { CHECK(RunTest("l2v4", 543)); }         //Not Supported
  TEST(544) { CHECK(RunTest("l2v4", 544)); }
  TEST(545) { CHECK(RunTest("l2v4", 545)); }
- //TEST(546) { CHECK(RunTest("l2v4", 546)); } 	  	//Not Supported
+ //TEST(546) { CHECK(RunTest("l2v4", 546)); }           //Not Supported
  TEST(547) { CHECK(RunTest("l2v4", 547)); }
  //TEST(548) { CHECK(RunTest("l2v4", 548)); }         //Not Supported
  //TEST(549) { CHECK(RunTest("l2v4", 549)); }         //Not Supported
  //TEST(550) { CHECK(RunTest("l2v4", 550)); }         //Not Supported
  //TEST(551) { CHECK(RunTest("l2v4", 551)); }         //Not Supported
  //TEST(552) { CHECK(RunTest("l2v4", 552)); }         //Not Supported
- //TEST(553) { CHECK(RunTest("l2v4", 553)); } 	      //Not Supported
+ //TEST(553) { CHECK(RunTest("l2v4", 553)); }           //Not Supported
  //TEST(554) { CHECK(RunTest("l2v4", 554)); }         //Not Supported
  //TEST(555) { CHECK(RunTest("l2v4", 555)); }         //Not Supported
  //TEST(556) { CHECK(RunTest("l2v4", 556)); }         //Not Supported
@@ -722,7 +722,7 @@ SUITE(SBML_TEST_SUITE)
  TEST(702) { CHECK(RunTest("l2v4", 702)); }
  TEST(703) { CHECK(RunTest("l2v4", 703)); }
  TEST(704) { CHECK(RunTest("l2v4", 704)); }
- //TEST(705) { CHECK(RunTest("l2v4", 705)); }     	//Not Supported
+ //TEST(705) { CHECK(RunTest("l2v4", 705)); }         //Not Supported
  TEST(706) { CHECK(RunTest("l2v4", 706)); }
  TEST(707) { CHECK(RunTest("l2v4", 707)); }
  TEST(708) { CHECK(RunTest("l2v4", 708)); }
@@ -860,11 +860,11 @@ SUITE(SBML_TEST_SUITE)
  TEST(838) { CHECK(RunTest("l2v4", 838)); }
  TEST(839) { CHECK(RunTest("l2v4", 839)); }
  TEST(840) { CHECK(RunTest("l2v4", 840)); }
- TEST(841) { CHECK(RunTest("l2v4", 841)); } 
+ TEST(841) { CHECK(RunTest("l2v4", 841)); }
 
 TEST(842) { CHECK(RunTest("l2v4", 842)); }
 TEST(843) { CHECK(RunTest("l2v4", 843)); }
-//TEST(844) { CHECK(RunTest("l2v4", 844)); }  	 	//Not Supported
+//TEST(844) { CHECK(RunTest("l2v4", 844)); }           //Not Supported
 TEST(845) { CHECK(RunTest("l2v4", 845)); }
 TEST(846) { CHECK(RunTest("l2v4", 846)); }
 TEST(847) { CHECK(RunTest("l2v4", 847)); }
@@ -959,7 +959,7 @@ TEST(935) { CHECK(RunTest("l3v1", 935)); }
 
 TEST(936) { CHECK(RunTest("l2v4", 936)); }
 //TEST(937) { CHECK(RunTest("l2v4", 937)); }      //Not Supported
-//TEST(938) { CHECK(RunTest("l2v4", 938)); }	  //Not Supported
+//TEST(938) { CHECK(RunTest("l2v4", 938)); }      //Not Supported
 //TEST(939) { CHECK(RunTest("l2v4", 939)); }      //Not Supported
 //TEST(940) { CHECK(RunTest("l2v4", 940)); }      //Not Supported
 //TEST(941) { CHECK(RunTest("l2v4", 941)); }      //Not Supported
@@ -975,7 +975,7 @@ TEST(949) { CHECK(RunTest("l2v4", 949)); }
 //TEST(951) { CHECK(RunTest("l2v4", 951)); }
 
 #if !defined(_MSC_VER)
-TEST(952) { CHECK(RunTest("l3v1", 952)); }		//This one is erratic.. it sometimes passes and sometimes end in a segfault!
+TEST(952) { CHECK(RunTest("l3v1", 952)); }        //This one is erratic.. it sometimes passes and sometimes end in a segfault!
 #endif
 
 TEST(953) { CHECK(RunTest("l3v1", 953)); }
@@ -1229,6 +1229,71 @@ TEST(1184) { CHECK(RunTest("l3v1", 1184 )); }
 TEST(1185) { CHECK(RunTest("l3v1", 1185 )); }
 
 }
+
+/**
+ * The original test suite used for Valgrind testing
+ */
+SUITE(SBML_TEST_SUITE_VG1)
+{
+    TEST(15)  { CHECK(RunTest("l2v4", 15)); }
+    TEST(16)  { CHECK(RunTest("l2v4", 16)); }
+    TEST(17)  { CHECK(RunTest("l2v4", 17)); }
+    TEST(18)  { CHECK(RunTest("l2v4", 18)); }
+    TEST(19)  { CHECK(RunTest("l2v4", 19)); }
+    TEST(20)  { CHECK(RunTest("l2v4", 20)); }
+    TEST(21)  { CHECK(RunTest("l2v4", 21)); }
+    TEST(22)  { CHECK(RunTest("l2v4", 22)); }
+    TEST(23)  { CHECK(RunTest("l2v4", 23)); }
+    TEST(24)  { CHECK(RunTest("l2v4", 24)); }
+    TEST(25)  { CHECK(RunTest("l2v4", 25)); }
+    TEST(26)  { CHECK(RunTest("l2v4", 26)); }
+    TEST(27)  { CHECK(RunTest("l2v4", 27)); }
+    TEST(29)  { CHECK(RunTest("l2v4", 29)); }
+    TEST(30)  { CHECK(RunTest("l2v4", 30)); }
+    TEST(31)  { CHECK(RunTest("l2v4", 31)); }
+    TEST(889) { CHECK(RunTest("l2v4", 889)); }
+    TEST(890) { CHECK(RunTest("l2v4", 890)); }
+    TEST(891) { CHECK(RunTest("l2v4", 891)); }
+    TEST(892) { CHECK(RunTest("l2v4", 892)); }
+    TEST(893) { CHECK(RunTest("l2v4", 893)); }
+    TEST(894) { CHECK(RunTest("l2v4", 894)); }
+    TEST(895) { CHECK(RunTest("l2v4", 895)); }
+    TEST(896) { CHECK(RunTest("l2v4", 896)); }
+}
+
+/**
+ * another suite with more rate rules
+ */
+SUITE(SBML_TEST_SUITE_VG2)
+{
+    TEST(17)    { CHECK(RunTest("l2v4", 17));    }
+    TEST(32)    { CHECK(RunTest("l2v4", 32));    }
+    TEST(86)    { CHECK(RunTest("l2v4", 86));    }
+    TEST(165)   { CHECK(RunTest("l2v4", 165));   }
+    TEST(889)   { CHECK(RunTest("l2v4", 889));   }
+    TEST(1046)  { CHECK(RunTest("l3v1", 1046 )); }
+}
+
+
+SUITE(SBML_TEST_SUITE_RATE_RULES)
+{
+   TEST(31)  { CHECK(RunTest("l2v4", 31)); }
+   TEST(32)  { CHECK(RunTest("l2v4", 32)); }
+   TEST(33)  { CHECK(RunTest("l2v4", 33)); }
+   //TEST(40)  { CHECK(RunTest("l2v4", 40)); }
+   TEST(51)  { CHECK(RunTest("l2v4", 51)); }
+   TEST(52)  { CHECK(RunTest("l2v4", 52)); }
+   TEST(53)  { CHECK(RunTest("l2v4", 53)); }
+   TEST(170)  { CHECK(RunTest("l2v4", 170)); }
+   TEST(185)  { CHECK(RunTest("l2v4", 185)); }
+   TEST(310)  { CHECK(RunTest("l2v4", 310)); }
+   TEST(316)  { CHECK(RunTest("l2v4", 316)); }
+   TEST(461)  { CHECK(RunTest("l2v4", 461)); }
+   TEST(712)  { CHECK(RunTest("l2v4", 712)); }
+}
+
+
+
 
 
 

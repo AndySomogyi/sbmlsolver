@@ -187,12 +187,38 @@ public:
 
     virtual double getConcentration(int index) = 0;
 
-    //Access dll data
-    virtual vector<double> getCurrentValues() = 0;
+
+
     virtual double getAmounts(const int& i) = 0;
     virtual void initializeRates() = 0;
-    virtual void assignRates() = 0;
-    virtual void assignRates(vector<double>& rates) = 0;
+
+    /**
+     * set the 'values' of the rate rules.
+     *
+     * Rate rules are a set of rate equations, i.e dy/dt, where y is some
+     * existing model variable, i.e. volume, parameter, etc...
+     *
+     * This function sets all of the values that the derivatives integrated
+     * to, i.e. if dy/dt is the rate of change of say a compartment volume,
+     * than this function takes that compartment volume and stores it in
+     * the appropriate place.
+     *
+     * The length of rateRuleValues obviously must be the number of
+     * rate rules we have.
+     */
+    virtual void setRateRuleValues(const double *rateRuleValues) = 0;
+
+
+    /**
+     * get the 'values' i.e. the what the rate rule integrates to, and
+     * store it in the given array.
+     *
+     * The length of rateRuleValues obviously must be the number of
+     * rate rules we have.
+     */
+    virtual void getRateRuleValues(double *rateRuleValues) = 0;
+
+
     virtual void convertToConcentrations() = 0;
     virtual void updateDependentSpeciesValues(double* _y) = 0;
     virtual void computeAllRatesOfChange() = 0;

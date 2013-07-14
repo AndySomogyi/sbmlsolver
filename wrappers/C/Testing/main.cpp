@@ -67,13 +67,40 @@ int main(int argc, char* argv[])
         runner1.RunTestsIf(Test::GetTestList(), "LIBSTRUCT_TESTS",          True(), 0);
     }
 
-    if(args.Suites.find('E') != std::string::npos)
+    if (args.Suites.find('E') != std::string::npos)
     {
 
-        clog<<"Running Suite SBML_l2v4\n";
-        clog<<"ModelPath "<<gTSModelsPath;
-        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE",             True(), 0);
+        clog << "Running Suite SBML_l2v4\n";
+        clog << "ModelPath " << gTSModelsPath;
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE", True(), 0);
     }
+    if (args.Suites.find('F') != std::string::npos)
+    {
+
+        clog << "Running Suite Valgrind SBML_TEST_SUITE_VG1\n";
+        clog << "ModelPath " << gTSModelsPath;
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_VG1", True(),
+                0);
+    }
+
+    if (args.Suites.find('G') != std::string::npos)
+    {
+
+        clog << "Running Suite Valgrind SBML_TEST_SUITE_VG2\n";
+        clog << "ModelPath " << gTSModelsPath;
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_VG2", True(),
+                0);
+    }
+
+    if (args.Suites.find('H') != std::string::npos)
+    {
+
+        clog << "Running Suite Valgrind SBML_TEST_SUITE_RATE_RULES\n";
+        clog << "ModelPath " << gTSModelsPath;
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_RATE_RULES", True(),
+                0);
+    }
+
 
 
     //Finish outputs result to xml file
@@ -95,7 +122,7 @@ bool setup(Args& args)
     if(args.Suites.size() == 0)
     {
         //Run all
-        args.Suites = "ABCDEF";
+        args.Suites = "ABCDE";
     }
 
     setInstallFolder(gRRInstallFolder.c_str());
