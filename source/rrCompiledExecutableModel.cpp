@@ -351,13 +351,12 @@ void  CompiledExecutableModel::computeReactionRates (double time, double* y)
     cComputeReactionRates(&mData, time, y);
 }
 
-vector<double> CompiledExecutableModel::getCurrentValues()
+void CompiledExecutableModel::getRateRuleValues(double *rateRuleValues)
 {
     vector<double> vals;
     if(!cGetCurrentValues)
     {
         Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
-        return vals;
     }
 
     // in CModelGenerator::writeComputeRules, in effect, the following
@@ -370,7 +369,7 @@ vector<double> CompiledExecutableModel::getCurrentValues()
     {
         for(int i = 0; i < count; i++)
         {
-            vals.push_back(values[i]);
+            rateRuleValues[i] = values[i];
         }
     }
 
@@ -380,7 +379,6 @@ vector<double> CompiledExecutableModel::getCurrentValues()
     free(values);
 #endif
 
-    return vals;
 }
 
 double CompiledExecutableModel::getConcentration(int index)
@@ -446,28 +444,15 @@ void CompiledExecutableModel::initializeRates()
     cInitializeRates(&mData);
 }
 
-void CompiledExecutableModel::assignRates()
-{
-    if(!cAssignRates_a)
-    {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
-        return;
-    }
-    cAssignRates_a(&mData);
-}
 
-void CompiledExecutableModel::assignRates(vector<double>& _rates)
+void CompiledExecutableModel::setRateRuleValues(const double *_rates)
 {
     if(!cAssignRates_b)
     {
         Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
-
-    double* local_rates = createVector(_rates);
-
-    cAssignRates_b(&mData, local_rates);
-    delete [] local_rates;
+    cAssignRates_b(&mData, _rates);
 }
 
 void CompiledExecutableModel::computeConservedTotals()
