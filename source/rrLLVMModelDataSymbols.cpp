@@ -23,6 +23,10 @@ using namespace libsbml;
 using namespace llvm;
 using namespace std;
 
+static void test() {
+    cout << "test\n";
+}
+
 static std::vector<std::string> getIds(const rr::LLVMModelDataSymbols::StringIntMap & m)
 {
     vector<string> result;
@@ -96,6 +100,8 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
         const Parameter *p = parameters->get(i);
         globalParametersMap.insert(StringIntPair(p->getId(), i));
     }
+
+    test();
 
     // get the reactions
     const ListOfReactions *reactions = model->getListOfReactions();
@@ -265,7 +271,7 @@ int LLVMModelDataSymbols::getBoundarySpeciesCompartmentIndex(
 int LLVMModelDataSymbols::getReactionIndex(const std::string& id) const
 {
     StringIntMap::const_iterator i = reactionsMap.find(id);
-    if (i != globalParametersMap.end())
+    if (i != reactionsMap.end())
     {
         return i->second;
     }

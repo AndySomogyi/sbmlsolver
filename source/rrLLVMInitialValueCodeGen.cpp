@@ -8,6 +8,7 @@
 #include "rrLLVMInitialValueCodeGen.h"
 #include "rrLLVMException.h"
 #include "rrLLVMASTNodeCodeGen.h"
+#include "rrLogger.h"
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaFormatter.h>
 
@@ -27,9 +28,9 @@ LLVMInitialValueCodeGen::LLVMInitialValueCodeGen(
     model->getListOfSpecies()->accept(*this);
     model->getListOfCompartments()->accept(*this);
     model->getListOfParameters()->accept(*this);
-    model->getListOfInitialAssignments()->accept(*this);
     model->getListOfRules()->accept(*this);
     model->getListOfReactions()->accept(*this);
+    model->getListOfInitialAssignments()->accept(*this);
 }
 
 LLVMInitialValueCodeGen::~LLVMInitialValueCodeGen()
@@ -38,8 +39,6 @@ LLVMInitialValueCodeGen::~LLVMInitialValueCodeGen()
 
 Value* LLVMInitialValueCodeGen::codeGen()
 {
-
-
     cout << "boundarySpecies: \n";
     for (LLVMSymbolForest::Iterator i = symbolForest.boundarySpecies.begin();
             i != symbolForest.boundarySpecies.end(); i++)
@@ -67,7 +66,22 @@ Value* LLVMInitialValueCodeGen::codeGen()
         char* formula = SBML_formulaToString(i->second);
         cout << "\t" << i->first << ": " << formula << "\n";
         free(formula);
+    }
 
+    cout << "reactions: ";
+    vector<string> ids = symbols.getReactionIds();
+    for (int i = 0; i < ids.size(); i++)
+    {
+        cout << ids[i] << ", ";
+    }
+    cout << "\n";
+    for (int i = 0; i < stoichRowIdx.size(); i++)
+    {
+        cout << "row: " << stoichRowIdx[i] << ", col: " << stoichColIdx[i]
+                << ", stoich: ";
+        char* formula = SBML_formulaToString(stoichNodes[i]);
+        cout << formula << "\n";
+        free(formula);
     }
 
     // make the set init value function
@@ -191,6 +205,7 @@ void LLVMInitialValueCodeGen::processElement(const libsbml::SBase *element,
     const Compartment *comp = 0;
     const Parameter *param = 0;
     const Species *species = 0;
+    const SpeciesReference *reference = 0;
 
     if ((comp = dynamic_cast<const Compartment*>(element)))
     {
@@ -203,6 +218,10 @@ void LLVMInitialValueCodeGen::processElement(const libsbml::SBase *element,
     else if ((species = dynamic_cast<const Species*>(element)))
     {
         processSpecies(species, math);
+    }
+    else if ((reference = dynamic_cast<const SpeciesReference*>(element)))
+    {
+        processSpeciesReference(reference, math);
     }
     else
     {
@@ -219,26 +238,36 @@ bool LLVMInitialValueCodeGen::visit(const libsbml::Rule& x)
 
 bool LLVMInitialValueCodeGen::visit(const libsbml::Reaction& r)
 {
-    const ListOfSpeciesReferences *products = r.getListOfProducts();
     const ListOfSpeciesReferences *reactants = r.getListOfReactants();
+    const ListOfSpeciesReferences *products = r.getListOfProducts();
 
+    for (int i = 0; i < reactants->size(); i++)
+    {
+        processSpeciesReference(
+                dynamic_cast<const SpeciesReference*>(reactants->get(i)), &r,
+                Reactant, 0);
+    }
 
-
+    for (int i = 0; i < products->size(); i++)
+    {
+        processSpeciesReference(
+                dynamic_cast<const SpeciesReference*>(products->get(i)), &r,
+                Product, 0);
+    }
 
     /*
-    const ListOf *list = dynamic_cast<const ListOf *>(sr.getParentSBMLObject());
-    const Reaction *r = dynamic_cast<const Reaction*>(list->getParentSBMLObject());
+     const ListOf *list = dynamic_cast<const ListOf *>(sr.getParentSBMLObject());
+     const Reaction *r = dynamic_cast<const Reaction*>(list->getParentSBMLObject());
 
-    string speciesId = sr.getSpecies();
-    string reactionId = r->getId();
+     string speciesId = sr.getSpecies();
+     string reactionId = r->getId();
 
-    cout << "species: " << sr.getSpecies() << "\n";
-    cout << "reaction: " << r->getId() << "\n";
-    cout << "sr.isSetStoichiometry(): " << sr.isSetStoichiometry() << "\n";
-    cout << "sr.isSetStoichiometryMath(): " << sr.isSetStoichiometryMath() << "\n";
-    cout << "stoichiometry: " << sr.getStoichiometry() << "\n";
-    */
-
+     cout << "species: " << sr.getSpecies() << "\n";
+     cout << "reaction: " << r->getId() << "\n";
+     cout << "sr.isSetStoichiometry(): " << sr.isSetStoichiometry() << "\n";
+     cout << "sr.isSetStoichiometryMath(): " << sr.isSetStoichiometryMath() << "\n";
+     cout << "stoichiometry: " << sr.getStoichiometry() << "\n";
+     */
 
     return true;
 }
@@ -308,6 +337,83 @@ void LLVMInitialValueCodeGen::processSpecies(const libsbml::Species *species,
     else
     {
         symbolForest.floatingSpecies[species->getId()] = math;
+    }
+}
+
+void LLVMInitialValueCodeGen::processSpeciesReference(
+        const libsbml::SpeciesReference* sr, const ASTNode* math)
+{
+    SpeciesReferenceType type;
+
+    const ListOf *list = dynamic_cast<const ListOf *>(sr->getParentSBMLObject());
+    const Reaction *r = dynamic_cast<const Reaction*>(list->getParentSBMLObject());
+
+    if (list == r->getListOfReactants()) {
+        type = Reactant;
+    }
+    else if (list == r->getListOfProducts()) {
+        type = Product;
+    }
+    else {
+        string err = "could not determine if species reference ";
+        err += sr->getId();
+        err += " is a reactant or product";
+        throw LLVMException(err, __FUNC__);
+    }
+
+    processSpeciesReference(sr, r, type, math);
+}
+
+void LLVMInitialValueCodeGen::processSpeciesReference(
+        const libsbml::SpeciesReference* ref, const libsbml::Reaction* reaction,
+        SpeciesReferenceType type, const ASTNode* stoich)
+{
+    // we might not have a floating species for this reference,
+    // that should probably be an error, but there are many
+    // cases in the test suite that have this, so just ignore
+    // the ref in such cases.
+    try
+    {
+        int rowIdx = symbols.getFloatingSpeciesIndex(ref->getSpecies());
+        int colIdx = symbols.getReactionIndex(reaction->getId());
+
+        if (stoich == 0)
+        {
+            if (ref->isSetStoichiometryMath()
+                    && ref->getStoichiometryMath()->isSetMath())
+            {
+                stoich = ref->getStoichiometryMath()->getMath();
+            }
+            else
+            {
+                ASTNode *m = nodes.create(AST_REAL);
+                m->setValue(ref->getStoichiometry());
+                stoich = m;
+            }
+        }
+
+        if (type == Reactant)
+        {
+            ASTNode *mul = nodes.create(AST_TIMES);
+            ASTNode *negone = new ASTNode(AST_REAL);
+            negone->setValue(-1);
+            mul->addChild(negone);
+            mul->addChild(new ASTNode(*stoich));
+            stoich = mul;
+        }
+
+        stoichRowIdx.push_back(rowIdx);
+        stoichColIdx.push_back(colIdx);
+        stoichNodes.push_back(stoich);
+
+    } catch (LLVMException &)
+    {
+        string err = "could not find product ";
+        err += ref->getSpecies();
+        err += " in the list of floating species for reaction ";
+        err += ref->getId();
+        err += ", this species will be ignored in this reaction.";
+        Log(lWarning) << err;
     }
 }
 

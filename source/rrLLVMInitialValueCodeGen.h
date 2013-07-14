@@ -48,10 +48,41 @@ public:
 
 private:
 
+    enum SpeciesReferenceType {
+        Reactant, Product
+    };
+
     virtual bool visit(const libsbml::Compartment &x);
     virtual bool visit(const libsbml::Species &x);
     virtual bool visit(const libsbml::Parameter &x);
     virtual bool visit(const libsbml::AssignmentRule  &x);
+
+    /**
+     * The actions of all InitialAssignment objects are in general terms the same,
+     * but differ in the precise details depending on the type of variable being set:
+     *
+     * * In the case of a species, an InitialAssignment sets the referenced species’
+     * initial quantity (concentration or amount) to the value determined by the
+     * formula in math. The unit associated with the value produced by the math
+     * formula should be equal to the unit associated with the species’ quantity.
+     *
+     * * In the case of a species reference, an InitialAssignment sets the initial
+     * stoichiometry of the reactant or product referenced by the SpeciesReference
+     * object to the value determined by the formula in math. The unit associated
+     * with the value produced by the math formula should be consistent with the
+     * unit dimensionless, because reactant and product stoichiometries in reactions
+     * are dimensionless quantities.
+     *
+     * * In the case of a compartment, an InitialAssignment sets the referenced
+     * compartment’s initial size to the size determined by the formula in math.
+     * The unit associated with the value produced by the math formula should be
+     * the same as that specified for the compartment’s size.
+     *
+     * * In the case of a parameter, an InitialAssignment sets the parameter’s
+     * initial value to the value of the formula in math. The unit associated
+     * with the value produced by the math formula should be the same as parameter’s
+     * units attribute value.
+     */
     virtual bool visit(const libsbml::InitialAssignment &x);
     virtual bool visit(const libsbml::Reaction  &x);
 
@@ -68,6 +99,25 @@ private:
      */
     void processSpecies(const libsbml::Species *element, const ASTNode *math);
 
+    /**
+     * determine if this is a reactant or a product (from its parents),
+     * then call full processSpeciesReference to process it.
+     */
+    void processSpeciesReference(const libsbml::SpeciesReference *reference,
+            const ASTNode *math);
+
+    /**
+     * If the reference type is set to product, then the stoich tree is left
+     * alone (assumed positive), if its set to reactant, then the stoich tree
+     * is multiplied by -1.
+     *
+     * If stoch is 0, then it is determined from the SpeciesReference stochiometry
+     * or stochiometryMath.
+     */
+    void processSpeciesReference(const libsbml::SpeciesReference* reference,
+            const libsbml::Reaction* reaction, SpeciesReferenceType type,
+            const ASTNode* stoich);
+
     virtual llvm::Value *symbolValue(const std::string& symbol);
 
     llvm::Function *initialValuesFunc;
@@ -76,7 +126,7 @@ private:
 
     std::vector<int> stoichRowIdx;
     std::vector<int> stoichColIdx;
-    std::vector<ASTNode*> stoichNodes;
+    std::vector<const ASTNode*> stoichNodes;
 };
 
 } /* namespace rr */

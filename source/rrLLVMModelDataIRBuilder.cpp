@@ -922,6 +922,7 @@ llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, ll
                 throw LLVMException(err.str(), __FUNC__);
             }
 
+            /*
             printf("TestStruct size: %i, , LLVM Size: %i\n", sizeof(ModelData), llvm_size);
 
             printf("C++ bool size: %i, LLVM bool size: %i\n", sizeof(bool), dl->getTypeStoreSize(boolType));
@@ -933,6 +934,8 @@ llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, ll
             printf("C++ TEventAssignmentDelegate* size: %i\n", sizeof(TEventAssignmentDelegate* ));
             printf("C++ TComputeEventAssignmentDelegate* size: %i\n", sizeof(TComputeEventAssignmentDelegate*));
             printf("C++ TPerformEventAssignmentDelegate* size: %i\n", sizeof(TPerformEventAssignmentDelegate*));
+
+            */
         }
     }
     return structType;
