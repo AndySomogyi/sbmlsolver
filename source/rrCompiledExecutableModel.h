@@ -24,7 +24,7 @@ typedef char*    (rrCallConv *c_charStar_MDS)(ModelData*);
 typedef void     (rrCallConv *c_void_MDS_doubleStar)(ModelData*, double*);
 typedef double   (rrCallConv *c_double_MDS_int)(ModelData*, int);
 typedef double*  (rrCallConv *c_doubleStar_MDS)(ModelData*);
-typedef void     (rrCallConv *c_void_MDS_double_doubleStar)(ModelData*, double, double*);
+typedef void     (rrCallConv *c_void_MDS_double_doubleStar)(ModelData*, double, const double*);
 typedef void     (rrCallConv *c_void_MDS_int_double)(ModelData*, int, double);
 
 typedef TComputeEventAssignmentDelegate* (rrCallConv *c_TComputeEventAssignmentDelegateStar)();
@@ -138,7 +138,7 @@ public:
     virtual void convertToConcentrations();
     virtual void updateDependentSpeciesValues(double* _y);
     virtual void computeAllRatesOfChange();
-    virtual void evalModel(const double& time, const vector<double>& y);
+    virtual void evalModel(double time, const double *y);
     virtual void evalEvents(const double& time, const vector<double>& y);
     virtual void resetEvents();
     virtual void testConstraints();

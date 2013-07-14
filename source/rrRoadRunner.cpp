@@ -524,7 +524,7 @@ DoubleMatrix RoadRunner::runSimulation()
 
     vector<double> y;
     y = buildModelEvalArgument();
-    mModel->evalModel(mTimeStart, y);
+    mModel->evalModel(mTimeStart, &y[0]);
     addNthOutputToResult(results, 0, mTimeStart);
 
     //Todo: Don't understand this code.. MTK
@@ -1288,7 +1288,7 @@ void RoadRunner::evalModel()
     }
     mModel->convertToAmounts();
     vector<double> args = mCVode->buildEvalArgument();
-    mModel->evalModel(mModel->getTime(), args);
+    mModel->evalModel(mModel->getTime(), &args[0]);
 }
 
 void RoadRunner::setTimeCourseSelectionList(const string& list)

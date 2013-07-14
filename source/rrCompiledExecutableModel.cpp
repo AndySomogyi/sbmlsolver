@@ -561,7 +561,7 @@ void CompiledExecutableModel::computeAllRatesOfChange()
     ccomputeAllRatesOfChange(&mData);
 }
 
-void CompiledExecutableModel::evalModel(const double& timein, const vector<double>& y)
+void CompiledExecutableModel::evalModel(double timein, const double *y)
 {
     if(!cevalModel)
     {
@@ -569,9 +569,7 @@ void CompiledExecutableModel::evalModel(const double& timein, const vector<doubl
         return;
     }
 
-    double *oAmounts = createVector(y);
-    cevalModel(&mData, timein, oAmounts);
-    delete [] oAmounts;
+    cevalModel(&mData, timein, y);
 }
 
 void CompiledExecutableModel::evalEvents(const double& timeIn, const vector<double>& y)

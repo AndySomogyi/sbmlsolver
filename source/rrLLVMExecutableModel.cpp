@@ -181,7 +181,7 @@ void LLVMExecutableModel::computeAllRatesOfChange()
 {
 }
 
-void LLVMExecutableModel::evalModel(const double& time, const vector<double>& y)
+void LLVMExecutableModel::evalModel(double time, const double *y)
 {
 }
 

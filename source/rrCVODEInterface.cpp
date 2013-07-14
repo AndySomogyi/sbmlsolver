@@ -208,7 +208,7 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
             {
                 mTheModel->convertToAmounts();
                 vector<double> args = buildEvalArgument();
-                mTheModel->evalModel(tout, args);
+                mTheModel->evalModel(tout, &args[0]);
                 return tout;
             }
 
@@ -302,7 +302,6 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
 
     ExecutableModel *model = cvInstance->getModel();
 
-    //ModelState oldState(*model);
     model->pushState();
 
     int size = model->getModelData().numFloatingSpecies + model->getModelData().numRateRules;
@@ -313,7 +312,7 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
         dCVodeArgument[i] = y[i];
     }
 
-    model->evalModel(time, dCVodeArgument);
+    model->evalModel(time, &dCVodeArgument[0]);
 
     copyCArrayToStdVector(model->getModelData().rateRules,    dCVodeArgument, (model->getModelData().numRateRules));
 
@@ -348,7 +347,7 @@ void EventFcn(double time, double* y, double* gdot, void* userData)
     model->pushState();
 
     vector<double> args = cvInstance->buildEvalArgument();
-    model->evalModel(time, args);
+    model->evalModel(time, &args[0]);
     cvInstance->assignResultsToModel();
 
     args = cvInstance->buildEvalArgument();
@@ -488,7 +487,7 @@ void CvodeInterface::assignPendingEvents(const double& timeEnd, const double& to
 
             mTheModel->convertToAmounts();
             vector<double> args = buildEvalArgument();
-            mTheModel->evalModel(timeEnd, args);
+            mTheModel->evalModel(timeEnd, &args[0]);
             reStart(timeEnd, mTheModel);
             mAssignments.erase(mAssignments.begin() + i);
         }
@@ -518,7 +517,7 @@ vector<int> CvodeInterface::retestEvents(const double& timeEnd, const vector<int
 
     mTheModel->convertToAmounts();
     vector<double> args = buildEvalArgument();
-    mTheModel->evalModel(timeEnd, args);
+    mTheModel->evalModel(timeEnd, &args[0]);
 
     // copy original evenStatusArray
     vector<bool> eventStatusArray(mTheModel->getModelData().eventStatusArray,
@@ -765,7 +764,7 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
 
 
     args = buildEvalArgument();
-    mTheModel->evalModel(timeEnd, args);
+    mTheModel->evalModel(timeEnd, &args[0]);
 
     vector<double> dCurrentValues = mTheModel->getCurrentValues();
     for (int k = 0; k < mNumAdditionalRules; k++)

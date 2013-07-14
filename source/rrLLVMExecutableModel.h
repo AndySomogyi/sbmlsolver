@@ -89,7 +89,7 @@ public:
     virtual void convertToConcentrations();
     virtual void updateDependentSpeciesValues(double* _y);
     virtual void computeAllRatesOfChange();
-    virtual void evalModel(const double& time, const vector<double>& y);
+    virtual void evalModel(double time, const double *y);
     virtual void evalEvents(const double& time, const vector<double>& y);
     virtual void resetEvents();
     virtual void testConstraints();

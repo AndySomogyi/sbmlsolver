@@ -248,7 +248,7 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
             dTemp[model->getModelData().numRateRules + i] = model->getModelData().floatingSpeciesAmounts[i];
         }
 
-        model->evalModel(0.0, dTemp);
+        model->evalModel(0.0, &dTemp[0]);
 
         for(int i = 0; i < n; i++)
         {
@@ -333,7 +333,7 @@ double NLEQInterface::computeSumsOfSquares()
         dTemp.push_back(model->getModelData().floatingSpeciesAmounts[i]);
     }
 
-    model->evalModel(0.0, dTemp);
+    model->evalModel(0.0, &dTemp[0]);
     double sum = 0;
     for (int i = 0; i < n; i++)
     {

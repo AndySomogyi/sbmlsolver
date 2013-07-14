@@ -200,8 +200,13 @@ public:
     /**
      * the state vector y is the rate rule values and floating species
      * concentrations concatenated. y is of length numFloatingSpecies + numRateRules.
+     *
+     * The state vector is packed such that the first n raterule elements are the
+     * values of the rate rules, and the last n floatingspecies are the floating
+     * species values.
      */
-    virtual void evalModel(const double& time, const vector<double>& y) = 0;
+    virtual void evalModel(double time, const double *y) = 0;
+
     virtual void evalEvents(const double& time, const vector<double>& y) = 0;
     virtual void resetEvents() = 0;
     virtual void testConstraints() = 0;
