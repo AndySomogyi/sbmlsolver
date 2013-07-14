@@ -53,6 +53,7 @@ private:
     virtual bool visit(const libsbml::Parameter &x);
     virtual bool visit(const libsbml::AssignmentRule  &x);
     virtual bool visit(const libsbml::InitialAssignment &x);
+    virtual bool visit(const libsbml::Reaction  &x);
 
     /**
      * tell the acceptor to process all rules, even the ones
@@ -72,6 +73,10 @@ private:
     llvm::Function *initialValuesFunc;
     LLVMSymbolForest symbolForest;
     LLVMASTNodeFactory nodes;
+
+    std::vector<int> stoichRowIdx;
+    std::vector<int> stoichColIdx;
+    std::vector<ASTNode*> stoichNodes;
 };
 
 } /* namespace rr */

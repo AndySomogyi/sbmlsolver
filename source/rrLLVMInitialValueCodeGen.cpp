@@ -29,6 +29,7 @@ LLVMInitialValueCodeGen::LLVMInitialValueCodeGen(
     model->getListOfParameters()->accept(*this);
     model->getListOfInitialAssignments()->accept(*this);
     model->getListOfRules()->accept(*this);
+    model->getListOfReactions()->accept(*this);
 }
 
 LLVMInitialValueCodeGen::~LLVMInitialValueCodeGen()
@@ -215,6 +216,34 @@ bool LLVMInitialValueCodeGen::visit(const libsbml::Rule& x)
     cout << __FUNC__ << "\n";
     return true;
 }
+
+bool LLVMInitialValueCodeGen::visit(const libsbml::Reaction& r)
+{
+    const ListOfSpeciesReferences *products = r.getListOfProducts();
+    const ListOfSpeciesReferences *reactants = r.getListOfReactants();
+
+
+
+
+    /*
+    const ListOf *list = dynamic_cast<const ListOf *>(sr.getParentSBMLObject());
+    const Reaction *r = dynamic_cast<const Reaction*>(list->getParentSBMLObject());
+
+    string speciesId = sr.getSpecies();
+    string reactionId = r->getId();
+
+    cout << "species: " << sr.getSpecies() << "\n";
+    cout << "reaction: " << r->getId() << "\n";
+    cout << "sr.isSetStoichiometry(): " << sr.isSetStoichiometry() << "\n";
+    cout << "sr.isSetStoichiometryMath(): " << sr.isSetStoichiometryMath() << "\n";
+    cout << "stoichiometry: " << sr.getStoichiometry() << "\n";
+    */
+
+
+    return true;
+}
+
+
 
 void LLVMInitialValueCodeGen::processSpecies(const libsbml::Species *species,
         const ASTNode* math)

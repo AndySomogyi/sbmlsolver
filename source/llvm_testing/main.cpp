@@ -45,15 +45,15 @@ int main(int argc, char* argv[])
 {
     cout << "hi\n";
 
-    runSparseTest(33, 323, 50);
+    //runSparseTest(33, 323, 50);
 
-    runLLVMCSRMatrixTest(33, 323, 50);
-
-
+    //runLLVMCSRMatrixTest(33, 323, 50);
 
 
 
-    /*
+
+
+
     StrIntPair *pairs;
     int npairs;
     getPairs(pairs, npairs);
@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
     //runInitialValueAssigmentTest(test.first, test.second);
 
 
-     */
+
 
 
 
