@@ -29,7 +29,9 @@ namespace rr
 {
 
 const char* LLVMModelDataIRBuilder::ModelDataName = "rr::ModelData";
-const char* LLVMModelDataIRBuilder::dcsr_matrixName = "rr::dcsr_matrix";
+const char* LLVMModelDataIRBuilder::csr_matrixName = "rr::csr_matrix";
+const char* LLVMModelDataIRBuilder::csr_matrix_set_nzName = "rr::csr_matrix_set_nz";
+const char* LLVMModelDataIRBuilder::csr_matrix_get_nzName = "rr::csr_matrix_get_nz";
 
 //
 //
@@ -119,16 +121,7 @@ const char* LLVMModelDataIRBuilder::dcsr_matrixName = "rr::dcsr_matrix";
 //    printf("%s, %i\n", __PRETTY_FUNCTION__, i);
 //}
 //
-//static Function* dispIntProto() {
-//    Function *f = TheModule->getFunction("dispInt");
-//
-//    if (f == 0) {
-//        std::vector<Type*> args(1, Type::getInt32Ty(getContext()));
-//        FunctionType *funcType = FunctionType::get(Type::getVoidTy(getContext()), args, false);
-//        f = Function::Create(funcType, Function::InternalLinkage, "dispInt", TheModule);
-//    }
-//    return f;
-//}
+
 //
 //static void callDispInt(int val) {
 //    // Evaluate a top-level expression into an anonymous function.
@@ -147,19 +140,7 @@ const char* LLVMModelDataIRBuilder::dcsr_matrixName = "rr::dcsr_matrix";
 //
 //
 //
-//static void dispDouble(double d) {
-//    printf("%s: %f\n", __PRETTY_FUNCTION__, d);
-//}
-//
-//static Function* dispDoubleProto() {
-//    Function *f = TheModule->getFunction("dispDouble");
-//    if (f == 0) {
-//        std::vector<Type*>args(1, Type::getDoubleTy(getContext()));
-//        FunctionType *funcType = FunctionType::get(Type::getVoidTy(getContext()), args, false);
-//        f = Function::Create(funcType, Function::InternalLinkage, "dispDouble", TheModule);
-//    }
-//    return f;
-//}
+
 //
 //static void dispCharStar(char* p) {
 //    printf("%s: %s\n", __PRETTY_FUNCTION__, p);
@@ -603,7 +584,7 @@ llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtStore(
 llvm::StructType* LLVMModelDataIRBuilder::getCSRSparseStructType(
         llvm::Module* module, llvm::ExecutionEngine* engine)
 {
-    StructType *structType = module->getTypeByName(dcsr_matrixName);
+    StructType *structType = module->getTypeByName(csr_matrixName);
 
     if (!structType)
     {
@@ -618,7 +599,7 @@ llvm::StructType* LLVMModelDataIRBuilder::getCSRSparseStructType(
         elements.push_back(Type::getInt32PtrTy(context));                     // int* colidx;
         elements.push_back(Type::getInt32PtrTy(context));                     // int* rowptr;
 
-        structType = StructType::create(context, elements, dcsr_matrixName);
+        structType = StructType::create(context, elements, csr_matrixName);
 
         if (engine)
         {
@@ -629,7 +610,7 @@ llvm::StructType* LLVMModelDataIRBuilder::getCSRSparseStructType(
             if (sizeof(csr_matrix) != llvm_size)
             {
                 stringstream err;
-                err << "llvm " << dcsr_matrixName << " size " << llvm_size <<
+                err << "llvm " << csr_matrixName << " size " << llvm_size <<
                         " does NOT match C++ sizeof(dcsr_matrix) " <<
                         sizeof(ModelData);
                 throw LLVMException(err.str(), __FUNC__);
@@ -637,6 +618,132 @@ llvm::StructType* LLVMModelDataIRBuilder::getCSRSparseStructType(
         }
     }
     return structType;
+}
+
+llvm::Function* LLVMModelDataIRBuilder::getCSRMatrixSetNZDecl(Module *module)
+{
+    Function *f = module->getFunction(
+            LLVMModelDataIRBuilder::csr_matrix_set_nzName);
+
+    if (f == 0)
+    {
+        // bool csr_matrix_set_nz(csr_matrix *mat, int row, int col, double val);
+        Type *args[] = {
+                getCSRSparseStructType(module)->getPointerTo(),
+                Type::getInt32Ty(module->getContext()),
+                Type::getInt32Ty(module->getContext()),
+                Type::getDoubleTy(module->getContext())
+        };
+        FunctionType *funcType = FunctionType::get(
+                IntegerType::get(module->getContext(), sizeof(bool) * 8), args,
+                false);
+        f = Function::Create(funcType, Function::InternalLinkage,
+                LLVMModelDataIRBuilder::csr_matrix_set_nzName, module);
+    }
+    return f;
+}
+
+llvm::Function* LLVMModelDataIRBuilder::getCSRMatrixGetNZDecl(Module *module)
+{
+    Function *f = module->getFunction(
+            LLVMModelDataIRBuilder::csr_matrix_get_nzName);
+
+    if (f == 0)
+    {
+        // double csr_matrix_get_nz(const csr_matrix* mat, int row, int col)
+        Type *args[] = {
+                getCSRSparseStructType(module)->getPointerTo(),
+                Type::getInt32Ty(module->getContext()),
+                Type::getInt32Ty(module->getContext())
+        };
+        FunctionType *funcType = FunctionType::get(
+                Type::getDoubleTy(module->getContext()), args, false);
+        f = Function::Create(funcType, Function::InternalLinkage,
+                LLVMModelDataIRBuilder::csr_matrix_get_nzName, module);
+    }
+    return f;
+}
+
+llvm::CallInst* LLVMModelDataIRBuilder::createCSRMatrixSetNZ(
+        llvm::Value* csrPtr, llvm::Value* row, llvm::Value* col,
+        llvm::Value* value, const char* name)
+{
+    Function *func = LLVMModelDataIRBuilder::getCSRMatrixSetNZDecl(getModule(__FUNC__));
+    Value *args[] = {csrPtr, row, col, value};
+    return builder->CreateCall(func, args, name);
+}
+
+llvm::Module* LLVMModelDataIRBuilder::getModule(const char* func)
+{
+    BasicBlock *bb = 0;
+    if((bb = builder->GetInsertBlock()) != 0)
+    {
+        Function *function = bb->getParent();
+        if(function)
+        {
+            return function->getParent();
+        }
+    }
+    throw LLVMException("could not get module, a BasicBlock is not currently being populated.", func);
+}
+
+llvm::Function* LLVMModelDataIRBuilder::getDispIntDecl(llvm::Module* module)
+{
+    Function *f = module->getFunction("dispInt");
+    if (f == 0) {
+        std::vector<Type*> args(1, Type::getInt32Ty(module->getContext()));
+        FunctionType *funcType = FunctionType::get(Type::getVoidTy(module->getContext()), args, false);
+        f = Function::Create(funcType, Function::InternalLinkage, "dispInt", module);
+    }
+    return f;
+}
+
+
+llvm::CallInst* LLVMModelDataIRBuilder::createDispInt(llvm::Value* intVal)
+{
+    return builder->CreateCall(getDispIntDecl(getModule(__FUNC__)), intVal);
+}
+
+llvm::Function* LLVMModelDataIRBuilder::getDispCharDecl(llvm::Module* module)
+{
+    Function *f = module->getFunction("dispChar");
+    if (f == 0) {
+        std::vector<Type*> args(1, Type::getInt8Ty(module->getContext()));
+        FunctionType *funcType = FunctionType::get(Type::getVoidTy(module->getContext()), args, false);
+        f = Function::Create(funcType, Function::InternalLinkage, "dispChar", module);
+    }
+    return f;
+}
+
+
+llvm::CallInst* LLVMModelDataIRBuilder::createDispChar(llvm::Value* intVal)
+{
+    return builder->CreateCall(getDispCharDecl(getModule(__FUNC__)), intVal);
+}
+
+llvm::Function* LLVMModelDataIRBuilder::getDispDoubleDecl(llvm::Module* module)
+{
+    Function *f = module->getFunction("dispDouble");
+    if (f == 0) {
+        std::vector<Type*> args(1, Type::getDoubleTy(module->getContext()));
+        FunctionType *funcType = FunctionType::get(Type::getVoidTy(module->getContext()), args, false);
+        f = Function::Create(funcType, Function::InternalLinkage, "dispDouble", module);
+    }
+    return f;
+}
+
+llvm::CallInst* LLVMModelDataIRBuilder::createDispDouble(llvm::Value* doubleVal)
+{
+    return builder->CreateCall(getDispDoubleDecl(getModule(__FUNC__)), doubleVal);
+}
+
+llvm::CallInst* LLVMModelDataIRBuilder::createCSRMatrixGetNZ(
+        llvm::Value* csrPtr, llvm::Value* row, llvm::Value* col,
+        const char* name)
+{
+    Function *func = LLVMModelDataIRBuilder::getCSRMatrixGetNZDecl(getModule(__FUNC__));
+    Value *args[] = {csrPtr, row, col};
+    return builder->CreateCall(func, args, name);
 }
 
 void LLVMModelDataIRBuilder::validateStruct(llvm::Value* s, const char* funcName)
@@ -815,6 +922,7 @@ llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, ll
                 throw LLVMException(err.str(), __FUNC__);
             }
 
+            /*
             printf("TestStruct size: %i, , LLVM Size: %i\n", sizeof(ModelData), llvm_size);
 
             printf("C++ bool size: %i, LLVM bool size: %i\n", sizeof(bool), dl->getTypeStoreSize(boolType));
@@ -826,6 +934,8 @@ llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, ll
             printf("C++ TEventAssignmentDelegate* size: %i\n", sizeof(TEventAssignmentDelegate* ));
             printf("C++ TComputeEventAssignmentDelegate* size: %i\n", sizeof(TComputeEventAssignmentDelegate*));
             printf("C++ TPerformEventAssignmentDelegate* size: %i\n", sizeof(TPerformEventAssignmentDelegate*));
+
+            */
         }
     }
     return structType;

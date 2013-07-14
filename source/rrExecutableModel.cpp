@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "rrExecutableModel.h"
-#include "rrStringUtils.h"
+#include "rrSparse.h"
 
 using namespace std;
 
@@ -108,6 +108,8 @@ void  freeModelDataBuffers(ModelData &data)
     free(data.computeEventAssignments);
     free(data.performEventAssignments);
     free(data.eventDelays);
+
+    csr_matrix_delete(data.stoichiometry);
 }
 
 

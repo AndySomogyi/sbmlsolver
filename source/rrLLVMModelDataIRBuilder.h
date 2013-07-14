@@ -244,21 +244,85 @@ public:
     void test(llvm::Module *module,
             llvm::IRBuilder<> *build, llvm::ExecutionEngine * engine);
 
+
+    /**
+     * create a call to the csr_matrix_set_nz function.
+     *
+     * only valid whilst a basic block is being filled.
+     */
+    llvm::CallInst *createCSRMatrixSetNZ(llvm::Value *csrPtr, llvm::Value *row,
+            llvm::Value *col, llvm::Value *value, const char* name = "");
+
+    /**
+     * create a call to the csr_matrix_get_nz function.
+     *
+     * only valid whilst a basic block is being filled.
+     */
+    llvm::CallInst *createCSRMatrixGetNZ(llvm::Value *csrPtr, llvm::Value *row,
+            llvm::Value *col, const char* name = "");
+
+    /**
+     * get the function declaration (prototype) for the csr_matrix_set_nz function.
+     *
+     * create if not found.
+     */
+    static llvm::Function *getCSRMatrixSetNZDecl(llvm::Module *module);
+
+    /**
+     * get the function declaration (prototype) for the csr_matrix_set_nz function.
+     *
+     * create if not found
+     */
+    static llvm::Function *getCSRMatrixGetNZDecl(llvm::Module *module);
+
     /**
      * get the struct type for the CSR sparse storage struct.
+     *
+     * create if not found
      */
     static llvm::StructType *getCSRSparseStructType(llvm::Module *module, llvm::ExecutionEngine *engine = 0);
 
-
+    /**
+     * get the ModelData struct type.
+     *
+     * create if not found.
+     */
     static llvm::StructType *getStructType(llvm::Module *module, llvm::ExecutionEngine *engine = 0);
 
 
+    /*********************** TESTING STUFF WILL GO AWAY EVENTUALLY ***********************/
+
+    static llvm::Function *getDispIntDecl(llvm::Module *module);
+    llvm::CallInst *createDispInt(llvm::Value *intVal);
+
+    static llvm::Function *getDispDoubleDecl(llvm::Module *module);
+    llvm::CallInst *createDispDouble(llvm::Value *doubleVal);
+
+    static llvm::Function *getDispCharDecl(llvm::Module *module);
+    llvm::CallInst *createDispChar(llvm::Value *doubleVal);
+
+
+    /*************************************************************************************/
+
+
     static const char* ModelDataName;
-    static const char* dcsr_matrixName;
+    static const char* csr_matrixName;
+    static const char* csr_matrix_set_nzName;
+    static const char* csr_matrix_get_nzName;
 
 
 
 private:
+    /**
+     * get the module, only valid whilst a BasicBlock is begin filled.
+     *
+     * @param fname: name of the calling function, used for generating exception
+     * on failure.
+     *
+     * @returns a module on success, throws exeption on failure.
+     */
+    llvm::Module *getModule(const char* func);
+
     llvm::IRBuilder<> *builder;
 
     LLVMModelDataSymbols const& symbols;
