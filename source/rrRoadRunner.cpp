@@ -15,7 +15,6 @@
 #include "rrSBMLModelSimulation.h"
 #include "rr-libstruct/lsLA.h"
 #include "rr-libstruct/lsLibla.h"
-#include "rrModelState.h"
 #include "rrCapabilities.h"
 #include "rrConstants.h"
 #include "rrVersionInfo.h"
@@ -2527,31 +2526,28 @@ string RoadRunner::writeSBML()
 
     NOM.loadSBML(NOM.getParamPromotedSBML(mCurrentSBML));
 
-    ModelState state(*mModel);
-//    var state = new ModelState(model);
-
     vector<string> array = getFloatingSpeciesIds();
     for (int i = 0; i < array.size(); i++)
     {
-        NOM.setValue((string)array[i], state.mFloatingSpeciesConcentrations[i]);
+        NOM.setValue((string)array[i], mModel->getModelData().floatingSpeciesConcentrations[i]);
     }
 
     array = getBoundarySpeciesIds();
     for (int i = 0; i < array.size(); i++)
     {
-        NOM.setValue((string)array[i], state.mBoundarySpeciesConcentrations[i]);
+        NOM.setValue((string)array[i], mModel->getModelData().boundarySpeciesConcentrations[i]);
     }
 
     array = getCompartmentIds();
     for (int i = 0; i < array.size(); i++)
     {
-        NOM.setValue((string)array[i], state.mCompartmentVolumes[i]);
+        NOM.setValue((string)array[i], mModel->getModelData().compartmentVolumes[i]);
     }
 
     array = getGlobalParameterIds();
-    for (int i = 0; i < min((int) array.size(), (int) state.mGlobalParameters.size()); i++)
+    for (int i = 0; i < mModel->getModelData().numGlobalParameters; i++)
     {
-        NOM.setValue((string)array[i], state.mGlobalParameters[i]);
+        NOM.setValue((string)array[i], mModel->getModelData().globalParameters[i]);
     }
 
     return NOM.getSBML();

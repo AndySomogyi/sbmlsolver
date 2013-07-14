@@ -281,6 +281,14 @@ void LLVMExecutableModel::setGlobalParameterValue(int index, double value)
 {
 }
 
+int LLVMExecutableModel::pushState(unsigned)
+{
+}
+
+int LLVMExecutableModel::popState(unsigned)
+{
+}
+
 LLVMExecutableModel* LLVMExecutableModel::dummy()
 {
     return new LLVMExecutableModel();

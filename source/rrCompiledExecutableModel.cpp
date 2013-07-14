@@ -8,6 +8,7 @@
 #include "rrCompiledExecutableModel.h"
 #include "rrCModelGenerator.h"
 #include "rrUtils.h"
+#include "rrCompiledModelState.h"
 //---------------------------------------------------------------------------
 using namespace std;
 namespace rr
@@ -48,6 +49,13 @@ CompiledExecutableModel::~CompiledExecutableModel()
         mDLL->unload();
     }
     delete mDLL;
+
+    while (!modelStates.empty())
+    {
+        CompiledModelState *state = modelStates.top();
+        modelStates.pop();
+        delete state;
+    }
 }
 
 string CompiledExecutableModel::getModelName()
@@ -211,6 +219,28 @@ void CompiledExecutableModel::setGlobalParameterValue(int index, double value)
     {
         throw CoreException(format("Index in getNumGlobalParameters out of range: [{0}]", index));
     }
+}
+
+int CompiledExecutableModel::pushState(unsigned options)
+{
+    CompiledModelState *state = new CompiledModelState(*this);
+    modelStates.push(state);
+    return modelStates.size();
+}
+
+int CompiledExecutableModel::popState(unsigned options)
+{
+    if (modelStates.size() > 0)
+    {
+        CompiledModelState *state = modelStates.top();
+        modelStates.pop();
+        if (!(options && PopDiscard))
+        {
+            state->AssignToModel(*this);
+        }
+        delete state;
+    }
+    return modelStates.size();
 }
 
 bool CompiledExecutableModel::setupDLLFunctions()

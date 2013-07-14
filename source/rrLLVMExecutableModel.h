@@ -30,6 +30,24 @@ public:
     virtual double getTime();
     virtual ModelData& getModelData();
 
+    /**
+     * A ExecutableModel holds a stack of states, the entire state of this
+     * model is pushed onto the saved state stack, and the current state
+     * remains unchanged.
+     *
+     * @returns the size of the saved stack after the current state has been
+     * pushed.
+     */
+    virtual int pushState(unsigned);
+
+    /**
+     * restore the state from a previously saved state, if the state stack
+     * is empty, this has no effect.
+     *
+     * @returns the size of the saved stack after the top has been poped.
+     */
+    virtual int popState(unsigned);
+
 
     // functions --------------------------------------------------------
     virtual int getNumIndependentSpecies();

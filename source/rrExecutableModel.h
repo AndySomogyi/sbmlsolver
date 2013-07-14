@@ -44,6 +44,34 @@ public:
      */
     virtual ModelData& getModelData() = 0;
 
+    enum StateStackOptions
+    {
+        /**
+         * Default behavior is to pop and restore previous state, (like OpenGL),
+         * this pops the last save and discards it without restoring the state.
+         */
+        PopDiscard = 0x00000001
+    };
+
+
+    /**
+     * A ExecutableModel holds a stack of states, the entire state of this
+     * model is pushed onto the saved state stack, and the current state
+     * remains unchanged.
+     *
+     * @returns the size of the saved stack after the current state has been
+     * pushed.
+     */
+    virtual int pushState(unsigned options = 0) = 0;
+
+    /**
+     * restore the state from a previously saved state, if the state stack
+     * is empty, this has no effect.
+     *
+     * @returns the size of the saved stack after the top has been poped.
+     */
+    virtual int popState(unsigned options = 0) = 0;
+
     /**
      * Sets the initial floating species concentrations, ModelData::floatingSpeciesInitConcentrations to
      * the initial value specified in the sbml model. The initial concentration

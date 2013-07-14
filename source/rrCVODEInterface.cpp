@@ -11,7 +11,6 @@
 #include "rrRoadRunner.h"
 #include "rrExecutableModel.h"
 #include "rrException.h"
-#include "rrModelState.h"
 #include "rrLogger.h"
 #include "rrStringUtils.h"
 #include "rrException.h"
@@ -302,7 +301,9 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
     }
 
     ExecutableModel *model = cvInstance->getModel();
-    ModelState oldState(*model);
+
+    //ModelState oldState(*model);
+    model->pushState();
 
     int size = model->getModelData().numFloatingSpecies + model->getModelData().numRateRules;
     vector<double> dCVodeArgument(size);
@@ -311,14 +312,6 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
     {
         dCVodeArgument[i] = y[i];
     }
-
-//    stringstream msg;
-//    msg<<left<<setw(20)<<"Count = "<<(CvodeInterface::mCount)<<"\t";
-
-    //for (u_int i = 0; i < dCVodeArgument.size(); i++)
-    //{
-        //msg<<left<<setw(20)<<setprecision(4)<<dCVodeArgument[i];
-    //}
 
     model->evalModel(time, dCVodeArgument);
 
@@ -329,13 +322,6 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
         dCVodeArgument.push_back(model->getModelData().floatingSpeciesConcentrationRates[i]);
     }
 
-    //msg<<"\tcount = "<<CvodeInterface::mCount << "\t" ;
-    //for (u_int i = 0; i < dCVodeArgument.size(); i++)
-    //{
-    //    msg<<setw(20)<<left<<setprecision(4)<<dCVodeArgument[i];
-    //}
-
-    //Log(lDebug4)<<msg.str();
 
     for (int i = 0; i < min((int) dCVodeArgument.size(), n); i++)
     {
@@ -343,7 +329,8 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
     }
 
     cvInstance->mCount++;
-    oldState.AssignToModel(*model);
+    //oldState.AssignToModel(*model);
+    model->popState();
 }
 
 void EventFcn(double time, double* y, double* gdot, void* userData)
@@ -357,7 +344,8 @@ void EventFcn(double time, double* y, double* gdot, void* userData)
 
     ExecutableModel *model = cvInstance->getModel();
 
-    ModelState* oldState = new ModelState(*model);
+    //ModelState* oldState = new ModelState(*model);
+    model->pushState();
 
     vector<double> args = cvInstance->buildEvalArgument();
     model->evalModel(time, args);
@@ -372,8 +360,9 @@ void EventFcn(double time, double* y, double* gdot, void* userData)
     }
 
     cvInstance->mRootCount++;
-    oldState->AssignToModel(*model);
-    delete oldState;
+    //oldState->AssignToModel(*model);
+    //delete oldState;
+    model->popState();
 }
 
 bool CvodeInterface::haveVariables()
@@ -531,7 +520,12 @@ vector<int> CvodeInterface::retestEvents(const double& timeEnd, const vector<int
     vector<double> args = buildEvalArgument();
     mTheModel->evalModel(timeEnd, args);
 
-    ModelState *oldState = new ModelState(*mTheModel);
+    // copy original evenStatusArray
+    vector<bool> eventStatusArray(mTheModel->getModelData().eventStatusArray,
+            mTheModel->getModelData().eventStatusArray +
+            mTheModel->getModelData().numEvents / sizeof(bool));
+
+    mTheModel->pushState();
 
     args = buildEvalArgument();
     mTheModel->evalEvents(timeEnd, args);
@@ -539,23 +533,19 @@ vector<int> CvodeInterface::retestEvents(const double& timeEnd, const vector<int
     for (int i = 0; i < mTheModel->getNumEvents(); i++)
     {
         bool containsI = (std::find(handledEvents.begin(), handledEvents.end(), i) != handledEvents.end()) ? true : false;
-        if (mTheModel->getModelData().eventStatusArray[i] == true && oldState->mEventStatusArray[i] == false && !containsI)
+        if (mTheModel->getModelData().eventStatusArray[i] == true && eventStatusArray[i] == false && !containsI)
         {
             result.push_back(i);
         }
 
-        if (mTheModel->getModelData().eventStatusArray[i] == false && oldState->mEventStatusArray[i] == true && !mTheModel->getModelData().eventPersistentType[i])
+        if (mTheModel->getModelData().eventStatusArray[i] == false && eventStatusArray[i] == true && !mTheModel->getModelData().eventPersistentType[i])
         {
             removeEvents.push_back(i);
         }
     }
 
-    if (assignOldState)
-    {
-        oldState->AssignToModel(*mTheModel);
-    }
+    mTheModel->popState(assignOldState ? 0 : ExecutableModel::PopDiscard);
 
-    delete oldState;
     return result;
 }
 

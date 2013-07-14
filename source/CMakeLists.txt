@@ -31,7 +31,7 @@ set(rrSources
     rrLogOutput
     rrCompiledExecutableModel
     rrExecutableModel
-    rrModelState
+    rrCompiledModelState
     rrNOMSupport
     rrObject
     rrPendingAssignment

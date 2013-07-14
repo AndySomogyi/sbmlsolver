@@ -7,13 +7,14 @@
 #include "rrModelData.h"
 #include "rrNOMSupport.h"
 #include "rr-libstruct/lsLibStructural.h"
+#include <stack>
 
 namespace rr
 {
 using namespace ls;
 using Poco::SharedLibrary;
 class CGenerator;
-class CvodeInterface;
+class CompiledModelState;
 
 //Function pointer typedefs..
 typedef void     (rrCallConv *c_void_MDS)(ModelData*); //MDS stands for ModelDataStructure
@@ -52,6 +53,24 @@ public:
     virtual void setTime(double _time);
     virtual double getTime();
     virtual ModelData& getModelData();
+
+    /**
+     * A ExecutableModel holds a stack of states, the entire state of this
+     * model is pushed onto the saved state stack, and the current state
+     * remains unchanged.
+     *
+     * @returns the size of the saved stack after the current state has been
+     * pushed.
+     */
+    virtual int pushState(unsigned options);
+
+    /**
+     * restore the state from a previously saved state, if the state stack
+     * is empty, this has no effect.
+     *
+     * @returns the size of the saved stack after the top has been poped.
+     */
+    virtual int popState(unsigned options);
 
     // functions --------------------------------------------------------
     virtual int getNumIndependentSpecies();
@@ -153,7 +172,6 @@ private:
      * and all sorts of other routines such as CVODE.
      */
     ModelData                         mData;
-    CvodeInterface*                   mCvodeInterface;
     ModelSymbols                      ms;
 
     /**
@@ -161,6 +179,8 @@ private:
      */
     bool                              mIsInitialized;
     ModelSharedLibrary*               mDLL;
+
+    std::stack<CompiledModelState*>        modelStates;
 
     //Function pointers...
     c_int_MDS                         cInitModel;

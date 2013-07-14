@@ -22,7 +22,7 @@ namespace rr
  * This class re-implements ModelData, and copies the values out of and into
  * a ModelData struct.
  */
-class RR_DECLSPEC ModelState : public rrObject
+class RR_DECLSPEC CompiledModelState : public rrObject
 {
     protected:
     public:
@@ -44,11 +44,7 @@ class RR_DECLSPEC ModelState : public rrObject
         void                            InitializeFromModel(ExecutableModel& model);
 
     public:
-                                        ModelState(ExecutableModel& model);
-        void                            WriteTo(const string& fileName);
-        static ModelState               ReadFrom(istream& stream);
-        static ModelState               ReadFrom(const string& fileName);
-        void                            WriteTo(ostream& stream);
+                                        CompiledModelState(ExecutableModel& model);
         void                            AssignToModel(ExecutableModel& model);
 };
 

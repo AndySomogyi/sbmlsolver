@@ -3,17 +3,17 @@
 #endif
 #pragma hdrstop
 #include "rrUtils.h"
-#include "rrModelState.h"
+#include "rrCompiledModelState.h"
 //---------------------------------------------------------------------------
 
 namespace rr
 {
-ModelState::ModelState(ExecutableModel& model)
+CompiledModelState::CompiledModelState(ExecutableModel& model)
 {
     InitializeFromModel(model);
 }
 
-void ModelState::InitializeFromModel(ExecutableModel& model)
+void CompiledModelState::InitializeFromModel(ExecutableModel& model)
 {
     ModelData &modelData = model.getModelData();
     model.convertToConcentrations();
@@ -32,7 +32,7 @@ void ModelState::InitializeFromModel(ExecutableModel& model)
     mTime = modelData.time;
 }
 
-void ModelState::AssignToModel(ExecutableModel& model)
+void CompiledModelState::AssignToModel(ExecutableModel& model)
 {
     ModelData &modelData = model.getModelData();
 //    CopyStdVectorToCArray(mFloatingSpeciesConcentrations,   model.y,                        *model.ySize                        );
