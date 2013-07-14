@@ -56,6 +56,12 @@ int main(int argc, char* argv[])
 
     StrIntPair *pairs;
     int npairs;
+//
+//    StrIntPair test = {"l2v4", 14};
+//    runInitialValueAssigmentTest(test.first, test.second);
+//
+//    return 0;
+
     getPairs(pairs, npairs);
 
     for (int i = 0; i < npairs; i++) {

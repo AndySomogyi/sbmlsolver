@@ -10,6 +10,7 @@
 
 #include "rrLLVMASTNodeCodeGen.h"
 #include "rrLLVMException.h"
+#include "rrOSSpecifics.h"
 
 #include <sbml/math/ASTNode.h>
 #include "rrLLVMIncludes.h"
@@ -74,6 +75,12 @@ Value *LLVMASTNodeCodeGen::binaryExprCodeGen(const ASTNode *ast)
 llvm::Value* LLVMASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
 {
     Value *result = 0;
+
+    if (ast == 0)
+    {
+        throw LLVMException("ASTNode is NULL", __FUNC__);
+    }
+
     switch (ast->getType())
     {
     case AST_PLUS:                  /* '+' */

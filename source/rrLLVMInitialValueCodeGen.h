@@ -46,6 +46,8 @@ public:
 
     llvm::Value *codeGen();
 
+    static const char* FunctionName;
+
 private:
 
     enum SpeciesReferenceType {
@@ -120,13 +122,58 @@ private:
 
     virtual llvm::Value *symbolValue(const std::string& symbol);
 
+    /**
+     * create an ASTNode for the species id / reaction id pair.
+     *
+     * This assembles the mess of items stored in the reactions array.
+     */
+    const ASTNode *createStoichiometryNode(int row, int col);
+
+    void codeGenFloatingSpecies(llvm::Value *modelData,
+            LLVMModelDataIRBuilder &modelDataBuilder);
+
+    void codeGenStoichiometry(llvm::Value *modelData,
+            LLVMModelDataIRBuilder &modelDataBuilder);
+
     llvm::Function *initialValuesFunc;
     LLVMSymbolForest symbolForest;
     LLVMASTNodeFactory nodes;
 
-    std::vector<int> stoichRowIdx;
-    std::vector<int> stoichColIdx;
-    std::vector<const ASTNode*> stoichNodes;
+
+    /**
+     * what follows is a rather ugly data structure...
+     *
+     * there are many many ways of specifiying stoichiometry, this
+     * data stucture is designed to accomodate all of them.
+     *
+     * Idea is all participants in this reaction have an ASTNode, this
+     * struct allows indexing that ASTNode by either the species index,
+     * so it can populate the stoichiometry matrix, but also by the
+     * species reference is, so that assigment rules or initial assignments
+     * can repace that node.
+     *
+     * Each species can appear more than once in a reaction, so
+     * it needs to have a list of species references with it.
+     */
+    typedef std::list<int> IntList;
+    typedef std::map<std::string, int> StringIntMap;
+    typedef std::map<int, IntList> IntIntListMap;
+    struct ReactionSymbols {
+
+        std::vector<const libsbml::ASTNode*> nodes;
+        IntIntListMap reactantIdx;         // indexed by floating species index
+        StringIntMap reactantRefIds;        // indexed by species reference name
+        IntIntListMap productIdx;          // indexed by floating species index
+        StringIntMap productRefIds;         // indexed by species reference name
+    };
+
+
+    /**
+     * these are indexed by reaction index.
+     *
+     * the stoichiometry matrix is a N species x N reaction matrix.
+     */
+    std::vector<ReactionSymbols> reactions;
 };
 
 } /* namespace rr */

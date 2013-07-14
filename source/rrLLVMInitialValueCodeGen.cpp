@@ -17,13 +17,27 @@ using namespace libsbml;
 using namespace llvm;
 using namespace std;
 
+
+void test (ASTNode *& a) {
+    a = new ASTNode();
+
+    const ASTNode *b = new ASTNode();
+
+    std::vector<const ASTNode **> nodes;
+    nodes.push_back(&b);
+
+}
+
 namespace rr
 {
+
+const char* LLVMInitialValueCodeGen::FunctionName = "evalInitialConditions";
 
 LLVMInitialValueCodeGen::LLVMInitialValueCodeGen(
         const LLVMModelGeneratorContext &mgc) :
         LLVMCodeGenBase(mgc),
-        initialValuesFunc(0)
+        initialValuesFunc(0),
+        reactions(symbols.getReactionSize(), ReactionSymbols())
 {
     model->getListOfSpecies()->accept(*this);
     model->getListOfCompartments()->accept(*this);
@@ -75,13 +89,18 @@ Value* LLVMInitialValueCodeGen::codeGen()
         cout << ids[i] << ", ";
     }
     cout << "\n";
-    for (int i = 0; i < stoichRowIdx.size(); i++)
+
+    list<pair<int,int> > stoichEntries = symbols.getStoichiometryIndx();
+    for (list<pair<int,int> >::iterator i = stoichEntries.begin();
+            i != stoichEntries.end(); i++)
     {
-        cout << "row: " << stoichRowIdx[i] << ", col: " << stoichColIdx[i]
-                << ", stoich: ";
-        char* formula = SBML_formulaToString(stoichNodes[i]);
-        cout << formula << "\n";
+        pair<int, int> nz = *i;
+        const ASTNode *node = createStoichiometryNode(nz.first, nz.second);
+        char* formula = SBML_formulaToString(node);
+        cout << "\t{" << nz.first << ", " << nz.second << "} : " << formula
+                << "\n";
         free(formula);
+
     }
 
     // make the set init value function
@@ -94,7 +113,7 @@ Value* LLVMInitialValueCodeGen::codeGen()
     FunctionType *funcType = FunctionType::get(Type::getVoidTy(context), argTypes,
             false);
     initialValuesFunc = Function::Create(funcType, Function::InternalLinkage,
-            "structSet", module);
+            FunctionName, module);
 
 
     // Create a new basic block to start insertion into.
@@ -112,39 +131,11 @@ Value* LLVMInitialValueCodeGen::codeGen()
     printf("arg: %p\n", argVal);
 
     LLVMModelDataIRBuilder modelDataBuilder(symbols, builder);
-    LLVMASTNodeCodeGen astCodeGen(*builder, *this);
 
-    cout << "floatingSpecies: \n";
-    for (LLVMSymbolForest::Iterator i = symbolForest.floatingSpecies.begin();
-            i != symbolForest.floatingSpecies.end(); i++)
-    {
-        cout << "id: " << i->first << "\n";
+    codeGenFloatingSpecies(modelData, modelDataBuilder);
 
-        char* formula = SBML_formulaToString(i->second);
-        cout << "\t" << i->first << ": " << formula << "\n";
-        free(formula);
+    codeGenStoichiometry(modelData, modelDataBuilder);
 
-        Value *value = astCodeGen.codeGen(i->second);
-        value->dump();
-
-        Value *amt = 0;
-
-        Species *species = model->getListOfSpecies()->get(i->first);
-        if (species->getHasOnlySubstanceUnits())
-        {
-            // interpret the evaluated value as an amount
-            amt = value;
-        }
-        else
-        {
-            // interpret the evaluated value as a concentration.
-            const ASTNode *compAST = symbolForest.compartments[species->getCompartment()];
-            Value *compValue = astCodeGen.codeGen(compAST);
-            amt = builder->CreateFMul(value, compValue, "amt");
-        }
-
-        modelDataBuilder.createFloatSpeciesAmtStore(modelData, i->first, amt);
-    }
 
     builder->CreateRetVoid();
 
@@ -392,20 +383,58 @@ void LLVMInitialValueCodeGen::processSpeciesReference(
             }
         }
 
-        if (type == Reactant)
+        else
         {
-            ASTNode *mul = nodes.create(AST_TIMES);
-            ASTNode *negone = new ASTNode(AST_REAL);
-            negone->setValue(-1);
-            mul->addChild(negone);
-            mul->addChild(new ASTNode(*stoich));
-            stoich = mul;
+            cout << "stoich\n";
         }
 
-        stoichRowIdx.push_back(rowIdx);
-        stoichColIdx.push_back(colIdx);
-        stoichNodes.push_back(stoich);
+        assert(stoich != 0);
 
+        ReactionSymbols &reacSym = reactions[colIdx];
+
+        // check if we already have a species ref with this id, if so
+        // replace it, if not, add it
+
+        if (type == Reactant)
+        {
+            StringIntMap::iterator i;
+            if (ref->isSetId() &&
+                    (i = reacSym.reactantRefIds.find(ref->getId())) !=
+                            reacSym.reactantRefIds.end())
+            {
+                reacSym.nodes[i->second] = stoich;
+            }
+            else
+            {
+                reacSym.nodes.push_back(stoich);
+                int stoichIdx = reacSym.nodes.size()-1; // index of new node
+                reacSym.reactantIdx[rowIdx].push_back(stoichIdx);
+                if (ref->isSetId())
+                {
+                    reacSym.reactantRefIds[ref->getId()] = stoichIdx;
+                }
+            }
+        }
+        else
+        {
+            StringIntMap::iterator i;
+            if (ref->isSetId() &&
+                    (i = reacSym.productRefIds.find(ref->getId())) !=
+                            reacSym.productRefIds.end())
+            {
+                reacSym.nodes[i->second] = stoich;
+            }
+            else
+            {
+                reacSym.nodes.push_back(stoich);
+                int stoichIdx = reacSym.nodes.size()-1; // index of new node
+                reacSym.productIdx[rowIdx].push_back(stoichIdx);
+                if (ref->isSetId())
+                {
+                    reacSym.productRefIds[ref->getId()] = stoichIdx;
+                }
+            }
+        }
     } catch (LLVMException &)
     {
         string err = "could not find product ";
@@ -430,6 +459,181 @@ llvm::Value* LLVMInitialValueCodeGen::symbolValue(const std::string& symbol)
         msg += symbol;
         msg += "\' in symbol forest";
         throw LLVMException(msg, __FUNC__);
+    }
+}
+
+const ASTNode* LLVMInitialValueCodeGen::createStoichiometryNode(int row,
+        int col)
+{
+    ReactionSymbols &r = reactions[col];
+    IntList productList;
+    IntList reactantList;
+
+    IntIntListMap::const_iterator pi = r.productIdx.find(row);
+    if (pi != r.productIdx.end())
+    {
+        productList = pi->second;
+    }
+
+    IntIntListMap::const_iterator ri = r.reactantIdx.find(row);
+    if (ri != r.reactantIdx.end())
+    {
+        reactantList = ri->second;
+    }
+
+    if (productList.size() == 0 && reactantList.size() == 0)
+    {
+        string err = "species " + symbols.getFloatingSpeciesIds()[row] +
+                " has neither products nor reactants in reaction " +
+                symbols.getReactionIds()[col];
+        throw LLVMException(err, __FUNC__);
+    }
+
+    // we keep track of the top level node, it takes ownership
+    // of all child nodes.
+    ASTNode *result = nodes.create(AST_PLUS);
+    ASTNode *reactants = 0;
+    ASTNode *products = 0;
+
+    cout << "\t{" << row << ", " << col << "}, #reactants: " << reactantList.size() << " #products: " << productList.size() << "\n";
+
+    if (reactantList.size())
+    {
+        // list is nearly always length 1, so don't waste
+        // time making a plus out of it...
+        if (reactantList.size() == 1)
+        {
+            reactants = new ASTNode(*r.nodes[reactantList.front()]);
+        }
+        else
+        {
+            reactants = new ASTNode(AST_PLUS);
+            for (IntList::const_iterator i = reactantList.begin();
+                    i != reactantList.end(); i++)
+            {
+                const ASTNode *reactant = r.nodes[*i];
+                reactants->addChild(new ASTNode(*reactant));
+            }
+        }
+
+        ASTNode *negOne = new ASTNode(AST_REAL);
+        negOne->setValue(-1.);
+
+        ASTNode *times = new ASTNode(AST_TIMES);
+        times->addChild(negOne);
+        times->addChild(reactants);
+
+        reactants = times;
+    }
+    else
+    {
+        reactants = new ASTNode(AST_REAL);
+        reactants->setValue(0.);
+    }
+
+    if (productList.size())
+    {
+        if (productList.size() == 1)
+        {
+            products = new ASTNode(*r.nodes[productList.front()]);
+        }
+        else
+        {
+            products = new ASTNode(AST_PLUS);
+            for (IntList::const_iterator i = productList.begin();
+                    i != productList.end(); i++)
+            {
+                const ASTNode *product = r.nodes[*i];
+                products->addChild(new ASTNode(*product));
+            }
+        }
+    }
+    else
+    {
+        products = new ASTNode(AST_REAL);
+        products->setValue(0.);
+    }
+
+    result->addChild(reactants);
+    result->addChild(products);
+
+    return result;
+}
+
+void LLVMInitialValueCodeGen::codeGenFloatingSpecies(
+        Value *modelData, LLVMModelDataIRBuilder& modelDataBuilder)
+{
+    LLVMASTNodeCodeGen astCodeGen(*builder, *this);
+
+    cout << "floatingSpecies: \n";
+    for (LLVMSymbolForest::Iterator i = symbolForest.floatingSpecies.begin();
+            i != symbolForest.floatingSpecies.end(); i++)
+    {
+        cout << "id: " << i->first << "\n";
+
+        char* formula = SBML_formulaToString(i->second);
+        cout << "\t" << i->first << ": " << formula << "\n";
+        free(formula);
+
+        Value *value = astCodeGen.codeGen(i->second);
+        value->dump();
+
+        Value *amt = 0;
+
+        Species *species = model->getListOfSpecies()->get(i->first);
+        if (species->getHasOnlySubstanceUnits())
+        {
+            // interpret the evaluated value as an amount
+            amt = value;
+        }
+        else
+        {
+            // interpret the evaluated value as a concentration.
+            const ASTNode *compAST =
+                    symbolForest.compartments[species->getCompartment()];
+            Value *compValue = astCodeGen.codeGen(compAST);
+            amt = builder->CreateFMul(value, compValue, "amt");
+        }
+
+        modelDataBuilder.createFloatSpeciesAmtStore(modelData, i->first, amt);
+    }
+}
+
+void LLVMInitialValueCodeGen::codeGenStoichiometry(llvm::Value* modelData,
+        LLVMModelDataIRBuilder& modelDataBuilder)
+{
+    LLVMASTNodeCodeGen astCodeGen(*builder, *this);
+
+    cout << "reactions: ";
+    vector<string> ids = symbols.getReactionIds();
+    for (int i = 0; i < ids.size(); i++)
+    {
+        cout << ids[i] << ", ";
+    }
+    cout << "\n";
+
+    Value *stoichEP = modelDataBuilder.createGEP(modelData, Stoichiometry);
+    Value *stoich = builder->CreateLoad(stoichEP, "stoichiometry");
+
+    list<pair<int,int> > stoichEntries = symbols.getStoichiometryIndx();
+    for (list<pair<int,int> >::iterator i = stoichEntries.begin();
+            i != stoichEntries.end(); i++)
+    {
+        pair<int, int> nz = *i;
+        const ASTNode *node = createStoichiometryNode(nz.first, nz.second);
+        char* formula = SBML_formulaToString(node);
+        cout << "\t{" << nz.first << ", " << nz.second << "} : " << formula
+                << "\n";
+        free(formula);
+
+        // createCSRMatrixSetNZ(llvm::Value *csrPtr, llvm::Value *row,
+        // llvm::Value *col, llvm::Value *value, const char* name = 0);
+
+        Value *stoichValue = astCodeGen.codeGen(node);
+        Value *row = ConstantInt::get(Type::getInt32Ty(context), nz.first, true);
+        Value *col = ConstantInt::get(Type::getInt32Ty(context), nz.second, true);
+        modelDataBuilder.createCSRMatrixSetNZ(stoich, row, col, stoichValue);
+
     }
 }
 

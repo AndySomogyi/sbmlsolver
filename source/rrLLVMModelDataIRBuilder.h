@@ -251,7 +251,7 @@ public:
      * only valid whilst a basic block is being filled.
      */
     llvm::CallInst *createCSRMatrixSetNZ(llvm::Value *csrPtr, llvm::Value *row,
-            llvm::Value *col, llvm::Value *value, const char* name = 0);
+            llvm::Value *col, llvm::Value *value, const char* name = "");
 
     /**
      * create a call to the csr_matrix_get_nz function.
@@ -259,7 +259,7 @@ public:
      * only valid whilst a basic block is being filled.
      */
     llvm::CallInst *createCSRMatrixGetNZ(llvm::Value *csrPtr, llvm::Value *row,
-            llvm::Value *col, const char* name = 0);
+            llvm::Value *col, const char* name = "");
 
     /**
      * get the function declaration (prototype) for the csr_matrix_set_nz function.

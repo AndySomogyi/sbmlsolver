@@ -34,6 +34,7 @@ csr_matrix* csr_matrix_new(int m, int n,
         const std::vector<int>& rowidx, const std::vector<int>& colidx,
         const std::vector<double>& values)
 {
+    char err[64];
     int nnz = rowidx.size();
 
     if (colidx.size() != nnz || values.size() != nnz)
@@ -41,9 +42,23 @@ csr_matrix* csr_matrix_new(int m, int n,
         throw runtime_error("rowidx, colidx and values must be the same length");
     }
 
-    csr_matrix* mat = (csr_matrix*)calloc(1, sizeof(csr_matrix));
+    for (int i = 0; i < nnz; i++)
+    {
+        if (rowidx[i] >= m)
+        {
+            snprintf(err, sizeof(err)/sizeof(char),
+                    "rowidx[%i] == %i >= row count %i", i, rowidx[i], m);
+            throw runtime_error(err);
+        }
+        if (colidx[i] >= n)
+        {
+            snprintf(err, sizeof(err)/sizeof(char),
+                    "colidx[%i] == %i >= column count %i", i, colidx[i], n);
+            throw runtime_error(err);
+        }
+    }
 
-    mat->nnz = nnz;
+    csr_matrix* mat = (csr_matrix*)calloc(1, sizeof(csr_matrix));
 
     // values that will get stuffed into struct
     vector<double> mvalues;

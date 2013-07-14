@@ -104,11 +104,23 @@ public:
 
     int getReactionIndex(std::string const&) const;
     std::vector<std::string> getReactionIds() const;
+    int getReactionSize() const;
 
     std::vector<std::string> getGlobalParameterIds() const;
     std::vector<std::string> getFloatingSpeciesIds() const;
+    int getFloatingSpeciesSize() const;
+
     std::vector<std::string> getCompartmentIds() const;
     std::vector<std::string> getBoundarySpeciesIds() const;
+
+    /**
+     * get a list of all the non-zero entries in the
+     * stoichiometry matrix.
+     *
+     * in the list of pairs, first is the row (species) index,
+     * and second is teh column (reaction) index.
+     */
+    std::list<std::pair<int,int> > getStoichiometryIndx() const;
 
 
     void initAllocModelDataBuffers(ModelData& m) const;

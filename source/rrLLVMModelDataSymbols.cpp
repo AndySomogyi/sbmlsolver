@@ -9,6 +9,7 @@
 #include "rrLLVMException.h"
 #include "rrOSSpecifics.h"
 #include "rrLogger.h"
+#include "rrSparse.h"
 
 #include <sbml/Model.h>
 #include <sbml/SBMLDocument.h>
@@ -124,8 +125,10 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
             try
             {
                 int speciesIdx = getFloatingSpeciesIndex(r->getSpecies());
-                stoichColIndx.push_back(speciesIdx);
-                stoichRowIndx.push_back(i);
+                stoichColIndx.push_back(i);
+                stoichRowIndx.push_back(speciesIdx);
+
+                cout << "reactant, row: " << i << ", col: " << speciesIdx << "\n";
             } catch (exception&) {}
         }
 
@@ -138,8 +141,9 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
             try
             {
                 int speciesIdx = getFloatingSpeciesIndex(p->getSpecies());
-                stoichColIndx.push_back(speciesIdx);
-                stoichRowIndx.push_back(i);
+                stoichColIndx.push_back(i);
+                stoichRowIndx.push_back(speciesIdx);
+                cout << "product, row: " << i << ", col: " << speciesIdx << "\n";
             }
             catch (exception&)
             {
@@ -242,6 +246,10 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(ModelData& m) const
 
     // allocate the data buffers
     allocModelDataBuffers(m, modelName);
+
+    // allocate the stoichiometry matrix
+    m.stoichiometry = csr_matrix_new(getFloatingSpeciesSize(), getReactionSize(),
+            stoichRowIndx, stoichColIndx, vector<double>(stoichRowIndx.size(), 0));
 }
 
 std::vector<std::string> LLVMModelDataSymbols::getCompartmentIds() const
@@ -284,6 +292,29 @@ int LLVMModelDataSymbols::getReactionIndex(const std::string& id) const
 std::vector<std::string> LLVMModelDataSymbols::getReactionIds() const
 {
     return getIds(reactionsMap);
+}
+
+int LLVMModelDataSymbols::getReactionSize() const
+{
+    return reactionsMap.size();
+}
+
+int LLVMModelDataSymbols::getFloatingSpeciesSize() const
+{
+    return floatingSpeciesMap.size();
+}
+
+std::list<std::pair<int, int> > LLVMModelDataSymbols::getStoichiometryIndx() const
+{
+    std::list<std::pair<int, int> > result;
+
+    for (int i = 0; i < stoichRowIndx.size(); i++)
+    {
+        pair<int,int> entry(stoichRowIndx[i], stoichColIndx[i]);
+        result.push_back(entry);
+    }
+
+    return result;
 }
 
 void LLVMModelDataSymbols::print() const
