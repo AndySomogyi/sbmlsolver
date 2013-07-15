@@ -7,6 +7,7 @@
 #include "CSRMatrixTest.h"
 
 #include "LLVMCSRMatrixTest.h"
+#include "test_compiler.h"
 
 #include <sbml/SBMLDocument.h>
 #include <sbml/Model.h>
@@ -44,6 +45,8 @@ bool RunTest(const string& version, int caseNumber);
 int main(int argc, char* argv[])
 {
     cout << "hi\n";
+
+    test_compiler();
 
     //runSparseTest(33, 323, 50);
 

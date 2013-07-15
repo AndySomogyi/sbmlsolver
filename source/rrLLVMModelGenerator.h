@@ -35,27 +35,23 @@ public:
      * generate files such as shared libraries. This specifies the
      * location where they are stored.
      */
-    virtual bool                        setTemporaryDirectory(const string& path);
+    virtual bool setTemporaryDirectory(const string& path);
 
     /**
      * certain model generators, such as the compiler based ones
      * generate files such as shared libraries. This specifies the
      * location where they are stored.
      */
-    virtual string                      getTemporaryDirectory();
+    virtual string getTemporaryDirectory();
 
     /**
-     * Create an executable model from an sbml string, a LibStructural and a NOMSupport.
-     * The libstruct and nom objects must already have the sbml loaded into them.
+     * Create an executable model from an sbml string
      *
-     * For the time being, this sets up a bunch of ivars, such as mLibStruct and mNOM,
-     * and in order to preserve compatibility, thise will remain pointing to whatever
-     * was passed in.
-     * Eventually these ivars will either go away or will be cleared. The ModelGenerator
-     * is intended ONLY to make models, not query NOM info.
+     * The LibStructural and NOMSupport are legacy C generator classes that are
+     * completly ignored.
      */
-    virtual ExecutableModel *createModel(const string& sbml, ls::LibStructural *ls,
-            NOMSupport *nom, bool forceReCompile, bool computeAndAssignConsevationLaws);
+    virtual ExecutableModel *createModel(const string& sbml, ls::LibStructural *,
+            NOMSupport *, bool forceReCompile, bool computeAndAssignConsevationLaws);
 
     /**
      * Get the compiler object that the model generator is using to
@@ -63,14 +59,12 @@ public:
      * case, the Compiler interface should still be sufficiently general to
      * manipulate interpreters as well.
      */
-    virtual                             Compiler *getCompiler();
+    virtual Compiler *getCompiler();
 
     /**
-     * Set the name of the compiler to use. In the case of source code generating
-     * model generators, this is the exectuable name of the external compiler, i.e.
-     * 'gcc', 'icc', etc... For JITing generators, this may have no effect.
+     * No effect on LLVM generator.
      */
-    virtual                             bool setCompiler(const string& compiler);
+    virtual bool setCompiler(const string& compiler);
 
 
 private:

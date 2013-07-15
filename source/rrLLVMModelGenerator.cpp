@@ -8,6 +8,8 @@
  *     andy V1 somogyi V2 gmail V3 com
  */
 #include "rrLLVMModelGenerator.h"
+#include "rrLLVMExecutableModel.h"
+#include "rrLLVMModelGeneratorContext.h"
 
 
 
@@ -57,19 +59,38 @@ LLVMModelGenerator::~LLVMModelGenerator()
 
 bool LLVMModelGenerator::setTemporaryDirectory(const string& path)
 {
-    return false;
+    return true;
 }
 
 string LLVMModelGenerator::getTemporaryDirectory()
 {
-    return "";
+    return LLVMCompiler::gurgle();
 }
 
 ExecutableModel* LLVMModelGenerator::createModel(const string& sbml,
-        ls::LibStructural* ls, NOMSupport* nom, bool forceReCompile,
+        ls::LibStructural*, NOMSupport*, bool forceReCompile,
         bool computeAndAssignConsevationLaws)
 {
-    return 0;
+    LLVMModelGeneratorContext context(sbml, computeAndAssignConsevationLaws);
+
+    LLVMEvalInitialConditionsCodeGen::FunctionPtr evalInitialConditionsPtr =
+            LLVMEvalInitialConditionsCodeGen(context).createFunction();
+
+
+    // if anything up to this point throws an exception, thats OK, because
+    // we have not allocated any memory yet that is not taken care of by
+    // something else.
+    // Now that everything that could have thrown would have thrown, we
+    // can now create the model and set its fields.
+
+    LLVMExecutableModel *exe = new LLVMExecutableModel();
+
+    context.stealThePeach(&exe->symbols, &exe->context, &exe->executionEngine,
+            &exe->errStr);
+
+    exe->evalInitialConditionsPtr = evalInitialConditionsPtr;
+
+    return exe;
 }
 
 Compiler* LLVMModelGenerator::getCompiler()
@@ -79,7 +100,7 @@ Compiler* LLVMModelGenerator::getCompiler()
 
 bool LLVMModelGenerator::setCompiler(const string& compiler)
 {
-    return false;
+    return true;
 }
 
 

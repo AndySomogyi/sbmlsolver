@@ -19,7 +19,8 @@ LLVMExecutableModel::LLVMExecutableModel() :
     symbols(0),
     context(0),
     executionEngine(0),
-    errStr(0)
+    errStr(0),
+    evalInitialConditionsPtr(0)
 {
 }
 
@@ -287,6 +288,7 @@ int LLVMExecutableModel::popState(unsigned)
 
 void LLVMExecutableModel::evalInitialConditions()
 {
+    evalInitialConditionsPtr(modelData);
 }
 
 LLVMExecutableModel* LLVMExecutableModel::dummy()

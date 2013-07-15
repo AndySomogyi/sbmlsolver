@@ -15,7 +15,7 @@
 #include "rrUtils.h"
 #include "rrLLVMIncludes.h"
 #include "rrLLVMAssignmentRuleEvaluator.h"
-#include "rrLLVMInitialValueCodeGen.h"
+#include "rrLLVMEvalInitialConditionsCodeGen.h"
 #include "rrSparse.h"
 
 
