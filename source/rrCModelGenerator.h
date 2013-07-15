@@ -5,7 +5,7 @@
 #include "rrCompiledModelGenerator.h"
 #include "rrModelSharedLibrary.h"
 #include "rrCodeBuilder.h"
-#include "rrCompiler.h"
+#include "rrCCompiler.h"
 
 namespace rr
 {
@@ -29,7 +29,7 @@ public:
      *
      * The caller own this.
      */
-    virtual ExecutableModel             *createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
+    virtual ExecutableModel             *createModel(const string& sbml, ls::LibStructural *ls, NOMSupport *nom,
                                                      bool forceReCompile, bool computeAndAssignConsevationLaws);
 
     virtual bool                        setTemporaryDirectory(const string& path);
@@ -42,8 +42,6 @@ public:
     /**
      * Get the compiler object that the model generator is using to
      * 'compile' sbml.
-     *
-     * TODO: Make Compiler an interface.
      */
     virtual                             Compiler* getCompiler();
 
@@ -74,7 +72,7 @@ private:
     // TODO: fix this!
     ModelSharedLibrary                  *mModelLib;
 
-    Compiler                            mCompiler;
+    CCompiler                           mCompiler;
 
     string                              mTempFileFolder;
 

@@ -75,7 +75,6 @@ RoadRunner::RoadRunner(const string& tempFolder, const string& supportCodeFolder
 :
 mUseKinsol(false),
 mDiffStepSize(0.05),
-mModelFolder("models"),
 mSteadyStateThreshold(1.E-2),
 mSimulation(NULL),
 mCurrentSBMLFileName(""),
@@ -206,9 +205,6 @@ bool RoadRunner::setCompiler(const string& compiler)
 {
     return mModelGenerator ? mModelGenerator->setCompiler(compiler) : false;
 }
-/*
-
-*/
 
 bool RoadRunner::isModelLoaded()
 {
@@ -231,27 +227,12 @@ bool RoadRunner::computeAndAssignConservationLaws()
 
 bool RoadRunner::setTempFileFolder(const string& folder)
 {
-    if(folderExists(folder))
-    {
-        Log(lDebug)<<"Setting temp file folder to "<<folder;
-        mModelGenerator->setTemporaryDirectory(folder);
-        mTempFileFolder = folder;
-        return true;
-    }
-    else
-    {
-        stringstream msg;
-        msg<<"The folder: "<<folder<<" don't exist...";
-        Log(lError)<<msg.str();
-
-        CoreException e(msg.str());
-        throw(e);
-    }
+    return mModelGenerator ? mModelGenerator->setTemporaryDirectory(folder) : false;
 }
 
 string RoadRunner::getTempFolder()
 {
-    return mTempFileFolder;
+    return mModelGenerator ? mModelGenerator->getTemporaryDirectory() : "";
 }
 
 int RoadRunner::createDefaultTimeCourseSelectionList()
@@ -335,7 +316,7 @@ bool RoadRunner::initializeModel()
         mModel->convertToAmounts();
         mModel->evalInitialAssignments();
 
-        mModel->computeRules(mModel->getModelData().floatingSpeciesConcentrations, mModel->getModelData().numFloatingSpecies);
+        mModel->computeRules();
         mModel->convertToAmounts();
 
         if (mComputeAndAssignConservationLaws.getValue())
@@ -755,13 +736,11 @@ void RoadRunner::reset()
 
         // also we might need to set some initial assignment rules.
         mModel->convertToConcentrations();
-        mModel->computeRules(mModel->getModelData().floatingSpeciesConcentrations,
-                mModel->getModelData().numFloatingSpecies);
+        mModel->computeRules();
         mModel->initializeRates();
         mModel->initializeRateRuleSymbols();
         mModel->evalInitialAssignments();
-        mModel->computeRules(mModel->getModelData().floatingSpeciesConcentrations,
-                mModel->getModelData().numFloatingSpecies);
+        mModel->computeRules();
 
         mModel->convertToAmounts();
 

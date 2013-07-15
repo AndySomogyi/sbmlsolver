@@ -10,7 +10,8 @@
 #ifndef rrLLVMModelGeneratorH
 #define rrLLVMModelGeneratorH
 
-#include <rrModelGenerator.h>
+#include "rrModelGenerator.h"
+#include "rrLLVMCompiler.h"
 
 namespace rr
 {
@@ -23,7 +24,7 @@ namespace rr
  * Floating Species: species whose value varies over time, i.e. they can 'float'
  * Boundary Species: boundary condition species, values are fixed to initial conditions.
  */
-class LLVMModelGenerator: public rr::ModelGenerator
+class RR_DECLSPEC LLVMModelGenerator: public rr::ModelGenerator
 {
 public:
     LLVMModelGenerator();
@@ -53,16 +54,14 @@ public:
      * Eventually these ivars will either go away or will be cleared. The ModelGenerator
      * is intended ONLY to make models, not query NOM info.
      */
-    virtual ExecutableModel             *createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
-            bool forceReCompile, bool computeAndAssignConsevationLaws);
+    virtual ExecutableModel *createModel(const string& sbml, ls::LibStructural *ls,
+            NOMSupport *nom, bool forceReCompile, bool computeAndAssignConsevationLaws);
 
     /**
      * Get the compiler object that the model generator is using to
      * 'compile' sbml. Certain model generators may be interpreters, in this
      * case, the Compiler interface should still be sufficiently general to
      * manipulate interpreters as well.
-     *
-     * TODO: Make Compiler an interface.
      */
     virtual                             Compiler *getCompiler();
 
@@ -73,6 +72,9 @@ public:
      */
     virtual                             bool setCompiler(const string& compiler);
 
+
+private:
+    LLVMCompiler compiler;
 
 };
 

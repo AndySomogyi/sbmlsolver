@@ -160,6 +160,7 @@ endif()
 
 if(BUILD_LLVM)
     message(STATUS "using LLVM, version ${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}")
+    add_definitions(-DBUILD_LLVM)
     add_definitions(${LLVM_CXXFLAGS})
     include_directories(${LLVM_INCLUDE_DIR})
 else()

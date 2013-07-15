@@ -262,7 +262,7 @@ bool CompiledExecutableModel::setupDLLFunctions()
     csetBoundaryConditions              = (c_void_MDS)                     mDLL->getSymbol("setBoundaryConditions");
     csetInitialConditions               = (c_void_MDS)                     mDLL->getSymbol("setInitialConditions");
     cevalInitialAssignments             = (c_void_MDS)                     mDLL->getSymbol("evalInitialAssignments");
-    ccomputeRules                       = (c_void_MDS_doubleStar)          mDLL->getSymbol("computeRules");
+    ccomputeRules                       = (c_void_MDS)                     mDLL->getSymbol("computeRules");
     cconvertToAmounts                   = (c_void_MDS)                     mDLL->getSymbol("convertToAmounts");
     ccomputeConservedTotals             = (c_void_MDS)                     mDLL->getSymbol("computeConservedTotals");
     cgetConcentration                   = (c_double_MDS_int)               mDLL->getSymbol("getConcentration");
@@ -506,14 +506,8 @@ void CompiledExecutableModel::updateDependentSpeciesValues(double* y_vec)
     cupdateDependentSpeciesValues(&mData, y_vec);
 }
 
-void CompiledExecutableModel::computeRules(vector<double>& arr)
-{
-    double* cArr = createVector(arr);
-    computeRules(cArr, arr.size());
-    delete [] cArr;
 
-}
-void CompiledExecutableModel::computeRules(double* y, int size)
+void CompiledExecutableModel::computeRules()
 {
     if(!ccomputeRules)
     {
@@ -521,7 +515,7 @@ void CompiledExecutableModel::computeRules(double* y, int size)
         return;
     }
 
-    ccomputeRules(&mData, y);
+    ccomputeRules(&mData);
 }
 
 void CompiledExecutableModel::setInitialConditions()

@@ -106,11 +106,7 @@ int LLVMExecutableModel::getNumLocalParameters(int reactionId)
     return 0;
 }
 
-void LLVMExecutableModel::computeRules(vector<double>& _y)
-{
-}
-
-void LLVMExecutableModel::computeRules(double* ay, int size)
+void LLVMExecutableModel::computeRules()
 {
 }
 
@@ -278,10 +274,12 @@ void LLVMExecutableModel::setGlobalParameterValue(int index, double value)
 
 int LLVMExecutableModel::pushState(unsigned)
 {
+    return 0;
 }
 
 int LLVMExecutableModel::popState(unsigned)
 {
+    return 0;
 }
 
 LLVMExecutableModel* LLVMExecutableModel::dummy()

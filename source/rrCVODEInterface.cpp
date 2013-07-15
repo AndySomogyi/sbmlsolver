@@ -788,8 +788,7 @@ void CvodeInterface::assignResultsToModel()
         Log(lDebug5)<<"Amount "<<setprecision(16)<<val;
     }
 
-    vector<double> args = buildEvalArgument();
-    mTheModel->computeRules(args);
+    mTheModel->computeRules();
     mTheModel->setRateRuleValues(&dTemp[0]);
 
     mTheModel->computeAllRatesOfChange();

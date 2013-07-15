@@ -16,7 +16,7 @@ class Event;
 class ExecutableModel;
 class RoadRunner;
 
-class RR_DECLSPEC CvodeInterface : public rrObject
+class RR_DECLSPEC CvodeInterface
 {
     private:
         const double                mDefaultReltol;

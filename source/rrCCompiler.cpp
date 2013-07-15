@@ -14,7 +14,7 @@
 #endif
 #include "Poco/File.h"
 #include "rrLogger.h"
-#include "rrCompiler.h"
+#include "rrCCompiler.h"
 #include "rrException.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
@@ -25,7 +25,7 @@ using namespace std;
 namespace rr
 {
 
-Compiler::Compiler(const string& supportCodeFolder, const string& compiler)
+CCompiler::CCompiler(const string& supportCodeFolder, const string& compiler)
 :
 mSupportCodeFolder(supportCodeFolder),
 mCompilerName(getFileName(compiler)),
@@ -40,9 +40,9 @@ mCompilerLocation(getFilePath(compiler))
     }
 }
 
-Compiler::~Compiler(){}
+CCompiler::~CCompiler(){}
 
-bool Compiler::setupCompiler(const string& supportCodeFolder)
+bool CCompiler::setupCompiler(const string& supportCodeFolder)
 {
     mSupportCodeFolder = supportCodeFolder;
 
@@ -55,13 +55,13 @@ bool Compiler::setupCompiler(const string& supportCodeFolder)
     return true;
 }
 
-bool Compiler::setOutputPath(const string& path)
+bool CCompiler::setOutputPath(const string& path)
 {
     mOutputPath = path;
     return true;
 }
 
-bool Compiler::compileSource(const string& sourceFileName)
+bool CCompiler::compileSource(const string& sourceFileName)
 {
     //Compile the code and load the resulting dll, and call an exported function in it...
 #if defined(_WIN32) || defined(__CODEGEARC__)
@@ -92,14 +92,19 @@ bool Compiler::compileSource(const string& sourceFileName)
     return fileExists(mDLLFileName);
 }
 
-bool Compiler::setCompiler(const string& compiler)
+bool CCompiler::setCompiler(const string& compiler)
 {
     mCompilerName = getFileName(compiler);
     mCompilerLocation = getFilePath(compiler);
     return true;
 }
 
-bool Compiler::setCompilerLocation(const string& path)
+string CCompiler::getCompiler() const
+{
+    return mCompilerName;
+}
+
+bool CCompiler::setCompilerLocation(const string& path)
 {
     if(!folderExists(path))
     {
@@ -110,12 +115,12 @@ bool Compiler::setCompilerLocation(const string& path)
     return true;
 }
 
-string    Compiler::getCompilerLocation()
+string CCompiler::getCompilerLocation() const
 {
     return mCompilerLocation;
 }
 
-bool Compiler::setSupportCodeFolder(const string& path)
+bool CCompiler::setSupportCodeFolder(const string& path)
 {
     if(!folderExists(path))
     {
@@ -126,12 +131,12 @@ bool Compiler::setSupportCodeFolder(const string& path)
     return true;
 }
 
-string    Compiler::getSupportCodeFolder()
+string CCompiler::getSupportCodeFolder() const
 {
     return mSupportCodeFolder;
 }
 
-bool Compiler::setupCompilerEnvironment()
+bool CCompiler::setupCompilerEnvironment()
 {
     mIncludePaths.clear();
     mLibraryPaths.clear();
@@ -193,7 +198,7 @@ bool Compiler::setupCompilerEnvironment()
     return true;
 }
 
-string Compiler::createCompilerCommand(const string& sourceFileName)
+string CCompiler::createCompilerCommand(const string& sourceFileName)
 {
     stringstream exeCmd;
     if(getFileNameNoExtension(mCompilerName) == "tcc"
@@ -231,7 +236,7 @@ string Compiler::createCompilerCommand(const string& sourceFileName)
 
 #ifdef WIN32
 
-bool Compiler::compile(const string& cmdLine)
+bool CCompiler::compile(const string& cmdLine)
 {
     if( !cmdLine.size() )
     {
@@ -356,7 +361,7 @@ bool Compiler::compile(const string& cmdLine)
 
 #else  //---------------- LINUX, UNIXES
 
-bool Compiler::compile(const string& cmdLine)
+bool CCompiler::compile(const string& cmdLine)
 {
     string toFile(cmdLine);
     toFile += " >> ";

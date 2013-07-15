@@ -36,13 +36,10 @@ class RR_DECLSPEC RoadRunner : public rrObject
         const double                    mDiffStepSize;
         Capabilities                    mCapabilities;
         Capability                      mRRCoreCapabilities;
-        const string                    mModelFolder;            //Folder for XML models
         const double                    mSteadyStateThreshold;
         DoubleMatrix                    mRawRoadRunnerData;
         RoadRunnerData                  mRoadRunnerData;
-        string                          mSupportCodeFolder;        //The compiler needs this in order to compile models
 
-        string                          mTempFileFolder;
         string                          mCurrentSBMLFileName;
         SBMLModelSimulation            *mSimulation;
 

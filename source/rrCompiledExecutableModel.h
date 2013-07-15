@@ -36,8 +36,7 @@ typedef TEventDelayDelegate* (rrCallConv *c_GetEventDelayDelegatesStar)();
  * loadig the resulting shared library. This class implements the
  * ExecutableModel interface using this paradigm.
  */
-class RR_DECLSPEC CompiledExecutableModel: public ExecutableModel,
-        public rrObject
+class RR_DECLSPEC CompiledExecutableModel: public ExecutableModel
 {
 
 public:
@@ -117,8 +116,9 @@ public:
     virtual void computeReactionRates(double time, double* y);
     virtual void setCompartmentVolumes();
     virtual int getNumLocalParameters(int reactionId);
-    virtual void computeRules(vector<double>& _y);
-    virtual void computeRules(double* ay, int size);
+
+    virtual void computeRules();
+
     virtual void initializeInitialConditions();
     virtual void setParameterValues();
     virtual void setBoundaryConditions();
@@ -196,7 +196,7 @@ private:
     c_void_MDS                        csetInitialConditions;
     c_void_MDS                        cevalInitialAssignments;
     c_void_MDS_doubleStar             cupdateDependentSpeciesValues;
-    c_void_MDS_doubleStar             ccomputeRules;
+    c_void_MDS                        ccomputeRules;
     c_void_MDS                        cconvertToAmounts;
     c_void_MDS                        ccomputeConservedTotals;
     c_double_MDS_int                  cgetConcentration;
