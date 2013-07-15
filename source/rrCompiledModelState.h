@@ -22,7 +22,7 @@ namespace rr
  * This class re-implements ModelData, and copies the values out of and into
  * a ModelData struct.
  */
-class RR_DECLSPEC CompiledModelState : public rrObject
+class RR_DECLSPEC CompiledModelState
 {
     protected:
     public:

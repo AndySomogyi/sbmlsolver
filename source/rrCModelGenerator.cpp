@@ -82,37 +82,6 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
 
     Log(lDebug3)<<"Number of reactions:"<< ms.mNumReactions;
 
-    //! ms.mGlobalParameterList.Clear();
-    //! ms.mModifiableSpeciesReferenceList.Clear();
-    //!ms.mLocalParameterList.reserve(ms.mNumReactions);
-    //!ms.mReactionList.Clear();
-    //! ms.mBoundarySpeciesList.Clear();
-    //! ms.mFloatingSpeciesConcentrationList.Clear();
-    //! ms.mFloatingSpeciesAmountsList.Clear();
-    //! ms.mCompartmentList.Clear();
-    //! ms.mConservationList.Clear();
-    //! ms.mFunctionNames.empty();
-    //! ms.mFunctionParameters.empty();
-
-
-
-    //! // Load the compartment array (name and value)
-    //! ms.mNumCompartments            = readCompartments();
-
-    //! // Read FloatingSpecies
-    //! ms.mNumFloatingSpecies         = readFloatingSpecies();
-    //! ms.mNumDependentSpecies        = ms.mNumFloatingSpecies - ms.mNumIndependentSpecies;
-
-    //!// Load the boundary species array (name and value)
-    //! ms.mNumBoundarySpecies     = readBoundarySpecies();
-
-    // Get all the parameters into a list, global and local
-    //! ms.mNumGlobalParameters     = readGlobalParameters();
-    //! ms.mNumModifiableSpeciesReferences = readModifiableSpeciesReferences();
-
-    // Load up local parameters next
-    //!readLocalParameters(ms.mNumReactions, ms.mLocalParameterDimensions, ms.mTotalLocalParmeters);
-    //! ms.mNumEvents = mNOM->getNumEvents();
 
     //Write model to String builder...
     writeClassHeader(ignore);
@@ -195,8 +164,6 @@ void CModelGenerator::writeClassHeader(CodeBuilder& ignore)
 
     mHeader<<append("//************************************************************************** " + NL());
     mHeader<<append(NL());
-//    mHeader<<Format("D_S struct TModel{0}", NL());
-//    mHeader<<append("{" + NL());
 
     //Header of the source file...
     mSource<<"#include <math.h>"<<endl;
@@ -695,8 +662,8 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
     int numRateRules = 0;
     int numOfRules = mNOM->getNumRules();
 
-    mHeader.AddFunctionExport("void", "computeRules(ModelData* md, double* y)");
-    mSource<<"void computeRules(ModelData* md, double* y)\n{\n";
+    mHeader.AddFunctionExport("void", "computeRules(ModelData* md)");
+    mSource<<"void computeRules(ModelData* md)\n{\n";
 
     for (int i = 0; i < numOfRules; i++)
     {
@@ -965,7 +932,7 @@ void CModelGenerator::writeEvalEvents(CodeBuilder& ignore, const int& numEvents,
 
     mSource<<append("\tmd->time = timeIn;" + NL());
     mSource<<append("\tupdateDependentSpeciesValues(md, md->floatingSpeciesConcentrations);" + NL());
-    mSource<<append("\tcomputeRules(md, md->floatingSpeciesConcentrations);" + NL());
+    mSource<<append("\tcomputeRules(md);" + NL());
 
     for (int i = 0; i < numEvents; i++)
     {
@@ -1013,7 +980,7 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
 
     if (numOfRules > 0)
     {
-        mSource<<append("\tcomputeRules(md, md->floatingSpeciesConcentrations);" + NL());
+        mSource<<append("\tcomputeRules(md);" + NL());
     }
 
     mSource<<append("\tcomputeReactionRates(md, md->time, md->floatingSpeciesConcentrations);" + NL());
@@ -2416,7 +2383,6 @@ bool CModelGenerator::initializeModel()
         throw Exception("CModelGenerator::initializeModel() called without model");
     }
 
-    //*mConservedTotalChanged = false;
     mModel->setCompartmentVolumes();
     mModel->initializeInitialConditions();
     mModel->setParameterValues();
@@ -2426,8 +2392,7 @@ bool CModelGenerator::initializeModel()
     mModel->convertToAmounts();
     mModel->evalInitialAssignments();
 
-    mModel->computeRules(mModel->getModelData().floatingSpeciesConcentrations,
-            mModel->getModelData().numFloatingSpecies);
+    mModel->computeRules();
     mModel->convertToAmounts();
 
     return true;

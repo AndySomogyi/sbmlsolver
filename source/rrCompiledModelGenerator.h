@@ -11,7 +11,12 @@
 #include "rrModelGenerator.h"
 #include "rrModelSharedLibrary.h"
 #include "rrCodeBuilder.h"
-#include "rrCompiler.h"
+#include "rr-libstruct/lsMatrix.h"
+#include "rr-libstruct/lsLibStructural.h"
+
+// TODO UGLY!!!!
+// using namespace in header!
+using namespace ls;
 
 namespace rr {
 
@@ -34,9 +39,15 @@ protected:
     virtual void                        substituteToken(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb) = 0;
     virtual string                      findSymbol(const string& varName) = 0;
     virtual void                        writeOutSymbolTables(CodeBuilder& sb) = 0;
-    virtual void                        writeComputeAllRatesOfChange(CodeBuilder& sb, const int& numIndependentSpecies, const int& numDependentSpecies, DoubleMatrix& L0) = 0;
-    virtual void                        writeComputeConservedTotals(CodeBuilder& sb, const int& numFloatingSpecies, const int& numDependentSpecies) = 0;
-    virtual void                        writeUpdateDependentSpecies(CodeBuilder& sb, const int& numIndependentSpecies, const int& numDependentSpecies, DoubleMatrix& L0) = 0;
+    virtual void                        writeComputeAllRatesOfChange(CodeBuilder& sb, const int& numIndependentSpecies,
+                                                                        const int& numDependentSpecies, ls::DoubleMatrix& L0) = 0;
+
+    virtual void                        writeComputeConservedTotals(CodeBuilder& sb, const int& numFloatingSpecies,
+                                                                        const int& numDependentSpecies) = 0;
+
+    virtual void                        writeUpdateDependentSpecies(CodeBuilder& sb, const int& numIndependentSpecies,
+                                                                        const int& numDependentSpecies, ls::DoubleMatrix& L0) = 0;
+
     virtual void                        writeUserDefinedFunctions(CodeBuilder& sb) = 0;
     virtual void                        writeResetEvents(CodeBuilder& sb, const int& numEvents) = 0;
     virtual void                        writeSetConcentration(CodeBuilder& sb) = 0;
@@ -73,7 +84,7 @@ protected:
      * this are set by createModel, and for the time being remain after createModel
      * completes.
      */
-    LibStructural*                      mLibStruct;
+    ls::LibStructural*                      mLibStruct;
 
     /**
      * Object that provide some wrappers and new "NOM" functions.

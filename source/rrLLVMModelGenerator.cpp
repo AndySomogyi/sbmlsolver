@@ -47,13 +47,10 @@ namespace rr
 
 LLVMModelGenerator::LLVMModelGenerator()
 {
-    // TODO Auto-generated constructor stub
-
 }
 
 LLVMModelGenerator::~LLVMModelGenerator()
 {
-    // TODO Auto-generated destructor stub
 }
 
 bool LLVMModelGenerator::setTemporaryDirectory(const string& path)
@@ -67,7 +64,7 @@ string LLVMModelGenerator::getTemporaryDirectory()
 }
 
 ExecutableModel* LLVMModelGenerator::createModel(const string& sbml,
-        LibStructural* ls, NOMSupport* nom, bool forceReCompile,
+        ls::LibStructural* ls, NOMSupport* nom, bool forceReCompile,
         bool computeAndAssignConsevationLaws)
 {
     return 0;
@@ -75,7 +72,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const string& sbml,
 
 Compiler* LLVMModelGenerator::getCompiler()
 {
-    return 0;
+    return &compiler;
 }
 
 bool LLVMModelGenerator::setCompiler(const string& compiler)
@@ -83,29 +80,5 @@ bool LLVMModelGenerator::setCompiler(const string& compiler)
     return false;
 }
 
-//void CModelGenerator::writeSetCompartmentVolumes(CodeBuilder& ignore)
-//{
-//    mHeader.AddFunctionExport("void", "setCompartmentVolumes(ModelData* md)");
-//    mSource << "void setCompartmentVolumes(ModelData* md)\n{";
-//
-//    for (int i = 0; i < ms.mCompartmentList.size(); i++)
-//    {
-//        mSource<<append("\n\t" + convertSymbolToC(ms.mCompartmentList[i].name) + " = (double)" +
-//                  writeDouble(ms.mCompartmentList[i].value) + ";" + NL());
-//
-//        // at this point we also have to take care of all initial assignments for compartments as well as
-//        // the assignment rules on compartments ... otherwise we are in trouble :)
-//        stack<string> initializations = mNOM->getMatchForSymbol(ms.mCompartmentList[i].name);
-//        while (initializations.size() > 0)
-//        {
-//            string term(initializations.top());
-//            string sub = substituteTerms(ms.mNumReactions, "", term);
-//            mSource<<append("\t" + sub + ";" + NL());
-//            initializations.pop();
-//        }
-//    }
-//
-//    mSource<<append("}" + NL() + NL());
-//}
 
 } /* namespace rr */

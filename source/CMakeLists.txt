@@ -56,7 +56,7 @@ set(rrSources
     rrCModelGenerator
     rrCSharpModelGenerator
     rrCodeBuilder
-    rrCompiler
+    rrCCompiler
     rrCPlugin
     rrScanner
     rrToken

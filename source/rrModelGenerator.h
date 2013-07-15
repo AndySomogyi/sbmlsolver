@@ -17,17 +17,23 @@
 using std::string;
 using std::vector;
 using std::list;
-using namespace ls;
+
+namespace ls {
+class LibStructural;
+}
+
 namespace rr
 {
 class Compiler;
+class NOMSupport;
+
 
 /**
  * The interface which generates executable models from sbml source.
  * This can have different concrete implementations such as compiler
  * based generators, JIT'ed or interpreter based ones.
  */
-class RR_DECLSPEC ModelGenerator : public rrObject
+class RR_DECLSPEC ModelGenerator
 {
 public:
     ModelGenerator();
@@ -56,16 +62,15 @@ public:
      * Eventually these ivars will either go away or will be cleared. The ModelGenerator
      * is intended ONLY to make models, not query NOM info.
      */
-    virtual ExecutableModel             *createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
-            bool forceReCompile, bool computeAndAssignConsevationLaws) = 0;
+    virtual ExecutableModel *createModel(const string& sbml, ls::LibStructural *ls,
+            NOMSupport *nom, bool forceReCompile,
+            bool computeAndAssignConsevationLaws) = 0;
 
     /**
      * Get the compiler object that the model generator is using to
      * 'compile' sbml. Certain model generators may be interpreters, in this
      * case, the Compiler interface should still be sufficiently general to
      * manipulate interpreters as well.
-     *
-     * TODO: Make Compiler an interface.
      */
     virtual                             Compiler *getCompiler() = 0;
 

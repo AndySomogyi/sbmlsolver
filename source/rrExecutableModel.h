@@ -155,9 +155,15 @@ public:
 
     virtual int getNumLocalParameters(int reactionId) = 0;
 
-    virtual void computeRules(vector<double>& _y) = 0;
+    /**
+     * applies all of the rules specified in the model, i.e. any variable for which a rule
+     * exists is replaced with what the rule evaluates to.
+     *
+     * Not used in the LLVM version, in LLVM, all rules automatically part of the
+     * expression tree.
+     */
+    virtual void computeRules() = 0;
 
-    virtual void computeRules(double* ay, int size) = 0;
 
     virtual void setParameterValues() = 0;
 

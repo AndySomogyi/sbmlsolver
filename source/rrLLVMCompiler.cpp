@@ -13,16 +13,42 @@
 namespace rr
 {
 
-LLVMCompiler::LLVMCompiler() :
-        Compiler("", "")
+LLVMCompiler::LLVMCompiler()
 {
-    // TODO Auto-generated constructor stub
-
 }
 
 LLVMCompiler::~LLVMCompiler()
 {
-    // TODO Auto-generated destructor stub
+}
+
+std::string LLVMCompiler::getCompiler() const
+{
+    return "LLVM";
+}
+
+bool LLVMCompiler::setCompiler(const std::string& compiler)
+{
+    return true;
+}
+
+std::string LLVMCompiler::getCompilerLocation() const
+{
+    return "compiler location is no meaning with LLVM";
+}
+
+bool LLVMCompiler::setCompilerLocation(const std::string& path)
+{
+    return true;
+}
+
+std::string LLVMCompiler::getSupportCodeFolder() const
+{
+    return "support code directory has no meaning with LLVM";
+}
+
+bool LLVMCompiler::setSupportCodeFolder(const std::string& path)
+{
+    return true;
 }
 
 } /* namespace rr */

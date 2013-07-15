@@ -16,7 +16,7 @@
 namespace rr
 {
 
-class LLVMExecutableModel: public rr::ExecutableModel
+class RR_DECLSPEC LLVMExecutableModel: public ExecutableModel
 {
 public:
     LLVMExecutableModel();
@@ -68,8 +68,9 @@ public:
 
     virtual void setCompartmentVolumes();
     virtual int getNumLocalParameters(int reactionId);
-    virtual void computeRules(vector<double>& _y);
-    virtual void computeRules(double* ay, int size);
+
+    virtual void computeRules();
+
     virtual void initializeInitialConditions();
     virtual void setParameterValues();
     virtual void setBoundaryConditions();
