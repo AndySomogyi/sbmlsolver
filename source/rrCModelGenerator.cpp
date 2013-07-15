@@ -236,11 +236,11 @@ void CModelGenerator::writeComputeAllRatesOfChange(CodeBuilder& ignore, const in
     bool isThereAnEntry = false;
     for (int i = 0; i < numDependentSpecies; i++)
     {
-        mSource<<format("\tmd->floatingSpeciesConcentrationRates[{0}] = ", (numIndependentSpecies + i));
+        mSource<<format("\tmd->floatingSpeciesAmountRates[{0}] = ", (numIndependentSpecies + i));
         isThereAnEntry = false;
         for (int j = 0; j < numIndependentSpecies; j++)
         {
-            string dyName = format("md->floatingSpeciesConcentrationRates[{0}]", j);
+            string dyName = format("md->floatingSpeciesAmountRates[{0}]", j);
 
             if (L0(i,j) > 0)
             {
@@ -730,7 +730,7 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
                     int index;
                     if (ms.mFloatingSpeciesConcentrationList.find(varName,  index))
                     {
-                        leftSideRule = format("\n\tmd->floatingSpeciesConcentrationRates[{0}]", index);
+                        leftSideRule = format("\n\tmd->floatingSpeciesAmountRates[{0}]", index);
                         //! ms.mFloatingSpeciesConcentrationList[index].rateRule = true;
                     }
                     else
@@ -1166,11 +1166,11 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
             }
         }
 
-        // If the floating species has a raterule then prevent the floatingSpeciesConcentrationRates
+        // If the floating species has a raterule then prevent the floatingSpeciesAmountRates
         // in the model function from overriding it. I think this is expected behavior.
         if (!ms.mFloatingSpeciesConcentrationList[i].rateRule)
         {
-            mSource<<"\tmd->floatingSpeciesConcentrationRates[" << i << "] =" << finalStr << ";" << NL();
+            mSource<<"\tmd->floatingSpeciesAmountRates[" << i << "] =" << finalStr << ";" << NL();
         }
     }
 

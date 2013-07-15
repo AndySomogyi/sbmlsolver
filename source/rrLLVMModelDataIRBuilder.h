@@ -131,7 +131,7 @@ public:
 //     /**
 //      * concentration rates of change for floating species.
 //      */
-//     double*                             floatingSpeciesConcentrationRates;
+//     double*                             floatingSpeciesAmountRates;
 //
 //     /**
 //      * The total amount of a species in a compartment.

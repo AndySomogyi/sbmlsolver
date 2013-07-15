@@ -34,7 +34,7 @@ void allocModelDataBuffers(ModelData &data, const string& modelName)
 
 
     data.floatingSpeciesAmounts = (double*)rrCalloc(data.numFloatingSpecies, sizeof(double));
-    data.floatingSpeciesConcentrationRates = (double*)rrCalloc(data.numFloatingSpecies, sizeof(double));
+    data.floatingSpeciesAmountRates = (double*)rrCalloc(data.numFloatingSpecies, sizeof(double));
     data.rateRules = (double*)rrCalloc(data.numRateRules, sizeof(double));
     data.floatingSpeciesConcentrations = (double*)rrCalloc(data.numFloatingSpecies, sizeof(double));
     data.reactionRates = (double*)rrCalloc(data.numReactions, sizeof(double));
@@ -77,7 +77,7 @@ void  freeModelDataBuffers(ModelData &data)
     free(data.modelName);
 
     free(data.floatingSpeciesAmounts);
-    free(data.floatingSpeciesConcentrationRates);
+    free(data.floatingSpeciesAmountRates);
     free(data.rateRules);
     free(data.floatingSpeciesConcentrations);
     free(data.floatingSpeciesCompartments);

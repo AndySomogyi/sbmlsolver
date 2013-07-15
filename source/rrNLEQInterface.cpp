@@ -252,7 +252,7 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
 
         for(int i = 0; i < n; i++)
         {
-            fval[i] = model->getModelData().floatingSpeciesConcentrationRates[i];
+            fval[i] = model->getModelData().floatingSpeciesAmountRates[i];
         }
 
         pErr = 0;
@@ -337,7 +337,7 @@ double NLEQInterface::computeSumsOfSquares()
     double sum = 0;
     for (int i = 0; i < n; i++)
     {
-        sum = sum + pow(model->getModelData().floatingSpeciesConcentrationRates[i], 2.0);
+        sum = sum + pow(model->getModelData().floatingSpeciesAmountRates[i], 2.0);
     }
     return sqrt(sum);
 }

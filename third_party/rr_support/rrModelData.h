@@ -140,18 +140,6 @@ typedef struct SModelData
     double*                             rateRules;                        // 11
 
     /**
-     * everything that has a rate (anything that changes) is
-     * stored in this single array. This way, a pointer to this
-     * array can be given to the integrator and it can integrate
-     * it in a single shot.
-     *
-     * All the other rate arrays are aliases into an offset in this
-     * array.
-     */
-    int                                 numRates;                         // 12
-    double*                             rates;                            // 13
-
-    /**
      * LLVM specific
      * C version does not support local parameters
      * This is the offset, or starting index of the local parameters
@@ -163,20 +151,20 @@ typedef struct SModelData
      * a array of arrays, it would require an additional memory access
      * to determine the location of the parameter.
      */
-    int*                                localParametersOffsets;           // 14
+    int*                                localParametersOffsets;           // 12
 
     /**
      * the number of local parameters for each reaction,
      * so legnth is numReactions. This is an array of counts,
      * hence it is named differently than the rest of the num*** fields.
      */
-    int*                                localParametersNum;               // 15
+    int*                                localParametersNum;               // 13
 
     /**
      * All local parameters are stored in this array. This has
      * length sum(localParameterNum).
      */
-    double*                             localParameters;                  // 16
+    double*                             localParameters;                  // 14
 
     /**
      * The total ammounts of the floating species, i.e.
@@ -188,34 +176,34 @@ typedef struct SModelData
      * species, and the [numIndependentSpecies,numIndendentSpecies+numDependentSpecies)
      * contain the dependent species.
      */
-    int                                 numFloatingSpecies;               // 17
+    int                                 numFloatingSpecies;               // 15
 
     /**
      * number of floating species and floating species concentrations.
      */
-    double*                             floatingSpeciesConcentrations;    // 18
+    double*                             floatingSpeciesConcentrations;    // 16
 
     /**
      * initial concentration values for floating species.
      */
-    double*                             floatingSpeciesInitConcentrations;// 19
+    double*                             floatingSpeciesInitConcentrations;// 17
 
     /**
-     * concentration rates of change for floating species.
+     * amount rates of change for floating species.
      */
-    double*                             floatingSpeciesConcentrationRates;// 20
+    double*                             floatingSpeciesAmountRates;       // 18
 
     /**
      * The total amount of a species in a compartment.
      */
-    double*                             floatingSpeciesAmounts;           // 21
+    double*                             floatingSpeciesAmounts;           // 19
 
     /**
      * compartment index for each floating species,
      * e.g. the volume of the i'th species is
      * md->compartmentVolumes[md->floatingSpeciesCompartments[i]]
      */
-    int*                                floatingSpeciesCompartments;      // 22
+    int*                                floatingSpeciesCompartments;      // 20
 
     /**
      * number of boundary species and boundary species concentrations.
@@ -224,49 +212,49 @@ typedef struct SModelData
      * Volume Percent= (Volume of Solute) / (Volume of Solution) x 100%
      * Mass/Volume Percent= (Mass of Solute) / (Volume of Solution) x 100%
      */
-    int                                 numBoundarySpecies;               // 23
-    double*                             boundarySpeciesConcentrations;    // 24
-    double*                             boundarySpeciesAmounts;           // 25
+    int                                 numBoundarySpecies;               // 21
+    double*                             boundarySpeciesConcentrations;    // 22
+    double*                             boundarySpeciesAmounts;           // 23
 
     /**
      * compartment index for each boundary species,
      * e.g. the volume of the i'th species is
      * md->compartmentVolumes[md->boundarySpeciesCompartments[i]]
      */
-    int*                                boundarySpeciesCompartments;      // 26
+    int*                                boundarySpeciesCompartments;      // 24
 
     /**
      * number of compartments, and compartment volumes.
      * units: volume
      */
-    int                                 numCompartments;                  // 27
-    double*                             compartmentVolumes;               // 28
+    int                                 numCompartments;                  // 25
+    double*                             compartmentVolumes;               // 26
 
     /**
      * stoichiometry matrix
      */
-    csr_matrix*                        stoichiometry;                    // 29
+    csr_matrix*                         stoichiometry;                    // 27
 
 
     //Event stuff
-    int                                 numEvents;                        // 30
-    int                                 eventTypeSize;                    // 31
-    bool*                               eventType;                        // 32
+    int                                 numEvents;                        // 28
+    int                                 eventTypeSize;                    // 29
+    bool*                               eventType;                        // 30
 
-    int                                 eventPersistentTypeSize;          // 33
-    bool*                               eventPersistentType;              // 34
+    int                                 eventPersistentTypeSize;          // 31
+    bool*                               eventPersistentType;              // 32
 
-    int                                 eventTestsSize;                   // 35
-    double*                             eventTests;                       // 36
+    int                                 eventTestsSize;                   // 33
+    double*                             eventTests;                       // 34
 
-    int                                 eventPrioritiesSize;              // 37
-    double*                             eventPriorities;                  // 38
+    int                                 eventPrioritiesSize;              // 35
+    double*                             eventPriorities;                  // 36
 
-    int                                 eventStatusArraySize;             // 39
-    bool*                               eventStatusArray;                 // 40
+    int                                 eventStatusArraySize;             // 37
+    bool*                               eventStatusArray;                 // 38
 
-    int                                 previousEventStatusArraySize;     // 41
-    bool*                               previousEventStatusArray;         // 42
+    int                                 previousEventStatusArraySize;     // 39
+    bool*                               previousEventStatusArray;         // 40
 
     /**
      * Work area for model implementations. The data stored here is entirely
@@ -275,19 +263,19 @@ typedef struct SModelData
      *
      * allocated by allocModelDataBuffers based on the value of workSize;
      */
-    int                                 workSize;                         // 43
-    double*                             work;                             // 44
+    int                                 workSize;                         // 41
+    double*                             work;                             // 42
 
-    TEventDelayDelegate*                eventDelays;                      // 45
-    TEventAssignmentDelegate*           eventAssignments;                 // 46
+    TEventDelayDelegate*                eventDelays;                      // 43
+    TEventAssignmentDelegate*           eventAssignments;                 // 44
 
-    TComputeEventAssignmentDelegate*    computeEventAssignments;          // 47
-    TPerformEventAssignmentDelegate*    performEventAssignments;          // 48
+    TComputeEventAssignmentDelegate*    computeEventAssignments;          // 45
+    TPerformEventAssignmentDelegate*    performEventAssignments;          // 46
 
     /**
      * model name
      */
-    char*                               modelName;                        // 49
+    char*                               modelName;                        // 47
 
 
     /**
@@ -296,26 +284,26 @@ typedef struct SModelData
      * allocModelDataBuffers should allocate space for numTotalVariables.
      * strings.
      */
-    char**                              variableTable;                    // 50
+    char**                              variableTable;                    // 48
 
     /**
      * names of boundary table species, set by the model to a static string.
      * allocModelDataBuffers should allocate numBoundaryVariables length char** array.
      */
-    char**                              boundaryTable;                    // 51
+    char**                              boundaryTable;                    // 49
 
     /**
      * names of global parameters. populated by the model.
      * allocModelDataBuffers should allocate length numGlobalParameters  char** array.
      */
-    char**                              globalParameterTable;             // 52
+    char**                              globalParameterTable;             // 50
 
     /**
      * C species references,
      * not working correctly...
      */
-    int                                 srSize;                           // 53
-    double*                             sr;                               // 54
+    int                                 srSize;                           // 51
+    double*                             sr;                               // 52
 
     /**
      * Looks like these were going to be C local variables, but were
