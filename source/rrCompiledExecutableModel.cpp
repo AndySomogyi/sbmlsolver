@@ -243,6 +243,26 @@ int CompiledExecutableModel::popState(unsigned options)
     return modelStates.size();
 }
 
+void CompiledExecutableModel::evalInitialConditions()
+{
+    setCompartmentVolumes();
+    initializeInitialConditions();
+    setParameterValues();
+    setCompartmentVolumes();
+    setBoundaryConditions();
+    setInitialConditions();
+    convertToAmounts();
+    evalInitialAssignments();
+
+    computeRules();
+    convertToAmounts();
+
+    if (ms.mComputeAndAssignConsevationLaws)
+    {
+        computeConservedTotals();
+    }
+}
+
 bool CompiledExecutableModel::setupDLLFunctions()
 {
     //Exported functions in the dll need to be assigned to a function pointer here..

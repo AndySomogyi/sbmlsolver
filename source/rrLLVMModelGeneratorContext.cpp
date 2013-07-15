@@ -25,10 +25,12 @@ namespace rr
 {
 
 LLVMModelGeneratorContext::LLVMModelGeneratorContext(std::string const &sbml,
-        bool computeAndAssignConsevationLaws) :
-    ownedDoc(readSBMLFromString((sbml.c_str()))),
-    doc(ownedDoc),
-    symbols(doc->getModel(), computeAndAssignConsevationLaws)
+    bool computeAndAssignConsevationLaws) :
+        ownedDoc(readSBMLFromString((sbml.c_str()))),
+        doc(ownedDoc),
+        symbols(new LLVMModelDataSymbols(doc->getModel(),
+            computeAndAssignConsevationLaws)),
+        errString(new string())
 {
     // initialize LLVM
     // TODO check result
@@ -37,8 +39,6 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext(std::string const &sbml,
     context = new LLVMContext();
     // Make the module, which holds all the code.
     module = new Module("LLVM Module", *context);
-
-    errString = new std::string();
 
     builder = new IRBuilder<>(*context);
 
@@ -51,10 +51,12 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext(std::string const &sbml,
 }
 
 LLVMModelGeneratorContext::LLVMModelGeneratorContext(libsbml::SBMLDocument const *doc,
-        bool computeAndAssignConsevationLaws) :
+    bool computeAndAssignConsevationLaws) :
         ownedDoc(0),
         doc(doc),
-        symbols(doc->getModel(), computeAndAssignConsevationLaws)
+        symbols(new LLVMModelDataSymbols(doc->getModel(),
+            computeAndAssignConsevationLaws)),
+        errString(new string())
 {
     // initialize LLVM
     // TODO check result
@@ -66,8 +68,6 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext(libsbml::SBMLDocument const
 
     builder = new IRBuilder<>(*context);
 
-    errString = new std::string();
-
     EngineBuilder engineBuilder(module);
     //engineBuilder.setEngineKind(EngineKind::JIT);
     engineBuilder.setErrorStr(errString);
@@ -78,7 +78,9 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext(libsbml::SBMLDocument const
 
 LLVMModelGeneratorContext::LLVMModelGeneratorContext() :
         ownedDoc(0),
-        doc(0)
+        doc(0),
+        symbols(0),
+        errString(new string())
 {
     // initialize LLVM
     // TODO check result
@@ -103,8 +105,11 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext() :
 
 LLVMModelGeneratorContext::~LLVMModelGeneratorContext()
 {
+    delete builder;
     delete executionEngine;
     delete context;
+    delete ownedDoc;
+    delete errString;
 }
 
 llvm::LLVMContext& LLVMModelGeneratorContext::getContext() const
@@ -119,7 +124,7 @@ llvm::ExecutionEngine* LLVMModelGeneratorContext::getExecutionEngine() const
 
 const LLVMModelDataSymbols& LLVMModelGeneratorContext::getModelDataSymbols() const
 {
-    return symbols;
+    return *symbols;
 }
 
 const libsbml::SBMLDocument* LLVMModelGeneratorContext::getDocument() const
@@ -152,6 +157,18 @@ llvm::IRBuilder<>* LLVMModelGeneratorContext::getBuilder() const
     return builder;
 }
 
+void LLVMModelGeneratorContext::stealThePeach(LLVMModelDataSymbols **sym,
+        llvm::LLVMContext** ctx, llvm::ExecutionEngine** eng, string** err)
+{
+    *sym = symbols;
+    symbols = 0;
+    *ctx = context;
+    context = 0;
+    *eng = executionEngine;
+    executionEngine = 0;
+    *err = errString;
+    errString = 0;
+}
 
 
 /*********************** TESTING STUFF WILL GO AWAY EVENTUALLY ***********************/
@@ -167,6 +184,7 @@ static void dispInt(int i) {
 static void dispChar(char c) {
     cout << __FUNC__ << ": " << (int)c << "\n";
 }
+
 
 /*************************************************************************************/
 

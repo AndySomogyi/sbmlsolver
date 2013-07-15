@@ -11,7 +11,11 @@
 #ifndef rrLLVMExecutableModelH
 #define rrLLVMExecutableModelH
 
-#include <rrExecutableModel.h>
+#include "rrExecutableModel.h"
+#include "rrLLVMModelDataSymbols.h"
+#include "rrLLVMIncludes.h"
+
+
 
 namespace rr
 {
@@ -19,7 +23,14 @@ namespace rr
 class RR_DECLSPEC LLVMExecutableModel: public ExecutableModel
 {
 public:
+
+    /**
+     * the default ctor just zeros out all our private bits, then
+     * the main construction is handled by the model generator.
+     */
     LLVMExecutableModel();
+
+
     virtual ~LLVMExecutableModel();
 
     /**
@@ -29,6 +40,14 @@ public:
     virtual void setTime(double _time);
     virtual double getTime();
     virtual ModelData& getModelData();
+
+    /**
+     * evaluate the initial conditions specified in the sbml, this entails
+     * evaluating all InitialAssigments, AssigmentRules, initial values, etc...
+     *
+     * The the model state is fully set.
+     */
+    virtual void evalInitialConditions();
 
     /**
      * A ExecutableModel holds a stack of states, the entire state of this
@@ -117,6 +136,15 @@ public:
 
     static LLVMExecutableModel* dummy();
 
+private:
+    ModelData *modelData;
+    LLVMModelDataSymbols *symbols;
+    llvm::LLVMContext *context;
+    llvm::ExecutionEngine *executionEngine;
+    std::string *errStr;
+
+
+    friend class LLVMModelGenerator;
 };
 
 } /* namespace rr */

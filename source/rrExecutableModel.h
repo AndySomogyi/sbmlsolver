@@ -40,6 +40,15 @@ public:
     virtual double getTime() = 0;
 
     /**
+     * evaluate the initial conditions specified in the sbml, this entails
+     * evaluating all InitialAssigments, AssigmentRules, initial values, etc...
+     *
+     * The the model state is fully set.
+     */
+    virtual void evalInitialConditions() = 0;
+
+
+    /**
      * get a reference to the internal ModelData structure.
      */
     virtual ModelData& getModelData() = 0;

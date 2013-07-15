@@ -100,6 +100,25 @@ public:
 
     llvm::IRBuilder<> *getBuilder() const;
 
+    /**
+     * A lot can go wrong in the process of generating a model from  an sbml doc.
+     * This class is intended to be stack allocated, so when any exception is
+     * thrown in the course of model generation, this class will clean
+     * up all the contexts and execution engines and so forth.
+     *
+     * However, when a model is successfully generated, we need a way to give
+     * it the exec enine, and whatever other bits it requires.
+     *
+     * So, this method exists so that the generated model can steal all the
+     * objects it needs from us, these object are transfered to the model,
+     * and our pointers to them are cleared.
+     *
+     * Monkey steals the peach -- A martial arts technique mastered by
+     * Michael Wu which is in effect, the act of ripping someone's bollocks off.
+     */
+    void stealThePeach(LLVMModelDataSymbols **sym, llvm::LLVMContext **ctx,
+            llvm::ExecutionEngine **eng, std::string **errStr);
+
 private:
 
     /**
@@ -124,7 +143,7 @@ private:
      */
     const libsbml::SBMLDocument *doc;
 
-    LLVMModelDataSymbols symbols;
+    LLVMModelDataSymbols *symbols;
 
     llvm::IRBuilder<> *builder;
 };

@@ -201,7 +201,8 @@ ModelSymbols::ModelSymbols() :
     mGlobalParameterList(),
     mModifiableSpeciesReferenceList(),
     mReactionList(),
-    mConservationList()
+    mConservationList(),
+    mComputeAndAssignConsevationLaws(false)
 {
 }
 
@@ -216,6 +217,7 @@ ModelSymbols& rr::ModelSymbols::operator=(const ModelSymbols& right)
 ModelSymbols::ModelSymbols(NOMSupport& nom, ls::LibStructural& libs, bool computeAndAssignConsevationLaws) :
     mModelName(readModelName(nom)),
     mNumReactions(nom.getNumReactions()),
+    mComputeAndAssignConsevationLaws(computeAndAssignConsevationLaws),
     mIndependentSpeciesList(readIndependentSpeciesList(libs,  computeAndAssignConsevationLaws)),
     mNumIndependentSpecies(mIndependentSpeciesList.size()),
     mDependentSpeciesList(readDependentSpeciesList(libs, computeAndAssignConsevationLaws)),

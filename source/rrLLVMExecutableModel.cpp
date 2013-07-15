@@ -14,10 +14,13 @@
 namespace rr
 {
 
-LLVMExecutableModel::LLVMExecutableModel()
+LLVMExecutableModel::LLVMExecutableModel() :
+    modelData(0),
+    symbols(0),
+    context(0),
+    executionEngine(0),
+    errStr(0)
 {
-    // TODO Auto-generated constructor stub
-
 }
 
 LLVMExecutableModel::~LLVMExecutableModel()
@@ -280,6 +283,10 @@ int LLVMExecutableModel::pushState(unsigned)
 int LLVMExecutableModel::popState(unsigned)
 {
     return 0;
+}
+
+void LLVMExecutableModel::evalInitialConditions()
+{
 }
 
 LLVMExecutableModel* LLVMExecutableModel::dummy()

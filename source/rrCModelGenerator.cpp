@@ -2383,17 +2383,7 @@ bool CModelGenerator::initializeModel()
         throw Exception("CModelGenerator::initializeModel() called without model");
     }
 
-    mModel->setCompartmentVolumes();
-    mModel->initializeInitialConditions();
-    mModel->setParameterValues();
-    mModel->setCompartmentVolumes();
-    mModel->setBoundaryConditions();
-    mModel->setInitialConditions();
-    mModel->convertToAmounts();
-    mModel->evalInitialAssignments();
-
-    mModel->computeRules();
-    mModel->convertToAmounts();
+    mModel->evalInitialConditions();
 
     return true;
 }

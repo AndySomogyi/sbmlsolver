@@ -22,7 +22,9 @@
  cinitializeInitialConditions(&mData);
  csetParameterValues(&mData);
  csetBoundaryConditions(&mData);
+
  csetInitialConditions(&mData);
+
  cconvertToAmounts(&mData);
  cevalInitialAssignments(&mData);
  ccomputeRules(&mData, y);
