@@ -34,19 +34,22 @@ using libsbml::Parameter;
  * generated function signature:
  * void modeldata_initialvalues_set(ModelData *);
  */
-class LLVMInitialValueCodeGen: private SBMLVisitor,
+class LLVMEvalInitialConditionsCodeGen: private SBMLVisitor,
         private LLVMCodeGenBase,
         private LLVMSymbolResolver
 {
     using SBMLVisitor::visit;
 
 public:
-    LLVMInitialValueCodeGen(const LLVMModelGeneratorContext &mgc);
-    ~LLVMInitialValueCodeGen();
+    LLVMEvalInitialConditionsCodeGen(const LLVMModelGeneratorContext &mgc);
+    ~LLVMEvalInitialConditionsCodeGen();
 
     llvm::Value *codeGen();
 
     static const char* FunctionName;
+    typedef void (*FunctionPtr)(ModelData*);
+
+    FunctionPtr createFunction();
 
 private:
 
@@ -139,6 +142,8 @@ private:
     LLVMSymbolForest symbolForest;
     LLVMASTNodeFactory nodes;
 
+    llvm::ExecutionEngine *engine;
+
 
     /**
      * what follows is a rather ugly data structure...
@@ -159,7 +164,6 @@ private:
     typedef std::map<std::string, int> StringIntMap;
     typedef std::map<int, IntList> IntIntListMap;
     struct ReactionSymbols {
-
         std::vector<const libsbml::ASTNode*> nodes;
         IntIntListMap reactantIdx;         // indexed by floating species index
         StringIntMap reactantRefIds;        // indexed by species reference name

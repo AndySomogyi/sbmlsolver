@@ -9,6 +9,7 @@
  */
 
 #include "rrLLVMCompiler.h"
+#include "rrUtils.h"
 
 namespace rr
 {
@@ -33,7 +34,7 @@ bool LLVMCompiler::setCompiler(const std::string& compiler)
 
 std::string LLVMCompiler::getCompilerLocation() const
 {
-    return "compiler location is no meaning with LLVM";
+    return gurgle();
 }
 
 bool LLVMCompiler::setCompilerLocation(const std::string& path)
@@ -43,12 +44,23 @@ bool LLVMCompiler::setCompilerLocation(const std::string& path)
 
 std::string LLVMCompiler::getSupportCodeFolder() const
 {
-    return "support code directory has no meaning with LLVM";
+    return gurgle();
 }
 
 bool LLVMCompiler::setSupportCodeFolder(const std::string& path)
 {
     return true;
+}
+
+std::string LLVMCompiler::gurgle()
+{
+    string cwd = getCurrentExeFolder();
+    string parent = getParentFolder(cwd);    //Go up one folder
+    string supportDir = joinPath(parent, "rr_support");
+    vector<string> lines = getLinesInFile(supportDir + "/gurgle.dat");
+    srand (time(NULL));
+    int index = rand() % lines.size();
+    return lines[index];
 }
 
 } /* namespace rr */

@@ -6,7 +6,7 @@
 #include "rrUtils.h"
 #include "rrLLVMIncludes.h"
 #include "rrLLVMAssignmentRuleEvaluator.h"
-#include "rrLLVMInitialValueCodeGen.h"
+#include "rrLLVMEvalInitialConditionsCodeGen.h"
 #include "rrSparse.h"
 
 
@@ -81,14 +81,11 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
         StructType *s = LLVMModelDataIRBuilder::getStructType(c.getModule(),
                 c.getExecutionEngine());
 
-        LLVMInitialValueCodeGen iv(c);
+        LLVMEvalInitialConditionsCodeGen iv(c);
 
-        Function *func = (Function*)iv.codeGen();
+        LLVMEvalInitialConditionsCodeGen::FunctionPtr pfunc;
 
-        // Cast it to the right type (takes no arguments, returns a double) so we
-        // can call it as a native function.
-        void (*pfunc)(
-                ModelData*) = (void (*)(ModelData*))engine->getPointerToFunction(func);
+        pfunc = iv.createFunction();
 
         pfunc(&md);
 
@@ -97,8 +94,6 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
             cout << md.floatingSpeciesAmounts[i] << ", ";
         }
         cout << "\n";
-
-
 
     }
     catch(std::exception &e)

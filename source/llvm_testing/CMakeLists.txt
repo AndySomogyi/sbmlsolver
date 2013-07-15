@@ -16,6 +16,7 @@ add_executable( ${target}
     src/cpplapack
     src/CSRMatrixTest
     src/LLVMCSRMatrixTest
+    src/test_compiler
     )
 
 set_property(TARGET ${target}

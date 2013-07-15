@@ -15,7 +15,7 @@
 #include "rrLLVMModelDataSymbols.h"
 #include "rrLLVMIncludes.h"
 
-
+#include "rrLLVMEvalInitialConditionsCodeGen.h"
 
 namespace rr
 {
@@ -143,6 +143,8 @@ private:
     llvm::ExecutionEngine *executionEngine;
     std::string *errStr;
 
+
+    LLVMEvalInitialConditionsCodeGen::FunctionPtr evalInitialConditionsPtr;
 
     friend class LLVMModelGenerator;
 };

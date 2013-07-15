@@ -212,8 +212,13 @@ string getCurrentExeFolder()
     if (_NSGetExecutablePath(exepath, &bufsize) == 0)
     {
         string thePath = getFilePath(exepath);
-        Log(lDebug1)<<"Current exe folder says:"<<thePath;
+        Log(lDebug1) << "Current exe folder says:" << thePath;
         return thePath;
+    }
+    else
+    {
+        Log(lError) << "_NSGetExecutablePath failed";
+        return "";
     }
 #elif defined (__linux)
     char arg1[20];

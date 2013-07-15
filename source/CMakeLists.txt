@@ -104,7 +104,7 @@ if(BUILD_LLVM)
         rrLLVMCodeGenerator
         rrLLVMCompiler
         rrLLVMExecutableModel
-        rrLLVMInitialValueCodeGen
+        rrLLVMEvalInitialConditionsCodeGen
         rrLLVMModelDataIRBuilder
         rrLLVMModelDataSymbols
         rrLLVMModelGenerator
