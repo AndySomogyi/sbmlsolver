@@ -53,6 +53,8 @@ public:
     virtual double getTime();
     virtual ModelData& getModelData();
 
+    virtual void evalInitialConditions();
+
     /**
      * A ExecutableModel holds a stack of states, the entire state of this
      * model is pushed onto the saved state stack, and the current state

@@ -48,6 +48,8 @@ public:
 
     const int mNumReactions;
 
+    const bool mComputeAndAssignConsevationLaws;
+
     /**
      * if we computeAndAssignConsevationLaws, this is the actual Independent
      * species, otherwise, its just species.

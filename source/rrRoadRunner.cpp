@@ -307,22 +307,7 @@ bool RoadRunner::initializeModel()
     if(mModel)
     {
         mConservedTotalChanged = false;
-        mModel->setCompartmentVolumes();
-        mModel->initializeInitialConditions();
-        mModel->setParameterValues();
-        mModel->setCompartmentVolumes();
-        mModel->setBoundaryConditions();
-        mModel->setInitialConditions();
-        mModel->convertToAmounts();
-        mModel->evalInitialAssignments();
-
-        mModel->computeRules();
-        mModel->convertToAmounts();
-
-        if (mComputeAndAssignConservationLaws.getValue())
-        {
-            mModel->computeConservedTotals();
-        }
+        mModel->evalInitialConditions();
 
         if(mCVode)
         {
