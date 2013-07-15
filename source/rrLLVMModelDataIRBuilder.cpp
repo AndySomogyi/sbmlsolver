@@ -861,15 +861,13 @@ llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, ll
         elements.push_back(Type::getDoublePtrTy(context));                    // double*                             reactionRates;
         elements.push_back(Type::getInt32Ty(context));                        // int                                 numRateRules;
         elements.push_back(Type::getDoublePtrTy(context));                    // double*                             rateRules;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 numRates;                         // 13
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             rates;                            // 14
         elements.push_back(Type::getInt32PtrTy(context));                     // int*                                localParametersOffsets;
         elements.push_back(Type::getInt32PtrTy(context));                     // int*                                localParametersNum;
         elements.push_back(Type::getDoublePtrTy(context));                    // double*                             localParameters;
         elements.push_back(Type::getInt32Ty(context));                        // int                                 numFloatingSpecies;
         elements.push_back(Type::getDoublePtrTy(context));                    // double*                             floatingSpeciesConcentrations;
         elements.push_back(Type::getDoublePtrTy(context));                    // double*                             floatingSpeciesInitConcentrations;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             floatingSpeciesConcentrationRates;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             floatingSpeciesAmountRates;
         elements.push_back(Type::getDoublePtrTy(context));                    // double*                             floatingSpeciesAmounts;
         elements.push_back(Type::getInt32PtrTy(context));                     // int*                                floatingSpeciesCompartments;
         elements.push_back(Type::getInt32Ty(context));                        // int                                 numBoundarySpecies;

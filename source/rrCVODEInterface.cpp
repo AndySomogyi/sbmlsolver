@@ -307,28 +307,17 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
     int size = model->getModelData().numFloatingSpecies + model->getModelData().numRateRules;
     vector<double> dCVodeArgument(size);
 
-    for(int i = 0; i < min((int) dCVodeArgument.size(), n); i++)
-    {
-        dCVodeArgument[i] = y[i];
-    }
+    model->evalModel(time, y);
 
-    model->evalModel(time, &dCVodeArgument[0]);
+    memcpy(ydot, model->getModelData().rateRules,
+            model->getModelData().numRateRules * sizeof(double));
 
-    copyCArrayToStdVector(model->getModelData().rateRules,    dCVodeArgument, (model->getModelData().numRateRules));
-
-    for(u_int i = 0 ; i < (model->getModelData().numFloatingSpecies); i++)
-    {
-        dCVodeArgument.push_back(model->getModelData().floatingSpeciesConcentrationRates[i]);
-    }
-
-
-    for (int i = 0; i < min((int) dCVodeArgument.size(), n); i++)
-    {
-        ydot[i]= dCVodeArgument[i];
-    }
+    memcpy(&ydot[model->getModelData().numRateRules],
+            model->getModelData().floatingSpeciesAmountRates,
+            model->getModelData().numFloatingSpecies * sizeof(double));
 
     cvInstance->mCount++;
-    //oldState.AssignToModel(*model);
+
     model->popState();
 }
 
@@ -761,7 +750,6 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
         mTheModel->computeConservedTotals();
     }
     mTheModel->convertToAmounts();
-
 
     args = buildEvalArgument();
     mTheModel->evalModel(timeEnd, &args[0]);

@@ -388,7 +388,7 @@ double RoadRunner::getValueForRecord(const SelectionRecord& record)
         break;
 
         case SelectionType::clRateOfChange:
-            dResult = mModel->getModelData().floatingSpeciesConcentrationRates[record.index];
+            dResult = mModel->getModelData().floatingSpeciesAmountRates[record.index];
         break;
 
         case SelectionType::clVolume:
@@ -2628,7 +2628,7 @@ double RoadRunner::getRateOfChange(const int& index)
     if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
     {
         mModel->computeAllRatesOfChange();
-        return mModel->getModelData().floatingSpeciesConcentrationRates[index];
+        return mModel->getModelData().floatingSpeciesAmountRates[index];
     }
 
     throw CoreException(format("Index in getRateOfChange out of range: [{0}]", index));
@@ -3693,7 +3693,7 @@ vector<double> RoadRunner::getRatesOfChange()
 
     mModel->computeAllRatesOfChange();
     vector<double> result;
-    copyCArrayToStdVector(mModel->getModelData().floatingSpeciesConcentrationRates, result,
+    copyCArrayToStdVector(mModel->getModelData().floatingSpeciesAmountRates, result,
             mModel->getModelData().numFloatingSpecies);
 
     return result;
@@ -3892,7 +3892,7 @@ double RoadRunner::getValue(const string& sId)
         mModel->computeAllRatesOfChange();
 
         //fs[j] + "'" will be interpreted as rate of change
-        return mModel->getModelData().floatingSpeciesConcentrationRates[nIndex];
+        return mModel->getModelData().floatingSpeciesAmountRates[nIndex];
     }
 
     if ((nIndex = mModel->getCompartmentIndex(sId)) >= 0)
