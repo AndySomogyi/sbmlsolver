@@ -34,15 +34,15 @@ using libsbml::Parameter;
  * generated function signature:
  * void modeldata_initialvalues_set(ModelData *);
  */
-class LLVMModelSymbols: private SBMLVisitor,
+class LLVMEvalInitialConditionsCodeGen: private SBMLVisitor,
         private LLVMCodeGenBase,
         private LLVMSymbolResolver
 {
     using SBMLVisitor::visit;
 
 public:
-    LLVMModelSymbols(const LLVMModelGeneratorContext &mgc);
-    ~LLVMModelSymbols();
+    LLVMEvalInitialConditionsCodeGen(const LLVMModelGeneratorContext &mgc);
+    ~LLVMEvalInitialConditionsCodeGen();
 
     llvm::Value *codeGen();
 
@@ -66,10 +66,10 @@ private:
      * The actions of all InitialAssignment objects are in general terms the same,
      * but differ in the precise details depending on the type of variable being set:
      *
-     * * In the case of a species, an InitialAssignment sets the referenced speciesÕ
+     * * In the case of a species, an InitialAssignment sets the referenced speciesï¿½
      * initial quantity (concentration or amount) to the value determined by the
      * formula in math. The unit associated with the value produced by the math
-     * formula should be equal to the unit associated with the speciesÕ quantity.
+     * formula should be equal to the unit associated with the speciesï¿½ quantity.
      *
      * * In the case of a species reference, an InitialAssignment sets the initial
      * stoichiometry of the reactant or product referenced by the SpeciesReference
@@ -79,13 +79,13 @@ private:
      * are dimensionless quantities.
      *
      * * In the case of a compartment, an InitialAssignment sets the referenced
-     * compartmentÕs initial size to the size determined by the formula in math.
+     * compartmentï¿½s initial size to the size determined by the formula in math.
      * The unit associated with the value produced by the math formula should be
-     * the same as that specified for the compartmentÕs size.
+     * the same as that specified for the compartmentï¿½s size.
      *
-     * * In the case of a parameter, an InitialAssignment sets the parameterÕs
+     * * In the case of a parameter, an InitialAssignment sets the parameterï¿½s
      * initial value to the value of the formula in math. The unit associated
-     * with the value produced by the math formula should be the same as parameterÕs
+     * with the value produced by the math formula should be the same as parameterï¿½s
      * units attribute value.
      */
     virtual bool visit(const libsbml::InitialAssignment &x);

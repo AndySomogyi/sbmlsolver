@@ -25,7 +25,7 @@ using libsbml::SBMLVisitor;
 using libsbml::Species;
 using libsbml::Parameter;
 
-class LLVMModelSymbols: private SBMLVisitor, private LLVMCodeGenBase
+class LLVMModelSymbols: private SBMLVisitor
 {
     using SBMLVisitor::visit;
 
@@ -49,10 +49,10 @@ protected:
      * The actions of all InitialAssignment objects are in general terms the same,
      * but differ in the precise details depending on the type of variable being set:
      *
-     * * In the case of a species, an InitialAssignment sets the referenced species’
+     * * In the case of a species, an InitialAssignment sets the referenced species
      * initial quantity (concentration or amount) to the value determined by the
      * formula in math. The unit associated with the value produced by the math
-     * formula should be equal to the unit associated with the species’ quantity.
+     * formula should be equal to the unit associated with the species quantity.
      *
      * * In the case of a species reference, an InitialAssignment sets the initial
      * stoichiometry of the reactant or product referenced by the SpeciesReference
@@ -62,13 +62,13 @@ protected:
      * are dimensionless quantities.
      *
      * * In the case of a compartment, an InitialAssignment sets the referenced
-     * compartment’s initial size to the size determined by the formula in math.
+     * compartment's initial size to the size determined by the formula in math.
      * The unit associated with the value produced by the math formula should be
-     * the same as that specified for the compartment’s size.
+     * the same as that specified for the compartment's size.
      *
-     * * In the case of a parameter, an InitialAssignment sets the parameter’s
+     * * In the case of a parameter, an InitialAssignment sets the parameter's
      * initial value to the value of the formula in math. The unit associated
-     * with the value produced by the math formula should be the same as parameter’s
+     * with the value produced by the math formula should be the same as parameter's
      * units attribute value.
      */
     virtual bool visit(const libsbml::InitialAssignment &x);
@@ -115,7 +115,6 @@ protected:
     const ASTNode *createStoichiometryNode(int row, int col);
 
 
-    llvm::Function *initialValuesFunc;
     LLVMSymbolForest symbolForest;
     LLVMASTNodeFactory nodes;
 
@@ -154,6 +153,10 @@ protected:
      * the stoichiometry matrix is a N species x N reaction matrix.
      */
     std::vector<ReactionSymbols> reactions;
+
+private:
+    libsbml::Model *model;
+    const LLVMModelDataSymbols &symbols;
 };
 
 } /* namespace rr */

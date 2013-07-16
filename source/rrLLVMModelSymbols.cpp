@@ -5,7 +5,7 @@
  *      Author: andy
  */
 
-#include "rrLLVMEvalInitialConditionsCodeGen.h"
+#include "rrLLVMModelSymbols.h"
 #include "rrLLVMException.h"
 #include "rrLLVMASTNodeCodeGen.h"
 #include "rrLogger.h"
@@ -31,11 +31,11 @@ void test (ASTNode *& a) {
 namespace rr
 {
 
-LLVMModelSymbols::LLVMModelSymbols(
-        const LLVMModelGeneratorContext &mgc) :
-        LLVMCodeGenBase(mgc),
-        reactions(symbols.getReactionSize(), ReactionSymbols()),
-        engine(mgc.getExecutionEngine())
+LLVMModelSymbols::LLVMModelSymbols(const LLVMModelGeneratorContext &mgc) :
+        model(mgc.getModel()),
+        symbols(mgc.getModelDataSymbols()),
+        reactions(mgc.getModelDataSymbols().getReactionSize(),
+                ReactionSymbols())
 {
     model->getListOfSpecies()->accept(*this);
     model->getListOfCompartments()->accept(*this);
@@ -49,106 +49,6 @@ LLVMModelSymbols::~LLVMModelSymbols()
 {
 }
 
-Value* LLVMModelSymbols::codeGen()
-{
-    cout << "boundarySpecies: \n";
-    for (LLVMSymbolForest::Iterator i = symbolForest.boundarySpecies.begin();
-            i != symbolForest.boundarySpecies.end(); i++)
-    {
-        char* formula = SBML_formulaToString(i->second);
-        cout << "\t" << i->first << ": " << formula << "\n";
-        free(formula);
-
-    }
-
-    cout << "globalParameters: \n";
-    for (LLVMSymbolForest::Iterator i = symbolForest.globalParameters.begin();
-            i != symbolForest.globalParameters.end(); i++)
-    {
-        char* formula = SBML_formulaToString(i->second);
-        cout << "\t" << i->first << ": " << formula << "\n";
-        free(formula);
-
-    }
-
-    cout << "compartments: \n";
-    for (LLVMSymbolForest::Iterator i = symbolForest.compartments.begin();
-            i != symbolForest.compartments.end(); i++)
-    {
-        char* formula = SBML_formulaToString(i->second);
-        cout << "\t" << i->first << ": " << formula << "\n";
-        free(formula);
-    }
-
-    cout << "reactions: ";
-    vector<string> ids = symbols.getReactionIds();
-    for (int i = 0; i < ids.size(); i++)
-    {
-        cout << ids[i] << ", ";
-    }
-    cout << "\n";
-
-    list<pair<int,int> > stoichEntries = symbols.getStoichiometryIndx();
-    for (list<pair<int,int> >::iterator i = stoichEntries.begin();
-            i != stoichEntries.end(); i++)
-    {
-        pair<int, int> nz = *i;
-        const ASTNode *node = createStoichiometryNode(nz.first, nz.second);
-        char* formula = SBML_formulaToString(node);
-        cout << "\t{" << nz.first << ", " << nz.second << "} : " << formula
-                << "\n";
-        free(formula);
-
-    }
-
-    // make the set init value function
-    vector<Type*> argTypes;
-    StructType *modelDataStructType = LLVMModelDataIRBuilder::getStructType(
-            module);
-    PointerType *structTypePtr = llvm::PointerType::get(modelDataStructType, 0);
-    argTypes.push_back(structTypePtr);
-
-    FunctionType *funcType = FunctionType::get(Type::getVoidTy(context), argTypes,
-            false);
-    initialValuesFunc = Function::Create(funcType, Function::InternalLinkage,
-            FunctionName, module);
-
-
-    // Create a new basic block to start insertion into.
-    BasicBlock *basicBlock = BasicBlock::Create(context, "entry", initialValuesFunc);
-    builder->SetInsertPoint(basicBlock);
-
-    // single argument
-    Value *modelData = initialValuesFunc->arg_begin();
-
-    Argument &arg = initialValuesFunc->getArgumentList().front();
-
-    Value *argVal = &arg;
-
-    printf("modelData: %p\n", modelData);
-    printf("arg: %p\n", argVal);
-
-    LLVMModelDataIRBuilder modelDataBuilder(symbols, builder);
-
-    codeGenFloatingSpecies(modelData, modelDataBuilder);
-
-    codeGenStoichiometry(modelData, modelDataBuilder);
-
-
-    builder->CreateRetVoid();
-
-    /// verifyFunction - Check a function for errors, printing messages on stderr.
-    /// Return true if the function is corrupt.
-    if (verifyFunction(*initialValuesFunc, PrintMessageAction))
-    {
-        throw LLVMException("Generated function is corrupt, see stderr", __FUNC__);
-    }
-
-    initialValuesFunc->dump();
-
-
-    return initialValuesFunc;
-}
 
 bool LLVMModelSymbols::visit(const libsbml::Compartment& x)
 {
@@ -433,7 +333,8 @@ void LLVMModelSymbols::processSpeciesReference(
                 }
             }
         }
-    } catch (LLVMException &)
+    }
+    catch (LLVMException &)
     {
         string err = "could not find product ";
         err += ref->getSpecies();
@@ -444,21 +345,7 @@ void LLVMModelSymbols::processSpeciesReference(
     }
 }
 
-llvm::Value* LLVMModelSymbols::symbolValue(const std::string& symbol)
-{
-    LLVMSymbolForest::ConstIterator i = symbolForest.find(symbol);
-    if (i != symbolForest.end())
-    {
-        return LLVMASTNodeCodeGen(*builder, *this).codeGen(i->second);
-    }
-    else
-    {
-        string msg = "Could not find requested symbol \'";
-        msg += symbol;
-        msg += "\' in symbol forest";
-        throw LLVMException(msg, __FUNC__);
-    }
-}
+
 
 const ASTNode* LLVMModelSymbols::createStoichiometryNode(int row,
         int col)
@@ -558,87 +445,6 @@ const ASTNode* LLVMModelSymbols::createStoichiometryNode(int row,
     return result;
 }
 
-void LLVMModelSymbols::codeGenFloatingSpecies(
-        Value *modelData, LLVMModelDataIRBuilder& modelDataBuilder)
-{
-    LLVMASTNodeCodeGen astCodeGen(*builder, *this);
 
-    cout << "floatingSpecies: \n";
-    for (LLVMSymbolForest::Iterator i = symbolForest.floatingSpecies.begin();
-            i != symbolForest.floatingSpecies.end(); i++)
-    {
-        cout << "id: " << i->first << "\n";
-
-        char* formula = SBML_formulaToString(i->second);
-        cout << "\t" << i->first << ": " << formula << "\n";
-        free(formula);
-
-        Value *value = astCodeGen.codeGen(i->second);
-        value->dump();
-
-        Value *amt = 0;
-
-        Species *species = model->getListOfSpecies()->get(i->first);
-        if (species->getHasOnlySubstanceUnits())
-        {
-            // interpret the evaluated value as an amount
-            amt = value;
-        }
-        else
-        {
-            // interpret the evaluated value as a concentration.
-            const ASTNode *compAST =
-                    symbolForest.compartments[species->getCompartment()];
-            Value *compValue = astCodeGen.codeGen(compAST);
-            amt = builder->CreateFMul(value, compValue, "amt");
-        }
-
-        modelDataBuilder.createFloatSpeciesAmtStore(modelData, i->first, amt);
-    }
-}
-
-LLVMModelSymbols::FunctionPtr LLVMModelSymbols::createFunction()
-{
-    Function *func = (Function*)codeGen();
-    return (FunctionPtr)engine->getPointerToFunction(func);
-}
-
-void LLVMModelSymbols::codeGenStoichiometry(llvm::Value* modelData,
-        LLVMModelDataIRBuilder& modelDataBuilder)
-{
-    LLVMASTNodeCodeGen astCodeGen(*builder, *this);
-
-    cout << "reactions: ";
-    vector<string> ids = symbols.getReactionIds();
-    for (int i = 0; i < ids.size(); i++)
-    {
-        cout << ids[i] << ", ";
-    }
-    cout << "\n";
-
-    Value *stoichEP = modelDataBuilder.createGEP(modelData, Stoichiometry);
-    Value *stoich = builder->CreateLoad(stoichEP, "stoichiometry");
-
-    list<pair<int,int> > stoichEntries = symbols.getStoichiometryIndx();
-    for (list<pair<int,int> >::iterator i = stoichEntries.begin();
-            i != stoichEntries.end(); i++)
-    {
-        pair<int, int> nz = *i;
-        const ASTNode *node = createStoichiometryNode(nz.first, nz.second);
-        char* formula = SBML_formulaToString(node);
-        cout << "\t{" << nz.first << ", " << nz.second << "} : " << formula
-                << "\n";
-        free(formula);
-
-        // createCSRMatrixSetNZ(llvm::Value *csrPtr, llvm::Value *row,
-        // llvm::Value *col, llvm::Value *value, const char* name = 0);
-
-        Value *stoichValue = astCodeGen.codeGen(node);
-        Value *row = ConstantInt::get(Type::getInt32Ty(context), nz.first, true);
-        Value *col = ConstantInt::get(Type::getInt32Ty(context), nz.second, true);
-        modelDataBuilder.createCSRMatrixSetNZ(stoich, row, col, stoichValue);
-
-    }
-}
 
 } /* namespace rr */
