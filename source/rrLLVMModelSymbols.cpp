@@ -31,12 +31,9 @@ void test (ASTNode *& a) {
 namespace rr
 {
 
-const char* LLVMModelSymbols::FunctionName = "evalInitialConditions";
-
 LLVMModelSymbols::LLVMModelSymbols(
         const LLVMModelGeneratorContext &mgc) :
         LLVMCodeGenBase(mgc),
-        initialValuesFunc(0),
         reactions(symbols.getReactionSize(), ReactionSymbols()),
         engine(mgc.getExecutionEngine())
 {

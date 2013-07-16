@@ -1,12 +1,12 @@
 /*
- * rrLLVMInitialValueCodeGen.h
+ * rrLLVMModelSymbols.h
  *
- *  Created on: Jun 29, 2013
+ *  Created on: Jul 16, 2013
  *      Author: andy
  */
 
-#ifndef LLVMInitialValueCodeGenH
-#define LLVMInitialValueCodeGenH
+#ifndef LLVMLLVMModelSymbolsH
+#define LLVMLLVMModelSymbolsH
 
 #include "rrLLVMModelGeneratorContext.h"
 #include "rrLLVMCodeGen.h"
@@ -25,18 +25,7 @@ using libsbml::SBMLVisitor;
 using libsbml::Species;
 using libsbml::Parameter;
 
-/**
- * Generates a function called 'modeldata_initialvalues_set', which evaluates
- * all of the initial conditions specified in the sbml model (initial values,
- * initial assigments, etc...) and stores these values in the appropriate
- * fields in the ModelData structure.
- *
- * generated function signature:
- * void modeldata_initialvalues_set(ModelData *);
- */
-class LLVMModelSymbols: private SBMLVisitor,
-        private LLVMCodeGenBase,
-        private LLVMSymbolResolver
+class LLVMModelSymbols: private SBMLVisitor, private LLVMCodeGenBase
 {
     using SBMLVisitor::visit;
 
@@ -44,14 +33,8 @@ public:
     LLVMModelSymbols(const LLVMModelGeneratorContext &mgc);
     ~LLVMModelSymbols();
 
-    llvm::Value *codeGen();
 
-    static const char* FunctionName;
-    typedef void (*FunctionPtr)(ModelData*);
-
-    FunctionPtr createFunction();
-
-private:
+protected:
 
     enum SpeciesReferenceType {
         Reactant, Product
@@ -123,7 +106,6 @@ private:
             const libsbml::Reaction* reaction, SpeciesReferenceType type,
             const ASTNode* stoich);
 
-    virtual llvm::Value *symbolValue(const std::string& symbol);
 
     /**
      * create an ASTNode for the species id / reaction id pair.
@@ -132,17 +114,11 @@ private:
      */
     const ASTNode *createStoichiometryNode(int row, int col);
 
-    void codeGenFloatingSpecies(llvm::Value *modelData,
-            LLVMModelDataIRBuilder &modelDataBuilder);
-
-    void codeGenStoichiometry(llvm::Value *modelData,
-            LLVMModelDataIRBuilder &modelDataBuilder);
 
     llvm::Function *initialValuesFunc;
     LLVMSymbolForest symbolForest;
     LLVMASTNodeFactory nodes;
 
-    llvm::ExecutionEngine *engine;
 
 
     /**
@@ -181,4 +157,4 @@ private:
 };
 
 } /* namespace rr */
-#endif /* LLVMInitialValueCodeGenH */
+#endif /* LLVMLLVMModelSymbolsH */

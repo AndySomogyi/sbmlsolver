@@ -144,7 +144,7 @@ private:
     std::string *errStr;
 
 
-    LLVMEvalInitialConditionsCodeGen::FunctionPtr evalInitialConditionsPtr;
+    LLVMModelSymbols::FunctionPtr evalInitialConditionsPtr;
 
     friend class LLVMModelGenerator;
 };

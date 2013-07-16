@@ -73,8 +73,8 @@ ExecutableModel* LLVMModelGenerator::createModel(const string& sbml,
 {
     LLVMModelGeneratorContext context(sbml, computeAndAssignConsevationLaws);
 
-    LLVMEvalInitialConditionsCodeGen::FunctionPtr evalInitialConditionsPtr =
-            LLVMEvalInitialConditionsCodeGen(context).createFunction();
+    LLVMModelSymbols::FunctionPtr evalInitialConditionsPtr =
+            LLVMModelSymbols(context).createFunction();
 
 
     // if anything up to this point throws an exception, thats OK, because
