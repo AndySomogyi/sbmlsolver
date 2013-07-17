@@ -11,6 +11,7 @@
 #include "rrLogger.h"
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaFormatter.h>
+#include <sbml/SBMLDocument.h>
 
 
 using namespace libsbml;
@@ -18,30 +19,21 @@ using namespace llvm;
 using namespace std;
 
 
-void test (ASTNode *& a) {
-    a = new ASTNode();
-
-    const ASTNode *b = new ASTNode();
-
-    std::vector<const ASTNode **> nodes;
-    nodes.push_back(&b);
-
-}
-
 namespace rr
 {
 
-LLVMModelSymbols::LLVMModelSymbols(const LLVMModelGeneratorContext &mgc) :
-        model(mgc.getModel()),
-        symbols(mgc.getModelDataSymbols()),
-        reactions(mgc.getModelDataSymbols().getReactionSize(),
-                ReactionSymbols())
+LLVMModelSymbols::LLVMModelSymbols(const libsbml::Model *m, LLVMModelDataSymbols const &sym) :
+        model(m),
+        symbols(sym),
+        reactions(sym.getReactionSize(), ReactionSymbols())
 {
     model->getListOfSpecies()->accept(*this);
     model->getListOfCompartments()->accept(*this);
     model->getListOfParameters()->accept(*this);
-    model->getListOfRules()->accept(*this);
     model->getListOfReactions()->accept(*this);
+
+    model->getListOfRules()->accept(*this);
+
     model->getListOfInitialAssignments()->accept(*this);
 }
 
@@ -49,18 +41,17 @@ LLVMModelSymbols::~LLVMModelSymbols()
 {
 }
 
-
 bool LLVMModelSymbols::visit(const libsbml::Compartment& x)
 {
     ASTNode *node = nodes.create(AST_REAL);
     node->setValue(x.getVolume());
-    symbolForest.compartments[x.getId()] = node;
+    initialValues.compartments[x.getId()] = node;
     return true;
 }
 
 bool LLVMModelSymbols::visit(const libsbml::Species& x)
 {
-    processSpecies(&x, 0);
+    processSpecies(initialValues, &x, 0);
     return true;
 }
 
@@ -68,28 +59,28 @@ bool LLVMModelSymbols::visit(const libsbml::Parameter& x)
 {
     ASTNode *value = nodes.create(AST_REAL);
     value->setValue(x.getValue());
-    symbolForest.globalParameters[x.getId()] = value;
+    initialValues.globalParameters[x.getId()] = value;
     return true;
 }
 
 bool LLVMModelSymbols::visit(const libsbml::AssignmentRule& x)
 {
     cout << __FUNC__ << ", id: " << x.getId() << "\n";
-    SBase *element = model->getElementBySId(x.getVariable());
-    processElement(element, x.getMath());
+    SBase *element = const_cast<Model*>(model)->getElementBySId(x.getVariable());
+    processElement(assigmentRules, element, x.getMath());
     return true;
 }
 
 bool LLVMModelSymbols::visit(const libsbml::InitialAssignment& x)
 {
     cout << __FUNC__ << ", id: " << x.getId() << "\n";
-    SBase *element = model->getElementBySId(x.getSymbol());
-    processElement(element, x.getMath());
+    SBase *element = const_cast<Model*>(model)->getElementBySId(x.getSymbol());
+    processElement(initialAssigments, element, x.getMath());
     return true;
 }
 
-void LLVMModelSymbols::processElement(const libsbml::SBase *element,
-        const ASTNode* math)
+void LLVMModelSymbols::processElement(LLVMSymbolForest& currentSymbols,
+        const libsbml::SBase *element, const ASTNode* math)
 {
     const Compartment *comp = 0;
     const Parameter *param = 0;
@@ -98,19 +89,19 @@ void LLVMModelSymbols::processElement(const libsbml::SBase *element,
 
     if ((comp = dynamic_cast<const Compartment*>(element)))
     {
-        symbolForest.compartments[comp->getId()] = math;
+        currentSymbols.compartments[comp->getId()] = math;
     }
     else if ((param = dynamic_cast<const Parameter*>(element)))
     {
-        symbolForest.globalParameters[param->getId()] = math;
+        currentSymbols.globalParameters[param->getId()] = math;
     }
     else if ((species = dynamic_cast<const Species*>(element)))
     {
-        processSpecies(species, math);
+        processSpecies(initialValues, species, math);
     }
     else if ((reference = dynamic_cast<const SpeciesReference*>(element)))
     {
-        processSpeciesReference(reference, math);
+        currentSymbols.speciesReferences[reference->getId()] = math;
     }
     else
     {
@@ -130,18 +121,69 @@ bool LLVMModelSymbols::visit(const libsbml::Reaction& r)
     const ListOfSpeciesReferences *reactants = r.getListOfReactants();
     const ListOfSpeciesReferences *products = r.getListOfProducts();
 
+    ReactionSymbols &rs = reactions[symbols.getReactionIndex(r.getId())];
+
     for (int i = 0; i < reactants->size(); i++)
     {
-        processSpeciesReference(
-                dynamic_cast<const SpeciesReference*>(reactants->get(i)), &r,
-                Reactant, 0);
+        const SpeciesReference* reactant =
+                dynamic_cast<const SpeciesReference*>(reactants->get(i));
+        try
+        {
+
+            ASTNodeList &speciesNodes =
+                    rs.reactants[symbols.getFloatingSpeciesIndex(reactant->getSpecies())];
+
+            const ASTNode *stoich = getSpeciesReferenceStoichMath(reactant);
+
+            if(reactant->isSetId() && reactant->getId().size())
+            {
+                initialValues.speciesReferences[reactant->getId()] = stoich;
+                ASTNode *refName = nodes.create(AST_NAME);
+                refName->setName(reactant->getId().c_str());
+                speciesNodes.push_back(refName);
+            }
+            else
+            {
+                speciesNodes.push_back(stoich);
+            }
+        }
+        catch (LLVMException&)
+        {
+            string msg = "Reaction " + r.getId() + " has SpeciesReference for boundary species ";
+            msg += reactant->getSpecies();
+            Log(lWarning) << msg;
+        }
     }
 
     for (int i = 0; i < products->size(); i++)
     {
-        processSpeciesReference(
-                dynamic_cast<const SpeciesReference*>(products->get(i)), &r,
-                Product, 0);
+        const SpeciesReference* product =
+                dynamic_cast<const SpeciesReference*>(products->get(i));
+        try
+        {
+            ASTNodeList &speciesNodes =
+                    rs.products[symbols.getFloatingSpeciesIndex(product->getSpecies())];
+
+            const ASTNode *stoich = getSpeciesReferenceStoichMath(product);
+
+            if(product->isSetId() && product->getId().size())
+            {
+                initialValues.speciesReferences[product->getId()] = stoich;
+                ASTNode *refName = nodes.create(AST_NAME);
+                refName->setName(product->getId().c_str());
+                speciesNodes.push_back(refName);
+            }
+            else
+            {
+                speciesNodes.push_back(stoich);
+            }
+        }
+        catch (LLVMException&)
+        {
+            string msg = "Reaction " + r.getId() + " has SpeciesReference for boundary species ";
+            msg += product->getSpecies();
+            Log(lWarning) << msg;
+        }
     }
 
     /*
@@ -163,8 +205,8 @@ bool LLVMModelSymbols::visit(const libsbml::Reaction& r)
 
 
 
-void LLVMModelSymbols::processSpecies(const libsbml::Species *species,
-        const ASTNode* math)
+void LLVMModelSymbols::processSpecies(LLVMSymbolForest &currentSymbols,
+        const libsbml::Species *species, const ASTNode* math)
 {
     // ASTNode takes ownership of children, so only allocate the ones that
     // are NOT given to an ASTNode addChild.
@@ -221,14 +263,15 @@ void LLVMModelSymbols::processSpecies(const libsbml::Species *species,
 
     if (species->getBoundaryCondition())
     {
-        symbolForest.boundarySpecies[species->getId()] = math;
+        currentSymbols.boundarySpecies[species->getId()] = math;
     }
     else
     {
-        symbolForest.floatingSpecies[species->getId()] = math;
+        currentSymbols.floatingSpecies[species->getId()] = math;
     }
 }
 
+/*
 void LLVMModelSymbols::processSpeciesReference(
         const libsbml::SpeciesReference* sr, const ASTNode* math)
 {
@@ -252,7 +295,27 @@ void LLVMModelSymbols::processSpeciesReference(
 
     processSpeciesReference(sr, r, type, math);
 }
+*/
 
+const ASTNode* LLVMModelSymbols::getSpeciesReferenceStoichMath(
+        const libsbml::SpeciesReference* reference)
+{
+    const ASTNode *stoich = 0;
+    if (reference->isSetStoichiometryMath()
+            && reference->getStoichiometryMath()->isSetMath())
+    {
+        stoich = reference->getStoichiometryMath()->getMath();
+    }
+    else
+    {
+        ASTNode *m = nodes.create(AST_REAL);
+        m->setValue(reference->getStoichiometry());
+        stoich = m;
+    }
+    return stoich;
+}
+
+/*
 void LLVMModelSymbols::processSpeciesReference(
         const libsbml::SpeciesReference* ref, const libsbml::Reaction* reaction,
         SpeciesReferenceType type, const ASTNode* stoich)
@@ -263,9 +326,6 @@ void LLVMModelSymbols::processSpeciesReference(
     // the ref in such cases.
     try
     {
-        int rowIdx = symbols.getFloatingSpeciesIndex(ref->getSpecies());
-        int colIdx = symbols.getReactionIndex(reaction->getId());
-
         if (stoich == 0)
         {
             if (ref->isSetStoichiometryMath()
@@ -281,12 +341,13 @@ void LLVMModelSymbols::processSpeciesReference(
             }
         }
 
-        else
+        if (ref->isSetId() && ref->getId().length() > 0)
         {
-            cout << "stoich\n";
+            currentSymbols->speciesReferences[ref->getId()] = stoich;
         }
 
-        assert(stoich != 0);
+        int rowIdx = symbols.getFloatingSpeciesIndex(ref->getSpecies());
+        int colIdx = symbols.getReactionIndex(reaction->getId());
 
         ReactionSymbols &reacSym = reactions[colIdx];
 
@@ -344,24 +405,25 @@ void LLVMModelSymbols::processSpeciesReference(
         Log(lWarning) << err;
     }
 }
+*/
 
 
 
-const ASTNode* LLVMModelSymbols::createStoichiometryNode(int row,
-        int col)
+ASTNode* LLVMModelSymbols::createStoichiometryNode(int row, int col) const
 {
-    ReactionSymbols &r = reactions[col];
-    IntList productList;
-    IntList reactantList;
+    // col is species id, row is reaction.
+    ReactionSymbols const &r = reactions[col];
+    ASTNodeList productList;
+    ASTNodeList reactantList;
 
-    IntIntListMap::const_iterator pi = r.productIdx.find(row);
-    if (pi != r.productIdx.end())
+    IntASTNodeListMap::const_iterator pi = r.products.find(row);
+    if (pi != r.products.end())
     {
         productList = pi->second;
     }
 
-    IntIntListMap::const_iterator ri = r.reactantIdx.find(row);
-    if (ri != r.reactantIdx.end())
+    IntASTNodeListMap::const_iterator ri = r.reactants.find(row);
+    if (ri != r.reactants.end())
     {
         reactantList = ri->second;
     }
@@ -376,7 +438,8 @@ const ASTNode* LLVMModelSymbols::createStoichiometryNode(int row,
 
     // we keep track of the top level node, it takes ownership
     // of all child nodes.
-    ASTNode *result = nodes.create(AST_PLUS);
+    // should be exception free here on.
+    ASTNode *result = new ASTNode(AST_PLUS);
     ASTNode *reactants = 0;
     ASTNode *products = 0;
 
@@ -388,15 +451,15 @@ const ASTNode* LLVMModelSymbols::createStoichiometryNode(int row,
         // time making a plus out of it...
         if (reactantList.size() == 1)
         {
-            reactants = new ASTNode(*r.nodes[reactantList.front()]);
+            reactants = new ASTNode(*reactantList.front());
         }
         else
         {
             reactants = new ASTNode(AST_PLUS);
-            for (IntList::const_iterator i = reactantList.begin();
+            for (ASTNodeList::const_iterator i = reactantList.begin();
                     i != reactantList.end(); i++)
             {
-                const ASTNode *reactant = r.nodes[*i];
+                const ASTNode *reactant = *i;
                 reactants->addChild(new ASTNode(*reactant));
             }
         }
@@ -420,15 +483,15 @@ const ASTNode* LLVMModelSymbols::createStoichiometryNode(int row,
     {
         if (productList.size() == 1)
         {
-            products = new ASTNode(*r.nodes[productList.front()]);
+            products = new ASTNode(*productList.front());
         }
         else
         {
             products = new ASTNode(AST_PLUS);
-            for (IntList::const_iterator i = productList.begin();
+            for (ASTNodeList::const_iterator i = productList.begin();
                     i != productList.end(); i++)
             {
-                const ASTNode *product = r.nodes[*i];
+                const ASTNode *product = *i;
                 products->addChild(new ASTNode(*product));
             }
         }
@@ -445,6 +508,19 @@ const ASTNode* LLVMModelSymbols::createStoichiometryNode(int row,
     return result;
 }
 
+const LLVMSymbolForest& LLVMModelSymbols::getAssigmentRules() const
+{
+    return assigmentRules;
+}
 
+const LLVMSymbolForest& LLVMModelSymbols::getInitialAssigments() const
+{
+    return initialAssigments;
+}
+
+const LLVMSymbolForest& LLVMModelSymbols::getInitialValues() const
+{
+    return initialValues;
+}
 
 } /* namespace rr */

@@ -29,7 +29,8 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext(std::string const &sbml,
         ownedDoc(readSBMLFromString((sbml.c_str()))),
         doc(ownedDoc),
         symbols(new LLVMModelDataSymbols(doc->getModel(),
-            computeAndAssignConsevationLaws)),
+                computeAndAssignConsevationLaws)),
+        modelSymbols(new LLVMModelSymbols(getModel(), *symbols)),
         errString(new string())
 {
     // initialize LLVM
@@ -56,6 +57,7 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext(libsbml::SBMLDocument const
         doc(doc),
         symbols(new LLVMModelDataSymbols(doc->getModel(),
             computeAndAssignConsevationLaws)),
+        modelSymbols(new LLVMModelSymbols(getModel(), *symbols)),
         errString(new string())
 {
     // initialize LLVM
@@ -80,6 +82,7 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext() :
         ownedDoc(0),
         doc(0),
         symbols(0),
+        modelSymbols(0),
         errString(new string())
 {
     // initialize LLVM
@@ -105,6 +108,8 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext() :
 
 LLVMModelGeneratorContext::~LLVMModelGeneratorContext()
 {
+    delete modelSymbols;
+    delete symbols;
     delete builder;
     delete executionEngine;
     delete context;
@@ -133,19 +138,12 @@ const libsbml::SBMLDocument* LLVMModelGeneratorContext::getDocument() const
 }
 
 
-// TODO: this is freaking LAME, libsbml is not 100% const correct, so get around the
-// issues with these pragmas.
-#ifdef __GNUC__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wcast-qual"
-#endif
-libsbml::Model* LLVMModelGeneratorContext::getModel() const
+
+const libsbml::Model* LLVMModelGeneratorContext::getModel() const
 {
-    return (Model*)doc->getModel();
+    return doc->getModel();
 }
-#ifdef __GNUC__
-#pragma GCC diagnostic pop
-#endif
+
 
 llvm::Module* LLVMModelGeneratorContext::getModule() const
 {
@@ -170,6 +168,12 @@ void LLVMModelGeneratorContext::stealThePeach(LLVMModelDataSymbols **sym,
     errString = 0;
 }
 
+const LLVMModelSymbols& LLVMModelGeneratorContext::getModelSymbols() const
+{
+    return *modelSymbols;
+}
+
+
 
 /*********************** TESTING STUFF WILL GO AWAY EVENTUALLY ***********************/
 
@@ -184,7 +188,6 @@ static void dispInt(int i) {
 static void dispChar(char c) {
     cout << __FUNC__ << ": " << (int)c << "\n";
 }
-
 
 /*************************************************************************************/
 

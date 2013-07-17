@@ -23,7 +23,8 @@ class LLVMCodeGenBase
 {
 protected:
     LLVMCodeGenBase(const LLVMModelGeneratorContext &mgc) :
-            symbols(mgc.getModelDataSymbols()),
+            dataSymbols(mgc.getModelDataSymbols()),
+            modelSymbols(mgc.getModelSymbols()),
             model(mgc.getModel()),
             context(mgc.getContext()),
             module(mgc.getModule()),
@@ -32,8 +33,9 @@ protected:
     {
     };
 
-    const LLVMModelDataSymbols &symbols;
-    libsbml::Model *model;
+    const LLVMModelDataSymbols &dataSymbols;
+    const LLVMModelSymbols &modelSymbols;
+    const libsbml::Model *model;
     llvm::LLVMContext &context;
     llvm::Module *module;
     llvm::IRBuilder<> *builder;

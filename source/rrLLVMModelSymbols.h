@@ -8,9 +8,6 @@
 #ifndef LLVMLLVMModelSymbolsH
 #define LLVMLLVMModelSymbolsH
 
-#include "rrLLVMModelGeneratorContext.h"
-#include "rrLLVMCodeGen.h"
-#include "rrLLVMCodeGenBase.h"
 #include "rrLLVMSymbolForest.h"
 #include "rrLLVMASTNodeFactory.h"
 #include "rrLLVMModelDataIRBuilder.h"
@@ -25,14 +22,30 @@ using libsbml::SBMLVisitor;
 using libsbml::Species;
 using libsbml::Parameter;
 
+/**
+ * Hold all the un-evaluated symbolic inforamtion in the model.
+ *
+ * TODO: some real docs...
+ */
 class LLVMModelSymbols: private SBMLVisitor
 {
     using SBMLVisitor::visit;
 
 public:
-    LLVMModelSymbols(const LLVMModelGeneratorContext &mgc);
+    LLVMModelSymbols(libsbml::Model const *m, LLVMModelDataSymbols const &sym);
+
     ~LLVMModelSymbols();
 
+    /**
+     * create an ASTNode for the species id / reaction id pair.
+     *
+     * This assembles the mess of items stored in the reactions array.
+     */
+    ASTNode *createStoichiometryNode(int row, int col) const;
+
+    const LLVMSymbolForest& getAssigmentRules() const;
+    const LLVMSymbolForest& getInitialAssigments() const;
+    const LLVMSymbolForest& getInitialValues() const;
 
 protected:
 
@@ -72,80 +85,94 @@ protected:
      * units attribute value.
      */
     virtual bool visit(const libsbml::InitialAssignment &x);
+
+    /**
+     * visit the reactions so we can get all the SpeciesReferences and stuff
+     * them in the initialConditions map.
+     */
     virtual bool visit(const libsbml::Reaction  &x);
 
     /**
      * tell the acceptor to process all rules, even the ones
      * we don't handle so the iteration continues over all rules.
+     *
+     * The left-hand side (the variable attribute) of an assignment rule can
+     * refer to the identifier of a Species, SpeciesReference, Compartment,
+     * or global Parameter object in the model (but not a reaction)
      */
     virtual bool visit(const libsbml::Rule &x);
 
-    void processElement(const libsbml::SBase *element, const ASTNode *math);
+    /**
+     * The only differences in how initialAssigments and assignmentRules
+     * are handled is whether they are stuffed in the initialAssigment
+     * or assigmentRules maps.
+     *
+     * This figures out what they refer to, and stuffs the AST in the
+     * appropriate map.
+     */
+    void processElement(LLVMSymbolForest &currentSymbols,
+            const libsbml::SBase *element, const ASTNode *math);
 
     /**
      * specialized logic to write both amounts and concentrations here.
      */
-    void processSpecies(const libsbml::Species *element, const ASTNode *math);
+    void processSpecies(LLVMSymbolForest &currentSymbols,
+            const libsbml::Species *element, const ASTNode *math);
 
     /**
-     * determine if this is a reactant or a product (from its parents),
-     * then call full processSpeciesReference to process it.
+     * get the MathML element for a SpeciesReference if it is set, otherwise,
+     * create a ASTNode from its stoichiometry field.
      */
-    void processSpeciesReference(const libsbml::SpeciesReference *reference,
-            const ASTNode *math);
+    const ASTNode *getSpeciesReferenceStoichMath(const libsbml::SpeciesReference *reference);
+
+    LLVMSymbolForest initialValues;
+
+    LLVMSymbolForest initialAssigments;
+
+    LLVMSymbolForest assigmentRules;
 
     /**
-     * If the reference type is set to product, then the stoich tree is left
-     * alone (assumed positive), if its set to reactant, then the stoich tree
-     * is multiplied by -1.
-     *
-     * If stoch is 0, then it is determined from the SpeciesReference stochiometry
-     * or stochiometryMath.
+     * all ASTNodes we create are stored here.
      */
-    void processSpeciesReference(const libsbml::SpeciesReference* reference,
-            const libsbml::Reaction* reaction, SpeciesReferenceType type,
-            const ASTNode* stoich);
-
-
-    /**
-     * create an ASTNode for the species id / reaction id pair.
-     *
-     * This assembles the mess of items stored in the reactions array.
-     */
-    const ASTNode *createStoichiometryNode(int row, int col);
-
-
-    LLVMSymbolForest symbolForest;
     LLVMASTNodeFactory nodes;
 
-
+    /**
+     * a species can appear more than once in a reaction, there can be
+     * several stoichiometries for a species both as a product and as
+     * a reactant, for example, we could have
+     *
+     * A + 2A + B -> A + C
+     *
+     * In this case, we calculate the stochiometry for each species as
+     * S(A) = -1 -2 + 1 = -1
+     * S(B) = -1 + 0 = -1
+     * S(C) = 0 + 1 = 1
+     *
+     * Stochiometries can however change, so we have to delay evaluation
+     * of them -- if we have a named species reference, we add an ASTNode
+     * with a reference to it: this way, when it get evaluated, we can look
+     * up to see if we have any assigment rules or intitial assigments
+     * overriding the original value.
+     */
 
     /**
-     * what follows is a rather ugly data structure...
-     *
-     * there are many many ways of specifiying stoichiometry, this
-     * data stucture is designed to accomodate all of them.
-     *
-     * Idea is all participants in this reaction have an ASTNode, this
-     * struct allows indexing that ASTNode by either the species index,
-     * so it can populate the stoichiometry matrix, but also by the
-     * species reference is, so that assigment rules or initial assignments
-     * can repace that node.
-     *
-     * Each species can appear more than once in a reaction, so
-     * it needs to have a list of species references with it.
+     * each species has a list of stoichiometry nodes, this way it can appear
+     * more than once.
      */
-    typedef std::list<int> IntList;
-    typedef std::map<std::string, int> StringIntMap;
-    typedef std::map<int, IntList> IntIntListMap;
-    struct ReactionSymbols {
-        std::vector<const libsbml::ASTNode*> nodes;
-        IntIntListMap reactantIdx;         // indexed by floating species index
-        StringIntMap reactantRefIds;        // indexed by species reference name
-        IntIntListMap productIdx;          // indexed by floating species index
-        StringIntMap productRefIds;         // indexed by species reference name
-    };
+    typedef std::list<const libsbml::ASTNode*> ASTNodeList;
 
+    /**
+     * we reference the reactants and products by the species index
+     */
+    typedef std::map<int, ASTNodeList> IntASTNodeListMap;
+
+    /**
+     * hold the symbols that belong to a reactions.
+     */
+    struct ReactionSymbols {
+        IntASTNodeListMap reactants;
+        IntASTNodeListMap products;
+    };
 
     /**
      * these are indexed by reaction index.
@@ -155,7 +182,8 @@ protected:
     std::vector<ReactionSymbols> reactions;
 
 private:
-    libsbml::Model *model;
+    libsbml::Model const
+    *model;
     const LLVMModelDataSymbols &symbols;
 };
 
