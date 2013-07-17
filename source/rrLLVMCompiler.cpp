@@ -54,11 +54,16 @@ bool LLVMCompiler::setSupportCodeFolder(const std::string& path)
 
 std::string LLVMCompiler::gurgle()
 {
+    static bool init = false;
+    if (!init) {
+        srand (time(0));
+        init = true;
+    }
+
     string cwd = getCurrentExeFolder();
     string parent = getParentFolder(cwd);    //Go up one folder
     string supportDir = joinPath(parent, "rr_support");
     vector<string> lines = getLinesInFile(supportDir + "/gurgle.dat");
-    srand (time(NULL));
     int index = rand() % lines.size();
     return lines[index];
 }

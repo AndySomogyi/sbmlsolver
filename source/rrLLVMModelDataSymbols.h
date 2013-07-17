@@ -77,6 +77,18 @@ enum ModelDataFields {
     Sr                                        // 52
 };
 
+/**
+ * stores the names of all the symbols in the sbml model and thier
+ * indexes in the ModelData arrays. This class essentially maps symbol
+ * names into ModelData indexes.
+ *
+ * The logic behind splitting up LLVMModelDataSymbols and LLVMModelSymbols
+ * is that LLVMModelSymbols contains all the ASTs from the model, and this
+ * contains only ModelData indices -- once the all the model functions
+ * are generated, there is no need to keep AST information around, but we
+ * still need to know what symbol is at what index for the various
+ * Model accessor functions.
+ */
 class LLVMModelDataSymbols
 {
 public:
@@ -116,11 +128,14 @@ public:
      * stoichiometry matrix.
      *
      * in the list of pairs, first is the row (species) index,
-     * and second is teh column (reaction) index.
+     * and second is the column (reaction) index.
      */
     std::list<std::pair<int,int> > getStoichiometryIndx() const;
 
-
+    /**
+     * initialize and allocate the buffers (including the stoich matrix)
+     * for an existing ModelData struct.
+     */
     void initAllocModelDataBuffers(ModelData& m) const;
 
     void print() const;

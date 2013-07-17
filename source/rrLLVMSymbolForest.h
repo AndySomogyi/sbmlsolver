@@ -31,6 +31,9 @@ using libsbml::ASTNode;
  * This class does not own anything, it just has const pointers
  * to a set of ASTNodes which are owned either by the sbml model,
  * or some containing class.
+ *
+ * This class basically stores the name / value of all the re-write rules
+ * (assigment or initial assigment).
  */
 class LLVMSymbolForest
 {
@@ -44,6 +47,7 @@ public:
     map<string, const ASTNode*> boundarySpecies;
     map<string, const ASTNode*> compartments;
     map<string, const ASTNode*> globalParameters;
+    map<string, const ASTNode*> speciesReferences;
 
     /**
      * find and end are designed to work identically to the map::find.

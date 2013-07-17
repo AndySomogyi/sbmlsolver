@@ -11,8 +11,10 @@
 #ifndef rrLLVMModelGeneratorContextH
 #define rrLLVMModelGeneratorContextH
 
-#include "rrLLVMModelDataSymbols.h"
 #include "rrLLVMIncludes.h"
+#include "rrLLVMModelDataSymbols.h"
+#include "rrLLVMModelSymbols.h"
+
 #include <sbml/Model.h>
 #include <sbml/SBMLDocument.h>
 #include <string>
@@ -85,12 +87,11 @@ public:
 
     const LLVMModelDataSymbols &getModelDataSymbols() const;
 
+    const LLVMModelSymbols &getModelSymbols() const;
+
     const libsbml::SBMLDocument *getDocument() const;
 
-    /**
-     * TODO: this really really should be const, but const correctness is not 100% correct in libsbml.
-     */
-    libsbml::Model *getModel() const;
+    const libsbml::Model *getModel() const;
 
     llvm::LLVMContext &getContext() const;
 
@@ -144,6 +145,12 @@ private:
     const libsbml::SBMLDocument *doc;
 
     LLVMModelDataSymbols *symbols;
+
+    /**
+     * make sure this is listed AFTER the doc and model, so it get
+     * initialized after the previous two are initialized.
+     */
+    LLVMModelSymbols *modelSymbols;
 
     llvm::IRBuilder<> *builder;
 };
