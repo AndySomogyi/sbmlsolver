@@ -9,52 +9,54 @@
 namespace rr
 {
 
-template class LogContainer<LogOutput>;
+template class LogContainer<LogOutput> ;
 
-template <>
-LogContainer<LogOutput>::LogContainer()
-{}
+template<>
+LogContainer<LogOutput>::LogContainer() :
+mCurrentLogLevel(lShowAlways)
+{
+}
 
-template <>
+template<>
 LogContainer<LogOutput>::~LogContainer()
 {
     mOutputStream << std::endl;
     LogOutput::Output(mOutputStream.str(), mCurrentLogLevel);
 }
 
-template <>
-std::ostringstream& LogContainer<LogOutput>::Get(const LogLevel& level)
+template<>
+std::ostream& LogContainer<LogOutput>::Get(const LogLevel& level)
 {
     mCurrentLogLevel = level;
 
-    if(LogOutput::mShowLogPrefix)
+    if (LogOutput::mShowLogPrefix)
     {
-        mOutputStream << gLog.GetLogPrefix() <<" ";
+        mOutputStream << gLog.GetLogPrefix() << " ";
     }
 
-    if(LogOutput::mShowLogTime)
+    if (LogOutput::mShowLogTime)
     {
         mOutputStream << GetLogTime(true);
     }
 
-    if(LogOutput::mUseLogTabs)
+    if (LogOutput::mUseLogTabs)
     {
         //Output tabs
         mOutputStream << string(level > lInfo ? level - lInfo : 0, '\t');
         mOutputStream << "\t";
     }
 
-    if(LogOutput::mShowLogLevel)
+    if (LogOutput::mShowLogLevel)
     {
-         mOutputStream << GetLogLevelAsString(level) << ": "; //Next comes the log message
+        mOutputStream << GetLogLevelAsString(level) << ": "; //Next comes the log message
     }
     return mOutputStream;
 }
 
-template <>
+template<>
 string LogContainer<LogOutput>::GetCurrentLogLevel()
 {
-	return GetLogLevelAsString(mCurrentLogLevel);
+    return GetLogLevelAsString(mCurrentLogLevel);
 }
 
 }

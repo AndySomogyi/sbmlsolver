@@ -115,3 +115,7 @@ void  freeModelDataBuffers(ModelData &data)
 
 
 } // namespace rr
+
+void rr::modeldata_dump(const ModelData& data, ostream& out)
+{
+}

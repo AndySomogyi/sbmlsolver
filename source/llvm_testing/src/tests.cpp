@@ -8,6 +8,7 @@
 #include "rrLLVMAssignmentRuleEvaluator.h"
 #include "rrLLVMEvalInitialConditionsCodeGen.h"
 #include "rrSparse.h"
+#include "rrLogger.h"
 
 
 
@@ -88,6 +89,9 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
         pfunc = iv.createFunction();
 
         pfunc(&md);
+
+
+        modeldata_dump(md, Logger().Get(lWarning));
 
         for (int i = 0; i < md.numFloatingSpecies; i++)
         {

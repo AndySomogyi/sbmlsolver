@@ -13,23 +13,21 @@ using std::ostringstream;
 namespace rr
 {
 
-template <class T>
-class RR_DECLSPEC LogContainer : public rrObject
+template<class T>
+class RR_DECLSPEC LogContainer
 {
-    private:
-        LogLevel                    mCurrentLogLevel;
-                                    LogContainer(const LogContainer&);    //Don't copy this one..
-    protected:
-        std::ostringstream          mOutputStream;
+public:
+    LogContainer();
+    virtual ~LogContainer();
+    std::ostream& Get(const LogLevel& level);
+    string GetCurrentLogLevel();
 
-    public:
-                                    LogContainer();
-        virtual                    ~LogContainer();
-        std::ostringstream&         Get(const LogLevel& level);
-        string						GetCurrentLogLevel();
+private:
+    LogLevel mCurrentLogLevel;
+    LogContainer(const LogContainer&);    //Don't copy this one..
+
+    std::ostringstream mOutputStream;
 };
-
-
 
 }
 #endif
