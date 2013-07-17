@@ -103,12 +103,16 @@ if(BUILD_LLVM)
         rrLLVMASTNodeFactory
         rrLLVMCodeGenerator
         rrLLVMCompiler
-        rrLLVMExecutableModel
         rrLLVMEvalInitialConditionsCodeGen
+        rrLLVMEvalReactionRatesCodeGen
+        rrLLVMExecutableModel
+        rrLLVMGetRateRuleValuesCodeGen
         rrLLVMModelDataIRBuilder
         rrLLVMModelDataSymbols
         rrLLVMModelGenerator
         rrLLVMModelGeneratorContext
+        rrLLVMModelSymbols
+        rrLLVMSetRateRuleValuesCodeGen
         )
 endif(BUILD_LLVM)
 

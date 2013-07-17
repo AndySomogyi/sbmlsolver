@@ -27,7 +27,8 @@ protected:
             model(mgc.getModel()),
             context(mgc.getContext()),
             module(mgc.getModule()),
-            builder(mgc.getBuilder())
+            builder(mgc.getBuilder()),
+            engine(mgc.getExecutionEngine())
     {
     };
 
@@ -36,6 +37,7 @@ protected:
     llvm::LLVMContext &context;
     llvm::Module *module;
     llvm::IRBuilder<> *builder;
+    llvm::ExecutionEngine *engine;
 };
 
 } /* namespace rr */
