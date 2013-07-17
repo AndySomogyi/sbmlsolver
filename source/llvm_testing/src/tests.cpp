@@ -81,9 +81,9 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
         StructType *s = LLVMModelDataIRBuilder::getStructType(c.getModule(),
                 c.getExecutionEngine());
 
-        LLVMModelSymbols iv(c);
+        LLVMEvalInitialConditionsCodeGen iv(c);
 
-        LLVMModelSymbols::FunctionPtr pfunc;
+        LLVMEvalInitialConditionsCodeGen::FunctionPtr pfunc;
 
         pfunc = iv.createFunction();
 

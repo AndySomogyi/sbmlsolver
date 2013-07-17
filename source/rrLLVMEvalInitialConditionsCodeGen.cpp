@@ -31,9 +31,9 @@ void test (ASTNode *& a) {
 namespace rr
 {
 
-const char* LLVMModelSymbols::FunctionName = "evalInitialConditions";
+const char* LLVMEvalInitialConditionsCodeGen::FunctionName = "evalInitialConditions";
 
-LLVMModelSymbols::LLVMModelSymbols(
+LLVMEvalInitialConditionsCodeGen::LLVMEvalInitialConditionsCodeGen(
         const LLVMModelGeneratorContext &mgc) :
         LLVMCodeGenBase(mgc),
         initialValuesFunc(0),
@@ -48,11 +48,11 @@ LLVMModelSymbols::LLVMModelSymbols(
     model->getListOfInitialAssignments()->accept(*this);
 }
 
-LLVMModelSymbols::~LLVMModelSymbols()
+LLVMEvalInitialConditionsCodeGen::~LLVMEvalInitialConditionsCodeGen()
 {
 }
 
-Value* LLVMModelSymbols::codeGen()
+Value* LLVMEvalInitialConditionsCodeGen::codeGen()
 {
     cout << "boundarySpecies: \n";
     for (LLVMSymbolForest::Iterator i = symbolForest.boundarySpecies.begin();
@@ -153,7 +153,7 @@ Value* LLVMModelSymbols::codeGen()
     return initialValuesFunc;
 }
 
-bool LLVMModelSymbols::visit(const libsbml::Compartment& x)
+bool LLVMEvalInitialConditionsCodeGen::visit(const libsbml::Compartment& x)
 {
     ASTNode *node = nodes.create(AST_REAL);
     node->setValue(x.getVolume());
@@ -161,13 +161,13 @@ bool LLVMModelSymbols::visit(const libsbml::Compartment& x)
     return true;
 }
 
-bool LLVMModelSymbols::visit(const libsbml::Species& x)
+bool LLVMEvalInitialConditionsCodeGen::visit(const libsbml::Species& x)
 {
     processSpecies(&x, 0);
     return true;
 }
 
-bool LLVMModelSymbols::visit(const libsbml::Parameter& x)
+bool LLVMEvalInitialConditionsCodeGen::visit(const libsbml::Parameter& x)
 {
     ASTNode *value = nodes.create(AST_REAL);
     value->setValue(x.getValue());
@@ -175,7 +175,7 @@ bool LLVMModelSymbols::visit(const libsbml::Parameter& x)
     return true;
 }
 
-bool LLVMModelSymbols::visit(const libsbml::AssignmentRule& x)
+bool LLVMEvalInitialConditionsCodeGen::visit(const libsbml::AssignmentRule& x)
 {
     cout << __FUNC__ << ", id: " << x.getId() << "\n";
     SBase *element = model->getElementBySId(x.getVariable());
@@ -183,7 +183,7 @@ bool LLVMModelSymbols::visit(const libsbml::AssignmentRule& x)
     return true;
 }
 
-bool LLVMModelSymbols::visit(const libsbml::InitialAssignment& x)
+bool LLVMEvalInitialConditionsCodeGen::visit(const libsbml::InitialAssignment& x)
 {
     cout << __FUNC__ << ", id: " << x.getId() << "\n";
     SBase *element = model->getElementBySId(x.getSymbol());
@@ -191,7 +191,7 @@ bool LLVMModelSymbols::visit(const libsbml::InitialAssignment& x)
     return true;
 }
 
-void LLVMModelSymbols::processElement(const libsbml::SBase *element,
+void LLVMEvalInitialConditionsCodeGen::processElement(const libsbml::SBase *element,
         const ASTNode* math)
 {
     const Compartment *comp = 0;
@@ -222,13 +222,13 @@ void LLVMModelSymbols::processElement(const libsbml::SBase *element,
     }
 }
 
-bool LLVMModelSymbols::visit(const libsbml::Rule& x)
+bool LLVMEvalInitialConditionsCodeGen::visit(const libsbml::Rule& x)
 {
     cout << __FUNC__ << "\n";
     return true;
 }
 
-bool LLVMModelSymbols::visit(const libsbml::Reaction& r)
+bool LLVMEvalInitialConditionsCodeGen::visit(const libsbml::Reaction& r)
 {
     const ListOfSpeciesReferences *reactants = r.getListOfReactants();
     const ListOfSpeciesReferences *products = r.getListOfProducts();
@@ -266,7 +266,7 @@ bool LLVMModelSymbols::visit(const libsbml::Reaction& r)
 
 
 
-void LLVMModelSymbols::processSpecies(const libsbml::Species *species,
+void LLVMEvalInitialConditionsCodeGen::processSpecies(const libsbml::Species *species,
         const ASTNode* math)
 {
     // ASTNode takes ownership of children, so only allocate the ones that
@@ -332,7 +332,7 @@ void LLVMModelSymbols::processSpecies(const libsbml::Species *species,
     }
 }
 
-void LLVMModelSymbols::processSpeciesReference(
+void LLVMEvalInitialConditionsCodeGen::processSpeciesReference(
         const libsbml::SpeciesReference* sr, const ASTNode* math)
 {
     SpeciesReferenceType type;
@@ -356,7 +356,7 @@ void LLVMModelSymbols::processSpeciesReference(
     processSpeciesReference(sr, r, type, math);
 }
 
-void LLVMModelSymbols::processSpeciesReference(
+void LLVMEvalInitialConditionsCodeGen::processSpeciesReference(
         const libsbml::SpeciesReference* ref, const libsbml::Reaction* reaction,
         SpeciesReferenceType type, const ASTNode* stoich)
 {
@@ -447,7 +447,7 @@ void LLVMModelSymbols::processSpeciesReference(
     }
 }
 
-llvm::Value* LLVMModelSymbols::symbolValue(const std::string& symbol)
+llvm::Value* LLVMEvalInitialConditionsCodeGen::symbolValue(const std::string& symbol)
 {
     LLVMSymbolForest::ConstIterator i = symbolForest.find(symbol);
     if (i != symbolForest.end())
@@ -463,7 +463,7 @@ llvm::Value* LLVMModelSymbols::symbolValue(const std::string& symbol)
     }
 }
 
-const ASTNode* LLVMModelSymbols::createStoichiometryNode(int row,
+const ASTNode* LLVMEvalInitialConditionsCodeGen::createStoichiometryNode(int row,
         int col)
 {
     ReactionSymbols &r = reactions[col];
@@ -561,7 +561,7 @@ const ASTNode* LLVMModelSymbols::createStoichiometryNode(int row,
     return result;
 }
 
-void LLVMModelSymbols::codeGenFloatingSpecies(
+void LLVMEvalInitialConditionsCodeGen::codeGenFloatingSpecies(
         Value *modelData, LLVMModelDataIRBuilder& modelDataBuilder)
 {
     LLVMASTNodeCodeGen astCodeGen(*builder, *this);
@@ -600,13 +600,13 @@ void LLVMModelSymbols::codeGenFloatingSpecies(
     }
 }
 
-LLVMModelSymbols::FunctionPtr LLVMModelSymbols::createFunction()
+LLVMEvalInitialConditionsCodeGen::FunctionPtr LLVMEvalInitialConditionsCodeGen::createFunction()
 {
     Function *func = (Function*)codeGen();
     return (FunctionPtr)engine->getPointerToFunction(func);
 }
 
-void LLVMModelSymbols::codeGenStoichiometry(llvm::Value* modelData,
+void LLVMEvalInitialConditionsCodeGen::codeGenStoichiometry(llvm::Value* modelData,
         LLVMModelDataIRBuilder& modelDataBuilder)
 {
     LLVMASTNodeCodeGen astCodeGen(*builder, *this);
