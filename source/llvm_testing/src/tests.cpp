@@ -90,9 +90,6 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 
         pfunc(&md);
 
-
-        modeldata_dump(md, Logger().Get(lWarning));
-
         for (int i = 0; i < md.numFloatingSpecies; i++)
         {
             cout << md.floatingSpeciesAmounts[i] << ", ";

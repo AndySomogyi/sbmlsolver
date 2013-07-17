@@ -4,7 +4,9 @@
 #include "rrLLVMModelDataIRBuilder.h"
 #include "rrException.h"
 #include "rrUtils.h"
-#include "rrLogOutput.h"
+#include "rrTestLog.h"
+#include "rrLogger.h"
+
 #include "CSRMatrixTest.h"
 
 #include "LLVMCSRMatrixTest.h"
@@ -47,9 +49,18 @@ int main(int argc, char* argv[])
 {
     cout << "hi\n";
 
-    LogOutput::mLogToConsole = true;
+    //LogOutput::mLogToConsole = true;
+
+    //gLog.SetCutOffLogLevel(lShowAlways);
+
+    //Log(lWarning) << "hello";
+    TestLog::test();
 
     test_compiler();
+
+    Log(lWarning) << "a, " << "b, " << "c, ";
+
+    return 0;
 
     //runSparseTest(33, 323, 50);
 

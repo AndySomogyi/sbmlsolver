@@ -506,6 +506,10 @@ DoubleMatrix RoadRunner::runSimulation()
     Log(lDebug)<<"Will run the OneStep function "<<mNumPoints<<" times";
     for (int i = 1; i < mNumPoints; i++)
     {
+        if (i >= 25)
+        {
+            cout << "pause\n";
+        }
         Log(lDebug)<<"Step "<<i;
         mCVode->oneStep(tout, hstep);
         tout = mTimeStart + i * hstep;
