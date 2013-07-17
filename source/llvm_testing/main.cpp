@@ -4,6 +4,7 @@
 #include "rrLLVMModelDataIRBuilder.h"
 #include "rrException.h"
 #include "rrUtils.h"
+#include "rrLogOutput.h"
 #include "CSRMatrixTest.h"
 
 #include "LLVMCSRMatrixTest.h"
@@ -45,6 +46,8 @@ bool RunTest(const string& version, int caseNumber);
 int main(int argc, char* argv[])
 {
     cout << "hi\n";
+
+    LogOutput::mLogToConsole = true;
 
     test_compiler();
 

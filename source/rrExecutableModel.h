@@ -276,6 +276,8 @@ public:
  */
 void RR_DECLSPEC initModelData(ModelData &data);
 
+void modeldata_dump(const ModelData& data, ostream& out);
+
 /**
  * Allocate memory for all the data buffers in a ModelData structure,
  * (with the exception of the stoichiometry struct),
