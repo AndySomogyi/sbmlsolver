@@ -849,9 +849,9 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
 
 void CModelGenerator::writeComputeReactionRates(CodeBuilder& ignore, const int& numReactions)
 {
-    mHeader.AddFunctionExport("void", "computeReactionRates(ModelData* md, double time, double *y)");
+    mHeader.AddFunctionExport("void", "computeReactionRates(ModelData* md)");
     mSource<<append("// Compute the reaction rates" + NL());
-    mSource<<"void computeReactionRates(ModelData* md, double time, double *y)\n{";    //Todo: what is time doing here?
+    mSource<<"void computeReactionRates(ModelData* md)\n{";    //Todo: what is time doing here?
 
 
     for (int i = 0; i < numReactions; i++)
@@ -983,7 +983,7 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
         mSource<<append("\tcomputeRules(md);" + NL());
     }
 
-    mSource<<append("\tcomputeReactionRates(md, md->time, md->floatingSpeciesConcentrations);" + NL());
+    mSource<<append("\tcomputeReactionRates(md);" + NL());
 
     // write out the ODE equations
     string stoich;

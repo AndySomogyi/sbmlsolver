@@ -299,7 +299,7 @@ bool CompiledExecutableModel::setupDLLFunctions()
     cInitializeRateRuleSymbols          = (c_void_MDS)                     mDLL->getSymbol("InitializeRateRuleSymbols");
     cInitializeRates                    = (c_void_MDS)                     mDLL->getSymbol("InitializeRates");
     csetConcentration                   = (c_void_MDS_int_double)          mDLL->getSymbol("setConcentration");
-    cComputeReactionRates               = (c_void_MDS_double_doubleStar)   mDLL->getSymbol("computeReactionRates");
+    cComputeReactionRates               = (c_void_MDS)                     mDLL->getSymbol("computeReactionRates");
     ccomputeEventPriorities             = (c_void_MDS)                     mDLL->getSymbol("computeEventPriorities");
     return true;
 }
@@ -360,7 +360,7 @@ void  CompiledExecutableModel::setConcentration(int index, double value)
     csetConcentration(&mData, index, value);
 }
 
-void  CompiledExecutableModel::computeReactionRates (double time, double* y)
+void  CompiledExecutableModel::evalReactionRates ()
 {
     if(!cComputeReactionRates)
     {
@@ -368,7 +368,7 @@ void  CompiledExecutableModel::computeReactionRates (double time, double* y)
         return;
     }
 
-    cComputeReactionRates(&mData, time, y);
+    cComputeReactionRates(&mData);
 }
 
 void CompiledExecutableModel::getRateRuleValues(double *rateRuleValues)
@@ -657,5 +657,36 @@ const StringList CompiledExecutableModel::getConservationNames()
     return tmp;
 }
 
+void CompiledExecutableModel::reset()
+{
+    setTime(0.0);
+
+    // Reset the event flags
+    resetEvents();
+    setCompartmentVolumes();
+    setInitialConditions();
+    convertToAmounts();
+
+    // in case we have ODE rules we should assign those as initial values
+    initializeRateRuleSymbols();
+    initializeRates();
+
+    // and of course initial assignments should override anything
+    evalInitialAssignments();
+    convertToAmounts();
+
+    // also we might need to set some initial assignment rules.
+    convertToConcentrations();
+    computeRules();
+    initializeRates();
+    initializeRateRuleSymbols();
+    evalInitialAssignments();
+    computeRules();
+
+    convertToAmounts();
+}
+
 
 } //Namespace rr
+
+

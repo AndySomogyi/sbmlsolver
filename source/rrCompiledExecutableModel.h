@@ -56,6 +56,11 @@ public:
     virtual void evalInitialConditions();
 
     /**
+     * reset the model to its original state
+     */
+    virtual void reset();
+
+    /**
      * A ExecutableModel holds a stack of states, the entire state of this
      * model is pushed onto the saved state stack, and the current state
      * remains unchanged.
@@ -115,7 +120,7 @@ public:
     virtual int getNumEvents();
     virtual void computeEventPriorites();
     virtual void setConcentration(int index, double value);
-    virtual void computeReactionRates(double time, double* y);
+    virtual void evalReactionRates();
     virtual void setCompartmentVolumes();
     virtual int getNumLocalParameters(int reactionId);
 
@@ -214,7 +219,7 @@ private:
     c_void_MDS                        cInitializeRates;
     c_void_MDS                        cInitializeRateRuleSymbols;
     c_void_MDS_int_double             csetConcentration;
-    c_void_MDS_double_doubleStar      cComputeReactionRates;
+    c_void_MDS                        cComputeReactionRates;
     c_void_MDS                        ccomputeEventPriorities;
 };
 }

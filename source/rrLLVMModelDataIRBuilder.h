@@ -35,23 +35,58 @@ public:
     llvm::Value *createFloatSpeciesConcStore(llvm::Value *s, const std::string &id,
             llvm::Value *value);
 
-    llvm::Value *createFloatSpeciesAmtGEP(llvm::Value *s, const std::string &id);
+    llvm::Value *createFloatSpeciesAmtGEP(llvm::Value *s, const std::string &id,
+            const llvm::Twine &name);
 
-    llvm::Value *createFloatSpeciesAmtStore(llvm::Value *modelData, const std::string &id, llvm::Value *value);
+    /**
+     * store the floating species amount
+     */
+    llvm::Value *createFloatSpeciesAmtStore(llvm::Value *modelData,
+            const std::string &id, llvm::Value *value, const llvm::Twine &name);
+
     llvm::Value *createFloatSpeciesConcFromAmtLoad(llvm::Value *s, const std::string &id);
     llvm::Value *createFloatSpeciesAmtFromConcLoad(llvm::Value *s, const std::string &id);
 
+    /**
+     * GEP for the compartment volume that belongs to the floating
+     * species with id.
+     */
     llvm::Value *createFloatSpeciesCompGEP(llvm::Value *s, const std::string &id);
 
     llvm::Value *createGlobalParamGEP(llvm::Value *s, const std::string &id);
 
-    llvm::Value *createGEP(llvm::Value *, ModelDataFields field);
+    /**
+     * create a GEP for a ModelData structure field.
+     *
+     * @param md: value for a ModelData pointer type.
+     */
+    llvm::Value *createGEP(llvm::Value * md, ModelDataFields field,
+            const llvm::Twine& name = "");
 
     /**
      * create a GEP for an array which belongs to the ModelData struct,
      * only valid for arrays, will crash on non-array fields.
      */
-    llvm::Value *createGEP(llvm::Value *, ModelDataFields field, unsigned index);
+    llvm::Value *createGEP(llvm::Value *md, ModelDataFields field,
+            unsigned index, const llvm::Twine& name = "");
+
+    llvm::Value *createLoad(llvm::Value *md, ModelDataFields field,
+            unsigned index, const llvm::Twine& name);
+
+    llvm::Value *createStore(llvm::Value *md, ModelDataFields field,
+            unsigned index, llvm::Value *value, const llvm::Twine& name);
+
+    /**
+     * load the compartment value
+     */
+    llvm::Value *createCompLoad(llvm::Value *md, const std::string& id,
+            const llvm::Twine& name);
+
+    /**
+     * store the compartment value
+     */
+    llvm::Value *createCompStore(llvm::Value *md, const std::string &id,
+            llvm::Value *value, const llvm::Twine& name);
 
 //     /**
 //      * number of linearly independent rows in the stochiometry matrix.
@@ -167,7 +202,7 @@ public:
 //      * units: volume
 //      */
 //     int                                 numCompartments;
-//     double*                             compartmentVolumes;
+
 //
 //
 //     int                                 numRateRules;
@@ -251,7 +286,7 @@ public:
      * only valid whilst a basic block is being filled.
      */
     llvm::CallInst *createCSRMatrixSetNZ(llvm::Value *csrPtr, llvm::Value *row,
-            llvm::Value *col, llvm::Value *value, const char* name = "");
+            llvm::Value *col, llvm::Value *value, const llvm::Twine& name = "");
 
     /**
      * create a call to the csr_matrix_get_nz function.
@@ -259,7 +294,7 @@ public:
      * only valid whilst a basic block is being filled.
      */
     llvm::CallInst *createCSRMatrixGetNZ(llvm::Value *csrPtr, llvm::Value *row,
-            llvm::Value *col, const char* name = "");
+            llvm::Value *col, const llvm::Twine& name = "");
 
     /**
      * get the function declaration (prototype) for the csr_matrix_set_nz function.

@@ -16,6 +16,7 @@
 #include "rrLLVMIncludes.h"
 
 #include "rrLLVMEvalInitialConditionsCodeGen.h"
+#include "rrLLVMEvalReactionRatesCodeGen.h"
 
 namespace rr
 {
@@ -48,6 +49,11 @@ public:
      * The the model state is fully set.
      */
     virtual void evalInitialConditions();
+
+    /**
+     * reset the model to its original state
+     */
+    virtual void reset();
 
     /**
      * A ExecutableModel holds a stack of states, the entire state of this
@@ -83,16 +89,16 @@ public:
     virtual int getNumEvents();
     virtual void computeEventPriorites();
     virtual void setConcentration(int index, double value);
-    virtual void computeReactionRates(double time, double* y);
+    virtual void evalReactionRates(double time, double* y);
 
-    virtual void setCompartmentVolumes();
+
     virtual int getNumLocalParameters(int reactionId);
 
     virtual void computeRules();
 
     virtual void initializeInitialConditions();
-    virtual void setParameterValues();
-    virtual void setBoundaryConditions();
+
+
     virtual void setInitialConditions();
     virtual void evalInitialAssignments();
 
@@ -103,18 +109,25 @@ public:
     //Access dll data
     virtual void getRateRuleValues(double *rateRuleValues);
     virtual double getAmounts(const int& i);
-    virtual void initializeRates();
+
+
 
     virtual void setRateRuleValues(const double *rateRuleValues);
 
     virtual void convertToConcentrations();
     virtual void updateDependentSpeciesValues(double* _y);
     virtual void computeAllRatesOfChange();
+
+    /**
+     * where most of the juicy bits occur.
+     */
     virtual void evalModel(double time, const double *y);
+
     virtual void evalEvents(const double& time, const vector<double>& y);
+
     virtual void resetEvents();
     virtual void testConstraints();
-    virtual void initializeRateRuleSymbols();
+
     virtual string getInfo();
 
     virtual int getFloatingSpeciesIndex(const string&);
@@ -134,6 +147,11 @@ public:
 
     virtual const StringList getConservationNames();
 
+    /**
+     * using the current model state, evaluate and store all the reaction rates.
+     */
+    void evalReactionRates();
+
     static LLVMExecutableModel* dummy();
 
 private:
@@ -145,6 +163,7 @@ private:
 
 
     LLVMEvalInitialConditionsCodeGen::FunctionPtr evalInitialConditionsPtr;
+    LLVMEvalReactionRatesCodeGen::FunctionPtr evalReactionRatesPtr;
 
     friend class LLVMModelGenerator;
 };

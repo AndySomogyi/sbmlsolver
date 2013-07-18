@@ -408,10 +408,10 @@ llvm::Value* LLVMModelDataIRBuilder::createGlobalParamGEP(llvm::Value* s,
 
 
 llvm::Value* LLVMModelDataIRBuilder::createGEP(llvm::Value* s,
-        ModelDataFields field)
+        ModelDataFields field, const Twine& name)
 {
     validateStruct(s, __FUNC__);
-    return builder->CreateStructGEP(s, (unsigned)field, "");
+    return builder->CreateStructGEP(s, (unsigned)field, name);
 }
 
 void LLVMModelDataIRBuilder::createAccessors(Module *module)
@@ -559,25 +559,26 @@ llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesCompGEP(llvm::Value* s,
 }
 
 llvm::Value* LLVMModelDataIRBuilder::createGEP(llvm::Value* s,
-    ModelDataFields field, unsigned index)
+    ModelDataFields field, unsigned index, const Twine& name)
 {
-    Value *fieldGEP = createGEP(s, field);
-    Value *load = builder->CreateLoad(fieldGEP);
-    return builder->CreateConstGEP1_32(load, index);
+    Value *fieldGEP = createGEP(s, field, name + "_gep");
+    Value *load = builder->CreateLoad(fieldGEP, name + "_load");
+    return builder->CreateConstGEP1_32(load, index, name + "_ptr");
 }
 
 llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtGEP(llvm::Value* s,
-        const std::string& id)
+        const std::string& id, const Twine& name)
 {
     validateStruct(s, __FUNC__);
     int index = symbols.getFloatingSpeciesIndex(id);
-    return createGEP(s, FloatingSpeciesAmounts, index);
+    return createGEP(s, FloatingSpeciesAmounts, index, name);
 }
 
 llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtStore(
-        llvm::Value* modelData, const std::string& id, llvm::Value* value)
+        llvm::Value* modelData, const std::string& id, llvm::Value* value,
+        const Twine &name)
 {
-    Value *gep = createFloatSpeciesAmtGEP(modelData, id);
+    Value *gep = createFloatSpeciesAmtGEP(modelData, id, name + "_gep");
     return builder->CreateStore(value, gep);
 }
 
@@ -666,7 +667,7 @@ llvm::Function* LLVMModelDataIRBuilder::getCSRMatrixGetNZDecl(Module *module)
 
 llvm::CallInst* LLVMModelDataIRBuilder::createCSRMatrixSetNZ(
         llvm::Value* csrPtr, llvm::Value* row, llvm::Value* col,
-        llvm::Value* value, const char* name)
+        llvm::Value* value, const Twine& name)
 {
     Function *func = LLVMModelDataIRBuilder::getCSRMatrixSetNZDecl(getModule(__FUNC__));
     Value *args[] = {csrPtr, row, col, value};
@@ -739,11 +740,41 @@ llvm::CallInst* LLVMModelDataIRBuilder::createDispDouble(llvm::Value* doubleVal)
 
 llvm::CallInst* LLVMModelDataIRBuilder::createCSRMatrixGetNZ(
         llvm::Value* csrPtr, llvm::Value* row, llvm::Value* col,
-        const char* name)
+        const Twine& name)
 {
     Function *func = LLVMModelDataIRBuilder::getCSRMatrixGetNZDecl(getModule(__FUNC__));
     Value *args[] = {csrPtr, row, col};
     return builder->CreateCall(func, args, name);
+}
+
+
+llvm::Value* LLVMModelDataIRBuilder::createLoad(llvm::Value* md,
+        ModelDataFields field, unsigned index, const llvm::Twine& name)
+{
+    Value *gep = this->createGEP(md, field, index, name + "_gep");
+    return builder->CreateLoad(gep, name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createStore(llvm::Value* md,
+        ModelDataFields field, unsigned index, llvm::Value* value,
+        const llvm::Twine& name)
+{
+    Value *gep = this->createGEP(md, field, index, name + "_gep");
+    return builder->CreateStore(value, gep);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createCompLoad(llvm::Value* md,
+        const std::string& id, const llvm::Twine& name)
+{
+    int compIdx = symbols.getCompartmentIndex(id);
+    return createLoad(md, CompartmentVolumes, compIdx, name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createCompStore(llvm::Value* md,
+        const std::string& id, llvm::Value* value, const llvm::Twine& name)
+{
+    int compIdx = symbols.getCompartmentIndex(id);
+    return createStore(md, CompartmentVolumes, compIdx, value, name);
 }
 
 void LLVMModelDataIRBuilder::validateStruct(llvm::Value* s, const char* funcName)
@@ -944,3 +975,5 @@ llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, ll
 
 
 } /* namespace rr */
+
+
