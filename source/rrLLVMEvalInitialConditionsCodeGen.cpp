@@ -49,42 +49,42 @@ LLVMEvalInitialConditionsCodeGen::~LLVMEvalInitialConditionsCodeGen()
 
 Value* LLVMEvalInitialConditionsCodeGen::codeGen()
 {
-    cout << "boundarySpecies: \n";
+    Log(lInfo) << "boundarySpecies: \n";
     for (LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialValues().boundarySpecies.begin();
             i != modelSymbols.getInitialValues().boundarySpecies.end(); i++)
     {
         char* formula = SBML_formulaToString(i->second);
-        cout << "\t" << i->first << ": " << formula << "\n";
+        Log(lInfo) << "\t" << i->first << ": " << formula << "\n";
         free(formula);
 
     }
 
-    cout << "globalParameters: \n";
+    Log(lInfo) << "globalParameters: \n";
     for (LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialValues().globalParameters.begin();
             i != modelSymbols.getInitialValues().globalParameters.end(); i++)
     {
         char* formula = SBML_formulaToString(i->second);
-        cout << "\t" << i->first << ": " << formula << "\n";
+        Log(lInfo) << "\t" << i->first << ": " << formula << "\n";
         free(formula);
 
     }
 
-    cout << "compartments: \n";
+    Log(lInfo) << "compartments: \n";
     for (LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialValues().compartments.begin();
             i != modelSymbols.getInitialValues().compartments.end(); i++)
     {
         char* formula = SBML_formulaToString(i->second);
-        cout << "\t" << i->first << ": " << formula << "\n";
+        Log(lInfo) << "\t" << i->first << ": " << formula << "\n";
         free(formula);
     }
 
-    cout << "reactions: ";
+    Log(lInfo) << "reactions: ";
     vector<string> ids = dataSymbols.getReactionIds();
     for (int i = 0; i < ids.size(); i++)
     {
-        cout << ids[i] << ", ";
+        Log(lInfo) << ids[i] << ", ";
     }
-    cout << "\n";
+    Log(lInfo) << "\n";
 
     list<pair<int,int> > stoichEntries = dataSymbols.getStoichiometryIndx();
     for (list<pair<int,int> >::iterator i = stoichEntries.begin();
@@ -93,7 +93,7 @@ Value* LLVMEvalInitialConditionsCodeGen::codeGen()
         pair<int, int> nz = *i;
         const ASTNode *node = modelSymbols.createStoichiometryNode(nz.first, nz.second);
         char* formula = SBML_formulaToString(node);
-        cout << "\t{" << nz.first << ", " << nz.second << "} : " << formula
+        Log(lInfo) << "\t{" << nz.first << ", " << nz.second << "} : " << formula
                 << "\n";
         free(formula);
         delete node;
@@ -124,8 +124,6 @@ Value* LLVMEvalInitialConditionsCodeGen::codeGen()
 
     Value *argVal = &arg;
 
-    printf("modelData: %p\n", modelData);
-    printf("arg: %p\n", argVal);
 
     LLVMModelDataIRBuilder modelDataBuilder(dataSymbols, builder);
 
@@ -185,14 +183,14 @@ void LLVMEvalInitialConditionsCodeGen::codeGenFloatingSpecies(
 {
     LLVMASTNodeCodeGen astCodeGen(*builder, *this);
 
-    cout << "floatingSpecies: \n";
+    Log(lInfo) << "floatingSpecies: \n";
     for (LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialValues().floatingSpecies.begin();
             i != modelSymbols.getInitialValues().floatingSpecies.end(); i++)
     {
-        cout << "id: " << i->first << "\n";
+        Log(lInfo) << "id: " << i->first << "\n";
 
         char* formula = SBML_formulaToString(i->second);
-        cout << "\t" << i->first << ": " << formula << "\n";
+        Log(lInfo) << "\t" << i->first << ": " << formula << "\n";
         free(formula);
 
         Value *value = astCodeGen.codeGen(i->second);
@@ -230,13 +228,13 @@ void LLVMEvalInitialConditionsCodeGen::codeGenStoichiometry(llvm::Value* modelDa
 {
     LLVMASTNodeCodeGen astCodeGen(*builder, *this);
 
-    cout << "reactions: ";
+    Log(lInfo) << "reactions: ";
     vector<string> ids = dataSymbols.getReactionIds();
     for (int i = 0; i < ids.size(); i++)
     {
-        cout << ids[i] << ", ";
+        Log(lInfo) << ids[i] << ", ";
     }
-    cout << "\n";
+    Log(lInfo) << "\n";
 
     Value *stoichEP = modelDataBuilder.createGEP(modelData, Stoichiometry);
     Value *stoich = builder->CreateLoad(stoichEP, "stoichiometry");
@@ -248,7 +246,7 @@ void LLVMEvalInitialConditionsCodeGen::codeGenStoichiometry(llvm::Value* modelDa
         pair<int, int> nz = *i;
         const ASTNode *node = modelSymbols.createStoichiometryNode(nz.first, nz.second);
         char* formula = SBML_formulaToString(node);
-        cout << "\t{" << nz.first << ", " << nz.second << "} : " << formula
+        Log(lInfo) << "\t{" << nz.first << ", " << nz.second << "} : " << formula
                 << "\n";
         free(formula);
 

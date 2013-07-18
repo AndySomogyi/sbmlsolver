@@ -230,7 +230,7 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(ModelData& m) const
     //mData.numIndependentSpecies         = ms.mNumIndependentSpecies;
     //mData.numDependentSpecies           = ms.mNumDependentSpecies;
     m.numGlobalParameters           = globalParametersMap.size();
-    //mData.numReactions                  = ms.mReactionList.size();
+    m.numReactions                  = reactionsMap.size();
     //mData.numEvents                     = ms.mNumEvents;
     m.numFloatingSpecies            = floatingSpeciesMap.size();
     //mData.numRateRules                  = ms.mRateRules.size();

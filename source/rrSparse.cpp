@@ -6,15 +6,16 @@
  */
 
 #include "rrSparse.h"
+#include "rrLogger.h"
+#include "rrExecutableModel.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdexcept>
 #include <set>
 #include <algorithm>
 #include <cassert>
-#include "rrExecutableModel.h"
-#include "rrStringUtils.h"
 #include <iostream>
+#include <cmath>
 
 namespace rr {
 
@@ -113,8 +114,6 @@ csr_matrix* csr_matrix_new(int m, int n,
 
 bool csr_matrix_set_nz(csr_matrix* mat, int row, int col, double val)
 {
-    cout << __FUNC__ << ": " << row << ", " << col << ", " << val << "\n";
-
     if (mat && row <= mat->m && col <= mat->n)
     {
         for (int k = mat->rowptr[row]; k < mat->rowptr[row + 1]; k++)
@@ -172,9 +171,56 @@ void csr_matrix_dgemv(const csr_matrix* A, const double* x, double* y)
     }
 }
 
+
+
+std::ostream& operator <<(std::ostream& os, const csr_matrix* mat)
+{
+    os.precision(2);                   // Set 2 digits past the decimal
+    os.flags(ios::right | ios::fixed); // Fixed point, right justified
+
+    os << "csr_matrix\n";
+    os << "rows: " << mat->m << ", columns: " << mat->n;
+    os << ", non-zero entries: " << mat->nnz << endl;
+    if (mat->nnz > 0)
+    {
+        os << '[';
+        for (int m = 0; m < mat->m; ++m)
+        {
+            if (m != 0)
+                os << ' ';
+            os << '[';
+            for (int n = 0; n < mat->n; ++n)
+            {
+                double val = csr_matrix_get_nz(mat, m, n);
+                os.width(7);
+                os << (std::isnan(val) ? 0 : val);
+                if (n < mat->n - 1)
+                {
+                    os << ", ";
+                }
+                else
+                {
+                    os << ']';
+                }
+            }
+            if (m < mat->m - 1)
+            {
+                os << endl;
+            }
+            else
+            {
+                os << ']' << endl;
+            }
+        }
+    }
+    else
+    {
+        os << "[[]]" << endl;
+    }
+
+    return os;
 }
 
-
-
+}
 
 

@@ -90,11 +90,7 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 
         pfunc(&md);
 
-        for (int i = 0; i < md.numFloatingSpecies; i++)
-        {
-            cout << md.floatingSpeciesAmounts[i] << ", ";
-        }
-        cout << "\n";
+        Log(lInfo) << md;
 
     }
     catch(std::exception &e)
