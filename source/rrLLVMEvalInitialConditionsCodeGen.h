@@ -34,15 +34,12 @@ using libsbml::Parameter;
  * generated function signature:
  * void modeldata_initialvalues_set(ModelData *);
  */
-class LLVMEvalInitialConditionsCodeGen: private SBMLVisitor,
-        private LLVMCodeGenBase,
+class LLVMEvalInitialConditionsCodeGen: private LLVMCodeGenBase,
         private LLVMSymbolResolver
 {
-    using SBMLVisitor::visit;
-
 public:
     LLVMEvalInitialConditionsCodeGen(const LLVMModelGeneratorContext &mgc);
-    ~LLVMEvalInitialConditionsCodeGen();
+    virtual ~LLVMEvalInitialConditionsCodeGen();
 
     llvm::Value *codeGen();
 
@@ -62,6 +59,9 @@ private:
 
     void codeGenStoichiometry(llvm::Value *modelData,
             LLVMModelDataIRBuilder &modelDataBuilder);
+
+    void codeGenCompartments(llvm::Value *modelData,
+               LLVMModelDataIRBuilder &modelDataBuilder);
 
     llvm::Function *initialValuesFunc;
 

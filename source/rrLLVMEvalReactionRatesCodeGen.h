@@ -5,8 +5,9 @@
  *      Author: andy
  */
 
-#ifndef rrLLVMEvalReactionRatesCodeGen_H
-#define rrLLVMEvalReactionRatesCodeGen_H
+
+#ifndef rrLLVMEvalReactionRatesCodeGenH
+#define rrLLVMEvalReactionRatesCodeGenH
 
 #include "rrLLVMModelGeneratorContext.h"
 #include "rrLLVMCodeGen.h"
@@ -25,11 +26,13 @@ using libsbml::SBMLVisitor;
 using libsbml::Species;
 using libsbml::Parameter;
 
-class LLVMEvalReactionRatesCodeGen: private SBMLVisitor,
-        private LLVMCodeGenBase,
+/**
+ * evaluate the current model state and store the results in
+ * ModelData.reactionRates
+ */
+class LLVMEvalReactionRatesCodeGen: private LLVMCodeGenBase,
         private LLVMSymbolResolver
 {
-    using SBMLVisitor::visit;
 public:
     LLVMEvalReactionRatesCodeGen(const LLVMModelGeneratorContext &mgc);
     virtual ~LLVMEvalReactionRatesCodeGen();
@@ -40,7 +43,16 @@ public:
     typedef void (*FunctionPtr)(ModelData*);
 
     FunctionPtr createFunction();
+
+private:
+
+
+    virtual llvm::Value *symbolValue(const std::string& symbol);
+
+    llvm::Function *func;
+
+    llvm::ExecutionEngine *engine;
 };
 
 } /* namespace rr */
-#endif /* rrLLVMEvalReactionRatesCodeGen_H */
+#endif /* rrLLVMEvalReactionRatesCodeGen */

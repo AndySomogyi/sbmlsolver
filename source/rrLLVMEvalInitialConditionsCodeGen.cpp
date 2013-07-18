@@ -18,16 +18,6 @@ using namespace llvm;
 using namespace std;
 
 
-void test (ASTNode *& a) {
-    a = new ASTNode();
-
-    const ASTNode *b = new ASTNode();
-
-    std::vector<const ASTNode **> nodes;
-    nodes.push_back(&b);
-
-}
-
 namespace rr
 {
 
@@ -39,8 +29,6 @@ LLVMEvalInitialConditionsCodeGen::LLVMEvalInitialConditionsCodeGen(
         initialValuesFunc(0),
         engine(mgc.getExecutionEngine())
 {
-    model->getListOfReactions()->accept(*this);
-    model->getListOfInitialAssignments()->accept(*this);
 }
 
 LLVMEvalInitialConditionsCodeGen::~LLVMEvalInitialConditionsCodeGen()
@@ -69,14 +57,7 @@ Value* LLVMEvalInitialConditionsCodeGen::codeGen()
 
     }
 
-    Log(lInfo) << "compartments: \n";
-    for (LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialValues().compartments.begin();
-            i != modelSymbols.getInitialValues().compartments.end(); i++)
-    {
-        char* formula = SBML_formulaToString(i->second);
-        Log(lInfo) << "\t" << i->first << ": " << formula << "\n";
-        free(formula);
-    }
+
 
     Log(lInfo) << "reactions: ";
     vector<string> ids = dataSymbols.getReactionIds();
@@ -86,19 +67,6 @@ Value* LLVMEvalInitialConditionsCodeGen::codeGen()
     }
     Log(lInfo) << "\n";
 
-    list<pair<int,int> > stoichEntries = dataSymbols.getStoichiometryIndx();
-    for (list<pair<int,int> >::iterator i = stoichEntries.begin();
-            i != stoichEntries.end(); i++)
-    {
-        pair<int, int> nz = *i;
-        const ASTNode *node = modelSymbols.createStoichiometryNode(nz.first, nz.second);
-        char* formula = SBML_formulaToString(node);
-        Log(lInfo) << "\t{" << nz.first << ", " << nz.second << "} : " << formula
-                << "\n";
-        free(formula);
-        delete node;
-
-    }
 
     // make the set init value function
     vector<Type*> argTypes;
@@ -128,6 +96,8 @@ Value* LLVMEvalInitialConditionsCodeGen::codeGen()
     LLVMModelDataIRBuilder modelDataBuilder(dataSymbols, builder);
 
     codeGenFloatingSpecies(modelData, modelDataBuilder);
+
+    codeGenCompartments(modelData, modelDataBuilder);
 
     codeGenStoichiometry(modelData, modelDataBuilder);
 
@@ -213,7 +183,7 @@ void LLVMEvalInitialConditionsCodeGen::codeGenFloatingSpecies(
             amt = builder->CreateFMul(value, compValue, "amt");
         }
 
-        modelDataBuilder.createFloatSpeciesAmtStore(modelData, i->first, amt);
+        modelDataBuilder.createFloatSpeciesAmtStore(modelData, i->first, amt, "fltspcs_" + i->first);
     }
 }
 
@@ -261,6 +231,27 @@ void LLVMEvalInitialConditionsCodeGen::codeGenStoichiometry(llvm::Value* modelDa
         Value *col = ConstantInt::get(Type::getInt32Ty(context), nz.second, true);
         modelDataBuilder.createCSRMatrixSetNZ(stoich, row, col, stoichValue);
 
+    }
+}
+
+void LLVMEvalInitialConditionsCodeGen::codeGenCompartments(
+        llvm::Value* modelData, LLVMModelDataIRBuilder& modelDataBuilder)
+{
+    LLVMASTNodeCodeGen astCodeGen(*builder, *this);
+
+    Log(lInfo) << "compartments: \n";
+    for (LLVMSymbolForest::ConstIterator i =
+            modelSymbols.getInitialValues().compartments.begin();
+            i != modelSymbols.getInitialValues().compartments.end(); i++)
+    {
+        char* formula = SBML_formulaToString(i->second);
+        Log(lInfo) << "\t" << i->first << ": " << formula << "\n";
+        free(formula);
+
+        Value *value = astCodeGen.codeGen(i->second);
+        value->dump();
+
+        modelDataBuilder.createCompStore(modelData, i->first, value, i->first);
     }
 }
 

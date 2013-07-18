@@ -76,6 +76,9 @@ ExecutableModel* LLVMModelGenerator::createModel(const string& sbml,
     LLVMEvalInitialConditionsCodeGen::FunctionPtr evalInitialConditionsPtr =
             LLVMEvalInitialConditionsCodeGen(context).createFunction();
 
+    LLVMEvalReactionRatesCodeGen::FunctionPtr evalReactionRatesPtr =
+            LLVMEvalReactionRatesCodeGen(context).createFunction();
+
 
     // if anything up to this point throws an exception, thats OK, because
     // we have not allocated any memory yet that is not taken care of by

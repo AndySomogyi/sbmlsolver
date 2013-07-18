@@ -48,6 +48,10 @@ public:
      */
     virtual void evalInitialConditions() = 0;
 
+    /**
+     * reset the model to its original state
+     */
+    virtual void reset() = 0;
 
     /**
      * get a reference to the internal ModelData structure.
@@ -146,22 +150,14 @@ public:
     virtual int getNumEvents() = 0;
     virtual void computeEventPriorites() = 0;
     virtual void setConcentration(int index, double value) = 0;
-    virtual void computeReactionRates(double time, double* y) = 0;
 
     /**
-     * Sets the compartment volumes to the conditions specified in the sbml model.
-     * Compartment volumes can be specified either with a fixed value, or
-     * a rule based assigment.
+     * Evaluate the reaction rates using the current model state.
      *
-     * TODO: would it make more sense to call this 'setInitialVolumes' ???
-     *       note, it is redundent using 'Compartment' and 'Volume' as
-     *       only compartments have volumes.
-     *
-     * This sets the compartment volumes to the size attribute specified in the
-     * smbl. If an initialAssigment element exists, it will will be applied
-     * by evalInitialAssignments.
+     * The reaction rates are stored in ModelData::reactionRates.
      */
-    virtual void setCompartmentVolumes() = 0;
+    virtual void evalReactionRates() = 0;
+
 
     virtual int getNumLocalParameters(int reactionId) = 0;
 
@@ -173,16 +169,6 @@ public:
      * expression tree.
      */
     virtual void computeRules() = 0;
-
-
-    virtual void setParameterValues() = 0;
-
-    /**
-     * set the concentations (ModelData::bc) to the initialConcentration or
-     * initialAmmount value specified in the sbml. If an initialAssigment
-     * element exists, it can be applied with evalInitialAssignments.
-     */
-    virtual void setBoundaryConditions() = 0;
 
     /**
      * evaluate and applies all of the initialAssigment rules. This
@@ -206,7 +192,6 @@ public:
 
 
     virtual double getAmounts(const int& i) = 0;
-    virtual void initializeRates() = 0;
 
     /**
      * set the 'values' of the rate rules.
@@ -252,7 +237,7 @@ public:
     virtual void evalEvents(const double& time, const vector<double>& y) = 0;
     virtual void resetEvents() = 0;
     virtual void testConstraints() = 0;
-    virtual void initializeRateRuleSymbols() = 0;
+
     virtual string getInfo() = 0;
 
 

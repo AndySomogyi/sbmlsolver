@@ -97,13 +97,10 @@ void LLVMExecutableModel::setConcentration(int index, double value)
 {
 }
 
-void LLVMExecutableModel::computeReactionRates(double time, double* y)
+void LLVMExecutableModel::evalReactionRates(double time, double* y)
 {
 }
 
-void LLVMExecutableModel::setCompartmentVolumes()
-{
-}
 
 int LLVMExecutableModel::getNumLocalParameters(int reactionId)
 {
@@ -115,14 +112,6 @@ void LLVMExecutableModel::computeRules()
 }
 
 void LLVMExecutableModel::initializeInitialConditions()
-{
-}
-
-void LLVMExecutableModel::setParameterValues()
-{
-}
-
-void LLVMExecutableModel::setBoundaryConditions()
 {
 }
 
@@ -156,9 +145,7 @@ double LLVMExecutableModel::getAmounts(const int& i)
     return 0;
 }
 
-void LLVMExecutableModel::initializeRates()
-{
-}
+
 
 void LLVMExecutableModel::setRateRuleValues(const double * rates)
 {
@@ -193,9 +180,7 @@ void LLVMExecutableModel::testConstraints()
 {
 }
 
-void LLVMExecutableModel::initializeRateRuleSymbols()
-{
-}
+
 
 string LLVMExecutableModel::getInfo()
 {
@@ -291,9 +276,18 @@ void LLVMExecutableModel::evalInitialConditions()
     evalInitialConditionsPtr(modelData);
 }
 
+void LLVMExecutableModel::reset()
+{
+}
+
 LLVMExecutableModel* LLVMExecutableModel::dummy()
 {
     return new LLVMExecutableModel();
 }
 
 } /* namespace rr */
+
+void rr::LLVMExecutableModel::evalReactionRates()
+{
+    evalReactionRatesPtr(modelData);
+}
