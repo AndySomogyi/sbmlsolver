@@ -1,7 +1,6 @@
 #ifndef rrLoggerH
 #define rrLoggerH
 #include <sstream>
-#include <iostream>
 #include "rrExporter.h"
 #include "rrLogLevel.h"
 
