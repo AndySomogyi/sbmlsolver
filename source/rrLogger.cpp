@@ -123,6 +123,9 @@ Logger::~Logger()
 
 void Logger::enableLoggingToConsole()
 {
+    AutoPtr<ConsoleChannel> pCons(new ConsoleChannel);
+    AutoPtr<AsyncChannel> pAsync(new AsyncChannel(pCons));
+    Poco::Logger::root().setChannel(pAsync);
 }
 
 void Logger::disableLoggingToConsole()
@@ -132,6 +135,11 @@ void Logger::disableLoggingToConsole()
 std::string Logger::GetLogFileName()
 {
     return __FUNC__;
+}
+
+void LoggingBufferCtor()
+{
+    cout << __FUNC__ << endl;
 }
 
 LoggingBuffer::LoggingBuffer(LogLevel level) : level(level)
