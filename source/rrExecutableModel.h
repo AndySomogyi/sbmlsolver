@@ -1,13 +1,14 @@
 #ifndef rrExecutableModelH
 #define rrExecutableModelH
-#include <list>
-#include <string>
-#include <vector>
-
 #include "rrOSSpecifics.h"
 #include "rrModelData.h"
 #include "rrSymbolList.h"
 #include "rrStringList.h"
+
+#include <list>
+#include <string>
+#include <vector>
+#include <ostream>
 
 namespace rr
 {
@@ -276,7 +277,10 @@ public:
  */
 void RR_DECLSPEC initModelData(ModelData &data);
 
-void modeldata_dump(const ModelData& data, ostream& out);
+/**
+ * dump the ModelData to an output stream.
+ */
+std::ostream& operator<< (std::ostream& os, const ModelData& data);
 
 /**
  * Allocate memory for all the data buffers in a ModelData structure,

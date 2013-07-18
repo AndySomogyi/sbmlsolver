@@ -88,7 +88,6 @@ set(rrSources
     rrNoise
     rrVersionInfo
     rrSparse
-    rrTestLog
     )
 
 # Add the LLVM sources to compilation

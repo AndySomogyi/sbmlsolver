@@ -11,6 +11,7 @@
 #include "rrModelData.h"
 #include "rrOSSpecifics.h"
 #include <vector>
+#include <ostream>
 
 namespace rr
 {
@@ -55,6 +56,11 @@ double RR_DECLSPEC csr_matrix_get_nz(const csr_matrix *mat, int row, int col);
  * columns in the sparse matrix.
  */
 void RR_DECLSPEC csr_matrix_dgemv(const csr_matrix *A, double const *x, double *y);
+
+/**
+ * dump the matrix to an output stream.
+ */
+std::ostream& RR_DECLSPEC operator<< (std::ostream& os, const csr_matrix* mat);
 
 
 }

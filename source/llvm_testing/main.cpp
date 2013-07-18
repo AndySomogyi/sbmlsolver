@@ -4,7 +4,6 @@
 #include "rrLLVMModelDataIRBuilder.h"
 #include "rrException.h"
 #include "rrUtils.h"
-#include "rrTestLog.h"
 #include "rrLogger.h"
 
 #include "CSRMatrixTest.h"
@@ -47,28 +46,20 @@ bool RunTest(const string& version, int caseNumber);
 
 int main(int argc, char* argv[])
 {
-    cout << "hi\n";
+    Logger::SetCutOffLogLevel(lAny);
 
-    //LogOutput::mLogToConsole = true;
+    Log(lInfo) << "hello";
 
-    //gLog.SetCutOffLogLevel(lShowAlways);
-
-    //Log(lWarning) << "hello";
-    TestLog::test();
+    Logger::SetCutOffLogLevel(lAny);
 
     test_compiler();
 
-    Log(lWarning) << "a, " << "b, " << "c, ";
+    Log(lDebug) << "a, " << "b, " << "c, ";
 
-    return 0;
 
     //runSparseTest(33, 323, 50);
 
     //runLLVMCSRMatrixTest(33, 323, 50);
-
-
-
-
 
 
     StrIntPair *pairs;

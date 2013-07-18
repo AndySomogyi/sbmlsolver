@@ -76,6 +76,7 @@ Poco::Logger& getLogger()
 void Logger::SetCutOffLogLevel(LogLevel level)
 {
     logLevel = level;
+    Poco::Logger::root().setLevel(levelToPriority(level));
 }
 
 LogLevel Logger::GetLogLevel()
