@@ -56,7 +56,8 @@ int levelToPriority(int level)
     return result;
 }
 
-bool pocoLogger = false;
+static Poco::Logger *pocoLogger = 0;
+
 Poco::Logger& getLogger()
 {
     if (pocoLogger == 0)
@@ -65,10 +66,10 @@ Poco::Logger& getLogger()
         AutoPtr<AsyncChannel> pAsync(new AsyncChannel(pCons));
         Poco::Logger::root().setChannel(pAsync);
 
-        //pocoLogger = &Poco::Logger::get("RoadRunner");
+        pocoLogger = &Poco::Logger::get("RoadRunner");
     }
-    //return *pocoLogger;
-    return Poco::Logger::get("RoadRunner");
+    return *pocoLogger;
+    //return Poco::Logger::get("RoadRunner");
 }
 
 

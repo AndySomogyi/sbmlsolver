@@ -506,10 +506,6 @@ DoubleMatrix RoadRunner::runSimulation()
     Log(lDebug)<<"Will run the OneStep function "<<mNumPoints<<" times";
     for (int i = 1; i < mNumPoints; i++)
     {
-        if (i >= 25)
-        {
-            cout << "pause\n";
-        }
         Log(lDebug)<<"Step "<<i;
         mCVode->oneStep(tout, hstep);
         tout = mTimeStart + i * hstep;
@@ -1007,7 +1003,7 @@ void RoadRunner::computeAndAssignConservationLaws(const bool& bValue)
 {
     if(bValue == mComputeAndAssignConservationLaws.getValue())
     {
-        Log(lWarning)<<"The compute and assign conservation laws flag already set to : "<<toString(bValue);
+        Log(lDebug)<<"The compute and assign conservation laws flag already set to : "<<toString(bValue);
     }
 
     mComputeAndAssignConservationLaws.setValue(bValue);

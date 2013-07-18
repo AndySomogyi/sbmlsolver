@@ -4,12 +4,13 @@
 #pragma hdrstop
 #include "rrEvent.h"
 #include "rrRandom.h"
+#include <iostream>
 //---------------------------------------------------------------------------
 
 namespace rr
 {
 
-Event::Event(const int& id, const double& prior, const double& delay)
+Event::Event(int id, double prior, double delay)
 :
 mID(id),
 mPriority(prior),
@@ -23,59 +24,63 @@ Event::Event(const Event& rhs)
 
 Event& Event::operator=(const Event& rhs)
 {
-	if(this != &rhs)
+    if(this != &rhs)
     {
-    	(*this).mID 		= rhs.mID;
-    	(*this).mPriority 	= rhs.mPriority;
-    	(*this).mDelay 		= rhs.mDelay;
+        (*this).mID         = rhs.mID;
+        (*this).mPriority     = rhs.mPriority;
+        (*this).mDelay         = rhs.mDelay;
     }
 
-	return *this;
+    return *this;
 }
 
-int	Event::GetID() const
+int    Event::GetID() const
 {
-	return mID;
+    return mID;
 }
 
-void Event::SetPriority(const double& prior)
+void Event::SetPriority(double prior)
 {
-	mPriority = prior;
+    mPriority = prior;
 }
 
 double Event::GetPriority() const
 {
-	return mPriority;
+    return mPriority;
 }
 
 //Friend functions
 bool operator==(const Event &e1, const Event &e2)
 {
-	if(e1.mID == e2.mID && e1.mPriority == e2.mPriority && e1.mDelay == e2.mDelay)
+    if(e1.mID == e2.mID && e1.mPriority == e2.mPriority && e1.mDelay == e2.mDelay)
     {
-    	return true;
+        return true;
     }
-  	return false;
+      return false;
 }
 
 bool operator<(const Event &e1, const Event &e2)
 {
- 	if(e1.mPriority == e2.mPriority && e1.mPriority !=0 && e1.mID != e2.mID)
+     if(e1.mPriority == e2.mPriority && e1.mPriority !=0 && e1.mID != e2.mID)
     {
-		//Random toss...
-		return (e1.mRandom.NextDouble() > 0.5) ? false : true;
+        //Random toss...
+        return (e1.mRandom.NextDouble() > 0.5) ? false : true;
     }
 
-	return e1.mPriority >= e2.mPriority;	//Used in sorting algorithm
+    return e1.mPriority >= e2.mPriority;    //Used in sorting algorithm
 }
 
-ostream& operator<<(ostream& stream, const Event& anEvent)
+std::ostream& operator<<(std::ostream& stream, const Event& anEvent)
 {
-	stream<<string("Event ID: ");
-    stream<<anEvent.mID;
-    stream<<string(" Priority: ");
-    stream<<anEvent.mPriority;
-	return stream;
+    // something bizarre in gcc was causing this to fail if the event fields are
+    // dumped directly to the ostream. Seems fine if we make a stack based copy
+    // though
+
+    stream << "Event ID: ";
+    stream << anEvent.GetID();
+    stream << " Priority: ";
+    stream << anEvent.GetPriority();
+    return stream;
 }
 
 }//namespace

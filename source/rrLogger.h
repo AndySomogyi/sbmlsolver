@@ -95,19 +95,17 @@ RR_DECLSPEC Poco::Logger &getLogger();
  */
 #define gLog Logger()
 
-#define Log(level) std::cout
-
-//#ifndef NO_LOGGER
-//#define Log(level) \
-//    if (level > rr::GetHighestLogLevel()) { ; }\
-//    else if (level > gLog.GetLogLevel()) { ; } \
-//    else LoggingBuffer(level)
-//#else
-//#define Log(level) \
-//    if (true) {  }\
-//    else \
-//    LoggingBuffer(level)
-//#endif
+#ifndef NO_LOGGER
+#define Log(level) \
+    if (level > rr::GetHighestLogLevel()) { ; }\
+    else if (level > gLog.GetLogLevel()) { ; } \
+    else LoggingBuffer(level)
+#else
+#define Log(level) \
+    if (true) {  }\
+    else \
+    LoggingBuffer(level)
+#endif
 
 } /* namespace rr */
 #endif /* rrLoggerH */
