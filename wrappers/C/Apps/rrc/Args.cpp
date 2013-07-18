@@ -1,7 +1,10 @@
 #pragma hdrstop
 #include <iomanip>
+#include <sstream>
 #include "Args.h"
 //---------------------------------------------------------------------------
+
+using namespace std;
 
 Args::Args()
 :
@@ -31,13 +34,13 @@ string Usage(const string& prg)
     usage<<setw(25)<<"-f"                           <<" Save result to file (file name: \"<modelName>.csv\". If -f is not given, data is output to screen\n";
     usage<<setw(25)<<"-i<FilePath>"                 <<" Install folder. If not given, a pre-defined default or calcuated value is used\n";
     usage<<setw(25)<<"-t<FilePath>"                 <<" Temporary data output folder. If not given, temporary files are output to current directory\n";
-    usage<<setw(25)<<"-p"                           <<" Pause before exiting.\n";   
+    usage<<setw(25)<<"-p"                           <<" Pause before exiting.\n";
     usage<<setw(25)<<"-s<#>"                        <<" Set the start time for simulation. Default: 0\n";
     usage<<setw(25)<<"-e<#>"                        <<" Set the end time for simulation. Default: 5\n";
     usage<<setw(25)<<"-z<#>"                        <<" Set number of steps in the simulation. Default: 50\n";
     usage<<setw(25)<<"-l<List>"                     <<" Set selection list. Separate variables using ',' or space\n";
-    usage<<setw(25)<<"-x"                     		<<" Calculate steady state\n";
-    usage<<setw(25)<<"-y"                     		<<" Disable ComputeAndAssignConservationLaws\n";
+    usage<<setw(25)<<"-x"                             <<" Calculate steady state\n";
+    usage<<setw(25)<<"-y"                             <<" Disable ComputeAndAssignConservationLaws\n";
     usage<<setw(25)<<"-?"                           <<" Shows the help screen.\n\n";
 
     usage<<"\nSystems Biology, UW 2012\n";

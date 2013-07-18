@@ -1003,7 +1003,7 @@ void RoadRunner::computeAndAssignConservationLaws(const bool& bValue)
 {
     if(bValue == mComputeAndAssignConservationLaws.getValue())
     {
-        Log(lWarning)<<"The compute and assign conservation laws flag already set to : "<<toString(bValue);
+        Log(lDebug)<<"The compute and assign conservation laws flag already set to : "<<toString(bValue);
     }
 
     mComputeAndAssignConservationLaws.setValue(bValue);

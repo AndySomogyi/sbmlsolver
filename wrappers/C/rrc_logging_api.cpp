@@ -14,7 +14,7 @@ bool rrcCallConv enableLoggingToConsole()
 {
     try
     {
-        LogOutput::mLogToConsole = true;
+        Logger::enableLoggingToConsole();
         return true;
     }
     catch_bool_macro
@@ -24,7 +24,7 @@ bool rrcCallConv disableLoggingToConsole()
 {
     try
     {
-        LogOutput::mLogToConsole = false;
+        Logger::disableLoggingToConsole();
         return true;
     }
     catch_bool_macro
@@ -35,7 +35,7 @@ bool rrcCallConv enableLoggingToFile(RRHandle handle)
     try
     {
         char* tempFolder = getTempFolder(handle);
-		string logFile = joinPath(tempFolder, "RoadRunner.log") ;
+        string logFile = joinPath(tempFolder, "RoadRunner.log") ;
         rr::freeText(tempFolder);
 
         gLog.Init("", gLog.GetLogLevel(), new LogFile(logFile.c_str()));
@@ -62,7 +62,7 @@ bool rrcCallConv setLogLevel(const char* _lvl)
         gLog.SetCutOffLogLevel(lvl);
         return true;
     }
-	catch_bool_macro
+    catch_bool_macro
 }
 
 char* rrcCallConv getLogLevel()
@@ -73,7 +73,7 @@ char* rrcCallConv getLogLevel()
         char* lvl = createText(level.c_str());
         return lvl;
     }
-	catch_ptr_macro
+    catch_ptr_macro
 }
 
 char* rrcCallConv getLogFileName()
@@ -82,7 +82,7 @@ char* rrcCallConv getLogFileName()
     {
         return createText(gLog.GetLogFileName().c_str());
     }
-	catch_ptr_macro
+    catch_ptr_macro
 }
 
 void rrcCallConv logMsg(CLogLevel lvl, const char* msg)
@@ -91,7 +91,7 @@ void rrcCallConv logMsg(CLogLevel lvl, const char* msg)
     {
         Log((LogLevel) lvl)<<msg;
     }
-	catch_void_macro
+    catch_void_macro
 }
 
 }

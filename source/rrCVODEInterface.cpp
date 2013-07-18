@@ -332,7 +332,6 @@ void EventFcn(double time, double* y, double* gdot, void* userData)
 
     ExecutableModel *model = cvInstance->getModel();
 
-    //ModelState* oldState = new ModelState(*model);
     model->pushState();
 
     vector<double> args = cvInstance->buildEvalArgument();
@@ -348,8 +347,7 @@ void EventFcn(double time, double* y, double* gdot, void* userData)
     }
 
     cvInstance->mRootCount++;
-    //oldState->AssignToModel(*model);
-    //delete oldState;
+
     model->popState();
 }
 
@@ -605,14 +603,16 @@ void CvodeInterface::sortEventsByPriority(vector<int>& firedEvents)
         vector<rr::Event> dummy;
         for(int i = 0; i < firedEvents.size(); i++)
         {
-            dummy.push_back(firedEvents[i]);
+            Event event(firedEvents[i]);
+            dummy.push_back(event);
         }
 
         Log(lDebug3)<<"Sorting event priorities";
         for(int i = 0; i < firedEvents.size(); i++)
         {
-            dummy[i].SetPriority(mTheModel->getModelData().eventPriorities[dummy[i].GetID()]);
-            Log(lDebug3)<<dummy[i];
+            Event &event = dummy[i];
+            event.SetPriority(mTheModel->getModelData().eventPriorities[event.GetID()]);
+            Log(lDebug3) << event;
         }
         sort(dummy.begin(), dummy.end(), SortByPriority());
 

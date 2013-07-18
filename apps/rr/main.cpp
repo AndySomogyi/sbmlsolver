@@ -37,7 +37,7 @@ int main(int argc, char * argv[])
     Args args;
     try
     {
-        LogOutput::mLogToConsole = true;
+        Logger::enableLoggingToConsole();
 
         if(argc < 2)
         {
@@ -54,7 +54,7 @@ int main(int argc, char * argv[])
         Log(lDebug)<<"RoadRunner bin location is: "<<thisExeFolder;
 
         //Assume(!) rr.exe is in bin folder of roadrunner install
-        string RRInstallFolder = getParentFolder(thisExeFolder);	//Go up one folder
+        string RRInstallFolder = getParentFolder(thisExeFolder);    //Go up one folder
         Log(lDebug)<<"Assuming RoadRunner is installed in: "<<RRInstallFolder;
 
         if(args.UseOSTempFolder)
@@ -62,12 +62,12 @@ int main(int argc, char * argv[])
             args.TempDataFolder = getUsersTempDataFolder();
         }
 
-		if(args.TempDataFolder == ".")
+        if(args.TempDataFolder == ".")
         {
-			args.TempDataFolder = getCWD();
+            args.TempDataFolder = getCWD();
         }
 
-		Log(lDebug)<<"Temp data folder: "<<args.TempDataFolder<<endl;
+        Log(lDebug)<<"Temp data folder: "<<args.TempDataFolder<<endl;
 
         if(args.ModelFileName.size())
         {
@@ -85,13 +85,13 @@ int main(int argc, char * argv[])
         SBMLModelSimulation simulation(args.DataOutputFolder, args.TempDataFolder);
 
         Log(lDebug)<<"Working Directory: "<<getCWD()<<endl;
-        
-		
-		//Creating roadrunner
-		Log(lDebug)<<"Creating RoadRunner..."<<endl;
+
+
+        //Creating roadrunner
+        Log(lDebug)<<"Creating RoadRunner..."<<endl;
         RoadRunner *rr  = new RoadRunner(args.TempDataFolder);
         rr->reset();
-		Log(lDebug)<<"....."<<endl;
+        Log(lDebug)<<"....."<<endl;
         simulation.UseEngine(rr);
 
         //The following will load and compile and simulate the sbml model in the file
@@ -114,32 +114,32 @@ int main(int argc, char * argv[])
             doContinue = false;
         }
 
-		if(doContinue)
-		{
-			Log(lInfo)<<"SBML semantics was loaded from file: "<<simulation.GetModelsFullFilePath();
-		}
+        if(doContinue)
+        {
+            Log(lInfo)<<"SBML semantics was loaded from file: "<<simulation.GetModelsFullFilePath();
+        }
 
         //Then read settings file if it exists..
-		if(doContinue)
-		{
-			if(settingsFile.size())
-			{
-				if(!simulation.LoadSettings(settingsFile))    //set selection list here!
-				{
-					Log(lError)<<"Failed loading SBML model settings";
-					doContinue = false;
-				}
-			}
-			else //Read from command line
-			{
-				simulation.SetTimeStart(args.StartTime);
-				simulation.SetTimeEnd(args.EndTime);
-				simulation.SetNumberOfPoints(args.Steps);
-				simulation.SetSelectionList(args.SelectionList);
-			}
+        if(doContinue)
+        {
+            if(settingsFile.size())
+            {
+                if(!simulation.LoadSettings(settingsFile))    //set selection list here!
+                {
+                    Log(lError)<<"Failed loading SBML model settings";
+                    doContinue = false;
+                }
+            }
+            else //Read from command line
+            {
+                simulation.SetTimeStart(args.StartTime);
+                simulation.SetTimeEnd(args.EndTime);
+                simulation.SetNumberOfPoints(args.Steps);
+                simulation.SetSelectionList(args.SelectionList);
+            }
 
-			rr->computeAndAssignConservationLaws(false);
-		}
+            rr->computeAndAssignConservationLaws(false);
+        }
 
         //Then Simulate model
         if(doContinue && !simulation.Simulate())
@@ -148,23 +148,23 @@ int main(int argc, char * argv[])
             throw("Failed running simulation");
         }
 
-		if(doContinue)
-		{
-			if(args.SaveResultToFile)
-			{
-				//Write result
-				if(!simulation.SaveResult())
-				{
-					//Failed to save data
-				}
-			}
-			else
-			{
-				//Write to std out
-				RoadRunnerData result = simulation.GetResult();
-				Log(lShowAlways)<<result;
-			}
-		}
+        if(doContinue)
+        {
+            if(args.SaveResultToFile)
+            {
+                //Write result
+                if(!simulation.SaveResult())
+                {
+                    //Failed to save data
+                }
+            }
+            else
+            {
+                //Write to std out
+                RoadRunnerData result = simulation.GetResult();
+                Log(lShowAlways)<<result;
+            }
+        }
 
         delete rr;
     }
@@ -173,11 +173,11 @@ int main(int argc, char * argv[])
         Log(lError)<<"RoadRunner exception occurred: "<<ex.what()<<endl;
     }
 
-	Log(lInfo)<<"RoadRunner is exiting...";
-	if(args.Pause)
-	{
-	    rr::pause();
-	}
+    Log(lInfo)<<"RoadRunner is exiting...";
+    if(args.Pause)
+    {
+        rr::pause();
+    }
     return 0;
 }
 

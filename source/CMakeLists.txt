@@ -21,14 +21,10 @@ set(rrSources
     rrCapabilities
     rrConstants
     rrException
-    rrFileLog
     rrGetOptions
     rrHashTable
-    rrLogFile
-    rrLogContainer
-    rrLoggerUtils
+    rrLogger
     rrLogLevel
-    rrLogOutput
     rrCompiledExecutableModel
     rrExecutableModel
     rrCompiledModelState
@@ -92,6 +88,7 @@ set(rrSources
     rrNoise
     rrVersionInfo
     rrSparse
+    rrTestLog
     )
 
 # Add the LLVM sources to compilation
