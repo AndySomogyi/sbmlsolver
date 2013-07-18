@@ -72,14 +72,6 @@ public:
     static std::string GetCurrentLogLevel();
 
     static std::string GetLogFileName();
-
-private:
-
-    /**
-     * pointer to legacy logfile struct given in ctor,
-     * we own this.
-     */
-    LogFile *logFile;
 };
 
 /**

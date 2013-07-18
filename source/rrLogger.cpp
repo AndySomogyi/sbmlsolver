@@ -57,6 +57,7 @@ int levelToPriority(int level)
 }
 
 static Poco::Logger *pocoLogger = 0;
+static LogLevel logLevel = lAny;
 
 Poco::Logger& getLogger()
 {
@@ -69,34 +70,34 @@ Poco::Logger& getLogger()
         pocoLogger = &Poco::Logger::get("RoadRunner");
     }
     return *pocoLogger;
-    //return Poco::Logger::get("RoadRunner");
 }
 
 
 void Logger::SetCutOffLogLevel(LogLevel level)
 {
+    logLevel = level;
 }
 
 LogLevel Logger::GetLogLevel()
 {
-    return lAny;
+    return logLevel;
 }
 
 
 void Logger::StopLogging()
 {
-
 }
 
 void Logger::Init(const std::string& allocator, int level)
 {
+    logLevel = (LogLevel)level;
     Poco::Logger::root().setLevel(levelToPriority(level));
 }
 
 void Logger::Init(const std::string& allocator, int level, LogFile* logFile)
 {
     // make sure we have a log...
-    getLogger();
+    logLevel = (LogLevel)level;
 
     AutoPtr<SimpleFileChannel> pChannel(new SimpleFileChannel);
     pChannel->setProperty("path", logFile->name);
@@ -112,7 +113,7 @@ std::string Logger::GetCurrentLogLevel()
     return __FUNC__;
 }
 
-Logger::Logger() : logFile(0)
+Logger::Logger()
 {
 }
 
