@@ -42,6 +42,10 @@ public:
     virtual double getTime();
     virtual ModelData& getModelData();
 
+    virtual bool getConservedSumChanged();
+
+    virtual void setConservedSumChanged(bool);
+
     /**
      * evaluate the initial conditions specified in the sbml, this entails
      * evaluating all InitialAssigments, AssigmentRules, initial values, etc...

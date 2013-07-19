@@ -88,7 +88,6 @@ mNumPoints(21),
 mModel(NULL),
 mCurrentSBML(""),
 mPluginManager(joinPath(getParentFolder(supportCodeFolder), "plugins")),
-mConservedTotalChanged(false),
 mCapabilities("RoadRunner", "RoadRunner Capabilities"),
 mRRCoreCapabilities("Road Runner Core", "", "Core RoadRunner Parameters")
 {
@@ -111,7 +110,7 @@ mRRCoreCapabilities("Road Runner Core", "", "Core RoadRunner Parameters")
     mInstanceID = mInstanceCount;
 
     //Setup additonal objects
-    mCVode = new CvodeInterface(this, NULL);
+    mCVode = new CvodeInterface(NULL);
 
     if(mCVode)
     {
@@ -306,14 +305,14 @@ bool RoadRunner::initializeModel()
 {
     if(mModel)
     {
-        mConservedTotalChanged = false;
+        mModel->setConservedSumChanged(false);
         mModel->evalInitialConditions();
 
         if(mCVode)
         {
             delete mCVode;
         }
-        mCVode = new CvodeInterface(this, mModel);
+        mCVode = new CvodeInterface(mModel);
 
         // reset the simulation state
         reset();
@@ -705,7 +704,7 @@ void RoadRunner::reset()
     {
         mModel->reset();
 
-        if (mComputeAndAssignConservationLaws.getValue() && !mConservedTotalChanged)
+        if (mComputeAndAssignConservationLaws.getValue() && !mModel->getConservedSumChanged())
         {
             mModel->computeConservedTotals();
         }
@@ -2764,7 +2763,7 @@ void RoadRunner::setFloatingSpeciesByIndex(const int& index, const double& value
     if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
     {
         mModel->setConcentration(index, value); // This updates the amount vector aswell
-        if (!mConservedTotalChanged)
+        if (!mModel->getConservedSumChanged())
         {
             mModel->computeConservedTotals();
         }
@@ -2852,7 +2851,7 @@ void RoadRunner::setFloatingSpeciesConcentrations(const vector<double>& values)
         }
     }
     mModel->convertToAmounts();
-    if (!mConservedTotalChanged) mModel->computeConservedTotals();
+    if (!mModel->getConservedSumChanged()) mModel->computeConservedTotals();
 }
 
 // Help("Set the concentrations for all floating species in the model")
@@ -2934,7 +2933,7 @@ void RoadRunner::setGlobalParameterByIndex(const int& index, const double& value
 
     if ((mModel->getNumGlobalParameters()) && (index < mModel->getNumGlobalParameters() + mModel->getModelData().numDependentSpecies))
     {
-        mConservedTotalChanged = true;
+        mModel->setConservedSumChanged(true);
     }
 }
 
@@ -3762,7 +3761,7 @@ bool RoadRunner::setValue(const string& sId, const double& dValue)
     {
         mModel->setConcentration(nIndex, dValue);
         mModel->convertToAmounts();
-        if (!mConservedTotalChanged)
+        if (!mModel->getConservedSumChanged())
         {
             mModel->computeConservedTotals();
         }
@@ -3773,7 +3772,7 @@ bool RoadRunner::setValue(const string& sId, const double& dValue)
     {
         mModel->getModelData().dependentSpeciesConservedSums[nIndex] = dValue;
         mModel->updateDependentSpeciesValues(mModel->getModelData().floatingSpeciesConcentrations);
-        mConservedTotalChanged = true;
+        mModel->setConservedSumChanged(true);
         return true;
     }
 

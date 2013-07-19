@@ -21,7 +21,8 @@ mDummyDoubleArray(new double[1]),
 mData(),
 ms(symbols),
 mIsInitialized(false),
-mDLL(dll)
+mDLL(dll),
+mConservedSumChanged(false)
 {
     //Zero data structure..
     initModelData(mData);
@@ -261,6 +262,16 @@ void CompiledExecutableModel::evalInitialConditions()
     {
         computeConservedTotals();
     }
+}
+
+bool CompiledExecutableModel::getConservedSumChanged()
+{
+    return mConservedSumChanged;
+}
+
+void CompiledExecutableModel::setConservedSumChanged(bool val)
+{
+    mConservedSumChanged = val;
 }
 
 bool CompiledExecutableModel::setupDLLFunctions()

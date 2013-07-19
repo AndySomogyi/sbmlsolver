@@ -27,7 +27,7 @@ class ModelGenerator;
 class SBMLModelSimulation;
 class ExecutableModel;
 
-class RR_DECLSPEC RoadRunner : public rrObject
+class RR_DECLSPEC RoadRunner
 {
     private:
         static int                      mInstanceCount;
@@ -93,9 +93,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
          */
         bool                            loadSBMLIntoLibStruct(const string& sbml);
         string                          createModelName(const string& mCurrentSBMLFileName);
-
-    public: //These should be hidden later on...
-        bool                            mConservedTotalChanged;
 
     public:
                                         RoadRunner(const string& tempFolder = gDefaultTempFolder,
@@ -514,9 +511,10 @@ This document describes the application programming interface (API) of RoadRunne
 The RoadRunner library depend on several third-party libraries, CLapack, libSBML, Sundials, NLEQ, Poco and Pugi. These are provided with the binary installation where necessary.
 \par
 
-\author        Totte Karlsson (totte@dunescientific.com)
-\author      Frank T. Bergmann (fbergman@u.washington.edu)
-\author     Herbert M. Sauro  (hsauro@u.washington.edu)
+\author Totte Karlsson (totte@dunescientific.com)
+\author Frank T. Bergmann (fbergman@u.washington.edu)
+\author Herbert M. Sauro  (hsauro@u.washington.edu)
+\author Andy Somogyi (andy.somogyi@gmail.com, somogyie@indiana.edu)
 
 \par License
 \par

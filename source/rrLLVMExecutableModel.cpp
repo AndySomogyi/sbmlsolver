@@ -281,6 +281,15 @@ void LLVMExecutableModel::reset()
 {
 }
 
+bool LLVMExecutableModel::getConservedSumChanged()
+{
+    return false;
+}
+
+void LLVMExecutableModel::setConservedSumChanged(bool val)
+{
+}
+
 LLVMExecutableModel* LLVMExecutableModel::dummy()
 {
     return new LLVMExecutableModel();
