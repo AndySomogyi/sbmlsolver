@@ -38,11 +38,7 @@ public:
     llvm::Value *createFloatSpeciesAmtGEP(llvm::Value *s, const std::string &id,
             const llvm::Twine &name);
 
-    /**
-     * store the floating species amount
-     */
-    llvm::Value *createFloatSpeciesAmtStore(llvm::Value *modelData,
-            const std::string &id, llvm::Value *value, const llvm::Twine &name);
+
 
     llvm::Value *createFloatSpeciesConcFromAmtLoad(llvm::Value *s, const std::string &id);
     llvm::Value *createFloatSpeciesAmtFromConcLoad(llvm::Value *s, const std::string &id);
@@ -87,6 +83,18 @@ public:
      */
     llvm::Value *createCompStore(llvm::Value *md, const std::string &id,
             llvm::Value *value, const llvm::Twine& name);
+
+    /**
+     * load the floating species amount value
+     */
+    llvm::Value *createFloatSpeciesAmtLoad(llvm::Value *md,
+            const std::string& id, const llvm::Twine& name);
+
+    /**
+     * store the floating species amount
+     */
+    llvm::Value *createFloatSpeciesAmtStore(llvm::Value *modelData,
+            const std::string &id, llvm::Value *value, const llvm::Twine &name);
 
 //     /**
 //      * number of linearly independent rows in the stochiometry matrix.

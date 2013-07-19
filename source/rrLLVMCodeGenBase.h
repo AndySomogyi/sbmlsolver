@@ -9,6 +9,7 @@
 #define LLVMCodeGenBaseH
 
 #include "rrLLVMModelGeneratorContext.h"
+#include "rrLLVMCodeGen.h"
 
 namespace rr
 {
@@ -19,9 +20,13 @@ namespace rr
  * and mgc.getThat. Furthermore, its faster to access them as ivars
  * as it does not incur a func call each time.
  */
-class LLVMCodeGenBase
+class LLVMCodeGenBase : public LLVMSymbolResolver
 {
+public:
+    using LLVMSymbolResolver::symbolValue;
+
 protected:
+
     LLVMCodeGenBase(const LLVMModelGeneratorContext &mgc) :
             dataSymbols(mgc.getModelDataSymbols()),
             modelSymbols(mgc.getModelSymbols()),
@@ -40,11 +45,20 @@ protected:
     llvm::Module *module;
     llvm::IRBuilder<> *builder;
     llvm::ExecutionEngine *engine;
+
+    /**
+     * The runtime resolution of symbols first search through the
+     * replacement rules, applies them, them pulls the terminal
+     * symbol values from the ModelData struct.
+     *
+     * The initial assigment generator overrides this and pulls
+     * the terminal values from the initial values and assigments
+     * specified in the model.
+     */
+    llvm::Value *symbolValue(const std::string& symbol, llvm::Value *modelData);
+
+    virtual ~LLVMCodeGenBase() {};
 };
 
 } /* namespace rr */
-
-
-
-
 #endif /* LLVMCodeGenBaseH */

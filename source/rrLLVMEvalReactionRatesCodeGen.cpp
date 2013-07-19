@@ -27,6 +27,7 @@ LLVMEvalReactionRatesCodeGen::LLVMEvalReactionRatesCodeGen(
         const LLVMModelGeneratorContext &mgc) :
         LLVMCodeGenBase(mgc),
         func(0),
+        modelData(0),
         engine(mgc.getExecutionEngine())
 {
 }
@@ -55,11 +56,7 @@ Value* LLVMEvalReactionRatesCodeGen::codeGen()
     builder->SetInsertPoint(basicBlock);
 
     // single argument
-    Value *modelData = func->arg_begin();
-
-    Argument &arg = func->getArgumentList().front();
-
-    Value *argVal = &arg;
+    modelData = func->arg_begin();
 
 
     LLVMModelDataIRBuilder modelDataBuilder(dataSymbols, builder);
@@ -81,35 +78,6 @@ Value* LLVMEvalReactionRatesCodeGen::codeGen()
 }
 
 
-llvm::Value* LLVMEvalReactionRatesCodeGen::symbolValue(const std::string& symbol)
-{
-    LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialAssigments().find(symbol);
-    if (i != modelSymbols.getInitialAssigments().end())
-    {
-        return LLVMASTNodeCodeGen(*builder, *this).codeGen(i->second);
-    }
-
-    i = modelSymbols.getAssigmentRules().find(symbol);
-    if (i != modelSymbols.getAssigmentRules().end())
-    {
-        return LLVMASTNodeCodeGen(*builder, *this).codeGen(i->second);
-    }
-
-    i = modelSymbols.getInitialValues().find(symbol);
-    if (i != modelSymbols.getInitialValues().end())
-    {
-        return LLVMASTNodeCodeGen(*builder, *this).codeGen(i->second);
-    }
-
-    else
-    {
-        string msg = "Could not find requested symbol \'";
-        msg += symbol;
-        msg += "\' in symbol forest";
-        throw LLVMException(msg, __FUNC__);
-    }
-}
-
 
 LLVMEvalReactionRatesCodeGen::FunctionPtr LLVMEvalReactionRatesCodeGen::createFunction()
 {
@@ -117,6 +85,10 @@ LLVMEvalReactionRatesCodeGen::FunctionPtr LLVMEvalReactionRatesCodeGen::createFu
     return (FunctionPtr)engine->getPointerToFunction(func);
 }
 
-
+llvm::Value* LLVMEvalReactionRatesCodeGen::symbolValue(
+        const std::string& symbol)
+{
+    return LLVMCodeGenBase::symbolValue(symbol, modelData);
+}
 
 } /* namespace rr */

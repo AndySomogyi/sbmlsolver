@@ -574,13 +574,7 @@ llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtGEP(llvm::Value* s,
     return createGEP(s, FloatingSpeciesAmounts, index, name);
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtStore(
-        llvm::Value* modelData, const std::string& id, llvm::Value* value,
-        const Twine &name)
-{
-    Value *gep = createFloatSpeciesAmtGEP(modelData, id, name + "_gep");
-    return builder->CreateStore(value, gep);
-}
+
 
 llvm::StructType* LLVMModelDataIRBuilder::getCSRSparseStructType(
         llvm::Module* module, llvm::ExecutionEngine* engine)
@@ -775,6 +769,21 @@ llvm::Value* LLVMModelDataIRBuilder::createCompStore(llvm::Value* md,
 {
     int compIdx = symbols.getCompartmentIndex(id);
     return createStore(md, CompartmentVolumes, compIdx, value, name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtLoad(
+        llvm::Value* modelData, const std::string& id, const llvm::Twine& name)
+{
+    Value *gep = createFloatSpeciesAmtGEP(modelData, id, name + "_gep");
+    return builder->CreateLoad(gep, name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtStore(
+        llvm::Value* modelData, const std::string& id, llvm::Value* value,
+        const Twine &name)
+{
+    Value *gep = createFloatSpeciesAmtGEP(modelData, id, name + "_gep");
+    return builder->CreateStore(value, gep);
 }
 
 void LLVMModelDataIRBuilder::validateStruct(llvm::Value* s, const char* funcName)
