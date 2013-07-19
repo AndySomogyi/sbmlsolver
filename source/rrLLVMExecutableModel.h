@@ -112,20 +112,56 @@ public:
 
     //Access dll data
     virtual void getRateRuleValues(double *rateRuleValues);
-    virtual double getAmounts(const int& i);
+    virtual double getAmount(const int i);
 
 
 
     virtual void setRateRuleValues(const double *rateRuleValues);
 
+    /**
+     * copies the internal model state vector into the provided
+     * buffer.
+     *
+     * @param[out] stateVector a buffer to copy the state vector into, if NULL,
+     *         return the size required.
+     *
+     * @return the number of items coppied into the provided buffer, if
+     *         stateVector is NULL, returns the length of the state vector.
+     */
+    virtual int getStateVector(double *stateVector);
+
+    /**
+     * sets the internal model state to the provided packed state vector.
+     *
+     * @param[in] an array which holds the packed state vector, must be
+     *         at least the size returned by getStateVector.
+     *
+     * @return the number of items copied from the state vector, negative
+     *         on failure.
+     */
+    virtual int setStateVector(const double *stateVector);
+
     virtual void convertToConcentrations();
-    virtual void updateDependentSpeciesValues(double* _y);
+    virtual void updateDependentSpeciesValues();
     virtual void computeAllRatesOfChange();
+
 
     /**
      * where most of the juicy bits occur.
+     *
+     * the state vector y is the rate rule values and floating species
+     * concentrations concatenated. y is of length numFloatingSpecies + numRateRules.
+     *
+     * The state vector is packed such that the first n raterule elements are the
+     * values of the rate rules, and the last n floatingspecies are the floating
+     * species values.
+     *
+     * @param[in] time current simulator time
+     * @param[in] y state vector, must be of size returned by getStateVector
+     * @param[out] dydt calculated rate of change of the state vector, if null,
+     * it is ignored.
      */
-    virtual void evalModel(double time, const double *y);
+    virtual void evalModel(double time, const double *y, double* dydt=0);
 
     virtual void evalEvents(const double& time, const vector<double>& y);
 

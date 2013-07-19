@@ -194,7 +194,7 @@ public:
 
 
 
-    virtual double getAmounts(const int& i) = 0;
+    virtual double getAmount(const int i) = 0;
 
     /**
      * set the 'values' of the rate rules.
@@ -222,9 +222,32 @@ public:
      */
     virtual void getRateRuleValues(double *rateRuleValues) = 0;
 
+    /**
+     * copies the internal model state vector into the provided
+     * buffer.
+     *
+     * @param[out] stateVector a buffer to copy the state vector into, if NULL,
+     *         return the size required.
+     *
+     * @return the number of items coppied into the provided buffer, if
+     *         stateVector is NULL, returns the length of the state vector.
+     */
+    virtual int getStateVector(double *stateVector) = 0;
+
+    /**
+     * sets the internal model state to the provided packed state vector.
+     *
+     * @param[in] an array which holds the packed state vector, must be
+     *         at least the size returned by getStateVector.
+     *
+     * @return the number of items copied from the state vector, negative
+     *         on failure.
+     */
+    virtual int setStateVector(const double *stateVector) = 0;
+
 
     virtual void convertToConcentrations() = 0;
-    virtual void updateDependentSpeciesValues(double* _y) = 0;
+    virtual void updateDependentSpeciesValues() = 0;
     virtual void computeAllRatesOfChange() = 0;
 
     /**
@@ -234,8 +257,13 @@ public:
      * The state vector is packed such that the first n raterule elements are the
      * values of the rate rules, and the last n floatingspecies are the floating
      * species values.
+     *
+     * @param[in] time current simulator time
+     * @param[in] y state vector, must be of size returned by getStateVector
+     * @param[out] dydt calculated rate of change of the state vector, if null,
+     * it is ignored.
      */
-    virtual void evalModel(double time, const double *y) = 0;
+    virtual void evalModel(double time, const double *y, double* dydt=0) = 0;
 
     virtual void evalEvents(const double& time, const vector<double>& y) = 0;
     virtual void resetEvents() = 0;

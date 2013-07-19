@@ -115,7 +115,7 @@ int CompiledExecutableModel::getNumEvents()
     return mData.numEvents;
 }
 
-double CompiledExecutableModel::getAmounts(const int& i)
+double CompiledExecutableModel::getAmount(const int i)
 {
     return (mData.floatingSpeciesAmounts ) ? mData.floatingSpeciesAmounts[i] : -1;
 }
@@ -209,7 +209,7 @@ void CompiledExecutableModel::setGlobalParameterValue(int index, double value)
         if (index >= getNumGlobalParameters())
         {
             getModelData().dependentSpeciesConservedSums[index - getNumGlobalParameters()] = value;
-            updateDependentSpeciesValues(getModelData().floatingSpeciesConcentrations);
+            updateDependentSpeciesValues();
         }
         else
         {
@@ -274,6 +274,42 @@ void CompiledExecutableModel::setConservedSumChanged(bool val)
     mConservedSumChanged = val;
 }
 
+int CompiledExecutableModel::getStateVector(double* stateVector)
+{
+    if (stateVector == 0)
+    {
+        return mData.numRateRules + mData.numIndependentSpecies;
+    }
+
+    vector<double> dTemp(getModelData().numRateRules, 0);
+    getRateRuleValues(&dTemp[0]);
+
+    for (int i = 0; i < mData.numRateRules; i++)
+    {
+        stateVector[i] = dTemp[i];
+    }
+
+    for (int i = 0; i < mData.numIndependentSpecies; i++)
+    {
+        stateVector[i + mData.numRateRules] = getAmount(i);
+    }
+
+    return mData.numRateRules + mData.numIndependentSpecies;
+}
+
+int CompiledExecutableModel::setStateVector(const double* stateVector)
+{
+    setRateRuleValues(stateVector);
+    const double *floatingSpeciesAmounts = stateVector + mData.numRateRules;
+
+    for (int i = 0; i < mData.numIndependentSpecies; i++)
+    {
+        mData.floatingSpeciesAmounts[i] = floatingSpeciesAmounts[i];
+    }
+
+    return mData.numRateRules + mData.numRateRules;
+}
+
 bool CompiledExecutableModel::setupDLLFunctions()
 {
     //Exported functions in the dll need to be assigned to a function pointer here..
@@ -301,7 +337,7 @@ bool CompiledExecutableModel::setupDLLFunctions()
     cevalModel                          = (c_void_MDS_double_doubleStar)   mDLL->getSymbol("__evalModel");
     cconvertToConcentrations            = (c_void_MDS)                     mDLL->getSymbol("convertToConcentrations");
     cevalEvents                         = (c_void_MDS_double_doubleStar)   mDLL->getSymbol("evalEvents");
-    cupdateDependentSpeciesValues       = (c_void_MDS_doubleStar)          mDLL->getSymbol("updateDependentSpeciesValues");
+    cupdateDependentSpeciesValues       = (c_void_MDS)                     mDLL->getSymbol("updateDependentSpeciesValues");
     ccomputeAllRatesOfChange            = (c_void_MDS)                     mDLL->getSymbol("computeAllRatesOfChange");
     cAssignRates_a                      = (c_void_MDS)                     mDLL->getSymbol("AssignRatesA");
     cAssignRates_b                      = (c_void_MDS_doubleStar)          mDLL->getSymbol("AssignRatesB");
@@ -526,7 +562,7 @@ void CompiledExecutableModel::convertToConcentrations()
     cconvertToConcentrations(&mData);
 }
 
-void CompiledExecutableModel::updateDependentSpeciesValues(double* y_vec)
+void CompiledExecutableModel::updateDependentSpeciesValues()
 {
     if(!cupdateDependentSpeciesValues)
     {
@@ -534,7 +570,7 @@ void CompiledExecutableModel::updateDependentSpeciesValues(double* y_vec)
         return;
     }
 
-    cupdateDependentSpeciesValues(&mData, y_vec);
+    cupdateDependentSpeciesValues(&mData);
 }
 
 
@@ -571,7 +607,7 @@ void CompiledExecutableModel::computeAllRatesOfChange()
     ccomputeAllRatesOfChange(&mData);
 }
 
-void CompiledExecutableModel::evalModel(double timein, const double *y)
+void CompiledExecutableModel::evalModel(double timein, const double *y, double *dydt)
 {
     if(!cevalModel)
     {
