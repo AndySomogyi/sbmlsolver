@@ -16,7 +16,10 @@
 
 #include <map>
 
-namespace libsbml { class Model; }
+namespace libsbml
+{
+class Model;
+}
 
 namespace rr
 {
@@ -30,24 +33,46 @@ public:
 
     virtual ~LLVMModelDataIRBuilder();
 
-    llvm::Value *createFloatSpeciesConcGEP(llvm::Value *s, const std::string &id);
+    llvm::Value *createFloatSpeciesConcGEP(llvm::Value *s,
+            const std::string &id);
 
-    llvm::Value *createFloatSpeciesConcStore(llvm::Value *s, const std::string &id,
-            llvm::Value *value);
+    llvm::Value *createFloatSpeciesConcStore(llvm::Value *s,
+            const std::string &id, llvm::Value *value);
 
     llvm::Value *createFloatSpeciesAmtGEP(llvm::Value *s, const std::string &id,
-            const llvm::Twine &name);
+            const llvm::Twine &name="");
 
+    llvm::Value *createBoundSpeciesAmtGEP(llvm::Value *s, const std::string &id,
+            const llvm::Twine &name="");
 
+    /**
+     * load the species amount, divide by the compartment, and return
+     * a load instruction with this value
+     */
+    llvm::Value *createFloatSpeciesConcFromAmtLoad(llvm::Value *s,
+            const std::string &id, const llvm::Twine& name="");
 
-    llvm::Value *createFloatSpeciesConcFromAmtLoad(llvm::Value *s, const std::string &id);
-    llvm::Value *createFloatSpeciesAmtFromConcLoad(llvm::Value *s, const std::string &id);
+    /**
+     * load the species amount, divide by the compartment, and return
+     * a load instruction with this value
+     */
+    llvm::Value *createBoundSpeciesConcFromAmtLoad(llvm::Value *s,
+            const std::string &id, const llvm::Twine& name="");
+
 
     /**
      * GEP for the compartment volume that belongs to the floating
      * species with id.
      */
-    llvm::Value *createFloatSpeciesCompGEP(llvm::Value *s, const std::string &id);
+    llvm::Value *createFloatSpeciesCompGEP(llvm::Value *s,
+            const std::string &id);
+
+    /**
+     * GEP for the compartment volume that belongs to the bound
+     * species with id.
+     */
+    llvm::Value *createBoundSpeciesCompGEP(llvm::Value *s,
+            const std::string &id);
 
     llvm::Value *createGlobalParamGEP(llvm::Value *s, const std::string &id);
 
@@ -67,34 +92,58 @@ public:
             unsigned index, const llvm::Twine& name = "");
 
     llvm::Value *createLoad(llvm::Value *md, ModelDataFields field,
-            unsigned index, const llvm::Twine& name);
+            unsigned index, const llvm::Twine& name="");
 
     llvm::Value *createStore(llvm::Value *md, ModelDataFields field,
-            unsigned index, llvm::Value *value, const llvm::Twine& name);
+            unsigned index, llvm::Value *value);
 
     /**
      * load the compartment value
      */
     llvm::Value *createCompLoad(llvm::Value *md, const std::string& id,
-            const llvm::Twine& name);
+            const llvm::Twine& name="");
 
     /**
      * store the compartment value
      */
     llvm::Value *createCompStore(llvm::Value *md, const std::string &id,
-            llvm::Value *value, const llvm::Twine& name);
+            llvm::Value *value);
+
+    /**
+     * load the compartment value
+     */
+    llvm::Value *createGlobalParamLoad(llvm::Value *md, const std::string& id,
+            const llvm::Twine& name="");
+
+    /**
+     * store the compartment value
+     */
+    llvm::Value *createGlobalParamStore(llvm::Value *md, const std::string &id,
+            llvm::Value *value);
 
     /**
      * load the floating species amount value
      */
     llvm::Value *createFloatSpeciesAmtLoad(llvm::Value *md,
-            const std::string& id, const llvm::Twine& name);
+            const std::string& id, const llvm::Twine& name="");
 
     /**
      * store the floating species amount
      */
     llvm::Value *createFloatSpeciesAmtStore(llvm::Value *modelData,
-            const std::string &id, llvm::Value *value, const llvm::Twine &name);
+            const std::string &id, llvm::Value *value);
+
+    /**
+     * load the floating species amount value
+     */
+    llvm::Value *createBoundSpeciesAmtLoad(llvm::Value *md,
+            const std::string& id, const llvm::Twine& name="");
+
+    /**
+     * store the floating species amount
+     */
+    llvm::Value *createBoundSpeciesAmtStore(llvm::Value *modelData,
+            const std::string &id, llvm::Value *value);
 
 //     /**
 //      * number of linearly independent rows in the stochiometry matrix.
@@ -281,12 +330,11 @@ public:
 
     void createAccessors(llvm::Module *module);
 
-    std::pair<llvm::Function*, llvm::Function*> createFloatingSpeciesAccessors(llvm::Module *module,
-            const std::string id);
+    std::pair<llvm::Function*, llvm::Function*> createFloatingSpeciesAccessors(
+            llvm::Module *module, const std::string id);
 
-    void test(llvm::Module *module,
-            llvm::IRBuilder<> *build, llvm::ExecutionEngine * engine);
-
+    void test(llvm::Module *module, llvm::IRBuilder<> *build,
+            llvm::ExecutionEngine * engine);
 
     /**
      * create a call to the csr_matrix_set_nz function.
@@ -323,15 +371,16 @@ public:
      *
      * create if not found
      */
-    static llvm::StructType *getCSRSparseStructType(llvm::Module *module, llvm::ExecutionEngine *engine = 0);
+    static llvm::StructType *getCSRSparseStructType(llvm::Module *module,
+            llvm::ExecutionEngine *engine = 0);
 
     /**
      * get the ModelData struct type.
      *
      * create if not found.
      */
-    static llvm::StructType *getStructType(llvm::Module *module, llvm::ExecutionEngine *engine = 0);
-
+    static llvm::StructType *getStructType(llvm::Module *module,
+            llvm::ExecutionEngine *engine = 0);
 
     /*********************** TESTING STUFF WILL GO AWAY EVENTUALLY ***********************/
 
@@ -344,16 +393,12 @@ public:
     static llvm::Function *getDispCharDecl(llvm::Module *module);
     llvm::CallInst *createDispChar(llvm::Value *doubleVal);
 
-
     /*************************************************************************************/
-
 
     static const char* ModelDataName;
     static const char* csr_matrixName;
     static const char* csr_matrix_set_nzName;
     static const char* csr_matrix_get_nzName;
-
-
 
 private:
     /**
@@ -369,8 +414,6 @@ private:
     llvm::IRBuilder<> *builder;
 
     LLVMModelDataSymbols const& symbols;
-
-
 
     /**
      * check to see that s is a ModelData struct pointer,

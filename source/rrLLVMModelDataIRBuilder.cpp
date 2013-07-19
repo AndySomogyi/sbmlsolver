@@ -384,19 +384,16 @@ llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcGEP(llvm::Value* s,
     return createGEP(s, FloatingSpeciesConcentrations, index);
 }
 
-
-
 llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcFromAmtLoad(
-        llvm::Value* s, const std::string& id)
+        llvm::Value* md, const std::string& id, const Twine& name)
 {
-    throw LLVMException("not implemented", __FUNC__);
+    validateStruct(md, __FUNC__);
+    Value *amt = createFloatSpeciesAmtLoad(md, id, id + "_amt");
+    Value *compEP = createFloatSpeciesCompGEP(md, id);
+    Value *volume = builder->CreateLoad(compEP, id + "_vol");
+    return builder->CreateFDiv(amt, volume, name);
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtFromConcLoad(
-        llvm::Value* s, const std::string& id)
-{
-    throw LLVMException("not implemented", __FUNC__);
-}
 
 llvm::Value* LLVMModelDataIRBuilder::createGlobalParamGEP(llvm::Value* s,
         const std::string& id)
@@ -750,10 +747,9 @@ llvm::Value* LLVMModelDataIRBuilder::createLoad(llvm::Value* md,
 }
 
 llvm::Value* LLVMModelDataIRBuilder::createStore(llvm::Value* md,
-        ModelDataFields field, unsigned index, llvm::Value* value,
-        const llvm::Twine& name)
+        ModelDataFields field, unsigned index, llvm::Value* value)
 {
-    Value *gep = this->createGEP(md, field, index, name + "_gep");
+    Value *gep = this->createGEP(md, field, index);
     return builder->CreateStore(value, gep);
 }
 
@@ -765,10 +761,10 @@ llvm::Value* LLVMModelDataIRBuilder::createCompLoad(llvm::Value* md,
 }
 
 llvm::Value* LLVMModelDataIRBuilder::createCompStore(llvm::Value* md,
-        const std::string& id, llvm::Value* value, const llvm::Twine& name)
+        const std::string& id, llvm::Value* value)
 {
     int compIdx = symbols.getCompartmentIndex(id);
-    return createStore(md, CompartmentVolumes, compIdx, value, name);
+    return createStore(md, CompartmentVolumes, compIdx, value);
 }
 
 llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtLoad(
@@ -779,11 +775,65 @@ llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtLoad(
 }
 
 llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtStore(
-        llvm::Value* modelData, const std::string& id, llvm::Value* value,
-        const Twine &name)
+        llvm::Value* modelData, const std::string& id, llvm::Value* value)
 {
-    Value *gep = createFloatSpeciesAmtGEP(modelData, id, name + "_gep");
+    Value *gep = createFloatSpeciesAmtGEP(modelData, id);
     return builder->CreateStore(value, gep);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesConcFromAmtLoad(
+        llvm::Value* md, const std::string& id, const llvm::Twine& name)
+{
+    validateStruct(md, __FUNC__);
+    Value *amt = createBoundSpeciesAmtLoad(md, id, id + "_amt");
+    Value *compEP = createBoundSpeciesCompGEP(md, id);
+    Value *volume = builder->CreateLoad(compEP, id + "_vol");
+    return builder->CreateFDiv(amt, volume, name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesAmtLoad(llvm::Value* md,
+        const std::string& id, const llvm::Twine& name)
+{
+    Value *gep = createBoundSpeciesAmtGEP(md, id, name + "_gep");
+    return builder->CreateLoad(gep, name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesAmtStore(
+        llvm::Value* modelData, const std::string& id, llvm::Value* value)
+{
+    Value *gep = createBoundSpeciesAmtGEP(modelData, id);
+    return builder->CreateStore(value, gep);
+}
+
+
+llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesAmtGEP(llvm::Value* s,
+        const std::string& id, const llvm::Twine& name)
+{
+    validateStruct(s, __FUNC__);
+    int index = symbols.getBoundarySpeciesIndex(id);
+    return createGEP(s, BoundarySpeciesAmounts, index, name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesCompGEP(llvm::Value* s,
+        const std::string& id)
+{
+    validateStruct(s, __FUNC__);
+    int compIndex = symbols.getBoundarySpeciesCompartmentIndex(id);
+    return createGEP(s, CompartmentVolumes, compIndex);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createGlobalParamLoad(llvm::Value* md,
+        const std::string& id, const llvm::Twine& name)
+{
+    int idx = symbols.getGlobalParameterIndex(id);
+    return createLoad(md, GlobalParameters, idx, name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createGlobalParamStore(llvm::Value* md,
+        const std::string& id, llvm::Value* value)
+{
+    int idx = symbols.getGlobalParameterIndex(id);
+    return createStore(md, GlobalParameters, idx, value);
 }
 
 void LLVMModelDataIRBuilder::validateStruct(llvm::Value* s, const char* funcName)

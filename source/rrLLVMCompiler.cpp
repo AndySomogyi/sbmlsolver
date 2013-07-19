@@ -64,8 +64,12 @@ std::string LLVMCompiler::gurgle()
     string parent = getParentFolder(cwd);    //Go up one folder
     string supportDir = joinPath(parent, "rr_support");
     vector<string> lines = getLinesInFile(supportDir + "/gurgle.dat");
-    int index = rand() % lines.size();
-    return lines[index];
+    if (lines.size() > 0)
+    {
+        int index = rand() % lines.size();
+        return lines[index];
+    }
+    return "would have said something clever if we could find a gurgle.dat in " + supportDir;
 }
 
 } /* namespace rr */
