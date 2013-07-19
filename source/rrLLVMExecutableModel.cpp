@@ -20,7 +20,8 @@ LLVMExecutableModel::LLVMExecutableModel() :
     context(0),
     executionEngine(0),
     errStr(0),
-    evalInitialConditionsPtr(0)
+    evalInitialConditionsPtr(0),
+    evalReactionRatesPtr(0)
 {
 }
 

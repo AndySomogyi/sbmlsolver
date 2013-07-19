@@ -97,6 +97,7 @@ if(BUILD_LLVM)
         rrLLVMAssignmentRuleEvaluator
         rrLLVMASTNodeCodeGen
         rrLLVMASTNodeFactory
+        rrLLVMCodeGenBase
         rrLLVMCodeGenerator
         rrLLVMCompiler
         rrLLVMEvalInitialConditionsCodeGen

@@ -34,8 +34,7 @@ using libsbml::Parameter;
  * generated function signature:
  * void modeldata_initialvalues_set(ModelData *);
  */
-class LLVMEvalInitialConditionsCodeGen: private LLVMCodeGenBase,
-        private LLVMSymbolResolver
+class LLVMEvalInitialConditionsCodeGen: private LLVMCodeGenBase
 {
 public:
     LLVMEvalInitialConditionsCodeGen(const LLVMModelGeneratorContext &mgc);
