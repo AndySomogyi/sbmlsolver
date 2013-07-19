@@ -47,6 +47,9 @@ public:
     CompiledExecutableModel(const ModelSymbols& symbols, ModelSharedLibrary* dll);
     virtual ~CompiledExecutableModel();
 
+    virtual bool getConservedSumChanged();
+    virtual void setConservedSumChanged(bool);
+
     virtual string getModelName();
 
     virtual void setTime(double _time);
@@ -158,6 +161,8 @@ public:
     virtual const StringList getConservationNames();
 
 private:
+
+    bool mConservedSumChanged;
 
     /**
      * initialize and allocate space for the ModelData buffers.

@@ -6,6 +6,7 @@
  */
 #include "rrLLVMCodeGenBase.h"
 #include "rrLLVMASTNodeCodeGen.h"
+#include "rrLLVMException.h"
 
 namespace rr
 {
