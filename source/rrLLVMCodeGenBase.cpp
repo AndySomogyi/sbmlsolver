@@ -30,9 +30,18 @@ llvm::Value* LLVMCodeGenBase::symbolValue(const std::string& symbol, Value *mode
     {
         if (species->getBoundaryCondition())
         {
+            // floating species
             if (species->getHasOnlySubstanceUnits())
             {
-                //..return mdbuilder.create
+                // expect an amount, we're good to go
+                return mdbuilder.createBoundSpeciesAmtLoad(modelData,
+                        species->getId(), species->getId() + "_amt");
+            }
+            else
+            {
+                // expect a concentration, need to convert amt to conc
+                return mdbuilder.createBoundSpeciesConcFromAmtLoad(modelData,
+                        species->getId(), species->getId() + "_conc");
             }
         }
         else
@@ -40,13 +49,36 @@ llvm::Value* LLVMCodeGenBase::symbolValue(const std::string& symbol, Value *mode
             // floating species
             if (species->getHasOnlySubstanceUnits())
             {
-                return mdbuilder.createFloatSpeciesAmtLoad(modelData, species->getId(), species->getId());
+                // expect an amount, we're good to go
+                return mdbuilder.createFloatSpeciesAmtLoad(modelData,
+                        species->getId(), species->getId() + "_amt");
             }
-
+            else
+            {
+                // expect a concentration, need to convert amt to conc
+                return mdbuilder.createFloatSpeciesConcFromAmtLoad(modelData,
+                        species->getId(), species->getId() + "_conc");
+            }
         }
     }
 
-    return 0;
+    const Parameter* param = dynamic_cast<const Parameter*>(element);
+    if (param)
+    {
+        return mdbuilder.createGlobalParamLoad(modelData, param->getId(), param->getId());
+    }
+
+    const Compartment* comp = dynamic_cast<const Compartment*>(element);
+    if (comp)
+    {
+        return mdbuilder.createCompLoad(modelData, comp->getId(), comp->getId());
+    }
+
+    string msg = "Could not find requested symbol \'";
+    msg += symbol;
+    msg += "\' in the model";
+    throw LLVMException(msg, __FUNC__);
+
 
     /*
      * if (id.empty()) return NULL;
@@ -86,13 +118,7 @@ llvm::Value* LLVMCodeGenBase::symbolValue(const std::string& symbol, Value *mode
 
 
 
-    else
-    {
-        string msg = "Could not find requested symbol \'";
-        msg += symbol;
-        msg += "\' in symbol forest";
-        throw LLVMException(msg, __FUNC__);
-    }
+
     */
 }
 }

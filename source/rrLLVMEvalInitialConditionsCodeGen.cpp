@@ -183,7 +183,7 @@ void LLVMEvalInitialConditionsCodeGen::codeGenFloatingSpecies(
             amt = builder->CreateFMul(value, compValue, "amt");
         }
 
-        modelDataBuilder.createFloatSpeciesAmtStore(modelData, i->first, amt, "fltspcs_" + i->first);
+        modelDataBuilder.createFloatSpeciesAmtStore(modelData, i->first, amt);
     }
 }
 
@@ -251,7 +251,7 @@ void LLVMEvalInitialConditionsCodeGen::codeGenCompartments(
         Value *value = astCodeGen.codeGen(i->second);
         value->dump();
 
-        modelDataBuilder.createCompStore(modelData, i->first, value, i->first);
+        modelDataBuilder.createCompStore(modelData, i->first, value);
     }
 }
 
