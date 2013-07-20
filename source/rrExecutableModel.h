@@ -192,10 +192,6 @@ public:
 
     virtual double getConcentration(int index) = 0;
 
-
-
-    virtual double getAmount(const int i) = 0;
-
     /**
      * set the 'values' of the rate rules.
      *
@@ -259,9 +255,12 @@ public:
      * species values.
      *
      * @param[in] time current simulator time
-     * @param[in] y state vector, must be of size returned by getStateVector
+     * @param[in] y state vector, must be either null, or have a size of that
+     *         speciefied by getStateVector. If y is null, then the model is
+     *         evaluated using its current state. If y is not null, then the
+     *         y is considered the state vector.
      * @param[out] dydt calculated rate of change of the state vector, if null,
-     * it is ignored.
+     *         it is ignored.
      */
     virtual void evalModel(double time, const double *y, double* dydt=0) = 0;
 

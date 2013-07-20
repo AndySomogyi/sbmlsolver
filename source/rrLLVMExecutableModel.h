@@ -112,7 +112,6 @@ public:
 
     //Access dll data
     virtual void getRateRuleValues(double *rateRuleValues);
-    virtual double getAmount(const int i);
 
 
 

@@ -299,13 +299,20 @@ int CompiledExecutableModel::getStateVector(double* stateVector)
 
 int CompiledExecutableModel::setStateVector(const double* stateVector)
 {
-    setRateRuleValues(stateVector);
     const double *floatingSpeciesAmounts = stateVector + mData.numRateRules;
+
+    updateDependentSpeciesValues();
 
     for (int i = 0; i < mData.numIndependentSpecies; i++)
     {
         mData.floatingSpeciesAmounts[i] = floatingSpeciesAmounts[i];
     }
+
+    computeRules();
+
+    setRateRuleValues(stateVector);
+
+    computeAllRatesOfChange();
 
     return mData.numRateRules + mData.numRateRules;
 }
@@ -615,7 +622,25 @@ void CompiledExecutableModel::evalModel(double timein, const double *y, double *
         return;
     }
 
-    cevalModel(&mData, timein, y);
+    if (y == 0)
+    {
+        // use current state
+        vector<double> currentState(getStateVector(0), 0.0);
+        getStateVector(&currentState[0]);
+        cevalModel(&mData, timein, &currentState[0]);
+    }
+    else
+    {
+        cevalModel(&mData, timein, y);
+    }
+
+    if (dydt)
+    {
+        memcpy(dydt, mData.rateRules, mData.numRateRules * sizeof(double));
+
+        memcpy(&dydt[mData.numRateRules], mData.floatingSpeciesAmountRates,
+                mData.numFloatingSpecies * sizeof(double));
+    }
 }
 
 void CompiledExecutableModel::evalEvents(const double& timeIn, const vector<double>& y)

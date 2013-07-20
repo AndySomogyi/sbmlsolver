@@ -141,10 +141,7 @@ void LLVMExecutableModel::getRateRuleValues(double *rateRuleValues)
 {
 }
 
-double LLVMExecutableModel::getAmount(const int i)
-{
-    return 0;
-}
+
 
 void LLVMExecutableModel::setRateRuleValues(const double * rates)
 {
