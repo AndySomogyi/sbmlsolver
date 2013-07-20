@@ -11,6 +11,8 @@
 #include "LLVMCSRMatrixTest.h"
 #include "test_compiler.h"
 
+#include "TestBase.h"
+
 #include <sbml/SBMLDocument.h>
 #include <sbml/Model.h>
 #include <sbml/SBMLReader.h>
@@ -73,7 +75,16 @@ int main(int argc, char* argv[])
     getPairs(pairs, npairs);
 
     for (int i = 0; i < npairs; i++) {
-        runInitialValueAssigmentTest(pairs[i].first, pairs[i].second);
+        //runInitialValueAssigmentTest(pairs[i].first, pairs[i].second);
+        try
+        {
+            TestBase test(pairs[i].first, pairs[i].second);
+        }
+        catch (std::exception &e)
+        {
+            Log(lError) << "Error with test " << pairs[i].first << ", " << pairs[i].second
+                    << ": " << e.what();
+        }
     }
     //StrIntPair test = {"l3v1", 999  };
     //StrIntPair test = {"l2v4", 7};

@@ -17,6 +17,9 @@ add_executable( ${target}
     src/CSRMatrixTest
     src/LLVMCSRMatrixTest
     src/test_compiler
+    src/TestBase
+    src/TestEvalInitialConditions
+    src/TestEvalReactionRates
     )
 
 set_property(TARGET ${target}
