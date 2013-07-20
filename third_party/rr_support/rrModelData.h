@@ -259,7 +259,7 @@ typedef struct SModelData
     /**
      * number of items in the state vector.
      */
-    int                                 numStateVector;                   // 41
+    int                                 stateVectorSize;                 // 41
 
     /**
      * the state vector, this is usually a pointer to a block of data
