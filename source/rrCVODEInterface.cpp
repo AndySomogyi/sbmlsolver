@@ -20,6 +20,8 @@
 #include <map>
 #include <algorithm>
 
+#include <Poco/Logger.h>
+
 
 using namespace std;
 namespace rr
@@ -200,8 +202,8 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
             if (!haveVariables() && mModel->getNumEvents() == 0)
             {
                 mModel->convertToAmounts();
-                vector<double> args = buildEvalArgument();
-                mModel->evalModel(tout, &args[0]);
+                //vector<double> args = buildEvalArgument();
+                mModel->evalModel(tout, 0, 0);
                 return tout;
             }
 
@@ -297,17 +299,7 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
 
     model->pushState();
 
-    int size = model->getModelData().numFloatingSpecies + model->getModelData().numRateRules;
-    vector<double> dCVodeArgument(size);
-
-    model->evalModel(time, y);
-
-    memcpy(ydot, model->getModelData().rateRules,
-            model->getModelData().numRateRules * sizeof(double));
-
-    memcpy(&ydot[model->getModelData().numRateRules],
-            model->getModelData().floatingSpeciesAmountRates,
-            model->getModelData().numFloatingSpecies * sizeof(double));
+    model->evalModel(time, y, ydot);
 
     cvInstance->mCount++;
 
@@ -327,11 +319,11 @@ void EventFcn(double time, double* y, double* gdot, void* userData)
 
     model->pushState();
 
-    vector<double> args = cvInstance->buildEvalArgument();
-    model->evalModel(time, &args[0]);
+    //vector<double> args = cvInstance->buildEvalArgument();
+    model->evalModel(time, 0, 0);
     cvInstance->assignResultsToModel();
 
-    args = cvInstance->buildEvalArgument();
+    vector<double> args = cvInstance->buildEvalArgument();
     model->evalEvents(time, args);
 
     for(int i = 0; i < model->getNumEvents(); i++)
@@ -457,7 +449,7 @@ void CvodeInterface::assignPendingEvents(const double& timeEnd, const double& to
             mModel->setTime(tout);
             assignResultsToModel();
             mModel->convertToConcentrations();
-            mModel->updateDependentSpeciesValues(mModel->getModelData().floatingSpeciesConcentrations);
+            mModel->updateDependentSpeciesValues();
             mAssignments[i].AssignToModel();
 
             if (mModel->getConservedSumChanged())
@@ -466,8 +458,8 @@ void CvodeInterface::assignPendingEvents(const double& timeEnd, const double& to
             }
 
             mModel->convertToAmounts();
-            vector<double> args = buildEvalArgument();
-            mModel->evalModel(timeEnd, &args[0]);
+            //vector<double> args = buildEvalArgument();
+            mModel->evalModel(timeEnd, 0, 0);
             reStart(timeEnd, mModel);
             mAssignments.erase(mAssignments.begin() + i);
         }
@@ -496,8 +488,8 @@ vector<int> CvodeInterface::retestEvents(const double& timeEnd, const vector<int
     }
 
     mModel->convertToAmounts();
-    vector<double> args = buildEvalArgument();
-    mModel->evalModel(timeEnd, &args[0]);
+    //vector<double> args = buildEvalArgument();
+    mModel->evalModel(timeEnd, 0, 0);
 
     // copy original evenStatusArray
     vector<bool> eventStatusArray(mModel->getModelData().eventStatusArray,
@@ -506,7 +498,7 @@ vector<int> CvodeInterface::retestEvents(const double& timeEnd, const vector<int
 
     mModel->pushState();
 
-    args = buildEvalArgument();
+    vector<double> args = buildEvalArgument();
     mModel->evalEvents(timeEnd, args);
 
     for (int i = 0; i < mModel->getNumEvents(); i++)
@@ -626,7 +618,7 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
 {
     assignResultsToModel();
     mModel->convertToConcentrations();
-    mModel->updateDependentSpeciesValues(mModel->getModelData().floatingSpeciesConcentrations);
+    mModel->updateDependentSpeciesValues();
     vector<double> args = buildEvalArgument();
     mModel->evalEvents(timeEnd, args);
 
@@ -744,8 +736,8 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
     }
     mModel->convertToAmounts();
 
-    args = buildEvalArgument();
-    mModel->evalModel(timeEnd, &args[0]);
+    //args = buildEvalArgument();
+    mModel->evalModel(timeEnd, 0, 0);
 
     vector<double> dCurrentValues(mModel->getModelData().numRateRules, 0);
     mModel->getRateRuleValues(&dCurrentValues[0]);
@@ -766,25 +758,7 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
 
 void CvodeInterface::assignResultsToModel()
 {
-    mModel->updateDependentSpeciesValues(mModel->getModelData().floatingSpeciesConcentrations);
-    vector<double> dTemp(mNumRateRules);
-
-    for (int i = 0; i < mNumRateRules; i++)
-    {
-        dTemp[i] = GetVector((_generic_N_Vector*) mStateVector, i);
-    }
-
-    for (int i = 0; i < mNumIndependentSpecies; i++)
-    {
-        double val = GetVector((_generic_N_Vector*) mStateVector, i + mNumRateRules);
-        mModel->getModelData().floatingSpeciesAmounts[i] = (val);
-        Log(lDebug5)<<"Amount "<<setprecision(16)<<val;
-    }
-
-    mModel->computeRules();
-    mModel->setRateRuleValues(&dTemp[0]);
-
-    mModel->computeAllRatesOfChange();
+    mModel->setStateVector(NV_DATA_S(mStateVector));
 }
 
 void CvodeInterface::assignNewVector(ExecutableModel *model)
@@ -793,58 +767,58 @@ void CvodeInterface::assignNewVector(ExecutableModel *model)
 }
 
 // Restart the simulation using a different initial condition
-void CvodeInterface::assignNewVector(ExecutableModel *oModel, bool bAssignNewTolerances)
+void CvodeInterface::assignNewVector(ExecutableModel *oModel,
+        bool assignNewTolerances)
 {
-    vector<double> dTemp(mModel->getModelData().numRateRules, 0);
-    mModel->getRateRuleValues(&dTemp[0]);
-
-    double dMin = mAbsTol;
-
-    for (int i = 0; i < mNumRateRules; i++)
+    if (mStateVector == 0)
     {
-        if (dTemp[i] > 0 && dTemp[i]/1000. < dMin)
+        if (oModel && oModel->getStateVector(0) != 0)
         {
-            dMin = dTemp[i]/1000.0;
+            Log(lWarning) << "Attempting to assign non-zero state vector to "
+                    "zero length state vector in " << __FUNC__;
         }
+        return;
     }
 
-    for (int i = 0; i < mNumIndependentSpecies; i++)
+    if (oModel->getStateVector(0) > NV_LENGTH_S(mStateVector))
     {
-        if (oModel->getAmounts(i) > 0 && oModel->getAmounts(i)/1000.0 < dMin)    //Todo: was calling oModel->amounts[i]  is this in fact GetAmountsForSpeciesNr(i) ??
-        {
-            dMin = oModel->getModelData().floatingSpeciesAmounts[i]/1000.0;
-        }
+        stringstream msg;
+        msg << "attempt to assign different length data to existing state vector, ";
+        msg << "new data has " << oModel->getStateVector(0) << " elements and ";
+        msg << "existing state vector has " << NV_LENGTH_S(mStateVector);
+
+        poco_error(getLogger(), msg.str());
+
+        throw CVODEException(msg.str());
     }
 
-    for (int i = 0; i < mNumRateRules; i++)
+    oModel->getStateVector(NV_DATA_S(mStateVector));
+
+    if (assignNewTolerances)
     {
-        if (bAssignNewTolerances)
+        double dMin = mAbsTol;
+
+        for (int i = 0; i < NV_LENGTH_S(mStateVector); ++i)
+        {
+            double tmp = NV_DATA_S(mStateVector)[i] / 1000.;
+            if (tmp > 0 && tmp < dMin)
+            {
+                dMin = tmp;
+            }
+        }
+
+        for (int i = 0; i < NV_LENGTH_S(mStateVector); ++i)
         {
             setAbsTolerance(i, dMin);
         }
-        SetVector(mStateVector, i, dTemp[i]);
-    }
 
-    for (int i = 0; i < mNumIndependentSpecies; i++)
-    {
-        if (bAssignNewTolerances)
-        {
-            setAbsTolerance(i + mNumRateRules, dMin);
-        }
-        SetVector(mStateVector, i + mNumRateRules, oModel->getAmounts(i));
-    }
-
-    if (!haveVariables() && mModel->getNumEvents() > 0)
-    {
-        if (bAssignNewTolerances)
+        // TODO: events are bizarre, need to clean them up eventually
+        if (!haveVariables() && mModel->getNumEvents() > 0)
         {
             setAbsTolerance(0, dMin);
+            SetVector(mStateVector, 0, 1.0);
         }
-        SetVector(mStateVector, 0, 1.0);
-    }
 
-    if (bAssignNewTolerances)
-    {
         Log(lDebug1)<<"Set tolerance to: "<<setprecision(16)<< dMin;
     }
 }
@@ -879,6 +853,11 @@ void CvodeInterface::reStart(double timeStart, ExecutableModel* model)
 
 vector<double> CvodeInterface::buildEvalArgument()
 {
+    vector<double> result(mModel->getStateVector(0), 0);
+    mModel->getStateVector(&result[0]);
+    return result;
+
+    /*
     vector<double> dResult;
     dResult.resize(mModel->getModelData().numFloatingSpecies + mModel->getModelData().numRateRules);
 
@@ -898,6 +877,7 @@ vector<double> CvodeInterface::buildEvalArgument()
 
     Log(lDebug4)<<"Size of dResult in BuildEvalArgument: "<<dResult.size();
     return dResult;
+    */
 }
 
 void CvodeInterface::handleCVODEError(const int& errCode)

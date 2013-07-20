@@ -311,10 +311,10 @@ void CModelGenerator::writeComputeConservedTotals(CodeBuilder& ignore, const int
 
 void CModelGenerator::writeUpdateDependentSpecies(CodeBuilder& ignore, const int& numIndependentSpecies, const int& numDependentSpecies, DoubleMatrix& L0)
 {
-    mHeader.AddFunctionExport("void", "updateDependentSpeciesValues(ModelData* md, double* y)");
+    mHeader.AddFunctionExport("void", "updateDependentSpeciesValues(ModelData* md)");
     mSource<<append("// Compute values of dependent species " + NL());
     mSource<<append("// Uses the equation: Sd = C + L0*Si" + NL());
-    mSource<<"void updateDependentSpeciesValues(ModelData* md, double* y)\n{";
+    mSource<<"void updateDependentSpeciesValues(ModelData* md)\n{";
 
     // Use the equation: Sd = C + L0*Si to compute dependent concentrations
 
@@ -931,7 +931,7 @@ void CModelGenerator::writeEvalEvents(CodeBuilder& ignore, const int& numEvents,
     }
 
     mSource<<append("\tmd->time = timeIn;" + NL());
-    mSource<<append("\tupdateDependentSpeciesValues(md, md->floatingSpeciesConcentrations);" + NL());
+    mSource<<append("\tupdateDependentSpeciesValues(md);" + NL());
     mSource<<append("\tcomputeRules(md);" + NL());
 
     for (int i = 0; i < numEvents; i++)
@@ -976,7 +976,7 @@ void CModelGenerator::writeEvalModel(CodeBuilder& ignore, const int& numReaction
     mSource<<append(NL());
     mSource<<append("\tconvertToAmounts(md);" + NL());
     mSource<<append("\tmd->time = timein;  // Don't remove" + NL());
-    mSource<<append("\tupdateDependentSpeciesValues(md, md->floatingSpeciesConcentrations);" + NL());
+    mSource<<append("\tupdateDependentSpeciesValues(md);" + NL());
 
     if (numOfRules > 0)
     {

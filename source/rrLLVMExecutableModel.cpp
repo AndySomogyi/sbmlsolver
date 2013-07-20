@@ -141,11 +141,6 @@ void LLVMExecutableModel::getRateRuleValues(double *rateRuleValues)
 {
 }
 
-double LLVMExecutableModel::getAmounts(const int& i)
-{
-    return 0;
-}
-
 
 
 void LLVMExecutableModel::setRateRuleValues(const double * rates)
@@ -156,7 +151,7 @@ void LLVMExecutableModel::convertToConcentrations()
 {
 }
 
-void LLVMExecutableModel::updateDependentSpeciesValues(double* _y)
+void LLVMExecutableModel::updateDependentSpeciesValues()
 {
 }
 
@@ -164,7 +159,7 @@ void LLVMExecutableModel::computeAllRatesOfChange()
 {
 }
 
-void LLVMExecutableModel::evalModel(double time, const double *y)
+void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
 {
 }
 
@@ -288,6 +283,16 @@ bool LLVMExecutableModel::getConservedSumChanged()
 
 void LLVMExecutableModel::setConservedSumChanged(bool val)
 {
+}
+
+int LLVMExecutableModel::getStateVector(double* stateVector)
+{
+    return 0;
+}
+
+int LLVMExecutableModel::setStateVector(const double* stateVector)
+{
+    return 0;
 }
 
 LLVMExecutableModel* LLVMExecutableModel::dummy()

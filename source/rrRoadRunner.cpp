@@ -3771,7 +3771,7 @@ bool RoadRunner::setValue(const string& sId, const double& dValue)
     if (mModel->getConservations().find(sId, nIndex))
     {
         mModel->getModelData().dependentSpeciesConservedSums[nIndex] = dValue;
-        mModel->updateDependentSpeciesValues(mModel->getModelData().floatingSpeciesConcentrations);
+        mModel->updateDependentSpeciesValues();
         mModel->setConservedSumChanged(true);
         return true;
     }
