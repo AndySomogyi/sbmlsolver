@@ -164,7 +164,7 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
 }
 
 void LLVMExecutableModel::evalEvents(const double& time,
-        const vector<double>& y)
+        const double *y)
 {
 }
 

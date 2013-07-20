@@ -643,16 +643,25 @@ void CompiledExecutableModel::evalModel(double timein, const double *y, double *
     }
 }
 
-void CompiledExecutableModel::evalEvents(const double& timeIn, const vector<double>& y)
+void CompiledExecutableModel::evalEvents(const double& timeIn, const double*y)
 {
     if(!cevalEvents)
     {
         Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
-    double *oAmounts = createVector(y);
-    cevalEvents(&mData, timeIn, oAmounts);
-    delete [] oAmounts;
+
+    if (y == 0)
+    {
+        // use current state
+        vector<double> currentState(getStateVector(0), 0.0);
+        getStateVector(&currentState[0]);
+        cevalEvents(&mData, timeIn, &currentState[0]);
+    }
+    else
+    {
+        cevalEvents(&mData, timeIn, y);
+    }
 }
 
 void CompiledExecutableModel::resetEvents()
