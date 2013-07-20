@@ -643,7 +643,7 @@ void CompiledExecutableModel::evalModel(double timein, const double *y, double *
     }
 }
 
-void CompiledExecutableModel::evalEvents(const double& timeIn, const double*y)
+void CompiledExecutableModel::evalEvents(const double timeIn, const double*y)
 {
     if(!cevalEvents)
     {

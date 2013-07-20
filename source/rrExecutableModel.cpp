@@ -28,7 +28,7 @@ void allocModelDataBuffers(ModelData &data, const string& modelName)
 {
     data.modelName = strdup(modelName.c_str());
 
-    // in certain cases, the data returned by c++ new is alligned differently than
+    // in certain cases, the data returned by c++ new may be alligned differently than
     // malloc, so just use rrCalloc here just to be safe, plus rrCalloc returns zero
     // initialized memory.
 
@@ -54,12 +54,6 @@ void allocModelDataBuffers(ModelData &data, const string& modelName)
     data.floatingSpeciesCompartments = (int*)rrCalloc(data.numFloatingSpecies, sizeof(int));
     data.boundarySpeciesCompartments = (int*)rrCalloc(data.numBoundarySpecies, sizeof(int));
     data.work = (double*)rrCalloc(data.workSize, sizeof(int));
-
-    // allocate space for the symbolic names of things
-    data.variableTable = (char**)rrCalloc(data.numFloatingSpecies, sizeof(char*));
-    data.boundaryTable = (char**)rrCalloc(data.numBoundarySpecies, sizeof(char*));
-    data.globalParameterTable = (char**)rrCalloc(data.numGlobalParameters, sizeof(char*));
-
 
     //Event function pointer stuff
     data.eventAssignments =
@@ -198,11 +192,6 @@ void  freeModelDataBuffers(ModelData &data)
     free(data.eventTests);
     free(data.eventType);
     free(data.work);
-
-    // free names
-    free(data.variableTable);
-    free(data.boundaryTable);
-    free(data.globalParameterTable);
 
     //Event function pointer stuff
     free(data.eventAssignments);

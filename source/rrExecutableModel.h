@@ -70,11 +70,12 @@ public:
         PopDiscard = 0x00000001
     };
 
-
     /**
      * A ExecutableModel holds a stack of states, the entire state of this
      * model is pushed onto the saved state stack, and the current state
      * remains unchanged.
+     *
+     * @param[in] options a bitfield of options from StateStackOptions.
      *
      * @returns the size of the saved stack after the current state has been
      * pushed.
@@ -84,6 +85,8 @@ public:
     /**
      * restore the state from a previously saved state, if the state stack
      * is empty, this has no effect.
+     *
+     * @param[in] options a bitfield of options from StateStackOptions.
      *
      * @returns the size of the saved stack after the top has been poped.
      */
@@ -239,7 +242,7 @@ public:
      */
     virtual void evalModel(double time, const double *y, double* dydt=0) = 0;
 
-    virtual void evalEvents(const double& time, const double *y) = 0;
+    virtual void evalEvents(const double time, const double *y) = 0;
     virtual void resetEvents() = 0;
     virtual void testConstraints() = 0;
 

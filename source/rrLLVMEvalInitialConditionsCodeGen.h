@@ -63,8 +63,6 @@ private:
                LLVMModelDataIRBuilder &modelDataBuilder);
 
     llvm::Function *initialValuesFunc;
-
-    llvm::ExecutionEngine *engine;
 };
 
 } /* namespace rr */

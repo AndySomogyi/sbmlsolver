@@ -38,7 +38,6 @@ protected:
     virtual void                        substituteWords(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb) = 0;
     virtual void                        substituteToken(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb) = 0;
     virtual string                      findSymbol(const string& varName) = 0;
-    virtual void                        writeOutSymbolTables(CodeBuilder& sb) = 0;
     virtual void                        writeComputeAllRatesOfChange(CodeBuilder& sb, const int& numIndependentSpecies,
                                                                         const int& numDependentSpecies, ls::DoubleMatrix& L0) = 0;
 
