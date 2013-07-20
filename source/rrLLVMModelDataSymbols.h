@@ -63,16 +63,16 @@ enum ModelDataFields {
     EventStatusArray,                         // 38
     PreviousEventStatusArraySize,             // 39
     PreviousEventStatusArray,                 // 40
-    WorkSize,                                 // 41
-    Work,                                     // 42
-    EventDelays,                              // 43
-    EventAssignments,                         // 44
-    ComputeEventAssignments,                  // 45
-    PerformEventAssignments,                  // 46
-    ModelName,                                // 47
-    VariableTable,                            // 48
-    BoundaryTable,                            // 49
-    GlobalParameterTable,                     // 50
+    StateVectorSize,                          // 41
+    StateVector,                              // 42
+    StateVectorRate,                          // 43
+    WorkSize,                                 // 44
+    Work,                                     // 45
+    EventDelays,                              // 46
+    EventAssignments,                         // 47
+    ComputeEventAssignments,                  // 48
+    PerformEventAssignments,                  // 49
+    ModelName,                                // 50
     SrSize,                                   // 51
     Sr                                        // 52
 };

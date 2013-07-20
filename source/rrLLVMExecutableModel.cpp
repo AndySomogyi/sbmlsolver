@@ -98,22 +98,9 @@ void LLVMExecutableModel::setConcentration(int index, double value)
 {
 }
 
-void LLVMExecutableModel::evalReactionRates(double time, double* y)
-{
-}
-
-
 int LLVMExecutableModel::getNumLocalParameters(int reactionId)
 {
     return 0;
-}
-
-void LLVMExecutableModel::computeRules()
-{
-}
-
-void LLVMExecutableModel::initializeInitialConditions()
-{
 }
 
 void LLVMExecutableModel::setInitialConditions()
@@ -163,7 +150,7 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
 {
 }
 
-void LLVMExecutableModel::evalEvents(const double& time,
+void LLVMExecutableModel::evalEvents(const double time,
         const double *y)
 {
 }

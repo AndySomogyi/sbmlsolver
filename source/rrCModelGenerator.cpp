@@ -86,7 +86,6 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
     //Write model to String builder...
     writeClassHeader(ignore);
     writeOutVariables(ignore);
-    writeOutSymbolTables(ignore);
 
     ///// Write non exports
     mHeader.NewLine("\n//NON - EXPORTS ========================================");
@@ -1441,37 +1440,6 @@ string CModelGenerator::convertSymbolToC(const string& compartmentName)
     }
       throw CoreException("Internal Error: Unable to locate compartment: " + compartmentName);
 }
-
-void CModelGenerator::writeOutSymbolTables(CodeBuilder& ignore)
-{
-    mSource<<append("void loadSymbolTables(ModelData* md)\n{");
-
-    int nrFuncs = 0;
-    for (int i = 0; i < ms.mFloatingSpeciesConcentrationList.size(); i++)
-    {
-        mSource<<format("\n\tmd->variableTable[{0}] = \"{1}\";", i, ms.mFloatingSpeciesConcentrationList[i].name);
-        nrFuncs++;
-    }
-
-    for (int i = 0; i < ms.mBoundarySpeciesList.size(); i++)
-    {
-        mSource<<format("\n\tmd->boundaryTable[{0}] = \"{1}\";", i, ms.mBoundarySpeciesList[i].name);
-        nrFuncs++;
-    }
-
-    for (int i = 0; i < ms.mGlobalParameterList.size(); i++)
-    {
-        string name = ms.mGlobalParameterList[i].name;
-           mSource<<format("\n\tmd->globalParameterTable[{0}] = \"{1}\";", i, ms.mGlobalParameterList[i].name);
-        nrFuncs++;
-    }
-    if(nrFuncs > 0)
-    {
-        mSource<<"\n";
-    }
-    mSource<<format("}{0}{0}", NL());
-}
-
 
 
 

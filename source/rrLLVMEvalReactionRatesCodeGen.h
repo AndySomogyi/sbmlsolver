@@ -49,8 +49,6 @@ private:
 
     llvm::Function *func;
 
-    llvm::ExecutionEngine *engine;
-
     /**
      * pointer to the model data param whilst we are code generating.
      */

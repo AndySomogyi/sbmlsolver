@@ -120,8 +120,7 @@ private:
     void                                substituteWords(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb);
     void                                substituteToken(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb);
     string                              findSymbol(const string& varName);
-    void                                 write_getModelNameFunction(CodeBuilder& ignore, CodeBuilder& source);
-    void                                writeOutSymbolTables(CodeBuilder& sb);
+    void                                write_getModelNameFunction(CodeBuilder& ignore, CodeBuilder& source);
     void                                writeComputeAllRatesOfChange(CodeBuilder& sb, const int& numIndependentSpecies, const int& numDependentSpecies, DoubleMatrix& L0);
     void                                writeComputeConservedTotals(CodeBuilder& sb, const int& numFloatingSpecies, const int& numDependentSpecies);
     void                                writeUpdateDependentSpecies(CodeBuilder& sb, const int& numIndependentSpecies, const int& numDependentSpecies, DoubleMatrix& L0);

@@ -33,6 +33,673 @@ const char* LLVMModelDataIRBuilder::csr_matrixName = "rr::csr_matrix";
 const char* LLVMModelDataIRBuilder::csr_matrix_set_nzName = "rr::csr_matrix_set_nz";
 const char* LLVMModelDataIRBuilder::csr_matrix_get_nzName = "rr::csr_matrix_get_nz";
 
+LLVMModelDataIRBuilder::LLVMModelDataIRBuilder(Value *modelData,
+        const LLVMModelDataSymbols &symbols,
+        IRBuilder<> &b) :
+        modelData(modelData),
+        symbols(symbols),
+        builder(b)
+{
+    validateStruct(modelData, __FUNC__);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcGEP(const std::string& id)
+{
+    int index = symbols.getFloatingSpeciesIndex(id);
+    return createGEP(FloatingSpeciesConcentrations, index);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcFromAmtLoad(const std::string& id, const Twine& name)
+{
+    Value *amt = createFloatSpeciesAmtLoad(id, id + "_amt");
+    Value *compEP = createFloatSpeciesCompGEP(id);
+    Value *volume = builder.CreateLoad(compEP, id + "_vol");
+    return builder.CreateFDiv(amt, volume, name);
+}
+
+
+llvm::Value* LLVMModelDataIRBuilder::createGlobalParamGEP(const std::string& id)
+{
+    int index = symbols.getGlobalParameterIndex(id);
+    return createGEP(GlobalParameters, index);
+}
+
+
+llvm::Value* LLVMModelDataIRBuilder::createGEP(ModelDataFields field,
+        const Twine& name)
+{
+    return builder.CreateStructGEP(modelData, (unsigned)field, name);
+}
+
+
+llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcStore(const string& id, Value *conc)
+{
+    int index = symbols.getFloatingSpeciesIndex(id);
+
+    Value *compEP = createFloatSpeciesCompGEP(id);
+    Value *volume = builder.CreateLoad(compEP);
+    Value *amount = builder.CreateFMul(conc, volume);
+
+    builder.CreateStore(amount, createGEP(FloatingSpeciesAmounts, index));
+    return builder.CreateStore(conc, createGEP(FloatingSpeciesConcentrations, index));
+
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesCompGEP(const std::string& id)
+{
+    int compIndex = symbols.getFloatingSpeciesCompartmentIndex(id);
+    return createGEP(CompartmentVolumes, compIndex);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createGEP(ModelDataFields field, unsigned index, const Twine& name)
+{
+    Value *fieldGEP = createGEP(field, name + "_gep");
+    Value *load = builder.CreateLoad(fieldGEP, name + "_load");
+    return builder.CreateConstGEP1_32(load, index, name + "_ptr");
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtGEP(const std::string& id, const Twine& name)
+{
+    int index = symbols.getFloatingSpeciesIndex(id);
+    return createGEP(FloatingSpeciesAmounts, index, name);
+}
+
+
+llvm::StructType* LLVMModelDataIRBuilder::getCSRSparseStructType(
+        llvm::Module* module, llvm::ExecutionEngine* engine)
+{
+    StructType *structType = module->getTypeByName(csr_matrixName);
+
+    if (!structType)
+    {
+        LLVMContext &context = module->getContext();
+
+        vector<Type*> elements;
+
+        elements.push_back(Type::getInt32Ty(context));                        // int m;
+        elements.push_back(Type::getInt32Ty(context));                        // int n;
+        elements.push_back(Type::getInt32Ty(context));                        // int nnz;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double* values;
+        elements.push_back(Type::getInt32PtrTy(context));                     // int* colidx;
+        elements.push_back(Type::getInt32PtrTy(context));                     // int* rowptr;
+
+        structType = StructType::create(context, elements, csr_matrixName);
+
+        if (engine)
+        {
+            const DataLayout *dl = engine->getDataLayout();
+
+            size_t llvm_size = dl->getTypeStoreSize(structType);
+
+            if (sizeof(csr_matrix) != llvm_size)
+            {
+                stringstream err;
+                err << "llvm " << csr_matrixName << " size " << llvm_size <<
+                        " does NOT match C++ sizeof(dcsr_matrix) " <<
+                        sizeof(ModelData);
+                throw LLVMException(err.str(), __FUNC__);
+            }
+        }
+    }
+    return structType;
+}
+
+llvm::Function* LLVMModelDataIRBuilder::getCSRMatrixSetNZDecl(Module *module)
+{
+    Function *f = module->getFunction(
+            LLVMModelDataIRBuilder::csr_matrix_set_nzName);
+
+    if (f == 0)
+    {
+        // bool csr_matrix_set_nz(csr_matrix *mat, int row, int col, double val);
+        Type *args[] = {
+                getCSRSparseStructType(module)->getPointerTo(),
+                Type::getInt32Ty(module->getContext()),
+                Type::getInt32Ty(module->getContext()),
+                Type::getDoubleTy(module->getContext())
+        };
+        FunctionType *funcType = FunctionType::get(
+                IntegerType::get(module->getContext(), sizeof(bool) * 8), args,
+                false);
+        f = Function::Create(funcType, Function::InternalLinkage,
+                LLVMModelDataIRBuilder::csr_matrix_set_nzName, module);
+    }
+    return f;
+}
+
+llvm::Function* LLVMModelDataIRBuilder::getCSRMatrixGetNZDecl(Module *module)
+{
+    Function *f = module->getFunction(
+            LLVMModelDataIRBuilder::csr_matrix_get_nzName);
+
+    if (f == 0)
+    {
+        // double csr_matrix_get_nz(const csr_matrix* mat, int row, int col)
+        Type *args[] = {
+                getCSRSparseStructType(module)->getPointerTo(),
+                Type::getInt32Ty(module->getContext()),
+                Type::getInt32Ty(module->getContext())
+        };
+        FunctionType *funcType = FunctionType::get(
+                Type::getDoubleTy(module->getContext()), args, false);
+        f = Function::Create(funcType, Function::InternalLinkage,
+                LLVMModelDataIRBuilder::csr_matrix_get_nzName, module);
+    }
+    return f;
+}
+
+llvm::CallInst* LLVMModelDataIRBuilder::createCSRMatrixSetNZ(IRBuilder<> &builder,
+        llvm::Value* csrPtr, llvm::Value* row, llvm::Value* col,
+        llvm::Value* value, const Twine& name)
+{
+    Function *func = LLVMModelDataIRBuilder::getCSRMatrixSetNZDecl(getModule(builder, __FUNC__));
+    Value *args[] = {csrPtr, row, col, value};
+    return builder.CreateCall(func, args, name);
+}
+
+llvm::Module* LLVMModelDataIRBuilder::getModule(IRBuilder<> &builder, const char* func)
+{
+    BasicBlock *bb = 0;
+    if((bb = builder.GetInsertBlock()) != 0)
+    {
+        Function *function = bb->getParent();
+        if(function)
+        {
+            return function->getParent();
+        }
+    }
+    throw LLVMException("could not get module, a BasicBlock is not currently being populated.", func);
+}
+
+
+llvm::CallInst* LLVMModelDataIRBuilder::createCSRMatrixGetNZ(IRBuilder<> &builder,
+        llvm::Value* csrPtr, llvm::Value* row, llvm::Value* col,
+        const Twine& name)
+{
+    Function *func = LLVMModelDataIRBuilder::getCSRMatrixGetNZDecl(getModule(builder, __FUNC__));
+    Value *args[] = {csrPtr, row, col};
+    return builder.CreateCall(func, args, name);
+}
+
+
+llvm::Value* LLVMModelDataIRBuilder::createLoad(ModelDataFields field, unsigned index, const llvm::Twine& name)
+{
+    Value *gep = this->createGEP(field, index, name + "_gep");
+    return builder.CreateLoad(gep, name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createStore(ModelDataFields field, unsigned index, llvm::Value* value)
+{
+    Value *gep = this->createGEP(field, index);
+    return builder.CreateStore(value, gep);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createCompLoad(const std::string& id, const llvm::Twine& name)
+{
+    int compIdx = symbols.getCompartmentIndex(id);
+    return createLoad(CompartmentVolumes, compIdx, name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createCompStore(const std::string& id, llvm::Value* value)
+{
+    int compIdx = symbols.getCompartmentIndex(id);
+    return createStore(CompartmentVolumes, compIdx, value);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtLoad(const std::string& id, const llvm::Twine& name)
+{
+    Value *gep = createFloatSpeciesAmtGEP(id, name + "_gep");
+    return builder.CreateLoad(gep, name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtStore(
+        llvm::Value* modelData, const std::string& id, llvm::Value* value)
+{
+    Value *gep = createFloatSpeciesAmtGEP(id);
+    return builder.CreateStore(value, gep);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesConcFromAmtLoad(const std::string& id, const llvm::Twine& name)
+{
+    Value *amt = createBoundSpeciesAmtLoad(id, id + "_amt");
+    Value *compEP = createBoundSpeciesCompGEP(id);
+    Value *volume = builder.CreateLoad(compEP, id + "_vol");
+    return builder.CreateFDiv(amt, volume, name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesAmtLoad(const std::string& id, const llvm::Twine& name)
+{
+    Value *gep = createBoundSpeciesAmtGEP(id, name + "_gep");
+    return builder.CreateLoad(gep, name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesAmtStore(const std::string& id, llvm::Value* value)
+{
+    Value *gep = createBoundSpeciesAmtGEP(id);
+    return builder.CreateStore(value, gep);
+}
+
+
+llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesAmtGEP(const std::string& id, const llvm::Twine& name)
+{
+    int index = symbols.getBoundarySpeciesIndex(id);
+    return createGEP(BoundarySpeciesAmounts, index, name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesCompGEP(const std::string& id)
+{
+    int compIndex = symbols.getBoundarySpeciesCompartmentIndex(id);
+    return createGEP(CompartmentVolumes, compIndex);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createGlobalParamLoad(const std::string& id, const llvm::Twine& name)
+{
+    int idx = symbols.getGlobalParameterIndex(id);
+    return createLoad(GlobalParameters, idx, name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createGlobalParamStore(const std::string& id, llvm::Value* value)
+{
+    int idx = symbols.getGlobalParameterIndex(id);
+    return createStore(GlobalParameters, idx, value);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createReactionRateLoad(const std::string& id, const llvm::Twine& name)
+{
+    int idx = symbols.getReactionIndex(id);
+    return createLoad(ReactionRates, idx, name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createReactionRateStore(const std::string& id, llvm::Value* value)
+{
+    int idx = symbols.getReactionIndex(id);
+    return createStore(ReactionRates, idx, value);
+}
+
+void LLVMModelDataIRBuilder::validateStruct(llvm::Value* s,
+        const char* funcName)
+{
+    PointerType *pointerType = dyn_cast<PointerType>(s->getType());
+
+    // get the type the pointer refrerences
+    Type *type = pointerType ? pointerType->getElementType() : s->getType();
+
+    StructType *structType = dyn_cast<StructType>(type);
+
+    if (structType)
+    {
+        //structType->dump();
+        string nm = structType->getName();
+        string sname = structType->getStructName();
+
+        cout << "nm: " << nm << "\n";
+        cout << "sname: " << sname << "\n";
+
+        if (structType->getName().compare(ModelDataName) == 0)
+        {
+            return;
+        }
+    }
+    std::string str;
+    raw_string_ostream err(str);
+    err << "error in " << funcName << ", " << "Invalid argument type, expected "
+            << ModelDataName << ", but received ";
+    type->print(err);
+    throw LLVMException(err.str());
+}
+
+llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, llvm::ExecutionEngine *engine)
+{
+    StructType *structType = module->getTypeByName("rr::ModelData");
+
+    if (!structType)
+    {
+        LLVMContext &context = module->getContext();
+
+        // different compilers define bool differently, it used to be more common to store
+        // bool as a 32 bit int, but now its more common to use an 8 bit int.
+        Type *boolType = IntegerType::get(context, sizeof(bool) * 8);
+        Type *boolPtrType = boolType->getPointerTo();
+        Type *charStarStarType = Type::getInt8PtrTy(context)->getPointerTo();
+        Type *voidPtrType = Type::getInt8PtrTy(context);
+        Type *csrSparseType = getCSRSparseStructType(module, engine);
+        Type *csrSparsePtrType = csrSparseType->getPointerTo();
+
+        vector<Type*> elements;
+
+        elements.push_back(Type::getInt32Ty(context));                        // unsigned                            size;
+        elements.push_back(Type::getInt32Ty(context));                        // unsigned                            flags;
+        elements.push_back(Type::getDoubleTy(context));                       // double                              time;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 numIndependentSpecies;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 numDependentSpecies;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             dependentSpeciesConservedSums;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 numGlobalParameters;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             globalParameters;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 numReactions;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             reactionRates;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 numRateRules;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             rateRules;
+        elements.push_back(Type::getInt32PtrTy(context));                     // int*                                localParametersOffsets;
+        elements.push_back(Type::getInt32PtrTy(context));                     // int*                                localParametersNum;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             localParameters;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 numFloatingSpecies;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             floatingSpeciesConcentrations;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             floatingSpeciesInitConcentrations;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             floatingSpeciesAmountRates;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             floatingSpeciesAmounts;
+        elements.push_back(Type::getInt32PtrTy(context));                     // int*                                floatingSpeciesCompartments;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 numBoundarySpecies;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             boundarySpeciesConcentrations;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             boundarySpeciesAmounts;
+        elements.push_back(Type::getInt32PtrTy(context));                     // int*                                boundarySpeciesCompartments;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 numCompartments;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             compartmentVolumes;
+        elements.push_back(csrSparsePtrType);                                 // dcsr_matrix                         stoichiometry;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 numEvents;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 eventTypeSize;
+        elements.push_back(boolPtrType);                                      // bool*                               eventType;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 eventPersistentTypeSize;
+        elements.push_back(boolPtrType);                                      // bool*                               eventPersistentType;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 eventTestsSize;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             eventTests;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 eventPrioritiesSize;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             eventPriorities;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 eventStatusArraySize;
+        elements.push_back(boolPtrType);                                      // bool*                               eventStatusArray;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 previousEventStatusArraySize;
+        elements.push_back(boolPtrType);                                      // bool*                               previousEventStatusArray;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 stateVectorSize;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             stateVector;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             stateVectorRate;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 workSize;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             work;
+        elements.push_back(voidPtrType);                                      // TEventDelayDelegate*                eventDelays;
+        elements.push_back(voidPtrType);                                      // TEventAssignmentDelegate*           eventAssignments;
+        elements.push_back(voidPtrType);                                      // TComputeEventAssignmentDelegate*    computeEventAssignments;
+        elements.push_back(voidPtrType);                                      // TPerformEventAssignmentDelegate*    performEventAssignments;
+        elements.push_back(Type::getInt8PtrTy(context));                      // char*                               modelName;
+        elements.push_back(Type::getInt32Ty(context));                        // int                                 srSize;
+        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             sr;
+
+        structType = StructType::create(context, elements, "rr::ModelData");
+
+        if (engine)
+        {
+            const DataLayout *dl = engine->getDataLayout();
+
+            size_t llvm_size = dl->getTypeStoreSize(structType);
+
+            if (sizeof(ModelData) != llvm_size)
+            {
+                stringstream err;
+                err << "llvm rr::ModelData size " << llvm_size <<
+                        " does NOT match C++ sizeof(ModelData) " <<
+                        sizeof(ModelData);
+                throw LLVMException(err.str(), __FUNC__);
+            }
+
+            /*
+            printf("TestStruct size: %i, , LLVM Size: %i\n", sizeof(ModelData), llvm_size);
+
+            printf("C++ bool size: %i, LLVM bool size: %i\n", sizeof(bool), dl->getTypeStoreSize(boolType));
+            printf("C++ bool* size: %i, LLVM bool* size: %i\n", sizeof(bool*), dl->getTypeStoreSize(boolPtrType));
+            printf("C++ char** size: %i, LLVM char** size: %i\n", sizeof(char**), dl->getTypeStoreSize(charStarStarType));
+            printf("C++ void* size: %i, LLVM void* size: %i\n", sizeof(void*), dl->getTypeStoreSize(voidPtrType));
+
+            printf("C++ TEventDelayDelegate* size: %i\n", sizeof(TEventDelayDelegate*));
+            printf("C++ TEventAssignmentDelegate* size: %i\n", sizeof(TEventAssignmentDelegate* ));
+            printf("C++ TComputeEventAssignmentDelegate* size: %i\n", sizeof(TComputeEventAssignmentDelegate*));
+            printf("C++ TPerformEventAssignmentDelegate* size: %i\n", sizeof(TPerformEventAssignmentDelegate*));
+
+            */
+        }
+    }
+    return structType;
+}
+
+
+
+
+
+
+
+
+/*****************************************************************************/
+/*****************************************************************************/
+/*****************              TESTING STUFF              *******************/
+/*****************************************************************************/
+/*****************************************************************************/
+
+
+
+LLVMModelDataIRBuilderTesting::LLVMModelDataIRBuilderTesting(LLVMModelDataSymbols const& symbols,
+        llvm::IRBuilder<> &b) :
+        symbols(symbols),
+        builder(b)
+{
+}
+
+
+void LLVMModelDataIRBuilderTesting::createAccessors(Module *module)
+{
+    const string getSizeName = "get_size";
+    Function* getSizeFunc = module->getFunction(getSizeName);
+    if(!getSizeFunc)
+    {
+        LLVMContext &context = module->getContext();
+        StructType *structType = LLVMModelDataIRBuilder::getStructType(module);
+        vector<Type*> getArgTypes(1, PointerType::get(structType, 0));
+        FunctionType *getFuncType = FunctionType::get(Type::getInt32Ty(context),
+                getArgTypes, false);
+        getSizeFunc = Function::Create(getFuncType, Function::ExternalLinkage,
+                getSizeName, module);
+
+        BasicBlock *getBlock = BasicBlock::Create(context, "entry", getSizeFunc);
+        builder.SetInsertPoint(getBlock);
+        vector<Value*> getArgValues;
+        for(Function::arg_iterator i = getSizeFunc->arg_begin();
+                i != getSizeFunc->arg_end(); i++)
+        {
+            Value *v = i;
+            //v->dump();
+            getArgValues.push_back(i);
+        }
+
+        LLVMModelDataIRBuilder mdbuilder (getArgValues[0], symbols, builder);
+
+
+
+        Value *gep = mdbuilder.createGEP(Size);
+
+        Value *getRet = builder.CreateLoad(gep);
+
+        builder.CreateRet(getRet);
+
+        verifyFunction(*getSizeFunc);
+
+        //getSizeFunc->dump();
+
+    }
+
+}
+
+llvm::CallInst* LLVMModelDataIRBuilderTesting::createDispChar(llvm::Value* intVal)
+{
+    return builder.CreateCall(getDispCharDecl(LLVMModelDataIRBuilder::getModule(builder, __FUNC__)), intVal);
+}
+
+llvm::CallInst* LLVMModelDataIRBuilderTesting::createDispDouble(llvm::Value* doubleVal)
+{
+    return builder.CreateCall(getDispDoubleDecl(LLVMModelDataIRBuilder::getModule(builder, __FUNC__)), doubleVal);
+}
+
+llvm::CallInst* LLVMModelDataIRBuilderTesting::createDispInt(llvm::Value* intVal)
+{
+    return builder.CreateCall(getDispIntDecl(LLVMModelDataIRBuilder::getModule(builder, __FUNC__)), intVal);
+}
+
+
+pair<Function*, Function*> LLVMModelDataIRBuilderTesting::createFloatingSpeciesAccessors(
+        llvm::Module* module, const std::string id)
+{
+    const string getName = "get_floatingspecies_conc_" + id;
+    const string setName = "set_floatingspecies_conc_" + id;
+
+    pair<Function*, Function*> result(module->getFunction(getName),
+            module->getFunction(setName));
+
+    if (!result.first || !result.second)
+    {
+        LLVMContext &context = module->getContext();
+        StructType *structType = LLVMModelDataIRBuilder::getStructType(module);
+        vector<Type*> getArgTypes(1, PointerType::get(structType, 0));
+        FunctionType *getFuncType = FunctionType::get(
+                Type::getDoubleTy(context), getArgTypes, false);
+        result.first = Function::Create(getFuncType, Function::ExternalLinkage,
+                getName, module);
+
+        BasicBlock *block = BasicBlock::Create(context, "entry",
+                result.first);
+        builder.SetInsertPoint(block);
+        vector<Value*> getArgValues;
+        for (Function::arg_iterator i = result.first->arg_begin();
+                i != result.first->arg_end(); i++)
+        {
+            Value *v = i;
+            //v->dump();
+            getArgValues.push_back(i);
+
+        }
+
+        LLVMModelDataIRBuilder mdbuilder (getArgValues[0], symbols, builder);
+
+
+        Value *getEP = mdbuilder.createFloatSpeciesConcGEP(id);
+
+        Value *getRet = builder.CreateLoad(getEP);
+
+        builder.CreateRet(getRet);
+
+        verifyFunction(*result.first);
+
+        //result.first->dump();
+
+        vector<Type*> setArgTypes;
+        setArgTypes.push_back(PointerType::get(structType, 0));
+        setArgTypes.push_back(Type::getDoubleTy(context));
+        FunctionType *setFuncType = FunctionType::get(Type::getVoidTy(context),
+                setArgTypes, false);
+        result.second = Function::Create(setFuncType, Function::ExternalLinkage,
+                setName, module);
+
+        block = BasicBlock::Create(context, "entry",
+                result.second);
+        builder.SetInsertPoint(block);
+        vector<Value*> setArgValues;
+        for (Function::arg_iterator i = result.second->arg_begin();
+                i != result.second->arg_end(); i++)
+        {
+            Value *v = i;
+            //v->dump();
+            setArgValues.push_back(i);
+
+        }
+
+
+        Value *val = mdbuilder.createFloatSpeciesConcStore(id, setArgValues[1]);
+
+        builder.CreateRetVoid();
+
+        verifyFunction(*result.second);
+
+        //result.second->dump();
+
+        cout << "pause...\n";
+
+    }
+
+    return result;
+}
+
+llvm::Function* LLVMModelDataIRBuilderTesting::getDispCharDecl(llvm::Module* module)
+{
+    Function *f = module->getFunction("dispChar");
+    if (f == 0) {
+        std::vector<Type*> args(1, Type::getInt8Ty(module->getContext()));
+        FunctionType *funcType = FunctionType::get(Type::getVoidTy(module->getContext()), args, false);
+        f = Function::Create(funcType, Function::InternalLinkage, "dispChar", module);
+    }
+    return f;
+}
+
+
+
+llvm::Function* LLVMModelDataIRBuilderTesting::getDispDoubleDecl(llvm::Module* module)
+{
+    Function *f = module->getFunction("dispDouble");
+    if (f == 0) {
+        std::vector<Type*> args(1, Type::getDoubleTy(module->getContext()));
+        FunctionType *funcType = FunctionType::get(Type::getVoidTy(module->getContext()), args, false);
+        f = Function::Create(funcType, Function::InternalLinkage, "dispDouble", module);
+    }
+    return f;
+}
+
+
+llvm::Function* LLVMModelDataIRBuilderTesting::getDispIntDecl(llvm::Module* module)
+{
+    Function *f = module->getFunction("dispInt");
+    if (f == 0) {
+        std::vector<Type*> args(1, Type::getInt32Ty(module->getContext()));
+        FunctionType *funcType = FunctionType::get(Type::getVoidTy(module->getContext()), args, false);
+        f = Function::Create(funcType, Function::InternalLinkage, "dispInt", module);
+    }
+    return f;
+}
+
+
+void LLVMModelDataIRBuilderTesting::test(Module *module, IRBuilder<> *build,
+        ExecutionEngine * engine)
+{
+//    TheModule = module;
+//    context = &module->getContext();
+//    rr::builder = build;
+//    TheExecutionEngine = engine;
+//    createDispPrototypes();
+//
+//    callDispInt(23);
+//
+//    structSetProto();
+//
+//    TestStruct s =
+//    { 0 };
+//
+//    s.var3 = (char*) calloc(50, sizeof(char));
+//    s.var5 = (char*) calloc(50, sizeof(char));
+//
+//    sprintf(s.var5, "1234567890");
+//
+//    char* p = (char*) calloc(50, sizeof(char));
+//
+//    dispStruct(&s);
+//
+//    callStructSet(&s, 314, 3.14, 2.78, p, 0, 0);
+//
+//    printf("p: %s\n", p);
+//
+//    dispStruct(&s);
+//
+//    printf("new var5: ");
+//    for (int i = 0; i < 10; i++)
+//    {
+//        printf("{i:%i,c:%i}, ", i, s.var5[i]);
+//    }
+//    printf("\n");
+}
+
+
+
+
 //
 //
 //static Module *TheModule;
@@ -86,10 +753,10 @@ const char* LLVMModelDataIRBuilder::csr_matrix_get_nzName = "rr::csr_matrix_get_
 //
 //Value *getVar5(Value *testStructPtr, int index) {
 //    GetElementPtrInst *gep = dyn_cast<GetElementPtrInst>(builder->CreateStructGEP(testStructPtr, 5, "var5_gep"));
-//    LoadInst * var5_load = builder->CreateLoad(gep, "var5_load");
+//    LoadInst * var5_load = builder.CreateLoad(gep, "var5_load");
 //    //Value *var5_load = loadFromStruct(Builder, testStructPtr, 5, "var5");
 //    gep = dyn_cast<GetElementPtrInst>(builder->CreateConstGEP1_32(var5_load, index, "var5_elem_gep"));
-//    return builder->CreateLoad(gep, "var5_elem");
+//    return builder.CreateLoad(gep, "var5_elem");
 //}
 //
 //
@@ -182,7 +849,7 @@ const char* LLVMModelDataIRBuilder::csr_matrix_get_nzName = "rr::csr_matrix_get_
 //static void structSetBody(Function *func) {
 //    // Create a new basic block to start insertion into.
 //    BasicBlock *BB = BasicBlock::Create(getContext(), "entry", func);
-//    builder->SetInsertPoint(BB);
+//    builder.SetInsertPoint(BB);
 //
 //    LLVMContext &context = getContext();
 //
@@ -202,13 +869,13 @@ const char* LLVMModelDataIRBuilder::csr_matrix_get_nzName = "rr::csr_matrix_get_
 //
 //    Value *arg = ConstantInt::get(Type::getInt32Ty(getContext()), 16);
 //
-//    builder->CreateCall(dispIntProto(), args[1], "");
+//    builder.CreateCall(dispIntProto(), args[1], "");
 //
-//    builder->CreateCall(dispDoubleProto(), args[2], "");
+//    builder.CreateCall(dispDoubleProto(), args[2], "");
 //
 //    //builder->CreateCall(dispDoubleProto(), args[3], "");
 //
-//    builder->CreateCall(dispCharStarProto(), args[4], "");
+//    builder.CreateCall(dispCharStarProto(), args[4], "");
 //
 //    storeInStruct(builder, args[0], args[1], 0);
 //    storeInStruct(builder, args[0], args[2], 1);
@@ -228,12 +895,12 @@ const char* LLVMModelDataIRBuilder::csr_matrix_get_nzName = "rr::csr_matrix_get_
 //
 //
 //    Value *c = ConstantInt::get(Type::getInt8Ty(getContext()), 's');
-//    Value *gep = builder->CreateConstGEP1_32(var3, 0, "array gep");
-//    builder->CreateStore(c, gep);
-//    gep = builder->CreateConstGEP1_32(var3, 1, "array gep");
-//    builder->CreateStore(c, gep);
-//    gep = builder->CreateConstGEP1_32(var3, 2, "array gep");
-//    builder->CreateStore(c, gep);
+//    Value *gep = builder.CreateConstGEP1_32(var3, 0, "array gep");
+//    builder.CreateStore(c, gep);
+//    gep = builder.CreateConstGEP1_32(var3, 1, "array gep");
+//    builder.CreateStore(c, gep);
+//    gep = builder.CreateConstGEP1_32(var3, 2, "array gep");
+//    builder.CreateStore(c, gep);
 //
 //
 //    c = ConstantInt::get(Type::getInt8Ty(getContext()), '2');
@@ -242,17 +909,17 @@ const char* LLVMModelDataIRBuilder::csr_matrix_get_nzName = "rr::csr_matrix_get_
 //
 //    var5_2->dump();
 //
-//    builder->CreateCall(dispCharProto(), var5_2);
+//    builder.CreateCall(dispCharProto(), var5_2);
 //
 //
 //
-//    builder->CreateCall(dispCharStarProto(), args[4], "");
+//    builder.CreateCall(dispCharStarProto(), args[4], "");
 //
 //
 //
 //
 //    // Finish off the function.
-//    builder->CreateRetVoid();
+//    builder.CreateRetVoid();
 //
 //    // Validate the generated code, checking for consistency.
 //    verifyFunction(*func);
@@ -358,679 +1025,6 @@ const char* LLVMModelDataIRBuilder::csr_matrix_get_nzName = "rr::csr_matrix_get_
 //
 //    //func->dump();
 //}
-
-
-
-
-LLVMModelDataIRBuilder::LLVMModelDataIRBuilder(const LLVMModelDataSymbols &symbols,
-        IRBuilder<> *b) :
-        symbols(symbols),
-        builder(b),
-        cachedStructValue(0)
-{
-
-}
-
-LLVMModelDataIRBuilder::~LLVMModelDataIRBuilder()
-{
-    // TODO Auto-generated destructor stub
-}
-
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcGEP(llvm::Value* s,
-        const std::string& id)
-{
-    validateStruct(s, __FUNC__);
-    int index = symbols.getFloatingSpeciesIndex(id);
-    return createGEP(s, FloatingSpeciesConcentrations, index);
-}
-
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcFromAmtLoad(
-        llvm::Value* md, const std::string& id, const Twine& name)
-{
-    validateStruct(md, __FUNC__);
-    Value *amt = createFloatSpeciesAmtLoad(md, id, id + "_amt");
-    Value *compEP = createFloatSpeciesCompGEP(md, id);
-    Value *volume = builder->CreateLoad(compEP, id + "_vol");
-    return builder->CreateFDiv(amt, volume, name);
-}
-
-
-llvm::Value* LLVMModelDataIRBuilder::createGlobalParamGEP(llvm::Value* s,
-        const std::string& id)
-{
-    validateStruct(s, __FUNC__);
-    int index = symbols.getGlobalParameterIndex(id);
-    return createGEP(s, GlobalParameters, index);
-}
-
-
-llvm::Value* LLVMModelDataIRBuilder::createGEP(llvm::Value* s,
-        ModelDataFields field, const Twine& name)
-{
-    validateStruct(s, __FUNC__);
-    return builder->CreateStructGEP(s, (unsigned)field, name);
-}
-
-void LLVMModelDataIRBuilder::createAccessors(Module *module)
-{
-    const string getSizeName = "get_size";
-    Function* getSizeFunc = module->getFunction(getSizeName);
-    if(!getSizeFunc)
-    {
-        LLVMContext &context = module->getContext();
-        StructType *structType = getStructType(module);
-        vector<Type*> getArgTypes(1, PointerType::get(structType, 0));
-        FunctionType *getFuncType = FunctionType::get(Type::getInt32Ty(context),
-                getArgTypes, false);
-        getSizeFunc = Function::Create(getFuncType, Function::ExternalLinkage,
-                getSizeName, module);
-
-        BasicBlock *getBlock = BasicBlock::Create(context, "entry", getSizeFunc);
-        builder->SetInsertPoint(getBlock);
-        vector<Value*> getArgValues;
-        for(Function::arg_iterator i = getSizeFunc->arg_begin();
-                i != getSizeFunc->arg_end(); i++)
-        {
-            Value *v = i;
-            //v->dump();
-            getArgValues.push_back(i);
-        }
-
-
-
-        Value *gep = createGEP(getArgValues[0], Size);
-
-        Value *getRet = builder->CreateLoad(gep);
-
-        builder->CreateRet(getRet);
-
-        verifyFunction(*getSizeFunc);
-
-        //getSizeFunc->dump();
-
-    }
-
-}
-
-pair<Function*, Function*> LLVMModelDataIRBuilder::createFloatingSpeciesAccessors(
-        llvm::Module* module, const std::string id)
-{
-    const string getName = "get_floatingspecies_conc_" + id;
-    const string setName = "set_floatingspecies_conc_" + id;
-
-    pair<Function*, Function*> result(module->getFunction(getName),
-            module->getFunction(setName));
-
-    if (!result.first || !result.second)
-    {
-        LLVMContext &context = module->getContext();
-        StructType *structType = getStructType(module);
-        vector<Type*> getArgTypes(1, PointerType::get(structType, 0));
-        FunctionType *getFuncType = FunctionType::get(
-                Type::getDoubleTy(context), getArgTypes, false);
-        result.first = Function::Create(getFuncType, Function::ExternalLinkage,
-                getName, module);
-
-        BasicBlock *block = BasicBlock::Create(context, "entry",
-                result.first);
-        builder->SetInsertPoint(block);
-        vector<Value*> getArgValues;
-        for (Function::arg_iterator i = result.first->arg_begin();
-                i != result.first->arg_end(); i++)
-        {
-            Value *v = i;
-            //v->dump();
-            getArgValues.push_back(i);
-
-        }
-
-        Value *getEP = createFloatSpeciesConcGEP(getArgValues[0], id);
-
-        Value *getRet = builder->CreateLoad(getEP);
-
-        builder->CreateRet(getRet);
-
-        verifyFunction(*result.first);
-
-        //result.first->dump();
-
-        vector<Type*> setArgTypes;
-        setArgTypes.push_back(PointerType::get(structType, 0));
-        setArgTypes.push_back(Type::getDoubleTy(context));
-        FunctionType *setFuncType = FunctionType::get(Type::getVoidTy(context),
-                setArgTypes, false);
-        result.second = Function::Create(setFuncType, Function::ExternalLinkage,
-                setName, module);
-
-        block = BasicBlock::Create(context, "entry",
-                result.second);
-        builder->SetInsertPoint(block);
-        vector<Value*> setArgValues;
-        for (Function::arg_iterator i = result.second->arg_begin();
-                i != result.second->arg_end(); i++)
-        {
-            Value *v = i;
-            //v->dump();
-            setArgValues.push_back(i);
-
-        }
-
-
-
-        Value *val = createFloatSpeciesConcStore(setArgValues[0], id, setArgValues[1]);
-
-        builder->CreateRetVoid();
-
-        verifyFunction(*result.second);
-
-        //result.second->dump();
-
-        cout << "pause...\n";
-
-    }
-
-    return result;
-}
-
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcStore(Value* s,
-        const string& id, Value *conc)
-{
-    validateStruct(s, __FUNC__);
-    int index = symbols.getFloatingSpeciesIndex(id);
-
-    Value *compEP = createFloatSpeciesCompGEP(s, id);
-    Value *volume = builder->CreateLoad(compEP);
-    Value *amount = builder->CreateFMul(conc, volume);
-
-    builder->CreateStore(amount, createGEP(s, FloatingSpeciesAmounts, index));
-    return builder->CreateStore(conc, createGEP(s, FloatingSpeciesConcentrations, index));
-
-}
-
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesCompGEP(llvm::Value* s,
-        const std::string& id)
-{
-    validateStruct(s, __FUNC__);
-    int compIndex = symbols.getFloatingSpeciesCompartmentIndex(id);
-    return createGEP(s, CompartmentVolumes, compIndex);
-}
-
-llvm::Value* LLVMModelDataIRBuilder::createGEP(llvm::Value* s,
-    ModelDataFields field, unsigned index, const Twine& name)
-{
-    Value *fieldGEP = createGEP(s, field, name + "_gep");
-    Value *load = builder->CreateLoad(fieldGEP, name + "_load");
-    return builder->CreateConstGEP1_32(load, index, name + "_ptr");
-}
-
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtGEP(llvm::Value* s,
-        const std::string& id, const Twine& name)
-{
-    validateStruct(s, __FUNC__);
-    int index = symbols.getFloatingSpeciesIndex(id);
-    return createGEP(s, FloatingSpeciesAmounts, index, name);
-}
-
-
-
-llvm::StructType* LLVMModelDataIRBuilder::getCSRSparseStructType(
-        llvm::Module* module, llvm::ExecutionEngine* engine)
-{
-    StructType *structType = module->getTypeByName(csr_matrixName);
-
-    if (!structType)
-    {
-        LLVMContext &context = module->getContext();
-
-        vector<Type*> elements;
-
-        elements.push_back(Type::getInt32Ty(context));                        // int m;
-        elements.push_back(Type::getInt32Ty(context));                        // int n;
-        elements.push_back(Type::getInt32Ty(context));                        // int nnz;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double* values;
-        elements.push_back(Type::getInt32PtrTy(context));                     // int* colidx;
-        elements.push_back(Type::getInt32PtrTy(context));                     // int* rowptr;
-
-        structType = StructType::create(context, elements, csr_matrixName);
-
-        if (engine)
-        {
-            const DataLayout *dl = engine->getDataLayout();
-
-            size_t llvm_size = dl->getTypeStoreSize(structType);
-
-            if (sizeof(csr_matrix) != llvm_size)
-            {
-                stringstream err;
-                err << "llvm " << csr_matrixName << " size " << llvm_size <<
-                        " does NOT match C++ sizeof(dcsr_matrix) " <<
-                        sizeof(ModelData);
-                throw LLVMException(err.str(), __FUNC__);
-            }
-        }
-    }
-    return structType;
-}
-
-llvm::Function* LLVMModelDataIRBuilder::getCSRMatrixSetNZDecl(Module *module)
-{
-    Function *f = module->getFunction(
-            LLVMModelDataIRBuilder::csr_matrix_set_nzName);
-
-    if (f == 0)
-    {
-        // bool csr_matrix_set_nz(csr_matrix *mat, int row, int col, double val);
-        Type *args[] = {
-                getCSRSparseStructType(module)->getPointerTo(),
-                Type::getInt32Ty(module->getContext()),
-                Type::getInt32Ty(module->getContext()),
-                Type::getDoubleTy(module->getContext())
-        };
-        FunctionType *funcType = FunctionType::get(
-                IntegerType::get(module->getContext(), sizeof(bool) * 8), args,
-                false);
-        f = Function::Create(funcType, Function::InternalLinkage,
-                LLVMModelDataIRBuilder::csr_matrix_set_nzName, module);
-    }
-    return f;
-}
-
-llvm::Function* LLVMModelDataIRBuilder::getCSRMatrixGetNZDecl(Module *module)
-{
-    Function *f = module->getFunction(
-            LLVMModelDataIRBuilder::csr_matrix_get_nzName);
-
-    if (f == 0)
-    {
-        // double csr_matrix_get_nz(const csr_matrix* mat, int row, int col)
-        Type *args[] = {
-                getCSRSparseStructType(module)->getPointerTo(),
-                Type::getInt32Ty(module->getContext()),
-                Type::getInt32Ty(module->getContext())
-        };
-        FunctionType *funcType = FunctionType::get(
-                Type::getDoubleTy(module->getContext()), args, false);
-        f = Function::Create(funcType, Function::InternalLinkage,
-                LLVMModelDataIRBuilder::csr_matrix_get_nzName, module);
-    }
-    return f;
-}
-
-llvm::CallInst* LLVMModelDataIRBuilder::createCSRMatrixSetNZ(
-        llvm::Value* csrPtr, llvm::Value* row, llvm::Value* col,
-        llvm::Value* value, const Twine& name)
-{
-    Function *func = LLVMModelDataIRBuilder::getCSRMatrixSetNZDecl(getModule(__FUNC__));
-    Value *args[] = {csrPtr, row, col, value};
-    return builder->CreateCall(func, args, name);
-}
-
-llvm::Module* LLVMModelDataIRBuilder::getModule(const char* func)
-{
-    BasicBlock *bb = 0;
-    if((bb = builder->GetInsertBlock()) != 0)
-    {
-        Function *function = bb->getParent();
-        if(function)
-        {
-            return function->getParent();
-        }
-    }
-    throw LLVMException("could not get module, a BasicBlock is not currently being populated.", func);
-}
-
-llvm::Function* LLVMModelDataIRBuilder::getDispIntDecl(llvm::Module* module)
-{
-    Function *f = module->getFunction("dispInt");
-    if (f == 0) {
-        std::vector<Type*> args(1, Type::getInt32Ty(module->getContext()));
-        FunctionType *funcType = FunctionType::get(Type::getVoidTy(module->getContext()), args, false);
-        f = Function::Create(funcType, Function::InternalLinkage, "dispInt", module);
-    }
-    return f;
-}
-
-
-llvm::CallInst* LLVMModelDataIRBuilder::createDispInt(llvm::Value* intVal)
-{
-    return builder->CreateCall(getDispIntDecl(getModule(__FUNC__)), intVal);
-}
-
-llvm::Function* LLVMModelDataIRBuilder::getDispCharDecl(llvm::Module* module)
-{
-    Function *f = module->getFunction("dispChar");
-    if (f == 0) {
-        std::vector<Type*> args(1, Type::getInt8Ty(module->getContext()));
-        FunctionType *funcType = FunctionType::get(Type::getVoidTy(module->getContext()), args, false);
-        f = Function::Create(funcType, Function::InternalLinkage, "dispChar", module);
-    }
-    return f;
-}
-
-
-llvm::CallInst* LLVMModelDataIRBuilder::createDispChar(llvm::Value* intVal)
-{
-    return builder->CreateCall(getDispCharDecl(getModule(__FUNC__)), intVal);
-}
-
-llvm::Function* LLVMModelDataIRBuilder::getDispDoubleDecl(llvm::Module* module)
-{
-    Function *f = module->getFunction("dispDouble");
-    if (f == 0) {
-        std::vector<Type*> args(1, Type::getDoubleTy(module->getContext()));
-        FunctionType *funcType = FunctionType::get(Type::getVoidTy(module->getContext()), args, false);
-        f = Function::Create(funcType, Function::InternalLinkage, "dispDouble", module);
-    }
-    return f;
-}
-
-llvm::CallInst* LLVMModelDataIRBuilder::createDispDouble(llvm::Value* doubleVal)
-{
-    return builder->CreateCall(getDispDoubleDecl(getModule(__FUNC__)), doubleVal);
-}
-
-llvm::CallInst* LLVMModelDataIRBuilder::createCSRMatrixGetNZ(
-        llvm::Value* csrPtr, llvm::Value* row, llvm::Value* col,
-        const Twine& name)
-{
-    Function *func = LLVMModelDataIRBuilder::getCSRMatrixGetNZDecl(getModule(__FUNC__));
-    Value *args[] = {csrPtr, row, col};
-    return builder->CreateCall(func, args, name);
-}
-
-
-llvm::Value* LLVMModelDataIRBuilder::createLoad(llvm::Value* md,
-        ModelDataFields field, unsigned index, const llvm::Twine& name)
-{
-    Value *gep = this->createGEP(md, field, index, name + "_gep");
-    return builder->CreateLoad(gep, name);
-}
-
-llvm::Value* LLVMModelDataIRBuilder::createStore(llvm::Value* md,
-        ModelDataFields field, unsigned index, llvm::Value* value)
-{
-    Value *gep = this->createGEP(md, field, index);
-    return builder->CreateStore(value, gep);
-}
-
-llvm::Value* LLVMModelDataIRBuilder::createCompLoad(llvm::Value* md,
-        const std::string& id, const llvm::Twine& name)
-{
-    int compIdx = symbols.getCompartmentIndex(id);
-    return createLoad(md, CompartmentVolumes, compIdx, name);
-}
-
-llvm::Value* LLVMModelDataIRBuilder::createCompStore(llvm::Value* md,
-        const std::string& id, llvm::Value* value)
-{
-    int compIdx = symbols.getCompartmentIndex(id);
-    return createStore(md, CompartmentVolumes, compIdx, value);
-}
-
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtLoad(
-        llvm::Value* modelData, const std::string& id, const llvm::Twine& name)
-{
-    Value *gep = createFloatSpeciesAmtGEP(modelData, id, name + "_gep");
-    return builder->CreateLoad(gep, name);
-}
-
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtStore(
-        llvm::Value* modelData, const std::string& id, llvm::Value* value)
-{
-    Value *gep = createFloatSpeciesAmtGEP(modelData, id);
-    return builder->CreateStore(value, gep);
-}
-
-llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesConcFromAmtLoad(
-        llvm::Value* md, const std::string& id, const llvm::Twine& name)
-{
-    validateStruct(md, __FUNC__);
-    Value *amt = createBoundSpeciesAmtLoad(md, id, id + "_amt");
-    Value *compEP = createBoundSpeciesCompGEP(md, id);
-    Value *volume = builder->CreateLoad(compEP, id + "_vol");
-    return builder->CreateFDiv(amt, volume, name);
-}
-
-llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesAmtLoad(llvm::Value* md,
-        const std::string& id, const llvm::Twine& name)
-{
-    Value *gep = createBoundSpeciesAmtGEP(md, id, name + "_gep");
-    return builder->CreateLoad(gep, name);
-}
-
-llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesAmtStore(
-        llvm::Value* modelData, const std::string& id, llvm::Value* value)
-{
-    Value *gep = createBoundSpeciesAmtGEP(modelData, id);
-    return builder->CreateStore(value, gep);
-}
-
-
-llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesAmtGEP(llvm::Value* s,
-        const std::string& id, const llvm::Twine& name)
-{
-    validateStruct(s, __FUNC__);
-    int index = symbols.getBoundarySpeciesIndex(id);
-    return createGEP(s, BoundarySpeciesAmounts, index, name);
-}
-
-llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesCompGEP(llvm::Value* s,
-        const std::string& id)
-{
-    validateStruct(s, __FUNC__);
-    int compIndex = symbols.getBoundarySpeciesCompartmentIndex(id);
-    return createGEP(s, CompartmentVolumes, compIndex);
-}
-
-llvm::Value* LLVMModelDataIRBuilder::createGlobalParamLoad(llvm::Value* md,
-        const std::string& id, const llvm::Twine& name)
-{
-    int idx = symbols.getGlobalParameterIndex(id);
-    return createLoad(md, GlobalParameters, idx, name);
-}
-
-llvm::Value* LLVMModelDataIRBuilder::createGlobalParamStore(llvm::Value* md,
-        const std::string& id, llvm::Value* value)
-{
-    int idx = symbols.getGlobalParameterIndex(id);
-    return createStore(md, GlobalParameters, idx, value);
-}
-
-void LLVMModelDataIRBuilder::validateStruct(llvm::Value* s, const char* funcName)
-{
-    if (!builder)
-    {
-        string err = "error in ";
-        err += funcName;
-        err += ", builder is null";
-        throw LLVMException(err);
-    }
-
-    if (s != cachedStructValue)
-    {
-        PointerType *pointerType = dyn_cast<PointerType>(s->getType());
-
-        // get the type the pointer refrerences
-        Type *type = pointerType ? pointerType->getElementType() : s->getType();
-
-        StructType *structType = dyn_cast<StructType>(type);
-
-        if (structType)
-        {
-            //structType->dump();
-            string nm = structType->getName();
-            string sname = structType->getStructName();
-
-            cout << "nm: " << nm << "\n";
-            cout << "sname: " << sname << "\n";
-
-
-            if (structType->getName().compare(ModelDataName) == 0)
-            {
-                cachedStructValue = s;
-                return;
-            }
-        }
-        std::string str;
-        raw_string_ostream err(str);
-        err << "error in " << funcName << ", "
-                << "Invalid argument type, expected " << ModelDataName
-                << ", but received ";
-        type->print(err);
-        throw LLVMException(err.str());
-    }
-}
-
-void LLVMModelDataIRBuilder::test(Module *module, IRBuilder<> *build,
-        ExecutionEngine * engine)
-{
-//    TheModule = module;
-//    context = &module->getContext();
-//    rr::builder = build;
-//    TheExecutionEngine = engine;
-//    createDispPrototypes();
-//
-//    callDispInt(23);
-//
-//    structSetProto();
-//
-//    TestStruct s =
-//    { 0 };
-//
-//    s.var3 = (char*) calloc(50, sizeof(char));
-//    s.var5 = (char*) calloc(50, sizeof(char));
-//
-//    sprintf(s.var5, "1234567890");
-//
-//    char* p = (char*) calloc(50, sizeof(char));
-//
-//    dispStruct(&s);
-//
-//    callStructSet(&s, 314, 3.14, 2.78, p, 0, 0);
-//
-//    printf("p: %s\n", p);
-//
-//    dispStruct(&s);
-//
-//    printf("new var5: ");
-//    for (int i = 0; i < 10; i++)
-//    {
-//        printf("{i:%i,c:%i}, ", i, s.var5[i]);
-//    }
-//    printf("\n");
-}
-
-llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, llvm::ExecutionEngine *engine)
-{
-    StructType *structType = module->getTypeByName("rr::ModelData");
-
-    if (!structType)
-    {
-        LLVMContext &context = module->getContext();
-
-        // different compilers define bool differently, it used to be more common to store
-        // bool as a 32 bit int, but now its more common to use an 8 bit int.
-        Type *boolType = IntegerType::get(context, sizeof(bool) * 8);
-        Type *boolPtrType = boolType->getPointerTo();
-        Type *charStarStarType = Type::getInt8PtrTy(context)->getPointerTo();
-        Type *voidPtrType = Type::getInt8PtrTy(context);
-        Type *csrSparseType = getCSRSparseStructType(module, engine);
-        Type *csrSparsePtrType = csrSparseType->getPointerTo();
-
-        vector<Type*> elements;
-
-        elements.push_back(Type::getInt32Ty(context));                        // unsigned                            size;
-        elements.push_back(Type::getInt32Ty(context));                        // unsigned                            flags;
-        elements.push_back(Type::getDoubleTy(context));                       // double                              time;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 numIndependentSpecies;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 numDependentSpecies;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             dependentSpeciesConservedSums;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 numGlobalParameters;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             globalParameters;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 numReactions;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             reactionRates;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 numRateRules;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             rateRules;
-        elements.push_back(Type::getInt32PtrTy(context));                     // int*                                localParametersOffsets;
-        elements.push_back(Type::getInt32PtrTy(context));                     // int*                                localParametersNum;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             localParameters;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 numFloatingSpecies;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             floatingSpeciesConcentrations;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             floatingSpeciesInitConcentrations;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             floatingSpeciesAmountRates;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             floatingSpeciesAmounts;
-        elements.push_back(Type::getInt32PtrTy(context));                     // int*                                floatingSpeciesCompartments;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 numBoundarySpecies;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             boundarySpeciesConcentrations;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             boundarySpeciesAmounts;
-        elements.push_back(Type::getInt32PtrTy(context));                     // int*                                boundarySpeciesCompartments;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 numCompartments;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             compartmentVolumes;
-        elements.push_back(csrSparsePtrType);                                 // dcsr_matrix                         stoichiometry;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 numEvents;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 eventTypeSize;
-        elements.push_back(boolPtrType);                                      // bool*                               eventType;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 eventPersistentTypeSize;
-        elements.push_back(boolPtrType);                                      // bool*                               eventPersistentType;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 eventTestsSize;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             eventTests;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 eventPrioritiesSize;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             eventPriorities;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 eventStatusArraySize;
-        elements.push_back(boolPtrType);                                      // bool*                               eventStatusArray;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 previousEventStatusArraySize;
-        elements.push_back(boolPtrType);                                      // bool*                               previousEventStatusArray;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 workSize;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             work;
-        elements.push_back(voidPtrType);                                      // TEventDelayDelegate*                eventDelays;
-        elements.push_back(voidPtrType);                                      // TEventAssignmentDelegate*           eventAssignments;
-        elements.push_back(voidPtrType);                                      // TComputeEventAssignmentDelegate*    computeEventAssignments;
-        elements.push_back(voidPtrType);                                      // TPerformEventAssignmentDelegate*    performEventAssignments;
-        elements.push_back(Type::getInt8PtrTy(context));                      // char*                               modelName;
-        elements.push_back(charStarStarType);                                 // char**                              variableTable;
-        elements.push_back(charStarStarType);                                 // char**                              boundaryTable;
-        elements.push_back(charStarStarType);                                 // char**                              globalParameterTable;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 srSize;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             sr;
-
-        structType = StructType::create(context, elements, "rr::ModelData");
-
-        if (engine)
-        {
-            const DataLayout *dl = engine->getDataLayout();
-
-            size_t llvm_size = dl->getTypeStoreSize(structType);
-
-            if (sizeof(ModelData) != llvm_size)
-            {
-                stringstream err;
-                err << "llvm rr::ModelData size " << llvm_size <<
-                        " does NOT match C++ sizeof(ModelData) " <<
-                        sizeof(ModelData);
-                throw LLVMException(err.str(), __FUNC__);
-            }
-
-            /*
-            printf("TestStruct size: %i, , LLVM Size: %i\n", sizeof(ModelData), llvm_size);
-
-            printf("C++ bool size: %i, LLVM bool size: %i\n", sizeof(bool), dl->getTypeStoreSize(boolType));
-            printf("C++ bool* size: %i, LLVM bool* size: %i\n", sizeof(bool*), dl->getTypeStoreSize(boolPtrType));
-            printf("C++ char** size: %i, LLVM char** size: %i\n", sizeof(char**), dl->getTypeStoreSize(charStarStarType));
-            printf("C++ void* size: %i, LLVM void* size: %i\n", sizeof(void*), dl->getTypeStoreSize(voidPtrType));
-
-            printf("C++ TEventDelayDelegate* size: %i\n", sizeof(TEventDelayDelegate*));
-            printf("C++ TEventAssignmentDelegate* size: %i\n", sizeof(TEventAssignmentDelegate* ));
-            printf("C++ TComputeEventAssignmentDelegate* size: %i\n", sizeof(TComputeEventAssignmentDelegate*));
-            printf("C++ TPerformEventAssignmentDelegate* size: %i\n", sizeof(TPerformEventAssignmentDelegate*));
-
-            */
-        }
-    }
-    return structType;
-}
-
-
-
 
 
 } /* namespace rr */

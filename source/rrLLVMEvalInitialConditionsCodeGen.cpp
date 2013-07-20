@@ -26,8 +26,7 @@ const char* LLVMEvalInitialConditionsCodeGen::FunctionName = "evalInitialConditi
 LLVMEvalInitialConditionsCodeGen::LLVMEvalInitialConditionsCodeGen(
         const LLVMModelGeneratorContext &mgc) :
         LLVMCodeGenBase(mgc),
-        initialValuesFunc(0),
-        engine(mgc.getExecutionEngine())
+        initialValuesFunc(0)
 {
 }
 
@@ -83,7 +82,7 @@ Value* LLVMEvalInitialConditionsCodeGen::codeGen()
 
     // Create a new basic block to start insertion into.
     BasicBlock *basicBlock = BasicBlock::Create(context, "entry", initialValuesFunc);
-    builder->SetInsertPoint(basicBlock);
+    builder.SetInsertPoint(basicBlock);
 
     // single argument
     Value *modelData = initialValuesFunc->arg_begin();
@@ -93,7 +92,7 @@ Value* LLVMEvalInitialConditionsCodeGen::codeGen()
     Value *argVal = &arg;
 
 
-    LLVMModelDataIRBuilder modelDataBuilder(dataSymbols, builder);
+    LLVMModelDataIRBuilder modelDataBuilder(modelData, dataSymbols, builder);
 
     codeGenFloatingSpecies(modelData, modelDataBuilder);
 
@@ -102,7 +101,7 @@ Value* LLVMEvalInitialConditionsCodeGen::codeGen()
     codeGenStoichiometry(modelData, modelDataBuilder);
 
 
-    builder->CreateRetVoid();
+    builder.CreateRetVoid();
 
     /// verifyFunction - Check a function for errors, printing messages on stderr.
     /// Return true if the function is corrupt.
@@ -123,19 +122,19 @@ llvm::Value* LLVMEvalInitialConditionsCodeGen::symbolValue(const std::string& sy
     LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialAssigments().find(symbol);
     if (i != modelSymbols.getInitialAssigments().end())
     {
-        return LLVMASTNodeCodeGen(*builder, *this).codeGen(i->second);
+        return LLVMASTNodeCodeGen(builder, *this).codeGen(i->second);
     }
 
     i = modelSymbols.getAssigmentRules().find(symbol);
     if (i != modelSymbols.getAssigmentRules().end())
     {
-        return LLVMASTNodeCodeGen(*builder, *this).codeGen(i->second);
+        return LLVMASTNodeCodeGen(builder, *this).codeGen(i->second);
     }
 
     i = modelSymbols.getInitialValues().find(symbol);
     if (i != modelSymbols.getInitialValues().end())
     {
-        return LLVMASTNodeCodeGen(*builder, *this).codeGen(i->second);
+        return LLVMASTNodeCodeGen(builder, *this).codeGen(i->second);
     }
 
     else
@@ -151,7 +150,7 @@ llvm::Value* LLVMEvalInitialConditionsCodeGen::symbolValue(const std::string& sy
 void LLVMEvalInitialConditionsCodeGen::codeGenFloatingSpecies(
         Value *modelData, LLVMModelDataIRBuilder& modelDataBuilder)
 {
-    LLVMASTNodeCodeGen astCodeGen(*builder, *this);
+    LLVMASTNodeCodeGen astCodeGen(builder, *this);
 
     Log(lInfo) << "floatingSpecies: \n";
     for (LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialValues().floatingSpecies.begin();
@@ -180,7 +179,7 @@ void LLVMEvalInitialConditionsCodeGen::codeGenFloatingSpecies(
             const ASTNode *compAST =
                     modelSymbols.getInitialValues().compartments.find(species->getCompartment())->second;
             Value *compValue = astCodeGen.codeGen(compAST);
-            amt = builder->CreateFMul(value, compValue, "amt");
+            amt = builder.CreateFMul(value, compValue, "amt");
         }
 
         modelDataBuilder.createFloatSpeciesAmtStore(modelData, i->first, amt);
@@ -190,13 +189,13 @@ void LLVMEvalInitialConditionsCodeGen::codeGenFloatingSpecies(
 LLVMEvalInitialConditionsCodeGen::FunctionPtr LLVMEvalInitialConditionsCodeGen::createFunction()
 {
     Function *func = (Function*)codeGen();
-    return (FunctionPtr)engine->getPointerToFunction(func);
+    return (FunctionPtr)engine.getPointerToFunction(func);
 }
 
 void LLVMEvalInitialConditionsCodeGen::codeGenStoichiometry(llvm::Value* modelData,
         LLVMModelDataIRBuilder& modelDataBuilder)
 {
-    LLVMASTNodeCodeGen astCodeGen(*builder, *this);
+    LLVMASTNodeCodeGen astCodeGen(builder, *this);
 
     Log(lInfo) << "reactions: ";
     vector<string> ids = dataSymbols.getReactionIds();
@@ -206,8 +205,8 @@ void LLVMEvalInitialConditionsCodeGen::codeGenStoichiometry(llvm::Value* modelDa
     }
     Log(lInfo) << "\n";
 
-    Value *stoichEP = modelDataBuilder.createGEP(modelData, Stoichiometry);
-    Value *stoich = builder->CreateLoad(stoichEP, "stoichiometry");
+    Value *stoichEP = modelDataBuilder.createGEP(Stoichiometry);
+    Value *stoich = builder.CreateLoad(stoichEP, "stoichiometry");
 
     list<pair<int,int> > stoichEntries = dataSymbols.getStoichiometryIndx();
     for (list<pair<int,int> >::iterator i = stoichEntries.begin();
@@ -229,7 +228,7 @@ void LLVMEvalInitialConditionsCodeGen::codeGenStoichiometry(llvm::Value* modelDa
 
         Value *row = ConstantInt::get(Type::getInt32Ty(context), nz.first, true);
         Value *col = ConstantInt::get(Type::getInt32Ty(context), nz.second, true);
-        modelDataBuilder.createCSRMatrixSetNZ(stoich, row, col, stoichValue);
+        LLVMModelDataIRBuilder::createCSRMatrixSetNZ(builder, stoich, row, col, stoichValue);
 
     }
 }
@@ -237,7 +236,7 @@ void LLVMEvalInitialConditionsCodeGen::codeGenStoichiometry(llvm::Value* modelDa
 void LLVMEvalInitialConditionsCodeGen::codeGenCompartments(
         llvm::Value* modelData, LLVMModelDataIRBuilder& modelDataBuilder)
 {
-    LLVMASTNodeCodeGen astCodeGen(*builder, *this);
+    LLVMASTNodeCodeGen astCodeGen(builder, *this);
 
     Log(lInfo) << "compartments: \n";
     for (LLVMSymbolForest::ConstIterator i =
@@ -251,7 +250,7 @@ void LLVMEvalInitialConditionsCodeGen::codeGenCompartments(
         Value *value = astCodeGen.codeGen(i->second);
         value->dump();
 
-        modelDataBuilder.createCompStore(modelData, i->first, value);
+        modelDataBuilder.createCompStore(i->first, value);
     }
 }
 

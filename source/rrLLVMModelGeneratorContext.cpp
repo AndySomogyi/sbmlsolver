@@ -117,14 +117,14 @@ LLVMModelGeneratorContext::~LLVMModelGeneratorContext()
     delete errString;
 }
 
-llvm::LLVMContext& LLVMModelGeneratorContext::getContext() const
+llvm::LLVMContext &LLVMModelGeneratorContext::getContext() const
 {
     return *context;
 }
 
-llvm::ExecutionEngine* LLVMModelGeneratorContext::getExecutionEngine() const
+llvm::ExecutionEngine &LLVMModelGeneratorContext::getExecutionEngine() const
 {
-    return executionEngine;
+    return *executionEngine;
 }
 
 const LLVMModelDataSymbols& LLVMModelGeneratorContext::getModelDataSymbols() const
@@ -137,22 +137,20 @@ const libsbml::SBMLDocument* LLVMModelGeneratorContext::getDocument() const
     return doc;
 }
 
-
-
 const libsbml::Model* LLVMModelGeneratorContext::getModel() const
 {
     return doc->getModel();
 }
 
 
-llvm::Module* LLVMModelGeneratorContext::getModule() const
+llvm::Module *LLVMModelGeneratorContext::getModule() const
 {
     return module;
 }
 
-llvm::IRBuilder<>* LLVMModelGeneratorContext::getBuilder() const
+llvm::IRBuilder<> &LLVMModelGeneratorContext::getBuilder() const
 {
-    return builder;
+    return *builder;
 }
 
 void LLVMModelGeneratorContext::stealThePeach(LLVMModelDataSymbols **sym,
@@ -195,9 +193,9 @@ void LLVMModelGeneratorContext::addGlobalMappings()
 {
     executionEngine->addGlobalMapping(LLVMModelDataIRBuilder::getCSRMatrixSetNZDecl(module), (void*)csr_matrix_set_nz);
     executionEngine->addGlobalMapping(LLVMModelDataIRBuilder::getCSRMatrixGetNZDecl(module), (void*)csr_matrix_get_nz);
-    executionEngine->addGlobalMapping(LLVMModelDataIRBuilder::getDispIntDecl(module), (void*)dispInt);
-    executionEngine->addGlobalMapping(LLVMModelDataIRBuilder::getDispDoubleDecl(module), (void*)dispDouble);
-    executionEngine->addGlobalMapping(LLVMModelDataIRBuilder::getDispCharDecl(module), (void*)dispChar);
+    executionEngine->addGlobalMapping(LLVMModelDataIRBuilderTesting::getDispIntDecl(module), (void*)dispInt);
+    executionEngine->addGlobalMapping(LLVMModelDataIRBuilderTesting::getDispDoubleDecl(module), (void*)dispDouble);
+    executionEngine->addGlobalMapping(LLVMModelDataIRBuilderTesting::getDispCharDecl(module), (void*)dispChar);
 }
 
 

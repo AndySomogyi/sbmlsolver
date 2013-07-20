@@ -257,46 +257,42 @@ typedef struct SModelData
     bool*                               previousEventStatusArray;         // 40
 
     /**
+     * number of items in the state vector.
+     */
+    int                                 stateVectorSize;                 // 41
+
+    /**
+     * the state vector, this is usually a pointer to a block of data
+     * owned by the integrator.
+     */
+    double*                             stateVector;                      // 42
+
+    /**
+     * the rate of change of the state vector, this is usually a pointer to
+     * a block of data owned by the integrator.
+     */
+    double*                             stateVectorRate;                  // 43
+
+    /**
      * Work area for model implementations. The data stored here is entirely
      * model implementation specific and should not be accessed
      * anywhere else.
      *
      * allocated by allocModelDataBuffers based on the value of workSize;
      */
-    int                                 workSize;                         // 41
-    double*                             work;                             // 42
+    int                                 workSize;                         // 44
+    double*                             work;                             // 45
 
-    TEventDelayDelegate*                eventDelays;                      // 43
-    TEventAssignmentDelegate*           eventAssignments;                 // 44
+    TEventDelayDelegate*                eventDelays;                      // 46
+    TEventAssignmentDelegate*           eventAssignments;                 // 47
 
-    TComputeEventAssignmentDelegate*    computeEventAssignments;          // 45
-    TPerformEventAssignmentDelegate*    performEventAssignments;          // 46
+    TComputeEventAssignmentDelegate*    computeEventAssignments;          // 48
+    TPerformEventAssignmentDelegate*    performEventAssignments;          // 49
 
     /**
      * model name
      */
-    char*                               modelName;                        // 47
-
-
-    /**
-     * Is set by the model to the names of the FloatingSpeciesConcentrationList.
-     * The model should set each variableTable[i] to a static null terminated string.
-     * allocModelDataBuffers should allocate space for numTotalVariables.
-     * strings.
-     */
-    char**                              variableTable;                    // 48
-
-    /**
-     * names of boundary table species, set by the model to a static string.
-     * allocModelDataBuffers should allocate numBoundaryVariables length char** array.
-     */
-    char**                              boundaryTable;                    // 49
-
-    /**
-     * names of global parameters. populated by the model.
-     * allocModelDataBuffers should allocate length numGlobalParameters  char** array.
-     */
-    char**                              globalParameterTable;             // 50
+    char*                               modelName;                        // 50
 
     /**
      * C species references,
@@ -304,16 +300,6 @@ typedef struct SModelData
      */
     int                                 srSize;                           // 51
     double*                             sr;                               // 52
-
-    /**
-     * Looks like these were going to be C local variables, but were
-     * never implemented...
-     */
-    //int                                 lpSize;
-    //double*                             lp;
-    //int                                 localParameterDimensionsSize;
-    //int*                                localParameterDimensions;
-
 } ModelData;
 //#pragma pack(pop)
 

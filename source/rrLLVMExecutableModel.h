@@ -93,15 +93,8 @@ public:
     virtual int getNumEvents();
     virtual void computeEventPriorites();
     virtual void setConcentration(int index, double value);
-    virtual void evalReactionRates(double time, double* y);
-
 
     virtual int getNumLocalParameters(int reactionId);
-
-    virtual void computeRules();
-
-    virtual void initializeInitialConditions();
-
 
     virtual void setInitialConditions();
     virtual void evalInitialAssignments();
@@ -162,7 +155,7 @@ public:
      */
     virtual void evalModel(double time, const double *y, double* dydt=0);
 
-    virtual void evalEvents(const double& time, const double *y);
+    virtual void evalEvents(const double time, const double *y);
 
     virtual void resetEvents();
     virtual void testConstraints();
@@ -189,7 +182,7 @@ public:
     /**
      * using the current model state, evaluate and store all the reaction rates.
      */
-    void evalReactionRates();
+    virtual void evalReactionRates();
 
     static LLVMExecutableModel* dummy();
 

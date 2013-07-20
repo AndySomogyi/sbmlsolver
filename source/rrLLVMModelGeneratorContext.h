@@ -93,13 +93,19 @@ public:
 
     const libsbml::Model *getModel() const;
 
+
     llvm::LLVMContext &getContext() const;
 
-    llvm::ExecutionEngine *getExecutionEngine() const;
+    llvm::ExecutionEngine &getExecutionEngine() const;
 
+    /**
+     * nearly all llvm functions expect a pointer to module, so we define this
+     * as a pointer type instead of reference, even though we gaurantee this to
+     * be non-null
+     */
     llvm::Module *getModule() const;
 
-    llvm::IRBuilder<> *getBuilder() const;
+    llvm::IRBuilder<> &getBuilder() const;
 
     /**
      * A lot can go wrong in the process of generating a model from  an sbml doc.

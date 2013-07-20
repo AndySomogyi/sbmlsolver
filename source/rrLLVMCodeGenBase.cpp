@@ -14,14 +14,16 @@ using namespace libsbml;
 using namespace llvm;
 using namespace std;
 
-llvm::Value* LLVMCodeGenBase::symbolValue(const std::string& symbol, Value *modelData)
+llvm::Value* LLVMCodeGenBase::symbolValue(const std::string& symbol,
+        Value *modelData)
 {
-    LLVMModelDataIRBuilder mdbuilder(dataSymbols, builder);
+    LLVMModelDataIRBuilder mdbuilder(modelData, dataSymbols, builder);
 
-    LLVMSymbolForest::ConstIterator i = modelSymbols.getAssigmentRules().find(symbol);
+    LLVMSymbolForest::ConstIterator i = modelSymbols.getAssigmentRules().find(
+            symbol);
     if (i != modelSymbols.getAssigmentRules().end())
     {
-        return LLVMASTNodeCodeGen(*builder, *this).codeGen(i->second);
+        return LLVMASTNodeCodeGen(builder, *this).codeGen(i->second);
     }
 
     const SBase *element = const_cast<Model*>(model)->getElementBySId(symbol);
@@ -35,13 +37,13 @@ llvm::Value* LLVMCodeGenBase::symbolValue(const std::string& symbol, Value *mode
             if (species->getHasOnlySubstanceUnits())
             {
                 // expect an amount, we're good to go
-                return mdbuilder.createBoundSpeciesAmtLoad(modelData,
-                        species->getId(), species->getId() + "_amt");
+                return mdbuilder.createBoundSpeciesAmtLoad(species->getId(),
+                        species->getId() + "_amt");
             }
             else
             {
                 // expect a concentration, need to convert amt to conc
-                return mdbuilder.createBoundSpeciesConcFromAmtLoad(modelData,
+                return mdbuilder.createBoundSpeciesConcFromAmtLoad(
                         species->getId(), species->getId() + "_conc");
             }
         }
@@ -51,13 +53,13 @@ llvm::Value* LLVMCodeGenBase::symbolValue(const std::string& symbol, Value *mode
             if (species->getHasOnlySubstanceUnits())
             {
                 // expect an amount, we're good to go
-                return mdbuilder.createFloatSpeciesAmtLoad(modelData,
-                        species->getId(), species->getId() + "_amt");
+                return mdbuilder.createFloatSpeciesAmtLoad(species->getId(),
+                        species->getId() + "_amt");
             }
             else
             {
                 // expect a concentration, need to convert amt to conc
-                return mdbuilder.createFloatSpeciesConcFromAmtLoad(modelData,
+                return mdbuilder.createFloatSpeciesConcFromAmtLoad(
                         species->getId(), species->getId() + "_conc");
             }
         }
@@ -66,13 +68,13 @@ llvm::Value* LLVMCodeGenBase::symbolValue(const std::string& symbol, Value *mode
     const Parameter* param = dynamic_cast<const Parameter*>(element);
     if (param)
     {
-        return mdbuilder.createGlobalParamLoad(modelData, param->getId(), param->getId());
+        return mdbuilder.createGlobalParamLoad(param->getId(), param->getId());
     }
 
     const Compartment* comp = dynamic_cast<const Compartment*>(element);
     if (comp)
     {
-        return mdbuilder.createCompLoad(modelData, comp->getId(), comp->getId());
+        return mdbuilder.createCompLoad(comp->getId(), comp->getId());
     }
 
     string msg = "Could not find requested symbol \'";

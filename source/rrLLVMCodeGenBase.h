@@ -38,13 +38,18 @@ protected:
     {
     };
 
+    /**
+     * could potentially be null, everything else is guaranteed to be valid
+     */
+    const libsbml::Model *model;
+
     const LLVMModelDataSymbols &dataSymbols;
     const LLVMModelSymbols &modelSymbols;
-    const libsbml::Model *model;
+
     llvm::LLVMContext &context;
     llvm::Module *module;
-    llvm::IRBuilder<> *builder;
-    llvm::ExecutionEngine *engine;
+    llvm::IRBuilder<> &builder;
+    llvm::ExecutionEngine &engine;
 
     /**
      * The runtime resolution of symbols first search through the
