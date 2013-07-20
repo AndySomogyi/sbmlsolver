@@ -90,15 +90,6 @@ public:
     virtual int popState(unsigned options = 0) = 0;
 
     /**
-     * Sets the initial floating species concentrations, ModelData::floatingSpeciesInitConcentrations to
-     * the initial value specified in the sbml model. The initial concentration
-     * value can be spefied either by a constant value, or with an assigment rule.
-     *
-     * TODO: Perhaps this should be renamed 'initializeInitialConcentrations' ???
-     */
-    virtual void initializeInitialConditions() = 0;
-
-    /**
      * Sets the the concentrations and ammounts to the values specified
      * by the initial conditions, ModelData::floatingSpeciesInitConcentrations, i.e. the ModelData::floatingSpeciesAmounts[:]
      * are set to ModelData::floatingSpeciesInitConcentrations[:] * compartment volume, and ModelData::y[:] is
@@ -163,22 +154,6 @@ public:
 
 
     virtual int getNumLocalParameters(int reactionId) = 0;
-
-    /**
-     * applies all of the rules specified in the model, i.e. any variable for which a rule
-     * exists is replaced with what the rule evaluates to.
-     *
-     * Not used in the LLVM version, in LLVM, all rules automatically part of the
-     * expression tree.
-     */
-    virtual void computeRules() = 0;
-
-    /**
-     * evaluate and applies all of the initialAssigment rules. This
-     * will overwrite any values subseqently specified by initialConcentration,
-     * initialSize, ....
-     */
-    virtual void evalInitialAssignments() = 0;
 
     /**
      * sets the ammounts (ModelData::ammounts) by multipying the concentations
