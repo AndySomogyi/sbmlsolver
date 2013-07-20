@@ -40,7 +40,6 @@ public:
     bool                        haveVariables();
 
     double                      oneStep(const double& timeStart, const double& hstep);
-    vector<double>              buildEvalArgument();
     void                        assignNewVector(ExecutableModel *model);
     void                        assignNewVector(ExecutableModel *oModel, bool bAssignNewTolerances);
 

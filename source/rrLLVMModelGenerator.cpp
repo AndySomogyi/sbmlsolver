@@ -178,8 +178,7 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
             if (!haveVariables() && mTheModel->getNumEvents() == 0)
             {
                 mTheModel->convertToAmounts();
-                vector<double> args = buildEvalArgument();
-                mTheModel->evalModel(tout, &args[0]);
+                mTheModel->evalModel(tout, 0);
                 return tout;
             }
 

@@ -1222,8 +1222,7 @@ void RoadRunner::evalModel()
         throw CoreException(gEmptyModelMessage);
     }
     mModel->convertToAmounts();
-    vector<double> args = mCVode->buildEvalArgument();
-    mModel->evalModel(mModel->getTime(), &args[0]);
+    mModel->evalModel(mModel->getTime(), 0);
 }
 
 void RoadRunner::setTimeCourseSelectionList(const string& list)
