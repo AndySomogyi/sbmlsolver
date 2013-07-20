@@ -77,10 +77,10 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 
         c.getModelDataSymbols().initAllocModelDataBuffers(md);
 
-        ExecutionEngine *engine = c.getExecutionEngine();
+        ExecutionEngine &engine = c.getExecutionEngine();
 
         StructType *s = LLVMModelDataIRBuilder::getStructType(c.getModule(),
-                c.getExecutionEngine());
+                &c.getExecutionEngine());
 
         LLVMEvalInitialConditionsCodeGen iv(c);
 
@@ -91,6 +91,8 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
         pfunc(&md);
 
         Log(lInfo) << md;
+
+        cout << "done with " << modelFileName << endl;
 
     }
     catch(std::exception &e)
@@ -116,14 +118,14 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
 
     md.size = sizeof(ModelData);
 
-    LLVMModelDataIRBuilder builder(c.getModelDataSymbols(), c.getBuilder());
+    LLVMModelDataIRBuilderTesting builder(c.getModelDataSymbols(), c.getBuilder());
 
     //builder.test(c.getModule(), c.getBuilder(), c.getExecutionEngine());
 
     builder.createAccessors(c.getModule());
 
-    ExecutionEngine *engine = c.getExecutionEngine();
-    Function *getFunc = engine->FindFunctionNamed("get_size");
+    ExecutionEngine &engine = c.getExecutionEngine();
+    Function *getFunc = engine.FindFunctionNamed("get_size");
 
     //getFunc->dump();
 
@@ -132,7 +134,7 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
 
     // Cast it to the right type (takes no arguments, returns a double) so we
     // can call it as a native function.
-    int (*pfunc)(ModelData*) = (int (*)(ModelData*))engine->getPointerToFunction(getFunc);
+    int (*pfunc)(ModelData*) = (int (*)(ModelData*))engine.getPointerToFunction(getFunc);
 
     double value = pfunc(&md);
 
@@ -156,7 +158,7 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
     for(int i = 0; i < floatSpeciesIds.size(); i++)
     {
         string getName = "get_floatingspecies_conc_" + floatSpeciesIds[i];
-        Function *getFunc = engine->FindFunctionNamed(getName.c_str());
+        Function *getFunc = engine.FindFunctionNamed(getName.c_str());
 
         //getFunc->dump();
 
@@ -165,16 +167,16 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
 
               // Cast it to the right type (takes no arguments, returns a double) so we
               // can call it as a native function.
-        double (*pfunc)(ModelData*) = (double (*)(ModelData*))engine->getPointerToFunction(getFunc);
+        double (*pfunc)(ModelData*) = (double (*)(ModelData*))engine.getPointerToFunction(getFunc);
 
         double value = pfunc(&md);
 
         cout << getName << " returned " << value << "\n";
 
         string setName = "set_floatingspecies_conc_" + floatSpeciesIds[i];
-        Function *setFunc = engine->FindFunctionNamed(setName.c_str());
+        Function *setFunc = engine.FindFunctionNamed(setName.c_str());
 
-        void (*psetfunc)(ModelData*,double) = (void (*)(ModelData*,double))engine->getPointerToFunction(setFunc);
+        void (*psetfunc)(ModelData*,double) = (void (*)(ModelData*,double))engine.getPointerToFunction(setFunc);
 
         psetfunc(&md, i+1);
 

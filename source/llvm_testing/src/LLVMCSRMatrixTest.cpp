@@ -27,10 +27,10 @@ LLVMCSRMatrixTest::~LLVMCSRMatrixTest()
 bool LLVMCSRMatrixTest::callCSRMatrixSetNZ(csr_matrix* mat, int row, int col,
         double value)
 {
-    ExecutionEngine *engine = context.getExecutionEngine();
+    ExecutionEngine &engine = context.getExecutionEngine();
 
 
-    CsrMatrixSetNZPtr pfunc = (CsrMatrixSetNZPtr)engine->getPointerToFunction(setFunc);
+    CsrMatrixSetNZPtr pfunc = (CsrMatrixSetNZPtr)engine.getPointerToFunction(setFunc);
 
 
     return pfunc(mat, row, col, value);
@@ -38,10 +38,10 @@ bool LLVMCSRMatrixTest::callCSRMatrixSetNZ(csr_matrix* mat, int row, int col,
 
 double LLVMCSRMatrixTest::callCSRMatrixGetNZ(csr_matrix* mat, int row, int col)
 {
-    ExecutionEngine *engine = context.getExecutionEngine();
+    ExecutionEngine &engine = context.getExecutionEngine();
 
 
-    CsrMatrixGetNZPtr pfunc = (CsrMatrixGetNZPtr)engine->getPointerToFunction(getFunc);
+    CsrMatrixGetNZPtr pfunc = (CsrMatrixGetNZPtr)engine.getPointerToFunction(getFunc);
 
 
     return pfunc(mat, row, col);
@@ -50,7 +50,7 @@ double LLVMCSRMatrixTest::callCSRMatrixGetNZ(csr_matrix* mat, int row, int col)
 llvm::Function* LLVMCSRMatrixTest::getCSRMatrixSetNZTestFunc()
 {
     LLVMContext &ctx = context.getContext();
-    IRBuilder<> *builder = context.getBuilder();
+    IRBuilder<> &builder = context.getBuilder();
     Module *module = context.getModule();
 
     setFunc = module->getFunction("test_csr_matrix_set_nz");
@@ -75,7 +75,7 @@ llvm::Function* LLVMCSRMatrixTest::getCSRMatrixSetNZTestFunc()
         // Create a new basic block to start insertion into.
         BasicBlock *BB = BasicBlock::Create(context.getContext(), "entry",
                 setFunc);
-        builder->SetInsertPoint(BB);
+        builder.SetInsertPoint(BB);
 
         std::vector<Value*> args;
 
@@ -88,19 +88,20 @@ llvm::Function* LLVMCSRMatrixTest::getCSRMatrixSetNZTestFunc()
             args.push_back(ai);
         }
 
-        LLVMModelDataIRBuilder mdirbuilder(LLVMModelDataSymbols(), builder);
+        LLVMModelDataIRBuilderTesting mdirbuilder(LLVMModelDataSymbols(), builder);
 
         mdirbuilder.createDispInt(args[1]);
         mdirbuilder.createDispInt(args[2]);
         mdirbuilder.createDispDouble(args[3]);
 
 
-        CallInst *call = mdirbuilder.createCSRMatrixSetNZ(args[0], args[1],
+
+        CallInst *call = LLVMModelDataIRBuilder::createCSRMatrixSetNZ(builder, args[0], args[1],
                 args[2], args[3], "nz_success");
 
         mdirbuilder.createDispChar(call);
 
-        builder->CreateRet(call);
+        builder.CreateRet(call);
 
         // Validate the generated code, checking for consistency.
         verifyFunction(*setFunc);
@@ -268,7 +269,7 @@ bool runLLVMCSRMatrixTest(const int m, const int n, const int nnz)
 llvm::Function* LLVMCSRMatrixTest::getCSRMatrixGetNZTestFunc()
 {
     LLVMContext &ctx = context.getContext();
-    IRBuilder<> *builder = context.getBuilder();
+    IRBuilder<> &builder = context.getBuilder();
     Module *module = context.getModule();
 
     getFunc = module->getFunction("test_csr_matrix_get_nz");
@@ -291,7 +292,7 @@ llvm::Function* LLVMCSRMatrixTest::getCSRMatrixGetNZTestFunc()
         // Create a new basic block to start insertion into.
         BasicBlock *BB = BasicBlock::Create(context.getContext(), "entry",
                 getFunc);
-        builder->SetInsertPoint(BB);
+        builder.SetInsertPoint(BB);
 
         std::vector<Value*> args;
 
@@ -304,17 +305,17 @@ llvm::Function* LLVMCSRMatrixTest::getCSRMatrixGetNZTestFunc()
             args.push_back(ai);
         }
 
-        LLVMModelDataIRBuilder mdirbuilder(LLVMModelDataSymbols(), builder);
+        LLVMModelDataIRBuilderTesting mdirbuilder(LLVMModelDataSymbols(), builder);
 
         mdirbuilder.createDispInt(args[1]);
         mdirbuilder.createDispInt(args[2]);
 
-        CallInst *call = mdirbuilder.createCSRMatrixGetNZ(args[0], args[1],
+        CallInst *call = LLVMModelDataIRBuilder::createCSRMatrixGetNZ(builder, args[0], args[1],
                 args[2], "nz_val");
 
         mdirbuilder.createDispDouble(call);
 
-        builder->CreateRet(call);
+        builder.CreateRet(call);
 
         // Validate the generated code, checking for consistency.
         verifyFunction(*getFunc);
