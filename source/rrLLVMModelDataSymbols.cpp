@@ -10,7 +10,9 @@
 #include "rrOSSpecifics.h"
 #include "rrLogger.h"
 #include "rrSparse.h"
+#include "rrStringUtils.h"
 
+#include <Poco/LogStream.h>
 #include <sbml/Model.h>
 #include <sbml/SBMLDocument.h>
 
@@ -23,6 +25,64 @@
 using namespace libsbml;
 using namespace llvm;
 using namespace std;
+using Poco::LogStream;
+using Poco::Message;
+
+static const char* modelDataFieldsNames[] =  {
+    "Size",                                     // 0
+    "Flags",                                    // 1
+    "Time",                                     // 2
+    "NumIndependentSpecies",                    // 3
+    "NumDependentSpecies",                      // 4
+    "DependentSpeciesConservedSums",            // 5
+    "NumGlobalParameters",                      // 6
+    "GlobalParameters",                         // 7
+    "NumReactions",                             // 8
+    "ReactionRates",                            // 9
+    "NumRateRules",                             // 10
+    "RateRules",                                // 11
+    "LocalParametersOffsets",                   // 12
+    "LocalParametersNum",                       // 13
+    "LocalParameters",                          // 14
+    "NumFloatingSpecies",                       // 15
+    "FloatingSpeciesConcentrations",            // 16
+    "FloatingSpeciesInitConcentrations",        // 17
+    "FloatingSpeciesAmountRates",               // 18
+    "FloatingSpeciesAmounts",                   // 19
+    "FloatingSpeciesCompartments",              // 20
+    "NumBoundarySpecies",                       // 21
+    "BoundarySpeciesConcentrations",            // 22
+    "BoundarySpeciesAmounts",                   // 23
+    "BoundarySpeciesCompartments",              // 24
+    "NumCompartments",                          // 25
+    "CompartmentVolumes",                       // 26
+    "Stoichiometry",                            // 27
+    "NumEvents",                                // 28
+    "EventTypeSize",                            // 29
+    "EventType",                                // 20
+    "EventPersistentTypeSize",                  // 31
+    "EventPersistentType",                      // 32
+    "EventTestsSize",                           // 33
+    "EventTests",                               // 34
+    "EventPrioritiesSize",                      // 35
+    "EventPriorities",                          // 36
+    "EventStatusArraySize",                     // 37
+    "EventStatusArray",                         // 38
+    "PreviousEventStatusArraySize",             // 39
+    "PreviousEventStatusArray",                 // 40
+    "StateVectorSize",                          // 41
+    "StateVector",                              // 42
+    "StateVectorRate",                          // 43
+    "WorkSize",                                 // 44
+    "Work",                                     // 45
+    "EventDelays",                              // 46
+    "EventAssignments",                         // 47
+    "ComputeEventAssignments",                  // 48
+    "PerformEventAssignments",                  // 49
+    "ModelName",                                // 50
+    "SrSize",                                   // 51
+    "Sr"                                        // 52
+};
 
 static void test() {
     cout << "test\n";
@@ -102,8 +162,6 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
         globalParametersMap.insert(StringIntPair(p->getId(), i));
     }
 
-    test();
-
     // get the reactions
     const ListOfReactions *reactions = model->getListOfReactions();
     for (int i = 0; i < reactions->size(); i++)
@@ -120,16 +178,25 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
             const SimpleSpeciesReference *r = reactants->get(j);
             const string& speciesId = r->getSpecies();
 
-            // its OK if we do not reactants as floating species, they
+            // its OK if we do not find reactants as floating species, they
             // might be boundary species, so they do not change.
             try
             {
                 int speciesIdx = getFloatingSpeciesIndex(r->getSpecies());
                 stoichColIndx.push_back(i);
                 stoichRowIndx.push_back(speciesIdx);
+            }
+            catch (exception&)
+            {
+                string err = "could not find reactant ";
+                err += r->getSpecies();
+                err += " in the list of floating species for reaction ";
+                err += r->getId();
+                err += ", this species will be ignored in this reaction.";
 
-                cout << "reactant, row: " << i << ", col: " << speciesIdx << "\n";
-            } catch (exception&) {}
+                LogStream ls(getLogger(), Message::PRIO_WARNING);
+                ls << err << endl;
+            }
         }
 
         const ListOfSpeciesReferences *products = r->getListOfProducts();
@@ -143,7 +210,8 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
                 int speciesIdx = getFloatingSpeciesIndex(p->getSpecies());
                 stoichColIndx.push_back(i);
                 stoichRowIndx.push_back(speciesIdx);
-                cout << "product, row: " << i << ", col: " << speciesIdx << "\n";
+                LogStream ls(getLogger(), Message::PRIO_TRACE);
+                ls << "product, row: " << i << ", col: " << speciesIdx << endl;
             }
             catch (exception&)
             {
@@ -152,7 +220,9 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
                 err += " in the list of floating species for reaction ";
                 err += r->getId();
                 err += ", this species will be ignored in this reaction.";
-                Log(lWarning) << err;
+
+                LogStream ls(getLogger(), Message::PRIO_WARNING);
+                ls << err << endl;
             }
         }
     }
@@ -319,6 +389,9 @@ std::list<std::pair<int, int> > LLVMModelDataSymbols::getStoichiometryIndx() con
 
 void LLVMModelDataSymbols::print() const
 {
+    int i = 0;
+
+
     for (StringIntMap::const_iterator i = floatingSpeciesMap.begin();
             i != floatingSpeciesMap.end(); i++)
     {
@@ -366,10 +439,16 @@ std::vector<std::string> LLVMModelDataSymbols::getFloatingSpeciesIds() const
     return getIds(floatingSpeciesMap);
 }
 
-
-
-
-
-
+const char* LLVMModelDataSymbols::getFieldName(ModelDataFields field)
+{
+    if (field >= Size && field <= Sr)
+    {
+        return modelDataFieldsNames[field];
+    }
+    else
+    {
+        return "Error, field is out of range";
+    }
+}
 
 } /* namespace rr */

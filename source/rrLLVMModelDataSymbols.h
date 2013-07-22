@@ -140,6 +140,11 @@ public:
 
     void print() const;
 
+    /**
+     * get the textual form of the field names.
+     */
+    static const char* getFieldName(ModelDataFields field);
+
 
 private:
 

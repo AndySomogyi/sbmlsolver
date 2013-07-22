@@ -12,6 +12,7 @@
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaFormatter.h>
 #include <sbml/SBMLDocument.h>
+#include <Poco/Logger.h>
 
 
 using namespace libsbml;
@@ -65,7 +66,7 @@ bool LLVMModelSymbols::visit(const libsbml::Parameter& x)
 
 bool LLVMModelSymbols::visit(const libsbml::AssignmentRule& x)
 {
-    cout << __FUNC__ << ", id: " << x.getId() << "\n";
+    poco_trace(getLogger(), "id: " + x.getId());
     SBase *element = const_cast<Model*>(model)->getElementBySId(x.getVariable());
     processElement(assigmentRules, element, x.getMath());
     return true;
@@ -73,7 +74,7 @@ bool LLVMModelSymbols::visit(const libsbml::AssignmentRule& x)
 
 bool LLVMModelSymbols::visit(const libsbml::InitialAssignment& x)
 {
-    cout << __FUNC__ << ", id: " << x.getId() << "\n";
+    poco_trace(getLogger(), "id: " +  x.getId());
     SBase *element = const_cast<Model*>(model)->getElementBySId(x.getSymbol());
     processElement(initialAssigments, element, x.getMath());
     return true;
@@ -105,14 +106,14 @@ void LLVMModelSymbols::processElement(LLVMSymbolForest& currentSymbols,
     }
     else
     {
-        cout << __FUNC__ << ", WARNING, unknown element type in "
-                << model->getSBMLDocument()->getName() << "\n";
+        poco_warning(getLogger(), "Unknown element whilst processing symbols: " +
+                string(const_cast<SBase*>(element)->toSBML()));
     }
 }
 
 bool LLVMModelSymbols::visit(const libsbml::Rule& x)
 {
-    cout << __FUNC__ << "\n";
+    poco_trace(getLogger(), "Rule, id: " + x.getId());
     return true;
 }
 
@@ -443,7 +444,9 @@ ASTNode* LLVMModelSymbols::createStoichiometryNode(int row, int col) const
     ASTNode *reactants = 0;
     ASTNode *products = 0;
 
-    cout << "\t{" << row << ", " << col << "}, #reactants: " << reactantList.size() << " #products: " << productList.size() << "\n";
+    poco_trace(getLogger(), "\t{" + toString(row) + ", " + toString(col) +
+            "}, #reactants: " + toString(reactantList.size()) + " #products: " +
+            toString(productList.size()));
 
     if (reactantList.size())
     {

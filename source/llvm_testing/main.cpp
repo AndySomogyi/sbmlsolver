@@ -74,7 +74,23 @@ int main(int argc, char* argv[])
 
     getPairs(pairs, npairs);
 
-    for (int i = 0; i < npairs; i++) {
+    /*
+
+    StrIntPair p =
+    { "l2v4", 190 };
+    try
+    {
+        TestBase test(p.first, p.second);
+    } catch (std::exception &e)
+    {
+        Log(lError) << "Error with test " << p.first << ", " << p.second
+                << ": " << e.what();
+    }
+    */
+
+
+
+    for (int i = 0; i < 5; i++) {
         //runInitialValueAssigmentTest(pairs[i].first, pairs[i].second);
         try
         {

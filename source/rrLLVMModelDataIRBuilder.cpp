@@ -12,8 +12,6 @@
 #include <sbml/Model.h>
 #include <sbml/SBMLDocument.h>
 
-#include <llvm/Support/raw_ostream.h>
-
 #include <string>
 #include <vector>
 #include <sstream>
@@ -68,7 +66,8 @@ llvm::Value* LLVMModelDataIRBuilder::createGlobalParamGEP(const std::string& id)
 llvm::Value* LLVMModelDataIRBuilder::createGEP(ModelDataFields field,
         const Twine& name)
 {
-    return builder.CreateStructGEP(modelData, (unsigned)field, name);
+    const char* fieldName = LLVMModelDataSymbols::getFieldName(field);
+    return builder.CreateStructGEP(modelData, (unsigned)field, Twine(fieldName) + Twine("_gep"));
 }
 
 
@@ -91,17 +90,21 @@ llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesCompGEP(const std::string
     return createGEP(CompartmentVolumes, compIndex);
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createGEP(ModelDataFields field, unsigned index, const Twine& name)
+llvm::Value* LLVMModelDataIRBuilder::createGEP(ModelDataFields field,
+        unsigned index, const Twine& name)
 {
-    Value *fieldGEP = createGEP(field, name + "_gep");
-    Value *load = builder.CreateLoad(fieldGEP, name + "_load");
-    return builder.CreateConstGEP1_32(load, index, name + "_ptr");
+    Twine fieldName = LLVMModelDataSymbols::getFieldName(field);
+    Value *fieldGEP = createGEP(field, fieldName + "_gep");
+    Value *load = builder.CreateLoad(fieldGEP, fieldName + "_load");
+    return builder.CreateConstGEP1_32(load, index, name + "_gep");
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtGEP(const std::string& id, const Twine& name)
+llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtGEP(
+        const std::string& id, const Twine& name)
 {
     int index = symbols.getFloatingSpeciesIndex(id);
-    return createGEP(FloatingSpeciesAmounts, index, name);
+    return createGEP(FloatingSpeciesAmounts, index,
+            name.isTriviallyEmpty() ? id : name);
 }
 
 
@@ -224,26 +227,30 @@ llvm::CallInst* LLVMModelDataIRBuilder::createCSRMatrixGetNZ(IRBuilder<> &builde
 
 llvm::Value* LLVMModelDataIRBuilder::createLoad(ModelDataFields field, unsigned index, const llvm::Twine& name)
 {
-    Value *gep = this->createGEP(field, index, name + "_gep");
+    Value *gep = this->createGEP(field, index, name);
     return builder.CreateLoad(gep, name);
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createStore(ModelDataFields field, unsigned index, llvm::Value* value)
+llvm::Value* LLVMModelDataIRBuilder::createStore(ModelDataFields field,
+        unsigned index, llvm::Value* value, const Twine& name)
 {
-    Value *gep = this->createGEP(field, index);
+    Value *gep = this->createGEP(field, index, name);
     return builder.CreateStore(value, gep);
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createCompLoad(const std::string& id, const llvm::Twine& name)
+llvm::Value* LLVMModelDataIRBuilder::createCompLoad(const std::string& id,
+        const llvm::Twine& name)
 {
     int compIdx = symbols.getCompartmentIndex(id);
-    return createLoad(CompartmentVolumes, compIdx, name);
+    return createLoad(CompartmentVolumes, compIdx,
+            name.isTriviallyEmpty() ? id : name);
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createCompStore(const std::string& id, llvm::Value* value)
+llvm::Value* LLVMModelDataIRBuilder::createCompStore(const std::string& id,
+        llvm::Value* value)
 {
     int compIdx = symbols.getCompartmentIndex(id);
-    return createStore(CompartmentVolumes, compIdx, value);
+    return createStore(CompartmentVolumes, compIdx, value, id);
 }
 
 llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtLoad(const std::string& id, const llvm::Twine& name)
@@ -292,16 +299,18 @@ llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesCompGEP(const std::string
     return createGEP(CompartmentVolumes, compIndex);
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createGlobalParamLoad(const std::string& id, const llvm::Twine& name)
+llvm::Value* LLVMModelDataIRBuilder::createGlobalParamLoad(
+        const std::string& id, const llvm::Twine& name)
 {
     int idx = symbols.getGlobalParameterIndex(id);
-    return createLoad(GlobalParameters, idx, name);
+    return createLoad(GlobalParameters, idx,
+            name.isTriviallyEmpty() ? id : name);
 }
 
 llvm::Value* LLVMModelDataIRBuilder::createGlobalParamStore(const std::string& id, llvm::Value* value)
 {
     int idx = symbols.getGlobalParameterIndex(id);
-    return createStore(GlobalParameters, idx, value);
+    return createStore(GlobalParameters, idx, value, id);
 }
 
 llvm::Value* LLVMModelDataIRBuilder::createReactionRateLoad(const std::string& id, const llvm::Twine& name)
@@ -313,7 +322,7 @@ llvm::Value* LLVMModelDataIRBuilder::createReactionRateLoad(const std::string& i
 llvm::Value* LLVMModelDataIRBuilder::createReactionRateStore(const std::string& id, llvm::Value* value)
 {
     int idx = symbols.getReactionIndex(id);
-    return createStore(ReactionRates, idx, value);
+    return createStore(ReactionRates, idx, value, id);
 }
 
 void LLVMModelDataIRBuilder::validateStruct(llvm::Value* s,
@@ -328,13 +337,6 @@ void LLVMModelDataIRBuilder::validateStruct(llvm::Value* s,
 
     if (structType)
     {
-        //structType->dump();
-        string nm = structType->getName();
-        string sname = structType->getStructName();
-
-        cout << "nm: " << nm << "\n";
-        cout << "sname: " << sname << "\n";
-
         if (structType->getName().compare(ModelDataName) == 0)
         {
             return;
@@ -367,14 +369,14 @@ llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, ll
 
         vector<Type*> elements;
 
-        elements.push_back(Type::getInt32Ty(context));                        // unsigned                            size;
-        elements.push_back(Type::getInt32Ty(context));                        // unsigned                            flags;
-        elements.push_back(Type::getDoubleTy(context));                       // double                              time;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 numIndependentSpecies;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 numDependentSpecies;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             dependentSpeciesConservedSums;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 numGlobalParameters;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             globalParameters;
+        elements.push_back(Type::getInt32Ty(context));        // 0    unsigned                            size;
+        elements.push_back(Type::getInt32Ty(context));        // 1    unsigned                            flags;
+        elements.push_back(Type::getDoubleTy(context));       // 2    double                              time;
+        elements.push_back(Type::getInt32Ty(context));        // 3    int                                 numIndependentSpecies;
+        elements.push_back(Type::getInt32Ty(context));        // 4    int                                 numDependentSpecies;
+        elements.push_back(Type::getDoublePtrTy(context));    // 5    double*                             dependentSpeciesConservedSums;
+        elements.push_back(Type::getInt32Ty(context));        // 6    int                                 numGlobalParameters;
+        elements.push_back(Type::getDoublePtrTy(context));    // 7    double*                             globalParameters;
         elements.push_back(Type::getInt32Ty(context));                        // int                                 numReactions;
         elements.push_back(Type::getDoublePtrTy(context));                    // double*                             reactionRates;
         elements.push_back(Type::getInt32Ty(context));                        // int                                 numRateRules;

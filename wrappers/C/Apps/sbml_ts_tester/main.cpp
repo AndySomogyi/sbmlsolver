@@ -12,10 +12,10 @@
 using namespace std;
 using namespace rr;
 
-string 	gTempFolder		   		= "";
-string 	gRRInstallFolder 		= "";
-bool	gDebug			    	= false;
-string 	gTSModelsPath			= "";
+string     gTempFolder                   = "";
+string     gRRInstallFolder         = "";
+bool    gDebug                    = false;
+string     gTSModelsPath            = "";
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 
 //call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder"
@@ -31,10 +31,10 @@ int main(int argc, char* argv[])
         cout << "RoadRunner bin location is: "<<thisExeFolder<<endl;
 
         //Assume(!) this is the bin folder of roadrunner install
-        gRRInstallFolder = getParentFolder(thisExeFolder);	//Go up one folder
-        gDebug				= args.EnableLogging;
-        gTSModelsPath 		= args.SBMLModelsFilePath;
-        gTempFolder			= args.TempDataFolder;
+        gRRInstallFolder = getParentFolder(thisExeFolder);    //Go up one folder
+        gDebug                = args.EnableLogging;
+        gTSModelsPath         = args.SBMLModelsFilePath;
+        gTempFolder            = args.TempDataFolder;
         setInstallFolder(gRRInstallFolder.c_str());
 
         if(gDebug)
@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
         }
         else
         {
-            setLogLevel("lInfo");
+            setLogLevel("info");
         }
         // set full model path (read from cmd line)
         gTSModelsPath = joinPath(joinPath(gTSModelsPath, "cases"), "semantic");
@@ -52,12 +52,12 @@ int main(int argc, char* argv[])
 
         switch(args.ModelVersion)
         {
-	        case l2v4:
-            	RunTest("l2v4", args.ModelNumber);
-        	break;
-	        case l3v1:
-            	RunTest("l3v1", args.ModelNumber);
-        	break;
+            case l2v4:
+                RunTest("l2v4", args.ModelNumber);
+            break;
+            case l3v1:
+                RunTest("l3v1", args.ModelNumber);
+            break;
 
         }
 
@@ -81,12 +81,12 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     {
         switch (c)
         {
-            case ('i'): args.ModelNumber                     		= toInt(rrOptArg);                 break;
-            case ('a'): args.ModelVersion                     		= (ModelVersions) toInt(rrOptArg);                 break;
-            case ('m'): args.SBMLModelsFilePath                     = rrOptArg;                       break;
-			case ('t'): args.TempDataFolder        		            = rrOptArg;                       break;
-			case ('v'): args.EnableLogging        		            = true;                       break;
-            case ('?'): cout<<Usage(argv[0])<<endl;
+            case ('i'): args.ModelNumber                            = toInt(rrOptArg);                   break;
+            case ('a'): args.ModelVersion                           = (ModelVersions) toInt(rrOptArg);   break;
+            case ('m'): args.SBMLModelsFilePath                     = rrOptArg;                          break;
+            case ('t'): args.TempDataFolder                         = rrOptArg;                          break;
+            case ('v'): args.EnableLogging                          = true;                              break;
+            case ('?'): cout<<Usage(argv[0])<<endl;                                                      break;
             default:
             {
                 string str = argv[rrOptInd-1];
@@ -96,6 +96,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
                 }
                 exit(0);
             }
+            break;
         }
     }
 
@@ -103,7 +104,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     if(argc < 2)
     {
         cout<<Usage(argv[0])<<endl;
-       	rr::pause();
+           rr::pause();
         cout<<"\n";
         exit(0);
     }
@@ -119,9 +120,9 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 //#endif
 
 #if defined(STATIC_RR)
-	#pragma comment(lib, "roadrunner-static.lib")
+    #pragma comment(lib, "roadrunner-static.lib")
 #else
-	#pragma comment(lib, "roadrunner.lib")
+    #pragma comment(lib, "roadrunner.lib")
 #endif
 
 #pragma comment(lib, "sundials_cvode")

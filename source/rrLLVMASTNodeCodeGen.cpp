@@ -14,6 +14,8 @@
 
 #include <sbml/math/ASTNode.h>
 #include "rrLLVMIncludes.h"
+#include "rrLogger.h";
+#include <Poco/Logger.h>
 
 using namespace libsbml;
 using namespace llvm;
@@ -152,6 +154,14 @@ llvm::Value* LLVMASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     case AST_FUNCTION_TAN:
     case AST_FUNCTION_TANH:
         result = notImplemented(ast);
+        break;
+    default:
+        {
+            stringstream msg;
+            msg << "Unknown ASTNode type of " << ast->getType() << ", class: " << ast->getClass();
+            poco_error(getLogger(), msg.str());
+            throw LLVMException(msg.str(), __FUNC__);
+        }
         break;
 
     }

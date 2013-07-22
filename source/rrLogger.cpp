@@ -21,43 +21,8 @@ using Poco::AutoPtr;
 using Poco::Message;
 using Poco::SimpleFileChannel;
 
-//static Poco::Logger *pocoLogger = 0;
-
-int levelToPriority(int level)
-{
-    int result = Message::PRIO_FATAL;
-    switch (level)
-    {
-    case lShowAlways:     result = Message::PRIO_FATAL;
-        break;
-    case lError:          result = Message::PRIO_ERROR;
-        break;
-    case lWarning:        result = Message::PRIO_WARNING;
-        break;
-    case lInfo:           result = Message::PRIO_INFORMATION;
-        break;
-    case lDebug:          result = Message::PRIO_DEBUG;
-        break;
-    case lDebug1:         result = Message::PRIO_TRACE;
-        break;
-    case lDebug2:         result = Message::PRIO_TRACE;
-        break;
-    case lDebug3:         result = Message::PRIO_TRACE;
-        break;
-    case lDebug4:         result = Message::PRIO_TRACE;
-        break;
-    case lDebug5:         result = Message::PRIO_TRACE;
-        break;
-    case lAny:            result = Message::PRIO_TRACE;
-        break;
-    case lUser:           result = Message::PRIO_TRACE;
-        break;
-    }
-    return result;
-}
-
 static Poco::Logger *pocoLogger = 0;
-static LogLevel logLevel = lAny;
+static Logger::Level logLevel = Logger::PRIO_TRACE;
 
 Poco::Logger& getLogger()
 {
@@ -73,13 +38,16 @@ Poco::Logger& getLogger()
 }
 
 
-void Logger::SetCutOffLogLevel(LogLevel level)
+void Logger::SetCutOffLogLevel(int level)
 {
-    logLevel = level;
-    Poco::Logger::root().setLevel(levelToPriority(level));
+    if (level >= PRIO_FATAL && level <= PRIO_TRACE)
+    {
+        logLevel = (Level) level;
+        Poco::Logger::root().setLevel(level);
+    }
 }
 
-LogLevel Logger::GetLogLevel()
+int Logger::GetLogLevel()
 {
     return logLevel;
 }
@@ -91,20 +59,30 @@ void Logger::StopLogging()
 
 void Logger::Init(const std::string& allocator, int level)
 {
-    logLevel = (LogLevel)level;
-    Poco::Logger::root().setLevel(levelToPriority(level));
+    if (level >= PRIO_FATAL && level <= PRIO_TRACE)
+    {
+        logLevel = (Level)level;
+        Poco::Logger::root().setLevel(logLevel);
+    }
 }
 
 void Logger::Init(const std::string& allocator, int level, LogFile* logFile)
 {
     // make sure we have a log...
-    logLevel = (LogLevel)level;
+    if (level >= PRIO_FATAL && level <= PRIO_TRACE)
+    {
+        logLevel = (Level)level;
+    }
+    else
+    {
+        logLevel = PRIO_FATAL;
+    }
 
     AutoPtr<SimpleFileChannel> pChannel(new SimpleFileChannel);
     pChannel->setProperty("path", logFile->name);
     pChannel->setProperty("rotation", "2 K");
     Poco::Logger::root().setChannel(pChannel);
-    Poco::Logger::root().setLevel(levelToPriority(level));
+    Poco::Logger::root().setLevel(logLevel);
 
     getLogger().trace("deleting pointer to LogFile struct...");
 }
@@ -143,8 +121,17 @@ void LoggingBufferCtor()
     cout << __FUNC__ << endl;
 }
 
-LoggingBuffer::LoggingBuffer(LogLevel level) : level(level)
+LoggingBuffer::LoggingBuffer(int level)
 {
+    if (level >= Message::PRIO_FATAL && level <= Message::PRIO_TRACE)
+    {
+        this->level = level;
+    }
+    else
+    {
+        // wrong level, so just set to error?
+        this->level = Message::PRIO_ERROR;
+    }
 }
 
 LoggingBuffer::~LoggingBuffer()
@@ -152,46 +139,44 @@ LoggingBuffer::~LoggingBuffer()
     Poco::Logger &logger = getLogger();
     switch (level)
     {
-    case lShowAlways:
-        logger.fatal(str());
+    case Message::PRIO_FATAL:
+        logger.fatal(buffer.str());
         break;
-    case lError:
-        logger.error(str());
+    case Message::PRIO_CRITICAL:
+        logger.critical(buffer.str());
         break;
-    case lWarning:
-        logger.warning(str());
+    case Message::PRIO_ERROR:
+        logger.error(buffer.str());
         break;
-    case lInfo:
-        logger.information(str());
+    case Message::PRIO_WARNING:
+        logger.warning(buffer.str());
         break;
-    case lDebug:
-        logger.debug(str());
+    case Message::PRIO_NOTICE:
+        logger.notice(buffer.str());
         break;
-    case lDebug1:
-        logger.trace(str());
+    case Message::PRIO_INFORMATION:
+        logger.information(buffer.str());
         break;
-    case lDebug2:
-        logger.trace(str());
+    case Message::PRIO_DEBUG:
+        logger.debug(buffer.str());
         break;
-    case lDebug3:
-        logger.trace(str());
-        break;
-    case lDebug4:
-        logger.trace(str());
-        break;
-    case lDebug5:
-        logger.trace(str());
-        break;
-    case lAny:
-        logger.trace(str());
-        break;
-    case lUser:
-        logger.trace(str());
+    case Message::PRIO_TRACE:
+        logger.trace(buffer.str());
         break;
     default:
-        logger.information(str());
+        logger.error(buffer.str());
         break;
     }
+}
+
+std::ostream& LoggingBuffer::stream()
+{
+    return buffer;
+}
+
+int Logger::SetLogLevel()
+{
+    return logLevel;
 }
 
 }
