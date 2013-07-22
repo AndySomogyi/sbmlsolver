@@ -8,7 +8,7 @@
 namespace rr
 {
 
-Token::Token(const CodeTypes& code)
+Token::Token(const CodeTypes::CodeTypes& code)
 :
 tokenCode(code),
 tokenDouble(0),

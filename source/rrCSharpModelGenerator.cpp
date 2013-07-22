@@ -799,7 +799,7 @@ void CSharpModelGenerator::substituteWords(const string& reactionName, bool bFix
 void CSharpModelGenerator::substituteToken(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& sb)
 {
     string aToken = s.tokenString;
-    CodeTypes codeType = s.token();
+    CodeTypes::CodeTypes codeType = s.token();
     switch(codeType)
     {
         case CodeTypes::tWordToken:

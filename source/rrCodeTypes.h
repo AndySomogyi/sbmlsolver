@@ -4,6 +4,8 @@
 
 namespace rr
 {
+namespace CodeTypes
+{
 enum CodeTypes
 {
     tEmptyToken = 0,
@@ -63,6 +65,7 @@ enum CodeTypes
     tSimulateToken,
     tPointToken
 };
+}
 
 }//rr namespace
 
