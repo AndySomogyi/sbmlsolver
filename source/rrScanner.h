@@ -16,6 +16,8 @@ using std::stringstream;
 namespace rr
 {
 
+namespace TCharCode
+{
 enum TCharCode
 {
     cLETTER = 0,
@@ -27,6 +29,7 @@ enum TCharCode
     cWHITESPACE,
     cETX
 };
+}
 
 
 class RR_DECLSPEC Scanner
@@ -35,7 +38,7 @@ class RR_DECLSPEC Scanner
         const char                                EOFCHAR; // Deemed end of string marker, used internally
         const char                                CR;
         const char                                LF;
-        vector<TCharCode>                         FCharTable;
+        vector<TCharCode::TCharCode>              FCharTable;
         vector<char>                              buffer;
         queue<Token>                              tokenQueue;
         map<string, CodeTypes::CodeTypes>         wordTable;

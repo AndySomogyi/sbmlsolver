@@ -83,7 +83,9 @@ class RR_DECLSPEC RoadRunner
 
         double                          getNthSelectedOutput(const int& index, const double& dCurrentTime);
         vector<double>                  buildModelEvalArgument();
-        double                          getVariableValue(const TVariableType& variableType, const int& variableIndex);
+
+        double                          getVariableValue(const TVariableType::TVariableType variableType,
+                                            const int variableIndex);
 
         vector<string>                  getParameterIds();
         bool                            loadSBMLIntoNOM(const string& sbml);
@@ -103,8 +105,12 @@ class RR_DECLSPEC RoadRunner
         int                             getInstanceCount();
 
         bool                            computeAndAssignConservationLaws();
-        void                            setParameterValue(const TParameterType& parameterType, const int& parameterIndex, const double& value);
-        double                          getParameterValue(const TParameterType& parameterType, const int& parameterIndex);
+
+        void                            setParameterValue(const TParameterType::TParameterType parameterType,
+                                            const int parameterIndex, const double value);
+
+        double                          getParameterValue(const TParameterType::TParameterType parameterType,
+                                            const int parameterIndex);
 
         string                          getParamPromotedSBML(const string& sArg);
         NOMSupport*                     getNOM();
@@ -446,7 +452,9 @@ class RR_DECLSPEC RoadRunner
         /**
          * Changes a given parameter type by the given increment
          */
-        void                               changeParameter(TParameterType parameterType, int reactionIndex, int parameterIndex, double originalValue, double increment);
+        void                               changeParameter(TParameterType::TParameterType parameterType,
+                                                int reactionIndex, int parameterIndex, double originalValue,
+                                                double increment);
 
         /**
          * Returns the unscaled elasticity for a named reaction with respect to a named parameter (local or global)

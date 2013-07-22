@@ -672,7 +672,7 @@ void Scanner::nextTokenInternal()
     skipBlanks();
     tokenString = "";
 
-    TCharCode code = FCharTable[fch];
+    TCharCode::TCharCode code = FCharTable[fch];
     switch(code)
     {
         case TCharCode::cLETTER:

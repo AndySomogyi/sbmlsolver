@@ -24,7 +24,11 @@
 
 using namespace std;
 
-typedef pair<string,int> StrIntPair;
+struct StrIntPair
+{
+    const char* first;
+    int second;
+};
 
 void getPairs(StrIntPair *&, int& npairs);
 
