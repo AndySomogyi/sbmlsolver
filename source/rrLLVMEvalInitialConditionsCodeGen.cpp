@@ -11,6 +11,7 @@
 #include "rrLogger.h"
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaFormatter.h>
+#include <Poco/Logger.h>
 
 
 using namespace libsbml;
@@ -57,16 +58,6 @@ Value* LLVMEvalInitialConditionsCodeGen::codeGen()
     }
 
 
-
-    Log(lInfo) << "reactions: ";
-    vector<string> ids = dataSymbols.getReactionIds();
-    for (int i = 0; i < ids.size(); i++)
-    {
-        Log(lInfo) << ids[i] << ", ";
-    }
-    Log(lInfo) << "\n";
-
-
     // make the set init value function
     vector<Type*> argTypes;
     StructType *modelDataStructType = LLVMModelDataIRBuilder::getStructType(
@@ -110,8 +101,8 @@ Value* LLVMEvalInitialConditionsCodeGen::codeGen()
         throw LLVMException("Generated function is corrupt, see stderr", __FUNC__);
     }
 
-    initialValuesFunc->dump();
-
+    poco_information(getLogger(), string(FunctionName) + string(": ") +
+            to_string(initialValuesFunc));
 
     return initialValuesFunc;
 }
@@ -163,8 +154,6 @@ void LLVMEvalInitialConditionsCodeGen::codeGenFloatingSpecies(
         free(formula);
 
         Value *value = astCodeGen.codeGen(i->second);
-        value->dump();
-
         Value *amt = 0;
 
         Species *species = const_cast<Model*>(model)->getListOfSpecies()->get(i->first);
@@ -248,8 +237,6 @@ void LLVMEvalInitialConditionsCodeGen::codeGenCompartments(
         free(formula);
 
         Value *value = astCodeGen.codeGen(i->second);
-        value->dump();
-
         modelDataBuilder.createCompStore(i->first, value);
     }
 }

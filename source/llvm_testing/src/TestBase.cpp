@@ -42,8 +42,8 @@ TestBase::TestBase(const std::string& version, int caseNumber) : model(0)
     std::string sbml((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
 
     ifs.close();
-    Log(lDebug5)<<"Read SBML content from file:\n "<<sbml \
-                << "\n============ End of SBML "<<endl;
+    Log(lDebug5) << "Read SBML content from file:\n " << sbml
+                << "\n============ End of SBML " << endl;
 
     LLVMModelGenerator generator;
 

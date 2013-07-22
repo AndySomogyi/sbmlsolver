@@ -38,6 +38,14 @@
 #include <llvm/PassManager.h>
 #include <llvm/Support/TargetSelect.h>
 #include <llvm/Transforms/Scalar.h>
+#include <llvm/Support/raw_ostream.h>
+
+namespace rr {
+/**
+ * C++ 11 style to_string for LLVM types
+ */
+std::string to_string(const llvm::Value *);
+}
 
 
 

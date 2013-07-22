@@ -91,7 +91,7 @@ public:
             const llvm::Twine& name = "");
 
     llvm::Value *createStore(ModelDataFields field, unsigned index,
-            llvm::Value *value);
+            llvm::Value *value, const llvm::Twine& name = "");
 
     /**
      * load the compartment value

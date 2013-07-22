@@ -99,11 +99,14 @@ Value* LLVMEvalReactionRatesCodeGen::codeGen()
     /// Return true if the function is corrupt.
     if (verifyFunction(*func, PrintMessageAction))
     {
+        poco_error(getLogger(), "Corrupt Generated Function, " +
+                string(FunctionName) + string(": ") + to_string(func));
+
         throw LLVMException("Generated function is corrupt, see stderr", __FUNC__);
     }
 
-    func->dump();
-
+    poco_information(getLogger(), string(FunctionName) + string(": ") +
+            to_string(func));
 
     return func;
 }

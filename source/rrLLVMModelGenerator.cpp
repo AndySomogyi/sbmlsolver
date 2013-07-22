@@ -10,6 +10,7 @@
 #include "rrLLVMModelGenerator.h"
 #include "rrLLVMExecutableModel.h"
 #include "rrLLVMModelGeneratorContext.h"
+#include "rrLLVMIncludes.h"
 
 
 
@@ -104,6 +105,19 @@ Compiler* LLVMModelGenerator::getCompiler()
 bool LLVMModelGenerator::setCompiler(const string& compiler)
 {
     return true;
+}
+
+/************ LLVM Utility Functions, TODO: Move To Separate File ************/
+
+/**
+ * C++ 11 style to_string for LLVM types
+ */
+std::string to_string(const llvm::Value *value)
+{
+    std::string str;
+    llvm::raw_string_ostream stream(str);
+    value->print(stream);
+    return str;
 }
 
 /*
