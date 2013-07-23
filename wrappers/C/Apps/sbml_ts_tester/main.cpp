@@ -8,6 +8,7 @@
 #include "rrGetOptions.h"
 #include "TestSuiteSimulation.h"
 #include "rrException.h"
+#include "rrRoadRunner.h"
 
 using namespace std;
 using namespace rr;
@@ -23,11 +24,18 @@ int main(int argc, char* argv[])
 {
     try
     {
-        enableLoggingToConsole();
+        cout << "RoadRunner SBML Tester" << endl;
+        cout << RoadRunner::getExtendedVersionInfo() << endl;
+
+        Logger::enableLoggingToConsole();
+
+        Log(lDebug) << "hello";
+
         Args args;
         ProcessCommandLineArguments(argc, argv, args);
 
         string thisExeFolder = getCurrentExeFolder();
+        cout << "RoadRunner version: ";
         cout << "RoadRunner bin location is: "<<thisExeFolder<<endl;
 
         //Assume(!) this is the bin folder of roadrunner install

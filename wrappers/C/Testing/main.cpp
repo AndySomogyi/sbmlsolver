@@ -8,6 +8,7 @@
 #include "rrc_api.h"
 #include "rrGetOptions.h"
 #include "src/Args.h"
+#include "rrRoadRunner.h"
 
 using namespace std;
 using namespace rr;
@@ -27,7 +28,11 @@ bool setup(Args& args);
 //call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder" -s"Suites"
 int main(int argc, char* argv[])
 {
-    enableLoggingToConsole();
+    cout << "RoadRunner SBML Test Suite" << endl;
+    cout << RoadRunner::getExtendedVersionInfo() << endl;
+
+    Logger::enableLoggingToConsole();
+
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
     setup(args);

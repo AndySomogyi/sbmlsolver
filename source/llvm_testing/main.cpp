@@ -5,6 +5,7 @@
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrLogger.h"
+#include "rrRoadRunner.h"
 
 #include "CSRMatrixTest.h"
 
@@ -52,11 +53,16 @@ bool RunTest(const string& version, int caseNumber);
 
 int main(int argc, char* argv[])
 {
-    Logger::SetCutOffLogLevel(lAny);
+    cout << "RoadRunner LLVM SBML Test Suite" << endl;
+    cout << RoadRunner::getExtendedVersionInfo() << endl;
+
+    Logger::enableLoggingToConsole();
+
+    Logger::SetCutOffLogLevel(Logger::PRIO_INFORMATION);
+
 
     Log(lInfo) << "hello";
 
-    Logger::SetCutOffLogLevel(lAny);
 
     test_compiler();
 
