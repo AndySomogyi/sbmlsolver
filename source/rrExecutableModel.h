@@ -247,6 +247,8 @@ public:
     virtual void testConstraints() = 0;
 
     virtual string getInfo() = 0;
+    
+    virtual void print(std::ostream &stream) = 0;
 
 
     virtual const SymbolList &getConservations() = 0;
@@ -260,6 +262,15 @@ public:
      */
     virtual ~ExecutableModel() {};
 };
+    
+/**
+ * dump the model to a stream convenience func
+ */
+std::ostream& operator << (std::ostream &stream, ExecutableModel* model)
+{
+    model->print(stream);
+    return stream;
+}
 
 /**
  * zero out the memory occupied by a ModelData struct, equivalent to
@@ -268,12 +279,12 @@ public:
  * performs NO allocaation of memory.
  *
  */
-void RR_DECLSPEC initModelData(ModelData &data);
+RR_DECLSPEC void initModelData(ModelData &data);
 
 /**
  * dump the ModelData to an output stream.
  */
-std::ostream& operator<< (std::ostream& os, const ModelData& data);
+RR_DECLSPEC std::ostream& operator<< (std::ostream& os, const ModelData& data);
 
 /**
  * Allocate memory for all the data buffers in a ModelData structure,

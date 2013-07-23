@@ -15,7 +15,6 @@ namespace rr
 {
 
 LLVMExecutableModel::LLVMExecutableModel() :
-    modelData(0),
     symbols(0),
     context(0),
     executionEngine(0),
@@ -23,11 +22,20 @@ LLVMExecutableModel::LLVMExecutableModel() :
     evalInitialConditionsPtr(0),
     evalReactionRatesPtr(0)
 {
+    // zero out the struct, the generator will fill it out. 
+    initModelData(modelData);
 }
 
 LLVMExecutableModel::~LLVMExecutableModel()
 {
-    // TODO Auto-generated destructor stub
+    freeModelDataBuffers(modelData);
+    
+    delete symbols;
+    
+    // the exe engine owns all the functions
+    delete executionEngine;
+    delete context;
+    delete errStr;
 }
 
 string LLVMExecutableModel::getModelName()
@@ -256,7 +264,7 @@ int LLVMExecutableModel::popState(unsigned)
 
 void LLVMExecutableModel::evalInitialConditions()
 {
-    evalInitialConditionsPtr(modelData);
+    evalInitialConditionsPtr(&modelData);
 }
 
 void LLVMExecutableModel::reset()
@@ -282,6 +290,12 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
     return 0;
 }
 
+void LLVMExecutableModel::print(std::ostream &stream)
+{
+    stream << "LLVMExecutableModel" << endl;
+    stream << modelData;
+}
+
 LLVMExecutableModel* LLVMExecutableModel::dummy()
 {
     return new LLVMExecutableModel();
@@ -291,5 +305,5 @@ LLVMExecutableModel* LLVMExecutableModel::dummy()
 
 void rr::LLVMExecutableModel::evalReactionRates()
 {
-    evalReactionRatesPtr(modelData);
+    evalReactionRatesPtr(&modelData);
 }

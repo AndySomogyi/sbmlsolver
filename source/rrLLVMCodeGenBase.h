@@ -28,9 +28,9 @@ public:
 protected:
 
     LLVMCodeGenBase(const LLVMModelGeneratorContext &mgc) :
+            model(mgc.getModel()),
             dataSymbols(mgc.getModelDataSymbols()),
             modelSymbols(mgc.getModelSymbols()),
-            model(mgc.getModel()),
             context(mgc.getContext()),
             module(mgc.getModule()),
             builder(mgc.getBuilder()),

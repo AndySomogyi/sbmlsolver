@@ -7,6 +7,7 @@ using namespace std;
 
 namespace rr
 {
+    
 
 void initModelData(ModelData &data)
 {

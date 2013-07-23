@@ -173,6 +173,8 @@ public:
     virtual string getCompartmentName(int);
     virtual int getReactionIndex(const string&);
     virtual string getReactionName(int);
+    
+    virtual void print(std::ostream &stream);
 
 
     virtual const SymbolList &getConservations();
@@ -187,7 +189,7 @@ public:
     static LLVMExecutableModel* dummy();
 
 private:
-    ModelData *modelData;
+    ModelData modelData;
     LLVMModelDataSymbols *symbols;
     llvm::LLVMContext *context;
     llvm::ExecutionEngine *executionEngine;

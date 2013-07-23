@@ -21,8 +21,8 @@ mDummyDoubleArray(new double[1]),
 mData(),
 ms(symbols),
 mIsInitialized(false),
-mDLL(dll),
-mConservedSumChanged(false)
+mConservedSumChanged(false),
+mDLL(dll)
 {
     //Zero data structure..
     initModelData(mData);
@@ -766,7 +766,13 @@ void CompiledExecutableModel::reset()
 
     convertToAmounts();
 }
-
+    
+void CompiledExecutableModel::print(std::ostream &stream)
+{
+    stream << "CompiledExecutableModel" << endl;
+    stream << mData;
+}
+    
 
 } //Namespace rr
 

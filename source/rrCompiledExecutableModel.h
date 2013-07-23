@@ -194,6 +194,8 @@ public:
     virtual void testConstraints();
     virtual void initializeRateRuleSymbols();
     virtual string getInfo();
+    
+    virtual void print(std::ostream &stream);
 
     virtual const SymbolList& getConservations();
     virtual const StringList getConservationNames();

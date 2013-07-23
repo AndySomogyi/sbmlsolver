@@ -9,16 +9,16 @@
 
 namespace rr
 {
-
-TestEvalReactionRates::TestEvalReactionRates()
+    
+TestEvalReactionRates::TestEvalReactionRates(const std::string& version, int caseNumber)
+: TestBase(version, caseNumber)
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 TestEvalReactionRates::~TestEvalReactionRates()
 {
-	// TODO Auto-generated destructor stub
 }
+    
 
+    
 } /* namespace rr */

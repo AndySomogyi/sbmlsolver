@@ -6,19 +6,23 @@
  */
 
 #include "TestEvalInitialConditions.h"
+#include "rrLogger.h"
 
 namespace rr
 {
 
-TestEvalInitialConditions::TestEvalInitialConditions()
+TestEvalInitialConditions::TestEvalInitialConditions(const std::string& version, int caseNumber)
+    : TestBase(version, caseNumber)
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 TestEvalInitialConditions::~TestEvalInitialConditions()
 {
-	// TODO Auto-generated destructor stub
+}
+    
+bool TestEvalInitialConditions::test()
+{
+      
 }
 
 } /* namespace rr */

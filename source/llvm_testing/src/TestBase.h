@@ -21,6 +21,8 @@ class TestBase
 public:
     TestBase(const std::string& version, int caseNumber);
     virtual ~TestBase();
+    
+    virtual bool test() {return true;}
 
     LLVMExecutableModel *model;
 };
