@@ -22,6 +22,7 @@
 #include "rrNLEQInterface.h"
 #include "Poco/File.h"
 #include "Poco/Mutex.h"
+#include <sbml/common/libsbml-version.h>
 //---------------------------------------------------------------------------
 
 namespace rr
@@ -171,11 +172,9 @@ string RoadRunner::getInfo()
 string RoadRunner::getExtendedVersionInfo()
 {
     stringstream info;
-    info<<"libSBML version: "        <<    getlibSBMLVersion()<<endl;
-    info<<"Temporary folder: "        <<    getTempFolder()<<endl;
-    info<<"Compiler location: "        <<    getCompiler()->getCompilerLocation()<<endl;
-    info<<"Support Code Folder: "    <<    getCompiler()->getSupportCodeFolder()<<endl;
-    info<<"Working Directory: "        <<    getCWD()<<endl;
+    info << "Version: "                << getVersion() << endl;
+    info<<"libSBML version: "          << getlibSBMLVersion() << endl;
+    info<<"Working Directory: "        << getCWD() << endl;
     return info.str();
 }
 
@@ -340,27 +339,27 @@ double RoadRunner::getValueForRecord(const SelectionRecord& record)
 
     switch (record.selectionType)
     {
-        case SelectionType::clFloatingSpecies:
+        case SelectionRecord::clFloatingSpecies:
             dResult = mModel->getConcentration(record.index);
         break;
 
-        case SelectionType::clBoundarySpecies:
+        case SelectionRecord::clBoundarySpecies:
             dResult = mModel->getModelData().boundarySpeciesConcentrations[record.index];
         break;
 
-        case SelectionType::clFlux:
+        case SelectionRecord::clFlux:
             dResult = mModel->getModelData().reactionRates[record.index];
         break;
 
-        case SelectionType::clRateOfChange:
+        case SelectionRecord::clRateOfChange:
             dResult = mModel->getModelData().floatingSpeciesAmountRates[record.index];
         break;
 
-        case SelectionType::clVolume:
+        case SelectionRecord::clVolume:
             dResult = mModel->getModelData().compartmentVolumes[record.index];
         break;
 
-        case SelectionType::clParameter:
+        case SelectionRecord::clParameter:
             {
                 if (record.index > ((mModel->getModelData().numGlobalParameters) - 1))
                 {
@@ -373,11 +372,11 @@ double RoadRunner::getValueForRecord(const SelectionRecord& record)
             }
         break;
 
-        case SelectionType::clFloatingAmount:
+        case SelectionRecord::clFloatingAmount:
             dResult = mModel->getModelData().floatingSpeciesAmounts[record.index];
         break;
 
-        case SelectionType::clBoundaryAmount:
+        case SelectionRecord::clBoundaryAmount:
             int nIndex;
             if ((nIndex = mModel->getBoundarySpeciesCompartmentIndex(record.index)) >= 0)
             {
@@ -389,16 +388,16 @@ double RoadRunner::getValueForRecord(const SelectionRecord& record)
             }
         break;
 
-        case SelectionType::clElasticity:
+        case SelectionRecord::clElasticity:
             dResult = getEE(record.p1, record.p2, false);
         break;
 
-        case SelectionType::clUnscaledElasticity:
+        case SelectionRecord::clUnscaledElasticity:
             dResult = getuEE(record.p1, record.p2, false);
         break;
 
         // ********  Todo: Enable this.. ***********
-        case SelectionType::clEigenValue:
+        case SelectionRecord::clEigenValue:
 //            vector< complex<double> >oComplex = LA.GetEigenValues(getReducedJacobian());
 //            if (oComplex.Length > record.index)
 //            {
@@ -409,7 +408,7 @@ double RoadRunner::getValueForRecord(const SelectionRecord& record)
                 dResult = 0.0;
         break;
 
-        case SelectionType::clStoichiometry:
+        case SelectionRecord::clStoichiometry:
             dResult = mModel->getModelData().sr[record.index];
         break;
 
@@ -424,7 +423,7 @@ double RoadRunner::getNthSelectedOutput(const int& index, const double& dCurrent
 {
     SelectionRecord record = mSelectionList[index];
 
-    if (record.selectionType == SelectionType::clTime)
+    if (record.selectionType == SelectionRecord::clTime)
     {
         return dCurrentTime;
     }
@@ -847,43 +846,43 @@ vector<string> RoadRunner::getTimeCourseSelectionList()
         SelectionRecord record = (*iter);
         switch (record.selectionType)
         {
-            case SelectionType::clTime:
+            case SelectionRecord::clTime:
                 oResult.push_back("time");
                 break;
-            case SelectionType::clBoundaryAmount:
+            case SelectionRecord::clBoundaryAmount:
                 oResult.push_back(format("[{0}]", oBoundary[record.index]));
                 break;
-            case SelectionType::clBoundarySpecies:
+            case SelectionRecord::clBoundarySpecies:
                 oResult.push_back(oBoundary[record.index]);
                 break;
-            case SelectionType::clFloatingAmount:
+            case SelectionRecord::clFloatingAmount:
                 oResult.push_back(format("[{0}]", oFloating[record.index]));
                 break;
-            case SelectionType::clFloatingSpecies:
+            case SelectionRecord::clFloatingSpecies:
                 oResult.push_back(oFloating[record.index]);
                 break;
-            case SelectionType::clVolume:
+            case SelectionRecord::clVolume:
                 oResult.push_back(oVolumes[record.index]);
                 break;
-            case SelectionType::clFlux:
+            case SelectionRecord::clFlux:
                 oResult.push_back(oFluxes[record.index]);
                 break;
-            case SelectionType::clRateOfChange:
+            case SelectionRecord::clRateOfChange:
                 oResult.push_back(oRates[record.index]);
                 break;
-            case SelectionType::clParameter:
+            case SelectionRecord::clParameter:
                 oResult.push_back(oParameters[record.index]);
                 break;
-            case SelectionType::clEigenValue:
+            case SelectionRecord::clEigenValue:
                 oResult.push_back("eigen_" + record.p1);
                 break;
-            case SelectionType::clElasticity:
+            case SelectionRecord::clElasticity:
                 oResult.push_back(format("EE:{0},{1}", record.p1, record.p2));
                 break;
-            case SelectionType::clUnscaledElasticity:
+            case SelectionRecord::clUnscaledElasticity:
                 oResult.push_back(format("uEE:{0},{1}", record.p1, record.p2));
                 break;
-            case SelectionType::clStoichiometry:
+            case SelectionRecord::clStoichiometry:
                 oResult.push_back(record.p1);
                 break;
         }
@@ -922,7 +921,8 @@ double RoadRunner::steadyState()
     return ss;
 }
 
-void RoadRunner::setParameterValue(const TParameterType& parameterType, const int& parameterIndex, const double& value)
+void RoadRunner::setParameterValue(const TParameterType::TParameterType parameterType,
+        const int parameterIndex, const double value)
 {
     switch (parameterType)
     {
@@ -947,7 +947,8 @@ void RoadRunner::setParameterValue(const TParameterType& parameterType, const in
     }
 }
 
-double RoadRunner::getParameterValue(const TParameterType& parameterType, const int& parameterIndex)
+double RoadRunner::getParameterValue(const TParameterType::TParameterType parameterType,
+        const int parameterIndex)
 {
     switch (parameterType)
     {
@@ -1042,7 +1043,7 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
 
 double RoadRunner::getEE(const string& reactionName, const string& parameterName, bool computeSteadyState)
 {
-    TParameterType parameterType;
+    TParameterType::TParameterType parameterType;
     int reactionIndex;
     int parameterIndex;
 
@@ -1097,34 +1098,35 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
 
 class aFinalizer
 {
-    private:
-        TParameterType     mParameterType;
-        int                 mParameterIndex;
-        double             mOriginalParameterValue;
-        bool             mComputeSteadyState;
-        RoadRunner*     mRR;
+private:
+    TParameterType::TParameterType    mParameterType;
+    int    mParameterIndex;
+    double    mOriginalParameterValue;
+    bool    mComputeSteadyState;
+    RoadRunner*    mRR;
 
-    public:
-                        aFinalizer(TParameterType& pType, const int& pIndex, const double& origValue, const bool& doWhat, RoadRunner* aRoadRunner)
-                        :
-                        mParameterType(pType),
-                        mParameterIndex(pIndex),
-                        mOriginalParameterValue(origValue),
-                        mComputeSteadyState(doWhat),
-                        mRR(aRoadRunner)
-                        {}
+public:
+    aFinalizer(TParameterType::TParameterType& pType, const int& pIndex,
+            const double& origValue, const bool& doWhat, RoadRunner* aRoadRunner)
+:
+    mParameterType(pType),
+    mParameterIndex(pIndex),
+    mOriginalParameterValue(origValue),
+    mComputeSteadyState(doWhat),
+    mRR(aRoadRunner)
+{}
 
-                        ~aFinalizer()
-                        {
-                            //this is a finally{} code block
-                            // What ever happens, make sure we restore the parameter level
-                            mRR->setParameterValue(mParameterType, mParameterIndex, mOriginalParameterValue);
-                            mRR->getModel()->evalReactionRates();
-                            if (mComputeSteadyState)
-                            {
-                                mRR->steadyState();
-                            }
-                        }
+    ~aFinalizer()
+    {
+        //this is a finally{} code block
+        // What ever happens, make sure we restore the parameter level
+        mRR->setParameterValue(mParameterType, mParameterIndex, mOriginalParameterValue);
+        mRR->getModel()->evalReactionRates();
+        if (mComputeSteadyState)
+        {
+            mRR->steadyState();
+        }
+    }
 };
 
 double RoadRunner::getuEE(const string& reactionName, const string& parameterName, bool computeSteadystate)
@@ -1136,7 +1138,7 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
             throw CoreException(gEmptyModelMessage);
         }
 
-        TParameterType parameterType;
+        TParameterType::TParameterType parameterType;
         double originalParameterValue;
         int reactionIndex;
         int parameterIndex;
@@ -1253,7 +1255,7 @@ void RoadRunner::setTimeCourseSelectionList(const vector<string>& _selList)
     {
         if (toUpper(newSelectionList[i]) == toUpper("time"))
         {
-            mSelectionList.push_back(SelectionRecord(0, clTime));
+            mSelectionList.push_back(SelectionRecord(0, SelectionRecord::clTime));
         }
 
         // Check for species
@@ -1261,20 +1263,20 @@ void RoadRunner::setTimeCourseSelectionList(const vector<string>& _selList)
         {
             if (newSelectionList[i] == fs[j])
             {
-                   mSelectionList.push_back(SelectionRecord(j, SelectionType::clFloatingSpecies));
+                   mSelectionList.push_back(SelectionRecord(j, SelectionRecord::clFloatingSpecies));
                 break;
             }
 
             if (newSelectionList[i] == "[" + fs[j] + "]")
             {
-                   mSelectionList.push_back(SelectionRecord(j, clFloatingAmount));
+                   mSelectionList.push_back(SelectionRecord(j, SelectionRecord::clFloatingAmount));
                 break;
             }
 
             // Check for species rate of change
             if (newSelectionList[i] == fs[j] + "'")
             {
-                mSelectionList.push_back(SelectionRecord(j, clRateOfChange));
+                mSelectionList.push_back(SelectionRecord(j, SelectionRecord::clRateOfChange));
                 break;
             }
         }
@@ -1284,12 +1286,12 @@ void RoadRunner::setTimeCourseSelectionList(const vector<string>& _selList)
         {
             if (newSelectionList[i] == bs[j])
             {
-                mSelectionList.push_back(SelectionRecord(j, clBoundarySpecies));
+                mSelectionList.push_back(SelectionRecord(j, SelectionRecord::clBoundarySpecies));
                 break;
             }
             if (newSelectionList[i] == "[" + bs[j] + "]")
             {
-                mSelectionList.push_back(SelectionRecord(j, clBoundaryAmount));
+                mSelectionList.push_back(SelectionRecord(j, SelectionRecord::clBoundaryAmount));
                 break;
             }
         }
@@ -1299,7 +1301,7 @@ void RoadRunner::setTimeCourseSelectionList(const vector<string>& _selList)
             // Check for reaction rate
             if (newSelectionList[i] == rs[j])
             {
-                mSelectionList.push_back(SelectionRecord(j, clFlux));
+                mSelectionList.push_back(SelectionRecord(j, SelectionRecord::clFlux));
                 break;
             }
         }
@@ -1309,13 +1311,13 @@ void RoadRunner::setTimeCourseSelectionList(const vector<string>& _selList)
             // Check for volume
             if (newSelectionList[i] == vol[j])
             {
-                mSelectionList.push_back(SelectionRecord(j, clVolume));
+                mSelectionList.push_back(SelectionRecord(j, SelectionRecord::clVolume));
                 break;
             }
 
             if (newSelectionList[i] == "[" + vol[j] + "]")
             {
-                mSelectionList.push_back(SelectionRecord(j, clVolume));
+                mSelectionList.push_back(SelectionRecord(j, SelectionRecord::clVolume));
                 break;
             }
         }
@@ -1324,7 +1326,7 @@ void RoadRunner::setTimeCourseSelectionList(const vector<string>& _selList)
         {
             if (newSelectionList[i] == gp[j])
             {
-                mSelectionList.push_back(SelectionRecord(j, clParameter));
+                mSelectionList.push_back(SelectionRecord(j, SelectionRecord::clParameter));
                 break;
             }
         }
@@ -1334,8 +1336,8 @@ void RoadRunner::setTimeCourseSelectionList(const vector<string>& _selList)
         if (startsWith(tmp, "eigen_"))
         {
             string species = tmp.substr(tmp.find_last_of("eigen_") + 1);
-            mSelectionList.push_back(SelectionRecord(i, clEigenValue, species));
-//            mSelectionList[i].selectionType = SelectionType::clEigenValue;
+            mSelectionList.push_back(SelectionRecord(i, SelectionRecord::clEigenValue, species));
+//            mSelectionList[i].selectionType = SelectionRecord::clEigenValue;
 //            mSelectionList[i].p1 = species;
             int aIndex = indexOf(fs, species);
             mSelectionList[i].index = aIndex;
@@ -1347,7 +1349,7 @@ void RoadRunner::setTimeCourseSelectionList(const vector<string>& _selList)
 //            string parameters = ((string)newSelectionList[i]).Substring(3);
 //            var p1 = parameters.Substring(0, parameters.IndexOf(","));
 //            var p2 = parameters.Substring(parameters.IndexOf(",") + 1);
-//            mSelectionList[i].selectionType = SelectionType::clElasticity;
+//            mSelectionList[i].selectionType = SelectionRecord::clElasticity;
 //            mSelectionList[i].p1 = p1;
 //            mSelectionList[i].p2 = p2;
 //        }
@@ -1357,14 +1359,14 @@ void RoadRunner::setTimeCourseSelectionList(const vector<string>& _selList)
 //            string parameters = ((string)newSelectionList[i]).Substring(4);
 //            var p1 = parameters.Substring(0, parameters.IndexOf(","));
 //            var p2 = parameters.Substring(parameters.IndexOf(",") + 1);
-//            mSelectionList[i].selectionType = SelectionType::clUnscaledElasticity;
+//            mSelectionList[i].selectionType = SelectionRecord::clUnscaledElasticity;
 //            mSelectionList[i].p1 = p1;
 //            mSelectionList[i].p2 = p2;
 //        }
 //        if (((string)newSelectionList[i]).StartsWith("eigen_"))
 //        {
 //            var species = ((string)newSelectionList[i]).Substring("eigen_".Length);
-//            mSelectionList[i].selectionType = SelectionType::clEigenValue;
+//            mSelectionList[i].selectionType = SelectionRecord::clEigenValue;
 //            mSelectionList[i].p1 = species;
 //            mModelGenerator->floatingSpeciesConcentrationList.find(species, out mSelectionList[i].index);
 //        }
@@ -1372,7 +1374,7 @@ void RoadRunner::setTimeCourseSelectionList(const vector<string>& _selList)
 //        int index;
 //        if (sr.find((string)newSelectionList[i], out index))
 //        {
-//            mSelectionList[i].selectionType = SelectionType::clStoichiometry;
+//            mSelectionList[i].selectionType = SelectionRecord::clStoichiometry;
 //            mSelectionList[i].index = index;
 //            mSelectionList[i].p1 = (string) newSelectionList[i];
 //        }
@@ -1767,14 +1769,15 @@ int RoadRunner::getNumberOfIndependentSpecies()
     }
 }
 
-double RoadRunner::getVariableValue(const TVariableType& variableType, const int& variableIndex)
+double RoadRunner::getVariableValue(const TVariableType::TVariableType variableType,
+        const int variableIndex)
 {
     switch (variableType)
     {
-        case vtFlux:
+        case TVariableType::vtFlux:
             return mModel->getModelData().reactionRates[variableIndex];
 
-        case vtSpecies:
+        case TVariableType::vtSpecies:
             return mModel->getModelData().floatingSpeciesConcentrations[variableIndex];
 
         default:
@@ -2114,7 +2117,7 @@ int RoadRunner::createDefaultSteadyStateSelectionList()
     for (int i = 0; i < floatingSpecies.size(); i++)
     {
         SelectionRecord aRec;
-        aRec.selectionType = SelectionType::clFloatingSpecies;
+        aRec.selectionType = SelectionRecord::clFloatingSpecies;
         aRec.p1 = floatingSpecies[i];
         aRec.index = i;
         mSteadyStateSelection[i] = aRec;
@@ -2148,43 +2151,43 @@ vector<string> RoadRunner::getSteadyStateSelectionList()
         SelectionRecord record = mSteadyStateSelection[i];
         switch (record.selectionType)
         {
-            case SelectionType::clTime:
+            case SelectionRecord::clTime:
                 result.push_back("time");
             break;
-            case SelectionType::clBoundaryAmount:
+            case SelectionRecord::clBoundaryAmount:
                 result.push_back(format("[{0}]", oBoundary[record.index]));
             break;
-            case SelectionType::clBoundarySpecies:
+            case SelectionRecord::clBoundarySpecies:
                 result.push_back(oBoundary[record.index]);
             break;
-            case SelectionType::clFloatingAmount:
+            case SelectionRecord::clFloatingAmount:
                 result.push_back("[" + (string)oFloating[record.index] + "]");
             break;
-            case SelectionType::clFloatingSpecies:
+            case SelectionRecord::clFloatingSpecies:
                 result.push_back(oFloating[record.index]);
             break;
-            case SelectionType::clVolume:
+            case SelectionRecord::clVolume:
                 result.push_back(oVolumes[record.index]);
             break;
-            case SelectionType::clFlux:
+            case SelectionRecord::clFlux:
                 result.push_back(oFluxes[record.index]);
             break;
-            case SelectionType::clRateOfChange:
+            case SelectionRecord::clRateOfChange:
                 result.push_back(oRates[record.index]);
             break;
-            case SelectionType::clParameter:
+            case SelectionRecord::clParameter:
                 result.push_back(oParameters[record.index]);
             break;
-            case SelectionType::clEigenValue:
+            case SelectionRecord::clEigenValue:
                 result.push_back("eigen_" + record.p1);
             break;
-            case SelectionType::clElasticity:
+            case SelectionRecord::clElasticity:
                 result.push_back("EE:" + record.p1 + "," + record.p2);
             break;
-            case SelectionType::clUnscaledElasticity:
+            case SelectionRecord::clUnscaledElasticity:
                 result.push_back("uEE:" + record.p1 + "," + record.p2);
             break;
-            case SelectionType::clUnknown:
+            case SelectionRecord::clUnknown:
                 result.push_back(record.p1);
                 break;
         }
@@ -2211,7 +2214,7 @@ vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const vector<string>
             if ((string)newSelectionList[i] == (string)fs[j])
             {
                 steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = SelectionType::clFloatingSpecies;
+                steadyStateSelection[i].selectionType = SelectionRecord::clFloatingSpecies;
                 set = true;
                 break;
             }
@@ -2219,7 +2222,7 @@ vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const vector<string>
             if ((string)newSelectionList[i] == "[" + (string)fs[j] + "]")
             {
                 steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = SelectionType::clFloatingAmount;
+                steadyStateSelection[i].selectionType = SelectionRecord::clFloatingAmount;
                 set = true;
                 break;
             }
@@ -2228,7 +2231,7 @@ vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const vector<string>
             if ((string)newSelectionList[i] == (string)fs[j] + "'")
             {
                 steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = SelectionType::clRateOfChange;
+                steadyStateSelection[i].selectionType = SelectionRecord::clRateOfChange;
                 set = true;
                 break;
             }
@@ -2245,14 +2248,14 @@ vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const vector<string>
             if ((string)newSelectionList[i] == (string)bs[j])
             {
                 steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = SelectionType::clBoundarySpecies;
+                steadyStateSelection[i].selectionType = SelectionRecord::clBoundarySpecies;
                 set = true;
                 break;
             }
             if ((string)newSelectionList[i] == "[" + (string)bs[j] + "]")
             {
                 steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = SelectionType::clBoundaryAmount;
+                steadyStateSelection[i].selectionType = SelectionRecord::clBoundaryAmount;
                 set = true;
                 break;
             }
@@ -2265,7 +2268,7 @@ vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const vector<string>
 
         if ((string)newSelectionList[i] == "time")
         {
-            steadyStateSelection[i].selectionType = SelectionType::clTime;
+            steadyStateSelection[i].selectionType = SelectionRecord::clTime;
             set = true;
         }
 
@@ -2275,7 +2278,7 @@ vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const vector<string>
             if ((string)newSelectionList[i] == (string)rs[j])
             {
                 steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = SelectionType::clFlux;
+                steadyStateSelection[i].selectionType = SelectionRecord::clFlux;
                 set = true;
                 break;
             }
@@ -2287,7 +2290,7 @@ vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const vector<string>
             if ((string)newSelectionList[i] == (string)vol[j])
             {
                 steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = SelectionType::clVolume;
+                steadyStateSelection[i].selectionType = SelectionRecord::clVolume;
                 set = true;
                 break;
             }
@@ -2299,7 +2302,7 @@ vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const vector<string>
             if ((string)newSelectionList[i] == (string)gp[j])
             {
                 steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = SelectionType::clParameter;
+                steadyStateSelection[i].selectionType = SelectionRecord::clParameter;
                 set = true;
                 break;
             }
@@ -2311,7 +2314,7 @@ vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const vector<string>
         }
 
         // it is another symbol
-        steadyStateSelection[i].selectionType = SelectionType::clUnknown;
+        steadyStateSelection[i].selectionType = SelectionRecord::clUnknown;
         steadyStateSelection[i].p1 = (string)newSelectionList[i];
     }
     return steadyStateSelection;
@@ -2366,7 +2369,7 @@ double RoadRunner::computeSteadyStateValue(const SelectionRecord& record)
         throw CoreException(gEmptyModelMessage);
     }
 
-    if (record.selectionType == SelectionType::clUnknown)
+    if (record.selectionType == SelectionRecord::clUnknown)
     {
         return computeSteadyStateValue(record.p1);
     }
@@ -3016,8 +3019,8 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
             throw CoreException(gEmptyModelMessage);
         }
 
-        TParameterType parameterType;
-        TVariableType variableType;
+        TParameterType::TParameterType parameterType;
+        TVariableType::TVariableType variableType;
         double originalParameterValue;
         int variableIndex;
         int parameterIndex;
@@ -3121,8 +3124,8 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
 //        [Help("Get scaled control coefficient with respect to a global parameter")]
 double RoadRunner::getCC(const string& variableName, const string& parameterName)
 {
-    TVariableType variableType;
-    TParameterType parameterType;
+    TVariableType::TVariableType variableType;
+    TParameterType::TParameterType parameterType;
     int variableIndex;
     int parameterIndex;
 
@@ -3923,12 +3926,12 @@ NewArrayList RoadRunner::getAvailableTimeCourseSymbols()
 
 string RoadRunner::getVersion()
 {
-    return RR_VERSION;
+    return string(RR_VERSION) + string(", compiled with ") + string(RR_COMPILER);
 }
 
 string RoadRunner::getCopyright()
 {
-    return "(c) 2009-2012 HM. Sauro and FT. Bergmann, BSD Licence";
+    return "(c) 2009-2013 HM. Sauro, FT. Bergmann, Totte Karlsson and Andy Somogyi, BSD Licence";
 }
 
 string RoadRunner::getURL()
@@ -3938,7 +3941,7 @@ string RoadRunner::getURL()
 
 string RoadRunner::getlibSBMLVersion()
 {
-    return mNOM.getlibSBMLVersion();
+    return libsbml::getLibSBMLDottedVersion();
 }
 
 // =========================================== NON ENABLED FUNCTIONS BELOW.....

@@ -12,17 +12,14 @@
 #include "nleq/nleq1.h"
 #include "rrLogger.h"
 #include "rrUtils.h"
-//---------------------------------------------------------------------------
+#include <Poco/ThreadLocal.h>
+
+using Poco::ThreadLocal;
 
 namespace rr
 {
-// private (file scope only) variables.
-// thread local pointer.
-#if defined(__unix__) || defined(__APPLE__)
-static __thread ExecutableModel *gModel = 0;
-#else
-static __declspec(thread) ExecutableModel *gModel = 0;
-#endif
+
+static ThreadLocal<ExecutableModel*> threadModel;
 
 // the NLEQ callback
 static void ModelFunction(int* nx, double* y, double* fval, int* pErr);
@@ -172,12 +169,12 @@ double NLEQInterface::solve(const vector<double>& yin)
 
     // set up the thread local variables, only this thread
     // access them.
-    if (gModel)
+    if (*threadModel)
     {
-        throw(Exception("gModel is set, this should never occur here."));
+        throw(Exception("thread local storage model is set, this should never occur here."));
     }
 
-    gModel = model;
+    *threadModel = model;
 
     NLEQ1(     &n,
             &ModelFunction,
@@ -193,7 +190,7 @@ double NLEQInterface::solve(const vector<double>& yin)
             RWK);
 
     // done, clear it.
-    gModel = 0;
+    *threadModel = 0;
 
     if (ierr == 2) // retry
     {
@@ -220,7 +217,7 @@ double NLEQInterface::solve(const vector<double>& yin)
 
 void ModelFunction(int* nx, double* y, double* fval, int* pErr)
 {
-    ExecutableModel* model = gModel;
+    ExecutableModel* model = *threadModel;
     if (model == NULL)
     {
         return;

@@ -17,7 +17,7 @@ CR((char) 13),
 LF((char) 10),
 bufferLength(),
 bufferPtr(),
-ftoken(tEmptyToken),
+ftoken(CodeTypes::tEmptyToken),
 yylineno(),
 timeWord1("time"),
 timeWord2("Time"),
@@ -33,8 +33,6 @@ pStream(NULL),
 previousToken(CodeTypes::tEmptyToken),
 currentToken(CodeTypes::tEmptyToken)
 {
-    wordTable;
-    tokenQueue;
     FCharTable.resize(255);
     buffer.resize(255);
     initScanner();
@@ -107,7 +105,7 @@ int Scanner::lineNumber()
 }
 
 // readonly current token property
-CodeTypes Scanner::token()
+CodeTypes::CodeTypes Scanner::token()
 {
     return ftoken;
 }
@@ -215,9 +213,9 @@ void Scanner::getWord()
     {
         try
         {
-            ftoken = (CodeTypes) wordTable[tokenString];
+            ftoken = (CodeTypes::CodeTypes) wordTable[tokenString];
         }
-        catch (Exception)
+        catch (Exception&)
         {
             ftoken = CodeTypes::tWordToken;
         }
@@ -291,7 +289,7 @@ void Scanner::getNumber()
                 nextChar();
             }
         }
-        catch(const Exception())
+        catch(const Exception&)
         {
             throw new ScannerException("Floating point overflow - constant value too large to read in");
         }
@@ -328,7 +326,7 @@ void Scanner::getNumber()
                 nextChar();
             } while ((FCharTable[fch] == TCharCode::cDIGIT) && (digit_count <= MAX_DIGIT_COUNT));
         }
-        catch(const Exception())
+        catch(const Exception&)
         {
             throw new ScannerException("Floating point overflow - Constant value too large to read");
         }
@@ -674,7 +672,7 @@ void Scanner::nextTokenInternal()
     skipBlanks();
     tokenString = "";
 
-    TCharCode code = FCharTable[fch];
+    TCharCode::TCharCode code = FCharTable[fch];
     switch(code)
     {
         case TCharCode::cLETTER:
@@ -739,7 +737,7 @@ void Scanner::UnGetToken()
 // -------------------------------------------------------------------
 // Given a token, this function returns the string eqauivalent
 // -------------------------------------------------------------------
-string Scanner::tokenToString(const CodeTypes& code)
+string Scanner::tokenToString(const CodeTypes::CodeTypes& code)
 {
     switch (code)
     {

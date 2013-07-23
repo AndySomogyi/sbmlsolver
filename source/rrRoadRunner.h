@@ -83,7 +83,9 @@ class RR_DECLSPEC RoadRunner
 
         double                          getNthSelectedOutput(const int& index, const double& dCurrentTime);
         vector<double>                  buildModelEvalArgument();
-        double                          getVariableValue(const TVariableType& variableType, const int& variableIndex);
+
+        double                          getVariableValue(const TVariableType::TVariableType variableType,
+                                            const int variableIndex);
 
         vector<string>                  getParameterIds();
         bool                            loadSBMLIntoNOM(const string& sbml);
@@ -103,8 +105,12 @@ class RR_DECLSPEC RoadRunner
         int                             getInstanceCount();
 
         bool                            computeAndAssignConservationLaws();
-        void                            setParameterValue(const TParameterType& parameterType, const int& parameterIndex, const double& value);
-        double                          getParameterValue(const TParameterType& parameterType, const int& parameterIndex);
+
+        void                            setParameterValue(const TParameterType::TParameterType parameterType,
+                                            const int parameterIndex, const double value);
+
+        double                          getParameterValue(const TParameterType::TParameterType parameterType,
+                                            const int parameterIndex);
 
         string                          getParamPromotedSBML(const string& sArg);
         NOMSupport*                     getNOM();
@@ -132,7 +138,7 @@ class RR_DECLSPEC RoadRunner
         bool                            isModelLoaded();
 
         string                          getModelName();
-        string                          getlibSBMLVersion();
+        static string                   getlibSBMLVersion();
         bool                            unLoadModel();
 
         int                             createDefaultSteadyStateSelectionList();
@@ -363,14 +369,14 @@ class RR_DECLSPEC RoadRunner
         void                            evalModel();
 
         //These functions are better placed in a separate file, as non class members, but part of the roadrunner namespace?
-        string                          getName();
-        string                          getVersion();
-        string                          getExtendedVersionInfo();    //Include info about dependent libs versions..
-        string                          getAuthor();
-        string                          getDescription();
-        string                          getDisplayName();
-        string                          getCopyright();
-        string                          getURL();
+        static string                   getName();
+        static string                   getVersion();
+        static string                   getExtendedVersionInfo();    //Include info about dependent libs versions..
+        static string                   getAuthor();
+        static string                   getDescription();
+        static string                   getDisplayName();
+        static string                   getCopyright();
+        static string                   getURL();
 
         //Plugin stuff
         bool                            loadPlugins();
@@ -446,7 +452,9 @@ class RR_DECLSPEC RoadRunner
         /**
          * Changes a given parameter type by the given increment
          */
-        void                               changeParameter(TParameterType parameterType, int reactionIndex, int parameterIndex, double originalValue, double increment);
+        void                               changeParameter(TParameterType::TParameterType parameterType,
+                                                int reactionIndex, int parameterIndex, double originalValue,
+                                                double increment);
 
         /**
          * Returns the unscaled elasticity for a named reaction with respect to a named parameter (local or global)

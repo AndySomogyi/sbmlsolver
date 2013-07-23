@@ -2174,7 +2174,7 @@ void CModelGenerator::substituteWords(const string& reactionName, bool bFixAmoun
 void CModelGenerator::substituteToken(const string& reactionName, bool bFixAmounts, Scanner& s, CodeBuilder& mSource)
 {
     string aToken = s.tokenString;
-    CodeTypes codeType = s.token();
+    CodeTypes::CodeTypes codeType = s.token();
     switch(codeType)
     {
         case CodeTypes::tWordToken:
