@@ -46,9 +46,12 @@ if(WIN32)
         )
     
 else() #Unix
-	
+    # OSX flags: 
+	#"${CMAKE_SHARED_LINKER_FLAGS} -Wl,-no_implicit_dylibs -undefined error")
     # OSX seems to link fine without this flag
-    if(NOT APPLE)
+    if(APPLE)
+        set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-no_implicit_dylibs -undefined error")
+    else()
         set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
     endif()
     
