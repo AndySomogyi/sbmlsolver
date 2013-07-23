@@ -25,6 +25,9 @@ public:
     virtual bool test() {return true;}
 
     LLVMExecutableModel *model;
+    string version;
+    int caseNumber;
+    string fileName;
 };
 
 } /* namespace rr */

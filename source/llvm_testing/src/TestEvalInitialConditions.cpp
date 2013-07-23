@@ -22,7 +22,13 @@ TestEvalInitialConditions::~TestEvalInitialConditions()
     
 bool TestEvalInitialConditions::test()
 {
-      
+    Log(Logger::PRIO_INFORMATION) << "Evaluating Initial Conditions for " << fileName << endl;
+    
+    model->evalInitialConditions();
+    
+    Log(Logger::PRIO_INFORMATION) << model << endl;
+    
+    return true;
 }
 
 } /* namespace rr */

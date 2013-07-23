@@ -266,11 +266,8 @@ public:
 /**
  * dump the model to a stream convenience func
  */
-std::ostream& operator << (std::ostream &stream, ExecutableModel* model)
-{
-    model->print(stream);
-    return stream;
-}
+RR_DECLSPEC std::ostream& operator << (std::ostream &stream, ExecutableModel* model);
+
 
 /**
  * zero out the memory occupied by a ModelData struct, equivalent to

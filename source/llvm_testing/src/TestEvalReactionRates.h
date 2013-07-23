@@ -18,6 +18,8 @@ namespace rr
     public:
         TestEvalReactionRates(const std::string& version, int caseNumber);
         virtual ~TestEvalReactionRates();
+        
+        bool test();
     };
     
 } /* namespace rr */

@@ -16,9 +16,12 @@ namespace rr
 {
 using namespace std;
 
-TestBase::TestBase(const std::string& version, int caseNumber) : model(0)
+TestBase::TestBase(const std::string& version, int caseNumber) : 
+    model(0),
+    version(version),
+    caseNumber(caseNumber)
 {
-    string fileName = getModelFileName(version, caseNumber);
+    fileName = getModelFileName(version, caseNumber);
 
     if(!fileExists(fileName))
     {

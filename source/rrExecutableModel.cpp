@@ -8,6 +8,12 @@ using namespace std;
 namespace rr
 {
     
+std::ostream& operator << (std::ostream &stream, ExecutableModel* model)
+{
+    model->print(stream);
+    return stream;
+}
+    
 
 void initModelData(ModelData &data)
 {

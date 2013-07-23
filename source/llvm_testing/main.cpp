@@ -13,6 +13,9 @@
 #include "test_compiler.h"
 
 #include "TestBase.h"
+#include "TestEvalInitialConditions.h"
+#include "TestEvalReactionRates.h"
+
 
 #include <sbml/SBMLDocument.h>
 #include <sbml/Model.h>
@@ -104,7 +107,8 @@ int main(int argc, char* argv[])
         //runInitialValueAssigmentTest(pairs[i].first, pairs[i].second);
         try
         {
-            TestBase test(pairs[i].first, pairs[i].second);
+            TestEvalReactionRates test(pairs[i].first, pairs[i].second);
+            test.test();
         }
         catch (std::exception &e)
         {
