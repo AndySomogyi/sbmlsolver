@@ -76,21 +76,23 @@ RoadRunner::RoadRunner(const string& tempFolder, const string& supportCodeFolder
 :
 mUseKinsol(false),
 mDiffStepSize(0.05),
+mCapabilities("RoadRunner", "RoadRunner Capabilities"),
+mRRCoreCapabilities("Road Runner Core", "", "Core RoadRunner Parameters"),
 mSteadyStateThreshold(1.E-2),
-mSimulation(NULL),
 mCurrentSBMLFileName(""),
+mSimulation(NULL),
 mCVode(NULL),
-mComputeAndAssignConservationLaws("Conservation", false, "enables (=true) or disables \
-(=false) the conservation analysis \
-of models for timecourse simulations."),
+mComputeAndAssignConservationLaws("Conservation", false, "enables (=true) or disables "
+                                  "(=false) the conservation analysis "
+                                  "of models for timecourse simulations."),
 mTimeStart(0),
 mTimeEnd(10),
 mNumPoints(21),
 mModel(NULL),
 mCurrentSBML(""),
-mPluginManager(joinPath(getParentFolder(supportCodeFolder), "plugins")),
-mCapabilities("RoadRunner", "RoadRunner Capabilities"),
-mRRCoreCapabilities("Road Runner Core", "", "Core RoadRunner Parameters")
+mPluginManager(joinPath(getParentFolder(supportCodeFolder), "plugins"))
+
+
 {
     //Roadrunner is a "single" capability with many parameters
     mRRCoreCapabilities.addParameter(&mComputeAndAssignConservationLaws);
@@ -884,6 +886,9 @@ vector<string> RoadRunner::getTimeCourseSelectionList()
                 break;
             case SelectionRecord::clStoichiometry:
                 oResult.push_back(record.p1);
+                break;
+            default:
+                // return empty list
                 break;
         }
     }
@@ -2189,7 +2194,10 @@ vector<string> RoadRunner::getSteadyStateSelectionList()
             break;
             case SelectionRecord::clUnknown:
                 result.push_back(record.p1);
-                break;
+            break;
+            default:
+                // empty list
+            break;
         }
     }
     return result ;

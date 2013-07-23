@@ -25,6 +25,7 @@ int main(int argc, char* argv[])
     try
     {
         cout << "RoadRunner SBML Tester" << endl;
+        cout << "built on " << __TIMESTAMP__ << endl;
         cout << RoadRunner::getExtendedVersionInfo() << endl;
 
         Logger::enableLoggingToConsole();

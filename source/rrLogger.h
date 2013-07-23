@@ -111,17 +111,17 @@ public:
 enum LogLevel
 {
     lShowAlways = Logger::PRIO_FATAL,
-    lError = Logger::PRIO_ERROR,
-    lWarning = Logger::PRIO_WARNING,
-    lInfo = Logger::PRIO_INFORMATION,
-    lDebug = Logger::PRIO_DEBUG,
-    lDebug1 = Logger::PRIO_TRACE,
-    lDebug2 = Logger::PRIO_TRACE,
-    lDebug3 = Logger::PRIO_TRACE,
-    lDebug4 = Logger::PRIO_TRACE,
-    lDebug5 = Logger::PRIO_TRACE,
-    lAny = Logger::PRIO_TRACE,
-    lUser = Logger::PRIO_TRACE
+    lError      = Logger::PRIO_ERROR,
+    lWarning    = Logger::PRIO_WARNING,
+    lInfo       = Logger::PRIO_INFORMATION,
+    lDebug      = Logger::PRIO_DEBUG,
+    lDebug1     = Logger::PRIO_TRACE,
+    lDebug2     = Logger::PRIO_TRACE,
+    lDebug3     = Logger::PRIO_TRACE,
+    lDebug4     = Logger::PRIO_TRACE,
+    lDebug5     = Logger::PRIO_TRACE,
+    lAny        = Logger::PRIO_TRACE,
+    lUser       = Logger::PRIO_TRACE
 };
 
 /**
