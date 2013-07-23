@@ -138,7 +138,7 @@ class RR_DECLSPEC RoadRunner
         bool                            isModelLoaded();
 
         string                          getModelName();
-        string                          getlibSBMLVersion();
+        static string                   getlibSBMLVersion();
         bool                            unLoadModel();
 
         int                             createDefaultSteadyStateSelectionList();
@@ -369,14 +369,14 @@ class RR_DECLSPEC RoadRunner
         void                            evalModel();
 
         //These functions are better placed in a separate file, as non class members, but part of the roadrunner namespace?
-        string                          getName();
-        string                          getVersion();
-        string                          getExtendedVersionInfo();    //Include info about dependent libs versions..
-        string                          getAuthor();
-        string                          getDescription();
-        string                          getDisplayName();
-        string                          getCopyright();
-        string                          getURL();
+        static string                   getName();
+        static string                   getVersion();
+        static string                   getExtendedVersionInfo();    //Include info about dependent libs versions..
+        static string                   getAuthor();
+        static string                   getDescription();
+        static string                   getDisplayName();
+        static string                   getCopyright();
+        static string                   getURL();
 
         //Plugin stuff
         bool                            loadPlugins();

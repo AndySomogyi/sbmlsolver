@@ -22,6 +22,7 @@
 #include "rrNLEQInterface.h"
 #include "Poco/File.h"
 #include "Poco/Mutex.h"
+#include <sbml/common/libsbml-version.h>
 //---------------------------------------------------------------------------
 
 namespace rr
@@ -171,11 +172,9 @@ string RoadRunner::getInfo()
 string RoadRunner::getExtendedVersionInfo()
 {
     stringstream info;
-    info<<"libSBML version: "        <<    getlibSBMLVersion()<<endl;
-    info<<"Temporary folder: "        <<    getTempFolder()<<endl;
-    info<<"Compiler location: "        <<    getCompiler()->getCompilerLocation()<<endl;
-    info<<"Support Code Folder: "    <<    getCompiler()->getSupportCodeFolder()<<endl;
-    info<<"Working Directory: "        <<    getCWD()<<endl;
+    info << "Version: "                << getVersion() << endl;
+    info<<"libSBML version: "          << getlibSBMLVersion() << endl;
+    info<<"Working Directory: "        << getCWD() << endl;
     return info.str();
 }
 
@@ -3927,12 +3926,12 @@ NewArrayList RoadRunner::getAvailableTimeCourseSymbols()
 
 string RoadRunner::getVersion()
 {
-    return RR_VERSION;
+    return string(RR_VERSION) + string(", compiled with ") + string(RR_COMPILER);
 }
 
 string RoadRunner::getCopyright()
 {
-    return "(c) 2009-2012 HM. Sauro and FT. Bergmann, BSD Licence";
+    return "(c) 2009-2013 HM. Sauro, FT. Bergmann, Totte Karlsson and Andy Somogyi, BSD Licence";
 }
 
 string RoadRunner::getURL()
@@ -3942,7 +3941,7 @@ string RoadRunner::getURL()
 
 string RoadRunner::getlibSBMLVersion()
 {
-    return mNOM.getlibSBMLVersion();
+    return libsbml::getLibSBMLDottedVersion();
 }
 
 // =========================================== NON ENABLED FUNCTIONS BELOW.....
