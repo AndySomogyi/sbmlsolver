@@ -347,6 +347,12 @@ void LLVMExecutableModel::evalReactionRates()
     evalReactionRatesPtr(&modelData);
 }
 
+int LLVMExecutableModel::getNumRules()
+{
+    return 0;
+}
+
+
 } /* namespace rr */
 
 

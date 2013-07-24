@@ -2,16 +2,17 @@
 #include "rrLogger.h"
 #include "rrRoadRunner.h"
 #include "rrException.h"
+#include "rrUtils.h"
 #include "rrTestSuiteModelSimulation.h"
 using namespace UnitTest;
 using namespace rr;
 
-extern string 			gSBMLModelsPath;
-extern string 			gCompiler;
-extern string 			gSupportCodeFolder;
-extern string 			gTempFolder;
-extern string 			gTSModelsPath;
-//extern string 			gDataOutputFolder;
+extern string             gSBMLModelsPath;
+extern string             gCompiler;
+extern string             gSupportCodeFolder;
+extern string             gTempFolder;
+extern string             gTSModelsPath;
+//extern string             gDataOutputFolder;
 
 bool RunTest(const string& version, int number);
 SUITE(SBML_l2v4)
@@ -971,7 +972,7 @@ TEST(948) { CHECK(RunTest("l2v4", 948)); }
 TEST(949) { CHECK(RunTest("l2v4", 949)); }
 //TEST(950) { CHECK(RunTest("l2v4", 950)); }
 //TEST(951) { CHECK(RunTest("l2v4", 951)); }
-//TEST(952) { CHECK(RunTest("l2v4", 952)); }	//Started failing with poco shared lib in cvode
+//TEST(952) { CHECK(RunTest("l2v4", 952)); }    //Started failing with poco shared lib in cvode
 #ifndef __linux
     TEST(953) { CHECK(RunTest("l2v4", 953)); }
 #endif
@@ -1018,8 +1019,8 @@ bool RunTest(const string& version, int caseNumber)
 
     try
     {
-	    bool result(false);
- 		cerr<<"Running Test:\t"<<caseNumber;
+        bool result(false);
+         cerr<<"Running Test:\t"<<caseNumber;
         string dummy;
         string logFileName;
 
@@ -1055,14 +1056,14 @@ bool RunTest(const string& version, int caseNumber)
         if(!simulation.LoadSBMLFromFile())
         {
             Log(lError)<<"Failed loading SBML model";
-			throw("Failed loading SBML model");
+            throw("Failed loading SBML model");
         }
         //Then read settings file if it exists..
         string settingsOveride("");
         if(!simulation.LoadSettings(settingsOveride))
         {
             Log(lError)<<"Failed loading SBML model settings";
-			throw("Failed loading SBML model settings");
+            throw("Failed loading SBML model settings");
         }
 
         rr.computeAndAssignConservationLaws(false);
@@ -1094,13 +1095,13 @@ bool RunTest(const string& version, int caseNumber)
         simulation.SaveModelAsXML(dataOutputFolder);
 
         cerr<<"\t"<< (result == true ? "PASS" : "FAIL")<<endl;
-	 	return result;
+         return result;
      }
     catch(Exception& ex)
     {
         string error = ex.what();
         cerr<<"Case "<<caseNumber<<": Exception: "<<error<<endl;
-    	return false;
+        return false;
     }
 
 }

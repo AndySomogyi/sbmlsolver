@@ -7,7 +7,6 @@
 #include "rrStringList.h"
 #include "rrSymbolList.h"
 #include "rrCodeBuilder.h"
-#include "rrNOMSupport.h"
 #include "rrScanner.h"
 #include "rrExecutableModel.h"
 #include "rrModelSymbols.h"
@@ -25,8 +24,6 @@ class LibStructural;
 namespace rr
 {
 class Compiler;
-class NOMSupport;
-
 
 /**
  * The interface which generates executable models from sbml source.
@@ -53,18 +50,15 @@ public:
     virtual string                      getTemporaryDirectory() = 0;
 
     /**
-     * Create an executable model from an sbml string, a LibStructural and a NOMSupport.
-     * The libstruct and nom objects must already have the sbml loaded into them.
+     * Create an executable model from an sbml string, a LibStructural.
+     * The libstruct object must already have the sbml loaded into them.
      *
-     * For the time being, this sets up a bunch of ivars, such as mLibStruct and mNOM,
+     * For the time being, this sets up a bunch of ivars, such as mLibStruct
      * and in order to preserve compatibility, thise will remain pointing to whatever
      * was passed in.
-     * Eventually these ivars will either go away or will be cleared. The ModelGenerator
-     * is intended ONLY to make models, not query NOM info.
      */
     virtual ExecutableModel *createModel(const string& sbml, ls::LibStructural *ls,
-            NOMSupport *nom, bool forceReCompile,
-            bool computeAndAssignConsevationLaws) = 0;
+            bool forceReCompile, bool computeAndAssignConsevationLaws) = 0;
 
     /**
      * Get the compiler object that the model generator is using to

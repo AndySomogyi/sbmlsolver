@@ -773,6 +773,11 @@ void CompiledExecutableModel::print(std::ostream &stream)
     stream << mData;
 }
 
+int CompiledExecutableModel::getNumRules()
+{
+    return ms.mNumRules;
+}
+
 
 } //Namespace rr
 

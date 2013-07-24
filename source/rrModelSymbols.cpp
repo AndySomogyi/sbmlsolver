@@ -202,7 +202,8 @@ ModelSymbols::ModelSymbols() :
     mModifiableSpeciesReferenceList(),
     mReactionList(),
     mConservationList(),
-    mComputeAndAssignConsevationLaws(false)
+    mComputeAndAssignConsevationLaws(false),
+    mNumRules(0)
 {
 }
 
@@ -245,7 +246,8 @@ ModelSymbols::ModelSymbols(NOMSupport& nom, ls::LibStructural& libs, bool comput
         mGlobalParameterList,
         mBoundarySpeciesList,
         mCompartmentList,
-        mModifiableSpeciesReferenceList))
+        mModifiableSpeciesReferenceList)),
+   mNumRules(nom.getNumRules())
 {
     // nothing to do here, all done in initialization list
 }

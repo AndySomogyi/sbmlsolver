@@ -90,6 +90,7 @@ public:
 
     virtual int getNumCompartments();
     virtual int getNumReactions();
+    virtual int getNumRules();
     virtual int getNumEvents();
     virtual void computeEventPriorites();
     virtual void setConcentration(int index, double value);
@@ -173,7 +174,7 @@ public:
     virtual string getCompartmentName(int);
     virtual int getReactionIndex(const string&);
     virtual string getReactionName(int);
-    
+
     virtual void print(std::ostream &stream);
 
 

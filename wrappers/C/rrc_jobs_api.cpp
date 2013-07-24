@@ -10,8 +10,9 @@
 #include "rrException.h"
 #include "rrLoadModelThread.h"
 #include "rrSimulateThread.h"
-#include "rrc_utilities.h" 		// Need to include this before the support header..
-#include "rrc_cpp_support.h" 		// Need to include this before the support header..
+#include "rrUtils.h"
+#include "rrc_utilities.h"         // Need to include this before the support header..
+#include "rrc_cpp_support.h"         // Need to include this before the support header..
 #include "rrc_jobs_api.h"
 //---------------------------------------------------------------------------
 
@@ -22,7 +23,7 @@ using namespace rr;
 
 RRJobHandle rrCallConv loadSBMLFromFileJob(RRHandle rrHandle, const char* fileName)
 {
-	try
+    try
     {
         //Check if file exists first
         if(!fileExists(fileName))
@@ -49,7 +50,7 @@ RRJobHandle rrCallConv loadSBMLFromFileJob(RRHandle rrHandle, const char* fileNa
 
 RRJobHandle rrCallConv loadSBMLJob(RRHandle rrHandle, const char* sbml)
 {
-	try
+    try
     {
         RoadRunner* rr = castFrom(rrHandle);
         LoadModelThread* loadThread = new LoadModelThread();
@@ -68,7 +69,7 @@ RRJobHandle rrCallConv loadSBMLJob(RRHandle rrHandle, const char* sbml)
 
 RRJobHandle rrCallConv loadSBMLFromFileJobEx(RRHandle rrHandle, const char* fileName, bool recompile)
 {
-	try
+    try
     {
         //Check if file exists first
         if(!fileExists(fileName))
@@ -96,7 +97,7 @@ RRJobHandle rrCallConv loadSBMLFromFileJobEx(RRHandle rrHandle, const char* file
 
 RRJobHandle rrCallConv loadSBMLJobEx(RRHandle rrHandle, const char* sbml, bool recompile)
 {
-	try
+    try
     {
 
         RoadRunner* rr = castFrom(rrHandle);
@@ -117,7 +118,7 @@ RRJobHandle rrCallConv loadSBMLJobEx(RRHandle rrHandle, const char* sbml, bool r
 
 RRJobsHandle rrCallConv loadSBMLFromFileJobs(RRInstanceListPtr _handles, const char* fileName, int nrOfThreads)
 {
-	try
+    try
     {
         //Check if file exists first
         if(!fileExists(fileName))
@@ -142,7 +143,7 @@ RRJobsHandle rrCallConv loadSBMLFromFileJobs(RRInstanceListPtr _handles, const c
 
 RRJobsHandle rrCallConv loadSBMLJobs(RRInstanceListPtr _handles, const char* sbml, int nrOfThreads)
 {
-	try
+    try
     {
         RoadRunnerList *rrs = getRRList(_handles);
         LoadModel* tp = new LoadModel(*rrs, sbml, nrOfThreads);
@@ -159,7 +160,7 @@ RRJobsHandle rrCallConv loadSBMLJobs(RRInstanceListPtr _handles, const char* sbm
 
 RRJobsHandle rrCallConv loadSBMLJobsEx(RRInstanceListPtr _handles, const char* sbml, int nrOfThreads, bool reCompile)
 {
-	try
+    try
     {
         RoadRunnerList *rrs = getRRList(_handles);
         LoadModel* tp = new LoadModel(*rrs, sbml, nrOfThreads, reCompile);
@@ -176,79 +177,79 @@ RRJobsHandle rrCallConv loadSBMLJobsEx(RRInstanceListPtr _handles, const char* s
 
 bool rrCallConv waitForJob(RRJobHandle handle)
 {
-	try
+    try
     {
         RoadRunnerThread* aThread = (RoadRunnerThread*) handle;
         if(aThread)
         {
-			aThread->waitForFinish();
+            aThread->waitForFinish();
             return true;
         }
-		return false;
+        return false;
     }
     catch_bool_macro
 }
 
 bool rrCallConv waitForJobs(RRJobsHandle handle)
 {
-	try
+    try
     {
         ThreadPool* aTP = (ThreadPool*) handle;
         if(aTP)
         {
-			aTP->waitForFinish();
+            aTP->waitForFinish();
             return true;
         }
-		return false;
+        return false;
     }
-	catch_bool_macro
+    catch_bool_macro
 }
 
 bool rrCallConv isJobFinished(RRJobHandle handle)
 {
-	try
+    try
     {
         RoadRunnerThread* aT = (RoadRunnerThread*) handle;
         if(aT)
         {
-			return ! aT->isActive();
+            return ! aT->isActive();
         }
-		return false;
+        return false;
     }
-	catch_bool_macro
+    catch_bool_macro
 }
 
 bool rrCallConv areJobsFinished(RRJobsHandle handle)
 {
-	try
+    try
     {
         ThreadPool* aTP = (ThreadPool*) handle;
         if(aTP)
         {
-			return ! aTP->isWorking();
+            return ! aTP->isWorking();
         }
-		return false;
+        return false;
     }
-	catch_bool_macro
+    catch_bool_macro
 }
 
 int rrCallConv getNumberOfRemainingJobs(RRJobHandle handle)
 {
-	try
+    try
     {
         ThreadPool* aTP = (ThreadPool*) handle;
         if(aTP)
         {
             return aTP->getNumberOfRemainingJobs();
         }
-    	return -1;
+        return -1;
     }
-	catch_int_macro
+    catch_int_macro
 }
 
 RRJobHandle rrCallConv simulateJob(RRHandle rrHandle)
 {
-	try
+    try
     {
         RoadRunner *rr = castFrom(rrHandle);
         SimulateThread *t = new SimulateThread(NULL, false);
@@ -261,18 +262,18 @@ RRJobHandle rrCallConv simulateJob(RRHandle rrHandle)
         t->start();
         return t;
     }
-	catch_ptr_macro
+    catch_ptr_macro
 }
 
-RRJobHandle rrCallConv simulateJobEx(	RRHandle rrHandle,
-										double timeStart,
+RRJobHandle rrCallConv simulateJobEx(    RRHandle rrHandle,
+                                        double timeStart,
                                         double timeEnd,
                                         int numberOfPoints,
                                         callBackFunc f1,
                                         callBackFunc f2,
                                         void* userData)
 {
-	try
+    try
     {
         RoadRunner *rr = castFrom(rrHandle);
         SimulateThread *t = new SimulateThread(NULL, timeStart, timeEnd, numberOfPoints, f1, f2, userData, false);
@@ -285,12 +286,12 @@ RRJobHandle rrCallConv simulateJobEx(	RRHandle rrHandle,
         t->start();
         return t;
     }
-	catch_ptr_macro
+    catch_ptr_macro
 }
 
 RRJobHandle rrCallConv simulateJobs(RRInstanceListPtr _handles, int nrOfThreads)
 {
-	try
+    try
     {
         RoadRunnerList *rrs = getRRList(_handles);
         Simulate* tp = new Simulate(*rrs, nrOfThreads);
@@ -301,11 +302,11 @@ RRJobHandle rrCallConv simulateJobs(RRInstanceListPtr _handles, int nrOfThreads)
         }
         return tp;
     }
-	catch_ptr_macro
+    catch_ptr_macro
 }
 
-RRJobHandle rrCallConv simulateJobsEx(	RRInstanceListPtr _handles,
-										int nrOfThreads,
+RRJobHandle rrCallConv simulateJobsEx(    RRInstanceListPtr _handles,
+                                        int nrOfThreads,
                                         double timeStart,
                                         double timeEnd,
                                         int numPoints,
@@ -313,18 +314,18 @@ RRJobHandle rrCallConv simulateJobsEx(	RRInstanceListPtr _handles,
                                         callBackFunc fn2,
                                         void* userData)
 {
-	try
+    try
     {
         RoadRunnerList *rrs = getRRList(_handles);
 
         for(int i = 0; i < rrs->count(); i++)
         {
-	        (*rrs)[i]->setTimeStart(timeStart);
-	        (*rrs)[i]->setTimeEnd(timeEnd);
-			(*rrs)[i]->setNumPoints(numPoints);
+            (*rrs)[i]->setTimeStart(timeStart);
+            (*rrs)[i]->setTimeEnd(timeEnd);
+            (*rrs)[i]->setNumPoints(numPoints);
         }
 
-	    Simulate* tp = new Simulate(*rrs, nrOfThreads);
+        Simulate* tp = new Simulate(*rrs, nrOfThreads);
 
         if(!tp)
         {
@@ -332,18 +333,18 @@ RRJobHandle rrCallConv simulateJobsEx(	RRInstanceListPtr _handles,
         }
         return tp;
     }
-	catch_ptr_macro
+    catch_ptr_macro
 }
 
 
 bool rrCallConv freeJob(RRJobHandle aJob)
 {
-	try
+    try
     {
         LoadModelThread* theJob = (LoadModelThread*) aJob;
         if(theJob)
         {
-    	   delete theJob;
+           delete theJob;
         }
         return true;
     }
@@ -352,12 +353,12 @@ bool rrCallConv freeJob(RRJobHandle aJob)
 
 bool rrCallConv freeJobs(RRJobsHandle handle)
 {
-	try
+    try
     {
         ThreadPool* jobs = (ThreadPool*) handle;
         if(jobs)
         {
-    	   delete jobs;
+           delete jobs;
         }
         return true;
     }

@@ -16,7 +16,7 @@ namespace rr
 {
 using namespace std;
 
-TestBase::TestBase(const std::string& version, int caseNumber) : 
+TestBase::TestBase(const std::string& version, int caseNumber) :
     model(0),
     version(version),
     caseNumber(caseNumber)
@@ -45,15 +45,15 @@ TestBase::TestBase(const std::string& version, int caseNumber) :
     std::string sbml((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
 
     ifs.close();
-    Log(Logger::PRIO_INFORMATION) 
+    Log(Logger::PRIO_INFORMATION)
         << "/*** SBML " << fileName << " ***/" << endl
         << sbml << endl
-        << "/****************************************************************************************/" 
+        << "/****************************************************************************************/"
         << endl;
 
     LLVMModelGenerator generator;
 
-    model = (LLVMExecutableModel*)generator.createModel(sbml, 0, 0, false, false);
+    model = (LLVMExecutableModel*)generator.createModel(sbml, 0, false, false);
 }
 
 TestBase::~TestBase()

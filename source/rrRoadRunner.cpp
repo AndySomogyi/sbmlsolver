@@ -20,6 +20,7 @@
 #include "rrVersionInfo.h"
 #include "rrCVODEInterface.h"
 #include "rrNLEQInterface.h"
+#include "rrNOMSupport.h"
 #include "Poco/File.h"
 #include "Poco/Mutex.h"
 #include <sbml/common/libsbml-version.h>
@@ -185,10 +186,6 @@ PluginManager&    RoadRunner::getPluginManager()
     return mPluginManager;
 }
 
-NOMSupport* RoadRunner::getNOM()
-{
-    return &mNOM;
-}
 
 LibStructural* RoadRunner::getLibStruct()
 {
@@ -578,14 +575,7 @@ bool RoadRunner::loadSBMLFromFile(const string& fileName, const bool& forceReCom
     return loadSBML(sbml, forceReCompile);
 }
 
-bool RoadRunner::loadSBMLIntoNOM(const string& sbml)
-{
-    string sASCII = NOMSupport::convertTime(sbml, "time");
 
-    Log(lDebug4)<<"Loading SBML into NOM";
-    mNOM.loadSBML(sASCII.c_str(), "time");
-    return true;
-}
 
 bool RoadRunner::loadSBMLIntoLibStruct(const string& sbml)
 {
@@ -622,14 +612,15 @@ bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
         throw(CoreException("SBML string is empty!"));
     }
 
-    loadSBMLIntoLibStruct(sbml);
-    {    //Scope for Mutex
+    {
+        //Scope for Mutex
+        //There is something in here that is not threadsafe... causes crash with multiple threads, without mutex
         Mutex::ScopedLock lock(libSBMLMutex);
-        loadSBMLIntoNOM(sbml);    //There is something in here that is not threadsafe... causes crash with multiple threads, without mutex
+        loadSBMLIntoLibStruct(sbml);
     }
 
     delete mModel;
-    mModel = mModelGenerator->createModel(sbml, &mLS, &mNOM, forceReCompile, computeAndAssignConservationLaws());
+    mModel = mModelGenerator->createModel(sbml, &mLS, forceReCompile, computeAndAssignConservationLaws());
 
     //Finally intitilaize the model..
     if(!initializeModel())
@@ -2460,16 +2451,16 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
 
 string RoadRunner::getModelName()
 {
-    return mNOM.getModelName();
+    return mModel ? mModel->getModelName() : "";
 }
 
 // TODO Looks like major problems here, this
 // apears to modify the AFTER a model has been created from it.
 string RoadRunner::writeSBML()
 {
-    NOMSupport& NOM = this->mNOM;
+    NOMSupport NOM;
 
-    NOM.loadSBML(NOM.getParamPromotedSBML(mCurrentSBML));
+    NOM.loadSBML(NOMSupport::getParamPromotedSBML(mCurrentSBML));
 
     vector<string> array = getFloatingSpeciesIds();
     for (int i = 0; i < array.size(); i++)

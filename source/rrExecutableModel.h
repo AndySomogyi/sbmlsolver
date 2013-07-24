@@ -128,6 +128,8 @@ public:
     virtual int getCompartmentIndex(const string& name) = 0;
     virtual string getCompartmentName(int index) = 0;
 
+    virtual int getNumRules() = 0;
+
     /**
      * get the number of reactions the model has
      */
@@ -247,7 +249,7 @@ public:
     virtual void testConstraints() = 0;
 
     virtual string getInfo() = 0;
-    
+
     virtual void print(std::ostream &stream) = 0;
 
 
@@ -262,7 +264,7 @@ public:
      */
     virtual ~ExecutableModel() {};
 };
-    
+
 /**
  * dump the model to a stream convenience func
  */

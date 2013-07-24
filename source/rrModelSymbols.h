@@ -99,6 +99,7 @@ public:
 
     static const string mDoubleFormat;
 
+    const int mNumRules;
 };
 
 } /* namespace rr */
