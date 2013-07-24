@@ -444,27 +444,6 @@ void RoadRunner::addNthOutputToResult(DoubleMatrix& results, int nRow, double dC
     Log(lDebug1)<<"Added result row\t"<<nRow<<" : "<<msg.str();
 }
 
-vector<double> RoadRunner::buildModelEvalArgument()
-{
-    vector<double> dResult;
-    dResult.resize((mModel->getModelData().numFloatingSpecies) + (mModel->getModelData().numRateRules) );
-
-    vector<double> dCurrentRuleValues(mModel->getModelData().numRateRules, 0);
-    mModel->getRateRuleValues(&dCurrentRuleValues[0]);
-
-    for(int i = 0; i < (mModel->getModelData().numRateRules); i++)
-    {
-        dResult[i] = dCurrentRuleValues[i];
-    }
-
-    for(int i = 0; i < (mModel->getModelData().numFloatingSpecies); i++)
-    {
-        dResult[i + (mModel->getModelData().numRateRules)] = mModel->getModelData().floatingSpeciesAmounts[i];
-    }
-
-    return dResult;
-}
-
 DoubleMatrix RoadRunner::runSimulation()
 {
     if (mNumPoints <= 1)
@@ -487,9 +466,6 @@ DoubleMatrix RoadRunner::runSimulation()
     }
 
     // evalute the model with its current state
-
-    //vector<double> y;
-    //y = buildModelEvalArgument();
     mModel->evalModel(mTimeStart, 0, 0);
 
     addNthOutputToResult(results, 0, mTimeStart);

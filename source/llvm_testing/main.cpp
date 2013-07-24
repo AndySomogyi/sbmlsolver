@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
 
     Logger::enableLoggingToConsole();
 
-    //Logger::SetCutOffLogLevel(Logger::PRIO_INFORMATION);
+    Logger::SetCutOffLogLevel(Logger::PRIO_TRACE);
 
     //runSparseTest(33, 323, 50);
 

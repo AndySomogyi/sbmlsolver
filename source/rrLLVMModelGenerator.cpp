@@ -94,6 +94,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const string& sbml,
             &exe->errStr);
 
     exe->symbols->initAllocModelDataBuffers(exe->modelData);
+    modeldata_clone(&exe->modelDataCopy, &exe->modelData);
 
     exe->evalInitialConditionsPtr = evalInitialConditionsPtr;
     exe->evalReactionRatesPtr = evalReactionRatesPtr;

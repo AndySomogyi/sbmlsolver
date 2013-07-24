@@ -97,7 +97,6 @@ public:
 
     virtual int getNumLocalParameters(int reactionId);
 
-    virtual void setInitialConditions();
     virtual void evalInitialAssignments();
 
     virtual void convertToAmounts();
@@ -191,10 +190,12 @@ public:
 
 private:
     ModelData modelData;
+    ModelData modelDataCopy;
     LLVMModelDataSymbols *symbols;
     llvm::LLVMContext *context;
     llvm::ExecutionEngine *executionEngine;
     std::string *errStr;
+    int stackDepth;
 
 
     LLVMEvalInitialConditionsCodeGen::FunctionPtr evalInitialConditionsPtr;

@@ -47,6 +47,16 @@ public:
      * evaluate the initial conditions specified in the sbml, this entails
      * evaluating all InitialAssigments, AssigmentRules, initial values, etc...
      *
+     * Sets the the concentrations and ammounts to the values specified
+     * by the initial conditions, ModelData::floatingSpeciesInitConcentrations, i.e. the ModelData::floatingSpeciesAmounts[:]
+     * are set to ModelData::floatingSpeciesInitConcentrations[:] * compartment volume, and ModelData::y[:] is
+     * set to ModelData::floatingSpeciesInitConcentrations[:].
+     *
+     * This sets the concentrations and ammounts to either initialAmount or
+     * initialConcentration (which ever exists) or 0 if they are missing. A
+     * later call to evalInitialAssignments will apply any initialAssigments to
+     * update the concentations and ammounts.
+     *
      * The the model state is fully set.
      */
     virtual void evalInitialConditions() = 0;
@@ -91,19 +101,6 @@ public:
      * @returns the size of the saved stack after the top has been poped.
      */
     virtual int popState(unsigned options = 0) = 0;
-
-    /**
-     * Sets the the concentrations and ammounts to the values specified
-     * by the initial conditions, ModelData::floatingSpeciesInitConcentrations, i.e. the ModelData::floatingSpeciesAmounts[:]
-     * are set to ModelData::floatingSpeciesInitConcentrations[:] * compartment volume, and ModelData::y[:] is
-     * set to ModelData::floatingSpeciesInitConcentrations[:].
-     *
-     * This sets the concentrations and ammounts to either initialAmount or
-     * initialConcentration (which ever exists) or 0 if they are missing. A
-     * later call to evalInitialAssignments will apply any initialAssigments to
-     * update the concentations and ammounts.
-     */
-    virtual void setInitialConditions() = 0;
 
     // functions --------------------------------------------------------
     virtual int getNumIndependentSpecies() = 0;
@@ -308,6 +305,12 @@ void RR_DECLSPEC allocModelDataBuffers(ModelData &data, const string& modelName)
  * Does NOT free the ModelData itself, ONLY the buffer data.
  */
 void RR_DECLSPEC freeModelDataBuffers(ModelData &data);
+
+void RR_DECLSPEC modeldata_clone(ModelData *dst, ModelData *src);
+
+void RR_DECLSPEC modeldata_copy_buffers(ModelData *dst, ModelData *src);
+
+
 
 }
 #endif
