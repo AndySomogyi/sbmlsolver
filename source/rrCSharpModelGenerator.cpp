@@ -2300,7 +2300,7 @@ string CSharpModelGenerator::convertSymbolToC(const string& compartmentName)
       throw CoreException("Internal Error: Unable to locate compartment: " + compartmentName);
 }
 
-ExecutableModel *CSharpModelGenerator::createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
+ExecutableModel *CSharpModelGenerator::createModel(const string& sbml, LibStructural *ls,
                                                          bool forceReCompile, bool computeAndAssignConsevationLaws)
 {
     return 0;

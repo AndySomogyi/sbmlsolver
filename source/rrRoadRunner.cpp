@@ -486,9 +486,12 @@ DoubleMatrix RoadRunner::runSimulation()
         return results;
     }
 
-    vector<double> y;
-    y = buildModelEvalArgument();
-    mModel->evalModel(mTimeStart, &y[0]);
+    // evalute the model with its current state
+
+    //vector<double> y;
+    //y = buildModelEvalArgument();
+    mModel->evalModel(mTimeStart, 0, 0);
+
     addNthOutputToResult(results, 0, mTimeStart);
 
     //Todo: Don't understand this code.. MTK

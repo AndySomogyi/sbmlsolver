@@ -631,6 +631,7 @@ void CompiledExecutableModel::evalModel(double timein, const double *y, double *
     }
     else
     {
+        // use the given state
         cevalModel(&mData, timein, y);
     }
 

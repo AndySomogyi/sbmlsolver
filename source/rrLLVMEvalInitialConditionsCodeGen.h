@@ -19,11 +19,6 @@
 
 namespace rr
 {
-using libsbml::Model;
-using libsbml::Compartment;
-using libsbml::SBMLVisitor;
-using libsbml::Species;
-using libsbml::Parameter;
 
 /**
  * Generates a function called 'modeldata_initialvalues_set', which evaluates

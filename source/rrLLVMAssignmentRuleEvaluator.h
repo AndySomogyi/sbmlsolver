@@ -18,17 +18,13 @@
 namespace rr
 {
 
-using libsbml::SBMLVisitor;
-
-
-
 /**
  * Attaches to an existing symbol forest and applies
  * any asigment rule found in the model to the forest.
  */
 class LLVMAssignmentRuleEvaluator : public libsbml::SBMLVisitor
 {
-    using SBMLVisitor::visit;
+    using libsbml::SBMLVisitor::visit;
 
 public:
     LLVMAssignmentRuleEvaluator(LLVMSymbolForest &symbols);

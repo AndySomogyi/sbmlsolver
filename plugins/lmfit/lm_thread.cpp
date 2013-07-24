@@ -218,15 +218,15 @@ bool LMFitThread::setupRoadRunner()
 }
 
 /* function evaluation, determination of residues */
-void evaluate(const double *par,          //Parameter vector
-              int               m_dat,      //Dimension of residue vector
-              const void   *userData,      //Data structure
-              double        *fvec,       //residue vector..
-              int            *infoIndex   //Index into info message array
+void evaluate(const double *par,       //Parameter vector
+              int          m_dat,      //Dimension of residue vector
+              const void   *userData,  //Data structure
+              double       *fvec,      //residue vector..
+              int          *infoIndex  //Index into info message array
 )
 {
-    lmDataStructure *myData = (lmDataStructure*) userData;
-       reset(myData->rrHandle);
+    const lmDataStructure *myData = (const lmDataStructure*)userData;
+    reset(myData->rrHandle);
 
     for(int i = 0; i < myData->nrOfParameters; i++)
     {

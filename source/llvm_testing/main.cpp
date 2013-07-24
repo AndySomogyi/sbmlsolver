@@ -1,34 +1,34 @@
-#include "tests.h"
+//#include "tests.h"
 
-#include "rrLLVMModelGeneratorContext.h"
-#include "rrLLVMModelDataIRBuilder.h"
-#include "rrException.h"
-#include "rrUtils.h"
-#include "rrLogger.h"
+//#include "rrLLVMModelGeneratorContext.h"
+//#include "rrLLVMModelDataIRBuilder.h"
+//#include "rrException.h"
+//#include "rrUtils.h"
+//#include "rrLogger.h"
 
-#include "CSRMatrixTest.h"
+//#include "CSRMatrixTest.h"
 
-#include "LLVMCSRMatrixTest.h"
+//#include "LLVMCSRMatrixTest.h"
 
 
-#include "test_compiler.h"
+//#include "test_compiler.h"
 
-#include "TestBase.h"
-#include "TestEvalInitialConditions.h"
-#include "TestEvalReactionRates.h"
+//#include "TestBase.h"
+//#include "TestEvalInitialConditions.h"
+//#include "TestEvalReactionRates.h"
 #include "TestEvalModel.h"
 #include "TestRoadRunner.h"
 
 #include "rrRoadRunner.h"
 
+#include "rrParameter.h"
+#include "rrLogger.h"
+
 #include <sbml/SBMLDocument.h>
 #include <sbml/Model.h>
 #include <sbml/SBMLReader.h>
 
-#include <utility>
-#include <cstdlib>
-#include <iostream>
-#include <fstream>
+
 
 
 struct StrIntPair
@@ -42,7 +42,7 @@ void getPairs(StrIntPair *&, int& npairs);
 
 
 using namespace std;
-using namespace llvm;
+using namespace rr;
 
 bool RunTest(const string& version, int caseNumber);
 
@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
 
     Logger::enableLoggingToConsole();
 
-    Logger::SetCutOffLogLevel(Logger::PRIO_INFORMATION);
+    //Logger::SetCutOffLogLevel(Logger::PRIO_INFORMATION);
 
     //runSparseTest(33, 323, 50);
 
@@ -115,6 +115,8 @@ int main(int argc, char* argv[])
 }
 
 
+/*
+
 bool RunTest(const string& version, int caseNumber)
 {
 bool result = false;
@@ -149,6 +151,8 @@ SBMLDocument *doc = libsbml::readSBMLFromFile(modelFileName.c_str());
 
     return result;
 }
+
+*/
 
 
 
