@@ -60,7 +60,10 @@ private:
             LLVMModelDataIRBuilder &modelDataBuilder);
 
     void codeGenCompartments(llvm::Value *modelData,
-               LLVMModelDataIRBuilder &modelDataBuilder);
+            LLVMModelDataIRBuilder &modelDataBuilder);
+
+    void codeGenParameters(llvm::Value *modelData,
+            LLVMModelDataIRBuilder &modelDataBuilder);
 
     llvm::Function *initialValuesFunc;
 };

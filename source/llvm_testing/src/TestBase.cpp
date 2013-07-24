@@ -26,7 +26,7 @@ TestBase::TestBase(const std::string& version, int caseNumber) :
     if(!fileExists(fileName))
     {
         stringstream msg;
-        msg<<"File: "<<fileName<<" don't exist";
+        msg<<"File: "<<fileName<<" does not exist";
         Log(lError)<<msg.str();
 
         throw std::runtime_error(msg.str());
@@ -46,7 +46,7 @@ TestBase::TestBase(const std::string& version, int caseNumber) :
 
     ifs.close();
     Log(Logger::PRIO_INFORMATION) 
-        << "/*** SBML " << fileName << "***/" << endl
+        << "/*** SBML " << fileName << " ***/" << endl
         << sbml << endl
         << "/****************************************************************************************/" 
         << endl;

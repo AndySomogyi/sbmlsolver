@@ -706,7 +706,10 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
                         mapVariables[numRateRules] = varName;
                         numRateRules++;
                     }
-                break;
+                    break;
+                case rtUnknown:
+                    Log(Logger::PRIO_ERROR) << "Unknown rule type in " << __FUNC__;
+                    break;
             }
 
             // Run the equation through MathML to carry out any conversions (eg ^ to Pow)

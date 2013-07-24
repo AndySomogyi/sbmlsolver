@@ -22,16 +22,16 @@ LLVMExecutableModel::LLVMExecutableModel() :
     evalInitialConditionsPtr(0),
     evalReactionRatesPtr(0)
 {
-    // zero out the struct, the generator will fill it out. 
+    // zero out the struct, the generator will fill it out.
     initModelData(modelData);
 }
 
 LLVMExecutableModel::~LLVMExecutableModel()
 {
     freeModelDataBuffers(modelData);
-    
+
     delete symbols;
-    
+
     // the exe engine owns all the functions
     delete executionEngine;
     delete context;
@@ -54,7 +54,7 @@ double LLVMExecutableModel::getTime()
 
 ModelData& LLVMExecutableModel::getModelData()
 {
-    return *(ModelData*)0;
+    return modelData;
 }
 
 int LLVMExecutableModel::getNumIndependentSpecies()
@@ -156,6 +156,20 @@ void LLVMExecutableModel::computeAllRatesOfChange()
 
 void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
 {
+
+    if (y)
+    {
+        memcpy(modelData.floatingSpeciesAmounts, y,
+                modelData.numIndependentSpecies * sizeof(double));
+    }
+
+    if (dydt)
+    {
+        memcpy(dydt, modelData.rateRules, modelData.numRateRules * sizeof(double));
+
+        memcpy(&dydt[modelData.numRateRules], modelData.floatingSpeciesAmountRates,
+                modelData.numIndependentSpecies * sizeof(double));
+    }
 }
 
 void LLVMExecutableModel::evalEvents(const double time,

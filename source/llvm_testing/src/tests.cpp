@@ -56,8 +56,6 @@ string getModelFileName(const string& version, int caseNumber)
 
     modelFileName = joinPath(modelFilePath, modelFileName);
 
-    cout << modelFileName << "\n";
-
     return modelFileName;
 }
 

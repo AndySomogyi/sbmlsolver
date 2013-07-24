@@ -41,14 +41,14 @@ class LM : public Plugin
         bool                                    resetPlugin();
         bool                                    setInputData(void* data);
         string                                  getImplementationLanguage();
-        string									getStatus();
-		bool 									isWorking();
+        string                                    getStatus();
+        bool                                     isWorking();
 };
 
 extern "C"
 {
 PLUGIN_DECLSPEC rr::Plugin* rrCallConv    createPlugin(rr::RoadRunner* aRR);
-PLUGIN_DECLSPEC char* 		rrCallConv    getImplementationLanguage();
+PLUGIN_DECLSPEC const char* rrCallConv    getImplementationLanguage();
 }
 
 

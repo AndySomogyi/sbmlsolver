@@ -17,7 +17,7 @@ Plugin(                 "Levenberg-Marquardt",     "Fitting",        aRR),
 mLMFit(                 "LMFit",                                "",                   "Run a one species fit"),    //The 'capability'
 mTempFolder(            "TempFolder",                           "",                   "Tempfolder used in the fitting"),
 mSBML(                  "SBML",                                 "<none>",             "SBML, i.e. the model to be used in the fitting"),
-mMinimizationData(      "MinData",                     			MinimizationData(),   "Data structure holding minimization data"),
+mMinimizationData(      "MinData",                                 MinimizationData(),   "Data structure holding minimization data"),
 mLMFitThread(*this)
 {
     //Setup the plugins capabilities
@@ -32,12 +32,12 @@ LM::~LM()
 
 bool LM::isWorking()
 {
-	return mLMFitThread.isRunning();
+    return mLMFitThread.isRunning();
 }
 
 string LM::getStatus()
 {
-	stringstream msg;
+    stringstream msg;
     msg<<Plugin::getStatus();
     msg<<"TempFolder: "<<mTempFolder<<"\n";
     msg<<"SBML: "<<mSBML<<"\n";
@@ -80,12 +80,12 @@ string LM::getSBML()
 
 string LM::getResult()
 {
-	stringstream msg;
+    stringstream msg;
     MinimizationData& data = getMinimizationData();
     Parameters pars = data.getParametersOut();
     for(int i = 0; i < pars.count(); i++)
     {
-		msg<<pars[i]->asString();
+        msg<<pars[i]->asString();
     }
     msg<<"Norm: "<<data.getNorm();
     return msg.str();
@@ -140,7 +140,7 @@ bool LM::setInputData(void* inputData)
 
 bool LM::execute(void* inputData)
 {
-	Log(lInfo)<<"Executing the LM plugin";
+    Log(lInfo)<<"Executing the LM plugin";
     //    mResult <<"LM was started on: "<<getDateTime() <<"\n";
 
     //go away and carry out the work in a thread
@@ -158,9 +158,9 @@ rr::Plugin* rrCallConv createPlugin(rr::RoadRunner* aRR)
     return new LM(aRR);
 }
 
-char* rrCallConv getImplementationLanguage() 
+const char* rrCallConv getImplementationLanguage()
 {
-	return "CPP";
+    return "CPP";
 }
 
 #if defined(CG_UI)

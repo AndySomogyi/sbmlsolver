@@ -54,12 +54,14 @@ private:
 
     string                      mTempPathstring;
     int                         mErrorFileCounter;
-    int                         mNumIndependentSpecies;
+
+    int                         mStateVectorSize;
     N_Vector                    mStateVector;
+
     N_Vector                    mAbstolArray;
-    string                      mLogFile;
+
     void*                       mCVODE_Memory;
-    int                         mNumRateRules;
+
     vector<double>              mAssignmentTimes;
     static const int            mDefaultMaxAdamsOrder;
     static const int            mDefaultMaxBDFOrder;

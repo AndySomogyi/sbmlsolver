@@ -121,7 +121,8 @@ void LoggingBufferCtor()
     cout << __FUNC__ << endl;
 }
 
-LoggingBuffer::LoggingBuffer(int level)
+LoggingBuffer::LoggingBuffer(int level, const char* file, int line) :
+        file(file), line(line)
 {
     if (level >= Message::PRIO_FATAL && level <= Message::PRIO_TRACE)
     {
@@ -140,31 +141,31 @@ LoggingBuffer::~LoggingBuffer()
     switch (level)
     {
     case Message::PRIO_FATAL:
-        logger.fatal(buffer.str());
+        logger.fatal(buffer.str(), file, line);
         break;
     case Message::PRIO_CRITICAL:
-        logger.critical(buffer.str());
+        logger.critical(buffer.str(), file, line);
         break;
     case Message::PRIO_ERROR:
-        logger.error(buffer.str());
+        logger.error(buffer.str(), file, line);
         break;
     case Message::PRIO_WARNING:
-        logger.warning(buffer.str());
+        logger.warning(buffer.str(), file, line);
         break;
     case Message::PRIO_NOTICE:
-        logger.notice(buffer.str());
+        logger.notice(buffer.str(), file, line);
         break;
     case Message::PRIO_INFORMATION:
-        logger.information(buffer.str());
+        logger.information(buffer.str(), file, line);
         break;
     case Message::PRIO_DEBUG:
-        logger.debug(buffer.str());
+        logger.debug(buffer.str(), file, line);
         break;
     case Message::PRIO_TRACE:
-        logger.trace(buffer.str());
+        logger.trace(buffer.str(), file, line);
         break;
     default:
-        logger.error(buffer.str());
+        logger.error(buffer.str(), file, line);
         break;
     }
 }

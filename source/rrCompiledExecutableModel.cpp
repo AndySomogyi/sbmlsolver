@@ -639,7 +639,7 @@ void CompiledExecutableModel::evalModel(double timein, const double *y, double *
         memcpy(dydt, mData.rateRules, mData.numRateRules * sizeof(double));
 
         memcpy(&dydt[mData.numRateRules], mData.floatingSpeciesAmountRates,
-                mData.numFloatingSpecies * sizeof(double));
+                mData.numIndependentSpecies * sizeof(double));
     }
 }
 
@@ -766,13 +766,13 @@ void CompiledExecutableModel::reset()
 
     convertToAmounts();
 }
-    
+
 void CompiledExecutableModel::print(std::ostream &stream)
 {
     stream << "CompiledExecutableModel" << endl;
     stream << mData;
 }
-    
+
 
 } //Namespace rr
 

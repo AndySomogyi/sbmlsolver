@@ -265,7 +265,7 @@ char* rrcCallConv getInfo(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-		return rr::createText(rri->getInfo());
+        return rr::createText(rri->getInfo());
     }
     catch_ptr_macro
 }
@@ -287,8 +287,8 @@ char* rrcCallConv getlibSBMLVersion(RRHandle handle)
 {
     try
     {
-    	RoadRunner* rri = castFrom(handle);
-		return rr::createText(rri->getlibSBMLVersion());
+        RoadRunner* rri = castFrom(handle);
+        return rr::createText(rri->getlibSBMLVersion());
     }
     catch_ptr_macro
 }
@@ -297,7 +297,7 @@ char* rrcCallConv getCurrentSBML(RRHandle handle)
 {
     try
     {
-    	RoadRunner* rri = castFrom(handle);
+        RoadRunner* rri = castFrom(handle);
         return rr::createText(rri->writeSBML());
     }
     catch_ptr_macro
@@ -400,7 +400,7 @@ char* rrcCallConv getSupportCodeFolder(RRHandle handle)
 {
     try
     {
-    	RoadRunner* rri = castFrom(handle);
+        RoadRunner* rri = castFrom(handle);
         return rr::createText(rri->getCompiler()->getSupportCodeFolder());
     }
     catch_ptr_macro
@@ -467,7 +467,7 @@ bool rrcCallConv loadSBML(RRHandle handle, const char* sbml)
 {
     try
     {
-    	RoadRunner* rri = castFrom(handle);
+        RoadRunner* rri = castFrom(handle);
         return rri->loadSBML(sbml, true);
     }
     catch_bool_macro
@@ -477,7 +477,7 @@ bool rrcCallConv loadSBMLEx(RRHandle handle, const char* sbml, bool forceRecompi
 {
     try
     {
-    	RoadRunner* rri = castFrom(handle);
+        RoadRunner* rri = castFrom(handle);
         if(!rri->loadSBML(sbml, forceRecompilation))
         {
             setError("Failed to load SBML semantics");
@@ -992,7 +992,7 @@ int rrcCallConv getNumberOfGlobalParameters(RRHandle handle)
         RoadRunner* rri = castFrom(handle);
         return rri->getNumberOfGlobalParameters();
     }
-    catch_ptr_macro
+    catch_int_macro
 }
 
 RRStringArrayPtr rrcCallConv getGlobalParameterIds(RRHandle handle)
@@ -1351,7 +1351,7 @@ RRStringArrayPtr rrcCallConv getSteadyStateSelectionList(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-    	StringList sNames = rri->getSteadyStateSelectionList();
+        StringList sNames = rri->getSteadyStateSelectionList();
 
         if(sNames.Count() == 0)
         {
