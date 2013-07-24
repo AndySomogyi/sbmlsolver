@@ -1,29 +1,35 @@
-#include "tests.h"
+//#include "tests.h"
 
-#include "rrLLVMModelGeneratorContext.h"
-#include "rrLLVMModelDataIRBuilder.h"
-#include "rrException.h"
-#include "rrUtils.h"
-#include "rrLogger.h"
+//#include "rrLLVMModelGeneratorContext.h"
+//#include "rrLLVMModelDataIRBuilder.h"
+//#include "rrException.h"
+//#include "rrUtils.h"
+//#include "rrLogger.h"
+
+//#include "CSRMatrixTest.h"
+
+//#include "LLVMCSRMatrixTest.h"
+
+
+//#include "test_compiler.h"
+
+//#include "TestBase.h"
+//#include "TestEvalInitialConditions.h"
+//#include "TestEvalReactionRates.h"
+#include "TestEvalModel.h"
+#include "TestRoadRunner.h"
+
 #include "rrRoadRunner.h"
 
-#include "CSRMatrixTest.h"
-
-#include "LLVMCSRMatrixTest.h"
-#include "test_compiler.h"
-
-#include "TestBase.h"
+#include "rrParameter.h"
+#include "rrLogger.h"
 
 #include <sbml/SBMLDocument.h>
 #include <sbml/Model.h>
 #include <sbml/SBMLReader.h>
 
-#include <utility>
-#include <cstdlib>
 
 
-
-using namespace std;
 
 struct StrIntPair
 {
@@ -35,39 +41,20 @@ void getPairs(StrIntPair *&, int& npairs);
 
 
 
-using namespace rr;
-
-
-
-#include <iostream>
-#include <fstream>
-
 using namespace std;
 using namespace rr;
-using namespace llvm;
-
-using namespace libsbml;
 
 bool RunTest(const string& version, int caseNumber);
-
 
 int main(int argc, char* argv[])
 {
     cout << "RoadRunner LLVM SBML Test Suite" << endl;
-    cout << RoadRunner::getExtendedVersionInfo() << endl;
+    cout << "built on " << __TIMESTAMP__ << endl;
+    cout << rr::RoadRunner::getExtendedVersionInfo() << endl;
 
     Logger::enableLoggingToConsole();
 
-    Logger::SetCutOffLogLevel(Logger::PRIO_INFORMATION);
-
-
-    Log(lInfo) << "hello";
-
-
-    test_compiler();
-
-    Log(lDebug) << "a, " << "b, " << "c, ";
-
+    //Logger::SetCutOffLogLevel(Logger::PRIO_INFORMATION);
 
     //runSparseTest(33, 323, 50);
 
@@ -100,11 +87,12 @@ int main(int argc, char* argv[])
 
 
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 1; ++i) {
         //runInitialValueAssigmentTest(pairs[i].first, pairs[i].second);
         try
         {
-            TestBase test(pairs[i].first, pairs[i].second);
+            TestRoadRunner test(pairs[0].first, pairs[0].second);
+            test.test();
         }
         catch (std::exception &e)
         {
@@ -127,14 +115,16 @@ int main(int argc, char* argv[])
 }
 
 
+/*
+
 bool RunTest(const string& version, int caseNumber)
 {
-    bool result = false;
-    try
-    {
-        string modelFileName = getModelFileName(version, caseNumber);
+bool result = false;
+try
+{
+string modelFileName = getModelFileName(version, caseNumber);
 
-        SBMLDocument *doc = readSBMLFromFile(modelFileName.c_str());
+SBMLDocument *doc = libsbml::readSBMLFromFile(modelFileName.c_str());
 
         LLVMModelGeneratorContext c(doc, true);
 
@@ -161,6 +151,8 @@ bool RunTest(const string& version, int caseNumber)
 
     return result;
 }
+
+*/
 
 
 

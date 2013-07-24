@@ -16,20 +16,15 @@
 
 namespace rr
 {
-using libsbml::Model;
-using libsbml::Compartment;
-using libsbml::SBMLVisitor;
-using libsbml::Species;
-using libsbml::Parameter;
 
 /**
  * Hold all the un-evaluated symbolic inforamtion in the model.
  *
  * TODO: some real docs...
  */
-class LLVMModelSymbols: private SBMLVisitor
+class LLVMModelSymbols: private libsbml::SBMLVisitor
 {
-    using SBMLVisitor::visit;
+    using libsbml::SBMLVisitor::visit;
 
 public:
     LLVMModelSymbols(libsbml::Model const *m, LLVMModelDataSymbols const &sym);
@@ -41,7 +36,7 @@ public:
      *
      * This assembles the mess of items stored in the reactions array.
      */
-    ASTNode *createStoichiometryNode(int row, int col) const;
+    libsbml::ASTNode *createStoichiometryNode(int row, int col) const;
 
     const LLVMSymbolForest& getAssigmentRules() const;
     const LLVMSymbolForest& getInitialAssigments() const;
@@ -111,19 +106,19 @@ protected:
      * appropriate map.
      */
     void processElement(LLVMSymbolForest &currentSymbols,
-            const libsbml::SBase *element, const ASTNode *math);
+            const libsbml::SBase *element, const libsbml::ASTNode *math);
 
     /**
      * specialized logic to write both amounts and concentrations here.
      */
     void processSpecies(LLVMSymbolForest &currentSymbols,
-            const libsbml::Species *element, const ASTNode *math);
+            const libsbml::Species *element, const libsbml::ASTNode *math);
 
     /**
      * get the MathML element for a SpeciesReference if it is set, otherwise,
      * create a ASTNode from its stoichiometry field.
      */
-    const ASTNode *getSpeciesReferenceStoichMath(const libsbml::SpeciesReference *reference);
+    const libsbml::ASTNode *getSpeciesReferenceStoichMath(const libsbml::SpeciesReference *reference);
 
     LLVMSymbolForest initialValues;
 

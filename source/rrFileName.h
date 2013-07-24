@@ -9,22 +9,22 @@ using namespace rr;
 
 namespace rr
 {
-class RR_DECLSPEC FileName : public rrObject
+class RR_DECLSPEC FileName
 {
     private:
-        mutable string 				mPathAndName;
-        string 	                    mPath;
-        string 	                    mName;
-        void 	                    MakeFileString();
+        mutable string              mPathAndName;
+        string                      mPath;
+        string                      mName;
+        void                        MakeFileString();
 
     public:
                                     FileName(const string& name = gEmptyString, const string& path = gEmptyString);
                                     FileName(const FileName& fN);
                                    ~FileName();
 
-        FileName&            		operator = (const FileName& fN);
-        FileName&                	operator = (const string& fN);
-        FileName&                	operator = (const char* fN);
+        FileName&                   operator = (const FileName& fN);
+        FileName&                   operator = (const string& fN);
+        FileName&                   operator = (const char* fN);
         bool                        operator !=(const char* fN);
                                     operator string();// {return mPathAndName;}
         bool                        SetPath(const string& path);
@@ -36,11 +36,11 @@ class RR_DECLSPEC FileName : public rrObject
         string                      GetPath() const;
         string                      GetPathAndFileName() const;
         string                      Get();
-		string                      GetFileNameNoExtension();
+        string                      GetFileNameNoExtension();
         unsigned int                size();
 };
 
-RR_DECLSPEC std::ostream& operator 		<<(std::ostream &os, FileName &obj);
+RR_DECLSPEC std::ostream& operator         <<(std::ostream &os, FileName &obj);
 
 }
 #endif

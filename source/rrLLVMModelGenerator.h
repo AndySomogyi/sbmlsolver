@@ -51,7 +51,7 @@ public:
      * completly ignored.
      */
     virtual ExecutableModel *createModel(const string& sbml, ls::LibStructural *,
-            NOMSupport *, bool forceReCompile, bool computeAndAssignConsevationLaws);
+            bool forceReCompile, bool computeAndAssignConsevationLaws);
 
     /**
      * Get the compiler object that the model generator is using to

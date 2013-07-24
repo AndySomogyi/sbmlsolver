@@ -9,29 +9,29 @@
 namespace rr
 {
 
-class RR_DECLSPEC Capability : public rrObject
+class RR_DECLSPEC Capability
 {
     protected:
         string                              mName;
         string                              mDescription;
         string                              mMethod;
-        Parameters				            mParameters;
+        Parameters                          mParameters;
 
     public:
                                             Capability(const string& name, const string& method, const string& descr);
                                             Capability(const Capability& fromMe);
-		void							 	setup(const string& name, const string& method, const string& descr);
+        void                                setup(const string& name, const string& method, const string& descr);
         void                                addParameter(rr::BaseParameter* me);
         string                              asString() const;
         u_int                               nrOfParameters() const;
-        rr::BaseParameter&            		operator[](const int& i);
+        rr::BaseParameter&                  operator[](const int& i);
         string                              getName() const;
         string                              getDescription() const;
         string                              getMethod() const;
-        Parameters*							getParameters();
-        rr::BaseParameter*	   				getParameter(const string& paraName);
+        Parameters*                         getParameters();
+        rr::BaseParameter*                  getParameter(const string& paraName);
 
-		RR_DECLSPEC friend ostream&   		operator <<(ostream& os, const Capability& caps);
+        RR_DECLSPEC friend ostream&         operator <<(ostream& os, const Capability& caps);
 };
 
 }

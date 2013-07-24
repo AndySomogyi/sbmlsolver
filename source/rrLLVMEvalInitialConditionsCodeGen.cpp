@@ -47,15 +47,6 @@ Value* LLVMEvalInitialConditionsCodeGen::codeGen()
 
     }
 
-    Log(lInfo) << "globalParameters: \n";
-    for (LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialValues().globalParameters.begin();
-            i != modelSymbols.getInitialValues().globalParameters.end(); i++)
-    {
-        char* formula = SBML_formulaToString(i->second);
-        Log(lInfo) << "\t" << i->first << ": " << formula << "\n";
-        free(formula);
-
-    }
 
 
     // make the set init value function
@@ -90,6 +81,8 @@ Value* LLVMEvalInitialConditionsCodeGen::codeGen()
     codeGenCompartments(modelData, modelDataBuilder);
 
     codeGenStoichiometry(modelData, modelDataBuilder);
+
+    codeGenParameters(modelData, modelDataBuilder);
 
 
     builder.CreateRetVoid();
@@ -238,6 +231,24 @@ void LLVMEvalInitialConditionsCodeGen::codeGenCompartments(
 
         Value *value = astCodeGen.codeGen(i->second);
         modelDataBuilder.createCompStore(i->first, value);
+    }
+}
+
+void LLVMEvalInitialConditionsCodeGen::codeGenParameters(llvm::Value* modelData,
+        LLVMModelDataIRBuilder& modelDataBuilder)
+{
+    LLVMASTNodeCodeGen astCodeGen(builder, *this);
+
+    Log(lInfo) << "globalParameters: \n";
+    for (LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialValues().globalParameters.begin();
+            i != modelSymbols.getInitialValues().globalParameters.end(); i++)
+    {
+        char* formula = SBML_formulaToString(i->second);
+        Log(lInfo) << "\t" << i->first << ": " << formula << "\n";
+        free(formula);
+
+        Value *value = astCodeGen.codeGen(i->second);
+        modelDataBuilder.createGlobalParamStore(i->first, value);
     }
 }
 

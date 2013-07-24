@@ -388,14 +388,8 @@ bool fileExists(const string& fName)
         return false;
     }
 
-#if defined(__linux)
-    ifstream test(fName);
-    return test;
-#else
-
     bool res = (access(fName.c_str(), 0) == 0);
     return res;
-#endif
 }
 
 bool folderExists(const string& folderName)

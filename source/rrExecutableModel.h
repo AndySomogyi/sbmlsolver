@@ -128,6 +128,8 @@ public:
     virtual int getCompartmentIndex(const string& name) = 0;
     virtual string getCompartmentName(int index) = 0;
 
+    virtual int getNumRules() = 0;
+
     /**
      * get the number of reactions the model has
      */
@@ -248,6 +250,8 @@ public:
 
     virtual string getInfo() = 0;
 
+    virtual void print(std::ostream &stream) = 0;
+
 
     virtual const SymbolList &getConservations() = 0;
     virtual const StringList getConservationNames() = 0;
@@ -262,18 +266,24 @@ public:
 };
 
 /**
+ * dump the model to a stream convenience func
+ */
+RR_DECLSPEC std::ostream& operator << (std::ostream &stream, ExecutableModel* model);
+
+
+/**
  * zero out the memory occupied by a ModelData struct, equivalent to
  * memset(&data, 0, sizeof(ModelData));
  *
  * performs NO allocaation of memory.
  *
  */
-void RR_DECLSPEC initModelData(ModelData &data);
+RR_DECLSPEC void initModelData(ModelData &data);
 
 /**
  * dump the ModelData to an output stream.
  */
-std::ostream& operator<< (std::ostream& os, const ModelData& data);
+RR_DECLSPEC std::ostream& operator<< (std::ostream& os, const ModelData& data);
 
 /**
  * Allocate memory for all the data buffers in a ModelData structure,

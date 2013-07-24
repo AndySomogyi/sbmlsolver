@@ -264,6 +264,8 @@ bool runLLVMCSRMatrixTest(const int m, const int n, const int nnz)
     free(x);
     free(y);
     free(ys);
+
+    return true;
 }
 
 llvm::Function* LLVMCSRMatrixTest::getCSRMatrixGetNZTestFunc()

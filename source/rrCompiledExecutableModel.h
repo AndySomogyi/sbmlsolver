@@ -104,6 +104,8 @@ public:
     virtual int getCompartmentIndex(const string& name);
     virtual string getCompartmentName(int index);
 
+    virtual int getNumRules();
+
     /**
      * get the number of reactions the model has
      */
@@ -194,6 +196,8 @@ public:
     virtual void testConstraints();
     virtual void initializeRateRuleSymbols();
     virtual string getInfo();
+
+    virtual void print(std::ostream &stream);
 
     virtual const SymbolList& getConservations();
     virtual const StringList getConservationNames();

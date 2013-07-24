@@ -1675,6 +1675,9 @@ int CSharpModelGenerator::writeComputeRules(CodeBuilder& sb, const int& numReact
                     }
 
                 break;
+                case rtUnknown:
+                    Log(Logger::PRIO_ERROR) << "Unknown rule type in " << __FUNC__;
+                    break;
             }
 
             // Run the equation through MathML to carry out any conversions (eg ^ to Pow)
@@ -2297,7 +2300,7 @@ string CSharpModelGenerator::convertSymbolToC(const string& compartmentName)
       throw CoreException("Internal Error: Unable to locate compartment: " + compartmentName);
 }
 
-ExecutableModel *CSharpModelGenerator::createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
+ExecutableModel *CSharpModelGenerator::createModel(const string& sbml, LibStructural *ls,
                                                          bool forceReCompile, bool computeAndAssignConsevationLaws)
 {
     return 0;

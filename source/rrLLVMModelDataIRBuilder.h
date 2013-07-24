@@ -209,6 +209,10 @@ private:
      * the model data struct we generate the loads / stores relative to.
      */
     llvm::Value *modelData;
+    
+    llvm::IRBuilder<> &builder;
+    
+    LLVMModelDataSymbols const& symbols;
 
     /**
      * get the module, only valid whilst a BasicBlock is begin filled.
@@ -219,10 +223,6 @@ private:
      * @returns a module on success, throws exeption on failure.
      */
     static llvm::Module *getModule(llvm::IRBuilder<> &, const char* func);
-
-    llvm::IRBuilder<> &builder;
-
-    LLVMModelDataSymbols const& symbols;
 
     /**
      * check to see that s is a ModelData struct pointer,

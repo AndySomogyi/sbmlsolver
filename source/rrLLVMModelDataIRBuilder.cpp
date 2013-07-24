@@ -35,8 +35,9 @@ LLVMModelDataIRBuilder::LLVMModelDataIRBuilder(Value *modelData,
         const LLVMModelDataSymbols &symbols,
         IRBuilder<> &b) :
         modelData(modelData),
-        symbols(symbols),
-        builder(b)
+        builder(b),
+        symbols(symbols)
+        
 {
     validateStruct(modelData, __FUNC__);
 }

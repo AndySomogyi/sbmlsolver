@@ -58,10 +58,22 @@ public:
      */
     llvm::Value *integerCodeGen(const libsbml::ASTNode *ast);
 
+    /**
+     * would have made the most sense using templated pointer to a
+     * IRBuilder member function, but many compilers seem to have trouble
+     * with such templates.
+     */
+    llvm::Value *applyArithmeticCodeGen(const libsbml::ASTNode *ast);
+
 private:
     llvm::IRBuilder<> &builder;
     LLVMSymbolResolver &resolver;
 };
 
+
+
 } /* namespace rr */
+
+
+
 #endif /* rrLLVMASTNodeCodeGenH */

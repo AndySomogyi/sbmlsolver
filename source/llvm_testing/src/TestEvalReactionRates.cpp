@@ -6,19 +6,37 @@
  */
 
 #include "TestEvalReactionRates.h"
+#include "rrLogger.h"
 
 namespace rr
 {
-
-TestEvalReactionRates::TestEvalReactionRates()
+    
+TestEvalReactionRates::TestEvalReactionRates(const std::string& version, int caseNumber)
+: TestBase(version, caseNumber)
 {
-	// TODO Auto-generated constructor stub
-
 }
 
 TestEvalReactionRates::~TestEvalReactionRates()
 {
-	// TODO Auto-generated destructor stub
 }
+    
+bool TestEvalReactionRates::test()
+{
+    Log(Logger::PRIO_INFORMATION) << "Evaluating Initial Conditions for " << fileName << endl;
+    
+    model->evalInitialConditions();
+    
+    Log(Logger::PRIO_INFORMATION) << model << endl;
+    
+    Log(Logger::PRIO_INFORMATION) << "Evaluating Reaction Rates for " << fileName << endl;
+    
+    model->evalReactionRates();
+    
+    Log(Logger::PRIO_INFORMATION) << model << endl;
+    
+    return true;
+}
+    
 
+    
 } /* namespace rr */

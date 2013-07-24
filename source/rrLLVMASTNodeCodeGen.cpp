@@ -11,10 +11,10 @@
 #include "rrLLVMASTNodeCodeGen.h"
 #include "rrLLVMException.h"
 #include "rrOSSpecifics.h"
+#include "rrLLVMIncludes.h"
+#include "rrLogger.h"
 
 #include <sbml/math/ASTNode.h>
-#include "rrLLVMIncludes.h"
-#include "rrLogger.h";
 #include <Poco/Logger.h>
 
 using namespace libsbml;
@@ -80,7 +80,7 @@ llvm::Value* LLVMASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
 
     if (ast == 0)
     {
-        throw LLVMException("ASTNode is NULL", __FUNC__);
+        throw_llvm_exception("ASTNode is NULL");
     }
 
     switch (ast->getType())
@@ -89,7 +89,7 @@ llvm::Value* LLVMASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     case AST_MINUS:                 /* '-' */
     case AST_TIMES:                 /* '*' */
     case AST_DIVIDE:                /* '/' */
-        result = binaryExprCodeGen(ast);
+        result = result = applyArithmeticCodeGen(ast);
         break;
     case AST_POWER:                 // '^' sbml considers this an operator,
                                     // left and right child nodes are the first
@@ -158,9 +158,9 @@ llvm::Value* LLVMASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     default:
         {
             stringstream msg;
-            msg << "Unknown ASTNode type of " << ast->getType() << ", class: " << ast->getClass();
-            poco_error(getLogger(), msg.str());
-            throw LLVMException(msg.str(), __FUNC__);
+            msg << "Unknown ASTNode type of " << ast->getType() << ", from " <<
+                    ast->getParentSBMLObject()->toSBML();
+            throw_llvm_exception(msg.str());
         }
         break;
 
@@ -180,7 +180,9 @@ llvm::Value* LLVMASTNodeCodeGen::notImplemented(const libsbml::ASTNode* ast)
     string str = formula;
     free(formula);
 
-    throw LLVMException("AST type Not Implemented Yet: " + str);
+    throw_llvm_exception("AST type Not Implemented Yet: " + str);
+
+    return 0;
 }
 
 llvm::Value* LLVMASTNodeCodeGen::nameExprCodeGen(const libsbml::ASTNode* ast)
@@ -196,6 +198,48 @@ llvm::Value* LLVMASTNodeCodeGen::realExprCodeGen(const libsbml::ASTNode* ast)
 llvm::Value* LLVMASTNodeCodeGen::integerCodeGen(const libsbml::ASTNode* ast)
 {
     return ConstantFP::get(builder.getContext(), APFloat((double)ast->getInteger()));
+}
+
+llvm::Value* LLVMASTNodeCodeGen::applyArithmeticCodeGen(
+        const libsbml::ASTNode* ast)
+{
+    const int numChildren = ast->getNumChildren();
+    const ASTNodeType_t type = ast->getType();
+
+    if (numChildren < 2)
+    {
+        stringstream err;
+        err << "MathML apply node from " << ast->getParentSBMLObject()->toSBML()
+                << " must have at least two child nodes";
+        throw_llvm_exception(err.str());
+    }
+
+    // start at the head of the list and evaluate each subsequent term.
+    // accumulator
+    Value *acc = codeGen(ast->getChild(0));
+
+    for (int i = 1; i < numChildren; ++i)
+    {
+        Value *rhs = codeGen(ast->getChild(i));
+        switch (type)
+        {
+        case AST_PLUS:
+            acc = builder.CreateFAdd(acc, rhs, "addtmp");
+            break;
+        case AST_MINUS:
+            acc = builder.CreateFSub(acc, rhs, "subtmp");
+            break;
+        case AST_TIMES:
+            acc = builder.CreateFMul(acc, rhs, "multmp");
+            break;
+        case AST_DIVIDE:
+            acc = builder.CreateFDiv(acc, rhs, "divtmp");
+            break;
+        default:
+            break;
+        }
+    }
+    return acc;
 }
 
 } /* namespace rr */

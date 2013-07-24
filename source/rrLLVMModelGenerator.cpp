@@ -69,7 +69,7 @@ string LLVMModelGenerator::getTemporaryDirectory()
 }
 
 ExecutableModel* LLVMModelGenerator::createModel(const string& sbml,
-        ls::LibStructural*, NOMSupport*, bool forceReCompile,
+        ls::LibStructural*, bool forceReCompile,
         bool computeAndAssignConsevationLaws)
 {
     LLVMModelGeneratorContext context(sbml, computeAndAssignConsevationLaws);
@@ -89,10 +89,15 @@ ExecutableModel* LLVMModelGenerator::createModel(const string& sbml,
 
     LLVMExecutableModel *exe = new LLVMExecutableModel();
 
+    // * MOVE * the bits over from the context to the exe model.
     context.stealThePeach(&exe->symbols, &exe->context, &exe->executionEngine,
             &exe->errStr);
 
+    exe->symbols->initAllocModelDataBuffers(exe->modelData);
+
     exe->evalInitialConditionsPtr = evalInitialConditionsPtr;
+    exe->evalReactionRatesPtr = evalReactionRatesPtr;
+
 
     return exe;
 }

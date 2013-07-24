@@ -16,14 +16,17 @@ namespace rr
 {
 using namespace std;
 
-TestBase::TestBase(const std::string& version, int caseNumber) : model(0)
+TestBase::TestBase(const std::string& version, int caseNumber) :
+    model(0),
+    version(version),
+    caseNumber(caseNumber)
 {
-    string fileName = getModelFileName(version, caseNumber);
+    fileName = getModelFileName(version, caseNumber);
 
     if(!fileExists(fileName))
     {
         stringstream msg;
-        msg<<"File: "<<fileName<<" don't exist";
+        msg<<"File: "<<fileName<<" does not exist";
         Log(lError)<<msg.str();
 
         throw std::runtime_error(msg.str());
@@ -42,12 +45,15 @@ TestBase::TestBase(const std::string& version, int caseNumber) : model(0)
     std::string sbml((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
 
     ifs.close();
-    Log(lDebug5) << "Read SBML content from file:\n " << sbml
-                << "\n============ End of SBML " << endl;
+    Log(Logger::PRIO_INFORMATION)
+        << "/*** SBML " << fileName << " ***/" << endl
+        << sbml << endl
+        << "/****************************************************************************************/"
+        << endl;
 
     LLVMModelGenerator generator;
 
-    model = (LLVMExecutableModel*)generator.createModel(sbml, 0, 0, false, false);
+    model = (LLVMExecutableModel*)generator.createModel(sbml, 0, false, false);
 }
 
 TestBase::~TestBase()

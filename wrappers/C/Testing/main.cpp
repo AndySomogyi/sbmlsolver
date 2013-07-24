@@ -16,10 +16,10 @@ using namespace rrc;
 using namespace UnitTest;
 using std::string;
 
-string     gTempFolder                   = "";
+string     gTempFolder              = "";
 string     gRRInstallFolder         = "";
-string  gTestDataFolder            = "";
-bool    gDebug                    = false;
+string     gTestDataFolder          = "";
+bool       gDebug                   = false;
 string     gTSModelsPath;
 
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
@@ -29,6 +29,7 @@ bool setup(Args& args);
 int main(int argc, char* argv[])
 {
     cout << "RoadRunner SBML Test Suite" << endl;
+    cout << "built on " << __TIMESTAMP__ << endl;
     cout << RoadRunner::getExtendedVersionInfo() << endl;
 
     Logger::enableLoggingToConsole();

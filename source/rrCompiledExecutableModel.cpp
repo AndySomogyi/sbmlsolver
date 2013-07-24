@@ -21,8 +21,8 @@ mDummyDoubleArray(new double[1]),
 mData(),
 ms(symbols),
 mIsInitialized(false),
-mDLL(dll),
-mConservedSumChanged(false)
+mConservedSumChanged(false),
+mDLL(dll)
 {
     //Zero data structure..
     initModelData(mData);
@@ -631,6 +631,7 @@ void CompiledExecutableModel::evalModel(double timein, const double *y, double *
     }
     else
     {
+        // use the given state
         cevalModel(&mData, timein, y);
     }
 
@@ -639,7 +640,7 @@ void CompiledExecutableModel::evalModel(double timein, const double *y, double *
         memcpy(dydt, mData.rateRules, mData.numRateRules * sizeof(double));
 
         memcpy(&dydt[mData.numRateRules], mData.floatingSpeciesAmountRates,
-                mData.numFloatingSpecies * sizeof(double));
+                mData.numIndependentSpecies * sizeof(double));
     }
 }
 
@@ -765,6 +766,17 @@ void CompiledExecutableModel::reset()
     computeRules();
 
     convertToAmounts();
+}
+
+void CompiledExecutableModel::print(std::ostream &stream)
+{
+    stream << "CompiledExecutableModel" << endl;
+    stream << mData;
+}
+
+int CompiledExecutableModel::getNumRules()
+{
+    return ms.mNumRules;
 }
 
 

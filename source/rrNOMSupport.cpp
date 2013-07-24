@@ -846,7 +846,7 @@ string NOMSupport::getNthConstraint(const int& nIndex, string& sMessage)
     }
     else
     {
-        XMLNode* node = (XMLNode*) oConstraint->getMessage();
+        XMLNode* node = const_cast<XMLNode*>(oConstraint->getMessage());
         sMessage = node->toString();
     }
 

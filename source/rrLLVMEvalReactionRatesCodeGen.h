@@ -20,11 +20,6 @@
 
 namespace rr
 {
-using libsbml::Model;
-using libsbml::Compartment;
-using libsbml::SBMLVisitor;
-using libsbml::Species;
-using libsbml::Parameter;
 
 /**
  * evaluate the current model state and store the results in

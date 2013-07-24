@@ -4,13 +4,11 @@
 #include <vector>
 #include "rr-libstruct/lsMatrix.h"
 #include "rr-libstruct/lsLibStructural.h"
-#include "rrObject.h"
 #include "rrTVariableType.h"
 #include "rrTParameterType.h"
 #include "rrSelectionRecord.h"
 #include "rrRoadRunnerData.h"
 #include "rrSimulationSettings.h"
-#include "rrNOMSupport.h"
 #include "rrConstants.h"
 #include "rrNewArrayList.h"
 #include "rrPluginManager.h"
@@ -55,8 +53,10 @@ class RR_DECLSPEC RoadRunner
          */
         ModelGenerator                 *mModelGenerator;
 
-
-        Parameter<bool>                 mComputeAndAssignConservationLaws;
+        /**
+         * RoadRunner, not sbml parameters
+         */
+        rr::Parameter<bool>             mComputeAndAssignConservationLaws;
 
         vector<SelectionRecord>         mSteadyStateSelection;
         double                          mTimeStart;
@@ -73,7 +73,7 @@ class RR_DECLSPEC RoadRunner
         LibStructural                   mLS;
 
         SimulationSettings              mSettings;
-        NOMSupport                      mNOM;
+
         PluginManager                   mPluginManager;
 
         void                            addNthOutputToResult(DoubleMatrix& results, int nRow, double dCurrentTime);
@@ -88,7 +88,6 @@ class RR_DECLSPEC RoadRunner
                                             const int variableIndex);
 
         vector<string>                  getParameterIds();
-        bool                            loadSBMLIntoNOM(const string& sbml);
 
         /**
          * load the sbml into the structural analysis module, mLS.
@@ -113,7 +112,7 @@ class RR_DECLSPEC RoadRunner
                                             const int parameterIndex);
 
         string                          getParamPromotedSBML(const string& sArg);
-        NOMSupport*                     getNOM();
+
         LibStructural*                  getLibStruct();
         string                          getInfo();
         PluginManager&                  getPluginManager();
@@ -137,7 +136,11 @@ class RR_DECLSPEC RoadRunner
         //Functions --------------------------------------------------------------------
         bool                            isModelLoaded();
 
+        /**
+         * returns the model name if a model is loaded, empty string otherwise.
+         */
         string                          getModelName();
+
         static string                   getlibSBMLVersion();
         bool                            unLoadModel();
 

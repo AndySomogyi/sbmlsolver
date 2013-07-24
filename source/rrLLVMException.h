@@ -9,6 +9,8 @@
 #define RRLLVMEXCEPTION_H_
 
 #include <stdexcept>
+#include <Poco/Logger.h>
+#include "rrLogger.h"
 
 namespace rr
 {
@@ -26,6 +28,13 @@ public:
     {
     }
 };
+
+#define throw_llvm_exception(what) \
+        { std::string _err_msg = std::string("Error in ") + \
+          std::string(__FUNC__) + ": " + std::string(what); \
+          poco_error(getLogger(), _err_msg); \
+          throw LLVMException(_err_msg); }
+
 
 }
 

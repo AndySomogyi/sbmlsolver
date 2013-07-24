@@ -29,7 +29,7 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext(std::string const &sbml,
         ownedDoc(readSBMLFromString((sbml.c_str()))),
         doc(ownedDoc),
         symbols(new LLVMModelDataSymbols(doc->getModel(),
-                computeAndAssignConsevationLaws)),
+                                         computeAndAssignConsevationLaws)),
         modelSymbols(new LLVMModelSymbols(getModel(), *symbols)),
         errString(new string())
 {
@@ -43,6 +43,7 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext(std::string const &sbml,
 
     builder = new IRBuilder<>(*context);
 
+    // engine take ownership of module
     EngineBuilder engineBuilder(module);
 
     engineBuilder.setErrorStr(errString);
@@ -70,7 +71,9 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext(libsbml::SBMLDocument const
 
     builder = new IRBuilder<>(*context);
 
+    // engine take ownership of module
     EngineBuilder engineBuilder(module);
+    
     //engineBuilder.setEngineKind(EngineKind::JIT);
     engineBuilder.setErrorStr(errString);
     executionEngine = engineBuilder.create();

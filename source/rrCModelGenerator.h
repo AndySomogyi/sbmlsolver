@@ -29,7 +29,7 @@ public:
      *
      * The caller own this.
      */
-    virtual ExecutableModel             *createModel(const string& sbml, ls::LibStructural *ls, NOMSupport *nom,
+    virtual ExecutableModel             *createModel(const string& sbml, ls::LibStructural *ls,
                                                      bool forceReCompile, bool computeAndAssignConsevationLaws);
 
     virtual bool                        setTemporaryDirectory(const string& path);
@@ -159,6 +159,8 @@ private:
     // TODO major clean up also
     string                              generateModelCode(const string& sbmlStr, LibStructural *ls, NOMSupport *nom,
                                                           const bool& _computeAndAssignConsevationLaws = false);
+
+    static bool                         loadSBMLIntoNOM(NOMSupport &nom, const string& sbml);
 
 };
 }

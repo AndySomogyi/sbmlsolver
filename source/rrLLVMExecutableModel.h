@@ -90,6 +90,7 @@ public:
 
     virtual int getNumCompartments();
     virtual int getNumReactions();
+    virtual int getNumRules();
     virtual int getNumEvents();
     virtual void computeEventPriorites();
     virtual void setConcentration(int index, double value);
@@ -174,6 +175,8 @@ public:
     virtual int getReactionIndex(const string&);
     virtual string getReactionName(int);
 
+    virtual void print(std::ostream &stream);
+
 
     virtual const SymbolList &getConservations();
 
@@ -187,7 +190,7 @@ public:
     static LLVMExecutableModel* dummy();
 
 private:
-    ModelData *modelData;
+    ModelData modelData;
     LLVMModelDataSymbols *symbols;
     llvm::LLVMContext *context;
     llvm::ExecutionEngine *executionEngine;

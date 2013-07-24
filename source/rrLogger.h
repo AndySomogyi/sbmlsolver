@@ -25,7 +25,7 @@ namespace rr
 class RR_DECLSPEC LoggingBuffer
 {
 public:
-    LoggingBuffer(int level);
+    LoggingBuffer(int level, const char* file, int line);
 
     /**
      * dump the contents of the stringstream to the log.
@@ -40,6 +40,8 @@ public:
 private:
     std::stringstream buffer;
     int level;
+    const char* file;
+    int line;
 };
 
 /**
@@ -111,17 +113,17 @@ public:
 enum LogLevel
 {
     lShowAlways = Logger::PRIO_FATAL,
-    lError = Logger::PRIO_ERROR,
-    lWarning = Logger::PRIO_WARNING,
-    lInfo = Logger::PRIO_INFORMATION,
-    lDebug = Logger::PRIO_DEBUG,
-    lDebug1 = Logger::PRIO_TRACE,
-    lDebug2 = Logger::PRIO_TRACE,
-    lDebug3 = Logger::PRIO_TRACE,
-    lDebug4 = Logger::PRIO_TRACE,
-    lDebug5 = Logger::PRIO_TRACE,
-    lAny = Logger::PRIO_TRACE,
-    lUser = Logger::PRIO_TRACE
+    lError      = Logger::PRIO_ERROR,
+    lWarning    = Logger::PRIO_WARNING,
+    lInfo       = Logger::PRIO_INFORMATION,
+    lDebug      = Logger::PRIO_DEBUG,
+    lDebug1     = Logger::PRIO_TRACE,
+    lDebug2     = Logger::PRIO_TRACE,
+    lDebug3     = Logger::PRIO_TRACE,
+    lDebug4     = Logger::PRIO_TRACE,
+    lDebug5     = Logger::PRIO_TRACE,
+    lAny        = Logger::PRIO_TRACE,
+    lUser       = Logger::PRIO_TRACE
 };
 
 /**
@@ -140,12 +142,12 @@ RR_DECLSPEC Poco::Logger &getLogger();
 #ifndef NO_LOGGER
 #define Log(level) \
     if (level > rr::Logger::GetLogLevel()) { ; } \
-    else rr::LoggingBuffer(level).stream()
+    else rr::LoggingBuffer(level, __FILE__, __LINE__).stream()
 #else
 #define Log(level) \
     if (true) {  }\
     else \
-    LoggingBuffer(level)
+    LoggingBuffer(level, __FILE__, __LINE__)
 #endif
 
 

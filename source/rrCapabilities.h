@@ -10,12 +10,12 @@ namespace rr
 {
 using std::vector;
 
-class RR_DECLSPEC Capabilities : public rrObject
+class RR_DECLSPEC Capabilities
 {
     protected:
         string                          mName;
         string                          mDescription;
-        vector<Capability*>   			mCapabilities;
+        vector<Capability*>             mCapabilities;
 
     public:
                                         Capabilities(const string& name, const string& description);
@@ -23,10 +23,10 @@ class RR_DECLSPEC Capabilities : public rrObject
         string                          asXML();
         StringList                      asStringList();
         u_int                           count();
-        void							clear();
-        Capability*	   					operator[](int i);
-        Capability*						get(const string& capName);
-		bool 							setParameter(const string& name, const string& value);
+        void                            clear();
+        Capability*                     operator[](int i);
+        Capability*                     get(const string& capName);
+        bool                            setParameter(const string& name, const string& value);
 };
 
 }

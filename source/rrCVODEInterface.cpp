@@ -48,7 +48,6 @@ mDefaultReltol(_relTol),
 mDefaultAbsTol(_absTol),
 mStateVector(NULL),
 mAbstolArray(NULL),
-mLogFile("cvodeLogFile"),
 mCVODE_Memory(NULL),
 mLastTimeValue(0),
 mLastEvent(0),
@@ -113,12 +112,12 @@ void CvodeInterface::setTolerances(const double& aTol, const double& rTol)
     mRelTol = rTol;
 }
 
-ExecutableModel*    CvodeInterface::getModel()
+ExecutableModel* CvodeInterface::getModel()
 {
     return mModel;
 }
 
-Capability&    CvodeInterface::getCapability()
+Capability& CvodeInterface::getCapability()
 {
     return mCVODECapability;
 }
@@ -335,7 +334,7 @@ void EventFcn(double time, double* y, double* gdot, void* userData)
 
 bool CvodeInterface::haveVariables()
 {
-    return (mNumRateRules + mNumIndependentSpecies > 0) ? true : false;
+    return (mStateVectorSize > 0) ? true : false;
 }
 
 void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
@@ -348,15 +347,13 @@ void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
     try
     {
         mModel = oModel;
-        mNumIndependentSpecies = oModel->getNumIndependentSpecies();
-        mNumRateRules = (oModel->getModelData().numRateRules);
+        mStateVectorSize = oModel->getStateVector(0);
 
-        if (mNumRateRules + mNumIndependentSpecies > 0)
+        if (mStateVectorSize > 0)
         {
-            int allocatedMemory = mNumIndependentSpecies + mNumRateRules;
-            mStateVector =     N_VNew_Serial(allocatedMemory);
-            mAbstolArray = N_VNew_Serial(allocatedMemory);
-            for (int i = 0; i < allocatedMemory; i++)
+            mStateVector =     N_VNew_Serial(mStateVectorSize);
+            mAbstolArray = N_VNew_Serial(mStateVectorSize);
+            for (int i = 0; i < mStateVectorSize; i++)
             {
                 SetVector((N_Vector) mAbstolArray, i, mDefaultAbsTol);
             }
@@ -367,10 +364,10 @@ void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
             //SetMaxOrder(mCVODE_Memory, MaxBDFOrder);
             if(mCVODE_Memory)
             {
-                CVodeSetMaxOrd(        mCVODE_Memory, mMaxBDFOrder);
-                CVodeSetInitStep(    mCVODE_Memory, mInitStep);
-                CVodeSetMinStep(    mCVODE_Memory, mMinStep);
-                CVodeSetMaxStep(    mCVODE_Memory, mMaxStep);
+                CVodeSetMaxOrd(mCVODE_Memory, mMaxBDFOrder);
+                CVodeSetInitStep(mCVODE_Memory, mInitStep);
+                CVodeSetMinStep(mCVODE_Memory, mMinStep);
+                CVodeSetMaxStep(mCVODE_Memory, mMaxStep);
                 CVodeSetMaxNumSteps(mCVODE_Memory, mMaxNumSteps);
             }
 
@@ -387,7 +384,7 @@ void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
                 Log(lDebug2)<<"CVRootInit executed.....";
             }
 
-               errCode = CVDense(mCVODE_Memory, allocatedMemory); // int = size of systems
+               errCode = CVDense(mCVODE_Memory, mStateVectorSize); // int = size of systems
 
 
             if (errCode < 0)
@@ -731,18 +728,7 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
 
     mModel->evalModel(timeEnd, 0, 0);
 
-    vector<double> dCurrentValues(mModel->getModelData().numRateRules, 0);
-    mModel->getRateRuleValues(&dCurrentValues[0]);
-
-    for (int k = 0; k < mNumRateRules; k++)
-    {
-        SetVector((N_Vector) mStateVector, k, dCurrentValues[k]);
-    }
-
-    for (int k = 0; k < mNumIndependentSpecies; k++)
-    {
-        SetVector((N_Vector) mStateVector, k + mNumRateRules, mModel->getModelData().floatingSpeciesAmounts[k]);
-    }
+    mModel->getStateVector(NV_DATA_S(mStateVector));
 
     reInit(timeEnd);//, mAmounts, mRelTol, mAbstolArray);
     sort(mAssignmentTimes.begin(), mAssignmentTimes.end());

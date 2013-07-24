@@ -20,6 +20,7 @@
 #include "rrVersionInfo.h"
 #include "rrCVODEInterface.h"
 #include "rrNLEQInterface.h"
+#include "rrNOMSupport.h"
 #include "Poco/File.h"
 #include "Poco/Mutex.h"
 #include <sbml/common/libsbml-version.h>
@@ -76,21 +77,23 @@ RoadRunner::RoadRunner(const string& tempFolder, const string& supportCodeFolder
 :
 mUseKinsol(false),
 mDiffStepSize(0.05),
+mCapabilities("RoadRunner", "RoadRunner Capabilities"),
+mRRCoreCapabilities("Road Runner Core", "", "Core RoadRunner Parameters"),
 mSteadyStateThreshold(1.E-2),
-mSimulation(NULL),
 mCurrentSBMLFileName(""),
+mSimulation(NULL),
 mCVode(NULL),
-mComputeAndAssignConservationLaws("Conservation", false, "enables (=true) or disables \
-(=false) the conservation analysis \
-of models for timecourse simulations."),
+mComputeAndAssignConservationLaws("Conservation", false, "enables (=true) or disables "
+                                  "(=false) the conservation analysis "
+                                  "of models for timecourse simulations."),
 mTimeStart(0),
 mTimeEnd(10),
 mNumPoints(21),
 mModel(NULL),
 mCurrentSBML(""),
-mPluginManager(joinPath(getParentFolder(supportCodeFolder), "plugins")),
-mCapabilities("RoadRunner", "RoadRunner Capabilities"),
-mRRCoreCapabilities("Road Runner Core", "", "Core RoadRunner Parameters")
+mPluginManager(joinPath(getParentFolder(supportCodeFolder), "plugins"))
+
+
 {
     //Roadrunner is a "single" capability with many parameters
     mRRCoreCapabilities.addParameter(&mComputeAndAssignConservationLaws);
@@ -183,10 +186,6 @@ PluginManager&    RoadRunner::getPluginManager()
     return mPluginManager;
 }
 
-NOMSupport* RoadRunner::getNOM()
-{
-    return &mNOM;
-}
 
 LibStructural* RoadRunner::getLibStruct()
 {
@@ -487,9 +486,12 @@ DoubleMatrix RoadRunner::runSimulation()
         return results;
     }
 
-    vector<double> y;
-    y = buildModelEvalArgument();
-    mModel->evalModel(mTimeStart, &y[0]);
+    // evalute the model with its current state
+
+    //vector<double> y;
+    //y = buildModelEvalArgument();
+    mModel->evalModel(mTimeStart, 0, 0);
+
     addNthOutputToResult(results, 0, mTimeStart);
 
     //Todo: Don't understand this code.. MTK
@@ -576,14 +578,7 @@ bool RoadRunner::loadSBMLFromFile(const string& fileName, const bool& forceReCom
     return loadSBML(sbml, forceReCompile);
 }
 
-bool RoadRunner::loadSBMLIntoNOM(const string& sbml)
-{
-    string sASCII = NOMSupport::convertTime(sbml, "time");
 
-    Log(lDebug4)<<"Loading SBML into NOM";
-    mNOM.loadSBML(sASCII.c_str(), "time");
-    return true;
-}
 
 bool RoadRunner::loadSBMLIntoLibStruct(const string& sbml)
 {
@@ -620,14 +615,15 @@ bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
         throw(CoreException("SBML string is empty!"));
     }
 
-    loadSBMLIntoLibStruct(sbml);
-    {    //Scope for Mutex
+    {
+        //Scope for Mutex
+        //There is something in here that is not threadsafe... causes crash with multiple threads, without mutex
         Mutex::ScopedLock lock(libSBMLMutex);
-        loadSBMLIntoNOM(sbml);    //There is something in here that is not threadsafe... causes crash with multiple threads, without mutex
+        loadSBMLIntoLibStruct(sbml);
     }
 
     delete mModel;
-    mModel = mModelGenerator->createModel(sbml, &mLS, &mNOM, forceReCompile, computeAndAssignConservationLaws());
+    mModel = mModelGenerator->createModel(sbml, &mLS, forceReCompile, computeAndAssignConservationLaws());
 
     //Finally intitilaize the model..
     if(!initializeModel())
@@ -884,6 +880,9 @@ vector<string> RoadRunner::getTimeCourseSelectionList()
                 break;
             case SelectionRecord::clStoichiometry:
                 oResult.push_back(record.p1);
+                break;
+            default:
+                // return empty list
                 break;
         }
     }
@@ -2189,7 +2188,10 @@ vector<string> RoadRunner::getSteadyStateSelectionList()
             break;
             case SelectionRecord::clUnknown:
                 result.push_back(record.p1);
-                break;
+            break;
+            default:
+                // empty list
+            break;
         }
     }
     return result ;
@@ -2452,16 +2454,16 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
 
 string RoadRunner::getModelName()
 {
-    return mNOM.getModelName();
+    return mModel ? mModel->getModelName() : "";
 }
 
 // TODO Looks like major problems here, this
 // apears to modify the AFTER a model has been created from it.
 string RoadRunner::writeSBML()
 {
-    NOMSupport& NOM = this->mNOM;
+    NOMSupport NOM;
 
-    NOM.loadSBML(NOM.getParamPromotedSBML(mCurrentSBML));
+    NOM.loadSBML(NOMSupport::getParamPromotedSBML(mCurrentSBML));
 
     vector<string> array = getFloatingSpeciesIds();
     for (int i = 0; i < array.size(); i++)

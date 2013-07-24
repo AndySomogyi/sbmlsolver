@@ -706,7 +706,10 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
                         mapVariables[numRateRules] = varName;
                         numRateRules++;
                     }
-                break;
+                    break;
+                case rtUnknown:
+                    Log(Logger::PRIO_ERROR) << "Unknown rule type in " << __FUNC__;
+                    break;
             }
 
             // Run the equation through MathML to carry out any conversions (eg ^ to Pow)
@@ -2273,17 +2276,6 @@ bool CModelGenerator::generateModelCode(const string& sbml, const string& modelN
         return false;
     }
 
-    // just use the temp folder we're given
-    //*string tempFileFolder;
-    //*if(mSimulation)
-    //*{
-    //*    tempFileFolder = mSimulation->GetTempDataFolder();
-    //*}
-    //*else
-    //*{
-    //*    tempFileFolder = mTempFileFolder;
-    //*}
-
     if(!saveSourceCodeToFolder(mTempFileFolder, modelName))
     {
         Log(lError)<<"Failed saving generated source code";
@@ -2357,16 +2349,18 @@ bool CModelGenerator::initializeModel()
 }
 
 
-ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
+ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural *ls,
         bool forceReCompile, bool computeAndAssignConsevationLaws)
 {
+    NOMSupport nom;
+    CModelGenerator::loadSBMLIntoNOM(nom, sbml);
     mLibStruct = ls;
-    mNOM = nom;
+    mNOM = &nom;
     mCurrentSBML = sbml;
     mModelLib = new ModelSharedLibrary();
     mComputeAndAssignConsevationLaws = computeAndAssignConsevationLaws;
 
-    ms = ModelSymbols(*nom, *ls, computeAndAssignConsevationLaws);
+    ms = ModelSymbols(*mNOM, *ls, computeAndAssignConsevationLaws);
 
 
     //clear temp folder of roadrunner generated files, only if roadRunner instance == 1
@@ -2479,6 +2473,15 @@ bool CModelGenerator::setCompiler(const string& compiler)
 string CModelGenerator::getTemporaryDirectory()
 {
     return mTempFileFolder;
+}
+
+bool CModelGenerator::loadSBMLIntoNOM(NOMSupport &nom, const string& sbml)
+{
+    string sASCII = NOMSupport::convertTime(sbml, "time");
+
+    Log(lDebug4)<<"Loading SBML into NOM";
+    nom.loadSBML(sASCII.c_str(), "time");
+    return true;
 }
 
 }//Namespace

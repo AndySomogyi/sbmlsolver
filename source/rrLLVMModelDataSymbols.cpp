@@ -176,7 +176,6 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
         for (int j = 0; j < reactants->size(); j++)
         {
             const SimpleSpeciesReference *r = reactants->get(j);
-            const string& speciesId = r->getSpecies();
 
             // its OK if we do not find reactants as floating species, they
             // might be boundary species, so they do not change.

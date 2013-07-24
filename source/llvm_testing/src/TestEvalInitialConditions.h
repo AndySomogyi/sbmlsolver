@@ -8,14 +8,17 @@
 #ifndef TESTEVALINITIALCONDITIONS_H_
 #define TESTEVALINITIALCONDITIONS_H_
 
+#include "TestBase.h"
+
 namespace rr
 {
 
-class TestEvalInitialConditions
+class TestEvalInitialConditions: public TestBase
 {
 public:
-	TestEvalInitialConditions();
+	TestEvalInitialConditions(const std::string& version, int caseNumber);
 	virtual ~TestEvalInitialConditions();
+	bool test();
 };
 
 } /* namespace rr */
