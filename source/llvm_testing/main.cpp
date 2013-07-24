@@ -5,11 +5,12 @@
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrLogger.h"
-#include "rrRoadRunner.h"
 
 #include "CSRMatrixTest.h"
 
 #include "LLVMCSRMatrixTest.h"
+
+
 #include "test_compiler.h"
 
 #include "TestBase.h"
@@ -18,6 +19,7 @@
 #include "TestEvalModel.h"
 #include "TestRoadRunner.h"
 
+#include "rrRoadRunner.h"
 
 #include <sbml/SBMLDocument.h>
 #include <sbml/Model.h>
@@ -25,10 +27,9 @@
 
 #include <utility>
 #include <cstdlib>
+#include <iostream>
+#include <fstream>
 
-
-
-using namespace std;
 
 struct StrIntPair
 {
@@ -40,35 +41,20 @@ void getPairs(StrIntPair *&, int& npairs);
 
 
 
-using namespace rr;
-
-
-
-#include <iostream>
-#include <fstream>
-
 using namespace std;
-using namespace rr;
 using namespace llvm;
 
-using namespace libsbml;
-
 bool RunTest(const string& version, int caseNumber);
-
 
 int main(int argc, char* argv[])
 {
     cout << "RoadRunner LLVM SBML Test Suite" << endl;
     cout << "built on " << __TIMESTAMP__ << endl;
-    cout << RoadRunner::getExtendedVersionInfo() << endl;
+    cout << rr::RoadRunner::getExtendedVersionInfo() << endl;
 
     Logger::enableLoggingToConsole();
 
     Logger::SetCutOffLogLevel(Logger::PRIO_INFORMATION);
-
-
-
-
 
     //runSparseTest(33, 323, 50);
 
@@ -131,12 +117,12 @@ int main(int argc, char* argv[])
 
 bool RunTest(const string& version, int caseNumber)
 {
-    bool result = false;
-    try
-    {
-        string modelFileName = getModelFileName(version, caseNumber);
+bool result = false;
+try
+{
+string modelFileName = getModelFileName(version, caseNumber);
 
-        SBMLDocument *doc = readSBMLFromFile(modelFileName.c_str());
+SBMLDocument *doc = libsbml::readSBMLFromFile(modelFileName.c_str());
 
         LLVMModelGeneratorContext c(doc, true);
 

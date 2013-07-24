@@ -53,8 +53,10 @@ class RR_DECLSPEC RoadRunner
          */
         ModelGenerator                 *mModelGenerator;
 
-
-        Parameter<bool>                 mComputeAndAssignConservationLaws;
+        /**
+         * RoadRunner, not sbml parameters
+         */
+        rr::Parameter<bool>             mComputeAndAssignConservationLaws;
 
         vector<SelectionRecord>         mSteadyStateSelection;
         double                          mTimeStart;

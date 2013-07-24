@@ -16,6 +16,7 @@
 #include <cassert>
 #include <iostream>
 #include <cmath>
+#include <cstdio>
 
 namespace rr {
 
