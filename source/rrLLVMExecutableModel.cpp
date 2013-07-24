@@ -7,9 +7,9 @@
  */
 
 #include "rrLLVMExecutableModel.h"
-
 #include "rrLLVMIncludes.h"
-
+#include "rrSparse.h"
+#include "rrLogger.h"
 
 namespace rr
 {
@@ -28,10 +28,15 @@ LLVMExecutableModel::LLVMExecutableModel() :
 
 LLVMExecutableModel::~LLVMExecutableModel()
 {
+    Log(Logger::PRIO_TRACE) << __FUNC__ << "ModelName: " << modelData.modelName;
+
+    if (errStr->size() > 0)
+    {
+        Log(Logger::PRIO_WARNING) << "Non-empty LLVM ExecutionEngine error string: " << *errStr;
+    }
+
     freeModelDataBuffers(modelData);
-
     delete symbols;
-
     // the exe engine owns all the functions
     delete executionEngine;
     delete context;
@@ -40,16 +45,17 @@ LLVMExecutableModel::~LLVMExecutableModel()
 
 string LLVMExecutableModel::getModelName()
 {
-    return "";
+    return modelData.modelName;
 }
 
-void LLVMExecutableModel::setTime(double _time)
+void LLVMExecutableModel::setTime(double time)
 {
+    modelData.time = time;
 }
 
 double LLVMExecutableModel::getTime()
 {
-    return 0;
+    return modelData.time;
 }
 
 ModelData& LLVMExecutableModel::getModelData()
@@ -59,43 +65,43 @@ ModelData& LLVMExecutableModel::getModelData()
 
 int LLVMExecutableModel::getNumIndependentSpecies()
 {
-    return 0;
+    return modelData.numIndependentSpecies;
 }
 
 int LLVMExecutableModel::getNumDependentSpecies()
 {
-    return 0;
+    return modelData.numDependentSpecies;
 }
 
 int LLVMExecutableModel::getNumFloatingSpecies()
 {
-    return 0;
+    return modelData.numFloatingSpecies;
 }
 
 int LLVMExecutableModel::getNumBoundarySpecies()
 {
-    return 0;
+    return modelData.numBoundarySpecies;
 }
 
 int LLVMExecutableModel::getNumGlobalParameters()
 {
-    return 0;
+    return modelData.numGlobalParameters;
 }
 
 int LLVMExecutableModel::getNumCompartments()
 {
-    return 0;
+    return modelData.numCompartments;
 }
 
 int LLVMExecutableModel::getNumReactions()
 {
-    return 0;
+    return modelData.numReactions;
 }
 
 
 int LLVMExecutableModel::getNumEvents()
 {
-    return 0;
+    return modelData.numEvents;
 }
 
 void LLVMExecutableModel::computeEventPriorites()
@@ -136,8 +142,6 @@ void LLVMExecutableModel::getRateRuleValues(double *rateRuleValues)
 {
 }
 
-
-
 void LLVMExecutableModel::setRateRuleValues(const double * rates)
 {
 }
@@ -156,19 +160,23 @@ void LLVMExecutableModel::computeAllRatesOfChange()
 
 void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
 {
-
     if (y)
     {
         memcpy(modelData.floatingSpeciesAmounts, y,
-                modelData.numIndependentSpecies * sizeof(double));
+                modelData.numFloatingSpecies * sizeof(double));
     }
+
+    evalReactionRates();
+
+    csr_matrix_dgemv(modelData.stoichiometry, modelData.reactionRates,
+                     modelData.floatingSpeciesAmountRates);
 
     if (dydt)
     {
         memcpy(dydt, modelData.rateRules, modelData.numRateRules * sizeof(double));
 
-        memcpy(&dydt[modelData.numRateRules], modelData.floatingSpeciesAmountRates,
-                modelData.numIndependentSpecies * sizeof(double));
+        memcpy(dydt + modelData.numRateRules, modelData.floatingSpeciesAmountRates,
+                modelData.numFloatingSpecies * sizeof(double));
     }
 }
 
@@ -184,8 +192,6 @@ void LLVMExecutableModel::resetEvents()
 void LLVMExecutableModel::testConstraints()
 {
 }
-
-
 
 string LLVMExecutableModel::getInfo()
 {
@@ -296,12 +302,33 @@ void LLVMExecutableModel::setConservedSumChanged(bool val)
 
 int LLVMExecutableModel::getStateVector(double* stateVector)
 {
-    return 0;
+    if (stateVector == 0)
+    {
+        return modelData.numRateRules + modelData.numFloatingSpecies;
+    }
+
+    getRateRuleValues(stateVector);
+
+    memcpy(stateVector + modelData.numRateRules,
+            modelData.floatingSpeciesAmounts, modelData.numFloatingSpecies);
+
+    return modelData.numRateRules + modelData.numFloatingSpecies;
 }
 
 int LLVMExecutableModel::setStateVector(const double* stateVector)
 {
-    return 0;
+    if (stateVector == 0)
+    {
+        return -1;
+    }
+
+    setRateRuleValues(stateVector);
+
+    memcpy(modelData.floatingSpeciesAmounts,
+            stateVector + modelData.numRateRules,
+            modelData.numIndependentSpecies);
+
+    return modelData.numRateRules + modelData.numFloatingSpecies;
 }
 
 void LLVMExecutableModel::print(std::ostream &stream)
@@ -315,9 +342,11 @@ LLVMExecutableModel* LLVMExecutableModel::dummy()
     return new LLVMExecutableModel();
 }
 
-} /* namespace rr */
-
-void rr::LLVMExecutableModel::evalReactionRates()
+void LLVMExecutableModel::evalReactionRates()
 {
     evalReactionRatesPtr(&modelData);
 }
+
+} /* namespace rr */
+
+

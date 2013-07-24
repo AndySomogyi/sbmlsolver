@@ -20,6 +20,8 @@ add_executable( ${target}
     src/TestBase
     src/TestEvalInitialConditions
     src/TestEvalReactionRates
+    src/TestEvalModel
+    src/TestRoadRunner
     )
 
 set_property(TARGET ${target}

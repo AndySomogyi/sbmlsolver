@@ -11,7 +11,7 @@ namespace rr
 {
 
 class RoadRunner;
-class RR_DECLSPEC SBMLModelSimulation : public rrObject
+class RR_DECLSPEC SBMLModelSimulation
 {
     protected:
         string                  mModelFileName;

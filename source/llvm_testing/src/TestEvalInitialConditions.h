@@ -12,14 +12,14 @@
 
 namespace rr
 {
-    
-    class TestEvalInitialConditions : public TestBase
-    {
-    public:
-        TestEvalInitialConditions(const std::string& version, int caseNumber);
-        virtual ~TestEvalInitialConditions();
-        bool test();
-    };
-    
+
+class TestEvalInitialConditions: public TestBase
+{
+public:
+	TestEvalInitialConditions(const std::string& version, int caseNumber);
+	virtual ~TestEvalInitialConditions();
+	bool test();
+};
+
 } /* namespace rr */
 #endif /* TESTEVALINITIALCONDITIONS_H_ */

@@ -15,6 +15,8 @@
 #include "TestBase.h"
 #include "TestEvalInitialConditions.h"
 #include "TestEvalReactionRates.h"
+#include "TestEvalModel.h"
+#include "TestRoadRunner.h"
 
 
 #include <sbml/SBMLDocument.h>
@@ -65,12 +67,7 @@ int main(int argc, char* argv[])
     Logger::SetCutOffLogLevel(Logger::PRIO_INFORMATION);
 
 
-    Log(lInfo) << "hello";
 
-
-    test_compiler();
-
-    Log(lDebug) << "a, " << "b, " << "c, ";
 
 
     //runSparseTest(33, 323, 50);
@@ -104,11 +101,11 @@ int main(int argc, char* argv[])
 
 
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 1; ++i) {
         //runInitialValueAssigmentTest(pairs[i].first, pairs[i].second);
         try
         {
-            TestEvalReactionRates test(pairs[i].first, pairs[i].second);
+            TestRoadRunner test(pairs[0].first, pairs[0].second);
             test.test();
         }
         catch (std::exception &e)

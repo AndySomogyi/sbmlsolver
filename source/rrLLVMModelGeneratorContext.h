@@ -133,12 +133,7 @@ private:
      * that are accessible from the LLVM generated code.
      */
     void addGlobalMappings();
-
-    llvm::LLVMContext *context;
-    llvm::ExecutionEngine *executionEngine;
-    llvm::Module *module;
-    std::string *errString;
-
+    
     /**
      * these point to the same location, ownedDoc is set if we create the doc,
      * otherwise its 0, meaning we're borrowign the the doc.
@@ -157,6 +152,12 @@ private:
      * initialized after the previous two are initialized.
      */
     LLVMModelSymbols *modelSymbols;
+    
+    std::string *errString;
+    
+    llvm::LLVMContext *context;
+    llvm::ExecutionEngine *executionEngine;
+    llvm::Module *module;
 
     llvm::IRBuilder<> *builder;
 };
