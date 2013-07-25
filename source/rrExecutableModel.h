@@ -167,7 +167,7 @@ public:
 
     virtual void computeConservedTotals() = 0;
 
-    virtual double getConcentration(int index) = 0;
+    virtual double getFloatingSpeciesConcentration(int index) = 0;
 
     /**
      * set the 'values' of the rate rules.

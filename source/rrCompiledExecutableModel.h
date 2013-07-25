@@ -139,7 +139,7 @@ public:
 
     virtual void convertToAmounts();
     virtual void computeConservedTotals();
-    virtual double getConcentration(int index);
+    virtual double getFloatingSpeciesConcentration(int index);
 
     //Access dll data
     virtual void getRateRuleValues(double *rateRuleValues);

@@ -319,6 +319,14 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(ModelData& m) const
     // allocate the stoichiometry matrix
     m.stoichiometry = csr_matrix_new(getFloatingSpeciesSize(), getReactionSize(),
             stoichRowIndx, stoichColIndx, vector<double>(stoichRowIndx.size(), 0));
+
+    // fill out the species / compartment mapping arrays
+    for (StringIntMap::const_iterator i = floatingSpeciesMap.begin();
+            i != floatingSpeciesMap.end(); ++i)
+    {
+        int compIndex = getFloatingSpeciesCompartmentIndex(i->first);
+        m.floatingSpeciesCompartments[i->second] = compIndex;
+    }
 }
 
 std::vector<std::string> LLVMModelDataSymbols::getCompartmentIds() const
@@ -427,7 +435,6 @@ void LLVMModelDataSymbols::print() const
     }
 }
 
-
 std::vector<std::string> LLVMModelDataSymbols::getGlobalParameterIds() const
 {
     return getIds(globalParametersMap);
@@ -450,4 +457,7 @@ const char* LLVMModelDataSymbols::getFieldName(ModelDataFields field)
     }
 }
 
+
 } /* namespace rr */
+
+

@@ -455,7 +455,7 @@ void CompiledExecutableModel::getRateRuleValues(double *rateRuleValues)
 
 }
 
-double CompiledExecutableModel::getConcentration(int index)
+double CompiledExecutableModel::getFloatingSpeciesConcentration(int index)
 {
     if(!cgetConcentration)
     {

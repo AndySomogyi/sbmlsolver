@@ -255,7 +255,6 @@ int RoadRunner::createDefaultTimeCourseSelectionList()
 
 int RoadRunner::createTimeCourseSelectionList()
 {
-
     vector<string> theList = getSelectionListFromSettings(mSettings);
 
     if(theList.size() < 2)
@@ -263,8 +262,8 @@ int RoadRunner::createTimeCourseSelectionList()
         //AutoSelect
         theList.push_back("Time");
 
-        //Get All floating species
-        vector<string> oFloating  = getFloatingSpeciesIds();
+       //Get All floating species
+       vector<string> oFloating  = getFloatingSpeciesIds();
        for(int i = 0; i < oFloating.size(); i++)
        {
             theList.push_back(oFloating[i]);
@@ -339,7 +338,7 @@ double RoadRunner::getValueForRecord(const SelectionRecord& record)
     switch (record.selectionType)
     {
         case SelectionRecord::clFloatingSpecies:
-            dResult = mModel->getConcentration(record.index);
+            dResult = mModel->getFloatingSpeciesConcentration(record.index);
         break;
 
         case SelectionRecord::clBoundarySpecies:
@@ -2764,7 +2763,7 @@ double RoadRunner::getFloatingSpeciesByIndex(const int& index)
 
     if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
     {
-        return mModel->getConcentration(index);
+        return mModel->getFloatingSpeciesConcentration(index);
     }
     throw CoreException(format("Index in getFloatingSpeciesByIndex out of range: [{0}]", index));
 }
@@ -3157,7 +3156,7 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
 // Assumes that the reaction rates have been precomputed at the operating point !!
 double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex)
 {
-    double originalParameterValue = mModel->getConcentration(speciesIndex);
+    double originalParameterValue = mModel->getFloatingSpeciesConcentration(speciesIndex);
 
     double hstep = mDiffStepSize*originalParameterValue;
     if (fabs(hstep) < 1E-12)
@@ -3277,7 +3276,7 @@ DoubleMatrix RoadRunner::getScaledReorderedElasticityMatrix()
 
             for (int j = 0; j < uelast.CSize(); j++) // Columns are species
             {
-                result[i][j] = uelast[i][j]*mModel->getConcentration(j)/rates[i];
+                result[i][j] = uelast[i][j]*mModel->getFloatingSpeciesConcentration(j)/rates[i];
             }
         }
         return result;
@@ -3313,7 +3312,7 @@ double RoadRunner::getScaledFloatingSpeciesElasticity(const string& reactionName
         }
 
         return getUnscaledSpeciesElasticity(reactionIndex, speciesIndex)*
-               mModel->getConcentration(speciesIndex)/mModel->getModelData().reactionRates[reactionIndex];
+               mModel->getFloatingSpeciesConcentration(speciesIndex)/mModel->getModelData().reactionRates[reactionIndex];
 
     }
     catch (const Exception& e)
@@ -3390,11 +3389,11 @@ DoubleMatrix RoadRunner::getScaledConcentrationControlCoefficientMatrix()
                 {
                     for (int j = 0; j < ucc.CSize(); j++)
                     {
-                        if(mModel->getConcentration(i) != 0.0)
+                        if(mModel->getFloatingSpeciesConcentration(i) != 0.0)
                         {
                             ucc[i][j] = ucc[i][j] *
                                     mModel->getModelData().reactionRates[j] /
-                                    mModel->getConcentration(i);
+                                    mModel->getFloatingSpeciesConcentration(i);
                         }
                         else
                         {

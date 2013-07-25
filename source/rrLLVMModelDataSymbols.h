@@ -108,6 +108,7 @@ public:
     int getCompartmentIndex(std::string const&) const;
     int getFloatingSpeciesIndex(std::string const&) const;
     int getBoundarySpeciesIndex(std::string const&) const;
+
     int getFloatingSpeciesCompartmentIndex(std::string const&) const;
     int getBoundarySpeciesCompartmentIndex(std::string const&) const;
     int getGlobalParameterIndex(std::string const&) const;

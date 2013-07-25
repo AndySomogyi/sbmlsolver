@@ -10,9 +10,11 @@
 #include "rrLLVMIncludes.h"
 #include "rrSparse.h"
 #include "rrLogger.h"
+#include "rrException.h"
 
 static void dump_array(std::ostream &os, int n, const double *p)
 {
+    os << setiosflags(ios::floatfield) << setprecision(8);
     os << '[';
     for (int i = 0; i < n; ++i)
     {
@@ -145,9 +147,19 @@ void LLVMExecutableModel::computeConservedTotals()
 {
 }
 
-double LLVMExecutableModel::getConcentration(int index)
+double LLVMExecutableModel::getFloatingSpeciesConcentration(int index)
 {
-    return 0;
+    if (index >= 0 && index < modelData.numFloatingSpecies)
+    {
+        int compIndex = modelData.floatingSpeciesCompartments[index];
+        return modelData.floatingSpeciesAmounts[index] /
+                modelData.compartmentVolumes[compIndex];
+    }
+    else
+    {
+        Log(Logger::PRIO_ERROR) << "index " << index << "out of range";
+        throw Exception(string(__FUNC__) + string(": index out of range"));
+    }
 }
 
 void LLVMExecutableModel::getRateRuleValues(double *rateRuleValues)
@@ -245,9 +257,10 @@ int LLVMExecutableModel::getFloatingSpeciesIndex(const string& allocator)
     return 0;
 }
 
-string LLVMExecutableModel::getFloatingSpeciesName(int int1)
+string LLVMExecutableModel::getFloatingSpeciesName(int index)
 {
-    return string();
+    vector<string> ids = symbols->getFloatingSpeciesIds();
+    return ids[index];
 }
 
 int LLVMExecutableModel::getBoundarySpeciesIndex(const string& allocator)
@@ -350,23 +363,24 @@ int LLVMExecutableModel::getStateVector(double* stateVector)
     getRateRuleValues(stateVector);
 
     memcpy(stateVector + modelData.numRateRules,
-            modelData.floatingSpeciesAmounts, modelData.numFloatingSpecies);
+            modelData.floatingSpeciesAmounts,
+            modelData.numFloatingSpecies * sizeof(double));
 
     if (Logger::PRIO_TRACE <= rr::Logger::GetLogLevel()) {
 
         LoggingBuffer log(Logger::PRIO_TRACE, __FILE__, __LINE__);
 
-        log.stream() << __FUNC__ << endl;
-        log.stream() << "stateVector: ";
+        log.stream() << endl << __FUNC__ <<  ", Model: " << endl << this;
+
+        log.stream() << __FUNC__ << ",  out stateVector: ";
         if (stateVector) {
             dump_array(log.stream(), modelData.numRateRules + modelData.numFloatingSpecies, stateVector);
         } else {
             log.stream() << "null";
         }
-        log.stream() << endl << "Model: " << endl << this;
-    }
 
-    Log(Logger::PRIO_TRACE) << __FUNC__ << ", stateVector: null, returning " << modelData.numRateRules + modelData.numFloatingSpecies;
+        cout << "pause\n";
+    }
 
     return modelData.numRateRules + modelData.numFloatingSpecies;
 }
@@ -382,9 +396,23 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
 
     memcpy(modelData.floatingSpeciesAmounts,
             stateVector + modelData.numRateRules,
-            modelData.numIndependentSpecies);
+            modelData.numFloatingSpecies * sizeof(double));
 
-    Log(Logger::PRIO_TRACE) << __FUNC__ << this;
+    if (Logger::PRIO_TRACE <= rr::Logger::GetLogLevel()) {
+
+        LoggingBuffer log(Logger::PRIO_TRACE, __FILE__, __LINE__);
+
+        log.stream() << endl << __FUNC__ <<  ", Model: " << endl << this;
+
+        log.stream() << __FUNC__ << ",  stateVector: ";
+        if (stateVector) {
+            dump_array(log.stream(), modelData.numRateRules + modelData.numFloatingSpecies, stateVector);
+        } else {
+            log.stream() << "null";
+        }
+
+        cout << "pause\n";
+    }
 
     return modelData.numRateRules + modelData.numFloatingSpecies;
 }
