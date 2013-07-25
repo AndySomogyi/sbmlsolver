@@ -9,7 +9,7 @@ namespace rr
 {
 class RoadRunner;
 
-class RR_DECLSPEC RoadRunnerThread : public Poco::Runnable, public rrObject
+class RR_DECLSPEC RoadRunnerThread : public Poco::Runnable
 {
 	protected:
 	    Poco::Thread 				mThread;

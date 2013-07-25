@@ -37,7 +37,7 @@ using libsbml::KineticLaw;
  * This class provides a set of static method to query various items
  * from sbml objects.
  */
-class RR_DECLSPEC NOMSupport : public rrObject
+class RR_DECLSPEC NOMSupport
 {
 public:
     NOMSupport();

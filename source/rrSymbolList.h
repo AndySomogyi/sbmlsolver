@@ -9,7 +9,7 @@ using std::vector;
 namespace rr
 {
 
-class RR_DECLSPEC SymbolList : public rrObject, public vector<Symbol> //Using vector instead of list since accessing element by []
+class RR_DECLSPEC SymbolList: public vector<Symbol> //Using vector instead of list since accessing element by []
 {
     public:
         void                     Clear();

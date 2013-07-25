@@ -11,7 +11,7 @@ namespace rr
 {
 class StringList;
 
-class RR_DECLSPEC NewArrayList : public rrObject
+class RR_DECLSPEC NewArrayList
 {
     protected:
     public:

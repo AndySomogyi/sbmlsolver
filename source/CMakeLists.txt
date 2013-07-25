@@ -14,7 +14,6 @@ include_directories(
     )
 
 set(rrSources
-    rrParameter
     rrParameters
     rrSteadyStateSolver
     rrCapability
@@ -29,7 +28,6 @@ set(rrSources
     rrExecutableModel
     rrCompiledModelState
     rrNOMSupport
-    rrObject
     rrPendingAssignment
     rrRandom
     rrRoadRunner

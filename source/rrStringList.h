@@ -12,7 +12,7 @@ using std::string;
 using std::ostream;
 
 
-class RR_DECLSPEC StringList : public rrObject
+class RR_DECLSPEC StringList 
 {
     protected:
 
