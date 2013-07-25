@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
 
     Logger::enableLoggingToConsole();
 
-    //Logger::SetCutOffLogLevel(Logger::PRIO_INFORMATION);
+    Logger::SetCutOffLogLevel(Logger::PRIO_TRACE);
 
     //runSparseTest(33, 323, 50);
 
@@ -103,12 +103,6 @@ int main(int argc, char* argv[])
     //StrIntPair test = {"l3v1", 999  };
     //StrIntPair test = {"l2v4", 7};
     //runInitialValueAssigmentTest(test.first, test.second);
-
-
-
-
-
-
 
 
     return 0;

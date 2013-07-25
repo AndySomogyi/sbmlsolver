@@ -10,6 +10,22 @@
 #include "rrLLVMIncludes.h"
 #include "rrSparse.h"
 #include "rrLogger.h"
+#include "rrException.h"
+
+static void dump_array(std::ostream &os, int n, const double *p)
+{
+    os << setiosflags(ios::floatfield) << setprecision(8);
+    os << '[';
+    for (int i = 0; i < n; ++i)
+    {
+        os << p[i];
+        if (i < n - 1)
+        {
+            os << ", ";
+        }
+    }
+    os << ']' << endl;
+}
 
 namespace rr
 {
@@ -20,10 +36,12 @@ LLVMExecutableModel::LLVMExecutableModel() :
     executionEngine(0),
     errStr(0),
     evalInitialConditionsPtr(0),
-    evalReactionRatesPtr(0)
+    evalReactionRatesPtr(0),
+    stackDepth(0)
 {
     // zero out the struct, the generator will fill it out.
     initModelData(modelData);
+    initModelData(modelDataCopy);
 }
 
 LLVMExecutableModel::~LLVMExecutableModel()
@@ -117,10 +135,6 @@ int LLVMExecutableModel::getNumLocalParameters(int reactionId)
     return 0;
 }
 
-void LLVMExecutableModel::setInitialConditions()
-{
-}
-
 void LLVMExecutableModel::evalInitialAssignments()
 {
 }
@@ -133,9 +147,19 @@ void LLVMExecutableModel::computeConservedTotals()
 {
 }
 
-double LLVMExecutableModel::getConcentration(int index)
+double LLVMExecutableModel::getFloatingSpeciesConcentration(int index)
 {
-    return 0;
+    if (index >= 0 && index < modelData.numFloatingSpecies)
+    {
+        int compIndex = modelData.floatingSpeciesCompartments[index];
+        return modelData.floatingSpeciesAmounts[index] /
+                modelData.compartmentVolumes[compIndex];
+    }
+    else
+    {
+        Log(Logger::PRIO_ERROR) << "index " << index << "out of range";
+        throw Exception(string(__FUNC__) + string(": index out of range"));
+    }
 }
 
 void LLVMExecutableModel::getRateRuleValues(double *rateRuleValues)
@@ -178,6 +202,26 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
         memcpy(dydt + modelData.numRateRules, modelData.floatingSpeciesAmountRates,
                 modelData.numFloatingSpecies * sizeof(double));
     }
+
+    if (Logger::PRIO_TRACE <= rr::Logger::GetLogLevel()) {
+
+        LoggingBuffer log(Logger::PRIO_TRACE, __FILE__, __LINE__);
+
+        log.stream() << __FUNC__ << endl;
+        log.stream() << "y: ";
+        if (y) {
+            dump_array(log.stream(), modelData.numRateRules + modelData.numFloatingSpecies, y);
+        } else {
+            log.stream() << "null";
+        }
+        log.stream() << endl << "dydt: ";
+        if (dydt) {
+            dump_array(log.stream(), modelData.numRateRules + modelData.numFloatingSpecies, dydt);
+        } else {
+            log.stream() << "null";
+        }
+        log.stream() << endl << "Model: " << endl << this;
+    }
 }
 
 void LLVMExecutableModel::evalEvents(const double time,
@@ -213,9 +257,10 @@ int LLVMExecutableModel::getFloatingSpeciesIndex(const string& allocator)
     return 0;
 }
 
-string LLVMExecutableModel::getFloatingSpeciesName(int int1)
+string LLVMExecutableModel::getFloatingSpeciesName(int index)
 {
-    return string();
+    vector<string> ids = symbols->getFloatingSpeciesIds();
+    return ids[index];
 }
 
 int LLVMExecutableModel::getBoundarySpeciesIndex(const string& allocator)
@@ -274,11 +319,13 @@ void LLVMExecutableModel::setGlobalParameterValue(int index, double value)
 
 int LLVMExecutableModel::pushState(unsigned)
 {
+    modeldata_copy_buffers(&modelDataCopy, &modelData);
     return 0;
 }
 
 int LLVMExecutableModel::popState(unsigned)
 {
+    modeldata_copy_buffers(&modelData, &modelDataCopy);
     return 0;
 }
 
@@ -289,6 +336,11 @@ void LLVMExecutableModel::evalInitialConditions()
 
 void LLVMExecutableModel::reset()
 {
+    setTime(0.0);
+    evalInitialConditions();
+    evalReactionRates();
+
+    Log(Logger::PRIO_TRACE) << __FUNC__ << this;
 }
 
 bool LLVMExecutableModel::getConservedSumChanged()
@@ -304,13 +356,31 @@ int LLVMExecutableModel::getStateVector(double* stateVector)
 {
     if (stateVector == 0)
     {
+        Log(Logger::PRIO_TRACE) << __FUNC__ << ", stateVector: null, returning " << modelData.numRateRules + modelData.numFloatingSpecies;
         return modelData.numRateRules + modelData.numFloatingSpecies;
     }
 
     getRateRuleValues(stateVector);
 
     memcpy(stateVector + modelData.numRateRules,
-            modelData.floatingSpeciesAmounts, modelData.numFloatingSpecies);
+            modelData.floatingSpeciesAmounts,
+            modelData.numFloatingSpecies * sizeof(double));
+
+    if (Logger::PRIO_TRACE <= rr::Logger::GetLogLevel()) {
+
+        LoggingBuffer log(Logger::PRIO_TRACE, __FILE__, __LINE__);
+
+        log.stream() << endl << __FUNC__ <<  ", Model: " << endl << this;
+
+        log.stream() << __FUNC__ << ",  out stateVector: ";
+        if (stateVector) {
+            dump_array(log.stream(), modelData.numRateRules + modelData.numFloatingSpecies, stateVector);
+        } else {
+            log.stream() << "null";
+        }
+
+        cout << "pause\n";
+    }
 
     return modelData.numRateRules + modelData.numFloatingSpecies;
 }
@@ -326,7 +396,23 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
 
     memcpy(modelData.floatingSpeciesAmounts,
             stateVector + modelData.numRateRules,
-            modelData.numIndependentSpecies);
+            modelData.numFloatingSpecies * sizeof(double));
+
+    if (Logger::PRIO_TRACE <= rr::Logger::GetLogLevel()) {
+
+        LoggingBuffer log(Logger::PRIO_TRACE, __FILE__, __LINE__);
+
+        log.stream() << endl << __FUNC__ <<  ", Model: " << endl << this;
+
+        log.stream() << __FUNC__ << ",  stateVector: ";
+        if (stateVector) {
+            dump_array(log.stream(), modelData.numRateRules + modelData.numFloatingSpecies, stateVector);
+        } else {
+            log.stream() << "null";
+        }
+
+        cout << "pause\n";
+    }
 
     return modelData.numRateRules + modelData.numFloatingSpecies;
 }
@@ -334,6 +420,7 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
 void LLVMExecutableModel::print(std::ostream &stream)
 {
     stream << "LLVMExecutableModel" << endl;
+    stream << "stackDepth: " << stackDepth << endl;
     stream << modelData;
 }
 

@@ -7,13 +7,13 @@ using namespace std;
 
 namespace rr
 {
-    
+
 std::ostream& operator << (std::ostream &stream, ExecutableModel* model)
 {
     model->print(stream);
     return stream;
 }
-    
+
 
 void initModelData(ModelData &data)
 {
@@ -207,6 +207,71 @@ void  freeModelDataBuffers(ModelData &data)
     free(data.eventDelays);
 
     csr_matrix_delete(data.stoichiometry);
+}
+
+
+void RR_DECLSPEC modeldata_clone(ModelData *dst, ModelData *src)
+{
+    memcpy(dst, src, sizeof(ModelData));
+    allocModelDataBuffers(*dst, src->modelName);
+    modeldata_copy_buffers(dst, src);
+}
+
+void RR_DECLSPEC modeldata_copy_buffers(ModelData *dst, ModelData *src)
+{
+    memcpy(dst->floatingSpeciesAmounts, src->floatingSpeciesAmounts,
+            src->numFloatingSpecies * sizeof(double));
+    memcpy(dst->floatingSpeciesAmountRates, src->floatingSpeciesAmountRates,
+            src->numFloatingSpecies * sizeof(double));
+    memcpy(dst->rateRules, src->rateRules,
+            src->numRateRules * sizeof(double));
+    memcpy(dst->floatingSpeciesConcentrations, src->floatingSpeciesConcentrations,
+            src->numFloatingSpecies * sizeof(double));
+    memcpy(dst->reactionRates, src->reactionRates,
+            src->numReactions * sizeof(double));
+    memcpy(dst->dependentSpeciesConservedSums, src->dependentSpeciesConservedSums,
+            src->numDependentSpecies * sizeof(double));
+    memcpy(dst->floatingSpeciesInitConcentrations, src->floatingSpeciesInitConcentrations,
+            src->numFloatingSpecies * sizeof(double));
+    memcpy(dst->globalParameters, src->globalParameters,
+            src->numGlobalParameters * sizeof(double));
+    memcpy(dst->compartmentVolumes, src->compartmentVolumes,
+            src->numCompartments * sizeof(double));
+    memcpy(dst->boundarySpeciesConcentrations, src->boundarySpeciesConcentrations,
+            src->numBoundarySpecies * sizeof(double));
+    memcpy(dst->boundarySpeciesAmounts, src->boundarySpeciesAmounts,
+            src->numBoundarySpecies * sizeof(double));
+    memcpy(dst->sr, src->sr,
+            src->srSize * sizeof(double));
+    memcpy(dst->eventPriorities, src->eventPriorities,
+            src->eventPrioritiesSize * sizeof(double));
+    memcpy(dst->eventStatusArray, src->eventStatusArray,
+            src->eventStatusArraySize * sizeof(bool));
+    memcpy(dst->previousEventStatusArray, src->previousEventStatusArray,
+            src->previousEventStatusArraySize * sizeof(bool));
+    memcpy(dst->eventPersistentType, src->eventPersistentType,
+            src->eventPersistentTypeSize * sizeof(bool));
+    memcpy(dst->eventTests, src->eventTests,
+            src->eventTestsSize * sizeof(double));
+    memcpy(dst->eventType, src->eventType,
+            src->eventTypeSize * sizeof(bool));
+    memcpy(dst->floatingSpeciesCompartments, src->floatingSpeciesCompartments,
+            src->numFloatingSpecies * sizeof(int));
+    memcpy(dst->boundarySpeciesCompartments, src->boundarySpeciesCompartments,
+            src->numBoundarySpecies * sizeof(int));
+    memcpy(dst->work, src->work,
+            src->workSize * sizeof(int));
+
+    //Event function pointer stuff
+    memcpy(dst->eventAssignments, src->eventAssignments,
+            src->numEvents * sizeof(TEventAssignmentDelegate*));
+    memcpy(dst->computeEventAssignments, src->computeEventAssignments,
+            src->numEvents * sizeof(TComputeEventAssignmentDelegate*));
+    memcpy(dst->performEventAssignments, src->performEventAssignments,
+            src->numEvents * sizeof(TPerformEventAssignmentDelegate*));
+    memcpy(dst->eventDelays, src->eventDelays,
+            src->numEvents * sizeof(TEventDelayDelegate*));
+
 }
 
 

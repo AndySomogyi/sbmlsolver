@@ -82,7 +82,6 @@ class RR_DECLSPEC RoadRunner
 
 
         double                          getNthSelectedOutput(const int& index, const double& dCurrentTime);
-        vector<double>                  buildModelEvalArgument();
 
         double                          getVariableValue(const TVariableType::TVariableType variableType,
                                             const int variableIndex);

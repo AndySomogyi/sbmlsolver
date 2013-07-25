@@ -297,6 +297,8 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
 
     model->pushState();
 
+    Log(Logger::PRIO_TRACE) << __FUNC__ << endl;
+
     model->evalModel(time, y, ydot);
 
     cvInstance->mCount++;
