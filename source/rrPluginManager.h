@@ -14,7 +14,7 @@ class RoadRunner;
 class Plugin;
 using Poco::SharedLibrary;
 
-class RR_DECLSPEC PluginManager : public rrObject
+class RR_DECLSPEC PluginManager
 {
 	private:
         string			   			mPluginFolder;

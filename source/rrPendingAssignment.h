@@ -16,7 +16,7 @@ using std::vector;
 namespace rr
 {
 
-class RR_DECLSPEC PendingAssignment : public rrObject
+class RR_DECLSPEC PendingAssignment
 {
     protected:
       	SModelData*							mModelData;

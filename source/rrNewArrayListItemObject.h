@@ -6,7 +6,7 @@
 namespace rr
 {
 
-class RR_DECLSPEC NewArrayListItemObject : public rrObject
+class RR_DECLSPEC NewArrayListItemObject
 {
     public:
         virtual ~NewArrayListItemObject();

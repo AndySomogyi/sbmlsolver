@@ -19,7 +19,7 @@ typedef void    (rrCallConv *PluginWorkFinishedCB)(void*);
 class RoadRunner;
 
 using std::string;
-class RR_DECLSPEC Plugin : public rrObject /* Abstract plugin */
+class RR_DECLSPEC Plugin  /* Abstract plugin */
 {
 	protected:
 		string			           	mName;

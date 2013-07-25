@@ -12,7 +12,7 @@ using std::ostream;
 namespace rr
 {
 
-class RR_DECLSPEC SBMLSymbol : public rrObject
+class RR_DECLSPEC SBMLSymbol 
 {
     protected:
     public:

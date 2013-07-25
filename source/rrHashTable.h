@@ -13,7 +13,7 @@ using std::string;
 namespace rr
 {
 
-class RR_DECLSPEC StringSymbolHashTable : public rrObject, public map<string, SBMLSymbol>
+class RR_DECLSPEC StringSymbolHashTable: public map<string, SBMLSymbol>
 {
     protected:
 
@@ -24,7 +24,7 @@ class RR_DECLSPEC StringSymbolHashTable : public rrObject, public map<string, SB
 };
 
 ostream& operator<<(ostream& stream, StringSymbolHashTable& hash);
-class RR_DECLSPEC IntStringHashTable : public rrObject, public map<int, string>
+class RR_DECLSPEC IntStringHashTable:  public map<int, string>
 {
     protected:
 

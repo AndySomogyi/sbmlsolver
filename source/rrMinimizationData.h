@@ -14,7 +14,7 @@ namespace rr
 using std::ostream;
 
 
-class RR_DECLSPEC MinimizationData : public rrObject
+class RR_DECLSPEC MinimizationData
 {
 	protected:
 		RoadRunnerData                 	mObservedData;				//Observed data

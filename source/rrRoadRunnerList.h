@@ -8,7 +8,7 @@ namespace rr
 {
 using std::vector;
 class RoadRunner;
-class RR_DECLSPEC RoadRunnerList : public rrObject
+class RR_DECLSPEC RoadRunnerList 
 {
 	private:
 

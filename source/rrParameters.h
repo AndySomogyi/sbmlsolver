@@ -10,7 +10,7 @@
 namespace rr
 {
 
-class RR_DECLSPEC Parameters : public rrObject
+class RR_DECLSPEC Parameters
 {
     protected:
         vector<BaseParameter*>          	mParas;

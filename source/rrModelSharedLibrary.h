@@ -14,7 +14,7 @@ using Poco::SharedLibrary;
  * was compiled by a ModelGenerator and provides access to the exported
  * C functions.
  */
-class RR_DECLSPEC ModelSharedLibrary : public rrObject
+class RR_DECLSPEC ModelSharedLibrary
 {
 	protected:
 		string 							mLibName;

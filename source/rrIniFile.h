@@ -27,7 +27,7 @@ typedef std::vector<string> 	    	NonKeyList;
 typedef std::vector<IniSection*>  		SectionList;
 typedef SectionList::iterator       	SectionItor;
 
-class RR_DECLSPEC IniFile : public rrObject
+class RR_DECLSPEC IniFile
 {
 	private:
 		// When set, this define will cause SetValue() to create a new section, if
