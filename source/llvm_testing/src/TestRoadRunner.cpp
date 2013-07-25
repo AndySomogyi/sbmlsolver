@@ -22,17 +22,18 @@ TestRoadRunner::~TestRoadRunner()
     delete rr;
 }
 
-TestRoadRunner::TestRoadRunner(const std::string& version, int caseNumber)
+TestRoadRunner::TestRoadRunner(const std::string& version, int caseNumber) :
+        version(version), caseNumber(caseNumber), rr(0), simulation(0)
 {
-    rr = new RoadRunner("", "", "LLVM");
-
     //fileName = getModelFileName(version, caseNumber);
 
-    string home = getenv("HOME");
-    string dataOutputFolder = home + string("/tmp");
+    home = getenv("HOME");
+    dataOutputFolder = home + string("/tmp");
     string dummy;
     string logFileName;
     string settingsFileName;
+
+
 
     //Create a log file name
     createTestSuiteFileNameParts(caseNumber, ".log", dummy, logFileName, settingsFileName);
@@ -45,6 +46,20 @@ TestRoadRunner::TestRoadRunner(const std::string& version, int caseNumber)
         string msg("Failed creating output folder for data output: " + dataOutputFolder);
         throw(Exception(msg));
     }
+}
+
+bool TestRoadRunner::test(const std::string& compiler)
+{
+    loadSBML(compiler);
+
+    simulate();
+
+    return true;
+}
+
+void TestRoadRunner::loadSBML(const std::string& compiler)
+{
+    rr = new RoadRunner(dataOutputFolder, home + "/local/rr_support", compiler);
 
     simulation = new TestSuiteModelSimulation(dataOutputFolder);
 
@@ -54,7 +69,8 @@ TestRoadRunner::TestRoadRunner(const std::string& version, int caseNumber)
     modelFilePath = home + "/src/sbml_test/cases/semantic";
 
     simulation->SetCaseNumber(caseNumber);
-    createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml", modelFilePath, modelFileName, settingsFileName);
+    createTestSuiteFileNameParts(caseNumber, "-sbml-" + version + ".xml",
+            modelFilePath, modelFileName, settingsFileName);
 
     //The following will load and compile and simulate the sbml model in the file
     simulation->SetModelFilePath(modelFilePath);
@@ -65,19 +81,7 @@ TestRoadRunner::TestRoadRunner(const std::string& version, int caseNumber)
     //setComputeAndAssignConservationLaws(gRR, false);
 
     //rr->loadSBMLFromFile(fileName);
-}
 
-bool TestRoadRunner::test()
-{
-    loadSBML();
-
-    simulate();
-
-    return true;
-}
-
-void TestRoadRunner::loadSBML()
-{
     if (!simulation->LoadSBMLFromFile())
     {
         throw Exception("Failed loading sbml from file");
@@ -85,7 +89,7 @@ void TestRoadRunner::loadSBML()
 
     //Then read settings file if it exists..
     string settingsOveride("");
-    if(!simulation->LoadSettings(settingsOveride))
+    if (!simulation->LoadSettings(settingsOveride))
     {
         Log(lError) << "Failed loading SBML model settings";
         throw Exception("Failed loading SBML model settings");

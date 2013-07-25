@@ -190,10 +190,22 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
                 modelData.numFloatingSpecies * sizeof(double));
     }
 
+
     evalReactionRates();
+
+    memset(modelData.floatingSpeciesAmountRates, 0, modelData.numFloatingSpecies * sizeof(double));
+
+
+
+
+
+
 
     csr_matrix_dgemv(modelData.stoichiometry, modelData.reactionRates,
                      modelData.floatingSpeciesAmountRates);
+
+    //modelData.floatingSpeciesAmountRates[0] = -1 * modelData.floatingSpeciesAmounts[0];
+    //modelData.floatingSpeciesAmountRates[1] = modelData.floatingSpeciesAmounts[0];
 
     if (dydt)
     {
@@ -378,8 +390,6 @@ int LLVMExecutableModel::getStateVector(double* stateVector)
         } else {
             log.stream() << "null";
         }
-
-        cout << "pause\n";
     }
 
     return modelData.numRateRules + modelData.numFloatingSpecies;
@@ -410,8 +420,6 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
         } else {
             log.stream() << "null";
         }
-
-        cout << "pause\n";
     }
 
     return modelData.numRateRules + modelData.numFloatingSpecies;

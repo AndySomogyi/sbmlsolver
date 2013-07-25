@@ -27,6 +27,8 @@
 #include <sbml/SBMLDocument.h>
 #include <sbml/Model.h>
 #include <sbml/SBMLReader.h>
+#include <time.h>
+#include <stdio.h>
 
 
 
@@ -54,7 +56,7 @@ int main(int argc, char* argv[])
 
     Logger::enableLoggingToConsole();
 
-    Logger::SetCutOffLogLevel(Logger::PRIO_TRACE);
+    Logger::SetCutOffLogLevel(Logger::PRIO_WARNING);
 
     //runSparseTest(33, 323, 50);
 
@@ -85,14 +87,25 @@ int main(int argc, char* argv[])
     }
     */
 
+    const int loop = 100;
 
 
-    for (int i = 0; i < 1; ++i) {
+
+    time_t start, stop;
+    clock_t startc, stopc;
+    long count;
+
+    startc = clock();
+    time(&start);
+    // Do stuff
+
+
+    for (int i = 0; i < loop; ++i) {
         //runInitialValueAssigmentTest(pairs[i].first, pairs[i].second);
         try
         {
             TestRoadRunner test(pairs[0].first, pairs[0].second);
-            test.test();
+            test.test("gcc");
         }
         catch (std::exception &e)
         {
@@ -100,6 +113,38 @@ int main(int argc, char* argv[])
                     << ": " << e.what();
         }
     }
+
+    stopc = clock();
+    time(&stop);
+
+    printf("C Model Used %0.2f seconds of CPU time. \n", (double)(stopc - startc)/CLOCKS_PER_SEC);
+    printf("C Model Finished in about %.0f seconds. \n", difftime(stop, start));
+
+    startc = clock();
+    time(&start);
+
+
+    for (int i = 0; i < loop; ++i) {
+        //runInitialValueAssigmentTest(pairs[i].first, pairs[i].second);
+        try
+        {
+            TestRoadRunner test(pairs[0].first, pairs[0].second);
+            test.test("llvm");
+        }
+        catch (std::exception &e)
+        {
+            Log(lError) << "Error with test " << pairs[i].first << ", " << pairs[i].second
+                    << ": " << e.what();
+        }
+    }
+
+    stopc = clock();
+    time(&stop);
+
+    printf("LLVM Model Used %0.2f seconds of CPU time. \n", (double)(stopc - startc)/CLOCKS_PER_SEC);
+    printf("LLVM Model Finished in about %.0f seconds. \n", difftime(stop, start));
+
+
     //StrIntPair test = {"l3v1", 999  };
     //StrIntPair test = {"l2v4", 7};
     //runInitialValueAssigmentTest(test.first, test.second);
