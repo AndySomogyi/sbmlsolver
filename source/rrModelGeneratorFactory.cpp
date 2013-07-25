@@ -9,6 +9,9 @@
 #include "rrCModelGenerator.h"
 #include "rrLLVMModelGenerator.h"
 #include "rrLogger.h"
+#include <algorithm>
+#include <string>
+
 
 namespace rr {
 
@@ -16,8 +19,12 @@ ModelGenerator* ModelGeneratorFactory::createModelGenerator(const string& mgid, 
             const string& supportCodeFolder, const string& compiler)
 {
 #if defined(BUILD_LLVM)
-    if (compiler == "LLVM")
+    string ucomp = compiler;
+    std::transform(ucomp.begin(), ucomp.end(),ucomp.begin(), ::toupper);
+
+    if (ucomp == "LLVM")
     {
+        Log(Logger::PRIO_NOTICE) << "Creating LLVM based model generator";
         return new LLVMModelGenerator();
     }
 #endif

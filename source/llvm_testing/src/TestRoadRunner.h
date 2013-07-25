@@ -20,17 +20,22 @@ public:
     TestRoadRunner(const std::string& version, int caseNumber);
     virtual ~TestRoadRunner();
 
-    bool test();
+    bool test(const std::string& compiler);
 
     RoadRunner *rr;
 
     TestSuiteModelSimulation *simulation;
 
+    std::string version;
+    int caseNumber;
+
     std::string modelFilePath;
     std::string modelFileName;
     std::string settingsFileName;
+    std::string home;
+    std::string dataOutputFolder;
 
-    void loadSBML();
+    void loadSBML(const std::string& compiler);
 
     void simulate();
 };
