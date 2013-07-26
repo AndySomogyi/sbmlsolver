@@ -45,19 +45,6 @@ public:
     llvm::Value *createBoundSpeciesAmtGEP(const std::string &id,
             const llvm::Twine &name = "");
 
-    /**
-     * load the species amount, divide by the compartment, and return
-     * a load instruction with this value
-     */
-    llvm::Value *createFloatSpeciesConcFromAmtLoad(const std::string &id,
-            const llvm::Twine& name = "");
-
-    /**
-     * load the species amount, divide by the compartment, and return
-     * a load instruction with this value
-     */
-    llvm::Value *createBoundSpeciesConcFromAmtLoad(const std::string &id,
-            const llvm::Twine& name = "");
 
     /**
      * GEP for the compartment volume that belongs to the floating
@@ -209,9 +196,9 @@ private:
      * the model data struct we generate the loads / stores relative to.
      */
     llvm::Value *modelData;
-    
+
     llvm::IRBuilder<> &builder;
-    
+
     LLVMModelDataSymbols const& symbols;
 
     /**

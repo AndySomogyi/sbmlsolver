@@ -95,6 +95,7 @@ if(BUILD_LLVM)
         rrLLVMAssignmentRuleEvaluator
         rrLLVMASTNodeCodeGen
         rrLLVMASTNodeFactory
+		rrLLVMBasicSymbolResolver
         rrLLVMCodeGenBase
         rrLLVMCodeGenerator
         rrLLVMCompiler
@@ -102,7 +103,9 @@ if(BUILD_LLVM)
         rrLLVMEvalReactionRatesCodeGen
         rrLLVMExecutableModel
         rrLLVMGetRateRuleValuesCodeGen
+		rrLLVMInitialValueSymbolResolver
         rrLLVMModelDataIRBuilder
+        rrLLVMModelDataSymbolResolver
         rrLLVMModelDataSymbols
         rrLLVMModelGenerator
         rrLLVMModelGeneratorContext

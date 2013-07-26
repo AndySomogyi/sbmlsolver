@@ -37,7 +37,7 @@ LLVMModelDataIRBuilder::LLVMModelDataIRBuilder(Value *modelData,
         modelData(modelData),
         builder(b),
         symbols(symbols)
-        
+
 {
     validateStruct(modelData, __FUNC__);
 }
@@ -48,13 +48,6 @@ llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcGEP(const std::string
     return createGEP(FloatingSpeciesConcentrations, index);
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcFromAmtLoad(const std::string& id, const Twine& name)
-{
-    Value *amt = createFloatSpeciesAmtLoad(id, id + "_amt");
-    Value *compEP = createFloatSpeciesCompGEP(id);
-    Value *volume = builder.CreateLoad(compEP, id + "_vol");
-    return builder.CreateFDiv(amt, volume, name);
-}
 
 
 llvm::Value* LLVMModelDataIRBuilder::createGlobalParamGEP(const std::string& id)
@@ -267,14 +260,6 @@ llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtStore(
     return builder.CreateStore(value, gep);
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesConcFromAmtLoad(const std::string& id, const llvm::Twine& name)
-{
-    Value *amt = createBoundSpeciesAmtLoad(id, id + "_amt");
-    Value *compEP = createBoundSpeciesCompGEP(id);
-    Value *volume = builder.CreateLoad(compEP, id + "_vol");
-    return builder.CreateFDiv(amt, volume, name);
-}
-
 llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesAmtLoad(const std::string& id, const llvm::Twine& name)
 {
     Value *gep = createBoundSpeciesAmtGEP(id, name + "_gep");
@@ -286,7 +271,6 @@ llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesAmtStore(const std::strin
     Value *gep = createBoundSpeciesAmtGEP(id);
     return builder.CreateStore(value, gep);
 }
-
 
 llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesAmtGEP(const std::string& id, const llvm::Twine& name)
 {
@@ -370,59 +354,59 @@ llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, ll
 
         vector<Type*> elements;
 
-        elements.push_back(Type::getInt32Ty(context));        // 0    unsigned                            size;
-        elements.push_back(Type::getInt32Ty(context));        // 1    unsigned                            flags;
-        elements.push_back(Type::getDoubleTy(context));       // 2    double                              time;
-        elements.push_back(Type::getInt32Ty(context));        // 3    int                                 numIndependentSpecies;
-        elements.push_back(Type::getInt32Ty(context));        // 4    int                                 numDependentSpecies;
-        elements.push_back(Type::getDoublePtrTy(context));    // 5    double*                             dependentSpeciesConservedSums;
-        elements.push_back(Type::getInt32Ty(context));        // 6    int                                 numGlobalParameters;
-        elements.push_back(Type::getDoublePtrTy(context));    // 7    double*                             globalParameters;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 numReactions;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             reactionRates;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 numRateRules;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             rateRules;
-        elements.push_back(Type::getInt32PtrTy(context));                     // int*                                localParametersOffsets;
-        elements.push_back(Type::getInt32PtrTy(context));                     // int*                                localParametersNum;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             localParameters;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 numFloatingSpecies;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             floatingSpeciesConcentrations;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             floatingSpeciesInitConcentrations;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             floatingSpeciesAmountRates;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             floatingSpeciesAmounts;
-        elements.push_back(Type::getInt32PtrTy(context));                     // int*                                floatingSpeciesCompartments;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 numBoundarySpecies;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             boundarySpeciesConcentrations;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             boundarySpeciesAmounts;
-        elements.push_back(Type::getInt32PtrTy(context));                     // int*                                boundarySpeciesCompartments;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 numCompartments;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             compartmentVolumes;
-        elements.push_back(csrSparsePtrType);                                 // dcsr_matrix                         stoichiometry;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 numEvents;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 eventTypeSize;
-        elements.push_back(boolPtrType);                                      // bool*                               eventType;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 eventPersistentTypeSize;
-        elements.push_back(boolPtrType);                                      // bool*                               eventPersistentType;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 eventTestsSize;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             eventTests;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 eventPrioritiesSize;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             eventPriorities;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 eventStatusArraySize;
-        elements.push_back(boolPtrType);                                      // bool*                               eventStatusArray;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 previousEventStatusArraySize;
-        elements.push_back(boolPtrType);                                      // bool*                               previousEventStatusArray;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 stateVectorSize;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             stateVector;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             stateVectorRate;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 workSize;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             work;
-        elements.push_back(voidPtrType);                                      // TEventDelayDelegate*                eventDelays;
-        elements.push_back(voidPtrType);                                      // TEventAssignmentDelegate*           eventAssignments;
-        elements.push_back(voidPtrType);                                      // TComputeEventAssignmentDelegate*    computeEventAssignments;
-        elements.push_back(voidPtrType);                                      // TPerformEventAssignmentDelegate*    performEventAssignments;
-        elements.push_back(Type::getInt8PtrTy(context));                      // char*                               modelName;
-        elements.push_back(Type::getInt32Ty(context));                        // int                                 srSize;
-        elements.push_back(Type::getDoublePtrTy(context));                    // double*                             sr;
+        elements.push_back(Type::getInt32Ty(context));        // 0      unsigned                            size;
+        elements.push_back(Type::getInt32Ty(context));        // 1      unsigned                            flags;
+        elements.push_back(Type::getDoubleTy(context));       // 2      double                              time;
+        elements.push_back(Type::getInt32Ty(context));        // 3      int                                 numIndependentSpecies;
+        elements.push_back(Type::getInt32Ty(context));        // 4      int                                 numDependentSpecies;
+        elements.push_back(Type::getDoublePtrTy(context));    // 5      double*                             dependentSpeciesConservedSums;
+        elements.push_back(Type::getInt32Ty(context));        // 6      int                                 numGlobalParameters;
+        elements.push_back(Type::getDoublePtrTy(context));    // 7      double*                             globalParameters;
+        elements.push_back(Type::getInt32Ty(context));        // 8      int                                 numReactions;
+        elements.push_back(Type::getDoublePtrTy(context));    // 9      ouble*                              reactionRates;
+        elements.push_back(Type::getInt32Ty(context));        // 10     int                                 numRateRules;
+        elements.push_back(Type::getDoublePtrTy(context));    // 11     double*                             rateRules;
+        elements.push_back(Type::getInt32PtrTy(context));     // 12     int*                                localParametersOffsets;
+        elements.push_back(Type::getInt32PtrTy(context));     // 13     int*                                localParametersNum;
+        elements.push_back(Type::getDoublePtrTy(context));    // 14     double*                             localParameters;
+        elements.push_back(Type::getInt32Ty(context));        // 15     int                                 numFloatingSpecies;
+        elements.push_back(Type::getDoublePtrTy(context));    // 16     double*                             floatingSpeciesConcentrations;
+        elements.push_back(Type::getDoublePtrTy(context));    // 17     double*                             floatingSpeciesInitConcentrations;
+        elements.push_back(Type::getDoublePtrTy(context));    // 18     double*                             floatingSpeciesAmountRates;
+        elements.push_back(Type::getDoublePtrTy(context));    // 19     double*                             floatingSpeciesAmounts;
+        elements.push_back(Type::getInt32PtrTy(context));     // 20     int*                                floatingSpeciesCompartments;
+        elements.push_back(Type::getInt32Ty(context));        // 21     int                                 numBoundarySpecies;
+        elements.push_back(Type::getDoublePtrTy(context));    // 22     double*                             boundarySpeciesConcentrations;
+        elements.push_back(Type::getDoublePtrTy(context));    // 23     double*                             boundarySpeciesAmounts;
+        elements.push_back(Type::getInt32PtrTy(context));     // 24     int*                                boundarySpeciesCompartments;
+        elements.push_back(Type::getInt32Ty(context));        // 25     int                                 numCompartments;
+        elements.push_back(Type::getDoublePtrTy(context));    // 26     double*                             compartmentVolumes;
+        elements.push_back(csrSparsePtrType);                 // 27     dcsr_matrix                         stoichiometry;
+        elements.push_back(Type::getInt32Ty(context));        // 28     int                                 numEvents;
+        elements.push_back(Type::getInt32Ty(context));        // 39     int                                 eventTypeSize;
+        elements.push_back(boolPtrType);                      // 30     bool*                               eventType;
+        elements.push_back(Type::getInt32Ty(context));        // 31     int                                 eventPersistentTypeSize;
+        elements.push_back(boolPtrType);                      // 32     bool*                               eventPersistentType;
+        elements.push_back(Type::getInt32Ty(context));        // 33     int                                 eventTestsSize;
+        elements.push_back(Type::getDoublePtrTy(context));    // 34     double*                             eventTests;
+        elements.push_back(Type::getInt32Ty(context));        // 35     int                                 eventPrioritiesSize;
+        elements.push_back(Type::getDoublePtrTy(context));    // 36     double*                             eventPriorities;
+        elements.push_back(Type::getInt32Ty(context));        // 37     int                                 eventStatusArraySize;
+        elements.push_back(boolPtrType);                      // 38     bool*                               eventStatusArray;
+        elements.push_back(Type::getInt32Ty(context));        // 39     int                                 previousEventStatusArraySize;
+        elements.push_back(boolPtrType);                      // 40     bool*                               previousEventStatusArray;
+        elements.push_back(Type::getInt32Ty(context));        // 41     int                                 stateVectorSize;
+        elements.push_back(Type::getDoublePtrTy(context));    // 42     double*                             stateVector;
+        elements.push_back(Type::getDoublePtrTy(context));    // 43     double*                             stateVectorRate;
+        elements.push_back(Type::getInt32Ty(context));        // 44     int                                 workSize;
+        elements.push_back(Type::getDoublePtrTy(context));    // 45     double*                             work;
+        elements.push_back(voidPtrType);                      // 46     TEventDelayDelegate*                eventDelays;
+        elements.push_back(voidPtrType);                      // 47     TEventAssignmentDelegate*           eventAssignments;
+        elements.push_back(voidPtrType);                      // 48     TComputeEventAssignmentDelegate*    computeEventAssignments;
+        elements.push_back(voidPtrType);                      // 49     TPerformEventAssignmentDelegate*    performEventAssignments;
+        elements.push_back(Type::getInt8PtrTy(context));      // 50     char*                               modelName;
+        elements.push_back(Type::getInt32Ty(context));        // 51     int                                 srSize;
+        elements.push_back(Type::getDoublePtrTy(context));    // 52     double*                             sr;
 
         structType = StructType::create(context, elements, "rr::ModelData");
 

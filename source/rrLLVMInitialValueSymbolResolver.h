@@ -1,12 +1,12 @@
 /*
- * rrLLVMModelDataSymbolResolver.h
+ * rrLLVMInitialValueSymbolResolver.h
  *
  *  Created on: Jul 25, 2013
  *      Author: andy
  */
 
-#ifndef rrLLVMModelDataSymbolResolver_H_
-#define rrLLVMModelDataSymbolResolver_H_
+#ifndef rrLLVMInitialValueSymbolResolver_H_
+#define rrLLVMInitialValueSymbolResolver_H_
 
 #include "rrLLVMCodeGen.h"
 #include "rrLLVMIncludes.h"
@@ -22,20 +22,19 @@ namespace rr
 {
 
 /**
- * A terminal symbol resolver, which resolved everything
- * to values stored in the model data structure.
+ * A terminal symbol resolver, everything must resolve to
+ * an initial value specified in the model
  *
  * terminal symbol resolvers treat all species as amounts.
  */
-class LLVMModelDataSymbolResolver: public LLVMSymbolResolver
+class LLVMInitialValueSymbolResolver: public LLVMSymbolResolver
 {
 public:
-    LLVMModelDataSymbolResolver(llvm::Value *modelData,
-            const libsbml::Model *model,
+    LLVMInitialValueSymbolResolver(const libsbml::Model *model,
             const LLVMModelDataSymbols &modelDataSymbols,
-            llvm::IRBuilder<> &builder);
+            const LLVMModelSymbols &modelSymbols, llvm::IRBuilder<> &builder);
 
-    virtual ~LLVMModelDataSymbolResolver();
+    virtual ~LLVMInitialValueSymbolResolver();
 
 
     /**
@@ -49,13 +48,13 @@ public:
      */
     virtual llvm::Value *symbolValue(const std::string& symbol);
 
-private:
+protected:
 
-    llvm::Value *modelData;
     const libsbml::Model *model;
     const LLVMModelDataSymbols &modelDataSymbols;
+    const LLVMModelSymbols &modelSymbols;
     llvm::IRBuilder<> &builder;
 };
 
 } /* namespace rr */
-#endif /* rrLLVMModelDataSymbolResolver_H_ */
+#endif /* rrLLVMInitialValueSymbolResolver_H_ */

@@ -17,24 +17,31 @@ using namespace llvm;
 namespace rr
 {
 
-LLVMModelDataSymbolResolver::LLVMModelDataSymbolResolver(llvm::Value *modelData,
-        const libsbml::Model *model,
+LLVMBasicSymbolResolver::LLVMBasicSymbolResolver(const libsbml::Model *model,
         const LLVMModelDataSymbols &modelDataSymbols,
-        llvm::IRBuilder<> &builder) :
-            modelData(modelData),
+        const LLVMModelSymbols &modelSymbols, llvm::IRBuilder<> &builder,
+        LLVMSymbolResolver *tail) :
             model(model),
             modelDataSymbols(modelDataSymbols),
-            builder(builder)
+            modelSymbols(modelSymbols), builder(builder), tail(tail)
 {
 }
 
-LLVMModelDataSymbolResolver::~LLVMModelDataSymbolResolver()
+LLVMBasicSymbolResolver::~LLVMBasicSymbolResolver()
 {
 }
 
-llvm::Value* LLVMModelDataSymbolResolver::symbolValue(const std::string& symbol)
+llvm::Value* LLVMBasicSymbolResolver::symbolValue(const std::string& symbol)
 {
-    LLVMModelDataIRBuilder mdbuilder(modelData, modelDataSymbols, builder);
+    /*************************************************************************/
+    /* AssignmentRule */
+    /*************************************************************************/
+    LLVMSymbolForest::ConstIterator i = modelSymbols.getAssigmentRules().find(
+            symbol);
+    if (i != modelSymbols.getAssigmentRules().end())
+    {
+        return LLVMASTNodeCodeGen(builder, *this).codeGen(i->second);
+    }
 
     const SBase *element = const_cast<Model*>(model)->getElementBySId(symbol);
 
@@ -102,12 +109,62 @@ llvm::Value* LLVMModelDataSymbolResolver::symbolValue(const std::string& symbol)
         return mdbuilder.createCompLoad(comp->getId(), comp->getId());
     }
 
+    /*************************************************************************/
+    /* Look in tail */
+    /*************************************************************************/
+    if (tail)
+    {
+        return tail->symbolValue(symbol);
+    }
+
     string msg = "Could not find requested symbol \'";
     msg += symbol;
     msg += "\' in the model";
     throw_llvm_exception(msg);
 
     return 0;
+
+
+    /*
+     * if (id.empty()) return NULL;
+  SBase* obj = mFunctionDefinitions.getElementBySId(id);
+  if (obj != NULL) return obj;
+  obj = mUnitDefinitions.getElementBySId(id);
+  if (obj != NULL) return obj;
+  obj = mCompartmentTypes.getElementBySId(id);
+  if (obj != NULL) return obj;
+  obj = mSpeciesTypes.getElementBySId(id);
+  if (obj != NULL) return obj;
+  obj = mCompartments.getElementBySId(id);
+  if (obj != NULL) return obj;
+  obj = mSpecies.getElementBySId(id);
+  if (obj != NULL) return obj;
+  obj = mParameters.getElementBySId(id);
+  if (obj != NULL) return obj;
+  obj = mReactions.getElementBySId(id);
+  if (obj != NULL) return obj;
+  obj = mInitialAssignments.getElementBySId(id);
+  if (obj != NULL) return obj;
+  obj = mRules.getElementBySId(id);
+  if (obj != NULL) return obj;
+  obj = mConstraints.getElementBySId(id);
+  if (obj != NULL) return obj;
+  obj = mEvents.getElementBySId(id);
+  if (obj != NULL) return obj;
+     */
+
+
+
+    /*
+
+
+
+
+
+
+
+
+    */
 }
 
 } /* namespace rr */

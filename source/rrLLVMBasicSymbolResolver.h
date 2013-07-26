@@ -1,12 +1,12 @@
 /*
- * rrLLVMModelDataSymbolResolver.h
+ * rrLLVMBasicSymbolResolver.h
  *
  *  Created on: Jul 25, 2013
  *      Author: andy
  */
 
-#ifndef rrLLVMModelDataSymbolResolver_H_
-#define rrLLVMModelDataSymbolResolver_H_
+#ifndef rrLLVMBasicSymbolResolver_H_
+#define rrLLVMBasicSymbolResolver_H_
 
 #include "rrLLVMCodeGen.h"
 #include "rrLLVMIncludes.h"
@@ -21,21 +21,15 @@ class Model;
 namespace rr
 {
 
-/**
- * A terminal symbol resolver, which resolved everything
- * to values stored in the model data structure.
- *
- * terminal symbol resolvers treat all species as amounts.
- */
-class LLVMModelDataSymbolResolver: public LLVMSymbolResolver
+class LLVMBasicSymbolResolver: public LLVMSymbolResolver
 {
 public:
-    LLVMModelDataSymbolResolver(llvm::Value *modelData,
-            const libsbml::Model *model,
+    LLVMBasicSymbolResolver(const libsbml::Model *model,
             const LLVMModelDataSymbols &modelDataSymbols,
-            llvm::IRBuilder<> &builder);
+            const LLVMModelSymbols &modelSymbols, llvm::IRBuilder<> &builder,
+            LLVMSymbolResolver *tail = 0);
 
-    virtual ~LLVMModelDataSymbolResolver();
+    virtual ~LLVMBasicSymbolResolver();
 
 
     /**
@@ -51,11 +45,12 @@ public:
 
 private:
 
-    llvm::Value *modelData;
     const libsbml::Model *model;
     const LLVMModelDataSymbols &modelDataSymbols;
+    const LLVMModelSymbols &modelSymbols;
     llvm::IRBuilder<> &builder;
+    LLVMSymbolResolver *tail;
 };
 
 } /* namespace rr */
-#endif /* rrLLVMModelDataSymbolResolver_H_ */
+#endif /* rrLLVMBasicSymbolResolver_H_ */

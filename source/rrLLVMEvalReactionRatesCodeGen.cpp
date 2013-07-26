@@ -9,6 +9,7 @@
 #include "rrLLVMException.h"
 #include "rrLLVMASTNodeCodeGen.h"
 #include "rrLLVMASTNodeFactory.h"
+#include "rrLLVMModelDataSymbolResolver.h"
 #include "rrLogger.h"
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaFormatter.h>
@@ -59,9 +60,11 @@ Value* LLVMEvalReactionRatesCodeGen::codeGen()
     // single argument
     modelData = func->arg_begin();
 
+    LLVMModelDataSymbolResolver resolver(modelData, model, dataSymbols,
+            modelSymbols, builder, 0);
 
     LLVMModelDataIRBuilder mdbuilder(modelData, dataSymbols, builder);
-    LLVMASTNodeCodeGen astCodeGen(builder, *this);
+    LLVMASTNodeCodeGen astCodeGen(builder, resolver);
     LLVMASTNodeFactory nodes;
 
     // iterate through all of the reaction, and generate code based on thier
@@ -115,12 +118,6 @@ LLVMEvalReactionRatesCodeGen::FunctionPtr LLVMEvalReactionRatesCodeGen::createFu
 {
     Function *func = (Function*)codeGen();
     return (FunctionPtr)engine.getPointerToFunction(func);
-}
-
-llvm::Value* LLVMEvalReactionRatesCodeGen::symbolValue(
-        const std::string& symbol)
-{
-    return LLVMCodeGenBase::symbolValue(symbol, modelData);
 }
 
 } /* namespace rr */

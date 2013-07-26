@@ -38,8 +38,6 @@ public:
 
     FunctionPtr createFunction();
 
-    virtual llvm::Value *symbolValue(const std::string& symbol);
-
 private:
 
     llvm::Function *func;

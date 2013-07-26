@@ -29,7 +29,8 @@ namespace rr
  * generated function signature:
  * void modeldata_initialvalues_set(ModelData *);
  */
-class LLVMEvalInitialConditionsCodeGen: private LLVMCodeGenBase
+class LLVMEvalInitialConditionsCodeGen: private LLVMCodeGenBase,
+    private LLVMSymbolResolver
 {
 public:
     LLVMEvalInitialConditionsCodeGen(const LLVMModelGeneratorContext &mgc);
@@ -50,6 +51,9 @@ private:
 
     void codeGenFloatingSpecies(llvm::Value *modelData,
             LLVMModelDataIRBuilder &modelDataBuilder);
+
+    void codeGenBoundarySpecies(llvm::Value *modelData,
+                LLVMModelDataIRBuilder &modelDataBuilder);
 
     void codeGenStoichiometry(llvm::Value *modelData,
             LLVMModelDataIRBuilder &modelDataBuilder);
