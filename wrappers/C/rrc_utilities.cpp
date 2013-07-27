@@ -35,12 +35,12 @@ char* gInstallFolder = gInstallFolderBuffer;
 
 char* rrcCallConv createText(const char* text)
 {
-	return rr::createText(text);
+    return rr::createText(text);
 }
 
 char* rrcCallConv createTextMemory(const int count)
 {
-	return rr::createText(count);
+    return rr::createText(count);
 }
 
 char* rrCallConv getFileContent(const char* fName)
@@ -328,22 +328,22 @@ bool rrCallConv freeRRData(RRCDataPtr handle)
 {
     try
     {
-        delete [] handle->Data;
-
-        for(int i = 0; i < handle->CSize; i++)
+        if (handle)
         {
-            rr::freeText(handle->ColumnHeaders[i]);
+            delete[] handle->Data;
+            for (int i = 0; i < handle->CSize; i++)
+            {
+                rr::freeText(handle->ColumnHeaders[i]);
+            }
+            delete[] handle->ColumnHeaders;
+            delete handle;
         }
-
-        delete [] handle->ColumnHeaders;
-
-        delete handle;
         return true;
     }
-    catch(Exception& ex)
+    catch (Exception& ex)
     {
         stringstream msg;
-        msg<<"RoadRunner exception: "<<ex.what()<<endl;
+        msg << "RoadRunner exception: " << ex.what() << endl;
         setError(msg.str());
         return false;
     }
@@ -954,7 +954,7 @@ char* rrCallConv complexVectorToString(RRComplexVectorPtr vecHandle)
         stringstream ss;
         for(int index = 0; index < vec.Count; index++)
         {
-        	ss<<"("<<vec.Data[index].re<<","<<vec.Data[index].imag<<")";
+            ss<<"("<<vec.Data[index].re<<","<<vec.Data[index].imag<<")";
             if(index < vec.Count + 1)
             {
                 ss<<"\t";

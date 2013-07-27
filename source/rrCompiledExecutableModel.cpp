@@ -782,7 +782,12 @@ int CompiledExecutableModel::getNumRules()
 int CompiledExecutableModel::getFloatingSpeciesAmounts(int len, const int* indx,
         double* values)
 {
-    return -1;
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        values[i] = mData.floatingSpeciesAmounts[j];
+    }
+    return len;
 }
 
 int CompiledExecutableModel::getFloatingSpeciesConcentrations(int len,
@@ -794,16 +799,54 @@ int CompiledExecutableModel::getFloatingSpeciesConcentrations(int len,
 int CompiledExecutableModel::getBoundarySpeciesAmounts(int len, const int* indx,
         double* values)
 {
-    return -1;
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        int nIndex;
+        if ((nIndex = getBoundarySpeciesCompartmentIndex(j)) >= 0)
+        {
+            values[i] = mData.boundarySpeciesConcentrations[j] *
+                    mData.compartmentVolumes[nIndex];
+        }
+    }
+    return len;
 }
 
 int CompiledExecutableModel::getBoundarySpeciesConcentrations(int len,
         const int* indx, double* values)
 {
-    return -1;
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        if (j < mData.numBoundarySpecies)
+        {
+            values[i] = mData.boundarySpeciesConcentrations[j];
+        }
+        else
+        {
+            throw Exception("index out of range");
+        }
+    }
+    return len;
+}
+
+int CompiledExecutableModel::setBoundarySpeciesConcentrations(int len,
+        const int* indx, const double* values)
+{
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        if (j < mData.numBoundarySpecies)
+        {
+            mData.boundarySpeciesConcentrations[j] = values[i];
+        }
+        else
+        {
+            throw Exception("index out of range");
+        }
+    }
+    return len;
 }
 
 
 } //Namespace rr
-
-

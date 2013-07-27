@@ -160,6 +160,17 @@ public:
     virtual int getBoundarySpeciesConcentrations(int len, int const *indx,
             double *values) = 0;
 
+    /**
+     * set the boundary species concentrations
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[in] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int setBoundarySpeciesConcentrations(int len, int const *indx,
+            double const *values) = 0;
+
 
     virtual int getNumGlobalParameters() = 0;
     virtual int getGlobalParameterIndex(const string& name) = 0;
