@@ -12,6 +12,7 @@
 #include "rrLLVMIncludes.h"
 #include "rrLLVMModelDataSymbols.h"
 #include "rrLLVMModelSymbols.h"
+#include "rrLLVMBasicSymbolResolver.h"
 
 namespace libsbml
 {
@@ -27,15 +28,15 @@ namespace rr
  *
  * terminal symbol resolvers treat all species as amounts.
  */
-class LLVMModelDataSymbolResolver: public LLVMSymbolResolver
+class LLVMModelDataTermSymbolResolver: public LLVMSymbolResolver
 {
 public:
-    LLVMModelDataSymbolResolver(llvm::Value *modelData,
+    LLVMModelDataTermSymbolResolver(llvm::Value *modelData,
             const libsbml::Model *model,
             const LLVMModelDataSymbols &modelDataSymbols,
             llvm::IRBuilder<> &builder);
 
-    virtual ~LLVMModelDataSymbolResolver();
+    virtual ~LLVMModelDataTermSymbolResolver();
 
 
     /**
@@ -49,12 +50,25 @@ public:
      */
     virtual llvm::Value *symbolValue(const std::string& symbol);
 
-private:
+protected:
 
     llvm::Value *modelData;
     const libsbml::Model *model;
     const LLVMModelDataSymbols &modelDataSymbols;
     llvm::IRBuilder<> &builder;
+};
+
+class LLVMModelDataSymbolResolver: public
+    LLVMBasicSymbolResolver
+{
+public:
+    LLVMModelDataSymbolResolver(llvm::Value *modelData,
+            const libsbml::Model *model,
+            const LLVMModelSymbols &modelSymbols,
+            const LLVMModelDataSymbols &modelDataSymbols,
+            llvm::IRBuilder<> &builder);
+private:
+    LLVMModelDataTermSymbolResolver terminal;
 };
 
 } /* namespace rr */

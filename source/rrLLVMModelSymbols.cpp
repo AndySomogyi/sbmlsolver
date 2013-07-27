@@ -214,52 +214,28 @@ void LLVMModelSymbols::processSpecies(LLVMSymbolForest &currentSymbols,
 
     if (!math)
     {
-        if (species->getHasOnlySubstanceUnits())
+        // treat everything as an amount, the BasicSymbolResolver takes
+        // care of converting to a concentration, here we
+        // just build an AST for get value as an amount
+        ASTNode *amt = 0;
+        if (species->isSetInitialConcentration())
         {
-            // value is interpreted as an amount
-            ASTNode *amt = 0;
-            if (species->isSetInitialConcentration())
-            {
-                ASTNode *conc = new ASTNode(AST_REAL);
-                conc->setValue(species->getInitialConcentration());
+            ASTNode *conc = new ASTNode(AST_REAL);
+            conc->setValue(species->getInitialConcentration());
 
-                amt = nodes.create(AST_TIMES);
-                amt->addChild(conc);
-                ASTNode *comp = new ASTNode(AST_NAME);
-                comp->setName(species->getCompartment().c_str());
-                amt->addChild(comp);
-                math = amt;
-            }
-            else if (species->isSetInitialAmount())
-            {
-                amt = new ASTNode(AST_REAL);
-                amt->setValue(species->getInitialAmount());
-            }
+            amt = nodes.create(AST_TIMES);
+            amt->addChild(conc);
+            ASTNode *comp = new ASTNode(AST_NAME);
+            comp->setName(species->getCompartment().c_str());
+            amt->addChild(comp);
             math = amt;
         }
-        else
+        else if (species->isSetInitialAmount())
         {
-            // value is interpreted as a concentration
-            ASTNode *conc = 0;
-            if (species->isSetInitialConcentration())
-            {
-                conc = new ASTNode(AST_REAL);
-                conc->setValue(species->getInitialConcentration());
-
-            }
-            else if (species->isSetInitialAmount())
-            {
-                ASTNode *amt = new ASTNode(AST_REAL);
-                amt->setValue(species->getInitialAmount());
-
-                conc = nodes.create(AST_DIVIDE);
-                conc->addChild(amt);
-                ASTNode *comp = new ASTNode(AST_NAME);
-                comp->setName(species->getCompartment().c_str());
-                conc->addChild(comp);
-            }
-            math = conc;
+            amt = new ASTNode(AST_REAL);
+            amt->setValue(species->getInitialAmount());
         }
+        math = amt;
     }
 
     if (species->getBoundaryCondition())

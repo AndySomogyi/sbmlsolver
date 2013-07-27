@@ -447,6 +447,30 @@ int LLVMExecutableModel::getNumRules()
     return 0;
 }
 
+int LLVMExecutableModel::getFloatingSpeciesAmounts(int len, const int* indx,
+        double* values)
+{
+    return -1;
+}
+
+int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len,
+        const int* indx, double* values)
+{
+    return -1;
+}
+
+int LLVMExecutableModel::getBoundarySpeciesAmounts(int len, const int* indx,
+        double* values)
+{
+    return -1;
+}
+
+int LLVMExecutableModel::getBoundarySpeciesConcentrations(int len,
+        const int* indx, double* values)
+{
+    return -1;
+}
+
 
 } /* namespace rr */
 

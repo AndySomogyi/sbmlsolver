@@ -12,6 +12,7 @@
 #include "rrLLVMIncludes.h"
 #include "rrLLVMModelDataSymbols.h"
 #include "rrLLVMModelSymbols.h"
+#include "rrLLVMBasicSymbolResolver.h"
 
 namespace libsbml
 {
@@ -27,14 +28,15 @@ namespace rr
  *
  * terminal symbol resolvers treat all species as amounts.
  */
-class LLVMInitialValueSymbolResolver: public LLVMSymbolResolver
+class LLVMInitialValueTermSymbolResolver: public LLVMSymbolResolver
 {
 public:
-    LLVMInitialValueSymbolResolver(const libsbml::Model *model,
+    LLVMInitialValueTermSymbolResolver(const libsbml::Model *model,
             const LLVMModelDataSymbols &modelDataSymbols,
-            const LLVMModelSymbols &modelSymbols, llvm::IRBuilder<> &builder);
+            const LLVMModelSymbols &modelSymbols, llvm::IRBuilder<> &builder,
+            LLVMSymbolResolver &parent);
 
-    virtual ~LLVMInitialValueSymbolResolver();
+    virtual ~LLVMInitialValueTermSymbolResolver();
 
 
     /**
@@ -54,6 +56,21 @@ protected:
     const LLVMModelDataSymbols &modelDataSymbols;
     const LLVMModelSymbols &modelSymbols;
     llvm::IRBuilder<> &builder;
+    LLVMSymbolResolver &parent;
+};
+
+class LLVMInitialValueSymbolResolver: public LLVMBasicSymbolResolver
+{
+public:
+    LLVMInitialValueSymbolResolver(const libsbml::Model *model,
+            const LLVMModelDataSymbols &modelDataSymbols,
+            const LLVMModelSymbols &modelSymbols, llvm::IRBuilder<> &builder);
+
+    virtual ~LLVMInitialValueSymbolResolver();
+
+protected:
+    LLVMInitialValueTermSymbolResolver terminal;
+
 };
 
 } /* namespace rr */

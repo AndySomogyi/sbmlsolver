@@ -1,5 +1,5 @@
 /*
- * rrLLVMModelDataSymbolResolver.cpp
+ * rrLLVMModelDataTermSymbolResolver.cpp
  *
  *  Created on: Jul 25, 2013
  *      Author: andy
@@ -19,6 +19,20 @@ namespace rr
 
 LLVMModelDataSymbolResolver::LLVMModelDataSymbolResolver(llvm::Value *modelData,
         const libsbml::Model *model,
+        const LLVMModelSymbols &modelSymbols,
+        const LLVMModelDataSymbols &modelDataSymbols,
+        llvm::IRBuilder<> &builder) :
+                LLVMBasicSymbolResolver(model,
+                        modelSymbols,
+                        modelDataSymbols,
+                        builder,
+                        terminal),
+                terminal(modelData,model,modelDataSymbols,builder)
+{
+}
+
+LLVMModelDataTermSymbolResolver::LLVMModelDataTermSymbolResolver(llvm::Value *modelData,
+        const libsbml::Model *model,
         const LLVMModelDataSymbols &modelDataSymbols,
         llvm::IRBuilder<> &builder) :
             modelData(modelData),
@@ -28,11 +42,11 @@ LLVMModelDataSymbolResolver::LLVMModelDataSymbolResolver(llvm::Value *modelData,
 {
 }
 
-LLVMModelDataSymbolResolver::~LLVMModelDataSymbolResolver()
+LLVMModelDataTermSymbolResolver::~LLVMModelDataTermSymbolResolver()
 {
 }
 
-llvm::Value* LLVMModelDataSymbolResolver::symbolValue(const std::string& symbol)
+llvm::Value* LLVMModelDataTermSymbolResolver::symbolValue(const std::string& symbol)
 {
     LLVMModelDataIRBuilder mdbuilder(modelData, modelDataSymbols, builder);
 
@@ -46,41 +60,15 @@ llvm::Value* LLVMModelDataSymbolResolver::symbolValue(const std::string& symbol)
     {
         if (species->getBoundaryCondition())
         {
-            // floating species
-            if (species->getHasOnlySubstanceUnits())
-            {
-                // expect an amount, we're good to go
-                return mdbuilder.createBoundSpeciesAmtLoad(species->getId(),
-                        species->getId() + "_amt");
-            }
-            else
-            {
-                // expect a concentration, need to convert amt to conc,
-                // so we need to get the compartment its in, but these
-                // can vary also...
-                Value *amt = mdbuilder.createBoundSpeciesAmtLoad(symbol);
-                Value *comp = symbolValue(species->getCompartment());
-                return builder.CreateFDiv(amt, comp, symbol + "_conc");
-            }
+            // boundary species
+            return mdbuilder.createBoundSpeciesAmtLoad(species->getId(),
+                    species->getId() + "_amt");
         }
         else
         {
             // floating species
-            if (species->getHasOnlySubstanceUnits())
-            {
-                // expect an amount, we're good to go
-                return mdbuilder.createFloatSpeciesAmtLoad(species->getId(),
-                        species->getId() + "_amt");
-            }
-            else
-            {
-                // expect a concentration, need to convert amt to conc,
-                // so we need to get the compartment its in, but these
-                // can vary also...
-                Value *amt = mdbuilder.createFloatSpeciesAmtLoad(symbol);
-                Value *comp = symbolValue(species->getCompartment());
-                return builder.CreateFDiv(amt, comp, symbol + "_conc");
-            }
+            return mdbuilder.createFloatSpeciesAmtLoad(species->getId(),
+                    species->getId() + "_amt");
         }
     }
 

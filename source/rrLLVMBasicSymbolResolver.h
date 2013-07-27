@@ -25,9 +25,10 @@ class LLVMBasicSymbolResolver: public LLVMSymbolResolver
 {
 public:
     LLVMBasicSymbolResolver(const libsbml::Model *model,
-            const LLVMModelDataSymbols &modelDataSymbols,
-            const LLVMModelSymbols &modelSymbols, llvm::IRBuilder<> &builder,
-            LLVMSymbolResolver *tail = 0);
+    const LLVMModelSymbols &modelSymbols,
+    const LLVMModelDataSymbols &modelDataSymbols,
+    llvm::IRBuilder<> &builder,
+    LLVMSymbolResolver &terminal);
 
     virtual ~LLVMBasicSymbolResolver();
 
@@ -43,14 +44,16 @@ public:
      */
     virtual llvm::Value *symbolValue(const std::string& symbol);
 
-private:
 
+protected:
     const libsbml::Model *model;
-    const LLVMModelDataSymbols &modelDataSymbols;
     const LLVMModelSymbols &modelSymbols;
+    const LLVMModelDataSymbols &modelDataSymbols;
     llvm::IRBuilder<> &builder;
-    LLVMSymbolResolver *tail;
+    LLVMSymbolResolver &terminal;
+
 };
+
 
 } /* namespace rr */
 #endif /* rrLLVMBasicSymbolResolver_H_ */

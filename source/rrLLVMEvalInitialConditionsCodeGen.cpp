@@ -8,6 +8,7 @@
 #include "rrLLVMEvalInitialConditionsCodeGen.h"
 #include "rrLLVMException.h"
 #include "rrLLVMASTNodeCodeGen.h"
+#include "rrLLVMInitialValueSymbolResolver.h"
 #include "rrLogger.h"
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaFormatter.h>
@@ -165,6 +166,24 @@ void LLVMEvalInitialConditionsCodeGen::codeGenFloatingSpecies(
         }
 
         modelDataBuilder.createFloatSpeciesAmtStore(modelData, i->first, amt);
+    }
+}
+
+void LLVMEvalInitialConditionsCodeGen::codeGenBoundarySpecies(Value *modelData,
+        LLVMModelDataIRBuilder& modelDataBuilder)
+{
+    LLVMInitialValueSymbolResolver resolver(model, dataSymbols, modelSymbols,
+            builder);
+
+    const ListOfSpecies *species = model->getListOfSpecies();
+    for (unsigned i = 0; i < species->size(); i++)
+    {
+        const Species *s = species->get(i);
+        if (s->getBoundaryCondition())
+        {
+
+
+        }
     }
 }
 

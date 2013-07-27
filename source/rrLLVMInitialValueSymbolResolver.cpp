@@ -5,7 +5,7 @@
  *      Author: andy
  */
 
-#include "rrLLVMModelDataSymbolResolver.h"
+#include "rrLLVMInitialValueSymbolResolver.h"
 #include "rrLLVMASTNodeCodeGen.h"
 #include "rrLLVMException.h"
 #include <sbml/Model.h>
@@ -17,33 +17,51 @@ using namespace llvm;
 namespace rr
 {
 
-LLVMModelDataSymbolResolver::LLVMModelDataSymbolResolver(llvm::Value* modelData,
+LLVMInitialValueSymbolResolver::LLVMInitialValueSymbolResolver(
+        const libsbml::Model* model,
+        const LLVMModelDataSymbols& modelDataSymbols,
+        const LLVMModelSymbols& modelSymbols,
+        llvm::IRBuilder<>& builder) :
+                LLVMBasicSymbolResolver(model,
+                        modelSymbols,
+                        modelDataSymbols,
+                        builder,
+                        terminal),
+                terminal(model,
+                        modelDataSymbols,
+                        modelSymbols,
+                        builder,
+                        *this)
+{
+}
+
+LLVMInitialValueTermSymbolResolver::LLVMInitialValueTermSymbolResolver(
         const libsbml::Model* model,
         const LLVMModelDataSymbols& modelDataSymbols,
         const LLVMModelSymbols& modelSymbols, llvm::IRBuilder<>& builder,
-        LLVMSymbolResolver* tail) :
-            modelData(modelData), model(model),
-            modelDataSymbols(modelDataSymbols),
-            modelSymbols(modelSymbols), builder(builder), tail(tail)
+        LLVMSymbolResolver& parent) :
+                model(model),
+                modelDataSymbols(modelDataSymbols),
+                modelSymbols(modelSymbols),
+                builder(builder),
+                parent(parent)
 {
 }
 
-LLVMModelDataSymbolResolver::~LLVMModelDataSymbolResolver()
+LLVMInitialValueSymbolResolver::~LLVMInitialValueSymbolResolver()
 {
 }
 
-llvm::Value* LLVMModelDataSymbolResolver::symbolValue(const std::string& symbol)
+LLVMInitialValueTermSymbolResolver::~LLVMInitialValueTermSymbolResolver()
 {
-    LLVMModelDataIRBuilder mdbuilder(modelData, modelDataSymbols, builder);
+}
 
-    /*************************************************************************/
-    /* AssignmentRule */
-    /*************************************************************************/
-    LLVMSymbolForest::ConstIterator i = modelSymbols.getAssigmentRules().find(
-            symbol);
-    if (i != modelSymbols.getAssigmentRules().end())
+llvm::Value* LLVMInitialValueTermSymbolResolver::symbolValue(const std::string& symbol)
+{
+    LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialAssigments().find(symbol);
+    if (i != modelSymbols.getInitialAssigments().end())
     {
-        return LLVMASTNodeCodeGen(builder, *this).codeGen(i->second);
+        return LLVMASTNodeCodeGen(builder, parent).codeGen(i->second);
     }
 
     const SBase *element = const_cast<Model*>(model)->getElementBySId(symbol);
@@ -54,44 +72,30 @@ llvm::Value* LLVMModelDataSymbolResolver::symbolValue(const std::string& symbol)
     const Species *species = dynamic_cast<const Species*>(element);
     if (species)
     {
-        if (species->getBoundaryCondition())
+        // treat everything as an amount, the BasicSymbolResolver takes
+        // care of converting to a concentration, here we
+        // just build an AST for get value as an amount
+        ASTNode *amt = 0;
+        if (species->isSetInitialConcentration())
         {
-            // floating species
-            if (species->getHasOnlySubstanceUnits())
-            {
-                // expect an amount, we're good to go
-                return mdbuilder.createBoundSpeciesAmtLoad(species->getId(),
-                        species->getId() + "_amt");
-            }
-            else
-            {
-                // expect a concentration, need to convert amt to conc,
-                // so we need to get the compartment its in, but these
-                // can vary also...
-                Value *amt = mdbuilder.createBoundSpeciesAmtLoad(symbol);
-                Value *comp = symbolValue(species->getCompartment());
-                return builder.CreateFDiv(amt, comp, symbol + "_conc");
-            }
+            ASTNode *conc = new ASTNode(AST_REAL);
+            conc->setValue(species->getInitialConcentration());
+
+            amt = new ASTNode(AST_TIMES);
+            amt->addChild(conc);
+            ASTNode *comp = new ASTNode(AST_NAME);
+            comp->setName(species->getCompartment().c_str());
+            amt->addChild(comp);
         }
-        else
+        else if (species->isSetInitialAmount())
         {
-            // floating species
-            if (species->getHasOnlySubstanceUnits())
-            {
-                // expect an amount, we're good to go
-                return mdbuilder.createFloatSpeciesAmtLoad(species->getId(),
-                        species->getId() + "_amt");
-            }
-            else
-            {
-                // expect a concentration, need to convert amt to conc,
-                // so we need to get the compartment its in, but these
-                // can vary also...
-                Value *amt = mdbuilder.createFloatSpeciesAmtLoad(symbol);
-                Value *comp = symbolValue(species->getCompartment());
-                return builder.CreateFDiv(amt, comp, symbol + "_conc");
-            }
+            amt = new ASTNode(AST_REAL);
+            amt->setValue(species->getInitialAmount());
         }
+        Value *amtVal = LLVMASTNodeCodeGen(builder, parent).codeGen(amt);
+        amtVal->setName(symbol + "_amt");
+        delete amt;
+        return amtVal;
     }
 
     /*************************************************************************/
@@ -100,7 +104,11 @@ llvm::Value* LLVMModelDataSymbolResolver::symbolValue(const std::string& symbol)
     const Parameter* param = dynamic_cast<const Parameter*>(element);
     if (param)
     {
-        return mdbuilder.createGlobalParamLoad(param->getId(), param->getId());
+        ASTNode *paramNode = new ASTNode(AST_REAL);
+        paramNode->setValue(param->getValue());
+        Value *paramVal = LLVMASTNodeCodeGen(builder, parent).codeGen(paramNode);
+        delete paramNode;
+        return paramVal;
     }
 
     /*************************************************************************/
@@ -109,15 +117,11 @@ llvm::Value* LLVMModelDataSymbolResolver::symbolValue(const std::string& symbol)
     const Compartment* comp = dynamic_cast<const Compartment*>(element);
     if (comp)
     {
-        return mdbuilder.createCompLoad(comp->getId(), comp->getId());
-    }
-
-    /*************************************************************************/
-    /* Look in tail */
-    /*************************************************************************/
-    if (tail)
-    {
-        return tail->symbolValue(symbol);
+        ASTNode *compNode = new ASTNode(AST_REAL);
+        compNode->setValue(comp->getVolume());
+        Value *paramVal = LLVMASTNodeCodeGen(builder, parent).codeGen(compNode);
+        delete compNode;
+        return paramVal;
     }
 
     string msg = "Could not find requested symbol \'";
@@ -126,50 +130,10 @@ llvm::Value* LLVMModelDataSymbolResolver::symbolValue(const std::string& symbol)
     throw_llvm_exception(msg);
 
     return 0;
-
-
-    /*
-     * if (id.empty()) return NULL;
-  SBase* obj = mFunctionDefinitions.getElementBySId(id);
-  if (obj != NULL) return obj;
-  obj = mUnitDefinitions.getElementBySId(id);
-  if (obj != NULL) return obj;
-  obj = mCompartmentTypes.getElementBySId(id);
-  if (obj != NULL) return obj;
-  obj = mSpeciesTypes.getElementBySId(id);
-  if (obj != NULL) return obj;
-  obj = mCompartments.getElementBySId(id);
-  if (obj != NULL) return obj;
-  obj = mSpecies.getElementBySId(id);
-  if (obj != NULL) return obj;
-  obj = mParameters.getElementBySId(id);
-  if (obj != NULL) return obj;
-  obj = mReactions.getElementBySId(id);
-  if (obj != NULL) return obj;
-  obj = mInitialAssignments.getElementBySId(id);
-  if (obj != NULL) return obj;
-  obj = mRules.getElementBySId(id);
-  if (obj != NULL) return obj;
-  obj = mConstraints.getElementBySId(id);
-  if (obj != NULL) return obj;
-  obj = mEvents.getElementBySId(id);
-  if (obj != NULL) return obj;
-     */
-
-
-
-    /*
-
-
-
-
-
-
-
-
-    */
 }
 
-} /* namespace rr */
 
+
+
+} /* namespace rr */
 
