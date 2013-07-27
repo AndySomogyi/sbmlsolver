@@ -54,9 +54,28 @@ int main(int argc, char* argv[])
     cout << "built on " << __TIMESTAMP__ << endl;
     cout << rr::RoadRunner::getExtendedVersionInfo() << endl;
 
+    const char* compiler = "llvm";
+
+
+
+
     Logger::enableLoggingToConsole();
 
-    Logger::SetCutOffLogLevel(Logger::PRIO_WARNING);
+    Logger::SetCutOffLogLevel(Logger::PRIO_TRACE);
+
+    int testCase = 0;
+
+    if (argc >= 2)
+    {
+        testCase = atoi(argv[1]);
+        if (argc >= 3)
+        {
+            compiler = argv[2];
+        }
+    }
+
+    Log(Logger::PRIO_NOTICE) << "running test case " << testCase;
+
 
     //runSparseTest(33, 323, 50);
 
@@ -87,13 +106,14 @@ int main(int argc, char* argv[])
     }
     */
 
-    const int loop = 100;
+    const int loop = 1;
 
 
 
     time_t start, stop;
     clock_t startc, stopc;
-    long count;
+
+    /*
 
     startc = clock();
     time(&start);
@@ -120,23 +140,27 @@ int main(int argc, char* argv[])
     printf("C Model Used %0.2f seconds of CPU time. \n", (double)(stopc - startc)/CLOCKS_PER_SEC);
     printf("C Model Finished in about %.0f seconds. \n", difftime(stop, start));
 
+    */
+
     startc = clock();
     time(&start);
 
-
-    for (int i = 0; i < loop; ++i) {
+    int i = 2;
+    //for (int i = 0; i < loop; ++i) {
         //runInitialValueAssigmentTest(pairs[i].first, pairs[i].second);
         try
         {
-            TestRoadRunner test(pairs[0].first, pairs[0].second);
-            test.test("llvm");
+            TestRoadRunner test(pairs[testCase].first, pairs[testCase].second);
+            test.test(compiler);
+            test.saveResult();
+            test.compareReference();
         }
         catch (std::exception &e)
         {
-            Log(lError) << "Error with test " << pairs[i].first << ", " << pairs[i].second
+            Log(lError) << "Error with test " << pairs[testCase].first << ", " << pairs[testCase].second
                     << ": " << e.what();
         }
-    }
+    //}
 
     stopc = clock();
     time(&stop);

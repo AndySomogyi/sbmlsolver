@@ -275,14 +275,15 @@ string LLVMExecutableModel::getFloatingSpeciesName(int index)
     return ids[index];
 }
 
-int LLVMExecutableModel::getBoundarySpeciesIndex(const string& allocator)
+int LLVMExecutableModel::getBoundarySpeciesIndex(const string& id)
 {
-    return 0;
+    return symbols->getBoundarySpeciesIndex(id);
 }
 
-string LLVMExecutableModel::getBoundarySpeciesName(int int1)
+string LLVMExecutableModel::getBoundarySpeciesName(int indx)
 {
-    return string();
+    vector<string> ids = symbols->getBoundarySpeciesIds();
+    return ids[indx];
 }
 
 int LLVMExecutableModel::getBoundarySpeciesCompartmentIndex(int int1)
@@ -445,6 +446,30 @@ void LLVMExecutableModel::evalReactionRates()
 int LLVMExecutableModel::getNumRules()
 {
     return 0;
+}
+
+int LLVMExecutableModel::getFloatingSpeciesAmounts(int len, const int* indx,
+        double* values)
+{
+    return -1;
+}
+
+int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len,
+        const int* indx, double* values)
+{
+    return -1;
+}
+
+int LLVMExecutableModel::getBoundarySpeciesAmounts(int len, const int* indx,
+        double* values)
+{
+    return -1;
+}
+
+int LLVMExecutableModel::getBoundarySpeciesConcentrations(int len,
+        const int* indx, double* values)
+{
+    return -1;
 }
 
 

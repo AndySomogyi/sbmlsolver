@@ -779,6 +779,30 @@ int CompiledExecutableModel::getNumRules()
     return ms.mNumRules;
 }
 
+int CompiledExecutableModel::getFloatingSpeciesAmounts(int len, const int* indx,
+        double* values)
+{
+    return -1;
+}
+
+int CompiledExecutableModel::getFloatingSpeciesConcentrations(int len,
+        const int* indx, double* values)
+{
+    return -1;
+}
+
+int CompiledExecutableModel::getBoundarySpeciesAmounts(int len, const int* indx,
+        double* values)
+{
+    return -1;
+}
+
+int CompiledExecutableModel::getBoundarySpeciesConcentrations(int len,
+        const int* indx, double* values)
+{
+    return -1;
+}
+
 
 } //Namespace rr
 

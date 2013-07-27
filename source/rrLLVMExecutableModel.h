@@ -167,6 +167,53 @@ public:
     virtual int getBoundarySpeciesIndex(const string&);
     virtual string getBoundarySpeciesName(int);
     virtual int getBoundarySpeciesCompartmentIndex(int);
+
+    /**
+     * get the floating species amounts
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[out] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int getFloatingSpeciesAmounts(int len, int const *indx,
+            double *values);
+
+    /**
+     * get the floating species concentrations
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[out] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int getFloatingSpeciesConcentrations(int len, int const *indx,
+            double *values);
+
+
+    /**
+     * get the boundary species amounts
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[out] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int getBoundarySpeciesAmounts(int len, int const *indx,
+            double *values);
+
+    /**
+     * get the boundary species concentrations
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[out] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int getBoundarySpeciesConcentrations(int len, int const *indx,
+            double *values);
+
+
     virtual int getGlobalParameterIndex(const string&);
     virtual string getGlobalParameterName(int);
     virtual int getCompartmentIndex(const string&);

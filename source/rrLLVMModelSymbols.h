@@ -39,7 +39,7 @@ public:
     libsbml::ASTNode *createStoichiometryNode(int row, int col) const;
 
     const LLVMSymbolForest& getAssigmentRules() const;
-    const LLVMSymbolForest& getInitialAssigments() const;
+
     const LLVMSymbolForest& getInitialValues() const;
 
 protected:
@@ -54,6 +54,9 @@ protected:
     virtual bool visit(const libsbml::AssignmentRule  &x);
 
     /**
+     * InitialAssignments override the initial value specified in the element
+     * definition.
+     *
      * The actions of all InitialAssignment objects are in general terms the same,
      * but differ in the precise details depending on the type of variable being set:
      *
@@ -121,8 +124,6 @@ protected:
     const libsbml::ASTNode *getSpeciesReferenceStoichMath(const libsbml::SpeciesReference *reference);
 
     LLVMSymbolForest initialValues;
-
-    LLVMSymbolForest initialAssigments;
 
     LLVMSymbolForest assigmentRules;
 

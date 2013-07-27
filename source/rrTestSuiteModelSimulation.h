@@ -34,7 +34,8 @@ class RR_DECLSPEC TestSuiteModelSimulation : public SBMLModelSimulation
         double                  LargestError();
         bool                    Pass();
         int                     NrOfFailingPoints();
-        virtual bool            LoadSettings(const string& fName = gEmptyString);
+        virtual bool            LoadSettings(const string& fName = "");
+        virtual bool            LoadSettingsEx(const string& settingsFName);
 };
 
 }

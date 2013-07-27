@@ -115,6 +115,52 @@ public:
     virtual string getBoundarySpeciesName(int index) = 0;
     virtual int getBoundarySpeciesCompartmentIndex(int index) = 0;
 
+    /**
+     * get the floating species amounts
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[out] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int getFloatingSpeciesAmounts(int len, int const *indx,
+            double *values) = 0;
+
+    /**
+     * get the floating species concentrations
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[out] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int getFloatingSpeciesConcentrations(int len, int const *indx,
+            double *values) = 0;
+
+
+    /**
+     * get the boundary species amounts
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[out] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int getBoundarySpeciesAmounts(int len, int const *indx,
+            double *values) = 0;
+
+    /**
+     * get the boundary species concentrations
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[out] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int getBoundarySpeciesConcentrations(int len, int const *indx,
+            double *values) = 0;
+
+
     virtual int getNumGlobalParameters() = 0;
     virtual int getGlobalParameterIndex(const string& name) = 0;
     virtual string getGlobalParameterName(int index) = 0;

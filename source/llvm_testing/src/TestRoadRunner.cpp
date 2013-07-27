@@ -89,7 +89,7 @@ void TestRoadRunner::loadSBML(const std::string& compiler)
 
     //Then read settings file if it exists..
     string settingsOveride("");
-    if (!simulation->LoadSettings(settingsOveride))
+    if (!simulation->LoadSettingsEx(settingsOveride))
     {
         Log(lError) << "Failed loading SBML model settings";
         throw Exception("Failed loading SBML model settings");
@@ -103,9 +103,38 @@ void TestRoadRunner::simulate()
     //Then Simulate model
     if (!simulation->Simulate())
     {
-        throw("Failed running simulation");
+        throw Exception("Failed running simulation");
+    }
+}
+
+void TestRoadRunner::saveResult()
+{
+    if (!simulation->SaveResult())
+    {
+        //Failed to save data
+        throw Exception("Failed saving result");
+    }
+}
+
+void TestRoadRunner::compareReference()
+{
+    if (!simulation->LoadReferenceData())
+    {
+        throw Exception("Failed Loading reference data");
     }
 
+    simulation->CreateErrorData();
+    bool result = simulation->Pass();
+    simulation->SaveAllData();
+    simulation->SaveModelAsXML(dataOutputFolder);
+    if (!result)
+    {
+        Log(Logger::PRIO_NOTICE) << "Test failed..\n";
+    }
+    else
+    {
+        Log(Logger::PRIO_NOTICE) << "Test passed..\n";
+    }
 }
 /*
 

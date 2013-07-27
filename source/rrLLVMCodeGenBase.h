@@ -20,10 +20,8 @@ namespace rr
  * and mgc.getThat. Furthermore, its faster to access them as ivars
  * as it does not incur a func call each time.
  */
-class LLVMCodeGenBase : public LLVMSymbolResolver
+class LLVMCodeGenBase
 {
-public:
-    using LLVMSymbolResolver::symbolValue;
 
 protected:
 
@@ -51,16 +49,6 @@ protected:
     llvm::IRBuilder<> &builder;
     llvm::ExecutionEngine &engine;
 
-    /**
-     * The runtime resolution of symbols first search through the
-     * replacement rules, applies them, them pulls the terminal
-     * symbol values from the ModelData struct.
-     *
-     * The initial assigment generator overrides this and pulls
-     * the terminal values from the initial values and assigments
-     * specified in the model.
-     */
-    llvm::Value *symbolValue(const std::string& symbol, llvm::Value *modelData);
 
     virtual ~LLVMCodeGenBase() {};
 };
