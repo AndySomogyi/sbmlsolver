@@ -54,6 +54,9 @@ int main(int argc, char* argv[])
     cout << "built on " << __TIMESTAMP__ << endl;
     cout << rr::RoadRunner::getExtendedVersionInfo() << endl;
 
+    const char* compiler = "llvm";
+
+
 
 
     Logger::enableLoggingToConsole();
@@ -65,11 +68,14 @@ int main(int argc, char* argv[])
     if (argc >= 2)
     {
         testCase = atoi(argv[1]);
-
-
+        if (argc >= 3)
+        {
+            compiler = argv[2];
+        }
     }
 
     Log(Logger::PRIO_NOTICE) << "running test case " << testCase;
+
 
     //runSparseTest(33, 323, 50);
 
@@ -145,7 +151,9 @@ int main(int argc, char* argv[])
         try
         {
             TestRoadRunner test(pairs[testCase].first, pairs[testCase].second);
-            test.test("llvm");
+            test.test(compiler);
+            test.saveResult();
+            test.compareReference();
         }
         catch (std::exception &e)
         {

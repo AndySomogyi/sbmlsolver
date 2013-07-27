@@ -104,13 +104,7 @@ Value* LLVMEvalInitialConditionsCodeGen::codeGen()
 
 llvm::Value* LLVMEvalInitialConditionsCodeGen::symbolValue(const std::string& symbol)
 {
-    LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialAssigments().find(symbol);
-    if (i != modelSymbols.getInitialAssigments().end())
-    {
-        return LLVMASTNodeCodeGen(builder, *this).codeGen(i->second);
-    }
-
-    i = modelSymbols.getAssigmentRules().find(symbol);
+    LLVMSymbolForest::ConstIterator i = modelSymbols.getAssigmentRules().find(symbol);
     if (i != modelSymbols.getAssigmentRules().end())
     {
         return LLVMASTNodeCodeGen(builder, *this).codeGen(i->second);

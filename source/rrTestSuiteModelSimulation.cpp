@@ -9,6 +9,7 @@
 #include "rrLogger.h"
 #include "rrTestSuiteModelSimulation.h"
 #include "rrUtils.h"
+#include "rrRoadRunner.h"
 //---------------------------------------------------------------------------
 
 namespace rr
@@ -43,10 +44,10 @@ bool TestSuiteModelSimulation::CopyFilesToOutputFolder()
 
     string fName = getFileName(mModelSettingsFileName);
     fName = joinPath(mDataOutputFolder, fName);
-#if defined(WIN32)    
-	return CopyFileA(mModelSettingsFileName.c_str(), fName.c_str(), false) == TRUE ? true : false;
+#if defined(WIN32)
+    return CopyFileA(mModelSettingsFileName.c_str(), fName.c_str(), false) == TRUE ? true : false;
 #else
-	return false;
+    return false;
 #endif
 }
 
@@ -59,6 +60,23 @@ bool TestSuiteModelSimulation::LoadSettings(const string& settingsFName)
         mModelSettingsFileName = joinPath(mModelFilePath, GetSettingsFileNameForCase(mCurrentCaseNumber));
     }
     return SBMLModelSimulation::LoadSettings(mModelSettingsFileName);
+}
+
+bool TestSuiteModelSimulation::LoadSettingsEx(const string& settingsFName)
+{
+    mModelSettingsFileName = (settingsFName);
+
+    if(!mModelSettingsFileName.size())
+    {
+        mModelSettingsFileName = joinPath(mModelFilePath, GetSettingsFileNameForCase(mCurrentCaseNumber));
+    }
+    bool result = SBMLModelSimulation::LoadSettings(mModelSettingsFileName);
+
+    if (mEngine)
+    {
+        result = mEngine->loadSimulationSettings(mModelSettingsFileName);
+    }
+    return result;
 }
 
 bool TestSuiteModelSimulation::LoadReferenceData()
@@ -92,7 +110,7 @@ bool TestSuiteModelSimulation::LoadReferenceData()
         {
             for(int col = 0; col < mReferenceData.cSize(); col++)
             {
-            	double val = toDouble(recs[col]);
+                double val = toDouble(recs[col]);
                 mReferenceData(row - 1,col) = val; //First line is the header..
              }
         }
@@ -118,7 +136,7 @@ double TestSuiteModelSimulation::LargestError()
 
 bool TestSuiteModelSimulation::CreateErrorData()
 {
-	 mResultData = GetResult();
+     mResultData = GetResult();
     //Check that result data and reference data has the same dimensions
     if(mResultData.cSize() != mReferenceData.cSize() || mResultData.rSize() != mReferenceData.rSize())
     {

@@ -38,6 +38,10 @@ public:
     void loadSBML(const std::string& compiler);
 
     void simulate();
+
+    void saveResult();
+
+    void compareReference();
 };
 
 } /* namespace rr */

@@ -55,7 +55,30 @@ llvm::Value* LLVMBasicSymbolResolver::symbolValue(const std::string& symbol)
     const Species *species = dynamic_cast<const Species*>(element);
     if (species)
     {
-        Value *amt = terminal.symbolValue(symbol);
+        Value *amt = 0;
+        if (species->getBoundaryCondition())
+        {
+            // for now, just use init value (init assign already applied),
+            // will do rate rules later.
+            LLVMSymbolForest::ConstIterator i =
+                    modelSymbols.getInitialValues().find(symbol);
+            if (i != modelSymbols.getInitialValues().end())
+            {
+                amt = LLVMASTNodeCodeGen(builder, *this).codeGen(i->second);
+            }
+            else
+            {
+                throw_llvm_exception("could not find initial value for boundary species " + symbol);
+            }
+        }
+        else
+        {
+            // have a floating species, terminal knows about these.
+            amt = terminal.symbolValue(symbol);
+        }
+
+        amt->setName(symbol + "_amt");
+
         if (species->getHasOnlySubstanceUnits())
         {
             // expect an amount, we're good to go

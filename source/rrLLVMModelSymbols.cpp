@@ -76,7 +76,7 @@ bool LLVMModelSymbols::visit(const libsbml::InitialAssignment& x)
 {
     poco_trace(getLogger(), "id: " +  x.getId());
     SBase *element = const_cast<Model*>(model)->getElementBySId(x.getSymbol());
-    processElement(initialAssigments, element, x.getMath());
+    processElement(initialValues, element, x.getMath());
     return true;
 }
 
@@ -98,7 +98,7 @@ void LLVMModelSymbols::processElement(LLVMSymbolForest& currentSymbols,
     }
     else if ((species = dynamic_cast<const Species*>(element)))
     {
-        processSpecies(initialValues, species, math);
+        processSpecies(currentSymbols, species, math);
     }
     else if ((reference = dynamic_cast<const SpeciesReference*>(element)))
     {
@@ -490,11 +490,6 @@ ASTNode* LLVMModelSymbols::createStoichiometryNode(int row, int col) const
 const LLVMSymbolForest& LLVMModelSymbols::getAssigmentRules() const
 {
     return assigmentRules;
-}
-
-const LLVMSymbolForest& LLVMModelSymbols::getInitialAssigments() const
-{
-    return initialAssigments;
 }
 
 const LLVMSymbolForest& LLVMModelSymbols::getInitialValues() const

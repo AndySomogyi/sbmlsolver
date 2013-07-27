@@ -58,11 +58,11 @@ LLVMInitialValueTermSymbolResolver::~LLVMInitialValueTermSymbolResolver()
 
 llvm::Value* LLVMInitialValueTermSymbolResolver::symbolValue(const std::string& symbol)
 {
-    LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialAssigments().find(symbol);
-    if (i != modelSymbols.getInitialAssigments().end())
-    {
-        return LLVMASTNodeCodeGen(builder, parent).codeGen(i->second);
-    }
+    //LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialAssigments().find(symbol);
+    //if (i != modelSymbols.getInitialAssigments().end())
+    //{
+    //    return LLVMASTNodeCodeGen(builder, parent).codeGen(i->second);
+   // }
 
     const SBase *element = const_cast<Model*>(model)->getElementBySId(symbol);
 

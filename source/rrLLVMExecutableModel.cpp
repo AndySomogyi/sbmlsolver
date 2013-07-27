@@ -275,14 +275,15 @@ string LLVMExecutableModel::getFloatingSpeciesName(int index)
     return ids[index];
 }
 
-int LLVMExecutableModel::getBoundarySpeciesIndex(const string& allocator)
+int LLVMExecutableModel::getBoundarySpeciesIndex(const string& id)
 {
-    return 0;
+    return symbols->getBoundarySpeciesIndex(id);
 }
 
-string LLVMExecutableModel::getBoundarySpeciesName(int int1)
+string LLVMExecutableModel::getBoundarySpeciesName(int indx)
 {
-    return string();
+    vector<string> ids = symbols->getBoundarySpeciesIds();
+    return ids[indx];
 }
 
 int LLVMExecutableModel::getBoundarySpeciesCompartmentIndex(int int1)

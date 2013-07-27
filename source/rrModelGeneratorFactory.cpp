@@ -24,10 +24,12 @@ ModelGenerator* ModelGeneratorFactory::createModelGenerator(const string& mgid, 
 
     if (ucomp == "LLVM")
     {
-        Log(Logger::PRIO_NOTICE) << "Creating LLVM based model generator";
+        Log(Logger::PRIO_NOTICE) << "Creating LLVM based model generator.";
         return new LLVMModelGenerator();
     }
 #endif
+
+    Log(Logger::PRIO_NOTICE) << "Creating C based model generator using " << compiler << " compiler.";
 
     // default (for now...), the old C code generating model generator.
     return new CModelGenerator(tempFolder, supportCodeFolder, compiler);
