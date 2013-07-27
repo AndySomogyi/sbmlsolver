@@ -105,7 +105,7 @@ RRHandle rrcCallConv createRRInstance()
     catch_ptr_macro
 }
 
-RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder)
+RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder, const char* compiler_cstr)
 {
     try
     {
@@ -113,13 +113,18 @@ RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder)
         string text2 = getParentFolder(text1);
         string rrInstallFolder(text2);
         rr::freeText(text1);
+        string compiler = compiler_cstr ? compiler_cstr : "";
 
 #if defined(_WIN32) || defined(WIN32)
-            string compiler(joinPath(rrInstallFolder, "compilers\\tcc\\tcc.exe"));
-#elif defined(__linux)
-            string compiler("gcc");
+        if (compiler.length() == 0)
+        {
+            compiler = joinPath(rrInstallFolder, "compilers\\tcc\\tcc.exe");
+        }
 #else
-            string compiler("gcc");
+        if (compiler.length() == 0)
+        {
+            compiler = "gcc";
+        }
 #endif
         if(tempFolder != NULL && !fileExists(tempFolder))
         {
@@ -350,6 +355,17 @@ bool rrcCallConv setCompiler(RRHandle handle, const char* fName)
         }
     }
     catch_bool_macro
+}
+
+char* rrcCallConv getCompiler(RRHandle handle)
+{
+    try
+    {
+        RoadRunner* rri = castFrom(handle);
+        Compiler *compiler = rri->getCompiler();
+        return strdup(compiler ? compiler->getCompiler().c_str() : "");
+    }
+    catch_ptr_macro
 }
 
 bool rrcCallConv setCompilerLocation(RRHandle handle, const char* folder)
