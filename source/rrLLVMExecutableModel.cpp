@@ -127,9 +127,6 @@ void LLVMExecutableModel::computeEventPriorites()
 {
 }
 
-void LLVMExecutableModel::setConcentration(int index, double value)
-{
-}
 
 int LLVMExecutableModel::getNumLocalParameters(int reactionId)
 {
@@ -161,6 +158,14 @@ double LLVMExecutableModel::getFloatingSpeciesConcentration(int index)
         Log(Logger::PRIO_ERROR) << "index " << index << "out of range";
         throw Exception(string(__FUNC__) + string(": index out of range"));
     }
+}
+
+int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len, int const *indx,
+        double *values)
+{
+    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
+    throw Exception(string("Not Implemented: ") + __FUNCTION__);
+    return -1;
 }
 
 void LLVMExecutableModel::getRateRuleValues(double *rateRuleValues)
@@ -499,8 +504,8 @@ int LLVMExecutableModel::getFloatingSpeciesAmounts(int len, const int* indx,
     return len;
 }
 
-int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len,
-        const int* indx, double* values)
+int LLVMExecutableModel::setFloatingSpeciesConcentrations(int len,
+        const int* indx, const double* values)
 {
     Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
     throw Exception(string("Not Implemented: ") + __FUNCTION__);
@@ -534,4 +539,3 @@ int LLVMExecutableModel::setBoundarySpeciesConcentrations(int len,
 
 
 } /* namespace rr */
-

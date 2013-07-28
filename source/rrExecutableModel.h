@@ -137,6 +137,17 @@ public:
     virtual int getFloatingSpeciesConcentrations(int len, int const *indx,
             double *values) = 0;
 
+    /**
+     * set the floating species concentrations
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[in] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int setFloatingSpeciesConcentrations(int len, int const *indx,
+            double const *values) = 0;
+
 
     /**
      * get the boundary species amounts
@@ -202,7 +213,6 @@ public:
 
     virtual int getNumEvents() = 0;
     virtual void computeEventPriorites() = 0;
-    virtual void setConcentration(int index, double value) = 0;
 
     /**
      * Evaluate the reaction rates using the current model state.
@@ -223,8 +233,6 @@ public:
     virtual void convertToAmounts() = 0;
 
     virtual void computeConservedTotals() = 0;
-
-    virtual double getFloatingSpeciesConcentration(int index) = 0;
 
     /**
      * set the 'values' of the rate rules.

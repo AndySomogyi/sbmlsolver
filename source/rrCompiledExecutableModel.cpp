@@ -793,7 +793,24 @@ int CompiledExecutableModel::getFloatingSpeciesAmounts(int len, const int* indx,
 int CompiledExecutableModel::getFloatingSpeciesConcentrations(int len,
         const int* indx, double* values)
 {
-    return -1;
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        values[i] = mData.floatingSpeciesConcentrations[j];
+    }
+    return len;
+}
+
+int CompiledExecutableModel::setFloatingSpeciesConcentrations(int len,
+        const int* indx, const double* values)
+{
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        setConcentration(j, values[i]);
+    }
+    convertToAmounts();
+    return len;
 }
 
 int CompiledExecutableModel::getBoundarySpeciesAmounts(int len, const int* indx,

@@ -93,7 +93,6 @@ public:
     virtual int getNumRules();
     virtual int getNumEvents();
     virtual void computeEventPriorites();
-    virtual void setConcentration(int index, double value);
 
     virtual int getNumLocalParameters(int reactionId);
 
@@ -101,7 +100,7 @@ public:
 
     virtual void convertToAmounts();
     virtual void computeConservedTotals();
-    virtual double getFloatingSpeciesConcentration(int index);
+
 
     //Access dll data
     virtual void getRateRuleValues(double *rateRuleValues);
@@ -192,6 +191,18 @@ public:
 
 
     /**
+     * set the floating species concentrations
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[in] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int setFloatingSpeciesConcentrations(int len, int const *indx,
+            double const *values);
+
+
+    /**
      * get the boundary species amounts
      *
      * @param[in] len the length of the indx and values arrays.
@@ -258,6 +269,8 @@ private:
 
     LLVMEvalInitialConditionsCodeGen::FunctionPtr evalInitialConditionsPtr;
     LLVMEvalReactionRatesCodeGen::FunctionPtr evalReactionRatesPtr;
+
+    double getFloatingSpeciesConcentration(int index);
 
     friend class LLVMModelGenerator;
 };

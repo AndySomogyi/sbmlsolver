@@ -116,6 +116,17 @@ public:
     virtual int getFloatingSpeciesConcentrations(int len, int const *indx,
             double *values);
 
+    /**
+     * set the floating species concentrations
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[in] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int setFloatingSpeciesConcentrations(int len, int const *indx,
+            double const *values);
+
 
     /**
      * get the boundary species amounts
@@ -180,7 +191,7 @@ public:
 
     virtual int getNumEvents();
     virtual void computeEventPriorites();
-    virtual void setConcentration(int index, double value);
+    void setConcentration(int index, double value);
     virtual void evalReactionRates();
     virtual void setCompartmentVolumes();
     virtual int getNumLocalParameters(int reactionId);
@@ -195,7 +206,7 @@ public:
 
     virtual void convertToAmounts();
     virtual void computeConservedTotals();
-    virtual double getFloatingSpeciesConcentration(int index);
+
 
     //Access dll data
     virtual void getRateRuleValues(double *rateRuleValues);
@@ -259,6 +270,7 @@ public:
     virtual const StringList getConservationNames();
 
 private:
+    double getFloatingSpeciesConcentration(int index);
 
     bool mConservedSumChanged;
 
