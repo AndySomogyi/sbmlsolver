@@ -13,9 +13,8 @@
 using namespace std;
 using namespace rr;
 
-string     gTempFolder                   = "";
+string     gTempFolder              = "";
 string     gRRInstallFolder         = "";
-bool    gDebug                    = false;
 string     gTSModelsPath            = "";
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 
@@ -29,6 +28,7 @@ int main(int argc, char* argv[])
         cout << RoadRunner::getExtendedVersionInfo() << endl;
 
         Logger::enableLoggingToConsole();
+        Logger::SetCutOffLogLevel(Logger::PRIO_NOTICE);
 
         Log(lDebug) << "hello";
 
@@ -41,20 +41,21 @@ int main(int argc, char* argv[])
 
         //Assume(!) this is the bin folder of roadrunner install
         gRRInstallFolder = getParentFolder(thisExeFolder);    //Go up one folder
-        gDebug                = args.EnableLogging;
-        gTSModelsPath         = args.SBMLModelsFilePath;
-        gTempFolder            = args.TempDataFolder;
+        gTSModelsPath    = args.SBMLModelsFilePath;
+        gTempFolder      = args.TempDataFolder;
         setInstallFolder(gRRInstallFolder.c_str());
 
-        if(gDebug)
+        if(args.EnableLogging)
         {
-            enableLoggingToConsole();
-            setLogLevel("Debug5");
+            Logger::SetCutOffLogLevel(Logger::PRIO_TRACE);
         }
         else
         {
-            setLogLevel("info");
+            Logger::SetCutOffLogLevel(Logger::PRIO_INFORMATION);
         }
+
+        Log(Logger::PRIO_NOTICE) << "Notice";
+
         // set full model path (read from cmd line)
         gTSModelsPath = joinPath(joinPath(gTSModelsPath, "cases"), "semantic");
         Log(lInfo)<<"Testing model: "<<args.ModelNumber;
@@ -62,21 +63,17 @@ int main(int argc, char* argv[])
         switch(args.ModelVersion)
         {
             case l2v4:
-                RunTest("l2v4", args.ModelNumber);
+                RunTest("l2v4", args.ModelNumber, args.compiler);
             break;
             case l3v1:
-                RunTest("l3v1", args.ModelNumber);
+                RunTest("l3v1", args.ModelNumber, args.compiler);
             break;
 
         }
 
         return 0;
     }
-    catch (char* msg)
-    {
-        cout << "caught char*: " << msg << "\n";
-    }
-    catch (Exception& e)
+    catch (std::exception &e)
     {
         cout << "caught Exception: " << e.what() << "\n";
     }
@@ -86,7 +83,7 @@ int main(int argc, char* argv[])
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
     char c;
-    while ((c = GetOptions(argc, argv, ("vi:a:m:t:"))) != -1)
+    while ((c = GetOptions(argc, argv, ("vi:a:m:t:c:"))) != -1)
     {
         switch (c)
         {
@@ -95,6 +92,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
             case ('m'): args.SBMLModelsFilePath                     = rrOptArg;                          break;
             case ('t'): args.TempDataFolder                         = rrOptArg;                          break;
             case ('v'): args.EnableLogging                          = true;                              break;
+            case ('c'): args.compiler                               = rrOptArg;                          break;
             case ('?'): cout<<Usage(argv[0])<<endl;                                                      break;
             default:
             {

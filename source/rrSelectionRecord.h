@@ -33,7 +33,7 @@ public:
             clUnknown,
             clStoichiometry
     };
-    unsigned int index;
+    int index;
     string p1;
     string p2;
 

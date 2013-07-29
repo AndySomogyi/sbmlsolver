@@ -12,15 +12,16 @@
 
 namespace rr
 {
-    
+
     class TestEvalReactionRates : public TestBase
     {
     public:
-        TestEvalReactionRates(const std::string& version, int caseNumber);
+        TestEvalReactionRates(const std::string& compiler,
+                const std::string& version, int caseNumber);
         virtual ~TestEvalReactionRates();
-        
+
         bool test();
     };
-    
+
 } /* namespace rr */
 #endif /* TESTEVALREACTIONRATES_H_ */

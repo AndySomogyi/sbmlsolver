@@ -18,6 +18,7 @@
 //#include "TestEvalReactionRates.h"
 #include "TestEvalModel.h"
 #include "TestRoadRunner.h"
+#include "GetBoundarySpeciesAmountTest.h"
 
 #include "rrRoadRunner.h"
 
@@ -62,6 +63,7 @@ int main(int argc, char* argv[])
     Logger::enableLoggingToConsole();
 
     Logger::SetCutOffLogLevel(Logger::PRIO_TRACE);
+
 
     int testCase = 0;
 
@@ -150,10 +152,12 @@ int main(int argc, char* argv[])
         //runInitialValueAssigmentTest(pairs[i].first, pairs[i].second);
         try
         {
-            TestRoadRunner test(pairs[testCase].first, pairs[testCase].second);
-            test.test(compiler);
-            test.saveResult();
-            test.compareReference();
+            GetBoundarySpeciesAmountTest test(compiler, pairs[testCase].first, pairs[testCase].second);
+            test.test();
+            //TestRoadRunner test(compiler, pairs[testCase].first, pairs[testCase].second);
+            //test.test(compiler);
+            //test.saveResult();
+            //test.compareReference();
         }
         catch (std::exception &e)
         {

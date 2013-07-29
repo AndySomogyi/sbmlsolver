@@ -7,6 +7,7 @@
 
 #include "TestBase.h"
 #include "tests.h"
+#include "rrModelGeneratorFactory.h"
 
 #include "rrLogger.h"
 
@@ -16,10 +17,11 @@ namespace rr
 {
 using namespace std;
 
-TestBase::TestBase(const std::string& version, int caseNumber) :
+TestBase::TestBase(const std::string& compiler, const std::string& version, int caseNumber) :
     model(0),
     version(version),
-    caseNumber(caseNumber)
+    caseNumber(caseNumber),
+    compiler(compiler)
 {
     fileName = getModelFileName(version, caseNumber);
 
@@ -51,9 +53,15 @@ TestBase::TestBase(const std::string& version, int caseNumber) :
         << "/****************************************************************************************/"
         << endl;
 
-    LLVMModelGenerator generator;
 
-    model = (LLVMExecutableModel*)generator.createModel(sbml, 0, false, false);
+    string home = getenv("HOME");
+    string tmp = home + string("/tmp");
+    string support = home + "/local/rr_support/";
+    ModelGenerator *generator = ModelGeneratorFactory::createModelGenerator("", tmp, support, compiler);
+
+    model = generator->createModel(sbml, 0, false, false);
+
+    delete generator;
 }
 
 TestBase::~TestBase()

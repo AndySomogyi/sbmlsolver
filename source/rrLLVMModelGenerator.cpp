@@ -80,6 +80,18 @@ ExecutableModel* LLVMModelGenerator::createModel(const string& sbml,
     LLVMEvalReactionRatesCodeGen::FunctionPtr evalReactionRatesPtr =
             LLVMEvalReactionRatesCodeGen(context).createFunction();
 
+    LLVMGetBoundarySpeciesAmountCodeGen::FunctionPtr getBoundarySpeciesAmountPtr =
+            LLVMGetBoundarySpeciesAmountCodeGen(context).createFunction();
+
+    LLVMGetFloatingSpeciesAmountCodeGen::FunctionPtr getFloatingSpeciesAmountPtr =
+            LLVMGetFloatingSpeciesAmountCodeGen(context).createFunction();
+
+    LLVMGetBoundarySpeciesConcentrationCodeGen::FunctionPtr getBoundarySpeciesConcentrationPtr =
+            LLVMGetBoundarySpeciesConcentrationCodeGen(context).createFunction();
+
+    LLVMGetFloatingSpeciesConcentrationCodeGen::FunctionPtr getFloatingSpeciesConcentrationPtr =
+            LLVMGetFloatingSpeciesConcentrationCodeGen(context).createFunction();
+
 
     // if anything up to this point throws an exception, thats OK, because
     // we have not allocated any memory yet that is not taken care of by
@@ -98,6 +110,10 @@ ExecutableModel* LLVMModelGenerator::createModel(const string& sbml,
 
     exe->evalInitialConditionsPtr = evalInitialConditionsPtr;
     exe->evalReactionRatesPtr = evalReactionRatesPtr;
+    exe->getBoundarySpeciesAmountPtr = getBoundarySpeciesAmountPtr;
+    exe->getFloatingSpeciesAmountPtr = getFloatingSpeciesAmountPtr;
+    exe->getBoundarySpeciesConcentrationPtr = getBoundarySpeciesConcentrationPtr;
+    exe->getFloatingSpeciesConcentrationPtr = getFloatingSpeciesConcentrationPtr;
 
 
     return exe;

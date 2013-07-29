@@ -17,6 +17,7 @@
 
 #include "rrLLVMEvalInitialConditionsCodeGen.h"
 #include "rrLLVMEvalReactionRatesCodeGen.h"
+#include "rrLLVMGetValuesCodeGen.h"
 
 namespace rr
 {
@@ -89,11 +90,34 @@ public:
 
 
     virtual int getNumCompartments();
+
+    /**
+     * get the global parameter values
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[out] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int getGlobalParameterValues(int len, int const *indx,
+            double *values);
+
     virtual int getNumReactions();
+
+    /**
+     * get the compartment volumes
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[out] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int getCompartmentVolumes(int len, int const *indx,
+            double *values);
+
     virtual int getNumRules();
     virtual int getNumEvents();
     virtual void computeEventPriorites();
-    virtual void setConcentration(int index, double value);
 
     virtual int getNumLocalParameters(int reactionId);
 
@@ -101,7 +125,7 @@ public:
 
     virtual void convertToAmounts();
     virtual void computeConservedTotals();
-    virtual double getFloatingSpeciesConcentration(int index);
+
 
     //Access dll data
     virtual void getRateRuleValues(double *rateRuleValues);
@@ -192,6 +216,18 @@ public:
 
 
     /**
+     * set the floating species concentrations
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[in] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int setFloatingSpeciesConcentrations(int len, int const *indx,
+            double const *values);
+
+
+    /**
      * get the boundary species amounts
      *
      * @param[in] len the length of the indx and values arrays.
@@ -212,6 +248,17 @@ public:
      */
     virtual int getBoundarySpeciesConcentrations(int len, int const *indx,
             double *values);
+
+    /**
+     * get the boundary species concentrations
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[in] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int setBoundarySpeciesConcentrations(int len, int const *indx,
+            double const *values);
 
 
     virtual int getGlobalParameterIndex(const string&);
@@ -247,6 +294,12 @@ private:
 
     LLVMEvalInitialConditionsCodeGen::FunctionPtr evalInitialConditionsPtr;
     LLVMEvalReactionRatesCodeGen::FunctionPtr evalReactionRatesPtr;
+    LLVMGetBoundarySpeciesAmountCodeGen::FunctionPtr getBoundarySpeciesAmountPtr;
+    LLVMGetFloatingSpeciesAmountCodeGen::FunctionPtr getFloatingSpeciesAmountPtr;
+    LLVMGetBoundarySpeciesConcentrationCodeGen::FunctionPtr getBoundarySpeciesConcentrationPtr;
+    LLVMGetFloatingSpeciesConcentrationCodeGen::FunctionPtr getFloatingSpeciesConcentrationPtr;
+
+    double getFloatingSpeciesConcentration(int index);
 
     friend class LLVMModelGenerator;
 };

@@ -73,7 +73,7 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext(libsbml::SBMLDocument const
 
     // engine take ownership of module
     EngineBuilder engineBuilder(module);
-    
+
     //engineBuilder.setEngineKind(EngineKind::JIT);
     engineBuilder.setErrorStr(errString);
     executionEngine = engineBuilder.create();
@@ -81,11 +81,18 @@ LLVMModelGeneratorContext::LLVMModelGeneratorContext(libsbml::SBMLDocument const
     addGlobalMappings();
 }
 
+static SBMLDocument *createEmptyDocument()
+{
+    SBMLDocument *doc = new SBMLDocument();
+    doc->createModel("");
+    return doc;
+}
+
 LLVMModelGeneratorContext::LLVMModelGeneratorContext() :
-        ownedDoc(0),
-        doc(0),
-        symbols(0),
-        modelSymbols(0),
+        ownedDoc(createEmptyDocument()),
+        doc(ownedDoc),
+        symbols(new LLVMModelDataSymbols(doc->getModel(), false)),
+        modelSymbols(new LLVMModelSymbols(getModel(), *symbols)),
         errString(new string())
 {
     // initialize LLVM

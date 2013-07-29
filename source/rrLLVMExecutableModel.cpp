@@ -11,6 +11,7 @@
 #include "rrSparse.h"
 #include "rrLogger.h"
 #include "rrException.h"
+#include "rrLLVMException.h"
 
 static void dump_array(std::ostream &os, int n, const double *p)
 {
@@ -30,6 +31,17 @@ static void dump_array(std::ostream &os, int n, const double *p)
 namespace rr
 {
 
+static int getValues(ModelData* modelData, double (*funcPtr)(ModelData*, int),
+        int len, int const *indx, double *values)
+{
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        values[i] = funcPtr(modelData, j);
+    }
+    return len;
+}
+
 LLVMExecutableModel::LLVMExecutableModel() :
     symbols(0),
     context(0),
@@ -37,6 +49,10 @@ LLVMExecutableModel::LLVMExecutableModel() :
     errStr(0),
     evalInitialConditionsPtr(0),
     evalReactionRatesPtr(0),
+    getBoundarySpeciesAmountPtr(0),
+    getFloatingSpeciesAmountPtr(0),
+    getBoundarySpeciesConcentrationPtr(0),
+    getFloatingSpeciesConcentrationPtr(0),
     stackDepth(0)
 {
     // zero out the struct, the generator will fill it out.
@@ -126,9 +142,6 @@ void LLVMExecutableModel::computeEventPriorites()
 {
 }
 
-void LLVMExecutableModel::setConcentration(int index, double value)
-{
-}
 
 int LLVMExecutableModel::getNumLocalParameters(int reactionId)
 {
@@ -160,6 +173,12 @@ double LLVMExecutableModel::getFloatingSpeciesConcentration(int index)
         Log(Logger::PRIO_ERROR) << "index " << index << "out of range";
         throw Exception(string(__FUNC__) + string(": index out of range"));
     }
+}
+
+int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len, int const *indx,
+        double *values)
+{
+    return getValues(&modelData, getBoundarySpeciesConcentrationPtr, len, indx, values);
 }
 
 void LLVMExecutableModel::getRateRuleValues(double *rateRuleValues)
@@ -194,12 +213,6 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
     evalReactionRates();
 
     memset(modelData.floatingSpeciesAmountRates, 0, modelData.numFloatingSpecies * sizeof(double));
-
-
-
-
-
-
 
     csr_matrix_dgemv(modelData.stoichiometry, modelData.reactionRates,
                      modelData.floatingSpeciesAmountRates);
@@ -256,16 +269,22 @@ string LLVMExecutableModel::getInfo()
 
 const SymbolList& LLVMExecutableModel::getConservations()
 {
+    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
+    throw Exception(string("Not Implemented: ") + __FUNCTION__);
     return *(SymbolList*)0;
 }
 
 const StringList LLVMExecutableModel::getConservationNames()
 {
+    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
+    throw Exception(string("Not Implemented: ") + __FUNCTION__);
     return 0;
 }
 
 int LLVMExecutableModel::getFloatingSpeciesIndex(const string& allocator)
 {
+    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
+    throw Exception(string("Not Implemented: ") + __FUNCTION__);
     return 0;
 }
 
@@ -288,46 +307,85 @@ string LLVMExecutableModel::getBoundarySpeciesName(int indx)
 
 int LLVMExecutableModel::getBoundarySpeciesCompartmentIndex(int int1)
 {
+    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
+    throw Exception(string("Not Implemented: ") + __FUNCTION__);
     return 0;
 }
 
 int LLVMExecutableModel::getGlobalParameterIndex(const string& allocator)
 {
+    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
+    throw Exception(string("Not Implemented: ") + __FUNCTION__);
     return 0;
 }
 
-string LLVMExecutableModel::getGlobalParameterName(int int1)
+string LLVMExecutableModel::getGlobalParameterName(int id)
 {
-    return string();
+    vector<string> ids = symbols->getGlobalParameterIds();
+    if (id < ids.size())
+    {
+        return ids[id];
+    }
+    else
+    {
+        throw_llvm_exception("index out of range");
+        return "";
+    }
 }
 
 int LLVMExecutableModel::getCompartmentIndex(const string& allocator)
 {
+    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
+    throw Exception(string("Not Implemented: ") + __FUNCTION__);
     return 0;
 }
 
-string LLVMExecutableModel::getCompartmentName(int int1)
+string LLVMExecutableModel::getCompartmentName(int id)
 {
-    return string();
+    vector<string> ids = symbols->getCompartmentIds();
+    if (id < ids.size())
+    {
+        return ids[id];
+    }
+    else
+    {
+        throw_llvm_exception("index out of range");
+        return "";
+    }
 }
 
 int LLVMExecutableModel::getReactionIndex(const string& allocator)
 {
+    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
+    throw Exception(string("Not Implemented: ") + __FUNCTION__);
     return 0;
 }
 
-string LLVMExecutableModel::getReactionName(int int1)
+string LLVMExecutableModel::getReactionName(int id)
 {
-    return string();
+    vector<string> ids = symbols->getReactionIds();
+    if (id < ids.size())
+    {
+        return ids[id];
+    }
+    else
+    {
+        throw_llvm_exception("index out of range");
+        return "";
+    }
 }
 
 double LLVMExecutableModel::getGlobalParameterValue(int index)
 {
+    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
+    throw Exception(string("Not Implemented: ") + __FUNCTION__);
     return 0;
 }
 
 void LLVMExecutableModel::setGlobalParameterValue(int index, double value)
 {
+    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
+    throw Exception(string("Not Implemented: ") + __FUNCTION__);
 }
 
 int LLVMExecutableModel::pushState(unsigned)
@@ -451,26 +509,49 @@ int LLVMExecutableModel::getNumRules()
 int LLVMExecutableModel::getFloatingSpeciesAmounts(int len, const int* indx,
         double* values)
 {
-    return -1;
+    return getValues(&modelData, getFloatingSpeciesAmountPtr, len, indx, values);
 }
 
-int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len,
-        const int* indx, double* values)
+int LLVMExecutableModel::setFloatingSpeciesConcentrations(int len,
+        const int* indx, const double* values)
 {
+    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
+    throw Exception(string("Not Implemented: ") + __FUNCTION__);
     return -1;
 }
 
 int LLVMExecutableModel::getBoundarySpeciesAmounts(int len, const int* indx,
         double* values)
 {
-    return -1;
+    return getValues(&modelData, getBoundarySpeciesAmountPtr, len, indx, values);
 }
 
 int LLVMExecutableModel::getBoundarySpeciesConcentrations(int len,
         const int* indx, double* values)
 {
+    return getValues(&modelData, getBoundarySpeciesConcentrationPtr, len, indx, values);
+}
+
+int LLVMExecutableModel::setBoundarySpeciesConcentrations(int len,
+        const int* indx, const double* values)
+{
+    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
+    throw Exception(string("Not Implemented: ") + __FUNCTION__);
     return -1;
 }
+
+int LLVMExecutableModel::getGlobalParameterValues(int len, const int* indx,
+        double* values)
+{
+    return -1;
+}
+
+int LLVMExecutableModel::getCompartmentVolumes(int len, const int* indx,
+        double* values)
+{
+    return -1;
+}
+
 
 
 } /* namespace rr */

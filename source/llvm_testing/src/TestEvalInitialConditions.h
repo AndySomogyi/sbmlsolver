@@ -16,9 +16,10 @@ namespace rr
 class TestEvalInitialConditions: public TestBase
 {
 public:
-	TestEvalInitialConditions(const std::string& version, int caseNumber);
-	virtual ~TestEvalInitialConditions();
-	bool test();
+    TestEvalInitialConditions(const std::string& compiler,
+            const std::string& version, int caseNumber);
+    virtual ~TestEvalInitialConditions();
+    bool test();
 };
 
 } /* namespace rr */
