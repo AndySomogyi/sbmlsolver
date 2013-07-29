@@ -49,7 +49,10 @@ LLVMExecutableModel::LLVMExecutableModel() :
     errStr(0),
     evalInitialConditionsPtr(0),
     evalReactionRatesPtr(0),
-    getBoundarySpeciesAmountsPtr(0),
+    getBoundarySpeciesAmountPtr(0),
+    getFloatingSpeciesAmountPtr(0),
+    getBoundarySpeciesConcentrationPtr(0),
+    getFloatingSpeciesConcentrationPtr(0),
     stackDepth(0)
 {
     // zero out the struct, the generator will fill it out.
@@ -175,12 +178,7 @@ double LLVMExecutableModel::getFloatingSpeciesConcentration(int index)
 int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len, int const *indx,
         double *values)
 {
-    for (int i = 0; i < len; ++i)
-    {
-        int j = indx ? indx[i] : i;
-        values[i] = getFloatingSpeciesConcentration(j);
-    }
-    return len;
+    return getValues(&modelData, getBoundarySpeciesConcentrationPtr, len, indx, values);
 }
 
 void LLVMExecutableModel::getRateRuleValues(double *rateRuleValues)
@@ -511,12 +509,7 @@ int LLVMExecutableModel::getNumRules()
 int LLVMExecutableModel::getFloatingSpeciesAmounts(int len, const int* indx,
         double* values)
 {
-    for (int i = 0; i < len; ++i)
-    {
-        int j = indx ? indx[i] : i;
-        values[i] = modelData.floatingSpeciesAmounts[j];
-    }
-    return len;
+    return getValues(&modelData, getFloatingSpeciesAmountPtr, len, indx, values);
 }
 
 int LLVMExecutableModel::setFloatingSpeciesConcentrations(int len,
@@ -530,15 +523,13 @@ int LLVMExecutableModel::setFloatingSpeciesConcentrations(int len,
 int LLVMExecutableModel::getBoundarySpeciesAmounts(int len, const int* indx,
         double* values)
 {
-    return getValues(&modelData, getBoundarySpeciesAmountsPtr, len, indx, values);
+    return getValues(&modelData, getBoundarySpeciesAmountPtr, len, indx, values);
 }
 
 int LLVMExecutableModel::getBoundarySpeciesConcentrations(int len,
         const int* indx, double* values)
 {
-    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw Exception(string("Not Implemented: ") + __FUNCTION__);
-    return -1;
+    return getValues(&modelData, getBoundarySpeciesConcentrationPtr, len, indx, values);
 }
 
 int LLVMExecutableModel::setBoundarySpeciesConcentrations(int len,
@@ -549,6 +540,20 @@ int LLVMExecutableModel::setBoundarySpeciesConcentrations(int len,
     return -1;
 }
 
+int LLVMExecutableModel::getGlobalParameterValues(int len, const int* indx,
+        double* values)
+{
+    return -1;
+}
+
+int LLVMExecutableModel::getCompartmentVolumes(int len, const int* indx,
+        double* values)
+{
+    return -1;
+}
+
 
 
 } /* namespace rr */
+
+

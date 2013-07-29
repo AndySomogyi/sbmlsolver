@@ -356,7 +356,7 @@ double RoadRunner::getValueForRecord(const SelectionRecord& record)
         break;
 
     case SelectionRecord::clVolume:
-        dResult = mModel->getModelData().compartmentVolumes[record.index];
+        mModel->getCompartmentVolumes(1, &record.index, &dResult);
         break;
 
     case SelectionRecord::clParameter:
@@ -2479,7 +2479,9 @@ string RoadRunner::writeSBML()
     array = getCompartmentIds();
     for (int i = 0; i < array.size(); i++)
     {
-        NOM.setValue((string)array[i], mModel->getModelData().compartmentVolumes[i]);
+        double value = 0;
+        mModel->getCompartmentVolumes(1, &i, &value);
+        NOM.setValue((string)array[i], value);
     }
 
     array = getGlobalParameterIds();
@@ -2627,7 +2629,9 @@ double RoadRunner::getCompartmentByIndex(const int& index)
 
     if ((index >= 0) && (index < mModel->getNumCompartments()))
     {
-        return mModel->getModelData().compartmentVolumes[index];
+        double result = 0;
+        mModel->getCompartmentVolumes(1, &index, &result);
+        return result;
     }
 
     throw CoreException(format("Index in getCompartmentByIndex out of range: [{0}]", index));
@@ -3855,7 +3859,9 @@ double RoadRunner::getValue(const string& sId)
 
     if ((nIndex = mModel->getCompartmentIndex(sId)) >= 0)
     {
-        return mModel->getModelData().compartmentVolumes[nIndex];
+        double result = 0;
+        mModel->getCompartmentVolumes(1, &nIndex, &result);
+        return result;
     }
     if ((nIndex = mModel->getReactionIndex(sId)) >= 0)
     {

@@ -17,7 +17,7 @@
 
 #include "rrLLVMEvalInitialConditionsCodeGen.h"
 #include "rrLLVMEvalReactionRatesCodeGen.h"
-#include "rrLLVMGetBoundarySpeciesAmountCodeGen.h"
+#include "rrLLVMGetValuesCodeGen.h"
 
 namespace rr
 {
@@ -90,7 +90,31 @@ public:
 
 
     virtual int getNumCompartments();
+
+    /**
+     * get the global parameter values
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[out] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int getGlobalParameterValues(int len, int const *indx,
+            double *values);
+
     virtual int getNumReactions();
+
+    /**
+     * get the compartment volumes
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[out] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int getCompartmentVolumes(int len, int const *indx,
+            double *values);
+
     virtual int getNumRules();
     virtual int getNumEvents();
     virtual void computeEventPriorites();
@@ -270,7 +294,10 @@ private:
 
     LLVMEvalInitialConditionsCodeGen::FunctionPtr evalInitialConditionsPtr;
     LLVMEvalReactionRatesCodeGen::FunctionPtr evalReactionRatesPtr;
-    LLVMGetBoundarySpeciesAmountCodeGen::FunctionPtr getBoundarySpeciesAmountsPtr;
+    LLVMGetBoundarySpeciesAmountCodeGen::FunctionPtr getBoundarySpeciesAmountPtr;
+    LLVMGetFloatingSpeciesAmountCodeGen::FunctionPtr getFloatingSpeciesAmountPtr;
+    LLVMGetBoundarySpeciesConcentrationCodeGen::FunctionPtr getBoundarySpeciesConcentrationPtr;
+    LLVMGetFloatingSpeciesConcentrationCodeGen::FunctionPtr getFloatingSpeciesConcentrationPtr;
 
     double getFloatingSpeciesConcentration(int index);
 

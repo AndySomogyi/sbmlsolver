@@ -167,9 +167,31 @@ public:
     virtual double getGlobalParameterValue(int index);
     virtual void setGlobalParameterValue(int index, double value);
 
+    /**
+     * get the global parameter values
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[out] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int getGlobalParameterValues(int len, int const *indx,
+            double *values);
+
     virtual int getNumCompartments();
     virtual int getCompartmentIndex(const string& name);
     virtual string getCompartmentName(int index);
+
+    /**
+     * get the compartment volumes
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of boundary species to return.
+     * @param[out] values an array of at least length len which will store the
+     *                returned boundary species amounts.
+     */
+    virtual int getCompartmentVolumes(int len, int const *indx,
+            double *values);
 
     virtual int getNumRules();
 

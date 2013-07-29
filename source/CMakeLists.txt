@@ -102,8 +102,8 @@ if(BUILD_LLVM)
         rrLLVMEvalInitialConditionsCodeGen
         rrLLVMEvalReactionRatesCodeGen
         rrLLVMExecutableModel
-        rrLLVMGetBoundarySpeciesAmountCodeGen
         rrLLVMGetRateRuleValuesCodeGen
+        rrLLVMGetValuesCodeGen
         rrLLVMInitialValueSymbolResolver
         rrLLVMModelDataIRBuilder
         rrLLVMModelDataSymbolResolver

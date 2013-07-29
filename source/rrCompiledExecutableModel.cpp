@@ -865,5 +865,43 @@ int CompiledExecutableModel::setBoundarySpeciesConcentrations(int len,
     return len;
 }
 
+int CompiledExecutableModel::getGlobalParameterValues(int len, const int* indx,
+        double* values)
+{
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        if (j < mData.numGlobalParameters)
+        {
+            values[i] = mData.globalParameters[j];
+        }
+        else
+        {
+            throw Exception("index out of range");
+        }
+    }
+    return len;
+}
+
+int CompiledExecutableModel::getCompartmentVolumes(int len, const int* indx,
+        double* values)
+{
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        if (j < mData.numCompartments)
+        {
+            values[i] = mData.compartmentVolumes[j];
+        }
+        else
+        {
+            throw Exception("index out of range");
+        }
+    }
+    return len;
+}
+
+
 
 } //Namespace rr
+
