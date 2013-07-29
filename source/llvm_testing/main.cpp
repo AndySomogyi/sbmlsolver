@@ -18,6 +18,7 @@
 //#include "TestEvalReactionRates.h"
 #include "TestEvalModel.h"
 #include "TestRoadRunner.h"
+#include "GetBoundarySpeciesAmountTest.h"
 
 #include "rrRoadRunner.h"
 
@@ -62,6 +63,11 @@ int main(int argc, char* argv[])
     Logger::enableLoggingToConsole();
 
     Logger::SetCutOffLogLevel(Logger::PRIO_TRACE);
+
+    GetBoundarySpeciesAmountTest bsa("", 1);
+    bsa.test();
+
+    return 0;
 
     int testCase = 0;
 

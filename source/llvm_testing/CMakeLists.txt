@@ -22,6 +22,7 @@ add_executable( ${target}
     src/TestEvalReactionRates
     src/TestEvalModel
     src/TestRoadRunner
+    src/GetBoundarySpeciesAmountTest
     )
 
 set_property(TARGET ${target}
