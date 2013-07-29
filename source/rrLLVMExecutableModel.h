@@ -17,6 +17,7 @@
 
 #include "rrLLVMEvalInitialConditionsCodeGen.h"
 #include "rrLLVMEvalReactionRatesCodeGen.h"
+#include "rrLLVMGetBoundarySpeciesAmountCodeGen.h"
 
 namespace rr
 {
@@ -269,6 +270,7 @@ private:
 
     LLVMEvalInitialConditionsCodeGen::FunctionPtr evalInitialConditionsPtr;
     LLVMEvalReactionRatesCodeGen::FunctionPtr evalReactionRatesPtr;
+    LLVMGetBoundarySpeciesAmountCodeGen::FunctionPtr getBoundarySpeciesAmountsPtr;
 
     double getFloatingSpeciesConcentration(int index);
 

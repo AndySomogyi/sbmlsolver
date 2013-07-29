@@ -876,8 +876,8 @@ double RoadRunner::steadyState()
     NLEQInterface steadyStateSolver(mModel);
 
     //Get a std vector for the solver
-    vector<double> someAmounts;
-    copyCArrayToStdVector(mModel->getModelData().floatingSpeciesAmounts, someAmounts, mModel->getNumIndependentSpecies());
+    vector<double> someAmounts(mModel->getNumIndependentSpecies(), 0);
+    mModel->getFloatingSpeciesAmounts(someAmounts.size(), 0, &someAmounts[0]);
 
     double ss = steadyStateSolver.solve(someAmounts);
     if(ss < 0)

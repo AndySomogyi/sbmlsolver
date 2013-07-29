@@ -38,6 +38,7 @@ LLVMExecutableModel::LLVMExecutableModel() :
     errStr(0),
     evalInitialConditionsPtr(0),
     evalReactionRatesPtr(0),
+    getBoundarySpeciesAmountsPtr(0),
     stackDepth(0)
 {
     // zero out the struct, the generator will fill it out.
@@ -163,9 +164,12 @@ double LLVMExecutableModel::getFloatingSpeciesConcentration(int index)
 int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len, int const *indx,
         double *values)
 {
-    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw Exception(string("Not Implemented: ") + __FUNCTION__);
-    return -1;
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        values[i] = getFloatingSpeciesConcentration(j);
+    }
+    return len;
 }
 
 void LLVMExecutableModel::getRateRuleValues(double *rateRuleValues)
