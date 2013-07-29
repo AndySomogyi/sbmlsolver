@@ -16,7 +16,8 @@ namespace rr
 class TestEvalModel: public TestBase
 {
 public:
-    TestEvalModel(const std::string& version, int caseNumber);
+    TestEvalModel(const std::string& compiler,
+            const std::string& version, int caseNumber);
     virtual ~TestEvalModel();
     bool test();
 };

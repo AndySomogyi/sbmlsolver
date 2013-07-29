@@ -19,15 +19,16 @@ namespace rr
 class TestBase
 {
 public:
-    TestBase(const std::string& version, int caseNumber);
+    TestBase(const std::string& compiler, const std::string& version, int caseNumber);
     virtual ~TestBase();
-    
+
     virtual bool test() {return true;}
 
-    LLVMExecutableModel *model;
+    ExecutableModel *model;
     string version;
     int caseNumber;
     string fileName;
+    string compiler;
 };
 
 } /* namespace rr */

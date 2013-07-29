@@ -80,6 +80,9 @@ ExecutableModel* LLVMModelGenerator::createModel(const string& sbml,
     LLVMEvalReactionRatesCodeGen::FunctionPtr evalReactionRatesPtr =
             LLVMEvalReactionRatesCodeGen(context).createFunction();
 
+    LLVMGetBoundarySpeciesAmountCodeGen::FunctionPtr getBoundarySpeciesAmountsPtr =
+            LLVMGetBoundarySpeciesAmountCodeGen(context).createFunction();
+
 
     // if anything up to this point throws an exception, thats OK, because
     // we have not allocated any memory yet that is not taken care of by
@@ -98,6 +101,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const string& sbml,
 
     exe->evalInitialConditionsPtr = evalInitialConditionsPtr;
     exe->evalReactionRatesPtr = evalReactionRatesPtr;
+    exe->getBoundarySpeciesAmountsPtr = getBoundarySpeciesAmountsPtr;
 
 
     return exe;

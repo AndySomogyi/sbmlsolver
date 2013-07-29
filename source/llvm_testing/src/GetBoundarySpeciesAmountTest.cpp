@@ -8,25 +8,29 @@
 #include "GetBoundarySpeciesAmountTest.h"
 #include "rrLLVMGetBoundarySpeciesAmountCodeGen.h"
 #include "rrLLVMModelGeneratorContext.h"
+#include "rrLogger.h"
+#include <vector>
 
 namespace rr
 {
+using namespace std;
 
 
 GetBoundarySpeciesAmountTest::~GetBoundarySpeciesAmountTest()
 {
-    // TODO Auto-generated destructor stub
 }
 
-} /* namespace rr */
 
-rr::GetBoundarySpeciesAmountTest::GetBoundarySpeciesAmountTest(
-        const std::string& version, int caseNumber)
+GetBoundarySpeciesAmountTest::GetBoundarySpeciesAmountTest(
+        const std::string& compiler, const std::string& version, int caseNumber)
+            : TestBase(compiler, version, caseNumber)
 {
 }
 
-void rr::GetBoundarySpeciesAmountTest::test()
+
+bool rr::GetBoundarySpeciesAmountTest::test()
 {
+    /*
     LLVMModelGeneratorContext ctx;
 
     LLVMGetBoundarySpeciesAmountCodeGen bsa(ctx);
@@ -39,4 +43,32 @@ void rr::GetBoundarySpeciesAmountTest::test()
 
     cout << "result: " << result;
 
+    return true;
+    */
+
+    model->evalInitialConditions();
+
+    Log(Logger::PRIO_INFORMATION) << model;
+
+
+
+    int n = model->getNumBoundarySpecies();
+    vector<double> values(n, 0);
+
+    model->getBoundarySpeciesAmounts(n, 0, &values[0]);
+
+    for(int i = 0; i < n; ++i)
+    {
+        Log(Logger::PRIO_INFORMATION) << "boundary species " <<
+                model->getBoundarySpeciesName(i) << ": " << values[i] << endl;
+    }
+
+    return true;
+
+
+
 }
+
+
+} /* namespace rr */
+

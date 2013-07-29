@@ -64,10 +64,6 @@ int main(int argc, char* argv[])
 
     Logger::SetCutOffLogLevel(Logger::PRIO_TRACE);
 
-    GetBoundarySpeciesAmountTest bsa("", 1);
-    bsa.test();
-
-    return 0;
 
     int testCase = 0;
 
@@ -156,10 +152,12 @@ int main(int argc, char* argv[])
         //runInitialValueAssigmentTest(pairs[i].first, pairs[i].second);
         try
         {
-            TestRoadRunner test(pairs[testCase].first, pairs[testCase].second);
-            test.test(compiler);
-            test.saveResult();
-            test.compareReference();
+            GetBoundarySpeciesAmountTest test(compiler, pairs[testCase].first, pairs[testCase].second);
+            test.test();
+            //TestRoadRunner test(compiler, pairs[testCase].first, pairs[testCase].second);
+            //test.test(compiler);
+            //test.saveResult();
+            //test.compareReference();
         }
         catch (std::exception &e)
         {

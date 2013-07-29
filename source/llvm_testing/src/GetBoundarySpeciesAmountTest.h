@@ -8,18 +8,20 @@
 #ifndef GETBOUNDARYSPECIESAMOUNTTEST_H_
 #define GETBOUNDARYSPECIESAMOUNTTEST_H_
 
+#include "TestBase.h"
 #include <string>
 
 namespace rr
 {
 
-class GetBoundarySpeciesAmountTest
+class GetBoundarySpeciesAmountTest: public TestBase
 {
 public:
-    GetBoundarySpeciesAmountTest(const std::string& version, int caseNumber);
+    GetBoundarySpeciesAmountTest(const std::string& compiler,
+            const std::string& version, int caseNumber);
     ~GetBoundarySpeciesAmountTest();
 
-    void test();
+    bool test();
 };
 
 } /* namespace rr */

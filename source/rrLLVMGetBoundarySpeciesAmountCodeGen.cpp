@@ -7,6 +7,8 @@
 
 #include "rrLLVMGetBoundarySpeciesAmountCodeGen.h"
 #include "rrLLVMException.h"
+#include "rrLLVMModelDataSymbolResolver.h"
+#include "rrLLVMGetValueCodeGenBase.h"
 #include "rrLogger.h"
 
 #include <Poco/Logger.h>
@@ -47,6 +49,8 @@ Value* LLVMGetBoundarySpeciesAmountCodeGen::codeGen()
 
     // Create a new basic block to start insertion into.
     BasicBlock *entry = BasicBlock::Create(context, "entry", functionValue);
+
+    // TODO: remove this
     builder.SetInsertPoint(entry);
 
     vector<Argument*> args;
@@ -57,39 +61,35 @@ Value* LLVMGetBoundarySpeciesAmountCodeGen::codeGen()
     }
     assert(args.size() == 2);
 
+    args[0]->setName("modelData");
+    args[1]->setName("boundarySpeciesIndx");
+
+
+    vector<string> ids = dataSymbols.getBoundarySpeciesIds();
+
+    LLVMModelDataSymbolResolver resolver(args[0], model, modelSymbols,
+            dataSymbols, builder);
+
+    // default, return NaN
     BasicBlock *def = BasicBlock::Create(context, "default", functionValue);
     builder.SetInsertPoint(def);
-    builder.CreateRet(ConstantFP::get(context, APFloat(13.0)));
+    builder.CreateRet(ConstantFP::get(context, APFloat::getQNaN(APFloat::IEEEdouble, false)));
 
+    // write the switch at the func entry point, the switch is also the
+    // entry block terminator
     builder.SetInsertPoint(entry);
 
-    llvm::SwitchInst *s = builder.CreateSwitch(args[1], def, 2);
+    llvm::SwitchInst *s = builder.CreateSwitch(args[1], def, ids.size());
 
-    cout << "num cases: " << s->getNumCases() << endl;
-
-    BasicBlock *one = BasicBlock::Create(context, "one", functionValue);
-    builder.SetInsertPoint(one);
-    builder.CreateRet(ConstantFP::get(context, APFloat(1.0)));
-
-    BasicBlock *two = BasicBlock::Create(context, "two", functionValue);
-        builder.SetInsertPoint(two);
-        builder.CreateRet(ConstantFP::get(context, APFloat(2.0)));
-
-    s->addCase(ConstantInt::get(Type::getInt32Ty(context), 1), one);
-    s->addCase(ConstantInt::get(Type::getInt32Ty(context), 2), two);
-
-
-
-
-
-
-
-
-    //builder.SetInsertPoint(entry);
-
-    //Value *ret = ConstantFP::get(context, APFloat(42.0));
-
-    //builder.CreateRet(ret);
+    for (int i = 0; i < ids.size(); ++i)
+    {
+        BasicBlock *block = BasicBlock::Create(context, ids[i] + "_block", functionValue);
+        builder.SetInsertPoint(block);
+        Value *retval = resolver.symbolValue(ids[i]);
+        retval->setName(ids[i] + "_value");
+        builder.CreateRet(retval);
+        s->addCase(ConstantInt::get(Type::getInt32Ty(context), i), block);
+    }
 
     poco_information(getLogger(), string(FunctionName) + string(": ") +
             to_string(functionValue));
@@ -103,9 +103,6 @@ Value* LLVMGetBoundarySpeciesAmountCodeGen::codeGen()
 
         throw LLVMException("Generated function is corrupt, see stderr", __FUNC__);
     }
-
-    poco_information(getLogger(), string(FunctionName) + string(": ") +
-            to_string(functionValue));
 
     return functionValue;
 }

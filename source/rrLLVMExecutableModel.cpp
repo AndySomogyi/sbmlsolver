@@ -31,6 +31,17 @@ static void dump_array(std::ostream &os, int n, const double *p)
 namespace rr
 {
 
+static int getValues(ModelData* modelData, double (*funcPtr)(ModelData*, int),
+        int len, int const *indx, double *values)
+{
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        values[i] = funcPtr(modelData, j);
+    }
+    return len;
+}
+
 LLVMExecutableModel::LLVMExecutableModel() :
     symbols(0),
     context(0),
@@ -519,9 +530,7 @@ int LLVMExecutableModel::setFloatingSpeciesConcentrations(int len,
 int LLVMExecutableModel::getBoundarySpeciesAmounts(int len, const int* indx,
         double* values)
 {
-    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw Exception(string("Not Implemented: ") + __FUNCTION__);
-    return -1;
+    return getValues(&modelData, getBoundarySpeciesAmountsPtr, len, indx, values);
 }
 
 int LLVMExecutableModel::getBoundarySpeciesConcentrations(int len,

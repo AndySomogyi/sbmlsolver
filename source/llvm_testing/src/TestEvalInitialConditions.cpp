@@ -11,23 +11,24 @@
 namespace rr
 {
 
-TestEvalInitialConditions::TestEvalInitialConditions(const std::string& version, int caseNumber)
-    : TestBase(version, caseNumber)
+TestEvalInitialConditions::TestEvalInitialConditions(const std::string& compiler,
+        const std::string& version, int caseNumber)
+    : TestBase(compiler, version, caseNumber)
 {
 }
 
 TestEvalInitialConditions::~TestEvalInitialConditions()
 {
 }
-    
+
 bool TestEvalInitialConditions::test()
 {
     Log(Logger::PRIO_INFORMATION) << "Evaluating Initial Conditions for " << fileName << endl;
-    
+
     model->evalInitialConditions();
-    
+
     Log(Logger::PRIO_INFORMATION) << model << endl;
-    
+
     return true;
 }
 
