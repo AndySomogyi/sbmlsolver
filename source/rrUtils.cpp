@@ -225,9 +225,15 @@ string getCurrentExeFolder()
     char exepath[PATH_MAX+1] = {0};
 
     sprintf( arg1, "/proc/%d/exe", getpid() );
-    readlink( arg1, exepath, 1024 );
+    ssize_t r = readlink( arg1, exepath, 1024 );
+
+    if (r < 0)
+    {
+        throw Exception("error readlink(" + arg1 + ") failed");
+    }
+
     string thePath = getFilePath(exepath);
-    Log(lDebug1)<<"Current exe folder says:"<<thePath;
+    Log(lDebug1) << "Current exe folder says:" << thePath;
     return thePath;
 #endif
 
