@@ -32,8 +32,7 @@ class LLVMInitialValueSymbolResolver;
  * generated function signature:
  * void modeldata_initialvalues_set(ModelData *);
  */
-class LLVMEvalInitialConditionsCodeGen: private LLVMCodeGenBase,
-    private LLVMSymbolResolver
+class LLVMEvalInitialConditionsCodeGen: private LLVMCodeGenBase
 {
 public:
     LLVMEvalInitialConditionsCodeGen(const LLVMModelGeneratorContext &mgc);
@@ -47,10 +46,6 @@ public:
     FunctionPtr createFunction();
 
 private:
-
-
-    virtual llvm::Value *symbolValue(const std::string& symbol);
-
 
     void codeGenSpecies(llvm::Value *modelData,
             LLVMModelDataIRBuilder &modelDataBuilder);

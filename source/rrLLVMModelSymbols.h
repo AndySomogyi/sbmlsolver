@@ -38,9 +38,18 @@ public:
      */
     libsbml::ASTNode *createStoichiometryNode(int row, int col) const;
 
+    /**
+     * assignment rules are always active
+     */
     const LLVMSymbolForest& getAssigmentRules() const;
 
+    /**
+     * contains the intial symbols along with the intial assignments which
+     * override the initial values.
+     */
     const LLVMSymbolForest& getInitialValues() const;
+
+    const LLVMSymbolForest& getRateRules() const;
 
 protected:
 
@@ -126,6 +135,8 @@ protected:
     LLVMSymbolForest initialValues;
 
     LLVMSymbolForest assigmentRules;
+
+    LLVMSymbolForest rateRules;
 
     /**
      * all ASTNodes we create are stored here.

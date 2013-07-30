@@ -106,29 +106,6 @@ Value* LLVMEvalInitialConditionsCodeGen::codeGen()
 }
 
 
-llvm::Value* LLVMEvalInitialConditionsCodeGen::symbolValue(const std::string& symbol)
-{
-    LLVMSymbolForest::ConstIterator i = modelSymbols.getAssigmentRules().find(symbol);
-    if (i != modelSymbols.getAssigmentRules().end())
-    {
-        return LLVMASTNodeCodeGen(builder, *this).codeGen(i->second);
-    }
-
-    i = modelSymbols.getInitialValues().find(symbol);
-    if (i != modelSymbols.getInitialValues().end())
-    {
-        return LLVMASTNodeCodeGen(builder, *this).codeGen(i->second);
-    }
-
-    else
-    {
-        string msg = "Could not find requested symbol \'";
-        msg += symbol;
-        msg += "\' in symbol forest";
-        throw LLVMException(msg, __FUNC__);
-    }
-}
-
 void LLVMEvalInitialConditionsCodeGen::codeGenSpecies(llvm::Value *modelData,
         LLVMModelDataIRBuilder& modelDataBuilder)
 {
@@ -142,12 +119,12 @@ void LLVMEvalInitialConditionsCodeGen::codeGenSpecies(llvm::Value *modelData,
 
         if (s->getHasOnlySubstanceUnits())
         {
-            amt = symbolResolver.symbolValue(s->getId());
+            amt = symbolResolver.loadSymbolValue(s->getId());
         }
         else
         {
-            Value *conc = symbolResolver.symbolValue(s->getId());
-            Value *comp = symbolResolver.symbolValue(s->getCompartment());
+            Value *conc = symbolResolver.loadSymbolValue(s->getId());
+            Value *comp = symbolResolver.loadSymbolValue(s->getCompartment());
             amt = builder.CreateFMul(conc, comp, s->getId() + "_amt");
         }
 
@@ -173,7 +150,7 @@ LLVMEvalInitialConditionsCodeGen::FunctionPtr LLVMEvalInitialConditionsCodeGen::
 void LLVMEvalInitialConditionsCodeGen::codeGenStoichiometry(llvm::Value* modelData,
         LLVMModelDataIRBuilder& modelDataBuilder)
 {
-    LLVMASTNodeCodeGen astCodeGen(builder, *this);
+    LLVMASTNodeCodeGen astCodeGen(builder, symbolResolver);
 
     Log(lInfo) << "reactions: ";
     vector<string> ids = dataSymbols.getReactionIds();
@@ -233,7 +210,7 @@ void LLVMEvalInitialConditionsCodeGen::codeGenCompartments(
 void LLVMEvalInitialConditionsCodeGen::codeGenParameters(llvm::Value* modelData,
         LLVMModelDataIRBuilder& modelDataBuilder)
 {
-    LLVMASTNodeCodeGen astCodeGen(builder, *this);
+    LLVMASTNodeCodeGen astCodeGen(builder, symbolResolver);
 
     Log(lInfo) << "globalParameters: \n";
     for (LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialValues().globalParameters.begin();
