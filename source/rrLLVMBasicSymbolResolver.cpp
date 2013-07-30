@@ -35,7 +35,7 @@ LLVMBasicSymbolResolver::~LLVMBasicSymbolResolver()
 {
 }
 
-llvm::Value* LLVMBasicSymbolResolver::symbolValue(const std::string& symbol)
+llvm::Value* LLVMBasicSymbolResolver::loadSymbolValue(const std::string& symbol)
 {
     /*************************************************************************/
     /* AssignmentRule */
@@ -74,7 +74,7 @@ llvm::Value* LLVMBasicSymbolResolver::symbolValue(const std::string& symbol)
         else
         {
             // have a floating species, terminal knows about these.
-            amt = terminal.symbolValue(symbol);
+            amt = terminal.loadSymbolValue(symbol);
         }
 
         amt->setName(symbol + "_amt");
@@ -89,7 +89,7 @@ llvm::Value* LLVMBasicSymbolResolver::symbolValue(const std::string& symbol)
             // expect a concentration, need to convert amt to conc,
             // so we need to get the compartment its in, but these
             // can vary also...
-            Value *comp = symbolValue(species->getCompartment());
+            Value *comp = loadSymbolValue(species->getCompartment());
             return builder.CreateFDiv(amt, comp, symbol + "_conc");
         }
     }
@@ -98,9 +98,15 @@ llvm::Value* LLVMBasicSymbolResolver::symbolValue(const std::string& symbol)
     /*************************************************************************/
     /* Look in tail */
     /*************************************************************************/
-    return terminal.symbolValue(symbol);
+    return terminal.loadSymbolValue(symbol);
 }
 
+llvm::Value* LLVMBasicSymbolResolver::storeSymbolValue(
+        const std::string& symbol)
+{
+    throw_llvm_exception("not implemented");
+    return 0;
+}
 
 } /* namespace rr */
 

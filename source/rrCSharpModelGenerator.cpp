@@ -2326,4 +2326,12 @@ string CSharpModelGenerator::getTemporaryDirectory()
     return "";
 }
 
-}//rr namespace
+ExecutableModel* CSharpModelGenerator::createModel(const string& sbml,
+        bool computeAndAssignConsevationLaws)
+{
+    return 0;
+}
+
+}        //rr namespace
+
+

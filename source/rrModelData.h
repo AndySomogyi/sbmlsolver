@@ -283,11 +283,11 @@ typedef struct SModelData
     int                                 workSize;                         // 44
     double*                             work;                             // 45
 
-    EventDelayHandler*                eventDelays;                      // 46
-    EventAssignmentHandler*                 eventAssignments;                 // 47
+    EventDelayHandler*                  eventDelays;                      // 46
+    EventAssignmentHandler*             eventAssignments;                 // 47
 
-    ComputeEventAssignmentHandler*    computeEventAssignments;          // 48
-    PerformEventAssignmentHandler*    performEventAssignments;          // 49
+    ComputeEventAssignmentHandler*      computeEventAssignments;          // 48
+    PerformEventAssignmentHandler*      performEventAssignments;          // 49
 
     /**
      * model name

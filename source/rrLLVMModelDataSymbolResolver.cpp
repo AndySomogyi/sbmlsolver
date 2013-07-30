@@ -46,7 +46,7 @@ LLVMModelDataTermSymbolResolver::~LLVMModelDataTermSymbolResolver()
 {
 }
 
-llvm::Value* LLVMModelDataTermSymbolResolver::symbolValue(const std::string& symbol)
+llvm::Value* LLVMModelDataTermSymbolResolver::loadSymbolValue(const std::string& symbol)
 {
     LLVMModelDataIRBuilder mdbuilder(modelData, modelDataSymbols, builder);
 
@@ -95,6 +95,13 @@ llvm::Value* LLVMModelDataTermSymbolResolver::symbolValue(const std::string& sym
     msg += "\' in the model";
     throw_llvm_exception(msg);
 
+    return 0;
+}
+
+llvm::Value* LLVMModelDataTermSymbolResolver::storeSymbolValue(
+        const std::string& symbol)
+{
+    throw_llvm_exception("not implemented");
     return 0;
 }
 

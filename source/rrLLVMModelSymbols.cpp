@@ -497,4 +497,11 @@ const LLVMSymbolForest& LLVMModelSymbols::getInitialValues() const
     return initialValues;
 }
 
+const LLVMSymbolForest& LLVMModelSymbols::getRateRules() const
+{
+    return rateRules;
+}
+
 } /* namespace rr */
+
+

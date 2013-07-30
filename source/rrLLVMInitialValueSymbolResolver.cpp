@@ -56,7 +56,7 @@ LLVMInitialValueTermSymbolResolver::~LLVMInitialValueTermSymbolResolver()
 {
 }
 
-llvm::Value* LLVMInitialValueTermSymbolResolver::symbolValue(const std::string& symbol)
+llvm::Value* LLVMInitialValueTermSymbolResolver::loadSymbolValue(const std::string& symbol)
 {
     //LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialAssigments().find(symbol);
     //if (i != modelSymbols.getInitialAssigments().end())
@@ -132,8 +132,16 @@ llvm::Value* LLVMInitialValueTermSymbolResolver::symbolValue(const std::string& 
     return 0;
 }
 
+llvm::Value* LLVMInitialValueTermSymbolResolver::storeSymbolValue(
+        const std::string& symbol)
+{
+    throw_llvm_exception("not implemented");
+    return 0;
+}
+
 
 
 
 } /* namespace rr */
+
 

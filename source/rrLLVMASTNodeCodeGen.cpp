@@ -187,7 +187,7 @@ llvm::Value* LLVMASTNodeCodeGen::notImplemented(const libsbml::ASTNode* ast)
 
 llvm::Value* LLVMASTNodeCodeGen::nameExprCodeGen(const libsbml::ASTNode* ast)
 {
-    return resolver.symbolValue(ast->getName());
+    return resolver.loadSymbolValue(ast->getName());
 }
 
 llvm::Value* LLVMASTNodeCodeGen::realExprCodeGen(const libsbml::ASTNode* ast)

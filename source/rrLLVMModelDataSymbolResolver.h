@@ -48,7 +48,9 @@ public:
      * the terminal values from the initial values and assigments
      * specified in the model.
      */
-    virtual llvm::Value *symbolValue(const std::string& symbol);
+    virtual llvm::Value *loadSymbolValue(const std::string& symbol);
+
+    virtual llvm::Value *storeSymbolValue(const std::string& symbol);
 
 protected:
 

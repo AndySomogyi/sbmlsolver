@@ -107,7 +107,7 @@ llvm::Value* LLVMGetValueCodeGenBase<Derived, substanceUnits>::codeGen()
         builder.SetInsertPoint(block);
 
         // the requested value
-        llvm::Value *value = resolver.symbolValue(ids[i]);
+        llvm::Value *value = resolver.loadSymbolValue(ids[i]);
 
         // need to check if we have an amount or concentration and check if we
         // are asked for asked for an amount or concentration and convert accordingly
@@ -123,7 +123,7 @@ llvm::Value* LLVMGetValueCodeGenBase<Derived, substanceUnits>::codeGen()
                 if (!substanceUnits)
                 {
                     // convert to concentration
-                    llvm::Value *comp = resolver.symbolValue(species->getCompartment());
+                    llvm::Value *comp = resolver.loadSymbolValue(species->getCompartment());
                     value = builder.CreateFDiv(value, comp, ids[i] + "_conc");
                 }
             }
@@ -134,7 +134,7 @@ llvm::Value* LLVMGetValueCodeGenBase<Derived, substanceUnits>::codeGen()
                 if (substanceUnits)
                 {
                     // convert to amount
-                    llvm::Value *comp = resolver.symbolValue(species->getCompartment());
+                    llvm::Value *comp = resolver.loadSymbolValue(species->getCompartment());
                     value = builder.CreateFMul(value, comp, ids[i] + "_amt");
                 }
             }
