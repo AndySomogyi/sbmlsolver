@@ -229,7 +229,7 @@ string getCurrentExeFolder()
 
     if (r < 0)
     {
-        throw Exception("error readlink(" + arg1 + ") failed");
+        throw Exception(string("error readlink(") + string((char*)arg1) + string(") failed"));
     }
 
     string thePath = getFilePath(exepath);
