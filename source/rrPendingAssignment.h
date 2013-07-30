@@ -3,45 +3,35 @@
 #include <vector>
 #include "rrObject.h"
 #include "rrModelData.h"
-//#include "rrTComputeEventAssignmentDelegate.h"
-//#include "rrTPerformEventAssignmentDelegate.h"
 
-using std::vector;
-
-//---------------------------------------------------------------------------
-// <summary>
-// Initializes a new instance of the PendingAssignment class.
-// </summary>
-// <param name="time"></param>
 namespace rr
 {
 
 class RR_DECLSPEC PendingAssignment
 {
-    protected:
-      	SModelData*							mModelData;
-        double                              Time;
-        int                                 Index;
-        bool                                UseValuesFromTriggerTime;
-        TComputeEventAssignmentDelegate     ComputeAssignment;
-        TPerformEventAssignmentDelegate     PerformAssignment;
-        int                                 ComputedValuesSize;
+protected:
+    SModelData*                       mModelData;
+    double                            Time;
+    int                               Index;
+    bool                              UseValuesFromTriggerTime;
+    ComputeEventAssignmentHandler     ComputeAssignment;
+    PerformEventAssignmentHandler     PerformAssignment;
 
-    public:
-        double*                             ComputedValues;
+public:
+    double*                           ComputedValues;
 
-          /// <summary>
-        /// Initializes a new instance of the PendingAssignment class.
-        /// </summary>
-        /// <param name="time"></param>
-                                            PendingAssignment(  SModelData* md, double time,
-                                                                TComputeEventAssignmentDelegate computeAssignment,
-                                                                TPerformEventAssignmentDelegate performAssignment,
-                                                                bool useValuesFromTriggerTime,
-                                                                int index);
-        int                                 GetIndex();
-        double                              GetTime();
-        void                                AssignToModel();
+    /**
+     *  Initializes a new instance of the PendingAssignment class.
+     * @param name="time"
+     */
+    PendingAssignment(SModelData* md, double time,
+            ComputeEventAssignmentHandler computeAssignment,
+            PerformEventAssignmentHandler performAssignment,
+            bool useValuesFromTriggerTime,
+            int index);
+    int                               GetIndex();
+    double                            GetTime();
+    void                              AssignToModel();
 };
 
 }
@@ -55,8 +45,8 @@ class RR_DECLSPEC PendingAssignment
 //        /// Initializes a new instance of the PendingAssignment class.
 //        /// </summary>
 //        /// <param name="time"></param>
-//        public PendingAssignment(double time, TComputeEventAssignmentDelegate computeAssignment,
-//                                 TPerformEventAssignmentDelegate performAssignment, bool useValuesFromTriggerTime, int index)
+//        public PendingAssignment(double time, ComputeEventAssignmentHandler computeAssignment,
+//                                 PerformEventAssignmentHandler performAssignment, bool useValuesFromTriggerTime, int index)
 //        {
 //            Time = time;
 //            ComputeAssignment = computeAssignment;
@@ -72,8 +62,8 @@ class RR_DECLSPEC PendingAssignment
 //        public double Time { get; set; }
 //
 //        public double[] ComputedValues { get; set; }
-//        public TComputeEventAssignmentDelegate ComputeAssignment { get; set; }
-//        public TPerformEventAssignmentDelegate PerformAssignment { get; set; }
+//        public ComputeEventAssignmentHandler ComputeAssignment { get; set; }
+//        public PerformEventAssignmentHandler PerformAssignment { get; set; }
 //        public bool UseValuesFromTriggerTime { get; set; }
 //
 //        public void AssignToModel()

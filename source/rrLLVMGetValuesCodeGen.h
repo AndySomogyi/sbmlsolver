@@ -85,6 +85,38 @@ public:
     static const char* IndexArgName;
 };
 
+class LLVMGetCompartmentVolumeCodeGen: public
+    LLVMGetValueCodeGenBase<LLVMGetCompartmentVolumeCodeGen, false>
+{
+public:
+    LLVMGetCompartmentVolumeCodeGen(const LLVMModelGeneratorContext &mgc);
+    ~LLVMGetCompartmentVolumeCodeGen() {};
+
+    vector<string> getIds()
+    {
+        return dataSymbols.getCompartmentIds();
+    }
+
+    static const char* FunctionName;
+    static const char* IndexArgName;
+};
+
+class LLVMGetGlobalParameterCodeGen: public
+    LLVMGetValueCodeGenBase<LLVMGetGlobalParameterCodeGen, false>
+{
+public:
+    LLVMGetGlobalParameterCodeGen(const LLVMModelGeneratorContext &mgc);
+    ~LLVMGetGlobalParameterCodeGen() {};
+
+    vector<string> getIds()
+    {
+        return dataSymbols.getGlobalParameterIds();
+    }
+
+    static const char* FunctionName;
+    static const char* IndexArgName;
+};
+
 
 
 } /* namespace rr */

@@ -30,11 +30,15 @@ CompiledModelGenerator(),
 mTempFileFolder(tempFolder),
 mCompiler(supportCodeFolder, compiler),
 mModel(0),
-mModelLib(0)
+mModelLib(0),
+ownedLS(0)
 {
 }
 
-CModelGenerator::~CModelGenerator(){}
+CModelGenerator::~CModelGenerator()
+{
+    delete ownedLS;
+}
 
 int CModelGenerator::getNumberOfFloatingSpecies()
 {
@@ -60,7 +64,6 @@ string CModelGenerator::getSourceCodeFileName()
 {
     return mSourceCodeFileName;
 }
-
 
 // Generates the Model Code from the SBML string
 string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _computeAndAssignConsevationLaws)
@@ -1155,10 +1158,10 @@ void CModelGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numR
     if (numEvents > 0)
     {
         //Get array of pointers functions
-        mSource<<("TEventAssignmentDelegate* Get_eventAssignments(ModelData* md) \n{\n\treturn md->eventAssignments;\n}\n\n");
-        mSource<<("TPerformEventAssignmentDelegate* Get_performEventAssignments(ModelData* md) \n{\n\treturn md->performEventAssignments;\n}\n\n");
-        mSource<<("TComputeEventAssignmentDelegate* Get_computeEventAssignments(ModelData* md) \n{\n\treturn md->computeEventAssignments;\n}\n\n");
-        mSource<<("TEventDelayDelegate* GetEventDelays(ModelData* md) \n{\n\treturn md->eventDelays;\n}\n\n");
+        mSource<<("EventAssignmentHandler* Get_eventAssignments(ModelData* md) \n{\n\treturn md->eventAssignments;\n}\n\n");
+        mSource<<("PerformEventAssignmentHandler* Get_performEventAssignments(ModelData* md) \n{\n\treturn md->performEventAssignments;\n}\n\n");
+        mSource<<("ComputeEventAssignmentHandler* Get_computeEventAssignments(ModelData* md) \n{\n\treturn md->computeEventAssignments;\n}\n\n");
+        mSource<<("EventDelayHandler* GetEventDelays(ModelData* md) \n{\n\treturn md->eventDelays;\n}\n\n");
         mSource<<append("// Event assignments" + NL());
         for (int i = 0; i < numEvents; i++)
         {
@@ -1247,7 +1250,7 @@ void CModelGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numR
 
     for (int i = 0; i < delays.Count(); i++)
     {
-        mSource<<format("\tmd->eventDelays[{0}] = (TEventDelayDelegate) malloc(sizeof(TEventDelayDelegate) * 1);{2}", i, delays[i], NL());
+        mSource<<format("\tmd->eventDelays[{0}] = (EventDelayHandler) malloc(sizeof(EventDelayHandler) * 1);{2}", i, delays[i], NL());
 
         //Inititialize
         mSource<<format("\tmd->eventDelays[{0}] = GetEventDelay_{0};\n", i);
@@ -1480,8 +1483,8 @@ void CModelGenerator::writeInitFunction(CodeBuilder& ignore, CodeBuilder& source
         {
             string iStr = toString(i);
             source<<append("\tmd->eventAssignments[" + iStr + "] = eventAssignment_" + iStr +";" + NL());
-            source<<append("\tmd->computeEventAssignments[" + iStr + "] = (TComputeEventAssignmentDelegate) computeEventAssignment_" + iStr + ";" + NL());
-            source<<append("\tmd->performEventAssignments[" + iStr + "] = (TPerformEventAssignmentDelegate) performEventAssignment_" + iStr + ";" + NL());
+            source<<append("\tmd->computeEventAssignments[" + iStr + "] = (ComputeEventAssignmentHandler) computeEventAssignment_" + iStr + ";" + NL());
+            source<<append("\tmd->performEventAssignments[" + iStr + "] = (PerformEventAssignmentHandler) performEventAssignment_" + iStr + ";" + NL());
         }
 
         source<<append("\tresetEvents(md);" + NL());
@@ -2348,6 +2351,25 @@ bool CModelGenerator::initializeModel()
     return true;
 }
 
+ExecutableModel *CModelGenerator::createModel(const string& sbml,
+        bool computeAndAssignConsevationLaws)
+{
+    delete ownedLS;
+    ownedLS = new ls::LibStructural();
+
+    Log(lDebug3) << "Loading sbml into StructAnalysis";
+    string msg = ownedLS->loadSBML(sbml); //the ls loadSBML load call took SASCII before.. does it need to?
+    Log(lDebug1) << "Message from StructAnalysis.LoadSBML function\n"
+            << msg;
+
+    ExecutableModel *model = createModel(sbml, ownedLS, true,
+            computeAndAssignConsevationLaws);
+
+    delete ownedLS;
+    ownedLS = 0;
+
+    return model;
+}
 
 ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural *ls,
         bool forceReCompile, bool computeAndAssignConsevationLaws)

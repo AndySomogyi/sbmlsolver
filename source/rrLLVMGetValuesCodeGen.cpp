@@ -57,6 +57,25 @@ LLVMGetFloatingSpeciesConcentrationCodeGen::LLVMGetFloatingSpeciesConcentrationC
 {
 }
 
+const char* LLVMGetCompartmentVolumeCodeGen::FunctionName = "getCompartmentVolume";
+const char* LLVMGetCompartmentVolumeCodeGen::IndexArgName = "compartmentIndex";
+
+LLVMGetCompartmentVolumeCodeGen::LLVMGetCompartmentVolumeCodeGen(
+        const LLVMModelGeneratorContext &mgc) :
+        LLVMGetValueCodeGenBase<LLVMGetCompartmentVolumeCodeGen, false>(mgc)
+{
+}
+
+
+const char* LLVMGetGlobalParameterCodeGen::FunctionName = "getGlobalParameter";
+const char* LLVMGetGlobalParameterCodeGen::IndexArgName = "globalParameterIndex";
+
+LLVMGetGlobalParameterCodeGen::LLVMGetGlobalParameterCodeGen(
+        const LLVMModelGeneratorContext &mgc) :
+        LLVMGetValueCodeGenBase<LLVMGetGlobalParameterCodeGen, false>(mgc)
+{
+}
+
 
 
 

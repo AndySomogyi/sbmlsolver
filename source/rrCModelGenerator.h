@@ -32,6 +32,9 @@ public:
     virtual ExecutableModel             *createModel(const string& sbml, ls::LibStructural *ls,
                                                      bool forceReCompile, bool computeAndAssignConsevationLaws);
 
+    virtual ExecutableModel             *createModel(const string& sbml,
+                                                     bool computeAndAssignConsevationLaws);
+
     virtual bool                        setTemporaryDirectory(const string& path);
 
     /**
@@ -88,6 +91,11 @@ private:
      * only valid while createModel is running
      */
     ExecutableModel* mModel;
+
+    /**
+     * the ls we own.
+     */
+    ls::LibStructural *ownedLS;
 
     /**
      * perform some basic initialization on the model.

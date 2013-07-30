@@ -27,8 +27,8 @@ typedef double*  (rrCallConv *c_doubleStar_MDS)(ModelData*);
 typedef void     (rrCallConv *c_void_MDS_double_doubleStar)(ModelData*, double, const double*);
 typedef void     (rrCallConv *c_void_MDS_int_double)(ModelData*, int, double);
 
-typedef TComputeEventAssignmentDelegate* (rrCallConv *c_TComputeEventAssignmentDelegateStar)();
-typedef TEventDelayDelegate* (rrCallConv *c_GetEventDelayDelegatesStar)();
+typedef ComputeEventAssignmentHandler* (rrCallConv *c_ComputeEventAssignmentHandlerStar)();
+typedef EventDelayHandler* (rrCallConv *c_GetEventDelayHandlerStar)();
 
 /**
  * Both the CModelGenerator and the CSharpModelGenerator use the same

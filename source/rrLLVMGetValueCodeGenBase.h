@@ -92,7 +92,8 @@ llvm::Value* LLVMGetValueCodeGenBase<Derived, substanceUnits>::codeGen()
     // default, return NaN
     llvm::BasicBlock *def = llvm::BasicBlock::Create(context, "default", functionValue);
     builder.SetInsertPoint(def);
-    builder.CreateRet(llvm::ConstantFP::get(context, llvm::APFloat::getQNaN(llvm::APFloat::IEEEdouble, false)));
+    //builder.CreateRet(llvm::ConstantFP::get(context, llvm::APFloat::getQNaN(llvm::APFloat::IEEEdouble, false)));
+    builder.CreateRet(llvm::ConstantFP::get(context, llvm::APFloat(123.456)));
 
     // write the switch at the func entry point, the switch is also the
     // entry block terminator

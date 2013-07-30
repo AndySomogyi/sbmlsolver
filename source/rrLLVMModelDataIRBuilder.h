@@ -34,10 +34,7 @@ public:
     LLVMModelDataIRBuilder(llvm::Value *modelData, LLVMModelDataSymbols const&,
             llvm::IRBuilder<> &);
 
-    llvm::Value *createFloatSpeciesConcGEP(const std::string &id);
 
-    llvm::Value *createFloatSpeciesConcStore(const std::string &id,
-            llvm::Value *value);
 
     llvm::Value *createFloatSpeciesAmtGEP(const std::string &id,
             const llvm::Twine &name = "");
@@ -111,8 +108,8 @@ public:
     /**
      * store the floating species amount
      */
-    llvm::Value *createFloatSpeciesAmtStore(llvm::Value *modelData,
-            const std::string &id, llvm::Value *value);
+    llvm::Value *createFloatSpeciesAmtStore(const std::string &id,
+            llvm::Value *value);
 
     /**
      * load the floating species amount value
@@ -239,6 +236,11 @@ public:
 
     void test(llvm::Module *module, llvm::IRBuilder<> *build,
             llvm::ExecutionEngine * engine);
+
+    llvm::Value *createFloatSpeciesConcGEP(const std::string &id);
+
+    llvm::Value *createFloatSpeciesConcStore(const std::string &id,
+            llvm::Value *value);
 
     static llvm::Function *getDispIntDecl(llvm::Module *module);
     llvm::CallInst *createDispInt(llvm::Value *intVal);

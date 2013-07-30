@@ -11,10 +11,10 @@ namespace rr
 {
 #endif
 typedef struct   SModelData *ModelDataP;
-typedef double   (*TEventDelayDelegate)(ModelDataP);
-typedef double*  (*TComputeEventAssignmentDelegate)(ModelDataP);
-typedef void     (*TPerformEventAssignmentDelegate)(ModelDataP, double*);
-typedef void     (*TEventAssignmentDelegate)();
+typedef double   (*EventDelayHandler)(ModelDataP);
+typedef double*  (*ComputeEventAssignmentHandler)(ModelDataP);
+typedef void     (*PerformEventAssignmentHandler)(ModelDataP, double*);
+typedef void     (*EventAssignmentHandler)();
 
 
 /**
@@ -283,11 +283,11 @@ typedef struct SModelData
     int                                 workSize;                         // 44
     double*                             work;                             // 45
 
-    TEventDelayDelegate*                eventDelays;                      // 46
-    TEventAssignmentDelegate*           eventAssignments;                 // 47
+    EventDelayHandler*                eventDelays;                      // 46
+    EventAssignmentHandler*                 eventAssignments;                 // 47
 
-    TComputeEventAssignmentDelegate*    computeEventAssignments;          // 48
-    TPerformEventAssignmentDelegate*    performEventAssignments;          // 49
+    ComputeEventAssignmentHandler*    computeEventAssignments;          // 48
+    PerformEventAssignmentHandler*    performEventAssignments;          // 49
 
     /**
      * model name

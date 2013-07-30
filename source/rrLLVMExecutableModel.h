@@ -298,6 +298,8 @@ private:
     LLVMGetFloatingSpeciesAmountCodeGen::FunctionPtr getFloatingSpeciesAmountPtr;
     LLVMGetBoundarySpeciesConcentrationCodeGen::FunctionPtr getBoundarySpeciesConcentrationPtr;
     LLVMGetFloatingSpeciesConcentrationCodeGen::FunctionPtr getFloatingSpeciesConcentrationPtr;
+    LLVMGetCompartmentVolumeCodeGen::FunctionPtr getCompartmentVolumePtr;
+    LLVMGetGlobalParameterCodeGen::FunctionPtr getGlobalParameterPtr;
 
     double getFloatingSpeciesConcentration(int index);
 

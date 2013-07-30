@@ -180,6 +180,13 @@ std::ostream& operator <<(std::ostream& os, const csr_matrix* mat)
     os.flags(ios::right | ios::fixed); // Fixed point, right justified
 
     os << "csr_matrix\n";
+
+    if (mat == 0)
+    {
+        os << "NULL" << endl;
+        return os;
+    }
+
     os << "rows: " << mat->m << ", columns: " << mat->n;
     os << ", non-zero entries: " << mat->nnz << endl;
     if (mat->nnz > 0)

@@ -2,15 +2,74 @@
 #include <string.h>
 #include "rrExecutableModel.h"
 #include "rrSparse.h"
+#include <iomanip>
 
 using namespace std;
+
+static void dump_array(std::ostream &os, int n, const double *p)
+{
+    os << setiosflags(ios::floatfield) << setprecision(8);
+    os << '[';
+    for (int i = 0; i < n; ++i)
+    {
+        os << p[i];
+        if (i < n - 1)
+        {
+            os << ", ";
+        }
+    }
+    os << ']' << endl;
+}
+
 
 namespace rr
 {
 
-std::ostream& operator << (std::ostream &stream, ExecutableModel* model)
+std::ostream& operator <<(std::ostream &stream, ExecutableModel* model)
 {
     model->print(stream);
+
+    double *tmp;
+
+    int nFloat = model->getNumFloatingSpecies();
+    int nBound = model->getNumBoundarySpecies();
+    int nComp = model->getNumCompartments();
+    int nGlobalParam = model->getNumGlobalParameters();
+
+    stream << "* Calculated Values *" << endl;
+
+    tmp = new double[nFloat];
+    model->getFloatingSpeciesAmounts(nFloat, 0, tmp);
+    stream << "FloatingSpeciesAmounts:" << endl;
+    dump_array(stream, nFloat, tmp);
+
+    model->getFloatingSpeciesConcentrations(nFloat, 0, tmp);
+    stream << "FloatingSpeciesConcentrations:" << endl;
+    dump_array(stream, nFloat, tmp);
+    delete[] tmp;
+
+    tmp = new double[nBound];
+    model->getBoundarySpeciesAmounts(nBound, 0, tmp);
+    stream << "BoundarySpeciesAmounts:" << endl;
+    dump_array(stream, nBound, tmp);
+
+    model->getBoundarySpeciesConcentrations(nBound, 0, tmp);
+    stream << "BoundarySpeciesConcentrations:" << endl;
+    dump_array(stream, nBound, tmp);
+    delete tmp;
+
+    tmp = new double[nComp];
+    model->getCompartmentVolumes(nComp, 0, tmp);
+    stream << "CompartmentVolumes:" << endl;
+    dump_array(stream, nComp, tmp);
+    delete tmp;
+
+    tmp = new double[nGlobalParam];
+    model->getGlobalParameterValues(nGlobalParam, 0, tmp);
+    stream << "GlobalParameters:" << endl;
+    dump_array(stream, nGlobalParam, tmp);
+    delete tmp;
+
     return stream;
 }
 
@@ -64,28 +123,15 @@ void allocModelDataBuffers(ModelData &data, const string& modelName)
 
     //Event function pointer stuff
     data.eventAssignments =
-            (TEventAssignmentDelegate*)rrCalloc(data.numEvents, sizeof(TEventAssignmentDelegate*));
+            (EventAssignmentHandler*)rrCalloc(data.numEvents, sizeof(EventAssignmentHandler*));
     data.computeEventAssignments =
-            (TComputeEventAssignmentDelegate*)rrCalloc(data.numEvents, sizeof(TComputeEventAssignmentDelegate*));
+            (ComputeEventAssignmentHandler*)rrCalloc(data.numEvents, sizeof(ComputeEventAssignmentHandler*));
     data.performEventAssignments =
-            (TPerformEventAssignmentDelegate*)rrCalloc(data.numEvents, sizeof(TPerformEventAssignmentDelegate*));
+            (PerformEventAssignmentHandler*)rrCalloc(data.numEvents, sizeof(PerformEventAssignmentHandler*));
     data.eventDelays =
-            (TEventDelayDelegate*)rrCalloc(data.numEvents, sizeof(TEventDelayDelegate*));
+            (EventDelayHandler*)rrCalloc(data.numEvents, sizeof(EventDelayHandler*));
 }
 
-static void dump_array(std::ostream &os, int n, const double *p)
-{
-    os << '[';
-    for (int i = 0; i < n; ++i)
-    {
-        os << p[i];
-        if (i < n - 1)
-        {
-            os << ", ";
-        }
-    }
-    os << ']' << endl;
-}
 
 std::ostream& operator <<(std::ostream& os, const ModelData& data)
 {
@@ -158,16 +204,18 @@ std::ostream& operator <<(std::ostream& os, const ModelData& data)
 //    bool*                               previousEventStatusArray;         // 40
 //    int                                 workSize;                         // 41
 //    double*                             work;                             // 42
-//    TEventDelayDelegate*                eventDelays;                      // 43
-//    TEventAssignmentDelegate*           eventAssignments;                 // 44
-//    TComputeEventAssignmentDelegate*    computeEventAssignments;          // 45
-//    TPerformEventAssignmentDelegate*    performEventAssignments;          // 46
+//    EventDelayHandler*                eventDelays;                      // 43
+//    EventAssignmentHandler*           eventAssignments;                 // 44
+//    ComputeEventAssignmentHandler*    computeEventAssignments;          // 45
+//    PerformEventAssignmentHandler*    performEventAssignments;          // 46
 //    char*                               modelName;                        // 47
 //    char**                              variableTable;                    // 48
 //    char**                              boundaryTable;                    // 49
 //    char**                              globalParameterTable;             // 50
 //    int                                 srSize;                           // 51
 //    double*                             sr;                               // 52
+
+
 
 
 
@@ -264,13 +312,13 @@ void RR_DECLSPEC modeldata_copy_buffers(ModelData *dst, ModelData *src)
 
     //Event function pointer stuff
     memcpy(dst->eventAssignments, src->eventAssignments,
-            src->numEvents * sizeof(TEventAssignmentDelegate*));
+            src->numEvents * sizeof(EventAssignmentHandler*));
     memcpy(dst->computeEventAssignments, src->computeEventAssignments,
-            src->numEvents * sizeof(TComputeEventAssignmentDelegate*));
+            src->numEvents * sizeof(ComputeEventAssignmentHandler*));
     memcpy(dst->performEventAssignments, src->performEventAssignments,
-            src->numEvents * sizeof(TPerformEventAssignmentDelegate*));
+            src->numEvents * sizeof(PerformEventAssignmentHandler*));
     memcpy(dst->eventDelays, src->eventDelays,
-            src->numEvents * sizeof(TEventDelayDelegate*));
+            src->numEvents * sizeof(EventDelayHandler*));
 
 }
 

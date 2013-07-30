@@ -72,6 +72,12 @@ ExecutableModel* LLVMModelGenerator::createModel(const string& sbml,
         ls::LibStructural*, bool forceReCompile,
         bool computeAndAssignConsevationLaws)
 {
+    return createModel(sbml, computeAndAssignConsevationLaws);
+}
+
+ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
+        bool computeAndAssignConsevationLaws)
+{
     LLVMModelGeneratorContext context(sbml, computeAndAssignConsevationLaws);
 
     LLVMEvalInitialConditionsCodeGen::FunctionPtr evalInitialConditionsPtr =
@@ -92,6 +98,12 @@ ExecutableModel* LLVMModelGenerator::createModel(const string& sbml,
     LLVMGetFloatingSpeciesConcentrationCodeGen::FunctionPtr getFloatingSpeciesConcentrationPtr =
             LLVMGetFloatingSpeciesConcentrationCodeGen(context).createFunction();
 
+    LLVMGetCompartmentVolumeCodeGen::FunctionPtr getCompartmentVolumePtr =
+            LLVMGetCompartmentVolumeCodeGen(context).createFunction();
+
+    LLVMGetGlobalParameterCodeGen::FunctionPtr getGlobalParameterPtr =
+            LLVMGetGlobalParameterCodeGen(context).createFunction();
+
 
     // if anything up to this point throws an exception, thats OK, because
     // we have not allocated any memory yet that is not taken care of by
@@ -110,10 +122,13 @@ ExecutableModel* LLVMModelGenerator::createModel(const string& sbml,
 
     exe->evalInitialConditionsPtr = evalInitialConditionsPtr;
     exe->evalReactionRatesPtr = evalReactionRatesPtr;
+
     exe->getBoundarySpeciesAmountPtr = getBoundarySpeciesAmountPtr;
     exe->getFloatingSpeciesAmountPtr = getFloatingSpeciesAmountPtr;
     exe->getBoundarySpeciesConcentrationPtr = getBoundarySpeciesConcentrationPtr;
     exe->getFloatingSpeciesConcentrationPtr = getFloatingSpeciesConcentrationPtr;
+    exe->getCompartmentVolumePtr = getCompartmentVolumePtr;
+    exe->getGlobalParameterPtr = getGlobalParameterPtr;
 
 
     return exe;
@@ -297,8 +312,9 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
     }
 }
 
-
  */
 
 
 } /* namespace rr */
+
+

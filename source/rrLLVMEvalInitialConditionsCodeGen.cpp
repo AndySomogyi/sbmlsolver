@@ -28,7 +28,8 @@ const char* LLVMEvalInitialConditionsCodeGen::FunctionName = "evalInitialConditi
 LLVMEvalInitialConditionsCodeGen::LLVMEvalInitialConditionsCodeGen(
         const LLVMModelGeneratorContext &mgc) :
         LLVMCodeGenBase(mgc),
-        initialValuesFunc(0)
+        initialValuesFunc(0),
+        symbolResolver(model, dataSymbols, modelSymbols, builder)
 {
 }
 
@@ -70,14 +71,17 @@ Value* LLVMEvalInitialConditionsCodeGen::codeGen()
     // single argument
     Value *modelData = initialValuesFunc->arg_begin();
 
-    Argument &arg = initialValuesFunc->getArgumentList().front();
+    LLVMInitialValueSymbolResolver symbolResolver(model, dataSymbols,
+            modelSymbols, builder);
 
-    Value *argVal = &arg;
+
+
+
 
 
     LLVMModelDataIRBuilder modelDataBuilder(modelData, dataSymbols, builder);
 
-    codeGenFloatingSpecies(modelData, modelDataBuilder);
+    codeGenSpecies(modelData, modelDataBuilder);
 
     codeGenCompartments(modelData, modelDataBuilder);
 
@@ -125,61 +129,40 @@ llvm::Value* LLVMEvalInitialConditionsCodeGen::symbolValue(const std::string& sy
     }
 }
 
-
-void LLVMEvalInitialConditionsCodeGen::codeGenFloatingSpecies(
-        Value *modelData, LLVMModelDataIRBuilder& modelDataBuilder)
-{
-    LLVMASTNodeCodeGen astCodeGen(builder, *this);
-
-    Log(lInfo) << "floatingSpecies: \n";
-    for (LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialValues().floatingSpecies.begin();
-            i != modelSymbols.getInitialValues().floatingSpecies.end(); i++)
-    {
-        Log(lInfo) << "id: " << i->first << "\n";
-
-        char* formula = SBML_formulaToString(i->second);
-        Log(lInfo) << "\t" << i->first << ": " << formula << "\n";
-        free(formula);
-
-        Value *value = astCodeGen.codeGen(i->second);
-        Value *amt = 0;
-
-        Species *species = const_cast<Model*>(model)->getListOfSpecies()->get(i->first);
-        if (species->getHasOnlySubstanceUnits())
-        {
-            // interpret the evaluated value as an amount
-            amt = value;
-        }
-        else
-        {
-            // interpret the evaluated value as a concentration.
-            const ASTNode *compAST =
-                    modelSymbols.getInitialValues().compartments.find(species->getCompartment())->second;
-            Value *compValue = astCodeGen.codeGen(compAST);
-            amt = builder.CreateFMul(value, compValue, "amt");
-        }
-
-        modelDataBuilder.createFloatSpeciesAmtStore(modelData, i->first, amt);
-    }
-}
-
-void LLVMEvalInitialConditionsCodeGen::codeGenBoundarySpecies(Value *modelData,
+void LLVMEvalInitialConditionsCodeGen::codeGenSpecies(llvm::Value *modelData,
         LLVMModelDataIRBuilder& modelDataBuilder)
 {
-    LLVMInitialValueSymbolResolver resolver(model, dataSymbols, modelSymbols,
-            builder);
+    LLVMASTNodeCodeGen astCodeGen(builder, symbolResolver);
 
     const ListOfSpecies *species = model->getListOfSpecies();
     for (unsigned i = 0; i < species->size(); i++)
     {
         const Species *s = species->get(i);
+        Value *amt = 0;
+
+        if (s->getHasOnlySubstanceUnits())
+        {
+            amt = symbolResolver.symbolValue(s->getId());
+        }
+        else
+        {
+            Value *conc = symbolResolver.symbolValue(s->getId());
+            Value *comp = symbolResolver.symbolValue(s->getCompartment());
+            amt = builder.CreateFMul(conc, comp, s->getId() + "_amt");
+        }
+
         if (s->getBoundaryCondition())
         {
-
-
+            modelDataBuilder.createBoundSpeciesAmtStore(s->getId(), amt);
+        }
+        else
+        {
+            modelDataBuilder.createFloatSpeciesAmtStore(s->getId(), amt);
         }
     }
 }
+
+
 
 LLVMEvalInitialConditionsCodeGen::FunctionPtr LLVMEvalInitialConditionsCodeGen::createFunction()
 {
@@ -231,7 +214,7 @@ void LLVMEvalInitialConditionsCodeGen::codeGenStoichiometry(llvm::Value* modelDa
 void LLVMEvalInitialConditionsCodeGen::codeGenCompartments(
         llvm::Value* modelData, LLVMModelDataIRBuilder& modelDataBuilder)
 {
-    LLVMASTNodeCodeGen astCodeGen(builder, *this);
+    LLVMASTNodeCodeGen astCodeGen(builder, symbolResolver);
 
     Log(lInfo) << "compartments: \n";
     for (LLVMSymbolForest::ConstIterator i =

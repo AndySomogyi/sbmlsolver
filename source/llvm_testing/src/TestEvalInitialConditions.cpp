@@ -29,6 +29,27 @@ bool TestEvalInitialConditions::test()
 
     Log(Logger::PRIO_INFORMATION) << model << endl;
 
+    for (int i = 0; i < model->getNumFloatingSpecies(); i++)
+    {
+        double amt;
+        double conc;
+        model->getFloatingSpeciesAmounts(1, &i, &amt);
+        model->getFloatingSpeciesConcentrations(1, &i, &conc);
+
+        Log(Logger::PRIO_INFORMATION) << "float species: " << i << ", amount: " << amt << ", conc: " << conc << endl;
+    }
+
+    for (int i = 0; i < model->getNumBoundarySpecies(); i++)
+    {
+        double amt;
+        double conc;
+        model->getBoundarySpeciesAmounts(1, &i, &amt);
+        model->getBoundarySpeciesConcentrations(1, &i, &conc);
+
+        Log(Logger::PRIO_INFORMATION) << "boundary species: " << i << ", amount: " << amt << ", conc: " << conc << endl;
+    }
+
+
     return true;
 }
 
