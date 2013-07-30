@@ -58,8 +58,12 @@ class RR_DECLSPEC CSharpModelGenerator : public CompiledModelGenerator
         bool                                saveSourceCodeToFolder(const string& folder, const string& baseName);
         string                              getSourceCode();
 
-        virtual ExecutableModel             *createModel(const string& sbml, LibStructural *ls,
-                                                                 bool forceReCompile, bool computeAndAssignConsevationLaws);
+        virtual ExecutableModel *createModel(const string& sbml, ls::LibStructural *ls,
+                bool forceReCompile, bool computeAndAssignConsevationLaws);
+
+        virtual ExecutableModel *createModel(const string& sbml,
+                bool computeAndAssignConsevationLaws);
+
 
         virtual bool                        setTemporaryDirectory(const string& path);
 
