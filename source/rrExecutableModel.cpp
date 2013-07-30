@@ -5,12 +5,55 @@
 
 using namespace std;
 
+static void dump_array(std::ostream &os, int n, const double *p)
+{
+    os << '[';
+    for (int i = 0; i < n; ++i)
+    {
+        os << p[i];
+        if (i < n - 1)
+        {
+            os << ", ";
+        }
+    }
+    os << ']' << endl;
+}
+
+
 namespace rr
 {
 
-std::ostream& operator << (std::ostream &stream, ExecutableModel* model)
+std::ostream& operator <<(std::ostream &stream, ExecutableModel* model)
 {
     model->print(stream);
+
+    double *tmp;
+
+    int nFloat = model->getNumFloatingSpecies();
+    int nBound = model->getNumBoundarySpecies();
+    tmp = new double[nFloat];
+
+    model->getFloatingSpeciesAmounts(nFloat, 0, tmp);
+    stream << "FloatingSpeciesAmounts:" << endl;
+    dump_array(stream, nFloat, tmp);
+
+    model->getFloatingSpeciesConcentrations(nFloat, 0, tmp);
+    stream << "FloatingSpeciesConcentrations:" << endl;
+    dump_array(stream, nFloat, tmp);
+
+    delete[] tmp;
+    tmp = new double[nBound];
+
+    model->getBoundarySpeciesAmounts(nBound, 0, tmp);
+    stream << "FloatingSpeciesAmounts:" << endl;
+    dump_array(stream, nFloat, tmp);
+
+    model->getBoundarySpeciesConcentrations(nBound, 0, tmp);
+    stream << "FloatingSpeciesConcentrations:" << endl;
+    dump_array(stream, nFloat, tmp);
+
+    delete tmp;
+
     return stream;
 }
 
@@ -73,19 +116,6 @@ void allocModelDataBuffers(ModelData &data, const string& modelName)
             (TEventDelayDelegate*)rrCalloc(data.numEvents, sizeof(TEventDelayDelegate*));
 }
 
-static void dump_array(std::ostream &os, int n, const double *p)
-{
-    os << '[';
-    for (int i = 0; i < n; ++i)
-    {
-        os << p[i];
-        if (i < n - 1)
-        {
-            os << ", ";
-        }
-    }
-    os << ']' << endl;
-}
 
 std::ostream& operator <<(std::ostream& os, const ModelData& data)
 {
@@ -168,6 +198,8 @@ std::ostream& operator <<(std::ostream& os, const ModelData& data)
 //    char**                              globalParameterTable;             // 50
 //    int                                 srSize;                           // 51
 //    double*                             sr;                               // 52
+
+
 
 
 

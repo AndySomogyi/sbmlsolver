@@ -60,6 +60,9 @@ public:
     virtual ExecutableModel *createModel(const string& sbml, ls::LibStructural *ls,
             bool forceReCompile, bool computeAndAssignConsevationLaws) = 0;
 
+    virtual ExecutableModel *createModel(const string& sbml,
+            bool computeAndAssignConsevationLaws) = 0;
+
     /**
      * Get the compiler object that the model generator is using to
      * 'compile' sbml. Certain model generators may be interpreters, in this

@@ -72,6 +72,12 @@ ExecutableModel* LLVMModelGenerator::createModel(const string& sbml,
         ls::LibStructural*, bool forceReCompile,
         bool computeAndAssignConsevationLaws)
 {
+    return createModel(sbml, computeAndAssignConsevationLaws);
+}
+
+ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
+        bool computeAndAssignConsevationLaws)
+{
     LLVMModelGeneratorContext context(sbml, computeAndAssignConsevationLaws);
 
     LLVMEvalInitialConditionsCodeGen::FunctionPtr evalInitialConditionsPtr =
@@ -297,8 +303,9 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
     }
 }
 
-
  */
 
 
 } /* namespace rr */
+
+
