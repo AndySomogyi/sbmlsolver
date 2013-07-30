@@ -14,11 +14,14 @@
 #include "rrLLVMSymbolForest.h"
 #include "rrLLVMASTNodeFactory.h"
 #include "rrLLVMModelDataIRBuilder.h"
+#include "rrLLVMInitialValueSymbolResolver.h"
 #include <sbml/Model.h>
 #include <sbml/SBMLVisitor.h>
 
 namespace rr
 {
+
+class LLVMInitialValueSymbolResolver;
 
 /**
  * Generates a function called 'modeldata_initialvalues_set', which evaluates
@@ -49,11 +52,8 @@ private:
     virtual llvm::Value *symbolValue(const std::string& symbol);
 
 
-    void codeGenFloatingSpecies(llvm::Value *modelData,
+    void codeGenSpecies(llvm::Value *modelData,
             LLVMModelDataIRBuilder &modelDataBuilder);
-
-    void codeGenBoundarySpecies(llvm::Value *modelData,
-                LLVMModelDataIRBuilder &modelDataBuilder);
 
     void codeGenStoichiometry(llvm::Value *modelData,
             LLVMModelDataIRBuilder &modelDataBuilder);
@@ -65,6 +65,7 @@ private:
             LLVMModelDataIRBuilder &modelDataBuilder);
 
     llvm::Function *initialValuesFunc;
+    LLVMInitialValueSymbolResolver symbolResolver;
 };
 
 } /* namespace rr */

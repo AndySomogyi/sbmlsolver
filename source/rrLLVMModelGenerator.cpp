@@ -98,6 +98,12 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
     LLVMGetFloatingSpeciesConcentrationCodeGen::FunctionPtr getFloatingSpeciesConcentrationPtr =
             LLVMGetFloatingSpeciesConcentrationCodeGen(context).createFunction();
 
+    LLVMGetCompartmentVolumeCodeGen::FunctionPtr getCompartmentVolumePtr =
+            LLVMGetCompartmentVolumeCodeGen(context).createFunction();
+
+    LLVMGetGlobalParameterCodeGen::FunctionPtr getGlobalParameterPtr =
+            LLVMGetGlobalParameterCodeGen(context).createFunction();
+
 
     // if anything up to this point throws an exception, thats OK, because
     // we have not allocated any memory yet that is not taken care of by
@@ -116,10 +122,13 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
     exe->evalInitialConditionsPtr = evalInitialConditionsPtr;
     exe->evalReactionRatesPtr = evalReactionRatesPtr;
+
     exe->getBoundarySpeciesAmountPtr = getBoundarySpeciesAmountPtr;
     exe->getFloatingSpeciesAmountPtr = getFloatingSpeciesAmountPtr;
     exe->getBoundarySpeciesConcentrationPtr = getBoundarySpeciesConcentrationPtr;
     exe->getFloatingSpeciesConcentrationPtr = getFloatingSpeciesConcentrationPtr;
+    exe->getCompartmentVolumePtr = getCompartmentVolumePtr;
+    exe->getGlobalParameterPtr = getGlobalParameterPtr;
 
 
     return exe;

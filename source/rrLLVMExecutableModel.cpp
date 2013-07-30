@@ -12,6 +12,7 @@
 #include "rrLogger.h"
 #include "rrException.h"
 #include "rrLLVMException.h"
+#include <iomanip>
 
 static void dump_array(std::ostream &os, int n, const double *p)
 {
@@ -53,6 +54,8 @@ LLVMExecutableModel::LLVMExecutableModel() :
     getFloatingSpeciesAmountPtr(0),
     getBoundarySpeciesConcentrationPtr(0),
     getFloatingSpeciesConcentrationPtr(0),
+    getGlobalParameterPtr(0),
+    getCompartmentVolumePtr(0),
     stackDepth(0)
 {
     // zero out the struct, the generator will fill it out.
@@ -178,7 +181,7 @@ double LLVMExecutableModel::getFloatingSpeciesConcentration(int index)
 int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len, int const *indx,
         double *values)
 {
-    return getValues(&modelData, getBoundarySpeciesConcentrationPtr, len, indx, values);
+    return getValues(&modelData, getFloatingSpeciesConcentrationPtr, len, indx, values);
 }
 
 void LLVMExecutableModel::getRateRuleValues(double *rateRuleValues)
@@ -543,13 +546,13 @@ int LLVMExecutableModel::setBoundarySpeciesConcentrations(int len,
 int LLVMExecutableModel::getGlobalParameterValues(int len, const int* indx,
         double* values)
 {
-    return -1;
+    return getValues(&modelData, getGlobalParameterPtr, len, indx, values);
 }
 
 int LLVMExecutableModel::getCompartmentVolumes(int len, const int* indx,
         double* values)
 {
-    return -1;
+    return getValues(&modelData, getCompartmentVolumePtr, len, indx, values);
 }
 
 

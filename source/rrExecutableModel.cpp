@@ -2,11 +2,13 @@
 #include <string.h>
 #include "rrExecutableModel.h"
 #include "rrSparse.h"
+#include <iomanip>
 
 using namespace std;
 
 static void dump_array(std::ostream &os, int n, const double *p)
 {
+    os << setiosflags(ios::floatfield) << setprecision(8);
     os << '[';
     for (int i = 0; i < n; ++i)
     {
@@ -31,8 +33,12 @@ std::ostream& operator <<(std::ostream &stream, ExecutableModel* model)
 
     int nFloat = model->getNumFloatingSpecies();
     int nBound = model->getNumBoundarySpecies();
-    tmp = new double[nFloat];
+    int nComp = model->getNumCompartments();
+    int nGlobalParam = model->getNumGlobalParameters();
 
+    stream << "* Calculated Values *" << endl;
+
+    tmp = new double[nFloat];
     model->getFloatingSpeciesAmounts(nFloat, 0, tmp);
     stream << "FloatingSpeciesAmounts:" << endl;
     dump_array(stream, nFloat, tmp);
@@ -40,18 +46,28 @@ std::ostream& operator <<(std::ostream &stream, ExecutableModel* model)
     model->getFloatingSpeciesConcentrations(nFloat, 0, tmp);
     stream << "FloatingSpeciesConcentrations:" << endl;
     dump_array(stream, nFloat, tmp);
-
     delete[] tmp;
-    tmp = new double[nBound];
 
+    tmp = new double[nBound];
     model->getBoundarySpeciesAmounts(nBound, 0, tmp);
-    stream << "FloatingSpeciesAmounts:" << endl;
-    dump_array(stream, nFloat, tmp);
+    stream << "BoundarySpeciesAmounts:" << endl;
+    dump_array(stream, nBound, tmp);
 
     model->getBoundarySpeciesConcentrations(nBound, 0, tmp);
-    stream << "FloatingSpeciesConcentrations:" << endl;
-    dump_array(stream, nFloat, tmp);
+    stream << "BoundarySpeciesConcentrations:" << endl;
+    dump_array(stream, nBound, tmp);
+    delete tmp;
 
+    tmp = new double[nComp];
+    model->getCompartmentVolumes(nComp, 0, tmp);
+    stream << "CompartmentVolumes:" << endl;
+    dump_array(stream, nComp, tmp);
+    delete tmp;
+
+    tmp = new double[nGlobalParam];
+    model->getGlobalParameterValues(nGlobalParam, 0, tmp);
+    stream << "GlobalParameters:" << endl;
+    dump_array(stream, nGlobalParam, tmp);
     delete tmp;
 
     return stream;

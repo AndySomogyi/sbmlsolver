@@ -42,11 +42,6 @@ LLVMModelDataIRBuilder::LLVMModelDataIRBuilder(Value *modelData,
     validateStruct(modelData, __FUNC__);
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcGEP(const std::string& id)
-{
-    int index = symbols.getFloatingSpeciesIndex(id);
-    return createGEP(FloatingSpeciesConcentrations, index);
-}
 
 
 
@@ -65,18 +60,7 @@ llvm::Value* LLVMModelDataIRBuilder::createGEP(ModelDataFields field,
 }
 
 
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesConcStore(const string& id, Value *conc)
-{
-    int index = symbols.getFloatingSpeciesIndex(id);
 
-    Value *compEP = createFloatSpeciesCompGEP(id);
-    Value *volume = builder.CreateLoad(compEP);
-    Value *amount = builder.CreateFMul(conc, volume);
-
-    builder.CreateStore(amount, createGEP(FloatingSpeciesAmounts, index));
-    return builder.CreateStore(conc, createGEP(FloatingSpeciesConcentrations, index));
-
-}
 
 llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesCompGEP(const std::string& id)
 {
@@ -254,7 +238,7 @@ llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtLoad(const std::string
 }
 
 llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtStore(
-        llvm::Value* modelData, const std::string& id, llvm::Value* value)
+        const std::string& id, llvm::Value* value)
 {
     Value *gep = createFloatSpeciesAmtGEP(id);
     return builder.CreateStore(value, gep);
@@ -561,11 +545,11 @@ pair<Function*, Function*> LLVMModelDataIRBuilderTesting::createFloatingSpeciesA
         LLVMModelDataIRBuilder mdbuilder (getArgValues[0], symbols, builder);
 
 
-        Value *getEP = mdbuilder.createFloatSpeciesConcGEP(id);
+        //Value *getEP = mdbuilder.createFloatSpeciesConcGEP(id);
 
-        Value *getRet = builder.CreateLoad(getEP);
+        //Value *getRet = builder.CreateLoad(getEP);
 
-        builder.CreateRet(getRet);
+        //builder.CreateRet(getRet);
 
         verifyFunction(*result.first);
 
@@ -593,7 +577,7 @@ pair<Function*, Function*> LLVMModelDataIRBuilderTesting::createFloatingSpeciesA
         }
 
 
-        Value *val = mdbuilder.createFloatSpeciesConcStore(id, setArgValues[1]);
+        //Value *val = mdbuilder.createFloatSpeciesConcStore(id, setArgValues[1]);
 
         builder.CreateRetVoid();
 
@@ -643,6 +627,28 @@ llvm::Function* LLVMModelDataIRBuilderTesting::getDispIntDecl(llvm::Module* modu
     }
     return f;
 }
+
+llvm::Value* LLVMModelDataIRBuilderTesting::createFloatSpeciesConcGEP(const std::string& id)
+{
+    //int index = symbols.getFloatingSpeciesIndex(id);
+    //return createGEP(FloatingSpeciesConcentrations, index);
+    return 0;
+}
+
+llvm::Value* LLVMModelDataIRBuilderTesting::createFloatSpeciesConcStore(const string& id, Value *conc)
+{
+    //int index = symbols.getFloatingSpeciesIndex(id);
+
+    //Value *compEP = createFloatSpeciesCompGEP(id);
+    //Value *volume = builder.CreateLoad(compEP);
+    //Value *amount = builder.CreateFMul(conc, volume);
+
+    //builder.CreateStore(amount, createGEP(FloatingSpeciesAmounts, index));
+    //return builder.CreateStore(conc, createGEP(FloatingSpeciesConcentrations, index));
+    return 0;
+
+}
+
 
 
 void LLVMModelDataIRBuilderTesting::test(Module *module, IRBuilder<> *build,
