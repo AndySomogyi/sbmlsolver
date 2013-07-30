@@ -123,13 +123,13 @@ void allocModelDataBuffers(ModelData &data, const string& modelName)
 
     //Event function pointer stuff
     data.eventAssignments =
-            (TEventAssignmentDelegate*)rrCalloc(data.numEvents, sizeof(TEventAssignmentDelegate*));
+            (EventAssignmentHandler*)rrCalloc(data.numEvents, sizeof(EventAssignmentHandler*));
     data.computeEventAssignments =
-            (TComputeEventAssignmentDelegate*)rrCalloc(data.numEvents, sizeof(TComputeEventAssignmentDelegate*));
+            (ComputeEventAssignmentHandler*)rrCalloc(data.numEvents, sizeof(ComputeEventAssignmentHandler*));
     data.performEventAssignments =
-            (TPerformEventAssignmentDelegate*)rrCalloc(data.numEvents, sizeof(TPerformEventAssignmentDelegate*));
+            (PerformEventAssignmentHandler*)rrCalloc(data.numEvents, sizeof(PerformEventAssignmentHandler*));
     data.eventDelays =
-            (TEventDelayDelegate*)rrCalloc(data.numEvents, sizeof(TEventDelayDelegate*));
+            (EventDelayHandler*)rrCalloc(data.numEvents, sizeof(EventDelayHandler*));
 }
 
 
@@ -204,10 +204,10 @@ std::ostream& operator <<(std::ostream& os, const ModelData& data)
 //    bool*                               previousEventStatusArray;         // 40
 //    int                                 workSize;                         // 41
 //    double*                             work;                             // 42
-//    TEventDelayDelegate*                eventDelays;                      // 43
-//    TEventAssignmentDelegate*           eventAssignments;                 // 44
-//    TComputeEventAssignmentDelegate*    computeEventAssignments;          // 45
-//    TPerformEventAssignmentDelegate*    performEventAssignments;          // 46
+//    EventDelayHandler*                eventDelays;                      // 43
+//    EventAssignmentHandler*           eventAssignments;                 // 44
+//    ComputeEventAssignmentHandler*    computeEventAssignments;          // 45
+//    PerformEventAssignmentHandler*    performEventAssignments;          // 46
 //    char*                               modelName;                        // 47
 //    char**                              variableTable;                    // 48
 //    char**                              boundaryTable;                    // 49
@@ -312,13 +312,13 @@ void RR_DECLSPEC modeldata_copy_buffers(ModelData *dst, ModelData *src)
 
     //Event function pointer stuff
     memcpy(dst->eventAssignments, src->eventAssignments,
-            src->numEvents * sizeof(TEventAssignmentDelegate*));
+            src->numEvents * sizeof(EventAssignmentHandler*));
     memcpy(dst->computeEventAssignments, src->computeEventAssignments,
-            src->numEvents * sizeof(TComputeEventAssignmentDelegate*));
+            src->numEvents * sizeof(ComputeEventAssignmentHandler*));
     memcpy(dst->performEventAssignments, src->performEventAssignments,
-            src->numEvents * sizeof(TPerformEventAssignmentDelegate*));
+            src->numEvents * sizeof(PerformEventAssignmentHandler*));
     memcpy(dst->eventDelays, src->eventDelays,
-            src->numEvents * sizeof(TEventDelayDelegate*));
+            src->numEvents * sizeof(EventDelayHandler*));
 
 }
 

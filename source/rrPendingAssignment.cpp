@@ -9,14 +9,13 @@
 namespace rr
 {
 PendingAssignment::PendingAssignment(
-					SModelData* md,
-                    double time,
-                    TComputeEventAssignmentDelegate computeAssignment,
-                    TPerformEventAssignmentDelegate performAssignment,
-                    bool useValuesFromTriggerTime,
-                    int index)
-:
-mModelData(md)
+        SModelData* md,
+        double time,
+        ComputeEventAssignmentHandler computeAssignment,
+        PerformEventAssignmentHandler performAssignment,
+        bool useValuesFromTriggerTime,
+        int index) :
+            mModelData(md)
 {
     Time = time;
     ComputeAssignment = computeAssignment;

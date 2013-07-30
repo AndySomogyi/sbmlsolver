@@ -1264,7 +1264,7 @@ void CSharpModelGenerator::writeProperties(CodeBuilder& sb)
     sb<<append("\t\tset { _eventTests = value; }" + NL());
     sb<<append("\t}" + NL() + NL());
 
-    sb<<append("\tpublic TEventDelayDelegate[] eventDelay {" + NL());
+    sb<<append("\tpublic EventDelayHandler[] eventDelay {" + NL());
     sb<<append("\t\tget { return _eventDelay; }" + NL());
     sb<<append("\t\tset { _eventDelay = value; }" + NL());
     sb<<append("\t}" + NL() + NL());
@@ -1294,17 +1294,17 @@ void CSharpModelGenerator::writeProperties(CodeBuilder& sb)
     sb<<append("\t\tset { _eventPriorities = value; }" + NL());
     sb<<append("\t}" + NL() + NL());
 
-    sb<<append("\tpublic TEventAssignmentDelegate[] eventAssignments {" + NL());
+    sb<<append("\tpublic EventAssignmentHandler[] eventAssignments {" + NL());
     sb<<append("\t\tget { return _eventAssignments; }" + NL());
     sb<<append("\t\tset { _eventAssignments = value; }" + NL());
     sb<<append("\t}" + NL() + NL());
 
-    sb<<append("\tpublic TComputeEventAssignmentDelegate[] computeEventAssignments {" + NL());
+    sb<<append("\tpublic ComputeEventAssignmentHandler[] computeEventAssignments {" + NL());
     sb<<append("\t\tget { return _computeEventAssignments; }" + NL());
     sb<<append("\t\tset { _computeEventAssignments = value; }" + NL());
     sb<<append("\t}" + NL() + NL());
 
-    sb<<append("\tpublic TPerformEventAssignmentDelegate[] performEventAssignments {" + NL());
+    sb<<append("\tpublic PerformEventAssignmentHandler[] performEventAssignments {" + NL());
     sb<<append("\t\tget { return _performEventAssignments; }" + NL());
     sb<<append("\t\tset { _performEventAssignments = value; }" + NL());
     sb<<append("\t}" + NL() + NL());
@@ -1401,7 +1401,7 @@ void CSharpModelGenerator::writeAccessors(CodeBuilder& sb)
       sb<<append("\tprivate double[] _eventTests = new double[" , ms.mNumEvents ,
                 "];   // Vector containing results of any event tests        " , NL());
 
-      sb<<append("\tprivate TEventDelayDelegate[] _eventDelay = new TEventDelayDelegate[" , ms.mNumEvents ,
+      sb<<append("\tprivate EventDelayHandler[] _eventDelay = new EventDelayHandler[" , ms.mNumEvents ,
                 "]; // array of trigger function pointers" , NL());
 
       sb<<append("\tprivate bool[] _eventType = new bool[" , ms.mNumEvents ,
@@ -1424,10 +1424,10 @@ void CSharpModelGenerator::writeAccessors(CodeBuilder& sb)
       sb<<append("\tstring[] boundaryTable = new string[" , ms.mBoundarySpeciesList.size() , "];" , NL());
       sb<<append("\tstring[] globalParameterTable = new string[" , ms.mGlobalParameterList.size() , "];" , NL());
       sb<<append("\tint[] localParameterDimensions = new int[" , ms.mNumReactions , "];" , NL());
-      sb<<append("\tprivate TEventAssignmentDelegate[] _eventAssignments;" , NL());
+      sb<<append("\tprivate EventAssignmentHandler[] _eventAssignments;" , NL());
       sb<<append("\tprivate double[] _eventPriorities;" , NL());
-      sb<<append("\tprivate TComputeEventAssignmentDelegate[] _computeEventAssignments;" , NL());
-      sb<<append("\tprivate TPerformEventAssignmentDelegate[] _performEventAssignments;" , NL());
+      sb<<append("\tprivate ComputeEventAssignmentHandler[] _computeEventAssignments;" , NL());
+      sb<<append("\tprivate PerformEventAssignmentHandler[] _performEventAssignments;" , NL());
       sb<<append("\tprivate bool[] _eventStatusArray = new bool[" , ms.mNumEvents , "];" , NL());
       sb<<append("\tprivate bool[] _previousEventStatusArray = new bool[" , ms.mNumEvents , "];" , NL());
       sb<<append(NL());
@@ -1447,20 +1447,20 @@ void CSharpModelGenerator::writeAccessors(CodeBuilder& sb)
       // Declare any eventAssignment delegates
       if (ms.mNumEvents > 0)
       {
-          sb<<append("\t\t_eventAssignments = new TEventAssignmentDelegate[numEvents];" , NL());
+          sb<<append("\t\t_eventAssignments = new EventAssignmentHandler[numEvents];" , NL());
           sb<<append("\t\t_eventPriorities = new double[numEvents];" , NL());
-          sb<<append("\t\t_computeEventAssignments= new TComputeEventAssignmentDelegate[numEvents];" , NL());
-          sb<<append("\t\t_performEventAssignments= new TPerformEventAssignmentDelegate[numEvents];" , NL());
+          sb<<append("\t\t_computeEventAssignments= new ComputeEventAssignmentHandler[numEvents];" , NL());
+          sb<<append("\t\t_performEventAssignments= new PerformEventAssignmentHandler[numEvents];" , NL());
 
           for (int i = 0; i < ms.mNumEvents; i++)
           {
               string iStr = toString(i);
-              sb<<append("\t\t_eventAssignments[" + iStr + "] = new TEventAssignmentDelegate (eventAssignment_" + iStr +
+              sb<<append("\t\t_eventAssignments[" + iStr + "] = new EventAssignmentHandler (eventAssignment_" + iStr +
                         ");" + NL());
               sb<<append("\t\t_computeEventAssignments[" + iStr +
-                        "] = new TComputeEventAssignmentDelegate (computeEventAssignment_" + iStr + ");" + NL());
+                        "] = new ComputeEventAssignmentHandler (computeEventAssignment_" + iStr + ");" + NL());
               sb<<append("\t\t_performEventAssignments[" + iStr +
-                        "] = new TPerformEventAssignmentDelegate (performEventAssignment_" + iStr + ");" + NL());
+                        "] = new PerformEventAssignmentHandler (performEventAssignment_" + iStr + ");" + NL());
           }
 
           sb<<append("\t\tresetEvents();" + NL());
@@ -2117,7 +2117,7 @@ void CSharpModelGenerator::writeEventAssignments(CodeBuilder& sb, const int& num
     sb<<format("{0}{0}\tprivate void InitializeDelays() { {0}", NL());
     for (int i = 0; i < delays.Count(); i++)
     {
-        sb<<format("\t\t_eventDelay[{0}] = new TEventDelayDelegate(delegate { return {1}; } );{2}", i, delays[i], NL());
+        sb<<format("\t\t_eventDelay[{0}] = new EventDelayHandler(delegate { return {1}; } );{2}", i, delays[i], NL());
         sb<<format("\t\t_eventType[{0}] = {1};{2}", i, toString((eventType[i] ? true : false)), NL());
         sb<<format("\t\t_eventPersistentType[{0}] = {1};{2}", i, (eventPersistentType[i] ? "true" : "false"), NL());
     }

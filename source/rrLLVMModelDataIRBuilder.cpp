@@ -384,10 +384,10 @@ llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, ll
         elements.push_back(Type::getDoublePtrTy(context));    // 43     double*                             stateVectorRate;
         elements.push_back(Type::getInt32Ty(context));        // 44     int                                 workSize;
         elements.push_back(Type::getDoublePtrTy(context));    // 45     double*                             work;
-        elements.push_back(voidPtrType);                      // 46     TEventDelayDelegate*                eventDelays;
-        elements.push_back(voidPtrType);                      // 47     TEventAssignmentDelegate*           eventAssignments;
-        elements.push_back(voidPtrType);                      // 48     TComputeEventAssignmentDelegate*    computeEventAssignments;
-        elements.push_back(voidPtrType);                      // 49     TPerformEventAssignmentDelegate*    performEventAssignments;
+        elements.push_back(voidPtrType);                      // 46     EventDelayHandler*                eventDelays;
+        elements.push_back(voidPtrType);                      // 47     EventAssignmentHandler*           eventAssignments;
+        elements.push_back(voidPtrType);                      // 48     ComputeEventAssignmentHandler*    computeEventAssignments;
+        elements.push_back(voidPtrType);                      // 49     PerformEventAssignmentHandler*    performEventAssignments;
         elements.push_back(Type::getInt8PtrTy(context));      // 50     char*                               modelName;
         elements.push_back(Type::getInt32Ty(context));        // 51     int                                 srSize;
         elements.push_back(Type::getDoublePtrTy(context));    // 52     double*                             sr;
@@ -417,10 +417,10 @@ llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, ll
             printf("C++ char** size: %i, LLVM char** size: %i\n", sizeof(char**), dl->getTypeStoreSize(charStarStarType));
             printf("C++ void* size: %i, LLVM void* size: %i\n", sizeof(void*), dl->getTypeStoreSize(voidPtrType));
 
-            printf("C++ TEventDelayDelegate* size: %i\n", sizeof(TEventDelayDelegate*));
-            printf("C++ TEventAssignmentDelegate* size: %i\n", sizeof(TEventAssignmentDelegate* ));
-            printf("C++ TComputeEventAssignmentDelegate* size: %i\n", sizeof(TComputeEventAssignmentDelegate*));
-            printf("C++ TPerformEventAssignmentDelegate* size: %i\n", sizeof(TPerformEventAssignmentDelegate*));
+            printf("C++ EventDelayHandler* size: %i\n", sizeof(EventDelayHandler*));
+            printf("C++ EventAssignmentHandler* size: %i\n", sizeof(EventAssignmentHandler* ));
+            printf("C++ ComputeEventAssignmentHandler* size: %i\n", sizeof(ComputeEventAssignmentHandler*));
+            printf("C++ PerformEventAssignmentHandler* size: %i\n", sizeof(PerformEventAssignmentHandler*));
 
             */
         }
