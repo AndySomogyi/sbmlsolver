@@ -34,7 +34,7 @@ RR_DECLSPEC void		 	sleep(int ms);
 RR_DECLSPEC std::size_t     indexOf(std::vector<std::string>& vec, const std::string& elem );
 RR_DECLSPEC bool            isNaN(const double& aNum);
 RR_DECLSPEC bool            isNullOrEmpty(const string& str);    //Can't be null, but empty
-RR_DECLSPEC void            pause(bool doIt = true, const string& msg = gEmptyString);
+RR_DECLSPEC void            pause(bool doIt = true, const string& msg = "");
 
 //String utilities
 RR_DECLSPEC string          removeTrailingSeparator(const string& fldr, const char sep = gPathSeparator);//"\\");

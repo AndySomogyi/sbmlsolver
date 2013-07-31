@@ -22,11 +22,11 @@ class RR_DECLSPEC ModelSharedLibrary
 		SharedLibrary					mTheLib;
 
     public:
-										ModelSharedLibrary(const string& pathToLib = gEmptyString);
+										ModelSharedLibrary(const string& pathToLib = "");
                                        ~ModelSharedLibrary();
 
 		bool							setPath(const string& pathTo);
-    	string							createName(const string& name = gEmptyString);
+    	string							createName(const string& name = "");
 		string							getName();
 		string							getFullFileName();
 
