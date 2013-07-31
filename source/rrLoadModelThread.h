@@ -29,7 +29,7 @@ class RR_DECLSPEC LoadModelThread : public RoadRunnerThread
         void						signalExit();
 
 	public:
-    					            LoadModelThread(const string& modelFile = gEmptyString, bool recompileOnLoad = true, RoadRunner* rri = NULL, bool autoStart = false);
+    					            LoadModelThread(const string& modelFile = "", bool recompileOnLoad = true, RoadRunner* rri = NULL, bool autoStart = false);
     					           ~LoadModelThread();
 		void						setSBML(const string& sbml);
     	void 			            worker();

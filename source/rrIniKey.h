@@ -28,7 +28,7 @@ class RR_DECLSPEC IniKey
 		string	              	mValue;
 		string	              	mComment;
 
-				              	IniKey(const string& key = gEmptyString);
+				              	IniKey(const string& key = "");
 				               ~IniKey(){}
         void 	              	ReKey(const string& key);
         string 	              	AsString() const;

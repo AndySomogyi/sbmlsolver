@@ -16,7 +16,7 @@ class RR_DECLSPEC RoadRunnerList
 		vector<RoadRunner*>		mRRs;
 
     public:
-								RoadRunnerList(const int& nrOfRRs, const string& tempFolder = gEmptyString);
+								RoadRunnerList(const int& nrOfRRs, const string& tempFolder = "");
 		virtual				   ~RoadRunnerList();
 		RoadRunner*				operator[](const int& index);
         unsigned int			count();

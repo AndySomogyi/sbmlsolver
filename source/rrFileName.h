@@ -18,7 +18,7 @@ class RR_DECLSPEC FileName
         void                        MakeFileString();
 
     public:
-                                    FileName(const string& name = gEmptyString, const string& path = gEmptyString);
+                                    FileName(const string& name = "", const string& path = "");
                                     FileName(const FileName& fN);
                                    ~FileName();
 

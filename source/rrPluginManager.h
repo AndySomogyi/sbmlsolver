@@ -28,11 +28,11 @@ class RR_DECLSPEC PluginManager
         Plugin* 					createCPlugin(SharedLibrary *libHandle);
 
     public:
-	    				           	PluginManager(const std::string& pluginFolder = gEmptyString, const bool& autoLoad = false, RoadRunner* aRR = NULL);
+	    				           	PluginManager(const std::string& pluginFolder = "", const bool& autoLoad = false, RoadRunner* aRR = NULL);
         				           ~PluginManager();
 		bool			           	setPluginFolder(const string& dir);
 		string			           	getPluginFolder();
-		bool 			           	load(const string& pluginName = gEmptyString);
+		bool 			           	load(const string& pluginName = "");
 		bool 			           	loadPlugin(const string& sharedLib);
 		bool 			           	unload();
         int				           	getNumberOfPlugins();
