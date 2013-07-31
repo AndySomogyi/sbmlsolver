@@ -189,8 +189,8 @@ bool runLLVMCSRMatrixTest(const int m, const int n, const int nnz)
     }
     cout << "\n";
 
-    vector<int> rowidx;
-    vector<int> colidx;
+    vector<uint> rowidx;
+    vector<uint> colidx;
     vector<double> values;
 
     for (int i = 0; i < m; i++)

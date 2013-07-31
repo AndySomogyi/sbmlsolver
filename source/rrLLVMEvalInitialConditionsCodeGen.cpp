@@ -163,11 +163,11 @@ void LLVMEvalInitialConditionsCodeGen::codeGenStoichiometry(llvm::Value* modelDa
     Value *stoichEP = modelDataBuilder.createGEP(Stoichiometry);
     Value *stoich = builder.CreateLoad(stoichEP, "stoichiometry");
 
-    list<pair<int,int> > stoichEntries = dataSymbols.getStoichiometryIndx();
-    for (list<pair<int,int> >::iterator i = stoichEntries.begin();
+    list<pair<uint,uint> > stoichEntries = dataSymbols.getStoichiometryIndx();
+    for (list<pair<uint,uint> >::iterator i = stoichEntries.begin();
             i != stoichEntries.end(); i++)
     {
-        pair<int, int> nz = *i;
+        pair<uint, uint> nz = *i;
         const ASTNode *node = modelSymbols.createStoichiometryNode(nz.first, nz.second);
         char* formula = SBML_formulaToString(node);
         Log(lInfo) << "\t{" << nz.first << ", " << nz.second << "} : " << formula

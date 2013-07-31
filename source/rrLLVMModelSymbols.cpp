@@ -66,7 +66,7 @@ bool LLVMModelSymbols::visit(const libsbml::Parameter& x)
 
 bool LLVMModelSymbols::visit(const libsbml::AssignmentRule& x)
 {
-    poco_trace(getLogger(), "id: " + x.getId());
+    poco_trace(getLogger(), "processing AssignmentRule, id: " + x.getId());
     SBase *element = const_cast<Model*>(model)->getElementBySId(x.getVariable());
     processElement(assigmentRules, element, x.getMath());
     return true;
@@ -74,9 +74,17 @@ bool LLVMModelSymbols::visit(const libsbml::AssignmentRule& x)
 
 bool LLVMModelSymbols::visit(const libsbml::InitialAssignment& x)
 {
-    poco_trace(getLogger(), "id: " +  x.getId());
+    poco_trace(getLogger(), "processing InitialAssignment, id: " +  x.getId());
     SBase *element = const_cast<Model*>(model)->getElementBySId(x.getSymbol());
     processElement(initialValues, element, x.getMath());
+    return true;
+}
+
+bool LLVMModelSymbols::visit(const libsbml::RateRule& rule)
+{
+    poco_trace(getLogger(), "processing RateRule, id: " +  rule.getId());
+    SBase *element = const_cast<Model*>(model)->getElementBySId(rule.getVariable());
+    processElement(rateRules, element, rule.getMath());
     return true;
 }
 
@@ -501,6 +509,8 @@ const LLVMSymbolForest& LLVMModelSymbols::getRateRules() const
 {
     return rateRules;
 }
+
+
 
 } /* namespace rr */
 

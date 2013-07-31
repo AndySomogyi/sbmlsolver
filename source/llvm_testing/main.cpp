@@ -61,6 +61,10 @@ int main(int argc, char* argv[])
 
     const char* compiler = "llvm";
 
+    uint a;
+
+    std::vector<int> vec;
+
 
 
 

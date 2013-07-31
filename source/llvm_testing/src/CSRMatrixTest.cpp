@@ -99,13 +99,13 @@ bool runSparseTest(const int m, const int n, const int nnz)
     cout << "\n";
 
 
-    vector<int> rowidx;
-    vector<int> colidx;
+    vector<uint> rowidx;
+    vector<uint> colidx;
     vector<double> values;
 
-    for(int i = 0; i < m; i++)
+    for(uint i = 0; i < m; i++)
     {
-        for (int j = 0; j < n; j++)
+        for (uint j = 0; j < n; j++)
         {
             double value = A[i + j*m];
 

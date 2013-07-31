@@ -94,6 +94,41 @@ protected:
     virtual bool visit(const libsbml::InitialAssignment &x);
 
     /**
+     * * In the case of a species, a RateRule sets the rate of change of the
+     * species’ quantity (concentration or amount) to the value determined
+     * by the formula in math. The unit associated with the rule’s math
+     * element should be equal to the unit of the species’ quantity
+     * (Section 4.6.5) divided by the model-wide unit of time (Section 4.2.4),
+     * or in other words, {unit of species quantity}/{unit of time}.
+     *
+     * * Restrictions: There must not be both a RateRule variable attribute
+     * and a SpeciesReference species attribute having the same value, unless
+     *  that species has its boundaryCondition attribute is set to “true”. This
+     * means a rate rule cannot be defined for a species that is created or
+     * destroyed in a reaction, unless that species is defined as a boundary
+     * condition in the model.
+     *
+     * * In the case of a species reference, a RateRule sets the rate of change
+     * of the stoichiometry of the referenced reactant or product to the value
+     * determined by the formula in math. The unit associated with the value
+     * produced by the formula should be consistent with {unit derived from
+     * dimensionless}/{unit of time}.
+     *
+     * * In the case of a compartment, a RateRule sets the rate of change of
+     * the compartment’s size to the value determined by the formula in math.
+     * The unit of the rule’s math element should be identical to the compartment’s
+     * units attribute divided by the model-wide unit of time. (In other words,
+     * {unit of compartment size}/{unit of time}.)
+     *
+     * * In the case of a parameter, a RateRule sets the rate of change of the
+     * parameter’s value to that determined by the formula in math. The unit
+     * associated with the rule’s math element should be equal to the parameter’s
+     * units attribute value divided by the model-wide unit of time. (In other
+     * words, {parameter units}/{unit of time}.)
+     */
+    virtual bool visit(const libsbml::RateRule &rule);
+
+    /**
      * visit the reactions so we can get all the SpeciesReferences and stuff
      * them in the initialConditions map.
      */
