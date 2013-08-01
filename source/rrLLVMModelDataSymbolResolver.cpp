@@ -99,7 +99,7 @@ llvm::Value* LLVMModelDataTermSymbolResolver::loadSymbolValue(const std::string&
 }
 
 llvm::Value* LLVMModelDataTermSymbolResolver::storeSymbolValue(
-        const std::string& symbol)
+        const std::string& symbol, llvm::Value *value)
 {
     throw_llvm_exception("not implemented");
     return 0;

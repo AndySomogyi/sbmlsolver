@@ -44,7 +44,8 @@ public:
      */
     virtual llvm::Value *loadSymbolValue(const std::string& symbol);
 
-    virtual llvm::Value *storeSymbolValue(const std::string& symbol);
+    virtual llvm::Value *storeSymbolValue(const std::string& symbol,
+            llvm::Value *value);
 
 
 protected:

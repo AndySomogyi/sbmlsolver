@@ -25,7 +25,8 @@ class LLVMSymbolResolver
 {
 public:
     virtual llvm::Value *loadSymbolValue(const std::string& symbol) = 0;
-    virtual llvm::Value *storeSymbolValue(const std::string& symbol) = 0;
+    virtual llvm::Value *storeSymbolValue(const std::string& symbol,
+            llvm::Value *value) = 0;
 protected:
     ~LLVMSymbolResolver() {};
 };

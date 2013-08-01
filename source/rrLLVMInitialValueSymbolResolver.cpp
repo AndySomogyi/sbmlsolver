@@ -133,7 +133,7 @@ llvm::Value* LLVMInitialValueTermSymbolResolver::loadSymbolValue(const std::stri
 }
 
 llvm::Value* LLVMInitialValueTermSymbolResolver::storeSymbolValue(
-        const std::string& symbol)
+        const std::string& symbol, llvm::Value *value)
 {
     throw_llvm_exception("not implemented");
     return 0;
