@@ -124,7 +124,7 @@ bool runSparseTest(const int m, const int n, const int nnz)
 
     csr_matrix *mat = csr_matrix_new(m, n, rowidx, colidx, values);
 
-    csr_matrix_dgemv(mat, x, ys);
+    csr_matrix_dgemv(1, mat, x, 0, ys);
 
     cout << "sparse y: ";
     for(int i = 0; i < m; i++) {
@@ -157,7 +157,7 @@ bool runSparseTest(const int m, const int n, const int nnz)
 
 
     memset(ys, 0, m*sizeof(double));
-    csr_matrix_dgemv(mat, x, ys);
+    csr_matrix_dgemv(1, mat, x, 0, ys);
 
     cout << "sparse y: ";
     for (int i = 0; i < m; i++)

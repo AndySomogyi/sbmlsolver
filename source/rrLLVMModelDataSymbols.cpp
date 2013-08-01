@@ -492,7 +492,6 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
 
 LLVMModelDataSymbols::~LLVMModelDataSymbols()
 {
-    // TODO Auto-generated destructor stub
 }
 
 
@@ -559,13 +558,13 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(ModelData& m) const
     initModelData(m);
 
     // set the buffer sizes
-    //mData.numIndependentSpecies         = ms.mNumIndependentSpecies;
+    m.numIndependentSpecies         = independentFloatingSpeciesSize;
     //mData.numDependentSpecies           = ms.mNumDependentSpecies;
     m.numGlobalParameters           = globalParametersMap.size();
     m.numReactions                  = reactionsMap.size();
     //mData.numEvents                     = ms.mNumEvents;
     m.numFloatingSpecies            = floatingSpeciesMap.size();
-    //mData.numRateRules                  = ms.mRateRules.size();
+    m.numRateRules                  = rateRules.size();
     m.numCompartments               = compartmentsMap.size();
     m.numBoundarySpecies            = boundarySpeciesMap.size();
     //mData.srSize                        = ms.mNumModifiableSpeciesReferences;

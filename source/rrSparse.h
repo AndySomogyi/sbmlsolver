@@ -50,12 +50,15 @@ bool RR_DECLSPEC csr_matrix_set_nz(csr_matrix *mat, unsigned row, unsigned col, 
 double RR_DECLSPEC csr_matrix_get_nz(const csr_matrix *mat, unsigned row, unsigned col);
 
 /**
- * peform a matrix vector multiply y = Ax + y
+ * performs the matrix-vector operations y := alpha*A*x + beta*y
+ *
+ * LAPACK sig: SUBROUTINE DGEMV(TRANS,M,N,ALPHA,A,LDA,X,INCX,BETA,Y,INCY)
  *
  * The given vectors y and x must be the same size as number of
  * columns in the sparse matrix.
  */
-void RR_DECLSPEC csr_matrix_dgemv(const csr_matrix *A, double const *x, double *y);
+void RR_DECLSPEC csr_matrix_dgemv(double alpha, const csr_matrix *A,
+        double const *x, double beta, double *y);
 
 /**
  * dump the matrix to an output stream.

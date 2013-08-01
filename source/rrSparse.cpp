@@ -155,7 +155,8 @@ void csr_matrix_delete(csr_matrix* mat)
     }
 }
 
-void csr_matrix_dgemv(const csr_matrix* A, const double* x, double* y)
+void csr_matrix_dgemv(double alpha, const csr_matrix* A, const double* x,
+        double beta, double* y)
 {
     const unsigned m = A->m;
     unsigned *rowptr = A->rowptr;
@@ -163,10 +164,10 @@ void csr_matrix_dgemv(const csr_matrix* A, const double* x, double* y)
     double *values = A->values;
     for (unsigned i = 0; i < m; i++)
     {
-        double yi = y[i];
+        double yi = beta * y[i];
         for (unsigned k = rowptr[i]; k < rowptr[i + 1]; k++)
         {
-            yi = yi + values[k] * x[colidx[k]];
+            yi = yi + alpha * values[k] * x[colidx[k]];
         }
         y[i] = yi;
     }

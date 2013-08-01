@@ -47,7 +47,8 @@ LLVMModelDataIRBuilder::LLVMModelDataIRBuilder(Value *modelData,
 
 llvm::Value* LLVMModelDataIRBuilder::createGlobalParamGEP(const std::string& id)
 {
-    int index = symbols.getGlobalParameterIndex(id);
+    uint index = symbols.getGlobalParameterIndex(id);
+    assert(index < symbols.getIndependentGlobalParameterSize());
     return createGEP(GlobalParameters, index);
 }
 
@@ -58,9 +59,6 @@ llvm::Value* LLVMModelDataIRBuilder::createGEP(ModelDataFields field,
     const char* fieldName = LLVMModelDataSymbols::getFieldName(field);
     return builder.CreateStructGEP(modelData, (unsigned)field, Twine(fieldName) + Twine("_gep"));
 }
-
-
-
 
 llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesCompGEP(const std::string& id)
 {
@@ -80,7 +78,8 @@ llvm::Value* LLVMModelDataIRBuilder::createGEP(ModelDataFields field,
 llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtGEP(
         const std::string& id, const Twine& name)
 {
-    int index = symbols.getFloatingSpeciesIndex(id);
+    uint index = symbols.getFloatingSpeciesIndex(id);
+    assert(index < symbols.getIndependentFloatingSpeciesSize());
     return createGEP(FloatingSpeciesAmounts, index,
             name.isTriviallyEmpty() ? id : name);
 }
@@ -219,19 +218,28 @@ llvm::Value* LLVMModelDataIRBuilder::createStore(ModelDataFields field,
 llvm::Value* LLVMModelDataIRBuilder::createCompLoad(const std::string& id,
         const llvm::Twine& name)
 {
-    int compIdx = symbols.getCompartmentIndex(id);
-    return createLoad(CompartmentVolumes, compIdx,
-            name.isTriviallyEmpty() ? id : name);
+    Value *gep = createCompGEP(id, name + "_gep");
+    return builder.CreateLoad(gep, name);
 }
 
 llvm::Value* LLVMModelDataIRBuilder::createCompStore(const std::string& id,
         llvm::Value* value)
 {
-    int compIdx = symbols.getCompartmentIndex(id);
-    return createStore(CompartmentVolumes, compIdx, value, id);
+    Value *gep = createCompGEP(id);
+    return builder.CreateStore(value, gep);
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtLoad(const std::string& id, const llvm::Twine& name)
+llvm::Value* LLVMModelDataIRBuilder::createCompGEP(const std::string& id,
+        const llvm::Twine& name)
+{
+    uint index = symbols.getCompartmentIndex(id);
+    assert(index < symbols.getIndependentCompartmentSize());
+    return createGEP(CompartmentVolumes, index,
+            name.isTriviallyEmpty() ? id : name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtLoad(
+        const std::string& id, const llvm::Twine& name)
 {
     Value *gep = createFloatSpeciesAmtGEP(id, name + "_gep");
     return builder.CreateLoad(gep, name);
@@ -250,15 +258,18 @@ llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesAmtLoad(const std::string
     return builder.CreateLoad(gep, name);
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesAmtStore(const std::string& id, llvm::Value* value)
+llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesAmtStore(
+        const std::string& id, llvm::Value* value)
 {
     Value *gep = createBoundSpeciesAmtGEP(id);
     return builder.CreateStore(value, gep);
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesAmtGEP(const std::string& id, const llvm::Twine& name)
+llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesAmtGEP(
+        const std::string& id, const llvm::Twine& name)
 {
-    int index = symbols.getBoundarySpeciesIndex(id);
+    uint index = symbols.getBoundarySpeciesIndex(id);
+    assert(index < symbols.getIndependentBoundarySpeciesSize());
     return createGEP(BoundarySpeciesAmounts, index, name);
 }
 
@@ -276,7 +287,8 @@ llvm::Value* LLVMModelDataIRBuilder::createGlobalParamLoad(
             name.isTriviallyEmpty() ? id : name);
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createGlobalParamStore(const std::string& id, llvm::Value* value)
+llvm::Value* LLVMModelDataIRBuilder::createGlobalParamStore(
+        const std::string& id, llvm::Value* value)
 {
     int idx = symbols.getGlobalParameterIndex(id);
     return createStore(GlobalParameters, idx, value, id);
