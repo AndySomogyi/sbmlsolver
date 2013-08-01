@@ -28,6 +28,9 @@ LLVMModelSymbols::LLVMModelSymbols(const libsbml::Model *m, LLVMModelDataSymbols
         symbols(sym),
         reactions(sym.getReactionSize(), ReactionSymbols())
 {
+    // make sure we have no events
+    model->getListOfEvents()->accept(*this);
+
     model->getListOfSpecies()->accept(*this);
     model->getListOfCompartments()->accept(*this);
     model->getListOfParameters()->accept(*this);
@@ -86,6 +89,15 @@ bool LLVMModelSymbols::visit(const libsbml::RateRule& rule)
     SBase *element = const_cast<Model*>(model)->getElementBySId(rule.getVariable());
     processElement(rateRules, element, rule.getMath());
     return true;
+}
+
+bool LLVMModelSymbols::visit (const libsbml::Event &event)
+{
+    string msg = "fatal error, encountered event ";
+    msg += event.getId();
+    msg += ", events not supported yet";
+    throw_llvm_exception(msg);
+    return false;
 }
 
 void LLVMModelSymbols::processElement(LLVMSymbolForest& currentSymbols,
@@ -219,32 +231,75 @@ void LLVMModelSymbols::processSpecies(LLVMSymbolForest &currentSymbols,
 {
     // ASTNode takes ownership of children, so only allocate the ones that
     // are NOT given to an ASTNode addChild.
+    Log(Logger::PRIO_TRACE) << "processing species " << species->getId() << endl;
 
     if (!math)
     {
-        // treat everything as an amount, the BasicSymbolResolver takes
-        // care of converting to a concentration, here we
-        // just build an AST for get value as an amount
-        ASTNode *amt = 0;
-        if (species->isSetInitialConcentration())
+        if (species->getHasOnlySubstanceUnits())
         {
-            ASTNode *conc = new ASTNode(AST_REAL);
-            conc->setValue(species->getInitialConcentration());
+            // value should be an amount
+            if (species->isSetInitialConcentration())
+            {
+                // need to convert conc to amount,
+                // these two nodes are owned by the parent
+                ASTNode *conc = new ASTNode(AST_REAL);
+                conc->setValue(species->getInitialConcentration());
+                ASTNode *comp = new ASTNode(AST_NAME);
+                comp->setName(species->getCompartment().c_str());
 
-            amt = nodes.create(AST_TIMES);
-            amt->addChild(conc);
-            ASTNode *comp = new ASTNode(AST_NAME);
-            comp->setName(species->getCompartment().c_str());
-            amt->addChild(comp);
-            math = amt;
+                ASTNode *amt = nodes.create(AST_TIMES);
+                amt->addChild(conc);
+                amt->addChild(comp);
+                math = amt;
+            }
+            else if (species->isSetInitialAmount())
+            {
+                // we got an amount, all good
+                ASTNode *amt = nodes.create(AST_REAL);
+                amt->setValue(species->getInitialAmount());
+                math = amt;
+            }
+            else
+            {
+                string msg = string("species ") + species->getId() +
+                    string(" has neither initial amount nor concentration set");
+                throw_llvm_exception(msg);
+            }
         }
-        else if (species->isSetInitialAmount())
+        else
         {
-            amt = new ASTNode(AST_REAL);
-            amt->setValue(species->getInitialAmount());
+            // value should be a concentration
+            if (species->isSetInitialConcentration())
+            {
+                // we got an conc, all good
+                ASTNode *conc = nodes.create(AST_REAL);
+                conc->setValue(species->getInitialConcentration());
+                math = conc;
+            }
+            else if (species->isSetInitialAmount())
+            {
+                // need to convert amt to concentraion,
+                // these two nodes are owned by the parent
+                ASTNode *amt = new ASTNode(AST_REAL);
+                amt->setValue(species->getInitialAmount());
+                ASTNode *comp = new ASTNode(AST_NAME);
+                comp->setName(species->getCompartment().c_str());
+
+                ASTNode *conc = nodes.create(AST_DIVIDE);
+                conc->addChild(amt);
+                conc->addChild(comp);
+                math = conc;
+            }
+            else
+            {
+                string msg = string("species ") + species->getId() +
+                    string(" has neither initial amount nor concentration set");
+                throw_llvm_exception(msg);
+            }
         }
-        math = amt;
     }
+
+    assert(math);
 
     if (species->getBoundaryCondition())
     {
@@ -255,32 +310,6 @@ void LLVMModelSymbols::processSpecies(LLVMSymbolForest &currentSymbols,
         currentSymbols.floatingSpecies[species->getId()] = math;
     }
 }
-
-/*
-void LLVMModelSymbols::processSpeciesReference(
-        const libsbml::SpeciesReference* sr, const ASTNode* math)
-{
-    SpeciesReferenceType type;
-
-    const ListOf *list = dynamic_cast<const ListOf *>(sr->getParentSBMLObject());
-    const Reaction *r = dynamic_cast<const Reaction*>(list->getParentSBMLObject());
-
-    if (list == r->getListOfReactants()) {
-        type = Reactant;
-    }
-    else if (list == r->getListOfProducts()) {
-        type = Product;
-    }
-    else {
-        string err = "could not determine if species reference ";
-        err += sr->getId();
-        err += " is a reactant or product";
-        throw LLVMException(err, __FUNC__);
-    }
-
-    processSpeciesReference(sr, r, type, math);
-}
-*/
 
 const ASTNode* LLVMModelSymbols::getSpeciesReferenceStoichMath(
         const libsbml::SpeciesReference* reference)

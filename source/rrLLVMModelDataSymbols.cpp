@@ -717,6 +717,37 @@ uint LLVMModelDataSymbols::getIndependentFloatingSpeciesSize() const
     return independentFloatingSpeciesSize;
 }
 
+bool LLVMModelDataSymbols::isIndependentFloatingSpecies(
+        const std::string& id) const
+{
+    StringUIntMap::const_iterator i = floatingSpeciesMap.find(id);
+    return i != floatingSpeciesMap.end() &&
+            i->second < independentFloatingSpeciesSize;
+}
+
+bool LLVMModelDataSymbols::isIndependentBoundarySpecies(
+        const std::string& id) const
+{
+    StringUIntMap::const_iterator i = boundarySpeciesMap.find(id);
+    return i != boundarySpeciesMap.end() &&
+            i->second < independentBoundarySpeciesSize;
+}
+
+bool LLVMModelDataSymbols::isIndependentGlobalParameter(
+        const std::string& id) const
+{
+    StringUIntMap::const_iterator i = globalParametersMap.find(id);
+    return i != globalParametersMap.end() &&
+            i->second < independentGlobalParameterSize;
+}
+
+bool LLVMModelDataSymbols::isIndependentCompartment(const std::string& id) const
+{
+    StringUIntMap::const_iterator i = compartmentsMap.find(id);
+    return i != compartmentsMap.end() &&
+            i->second < independentCompartmentSize;
+}
+
 const char* LLVMModelDataSymbols::getFieldName(ModelDataFields field)
 {
     if (field >= Size && field <= Sr)
@@ -766,6 +797,16 @@ bool LLVMModelDataSymbols::isIndependentElement(const std::string& id) const
 {
     return rateRules.find(id) == rateRules.end() &&
             assigmentRules.find(id) == assigmentRules.end();
+}
+
+bool LLVMModelDataSymbols::hasAssignmentRule(const std::string& id) const
+{
+    return assigmentRules.find(id) != assigmentRules.end();
+}
+
+bool LLVMModelDataSymbols::hasRateRule(const std::string& id) const
+{
+    return rateRules.find(id) != rateRules.end();
 }
 
 

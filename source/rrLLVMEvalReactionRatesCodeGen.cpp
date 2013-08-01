@@ -10,7 +10,6 @@
 #include "rrLLVMASTNodeCodeGen.h"
 #include "rrLLVMASTNodeFactory.h"
 #include "rrLLVMModelDataSymbolResolver.h"
-#include "rrLLVMBasicSymbolResolver.h"
 #include "rrLogger.h"
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaFormatter.h>
@@ -61,7 +60,7 @@ Value* LLVMEvalReactionRatesCodeGen::codeGen()
     // single argument
     modelData = func->arg_begin();
 
-    LLVMModelDataSymbolResolver resolver(modelData,model,modelSymbols,
+    LLVMModelDataLoadSymbolResolver resolver(modelData,model,modelSymbols,
             dataSymbols,builder);
     LLVMModelDataIRBuilder mdbuilder(modelData, dataSymbols, builder);
     LLVMASTNodeCodeGen astCodeGen(builder, resolver);

@@ -197,6 +197,18 @@ public:
      */
     bool isIndependentElement(const std::string& id) const;
 
+    bool hasRateRule(const std::string& id) const;
+
+    bool hasAssignmentRule(const std::string& id) const;
+
+    bool isIndependentFloatingSpecies(const std::string& id) const;
+
+    bool isIndependentBoundarySpecies(const std::string& id) const;
+
+    bool isIndependentGlobalParameter(const std::string& id) const;
+
+    bool isIndependentCompartment(const std::string& id) const;
+
     /**
      * get the textual form of the field names.
      */

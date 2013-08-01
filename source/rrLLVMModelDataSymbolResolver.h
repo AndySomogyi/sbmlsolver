@@ -12,7 +12,6 @@
 #include "rrLLVMIncludes.h"
 #include "rrLLVMModelDataSymbols.h"
 #include "rrLLVMModelSymbols.h"
-#include "rrLLVMBasicSymbolResolver.h"
 
 namespace libsbml
 {
@@ -22,56 +21,50 @@ class Model;
 namespace rr
 {
 
-/**
- * A terminal symbol resolver, which resolved everything
- * to values stored in the model data structure.
- *
- * terminal symbol resolvers treat all species as amounts.
- */
-class LLVMModelDataTermSymbolResolver: public LLVMSymbolResolver
+class LLVMModelDataLoadSymbolResolver: public LLVMLoadSymbolResolver
 {
 public:
-    LLVMModelDataTermSymbolResolver(llvm::Value *modelData,
-            const libsbml::Model *model,
+    LLVMModelDataLoadSymbolResolver(llvm::Value *modelData,
+            const libsbml::Model *model, const LLVMModelSymbols &modelSymbols,
             const LLVMModelDataSymbols &modelDataSymbols,
             llvm::IRBuilder<> &builder);
 
-    virtual ~LLVMModelDataTermSymbolResolver();
+    virtual ~LLVMModelDataLoadSymbolResolver() {};
 
-
-    /**
-     * The runtime resolution of symbols first search through the
-     * replacement rules, applies them, them pulls the terminal
-     * symbol values from the ModelData struct.
-     *
-     * The initial assigment generator overrides this and pulls
-     * the terminal values from the initial values and assigments
-     * specified in the model.
-     */
     virtual llvm::Value *loadSymbolValue(const std::string& symbol);
 
-    virtual llvm::Value *storeSymbolValue(const std::string& symbol,
-            llvm::Value *value);
-
-protected:
+private:
 
     llvm::Value *modelData;
     const libsbml::Model *model;
+    const LLVMModelSymbols &modelSymbols;
     const LLVMModelDataSymbols &modelDataSymbols;
     llvm::IRBuilder<> &builder;
+
 };
 
-class LLVMModelDataSymbolResolver: public
-    LLVMBasicSymbolResolver
+class LLVMModelDataStoreSymbolResolver: public LLVMStoreSymbolResolver
 {
 public:
-    LLVMModelDataSymbolResolver(llvm::Value *modelData,
-            const libsbml::Model *model,
-            const LLVMModelSymbols &modelSymbols,
+    LLVMModelDataStoreSymbolResolver(llvm::Value *modelData,
+            const libsbml::Model *model, const LLVMModelSymbols &modelSymbols,
             const LLVMModelDataSymbols &modelDataSymbols,
-            llvm::IRBuilder<> &builder);
+            llvm::IRBuilder<> &builder,
+            LLVMLoadSymbolResolver &resolver);
+
+    virtual ~LLVMModelDataStoreSymbolResolver() {};
+
+    virtual llvm::Value *storeSymbolValue(const std::string& symbol,
+            llvm::Value *value);
 private:
-    LLVMModelDataTermSymbolResolver terminal;
+
+    llvm::Value *modelData;
+    const libsbml::Model *model;
+    const LLVMModelSymbols &modelSymbols;
+    const LLVMModelDataSymbols &modelDataSymbols;
+    llvm::IRBuilder<> &builder;
+    LLVMLoadSymbolResolver &resolver;
+
 };
 
 } /* namespace rr */

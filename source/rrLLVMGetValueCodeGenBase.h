@@ -86,7 +86,7 @@ llvm::Value* LLVMGetValueCodeGenBase<Derived, substanceUnits>::codeGen()
 
     vector<string> ids = static_cast<Derived*>(this)->getIds();
 
-    LLVMModelDataSymbolResolver resolver(args[0], model, modelSymbols,
+    LLVMModelDataLoadSymbolResolver resolver(args[0], model, modelSymbols,
             dataSymbols, builder);
 
     // default, return NaN

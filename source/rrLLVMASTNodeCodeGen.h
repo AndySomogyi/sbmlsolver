@@ -27,7 +27,7 @@ class LLVMASTNodeCodeGen
 {
 public:
     LLVMASTNodeCodeGen(llvm::IRBuilder<> &builder,
-            LLVMSymbolResolver &resolver);
+            LLVMLoadSymbolResolver &resolver);
     ~LLVMASTNodeCodeGen();
 
     llvm::Value *codeGen(const libsbml::ASTNode *ast);
@@ -67,7 +67,7 @@ public:
 
 private:
     llvm::IRBuilder<> &builder;
-    LLVMSymbolResolver &resolver;
+    LLVMLoadSymbolResolver &resolver;
 };
 
 

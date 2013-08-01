@@ -145,6 +145,11 @@ protected:
     virtual bool visit(const libsbml::Rule &x);
 
     /**
+     * fatal error if we find these, event not supported yet
+     */
+    virtual bool visit (const libsbml::Event &event);
+
+    /**
      * The only differences in how initialAssigments and assignmentRules
      * are handled is whether they are stuffed in the initialAssigment
      * or assigmentRules maps.

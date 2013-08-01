@@ -25,7 +25,7 @@ namespace rr
 {
 
 LLVMASTNodeCodeGen::LLVMASTNodeCodeGen(llvm::IRBuilder<> &builder,
-        LLVMSymbolResolver &resolver) :
+        LLVMLoadSymbolResolver &resolver) :
         builder(builder), resolver(resolver)
 {
 }

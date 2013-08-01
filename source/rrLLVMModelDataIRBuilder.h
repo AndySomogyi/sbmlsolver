@@ -144,6 +144,25 @@ public:
             llvm::Value *value);
 
     /**
+     * rate rule GEP
+     */
+    llvm::Value *createRateRuleGEP(const std::string &id,
+            const llvm::Twine &name = "");
+
+    /**
+     * load the rate rule value
+     */
+    llvm::Value *createRateRuleLoad(const std::string& id,
+            const llvm::Twine& name = "");
+
+    /**
+     * store the rate rule value
+     */
+    llvm::Value *createRateRuleStore(const std::string &id,
+            llvm::Value *value);
+
+
+    /**
      * create a call to the csr_matrix_set_nz function.
      *
      * only valid whilst a basic block is being filled.

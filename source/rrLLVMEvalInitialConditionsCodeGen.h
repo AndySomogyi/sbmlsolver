@@ -15,13 +15,12 @@
 #include "rrLLVMASTNodeFactory.h"
 #include "rrLLVMModelDataIRBuilder.h"
 #include "rrLLVMInitialValueSymbolResolver.h"
+#include "rrLLVMModelDataSymbolResolver.h"
 #include <sbml/Model.h>
 #include <sbml/SBMLVisitor.h>
 
 namespace rr
 {
-
-class LLVMInitialValueSymbolResolver;
 
 /**
  * Generates a function called 'modeldata_initialvalues_set', which evaluates
@@ -47,20 +46,17 @@ public:
 
 private:
 
-    void codeGenSpecies(llvm::Value *modelData,
-            LLVMModelDataIRBuilder &modelDataBuilder);
+    void codeGenSpecies(LLVMModelDataStoreSymbolResolver& modelDataResolver);
 
     void codeGenStoichiometry(llvm::Value *modelData,
-            LLVMModelDataIRBuilder &modelDataBuilder);
+            LLVMModelDataStoreSymbolResolver& modelDataResolver);
 
-    void codeGenCompartments(llvm::Value *modelData,
-            LLVMModelDataIRBuilder &modelDataBuilder);
+    void codeGenCompartments(LLVMModelDataStoreSymbolResolver& modelDataResolver);
 
-    void codeGenParameters(llvm::Value *modelData,
-            LLVMModelDataIRBuilder &modelDataBuilder);
+    void codeGenParameters(LLVMModelDataStoreSymbolResolver& modelDataResolver);
 
     llvm::Function *initialValuesFunc;
-    LLVMInitialValueSymbolResolver symbolResolver;
+    LLVMInitialValueSymbolResolver initialValueResolver;
 };
 
 } /* namespace rr */

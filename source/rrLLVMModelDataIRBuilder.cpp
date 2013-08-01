@@ -75,14 +75,7 @@ llvm::Value* LLVMModelDataIRBuilder::createGEP(ModelDataFields field,
     return builder.CreateConstGEP1_32(load, index, name + "_gep");
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtGEP(
-        const std::string& id, const Twine& name)
-{
-    uint index = symbols.getFloatingSpeciesIndex(id);
-    assert(index < symbols.getIndependentFloatingSpeciesSize());
-    return createGEP(FloatingSpeciesAmounts, index,
-            name.isTriviallyEmpty() ? id : name);
-}
+
 
 
 llvm::StructType* LLVMModelDataIRBuilder::getCSRSparseStructType(
@@ -177,6 +170,29 @@ llvm::CallInst* LLVMModelDataIRBuilder::createCSRMatrixSetNZ(IRBuilder<> &builde
     return builder.CreateCall(func, args, name);
 }
 
+llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtGEP(
+        const std::string& id, const Twine& name)
+{
+    uint index = symbols.getFloatingSpeciesIndex(id);
+    assert(index < symbols.getIndependentFloatingSpeciesSize());
+    return createGEP(FloatingSpeciesAmounts, index,
+            name.isTriviallyEmpty() ? id : name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtLoad(
+        const std::string& id, const llvm::Twine& name)
+{
+    Value *gep = createFloatSpeciesAmtGEP(id, name + "_gep");
+    return builder.CreateLoad(gep, name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtStore(
+        const std::string& id, llvm::Value* value)
+{
+    Value *gep = createFloatSpeciesAmtGEP(id);
+    return builder.CreateStore(value, gep);
+}
+
 llvm::Module* LLVMModelDataIRBuilder::getModule(IRBuilder<> &builder, const char* func)
 {
     BasicBlock *bb = 0;
@@ -206,6 +222,30 @@ llvm::Value* LLVMModelDataIRBuilder::createLoad(ModelDataFields field, unsigned 
 {
     Value *gep = this->createGEP(field, index, name);
     return builder.CreateLoad(gep, name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createRateRuleGEP(const std::string& id,
+        const llvm::Twine& name)
+{
+    uint index = symbols.getRateRuleIndex(id);
+    assert(index < symbols.getRateRuleSize());
+    return createGEP(RateRules, index,
+            name.isTriviallyEmpty() ? id : name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createRateRuleLoad(const std::string& id,
+        const llvm::Twine& name)
+{
+    Value *gep = createRateRuleGEP(id);
+    Twine loadName = (name.isTriviallyEmpty() ? id : name) + "_load";
+    return builder.CreateLoad(gep, loadName);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createRateRuleStore(const std::string& id,
+        llvm::Value* value)
+{
+    Value *gep = createRateRuleGEP(id);
+    return builder.CreateStore(value, gep);
 }
 
 llvm::Value* LLVMModelDataIRBuilder::createStore(ModelDataFields field,
@@ -238,19 +278,7 @@ llvm::Value* LLVMModelDataIRBuilder::createCompGEP(const std::string& id,
             name.isTriviallyEmpty() ? id : name);
 }
 
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtLoad(
-        const std::string& id, const llvm::Twine& name)
-{
-    Value *gep = createFloatSpeciesAmtGEP(id, name + "_gep");
-    return builder.CreateLoad(gep, name);
-}
 
-llvm::Value* LLVMModelDataIRBuilder::createFloatSpeciesAmtStore(
-        const std::string& id, llvm::Value* value)
-{
-    Value *gep = createFloatSpeciesAmtGEP(id);
-    return builder.CreateStore(value, gep);
-}
 
 llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesAmtLoad(const std::string& id, const llvm::Twine& name)
 {
