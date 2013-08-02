@@ -637,7 +637,7 @@ void CompiledExecutableModel::evalModel(double timein, const double *y, double *
 
     if (dydt)
     {
-        memcpy(dydt, mData.rateRules, mData.numRateRules * sizeof(double));
+        memcpy(dydt, mData.rateRuleRates, mData.numRateRules * sizeof(double));
 
         memcpy(&dydt[mData.numRateRules], mData.floatingSpeciesAmountRates,
                 mData.numIndependentSpecies * sizeof(double));

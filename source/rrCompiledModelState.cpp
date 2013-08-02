@@ -24,7 +24,7 @@ void CompiledModelState::InitializeFromModel(ExecutableModel& model)
     copyCArrayToStdVector(modelData.dependentSpeciesConservedSums,        mConservedTotals,                     modelData.numDependentSpecies);
     copyCArrayToStdVector(modelData.floatingSpeciesAmountRates,           mDyDt,                                modelData.numFloatingSpecies);
     copyCArrayToStdVector(modelData.reactionRates,                        mRates,                               modelData.numReactions);
-    copyCArrayToStdVector(modelData.rateRules,                            mRateRules,                           modelData.numRateRules);
+    copyCArrayToStdVector(modelData.rateRuleRates,                        mRateRules,                           modelData.numRateRules);
     copyCArrayToStdVector(modelData.sr,                                   mModifiableSpeciesReferences,         modelData.srSize);
     copyCArrayToStdVector(modelData.eventStatusArray,                     mEventStatusArray,                    modelData.eventStatusArraySize);
     copyCArrayToStdVector(modelData.eventTests,                           mEventTests,                          modelData.eventTestsSize);
@@ -42,7 +42,7 @@ void CompiledModelState::AssignToModel(ExecutableModel& model)
     copyStdVectorToCArray(mConservedTotals,                 modelData.dependentSpeciesConservedSums,        modelData.numDependentSpecies          );
     copyStdVectorToCArray(mDyDt,                            modelData.floatingSpeciesAmountRates,           modelData.numFloatingSpecies           );
     copyStdVectorToCArray(mRates,                           modelData.reactionRates,                        modelData.numReactions                 );
-    copyStdVectorToCArray(mRateRules,                       modelData.rateRules,                            modelData.numRateRules                 );
+    copyStdVectorToCArray(mRateRules,                       modelData.rateRuleRates,                        modelData.numRateRules                 );
     copyStdVectorToCArray(mEventTests,                      modelData.eventTests,                           modelData.eventTestsSize               );
     copyStdVectorToCArray(mEventStatusArray,                modelData.eventStatusArray,                     modelData.eventStatusArraySize         );
     copyStdVectorToCArray(mPreviousEventStatusArray,        modelData.previousEventStatusArray,             modelData.previousEventStatusArraySize );

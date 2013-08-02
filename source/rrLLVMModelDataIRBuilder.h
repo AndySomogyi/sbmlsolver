@@ -146,19 +146,19 @@ public:
     /**
      * rate rule GEP
      */
-    llvm::Value *createRateRuleGEP(const std::string &id,
+    llvm::Value *createRateRuleValueGEP(const std::string &id,
             const llvm::Twine &name = "");
 
     /**
      * load the rate rule value
      */
-    llvm::Value *createRateRuleLoad(const std::string& id,
+    llvm::Value *createRateRuleValueLoad(const std::string& id,
             const llvm::Twine& name = "");
 
     /**
      * store the rate rule value
      */
-    llvm::Value *createRateRuleStore(const std::string &id,
+    llvm::Value *createRateRuleValueStore(const std::string &id,
             llvm::Value *value);
 
 

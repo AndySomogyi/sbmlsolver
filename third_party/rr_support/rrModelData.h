@@ -69,7 +69,6 @@ typedef struct csr_matrix_t
 } csr_matrix;
 
 
-
 /**
  * A data structure that is that allows data to be exchanged
  * with running SBML models. In the case of CExecutableModels, A pointer to
@@ -137,7 +136,28 @@ typedef struct SModelData
     double*                             reactionRates;                    // 9
 
     unsigned                            numRateRules;                     // 10
-    double*                             rateRules;                        // 11
+
+    /**
+     * All of the elelments which have a rate rule are stored here.
+     *
+     * As the integrator runs, this pointer can simply point to an offset
+     * in the integrator's state vector.
+     *
+     * Only used in the LLVM version.
+     */
+    double*                             rateRuleValues;                   // 11
+
+    /**
+     * the rate of change of all elements who's dynamics are determined
+     * by rate rules.
+     *
+     * In the LLVM version, this is just a pointer to a data block
+     * owned by the integrator. In the C version, lots of strange
+     * stuff goes on here, but the C version does allocate this block,
+     * and do all sorts of copying back and forth between the integrator's
+     * rate rule block.
+     */
+    double*                             rateRuleRates;                    // 12
 
     /**
      * LLVM specific
@@ -158,13 +178,13 @@ typedef struct SModelData
      * so legnth is numReactions. This is an array of counts,
      * hence it is named differently than the rest of the num*** fields.
      */
-    unsigned*                           localParametersNum;               // 13
+    unsigned*                           localParametersNum;               // 14
 
     /**
      * All local parameters are stored in this array. This has
      * length sum(localParameterNum).
      */
-    double*                             localParameters;                  // 14
+    double*                             localParameters;                  // 15
 
     /**
      * The total ammounts of the floating species, i.e.
@@ -176,34 +196,34 @@ typedef struct SModelData
      * species, and the [numIndependentSpecies,numIndendentSpecies+numDependentSpecies)
      * contain the dependent species.
      */
-    unsigned                            numFloatingSpecies;               // 15
+    unsigned                            numFloatingSpecies;               // 16
 
     /**
      * number of floating species and floating species concentrations.
      */
-    double*                             floatingSpeciesConcentrations;    // 16
+    double*                             floatingSpeciesConcentrations;    // 17
 
     /**
      * initial concentration values for floating species.
      */
-    double*                             floatingSpeciesInitConcentrations;// 17
+    double*                             floatingSpeciesInitConcentrations;// 18
 
     /**
      * amount rates of change for floating species.
      */
-    double*                             floatingSpeciesAmountRates;       // 18
+    double*                             floatingSpeciesAmountRates;       // 19
 
     /**
      * The total amount of a species in a compartment.
      */
-    double*                             floatingSpeciesAmounts;           // 19
+    double*                             floatingSpeciesAmounts;           // 20
 
     /**
      * compartment index for each floating species,
      * e.g. the volume of the i'th species is
      * md->compartmentVolumes[md->floatingSpeciesCompartments[i]]
      */
-    unsigned*                           floatingSpeciesCompartments;      // 20
+    unsigned*                           floatingSpeciesCompartments;      // 21
 
     /**
      * number of boundary species and boundary species concentrations.
@@ -212,66 +232,66 @@ typedef struct SModelData
      * Volume Percent= (Volume of Solute) / (Volume of Solution) x 100%
      * Mass/Volume Percent= (Mass of Solute) / (Volume of Solution) x 100%
      */
-    unsigned                            numBoundarySpecies;               // 21
-    double*                             boundarySpeciesConcentrations;    // 22
-    double*                             boundarySpeciesAmounts;           // 23
+    unsigned                            numBoundarySpecies;               // 22
+    double*                             boundarySpeciesConcentrations;    // 23
+    double*                             boundarySpeciesAmounts;           // 24
 
     /**
      * compartment index for each boundary species,
      * e.g. the volume of the i'th species is
      * md->compartmentVolumes[md->boundarySpeciesCompartments[i]]
      */
-    unsigned*                           boundarySpeciesCompartments;      // 24
+    unsigned*                           boundarySpeciesCompartments;      // 25
 
     /**
      * number of compartments, and compartment volumes.
      * units: volume
      */
-    unsigned                            numCompartments;                  // 25
-    double*                             compartmentVolumes;               // 26
+    unsigned                            numCompartments;                  // 26
+    double*                             compartmentVolumes;               // 27
 
     /**
      * stoichiometry matrix
      */
-    csr_matrix*                         stoichiometry;                    // 27
+    csr_matrix*                         stoichiometry;                    // 28
 
 
     //Event stuff
-    unsigned                            numEvents;                        // 28
-    unsigned                            eventTypeSize;                    // 29
-    bool*                               eventType;                        // 30
+    unsigned                            numEvents;                        // 29
+    unsigned                            eventTypeSize;                    // 30
+    bool*                               eventType;                        // 31
 
-    unsigned                            eventPersistentTypeSize;          // 31
-    bool*                               eventPersistentType;              // 32
+    unsigned                            eventPersistentTypeSize;          // 32
+    bool*                               eventPersistentType;              // 33
 
-    unsigned                            eventTestsSize;                   // 33
-    double*                             eventTests;                       // 34
+    unsigned                            eventTestsSize;                   // 34
+    double*                             eventTests;                       // 35
 
-    unsigned                            eventPrioritiesSize;              // 35
-    double*                             eventPriorities;                  // 36
+    unsigned                            eventPrioritiesSize;              // 36
+    double*                             eventPriorities;                  // 37
 
-    unsigned                            eventStatusArraySize;             // 37
-    bool*                               eventStatusArray;                 // 38
+    unsigned                            eventStatusArraySize;             // 38
+    bool*                               eventStatusArray;                 // 39
 
-    unsigned                            previousEventStatusArraySize;     // 39
-    bool*                               previousEventStatusArray;         // 40
+    unsigned                            previousEventStatusArraySize;     // 40
+    bool*                               previousEventStatusArray;         // 41
 
     /**
      * number of items in the state vector.
      */
-    unsigned                            stateVectorSize;                 // 41
+    unsigned                            stateVectorSize;                  // 42
 
     /**
      * the state vector, this is usually a pointer to a block of data
      * owned by the integrator.
      */
-    double*                             stateVector;                      // 42
+    double*                             stateVector;                      // 43
 
     /**
      * the rate of change of the state vector, this is usually a pointer to
      * a block of data owned by the integrator.
      */
-    double*                             stateVectorRate;                  // 43
+    double*                             stateVectorRate;                  // 44
 
     /**
      * Work area for model implementations. The data stored here is entirely
@@ -280,26 +300,26 @@ typedef struct SModelData
      *
      * allocated by allocModelDataBuffers based on the value of workSize;
      */
-    unsigned                            workSize;                         // 44
-    double*                             work;                             // 45
+    unsigned                            workSize;                         // 45
+    double*                             work;                             // 46
 
-    EventDelayHandler*                  eventDelays;                      // 46
-    EventAssignmentHandler*             eventAssignments;                 // 47
+    EventDelayHandler*                  eventDelays;                      // 47
+    EventAssignmentHandler*             eventAssignments;                 // 48
 
-    ComputeEventAssignmentHandler*      computeEventAssignments;          // 48
-    PerformEventAssignmentHandler*      performEventAssignments;          // 49
+    ComputeEventAssignmentHandler*      computeEventAssignments;          // 49
+    PerformEventAssignmentHandler*      performEventAssignments;          // 50
 
     /**
      * model name
      */
-    char*                               modelName;                        // 50
+    char*                               modelName;                        // 51
 
     /**
      * C species references,
      * not working correctly...
      */
-    unsigned                            srSize;                           // 51
-    double*                             sr;                               // 52
+    unsigned                            srSize;                           // 52
+    double*                             sr;                               // 53
 } ModelData;
 //#pragma pack(pop)
 

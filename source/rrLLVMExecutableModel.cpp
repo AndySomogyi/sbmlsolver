@@ -112,22 +112,22 @@ int LLVMExecutableModel::getNumDependentSpecies()
 
 int LLVMExecutableModel::getNumFloatingSpecies()
 {
-    return modelData.numFloatingSpecies;
+    return symbols->getFloatingSpeciesSize();
 }
 
 int LLVMExecutableModel::getNumBoundarySpecies()
 {
-    return modelData.numBoundarySpecies;
+    return 0;
 }
 
 int LLVMExecutableModel::getNumGlobalParameters()
 {
-    return modelData.numGlobalParameters;
+    return symbols->getIndependentGlobalParameterSize();
 }
 
 int LLVMExecutableModel::getNumCompartments()
 {
-    return modelData.numCompartments;
+    return 0;
 }
 
 int LLVMExecutableModel::getNumReactions()
@@ -185,12 +185,12 @@ int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len, int const *in
 
 void LLVMExecutableModel::getRateRuleValues(double *rateRuleValues)
 {
-    memcpy(rateRuleValues, modelData.rateRules, modelData.numRateRules * sizeof(double));
+    memcpy(rateRuleValues, modelData.rateRuleRates, modelData.numRateRules * sizeof(double));
 }
 
 void LLVMExecutableModel::setRateRuleValues(const double *rateRuleValues)
 {
-    memcpy(modelData.rateRules, rateRuleValues, modelData.numRateRules * sizeof(double));
+    memcpy(modelData.rateRuleRates, rateRuleValues, modelData.numRateRules * sizeof(double));
 }
 
 void LLVMExecutableModel::convertToConcentrations()
@@ -219,7 +219,7 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
 
     if (dydt)
     {
-        memcpy(dydt, modelData.rateRules, modelData.numRateRules * sizeof(double));
+        memcpy(dydt, modelData.rateRuleRates, modelData.numRateRules * sizeof(double));
 
         memcpy(dydt + modelData.numRateRules, modelData.floatingSpeciesAmountRates,
                 modelData.numIndependentSpecies * sizeof(double));

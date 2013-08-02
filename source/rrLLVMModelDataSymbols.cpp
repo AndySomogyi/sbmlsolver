@@ -558,25 +558,59 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(ModelData& m) const
     initModelData(m);
 
     // set the buffer sizes
+
+
+    //
     m.numIndependentSpecies         = independentFloatingSpeciesSize;
+
+
+
+
     //mData.numDependentSpecies           = ms.mNumDependentSpecies;
-    m.numGlobalParameters           = globalParametersMap.size();
+    m.numGlobalParameters           = this->independentGlobalParameterSize;
     m.numReactions                  = reactionsMap.size();
     //mData.numEvents                     = ms.mNumEvents;
-    m.numFloatingSpecies            = floatingSpeciesMap.size();
+    m.numFloatingSpecies            = this->independentFloatingSpeciesSize;
     m.numRateRules                  = rateRules.size();
-    m.numCompartments               = compartmentsMap.size();
-    m.numBoundarySpecies            = boundarySpeciesMap.size();
+    m.numCompartments               = this->independentCompartmentSize;
+    m.numBoundarySpecies            = this->independentBoundarySpeciesSize;
     //mData.srSize                        = ms.mNumModifiableSpeciesReferences;
     //mData.eventPrioritiesSize           = ms.mNumEvents;
     //mData.eventStatusArraySize          = ms.mNumEvents;
     //mData.previousEventStatusArraySize  = ms.mNumEvents;
     //mData.eventPersistentTypeSize       = ms.mNumEvents;
-    //mData.eventTestsSize                = ms.mNumEvents;
-    //mData.eventTypeSize                 = ms.mNumEvents;
+    //mm.eventTestsSize                = ms.mNumEvents;
+    //mm.eventTypeSize                 = ms.mNumEvents;
 
-    // allocate the data buffers
-    allocModelDataBuffers(m, modelName);
+    m.modelName = strdup(modelName.c_str());
+
+    // in certain cases, the data returned by c++ new may be alligned differently than
+    // malloc, so just use rrCalloc here just to be safe, plus rrCalloc returns zero
+    // initialized memory.
+
+
+    m.floatingSpeciesAmounts = (double*)calloc(m.numIndependentSpecies, sizeof(double));
+    m.floatingSpeciesAmountRates = (double*)calloc(m.numIndependentSpecies, sizeof(double));
+    m.rateRuleValues = (double*)calloc(m.numRateRules, sizeof(double));
+    //m.floatingSpeciesConcentrations = (double*)calloc(m.numFloatingSpecies, sizeof(double));
+    m.reactionRates = (double*)calloc(m.numReactions, sizeof(double));
+    //m.dependentSpeciesConservedSums = (double*)rrCalloc(m.numDependentSpecies, sizeof(double));
+    //m.floatingSpeciesInitConcentrations = (double*)rrCalloc(m.numFloatingSpecies, sizeof(double));
+    m.globalParameters = (double*)calloc(m.numGlobalParameters, sizeof(double));
+    m.compartmentVolumes = (double*)calloc(m.numCompartments, sizeof(double));
+    //m.boundarySpeciesConcentrations = (double*)rrCalloc(m.numBoundarySpecies, sizeof(double));
+    m.boundarySpeciesAmounts = (double*)calloc(m.numBoundarySpecies, sizeof(double));
+    //m.sr = (double*)rrCalloc(m.srSize, sizeof(double));
+    //m.eventPriorities = (double*)rrCalloc(m.eventPrioritiesSize, sizeof(double));
+    //m.eventStatusArray = (bool*)rrCalloc(m.eventStatusArraySize, sizeof(bool));
+    //m.previousEventStatusArray = (bool*)rrCalloc(m.previousEventStatusArraySize, sizeof(bool));
+    //m.eventPersistentType = (bool*)rrCalloc(m.eventPersistentTypeSize, sizeof(bool));
+    //m.eventTests = (double*)rrCalloc(m.eventTestsSize, sizeof(double));
+    //m.eventType = (bool*)rrCalloc(m.eventTypeSize, sizeof(bool));
+    m.floatingSpeciesCompartments = (unsigned*)calloc(m.numFloatingSpecies, sizeof(unsigned));
+    m.boundarySpeciesCompartments = (unsigned*)calloc(m.numBoundarySpecies, sizeof(unsigned));
+    //m.work = (double*)rrCalloc(m.workSize, sizeof(double));
+
 
     // allocate the stoichiometry matrix
     m.stoichiometry = csr_matrix_new(getFloatingSpeciesSize(), getReactionSize(),

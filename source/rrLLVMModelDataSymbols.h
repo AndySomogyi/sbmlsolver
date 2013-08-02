@@ -33,49 +33,50 @@ enum ModelDataFields {
     GlobalParameters,                         // 7
     NumReactions,                             // 8
     ReactionRates,                            // 9
-    NumRateRules,                             // 10
-    RateRules,                                // 11
-    LocalParametersOffsets,                   // 12
-    LocalParametersNum,                       // 13
-    LocalParameters,                          // 14
-    NumFloatingSpecies,                       // 15
-    FloatingSpeciesConcentrations,            // 16
-    FloatingSpeciesInitConcentrations,        // 17
-    FloatingSpeciesAmountRates,               // 18
-    FloatingSpeciesAmounts,                   // 19
-    FloatingSpeciesCompartments,              // 20
-    NumBoundarySpecies,                       // 21
-    BoundarySpeciesConcentrations,            // 22
-    BoundarySpeciesAmounts,                   // 23
-    BoundarySpeciesCompartments,              // 24
-    NumCompartments,                          // 25
-    CompartmentVolumes,                       // 26
-    Stoichiometry,                            // 27
-    NumEvents,                                // 28
-    EventTypeSize,                            // 29
-    EventType,                                // 20
-    EventPersistentTypeSize,                  // 31
-    EventPersistentType,                      // 32
-    EventTestsSize,                           // 33
-    EventTests,                               // 34
-    EventPrioritiesSize,                      // 35
-    EventPriorities,                          // 36
-    EventStatusArraySize,                     // 37
-    EventStatusArray,                         // 38
-    PreviousEventStatusArraySize,             // 39
-    PreviousEventStatusArray,                 // 40
-    StateVectorSize,                          // 41
-    StateVector,                              // 42
-    StateVectorRate,                          // 43
-    WorkSize,                                 // 44
-    Work,                                     // 45
-    EventDelays,                              // 46
+    NumRateRules,                             // 10  
+	RateRuleValues,                           // 11
+    RateRulesRates,                           // 12
+    LocalParametersOffsets,                   // 13
+    LocalParametersNum,                       // 14
+    LocalParameters,                          // 15
+    NumFloatingSpecies,                       // 16
+    FloatingSpeciesConcentrations,            // 17
+    FloatingSpeciesInitConcentrations,        // 18
+    FloatingSpeciesAmountRates,               // 19
+    FloatingSpeciesAmounts,                   // 20
+    FloatingSpeciesCompartments,              // 21
+    NumBoundarySpecies,                       // 22
+    BoundarySpeciesConcentrations,            // 23
+    BoundarySpeciesAmounts,                   // 24
+    BoundarySpeciesCompartments,              // 25
+    NumCompartments,                          // 26
+    CompartmentVolumes,                       // 27
+    Stoichiometry,                            // 28
+    NumEvents,                                // 29
+    EventTypeSize,                            // 30
+    EventType,                                // 31
+    EventPersistentTypeSize,                  // 32
+    EventPersistentType,                      // 33
+    EventTestsSize,                           // 34
+    EventTests,                               // 35
+    EventPrioritiesSize,                      // 36
+    EventPriorities,                          // 37
+    EventStatusArraySize,                     // 38
+    EventStatusArray,                         // 39
+    PreviousEventStatusArraySize,             // 40
+    PreviousEventStatusArray,                 // 41
+    StateVectorSize,                          // 42
+    StateVector,                              // 43
+    StateVectorRate,                          // 44
+    WorkSize,                                 // 45
+    Work,                                     // 46
+    EventDelays,                              // 47
     EventAssignments,                         // 47
     ComputeEventAssignments,                  // 48
-    PerformEventAssignments,                  // 49
-    ModelName,                                // 50
-    SrSize,                                   // 51
-    Sr                                        // 52
+    PerformEventAssignments,                  // 50
+    ModelName,                                // 51
+    SrSize,                                   // 52
+    Sr                                        // 53
 };
 
 /**

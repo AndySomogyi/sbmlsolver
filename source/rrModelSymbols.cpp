@@ -615,7 +615,7 @@ static SymbolList readFloatingSpeciesConcentrationList(NOMSupport& nom, LibStruc
                 }
                 else
                 {
-                    //leftSideRule = "\n\tmd->rateRules[" + toString(numRateRules) + "]";
+                    //leftSideRule = "\n\tmd->rateRuleRates[" + toString(numRateRules) + "]";
                     //ms.mRateRules[numRateRules] = findSymbol(varName);
                     //mapVariables[numRateRules] = varName;
                     //numRateRules++;

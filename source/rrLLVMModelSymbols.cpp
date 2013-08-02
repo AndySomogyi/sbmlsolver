@@ -262,8 +262,12 @@ void LLVMModelSymbols::processSpecies(LLVMSymbolForest &currentSymbols,
             else
             {
                 string msg = string("species ") + species->getId() +
-                    string(" has neither initial amount nor concentration set");
-                throw_llvm_exception(msg);
+                    string(" has neither initial amount nor concentration set, "
+                            " setting initial amount to 0.0");
+                poco_warning(getLogger(), msg);
+                ASTNode *amt = nodes.create(AST_REAL);
+                amt->setValue(0.0);
+                math = amt;
             }
         }
         else
@@ -293,8 +297,12 @@ void LLVMModelSymbols::processSpecies(LLVMSymbolForest &currentSymbols,
             else
             {
                 string msg = string("species ") + species->getId() +
-                    string(" has neither initial amount nor concentration set");
-                throw_llvm_exception(msg);
+                    string(" has neither initial amount nor concentration set, "
+                            " setting initial concentration to 0.0");
+                poco_warning(getLogger(), msg);
+                ASTNode *conc = nodes.create(AST_REAL);
+                conc->setValue(0.0);
+                math = conc;
             }
         }
     }

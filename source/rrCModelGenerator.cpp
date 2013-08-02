@@ -199,7 +199,7 @@ void CModelGenerator::writeComputeAllRatesOfChange(CodeBuilder& ignore, const in
 
     mSource<<gTab<<"for(i = 0; i < md->numFloatingSpecies; i++)\n";
     mSource<<gTab<<"{\n"<<gTab<<gTab<<"dTemp[i + md->numRateRules] = md->floatingSpeciesAmounts[i];\n\t}";
-    mSource<<append("\n\t//amounts.CopyTo(dTemp, rateRules.Length); " + NL());
+    mSource<<append("\n\t//amounts.CopyTo(dTemp, rateRuleRates.Length); " + NL());
 
     mSource<<append("\t__evalModel(md, md->time, dTemp);" + NL());
     bool isThereAnEntry = false;
@@ -704,7 +704,7 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
                     }
                     else
                     {
-                        leftSideRule = "\n\tmd->rateRules[" + toString(numRateRules) + "]";
+                        leftSideRule = "\n\tmd->rateRuleRates[" + toString(numRateRules) + "]";
                         //! ms.mRateRules[numRateRules] = findSymbol(varName);
                         mapVariables[numRateRules] = varName;
                         numRateRules++;
@@ -771,15 +771,15 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
 
     mSource<<append("\n}" + NL() + NL());
 
-//  mHeader.FormatArray("D_S double", "_rateRules", numRateRules, "Vector containing values of additional rate rules"); //Todo: why is t his here in nowhere?
-//    mHeader<<"D_S int _rateRulesSize="<<numRateRules<<";           // Number of rateRules   \n"; //Todo: why is this here in nowhere?
+//  mHeader.FormatArray("D_S double", "rateRuleRates", numRateRules, "Vector containing values of additional rate rules"); //Todo: why is t his here in nowhere?
+//    mHeader<<"D_S int rateRuleRates="<<numRateRules<<";           // Number of rateRuleRates   \n"; //Todo: why is this here in nowhere?
     mHeader.AddFunctionExport("void", "InitializeRates(ModelData* md)");
 
     mSource<<"void InitializeRates(ModelData* md)\n{";
 
     for (int i = 0; i < numRateRules; i++)
     {
-        mSource<<"\n\tmd->rateRules[" << i << "] = " << ms.mRateRules.find(i)->second << ";" << NL();
+        mSource<<"\n\tmd->rateRuleRates[" << i << "] = " << ms.mRateRules.find(i)->second << ";" << NL();
     }
 
     mSource<<append("}" + NL() + NL());
@@ -793,7 +793,7 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
         {
             mSource<<"\n";
         }
-        mSource<<"\t"<<(string) ms.mRateRules.find(i)->second << " = md->rateRules[" << i << "];\n";
+        mSource<<"\t"<<(string) ms.mRateRules.find(i)->second << " = md->rateRuleRates[" << i << "];\n";
     }
 
     mSource<<append("}" + NL() + NL());
