@@ -84,15 +84,17 @@ static const char* modelDataFieldsNames[] =  {
     "Sr"                                        // 52
 };
 
+/*
 static void test() {
     cout << "test\n";
 }
+*/
 
-static std::vector<std::string> getIds(const rr::LLVMModelDataSymbols::StringIntMap & m)
+static std::vector<std::string> getIds(const rr::LLVMModelDataSymbols::StringUIntMap & m)
 {
     vector<string> result;
     result.resize(m.size());
-    for(rr::LLVMModelDataSymbols::StringIntMap::const_iterator i = m.begin();
+    for(rr::LLVMModelDataSymbols::StringUIntMap::const_iterator i = m.begin();
             i != m.end(); i++)
     {
         result[i->second] = i->first;
@@ -103,77 +105,338 @@ static std::vector<std::string> getIds(const rr::LLVMModelDataSymbols::StringInt
 namespace rr
 {
 
-
-LLVMModelDataSymbols::LLVMModelDataSymbols()
+LLVMModelDataSymbols::LLVMModelDataSymbols() :
+        linearlyIndependentFloatingSpeciesSize(0),
+        independentFloatingSpeciesSize(0),
+        independentBoundarySpeciesSize(0),
+        independentGlobalParameterSize(0),
+        independentCompartmentSize(0)
 {
-    // TODO Auto-generated constructor stub
 }
 
 LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
-        bool computeAndAssignConsevationLaws)
+        bool computeAndAssignConsevationLaws) :
+        linearlyIndependentFloatingSpeciesSize(0),
+        independentFloatingSpeciesSize(0),
+        independentBoundarySpeciesSize(0),
+        independentGlobalParameterSize(0),
+        independentCompartmentSize(0)
 {
     modelName = model->getName();
 
-    // get the compartments
-    const ListOfCompartments *compartments = model->getListOfCompartments();
-    for (int i = 0; i < compartments->size(); i++)
+    // first go through the rules, see if they determine other stuff
     {
-        const Compartment *c = compartments->get(i);
-        compartmentsMap.insert(StringIntPair(c->getId(), i));
-    }
-
-    // all the species
-    const ListOfSpecies *species = model->getListOfSpecies();
-
-    // get the floating species and set thier compartments
-    // TODO: fix libstruct to return index array instead of id array
-    ls::LibStructural structural(model);
-    vector<string> reorderedList = computeAndAssignConsevationLaws ?
-            structural.getReorderedSpecies() :
-            structural.getSpecies();
-
-    floatingSpeciesCompartments.resize(reorderedList.size());
-    for(int i = 0; i < reorderedList.size(); i++)
-    {
-        const Species *s = species->get(reorderedList[i]);
-        floatingSpeciesMap.insert(StringIntPair(s->getId(), i));
-        floatingSpeciesCompartments[i] = compartmentsMap.find(s->getCompartment())->second;
-    }
-
-    // get the boundary species
-    boundarySpeciesCompartments.resize(species->size() - floatingSpeciesCompartments.size());
-    int j = 0;
-    for (int i = 0; i < species->size(); i++)
-    {
-        const Species *s = species->get(i);
-        if(s->getBoundaryCondition())
+        const ListOfRules * rules = model->getListOfRules();
+        for (unsigned i = 0; i < rules->size(); ++i)
         {
-            boundarySpeciesMap.insert(StringIntPair(s->getId(), j));
-            boundarySpeciesCompartments[j] = compartmentsMap.find(s->getCompartment())->second;
-            j++;
+            const Rule *rule = rules->get(i);
+
+            if (dynamic_cast<const AssignmentRule*>(rule))
+            {
+                assigmentRules.insert(rule->getVariable());
+            }
+            else if (dynamic_cast<const RateRule*>(rule))
+            {
+                uint rri = rateRules.size();
+                rateRules[rule->getId()] = rri;
+            }
+            else if (dynamic_cast<const AlgebraicRule*>(rule))
+            {
+                poco_warning(getLogger(), string("encountered algegraic rule: ")
+                        + rule->getId() + string(", currently not handled"));
+            }
         }
     }
 
-    // get the global parameters
-    const ListOfParameters *parameters = model->getListOfParameters();
-    for (int i = 0; i < parameters->size(); i++)
+    // get the compartments, need to reorder them to set the independent ones
+    // first
     {
-        const Parameter *p = parameters->get(i);
-        globalParametersMap.insert(StringIntPair(p->getId(), i));
+        list<string> indCompartments;
+        list<string> depCompartments;
+        const ListOfCompartments *compartments = model->getListOfCompartments();
+        for (uint i = 0; i < compartments->size(); i++)
+        {
+            const Compartment *c = compartments->get(i);
+            const string& id = c->getId();
+            if (isIndependentElement(id))
+            {
+                indCompartments.push_back(id);
+            }
+            else
+            {
+                depCompartments.push_back(id);
+            }
+        }
+        for (list<string>::const_iterator i = indCompartments.begin();
+                i != indCompartments.end(); ++i)
+        {
+            uint ci = compartmentsMap.size();
+            compartmentsMap[*i] = ci;
+        }
+
+        for (list<string>::const_iterator i = depCompartments.begin();
+                i != depCompartments.end(); ++i)
+        {
+            uint ci = compartmentsMap.size();
+            compartmentsMap[*i] = ci;
+        }
+
+        // finally set how many ind compartments we have
+        independentCompartmentSize = indCompartments.size();
+    }
+
+    // process the floating species
+    {
+        const ListOfSpecies *species = model->getListOfSpecies();
+        list<string> indFltSpecies;
+        list<string> depFltSpecies;
+
+        // get the floating species and set thier compartments
+        ls::LibStructural structural(model);
+
+        poco_information(getLogger(),
+                "performed structural analysis on model: " +
+                structural.getAnalysisMsg());
+
+        // reorder by linearly independent first, then linearly dependent
+        vector<string> reorderedList = computeAndAssignConsevationLaws ?
+                structural.getReorderedSpecies() :
+                structural.getSpecies();
+
+        linearlyIndependentFloatingSpeciesSize = structural.getNumIndSpecies();
+
+        // figure out 'fully' indendent flt species -- those without rules.
+        for (uint i = 0; i < reorderedList.size(); ++i)
+        {
+            // just make sure its a valid species
+            const string& sid = reorderedList[i];
+            const Species *s = 0;
+            assert((s = species->get(sid)) && !s->getBoundaryCondition());
+
+            if (computeAndAssignConsevationLaws &&
+                    i <= linearlyIndependentFloatingSpeciesSize &&
+                    !isIndependentElement(sid))
+            {
+                string msg = "structural analysis determined that " + sid +
+                        " is linearly independent, but it has has rules "
+                        "(assignment or rate) determining its dynamics.";
+                throw_llvm_exception(msg);
+            }
+
+            if (isIndependentElement(sid))
+            {
+                indFltSpecies.push_back(sid);
+            }
+            else
+            {
+                depFltSpecies.push_back(sid);
+            }
+        }
+
+        // stuff the species in the map
+        for (list<string>::const_iterator i = indFltSpecies.begin();
+                i != indFltSpecies.end(); ++i)
+        {
+            uint si = floatingSpeciesMap.size();
+            floatingSpeciesMap[*i] = si;
+        }
+
+        for (list<string>::const_iterator i = depFltSpecies.begin();
+                i != depFltSpecies.end(); ++i)
+        {
+            uint si = floatingSpeciesMap.size();
+            floatingSpeciesMap[*i] = si;
+        }
+
+        // figure out what compartments they belong to
+        floatingSpeciesCompartments.resize(floatingSpeciesMap.size());
+        for (StringUIntMap::const_iterator i = floatingSpeciesMap.begin();
+                i != floatingSpeciesMap.end(); ++i)
+        {
+            const Species *s = species->get(i->first);
+            uint compId = compartmentsMap.find(s->getCompartment())->second;
+            floatingSpeciesCompartments[i->second] = compId;
+        }
+
+        // finally set how many ind species we've found
+        independentFloatingSpeciesSize = indFltSpecies.size();
+
+        if (Logger::PRIO_INFORMATION <= getLogger().getLevel())
+        {
+            LoggingBuffer log(Logger::PRIO_INFORMATION, __FILE__, __LINE__);
+
+            log.stream() << "found " << indFltSpecies.size()
+                    << " independent and " << depFltSpecies.size()
+                    << " dependent floating species." << endl;
+
+            log.stream() << "linearly independent species: " <<
+                    linearlyIndependentFloatingSpeciesSize << endl;
+
+            vector<string> ids = getFloatingSpeciesIds();
+            for (uint i = 0; i < ids.size(); ++i)
+            {
+                log.stream() << "floating species [" << i << "] = \'" << ids[i]
+                        << "\'" << endl;
+            }
+        }
+    }
+
+    // display compartment info. We need to get the compartments before the
+    // so we can get the species compartments. But the struct anal dumps
+    // a bunch of stuff, so to keep things looking nice in the log, we
+    // display the compartment info here.
+    if (Logger::PRIO_INFORMATION <= getLogger().getLevel())
+    {
+        LoggingBuffer log(Logger::PRIO_INFORMATION, __FILE__, __LINE__);
+
+        log.stream() << "found " << independentCompartmentSize
+                << " independent and " << (compartmentsMap.size() -
+                        independentCompartmentSize)
+                << " dependent compartments." << endl;
+
+        vector<string> ids = getCompartmentIds();
+        for (uint i = 0; i < ids.size(); ++i)
+        {
+            log.stream() << "compartment [" << i << "] = \'" << ids[i]
+                    << "\'" << endl;
+        }
+    }
+
+    // process the boundary species
+    {
+        const ListOfSpecies *species = model->getListOfSpecies();
+        list<string> indBndSpecies;
+        list<string> depBndSpecies;
+
+        // get the boundary species
+
+        for (uint i = 0; i < species->size(); ++i)
+        {
+            const Species *s = species->get(i);
+            if (s->getBoundaryCondition())
+            {
+                if (isIndependentElement(s->getId()))
+                {
+                    indBndSpecies.push_back(s->getId());
+                }
+                else
+                {
+                    depBndSpecies.push_back(s->getId());
+                }
+            }
+        }
+
+        // stuff the species in the map
+        for (list<string>::const_iterator i = indBndSpecies.begin();
+                i != indBndSpecies.end(); ++i)
+        {
+            uint bi = boundarySpeciesMap.size();
+            boundarySpeciesMap[*i] = bi;
+        }
+
+        for (list<string>::const_iterator i = depBndSpecies.begin();
+                i != depBndSpecies.end(); ++i)
+        {
+            uint bi = boundarySpeciesMap.size();
+            boundarySpeciesMap[*i] = bi;
+        }
+
+        // figure out what compartments they belong to
+        boundarySpeciesCompartments.resize(boundarySpeciesMap.size());
+        for (StringUIntMap::const_iterator i = boundarySpeciesMap.begin();
+                i != boundarySpeciesMap.end(); ++i)
+        {
+            const Species *s = species->get(i->first);
+            uint compId = compartmentsMap.find(s->getCompartment())->second;
+            boundarySpeciesCompartments[i->second] = compId;
+        }
+
+        // finally set how many we have
+        independentBoundarySpeciesSize = indBndSpecies.size();
+
+        if (Logger::PRIO_INFORMATION <= getLogger().getLevel())
+        {
+            LoggingBuffer log(Logger::PRIO_INFORMATION, __FILE__, __LINE__);
+
+            log.stream() << "found "
+                    << indBndSpecies.size() << " independent and "
+                    << depBndSpecies.size() << " dependent boundary species."
+                    << endl;
+
+            vector<string> ids = getBoundarySpeciesIds();
+            for (uint i = 0; i < ids.size(); ++i)
+            {
+                log.stream() << "boundary species [" << i << "] = \'" << ids[i] << "\'" << endl;
+            }
+        }
+    }
+
+
+    // get the global parameters, need to reorder them to set the independent
+    // ones first
+    {
+        list<string> indParam;
+        list<string> depParam;
+        const ListOfParameters *parameters = model->getListOfParameters();
+        for (uint i = 0; i < parameters->size(); i++)
+        {
+            const Parameter *p = parameters->get(i);
+            const string& id = p->getId();
+            if (isIndependentElement(id))
+            {
+                indParam.push_back(id);
+            }
+            else
+            {
+                depParam.push_back(id);
+            }
+        }
+        for (list<string>::const_iterator i = indParam.begin();
+                i != indParam.end(); ++i)
+        {
+            uint pi = globalParametersMap.size();
+            globalParametersMap[*i] = pi;
+        }
+
+        for (list<string>::const_iterator i = depParam.begin();
+                i != depParam.end(); ++i)
+        {
+            uint pi = globalParametersMap.size();
+            globalParametersMap[*i] = pi;
+        }
+
+        // finally set how many ind compartments we have
+        independentGlobalParameterSize = indParam.size();
+
+        if (Logger::PRIO_INFORMATION <= getLogger().getLevel())
+        {
+            LoggingBuffer log(Logger::PRIO_INFORMATION, __FILE__, __LINE__);
+
+            log.stream() << "found " << independentGlobalParameterSize
+                    << " independent and " << depParam.size()
+                    << " dependent global parameters." << endl;
+
+            vector<string> ids = getGlobalParameterIds();
+            for (uint i = 0; i < ids.size(); ++i)
+            {
+                log.stream() << "global parameter [" << i << "] = \'" << ids[i]
+                        << "\'" << endl;
+            }
+        }
     }
 
     // get the reactions
     const ListOfReactions *reactions = model->getListOfReactions();
-    for (int i = 0; i < reactions->size(); i++)
+    for (uint i = 0; i < reactions->size(); i++)
     {
         const Reaction *r = reactions->get(i);
-        reactionsMap.insert(StringIntPair(r->getId(), i));
+        reactionsMap.insert(StringUIntPair(r->getId(), i));
 
         // go through the reaction reactants and products to know how much to
         // allocate space for the stochiometry matrix.
         // all species that participate in reactions must be floating.
         const ListOfSpeciesReferences *reactants = r->getListOfReactants();
-        for (int j = 0; j < reactants->size(); j++)
+        for (uint j = 0; j < reactants->size(); j++)
         {
             const SimpleSpeciesReference *r = reactants->get(j);
 
@@ -181,7 +444,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
             // might be boundary species, so they do not change.
             try
             {
-                int speciesIdx = getFloatingSpeciesIndex(r->getSpecies());
+                uint speciesIdx = getFloatingSpeciesIndex(r->getSpecies());
                 stoichColIndx.push_back(i);
                 stoichRowIndx.push_back(speciesIdx);
             }
@@ -199,14 +462,14 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
         }
 
         const ListOfSpeciesReferences *products = r->getListOfProducts();
-        for (int j = 0; j < products->size(); j++)
+        for (uint j = 0; j < products->size(); j++)
         {
             const SimpleSpeciesReference *p = products->get(j);
             // products had better be in the stoich matrix.
 
             try
             {
-                int speciesIdx = getFloatingSpeciesIndex(p->getSpecies());
+                uint speciesIdx = getFloatingSpeciesIndex(p->getSpecies());
                 stoichColIndx.push_back(i);
                 stoichRowIndx.push_back(speciesIdx);
                 LogStream ls(getLogger(), Message::PRIO_TRACE);
@@ -229,14 +492,13 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
 
 LLVMModelDataSymbols::~LLVMModelDataSymbols()
 {
-    // TODO Auto-generated destructor stub
 }
 
 
-int LLVMModelDataSymbols::getCompartmentIndex(
+uint LLVMModelDataSymbols::getCompartmentIndex(
         const std::string& id) const
 {
-    StringIntMap::const_iterator i = compartmentsMap.find(id);
+    StringUIntMap::const_iterator i = compartmentsMap.find(id);
     if (i != compartmentsMap.end())
     {
         return i->second;
@@ -247,10 +509,10 @@ int LLVMModelDataSymbols::getCompartmentIndex(
     }
 }
 
-int LLVMModelDataSymbols::getFloatingSpeciesIndex(
+uint LLVMModelDataSymbols::getFloatingSpeciesIndex(
         const std::string& id) const
 {
-    StringIntMap::const_iterator i = floatingSpeciesMap.find(id);
+    StringUIntMap::const_iterator i = floatingSpeciesMap.find(id);
     if(i != floatingSpeciesMap.end())
     {
         return i->second;
@@ -261,10 +523,10 @@ int LLVMModelDataSymbols::getFloatingSpeciesIndex(
     }
 }
 
-int LLVMModelDataSymbols::getBoundarySpeciesIndex(
+uint LLVMModelDataSymbols::getBoundarySpeciesIndex(
         const std::string& id) const
 {
-    StringIntMap::const_iterator i = boundarySpeciesMap.find(id);
+    StringUIntMap::const_iterator i = boundarySpeciesMap.find(id);
     if(i != boundarySpeciesMap.end())
     {
         return i->second;
@@ -276,10 +538,10 @@ int LLVMModelDataSymbols::getBoundarySpeciesIndex(
 }
 
 
-int LLVMModelDataSymbols::getGlobalParameterIndex(
+uint LLVMModelDataSymbols::getGlobalParameterIndex(
         const std::string& id) const
 {
-    StringIntMap::const_iterator i = globalParametersMap.find(id);
+    StringUIntMap::const_iterator i = globalParametersMap.find(id);
     if(i != globalParametersMap.end())
     {
         return i->second;
@@ -296,13 +558,13 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(ModelData& m) const
     initModelData(m);
 
     // set the buffer sizes
-    //mData.numIndependentSpecies         = ms.mNumIndependentSpecies;
+    m.numIndependentSpecies         = independentFloatingSpeciesSize;
     //mData.numDependentSpecies           = ms.mNumDependentSpecies;
     m.numGlobalParameters           = globalParametersMap.size();
     m.numReactions                  = reactionsMap.size();
     //mData.numEvents                     = ms.mNumEvents;
     m.numFloatingSpecies            = floatingSpeciesMap.size();
-    //mData.numRateRules                  = ms.mRateRules.size();
+    m.numRateRules                  = rateRules.size();
     m.numCompartments               = compartmentsMap.size();
     m.numBoundarySpecies            = boundarySpeciesMap.size();
     //mData.srSize                        = ms.mNumModifiableSpeciesReferences;
@@ -321,10 +583,10 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(ModelData& m) const
             stoichRowIndx, stoichColIndx, vector<double>(stoichRowIndx.size(), 0));
 
     // fill out the species / compartment mapping arrays
-    for (StringIntMap::const_iterator i = floatingSpeciesMap.begin();
+    for (StringUIntMap::const_iterator i = floatingSpeciesMap.begin();
             i != floatingSpeciesMap.end(); ++i)
     {
-        int compIndex = getFloatingSpeciesCompartmentIndex(i->first);
+        uint compIndex = getFloatingSpeciesCompartmentIndex(i->first);
         m.floatingSpeciesCompartments[i->second] = compIndex;
     }
 }
@@ -339,23 +601,23 @@ std::vector<std::string> LLVMModelDataSymbols::getBoundarySpeciesIds() const
     return getIds(boundarySpeciesMap);
 }
 
-int LLVMModelDataSymbols::getFloatingSpeciesCompartmentIndex(
+uint LLVMModelDataSymbols::getFloatingSpeciesCompartmentIndex(
         const std::string& id) const
 {
-    int speciesIndex = getFloatingSpeciesIndex(id);
+    uint speciesIndex = getFloatingSpeciesIndex(id);
     return floatingSpeciesCompartments[speciesIndex];
 }
 
-int LLVMModelDataSymbols::getBoundarySpeciesCompartmentIndex(
+uint LLVMModelDataSymbols::getBoundarySpeciesCompartmentIndex(
         const std::string& id) const
 {
-    int speciesIndex = getBoundarySpeciesIndex(id);
+    uint speciesIndex = getBoundarySpeciesIndex(id);
     return boundarySpeciesCompartments[speciesIndex];
 }
 
-int LLVMModelDataSymbols::getReactionIndex(const std::string& id) const
+uint LLVMModelDataSymbols::getReactionIndex(const std::string& id) const
 {
-    StringIntMap::const_iterator i = reactionsMap.find(id);
+    StringUIntMap::const_iterator i = reactionsMap.find(id);
     if (i != reactionsMap.end())
     {
         return i->second;
@@ -371,23 +633,23 @@ std::vector<std::string> LLVMModelDataSymbols::getReactionIds() const
     return getIds(reactionsMap);
 }
 
-int LLVMModelDataSymbols::getReactionSize() const
+uint LLVMModelDataSymbols::getReactionSize() const
 {
     return reactionsMap.size();
 }
 
-int LLVMModelDataSymbols::getFloatingSpeciesSize() const
+uint LLVMModelDataSymbols::getFloatingSpeciesSize() const
 {
     return floatingSpeciesMap.size();
 }
 
-std::list<std::pair<int, int> > LLVMModelDataSymbols::getStoichiometryIndx() const
+std::list<std::pair<uint, uint> > LLVMModelDataSymbols::getStoichiometryIndx() const
 {
-    std::list<std::pair<int, int> > result;
+    std::list<std::pair<uint, uint> > result;
 
-    for (int i = 0; i < stoichRowIndx.size(); i++)
+    for (uint i = 0; i < stoichRowIndx.size(); i++)
     {
-        pair<int,int> entry(stoichRowIndx[i], stoichColIndx[i]);
+        pair<uint,uint> entry(stoichRowIndx[i], stoichColIndx[i]);
         result.push_back(entry);
     }
 
@@ -396,38 +658,38 @@ std::list<std::pair<int, int> > LLVMModelDataSymbols::getStoichiometryIndx() con
 
 void LLVMModelDataSymbols::print() const
 {
-    int i = 0;
+    uint i = 0;
 
 
-    for (StringIntMap::const_iterator i = floatingSpeciesMap.begin();
+    for (StringUIntMap::const_iterator i = floatingSpeciesMap.begin();
             i != floatingSpeciesMap.end(); i++)
     {
         cout << "float species id: " << i->first << ", index: " << i->second
                 << "\n";
     }
 
-    for (StringIntMap::const_iterator i = boundarySpeciesMap.begin();
+    for (StringUIntMap::const_iterator i = boundarySpeciesMap.begin();
             i != boundarySpeciesMap.end(); i++)
     {
         cout << "boundary species id: " << i->first << ", index: " << i->second
                 << "\n";
     }
 
-    for (StringIntMap::const_iterator i = compartmentsMap.begin();
+    for (StringUIntMap::const_iterator i = compartmentsMap.begin();
             i != compartmentsMap.end(); i++)
     {
         cout << "compartment id: " << i->first << ", index: " << i->second
                 << "\n";
     }
 
-    for (StringIntMap::const_iterator i = globalParametersMap.begin();
+    for (StringUIntMap::const_iterator i = globalParametersMap.begin();
             i != globalParametersMap.end(); i++)
     {
         cout << "global parameter id: " << i->first << ", index: " << i->second
                 << "\n";
     }
 
-    for (StringIntMap::const_iterator i = reactionsMap.begin();
+    for (StringUIntMap::const_iterator i = reactionsMap.begin();
             i != reactionsMap.end(); i++)
     {
         cout << "reaction id: " << i->first << ", index: " << i->second
@@ -445,6 +707,47 @@ std::vector<std::string> LLVMModelDataSymbols::getFloatingSpeciesIds() const
     return getIds(floatingSpeciesMap);
 }
 
+uint LLVMModelDataSymbols::getLinearlyIndependentFloatingSpeciesSize() const
+{
+    return linearlyIndependentFloatingSpeciesSize;
+}
+
+uint LLVMModelDataSymbols::getIndependentFloatingSpeciesSize() const
+{
+    return independentFloatingSpeciesSize;
+}
+
+bool LLVMModelDataSymbols::isIndependentFloatingSpecies(
+        const std::string& id) const
+{
+    StringUIntMap::const_iterator i = floatingSpeciesMap.find(id);
+    return i != floatingSpeciesMap.end() &&
+            i->second < independentFloatingSpeciesSize;
+}
+
+bool LLVMModelDataSymbols::isIndependentBoundarySpecies(
+        const std::string& id) const
+{
+    StringUIntMap::const_iterator i = boundarySpeciesMap.find(id);
+    return i != boundarySpeciesMap.end() &&
+            i->second < independentBoundarySpeciesSize;
+}
+
+bool LLVMModelDataSymbols::isIndependentGlobalParameter(
+        const std::string& id) const
+{
+    StringUIntMap::const_iterator i = globalParametersMap.find(id);
+    return i != globalParametersMap.end() &&
+            i->second < independentGlobalParameterSize;
+}
+
+bool LLVMModelDataSymbols::isIndependentCompartment(const std::string& id) const
+{
+    StringUIntMap::const_iterator i = compartmentsMap.find(id);
+    return i != compartmentsMap.end() &&
+            i->second < independentCompartmentSize;
+}
+
 const char* LLVMModelDataSymbols::getFieldName(ModelDataFields field)
 {
     if (field >= Size && field <= Sr)
@@ -455,6 +758,55 @@ const char* LLVMModelDataSymbols::getFieldName(ModelDataFields field)
     {
         return "Error, field is out of range";
     }
+}
+
+uint LLVMModelDataSymbols::getIndependentGlobalParameterSize() const
+{
+    return independentGlobalParameterSize;
+}
+
+uint LLVMModelDataSymbols::getIndependentCompartmentSize() const
+{
+    return independentCompartmentSize;
+}
+
+uint LLVMModelDataSymbols::getIndependentBoundarySpeciesSize() const
+{
+    return independentBoundarySpeciesSize;
+}
+
+uint LLVMModelDataSymbols::getRateRuleIndex(std::string const& id) const
+{
+    StringUIntMap::const_iterator i = rateRules.find(id);
+    if (i != rateRules.end())
+    {
+        return i->second;
+    }
+    else
+    {
+        throw LLVMException("could not find rate rule with id " + id, __FUNC__);
+    }
+}
+
+uint LLVMModelDataSymbols::getRateRuleSize() const
+{
+    return rateRules.size();
+}
+
+bool LLVMModelDataSymbols::isIndependentElement(const std::string& id) const
+{
+    return rateRules.find(id) == rateRules.end() &&
+            assigmentRules.find(id) == assigmentRules.end();
+}
+
+bool LLVMModelDataSymbols::hasAssignmentRule(const std::string& id) const
+{
+    return assigmentRules.find(id) != assigmentRules.end();
+}
+
+bool LLVMModelDataSymbols::hasRateRule(const std::string& id) const
+{
+    return rateRules.find(id) != rateRules.end();
 }
 
 

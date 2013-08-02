@@ -29,7 +29,7 @@ LLVMEvalInitialConditionsCodeGen::LLVMEvalInitialConditionsCodeGen(
         const LLVMModelGeneratorContext &mgc) :
         LLVMCodeGenBase(mgc),
         initialValuesFunc(0),
-        symbolResolver(model, dataSymbols, modelSymbols, builder)
+        initialValueResolver(model, dataSymbols, modelSymbols, builder)
 {
 }
 
@@ -48,8 +48,6 @@ Value* LLVMEvalInitialConditionsCodeGen::codeGen()
         free(formula);
 
     }
-
-
 
     // make the set init value function
     vector<Type*> argTypes;
@@ -71,23 +69,16 @@ Value* LLVMEvalInitialConditionsCodeGen::codeGen()
     // single argument
     Value *modelData = initialValuesFunc->arg_begin();
 
-    LLVMInitialValueSymbolResolver symbolResolver(model, dataSymbols,
-            modelSymbols, builder);
+    LLVMModelDataStoreSymbolResolver modelDataResolver(modelData, model,
+            modelSymbols, dataSymbols, builder, initialValueResolver);
 
+    codeGenSpecies(modelDataResolver);
 
+    codeGenCompartments(modelDataResolver);
 
+    codeGenStoichiometry(modelData, modelDataResolver);
 
-
-
-    LLVMModelDataIRBuilder modelDataBuilder(modelData, dataSymbols, builder);
-
-    codeGenSpecies(modelData, modelDataBuilder);
-
-    codeGenCompartments(modelData, modelDataBuilder);
-
-    codeGenStoichiometry(modelData, modelDataBuilder);
-
-    codeGenParameters(modelData, modelDataBuilder);
+    codeGenParameters(modelDataResolver);
 
 
     builder.CreateRetVoid();
@@ -105,40 +96,41 @@ Value* LLVMEvalInitialConditionsCodeGen::codeGen()
     return initialValuesFunc;
 }
 
-
-void LLVMEvalInitialConditionsCodeGen::codeGenSpecies(llvm::Value *modelData,
-        LLVMModelDataIRBuilder& modelDataBuilder)
+void LLVMEvalInitialConditionsCodeGen::codeGenSpecies(
+        LLVMModelDataStoreSymbolResolver& modelDataResolver)
 {
-    LLVMASTNodeCodeGen astCodeGen(builder, symbolResolver);
-
-    const ListOfSpecies *species = model->getListOfSpecies();
-    for (unsigned i = 0; i < species->size(); i++)
     {
-        const Species *s = species->get(i);
-        Value *amt = 0;
+        vector<string> floatingSpecies = dataSymbols.getFloatingSpeciesIds();
 
-        if (s->getHasOnlySubstanceUnits())
+        for (vector<string>::const_iterator i = floatingSpecies.begin();
+                i != floatingSpecies.end(); i++)
         {
-            amt = symbolResolver.loadSymbolValue(s->getId());
-        }
-        else
-        {
-            Value *conc = symbolResolver.loadSymbolValue(s->getId());
-            Value *comp = symbolResolver.loadSymbolValue(s->getCompartment());
-            amt = builder.CreateFMul(conc, comp, s->getId() + "_amt");
-        }
+            const string& id = *i;
 
-        if (s->getBoundaryCondition())
-        {
-            modelDataBuilder.createBoundSpeciesAmtStore(s->getId(), amt);
+            if (!dataSymbols.hasAssignmentRule(id))
+            {
+                modelDataResolver.storeSymbolValue(id,
+                        initialValueResolver.loadSymbolValue(id));
+            }
         }
-        else
+    }
+
+    {
+        vector<string> boundarySpecies = dataSymbols.getBoundarySpeciesIds();
+
+        for (vector<string>::const_iterator i = boundarySpecies.begin();
+                i != boundarySpecies.end(); i++)
         {
-            modelDataBuilder.createFloatSpeciesAmtStore(s->getId(), amt);
+            const string& id = *i;
+
+            if (!dataSymbols.hasAssignmentRule(id))
+            {
+                modelDataResolver.storeSymbolValue(id,
+                        initialValueResolver.loadSymbolValue(id));
+            }
         }
     }
 }
-
 
 
 LLVMEvalInitialConditionsCodeGen::FunctionPtr LLVMEvalInitialConditionsCodeGen::createFunction()
@@ -147,10 +139,12 @@ LLVMEvalInitialConditionsCodeGen::FunctionPtr LLVMEvalInitialConditionsCodeGen::
     return (FunctionPtr)engine.getPointerToFunction(func);
 }
 
-void LLVMEvalInitialConditionsCodeGen::codeGenStoichiometry(llvm::Value* modelData,
-        LLVMModelDataIRBuilder& modelDataBuilder)
+void LLVMEvalInitialConditionsCodeGen::codeGenStoichiometry(
+        llvm::Value *modelData, LLVMModelDataStoreSymbolResolver& modelDataResolver)
 {
-    LLVMASTNodeCodeGen astCodeGen(builder, symbolResolver);
+    LLVMModelDataIRBuilder modelDataBuilder(modelData, dataSymbols,
+                builder);
+    LLVMASTNodeCodeGen astCodeGen(builder, initialValueResolver);
 
     Log(lInfo) << "reactions: ";
     vector<string> ids = dataSymbols.getReactionIds();
@@ -163,11 +157,11 @@ void LLVMEvalInitialConditionsCodeGen::codeGenStoichiometry(llvm::Value* modelDa
     Value *stoichEP = modelDataBuilder.createGEP(Stoichiometry);
     Value *stoich = builder.CreateLoad(stoichEP, "stoichiometry");
 
-    list<pair<int,int> > stoichEntries = dataSymbols.getStoichiometryIndx();
-    for (list<pair<int,int> >::iterator i = stoichEntries.begin();
+    list<pair<uint,uint> > stoichEntries = dataSymbols.getStoichiometryIndx();
+    for (list<pair<uint,uint> >::iterator i = stoichEntries.begin();
             i != stoichEntries.end(); i++)
     {
-        pair<int, int> nz = *i;
+        pair<uint, uint> nz = *i;
         const ASTNode *node = modelSymbols.createStoichiometryNode(nz.first, nz.second);
         char* formula = SBML_formulaToString(node);
         Log(lInfo) << "\t{" << nz.first << ", " << nz.second << "} : " << formula
@@ -189,39 +183,40 @@ void LLVMEvalInitialConditionsCodeGen::codeGenStoichiometry(llvm::Value* modelDa
 }
 
 void LLVMEvalInitialConditionsCodeGen::codeGenCompartments(
-        llvm::Value* modelData, LLVMModelDataIRBuilder& modelDataBuilder)
+        LLVMModelDataStoreSymbolResolver& modelDataResolver)
 {
-    LLVMASTNodeCodeGen astCodeGen(builder, symbolResolver);
+    vector<string> compartments = dataSymbols.getCompartmentIds();
 
-    Log(lInfo) << "compartments: \n";
-    for (LLVMSymbolForest::ConstIterator i =
-            modelSymbols.getInitialValues().compartments.begin();
-            i != modelSymbols.getInitialValues().compartments.end(); i++)
+    for (vector<string>::const_iterator i = compartments.begin();
+            i != compartments.end(); i++)
     {
-        char* formula = SBML_formulaToString(i->second);
-        Log(lInfo) << "\t" << i->first << ": " << formula << "\n";
-        free(formula);
+        const string& id = *i;
 
-        Value *value = astCodeGen.codeGen(i->second);
-        modelDataBuilder.createCompStore(i->first, value);
+        if (!dataSymbols.hasAssignmentRule(id))
+        {
+            modelDataResolver.storeSymbolValue(id,
+                    initialValueResolver.loadSymbolValue(id));
+        }
     }
+
+
 }
 
-void LLVMEvalInitialConditionsCodeGen::codeGenParameters(llvm::Value* modelData,
-        LLVMModelDataIRBuilder& modelDataBuilder)
+void LLVMEvalInitialConditionsCodeGen::codeGenParameters(
+        LLVMModelDataStoreSymbolResolver& modelDataResolver)
 {
-    LLVMASTNodeCodeGen astCodeGen(builder, symbolResolver);
+    vector<string> globalParameters = dataSymbols.getGlobalParameterIds();
 
-    Log(lInfo) << "globalParameters: \n";
-    for (LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialValues().globalParameters.begin();
-            i != modelSymbols.getInitialValues().globalParameters.end(); i++)
+    for (vector<string>::const_iterator i = globalParameters.begin();
+            i != globalParameters.end(); i++)
     {
-        char* formula = SBML_formulaToString(i->second);
-        Log(lInfo) << "\t" << i->first << ": " << formula << "\n";
-        free(formula);
+        const string& id = *i;
 
-        Value *value = astCodeGen.codeGen(i->second);
-        modelDataBuilder.createGlobalParamStore(i->first, value);
+        if (!dataSymbols.hasAssignmentRule(id))
+        {
+            modelDataResolver.storeSymbolValue(id,
+                    initialValueResolver.loadSymbolValue(id));
+        }
     }
 }
 

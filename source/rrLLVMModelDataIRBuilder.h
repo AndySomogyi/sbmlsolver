@@ -78,14 +78,22 @@ public:
             llvm::Value *value, const llvm::Twine& name = "");
 
     /**
+     * the GEP for a compartment
+     */
+    llvm::Value* createCompGEP(const std::string& id,
+            const llvm::Twine &name = "");
+
+    /**
      * load the compartment value
      */
-    llvm::Value *createCompLoad(const std::string& id, const llvm::Twine& name ="");
+    llvm::Value *createCompLoad(const std::string& id,
+            const llvm::Twine& name ="");
 
     /**
      * store the compartment value
      */
-    llvm::Value *createCompStore(const std::string &id, llvm::Value *value);
+    llvm::Value *createCompStore(const std::string &id,
+            llvm::Value *value);
 
     /**
      * load the compartment value
@@ -134,6 +142,25 @@ public:
      */
     llvm::Value *createReactionRateStore(const std::string &id,
             llvm::Value *value);
+
+    /**
+     * rate rule GEP
+     */
+    llvm::Value *createRateRuleGEP(const std::string &id,
+            const llvm::Twine &name = "");
+
+    /**
+     * load the rate rule value
+     */
+    llvm::Value *createRateRuleLoad(const std::string& id,
+            const llvm::Twine& name = "");
+
+    /**
+     * store the rate rule value
+     */
+    llvm::Value *createRateRuleStore(const std::string &id,
+            llvm::Value *value);
+
 
     /**
      * create a call to the csr_matrix_set_nz function.

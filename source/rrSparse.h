@@ -25,8 +25,8 @@ namespace rr
  *
  * These funcs are used by the generated LLVM model.
  */
-csr_matrix* RR_DECLSPEC csr_matrix_new(int m, int n,
-        const std::vector<int>& rowidx, const std::vector<int>& colidx,
+csr_matrix* RR_DECLSPEC csr_matrix_new(unsigned m, unsigned n,
+        const std::vector<unsigned>& rowidx, const std::vector<unsigned>& colidx,
         const std::vector<double>& values);
 
 /**
@@ -40,22 +40,25 @@ void RR_DECLSPEC csr_matrix_delete(csr_matrix *mat);
  *
  * @returns true on success, false on failure.
  */
-bool RR_DECLSPEC csr_matrix_set_nz(csr_matrix *mat, int row, int col, double val);
+bool RR_DECLSPEC csr_matrix_set_nz(csr_matrix *mat, unsigned row, unsigned col, double val);
 
 /**
  * sets a (previously allocted) non-zero value to the given value.
  *
  * returns NaN if the entry (i,j) has not been alocated.
  */
-double RR_DECLSPEC csr_matrix_get_nz(const csr_matrix *mat, int row, int col);
+double RR_DECLSPEC csr_matrix_get_nz(const csr_matrix *mat, unsigned row, unsigned col);
 
 /**
- * peform a matrix vector multiply y = Ax + y
+ * performs the matrix-vector operations y := alpha*A*x + beta*y
+ *
+ * LAPACK sig: SUBROUTINE DGEMV(TRANS,M,N,ALPHA,A,LDA,X,INCX,BETA,Y,INCY)
  *
  * The given vectors y and x must be the same size as number of
  * columns in the sparse matrix.
  */
-void RR_DECLSPEC csr_matrix_dgemv(const csr_matrix *A, double const *x, double *y);
+void RR_DECLSPEC csr_matrix_dgemv(double alpha, const csr_matrix *A,
+        double const *x, double beta, double *y);
 
 /**
  * dump the matrix to an output stream.

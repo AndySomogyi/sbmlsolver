@@ -38,20 +38,22 @@
 
 #ifndef DEPRECATED
     #ifdef __GNUC__
-    	#define DEPRECATED(func) func __attribute__ ((deprecated))
+        #define DEPRECATED(func) func __attribute__ ((deprecated))
     #elif defined(_MSC_VER)
-    	#define DEPRECATED(func) __declspec(deprecated) func
-	#else
-		#pragma message("WARNING: You need to implement DEPRECATED for this compiler")
-		#define DEPRECATED(func) func
-	#endif
+        #define DEPRECATED(func) __declspec(deprecated) func
+    #else
+        #pragma message("WARNING: You need to implement DEPRECATED for this compiler")
+        #define DEPRECATED(func) func
+    #endif
 #endif
 
 #if defined(_MSC_VER) || defined(__CODEGEARC__)
-	#define rrCallConv __stdcall
+    #define rrCallConv __stdcall
 #else
-	#define rrCallConv
+    #define rrCallConv
 #endif
+
+typedef unsigned int uint;
 
 
 #endif

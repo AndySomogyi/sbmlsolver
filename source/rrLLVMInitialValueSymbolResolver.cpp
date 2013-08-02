@@ -22,29 +22,9 @@ LLVMInitialValueSymbolResolver::LLVMInitialValueSymbolResolver(
         const LLVMModelDataSymbols& modelDataSymbols,
         const LLVMModelSymbols& modelSymbols,
         llvm::IRBuilder<>& builder) :
-                LLVMBasicSymbolResolver(model,
-                        modelSymbols,
-                        modelDataSymbols,
-                        builder,
-                        terminal),
-                terminal(model,
-                        modelDataSymbols,
-                        modelSymbols,
-                        builder,
-                        *this)
-{
-}
-
-LLVMInitialValueTermSymbolResolver::LLVMInitialValueTermSymbolResolver(
-        const libsbml::Model* model,
-        const LLVMModelDataSymbols& modelDataSymbols,
-        const LLVMModelSymbols& modelSymbols, llvm::IRBuilder<>& builder,
-        LLVMSymbolResolver& parent) :
-                model(model),
-                modelDataSymbols(modelDataSymbols),
-                modelSymbols(modelSymbols),
-                builder(builder),
-                parent(parent)
+        model(model),
+        modelDataSymbols(modelDataSymbols),
+        modelSymbols(modelSymbols), builder(builder)
 {
 }
 
@@ -52,76 +32,32 @@ LLVMInitialValueSymbolResolver::~LLVMInitialValueSymbolResolver()
 {
 }
 
-LLVMInitialValueTermSymbolResolver::~LLVMInitialValueTermSymbolResolver()
+llvm::Value* LLVMInitialValueSymbolResolver::loadSymbolValue(
+        const std::string& symbol)
 {
-}
-
-llvm::Value* LLVMInitialValueTermSymbolResolver::loadSymbolValue(const std::string& symbol)
-{
-    //LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialAssigments().find(symbol);
-    //if (i != modelSymbols.getInitialAssigments().end())
-    //{
-    //    return LLVMASTNodeCodeGen(builder, parent).codeGen(i->second);
-   // }
-
-    const SBase *element = const_cast<Model*>(model)->getElementBySId(symbol);
-
     /*************************************************************************/
-    /* Species */
+    /* AssignmentRule */
     /*************************************************************************/
-    const Species *species = dynamic_cast<const Species*>(element);
-    if (species)
     {
-        // treat everything as an amount, the BasicSymbolResolver takes
-        // care of converting to a concentration, here we
-        // just build an AST for get value as an amount
-        ASTNode *amt = 0;
-        if (species->isSetInitialConcentration())
+        LLVMSymbolForest::ConstIterator i =
+                modelSymbols.getAssigmentRules().find(symbol);
+        if (i != modelSymbols.getAssigmentRules().end())
         {
-            ASTNode *conc = new ASTNode(AST_REAL);
-            conc->setValue(species->getInitialConcentration());
-
-            amt = new ASTNode(AST_TIMES);
-            amt->addChild(conc);
-            ASTNode *comp = new ASTNode(AST_NAME);
-            comp->setName(species->getCompartment().c_str());
-            amt->addChild(comp);
+            return LLVMASTNodeCodeGen(builder, *this).codeGen(i->second);
         }
-        else if (species->isSetInitialAmount())
-        {
-            amt = new ASTNode(AST_REAL);
-            amt->setValue(species->getInitialAmount());
-        }
-        Value *amtVal = LLVMASTNodeCodeGen(builder, parent).codeGen(amt);
-        amtVal->setName(symbol + "_amt");
-        delete amt;
-        return amtVal;
     }
 
     /*************************************************************************/
-    /* Parameter */
+    /* Initial Value */
     /*************************************************************************/
-    const Parameter* param = dynamic_cast<const Parameter*>(element);
-    if (param)
     {
-        ASTNode *paramNode = new ASTNode(AST_REAL);
-        paramNode->setValue(param->getValue());
-        Value *paramVal = LLVMASTNodeCodeGen(builder, parent).codeGen(paramNode);
-        delete paramNode;
-        return paramVal;
-    }
+        LLVMSymbolForest::ConstIterator i =
+                modelSymbols.getInitialValues().find(symbol);
 
-    /*************************************************************************/
-    /* Compartment */
-    /*************************************************************************/
-    const Compartment* comp = dynamic_cast<const Compartment*>(element);
-    if (comp)
-    {
-        ASTNode *compNode = new ASTNode(AST_REAL);
-        compNode->setValue(comp->getVolume());
-        Value *paramVal = LLVMASTNodeCodeGen(builder, parent).codeGen(compNode);
-        delete compNode;
-        return paramVal;
+        if (i != modelSymbols.getInitialValues().end())
+        {
+            return LLVMASTNodeCodeGen(builder, *this).codeGen(i->second);
+        }
     }
 
     string msg = "Could not find requested symbol \'";
@@ -131,16 +67,6 @@ llvm::Value* LLVMInitialValueTermSymbolResolver::loadSymbolValue(const std::stri
 
     return 0;
 }
-
-llvm::Value* LLVMInitialValueTermSymbolResolver::storeSymbolValue(
-        const std::string& symbol)
-{
-    throw_llvm_exception("not implemented");
-    return 0;
-}
-
-
-
 
 } /* namespace rr */
 

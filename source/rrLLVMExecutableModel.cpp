@@ -135,7 +135,6 @@ int LLVMExecutableModel::getNumReactions()
     return modelData.numReactions;
 }
 
-
 int LLVMExecutableModel::getNumEvents()
 {
     return modelData.numEvents;
@@ -186,10 +185,12 @@ int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len, int const *in
 
 void LLVMExecutableModel::getRateRuleValues(double *rateRuleValues)
 {
+    memcpy(rateRuleValues, modelData.rateRules, modelData.numRateRules * sizeof(double));
 }
 
-void LLVMExecutableModel::setRateRuleValues(const double * rates)
+void LLVMExecutableModel::setRateRuleValues(const double *rateRuleValues)
 {
+    memcpy(modelData.rateRules, rateRuleValues, modelData.numRateRules * sizeof(double));
 }
 
 void LLVMExecutableModel::convertToConcentrations()
@@ -208,27 +209,20 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
 {
     if (y)
     {
-        memcpy(modelData.floatingSpeciesAmounts, y,
-                modelData.numFloatingSpecies * sizeof(double));
+        setStateVector(y);
     }
-
 
     evalReactionRates();
 
-    memset(modelData.floatingSpeciesAmountRates, 0, modelData.numFloatingSpecies * sizeof(double));
-
-    csr_matrix_dgemv(modelData.stoichiometry, modelData.reactionRates,
-                     modelData.floatingSpeciesAmountRates);
-
-    //modelData.floatingSpeciesAmountRates[0] = -1 * modelData.floatingSpeciesAmounts[0];
-    //modelData.floatingSpeciesAmountRates[1] = modelData.floatingSpeciesAmounts[0];
+    csr_matrix_dgemv(1.0, modelData.stoichiometry, modelData.reactionRates,
+                     0.0, modelData.floatingSpeciesAmountRates);
 
     if (dydt)
     {
         memcpy(dydt, modelData.rateRules, modelData.numRateRules * sizeof(double));
 
         memcpy(dydt + modelData.numRateRules, modelData.floatingSpeciesAmountRates,
-                modelData.numFloatingSpecies * sizeof(double));
+                modelData.numIndependentSpecies * sizeof(double));
     }
 
     if (Logger::PRIO_TRACE <= rr::Logger::GetLogLevel()) {
@@ -430,15 +424,16 @@ int LLVMExecutableModel::getStateVector(double* stateVector)
 {
     if (stateVector == 0)
     {
-        Log(Logger::PRIO_TRACE) << __FUNC__ << ", stateVector: null, returning " << modelData.numRateRules + modelData.numFloatingSpecies;
-        return modelData.numRateRules + modelData.numFloatingSpecies;
+        Log(Logger::PRIO_TRACE) << __FUNC__ << ", stateVector: null, returning "
+                << modelData.numRateRules + modelData.numIndependentSpecies;
+        return modelData.numRateRules + modelData.numIndependentSpecies;
     }
 
     getRateRuleValues(stateVector);
 
     memcpy(stateVector + modelData.numRateRules,
             modelData.floatingSpeciesAmounts,
-            modelData.numFloatingSpecies * sizeof(double));
+            modelData.numIndependentSpecies * sizeof(double));
 
     if (Logger::PRIO_TRACE <= rr::Logger::GetLogLevel()) {
 
@@ -448,13 +443,13 @@ int LLVMExecutableModel::getStateVector(double* stateVector)
 
         log.stream() << __FUNC__ << ",  out stateVector: ";
         if (stateVector) {
-            dump_array(log.stream(), modelData.numRateRules + modelData.numFloatingSpecies, stateVector);
+            dump_array(log.stream(), modelData.numRateRules + modelData.numIndependentSpecies, stateVector);
         } else {
             log.stream() << "null";
         }
     }
 
-    return modelData.numRateRules + modelData.numFloatingSpecies;
+    return modelData.numRateRules + modelData.numIndependentSpecies;
 }
 
 int LLVMExecutableModel::setStateVector(const double* stateVector)
@@ -468,7 +463,7 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
 
     memcpy(modelData.floatingSpeciesAmounts,
             stateVector + modelData.numRateRules,
-            modelData.numFloatingSpecies * sizeof(double));
+            modelData.numIndependentSpecies * sizeof(double));
 
     if (Logger::PRIO_TRACE <= rr::Logger::GetLogLevel()) {
 
@@ -478,13 +473,13 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
 
         log.stream() << __FUNC__ << ",  stateVector: ";
         if (stateVector) {
-            dump_array(log.stream(), modelData.numRateRules + modelData.numFloatingSpecies, stateVector);
+            dump_array(log.stream(), modelData.numRateRules + modelData.numIndependentSpecies, stateVector);
         } else {
             log.stream() << "null";
         }
     }
 
-    return modelData.numRateRules + modelData.numFloatingSpecies;
+    return modelData.numRateRules + modelData.numIndependentSpecies;
 }
 
 void LLVMExecutableModel::print(std::ostream &stream)

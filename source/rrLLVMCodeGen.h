@@ -21,13 +21,21 @@ protected:
     ~LLVMCodeGen() {};
 };
 
-class LLVMSymbolResolver
+class LLVMLoadSymbolResolver
 {
 public:
     virtual llvm::Value *loadSymbolValue(const std::string& symbol) = 0;
-    virtual llvm::Value *storeSymbolValue(const std::string& symbol) = 0;
 protected:
-    ~LLVMSymbolResolver() {};
+    ~LLVMLoadSymbolResolver() {};
+};
+
+class LLVMStoreSymbolResolver
+{
+public:
+    virtual llvm::Value *storeSymbolValue(const std::string& symbol,
+            llvm::Value *value) = 0;
+protected:
+    ~LLVMStoreSymbolResolver() {};
 };
 
 } /* namespace rr */

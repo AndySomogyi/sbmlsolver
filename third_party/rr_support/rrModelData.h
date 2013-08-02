@@ -30,17 +30,17 @@ typedef struct csr_matrix_t
     /**
      * number of rows
      */
-    int m;
+    unsigned m;
 
     /**
      * number of columns
      */
-    int n;
+    unsigned n;
 
     /**
      * number of stored (nonzero) entries.
      */
-    int nnz;
+    unsigned nnz;
 
     /**
      * array of stored (nonzero) entries of the matrix
@@ -53,7 +53,7 @@ typedef struct csr_matrix_t
      * array of column indices of the stored (nonzero) entries of the matrix,
      * length: nnz
      */
-    int* colidx;
+    unsigned* colidx;
 
     /**
      * array of indices into the colidx and values arrays, for each column,
@@ -64,7 +64,7 @@ typedef struct csr_matrix_t
      * then rowptr[j] == rowptr[j+1]. This property makes it easy to set
      * values.
      */
-    int* rowptr;
+    unsigned* rowptr;
 
 } csr_matrix;
 
@@ -111,7 +111,7 @@ typedef struct SModelData
     /**
      * number of linearly independent rows in the stochiometry matrix.
      */
-    int                                 numIndependentSpecies;            // 3
+    unsigned                            numIndependentSpecies;            // 3
 
     /**
      * number of linerly dependent rows in the stoichiometry matrix.
@@ -119,13 +119,13 @@ typedef struct SModelData
      * numIndependentVariables + numDependentVariables had better
      * be equal to numFloatingSpecies
      */
-    int                                 numDependentSpecies;              // 4
+    unsigned                            numDependentSpecies;              // 4
     double*                             dependentSpeciesConservedSums;    // 5
 
     /**
      * number of global parameters
      */
-    int                                 numGlobalParameters;              // 6
+    unsigned                            numGlobalParameters;              // 6
     double*                             globalParameters;                 // 7
 
     /**
@@ -133,10 +133,10 @@ typedef struct SModelData
      * These are the calcuated reaction rates, not the
      * species rates.
      */
-    int                                 numReactions;                     // 8
+    unsigned                            numReactions;                     // 8
     double*                             reactionRates;                    // 9
 
-    int                                 numRateRules;                     // 10
+    unsigned                            numRateRules;                     // 10
     double*                             rateRules;                        // 11
 
     /**
@@ -151,14 +151,14 @@ typedef struct SModelData
      * a array of arrays, it would require an additional memory access
      * to determine the location of the parameter.
      */
-    int*                                localParametersOffsets;           // 12
+    unsigned*                           localParametersOffsets;           // 12
 
     /**
      * the number of local parameters for each reaction,
      * so legnth is numReactions. This is an array of counts,
      * hence it is named differently than the rest of the num*** fields.
      */
-    int*                                localParametersNum;               // 13
+    unsigned*                           localParametersNum;               // 13
 
     /**
      * All local parameters are stored in this array. This has
@@ -176,7 +176,7 @@ typedef struct SModelData
      * species, and the [numIndependentSpecies,numIndendentSpecies+numDependentSpecies)
      * contain the dependent species.
      */
-    int                                 numFloatingSpecies;               // 15
+    unsigned                            numFloatingSpecies;               // 15
 
     /**
      * number of floating species and floating species concentrations.
@@ -203,7 +203,7 @@ typedef struct SModelData
      * e.g. the volume of the i'th species is
      * md->compartmentVolumes[md->floatingSpeciesCompartments[i]]
      */
-    int*                                floatingSpeciesCompartments;      // 20
+    unsigned*                           floatingSpeciesCompartments;      // 20
 
     /**
      * number of boundary species and boundary species concentrations.
@@ -212,7 +212,7 @@ typedef struct SModelData
      * Volume Percent= (Volume of Solute) / (Volume of Solution) x 100%
      * Mass/Volume Percent= (Mass of Solute) / (Volume of Solution) x 100%
      */
-    int                                 numBoundarySpecies;               // 21
+    unsigned                            numBoundarySpecies;               // 21
     double*                             boundarySpeciesConcentrations;    // 22
     double*                             boundarySpeciesAmounts;           // 23
 
@@ -221,13 +221,13 @@ typedef struct SModelData
      * e.g. the volume of the i'th species is
      * md->compartmentVolumes[md->boundarySpeciesCompartments[i]]
      */
-    int*                                boundarySpeciesCompartments;      // 24
+    unsigned*                           boundarySpeciesCompartments;      // 24
 
     /**
      * number of compartments, and compartment volumes.
      * units: volume
      */
-    int                                 numCompartments;                  // 25
+    unsigned                            numCompartments;                  // 25
     double*                             compartmentVolumes;               // 26
 
     /**
@@ -237,29 +237,29 @@ typedef struct SModelData
 
 
     //Event stuff
-    int                                 numEvents;                        // 28
-    int                                 eventTypeSize;                    // 29
+    unsigned                            numEvents;                        // 28
+    unsigned                            eventTypeSize;                    // 29
     bool*                               eventType;                        // 30
 
-    int                                 eventPersistentTypeSize;          // 31
+    unsigned                            eventPersistentTypeSize;          // 31
     bool*                               eventPersistentType;              // 32
 
-    int                                 eventTestsSize;                   // 33
+    unsigned                            eventTestsSize;                   // 33
     double*                             eventTests;                       // 34
 
-    int                                 eventPrioritiesSize;              // 35
+    unsigned                            eventPrioritiesSize;              // 35
     double*                             eventPriorities;                  // 36
 
-    int                                 eventStatusArraySize;             // 37
+    unsigned                            eventStatusArraySize;             // 37
     bool*                               eventStatusArray;                 // 38
 
-    int                                 previousEventStatusArraySize;     // 39
+    unsigned                            previousEventStatusArraySize;     // 39
     bool*                               previousEventStatusArray;         // 40
 
     /**
      * number of items in the state vector.
      */
-    int                                 stateVectorSize;                 // 41
+    unsigned                            stateVectorSize;                 // 41
 
     /**
      * the state vector, this is usually a pointer to a block of data
@@ -280,7 +280,7 @@ typedef struct SModelData
      *
      * allocated by allocModelDataBuffers based on the value of workSize;
      */
-    int                                 workSize;                         // 44
+    unsigned                            workSize;                         // 44
     double*                             work;                             // 45
 
     EventDelayHandler*                  eventDelays;                      // 46
@@ -298,7 +298,7 @@ typedef struct SModelData
      * C species references,
      * not working correctly...
      */
-    int                                 srSize;                           // 51
+    unsigned                            srSize;                           // 51
     double*                             sr;                               // 52
 } ModelData;
 //#pragma pack(pop)
