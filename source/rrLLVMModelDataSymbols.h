@@ -33,9 +33,9 @@ enum ModelDataFields {
     GlobalParameters,                         // 7
     NumReactions,                             // 8
     ReactionRates,                            // 9
-    NumRateRules,                             // 10  
-	RateRuleValues,                           // 11
-    RateRulesRates,                           // 12
+    NumRateRules,                             // 10
+    RateRuleValues,                           // 11
+    RateRuleRates,                            // 12
     LocalParametersOffsets,                   // 13
     LocalParametersNum,                       // 14
     LocalParameters,                          // 15
@@ -165,6 +165,12 @@ public:
     std::vector<std::string> getGlobalParameterIds() const;
     std::vector<std::string> getFloatingSpeciesIds() const;
     uint getFloatingSpeciesSize() const;
+
+    uint getBoundarySpeciesSize() const;
+
+    uint getCompartmentsSize() const;
+
+    uint getGlobalParametersSize() const;
 
     std::vector<std::string> getCompartmentIds() const;
 

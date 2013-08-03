@@ -17,6 +17,7 @@
 
 #include "rrLLVMEvalInitialConditionsCodeGen.h"
 #include "rrLLVMEvalReactionRatesCodeGen.h"
+#include "rrLLVMEvalRateRuleRatesCodeGen.h"
 #include "rrLLVMGetValuesCodeGen.h"
 
 namespace rr
@@ -300,6 +301,7 @@ private:
     LLVMGetFloatingSpeciesConcentrationCodeGen::FunctionPtr getFloatingSpeciesConcentrationPtr;
     LLVMGetCompartmentVolumeCodeGen::FunctionPtr getCompartmentVolumePtr;
     LLVMGetGlobalParameterCodeGen::FunctionPtr getGlobalParameterPtr;
+    LLVMEvalRateRuleRatesCodeGen::FunctionPtr evalRateRuleRatesPtr;
 
     double getFloatingSpeciesConcentration(int index);
 

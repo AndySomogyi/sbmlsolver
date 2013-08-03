@@ -40,7 +40,8 @@ static const char* modelDataFieldsNames[] =  {
     "NumReactions",                             // 8
     "ReactionRates",                            // 9
     "NumRateRules",                             // 10
-    "RateRules",                                // 11
+    "RateRuleValues",                           // 11
+    "RateRuleRates",                            // 11
     "LocalParametersOffsets",                   // 12
     "LocalParametersNum",                       // 13
     "LocalParameters",                          // 14
@@ -537,6 +538,11 @@ uint LLVMModelDataSymbols::getBoundarySpeciesIndex(
     }
 }
 
+uint LLVMModelDataSymbols::getBoundarySpeciesSize() const
+{
+    return boundarySpeciesMap.size();
+}
+
 
 uint LLVMModelDataSymbols::getGlobalParameterIndex(
         const std::string& id) const
@@ -592,6 +598,7 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(ModelData& m) const
     m.floatingSpeciesAmounts = (double*)calloc(m.numIndependentSpecies, sizeof(double));
     m.floatingSpeciesAmountRates = (double*)calloc(m.numIndependentSpecies, sizeof(double));
     m.rateRuleValues = (double*)calloc(m.numRateRules, sizeof(double));
+    m.rateRuleRates = (double*)calloc(m.numRateRules, sizeof(double));
     //m.floatingSpeciesConcentrations = (double*)calloc(m.numFloatingSpecies, sizeof(double));
     m.reactionRates = (double*)calloc(m.numReactions, sizeof(double));
     //m.dependentSpeciesConservedSums = (double*)rrCalloc(m.numDependentSpecies, sizeof(double));
@@ -841,6 +848,16 @@ bool LLVMModelDataSymbols::hasAssignmentRule(const std::string& id) const
 bool LLVMModelDataSymbols::hasRateRule(const std::string& id) const
 {
     return rateRules.find(id) != rateRules.end();
+}
+
+uint LLVMModelDataSymbols::getCompartmentsSize() const
+{
+    return compartmentsMap.size();
+}
+
+uint LLVMModelDataSymbols::getGlobalParametersSize() const
+{
+    return globalParametersMap.size();
 }
 
 

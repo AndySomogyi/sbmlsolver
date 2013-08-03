@@ -56,7 +56,8 @@ LLVMExecutableModel::LLVMExecutableModel() :
     getFloatingSpeciesConcentrationPtr(0),
     getGlobalParameterPtr(0),
     getCompartmentVolumePtr(0),
-    stackDepth(0)
+    stackDepth(0),
+    evalRateRuleRatesPtr(0)
 {
     // zero out the struct, the generator will fill it out.
     initModelData(modelData);
@@ -117,17 +118,17 @@ int LLVMExecutableModel::getNumFloatingSpecies()
 
 int LLVMExecutableModel::getNumBoundarySpecies()
 {
-    return 0;
+    return symbols->getBoundarySpeciesSize();
 }
 
 int LLVMExecutableModel::getNumGlobalParameters()
 {
-    return symbols->getIndependentGlobalParameterSize();
+    return symbols->getGlobalParametersSize();
 }
 
 int LLVMExecutableModel::getNumCompartments()
 {
-    return 0;
+    return symbols->getCompartmentsSize();
 }
 
 int LLVMExecutableModel::getNumReactions()
@@ -185,12 +186,12 @@ int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len, int const *in
 
 void LLVMExecutableModel::getRateRuleValues(double *rateRuleValues)
 {
-    memcpy(rateRuleValues, modelData.rateRuleRates, modelData.numRateRules * sizeof(double));
+    memcpy(rateRuleValues, modelData.rateRuleValues, modelData.numRateRules * sizeof(double));
 }
 
 void LLVMExecutableModel::setRateRuleValues(const double *rateRuleValues)
 {
-    memcpy(modelData.rateRuleRates, rateRuleValues, modelData.numRateRules * sizeof(double));
+    memcpy(modelData.rateRuleValues, rateRuleValues, modelData.numRateRules * sizeof(double));
 }
 
 void LLVMExecutableModel::convertToConcentrations()
@@ -216,6 +217,8 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
 
     csr_matrix_dgemv(1.0, modelData.stoichiometry, modelData.reactionRates,
                      0.0, modelData.floatingSpeciesAmountRates);
+
+    evalRateRuleRatesPtr(&modelData);
 
     if (dydt)
     {

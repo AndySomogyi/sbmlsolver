@@ -248,6 +248,30 @@ llvm::Value* LLVMModelDataIRBuilder::createRateRuleValueStore(const std::string&
     return builder.CreateStore(value, gep);
 }
 
+llvm::Value* LLVMModelDataIRBuilder::createRateRuleRateGEP(const std::string& id,
+        const llvm::Twine& name)
+{
+    uint index = symbols.getRateRuleIndex(id);
+    assert(index < symbols.getRateRuleSize());
+    return createGEP(RateRuleRates, index,
+            name.isTriviallyEmpty() ? id + "_rate" : name);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createRateRuleRateLoad(const std::string& id,
+        const llvm::Twine& name)
+{
+    Value *gep = createRateRuleRateGEP(id);
+    Twine loadName = (name.isTriviallyEmpty() ? id : name) + "_load";
+    return builder.CreateLoad(gep, loadName);
+}
+
+llvm::Value* LLVMModelDataIRBuilder::createRateRuleRateStore(const std::string& id,
+        llvm::Value* value)
+{
+    Value *gep = createRateRuleRateGEP(id);
+    return builder.CreateStore(value, gep);
+}
+
 llvm::Value* LLVMModelDataIRBuilder::createStore(ModelDataFields field,
         unsigned index, llvm::Value* value, const Twine& name)
 {
@@ -277,8 +301,6 @@ llvm::Value* LLVMModelDataIRBuilder::createCompGEP(const std::string& id,
     return createGEP(CompartmentVolumes, index,
             name.isTriviallyEmpty() ? id : name);
 }
-
-
 
 llvm::Value* LLVMModelDataIRBuilder::createBoundSpeciesAmtLoad(const std::string& id, const llvm::Twine& name)
 {

@@ -1,17 +1,16 @@
 /*
- * rrLLVMEvalReactionRatesCodeGen.h
+ * rrLLVMEvalRateRuleRatesCodeGen.h
  *
- *  Created on: Jul 15, 2013
+ *  Created on: Aug 2, 2013
  *      Author: andy
  */
 
+#ifndef RRLLVMEVALRATERULERATESCODEGEN_H_
+#define RRLLVMEVALRATERULERATESCODEGEN_H_
 
-#ifndef rrLLVMEvalReactionRatesCodeGenH
-#define rrLLVMEvalReactionRatesCodeGenH
-
+#include "rrLLVMCodeGenBase.h"
 #include "rrLLVMModelGeneratorContext.h"
 #include "rrLLVMCodeGen.h"
-#include "rrLLVMCodeGenBase.h"
 #include "rrLLVMSymbolForest.h"
 #include "rrLLVMASTNodeFactory.h"
 #include "rrLLVMModelDataIRBuilder.h"
@@ -20,15 +19,16 @@
 namespace rr
 {
 
+
 /**
  * evaluate the current model state and store the results in
  * ModelData.reactionRates
  */
-class LLVMEvalReactionRatesCodeGen: private LLVMCodeGenBase
+class LLVMEvalRateRuleRatesCodeGen: private LLVMCodeGenBase
 {
 public:
-    LLVMEvalReactionRatesCodeGen(const LLVMModelGeneratorContext &mgc);
-    virtual ~LLVMEvalReactionRatesCodeGen();
+    LLVMEvalRateRuleRatesCodeGen(const LLVMModelGeneratorContext &mgc);
+    virtual ~LLVMEvalRateRuleRatesCodeGen();
 
     llvm::Value *codeGen();
 
@@ -46,6 +46,5 @@ private:
      */
     llvm::Value *modelData;
 };
-
 } /* namespace rr */
-#endif /* rrLLVMEvalReactionRatesCodeGen */
+#endif /* RRLLVMEVALRATERULERATESCODEGEN_H_ */
