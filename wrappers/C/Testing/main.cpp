@@ -107,6 +107,15 @@ int main(int argc, char* argv[])
                 0);
     }
 
+    if (args.Suites.find('I') != std::string::npos)
+    {
+
+        clog << "Running Suite Valgrind SBML_TEST_SUITE_EVENTS\n";
+        clog << "ModelPath " << gTSModelsPath;
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_EVENTS", True(),
+                0);
+    }
+
 
 
     //Finish outputs result to xml file
@@ -140,7 +149,7 @@ bool setup(Args& args)
     }
     else
     {
-      setLogLevel("Error");
+        Logger::SetCutOffLogLevel(Logger::PRIO_WARNING);
     }
 
     // set test suite model path (read from cmd line)

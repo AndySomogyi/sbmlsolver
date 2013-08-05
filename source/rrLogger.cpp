@@ -22,7 +22,6 @@ using Poco::Message;
 using Poco::SimpleFileChannel;
 
 static Poco::Logger *pocoLogger = 0;
-static Logger::Level logLevel = Logger::PRIO_TRACE;
 
 Poco::Logger& getLogger()
 {
@@ -42,14 +41,13 @@ void Logger::SetCutOffLogLevel(int level)
 {
     if (level >= PRIO_FATAL && level <= PRIO_TRACE)
     {
-        logLevel = (Level) level;
         Poco::Logger::root().setLevel(level);
     }
 }
 
 int Logger::GetLogLevel()
 {
-    return logLevel;
+    return Poco::Logger::root().getLevel();
 }
 
 
@@ -61,28 +59,23 @@ void Logger::Init(const std::string& allocator, int level)
 {
     if (level >= PRIO_FATAL && level <= PRIO_TRACE)
     {
-        logLevel = (Level)level;
-        Poco::Logger::root().setLevel(logLevel);
+        Poco::Logger::root().setLevel(level);
     }
 }
 
 void Logger::Init(const std::string& allocator, int level, LogFile* logFile)
 {
     // make sure we have a log...
-    if (level >= PRIO_FATAL && level <= PRIO_TRACE)
+    if (level < PRIO_FATAL || level > PRIO_TRACE)
     {
-        logLevel = (Level)level;
-    }
-    else
-    {
-        logLevel = PRIO_FATAL;
+        level = PRIO_FATAL;
     }
 
     AutoPtr<SimpleFileChannel> pChannel(new SimpleFileChannel);
     pChannel->setProperty("path", logFile->name);
     pChannel->setProperty("rotation", "2 K");
     Poco::Logger::root().setChannel(pChannel);
-    Poco::Logger::root().setLevel(logLevel);
+    Poco::Logger::root().setLevel(level);
 
     getLogger().trace("deleting pointer to LogFile struct...");
 }
@@ -173,11 +166,6 @@ LoggingBuffer::~LoggingBuffer()
 std::ostream& LoggingBuffer::stream()
 {
     return buffer;
-}
-
-int Logger::SetLogLevel()
-{
-    return logLevel;
 }
 
 }

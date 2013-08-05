@@ -131,20 +131,11 @@ RoadRunnerData convertCAPIResultData(RRCDataPtr    result)
 bool RunTest(const string& version, int caseNumber)
 {
     bool result(false);
-     RRHandle gRR;
+    RRHandle gRR;
 
     //Create instance..
     gRR = createRRInstanceEx(gTempFolder.c_str(), 0);
 
-    if(gDebug && gRR)
-    {
-        enableLoggingToConsole();
-        setLogLevel("Debug5");
-    }
-    else
-    {
-        setLogLevel("Error");
-    }
 
     //Setup environment
     setTempFolder(gRR, gTempFolder.c_str());

@@ -440,13 +440,13 @@ void CvodeInterface::assignPendingEvents(const double& timeEnd, const double& to
 {
     for (int i = (int) mAssignments.size() - 1; i >= 0; i--)
     {
-        if (timeEnd >= mAssignments[i].GetTime())
+        if (timeEnd >= mAssignments[i].getTime())
         {
             mModel->setTime(tout);
             assignResultsToModel();
             mModel->convertToConcentrations();
             mModel->updateDependentSpeciesValues();
-            mAssignments[i].AssignToModel();
+            mAssignments[i].eval();
 
             if (mModel->getConservedSumChanged())
             {
@@ -546,7 +546,7 @@ void CvodeInterface::removePendingAssignmentForIndex(const int& eventIndex)
 {
     for (int j = (int) mAssignments.size() - 1; j >= 0; j--)
     {
-        if (mAssignments[j].GetIndex() == eventIndex)
+        if (mAssignments[j].getIndex() == eventIndex)
         {
             mAssignments.erase(mAssignments.begin() + j);
         }
@@ -648,11 +648,14 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
         // Call event assignment if the eventstatus flag for the particular event is false
         for (u_int i = 0; i < firedEvents.size(); i++)
         {
-            int currentEvent = firedEvents[i];//.GetID();
+            uint currentEvent = firedEvents[i];//.GetID();
 
             // We only fire an event if we transition from false to true
             mModel->getModelData().previousEventStatusArray[currentEvent] = mModel->getModelData().eventStatusArray[currentEvent];
-            double eventDelay = mModel->getModelData().eventDelays[currentEvent](&(mModel->getModelData()));
+
+            double eventDelay = 0;
+            mModel->getEventDelays(1, &currentEvent, &eventDelay);
+
             if (eventDelay == 0)
             {
                 if (mModel->getModelData().eventType[currentEvent] && preComputedAssignments.count(currentEvent) > 0)
@@ -661,7 +664,7 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
                 }
                 else
                 {
-                    mModel->getModelData().eventAssignments[currentEvent]();
+                    mModel->eventAssignment(currentEvent);
                 }
 
                 handled.push_back(currentEvent);
@@ -702,19 +705,21 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
                     mAssignmentTimes.push_back(timeEnd + eventDelay);
                 }
 
-                PendingAssignment *pending = new PendingAssignment( &(mModel->getModelData()),
-                                                                    timeEnd + eventDelay,
-                                                                    mModel->getModelData().computeEventAssignments[currentEvent],
-                                                                    mModel->getModelData().performEventAssignments[currentEvent],
-                                                                    mModel->getModelData().eventType[currentEvent],
-                                                                    currentEvent);
+                double *preComputedValues =
+                    (mModel->getModelData().eventType[currentEvent] &&
+                        preComputedAssignments.count(currentEvent) == 1) ?
+                            preComputedAssignments[currentEvent] : 0;
 
-                if (mModel->getModelData().eventType[currentEvent] && preComputedAssignments.count(currentEvent) == 1)
-                {
-                    pending->ComputedValues = preComputedAssignments[currentEvent];
-                }
+                PendingAssignment pending( &(mModel->getModelData()),
+                        timeEnd + eventDelay,
+                        mModel->getModelData().computeEventAssignments[currentEvent],
+                        mModel->getModelData().performEventAssignments[currentEvent],
+                        mModel->getModelData().eventType[currentEvent],
+                        currentEvent,
+                        preComputedValues);
 
-                mAssignments.push_back(*pending);
+                mAssignments.push_back(pending);
+
                 mModel->getModelData().eventStatusArray[currentEvent] = false;
                 firedEvents.erase(firedEvents.begin() + i);
                 break;

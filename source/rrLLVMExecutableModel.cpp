@@ -553,6 +553,32 @@ int LLVMExecutableModel::getCompartmentVolumes(int len, const int* indx,
     return getValues(&modelData, getCompartmentVolumePtr, len, indx, values);
 }
 
+uint LLVMExecutableModel::getEventDelays(uint len, const uint* indx,
+        double* values)
+{
+    return 0;
+}
+
+uint LLVMExecutableModel::getEventPriorities(uint len, const uint* indx,
+        double* values)
+{
+    return 0;
+}
+
+void LLVMExecutableModel::eventAssignment(uint eventId)
+{
+}
+
+double* LLVMExecutableModel::evalEventAssignment(uint eventId)
+{
+    return 0;
+}
+
+void LLVMExecutableModel::applyEventAssignment(uint eventId, double* values)
+{
+}
+
+
 
 
 } /* namespace rr */

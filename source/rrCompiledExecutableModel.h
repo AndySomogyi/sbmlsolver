@@ -288,6 +288,24 @@ public:
 
     virtual void print(std::ostream &stream);
 
+    /**
+     * get the event time delays
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of event indices
+     * @param[out] values an array of at least length len which will store the
+     *                event delays.
+     */
+    virtual uint getEventDelays(uint len, uint const *indx, double *values);
+
+    virtual uint getEventPriorities(uint len, uint const *indx, double *values);
+
+    virtual void eventAssignment(uint eventId);
+
+    virtual double* evalEventAssignment(uint eventId);
+
+    virtual void applyEventAssignment(uint eventId, double *values);
+
     virtual const SymbolList& getConservations();
     virtual const StringList getConservationNames();
 

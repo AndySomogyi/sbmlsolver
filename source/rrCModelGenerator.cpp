@@ -1235,6 +1235,8 @@ void CModelGenerator::writeEventAssignments(CodeBuilder& ignore, const int& numR
                 }
             }
 
+            mSource << append("\t free(values);" + NL());
+
             mSource<<append("}" + NL());
         }
         mSource<<append("\t" + NL());

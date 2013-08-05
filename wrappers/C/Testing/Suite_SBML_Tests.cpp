@@ -1292,6 +1292,23 @@ SUITE(SBML_TEST_SUITE_RATE_RULES)
    TEST(712)  { CHECK(RunTest("l2v4", 712)); }
 }
 
+SUITE(SBML_TEST_SUITE_EVENTS)
+{
+    TEST(71)  { CHECK(RunTest("l2v4", 71));  }
+    TEST(73)  { CHECK(RunTest("l2v4", 73));  }
+    TEST(405) { CHECK(RunTest("l2v4", 405)); }
+    TEST(406) { CHECK(RunTest("l2v4", 406)); }
+    TEST(407) { CHECK(RunTest("l2v4", 407)); }
+    TEST(408) { CHECK(RunTest("l2v4", 408)); }
+    //TEST(409) { CHECK(RunTest("l2v4", 409)); }
+    //TEST(410) { CHECK(RunTest("l2v4", 410)); }
+    //TEST(411) { CHECK(RunTest("l2v4", 411)); }
+    //TEST(412) { CHECK(RunTest("l2v4", 412)); }
+    //TEST(413) { CHECK(RunTest("l2v4", 413)); }
+    //TEST(414) { CHECK(RunTest("l2v4", 414)); }
+    //TEST(415) { CHECK(RunTest("l2v4", 415)); }
+}
+
 
 
 

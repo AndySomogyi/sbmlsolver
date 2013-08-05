@@ -901,7 +901,53 @@ int CompiledExecutableModel::getCompartmentVolumes(int len, const int* indx,
     return len;
 }
 
+uint CompiledExecutableModel::getEventDelays(uint len, const uint* indx,
+        double* values)
+{
+    for (uint i = 0; i < len; ++i)
+    {
+        uint j = indx ? indx[i] : i;
+        if (j < mData.numEvents)
+        {
+            values[i] = mData.eventDelays[j](&mData);
+        }
+        else
+        {
+            throw Exception("index out of range");
+        }
+    }
+    return len;
+}
+
+uint CompiledExecutableModel::getEventPriorities(uint len, const uint* indx,
+        double* values)
+{
+    return 0;
+}
+
+void CompiledExecutableModel::eventAssignment(uint eventId)
+{
+    if (eventId < mData.numEvents)
+    {
+        mData.eventAssignments[eventId]();
+    }
+    else
+    {
+        throw Exception("index out of range");
+    }
+}
+
+double* CompiledExecutableModel::evalEventAssignment(uint eventId)
+{
+    return 0;
+}
+
+void CompiledExecutableModel::applyEventAssignment(uint eventId, double* values)
+{
+}
+
 
 
 } //Namespace rr
+
 
