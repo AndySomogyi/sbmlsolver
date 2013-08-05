@@ -13,11 +13,14 @@
 namespace rr
 {
 
-class LLVMGetRateRuleValuesCodeGen: private rr::LLVMCodeGenBase
+class LLVMGetRateRuleValuesCodeGen:
+        private rr::LLVMCodeGenBase<void*>
 {
 public:
     LLVMGetRateRuleValuesCodeGen(const LLVMModelGeneratorContext &mgc);
     virtual ~LLVMGetRateRuleValuesCodeGen();
+
+    typedef void (*FunctionPtr)(ModelData*);
 };
 
 } /* namespace rr */

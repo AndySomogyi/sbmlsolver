@@ -22,6 +22,8 @@
 namespace rr
 {
 
+typedef void (*LLVMEvalInitialConditions_FunctionPtr)(ModelData*);
+
 /**
  * Generates a function called 'modeldata_initialvalues_set', which evaluates
  * all of the initial conditions specified in the sbml model (initial values,
@@ -31,7 +33,8 @@ namespace rr
  * generated function signature:
  * void modeldata_initialvalues_set(ModelData *);
  */
-class LLVMEvalInitialConditionsCodeGen: private LLVMCodeGenBase
+class LLVMEvalInitialConditionsCodeGen:
+    public  LLVMCodeGenBase<LLVMEvalInitialConditions_FunctionPtr>
 {
 public:
     LLVMEvalInitialConditionsCodeGen(const LLVMModelGeneratorContext &mgc);
@@ -40,9 +43,7 @@ public:
     llvm::Value *codeGen();
 
     static const char* FunctionName;
-    typedef void (*FunctionPtr)(ModelData*);
-
-    FunctionPtr createFunction();
+    typedef LLVMEvalInitialConditions_FunctionPtr FunctionPtr;
 
 private:
 
@@ -55,7 +56,6 @@ private:
 
     void codeGenParameters(LLVMModelDataStoreSymbolResolver& modelDataResolver);
 
-    llvm::Function *initialValuesFunc;
     LLVMInitialValueSymbolResolver initialValueResolver;
 };
 

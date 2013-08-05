@@ -20,11 +20,14 @@
 namespace rr
 {
 
+typedef void (*LLVMEvalReactionRates_FunctionPtr)(ModelData*);
+
 /**
  * evaluate the current model state and store the results in
  * ModelData.reactionRates
  */
-class LLVMEvalReactionRatesCodeGen: private LLVMCodeGenBase
+class LLVMEvalReactionRatesCodeGen:
+    public LLVMCodeGenBase<LLVMEvalReactionRates_FunctionPtr>
 {
 public:
     LLVMEvalReactionRatesCodeGen(const LLVMModelGeneratorContext &mgc);
@@ -33,18 +36,8 @@ public:
     llvm::Value *codeGen();
 
     static const char* FunctionName;
-    typedef void (*FunctionPtr)(ModelData*);
+    typedef LLVMEvalReactionRates_FunctionPtr FunctionPtr;
 
-    FunctionPtr createFunction();
-
-private:
-
-    llvm::Function *func;
-
-    /**
-     * pointer to the model data param whilst we are code generating.
-     */
-    llvm::Value *modelData;
 };
 
 } /* namespace rr */

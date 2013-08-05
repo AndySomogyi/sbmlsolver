@@ -28,7 +28,6 @@ const char* LLVMEvalInitialConditionsCodeGen::FunctionName = "evalInitialConditi
 LLVMEvalInitialConditionsCodeGen::LLVMEvalInitialConditionsCodeGen(
         const LLVMModelGeneratorContext &mgc) :
         LLVMCodeGenBase(mgc),
-        initialValuesFunc(0),
         initialValueResolver(model, dataSymbols, modelSymbols, builder)
 {
 }
@@ -39,6 +38,10 @@ LLVMEvalInitialConditionsCodeGen::~LLVMEvalInitialConditionsCodeGen()
 
 Value* LLVMEvalInitialConditionsCodeGen::codeGen()
 {
+    Value *modelData = 0;
+
+    BasicBlock *basicBlock = codeGenVoidModelDataHeader(FunctionName, modelData);
+
     Log(lInfo) << "boundarySpecies: \n";
     for (LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialValues().boundarySpecies.begin();
             i != modelSymbols.getInitialValues().boundarySpecies.end(); i++)
@@ -46,28 +49,7 @@ Value* LLVMEvalInitialConditionsCodeGen::codeGen()
         char* formula = SBML_formulaToString(i->second);
         Log(lInfo) << "\t" << i->first << ": " << formula << "\n";
         free(formula);
-
     }
-
-    // make the set init value function
-    vector<Type*> argTypes;
-    StructType *modelDataStructType = LLVMModelDataIRBuilder::getStructType(
-            module);
-    PointerType *structTypePtr = llvm::PointerType::get(modelDataStructType, 0);
-    argTypes.push_back(structTypePtr);
-
-    FunctionType *funcType = FunctionType::get(Type::getVoidTy(context), argTypes,
-            false);
-    initialValuesFunc = Function::Create(funcType, Function::InternalLinkage,
-            FunctionName, module);
-
-
-    // Create a new basic block to start insertion into.
-    BasicBlock *basicBlock = BasicBlock::Create(context, "entry", initialValuesFunc);
-    builder.SetInsertPoint(basicBlock);
-
-    // single argument
-    Value *modelData = initialValuesFunc->arg_begin();
 
     LLVMModelDataStoreSymbolResolver modelDataResolver(modelData, model,
             modelSymbols, dataSymbols, builder, initialValueResolver);
@@ -80,20 +62,9 @@ Value* LLVMEvalInitialConditionsCodeGen::codeGen()
 
     codeGenParameters(modelDataResolver);
 
-
     builder.CreateRetVoid();
 
-    /// verifyFunction - Check a function for errors, printing messages on stderr.
-    /// Return true if the function is corrupt.
-    if (verifyFunction(*initialValuesFunc, PrintMessageAction))
-    {
-        throw LLVMException("Generated function is corrupt, see stderr", __FUNC__);
-    }
-
-    poco_information(getLogger(), string(FunctionName) + string(": ") +
-            to_string(initialValuesFunc));
-
-    return initialValuesFunc;
+    return verifyFunction();
 }
 
 void LLVMEvalInitialConditionsCodeGen::codeGenSpecies(
@@ -132,12 +103,6 @@ void LLVMEvalInitialConditionsCodeGen::codeGenSpecies(
     }
 }
 
-
-LLVMEvalInitialConditionsCodeGen::FunctionPtr LLVMEvalInitialConditionsCodeGen::createFunction()
-{
-    Function *func = (Function*)codeGen();
-    return (FunctionPtr)engine.getPointerToFunction(func);
-}
 
 void LLVMEvalInitialConditionsCodeGen::codeGenStoichiometry(
         llvm::Value *modelData, LLVMModelDataStoreSymbolResolver& modelDataResolver)
@@ -198,8 +163,6 @@ void LLVMEvalInitialConditionsCodeGen::codeGenCompartments(
                     initialValueResolver.loadSymbolValue(id));
         }
     }
-
-
 }
 
 void LLVMEvalInitialConditionsCodeGen::codeGenParameters(
