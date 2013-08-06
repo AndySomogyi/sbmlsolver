@@ -946,23 +946,34 @@ void CompiledExecutableModel::applyEventAssignment(int eventId, double* values)
 {
 }
 
-int CompiledExecutableModel::getEventStatus(int len, const int *indx, bool *values)
+int CompiledExecutableModel::getEventStatus(int len, const int *indx,
+        bool *values)
 {
-    evalEvents(mData.time, 0);
-
-    for (int i = 0; i < len; ++i)
+    if (len <= 0)
     {
-        int j = indx ? indx[i] : i;
-        if (j < mData.numEvents)
-        {
-            values[i] = mData.eventStatusArray[j];
-        }
-        else
-        {
-            throw Exception("index out of range");
-        }
+        return mData.numEvents;
     }
-    return len;
+    else
+    {
+        if (mData.time > 0)
+        {
+            evalEvents(mData.time, 0);
+        }
+
+        for (int i = 0; i < len; ++i)
+        {
+            int j = indx ? indx[i] : i;
+            if (j < mData.numEvents)
+            {
+                values[i] = mData.eventStatusArray[j];
+            }
+            else
+            {
+                throw Exception("index out of range");
+            }
+        }
+        return len;
+    }
 }
 
 

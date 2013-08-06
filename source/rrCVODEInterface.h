@@ -77,11 +77,19 @@ private:
     vector<int>                 retestEvents(const double& timeEnd, const vector<int>& handledEvents, vector<int>& removeEvents);
     vector<int>                 retestEvents(const double& timeEnd, vector<int>& handledEvents, const bool& assignOldState);
     vector<int>                 retestEvents(const double& timeEnd, const vector<int>& handledEvents, const bool& assignOldState, vector<int>& removeEvents);
-    void                        handleRootsFound(double &timeEnd, const double& tout);
+
+    void                        handleRootsFound(double timeEnd);
+
     void                        removePendingAssignmentForIndex(const int& eventIndex);
     void                        sortEventsByPriority(vector<int>& firedEvents);
     void                        sortEventsByPriority(vector<Event>& firedEvents);
-    void                        handleRootsForTime(const double& timeEnd, vector<int>& rootsFound);
+
+
+    void                        handleRootsForTime(double timeEnd, vector<char> &previousEventStatus);
+
+    void handleRootsForTime2(double timeEnd, vector<char> &previousEventStatus);
+
+
     int                         rootInit (const int& numRoots);//, TRootCallBack callBack, void *gdata);
     int                         reInit (const double& t0);
     int                         allocateCvodeMem ();
