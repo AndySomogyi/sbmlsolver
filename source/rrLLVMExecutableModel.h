@@ -279,15 +279,20 @@ public:
      * @param[out] values an array of at least length len which will store the
      *                event delays.
      */
-    virtual uint getEventDelays(uint len, uint const *indx, double *values);
+    virtual int getEventDelays(int len, int const *indx, double *values);
 
-    virtual uint getEventPriorities(uint len, uint const *indx, double *values);
+    virtual int getEventPriorities(int len, int const *indx, double *values);
 
-    virtual void eventAssignment(uint eventId);
+    virtual void eventAssignment(int eventId);
 
-    virtual double* evalEventAssignment(uint eventId);
+    virtual double* evalEventAssignment(int eventId);
 
-    virtual void applyEventAssignment(uint eventId, double *values);
+    virtual void applyEventAssignment(int eventId, double *values);
+
+    /**
+     * get the event status, false if the even is not triggered, true if it is.
+     */
+    virtual int getEventStatus(int len, const int *indx, bool *values);
 
 
     virtual const SymbolList &getConservations();

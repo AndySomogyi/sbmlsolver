@@ -901,12 +901,12 @@ int CompiledExecutableModel::getCompartmentVolumes(int len, const int* indx,
     return len;
 }
 
-uint CompiledExecutableModel::getEventDelays(uint len, const uint* indx,
+int CompiledExecutableModel::getEventDelays(int len, const int* indx,
         double* values)
 {
-    for (uint i = 0; i < len; ++i)
+    for (int i = 0; i < len; ++i)
     {
-        uint j = indx ? indx[i] : i;
+        int j = indx ? indx[i] : i;
         if (j < mData.numEvents)
         {
             values[i] = mData.eventDelays[j](&mData);
@@ -919,13 +919,13 @@ uint CompiledExecutableModel::getEventDelays(uint len, const uint* indx,
     return len;
 }
 
-uint CompiledExecutableModel::getEventPriorities(uint len, const uint* indx,
+int CompiledExecutableModel::getEventPriorities(int len, const int* indx,
         double* values)
 {
     return 0;
 }
 
-void CompiledExecutableModel::eventAssignment(uint eventId)
+void CompiledExecutableModel::eventAssignment(int eventId)
 {
     if (eventId < mData.numEvents)
     {
@@ -937,13 +937,32 @@ void CompiledExecutableModel::eventAssignment(uint eventId)
     }
 }
 
-double* CompiledExecutableModel::evalEventAssignment(uint eventId)
+double* CompiledExecutableModel::evalEventAssignment(int eventId)
 {
     return 0;
 }
 
-void CompiledExecutableModel::applyEventAssignment(uint eventId, double* values)
+void CompiledExecutableModel::applyEventAssignment(int eventId, double* values)
 {
+}
+
+int CompiledExecutableModel::getEventStatus(int len, const int *indx, bool *values)
+{
+    evalEvents(mData.time, 0);
+
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        if (j < mData.numEvents)
+        {
+            values[i] = mData.eventStatusArray[j];
+        }
+        else
+        {
+            throw Exception("index out of range");
+        }
+    }
+    return len;
 }
 
 

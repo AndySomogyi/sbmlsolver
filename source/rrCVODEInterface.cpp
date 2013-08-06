@@ -326,7 +326,7 @@ void EventFcn(double time, double* y, double* gdot, void* userData)
 
     for(int i = 0; i < model->getNumEvents(); i++)
     {
-        gdot[i] = model->getModelData().eventTests[i];
+        gdot[i] = model->getModelData().eventStatusArray[i] ? 1.0 : -1.0;
     }
 
     cvInstance->mRootCount++;
@@ -488,7 +488,7 @@ vector<int> CvodeInterface::retestEvents(const double& timeEnd, const vector<int
     // copy original evenStatusArray
     vector<bool> eventStatusArray(mModel->getModelData().eventStatusArray,
             mModel->getModelData().eventStatusArray +
-            mModel->getModelData().numEvents / sizeof(bool));
+            mModel->getModelData().numEvents);
 
     mModel->pushState();
 
@@ -499,6 +499,7 @@ vector<int> CvodeInterface::retestEvents(const double& timeEnd, const vector<int
         bool containsI = (std::find(handledEvents.begin(), handledEvents.end(), i) != handledEvents.end()) ? true : false;
         if (mModel->getModelData().eventStatusArray[i] == true && eventStatusArray[i] == false && !containsI)
         {
+
             result.push_back(i);
         }
 
@@ -648,10 +649,10 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
         // Call event assignment if the eventstatus flag for the particular event is false
         for (u_int i = 0; i < firedEvents.size(); i++)
         {
-            uint currentEvent = firedEvents[i];//.GetID();
+            int currentEvent = firedEvents[i];//.GetID();
 
             // We only fire an event if we transition from false to true
-            mModel->getModelData().previousEventStatusArray[currentEvent] = mModel->getModelData().eventStatusArray[currentEvent];
+            // mModel->getModelData().previousEventStatusArray[currentEvent] = mModel->getModelData().eventStatusArray[currentEvent];
 
             double eventDelay = 0;
             mModel->getEventDelays(1, &currentEvent, &eventDelay);
@@ -670,6 +671,14 @@ void CvodeInterface::handleRootsForTime(const double& timeEnd, vector<int>& root
                 handled.push_back(currentEvent);
                 vector<int> removeEvents;
                 vector<int> additionalEvents = retestEvents(timeEnd, handled, removeEvents);
+
+                if (removeEvents.size()) {
+                    cout << "removeEvents.size: " << removeEvents.size() << endl;
+                }
+
+                if (additionalEvents.size()) {
+                    cout << "additionalEvents.size: " << additionalEvents.size() << endl;
+                }
 
                 std::copy (additionalEvents.begin(), additionalEvents.end(), firedEvents.end());
 
