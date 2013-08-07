@@ -766,6 +766,8 @@ void CompiledExecutableModel::reset()
     computeRules();
 
     convertToAmounts();
+
+    mAssignments.clear();
 }
 
 void CompiledExecutableModel::print(std::ostream &stream)
@@ -947,7 +949,7 @@ void CompiledExecutableModel::applyEventAssignment(int eventId, double* values)
 }
 
 int CompiledExecutableModel::getEventStatus(int len, const int *indx,
-        bool *values)
+        unsigned char *values)
 {
     if (len <= 0)
     {
@@ -974,6 +976,320 @@ int CompiledExecutableModel::getEventStatus(int len, const int *indx,
         }
         return len;
     }
+}
+
+
+vector<int> CompiledExecutableModel::retestEvents(const double& timeEnd, const vector<int>& handledEvents, vector<int>& removeEvents)
+{
+    return retestEvents(timeEnd, handledEvents, false, removeEvents);
+}
+
+vector<int> CompiledExecutableModel::retestEvents(const double& timeEnd, vector<int>& handledEvents, const bool& assignOldState)
+{
+    vector<int> removeEvents;
+    return retestEvents(timeEnd, handledEvents, assignOldState, removeEvents);
+}
+
+vector<int> CompiledExecutableModel::retestEvents(const double& timeEnd, const vector<int>& handledEvents,
+        const bool& assignOldState, vector<int>& removeEvents)
+{
+    vector<int> result;
+//    vector<int> removeEvents;// = new vector<int>();    //Todo: this code was like this originally.. which removeEvents to use???
+
+    if (this->getConservedSumChanged())
+    {
+        this->computeConservedTotals();
+    }
+
+    this->convertToAmounts();
+    this->evalModel(timeEnd, 0, 0);
+
+    // copy original evenStatusArray
+    vector<bool> eventStatusArray(mData.eventStatusArray,
+            mData.eventStatusArray +
+            mData.numEvents);
+
+    this->pushState();
+
+    this->evalEvents(timeEnd, 0);
+
+    for (int i = 0; i < this->getNumEvents(); i++)
+    {
+        bool containsI = (std::find(handledEvents.begin(), handledEvents.end(), i) != handledEvents.end()) ? true : false;
+        if (mData.eventStatusArray[i] == true && eventStatusArray[i] == false && !containsI)
+        {
+
+            result.push_back(i);
+        }
+
+        if (mData.eventStatusArray[i] == false && eventStatusArray[i] == true && !mData.eventPersistentType[i])
+        {
+            removeEvents.push_back(i);
+        }
+    }
+
+    this->popState(assignOldState ? 0 : ExecutableModel::PopDiscard);
+
+    return result;
+}
+
+int CompiledExecutableModel::applyPendingEvents(const double *stateVector,
+        double timeEnd,  double tout)
+{
+    int handled = 0;
+    for (int i = (int) mAssignments.size() - 1; i >= 0; i--)
+    {
+        if (timeEnd >= mAssignments[i].getTime())
+        {
+            this->setTime(tout);
+            this->setStateVector(stateVector);
+            this->convertToConcentrations();
+            this->updateDependentSpeciesValues();
+            mAssignments[i].eval();
+
+            if (this->getConservedSumChanged())
+            {
+                this->computeConservedTotals();
+            }
+
+            this->convertToAmounts();
+            this->evalModel(timeEnd, 0, 0);
+            mAssignments.erase(mAssignments.begin() + i);
+
+            handled++;
+        }
+    }
+    return handled;
+}
+
+void CompiledExecutableModel::evalEvents(double timeEnd,
+        const unsigned char* previousEventStatus, const double *initialState,
+        double* finalState)
+{
+    this->setStateVector(initialState);
+    this->convertToConcentrations();
+    this->updateDependentSpeciesValues();
+    this->evalEvents(timeEnd, 0);
+
+    vector<int> firedEvents;
+    map<int, double* > preComputedAssignments;
+
+
+    for (int i = 0; i < this->getNumEvents(); i++)
+    {
+        // We only fire an event if we transition from false to true
+        if (mData.eventStatusArray[i] && !previousEventStatus[i])
+        {
+            firedEvents.push_back(i);
+            if (mData.eventType[i])
+            {
+                preComputedAssignments[i] = mData.computeEventAssignments[i](&(mData));
+            }
+        }
+
+        else
+        {
+            // if the trigger condition is not supposed to be persistent,
+            // remove the event from the firedEvents list;
+            if (!mData.eventPersistentType[i])
+            {
+                removePendingAssignmentForIndex(i);
+            }
+        }
+    }
+
+    vector<int> handled;
+    while (firedEvents.size() > 0)
+    {
+        sortEventsByPriority(firedEvents);
+        // Call event assignment if the eventstatus flag for the particular event is false
+        for (u_int i = 0; i < firedEvents.size(); i++)
+        {
+            int currentEvent = firedEvents[i];
+            double eventDelay = 0;
+            this->getEventDelays(1, &currentEvent, &eventDelay);
+
+            if (eventDelay == 0)
+            {
+                if (mData.eventType[currentEvent] && preComputedAssignments.count(currentEvent) > 0)
+                {
+                    mData.performEventAssignments[currentEvent](&(mData), preComputedAssignments[currentEvent]);
+                }
+                else
+                {
+                    this->eventAssignment(currentEvent);
+                }
+
+                handled.push_back(currentEvent);
+                vector<int> removeEvents;
+                vector<int> additionalEvents = retestEvents(timeEnd, handled, removeEvents);
+
+                std::copy (additionalEvents.begin(), additionalEvents.end(), firedEvents.end());
+
+                for (int j = 0; j < additionalEvents.size(); j++)
+                {
+                    int newEvent = additionalEvents[j];
+                    if (mData.eventType[newEvent])
+                    {
+                        preComputedAssignments[newEvent] = mData.computeEventAssignments[newEvent](&(mData));
+                    }
+                }
+
+                mData.eventStatusArray[currentEvent] = false;
+                Log(lDebug3)<<"Fired Event with ID:"<<currentEvent;
+                firedEvents.erase(firedEvents.begin() + i);
+
+                for (int i = 0; i < removeEvents.size(); i++)
+                {
+                    int item = removeEvents[i];
+                    if (find(firedEvents.begin(), firedEvents.end(), item) != firedEvents.end())
+                    {
+                        firedEvents.erase(find(firedEvents.begin(), firedEvents.end(), item));
+                        removePendingAssignmentForIndex(item);
+                    }
+                }
+
+                break;
+            }
+            else
+            {
+                if (find(mAssignmentTimes.begin(), mAssignmentTimes.end(), timeEnd + eventDelay) == mAssignmentTimes.end())
+                {
+                    mAssignmentTimes.push_back(timeEnd + eventDelay);
+                }
+
+                double *preComputedValues =
+                    (mData.eventType[currentEvent] &&
+                        preComputedAssignments.count(currentEvent) == 1) ?
+                            preComputedAssignments[currentEvent] : 0;
+
+                PendingAssignment pending( &(mData),
+                        timeEnd + eventDelay,
+                        mData.computeEventAssignments[currentEvent],
+                        mData.performEventAssignments[currentEvent],
+                        mData.eventType[currentEvent],
+                        currentEvent,
+                        preComputedValues);
+
+                mAssignments.push_back(pending);
+
+                mData.eventStatusArray[currentEvent] = false;
+                firedEvents.erase(firedEvents.begin() + i);
+                break;
+            }
+        }
+    }
+
+    if (this->getConservedSumChanged())
+    {
+        this->computeConservedTotals();
+    }
+    this->convertToAmounts();
+
+    this->evalModel(timeEnd, 0, 0);
+
+    this->getStateVector(finalState);
+
+    sort(mAssignmentTimes.begin(), mAssignmentTimes.end());
+}
+
+void CompiledExecutableModel::removePendingAssignmentForIndex(int eventIndex)
+{
+    for (int j = (int) mAssignments.size() - 1; j >= 0; j--)
+    {
+        if (mAssignments[j].getIndex() == eventIndex)
+        {
+            mAssignments.erase(mAssignments.begin() + j);
+        }
+    }
+}
+
+void CompiledExecutableModel::sortEventsByPriority(vector<rr::Event>& firedEvents)
+{
+    if ((firedEvents.size() > 1))
+    {
+        Log(lDebug3)<<"Sorting event priorities";
+        for(int i = 0; i < firedEvents.size(); i++)
+        {
+            firedEvents[i].SetPriority(mData.eventPriorities[firedEvents[i].GetID()]);
+            Log(lDebug3)<<firedEvents[i];
+        }
+        sort(firedEvents.begin(), firedEvents.end(), SortByPriority());
+
+        Log(lDebug3)<<"After sorting event priorities";
+        for(int i = 0; i < firedEvents.size(); i++)
+        {
+            Log(lDebug3)<<firedEvents[i];
+        }
+    }
+}
+
+void CompiledExecutableModel::sortEventsByPriority(vector<int>& firedEvents)
+{
+    if (firedEvents.size() > 1)
+    {
+        this->computeEventPriorites();
+        vector<rr::Event> dummy;
+        for(int i = 0; i < firedEvents.size(); i++)
+        {
+            Event event(firedEvents[i]);
+            dummy.push_back(event);
+        }
+
+        Log(lDebug3)<<"Sorting event priorities";
+        for(int i = 0; i < firedEvents.size(); i++)
+        {
+            Event &event = dummy[i];
+            event.SetPriority(mData.eventPriorities[event.GetID()]);
+            Log(lDebug3) << event;
+        }
+        sort(dummy.begin(), dummy.end(), SortByPriority());
+
+        for(int i = 0; i < firedEvents.size(); i++)
+        {
+            firedEvents[i] = dummy[i].GetID();
+        }
+
+        Log(lDebug3)<<"After sorting event priorities";
+        for(int i = 0; i < firedEvents.size(); i++)
+        {
+            Log(lDebug3)<<firedEvents[i];
+        }
+    }
+}
+
+void CompiledExecutableModel::evalEventRoots(double time,
+        const double *stateVector, const double* y, double* gdot)
+{
+
+    this->pushState();
+
+    this->evalModel(time, 0, 0);
+    this->setStateVector(stateVector);
+
+    this->evalEvents(time, 0);
+
+    for(int i = 0; i < this->getNumEvents(); i++)
+    {
+        gdot[i] = mData.eventStatusArray[i] ? 1.0 : -1.0;
+    }
+
+    this->popState();
+}
+
+double CompiledExecutableModel::getNextPendingEventTime(bool pop)
+{
+    double result = mAssignmentTimes[0];
+    if (pop)
+    {
+        mAssignmentTimes.erase(mAssignmentTimes.begin());
+    }
+    return result;
+}
+
+int CompiledExecutableModel::getPendingEventSize()
+{
+    return mAssignmentTimes.size();
 }
 
 

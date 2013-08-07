@@ -292,7 +292,7 @@ public:
     /**
      * get the event status, false if the even is not triggered, true if it is.
      */
-    virtual int getEventStatus(int len, const int *indx, bool *values);
+    virtual int getEventStatus(int len, const int *indx, unsigned char *values);
 
 
     virtual const SymbolList &getConservations();
@@ -303,6 +303,19 @@ public:
      * using the current model state, evaluate and store all the reaction rates.
      */
     virtual void evalReactionRates();
+
+    virtual int applyPendingEvents(const double *stateVector, double timeEnd,
+            double tout);
+
+    virtual void evalEvents(double timeEnd, const unsigned char* previousEventStatus,
+            const double *initialState, double* finalState);
+
+    virtual void evalEventRoots(double time, const double *stateVector, const double* y,
+            double* gdot);
+
+    virtual double getNextPendingEventTime(bool pop);
+
+    virtual int getPendingEventSize();
 
     static LLVMExecutableModel* dummy();
 

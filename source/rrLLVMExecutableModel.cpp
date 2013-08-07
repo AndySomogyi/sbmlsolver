@@ -579,10 +579,40 @@ void LLVMExecutableModel::applyEventAssignment(int eventId, double* values)
 }
 
 
-int LLVMExecutableModel::getEventStatus(int len, const int *indx, bool *values)
+int LLVMExecutableModel::getEventStatus(int len, const int *indx, unsigned char *values)
 {
     return 0;
 }
+
+void LLVMExecutableModel::evalEvents(double timeEnd, const unsigned char* previousEventStatus,
+        const double *initialState, double* finalState)
+{
+
+}
+
+int LLVMExecutableModel::applyPendingEvents(const double *stateVector, double timeEnd,
+        double tout)
+{
+    return 0;
+}
+
+void  LLVMExecutableModel::evalEventRoots(double time,
+        const double *stateVector, const double* y, double* gdot)
+{
+    return;
+
+}
+
+double LLVMExecutableModel::getNextPendingEventTime(bool pop)
+{
+    return 0;
+}
+
+int LLVMExecutableModel::getPendingEventSize()
+{
+    return 0;
+}
+
 
 
 

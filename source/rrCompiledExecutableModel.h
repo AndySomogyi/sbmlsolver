@@ -6,6 +6,8 @@
 #include "rrCModelGenerator.h"
 #include "rrModelData.h"
 #include "rrNOMSupport.h"
+#include "rrPendingAssignment.h"
+#include "rrEvent.h"
 #include "rr-libstruct/lsLibStructural.h"
 #include <stack>
 
@@ -71,7 +73,7 @@ public:
      * @returns the size of the saved stack after the current state has been
      * pushed.
      */
-    virtual int pushState(unsigned options);
+    virtual int pushState(unsigned options = 0);
 
     /**
      * restore the state from a previously saved state, if the state stack
@@ -79,7 +81,7 @@ public:
      *
      * @returns the size of the saved stack after the top has been poped.
      */
-    virtual int popState(unsigned options);
+    virtual int popState(unsigned options = 0);
 
     // functions --------------------------------------------------------
     virtual int getNumIndependentSpecies();
@@ -306,7 +308,7 @@ public:
 
     virtual void applyEventAssignment(int eventId, double *values);
 
-    virtual int getEventStatus(int len, const int *indx, bool *values);
+    virtual int getEventStatus(int len, const int *indx, unsigned char *values);
 
     virtual const SymbolList& getConservations();
     virtual const StringList getConservationNames();
@@ -378,6 +380,39 @@ private:
     c_void_MDS_int_double             csetConcentration;
     c_void_MDS                        cComputeReactionRates;
     c_void_MDS                        ccomputeEventPriorities;
+
+    vector<PendingAssignment>   mAssignments;
+
+    vector<double>              mAssignmentTimes;
+
+    vector<int> retestEvents(const double& timeEnd,
+            const vector<int>& handledEvents, vector<int>& removeEvents);
+
+    vector<int> retestEvents(const double& timeEnd, vector<int>& handledEvents,
+            const bool& assignOldState);
+
+    vector<int> retestEvents(const double& timeEnd,
+            const vector<int>& handledEvents,
+            const bool& assignOldState, vector<int>& removeEvents);
+
+    virtual int applyPendingEvents(const double *stateVector, double timeEnd,
+            double tout);
+
+    virtual void evalEvents(double timeEnd, const unsigned char* previousEventStatus,
+            const double *initialState, double* finalState);
+
+    virtual void evalEventRoots(double time, const double *stateVector, const double* y,
+            double* gdot);
+
+    virtual double getNextPendingEventTime(bool pop);
+
+    virtual int getPendingEventSize();
+
+    void removePendingAssignmentForIndex(int eventIndex);
+
+    void sortEventsByPriority(vector<Event>& firedEvents);
+
+    void sortEventsByPriority(vector<int>& firedEvents);
 };
 }
 #endif

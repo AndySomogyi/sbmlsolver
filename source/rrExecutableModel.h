@@ -340,27 +340,29 @@ public:
     virtual void print(std::ostream &stream) = 0;
 
     /**
-     * get the event time delays
-     *
-     * @param[in] len the length of the indx and values arrays.
-     * @param[in] indx an array of length len of event indices
-     * @param[out] values an array of at least length len which will store the
-     *                event delays.
-     */
-    virtual int getEventDelays(int len, int const *indx, double *values) = 0;
-
-    virtual int getEventPriorities(int len, int const *indx, double *values) = 0;
-
-    /**
      * get the event status, false if the even is not triggered, true if it is.
+     *
+     * The reason this returns an unsigned char instead of a bool array is this
+     * array is typically stuffed into an std::vector, and std::vector<bool> is
+     * seriously broken and can not be used as a C array.
+     *
+     * So, on every modern system I'm aware of, bool is an unsigned char, so
+     * use that data type here.
      */
-    virtual int getEventStatus(int len, const int *indx, bool *values) = 0;
+    virtual int getEventStatus(int len, const int *indx, unsigned char *values) = 0;
 
-    virtual void eventAssignment(int eventId) = 0;
 
-    virtual double* evalEventAssignment(int eventId) = 0;
+    virtual void evalEvents(double timeEnd, const unsigned char* previousEventStatus,
+                const double *initialState, double* finalState) = 0;
 
-    virtual void applyEventAssignment(int eventId, double *values) = 0;
+    virtual void evalEventRoots(double time, const double *stateVector, const double* y,
+            double* gdot) = 0;
+
+    virtual int applyPendingEvents(const double *stateVector, double timeEnd, double tout) = 0;
+
+    virtual double getNextPendingEventTime(bool pop) = 0;
+
+    virtual int getPendingEventSize() = 0;
 
     virtual const SymbolList &getConservations() = 0;
     virtual const StringList getConservationNames() = 0;
