@@ -331,8 +331,8 @@ public:
      */
     virtual void evalModel(double time, const double *y, double* dydt=0) = 0;
 
-    virtual void evalEvents(const double time, const double *y) = 0;
     virtual void resetEvents() = 0;
+
     virtual void testConstraints() = 0;
 
     virtual string getInfo() = 0;
