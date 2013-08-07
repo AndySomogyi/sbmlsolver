@@ -8,17 +8,24 @@ using namespace std;
 
 static void dump_array(std::ostream &os, int n, const double *p)
 {
-    os << setiosflags(ios::floatfield) << setprecision(8);
-    os << '[';
-    for (int i = 0; i < n; ++i)
+    if (p)
     {
-        os << p[i];
-        if (i < n - 1)
+        os << setiosflags(ios::floatfield) << setprecision(8);
+        os << '[';
+        for (int i = 0; i < n; ++i)
         {
-            os << ", ";
+            os << p[i];
+            if (i < n - 1)
+            {
+                os << ", ";
+            }
         }
+        os << ']' << endl;
     }
-    os << ']' << endl;
+    else
+    {
+        os << "NULL" << endl;
+    }
 }
 
 
@@ -101,7 +108,7 @@ void allocModelDataBuffers(ModelData &data, const string& modelName)
 
     data.floatingSpeciesAmounts = (double*)rrCalloc(data.numFloatingSpecies, sizeof(double));
     data.floatingSpeciesAmountRates = (double*)rrCalloc(data.numFloatingSpecies, sizeof(double));
-    data.rateRules = (double*)rrCalloc(data.numRateRules, sizeof(double));
+    data.rateRuleRates = (double*)rrCalloc(data.numRateRules, sizeof(double));
     data.floatingSpeciesConcentrations = (double*)rrCalloc(data.numFloatingSpecies, sizeof(double));
     data.reactionRates = (double*)rrCalloc(data.numReactions, sizeof(double));
     data.dependentSpeciesConservedSums = (double*)rrCalloc(data.numDependentSpecies, sizeof(double));
@@ -150,8 +157,10 @@ std::ostream& operator <<(std::ostream& os, const ModelData& data)
     os << "reactionRates: "            << endl;                                          // 9
     dump_array(os, data.numReactions, data.reactionRates);
     os << "numRateRules: "             << data.numRateRules << endl;                     // 10
-    os << "rateRules: "                << endl;                                          // 11
-    dump_array(os, data.numRateRules, data.rateRules);
+    os << "rateRuleValues: "           << endl;                                          // 11
+    dump_array(os, data.numRateRules, data.rateRuleValues);
+    os << "rateRuleRates: "            << endl;                                          // 11
+    dump_array(os, data.numRateRules, data.rateRuleRates);
 
 //    unsigned*                                localParametersOffsets;           // 12
 //
@@ -228,7 +237,7 @@ void  freeModelDataBuffers(ModelData &data)
 
     free(data.floatingSpeciesAmounts);
     free(data.floatingSpeciesAmountRates);
-    free(data.rateRules);
+    free(data.rateRuleRates);
     free(data.floatingSpeciesConcentrations);
     free(data.floatingSpeciesCompartments);
     free(data.reactionRates);
@@ -267,58 +276,164 @@ void RR_DECLSPEC modeldata_clone(ModelData *dst, ModelData *src)
 
 void RR_DECLSPEC modeldata_copy_buffers(ModelData *dst, ModelData *src)
 {
-    memcpy(dst->floatingSpeciesAmounts, src->floatingSpeciesAmounts,
-            src->numFloatingSpecies * sizeof(double));
-    memcpy(dst->floatingSpeciesAmountRates, src->floatingSpeciesAmountRates,
-            src->numFloatingSpecies * sizeof(double));
-    memcpy(dst->rateRules, src->rateRules,
-            src->numRateRules * sizeof(double));
-    memcpy(dst->floatingSpeciesConcentrations, src->floatingSpeciesConcentrations,
-            src->numFloatingSpecies * sizeof(double));
-    memcpy(dst->reactionRates, src->reactionRates,
-            src->numReactions * sizeof(double));
-    memcpy(dst->dependentSpeciesConservedSums, src->dependentSpeciesConservedSums,
-            src->numDependentSpecies * sizeof(double));
-    memcpy(dst->floatingSpeciesInitConcentrations, src->floatingSpeciesInitConcentrations,
-            src->numFloatingSpecies * sizeof(double));
-    memcpy(dst->globalParameters, src->globalParameters,
-            src->numGlobalParameters * sizeof(double));
-    memcpy(dst->compartmentVolumes, src->compartmentVolumes,
-            src->numCompartments * sizeof(double));
-    memcpy(dst->boundarySpeciesConcentrations, src->boundarySpeciesConcentrations,
-            src->numBoundarySpecies * sizeof(double));
-    memcpy(dst->boundarySpeciesAmounts, src->boundarySpeciesAmounts,
-            src->numBoundarySpecies * sizeof(double));
-    memcpy(dst->sr, src->sr,
-            src->srSize * sizeof(double));
-    memcpy(dst->eventPriorities, src->eventPriorities,
-            src->eventPrioritiesSize * sizeof(double));
-    memcpy(dst->eventStatusArray, src->eventStatusArray,
-            src->eventStatusArraySize * sizeof(bool));
-    memcpy(dst->previousEventStatusArray, src->previousEventStatusArray,
-            src->previousEventStatusArraySize * sizeof(bool));
-    memcpy(dst->eventPersistentType, src->eventPersistentType,
-            src->eventPersistentTypeSize * sizeof(bool));
-    memcpy(dst->eventTests, src->eventTests,
-            src->eventTestsSize * sizeof(double));
-    memcpy(dst->eventType, src->eventType,
-            src->eventTypeSize * sizeof(bool));
-    memcpy(dst->floatingSpeciesCompartments, src->floatingSpeciesCompartments,
-            src->numFloatingSpecies * sizeof(int));
-    memcpy(dst->boundarySpeciesCompartments, src->boundarySpeciesCompartments,
-            src->numBoundarySpecies * sizeof(int));
-    memcpy(dst->work, src->work,
-            src->workSize * sizeof(int));
+    if (dst->floatingSpeciesAmounts && src->floatingSpeciesAmounts)
+    {
+        memcpy(dst->floatingSpeciesAmounts, src->floatingSpeciesAmounts,
+                src->numFloatingSpecies * sizeof(double));
+    }
+
+    if (dst->floatingSpeciesAmountRates && src->floatingSpeciesAmountRates)
+    {
+        memcpy(dst->floatingSpeciesAmountRates, src->floatingSpeciesAmountRates,
+                src->numFloatingSpecies * sizeof(double));
+    }
+
+    if (dst->rateRuleRates && src->rateRuleRates)
+    {
+        memcpy(dst->rateRuleRates, src->rateRuleRates,
+                src->numRateRules * sizeof(double));
+    }
+
+    if (dst->floatingSpeciesConcentrations
+            && src->floatingSpeciesConcentrations)
+    {
+        memcpy(dst->floatingSpeciesConcentrations,
+                src->floatingSpeciesConcentrations,
+                src->numFloatingSpecies * sizeof(double));
+    }
+
+    if (dst->reactionRates && src->reactionRates)
+    {
+        memcpy(dst->reactionRates, src->reactionRates,
+                src->numReactions * sizeof(double));
+    }
+
+    if (dst->dependentSpeciesConservedSums
+            && src->dependentSpeciesConservedSums)
+    {
+        memcpy(dst->dependentSpeciesConservedSums,
+                src->dependentSpeciesConservedSums,
+                src->numDependentSpecies * sizeof(double));
+    }
+
+    if (dst->floatingSpeciesInitConcentrations
+            && src->floatingSpeciesInitConcentrations)
+    {
+        memcpy(dst->floatingSpeciesInitConcentrations,
+                src->floatingSpeciesInitConcentrations,
+                src->numFloatingSpecies * sizeof(double));
+    }
+
+    if (dst->globalParameters && src->globalParameters)
+    {
+        memcpy(dst->globalParameters, src->globalParameters,
+                src->numGlobalParameters * sizeof(double));
+    }
+
+    if (dst->compartmentVolumes && src->compartmentVolumes)
+    {
+        memcpy(dst->compartmentVolumes, src->compartmentVolumes,
+                src->numCompartments * sizeof(double));
+    }
+
+    if (dst->boundarySpeciesConcentrations
+            && src->boundarySpeciesConcentrations)
+    {
+        memcpy(dst->boundarySpeciesConcentrations,
+                src->boundarySpeciesConcentrations,
+                src->numBoundarySpecies * sizeof(double));
+    }
+
+    if (dst->boundarySpeciesAmounts && src->boundarySpeciesAmounts)
+    {
+        memcpy(dst->boundarySpeciesAmounts, src->boundarySpeciesAmounts,
+                src->numBoundarySpecies * sizeof(double));
+    }
+
+    if (dst->sr && src->sr)
+    {
+        memcpy(dst->sr, src->sr, src->srSize * sizeof(double));
+    }
+
+    if (dst->eventPriorities && src->eventPriorities)
+    {
+        memcpy(dst->eventPriorities, src->eventPriorities,
+                src->eventPrioritiesSize * sizeof(double));
+    }
+
+    if (dst->eventStatusArray && src->eventStatusArray)
+    {
+        memcpy(dst->eventStatusArray, src->eventStatusArray,
+                src->eventStatusArraySize * sizeof(bool));
+    }
+
+    if (dst->previousEventStatusArray && src->previousEventStatusArray)
+    {
+        memcpy(dst->previousEventStatusArray, src->previousEventStatusArray,
+                src->previousEventStatusArraySize * sizeof(bool));
+    }
+
+    if (dst->eventPersistentType && src->eventPersistentType)
+    {
+        memcpy(dst->eventPersistentType, src->eventPersistentType,
+                src->eventPersistentTypeSize * sizeof(bool));
+    }
+
+    if (dst->eventTests && src->eventTests)
+    {
+        memcpy(dst->eventTests, src->eventTests,
+                src->eventTestsSize * sizeof(double));
+    }
+
+    if (dst->eventType && src->eventType)
+    {
+        memcpy(dst->eventType, src->eventType,
+                src->eventTypeSize * sizeof(bool));
+    }
+
+    if (dst->floatingSpeciesCompartments && src->floatingSpeciesCompartments)
+    {
+        memcpy(dst->floatingSpeciesCompartments,
+                src->floatingSpeciesCompartments,
+                src->numFloatingSpecies * sizeof(int));
+    }
+
+    if (dst->boundarySpeciesCompartments && src->boundarySpeciesCompartments)
+    {
+        memcpy(dst->boundarySpeciesCompartments,
+                src->boundarySpeciesCompartments,
+                src->numBoundarySpecies * sizeof(int));
+    }
+
+    if (dst->work && src->work)
+    {
+        memcpy(dst->work, src->work, src->workSize * sizeof(int));
+    }
 
     //Event function pointer stuff
-    memcpy(dst->eventAssignments, src->eventAssignments,
-            src->numEvents * sizeof(EventAssignmentHandler*));
-    memcpy(dst->computeEventAssignments, src->computeEventAssignments,
-            src->numEvents * sizeof(ComputeEventAssignmentHandler*));
-    memcpy(dst->performEventAssignments, src->performEventAssignments,
-            src->numEvents * sizeof(PerformEventAssignmentHandler*));
-    memcpy(dst->eventDelays, src->eventDelays,
-            src->numEvents * sizeof(EventDelayHandler*));
+    if (dst->eventAssignments && src->eventAssignments)
+    {
+        memcpy(dst->eventAssignments, src->eventAssignments,
+                src->numEvents * sizeof(EventAssignmentHandler*));
+    }
+
+    if (dst->computeEventAssignments && src->computeEventAssignments)
+    {
+        memcpy(dst->computeEventAssignments, src->computeEventAssignments,
+                src->numEvents * sizeof(ComputeEventAssignmentHandler*));
+    }
+
+    if (dst->performEventAssignments && src->performEventAssignments)
+    {
+        memcpy(dst->performEventAssignments, src->performEventAssignments,
+                src->numEvents * sizeof(PerformEventAssignmentHandler*));
+    }
+
+    if (dst->eventDelays && src->eventDelays)
+    {
+        memcpy(dst->eventDelays, src->eventDelays,
+                src->numEvents * sizeof(EventDelayHandler*));
+    }
 
 }
 

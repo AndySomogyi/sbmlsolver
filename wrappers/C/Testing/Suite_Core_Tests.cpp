@@ -17,6 +17,7 @@
 #include "rrc_api.h"
 #include "rrUtils.h"
 #include "rrException.h"
+#include "rrLogger.h"
 
 using namespace UnitTest;
 using namespace std;
@@ -38,6 +39,9 @@ SUITE(CORE_TESTS)
 {
     TEST(LOGGING)
     {
+        // save log level
+        int logLevel = rr::Logger::GetLogLevel();
+
         RRHandle aRR = createRRInstanceEx(gTempFolder.c_str(), 0);
         setLogLevel("INFO");
         enableLoggingToFile(aRR);
@@ -45,6 +49,9 @@ SUITE(CORE_TESTS)
         disableLoggingToFile();
         logMsg(clInfo, "This message is not written to the logger");
         freeRRInstance(aRR);
+
+        // restore log level
+        rr::Logger::SetCutOffLogLevel(logLevel);
     }
 
     TEST(COMPILER)

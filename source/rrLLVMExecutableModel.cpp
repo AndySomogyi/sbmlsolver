@@ -56,7 +56,8 @@ LLVMExecutableModel::LLVMExecutableModel() :
     getFloatingSpeciesConcentrationPtr(0),
     getGlobalParameterPtr(0),
     getCompartmentVolumePtr(0),
-    stackDepth(0)
+    stackDepth(0),
+    evalRateRuleRatesPtr(0)
 {
     // zero out the struct, the generator will fill it out.
     initModelData(modelData);
@@ -112,22 +113,22 @@ int LLVMExecutableModel::getNumDependentSpecies()
 
 int LLVMExecutableModel::getNumFloatingSpecies()
 {
-    return modelData.numFloatingSpecies;
+    return symbols->getFloatingSpeciesSize();
 }
 
 int LLVMExecutableModel::getNumBoundarySpecies()
 {
-    return modelData.numBoundarySpecies;
+    return symbols->getBoundarySpeciesSize();
 }
 
 int LLVMExecutableModel::getNumGlobalParameters()
 {
-    return modelData.numGlobalParameters;
+    return symbols->getGlobalParametersSize();
 }
 
 int LLVMExecutableModel::getNumCompartments()
 {
-    return modelData.numCompartments;
+    return symbols->getCompartmentsSize();
 }
 
 int LLVMExecutableModel::getNumReactions()
@@ -185,12 +186,12 @@ int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len, int const *in
 
 void LLVMExecutableModel::getRateRuleValues(double *rateRuleValues)
 {
-    memcpy(rateRuleValues, modelData.rateRules, modelData.numRateRules * sizeof(double));
+    memcpy(rateRuleValues, modelData.rateRuleValues, modelData.numRateRules * sizeof(double));
 }
 
 void LLVMExecutableModel::setRateRuleValues(const double *rateRuleValues)
 {
-    memcpy(modelData.rateRules, rateRuleValues, modelData.numRateRules * sizeof(double));
+    memcpy(modelData.rateRuleValues, rateRuleValues, modelData.numRateRules * sizeof(double));
 }
 
 void LLVMExecutableModel::convertToConcentrations()
@@ -217,9 +218,11 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
     csr_matrix_dgemv(1.0, modelData.stoichiometry, modelData.reactionRates,
                      0.0, modelData.floatingSpeciesAmountRates);
 
+    evalRateRuleRatesPtr(&modelData);
+
     if (dydt)
     {
-        memcpy(dydt, modelData.rateRules, modelData.numRateRules * sizeof(double));
+        memcpy(dydt, modelData.rateRuleRates, modelData.numRateRules * sizeof(double));
 
         memcpy(dydt + modelData.numRateRules, modelData.floatingSpeciesAmountRates,
                 modelData.numIndependentSpecies * sizeof(double));
@@ -549,6 +552,68 @@ int LLVMExecutableModel::getCompartmentVolumes(int len, const int* indx,
 {
     return getValues(&modelData, getCompartmentVolumePtr, len, indx, values);
 }
+
+int LLVMExecutableModel::getEventDelays(int len, const int* indx,
+        double* values)
+{
+    return 0;
+}
+
+int LLVMExecutableModel::getEventPriorities(int len, const int* indx,
+        double* values)
+{
+    return 0;
+}
+
+void LLVMExecutableModel::eventAssignment(int eventId)
+{
+}
+
+double* LLVMExecutableModel::evalEventAssignment(int eventId)
+{
+    return 0;
+}
+
+void LLVMExecutableModel::applyEventAssignment(int eventId, double* values)
+{
+}
+
+
+int LLVMExecutableModel::getEventStatus(int len, const int *indx, unsigned char *values)
+{
+    return 0;
+}
+
+void LLVMExecutableModel::evalEvents(double timeEnd, const unsigned char* previousEventStatus,
+        const double *initialState, double* finalState)
+{
+
+}
+
+int LLVMExecutableModel::applyPendingEvents(const double *stateVector, double timeEnd,
+        double tout)
+{
+    return 0;
+}
+
+void  LLVMExecutableModel::evalEventRoots(double time,
+        const double *stateVector, const double* y, double* gdot)
+{
+    return;
+
+}
+
+double LLVMExecutableModel::getNextPendingEventTime(bool pop)
+{
+    return 0;
+}
+
+int LLVMExecutableModel::getPendingEventSize()
+{
+    return 0;
+}
+
+
 
 
 

@@ -98,6 +98,7 @@ if(BUILD_LLVM)
         rrLLVMCodeGenBase
         rrLLVMCompiler
         rrLLVMEvalInitialConditionsCodeGen
+        rrLLVMEvalRateRuleRatesCodeGen
         rrLLVMEvalReactionRatesCodeGen
         rrLLVMExecutableModel
         rrLLVMGetRateRuleValuesCodeGen

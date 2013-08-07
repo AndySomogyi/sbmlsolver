@@ -10,6 +10,9 @@
 
 #include "rrLLVMModelGeneratorContext.h"
 #include "rrLLVMCodeGen.h"
+#include "rrLLVMException.h"
+#include "rrLogger.h"
+#include <Poco/Logger.h>
 
 namespace rr
 {
@@ -20,11 +23,17 @@ namespace rr
  * and mgc.getThat. Furthermore, its faster to access them as ivars
  * as it does not incur a func call each time.
  */
+template <typename FunctionPtrType>
 class LLVMCodeGenBase
 {
+public:
+    FunctionPtrType createFunction()
+    {
+        llvm::Function *func = (llvm::Function*)codeGen();
+        return (FunctionPtrType)engine.getPointerToFunction(func);
+    }
 
 protected:
-
     LLVMCodeGenBase(const LLVMModelGeneratorContext &mgc) :
             model(mgc.getModel()),
             dataSymbols(mgc.getModelDataSymbols()),
@@ -32,7 +41,8 @@ protected:
             context(mgc.getContext()),
             module(mgc.getModule()),
             builder(mgc.getBuilder()),
-            engine(mgc.getExecutionEngine())
+            engine(mgc.getExecutionEngine()),
+            function(0)
     {
     };
 
@@ -48,9 +58,91 @@ protected:
     llvm::Module *module;
     llvm::IRBuilder<> &builder;
     llvm::ExecutionEngine &engine;
+    llvm::Function *function;
+
+    virtual llvm::Value *codeGen() = 0;
+
+    template <size_t N>
+    llvm::BasicBlock *codeGenHeader(const char* functionName,
+            llvm::Type *retType,
+            llvm::Type* (&argTypes)[N],
+            const char* (&argNames)[N],
+            llvm::Value* (&args)[N])
+    {
+        // make the set init value function
+
+        llvm::FunctionType *funcType = llvm::FunctionType::get(retType,
+                argTypes, false);
+        function = llvm::Function::Create(funcType,
+                llvm::Function::InternalLinkage,
+                functionName, module);
+
+        // Create a new basic block to start insertion into.
+        llvm::BasicBlock *basicBlock = llvm::BasicBlock::Create(context,
+                "entry", function);
+        builder.SetInsertPoint(basicBlock);
+
+        assert(function->getArgumentList().size() == N);
+
+        int i = 0;
+        for (llvm::Function::arg_iterator ai = function->arg_begin();
+                ai != function->arg_end(); ++ai, ++i)
+        {
+            llvm::Value *arg = ai;
+            arg->setName(argNames[i]);
+            args[i] = arg;
+        }
+
+        return basicBlock;
+    }
+
+    /**
+     * the most common type of generated function takes a ModelData*,
+     * and returns void.
+     */
+    llvm::BasicBlock *codeGenVoidModelDataHeader(const char* functionName,
+            llvm::Value* &modelData)
+    {
+        llvm::Type *argTypes[] = {
+            llvm::PointerType::get(
+                LLVMModelDataIRBuilder::getStructType(module), 0)
+        };
+
+        const char *argNames[] = { "modelData" };
+
+        llvm::Value *args[] = { 0 };
+
+        llvm::BasicBlock *basicBlock = codeGenHeader(functionName,
+                llvm::Type::getVoidTy(context),
+                    argTypes, argNames, args);
+
+        modelData = args[0];
+        return basicBlock;
+    }
+
+    llvm::Function *verifyFunction()
+    {
+        poco_information(getLogger(),
+            string("function: ") + to_string(function));
+
+        /// verifyFunction - Check a function for errors, printing messages on stderr.
+        /// Return true if the function is corrupt.
+        if (llvm::verifyFunction(*function, llvm::PrintMessageAction))
+        {
+            poco_error(getLogger(),
+                    "Corrupt Generated Function, "  + to_string(function));
+
+            throw LLVMException("Generated function is corrupt, see stderr",
+                    __FUNC__);
+        }
+
+        return function;
+    }
 
 
     virtual ~LLVMCodeGenBase() {};
+
+
 };
 
 } /* namespace rr */

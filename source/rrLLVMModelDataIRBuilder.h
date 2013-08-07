@@ -34,8 +34,6 @@ public:
     LLVMModelDataIRBuilder(llvm::Value *modelData, LLVMModelDataSymbols const&,
             llvm::IRBuilder<> &);
 
-
-
     llvm::Value *createFloatSpeciesAmtGEP(const std::string &id,
             const llvm::Twine &name = "");
 
@@ -146,21 +144,38 @@ public:
     /**
      * rate rule GEP
      */
-    llvm::Value *createRateRuleGEP(const std::string &id,
+    llvm::Value *createRateRuleValueGEP(const std::string &id,
             const llvm::Twine &name = "");
 
     /**
      * load the rate rule value
      */
-    llvm::Value *createRateRuleLoad(const std::string& id,
+    llvm::Value *createRateRuleValueLoad(const std::string& id,
             const llvm::Twine& name = "");
 
     /**
      * store the rate rule value
      */
-    llvm::Value *createRateRuleStore(const std::string &id,
+    llvm::Value *createRateRuleValueStore(const std::string &id,
             llvm::Value *value);
 
+    /**
+     * rate rule GEP
+     */
+    llvm::Value *createRateRuleRateGEP(const std::string &id,
+            const llvm::Twine &name = "");
+
+    /**
+     * load the rate rule rate
+     */
+    llvm::Value *createRateRuleRateLoad(const std::string& id,
+            const llvm::Twine& name = "");
+
+    /**
+     * store the rate rule rate
+     */
+    llvm::Value *createRateRuleRateStore(const std::string &id,
+            llvm::Value *value);
 
     /**
      * create a call to the csr_matrix_set_nz function.

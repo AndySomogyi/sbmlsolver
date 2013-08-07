@@ -81,7 +81,7 @@ llvm::Value* LLVMModelDataLoadSymbolResolver::loadSymbolValue(
         }
         else if(modelDataSymbols.hasRateRule(symbol))
         {
-            amt = mdbuilder.createRateRuleLoad(symbol, symbol + "_amt");
+            amt = mdbuilder.createRateRuleValueLoad(symbol, symbol + "_amt");
         }
         else
         {
@@ -120,7 +120,7 @@ llvm::Value* LLVMModelDataLoadSymbolResolver::loadSymbolValue(
     else if (modelDataSymbols.hasRateRule(symbol))
     {
         // species conc / amt has already been taken care of at this point
-        return mdbuilder.createRateRuleLoad(symbol);
+        return mdbuilder.createRateRuleValueLoad(symbol);
     }
 
     string msg = "the symbol \'";
@@ -180,7 +180,7 @@ llvm::Value* LLVMModelDataStoreSymbolResolver::storeSymbolValue(
         }
         else if(modelDataSymbols.hasRateRule(symbol))
         {
-            return mdbuilder.createRateRuleStore(symbol, amt);
+            return mdbuilder.createRateRuleValueStore(symbol, amt);
         }
         else
         {
@@ -197,7 +197,7 @@ llvm::Value* LLVMModelDataStoreSymbolResolver::storeSymbolValue(
 
     if (modelDataSymbols.hasRateRule(symbol))
     {
-        return mdbuilder.createRateRuleStore(symbol, value);
+        return mdbuilder.createRateRuleValueStore(symbol, value);
     }
 
     else if (modelDataSymbols.isIndependentCompartment(symbol))

@@ -90,8 +90,6 @@ public:
 
     static int GetLogLevel();
 
-    static int SetLogLevel();
-
     static void StopLogging();
 
     static void enableLoggingToConsole();

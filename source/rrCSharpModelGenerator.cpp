@@ -910,13 +910,13 @@ void CSharpModelGenerator::writeComputeAllRatesOfChange(CodeBuilder& sb, const i
     sb<<append("\t// Uses the equation: dSd/dt = L0 dSi/dt" + NL());
     sb<<append("\tpublic void computeAllRatesOfChange ()" + NL());
     sb<<append("\t{" + NL());
-    sb<<append("\t\tdouble[] dTemp = new double[amounts.Length + rateRules.Length];" + NL());
+    sb<<append("\t\tdouble[] dTemp = new double[amounts.Length + rateRuleRates.Length];" + NL());
     for (int i = 0; i < numAdditionalRates(); i++)
     {
         sb<<format("\t\tdTemp[{0}] = {1};{2}", i, ms.mRateRules.find(i)->second, NL());
     }
-    //sb<<append("\t\trateRules.CopyTo(dTemp, 0);" + NL());
-    sb<<append("\t\tamounts.CopyTo(dTemp, rateRules.Length);" + NL());
+    //sb<<append("\t\rateRuleRates.CopyTo(dTemp, 0);" + NL());
+    sb<<append("\t\tamounts.CopyTo(dTemp, rateRuleRates.Length);" + NL());
     sb<<append("\t\tevalModel (time, dTemp);" + NL());
     bool isThereAnEntry = false;
     for (int i = 0; i < numDependentSpecies; i++)
@@ -1244,9 +1244,9 @@ void CSharpModelGenerator::writeProperties(CodeBuilder& sb)
     sb<<append("\t\tset { _dydt = value; }" + NL());
     sb<<append("\t}" + NL() + NL());
 
-    sb<<append("\tpublic double[] rateRules {" + NL());
-    sb<<append("\t\tget { return _rateRules; }" + NL());
-    sb<<append("\t\tset { _rateRules = value; }" + NL());
+    sb<<append("\tpublic double[] rateRuleRates {" + NL());
+    sb<<append("\t\tget { return rateRuleRates; }" + NL());
+    sb<<append("\t\tset { rateRuleRates = value; }" + NL());
     sb<<append("\t}" + NL() + NL());
 
     sb<<append("\tpublic double[] rates {" + NL());
@@ -1668,7 +1668,7 @@ int CSharpModelGenerator::writeComputeRules(CodeBuilder& sb, const int& numReact
                     }
                     else
                     {
-                        leftSideRule = "\t\t_rateRules[" + toString(numRateRules) + "]";
+                        leftSideRule = "\t\rateRuleRates[" + toString(numRateRules) + "]";
                         //! ms.mRateRules[numRateRules] = findSymbol(varName);
                         mapVariables[numRateRules] = varName;
                         numRateRules++;
@@ -1721,14 +1721,14 @@ int CSharpModelGenerator::writeComputeRules(CodeBuilder& sb, const int& numReact
     }
 
     sb<<append("\t}" + NL() + NL());
-    sb<<append("\tprivate double[] _rateRules = new double[" + toString(numRateRules) +
+    sb<<append("\tprivate double[] rateRuleRates = new double[" + toString(numRateRules) +
               "];           // Vector containing values of additional rate rules      " + NL());
 
     sb<<append("\tpublic void InitializeRates()" + NL() + "\t{" + NL());
 
     for (int i = 0; i < numRateRules; i++)
     {
-        sb<<"\t\t_rateRules[" << i << "] = " << ms.mRateRules.find(i)->second << ";" << NL();
+        sb<<"\t\rateRuleRates[" << i << "] = " << ms.mRateRules.find(i)->second << ";" << NL();
     }
 
     sb<<append("\t}" + NL() + NL());
@@ -1736,7 +1736,7 @@ int CSharpModelGenerator::writeComputeRules(CodeBuilder& sb, const int& numReact
 
     for (int i = 0; i < ms.mRateRules.size(); i++)
     {
-        sb<<(string)ms.mRateRules.find(i)->second << " = _rateRules[" << i << "];" << NL();
+        sb<<(string)ms.mRateRules.find(i)->second << " = rateRuleRates[" << i << "];" << NL();
     }
 
     sb<<append("\t}" + NL() + NL());

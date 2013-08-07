@@ -17,6 +17,7 @@
 
 #include "rrLLVMEvalInitialConditionsCodeGen.h"
 #include "rrLLVMEvalReactionRatesCodeGen.h"
+#include "rrLLVMEvalRateRuleRatesCodeGen.h"
 #include "rrLLVMGetValuesCodeGen.h"
 
 namespace rr
@@ -270,6 +271,29 @@ public:
 
     virtual void print(std::ostream &stream);
 
+    /**
+     * get the event time delays
+     *
+     * @param[in] len the length of the indx and values arrays.
+     * @param[in] indx an array of length len of event indices
+     * @param[out] values an array of at least length len which will store the
+     *                event delays.
+     */
+    virtual int getEventDelays(int len, int const *indx, double *values);
+
+    virtual int getEventPriorities(int len, int const *indx, double *values);
+
+    virtual void eventAssignment(int eventId);
+
+    virtual double* evalEventAssignment(int eventId);
+
+    virtual void applyEventAssignment(int eventId, double *values);
+
+    /**
+     * get the event status, false if the even is not triggered, true if it is.
+     */
+    virtual int getEventStatus(int len, const int *indx, unsigned char *values);
+
 
     virtual const SymbolList &getConservations();
 
@@ -279,6 +303,19 @@ public:
      * using the current model state, evaluate and store all the reaction rates.
      */
     virtual void evalReactionRates();
+
+    virtual int applyPendingEvents(const double *stateVector, double timeEnd,
+            double tout);
+
+    virtual void evalEvents(double timeEnd, const unsigned char* previousEventStatus,
+            const double *initialState, double* finalState);
+
+    virtual void evalEventRoots(double time, const double *stateVector, const double* y,
+            double* gdot);
+
+    virtual double getNextPendingEventTime(bool pop);
+
+    virtual int getPendingEventSize();
 
     static LLVMExecutableModel* dummy();
 
@@ -300,6 +337,7 @@ private:
     LLVMGetFloatingSpeciesConcentrationCodeGen::FunctionPtr getFloatingSpeciesConcentrationPtr;
     LLVMGetCompartmentVolumeCodeGen::FunctionPtr getCompartmentVolumePtr;
     LLVMGetGlobalParameterCodeGen::FunctionPtr getGlobalParameterPtr;
+    LLVMEvalRateRuleRatesCodeGen::FunctionPtr evalRateRuleRatesPtr;
 
     double getFloatingSpeciesConcentration(int index);
 

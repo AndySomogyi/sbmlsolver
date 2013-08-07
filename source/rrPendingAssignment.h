@@ -7,31 +7,57 @@
 namespace rr
 {
 
+/**
+ * Holds a handle to a block of memory allocated by the model, the model
+ * is also responsible for freeing this block.
+ *
+ * Therefore, this class can not be copied, the copy constructors are
+ * actually a move, so that these can be stored in a vector.
+ */
 class RR_DECLSPEC PendingAssignment
 {
-protected:
-    SModelData*                       mModelData;
-    double                            Time;
-    int                               Index;
-    bool                              UseValuesFromTriggerTime;
-    ComputeEventAssignmentHandler     ComputeAssignment;
-    PerformEventAssignmentHandler     PerformAssignment;
-
 public:
-    double*                           ComputedValues;
 
     /**
      *  Initializes a new instance of the PendingAssignment class.
      * @param name="time"
      */
-    PendingAssignment(SModelData* md, double time,
+    PendingAssignment(ModelData* md, double time,
             ComputeEventAssignmentHandler computeAssignment,
             PerformEventAssignmentHandler performAssignment,
-            bool useValuesFromTriggerTime,
-            int index);
-    int                               GetIndex();
-    double                            GetTime();
-    void                              AssignToModel();
+            bool useValuesFromTriggerTime, int index,
+            double *preComputedValues);
+
+    ~PendingAssignment();
+
+    PendingAssignment() ;
+
+    /**
+     * move all the fields to the new PendingAssigment, the current
+     * fields are zeroed out.
+     */
+    PendingAssignment( const PendingAssignment& other );
+
+    /**
+     * same as copy ctor.
+     */
+    PendingAssignment& operator=( const PendingAssignment& );
+
+    void clear();
+
+    int getIndex();
+    double getTime();
+    void eval();
+
+private:
+    double* computedValues;
+    ModelData* modelData;
+    double time;
+    int index;
+    bool useValuesFromTriggerTime;
+    ComputeEventAssignmentHandler computeAssignment;
+    PerformEventAssignmentHandler performAssignment;
+
 };
 
 }

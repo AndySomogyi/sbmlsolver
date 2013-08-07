@@ -23,7 +23,6 @@ class RR_DECLSPEC CvodeInterface
 {
 public:
     double                      mMaxStep;
-    vector<PendingAssignment>   mAssignments;
     int                         mRootCount;
     int                         mCount;
 
@@ -62,7 +61,6 @@ private:
 
     void*                       mCVODE_Memory;
 
-    vector<double>              mAssignmentTimes;
     static const int            mDefaultMaxAdamsOrder;
     static const int            mDefaultMaxBDFOrder;
     double                      mLastTimeValue;
@@ -73,15 +71,14 @@ private:
 
     void                        handleCVODEError(const int& errCode);
     void                        assignPendingEvents(const double& timeEnd, const double& tout);
-    vector<int>                 retestEvents(const double& timeEnd, vector<int>& handledEvents);
-    vector<int>                 retestEvents(const double& timeEnd, const vector<int>& handledEvents, vector<int>& removeEvents);
-    vector<int>                 retestEvents(const double& timeEnd, vector<int>& handledEvents, const bool& assignOldState);
-    vector<int>                 retestEvents(const double& timeEnd, const vector<int>& handledEvents, const bool& assignOldState, vector<int>& removeEvents);
-    void                        handleRootsFound(double &timeEnd, const double& tout);
-    void                        removePendingAssignmentForIndex(const int& eventIndex);
-    void                        sortEventsByPriority(vector<int>& firedEvents);
-    void                        sortEventsByPriority(vector<Event>& firedEvents);
-    void                        handleRootsForTime(const double& timeEnd, vector<int>& rootsFound);
+
+
+    void                        handleRootsFound(double timeEnd);
+
+
+    void                        handleRootsForTime(double timeEnd,
+                                    vector<unsigned char> &previousEventStatus);
+
     int                         rootInit (const int& numRoots);//, TRootCallBack callBack, void *gdata);
     int                         reInit (const double& t0);
     int                         allocateCvodeMem ();
@@ -114,6 +111,8 @@ private:
     Parameter<double> paramInitSteps;
     Parameter<double> paramMinStep;
     Parameter<double> paramMaxStep;
+
+    friend void EventFcn(double time, double* y, double* gdot, void* userData);
 };
 }
 

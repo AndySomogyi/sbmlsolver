@@ -237,7 +237,7 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
 
         for(int i = 0; i < model->getModelData().numRateRules; i++)
         {
-            dTemp[i] = model->getModelData().rateRules[i];
+            dTemp[i] = model->getModelData().rateRuleRates[i];
         }
 
         for(int i = 0; i < model->getModelData().numFloatingSpecies; i++)
@@ -318,12 +318,12 @@ string ErrorForStatus(const int& error)
 double NLEQInterface::computeSumsOfSquares()
 {
     // Compute the sums of squares and return value to caller
-    vector<double> dTemp;// = new double[model->getModelData().amounts.Length + model->getModelData().rateRules.Length];
-    //    dTemp.resize(model->getModelData().amounts.size() + model->getModelData().rateRules.size());
+    vector<double> dTemp;// = new double[model->getModelData().amounts.Length + model->getModelData().rateRuleRates.Length];
+    //    dTemp.resize(model->getModelData().amounts.size() + model->getModelData().rateRuleRates.size());
 
-    //    dTemp = model->getModelData().rateRules;//model->getModelData().rateRules.CopyTo(dTemp, 0);
-    copyCArrayToStdVector(model->getModelData().rateRules,   dTemp, (model->getModelData().numRateRules));//model->mData.rateRules.CopyTo(dTemp, 0);
-    //model->getModelData().amounts.CopyTo(dTemp, model->getModelData().rateRules.Length);
+    //    dTemp = model->getModelData().rateRuleRates;//model->getModelData().rateRuleRates.CopyTo(dTemp, 0);
+    copyCArrayToStdVector(model->getModelData().rateRuleRates,   dTemp, (model->getModelData().numRateRules));//model->mData.rateRules.CopyTo(dTemp, 0);
+    //model->getModelData().amounts.CopyTo(dTemp, model->getModelData().rateRuleRates.Length);
     //    for(int i = 0; i < model->getModelData().amounts.size(); i++)
     for(int i = 0; i < model->getNumIndependentSpecies(); i++)
     {

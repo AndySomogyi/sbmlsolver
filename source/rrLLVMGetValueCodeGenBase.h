@@ -25,28 +25,29 @@
 namespace rr
 {
 
+typedef double (*LLVMGetValueCodeGenBase_FunctionPtr)(ModelData*, int32_t);
+
 template <typename Derived, bool substanceUnits>
-class LLVMGetValueCodeGenBase : public rr::LLVMCodeGenBase
+class LLVMGetValueCodeGenBase :
+        public LLVMCodeGenBase<LLVMGetValueCodeGenBase_FunctionPtr>
 {
 public:
     LLVMGetValueCodeGenBase(const LLVMModelGeneratorContext &mgc);
-    ~LLVMGetValueCodeGenBase();
+    virtual ~LLVMGetValueCodeGenBase();
 
     llvm::Value *codeGen();
 
-    typedef double (*FunctionPtr)(ModelData*, int32_t);
+    typedef LLVMGetValueCodeGenBase_FunctionPtr FunctionPtr;
 
-    FunctionPtr createFunction();
+private:
+    typedef LLVMCodeGenBase<LLVMGetValueCodeGenBase_FunctionPtr> _base;
 
-protected:
-    llvm::Function *functionValue;
 };
 
 template <typename Derived, bool substanceUnits>
 LLVMGetValueCodeGenBase<Derived, substanceUnits>::LLVMGetValueCodeGenBase(
         const LLVMModelGeneratorContext &mgc) :
-        LLVMCodeGenBase(mgc),
-        functionValue(0)
+        _base(mgc)
 {
 }
 
@@ -59,52 +60,40 @@ template <typename Derived, bool substanceUnits>
 llvm::Value* LLVMGetValueCodeGenBase<Derived, substanceUnits>::codeGen()
 {
     // make the set init value function
-    llvm::Type *argTypes[] =
-    {
-        llvm::PointerType::get(LLVMModelDataIRBuilder::getStructType(module), 0),
-        llvm::Type::getInt32Ty(context)
+    llvm::Type *argTypes[] = {
+        llvm::PointerType::get(LLVMModelDataIRBuilder::getStructType(_base::module), 0),
+        llvm::Type::getInt32Ty(_base::context)
     };
 
-    llvm::FunctionType *funcType = llvm::FunctionType::get(llvm::Type::getDoubleTy(context),
-            argTypes, false);
-    functionValue = llvm::Function::Create(funcType, llvm::Function::InternalLinkage,
-            Derived::FunctionName, module);
+    const char *argNames[] = {
+        "modelData", Derived::IndexArgName
+    };
 
-    // Create a new basic block to start insertion into.
-    llvm::BasicBlock *entry = llvm::BasicBlock::Create(context, "entry", functionValue);
+    llvm::Value *args[] = {0, 0};
 
-    std::vector<llvm::Argument*> args;
-    for (llvm::Function::arg_iterator ai = functionValue->arg_begin();
-            ai != functionValue->arg_end(); ++ai)
-    {
-        args.push_back(ai);
-    }
-    assert(args.size() == 2);
-
-    args[0]->setName("modelData");
-    args[1]->setName(Derived::IndexArgName);
+    llvm::BasicBlock *entry = _base::codeGenHeader(Derived::FunctionName, llvm::Type::getDoubleTy(_base::context),
+            argTypes, argNames, args);
 
     vector<string> ids = static_cast<Derived*>(this)->getIds();
 
-    LLVMModelDataLoadSymbolResolver resolver(args[0], model, modelSymbols,
-            dataSymbols, builder);
+    LLVMModelDataLoadSymbolResolver resolver(args[0], _base::model, _base::modelSymbols,
+            _base::dataSymbols, _base::builder);
 
     // default, return NaN
-    llvm::BasicBlock *def = llvm::BasicBlock::Create(context, "default", functionValue);
-    builder.SetInsertPoint(def);
-    //builder.CreateRet(llvm::ConstantFP::get(context, llvm::APFloat::getQNaN(llvm::APFloat::IEEEdouble, false)));
-    builder.CreateRet(llvm::ConstantFP::get(context, llvm::APFloat(123.456)));
+    llvm::BasicBlock *def = llvm::BasicBlock::Create(_base::context, "default", _base::function);
+    _base::builder.SetInsertPoint(def);
+    _base::builder.CreateRet(llvm::ConstantFP::get(_base::context, llvm::APFloat(123.456)));
 
     // write the switch at the func entry point, the switch is also the
     // entry block terminator
-    builder.SetInsertPoint(entry);
+    _base::builder.SetInsertPoint(entry);
 
-    llvm::SwitchInst *s = builder.CreateSwitch(args[1], def, ids.size());
+    llvm::SwitchInst *s = _base::builder.CreateSwitch(args[1], def, ids.size());
 
     for (int i = 0; i < ids.size(); ++i)
     {
-        llvm::BasicBlock *block = llvm::BasicBlock::Create(context, ids[i] + "_block", functionValue);
-        builder.SetInsertPoint(block);
+        llvm::BasicBlock *block = llvm::BasicBlock::Create(_base::context, ids[i] + "_block", _base::function);
+        _base::builder.SetInsertPoint(block);
 
         // the requested value
         llvm::Value *value = resolver.loadSymbolValue(ids[i]);
@@ -112,7 +101,7 @@ llvm::Value* LLVMGetValueCodeGenBase<Derived, substanceUnits>::codeGen()
         // need to check if we have an amount or concentration and check if we
         // are asked for asked for an amount or concentration and convert accordingly
         const libsbml::Species *species = dynamic_cast<const libsbml::Species*>(
-                const_cast<libsbml::Model*>(model)->getElementBySId(ids[i]));
+                const_cast<libsbml::Model*>(_base::model)->getElementBySId(ids[i]));
 
         if(species)
         {
@@ -124,7 +113,7 @@ llvm::Value* LLVMGetValueCodeGenBase<Derived, substanceUnits>::codeGen()
                 {
                     // convert to concentration
                     llvm::Value *comp = resolver.loadSymbolValue(species->getCompartment());
-                    value = builder.CreateFDiv(value, comp, ids[i] + "_conc");
+                    value = _base::builder.CreateFDiv(value, comp, ids[i] + "_conc");
                 }
             }
             else
@@ -135,7 +124,7 @@ llvm::Value* LLVMGetValueCodeGenBase<Derived, substanceUnits>::codeGen()
                 {
                     // convert to amount
                     llvm::Value *comp = resolver.loadSymbolValue(species->getCompartment());
-                    value = builder.CreateFMul(value, comp, ids[i] + "_amt");
+                    value = _base::builder.CreateFMul(value, comp, ids[i] + "_amt");
                 }
             }
         }
@@ -143,33 +132,13 @@ llvm::Value* LLVMGetValueCodeGenBase<Derived, substanceUnits>::codeGen()
         {
             value->setName(ids[i] + "_value");
         }
-        builder.CreateRet(value);
-        s->addCase(llvm::ConstantInt::get(llvm::Type::getInt32Ty(context), i), block);
+        _base::builder.CreateRet(value);
+        s->addCase(llvm::ConstantInt::get(llvm::Type::getInt32Ty(_base::context), i), block);
     }
 
-    poco_information(getLogger(), string(Derived::FunctionName) + string(": ") +
-            to_string(functionValue));
-
-    /// verifyFunction - Check a function for errors, printing messages on stderr.
-    /// Return true if the function is corrupt.
-    if (llvm::verifyFunction(*functionValue, llvm::PrintMessageAction))
-    {
-        poco_error(getLogger(), "Corrupt Generated Function, " +
-                string(Derived::FunctionName) + string(": ") + to_string(functionValue));
-
-        throw LLVMException("Generated function is corrupt, see stderr", __FUNC__);
-    }
-
-    return functionValue;
+    return _base::verifyFunction();
 }
 
-template <typename Derived, bool substanceUnits>
-typename LLVMGetValueCodeGenBase<Derived, substanceUnits>::FunctionPtr
-    LLVMGetValueCodeGenBase<Derived, substanceUnits>::createFunction()
-{
-    llvm::Function *func = (llvm::Function*)codeGen();
-    return (FunctionPtr)engine.getPointerToFunction(func);
-}
 
 } /* namespace rr */
 
