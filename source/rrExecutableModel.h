@@ -2,8 +2,6 @@
 #define rrExecutableModelH
 #include "rrOSSpecifics.h"
 #include "rrModelData.h"
-#include "rrSymbolList.h"
-#include "rrStringList.h"
 
 #include <list>
 #include <string>
@@ -126,6 +124,12 @@ public:
     virtual int getFloatingSpeciesAmounts(int len, int const *indx,
             double *values) = 0;
 
+    virtual int setFloatingSpeciesAmounts(int len, int const *indx,
+            const double *values) = 0;
+
+    virtual int getFloatingSpeciesAmountRates(int len, int const *indx,
+            double *values) = 0;
+
     /**
      * get the floating species concentrations
      *
@@ -160,6 +164,7 @@ public:
     virtual int getBoundarySpeciesAmounts(int len, int const *indx,
             double *values) = 0;
 
+
     /**
      * get the boundary species concentrations
      *
@@ -187,10 +192,7 @@ public:
     virtual int getGlobalParameterIndex(const string& name) = 0;
 
     virtual string getGlobalParameterName(int index) = 0;
-    virtual double getGlobalParameterValue(int index) = 0;
 
-
-    virtual void setGlobalParameterValue(int index, double value) = 0;
 
     /**
      * get the global parameter values
@@ -202,6 +204,9 @@ public:
      */
     virtual int getGlobalParameterValues(int len, int const *indx,
             double *values) = 0;
+
+    virtual int setGlobalParameterValues(int len, int const *indx,
+            const double *values) = 0;
 
     virtual int getNumCompartments() = 0;
     virtual int getCompartmentIndex(const string& name) = 0;
@@ -217,6 +222,14 @@ public:
      */
     virtual int getCompartmentVolumes(int len, int const *indx,
             double *values) = 0;
+
+
+    virtual int getNumConservedSums() = 0;
+    virtual int getConservedSumIndex(const string& name) = 0;
+    virtual string getConservedSumId(int index) = 0;
+    virtual int getConservedSums(int len, int const *indx, double *values) = 0;
+    virtual int setConservedSums(int len, int const *indx,
+            const double *values) = 0;
 
     virtual int getNumRules() = 0;
 
@@ -366,9 +379,6 @@ public:
     virtual double getNextPendingEventTime(bool pop) = 0;
 
     virtual int getPendingEventSize() = 0;
-
-    virtual const SymbolList &getConservations() = 0;
-    virtual const StringList getConservationNames() = 0;
 
     /**
      * need a virtual destructor as object implementing this interface

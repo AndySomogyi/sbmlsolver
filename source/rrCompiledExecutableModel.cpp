@@ -183,6 +183,7 @@ string CompiledExecutableModel::getFloatingSpeciesName(int index)
     return ms.mFloatingSpeciesConcentrationList[index].name;
 }
 
+/*
 double CompiledExecutableModel::getGlobalParameterValue(int index)
 {
     if ((index >= 0) && (index < getNumGlobalParameters() + getModelData().numDependentSpecies))
@@ -221,6 +222,7 @@ void CompiledExecutableModel::setGlobalParameterValue(int index, double value)
         throw CoreException(format("Index in getNumGlobalParameters out of range: [{0}]", index));
     }
 }
+*/
 
 int CompiledExecutableModel::pushState(unsigned options)
 {
@@ -724,21 +726,6 @@ ModelData& CompiledExecutableModel::getModelData()
     return mData;
 }
 
-const SymbolList &CompiledExecutableModel::getConservations()
-{
-    return ms.mConservationList;
-}
-
-const StringList CompiledExecutableModel::getConservationNames()
-{
-    StringList tmp; // = new ArrayList();
-    for (int i = 0; i < ms.mConservationList.Count(); i++)
-    {
-        tmp.add(ms.mConservationList[i].name);
-    }
-    return tmp;
-}
-
 void CompiledExecutableModel::reset()
 {
     setTime(0.0);
@@ -876,6 +863,24 @@ int CompiledExecutableModel::getGlobalParameterValues(int len, const int* indx,
         if (j < mData.numGlobalParameters)
         {
             values[i] = mData.globalParameters[j];
+        }
+        else
+        {
+            throw Exception("index out of range");
+        }
+    }
+    return len;
+}
+
+int CompiledExecutableModel::setGlobalParameterValues(int len, const int* indx,
+        const double* values)
+{
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        if (j < mData.numGlobalParameters)
+        {
+            mData.globalParameters[j] = values[i];
         }
         else
         {
@@ -1310,7 +1315,86 @@ int CompiledExecutableModel::getReactionRates(int len, const int* indx,
     return len;
 }
 
+int CompiledExecutableModel::getNumConservedSums()
+{
+    return ms.mConservationList.size();
+}
 
+int CompiledExecutableModel::getConservedSumIndex(const string& name)
+{
+    int result = -1;
+    return ms.mConservationList.find(name, result) ? result : -1;
+}
+
+string CompiledExecutableModel::getConservedSumId(int index)
+{
+    return ms.mConservationList[index].name;
+}
+
+int CompiledExecutableModel::getConservedSums(int len, const int* indx,
+        double* values)
+{
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        if (j < mData.numDependentSpecies)
+        {
+            values[i] = mData.dependentSpeciesConservedSums[j];
+        }
+        else
+        {
+            throw Exception("index out of range");
+        }
+    }
+    return len;
+}
+
+int CompiledExecutableModel::setConservedSums(int len, const int* indx,
+        const double* values)
+{
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        if (j < mData.numDependentSpecies)
+        {
+            mData.dependentSpeciesConservedSums[j] = values[i];
+        }
+        else
+        {
+            throw Exception("index out of range");
+        }
+    }
+    return len;
+}
+
+int CompiledExecutableModel::getFloatingSpeciesAmountRates(int len,
+        int const *indx, double *values)
+{
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        if (j < mData.numFloatingSpecies)
+        {
+            values[i] = mData.floatingSpeciesAmountRates[j];
+        }
+        else
+        {
+            throw Exception("index out of range");
+        }
+    }
+    return len;
+}
+
+int CompiledExecutableModel::setFloatingSpeciesAmounts(int len, int const *indx,
+        const double *values)
+{
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        mData.floatingSpeciesAmounts[j] = values[i];
+    }
+    return len;
+}
 
 } //Namespace rr
 

@@ -8,8 +8,10 @@
 #include "LLVMCSRMatrixTest.h"
 #include "rrLLVMModelDataIRBuilder.h"
 #include "cpplapack.h"
+#include <iostream>
 
 using namespace llvm;
+using namespace std;
 
 namespace rr
 {

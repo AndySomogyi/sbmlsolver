@@ -107,6 +107,9 @@ public:
     virtual int getFloatingSpeciesAmounts(int len, int const *indx,
             double *values);
 
+    virtual int setFloatingSpeciesAmounts(int len, int const *indx,
+            const double *values);
+
     /**
      * get the floating species concentrations
      *
@@ -128,6 +131,9 @@ public:
      */
     virtual int setFloatingSpeciesConcentrations(int len, int const *indx,
             double const *values);
+
+    virtual int getFloatingSpeciesAmountRates(int len, int const *indx,
+            double *values);
 
 
     /**
@@ -166,8 +172,6 @@ public:
     virtual int getNumGlobalParameters();
     virtual int getGlobalParameterIndex(const std::string& name);
     virtual string getGlobalParameterName(int index);
-    virtual double getGlobalParameterValue(int index);
-    virtual void setGlobalParameterValue(int index, double value);
 
     /**
      * get the global parameter values
@@ -179,6 +183,9 @@ public:
      */
     virtual int getGlobalParameterValues(int len, int const *indx,
             double *values);
+
+    virtual int setGlobalParameterValues(int len, int const *indx,
+            const double *values);
 
     virtual int getNumCompartments();
     virtual int getCompartmentIndex(const string& name);
@@ -312,8 +319,12 @@ public:
 
     virtual int getEventStatus(int len, const int *indx, unsigned char *values);
 
-    virtual const SymbolList& getConservations();
-    virtual const StringList getConservationNames();
+    virtual int getNumConservedSums();
+    virtual int getConservedSumIndex(const string& name);
+    virtual string getConservedSumId(int index);
+    virtual int getConservedSums(int len, int const *indx, double *values);
+    virtual int setConservedSums(int len, int const *indx,
+            const double *values);
 
 private:
     double getFloatingSpeciesConcentration(int index);

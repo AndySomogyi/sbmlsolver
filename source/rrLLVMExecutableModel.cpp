@@ -267,20 +267,6 @@ string LLVMExecutableModel::getInfo()
     return "";
 }
 
-const SymbolList& LLVMExecutableModel::getConservations()
-{
-    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw Exception(string("Not Implemented: ") + __FUNCTION__);
-    return *(SymbolList*)0;
-}
-
-const StringList LLVMExecutableModel::getConservationNames()
-{
-    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw Exception(string("Not Implemented: ") + __FUNCTION__);
-    return 0;
-}
-
 int LLVMExecutableModel::getFloatingSpeciesIndex(const string& allocator)
 {
     Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
@@ -373,19 +359,6 @@ string LLVMExecutableModel::getReactionName(int id)
         throw_llvm_exception("index out of range");
         return "";
     }
-}
-
-double LLVMExecutableModel::getGlobalParameterValue(int index)
-{
-    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw Exception(string("Not Implemented: ") + __FUNCTION__);
-    return 0;
-}
-
-void LLVMExecutableModel::setGlobalParameterValue(int index, double value)
-{
-    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw Exception(string("Not Implemented: ") + __FUNCTION__);
 }
 
 int LLVMExecutableModel::pushState(unsigned)
@@ -547,6 +520,15 @@ int LLVMExecutableModel::getGlobalParameterValues(int len, const int* indx,
     return getValues(&modelData, getGlobalParameterPtr, len, indx, values);
 }
 
+int LLVMExecutableModel::setGlobalParameterValues(int len, const int* indx,
+        const double* values)
+{
+    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
+    throw Exception(string("Not Implemented: ") + __FUNCTION__);
+    return -1;
+}
+
+
 int LLVMExecutableModel::getCompartmentVolumes(int len, const int* indx,
         double* values)
 {
@@ -617,6 +599,46 @@ int LLVMExecutableModel::getReactionRates(int len, const int* indx,
         double* values)
 {
     return 0;
+}
+
+int LLVMExecutableModel::getNumConservedSums()
+{
+    return 0;
+}
+
+int LLVMExecutableModel::getConservedSumIndex(const string& name)
+{
+    return 0;
+}
+
+string LLVMExecutableModel::getConservedSumId(int index)
+{
+    return "";
+}
+
+int LLVMExecutableModel::getConservedSums(int len, const int* indx,
+        double* values)
+{
+    return 0;
+}
+
+int LLVMExecutableModel::setConservedSums(int len, const int* indx,
+        const double* values)
+{
+    return 0;
+}
+
+int LLVMExecutableModel::getFloatingSpeciesAmountRates(int len,
+        int const *indx, double *values)
+{
+    return 0;
+}
+
+
+int LLVMExecutableModel::setFloatingSpeciesAmounts(int len, int const *indx,
+        const double *values)
+{
+    return -1;
 }
 
 

@@ -86,9 +86,6 @@ public:
     virtual int getNumFloatingSpecies();
     virtual int getNumBoundarySpecies();
     virtual int getNumGlobalParameters();
-    virtual double getGlobalParameterValue(int index);
-    virtual void setGlobalParameterValue(int index, double value);
-
 
     virtual int getNumCompartments();
 
@@ -102,6 +99,9 @@ public:
      */
     virtual int getGlobalParameterValues(int len, int const *indx,
             double *values);
+
+    virtual int setGlobalParameterValues(int len, int const *indx,
+            const double *values);
 
     virtual int getNumReactions();
 
@@ -207,6 +207,9 @@ public:
     virtual int getFloatingSpeciesAmounts(int len, int const *indx,
             double *values);
 
+    virtual int getFloatingSpeciesAmountRates(int len, int const *indx,
+            double *values);
+
     /**
      * get the floating species concentrations
      *
@@ -229,6 +232,9 @@ public:
      */
     virtual int setFloatingSpeciesConcentrations(int len, int const *indx,
             double const *values);
+
+    virtual int setFloatingSpeciesAmounts(int len, int const *indx,
+            const double *values);
 
 
     /**
@@ -297,10 +303,12 @@ public:
      */
     virtual int getEventStatus(int len, const int *indx, unsigned char *values);
 
-
-    virtual const SymbolList &getConservations();
-
-    virtual const StringList getConservationNames();
+    virtual int getNumConservedSums();
+    virtual int getConservedSumIndex(const string& name);
+    virtual string getConservedSumId(int index);
+    virtual int getConservedSums(int len, int const *indx, double *values);
+    virtual int setConservedSums(int len, int const *indx,
+            const double *values);
 
     /**
      * using the current model state, evaluate and store all the reaction rates.
