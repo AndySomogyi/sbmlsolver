@@ -32,7 +32,7 @@ static void dump_array(std::ostream &os, int n, const double *p)
 namespace rr
 {
 
-static int getValues(ModelData* modelData, double (*funcPtr)(ModelData*, int),
+static int getValues(LLVMModelData* modelData, double (*funcPtr)(LLVMModelData*, int),
         int len, int const *indx, double *values)
 {
     for (int i = 0; i < len; ++i)
@@ -60,8 +60,8 @@ LLVMExecutableModel::LLVMExecutableModel() :
     evalRateRuleRatesPtr(0)
 {
     // zero out the struct, the generator will fill it out.
-    initModelData(modelData);
-    initModelData(modelDataCopy);
+    LLVMModelData::init(modelData);
+    LLVMModelData::init(modelDataCopy);
 }
 
 LLVMExecutableModel::~LLVMExecutableModel()
@@ -73,7 +73,7 @@ LLVMExecutableModel::~LLVMExecutableModel()
         Log(Logger::PRIO_WARNING) << "Non-empty LLVM ExecutionEngine error string: " << *errStr;
     }
 
-    freeModelDataBuffers(modelData);
+    LLVMModelData::freeBuffers(modelData);
     delete symbols;
     // the exe engine owns all the functions
     delete executionEngine;
@@ -96,10 +96,6 @@ double LLVMExecutableModel::getTime()
     return modelData.time;
 }
 
-ModelData& LLVMExecutableModel::getModelData()
-{
-    return modelData;
-}
 
 int LLVMExecutableModel::getNumIndependentSpecies()
 {
@@ -274,7 +270,7 @@ int LLVMExecutableModel::getFloatingSpeciesIndex(const string& allocator)
     return 0;
 }
 
-string LLVMExecutableModel::getFloatingSpeciesName(int index)
+string LLVMExecutableModel::getFloatingSpeciesId(int index)
 {
     vector<string> ids = symbols->getFloatingSpeciesIds();
     return ids[index];
@@ -285,7 +281,7 @@ int LLVMExecutableModel::getBoundarySpeciesIndex(const string& id)
     return symbols->getBoundarySpeciesIndex(id);
 }
 
-string LLVMExecutableModel::getBoundarySpeciesName(int indx)
+string LLVMExecutableModel::getBoundarySpeciesId(int indx)
 {
     vector<string> ids = symbols->getBoundarySpeciesIds();
     return ids[indx];
@@ -305,7 +301,7 @@ int LLVMExecutableModel::getGlobalParameterIndex(const string& allocator)
     return 0;
 }
 
-string LLVMExecutableModel::getGlobalParameterName(int id)
+string LLVMExecutableModel::getGlobalParameterId(int id)
 {
     vector<string> ids = symbols->getGlobalParameterIds();
     if (id < ids.size())
@@ -326,7 +322,7 @@ int LLVMExecutableModel::getCompartmentIndex(const string& allocator)
     return 0;
 }
 
-string LLVMExecutableModel::getCompartmentName(int id)
+string LLVMExecutableModel::getCompartmentId(int id)
 {
     vector<string> ids = symbols->getCompartmentIds();
     if (id < ids.size())
@@ -347,7 +343,7 @@ int LLVMExecutableModel::getReactionIndex(const string& allocator)
     return 0;
 }
 
-string LLVMExecutableModel::getReactionName(int id)
+string LLVMExecutableModel::getReactionId(int id)
 {
     vector<string> ids = symbols->getReactionIds();
     if (id < ids.size())
@@ -363,13 +359,13 @@ string LLVMExecutableModel::getReactionName(int id)
 
 int LLVMExecutableModel::pushState(unsigned)
 {
-    modeldata_copy_buffers(&modelDataCopy, &modelData);
+    LLVMModelData::copyBuffers(&modelDataCopy, &modelData);
     return 0;
 }
 
 int LLVMExecutableModel::popState(unsigned)
 {
-    modeldata_copy_buffers(&modelData, &modelDataCopy);
+    LLVMModelData::copyBuffers(&modelData, &modelDataCopy);
     return 0;
 }
 
@@ -642,8 +638,29 @@ int LLVMExecutableModel::setFloatingSpeciesAmounts(int len, int const *indx,
 }
 
 
+int LLVMExecutableModel::setCompartmentVolumes(int len, const int* indx,
+        const double* values)
+{
+    return 0;
+}
+
+int LLVMExecutableModel::setFloatingSpeciesInitConcentrations(int len,
+        const int* indx, const double* values)
+{
+    return 0;
+}
+
+int LLVMExecutableModel::getFloatingSpeciesInitConcentrations(int len,
+        const int* indx, double* values)
+{
+    return 0;
+}
+
+double LLVMExecutableModel::getStoichiometry(int index)
+{
+    return 0;
+}
 
 
 } /* namespace rr */
-
 

@@ -42,7 +42,6 @@ public:
     virtual string getModelName();
     virtual void setTime(double _time);
     virtual double getTime();
-    virtual ModelData& getModelData();
 
     virtual bool getConservedSumChanged();
 
@@ -191,9 +190,9 @@ public:
     virtual string getInfo();
 
     virtual int getFloatingSpeciesIndex(const string&);
-    virtual string getFloatingSpeciesName(int);
+    virtual string getFloatingSpeciesId(int);
     virtual int getBoundarySpeciesIndex(const string&);
-    virtual string getBoundarySpeciesName(int);
+    virtual string getBoundarySpeciesId(int);
     virtual int getBoundarySpeciesCompartmentIndex(int);
 
     /**
@@ -272,11 +271,11 @@ public:
 
 
     virtual int getGlobalParameterIndex(const string&);
-    virtual string getGlobalParameterName(int);
+    virtual string getGlobalParameterId(int);
     virtual int getCompartmentIndex(const string&);
-    virtual string getCompartmentName(int);
+    virtual string getCompartmentId(int);
     virtual int getReactionIndex(const string&);
-    virtual string getReactionName(int);
+    virtual string getReactionId(int);
 
     virtual void print(std::ostream &stream);
 
@@ -328,11 +327,19 @@ public:
 
     virtual int getPendingEventSize();
 
+    virtual int setCompartmentVolumes(int len, int const *indx,
+            const double *values);
+    virtual int setFloatingSpeciesInitConcentrations(int len, int const *indx,
+            double const *values);
+    virtual int getFloatingSpeciesInitConcentrations(int len, int const *indx,
+            double *values);
+    virtual double getStoichiometry(int index);
+
     static LLVMExecutableModel* dummy();
 
 private:
-    ModelData modelData;
-    ModelData modelDataCopy;
+    LLVMModelData modelData;
+    LLVMModelData modelDataCopy;
     LLVMModelDataSymbols *symbols;
     llvm::LLVMContext *context;
     llvm::ExecutionEngine *executionEngine;

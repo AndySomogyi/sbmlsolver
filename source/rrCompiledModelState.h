@@ -1,17 +1,17 @@
 #ifndef rrModelStateH
 #define rrModelStateH
-#include <ostream>
-#include <istream>
+
+#include "rrOSSpecifics.h"
 #include <vector>
-#include "rrObject.h"
-#include "rrExecutableModel.h"
+
 
 using std::vector;
-using std::istream;
-using std::ostream;
+
 
 namespace rr
 {
+
+class CompiledExecutableModel;
 
 /**
  * Saves the 'state' of a Model.
@@ -41,11 +41,11 @@ class RR_DECLSPEC CompiledModelState
         vector<bool>                    mEventStatusArray;
         vector<double>                  mEventTests;
 
-        void                            InitializeFromModel(ExecutableModel& model);
+        void                            InitializeFromModel(CompiledExecutableModel& model);
 
     public:
-                                        CompiledModelState(ExecutableModel& model);
-        void                            AssignToModel(ExecutableModel& model);
+                                        CompiledModelState(CompiledExecutableModel& model);
+        void                            AssignToModel(CompiledExecutableModel& model);
 };
 
 }

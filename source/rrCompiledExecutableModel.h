@@ -56,7 +56,6 @@ public:
 
     virtual void setTime(double _time);
     virtual double getTime();
-    virtual ModelData& getModelData();
 
     virtual void evalInitialConditions();
 
@@ -89,11 +88,11 @@ public:
 
     virtual int getNumFloatingSpecies();
     virtual int getFloatingSpeciesIndex(const string& name);
-    virtual string getFloatingSpeciesName(int index);
+    virtual string getFloatingSpeciesId(int index);
 
     virtual int getNumBoundarySpecies();
     virtual int getBoundarySpeciesIndex(const string &name);
-    virtual string getBoundarySpeciesName(int index);
+    virtual string getBoundarySpeciesId(int index);
     virtual int getBoundarySpeciesCompartmentIndex(int index);
 
     /**
@@ -171,7 +170,7 @@ public:
 
     virtual int getNumGlobalParameters();
     virtual int getGlobalParameterIndex(const std::string& name);
-    virtual string getGlobalParameterName(int index);
+    virtual string getGlobalParameterId(int index);
 
     /**
      * get the global parameter values
@@ -189,7 +188,7 @@ public:
 
     virtual int getNumCompartments();
     virtual int getCompartmentIndex(const string& name);
-    virtual string getCompartmentName(int index);
+    virtual string getCompartmentId(int index);
 
     /**
      * get the compartment volumes
@@ -220,7 +219,7 @@ public:
     /**
      * get the name of the specified reaction
      */
-    virtual string getReactionName(int index);
+    virtual string getReactionId(int index);
 
     virtual int getNumEvents();
     virtual void computeEventPriorites();
@@ -326,6 +325,14 @@ public:
     virtual int setConservedSums(int len, int const *indx,
             const double *values);
 
+    virtual int setCompartmentVolumes(int len, int const *indx,
+            const double *values);
+    virtual int setFloatingSpeciesInitConcentrations(int len, int const *indx,
+            double const *values);
+    virtual int getFloatingSpeciesInitConcentrations(int len, int const *indx,
+            double *values);
+    virtual double getStoichiometry(int index);
+
 private:
     double getFloatingSpeciesConcentration(int index);
 
@@ -426,6 +433,8 @@ private:
     void sortEventsByPriority(vector<Event>& firedEvents);
 
     void sortEventsByPriority(vector<int>& firedEvents);
+
+    friend class CompiledModelState;
 };
 }
 #endif

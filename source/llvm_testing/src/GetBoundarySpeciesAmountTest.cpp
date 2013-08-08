@@ -60,7 +60,7 @@ bool rr::GetBoundarySpeciesAmountTest::test()
     for(int i = 0; i < n; ++i)
     {
         Log(Logger::PRIO_INFORMATION) << "boundary species " <<
-                model->getBoundarySpeciesName(i) << ": " << values[i] << endl;
+                model->getBoundarySpeciesId(i) << ": " << values[i] << endl;
     }
 
     return true;

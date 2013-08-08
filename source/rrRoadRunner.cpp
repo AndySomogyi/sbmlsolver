@@ -404,7 +404,7 @@ double RoadRunner::getValueForRecord(const SelectionRecord& record)
         break;
 
     case SelectionRecord::clStoichiometry:
-        dResult = mModel->getModelData().sr[record.index];
+        dResult = mModel->getStoichiometry(record.index);
         break;
 
     default:
@@ -1017,13 +1017,13 @@ vector<string> RoadRunner::getRateOfChangeIds()
 vector<string> RoadRunner::getCompartmentIds()
 {
     return createModelStringList(mModel, &ExecutableModel::getNumCompartments,
-            &ExecutableModel::getCompartmentName);
+            &ExecutableModel::getCompartmentId);
 }
 
 vector<string> RoadRunner::getParameterIds()
 {
     return createModelStringList(mModel, &ExecutableModel::getNumGlobalParameters,
-            &ExecutableModel::getGlobalParameterName);
+            &ExecutableModel::getGlobalParameterId);
 }
 
 // [Help("Get scaled elasticity coefficient with respect to a global parameter or species")]
@@ -2639,7 +2639,7 @@ void RoadRunner::setCompartmentByIndex(const int& index, const double& value)
 
     if ((index >= 0) && (index < mModel->getNumCompartments()))
     {
-        mModel->getModelData().compartmentVolumes[index] = value;
+        mModel->setCompartmentVolumes(1, &index, &value);
     }
     else
     {
@@ -2727,7 +2727,7 @@ vector<double> RoadRunner::getBoundarySpeciesConcentrations()
 vector<string> RoadRunner::getBoundarySpeciesIds()
 {
     return createModelStringList(mModel, &ExecutableModel::getNumBoundarySpecies,
-            &ExecutableModel::getBoundarySpeciesName);
+            &ExecutableModel::getBoundarySpeciesId);
 }
 
 vector<string> RoadRunner::getConservedSumIds()
@@ -2770,7 +2770,9 @@ double RoadRunner::getFloatingSpeciesInitialConcentrationByIndex(const int& inde
 
     if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
     {
-        return mModel->getModelData().floatingSpeciesInitConcentrations[index];
+        double result = 0;
+        mModel->getFloatingSpeciesInitConcentrations(1, &index, &result);
+        return result;
     }
     else
     {
@@ -2788,7 +2790,7 @@ void RoadRunner::setFloatingSpeciesInitialConcentrationByIndex(const int& index,
 
     if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
     {
-        mModel->getModelData().floatingSpeciesInitConcentrations[index] = value;
+        mModel->setFloatingSpeciesInitConcentrations(1, &index, &value);
         reset();
     }
     else
@@ -2859,8 +2861,8 @@ vector<double> RoadRunner::getFloatingSpeciesInitialConcentrations()
     {
         throw CoreException(gEmptyModelMessage);
     }
-    vector<double> initYs;
-    copyCArrayToStdVector(mModel->getModelData().floatingSpeciesInitConcentrations, initYs, mModel->getModelData().numFloatingSpecies);
+    vector<double> initYs(mModel->getNumFloatingSpecies());
+    mModel->getFloatingSpeciesInitConcentrations(initYs.size(), 0, &initYs[0]);
     return initYs;
 }
 
@@ -2873,13 +2875,7 @@ void RoadRunner::setFloatingSpeciesInitialConcentrations(const vector<double>& v
     }
 
     mModel->setFloatingSpeciesConcentrations(values.size(), 0, &values[0]);
-    for (int i = 0; i < values.size(); i++)
-    {
-        if (mModel->getModelData().numFloatingSpecies > i)
-        {
-            mModel->getModelData().floatingSpeciesInitConcentrations[i] = values[i];
-        }
-    }
+    mModel->setFloatingSpeciesInitConcentrations(values.size(), 0, &values[0]);
 
     reset();
 }
@@ -2927,7 +2923,7 @@ void RoadRunner::setBoundarySpeciesConcentrations(const vector<double>& values)
 vector<string> RoadRunner::getFloatingSpeciesIds()
 {
     return createModelStringList(mModel, &ExecutableModel::getNumFloatingSpecies,
-            &ExecutableModel::getFloatingSpeciesName);
+            &ExecutableModel::getFloatingSpeciesId);
 }
 
 // Help("Returns a list of floating species initial condition names")
@@ -3045,7 +3041,7 @@ vector<double> RoadRunner::getGlobalParameterValues()
 vector<string> RoadRunner::getGlobalParameterIds()
 {
     return createModelStringList(mModel, &ExecutableModel::getNumGlobalParameters,
-            &ExecutableModel::getGlobalParameterName);
+            &ExecutableModel::getGlobalParameterId);
 }
 
 // Help("Returns a description of the module")
@@ -3345,7 +3341,7 @@ DoubleMatrix RoadRunner::getScaledReorderedElasticityMatrix()
                 string name;
                 if(mModelGenerator && mModel->getNumReactions())
                 {
-                    name = mModel->getReactionName(i);
+                    name = mModel->getReactionId(i);
                 }
                 else
                 {
@@ -3656,14 +3652,7 @@ void RoadRunner::changeInitialConditions(const vector<double>& ic)
     }
 
     mModel->setFloatingSpeciesConcentrations(ic.size(), 0, &ic[0]);
-
-    for (int i = 0; i < ic.size(); i++)
-    {
-        if ((mModel->getModelData().numFloatingSpecies) > i)
-        {
-            mModel->getModelData().floatingSpeciesInitConcentrations[i] = ic[i];
-        }
-    }
+    mModel->setFloatingSpeciesInitConcentrations(ic.size(), 0, &ic[0]);
     mModel->convertToAmounts();
     mModel->computeConservedTotals();
 }
@@ -3701,7 +3690,7 @@ vector<double> RoadRunner::getRatesOfChange()
 vector<string> RoadRunner::getReactionIds()
 {
     return createModelStringList(mModel, &ExecutableModel::getNumReactions,
-            &ExecutableModel::getReactionName);
+            &ExecutableModel::getReactionId);
 }
 
 // ---------------------------------------------------------------------
@@ -3826,7 +3815,7 @@ bool RoadRunner::setValue(const string& sId, const double& dValue)
 
     if ((nIndex = mModel->getCompartmentIndex(sId)) >= 0)
     {
-        mModel->getModelData().compartmentVolumes[nIndex] = dValue;
+        mModel->setCompartmentVolumes(1, &nIndex, &dValue);
         return true;
     }
 
@@ -3855,7 +3844,7 @@ bool RoadRunner::setValue(const string& sId, const double& dValue)
     if (initialConditions.Contains(sId))
     {
         int index = initialConditions.indexOf(sId);
-        mModel->getModelData().floatingSpeciesInitConcentrations[index] = dValue;
+        mModel->setFloatingSpeciesInitConcentrations(1, &index, &dValue);
         reset();
         return true;
     }
@@ -3925,7 +3914,9 @@ double RoadRunner::getValue(const string& sId)
     if (initialConditions.Contains(sId))
     {
         int index = initialConditions.indexOf(sId);
-        return mModel->getModelData().floatingSpeciesInitConcentrations[index];
+        double result = 0;
+        mModel->getFloatingSpeciesInitConcentrations(1, &index, &result);
+        return result;
     }
 
     string tmp("EE:");

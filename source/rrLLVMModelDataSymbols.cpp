@@ -558,10 +558,10 @@ uint LLVMModelDataSymbols::getGlobalParameterIndex(
     }
 }
 
-void LLVMModelDataSymbols::initAllocModelDataBuffers(ModelData& m) const
+void LLVMModelDataSymbols::initAllocModelDataBuffers(LLVMModelData& m) const
 {
     // zero out the structure
-    initModelData(m);
+    LLVMModelData::init(m);
 
     // set the buffer sizes
 
@@ -791,7 +791,7 @@ bool LLVMModelDataSymbols::isIndependentCompartment(const std::string& id) const
 
 const char* LLVMModelDataSymbols::getFieldName(ModelDataFields field)
 {
-    if (field >= Size && field <= Sr)
+    if (field >= Size && field <= ModelName)
     {
         return modelDataFieldsNames[field];
     }

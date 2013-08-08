@@ -25,7 +25,7 @@
 namespace rr
 {
 
-typedef double (*LLVMGetValueCodeGenBase_FunctionPtr)(ModelData*, int32_t);
+typedef double (*LLVMGetValueCodeGenBase_FunctionPtr)(LLVMModelData*, int32_t);
 
 template <typename Derived, bool substanceUnits>
 class LLVMGetValueCodeGenBase :

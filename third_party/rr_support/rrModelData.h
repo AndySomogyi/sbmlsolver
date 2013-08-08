@@ -16,59 +16,6 @@ typedef double*  (*ComputeEventAssignmentHandler)(ModelDataP);
 typedef void     (*PerformEventAssignmentHandler)(ModelDataP, double*);
 typedef void     (*EventAssignmentHandler)();
 
-
-/**
- * sparse storage compressed row format matrix.
- *
- * This should eventually get replaced when we use a numeric library
- * which support sparse storage.
- *
- * structure layout based on  Mark Hoemmen's BeBop sparse conversion lib.
- */
-typedef struct csr_matrix_t
-{
-    /**
-     * number of rows
-     */
-    unsigned m;
-
-    /**
-     * number of columns
-     */
-    unsigned n;
-
-    /**
-     * number of stored (nonzero) entries.
-     */
-    unsigned nnz;
-
-    /**
-     * array of stored (nonzero) entries of the matrix
-     * length: nnz
-     *
-     */
-    double* values;
-
-    /**
-     * array of column indices of the stored (nonzero) entries of the matrix,
-     * length: nnz
-     */
-    unsigned* colidx;
-
-    /**
-     * array of indices into the colidx and values arrays, for each column,
-     * length: m + 1
-     *
-     * This CSR matrix has the property that even rows with zero non-zero
-     * values have an entry in this array, if the i'th row has zero no values,
-     * then rowptr[j] == rowptr[j+1]. This property makes it easy to set
-     * values.
-     */
-    unsigned* rowptr;
-
-} csr_matrix;
-
-
 /**
  * A data structure that is that allows data to be exchanged
  * with running SBML models. In the case of CExecutableModels, A pointer to
@@ -94,14 +41,6 @@ typedef struct csr_matrix_t
  */
 typedef struct SModelData
 {
-    /**
-     * sizeof this struct, make sure we use the correct
-     * size in LLVM land.
-     */
-    unsigned                            size;                             // 0
-
-    unsigned                            flags;                            // 1
-
     /**
      * current time.
      */
@@ -250,11 +189,6 @@ typedef struct SModelData
     unsigned                            numCompartments;                  // 26
     double*                             compartmentVolumes;               // 27
 
-    /**
-     * stoichiometry matrix
-     */
-    csr_matrix*                         stoichiometry;                    // 28
-
 
     //Event stuff
     unsigned                            numEvents;                        // 29
@@ -276,32 +210,6 @@ typedef struct SModelData
     unsigned                            previousEventStatusArraySize;     // 40
     bool*                               previousEventStatusArray;         // 41
 
-    /**
-     * number of items in the state vector.
-     */
-    unsigned                            stateVectorSize;                  // 42
-
-    /**
-     * the state vector, this is usually a pointer to a block of data
-     * owned by the integrator.
-     */
-    double*                             stateVector;                      // 43
-
-    /**
-     * the rate of change of the state vector, this is usually a pointer to
-     * a block of data owned by the integrator.
-     */
-    double*                             stateVectorRate;                  // 44
-
-    /**
-     * Work area for model implementations. The data stored here is entirely
-     * model implementation specific and should not be accessed
-     * anywhere else.
-     *
-     * allocated by allocModelDataBuffers based on the value of workSize;
-     */
-    unsigned                            workSize;                         // 45
-    double*                             work;                             // 46
 
     EventDelayHandler*                  eventDelays;                      // 47
     EventAssignmentHandler*             eventAssignments;                 // 48

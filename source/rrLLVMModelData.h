@@ -1,20 +1,26 @@
-#ifndef rrModelDataH
-#define rrModelDataH
-
-/**
- * This file is included by the generated C sbml model code, so
- * BE AWARE OF THIS AND BE VERY CAREFULL MODIFYING IT!
+/*
+ * rrLLVMModelData.h
+ *
+ *  Created on: Aug 8, 2013
+ *      Author: andy
  */
 
-#if defined __cplusplus
-namespace rr
-{
-#endif
-typedef struct   SModelData *ModelDataP;
-typedef double   (*EventDelayHandler)(ModelDataP);
-typedef double*  (*ComputeEventAssignmentHandler)(ModelDataP);
-typedef void     (*PerformEventAssignmentHandler)(ModelDataP, double*);
-typedef void     (*EventAssignmentHandler)();
+#ifndef RRLLVMMODELDATA_H_
+#define RRLLVMMODELDATA_H_
+
+#include "rrSparse.h"
+#include <string>
+#include <ostream>
+
+namespace rr {
+
+struct LLVMModelData;
+
+typedef double   (*LLVMEventDelayHandler)(LLVMModelData*);
+typedef double*  (*LLVMComputeEventAssignmentHandler)(LLVMModelData*);
+typedef void     (*LLVMPerformEventAssignmentHandler)(LLVMModelData*, double*);
+typedef void     (*LLVMEventAssignmentHandler)();
+
 
 /**
  * A data structure that is that allows data to be exchanged
@@ -39,8 +45,16 @@ typedef void     (*EventAssignmentHandler)();
  *
  * @see ExecutableModel.h
  */
-typedef struct SModelData
+struct LLVMModelData
 {
+    /**
+     * sizeof this struct, make sure we use the correct
+     * size in LLVM land.
+     */
+    unsigned                            size;                             // 0
+
+    unsigned                            flags;                            // 1
+
     /**
      * current time.
      */
@@ -189,6 +203,11 @@ typedef struct SModelData
     unsigned                            numCompartments;                  // 26
     double*                             compartmentVolumes;               // 27
 
+    /**
+     * stoichiometry matrix
+     */
+    csr_matrix*                         stoichiometry;                    // 28
+
 
     //Event stuff
     unsigned                            numEvents;                        // 29
@@ -210,31 +229,59 @@ typedef struct SModelData
     unsigned                            previousEventStatusArraySize;     // 40
     bool*                               previousEventStatusArray;         // 41
 
+    /**
+     * number of items in the state vector.
+     */
+    unsigned                            stateVectorSize;                  // 42
 
-    EventDelayHandler*                  eventDelays;                      // 47
-    EventAssignmentHandler*             eventAssignments;                 // 48
+    /**
+     * the state vector, this is usually a pointer to a block of data
+     * owned by the integrator.
+     */
+    double*                             stateVector;                      // 43
 
-    ComputeEventAssignmentHandler*      computeEventAssignments;          // 49
-    PerformEventAssignmentHandler*      performEventAssignments;          // 50
+    /**
+     * the rate of change of the state vector, this is usually a pointer to
+     * a block of data owned by the integrator.
+     */
+    double*                             stateVectorRate;                  // 44
+
+    /**
+     * Work area for model implementations. The data stored here is entirely
+     * model implementation specific and should not be accessed
+     * anywhere else.
+     *
+     * allocated by allocModelDataBuffers based on the value of workSize;
+     */
+    unsigned                            workSize;                         // 45
+    double*                             work;                             // 46
+
+    LLVMEventDelayHandler*                  eventDelays;                      // 47
+    LLVMEventAssignmentHandler*             eventAssignments;                 // 48
+
+    LLVMComputeEventAssignmentHandler*      computeEventAssignments;          // 49
+    LLVMPerformEventAssignmentHandler*      performEventAssignments;          // 50
 
     /**
      * model name
      */
     char*                               modelName;                        // 51
 
-    /**
-     * C species references,
-     * not working correctly...
-     */
-    unsigned                            srSize;                           // 52
-    double*                             sr;                               // 53
-} ModelData;
-//#pragma pack(pop)
+    static void init(LLVMModelData&);
 
-#if defined __cplusplus
+    static void clone(LLVMModelData *dst, LLVMModelData *src);
+
+    static void allocBuffers(LLVMModelData &data, const std::string& modelName);
+
+    static void copyBuffers(LLVMModelData *dst, LLVMModelData *src);
+
+    static void freeBuffers(LLVMModelData&);
+};
+
+std::ostream& operator <<(std::ostream& os, const LLVMModelData& data);
+
 }
-#endif
 
 
 
-#endif
+#endif /* RRLLVMMODELDATA_H_ */

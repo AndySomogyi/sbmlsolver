@@ -11,7 +11,7 @@
 #ifndef LLVMModelDataSymbolsH
 #define LLVMModelDataSymbolsH
 
-#include "rrModelData.h"
+#include "rrLLVMModelData.h"
 #include "rrExecutableModel.h"
 
 #include <map>
@@ -75,8 +75,6 @@ enum ModelDataFields {
     ComputeEventAssignments,                  // 48
     PerformEventAssignments,                  // 50
     ModelName,                                // 51
-    SrSize,                                   // 52
-    Sr                                        // 53
 };
 
 /**
@@ -194,7 +192,7 @@ public:
      * initialize and allocate the buffers (including the stoich matrix)
      * for an existing ModelData struct.
      */
-    void initAllocModelDataBuffers(ModelData& m) const;
+    void initAllocModelDataBuffers(LLVMModelData& m) const;
 
     void print() const;
 

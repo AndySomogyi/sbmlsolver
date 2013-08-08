@@ -64,10 +64,6 @@ public:
      */
     virtual void reset() = 0;
 
-    /**
-     * get a reference to the internal ModelData structure.
-     */
-    virtual ModelData& getModelData() = 0;
 
     enum StateStackOptions
     {
@@ -105,12 +101,12 @@ public:
     virtual int getNumDependentSpecies() = 0;
 
     virtual int getNumFloatingSpecies() = 0;
-    virtual int getFloatingSpeciesIndex(const string& name) = 0;
-    virtual string getFloatingSpeciesName(int index) = 0;
+    virtual int getFloatingSpeciesIndex(const string& eid) = 0;
+    virtual string getFloatingSpeciesId(int index) = 0;
 
     virtual int getNumBoundarySpecies() = 0;
-    virtual int getBoundarySpeciesIndex(const string &name) = 0;
-    virtual string getBoundarySpeciesName(int index) = 0;
+    virtual int getBoundarySpeciesIndex(const string &eid) = 0;
+    virtual string getBoundarySpeciesId(int index) = 0;
     virtual int getBoundarySpeciesCompartmentIndex(int index) = 0;
 
     /**
@@ -152,6 +148,22 @@ public:
     virtual int setFloatingSpeciesConcentrations(int len, int const *indx,
             double const *values) = 0;
 
+    /**
+     * a pointless method that will go away
+     */
+    virtual int setFloatingSpeciesInitConcentrations(int len, int const *indx,
+                double const *values) = 0;
+
+    /**
+     * pointless
+     */
+    virtual int getFloatingSpeciesInitConcentrations(int len, int const *indx,
+                    double *values) = 0;
+
+
+
+
+
 
     /**
      * get the boundary species amounts
@@ -189,9 +201,9 @@ public:
 
 
     virtual int getNumGlobalParameters() = 0;
-    virtual int getGlobalParameterIndex(const string& name) = 0;
+    virtual int getGlobalParameterIndex(const string& eid) = 0;
 
-    virtual string getGlobalParameterName(int index) = 0;
+    virtual string getGlobalParameterId(int index) = 0;
 
 
     /**
@@ -209,8 +221,8 @@ public:
             const double *values) = 0;
 
     virtual int getNumCompartments() = 0;
-    virtual int getCompartmentIndex(const string& name) = 0;
-    virtual string getCompartmentName(int index) = 0;
+    virtual int getCompartmentIndex(const string& eid) = 0;
+    virtual string getCompartmentId(int index) = 0;
 
     /**
      * get the compartment volumes
@@ -223,9 +235,17 @@ public:
     virtual int getCompartmentVolumes(int len, int const *indx,
             double *values) = 0;
 
+    virtual int setCompartmentVolumes(int len, int const *indx,
+                const double *values) = 0;
+
+    /**
+     * no clue how this is supposed to work, here for compatibility
+     */
+    virtual double getStoichiometry(int index) = 0;
+
 
     virtual int getNumConservedSums() = 0;
-    virtual int getConservedSumIndex(const string& name) = 0;
+    virtual int getConservedSumIndex(const string& eid) = 0;
     virtual string getConservedSumId(int index) = 0;
     virtual int getConservedSums(int len, int const *indx, double *values) = 0;
     virtual int setConservedSums(int len, int const *indx,
@@ -242,12 +262,12 @@ public:
      * get the index of a named reaction
      * @returns >= 0 on success, < 0 on failure.
      */
-    virtual int getReactionIndex(const std::string& reactionName) = 0;
+    virtual int getReactionIndex(const std::string& eid) = 0;
 
     /**
      * get the name of the specified reaction
      */
-    virtual std::string getReactionName(int index) = 0;
+    virtual std::string getReactionId(int index) = 0;
 
     virtual int getReactionRates(int len, int const *indx,
                 double *values) = 0;
@@ -432,11 +452,6 @@ void RR_DECLSPEC allocModelDataBuffers(ModelData &data, const string& modelName)
  * Does NOT free the ModelData itself, ONLY the buffer data.
  */
 void RR_DECLSPEC freeModelDataBuffers(ModelData &data);
-
-void RR_DECLSPEC modeldata_clone(ModelData *dst, ModelData *src);
-
-void RR_DECLSPEC modeldata_copy_buffers(ModelData *dst, ModelData *src);
-
 
 
 }

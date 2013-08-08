@@ -126,7 +126,7 @@ int CompiledExecutableModel::getReactionIndex(const std::string& reactionName)
     return ms.mReactionList.find(reactionName, result) ? result : -1;
 }
 
-std::string CompiledExecutableModel::getReactionName(int index)
+std::string CompiledExecutableModel::getReactionId(int index)
 {
     return ms.mReactionList[index].name;
 }
@@ -137,7 +137,7 @@ int CompiledExecutableModel::getGlobalParameterIndex(const std::string& name)
     return ms.mGlobalParameterList.find(name, result) ? result : -1;
 }
 
-string CompiledExecutableModel::getGlobalParameterName(int index)
+string CompiledExecutableModel::getGlobalParameterId(int index)
 {
     return ms.mGlobalParameterList[index].name;
 }
@@ -148,7 +148,7 @@ int CompiledExecutableModel::getBoundarySpeciesIndex(const string& name)
     return ms.mBoundarySpeciesList.find(name, result) ? result : -1;
 }
 
-string CompiledExecutableModel::getBoundarySpeciesName(int index)
+string CompiledExecutableModel::getBoundarySpeciesId(int index)
 {
     return ms.mBoundarySpeciesList[index].name;
 }
@@ -167,7 +167,7 @@ int CompiledExecutableModel::getCompartmentIndex(const string& name)
     return ms.mCompartmentList.find(name, result) ? result : -1;
 }
 
-string CompiledExecutableModel::getCompartmentName(int index)
+string CompiledExecutableModel::getCompartmentId(int index)
 {
     return ms.mCompartmentList[index].name;
 }
@@ -178,51 +178,10 @@ int CompiledExecutableModel::getFloatingSpeciesIndex(const string& name)
     return ms.mFloatingSpeciesConcentrationList.find(name, result) ? result : -1;
 }
 
-string CompiledExecutableModel::getFloatingSpeciesName(int index)
+string CompiledExecutableModel::getFloatingSpeciesId(int index)
 {
     return ms.mFloatingSpeciesConcentrationList[index].name;
 }
-
-/*
-double CompiledExecutableModel::getGlobalParameterValue(int index)
-{
-    if ((index >= 0) && (index < getNumGlobalParameters() + getModelData().numDependentSpecies))
-    {
-        if (index >= getNumGlobalParameters())
-        {
-            return getModelData().dependentSpeciesConservedSums[index - getNumGlobalParameters()];
-        }
-        else
-        {
-            return getModelData().globalParameters[index];
-        }
-    }
-    else
-    {
-        throw CoreException(format("Index in getNumGlobalParameters out of range: [{0}]", index));
-    }
-}
-
-void CompiledExecutableModel::setGlobalParameterValue(int index, double value)
-{
-    if ((index >= 0) && (index < getNumGlobalParameters() + getModelData().numDependentSpecies))
-    {
-        if (index >= getNumGlobalParameters())
-        {
-            getModelData().dependentSpeciesConservedSums[index - getNumGlobalParameters()] = value;
-            updateDependentSpeciesValues();
-        }
-        else
-        {
-            getModelData().globalParameters[index] = value;
-        }
-    }
-    else
-    {
-        throw CoreException(format("Index in getNumGlobalParameters out of range: [{0}]", index));
-    }
-}
-*/
 
 int CompiledExecutableModel::pushState(unsigned options)
 {
@@ -283,7 +242,7 @@ int CompiledExecutableModel::getStateVector(double* stateVector)
         return mData.numRateRules + mData.numIndependentSpecies;
     }
 
-    vector<double> dTemp(getModelData().numRateRules, 0);
+    vector<double> dTemp(mData.numRateRules, 0);
     getRateRuleValues(&dTemp[0]);
 
     for (int i = 0; i < mData.numRateRules; i++)
@@ -721,10 +680,6 @@ string CompiledExecutableModel::getInfo()
     return info.str();
 }
 
-ModelData& CompiledExecutableModel::getModelData()
-{
-    return mData;
-}
 
 void CompiledExecutableModel::reset()
 {
@@ -1394,6 +1349,45 @@ int CompiledExecutableModel::setFloatingSpeciesAmounts(int len, int const *indx,
         mData.floatingSpeciesAmounts[j] = values[i];
     }
     return len;
+}
+
+
+int CompiledExecutableModel::setCompartmentVolumes(int len, const int* indx,
+        const double* values)
+{
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        mData.compartmentVolumes[j] = values[i];
+    }
+    return len;
+}
+
+int CompiledExecutableModel::setFloatingSpeciesInitConcentrations(int len,
+        const int* indx, const double* values)
+{
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        mData.floatingSpeciesInitConcentrations[j] = values[i];
+    }
+    return len;
+}
+
+int CompiledExecutableModel::getFloatingSpeciesInitConcentrations(int len,
+        const int* indx, double* values)
+{
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        values[i] = mData.floatingSpeciesInitConcentrations[j];
+    }
+    return len;
+}
+
+double CompiledExecutableModel::getStoichiometry(int index)
+{
+    return mData.sr[index];
 }
 
 } //Namespace rr

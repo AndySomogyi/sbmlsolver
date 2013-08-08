@@ -225,7 +225,7 @@ public:
     static llvm::StructType *getStructType(llvm::Module *module,
             llvm::ExecutionEngine *engine = 0);
 
-    static const char* ModelDataName;
+    static const char* LLVMModelDataName;
     static const char* csr_matrixName;
     static const char* csr_matrix_set_nzName;
     static const char* csr_matrix_get_nzName;
