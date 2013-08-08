@@ -319,6 +319,7 @@ class RR_DECLSPEC RoadRunner
         vector<double>                  getReactionRatesEx(const vector<double>& values);
         vector<string>                  getFloatingSpeciesIdsArray();
         vector<string>                  getGlobalParameterIdsArray();
+        vector<string>                  getConservedSumIds();
         int                             getNumberOfCompartments();
 
         /**

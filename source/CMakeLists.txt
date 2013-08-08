@@ -104,6 +104,7 @@ if(BUILD_LLVM)
         rrLLVMGetRateRuleValuesCodeGen
         rrLLVMGetValuesCodeGen
         rrLLVMInitialValueSymbolResolver
+        rrLLVMModelData
         rrLLVMModelDataIRBuilder
         rrLLVMModelDataSymbolResolver
         rrLLVMModelDataSymbols

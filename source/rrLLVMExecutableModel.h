@@ -42,7 +42,6 @@ public:
     virtual string getModelName();
     virtual void setTime(double _time);
     virtual double getTime();
-    virtual ModelData& getModelData();
 
     virtual bool getConservedSumChanged();
 
@@ -86,9 +85,6 @@ public:
     virtual int getNumFloatingSpecies();
     virtual int getNumBoundarySpecies();
     virtual int getNumGlobalParameters();
-    virtual double getGlobalParameterValue(int index);
-    virtual void setGlobalParameterValue(int index, double value);
-
 
     virtual int getNumCompartments();
 
@@ -103,7 +99,13 @@ public:
     virtual int getGlobalParameterValues(int len, int const *indx,
             double *values);
 
+    virtual int setGlobalParameterValues(int len, int const *indx,
+            const double *values);
+
     virtual int getNumReactions();
+
+    virtual int getReactionRates(int len, int const *indx,
+                    double *values);
 
     /**
      * get the compartment volumes
@@ -188,9 +190,9 @@ public:
     virtual string getInfo();
 
     virtual int getFloatingSpeciesIndex(const string&);
-    virtual string getFloatingSpeciesName(int);
+    virtual string getFloatingSpeciesId(int);
     virtual int getBoundarySpeciesIndex(const string&);
-    virtual string getBoundarySpeciesName(int);
+    virtual string getBoundarySpeciesId(int);
     virtual int getBoundarySpeciesCompartmentIndex(int);
 
     /**
@@ -202,6 +204,9 @@ public:
      *                returned boundary species amounts.
      */
     virtual int getFloatingSpeciesAmounts(int len, int const *indx,
+            double *values);
+
+    virtual int getFloatingSpeciesAmountRates(int len, int const *indx,
             double *values);
 
     /**
@@ -226,6 +231,9 @@ public:
      */
     virtual int setFloatingSpeciesConcentrations(int len, int const *indx,
             double const *values);
+
+    virtual int setFloatingSpeciesAmounts(int len, int const *indx,
+            const double *values);
 
 
     /**
@@ -263,11 +271,11 @@ public:
 
 
     virtual int getGlobalParameterIndex(const string&);
-    virtual string getGlobalParameterName(int);
+    virtual string getGlobalParameterId(int);
     virtual int getCompartmentIndex(const string&);
-    virtual string getCompartmentName(int);
+    virtual string getCompartmentId(int);
     virtual int getReactionIndex(const string&);
-    virtual string getReactionName(int);
+    virtual string getReactionId(int);
 
     virtual void print(std::ostream &stream);
 
@@ -294,10 +302,12 @@ public:
      */
     virtual int getEventStatus(int len, const int *indx, unsigned char *values);
 
-
-    virtual const SymbolList &getConservations();
-
-    virtual const StringList getConservationNames();
+    virtual int getNumConservedSums();
+    virtual int getConservedSumIndex(const string& name);
+    virtual string getConservedSumId(int index);
+    virtual int getConservedSums(int len, int const *indx, double *values);
+    virtual int setConservedSums(int len, int const *indx,
+            const double *values);
 
     /**
      * using the current model state, evaluate and store all the reaction rates.
@@ -317,11 +327,19 @@ public:
 
     virtual int getPendingEventSize();
 
+    virtual int setCompartmentVolumes(int len, int const *indx,
+            const double *values);
+    virtual int setFloatingSpeciesInitConcentrations(int len, int const *indx,
+            double const *values);
+    virtual int getFloatingSpeciesInitConcentrations(int len, int const *indx,
+            double *values);
+    virtual double getStoichiometry(int index);
+
     static LLVMExecutableModel* dummy();
 
 private:
-    ModelData modelData;
-    ModelData modelDataCopy;
+    LLVMModelData modelData;
+    LLVMModelData modelDataCopy;
     LLVMModelDataSymbols *symbols;
     llvm::LLVMContext *context;
     llvm::ExecutionEngine *executionEngine;

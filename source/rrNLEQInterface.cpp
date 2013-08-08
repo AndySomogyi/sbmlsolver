@@ -176,10 +176,13 @@ double NLEQInterface::solve(const vector<double>& yin)
 
     *threadModel = model;
 
+    vector<double> amounts(n);
+    model->getFloatingSpeciesAmounts(amounts.size(), 0, &amounts[0]);
+
     NLEQ1(     &n,
             &ModelFunction,
             NULL,
-               model->getModelData().floatingSpeciesAmounts,
+            &amounts[0],
             XScal,
             &tmpTol,
                iopt,
@@ -225,32 +228,13 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
 
     try
     {
-        long n = model->getNumIndependentSpecies();
-        for(long i = 0; i < n; i++)
-        {
-            model->getModelData().floatingSpeciesAmounts[i] = y[i];
-        }
+        int n = model->getNumIndependentSpecies();
+        model->setFloatingSpeciesAmounts(n, 0, y);
 
-        int size = model->getModelData().numFloatingSpecies + model->getModelData().numRateRules;
-        vector<double> dTemp;
-        dTemp.resize(size);
+        // eval the model in its current state
+        model->evalModel(0.0, 0, 0);
 
-        for(int i = 0; i < model->getModelData().numRateRules; i++)
-        {
-            dTemp[i] = model->getModelData().rateRuleRates[i];
-        }
-
-        for(int i = 0; i < model->getModelData().numFloatingSpecies; i++)
-        {
-            dTemp[model->getModelData().numRateRules + i] = model->getModelData().floatingSpeciesAmounts[i];
-        }
-
-        model->evalModel(0.0, &dTemp[0]);
-
-        for(int i = 0; i < n; i++)
-        {
-            fval[i] = model->getModelData().floatingSpeciesAmountRates[i];
-        }
+        model->getFloatingSpeciesAmountRates(n, 0, fval);
 
         pErr = 0;
     }
@@ -318,23 +302,14 @@ string ErrorForStatus(const int& error)
 double NLEQInterface::computeSumsOfSquares()
 {
     // Compute the sums of squares and return value to caller
-    vector<double> dTemp;// = new double[model->getModelData().amounts.Length + model->getModelData().rateRuleRates.Length];
-    //    dTemp.resize(model->getModelData().amounts.size() + model->getModelData().rateRuleRates.size());
-
-    //    dTemp = model->getModelData().rateRuleRates;//model->getModelData().rateRuleRates.CopyTo(dTemp, 0);
-    copyCArrayToStdVector(model->getModelData().rateRuleRates,   dTemp, (model->getModelData().numRateRules));//model->mData.rateRules.CopyTo(dTemp, 0);
-    //model->getModelData().amounts.CopyTo(dTemp, model->getModelData().rateRuleRates.Length);
-    //    for(int i = 0; i < model->getModelData().amounts.size(); i++)
-    for(int i = 0; i < model->getNumIndependentSpecies(); i++)
-    {
-        dTemp.push_back(model->getModelData().floatingSpeciesAmounts[i]);
-    }
-
-    model->evalModel(0.0, &dTemp[0]);
+    model->evalModel(0.0, 0, 0);
     double sum = 0;
+    vector<double> rates(n);
+    model->getFloatingSpeciesAmountRates(rates.size(), 0, &rates[0]);
+
     for (int i = 0; i < n; i++)
     {
-        sum = sum + pow(model->getModelData().floatingSpeciesAmountRates[i], 2.0);
+        sum = sum + pow(rates[i], 2.0);
     }
     return sqrt(sum);
 }

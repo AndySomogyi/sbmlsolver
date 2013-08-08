@@ -20,7 +20,7 @@ public:
     LLVMGetRateRuleValuesCodeGen(const LLVMModelGeneratorContext &mgc);
     virtual ~LLVMGetRateRuleValuesCodeGen();
 
-    typedef void (*FunctionPtr)(ModelData*);
+    typedef void (*FunctionPtr)(LLVMModelData*);
 };
 
 } /* namespace rr */

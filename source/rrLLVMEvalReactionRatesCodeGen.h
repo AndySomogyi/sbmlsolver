@@ -20,7 +20,7 @@
 namespace rr
 {
 
-typedef void (*LLVMEvalReactionRates_FunctionPtr)(ModelData*);
+typedef void (*LLVMEvalReactionRates_FunctionPtr)(LLVMModelData*);
 
 /**
  * evaluate the current model state and store the results in

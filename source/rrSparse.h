@@ -16,6 +16,57 @@
 namespace rr
 {
 
+/**
+ * sparse storage compressed row format matrix.
+ *
+ * This should eventually get replaced when we use a numeric library
+ * which support sparse storage.
+ *
+ * structure layout based on  Mark Hoemmen's BeBop sparse conversion lib.
+ */
+typedef struct csr_matrix_t
+{
+    /**
+     * number of rows
+     */
+    unsigned m;
+
+    /**
+     * number of columns
+     */
+    unsigned n;
+
+    /**
+     * number of stored (nonzero) entries.
+     */
+    unsigned nnz;
+
+    /**
+     * array of stored (nonzero) entries of the matrix
+     * length: nnz
+     *
+     */
+    double* values;
+
+    /**
+     * array of column indices of the stored (nonzero) entries of the matrix,
+     * length: nnz
+     */
+    unsigned* colidx;
+
+    /**
+     * array of indices into the colidx and values arrays, for each column,
+     * length: m + 1
+     *
+     * This CSR matrix has the property that even rows with zero non-zero
+     * values have an entry in this array, if the i'th row has zero no values,
+     * then rowptr[j] == rowptr[j+1]. This property makes it easy to set
+     * values.
+     */
+    unsigned* rowptr;
+
+} csr_matrix;
+
 
 /**
  * allocate and initialize the buffers and fields of a dcsr_matrix

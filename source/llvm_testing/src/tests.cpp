@@ -61,7 +61,7 @@ string getModelFileName(const string& version, int caseNumber)
 
 bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 {
-    ModelData md = {0};
+    LLVMModelData md = {0};
     string modelFileName = getModelFileName(version, caseNumber);
 
     SBMLDocument *doc = readSBMLFromFile(modelFileName.c_str());
@@ -105,7 +105,7 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 
 bool runModelDataAccessorTest(const string& version, int caseNumber)
 {
-    ModelData md;
+    LLVMModelData md;
     string modelFileName = getModelFileName(version, caseNumber);
 
     SBMLDocument *doc = readSBMLFromFile(modelFileName.c_str());
@@ -132,7 +132,7 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
 
     // Cast it to the right type (takes no arguments, returns a double) so we
     // can call it as a native function.
-    int (*pfunc)(ModelData*) = (int (*)(ModelData*))engine.getPointerToFunction(getFunc);
+    int (*pfunc)(LLVMModelData*) = (int (*)(LLVMModelData*))engine.getPointerToFunction(getFunc);
 
     double value = pfunc(&md);
 
@@ -165,7 +165,7 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
 
               // Cast it to the right type (takes no arguments, returns a double) so we
               // can call it as a native function.
-        double (*pfunc)(ModelData*) = (double (*)(ModelData*))engine.getPointerToFunction(getFunc);
+        double (*pfunc)(LLVMModelData*) = (double (*)(LLVMModelData*))engine.getPointerToFunction(getFunc);
 
         double value = pfunc(&md);
 
@@ -174,7 +174,7 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
         string setName = "set_floatingspecies_conc_" + floatSpeciesIds[i];
         Function *setFunc = engine.FindFunctionNamed(setName.c_str());
 
-        void (*psetfunc)(ModelData*,double) = (void (*)(ModelData*,double))engine.getPointerToFunction(setFunc);
+        void (*psetfunc)(LLVMModelData*,double) = (void (*)(LLVMModelData*,double))engine.getPointerToFunction(setFunc);
 
         psetfunc(&md, i+1);
 
@@ -182,7 +182,7 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
     }
 
 
-    freeModelDataBuffers(md);
+    LLVMModelData::freeBuffers(md);
 
     delete doc;
 

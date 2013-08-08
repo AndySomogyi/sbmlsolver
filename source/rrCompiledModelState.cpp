@@ -3,19 +3,20 @@
 #endif
 #pragma hdrstop
 #include "rrUtils.h"
+#include "rrCompiledExecutableModel.h"
 #include "rrCompiledModelState.h"
 //---------------------------------------------------------------------------
 
 namespace rr
 {
-CompiledModelState::CompiledModelState(ExecutableModel& model)
+CompiledModelState::CompiledModelState(CompiledExecutableModel& model)
 {
     InitializeFromModel(model);
 }
 
-void CompiledModelState::InitializeFromModel(ExecutableModel& model)
+void CompiledModelState::InitializeFromModel(CompiledExecutableModel& model)
 {
-    ModelData &modelData = model.getModelData();
+    ModelData &modelData = model.mData;
     model.convertToConcentrations();
 //    CopyCArrayToStdVector(model.y,                        mFloatingSpeciesConcentrations,       *model.ySize);
     copyCArrayToStdVector(modelData.boundarySpeciesConcentrations,        mBoundarySpeciesConcentrations,       modelData.numBoundarySpecies);
@@ -32,9 +33,9 @@ void CompiledModelState::InitializeFromModel(ExecutableModel& model)
     mTime = modelData.time;
 }
 
-void CompiledModelState::AssignToModel(ExecutableModel& model)
+void CompiledModelState::AssignToModel(CompiledExecutableModel& model)
 {
-    ModelData &modelData = model.getModelData();
+    ModelData &modelData = model.mData;
 //    CopyStdVectorToCArray(mFloatingSpeciesConcentrations,   model.y,                        *model.ySize                        );
     copyStdVectorToCArray(mBoundarySpeciesConcentrations,   modelData.boundarySpeciesConcentrations,        modelData.numBoundarySpecies           );
     copyStdVectorToCArray(mCompartmentVolumes,              modelData.compartmentVolumes,                   modelData.numCompartments              );

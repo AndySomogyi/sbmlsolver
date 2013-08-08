@@ -26,7 +26,7 @@ using namespace std;
 namespace rr
 {
 
-const char* LLVMModelDataIRBuilder::ModelDataName = "rr::ModelData";
+const char* LLVMModelDataIRBuilder::LLVMModelDataName = "rr::LLVMModelData";
 const char* LLVMModelDataIRBuilder::csr_matrixName = "rr::csr_matrix";
 const char* LLVMModelDataIRBuilder::csr_matrix_set_nzName = "rr::csr_matrix_set_nz";
 const char* LLVMModelDataIRBuilder::csr_matrix_get_nzName = "rr::csr_matrix_get_nz";
@@ -109,7 +109,7 @@ llvm::StructType* LLVMModelDataIRBuilder::getCSRSparseStructType(
                 stringstream err;
                 err << "llvm " << csr_matrixName << " size " << llvm_size <<
                         " does NOT match C++ sizeof(dcsr_matrix) " <<
-                        sizeof(ModelData);
+                        sizeof(csr_matrix);
                 throw LLVMException(err.str(), __FUNC__);
             }
         }
@@ -368,7 +368,7 @@ void LLVMModelDataIRBuilder::validateStruct(llvm::Value* s,
 
     if (structType)
     {
-        if (structType->getName().compare(ModelDataName) == 0)
+        if (structType->getName().compare(LLVMModelDataName) == 0)
         {
             return;
         }
@@ -376,14 +376,14 @@ void LLVMModelDataIRBuilder::validateStruct(llvm::Value* s,
     std::string str;
     raw_string_ostream err(str);
     err << "error in " << funcName << ", " << "Invalid argument type, expected "
-            << ModelDataName << ", but received ";
+            << LLVMModelDataName << ", but received ";
     type->print(err);
     throw LLVMException(err.str());
 }
 
 llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, llvm::ExecutionEngine *engine)
 {
-    StructType *structType = module->getTypeByName("rr::ModelData");
+    StructType *structType = module->getTypeByName(LLVMModelDataName);
 
     if (!structType)
     {
@@ -452,10 +452,8 @@ llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, ll
         elements.push_back(voidPtrType);                      // 49     ComputeEventAssignmentHandler*      computeEventAssignments;
         elements.push_back(voidPtrType);                      // 50     PerformEventAssignmentHandler*      performEventAssignments;
         elements.push_back(Type::getInt8PtrTy(context));      // 51     char*                               modelName;
-        elements.push_back(Type::getInt32Ty(context));        // 52     int                                 srSize;
-        elements.push_back(Type::getDoublePtrTy(context));    // 53     double*                             sr;
 
-        structType = StructType::create(context, elements, "rr::ModelData");
+        structType = StructType::create(context, elements, LLVMModelDataName);
 
         if (engine)
         {

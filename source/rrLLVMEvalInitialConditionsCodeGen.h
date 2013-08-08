@@ -22,13 +22,13 @@
 namespace rr
 {
 
-typedef void (*LLVMEvalInitialConditions_FunctionPtr)(ModelData*);
+typedef void (*LLVMEvalInitialConditions_FunctionPtr)(LLVMModelData*);
 
 /**
  * Generates a function called 'modeldata_initialvalues_set', which evaluates
  * all of the initial conditions specified in the sbml model (initial values,
  * initial assigments, etc...) and stores these values in the appropriate
- * fields in the ModelData structure.
+ * fields in the LLVMModelData structure.
  *
  * generated function signature:
  * void modeldata_initialvalues_set(ModelData *);

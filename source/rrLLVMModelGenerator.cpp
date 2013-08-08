@@ -13,40 +13,6 @@
 #include "rrLLVMIncludes.h"
 
 
-
-
-
-/*
- This function is obsolete.. initialize all model data in roadrunner instead..
- all this does is print the size of the struct.
- cInitModel(&mData);
-
- csetCompartmentVolumes(&mData);
- cinitializeInitialConditions(&mData);
- csetParameterValues(&mData);
- csetBoundaryConditions(&mData);
-
- csetInitialConditions(&mData);
-
- cconvertToAmounts(&mData);
- cevalInitialAssignments(&mData);
- ccomputeRules(&mData, y);
- cevalInitialAssignments(&mData);
- double* values = cGetCurrentValues(&mData);
- cresetEvents(&mData);
- cInitializeRateRuleSymbols(&mData);
- cInitializeRates(&mData);
- cconvertToConcentrations(&mData);
- cconvertToConcentrations(&mData);
- ccomputeConservedTotals(&mData);
- cevalEvents(&mData, timeIn, oAmounts);
- ctestConstraints(&mData);
- cupdateDependentSpeciesValues(&mData, y_vec);
- cAssignRates_b(&mData, local_rates);
- ccomputeAllRatesOfChange(&mData);
- */
-
-
 namespace rr
 {
 
@@ -121,7 +87,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
             &exe->errStr);
 
     exe->symbols->initAllocModelDataBuffers(exe->modelData);
-    modeldata_clone(&exe->modelDataCopy, &exe->modelData);
+    LLVMModelData::clone(&exe->modelDataCopy, &exe->modelData);
 
     exe->evalInitialConditionsPtr = evalInitialConditionsPtr;
     exe->evalReactionRatesPtr = evalReactionRatesPtr;
@@ -160,164 +126,6 @@ std::string to_string(const llvm::Value *value)
     value->print(stream);
     return str;
 }
-
-/*
- *** basic outline of a simulation run is as follows ***
-
-
-
- bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
-{
-
-    delete mModel;
-    mModel = mModelGenerator->createModel(sbml, &mLS, &mNOM, forceReCompile, computeAndAssignConservationLaws());
-
-    if(!initializeModel())
-
-    createDefaultSelectionLists();
-}
-
-
-DoubleMatrix RoadRunner::runSimulation()
-{
-
-    vector<double> y;
-    y = buildModelEvalArgument();
-    mModel->evalModel(mTimeStart, &y[0]);
-    addNthOutputToResult(results, 0, mTimeStart);
-
-    //Todo: Don't understand this code.. MTK
-    if (mCVode->haveVariables())
-    {
-        mCVode->reStart(mTimeStart, mModel);
-    }
-
-    double tout = mTimeStart;
-
-    //The simulation is executed right here..
-    Log(lDebug)<<"Will run the OneStep function "<<mNumPoints<<" times";
-    for (int i = 1; i < mNumPoints; i++)
-    {
-        Log(lDebug)<<"Step "<<i;
-        mCVode->oneStep(tout, hstep);
-        tout = mTimeStart + i * hstep;
-        addNthOutputToResult(results, i, tout);
-    }
-}
-
-double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
-{
-    Log(lDebug3)<<"---------------------------------------------------";
-    Log(lDebug3)<<"--- O N E     S T E P      ( "<<mOneStepCount<< " ) ";
-    Log(lDebug3)<<"---------------------------------------------------";
-
-    mOneStepCount++;
-    mCount = 0;
-
-    double timeEnd = 0.0;
-    double timeStart = _timeStart;
-    double tout = timeStart + hstep;
-    int strikes = 3;
-    try
-    {
-        // here we stop for a too small timestep ... this seems troublesome to me ...
-        while (tout - timeEnd > 1E-16)
-        {
-            if (hstep < 1E-16)
-            {
-                return tout;
-            }
-
-            // here we bail in case we have no ODEs set up with CVODE ... though we should
-            // still at least evaluate the model function
-            if (!haveVariables() && mTheModel->getNumEvents() == 0)
-            {
-                mTheModel->convertToAmounts();
-                mTheModel->evalModel(tout, 0);
-                return tout;
-            }
-
-            if (mLastTimeValue > timeStart)
-            {
-                reStart(timeStart, mTheModel);
-            }
-
-            double nextTargetEndTime = tout;
-            if (mAssignmentTimes.size() > 0 && mAssignmentTimes[0] < nextTargetEndTime)
-            {
-                nextTargetEndTime = mAssignmentTimes[0];
-                mAssignmentTimes.erase(mAssignmentTimes.begin());
-            }
-
-            int nResult = CVode(mCVODE_Memory, nextTargetEndTime,  mAmounts, &timeEnd, CV_NORMAL);
-
-            if (nResult == CV_ROOT_RETURN && mFollowEvents)
-            {
-                Log(lDebug1)<<("---------------------------------------------------");
-                Log(lDebug1)<<"--- E V E N T      ( " << mOneStepCount << " ) ";
-                Log(lDebug1)<<("---------------------------------------------------");
-
-                bool tooCloseToStart = fabs(timeEnd - mLastEvent) > mRelTol;
-
-                if(tooCloseToStart)
-                {
-                    strikes =  3;
-                }
-                else
-                {
-                    strikes--;
-                }
-
-                if (tooCloseToStart || strikes > 0)
-                {
-                    handleRootsFound(timeEnd, tout);
-                    reStart(timeEnd, mTheModel);
-                    mLastEvent = timeEnd;
-                }
-            }
-            else if (nResult == CV_SUCCESS || !mFollowEvents)
-            {
-                //mTheModel->resetEvents();
-                mTheModel->setTime(tout);
-                assignResultsToModel();
-            }
-            else
-            {
-                handleCVODEError(nResult);
-            }
-
-            mLastTimeValue = timeEnd;
-
-            try
-            {
-                mTheModel->testConstraints();
-            }
-            catch (const Exception& e)
-            {
-                Log(lWarning)<<"Constraint Violated at time = " + toString(timeEnd)<<": " + e.Message();
-
-            }
-
-            assignPendingEvents(timeEnd, tout);
-
-            if (tout - timeEnd > 1E-16)
-            {
-                timeStart = timeEnd;
-            }
-            Log(lDebug3)<<"tout: "<<tout<<gTab<<"timeEnd: "<<timeEnd;
-        }
-        return (timeEnd);
-    }
-    catch(const Exception& ex)
-    {
-        Log(lError)<<"Problem in OneStep: "<<ex.getMessage()<<endl;
-        initializeCVODEInterface(mTheModel);    //tk says ??? tk
-        throw;
-    }
-}
-
- */
-
 
 } /* namespace rr */
 
