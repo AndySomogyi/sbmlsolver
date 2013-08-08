@@ -21,16 +21,11 @@ set(rrSources
     rrConstants
     rrException
     rrGetOptions
-    rrHashTable
     rrLogger
     rrLogLevel
     rrExecutableModel
     rrRandom
     rrRoadRunner
-    rrRule
-    rrSBMLModelSimulation
-    rrSBMLSymbol
-    rrSBMLSymbolDependencies
     rrSimulationSettings
     rrStreamWriter
     rrStringBuilder
@@ -69,8 +64,13 @@ set(rrSources
     rrNoise
     rrVersionInfo
     rrSparse
-    mtrand/mtrand
-    c/rrModelSymbols
+	rrSBMLModelSimulation    
+	mtrand/mtrand
+	c/rrSBMLSymbolDependencies    
+    c/rrSBMLSymbol
+	c/rrHashTable
+    c/rrRule
+	c/rrModelSymbols
     c/rrSymbol
     c/rrSymbolList
     c/rrCompiledModelState
