@@ -613,6 +613,11 @@ int LLVMExecutableModel::getPendingEventSize()
     return 0;
 }
 
+int LLVMExecutableModel::getReactionRates(int len, const int* indx,
+        double* values)
+{
+    return 0;
+}
 
 
 

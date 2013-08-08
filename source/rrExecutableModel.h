@@ -236,6 +236,9 @@ public:
      */
     virtual std::string getReactionName(int index) = 0;
 
+    virtual int getReactionRates(int len, int const *indx,
+                double *values) = 0;
+
     virtual int getNumEvents() = 0;
     virtual void computeEventPriorites() = 0;
 

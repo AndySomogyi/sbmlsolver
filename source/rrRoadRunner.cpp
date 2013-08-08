@@ -348,7 +348,8 @@ double RoadRunner::getValueForRecord(const SelectionRecord& record)
         break;
 
     case SelectionRecord::clFlux:
-        dResult = mModel->getModelData().reactionRates[record.index];
+        dResult = 0;
+        mModel->getReactionRates(1, &record.index, &dResult);
         break;
 
     case SelectionRecord::clRateOfChange:
@@ -1062,7 +1063,9 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
     }
 
     mModel->evalReactionRates();
-    double variableValue = mModel->getModelData().reactionRates[reactionIndex];
+
+    double variableValue = 0;
+    mModel->getReactionRates(1, &reactionIndex, &variableValue);
     double parameterValue = getParameterValue(parameterType, parameterIndex);
     if (variableValue == 0)
     {
@@ -1172,19 +1175,23 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
 
         setParameterValue(parameterType, parameterIndex, originalParameterValue + hstep);
         mModel->evalReactionRates();
-        double fi = mModel->getModelData().reactionRates[reactionIndex];
+        double fi = 0;
+        mModel->getReactionRates(1, &reactionIndex, &fi);
 
         setParameterValue(parameterType, parameterIndex, originalParameterValue + 2*hstep);
         mModel->evalReactionRates();
-        double fi2 = mModel->getModelData().reactionRates[reactionIndex];
+        double fi2 = 0;
+        mModel->getReactionRates(1, &reactionIndex, &fi2);
 
         setParameterValue(parameterType, parameterIndex, originalParameterValue - hstep);
         mModel->evalReactionRates();
-        double fd = mModel->getModelData().reactionRates[reactionIndex];
+        double fd = 0;
+        mModel->getReactionRates(1, &reactionIndex, &fd);
 
         setParameterValue(parameterType, parameterIndex, originalParameterValue - 2*hstep);
         mModel->evalReactionRates();
-        double fd2 = mModel->getModelData().reactionRates[reactionIndex];
+        double fd2 = 0;
+        mModel->getReactionRates(1, &reactionIndex, &fd2);
 
         // Use instead the 5th order approximation double unscaledValue = (0.5/hstep)*(fi-fd);
         // The following separated lines avoid small amounts of roundoff error
@@ -1758,8 +1765,11 @@ double RoadRunner::getVariableValue(const TVariableType::TVariableType variableT
     switch (variableType)
     {
     case TVariableType::vtFlux:
-        return mModel->getModelData().reactionRates[variableIndex];
-        break;
+    {
+        double result = 0;
+        mModel->getReactionRates(1, &variableIndex, &result);
+    }
+    break;
 
     case TVariableType::vtSpecies:
     {
@@ -2546,7 +2556,9 @@ double RoadRunner::getReactionRate(const int& index)
     {
         mModel->convertToConcentrations();
         mModel->evalReactionRates();
-        return mModel->getModelData().reactionRates[index];
+        double result = 0;
+        mModel->getReactionRates(1, &index, &result);
+        return result;
     }
     else
     {
@@ -2587,7 +2599,9 @@ vector<double> RoadRunner::getReactionRatesEx(const vector<double>& values)
     }
 
     mModel->evalReactionRates();
-    return createVector(mModel->getModelData().reactionRates, mModel->getModelData().numReactions);
+    vector<double> result(mModel->getNumReactions());
+    mModel->getReactionRates(result.size(), 0, &result[0]);
+    return result;
 }
 
 // Help("Get the number of compartments")
@@ -3209,22 +3223,26 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
     try
     {
         mModel->evalReactionRates();
-        double fi = mModel->getModelData().reactionRates[reactionId];
+        double fi = 0;
+        mModel->getReactionRates(1, &reactionId, &fi);
 
         value = originalParameterValue + 2*hstep;
         mModel->setFloatingSpeciesConcentrations(1, &speciesIndex, &value);
         mModel->evalReactionRates();
-        double fi2 = mModel->getModelData().reactionRates[reactionId];
+        double fi2 = 0;
+        mModel->getReactionRates(1, &reactionId, &fi2);
 
         value = originalParameterValue - hstep;
         mModel->setFloatingSpeciesConcentrations(1, &speciesIndex, &value);
         mModel->evalReactionRates();
-        double fd = mModel->getModelData().reactionRates[reactionId];
+        double fd = 0;
+        mModel->getReactionRates(1, &reactionId, &fd);
 
         value = originalParameterValue - 2*hstep;
         mModel->setFloatingSpeciesConcentrations(1, &speciesIndex, &value);
         mModel->evalReactionRates();
-        double fd2 = mModel->getModelData().reactionRates[reactionId];
+        double fd2 = 0;
+        mModel->getReactionRates(1, &reactionId, &fd2);
 
         // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
         // The following separated lines avoid small amounts of roundoff error
@@ -3293,11 +3311,8 @@ DoubleMatrix RoadRunner::getScaledReorderedElasticityMatrix()
         DoubleMatrix result(uelast.RSize(), uelast.CSize());// = new double[uelast.Length][];
         mModel->convertToConcentrations();
         mModel->evalReactionRates();
-        vector<double> rates;
-        if(!copyCArrayToStdVector(mModel->getModelData().reactionRates, rates, mModel->getModelData().numReactions))
-        {
-            throw CoreException("Failed to copy model->rates");
-        }
+        vector<double> rates(mModel->getNumReactions());
+        mModel->getReactionRates(rates.size(), 0, &rates[0]);
 
         for (int i = 0; i < uelast.RSize(); i++)
         {
@@ -3360,9 +3375,10 @@ double RoadRunner::getScaledFloatingSpeciesElasticity(const string& reactionName
         double concentration = 0;
         mModel->getFloatingSpeciesConcentrations(1, &speciesIndex, &concentration);
 
-
-        return getUnscaledSpeciesElasticity(reactionIndex, speciesIndex)*
-               concentration / mModel->getModelData().reactionRates[reactionIndex];
+        double reactionRate = 0;
+        mModel->getReactionRates(1, &reactionIndex, &reactionRate);
+        return getUnscaledSpeciesElasticity(reactionIndex, speciesIndex) *
+            concentration / reactionRate;
 
     }
     catch (const Exception& e)
@@ -3443,8 +3459,9 @@ DoubleMatrix RoadRunner::getScaledConcentrationControlCoefficientMatrix()
                         mModel->getFloatingSpeciesConcentrations(1, &i, &conc);
                         if(conc != 0.0)
                         {
-                            ucc[i][j] = ucc[i][j] *
-                                    mModel->getModelData().reactionRates[j] / conc;
+                            double rate = 0;
+                            mModel->getReactionRates(1, &j, &rate);
+                            ucc[i][j] = ucc[i][j] * rate / conc;
                         }
                         else
                         {
@@ -3516,14 +3533,18 @@ DoubleMatrix RoadRunner::getScaledFluxControlCoefficientMatrix()
             {
                 for (int j = 0; j < ufcc.CSize(); j++)
                 {
-                    if(mModel->getModelData().reactionRates[i] !=0)
+                    double irate = 0;
+                    mModel->getReactionRates(1, &i, &irate);
+                    if(irate !=0)
                     {
-                        ufcc[i][j] = ufcc[i][j] * mModel->getModelData().reactionRates[j]/mModel->getModelData().reactionRates[i];
+                        double jrate = 0;
+                        mModel->getReactionRates(1, &j, &jrate);
+                        ufcc[i][j] = ufcc[i][j] * jrate / irate;
                     }
                     else
                     {
                         throw(Exception("Dividing with zero"));
-                       }
+                    }
                 }
             }
         }
@@ -3634,9 +3655,9 @@ vector<double> RoadRunner::getReactionRates()
     mModel->convertToConcentrations();
     mModel->evalReactionRates();
 
-    vector<double> _rates;
-    copyCArrayToStdVector(mModel->getModelData().reactionRates, _rates, mModel->getModelData().numReactions);
-    return _rates;
+    vector<double> rates(mModel->getNumReactions());
+    mModel->getReactionRates(rates.size(), 0, &rates[0]);
+    return rates;
 }
 
 // Help("Returns the current vector of rates of change")
@@ -3863,7 +3884,9 @@ double RoadRunner::getValue(const string& sId)
     }
     if ((nIndex = mModel->getReactionIndex(sId)) >= 0)
     {
-        return mModel->getModelData().reactionRates[nIndex];
+        double result = 0;
+        mModel->getReactionRates(1, &nIndex, &result);
+        return result;
     }
 
     if (mModel->getConservations().find(sId, nIndex))

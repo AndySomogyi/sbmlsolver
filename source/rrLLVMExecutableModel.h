@@ -105,6 +105,9 @@ public:
 
     virtual int getNumReactions();
 
+    virtual int getReactionRates(int len, int const *indx,
+                    double *values);
+
     /**
      * get the compartment volumes
      *

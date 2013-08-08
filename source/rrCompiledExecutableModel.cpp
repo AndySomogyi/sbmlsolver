@@ -1292,6 +1292,24 @@ int CompiledExecutableModel::getPendingEventSize()
     return mAssignmentTimes.size();
 }
 
+int CompiledExecutableModel::getReactionRates(int len, const int* indx,
+        double* values)
+{
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        if (j < mData.numReactions)
+        {
+            values[i] = mData.reactionRates[j];
+        }
+        else
+        {
+            throw Exception("index out of range");
+        }
+    }
+    return len;
+}
+
 
 
 } //Namespace rr

@@ -202,6 +202,8 @@ public:
      */
     virtual int getNumReactions();
 
+    virtual int getReactionRates(int len, const int* indx, double* values);
+
     /**
      * get the index of a named reaction
      * @returns >= 0 on success, < 0 on failure.
