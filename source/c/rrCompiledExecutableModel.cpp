@@ -9,7 +9,8 @@
 #include "rrCModelGenerator.h"
 #include "rrUtils.h"
 #include "rrCompiledModelState.h"
-//---------------------------------------------------------------------------
+#include "rrCModelDataUtil.h"
+
 using namespace std;
 namespace rr
 {

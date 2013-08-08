@@ -8,7 +8,7 @@
 #ifndef rrLLVMGetRateRuleValuesCodeGen_H
 #define rrLLVMGetRateRuleValuesCodeGen_H
 
-#include <rrLLVMCodeGenBase.h>
+#include "rrLLVMCodeGenBase.h"
 
 namespace rr
 {

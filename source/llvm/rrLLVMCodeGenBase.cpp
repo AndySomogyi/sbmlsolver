@@ -8,7 +8,7 @@
 #include "rrLLVMASTNodeCodeGen.h"
 #include "rrLLVMException.h"
 
-#include <rrLLVMCodeGenBase.h>
+#include "rrLLVMCodeGenBase.h"
 #include "rrLLVMModelGeneratorContext.h"
 #include "rrLLVMCodeGen.h"
 #include "rrLLVMCodeGenBase.h"

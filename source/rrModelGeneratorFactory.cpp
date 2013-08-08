@@ -6,8 +6,8 @@
  */
 
 #include "rrModelGeneratorFactory.h"
-#include "rrCModelGenerator.h"
-#include "rrLLVMModelGenerator.h"
+#include "c/rrCModelGenerator.h"
+#include "llvm/rrLLVMModelGenerator.h"
 #include "rrLogger.h"
 #include <algorithm>
 #include <string>

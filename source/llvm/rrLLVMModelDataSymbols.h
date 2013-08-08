@@ -16,6 +16,7 @@
 
 #include <map>
 #include <set>
+#include <list>
 
 namespace libsbml { class Model; }
 

@@ -1,12 +1,12 @@
 #include "tests.h"
-#include "rrLLVMModelGeneratorContext.h"
-#include "rrLLVMModelDataSymbols.h"
-#include "rrLLVMModelDataIRBuilder.h"
+#include "llvm/rrLLVMModelGeneratorContext.h"
+#include "llvm/rrLLVMModelDataSymbols.h"
+#include "llvm/rrLLVMModelDataIRBuilder.h"
 #include "rrException.h"
 #include "rrUtils.h"
-#include "rrLLVMIncludes.h"
-#include "rrLLVMAssignmentRuleEvaluator.h"
-#include "rrLLVMEvalInitialConditionsCodeGen.h"
+#include "llvm/rrLLVMIncludes.h"
+#include "llvm/rrLLVMAssignmentRuleEvaluator.h"
+#include "llvm/rrLLVMEvalInitialConditionsCodeGen.h"
 #include "rrSparse.h"
 #include "rrLogger.h"
 
@@ -18,7 +18,7 @@
 #include <sbml/Model.h>
 #include <sbml/SBMLReader.h>
 
-#include "rrModelData.h"
+#include "llvm/rrLLVMModelData.h"
 
 #include <utility>
 #include <cstdlib>
@@ -114,7 +114,7 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
 
     c.getModelDataSymbols().initAllocModelDataBuffers(md);
 
-    md.size = sizeof(ModelData);
+    md.size = sizeof(LLVMModelData);
 
     LLVMModelDataIRBuilderTesting builder(c.getModelDataSymbols(), c.getBuilder());
 

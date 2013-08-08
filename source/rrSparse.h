@@ -8,7 +8,6 @@
 #ifndef RRCSPARSE_H_
 #define RRCSPARSE_H_
 
-#include "rrModelData.h"
 #include "rrOSSpecifics.h"
 #include <vector>
 #include <ostream>

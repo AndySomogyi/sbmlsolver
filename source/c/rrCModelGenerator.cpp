@@ -22,6 +22,8 @@ using namespace std;
 using namespace ls;
 using namespace libsbml;
 
+
+
 Mutex               CModelGenerator::mCompileMutex;
 
 CModelGenerator::CModelGenerator(const string& tempFolder, const string& supportCodeFolder, const string& compiler)

@@ -9,7 +9,6 @@
 #include "rrStringUtils.h"
 #include "rrException.h"
 #include "rrUtils.h"
-#include "rrEvent.h"
 
 #include <cvode/cvode.h>
 #include <cvode/cvode_dense.h>

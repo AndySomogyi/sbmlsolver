@@ -8,7 +8,7 @@
 #ifndef RRLLVMGETBOUNDARYSPECIESAMOUNTSCODEGEN_H_
 #define RRLLVMGETBOUNDARYSPECIESAMOUNTSCODEGEN_H_
 
-#include <rrLLVMCodeGenBase.h>
+#include "rrLLVMCodeGenBase.h"
 #include "rrLLVMModelGeneratorContext.h"
 #include "rrLLVMCodeGen.h"
 #include "rrLLVMCodeGenBase.h"
@@ -28,7 +28,7 @@ public:
     LLVMGetBoundarySpeciesAmountCodeGen(const LLVMModelGeneratorContext &mgc);
     ~LLVMGetBoundarySpeciesAmountCodeGen() {};
 
-    vector<string> getIds()
+    std::vector<string> getIds()
     {
         return dataSymbols.getBoundarySpeciesIds();
     }
@@ -44,7 +44,7 @@ public:
     LLVMGetFloatingSpeciesAmountCodeGen(const LLVMModelGeneratorContext &mgc);
     ~LLVMGetFloatingSpeciesAmountCodeGen() {};
 
-    vector<string> getIds()
+    std::vector<string> getIds()
     {
         return dataSymbols.getFloatingSpeciesIds();
     }
@@ -60,7 +60,7 @@ public:
     LLVMGetBoundarySpeciesConcentrationCodeGen(const LLVMModelGeneratorContext &mgc);
     ~LLVMGetBoundarySpeciesConcentrationCodeGen() {};
 
-    vector<string> getIds()
+    std::vector<string> getIds()
     {
         return dataSymbols.getBoundarySpeciesIds();
     }
@@ -76,7 +76,7 @@ public:
     LLVMGetFloatingSpeciesConcentrationCodeGen(const LLVMModelGeneratorContext &mgc);
     ~LLVMGetFloatingSpeciesConcentrationCodeGen() {};
 
-    vector<string> getIds()
+    std::vector<string> getIds()
     {
         return dataSymbols.getFloatingSpeciesIds();
     }
@@ -92,7 +92,7 @@ public:
     LLVMGetCompartmentVolumeCodeGen(const LLVMModelGeneratorContext &mgc);
     ~LLVMGetCompartmentVolumeCodeGen() {};
 
-    vector<string> getIds()
+    std::vector<string> getIds()
     {
         return dataSymbols.getCompartmentIds();
     }
@@ -108,7 +108,7 @@ public:
     LLVMGetGlobalParameterCodeGen(const LLVMModelGeneratorContext &mgc);
     ~LLVMGetGlobalParameterCodeGen() {};
 
-    vector<string> getIds()
+    std::vector<string> getIds()
     {
         return dataSymbols.getGlobalParameterIds();
     }

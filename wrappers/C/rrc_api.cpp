@@ -46,7 +46,7 @@
 #include <fstream>
 #include "rrRoadRunner.h"
 #include "rrRoadRunnerList.h"
-#include "rrCModelGenerator.h"
+#include "c/rrCModelGenerator.h"
 #include "rrLogger.h"
 #include "rrException.h"
 #include "rrUtils.h"

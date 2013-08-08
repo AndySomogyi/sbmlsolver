@@ -1,15 +1,9 @@
 #ifndef rrModelGeneratorH
 #define rrModelGeneratorH
 #include <string>
-#include <vector>
 #include <list>
-#include "rrObject.h"
-#include "rrStringList.h"
-#include "rrSymbolList.h"
-#include "rrCodeBuilder.h"
-#include "rrScanner.h"
+#include <vector>
 #include "rrExecutableModel.h"
-#include "rrModelSymbols.h"
 #include "rr-libstruct/lsMatrix.h"
 #include "rr-libstruct/lsLibStructural.h"
 

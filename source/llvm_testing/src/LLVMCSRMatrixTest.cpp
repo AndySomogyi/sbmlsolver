@@ -6,7 +6,7 @@
  */
 
 #include "LLVMCSRMatrixTest.h"
-#include "rrLLVMModelDataIRBuilder.h"
+#include "llvm/rrLLVMModelDataIRBuilder.h"
 #include "cpplapack.h"
 #include <iostream>
 

@@ -366,25 +366,25 @@ void LLVMModelData::copyBuffers(LLVMModelData *dst, LLVMModelData *src)
     if (dst->eventAssignments && src->eventAssignments)
     {
         memcpy(dst->eventAssignments, src->eventAssignments,
-                src->numEvents * sizeof(EventAssignmentHandler*));
+                src->numEvents * sizeof(LLVMEventAssignmentHandler*));
     }
 
     if (dst->computeEventAssignments && src->computeEventAssignments)
     {
         memcpy(dst->computeEventAssignments, src->computeEventAssignments,
-                src->numEvents * sizeof(ComputeEventAssignmentHandler*));
+                src->numEvents * sizeof(LLVMComputeEventAssignmentHandler*));
     }
 
     if (dst->performEventAssignments && src->performEventAssignments)
     {
         memcpy(dst->performEventAssignments, src->performEventAssignments,
-                src->numEvents * sizeof(PerformEventAssignmentHandler*));
+                src->numEvents * sizeof(LLVMPerformEventAssignmentHandler*));
     }
 
     if (dst->eventDelays && src->eventDelays)
     {
         memcpy(dst->eventDelays, src->eventDelays,
-                src->numEvents * sizeof(EventDelayHandler*));
+                src->numEvents * sizeof(LLVMEventDelayHandler*));
     }
 
 }

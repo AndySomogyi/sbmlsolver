@@ -171,6 +171,8 @@ private:
     static bool                         loadSBMLIntoNOM(NOMSupport &nom, const string& sbml);
 
 };
+
+
 }
 
 #endif
