@@ -39,15 +39,12 @@ public:
 
     typedef LLVMGetValueCodeGenBase_FunctionPtr FunctionPtr;
 
-private:
-    typedef LLVMCodeGenBase<LLVMGetValueCodeGenBase_FunctionPtr> _base;
-
 };
 
 template <typename Derived, bool substanceUnits>
 LLVMGetValueCodeGenBase<Derived, substanceUnits>::LLVMGetValueCodeGenBase(
         const LLVMModelGeneratorContext &mgc) :
-        _base(mgc)
+        LLVMCodeGenBase<LLVMGetValueCodeGenBase_FunctionPtr>(mgc)
 {
 }
 
@@ -61,8 +58,8 @@ llvm::Value* LLVMGetValueCodeGenBase<Derived, substanceUnits>::codeGen()
 {
     // make the set init value function
     llvm::Type *argTypes[] = {
-        llvm::PointerType::get(LLVMModelDataIRBuilder::getStructType(_base::module), 0),
-        llvm::Type::getInt32Ty(_base::context)
+        llvm::PointerType::get(LLVMModelDataIRBuilder::getStructType(this->module), 0),
+        llvm::Type::getInt32Ty(this->context)
     };
 
     const char *argNames[] = {
@@ -71,29 +68,29 @@ llvm::Value* LLVMGetValueCodeGenBase<Derived, substanceUnits>::codeGen()
 
     llvm::Value *args[] = {0, 0};
 
-    llvm::BasicBlock *entry = _base::codeGenHeader(Derived::FunctionName, llvm::Type::getDoubleTy(_base::context),
+    llvm::BasicBlock *entry = this->codeGenHeader(Derived::FunctionName, llvm::Type::getDoubleTy(this->context),
             argTypes, argNames, args);
 
     vector<string> ids = static_cast<Derived*>(this)->getIds();
 
-    LLVMModelDataLoadSymbolResolver resolver(args[0], _base::model, _base::modelSymbols,
-            _base::dataSymbols, _base::builder);
+    LLVMModelDataLoadSymbolResolver resolver(args[0], this->model, this->modelSymbols,
+            this->dataSymbols, this->builder);
 
     // default, return NaN
-    llvm::BasicBlock *def = llvm::BasicBlock::Create(_base::context, "default", _base::function);
-    _base::builder.SetInsertPoint(def);
-    _base::builder.CreateRet(llvm::ConstantFP::get(_base::context, llvm::APFloat(123.456)));
+    llvm::BasicBlock *def = llvm::BasicBlock::Create(this->context, "default", this->function);
+    this->builder.SetInsertPoint(def);
+    this->builder.CreateRet(llvm::ConstantFP::get(this->context, llvm::APFloat(123.456)));
 
     // write the switch at the func entry point, the switch is also the
     // entry block terminator
-    _base::builder.SetInsertPoint(entry);
+    this->builder.SetInsertPoint(entry);
 
-    llvm::SwitchInst *s = _base::builder.CreateSwitch(args[1], def, ids.size());
+    llvm::SwitchInst *s = this->builder.CreateSwitch(args[1], def, ids.size());
 
     for (int i = 0; i < ids.size(); ++i)
     {
-        llvm::BasicBlock *block = llvm::BasicBlock::Create(_base::context, ids[i] + "_block", _base::function);
-        _base::builder.SetInsertPoint(block);
+        llvm::BasicBlock *block = llvm::BasicBlock::Create(this->context, ids[i] + "_block", this->function);
+        this->builder.SetInsertPoint(block);
 
         // the requested value
         llvm::Value *value = resolver.loadSymbolValue(ids[i]);
@@ -101,7 +98,7 @@ llvm::Value* LLVMGetValueCodeGenBase<Derived, substanceUnits>::codeGen()
         // need to check if we have an amount or concentration and check if we
         // are asked for asked for an amount or concentration and convert accordingly
         const libsbml::Species *species = dynamic_cast<const libsbml::Species*>(
-                const_cast<libsbml::Model*>(_base::model)->getElementBySId(ids[i]));
+                const_cast<libsbml::Model*>(this->model)->getElementBySId(ids[i]));
 
         if(species)
         {
@@ -113,7 +110,7 @@ llvm::Value* LLVMGetValueCodeGenBase<Derived, substanceUnits>::codeGen()
                 {
                     // convert to concentration
                     llvm::Value *comp = resolver.loadSymbolValue(species->getCompartment());
-                    value = _base::builder.CreateFDiv(value, comp, ids[i] + "_conc");
+                    value = this->builder.CreateFDiv(value, comp, ids[i] + "_conc");
                 }
             }
             else
@@ -124,7 +121,7 @@ llvm::Value* LLVMGetValueCodeGenBase<Derived, substanceUnits>::codeGen()
                 {
                     // convert to amount
                     llvm::Value *comp = resolver.loadSymbolValue(species->getCompartment());
-                    value = _base::builder.CreateFMul(value, comp, ids[i] + "_amt");
+                    value = this->builder.CreateFMul(value, comp, ids[i] + "_amt");
                 }
             }
         }
@@ -132,11 +129,11 @@ llvm::Value* LLVMGetValueCodeGenBase<Derived, substanceUnits>::codeGen()
         {
             value->setName(ids[i] + "_value");
         }
-        _base::builder.CreateRet(value);
-        s->addCase(llvm::ConstantInt::get(llvm::Type::getInt32Ty(_base::context), i), block);
+        this->builder.CreateRet(value);
+        s->addCase(llvm::ConstantInt::get(llvm::Type::getInt32Ty(this->context), i), block);
     }
 
-    return _base::verifyFunction();
+    return this->verifyFunction();
 }
 
 

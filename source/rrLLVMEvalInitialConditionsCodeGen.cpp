@@ -27,7 +27,7 @@ const char* LLVMEvalInitialConditionsCodeGen::FunctionName = "evalInitialConditi
 
 LLVMEvalInitialConditionsCodeGen::LLVMEvalInitialConditionsCodeGen(
         const LLVMModelGeneratorContext &mgc) :
-        LLVMCodeGenBase(mgc),
+        LLVMCodeGenBase<LLVMEvalInitialConditions_FunctionPtr>(mgc),
         initialValueResolver(model, dataSymbols, modelSymbols, builder)
 {
 }

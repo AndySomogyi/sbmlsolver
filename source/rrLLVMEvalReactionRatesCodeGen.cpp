@@ -28,7 +28,7 @@ const char* LLVMEvalReactionRatesCodeGen::FunctionName = "evalReactionRates";
 
 LLVMEvalReactionRatesCodeGen::LLVMEvalReactionRatesCodeGen(
         const LLVMModelGeneratorContext &mgc) :
-        LLVMCodeGenBase(mgc)
+        LLVMCodeGenBase<LLVMEvalReactionRates_FunctionPtr>(mgc)
 {
 }
 

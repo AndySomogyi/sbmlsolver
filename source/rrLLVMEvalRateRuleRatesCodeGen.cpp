@@ -28,7 +28,7 @@ const char* LLVMEvalRateRuleRatesCodeGen::FunctionName = "evalRateRuleRates";
 
 LLVMEvalRateRuleRatesCodeGen::LLVMEvalRateRuleRatesCodeGen(
         const LLVMModelGeneratorContext &mgc) :
-        LLVMCodeGenBase(mgc)
+        LLVMCodeGenBase<LLVMEvalRateRuleRates_FunctionPtr>(mgc)
 {
 }
 

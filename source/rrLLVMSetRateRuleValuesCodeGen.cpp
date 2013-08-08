@@ -12,7 +12,7 @@ namespace rr
 
 LLVMSetRateRuleValuesCodeGen::LLVMSetRateRuleValuesCodeGen(
         const LLVMModelGeneratorContext &mgc) :
-                LLVMCodeGenBase(mgc)
+                LLVMCodeGenBase<void*>(mgc)
 {
     // TODO Auto-generated constructor stub
 
