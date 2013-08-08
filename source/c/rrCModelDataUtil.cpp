@@ -8,7 +8,8 @@
 #include "rrCModelDataUtil.h"
 
 #include <iomanip>
-#include <string.h>
+#include <cstdlib>
+#include <cstring>
 
 
 using namespace std;
