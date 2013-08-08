@@ -461,12 +461,12 @@ llvm::StructType *LLVMModelDataIRBuilder::getStructType(llvm::Module *module, ll
 
             size_t llvm_size = dl->getTypeStoreSize(structType);
 
-            if (sizeof(ModelData) != llvm_size)
+            if (sizeof(LLVMModelData) != llvm_size)
             {
                 stringstream err;
                 err << "llvm rr::ModelData size " << llvm_size <<
                         " does NOT match C++ sizeof(ModelData) " <<
-                        sizeof(ModelData);
+                        sizeof(LLVMModelData);
                 throw LLVMException(err.str(), __FUNC__);
             }
 

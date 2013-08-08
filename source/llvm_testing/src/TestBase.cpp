@@ -8,10 +8,11 @@
 #include "TestBase.h"
 #include "tests.h"
 #include "rrModelGeneratorFactory.h"
-
+#include "rrUtils.h"
 #include "rrLogger.h"
 
 #include <stdexcept>
+#include <fstream>
 
 namespace rr
 {

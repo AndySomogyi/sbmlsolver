@@ -9,8 +9,8 @@
 #define LLVMCSRMATRIXTEST_H_
 
 #include "rrSparse.h"
-#include "rrLLVMIncludes.h"
-#include "rrLLVMModelGeneratorContext.h"
+#include "llvm/rrLLVMIncludes.h"
+#include "llvm/rrLLVMModelGeneratorContext.h"
 
 namespace rr
 {

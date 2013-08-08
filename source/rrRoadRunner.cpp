@@ -20,7 +20,7 @@
 #include "rrVersionInfo.h"
 #include "rrCVODEInterface.h"
 #include "rrNLEQInterface.h"
-#include "rrNOMSupport.h"
+#include "c/rrNOMSupport.h"
 #include "Poco/File.h"
 #include "Poco/Mutex.h"
 #include <sbml/common/libsbml-version.h>

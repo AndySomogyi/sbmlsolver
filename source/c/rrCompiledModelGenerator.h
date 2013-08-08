@@ -11,6 +11,10 @@
 #include "rrModelGenerator.h"
 #include "rrModelSharedLibrary.h"
 #include "rrCodeBuilder.h"
+#include "rrScanner.h"
+#include "rrNOMSupport.h"
+#include "rrSymbol.h"
+#include "rrModelSymbols.h"
 #include "rr-libstruct/lsMatrix.h"
 #include "rr-libstruct/lsLibStructural.h"
 

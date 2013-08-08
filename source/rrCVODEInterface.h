@@ -1,7 +1,6 @@
 #ifndef rrCvodeInterfaceH
 #define rrCvodeInterfaceH
 #include <string>
-#include "rrPendingAssignment.h"
 #include "rrCapability.h"
 #include "rrParameter.h"
 

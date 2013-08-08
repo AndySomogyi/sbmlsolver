@@ -8,8 +8,12 @@
 #include "TestEvalInitialConditions.h"
 #include "rrLogger.h"
 
+
+
 namespace rr
 {
+
+using namespace std;
 
 TestEvalInitialConditions::TestEvalInitialConditions(const std::string& compiler,
         const std::string& version, int caseNumber)

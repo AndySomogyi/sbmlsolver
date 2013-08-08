@@ -24,11 +24,7 @@ set(rrSources
     rrHashTable
     rrLogger
     rrLogLevel
-    rrCompiledExecutableModel
     rrExecutableModel
-    rrCompiledModelState
-    rrNOMSupport
-    rrPendingAssignment
     rrRandom
     rrRoadRunner
     rrRule
@@ -41,23 +37,12 @@ set(rrSources
     rrStringList
     rrStringListContainer
     rrStringUtils
-    rrSymbol
-    rrSymbolList
     rrUtils
-    rrModelSymbols
     rrModelGenerator
-    rrCompiledModelGenerator
-    rrCModelGenerator
-    rrCSharpModelGenerator
-    rrCodeBuilder
-    rrCCompiler
     rrCPlugin
-    rrScanner
-    rrToken
     rrCVODEInterface
     rrNLEQInterface
     rrStopWatch
-    rrEvent
     rrTestSuiteModelSimulation
     rrNewArrayList
     rrNewArrayListItem
@@ -66,10 +51,8 @@ set(rrSources
     rrIniSection
     rrIniFile
     rrFileName
-    mtrand/mtrand
     rrPluginManager
     rrPlugin
-    rrModelSharedLibrary
     rrBaseParameter
     rrRoadRunnerList
     rrThreadPool
@@ -86,32 +69,50 @@ set(rrSources
     rrNoise
     rrVersionInfo
     rrSparse
+    mtrand/mtrand
+    c/rrModelSymbols
+    c/rrSymbol
+    c/rrSymbolList
+    c/rrCompiledModelState
+    c/rrNOMSupport
+    c/rrPendingAssignment
+    c/rrCompiledModelGenerator
+    c/rrCModelGenerator
+    c/rrCSharpModelGenerator
+    c/rrCodeBuilder
+    c/rrCCompiler
+    c/rrScanner
+    c/rrToken
+    c/rrEvent
+    c/rrModelSharedLibrary
+	c/rrCModelDataUtil
+	c/rrCompiledExecutableModel
     )
 
 # Add the LLVM sources to compilation
 if(BUILD_LLVM)
     set(rrSources
         ${rrSources}
-        rrLLVMAssignmentRuleEvaluator
-        rrLLVMASTNodeCodeGen
-        rrLLVMASTNodeFactory
-        rrLLVMCodeGenBase
-        rrLLVMCompiler
-        rrLLVMEvalInitialConditionsCodeGen
-        rrLLVMEvalRateRuleRatesCodeGen
-        rrLLVMEvalReactionRatesCodeGen
-        rrLLVMExecutableModel
-        rrLLVMGetRateRuleValuesCodeGen
-        rrLLVMGetValuesCodeGen
-        rrLLVMInitialValueSymbolResolver
-        rrLLVMModelData
-        rrLLVMModelDataIRBuilder
-        rrLLVMModelDataSymbolResolver
-        rrLLVMModelDataSymbols
-        rrLLVMModelGenerator
-        rrLLVMModelGeneratorContext
-        rrLLVMModelSymbols
-        rrLLVMSetRateRuleValuesCodeGen
+        llvm/rrLLVMAssignmentRuleEvaluator
+        llvm/rrLLVMASTNodeCodeGen
+        llvm/rrLLVMASTNodeFactory
+        llvm/rrLLVMCodeGenBase
+        llvm/rrLLVMCompiler
+        llvm/rrLLVMEvalInitialConditionsCodeGen
+        llvm/rrLLVMEvalRateRuleRatesCodeGen
+        llvm/rrLLVMEvalReactionRatesCodeGen
+        llvm/rrLLVMExecutableModel
+        llvm/rrLLVMGetRateRuleValuesCodeGen
+        llvm/rrLLVMGetValuesCodeGen
+        llvm/rrLLVMInitialValueSymbolResolver
+        llvm/rrLLVMModelData
+        llvm/rrLLVMModelDataIRBuilder
+        llvm/rrLLVMModelDataSymbolResolver
+        llvm/rrLLVMModelDataSymbols
+        llvm/rrLLVMModelGenerator
+        llvm/rrLLVMModelGeneratorContext
+        llvm/rrLLVMModelSymbols
+        llvm/rrLLVMSetRateRuleValuesCodeGen
         )
 endif(BUILD_LLVM)
 

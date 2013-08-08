@@ -8,7 +8,7 @@
 #ifndef LLVMSETRATERULEVALUESCODEGEN_H_
 #define LLVMSETRATERULEVALUESCODEGEN_H_
 
-#include <rrLLVMCodeGenBase.h>
+#include "rrLLVMCodeGenBase.h"
 
 namespace rr
 {
@@ -20,7 +20,7 @@ public:
     LLVMSetRateRuleValuesCodeGen(const LLVMModelGeneratorContext &mgc);
     virtual ~LLVMSetRateRuleValuesCodeGen();
 
-    typedef void (*FunctionPtr)(ModelData*);
+    typedef void (*FunctionPtr)(LLVMModelData*);
 };
 
 } /* namespace rr */

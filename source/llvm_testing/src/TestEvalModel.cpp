@@ -11,6 +11,8 @@
 namespace rr
 {
 
+using namespace std;
+
 TestEvalModel::TestEvalModel(const std::string& compiler,
         const std::string& version, int caseNumber)
     : TestBase(compiler, version, caseNumber)
