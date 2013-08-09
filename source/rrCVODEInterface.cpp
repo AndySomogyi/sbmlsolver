@@ -214,11 +214,7 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
             }
 
             double nextTargetEndTime = tout;
-            //if (mAssignmentTimes.size() > 0 && mAssignmentTimes[0] < nextTargetEndTime)
-            //{
-            //    nextTargetEndTime = mAssignmentTimes[0];
-            //    mAssignmentTimes.erase(mAssignmentTimes.begin());
-            //}
+
             if (mModel->getPendingEventSize() > 0 &&
                     mModel->getNextPendingEventTime(false) < nextTargetEndTime)
             {
