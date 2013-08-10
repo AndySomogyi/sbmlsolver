@@ -64,13 +64,13 @@ set(rrSources
     rrNoise
     rrVersionInfo
     rrSparse
-	rrSBMLModelSimulation    
-	mtrand/mtrand
-	c/rrSBMLSymbolDependencies    
+    rrSBMLModelSimulation
+    mtrand/mtrand
+    c/rrSBMLSymbolDependencies
     c/rrSBMLSymbol
-	c/rrHashTable
+    c/rrHashTable
     c/rrRule
-	c/rrModelSymbols
+    c/rrModelSymbols
     c/rrSymbol
     c/rrSymbolList
     c/rrCompiledModelState
@@ -85,34 +85,34 @@ set(rrSources
     c/rrToken
     c/rrEvent
     c/rrModelSharedLibrary
-	c/rrCModelDataUtil
-	c/rrCompiledExecutableModel
+    c/rrCModelDataUtil
+    c/rrCompiledExecutableModel
     )
 
 # Add the LLVM sources to compilation
 if(BUILD_LLVM)
     set(rrSources
         ${rrSources}
-        llvm/rrLLVMAssignmentRuleEvaluator
-        llvm/rrLLVMASTNodeCodeGen
-        llvm/rrLLVMASTNodeFactory
-        llvm/rrLLVMCodeGenBase
-        llvm/rrLLVMCompiler
-        llvm/rrLLVMEvalInitialConditionsCodeGen
-        llvm/rrLLVMEvalRateRuleRatesCodeGen
-        llvm/rrLLVMEvalReactionRatesCodeGen
-        llvm/rrLLVMExecutableModel
-        llvm/rrLLVMGetRateRuleValuesCodeGen
-        llvm/rrLLVMGetValuesCodeGen
-        llvm/rrLLVMInitialValueSymbolResolver
-        llvm/rrLLVMModelData
-        llvm/rrLLVMModelDataIRBuilder
-        llvm/rrLLVMModelDataSymbolResolver
-        llvm/rrLLVMModelDataSymbols
-        llvm/rrLLVMModelGenerator
-        llvm/rrLLVMModelGeneratorContext
-        llvm/rrLLVMModelSymbols
-        llvm/rrLLVMSetRateRuleValuesCodeGen
+        llvm/AssignmentRuleEvaluator
+        llvm/ASTNodeCodeGen
+        llvm/ASTNodeFactory
+        llvm/CodeGenBase
+        llvm/LLVMCompiler
+        llvm/EvalInitialConditionsCodeGen
+        llvm/EvalRateRuleRatesCodeGen
+        llvm/EvalReactionRatesCodeGen
+        llvm/LLVMExecutableModel
+        llvm/GetRateRuleValuesCodeGen
+        llvm/GetValuesCodeGen
+        llvm/InitialValueSymbolResolver
+        llvm/LLVMModelData
+        llvm/ModelDataIRBuilder
+        llvm/ModelDataSymbolResolver
+        llvm/LLVMModelDataSymbols
+        llvm/LLVMModelGenerator
+        llvm/ModelGeneratorContext
+        llvm/LLVMModelSymbols
+        llvm/SetRateRuleValuesCodeGen
         )
 endif(BUILD_LLVM)
 

@@ -6,7 +6,7 @@
  */
 
 #include "LLVMCSRMatrixTest.h"
-#include "llvm/rrLLVMModelDataIRBuilder.h"
+#include "llvm/ModelDataIRBuilder.h"
 #include "cpplapack.h"
 #include <iostream>
 
@@ -62,7 +62,7 @@ llvm::Function* LLVMCSRMatrixTest::getCSRMatrixSetNZTestFunc()
 
         // bool csr_matrix_set_nz(csr_matrix *mat, int row, int col, double val);
         Type *argTypes[] = {
-                LLVMModelDataIRBuilder::getCSRSparseStructType(module)->getPointerTo(),
+                ModelDataIRBuilder::getCSRSparseStructType(module)->getPointerTo(),
                 Type::getInt32Ty(module->getContext()),
                 Type::getInt32Ty(module->getContext()),
                 Type::getDoubleTy(module->getContext())
@@ -98,7 +98,7 @@ llvm::Function* LLVMCSRMatrixTest::getCSRMatrixSetNZTestFunc()
 
 
 
-        CallInst *call = LLVMModelDataIRBuilder::createCSRMatrixSetNZ(builder, args[0], args[1],
+        CallInst *call = ModelDataIRBuilder::createCSRMatrixSetNZ(builder, args[0], args[1],
                 args[2], args[3], "nz_success");
 
         mdirbuilder.createDispChar(call);
@@ -282,7 +282,7 @@ llvm::Function* LLVMCSRMatrixTest::getCSRMatrixGetNZTestFunc()
     {
         // double csr_matrix_get_nz(const csr_matrix *mat, int row, int col);
         Type *argTypes[] = {
-                LLVMModelDataIRBuilder::getCSRSparseStructType(module)->getPointerTo(),
+                ModelDataIRBuilder::getCSRSparseStructType(module)->getPointerTo(),
                 Type::getInt32Ty(module->getContext()),
                 Type::getInt32Ty(module->getContext())
         };
@@ -314,7 +314,7 @@ llvm::Function* LLVMCSRMatrixTest::getCSRMatrixGetNZTestFunc()
         mdirbuilder.createDispInt(args[1]);
         mdirbuilder.createDispInt(args[2]);
 
-        CallInst *call = LLVMModelDataIRBuilder::createCSRMatrixGetNZ(builder, args[0], args[1],
+        CallInst *call = ModelDataIRBuilder::createCSRMatrixGetNZ(builder, args[0], args[1],
                 args[2], "nz_val");
 
         mdirbuilder.createDispDouble(call);

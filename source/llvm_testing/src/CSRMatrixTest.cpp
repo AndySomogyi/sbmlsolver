@@ -8,14 +8,14 @@
 #include "CSRMatrixTest.h"
 
 #include "tests.h"
-#include "llvm/rrLLVMModelGeneratorContext.h"
-#include "llvm/rrLLVMModelDataSymbols.h"
-#include "llvm/rrLLVMModelDataIRBuilder.h"
+#include "llvm/ModelGeneratorContext.h"
+#include "llvm/LLVMModelDataSymbols.h"
+#include "llvm/ModelDataIRBuilder.h"
 #include "rrException.h"
 #include "rrUtils.h"
-#include "llvm/rrLLVMIncludes.h"
-#include "llvm/rrLLVMAssignmentRuleEvaluator.h"
-#include "llvm/rrLLVMEvalInitialConditionsCodeGen.h"
+#include "llvm/LLVMIncludes.h"
+#include "llvm/AssignmentRuleEvaluator.h"
+#include "llvm/EvalInitialConditionsCodeGen.h"
 #include "rrSparse.h"
 
 
@@ -26,7 +26,7 @@
 #include <sbml/Model.h>
 #include <sbml/SBMLReader.h>
 
-#include "llvm/rrLLVMModelData.h"
+#include "llvm/LLVMModelData.h"
 
 #include <utility>
 #include <cstdlib>

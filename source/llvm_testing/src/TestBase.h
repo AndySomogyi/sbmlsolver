@@ -8,8 +8,8 @@
 #ifndef TESTBASE_H_
 #define TESTBASE_H_
 
-#include "llvm/rrLLVMModelGenerator.h"
-#include "llvm/rrLLVMExecutableModel.h"
+#include "llvm/LLVMModelGenerator.h"
+#include "llvm/LLVMExecutableModel.h"
 
 #include <string>
 
