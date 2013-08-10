@@ -7,7 +7,7 @@
 
 #include "rrModelGeneratorFactory.h"
 #include "c/rrCModelGenerator.h"
-#include "llvm/rrLLVMModelGenerator.h"
+#include "llvm/LLVMModelGenerator.h"
 #include "rrLogger.h"
 #include <algorithm>
 #include <string>

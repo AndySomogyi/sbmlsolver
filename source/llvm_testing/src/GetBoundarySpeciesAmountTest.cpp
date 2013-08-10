@@ -6,8 +6,8 @@
  */
 
 #include "GetBoundarySpeciesAmountTest.h"
-#include "llvm/rrLLVMGetValuesCodeGen.h"
-#include "llvm/rrLLVMModelGeneratorContext.h"
+#include "llvm/GetValuesCodeGen.h"
+#include "llvm/ModelGeneratorContext.h"
 #include "rrLogger.h"
 #include <vector>
 

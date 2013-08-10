@@ -1,12 +1,12 @@
 #include "tests.h"
-#include "llvm/rrLLVMModelGeneratorContext.h"
-#include "llvm/rrLLVMModelDataSymbols.h"
-#include "llvm/rrLLVMModelDataIRBuilder.h"
+#include "llvm/ModelGeneratorContext.h"
+#include "llvm/LLVMModelDataSymbols.h"
+#include "llvm/ModelDataIRBuilder.h"
 #include "rrException.h"
 #include "rrUtils.h"
-#include "llvm/rrLLVMIncludes.h"
-#include "llvm/rrLLVMAssignmentRuleEvaluator.h"
-#include "llvm/rrLLVMEvalInitialConditionsCodeGen.h"
+#include "llvm/LLVMIncludes.h"
+#include "llvm/AssignmentRuleEvaluator.h"
+#include "llvm/EvalInitialConditionsCodeGen.h"
 #include "rrSparse.h"
 #include "rrLogger.h"
 
@@ -18,7 +18,7 @@
 #include <sbml/Model.h>
 #include <sbml/SBMLReader.h>
 
-#include "llvm/rrLLVMModelData.h"
+#include "llvm/LLVMModelData.h"
 
 #include <utility>
 #include <cstdlib>
@@ -69,7 +69,7 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
     try
     {
 
-        LLVMModelGeneratorContext c(doc, true);
+        ModelGeneratorContext c(doc, true);
 
         c.getModelDataSymbols().print();
 
@@ -77,12 +77,12 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 
         ExecutionEngine &engine = c.getExecutionEngine();
 
-        StructType *s = LLVMModelDataIRBuilder::getStructType(c.getModule(),
+        StructType *s = ModelDataIRBuilder::getStructType(c.getModule(),
                 &c.getExecutionEngine());
 
-        LLVMEvalInitialConditionsCodeGen iv(c);
+        EvalInitialConditionsCodeGen iv(c);
 
-        LLVMEvalInitialConditionsCodeGen::FunctionPtr pfunc;
+        EvalInitialConditionsCodeGen::FunctionPtr pfunc;
 
         pfunc = iv.createFunction();
 
@@ -110,7 +110,7 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
 
     SBMLDocument *doc = readSBMLFromFile(modelFileName.c_str());
 
-    LLVMModelGeneratorContext c(doc, true);
+    ModelGeneratorContext c(doc, true);
 
     c.getModelDataSymbols().initAllocModelDataBuffers(md);
 

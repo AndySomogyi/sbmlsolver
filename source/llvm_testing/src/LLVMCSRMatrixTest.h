@@ -9,8 +9,8 @@
 #define LLVMCSRMATRIXTEST_H_
 
 #include "rrSparse.h"
-#include "llvm/rrLLVMIncludes.h"
-#include "llvm/rrLLVMModelGeneratorContext.h"
+#include "llvm/LLVMIncludes.h"
+#include "llvm/ModelGeneratorContext.h"
 
 namespace rr
 {
@@ -38,7 +38,7 @@ private:
     llvm::Function *setFunc;
     llvm::Function *getFunc;
 
-    LLVMModelGeneratorContext context;
+    ModelGeneratorContext context;
 };
 
 
