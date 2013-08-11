@@ -19,6 +19,7 @@
 #include "EvalReactionRatesCodeGen.h"
 #include "EvalRateRuleRatesCodeGen.h"
 #include "GetValuesCodeGen.h"
+#include "GetEventValuesCodeGen.h"
 
 namespace rr
 {
@@ -356,6 +357,9 @@ private:
     GetCompartmentVolumeCodeGen::FunctionPtr getCompartmentVolumePtr;
     GetGlobalParameterCodeGen::FunctionPtr getGlobalParameterPtr;
     EvalRateRuleRatesCodeGen::FunctionPtr evalRateRuleRatesPtr;
+    GetEventTriggerCodeGen::FunctionPtr getEventTriggerPtr;
+    GetEventPriorityCodeGen::FunctionPtr getEventPriorityPtr;
+    GetEventDelayCodeGen::FunctionPtr getEventDelayPtr;
 
     double getFloatingSpeciesConcentration(int index);
 

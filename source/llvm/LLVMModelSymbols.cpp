@@ -93,11 +93,7 @@ bool LLVMModelSymbols::visit(const libsbml::RateRule& rule)
 
 bool LLVMModelSymbols::visit (const libsbml::Event &event)
 {
-    string msg = "fatal error, encountered event ";
-    msg += event.getId();
-    msg += ", events not supported yet";
-    throw_llvm_exception(msg);
-    return false;
+    return true;
 }
 
 void LLVMModelSymbols::processElement(LLVMSymbolForest& currentSymbols,

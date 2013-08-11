@@ -73,6 +73,15 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
     EvalRateRuleRatesCodeGen::FunctionPtr evalRateRuleRatesPtr =
             EvalRateRuleRatesCodeGen(context).createFunction();
 
+    GetEventTriggerCodeGen::FunctionPtr getEventTriggerPtr =
+            GetEventTriggerCodeGen(context).createFunction();
+
+    GetEventPriorityCodeGen::FunctionPtr getEventPriorityPtr =
+            GetEventPriorityCodeGen(context).createFunction();
+
+    GetEventDelayCodeGen::FunctionPtr getEventDelayPtr =
+            GetEventDelayCodeGen(context).createFunction();
+
 
     // if anything up to this point throws an exception, thats OK, because
     // we have not allocated any memory yet that is not taken care of by
@@ -99,7 +108,9 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
     exe->getCompartmentVolumePtr = getCompartmentVolumePtr;
     exe->getGlobalParameterPtr = getGlobalParameterPtr;
     exe->evalRateRuleRatesPtr = evalRateRuleRatesPtr;
-
+    exe->getEventTriggerPtr = getEventTriggerPtr;
+    exe->getEventPriorityPtr = getEventPriorityPtr;
+    exe->getEventDelayPtr = getEventDelayPtr;
 
     return exe;
 }
