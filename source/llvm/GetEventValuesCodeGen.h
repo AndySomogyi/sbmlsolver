@@ -20,10 +20,10 @@
 #include <sbml/Model.h>
 #include <Poco/Logger.h>
 #include <vector>
+#include <cstdio>
 
 namespace rr
 {
-
 
 typedef double (*GetEventValueCodeGenBase_FunctionPtr)(LLVMModelData*, int32_t);
 
