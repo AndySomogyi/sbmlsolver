@@ -65,6 +65,8 @@ public:
      */
     llvm::Value *applyArithmeticCodeGen(const libsbml::ASTNode *ast);
 
+    llvm::Value *applyRelationalCodeGen(const libsbml::ASTNode *ast);
+
 private:
     llvm::IRBuilder<> &builder;
     LoadSymbolResolver &resolver;

@@ -110,6 +110,15 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
         result = nameExprCodeGen(ast);
         break;
 
+    case  AST_RELATIONAL_EQ:
+    case  AST_RELATIONAL_GEQ:
+    case  AST_RELATIONAL_GT:
+    case  AST_RELATIONAL_LEQ:
+    case  AST_RELATIONAL_LT:
+    case  AST_RELATIONAL_NEQ:
+        result = applyRelationalCodeGen(ast);
+        break;
+
 
     case AST_CONSTANT_E:
     case AST_CONSTANT_FALSE:
@@ -153,6 +162,13 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     case AST_FUNCTION_SINH:
     case AST_FUNCTION_TAN:
     case AST_FUNCTION_TANH:
+
+    case  AST_LOGICAL_AND:
+    case  AST_LOGICAL_NOT:
+    case  AST_LOGICAL_OR:
+    case  AST_LOGICAL_XOR:
+
+
         result = notImplemented(ast);
         break;
     default:
@@ -240,6 +256,39 @@ llvm::Value* ASTNodeCodeGen::applyArithmeticCodeGen(
         }
     }
     return acc;
+}
+
+llvm::Value* ASTNodeCodeGen::applyRelationalCodeGen(const libsbml::ASTNode* ast)
+{
+    Value *left = codeGen(ast->getLeftChild());
+    Value *right = codeGen(ast->getRightChild());
+    Value *result = 0;
+    switch (ast->getType())
+    {
+    case AST_RELATIONAL_EQ:
+        result = builder.CreateFCmpUEQ(left, right);
+        break;
+    case AST_RELATIONAL_GEQ:
+        result = builder.CreateFCmpUGE(left, right);
+        break;
+    case AST_RELATIONAL_GT:
+        result = builder.CreateFCmpUGT(left, right);
+        break;
+    case AST_RELATIONAL_LEQ:
+        result = builder.CreateFCmpULE(left, right);
+        break;
+    case AST_RELATIONAL_LT:
+        result = builder.CreateFCmpULT(left, right);
+        break;
+    case AST_RELATIONAL_NEQ:
+        result = builder.CreateFCmpUNE(left, right);
+        break;
+    }
+
+    assert(result);
+
+    return result;
+
 }
 
 } /* namespace rr */

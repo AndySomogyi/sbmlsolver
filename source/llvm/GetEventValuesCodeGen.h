@@ -24,37 +24,48 @@
 namespace rr
 {
 
+
 typedef double (*GetEventValueCodeGenBase_FunctionPtr)(LLVMModelData*, int32_t);
 
-template <typename Derived>
+template <typename Derived, typename
+    FunctionPtrType=GetEventValueCodeGenBase_FunctionPtr>
 class GetEventValueCodeGenBase :
-        public CodeGenBase<GetEventValueCodeGenBase_FunctionPtr>
+        public CodeGenBase<FunctionPtrType>
 {
 public:
-    GetEventValueCodeGenBase(const ModelGeneratorContext &mgc);
-    virtual ~GetEventValueCodeGenBase();
+    GetEventValueCodeGenBase(const ModelGeneratorContext &mgc) :
+            CodeGenBase<FunctionPtrType>(mgc)
+    {
+    };
+
+    virtual ~GetEventValueCodeGenBase() {};
 
     llvm::Value *codeGen();
 
-    typedef GetEventValueCodeGenBase_FunctionPtr FunctionPtr;
+    typedef FunctionPtrType FunctionPtr;
+
+    /**
+     * default ret type is double, derived classes
+     * must override if usign non-default func sic
+     */
+    llvm::Type *getRetType()
+    {
+        return llvm::Type::getDoubleTy(this->context);
+    }
+
+    /**
+     * create a return type, a zero value should return the default type
+     */
+    llvm::Value *createRet(llvm::Value* value)
+    {
+        return value ? value :
+                llvm::ConstantFP::get(this->context, llvm::APFloat(123.456));
+    }
 
 };
 
-template <typename Derived>
-GetEventValueCodeGenBase<Derived>::GetEventValueCodeGenBase(
-        const ModelGeneratorContext &mgc) :
-        CodeGenBase<GetEventValueCodeGenBase_FunctionPtr>(mgc)
-{
-
-}
-
-template <typename Derived>
-GetEventValueCodeGenBase<Derived>::~GetEventValueCodeGenBase()
-{
-}
-
-template <typename Derived>
-llvm::Value* GetEventValueCodeGenBase<Derived>::codeGen()
+template <typename Derived, typename FunctionPtrType>
+llvm::Value *GetEventValueCodeGenBase<Derived, FunctionPtrType>::codeGen()
 {
     // make the set init value function
     llvm::Type *argTypes[] = {
@@ -68,7 +79,9 @@ llvm::Value* GetEventValueCodeGenBase<Derived>::codeGen()
 
     llvm::Value *args[] = {0, 0};
 
-    llvm::BasicBlock *entry = this->codeGenHeader(Derived::FunctionName, llvm::Type::getDoubleTy(this->context),
+    llvm::Type *retType = static_cast<Derived*>(this)->getRetType();
+
+    llvm::BasicBlock *entry = this->codeGenHeader(Derived::FunctionName, retType,
             argTypes, argNames, args);
 
     const libsbml::ListOfEvents *events = this->model->getListOfEvents();
@@ -81,7 +94,9 @@ llvm::Value* GetEventValueCodeGenBase<Derived>::codeGen()
     // default, return NaN
     llvm::BasicBlock *def = llvm::BasicBlock::Create(this->context, "default", this->function);
     this->builder.SetInsertPoint(def);
-    this->builder.CreateRet(llvm::ConstantFP::get(this->context, llvm::APFloat(123.456)));
+
+    llvm::Value *defRet = static_cast<Derived*>(this)->createRet(0);
+    this->builder.CreateRet(defRet);
 
     // write the switch at the func entry point, the switch is also the
     // entry block terminator
@@ -103,6 +118,9 @@ llvm::Value* GetEventValueCodeGenBase<Derived>::codeGen()
         // the requested value
         llvm::Value *value = astCodeGen.codeGen(math);
 
+        // convert type to return type
+        value = static_cast<Derived*>(this)->createRet(value);
+
         this->builder.CreateRet(value);
         s->addCase(llvm::ConstantInt::get(llvm::Type::getInt32Ty(this->context), i), block);
     }
@@ -110,9 +128,11 @@ llvm::Value* GetEventValueCodeGenBase<Derived>::codeGen()
     return this->verifyFunction();
 }
 
+typedef unsigned char (*GetEventTriggerCodeGen_FunctionPtr)(LLVMModelData*, int32_t);
 
 class GetEventTriggerCodeGen: public
-    GetEventValueCodeGenBase<GetEventTriggerCodeGen>
+    GetEventValueCodeGenBase<GetEventTriggerCodeGen,
+    GetEventTriggerCodeGen_FunctionPtr>
 {
 public:
     GetEventTriggerCodeGen(const ModelGeneratorContext &mgc);
@@ -122,6 +142,10 @@ public:
 
     static const char* FunctionName;
     static const char* IndexArgName;
+
+    llvm::Type *getRetType();
+
+    llvm::Value *createRet(llvm::Value*);
 };
 
 class GetEventPriorityCodeGen: public

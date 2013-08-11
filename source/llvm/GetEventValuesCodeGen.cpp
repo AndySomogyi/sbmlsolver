@@ -25,19 +25,33 @@ const char* GetEventTriggerCodeGen::IndexArgName = "triggerIndx";
 
 GetEventTriggerCodeGen::GetEventTriggerCodeGen(
         const ModelGeneratorContext &mgc) :
-        GetEventValueCodeGenBase<GetEventTriggerCodeGen>(mgc)
+        GetEventValueCodeGenBase<GetEventTriggerCodeGen,
+        GetEventTriggerCodeGen_FunctionPtr>(mgc)
 {
+}
+
+llvm::Type *GetEventTriggerCodeGen::getRetType()
+{
+    return llvm::Type::getInt8Ty(context);
+};
+
+llvm::Value *GetEventTriggerCodeGen::createRet(llvm::Value *value)
+{
+    if (!value)
+    {
+        return llvm::ConstantInt::get(getRetType(), 0xff, false);
+    }
+    else
+    {
+        return builder.CreateIntCast(value, getRetType(), false);
+    }
 }
 
 const libsbml::ASTNode* GetEventTriggerCodeGen::getMath(
         const libsbml::Event* event)
 {
-    //const Trigger *trigger = event->getTrigger();
-    //return trigger->getMath();
-
-    ASTNode *node = new ASTNode(AST_REAL);
-    node->setValue(3.14);
-    return node;
+    const Trigger *trigger = event->getTrigger();
+    return trigger->getMath();
 }
 
 
