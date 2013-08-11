@@ -64,6 +64,16 @@ public:
      */
     virtual void reset();
 
+    enum StateStackOptions
+    {
+        /**
+         * Default behavior is to pop and restore previous state, (like OpenGL),
+         * this pops the last save and discards it without restoring the state.
+         */
+        PopDiscard = 0x00000001
+    };
+
+
     /**
      * A ExecutableModel holds a stack of states, the entire state of this
      * model is pushed onto the saved state stack, and the current state
@@ -421,8 +431,7 @@ private:
     virtual void evalEvents(double timeEnd, const unsigned char* previousEventStatus,
             const double *initialState, double* finalState);
 
-    virtual void evalEventRoots(double time, const double *stateVector, const double* y,
-            double* gdot);
+    virtual void evalEventRoots(double time, const double* y,  double* gdot);
 
     virtual double getNextPendingEventTime(bool pop);
 

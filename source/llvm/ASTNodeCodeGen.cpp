@@ -119,6 +119,13 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
         result = applyRelationalCodeGen(ast);
         break;
 
+    case  AST_LOGICAL_AND:
+    case  AST_LOGICAL_NOT:
+    case  AST_LOGICAL_OR:
+    case  AST_LOGICAL_XOR:
+        result = applyLogicalCodeGen(ast);
+        break;
+
 
     case AST_CONSTANT_E:
     case AST_CONSTANT_FALSE:
@@ -163,10 +170,7 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     case AST_FUNCTION_TAN:
     case AST_FUNCTION_TANH:
 
-    case  AST_LOGICAL_AND:
-    case  AST_LOGICAL_NOT:
-    case  AST_LOGICAL_OR:
-    case  AST_LOGICAL_XOR:
+
 
 
         result = notImplemented(ast);
@@ -283,12 +287,43 @@ llvm::Value* ASTNodeCodeGen::applyRelationalCodeGen(const libsbml::ASTNode* ast)
     case AST_RELATIONAL_NEQ:
         result = builder.CreateFCmpUNE(left, right);
         break;
+    default:
+        result = 0;
+        break;
     }
 
     assert(result);
 
     return result;
 
+}
+
+llvm::Value* ASTNodeCodeGen::applyLogicalCodeGen(const libsbml::ASTNode* ast)
+{
+    Value *left = codeGen(ast->getLeftChild());
+    Value *right = codeGen(ast->getRightChild());
+    Value *result = 0;
+
+    switch(ast->getType())
+    {
+
+    case  AST_LOGICAL_AND:
+        result = builder.CreateAnd(left, right);
+        break;
+    case  AST_LOGICAL_NOT:
+        result = builder.CreateNot(left);
+        break;
+    case  AST_LOGICAL_OR:
+        result = builder.CreateOr(left, right);
+        break;
+    case  AST_LOGICAL_XOR:
+        builder.CreateXor(left, right);
+        break;
+    default:
+        result = 0;
+        break;
+    }
+    return result;
 }
 
 } /* namespace rr */

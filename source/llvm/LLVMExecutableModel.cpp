@@ -574,8 +574,7 @@ int LLVMExecutableModel::applyPendingEvents(const double *stateVector, double ti
     return 0;
 }
 
-void  LLVMExecutableModel::evalEventRoots(double time,
-        const double *stateVector, const double* y, double* gdot)
+void  LLVMExecutableModel::evalEventRoots(double time, const double* y, double* gdot)
 {
     return;
 

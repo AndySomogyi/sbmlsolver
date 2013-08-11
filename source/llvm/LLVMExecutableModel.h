@@ -321,8 +321,7 @@ public:
     virtual void evalEvents(double timeEnd, const unsigned char* previousEventStatus,
             const double *initialState, double* finalState);
 
-    virtual void evalEventRoots(double time, const double *stateVector, const double* y,
-            double* gdot);
+    virtual void evalEventRoots(double time, const double* y, double* gdot);
 
     virtual double getNextPendingEventTime(bool pop);
 
