@@ -32,7 +32,7 @@ using std::map;
  * This class basically stores the name / value of all the re-write rules
  * (assigment or initial assigment).
  */
-class LLVMSymbolForest
+class SymbolForest
 {
 public:
     //typedef map<string, const ASTNode*> Map;

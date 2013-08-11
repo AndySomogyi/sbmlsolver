@@ -16,11 +16,6 @@ namespace rr {
 
 struct LLVMModelData;
 
-typedef double   (*LLVMEventDelayHandler)(LLVMModelData*);
-typedef double*  (*LLVMComputeEventAssignmentHandler)(LLVMModelData*);
-typedef void     (*LLVMPerformEventAssignmentHandler)(LLVMModelData*, double*);
-typedef void     (*LLVMEventAssignmentHandler)();
-
 
 /**
  * A data structure that is that allows data to be exchanged
@@ -124,7 +119,7 @@ struct LLVMModelData
      * a array of arrays, it would require an additional memory access
      * to determine the location of the parameter.
      */
-    unsigned*                           localParametersOffsets;           // 12
+    unsigned*                           localParametersOffsets;           // 13
 
     /**
      * the number of local parameters for each reaction,
@@ -152,31 +147,21 @@ struct LLVMModelData
     unsigned                            numFloatingSpecies;               // 16
 
     /**
-     * number of floating species and floating species concentrations.
-     */
-    double*                             floatingSpeciesConcentrations;    // 17
-
-    /**
-     * initial concentration values for floating species.
-     */
-    double*                             floatingSpeciesInitConcentrations;// 18
-
-    /**
      * amount rates of change for floating species.
      */
-    double*                             floatingSpeciesAmountRates;       // 19
+    double*                             floatingSpeciesAmountRates;       // 17
 
     /**
      * The total amount of a species in a compartment.
      */
-    double*                             floatingSpeciesAmounts;           // 20
+    double*                             floatingSpeciesAmounts;           // 18
 
     /**
      * compartment index for each floating species,
      * e.g. the volume of the i'th species is
      * md->compartmentVolumes[md->floatingSpeciesCompartments[i]]
      */
-    unsigned*                           floatingSpeciesCompartments;      // 21
+    unsigned*                           floatingSpeciesCompartments;      // 19
 
     /**
      * number of boundary species and boundary species concentrations.
@@ -185,66 +170,52 @@ struct LLVMModelData
      * Volume Percent= (Volume of Solute) / (Volume of Solution) x 100%
      * Mass/Volume Percent= (Mass of Solute) / (Volume of Solution) x 100%
      */
-    unsigned                            numBoundarySpecies;               // 22
-    double*                             boundarySpeciesConcentrations;    // 23
-    double*                             boundarySpeciesAmounts;           // 24
+    unsigned                            numBoundarySpecies;               // 20
+    double*                             boundarySpeciesAmounts;           // 21
 
     /**
      * compartment index for each boundary species,
      * e.g. the volume of the i'th species is
      * md->compartmentVolumes[md->boundarySpeciesCompartments[i]]
      */
-    unsigned*                           boundarySpeciesCompartments;      // 25
+    unsigned*                           boundarySpeciesCompartments;      // 22
 
     /**
      * number of compartments, and compartment volumes.
      * units: volume
      */
-    unsigned                            numCompartments;                  // 26
-    double*                             compartmentVolumes;               // 27
+    unsigned                            numCompartments;                  // 23
+    double*                             compartmentVolumes;               // 24
 
     /**
      * stoichiometry matrix
      */
-    csr_matrix*                         stoichiometry;                    // 28
+    csr_matrix*                         stoichiometry;                    // 25
 
 
     //Event stuff
-    unsigned                            numEvents;                        // 29
-    unsigned                            eventTypeSize;                    // 30
-    bool*                               eventType;                        // 31
-
-    unsigned                            eventPersistentTypeSize;          // 32
-    bool*                               eventPersistentType;              // 33
-
-    unsigned                            eventTestsSize;                   // 34
-    double*                             eventTests;                       // 35
-
-    unsigned                            eventPrioritiesSize;              // 36
-    double*                             eventPriorities;                  // 37
-
-    unsigned                            eventStatusArraySize;             // 38
-    bool*                               eventStatusArray;                 // 39
-
-    unsigned                            previousEventStatusArraySize;     // 40
-    bool*                               previousEventStatusArray;         // 41
+    unsigned                            numEvents;                        // 26
 
     /**
      * number of items in the state vector.
      */
-    unsigned                            stateVectorSize;                  // 42
+    unsigned                            stateVectorSize;                  // 27
 
     /**
      * the state vector, this is usually a pointer to a block of data
      * owned by the integrator.
      */
-    double*                             stateVector;                      // 43
+    double*                             stateVector;                      // 28
 
     /**
      * the rate of change of the state vector, this is usually a pointer to
      * a block of data owned by the integrator.
      */
-    double*                             stateVectorRate;                  // 44
+    double*                             stateVectorRate;                  // 29
+
+    unsigned                            eventAssignmentsSize;             // 30
+    double*                             eventAssignments;                 // 31
+
 
     /**
      * Work area for model implementations. The data stored here is entirely
@@ -253,19 +224,15 @@ struct LLVMModelData
      *
      * allocated by allocModelDataBuffers based on the value of workSize;
      */
-    unsigned                            workSize;                         // 45
-    double*                             work;                             // 46
+    unsigned                            workSize;                         // 32
+    double*                             work;                             // 33
 
-    LLVMEventDelayHandler*                  eventDelays;                      // 47
-    LLVMEventAssignmentHandler*             eventAssignments;                 // 48
 
-    LLVMComputeEventAssignmentHandler*      computeEventAssignments;          // 49
-    LLVMPerformEventAssignmentHandler*      performEventAssignments;          // 50
 
     /**
      * model name
      */
-    char*                               modelName;                        // 51
+    char*                               modelName;                        // 34
 
     static void init(LLVMModelData&);
 

@@ -68,33 +68,16 @@ void LLVMModelData::allocBuffers(LLVMModelData &data, const string& modelName)
     data.floatingSpeciesAmounts = (double*)calloc(data.numFloatingSpecies, sizeof(double));
     data.floatingSpeciesAmountRates = (double*)calloc(data.numFloatingSpecies, sizeof(double));
     data.rateRuleRates = (double*)calloc(data.numRateRules, sizeof(double));
-    data.floatingSpeciesConcentrations = (double*)calloc(data.numFloatingSpecies, sizeof(double));
     data.reactionRates = (double*)calloc(data.numReactions, sizeof(double));
     data.dependentSpeciesConservedSums = (double*)calloc(data.numDependentSpecies, sizeof(double));
-    data.floatingSpeciesInitConcentrations = (double*)calloc(data.numFloatingSpecies, sizeof(double));
     data.globalParameters = (double*)calloc(data.numGlobalParameters, sizeof(double));
     data.compartmentVolumes = (double*)calloc(data.numCompartments, sizeof(double));
-    data.boundarySpeciesConcentrations = (double*)calloc(data.numBoundarySpecies, sizeof(double));
     data.boundarySpeciesAmounts = (double*)calloc(data.numBoundarySpecies, sizeof(double));
-    data.eventPriorities = (double*)calloc(data.eventPrioritiesSize, sizeof(double));
-    data.eventStatusArray = (bool*)calloc(data.eventStatusArraySize, sizeof(bool));
-    data.previousEventStatusArray = (bool*)calloc(data.previousEventStatusArraySize, sizeof(bool));
-    data.eventPersistentType = (bool*)calloc(data.eventPersistentTypeSize, sizeof(bool));
-    data.eventTests = (double*)calloc(data.eventTestsSize, sizeof(double));
-    data.eventType = (bool*)calloc(data.eventTypeSize, sizeof(bool));
     data.floatingSpeciesCompartments = (unsigned*)calloc(data.numFloatingSpecies, sizeof(unsigned));
     data.boundarySpeciesCompartments = (unsigned*)calloc(data.numBoundarySpecies, sizeof(unsigned));
     data.work = (double*)calloc(data.workSize, sizeof(double));
 
-    //Event function pointer stuff
-    data.eventAssignments =
-            (LLVMEventAssignmentHandler*)calloc(data.numEvents, sizeof(LLVMEventAssignmentHandler*));
-    data.computeEventAssignments =
-            (LLVMComputeEventAssignmentHandler*)calloc(data.numEvents, sizeof(LLVMComputeEventAssignmentHandler*));
-    data.performEventAssignments =
-            (LLVMPerformEventAssignmentHandler*)calloc(data.numEvents, sizeof(LLVMPerformEventAssignmentHandler*));
-    data.eventDelays =
-            (LLVMEventDelayHandler*)calloc(data.numEvents, sizeof(LLVMEventDelayHandler*));
+
 }
 
 
@@ -130,8 +113,6 @@ std::ostream& operator <<(std::ostream& os, const LLVMModelData& data)
 
     os << "numFloatingSpecies: "       << data.numFloatingSpecies << endl;       // 15
 
-    os << "floatingSpeciesConcentrations: " << endl;                                     // 16
-    dump_array(os, data.numFloatingSpecies, data.floatingSpeciesConcentrations);
 
 
 
@@ -146,8 +127,7 @@ std::ostream& operator <<(std::ostream& os, const LLVMModelData& data)
 
 //    unsigned*                                floatingSpeciesCompartments;      // 20
     os << "numBoundarySpecies: "       << data.numBoundarySpecies << endl;  // 21
-    os << "boundarySpeciesConcentrations:" << endl;                         // 22
-    dump_array(os, data.numBoundarySpecies, data.boundarySpeciesConcentrations);
+
     os << "boundarySpeciesAmounts:"    << endl;                             // 23
     dump_array(os, data.numBoundarySpecies, data.boundarySpeciesAmounts);
 //    unsigned*                                boundarySpeciesCompartments;      // 24
@@ -196,29 +176,17 @@ void  LLVMModelData::freeBuffers(LLVMModelData &data)
     free(data.floatingSpeciesAmounts);
     free(data.floatingSpeciesAmountRates);
     free(data.rateRuleRates);
-    free(data.floatingSpeciesConcentrations);
     free(data.floatingSpeciesCompartments);
     free(data.reactionRates);
     free(data.dependentSpeciesConservedSums);
-    free(data.floatingSpeciesInitConcentrations);
     free(data.globalParameters);
     free(data.compartmentVolumes);
-    free(data.boundarySpeciesConcentrations);
     free(data.boundarySpeciesCompartments);
     free(data.boundarySpeciesAmounts);
-    free(data.eventPriorities);
-    free(data.eventStatusArray);
-    free(data.previousEventStatusArray);
-    free(data.eventPersistentType);
-    free(data.eventTests);
-    free(data.eventType);
     free(data.work);
 
     //Event function pointer stuff
     free(data.eventAssignments);
-    free(data.computeEventAssignments);
-    free(data.performEventAssignments);
-    free(data.eventDelays);
 
     csr_matrix_delete(data.stoichiometry);
 }
@@ -251,13 +219,7 @@ void LLVMModelData::copyBuffers(LLVMModelData *dst, LLVMModelData *src)
                 src->numRateRules * sizeof(double));
     }
 
-    if (dst->floatingSpeciesConcentrations
-            && src->floatingSpeciesConcentrations)
-    {
-        memcpy(dst->floatingSpeciesConcentrations,
-                src->floatingSpeciesConcentrations,
-                src->numFloatingSpecies * sizeof(double));
-    }
+
 
     if (dst->reactionRates && src->reactionRates)
     {
@@ -273,13 +235,7 @@ void LLVMModelData::copyBuffers(LLVMModelData *dst, LLVMModelData *src)
                 src->numDependentSpecies * sizeof(double));
     }
 
-    if (dst->floatingSpeciesInitConcentrations
-            && src->floatingSpeciesInitConcentrations)
-    {
-        memcpy(dst->floatingSpeciesInitConcentrations,
-                src->floatingSpeciesInitConcentrations,
-                src->numFloatingSpecies * sizeof(double));
-    }
+
 
     if (dst->globalParameters && src->globalParameters)
     {
@@ -293,54 +249,12 @@ void LLVMModelData::copyBuffers(LLVMModelData *dst, LLVMModelData *src)
                 src->numCompartments * sizeof(double));
     }
 
-    if (dst->boundarySpeciesConcentrations
-            && src->boundarySpeciesConcentrations)
-    {
-        memcpy(dst->boundarySpeciesConcentrations,
-                src->boundarySpeciesConcentrations,
-                src->numBoundarySpecies * sizeof(double));
-    }
+
 
     if (dst->boundarySpeciesAmounts && src->boundarySpeciesAmounts)
     {
         memcpy(dst->boundarySpeciesAmounts, src->boundarySpeciesAmounts,
                 src->numBoundarySpecies * sizeof(double));
-    }
-
-    if (dst->eventPriorities && src->eventPriorities)
-    {
-        memcpy(dst->eventPriorities, src->eventPriorities,
-                src->eventPrioritiesSize * sizeof(double));
-    }
-
-    if (dst->eventStatusArray && src->eventStatusArray)
-    {
-        memcpy(dst->eventStatusArray, src->eventStatusArray,
-                src->eventStatusArraySize * sizeof(bool));
-    }
-
-    if (dst->previousEventStatusArray && src->previousEventStatusArray)
-    {
-        memcpy(dst->previousEventStatusArray, src->previousEventStatusArray,
-                src->previousEventStatusArraySize * sizeof(bool));
-    }
-
-    if (dst->eventPersistentType && src->eventPersistentType)
-    {
-        memcpy(dst->eventPersistentType, src->eventPersistentType,
-                src->eventPersistentTypeSize * sizeof(bool));
-    }
-
-    if (dst->eventTests && src->eventTests)
-    {
-        memcpy(dst->eventTests, src->eventTests,
-                src->eventTestsSize * sizeof(double));
-    }
-
-    if (dst->eventType && src->eventType)
-    {
-        memcpy(dst->eventType, src->eventType,
-                src->eventTypeSize * sizeof(bool));
     }
 
     if (dst->floatingSpeciesCompartments && src->floatingSpeciesCompartments)
@@ -360,31 +274,6 @@ void LLVMModelData::copyBuffers(LLVMModelData *dst, LLVMModelData *src)
     if (dst->work && src->work)
     {
         memcpy(dst->work, src->work, src->workSize * sizeof(int));
-    }
-
-    //Event function pointer stuff
-    if (dst->eventAssignments && src->eventAssignments)
-    {
-        memcpy(dst->eventAssignments, src->eventAssignments,
-                src->numEvents * sizeof(LLVMEventAssignmentHandler*));
-    }
-
-    if (dst->computeEventAssignments && src->computeEventAssignments)
-    {
-        memcpy(dst->computeEventAssignments, src->computeEventAssignments,
-                src->numEvents * sizeof(LLVMComputeEventAssignmentHandler*));
-    }
-
-    if (dst->performEventAssignments && src->performEventAssignments)
-    {
-        memcpy(dst->performEventAssignments, src->performEventAssignments,
-                src->numEvents * sizeof(LLVMPerformEventAssignmentHandler*));
-    }
-
-    if (dst->eventDelays && src->eventDelays)
-    {
-        memcpy(dst->eventDelays, src->eventDelays,
-                src->numEvents * sizeof(LLVMEventDelayHandler*));
     }
 
 }

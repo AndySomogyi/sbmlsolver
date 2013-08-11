@@ -20,6 +20,8 @@
 #include "EvalRateRuleRatesCodeGen.h"
 #include "GetValuesCodeGen.h"
 #include "GetEventValuesCodeGen.h"
+#include "EventAssignCodeGen.h"
+#include "EventTriggerCodeGen.h"
 
 namespace rr
 {
@@ -359,6 +361,8 @@ private:
     GetEventTriggerCodeGen::FunctionPtr getEventTriggerPtr;
     GetEventPriorityCodeGen::FunctionPtr getEventPriorityPtr;
     GetEventDelayCodeGen::FunctionPtr getEventDelayPtr;
+    EventTriggerCodeGen::FunctionPtr eventTriggerPtr;
+    EventAssignCodeGen::FunctionPtr eventAssignPtr;
 
     double getFloatingSpeciesConcentration(int index);
 

@@ -43,7 +43,7 @@ Value* EvalInitialConditionsCodeGen::codeGen()
     BasicBlock *basicBlock = codeGenVoidModelDataHeader(FunctionName, modelData);
 
     Log(lInfo) << "boundarySpecies: \n";
-    for (LLVMSymbolForest::ConstIterator i = modelSymbols.getInitialValues().boundarySpecies.begin();
+    for (SymbolForest::ConstIterator i = modelSymbols.getInitialValues().boundarySpecies.begin();
             i != modelSymbols.getInitialValues().boundarySpecies.end(); i++)
     {
         char* formula = SBML_formulaToString(i->second);
@@ -51,7 +51,7 @@ Value* EvalInitialConditionsCodeGen::codeGen()
         free(formula);
     }
 
-    LLVMModelDataStoreSymbolResolver modelDataResolver(modelData, model,
+    ModelDataStoreSymbolResolver modelDataResolver(modelData, model,
             modelSymbols, dataSymbols, builder, initialValueResolver);
 
     codeGenSpecies(modelDataResolver);
@@ -68,7 +68,7 @@ Value* EvalInitialConditionsCodeGen::codeGen()
 }
 
 void EvalInitialConditionsCodeGen::codeGenSpecies(
-        LLVMModelDataStoreSymbolResolver& modelDataResolver)
+        ModelDataStoreSymbolResolver& modelDataResolver)
 {
     {
         vector<string> floatingSpecies = dataSymbols.getFloatingSpeciesIds();
@@ -105,7 +105,7 @@ void EvalInitialConditionsCodeGen::codeGenSpecies(
 
 
 void EvalInitialConditionsCodeGen::codeGenStoichiometry(
-        llvm::Value *modelData, LLVMModelDataStoreSymbolResolver& modelDataResolver)
+        llvm::Value *modelData, ModelDataStoreSymbolResolver& modelDataResolver)
 {
     ModelDataIRBuilder modelDataBuilder(modelData, dataSymbols,
                 builder);
@@ -148,7 +148,7 @@ void EvalInitialConditionsCodeGen::codeGenStoichiometry(
 }
 
 void EvalInitialConditionsCodeGen::codeGenCompartments(
-        LLVMModelDataStoreSymbolResolver& modelDataResolver)
+        ModelDataStoreSymbolResolver& modelDataResolver)
 {
     vector<string> compartments = dataSymbols.getCompartmentIds();
 
@@ -166,7 +166,7 @@ void EvalInitialConditionsCodeGen::codeGenCompartments(
 }
 
 void EvalInitialConditionsCodeGen::codeGenParameters(
-        LLVMModelDataStoreSymbolResolver& modelDataResolver)
+        ModelDataStoreSymbolResolver& modelDataResolver)
 {
     vector<string> globalParameters = dataSymbols.getGlobalParameterIds();
 

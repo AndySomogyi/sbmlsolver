@@ -16,7 +16,7 @@ using namespace libsbml;
 namespace rr
 {
 AssignmentRuleEvaluator::AssignmentRuleEvaluator(
-        LLVMSymbolForest& symbols) :
+        SymbolForest& symbols) :
         symbols(symbols)
 {
 }

@@ -27,14 +27,14 @@ class AssignmentRuleEvaluator : public libsbml::SBMLVisitor
     using libsbml::SBMLVisitor::visit;
 
 public:
-    AssignmentRuleEvaluator(LLVMSymbolForest &symbols);
+    AssignmentRuleEvaluator(SymbolForest &symbols);
 
     void evaluate(const libsbml::Model& model);
 
     virtual bool visit (const libsbml::AssignmentRule  &x);
 
 protected:
-    LLVMSymbolForest &symbols;
+    SymbolForest &symbols;
 };
 
 } /* namespace rr */

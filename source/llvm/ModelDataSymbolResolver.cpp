@@ -30,7 +30,7 @@ ModelDataLoadSymbolResolver::ModelDataLoadSymbolResolver(llvm::Value *modelData,
 {
 }
 
-LLVMModelDataStoreSymbolResolver::LLVMModelDataStoreSymbolResolver(llvm::Value *modelData,
+ModelDataStoreSymbolResolver::ModelDataStoreSymbolResolver(llvm::Value *modelData,
         const libsbml::Model *model,
         const LLVMModelSymbols &modelSymbols,
         const LLVMModelDataSymbols &modelDataSymbols,
@@ -56,7 +56,7 @@ llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(
     /* AssignmentRule */
     /*************************************************************************/
     {
-        LLVMSymbolForest::ConstIterator i = modelSymbols.getAssigmentRules().find(
+        SymbolForest::ConstIterator i = modelSymbols.getAssigmentRules().find(
                 symbol);
         if (i != modelSymbols.getAssigmentRules().end())
         {
@@ -133,7 +133,7 @@ llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(
     return 0;
 }
 
-llvm::Value* LLVMModelDataStoreSymbolResolver::storeSymbolValue(
+llvm::Value* ModelDataStoreSymbolResolver::storeSymbolValue(
         const std::string& symbol, llvm::Value *value)
 {
     assert(value);

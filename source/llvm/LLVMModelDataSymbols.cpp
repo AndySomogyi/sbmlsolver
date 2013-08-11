@@ -41,48 +41,30 @@ static const char* modelDataFieldsNames[] =  {
     "ReactionRates",                            // 9
     "NumRateRules",                             // 10
     "RateRuleValues",                           // 11
-    "RateRuleRates",                            // 11
-    "LocalParametersOffsets",                   // 12
-    "LocalParametersNum",                       // 13
-    "LocalParameters",                          // 14
-    "NumFloatingSpecies",                       // 15
+    "RateRuleRates",                            // 12
+    "LocalParametersOffsets",                   // 13
+    "LocalParametersNum",                       // 14
+    "LocalParameters",                          // 15
+    "NumFloatingSpecies",                       // 16
     "FloatingSpeciesConcentrations",            // 16
-    "FloatingSpeciesInitConcentrations",        // 17
-    "FloatingSpeciesAmountRates",               // 18
-    "FloatingSpeciesAmounts",                   // 19
-    "FloatingSpeciesCompartments",              // 20
-    "NumBoundarySpecies",                       // 21
-    "BoundarySpeciesConcentrations",            // 22
-    "BoundarySpeciesAmounts",                   // 23
-    "BoundarySpeciesCompartments",              // 24
-    "NumCompartments",                          // 25
-    "CompartmentVolumes",                       // 26
-    "Stoichiometry",                            // 27
-    "NumEvents",                                // 28
-    "EventTypeSize",                            // 29
-    "EventType",                                // 20
-    "EventPersistentTypeSize",                  // 31
-    "EventPersistentType",                      // 32
-    "EventTestsSize",                           // 33
-    "EventTests",                               // 34
-    "EventPrioritiesSize",                      // 35
-    "EventPriorities",                          // 36
-    "EventStatusArraySize",                     // 37
-    "EventStatusArray",                         // 38
-    "PreviousEventStatusArraySize",             // 39
-    "PreviousEventStatusArray",                 // 40
-    "StateVectorSize",                          // 41
-    "StateVector",                              // 42
-    "StateVectorRate",                          // 43
-    "WorkSize",                                 // 44
-    "Work",                                     // 45
-    "EventDelays",                              // 46
-    "EventAssignments",                         // 47
-    "ComputeEventAssignments",                  // 48
-    "PerformEventAssignments",                  // 49
-    "ModelName",                                // 50
-    "SrSize",                                   // 51
-    "Sr"                                        // 52
+    "FloatingSpeciesAmountRates",               // 17
+    "FloatingSpeciesAmounts",                   // 18
+    "FloatingSpeciesCompartments",              // 19
+    "NumBoundarySpecies",                       // 20
+    "BoundarySpeciesAmounts",                   // 21
+    "BoundarySpeciesCompartments",              // 22
+    "NumCompartments",                          // 23
+    "CompartmentVolumes",                       // 24
+    "Stoichiometry",                            // 25
+    "NumEvents",                                // 26
+    "StateVectorSize",                          // 27
+    "StateVector",                              // 28
+    "StateVectorRate",                          // 29
+    "EventAssignmentsSize",                     // 30
+    "EventAssignments",                         // 31
+    "WorkSize",                                 // 32
+    "Work",                                     // 33
+    "ModelName"                                 // 34
 };
 
 /*

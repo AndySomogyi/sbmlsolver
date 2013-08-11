@@ -96,7 +96,7 @@ bool LLVMModelSymbols::visit (const libsbml::Event &event)
     return true;
 }
 
-void LLVMModelSymbols::processElement(LLVMSymbolForest& currentSymbols,
+void LLVMModelSymbols::processElement(SymbolForest& currentSymbols,
         const libsbml::SBase *element, const ASTNode* math)
 {
     const Compartment *comp = 0;
@@ -222,7 +222,7 @@ bool LLVMModelSymbols::visit(const libsbml::Reaction& r)
 
 
 
-void LLVMModelSymbols::processSpecies(LLVMSymbolForest &currentSymbols,
+void LLVMModelSymbols::processSpecies(SymbolForest &currentSymbols,
         const libsbml::Species *species, const ASTNode* math)
 {
     // ASTNode takes ownership of children, so only allocate the ones that
@@ -528,17 +528,17 @@ ASTNode* LLVMModelSymbols::createStoichiometryNode(int row, int col) const
     return result;
 }
 
-const LLVMSymbolForest& LLVMModelSymbols::getAssigmentRules() const
+const SymbolForest& LLVMModelSymbols::getAssigmentRules() const
 {
     return assigmentRules;
 }
 
-const LLVMSymbolForest& LLVMModelSymbols::getInitialValues() const
+const SymbolForest& LLVMModelSymbols::getInitialValues() const
 {
     return initialValues;
 }
 
-const LLVMSymbolForest& LLVMModelSymbols::getRateRules() const
+const SymbolForest& LLVMModelSymbols::getRateRules() const
 {
     return rateRules;
 }

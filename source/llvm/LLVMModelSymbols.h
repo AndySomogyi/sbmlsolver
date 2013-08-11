@@ -41,15 +41,15 @@ public:
     /**
      * assignment rules are always active
      */
-    const LLVMSymbolForest& getAssigmentRules() const;
+    const SymbolForest& getAssigmentRules() const;
 
     /**
      * contains the intial symbols along with the intial assignments which
      * override the initial values.
      */
-    const LLVMSymbolForest& getInitialValues() const;
+    const SymbolForest& getInitialValues() const;
 
-    const LLVMSymbolForest& getRateRules() const;
+    const SymbolForest& getRateRules() const;
 
 protected:
 
@@ -157,13 +157,13 @@ protected:
      * This figures out what they refer to, and stuffs the AST in the
      * appropriate map.
      */
-    void processElement(LLVMSymbolForest &currentSymbols,
+    void processElement(SymbolForest &currentSymbols,
             const libsbml::SBase *element, const libsbml::ASTNode *math);
 
     /**
      * specialized logic to write both amounts and concentrations here.
      */
-    void processSpecies(LLVMSymbolForest &currentSymbols,
+    void processSpecies(SymbolForest &currentSymbols,
             const libsbml::Species *element, const libsbml::ASTNode *math);
 
     /**
@@ -172,11 +172,11 @@ protected:
      */
     const libsbml::ASTNode *getSpeciesReferenceStoichMath(const libsbml::SpeciesReference *reference);
 
-    LLVMSymbolForest initialValues;
+    SymbolForest initialValues;
 
-    LLVMSymbolForest assigmentRules;
+    SymbolForest assigmentRules;
 
-    LLVMSymbolForest rateRules;
+    SymbolForest rateRules;
 
     /**
      * all ASTNodes we create are stored here.

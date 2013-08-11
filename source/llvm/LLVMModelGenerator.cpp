@@ -82,6 +82,12 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
     GetEventDelayCodeGen::FunctionPtr getEventDelayPtr =
             GetEventDelayCodeGen(context).createFunction();
 
+    EventTriggerCodeGen::FunctionPtr eventTriggerPtr =
+            EventTriggerCodeGen(context).createFunction();
+
+    EventAssignCodeGen::FunctionPtr eventAssignPtr =
+            EventAssignCodeGen(context).createFunction();
+
 
     // if anything up to this point throws an exception, thats OK, because
     // we have not allocated any memory yet that is not taken care of by
@@ -100,7 +106,6 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
     exe->evalInitialConditionsPtr = evalInitialConditionsPtr;
     exe->evalReactionRatesPtr = evalReactionRatesPtr;
-
     exe->getBoundarySpeciesAmountPtr = getBoundarySpeciesAmountPtr;
     exe->getFloatingSpeciesAmountPtr = getFloatingSpeciesAmountPtr;
     exe->getBoundarySpeciesConcentrationPtr = getBoundarySpeciesConcentrationPtr;
@@ -111,6 +116,8 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
     exe->getEventTriggerPtr = getEventTriggerPtr;
     exe->getEventPriorityPtr = getEventPriorityPtr;
     exe->getEventDelayPtr = getEventDelayPtr;
+    exe->eventTriggerPtr = eventTriggerPtr;
+    exe->eventAssignPtr = eventAssignPtr;
 
     return exe;
 }

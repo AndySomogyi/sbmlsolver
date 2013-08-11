@@ -43,16 +43,16 @@ private:
 
 };
 
-class LLVMModelDataStoreSymbolResolver: public LLVMStoreSymbolResolver
+class ModelDataStoreSymbolResolver: public StoreSymbolResolver
 {
 public:
-    LLVMModelDataStoreSymbolResolver(llvm::Value *modelData,
+    ModelDataStoreSymbolResolver(llvm::Value *modelData,
             const libsbml::Model *model, const LLVMModelSymbols &modelSymbols,
             const LLVMModelDataSymbols &modelDataSymbols,
             llvm::IRBuilder<> &builder,
             LoadSymbolResolver &resolver);
 
-    virtual ~LLVMModelDataStoreSymbolResolver() {};
+    virtual ~ModelDataStoreSymbolResolver() {};
 
     virtual llvm::Value *storeSymbolValue(const std::string& symbol,
             llvm::Value *value);
