@@ -104,6 +104,7 @@ if(BUILD_LLVM)
         llvm/LLVMExecutableModel
         llvm/GetRateRuleValuesCodeGen
         llvm/GetValuesCodeGen
+        llvm/GetEventValuesCodeGen
         llvm/InitialValueSymbolResolver
         llvm/LLVMModelData
         llvm/ModelDataIRBuilder

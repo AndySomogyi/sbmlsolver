@@ -302,15 +302,11 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
 
     ExecutableModel *model = cvInstance->getModel();
 
-    model->pushState();
-
     Log(Logger::PRIO_TRACE) << __FUNC__ << endl;
 
     model->evalModel(time, y, ydot);
 
     cvInstance->mCount++;
-
-    model->popState();
 }
 
 void EventFcn(double time, double* y, double* gdot, void* userData)
@@ -324,7 +320,15 @@ void EventFcn(double time, double* y, double* gdot, void* userData)
 
     ExecutableModel *model = cvInstance->getModel();
 
-    model->evalEventRoots(time, NV_DATA_S(cvInstance->mStateVector), y, gdot);
+    //model->evalEventRoots(time, NV_DATA_S(cvInstance->mStateVector), y, gdot);
+
+    //assert(NV_DATA_S(cvInstance->mStateVector) == y);
+
+
+
+    model->evalEventRoots(time, y, gdot);
+
+
 
     cvInstance->mRootCount++;
 }

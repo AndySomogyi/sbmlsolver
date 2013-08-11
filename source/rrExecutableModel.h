@@ -61,38 +61,6 @@ public:
     virtual void reset() = 0;
 
 
-    enum StateStackOptions
-    {
-        /**
-         * Default behavior is to pop and restore previous state, (like OpenGL),
-         * this pops the last save and discards it without restoring the state.
-         */
-        PopDiscard = 0x00000001
-    };
-
-    /**
-     * A ExecutableModel holds a stack of states, the entire state of this
-     * model is pushed onto the saved state stack, and the current state
-     * remains unchanged.
-     *
-     * @param[in] options a bitfield of options from StateStackOptions.
-     *
-     * @returns the size of the saved stack after the current state has been
-     * pushed.
-     */
-    virtual int pushState(unsigned options = 0) = 0;
-
-    /**
-     * restore the state from a previously saved state, if the state stack
-     * is empty, this has no effect.
-     *
-     * @param[in] options a bitfield of options from StateStackOptions.
-     *
-     * @returns the size of the saved stack after the top has been poped.
-     */
-    virtual int popState(unsigned options = 0) = 0;
-
-    // functions --------------------------------------------------------
     virtual int getNumIndependentSpecies() = 0;
     virtual int getNumDependentSpecies() = 0;
 
@@ -155,11 +123,6 @@ public:
      */
     virtual int getFloatingSpeciesInitConcentrations(int len, int const *indx,
                     double *values) = 0;
-
-
-
-
-
 
     /**
      * get the boundary species amounts
@@ -387,8 +350,18 @@ public:
     virtual void evalEvents(double timeEnd, const unsigned char* previousEventStatus,
                 const double *initialState, double* finalState) = 0;
 
-    virtual void evalEventRoots(double time, const double *stateVector, const double* y,
-            double* gdot) = 0;
+    /**
+     * evaluate the event 'roots' -- when events transition form triggered - non-triggered
+     * or triggered to non-triggered state.
+     *
+     * Simplest method is to return 1 for triggered, -1 for not-triggered, so long
+     * as there is a zero crossing.
+     *
+     * @param time[in] current time
+     * @param y[in] the state vector
+     * @param gdot[out] result event roots, this is of length numEvents.
+     */
+    virtual void evalEventRoots(double time, const double* y, double* gdot) = 0;
 
     virtual int applyPendingEvents(const double *stateVector, double timeEnd, double tout) = 0;
 

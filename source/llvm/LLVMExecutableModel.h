@@ -19,6 +19,7 @@
 #include "EvalReactionRatesCodeGen.h"
 #include "EvalRateRuleRatesCodeGen.h"
 #include "GetValuesCodeGen.h"
+#include "GetEventValuesCodeGen.h"
 
 namespace rr
 {
@@ -320,8 +321,7 @@ public:
     virtual void evalEvents(double timeEnd, const unsigned char* previousEventStatus,
             const double *initialState, double* finalState);
 
-    virtual void evalEventRoots(double time, const double *stateVector, const double* y,
-            double* gdot);
+    virtual void evalEventRoots(double time, const double* y, double* gdot);
 
     virtual double getNextPendingEventTime(bool pop);
 
@@ -356,6 +356,9 @@ private:
     GetCompartmentVolumeCodeGen::FunctionPtr getCompartmentVolumePtr;
     GetGlobalParameterCodeGen::FunctionPtr getGlobalParameterPtr;
     EvalRateRuleRatesCodeGen::FunctionPtr evalRateRuleRatesPtr;
+    GetEventTriggerCodeGen::FunctionPtr getEventTriggerPtr;
+    GetEventPriorityCodeGen::FunctionPtr getEventPriorityPtr;
+    GetEventDelayCodeGen::FunctionPtr getEventDelayPtr;
 
     double getFloatingSpeciesConcentration(int index);
 

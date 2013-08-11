@@ -565,7 +565,6 @@ void CompiledExecutableModel::setInitialConditions()
     csetInitialConditions(&mData);
 }
 
-//void CompiledExecutableModel::computeReactionRates(double time, vector<double>& y){}
 void CompiledExecutableModel::computeAllRatesOfChange()
 {
     if(!ccomputeAllRatesOfChange)
@@ -989,7 +988,7 @@ vector<int> CompiledExecutableModel::retestEvents(const double& timeEnd, const v
         }
     }
 
-    this->popState(assignOldState ? 0 : ExecutableModel::PopDiscard);
+    this->popState(assignOldState ? 0 : PopDiscard);
 
     return result;
 }
@@ -1220,7 +1219,7 @@ void CompiledExecutableModel::sortEventsByPriority(vector<int>& firedEvents)
 }
 
 void CompiledExecutableModel::evalEventRoots(double time,
-        const double *stateVector, const double* y, double* gdot)
+        const double *stateVector, double* gdot)
 {
 
     this->pushState();
