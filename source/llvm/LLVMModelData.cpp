@@ -137,6 +137,10 @@ std::ostream& operator <<(std::ostream& os, const LLVMModelData& data)
     os << "stoichiometry:"             << endl;                             // 27
     os << data.stoichiometry;
 //    int                                 numEvents;                        // 28
+
+    os << "eventAssignments:"             << endl;
+    dump_array(os, data.eventAssignmentsSize, data.eventAssignments);
+
 //    int                                 eventTypeSize;                    // 29
 //    bool*                               eventType;                        // 30
 //    int                                 eventPersistentTypeSize;          // 31

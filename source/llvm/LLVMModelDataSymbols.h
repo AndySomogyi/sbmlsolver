@@ -199,6 +199,17 @@ public:
     bool isIndependentCompartment(const std::string& id) const;
 
     /**
+     * all the event assignments are stored in a single array,
+     * these are the offsets of each assignment block.
+     */
+    uint getEventAssignmentOffset(uint eventIndx) const;
+
+    /**
+     * size of the event assignment array
+     */
+    uint getEventAssignmentSize() const;
+
+    /**
      * get the textual form of the field names.
      */
     static const char* getFieldName(ModelDataFields field);
@@ -258,6 +269,28 @@ private:
     uint independentGlobalParameterSize;
     uint independentCompartmentSize;
 
+    std::vector<uint> eventAssignmentOffsets;
+
+    uint eventAssignmentSize;
+
+    void initBoundarySpecies(const libsbml::Model *);
+
+    void initFloatingSpecies(const libsbml::Model *,
+            bool computeAndAssignConsevationLaws);
+
+    void initCompartments(const libsbml::Model *);
+
+    /**
+     * get the global parameters, need to reorder them to set the independent
+     * ones first
+     */
+    void initGlobalParameters(const libsbml::Model *model);
+
+    void initReactions(const libsbml::Model *model);
+
+    void displayCompartmentInfo();
+
+    void initEvents(const libsbml::Model *model);
 };
 
 } /* namespace rr */

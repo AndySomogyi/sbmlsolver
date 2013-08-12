@@ -43,8 +43,6 @@ ModelDataIRBuilder::ModelDataIRBuilder(Value *modelData,
 }
 
 
-
-
 llvm::Value* ModelDataIRBuilder::createGlobalParamGEP(const std::string& id)
 {
     uint index = symbols.getGlobalParameterIndex(id);
@@ -389,12 +387,6 @@ llvm::StructType *ModelDataIRBuilder::getStructType(llvm::Module *module, llvm::
     {
         LLVMContext &context = module->getContext();
 
-        // different compilers define bool differently, it used to be more common to store
-        // bool as a 32 bit int, but now its more common to use an 8 bit int.
-        Type *boolType = IntegerType::get(context, sizeof(bool) * 8);
-        Type *boolPtrType = boolType->getPointerTo();
-        Type *charStarStarType = Type::getInt8PtrTy(context)->getPointerTo();
-        Type *voidPtrType = Type::getInt8PtrTy(context);
         Type *csrSparseType = getCSRSparseStructType(module, engine);
         Type *csrSparsePtrType = csrSparseType->getPointerTo();
 
@@ -471,12 +463,6 @@ llvm::StructType *ModelDataIRBuilder::getStructType(llvm::Module *module, llvm::
     }
     return structType;
 }
-
-
-
-
-
-
 
 
 /*****************************************************************************/
@@ -1066,4 +1052,17 @@ void LLVMModelDataIRBuilderTesting::test(Module *module, IRBuilder<> *build,
 
 } /* namespace rr */
 
+llvm::Value* ModelDataIRBuilder::createEventAssignmentGEP(uint eventId,
+		uint assignmentId, const llvm::Twine& name)
+{
+}
 
+llvm::Value* ModelDataIRBuilder::createEventAssignmentLoad(uint eventId,
+		uint assignmentId, const llvm::Twine& name)
+{
+}
+
+llvm::Value* ModelDataIRBuilder::createEventAssignmentStore(uint eventId,
+		uint assignmentId, llvm::Value* value)
+{
+}
