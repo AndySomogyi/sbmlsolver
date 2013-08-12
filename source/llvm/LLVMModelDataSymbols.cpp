@@ -46,7 +46,6 @@ static const char* modelDataFieldsNames[] =  {
     "LocalParametersNum",                       // 14
     "LocalParameters",                          // 15
     "NumFloatingSpecies",                       // 16
-    "FloatingSpeciesConcentrations",            // 16
     "FloatingSpeciesAmountRates",               // 17
     "FloatingSpeciesAmounts",                   // 18
     "FloatingSpeciesCompartments",              // 19
@@ -59,7 +58,7 @@ static const char* modelDataFieldsNames[] =  {
     "NumEvents",                                // 26
     "StateVectorSize",                          // 27
     "StateVector",                              // 28
-    "StateVectorRate",                          // 29
+    "StateVectorRate",                          // 39
     "EventAssignmentsSize",                     // 30
     "EventAssignments",                         // 31
     "WorkSize",                                 // 32

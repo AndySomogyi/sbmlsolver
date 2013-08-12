@@ -300,7 +300,8 @@ llvm::Value* ModelDataIRBuilder::createCompGEP(const std::string& id,
             name.isTriviallyEmpty() ? id : name);
 }
 
-llvm::Value* ModelDataIRBuilder::createBoundSpeciesAmtLoad(const std::string& id, const llvm::Twine& name)
+llvm::Value* ModelDataIRBuilder::createBoundSpeciesAmtLoad(
+        const std::string& id, const llvm::Twine& name)
 {
     Value *gep = createBoundSpeciesAmtGEP(id, name + "_gep");
     return builder.CreateLoad(gep, name);
@@ -319,6 +320,30 @@ llvm::Value* ModelDataIRBuilder::createBoundSpeciesAmtGEP(
     uint index = symbols.getBoundarySpeciesIndex(id);
     assert(index < symbols.getIndependentBoundarySpeciesSize());
     return createGEP(BoundarySpeciesAmounts, index, name);
+}
+
+llvm::Value* ModelDataIRBuilder::createEventAssignmentGEP(uint eventId,
+        uint assignmentId, const llvm::Twine& name)
+{
+    uint offset = symbols.getEventAssignmentOffset(eventId);
+    uint index = offset + assignmentId;
+    assert(index < symbols.getEventAssignmentSize() &&
+            "event assignment index out of bounds");
+    return createGEP(EventAssignments, index, name);
+}
+
+llvm::Value* ModelDataIRBuilder::createEventAssignmentLoad(uint eventId,
+        uint assignmentId, const llvm::Twine& name)
+{
+    Value *gep = createEventAssignmentGEP(eventId, assignmentId, name);
+    return builder.CreateLoad(gep, name);
+}
+
+llvm::Value* ModelDataIRBuilder::createEventAssignmentStore(uint eventId,
+        uint assignmentId, llvm::Value* value)
+{
+    Value *gep = createEventAssignmentGEP(eventId, assignmentId);
+    return builder.CreateStore(value, gep);
 }
 
 llvm::Value* ModelDataIRBuilder::createBoundSpeciesCompGEP(const std::string& id)
@@ -1051,18 +1076,3 @@ void LLVMModelDataIRBuilderTesting::test(Module *module, IRBuilder<> *build,
 
 
 } /* namespace rr */
-
-llvm::Value* ModelDataIRBuilder::createEventAssignmentGEP(uint eventId,
-		uint assignmentId, const llvm::Twine& name)
-{
-}
-
-llvm::Value* ModelDataIRBuilder::createEventAssignmentLoad(uint eventId,
-		uint assignmentId, const llvm::Twine& name)
-{
-}
-
-llvm::Value* ModelDataIRBuilder::createEventAssignmentStore(uint eventId,
-		uint assignmentId, llvm::Value* value)
-{
-}

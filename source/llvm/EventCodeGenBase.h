@@ -24,7 +24,6 @@
 
 namespace rr {
 
-
 typedef void (*EventCodeGenBase_FunctionPtr)(LLVMModelData*, int32_t);
 
 template <typename Derived>
@@ -40,6 +39,21 @@ public:
     virtual ~EventCodeGenBase() {};
 
     llvm::Value *codeGen();
+
+    /**
+     * derived classes must implement this method to generate the event
+     * trigger / assignment code.
+     *
+     * Derived classes are called with an event and this call is in the middle
+     * of the code generation block. So, a derived class should simply begin
+     * outputing the instruction so process all of the event assignments /
+     * triggers in this call. The base class takes care of generating
+     * the return value.
+     */
+    bool eventCodeGen (llvm::Value *modelData, uint eventId, const libsbml::Event *event)
+    {
+        return false;
+    };
 
     typedef EventCodeGenBase_FunctionPtr FunctionPtr;
 };
@@ -66,11 +80,6 @@ llvm::Value *EventCodeGenBase<Derived>::codeGen()
 
     const libsbml::ListOfEvents *events = this->model->getListOfEvents();
 
-    ModelDataLoadSymbolResolver resolver(args[0], this->model, this->modelSymbols,
-            this->dataSymbols, this->builder);
-
-    ASTNodeCodeGen astCodeGen(this->builder, resolver);
-
     // default, return NaN
     llvm::BasicBlock *def = llvm::BasicBlock::Create(this->context, "default", this->function);
     this->builder.SetInsertPoint(def);
@@ -92,18 +101,17 @@ llvm::Value *EventCodeGenBase<Derived>::codeGen()
 
         const libsbml::Event *event = events->get(i);
 
+        bool cont = static_cast<Derived*>(this)->eventCodeGen(args[0], i, event);
 
         this->builder.CreateRetVoid();
         s->addCase(llvm::ConstantInt::get(llvm::Type::getInt32Ty(this->context), i), block);
+
+        if (!cont) break;
     }
 
     return this->verifyFunction();
 }
 
 }
-
-
-
-
 
 #endif /* EVENTCODEGENBASE_H_ */

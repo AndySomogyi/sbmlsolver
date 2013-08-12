@@ -13,12 +13,14 @@
 namespace rr
 {
 
-class EventAssignCodeGen:
-        public EventCodeGenBase<EventAssignCodeGen>
+class EventAssignCodeGen: public EventCodeGenBase<EventAssignCodeGen>
 {
 public:
     EventAssignCodeGen(const ModelGeneratorContext &mgc);
     ~EventAssignCodeGen();
+
+    bool eventCodeGen(llvm::Value *modelData, uint eventIndx,
+            const libsbml::Event* event);
 
     static const char* FunctionName;
 };

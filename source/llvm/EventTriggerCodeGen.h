@@ -15,12 +15,14 @@ namespace rr
 
 typedef void (*EventTriggerCodeGen_FunctionPtr)(LLVMModelData*, int32_t);
 
-class EventTriggerCodeGen:
-        public EventCodeGenBase<EventTriggerCodeGen>
+class EventTriggerCodeGen: public EventCodeGenBase<EventTriggerCodeGen>
 {
 public:
     EventTriggerCodeGen(const ModelGeneratorContext &mgc);
     ~EventTriggerCodeGen();
+
+    bool eventCodeGen(llvm::Value *modelData, uint eventIndx,
+            const libsbml::Event* event);
 
     static const char* FunctionName;
 };

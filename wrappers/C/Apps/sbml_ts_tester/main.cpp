@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
         }
         else
         {
-            Logger::SetCutOffLogLevel(Logger::PRIO_INFORMATION);
+            Logger::SetCutOffLogLevel(Logger::PRIO_NOTICE);
         }
 
         Log(Logger::PRIO_NOTICE) << "Notice";
