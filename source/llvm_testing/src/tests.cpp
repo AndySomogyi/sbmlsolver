@@ -142,11 +142,6 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
 
     vector<string> floatSpeciesIds = c.getModelDataSymbols().getFloatingSpeciesIds();
 
-    for(int i = 0; i < floatSpeciesIds.size(); i++)
-    {
-        builder.createFloatingSpeciesAccessors(c.getModule(), floatSpeciesIds[i]);
-        md.floatingSpeciesConcentrations[i] = i+1;
-    }
 
     for(int i = 0; i < md.numCompartments; i++)
     {
@@ -178,7 +173,6 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
 
         psetfunc(&md, i+1);
 
-        cout << "amount: " << md.floatingSpeciesAmounts[i] << ", conc: " << md.floatingSpeciesConcentrations[i] << "\n";
     }
 
 

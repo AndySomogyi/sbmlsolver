@@ -46,14 +46,14 @@ public:
 
 private:
 
-    void codeGenSpecies(LLVMModelDataStoreSymbolResolver& modelDataResolver);
+    void codeGenSpecies(ModelDataStoreSymbolResolver& modelDataResolver);
 
     void codeGenStoichiometry(llvm::Value *modelData,
-            LLVMModelDataStoreSymbolResolver& modelDataResolver);
+            ModelDataStoreSymbolResolver& modelDataResolver);
 
-    void codeGenCompartments(LLVMModelDataStoreSymbolResolver& modelDataResolver);
+    void codeGenCompartments(ModelDataStoreSymbolResolver& modelDataResolver);
 
-    void codeGenParameters(LLVMModelDataStoreSymbolResolver& modelDataResolver);
+    void codeGenParameters(ModelDataStoreSymbolResolver& modelDataResolver);
 
     InitialValueSymbolResolver initialValueResolver;
 };

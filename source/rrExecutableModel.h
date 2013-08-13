@@ -232,7 +232,6 @@ public:
                 double *values) = 0;
 
     virtual int getNumEvents() = 0;
-    virtual void computeEventPriorites() = 0;
 
     /**
      * Evaluate the reaction rates using the current model state.

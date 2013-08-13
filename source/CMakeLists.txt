@@ -101,6 +101,9 @@ if(BUILD_LLVM)
         llvm/EvalInitialConditionsCodeGen
         llvm/EvalRateRuleRatesCodeGen
         llvm/EvalReactionRatesCodeGen
+        llvm/EventAssignCodeGen
+        llvm/EventTriggerCodeGen
+        llvm/EventSymbolResolver
         llvm/LLVMExecutableModel
         llvm/GetRateRuleValuesCodeGen
         llvm/GetValuesCodeGen

@@ -41,41 +41,31 @@ enum ModelDataFields {
     LocalParametersNum,                       // 14
     LocalParameters,                          // 15
     NumFloatingSpecies,                       // 16
-    FloatingSpeciesConcentrations,            // 17
-    FloatingSpeciesInitConcentrations,        // 18
-    FloatingSpeciesAmountRates,               // 19
-    FloatingSpeciesAmounts,                   // 20
-    FloatingSpeciesCompartments,              // 21
-    NumBoundarySpecies,                       // 22
-    BoundarySpeciesConcentrations,            // 23
-    BoundarySpeciesAmounts,                   // 24
-    BoundarySpeciesCompartments,              // 25
-    NumCompartments,                          // 26
-    CompartmentVolumes,                       // 27
-    Stoichiometry,                            // 28
-    NumEvents,                                // 29
-    EventTypeSize,                            // 30
-    EventType,                                // 31
-    EventPersistentTypeSize,                  // 32
-    EventPersistentType,                      // 33
-    EventTestsSize,                           // 34
-    EventTests,                               // 35
-    EventPrioritiesSize,                      // 36
-    EventPriorities,                          // 37
-    EventStatusArraySize,                     // 38
-    EventStatusArray,                         // 39
-    PreviousEventStatusArraySize,             // 40
-    PreviousEventStatusArray,                 // 41
-    StateVectorSize,                          // 42
-    StateVector,                              // 43
-    StateVectorRate,                          // 44
-    WorkSize,                                 // 45
-    Work,                                     // 46
-    EventDelays,                              // 47
-    EventAssignments,                         // 47
-    ComputeEventAssignments,                  // 48
-    PerformEventAssignments,                  // 50
-    ModelName,                                // 51
+    FloatingSpeciesAmountRates,               // 17
+    FloatingSpeciesAmounts,                   // 18
+    FloatingSpeciesCompartments,              // 19
+    NumBoundarySpecies,                       // 20
+    BoundarySpeciesAmounts,                   // 21
+    BoundarySpeciesCompartments,              // 22
+    NumCompartments,                          // 23
+    CompartmentVolumes,                       // 24
+    Stoichiometry,                            // 25
+    NumEvents,                                // 26
+    StateVectorSize,                          // 27
+    StateVector,                              // 28
+    StateVectorRate,                          // 29
+    EventAssignmentsSize,                     // 30
+    EventAssignments,                         // 31
+    WorkSize,                                 // 32
+    Work,                                     // 33
+    ModelName,                                // 34
+};
+
+enum EventAtributes
+{
+    EventUseValuesFromTriggerTime = (0x1 << 0), // => 0x00000001
+    EventInitialValue             = (0x1 << 1), // => 0x00000010
+    EventPersistent               = (0x1 << 2)  // => 0x00000100
 };
 
 /**
@@ -216,6 +206,19 @@ public:
     bool isIndependentCompartment(const std::string& id) const;
 
     /**
+     * all the event assignments are stored in a single array,
+     * these are the offsets of each assignment block.
+     */
+    uint getEventAssignmentOffset(uint eventIndx) const;
+
+    /**
+     * size of the event assignment array
+     */
+    uint getEventAssignmentSize() const;
+
+    const std::vector<unsigned char>& getEventAttributes() const;
+
+    /**
      * get the textual form of the field names.
      */
     static const char* getFieldName(ModelDataFields field);
@@ -275,6 +278,30 @@ private:
     uint independentGlobalParameterSize;
     uint independentCompartmentSize;
 
+    std::vector<uint> eventAssignmentOffsets;
+
+    uint eventAssignmentSize;
+
+    std::vector<unsigned char> eventAttributes;
+
+    void initBoundarySpecies(const libsbml::Model *);
+
+    void initFloatingSpecies(const libsbml::Model *,
+            bool computeAndAssignConsevationLaws);
+
+    void initCompartments(const libsbml::Model *);
+
+    /**
+     * get the global parameters, need to reorder them to set the independent
+     * ones first
+     */
+    void initGlobalParameters(const libsbml::Model *model);
+
+    void initReactions(const libsbml::Model *model);
+
+    void displayCompartmentInfo();
+
+    void initEvents(const libsbml::Model *model);
 };
 
 } /* namespace rr */

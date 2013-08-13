@@ -29,13 +29,13 @@ protected:
     virtual ~LoadSymbolResolver() {};
 };
 
-class LLVMStoreSymbolResolver
+class StoreSymbolResolver
 {
 public:
     virtual llvm::Value *storeSymbolValue(const std::string& symbol,
             llvm::Value *value) = 0;
 protected:
-    ~LLVMStoreSymbolResolver() {};
+    ~StoreSymbolResolver() {};
 };
 
 } /* namespace rr */

@@ -39,7 +39,7 @@ llvm::Value* InitialValueSymbolResolver::loadSymbolValue(
     /* AssignmentRule */
     /*************************************************************************/
     {
-        LLVMSymbolForest::ConstIterator i =
+        SymbolForest::ConstIterator i =
                 modelSymbols.getAssigmentRules().find(symbol);
         if (i != modelSymbols.getAssigmentRules().end())
         {
@@ -51,7 +51,7 @@ llvm::Value* InitialValueSymbolResolver::loadSymbolValue(
     /* Initial Value */
     /*************************************************************************/
     {
-        LLVMSymbolForest::ConstIterator i =
+        SymbolForest::ConstIterator i =
                 modelSymbols.getInitialValues().find(symbol);
 
         if (i != modelSymbols.getInitialValues().end())

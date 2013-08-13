@@ -33,6 +33,8 @@ public:
         return (FunctionPtrType)engine.getPointerToFunction(func);
     }
 
+    typedef FunctionPtrType FunctionPtr;
+
 protected:
     CodeGenBase(const ModelGeneratorContext &mgc) :
             model(mgc.getModel()),
