@@ -165,8 +165,6 @@ public:
      */
     virtual void evalModel(double time, const double *y, double* dydt=0);
 
-    virtual void evalEvents(const double time, const double *y);
-
     virtual void resetEvents();
     virtual void testConstraints();
 

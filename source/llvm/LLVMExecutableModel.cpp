@@ -677,10 +677,6 @@ int LLVMExecutableModel::getPendingEventSize()
     return 0;
 }
 
-void LLVMExecutableModel::evalEvents(const double time, const double *y)
-{
-}
-
 void LLVMExecutableModel::resetEvents()
 {
 }
