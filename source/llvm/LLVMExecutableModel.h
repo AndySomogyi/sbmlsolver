@@ -63,26 +63,7 @@ public:
      */
     virtual void reset();
 
-    /**
-     * A ExecutableModel holds a stack of states, the entire state of this
-     * model is pushed onto the saved state stack, and the current state
-     * remains unchanged.
-     *
-     * @returns the size of the saved stack after the current state has been
-     * pushed.
-     */
-    virtual int pushState(unsigned);
 
-    /**
-     * restore the state from a previously saved state, if the state stack
-     * is empty, this has no effect.
-     *
-     * @returns the size of the saved stack after the top has been poped.
-     */
-    virtual int popState(unsigned);
-
-
-    // functions --------------------------------------------------------
     virtual int getNumIndependentSpecies();
     virtual int getNumDependentSpecies();
     virtual int getNumFloatingSpecies();
@@ -123,11 +104,10 @@ public:
 
     virtual int getNumRules();
     virtual int getNumEvents();
-    virtual void computeEventPriorites();
+
 
     virtual int getNumLocalParameters(int reactionId);
 
-    virtual void evalInitialAssignments();
 
     virtual void convertToAmounts();
     virtual void computeConservedTotals();
@@ -282,35 +262,14 @@ public:
 
     virtual void print(std::ostream &stream);
 
-    /**
-     * get the event time delays
-     *
-     * @param[in] len the length of the indx and values arrays.
-     * @param[in] indx an array of length len of event indices
-     * @param[out] values an array of at least length len which will store the
-     *                event delays.
-     */
-    virtual int getEventDelays(int len, int const *indx, double *values);
-
-    virtual int getEventPriorities(int len, int const *indx, double *values);
-
-    virtual void eventAssignment(int eventId);
-
-    virtual double* evalEventAssignment(int eventId);
-
-    virtual void applyEventAssignment(int eventId, double *values);
-
-    /**
-     * get the event status, false if the even is not triggered, true if it is.
-     */
-    virtual int getEventStatus(int len, const int *indx, unsigned char *values);
-
     virtual int getNumConservedSums();
     virtual int getConservedSumIndex(const string& name);
     virtual string getConservedSumId(int index);
     virtual int getConservedSums(int len, int const *indx, double *values);
     virtual int setConservedSums(int len, int const *indx,
             const double *values);
+
+    virtual int getEventStatus(int len, const int *indx, unsigned char *values);
 
     /**
      * using the current model state, evaluate and store all the reaction rates.

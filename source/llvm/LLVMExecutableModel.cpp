@@ -57,7 +57,12 @@ LLVMExecutableModel::LLVMExecutableModel() :
     getGlobalParameterPtr(0),
     getCompartmentVolumePtr(0),
     stackDepth(0),
-    evalRateRuleRatesPtr(0)
+    evalRateRuleRatesPtr(0),
+    getEventTriggerPtr(0),
+    getEventPriorityPtr(0),
+    getEventDelayPtr(0),
+    eventTriggerPtr(0),
+    eventAssignPtr(0)
 {
     // zero out the struct, the generator will fill it out.
     LLVMModelData::init(modelData);
@@ -96,7 +101,6 @@ double LLVMExecutableModel::getTime()
     return modelData.time;
 }
 
-
 int LLVMExecutableModel::getNumIndependentSpecies()
 {
     return modelData.numIndependentSpecies;
@@ -132,23 +136,11 @@ int LLVMExecutableModel::getNumReactions()
     return modelData.numReactions;
 }
 
-int LLVMExecutableModel::getNumEvents()
-{
-    return modelData.numEvents;
-}
-
-void LLVMExecutableModel::computeEventPriorites()
-{
-}
 
 
 int LLVMExecutableModel::getNumLocalParameters(int reactionId)
 {
     return 0;
-}
-
-void LLVMExecutableModel::evalInitialAssignments()
-{
 }
 
 void LLVMExecutableModel::convertToAmounts()
@@ -243,15 +235,6 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
         }
         log.stream() << endl << "Model: " << endl << this;
     }
-}
-
-void LLVMExecutableModel::evalEvents(const double time,
-        const double *y)
-{
-}
-
-void LLVMExecutableModel::resetEvents()
-{
 }
 
 void LLVMExecutableModel::testConstraints()
@@ -355,18 +338,6 @@ string LLVMExecutableModel::getReactionId(int id)
         throw_llvm_exception("index out of range");
         return "";
     }
-}
-
-int LLVMExecutableModel::pushState(unsigned)
-{
-    LLVMModelData::copyBuffers(&modelDataCopy, &modelData);
-    return 0;
-}
-
-int LLVMExecutableModel::popState(unsigned)
-{
-    LLVMModelData::copyBuffers(&modelData, &modelDataCopy);
-    return 0;
 }
 
 void LLVMExecutableModel::evalInitialConditions()
@@ -531,64 +502,7 @@ int LLVMExecutableModel::getCompartmentVolumes(int len, const int* indx,
     return getValues(&modelData, getCompartmentVolumePtr, len, indx, values);
 }
 
-int LLVMExecutableModel::getEventDelays(int len, const int* indx,
-        double* values)
-{
-    return 0;
-}
 
-int LLVMExecutableModel::getEventPriorities(int len, const int* indx,
-        double* values)
-{
-    return 0;
-}
-
-void LLVMExecutableModel::eventAssignment(int eventId)
-{
-}
-
-double* LLVMExecutableModel::evalEventAssignment(int eventId)
-{
-    return 0;
-}
-
-void LLVMExecutableModel::applyEventAssignment(int eventId, double* values)
-{
-}
-
-
-int LLVMExecutableModel::getEventStatus(int len, const int *indx, unsigned char *values)
-{
-    return 0;
-}
-
-void LLVMExecutableModel::evalEvents(double timeEnd, const unsigned char* previousEventStatus,
-        const double *initialState, double* finalState)
-{
-
-}
-
-int LLVMExecutableModel::applyPendingEvents(const double *stateVector, double timeEnd,
-        double tout)
-{
-    return 0;
-}
-
-void  LLVMExecutableModel::evalEventRoots(double time, const double* y, double* gdot)
-{
-    return;
-
-}
-
-double LLVMExecutableModel::getNextPendingEventTime(bool pop)
-{
-    return 0;
-}
-
-int LLVMExecutableModel::getPendingEventSize()
-{
-    return 0;
-}
 
 int LLVMExecutableModel::getReactionRates(int len, const int* indx,
         double* values)
@@ -649,16 +563,97 @@ int LLVMExecutableModel::setFloatingSpeciesInitConcentrations(int len,
     return 0;
 }
 
+#if 1
+
+
 int LLVMExecutableModel::getFloatingSpeciesInitConcentrations(int len,
         const int* indx, double* values)
 {
     return 0;
 }
 
+
 double LLVMExecutableModel::getStoichiometry(int index)
 {
     return 0;
 }
+#endif
+
+
+/******************************* Events Section *******************************/
+#if (1) /**********************************************************************/
+/******************************************************************************/
+
+int LLVMExecutableModel::getNumEvents()
+{
+    return modelData.numEvents;
+}
+
+int LLVMExecutableModel::getEventStatus(int len, const int *indx, unsigned char *values)
+{
+    const vector<unsigned char>& attr = symbols->getEventAttributes();
+
+    if (len <= 0)
+    {
+        return modelData.numEvents;
+    }
+    else
+    {
+        for (int i = 0; i < len; ++i)
+        {
+            int j = indx ? indx[i] : i;
+            if (j < modelData.numEvents)
+            {
+                values[j] = modelData.time == 0 ? attr[i] & EventInitialValue :
+                        this->getEventTriggerPtr(&modelData, j);
+            }
+            else
+            {
+                throw Exception("index out of range");
+            }
+        }
+        return len;
+    }
+}
+
+void LLVMExecutableModel::evalEvents(double timeEnd, const unsigned char* previousEventStatus,
+        const double *initialState, double* finalState)
+{
+
+}
+
+int LLVMExecutableModel::applyPendingEvents(const double *stateVector, double timeEnd,
+        double tout)
+{
+    return 0;
+}
+
+void  LLVMExecutableModel::evalEventRoots(double time, const double* y, double* gdot)
+{
+    return;
+}
+
+double LLVMExecutableModel::getNextPendingEventTime(bool pop)
+{
+    return 0;
+}
+
+int LLVMExecutableModel::getPendingEventSize()
+{
+    return 0;
+}
+
+void LLVMExecutableModel::evalEvents(const double time, const double *y)
+{
+}
+
+void LLVMExecutableModel::resetEvents()
+{
+}
+
+/******************************* Events Section *******************************/
+#endif /***********************************************************************/
+/******************************************************************************/
 
 
 } /* namespace rr */

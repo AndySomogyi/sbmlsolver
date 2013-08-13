@@ -233,13 +233,10 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(LLVMModelData& m) const
     //
     m.numIndependentSpecies         = independentFloatingSpeciesSize;
 
-
-
-
     //mData.numDependentSpecies           = ms.mNumDependentSpecies;
     m.numGlobalParameters           = independentGlobalParameterSize;
     m.numReactions                  = reactionsMap.size();
-    //mData.numEvents                     = ms.mNumEvents;
+    m.numEvents                     = eventAttributes.size();
     m.numFloatingSpecies            = independentFloatingSpeciesSize;
     m.numRateRules                  = rateRules.size();
     m.numCompartments               = independentCompartmentSize;
@@ -873,9 +870,35 @@ void LLVMModelDataSymbols::initEvents(const libsbml::Model* model)
     if (events->size())
     {
         eventAssignmentOffsets.resize(events->size());
+        eventAttributes.resize(events->size());
 
+        // load the event attributes
+        for (uint i = 0; i < events->size(); ++i)
+        {
+            const Event *event = events->get(i);
+            unsigned char attr = 0;
+            if (event->getUseValuesFromTriggerTime())
+            {
+                attr = attr | EventUseValuesFromTriggerTime;
+            }
+
+            const Trigger *trigger = event->getTrigger();
+            assert(trigger && "must have trigger");
+            if (trigger->getInitialValue())
+            {
+                attr = attr | EventInitialValue;
+            }
+
+            if (trigger->getPersistent())
+            {
+                attr = attr | EventPersistent;
+            }
+
+            eventAttributes[i] = attr;
+        }
+
+        // figure out where to store the event assigment values.
         eventAssignmentOffsets[0] = 0;
-
         for (uint i = 0; i < events->size() - 1; ++i)
         {
             const Event *event = events->get(i);
@@ -887,6 +910,11 @@ void LLVMModelDataSymbols::initEvents(const libsbml::Model* model)
         eventAssignmentSize = eventAssignmentOffsets.back() +
                 events->get(events->size() - 1)->getNumEventAssignments();
     }
+}
+
+const std::vector<unsigned char>& LLVMModelDataSymbols::getEventAttributes() const
+{
+    return eventAttributes;
 }
 
 } /* namespace rr */

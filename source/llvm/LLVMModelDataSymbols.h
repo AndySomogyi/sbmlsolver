@@ -61,6 +61,13 @@ enum ModelDataFields {
     ModelName,                                // 34
 };
 
+enum EventAtributes
+{
+    EventUseValuesFromTriggerTime = (0x1 << 0), // => 0x00000001
+    EventInitialValue             = (0x1 << 1), // => 0x00000010
+    EventPersistent               = (0x1 << 2)  // => 0x00000100
+};
+
 /**
  * stores the names of all the symbols in the sbml model and thier
  * indexes in the ModelData arrays. This class essentially maps symbol
@@ -209,6 +216,8 @@ public:
      */
     uint getEventAssignmentSize() const;
 
+    const std::vector<unsigned char>& getEventAttributes() const;
+
     /**
      * get the textual form of the field names.
      */
@@ -272,6 +281,8 @@ private:
     std::vector<uint> eventAssignmentOffsets;
 
     uint eventAssignmentSize;
+
+    std::vector<unsigned char> eventAttributes;
 
     void initBoundarySpecies(const libsbml::Model *);
 
