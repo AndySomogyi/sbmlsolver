@@ -6,7 +6,8 @@
 
 using namespace std;
 
-static void dump_array(std::ostream &os, int n, const double *p)
+template <typename numeric_type>
+static void dump_array(std::ostream &os, int n, const numeric_type *p)
 {
     if (p)
     {
@@ -42,6 +43,7 @@ std::ostream& operator <<(std::ostream &stream, ExecutableModel* model)
     int nBound = model->getNumBoundarySpecies();
     int nComp = model->getNumCompartments();
     int nGlobalParam = model->getNumGlobalParameters();
+    int nEvents = model->getNumEvents();
 
     stream << "* Calculated Values *" << endl;
 
@@ -76,6 +78,12 @@ std::ostream& operator <<(std::ostream &stream, ExecutableModel* model)
     stream << "GlobalParameters:" << endl;
     dump_array(stream, nGlobalParam, tmp);
     delete tmp;
+
+    unsigned char *tmpEvents = new unsigned char[nEvents];
+    model->getEventStatus(nEvents, 0, tmpEvents);
+    stream << "Events Trigger Status:" << endl;
+    dump_array(stream, nEvents, (bool*)tmpEvents);
+    delete tmpEvents;
 
     return stream;
 }

@@ -884,12 +884,12 @@ void LLVMModelDataSymbols::initEvents(const libsbml::Model* model)
 
             const Trigger *trigger = event->getTrigger();
             assert(trigger && "must have trigger");
-            if (trigger->getInitialValue())
+            if (trigger->isSetInitialValue() && trigger->getInitialValue())
             {
                 attr = attr | EventInitialValue;
             }
 
-            if (trigger->getPersistent())
+            if (trigger->isSetPersistent() && trigger->getPersistent())
             {
                 attr = attr | EventPersistent;
             }

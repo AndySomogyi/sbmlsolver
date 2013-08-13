@@ -20,7 +20,6 @@
 using namespace std;
 
 
-
 static void dump_array(std::ostream &os, int n, const double *p)
 {
     if (p)

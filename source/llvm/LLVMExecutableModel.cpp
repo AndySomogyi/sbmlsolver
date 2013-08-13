@@ -196,6 +196,8 @@ void LLVMExecutableModel::computeAllRatesOfChange()
 
 void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
 {
+    modelData.time = time;
+
     if (y)
     {
         setStateVector(y);
@@ -604,8 +606,14 @@ int LLVMExecutableModel::getEventStatus(int len, const int *indx, unsigned char 
             int j = indx ? indx[i] : i;
             if (j < modelData.numEvents)
             {
-                values[j] = modelData.time == 0 ? attr[i] & EventInitialValue :
-                        this->getEventTriggerPtr(&modelData, j);
+                if (modelData.time == 0)
+                {
+                    values[j] = attr[i] & EventInitialValue ? true : false;
+                }
+                else
+                {
+                    values[j] = getEventTriggerPtr(&modelData, j);
+                }
             }
             else
             {
@@ -619,7 +627,19 @@ int LLVMExecutableModel::getEventStatus(int len, const int *indx, unsigned char 
 void LLVMExecutableModel::evalEvents(double timeEnd, const unsigned char* previousEventStatus,
         const double *initialState, double* finalState)
 {
+    modelData.time = timeEnd;
+    setStateVector(initialState);
 
+    for (uint i = 0; i < modelData.numEvents; i++)
+    {
+        if (!previousEventStatus[i] && this->getEventTriggerPtr(&modelData, i))
+        {
+            this->eventTriggerPtr(&modelData, i);
+            this->eventAssignPtr(&modelData, i);
+        }
+    }
+
+    getStateVector(finalState);
 }
 
 int LLVMExecutableModel::applyPendingEvents(const double *stateVector, double timeEnd,
@@ -630,6 +650,20 @@ int LLVMExecutableModel::applyPendingEvents(const double *stateVector, double ti
 
 void  LLVMExecutableModel::evalEventRoots(double time, const double* y, double* gdot)
 {
+    modelData.time = time;
+
+    if (y)
+    {
+        setStateVector(y);
+    }
+
+    for (uint i = 0; i < modelData.numEvents; ++i)
+    {
+        unsigned char triggered = getEventTriggerPtr(&modelData, i);
+
+        gdot[i] = triggered ? 1.0 : -1.0;
+    }
+
     return;
 }
 
