@@ -21,7 +21,7 @@ namespace rr
 class FunctionResolver: public LoadSymbolResolver
 {
 public:
-    FunctionResolver(const LoadSymbolResolver& parentResolver,
+    FunctionResolver(LoadSymbolResolver& parentResolver,
             const libsbml::Model *model, llvm::IRBuilder<> &builder);
 
     ~FunctionResolver();
@@ -31,7 +31,7 @@ public:
                         llvm::ArrayRef<llvm::Value*>());
 
 private:
-    const LoadSymbolResolver& parentResolver;
+    LoadSymbolResolver& parentResolver;
     const libsbml::Model *model;
     llvm::IRBuilder<> &builder;
 

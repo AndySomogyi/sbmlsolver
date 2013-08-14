@@ -126,6 +126,10 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
         result = applyLogicalCodeGen(ast);
         break;
 
+    case AST_FUNCTION:
+        result = functionCallCodeGen(ast);
+        break;
+
 
     case AST_CONSTANT_E:
     case AST_CONSTANT_FALSE:
@@ -134,7 +138,7 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
 
     case AST_LAMBDA:
 
-    case AST_FUNCTION:
+
     case AST_FUNCTION_ABS:
     case AST_FUNCTION_ARCCOS:
     case AST_FUNCTION_ARCCOSH:
@@ -183,7 +187,6 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
             throw_llvm_exception(msg.str());
         }
         break;
-
     }
     return result;
 }
@@ -326,4 +329,21 @@ llvm::Value* ASTNodeCodeGen::applyLogicalCodeGen(const libsbml::ASTNode* ast)
     return result;
 }
 
+llvm::Value* ASTNodeCodeGen::functionCallCodeGen(const libsbml::ASTNode* ast)
+{
+    uint nargs = ast->getNumChildren();
+
+    Value** args = (Value**) alloca(nargs*sizeof(Value*));
+
+    for (uint i = 0; i < ast->getNumChildren(); ++i)
+    {
+        const ASTNode *c = ast->getChild(i);
+        args[i] = codeGen(c);
+    }
+
+    return resolver.loadSymbolValue(ast->getName(), ArrayRef<Value*>(args, nargs));
+}
+
 } /* namespace rr */
+
+

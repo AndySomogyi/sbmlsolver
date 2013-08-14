@@ -5,14 +5,18 @@
  *      Author: andy
  */
 
-#include "llvm/FunctionResolver.h"
+#include "FunctionResolver.h"
+#include "ASTNodeCodeGen.h"
+#include "LLVMException.h"
 
 namespace rr
 {
 
 using namespace libsbml;
+using namespace std;
+using namespace llvm;
 
-rr::FunctionResolver::FunctionResolver(const LoadSymbolResolver& parentResolver,
+rr::FunctionResolver::FunctionResolver(LoadSymbolResolver& parentResolver,
         const libsbml::Model* model, llvm::IRBuilder<>& builder) :
                 parentResolver(parentResolver),
                 model(model),
@@ -28,13 +32,47 @@ rr::FunctionResolver::~FunctionResolver()
 llvm::Value* rr::FunctionResolver::loadSymbolValue(const std::string& symbol,
         const llvm::ArrayRef<llvm::Value*>& args)
 {
-    const FunctionDefinition *funcDef = model->getListOfFunctionDefinitions()->get(symbol);
-
-    if (funcDef)
+    const FunctionDefinition *funcDef = 0;
+    if (symbols)
+    {
+        map<string,Value*>::const_iterator i = symbols->find(symbol);
+        if (i != symbols->end())
+        {
+            return i->second;
+        }
+        else
+        {
+            return parentResolver.loadSymbolValue(symbol);
+        }
+    }
+    else if ((funcDef = model->getListOfFunctionDefinitions()->get(symbol)))
     {
         const ASTNode *math = funcDef->getMath();
 
+        if (!math->isLambda())
+        {
+            throw_llvm_exception("math elemetn of function definition must be a lambda");
+        }
 
+        if (math->getNumChildren() != args.size() + 1)
+        {
+            throw_llvm_exception("argument count does not match");
+        }
+
+        symbols = new map<string, Value*>();
+
+        for (uint i = 0; i < math->getNumChildren() - 1; ++i)
+        {
+            const ASTNode *c = math->getChild(i);
+            assert(c->isBvar());
+            (*symbols)[c->getName()] = args[i];
+        }
+
+        ASTNodeCodeGen astCodeGen(builder, *this);
+        Value *result = astCodeGen.codeGen(math->getChild(math->getNumChildren() - 1));
+        delete symbols;
+        symbols = 0;
+        return result;
     }
 
     return 0;
