@@ -58,11 +58,6 @@ llvm::Value* ModelDataIRBuilder::createGEP(ModelDataFields field,
     return builder.CreateStructGEP(modelData, (unsigned)field, Twine(fieldName) + Twine("_gep"));
 }
 
-llvm::Value* ModelDataIRBuilder::createFloatSpeciesCompGEP(const std::string& id)
-{
-    int compIndex = symbols.getFloatingSpeciesCompartmentIndex(id);
-    return createGEP(CompartmentVolumes, compIndex);
-}
 
 llvm::Value* ModelDataIRBuilder::createGEP(ModelDataFields field,
         unsigned index, const Twine& name)
@@ -344,12 +339,6 @@ llvm::Value* ModelDataIRBuilder::createEventAssignmentStore(uint eventId,
 {
     Value *gep = createEventAssignmentGEP(eventId, assignmentId);
     return builder.CreateStore(value, gep);
-}
-
-llvm::Value* ModelDataIRBuilder::createBoundSpeciesCompGEP(const std::string& id)
-{
-    int compIndex = symbols.getBoundarySpeciesCompartmentIndex(id);
-    return createGEP(CompartmentVolumes, compIndex);
 }
 
 llvm::Value* ModelDataIRBuilder::createGlobalParamLoad(

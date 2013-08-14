@@ -277,15 +277,6 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(LLVMModelData& m) const
     m.stoichiometry = csr_matrix_new(m.numIndependentSpecies, getReactionSize(),
             stoichRowIndx, stoichColIndx, vector<double>(stoichRowIndx.size(), 0));
 
-    // fill out the species / compartment mapping arrays
-    /*
-    for (StringUIntMap::const_iterator i = floatingSpeciesMap.begin();
-            i != floatingSpeciesMap.end(); ++i)
-    {
-        uint compIndex = getFloatingSpeciesCompartmentIndex(i->first);
-        m.floatingSpeciesCompartments[i->second] = compIndex;
-    }
-    */
 
     m.eventAssignments = (double*)calloc(m.eventAssignmentsSize, sizeof(double));
 }
@@ -298,20 +289,6 @@ std::vector<std::string> LLVMModelDataSymbols::getCompartmentIds() const
 std::vector<std::string> LLVMModelDataSymbols::getBoundarySpeciesIds() const
 {
     return getIds(boundarySpeciesMap);
-}
-
-uint LLVMModelDataSymbols::getFloatingSpeciesCompartmentIndex(
-        const std::string& id) const
-{
-    uint speciesIndex = getFloatingSpeciesIndex(id);
-    return floatingSpeciesCompartments[speciesIndex];
-}
-
-uint LLVMModelDataSymbols::getBoundarySpeciesCompartmentIndex(
-        const std::string& id) const
-{
-    uint speciesIndex = getBoundarySpeciesIndex(id);
-    return boundarySpeciesCompartments[speciesIndex];
 }
 
 uint LLVMModelDataSymbols::getReactionIndex(const std::string& id) const
@@ -619,16 +596,6 @@ void LLVMModelDataSymbols::initBoundarySpecies(const libsbml::Model* model)
         boundarySpeciesMap[*i] = bi;
     }
 
-    // figure out what compartments they belong to
-    boundarySpeciesCompartments.resize(boundarySpeciesMap.size());
-    for (StringUIntMap::const_iterator i = boundarySpeciesMap.begin();
-            i != boundarySpeciesMap.end(); ++i)
-    {
-        const Species *s = species->get(i->first);
-        uint compId = compartmentsMap.find(s->getCompartment())->second;
-        boundarySpeciesCompartments[i->second] = compId;
-    }
-
     // finally set how many we have
     independentBoundarySpeciesSize = indBndSpecies.size();
 
@@ -711,16 +678,6 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
     {
         uint si = floatingSpeciesMap.size();
         floatingSpeciesMap[*i] = si;
-    }
-
-    // figure out what compartments they belong to
-    floatingSpeciesCompartments.resize(floatingSpeciesMap.size());
-    for (StringUIntMap::const_iterator i = floatingSpeciesMap.begin();
-            i != floatingSpeciesMap.end(); ++i)
-    {
-        const Species *s = species->get(i->first);
-        uint compId = compartmentsMap.find(s->getCompartment())->second;
-        floatingSpeciesCompartments[i->second] = compId;
     }
 
     // finally set how many ind species we've found

@@ -122,7 +122,6 @@ std::ostream& operator <<(std::ostream& os, const LLVMModelData& data)
     os << "floatingSpeciesAmounts: "    << endl;           // 19
     dump_array(os, data.numFloatingSpecies, data.floatingSpeciesAmounts);
 
-//    unsigned*                                floatingSpeciesCompartments;      // 20
     os << "numBoundarySpecies: "       << data.numBoundarySpecies << endl;  // 21
 
     os << "boundarySpeciesAmounts:"    << endl;                             // 23

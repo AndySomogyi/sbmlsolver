@@ -121,7 +121,6 @@ public:
 
     uint getIndependentBoundarySpeciesSize() const;
 
-    uint getFloatingSpeciesCompartmentIndex(std::string const&) const;
     uint getBoundarySpeciesCompartmentIndex(std::string const&) const;
 
     /**
@@ -238,18 +237,6 @@ private:
      * all reactions are named.
      */
     StringUIntMap reactionsMap;
-
-    /**
-     * compartment that a floating species belongs to,
-     * indexed by floating species index.
-     */
-    std::vector<uint> floatingSpeciesCompartments;
-
-    /**
-     * compartment that a boundary species belongs to,
-     * indexed by boundary species index.
-     */
-    std::vector<uint> boundarySpeciesCompartments;
 
     /**
      * the stochiometry matrix is # reactions rows by # species columns.
