@@ -24,7 +24,9 @@ protected:
 class LoadSymbolResolver
 {
 public:
-    virtual llvm::Value *loadSymbolValue(const std::string& symbol) = 0;
+    virtual llvm::Value *loadSymbolValue(const std::string& symbol,
+            const llvm::ArrayRef<llvm::Value*>& args =
+                    llvm::ArrayRef<llvm::Value*>()) = 0;
 protected:
     virtual ~LoadSymbolResolver() {};
 };

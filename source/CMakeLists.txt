@@ -103,7 +103,7 @@ if(BUILD_LLVM)
         llvm/EvalReactionRatesCodeGen
         llvm/EventAssignCodeGen
         llvm/EventTriggerCodeGen
-        llvm/EventSymbolResolver
+        llvm/FunctionResolver
         llvm/LLVMExecutableModel
         llvm/GetRateRuleValuesCodeGen
         llvm/GetValuesCodeGen
