@@ -436,22 +436,20 @@ llvm::StructType *ModelDataIRBuilder::getStructType(llvm::Module *module, llvm::
         elements.push_back(Type::getInt32Ty(context));        // 16     int                                 numFloatingSpecies;
         elements.push_back(Type::getDoublePtrTy(context));    // 17     double*                             floatingSpeciesAmountRates;
         elements.push_back(Type::getDoublePtrTy(context));    // 18     double*                             floatingSpeciesAmounts;
-        elements.push_back(Type::getInt32PtrTy(context));     // 19     int*                                floatingSpeciesCompartments;
-        elements.push_back(Type::getInt32Ty(context));        // 20     int                                 numBoundarySpecies;
-        elements.push_back(Type::getDoublePtrTy(context));    // 21     double*                             boundarySpeciesAmounts;
-        elements.push_back(Type::getInt32PtrTy(context));     // 22     int*                                boundarySpeciesCompartments;
-        elements.push_back(Type::getInt32Ty(context));        // 23     int                                 numCompartments;
-        elements.push_back(Type::getDoublePtrTy(context));    // 24     double*                             compartmentVolumes;
-        elements.push_back(csrSparsePtrType);                 // 25     dcsr_matrix                         stoichiometry;
-        elements.push_back(Type::getInt32Ty(context));        // 26     int                                 numEvents;
-        elements.push_back(Type::getInt32Ty(context));        // 27     int                                 stateVectorSize;
-        elements.push_back(Type::getDoublePtrTy(context));    // 28     double*                             stateVector;
-        elements.push_back(Type::getDoublePtrTy(context));    // 29     double*                             stateVectorRate;
-        elements.push_back(Type::getInt32Ty(context));        // 30     int                                 eventAssignmentsSize;
-        elements.push_back(Type::getDoublePtrTy(context));    // 31     double*                             eventAssignments;
-        elements.push_back(Type::getInt32Ty(context));        // 32     int                                 workSize;
-        elements.push_back(Type::getDoublePtrTy(context));    // 33     double*                             work;
-        elements.push_back(Type::getInt8PtrTy(context));      // 34     char*                               modelName;
+        elements.push_back(Type::getInt32Ty(context));        // 19     int                                 numBoundarySpecies;
+        elements.push_back(Type::getDoublePtrTy(context));    // 20     double*                             boundarySpeciesAmounts;
+        elements.push_back(Type::getInt32Ty(context));        // 21     int                                 numCompartments;
+        elements.push_back(Type::getDoublePtrTy(context));    // 22     double*                             compartmentVolumes;
+        elements.push_back(csrSparsePtrType);                 // 23     dcsr_matrix                         stoichiometry;
+        elements.push_back(Type::getInt32Ty(context));        // 24     int                                 numEvents;
+        elements.push_back(Type::getInt32Ty(context));        // 25     int                                 stateVectorSize;
+        elements.push_back(Type::getDoublePtrTy(context));    // 26     double*                             stateVector;
+        elements.push_back(Type::getDoublePtrTy(context));    // 27     double*                             stateVectorRate;
+        elements.push_back(Type::getInt32Ty(context));        // 28     int                                 eventAssignmentsSize;
+        elements.push_back(Type::getDoublePtrTy(context));    // 29     double*                             eventAssignments;
+        elements.push_back(Type::getInt32Ty(context));        // 30     int                                 workSize;
+        elements.push_back(Type::getDoublePtrTy(context));    // 31     double*                             work;
+        elements.push_back(Type::getInt8PtrTy(context));      // 32     char*                               modelName;
 
         structType = StructType::create(context, elements, LLVMModelDataName);
 

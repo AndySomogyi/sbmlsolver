@@ -157,64 +157,50 @@ struct LLVMModelData
     double*                             floatingSpeciesAmounts;           // 18
 
     /**
-     * compartment index for each floating species,
-     * e.g. the volume of the i'th species is
-     * md->compartmentVolumes[md->floatingSpeciesCompartments[i]]
-     */
-    unsigned*                           floatingSpeciesCompartments;      // 19
-
-    /**
      * number of boundary species and boundary species concentrations.
      * units: either
      * Mass Percent = (Mass of Solute) / (Mass of Solution) x 100%
      * Volume Percent= (Volume of Solute) / (Volume of Solution) x 100%
      * Mass/Volume Percent= (Mass of Solute) / (Volume of Solution) x 100%
      */
-    unsigned                            numBoundarySpecies;               // 20
-    double*                             boundarySpeciesAmounts;           // 21
-
-    /**
-     * compartment index for each boundary species,
-     * e.g. the volume of the i'th species is
-     * md->compartmentVolumes[md->boundarySpeciesCompartments[i]]
-     */
-    unsigned*                           boundarySpeciesCompartments;      // 22
+    unsigned                            numBoundarySpecies;               // 19
+    double*                             boundarySpeciesAmounts;           // 20
 
     /**
      * number of compartments, and compartment volumes.
      * units: volume
      */
-    unsigned                            numCompartments;                  // 23
-    double*                             compartmentVolumes;               // 24
+    unsigned                            numCompartments;                  // 21
+    double*                             compartmentVolumes;               // 22
 
     /**
      * stoichiometry matrix
      */
-    csr_matrix*                         stoichiometry;                    // 25
+    csr_matrix*                         stoichiometry;                    // 23
 
 
     //Event stuff
-    unsigned                            numEvents;                        // 26
+    unsigned                            numEvents;                        // 24
 
     /**
      * number of items in the state vector.
      */
-    unsigned                            stateVectorSize;                  // 27
+    unsigned                            stateVectorSize;                  // 25
 
     /**
      * the state vector, this is usually a pointer to a block of data
      * owned by the integrator.
      */
-    double*                             stateVector;                      // 28
+    double*                             stateVector;                      // 26
 
     /**
      * the rate of change of the state vector, this is usually a pointer to
      * a block of data owned by the integrator.
      */
-    double*                             stateVectorRate;                  // 29
+    double*                             stateVectorRate;                  // 27
 
-    unsigned                            eventAssignmentsSize;             // 30
-    double*                             eventAssignments;                 // 31
+    unsigned                            eventAssignmentsSize;             // 28
+    double*                             eventAssignments;                 // 29
 
 
     /**
@@ -224,15 +210,15 @@ struct LLVMModelData
      *
      * allocated by allocModelDataBuffers based on the value of workSize;
      */
-    unsigned                            workSize;                         // 32
-    double*                             work;                             // 33
+    unsigned                            workSize;                         // 30
+    double*                             work;                             // 31
 
 
 
     /**
      * model name
      */
-    char*                               modelName;                        // 34
+    char*                               modelName;                        // 32
 
     static void init(LLVMModelData&);
 

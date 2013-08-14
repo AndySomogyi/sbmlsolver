@@ -18,7 +18,11 @@
 #include <set>
 #include <list>
 
-namespace libsbml { class Model; }
+namespace libsbml
+{
+    class Model;
+    class SimpleSpeciesReference;
+}
 
 namespace rr
 {
@@ -43,22 +47,20 @@ enum ModelDataFields {
     NumFloatingSpecies,                       // 16
     FloatingSpeciesAmountRates,               // 17
     FloatingSpeciesAmounts,                   // 18
-    FloatingSpeciesCompartments,              // 19
-    NumBoundarySpecies,                       // 20
-    BoundarySpeciesAmounts,                   // 21
-    BoundarySpeciesCompartments,              // 22
-    NumCompartments,                          // 23
-    CompartmentVolumes,                       // 24
-    Stoichiometry,                            // 25
-    NumEvents,                                // 26
-    StateVectorSize,                          // 27
-    StateVector,                              // 28
-    StateVectorRate,                          // 29
-    EventAssignmentsSize,                     // 30
-    EventAssignments,                         // 31
-    WorkSize,                                 // 32
-    Work,                                     // 33
-    ModelName,                                // 34
+    NumBoundarySpecies,                       // 19
+    BoundarySpeciesAmounts,                   // 20
+    NumCompartments,                          // 21
+    CompartmentVolumes,                       // 22
+    Stoichiometry,                            // 23
+    NumEvents,                                // 24
+    StateVectorSize,                          // 25
+    StateVector,                              // 26
+    StateVectorRate,                          // 27
+    EventAssignmentsSize,                     // 28
+    EventAssignments,                         // 29
+    WorkSize,                                 // 30
+    Work,                                     // 31
+    ModelName,                                // 32
 };
 
 enum EventAtributes
@@ -302,6 +304,14 @@ private:
     void displayCompartmentInfo();
 
     void initEvents(const libsbml::Model *model);
+
+    /**
+     * determine is this species can be used as a species reference,
+     * if not, logs the reason why its not valid.
+     */
+    bool isValidSpeciesReference(const libsbml::SimpleSpeciesReference*,
+            const std::string& reacOrProd);
+
 };
 
 } /* namespace rr */

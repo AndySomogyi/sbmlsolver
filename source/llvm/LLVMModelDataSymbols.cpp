@@ -48,22 +48,20 @@ static const char* modelDataFieldsNames[] =  {
     "NumFloatingSpecies",                       // 16
     "FloatingSpeciesAmountRates",               // 17
     "FloatingSpeciesAmounts",                   // 18
-    "FloatingSpeciesCompartments",              // 19
-    "NumBoundarySpecies",                       // 20
-    "BoundarySpeciesAmounts",                   // 21
-    "BoundarySpeciesCompartments",              // 22
-    "NumCompartments",                          // 23
-    "CompartmentVolumes",                       // 24
-    "Stoichiometry",                            // 25
-    "NumEvents",                                // 26
-    "StateVectorSize",                          // 27
-    "StateVector",                              // 28
-    "StateVectorRate",                          // 39
-    "EventAssignmentsSize",                     // 30
-    "EventAssignments",                         // 31
-    "WorkSize",                                 // 32
-    "Work",                                     // 33
-    "ModelName"                                 // 34
+    "NumBoundarySpecies",                       // 19
+    "BoundarySpeciesAmounts",                   // 20
+    "NumCompartments",                          // 21
+    "CompartmentVolumes",                       // 22
+    "Stoichiometry",                            // 23
+    "NumEvents",                                // 24
+    "StateVectorSize",                          // 25
+    "StateVector",                              // 26
+    "StateVectorRate",                          // 27
+    "EventAssignmentsSize",                     // 28
+    "EventAssignments",                         // 29
+    "WorkSize",                                 // 30
+    "Work",                                     // 31
+    "ModelName"                                 // 32
 };
 
 /*
@@ -178,12 +176,24 @@ uint LLVMModelDataSymbols::getFloatingSpeciesIndex(
         const std::string& id) const
 {
     StringUIntMap::const_iterator i = floatingSpeciesMap.find(id);
-    if(i != floatingSpeciesMap.end())
+    if(i != floatingSpeciesMap.end() && i->second < independentFloatingSpeciesSize)
     {
         return i->second;
     }
     else
     {
+        string msg = "could not determine index for floating species with id ";
+        msg += string("\'" + id + "\', ");
+        if(i != floatingSpeciesMap.end())
+        {
+            msg += " it is not a floating species";
+        }
+        else if (i->second >= independentFloatingSpeciesSize)
+        {
+            msg += " it is a floating species, but not indenpendent"
+                    " -- it is defined by a rule";
+        }
+
         throw LLVMException("could not find floating species with id " + id, __FUNC__);
     }
 }
@@ -228,9 +238,6 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(LLVMModelData& m) const
     LLVMModelData::init(m);
 
     // set the buffer sizes
-
-
-    //
     m.numIndependentSpecies         = independentFloatingSpeciesSize;
 
     //mData.numDependentSpecies           = ms.mNumDependentSpecies;
@@ -246,7 +253,7 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(LLVMModelData& m) const
     m.modelName = strdup(modelName.c_str());
 
     // in certain cases, the data returned by c++ new may be alligned differently than
-    // malloc, so just use rrCalloc here just to be safe, plus rrCalloc returns zero
+    // malloc, so just use calloc here just to be safe, plus calloc returns zero
     // initialized memory.
 
 
@@ -263,22 +270,22 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(LLVMModelData& m) const
     //m.boundarySpeciesConcentrations = (double*)rrCalloc(m.numBoundarySpecies, sizeof(double));
     m.boundarySpeciesAmounts = (double*)calloc(m.numBoundarySpecies, sizeof(double));
 
-    m.floatingSpeciesCompartments = (unsigned*)calloc(m.numFloatingSpecies, sizeof(unsigned));
-    m.boundarySpeciesCompartments = (unsigned*)calloc(m.numBoundarySpecies, sizeof(unsigned));
     //m.work = (double*)rrCalloc(m.workSize, sizeof(double));
 
 
     // allocate the stoichiometry matrix
-    m.stoichiometry = csr_matrix_new(getFloatingSpeciesSize(), getReactionSize(),
+    m.stoichiometry = csr_matrix_new(m.numIndependentSpecies, getReactionSize(),
             stoichRowIndx, stoichColIndx, vector<double>(stoichRowIndx.size(), 0));
 
     // fill out the species / compartment mapping arrays
+    /*
     for (StringUIntMap::const_iterator i = floatingSpeciesMap.begin();
             i != floatingSpeciesMap.end(); ++i)
     {
         uint compIndex = getFloatingSpeciesCompartmentIndex(i->first);
         m.floatingSpeciesCompartments[i->second] = compIndex;
     }
+    */
 
     m.eventAssignments = (double*)calloc(m.eventAssignmentsSize, sizeof(double));
 }
@@ -793,24 +800,12 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
         {
             const SimpleSpeciesReference *r = reactants->get(j);
 
-            // its OK if we do not find reactants as floating species, they
-            // might be boundary species, so they do not change.
-            try
+            if (isValidSpeciesReference(r, "reactant"))
             {
+                // at this point, we'd better have a floating species
                 uint speciesIdx = getFloatingSpeciesIndex(r->getSpecies());
                 stoichColIndx.push_back(i);
                 stoichRowIndx.push_back(speciesIdx);
-            }
-            catch (exception&)
-            {
-                string err = "could not find reactant ";
-                err += r->getSpecies();
-                err += " in the list of floating species for reaction ";
-                err += r->getId();
-                err += ", this species will be ignored in this reaction.";
-
-                LogStream ls(getLogger(), Message::PRIO_WARNING);
-                ls << err << endl;
             }
         }
 
@@ -820,26 +815,55 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
             const SimpleSpeciesReference *p = products->get(j);
             // products had better be in the stoich matrix.
 
-            try
+            if (isValidSpeciesReference(p, "product"))
             {
                 uint speciesIdx = getFloatingSpeciesIndex(p->getSpecies());
                 stoichColIndx.push_back(i);
                 stoichRowIndx.push_back(speciesIdx);
-                LogStream ls(getLogger(), Message::PRIO_TRACE);
-                ls << "product, row: " << i << ", col: " << speciesIdx << endl;
-            }
-            catch (exception&)
-            {
-                string err = "could not find product ";
-                err += p->getSpecies();
-                err += " in the list of floating species for reaction ";
-                err += r->getId();
-                err += ", this species will be ignored in this reaction.";
-
-                LogStream ls(getLogger(), Message::PRIO_WARNING);
-                ls << err << endl;
             }
         }
+    }
+}
+
+bool LLVMModelDataSymbols::isValidSpeciesReference(
+        const libsbml::SimpleSpeciesReference* ref, const std::string& reacOrProd)
+{
+    string id = ref->getSpecies();
+
+    // can only define a reaction for a floating species
+    if (isIndependentFloatingSpecies(id))
+    {
+        return true;
+    }
+    else
+    {
+        string id = ref->getSpecies();
+        string err = "the species reference with id ";
+        err += string("\'" + ref->getId() + "\', ");
+        err += "which references species ";
+        string("\'" + id + "\', ");
+        err += "is NOT a valid " + reacOrProd + " reference, ";
+        // figure out what kind of thing we have and give a warning
+        if (hasAssignmentRule(id))
+        {
+            err += "it is defined by an assignment rule";
+        }
+        else if (hasRateRule(id))
+        {
+            err += "it is defined by rate rule";
+        }
+        else if (isIndependentBoundarySpecies(id))
+        {
+            err += "it is a boundary species";
+        }
+        else
+        {
+            err += "it is not a species";
+        }
+
+        err += ", it will be ignored.";
+        Log(Logger::PRIO_WARNING) << err;
+        return false;
     }
 }
 

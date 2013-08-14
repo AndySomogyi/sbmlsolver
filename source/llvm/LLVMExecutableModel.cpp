@@ -153,6 +153,7 @@ void LLVMExecutableModel::computeConservedTotals()
 
 double LLVMExecutableModel::getFloatingSpeciesConcentration(int index)
 {
+    /*
     if (index >= 0 && index < modelData.numFloatingSpecies)
     {
         int compIndex = modelData.floatingSpeciesCompartments[index];
@@ -164,6 +165,8 @@ double LLVMExecutableModel::getFloatingSpeciesConcentration(int index)
         Log(Logger::PRIO_ERROR) << "index " << index << "out of range";
         throw Exception(string(__FUNC__) + string(": index out of range"));
     }
+    */
+    return 0;
 }
 
 int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len, int const *indx,
