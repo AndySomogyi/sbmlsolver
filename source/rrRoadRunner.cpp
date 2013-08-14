@@ -2514,38 +2514,6 @@ string RoadRunner::writeSBML()
     return NOM.getSBML();
 }
 
-// Get the number of local parameters for a given reaction
-int RoadRunner::getNumberOfLocalParameters(const int& reactionId)
-{
-     if (!mModel)
-     {
-         throw CoreException(gEmptyModelMessage);
-     }
-     return mModel->getNumLocalParameters(reactionId);
-}
-
-// Returns the value of a global parameter by its index
-// ***** SHOULD WE SUPPORT LOCAL PARAMETERS? ******** (Sept 2, 2012, HMS
-// ***** We will soon...., AS
-double RoadRunner::getLocalParameterByIndex    (const int& reactionId, const int& index)
-{
-    if(!mModel)
-    {
-       throw CoreException(gEmptyModelMessage);
-    }
-
-    if( reactionId >= 0 &&
-        reactionId < mModel->getNumReactions() &&
-        index >= 0 &&
-        index < mModel->getNumLocalParameters(reactionId))
-    {
-        return -1;
-    }
-    else
-    {
-         throw CoreException(format("Index in getLocalParameterByIndex out of range: [{0}]", index));
-    }
-}
 
 // Help("Get the number of reactions")
 int RoadRunner::getNumberOfReactions()

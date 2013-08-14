@@ -240,9 +240,6 @@ public:
      */
     virtual void evalReactionRates() = 0;
 
-
-    virtual int getNumLocalParameters(int reactionId) = 0;
-
     /**
      * sets the ammounts (ModelData::ammounts) by multipying the concentations
      * (ModelData::y) by the compartment volume that the species belongs to.

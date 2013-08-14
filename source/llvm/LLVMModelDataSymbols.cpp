@@ -42,26 +42,23 @@ static const char* modelDataFieldsNames[] =  {
     "NumRateRules",                             // 10
     "RateRuleValues",                           // 11
     "RateRuleRates",                            // 12
-    "LocalParametersOffsets",                   // 13
-    "LocalParametersNum",                       // 14
-    "LocalParameters",                          // 15
-    "NumFloatingSpecies",                       // 16
-    "FloatingSpeciesAmountRates",               // 17
-    "FloatingSpeciesAmounts",                   // 18
-    "NumBoundarySpecies",                       // 19
-    "BoundarySpeciesAmounts",                   // 20
-    "NumCompartments",                          // 21
-    "CompartmentVolumes",                       // 22
-    "Stoichiometry",                            // 23
-    "NumEvents",                                // 24
-    "StateVectorSize",                          // 25
-    "StateVector",                              // 26
-    "StateVectorRate",                          // 27
-    "EventAssignmentsSize",                     // 28
-    "EventAssignments",                         // 29
-    "WorkSize",                                 // 30
-    "Work",                                     // 31
-    "ModelName"                                 // 32
+    "NumFloatingSpecies",                       // 13
+    "FloatingSpeciesAmountRates",               // 14
+    "FloatingSpeciesAmounts",                   // 15
+    "NumBoundarySpecies",                       // 16
+    "BoundarySpeciesAmounts",                   // 17
+    "NumCompartments",                          // 18
+    "CompartmentVolumes",                       // 19
+    "Stoichiometry",                            // 20
+    "NumEvents",                                // 21
+    "StateVectorSize",                          // 22
+    "StateVector",                              // 23
+    "StateVectorRate",                          // 24
+    "EventAssignmentsSize",                     // 25
+    "EventAssignments",                         // 26
+    "WorkSize",                                 // 27
+    "Work",                                     // 28
+    "ModelName"                                 // 29
 };
 
 /*
