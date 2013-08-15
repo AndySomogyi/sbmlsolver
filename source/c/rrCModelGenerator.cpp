@@ -32,14 +32,12 @@ CompiledModelGenerator(),
 mTempFileFolder(tempFolder),
 mCompiler(supportCodeFolder, compiler),
 mModel(0),
-mModelLib(0),
-ownedLS(0)
+mModelLib(0)
 {
 }
 
 CModelGenerator::~CModelGenerator()
 {
-    delete ownedLS;
 }
 
 int CModelGenerator::getNumberOfFloatingSpecies()
@@ -2355,22 +2353,17 @@ bool CModelGenerator::initializeModel()
     return true;
 }
 
-ExecutableModel *CModelGenerator::createModel(const string& sbml,
-        bool computeAndAssignConsevationLaws)
+ExecutableModel *CModelGenerator::createModel(const string& sbml, uint options)
 {
-    delete ownedLS;
-    ownedLS = new ls::LibStructural();
+    bool computeAndAssignConsevationLaws =
+                options & ModelGenerator::ComputeAndAssignConsevationLaws;
 
-    Log(lDebug3) << "Loading sbml into StructAnalysis";
-    string msg = ownedLS->loadSBML(sbml); //the ls loadSBML load call took SASCII before.. does it need to?
-    Log(lDebug1) << "Message from StructAnalysis.LoadSBML function\n"
-            << msg;
+    bool forceReCompile = options & ModelGenerator::ForceReCompile;
 
-    ExecutableModel *model = createModel(sbml, ownedLS, true,
+    LibStructural libStruct(sbml);
+
+    ExecutableModel *model = createModel(sbml, &libStruct, forceReCompile,
             computeAndAssignConsevationLaws);
-
-    delete ownedLS;
-    ownedLS = 0;
 
     return model;
 }

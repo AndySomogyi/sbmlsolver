@@ -23,17 +23,7 @@ public:
     CModelGenerator(const string& tempFolder, const string& supportCodeFolder, const string& compiler);
     virtual                            ~CModelGenerator();
 
-
-    /**
-     * create a C compiled executable model.
-     *
-     * The caller own this.
-     */
-    virtual ExecutableModel             *createModel(const string& sbml, ls::LibStructural *ls,
-                                                     bool forceReCompile, bool computeAndAssignConsevationLaws);
-
-    virtual ExecutableModel             *createModel(const string& sbml,
-                                                     bool computeAndAssignConsevationLaws);
+    virtual  ExecutableModel            *createModel(const string& sbml, uint options);
 
     virtual bool                        setTemporaryDirectory(const string& path);
 
@@ -62,6 +52,14 @@ public:
     string                              getSourceCodeFileName();
 
 private:
+    /**
+     * create a C compiled executable model.
+     *
+     * The caller own this.
+     */
+    ExecutableModel                     *createModel(const string& sbml, ls::LibStructural *ls,
+                                                     bool forceReCompile, bool computeAndAssignConsevationLaws);
+
     CodeBuilder                         mHeader;
     CodeBuilder                         mSource;
 
@@ -92,10 +90,6 @@ private:
      */
     ExecutableModel* mModel;
 
-    /**
-     * the ls we own.
-     */
-    ls::LibStructural *ownedLS;
 
     /**
      * perform some basic initialization on the model.

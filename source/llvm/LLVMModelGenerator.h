@@ -50,11 +50,8 @@ public:
      * The LibStructural and NOMSupport are legacy C generator classes that are
      * completly ignored.
      */
-    virtual ExecutableModel *createModel(const std::string& sbml, ls::LibStructural *,
-            bool forceReCompile, bool computeAndAssignConsevationLaws);
+    virtual  ExecutableModel *createModel(const string& sbml, uint options);
 
-    virtual ExecutableModel *createModel(const std::string& sbml,
-            bool computeAndAssignConsevationLaws);
 
     /**
      * Get the compiler object that the model generator is using to

@@ -595,7 +595,11 @@ bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
     }
 
     delete mModel;
-    mModel = mModelGenerator->createModel(sbml, &mLS, forceReCompile, computeAndAssignConservationLaws());
+    uint options = 0;
+    options |= (forceReCompile ? ModelGenerator::ForceReCompile : 0);
+    options |= (computeAndAssignConservationLaws()
+            ? ModelGenerator::ComputeAndAssignConsevationLaws : 0);
+    mModel = mModelGenerator->createModel(sbml, options);
 
     //Finally intitilaize the model..
     if(!initializeModel())

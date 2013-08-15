@@ -34,16 +34,13 @@ string LLVMModelGenerator::getTemporaryDirectory()
     return LLVMCompiler::gurgle();
 }
 
-ExecutableModel* LLVMModelGenerator::createModel(const string& sbml,
-        ls::LibStructural*, bool forceReCompile,
-        bool computeAndAssignConsevationLaws)
-{
-    return createModel(sbml, computeAndAssignConsevationLaws);
-}
 
 ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
-        bool computeAndAssignConsevationLaws)
+        uint options)
 {
+    bool computeAndAssignConsevationLaws =
+            options & ModelGenerator::ComputeAndAssignConsevationLaws;
+
     ModelGeneratorContext context(sbml, computeAndAssignConsevationLaws);
 
     EvalInitialConditionsCodeGen::FunctionPtr evalInitialConditionsPtr =
