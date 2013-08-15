@@ -15,7 +15,7 @@ class Args
         bool                            EnableLogging;            // option v:
         int                             ModelNumber;              // option i:
         ModelVersions                   ModelVersion;             // option a:
-        string                          compiler;                 // options c:
+        string                          compiler;                 // option c:
 };
 
 #endif

@@ -21,6 +21,7 @@ string     gRRInstallFolder         = "";
 string     gTestDataFolder          = "";
 bool       gDebug                   = false;
 string     gTSModelsPath;
+bool       gUseLLVM                 = false;
 
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 bool setup(Args& args);
@@ -130,10 +131,18 @@ bool setup(Args& args)
 
     //Assume(!) this is the bin folder of roadrunner install
     gRRInstallFolder     = getParentFolder(thisExeFolder);
-    gDebug                = args.EnableLogging;
-    gTSModelsPath         = args.ModelsFilePath;
-    gTempFolder            = args.TempDataFolder;
+    gDebug               = args.EnableLogging;
+    gTSModelsPath        = args.ModelsFilePath;
+    gTempFolder          = args.TempDataFolder;
     gTestDataFolder      = joinPath(gRRInstallFolder, "testing");
+
+    if (args.compiler == "llvm")
+    {
+        gUseLLVM = true;
+        cout << "Enabling LLVM" << endl;
+        Log(Logger::PRIO_NOTICE) << "Enabling LLVM";
+    }
+
     if(args.Suites.size() == 0)
     {
         //Run all
@@ -149,7 +158,7 @@ bool setup(Args& args)
     }
     else
     {
-        Logger::SetCutOffLogLevel(Logger::PRIO_WARNING);
+        Logger::SetCutOffLogLevel(Logger::PRIO_NOTICE);
     }
 
     // set test suite model path (read from cmd line)
@@ -160,7 +169,7 @@ bool setup(Args& args)
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
     char c;
-    while ((c = GetOptions(argc, argv, ("m:r:t:vs:"))) != -1)
+    while ((c = GetOptions(argc, argv, ("m:r:t:vs:c:"))) != -1)
     {
         switch (c)
         {
@@ -169,6 +178,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
             case ('t'): args.TempDataFolder     = rrOptArg; break;
             case ('v'): args.EnableLogging      = true;     break;
             case ('s'): args.Suites             = rrOptArg; break;
+            case ('c'): args.compiler           = rrOptArg; break;
             case ('?'): cout << Usage(argv[0]) << endl;     break;
             default:
             {
