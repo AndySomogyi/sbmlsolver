@@ -326,7 +326,7 @@ public:
 
     virtual void applyEventAssignment(int eventId, double *values);
 
-    virtual int getEventStatus(int len, const int *indx, unsigned char *values);
+    virtual int getEventTriggers(int len, const int *indx, unsigned char *values);
 
     virtual int getNumConservedSums();
     virtual int getConservedSumIndex(const string& name);

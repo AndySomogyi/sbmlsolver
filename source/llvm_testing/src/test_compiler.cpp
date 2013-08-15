@@ -22,7 +22,7 @@ void test_compiler()
 {
     cout << __FUNC__ << "\n";
 
-    ModelGenerator *mg = ModelGeneratorFactory::createModelGenerator("", "", "", "LLVM");
+    ModelGenerator *mg = ModelGeneratorFactory::createModelGenerator("LLVM");
 
     cout << "temporary directory: " << mg->getTemporaryDirectory() << "\n";
 

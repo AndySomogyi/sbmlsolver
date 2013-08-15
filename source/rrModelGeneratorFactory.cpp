@@ -9,14 +9,14 @@
 #include "c/rrCModelGenerator.h"
 #include "llvm/LLVMModelGenerator.h"
 #include "rrLogger.h"
-#include <algorithm>
 #include <string>
+#include <algorithm>
 
-
+using namespace std;
 namespace rr {
 
-ModelGenerator* ModelGeneratorFactory::createModelGenerator(const string& mgid, const string& tempFolder,
-            const string& supportCodeFolder, const string& compiler)
+ModelGenerator* ModelGeneratorFactory::createModelGenerator(const string& compiler, const string& tempFolder,
+            const string& supportCodeFolder)
 {
 #if defined(BUILD_LLVM)
     string ucomp = compiler;

@@ -300,13 +300,8 @@ class RR_DECLSPEC RoadRunner
          * Returns the SBML with the current parameterset.
          */
         string                          writeSBML();
-        int                             getNumberOfLocalParameters(const int& reactionId);
-        void                            setLocalParameterByIndex(const int& reactionId, const int index, const double& value);
-        double                          getLocalParameterByIndex(const int& reactionId, const int& index);
-        void                            setLocalParameterValues(const int& reactionId, const vector<double>& values);
-        vector<double>                  getLocalParameterValues(const int& reactionId);
-        vector<string>                  getLocalParameterIds(const int& reactionId);
-        vector<string>                  getAllLocalParameterTupleList();
+
+
         int                             getNumberOfReactions();
         double                          getReactionRate(const int& index);
 

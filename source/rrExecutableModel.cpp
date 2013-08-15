@@ -44,6 +44,7 @@ std::ostream& operator <<(std::ostream &stream, ExecutableModel* model)
     int nComp = model->getNumCompartments();
     int nGlobalParam = model->getNumGlobalParameters();
     int nEvents = model->getNumEvents();
+    int nReactions = model->getNumReactions();
 
     stream << "* Calculated Values *" << endl;
 
@@ -52,10 +53,20 @@ std::ostream& operator <<(std::ostream &stream, ExecutableModel* model)
     stream << "FloatingSpeciesAmounts:" << endl;
     dump_array(stream, nFloat, tmp);
 
+    model->getFloatingSpeciesAmountRates(nFloat, 0, tmp);
+    stream << "FloatingSpeciesAmountRates:" << endl;
+    dump_array(stream, nFloat, tmp);
+
     model->getFloatingSpeciesConcentrations(nFloat, 0, tmp);
     stream << "FloatingSpeciesConcentrations:" << endl;
     dump_array(stream, nFloat, tmp);
     delete[] tmp;
+
+    tmp = new double[nReactions];
+    model->getReactionRates(nReactions, 0, tmp);
+    stream << "Reaction Rates:" << endl;
+    dump_array(stream, nReactions, tmp);
+    delete tmp;
 
     tmp = new double[nBound];
     model->getBoundarySpeciesAmounts(nBound, 0, tmp);
@@ -80,7 +91,7 @@ std::ostream& operator <<(std::ostream &stream, ExecutableModel* model)
     delete tmp;
 
     unsigned char *tmpEvents = new unsigned char[nEvents];
-    model->getEventStatus(nEvents, 0, tmpEvents);
+    model->getEventTriggers(nEvents, 0, tmpEvents);
     stream << "Events Trigger Status:" << endl;
     dump_array(stream, nEvents, (bool*)tmpEvents);
     delete tmpEvents;

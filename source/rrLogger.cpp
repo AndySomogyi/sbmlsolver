@@ -42,6 +42,7 @@ void Logger::SetCutOffLogLevel(int level)
     if (level >= PRIO_FATAL && level <= PRIO_TRACE)
     {
         Poco::Logger::root().setLevel(level);
+        getLogger().setLevel(level);
     }
 }
 

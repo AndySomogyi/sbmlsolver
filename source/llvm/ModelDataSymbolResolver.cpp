@@ -8,6 +8,7 @@
 #include "ModelDataSymbolResolver.h"
 #include "ASTNodeCodeGen.h"
 #include "LLVMException.h"
+#include "FunctionResolver.h"
 #include <sbml/Model.h>
 
 using namespace std;
@@ -46,11 +47,23 @@ ModelDataStoreSymbolResolver::ModelDataStoreSymbolResolver(llvm::Value *modelDat
 }
 
 
-llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(
-        const std::string& symbol)
+llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(const std::string& symbol,
+        const llvm::ArrayRef<llvm::Value*>& args)
 {
     ModelDataIRBuilder mdbuilder(modelData, modelDataSymbols,
             builder);
+
+    /*************************************************************************/
+    /* Function */
+    /*************************************************************************/
+    {
+        Value *funcVal =
+            FunctionResolver(*this, model, builder).loadSymbolValue(symbol, args);
+        if (funcVal)
+        {
+            return funcVal;
+        }
+    }
 
     /*************************************************************************/
     /* AssignmentRule */
@@ -158,7 +171,7 @@ llvm::Value* ModelDataStoreSymbolResolver::storeSymbolValue(
         // only amounts are stored, convert to conc if required
         if (species->getHasOnlySubstanceUnits())
         {
-            return amt = value;
+            amt = value;
         }
         else
         {

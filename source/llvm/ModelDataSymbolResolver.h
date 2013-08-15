@@ -31,16 +31,16 @@ public:
 
     virtual ~ModelDataLoadSymbolResolver() {};
 
-    virtual llvm::Value *loadSymbolValue(const std::string& symbol);
+    virtual llvm::Value *loadSymbolValue(const std::string& symbol,
+            const llvm::ArrayRef<llvm::Value*>& args =
+                    llvm::ArrayRef<llvm::Value*>());
 
 private:
-
     llvm::Value *modelData;
     const libsbml::Model *model;
     const LLVMModelSymbols &modelSymbols;
     const LLVMModelDataSymbols &modelDataSymbols;
     llvm::IRBuilder<> &builder;
-
 };
 
 class ModelDataStoreSymbolResolver: public StoreSymbolResolver

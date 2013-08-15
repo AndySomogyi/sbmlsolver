@@ -187,7 +187,7 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
     int strikes = 3;
 
     // get the original event status
-    vector<unsigned char> eventStatus(mModel->getEventStatus(0, 0, 0), false);
+    vector<unsigned char> eventStatus(mModel->getEventTriggers(0, 0, 0), false);
 
     try
     {
@@ -222,16 +222,17 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
             }
 
             // event status before time step
-            mModel->getEventStatus(eventStatus.size(), 0, &eventStatus[0]);
+            mModel->getEventTriggers(eventStatus.size(), 0, &eventStatus[0]);
 
             // time step
             int nResult = CVode(mCVODE_Memory, nextTargetEndTime,  mStateVector, &timeEnd, CV_NORMAL);
 
             if (nResult == CV_ROOT_RETURN && mFollowEvents)
             {
-                Log(lDebug1)<<("---------------------------------------------------");
-                Log(lDebug1)<<"--- E V E N T      ( " << mOneStepCount << " ) ";
-                Log(lDebug1)<<("---------------------------------------------------");
+                Log(Logger::PRIO_DEBUG) << ("---------------------------------------------------");
+                Log(Logger::PRIO_DEBUG) << "--- E V E N T      ( " << mOneStepCount << " ) ";
+                Log(Logger::PRIO_DEBUG) << ("---------------------------------------------------");
+
 
                 bool tooCloseToStart = fabs(timeEnd - mLastEvent) > mRelTol;
 
@@ -302,9 +303,10 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
 
     ExecutableModel *model = cvInstance->getModel();
 
-    Log(Logger::PRIO_TRACE) << __FUNC__ << endl;
-
     model->evalModel(time, y, ydot);
+
+    Log(Logger::PRIO_TRACE) << __FUNC__ << endl;
+    Log(Logger::PRIO_TRACE) << model << endl;
 
     cvInstance->mCount++;
 }
@@ -320,15 +322,7 @@ void EventFcn(double time, double* y, double* gdot, void* userData)
 
     ExecutableModel *model = cvInstance->getModel();
 
-    //model->evalEventRoots(time, NV_DATA_S(cvInstance->mStateVector), y, gdot);
-
-    //assert(NV_DATA_S(cvInstance->mStateVector) == y);
-
-
-
     model->evalEventRoots(time, y, gdot);
-
-
 
     cvInstance->mRootCount++;
 }
@@ -447,8 +441,8 @@ void CvodeInterface::assignPendingEvents(const double& timeEnd, const double& to
 
 void CvodeInterface::testRootsAtInitialTime()
 {
-    vector<unsigned char> initialEventStatus(mModel->getEventStatus(0, 0, 0), false);
-    mModel->getEventStatus(initialEventStatus.size(), 0, &initialEventStatus[0]);
+    vector<unsigned char> initialEventStatus(mModel->getEventTriggers(0, 0, 0), false);
+    mModel->getEventTriggers(initialEventStatus.size(), 0, &initialEventStatus[0]);
     handleRootsForTime(0, initialEventStatus);
 }
 

@@ -64,6 +64,8 @@ class RR_DECLSPEC CSharpModelGenerator : public CompiledModelGenerator
         virtual ExecutableModel *createModel(const string& sbml,
                 bool computeAndAssignConsevationLaws);
 
+        virtual  ExecutableModel            *createModel(const string& sbml, uint options);
+
 
         virtual bool                        setTemporaryDirectory(const string& path);
 

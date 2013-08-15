@@ -99,12 +99,14 @@ mPluginManager(joinPath(getParentFolder(supportCodeFolder), "plugins"))
     mRRCoreCapabilities.addParameter(&mComputeAndAssignConservationLaws);
 
     mCapabilities.add(mRRCoreCapabilities);
-    Log(lDebug4)<<"In RoadRunner ctor";
 
     // for now, dump out who we are
-    Log(lDebug3) << "RoadRunner::RoadRunner(...), running refactored modelgen NOMFix\n";
+    Log(Logger::PRIO_DEBUG) << __FUNC__ << "compiler: " << compiler <<
+            ", tempFolder:" << tempFolder << ", supportCodeFolder: " <<
+            supportCodeFolder;
 
-    mModelGenerator = ModelGeneratorFactory::createModelGenerator("CModelGenerator", tempFolder, supportCodeFolder, compiler);
+    mModelGenerator = ModelGeneratorFactory::createModelGenerator(compiler,
+            tempFolder, supportCodeFolder);
 
     setTempFileFolder(tempFolder);
     mPluginManager.setRoadRunnerInstance(this);
@@ -595,7 +597,11 @@ bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
     }
 
     delete mModel;
-    mModel = mModelGenerator->createModel(sbml, &mLS, forceReCompile, computeAndAssignConservationLaws());
+    uint options = 0;
+    options |= (forceReCompile ? ModelGenerator::ForceReCompile : 0);
+    options |= (computeAndAssignConservationLaws()
+            ? ModelGenerator::ComputeAndAssignConsevationLaws : 0);
+    mModel = mModelGenerator->createModel(sbml, options);
 
     //Finally intitilaize the model..
     if(!initializeModel())
@@ -2514,38 +2520,6 @@ string RoadRunner::writeSBML()
     return NOM.getSBML();
 }
 
-// Get the number of local parameters for a given reaction
-int RoadRunner::getNumberOfLocalParameters(const int& reactionId)
-{
-     if (!mModel)
-     {
-         throw CoreException(gEmptyModelMessage);
-     }
-     return mModel->getNumLocalParameters(reactionId);
-}
-
-// Returns the value of a global parameter by its index
-// ***** SHOULD WE SUPPORT LOCAL PARAMETERS? ******** (Sept 2, 2012, HMS
-// ***** We will soon...., AS
-double RoadRunner::getLocalParameterByIndex    (const int& reactionId, const int& index)
-{
-    if(!mModel)
-    {
-       throw CoreException(gEmptyModelMessage);
-    }
-
-    if( reactionId >= 0 &&
-        reactionId < mModel->getNumReactions() &&
-        index >= 0 &&
-        index < mModel->getNumLocalParameters(reactionId))
-    {
-        return -1;
-    }
-    else
-    {
-         throw CoreException(format("Index in getLocalParameterByIndex out of range: [{0}]", index));
-    }
-}
 
 // Help("Get the number of reactions")
 int RoadRunner::getNumberOfReactions()

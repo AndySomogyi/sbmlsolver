@@ -136,8 +136,6 @@ int LLVMExecutableModel::getNumReactions()
     return modelData.numReactions;
 }
 
-
-
 int LLVMExecutableModel::getNumLocalParameters(int reactionId)
 {
     return 0;
@@ -153,6 +151,7 @@ void LLVMExecutableModel::computeConservedTotals()
 
 double LLVMExecutableModel::getFloatingSpeciesConcentration(int index)
 {
+    /*
     if (index >= 0 && index < modelData.numFloatingSpecies)
     {
         int compIndex = modelData.floatingSpeciesCompartments[index];
@@ -164,6 +163,8 @@ double LLVMExecutableModel::getFloatingSpeciesConcentration(int index)
         Log(Logger::PRIO_ERROR) << "index " << index << "out of range";
         throw Exception(string(__FUNC__) + string(": index out of range"));
     }
+    */
+    return 0;
 }
 
 int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len, int const *indx,
@@ -218,6 +219,7 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
                 modelData.numIndependentSpecies * sizeof(double));
     }
 
+    /*
     if (Logger::PRIO_TRACE <= rr::Logger::GetLogLevel()) {
 
         LoggingBuffer log(Logger::PRIO_TRACE, __FILE__, __LINE__);
@@ -237,6 +239,7 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
         }
         log.stream() << endl << "Model: " << endl << this;
     }
+    */
 }
 
 void LLVMExecutableModel::testConstraints()
@@ -410,6 +413,7 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
             stateVector + modelData.numRateRules,
             modelData.numIndependentSpecies * sizeof(double));
 
+    /*
     if (Logger::PRIO_TRACE <= rr::Logger::GetLogLevel()) {
 
         LoggingBuffer log(Logger::PRIO_TRACE, __FILE__, __LINE__);
@@ -423,6 +427,7 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
             log.stream() << "null";
         }
     }
+    */
 
     return modelData.numRateRules + modelData.numIndependentSpecies;
 }
@@ -509,7 +514,19 @@ int LLVMExecutableModel::getCompartmentVolumes(int len, const int* indx,
 int LLVMExecutableModel::getReactionRates(int len, const int* indx,
         double* values)
 {
-    return 0;
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        if (j < modelData.numReactions)
+        {
+            values[i] = modelData.reactionRates[j];
+        }
+        else
+        {
+            throw Exception("index out of range");
+        }
+    }
+    return len;
 }
 
 int LLVMExecutableModel::getNumConservedSums()
@@ -542,7 +559,19 @@ int LLVMExecutableModel::setConservedSums(int len, const int* indx,
 int LLVMExecutableModel::getFloatingSpeciesAmountRates(int len,
         int const *indx, double *values)
 {
-    return 0;
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        if (j < modelData.numFloatingSpecies)
+        {
+            values[i] = modelData.floatingSpeciesAmountRates[j];
+        }
+        else
+        {
+            throw LLVMException("index out of range");
+        }
+    }
+    return len;
 }
 
 
@@ -591,7 +620,7 @@ int LLVMExecutableModel::getNumEvents()
     return modelData.numEvents;
 }
 
-int LLVMExecutableModel::getEventStatus(int len, const int *indx, unsigned char *values)
+int LLVMExecutableModel::getEventTriggers(int len, const int *indx, unsigned char *values)
 {
     const vector<unsigned char>& attr = symbols->getEventAttributes();
 
@@ -675,10 +704,6 @@ double LLVMExecutableModel::getNextPendingEventTime(bool pop)
 int LLVMExecutableModel::getPendingEventSize()
 {
     return 0;
-}
-
-void LLVMExecutableModel::evalEvents(const double time, const double *y)
-{
 }
 
 void LLVMExecutableModel::resetEvents()

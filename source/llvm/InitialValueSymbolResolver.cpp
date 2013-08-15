@@ -8,6 +8,7 @@
 #include "InitialValueSymbolResolver.h"
 #include "ASTNodeCodeGen.h"
 #include "LLVMException.h"
+#include "FunctionResolver.h"
 #include <sbml/Model.h>
 
 using namespace std;
@@ -24,7 +25,8 @@ InitialValueSymbolResolver::InitialValueSymbolResolver(
         llvm::IRBuilder<>& builder) :
         model(model),
         modelDataSymbols(modelDataSymbols),
-        modelSymbols(modelSymbols), builder(builder)
+        modelSymbols(modelSymbols),
+        builder(builder)
 {
 }
 
@@ -32,9 +34,21 @@ InitialValueSymbolResolver::~InitialValueSymbolResolver()
 {
 }
 
-llvm::Value* InitialValueSymbolResolver::loadSymbolValue(
-        const std::string& symbol)
+llvm::Value* InitialValueSymbolResolver::loadSymbolValue(const std::string& symbol,
+        const llvm::ArrayRef<llvm::Value*>& args)
 {
+    /*************************************************************************/
+    /* Function */
+    /*************************************************************************/
+    {
+        Value *funcVal =
+            FunctionResolver(*this, model, builder).loadSymbolValue(symbol, args);
+        if (funcVal)
+        {
+            return funcVal;
+        }
+    }
+
     /*************************************************************************/
     /* AssignmentRule */
     /*************************************************************************/

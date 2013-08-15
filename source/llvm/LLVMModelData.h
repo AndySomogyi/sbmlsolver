@@ -108,33 +108,6 @@ struct LLVMModelData
     double*                             rateRuleRates;                    // 12
 
     /**
-     * LLVM specific
-     * C version does not support local parameters
-     * This is the offset, or starting index of the local parameters
-     * for reaction i. Length is numReactions.
-     *
-     * Rationale: It is simple more effecient to store all the local
-     * parameters in a single dimensional array with offsets, as the
-     * offsets can be computed at compile time, whereas if we used
-     * a array of arrays, it would require an additional memory access
-     * to determine the location of the parameter.
-     */
-    unsigned*                           localParametersOffsets;           // 13
-
-    /**
-     * the number of local parameters for each reaction,
-     * so legnth is numReactions. This is an array of counts,
-     * hence it is named differently than the rest of the num*** fields.
-     */
-    unsigned*                           localParametersNum;               // 14
-
-    /**
-     * All local parameters are stored in this array. This has
-     * length sum(localParameterNum).
-     */
-    double*                             localParameters;                  // 15
-
-    /**
      * The total ammounts of the floating species, i.e.
      * concentration * compartment volume.
      * Everything named floatingSpecies??? has length numFloatingSpecies.
@@ -144,24 +117,17 @@ struct LLVMModelData
      * species, and the [numIndependentSpecies,numIndendentSpecies+numDependentSpecies)
      * contain the dependent species.
      */
-    unsigned                            numFloatingSpecies;               // 16
+    unsigned                            numFloatingSpecies;               // 13
 
     /**
      * amount rates of change for floating species.
      */
-    double*                             floatingSpeciesAmountRates;       // 17
+    double*                             floatingSpeciesAmountRates;       // 14
 
     /**
      * The total amount of a species in a compartment.
      */
-    double*                             floatingSpeciesAmounts;           // 18
-
-    /**
-     * compartment index for each floating species,
-     * e.g. the volume of the i'th species is
-     * md->compartmentVolumes[md->floatingSpeciesCompartments[i]]
-     */
-    unsigned*                           floatingSpeciesCompartments;      // 19
+    double*                             floatingSpeciesAmounts;           // 15
 
     /**
      * number of boundary species and boundary species concentrations.
@@ -170,51 +136,44 @@ struct LLVMModelData
      * Volume Percent= (Volume of Solute) / (Volume of Solution) x 100%
      * Mass/Volume Percent= (Mass of Solute) / (Volume of Solution) x 100%
      */
-    unsigned                            numBoundarySpecies;               // 20
-    double*                             boundarySpeciesAmounts;           // 21
-
-    /**
-     * compartment index for each boundary species,
-     * e.g. the volume of the i'th species is
-     * md->compartmentVolumes[md->boundarySpeciesCompartments[i]]
-     */
-    unsigned*                           boundarySpeciesCompartments;      // 22
+    unsigned                            numBoundarySpecies;               // 16
+    double*                             boundarySpeciesAmounts;           // 17
 
     /**
      * number of compartments, and compartment volumes.
      * units: volume
      */
-    unsigned                            numCompartments;                  // 23
-    double*                             compartmentVolumes;               // 24
+    unsigned                            numCompartments;                  // 18
+    double*                             compartmentVolumes;               // 19
 
     /**
      * stoichiometry matrix
      */
-    csr_matrix*                         stoichiometry;                    // 25
+    csr_matrix*                         stoichiometry;                    // 20
 
 
     //Event stuff
-    unsigned                            numEvents;                        // 26
+    unsigned                            numEvents;                        // 21
 
     /**
      * number of items in the state vector.
      */
-    unsigned                            stateVectorSize;                  // 27
+    unsigned                            stateVectorSize;                  // 22
 
     /**
      * the state vector, this is usually a pointer to a block of data
      * owned by the integrator.
      */
-    double*                             stateVector;                      // 28
+    double*                             stateVector;                      // 23
 
     /**
      * the rate of change of the state vector, this is usually a pointer to
      * a block of data owned by the integrator.
      */
-    double*                             stateVectorRate;                  // 29
+    double*                             stateVectorRate;                  // 24
 
-    unsigned                            eventAssignmentsSize;             // 30
-    double*                             eventAssignments;                 // 31
+    unsigned                            eventAssignmentsSize;             // 25
+    double*                             eventAssignments;                 // 26
 
 
     /**
@@ -224,15 +183,15 @@ struct LLVMModelData
      *
      * allocated by allocModelDataBuffers based on the value of workSize;
      */
-    unsigned                            workSize;                         // 32
-    double*                             work;                             // 33
+    unsigned                            workSize;                         // 27
+    double*                             work;                             // 28
 
 
 
     /**
      * model name
      */
-    char*                               modelName;                        // 34
+    char*                               modelName;                        // 29
 
     static void init(LLVMModelData&);
 

@@ -18,7 +18,11 @@
 #include <set>
 #include <list>
 
-namespace libsbml { class Model; }
+namespace libsbml
+{
+    class Model;
+    class SimpleSpeciesReference;
+}
 
 namespace rr
 {
@@ -37,28 +41,23 @@ enum ModelDataFields {
     NumRateRules,                             // 10
     RateRuleValues,                           // 11
     RateRuleRates,                            // 12
-    LocalParametersOffsets,                   // 13
-    LocalParametersNum,                       // 14
-    LocalParameters,                          // 15
-    NumFloatingSpecies,                       // 16
-    FloatingSpeciesAmountRates,               // 17
-    FloatingSpeciesAmounts,                   // 18
-    FloatingSpeciesCompartments,              // 19
-    NumBoundarySpecies,                       // 20
-    BoundarySpeciesAmounts,                   // 21
-    BoundarySpeciesCompartments,              // 22
-    NumCompartments,                          // 23
-    CompartmentVolumes,                       // 24
-    Stoichiometry,                            // 25
-    NumEvents,                                // 26
-    StateVectorSize,                          // 27
-    StateVector,                              // 28
-    StateVectorRate,                          // 29
-    EventAssignmentsSize,                     // 30
-    EventAssignments,                         // 31
-    WorkSize,                                 // 32
-    Work,                                     // 33
-    ModelName,                                // 34
+    NumFloatingSpecies,                       // 13
+    FloatingSpeciesAmountRates,               // 14
+    FloatingSpeciesAmounts,                   // 15
+    NumBoundarySpecies,                       // 16
+    BoundarySpeciesAmounts,                   // 17
+    NumCompartments,                          // 18
+    CompartmentVolumes,                       // 19
+    Stoichiometry,                            // 20
+    NumEvents,                                // 21
+    StateVectorSize,                          // 22
+    StateVector,                              // 23
+    StateVectorRate,                          // 24
+    EventAssignmentsSize,                     // 25
+    EventAssignments,                         // 26
+    WorkSize,                                 // 27
+    Work,                                     // 28
+    ModelName,                                // 29
 };
 
 enum EventAtributes
@@ -119,7 +118,6 @@ public:
 
     uint getIndependentBoundarySpeciesSize() const;
 
-    uint getFloatingSpeciesCompartmentIndex(std::string const&) const;
     uint getBoundarySpeciesCompartmentIndex(std::string const&) const;
 
     /**
@@ -238,18 +236,6 @@ private:
     StringUIntMap reactionsMap;
 
     /**
-     * compartment that a floating species belongs to,
-     * indexed by floating species index.
-     */
-    std::vector<uint> floatingSpeciesCompartments;
-
-    /**
-     * compartment that a boundary species belongs to,
-     * indexed by boundary species index.
-     */
-    std::vector<uint> boundarySpeciesCompartments;
-
-    /**
      * the stochiometry matrix is # reactions rows by # species columns.
      *
      * the species indices go here.
@@ -302,6 +288,14 @@ private:
     void displayCompartmentInfo();
 
     void initEvents(const libsbml::Model *model);
+
+    /**
+     * determine is this species can be used as a species reference,
+     * if not, logs the reason why its not valid.
+     */
+    bool isValidSpeciesReference(const libsbml::SimpleSpeciesReference*,
+            const std::string& reacOrProd);
+
 };
 
 } /* namespace rr */

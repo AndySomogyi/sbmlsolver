@@ -3,20 +3,23 @@
 #include "rrUtils.h"
 #include "rrRoadRunnerData.h"
 #include "rrSBMLTestSuiteSimulation_CAPI.h"
+#include "rrLogger.h"
 
 using namespace rrc;
 
 extern string gTempFolder;
 extern string gTSModelsPath;
 extern bool gDebug;
+extern bool gUseLLVM;
+
 using namespace rr;
 RoadRunnerData convertCAPIResultData(RRCDataPtr        resultsHandle);
 
 SBMLTestSuiteSimulation_CAPI::SBMLTestSuiteSimulation_CAPI(const string& dataOutputFolder, const string& modelFilePath, const string& modelFileName)
 :
-rr::TestSuiteModelSimulation(dataOutputFolder, modelFilePath, modelFileName),
-mRRHandle(NULL),
-mResultHandle(NULL)
+        rr::TestSuiteModelSimulation(dataOutputFolder, modelFilePath, modelFileName),
+        mRRHandle(NULL),
+        mResultHandle(NULL)
 {
 }
 
@@ -134,7 +137,7 @@ bool RunTest(const string& version, int caseNumber)
     RRHandle gRR;
 
     //Create instance..
-    gRR = createRRInstanceEx(gTempFolder.c_str(), 0);
+    gRR = createRRInstanceEx(gTempFolder.c_str(), gUseLLVM ? "llvm" : 0);
 
 
     //Setup environment
@@ -147,7 +150,7 @@ bool RunTest(const string& version, int caseNumber)
 
     try
     {
-        clog<<"Running Test: "<<caseNumber<<endl;
+        Log(Logger::PRIO_NOTICE) << "Running Test: "<< caseNumber << endl;
         string dataOutputFolder(gTempFolder);
         string dummy;
         string logFileName;
@@ -165,7 +168,7 @@ bool RunTest(const string& version, int caseNumber)
             throw(rr::Exception(msg));
         }
 
-           SBMLTestSuiteSimulation_CAPI simulation(dataOutputFolder);
+        SBMLTestSuiteSimulation_CAPI simulation(dataOutputFolder);
 
         simulation.UseHandle(gRR);
 
@@ -226,7 +229,7 @@ bool RunTest(const string& version, int caseNumber)
         {
             clog<<"\t\tTest passed..\n";
         }
-      }
+    }
     catch(std::exception& ex)
     {
         string error = ex.what();
@@ -236,5 +239,5 @@ bool RunTest(const string& version, int caseNumber)
     }
 
     freeRRInstance(gRR);
-     return result;
+    return result;
 }

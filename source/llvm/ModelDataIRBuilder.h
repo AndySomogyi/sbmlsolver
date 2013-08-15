@@ -40,19 +40,6 @@ public:
     llvm::Value *createBoundSpeciesAmtGEP(const std::string &id,
             const llvm::Twine &name = "");
 
-
-    /**
-     * GEP for the compartment volume that belongs to the floating
-     * species with id.
-     */
-    llvm::Value *createFloatSpeciesCompGEP(const std::string &id);
-
-    /**
-     * GEP for the compartment volume that belongs to the bound
-     * species with id.
-     */
-    llvm::Value *createBoundSpeciesCompGEP(const std::string &id);
-
     llvm::Value *createGlobalParamGEP(const std::string &id);
 
     /**

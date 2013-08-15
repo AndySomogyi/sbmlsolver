@@ -33,7 +33,6 @@ set(rrSources
     rrStringListContainer
     rrStringUtils
     rrUtils
-    rrModelGenerator
     rrCPlugin
     rrCVODEInterface
     rrNLEQInterface
@@ -103,12 +102,13 @@ if(BUILD_LLVM)
         llvm/EvalReactionRatesCodeGen
         llvm/EventAssignCodeGen
         llvm/EventTriggerCodeGen
-        llvm/EventSymbolResolver
+        llvm/FunctionResolver
         llvm/LLVMExecutableModel
         llvm/GetRateRuleValuesCodeGen
         llvm/GetValuesCodeGen
         llvm/GetEventValuesCodeGen
         llvm/InitialValueSymbolResolver
+        llvm/KineticLawParameterResolver
         llvm/LLVMModelData
         llvm/ModelDataIRBuilder
         llvm/ModelDataSymbolResolver

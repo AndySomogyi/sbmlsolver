@@ -72,8 +72,6 @@ void LLVMModelData::allocBuffers(LLVMModelData &data, const string& modelName)
     data.globalParameters = (double*)calloc(data.numGlobalParameters, sizeof(double));
     data.compartmentVolumes = (double*)calloc(data.numCompartments, sizeof(double));
     data.boundarySpeciesAmounts = (double*)calloc(data.numBoundarySpecies, sizeof(double));
-    data.floatingSpeciesCompartments = (unsigned*)calloc(data.numFloatingSpecies, sizeof(unsigned));
-    data.boundarySpeciesCompartments = (unsigned*)calloc(data.numBoundarySpecies, sizeof(unsigned));
     data.work = (double*)calloc(data.workSize, sizeof(double));
 
 
@@ -124,7 +122,6 @@ std::ostream& operator <<(std::ostream& os, const LLVMModelData& data)
     os << "floatingSpeciesAmounts: "    << endl;           // 19
     dump_array(os, data.numFloatingSpecies, data.floatingSpeciesAmounts);
 
-//    unsigned*                                floatingSpeciesCompartments;      // 20
     os << "numBoundarySpecies: "       << data.numBoundarySpecies << endl;  // 21
 
     os << "boundarySpeciesAmounts:"    << endl;                             // 23
@@ -179,12 +176,10 @@ void  LLVMModelData::freeBuffers(LLVMModelData &data)
     free(data.floatingSpeciesAmounts);
     free(data.floatingSpeciesAmountRates);
     free(data.rateRuleRates);
-    free(data.floatingSpeciesCompartments);
     free(data.reactionRates);
     free(data.dependentSpeciesConservedSums);
     free(data.globalParameters);
     free(data.compartmentVolumes);
-    free(data.boundarySpeciesCompartments);
     free(data.boundarySpeciesAmounts);
     free(data.work);
 
@@ -260,19 +255,6 @@ void LLVMModelData::copyBuffers(LLVMModelData *dst, LLVMModelData *src)
                 src->numBoundarySpecies * sizeof(double));
     }
 
-    if (dst->floatingSpeciesCompartments && src->floatingSpeciesCompartments)
-    {
-        memcpy(dst->floatingSpeciesCompartments,
-                src->floatingSpeciesCompartments,
-                src->numFloatingSpecies * sizeof(int));
-    }
-
-    if (dst->boundarySpeciesCompartments && src->boundarySpeciesCompartments)
-    {
-        memcpy(dst->boundarySpeciesCompartments,
-                src->boundarySpeciesCompartments,
-                src->numBoundarySpecies * sizeof(int));
-    }
 
     if (dst->work && src->work)
     {

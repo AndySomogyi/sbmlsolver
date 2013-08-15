@@ -30,14 +30,15 @@ public:
 
     virtual ~InitialValueSymbolResolver();
 
-    virtual llvm::Value* loadSymbolValue(const std::string& symbol);
+    virtual llvm::Value *loadSymbolValue(const std::string& symbol,
+            const llvm::ArrayRef<llvm::Value*>& args =
+                    llvm::ArrayRef<llvm::Value*>());
 
 protected:
     const libsbml::Model *model;
     const LLVMModelDataSymbols &modelDataSymbols;
     const LLVMModelSymbols &modelSymbols;
     llvm::IRBuilder<> &builder;
-
 };
 
 } /* namespace rr */
