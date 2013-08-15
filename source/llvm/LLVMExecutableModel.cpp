@@ -136,8 +136,6 @@ int LLVMExecutableModel::getNumReactions()
     return modelData.numReactions;
 }
 
-
-
 int LLVMExecutableModel::getNumLocalParameters(int reactionId)
 {
     return 0;
@@ -415,6 +413,7 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
             stateVector + modelData.numRateRules,
             modelData.numIndependentSpecies * sizeof(double));
 
+    /*
     if (Logger::PRIO_TRACE <= rr::Logger::GetLogLevel()) {
 
         LoggingBuffer log(Logger::PRIO_TRACE, __FILE__, __LINE__);
@@ -428,6 +427,7 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
             log.stream() << "null";
         }
     }
+    */
 
     return modelData.numRateRules + modelData.numIndependentSpecies;
 }
@@ -514,7 +514,19 @@ int LLVMExecutableModel::getCompartmentVolumes(int len, const int* indx,
 int LLVMExecutableModel::getReactionRates(int len, const int* indx,
         double* values)
 {
-    return 0;
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        if (j < modelData.numReactions)
+        {
+            values[i] = modelData.reactionRates[j];
+        }
+        else
+        {
+            throw Exception("index out of range");
+        }
+    }
+    return len;
 }
 
 int LLVMExecutableModel::getNumConservedSums()

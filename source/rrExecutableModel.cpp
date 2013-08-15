@@ -44,6 +44,7 @@ std::ostream& operator <<(std::ostream &stream, ExecutableModel* model)
     int nComp = model->getNumCompartments();
     int nGlobalParam = model->getNumGlobalParameters();
     int nEvents = model->getNumEvents();
+    int nReactions = model->getNumReactions();
 
     stream << "* Calculated Values *" << endl;
 
@@ -60,6 +61,12 @@ std::ostream& operator <<(std::ostream &stream, ExecutableModel* model)
     stream << "FloatingSpeciesConcentrations:" << endl;
     dump_array(stream, nFloat, tmp);
     delete[] tmp;
+
+    tmp = new double[nReactions];
+    model->getReactionRates(nReactions, 0, tmp);
+    stream << "Reaction Rates:" << endl;
+    dump_array(stream, nReactions, tmp);
+    delete tmp;
 
     tmp = new double[nBound];
     model->getBoundarySpeciesAmounts(nBound, 0, tmp);

@@ -171,7 +171,7 @@ llvm::Value* ModelDataStoreSymbolResolver::storeSymbolValue(
         // only amounts are stored, convert to conc if required
         if (species->getHasOnlySubstanceUnits())
         {
-            return amt = value;
+            amt = value;
         }
         else
         {

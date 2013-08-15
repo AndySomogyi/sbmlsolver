@@ -33,11 +33,26 @@ LLVMModelSymbols::LLVMModelSymbols(const libsbml::Model *m, LLVMModelDataSymbols
 
     model->getListOfSpecies()->accept(*this);
     model->getListOfCompartments()->accept(*this);
-    model->getListOfParameters()->accept(*this);
     model->getListOfReactions()->accept(*this);
 
-    model->getListOfRules()->accept(*this);
+    // only want to process global parameters, however calling
+    // getListOfParameters()->acept(..) ends up calling us
+    // with all the local paramters, and older sbml uses
+    // the class Parameter for locals, so if we manually
+    // itterate the list, we only get global params.
+    const libsbml::ListOfParameters *params = model->getListOfParameters();
+    for (uint i = 0; i < params->size(); ++i)
+    {
+        const Parameter* param = params->get(i);
+        Log(Logger::PRIO_TRACE) << "global parameter " << param->getId() <<
+                " initial value: " << param->getValue();
 
+        ASTNode *value = nodes.create(AST_REAL);
+        value->setValue(param->getValue());
+        initialValues.globalParameters[param->getId()] = value;
+    }
+
+    model->getListOfRules()->accept(*this);
     model->getListOfInitialAssignments()->accept(*this);
 }
 
@@ -56,14 +71,6 @@ bool LLVMModelSymbols::visit(const libsbml::Compartment& x)
 bool LLVMModelSymbols::visit(const libsbml::Species& x)
 {
     processSpecies(initialValues, &x, 0);
-    return true;
-}
-
-bool LLVMModelSymbols::visit(const libsbml::Parameter& x)
-{
-    ASTNode *value = nodes.create(AST_REAL);
-    value->setValue(x.getValue());
-    initialValues.globalParameters[x.getId()] = value;
     return true;
 }
 

@@ -59,7 +59,6 @@ protected:
 
     virtual bool visit(const libsbml::Compartment &x);
     virtual bool visit(const libsbml::Species &x);
-    virtual bool visit(const libsbml::Parameter &x);
     virtual bool visit(const libsbml::AssignmentRule  &x);
 
     /**

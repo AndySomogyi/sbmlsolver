@@ -8,8 +8,10 @@
 #include "KineticLawParameterResolver.h"
 #include "LLVMIncludes.h"
 #include "rrLogger.h"
+#include <sbml/Reaction.h>
 
 using namespace llvm;
+using namespace libsbml;
 
 namespace rr
 {
@@ -37,7 +39,9 @@ llvm::Value* KineticLawParameterResolver::loadSymbolValue(
 
     if (parameter)
     {
-        Log(Logger::PRIO_DEBUG) << "found local parameter for symbol " << symbol <<
+        const Reaction *reaction = (const Reaction*)kineticLaw.getParentSBMLObject();
+        Log(Logger::PRIO_DEBUG) << "reaction id " << reaction->getId() <<
+                " found local parameter for symbol " << symbol <<
                 ", value: " << parameter->getValue();
 
         Value *value =  ConstantFP::get(builder.getContext(),
