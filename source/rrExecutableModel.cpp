@@ -52,6 +52,10 @@ std::ostream& operator <<(std::ostream &stream, ExecutableModel* model)
     stream << "FloatingSpeciesAmounts:" << endl;
     dump_array(stream, nFloat, tmp);
 
+    model->getFloatingSpeciesAmountRates(nFloat, 0, tmp);
+    stream << "FloatingSpeciesAmountRates:" << endl;
+    dump_array(stream, nFloat, tmp);
+
     model->getFloatingSpeciesConcentrations(nFloat, 0, tmp);
     stream << "FloatingSpeciesConcentrations:" << endl;
     dump_array(stream, nFloat, tmp);

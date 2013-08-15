@@ -229,9 +229,10 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
 
             if (nResult == CV_ROOT_RETURN && mFollowEvents)
             {
-                Log(lDebug1)<<("---------------------------------------------------");
-                Log(lDebug1)<<"--- E V E N T      ( " << mOneStepCount << " ) ";
-                Log(lDebug1)<<("---------------------------------------------------");
+                Log(Logger::PRIO_DEBUG) << ("---------------------------------------------------");
+                Log(Logger::PRIO_DEBUG) << "--- E V E N T      ( " << mOneStepCount << " ) ";
+                Log(Logger::PRIO_DEBUG) << ("---------------------------------------------------");
+
 
                 bool tooCloseToStart = fabs(timeEnd - mLastEvent) > mRelTol;
 
@@ -302,9 +303,10 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
 
     ExecutableModel *model = cvInstance->getModel();
 
-    Log(Logger::PRIO_TRACE) << __FUNC__ << endl;
-
     model->evalModel(time, y, ydot);
+
+    Log(Logger::PRIO_TRACE) << __FUNC__ << endl;
+    Log(Logger::PRIO_TRACE) << model << endl;
 
     cvInstance->mCount++;
 }
@@ -320,15 +322,7 @@ void EventFcn(double time, double* y, double* gdot, void* userData)
 
     ExecutableModel *model = cvInstance->getModel();
 
-    //model->evalEventRoots(time, NV_DATA_S(cvInstance->mStateVector), y, gdot);
-
-    //assert(NV_DATA_S(cvInstance->mStateVector) == y);
-
-
-
     model->evalEventRoots(time, y, gdot);
-
-
 
     cvInstance->mRootCount++;
 }

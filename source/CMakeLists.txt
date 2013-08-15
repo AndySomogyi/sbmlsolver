@@ -109,6 +109,7 @@ if(BUILD_LLVM)
         llvm/GetValuesCodeGen
         llvm/GetEventValuesCodeGen
         llvm/InitialValueSymbolResolver
+        llvm/KineticLawParameterResolver
         llvm/LLVMModelData
         llvm/ModelDataIRBuilder
         llvm/ModelDataSymbolResolver

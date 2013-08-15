@@ -10,6 +10,7 @@
 #include "ASTNodeCodeGen.h"
 #include "ASTNodeFactory.h"
 #include "ModelDataSymbolResolver.h"
+#include "KineticLawParameterResolver.h"
 #include "rrLogger.h"
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaFormatter.h>
@@ -44,7 +45,6 @@ Value* EvalReactionRatesCodeGen::codeGen()
     ModelDataLoadSymbolResolver resolver(modelData,model,modelSymbols,
             dataSymbols,builder);
     ModelDataIRBuilder mdbuilder(modelData, dataSymbols, builder);
-    ASTNodeCodeGen astCodeGen(builder, resolver);
     ASTNodeFactory nodes;
 
     // iterate through all of the reaction, and generate code based on thier
@@ -70,7 +70,13 @@ Value* EvalReactionRatesCodeGen::codeGen()
             poco_warning(getLogger(), "Reaction " + r->getId() + " has no KineticLaw, it will be set to zero");
             ASTNode *m = nodes.create(AST_REAL);
             m->setValue(0);
+            math = m;
         }
+
+
+        KineticLawParameterResolver lpResolver(resolver, *kinetic, builder);
+        ASTNodeCodeGen astCodeGen(builder, lpResolver);
+
         value = astCodeGen.codeGen(math);
         mdbuilder.createReactionRateStore(r->getId(), value);
     }

@@ -221,6 +221,7 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
                 modelData.numIndependentSpecies * sizeof(double));
     }
 
+    /*
     if (Logger::PRIO_TRACE <= rr::Logger::GetLogLevel()) {
 
         LoggingBuffer log(Logger::PRIO_TRACE, __FILE__, __LINE__);
@@ -240,6 +241,7 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
         }
         log.stream() << endl << "Model: " << endl << this;
     }
+    */
 }
 
 void LLVMExecutableModel::testConstraints()
@@ -545,7 +547,19 @@ int LLVMExecutableModel::setConservedSums(int len, const int* indx,
 int LLVMExecutableModel::getFloatingSpeciesAmountRates(int len,
         int const *indx, double *values)
 {
-    return 0;
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        if (j < modelData.numFloatingSpecies)
+        {
+            values[i] = modelData.floatingSpeciesAmountRates[j];
+        }
+        else
+        {
+            throw LLVMException("index out of range");
+        }
+    }
+    return len;
 }
 
 
