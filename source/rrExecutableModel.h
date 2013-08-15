@@ -8,8 +8,6 @@
 namespace rr
 {
 
-using std::string;
-
 /**
  * The ExecutableModel interface provides a way to access an
  * sbml model that was compiled, JIT'd or interpreted
@@ -29,7 +27,7 @@ public:
     /**
      * get the name of the model
      */
-    virtual string getModelName() = 0;
+    virtual std::string getModelName() = 0;
 
     virtual void setTime(double _time) = 0;
     virtual double getTime() = 0;
@@ -65,12 +63,12 @@ public:
     virtual int getNumDependentSpecies() = 0;
 
     virtual int getNumFloatingSpecies() = 0;
-    virtual int getFloatingSpeciesIndex(const string& eid) = 0;
-    virtual string getFloatingSpeciesId(int index) = 0;
+    virtual int getFloatingSpeciesIndex(const std::string& eid) = 0;
+    virtual std::string getFloatingSpeciesId(int index) = 0;
 
     virtual int getNumBoundarySpecies() = 0;
-    virtual int getBoundarySpeciesIndex(const string &eid) = 0;
-    virtual string getBoundarySpeciesId(int index) = 0;
+    virtual int getBoundarySpeciesIndex(const std::string &eid) = 0;
+    virtual std::string getBoundarySpeciesId(int index) = 0;
     virtual int getBoundarySpeciesCompartmentIndex(int index) = 0;
 
     /**
@@ -160,9 +158,9 @@ public:
 
 
     virtual int getNumGlobalParameters() = 0;
-    virtual int getGlobalParameterIndex(const string& eid) = 0;
+    virtual int getGlobalParameterIndex(const std::string& eid) = 0;
 
-    virtual string getGlobalParameterId(int index) = 0;
+    virtual std::string getGlobalParameterId(int index) = 0;
 
 
     /**
@@ -180,8 +178,8 @@ public:
             const double *values) = 0;
 
     virtual int getNumCompartments() = 0;
-    virtual int getCompartmentIndex(const string& eid) = 0;
-    virtual string getCompartmentId(int index) = 0;
+    virtual int getCompartmentIndex(const std::string& eid) = 0;
+    virtual std::string getCompartmentId(int index) = 0;
 
     /**
      * get the compartment volumes
@@ -204,8 +202,8 @@ public:
 
 
     virtual int getNumConservedSums() = 0;
-    virtual int getConservedSumIndex(const string& eid) = 0;
-    virtual string getConservedSumId(int index) = 0;
+    virtual int getConservedSumIndex(const std::string& eid) = 0;
+    virtual std::string getConservedSumId(int index) = 0;
     virtual int getConservedSums(int len, int const *indx, double *values) = 0;
     virtual int setConservedSums(int len, int const *indx,
             const double *values) = 0;
@@ -231,7 +229,7 @@ public:
     virtual int getReactionRates(int len, int const *indx,
                 double *values) = 0;
 
-    virtual int getNumEvents() = 0;
+
 
     /**
      * Evaluate the reaction rates using the current model state.
@@ -265,7 +263,6 @@ public:
      * rate rules we have.
      */
     virtual void setRateRuleValues(const double *rateRuleValues) = 0;
-
 
     /**
      * get the 'values' i.e. the what the rate rule integrates to, and
@@ -322,13 +319,17 @@ public:
      */
     virtual void evalModel(double time, const double *y, double* dydt=0) = 0;
 
-    virtual void resetEvents() = 0;
-
     virtual void testConstraints() = 0;
 
-    virtual string getInfo() = 0;
+    virtual std::string getInfo() = 0;
 
     virtual void print(std::ostream &stream) = 0;
+
+    /******************************* Events Section *******************************/
+    #if (1) /**********************************************************************/
+    /******************************************************************************/
+
+    virtual int getNumEvents() = 0;
 
     /**
      * get the event status, false if the even is not triggered, true if it is.
@@ -340,11 +341,12 @@ public:
      * So, on every modern system I'm aware of, bool is an unsigned char, so
      * use that data type here.
      */
-    virtual int getEventStatus(int len, const int *indx, unsigned char *values) = 0;
-
+    virtual int getEventTriggers(int len, const int *indx, unsigned char *values) = 0;
 
     virtual void evalEvents(double timeEnd, const unsigned char* previousEventStatus,
                 const double *initialState, double* finalState) = 0;
+
+    virtual int applyPendingEvents(const double *stateVector, double timeEnd, double tout) = 0;
 
     /**
      * evaluate the event 'roots' -- when events transition form triggered - non-triggered
@@ -359,11 +361,11 @@ public:
      */
     virtual void evalEventRoots(double time, const double* y, double* gdot) = 0;
 
-    virtual int applyPendingEvents(const double *stateVector, double timeEnd, double tout) = 0;
-
     virtual double getNextPendingEventTime(bool pop) = 0;
 
     virtual int getPendingEventSize() = 0;
+
+    virtual void resetEvents() = 0;
 
     /**
      * need a virtual destructor as object implementing this interface
@@ -372,6 +374,10 @@ public:
      * delete p;
      */
     virtual ~ExecutableModel() {};
+
+    /******************************* Events Section *******************************/
+     #endif /**********************************************************************/
+    /******************************************************************************/
 };
 
 /**

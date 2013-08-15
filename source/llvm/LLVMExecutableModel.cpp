@@ -620,7 +620,7 @@ int LLVMExecutableModel::getNumEvents()
     return modelData.numEvents;
 }
 
-int LLVMExecutableModel::getEventStatus(int len, const int *indx, unsigned char *values)
+int LLVMExecutableModel::getEventTriggers(int len, const int *indx, unsigned char *values)
 {
     const vector<unsigned char>& attr = symbols->getEventAttributes();
 

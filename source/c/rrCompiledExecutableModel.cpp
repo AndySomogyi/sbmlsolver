@@ -908,7 +908,7 @@ void CompiledExecutableModel::applyEventAssignment(int eventId, double* values)
 {
 }
 
-int CompiledExecutableModel::getEventStatus(int len, const int *indx,
+int CompiledExecutableModel::getEventTriggers(int len, const int *indx,
         unsigned char *values)
 {
     if (len <= 0)

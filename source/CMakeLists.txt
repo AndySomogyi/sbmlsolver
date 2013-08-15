@@ -33,7 +33,6 @@ set(rrSources
     rrStringListContainer
     rrStringUtils
     rrUtils
-    rrModelGenerator
     rrCPlugin
     rrCVODEInterface
     rrNLEQInterface

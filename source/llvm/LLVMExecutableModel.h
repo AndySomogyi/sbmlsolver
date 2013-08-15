@@ -267,7 +267,7 @@ public:
     virtual int setConservedSums(int len, int const *indx,
             const double *values);
 
-    virtual int getEventStatus(int len, const int *indx, unsigned char *values);
+    virtual int getEventTriggers(int len, const int *indx, unsigned char *values);
 
     /**
      * using the current model state, evaluate and store all the reaction rates.

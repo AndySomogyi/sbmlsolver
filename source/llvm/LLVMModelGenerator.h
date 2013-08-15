@@ -46,11 +46,8 @@ public:
 
     /**
      * Create an executable model from an sbml string
-     *
-     * The LibStructural and NOMSupport are legacy C generator classes that are
-     * completly ignored.
      */
-    virtual  ExecutableModel *createModel(const string& sbml, uint options);
+    virtual  ExecutableModel *createModel(const std::string& sbml, uint options);
 
 
     /**

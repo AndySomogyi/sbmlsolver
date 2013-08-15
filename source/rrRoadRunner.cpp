@@ -99,12 +99,14 @@ mPluginManager(joinPath(getParentFolder(supportCodeFolder), "plugins"))
     mRRCoreCapabilities.addParameter(&mComputeAndAssignConservationLaws);
 
     mCapabilities.add(mRRCoreCapabilities);
-    Log(lDebug4)<<"In RoadRunner ctor";
 
     // for now, dump out who we are
-    Log(lDebug3) << "RoadRunner::RoadRunner(...), running refactored modelgen NOMFix\n";
+    Log(Logger::PRIO_DEBUG) << __FUNC__ << "compiler: " << compiler <<
+            ", tempFolder:" << tempFolder << ", supportCodeFolder: " <<
+            supportCodeFolder;
 
-    mModelGenerator = ModelGeneratorFactory::createModelGenerator("CModelGenerator", tempFolder, supportCodeFolder, compiler);
+    mModelGenerator = ModelGeneratorFactory::createModelGenerator(compiler,
+            tempFolder, supportCodeFolder);
 
     setTempFileFolder(tempFolder);
     mPluginManager.setRoadRunnerInstance(this);

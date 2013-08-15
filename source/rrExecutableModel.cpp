@@ -91,7 +91,7 @@ std::ostream& operator <<(std::ostream &stream, ExecutableModel* model)
     delete tmp;
 
     unsigned char *tmpEvents = new unsigned char[nEvents];
-    model->getEventStatus(nEvents, 0, tmpEvents);
+    model->getEventTriggers(nEvents, 0, tmpEvents);
     stream << "Events Trigger Status:" << endl;
     dump_array(stream, nEvents, (bool*)tmpEvents);
     delete tmpEvents;

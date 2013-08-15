@@ -187,7 +187,7 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
     int strikes = 3;
 
     // get the original event status
-    vector<unsigned char> eventStatus(mModel->getEventStatus(0, 0, 0), false);
+    vector<unsigned char> eventStatus(mModel->getEventTriggers(0, 0, 0), false);
 
     try
     {
@@ -222,7 +222,7 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
             }
 
             // event status before time step
-            mModel->getEventStatus(eventStatus.size(), 0, &eventStatus[0]);
+            mModel->getEventTriggers(eventStatus.size(), 0, &eventStatus[0]);
 
             // time step
             int nResult = CVode(mCVODE_Memory, nextTargetEndTime,  mStateVector, &timeEnd, CV_NORMAL);
@@ -441,8 +441,8 @@ void CvodeInterface::assignPendingEvents(const double& timeEnd, const double& to
 
 void CvodeInterface::testRootsAtInitialTime()
 {
-    vector<unsigned char> initialEventStatus(mModel->getEventStatus(0, 0, 0), false);
-    mModel->getEventStatus(initialEventStatus.size(), 0, &initialEventStatus[0]);
+    vector<unsigned char> initialEventStatus(mModel->getEventTriggers(0, 0, 0), false);
+    mModel->getEventTriggers(initialEventStatus.size(), 0, &initialEventStatus[0]);
     handleRootsForTime(0, initialEventStatus);
 }
 
