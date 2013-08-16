@@ -23,6 +23,8 @@
 #include "EventAssignCodeGen.h"
 #include "EventTriggerCodeGen.h"
 
+#include <queue>
+
 namespace rr
 {
 
@@ -103,7 +105,7 @@ public:
             double *values);
 
     virtual int getNumRules();
-    virtual int getNumEvents();
+
 
 
     virtual int getNumLocalParameters(int reactionId);
@@ -165,7 +167,7 @@ public:
      */
     virtual void evalModel(double time, const double *y, double* dydt=0);
 
-    virtual void resetEvents();
+
     virtual void testConstraints();
 
     virtual string getInfo();
@@ -267,24 +269,20 @@ public:
     virtual int setConservedSums(int len, int const *indx,
             const double *values);
 
-    virtual int getEventTriggers(int len, const int *indx, unsigned char *values);
+
 
     /**
      * using the current model state, evaluate and store all the reaction rates.
      */
     virtual void evalReactionRates();
 
-    virtual int applyPendingEvents(const double *stateVector, double timeEnd,
-            double tout);
 
-    virtual void evalEvents(double timeEnd, const unsigned char* previousEventStatus,
-            const double *initialState, double* finalState);
 
-    virtual void evalEventRoots(double time, const double* y, double* gdot);
 
-    virtual double getNextPendingEventTime(bool pop);
 
-    virtual int getPendingEventSize();
+
+
+
 
     virtual int setCompartmentVolumes(int len, int const *indx,
             const double *values);
@@ -294,7 +292,59 @@ public:
             double *values);
     virtual double getStoichiometry(int index);
 
-    static LLVMExecutableModel* dummy();
+
+    /******************************* Events Section *******************************/
+    #if (1) /**********************************************************************/
+    /******************************************************************************/
+public:
+    virtual int getNumEvents();
+
+    virtual int getEventTriggers(int len, const int *indx, unsigned char *eventState);
+
+    virtual void evalEvents(double timeEnd, const unsigned char* previousEventState,
+            const double *initialState, double* finalState);
+
+    virtual int applyPendingEvents(const double *stateVector, double timeEnd,
+            double tout);
+
+    virtual void evalEventRoots(double time, const double* y, double* gdot);
+
+    virtual double getNextPendingEventTime(bool pop);
+
+    virtual int getPendingEventSize();
+
+    virtual void resetEvents();
+
+private:
+
+    /**
+     * compare functor to determine event priority
+     */
+    struct EventCompare
+    {
+        EventCompare(LLVMExecutableModel&);
+        bool operator()(uint a, uint b);
+    private:
+        LLVMExecutableModel &model;
+    };
+
+    /**
+     * previous state
+     * get current state
+     * current state becomes previous state for next itteration
+     * evaluate first pending event
+     */
+    int applyEvents(unsigned char* prevEventState,
+            unsigned char* currEventState);
+
+
+    typedef std::set<uint, EventCompare> EventQueue;
+
+    EventQueue delayedEvents;
+
+    /******************************* Events Section *******************************/
+    #endif /***********************************************************************/
+    /******************************************************************************/
 
 private:
     LLVMModelData modelData;
@@ -322,6 +372,8 @@ private:
     EventAssignCodeGen::FunctionPtr eventAssignPtr;
 
     double getFloatingSpeciesConcentration(int index);
+
+    static LLVMExecutableModel* dummy();
 
     friend class LLVMModelGenerator;
 };

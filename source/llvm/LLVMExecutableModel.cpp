@@ -62,7 +62,8 @@ LLVMExecutableModel::LLVMExecutableModel() :
     getEventPriorityPtr(0),
     getEventDelayPtr(0),
     eventTriggerPtr(0),
-    eventAssignPtr(0)
+    eventAssignPtr(0),
+    delayedEvents(EventCompare(*this))
 {
     // zero out the struct, the generator will fill it out.
     LLVMModelData::init(modelData);
@@ -710,10 +711,118 @@ void LLVMExecutableModel::resetEvents()
 {
 }
 
+int LLVMExecutableModel::applyEvents(unsigned char* prevEventState,
+        unsigned char* currEventState)
+{
+    int remainingEvents = 0;
+    const vector<unsigned char> &eventAttr = symbols->getEventAttributes();
+
+    // zero delay triggered events
+    EventQueue currentEvents(EventCompare(*this));
+
+    for (uint i = 0; i < modelData.numEvents; ++i)
+    {
+        uchar c = getEventTriggerPtr(&modelData, i);
+        currEventState[i] = c;
+
+        Log(Logger::PRIO_DEBUG) << "event " << i << " current status: "
+                << (bool)(c);
+
+        EventQueue::const_iterator find = delayedEvents.find(i);
+
+        if (find != delayedEvents.end())
+        {
+            // remove event if no longer triggered and not persistent
+            if (!c && !(eventAttr[i] & EventPersistent))
+            {
+                delayedEvents.erase(find);
+                Log(Logger::PRIO_DEBUG) << "removed event " << i <<
+                        " from delayedEvents queue, no longer triggered";
+            }
+        }
+        else
+        {
+            // transition from non-triggered to triggered
+            if (c && !prevEventState[i])
+            {
+                Log(Logger::PRIO_DEBUG) << "event " << i <<
+                        " transitioned to triggered";
+
+                double delay = getEventDelayPtr(&modelData, i);
+                if ((eventAttr[i] & EventUseValuesFromTriggerTime) ||
+                        delay == 0.0)
+                {
+                    // save the trigger values
+                    eventTriggerPtr(&modelData, i);
+                    Log(Logger::PRIO_DEBUG) <<
+                            "evaluated values for event " << i;
+                }
+
+                if (delay > 0)
+                {
+                    delayedEvents.insert(i);
+                    Log(Logger::PRIO_DEBUG) << "inserted triggered event " <<
+                            i << " into delayedEvents queue";
+                }
+                else
+                {
+                    currentEvents.insert(i);
+                    Log(Logger::PRIO_DEBUG) << "inserted triggered event " <<
+                            i << " into currentEvents queue";
+                }
+            }
+        }
+    }
+
+    // fire the highest priority event, this causes state change
+    if (currentEvents.size())
+    {
+        uint event = *currentEvents.begin();
+        remainingEvents = currentEvents.size() - 1;
+        eventAssignPtr(&modelData, event);
+
+        Log(Logger::PRIO_DEBUG) << "assigned event " << event;
+
+        // need to re-sort the delayed events, priorities and delays could
+        // have changed
+        list<uint> events(delayedEvents.begin(), delayedEvents.end());
+        delayedEvents.clear();
+        for (list<uint>::const_iterator i = events.begin(); i != events.end(); ++i)
+        {
+            delayedEvents.insert(*i);
+        }
+    }
+
+    return remainingEvents;
+}
+
+LLVMExecutableModel::EventCompare::EventCompare(LLVMExecutableModel& model) :
+        model(model)
+{
+}
+
+bool LLVMExecutableModel::EventCompare::operator ()(uint a, uint b)
+{
+    double a_delay = model.getEventDelayPtr(&model.modelData, a);
+    double b_delay = model.getEventDelayPtr(&model.modelData, b);
+
+    if (a_delay != b_delay)
+    {
+        return a_delay < b_delay;
+    }
+    else
+    {
+        double a_priority = model.getEventPriorityPtr(&model.modelData, a);
+        double b_priority = model.getEventPriorityPtr(&model.modelData, b);
+        return a_priority < b_priority;
+    }
+}
+
 /******************************* Events Section *******************************/
 #endif /***********************************************************************/
 /******************************************************************************/
 
 
 } /* namespace rr */
+
 

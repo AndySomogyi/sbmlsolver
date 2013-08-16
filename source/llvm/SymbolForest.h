@@ -45,7 +45,6 @@ public:
     map<string, const libsbml::ASTNode*> compartments;
     map<string, const libsbml::ASTNode*> globalParameters;
     map<string, const libsbml::ASTNode*> speciesReferences;
-    map<string, const libsbml::ASTNode*> functionDefinitions;
 
     /**
      * find and end are designed to work identically to the map::find.
