@@ -154,7 +154,7 @@ bool setup(Args& args)
     if(gDebug)
     {
         enableLoggingToConsole();
-        setLogLevel("Debug5");
+        Logger::SetCutOffLogLevel(Logger::PRIO_DEBUG);
     }
     else
     {

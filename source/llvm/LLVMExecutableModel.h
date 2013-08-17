@@ -22,8 +22,7 @@
 #include "GetEventValuesCodeGen.h"
 #include "EventAssignCodeGen.h"
 #include "EventTriggerCodeGen.h"
-
-#include <queue>
+#include "EventQueue.h"
 
 namespace rr
 {
@@ -315,18 +314,44 @@ public:
 
     virtual void resetEvents();
 
-private:
-
-    /**
-     * compare functor to determine event priority
-     */
-    struct EventCompare
+    inline double getEventDelay(uint event)
     {
-        EventCompare(LLVMExecutableModel&);
-        bool operator()(uint a, uint b);
-    private:
-        LLVMExecutableModel &model;
-    };
+        return getEventDelayPtr(&modelData, event);
+    }
+
+    inline double getEventPriority(uint event)
+    {
+        return getEventPriorityPtr(&modelData, event);
+    }
+
+    inline bool getEventTrigger(uint event)
+    {
+        return getEventTriggerPtr(&modelData, event);
+    }
+
+    inline bool getEventUseValuesFromTriggerTime(uint event)
+    {
+        assert(event < symbols->getEventAttributes().size()
+            && "event out of bounds");
+        return symbols->getEventAttributes()[event]
+                & EventUseValuesFromTriggerTime;
+    }
+
+    inline bool getEventInitialValue(uint event)
+    {
+        assert(event < symbols->getEventAttributes().size()
+            && "event out of bounds");
+        return symbols->getEventAttributes()[event] & EventInitialValue;
+    }
+
+    inline bool getEventPersistent(uint event)
+    {
+        assert(event < symbols->getEventAttributes().size()
+            && "event out of bounds");
+        return symbols->getEventAttributes()[event] & EventPersistent;
+    }
+
+private:
 
     /**
      * previous state
@@ -334,13 +359,16 @@ private:
      * current state becomes previous state for next itteration
      * evaluate first pending event
      */
-    int applyEvents(unsigned char* prevEventState,
+    bool applyEvents(unsigned char* prevEventState,
             unsigned char* currEventState);
 
 
-    typedef std::set<uint, EventCompare> EventQueue;
+    EventQueue pendingEvents;
 
-    EventQueue delayedEvents;
+    /**
+     * the time delayed events were triggered.
+     */
+    std::vector<double> eventTriggerTimes;
 
     /******************************* Events Section *******************************/
     #endif /***********************************************************************/

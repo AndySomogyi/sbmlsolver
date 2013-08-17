@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
 
         if(args.EnableLogging)
         {
-            Logger::SetCutOffLogLevel(Logger::PRIO_TRACE);
+            Logger::SetCutOffLogLevel(Logger::PRIO_DEBUG);
         }
         else
         {
