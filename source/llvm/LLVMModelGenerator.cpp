@@ -99,6 +99,9 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
             &exe->errStr);
 
     exe->symbols->initAllocModelDataBuffers(exe->modelData);
+
+    exe->eventTriggerTimes.resize(exe->modelData.numEvents);
+
     LLVMModelData::clone(&exe->modelDataCopy, &exe->modelData);
 
     exe->evalInitialConditionsPtr = evalInitialConditionsPtr;

@@ -22,6 +22,7 @@
 #include "GetEventValuesCodeGen.h"
 #include "EventAssignCodeGen.h"
 #include "EventTriggerCodeGen.h"
+#include "EventQueue.h"
 
 namespace rr
 {
@@ -103,7 +104,7 @@ public:
             double *values);
 
     virtual int getNumRules();
-    virtual int getNumEvents();
+
 
 
     virtual int getNumLocalParameters(int reactionId);
@@ -165,7 +166,7 @@ public:
      */
     virtual void evalModel(double time, const double *y, double* dydt=0);
 
-    virtual void resetEvents();
+
     virtual void testConstraints();
 
     virtual string getInfo();
@@ -267,24 +268,20 @@ public:
     virtual int setConservedSums(int len, int const *indx,
             const double *values);
 
-    virtual int getEventTriggers(int len, const int *indx, unsigned char *values);
+
 
     /**
      * using the current model state, evaluate and store all the reaction rates.
      */
     virtual void evalReactionRates();
 
-    virtual int applyPendingEvents(const double *stateVector, double timeEnd,
-            double tout);
 
-    virtual void evalEvents(double timeEnd, const unsigned char* previousEventStatus,
-            const double *initialState, double* finalState);
 
-    virtual void evalEventRoots(double time, const double* y, double* gdot);
 
-    virtual double getNextPendingEventTime(bool pop);
 
-    virtual int getPendingEventSize();
+
+
+
 
     virtual int setCompartmentVolumes(int len, int const *indx,
             const double *values);
@@ -294,7 +291,95 @@ public:
             double *values);
     virtual double getStoichiometry(int index);
 
-    static LLVMExecutableModel* dummy();
+
+    /******************************* Events Section *******************************/
+    #if (1) /**********************************************************************/
+    /******************************************************************************/
+public:
+    virtual int getNumEvents();
+
+    virtual int getEventTriggers(int len, const int *indx, unsigned char *eventState);
+
+    virtual void evalEvents(double timeEnd, const unsigned char* previousEventState,
+            const double *initialState, double* finalState);
+
+    virtual int applyPendingEvents(const double *stateVector, double timeEnd,
+            double tout);
+
+    virtual void evalEventRoots(double time, const double* y, double* gdot);
+
+    virtual double getNextPendingEventTime(bool pop);
+
+    virtual int getPendingEventSize();
+
+    virtual void resetEvents();
+
+    inline double getEventDelay(uint event)
+    {
+        return getEventDelayPtr(&modelData, event);
+    }
+
+    inline double getEventPriority(uint event)
+    {
+        return getEventPriorityPtr(&modelData, event);
+    }
+
+    inline bool getEventTrigger(uint event)
+    {
+        return getEventTriggerPtr(&modelData, event);
+    }
+
+    inline bool getEventUseValuesFromTriggerTime(uint event)
+    {
+        assert(event < symbols->getEventAttributes().size()
+            && "event out of bounds");
+        return symbols->getEventAttributes()[event]
+                & EventUseValuesFromTriggerTime;
+    }
+
+    inline bool getEventInitialValue(uint event)
+    {
+        assert(event < symbols->getEventAttributes().size()
+            && "event out of bounds");
+        return symbols->getEventAttributes()[event] & EventInitialValue;
+    }
+
+    inline bool getEventPersistent(uint event)
+    {
+        assert(event < symbols->getEventAttributes().size()
+            && "event out of bounds");
+        return symbols->getEventAttributes()[event] & EventPersistent;
+    }
+
+    inline double getEventAssignTime(uint event)
+    {
+        assert(event < symbols->getEventAttributes().size()
+                    && "event out of bounds");
+        return eventTriggerTimes[event] + getEventDelay(event);
+    }
+
+private:
+
+    /**
+     * previous state
+     * get current state
+     * current state becomes previous state for next itteration
+     * evaluate first pending event
+     */
+    bool applyEvents(unsigned char* prevEventState,
+            unsigned char* currEventState);
+
+
+    EventQueue pendingEvents;
+
+    /**
+     * the time delayed events were triggered.
+     */
+    std::vector<double> eventTriggerTimes;
+
+    /******************************* Events Section *******************************/
+    #endif /***********************************************************************/
+    /******************************************************************************/
 
 private:
     LLVMModelData modelData;
@@ -322,6 +407,8 @@ private:
     EventAssignCodeGen::FunctionPtr eventAssignPtr;
 
     double getFloatingSpeciesConcentration(int index);
+
+    static LLVMExecutableModel* dummy();
 
     friend class LLVMModelGenerator;
 };

@@ -62,7 +62,8 @@ LLVMExecutableModel::LLVMExecutableModel() :
     getEventPriorityPtr(0),
     getEventDelayPtr(0),
     eventTriggerPtr(0),
-    eventAssignPtr(0)
+    eventAssignPtr(0),
+    pendingEvents(*this)
 {
     // zero out the struct, the generator will fill it out.
     LLVMModelData::init(modelData);
@@ -383,6 +384,7 @@ int LLVMExecutableModel::getStateVector(double* stateVector)
             modelData.floatingSpeciesAmounts,
             modelData.numIndependentSpecies * sizeof(double));
 
+
     if (Logger::PRIO_TRACE <= rr::Logger::GetLogLevel()) {
 
         LoggingBuffer log(Logger::PRIO_TRACE, __FILE__, __LINE__);
@@ -559,6 +561,7 @@ int LLVMExecutableModel::setConservedSums(int len, const int* indx,
 int LLVMExecutableModel::getFloatingSpeciesAmountRates(int len,
         int const *indx, double *values)
 {
+    /*
     for (int i = 0; i < len; ++i)
     {
         int j = indx ? indx[i] : i;
@@ -572,6 +575,8 @@ int LLVMExecutableModel::getFloatingSpeciesAmountRates(int len,
         }
     }
     return len;
+    */
+    return 0;
 }
 
 
@@ -594,22 +599,16 @@ int LLVMExecutableModel::setFloatingSpeciesInitConcentrations(int len,
     return 0;
 }
 
-#if 1
-
-
 int LLVMExecutableModel::getFloatingSpeciesInitConcentrations(int len,
         const int* indx, double* values)
 {
     return 0;
 }
 
-
 double LLVMExecutableModel::getStoichiometry(int index)
 {
     return 0;
 }
-#endif
-
 
 /******************************* Events Section *******************************/
 #if (1) /**********************************************************************/
@@ -653,20 +652,31 @@ int LLVMExecutableModel::getEventTriggers(int len, const int *indx, unsigned cha
     }
 }
 
-void LLVMExecutableModel::evalEvents(double timeEnd, const unsigned char* previousEventStatus,
-        const double *initialState, double* finalState)
+void LLVMExecutableModel::evalEvents(double timeEnd,
+        const unsigned char* previousEventStatus, const double *initialState,
+        double* finalState)
 {
     modelData.time = timeEnd;
     setStateVector(initialState);
 
-    for (uint i = 0; i < modelData.numEvents; i++)
-    {
-        if (!previousEventStatus[i] && this->getEventTriggerPtr(&modelData, i))
-        {
-            this->eventTriggerPtr(&modelData, i);
-            this->eventAssignPtr(&modelData, i);
-        }
+    vector<unsigned char> prevEventState(previousEventStatus,
+            previousEventStatus + modelData.numEvents);
+
+    vector<unsigned char> currEventStatus(modelData.numEvents);
+
+    unsigned char *p1 = &prevEventState[0];
+    unsigned char *p2 = &currEventStatus[0];
+
+    pendingEvents.make_heap();
+    pendingEvents.eraseExpiredEvents();
+
+    bool hasCurrentEvents;
+
+    do {
+        hasCurrentEvents = applyEvents(p1, p2);
+        std::swap(p1, p2);
     }
+    while (hasCurrentEvents);
 
     getStateVector(finalState);
 }
@@ -674,7 +684,31 @@ void LLVMExecutableModel::evalEvents(double timeEnd, const unsigned char* previo
 int LLVMExecutableModel::applyPendingEvents(const double *stateVector, double timeEnd,
         double tout)
 {
-    return 0;
+    int assignedEvents = 0;
+
+    modelData.time = timeEnd;
+    setStateVector(stateVector);
+
+    pendingEvents.make_heap();
+    pendingEvents.eraseExpiredEvents();
+
+    while (pendingEvents.size() && timeEnd >= getNextPendingEventTime(false))
+    {
+        uint event = pendingEvents.top();
+        if (!getEventUseValuesFromTriggerTime(event))
+        {
+            eventTriggerPtr(&modelData, event);
+            Log(Logger::PRIO_DEBUG) << "calculating event " << event << " values "
+                    " at apply time " << modelData.time;
+        }
+        eventAssignPtr(&modelData, event);
+        Log(Logger::PRIO_DEBUG) << "assigned delayed event " << event <<
+                " at time " << modelData.time;
+        pendingEvents.pop();
+        pendingEvents.make_heap();
+        assignedEvents++;
+    }
+    return assignedEvents;
 }
 
 void  LLVMExecutableModel::evalEventRoots(double time, const double* y, double* gdot)
@@ -698,17 +732,103 @@ void  LLVMExecutableModel::evalEventRoots(double time, const double* y, double* 
 
 double LLVMExecutableModel::getNextPendingEventTime(bool pop)
 {
+    if (pendingEvents.size())
+    {
+        if (Logger::PRIO_DEBUG <= Logger::GetLogLevel())
+        {
+            LoggingBuffer log(Logger::PRIO_DEBUG, __FILE__, __LINE__);
+            log.stream() << "pending event {event,delay,assign_time,priority}:  [";
+            for (EventQueue::const_iterator i = pendingEvents.begin();
+                    i < pendingEvents.end(); ++i)
+            {
+                log.stream() << "{" << *i << ", " << getEventDelay(*i) <<
+                        ", " << getEventAssignTime(*i) << ", " <<
+                        getEventPriority(*i) << "}";
+
+                if ((i + 1) < pendingEvents.end())
+                {
+                    log.stream() << ", ";
+                }
+                log.stream() << "]" << endl;
+            }
+        }
+
+        uint event = pendingEvents.top();
+        double time = eventTriggerTimes[event] + getEventDelay(event);
+        return time;
+    }
     return 0;
 }
 
 int LLVMExecutableModel::getPendingEventSize()
 {
-    return 0;
+    return pendingEvents.size();
 }
 
 void LLVMExecutableModel::resetEvents()
 {
 }
+
+bool LLVMExecutableModel::applyEvents(unsigned char* prevEventState,
+        unsigned char* currEventState)
+{
+    for (uint i = 0; i < modelData.numEvents; ++i)
+    {
+        bool c = getEventTrigger(i);
+        currEventState[i] = c;
+
+        Log(Logger::PRIO_DEBUG) << "event " << i << " current status: " << c;
+
+        EventQueue::iterator find = pendingEvents.find(i);
+
+        if (find != pendingEvents.end())
+        {
+            continue;
+        }
+        else
+        {
+            // transition from non-triggered to triggered
+            if (c && !prevEventState[i])
+            {
+                Log(Logger::PRIO_DEBUG) << "event " << i <<
+                        " transitioned to triggered at time " <<
+                        modelData.time;
+
+                eventTriggerTimes[i] = modelData.time;
+
+                if (getEventUseValuesFromTriggerTime(i))
+                {
+                    // save the trigger values
+                    eventTriggerPtr(&modelData, i);
+                    Log(Logger::PRIO_DEBUG) << "evaluated values for event "
+                            << i;
+                }
+
+                pendingEvents.push(i);
+                Log(Logger::PRIO_DEBUG) << "inserted triggered event " << i
+                        << " into pendingEvents queue";
+            }
+        }
+    }
+
+    // fire the highest priority event, this causes state change
+    if (pendingEvents.size() && getEventDelay(pendingEvents.top()) == 0)
+    {
+        uint event = pendingEvents.top();
+        pendingEvents.pop();
+        eventAssignPtr(&modelData, event);
+        pendingEvents.make_heap();
+        pendingEvents.eraseExpiredEvents();
+
+        Log(Logger::PRIO_DEBUG) << "assigned event " << event;
+    }
+
+    return pendingEvents.hasCurrentEvents();
+}
+
+
+
+
 
 /******************************* Events Section *******************************/
 #endif /***********************************************************************/
@@ -716,4 +836,5 @@ void LLVMExecutableModel::resetEvents()
 
 
 } /* namespace rr */
+
 
