@@ -30,12 +30,12 @@ EventComparator::EventComparator(LLVMExecutableModel& model) :
 
 bool EventComparator::operator ()(uint a, uint b)
 {
-    double a_delay = model.getEventDelay(a);
-    double b_delay = model.getEventDelay(b);
+    double a_time = model.getEventAssignTime(a);
+    double b_time = model.getEventAssignTime(b);
 
-    if (a_delay != b_delay)
+    if (a_time != b_time)
     {
-        return a_delay < b_delay;
+        return a_time > b_time;
     }
     else
     {

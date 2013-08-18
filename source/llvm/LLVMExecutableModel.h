@@ -351,6 +351,13 @@ public:
         return symbols->getEventAttributes()[event] & EventPersistent;
     }
 
+    inline double getEventAssignTime(uint event)
+    {
+        assert(event < symbols->getEventAttributes().size()
+                    && "event out of bounds");
+        return eventTriggerTimes[event] + getEventDelay(event);
+    }
+
 private:
 
     /**

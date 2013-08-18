@@ -867,7 +867,10 @@ void LLVMModelDataSymbols::initEvents(const libsbml::Model* model)
                 attr = attr | EventInitialValue;
             }
 
-            if (trigger->isSetPersistent() && trigger->getPersistent())
+            // older versions seem to default to persisent
+            const SBMLDocument *doc = model->getSBMLDocument();
+            if (doc->getLevel() < 3 ||
+                    (trigger->isSetPersistent() && trigger->getPersistent()))
             {
                 attr = attr | EventPersistent;
             }

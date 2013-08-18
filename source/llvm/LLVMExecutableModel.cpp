@@ -561,6 +561,7 @@ int LLVMExecutableModel::setConservedSums(int len, const int* indx,
 int LLVMExecutableModel::getFloatingSpeciesAmountRates(int len,
         int const *indx, double *values)
 {
+    /*
     for (int i = 0; i < len; ++i)
     {
         int j = indx ? indx[i] : i;
@@ -574,6 +575,8 @@ int LLVMExecutableModel::getFloatingSpeciesAmountRates(int len,
         }
     }
     return len;
+    */
+    return 0;
 }
 
 
@@ -731,6 +734,25 @@ double LLVMExecutableModel::getNextPendingEventTime(bool pop)
 {
     if (pendingEvents.size())
     {
+        if (Logger::PRIO_DEBUG <= Logger::GetLogLevel())
+        {
+            LoggingBuffer log(Logger::PRIO_DEBUG, __FILE__, __LINE__);
+            log.stream() << "pending event {event,delay,assign_time,priority}:  [";
+            for (EventQueue::const_iterator i = pendingEvents.begin();
+                    i < pendingEvents.end(); ++i)
+            {
+                log.stream() << "{" << *i << ", " << getEventDelay(*i) <<
+                        ", " << getEventAssignTime(*i) << ", " <<
+                        getEventPriority(*i) << "}";
+
+                if ((i + 1) < pendingEvents.end())
+                {
+                    log.stream() << ", ";
+                }
+                log.stream() << "]" << endl;
+            }
+        }
+
         uint event = pendingEvents.top();
         double time = eventTriggerTimes[event] + getEventDelay(event);
         return time;

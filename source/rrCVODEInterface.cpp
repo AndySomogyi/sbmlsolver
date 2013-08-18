@@ -230,7 +230,7 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
             if (nResult == CV_ROOT_RETURN && mFollowEvents)
             {
                 Log(Logger::PRIO_DEBUG) << ("---------------------------------------------------");
-                Log(Logger::PRIO_DEBUG) << "--- E V E N T      ( " << mOneStepCount << " ) ";
+                Log(Logger::PRIO_DEBUG) << "--- E V E N T   ( " << mOneStepCount << ", time: " << timeEnd << " ) ";
                 Log(Logger::PRIO_DEBUG) << ("---------------------------------------------------");
 
 
