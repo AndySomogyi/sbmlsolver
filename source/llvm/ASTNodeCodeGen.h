@@ -39,12 +39,6 @@ public:
      */
     llvm::Value *binaryExprCodeGen(const libsbml::ASTNode *ast);
 
-    /**
-     * most of the AST types correspond to llvm intrinsic, i.e.
-     * cos, sqrt, pow, etc...
-     */
-    llvm::Value *intrinsicCallCodeGen(const libsbml::ASTNode *ast);
-
     llvm::Value *notImplemented(const libsbml::ASTNode *ast);
 
     llvm::Value *nameExprCodeGen(const libsbml::ASTNode *ast);
@@ -71,9 +65,21 @@ public:
 
     llvm::Value *functionCallCodeGen(const libsbml::ASTNode *ast);
 
+    llvm::Value *intrinsicCallCodeGen(const libsbml::ASTNode *ast);
+
 private:
     llvm::IRBuilder<> &builder;
     LoadSymbolResolver &resolver;
+
+    /**
+     * get the module, only valid whilst a BasicBlock is begin filled.
+     *
+     * @param fname: name of the calling function, used for generating exception
+     * on failure.
+     *
+     * @returns a module on success, throws exeption on failure.
+     */
+    llvm::Module *getModule();
 };
 
 

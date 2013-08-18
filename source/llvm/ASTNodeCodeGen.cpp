@@ -91,11 +91,6 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     case AST_DIVIDE:                /* '/' */
         result = result = applyArithmeticCodeGen(ast);
         break;
-    case AST_POWER:                 // '^' sbml considers this an operator,
-                                    // left and right child nodes are the first
-                                    // 2 child nodes for args.
-        result = notImplemented(ast);
-        break;
     case AST_INTEGER:
         result = integerCodeGen(ast);
         break;
@@ -130,15 +125,9 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
         result = functionCallCodeGen(ast);
         break;
 
-
-    case AST_CONSTANT_E:
-    case AST_CONSTANT_FALSE:
-    case AST_CONSTANT_PI:
-    case AST_CONSTANT_TRUE:
-
-    case AST_LAMBDA:
-
-
+    case AST_POWER:                 // '^' sbml considers this an operator,
+                                    // left and right child nodes are the first
+                                    // 2 child nodes for args.
     case AST_FUNCTION_ABS:
     case AST_FUNCTION_ARCCOS:
     case AST_FUNCTION_ARCCOSH:
@@ -159,7 +148,6 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     case AST_FUNCTION_COTH:
     case AST_FUNCTION_CSC:
     case AST_FUNCTION_CSCH:
-    case AST_FUNCTION_DELAY:
     case AST_FUNCTION_EXP:
     case AST_FUNCTION_FACTORIAL:
     case AST_FUNCTION_FLOOR:
@@ -173,10 +161,16 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     case AST_FUNCTION_SINH:
     case AST_FUNCTION_TAN:
     case AST_FUNCTION_TANH:
+        result = intrinsicCallCodeGen(ast);
+        break;
 
-
-
-
+    case AST_FUNCTION_PIECEWISE:
+    case AST_FUNCTION_DELAY:
+    case AST_CONSTANT_E:
+    case AST_CONSTANT_FALSE:
+    case AST_CONSTANT_PI:
+    case AST_CONSTANT_TRUE:
+    case AST_LAMBDA:
         result = notImplemented(ast);
         break;
     default:
@@ -191,11 +185,6 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     return result;
 }
 
-llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(
-        const libsbml::ASTNode* ast)
-{
-    return 0;
-}
 
 llvm::Value* ASTNodeCodeGen::notImplemented(const libsbml::ASTNode* ast)
 {
@@ -342,6 +331,224 @@ llvm::Value* ASTNodeCodeGen::functionCallCodeGen(const libsbml::ASTNode* ast)
     }
 
     return resolver.loadSymbolValue(ast->getName(), ArrayRef<Value*>(args, nargs));
+}
+
+llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
+{
+    LibFunc::Func funcId;
+
+    switch (ast->getType())
+    {
+    case AST_FUNCTION_POWER:
+    case AST_POWER:                 // '^' sbml considers this an operator,
+                                    // left and right child nodes are the first
+                                    // 2 child nodes for args.
+        funcId = LibFunc::pow;
+        break;
+    case AST_FUNCTION_ABS:
+        funcId = LibFunc::fabs;
+        break;
+    case AST_FUNCTION_ARCCOS:
+        funcId = LibFunc::acos;
+        break;
+    case AST_FUNCTION_ARCCOSH:
+        funcId = LibFunc::acosh;
+        break;
+    case AST_FUNCTION_ARCCOT:
+        throw_llvm_exception("do not handle acot yet")
+        ;
+        break;
+    case AST_FUNCTION_ARCCOTH:
+        throw_llvm_exception("do not handle acoth yet");
+        break;
+    case AST_FUNCTION_ARCCSC:
+        throw_llvm_exception("do not handle acsc yet");
+        break;
+    case AST_FUNCTION_ARCCSCH:
+        throw_llvm_exception("do not handle acsch yet");
+        break;
+    case AST_FUNCTION_ARCSEC:
+        throw_llvm_exception("do not handle asec yet");
+        break;
+    case AST_FUNCTION_ARCSECH:
+        throw_llvm_exception("do not handle asech yet");
+        break;
+    case AST_FUNCTION_ARCSIN:
+        funcId = LibFunc::asin;
+        break;
+    case AST_FUNCTION_ARCSINH:
+        funcId = LibFunc::asinh;
+        break;
+    case AST_FUNCTION_ARCTAN:
+        funcId = LibFunc::atan;
+        break;
+    case AST_FUNCTION_ARCTANH:
+        funcId = LibFunc::atanh;
+        break;
+    case AST_FUNCTION_CEILING:
+        funcId = LibFunc::ceil;
+        break;
+    case AST_FUNCTION_COS:
+        funcId = LibFunc::cos;
+        break;
+    case AST_FUNCTION_COSH:
+        funcId = LibFunc::cosh;
+        break;
+    case AST_FUNCTION_COT:
+        throw_llvm_exception("do not handle cot yet");
+        break;
+    case AST_FUNCTION_COTH:
+        throw_llvm_exception("do not handle coth yet");
+        break;
+    case AST_FUNCTION_CSC:
+        throw_llvm_exception("do not handle csc yet");
+        break;
+    case AST_FUNCTION_CSCH:
+        throw_llvm_exception("do not handle csch yet");
+        break;
+    case AST_FUNCTION_EXP:
+        funcId = LibFunc::exp;
+        break;
+    case AST_FUNCTION_FACTORIAL:
+        throw_llvm_exception("do not handle factorial yet");
+        break;
+    case AST_FUNCTION_FLOOR:
+        funcId = LibFunc::floor;
+        break;
+    case AST_FUNCTION_LN:
+        funcId = LibFunc::log;
+        break;
+    case AST_FUNCTION_LOG:
+        throw_llvm_exception("do not handle log yet");
+        break;
+    case AST_FUNCTION_ROOT:
+        throw_llvm_exception("do not handle root yet");
+        break;
+    case AST_FUNCTION_SEC:
+        throw_llvm_exception("do not handle sec yet");
+        break;
+    case AST_FUNCTION_SECH:
+        throw_llvm_exception("do not handle sech yet");
+        break;
+    case AST_FUNCTION_SIN:
+        funcId = LibFunc::sin;
+        break;
+    case AST_FUNCTION_SINH:
+        funcId = LibFunc::sinh;
+        break;
+    case AST_FUNCTION_TAN:
+        funcId = LibFunc::tan;
+        break;
+    case AST_FUNCTION_TANH:
+        funcId = LibFunc::tanh;
+        break;
+    default:
+        throw_llvm_exception("unknown case")
+
+    }
+
+    TargetLibraryInfo targetLib;
+
+    Function* func = getModule()->getFunction(targetLib.getName(funcId));
+
+    // get the function
+    if (func == 0)
+    {
+        string msg = "could not get function for name ";
+        throw_llvm_exception(msg);
+    }
+
+    // check if the arg counts match
+    if (func->arg_size() != ast->getNumChildren())
+    {
+        stringstream err;
+        err << "function call argument count in "
+                << ast->getParentSBMLObject()->toSBML()
+                << " does not match the specfied number of arguments, "
+                << (string) func->getName() << " requires " << func->arg_size()
+                << " args, but was given " << ast->getNumChildren();
+        throw_llvm_exception(err.str());
+    }
+
+    std::vector<Value*> args;
+    for (unsigned i = 0; i < ast->getNumChildren(); ++i)
+    {
+        args.push_back(this->codeGen(ast->getChild(i)));
+    }
+
+    return builder.CreateCall(func, args, "calltmp");
+
+    assert(0 && "should not get here");
+    return 0;
+
+    /*
+     Intrinsic::ID id = Intrinsic::not_intrinsic;
+
+     switch (ast->getType())
+     {
+     case AST_FUNCTION_ABS:
+     id = Intrinsic::fabs;
+     break;
+     case AST_FUNCTION_CEILING:
+     id = Intrinsic::ceil;
+     break;
+     case AST_FUNCTION_COS:
+     id = Intrinsic::cos;
+     break;
+     case AST_FUNCTION_COSH:
+     id = Intrinsic::cos
+     case AST_FUNCTION_COT:
+     case AST_FUNCTION_COTH:
+     case AST_FUNCTION_CSC:
+     case AST_FUNCTION_CSCH:
+     case AST_FUNCTION_EXP:
+     case AST_FUNCTION_FACTORIAL:
+     case AST_FUNCTION_FLOOR:
+     case AST_FUNCTION_LN:
+     case AST_FUNCTION_LOG:
+     case AST_FUNCTION_POWER:
+     case AST_FUNCTION_ROOT:
+     case AST_FUNCTION_SEC:
+     case AST_FUNCTION_SECH:
+     case AST_FUNCTION_SIN:
+     case AST_FUNCTION_SINH:
+     case AST_FUNCTION_TAN:
+     case AST_FUNCTION_TANH:
+
+     case AST_FUNCTION_ARCCOS:
+
+     case AST_FUNCTION_ARCCOSH:
+     case AST_FUNCTION_ARCCOT:
+     case AST_FUNCTION_ARCCOTH:
+     case AST_FUNCTION_ARCCSC:
+     case AST_FUNCTION_ARCCSCH:
+     case AST_FUNCTION_ARCSEC:
+     case AST_FUNCTION_ARCSECH:
+     case AST_FUNCTION_ARCSIN:
+     case AST_FUNCTION_ARCSINH:
+     case AST_FUNCTION_ARCTAN:
+     case AST_FUNCTION_ARCTANH:
+
+     }
+     */
+
+}
+
+llvm::Module* ASTNodeCodeGen::getModule()
+{
+    BasicBlock *bb = 0;
+    if((bb = builder.GetInsertBlock()) != 0)
+    {
+        Function *function = bb->getParent();
+        if(function)
+        {
+            Module *module = function->getParent();
+            assert(module && "could not get module from function");
+            return module;
+        }
+    }
+    throw_llvm_exception("could not get module, a BasicBlock is not currently being populated.");
+    return 0;
 }
 
 } /* namespace rr */

@@ -39,6 +39,7 @@
 #include <llvm/Support/TargetSelect.h>
 #include <llvm/Transforms/Scalar.h>
 #include <llvm/Support/raw_ostream.h>
+#include <llvm/Target/TargetLibraryInfo.h>
 
 namespace rr {
 /**
