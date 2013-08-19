@@ -754,7 +754,7 @@ double LLVMExecutableModel::getNextPendingEventTime(bool pop)
         }
 
         uint event = pendingEvents.top();
-        double time = eventTriggerTimes[event] + getEventDelay(event);
+        double time = eventAssignTimes[event];
         return time;
     }
     return 0;
@@ -794,7 +794,8 @@ bool LLVMExecutableModel::applyEvents(unsigned char* prevEventState,
                         " transitioned to triggered at time " <<
                         modelData.time;
 
-                eventTriggerTimes[i] = modelData.time;
+                // always need to calc this, used to determine event order.
+                eventAssignTimes[i] = modelData.time + getEventDelay(i);
 
                 if (getEventUseValuesFromTriggerTime(i))
                 {

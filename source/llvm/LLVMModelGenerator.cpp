@@ -100,7 +100,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
     exe->symbols->initAllocModelDataBuffers(exe->modelData);
 
-    exe->eventTriggerTimes.resize(exe->modelData.numEvents);
+    exe->eventAssignTimes.resize(exe->modelData.numEvents);
 
     LLVMModelData::clone(&exe->modelDataCopy, &exe->modelData);
 

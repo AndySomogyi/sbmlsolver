@@ -355,7 +355,7 @@ public:
     {
         assert(event < symbols->getEventAttributes().size()
                     && "event out of bounds");
-        return eventTriggerTimes[event] + getEventDelay(event);
+        return eventAssignTimes[event];
     }
 
 private:
@@ -375,7 +375,7 @@ private:
     /**
      * the time delayed events were triggered.
      */
-    std::vector<double> eventTriggerTimes;
+    std::vector<double> eventAssignTimes;
 
     /******************************* Events Section *******************************/
     #endif /***********************************************************************/
