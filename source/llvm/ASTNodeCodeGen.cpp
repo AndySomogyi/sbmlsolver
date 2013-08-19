@@ -199,7 +199,21 @@ llvm::Value* ASTNodeCodeGen::notImplemented(const libsbml::ASTNode* ast)
 
 llvm::Value* ASTNodeCodeGen::nameExprCodeGen(const libsbml::ASTNode* ast)
 {
-    return resolver.loadSymbolValue(ast->getName());
+    switch(ast->getType())
+    {
+    case AST_NAME:
+        return resolver.loadSymbolValue(ast->getName());
+    case AST_NAME_AVOGADRO:
+        // TODO: correct this for different units
+        return ConstantFP::get(builder.getContext(), APFloat(6.02214179e23));
+    case AST_NAME_TIME:
+        return resolver.loadSymbolValue("\time");
+    default:
+        throw_llvm_exception(string(ast->getName()) +
+                " is not a valid name name");
+        break;
+    }
+    return 0;
 }
 
 llvm::Value* ASTNodeCodeGen::realExprCodeGen(const libsbml::ASTNode* ast)

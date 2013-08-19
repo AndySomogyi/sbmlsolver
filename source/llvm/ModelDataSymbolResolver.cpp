@@ -54,6 +54,16 @@ llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(const std::string& sym
             builder);
 
     /*************************************************************************/
+    /* time */
+    /*************************************************************************/
+    if (symbol.compare("\time") == 0)
+    {
+        Value *timeEP = mdbuilder.createGEP(Time);
+        Value *time = builder.CreateLoad(timeEP, "time");
+        return time;
+    }
+
+    /*************************************************************************/
     /* Function */
     /*************************************************************************/
     {
