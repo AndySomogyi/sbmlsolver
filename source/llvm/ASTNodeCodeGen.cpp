@@ -13,6 +13,7 @@
 #include "rrOSSpecifics.h"
 #include "LLVMIncludes.h"
 #include "rrLogger.h"
+#include "rrStringUtils.h"
 
 #include <sbml/math/ASTNode.h>
 #include <Poco/Logger.h>
@@ -165,6 +166,8 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
         break;
 
     case AST_FUNCTION_PIECEWISE:
+        result = piecewiseCodeGen(ast);
+        break;
     case AST_FUNCTION_DELAY:
     case AST_CONSTANT_E:
     case AST_CONSTANT_FALSE:
@@ -563,6 +566,107 @@ llvm::Module* ASTNodeCodeGen::getModule()
     }
     throw_llvm_exception("could not get module, a BasicBlock is not currently being populated.");
     return 0;
+}
+
+llvm::Value* ASTNodeCodeGen::piecewiseCodeGen(const libsbml::ASTNode* ast)
+{
+    // the 'otherwise' is an optional MathML element.
+    // the child nodes contain the piece elements in pairs, so
+    // [value0, condition0, value1, condition1, ... {otherwise value}]
+    // even number of child nodes means we have no otherwise node.
+    //
+    // each piece coresponds to the 'then' part of a conditions, and
+    // the next piece is the 'else' part.  This is terminated with the
+    // otherwise block.
+
+    LLVMContext &context = builder.getContext();
+
+    Function *func = builder.GetInsertBlock()->getParent();
+
+    BasicBlock *mergeBB = BasicBlock::Create(context, "merge");
+
+    vector<Value*> values;
+    vector<BasicBlock*> blocks;
+
+    const uint nchild = ast->getNumChildren();
+    uint i = 0;
+
+    // cond comes after val, but we need to get cond
+    // before evaluating val.
+    while ((i + 1) < nchild)
+    {
+        // added to end of function
+        BasicBlock *thenBB = BasicBlock::Create(context,
+                "then_" + toString(i), func);
+
+        BasicBlock *elseBB = BasicBlock::Create(context, "else_" + toString(i));
+
+        // the value
+        const ASTNode *thenNode = ast->getChild(i++);
+        // the conditional
+        const ASTNode *condNode = ast->getChild(i++);
+
+        Value *cond = codeGen(condNode); // TODO convert to bool if nmbr
+
+        builder.CreateCondBr(cond, thenBB, elseBB);
+
+        // the then value
+        builder.SetInsertPoint(thenBB);
+        Value *thenVal = codeGen(thenNode);
+        values.push_back(thenVal);
+
+        builder.CreateBr(mergeBB);
+
+        // codegen of the 'then' block changes current block, update
+        thenBB = builder.GetInsertBlock();
+        blocks.push_back(thenBB);
+
+        // the else block
+        func->getBasicBlockList().push_back(elseBB);
+        builder.SetInsertPoint(elseBB);
+    }
+
+    // final else value
+    Value *owVal = 0;
+
+    if (i < nchild)
+    {
+        // we have an otherwise block
+        assert((i+1) == nchild);
+
+        const ASTNode *ow = ast->getChild(i);
+        owVal = codeGen(ow);
+
+
+    }
+    else
+    {
+        // default value
+    }
+
+    builder.CreateBr(mergeBB);
+
+    // otherwise codegen changes current block, update for PHI
+    BasicBlock *owBlock = builder.GetInsertBlock();
+
+    values.push_back(owVal);
+    blocks.push_back(owBlock);
+
+    // emit the merge block
+    func->getBasicBlockList().push_back(mergeBB);
+    builder.SetInsertPoint(mergeBB);
+
+    assert(values.size() == blocks.size());
+
+    PHINode *pn = builder.CreatePHI(Type::getDoubleTy(context), values.size(),
+            "iftmp");
+
+    for (uint i = 0; i < values.size(); ++i)
+    {
+        pn->addIncoming(values[i], blocks[i]);
+    }
+
+    return pn;
 }
 
 } /* namespace rr */
