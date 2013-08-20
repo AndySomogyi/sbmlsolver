@@ -31,6 +31,7 @@ public:
     ~ASTNodeCodeGen();
 
     llvm::Value *codeGen(const libsbml::ASTNode *ast);
+private:
 
     /**
      * sbml ASTNode does not contain as assigment '=' type, assigment
@@ -69,7 +70,14 @@ public:
 
     llvm::Value *piecewiseCodeGen(const libsbml::ASTNode *ast);
 
-private:
+    /**
+     * coerces a value to a boolean single bit.
+     *
+     * If value is already a boolean, it is unchanged.
+     */
+    llvm::Value *toBoolean(llvm::Value *value);
+
+
     llvm::IRBuilder<> &builder;
     LoadSymbolResolver &resolver;
 
@@ -84,7 +92,7 @@ private:
     llvm::Module *getModule();
 };
 
-
+std::string to_string(const libsbml::ASTNode *ast);
 
 } /* namespace rr */
 

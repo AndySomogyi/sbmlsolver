@@ -25,6 +25,14 @@ using namespace std;
 namespace rr
 {
 
+std::string to_string(const libsbml::ASTNode *ast)
+{
+    char* formula = SBML_formulaToString(ast);
+    string str = formula;
+    free(formula);
+    return str;
+}
+
 ASTNodeCodeGen::ASTNodeCodeGen(llvm::IRBuilder<> &builder,
         LoadSymbolResolver &resolver) :
         builder(builder), resolver(resolver)
@@ -304,35 +312,59 @@ llvm::Value* ASTNodeCodeGen::applyRelationalCodeGen(const libsbml::ASTNode* ast)
     assert(result);
 
     return result;
-
 }
 
 llvm::Value* ASTNodeCodeGen::applyLogicalCodeGen(const libsbml::ASTNode* ast)
 {
-    Value *left = codeGen(ast->getLeftChild());
-    Value *right = codeGen(ast->getRightChild());
-    Value *result = 0;
-
-    switch(ast->getType())
+    if (ast->getType() == AST_LOGICAL_NOT)
     {
-
-    case  AST_LOGICAL_AND:
-        result = builder.CreateAnd(left, right);
-        break;
-    case  AST_LOGICAL_NOT:
-        result = builder.CreateNot(left);
-        break;
-    case  AST_LOGICAL_OR:
-        result = builder.CreateOr(left, right);
-        break;
-    case  AST_LOGICAL_XOR:
-        builder.CreateXor(left, right);
-        break;
-    default:
-        result = 0;
-        break;
+        if (ast->getNumChildren() != 1)
+        {
+            string msg = "logic not can only have a single argument, recieved ";
+            msg += toString(ast->getNumChildren());
+            msg += ", MathML node: ";
+            msg += to_string(ast);
+            throw_llvm_exception(msg);
+        }
+        Value *bval = toBoolean(codeGen(ast));
+        return builder.CreateNot(bval);
     }
-    return result;
+
+    const int numChildren = ast->getNumChildren();
+    const ASTNodeType_t type = ast->getType();
+
+    if (numChildren < 2)
+    {
+        string msg = "logical operators and, or, xor require at least two "
+                "arguments, MathML node: ";
+        msg += to_string(ast);
+        throw_llvm_exception(msg);
+    }
+
+    // start at the head of the list and evaluate each subsequent term.
+    // accumulator
+    Value *acc = toBoolean(codeGen(ast->getChild(0)));
+
+    for (int i = 1; i < numChildren; ++i)
+    {
+        Value *rhs = toBoolean(codeGen(ast->getChild(i)));
+        switch (type)
+        {
+        case AST_LOGICAL_AND:
+            acc = builder.CreateAnd(acc, rhs, "and_tmp");
+            break;
+        case AST_LOGICAL_OR:
+            acc = builder.CreateOr(acc, rhs, "or_tmp");
+            break;
+        case AST_LOGICAL_XOR:
+            acc = builder.CreateXor(acc, rhs, "xor_tmp");
+            break;
+        default:
+            assert(0 && "invalid node type for logical");
+            break;
+        }
+    }
+    return acc;
 }
 
 llvm::Value* ASTNodeCodeGen::functionCallCodeGen(const libsbml::ASTNode* ast)
@@ -551,6 +583,30 @@ llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
 
 }
 
+llvm::Value* ASTNodeCodeGen::toBoolean(llvm::Value* value)
+{
+    Type *type = value->getType();
+
+    if (type->isIntegerTy(1))
+    {
+        return value;
+    }
+    else if (type->isIntegerTy())
+    {
+        return builder.CreateICmpNE(value,
+                ConstantInt::get(builder.getContext(),
+                        APInt(type->getIntegerBitWidth(), 0)), "ne_zero");
+    }
+    else if (type->isDoubleTy())
+    {
+        return builder.CreateFCmpONE(value,
+                ConstantFP::get(builder.getContext(), APFloat(0.0)), "ne_zero");
+    }
+
+    assert(0 && "unsupported type conversion to boolean");
+    return 0;
+}
+
 llvm::Module* ASTNodeCodeGen::getModule()
 {
     BasicBlock *bb = 0;
@@ -636,12 +692,10 @@ llvm::Value* ASTNodeCodeGen::piecewiseCodeGen(const libsbml::ASTNode* ast)
 
         const ASTNode *ow = ast->getChild(i);
         owVal = codeGen(ow);
-
-
     }
     else
     {
-        // default value
+        assert(0 && "no otherwise block in piecewise");
     }
 
     builder.CreateBr(mergeBB);
