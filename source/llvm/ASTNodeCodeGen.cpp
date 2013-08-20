@@ -17,6 +17,7 @@
 
 #include <sbml/math/ASTNode.h>
 #include <Poco/Logger.h>
+#include <cmath>
 
 using namespace libsbml;
 using namespace llvm;
@@ -176,12 +177,21 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     case AST_FUNCTION_PIECEWISE:
         result = piecewiseCodeGen(ast);
         break;
-    case AST_FUNCTION_DELAY:
     case AST_CONSTANT_E:
+        result = ConstantFP::get(builder.getContext(), APFloat(M_E));
+        break;
     case AST_CONSTANT_FALSE:
+        result = ConstantInt::getFalse(builder.getContext());
+        break;
     case AST_CONSTANT_PI:
+        result = ConstantFP::get(builder.getContext(), APFloat(M_PI));
+        break;
     case AST_CONSTANT_TRUE:
+        result = ConstantInt::getTrue(builder.getContext());
+        break;
+
     case AST_LAMBDA:
+    case AST_FUNCTION_DELAY:
         result = notImplemented(ast);
         break;
     default:
