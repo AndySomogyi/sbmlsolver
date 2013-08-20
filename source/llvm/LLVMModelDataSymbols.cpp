@@ -898,6 +898,12 @@ const std::vector<unsigned char>& LLVMModelDataSymbols::getEventAttributes() con
     return eventAttributes;
 }
 
+uint LLVMModelDataSymbols::getEventBufferSize(uint eventId) const
+{
+    assert(0);
+    return 0;
+}
+
 } /* namespace rr */
 
 

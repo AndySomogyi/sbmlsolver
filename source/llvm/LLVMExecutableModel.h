@@ -358,6 +358,24 @@ public:
         return eventAssignTimes[event];
     }
 
+    inline uint getEventBufferSize(uint event)
+    {
+        return symbols->getEventBufferSize(event);
+    }
+
+    inline void getEventData(uint eventId, double* data)
+    {
+        eventTriggerPtr(eventId, data);
+    }
+
+    /**
+     * assign or apply the event using the given data.
+     */
+    inline void assignEvent(uint eventId, double* data)
+    {
+        eventAssignPtr(eventId, data);
+    }
+
 private:
 
     /**

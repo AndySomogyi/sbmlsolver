@@ -10,6 +10,39 @@
 #include "rrLogger.h"
 #include <algorithm>
 
+namespace rrllvm
+{
+
+Event::Event(rr::LLVMExecutableModel& model, uint id) :
+        model(model),
+        id(id),
+        priority(model.getEventPriority(id)),
+        assignTime(model.getEventAssignTime(id))
+{
+    data = new double[model.getEventBufferSize(id)];
+    if (model.getEventUseValuesFromTriggerTime(id))
+    {
+        model.getEventData(id, data);
+    }
+}
+
+Event::~Event()
+{
+    delete data;
+}
+
+void Event::assign()
+{
+    if (!model.getEventUseValuesFromTriggerTime(id))
+    {
+        model.getEventData(id, data);
+    }
+}
+
+}
+
+using namespace rrllvm;
+
 namespace rr
 {
 
@@ -45,8 +78,7 @@ bool EventComparator::operator ()(uint a, uint b)
     }
 }
 
-EventQueue::EventQueue(LLVMExecutableModel& model) :
-        _base(EventComparator(model))
+EventQueue::EventQueue(LLVMExecutableModel& model) : model(model)
 {
 }
 
@@ -82,16 +114,16 @@ void EventQueue::eraseExpiredEvents()
     iterator i = c.begin();
     while (i < c.end())
     {
-        uint event = *i;
-        if (comp.model.getEventPersistent(event)
-                || comp.model.getEventTrigger(event))
+        rrllvm::Event *e = *i;
+        if (model.getEventPersistent(e->id)
+                || model.getEventTrigger(e->id))
         {
             ++i;
         }
         else
         {
             i = c.erase(i);
-            Log(Logger::PRIO_DEBUG) << "removed expired event " << event;
+            Log(Logger::PRIO_DEBUG) << "removed expired event " << e->id;
             erased = true;
         }
     }
@@ -103,8 +135,11 @@ void EventQueue::eraseExpiredEvents()
 
 bool EventQueue::hasCurrentEvents()
 {
-    return size() && comp.model.getEventDelay(top()) == 0.0;
+    return size() && !top()->getExpired();
 }
 
 }
+
+
+
 

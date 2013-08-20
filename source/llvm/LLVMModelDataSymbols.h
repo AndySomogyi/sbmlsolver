@@ -118,8 +118,6 @@ public:
 
     uint getIndependentBoundarySpeciesSize() const;
 
-    uint getBoundarySpeciesCompartmentIndex(std::string const&) const;
-
     /**
      * number of linearly indenent rows in the stochiometry matrix.
      */
@@ -220,6 +218,12 @@ public:
      * get the textual form of the field names.
      */
     static const char* getFieldName(ModelDataFields field);
+
+    /**
+     * get the size (in number of doubles) of the buffer
+     * that events need to save the event data to.
+     */
+    uint getEventBufferSize(uint eventId) const;
 
 
 private:

@@ -27,8 +27,8 @@ EventTriggerCodeGen::~EventTriggerCodeGen()
 {
 }
 
-bool EventTriggerCodeGen::eventCodeGen(llvm::Value *modelData, uint eventIndx,
-        const libsbml::Event *event)
+bool EventTriggerCodeGen::eventCodeGen(llvm::Value *modelData, llvm::Value *data,
+        uint eventIndx, const libsbml::Event *event)
 {
     ModelDataIRBuilder mdBuilder(modelData, dataSymbols, builder);
     ModelDataLoadSymbolResolver mdLoadResolver(modelData, model, modelSymbols,
@@ -45,6 +45,7 @@ bool EventTriggerCodeGen::eventCodeGen(llvm::Value *modelData, uint eventIndx,
         const EventAssignment *a = assignments->get(id);
         const ASTNode *math = a->getMath();
         Value *value = astCodeGen.codeGen(math);
+
         mdBuilder.createEventAssignmentStore(eventIndx, id, value);
     }
 
@@ -52,4 +53,5 @@ bool EventTriggerCodeGen::eventCodeGen(llvm::Value *modelData, uint eventIndx,
 }
 
 } /* namespace rr */
+
 

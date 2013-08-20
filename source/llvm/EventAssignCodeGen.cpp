@@ -28,7 +28,7 @@ EventAssignCodeGen::~EventAssignCodeGen()
 }
 
 bool EventAssignCodeGen::eventCodeGen(llvm::Value *modelData,
-        uint eventIndx, const libsbml::Event *event)
+        llvm::Value *data, uint eventIndx, const libsbml::Event *event)
 {
     ModelDataIRBuilder mdBuilder(modelData, dataSymbols, builder);
     ModelDataLoadSymbolResolver mdLoadResolver(modelData, model, modelSymbols,

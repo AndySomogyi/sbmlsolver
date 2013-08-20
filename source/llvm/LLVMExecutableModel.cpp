@@ -734,7 +734,7 @@ double LLVMExecutableModel::getNextPendingEventTime(bool pop)
 {
     if (pendingEvents.size())
     {
-        if (Logger::PRIO_DEBUG <= Logger::GetLogLevel())
+        if (Logger::PRIO_TRACE <= Logger::GetLogLevel())
         {
             LoggingBuffer log(Logger::PRIO_DEBUG, __FILE__, __LINE__);
             log.stream() << "pending event {event,delay,assign_time,priority}:  [";
