@@ -24,6 +24,8 @@
 #include "EventTriggerCodeGen.h"
 #include "EventQueue.h"
 
+#include <map>
+
 namespace rr
 {
 
@@ -217,7 +219,6 @@ public:
     virtual int setFloatingSpeciesAmounts(int len, int const *indx,
             const double *values);
 
-
     /**
      * get the boundary species amounts
      *
@@ -269,18 +270,10 @@ public:
             const double *values);
 
 
-
     /**
      * using the current model state, evaluate and store all the reaction rates.
      */
     virtual void evalReactionRates();
-
-
-
-
-
-
-
 
 
     virtual int setCompartmentVolumes(int len, int const *indx,
@@ -379,6 +372,8 @@ public:
         eventAssignPtr(&modelData, eventId, data);
     }
 
+    bool getEventTieBreak(uint eventA, uint eventB);
+
 private:
 
     /**
@@ -397,6 +392,10 @@ private:
      * the time delayed events were triggered.
      */
     std::vector<double> eventAssignTimes;
+
+    typedef unsigned long long TieBreakKey;
+    typedef std::map<TieBreakKey, bool> TieBreakMap;
+    TieBreakMap tieBreakMap;
 
     /******************************* Events Section *******************************/
     #endif /***********************************************************************/

@@ -14,6 +14,12 @@
 #include "LLVMException.h"
 #include <iomanip>
 
+// static assertion, taken from
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ms679289(v=vs.85).aspx
+#ifndef C_ASSERT
+#define C_ASSERT(e) typedef char __C_ASSERT__[(e)?1:-1]
+#endif
+
 static void dump_array(std::ostream &os, int n, const double *p)
 {
     os << setiosflags(ios::floatfield) << setprecision(8);
@@ -668,34 +674,44 @@ void LLVMExecutableModel::evalEvents(double timeEnd,
     pendingEvents.make_heap();
     pendingEvents.eraseExpiredEvents();
 
-    bool hasCurrentEvents;
-
-    do {
-        hasCurrentEvents = applyEvents(p1, p2);
+    while(applyEvents(p1, p2))
+    {
         std::swap(p1, p2);
     }
-    while (hasCurrentEvents);
 
     getStateVector(finalState);
 }
 
-int LLVMExecutableModel::applyPendingEvents(const double *stateVector, double timeEnd,
-        double tout)
+/**
+ * Each applied event application typically results in a state change.
+ *
+ * At each state change, we need to re-scan the events and see
+ * if any new events become triggered or events expire.
+ */
+int LLVMExecutableModel::applyPendingEvents(const double *stateVector,
+        double timeEnd, double tout)
 {
     int assignedEvents = 0;
-
     modelData.time = timeEnd;
     setStateVector(stateVector);
+
+    vector<unsigned char> prevEventState(modelData.numEvents);
+    vector<unsigned char> currEventStatus(modelData.numEvents);
+
+    getEventTriggers(prevEventState.size(), 0, &prevEventState[0]);
+
+    unsigned char *p1 = &prevEventState[0];
+    unsigned char *p2 = &currEventStatus[0];
 
     pendingEvents.make_heap();
     pendingEvents.eraseExpiredEvents();
 
-    while (pendingEvents.size() && timeEnd >= pendingEvents.top().assignTime)
+    while (applyEvents(p1, p2))
     {
-        pendingEvents.top().assign();
-        pendingEvents.pop();
         assignedEvents++;
+        std::swap(p1, p2);
     }
+
     return assignedEvents;
 }
 
@@ -757,6 +773,32 @@ bool LLVMExecutableModel::applyEvents(unsigned char* prevEventState,
     // fire the highest priority event, this causes state change
     // return true if we incured a state change
     return pendingEvents.applyEvent();
+}
+
+bool LLVMExecutableModel::getEventTieBreak(uint eventA, uint eventB)
+{
+    C_ASSERT(sizeof(TieBreakKey) == 8 && sizeof(uint) == 4);
+
+    bool result;
+    TieBreakKey keyA = eventA;
+    TieBreakKey keyB = eventB;
+    TieBreakKey key = keyA << 32 | keyB;
+    TieBreakMap::iterator i = tieBreakMap.find(key);
+    if (i != tieBreakMap.end())
+    {
+        result = !i->second;
+        i->second = result;
+    }
+    else
+    {
+        result = true;
+        tieBreakMap.insert(std::pair<TieBreakKey,bool>(key, result));
+    }
+
+    Log(Logger::PRIO_DEBUG) << "tie break, a: " << std::hex << keyA <<
+            ", b: " << keyB << ", key: " << std::hex << key << ", value: " <<
+            result;
+    return result;
 }
 
 

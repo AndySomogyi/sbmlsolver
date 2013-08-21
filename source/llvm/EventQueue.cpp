@@ -138,7 +138,15 @@ bool operator<(const Event& a, const Event& b)
     }
     else
     {
-        return a.getPriority() < b.getPriority();
+        double ap = a.getPriority(); double bp = b.getPriority();
+        if (ap != bp)
+        {
+            return ap < bp;
+        }
+        else
+        {
+            return a.model.getEventTieBreak(a.id, b.id);
+        }
     }
 }
 
@@ -216,9 +224,6 @@ bool EventQueue::hasCurrentEvents()
 
 bool EventQueue::applyEvent()
 {
-    // event priorities could have changed
-    make_heap();
-
     bool applied = false;
     if (_base::size())
     {
