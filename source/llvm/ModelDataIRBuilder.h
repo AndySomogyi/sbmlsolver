@@ -147,24 +147,6 @@ public:
             llvm::Value *value);
 
     /**
-     * event assignment GEP
-     */
-    llvm::Value *createEventAssignmentGEP(uint eventId, uint assignmentId,
-            const llvm::Twine &name = "");
-
-    /**
-     * load the event assignment value
-     */
-    llvm::Value *createEventAssignmentLoad(uint eventId, uint assignmentId,
-            const llvm::Twine& name = "");
-
-    /**
-     * store the event assignment value
-     */
-    llvm::Value *createEventAssignmentStore(uint eventId, uint assignmentId,
-            llvm::Value *value);
-
-    /**
      * rate rule GEP
      */
     llvm::Value *createRateRuleRateGEP(const std::string &id,

@@ -18,8 +18,8 @@ namespace rrllvm
 Event::Event(rr::LLVMExecutableModel& model, uint id) :
         model(model),
         id(id),
-        priority(model.getEventPriority(id)),
-        assignTime(model.getEventDelay(id) + model.getTime()),
+        delay(model.getEventDelay(id)),
+        assignTime(delay + model.getTime()),
         dataSize(model.getEventBufferSize(id)),
         data(new double[model.getEventBufferSize(id)])
 {
@@ -32,7 +32,7 @@ Event::Event(rr::LLVMExecutableModel& model, uint id) :
 Event::Event(const Event& o) :
         model(o.model),
         id(o.id),
-        priority(o.priority),
+        delay(o.delay),
         assignTime(o.assignTime),
         dataSize(o.dataSize),
         data(new double[o.dataSize])
@@ -44,9 +44,13 @@ Event& Event::operator=(const Event& rhs )
 {
     delete data;
     model = rhs.model;
-
+    id = rhs.id;
+    delay = rhs.delay;
+    assignTime = rhs.assignTime;
+    dataSize = rhs.dataSize;
+    data = new double[rhs.dataSize];
+    std::copy(rhs.data, rhs.data + rhs.dataSize, data);
     return *this;
-
 }
 
 Event::~Event()
@@ -59,12 +63,24 @@ bool Event::isExpired() const
     return !(model.getEventTrigger(id) || model.getEventPersistent(id));
 }
 
+bool Event::isCurrent() const
+{
+    return delay == 0.0 && (model.getEventPersistent(id) ||
+            model.getEventTrigger(id));
+}
+
+double Event::getPriority() const
+{
+    return model.getEventPriority(id);
+}
+
 void Event::assign() const
 {
     if (!model.getEventUseValuesFromTriggerTime(id))
     {
         model.getEventData(id, data);
     }
+    model.assignEvent(id, data);
 }
 
 bool operator<(const Event& a, const Event& b)
@@ -75,10 +91,9 @@ bool operator<(const Event& a, const Event& b)
     }
     else
     {
-        return a.priority < b.priority;
+        return a.getPriority() < b.getPriority();
     }
 }
-
 
 struct EventPredicate
 {
@@ -134,7 +149,7 @@ void EventQueue::eraseExpiredEvents()
 
 bool EventQueue::hasCurrentEvents()
 {
-    return size() && !top().isExpired();
+    return size() && top().isCurrent();
 }
 
 }

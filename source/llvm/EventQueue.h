@@ -32,9 +32,13 @@ public:
 
     bool isExpired() const;
 
+    bool isCurrent() const;
+
+    double getPriority() const;
+
     rr::LLVMExecutableModel& model;
     uint id;
-    double priority;
+    double delay;
     double assignTime;
     uint dataSize;
     double* data;

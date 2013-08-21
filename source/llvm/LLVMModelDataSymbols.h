@@ -201,16 +201,6 @@ public:
 
     bool isIndependentCompartment(const std::string& id) const;
 
-    /**
-     * all the event assignments are stored in a single array,
-     * these are the offsets of each assignment block.
-     */
-    uint getEventAssignmentOffset(uint eventIndx) const;
-
-    /**
-     * size of the event assignment array
-     */
-    uint getEventAssignmentSize() const;
 
     const std::vector<unsigned char>& getEventAttributes() const;
 
@@ -268,9 +258,10 @@ private:
     uint independentGlobalParameterSize;
     uint independentCompartmentSize;
 
-    std::vector<uint> eventAssignmentOffsets;
-
-    uint eventAssignmentSize;
+    /**
+     * the number of assignments each event has
+     */
+    std::vector<uint> eventAssignmentsSize;
 
     std::vector<unsigned char> eventAttributes;
 

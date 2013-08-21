@@ -317,30 +317,6 @@ llvm::Value* ModelDataIRBuilder::createBoundSpeciesAmtGEP(
     return createGEP(BoundarySpeciesAmounts, index, name);
 }
 
-llvm::Value* ModelDataIRBuilder::createEventAssignmentGEP(uint eventId,
-        uint assignmentId, const llvm::Twine& name)
-{
-    uint offset = symbols.getEventAssignmentOffset(eventId);
-    uint index = offset + assignmentId;
-    assert(index < symbols.getEventAssignmentSize() &&
-            "event assignment index out of bounds");
-    return createGEP(EventAssignments, index, name);
-}
-
-llvm::Value* ModelDataIRBuilder::createEventAssignmentLoad(uint eventId,
-        uint assignmentId, const llvm::Twine& name)
-{
-    Value *gep = createEventAssignmentGEP(eventId, assignmentId, name);
-    return builder.CreateLoad(gep, name);
-}
-
-llvm::Value* ModelDataIRBuilder::createEventAssignmentStore(uint eventId,
-        uint assignmentId, llvm::Value* value)
-{
-    Value *gep = createEventAssignmentGEP(eventId, assignmentId);
-    return builder.CreateStore(value, gep);
-}
-
 llvm::Value* ModelDataIRBuilder::createGlobalParamLoad(
         const std::string& id, const llvm::Twine& name)
 {

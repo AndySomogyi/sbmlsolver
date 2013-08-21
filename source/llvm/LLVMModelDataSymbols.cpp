@@ -87,8 +87,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols() :
         independentFloatingSpeciesSize(0),
         independentBoundarySpeciesSize(0),
         independentGlobalParameterSize(0),
-        independentCompartmentSize(0),
-        eventAssignmentSize(0)
+        independentCompartmentSize(0)
 {
 }
 
@@ -98,8 +97,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
         independentFloatingSpeciesSize(0),
         independentBoundarySpeciesSize(0),
         independentGlobalParameterSize(0),
-        independentCompartmentSize(0),
-        eventAssignmentSize(0)
+        independentCompartmentSize(0)
 {
     modelName = model->getName();
 
@@ -245,7 +243,6 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(LLVMModelData& m) const
     m.numRateRules                  = rateRules.size();
     m.numCompartments               = independentCompartmentSize;
     m.numBoundarySpecies            = independentBoundarySpeciesSize;
-    m.eventAssignmentsSize          = getEventAssignmentSize();
 
     m.modelName = strdup(modelName.c_str());
 
@@ -419,16 +416,6 @@ bool LLVMModelDataSymbols::isIndependentCompartment(const std::string& id) const
     StringUIntMap::const_iterator i = compartmentsMap.find(id);
     return i != compartmentsMap.end() &&
             i->second < independentCompartmentSize;
-}
-
-uint LLVMModelDataSymbols::getEventAssignmentOffset(uint eventIndx) const
-{
-    return eventAssignmentOffsets[eventIndx];
-}
-
-uint LLVMModelDataSymbols::getEventAssignmentSize() const
-{
-    return eventAssignmentSize;
 }
 
 const char* LLVMModelDataSymbols::getFieldName(ModelDataFields field)
@@ -847,8 +834,8 @@ void LLVMModelDataSymbols::initEvents(const libsbml::Model* model)
 
     if (events->size())
     {
-        eventAssignmentOffsets.resize(events->size());
         eventAttributes.resize(events->size());
+        eventAssignmentsSize.resize(events->size());
 
         // load the event attributes
         for (uint i = 0; i < events->size(); ++i)
@@ -876,20 +863,8 @@ void LLVMModelDataSymbols::initEvents(const libsbml::Model* model)
             }
 
             eventAttributes[i] = attr;
+            eventAssignmentsSize[i] = event->getListOfEventAssignments()->size();
         }
-
-        // figure out where to store the event assigment values.
-        eventAssignmentOffsets[0] = 0;
-        for (uint i = 0; i < events->size() - 1; ++i)
-        {
-            const Event *event = events->get(i);
-
-            eventAssignmentOffsets[i+1] = eventAssignmentOffsets[i] +
-                    event->getNumEventAssignments();
-        }
-
-        eventAssignmentSize = eventAssignmentOffsets.back() +
-                events->get(events->size() - 1)->getNumEventAssignments();
     }
 }
 
@@ -900,8 +875,8 @@ const std::vector<unsigned char>& LLVMModelDataSymbols::getEventAttributes() con
 
 uint LLVMModelDataSymbols::getEventBufferSize(uint eventId) const
 {
-    assert(0);
-    return 0;
+    assert(eventId <= eventAssignmentsSize.size() && "event id out of range");
+    return eventAssignmentsSize[eventId];
 }
 
 } /* namespace rr */
