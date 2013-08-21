@@ -326,7 +326,17 @@ public:
 
     inline bool getEventTrigger(uint event)
     {
-        return getEventTriggerPtr(&modelData, event);
+        assert(event < symbols->getEventAttributes().size()
+                        && "event out of bounds");
+        if (modelData.time >= 0.0)
+        {
+            return getEventTriggerPtr(&modelData, event);
+        }
+        else
+        {
+            return symbols->getEventAttributes()[event] & EventInitialValue
+                    ? true : false;
+        }
     }
 
     inline bool getEventUseValuesFromTriggerTime(uint event)
@@ -394,7 +404,6 @@ private:
 
 private:
     LLVMModelData modelData;
-    LLVMModelData modelDataCopy;
     LLVMModelDataSymbols *symbols;
     llvm::LLVMContext *context;
     llvm::ExecutionEngine *executionEngine;

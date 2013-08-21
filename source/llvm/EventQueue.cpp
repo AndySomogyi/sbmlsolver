@@ -9,6 +9,30 @@
 #include "LLVMExecutableModel.h"
 #include "rrLogger.h"
 #include <algorithm>
+#include <cstring>
+#include <iomanip>
+
+static void dump_array(std::ostream &os, int n, const double *p)
+{
+    if (p)
+    {
+        os << std::setiosflags(std::ios::floatfield) << std::setprecision(8);
+        os << '[';
+        for (int i = 0; i < n; ++i)
+        {
+            os << p[i];
+            if (i < n - 1)
+            {
+                os << ", ";
+            }
+        }
+        os << ']' ;
+    }
+    else
+    {
+        os << "NULL" ;
+    }
+}
 
 using namespace rr;
 
@@ -27,6 +51,13 @@ Event::Event(rr::LLVMExecutableModel& model, uint id) :
     {
         model.getEventData(id, data);
     }
+    else
+    {
+        std::memset(data, 0, dataSize * sizeof(double));
+    }
+
+    Log(Logger::PRIO_DEBUG) << "created event at time " << model.getTime() <<
+            ": " << *this;
 }
 
 Event::Event(const Event& o) :
@@ -80,7 +111,23 @@ void Event::assign() const
     {
         model.getEventData(id, data);
     }
+    Log(Logger::PRIO_DEBUG) << "assigning event: " << *this;
     model.assignEvent(id, data);
+}
+
+bool Event::isPersistent() const
+{
+    return model.getEventPersistent(id);
+}
+
+bool Event::useValuesFromTriggerTime() const
+{
+    return model.getEventUseValuesFromTriggerTime(id);
+}
+
+bool Event::isTriggered() const
+{
+    return model.getEventTrigger(id);
 }
 
 bool operator<(const Event& a, const Event& b)
@@ -93,6 +140,21 @@ bool operator<(const Event& a, const Event& b)
     {
         return a.getPriority() < b.getPriority();
     }
+}
+
+std::ostream& operator <<(std::ostream& os, const Event& event)
+{
+    os << "Event{ " << event.id << ", " <<
+            event.model.getEventTrigger(event.id) << ", " <<
+            event.isExpired() << ", " << event.isCurrent() << ", " <<
+            event.getPriority() << ", " << event.delay << ", " <<
+            event.assignTime << ", ";
+
+    dump_array(os, event.dataSize, event.data);
+
+    os << "}";
+
+    return os;
 }
 
 struct EventPredicate
@@ -123,21 +185,20 @@ void EventQueue::erase(EventQueue::iterator pos)
     std::make_heap(c.begin(), c.end(), comp);
 }
 
-void EventQueue::eraseExpiredEvents()
+bool EventQueue::eraseExpiredEvents()
 {
     bool erased = false;
     iterator i = c.begin();
     while (i < c.end())
     {
-        uint id = (*i).id;
         if (!(*i).isExpired())
         {
             ++i;
         }
         else
         {
+            Log(Logger::PRIO_DEBUG) << "removing expired event: " << *i;
             i = c.erase(i);
-            Log(Logger::PRIO_DEBUG) << "removed expired event " << id;
             erased = true;
         }
     }
@@ -145,11 +206,47 @@ void EventQueue::eraseExpiredEvents()
     {
         make_heap();
     }
+    return erased;
 }
 
 bool EventQueue::hasCurrentEvents()
 {
     return size() && top().isCurrent();
+}
+
+bool EventQueue::applyEvent()
+{
+    // event priorities could have changed
+    make_heap();
+
+    bool applied = false;
+    if (_base::size())
+    {
+        const Event& e = _base::top();
+        if (e.isPersistent() || e.isTriggered())
+        {
+            if (e.delay == 0.0 || e.assignTime <= e.model.getTime())
+            {
+                e.assign();
+                _base::pop(); // note, e is no longer valid after pop
+                applied = true;
+            }
+        }
+    }
+
+    if(applied)
+    {
+        // erase doesn't care about heap property, but heapifies
+        // if something was erased, we need to return the queue
+        // in heapified state, so heapify in not already heapified
+        // by erase.
+        if (!eraseExpiredEvents())
+        {
+            make_heap();
+        }
+    }
+
+    return applied;
 }
 
 }

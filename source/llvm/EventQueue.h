@@ -36,6 +36,12 @@ public:
 
     double getPriority() const;
 
+    bool isPersistent() const;
+
+    bool useValuesFromTriggerTime() const;
+
+    bool isTriggered() const;
+
     rr::LLVMExecutableModel& model;
     uint id;
     double delay;
@@ -47,6 +53,8 @@ public:
     friend bool operator<(const Event& a, const Event& b);
 
 };
+
+std::ostream& operator <<(std::ostream& os, const Event& data);
 
 
 class EventQueue :
@@ -63,9 +71,11 @@ public:
 
     void erase(iterator pos);
 
-    void eraseExpiredEvents();
+    bool eraseExpiredEvents();
 
     bool hasCurrentEvents();
+
+    bool applyEvent();
 };
 
 

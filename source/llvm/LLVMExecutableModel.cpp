@@ -66,7 +66,8 @@ LLVMExecutableModel::LLVMExecutableModel() :
 {
     // zero out the struct, the generator will fill it out.
     LLVMModelData::init(modelData);
-    LLVMModelData::init(modelDataCopy);
+
+    modelData.time = -1.0;
 }
 
 LLVMExecutableModel::~LLVMExecutableModel()
@@ -352,9 +353,14 @@ void LLVMExecutableModel::evalInitialConditions()
 
 void LLVMExecutableModel::reset()
 {
+    // eval the initial conditions and rates
     setTime(0.0);
     evalInitialConditions();
     evalReactionRates();
+
+    // this sets up the event system to pull the initial value
+    // before the simulation starts.
+    setTime(-1.0);
 
     Log(Logger::PRIO_TRACE) << __FUNC__ << this;
 }
@@ -633,14 +639,7 @@ int LLVMExecutableModel::getEventTriggers(int len, const int *indx, unsigned cha
             int j = indx ? indx[i] : i;
             if (j < modelData.numEvents)
             {
-                if (modelData.time == 0)
-                {
-                    values[j] = attr[i] & EventInitialValue ? true : false;
-                }
-                else
-                {
-                    values[j] = getEventTriggerPtr(&modelData, j);
-                }
+                values[j] = getEventTrigger(j);
             }
             else
             {
@@ -745,33 +744,19 @@ bool LLVMExecutableModel::applyEvents(unsigned char* prevEventState,
         bool c = getEventTrigger(i);
         currEventState[i] = c;
 
-        Log(Logger::PRIO_DEBUG) << "event " << i << " current status: " << c;
+        Log(Logger::PRIO_DEBUG) << "event " << i << ", previous state: " <<
+                (bool)prevEventState[i] << ", current state: " << (bool)c;
 
-
-            // transition from non-triggered to triggered
-            if (c && !prevEventState[i])
-            {
-                Log(Logger::PRIO_DEBUG) << "event " << i <<
-                        " transitioned to triggered at time " <<
-                        modelData.time;
-
-                pendingEvents.push(rrllvm::Event(*this, i));
-                Log(Logger::PRIO_DEBUG) << "inserted triggered event " << i
-                        << " into pendingEvents queue";
-            }
-
+        // transition from non-triggered to triggered
+        if (c && !prevEventState[i])
+        {
+            pendingEvents.push(rrllvm::Event(*this, i));
+        }
     }
 
     // fire the highest priority event, this causes state change
-    if (pendingEvents.size() && getEventDelay(pendingEvents.top().id) == 0)
-    {
-        Log(Logger::PRIO_DEBUG) << "assigning event " << pendingEvents.top().id;
-        pendingEvents.top().assign();
-        pendingEvents.pop();
-        pendingEvents.eraseExpiredEvents();
-    }
-
-    return pendingEvents.hasCurrentEvents();
+    // return true if we incured a state change
+    return pendingEvents.applyEvent();
 }
 
 
