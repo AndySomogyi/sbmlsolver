@@ -50,7 +50,7 @@ public:
      * triggers in this call. The base class takes care of generating
      * the return value.
      */
-    bool eventCodeGen (llvm::Value *modelData, llvm::Value *data, uint eventId,
+    bool eventCodeGen (llvm::Value *modelData, llvm::Value *data,
             const libsbml::Event *event)
     {
         return false;
@@ -103,7 +103,7 @@ llvm::Value *EventCodeGenBase<Derived>::codeGen()
 
         const libsbml::Event *event = events->get(i);
 
-        bool cont = static_cast<Derived*>(this)->eventCodeGen(args[0], args[2], i, event);
+        bool cont = static_cast<Derived*>(this)->eventCodeGen(args[0], args[2], event);
 
         this->builder.CreateRetVoid();
         s->addCase(llvm::ConstantInt::get(llvm::Type::getInt32Ty(this->context), i), block);

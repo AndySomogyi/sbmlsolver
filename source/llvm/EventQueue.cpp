@@ -10,6 +10,8 @@
 #include "rrLogger.h"
 #include <algorithm>
 
+using namespace rr;
+
 namespace rrllvm
 {
 
@@ -17,13 +19,34 @@ Event::Event(rr::LLVMExecutableModel& model, uint id) :
         model(model),
         id(id),
         priority(model.getEventPriority(id)),
-        assignTime(model.getEventAssignTime(id))
+        assignTime(model.getEventDelay(id) + model.getTime()),
+        dataSize(model.getEventBufferSize(id)),
+        data(new double[model.getEventBufferSize(id)])
 {
-    data = new double[model.getEventBufferSize(id)];
     if (model.getEventUseValuesFromTriggerTime(id))
     {
         model.getEventData(id, data);
     }
+}
+
+Event::Event(const Event& o) :
+        model(o.model),
+        id(o.id),
+        priority(o.priority),
+        assignTime(o.assignTime),
+        dataSize(o.dataSize),
+        data(new double[o.dataSize])
+{
+    std::copy(o.data, o.data + o.dataSize, data);
+}
+
+Event& Event::operator=(const Event& rhs )
+{
+    delete data;
+    model = rhs.model;
+
+    return *this;
+
 }
 
 Event::~Event()
@@ -31,7 +54,12 @@ Event::~Event()
     delete data;
 }
 
-void Event::assign()
+bool Event::isExpired() const
+{
+    return !(model.getEventTrigger(id) || model.getEventPersistent(id));
+}
+
+void Event::assign() const
 {
     if (!model.getEventUseValuesFromTriggerTime(id))
     {
@@ -39,62 +67,34 @@ void Event::assign()
     }
 }
 
-}
-
-using namespace rrllvm;
-
-namespace rr
+bool operator<(const Event& a, const Event& b)
 {
-
-void foo(LLVMExecutableModel& model)
-{
-    EventComparator c(model);
-
-    typedef std::priority_queue<uint, std::deque<uint>, EventComparator> myqueue;
-
-    myqueue m(c);
-
-}
-
-EventComparator::EventComparator(LLVMExecutableModel& model) :
-        model(model)
-{
-}
-
-bool EventComparator::operator ()(uint a, uint b)
-{
-    double a_time = model.getEventAssignTime(a);
-    double b_time = model.getEventAssignTime(b);
-
-    if (a_time != b_time)
+    if (a.assignTime != b.assignTime)
     {
-        return a_time > b_time;
+        return a.assignTime > b.assignTime;
     }
     else
     {
-        double a_priority = model.getEventPriority(a);
-        double b_priority = model.getEventPriority(b);
-        return a_priority < b_priority;
+        return a.priority < b.priority;
     }
 }
 
-EventQueue::EventQueue(LLVMExecutableModel& model) : model(model)
-{
-}
 
-EventQueue::iterator EventQueue::find(uint key)
+struct EventPredicate
 {
-    return std::find(c.begin(), c.end(), key);
-}
+    EventPredicate(uint eventId) : eventId(eventId) {};
 
-EventQueue::iterator EventQueue::end()
-{
-    return c.end();
-}
+    bool operator()(const rrllvm::Event& event) const
+    {
+        return event.id == eventId;
+    }
 
-EventQueue::iterator EventQueue::begin()
+    uint eventId;
+};
+
+bool EventQueue::find(uint key)
 {
-    return c.begin();
+    return std::find_if(c.begin(), c.end(), EventPredicate(key)) != c.end();
 }
 
 void EventQueue::make_heap()
@@ -114,16 +114,15 @@ void EventQueue::eraseExpiredEvents()
     iterator i = c.begin();
     while (i < c.end())
     {
-        rrllvm::Event *e = *i;
-        if (model.getEventPersistent(e->id)
-                || model.getEventTrigger(e->id))
+        uint id = (*i).id;
+        if (!(*i).isExpired())
         {
             ++i;
         }
         else
         {
             i = c.erase(i);
-            Log(Logger::PRIO_DEBUG) << "removed expired event " << e->id;
+            Log(Logger::PRIO_DEBUG) << "removed expired event " << id;
             erased = true;
         }
     }
@@ -135,7 +134,7 @@ void EventQueue::eraseExpiredEvents()
 
 bool EventQueue::hasCurrentEvents()
 {
-    return size() && !top()->getExpired();
+    return size() && !top().isExpired();
 }
 
 }

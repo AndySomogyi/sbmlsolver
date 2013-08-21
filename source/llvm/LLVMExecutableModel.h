@@ -351,13 +351,6 @@ public:
         return symbols->getEventAttributes()[event] & EventPersistent;
     }
 
-    inline double getEventAssignTime(uint event)
-    {
-        assert(event < symbols->getEventAttributes().size()
-                    && "event out of bounds");
-        return eventAssignTimes[event];
-    }
-
     inline uint getEventBufferSize(uint event)
     {
         return symbols->getEventBufferSize(event);
@@ -365,7 +358,7 @@ public:
 
     inline void getEventData(uint eventId, double* data)
     {
-        eventTriggerPtr(eventId, data);
+        eventTriggerPtr(&modelData, eventId, data);
     }
 
     /**
@@ -373,7 +366,7 @@ public:
      */
     inline void assignEvent(uint eventId, double* data)
     {
-        eventAssignPtr(eventId, data);
+        eventAssignPtr(&modelData, eventId, data);
     }
 
 private:
@@ -388,7 +381,7 @@ private:
             unsigned char* currEventState);
 
 
-    EventQueue pendingEvents;
+    rrllvm::EventQueue pendingEvents;
 
     /**
      * the time delayed events were triggered.
