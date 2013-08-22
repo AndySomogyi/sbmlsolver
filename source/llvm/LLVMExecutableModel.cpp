@@ -13,6 +13,7 @@
 #include "rrException.h"
 #include "LLVMException.h"
 #include <iomanip>
+#include <cstdlib>
 
 // static assertion, taken from
 // http://msdn.microsoft.com/en-us/library/windows/desktop/ms679289(v=vs.85).aspx
@@ -74,6 +75,8 @@ LLVMExecutableModel::LLVMExecutableModel() :
     LLVMModelData::init(modelData);
 
     modelData.time = -1.0;
+
+    std::srand(std::time(0));
 }
 
 LLVMExecutableModel::~LLVMExecutableModel()
@@ -777,6 +780,7 @@ bool LLVMExecutableModel::applyEvents(unsigned char* prevEventState,
 
 bool LLVMExecutableModel::getEventTieBreak(uint eventA, uint eventB)
 {
+    /*
     C_ASSERT(sizeof(TieBreakKey) == 8 && sizeof(uint) == 4);
 
     bool result;
@@ -794,10 +798,15 @@ bool LLVMExecutableModel::getEventTieBreak(uint eventA, uint eventB)
         result = true;
         tieBreakMap.insert(std::pair<TieBreakKey,bool>(key, result));
     }
+    */
 
-    Log(Logger::PRIO_DEBUG) << "tie break, a: " << std::hex << keyA <<
-            ", b: " << keyB << ", key: " << std::hex << key << ", value: " <<
-            result;
+    bool result = (std::rand() % 2) == 0;
+
+
+
+    Log(Logger::PRIO_DEBUG) << "tie break, a: " << eventA << ", b: " <<
+            eventB << ", result: " << result;
+
     return result;
 }
 

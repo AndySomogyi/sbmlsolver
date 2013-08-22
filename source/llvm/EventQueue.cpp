@@ -262,6 +262,19 @@ void EventQueue::push(const Event& e)
     std::push_heap(c.begin(), c.end(), comp);
 }
 
+std::ostream& operator<< (std::ostream& stream, const EventQueue& queue)
+{
+    stream << "EventQueue {" << std::endl;
+    int j = 0;
+    for(EventQueue::const_iterator i = queue.c.begin(); i != queue.c.end(); ++i)
+    {
+        stream << "event " << j++ << ": " << *i << std::endl;
+    }
+    stream << "}";
+
+    return stream;
+}
+
 }
 
 

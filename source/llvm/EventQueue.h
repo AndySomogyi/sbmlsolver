@@ -79,8 +79,12 @@ public:
 
     void push(const Event& e);
 
-
+    friend std::ostream& operator<< (std::ostream& stream, const EventQueue& queue);
 };
+
+std::ostream& operator<< (std::ostream& stream, const EventQueue& queue);
+
+
 
 
 } /* namespace rrllvm */
