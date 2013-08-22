@@ -177,21 +177,13 @@ struct EventPredicate
     uint eventId;
 };
 
-bool EventQueue::find(uint key)
-{
-    return std::find_if(c.begin(), c.end(), EventPredicate(key)) != c.end();
-}
+
 
 void EventQueue::make_heap()
 {
     std::make_heap(c.begin(), c.end(), comp);
 }
 
-void EventQueue::erase(EventQueue::iterator pos)
-{
-    c.erase(pos);
-    std::make_heap(c.begin(), c.end(), comp);
-}
 
 bool EventQueue::eraseExpiredEvents()
 {
@@ -252,6 +244,22 @@ bool EventQueue::applyEvent()
     }
 
     return applied;
+}
+
+uint EventQueue::size() const
+{
+    return c.size();
+}
+
+const Event& EventQueue::top() const
+{
+    return c.front();
+}
+
+void EventQueue::push(const Event& e)
+{
+    c.push_back(e);
+    std::push_heap(c.begin(), c.end(), comp);
 }
 
 }

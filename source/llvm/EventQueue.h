@@ -58,24 +58,28 @@ std::ostream& operator <<(std::ostream& os, const Event& data);
 
 
 class EventQueue :
-        public std::priority_queue<uint, std::deque<rrllvm::Event> >
+        private std::priority_queue<uint, std::deque<rrllvm::Event> >
 {
 public:
     typedef std::priority_queue<uint, std::deque<rrllvm::Event> > _base;
     typedef _base::container_type::const_iterator const_iterator;
     typedef _base::container_type::iterator iterator;
 
-    bool find(uint key);
-
     void make_heap();
-
-    void erase(iterator pos);
 
     bool eraseExpiredEvents();
 
     bool hasCurrentEvents();
 
     bool applyEvent();
+
+    uint size() const;
+
+    const Event& top() const;
+
+    void push(const Event& e);
+
+
 };
 
 
