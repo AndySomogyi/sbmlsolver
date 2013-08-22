@@ -134,20 +134,27 @@ bool operator<(const Event& a, const Event& b)
 {
     if (a.assignTime != b.assignTime)
     {
-        return a.assignTime > b.assignTime;
+        return a.assignTime < b.assignTime;
     }
     else
     {
         double ap = a.getPriority(); double bp = b.getPriority();
-        if (ap != bp)
-        {
-            return ap < bp;
-        }
-        else
-        {
-            return a.model.getEventTieBreak(a.id, b.id);
-        }
+        //if (ap != bp)
+        //{
+            return ap > bp;
+        //}
+        //else
+        //{
+        //    return a.model.getEventTieBreak(a.id, b.id);
+        //}
     }
+}
+
+bool Event::isRipe() const
+{
+    return ((isPersistent() || isTriggered()) &&
+            (delay == 0.0 || assignTime <= model.getTime()));
+
 }
 
 std::ostream& operator <<(std::ostream& os, const Event& event)
@@ -181,7 +188,6 @@ struct EventPredicate
 
 void EventQueue::make_heap()
 {
-    std::make_heap(c.begin(), c.end(), comp);
 }
 
 
@@ -189,7 +195,7 @@ bool EventQueue::eraseExpiredEvents()
 {
     bool erased = false;
     iterator i = c.begin();
-    while (i < c.end())
+    while (i != c.end())
     {
         if (!(*i).isExpired())
         {
@@ -202,10 +208,6 @@ bool EventQueue::eraseExpiredEvents()
             erased = true;
         }
     }
-    if (erased)
-    {
-        make_heap();
-    }
     return erased;
 }
 
@@ -214,20 +216,51 @@ bool EventQueue::hasCurrentEvents()
     return size() && top().isCurrent();
 }
 
+
+
 bool EventQueue::applyEvent()
 {
     bool applied = false;
     if (c.size())
     {
-        const Event& e = top();
-        if (e.isPersistent() || e.isTriggered())
+        Log(Logger::PRIO_DEBUG) << "event list before sort: " << *this;
+
+        c.sort();
+
+        Log(Logger::PRIO_DEBUG) << "event list after sort, before apply: " << *this;
+
+        std::deque<iterator> ripe;
+        iterator i = c.begin();
+        while (i != c.end())
         {
-            if (e.delay == 0.0 || e.assignTime <= e.model.getTime())
+            if (i->isRipe())
             {
-                e.assign();
-                pop(); // note, e is no longer valid after pop
-                applied = true;
+                ripe.push_back(i);
             }
+
+            const Event& a = *i;
+            ++i;
+            if (i != c.end() && a < (*i))
+            {
+                break;
+            }
+        }
+
+        Log(Logger::PRIO_DEBUG) << "found " << ripe.size() << " ripe events";
+
+        if (ripe.size())
+        {
+            uint index = std::rand() % ripe.size();
+            iterator i = ripe[index];
+
+            Log(Logger::PRIO_DEBUG) << "assigning the " << index << "\'th item";
+            (*i).assign();
+
+            c.erase(i);
+
+            applied = true;
+
+            Log(Logger::PRIO_DEBUG) << "event list after apply: " << *this;
         }
     }
 
@@ -237,10 +270,7 @@ bool EventQueue::applyEvent()
         // if something was erased, we need to return the queue
         // in heapified state, so heapify in not already heapified
         // by erase.
-        if (!eraseExpiredEvents())
-        {
-            make_heap();
-        }
+        eraseExpiredEvents();
     }
 
     return applied;
@@ -254,18 +284,55 @@ uint EventQueue::size() const
 void EventQueue::push(const Event& e)
 {
     c.push_back(e);
-    std::push_heap(c.begin(), c.end(), comp);
 }
 
-EventQueue::const_reference EventQueue::top() const
+EventQueue::const_reference EventQueue::top()
 {
+    c.sort();
     return c.front();
 }
 
 void EventQueue::pop()
 {
-    std::pop_heap(c.begin(), c.end(), comp);
-    c.pop_back();
+
+}
+
+uint EventQueue::packTop()
+{
+    /*
+    Log(Logger::PRIO_DEBUG) << "before pack top " << *this;
+    uint topSize = 0;
+    if (c.size())
+    {
+        _Sequence::iterator i = c.begin() + 1;
+
+        while(i != c.end())
+        {
+            std::make_heap(i, c.end(), comp);
+            ++topSize;
+            ++i;
+            if (*i < c.front())
+            {
+                break;
+            }
+        }
+    }
+    Log(Logger::PRIO_DEBUG) << "after pack top " << *this;
+    return topSize;
+    */
+    return 0;
+}
+
+double EventQueue::getNextPendingEventTime()
+{
+    if (size())
+    {
+        return top().assignTime;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 std::ostream& operator<< (std::ostream& stream, const EventQueue& queue)

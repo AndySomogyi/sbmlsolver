@@ -739,11 +739,7 @@ void  LLVMExecutableModel::evalEventRoots(double time, const double* y, double* 
 
 double LLVMExecutableModel::getNextPendingEventTime(bool pop)
 {
-    if (pendingEvents.size())
-    {
-        return pendingEvents.top().assignTime;
-    }
-    return 0;
+    return pendingEvents.getNextPendingEventTime();
 }
 
 int LLVMExecutableModel::getPendingEventSize()

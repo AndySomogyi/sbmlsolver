@@ -43,6 +43,11 @@ public:
 
     bool isTriggered() const;
 
+    /**
+     * is this event ready to be applied
+     */
+    bool isRipe() const;
+
     rr::LLVMExecutableModel& model;
     uint id;
     double delay;
@@ -61,7 +66,7 @@ std::ostream& operator <<(std::ostream& os, const Event& data);
 class EventQueue
 {
 public:
-    typedef std::deque<rrllvm::Event> _Sequence;
+    typedef std::list<rrllvm::Event> _Sequence;
     typedef std::less<_Sequence::value_type> _Compare;
     typedef _Sequence::const_iterator const_iterator;
     typedef _Sequence::iterator iterator;
@@ -81,9 +86,11 @@ public:
 
     uint size() const;
 
-    const_reference top() const;
+    const_reference top();
 
     void push(const Event& e);
+
+    double getNextPendingEventTime();
 
 
     friend std::ostream& operator<< (std::ostream& stream, const EventQueue& queue);
@@ -92,6 +99,8 @@ private:
 
 
     void pop();
+
+    uint packTop();
 
 };
 
