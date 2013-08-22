@@ -217,15 +217,15 @@ bool EventQueue::hasCurrentEvents()
 bool EventQueue::applyEvent()
 {
     bool applied = false;
-    if (_base::size())
+    if (c.size())
     {
-        const Event& e = _base::top();
+        const Event& e = top();
         if (e.isPersistent() || e.isTriggered())
         {
             if (e.delay == 0.0 || e.assignTime <= e.model.getTime())
             {
                 e.assign();
-                _base::pop(); // note, e is no longer valid after pop
+                pop(); // note, e is no longer valid after pop
                 applied = true;
             }
         }
@@ -251,15 +251,21 @@ uint EventQueue::size() const
     return c.size();
 }
 
-const Event& EventQueue::top() const
-{
-    return c.front();
-}
-
 void EventQueue::push(const Event& e)
 {
     c.push_back(e);
     std::push_heap(c.begin(), c.end(), comp);
+}
+
+EventQueue::const_reference EventQueue::top() const
+{
+    return c.front();
+}
+
+void EventQueue::pop()
+{
+    std::pop_heap(c.begin(), c.end(), comp);
+    c.pop_back();
 }
 
 std::ostream& operator<< (std::ostream& stream, const EventQueue& queue)

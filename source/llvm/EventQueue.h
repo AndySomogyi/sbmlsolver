@@ -11,6 +11,7 @@
 #include "rrOSSpecifics.h"
 #include <deque>
 #include <queue>
+#include <list>
 
 namespace rr
 {
@@ -57,13 +58,18 @@ public:
 std::ostream& operator <<(std::ostream& os, const Event& data);
 
 
-class EventQueue :
-        private std::priority_queue<uint, std::deque<rrllvm::Event> >
+class EventQueue
 {
 public:
-    typedef std::priority_queue<uint, std::deque<rrllvm::Event> > _base;
-    typedef _base::container_type::const_iterator const_iterator;
-    typedef _base::container_type::iterator iterator;
+    typedef std::deque<rrllvm::Event> _Sequence;
+    typedef std::less<_Sequence::value_type> _Compare;
+    typedef _Sequence::const_iterator const_iterator;
+    typedef _Sequence::iterator iterator;
+    typedef _Sequence::const_reference const_reference;
+
+    _Sequence  c;
+    _Compare   comp;
+
 
     void make_heap();
 
@@ -75,11 +81,18 @@ public:
 
     uint size() const;
 
-    const Event& top() const;
+    const_reference top() const;
 
     void push(const Event& e);
 
+
     friend std::ostream& operator<< (std::ostream& stream, const EventQueue& queue);
+
+private:
+
+
+    void pop();
+
 };
 
 std::ostream& operator<< (std::ostream& stream, const EventQueue& queue);
