@@ -118,6 +118,7 @@ if(BUILD_LLVM)
         llvm/ModelGeneratorContext
         llvm/LLVMModelSymbols
         llvm/SetRateRuleValuesCodeGen
+        llvm/SBMLSupportFunctions
         )
 endif(BUILD_LLVM)
 
