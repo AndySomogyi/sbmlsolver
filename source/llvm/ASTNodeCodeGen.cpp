@@ -705,7 +705,11 @@ llvm::Value* ASTNodeCodeGen::piecewiseCodeGen(const libsbml::ASTNode* ast)
     }
     else
     {
-        assert(0 && "no otherwise block in piecewise");
+        Log(Logger::PRIO_WARNING) << "No \"otherwise\" element in MathML "
+                "piecewise, returning NaN as \"otherwise\" value";
+
+        owVal = ConstantFP::get(builder.getContext(),
+                APFloat::getQNaN(APFloat::IEEEdouble));
     }
 
     builder.CreateBr(mergeBB);

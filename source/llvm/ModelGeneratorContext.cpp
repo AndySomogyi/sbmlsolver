@@ -320,4 +320,10 @@ static void createLibraryFunction(llvm::LibFunc::Func funcId,
     }
 }
 
+static void createGlobalMappingFunction(const char* funcName,
+        llvm::FunctionType *funcType, Module *module)
+{
+    Function::Create(funcType, Function::InternalLinkage, funcName, module);
+}
+
 } /* namespace rr */
