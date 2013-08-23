@@ -252,20 +252,32 @@ llvm::Value* ASTNodeCodeGen::applyArithmeticCodeGen(
 {
     const int numChildren = ast->getNumChildren();
     const ASTNodeType_t type = ast->getType();
+    Value *acc = 0;
+    int start = 0;
 
-    if (numChildren < 2)
+    if (numChildren < 1)
     {
         stringstream err;
         err << "MathML apply node from " << ast->getParentSBMLObject()->toSBML()
-                << " must have at least two child nodes";
+                << " must have at least one child nodes";
         throw_llvm_exception(err.str());
     }
+    else if (numChildren == 1)
+    {
+        // treat it as a unary operator, only really makes sense for minus
+        acc = ConstantFP::get(builder.getContext(), APFloat(0.0));
+    }
+    else
+    {
+        // start at the head of the list and evaluate each subsequent term.
+        // accumulator
+        start = 1;
+        acc = codeGen(ast->getChild(0));
+    }
 
-    // start at the head of the list and evaluate each subsequent term.
-    // accumulator
-    Value *acc = codeGen(ast->getChild(0));
+    assert(acc);
 
-    for (int i = 1; i < numChildren; ++i)
+    for (int i = start; i < numChildren; ++i)
     {
         Value *rhs = codeGen(ast->getChild(i));
         switch (type)
