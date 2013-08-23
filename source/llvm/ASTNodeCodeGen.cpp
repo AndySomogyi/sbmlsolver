@@ -407,6 +407,9 @@ llvm::Value* ASTNodeCodeGen::functionCallCodeGen(const libsbml::ASTNode* ast)
 llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
 {
     LibFunc::Func funcId;
+    TargetLibraryInfo targetLib;
+    Function* func;
+    Module *module = getModule();
 
     switch (ast->getType())
     {
@@ -415,117 +418,136 @@ llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
                                     // left and right child nodes are the first
                                     // 2 child nodes for args.
         funcId = LibFunc::pow;
+        func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_ABS:
         funcId = LibFunc::fabs;
+        func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_ARCCOS:
         funcId = LibFunc::acos;
+        func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_ARCCOSH:
         funcId = LibFunc::acosh;
+        func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_ARCCOT:
-        throw_llvm_exception("do not handle acot yet")
-        ;
+        func = module->getFunction("arccot");
         break;
     case AST_FUNCTION_ARCCOTH:
-        throw_llvm_exception("do not handle acoth yet");
+        func = module->getFunction("arccoth");
         break;
     case AST_FUNCTION_ARCCSC:
-        throw_llvm_exception("do not handle acsc yet");
+        func = module->getFunction("arccsc");
         break;
     case AST_FUNCTION_ARCCSCH:
-        throw_llvm_exception("do not handle acsch yet");
+        func = module->getFunction("arccsch");
         break;
     case AST_FUNCTION_ARCSEC:
-        throw_llvm_exception("do not handle asec yet");
+        func = module->getFunction("arcsec");
         break;
     case AST_FUNCTION_ARCSECH:
-        throw_llvm_exception("do not handle asech yet");
+        func = module->getFunction("arcsech");
         break;
     case AST_FUNCTION_ARCSIN:
         funcId = LibFunc::asin;
+        func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_ARCSINH:
         funcId = LibFunc::asinh;
+        func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_ARCTAN:
         funcId = LibFunc::atan;
+        func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_ARCTANH:
         funcId = LibFunc::atanh;
+        func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_CEILING:
         funcId = LibFunc::ceil;
+        func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_COS:
         funcId = LibFunc::cos;
+        func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_COSH:
         funcId = LibFunc::cosh;
+        func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_COT:
-        throw_llvm_exception("do not handle cot yet");
+        func = module->getFunction("cot");
         break;
     case AST_FUNCTION_COTH:
-        throw_llvm_exception("do not handle coth yet");
+        func = module->getFunction("coth");
         break;
     case AST_FUNCTION_CSC:
-        throw_llvm_exception("do not handle csc yet");
+        func = module->getFunction("csc");
         break;
     case AST_FUNCTION_CSCH:
-        throw_llvm_exception("do not handle csch yet");
+        func = module->getFunction("csch");
         break;
     case AST_FUNCTION_EXP:
         funcId = LibFunc::exp;
+        func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_FACTORIAL:
-        throw_llvm_exception("do not handle factorial yet");
+        func = module->getFunction("rr::factoriald");
         break;
     case AST_FUNCTION_FLOOR:
         funcId = LibFunc::floor;
+        func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_LN:
         funcId = LibFunc::log;
+        func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_LOG:
-        throw_llvm_exception("do not handle log yet");
+        func = module->getFunction("rr::logd");
         break;
     case AST_FUNCTION_ROOT:
-        throw_llvm_exception("do not handle root yet");
+        func = module->getFunction("rr::rootd");
         break;
     case AST_FUNCTION_SEC:
-        throw_llvm_exception("do not handle sec yet");
+        func = module->getFunction("sec");
         break;
     case AST_FUNCTION_SECH:
-        throw_llvm_exception("do not handle sech yet");
+        func = module->getFunction("sech");
         break;
     case AST_FUNCTION_SIN:
         funcId = LibFunc::sin;
+        func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_SINH:
         funcId = LibFunc::sinh;
+        func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_TAN:
         funcId = LibFunc::tan;
+        func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_TANH:
         funcId = LibFunc::tanh;
+        func = module->getFunction(targetLib.getName(funcId));
         break;
     default:
-        throw_llvm_exception("unknown case")
-
+    {
+        string msg = "unknown intrinsic function ";
+        msg += ast->getName();
+        throw_llvm_exception(msg);
     }
-
-    TargetLibraryInfo targetLib;
-
-    Function* func = getModule()->getFunction(targetLib.getName(funcId));
+    break;
+    }
 
     // get the function
     if (func == 0)
     {
-        string msg = "could not get function for name ";
+        string msg = "could not obtain a function for intrinsic " +
+                string(ast->getName());
+        msg += ", your operating system might not supoort it.";
         throw_llvm_exception(msg);
     }
 

@@ -10,6 +10,7 @@
 #include "LLVMIncludes.h"
 #include "ModelDataIRBuilder.h"
 #include "LLVMException.h"
+#include "SBMLSupportFunctions.h"
 
 #include <sbml/SBMLReader.h>
 
@@ -29,6 +30,9 @@ static void createLibraryFunctions(Module* module);
 
 static void createLibraryFunction(llvm::LibFunc::Func funcId,
         llvm::FunctionType *funcType, Module* module);
+
+static Function* createGlobalMappingFunction(const char* funcName,
+        llvm::FunctionType *funcType, Module *module);
 
 ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
     bool computeAndAssignConsevationLaws) :
@@ -211,11 +215,114 @@ static void dispChar(char c) {
 
 void ModelGeneratorContext::addGlobalMappings()
 {
+    LLVMContext& context = module->getContext();
+    Type *double_type = Type::getDoubleTy(context);
+    Type *int_type = Type::getInt32Ty(context);
+    Type* args_i1[] = { int_type };
+    Type* args_d1[] = { double_type };
+    Type* args_d2[] = { double_type, double_type };
+
     executionEngine->addGlobalMapping(ModelDataIRBuilder::getCSRMatrixSetNZDecl(module), (void*)csr_matrix_set_nz);
     executionEngine->addGlobalMapping(ModelDataIRBuilder::getCSRMatrixGetNZDecl(module), (void*)csr_matrix_get_nz);
     executionEngine->addGlobalMapping(LLVMModelDataIRBuilderTesting::getDispIntDecl(module), (void*)dispInt);
     executionEngine->addGlobalMapping(LLVMModelDataIRBuilderTesting::getDispDoubleDecl(module), (void*)dispDouble);
     executionEngine->addGlobalMapping(LLVMModelDataIRBuilderTesting::getDispCharDecl(module), (void*)dispChar);
+
+    // AST_FUNCTION_ARCCOT:
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("arccot",
+                    FunctionType::get(double_type, args_d1, false), module),
+                        (void*) sbmlsupport::arccot);
+
+    // AST_FUNCTION_ARCCOTH:
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("arccoth",
+                    FunctionType::get(double_type, args_d1, false), module),
+                        (void*) sbmlsupport::arccoth);
+
+    // AST_FUNCTION_ARCCSC:
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("arccsc",
+                    FunctionType::get(double_type, args_d1, false), module),
+                        (void*) sbmlsupport::arccsc);
+
+    // AST_FUNCTION_ARCCSCH:
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("arccsch",
+                    FunctionType::get(double_type, args_d1, false), module),
+                        (void*) sbmlsupport::arccsch);
+
+    // AST_FUNCTION_ARCSEC:
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("arcsec",
+                    FunctionType::get(double_type, args_d1, false), module),
+                        (void*) sbmlsupport::arcsec);
+
+    // AST_FUNCTION_ARCSECH:
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("arcsech",
+                    FunctionType::get(double_type, args_d1, false), module),
+                        (void*) sbmlsupport::arcsech);
+
+    // AST_FUNCTION_COT:
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("cot",
+                    FunctionType::get(double_type, args_d1, false), module),
+                        (void*) sbmlsupport::cot);
+
+    // AST_FUNCTION_COTH:
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("coth",
+                    FunctionType::get(double_type, args_d1, false), module),
+                        (void*) sbmlsupport::coth);
+
+    // AST_FUNCTION_CSC:
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("csc",
+                    FunctionType::get(double_type, args_d1, false), module),
+                        (void*) sbmlsupport::csc);
+
+    // AST_FUNCTION_CSCH:
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("csch",
+                    FunctionType::get(double_type, args_d1, false), module),
+                        (void*) sbmlsupport::csch);
+
+    // AST_FUNCTION_FACTORIAL:
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("rr::factoriali",
+                    FunctionType::get(int_type, args_i1, false), module),
+                        (void*) sbmlsupport::factoriali);
+
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("rr::factoriald",
+                    FunctionType::get(double_type, args_d1, false), module),
+                        (void*) sbmlsupport::factoriald);
+
+    // case AST_FUNCTION_LOG:
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("rr::logd",
+                    FunctionType::get(double_type, args_d2, false), module),
+                        (void*) sbmlsupport::logd);
+
+    // AST_FUNCTION_ROOT:
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("rr::rootd",
+                    FunctionType::get(double_type, args_d2, false), module),
+                        (void*) sbmlsupport::rootd);
+
+    // AST_FUNCTION_SEC:
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("sec",
+                    FunctionType::get(double_type, args_d1, false), module),
+                        (void*) sbmlsupport::sec);
+
+    // AST_FUNCTION_SECH:
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("sech",
+                    FunctionType::get(double_type, args_d1, false), module),
+                        (void*) sbmlsupport::sech);
+
 }
 
 static void createLibraryFunctions(Module* module)
@@ -320,10 +427,10 @@ static void createLibraryFunction(llvm::LibFunc::Func funcId,
     }
 }
 
-static void createGlobalMappingFunction(const char* funcName,
+static Function* createGlobalMappingFunction(const char* funcName,
         llvm::FunctionType *funcType, Module *module)
 {
-    Function::Create(funcType, Function::InternalLinkage, funcName, module);
+    return Function::Create(funcType, Function::InternalLinkage, funcName, module);
 }
 
 } /* namespace rr */

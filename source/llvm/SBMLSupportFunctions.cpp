@@ -98,24 +98,36 @@ double powerf(double base, double exponent)
     return result;
 }
 
+double logd(double base, double number)
+{
+    return std::log(number) / std::log(base);
+}
 
-
-double factorial(double a)
+double factoriald(double a)
 {
 
     if (a <= 0 )
     {
         return 1;
     }
-    return a * factorial(a - 1);
+    return a * factoriald(a - 1);
 }
 
+int factoriali(int a)
+{
 
-double root(double a, double b)
+    if (a <= 0 )
+    {
+        return 1;
+    }
+    return a * factoriali(a - 1);
+}
+
+double rootd(double a, double b)
 {
     if(a != 0)
     {
-        return powerf(b, 1.0/a);
+        return std::pow(b, 1.0/a);
     }
     else
     {
@@ -126,13 +138,13 @@ double root(double a, double b)
 
 double sec(double a)
 {
-    return 1./cos(a);
+    return 1./std::cos(a);
 }
 
 //// Cotangent
 double cot(double a)
 {
-    return 1./tan(a);
+    return 1./std::tan(a);
 }
 //
 //// Inverse cotangent
@@ -157,68 +169,62 @@ double arccot2(double a, double b)
 }
 
 //// Inverse secant
-double asec(double a)
+double arcsec(double a)
 {
-    return 0;
+    return std::acos(1.0 / a);
 }
 
 //// Cosecant
 double csc(double a)
 {
-    return 0;
+    return 1.0 / std::sin(a);
 }
 
 //// Inverse cosecant
-double acsc(double a)
+double arccsc(double a)
 {
-    return 0;
+     return std::asin(1.0 / a);
 }
 
 //// Hyperbolic secant of a double number
 double sech(double a)
 {
-    return 0;
+    return 1.0 / std::cosh(a);
 }
 
 //// Inverse hyperbolic secant of a double number
 double asech(double a)
 {
-    return 0;
+    return std::log(1.0 / a + std::sqrt(std::pow(1.0 / a, 2.0) + 1.0));
 }
 
 double arcsech(double a)
 {
-    return 0;
+    return std::acos(1.0 / a);
 }
 
 //// Hyperbolic cosecant of a double number
 double csch(double a)
 {
-    return 0;
-}
-
-//// Inverse hyperbolic cosecant of a double number
-double arccsc(double a)
-{
-    return 0;
+    return 1.0 / std::sinh(a);
 }
 
 //// Inverse hyperbolic cosecant of a double number
 double arccsch(double a)
 {
-    return 0;
+    return std::log((1.0 / a) + (std::sqrt(std::pow(1.0 / a, 2.0) - 1.0)));
 }
 
 //// Hyperbolic cotangent of a double number
 double coth(double a)
 {
-    return 0;
+    return std::cosh(a) / std::sinh(a);
 }
 
 //// Inverse hyperbolic cotangent of a double number
 double arccoth(double a)
 {
-    return 0;
+    return (std::log(1.0 + (1.0 / a)) - std::log(1.0 - (1.0 / a))) / 2.0;
 }
 
 //// Inverse hyperbolic functions
@@ -226,22 +232,20 @@ double arccoth(double a)
 //// Inverse hyperbolic sine of a double number
 double arcsinh(double a)
 {
-    return 0;
+    return std::log(a + std::sqrt(std::pow(a, 2.0) + 1.0));
 }
 
 //// Inverse hyperbolic cosine of a double number
 double arccosh(double a)
 {
-    return 0;
+    return std::log(a + (std::sqrt(std::pow(a, 2.0) - 1.0)));
 }
 
 //// Inverse hyperbolic tangent of a double number
 double arctanh(double a)
 {
-    return 0;
+    return (std::log(1.0 + a) - std::log(1.0 - a)) / 2.0;
 }
-
-
 
 
 } /* namespace sbmlsupport */

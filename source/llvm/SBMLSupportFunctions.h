@@ -19,12 +19,13 @@ double spf_abs(double x);
 
 double powerf(double base, double exponent);
 
+int factoriali(int a);
 
+double factoriald(double a);
 
-double factorial(double a);
+double rootd(double a, double b);
 
-double root(double a, double b);
-
+double logd(double base, double number);
 
 double sec(double a);
 
@@ -38,19 +39,19 @@ double arccot(double a);
 double arccot2(double a, double b);
 
 //// Inverse secant
-double asec(double a);
+double arcsec(double a);
 
 //// Cosecant
 double csc(double a);
 
 //// Inverse cosecant
-double acsc(double a);
+double arccsc(double a);
 
 //// Hyperbolic secant of a double number
 double sech(double a);
 
 //// Inverse hyperbolic secant of a double number
-double asech(double a);
+double arcsech(double a);
 
 double arcsech(double a);
 
