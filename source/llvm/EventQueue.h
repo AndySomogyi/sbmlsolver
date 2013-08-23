@@ -12,6 +12,7 @@
 #include <deque>
 #include <queue>
 #include <list>
+#include <ostream>
 
 namespace rr
 {
