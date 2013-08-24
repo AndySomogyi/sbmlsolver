@@ -117,6 +117,14 @@ int main(int argc, char* argv[])
                 0);
     }
 
+    if (args.Suites.find('J') != std::string::npos)
+    {
+        clog << "Running Suite SBML_TEST_SUITE_C_FAILS\n";
+        clog << "ModelPath " << gTSModelsPath;
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_C_FAIL)", True(),
+                0);
+    }
+
 
 
     //Finish outputs result to xml file
