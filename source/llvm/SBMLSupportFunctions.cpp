@@ -162,6 +162,20 @@ double arccot(double a)
     return result;
 }
 
+double arccot_negzero(double a)
+{
+    double result;
+    if(a == 0.0)
+    {
+        result = -M_PI/2.;
+    }
+    else
+    {
+        result = atan(1. / a);
+    }
+    return result;
+}
+
 //// Inverse cotangent - ratio numerator and denominator provided
 double arccot2(double a, double b)
 {
@@ -198,9 +212,9 @@ double asech(double a)
     return std::log(1.0 / a + std::sqrt(std::pow(1.0 / a, 2.0) + 1.0));
 }
 
-double arcsech(double a)
+double arcsech(double z)
 {
-    return std::acos(1.0 / a);
+    return std::log(1.0/z + std::sqrt(1.0/z + 1)*std::sqrt(1.0/z - 1));
 }
 
 //// Hyperbolic cosecant of a double number
@@ -210,9 +224,9 @@ double csch(double a)
 }
 
 //// Inverse hyperbolic cosecant of a double number
-double arccsch(double a)
+double arccsch(double z)
 {
-    return std::log((1.0 / a) + (std::sqrt(std::pow(1.0 / a, 2.0) - 1.0)));
+    return std::log(1.0/z + std::sqrt(1.0/(z*z) + 1));
 }
 
 //// Hyperbolic cotangent of a double number

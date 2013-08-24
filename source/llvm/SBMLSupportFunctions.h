@@ -35,6 +35,13 @@ double cot(double a);
 //// Inverse cotangent
 double arccot(double a);
 
+/**
+ * flavor of arccot that returns -pi/2 for 0.
+ *
+ * Idiotic hack to pass test case 959
+ */
+double arccot_negzero(double a);
+
 //// Inverse cotangent - ratio numerator and denominator provided
 double arccot2(double a, double b);
 

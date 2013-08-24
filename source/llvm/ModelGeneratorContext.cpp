@@ -234,6 +234,11 @@ void ModelGeneratorContext::addGlobalMappings()
                     FunctionType::get(double_type, args_d1, false), module),
                         (void*) sbmlsupport::arccot);
 
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("rr::arccot_negzero",
+                    FunctionType::get(double_type, args_d1, false), module),
+                        (void*) sbmlsupport::arccot_negzero);
+
     // AST_FUNCTION_ARCCOTH:
     executionEngine->addGlobalMapping(
             createGlobalMappingFunction("arccoth",
