@@ -934,68 +934,6 @@ const LLVMModelDataSymbols::SpeciesReferenceInfo&
     }
 }
 
-bool LLVMModelDataSymbols::isConstantSpeciesReference(
-        const libsbml::SimpleSpeciesReference* ref) const
-{
-    if (ref->getLevel() >= 3 && ref->getVersion() >= 1)
-    {
-        const SpeciesReference *s = dynamic_cast<const SpeciesReference*>(ref);
-        return s->isSetConstant();
-    }
-    return true;
-}
-
-/*
-template <typename type>
-static bool isSetConstant(const SBase* e, bool& isSetConst)
-{
-    const type* p = dynamic_cast<const type*>(e);
-    if (p)
-    {
-        isSetConst =  p->isSetConstant();
-        return true;
-    }
-    return false;
-}
-
-bool LLVMModelDataSymbols::isConstantASTNode(const ASTNode *ast) const
-{
-    const uint n = ast->getNumChildren();
-    if (n > 0)
-    {
-        bool result = true;
-        for (uint i = 0; i < n; ++i)
-        {
-            result = result && isConstantASTNode(ast->getChild(i));
-        }
-        return result;
-    }
-    else if (ast->isName())
-    {
-        const Model* model = ast->getParentSBMLObject()->getModel();
-        const SBase* element = const_cast<Model*>(model)->getElementBySId(
-                ast->getName());
-
-        bool result;
-
-        if (isSetConstant<Parameter>(element, result))
-        {
-            return result;
-        }
-        else if (isSetConstant<Compartment>(element, result))
-        {
-            return result;
-        }
-        else if (isSetConstant<Species>(element, result))
-        {
-            return result;
-        }
-
-    }
-    return true;
-}
-*/
-
 
 } /* namespace rr */
 

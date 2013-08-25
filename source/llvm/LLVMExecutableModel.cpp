@@ -430,6 +430,8 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
             stateVector + modelData.numRateRules,
             modelData.numIndependentSpecies * sizeof(double));
 
+    evalVolatileStoichPtr(&modelData);
+
     /*
     if (Logger::PRIO_TRACE <= rr::Logger::GetLogLevel()) {
 

@@ -20,7 +20,7 @@
 namespace rrllvm
 {
 
-typedef void (*EvalVolatileStoichCodeGen_FunctionPtr)(rr::LLVMModelData*, int32_t);
+typedef void (*EvalVolatileStoichCodeGen_FunctionPtr)(rr::LLVMModelData*);
 
 class EvalVolatileStoichCodeGen:
         public rr::CodeGenBase<EvalVolatileStoichCodeGen_FunctionPtr>
@@ -32,6 +32,23 @@ public:
     llvm::Value *codeGen();
 
     static const char* FunctionName;
+
+private:
+    /**
+     * determine if the given reference dpends on any non-constant elements.
+     *
+     * only support non-constant species reference on l3v1 docs or above,
+     * currently we can't determine if earlier version species references
+     * are constant or not.
+     */
+    bool isConstantSpeciesReference(const
+        libsbml::SimpleSpeciesReference* ref) const;
+
+    /**
+     * go through the AST tree and see if any names reference non-constant
+     * document elements.
+     */
+   bool isConstantASTNode(const libsbml::ASTNode *ast) const;
 };
 
 } /* namespace rrllvm */

@@ -11,6 +11,8 @@
 #include "ASTNodeFactory.h"
 #include "ModelDataSymbolResolver.h"
 #include "rrLogger.h"
+
+#include <vector>
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaFormatter.h>
 #include <Poco/Logger.h>
@@ -19,6 +21,8 @@ namespace rrllvm
 {
 using namespace rr;
 using namespace llvm;
+using namespace libsbml;
+using namespace std;
 
 const char* EvalVolatileStoichCodeGen::FunctionName = "evalVolatileStoich";
 
@@ -41,11 +45,164 @@ Value* EvalVolatileStoichCodeGen::codeGen()
     ModelDataLoadSymbolResolver resolver(modelData,model,modelSymbols,
             dataSymbols,builder);
     ModelDataIRBuilder mdbuilder(modelData, dataSymbols, builder);
+
     ASTNodeCodeGen astCodeGen(builder, resolver);
+
+    const ListOfReactions *reactions = model->getListOfReactions();
+    for (uint i = 0; i < reactions->size(); ++i)
+    {
+        const Reaction *reaction = reactions->get(i);
+
+        const ListOfSpeciesReferences *products =
+                reaction->getListOfProducts();
+
+        for (uint j = 0; j < products->size(); ++j)
+        {
+            const SpeciesReference *p = (const SpeciesReference*)products->get(j);
+
+            if (p->isSetId() && p->getId().length() > 0 &&
+                    !isConstantSpeciesReference(p))
+            {
+                Log(Logger::PRIO_NOTICE) <<
+                        "generating update code for non-constant species "
+                        "reference product " << p->getId();
+
+                const StoichiometryMath *sm = p->getStoichiometryMath();
+                assert(sm);
+
+                Value *value = astCodeGen.codeGen(sm->getMath());
+
+                const LLVMModelDataSymbols::SpeciesReferenceInfo &info =
+                        dataSymbols.getNamedSpeciesReferenceInfo(p->getId());
+
+                mdbuilder.createStoichiometryStore(info.row, info.column,
+                        value, p->getId());
+            }
+        }
+
+
+        const ListOfSpeciesReferences *reactants =
+                reaction->getListOfReactants();
+
+        for (uint j = 0; j < reactants->size(); ++j)
+        {
+            const SpeciesReference *r=
+                    (const SpeciesReference*) reactants->get(j);
+
+            if (r->isSetId() && r->getId().length() > 0
+                    && !isConstantSpeciesReference(r))
+            {
+                Log(Logger::PRIO_NOTICE) <<
+                        "generating update code for non-constant species "
+                         "reference reactant " << r->getId();
+
+                const StoichiometryMath *sm = r->getStoichiometryMath();
+                assert(sm);
+
+                Value *value = astCodeGen.codeGen(sm->getMath());
+
+                // reactants are consumed, so they get a negative stoichiometry
+                Value *negOne = ConstantFP::get(builder.getContext(), APFloat(-1.0));
+                negOne->setName("neg_one");
+                value = builder.CreateFMul(negOne, value, "neg_" + r->getId());
+
+                const LLVMModelDataSymbols::SpeciesReferenceInfo &info =
+                        dataSymbols.getNamedSpeciesReferenceInfo(r->getId());
+
+                mdbuilder.createStoichiometryStore(info.row, info.column, value,
+                        r->getId());
+            }
+        }
+    }
 
     builder.CreateRetVoid();
 
     return verifyFunction();
 }
+
+bool EvalVolatileStoichCodeGen::isConstantSpeciesReference(
+        const libsbml::SimpleSpeciesReference* ref) const
+{
+    const SpeciesReference *s = dynamic_cast<const SpeciesReference*>(ref);
+    if (!s)
+    {
+        return false;
+    }
+
+    if (ref->getLevel() >= 3 && ref->getVersion() >= 1)
+    {
+        return s->isSetConstant();
+    }
+    else if (s->isSetStoichiometryMath())
+    {
+        return isConstantASTNode(s->getStoichiometryMath()->getMath());
+    }
+    return true;
+}
+
+template<typename type>
+static bool isSetConstant(const SBase* e, bool& isSetConst)
+{
+    const type* p = dynamic_cast<const type*>(e);
+    if (p)
+    {
+        if (p->getLevel() >= 3 && p->getVersion() >= 1)
+        {
+            isSetConst = p->isSetConstant();
+        }
+        else
+        {
+            isSetConst = false;
+        }
+        return true;
+    }
+    return false;
+}
+
+bool EvalVolatileStoichCodeGen::isConstantASTNode(const ASTNode *ast) const
+{
+    const uint n = ast->getNumChildren();
+    if (n > 0)
+    {
+        for (uint i = 0; i < n; ++i)
+        {
+            if (!isConstantASTNode(ast->getChild(i)))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    else if (ast->isName())
+    {
+        const SBase* element = const_cast<Model*>(model)->getElementBySId(
+                ast->getName());
+
+        bool result;
+
+        if (isSetConstant<Parameter>(element, result))
+        {
+            return result;
+        }
+        else if (isSetConstant<Compartment>(element, result))
+        {
+            return result;
+        }
+        else if (isSetConstant<Species>(element, result))
+        {
+            return result;
+        }
+        else if (isSetConstant<SpeciesReference>(element, result))
+        {
+            return result;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 
 } /* namespace rrllvm */

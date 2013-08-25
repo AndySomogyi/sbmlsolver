@@ -314,23 +314,6 @@ private:
      */
     bool isValidSpeciesReference(const libsbml::SimpleSpeciesReference*,
             const std::string& reacOrProd);
-
-    /**
-     * determine if the given reference dpends on any non-constant elements.
-     *
-     * only support non-constant species reference on l3v1 docs or above,
-     * currently we can't determine if earlier version species references
-     * are constant or not.
-     */
-    bool isConstantSpeciesReference(const
-        libsbml::SimpleSpeciesReference* ref) const;
-
-    /**
-     * go through the AST tree and see if any names reference non-constant
-     * document elements.
-     */
-   // bool isConstantASTNode(const libsbml::ASTNode *ast) const;
-
 };
 
 } /* namespace rr */
