@@ -22,6 +22,7 @@ namespace libsbml
 {
     class Model;
     class SimpleSpeciesReference;
+    class ASTNode;
 }
 
 namespace rr
@@ -103,6 +104,18 @@ public:
 
     typedef std::map<std::string, uint> StringUIntMap;
     typedef std::pair<std::string, uint> StringUIntPair;
+
+    enum SpeciesReferenceType
+    {
+        Reactant, Product, Modifier
+    };
+
+    struct SpeciesReferenceInfo
+    {
+        uint row;
+        uint column;
+        SpeciesReferenceType type;
+    };
 
     LLVMModelDataSymbols();
 
@@ -201,6 +214,10 @@ public:
 
     bool isIndependentCompartment(const std::string& id) const;
 
+    bool isNamedSpeciesReference(const std::string& id) const;
+
+    const SpeciesReferenceInfo& getNamedSpeciesReferenceInfo(
+            const std::string& id) const;
 
     const std::vector<unsigned char>& getEventAttributes() const;
 
@@ -223,6 +240,13 @@ private:
     StringUIntMap boundarySpeciesMap;
     StringUIntMap compartmentsMap;
     StringUIntMap globalParametersMap;
+
+    /**
+     * map of all identified species reference (species references with ids)
+     * to their indices in the stoichiometric matrix.
+     */
+    typedef std::map<std::string, SpeciesReferenceInfo> StringRefInfoMap;
+    StringRefInfoMap namedSpeciesReferenceInfo;
 
     /**
      * all reactions are named.
@@ -290,6 +314,22 @@ private:
      */
     bool isValidSpeciesReference(const libsbml::SimpleSpeciesReference*,
             const std::string& reacOrProd);
+
+    /**
+     * determine if the given reference dpends on any non-constant elements.
+     *
+     * only support non-constant species reference on l3v1 docs or above,
+     * currently we can't determine if earlier version species references
+     * are constant or not.
+     */
+    bool isConstantSpeciesReference(const
+        libsbml::SimpleSpeciesReference* ref) const;
+
+    /**
+     * go through the AST tree and see if any names reference non-constant
+     * document elements.
+     */
+   // bool isConstantASTNode(const libsbml::ASTNode *ast) const;
 
 };
 

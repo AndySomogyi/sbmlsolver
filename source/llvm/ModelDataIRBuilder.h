@@ -164,6 +164,12 @@ public:
     llvm::Value *createRateRuleRateStore(const std::string &id,
             llvm::Value *value);
 
+    llvm::Value *createStoichiometryStore(uint row, uint col,
+            llvm::Value *value, const llvm::Twine& name = "");
+
+    llvm::Value *createStoichiometryLoad(uint row, uint col,
+            const llvm::Twine& name = "");
+
     /**
      * create a call to the csr_matrix_set_nz function.
      *

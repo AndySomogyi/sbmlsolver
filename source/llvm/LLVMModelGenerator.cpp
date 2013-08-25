@@ -13,6 +13,7 @@
 #include "LLVMIncludes.h"
 
 
+using namespace rrllvm;
 namespace rr
 {
 
@@ -85,6 +86,9 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
     EventAssignCodeGen::FunctionPtr eventAssignPtr =
             EventAssignCodeGen(context).createFunction();
 
+    EvalVolatileStoichCodeGen::FunctionPtr evalVolatileStoichPtr =
+            EvalVolatileStoichCodeGen(context).createFunction();
+
 
     // if anything up to this point throws an exception, thats OK, because
     // we have not allocated any memory yet that is not taken care of by
@@ -116,6 +120,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
     exe->getEventDelayPtr = getEventDelayPtr;
     exe->eventTriggerPtr = eventTriggerPtr;
     exe->eventAssignPtr = eventAssignPtr;
+    exe->evalVolatileStoichPtr = evalVolatileStoichPtr;
 
     return exe;
 }

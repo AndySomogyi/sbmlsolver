@@ -344,6 +344,28 @@ llvm::Value* ModelDataIRBuilder::createReactionRateStore(const std::string& id, 
     return createStore(ReactionRates, idx, value, id);
 }
 
+llvm::Value* ModelDataIRBuilder::createStoichiometryStore(uint row, uint col,
+        llvm::Value* value, const llvm::Twine& name)
+{
+    LLVMContext &context = builder.getContext();
+    Value *stoichEP = createGEP(Stoichiometry);
+    Value *stoich = builder.CreateLoad(stoichEP, "stoichiometry");
+    Value *rowVal = ConstantInt::get(Type::getInt32Ty(context), row, true);
+    Value *colVal = ConstantInt::get(Type::getInt32Ty(context), col, true);
+    return createCSRMatrixSetNZ(builder, stoich, rowVal, colVal, value, name);
+}
+
+llvm::Value* ModelDataIRBuilder::createStoichiometryLoad(uint row, uint col,
+        const llvm::Twine& name)
+{
+    LLVMContext &context = builder.getContext();
+    Value *stoichEP = createGEP(Stoichiometry);
+    Value *stoich = builder.CreateLoad(stoichEP, "stoichiometry");
+    Value *rowVal = ConstantInt::get(Type::getInt32Ty(context), row, true);
+    Value *colVal = ConstantInt::get(Type::getInt32Ty(context), col, true);
+    return createCSRMatrixGetNZ(builder, stoich, rowVal, colVal, name);
+}
+
 void ModelDataIRBuilder::validateStruct(llvm::Value* s,
         const char* funcName)
 {

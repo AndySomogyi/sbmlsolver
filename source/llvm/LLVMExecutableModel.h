@@ -22,6 +22,7 @@
 #include "GetEventValuesCodeGen.h"
 #include "EventAssignCodeGen.h"
 #include "EventTriggerCodeGen.h"
+#include "EvalVolatileStoichCodeGen.h"
 #include "EventQueue.h"
 
 #include <map>
@@ -424,6 +425,7 @@ private:
     GetEventDelayCodeGen::FunctionPtr getEventDelayPtr;
     EventTriggerCodeGen::FunctionPtr eventTriggerPtr;
     EventAssignCodeGen::FunctionPtr eventAssignPtr;
+    rrllvm::EvalVolatileStoichCodeGen::FunctionPtr evalVolatileStoichPtr;
 
     double getFloatingSpeciesConcentration(int index);
 

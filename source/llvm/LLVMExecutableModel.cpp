@@ -69,7 +69,8 @@ LLVMExecutableModel::LLVMExecutableModel() :
     getEventPriorityPtr(0),
     getEventDelayPtr(0),
     eventTriggerPtr(0),
-    eventAssignPtr(0)
+    eventAssignPtr(0),
+    evalVolatileStoichPtr(0)
 {
     // zero out the struct, the generator will fill it out.
     LLVMModelData::init(modelData);

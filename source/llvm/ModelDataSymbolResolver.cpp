@@ -146,6 +146,25 @@ llvm::Value* ModelDataLoadSymbolResolver::loadSymbolValue(const std::string& sym
         return mdbuilder.createRateRuleValueLoad(symbol);
     }
 
+    else if (modelDataSymbols.isNamedSpeciesReference(symbol))
+    {
+        const LLVMModelDataSymbols::SpeciesReferenceInfo &info =
+                modelDataSymbols.getNamedSpeciesReferenceInfo(symbol);
+
+        Value *value = mdbuilder.createStoichiometryLoad(info.row, info.column, symbol);
+
+        if (info.type == LLVMModelDataSymbols::Reactant)
+        {
+            // its consumed in the reaction, so has a negative in the stoich
+            // matrix
+            Value *negOne = ConstantFP::get(builder.getContext(), APFloat(-1.0));
+            negOne->setName("neg_one");
+            value = builder.CreateFMul(negOne, value, "neg_" + symbol);
+        }
+
+        return value;
+    }
+
     string msg = "the symbol \'";
     msg += symbol;
     msg += "\' is not physically stored in the ModelData structure, "
@@ -231,6 +250,23 @@ llvm::Value* ModelDataStoreSymbolResolver::storeSymbolValue(
     else if (modelDataSymbols.isIndependentGlobalParameter(symbol))
     {
         return mdbuilder.createGlobalParamStore(symbol, value);
+    }
+
+    else if (modelDataSymbols.isNamedSpeciesReference(symbol))
+    {
+        const LLVMModelDataSymbols::SpeciesReferenceInfo &info =
+                modelDataSymbols.getNamedSpeciesReferenceInfo(symbol);
+
+        if (info.type == LLVMModelDataSymbols::Reactant)
+        {
+            // its consumed in the reaction, so has a negative in the stoich
+            // matrix
+            Value *negOne = ConstantFP::get(builder.getContext(), APFloat(-1.0));
+            negOne->setName("neg_one");
+            value = builder.CreateFMul(negOne, value, "neg_" + symbol);
+        }
+
+        return mdbuilder.createStoichiometryStore(info.row, info.column, value);
     }
 
     string msg = "The symbol \'";

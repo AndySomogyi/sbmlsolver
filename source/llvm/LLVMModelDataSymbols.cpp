@@ -730,13 +730,13 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
     const ListOfReactions *reactions = model->getListOfReactions();
     for (uint i = 0; i < reactions->size(); i++)
     {
-        const Reaction *r = reactions->get(i);
-        reactionsMap.insert(StringUIntPair(r->getId(), i));
+        const Reaction *reaction = reactions->get(i);
+        reactionsMap.insert(StringUIntPair(reaction->getId(), i));
 
         // go through the reaction reactants and products to know how much to
         // allocate space for the stochiometry matrix.
         // all species that participate in reactions must be floating.
-        const ListOfSpeciesReferences *reactants = r->getListOfReactants();
+        const ListOfSpeciesReferences *reactants = reaction->getListOfReactants();
         for (uint j = 0; j < reactants->size(); j++)
         {
             const SimpleSpeciesReference *r = reactants->get(j);
@@ -747,10 +747,27 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                 uint speciesIdx = getFloatingSpeciesIndex(r->getSpecies());
                 stoichColIndx.push_back(i);
                 stoichRowIndx.push_back(speciesIdx);
+
+                if(r->isSetId() && r->getId().length() > 0)
+                {
+                    if (namedSpeciesReferenceInfo.find(r->getId()) ==
+                            namedSpeciesReferenceInfo.end())
+                    {
+                        SpeciesReferenceInfo info = {speciesIdx, i, Reactant};
+                        namedSpeciesReferenceInfo[r->getId()] = info;
+                    }
+                    else
+                    {
+                        string msg = "Species Reference with id ";
+                        msg += r->getId();
+                        msg += " appears more than once in the model";
+                        throw_llvm_exception(msg);
+                    }
+                }
             }
         }
 
-        const ListOfSpeciesReferences *products = r->getListOfProducts();
+        const ListOfSpeciesReferences *products = reaction->getListOfProducts();
         for (uint j = 0; j < products->size(); j++)
         {
             const SimpleSpeciesReference *p = products->get(j);
@@ -761,10 +778,28 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                 uint speciesIdx = getFloatingSpeciesIndex(p->getSpecies());
                 stoichColIndx.push_back(i);
                 stoichRowIndx.push_back(speciesIdx);
+
+                if (p->isSetId() && p->getId().length() > 0)
+                {
+                    if (namedSpeciesReferenceInfo.find(p->getId())
+                            == namedSpeciesReferenceInfo.end())
+                    {
+                        SpeciesReferenceInfo info = { speciesIdx, i, Product };
+                        namedSpeciesReferenceInfo[p->getId()] = info;
+                    }
+                    else
+                    {
+                        string msg = "Species Reference with id ";
+                        msg += p->getId();
+                        msg += " appears more than once in the model";
+                        throw_llvm_exception(msg);
+                    }
+                }
             }
         }
     }
 }
+
 
 bool LLVMModelDataSymbols::isValidSpeciesReference(
         const libsbml::SimpleSpeciesReference* ref, const std::string& reacOrProd)
@@ -878,6 +913,89 @@ uint LLVMModelDataSymbols::getEventBufferSize(uint eventId) const
     assert(eventId <= eventAssignmentsSize.size() && "event id out of range");
     return eventAssignmentsSize[eventId];
 }
+
+bool LLVMModelDataSymbols::isNamedSpeciesReference(const std::string& id) const
+{
+    return namedSpeciesReferenceInfo.find(id) != namedSpeciesReferenceInfo.end();
+}
+
+const LLVMModelDataSymbols::SpeciesReferenceInfo&
+    LLVMModelDataSymbols::getNamedSpeciesReferenceInfo(const std::string& id) const
+{
+    StringRefInfoMap::const_iterator i = namedSpeciesReferenceInfo.find(id);
+    if (i != namedSpeciesReferenceInfo.end())
+    {
+        return i->second;
+    }
+    else
+    {
+        throw_llvm_exception(id + " is not a named SpeciesReference");
+        return *(SpeciesReferenceInfo*)(0); // shutup eclipse warnings
+    }
+}
+
+bool LLVMModelDataSymbols::isConstantSpeciesReference(
+        const libsbml::SimpleSpeciesReference* ref) const
+{
+    if (ref->getLevel() >= 3 && ref->getVersion() >= 1)
+    {
+        const SpeciesReference *s = dynamic_cast<const SpeciesReference*>(ref);
+        return s->isSetConstant();
+    }
+    return true;
+}
+
+/*
+template <typename type>
+static bool isSetConstant(const SBase* e, bool& isSetConst)
+{
+    const type* p = dynamic_cast<const type*>(e);
+    if (p)
+    {
+        isSetConst =  p->isSetConstant();
+        return true;
+    }
+    return false;
+}
+
+bool LLVMModelDataSymbols::isConstantASTNode(const ASTNode *ast) const
+{
+    const uint n = ast->getNumChildren();
+    if (n > 0)
+    {
+        bool result = true;
+        for (uint i = 0; i < n; ++i)
+        {
+            result = result && isConstantASTNode(ast->getChild(i));
+        }
+        return result;
+    }
+    else if (ast->isName())
+    {
+        const Model* model = ast->getParentSBMLObject()->getModel();
+        const SBase* element = const_cast<Model*>(model)->getElementBySId(
+                ast->getName());
+
+        bool result;
+
+        if (isSetConstant<Parameter>(element, result))
+        {
+            return result;
+        }
+        else if (isSetConstant<Compartment>(element, result))
+        {
+            return result;
+        }
+        else if (isSetConstant<Species>(element, result))
+        {
+            return result;
+        }
+
+    }
+    return true;
+}
+*/
+
 
 } /* namespace rr */
 
