@@ -83,7 +83,7 @@ LLVMExecutableModel::LLVMExecutableModel() :
 
 LLVMExecutableModel::~LLVMExecutableModel()
 {
-    Log(Logger::PRIO_TRACE) << __FUNC__ << "ModelName: " << modelData.modelName;
+    //Log(Logger::PRIO_TRACE) << __FUNC__ <<
 
     if (errStr->size() > 0)
     {
@@ -100,7 +100,7 @@ LLVMExecutableModel::~LLVMExecutableModel()
 
 string LLVMExecutableModel::getModelName()
 {
-    return modelData.modelName;
+    return symbols->getModelName();
 }
 
 void LLVMExecutableModel::setTime(double time)

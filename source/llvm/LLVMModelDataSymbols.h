@@ -120,6 +120,7 @@ public:
 
     virtual ~LLVMModelDataSymbols();
 
+    const std::string& getModelName() const;
 
     uint getCompartmentIndex(std::string const&) const;
     uint getFloatingSpeciesIndex(std::string const&) const;

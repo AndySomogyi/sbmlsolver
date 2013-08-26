@@ -147,6 +147,10 @@ LLVMModelDataSymbols::~LLVMModelDataSymbols()
 {
 }
 
+const std::string& LLVMModelDataSymbols::getModelName() const
+{
+    return modelName;
+}
 
 uint LLVMModelDataSymbols::getCompartmentIndex(
         const std::string& id) const
@@ -249,13 +253,13 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(LLVMModelData& m) const
     m.rateRuleRates = (double*)calloc(m.numRateRules, sizeof(double));
 
     m.reactionRates = (double*)calloc(m.numReactions, sizeof(double));
-    
+
     m.globalParameters = (double*)calloc(m.numGlobalParameters, sizeof(double));
     m.compartmentVolumes = (double*)calloc(m.numCompartments, sizeof(double));
-    
+
     m.boundarySpeciesAmounts = (double*)calloc(m.numBoundarySpecies, sizeof(double));
 
-    
+
     // allocate the stoichiometry matrix
     m.stoichiometry = csr_matrix_new(m.numIndependentSpecies, getReactionSize(),
             stoichRowIndx, stoichColIndx, vector<double>(stoichRowIndx.size(), 0));
