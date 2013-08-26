@@ -67,10 +67,30 @@ Value* EvalVolatileStoichCodeGen::codeGen()
                         "generating update code for non-constant species "
                         "reference product " << p->getId();
 
-                const StoichiometryMath *sm = p->getStoichiometryMath();
-                assert(sm);
+                Value *value = 0;
 
-                Value *value = astCodeGen.codeGen(sm->getMath());
+                if (dataSymbols.hasAssignmentRule(p->getId())
+                        || dataSymbols.hasRateRule(p->getId()))
+                {
+                    value = resolver.loadSymbolValue(p->getId());
+                }
+
+                else if (p->isSetStoichiometryMath())
+                {
+                    const StoichiometryMath *sm = p->getStoichiometryMath();
+                    value = astCodeGen.codeGen(sm->getMath());
+                }
+
+                else
+                {
+                    Log(Logger::PRIO_WARNING) << "species reference "
+                            << p->getId() << " has been determined to be "
+                            "non-constant, but it has no rules or MathML, so"
+                            " no update code will be generated";
+                    continue;
+                }
+
+                assert(value && "value for species reference stoichiometry is 0");
 
                 const LLVMModelDataSymbols::SpeciesReferenceInfo &info =
                         dataSymbols.getNamedSpeciesReferenceInfo(p->getId());
@@ -131,7 +151,12 @@ bool EvalVolatileStoichCodeGen::isConstantSpeciesReference(
 
     if (ref->getLevel() >= 3 && ref->getVersion() >= 1)
     {
-        return s->isSetConstant();
+        return s->getConstant();
+    }
+    else if (dataSymbols.hasRateRule(s->getId())
+            || dataSymbols.hasAssignmentRule(s->getId()))
+    {
+        return false;
     }
     else if (s->isSetStoichiometryMath())
     {

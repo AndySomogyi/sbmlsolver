@@ -39,8 +39,21 @@ EvalReactionRatesCodeGen::~EvalReactionRatesCodeGen()
 
 Value* EvalReactionRatesCodeGen::codeGen()
 {
-    Value *modelData = 0;
-    codeGenVoidModelDataHeader(FunctionName, modelData);
+    // single arg type of LLVMModelData*
+    llvm::Type *argTypes[] = {
+        llvm::PointerType::get(
+            ModelDataIRBuilder::getStructType(module), 0)
+    };
+
+    const char *argNames[] = { "modelData" };
+
+    llvm::Value *args[] = { 0 };
+
+    llvm::BasicBlock *basicBlock = codeGenHeader(FunctionName,
+            llvm::Type::getDoubleTy(context),
+                argTypes, argNames, args);
+
+    Value *modelData = args[0];
 
     ModelDataLoadSymbolResolver resolver(modelData,model,modelSymbols,
             dataSymbols,builder);
@@ -81,7 +94,18 @@ Value* EvalReactionRatesCodeGen::codeGen()
         mdbuilder.createReactionRateStore(r->getId(), value);
     }
 
-    builder.CreateRetVoid();
+    Value *conversionFactor = 0;
+
+    if (model->isSetConversionFactor() && model->getConversionFactor().length() > 0)
+    {
+        conversionFactor = resolver.loadSymbolValue(model->getConversionFactor());
+    }
+    else
+    {
+        conversionFactor = ConstantFP::get(Type::getDoubleTy(context), 1.0);
+    }
+
+    builder.CreateRet(conversionFactor);
 
     return verifyFunction();
 }

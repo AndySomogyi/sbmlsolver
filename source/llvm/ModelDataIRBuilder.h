@@ -105,6 +105,24 @@ public:
             llvm::Value *value);
 
     /**
+     * the GEP for the amount rates
+     */
+    llvm::Value *createFloatSpeciesAmtRateGEP(const std::string &id,
+            const llvm::Twine &name = "");
+
+    /**
+     * load the floating species amount value
+     */
+    llvm::Value *createFloatSpeciesAmtRateLoad(const std::string& id,
+            const llvm::Twine& name = "");
+
+    /**
+     * store the floating species amount
+     */
+    llvm::Value *createFloatSpeciesAmtRateStore(const std::string &id,
+            llvm::Value *value);
+
+    /**
      * load the floating species amount value
      */
     llvm::Value *createBoundSpeciesAmtLoad(const std::string& id,

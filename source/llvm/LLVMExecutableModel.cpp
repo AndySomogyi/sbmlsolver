@@ -70,7 +70,8 @@ LLVMExecutableModel::LLVMExecutableModel() :
     getEventDelayPtr(0),
     eventTriggerPtr(0),
     eventAssignPtr(0),
-    evalVolatileStoichPtr(0)
+    evalVolatileStoichPtr(0),
+    evalConversionFactorPtr(0)
 {
     // zero out the struct, the generator will fill it out.
     LLVMModelData::init(modelData);
@@ -215,10 +216,12 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
         setStateVector(y);
     }
 
-    evalReactionRates();
+    double conversionFactor = evalReactionRatesPtr(&modelData);
 
-    csr_matrix_dgemv(1.0, modelData.stoichiometry, modelData.reactionRates,
-                     0.0, modelData.floatingSpeciesAmountRates);
+    csr_matrix_dgemv(conversionFactor, modelData.stoichiometry,
+            modelData.reactionRates, 0.0, modelData.floatingSpeciesAmountRates);
+
+    evalConversionFactorPtr(&modelData);
 
     evalRateRuleRatesPtr(&modelData);
 

@@ -186,6 +186,29 @@ llvm::Value* ModelDataIRBuilder::createFloatSpeciesAmtStore(
     return builder.CreateStore(value, gep);
 }
 
+llvm::Value* ModelDataIRBuilder::createFloatSpeciesAmtRateGEP(
+        const std::string& id, const Twine& name)
+{
+    uint index = symbols.getFloatingSpeciesIndex(id);
+    assert(index < symbols.getIndependentFloatingSpeciesSize());
+    return createGEP(FloatingSpeciesAmountRates, index,
+            name.isTriviallyEmpty() ? id : name);
+}
+
+llvm::Value* ModelDataIRBuilder::createFloatSpeciesAmtRateLoad(
+        const std::string& id, const llvm::Twine& name)
+{
+    Value *gep = createFloatSpeciesAmtRateGEP(id, name + "_gep");
+    return builder.CreateLoad(gep, name);
+}
+
+llvm::Value* ModelDataIRBuilder::createFloatSpeciesAmtRateStore(
+        const std::string& id, llvm::Value* value)
+{
+    Value *gep = createFloatSpeciesAmtRateGEP(id);
+    return builder.CreateStore(value, gep);
+}
+
 llvm::Module* ModelDataIRBuilder::getModule(IRBuilder<> &builder, const char* func)
 {
     BasicBlock *bb = 0;

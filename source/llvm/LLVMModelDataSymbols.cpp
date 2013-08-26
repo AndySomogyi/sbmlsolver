@@ -313,13 +313,15 @@ uint LLVMModelDataSymbols::getFloatingSpeciesSize() const
     return floatingSpeciesMap.size();
 }
 
-std::list<std::pair<uint, uint> > LLVMModelDataSymbols::getStoichiometryIndx() const
+std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>
+    LLVMModelDataSymbols::getStoichiometryIndx() const
 {
-    std::list<std::pair<uint, uint> > result;
+    std::list<SpeciesReferenceInfo> result;
 
     for (uint i = 0; i < stoichRowIndx.size(); i++)
     {
-        pair<uint,uint> entry(stoichRowIndx[i], stoichColIndx[i]);
+        SpeciesReferenceInfo entry =
+            {stoichRowIndx[i], stoichColIndx[i], stoichTypes[i], stoichIds[i]};
         result.push_back(entry);
     }
 
@@ -747,13 +749,16 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                 uint speciesIdx = getFloatingSpeciesIndex(r->getSpecies());
                 stoichColIndx.push_back(i);
                 stoichRowIndx.push_back(speciesIdx);
+                stoichIds.push_back(r->isSetId() ? r->getId() : "");
+                stoichTypes.push_back(Reactant);
 
                 if(r->isSetId() && r->getId().length() > 0)
                 {
                     if (namedSpeciesReferenceInfo.find(r->getId()) ==
                             namedSpeciesReferenceInfo.end())
                     {
-                        SpeciesReferenceInfo info = {speciesIdx, i, Reactant};
+                        SpeciesReferenceInfo info =
+                            {speciesIdx, i, Reactant, r->getId()};
                         namedSpeciesReferenceInfo[r->getId()] = info;
                     }
                     else
@@ -778,13 +783,16 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                 uint speciesIdx = getFloatingSpeciesIndex(p->getSpecies());
                 stoichColIndx.push_back(i);
                 stoichRowIndx.push_back(speciesIdx);
+                stoichIds.push_back(p->isSetId() ? p->getId() : "");
+                stoichTypes.push_back(Product);
 
                 if (p->isSetId() && p->getId().length() > 0)
                 {
                     if (namedSpeciesReferenceInfo.find(p->getId())
                             == namedSpeciesReferenceInfo.end())
                     {
-                        SpeciesReferenceInfo info = { speciesIdx, i, Product };
+                        SpeciesReferenceInfo info =
+                            { speciesIdx, i, Product, p->getId()};
                         namedSpeciesReferenceInfo[p->getId()] = info;
                     }
                     else

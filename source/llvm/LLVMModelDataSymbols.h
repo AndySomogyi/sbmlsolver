@@ -115,6 +115,7 @@ public:
         uint row;
         uint column;
         SpeciesReferenceType type;
+        std::string id;
     };
 
     LLVMModelDataSymbols();
@@ -186,7 +187,7 @@ public:
      * in the list of pairs, first is the row (species) index,
      * and second is the column (reaction) index.
      */
-    std::list<std::pair<uint,uint> > getStoichiometryIndx() const;
+    std::list<SpeciesReferenceInfo> getStoichiometryIndx() const;
 
     /**
      * initialize and allocate the buffers (including the stoich matrix)
@@ -264,6 +265,15 @@ private:
      * and the reaction indices go here.
      */
     std::vector<uint> stoichRowIndx;
+
+    /**
+     * most species references are un-named, this is used so that if named ones
+     * have a rate rule, we can set the proper initial conditions.
+     */
+    std::vector<std::string> stoichIds;
+
+    std::vector<SpeciesReferenceType> stoichTypes;
+
 
     /**
      * the set of rule, these contain the variable name of the rule so that

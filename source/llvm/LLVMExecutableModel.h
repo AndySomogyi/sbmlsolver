@@ -23,6 +23,7 @@
 #include "EventAssignCodeGen.h"
 #include "EventTriggerCodeGen.h"
 #include "EvalVolatileStoichCodeGen.h"
+#include "EvalConversionFactorCodeGen.h"
 #include "EventQueue.h"
 
 #include <map>
@@ -426,6 +427,7 @@ private:
     EventTriggerCodeGen::FunctionPtr eventTriggerPtr;
     EventAssignCodeGen::FunctionPtr eventAssignPtr;
     rrllvm::EvalVolatileStoichCodeGen::FunctionPtr evalVolatileStoichPtr;
+    rrllvm::EvalConversionFactorCodeGen::FunctionPtr evalConversionFactorPtr;
 
     double getFloatingSpeciesConcentration(int index);
 
