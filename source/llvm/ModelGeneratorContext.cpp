@@ -350,24 +350,24 @@ static void createLibraryFunctions(Module* module)
             FunctionType::get(double_type, args_d1, false), module);
 
     /// double acosh(double x);
-    createLibraryFunction(LibFunc::acosh,
-            FunctionType::get(double_type, args_d1, false), module);
+    //createLibraryFunction(LibFunc::acosh,
+    //        FunctionType::get(double_type, args_d1, false), module);
 
     /// double asin(double x);
     createLibraryFunction(LibFunc::asin,
             FunctionType::get(double_type, args_d1, false), module);
 
     /// double asinh(double x);
-    createLibraryFunction(LibFunc::asinh,
-            FunctionType::get(double_type, args_d1, false), module);
+    //createLibraryFunction(LibFunc::asinh,
+    //        FunctionType::get(double_type, args_d1, false), module);
 
     /// double atan(double x);
     createLibraryFunction(LibFunc::atan,
             FunctionType::get(double_type, args_d1, false), module);
 
     /// double atanh(double x);
-    createLibraryFunction(LibFunc::atanh,
-            FunctionType::get(double_type, args_d1, false), module);
+    //createLibraryFunction(LibFunc::atanh,
+    //        FunctionType::get(double_type, args_d1, false), module);
 
     /// double ceil(double x);
     createLibraryFunction(LibFunc::ceil,

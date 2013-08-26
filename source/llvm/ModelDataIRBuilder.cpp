@@ -93,9 +93,13 @@ llvm::StructType* ModelDataIRBuilder::getCSRSparseStructType(
 
         if (engine)
         {
+#if (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR == 1)
+	    const TargetData* td = engine->getTargetData();
+	    size_t llvm_size = td->getTypeStoreSize(structType);
+#else
             const DataLayout *dl = engine->getDataLayout();
-
             size_t llvm_size = dl->getTypeStoreSize(structType);
+#endif
 
             if (sizeof(csr_matrix) != llvm_size)
             {
@@ -457,9 +461,13 @@ llvm::StructType *ModelDataIRBuilder::getStructType(llvm::Module *module, llvm::
 
         if (engine)
         {
+#if (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR == 1)
+	    const TargetData* td = engine->getTargetData();
+	    size_t llvm_size = td->getTypeStoreSize(structType);
+#else
             const DataLayout *dl = engine->getDataLayout();
-
             size_t llvm_size = dl->getTypeStoreSize(structType);
+#endif
 
             if (sizeof(LLVMModelData) != llvm_size)
             {
