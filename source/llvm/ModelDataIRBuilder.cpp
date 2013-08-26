@@ -94,8 +94,8 @@ llvm::StructType* ModelDataIRBuilder::getCSRSparseStructType(
         if (engine)
         {
 #if (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR == 1)
-	    const TargetData* td = engine->getTargetData();
-	    size_t llvm_size = td->getTypeStoreSize(structType);
+            const TargetData* td = engine->getTargetData();
+            size_t llvm_size = td->getTypeStoreSize(structType);
 #else
             const DataLayout *dl = engine->getDataLayout();
             size_t llvm_size = dl->getTypeStoreSize(structType);
@@ -456,14 +456,14 @@ llvm::StructType *ModelDataIRBuilder::getStructType(llvm::Module *module, llvm::
         elements.push_back(Type::getInt32Ty(context));        // 22     int                                 stateVectorSize;
         elements.push_back(Type::getDoublePtrTy(context));    // 23     double*                             stateVector;
         elements.push_back(Type::getDoublePtrTy(context));    // 24     double*                             stateVectorRate;
-        
+
         structType = StructType::create(context, elements, LLVMModelDataName);
 
         if (engine)
         {
 #if (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR == 1)
-	    const TargetData* td = engine->getTargetData();
-	    size_t llvm_size = td->getTypeStoreSize(structType);
+            const TargetData* td = engine->getTargetData();
+            size_t llvm_size = td->getTypeStoreSize(structType);
 #else
             const DataLayout *dl = engine->getDataLayout();
             size_t llvm_size = dl->getTypeStoreSize(structType);

@@ -13,10 +13,11 @@
 #include "SBMLSupportFunctions.h"
 
 #include <sbml/SBMLReader.h>
-
-
 #include <string>
 #include <vector>
+#include <math.h>
+
+
 
 
 using namespace llvm;
@@ -328,6 +329,24 @@ void ModelGeneratorContext::addGlobalMappings()
                     FunctionType::get(double_type, args_d1, false), module),
                         (void*) sbmlsupport::sech);
 
+    // AST_FUNCTION_ARCCOSH:
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("arccosh",
+                    FunctionType::get(double_type, args_d1, false), module),
+                        (void*) ::acosh);
+
+    // AST_FUNCTION_ARCSINH:
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("arcsinh",
+                    FunctionType::get(double_type, args_d1, false), module),
+                        (void*) ::asinh);
+
+    // AST_FUNCTION_ARCTANH:
+    executionEngine->addGlobalMapping(
+            createGlobalMappingFunction("arctanh",
+                    FunctionType::get(double_type, args_d1, false), module),
+                        (void*) ::atanh);
+
 }
 
 static void createLibraryFunctions(Module* module)
@@ -349,25 +368,13 @@ static void createLibraryFunctions(Module* module)
     createLibraryFunction(LibFunc::acos,
             FunctionType::get(double_type, args_d1, false), module);
 
-    /// double acosh(double x);
-    //createLibraryFunction(LibFunc::acosh,
-    //        FunctionType::get(double_type, args_d1, false), module);
-
     /// double asin(double x);
     createLibraryFunction(LibFunc::asin,
             FunctionType::get(double_type, args_d1, false), module);
 
-    /// double asinh(double x);
-    //createLibraryFunction(LibFunc::asinh,
-    //        FunctionType::get(double_type, args_d1, false), module);
-
     /// double atan(double x);
     createLibraryFunction(LibFunc::atan,
             FunctionType::get(double_type, args_d1, false), module);
-
-    /// double atanh(double x);
-    //createLibraryFunction(LibFunc::atanh,
-    //        FunctionType::get(double_type, args_d1, false), module);
 
     /// double ceil(double x);
     createLibraryFunction(LibFunc::ceil,

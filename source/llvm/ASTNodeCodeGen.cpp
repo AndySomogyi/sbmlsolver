@@ -435,8 +435,7 @@ llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
         func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_ARCCOSH:
-      //funcId = LibFunc::acosh;
-      //func = module->getFunction(targetLib.getName(funcId));
+        func = module->getFunction("arccosh");
         break;
     case AST_FUNCTION_ARCCOT:
         // lame hack, need to check for negative zero to pass test...
@@ -469,16 +468,14 @@ llvm::Value* ASTNodeCodeGen::intrinsicCallCodeGen(const libsbml::ASTNode *ast)
         func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_ARCSINH:
-      //funcId = LibFunc::asinh;
-      //func = module->getFunction(targetLib.getName(funcId));
+        func = module->getFunction("arcsinh");
         break;
     case AST_FUNCTION_ARCTAN:
         funcId = LibFunc::atan;
         func = module->getFunction(targetLib.getName(funcId));
         break;
     case AST_FUNCTION_ARCTANH:
-      //funcId = LibFunc::atanh;
-      //func = module->getFunction(targetLib.getName(funcId));
+        func = module->getFunction("arctanh");
         break;
     case AST_FUNCTION_CEILING:
         funcId = LibFunc::ceil;
