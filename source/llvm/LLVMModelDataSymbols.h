@@ -54,11 +54,6 @@ enum ModelDataFields {
     StateVectorSize,                          // 22
     StateVector,                              // 23
     StateVectorRate,                          // 24
-    EventAssignmentsSize,                     // 25
-    EventAssignments,                         // 26
-    WorkSize,                                 // 27
-    Work,                                     // 28
-    ModelName,                                // 29
 };
 
 enum EventAtributes

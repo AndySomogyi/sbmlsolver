@@ -132,38 +132,6 @@ std::ostream& operator <<(std::ostream& os, const LLVMModelData& data)
     dump_array(os, data.numCompartments, data.compartmentVolumes);
     os << "stoichiometry:"             << endl;                             // 27
     os << data.stoichiometry;
-//    int                                 numEvents;                        // 28
-
-    os << "eventAssignments:"             << endl;
-    dump_array(os, data.eventAssignmentsSize, data.eventAssignments);
-
-//    int                                 eventTypeSize;                    // 29
-//    bool*                               eventType;                        // 30
-//    int                                 eventPersistentTypeSize;          // 31
-//    bool*                               eventPersistentType;              // 32
-//    int                                 eventTestsSize;                   // 33
-//    double*                             eventTests;                       // 34
-//    int                                 eventPrioritiesSize;              // 35
-//    double*                             eventPriorities;                  // 36
-//    int                                 eventStatusArraySize;             // 37
-//    bool*                               eventStatusArray;                 // 38
-//    int                                 previousEventStatusArraySize;     // 39
-//    bool*                               previousEventStatusArray;         // 40
-//    int                                 workSize;                         // 41
-//    double*                             work;                             // 42
-//    EventDelayHandler*                eventDelays;                      // 43
-//    EventAssignmentHandler*           eventAssignments;                 // 44
-//    ComputeEventAssignmentHandler*    computeEventAssignments;          // 45
-//    PerformEventAssignmentHandler*    performEventAssignments;          // 46
-//    char*                               modelName;                        // 47
-//    char**                              variableTable;                    // 48
-//    char**                              boundaryTable;                    // 49
-//    char**                              globalParameterTable;             // 50
-//    int                                 srSize;                           // 51
-//    double*                             sr;                               // 52
-
-
-
 
 
     return os;
@@ -176,15 +144,12 @@ void  LLVMModelData::freeBuffers(LLVMModelData &data)
     free(data.floatingSpeciesAmounts);
     free(data.floatingSpeciesAmountRates);
     free(data.rateRuleRates);
+    free(data.rateRuleValues);
     free(data.reactionRates);
     free(data.dependentSpeciesConservedSums);
     free(data.globalParameters);
     free(data.compartmentVolumes);
     free(data.boundarySpeciesAmounts);
-    free(data.work);
-
-    //Event function pointer stuff
-    free(data.eventAssignments);
 
     csr_matrix_delete(data.stoichiometry);
 }

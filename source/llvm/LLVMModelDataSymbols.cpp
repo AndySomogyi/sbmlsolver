@@ -54,11 +54,6 @@ static const char* modelDataFieldsNames[] =  {
     "StateVectorSize",                          // 22
     "StateVector",                              // 23
     "StateVectorRate",                          // 24
-    "EventAssignmentsSize",                     // 25
-    "EventAssignments",                         // 26
-    "WorkSize",                                 // 27
-    "Work",                                     // 28
-    "ModelName"                                 // 29
 };
 
 /*
@@ -179,7 +174,7 @@ uint LLVMModelDataSymbols::getFloatingSpeciesIndex(
     {
         string msg = "could not determine index for floating species with id ";
         msg += string("\'" + id + "\', ");
-        if(i != floatingSpeciesMap.end())
+        if(i == floatingSpeciesMap.end())
         {
             msg += " it is not a floating species";
         }
@@ -244,12 +239,9 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(LLVMModelData& m) const
     m.numCompartments               = independentCompartmentSize;
     m.numBoundarySpecies            = independentBoundarySpeciesSize;
 
-    m.modelName = strdup(modelName.c_str());
-
     // in certain cases, the data returned by c++ new may be alligned differently than
     // malloc, so just use calloc here just to be safe, plus calloc returns zero
     // initialized memory.
-
 
     m.floatingSpeciesAmounts = (double*)calloc(m.numIndependentSpecies, sizeof(double));
     m.floatingSpeciesAmountRates = (double*)calloc(m.numIndependentSpecies, sizeof(double));
@@ -257,22 +249,16 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(LLVMModelData& m) const
     m.rateRuleRates = (double*)calloc(m.numRateRules, sizeof(double));
 
     m.reactionRates = (double*)calloc(m.numReactions, sizeof(double));
-    //m.dependentSpeciesConservedSums = (double*)rrCalloc(m.numDependentSpecies, sizeof(double));
-    //m.floatingSpeciesInitConcentrations = (double*)rrCalloc(m.numFloatingSpecies, sizeof(double));
+    
     m.globalParameters = (double*)calloc(m.numGlobalParameters, sizeof(double));
     m.compartmentVolumes = (double*)calloc(m.numCompartments, sizeof(double));
-    //m.boundarySpeciesConcentrations = (double*)rrCalloc(m.numBoundarySpecies, sizeof(double));
+    
     m.boundarySpeciesAmounts = (double*)calloc(m.numBoundarySpecies, sizeof(double));
 
-    //m.work = (double*)rrCalloc(m.workSize, sizeof(double));
-
-
+    
     // allocate the stoichiometry matrix
     m.stoichiometry = csr_matrix_new(m.numIndependentSpecies, getReactionSize(),
             stoichRowIndx, stoichColIndx, vector<double>(stoichRowIndx.size(), 0));
-
-
-    m.eventAssignments = (double*)calloc(m.eventAssignmentsSize, sizeof(double));
 }
 
 std::vector<std::string> LLVMModelDataSymbols::getCompartmentIds() const
@@ -422,7 +408,7 @@ bool LLVMModelDataSymbols::isIndependentCompartment(const std::string& id) const
 
 const char* LLVMModelDataSymbols::getFieldName(ModelDataFields field)
 {
-    if (field >= Size && field <= ModelName)
+    if (field >= Size && field <= StateVectorRate)
     {
         return modelDataFieldsNames[field];
     }

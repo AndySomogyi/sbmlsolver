@@ -452,12 +452,7 @@ llvm::StructType *ModelDataIRBuilder::getStructType(llvm::Module *module, llvm::
         elements.push_back(Type::getInt32Ty(context));        // 22     int                                 stateVectorSize;
         elements.push_back(Type::getDoublePtrTy(context));    // 23     double*                             stateVector;
         elements.push_back(Type::getDoublePtrTy(context));    // 24     double*                             stateVectorRate;
-        elements.push_back(Type::getInt32Ty(context));        // 25     int                                 eventAssignmentsSize;
-        elements.push_back(Type::getDoublePtrTy(context));    // 26     double*                             eventAssignments;
-        elements.push_back(Type::getInt32Ty(context));        // 27     int                                 workSize;
-        elements.push_back(Type::getDoublePtrTy(context));    // 28     double*                             work;
-        elements.push_back(Type::getInt8PtrTy(context));      // 29     char*                               modelName;
-
+        
         structType = StructType::create(context, elements, LLVMModelDataName);
 
         if (engine)

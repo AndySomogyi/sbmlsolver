@@ -121,8 +121,16 @@ int main(int argc, char* argv[])
     {
         clog << "Running Suite SBML_TEST_SUITE_C_FAILS\n";
         clog << "ModelPath " << gTSModelsPath;
-        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_C_FAIL)", True(),
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_C_FAIL", True(),
                 0);
+    }
+    
+    if (args.Suites.find('K') != std::string::npos)
+    {
+        clog << "Running Suite SBML_TEST_SUITE_LONGTIME\n";
+        clog << "ModelPath " << gTSModelsPath;
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_LONGTIME", True(),
+                           0);
     }
 
 
