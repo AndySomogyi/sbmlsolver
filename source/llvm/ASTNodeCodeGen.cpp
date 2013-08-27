@@ -105,7 +105,7 @@ llvm::Value* ASTNodeCodeGen::codeGen(const libsbml::ASTNode* ast)
     case AST_MINUS:                 /* '-' */
     case AST_TIMES:                 /* '*' */
     case AST_DIVIDE:                /* '/' */
-        result = result = applyArithmeticCodeGen(ast);
+        result = applyArithmeticCodeGen(ast);
         break;
     case AST_INTEGER:
         result = integerCodeGen(ast);

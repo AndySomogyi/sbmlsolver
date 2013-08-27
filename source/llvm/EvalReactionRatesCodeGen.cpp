@@ -49,8 +49,7 @@ Value* EvalReactionRatesCodeGen::codeGen()
 
     llvm::Value *args[] = { 0 };
 
-    llvm::BasicBlock *basicBlock = codeGenHeader(FunctionName,
-            llvm::Type::getDoubleTy(context),
+    codeGenHeader(FunctionName, llvm::Type::getDoubleTy(context),
                 argTypes, argNames, args);
 
     Value *modelData = args[0];

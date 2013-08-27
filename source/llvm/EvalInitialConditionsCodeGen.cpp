@@ -40,7 +40,7 @@ Value* EvalInitialConditionsCodeGen::codeGen()
 {
     Value *modelData = 0;
 
-    BasicBlock *basicBlock = codeGenVoidModelDataHeader(FunctionName, modelData);
+    codeGenVoidModelDataHeader(FunctionName, modelData);
 
     Log(lInfo) << "boundarySpecies: \n";
     for (SymbolForest::ConstIterator i = modelSymbols.getInitialValues().boundarySpecies.begin();
