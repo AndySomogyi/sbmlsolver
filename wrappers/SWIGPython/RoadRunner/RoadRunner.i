@@ -46,13 +46,12 @@
     #include <lsLUResult.h>
     #include <lsUtils.h>
     #include <rrRoadRunner.h>
+    #include <rrLogger.h>
     #include <cstddef>
 
     using namespace std;
     using namespace ls;
-
     using namespace rr;
-
 %}
 
 
@@ -130,6 +129,17 @@
 %ignore rr::GetHighestLogLevel;
 %ignore rr::GetLogLevel;
 %ignore rr::GetLogLevelAsString;
-%ignore rr::GetLogLevel;
-
+%ignore rr::getLogLevel;
+%ignore rr::lShowAlways;
+%ignore rr::lError;
+%ignore rr::lWarning;
+%ignore rr::lInfo;   
+%ignore rr::lDebug;  
+%ignore rr::lDebug1; 
+%ignore rr::lDebug2; 
+%ignore rr::lDebug3; 
+%ignore rr::lDebug4; 
+%ignore rr::lDebug5; 
+%ignore rr::lAny;    
+%ignore rr::lUser;   
 
