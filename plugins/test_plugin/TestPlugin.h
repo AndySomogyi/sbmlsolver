@@ -11,14 +11,14 @@ using namespace rr;
 
 class TestPlugin : public CPPPlugin
 {
-	private:
-        Capability		mTestCapability;
-        Parameter<int>	mTestParameter;
+    private:
+        Capability        mTestCapability;
+        Parameter<int>    mTestParameter;
 
     public:
-    					TestPlugin(rr::RoadRunner* aRR = NULL, int testParameter = 0);
-					   ~TestPlugin();
-		bool			execute(void* userData);
+                        TestPlugin(rr::RoadRunner* aRR = NULL, int testParameter = 0);
+                       ~TestPlugin();
+        bool            execute(void* userData);
 
 };
 
@@ -30,15 +30,15 @@ class TestPlugin : public CPPPlugin
 extern "C"
 {
 
-PLUGIN_DECLSPEC char* 			rrCallConv	getImplementationLanguage();
-rr::Plugin* PLUGIN_DECLSPEC	rrCallConv	createPlugin(rr::RoadRunner* aRR);
+PLUGIN_DECLSPEC const char*    rrCallConv    getImplementationLanguage();
+rr::Plugin* PLUGIN_DECLSPEC    rrCallConv    createPlugin(rr::RoadRunner* aRR);
 
 // Plugin cleanup function
-PLUGIN_DECLSPEC bool			rrCallConv	destroyPlugin(rr::Plugin *plugin);
+PLUGIN_DECLSPEC bool           rrCallConv    destroyPlugin(rr::Plugin *plugin);
 
 }
 
-}	//Namespace
+}    //Namespace
 
 
 

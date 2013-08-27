@@ -6,6 +6,7 @@
 #include "lm.h"
 #include "lmfit/lmmin.h"
 #include "rrStringUtils.h"
+#include "rrUtils.h"
 #include "../../wrappers/C/rrc_api.h"
 #include "../../wrappers/C/rrc_utilities.h"
 
@@ -20,39 +21,39 @@ mTheHost(host),
 mMinData(mTheHost.getMinimizationData()),
 mRRI(NULL)
 {
-	memset(&mLMData, 0, sizeof(lmDataStructure));
+    memset(&mLMData, 0, sizeof(lmDataStructure));
 }
 
 bool LMFitThread::isRunning()
 {
-	return mThread.isRunning();
+    return mThread.isRunning();
 }
 
 void LMFitThread::assignCallBacks(ThreadCB fn1, ThreadCB fn2, void* userData)
 {
-	threadEnterCB 	= fn1;
-	threadExitCB  	= fn2;
-    mUserData 		= userData;
+    threadEnterCB     = fn1;
+    threadExitCB      = fn2;
+    mUserData         = userData;
 }
 
 void LMFitThread::start()
 {
     if(mThread.isRunning())
     {
-    	Log(lError)<<"Tried to start an already working thread!";
+        Log(lError)<<"Tried to start an already working thread!";
         return;
     }
 
-	mThread.start(*this);	//Will spawn the run function below in a thread
+    mThread.start(*this);    //Will spawn the run function below in a thread
 }
 
 double f(double t, const double* paras);
 
 void LMFitThread::run()
 {
-	if(threadEnterCB)
+    if(threadEnterCB)
     {
-		threadEnterCB(mUserData);	//Tell anyone who wants to know
+        threadEnterCB(mUserData);    //Tell anyone who wants to know
     }
 
     setupRoadRunner();
@@ -64,7 +65,7 @@ void LMFitThread::run()
     Log(lInfo)<<"The following parameters are to be minimized";
     for(int i = 0; i < Paras.count(); i++)
     {
-    	Log(lInfo)<<Paras[i]->getName()<<" with initial value: "<<Paras[i]->getValueAsString();
+        Log(lInfo)<<Paras[i]->getName()<<" with initial value: "<<Paras[i]->getValueAsString();
     }
 
     //Some parameters to the Algorithm..
@@ -75,8 +76,8 @@ void LMFitThread::run()
     //Setup the input data structure
     setup();
 
-    lmmin( 	mLMData.nrOfParameters,
-    		mLMData.parameters,
+    lmmin(     mLMData.nrOfParameters,
+            mLMData.parameters,
             mLMData.nrOfResiduePoints,
             (const void*) &mLMData,
             evaluate,
@@ -91,7 +92,7 @@ void LMFitThread::run()
 
     for (int i = 0; i < mLMData.nrOfParameters; ++i)
     {
-		Log(lInfo)<<"Parameter "<<mLMData.parameterLabels[i]<<" = "<< mLMData.parameters[i];
+        Log(lInfo)<<"Parameter "<<mLMData.parameterLabels[i]<<" = "<< mLMData.parameters[i];
     }
 
     Log(lInfo)<<"Obtained norm:  "<<status.fnorm;
@@ -100,38 +101,38 @@ void LMFitThread::run()
     //Populate minDataObject with data to 'report' back
     for (int i = 0; i < mLMData.nrOfParameters; ++i)
     {
-		mMinData.addFittedParameter(mLMData.parameterLabels[i], mLMData.parameters[i]);
+        mMinData.addFittedParameter(mLMData.parameterLabels[i], mLMData.parameters[i]);
     }
     mMinData.setNorm(status.fnorm);
 
     RoadRunnerData data = createModelData();
-	mMinData.setModelData(data);
+    mMinData.setModelData(data);
 
     data = createResidualsData();
-	mMinData.setResidualsData(data);
+    mMinData.setResidualsData(data);
 
-	if(threadExitCB)
+    if(threadExitCB)
     {
-		threadExitCB(mUserData);
+        threadExitCB(mUserData);
     }
 }
 
 bool LMFitThread::setup()
 {
-	//Setup the minimization data structure
-    StringList species 		= mMinData.getObservedDataSelectionList();   //Model data selection..
-    mLMData.nrOfSpecies 	= species.Count();
-    Parameters parameters 	= mMinData.getParameters();
-    mLMData.nrOfParameters	= parameters.count();
+    //Setup the minimization data structure
+    StringList species         = mMinData.getObservedDataSelectionList();   //Model data selection..
+    mLMData.nrOfSpecies     = species.Count();
+    Parameters parameters     = mMinData.getParameters();
+    mLMData.nrOfParameters    = parameters.count();
 
-    mLMData.parameters 				= new double[mLMData.nrOfParameters];
-	//Set initial parameter values
+    mLMData.parameters                 = new double[mLMData.nrOfParameters];
+    //Set initial parameter values
     for(int i = 0; i < mLMData.nrOfParameters; i++)
     {
-    	Parameter<double> *par = (Parameter<double>*) parameters[i];
+        Parameter<double> *par = (Parameter<double>*) parameters[i];
         if(par)
         {
-    		mLMData.parameters[i] = par->getValue();
+            mLMData.parameters[i] = par->getValue();
         }
         else
         {
@@ -139,27 +140,27 @@ bool LMFitThread::setup()
         }
     }
 
-    RoadRunnerData& obsData 		= mMinData.getObservedDataReference();
-    mLMData.nrOfTimePoints			= obsData.rSize();
-    mLMData.timeStart				= obsData.getTimeStart();
-    mLMData.timeEnd					= obsData.getTimeEnd();
-	mLMData.nrOfResiduePoints       = mLMData.nrOfSpecies * mLMData.nrOfTimePoints;
-    mLMData.time 			    	= new double[mLMData.nrOfTimePoints];
+    RoadRunnerData& obsData         = mMinData.getObservedDataReference();
+    mLMData.nrOfTimePoints            = obsData.rSize();
+    mLMData.timeStart                = obsData.getTimeStart();
+    mLMData.timeEnd                    = obsData.getTimeEnd();
+    mLMData.nrOfResiduePoints       = mLMData.nrOfSpecies * mLMData.nrOfTimePoints;
+    mLMData.time                     = new double[mLMData.nrOfTimePoints];
 
-    mLMData.experimentalData 	    = new double*[mLMData.nrOfSpecies];
+    mLMData.experimentalData         = new double*[mLMData.nrOfSpecies];
 
     if(obsData.hasWeights())
     {
-    	mLMData.experimentalDataWeights = new double*[mLMData.nrOfSpecies];
+        mLMData.experimentalDataWeights = new double*[mLMData.nrOfSpecies];
     }
 
-    mLMData.speciesLabels 	    	= new char*[mLMData.nrOfSpecies];
+    mLMData.speciesLabels             = new char*[mLMData.nrOfSpecies];
 
     //Each species data points and label
     for (int i = 0; i < mLMData.nrOfSpecies; i++)
     {
-	    mLMData.experimentalData[i]  = new double[mLMData.nrOfTimePoints];
-	    mLMData.speciesLabels[i] 	 = createText(species[i]);
+        mLMData.experimentalData[i]  = new double[mLMData.nrOfTimePoints];
+        mLMData.speciesLabels[i]      = createText(species[i]);
 
         if(obsData.hasWeights())
         {
@@ -170,13 +171,13 @@ bool LMFitThread::setup()
     //Populate Observed Data
     for (int i = 0; i < mLMData.nrOfSpecies; i++)
     {
-    	for(int timePoint = 0; timePoint < mLMData.nrOfTimePoints; timePoint++)
+        for(int timePoint = 0; timePoint < mLMData.nrOfTimePoints; timePoint++)
         {
-        	if(i == 0)
+            if(i == 0)
             {
-	        	mLMData.time[timePoint] = obsData(timePoint, 0);
+                mLMData.time[timePoint] = obsData(timePoint, 0);
             }
-			mLMData.experimentalData[i][timePoint] = obsData(timePoint, i + 1);
+            mLMData.experimentalData[i][timePoint] = obsData(timePoint, i + 1);
         }
     }
 
@@ -192,44 +193,44 @@ bool LMFitThread::setup()
         }
     }
 
-    mLMData.parameterLabels       	= new char*[mLMData.nrOfParameters];
+    mLMData.parameterLabels           = new char*[mLMData.nrOfParameters];
     for (int i = 0; i < mLMData.nrOfParameters; i++)
     {
-	    mLMData.parameterLabels[i] 	= createText(parameters[i]->getName());
+        mLMData.parameterLabels[i]     = createText(parameters[i]->getName());
     }
 
-	mLMData.rrHandle				= mRRI;
+    mLMData.rrHandle                = mRRI;
     mRRI->setTimeCourseSelectionList(species.AsString());
-	return true;
+    return true;
 }
 
 bool LMFitThread::setupRoadRunner()
 {
-   	if(mRRI)
+       if(mRRI)
     {
-    	delete mRRI;
+        delete mRRI;
     }
 
     mRRI = new RoadRunner;
-	mRRI->loadSBML(mTheHost.mSBML.getValue(), false);
+    mRRI->loadSBML(mTheHost.mSBML.getValue(), false);
     mRRI->setTimeCourseSelectionList(mMinData.getObservedDataSelectionList());
     return true;
 }
 
 /* function evaluation, determination of residues */
-void evaluate(const double *par,  		//Parameter vector
-			  int 		  	m_dat,  	//Dimension of residue vector
-              const void   *userData,  	//Data structure
-              double 	   *fvec,   	//residue vector..
-              int 		   *infoIndex   //Index into info message array
+void evaluate(const double *par,       //Parameter vector
+              int          m_dat,      //Dimension of residue vector
+              const void   *userData,  //Data structure
+              double       *fvec,      //residue vector..
+              int          *infoIndex  //Index into info message array
 )
 {
-    lmDataStructure *myData = (lmDataStructure*) userData;
-   	reset(myData->rrHandle);
+    const lmDataStructure *myData = (const lmDataStructure*)userData;
+    reset(myData->rrHandle);
 
     for(int i = 0; i < myData->nrOfParameters; i++)
     {
-    	setValue(myData->rrHandle, myData->parameterLabels[i], par[i]);
+        setValue(myData->rrHandle, myData->parameterLabels[i], par[i]);
         Log(lDebug)<<"k"<<i<<" = "<<par[i]<<endl;
     }
 
@@ -237,27 +238,27 @@ void evaluate(const double *par,  		//Parameter vector
 
     if(!rrData)
     {
-    	char* lastError = getLastError();
+        char* lastError = getLastError();
         Log(lError)<<"Error in simulateEx: "<<lastError;
         rr::freeText(lastError);
         return;
     }
     //calculate fvec for each specie
     int count = 0;
-   	for(int i = 0; i < myData->nrOfSpecies; i++)
+       for(int i = 0; i < myData->nrOfSpecies; i++)
     {
-    	fvec[count] = 0;
-	    for(int j = 0; j < myData->nrOfTimePoints; j++ )
-    	{
+        fvec[count] = 0;
+        for(int j = 0; j < myData->nrOfTimePoints; j++ )
+        {
             double modelValue;
             if(!getRRDataElement(rrData, j, i, &modelValue))
             {
-            	throw("Bad stuff...") ;
+                throw("Bad stuff...") ;
             }
 
             if(!isNaN(myData->experimentalData[i][j]))
             {
-				fvec[count] = myData->experimentalData[i][j] - modelValue;
+                fvec[count] = myData->experimentalData[i][j] - modelValue;
 
 
                 if(myData->experimentalDataWeights != NULL)
@@ -271,75 +272,75 @@ void evaluate(const double *par,  		//Parameter vector
             }
             else
             {
-            	fvec[count] = 0;
+                fvec[count] = 0;
             }
-           	count++;
-	    }
+               count++;
+        }
     }
     freeRRData(rrData);
 }
 
 RoadRunnerData LMFitThread::createModelData()
 {
-	//We now have the parameters
+    //We now have the parameters
     RoadRunnerData& modData = mMinData.getModelDataReference();
     StringList selList("time");
     selList.Append(mMinData.getModelDataSelectionList());
 
     modData.reSize(mLMData.nrOfTimePoints, selList.Count());
     mRRI->reset();
-	mRRI->setTimeCourseSelectionList(selList);
+    mRRI->setTimeCourseSelectionList(selList);
 
     for(int i = 0; i < mLMData.nrOfParameters; i++)
     {
-    	mRRI->setValue(mLMData.parameterLabels[i], mLMData.parameters[i]);
+        mRRI->setValue(mLMData.parameterLabels[i], mLMData.parameters[i]);
     }
 
     if(mRRI->simulate2Ex(mLMData.timeStart, mLMData.timeEnd, mLMData.nrOfTimePoints))
     {
-	     modData = mRRI->getSimulationResult();
+         modData = mRRI->getSimulationResult();
     }
-	return modData;
+    return modData;
 }
 
 RoadRunnerData LMFitThread::createResidualsData()
 {
-	//We now have the parameters
+    //We now have the parameters
     RoadRunnerData& modData = mMinData.getModelDataReference();
     RoadRunnerData& resData = mMinData.getResidualsDataReference();
     RoadRunnerData& obsData = mMinData.getObservedDataReference();
 
     resData.reSize(modData.rSize(), modData.cSize());
-	//setup coulumn names
+    //setup coulumn names
     resData.setColumnNames(modData.getColumnNames());
 
-	for(int sel = 0; sel < mLMData.nrOfSpecies + 1; sel++)	//selection 1 becuase of time column..
+    for(int sel = 0; sel < mLMData.nrOfSpecies + 1; sel++)    //selection 1 becuase of time column..
     {
-    	for(int i = 0; i < mLMData.nrOfTimePoints; i++)
+        for(int i = 0; i < mLMData.nrOfTimePoints; i++)
         {
-        	if(sel == 0)
+            if(sel == 0)
             {
-        		resData(i, sel) = modData(i, sel);	//Time
+                resData(i, sel) = modData(i, sel);    //Time
             }
             else
             {
-            	//The modData may contain data for other species than that was fitted..
+                //The modData may contain data for other species than that was fitted..
                 //We need to find out what coulmn correspond to what..
                 string specie = obsData.getColumnName(sel);
                 int colNr = modData.getColumnIndex(specie);
                 if(colNr != -1)
                 {
-            		resData(i,sel) = obsData(i, sel) - modData(i, colNr);
+                    resData(i,sel) = obsData(i, sel) - modData(i, colNr);
                 }
                 else
                 {
-                	Log(lError)<<"Problem with column names when creating residual data!";
+                    Log(lError)<<"Problem with column names when creating residual data!";
                 }
             }
         }
     }
 
-	return resData;
+    return resData;
 }
 
 

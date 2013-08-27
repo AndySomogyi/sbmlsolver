@@ -14,7 +14,7 @@ using std::ofstream;
 using std::stringstream;
 
 //Class that  holds the data after a simulation...
-class RR_DECLSPEC RoadRunnerData : public rrObject
+class RR_DECLSPEC RoadRunnerData 
 {
     protected:
         StringList              mColumnNames;

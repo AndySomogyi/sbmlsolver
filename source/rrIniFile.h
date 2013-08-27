@@ -27,7 +27,7 @@ typedef std::vector<string> 	    	NonKeyList;
 typedef std::vector<IniSection*>  		SectionList;
 typedef SectionList::iterator       	SectionItor;
 
-class RR_DECLSPEC IniFile : public rrObject
+class RR_DECLSPEC IniFile
 {
 	private:
 		// When set, this define will cause SetValue() to create a new section, if
@@ -57,7 +57,7 @@ class RR_DECLSPEC IniFile : public rrObject
 
 	public:
 		int			        mFlags;		// Our settings flags.
-					        IniFile(const string& fName = gEmptyString, bool autoLoad = false, bool autoSave = false);
+					        IniFile(const string& fName = "", bool autoLoad = false, bool autoSave = false);
 		virtual		        ~IniFile();
 
         int					GetNumberOfSections(){return mSections.size();}
@@ -68,7 +68,7 @@ class RR_DECLSPEC IniFile : public rrObject
 		string              GetFileName(){return mIniFileName;}
         string              GetFullFileName(){return mIniFileName.GetPathAndFileName();}
         bool                SetFilePath(const string& path);
-		bool		        Load(const string& fName = rr::gEmptyString);
+		bool		        Load(const string& fName = "");
 		IniSection*      	LoadSection(const string& theSection);
 		bool		        Save(ios_base::openmode openMode = ios::out|ios::trunc);
 		bool		        UnLoad(){return Save();}
@@ -77,31 +77,31 @@ class RR_DECLSPEC IniFile : public rrObject
 
         //Reading
 		// ReadValue: Default access method. Returns the raw string value
-		string		        ReadValue(const string& Key, const string& Section = rr::gEmptyString);
- 		string		        ReadString(const string& Key, const string& Section = rr::gEmptyString, const string& def_val=rr::gEmptyString);
-		double		        ReadDouble(const string& Key, const string& Section = rr::gEmptyString, double def_value = 0);
-		float		        ReadFloat(const string& Key, const string& Section = rr::gEmptyString, double def_value = 0){return (float) ReadDouble(Key, Section, def_value);}
-		int			        ReadInteger(const string& Key, const string& Section = rr::gEmptyString, int def_value = 0);
-		bool		        ReadBool(const string& Key, const string& Section = rr::gEmptyString, bool def_value = false);
+		string		        ReadValue(const string& Key, const string& Section = "");
+ 		string		        ReadString(const string& Key, const string& Section = "", const string& def_val="");
+		double		        ReadDouble(const string& Key, const string& Section = "", double def_value = 0);
+		float		        ReadFloat(const string& Key, const string& Section = "", double def_value = 0){return (float) ReadDouble(Key, Section, def_value);}
+		int			        ReadInteger(const string& Key, const string& Section = "", int def_value = 0);
+		bool		        ReadBool(const string& Key, const string& Section = "", bool def_value = false);
 
        	//Writing
- 		bool		        WriteValue(const string& Key, const string& Value, const string& Comment = rr::gEmptyString, const string& Section = rr::gEmptyString);
-		bool		        WriteFloat(const string& Key, double value, const string& Comment = rr::gEmptyString, const string& Section = rr::gEmptyString);
-		bool		        WriteInteger(const string& Key, int nValue, const string& Comment = rr::gEmptyString, const string& Section = rr::gEmptyString);
-		bool		        WriteBool(const string& Key, bool bValue, const string& Comment = rr::gEmptyString, const string& Section = rr::gEmptyString);
-		bool		        WriteString(const string& Key, const string& Value, const string& Comment = rr::gEmptyString, const string& Section = rr::gEmptyString){return WriteValue(Key, Value, Comment, Section);}
- 		bool		        WriteNonKey(const string& nonKey, const string& Section = rr::gEmptyString);
+ 		bool		        WriteValue(const string& Key, const string& Value, const string& Comment = "", const string& Section = "");
+		bool		        WriteFloat(const string& Key, double value, const string& Comment = "", const string& Section = "");
+		bool		        WriteInteger(const string& Key, int nValue, const string& Comment = "", const string& Section = "");
+		bool		        WriteBool(const string& Key, bool bValue, const string& Comment = "", const string& Section = "");
+		bool		        WriteString(const string& Key, const string& Value, const string& Comment = "", const string& Section = ""){return WriteValue(Key, Value, Comment, Section);}
+ 		bool		        WriteNonKey(const string& nonKey, const string& Section = "");
 
     	//KeyHandling
-		bool		        SetKeyComment(const string& Key, const string& Comment, const string& Section = rr::gEmptyString);
+		bool		        SetKeyComment(const string& Key, const string& Comment, const string& Section = "");
 		bool		        SetSectionComment(const string& Section, const string& Comment);
-		bool		        DeleteKey(const string& Key, const string& FromSection = rr::gEmptyString);
+		bool		        DeleteKey(const string& Key, const string& FromSection = "");
 		bool		        DeleteSection(const string& Section);
 		bool		        DeleteSectionsWithKeyValue(const string& key, const string& value);
-		bool		        CreateKey(const string& Key, const string& Value, const string& Comment = rr::gEmptyString, const string& Section = rr::gEmptyString);
+		bool		        CreateKey(const string& Key, const string& Value, const string& Comment = "", const string& Section = "");
 
 		//Section stuff
-		bool		        CreateSection(const string& Section, const string& Comment = rr::gEmptyString);
+		bool		        CreateSection(const string& Section, const string& Comment = "");
 		bool		        CreateSection(const string& Section, const string& Comment, KeyList Keys);
 
 		// Utility Methods

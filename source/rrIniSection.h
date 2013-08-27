@@ -17,7 +17,7 @@ typedef NonKeyList::iterator 		    NonKeyItor;
 
 // This class stores the definition of a section. A section contains any number
 // of keys (see IniKeys), and may or may not have a comment.
-class RR_DECLSPEC IniSection : public rrObject
+class RR_DECLSPEC IniSection
 {
     private:
         bool            mIsDirty;
@@ -31,7 +31,7 @@ class RR_DECLSPEC IniSection : public rrObject
                         IniSection();
                         IniSection(const std::string& nameValueString, const char& sep);
                        ~IniSection();
-        IniKey*  		CreateKey(const string& _keyName, const string& Value = gEmptyString, const string& Comment = gEmptyString);
+        IniKey*  		CreateKey(const string& _keyName, const string& Value = "", const string& Comment = "");
         IniKey*			GetKey(const int& i);
         IniKey*			GetKey(const string& keyName, bool create = false);
         size_t 			KeyCount(){return mKeys.size();}

@@ -14,56 +14,29 @@ include_directories(
     )
 
 set(rrSources
-    rrParameter
     rrParameters
     rrSteadyStateSolver
     rrCapability
     rrCapabilities
     rrConstants
     rrException
-    rrFileLog
     rrGetOptions
-    rrHashTable
-    rrLogFile
-    rrLogContainer
-    rrLoggerUtils
+    rrLogger
     rrLogLevel
-    rrLogOutput
-    rrCompiledExecutableModel
     rrExecutableModel
-    rrModelState
-    rrNOMSupport
-    rrObject
-    rrPendingAssignment
     rrRandom
     rrRoadRunner
-    rrRule
-    rrSBMLModelSimulation
-    rrSBMLSymbol
-    rrSBMLSymbolDependencies
     rrSimulationSettings
     rrStreamWriter
     rrStringBuilder
     rrStringList
     rrStringListContainer
     rrStringUtils
-    rrSymbol
-    rrSymbolList
     rrUtils
-    rrModelSymbols
-    rrModelGenerator
-    rrCompiledModelGenerator
-    rrCModelGenerator
-    rrCSharpModelGenerator
-    rrCodeBuilder
-    rrCompiler
     rrCPlugin
-    rrScanner
-    rrToken
     rrCVODEInterface
     rrNLEQInterface
     rrStopWatch
-    rrEvent
     rrTestSuiteModelSimulation
     rrNewArrayList
     rrNewArrayListItem
@@ -72,10 +45,8 @@ set(rrSources
     rrIniSection
     rrIniFile
     rrFileName
-    mtrand/mtrand
     rrPluginManager
     rrPlugin
-    rrModelSharedLibrary
     rrBaseParameter
     rrRoadRunnerList
     rrThreadPool
@@ -91,22 +62,65 @@ set(rrSources
     rrModelGeneratorFactory
     rrNoise
     rrVersionInfo
+    rrSparse
+    rrSBMLModelSimulation
+    mtrand/mtrand
+    c/rrSBMLSymbolDependencies
+    c/rrSBMLSymbol
+    c/rrHashTable
+    c/rrRule
+    c/rrModelSymbols
+    c/rrSymbol
+    c/rrSymbolList
+    c/rrCompiledModelState
+    c/rrNOMSupport
+    c/rrPendingAssignment
+    c/rrCompiledModelGenerator
+    c/rrCModelGenerator
+    c/rrCSharpModelGenerator
+    c/rrCodeBuilder
+    c/rrCCompiler
+    c/rrScanner
+    c/rrToken
+    c/rrEvent
+    c/rrModelSharedLibrary
+    c/rrCModelDataUtil
+    c/rrCompiledExecutableModel
     )
 
 # Add the LLVM sources to compilation
 if(BUILD_LLVM)
     set(rrSources
         ${rrSources}
-        rrLLVMAssignmentRuleEvaluator
-        rrLLVMASTNodeCodeGen
-        rrLLVMCodeGenerator
-        rrLLVMCompiler
-        rrLLVMExecutableModel
-        rrLLVMInitialValueCodeGen
-        rrLLVMModelDataIRBuilder
-        rrLLVMModelDataSymbols
-        rrLLVMModelGenerator
-        rrLLVMModelGeneratorContext
+        llvm/AssignmentRuleEvaluator
+        llvm/ASTNodeCodeGen
+        llvm/ASTNodeFactory
+        llvm/CodeGenBase
+        llvm/LLVMCompiler
+        llvm/EvalConversionFactorCodeGen
+        llvm/EvalInitialConditionsCodeGen
+        llvm/EvalRateRuleRatesCodeGen
+        llvm/EvalReactionRatesCodeGen
+        llvm/EventAssignCodeGen
+        llvm/EventTriggerCodeGen
+        llvm/EventQueue
+        llvm/FunctionResolver
+        llvm/LLVMExecutableModel
+        llvm/GetRateRuleValuesCodeGen
+        llvm/GetValuesCodeGen
+        llvm/GetEventValuesCodeGen
+        llvm/InitialValueSymbolResolver
+        llvm/KineticLawParameterResolver
+        llvm/LLVMModelData
+        llvm/ModelDataIRBuilder
+        llvm/ModelDataSymbolResolver
+        llvm/LLVMModelDataSymbols
+        llvm/LLVMModelGenerator
+        llvm/ModelGeneratorContext
+        llvm/LLVMModelSymbols
+        llvm/SetRateRuleValuesCodeGen
+        llvm/SBMLSupportFunctions
+        llvm/EvalVolatileStoichCodeGen
         )
 endif(BUILD_LLVM)
 

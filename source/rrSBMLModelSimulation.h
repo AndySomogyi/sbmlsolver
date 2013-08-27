@@ -11,7 +11,7 @@ namespace rr
 {
 
 class RoadRunner;
-class RR_DECLSPEC SBMLModelSimulation : public rrObject
+class RR_DECLSPEC SBMLModelSimulation
 {
     protected:
         string                  mModelFileName;
@@ -25,7 +25,7 @@ class RR_DECLSPEC SBMLModelSimulation : public rrObject
         bool                    mCompileIfDllExists;
 
     public:
-                                SBMLModelSimulation(const string& dataOutputFolder = gEmptyString, const string& tempDataFilePath = gEmptyString);
+                                SBMLModelSimulation(const string& dataOutputFolder = "", const string& tempDataFilePath = "");
         virtual                ~SBMLModelSimulation();
         bool                    SetModelFilePath(const string& path);
         bool                    SetModelFileName(const string& name);
@@ -48,7 +48,7 @@ class RR_DECLSPEC SBMLModelSimulation : public rrObject
         virtual bool            LoadSBMLFromFile();                    //Use current file information to load sbml from file
         virtual bool            Simulate();
         virtual bool            SaveResult();
-        virtual bool            LoadSettings(const string& fName = gEmptyString);
+        virtual bool            LoadSettings(const string& fName = "");
         virtual RoadRunnerData  GetResult();
 
         void                    ReCompileIfDllExists(const bool& doIt);

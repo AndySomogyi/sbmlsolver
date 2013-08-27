@@ -4,13 +4,11 @@
 #include <vector>
 #include "rr-libstruct/lsMatrix.h"
 #include "rr-libstruct/lsLibStructural.h"
-#include "rrObject.h"
 #include "rrTVariableType.h"
 #include "rrTParameterType.h"
 #include "rrSelectionRecord.h"
 #include "rrRoadRunnerData.h"
 #include "rrSimulationSettings.h"
-#include "rrNOMSupport.h"
 #include "rrConstants.h"
 #include "rrNewArrayList.h"
 #include "rrPluginManager.h"
@@ -27,7 +25,7 @@ class ModelGenerator;
 class SBMLModelSimulation;
 class ExecutableModel;
 
-class RR_DECLSPEC RoadRunner : public rrObject
+class RR_DECLSPEC RoadRunner
 {
     private:
         static int                      mInstanceCount;
@@ -36,13 +34,10 @@ class RR_DECLSPEC RoadRunner : public rrObject
         const double                    mDiffStepSize;
         Capabilities                    mCapabilities;
         Capability                      mRRCoreCapabilities;
-        const string                    mModelFolder;            //Folder for XML models
         const double                    mSteadyStateThreshold;
         DoubleMatrix                    mRawRoadRunnerData;
         RoadRunnerData                  mRoadRunnerData;
-        string                          mSupportCodeFolder;        //The compiler needs this in order to compile models
 
-        string                          mTempFileFolder;
         string                          mCurrentSBMLFileName;
         SBMLModelSimulation            *mSimulation;
 
@@ -58,8 +53,10 @@ class RR_DECLSPEC RoadRunner : public rrObject
          */
         ModelGenerator                 *mModelGenerator;
 
-
-        Parameter<bool>                 mComputeAndAssignConservationLaws;
+        /**
+         * RoadRunner, not sbml parameters
+         */
+        rr::Parameter<bool>             mComputeAndAssignConservationLaws;
 
         vector<SelectionRecord>         mSteadyStateSelection;
         double                          mTimeStart;
@@ -76,7 +73,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
         LibStructural                   mLS;
 
         SimulationSettings              mSettings;
-        NOMSupport                      mNOM;
+
         PluginManager                   mPluginManager;
 
         void                            addNthOutputToResult(DoubleMatrix& results, int nRow, double dCurrentTime);
@@ -85,20 +82,17 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
 
         double                          getNthSelectedOutput(const int& index, const double& dCurrentTime);
-        vector<double>                  buildModelEvalArgument();
-        double                          getVariableValue(const TVariableType& variableType, const int& variableIndex);
+
+        double                          getVariableValue(const TVariableType::TVariableType variableType,
+                                            const int variableIndex);
 
         vector<string>                  getParameterIds();
-        bool                            loadSBMLIntoNOM(const string& sbml);
 
         /**
          * load the sbml into the structural analysis module, mLS.
          */
         bool                            loadSBMLIntoLibStruct(const string& sbml);
         string                          createModelName(const string& mCurrentSBMLFileName);
-
-    public: //These should be hidden later on...
-        bool                            mConservedTotalChanged;
 
     public:
                                         RoadRunner(const string& tempFolder = gDefaultTempFolder,
@@ -109,11 +103,15 @@ class RR_DECLSPEC RoadRunner : public rrObject
         int                             getInstanceCount();
 
         bool                            computeAndAssignConservationLaws();
-        void                            setParameterValue(const TParameterType& parameterType, const int& parameterIndex, const double& value);
-        double                          getParameterValue(const TParameterType& parameterType, const int& parameterIndex);
+
+        void                            setParameterValue(const TParameterType::TParameterType parameterType,
+                                            const int parameterIndex, const double value);
+
+        double                          getParameterValue(const TParameterType::TParameterType parameterType,
+                                            const int parameterIndex);
 
         string                          getParamPromotedSBML(const string& sArg);
-        NOMSupport*                     getNOM();
+
         LibStructural*                  getLibStruct();
         string                          getInfo();
         PluginManager&                  getPluginManager();
@@ -137,10 +135,13 @@ class RR_DECLSPEC RoadRunner : public rrObject
         //Functions --------------------------------------------------------------------
         bool                            isModelLoaded();
 
+        /**
+         * returns the model name if a model is loaded, empty string otherwise.
+         */
         string                          getModelName();
-        string                          getlibSBMLVersion();
+
+        static string                   getlibSBMLVersion();
         bool                            unLoadModel();
-        bool                            unLoadModelDLL();
 
         int                             createDefaultSteadyStateSelectionList();
         int                             createDefaultTimeCourseSelectionList();
@@ -172,7 +173,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
         double                          getValueForRecord(const SelectionRecord& record);
 
         void                            partOfSimulation(SBMLModelSimulation* simulation){mSimulation = simulation;}
-        RoadRunnerData                  getSimulationResult();	//Todo: should probably be removed..
+        RoadRunnerData                  getSimulationResult();    //Todo: should probably be removed..
         RoadRunnerData*                 getRoadRunnerData();
         bool                            loadSimulationSettings(const string& fName);
         bool                            useSimulationSettings(SimulationSettings& settings);
@@ -215,7 +216,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
         // ---------------------------------------------------------------------
         // Start of Level 2 API Methods
         // ---------------------------------------------------------------------
-        Capabilities&                   getCapabilities();
         Capability*                     getCapability(const string& cap_name);
         string                          getCapabilitiesAsXML();
         vector<string>                  getListOfCapabilities();
@@ -223,7 +223,6 @@ class RR_DECLSPEC RoadRunner : public rrObject
 
         bool                            addCapability(Capability& cap);
         bool                            addCapabilities(Capabilities& caps);
-        bool                            setCapabilityParameter(const string& cap, const string& parameter, const string& value);
 
         void                            setCapabilities(const string& capsStr);
 
@@ -301,13 +300,8 @@ class RR_DECLSPEC RoadRunner : public rrObject
          * Returns the SBML with the current parameterset.
          */
         string                          writeSBML();
-        int                             getNumberOfLocalParameters(const int& reactionId);
-        void                            setLocalParameterByIndex(const int& reactionId, const int index, const double& value);
-        double                          getLocalParameterByIndex(const int& reactionId, const int& index);
-        void                            setLocalParameterValues(const int& reactionId, const vector<double>& values);
-        vector<double>                  getLocalParameterValues(const int& reactionId);
-        vector<string>                  getLocalParameterIds(const int& reactionId);
-        vector<string>                  getAllLocalParameterTupleList();
+
+
         int                             getNumberOfReactions();
         double                          getReactionRate(const int& index);
 
@@ -320,6 +314,7 @@ class RR_DECLSPEC RoadRunner : public rrObject
         vector<double>                  getReactionRatesEx(const vector<double>& values);
         vector<string>                  getFloatingSpeciesIdsArray();
         vector<string>                  getGlobalParameterIdsArray();
+        vector<string>                  getConservedSumIds();
         int                             getNumberOfCompartments();
 
         /**
@@ -368,17 +363,18 @@ class RR_DECLSPEC RoadRunner : public rrObject
         vector<double>                  getGlobalParameterValues();
         vector<string>                  getGlobalParameterIds();
         vector<string>                  getAllGlobalParameterTupleList();
+
         void                            evalModel();
 
         //These functions are better placed in a separate file, as non class members, but part of the roadrunner namespace?
-        string                          getName();
-        string                          getVersion();
-        string                          getExtendedVersionInfo();    //Include info about dependent libs versions..
-        string                          getAuthor();
-        string                          getDescription();
-        string                          getDisplayName();
-        string                          getCopyright();
-        string                          getURL();
+        static string                   getName();
+        static string                   getVersion();
+        static string                   getExtendedVersionInfo();    //Include info about dependent libs versions..
+        static string                   getAuthor();
+        static string                   getDescription();
+        static string                   getDisplayName();
+        static string                   getCopyright();
+        static string                   getURL();
 
         //Plugin stuff
         bool                            loadPlugins();
@@ -454,7 +450,9 @@ class RR_DECLSPEC RoadRunner : public rrObject
         /**
          * Changes a given parameter type by the given increment
          */
-        void                               changeParameter(TParameterType parameterType, int reactionIndex, int parameterIndex, double originalValue, double increment);
+        void                               changeParameter(TParameterType::TParameterType parameterType,
+                                                int reactionIndex, int parameterIndex, double originalValue,
+                                                double increment);
 
         /**
          * Returns the unscaled elasticity for a named reaction with respect to a named parameter (local or global)
@@ -519,9 +517,10 @@ This document describes the application programming interface (API) of RoadRunne
 The RoadRunner library depend on several third-party libraries, CLapack, libSBML, Sundials, NLEQ, Poco and Pugi. These are provided with the binary installation where necessary.
 \par
 
-\author        Totte Karlsson (totte@dunescientific.com)
-\author      Frank T. Bergmann (fbergman@u.washington.edu)
-\author     Herbert M. Sauro  (hsauro@u.washington.edu)
+\author Totte Karlsson (totte@dunescientific.com)
+\author Frank T. Bergmann (fbergman@u.washington.edu)
+\author Herbert M. Sauro  (hsauro@u.washington.edu)
+\author Andy Somogyi (andy.somogyi@gmail.com, somogyie@indiana.edu)
 
 \par License
 \par

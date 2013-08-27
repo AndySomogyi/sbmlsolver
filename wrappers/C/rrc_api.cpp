@@ -46,7 +46,7 @@
 #include <fstream>
 #include "rrRoadRunner.h"
 #include "rrRoadRunnerList.h"
-#include "rrCModelGenerator.h"
+#include "c/rrCModelGenerator.h"
 #include "rrLogger.h"
 #include "rrException.h"
 #include "rrUtils.h"
@@ -105,7 +105,7 @@ RRHandle rrcCallConv createRRInstance()
     catch_ptr_macro
 }
 
-RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder)
+RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder, const char* compiler_cstr)
 {
     try
     {
@@ -113,13 +113,18 @@ RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder)
         string text2 = getParentFolder(text1);
         string rrInstallFolder(text2);
         rr::freeText(text1);
+        string compiler = compiler_cstr ? compiler_cstr : "";
 
 #if defined(_WIN32) || defined(WIN32)
-            string compiler(joinPath(rrInstallFolder, "compilers\\tcc\\tcc.exe"));
-#elif defined(__linux)
-            string compiler("gcc");
+        if (compiler.length() == 0)
+        {
+            compiler = joinPath(rrInstallFolder, "compilers\\tcc\\tcc.exe");
+        }
 #else
-            string compiler("gcc");
+        if (compiler.length() == 0)
+        {
+            compiler = "gcc";
+        }
 #endif
         if(tempFolder != NULL && !fileExists(tempFolder))
         {
@@ -265,7 +270,7 @@ char* rrcCallConv getInfo(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-		return rr::createText(rri->getInfo());
+        return rr::createText(rri->getInfo());
     }
     catch_ptr_macro
 }
@@ -287,8 +292,8 @@ char* rrcCallConv getlibSBMLVersion(RRHandle handle)
 {
     try
     {
-    	RoadRunner* rri = castFrom(handle);
-		return rr::createText(rri->getlibSBMLVersion());
+        RoadRunner* rri = castFrom(handle);
+        return rr::createText(rri->getlibSBMLVersion());
     }
     catch_ptr_macro
 }
@@ -297,7 +302,7 @@ char* rrcCallConv getCurrentSBML(RRHandle handle)
 {
     try
     {
-    	RoadRunner* rri = castFrom(handle);
+        RoadRunner* rri = castFrom(handle);
         return rr::createText(rri->writeSBML());
     }
     catch_ptr_macro
@@ -352,6 +357,17 @@ bool rrcCallConv setCompiler(RRHandle handle, const char* fName)
     catch_bool_macro
 }
 
+char* rrcCallConv getCompiler(RRHandle handle)
+{
+    try
+    {
+        RoadRunner* rri = castFrom(handle);
+        Compiler *compiler = rri->getCompiler();
+        return strdup(compiler ? compiler->getCompiler().c_str() : "");
+    }
+    catch_ptr_macro
+}
+
 bool rrcCallConv setCompilerLocation(RRHandle handle, const char* folder)
 {
     try
@@ -400,7 +416,7 @@ char* rrcCallConv getSupportCodeFolder(RRHandle handle)
 {
     try
     {
-    	RoadRunner* rri = castFrom(handle);
+        RoadRunner* rri = castFrom(handle);
         return rr::createText(rri->getCompiler()->getSupportCodeFolder());
     }
     catch_ptr_macro
@@ -467,7 +483,7 @@ bool rrcCallConv loadSBML(RRHandle handle, const char* sbml)
 {
     try
     {
-    	RoadRunner* rri = castFrom(handle);
+        RoadRunner* rri = castFrom(handle);
         return rri->loadSBML(sbml, true);
     }
     catch_bool_macro
@@ -477,7 +493,7 @@ bool rrcCallConv loadSBMLEx(RRHandle handle, const char* sbml, bool forceRecompi
 {
     try
     {
-    	RoadRunner* rri = castFrom(handle);
+        RoadRunner* rri = castFrom(handle);
         if(!rri->loadSBML(sbml, forceRecompilation))
         {
             setError("Failed to load SBML semantics");
@@ -992,7 +1008,7 @@ int rrcCallConv getNumberOfGlobalParameters(RRHandle handle)
         RoadRunner* rri = castFrom(handle);
         return rri->getNumberOfGlobalParameters();
     }
-    catch_ptr_macro
+    catch_int_macro
 }
 
 RRStringArrayPtr rrcCallConv getGlobalParameterIds(RRHandle handle)
@@ -1351,7 +1367,7 @@ RRStringArrayPtr rrcCallConv getSteadyStateSelectionList(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-    	StringList sNames = rri->getSteadyStateSelectionList();
+        StringList sNames = rri->getSteadyStateSelectionList();
 
         if(sNames.Count() == 0)
         {

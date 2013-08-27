@@ -6,7 +6,7 @@
 namespace rr
 {
 
-class RR_DECLSPEC StopWatch : public rrObject
+class RR_DECLSPEC StopWatch 
 {
     private:
         int			 		mStartTime;			//Ticks...

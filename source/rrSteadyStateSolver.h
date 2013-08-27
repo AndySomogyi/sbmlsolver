@@ -7,7 +7,7 @@
 namespace rr
 {
 
-class RR_DECLSPEC SteadyStateSolver : public rrObject
+class RR_DECLSPEC SteadyStateSolver 
 {
 	protected:
     	Capability				  	mCapability;

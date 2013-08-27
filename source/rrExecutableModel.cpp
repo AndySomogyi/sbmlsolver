@@ -1,107 +1,108 @@
 #include <stdlib.h>
 #include <string.h>
 #include "rrExecutableModel.h"
-#include "rrStringUtils.h"
+#include "rrSparse.h"
+#include <iomanip>
+
+using namespace std;
+
+template <typename numeric_type>
+static void dump_array(std::ostream &os, int n, const numeric_type *p)
+{
+    if (p)
+    {
+        os << setiosflags(ios::floatfield) << setprecision(8);
+        os << '[';
+        for (int i = 0; i < n; ++i)
+        {
+            os << p[i];
+            if (i < n - 1)
+            {
+                os << ", ";
+            }
+        }
+        os << ']' << endl;
+    }
+    else
+    {
+        os << "NULL" << endl;
+    }
+}
+
 
 namespace rr
 {
 
-void initModelData(ModelData &data)
+std::ostream& operator <<(std::ostream &stream, ExecutableModel* model)
 {
-    //Zero data structure..
-    memset(&data, 0, sizeof(rr::ModelData));
+    model->print(stream);
+
+    double *tmp;
+
+    int nFloat = model->getNumFloatingSpecies();
+    int nBound = model->getNumBoundarySpecies();
+    int nComp = model->getNumCompartments();
+    int nGlobalParam = model->getNumGlobalParameters();
+    int nEvents = model->getNumEvents();
+    int nReactions = model->getNumReactions();
+
+    stream << "* Calculated Values *" << endl;
+
+    tmp = new double[nFloat];
+    model->getFloatingSpeciesAmounts(nFloat, 0, tmp);
+    stream << "FloatingSpeciesAmounts:" << endl;
+    dump_array(stream, nFloat, tmp);
+
+    /*
+    model->getFloatingSpeciesAmountRates(nFloat, 0, tmp);
+    stream << "FloatingSpeciesAmountRates:" << endl;
+    dump_array(stream, nFloat, tmp);
+    */
+
+    model->getFloatingSpeciesConcentrations(nFloat, 0, tmp);
+    stream << "FloatingSpeciesConcentrations:" << endl;
+    dump_array(stream, nFloat, tmp);
+    delete[] tmp;
+
+    tmp = new double[nReactions];
+    model->getReactionRates(nReactions, 0, tmp);
+    stream << "Reaction Rates:" << endl;
+    dump_array(stream, nReactions, tmp);
+    delete tmp;
+
+    tmp = new double[nBound];
+    model->getBoundarySpeciesAmounts(nBound, 0, tmp);
+    stream << "BoundarySpeciesAmounts:" << endl;
+    dump_array(stream, nBound, tmp);
+
+    model->getBoundarySpeciesConcentrations(nBound, 0, tmp);
+    stream << "BoundarySpeciesConcentrations:" << endl;
+    dump_array(stream, nBound, tmp);
+    delete tmp;
+
+    tmp = new double[nComp];
+    model->getCompartmentVolumes(nComp, 0, tmp);
+    stream << "CompartmentVolumes:" << endl;
+    dump_array(stream, nComp, tmp);
+    delete tmp;
+
+    tmp = new double[nGlobalParam];
+    model->getGlobalParameterValues(nGlobalParam, 0, tmp);
+    stream << "GlobalParameters:" << endl;
+    dump_array(stream, nGlobalParam, tmp);
+    delete tmp;
+
+    unsigned char *tmpEvents = new unsigned char[nEvents];
+    model->getEventTriggers(nEvents, 0, tmpEvents);
+    stream << "Events Trigger Status:" << endl;
+    dump_array(stream, nEvents, (bool*)tmpEvents);
+    delete tmpEvents;
+
+    return stream;
 }
 
-/**
- * many implementations have a rrCalloc which returns a non zero pointer
- * if a zero size data block is requested, this returns zero which
- * makes debugging easier.
- */
-static void *rrCalloc(size_t nmemb, size_t size)
-{
-    return nmemb * size != 0 ? calloc(nmemb, size) : 0;
-}
-
-void allocModelDataBuffers(ModelData &data, const string& modelName)
-{
-    data.modelName = strdup(modelName.c_str());
-
-    // in certain cases, the data returned by c++ new is alligned differently than
-    // malloc, so just use rrCalloc here just to be safe, plus rrCalloc returns zero
-    // initialized memory.
 
 
-    data.floatingSpeciesAmounts = (double*)rrCalloc(data.numFloatingSpecies, sizeof(double));
-    data.floatingSpeciesConcentrationRates = (double*)rrCalloc(data.numFloatingSpecies, sizeof(double));
-    data.rateRules = (double*)rrCalloc(data.numRateRules, sizeof(double));
-    data.floatingSpeciesConcentrations = (double*)rrCalloc(data.numFloatingSpecies, sizeof(double));
-    data.reactionRates = (double*)rrCalloc(data.numReactions, sizeof(double));
-    data.dependentSpeciesConservedSums = (double*)rrCalloc(data.numDependentSpecies, sizeof(double));
-    data.floatingSpeciesInitConcentrations = (double*)rrCalloc(data.numFloatingSpecies, sizeof(double));
-    data.globalParameters = (double*)rrCalloc(data.numGlobalParameters, sizeof(double));
-    data.compartmentVolumes = (double*)rrCalloc(data.numCompartments, sizeof(double));
-    data.boundarySpeciesConcentrations = (double*)rrCalloc(data.numBoundarySpecies, sizeof(double));
-    data.sr = (double*)rrCalloc(data.srSize, sizeof(double));
-    data.eventPriorities = (double*)rrCalloc(data.eventPrioritiesSize, sizeof(double));
-    data.eventStatusArray = (bool*)rrCalloc(data.eventStatusArraySize, sizeof(bool));
-    data.previousEventStatusArray = (bool*)rrCalloc(data.previousEventStatusArraySize, sizeof(bool));
-    data.eventPersistentType = (bool*)rrCalloc(data.eventPersistentTypeSize, sizeof(bool));
-    data.eventTests = (double*)rrCalloc(data.eventTestsSize, sizeof(double));
-    data.eventType = (bool*)rrCalloc(data.eventTypeSize, sizeof(bool));
-    data.floatingSpeciesCompartments = (int*)rrCalloc(data.numFloatingSpecies, sizeof(int));
-    data.boundarySpeciesCompartments = (int*)rrCalloc(data.numBoundarySpecies, sizeof(int));
 
-    // allocate space for the symbolic names of things
-    data.variableTable = (char**)rrCalloc(data.numFloatingSpecies, sizeof(char*));
-    data.boundaryTable = (char**)rrCalloc(data.numBoundarySpecies, sizeof(char*));
-    data.globalParameterTable = (char**)rrCalloc(data.numGlobalParameters, sizeof(char*));
-
-
-    //Event function pointer stuff
-    data.eventAssignments =
-            (TEventAssignmentDelegate*)rrCalloc(data.numEvents, sizeof(TEventAssignmentDelegate*));
-    data.computeEventAssignments =
-            (TComputeEventAssignmentDelegate*)rrCalloc(data.numEvents, sizeof(TComputeEventAssignmentDelegate*));
-    data.performEventAssignments =
-            (TPerformEventAssignmentDelegate*)rrCalloc(data.numEvents, sizeof(TPerformEventAssignmentDelegate*));
-    data.eventDelays =
-            (TEventDelayDelegate*)rrCalloc(data.numEvents, sizeof(TEventDelayDelegate*));
-}
-
-void  freeModelDataBuffers(ModelData &data)
-{
-    free(data.modelName);
-
-    free(data.floatingSpeciesAmounts);
-    free(data.floatingSpeciesConcentrationRates);
-    free(data.rateRules);
-    free(data.floatingSpeciesConcentrations);
-    free(data.floatingSpeciesCompartments);
-    free(data.reactionRates);
-    free(data.dependentSpeciesConservedSums);
-    free(data.floatingSpeciesInitConcentrations);
-    free(data.globalParameters);
-    free(data.compartmentVolumes);
-    free(data.boundarySpeciesConcentrations);
-    free(data.boundarySpeciesCompartments);
-    free(data.sr);
-    free(data.eventPriorities);
-    free(data.eventStatusArray);
-    free(data.previousEventStatusArray);
-    free(data.eventPersistentType);
-    free(data.eventTests);
-    free(data.eventType);
-
-    // free names
-    free(data.variableTable);
-    free(data.boundaryTable);
-    free(data.globalParameterTable);
-
-    //Event function pointer stuff
-    free(data.eventAssignments);
-    free(data.computeEventAssignments);
-    free(data.performEventAssignments);
-    free(data.eventDelays);
-}
 
 } // namespace rr

@@ -1,23 +1,11 @@
 #ifndef rrModelGeneratorH
 #define rrModelGeneratorH
 #include <string>
-#include <vector>
 #include <list>
-#include "rrObject.h"
-#include "rrStringList.h"
-#include "rrSymbolList.h"
-#include "rrCodeBuilder.h"
-#include "rrNOMSupport.h"
-#include "rrScanner.h"
+#include <vector>
 #include "rrExecutableModel.h"
-#include "rrModelSymbols.h"
-#include "rr-libstruct/lsMatrix.h"
-#include "rr-libstruct/lsLibStructural.h"
 
-using std::string;
-using std::vector;
-using std::list;
-using namespace ls;
+
 namespace rr
 {
 class Compiler;
@@ -27,59 +15,64 @@ class Compiler;
  * This can have different concrete implementations such as compiler
  * based generators, JIT'ed or interpreter based ones.
  */
-class RR_DECLSPEC ModelGenerator : public rrObject
+class RR_DECLSPEC ModelGenerator
 {
 public:
-    ModelGenerator();
+    enum ModelGeneratorOptions
+    {
+        /** currently only implemented with the C version */
+        ComputeAndAssignConsevationLaws = (0x1 << 0), // => 0x00000001
+
+        /** C version specific, forces the model to be re-compiled */
+        ForceReCompile                  = (0x1 << 1), // => 0x00000010
+    };
 
     /**
      * certain model generators, such as the compiler based ones
      * generate files such as shared libraries. This specifies the
      * location where they are stored.
      */
-    virtual bool                        setTemporaryDirectory(const string& path) = 0;
+    virtual bool setTemporaryDirectory(const std::string& path) = 0;
 
     /**
      * certain model generators, such as the compiler based ones
      * generate files such as shared libraries. This specifies the
      * location where they are stored.
      */
-    virtual string                      getTemporaryDirectory() = 0;
+    virtual std::string getTemporaryDirectory() = 0;
 
     /**
-     * Create an executable model from an sbml string, a LibStructural and a NOMSupport.
-     * The libstruct and nom objects must already have the sbml loaded into them.
+     * Create an executable model from an sbml string.
      *
-     * For the time being, this sets up a bunch of ivars, such as mLibStruct and mNOM,
-     * and in order to preserve compatibility, thise will remain pointing to whatever
-     * was passed in.
-     * Eventually these ivars will either go away or will be cleared. The ModelGenerator
-     * is intended ONLY to make models, not query NOM info.
+     * @param sbml a string containging the contents of an sbml doc.
+     * @param options a bitfield containing items from the ModelGeneratorOptions
+     * enumeration.
      */
-    virtual ExecutableModel             *createModel(const string& sbml, LibStructural *ls, NOMSupport *nom,
-            bool forceReCompile, bool computeAndAssignConsevationLaws) = 0;
+    virtual ExecutableModel *createModel(const std::string& sbml,
+            unsigned int options) = 0;
 
     /**
      * Get the compiler object that the model generator is using to
      * 'compile' sbml. Certain model generators may be interpreters, in this
      * case, the Compiler interface should still be sufficiently general to
      * manipulate interpreters as well.
-     *
-     * TODO: Make Compiler an interface.
      */
-    virtual                             Compiler *getCompiler() = 0;
+    virtual Compiler *getCompiler() = 0;
 
     /**
      * Set the name of the compiler to use. In the case of source code generating
      * model generators, this is the exectuable name of the external compiler, i.e.
      * 'gcc', 'icc', etc... For JITing generators, this may have no effect.
      */
-    virtual                             bool setCompiler(const string& compiler) = 0;
+    virtual bool setCompiler(const std::string& compiler) = 0;
 
     /**
      * public dtor, one can and most certainly delete an object of this class.
      */
-    virtual                             ~ModelGenerator();
+    virtual ~ModelGenerator() {};
+
+protected:
+    ModelGenerator() {};
 
 };
 }

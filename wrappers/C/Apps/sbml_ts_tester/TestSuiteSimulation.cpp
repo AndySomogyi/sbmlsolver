@@ -3,10 +3,10 @@
 #include "rrUtils.h"
 #include "rrRoadRunnerData.h"
 #include "TestSuiteSimulation.h"
+#include "rrLogger.h"
 
 extern string gTSModelsPath;
 extern string gTempFolder;
-extern bool gDebug;
 using namespace rr;
 RoadRunnerData convertCAPIResultData(RRCDataPtr        resultsHandle);
 
@@ -121,23 +121,14 @@ RoadRunnerData convertCAPIResultData(RRCDataPtr    result)
 }
 
 
-bool RunTest(const string& version, int caseNumber)
+bool RunTest(const string& version, int caseNumber, const std::string& compiler)
 {
     bool result = false;
     RRHandle gRR = 0;
 
     //Create instance..
-    gRR = createRRInstanceEx(gTempFolder.c_str());
+    gRR = createRRInstanceEx(gTempFolder.c_str(), compiler.size() ? compiler.c_str() : 0);
 
-    if(gDebug && gRR)
-    {
-        enableLoggingToConsole();
-        setLogLevel("Debug5");
-    }
-    else
-    {
-        setLogLevel("Error");
-    }
 
     //Setup environment
     setTempFolder(gRR, gTempFolder.c_str());
@@ -149,7 +140,7 @@ bool RunTest(const string& version, int caseNumber)
 
     try
     {
-        clog<<"Running Test: "<<caseNumber<<endl;
+        Log(Logger::PRIO_NOTICE) << "Running Test: "<<caseNumber<<endl;
         string dataOutputFolder(gTempFolder);
         string dummy;
         string logFileName;
@@ -188,32 +179,32 @@ bool RunTest(const string& version, int caseNumber)
 
         if(!simulation.LoadSBMLFromFile())
         {
-            throw("Failed loading sbml from file");
+            throw Exception("Failed loading sbml from file");
         }
 
         //Then read settings file if it exists..
         string settingsOveride("");
         if(!simulation.LoadSettings(settingsOveride))
         {
-            throw("Failed loading simulation settings");
+            throw Exception("Failed loading simulation settings");
         }
 
         //Then Simulate model
         if(!simulation.Simulate())
         {
-            throw("Failed running simulation");
+            throw Exception ("Failed running simulation");
         }
 
         //Write result
         if(!simulation.SaveResult())
         {
             //Failed to save data
-            throw("Failed saving result");
+            throw Exception("Failed saving result");
         }
 
         if(!simulation.LoadReferenceData())
         {
-            throw("Failed Loading reference data");
+            throw Exception("Failed Loading reference data");
         }
 
         simulation.CreateErrorData();
@@ -222,17 +213,17 @@ bool RunTest(const string& version, int caseNumber)
         simulation.SaveModelAsXML(dataOutputFolder);
         if(!result)
         {
-            clog<<"\t\tTest failed..\n";
+            Log(Logger::PRIO_NOTICE) << "\t\tTest failed using compiler \'" << getCompiler(gRR) << "\'" << endl;
         }
         else
         {
-            clog<<"\t\tTest passed..\n";
+            Log(Logger::PRIO_NOTICE) <<"\t\tTest passed using compiler \'" << getCompiler(gRR) << "\'" << endl;
         }
     }
     catch(rr::Exception& ex)
     {
         string error = ex.what();
-        cerr<<"Case "<<caseNumber<<": Exception: "<<error<<endl;
+        Log(Logger::PRIO_NOTICE) << "Case "<<caseNumber<<": Exception: "<<error<<endl;
         result = false;;
     }
 

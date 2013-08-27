@@ -8,6 +8,7 @@
 #include "rrc_api.h"
 #include "rrGetOptions.h"
 #include "src/Args.h"
+#include "rrRoadRunner.h"
 
 using namespace std;
 using namespace rr;
@@ -15,11 +16,12 @@ using namespace rrc;
 using namespace UnitTest;
 using std::string;
 
-string     gTempFolder                   = "";
+string     gTempFolder              = "";
 string     gRRInstallFolder         = "";
-string  gTestDataFolder            = "";
-bool    gDebug                    = false;
+string     gTestDataFolder          = "";
+bool       gDebug                   = false;
 string     gTSModelsPath;
+bool       gUseLLVM                 = false;
 
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 bool setup(Args& args);
@@ -27,7 +29,12 @@ bool setup(Args& args);
 //call with arguments, -m"modelFilePath" -r"resultFileFolder" -t"TempFolder" -s"Suites"
 int main(int argc, char* argv[])
 {
-    enableLoggingToConsole();
+    cout << "RoadRunner SBML Test Suite" << endl;
+    cout << "built on " << __TIMESTAMP__ << endl;
+    cout << RoadRunner::getExtendedVersionInfo() << endl;
+
+    Logger::enableLoggingToConsole();
+
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
     setup(args);
@@ -67,13 +74,65 @@ int main(int argc, char* argv[])
         runner1.RunTestsIf(Test::GetTestList(), "LIBSTRUCT_TESTS",          True(), 0);
     }
 
-    if(args.Suites.find('E') != std::string::npos)
+    if (args.Suites.find('E') != std::string::npos)
     {
 
-        clog<<"Running Suite SBML_l2v4\n";
-        clog<<"ModelPath "<<gTSModelsPath;
-        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE",             True(), 0);
+        clog << "Running Suite SBML_l2v4\n";
+        clog << "ModelPath " << gTSModelsPath;
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE", True(), 0);
     }
+    if (args.Suites.find('F') != std::string::npos)
+    {
+
+        clog << "Running Suite Valgrind SBML_TEST_SUITE_VG1\n";
+        clog << "ModelPath " << gTSModelsPath;
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_VG1", True(),
+                0);
+    }
+
+    if (args.Suites.find('G') != std::string::npos)
+    {
+
+        clog << "Running Suite Valgrind SBML_TEST_SUITE_VG2\n";
+        clog << "ModelPath " << gTSModelsPath;
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_VG2", True(),
+                0);
+    }
+
+    if (args.Suites.find('H') != std::string::npos)
+    {
+
+        clog << "Running Suite Valgrind SBML_TEST_SUITE_RATE_RULES\n";
+        clog << "ModelPath " << gTSModelsPath;
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_RATE_RULES", True(),
+                0);
+    }
+
+    if (args.Suites.find('I') != std::string::npos)
+    {
+
+        clog << "Running Suite Valgrind SBML_TEST_SUITE_EVENTS\n";
+        clog << "ModelPath " << gTSModelsPath;
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_EVENTS", True(),
+                0);
+    }
+
+    if (args.Suites.find('J') != std::string::npos)
+    {
+        clog << "Running Suite SBML_TEST_SUITE_C_FAILS\n";
+        clog << "ModelPath " << gTSModelsPath;
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_C_FAIL", True(),
+                0);
+    }
+    
+    if (args.Suites.find('K') != std::string::npos)
+    {
+        clog << "Running Suite SBML_TEST_SUITE_LONGTIME\n";
+        clog << "ModelPath " << gTSModelsPath;
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_LONGTIME", True(),
+                           0);
+    }
+
 
 
     //Finish outputs result to xml file
@@ -88,14 +147,22 @@ bool setup(Args& args)
 
     //Assume(!) this is the bin folder of roadrunner install
     gRRInstallFolder     = getParentFolder(thisExeFolder);
-    gDebug                = args.EnableLogging;
-    gTSModelsPath         = args.ModelsFilePath;
-    gTempFolder            = args.TempDataFolder;
+    gDebug               = args.EnableLogging;
+    gTSModelsPath        = args.ModelsFilePath;
+    gTempFolder          = args.TempDataFolder;
     gTestDataFolder      = joinPath(gRRInstallFolder, "testing");
+
+    if (args.compiler == "llvm")
+    {
+        gUseLLVM = true;
+        cout << "Enabling LLVM" << endl;
+        Log(Logger::PRIO_NOTICE) << "Enabling LLVM";
+    }
+
     if(args.Suites.size() == 0)
     {
         //Run all
-        args.Suites = "ABCDEF";
+        args.Suites = "ABCDE";
     }
 
     setInstallFolder(gRRInstallFolder.c_str());
@@ -103,11 +170,11 @@ bool setup(Args& args)
     if(gDebug)
     {
         enableLoggingToConsole();
-        setLogLevel("Debug5");
+        Logger::setLevel(Logger::PRIO_DEBUG);
     }
     else
     {
-      setLogLevel("Error");
+        Logger::setLevel(Logger::PRIO_NOTICE);
     }
 
     // set test suite model path (read from cmd line)
@@ -118,7 +185,7 @@ bool setup(Args& args)
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 {
     char c;
-    while ((c = GetOptions(argc, argv, ("m:r:t:vs:"))) != -1)
+    while ((c = GetOptions(argc, argv, ("m:r:t:vs:c:"))) != -1)
     {
         switch (c)
         {
@@ -127,6 +194,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
             case ('t'): args.TempDataFolder     = rrOptArg; break;
             case ('v'): args.EnableLogging      = true;     break;
             case ('s'): args.Suites             = rrOptArg; break;
+            case ('c'): args.compiler           = rrOptArg; break;
             case ('?'): cout << Usage(argv[0]) << endl;     break;
             default:
             {

@@ -1,5 +1,6 @@
 #pragma hdrstop
 #include "rrRoadRunner.h"
+#include "rrExecutableModel.h"
 #include "rrException.h"
 #include "rrc_nom_api.h"
 #include "rrc_cpp_support.h"
@@ -15,12 +16,7 @@ char* rrcCallConv getModelName(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        if(!rri->getNOM())
-        {
-            Log(lWarning)<<"NOM is not allocated.";
-            return NULL;
-        }
-        return createText(rri->getNOM()->getModelName());
+        return createText(rri->getModelName());
     }
     catch_ptr_macro
 }
@@ -30,12 +26,12 @@ int rrcCallConv getNumberOfRules(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        if(!rri->getNOM())
+        if(!rri->getModel())
         {
-            Log(lWarning)<<"NOM is not allocated.";
+            Log(lWarning)<<"Model is not allocated.";
             return -1;
         }
-        int value = rri->getNOM()->getNumRules();
+        int value = rri->getModel()->getNumRules();
         return value;
     }
     catch_int_macro

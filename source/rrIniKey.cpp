@@ -66,13 +66,13 @@ void IniKey::SetupKey(const string& key)
             mKey = recs[0];
             mValue = recs[1];
           }
-	    mComment 	= gEmptyString;
+	    mComment = "";
     }
     else
     {
-        mKey 		= gEmptyString;
-        mValue 		= gEmptyString;
-        mComment 	= gEmptyString;
+        mKey = "";
+        mValue = "";
+        mComment = "";
     }
 }
 

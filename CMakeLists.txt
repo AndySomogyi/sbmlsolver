@@ -9,11 +9,11 @@ if(WIN32)
     if(BORLAND)
         set(FOLDER_POSTFIX "xe")
     endif()
-    
+
     if(MSVC)
         set(FOLDER_POSTFIX "vs")
     endif()
-    
+
     if(UNIX)
         set(FOLDER_POSTFIX "gcc")
     endif()
@@ -37,6 +37,9 @@ find_package(LLVM)
 
 # should we use LLVM ?
 option (BUILD_LLVM "Build the optional LLVM back end (Should build, but not fully implemented yet)" OFF)
+
+# should we build the swig python wrapper?
+option (BUILD_SWIG_PYTHON "build the *EXPERIMENTAL* SWIG generated python wrapper" OFF)
 
 if(BUILD_LLVM AND NOT LLVM_FOUND)
     message(FATAL_ERROR "BUILD_LLVM is enabled, but no LLVM installation was found")
@@ -150,28 +153,29 @@ endif()
 
 if(UNIX)
     if(CMAKE_COMPILER_IS_GNUCXX)
-        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC --std=c++0x")
+        set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
         set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
     endif()
 endif()
 
 if(BUILD_LLVM)
     message(STATUS "using LLVM, version ${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}")
+    add_definitions(-DBUILD_LLVM)
     add_definitions(${LLVM_CXXFLAGS})
     include_directories(${LLVM_INCLUDE_DIR})
 else()
-    message(STATUS "NOT using LLVM") 
+    message(STATUS "NOT using LLVM")
 endif(BUILD_LLVM)
 
 
 # We alway have to build the roadrunner core, everything depends on this
-add_subdirectory(source)        
+add_subdirectory(source)
 
 if(INSTALL_CXX_API)
     if(INSTALL_APPS)
         add_subdirectory(apps)
     endif()
-    
+
     if(INSTALL_EXAMPLES)
         add_subdirectory(examples)
     endif()
