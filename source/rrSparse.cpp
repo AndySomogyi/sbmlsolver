@@ -17,6 +17,13 @@
 #include <iostream>
 #include <cmath>
 #include <cstdio>
+#include <limits>
+
+#ifdef WIN32
+#define isnan _isnan
+#else
+#define isnan std::isnan
+#endif
 
 namespace rr {
 
@@ -202,7 +209,7 @@ std::ostream& operator <<(std::ostream& os, const csr_matrix* mat)
             {
                 double val = csr_matrix_get_nz(mat, m, n);
                 os.width(7);
-                os << (std::isnan(val) ? 0 : val);
+                os << (isnan(val) ? 0 : val);
                 if (n < mat->n - 1)
                 {
                     os << ", ";
