@@ -23,7 +23,7 @@ using Poco::SimpleFileChannel;
 
 static Poco::Logger *pocoLogger = 0;
 volatile int logLevel = -1;
-const Logger::Level defaultLogLevel = Logger::PRIO_INFORMATION;
+const Logger::Level defaultLogLevel = Logger::PRIO_NOTICE;
 
 Poco::Logger& getLogger()
 {
