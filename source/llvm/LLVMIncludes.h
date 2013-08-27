@@ -16,10 +16,6 @@
 #pragma pop_macro("CONFIG_H")
 #endif
 
-#ifndef LLVM_VERSION_MAJOR
-#error "At least LLVM version 3.1 required"
-#endif
-
 #if (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR >= 3)
 #include <llvm/IR/DataLayout.h>
 #include <llvm/IR/DerivedTypes.h>
@@ -34,7 +30,8 @@
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
 #include <llvm/Intrinsics.h>
-#elif (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR == 1)
+//#elif (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR == 1)
+#else
 #include <llvm/DerivedTypes.h>
 #include <llvm/ExecutionEngine/ExecutionEngine.h>
 #include <llvm/ExecutionEngine/JIT.h>
