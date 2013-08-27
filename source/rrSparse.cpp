@@ -148,7 +148,7 @@ double csr_matrix_get_nz(const csr_matrix* mat, unsigned row, unsigned col)
             }
         }
     }
-    return nan("dcsr_matrix_get_nz not found");
+    return std::numeric_limits<double>::quiet_NaN();
 }
 
 void csr_matrix_delete(csr_matrix* mat)
