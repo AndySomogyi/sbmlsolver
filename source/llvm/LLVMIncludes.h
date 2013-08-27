@@ -16,20 +16,34 @@
 #pragma pop_macro("CONFIG_H")
 #endif
 
-#if (LLVM_VERSION_MINOR >= 3)
+#if (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR >= 3)
 #include <llvm/IR/DataLayout.h>
 #include <llvm/IR/DerivedTypes.h>
 #include <llvm/IR/IRBuilder.h>
 #include <llvm/IR/LLVMContext.h>
 #include <llvm/IR/Module.h>
 #include <llvm/IR/Intrinsics.h>
-#else
+#elif (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR == 2)
 #include <llvm/DataLayout.h>
 #include <llvm/DerivedTypes.h>
 #include <llvm/IRBuilder.h>
 #include <llvm/LLVMContext.h>
 #include <llvm/Module.h>
 #include <llvm/Intrinsics.h>
+//#elif (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR == 1)
+#else
+#include <llvm/DerivedTypes.h>
+#include <llvm/ExecutionEngine/ExecutionEngine.h>
+#include <llvm/ExecutionEngine/JIT.h>
+#include <llvm/LLVMContext.h>
+#include <llvm/Module.h>
+#include <llvm/PassManager.h>
+#include <llvm/Analysis/Verifier.h>
+#include <llvm/Analysis/Passes.h>
+#include <llvm/Target/TargetData.h>
+#include <llvm/Transforms/Scalar.h>
+#include <llvm/Support/IRBuilder.h>
+#include <llvm/Support/TargetSelect.h>
 #endif
 #include <llvm/Analysis/Passes.h>
 #include <llvm/Analysis/Verifier.h>
@@ -39,6 +53,7 @@
 #include <llvm/Support/TargetSelect.h>
 #include <llvm/Transforms/Scalar.h>
 #include <llvm/Support/raw_ostream.h>
+#include <llvm/Target/TargetLibraryInfo.h>
 
 namespace rr {
 /**

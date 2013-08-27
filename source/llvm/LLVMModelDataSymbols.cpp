@@ -54,11 +54,6 @@ static const char* modelDataFieldsNames[] =  {
     "StateVectorSize",                          // 22
     "StateVector",                              // 23
     "StateVectorRate",                          // 24
-    "EventAssignmentsSize",                     // 25
-    "EventAssignments",                         // 26
-    "WorkSize",                                 // 27
-    "Work",                                     // 28
-    "ModelName"                                 // 29
 };
 
 /*
@@ -87,8 +82,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols() :
         independentFloatingSpeciesSize(0),
         independentBoundarySpeciesSize(0),
         independentGlobalParameterSize(0),
-        independentCompartmentSize(0),
-        eventAssignmentSize(0)
+        independentCompartmentSize(0)
 {
 }
 
@@ -98,8 +92,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
         independentFloatingSpeciesSize(0),
         independentBoundarySpeciesSize(0),
         independentGlobalParameterSize(0),
-        independentCompartmentSize(0),
-        eventAssignmentSize(0)
+        independentCompartmentSize(0)
 {
     modelName = model->getName();
 
@@ -154,6 +147,10 @@ LLVMModelDataSymbols::~LLVMModelDataSymbols()
 {
 }
 
+const std::string& LLVMModelDataSymbols::getModelName() const
+{
+    return modelName;
+}
 
 uint LLVMModelDataSymbols::getCompartmentIndex(
         const std::string& id) const
@@ -181,7 +178,7 @@ uint LLVMModelDataSymbols::getFloatingSpeciesIndex(
     {
         string msg = "could not determine index for floating species with id ";
         msg += string("\'" + id + "\', ");
-        if(i != floatingSpeciesMap.end())
+        if(i == floatingSpeciesMap.end())
         {
             msg += " it is not a floating species";
         }
@@ -245,14 +242,10 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(LLVMModelData& m) const
     m.numRateRules                  = rateRules.size();
     m.numCompartments               = independentCompartmentSize;
     m.numBoundarySpecies            = independentBoundarySpeciesSize;
-    m.eventAssignmentsSize          = getEventAssignmentSize();
-
-    m.modelName = strdup(modelName.c_str());
 
     // in certain cases, the data returned by c++ new may be alligned differently than
     // malloc, so just use calloc here just to be safe, plus calloc returns zero
     // initialized memory.
-
 
     m.floatingSpeciesAmounts = (double*)calloc(m.numIndependentSpecies, sizeof(double));
     m.floatingSpeciesAmountRates = (double*)calloc(m.numIndependentSpecies, sizeof(double));
@@ -260,22 +253,16 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(LLVMModelData& m) const
     m.rateRuleRates = (double*)calloc(m.numRateRules, sizeof(double));
 
     m.reactionRates = (double*)calloc(m.numReactions, sizeof(double));
-    //m.dependentSpeciesConservedSums = (double*)rrCalloc(m.numDependentSpecies, sizeof(double));
-    //m.floatingSpeciesInitConcentrations = (double*)rrCalloc(m.numFloatingSpecies, sizeof(double));
+
     m.globalParameters = (double*)calloc(m.numGlobalParameters, sizeof(double));
     m.compartmentVolumes = (double*)calloc(m.numCompartments, sizeof(double));
-    //m.boundarySpeciesConcentrations = (double*)rrCalloc(m.numBoundarySpecies, sizeof(double));
-    m.boundarySpeciesAmounts = (double*)calloc(m.numBoundarySpecies, sizeof(double));
 
-    //m.work = (double*)rrCalloc(m.workSize, sizeof(double));
+    m.boundarySpeciesAmounts = (double*)calloc(m.numBoundarySpecies, sizeof(double));
 
 
     // allocate the stoichiometry matrix
     m.stoichiometry = csr_matrix_new(m.numIndependentSpecies, getReactionSize(),
             stoichRowIndx, stoichColIndx, vector<double>(stoichRowIndx.size(), 0));
-
-
-    m.eventAssignments = (double*)calloc(m.eventAssignmentsSize, sizeof(double));
 }
 
 std::vector<std::string> LLVMModelDataSymbols::getCompartmentIds() const
@@ -316,13 +303,15 @@ uint LLVMModelDataSymbols::getFloatingSpeciesSize() const
     return floatingSpeciesMap.size();
 }
 
-std::list<std::pair<uint, uint> > LLVMModelDataSymbols::getStoichiometryIndx() const
+std::list<LLVMModelDataSymbols::SpeciesReferenceInfo>
+    LLVMModelDataSymbols::getStoichiometryIndx() const
 {
-    std::list<std::pair<uint, uint> > result;
+    std::list<SpeciesReferenceInfo> result;
 
     for (uint i = 0; i < stoichRowIndx.size(); i++)
     {
-        pair<uint,uint> entry(stoichRowIndx[i], stoichColIndx[i]);
+        SpeciesReferenceInfo entry =
+            {stoichRowIndx[i], stoichColIndx[i], stoichTypes[i], stoichIds[i]};
         result.push_back(entry);
     }
 
@@ -421,19 +410,9 @@ bool LLVMModelDataSymbols::isIndependentCompartment(const std::string& id) const
             i->second < independentCompartmentSize;
 }
 
-uint LLVMModelDataSymbols::getEventAssignmentOffset(uint eventIndx) const
-{
-    return eventAssignmentOffsets[eventIndx];
-}
-
-uint LLVMModelDataSymbols::getEventAssignmentSize() const
-{
-    return eventAssignmentSize;
-}
-
 const char* LLVMModelDataSymbols::getFieldName(ModelDataFields field)
 {
-    if (field >= Size && field <= ModelName)
+    if (field >= Size && field <= StateVectorRate)
     {
         return modelDataFieldsNames[field];
     }
@@ -743,13 +722,13 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
     const ListOfReactions *reactions = model->getListOfReactions();
     for (uint i = 0; i < reactions->size(); i++)
     {
-        const Reaction *r = reactions->get(i);
-        reactionsMap.insert(StringUIntPair(r->getId(), i));
+        const Reaction *reaction = reactions->get(i);
+        reactionsMap.insert(StringUIntPair(reaction->getId(), i));
 
         // go through the reaction reactants and products to know how much to
         // allocate space for the stochiometry matrix.
         // all species that participate in reactions must be floating.
-        const ListOfSpeciesReferences *reactants = r->getListOfReactants();
+        const ListOfSpeciesReferences *reactants = reaction->getListOfReactants();
         for (uint j = 0; j < reactants->size(); j++)
         {
             const SimpleSpeciesReference *r = reactants->get(j);
@@ -760,10 +739,30 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                 uint speciesIdx = getFloatingSpeciesIndex(r->getSpecies());
                 stoichColIndx.push_back(i);
                 stoichRowIndx.push_back(speciesIdx);
+                stoichIds.push_back(r->isSetId() ? r->getId() : "");
+                stoichTypes.push_back(Reactant);
+
+                if(r->isSetId() && r->getId().length() > 0)
+                {
+                    if (namedSpeciesReferenceInfo.find(r->getId()) ==
+                            namedSpeciesReferenceInfo.end())
+                    {
+                        SpeciesReferenceInfo info =
+                            {speciesIdx, i, Reactant, r->getId()};
+                        namedSpeciesReferenceInfo[r->getId()] = info;
+                    }
+                    else
+                    {
+                        string msg = "Species Reference with id ";
+                        msg += r->getId();
+                        msg += " appears more than once in the model";
+                        throw_llvm_exception(msg);
+                    }
+                }
             }
         }
 
-        const ListOfSpeciesReferences *products = r->getListOfProducts();
+        const ListOfSpeciesReferences *products = reaction->getListOfProducts();
         for (uint j = 0; j < products->size(); j++)
         {
             const SimpleSpeciesReference *p = products->get(j);
@@ -774,10 +773,31 @@ void LLVMModelDataSymbols::initReactions(const libsbml::Model* model)
                 uint speciesIdx = getFloatingSpeciesIndex(p->getSpecies());
                 stoichColIndx.push_back(i);
                 stoichRowIndx.push_back(speciesIdx);
+                stoichIds.push_back(p->isSetId() ? p->getId() : "");
+                stoichTypes.push_back(Product);
+
+                if (p->isSetId() && p->getId().length() > 0)
+                {
+                    if (namedSpeciesReferenceInfo.find(p->getId())
+                            == namedSpeciesReferenceInfo.end())
+                    {
+                        SpeciesReferenceInfo info =
+                            { speciesIdx, i, Product, p->getId()};
+                        namedSpeciesReferenceInfo[p->getId()] = info;
+                    }
+                    else
+                    {
+                        string msg = "Species Reference with id ";
+                        msg += p->getId();
+                        msg += " appears more than once in the model";
+                        throw_llvm_exception(msg);
+                    }
+                }
             }
         }
     }
 }
+
 
 bool LLVMModelDataSymbols::isValidSpeciesReference(
         const libsbml::SimpleSpeciesReference* ref, const std::string& reacOrProd)
@@ -847,8 +867,8 @@ void LLVMModelDataSymbols::initEvents(const libsbml::Model* model)
 
     if (events->size())
     {
-        eventAssignmentOffsets.resize(events->size());
         eventAttributes.resize(events->size());
+        eventAssignmentsSize.resize(events->size());
 
         // load the event attributes
         for (uint i = 0; i < events->size(); ++i)
@@ -876,20 +896,8 @@ void LLVMModelDataSymbols::initEvents(const libsbml::Model* model)
             }
 
             eventAttributes[i] = attr;
+            eventAssignmentsSize[i] = event->getListOfEventAssignments()->size();
         }
-
-        // figure out where to store the event assigment values.
-        eventAssignmentOffsets[0] = 0;
-        for (uint i = 0; i < events->size() - 1; ++i)
-        {
-            const Event *event = events->get(i);
-
-            eventAssignmentOffsets[i+1] = eventAssignmentOffsets[i] +
-                    event->getNumEventAssignments();
-        }
-
-        eventAssignmentSize = eventAssignmentOffsets.back() +
-                events->get(events->size() - 1)->getNumEventAssignments();
     }
 }
 
@@ -897,6 +905,33 @@ const std::vector<unsigned char>& LLVMModelDataSymbols::getEventAttributes() con
 {
     return eventAttributes;
 }
+
+uint LLVMModelDataSymbols::getEventBufferSize(uint eventId) const
+{
+    assert(eventId <= eventAssignmentsSize.size() && "event id out of range");
+    return eventAssignmentsSize[eventId];
+}
+
+bool LLVMModelDataSymbols::isNamedSpeciesReference(const std::string& id) const
+{
+    return namedSpeciesReferenceInfo.find(id) != namedSpeciesReferenceInfo.end();
+}
+
+const LLVMModelDataSymbols::SpeciesReferenceInfo&
+    LLVMModelDataSymbols::getNamedSpeciesReferenceInfo(const std::string& id) const
+{
+    StringRefInfoMap::const_iterator i = namedSpeciesReferenceInfo.find(id);
+    if (i != namedSpeciesReferenceInfo.end())
+    {
+        return i->second;
+    }
+    else
+    {
+        throw_llvm_exception(id + " is not a named SpeciesReference");
+        return *(SpeciesReferenceInfo*)(0); // shutup eclipse warnings
+    }
+}
+
 
 } /* namespace rr */
 

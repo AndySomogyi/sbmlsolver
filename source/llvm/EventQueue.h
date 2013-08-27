@@ -11,48 +11,107 @@
 #include "rrOSSpecifics.h"
 #include <deque>
 #include <queue>
+#include <list>
+#include <ostream>
 
 namespace rr
 {
 class LLVMExecutableModel;
+}
 
-/**
- * compare functor to determine event priority
- */
-struct EventComparator
-{
-    EventComparator(LLVMExecutableModel&);
-    bool operator()(uint a, uint b);
+namespace rrllvm {
 
-    LLVMExecutableModel &model;
-};
-
-
-class EventQueue :
-        public std::priority_queue<uint, std::deque<uint>, EventComparator>
+class Event
 {
 public:
-    typedef std::priority_queue<uint, std::deque<uint>, EventComparator> _base;
-    typedef _base::container_type::const_iterator const_iterator;
-    typedef _base::container_type::iterator iterator;
+    Event(rr::LLVMExecutableModel&, uint id);
+    Event(const Event& other);
+    Event& operator=( const Event& rhs );
+    ~Event();
 
-    EventQueue(LLVMExecutableModel&);
 
-    iterator find(uint key);
+    void assign() const;
 
-    iterator end();
+    bool isExpired() const;
 
-    iterator begin();
+    bool isCurrent() const;
+
+    double getPriority() const;
+
+    bool isPersistent() const;
+
+    bool useValuesFromTriggerTime() const;
+
+    bool isTriggered() const;
+
+    /**
+     * is this event ready to be applied
+     */
+    bool isRipe() const;
+
+    rr::LLVMExecutableModel& model;
+    uint id;
+    double delay;
+    double assignTime;
+    uint dataSize;
+    double* data;
+
+
+    friend bool operator<(const Event& a, const Event& b);
+
+};
+
+std::ostream& operator <<(std::ostream& os, const Event& data);
+
+
+class EventQueue
+{
+public:
+    typedef std::list<rrllvm::Event> _Sequence;
+    typedef std::less<_Sequence::value_type> _Compare;
+    typedef _Sequence::const_iterator const_iterator;
+    typedef _Sequence::iterator iterator;
+    typedef _Sequence::const_reference const_reference;
+
+    _Sequence  c;
+    _Compare   comp;
+
 
     void make_heap();
 
-    void erase(iterator pos);
-
-    void eraseExpiredEvents();
+    bool eraseExpiredEvents();
 
     bool hasCurrentEvents();
+
+    bool applyEvent();
+
+    uint size() const;
+
+    const_reference top();
+
+    void push(const Event& e);
+
+    double getNextPendingEventTime();
+
+
+    friend std::ostream& operator<< (std::ostream& stream, const EventQueue& queue);
+
+private:
+
+
+    void pop();
+
+    uint packTop();
+
 };
 
+std::ostream& operator<< (std::ostream& stream, const EventQueue& queue);
 
-} /* namespace rr */
+
+
+
+} /* namespace rrllvm */
+
+
+
 #endif /* EVENTQUEUE_H_ */

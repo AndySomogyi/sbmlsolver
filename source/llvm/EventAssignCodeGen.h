@@ -19,7 +19,7 @@ public:
     EventAssignCodeGen(const ModelGeneratorContext &mgc);
     ~EventAssignCodeGen();
 
-    bool eventCodeGen(llvm::Value *modelData, uint eventIndx,
+    bool eventCodeGen(llvm::Value *modelData, llvm::Value *data,
             const libsbml::Event* event);
 
     static const char* FunctionName;

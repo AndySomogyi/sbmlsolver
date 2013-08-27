@@ -117,6 +117,22 @@ int main(int argc, char* argv[])
                 0);
     }
 
+    if (args.Suites.find('J') != std::string::npos)
+    {
+        clog << "Running Suite SBML_TEST_SUITE_C_FAILS\n";
+        clog << "ModelPath " << gTSModelsPath;
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_C_FAIL", True(),
+                0);
+    }
+    
+    if (args.Suites.find('K') != std::string::npos)
+    {
+        clog << "Running Suite SBML_TEST_SUITE_LONGTIME\n";
+        clog << "ModelPath " << gTSModelsPath;
+        runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_LONGTIME", True(),
+                           0);
+    }
+
 
 
     //Finish outputs result to xml file
@@ -154,11 +170,11 @@ bool setup(Args& args)
     if(gDebug)
     {
         enableLoggingToConsole();
-        Logger::SetCutOffLogLevel(Logger::PRIO_DEBUG);
+        Logger::setLevel(Logger::PRIO_DEBUG);
     }
     else
     {
-        Logger::SetCutOffLogLevel(Logger::PRIO_NOTICE);
+        Logger::setLevel(Logger::PRIO_NOTICE);
     }
 
     // set test suite model path (read from cmd line)

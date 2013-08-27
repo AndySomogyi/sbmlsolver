@@ -22,7 +22,11 @@
 #include "GetEventValuesCodeGen.h"
 #include "EventAssignCodeGen.h"
 #include "EventTriggerCodeGen.h"
+#include "EvalVolatileStoichCodeGen.h"
+#include "EvalConversionFactorCodeGen.h"
 #include "EventQueue.h"
+
+#include <map>
 
 namespace rr
 {
@@ -217,7 +221,6 @@ public:
     virtual int setFloatingSpeciesAmounts(int len, int const *indx,
             const double *values);
 
-
     /**
      * get the boundary species amounts
      *
@@ -269,18 +272,10 @@ public:
             const double *values);
 
 
-
     /**
      * using the current model state, evaluate and store all the reaction rates.
      */
     virtual void evalReactionRates();
-
-
-
-
-
-
-
 
 
     virtual int setCompartmentVolumes(int len, int const *indx,
@@ -326,7 +321,17 @@ public:
 
     inline bool getEventTrigger(uint event)
     {
-        return getEventTriggerPtr(&modelData, event);
+        assert(event < symbols->getEventAttributes().size()
+                        && "event out of bounds");
+        if (modelData.time >= 0.0)
+        {
+            return getEventTriggerPtr(&modelData, event);
+        }
+        else
+        {
+            return symbols->getEventAttributes()[event] & EventInitialValue
+                    ? true : false;
+        }
     }
 
     inline bool getEventUseValuesFromTriggerTime(uint event)
@@ -351,12 +356,25 @@ public:
         return symbols->getEventAttributes()[event] & EventPersistent;
     }
 
-    inline double getEventAssignTime(uint event)
+    inline uint getEventBufferSize(uint event)
     {
-        assert(event < symbols->getEventAttributes().size()
-                    && "event out of bounds");
-        return eventTriggerTimes[event] + getEventDelay(event);
+        return symbols->getEventBufferSize(event);
     }
+
+    inline void getEventData(uint eventId, double* data)
+    {
+        eventTriggerPtr(&modelData, eventId, data);
+    }
+
+    /**
+     * assign or apply the event using the given data.
+     */
+    inline void assignEvent(uint eventId, double* data)
+    {
+        eventAssignPtr(&modelData, eventId, data);
+    }
+
+    bool getEventTieBreak(uint eventA, uint eventB);
 
 private:
 
@@ -370,12 +388,16 @@ private:
             unsigned char* currEventState);
 
 
-    EventQueue pendingEvents;
+    rrllvm::EventQueue pendingEvents;
 
     /**
      * the time delayed events were triggered.
      */
-    std::vector<double> eventTriggerTimes;
+    std::vector<double> eventAssignTimes;
+
+    typedef unsigned long long TieBreakKey;
+    typedef std::map<TieBreakKey, bool> TieBreakMap;
+    TieBreakMap tieBreakMap;
 
     /******************************* Events Section *******************************/
     #endif /***********************************************************************/
@@ -383,7 +405,6 @@ private:
 
 private:
     LLVMModelData modelData;
-    LLVMModelData modelDataCopy;
     LLVMModelDataSymbols *symbols;
     llvm::LLVMContext *context;
     llvm::ExecutionEngine *executionEngine;
@@ -405,6 +426,8 @@ private:
     GetEventDelayCodeGen::FunctionPtr getEventDelayPtr;
     EventTriggerCodeGen::FunctionPtr eventTriggerPtr;
     EventAssignCodeGen::FunctionPtr eventAssignPtr;
+    rrllvm::EvalVolatileStoichCodeGen::FunctionPtr evalVolatileStoichPtr;
+    rrllvm::EvalConversionFactorCodeGen::FunctionPtr evalConversionFactorPtr;
 
     double getFloatingSpeciesConcentration(int index);
 

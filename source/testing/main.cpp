@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
     if(doLogging)
     {
         string logFile = joinPath(gTempFolder, "RoadRunner.log");
-        gLog.Init("", lDebug5);//, unique_ptr<LogFile>(new LogFile(logFile)));
+        gLog.init("", lDebug5);//, unique_ptr<LogFile>(new LogFile(logFile)));
         Logger::enableLoggingToConsole();
     }
 

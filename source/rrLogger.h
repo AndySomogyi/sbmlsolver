@@ -45,15 +45,6 @@ private:
 };
 
 /**
- * legacy struct, names the log file.
- */
-struct LogFile
-{
-    LogFile(const char* name) : name(name) {}
-    std::string name;
-};
-
-/**
  * Wraps the old proprietary logger interface around the Poco logging framework.
  */
 class RR_DECLSPEC Logger
@@ -86,23 +77,23 @@ public:
      * old home grown logging functions, here for compatibility
      */
 
-    static void SetCutOffLogLevel(int level);
+    static void setLevel(int level);
 
-    static int GetLogLevel();
+    static int getLevel();
 
-    static void StopLogging();
+    static void stopLogging();
 
     static void enableLoggingToConsole();
 
     static void disableLoggingToConsole();
 
-    void Init(const std::string&, int level);
+    static void init(const std::string&, int level);
 
-    void Init(const std::string&, int level, LogFile*);
+    static void init(const std::string&, int level, const std::string& fileName);
 
-    static std::string GetCurrentLogLevel();
+    static std::string getLevelAsString();
 
-    static std::string GetLogFileName();
+    static std::string getFileName();
 };
 
 /**
@@ -139,7 +130,7 @@ RR_DECLSPEC Poco::Logger &getLogger();
 
 #ifndef NO_LOGGER
 #define Log(level) \
-    if (level > rr::Logger::GetLogLevel()) { ; } \
+    if (level > rr::Logger::getLevel()) { ; } \
     else rr::LoggingBuffer(level, __FILE__, __LINE__).stream()
 #else
 #define Log(level) \

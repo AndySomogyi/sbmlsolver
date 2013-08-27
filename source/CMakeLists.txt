@@ -97,6 +97,7 @@ if(BUILD_LLVM)
         llvm/ASTNodeFactory
         llvm/CodeGenBase
         llvm/LLVMCompiler
+        llvm/EvalConversionFactorCodeGen
         llvm/EvalInitialConditionsCodeGen
         llvm/EvalRateRuleRatesCodeGen
         llvm/EvalReactionRatesCodeGen
@@ -118,6 +119,8 @@ if(BUILD_LLVM)
         llvm/ModelGeneratorContext
         llvm/LLVMModelSymbols
         llvm/SetRateRuleValuesCodeGen
+        llvm/SBMLSupportFunctions
+        llvm/EvalVolatileStoichCodeGen
         )
 endif(BUILD_LLVM)
 

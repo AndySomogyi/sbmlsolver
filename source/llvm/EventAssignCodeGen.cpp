@@ -28,7 +28,7 @@ EventAssignCodeGen::~EventAssignCodeGen()
 }
 
 bool EventAssignCodeGen::eventCodeGen(llvm::Value *modelData,
-        uint eventIndx, const libsbml::Event *event)
+        llvm::Value *data, const libsbml::Event *event)
 {
     ModelDataIRBuilder mdBuilder(modelData, dataSymbols, builder);
     ModelDataLoadSymbolResolver mdLoadResolver(modelData, model, modelSymbols,
@@ -41,7 +41,8 @@ bool EventAssignCodeGen::eventCodeGen(llvm::Value *modelData,
     for(uint id = 0; id < assignments->size(); ++id)
     {
         const EventAssignment *a = assignments->get(id);
-        Value *value = mdBuilder.createEventAssignmentLoad(eventIndx, id);
+        Value *loc = builder.CreateConstGEP1_32(data, id);
+        Value *value = builder.CreateLoad(loc, a->getVariable() + "_data");
         mdStoreResolver.storeSymbolValue(a->getVariable(), value);
     }
 

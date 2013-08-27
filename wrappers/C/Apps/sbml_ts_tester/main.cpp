@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
         cout << RoadRunner::getExtendedVersionInfo() << endl;
 
         Logger::enableLoggingToConsole();
-        Logger::SetCutOffLogLevel(Logger::PRIO_NOTICE);
+        Logger::setLevel(Logger::PRIO_NOTICE);
 
         Log(lDebug) << "hello";
 
@@ -47,11 +47,11 @@ int main(int argc, char* argv[])
 
         if(args.EnableLogging)
         {
-            Logger::SetCutOffLogLevel(Logger::PRIO_DEBUG);
+            Logger::setLevel(Logger::PRIO_DEBUG);
         }
         else
         {
-            Logger::SetCutOffLogLevel(Logger::PRIO_NOTICE);
+            Logger::setLevel(Logger::PRIO_NOTICE);
         }
 
         Log(Logger::PRIO_NOTICE) << "Notice";

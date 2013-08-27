@@ -27,8 +27,8 @@ EventTriggerCodeGen::~EventTriggerCodeGen()
 {
 }
 
-bool EventTriggerCodeGen::eventCodeGen(llvm::Value *modelData, uint eventIndx,
-        const libsbml::Event *event)
+bool EventTriggerCodeGen::eventCodeGen(llvm::Value *modelData,
+        llvm::Value *data, const libsbml::Event* event)
 {
     ModelDataIRBuilder mdBuilder(modelData, dataSymbols, builder);
     ModelDataLoadSymbolResolver mdLoadResolver(modelData, model, modelSymbols,
@@ -45,11 +45,14 @@ bool EventTriggerCodeGen::eventCodeGen(llvm::Value *modelData, uint eventIndx,
         const EventAssignment *a = assignments->get(id);
         const ASTNode *math = a->getMath();
         Value *value = astCodeGen.codeGen(math);
-        mdBuilder.createEventAssignmentStore(eventIndx, id, value);
+
+        Value *loc = builder.CreateConstGEP1_32(data, id);
+        builder.CreateStore(value, loc);
     }
 
     return true;
 }
 
 } /* namespace rr */
+
 

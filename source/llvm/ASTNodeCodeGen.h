@@ -31,6 +31,7 @@ public:
     ~ASTNodeCodeGen();
 
     llvm::Value *codeGen(const libsbml::ASTNode *ast);
+private:
 
     /**
      * sbml ASTNode does not contain as assigment '=' type, assigment
@@ -38,12 +39,6 @@ public:
      *
      */
     llvm::Value *binaryExprCodeGen(const libsbml::ASTNode *ast);
-
-    /**
-     * most of the AST types correspond to llvm intrinsic, i.e.
-     * cos, sqrt, pow, etc...
-     */
-    llvm::Value *intrinsicCallCodeGen(const libsbml::ASTNode *ast);
 
     llvm::Value *notImplemented(const libsbml::ASTNode *ast);
 
@@ -71,12 +66,33 @@ public:
 
     llvm::Value *functionCallCodeGen(const libsbml::ASTNode *ast);
 
-private:
+    llvm::Value *intrinsicCallCodeGen(const libsbml::ASTNode *ast);
+
+    llvm::Value *piecewiseCodeGen(const libsbml::ASTNode *ast);
+
+    /**
+     * coerces a value to a boolean single bit.
+     *
+     * If value is already a boolean, it is unchanged.
+     */
+    llvm::Value *toBoolean(llvm::Value *value);
+
+
     llvm::IRBuilder<> &builder;
     LoadSymbolResolver &resolver;
+
+    /**
+     * get the module, only valid whilst a BasicBlock is begin filled.
+     *
+     * @param fname: name of the calling function, used for generating exception
+     * on failure.
+     *
+     * @returns a module on success, throws exeption on failure.
+     */
+    llvm::Module *getModule();
 };
 
-
+std::string to_string(const libsbml::ASTNode *ast);
 
 } /* namespace rr */
 

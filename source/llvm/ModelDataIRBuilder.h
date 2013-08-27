@@ -105,6 +105,24 @@ public:
             llvm::Value *value);
 
     /**
+     * the GEP for the amount rates
+     */
+    llvm::Value *createFloatSpeciesAmtRateGEP(const std::string &id,
+            const llvm::Twine &name = "");
+
+    /**
+     * load the floating species amount value
+     */
+    llvm::Value *createFloatSpeciesAmtRateLoad(const std::string& id,
+            const llvm::Twine& name = "");
+
+    /**
+     * store the floating species amount
+     */
+    llvm::Value *createFloatSpeciesAmtRateStore(const std::string &id,
+            llvm::Value *value);
+
+    /**
      * load the floating species amount value
      */
     llvm::Value *createBoundSpeciesAmtLoad(const std::string& id,
@@ -147,24 +165,6 @@ public:
             llvm::Value *value);
 
     /**
-     * event assignment GEP
-     */
-    llvm::Value *createEventAssignmentGEP(uint eventId, uint assignmentId,
-            const llvm::Twine &name = "");
-
-    /**
-     * load the event assignment value
-     */
-    llvm::Value *createEventAssignmentLoad(uint eventId, uint assignmentId,
-            const llvm::Twine& name = "");
-
-    /**
-     * store the event assignment value
-     */
-    llvm::Value *createEventAssignmentStore(uint eventId, uint assignmentId,
-            llvm::Value *value);
-
-    /**
      * rate rule GEP
      */
     llvm::Value *createRateRuleRateGEP(const std::string &id,
@@ -181,6 +181,12 @@ public:
      */
     llvm::Value *createRateRuleRateStore(const std::string &id,
             llvm::Value *value);
+
+    llvm::Value *createStoichiometryStore(uint row, uint col,
+            llvm::Value *value, const llvm::Twine& name = "");
+
+    llvm::Value *createStoichiometryLoad(uint row, uint col,
+            const llvm::Twine& name = "");
 
     /**
      * create a call to the csr_matrix_set_nz function.

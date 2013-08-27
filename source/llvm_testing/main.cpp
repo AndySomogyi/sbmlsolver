@@ -70,7 +70,7 @@ int main(int argc, char* argv[])
 
     Logger::enableLoggingToConsole();
 
-    Logger::SetCutOffLogLevel(Logger::PRIO_TRACE);
+    Logger::setLevel(Logger::PRIO_TRACE);
 
 
     int testCase = 0;

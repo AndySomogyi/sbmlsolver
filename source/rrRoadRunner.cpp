@@ -477,23 +477,16 @@ DoubleMatrix RoadRunner::runSimulation()
     double tout = mTimeStart;
 
     //The simulation is executed right here..
-    Log(lDebug)<<"Will run the OneStep function "<<mNumPoints<<" times";
+    Log(Logger::PRIO_DEBUG)<<"Will run the OneStep function "<<mNumPoints<<" times";
     for (int i = 1; i < mNumPoints; i++)
     {
-        Log(lDebug)<<"Step "<<i;
+        Log(Logger::PRIO_DEBUG)<<"Step "<<i;
         mCVode->oneStep(tout, hstep);
         tout = mTimeStart + i * hstep;
         addNthOutputToResult(results, i, tout);
     }
-    Log(lDebug)<<"Simulation done..";
-    Log(lDebug2)<<"Result: (point, time, value)";
-    if(results.size())
-    {
-        for (int i = 0; i < mNumPoints; i++)
-        {
-            Log(lDebug2)<<i<<gTab<<results(i,0)<<gTab<<setprecision(16)<<results(i,1);
-        }
-    }
+    Log(Logger::PRIO_DEBUG)<<"Simulation done..";
+
     return results;
 }
 
@@ -742,16 +735,7 @@ bool RoadRunner::simulate2()
 
 bool RoadRunner::simulate2Ex(const double& startTime, const double& endTime, const int& numberOfPoints)
 {
-    if(!mModel)
-    {
-        Log(lError)<<"No model is loaded, can't simulate..";
-        throw(Exception("There is no model loaded, can't simulate"));
-    }
-
-     mRawRoadRunnerData = simulateEx(startTime, endTime, numberOfPoints);
-
-    //Populate simulation result
-    populateResult();
+    simulateEx(startTime, endTime, numberOfPoints);
     return true;
 }
 

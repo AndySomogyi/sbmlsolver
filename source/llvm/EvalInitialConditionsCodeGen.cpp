@@ -40,7 +40,7 @@ Value* EvalInitialConditionsCodeGen::codeGen()
 {
     Value *modelData = 0;
 
-    BasicBlock *basicBlock = codeGenVoidModelDataHeader(FunctionName, modelData);
+    codeGenVoidModelDataHeader(FunctionName, modelData);
 
     Log(lInfo) << "boundarySpecies: \n";
     for (SymbolForest::ConstIterator i = modelSymbols.getInitialValues().boundarySpecies.begin();
@@ -122,14 +122,16 @@ void EvalInitialConditionsCodeGen::codeGenStoichiometry(
     Value *stoichEP = modelDataBuilder.createGEP(Stoichiometry);
     Value *stoich = builder.CreateLoad(stoichEP, "stoichiometry");
 
-    list<pair<uint,uint> > stoichEntries = dataSymbols.getStoichiometryIndx();
-    for (list<pair<uint,uint> >::iterator i = stoichEntries.begin();
-            i != stoichEntries.end(); i++)
+    list<LLVMModelDataSymbols::SpeciesReferenceInfo> stoichEntries =
+            dataSymbols.getStoichiometryIndx();
+
+    for (list<LLVMModelDataSymbols::SpeciesReferenceInfo>::iterator i =
+            stoichEntries.begin(); i != stoichEntries.end(); i++)
     {
-        pair<uint, uint> nz = *i;
-        const ASTNode *node = modelSymbols.createStoichiometryNode(nz.first, nz.second);
+        LLVMModelDataSymbols::SpeciesReferenceInfo nz = *i;
+        const ASTNode *node = modelSymbols.createStoichiometryNode(nz.row, nz.column);
         char* formula = SBML_formulaToString(node);
-        Log(lInfo) << "\t{" << nz.first << ", " << nz.second << "} : " << formula
+        Log(lInfo) << "\t{" << nz.row << ", " << nz.column << "} : " << formula
                 << "\n";
         free(formula);
 
@@ -140,8 +142,17 @@ void EvalInitialConditionsCodeGen::codeGenStoichiometry(
 
         delete node;
 
-        Value *row = ConstantInt::get(Type::getInt32Ty(context), nz.first, true);
-        Value *col = ConstantInt::get(Type::getInt32Ty(context), nz.second, true);
+        // species references may be defined by rate rules, so set the
+        // initial value here. In this case, data is duplicated between the
+        // rate rules vector and the CSR sparse matrix. (only occurs once
+        // in 1100 tests)
+        if (!nz.id.empty() && dataSymbols.hasRateRule(nz.id))
+        {
+            modelDataBuilder.createRateRuleValueStore(nz.id, stoichValue);
+        }
+
+        Value *row = ConstantInt::get(Type::getInt32Ty(context), nz.row, true);
+        Value *col = ConstantInt::get(Type::getInt32Ty(context), nz.column, true);
         ModelDataIRBuilder::createCSRMatrixSetNZ(builder, stoich, row, col, stoichValue);
 
     }

@@ -114,7 +114,7 @@ public:
      * up all the contexts and execution engines and so forth.
      *
      * However, when a model is successfully generated, we need a way to give
-     * it the exec enine, and whatever other bits it requires.
+     * it the exec engine, and whatever other bits it requires.
      *
      * So, this method exists so that the generated model can steal all the
      * objects it needs from us, these object are transfered to the model,

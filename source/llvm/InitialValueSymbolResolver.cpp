@@ -38,6 +38,14 @@ llvm::Value* InitialValueSymbolResolver::loadSymbolValue(const std::string& symb
         const llvm::ArrayRef<llvm::Value*>& args)
 {
     /*************************************************************************/
+    /* time */
+    /*************************************************************************/
+    if (symbol.compare("\time") == 0)
+    {
+        return ConstantFP::get(builder.getContext(), APFloat(0.0));
+    }
+
+    /*************************************************************************/
     /* Function */
     /*************************************************************************/
     {

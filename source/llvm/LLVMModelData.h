@@ -172,34 +172,10 @@ struct LLVMModelData
      */
     double*                             stateVectorRate;                  // 24
 
-    unsigned                            eventAssignmentsSize;             // 25
-    double*                             eventAssignments;                 // 26
-
-
-    /**
-     * Work area for model implementations. The data stored here is entirely
-     * model implementation specific and should not be accessed
-     * anywhere else.
-     *
-     * allocated by allocModelDataBuffers based on the value of workSize;
-     */
-    unsigned                            workSize;                         // 27
-    double*                             work;                             // 28
-
-
-
-    /**
-     * model name
-     */
-    char*                               modelName;                        // 29
 
     static void init(LLVMModelData&);
 
-    static void clone(LLVMModelData *dst, LLVMModelData *src);
-
     static void allocBuffers(LLVMModelData &data, const std::string& modelName);
-
-    static void copyBuffers(LLVMModelData *dst, LLVMModelData *src);
 
     static void freeBuffers(LLVMModelData&);
 };

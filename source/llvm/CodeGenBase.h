@@ -129,7 +129,7 @@ protected:
 
         /// verifyFunction - Check a function for errors, printing messages on stderr.
         /// Return true if the function is corrupt.
-        if (llvm::verifyFunction(*function, llvm::PrintMessageAction))
+        if (llvm::verifyFunction(*function, llvm::AbortProcessAction))
         {
             poco_error(getLogger(),
                     "Corrupt Generated Function, "  + to_string(function));

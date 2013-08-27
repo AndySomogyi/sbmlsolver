@@ -22,6 +22,7 @@ namespace libsbml
 {
     class Model;
     class SimpleSpeciesReference;
+    class ASTNode;
 }
 
 namespace rr
@@ -53,11 +54,6 @@ enum ModelDataFields {
     StateVectorSize,                          // 22
     StateVector,                              // 23
     StateVectorRate,                          // 24
-    EventAssignmentsSize,                     // 25
-    EventAssignments,                         // 26
-    WorkSize,                                 // 27
-    Work,                                     // 28
-    ModelName,                                // 29
 };
 
 enum EventAtributes
@@ -104,6 +100,19 @@ public:
     typedef std::map<std::string, uint> StringUIntMap;
     typedef std::pair<std::string, uint> StringUIntPair;
 
+    enum SpeciesReferenceType
+    {
+        Reactant, Product, Modifier
+    };
+
+    struct SpeciesReferenceInfo
+    {
+        uint row;
+        uint column;
+        SpeciesReferenceType type;
+        std::string id;
+    };
+
     LLVMModelDataSymbols();
 
     LLVMModelDataSymbols(libsbml::Model const* model,
@@ -111,14 +120,13 @@ public:
 
     virtual ~LLVMModelDataSymbols();
 
+    const std::string& getModelName() const;
 
     uint getCompartmentIndex(std::string const&) const;
     uint getFloatingSpeciesIndex(std::string const&) const;
     uint getBoundarySpeciesIndex(std::string const&) const;
 
     uint getIndependentBoundarySpeciesSize() const;
-
-    uint getBoundarySpeciesCompartmentIndex(std::string const&) const;
 
     /**
      * number of linearly indenent rows in the stochiometry matrix.
@@ -175,7 +183,7 @@ public:
      * in the list of pairs, first is the row (species) index,
      * and second is the column (reaction) index.
      */
-    std::list<std::pair<uint,uint> > getStoichiometryIndx() const;
+    std::list<SpeciesReferenceInfo> getStoichiometryIndx() const;
 
     /**
      * initialize and allocate the buffers (including the stoich matrix)
@@ -203,16 +211,10 @@ public:
 
     bool isIndependentCompartment(const std::string& id) const;
 
-    /**
-     * all the event assignments are stored in a single array,
-     * these are the offsets of each assignment block.
-     */
-    uint getEventAssignmentOffset(uint eventIndx) const;
+    bool isNamedSpeciesReference(const std::string& id) const;
 
-    /**
-     * size of the event assignment array
-     */
-    uint getEventAssignmentSize() const;
+    const SpeciesReferenceInfo& getNamedSpeciesReferenceInfo(
+            const std::string& id) const;
 
     const std::vector<unsigned char>& getEventAttributes() const;
 
@@ -220,6 +222,12 @@ public:
      * get the textual form of the field names.
      */
     static const char* getFieldName(ModelDataFields field);
+
+    /**
+     * get the size (in number of doubles) of the buffer
+     * that events need to save the event data to.
+     */
+    uint getEventBufferSize(uint eventId) const;
 
 
 private:
@@ -229,6 +237,13 @@ private:
     StringUIntMap boundarySpeciesMap;
     StringUIntMap compartmentsMap;
     StringUIntMap globalParametersMap;
+
+    /**
+     * map of all identified species reference (species references with ids)
+     * to their indices in the stoichiometric matrix.
+     */
+    typedef std::map<std::string, SpeciesReferenceInfo> StringRefInfoMap;
+    StringRefInfoMap namedSpeciesReferenceInfo;
 
     /**
      * all reactions are named.
@@ -248,6 +263,15 @@ private:
     std::vector<uint> stoichRowIndx;
 
     /**
+     * most species references are un-named, this is used so that if named ones
+     * have a rate rule, we can set the proper initial conditions.
+     */
+    std::vector<std::string> stoichIds;
+
+    std::vector<SpeciesReferenceType> stoichTypes;
+
+
+    /**
      * the set of rule, these contain the variable name of the rule so that
      * we can quickly see if a symbol has an associated rule.
      */
@@ -264,9 +288,10 @@ private:
     uint independentGlobalParameterSize;
     uint independentCompartmentSize;
 
-    std::vector<uint> eventAssignmentOffsets;
-
-    uint eventAssignmentSize;
+    /**
+     * the number of assignments each event has
+     */
+    std::vector<uint> eventAssignmentsSize;
 
     std::vector<unsigned char> eventAttributes;
 
@@ -295,7 +320,6 @@ private:
      */
     bool isValidSpeciesReference(const libsbml::SimpleSpeciesReference*,
             const std::string& reacOrProd);
-
 };
 
 } /* namespace rr */

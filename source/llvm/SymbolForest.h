@@ -68,15 +68,19 @@ public:
         {
             return result;
         }
+        else if ((result = globalParameters.find(x)) != globalParameters.end())
+        {
+            return result;
+        }
         else
         {
-            return globalParameters.find(x);
+            return speciesReferences.find(x);
         }
     }
 
     ConstIterator end() const
     {
-        return globalParameters.end();
+        return speciesReferences.end();
     }
 };
 

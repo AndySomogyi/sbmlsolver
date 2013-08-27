@@ -93,9 +93,13 @@ llvm::StructType* ModelDataIRBuilder::getCSRSparseStructType(
 
         if (engine)
         {
+#if (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR >= 2)
             const DataLayout *dl = engine->getDataLayout();
-
             size_t llvm_size = dl->getTypeStoreSize(structType);
+#else
+            const TargetData* td = engine->getTargetData();
+            size_t llvm_size = td->getTypeStoreSize(structType);
+#endif
 
             if (sizeof(csr_matrix) != llvm_size)
             {
@@ -183,6 +187,29 @@ llvm::Value* ModelDataIRBuilder::createFloatSpeciesAmtStore(
         const std::string& id, llvm::Value* value)
 {
     Value *gep = createFloatSpeciesAmtGEP(id);
+    return builder.CreateStore(value, gep);
+}
+
+llvm::Value* ModelDataIRBuilder::createFloatSpeciesAmtRateGEP(
+        const std::string& id, const Twine& name)
+{
+    uint index = symbols.getFloatingSpeciesIndex(id);
+    assert(index < symbols.getIndependentFloatingSpeciesSize());
+    return createGEP(FloatingSpeciesAmountRates, index,
+            name.isTriviallyEmpty() ? id : name);
+}
+
+llvm::Value* ModelDataIRBuilder::createFloatSpeciesAmtRateLoad(
+        const std::string& id, const llvm::Twine& name)
+{
+    Value *gep = createFloatSpeciesAmtRateGEP(id, name + "_gep");
+    return builder.CreateLoad(gep, name);
+}
+
+llvm::Value* ModelDataIRBuilder::createFloatSpeciesAmtRateStore(
+        const std::string& id, llvm::Value* value)
+{
+    Value *gep = createFloatSpeciesAmtRateGEP(id);
     return builder.CreateStore(value, gep);
 }
 
@@ -317,30 +344,6 @@ llvm::Value* ModelDataIRBuilder::createBoundSpeciesAmtGEP(
     return createGEP(BoundarySpeciesAmounts, index, name);
 }
 
-llvm::Value* ModelDataIRBuilder::createEventAssignmentGEP(uint eventId,
-        uint assignmentId, const llvm::Twine& name)
-{
-    uint offset = symbols.getEventAssignmentOffset(eventId);
-    uint index = offset + assignmentId;
-    assert(index < symbols.getEventAssignmentSize() &&
-            "event assignment index out of bounds");
-    return createGEP(EventAssignments, index, name);
-}
-
-llvm::Value* ModelDataIRBuilder::createEventAssignmentLoad(uint eventId,
-        uint assignmentId, const llvm::Twine& name)
-{
-    Value *gep = createEventAssignmentGEP(eventId, assignmentId, name);
-    return builder.CreateLoad(gep, name);
-}
-
-llvm::Value* ModelDataIRBuilder::createEventAssignmentStore(uint eventId,
-        uint assignmentId, llvm::Value* value)
-{
-    Value *gep = createEventAssignmentGEP(eventId, assignmentId);
-    return builder.CreateStore(value, gep);
-}
-
 llvm::Value* ModelDataIRBuilder::createGlobalParamLoad(
         const std::string& id, const llvm::Twine& name)
 {
@@ -366,6 +369,28 @@ llvm::Value* ModelDataIRBuilder::createReactionRateStore(const std::string& id, 
 {
     int idx = symbols.getReactionIndex(id);
     return createStore(ReactionRates, idx, value, id);
+}
+
+llvm::Value* ModelDataIRBuilder::createStoichiometryStore(uint row, uint col,
+        llvm::Value* value, const llvm::Twine& name)
+{
+    LLVMContext &context = builder.getContext();
+    Value *stoichEP = createGEP(Stoichiometry);
+    Value *stoich = builder.CreateLoad(stoichEP, "stoichiometry");
+    Value *rowVal = ConstantInt::get(Type::getInt32Ty(context), row, true);
+    Value *colVal = ConstantInt::get(Type::getInt32Ty(context), col, true);
+    return createCSRMatrixSetNZ(builder, stoich, rowVal, colVal, value, name);
+}
+
+llvm::Value* ModelDataIRBuilder::createStoichiometryLoad(uint row, uint col,
+        const llvm::Twine& name)
+{
+    LLVMContext &context = builder.getContext();
+    Value *stoichEP = createGEP(Stoichiometry);
+    Value *stoich = builder.CreateLoad(stoichEP, "stoichiometry");
+    Value *rowVal = ConstantInt::get(Type::getInt32Ty(context), row, true);
+    Value *colVal = ConstantInt::get(Type::getInt32Ty(context), col, true);
+    return createCSRMatrixGetNZ(builder, stoich, rowVal, colVal, name);
 }
 
 void ModelDataIRBuilder::validateStruct(llvm::Value* s,
@@ -431,19 +456,18 @@ llvm::StructType *ModelDataIRBuilder::getStructType(llvm::Module *module, llvm::
         elements.push_back(Type::getInt32Ty(context));        // 22     int                                 stateVectorSize;
         elements.push_back(Type::getDoublePtrTy(context));    // 23     double*                             stateVector;
         elements.push_back(Type::getDoublePtrTy(context));    // 24     double*                             stateVectorRate;
-        elements.push_back(Type::getInt32Ty(context));        // 25     int                                 eventAssignmentsSize;
-        elements.push_back(Type::getDoublePtrTy(context));    // 26     double*                             eventAssignments;
-        elements.push_back(Type::getInt32Ty(context));        // 27     int                                 workSize;
-        elements.push_back(Type::getDoublePtrTy(context));    // 28     double*                             work;
-        elements.push_back(Type::getInt8PtrTy(context));      // 29     char*                               modelName;
 
         structType = StructType::create(context, elements, LLVMModelDataName);
 
         if (engine)
         {
+#if (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR >= 2)
             const DataLayout *dl = engine->getDataLayout();
-
             size_t llvm_size = dl->getTypeStoreSize(structType);
+#else
+            const TargetData* td = engine->getTargetData();
+            size_t llvm_size = td->getTypeStoreSize(structType);
+#endif
 
             if (sizeof(LLVMModelData) != llvm_size)
             {

@@ -13,7 +13,7 @@ int main()
 {
 	RoadRunner lRR;
 	LogOutput::mLogToConsole = true;
-	gLog.SetCutOffLogLevel(lDebug);
+	gLog.setLevel(lDebug);
 
     Log(lInfo)<<"======================";
     Log(lInfo)<<lRR.getInfo();

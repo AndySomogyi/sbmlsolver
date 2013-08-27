@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 
 		const char* rootPath = "..";
 
-        gLog.SetCutOffLogLevel(lInfo);
+        gLog.setLevel(lInfo);
 		string tmpFolder = joinPath(rootPath, "temp");
 
         const string modelFile = joinPath(rootPath, "models", "test_1.xml");
