@@ -118,9 +118,18 @@
 %ignore rr::RoadRunner::getFloatingSpeciesIdsArray;
 %ignore rr::RoadRunner::getGlobalParameterIdsArray;
 
-
-
 %template (mapStringDouble) std::map<std::string, double>;
 
 %include <rrRoadRunner.h>
+
+%include <rrLogger.h>
+%ignore rr::LoggingBuffer;
+%ignore rr::LogLevel;
+%ignore rr::getLogger;
+%ignore rr::ToUpperCase;
+%ignore rr::GetHighestLogLevel;
+%ignore rr::GetLogLevel;
+%ignore rr::GetLogLevelAsString;
+%ignore rr::GetLogLevel;
+
 

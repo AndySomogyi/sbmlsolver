@@ -32,20 +32,20 @@ mLogString(NULL)
 {
     LogOutput::mLogToConsole = (false);
     LogOutput::mShowLogLevel = true;
-    gLog.SetCutOffLogLevel(rr::lDebug5);
+    gLog.setLevel(rr::lDebug5);
     mTempDataFolder = "R:\\temp";
 
     //This is roadrunners logger
     mRRLogFileName = rr::joinPath(mTempDataFolder, "RoadRunnerUI.log");
 //    gLog.Init("", gLog.GetLogLevel(), new LogFile(mRRLogFileName ));
-    gLog.Init("", gLog.GetLogLevel(), NULL);
+    gLog.init("", gLog.getLevel(), NULL);
 
     //Setup a logfile sniffer and propagate logs to memo...
     mLogFileSniffer.SetFileName(mRRLogFileName);
     mLogFileSniffer.Start();
     SetupINIParameters();
 
-    gLog.SetCutOffLogLevel(mLogLevel.GetValue());
+    gLog.setLevel(mLogLevel.GetValue());
     FSF->TreeView1->OnClick     =   FSFTreeView1Click;
 	FSF->TreeView1->OnDblClick  =  LoadFromTreeViewAExecute;
 	FSF->TreeView1->PopupMenu   =  TVPopupMenu;
@@ -63,7 +63,7 @@ mLogString(NULL)
 __fastcall TMForm::~TMForm()
 {
 	//FSF->TreeView1->Selected
-    mLogLevel.SetValue(rr::GetLogLevel(LogLevelCB->ItemIndex));
+    mLogLevel.SetValue(rr::getLevel(LogLevelCB->ItemIndex));
     mPageControlHeight = PageControl1->Height;
 
     mConservationAnalysis = ConservationAnalysisCB->Checked ? true : false;
@@ -512,7 +512,7 @@ void __fastcall TMForm::LogCurrentDataAExecute(TObject *Sender)
 
 void __fastcall TMForm::LogLevelCBChange(TObject *Sender)
 {
-    gLog.SetCutOffLogLevel(rr::GetLogLevel(LogLevelCB->ItemIndex));
+    gLog.setLevel(rr::getLevel(LogLevelCB->ItemIndex));
 }
 
 void __fastcall TMForm::UpdateTestSuiteInfo()

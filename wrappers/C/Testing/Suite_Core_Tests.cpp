@@ -40,7 +40,7 @@ SUITE(CORE_TESTS)
     TEST(LOGGING)
     {
         // save log level
-        int logLevel = rr::Logger::GetLogLevel();
+        int logLevel = rr::Logger::getLevel();
 
         RRHandle aRR = createRRInstanceEx(gTempFolder.c_str(), 0);
         setLogLevel("INFO");
@@ -51,7 +51,7 @@ SUITE(CORE_TESTS)
         freeRRInstance(aRR);
 
         // restore log level
-        rr::Logger::SetCutOffLogLevel(logLevel);
+        rr::Logger::setLevel(logLevel);
     }
 
     TEST(COMPILER)

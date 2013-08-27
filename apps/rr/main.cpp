@@ -47,7 +47,7 @@ int main(int argc, char * argv[])
 
         ProcessCommandLineArguments(argc, argv, args);
 
-        gLog.SetCutOffLogLevel(args.CurrentLogLevel);
+        gLog.setLevel(args.CurrentLogLevel);
         string logFileName;
 
         string thisExeFolder = getCurrentExeFolder();
@@ -73,15 +73,15 @@ int main(int argc, char * argv[])
         {
             string logName = getFileName(args.ModelFileName);
             logName = changeFileExtensionTo(logName, ".log");
-            gLog.Init("", gLog.GetLogLevel());
+            gLog.init("", gLog.getLevel());
         }
         else
         {
-            gLog.Init("", gLog.GetLogLevel());
+            gLog.init("", gLog.getLevel());
         }
 
-        Log(lInfo)<<"Logs are going to "<<gLog.GetLogFileName();
-        Log(lInfo)<<"Log level is:" <<GetLogLevelAsString(gLog.GetLogLevel());
+        Log(lInfo)<<"Logs are going to "<<gLog.getFileName();
+        Log(lInfo)<<"Log level is:" <<GetLogLevelAsString(gLog.getLevel());
         SBMLModelSimulation simulation(args.DataOutputFolder, args.TempDataFolder);
 
         Log(lDebug)<<"Working Directory: "<<getCWD()<<endl;

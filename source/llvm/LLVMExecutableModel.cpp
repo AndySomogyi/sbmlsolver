@@ -403,7 +403,7 @@ int LLVMExecutableModel::getStateVector(double* stateVector)
             modelData.numIndependentSpecies * sizeof(double));
 
 
-    if (Logger::PRIO_TRACE <= rr::Logger::GetLogLevel()) {
+    if (Logger::PRIO_TRACE <= rr::Logger::getLevel()) {
 
         LoggingBuffer log(Logger::PRIO_TRACE, __FILE__, __LINE__);
 

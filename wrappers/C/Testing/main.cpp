@@ -170,11 +170,11 @@ bool setup(Args& args)
     if(gDebug)
     {
         enableLoggingToConsole();
-        Logger::SetCutOffLogLevel(Logger::PRIO_DEBUG);
+        Logger::setLevel(Logger::PRIO_DEBUG);
     }
     else
     {
-        Logger::SetCutOffLogLevel(Logger::PRIO_NOTICE);
+        Logger::setLevel(Logger::PRIO_NOTICE);
     }
 
     // set test suite model path (read from cmd line)

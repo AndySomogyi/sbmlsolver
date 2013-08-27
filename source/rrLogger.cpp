@@ -23,24 +23,28 @@ using Poco::SimpleFileChannel;
 
 static Poco::Logger *pocoLogger = 0;
 volatile int logLevel = 0;
+const Logger::Level defaultLogLevel = Logger::PRIO_INFORMATION;
 
 Poco::Logger& getLogger()
 {
     if (pocoLogger == 0)
     {
+        // set the default level
+        Poco::Logger::root().setLevel(defaultLogLevel);
+
         AutoPtr<ConsoleChannel> pCons(new ConsoleChannel);
         AutoPtr<AsyncChannel> pAsync(new AsyncChannel(pCons));
         Poco::Logger::root().setChannel(pAsync);
 
         pocoLogger = &Poco::Logger::get("RoadRunner");
-        
+
         logLevel = Poco::Logger::root().getLevel();
     }
     return *pocoLogger;
 }
 
 
-void Logger::SetCutOffLogLevel(int level)
+void Logger::setLevel(int level)
 {
     if (level >= PRIO_FATAL && level <= PRIO_TRACE)
     {
@@ -50,17 +54,17 @@ void Logger::SetCutOffLogLevel(int level)
     }
 }
 
-int Logger::GetLogLevel()
+int Logger::getLevel()
 {
     return logLevel;
 }
 
 
-void Logger::StopLogging()
+void Logger::stopLogging()
 {
 }
 
-void Logger::Init(const std::string& allocator, int level)
+void Logger::init(const std::string& allocator, int level)
 {
     if (level >= PRIO_FATAL && level <= PRIO_TRACE)
     {
@@ -69,7 +73,7 @@ void Logger::Init(const std::string& allocator, int level)
     }
 }
 
-void Logger::Init(const std::string& allocator, int level, LogFile* logFile)
+void Logger::init(const std::string& allocator, int level, const std::string& fileName)
 {
     // make sure we have a log...
     if (level < PRIO_FATAL || level > PRIO_TRACE)
@@ -78,7 +82,7 @@ void Logger::Init(const std::string& allocator, int level, LogFile* logFile)
     }
 
     AutoPtr<SimpleFileChannel> pChannel(new SimpleFileChannel);
-    pChannel->setProperty("path", logFile->name);
+    pChannel->setProperty("path", fileName);
     pChannel->setProperty("rotation", "2 K");
     Poco::Logger::root().setChannel(pChannel);
     Poco::Logger::root().setLevel(level);
@@ -87,7 +91,7 @@ void Logger::Init(const std::string& allocator, int level, LogFile* logFile)
     logLevel = Poco::Logger::root().getLevel();
 }
 
-std::string Logger::GetCurrentLogLevel()
+std::string Logger::getLevelAsString()
 {
     return __FUNC__;
 }
@@ -111,7 +115,7 @@ void Logger::disableLoggingToConsole()
 {
 }
 
-std::string Logger::GetLogFileName()
+std::string Logger::getFileName()
 {
     return __FUNC__;
 }

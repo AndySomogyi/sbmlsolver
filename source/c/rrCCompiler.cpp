@@ -164,30 +164,30 @@ bool CCompiler::setupCompilerEnvironment()
             mIncludePaths.push_back(joinPath(mCompilerLocation, "include"));
             mLibraryPaths.push_back(".");
             mLibraryPaths.push_back(joinPath(mCompilerLocation, "lib"));
-            if(gLog.GetLogLevel() < lDebug)
+            if(gLog.getLevel() < lDebug)
             {
                 mCompilerFlags.push_back("-v"); // suppress warnings
             }
-            else if(gLog.GetLogLevel() >= lDebug1)
+            else if(gLog.getLevel() >= lDebug1)
             {
                 mCompilerFlags.push_back("-vv");
             }
-            else if(gLog.GetLogLevel() >= lDebug2)
+            else if(gLog.getLevel() >= lDebug2)
             {
                 mCompilerFlags.push_back("-vvv");
             }
         }
         else if(getFileNameNoExtension(mCompilerName) == "gcc")
         {
-            if(gLog.GetLogLevel() < lDebug)
+            if(gLog.getLevel() < lDebug)
             {
                 mCompilerFlags.push_back("-w"); // suppress warnings
             }
-            else if(gLog.GetLogLevel() >= lDebug1)
+            else if(gLog.getLevel() >= lDebug1)
             {
                 mCompilerFlags.push_back("-Wall");
             }
-            else if(gLog.GetLogLevel() >= lDebug2)
+            else if(gLog.getLevel() >= lDebug2)
             {
                 mCompilerFlags.push_back("-Wall -pedantic");
             }

@@ -38,7 +38,7 @@ bool rrcCallConv enableLoggingToFile(RRHandle handle)
         string logFile = joinPath(tempFolder, "RoadRunner.log") ;
         rr::freeText(tempFolder);
 
-        gLog.Init("", gLog.GetLogLevel(), new LogFile(logFile.c_str()));
+        Logger::init("", gLog.getLevel(), logFile);
         return true;
     }
     catch_bool_macro
@@ -48,7 +48,7 @@ bool rrcCallConv disableLoggingToFile()
 {
     try
     {
-        gLog.StopLogging();
+        gLog.stopLogging();
         return true;
     }
     catch_bool_macro
@@ -59,7 +59,7 @@ bool rrcCallConv setLogLevel(const char* _lvl)
     try
     {
         LogLevel lvl = GetLogLevel(_lvl);
-        gLog.SetCutOffLogLevel(lvl);
+        gLog.setLevel(lvl);
         return true;
     }
     catch_bool_macro
@@ -69,7 +69,7 @@ char* rrcCallConv getLogLevel()
 {
     try
     {
-        string level = gLog.GetCurrentLogLevel();
+        string level = gLog.getLevelAsString();
         char* lvl = createText(level.c_str());
         return lvl;
     }
@@ -80,7 +80,7 @@ char* rrcCallConv getLogFileName()
 {
     try
     {
-        return createText(gLog.GetLogFileName().c_str());
+        return createText(gLog.getFileName().c_str());
     }
     catch_ptr_macro
 }

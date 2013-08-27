@@ -13,7 +13,7 @@ int main(int argc, char** argv)
 	try
     {
         LogOutput::mLogToConsole = true;
-        gLog.SetCutOffLogLevel(lInfo);
+        gLog.setLevel(lInfo);
 		string tmpFolder = joinPath(rootPath, "temp");
 
         const string modelFile = joinPath(rootPath, "models", "test_1.xml");
