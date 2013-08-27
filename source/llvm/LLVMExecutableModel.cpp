@@ -427,7 +427,7 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
         return -1;
     }
 
-    setRateRuleValues(stateVector);
+    memcpy(modelData.rateRuleValues, stateVector, modelData.numRateRules * sizeof(double));
 
     memcpy(modelData.floatingSpeciesAmounts,
             stateVector + modelData.numRateRules,
@@ -728,9 +728,21 @@ void  LLVMExecutableModel::evalEventRoots(double time, const double* y, double* 
 {
     modelData.time = time;
 
+    double *savedRateRules = modelData.rateRuleValues;
+    double *savedFloatingSpeciesAmounts = modelData.floatingSpeciesAmounts;
+
     if (y)
     {
-        setStateVector(y);
+        //memcpy(modelData.rateRuleValues, y,
+        //        modelData.numRateRules * sizeof(double));
+
+        //memcpy(modelData.floatingSpeciesAmounts, y + modelData.numRateRules,
+        //        modelData.numIndependentSpecies * sizeof(double));
+
+        modelData.rateRuleValues = const_cast<double*>(y);
+        modelData.floatingSpeciesAmounts = const_cast<double*>(y + modelData.numRateRules);
+
+        evalVolatileStoichPtr(&modelData);
     }
 
     for (uint i = 0; i < modelData.numEvents; ++i)
@@ -739,6 +751,9 @@ void  LLVMExecutableModel::evalEventRoots(double time, const double* y, double* 
 
         gdot[i] = triggered ? 1.0 : -1.0;
     }
+
+    modelData.rateRuleValues = savedRateRules;
+    modelData.floatingSpeciesAmounts = savedFloatingSpeciesAmounts;
 
     return;
 }
