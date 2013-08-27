@@ -22,21 +22,22 @@ using Poco::Message;
 using Poco::SimpleFileChannel;
 
 static Poco::Logger *pocoLogger = 0;
-volatile int logLevel = 0;
+volatile int logLevel = -1;
 const Logger::Level defaultLogLevel = Logger::PRIO_INFORMATION;
 
 Poco::Logger& getLogger()
 {
     if (pocoLogger == 0)
     {
-        // set the default level
-        Poco::Logger::root().setLevel(defaultLogLevel);
-
         AutoPtr<ConsoleChannel> pCons(new ConsoleChannel);
         AutoPtr<AsyncChannel> pAsync(new AsyncChannel(pCons));
         Poco::Logger::root().setChannel(pAsync);
 
         pocoLogger = &Poco::Logger::get("RoadRunner");
+
+        // set the default level
+        Poco::Logger::root().setLevel(defaultLogLevel);
+        pocoLogger->setLevel(defaultLogLevel);
 
         logLevel = Poco::Logger::root().getLevel();
     }
@@ -56,6 +57,10 @@ void Logger::setLevel(int level)
 
 int Logger::getLevel()
 {
+    if (logLevel < 0)
+    {
+        getLogger();
+    }
     return logLevel;
 }
 
