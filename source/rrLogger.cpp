@@ -22,6 +22,7 @@ using Poco::Message;
 using Poco::SimpleFileChannel;
 
 static Poco::Logger *pocoLogger = 0;
+volatile int logLevel = 0;
 
 Poco::Logger& getLogger()
 {
@@ -32,6 +33,8 @@ Poco::Logger& getLogger()
         Poco::Logger::root().setChannel(pAsync);
 
         pocoLogger = &Poco::Logger::get("RoadRunner");
+        
+        logLevel = Poco::Logger::root().getLevel();
     }
     return *pocoLogger;
 }
@@ -43,12 +46,13 @@ void Logger::SetCutOffLogLevel(int level)
     {
         Poco::Logger::root().setLevel(level);
         getLogger().setLevel(level);
+        logLevel = Poco::Logger::root().getLevel();
     }
 }
 
 int Logger::GetLogLevel()
 {
-    return Poco::Logger::root().getLevel();
+    return logLevel;
 }
 
 
@@ -61,6 +65,7 @@ void Logger::Init(const std::string& allocator, int level)
     if (level >= PRIO_FATAL && level <= PRIO_TRACE)
     {
         Poco::Logger::root().setLevel(level);
+        logLevel = Poco::Logger::root().getLevel();
     }
 }
 
@@ -79,6 +84,7 @@ void Logger::Init(const std::string& allocator, int level, LogFile* logFile)
     Poco::Logger::root().setLevel(level);
 
     getLogger().trace("deleting pointer to LogFile struct...");
+    logLevel = Poco::Logger::root().getLevel();
 }
 
 std::string Logger::GetCurrentLogLevel()
