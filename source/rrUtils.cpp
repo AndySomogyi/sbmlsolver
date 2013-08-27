@@ -212,17 +212,28 @@ string getCurrentExeFolder()
     if (_NSGetExecutablePath(exepath, &bufsize) == 0)
     {
         string thePath = getFilePath(exepath);
-        Log(lDebug1)<<"Current exe folder says:"<<thePath;
+        Log(lDebug1) << "Current exe folder says:" << thePath;
         return thePath;
+    }
+    else
+    {
+        Log(lError) << "_NSGetExecutablePath failed";
+        return "";
     }
 #elif defined (__linux)
     char arg1[20];
     char exepath[PATH_MAX+1] = {0};
 
     sprintf( arg1, "/proc/%d/exe", getpid() );
-    readlink( arg1, exepath, 1024 );
+    ssize_t r = readlink( arg1, exepath, 1024 );
+
+    if (r < 0)
+    {
+        throw Exception(string("error readlink(") + string((char*)arg1) + string(") failed"));
+    }
+
     string thePath = getFilePath(exepath);
-    Log(lDebug1)<<"Current exe folder says:"<<thePath;
+    Log(lDebug1) << "Current exe folder says:" << thePath;
     return thePath;
 #endif
 
@@ -383,14 +394,8 @@ bool fileExists(const string& fName)
         return false;
     }
 
-#if defined(__linux)
-    ifstream test(fName);
-    return test;
-#else
-
     bool res = (access(fName.c_str(), 0) == 0);
     return res;
-#endif
 }
 
 bool folderExists(const string& folderName)

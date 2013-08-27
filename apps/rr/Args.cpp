@@ -3,8 +3,12 @@
 #endif
 #pragma hdrstop
 #include <iomanip>
+#include <sstream>
 #include "Args.h"
 //---------------------------------------------------------------------------
+
+using namespace std;
+
 Args::Args()
 :
 UseOSTempFolder(false),

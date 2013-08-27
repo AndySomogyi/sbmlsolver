@@ -12,17 +12,14 @@
 #include "nleq/nleq1.h"
 #include "rrLogger.h"
 #include "rrUtils.h"
-//---------------------------------------------------------------------------
+#include <Poco/ThreadLocal.h>
+
+using Poco::ThreadLocal;
 
 namespace rr
 {
-// private (file scope only) variables.
-// thread local pointer.
-#if defined(__unix__) || defined(__APPLE__)
-static __thread ExecutableModel *gModel = 0;
-#else
-static __declspec(thread) ExecutableModel *gModel = 0;
-#endif
+
+static ThreadLocal<ExecutableModel*> threadModel;
 
 // the NLEQ callback
 static void ModelFunction(int* nx, double* y, double* fval, int* pErr);
@@ -172,17 +169,20 @@ double NLEQInterface::solve(const vector<double>& yin)
 
     // set up the thread local variables, only this thread
     // access them.
-    if (gModel)
+    if (*threadModel)
     {
-        throw(Exception("gModel is set, this should never occur here."));
+        throw(Exception("thread local storage model is set, this should never occur here."));
     }
 
-    gModel = model;
+    *threadModel = model;
+
+    vector<double> amounts(n);
+    model->getFloatingSpeciesAmounts(amounts.size(), 0, &amounts[0]);
 
     NLEQ1(     &n,
             &ModelFunction,
             NULL,
-               model->getModelData().floatingSpeciesAmounts,
+            &amounts[0],
             XScal,
             &tmpTol,
                iopt,
@@ -193,7 +193,7 @@ double NLEQInterface::solve(const vector<double>& yin)
             RWK);
 
     // done, clear it.
-    gModel = 0;
+    *threadModel = 0;
 
     if (ierr == 2) // retry
     {
@@ -220,7 +220,7 @@ double NLEQInterface::solve(const vector<double>& yin)
 
 void ModelFunction(int* nx, double* y, double* fval, int* pErr)
 {
-    ExecutableModel* model = gModel;
+    ExecutableModel* model = *threadModel;
     if (model == NULL)
     {
         return;
@@ -228,32 +228,13 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
 
     try
     {
-        long n = model->getNumIndependentSpecies();
-        for(long i = 0; i < n; i++)
-        {
-            model->getModelData().floatingSpeciesAmounts[i] = y[i];
-        }
+        int n = model->getNumIndependentSpecies();
+        model->setFloatingSpeciesAmounts(n, 0, y);
 
-        int size = model->getModelData().numFloatingSpecies + model->getModelData().numRateRules;
-        vector<double> dTemp;
-        dTemp.resize(size);
+        // eval the model in its current state
+        model->evalModel(0.0, 0, 0);
 
-        for(int i = 0; i < model->getModelData().numRateRules; i++)
-        {
-            dTemp[i] = model->getModelData().rateRules[i];
-        }
-
-        for(int i = 0; i < model->getModelData().numFloatingSpecies; i++)
-        {
-            dTemp[model->getModelData().numRateRules + i] = model->getModelData().floatingSpeciesAmounts[i];
-        }
-
-        model->evalModel(0.0, dTemp);
-
-        for(int i = 0; i < n; i++)
-        {
-            fval[i] = model->getModelData().floatingSpeciesConcentrationRates[i];
-        }
+        model->getFloatingSpeciesAmountRates(n, 0, fval);
 
         pErr = 0;
     }
@@ -321,23 +302,14 @@ string ErrorForStatus(const int& error)
 double NLEQInterface::computeSumsOfSquares()
 {
     // Compute the sums of squares and return value to caller
-    vector<double> dTemp;// = new double[model->getModelData().amounts.Length + model->getModelData().rateRules.Length];
-    //    dTemp.resize(model->getModelData().amounts.size() + model->getModelData().rateRules.size());
-
-    //    dTemp = model->getModelData().rateRules;//model->getModelData().rateRules.CopyTo(dTemp, 0);
-    copyCArrayToStdVector(model->getModelData().rateRules,   dTemp, (model->getModelData().numRateRules));//model->mData.rateRules.CopyTo(dTemp, 0);
-    //model->getModelData().amounts.CopyTo(dTemp, model->getModelData().rateRules.Length);
-    //    for(int i = 0; i < model->getModelData().amounts.size(); i++)
-    for(int i = 0; i < model->getNumIndependentSpecies(); i++)
-    {
-        dTemp.push_back(model->getModelData().floatingSpeciesAmounts[i]);
-    }
-
-    model->evalModel(0.0, dTemp);
+    model->evalModel(0.0, 0, 0);
     double sum = 0;
+    vector<double> rates(n);
+    model->getFloatingSpeciesAmountRates(rates.size(), 0, &rates[0]);
+
     for (int i = 0; i < n; i++)
     {
-        sum = sum + pow(model->getModelData().floatingSpeciesConcentrationRates[i], 2.0);
+        sum = sum + pow(rates[i], 2.0);
     }
     return sqrt(sum);
 }

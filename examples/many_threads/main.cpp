@@ -14,7 +14,7 @@ int main(int argc, char** argv)
 	try
     {
         LogOutput::mLogToConsole = true;
-       	gLog.SetCutOffLogLevel(lDebug);
+       	gLog.setLevel(lDebug);
         //Create some roadrunners
         const int 	instanceCount 	= 1;
         const int 	threadCount  	= 1;

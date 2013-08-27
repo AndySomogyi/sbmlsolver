@@ -17,21 +17,22 @@ using namespace std;
 namespace rr
 {
 
-RoadRunnerData::RoadRunnerData(const int& rSize, const int& cSize )
-:
-mTimePrecision(6),
-mDataPrecision(16)
+RoadRunnerData::RoadRunnerData(const int& rSize, const int& cSize ) :
+        mTimePrecision(6),
+        mDataPrecision(16)
 {
-	if(cSize && rSize)
+    if(cSize && rSize)
     {
-    	allocate(rSize, cSize);
+        allocate(rSize, cSize);
     }
 }
 
-RoadRunnerData::RoadRunnerData(const StringList& colNames, const DoubleMatrix& theData)
-:
-mColumnNames(colNames),
-mTheData(theData)
+RoadRunnerData::RoadRunnerData(const StringList& colNames,
+        const DoubleMatrix& theData) :
+        mTimePrecision(6),
+        mDataPrecision(16),
+        mColumnNames(colNames),
+        mTheData(theData)
 {}
 
 RoadRunnerData::~RoadRunnerData()
@@ -50,22 +51,22 @@ int RoadRunnerData::rSize() const
 
 double RoadRunnerData::getTimeStart()
 {
-	//Find time column
+    //Find time column
     int timeCol = mColumnNames.indexOf("time");
     if(timeCol != -1)
     {
-    	return mTheData(0,timeCol);
+        return mTheData(0,timeCol);
     }
     return gDoubleNaN;
 }
 
 double RoadRunnerData::getTimeEnd()
 {
-	//Find time column
+    //Find time column
     int timeCol = mColumnNames.indexOf("time");
     if(timeCol != -1)
     {
-    	return mTheData(rSize() -1 ,timeCol);
+        return mTheData(rSize() -1 ,timeCol);
     }
     return gDoubleNaN;
 }
@@ -78,9 +79,9 @@ void RoadRunnerData::setName(const string& name)
 
 RoadRunnerData& RoadRunnerData::operator= (const RoadRunnerData& rhs)
 {
-	if(this == &rhs)
+    if(this == &rhs)
     {
-    	return *this;
+        return *this;
     }
 
     mTheData = rhs.mTheData;
@@ -91,37 +92,37 @@ RoadRunnerData& RoadRunnerData::operator= (const RoadRunnerData& rhs)
 
 void RoadRunnerData::allocateWeights()
 {
-	//Create matrix with weights... initialize all elements to 1
+    //Create matrix with weights... initialize all elements to 1
     mWeights.Allocate(mTheData.RSize(), mTheData.CSize());
     for(int i = 0; i < rSize(); i++)
     {
-    	for(int j = 0; j < cSize(); j++)
+        for(int j = 0; j < cSize(); j++)
         {
-        	if(j == 0)
+            if(j == 0)
             {
-        		mWeights(i,j) = i + 1;
+                mWeights(i,j) = i + 1;
             }
             else
             {
-				mWeights(i,j) = 1;
+                mWeights(i,j) = 1;
             }
-     	}
+         }
     }
 }
 
 bool RoadRunnerData::append(const RoadRunnerData& data)
 {
-	//When appending data, the number of rows have to match with current data
+    //When appending data, the number of rows have to match with current data
     if(mTheData.RSize() > 0)
     {
-		if(data.rSize() != rSize())
+        if(data.rSize() != rSize())
         {
-        	return false;
+            return false;
         }
-	}
+    }
     else
     {
-    	(*this) = data;
+        (*this) = data;
         return true;
     }
 
@@ -132,11 +133,11 @@ bool RoadRunnerData::append(const RoadRunnerData& data)
     int newCSize = cSize() + data.cSize();
     mTheData.resize(data.rSize(), newCSize );
 
-	for(int row = 0; row < temp.rSize(); row++)
+    for(int row = 0; row < temp.rSize(); row++)
     {
-    	for( int col = 0; col < temp.cSize(); col++)
+        for( int col = 0; col < temp.cSize(); col++)
         {
-        	mTheData(row, col) = temp(row, col);
+            mTheData(row, col) = temp(row, col);
         }
     }
 
@@ -150,9 +151,9 @@ bool RoadRunnerData::append(const RoadRunnerData& data)
 
     for(int col = 0; col < data.cSize(); col++)
     {
-    	mColumnNames.Append(data.getColumnName(col));
+        mColumnNames.Append(data.getColumnName(col));
     }
-	return true;
+    return true;
 }
 
 StringList RoadRunnerData::getColumnNames() const
@@ -162,9 +163,9 @@ StringList RoadRunnerData::getColumnNames() const
 
 string RoadRunnerData::getColumnName(const int& col) const
 {
-	if(col < mColumnNames.Count())
+    if(col < mColumnNames.Count())
     {
-		return mColumnNames[col];
+        return mColumnNames[col];
     }
 
     return "Bad Column..";
@@ -172,7 +173,7 @@ string RoadRunnerData::getColumnName(const int& col) const
 
 int RoadRunnerData::getColumnIndex(const string& colName)
 {
-	return mColumnNames.indexOf(colName);
+    return mColumnNames.indexOf(colName);
 }
 
 pair<int,int> RoadRunnerData::dimension() const
@@ -213,17 +214,17 @@ double& RoadRunnerData::operator() (const unsigned& row, const unsigned& col)
 
 bool RoadRunnerData::hasWeights() const
 {
-	return (mWeights.size() > 0) ? true : false;
+    return (mWeights.size() > 0) ? true : false;
 }
 
 double RoadRunnerData::weight(int row, int col) const
 {
-	return mWeights(row, col);
+    return mWeights(row, col);
 }
 
 double& RoadRunnerData::setWeight(int row, int col)
 {
-	return mWeights(row, col);
+    return mWeights(row, col);
 }
 
 double RoadRunnerData::operator() (const unsigned& row, const unsigned& col) const
@@ -234,18 +235,9 @@ double RoadRunnerData::operator() (const unsigned& row, const unsigned& col) con
 void RoadRunnerData::setColumnNames(const StringList& colNames)
 {
     mColumnNames = colNames;
-    Log(lDebug3)<<"Simulation Data Columns: "<<mColumnNames;
+    Log(Logger::PRIO_DEBUG) << "Simulation Data Columns: " << mColumnNames;
 }
 
-//void RoadRunnerData::setNrOfCols(const int& cols)
-//{
-//    mTheData.Allocate(1, cols);
-//}
-//
-//void RoadRunnerData::setNrOfRows(const int& rows)
-//{
-//    mTheData.Allocate(rows, cols);
-//}
 
 void RoadRunnerData::reSize(int rows, int cols)
 {
@@ -255,7 +247,7 @@ void RoadRunnerData::reSize(int rows, int cols)
 void RoadRunnerData::setData(const DoubleMatrix& theData)
 {
     mTheData = theData;
-    Log(lDebug5)<<"Simulation Data =========== \n"<<mTheData;
+    Log(Logger::PRIO_DEBUG) << "Simulation Data =========== \n" << mTheData;
     check();
 }
 
@@ -302,10 +294,10 @@ bool RoadRunnerData::loadSimpleFormat(const string& fName)
 
 bool RoadRunnerData::writeTo(const string& fileName)
 {
-	ofstream aFile(fileName.c_str());
+    ofstream aFile(fileName.c_str());
     if(!aFile)
     {
-    	Log(lError)<<"Failed opening file: "<<fileName;
+        Log(lError)<<"Failed opening file: "<<fileName;
         return false;
     }
     aFile<<(*this);
@@ -324,14 +316,14 @@ ostream& operator << (ostream& ss, const RoadRunnerData& data)
     }
 
     ss<<"[INFO]"<<endl;
-	ss<<"ROAD_RUNNER_VERSION=0.5"	<<endl;
-    ss<<"CREATOR=rrWinC-0.1"		<<endl;
-    ss<<"NUMBER_OF_COLS="			<<data.cSize()<<endl;
-    ss<<"NUMBER_OF_ROWS="			<<data.rSize()<<endl;
-    ss<<"COLUMN_HEADERS="			<<data.getColumnNamesAsString()<<endl;
+    ss<<"ROAD_RUNNER_VERSION=0.5"    <<endl;
+    ss<<"CREATOR=rrWinC-0.1"        <<endl;
+    ss<<"NUMBER_OF_COLS="            <<data.cSize()<<endl;
+    ss<<"NUMBER_OF_ROWS="            <<data.rSize()<<endl;
+    ss<<"COLUMN_HEADERS="            <<data.getColumnNamesAsString()<<endl;
 
     ss<<endl;
-	ss<<"[DATA]"<<endl;
+    ss<<"[DATA]"<<endl;
     //Then the data
     for(u_int row = 0; row < data.mTheData.RSize(); row++)
     {
@@ -359,7 +351,7 @@ ostream& operator << (ostream& ss, const RoadRunnerData& data)
 
     if(data.mWeights.isAllocated())
     {
-		//Write weights section
+        //Write weights section
         ss<<endl;
         ss<<"[WEIGHTS]"<<endl;
 
@@ -396,7 +388,7 @@ ostream& operator << (ostream& ss, const RoadRunnerData& data)
 //Stream data from a file
 istream& operator >> (istream& ss, RoadRunnerData& data)
 {
-	//Read in all lines into a string
+    //Read in all lines into a string
     std::string oneLine((std::istreambuf_iterator<char>(ss)), std::istreambuf_iterator<char>());
 
     //This is pretty inefficient
@@ -412,16 +404,16 @@ istream& operator >> (istream& ss, RoadRunnerData& data)
     IniSection* infoSection = ini.GetSection("INFO");
     if(!infoSection)
     {
-    	Log(lError)<<"RoadRunnder data file is missing section: [INFO]. Exiting reading file...";
+        Log(lError)<<"RoadRunnder data file is missing section: [INFO]. Exiting reading file...";
         return ss;
     }
 
-	//Setup header
+    //Setup header
     IniKey* colNames = infoSection->GetKey("COLUMN_HEADERS");
 
     if(!colNames)
     {
-    	Log(lError)<<"RoadRunnder data file is missing ini key: COLUMN_HEADERS. Exiting reading file...";
+        Log(lError)<<"RoadRunnder data file is missing ini key: COLUMN_HEADERS. Exiting reading file...";
         return ss;
     }
 
@@ -432,7 +424,7 @@ istream& operator >> (istream& ss, RoadRunnerData& data)
     IniKey* aKey2 = infoSection->GetKey("NUMBER_OF_ROWS");
     if(!aKey1 || !aKey2)
     {
-    	Log(lError)<<"RoadRunnder data file is missing ini key: NUMBER_OF_COLS and/or NUMBER_OF_ROWS. Exiting reading file...";
+        Log(lError)<<"RoadRunnder data file is missing ini key: NUMBER_OF_COLS and/or NUMBER_OF_ROWS. Exiting reading file...";
         return ss;
     }
 
@@ -440,57 +432,57 @@ istream& operator >> (istream& ss, RoadRunnerData& data)
     int cDim = aKey1->AsInt();
     data.reSize(rDim, cDim);
 
-	//get data section
-	IniSection* dataSection = ini.GetSection("DATA");
+    //get data section
+    IniSection* dataSection = ini.GetSection("DATA");
     if(!dataSection)
     {
-    	Log(lError)<<"RoadRunnder data file is missing ini section: DATA. Exiting reading file...";
+        Log(lError)<<"RoadRunnder data file is missing ini section: DATA. Exiting reading file...";
         return ss;
     }
 
     StringList lines = splitString(dataSection->GetNonKeysAsString(), "\n");
     for(int row = 0; row < lines.Count(); row++)
     {
-    	string oneLine = lines[row];
-    	StringList aLine(splitString(oneLine, ','));
+        string oneLine = lines[row];
+        StringList aLine(splitString(oneLine, ','));
         if(aLine.Count() != cDim)
         {
-        	throw(CoreException("Bad roadrunner data in data file"));
+            throw(CoreException("Bad roadrunner data in data file"));
         }
 
-    	for(int col = 0; col < cDim; col++)
+        for(int col = 0; col < cDim; col++)
         {
-        	Log(lDebug5)<<"Word "<<aLine[col];
-        	double value = toDouble(trim(aLine[col],' '));
-    		data(row, col) = value;
+            Log(lDebug5)<<"Word "<<aLine[col];
+            double value = toDouble(trim(aLine[col],' '));
+            data(row, col) = value;
         }
     }
 
     //Weights ??
 
-	IniSection* weightsSection = ini.GetSection("WEIGHTS");
-    if(!weightsSection)	//Optional
+    IniSection* weightsSection = ini.GetSection("WEIGHTS");
+    if(!weightsSection)    //Optional
     {
-    	Log(lDebug)<<"RoadRunnder data file is missing section: WEIGHTS. ";
+        Log(lDebug)<<"RoadRunnder data file is missing section: WEIGHTS. ";
         return ss;
     }
-	data.mWeights.Allocate(rDim, cDim);
+    data.mWeights.Allocate(rDim, cDim);
 
     lines = splitString(weightsSection->GetNonKeysAsString(), "\n");
     for(int row = 0; row < lines.Count(); row++)
     {
-    	string oneLine = lines[row];
-    	StringList aLine(splitString(oneLine, ','));
+        string oneLine = lines[row];
+        StringList aLine(splitString(oneLine, ','));
         if(aLine.Count() != cDim)
         {
-        	throw(CoreException("Bad roadrunner data in data file"));
+            throw(CoreException("Bad roadrunner data in data file"));
         }
 
-    	for(int col = 0; col < cDim; col++)
+        for(int col = 0; col < cDim; col++)
         {
-        	Log(lDebug5)<<"Word "<<aLine[col];
-        	double value = toDouble(aLine[col]);
-    		data.mWeights(row, col) = value;
+            Log(lDebug5)<<"Word "<<aLine[col];
+            double value = toDouble(aLine[col]);
+            data.mWeights(row, col) = value;
         }
     }
 

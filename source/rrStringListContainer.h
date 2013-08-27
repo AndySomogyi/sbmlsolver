@@ -10,7 +10,7 @@ using std::string;
 namespace rr
 {
 
-class RR_DECLSPEC StringListContainer : public rrObject
+class RR_DECLSPEC StringListContainer 
 {
     protected:
         vector<StringList>              mContainer;

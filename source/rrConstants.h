@@ -11,7 +11,6 @@ namespace rr
 
 //Useful constants...
 RR_DECLSPEC extern const char 	gPathSeparator;
-RR_DECLSPEC extern const string	gEmptyString;
 RR_DECLSPEC extern const string gExeSuffix;
 
 RR_DECLSPEC extern const char* 	gDoubleFormat;

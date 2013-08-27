@@ -19,7 +19,7 @@ typedef void    (rrCallConv *PluginWorkFinishedCB)(void*);
 class RoadRunner;
 
 using std::string;
-class RR_DECLSPEC Plugin : public rrObject /* Abstract plugin */
+class RR_DECLSPEC Plugin  /* Abstract plugin */
 {
 	protected:
 		string			           	mName;
@@ -39,7 +39,7 @@ class RR_DECLSPEC Plugin : public rrObject /* Abstract plugin */
         Capabilities	   			mCapabilities;	//Container for parameter data that can be exchanged to/from the plugin
 
     public:
-	    				           	Plugin(const std::string& name = gEmptyString, const std::string& cat = gNoneString, RoadRunner* aRR = NULL, PluginWorkStartedCB fn1 = NULL, PluginWorkFinishedCB fn2 = NULL, const string& language = "<none>");
+	    				           	Plugin(const std::string& name = "", const std::string& cat = gNoneString, RoadRunner* aRR = NULL, PluginWorkStartedCB fn1 = NULL, PluginWorkFinishedCB fn2 = NULL, const string& language = "<none>");
         virtual 		           ~Plugin();	//Gotta be virtual!
 
         bool						assignCallbacks(PluginWorkStartedCB fnc1, PluginWorkFinishedCB fnc2 = NULL, void* userData = NULL);
@@ -57,7 +57,7 @@ class RR_DECLSPEC Plugin : public rrObject /* Abstract plugin */
         Parameters*					getParameters(Capability& capability); //Each capability has a set of parameters
         Parameters*					getParameters(const string& nameOfCapability = ""); //Each capability has a set of parameters
 
-        BaseParameter*				getParameter(const string& param, const string& capability = gEmptyString);
+        BaseParameter*				getParameter(const string& param, const string& capability = "");
         bool						setParameter(const string& nameOf, const char* value);
 
         BaseParameter*				getParameter(const string& param, Capability& capability);

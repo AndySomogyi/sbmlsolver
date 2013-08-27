@@ -8,7 +8,7 @@ namespace rr
 {
 using std::vector;
 
-class RR_DECLSPEC SimulationSettings : public rrObject
+class RR_DECLSPEC SimulationSettings 
 {
     protected:
         void                    ClearSettings();

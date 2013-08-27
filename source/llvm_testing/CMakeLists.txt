@@ -13,7 +13,16 @@ set(tests
 add_executable( ${target}
     main
     src/tests
-
+    src/cpplapack
+    src/CSRMatrixTest
+    src/LLVMCSRMatrixTest
+    src/test_compiler
+    src/TestBase
+    src/TestEvalInitialConditions
+    src/TestEvalReactionRates
+    src/TestEvalModel
+    src/TestRoadRunner
+    src/GetBoundarySpeciesAmountTest
     )
 
 set_property(TARGET ${target}
@@ -33,6 +42,7 @@ link_directories(
 include_directories(
     src
     ${RR_ROOT}
+    ${THIRD_PARTY_INSTALL_FOLDER}/include/clapack
     )
 
 if(UNIX)

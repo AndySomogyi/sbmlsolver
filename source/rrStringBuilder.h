@@ -10,7 +10,7 @@ using std::string;
 namespace rr
 {
 
-class RR_DECLSPEC StringBuilder : public rrObject
+class RR_DECLSPEC StringBuilder 
 {
     protected:
         stringstream                 mStringing;

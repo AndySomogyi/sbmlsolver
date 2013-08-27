@@ -6,14 +6,33 @@
  */
 
 #include "rrModelGeneratorFactory.h"
-#include "rrCModelGenerator.h"
+#include "c/rrCModelGenerator.h"
+#include "llvm/LLVMModelGenerator.h"
+#include "rrLogger.h"
+#include <string>
+#include <algorithm>
 
+using namespace std;
 namespace rr {
 
-ModelGenerator* ModelGeneratorFactory::createModelGenerator(const string& mgid, const string& tempFolder,
-    		const string& supportCodeFolder, const string& compiler)
+ModelGenerator* ModelGeneratorFactory::createModelGenerator(const string& compiler, const string& tempFolder,
+            const string& supportCodeFolder)
 {
-	return new CModelGenerator(tempFolder, supportCodeFolder, compiler);
+#if defined(BUILD_LLVM)
+    string ucomp = compiler;
+    std::transform(ucomp.begin(), ucomp.end(),ucomp.begin(), ::toupper);
+
+    if (ucomp == "LLVM")
+    {
+        Log(Logger::PRIO_NOTICE) << "Creating LLVM based model generator.";
+        return new LLVMModelGenerator();
+    }
+#endif
+
+    Log(Logger::PRIO_NOTICE) << "Creating C based model generator using " << compiler << " compiler.";
+
+    // default (for now...), the old C code generating model generator.
+    return new CModelGenerator(tempFolder, supportCodeFolder, compiler);
 }
 
 } /* namespace rr */

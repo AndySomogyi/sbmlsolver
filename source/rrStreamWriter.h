@@ -10,7 +10,7 @@ using std::string;
 namespace rr
 {
 
-class RR_DECLSPEC StreamWriter : public rrObject
+class RR_DECLSPEC StreamWriter
 {
     protected:
         string             mFilePath;

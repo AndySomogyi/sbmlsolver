@@ -6,7 +6,7 @@
 namespace rr
 {
 
-class RR_DECLSPEC Noise : public rrObject
+class RR_DECLSPEC Noise
 {
     private:
         double 		mean;

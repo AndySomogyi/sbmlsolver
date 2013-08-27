@@ -16,7 +16,6 @@ const char 	 		gNL 			            = '\n';
 const char* 		gDoubleFormat 	            = "%f";
 const char* 		gIntFormat  	            = "%d";;
 
-const string    	gEmptyString 				= "";
 const string    	gNoneString 				= "<none>";
 
 //Observe, the following function, joinPath, is executed BEFORE any main..

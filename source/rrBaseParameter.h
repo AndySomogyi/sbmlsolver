@@ -6,7 +6,7 @@ namespace rr
 {
 
 //Base class for parameters. This class follows the "decorator" pattern.
-class RR_DECLSPEC BaseParameter : public rrObject
+class RR_DECLSPEC BaseParameter
 {
     public:
         string                              mName;
@@ -14,15 +14,15 @@ class RR_DECLSPEC BaseParameter : public rrObject
                                             BaseParameter(const string& name, const string& hint);
         virtual                            ~BaseParameter();
         RR_DECLSPEC
-        friend ostream&                 	operator<<(ostream& stream, const BaseParameter& outMe);
+        friend ostream&                     operator<<(ostream& stream, const BaseParameter& outMe);
 
         string                              asString() const;
         string                              getName() const;
         string                              getHint() const;
         virtual string                      getValueAsString() const;
-		virtual void*						getValueAsPointer() = 0;
-        virtual	void						setValueFromString(const string& value) = 0;
-        virtual string      	            getType() const = 0;
+        virtual void*                       getValueAsPointer() = 0;
+        virtual    void                     setValueFromString(const string& value) = 0;
+        virtual string                      getType() const = 0;
 };
 
 }

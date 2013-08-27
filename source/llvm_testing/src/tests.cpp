@@ -1,44 +1,38 @@
 #include "tests.h"
-#include "rrLLVMModelGeneratorContext.h"
-#include "rrLLVMModelDataSymbols.h"
-#include "rrLLVMModelDataIRBuilder.h"
+#include "llvm/ModelGeneratorContext.h"
+#include "llvm/LLVMModelDataSymbols.h"
+#include "llvm/ModelDataIRBuilder.h"
 #include "rrException.h"
 #include "rrUtils.h"
-#include "rrLLVMIncludes.h"
-#include "rrLLVMAssignmentRuleEvaluator.h"
+#include "llvm/LLVMIncludes.h"
+#include "llvm/AssignmentRuleEvaluator.h"
+#include "llvm/EvalInitialConditionsCodeGen.h"
+#include "rrSparse.h"
+#include "rrLogger.h"
+
+
+
 
 
 #include <sbml/SBMLDocument.h>
 #include <sbml/Model.h>
 #include <sbml/SBMLReader.h>
 
-#include "rrModelData.h"
+#include "llvm/LLVMModelData.h"
 
 #include <utility>
 #include <cstdlib>
-
-
-
-using namespace std;
-
-
-
-
-
-
-
-using namespace rr;
-
-
-
 #include <iostream>
 #include <fstream>
+
+#include "cpplapack.h"
 
 using namespace std;
 using namespace rr;
 using namespace llvm;
-
 using namespace libsbml;
+
+
 
 string getModelFileName(const string& version, int caseNumber)
 {
@@ -62,29 +56,47 @@ string getModelFileName(const string& version, int caseNumber)
 
     modelFileName = joinPath(modelFilePath, modelFileName);
 
-    cout << modelFileName << "\n";
-
     return modelFileName;
 }
 
 bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 {
-    ModelData md;
+    LLVMModelData md = {0};
     string modelFileName = getModelFileName(version, caseNumber);
 
     SBMLDocument *doc = readSBMLFromFile(modelFileName.c_str());
 
-    LLVMModelGeneratorContext c(doc, true);
+    try
+    {
 
-    LLVMSymbolForest s;
+        ModelGeneratorContext c(doc, true);
 
-    LLVMAssignmentRuleEvaluator evaluator(s);
+        c.getModelDataSymbols().print();
 
-    evaluator.evaluate(*c.getModel());
+        c.getModelDataSymbols().initAllocModelDataBuffers(md);
 
+        ExecutionEngine &engine = c.getExecutionEngine();
 
+        StructType *s = ModelDataIRBuilder::getStructType(c.getModule(),
+                &c.getExecutionEngine());
 
+        EvalInitialConditionsCodeGen iv(c);
 
+        EvalInitialConditionsCodeGen::FunctionPtr pfunc;
+
+        pfunc = iv.createFunction();
+
+        pfunc(&md);
+
+        Log(lInfo) << md;
+
+        cout << "done with " << modelFileName << endl;
+
+    }
+    catch(std::exception &e)
+    {
+        cout << "Failure in " << modelFileName.c_str() << ", " << e.what() << "\n";
+    }
 
     delete doc;
 
@@ -93,25 +105,25 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 
 bool runModelDataAccessorTest(const string& version, int caseNumber)
 {
-    ModelData md;
+    LLVMModelData md;
     string modelFileName = getModelFileName(version, caseNumber);
 
     SBMLDocument *doc = readSBMLFromFile(modelFileName.c_str());
 
-    LLVMModelGeneratorContext c(doc, true);
+    ModelGeneratorContext c(doc, true);
 
     c.getModelDataSymbols().initAllocModelDataBuffers(md);
 
-    md.size = sizeof(ModelData);
+    md.size = sizeof(LLVMModelData);
 
-    LLVMModelDataIRBuilder builder(c.getModelDataSymbols(), c.getBuilder());
+    LLVMModelDataIRBuilderTesting builder(c.getModelDataSymbols(), c.getBuilder());
 
     //builder.test(c.getModule(), c.getBuilder(), c.getExecutionEngine());
 
     builder.createAccessors(c.getModule());
 
-    ExecutionEngine *engine = c.getExecutionEngine();
-    Function *getFunc = engine->FindFunctionNamed("get_size");
+    ExecutionEngine &engine = c.getExecutionEngine();
+    Function *getFunc = engine.FindFunctionNamed("get_size");
 
     //getFunc->dump();
 
@@ -120,7 +132,7 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
 
     // Cast it to the right type (takes no arguments, returns a double) so we
     // can call it as a native function.
-    int (*pfunc)(ModelData*) = (int (*)(ModelData*))engine->getPointerToFunction(getFunc);
+    int (*pfunc)(LLVMModelData*) = (int (*)(LLVMModelData*))engine.getPointerToFunction(getFunc);
 
     double value = pfunc(&md);
 
@@ -130,11 +142,6 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
 
     vector<string> floatSpeciesIds = c.getModelDataSymbols().getFloatingSpeciesIds();
 
-    for(int i = 0; i < floatSpeciesIds.size(); i++)
-    {
-        builder.createFloatingSpeciesAccessors(c.getModule(), floatSpeciesIds[i]);
-        md.floatingSpeciesConcentrations[i] = i+1;
-    }
 
     for(int i = 0; i < md.numCompartments; i++)
     {
@@ -144,7 +151,7 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
     for(int i = 0; i < floatSpeciesIds.size(); i++)
     {
         string getName = "get_floatingspecies_conc_" + floatSpeciesIds[i];
-        Function *getFunc = engine->FindFunctionNamed(getName.c_str());
+        Function *getFunc = engine.FindFunctionNamed(getName.c_str());
 
         //getFunc->dump();
 
@@ -153,26 +160,26 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
 
               // Cast it to the right type (takes no arguments, returns a double) so we
               // can call it as a native function.
-        double (*pfunc)(ModelData*) = (double (*)(ModelData*))engine->getPointerToFunction(getFunc);
+        double (*pfunc)(LLVMModelData*) = (double (*)(LLVMModelData*))engine.getPointerToFunction(getFunc);
 
         double value = pfunc(&md);
 
         cout << getName << " returned " << value << "\n";
 
         string setName = "set_floatingspecies_conc_" + floatSpeciesIds[i];
-        Function *setFunc = engine->FindFunctionNamed(setName.c_str());
+        Function *setFunc = engine.FindFunctionNamed(setName.c_str());
 
-        void (*psetfunc)(ModelData*,double) = (void (*)(ModelData*,double))engine->getPointerToFunction(setFunc);
+        void (*psetfunc)(LLVMModelData*,double) = (void (*)(LLVMModelData*,double))engine.getPointerToFunction(setFunc);
 
         psetfunc(&md, i+1);
 
-        cout << "amount: " << md.floatingSpeciesAmounts[i] << ", conc: " << md.floatingSpeciesConcentrations[i] << "\n";
     }
 
 
-    freeModelDataBuffers(md);
+    LLVMModelData::freeBuffers(md);
 
     delete doc;
 
     return true;
 }
+

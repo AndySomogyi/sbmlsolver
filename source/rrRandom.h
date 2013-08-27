@@ -7,13 +7,13 @@
 namespace rr
 {
 
-class RR_DECLSPEC Random :rrObject
+class RR_DECLSPEC Random
 {
 
     private:
-		MTRand			mRand;		//Get a double in [0, 1)
+        MTRand          mRand;        //Get a double in [0, 1)
     public:
-    					Random();
+                        Random();
         double          NextDouble() const;
 };
 

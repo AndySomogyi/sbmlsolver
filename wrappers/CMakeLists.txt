@@ -13,3 +13,7 @@ if(INSTALL_DELPHI)
 add_subdirectory("Delphi")
 endif()
 
+if(BUILD_SWIG_PYTHON)
+    add_subdirectory("SWIGPython")
+endif()
+
