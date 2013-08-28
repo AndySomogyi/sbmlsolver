@@ -28,10 +28,10 @@
 
 #include <map>
 
-namespace rr
+namespace rrllvm
 {
 
-class RR_DECLSPEC LLVMExecutableModel: public ExecutableModel
+class RR_DECLSPEC LLVMExecutableModel: public rr::ExecutableModel
 {
 public:
 
@@ -426,8 +426,8 @@ private:
     GetEventDelayCodeGen::FunctionPtr getEventDelayPtr;
     EventTriggerCodeGen::FunctionPtr eventTriggerPtr;
     EventAssignCodeGen::FunctionPtr eventAssignPtr;
-    rrllvm::EvalVolatileStoichCodeGen::FunctionPtr evalVolatileStoichPtr;
-    rrllvm::EvalConversionFactorCodeGen::FunctionPtr evalConversionFactorPtr;
+    EvalVolatileStoichCodeGen::FunctionPtr evalVolatileStoichPtr;
+    EvalConversionFactorCodeGen::FunctionPtr evalConversionFactorPtr;
 
     double getFloatingSpeciesConcentration(int index);
 

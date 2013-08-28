@@ -12,7 +12,7 @@
 #include <Poco/Logger.h>
 #include "rrLogger.h"
 
-namespace rr
+namespace rrllvm
 {
 
 class LLVMException: public std::runtime_error
@@ -32,7 +32,7 @@ public:
 #define throw_llvm_exception(what) \
         { std::string _err_msg = std::string("Error in ") + \
           std::string(__FUNC__) + ": " + std::string(what); \
-          poco_error(getLogger(), _err_msg); \
+          poco_error(rr::getLogger(), _err_msg); \
           throw LLVMException(_err_msg); }
 
 

@@ -9,14 +9,17 @@
 #include "ASTNodeCodeGen.h"
 #include "LLVMException.h"
 
-namespace rr
+namespace rrllvm
 {
 
 using namespace libsbml;
 using namespace std;
 using namespace llvm;
 
-rr::FunctionResolver::FunctionResolver(LoadSymbolResolver& parentResolver,
+using rr::Logger;
+using rr::getLogger;
+
+FunctionResolver::FunctionResolver(LoadSymbolResolver& parentResolver,
         const libsbml::Model* model, llvm::IRBuilder<>& builder) :
                 parentResolver(parentResolver),
                 model(model),
@@ -25,11 +28,11 @@ rr::FunctionResolver::FunctionResolver(LoadSymbolResolver& parentResolver,
 {
 }
 
-rr::FunctionResolver::~FunctionResolver()
+FunctionResolver::~FunctionResolver()
 {
 }
 
-llvm::Value* rr::FunctionResolver::loadSymbolValue(const std::string& symbol,
+llvm::Value* FunctionResolver::loadSymbolValue(const std::string& symbol,
         const llvm::ArrayRef<llvm::Value*>& args)
 {
     const FunctionDefinition *funcDef = 0;

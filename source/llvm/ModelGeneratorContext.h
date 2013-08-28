@@ -24,7 +24,7 @@ class SBMLDocument;
 class Model;
 }
 
-namespace rr
+namespace rrllvm
 {
 
 /**

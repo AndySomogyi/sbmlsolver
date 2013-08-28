@@ -12,7 +12,7 @@
 #include "ModelGeneratorContext.h"
 #include <map>
 
-namespace rr
+namespace rrllvm
 {
 
 /**

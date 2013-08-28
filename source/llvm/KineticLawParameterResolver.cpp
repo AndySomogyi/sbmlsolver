@@ -13,7 +13,10 @@
 using namespace llvm;
 using namespace libsbml;
 
-namespace rr
+using rr::Logger;
+using rr::getLogger;
+
+namespace rrllvm
 {
 
 KineticLawParameterResolver::KineticLawParameterResolver(

@@ -23,7 +23,11 @@ using namespace libsbml;
 using namespace llvm;
 using namespace std;
 
-namespace rr
+using rr::Logger;
+using rr::getLogger;
+using rr::csr_matrix;
+
+namespace rrllvm
 {
 
 const char* ModelDataIRBuilder::LLVMModelDataName = "rr::LLVMModelData";

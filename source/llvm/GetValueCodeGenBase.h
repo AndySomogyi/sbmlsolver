@@ -19,7 +19,7 @@
 #include <Poco/Logger.h>
 #include <vector>
 
-namespace rr
+namespace rrllvm
 {
 
 typedef double (*GetValueCodeGenBase_FunctionPtr)(LLVMModelData*, int32_t);

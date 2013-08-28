@@ -10,11 +10,11 @@
 
 #include "CodeGenBase.h"
 
-namespace rr
+namespace rrllvm
 {
 
 class GetRateRuleValuesCodeGen:
-        private rr::CodeGenBase<void*>
+        private CodeGenBase<void*>
 {
 public:
     GetRateRuleValuesCodeGen(const ModelGeneratorContext &mgc);

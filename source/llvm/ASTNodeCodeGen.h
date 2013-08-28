@@ -18,7 +18,7 @@ namespace libsbml
 class ASTNode;
 }
 
-namespace rr
+namespace rrllvm
 {
 /**
  * All of the LLVM IR generation is handled here.

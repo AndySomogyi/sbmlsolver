@@ -12,7 +12,8 @@
 #include <string>
 #include <ostream>
 
-namespace rr {
+namespace rrllvm
+{
 
 struct LLVMModelData;
 
@@ -149,7 +150,7 @@ struct LLVMModelData
     /**
      * stoichiometry matrix
      */
-    csr_matrix*                         stoichiometry;                    // 20
+    rr::csr_matrix*                         stoichiometry;                    // 20
 
 
     //Event stuff

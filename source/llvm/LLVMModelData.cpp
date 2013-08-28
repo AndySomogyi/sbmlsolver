@@ -43,7 +43,7 @@ static void dump_array(std::ostream &os, int n, const double *p)
 }
 
 
-namespace rr
+namespace rrllvm
 {
 
 
@@ -51,7 +51,7 @@ namespace rr
 void LLVMModelData::init(LLVMModelData &data)
 {
     //Zero data structure..
-    memset(&data, 0, sizeof(rr::LLVMModelData));
+    memset(&data, 0, sizeof(LLVMModelData));
 }
 
 

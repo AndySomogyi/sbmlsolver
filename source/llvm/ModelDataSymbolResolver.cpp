@@ -15,7 +15,7 @@ using namespace std;
 using namespace libsbml;
 using namespace llvm;
 
-namespace rr
+namespace rrllvm
 {
 
 ModelDataLoadSymbolResolver::ModelDataLoadSymbolResolver(llvm::Value *modelData,

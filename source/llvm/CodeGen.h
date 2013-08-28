@@ -10,7 +10,7 @@
 
 #include "LLVMIncludes.h"
 
-namespace rr
+namespace rrllvm
 {
 
 class CodeGen

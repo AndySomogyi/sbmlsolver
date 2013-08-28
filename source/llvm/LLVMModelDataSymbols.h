@@ -25,7 +25,7 @@ namespace libsbml
     class ASTNode;
 }
 
-namespace rr
+namespace rrllvm
 {
 
 enum ModelDataFields {

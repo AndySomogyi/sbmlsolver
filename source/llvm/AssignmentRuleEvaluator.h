@@ -15,7 +15,7 @@
 #include <sbml/AlgebraicRule.h>
 #include <sbml/AssignmentRule.h>
 
-namespace rr
+namespace rrllvm
 {
 
 /**

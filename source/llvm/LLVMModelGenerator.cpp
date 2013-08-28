@@ -13,8 +13,8 @@
 #include "LLVMIncludes.h"
 
 
-using namespace rrllvm;
-namespace rr
+using namespace rr;
+namespace rrllvm
 {
 
 LLVMModelGenerator::LLVMModelGenerator()

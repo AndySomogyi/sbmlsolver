@@ -10,7 +10,7 @@
 
 #include "EventCodeGenBase.h"
 
-namespace rr
+namespace rrllvm
 {
 
 typedef void (*EventTriggerCodeGen_FunctionPtr)(LLVMModelData*, int32_t);
