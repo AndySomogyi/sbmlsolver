@@ -32,6 +32,8 @@ using namespace std;
 using namespace ls;
 using Poco::Mutex;
 
+static Mutex roadRunnerMutex;
+
 
 // we can write a single function to pick the string lists out
 // of the model instead of duplicating it 6 times with
@@ -91,6 +93,7 @@ mTimeEnd(10),
 mNumPoints(21),
 mModel(NULL),
 mCurrentSBML(""),
+mLS(0),
 mPluginManager(joinPath(getParentFolder(supportCodeFolder), "plugins"))
 
 
@@ -139,8 +142,7 @@ RoadRunner::~RoadRunner()
     delete mModelGenerator;
     delete mModel;
     delete mCVode;
-
-    //delete mLS;
+    delete mLS;
     mInstanceCount--;
 }
 
@@ -191,7 +193,24 @@ PluginManager&    RoadRunner::getPluginManager()
 
 LibStructural* RoadRunner::getLibStruct()
 {
-    return &mLS;
+    Mutex::ScopedLock lock(roadRunnerMutex);
+
+    if (mLS)
+    {
+        return mLS;
+    }
+    else if (!mCurrentSBML.empty())
+    {
+        mLS = new ls::LibStructural(mCurrentSBML);
+        Log(Logger::PRIO_INFORMATION) << "created structural analysis, messages: "
+                << mLS->getAnalysisMsg();
+        return mLS;
+    }
+    else
+    {
+        throw Exception("could not create structural analysis with no loaded sbml");
+        return 0;
+    }
 }
 
 Compiler* RoadRunner::getCompiler()
@@ -545,16 +564,6 @@ bool RoadRunner::loadSBMLFromFile(const string& fileName, const bool& forceReCom
     return loadSBML(sbml, forceReCompile);
 }
 
-
-
-bool RoadRunner::loadSBMLIntoLibStruct(const string& sbml)
-{
-    Log(lDebug3)<<"Loading sbml into StructAnalysis";
-    string msg = mLS.loadSBML(sbml);            //the ls loadSBML load call took SASCII before.. does it need to?
-    Log(lDebug1)<<"Message from StructAnalysis.LoadSBML function\n"<<msg;
-    return msg.size() ? true : false;
-}
-
 string RoadRunner::createModelName(const string& mCurrentSBMLFileName)
 {
     //Generate source code for the model
@@ -572,7 +581,8 @@ string RoadRunner::createModelName(const string& mCurrentSBMLFileName)
 
 bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
 {
-    static Mutex libSBMLMutex;
+    Mutex::ScopedLock lock(roadRunnerMutex);
+
     mCurrentSBML = sbml;
 
     //clear temp folder of roadrunner generated files, only if roadRunner instance == 1
@@ -582,12 +592,6 @@ bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
         throw(CoreException("SBML string is empty!"));
     }
 
-    {
-        //Scope for Mutex
-        //There is something in here that is not threadsafe... causes crash with multiple threads, without mutex
-        Mutex::ScopedLock lock(libSBMLMutex);
-        loadSBMLIntoLibStruct(sbml);
-    }
 
     delete mModel;
     uint options = 0;
@@ -1535,13 +1539,15 @@ DoubleMatrix RoadRunner::getReducedJacobian()
             throw CoreException("The reduced Jacobian matrix can only be computed if conservation law detection is enabled");
         }
 
+        ls::LibStructural &ls = *getLibStruct();
+
         DoubleMatrix uelast = getUnscaledElasticityMatrix();
-        if(!mLS.getNrMatrix())
+        if(!ls.getNrMatrix())
         {
             return DoubleMatrix(0,0);
         }
-        DoubleMatrix I1 = mult(*(mLS.getNrMatrix()), uelast);
-        DoubleMatrix *linkMat = mLS.getLinkMatrix();
+        DoubleMatrix I1 = mult(*(ls.getNrMatrix()), uelast);
+        DoubleMatrix *linkMat = ls.getLinkMatrix();
         return mult(I1, (*linkMat));
     }
     catch (const Exception& e)
@@ -1562,7 +1568,7 @@ DoubleMatrix* RoadRunner::getLinkMatrix()
            throw CoreException(gEmptyModelMessage);
        }
        //return _L;
-        return mLS.getLinkMatrix();
+        return getLibStruct()->getLinkMatrix();
     }
     catch (const Exception& e)
     {
@@ -1579,7 +1585,7 @@ DoubleMatrix* RoadRunner::getNrMatrix()
             throw CoreException(gEmptyModelMessage);
        }
         //return _Nr;
-        return mLS.getNrMatrix();
+        return getLibStruct()->getNrMatrix();
     }
     catch (const Exception& e)
     {
@@ -1596,7 +1602,7 @@ DoubleMatrix* RoadRunner::getL0Matrix()
             throw CoreException(gEmptyModelMessage);
        }
           //return _L0;
-       return mLS.getL0Matrix();
+       return getLibStruct()->getL0Matrix();
     }
     catch (const Exception& e)
     {
@@ -1610,7 +1616,7 @@ DoubleMatrix RoadRunner::getStoichiometryMatrix()
     try
     {
 //        DoubleMatrix* aMat = mLS.getStoichiometryMatrix();
-        DoubleMatrix* aMat = mLS.getReorderedStoichiometryMatrix();
+        DoubleMatrix* aMat = getLibStruct()->getReorderedStoichiometryMatrix();
         if (!mModel || !aMat)
         {
             throw CoreException(gEmptyModelMessage);
@@ -1638,7 +1644,7 @@ DoubleMatrix RoadRunner::getReorderedStoichiometryMatrix()
 {
     try
     {
-        DoubleMatrix* aMat = mLS.getReorderedStoichiometryMatrix();
+        DoubleMatrix* aMat = getLibStruct()->getReorderedStoichiometryMatrix();
         if (!mModel || !aMat)
         {
             throw CoreException(gEmptyModelMessage);
@@ -1667,7 +1673,7 @@ DoubleMatrix RoadRunner::getFullyReorderedStoichiometryMatrix()
 {
     try
     {
-        DoubleMatrix* aMat = mLS.getFullyReorderedStoichiometryMatrix();
+        DoubleMatrix* aMat = getLibStruct()->getFullyReorderedStoichiometryMatrix();
         if (!mModel || !aMat)
         {
             throw CoreException(gEmptyModelMessage);
@@ -1699,7 +1705,7 @@ DoubleMatrix RoadRunner::getConservationMatrix()
     {
        if (mModel)
        {
-           DoubleMatrix* aMat = mLS.getGammaMatrix();
+           DoubleMatrix* aMat = getLibStruct()->getGammaMatrix();
             if (aMat)
             {
                 mat.resize(aMat->numRows(), aMat->numCols());
@@ -1730,7 +1736,7 @@ int RoadRunner::getNumberOfDependentSpecies()
         if (mModel)
         {
             //return mStructAnalysis.GetInstance()->getNumDepSpecies();
-            return mLS.getNumDepSpecies();
+            return getLibStruct()->getNumDepSpecies();
         }
 
         throw CoreException(gEmptyModelMessage);
@@ -1749,7 +1755,7 @@ int RoadRunner::getNumberOfIndependentSpecies()
     {
         if (mModel)
         {
-            return mLS.getNumIndSpecies();
+            return getLibStruct()->getNumIndSpecies();
         }
         //return StructAnalysis.getNumIndSpecies();
         throw CoreException(gEmptyModelMessage);

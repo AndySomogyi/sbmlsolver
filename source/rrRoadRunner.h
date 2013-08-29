@@ -70,7 +70,7 @@ class RR_DECLSPEC RoadRunner
         /**
          * structural analysis library.
          */
-        LibStructural                   mLS;
+        LibStructural*                  mLS;
 
         SimulationSettings              mSettings;
 
@@ -88,10 +88,6 @@ class RR_DECLSPEC RoadRunner
 
         vector<string>                  getParameterIds();
 
-        /**
-         * load the sbml into the structural analysis module, mLS.
-         */
-        bool                            loadSBMLIntoLibStruct(const string& sbml);
         string                          createModelName(const string& mCurrentSBMLFileName);
 
     public:
