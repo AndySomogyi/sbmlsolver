@@ -69,12 +69,12 @@ void copyCachedModel(a_type* src, b_type* dst)
 
 LLVMModelGenerator::LLVMModelGenerator()
 {
-    Log(Logger::PRIO_NOTICE) << __PRETTY_FUNCTION__;
+    Log(Logger::PRIO_TRACE) << __FUNC__;
 }
 
 LLVMModelGenerator::~LLVMModelGenerator()
 {
-    Log(Logger::PRIO_NOTICE) << __PRETTY_FUNCTION__;
+    Log(Logger::PRIO_TRACE) << __FUNC__;
 
 }
 

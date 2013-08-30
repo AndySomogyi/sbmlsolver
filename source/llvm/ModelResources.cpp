@@ -15,15 +15,17 @@ using rr::getLogger;
 namespace rrllvm
 {
 
-ModelResources::ModelResources()
+ModelResources::ModelResources() :
+        symbols(0), executionEngine(0), context(0), errStr(0)
 {
-    // TODO Auto-generated constructor stub
-    Log(Logger::PRIO_NOTICE) << __PRETTY_FUNCTION__;
+    // the reset of the ivars are assigned by the generator,
+    // and in an exception they are not, does not matter as
+    // we don't have to delete them.
 }
 
 ModelResources::~ModelResources()
 {
-    Log(Logger::PRIO_NOTICE) << __PRETTY_FUNCTION__;
+    Log(Logger::PRIO_DEBUG) << __FUNC__;
 
     if (errStr->size() > 0)
     {
