@@ -123,8 +123,9 @@ public:
      * Monkey steals the peach -- A martial arts technique mastered by
      * Michael Wu which is in effect, the act of ripping someone's bollocks off.
      */
-    void stealThePeach(LLVMModelDataSymbols **sym, llvm::LLVMContext **ctx,
-            llvm::ExecutionEngine **eng, std::string **errStr);
+    void stealThePeach(const LLVMModelDataSymbols **sym,
+            const llvm::LLVMContext **ctx, const llvm::ExecutionEngine **eng,
+            const std::string **errStr);
 
 private:
 

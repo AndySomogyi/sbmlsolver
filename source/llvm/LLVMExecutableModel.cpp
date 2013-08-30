@@ -7,6 +7,7 @@
  */
 
 #include "LLVMExecutableModel.h"
+#include "ModelResources.h"
 #include "LLVMIncludes.h"
 #include "rrSparse.h"
 #include "rrLogger.h"
@@ -56,9 +57,6 @@ static int getValues(LLVMModelData* modelData, double (*funcPtr)(LLVMModelData*,
 
 LLVMExecutableModel::LLVMExecutableModel() :
     symbols(0),
-    context(0),
-    executionEngine(0),
-    errStr(0),
     evalInitialConditionsPtr(0),
     evalReactionRatesPtr(0),
     getBoundarySpeciesAmountPtr(0),
@@ -67,7 +65,6 @@ LLVMExecutableModel::LLVMExecutableModel() :
     getFloatingSpeciesConcentrationPtr(0),
     getGlobalParameterPtr(0),
     getCompartmentVolumePtr(0),
-    stackDepth(0),
     evalRateRuleRatesPtr(0),
     getEventTriggerPtr(0),
     getEventPriorityPtr(0),
@@ -85,21 +82,44 @@ LLVMExecutableModel::LLVMExecutableModel() :
     std::srand(std::time(0));
 }
 
+LLVMExecutableModel::LLVMExecutableModel(
+    const std::tr1::shared_ptr<ModelResources>& rc) :
+    resources(rc),
+    symbols(rc->symbols),
+    evalInitialConditionsPtr(rc->evalInitialConditionsPtr),
+    evalReactionRatesPtr(rc->evalReactionRatesPtr),
+    getBoundarySpeciesAmountPtr(rc->getBoundarySpeciesAmountPtr),
+    getFloatingSpeciesAmountPtr(rc->getFloatingSpeciesAmountPtr),
+    getBoundarySpeciesConcentrationPtr(rc->getBoundarySpeciesConcentrationPtr),
+    getFloatingSpeciesConcentrationPtr(rc->getFloatingSpeciesConcentrationPtr),
+    getCompartmentVolumePtr(rc->getCompartmentVolumePtr),
+    getGlobalParameterPtr(rc->getGlobalParameterPtr),
+    evalRateRuleRatesPtr(rc->evalRateRuleRatesPtr),
+    getEventTriggerPtr(rc->getEventTriggerPtr),
+    getEventPriorityPtr(rc->getEventPriorityPtr),
+    getEventDelayPtr(rc->getEventDelayPtr),
+    eventTriggerPtr(rc->eventTriggerPtr),
+    eventAssignPtr(rc->eventAssignPtr),
+    evalVolatileStoichPtr(rc->evalVolatileStoichPtr),
+    evalConversionFactorPtr(rc->evalConversionFactorPtr)
+{
+    // zero out the struct,
+    LLVMModelData::init(modelData);
+    modelData.time = -1.0; // time is initially before simulation starts
+
+    std::srand(std::time(0));
+
+    symbols->initAllocModelDataBuffers(modelData);
+
+    eventAssignTimes.resize(modelData.numEvents);
+}
+
 LLVMExecutableModel::~LLVMExecutableModel()
 {
-    //Log(Logger::PRIO_TRACE) << __FUNC__ <<
-
-    if (errStr->size() > 0)
-    {
-        Log(Logger::PRIO_WARNING) << "Non-empty LLVM ExecutionEngine error string: " << *errStr;
-    }
-
+    // smart ptr takes care of freeing resources
     LLVMModelData::freeBuffers(modelData);
-    delete symbols;
-    // the exe engine owns all the functions
-    delete executionEngine;
-    delete context;
-    delete errStr;
+
+    Log(Logger::PRIO_NOTICE) << __PRETTY_FUNCTION__;
 }
 
 string LLVMExecutableModel::getModelName()
@@ -461,7 +481,6 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
 void LLVMExecutableModel::print(std::ostream &stream)
 {
     stream << "LLVMExecutableModel" << endl;
-    stream << "stackDepth: " << stackDepth << endl;
     stream << modelData;
 }
 

@@ -12,8 +12,14 @@
 
 #include "rrModelGenerator.h"
 #include "LLVMCompiler.h"
-#include <memory>
 
+#if __cplusplus >= 201103L || defined(_MSC_VER)
+#include <memory>
+#include <unordered_map>
+#else
+#include <tr1/memory>
+#include <tr1/unordered_map>
+#endif
 
 namespace rrllvm
 {
@@ -68,7 +74,6 @@ public:
 
 private:
     LLVMCompiler compiler;
-
 };
 
 } /* namespace rr */

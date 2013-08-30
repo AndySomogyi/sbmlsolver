@@ -178,8 +178,9 @@ llvm::IRBuilder<> &ModelGeneratorContext::getBuilder() const
     return *builder;
 }
 
-void ModelGeneratorContext::stealThePeach(LLVMModelDataSymbols **sym,
-        llvm::LLVMContext** ctx, llvm::ExecutionEngine** eng, string** err)
+void ModelGeneratorContext::stealThePeach(const LLVMModelDataSymbols **sym,
+        const llvm::LLVMContext** ctx, const llvm::ExecutionEngine** eng,
+        const string** err)
 {
     *sym = symbols;
     symbols = 0;

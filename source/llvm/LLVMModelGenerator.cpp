@@ -11,18 +11,71 @@
 #include "LLVMExecutableModel.h"
 #include "ModelGeneratorContext.h"
 #include "LLVMIncludes.h"
+#include "ModelResources.h"
+#include "rrUtils.h"
+#include <rrLogger.h>
+#include <Poco/Mutex.h>
 
+using rr::Logger;
+using rr::getLogger;
+using rr::ExecutableModel;
+using rr::ModelGenerator;
+using rr::Compiler;
 
-using namespace rr;
 namespace rrllvm
 {
 
+typedef std::tr1::weak_ptr<ModelResources> WeakModelPtr;
+typedef std::tr1::shared_ptr<ModelResources> SharedModelPtr;
+typedef std::tr1::unordered_map<std::string, WeakModelPtr> ModelPtrMap;
+
+static Poco::Mutex cachedModelsMutex;
+static ModelPtrMap cachedModels;
+
+/**
+ * copy the cached model fields between a cached model, and a
+ * executable model.
+ *
+ * We don't want to have ExecutableModel inherit from CahcedModel
+ * because they do compleltly different things, and have completly
+ * differnt deletion semantics
+ */
+template <typename a_type, typename b_type>
+void copyCachedModel(a_type* src, b_type* dst)
+{
+    dst->symbols = src->symbols;
+    dst->context = src->context;
+    dst->executionEngine = src->executionEngine;
+    dst->errStr = src->errStr;
+
+    dst->evalInitialConditionsPtr = src->evalInitialConditionsPtr;
+    dst->evalReactionRatesPtr = src->evalReactionRatesPtr;
+    dst->getBoundarySpeciesAmountPtr = src->getBoundarySpeciesAmountPtr;
+    dst->getFloatingSpeciesAmountPtr = src->getFloatingSpeciesAmountPtr;
+    dst->getBoundarySpeciesConcentrationPtr = src->getBoundarySpeciesConcentrationPtr;
+    dst->getFloatingSpeciesConcentrationPtr = src->getFloatingSpeciesConcentrationPtr;
+    dst->getCompartmentVolumePtr = src->getCompartmentVolumePtr;
+    dst->getGlobalParameterPtr = src->getGlobalParameterPtr;
+    dst->evalRateRuleRatesPtr = src->evalRateRuleRatesPtr;
+    dst->getEventTriggerPtr = src->getEventTriggerPtr;
+    dst->getEventPriorityPtr = src->getEventPriorityPtr;
+    dst->getEventDelayPtr = src->getEventDelayPtr;
+    dst->eventTriggerPtr = src->eventTriggerPtr;
+    dst->eventAssignPtr = src->eventAssignPtr;
+    dst->evalVolatileStoichPtr = src->evalVolatileStoichPtr;
+    dst->evalConversionFactorPtr = src->evalConversionFactorPtr;
+}
+
+
 LLVMModelGenerator::LLVMModelGenerator()
 {
+    Log(Logger::PRIO_NOTICE) << __PRETTY_FUNCTION__;
 }
 
 LLVMModelGenerator::~LLVMModelGenerator()
 {
+    Log(Logger::PRIO_NOTICE) << __PRETTY_FUNCTION__;
+
 }
 
 bool LLVMModelGenerator::setTemporaryDirectory(const string& path)
@@ -35,6 +88,26 @@ string LLVMModelGenerator::getTemporaryDirectory()
     return LLVMCompiler::gurgle();
 }
 
+class test
+{
+public:
+    const int* p;
+};
+
+void testt(const int** p)
+{
+    *p = 0;
+}
+
+void testtt()
+{
+    test *t = new test();
+
+    testt(&t->p);
+}
+
+
+
 
 ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
         uint options)
@@ -42,54 +115,93 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
     bool computeAndAssignConsevationLaws =
             options & ModelGenerator::ComputeAndAssignConsevationLaws;
 
+    bool forceReCompile = options & ModelGenerator::ForceReCompile;
+
+    string md5;
+
+    if (!forceReCompile)
+    {
+        // check for a chached copy
+        md5 = rr::getMD5(sbml);
+
+        ModelPtrMap::const_iterator i;
+
+        SharedModelPtr sp;
+
+        cachedModelsMutex.lock();
+
+        if ((i = cachedModels.find(md5)) != cachedModels.end())
+        {
+            sp = i->second.lock();
+        }
+
+        cachedModelsMutex.unlock();
+
+        // we could have recieved a bad ptr, a model could have been deleted,
+        // in which case, we should have a bad ptr.
+
+        if (sp)
+        {
+            Log(Logger::PRIO_DEBUG) << "found a cached model for " << md5;
+            return new LLVMExecutableModel(sp);
+        }
+        else
+        {
+            Log(Logger::PRIO_TRACE) << "no cached model found for " << md5
+                    << ", creating new one";
+        }
+    }
+
+    SharedModelPtr rc(new ModelResources());
+
     ModelGeneratorContext context(sbml, computeAndAssignConsevationLaws);
 
-    EvalInitialConditionsCodeGen::FunctionPtr evalInitialConditionsPtr =
+    rc->evalInitialConditionsPtr =
             EvalInitialConditionsCodeGen(context).createFunction();
 
-    EvalReactionRatesCodeGen::FunctionPtr evalReactionRatesPtr =
+    rc->evalReactionRatesPtr =
             EvalReactionRatesCodeGen(context).createFunction();
 
-    GetBoundarySpeciesAmountCodeGen::FunctionPtr getBoundarySpeciesAmountPtr =
+    rc->getBoundarySpeciesAmountPtr =
             GetBoundarySpeciesAmountCodeGen(context).createFunction();
 
-    GetFloatingSpeciesAmountCodeGen::FunctionPtr getFloatingSpeciesAmountPtr =
+    rc->getFloatingSpeciesAmountPtr =
             GetFloatingSpeciesAmountCodeGen(context).createFunction();
 
-    GetBoundarySpeciesConcentrationCodeGen::FunctionPtr getBoundarySpeciesConcentrationPtr =
+    rc->getBoundarySpeciesConcentrationPtr =
             GetBoundarySpeciesConcentrationCodeGen(context).createFunction();
 
-    GetFloatingSpeciesConcentrationCodeGen::FunctionPtr getFloatingSpeciesConcentrationPtr =
+    rc->getFloatingSpeciesConcentrationPtr =
             GetFloatingSpeciesConcentrationCodeGen(context).createFunction();
 
-    GetCompartmentVolumeCodeGen::FunctionPtr getCompartmentVolumePtr =
+    rc->getCompartmentVolumePtr =
             GetCompartmentVolumeCodeGen(context).createFunction();
 
-    GetGlobalParameterCodeGen::FunctionPtr getGlobalParameterPtr =
+    rc->getGlobalParameterPtr =
             GetGlobalParameterCodeGen(context).createFunction();
 
-    EvalRateRuleRatesCodeGen::FunctionPtr evalRateRuleRatesPtr =
+    rc->evalRateRuleRatesPtr =
             EvalRateRuleRatesCodeGen(context).createFunction();
 
-    GetEventTriggerCodeGen::FunctionPtr getEventTriggerPtr =
+    rc->getEventTriggerPtr =
             GetEventTriggerCodeGen(context).createFunction();
 
-    GetEventPriorityCodeGen::FunctionPtr getEventPriorityPtr =
+    rc->getEventPriorityPtr =
             GetEventPriorityCodeGen(context).createFunction();
 
-    GetEventDelayCodeGen::FunctionPtr getEventDelayPtr =
+    rc->getEventDelayPtr =
             GetEventDelayCodeGen(context).createFunction();
 
-    EventTriggerCodeGen::FunctionPtr eventTriggerPtr =
+    rc->eventTriggerPtr =
             EventTriggerCodeGen(context).createFunction();
 
-    EventAssignCodeGen::FunctionPtr eventAssignPtr =
+    rc->eventAssignPtr =
             EventAssignCodeGen(context).createFunction();
 
-    EvalVolatileStoichCodeGen::FunctionPtr evalVolatileStoichPtr =
+    rc->evalVolatileStoichPtr =
             EvalVolatileStoichCodeGen(context).createFunction();
 
-    EvalConversionFactorCodeGen::FunctionPtr evalConversionFactorPtr =
+    rc->evalConversionFactorPtr =
             EvalConversionFactorCodeGen(context).createFunction();
 
 
@@ -99,34 +211,47 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
     // Now that everything that could have thrown would have thrown, we
     // can now create the model and set its fields.
 
-    LLVMExecutableModel *exe = new LLVMExecutableModel();
-
     // * MOVE * the bits over from the context to the exe model.
-    context.stealThePeach(&exe->symbols, &exe->context, &exe->executionEngine,
-            &exe->errStr);
+    context.stealThePeach(&rc->symbols, &rc->context,
+            &rc->executionEngine, &rc->errStr);
 
-    exe->symbols->initAllocModelDataBuffers(exe->modelData);
+    if (!forceReCompile)
+    {
+        // check for a chached copy, another thread could have
+        // created one while we were making ours...
 
-    exe->eventAssignTimes.resize(exe->modelData.numEvents);
+        ModelPtrMap::const_iterator i;
 
-    exe->evalInitialConditionsPtr = evalInitialConditionsPtr;
-    exe->evalReactionRatesPtr = evalReactionRatesPtr;
-    exe->getBoundarySpeciesAmountPtr = getBoundarySpeciesAmountPtr;
-    exe->getFloatingSpeciesAmountPtr = getFloatingSpeciesAmountPtr;
-    exe->getBoundarySpeciesConcentrationPtr = getBoundarySpeciesConcentrationPtr;
-    exe->getFloatingSpeciesConcentrationPtr = getFloatingSpeciesConcentrationPtr;
-    exe->getCompartmentVolumePtr = getCompartmentVolumePtr;
-    exe->getGlobalParameterPtr = getGlobalParameterPtr;
-    exe->evalRateRuleRatesPtr = evalRateRuleRatesPtr;
-    exe->getEventTriggerPtr = getEventTriggerPtr;
-    exe->getEventPriorityPtr = getEventPriorityPtr;
-    exe->getEventDelayPtr = getEventDelayPtr;
-    exe->eventTriggerPtr = eventTriggerPtr;
-    exe->eventAssignPtr = eventAssignPtr;
-    exe->evalVolatileStoichPtr = evalVolatileStoichPtr;
-    exe->evalConversionFactorPtr = evalConversionFactorPtr;
+        SharedModelPtr sp;
 
-    return exe;
+        cachedModelsMutex.lock();
+
+        // whilst we have it locked, clear any expired ptrs
+        for (ModelPtrMap::iterator j = cachedModels.begin();
+                j != cachedModels.end(); ++j)
+        {
+            if (j->second.expired())
+            {
+                Log(Logger::PRIO_INFORMATION) <<
+                        "removing expired model resource for hash " << md5;
+
+                j = cachedModels.erase(j);
+            }
+        }
+
+        if ((i = cachedModels.find(md5)) == cachedModels.end())
+        {
+            Log(Logger::PRIO_INFORMATION) << "could not find existing cached resource "
+                    "resources, for hash " << md5 <<
+                    ", inserting new resources into cache";
+
+            cachedModels[md5] = rc;
+        }
+
+        cachedModelsMutex.unlock();
+    }
+
+    return new LLVMExecutableModel(rc);
 }
 
 Compiler* LLVMModelGenerator::getCompiler()
