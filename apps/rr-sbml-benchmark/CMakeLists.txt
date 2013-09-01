@@ -12,7 +12,6 @@ set(tests
 
 add_executable( ${target}
     main
-    TestRoadRunner
     )
 
 set_property(TARGET ${target}
