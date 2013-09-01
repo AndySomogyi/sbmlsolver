@@ -30,7 +30,7 @@ SUITE(Base)
 
         if(!gRR)
         {
-            gRR = new RoadRunner(gSupportCodeFolder, gCompiler, gTempFolder);
+            gRR = new RoadRunner(gCompiler, gTempFolder, gSupportCodeFolder);
         }
 
         CHECK(gRR!=NULL);
@@ -47,7 +47,7 @@ SUITE(Base)
                 delete gRR;
                 gRR = NULL;
             }
-            gRR = new RoadRunner(gSupportCodeFolder, gCompiler, gTempFolder);
+            gRR = new RoadRunner(gCompiler, gTempFolder, gSupportCodeFolder);
         }
 
         //To check this properly, we will need to measure memory before and after somehow..

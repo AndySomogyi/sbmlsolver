@@ -127,7 +127,7 @@ bool RunTest(const string& version, int caseNumber, const std::string& compiler)
     RRHandle gRR = 0;
 
     //Create instance..
-    gRR = createRRInstanceEx(gTempFolder.c_str(), compiler.size() ? compiler.c_str() : 0);
+    gRR = createRRInstanceEx(gTempFolder.c_str(), compiler.c_str());
 
 
     //Setup environment

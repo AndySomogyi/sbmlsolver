@@ -59,7 +59,7 @@ bool TestRoadRunner::test(const std::string& compiler)
 
 void TestRoadRunner::loadSBML(const std::string& compiler)
 {
-    rr = new RoadRunner(dataOutputFolder, home + "/local/rr_support", compiler);
+    rr = new RoadRunner(compiler, dataOutputFolder, home + "/local/rr_support");
 
     simulation = new TestSuiteModelSimulation(dataOutputFolder);
 

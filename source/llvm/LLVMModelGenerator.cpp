@@ -227,8 +227,8 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
         cachedModelsMutex.lock();
 
         // whilst we have it locked, clear any expired ptrs
-        for (ModelPtrMap::iterator j = cachedModels.begin();
-                j != cachedModels.end(); ++j)
+        for (ModelPtrMap::const_iterator j = cachedModels.begin();
+                j != cachedModels.end();)
         {
             if (j->second.expired())
             {
@@ -236,6 +236,10 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
                         "removing expired model resource for hash " << md5;
 
                 j = cachedModels.erase(j);
+            }
+            else
+            {
+                ++j;
             }
         }
 

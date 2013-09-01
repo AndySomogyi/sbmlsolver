@@ -9,24 +9,24 @@ using namespace rr;
 int main(int argc, char** argv)
 {
 
-	try
+    try
     {
         LogOutput::mLogToConsole = true;
 
         //Use a list of roadrunners
-		const char* rootPath = "..";
+        const char* rootPath = "..";
 
 //        gLog.SetCutOffLogLevel(lDebug1);
         gLog.setLevel(lInfo);
-		string tmpFolder = joinPath(rootPath, "temp");
+        string tmpFolder = joinPath(rootPath, "temp");
 
         const string modelFile = joinPath(rootPath, "models", "feedback.xml");
 
         //Load modelFiles..
         Log(lInfo)<<" ---------- LOADING/GENERATING MODELS ------";
 
-        RoadRunner rr1(tmpFolder);
-        RoadRunner rr2(tmpFolder);
+        RoadRunner rr1("", tmpFolder);
+        RoadRunner rr2("", tmpFolder);
         rr1.loadSBMLFromFile(modelFile);
         rr2.loadSBMLFromFile(modelFile);
 
@@ -37,7 +37,7 @@ int main(int argc, char** argv)
     }
     catch(const Exception& ex)
     {
-    	Log(lError)<<"There was a  problem: "<<ex.getMessage();
+        Log(lError)<<"There was a  problem: "<<ex.getMessage();
     }
 
     //Pause(true);

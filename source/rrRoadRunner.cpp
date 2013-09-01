@@ -75,43 +75,57 @@ int RoadRunner::getInstanceID()
     return mInstanceID;
 }
 
-RoadRunner::RoadRunner(const string& tempFolder, const string& supportCodeFolder, const string& compiler)
-:
-mUseKinsol(false),
-mDiffStepSize(0.05),
-mCapabilities("RoadRunner", "RoadRunner Capabilities"),
-mRRCoreCapabilities("Road Runner Core", "", "Core RoadRunner Parameters"),
-mSteadyStateThreshold(1.E-2),
-mCurrentSBMLFileName(""),
-mSimulation(NULL),
-mCVode(NULL),
-mComputeAndAssignConservationLaws("Conservation", false, "enables (=true) or disables "
-                                  "(=false) the conservation analysis "
-                                  "of models for timecourse simulations."),
-mTimeStart(0),
-mTimeEnd(10),
-mNumPoints(21),
-mModel(NULL),
-mCurrentSBML(""),
-mLS(0),
-mPluginManager(joinPath(getParentFolder(supportCodeFolder), "plugins"))
-
-
+RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
+        const string& _supportCodeDir) :
+        mUseKinsol(false),
+        mDiffStepSize(0.05),
+        mCapabilities("RoadRunner", "RoadRunner Capabilities"),
+        mRRCoreCapabilities("Road Runner Core", "", "Core RoadRunner Parameters"),
+        mSteadyStateThreshold(1.E-2),
+        mRawRoadRunnerData(),
+        mRoadRunnerData(),
+        mCurrentSBMLFileName(""),
+        mCVode(new CvodeInterface(0)),
+        mSelectionList(),
+        mModelGenerator(0),
+        mComputeAndAssignConservationLaws("Conservation", false, "enables (=true) or disables "
+                "(=false) the conservation analysis "
+                "of models for timecourse simulations."),
+        mSteadyStateSelection(),
+        mTimeStart(0),
+        mTimeEnd(10),
+        mNumPoints(21),
+        mModel(0),
+        mCurrentSBML(),
+        mLS(0),
+        mSettings(),
+        mPluginManager(joinPath(getParentFolder(_supportCodeDir.empty() ?
+                gDefaultSupportCodeFolder : _supportCodeDir), "plugins"))
 {
     //Roadrunner is a "single" capability with many parameters
     mRRCoreCapabilities.addParameter(&mComputeAndAssignConservationLaws);
 
     mCapabilities.add(mRRCoreCapabilities);
 
+#if defined(BUILD_LLVM)
+    string compiler = _compiler.empty() ? "LLVM" : _compiler;
+#else
+    string compiler = _compiler.empty() ? gDefaultCompiler : _compiler;
+#endif
+
+    string tempDir = _tempDir.empty() ? gDefaultTempFolder : _tempDir;
+    string supportCodeDir = _supportCodeDir.empty() ?
+            gDefaultSupportCodeFolder : _supportCodeDir;
+
     // for now, dump out who we are
     Log(Logger::PRIO_DEBUG) << __FUNC__ << "compiler: " << compiler <<
-            ", tempFolder:" << tempFolder << ", supportCodeFolder: " <<
-            supportCodeFolder;
+            ", tempDir:" << tempDir << ", supportCodeDir: " <<
+            supportCodeDir;
 
     mModelGenerator = ModelGeneratorFactory::createModelGenerator(compiler,
-            tempFolder, supportCodeFolder);
+            tempDir, supportCodeDir);
 
-    setTempFileFolder(tempFolder);
+    setTempFileFolder(tempDir);
     mPluginManager.setRoadRunnerInstance(this);
 
     //Increase instance count..
@@ -119,12 +133,7 @@ mPluginManager(joinPath(getParentFolder(supportCodeFolder), "plugins"))
     mInstanceID = mInstanceCount;
 
     //Setup additonal objects
-    mCVode = new CvodeInterface(NULL);
-
-    if(mCVode)
-    {
-        mCapabilities.add(mCVode->getCapability());
-    }
+    mCapabilities.add(mCVode->getCapability());
 
     // we currently use NLEQInterface as the only steady state solver.
     // should this change in the future, this should be replaced
@@ -229,12 +238,15 @@ bool RoadRunner::isModelLoaded()
     return mModel ? true : false;
 }
 
-bool RoadRunner::useSimulationSettings(SimulationSettings& settings)
+bool RoadRunner::setSimulationSettings(const SimulationSettings& settings)
 {
     mSettings   = settings;
     mTimeStart  = mSettings.mStartTime;
     mTimeEnd    = mSettings.mEndTime;
     mNumPoints  = mSettings.mSteps + 1;
+
+    //This one creates the list of what we will look at in the result
+    createTimeCourseSelectionList();
     return true;
 }
 
@@ -276,7 +288,7 @@ int RoadRunner::createDefaultTimeCourseSelectionList()
 
 int RoadRunner::createTimeCourseSelectionList()
 {
-    vector<string> theList = getSelectionListFromSettings(mSettings);
+    vector<string> theList = mSettings.getSelectionList();
 
     if(theList.size() < 2)
     {
@@ -317,7 +329,6 @@ string RoadRunner::getParamPromotedSBML(const string& sArg)
 {
     return NOMSupport::getParamPromotedSBML(sArg);
 }
-
 
 bool RoadRunner::initializeModel()
 {
@@ -451,14 +462,11 @@ double RoadRunner::getNthSelectedOutput(const int& index, const double& dCurrent
 
 void RoadRunner::addNthOutputToResult(DoubleMatrix& results, int nRow, double dCurrentTime)
 {
-    stringstream msg;
     for (u_int j = 0; j < mSelectionList.size(); j++)
     {
         double out =  getNthSelectedOutput(j, dCurrentTime);
         results(nRow,j) = out;
-        msg<<gTab<<out;
     }
-    Log(lDebug1)<<"Added result row\t"<<nRow<<" : "<<msg.str();
 }
 
 DoubleMatrix RoadRunner::runSimulation()
@@ -535,7 +543,7 @@ bool RoadRunner::simulateSBMLFile(const string& fileName, const bool& useConserv
     return true;
 }
 
-bool RoadRunner::loadSBMLFromFile(const string& fileName, const bool& forceReCompile)
+bool RoadRunner::loadSBMLFromFile(const string& fileName, bool forceReCompile)
 {
     if(!fileExists(fileName))
     {
@@ -579,7 +587,7 @@ string RoadRunner::createModelName(const string& mCurrentSBMLFileName)
     return modelName;
 }
 
-bool RoadRunner::loadSBML(const string& sbml, const bool& forceReCompile)
+bool RoadRunner::loadSBML(const string& sbml, bool forceReCompile)
 {
     Mutex::ScopedLock lock(roadRunnerMutex);
 
@@ -641,17 +649,7 @@ bool RoadRunner::createDefaultSelectionLists()
 
 bool RoadRunner::loadSimulationSettings(const string& fName)
 {
-    if(!mSettings.LoadFromFile(fName))
-    {
-        Log(lError)<<"Failed loading settings from file:" <<fName;
-        return false;
-    }
-
-    useSimulationSettings(mSettings);
-
-    //This one creates the list of what we will look at in the result
-     createTimeCourseSelectionList();
-    return true;
+    return setSimulationSettings(SimulationSettings(fName));
 }
 
 bool RoadRunner::unLoadModel()
@@ -1244,7 +1242,6 @@ void RoadRunner::setTimeCourseSelectionList(const vector<string>& _selList)
     vector<string> rs = getReactionIds();
     vector<string> vol= getCompartmentIds();
     vector<string> gp = getGlobalParameterIds();
-//    StringList sr = mModelGenerator->ModifiableSpeciesReferenceList;
 
     for (int i = 0; i < _selList.size(); i++)
     {
@@ -1258,13 +1255,13 @@ void RoadRunner::setTimeCourseSelectionList(const vector<string>& _selList)
         {
             if (newSelectionList[i] == fs[j])
             {
-                   mSelectionList.push_back(SelectionRecord(j, SelectionRecord::clFloatingSpecies));
+                mSelectionList.push_back(SelectionRecord(j, SelectionRecord::clFloatingSpecies));
                 break;
             }
 
             if (newSelectionList[i] == "[" + fs[j] + "]")
             {
-                   mSelectionList.push_back(SelectionRecord(j, SelectionRecord::clFloatingAmount));
+                mSelectionList.push_back(SelectionRecord(j, SelectionRecord::clFloatingAmount));
                 break;
             }
 
@@ -1332,47 +1329,9 @@ void RoadRunner::setTimeCourseSelectionList(const vector<string>& _selList)
         {
             string species = tmp.substr(tmp.find_last_of("eigen_") + 1);
             mSelectionList.push_back(SelectionRecord(i, SelectionRecord::clEigenValue, species));
-//            mSelectionList[i].selectionType = SelectionRecord::clEigenValue;
-//            mSelectionList[i].p1 = species;
             int aIndex = indexOf(fs, species);
             mSelectionList[i].index = aIndex;
-            //mModelGenerator->floatingSpeciesConcentrationList.find(species, mSelectionList[i].index);
         }
-
-//        if (((string)newSelectionList[i]).StartsWith("EE:"))
-//        {
-//            string parameters = ((string)newSelectionList[i]).Substring(3);
-//            var p1 = parameters.Substring(0, parameters.IndexOf(","));
-//            var p2 = parameters.Substring(parameters.IndexOf(",") + 1);
-//            mSelectionList[i].selectionType = SelectionRecord::clElasticity;
-//            mSelectionList[i].p1 = p1;
-//            mSelectionList[i].p2 = p2;
-//        }
-//
-//        if (((string)newSelectionList[i]).StartsWith("uEE:"))
-//        {
-//            string parameters = ((string)newSelectionList[i]).Substring(4);
-//            var p1 = parameters.Substring(0, parameters.IndexOf(","));
-//            var p2 = parameters.Substring(parameters.IndexOf(",") + 1);
-//            mSelectionList[i].selectionType = SelectionRecord::clUnscaledElasticity;
-//            mSelectionList[i].p1 = p1;
-//            mSelectionList[i].p2 = p2;
-//        }
-//        if (((string)newSelectionList[i]).StartsWith("eigen_"))
-//        {
-//            var species = ((string)newSelectionList[i]).Substring("eigen_".Length);
-//            mSelectionList[i].selectionType = SelectionRecord::clEigenValue;
-//            mSelectionList[i].p1 = species;
-//            mModelGenerator->floatingSpeciesConcentrationList.find(species, out mSelectionList[i].index);
-//        }
-//
-//        int index;
-//        if (sr.find((string)newSelectionList[i], out index))
-//        {
-//            mSelectionList[i].selectionType = SelectionRecord::clStoichiometry;
-//            mSelectionList[i].index = index;
-//            mSelectionList[i].p1 = (string) newSelectionList[i];
-//        }
     }
 }
 
@@ -3546,7 +3505,7 @@ string RoadRunner::getSBML()
 }
 
 // Help("Set the time start for the simulation")
-void RoadRunner::setTimeStart(const double& startTime)
+void RoadRunner::setTimeStart(double startTime)
 {
     if (!mModel)
     {
@@ -3562,7 +3521,7 @@ void RoadRunner::setTimeStart(const double& startTime)
 }
 
 //Help("Set the time end for the simulation")
-void RoadRunner::setTimeEnd(const double& endTime)
+void RoadRunner::setTimeEnd(double endTime)
 {
     if (!mModel)
     {
@@ -3578,7 +3537,7 @@ void RoadRunner::setTimeEnd(const double& endTime)
 }
 
 //Help("Set the number of points to generate during the simulation")
-void RoadRunner::setNumPoints(const int& pts)
+void RoadRunner::setNumPoints(int pts)
 {
     if(!mModel)
     {

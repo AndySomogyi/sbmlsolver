@@ -31,6 +31,7 @@ using namespace Poco::XML;
 
 extern string   gTempFolder;
 extern string   gTestDataFolder;
+extern string   gCompiler;
 
 
 string getListOfReactionsText(const string& fName);
@@ -42,7 +43,7 @@ SUITE(CORE_TESTS)
         // save log level
         int logLevel = rr::Logger::getLevel();
 
-        RRHandle aRR = createRRInstanceEx(gTempFolder.c_str(), 0);
+        RRHandle aRR = createRRInstanceEx(gTempFolder.c_str(), gCompiler.c_str());
         setLogLevel("INFO");
         enableLoggingToFile(aRR);
         logMsg(clInfo, "A log message before closing the logger");
@@ -66,14 +67,14 @@ SUITE(CORE_TESTS)
 
         string testSource = joinPath(gTempFolder, "ModelSourceTest.c");
 
-        RRHandle aRR = createRRInstanceEx(gTempFolder.c_str(), 0);
+        RRHandle aRR = createRRInstanceEx(gTempFolder.c_str(), gCompiler.c_str());
         compileSource(aRR, testSource.c_str());
         freeRRInstance(aRR);
     }
 
     TEST(RELOADING_MODEL_MODEL_RECOMPILIATION)
     {
-        RRHandle aRR                 = createRRInstanceEx(gTempFolder.c_str(), 0);
+        RRHandle aRR                 = createRRInstanceEx(gTempFolder.c_str(), gCompiler.c_str());
         string TestModelFileName     = joinPath(gTestDataFolder, "Test_1.xml");
         CHECK(fileExists(TestModelFileName));
 
@@ -86,7 +87,7 @@ SUITE(CORE_TESTS)
 
     TEST(RELOADING_MODEL_NO_MODEL_RECOMPILIATION)
     {
-        RRHandle aRR                 = createRRInstanceEx(gTempFolder.c_str(), 0);
+        RRHandle aRR                 = createRRInstanceEx(gTempFolder.c_str(), gCompiler.c_str());
         string TestModelFileName     = joinPath(gTestDataFolder, "Test_1.xml");
         CHECK(fileExists(TestModelFileName));
 
@@ -99,8 +100,8 @@ SUITE(CORE_TESTS)
 
     TEST(LOADING_MODEL_MULTIPLE_INSTANCES)
     {
-        RRHandle aRR1                   = createRRInstanceEx(gTempFolder.c_str(), 0);
-        RRHandle aRR2                   = createRRInstanceEx(gTempFolder.c_str(), 0);
+        RRHandle aRR1                   = createRRInstanceEx(gTempFolder.c_str(), gCompiler.c_str());
+        RRHandle aRR2                   = createRRInstanceEx(gTempFolder.c_str(), gCompiler.c_str());
         string TestModelFileName     = joinPath(gTestDataFolder, "Test_1.xml");
 
         CHECK(loadSBMLFromFileE(aRR1, TestModelFileName.c_str(), true));
@@ -132,8 +133,8 @@ SUITE(CORE_TESTS)
     TEST(LOAD_MODEL_FROM_STRING)
     {
         string xml = getFileContent(joinPath(gTestDataFolder, "Test_1.xml"));
-        RRHandle aRR1                   = createRRInstanceEx(gTempFolder.c_str(), 0);
-        RRHandle aRR2                   = createRRInstanceEx(gTempFolder.c_str(), 0);
+        RRHandle aRR1                   = createRRInstanceEx(gTempFolder.c_str(), gCompiler.c_str());
+        RRHandle aRR2                   = createRRInstanceEx(gTempFolder.c_str(), gCompiler.c_str());
         CHECK(loadSBML(aRR1, xml.c_str()));
         CHECK(loadSBMLEx(aRR2, xml.c_str(), true));
 
