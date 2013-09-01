@@ -1,7 +1,6 @@
 #ifndef rrRoadRunnerH
 #define rrRoadRunnerH
-#include <string>
-#include <vector>
+
 #include "rr-libstruct/lsMatrix.h"
 #include "rr-libstruct/lsLibStructural.h"
 #include "rrTVariableType.h"
@@ -14,6 +13,10 @@
 #include "rrPluginManager.h"
 #include "rrCapabilities.h"
 #include "rrParameter.h"
+
+#include <string>
+#include <vector>
+
 
 namespace rr
 {

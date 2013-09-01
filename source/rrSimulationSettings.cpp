@@ -2,12 +2,15 @@
 #include "rr_pch.h"
 #endif
 #pragma hdrstop
-#include <map>
+
 #include "rrLogger.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
 #include "rrSimulationSettings.h"
 #include "rrSelectionRecord.h"
+
+#include <map>
+#include <algorithm>
 
 using namespace std;
 namespace rr
