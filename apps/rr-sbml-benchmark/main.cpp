@@ -82,6 +82,15 @@ int main(int argc, char** argv)
         sbmlFile = os.str();
     }
 
+    std::string output_filename;
+    if (!out_dir.empty() || out_dir.compare("/dev/null") != 0)
+    {
+        stringstream os;
+        os.str("");
+        os << out_dir << "/" << test_name << ".csv";
+        output_filename = os.str();
+    }
+
     RoadRunner roadRunner;
 
     roadRunner.loadSBMLFromFile(sbmlFile, true);
@@ -105,21 +114,28 @@ int main(int argc, char** argv)
 
     DoubleMatrix result = roadRunner.runSimulation();
 
-    int rows = result.numRows(); int cols = result.numCols();
-
-    for (int i = 0; i < rows; ++i)
+    if (!output_filename.empty())
     {
-        for (int j = 0; j < cols; ++j)
-        {
-            cout << result(i,j);
+        ofstream output;
+        output.open(output_filename.c_str());
 
-            if (j + 1 < cols)
+        int rows = result.numRows();
+        int cols = result.numCols();
+
+        for (int i = 0; i < rows; ++i)
+        {
+            for (int j = 0; j < cols; ++j)
             {
-                cout << ", ";
-            }
-            else
-            {
-                cout << "\n";
+                output << result(i, j);
+
+                if (j + 1 < cols)
+                {
+                    output << ", ";
+                }
+                else
+                {
+                    output << "\n";
+                }
             }
         }
     }
