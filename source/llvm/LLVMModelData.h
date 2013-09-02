@@ -176,8 +176,6 @@ struct LLVMModelData
 
     static void init(LLVMModelData&);
 
-    static void allocBuffers(LLVMModelData &data, const std::string& modelName);
-
     static void freeBuffers(LLVMModelData&);
 };
 

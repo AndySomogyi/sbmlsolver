@@ -54,24 +54,6 @@ void LLVMModelData::init(LLVMModelData &data)
     memset(&data, 0, sizeof(LLVMModelData));
 }
 
-
-void LLVMModelData::allocBuffers(LLVMModelData &data, const string& modelName)
-{
-    // in certain cases, the data returned by c++ new may be alligned differently than
-    // malloc, so just use calloc here just to be safe, plus calloc returns zero
-    // initialized memory.
-
-    data.floatingSpeciesAmounts = (double*)calloc(data.numFloatingSpecies, sizeof(double));
-    data.floatingSpeciesAmountRates = (double*)calloc(data.numFloatingSpecies, sizeof(double));
-    data.rateRuleRates = (double*)calloc(data.numRateRules, sizeof(double));
-    data.reactionRates = (double*)calloc(data.numReactions, sizeof(double));
-    data.dependentSpeciesConservedSums = (double*)calloc(data.numDependentSpecies, sizeof(double));
-    data.globalParameters = (double*)calloc(data.numGlobalParameters, sizeof(double));
-    data.compartmentVolumes = (double*)calloc(data.numCompartments, sizeof(double));
-    data.boundarySpeciesAmounts = (double*)calloc(data.numBoundarySpecies, sizeof(double));
-}
-
-
 std::ostream& operator <<(std::ostream& os, const LLVMModelData& data)
 {
     os << "LLVMModelData:"                 << endl;
@@ -91,27 +73,8 @@ std::ostream& operator <<(std::ostream& os, const LLVMModelData& data)
     os << "numRateRules: "             << data.numRateRules << endl;                     // 10
     os << "rateRuleValues: "           << endl;                                          // 11
     dump_array(os, data.numRateRules, data.rateRuleValues);
-    os << "rateRuleRates: "            << endl;                                          // 11
-    dump_array(os, data.numRateRules, data.rateRuleRates);
-
-//    unsigned*                                localParametersOffsets;           // 12
-//
-//
-//    unsigned*                                localParametersNum;               // 13
-//
-//
-//    double*                             localParameters;                  // 14
 
     os << "numFloatingSpecies: "       << data.numFloatingSpecies << endl;       // 15
-
-
-
-
-    //double* floatingSpeciesInitConcentrations;    // 17
-
-
-    os << "floatingSpeciesAmountRates: " << endl;       // 18
-    dump_array(os, data.numFloatingSpecies, data.floatingSpeciesAmountRates);
 
     os << "floatingSpeciesAmounts: "    << endl;           // 19
     dump_array(os, data.numFloatingSpecies, data.floatingSpeciesAmounts);
@@ -134,8 +97,6 @@ std::ostream& operator <<(std::ostream& os, const LLVMModelData& data)
 void  LLVMModelData::freeBuffers(LLVMModelData &data)
 {
     free(data.floatingSpeciesAmounts);
-    free(data.floatingSpeciesAmountRates);
-    free(data.rateRuleRates);
     free(data.rateRuleValues);
     free(data.reactionRates);
     free(data.dependentSpeciesConservedSums);

@@ -253,9 +253,9 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(LLVMModelData& m) const
     // initialized memory.
 
     m.floatingSpeciesAmounts = (double*)calloc(m.numIndependentSpecies, sizeof(double));
-    m.floatingSpeciesAmountRates = (double*)calloc(m.numIndependentSpecies, sizeof(double));
+    m.floatingSpeciesAmountRates = 0;
     m.rateRuleValues = (double*)calloc(m.numRateRules, sizeof(double));
-    m.rateRuleRates = (double*)calloc(m.numRateRules, sizeof(double));
+    m.rateRuleRates = 0;
 
     m.reactionRates = (double*)calloc(m.numReactions, sizeof(double));
 

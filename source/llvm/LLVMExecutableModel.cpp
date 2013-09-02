@@ -235,26 +235,42 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
 {
     modelData.time = time;
 
-    if (y)
+    if (y && dydt)
+    {
+        // save and assign state vector
+        double *savedRateRules = modelData.rateRuleValues;
+        double *savedFloatingSpeciesAmounts = modelData.floatingSpeciesAmounts;
+
+        modelData.rateRuleValues = const_cast<double*>(y);
+        modelData.floatingSpeciesAmounts = const_cast<double*>(y + modelData.numRateRules);
+        evalVolatileStoichPtr(&modelData);
+
+        double conversionFactor = evalReactionRatesPtr(&modelData);
+
+        // floatingSpeciesAmountRates only valid for the following two
+        // functions, this will move to a parameter shortly...
+
+        modelData.floatingSpeciesAmountRates = dydt + modelData.numRateRules;
+
+        csr_matrix_dgemv(conversionFactor, modelData.stoichiometry,
+                modelData.reactionRates, 0.0, modelData.floatingSpeciesAmountRates);
+
+        evalConversionFactorPtr(&modelData);
+
+        modelData.floatingSpeciesAmountRates = 0;
+
+        // this will also move to a parameter for the evalRateRules func...
+        modelData.rateRuleRates = dydt;
+        evalRateRuleRatesPtr(&modelData);
+        modelData.rateRuleRates = 0;
+
+        // restore original pointers for state vector
+        modelData.rateRuleValues = savedRateRules;
+        modelData.floatingSpeciesAmounts = savedFloatingSpeciesAmounts;
+    }
+    else if (y && !dydt)
     {
         setStateVector(y);
-    }
-
-    double conversionFactor = evalReactionRatesPtr(&modelData);
-
-    csr_matrix_dgemv(conversionFactor, modelData.stoichiometry,
-            modelData.reactionRates, 0.0, modelData.floatingSpeciesAmountRates);
-
-    evalConversionFactorPtr(&modelData);
-
-    evalRateRuleRatesPtr(&modelData);
-
-    if (dydt)
-    {
-        memcpy(dydt, modelData.rateRuleRates, modelData.numRateRules * sizeof(double));
-
-        memcpy(dydt + modelData.numRateRules, modelData.floatingSpeciesAmountRates,
-                modelData.numIndependentSpecies * sizeof(double));
     }
 
     /*

@@ -169,14 +169,29 @@ void csr_matrix_dgemv(double alpha, const csr_matrix* A, const double* x,
     unsigned *rowptr = A->rowptr;
     unsigned *colidx = A->colidx;
     double *values = A->values;
-    for (unsigned i = 0; i < m; i++)
+    if (beta == 0.0)
     {
-        double yi = beta * y[i];
-        for (unsigned k = rowptr[i]; k < rowptr[i + 1]; k++)
+        for (unsigned i = 0; i < m; i++)
         {
-            yi = yi + alpha * values[k] * x[colidx[k]];
+            double yi = 0.0;
+            for (unsigned k = rowptr[i]; k < rowptr[i + 1]; k++)
+            {
+                yi = yi + alpha * values[k] * x[colidx[k]];
+            }
+            y[i] = yi;
         }
-        y[i] = yi;
+    }
+    else
+    {
+        for (unsigned i = 0; i < m; i++)
+        {
+            double yi = beta * y[i];
+            for (unsigned k = rowptr[i]; k < rowptr[i + 1]; k++)
+            {
+                yi = yi + alpha * values[k] * x[colidx[k]];
+            }
+            y[i] = yi;
+        }
     }
 }
 
