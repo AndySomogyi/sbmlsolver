@@ -2,6 +2,7 @@
 #include "rrRoadRunner.h"
 #include "rrLogger.h"
 #include "rrUtils.h"
+#include "rrModelSharedLibrary.h"
 #include "rrException.h"
 
 using namespace rr;

@@ -142,7 +142,6 @@ public:
 
     string                  getAnnotation(const string& sId);
     string                  getCompartmentIdBySpeciesId(const string& sId);
-
     /**
      * gets the kinetic law math formula for the i'th reaction.
      * This will be changed to return a KineticLaw object soon.
@@ -294,7 +293,7 @@ private:
     void                    changeNameToCSymbol(Model* model, const string& name, const int& type);
     void                    changePow(ASTNode* node);
     void                    checkForMissingNames(ASTNode *node, StringListContainer results, StringListContainer symbols);
-    void                    lookForDependencies();
+   	void                    lookForDependencies();
     void                    removeSpatialSizeUnitsFromSpecies(SBMLDocument* doc);
     void                    removeSubstanceUnitsFromKineticLaws(SBMLDocument* doc);
     void                    removeTimeUnitsFromKineticLaws(SBMLDocument* doc);

@@ -47,7 +47,6 @@ StringList::StringList(const string& str, const string& delimiter)
 StringList::StringList(char** aList, const int& count)
 {
     //Copy C stringlist into the container..
-    char* aString;
     for(int i = 0; i < count; i++)
     {
         mStrings.push_back(aList[i]);

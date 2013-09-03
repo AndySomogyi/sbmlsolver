@@ -145,14 +145,6 @@
         <ResFiles Include="roadrunner.res">
             <BuildOrder>70</BuildOrder>
         </ResFiles>
-        <CppCompile Include="rrArrayList2.cpp">
-            <DependentOn>rrArrayList2.h</DependentOn>
-            <BuildOrder>59</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="rrArrayListItem.cpp">
-            <DependentOn>rrArrayListItem.h</DependentOn>
-            <BuildOrder>60</BuildOrder>
-        </CppCompile>
         <CppCompile Include="rrBaseParameter.cpp">
             <DependentOn>rrBaseParameter.h</DependentOn>
             <BuildOrder>70</BuildOrder>
@@ -194,9 +186,6 @@
         <CppCompile Include="rrCVODEInterface.cpp">
             <DependentOn>rrCVODEInterface.h</DependentOn>
             <BuildOrder>60</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="rrDLLEntry.cpp">
-            <BuildOrder>71</BuildOrder>
         </CppCompile>
         <CppCompile Include="rrEvent.cpp">
             <BuildOrder>72</BuildOrder>
@@ -251,10 +240,6 @@
         <CppCompile Include="rrLogFile.cpp">
             <DependentOn>rrLogFile.h</DependentOn>
             <BuildOrder>24</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="rrLogger.cpp">
-            <DependentOn>rrLogger.h</DependentOn>
-            <BuildOrder>68</BuildOrder>
         </CppCompile>
         <CppCompile Include="rrLoggerUtils.cpp">
             <DependentOn>rrLoggerUtils.h</DependentOn>
@@ -424,10 +409,6 @@
         <CppCompile Include="rrTestSuiteModelSimulation.cpp">
             <BuildOrder>72</BuildOrder>
         </CppCompile>
-        <CppCompile Include="rrTextWriter.cpp">
-            <DependentOn>rrTextWriter.h</DependentOn>
-            <BuildOrder>55</BuildOrder>
-        </CppCompile>
         <CppCompile Include="rrThreadPool.cpp">
             <BuildOrder>74</BuildOrder>
         </CppCompile>
@@ -435,20 +416,16 @@
             <DependentOn>rrToken.h</DependentOn>
             <BuildOrder>50</BuildOrder>
         </CppCompile>
-        <CppCompile Include="rrTParameterType.cpp">
-            <DependentOn>rrTParameterType.h</DependentOn>
-            <BuildOrder>56</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="rrTVariableType.cpp">
-            <DependentOn>rrTVariableType.h</DependentOn>
-            <BuildOrder>58</BuildOrder>
-        </CppCompile>
         <CppCompile Include="rrUnresolvedSTDExternals.cpp">
             <BuildOrder>78</BuildOrder>
         </CppCompile>
         <CppCompile Include="rrUtils.cpp">
             <DependentOn>rrUtils.h</DependentOn>
             <BuildOrder>59</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="rrVersionInfo.cpp">
+            <DependentOn>rrVersionInfo.h</DependentOn>
+            <BuildOrder>79</BuildOrder>
         </CppCompile>
         <None Include="..\Wrappers\C\rrc_pch.h">
             <BuildOrder>69</BuildOrder>
