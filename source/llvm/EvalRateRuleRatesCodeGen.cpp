@@ -21,7 +21,7 @@ using namespace llvm;
 using namespace std;
 
 
-namespace rr
+namespace rrllvm
 {
 
 const char* EvalRateRuleRatesCodeGen::FunctionName = "evalRateRuleRates";

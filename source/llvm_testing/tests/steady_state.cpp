@@ -10,75 +10,75 @@
 using namespace UnitTest;
 using namespace rr;
 
-extern RoadRunner* 		gRR;
-extern string 			gTestDataFolder;
-extern string 			gCompiler;
-extern string 			gSupportCodeFolder;
-extern string 			gTempFolder;
-extern string		 	gRRInstallFolder;
+extern RoadRunner*         gRR;
+extern string             gTestDataFolder;
+extern string             gCompiler;
+extern string             gSupportCodeFolder;
+extern string             gTempFolder;
+extern string             gRRInstallFolder;
 
 
 SUITE(SteadyState)
 {
 //Global to this unit
 RoadRunner *aRR = NULL;
-string TestDataFileName 	= "TestModel_1.dat";
+string TestDataFileName     = "TestModel_1.dat";
 IniFile iniFile;
 string TestModelFileName;
 
-	//This test-suite tests various steady state functions, using the model TestModel_1.xml
+    //This test-suite tests various steady state functions, using the model TestModel_1.xml
 
-	//Test that model files and reference data for the tests in this suite are present
+    //Test that model files and reference data for the tests in this suite are present
     TEST(DATA_FILES)
     {
-		gTestDataFolder 	= joinPath(gRRInstallFolder, "tests");
-		TestDataFileName 	= joinPath(gTestDataFolder, TestDataFileName);
+        gTestDataFolder     = joinPath(gRRInstallFolder, "tests");
+        TestDataFileName     = joinPath(gTestDataFolder, TestDataFileName);
 
-    	CHECK(fileExists(TestDataFileName));
+        CHECK(fileExists(TestDataFileName));
         CHECK(iniFile.Load(TestDataFileName));
         clog<<"Loaded test data from file: "<< TestDataFileName;
         if(iniFile.GetSection("SBML_FILES"))
         {
-        	IniSection* sbml = iniFile.GetSection("SBML_FILES");
+            IniSection* sbml = iniFile.GetSection("SBML_FILES");
             IniKey* fNameKey = sbml->GetKey("FNAME1");
             if(fNameKey)
             {
-            	TestModelFileName  = joinPath(gTestDataFolder, fNameKey->mValue);
-            	CHECK(fileExists(TestModelFileName));
+                TestModelFileName  = joinPath(gTestDataFolder, fNameKey->mValue);
+                CHECK(fileExists(TestModelFileName));
             }
         }
     }
 
-	TEST(LOAD_MODEL)
-	{
-		aRR = new RoadRunner(gSupportCodeFolder, gCompiler, gTempFolder);
-		CHECK(aRR!=NULL);
+    TEST(LOAD_MODEL)
+    {
+        aRR = new RoadRunner(gCompiler, gTempFolder, gSupportCodeFolder);
+        CHECK(aRR!=NULL);
 
         //Load the model
         aRR->computeAndAssignConservationLaws(true);
-		CHECK(aRR->loadSBMLFromFile(TestModelFileName));
-	}
+        CHECK(aRR->loadSBMLFromFile(TestModelFileName));
+    }
 
     TEST(COMPUTE_STEADY_STATE)
     {
         //Compute Steady state
-		if(aRR)
+        if(aRR)
         {
-	        CHECK_CLOSE(0, aRR->steadyState(), 1e-6);
+            CHECK_CLOSE(0, aRR->steadyState(), 1e-6);
         }
         else
         {
-        	CHECK(false);
+            CHECK(false);
         }
     }
 
     TEST(STEADY_STATE_CONCENTRATIONS)
-	{
+    {
         IniSection* aSection = iniFile.GetSection("STEADY_STATE_CONCENTRATIONS");
         //Read in the reference data, from the ini file
-		if(!aSection || !aRR)
+        if(!aSection || !aRR)
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
@@ -92,30 +92,30 @@ string TestModelFileName;
         }
     }
 
-	//This test is using the function getValue("eigen_...")
+    //This test is using the function getValue("eigen_...")
     TEST(GET_EIGENVALUES_1)
-	{
+    {
         IniSection* aSection = iniFile.GetSection("EIGEN_VALUES");
         //Read in the reference data, from the ini file
-		if(!aSection || !aRR)
+        if(!aSection || !aRR)
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
         StringList ids = aRR->getEigenvalueIds();
         if(ids.Count() != aSection->KeyCount())
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
         for(int i = 0 ; i < aSection->KeyCount(); i++)
         {
-        	//Find correct eigenValue
+            //Find correct eigenValue
             for(int j = 0; j < ids.Count(); j++)
             {
-            	if(aSection->mKeys[i]->mKey == ids[j])
+                if(aSection->mKeys[i]->mKey == ids[j])
                 {
                     IniKey *aKey = aSection->GetKey(i);
                     clog<<"\n";
@@ -130,19 +130,19 @@ string TestModelFileName;
     }
 
     TEST(GET_EIGENVALUES_2)
-	{
+    {
         IniSection* aSection = iniFile.GetSection("EIGEN_VALUES");
         //Read in the reference data, from the ini file
-		if(!aSection || !aRR)
+        if(!aSection || !aRR)
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
         vector<Complex> eigenVals = aRR->getEigenvaluesCpx();
         if(eigenVals.size() != aSection->KeyCount())
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
@@ -152,62 +152,62 @@ string TestModelFileName;
             clog<<"\n";
             clog<<"Ref_EigenValue: "<<aKey->mKey<<": "<<aKey->mValue<<endl;
 
-        	clog<<"EigenValue "<<i<<": "<<real(eigenVals[i])<<endl;
+            clog<<"EigenValue "<<i<<": "<<real(eigenVals[i])<<endl;
             CHECK_CLOSE(aKey->AsFloat(), real(eigenVals[i]), 1e-6);
         }
     }
 
     TEST(FULL_JACOBIAN)
-	{
-		IniSection* aSection = iniFile.GetSection("FULL_JACOBIAN");
-   		if(!aSection)
+    {
+        IniSection* aSection = iniFile.GetSection("FULL_JACOBIAN");
+           if(!aSection)
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
-        DoubleMatrix fullJacobian 	= aRR->getFullJacobian();
-        DoubleMatrix jRef 			= ParseMatrixFromText(aSection->GetNonKeysAsString());
+        DoubleMatrix fullJacobian     = aRR->getFullJacobian();
+        DoubleMatrix jRef             = ParseMatrixFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions
         if(fullJacobian.RSize() != jRef.RSize() || fullJacobian.CSize() != jRef.CSize())
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
         clog<<"Full Jacobian\n"<<fullJacobian;
-		CHECK_ARRAY2D_CLOSE(jRef, fullJacobian, fullJacobian.RSize(),fullJacobian.CSize(), 1e-6);
+        CHECK_ARRAY2D_CLOSE(jRef, fullJacobian, fullJacobian.RSize(),fullJacobian.CSize(), 1e-6);
     }
 
     TEST(REDUCED_JACOBIAN)
-	{
-		IniSection* aSection = iniFile.GetSection("REDUCED_REORDERED_JACOBIAN");
-   		if(!aSection)
+    {
+        IniSection* aSection = iniFile.GetSection("REDUCED_REORDERED_JACOBIAN");
+           if(!aSection)
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
-        DoubleMatrix fullJacobian 	= aRR->getReducedJacobian();
-        DoubleMatrix jRef 			= ParseMatrixFromText(aSection->GetNonKeysAsString());
+        DoubleMatrix fullJacobian     = aRR->getReducedJacobian();
+        DoubleMatrix jRef             = ParseMatrixFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions
         if(fullJacobian.RSize() != jRef.RSize() || fullJacobian.CSize() != jRef.CSize())
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
         clog<<"Reduced Jacobian\n"<<fullJacobian;
-		CHECK_ARRAY2D_CLOSE(jRef, fullJacobian, fullJacobian.RSize(),fullJacobian.CSize(), 1e-6);
+        CHECK_ARRAY2D_CLOSE(jRef, fullJacobian, fullJacobian.RSize(),fullJacobian.CSize(), 1e-6);
     }
 
     TEST(FULL_REORDERED_JACOBIAN)
-	{
-		IniSection* aSection = iniFile.GetSection("FULL_REORDERED_JACOBIAN");
-   		if(!aSection)
+    {
+        IniSection* aSection = iniFile.GetSection("FULL_REORDERED_JACOBIAN");
+           if(!aSection)
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
@@ -215,25 +215,25 @@ string TestModelFileName;
         DoubleMatrix matrix = aRR->getFullReorderedJacobian();
         DoubleMatrix ref = ParseMatrixFromText(aSection->GetNonKeysAsString());
 
-		cout<<"Reference\n"<<ref;
-		cout<<"matrix\n"<<matrix;
+        cout<<"Reference\n"<<ref;
+        cout<<"matrix\n"<<matrix;
 
         //Check dimensions
         if(matrix.RSize() != ref.RSize() || matrix.CSize() != ref.CSize())
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
-		CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
+        CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
     }
 
     TEST(REDUCED_REORDERED_JACOBIAN)
-	{
-		IniSection* aSection = iniFile.GetSection("FULL_REORDERED_JACOBIAN");
-   		if(!aSection)
+    {
+        IniSection* aSection = iniFile.GetSection("FULL_REORDERED_JACOBIAN");
+           if(!aSection)
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
@@ -241,25 +241,25 @@ string TestModelFileName;
         DoubleMatrix matrix = aRR->getReducedJacobian();
         DoubleMatrix ref = ParseMatrixFromText(aSection->GetNonKeysAsString());
 
-		cout<<"Reference\n"<<ref;
-		cout<<"matrix\n"<<matrix;
+        cout<<"Reference\n"<<ref;
+        cout<<"matrix\n"<<matrix;
 
         //Check dimensions
         if(matrix.RSize() != ref.RSize() || matrix.CSize() != ref.CSize())
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
-		CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
+        CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
     }
 
     TEST(STOICHIOMETRY_MATRIX)
-	{
-		IniSection* aSection = iniFile.GetSection("STOICHIOMETRY_MATRIX");
-   		if(!aSection)
+    {
+        IniSection* aSection = iniFile.GetSection("STOICHIOMETRY_MATRIX");
+           if(!aSection)
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
@@ -270,172 +270,172 @@ string TestModelFileName;
         //Check dimensions
         if(mat.RSize() != ref.RSize() || mat.CSize() != ref.CSize())
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
-		CHECK_ARRAY2D_CLOSE(ref, mat, mat.RSize(), mat.CSize(), 1e-6);
+        CHECK_ARRAY2D_CLOSE(ref, mat, mat.RSize(), mat.CSize(), 1e-6);
     }
 
     TEST(REORDERED_STOICHIOMETRY_MATRIX)
-	{
-		IniSection* aSection = iniFile.GetSection("REORDERED_STOICHIOMETRY_MATRIX");
-   		if(!aSection)
+    {
+        IniSection* aSection = iniFile.GetSection("REORDERED_STOICHIOMETRY_MATRIX");
+           if(!aSection)
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
         //Read in the reference data, from the ini file
-        DoubleMatrix mat		 	= aRR->getReorderedStoichiometryMatrix();
-        DoubleMatrix ref 			= ParseMatrixFromText(aSection->GetNonKeysAsString());
+        DoubleMatrix mat             = aRR->getReorderedStoichiometryMatrix();
+        DoubleMatrix ref             = ParseMatrixFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions
         if(mat.RSize() != ref.RSize() || mat.CSize() != ref.CSize())
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
-		CHECK_ARRAY2D_CLOSE(ref, mat, mat.RSize(), mat.CSize(), 1e-6);
+        CHECK_ARRAY2D_CLOSE(ref, mat, mat.RSize(), mat.CSize(), 1e-6);
     }
 
     TEST(FULLY_REORDERED_STOICHIOMETRY_MATRIX)
-	{
-		IniSection* aSection = iniFile.GetSection("FULLY_REORDERED_STOICHIOMETRY_MATRIX");
-   		if(!aSection)
+    {
+        IniSection* aSection = iniFile.GetSection("FULLY_REORDERED_STOICHIOMETRY_MATRIX");
+           if(!aSection)
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
         //Read in the reference data, from the ini file
-        DoubleMatrix mat		 	= aRR->getFullyReorderedStoichiometryMatrix();
-        DoubleMatrix ref 			= ParseMatrixFromText(aSection->GetNonKeysAsString());
+        DoubleMatrix mat             = aRR->getFullyReorderedStoichiometryMatrix();
+        DoubleMatrix ref             = ParseMatrixFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions
         if(mat.RSize() != ref.RSize() || mat.CSize() != ref.CSize())
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
-		CHECK_ARRAY2D_CLOSE(ref, mat, mat.RSize(), mat.CSize(), 1e-6);
+        CHECK_ARRAY2D_CLOSE(ref, mat, mat.RSize(), mat.CSize(), 1e-6);
     }
 
     TEST(LINK_MATRIX)
-	{
-		IniSection* aSection = iniFile.GetSection("LINK_MATRIX");
-   		if(!aSection)
+    {
+        IniSection* aSection = iniFile.GetSection("LINK_MATRIX");
+           if(!aSection)
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
         //Read in the reference data, from the ini file
-        DoubleMatrix matrix 	= *(aRR->getLinkMatrix());
-        DoubleMatrix ref  		= ParseMatrixFromText(aSection->GetNonKeysAsString());
+        DoubleMatrix matrix     = *(aRR->getLinkMatrix());
+        DoubleMatrix ref          = ParseMatrixFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions
         if(matrix.RSize() != ref.RSize() || matrix.CSize() != ref.CSize())
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
-		CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
+        CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
     }
 
     TEST(UNSCALED_ELASTICITY_MATRIX)
-	{
-		IniSection* aSection = iniFile.GetSection("UNSCALED_ELASTICITY_MATRIX");
-   		if(!aSection)
+    {
+        IniSection* aSection = iniFile.GetSection("UNSCALED_ELASTICITY_MATRIX");
+           if(!aSection)
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
         //Read in the reference data, from the ini file
-		DoubleMatrix matrix 	= aRR->getUnscaledElasticityMatrix();
-        DoubleMatrix ref  		= ParseMatrixFromText(aSection->GetNonKeysAsString());
+        DoubleMatrix matrix     = aRR->getUnscaledElasticityMatrix();
+        DoubleMatrix ref          = ParseMatrixFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions
         if(matrix.RSize() != ref.RSize() || matrix.CSize() != ref.CSize())
         {
-        	CHECK(!"Wrong matrix dimensions" );
+            CHECK(!"Wrong matrix dimensions" );
             return;
         }
 
-		CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
+        CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
     }
 
     TEST(SCALED_ELASTICITY_MATRIX)
-	{
-		IniSection* aSection = iniFile.GetSection("SCALED_ELASTICITY_MATRIX");
-   		if(!aSection)
+    {
+        IniSection* aSection = iniFile.GetSection("SCALED_ELASTICITY_MATRIX");
+           if(!aSection)
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
         //Read in the reference data, from the ini file
-		DoubleMatrix matrix 	= aRR->getScaledReorderedElasticityMatrix();
-        DoubleMatrix ref  		= ParseMatrixFromText(aSection->GetNonKeysAsString());
+        DoubleMatrix matrix     = aRR->getScaledReorderedElasticityMatrix();
+        DoubleMatrix ref          = ParseMatrixFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions
         if(matrix.RSize() != ref.RSize() || matrix.CSize() != ref.CSize())
         {
-        	CHECK(!"Wrong matrix dimensions" );
+            CHECK(!"Wrong matrix dimensions" );
             return;
         }
 
-		CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
+        CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
     }
 
     TEST(UNSCALED_CONCENTRATION_CONTROL_MATRIX)
-	{
-		IniSection* aSection = iniFile.GetSection("UNSCALED_CONCENTRATION_CONTROL_MATRIX");
-   		if(!aSection)
+    {
+        IniSection* aSection = iniFile.GetSection("UNSCALED_CONCENTRATION_CONTROL_MATRIX");
+           if(!aSection)
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
         //Read in the reference data, from the ini file
-        DoubleMatrix matrix 	= aRR->getUnscaledConcentrationControlCoefficientMatrix();
-        DoubleMatrix ref  		= ParseMatrixFromText(aSection->GetNonKeysAsString());
+        DoubleMatrix matrix     = aRR->getUnscaledConcentrationControlCoefficientMatrix();
+        DoubleMatrix ref          = ParseMatrixFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions
         if(matrix.RSize() != ref.RSize() || matrix.CSize() != ref.CSize())
         {
-        	CHECK(!"Wrong matrix dimensions" );
+            CHECK(!"Wrong matrix dimensions" );
             return;
         }
 
-		CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
+        CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
     }
 
     TEST(UNSCALED_FLUX_CONTROL_MATRIX)
-	{
-		IniSection* aSection = iniFile.GetSection("UNSCALED_FLUX_CONTROL_MATRIX");
-   		if(!aSection)
+    {
+        IniSection* aSection = iniFile.GetSection("UNSCALED_FLUX_CONTROL_MATRIX");
+           if(!aSection)
         {
-        	CHECK(false);
+            CHECK(false);
             return;
         }
 
         //Read in the reference data, from the ini file
-        DoubleMatrix matrix 	= aRR->getUnscaledFluxControlCoefficientMatrix();
-        DoubleMatrix ref  		= ParseMatrixFromText(aSection->GetNonKeysAsString());
+        DoubleMatrix matrix     = aRR->getUnscaledFluxControlCoefficientMatrix();
+        DoubleMatrix ref          = ParseMatrixFromText(aSection->GetNonKeysAsString());
 
         //Check dimensions
         if(matrix.RSize() != ref.RSize() || matrix.CSize() != ref.CSize())
         {
-        	CHECK(!"Wrong matrix dimensions" );
+            CHECK(!"Wrong matrix dimensions" );
             return;
         }
 
-		CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
+        CHECK_ARRAY2D_CLOSE(ref, matrix, matrix.RSize(), matrix.CSize(), 1e-6);
     }
 }
 

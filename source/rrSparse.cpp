@@ -17,6 +17,13 @@
 #include <iostream>
 #include <cmath>
 #include <cstdio>
+#include <limits>
+
+#ifdef WIN32
+#define isnan _isnan
+#else
+#define isnan std::isnan
+#endif
 
 namespace rr {
 
@@ -141,7 +148,7 @@ double csr_matrix_get_nz(const csr_matrix* mat, unsigned row, unsigned col)
             }
         }
     }
-    return nan("dcsr_matrix_get_nz not found");
+    return std::numeric_limits<double>::quiet_NaN();
 }
 
 void csr_matrix_delete(csr_matrix* mat)
@@ -162,14 +169,29 @@ void csr_matrix_dgemv(double alpha, const csr_matrix* A, const double* x,
     unsigned *rowptr = A->rowptr;
     unsigned *colidx = A->colidx;
     double *values = A->values;
-    for (unsigned i = 0; i < m; i++)
+    if (beta == 0.0)
     {
-        double yi = beta * y[i];
-        for (unsigned k = rowptr[i]; k < rowptr[i + 1]; k++)
+        for (unsigned i = 0; i < m; i++)
         {
-            yi = yi + alpha * values[k] * x[colidx[k]];
+            double yi = 0.0;
+            for (unsigned k = rowptr[i]; k < rowptr[i + 1]; k++)
+            {
+                yi = yi + alpha * values[k] * x[colidx[k]];
+            }
+            y[i] = yi;
         }
-        y[i] = yi;
+    }
+    else
+    {
+        for (unsigned i = 0; i < m; i++)
+        {
+            double yi = beta * y[i];
+            for (unsigned k = rowptr[i]; k < rowptr[i + 1]; k++)
+            {
+                yi = yi + alpha * values[k] * x[colidx[k]];
+            }
+            y[i] = yi;
+        }
     }
 }
 
@@ -202,7 +224,7 @@ std::ostream& operator <<(std::ostream& os, const csr_matrix* mat)
             {
                 double val = csr_matrix_get_nz(mat, m, n);
                 os.width(7);
-                os << (std::isnan(val) ? 0 : val);
+                os << (isnan(val) ? 0 : val);
                 if (n < mat->n - 1)
                 {
                     os << ", ";

@@ -22,7 +22,7 @@
 #include <vector>
 #include <cstdio>
 
-namespace rr
+namespace rrllvm
 {
 
 typedef double (*GetEventValueCodeGenBase_FunctionPtr)(LLVMModelData*, int32_t);

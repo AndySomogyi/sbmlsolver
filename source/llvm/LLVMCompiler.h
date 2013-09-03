@@ -13,7 +13,7 @@
 
 #include "rrCompiler.h"
 
-namespace rr
+namespace rrllvm
 {
 
 class RR_DECLSPEC LLVMCompiler: public rr::Compiler

@@ -14,7 +14,7 @@
 #include "GetValueCodeGenBase.h"
 #include <sbml/Model.h>
 
-namespace rr
+namespace rrllvm
 {
 using namespace libsbml;
 using namespace llvm;

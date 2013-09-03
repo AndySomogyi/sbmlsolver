@@ -19,8 +19,11 @@ using namespace libsbml;
 using namespace llvm;
 using namespace std;
 
+using rr::Logger;
+using rr::getLogger;
 
-namespace rr
+
+namespace rrllvm
 {
 
 LLVMModelSymbols::LLVMModelSymbols(const libsbml::Model *m, LLVMModelDataSymbols const &sym) :
@@ -175,7 +178,7 @@ bool LLVMModelSymbols::visit(const libsbml::Reaction& r)
         {
             string msg = "Reaction " + r.getId() + " has SpeciesReference for boundary species ";
             msg += reactant->getSpecies();
-            Log(lWarning) << msg;
+            Log(Logger::PRIO_WARNING) << msg;
         }
     }
 
@@ -206,7 +209,7 @@ bool LLVMModelSymbols::visit(const libsbml::Reaction& r)
         {
             string msg = "Reaction " + r.getId() + " has SpeciesReference for boundary species ";
             msg += product->getSpecies();
-            Log(lWarning) << msg;
+            Log(Logger::PRIO_WARNING) << msg;
         }
     }
 

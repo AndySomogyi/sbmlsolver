@@ -20,13 +20,13 @@
 namespace rrllvm
 {
 
-typedef void (*EvalVolatileStoichCodeGen_FunctionPtr)(rr::LLVMModelData*);
+typedef void (*EvalVolatileStoichCodeGen_FunctionPtr)(LLVMModelData*);
 
 class EvalVolatileStoichCodeGen:
-        public rr::CodeGenBase<EvalVolatileStoichCodeGen_FunctionPtr>
+        public CodeGenBase<EvalVolatileStoichCodeGen_FunctionPtr>
 {
 public:
-    EvalVolatileStoichCodeGen(const rr::ModelGeneratorContext &mgc);
+    EvalVolatileStoichCodeGen(const ModelGeneratorContext &mgc);
     virtual ~EvalVolatileStoichCodeGen();
 
     llvm::Value *codeGen();

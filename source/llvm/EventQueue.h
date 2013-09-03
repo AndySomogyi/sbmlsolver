@@ -14,17 +14,15 @@
 #include <list>
 #include <ostream>
 
-namespace rr
-{
-class LLVMExecutableModel;
-}
 
 namespace rrllvm {
+
+class LLVMExecutableModel;
 
 class Event
 {
 public:
-    Event(rr::LLVMExecutableModel&, uint id);
+    Event(LLVMExecutableModel&, uint id);
     Event(const Event& other);
     Event& operator=( const Event& rhs );
     ~Event();
@@ -49,7 +47,7 @@ public:
      */
     bool isRipe() const;
 
-    rr::LLVMExecutableModel& model;
+    LLVMExecutableModel& model;
     uint id;
     double delay;
     double assignTime;

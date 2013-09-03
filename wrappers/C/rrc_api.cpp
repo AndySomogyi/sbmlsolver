@@ -91,16 +91,7 @@ RRHandle rrcCallConv createRRInstance()
     try
     {
         string rrInstallFolder(getParentFolder(getRRCAPILocation()));
-
-#if defined(_WIN32) || defined(WIN32)
-        string compiler(joinPath(rrInstallFolder,"compilers\\tcc\\tcc.exe"));
-#elif defined(__linux)
-        string compiler("gcc");
-#else
-        string compiler("gcc");
-#endif
-    //RoadRunner(const string& tempFolder, const string& supportCodeFolder, const string& compiler)
-            return new RoadRunner(getUsersTempDataFolder(), joinPath(rrInstallFolder, "rr_support"), compiler);
+        return new RoadRunner("", getUsersTempDataFolder(), joinPath(rrInstallFolder, "rr_support"));
     }
     catch_ptr_macro
 }
@@ -115,17 +106,6 @@ RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder, const char* comp
         rr::freeText(text1);
         string compiler = compiler_cstr ? compiler_cstr : "";
 
-#if defined(_WIN32) || defined(WIN32)
-        if (compiler.length() == 0)
-        {
-            compiler = joinPath(rrInstallFolder, "compilers\\tcc\\tcc.exe");
-        }
-#else
-        if (compiler.length() == 0)
-        {
-            compiler = "gcc";
-        }
-#endif
         if(tempFolder != NULL && !fileExists(tempFolder))
         {
             stringstream msg;
@@ -135,11 +115,11 @@ RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder, const char* comp
         }
         else if(tempFolder)
         {
-            return new RoadRunner(tempFolder, joinPath(rrInstallFolder, "rr_support"), compiler);
+            return new RoadRunner(compiler, tempFolder, joinPath(rrInstallFolder, "rr_support"));
         }
         else
         {
-            return new RoadRunner(getUsersTempDataFolder(), joinPath(rrInstallFolder, "rr_support"), compiler);
+            return new RoadRunner(compiler, getUsersTempDataFolder(), joinPath(rrInstallFolder, "rr_support"));
         }
     }
     catch_ptr_macro

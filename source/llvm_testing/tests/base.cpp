@@ -6,37 +6,37 @@
 using namespace UnitTest;
 using namespace rr;
 
-extern RoadRunner* 		gRR;
-extern string 			gSBMLModelsPath;
-extern string 			gCompiler;
-extern string 			gSupportCodeFolder;
-extern string 			gRRInstallFolder;
-extern string 			gTempFolder;
-extern vector<string> 	gModels;
+extern RoadRunner*         gRR;
+extern string             gSBMLModelsPath;
+extern string             gCompiler;
+extern string             gSupportCodeFolder;
+extern string             gRRInstallFolder;
+extern string             gTempFolder;
+extern vector<string>     gModels;
 SUITE(Base)
 {
     TEST(VERSIONS)
     {
-    	//Static functions, don't need a handle, (gRR) ?
-    	CHECK_EQUAL(gRR->getVersion(), 				"1.0.0");
-		CHECK_EQUAL(gRR->getlibSBMLVersion(), 	"5.6.0");
+        //Static functions, don't need a handle, (gRR) ?
+        CHECK_EQUAL(gRR->getVersion(),                 "1.0.0");
+        CHECK_EQUAL(gRR->getlibSBMLVersion(),     "5.6.0");
     }
 
-	TEST(AllocateRR)
-	{
+    TEST(AllocateRR)
+    {
 
 
-		if(!gRR)
-		{
-			gRR = new RoadRunner(gSupportCodeFolder, gCompiler, gTempFolder);
-		}
+        if(!gRR)
+        {
+            gRR = new RoadRunner(gTempFolder, gSupportCodeFolder, gCompiler);
+        }
 
-		CHECK(gRR!=NULL);
-	}
+        CHECK(gRR!=NULL);
+    }
 
-	TEST(AllocateDeAllocateRR)
-	{
-    	int memoryBefore = 0;
+    TEST(AllocateDeAllocateRR)
+    {
+        int memoryBefore = 0;
         int memoryAfter  = 10;
         for(int i = 0; i < 1000; i++)
         {
@@ -45,16 +45,16 @@ SUITE(Base)
                 delete gRR;
                 gRR = NULL;
             }
-			gRR = new RoadRunner(gSupportCodeFolder, gCompiler, gTempFolder);
+            gRR = new RoadRunner(gCompiler, gTempFolder, gSupportCodeFolder);
         }
 
-		//To check this properly, we will need to measure memory before and after somehow..
-		CHECK_CLOSE(memoryBefore, memoryAfter, 10);
-	}
+        //To check this properly, we will need to measure memory before and after somehow..
+        CHECK_CLOSE(memoryBefore, memoryAfter, 10);
+    }
 
-    TEST(MODEL_FILES)	//Test that model files for the tests are present
+    TEST(MODEL_FILES)    //Test that model files for the tests are present
     {
-    	//Populate models
+        //Populate models
         gModels.clear();
         gModels.push_back("feedback.xml");
         gModels.push_back("ss_threeSpecies.xml");
@@ -62,20 +62,20 @@ SUITE(Base)
         gModels.push_back("squareWaveModel.xml");
         gModels.push_back("test_1.xml");
 
-    	for(int i = 0 ; i < gModels.size(); i++)
+        for(int i = 0 ; i < gModels.size(); i++)
         {
-    		CHECK(fileExists(joinPath(gSBMLModelsPath, gModels[i])));
+            CHECK(fileExists(joinPath(gSBMLModelsPath, gModels[i])));
         }
     }
 
-	TEST(LOAD_SBML)
-	{
-    	for(int i = 0 ; i < gModels.size(); i++)
+    TEST(LOAD_SBML)
+    {
+        for(int i = 0 ; i < gModels.size(); i++)
         {
-			string model =  joinPath(gSBMLModelsPath, gModels[i]);
-			CHECK(gRR->loadSBMLFromFile(model));
+            string model =  joinPath(gSBMLModelsPath, gModels[i]);
+            CHECK(gRR->loadSBMLFromFile(model));
         }
-	}
+    }
 }
 
 

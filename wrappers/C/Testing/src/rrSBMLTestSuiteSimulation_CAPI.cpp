@@ -10,7 +10,7 @@ using namespace rrc;
 extern string gTempFolder;
 extern string gTSModelsPath;
 extern bool gDebug;
-extern bool gUseLLVM;
+extern string gCompiler;
 
 using namespace rr;
 RoadRunnerData convertCAPIResultData(RRCDataPtr        resultsHandle);
@@ -137,7 +137,7 @@ bool RunTest(const string& version, int caseNumber)
     RRHandle gRR;
 
     //Create instance..
-    gRR = createRRInstanceEx(gTempFolder.c_str(), gUseLLVM ? "llvm" : 0);
+    gRR = createRRInstanceEx(gTempFolder.c_str(), gCompiler.c_str());
 
 
     //Setup environment

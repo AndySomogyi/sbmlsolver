@@ -13,7 +13,7 @@
 using namespace std;
 using namespace libsbml;
 
-namespace rr
+namespace rrllvm
 {
 AssignmentRuleEvaluator::AssignmentRuleEvaluator(
         SymbolForest& symbols) :

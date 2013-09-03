@@ -22,8 +22,9 @@
 using namespace libsbml;
 using namespace llvm;
 using namespace std;
+using namespace rr;
 
-namespace rr
+namespace rrllvm
 {
 
 /**

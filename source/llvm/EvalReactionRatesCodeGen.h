@@ -16,7 +16,7 @@
 #include "ModelDataIRBuilder.h"
 #include <sbml/Model.h>
 
-namespace rr
+namespace rrllvm
 {
 
 typedef double (*EvalReactionRates_FunctionPtr)(LLVMModelData*);

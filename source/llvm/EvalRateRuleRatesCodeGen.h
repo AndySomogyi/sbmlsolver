@@ -15,7 +15,7 @@
 #include "ModelDataIRBuilder.h"
 #include <sbml/Model.h>
 
-namespace rr
+namespace rrllvm
 {
 
 typedef void (*EvalRateRuleRates_FunctionPtr)(LLVMModelData*);

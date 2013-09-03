@@ -21,7 +21,7 @@ string     gRRInstallFolder         = "";
 string     gTestDataFolder          = "";
 bool       gDebug                   = false;
 string     gTSModelsPath;
-bool       gUseLLVM                 = false;
+string     gCompiler                = "";
 
 void ProcessCommandLineArguments(int argc, char* argv[], Args& args);
 bool setup(Args& args);
@@ -124,7 +124,7 @@ int main(int argc, char* argv[])
         runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_C_FAIL", True(),
                 0);
     }
-    
+
     if (args.Suites.find('K') != std::string::npos)
     {
         clog << "Running Suite SBML_TEST_SUITE_LONGTIME\n";
@@ -132,8 +132,6 @@ int main(int argc, char* argv[])
         runner1.RunTestsIf(Test::GetTestList(), "SBML_TEST_SUITE_LONGTIME", True(),
                            0);
     }
-
-
 
     //Finish outputs result to xml file
     runner1.Finish();
@@ -152,12 +150,9 @@ bool setup(Args& args)
     gTempFolder          = args.TempDataFolder;
     gTestDataFolder      = joinPath(gRRInstallFolder, "testing");
 
-    if (args.compiler == "llvm")
-    {
-        gUseLLVM = true;
-        cout << "Enabling LLVM" << endl;
-        Log(Logger::PRIO_NOTICE) << "Enabling LLVM";
-    }
+    gCompiler = args.compiler;
+    Log(Logger::PRIO_NOTICE) << "Using compiler " << gCompiler;
+
 
     if(args.Suites.size() == 0)
     {

@@ -52,7 +52,7 @@ string TestModelFileName;
 
     TEST(LOAD_MODEL)
     {
-        aRR = new RoadRunner(gSupportCodeFolder, gCompiler, gTempFolder);
+        aRR = new RoadRunner(gCompiler, gTempFolder, gSupportCodeFolder);
         CHECK(aRR!=NULL);
 
         //Load the model

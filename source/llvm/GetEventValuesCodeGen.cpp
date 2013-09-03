@@ -17,7 +17,7 @@ using namespace llvm;
 using namespace std;
 using namespace libsbml;
 
-namespace rr
+namespace rrllvm
 {
 
 const char* GetEventTriggerCodeGen::FunctionName = "getEventTrigger";

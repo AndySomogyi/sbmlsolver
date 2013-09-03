@@ -22,7 +22,7 @@ using namespace llvm;
 using namespace std;
 
 
-namespace rr
+namespace rrllvm
 {
 
 const char* EvalReactionRatesCodeGen::FunctionName = "evalReactionRates";

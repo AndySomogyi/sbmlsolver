@@ -10,7 +10,7 @@
 #include "ModelDataSymbolResolver.h"
 #include "ASTNodeCodeGen.h"
 
-namespace rr
+namespace rrllvm
 {
 
 using namespace llvm;

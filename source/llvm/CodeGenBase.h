@@ -14,7 +14,10 @@
 #include "rrLogger.h"
 #include <Poco/Logger.h>
 
-namespace rr
+using rr::Logger;
+using rr::getLogger;
+
+namespace rrllvm
 {
 
 /**

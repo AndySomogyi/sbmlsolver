@@ -16,6 +16,7 @@ using namespace rrc;
 
 extern string   gTempFolder;
 extern string   gTestDataFolder;
+extern string gCompiler;
 
 SUITE(LIBSTRUCT_TESTS)
 {
@@ -29,7 +30,7 @@ RRHandle gRR = NULL;
         string sec("LS_TESTS");
         string key("InputFile");
 
-        gRR                         = createRRInstanceEx(gTempFolder.c_str(), 0);
+        gRR                         = createRRInstanceEx(gTempFolder.c_str(), gCompiler.c_str());
         string testDataFileName     = joinPath(gTestDataFolder, TestDataFileName);
         CHECK(fileExists(testDataFileName));
         CHECK(iniFile.Load(testDataFileName));

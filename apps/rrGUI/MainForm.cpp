@@ -47,22 +47,22 @@ mLogString(NULL)
 
     gLog.setLevel(mLogLevel.GetValue());
     FSF->TreeView1->OnClick     =   FSFTreeView1Click;
-	FSF->TreeView1->OnDblClick  =  LoadFromTreeViewAExecute;
-	FSF->TreeView1->PopupMenu   =  TVPopupMenu;
+    FSF->TreeView1->OnDblClick  =  LoadFromTreeViewAExecute;
+    FSF->TreeView1->PopupMenu   =  TVPopupMenu;
 
     FSF->FSToolBar->Visible = false;
     FSF->TreeView1->ShowRoot = false;
     startupTimer->Enabled = true;
 
     //Setup road runner
-    mRR = new RoadRunner("r:\\temp");
+    mRR = new RoadRunner("", "r:\\temp");
     mRR->setTempFileFolder(mTempDataFolder);
 //    mSimulateThread.AssignRRInstance(mRR);
 }
 
 __fastcall TMForm::~TMForm()
 {
-	//FSF->TreeView1->Selected
+    //FSF->TreeView1->Selected
     mLogLevel.SetValue(rr::getLevel(LogLevelCB->ItemIndex));
     mPageControlHeight = PageControl1->Height;
 
@@ -92,7 +92,7 @@ void __fastcall TMForm::modelFoldersCBSelect(TObject *Sender)
         Log(rr::lInfo)<<"Model folder: "<<mCurrentModelsFolder<<" is selected..";
 
         FSF->MonitorFolder(mCurrentModelsFolder, filterEdit->GetString());
-    	FSF->ReScanDataFolderAExecute(NULL);
+        FSF->ReScanDataFolderAExecute(NULL);
     }
 }
 
@@ -281,9 +281,9 @@ void __fastcall TMForm::loadAvailableSymbolsAExecute(TObject *Sender)
         }
         else
         {
-        	SelList->Items->Add("Time");
-	        SelList->Checked[0] = true;
-            NewArrayList	symbols = mRR->getAvailableTimeCourseSymbols();
+            SelList->Items->Add("Time");
+            SelList->Checked[0] = true;
+            NewArrayList    symbols = mRR->getAvailableTimeCourseSymbols();
             Log(rr::lInfo)<<symbols;
             StringList fs       = symbols.GetStringList("Floating Species");
             StringList bs       = symbols.GetStringList("Boundary Species");
@@ -335,15 +335,15 @@ void TMForm::AddItemsToListBox(const StringList& items)
 
 void __fastcall TMForm::PlotFromThread()
 {
-	if(mData)
+    if(mData)
     {
-		Plot(*mData);
+        Plot(*mData);
         delete mData;
         mData = NULL;
     }
     else
     {
-    	Log(rr::lWarning)<<"Tried to plot NULL data";
+        Log(rr::lWarning)<<"Tried to plot NULL data";
     }
 }
 void TMForm::Plot(const rr::RoadRunnerData& result)
@@ -581,25 +581,25 @@ void __fastcall TMForm::modelFoldersCBContextPopup(TObject *Sender, TPoint &Mous
 //---------------------------------------------------------------------------
 void __fastcall TMForm::FormCloseQuery(TObject *Sender, bool &CanClose)
 {
-	if(mLogFileSniffer.IsAlive())
+    if(mLogFileSniffer.IsAlive())
     {
-    	CanClose = false;
+        CanClose = false;
     }
 
     if(!CanClose)
     {
-		ShutDownTimer->Enabled = true;
+        ShutDownTimer->Enabled = true;
     }
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TMForm::ShutDownTimerTimer(TObject *Sender)
 {
-	ShutDownTimer->Enabled = false;
+    ShutDownTimer->Enabled = false;
 
-	if(mLogFileSniffer.IsAlive())
+    if(mLogFileSniffer.IsAlive())
     {
-    	mLogFileSniffer.ShutDown();
+        mLogFileSniffer.ShutDown();
     }
 
     Close();
@@ -608,53 +608,53 @@ void __fastcall TMForm::ShutDownTimerTimer(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMForm::FormClose(TObject *Sender, TCloseAction &Action)
 {
-	if(FSF)
+    if(FSF)
     {
-		FSF->ClearTree();
+        FSF->ClearTree();
     }
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TMForm::Button5Click(TObject *Sender)
 {
-	int average = 0;
+    int average = 0;
 
     mtkStopWatch sw;
     for(int i = 0; i < runCount->GetNumber(); i++)
     {
-    	sw.Start();
-		mRR->simulateEx(mStartTimeE->GetValue(), mEndTimeE->GetValue(), mNrOfSimulationPointsE->GetValue());
-		int milliSecondsElapsed = sw.Stop();
+        sw.Start();
+        mRR->simulateEx(mStartTimeE->GetValue(), mEndTimeE->GetValue(), mNrOfSimulationPointsE->GetValue());
+        int milliSecondsElapsed = sw.Stop();
 
         average += milliSecondsElapsed;
-    	stringstream msg;
-    	msg<<"Time for run "<<i<<": "<<fixed<<setprecision(15)<<milliSecondsElapsed<<" average: "<<(double) average/ (i + 1);
-    	runCountMemo->Lines->Add(msg.str().c_str());
+        stringstream msg;
+        msg<<"Time for run "<<i<<": "<<fixed<<setprecision(15)<<milliSecondsElapsed<<" average: "<<(double) average/ (i + 1);
+        runCountMemo->Lines->Add(msg.str().c_str());
     }
 }
 
 void __fastcall TMForm::CheckThreadTimerTimer(TObject *Sender)
 {
-	if(mSimulateThread.isWorking())
+    if(mSimulateThread.isWorking())
     {
-    	RunThreadBtn->Caption = "Stop";
+        RunThreadBtn->Caption = "Stop";
     }
     else
     {
-    	RunThreadBtn->Caption = "Run";
+        RunThreadBtn->Caption = "Run";
     }
 }
 
 //---------------------------------------------------------------------------
 void __fastcall TMForm::RunThreadBtnClick(TObject *Sender)
 {
-	if(mSimulateThread.isWorking())
+    if(mSimulateThread.isWorking())
     {
-    	mSimulateThread.exit();
+        mSimulateThread.exit();
     }
     else
     {
-		mSimulateThread.start();
+        mSimulateThread.start();
     }
 }
 

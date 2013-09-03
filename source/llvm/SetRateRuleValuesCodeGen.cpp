@@ -7,7 +7,7 @@
 
 #include "SetRateRuleValuesCodeGen.h"
 
-namespace rr
+namespace rrllvm
 {
 
 SetRateRuleValuesCodeGen::SetRateRuleValuesCodeGen(

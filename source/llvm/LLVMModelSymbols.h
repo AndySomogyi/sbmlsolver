@@ -14,7 +14,7 @@
 #include <sbml/Model.h>
 #include <sbml/SBMLVisitor.h>
 
-namespace rr
+namespace rrllvm
 {
 
 /**

@@ -17,6 +17,7 @@ using rr::fileExists;
 
 extern string   gTempFolder;
 extern string   gTestDataFolder;
+extern string gCompiler;
 
 //This tests is mimicking the Python tests
 SUITE(TEST_MODEL_1)
@@ -28,7 +29,7 @@ RRHandle gRR = NULL;
 
     TEST(DATA_FILES)
     {
-        gRR                         = createRRInstanceEx(gTempFolder.c_str(), 0);
+        gRR                         = createRRInstanceEx(gTempFolder.c_str(), gCompiler.c_str());
         string testDataFileName     = joinPath(gTestDataFolder, TestDataFileName);
         clog<<"Checking file: "<<testDataFileName<<endl;
         CHECK(fileExists(testDataFileName));
