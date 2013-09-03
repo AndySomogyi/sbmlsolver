@@ -95,6 +95,7 @@ if(BUILD_LLVM)
         llvm/AssignmentRuleEvaluator
         llvm/ASTNodeCodeGen
         llvm/ASTNodeFactory
+        llvm/ModelResources
         llvm/CodeGenBase
         llvm/LLVMCompiler
         llvm/EvalConversionFactorCodeGen

@@ -25,6 +25,11 @@
 using namespace libsbml;
 using namespace llvm;
 using namespace std;
+
+using rr::Logger;
+using rr::getLogger;
+using rr::LoggingBuffer;
+
 using Poco::LogStream;
 using Poco::Message;
 
@@ -62,11 +67,11 @@ static void test() {
 }
 */
 
-static std::vector<std::string> getIds(const rr::LLVMModelDataSymbols::StringUIntMap & m)
+static std::vector<std::string> getIds(const rrllvm::LLVMModelDataSymbols::StringUIntMap & m)
 {
     vector<string> result;
     result.resize(m.size());
-    for(rr::LLVMModelDataSymbols::StringUIntMap::const_iterator i = m.begin();
+    for(rrllvm::LLVMModelDataSymbols::StringUIntMap::const_iterator i = m.begin();
             i != m.end(); i++)
     {
         result[i->second] = i->first;
@@ -74,7 +79,7 @@ static std::vector<std::string> getIds(const rr::LLVMModelDataSymbols::StringUIn
     return result;
 }
 
-namespace rr
+namespace rrllvm
 {
 
 LLVMModelDataSymbols::LLVMModelDataSymbols() :
@@ -248,9 +253,9 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(LLVMModelData& m) const
     // initialized memory.
 
     m.floatingSpeciesAmounts = (double*)calloc(m.numIndependentSpecies, sizeof(double));
-    m.floatingSpeciesAmountRates = (double*)calloc(m.numIndependentSpecies, sizeof(double));
+    m.floatingSpeciesAmountRates = 0;
     m.rateRuleValues = (double*)calloc(m.numRateRules, sizeof(double));
-    m.rateRuleRates = (double*)calloc(m.numRateRules, sizeof(double));
+    m.rateRuleRates = 0;
 
     m.reactionRates = (double*)calloc(m.numReactions, sizeof(double));
 
@@ -261,7 +266,7 @@ void LLVMModelDataSymbols::initAllocModelDataBuffers(LLVMModelData& m) const
 
 
     // allocate the stoichiometry matrix
-    m.stoichiometry = csr_matrix_new(m.numIndependentSpecies, getReactionSize(),
+    m.stoichiometry = rr::csr_matrix_new(m.numIndependentSpecies, getReactionSize(),
             stoichRowIndx, stoichColIndx, vector<double>(stoichRowIndx.size(), 0));
 }
 

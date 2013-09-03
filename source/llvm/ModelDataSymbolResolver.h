@@ -18,7 +18,7 @@ namespace libsbml
 class Model;
 }
 
-namespace rr
+namespace rrllvm
 {
 
 class ModelDataLoadSymbolResolver: public LoadSymbolResolver

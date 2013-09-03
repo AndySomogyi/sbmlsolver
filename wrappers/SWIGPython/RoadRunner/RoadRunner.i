@@ -48,6 +48,7 @@
     #include <rrRoadRunner.h>
     #include <rrLogger.h>
     #include <cstddef>
+    #include <map>
 
     using namespace std;
     using namespace ls;

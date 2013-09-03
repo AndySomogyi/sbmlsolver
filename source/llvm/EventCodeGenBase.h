@@ -22,7 +22,8 @@
 #include <vector>
 #include <cstdio>
 
-namespace rr {
+namespace rrllvm
+{
 
 typedef void (*EventCodeGenBase_FunctionPtr)(LLVMModelData*, int32_t, double*);
 

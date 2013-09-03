@@ -19,8 +19,11 @@ using namespace libsbml;
 using namespace llvm;
 using namespace std;
 
+using rr::Logger;
+using rr::getLogger;
 
-namespace rr
+
+namespace rrllvm
 {
 
 const char* EvalInitialConditionsCodeGen::FunctionName = "evalInitialConditions";
@@ -42,12 +45,12 @@ Value* EvalInitialConditionsCodeGen::codeGen()
 
     codeGenVoidModelDataHeader(FunctionName, modelData);
 
-    Log(lInfo) << "boundarySpecies: \n";
+    Log(Logger::PRIO_INFORMATION) << "boundarySpecies: \n";
     for (SymbolForest::ConstIterator i = modelSymbols.getInitialValues().boundarySpecies.begin();
             i != modelSymbols.getInitialValues().boundarySpecies.end(); i++)
     {
         char* formula = SBML_formulaToString(i->second);
-        Log(lInfo) << "\t" << i->first << ": " << formula << "\n";
+        Log(Logger::PRIO_INFORMATION) << "\t" << i->first << ": " << formula << "\n";
         free(formula);
     }
 
@@ -111,13 +114,13 @@ void EvalInitialConditionsCodeGen::codeGenStoichiometry(
                 builder);
     ASTNodeCodeGen astCodeGen(builder, initialValueResolver);
 
-    Log(lInfo) << "reactions: ";
+    Log(Logger::PRIO_INFORMATION) << "reactions: ";
     vector<string> ids = dataSymbols.getReactionIds();
     for (int i = 0; i < ids.size(); i++)
     {
-        Log(lInfo) << ids[i] << ", ";
+        Log(Logger::PRIO_INFORMATION) << ids[i] << ", ";
     }
-    Log(lInfo) << "\n";
+    Log(Logger::PRIO_INFORMATION) << "\n";
 
     Value *stoichEP = modelDataBuilder.createGEP(Stoichiometry);
     Value *stoich = builder.CreateLoad(stoichEP, "stoichiometry");
@@ -131,7 +134,7 @@ void EvalInitialConditionsCodeGen::codeGenStoichiometry(
         LLVMModelDataSymbols::SpeciesReferenceInfo nz = *i;
         const ASTNode *node = modelSymbols.createStoichiometryNode(nz.row, nz.column);
         char* formula = SBML_formulaToString(node);
-        Log(lInfo) << "\t{" << nz.row << ", " << nz.column << "} : " << formula
+        Log(Logger::PRIO_INFORMATION) << "\t{" << nz.row << ", " << nz.column << "} : " << formula
                 << "\n";
         free(formula);
 

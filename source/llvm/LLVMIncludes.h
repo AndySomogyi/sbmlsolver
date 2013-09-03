@@ -55,7 +55,7 @@
 #include <llvm/Support/raw_ostream.h>
 #include <llvm/Target/TargetLibraryInfo.h>
 
-namespace rr {
+namespace rrllvm {
 /**
  * C++ 11 style to_string for LLVM types
  */

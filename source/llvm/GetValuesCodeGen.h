@@ -16,7 +16,7 @@
 #include "GetValueCodeGenBase.h"
 #include <sbml/Model.h>
 
-namespace rr
+namespace rrllvm
 {
 
 class GetBoundarySpeciesAmountCodeGen: public

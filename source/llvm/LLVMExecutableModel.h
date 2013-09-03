@@ -26,12 +26,20 @@
 #include "EvalConversionFactorCodeGen.h"
 #include "EventQueue.h"
 
+#ifdef _MSC_VER
+#include <memory>
+#else
+#include <tr1/memory>
+#endif
+
 #include <map>
 
-namespace rr
+namespace rrllvm
 {
 
-class RR_DECLSPEC LLVMExecutableModel: public ExecutableModel
+class ModelResources;
+
+class RR_DECLSPEC LLVMExecutableModel: public rr::ExecutableModel
 {
 public:
 
@@ -40,6 +48,8 @@ public:
      * the main construction is handled by the model generator.
      */
     LLVMExecutableModel();
+
+    LLVMExecutableModel(const std::tr1::shared_ptr<ModelResources> &resources);
 
 
     virtual ~LLVMExecutableModel();
@@ -404,13 +414,13 @@ private:
     /******************************************************************************/
 
 private:
-    LLVMModelData modelData;
-    LLVMModelDataSymbols *symbols;
-    llvm::LLVMContext *context;
-    llvm::ExecutionEngine *executionEngine;
-    std::string *errStr;
-    int stackDepth;
+    /**
+     * the model generator maintians a cached of generated models.
+     */
+    std::tr1::shared_ptr<const ModelResources> resources;
 
+    LLVMModelData modelData;
+    const LLVMModelDataSymbols *symbols;
 
     EvalInitialConditionsCodeGen::FunctionPtr evalInitialConditionsPtr;
     EvalReactionRatesCodeGen::FunctionPtr evalReactionRatesPtr;
@@ -426,14 +436,17 @@ private:
     GetEventDelayCodeGen::FunctionPtr getEventDelayPtr;
     EventTriggerCodeGen::FunctionPtr eventTriggerPtr;
     EventAssignCodeGen::FunctionPtr eventAssignPtr;
-    rrllvm::EvalVolatileStoichCodeGen::FunctionPtr evalVolatileStoichPtr;
-    rrllvm::EvalConversionFactorCodeGen::FunctionPtr evalConversionFactorPtr;
+    EvalVolatileStoichCodeGen::FunctionPtr evalVolatileStoichPtr;
+    EvalConversionFactorCodeGen::FunctionPtr evalConversionFactorPtr;
 
     double getFloatingSpeciesConcentration(int index);
 
     static LLVMExecutableModel* dummy();
 
     friend class LLVMModelGenerator;
+
+    template <typename a_type, typename b_type>
+    friend void copyCachedModel(a_type* src, b_type* dst);
 };
 
 } /* namespace rr */

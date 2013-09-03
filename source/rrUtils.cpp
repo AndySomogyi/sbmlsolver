@@ -588,46 +588,6 @@ double* createVector(const vector<double>& vec)
 }
 
 
-StringList getSelectionListFromSettings(const SimulationSettings& settings)
-{
-    //read from settings the variables found in the amounts and concentrations lists
-    StringList theList;
-    SelectionRecord record;
-
-    int nrOfVars = settings.mVariables.Count();
-
-    for(int i = 0; i < settings.mAmount.Count(); i++)
-    {
-        theList.add("[" + settings.mAmount[i] + "]");        //In the setSelection list below, the [] selects the correct 'type'
-    }
-
-    for(int i = 0; i < settings.mConcentration.Count(); i++)
-    {
-        theList.add(settings.mConcentration[i]);
-    }
-
-    //We may have variables
-    //A variable 'exists' only in "variables", not in the amount or concentration section
-    int currCount = theList.Count();
-    if( nrOfVars > currCount)
-    {
-        //Look for a variable that is not in the list
-
-        for(int i = 0; i < settings.mVariables.Count(); i++)
-        {
-            string aVar = settings.mVariables[i];
-            if(settings.mAmount.DontContain(aVar) && settings.mConcentration.DontContain(aVar))
-            {
-                theList.add(settings.mVariables[i]);
-            }
-
-        }
-    }
-
-      theList.InsertAt(0, "time");
-    return theList;
-}
-
 #if defined(_WIN32) || defined(WIN32)
 
 string getWINAPIError(DWORD errorCode, LPTSTR lpszFunction)

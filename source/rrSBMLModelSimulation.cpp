@@ -99,10 +99,6 @@ bool SBMLModelSimulation::DoCompileIfDllExists()
 bool SBMLModelSimulation::UseEngine(RoadRunner* engine)
 {
     mEngine = engine;
-    if(mEngine)
-    {
-        mEngine->partOfSimulation(this);    //Road runner then gets access to data oupt folders etc..
-    }
     return true;
 }
 
@@ -175,7 +171,7 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
             vector<string> vars = splitString((*it).second, ",");
             for(u_int i = 0; i < vars.size(); i++)
             {
-                mSettings.mVariables.add(trim(vars[i]));
+                mSettings.mVariables.push_back(trim(vars[i]));
             }
         }
 
@@ -188,7 +184,7 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
                 string rec = trim(vars[i]);
                 if(rec.size())
                 {
-                    mSettings.mAmount.add(rec);
+                    mSettings.mAmount.push_back(rec);
                 }
             }
         }
@@ -202,7 +198,7 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
                 string rec = trim(vars[i]);
                 if(rec.size())
                 {
-                    mSettings.mConcentration.add(rec);
+                    mSettings.mConcentration.push_back(rec);
                 }
             }
         }
@@ -210,7 +206,7 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
 
     if(mEngine)
     {
-        mEngine->useSimulationSettings(mSettings);
+        mEngine->setSimulationSettings(mSettings);
 
         //This one creates the list of what we will look at in the result
         mEngine->createTimeCourseSelectionList();
@@ -243,10 +239,10 @@ bool SBMLModelSimulation::SetSelectionList(const string& selectionList)
     vector<string> vars = splitString(selectionList, ", ");
     for(u_int i = 0; i < vars.size(); i++)
     {
-        mSettings.mVariables.add(trim(vars[i]));
+        mSettings.mVariables.push_back(trim(vars[i]));
     }
 
-    mEngine->useSimulationSettings(mSettings);
+    mEngine->setSimulationSettings(mSettings);
     mEngine->createTimeCourseSelectionList();    //This one creates the list of what we will look at in the result
     return true;
 }

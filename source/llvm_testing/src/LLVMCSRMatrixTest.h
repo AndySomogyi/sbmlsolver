@@ -12,6 +12,8 @@
 #include "llvm/LLVMIncludes.h"
 #include "llvm/ModelGeneratorContext.h"
 
+using namespace rrllvm;
+
 namespace rr
 {
 

@@ -24,12 +24,12 @@ using std::vector;
 using std::string;
 using std::set;
 
-RR_DECLSPEC bool 			cleanFolder(const string& folder, const string& baseName, const StringList& extensions);
-RR_DECLSPEC double 			gaussNoise(double mean, double sigma);
-RR_DECLSPEC string 			getTime();
-RR_DECLSPEC string 			getDateTime();
-RR_DECLSPEC string 			getMD5(const string& text);
-RR_DECLSPEC void		 	sleep(int ms);
+RR_DECLSPEC bool             cleanFolder(const string& folder, const string& baseName, const StringList& extensions);
+RR_DECLSPEC double             gaussNoise(double mean, double sigma);
+RR_DECLSPEC string             getTime();
+RR_DECLSPEC string             getDateTime();
+RR_DECLSPEC string             getMD5(const string& text);
+RR_DECLSPEC void             sleep(int ms);
 //Misc.
 RR_DECLSPEC std::size_t     indexOf(std::vector<std::string>& vec, const std::string& elem );
 RR_DECLSPEC bool            isNaN(const double& aNum);
@@ -40,19 +40,19 @@ RR_DECLSPEC void            pause(bool doIt = true, const string& msg = "");
 RR_DECLSPEC string          removeTrailingSeparator(const string& fldr, const char sep = gPathSeparator);//"\\");
 
 //File  Utilities
-RR_DECLSPEC int 			populateFileSet(const string& modelsFolder, set<string>& models);
+RR_DECLSPEC int             populateFileSet(const string& modelsFolder, set<string>& models);
 RR_DECLSPEC bool            fileExists(const string& fileN);
 RR_DECLSPEC bool            folderExists(const string& folderN);
 RR_DECLSPEC bool            createFolder(const string& path);
 
-RR_DECLSPEC string			getParentFolder(const string& path);
-RR_DECLSPEC string    		getCurrentExeFolder();
+RR_DECLSPEC string            getParentFolder(const string& path);
+RR_DECLSPEC string            getCurrentExeFolder();
 RR_DECLSPEC string          getUsersTempDataFolder();
-RR_DECLSPEC string			getCWD();
-RR_DECLSPEC const char		getPathSeparator();
+RR_DECLSPEC string            getCWD();
+RR_DECLSPEC const char        getPathSeparator();
 
 RR_DECLSPEC vector<string>  getLinesInFile(const string& fName);
-RR_DECLSPEC string  		getFileContent(const string& fName);
+RR_DECLSPEC string          getFileContent(const string& fName);
 RR_DECLSPEC void            createTestSuiteFileNameParts(int caseNr, const string& postFixPart, string& FilePath, string& modelFileName, string& settingsFileName);
 RR_DECLSPEC string          getTestSuiteSubFolderName(int caseNr);
 
@@ -66,18 +66,15 @@ RR_DECLSPEC bool            copyStdVectorToCArray(const vector<bool>&   src,  bo
 RR_DECLSPEC double*         createVector(const vector<double>& vec);
 RR_DECLSPEC vector<double>  createVector(const double* src, const int& size);
 
-//SelectionList
-RR_DECLSPEC StringList      getSelectionListFromSettings(const SimulationSettings& settings);
-
 #if defined(_WIN32)
 RR_DECLSPEC HINSTANCE       loadDLL(const string& dll);
-RR_DECLSPEC bool       		unLoadDLL(HINSTANCE dllHandle);
-RR_DECLSPEC FARPROC 		getFunctionPtr(const string& funcName, HINSTANCE DLLHandle);
-RR_DECLSPEC string 			getWINAPIError(DWORD errorCode, LPTSTR lpszFunction);
+RR_DECLSPEC bool               unLoadDLL(HINSTANCE dllHandle);
+RR_DECLSPEC FARPROC         getFunctionPtr(const string& funcName, HINSTANCE DLLHandle);
+RR_DECLSPEC string             getWINAPIError(DWORD errorCode, LPTSTR lpszFunction);
 #endif
 
 #undef CreateFile
-RR_DECLSPEC bool     		createFile(const string& fName, std::ios_base::openmode mode = std::ios::trunc );
+RR_DECLSPEC bool             createFile(const string& fName, std::ios_base::openmode mode = std::ios::trunc );
 
 } // rr Namespace
 #endif

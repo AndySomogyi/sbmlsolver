@@ -11,7 +11,7 @@
 #include <sbml/math/ASTNode.h>
 #include <list>
 
-namespace rr
+namespace rrllvm
 {
 
 /**

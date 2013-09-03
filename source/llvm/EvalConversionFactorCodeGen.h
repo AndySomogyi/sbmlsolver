@@ -18,13 +18,13 @@
 namespace rrllvm
 {
 
-typedef void (*EvalConversionFactorCodeGen_FunctionPtr)(rr::LLVMModelData*);
+typedef void (*EvalConversionFactorCodeGen_FunctionPtr)(LLVMModelData*);
 
 class EvalConversionFactorCodeGen:
-        public rr::CodeGenBase<EvalConversionFactorCodeGen_FunctionPtr>
+        public CodeGenBase<EvalConversionFactorCodeGen_FunctionPtr>
 {
 public:
-    EvalConversionFactorCodeGen(const rr::ModelGeneratorContext &mgc);
+    EvalConversionFactorCodeGen(const ModelGeneratorContext &mgc);
     virtual ~EvalConversionFactorCodeGen();
 
     llvm::Value *codeGen();

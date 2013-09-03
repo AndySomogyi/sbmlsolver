@@ -13,7 +13,15 @@
 #include "rrModelGenerator.h"
 #include "LLVMCompiler.h"
 
-namespace rr
+#if __cplusplus >= 201103L || defined(_MSC_VER)
+#include <memory>
+#include <unordered_map>
+#else
+#include <tr1/memory>
+#include <tr1/unordered_map>
+#endif
+
+namespace rrllvm
 {
 
 /**
@@ -47,7 +55,7 @@ public:
     /**
      * Create an executable model from an sbml string
      */
-    virtual  ExecutableModel *createModel(const std::string& sbml, uint options);
+    virtual  rr::ExecutableModel *createModel(const std::string& sbml, uint options);
 
 
     /**
@@ -56,7 +64,7 @@ public:
      * case, the Compiler interface should still be sufficiently general to
      * manipulate interpreters as well.
      */
-    virtual Compiler *getCompiler();
+    virtual rr::Compiler *getCompiler();
 
     /**
      * No effect on LLVM generator.
@@ -66,7 +74,6 @@ public:
 
 private:
     LLVMCompiler compiler;
-
 };
 
 } /* namespace rr */

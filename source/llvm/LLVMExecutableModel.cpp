@@ -7,6 +7,7 @@
  */
 
 #include "LLVMExecutableModel.h"
+#include "ModelResources.h"
 #include "LLVMIncludes.h"
 #include "rrSparse.h"
 #include "rrLogger.h"
@@ -14,6 +15,10 @@
 #include "LLVMException.h"
 #include <iomanip>
 #include <cstdlib>
+
+using rr::Logger;
+using rr::getLogger;
+using rr::LoggingBuffer;
 
 // static assertion, taken from
 // http://msdn.microsoft.com/en-us/library/windows/desktop/ms679289(v=vs.85).aspx
@@ -36,7 +41,7 @@ static void dump_array(std::ostream &os, int n, const double *p)
     os << ']' << endl;
 }
 
-namespace rr
+namespace rrllvm
 {
 
 static int getValues(LLVMModelData* modelData, double (*funcPtr)(LLVMModelData*, int),
@@ -52,9 +57,6 @@ static int getValues(LLVMModelData* modelData, double (*funcPtr)(LLVMModelData*,
 
 LLVMExecutableModel::LLVMExecutableModel() :
     symbols(0),
-    context(0),
-    executionEngine(0),
-    errStr(0),
     evalInitialConditionsPtr(0),
     evalReactionRatesPtr(0),
     getBoundarySpeciesAmountPtr(0),
@@ -63,7 +65,6 @@ LLVMExecutableModel::LLVMExecutableModel() :
     getFloatingSpeciesConcentrationPtr(0),
     getGlobalParameterPtr(0),
     getCompartmentVolumePtr(0),
-    stackDepth(0),
     evalRateRuleRatesPtr(0),
     getEventTriggerPtr(0),
     getEventPriorityPtr(0),
@@ -81,21 +82,44 @@ LLVMExecutableModel::LLVMExecutableModel() :
     std::srand(std::time(0));
 }
 
+LLVMExecutableModel::LLVMExecutableModel(
+    const std::tr1::shared_ptr<ModelResources>& rc) :
+    resources(rc),
+    symbols(rc->symbols),
+    evalInitialConditionsPtr(rc->evalInitialConditionsPtr),
+    evalReactionRatesPtr(rc->evalReactionRatesPtr),
+    getBoundarySpeciesAmountPtr(rc->getBoundarySpeciesAmountPtr),
+    getFloatingSpeciesAmountPtr(rc->getFloatingSpeciesAmountPtr),
+    getBoundarySpeciesConcentrationPtr(rc->getBoundarySpeciesConcentrationPtr),
+    getFloatingSpeciesConcentrationPtr(rc->getFloatingSpeciesConcentrationPtr),
+    getCompartmentVolumePtr(rc->getCompartmentVolumePtr),
+    getGlobalParameterPtr(rc->getGlobalParameterPtr),
+    evalRateRuleRatesPtr(rc->evalRateRuleRatesPtr),
+    getEventTriggerPtr(rc->getEventTriggerPtr),
+    getEventPriorityPtr(rc->getEventPriorityPtr),
+    getEventDelayPtr(rc->getEventDelayPtr),
+    eventTriggerPtr(rc->eventTriggerPtr),
+    eventAssignPtr(rc->eventAssignPtr),
+    evalVolatileStoichPtr(rc->evalVolatileStoichPtr),
+    evalConversionFactorPtr(rc->evalConversionFactorPtr)
+{
+    // zero out the struct,
+    LLVMModelData::init(modelData);
+    modelData.time = -1.0; // time is initially before simulation starts
+
+    std::srand(std::time(0));
+
+    symbols->initAllocModelDataBuffers(modelData);
+
+    eventAssignTimes.resize(modelData.numEvents);
+}
+
 LLVMExecutableModel::~LLVMExecutableModel()
 {
-    //Log(Logger::PRIO_TRACE) << __FUNC__ <<
-
-    if (errStr->size() > 0)
-    {
-        Log(Logger::PRIO_WARNING) << "Non-empty LLVM ExecutionEngine error string: " << *errStr;
-    }
-
+    // smart ptr takes care of freeing resources
     LLVMModelData::freeBuffers(modelData);
-    delete symbols;
-    // the exe engine owns all the functions
-    delete executionEngine;
-    delete context;
-    delete errStr;
+
+    Log(Logger::PRIO_DEBUG) << __FUNC__;
 }
 
 string LLVMExecutableModel::getModelName()
@@ -211,26 +235,42 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
 {
     modelData.time = time;
 
-    if (y)
+    if (y && dydt)
+    {
+        // save and assign state vector
+        double *savedRateRules = modelData.rateRuleValues;
+        double *savedFloatingSpeciesAmounts = modelData.floatingSpeciesAmounts;
+
+        modelData.rateRuleValues = const_cast<double*>(y);
+        modelData.floatingSpeciesAmounts = const_cast<double*>(y + modelData.numRateRules);
+        evalVolatileStoichPtr(&modelData);
+
+        double conversionFactor = evalReactionRatesPtr(&modelData);
+
+        // floatingSpeciesAmountRates only valid for the following two
+        // functions, this will move to a parameter shortly...
+
+        modelData.floatingSpeciesAmountRates = dydt + modelData.numRateRules;
+
+        csr_matrix_dgemv(conversionFactor, modelData.stoichiometry,
+                modelData.reactionRates, 0.0, modelData.floatingSpeciesAmountRates);
+
+        evalConversionFactorPtr(&modelData);
+
+        modelData.floatingSpeciesAmountRates = 0;
+
+        // this will also move to a parameter for the evalRateRules func...
+        modelData.rateRuleRates = dydt;
+        evalRateRuleRatesPtr(&modelData);
+        modelData.rateRuleRates = 0;
+
+        // restore original pointers for state vector
+        modelData.rateRuleValues = savedRateRules;
+        modelData.floatingSpeciesAmounts = savedFloatingSpeciesAmounts;
+    }
+    else if (y && !dydt)
     {
         setStateVector(y);
-    }
-
-    double conversionFactor = evalReactionRatesPtr(&modelData);
-
-    csr_matrix_dgemv(conversionFactor, modelData.stoichiometry,
-            modelData.reactionRates, 0.0, modelData.floatingSpeciesAmountRates);
-
-    evalConversionFactorPtr(&modelData);
-
-    evalRateRuleRatesPtr(&modelData);
-
-    if (dydt)
-    {
-        memcpy(dydt, modelData.rateRuleRates, modelData.numRateRules * sizeof(double));
-
-        memcpy(dydt + modelData.numRateRules, modelData.floatingSpeciesAmountRates,
-                modelData.numIndependentSpecies * sizeof(double));
     }
 
     /*
@@ -268,7 +308,7 @@ string LLVMExecutableModel::getInfo()
 int LLVMExecutableModel::getFloatingSpeciesIndex(const string& allocator)
 {
     Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw Exception(string("Not Implemented: ") + __FUNCTION__);
+    throw LLVMException(string("Not Implemented: ") + __FUNCTION__);
     return 0;
 }
 
@@ -292,14 +332,14 @@ string LLVMExecutableModel::getBoundarySpeciesId(int indx)
 int LLVMExecutableModel::getBoundarySpeciesCompartmentIndex(int int1)
 {
     Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw Exception(string("Not Implemented: ") + __FUNCTION__);
+    throw LLVMException(string("Not Implemented: ") + __FUNCTION__);
     return 0;
 }
 
 int LLVMExecutableModel::getGlobalParameterIndex(const string& allocator)
 {
     Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw Exception(string("Not Implemented: ") + __FUNCTION__);
+    throw LLVMException(string("Not Implemented: ") + __FUNCTION__);
     return 0;
 }
 
@@ -320,7 +360,7 @@ string LLVMExecutableModel::getGlobalParameterId(int id)
 int LLVMExecutableModel::getCompartmentIndex(const string& allocator)
 {
     Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw Exception(string("Not Implemented: ") + __FUNCTION__);
+    throw LLVMException(string("Not Implemented: ") + __FUNCTION__);
     return 0;
 }
 
@@ -341,7 +381,7 @@ string LLVMExecutableModel::getCompartmentId(int id)
 int LLVMExecutableModel::getReactionIndex(const string& allocator)
 {
     Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw Exception(string("Not Implemented: ") + __FUNCTION__);
+    throw LLVMException(string("Not Implemented: ") + __FUNCTION__);
     return 0;
 }
 
@@ -457,7 +497,6 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
 void LLVMExecutableModel::print(std::ostream &stream)
 {
     stream << "LLVMExecutableModel" << endl;
-    stream << "stackDepth: " << stackDepth << endl;
     stream << modelData;
 }
 
@@ -486,7 +525,7 @@ int LLVMExecutableModel::setFloatingSpeciesConcentrations(int len,
         const int* indx, const double* values)
 {
     Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw Exception(string("Not Implemented: ") + __FUNCTION__);
+    throw LLVMException(string("Not Implemented: ") + __FUNCTION__);
     return -1;
 }
 
@@ -506,7 +545,7 @@ int LLVMExecutableModel::setBoundarySpeciesConcentrations(int len,
         const int* indx, const double* values)
 {
     Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw Exception(string("Not Implemented: ") + __FUNCTION__);
+    throw LLVMException(string("Not Implemented: ") + __FUNCTION__);
     return -1;
 }
 
@@ -520,7 +559,7 @@ int LLVMExecutableModel::setGlobalParameterValues(int len, const int* indx,
         const double* values)
 {
     Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw Exception(string("Not Implemented: ") + __FUNCTION__);
+    throw LLVMException(string("Not Implemented: ") + __FUNCTION__);
     return -1;
 }
 
@@ -545,7 +584,7 @@ int LLVMExecutableModel::getReactionRates(int len, const int* indx,
         }
         else
         {
-            throw Exception("index out of range");
+            throw LLVMException("index out of range");
         }
     }
     return len;
@@ -656,7 +695,7 @@ int LLVMExecutableModel::getEventTriggers(int len, const int *indx, unsigned cha
             }
             else
             {
-                throw Exception("index out of range");
+                throw LLVMException("index out of range");
             }
         }
         return len;

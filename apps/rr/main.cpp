@@ -89,7 +89,7 @@ int main(int argc, char * argv[])
 
         //Creating roadrunner
         Log(lDebug)<<"Creating RoadRunner..."<<endl;
-        RoadRunner *rr  = new RoadRunner(args.TempDataFolder);
+        RoadRunner *rr  = new RoadRunner("", args.TempDataFolder);
         rr->reset();
         Log(lDebug)<<"....."<<endl;
         simulation.UseEngine(rr);

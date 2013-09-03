@@ -11,7 +11,8 @@
 #include "LLVMCompiler.h"
 #include "rrUtils.h"
 
-namespace rr
+using namespace rr;
+namespace rrllvm
 {
 
 LLVMCompiler::LLVMCompiler()

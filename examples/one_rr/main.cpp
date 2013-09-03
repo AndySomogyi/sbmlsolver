@@ -3,35 +3,34 @@
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrLogger.h"
-#include "rrModelData.h"
 using namespace rr;
 
 int main(int argc, char** argv)
 {
-	const char* rootPath = "..";
+    const char* rootPath = "..";
 
 
-	try
+    try
     {
         LogOutput::mLogToConsole = true;
         gLog.setLevel(lInfo);
-		string tmpFolder = joinPath(rootPath, "temp");
+        string tmpFolder = joinPath(rootPath, "temp");
 
         const string modelFile = joinPath(rootPath, "models", "test_1.xml");
 
         //Load modelFiles..
         Log(lInfo)<<" ---------- LOADING/GENERATING MODELS ------";
 
-        RoadRunner rr1(tmpFolder);
+        RoadRunner rr1("", tmpFolder);
         if(!rr1.loadSBMLFromFile(modelFile, true))
         {
-			Log(lError)<<"There was a problem loading model in file: "<<modelFile;
+            Log(lError)<<"There was a problem loading model in file: "<<modelFile;
             throw(Exception("Bad things in loadSBMLFromFile function"));
         }
 
-    	ModelData data;
-	    clog<<"Size: "<<sizeof(SModelData)<<endl;
-	    clog<<"Size ptr: "<<sizeof(data.eventDelays)<<endl;
+        SModelData data;
+        clog<<"Size: "<<sizeof(SModelData)<<endl;
+        clog<<"Size ptr: "<<sizeof(data.eventDelays)<<endl;
         //rr1.getModel()->cInitModelData(&data);
         Log(lInfo)<<" ---------- SIMULATE ---------------------";
         Log(lInfo)<<"Data:"<<rr1.simulate();
@@ -39,7 +38,7 @@ int main(int argc, char** argv)
     }
     catch(const Exception& ex)
     {
-    	Log(lError)<<"There was a  problem: "<<ex.getMessage();
+        Log(lError)<<"There was a  problem: "<<ex.getMessage();
     }
 
 //    Pause(true);

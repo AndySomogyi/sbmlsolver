@@ -31,6 +31,7 @@ using namespace std;
 using namespace rr;
 using namespace llvm;
 using namespace libsbml;
+using namespace rrllvm;
 
 
 

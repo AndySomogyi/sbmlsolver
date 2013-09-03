@@ -11,7 +11,7 @@
 #include "CodeGen.h"
 #include <sbml/KineticLaw.h>
 
-namespace rr
+namespace rrllvm
 {
 
 class KineticLawParameterResolver: public LoadSymbolResolver

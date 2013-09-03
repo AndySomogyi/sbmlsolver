@@ -11,7 +11,7 @@
 #include <sbml/math/ASTNode.h>
 #include <map>
 
-namespace rr
+namespace rrllvm
 {
 using std::string;
 using std::map;

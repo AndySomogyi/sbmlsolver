@@ -39,7 +39,7 @@ using namespace rr;
 namespace rrllvm
 {
 
-Event::Event(rr::LLVMExecutableModel& model, uint id) :
+Event::Event(LLVMExecutableModel& model, uint id) :
         model(model),
         id(id),
         delay(model.getEventDelay(id)),

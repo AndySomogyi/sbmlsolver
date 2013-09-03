@@ -2,17 +2,21 @@
 #include "rr_pch.h"
 #endif
 #pragma hdrstop
-#include <map>
+
 #include "rrLogger.h"
 #include "rrStringUtils.h"
 #include "rrUtils.h"
 #include "rrSimulationSettings.h"
-//---------------------------------------------------------------------------
+#include "rrSelectionRecord.h"
+
+#include <map>
+#include <algorithm>
+
 using namespace std;
 namespace rr
 {
 
-SimulationSettings::SimulationSettings()
+SimulationSettings::SimulationSettings(const std::string &fname)
 :
 mSteps(50),
 mStartTime(0),
@@ -20,9 +24,14 @@ mDuration(5),
 mEndTime(mStartTime + mDuration),
 mAbsolute(1.e-7),
 mRelative(1.e-4)
-{}
+{
+    if (!fname.empty())
+    {
+        loadFromFile(fname);
+    }
+}
 
-void SimulationSettings::ClearSettings()
+void SimulationSettings::clearSettings()
 {
     mSteps      = 0;
     mStartTime  = 0;
@@ -32,7 +41,7 @@ void SimulationSettings::ClearSettings()
     mConcentration.clear();
 }
 
-bool SimulationSettings::LoadFromFile(const string& _FName)
+bool SimulationSettings::loadFromFile(const string& _FName)
 {
     string fName(_FName);
 
@@ -43,7 +52,7 @@ bool SimulationSettings::LoadFromFile(const string& _FName)
     }
     else
     {
-        ClearSettings();
+        clearSettings();
         map<string, string> settings;
         map<string, string>::iterator it;
         //Read each line in the settings file
@@ -92,7 +101,7 @@ bool SimulationSettings::LoadFromFile(const string& _FName)
             vector<string> vars = splitString((*it).second, ",");
             for(int i=0; i < vars.size(); i++)
             {
-                mVariables.add(trim(vars[i]));
+                mVariables.push_back(trim(vars[i]));
             }
         }
 
@@ -105,7 +114,7 @@ bool SimulationSettings::LoadFromFile(const string& _FName)
                 string rec = trim(vars[i]);
                 if(rec.size())
                 {
-                    mAmount.add(rec);
+                    mAmount.push_back(rec);
                 }
             }
         }
@@ -119,22 +128,54 @@ bool SimulationSettings::LoadFromFile(const string& _FName)
                 string rec = trim(vars[i]);
                 if(rec.size())
                 {
-                    mConcentration.add(rec);
+                    mConcentration.push_back(rec);
                 }
             }
         }
     }
 
-//    if(mEngine)
-//    {
-//        mEngine->useSimulationSettings(mSettings);
-//
-//        //This one creates the list of what we will look at in the result
-//        mEngine->CreateSelectionList();
-//    }
-
     return true;
-
 }
+
+
+std::vector<std::string> SimulationSettings::getSelectionList() const
+{
+    //read from settings the variables found in the amounts and concentrations lists
+    std::vector<std::string> theList;
+    SelectionRecord record;
+
+    theList.push_back("time");
+
+    int nrOfVars = mVariables.size();
+
+    for(int i = 0; i < mAmount.size(); i++)
+    {
+        theList.push_back("[" + mAmount[i] + "]");        //In the setSelection list below, the [] selects the correct 'type'
+    }
+
+    for(int i = 0; i < mConcentration.size(); i++)
+    {
+        theList.push_back(mConcentration[i]);
+    }
+
+    //We may have variables
+    //A variable 'exists' only in "variables", not in the amount or concentration section
+
+    for(int i = 0; i < mVariables.size(); i++)
+    {
+        string aVar = mVariables[i];
+
+        if ((find(mAmount.begin(), mAmount.end(), aVar) == mAmount.end()) &&
+                (find(mConcentration.begin(), mConcentration.end(), aVar)
+                        == mConcentration.end()))
+        {
+            theList.push_back(mVariables[i]);
+        }
+    }
+
+    return theList;
+}
+
+
 
 }

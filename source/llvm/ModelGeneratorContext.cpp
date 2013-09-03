@@ -24,7 +24,7 @@ using namespace llvm;
 using namespace std;
 using namespace libsbml;
 
-namespace rr
+namespace rrllvm
 {
 
 static void createLibraryFunctions(Module* module);
@@ -178,8 +178,9 @@ llvm::IRBuilder<> &ModelGeneratorContext::getBuilder() const
     return *builder;
 }
 
-void ModelGeneratorContext::stealThePeach(LLVMModelDataSymbols **sym,
-        llvm::LLVMContext** ctx, llvm::ExecutionEngine** eng, string** err)
+void ModelGeneratorContext::stealThePeach(const LLVMModelDataSymbols **sym,
+        const llvm::LLVMContext** ctx, const llvm::ExecutionEngine** eng,
+        const string** err)
 {
     *sym = symbols;
     symbols = 0;
@@ -223,8 +224,8 @@ void ModelGeneratorContext::addGlobalMappings()
     Type* args_d1[] = { double_type };
     Type* args_d2[] = { double_type, double_type };
 
-    executionEngine->addGlobalMapping(ModelDataIRBuilder::getCSRMatrixSetNZDecl(module), (void*)csr_matrix_set_nz);
-    executionEngine->addGlobalMapping(ModelDataIRBuilder::getCSRMatrixGetNZDecl(module), (void*)csr_matrix_get_nz);
+    executionEngine->addGlobalMapping(ModelDataIRBuilder::getCSRMatrixSetNZDecl(module), (void*)rr::csr_matrix_set_nz);
+    executionEngine->addGlobalMapping(ModelDataIRBuilder::getCSRMatrixGetNZDecl(module), (void*)rr::csr_matrix_get_nz);
     executionEngine->addGlobalMapping(LLVMModelDataIRBuilderTesting::getDispIntDecl(module), (void*)dispInt);
     executionEngine->addGlobalMapping(LLVMModelDataIRBuilderTesting::getDispDoubleDecl(module), (void*)dispDouble);
     executionEngine->addGlobalMapping(LLVMModelDataIRBuilderTesting::getDispCharDecl(module), (void*)dispChar);

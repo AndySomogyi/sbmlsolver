@@ -1015,7 +1015,7 @@ TEST(980) { CHECK(RunTest("l2v4", 980)); }
 
 bool RunTest(const string& version, int caseNumber)
 {
-    RoadRunner rr(gSupportCodeFolder, gCompiler, gTempFolder);
+    RoadRunner rr(gCompiler, gTempFolder, gSupportCodeFolder);
 
     try
     {

@@ -12,10 +12,11 @@ ${THIRD_PARTY_INSTALL_FOLDER}/include/clapack
 )
 
 set(apps 	
-		rr
-#         rr_test_suite_tester
-#        rr_performance_tester
-)
+	rr
+    rr-sbml-benchmark
+    #         rr_test_suite_tester
+    #        rr_performance_tester
+    )
 
 set(app_dir Apps/cpp)
 

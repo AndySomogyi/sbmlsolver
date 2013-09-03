@@ -10,7 +10,7 @@
 
 #include "CodeGenBase.h"
 
-namespace rr
+namespace rrllvm
 {
 
 class SetRateRuleValuesCodeGen:

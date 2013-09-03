@@ -10,7 +10,7 @@
 
 #include "EventCodeGenBase.h"
 
-namespace rr
+namespace rrllvm
 {
 
 class EventAssignCodeGen: public EventCodeGenBase<EventAssignCodeGen>

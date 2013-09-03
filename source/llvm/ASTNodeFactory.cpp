@@ -10,7 +10,7 @@
 using namespace std;
 using namespace libsbml;
 
-namespace rr
+namespace rrllvm
 {
 
 ASTNodeFactory::ASTNodeFactory()
