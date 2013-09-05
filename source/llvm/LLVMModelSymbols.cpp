@@ -176,9 +176,10 @@ bool LLVMModelSymbols::visit(const libsbml::Reaction& r)
         }
         catch (LLVMException&)
         {
-            string msg = "Reaction " + r.getId() + " has SpeciesReference for boundary species ";
-            msg += reactant->getSpecies();
-            Log(Logger::PRIO_WARNING) << msg;
+            // we get here if the getFloatingSpeciesIndex throws an exception, thats OK
+            // because the species is most likely a boundary species, which is OK
+            // to be used as a reactant (it just won't get consumed like a floating species).
+            // TODO this is normal, should not throw an exception!
         }
     }
 
@@ -207,6 +208,8 @@ bool LLVMModelSymbols::visit(const libsbml::Reaction& r)
         }
         catch (LLVMException&)
         {
+            // it is bad setting a boundary as a product, they can not be
+            // produced by stoichiometry.
             string msg = "Reaction " + r.getId() + " has SpeciesReference for boundary species ";
             msg += product->getSpecies();
             Log(Logger::PRIO_WARNING) << msg;
