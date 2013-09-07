@@ -344,7 +344,7 @@ void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
 
             assignNewVector(oModel, true);
 
-            mCVODE_Memory = (void*) CVodeCreate(CV_ADAMS, CV_FUNCTIONAL);
+            mCVODE_Memory = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
             //SetMaxOrder(mCVODE_Memory, MaxBDFOrder);
             if(mCVODE_Memory)
             {
