@@ -40,8 +40,8 @@ const int CvodeInterface::mDefaultMaxNumSteps = 10000;
 const int CvodeInterface::mDefaultMaxAdamsOrder = 12;
 const int CvodeInterface::mDefaultMaxBDFOrder = 5;
 
-CvodeInterface::CvodeInterface(ExecutableModel *aModel, const double _absTol,
-        const double _relTol)
+CvodeInterface::CvodeInterface(ExecutableModel *aModel, double _relTol,
+        double _absTol)
 :
 mDefaultReltol(_relTol),
 mDefaultAbsTol(_absTol),
@@ -103,17 +103,6 @@ CvodeInterface::~CvodeInterface()
     {
         N_VDestroy_Serial(mAbstolArray);
     }
-}
-
-void CvodeInterface::setTolerances(const double& aTol, const double& rTol)
-{
-    mAbsTol = aTol;
-    mRelTol = rTol;
-}
-
-ExecutableModel* CvodeInterface::getModel()
-{
-    return mModel;
 }
 
 Capability& CvodeInterface::getCapability()
@@ -301,7 +290,7 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
         return;
     }
 
-    ExecutableModel *model = cvInstance->getModel();
+    ExecutableModel *model = cvInstance->mModel;
 
     model->evalModel(time, y, ydot);
 
@@ -320,7 +309,7 @@ void EventFcn(double time, double* y, double* gdot, void* userData)
         return;
     }
 
-    ExecutableModel *model = cvInstance->getModel();
+    ExecutableModel *model = cvInstance->mModel;
 
     model->evalEventRoots(time, y, gdot);
 
@@ -355,11 +344,11 @@ void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
 
             assignNewVector(oModel, true);
 
-            mCVODE_Memory = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
+            mCVODE_Memory = (void*) CVodeCreate(CV_ADAMS, CV_FUNCTIONAL);
             //SetMaxOrder(mCVODE_Memory, MaxBDFOrder);
             if(mCVODE_Memory)
             {
-                CVodeSetMaxOrd(mCVODE_Memory, mMaxBDFOrder);
+                //CVodeSetMaxOrd(mCVODE_Memory, mMaxBDFOrder);
                 CVodeSetInitStep(mCVODE_Memory, mInitStep);
                 CVodeSetMinStep(mCVODE_Memory, mMinStep);
                 CVodeSetMaxStep(mCVODE_Memory, mMaxStep);
@@ -593,6 +582,28 @@ int InternalRootCall (realtype t, N_Vector y, realtype *gout, void *g_data)
     return CV_SUCCESS;
 }
 
+unsigned CvodeInterface::setTolerances(double relative, double absolute)
+{
+    mRelTol = relative;
+    mAbsTol = absolute;
+
+    if (mAbstolArray)
+    {
+        for (unsigned i = 0; i < NV_LENGTH_S(mAbstolArray); ++i)
+        {
+            NV_DATA_S(mAbstolArray)[i] = mAbsTol;
+        }
+    }
+    return 0;
 }
 
+unsigned CvodeInterface::getTolerances(double* relative, double* absolute)
+{
+    *relative = mRelTol;
+    *absolute = mAbsTol;
+    return 0;
+}
+
+
+}
 

@@ -6,9 +6,7 @@
 #include "rrBaseParameter.h"
 #include "rrParameter.h"
 #include "rrLogger.h"
-#include "rrRoadRunner.h"
 #include "rrCapabilities.h"
-#include "rrCVODEInterface.h"
 #include "rrCapability.h"
 #include "rrXMLDocument.h"
 

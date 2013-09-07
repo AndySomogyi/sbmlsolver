@@ -27,6 +27,7 @@ using namespace ls;
 class ModelGenerator;
 class SBMLModelSimulation;
 class ExecutableModel;
+class Integrator;
 
 class RR_DECLSPEC RoadRunner
 {
@@ -73,11 +74,19 @@ public:
      */
     class Compiler*                 getCompiler();
 
+
+
     /**
      * Set the name of the externa compiler to use. Some ModelGenerators may have no use
      * for this value.
      */
     bool                            setCompiler(const string& compiler);
+
+    /**
+     * get a pointer to the integrator which is currently being used to
+     * time evolve the system.
+     */
+    Integrator* getIntegrator();
 
 
     //Functions --------------------------------------------------------------------
@@ -176,7 +185,7 @@ public:
 
     void                            setCapabilities(const string& capsStr);
 
-    void                            setTolerances(const double& aTol, const double& rTol);
+
     void                            correctMaxStep();
 
     bool                            setValue(const string& sId, const double& dValue);

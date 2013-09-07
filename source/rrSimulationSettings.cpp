@@ -22,13 +22,16 @@ mSteps(50),
 mStartTime(0),
 mDuration(5),
 mEndTime(mStartTime + mDuration),
-mAbsolute(1.e-7),
-mRelative(1.e-4)
+mAbsolute(1.e-10),
+mRelative(1.e-10)
 {
     if (!fname.empty())
     {
         loadFromFile(fname);
     }
+
+    mAbsolute = 1.e-12;
+    mRelative = 1.e-9;
 }
 
 void SimulationSettings::clearSettings()
