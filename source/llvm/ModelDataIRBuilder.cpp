@@ -5,7 +5,6 @@
  *      Author: andy
  */
 #include "ModelDataIRBuilder.h"
-#include "lsLibStructural.h"
 #include "LLVMException.h"
 #include "rrOSSpecifics.h"
 
