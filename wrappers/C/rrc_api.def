@@ -210,3 +210,6 @@ waitForJob                                      = _waitForJob@4
 waitForJobs                                     = _waitForJobs@4
 writeMultipleRRData                             = _writeMultipleRRData@8
 writeRRData                                     = _writeRRData@8
+createRRPluginManager                           = _createRRPluginManager@4
+createRRPluginManagerEx                         = _createRRPluginManagerEx@12
+freeRRPluginManager                             = _freeRRPluginManager@4

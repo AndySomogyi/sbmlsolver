@@ -2,7 +2,6 @@
 #include "rrRoadRunner.h"
 #include "rrLogger.h"
 #include "rrUtils.h"
-#include "rrModelSharedLibrary.h"
 #include "rrException.h"
 
 using namespace rr;
@@ -12,7 +11,6 @@ int main(int argc, char** argv)
 
     try
     {
-        LogOutput::mLogToConsole = true;
 
         const char* rootPath = "..";
 
@@ -20,12 +18,6 @@ int main(int argc, char** argv)
         string tmpFolder = joinPath(rootPath, "temp");
 
         const string modelFile = joinPath(rootPath, "models", "test_1.xml");
-
-#if defined(WIN32)
-        const string modelLib  = joinPath(rootPath, "temp", "test_1.dll");
-#else
-        const string modelLib  = joinPath(rootPath, "temp", "test_1.so");
-#endif
 
 
         //Load modelFiles..
@@ -37,19 +29,6 @@ int main(int argc, char** argv)
             Log(lError)<<"Failed to create model DLL....";
             return -1;
         }
-
-        ModelSharedLibrary lib;
-
-
-        if(lib.load(modelLib))
-        {
-            Log(lInfo)<<"Shared lib loaded succesfully...";
-        }
-        else
-        {
-            Log(lInfo)<<"Shared lib was NOT loaded succesfully...";
-        }
-
 
     }
     catch(const Exception& ex)

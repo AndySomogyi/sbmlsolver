@@ -98,9 +98,7 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
         mModel(0),
         mCurrentSBML(),
         mLS(0),
-        mSettings(),
-        mPluginManager(joinPath(getParentFolder(_supportCodeDir.empty() ?
-                gDefaultSupportCodeFolder : _supportCodeDir), "plugins"))
+        mSettings()
 {
     //Roadrunner is a "single" capability with many parameters
     mRRCoreCapabilities.addParameter(&mComputeAndAssignConservationLaws);
@@ -126,7 +124,6 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
             tempDir, supportCodeDir);
 
     setTempFileFolder(tempDir);
-    mPluginManager.setRoadRunnerInstance(this);
 
     //Increase instance count..
     mInstanceCount++;
@@ -194,11 +191,6 @@ string RoadRunner::getExtendedVersionInfo()
     return info.str();
 }
 
-PluginManager&    RoadRunner::getPluginManager()
-{
-    return mPluginManager;
-}
-
 
 LibStructural* RoadRunner::getLibStruct()
 {
@@ -247,6 +239,12 @@ bool RoadRunner::setSimulationSettings(const SimulationSettings& settings)
 
     //This one creates the list of what we will look at in the result
     createTimeCourseSelectionList();
+
+    if (mCVode)
+    {
+        mCVode->setTolerances(mSettings.mRelative, mSettings.mAbsolute);
+    }
+
     return true;
 }
 
@@ -341,7 +339,8 @@ bool RoadRunner::initializeModel()
         {
             delete mCVode;
         }
-        mCVode = new CvodeInterface(mModel);
+
+        mCVode = new CvodeInterface(mModel, mSettings.mRelative, mSettings.mAbsolute);
 
         // reset the simulation state
         reset();
@@ -3668,12 +3667,9 @@ vector<string> RoadRunner::getListOfParameters(const string& cap)
     return vector<string>();
 }
 
-void RoadRunner::setTolerances(const double& aTol, const double& rTol)
+Integrator* RoadRunner::getIntegrator()
 {
-    if(mCVode)
-    {
-        mCVode->setTolerances(aTol, rTol);
-    }
+    return mCVode;
 }
 
 void RoadRunner::correctMaxStep()
@@ -3689,29 +3685,6 @@ void RoadRunner::correctMaxStep()
 // Help("Set Simulator Capabilites")
 void RoadRunner::setCapabilities(const string& capsStr)
 {
-//    var cs = new CapsSupport(capsStr);
-//    cs.Apply();
-//
-//    //correctMaxStep();
-//
-//    if (mModel)
-//    {
-//        if(!mCVode)
-//        {
-//            mCVode = new CvodeInterface(model);
-//        }
-//        for (int i = 0; i < model.getNumIndependentVariables; i++)
-//        {
-//            mCVode->setAbsTolerance(i, CvodeInterface->absTol);
-//        }
-//        mCVode->reStart(0.0, model);
-//    }
-//
-//    if (cs.HasSection("integration") && cs["integration"].HasCapability("usekinsol"))
-//    {
-//        CapsSupport.Capability cap = cs["integration", "usekinsol"];
-//        mUseKinsol = cap.IntValue;
-//    }
 }
 
 // Help("Sets the value of the given species or global parameter to the given value (not of local parameters)")

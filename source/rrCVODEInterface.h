@@ -3,6 +3,7 @@
 #include <string>
 #include "rrCapability.h"
 #include "rrParameter.h"
+#include "Integrator.h"
 
 /**
  * CVode vector struct
@@ -18,22 +19,27 @@ class Event;
 class ExecutableModel;
 class RoadRunner;
 
-class RR_DECLSPEC CvodeInterface
+class CvodeInterface : public Integrator
 {
 public:
     double                      mMaxStep;
     int                         mRootCount;
     int                         mCount;
 
-    CvodeInterface(ExecutableModel* oModel, const double abTol = 1.e-12,
-            const double relTol = 1.e-12);
-    ~CvodeInterface();
+    CvodeInterface(ExecutableModel* oModel, double relTol = 1.e-12,
+            double abTol = 1.e-12);
+
+    virtual ~CvodeInterface();
+
 
     Capability&                 getCapability();    //Only one capability
 
-    void                        setTolerances(const double& aTol, const double& rTol);
+
+    virtual unsigned setTolerances(double relative, double absolute);
+    virtual unsigned getTolerances(double *relative, double *absolute);
+
     void                        assignResultsToModel();
-    ExecutableModel*            getModel();
+
     void                        testRootsAtInitialTime();
     bool                        haveVariables();
 
@@ -72,9 +78,6 @@ private:
     void                        assignPendingEvents(const double& timeEnd, const double& tout);
 
 
-    void                        handleRootsFound(double timeEnd);
-
-
     void                        handleRootsForTime(double timeEnd,
                                     vector<unsigned char> &previousEventStatus);
 
@@ -90,6 +93,8 @@ private:
     double                      mMinStep;
 
     int                         mMaxNumSteps;
+
+
     double                      mRelTol;
     double                      mAbsTol;
 
@@ -111,7 +116,9 @@ private:
     Parameter<double> paramMinStep;
     Parameter<double> paramMaxStep;
 
+    friend void ModelFcn(int n, double time, double* y, double* ydot, void* userData);
     friend void EventFcn(double time, double* y, double* gdot, void* userData);
+
 };
 }
 

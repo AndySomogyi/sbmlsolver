@@ -10,7 +10,6 @@
 #include "rrSimulationSettings.h"
 #include "rrConstants.h"
 #include "rrNewArrayList.h"
-#include "rrPluginManager.h"
 #include "rrCapabilities.h"
 #include "rrParameter.h"
 
@@ -27,6 +26,7 @@ using namespace ls;
 class ModelGenerator;
 class SBMLModelSimulation;
 class ExecutableModel;
+class Integrator;
 
 class RR_DECLSPEC RoadRunner
 {
@@ -62,7 +62,6 @@ public:
 
     LibStructural*                  getLibStruct();
     string                          getInfo();
-    PluginManager&                  getPluginManager();
 
 
     vector<SelectionRecord>         getSteadyStateSelection(const vector<string>& newSelectionList);
@@ -73,11 +72,19 @@ public:
      */
     class Compiler*                 getCompiler();
 
+
+
     /**
      * Set the name of the externa compiler to use. Some ModelGenerators may have no use
      * for this value.
      */
     bool                            setCompiler(const string& compiler);
+
+    /**
+     * get a pointer to the integrator which is currently being used to
+     * time evolve the system.
+     */
+    Integrator* getIntegrator();
 
 
     //Functions --------------------------------------------------------------------
@@ -176,7 +183,7 @@ public:
 
     void                            setCapabilities(const string& capsStr);
 
-    void                            setTolerances(const double& aTol, const double& rTol);
+
     void                            correctMaxStep();
 
     bool                            setValue(const string& sId, const double& dValue);
@@ -327,10 +334,6 @@ public:
     static string                   getDisplayName();
     static string                   getCopyright();
     static string                   getURL();
-
-    //Plugin stuff
-    bool                            loadPlugins();
-    bool                            unLoadPlugins();
 
     //RoadRunner MCA functions......
 
@@ -498,8 +501,6 @@ private:
     LibStructural*                  mLS;
 
     SimulationSettings              mSettings;
-
-    PluginManager                   mPluginManager;
 
     void                            addNthOutputToResult(DoubleMatrix& results, int nRow, double dCurrentTime);
     bool                            populateResult();

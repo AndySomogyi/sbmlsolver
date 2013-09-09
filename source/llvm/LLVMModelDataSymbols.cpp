@@ -841,7 +841,17 @@ bool LLVMModelDataSymbols::isValidSpeciesReference(
         }
 
         err += ", it will be ignored.";
-        Log(Logger::PRIO_WARNING) << err;
+        
+        if  (isIndependentBoundarySpecies(id))
+        {
+            // fairly common
+            Log(Logger::PRIO_DEBUG) << err;
+        }
+        else
+        {
+            // serious error
+            Log(Logger::PRIO_WARNING) << err;
+        }
         return false;
     }
 }
