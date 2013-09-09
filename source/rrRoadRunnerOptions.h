@@ -8,6 +8,7 @@
 #ifndef RRROADRUNNEROPTIONS_H_
 #define RRROADRUNNEROPTIONS_H_
 
+#include "rrExporter.h"
 #include <stdint.h>
 
 namespace rr
@@ -19,7 +20,7 @@ namespace rr
  * Future version may add additional fields to the end of this struct,
  * this way we can maintain binary compatibility with older RoadRunner versions.
  */
-struct LoadSBMLOptions
+struct RR_DECLSPEC LoadSBMLOptions
 {
     /**
      * the list of ODE solvers RoadRunner currently supports.
@@ -94,7 +95,7 @@ struct LoadSBMLOptions
 /**
  * RoadRunner simulation options.
  */
-struct SimulateOptions
+struct RR_DECLSPEC SimulateOptions
 {
     SimulateOptions();
 

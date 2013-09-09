@@ -32,6 +32,9 @@ class Integrator;
  * The main RoadRunner class.
  *
  * The RoadRunner class is responsible for loading and simulating SBML models.
+ *
+ * MemoryManagment: Any pointer returned by a get... method is owned by the
+ * RoadRunner object and does NOT have to be deleted.
  */
 class RR_DECLSPEC RoadRunner
 {
@@ -170,7 +173,9 @@ public:
      */
     ModelGenerator* getModelGenerator();
 
-    //Model generation
+    /**
+     * get a pointer to the ExecutableModel owned by the RoadRunner object.
+     */
     ExecutableModel* getModel();
 
     /**
