@@ -61,7 +61,7 @@ REPORT_FILE="${WC}/reports/${OS}_${ARCHITECTURE}/c_tests_${COMPILER_ID}_${COMPIL
 echo "run_test_suite -m$1 -r${REPORT_FILE}"
 
 # run the test
-run_test_suite -m$1 -r${REPORT_FILE}  
+run_test_suite -m$1 -r${REPORT_FILE} -c gcc
 
 echo "done, report file: ${REPORT_FILE}"
 

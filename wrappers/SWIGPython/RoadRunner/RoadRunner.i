@@ -45,6 +45,7 @@
     #include <lsLA.h>
     #include <lsLUResult.h>
     #include <lsUtils.h>
+    #include <rrRoadRunnerOptions.h>
     #include <rrRoadRunner.h>
     #include <rrLogger.h>
     #include <cstddef>
@@ -120,9 +121,10 @@
 
 %template (mapStringDouble) std::map<std::string, double>;
 
+%include <rrRoadRunnerOptions.h>
 %include <rrRoadRunner.h>
-
 %include <rrLogger.h>
+
 %ignore rr::LoggingBuffer;
 %ignore rr::LogLevel;
 %ignore rr::getLogger;
@@ -134,13 +136,13 @@
 %ignore rr::lShowAlways;
 %ignore rr::lError;
 %ignore rr::lWarning;
-%ignore rr::lInfo;   
-%ignore rr::lDebug;  
-%ignore rr::lDebug1; 
-%ignore rr::lDebug2; 
-%ignore rr::lDebug3; 
-%ignore rr::lDebug4; 
-%ignore rr::lDebug5; 
-%ignore rr::lAny;    
-%ignore rr::lUser;   
+%ignore rr::lInfo;
+%ignore rr::lDebug;
+%ignore rr::lDebug1;
+%ignore rr::lDebug2;
+%ignore rr::lDebug3;
+%ignore rr::lDebug4;
+%ignore rr::lDebug5;
+%ignore rr::lAny;
+%ignore rr::lUser;
 
