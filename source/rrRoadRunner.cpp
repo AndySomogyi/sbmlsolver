@@ -98,9 +98,7 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
         mModel(0),
         mCurrentSBML(),
         mLS(0),
-        mSettings(),
-        mPluginManager(joinPath(getParentFolder(_supportCodeDir.empty() ?
-                gDefaultSupportCodeFolder : _supportCodeDir), "plugins"))
+        mSettings()
 {
     //Roadrunner is a "single" capability with many parameters
     mRRCoreCapabilities.addParameter(&mComputeAndAssignConservationLaws);
@@ -126,7 +124,6 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
             tempDir, supportCodeDir);
 
     setTempFileFolder(tempDir);
-    mPluginManager.setRoadRunnerInstance(this);
 
     //Increase instance count..
     mInstanceCount++;
@@ -192,11 +189,6 @@ string RoadRunner::getExtendedVersionInfo()
     info<<"libSBML version: "          << getlibSBMLVersion() << endl;
     info<<"Working Directory: "        << getCWD() << endl;
     return info.str();
-}
-
-PluginManager&    RoadRunner::getPluginManager()
-{
-    return mPluginManager;
 }
 
 

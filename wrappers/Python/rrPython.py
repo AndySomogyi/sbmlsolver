@@ -6,10 +6,11 @@ import os
 #import ctypes
 import numpy
 from ctypes import *
-#from numpy import *
 
 np = numpy
-os.chdir(os.path.dirname(__file__))
+
+if len(os.path.dirname(__file__)):
+    os.chdir(os.path.dirname(__file__))
 sharedLib=''
 rrLib=None
 libHandle=None
@@ -22,7 +23,16 @@ if sys.platform.startswith('win32'):
 
 else:
     rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'lib'))
-    sharedLib = os.path.join(rrInstallFolder, 'librr_c_api.so')
+
+    print(os.path.join(rrInstallFolder, 'librrc_api.dylib'))
+
+    # check for .so (linux)
+    if os.path.isfile(os.path.join(rrInstallFolder, 'librrc_api.so')):
+        sharedLib = os.path.join(rrInstallFolder, 'librrc_api.so')
+    elif os.path.isfile(os.path.join(rrInstallFolder, 'librrc_api.dylib')):
+        sharedLib = os.path.join(rrInstallFolder, 'librrc_api.dylib')
+    else:
+        raise Exception("could not locate RoadRunner shared library")
     rrLib = cdll.LoadLibrary(sharedLib)
 
 
@@ -114,9 +124,13 @@ else:
 charptr = POINTER(c_char)
 
 rrLib.createRRInstance.restype = c_void_p
+rrLib.createRRPluginManager.restype = c_void_p
+rrLib.createRRPluginManagerEx.restype = c_void_p
+rrLib.freeRRPluginManager.restype = c_bool
 
 #===== The Python API allocate an internal global handle to ONE instance of the Roadrunner API
 gHandle = rrLib.createRRInstance()
+gPluginManager = rrLib.createRRPluginManager(gHandle)
 
 # Utility and informational methods
 rrLib.getInfo.restype = c_char_p
@@ -2036,19 +2050,19 @@ def createRRMatrix (marray):
 #rrLib.getPluginInfo.restyp = c_char_p
 
 def loadPlugin(libraryName):
-    return rrLib.loadPlugin(gHandle, libraryName)
+    return rrLib.loadPlugin(gPluginManager, libraryName)
 
 def loadPlugins():
-    return rrLib.loadPlugins(gHandle)
+    return rrLib.loadPlugins(gPluginManager)
 
 def getPluginNames():
-    return rrLib.getPluginNames(gHandle)
+    return rrLib.getPluginNames(gPluginManager)
 
 def unLoadPlugins():
-    return rrLib.unLoadPlugins(gHandle)
+    return rrLib.unLoadPlugins(gPluginManager)
 
 def getNumberOfPlugins():
-    return rrLib.getNumberOfPlugins(gHandle)
+    return rrLib.getNumberOfPlugins(gPluginManager)
 
 rrLib.getPluginStatus.restype = c_char_p
 def getPluginInfo(pluginHandle):

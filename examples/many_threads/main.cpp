@@ -11,21 +11,20 @@
 using namespace rr;
 int main(int argc, char** argv)
 {
-	try
+    try
     {
-        LogOutput::mLogToConsole = true;
-       	gLog.setLevel(lDebug);
+           gLog.setLevel(lDebug);
         //Create some roadrunners
-        const int 	instanceCount 	= 1;
-        const int 	threadCount  	= 1;
-		const char* rootPath 		= "..";
+        const int     instanceCount     = 1;
+        const int     threadCount      = 1;
+        const char* rootPath         = "..";
 
-		string tmpFolder = joinPath(rootPath, "temp");
+        string tmpFolder = joinPath(rootPath, "temp");
         //Use a list of roadrunners
         RoadRunnerList rrs(instanceCount, tmpFolder);
 
         const string modelFile = joinPath(rootPath, "models", "test_1.xml");
-		string sbml = getFileContent(modelFile);
+        string sbml = getFileContent(modelFile);
         //Load modelFiles..
         Log(lInfo)<<" ---------- LOADING/GENERATING MODELS ------";
 
@@ -33,7 +32,7 @@ int main(int argc, char** argv)
         LoadModel loadModel(rrs, sbml, threadCount);
         loadModel.waitForFinish();
 
-      	//Set parameters
+          //Set parameters
         Log(lInfo)<<" ---------- SETTING UP PARAMETERS -------------";
 
         //Setup instances with different variables
@@ -52,10 +51,10 @@ int main(int argc, char** argv)
         Simulate simulate(rrs, threadCount);
         simulate.waitForFinish();
 
-//		//Thread by thread
-//		for(int i = 0; i < rrs.count(); i++)
+//        //Thread by thread
+//        for(int i = 0; i < rrs.count(); i++)
 //        {
-//			SimulateThread sim(rrs[i]);
+//            SimulateThread sim(rrs[i]);
 //            sim.start();
 //            sim.waitForFinish();
 //        }
@@ -70,16 +69,16 @@ int main(int argc, char** argv)
                 allData.append(data);
             }
 
-        	allData.writeTo(joinPath(rootPath, "temp", "allData.dat"));
+            allData.writeTo(joinPath(rootPath, "temp", "allData.dat"));
         }
         else
         {
-        	Log(lInfo)<<"Not writing out that much data...";
+            Log(lInfo)<<"Not writing out that much data...";
         }
     }
     catch(const Exception& ex)
     {
-    	Log(lError)<<"There was a  problem: "<<ex.getMessage();
+        Log(lError)<<"There was a  problem: "<<ex.getMessage();
     }
 
     return 0;

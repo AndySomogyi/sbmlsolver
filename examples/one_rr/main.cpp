@@ -12,7 +12,6 @@ int main(int argc, char** argv)
 
     try
     {
-        LogOutput::mLogToConsole = true;
         gLog.setLevel(lInfo);
         string tmpFolder = joinPath(rootPath, "temp");
 
@@ -28,10 +27,6 @@ int main(int argc, char** argv)
             throw(Exception("Bad things in loadSBMLFromFile function"));
         }
 
-        SModelData data;
-        clog<<"Size: "<<sizeof(SModelData)<<endl;
-        clog<<"Size ptr: "<<sizeof(data.eventDelays)<<endl;
-        //rr1.getModel()->cInitModelData(&data);
         Log(lInfo)<<" ---------- SIMULATE ---------------------";
         Log(lInfo)<<"Data:"<<rr1.simulate();
 

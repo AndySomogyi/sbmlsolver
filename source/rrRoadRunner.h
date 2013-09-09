@@ -10,7 +10,6 @@
 #include "rrSimulationSettings.h"
 #include "rrConstants.h"
 #include "rrNewArrayList.h"
-#include "rrPluginManager.h"
 #include "rrCapabilities.h"
 #include "rrParameter.h"
 
@@ -63,7 +62,6 @@ public:
 
     LibStructural*                  getLibStruct();
     string                          getInfo();
-    PluginManager&                  getPluginManager();
 
 
     vector<SelectionRecord>         getSteadyStateSelection(const vector<string>& newSelectionList);
@@ -337,10 +335,6 @@ public:
     static string                   getCopyright();
     static string                   getURL();
 
-    //Plugin stuff
-    bool                            loadPlugins();
-    bool                            unLoadPlugins();
-
     //RoadRunner MCA functions......
 
     /**
@@ -507,8 +501,6 @@ private:
     LibStructural*                  mLS;
 
     SimulationSettings              mSettings;
-
-    PluginManager                   mPluginManager;
 
     void                            addNthOutputToResult(DoubleMatrix& results, int nRow, double dCurrentTime);
     bool                            populateResult();

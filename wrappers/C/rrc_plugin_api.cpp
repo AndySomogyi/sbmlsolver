@@ -11,79 +11,163 @@
 #include "rrStringUtils.h"
 #include "rrc_macros.h"
 #include "rrc_cpp_support.h"
-//---------------------------------------------------------------------------
+
+#include <set>
 
 namespace rrc
 {
 using namespace std;
 using namespace rr;
 
-//PLUGIN Functions
-RRPluginHandle rrCallConv loadPlugin(RRHandle handle, char* pluginName)
+/**
+ * set of all plugin managers we've created,
+ *
+ * used to check if if a given void* is a plugin manager
+ * that we've created.
+ */
+static std::set<PluginManager*> pluginManagers;
+
+static PluginManager* castToPluginManager(RRPluginManagerHandle handle)
 {
-	try
+    if (handle)
     {
-        RoadRunner* rri = castFrom(handle);
-        if(rri->getPluginManager().load(pluginName))
+        PluginManager *pm = static_cast<PluginManager*>(handle);
+        if (pluginManagers.find(pm) != pluginManagers.end())
         {
-	    	return rri->getPluginManager().getPlugin(pluginName);
+            return pm;
         }
         else
         {
-        	setError("Failed loading plugin: " + string(pluginName));
+            Log(Logger::PRIO_ERROR) << "the handle " << pm << ", " << handle << " is NOT a valid PluginManager";
+        }
+    }
+    else
+    {
+        Log(Logger::PRIO_ERROR) << "the handle is NULL";
+    }
+
+    throw (Exception("Invalid PluginManager handle"));
+}
+
+RRPluginManagerHandle rrcCallConv createRRPluginManager(RRHandle rrHandle)
+{
+    try
+    {
+        RoadRunner *rr = static_cast<RoadRunner*>(rrHandle);
+
+        Log(Logger::PRIO_NOTICE) << __FUNC__ << "RoadRunner: " << rr;
+
+
+        std::string pluginDir = joinPath(
+                getParentFolder(gDefaultSupportCodeFolder), "plugins");
+
+        PluginManager* pm = new PluginManager(pluginDir, false, rr);
+        pluginManagers.insert(pm);
+
+        Log(Logger::PRIO_NOTICE) << __FUNC__ << " created plugin manager: " << pm;
+        return pm;
+    }
+    catch_ptr_macro
+}
+
+/**
+ * create an instance of a plugin managager attached to the given RoadRunner instance.
+ */
+RRPluginManagerHandle rrcCallConv createRRPluginManagerEx(const char* pluginDir,
+        bool autoLoad, RRHandle rrHandle)
+{
+    try
+    {
+        RoadRunner *rr = static_cast<RoadRunner*>(rrHandle);
+        PluginManager* pm = new PluginManager(pluginDir, autoLoad, rr);
+        pluginManagers.insert(pm);
+        return pm;
+    }
+    catch_ptr_macro
+}
+
+/**
+ * free the plugin manager
+ */
+bool rrcCallConv freeRRPluginManager(RRPluginManagerHandle handle)
+{
+    try
+    {
+        PluginManager *pm = castToPluginManager(handle);
+        pluginManagers.erase(pm);
+        delete pm;
+        return true;
+    }
+    catch_bool_macro
+}
+
+//PLUGIN Functions
+RRPluginHandle rrCallConv loadPlugin(RRPluginManagerHandle handle, char* pluginName)
+{
+    try
+    {
+        PluginManager *pm = castToPluginManager(handle);
+        if(pm->load(pluginName))
+        {
+            return pm->getPlugin(pluginName);
+        }
+        else
+        {
+            setError("Failed loading plugin: " + string(pluginName));
             return NULL;
         }
     }
     catch_ptr_macro
 }
 
-bool rrCallConv loadPlugins(RRHandle handle)
+bool rrCallConv loadPlugins(RRPluginManagerHandle handle)
 {
-	try
+    try
     {
-        RoadRunner* rri = castFrom(handle);
-    	return rri->getPluginManager().load();
+        PluginManager *pm = castToPluginManager(handle);
+        return pm->load();
     }
     catch_bool_macro
 }
 
-bool rrCallConv unLoadPlugins(RRHandle handle)
+bool rrCallConv unLoadPlugins(RRPluginManagerHandle handle)
 {
-	try
+    try
     {
-        RoadRunner* rri = castFrom(handle);
-    	return rri->getPluginManager().unload();
+        PluginManager *pm = castToPluginManager(handle);
+        return pm->unload();
     }
     catch_bool_macro
 }
 
-int rrCallConv getNumberOfPlugins(RRHandle handle)
+int rrCallConv getNumberOfPlugins(RRPluginManagerHandle handle)
 {
-	try
+    try
     {
-        RoadRunner* rri = castFrom(handle);
-    	return rri->getPluginManager().getNumberOfPlugins();
+        Log(Logger::PRIO_NOTICE) << __FUNC__;
+        PluginManager *pm = castToPluginManager(handle);
+        return pm->getNumberOfPlugins();
     }
     catch_int_macro
 }
 
-RRPluginHandle rrcCallConv getPlugin(RRHandle handle, const char* pluginName)
+RRPluginHandle rrcCallConv getPlugin(RRPluginManagerHandle handle, const char* pluginName)
 {
-	try
+    try
     {
-        RoadRunner* rr = castFrom(handle);
-        Plugin* aPlugin = rr->getPluginManager().getPlugin(pluginName);
+        PluginManager *pm = castToPluginManager(handle);
+        Plugin* aPlugin = pm->getPlugin(pluginName);
         return aPlugin;
     }
     catch_ptr_macro
 }
 
-RRStringArray* rrCallConv getPluginNames(RRHandle handle)
+RRStringArray* rrCallConv getPluginNames(RRPluginManagerHandle handle)
 {
-	try
+    try
     {
-        RoadRunner* rri = castFrom(handle);
-        StringList names = rri->getPluginManager().getPluginNames();
+        PluginManager *pm = castToPluginManager(handle);
+        StringList names = pm->getPluginNames();
         return createList(names);
     }
     catch_ptr_macro
@@ -91,7 +175,7 @@ RRStringArray* rrCallConv getPluginNames(RRHandle handle)
 
 char* rrCallConv getPluginName(RRPluginHandle handle)
 {
-	try
+    try
     {
         Plugin* aPlugin = castToPlugin(handle);
         return rr::createText(aPlugin->getName());
@@ -101,124 +185,124 @@ char* rrCallConv getPluginName(RRPluginHandle handle)
 
 RRStringArray* rrCallConv getPluginCapabilities(RRPluginHandle handle)
 {
-	try
+    try
     {
         Plugin* aPlugin = castToPlugin(handle);
         if(aPlugin)
         {
-        	StringList aList;
+            StringList aList;
             Capabilities* caps = aPlugin->getCapabilities();
             if(!caps)
             {
-            	return NULL;
+                return NULL;
             }
 
             for(int i = 0; i < caps->count(); i++)
             {
-            	aList.add((*caps)[i]->getName());
+                aList.add((*caps)[i]->getName());
             }
-        	return createList(aList);
+            return createList(aList);
         }
         else
         {
-	        return NULL;
+            return NULL;
         }
     }
-	catch_ptr_macro
+    catch_ptr_macro
 }
 
 RRStringArray* rrCallConv getPluginParameters(RRPluginHandle handle, const char* capability)
 {
-	try
+    try
     {
         Plugin* aPlugin = castToPlugin(handle);
         if(aPlugin)
         {
-        	StringList aList;
+            StringList aList;
             Parameters* paras = aPlugin->getParameters(capability);
             if(!paras)
             {
-            	return NULL;
+                return NULL;
             }
 
             for(int i = 0; i < paras->count(); i++)
             {
-            	aList.add((*paras)[i]->getName());
+                aList.add((*paras)[i]->getName());
             }
-        	return createList(aList);
+            return createList(aList);
         }
         else
         {
-	        return NULL;
+            return NULL;
         }
     }
-	catch_ptr_macro
+    catch_ptr_macro
 }
 
 RRParameterHandle rrCallConv getPluginParameter(RRPluginHandle handle, const char* parameterName, const char* capabilitiesName)
 {
-	try
+    try
     {
         Plugin* aPlugin = castToPlugin(handle);
         rr::BaseParameter *para = NULL;
         if(aPlugin)
         {
-			if(capabilitiesName != NULL)
+            if(capabilitiesName != NULL)
             {
-				para = aPlugin->getParameter(parameterName, capabilitiesName);
+                para = aPlugin->getParameter(parameterName, capabilitiesName);
             }
             else
             {
-            	para = aPlugin->getParameter(parameterName);
+                para = aPlugin->getParameter(parameterName);
             }
-       		return para;
+               return para;
 
         }
         return NULL;
 
     }
-	catch_ptr_macro
+    catch_ptr_macro
 }
 
 bool rrCallConv setPluginParameter(RRPluginHandle handle, const char* parameterName, const char* value)
 {
-	try
+    try
     {
         Plugin* aPlugin = castToPlugin(handle);
         BaseParameter* aParameter = (BaseParameter*) getPluginParameter(aPlugin, parameterName, NULL);
         return setParameter(aParameter, value);
     }
-	catch_bool_macro
+    catch_bool_macro
 }
 
 char* rrCallConv getPluginInfo(RRPluginHandle handle)
 {
-	try
+    try
     {
         Plugin* aPlugin = castToPlugin(handle);
-       	return rr::createText(aPlugin->getInfo());
+           return rr::createText(aPlugin->getInfo());
     }
     catch_ptr_macro
 }
 
 char* rrCallConv getPluginStatus(RRPluginHandle handle)
 {
-	try
+    try
     {
         Plugin* aPlugin = castToPlugin(handle);
-       	return rr::createText(aPlugin->getStatus());
+           return rr::createText(aPlugin->getStatus());
     }
     catch_ptr_macro
 }
 
 bool rrCallConv executePlugin(RRPluginHandle handle)
 {
-	return executePluginEx(handle, NULL);
+    return executePluginEx(handle, NULL);
 }
 
 bool rrCallConv executePluginEx(RRPluginHandle handle, void* userData)
 {
-	try
+    try
     {
         Plugin* aPlugin = castToPlugin(handle);
         return (aPlugin) ? aPlugin->execute(userData) : false;
@@ -228,7 +312,7 @@ bool rrCallConv executePluginEx(RRPluginHandle handle, void* userData)
 
 bool rrCallConv assignCallbacks(RRPluginHandle handle, pluginCallback cb1, pluginCallback cb2, void* userData)
 {
-	try
+    try
     {
         Plugin* aPlugin = castToPlugin(handle);
         return (aPlugin) ? aPlugin->assignCallbacks(cb1, cb2, userData) : false;
@@ -238,7 +322,7 @@ bool rrCallConv assignCallbacks(RRPluginHandle handle, pluginCallback cb1, plugi
 
 char* rrcCallConv getPluginResult(RRPluginHandle handle)
 {
-	try
+    try
     {
         Plugin* aPlugin = castToPlugin(handle);
         return rr::createText(aPlugin->getResult());
@@ -248,7 +332,7 @@ char* rrcCallConv getPluginResult(RRPluginHandle handle)
 
 bool rrCallConv setPluginInputData(RRPluginHandle handle, void* data)
 {
-	try
+    try
     {
         Plugin* aPlugin = castToPlugin(handle);
         return (aPlugin) ? aPlugin->setInputData(data) : false;
@@ -258,7 +342,7 @@ bool rrCallConv setPluginInputData(RRPluginHandle handle, void* data)
 
 bool rrcCallConv resetPlugin(RRPluginHandle handle)
 {
-	try
+    try
     {
         Plugin* aPlugin = castToPlugin(handle);
         return aPlugin->resetPlugin();
@@ -268,7 +352,7 @@ bool rrcCallConv resetPlugin(RRPluginHandle handle)
 
 bool rrcCallConv isPluginWorking(RRPluginHandle handle)
 {
-	try
+    try
     {
         Plugin* aPlugin = castToPlugin(handle);
         return aPlugin->isWorking();

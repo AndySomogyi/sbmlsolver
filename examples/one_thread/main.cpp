@@ -11,9 +11,8 @@ using namespace rr;
 
 int main()
 {
-	RoadRunner lRR;
-	LogOutput::mLogToConsole = true;
-	gLog.setLevel(lDebug);
+    RoadRunner lRR;
+    gLog.setLevel(lDebug);
 
     Log(lInfo)<<"======================";
     Log(lInfo)<<lRR.getInfo();
@@ -25,20 +24,20 @@ int main()
     load.start();
     load.waitForFinish();
 
-    Sleep(1000);
+    sleep(1000);
     SimulateThread sim(&lRR, false);
-	sim.start();
+    sim.start();
     sim.waitForFinish();
 
     Log(lInfo)<<lRR.getSimulationResult();
 
     for(int i = 0; i < 2; i++)
     {
-    	lRR.setNumPoints(10);
-	    sim.addJob(&lRR);
-    	sim.start();
-	    sim.waitForFinish();
-	    Log(lInfo)<<lRR.getSimulationResult();
+        lRR.setNumPoints(10);
+        sim.addJob(&lRR);
+        sim.start();
+        sim.waitForFinish();
+        Log(lInfo)<<lRR.getSimulationResult();
 
     }
     return 0;
