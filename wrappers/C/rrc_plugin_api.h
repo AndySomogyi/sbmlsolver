@@ -88,7 +88,7 @@ C_DECL_SPEC bool rrcCallConv freeRRPluginManager(RRPluginManagerHandle handle);
 /*!
  \brief load a plugin
 
- \param[in] handle Handle to a RoadRunner instance
+ \param[in] handle Handle to a PluginManager instance
  \param[in] fileName name of the plugin to load. The plugin name is the plugins shared library name, without path and extension.
  \return Returns a handle to a plugin, NULL if unsuccesfull
  \ingroup pluginRoutines
@@ -98,7 +98,7 @@ C_DECL_SPEC RRPluginHandle rrcCallConv loadPlugin(RRPluginManagerHandle handle, 
 /*!
  \brief load plugins
 
- \param[in] handle Handle to a RoadRunner instance
+ \param[in] handle Handle to a PluginManager instance
  \return Returns true if Plugins are loaded, false otherwise
  \ingroup pluginRoutines
 */
@@ -107,7 +107,7 @@ C_DECL_SPEC bool rrcCallConv loadPlugins(RRPluginManagerHandle handle);
 /*!
  \brief unload plugins
 
- \param[in] handle Handle to a RoadRunner instance
+ \param[in] handle Handle to a PluginManager instance
  \return Returns true if Plugins are unloaded succesfully, false otherwise
  \ingroup pluginRoutines
 */
@@ -116,7 +116,7 @@ C_DECL_SPEC bool rrcCallConv unLoadPlugins(RRPluginManagerHandle handle);
 /*!
  \brief Get Number of loaded plugins
 
- \param[in] handle Handle to a RoadRunner instance
+ \param[in] handle Handle to a PluginManager instance
  \return Returns the number of loaded plugins, -1 if a problem is encountered
  \ingroup pluginRoutines
 */
@@ -124,7 +124,7 @@ C_DECL_SPEC int rrcCallConv getNumberOfPlugins(RRPluginManagerHandle handle);
 
 /*!
  \brief GetPluginNames
- \param[in] handle Handle to a RoadRunner instance
+ \param[in] handle Handle to a PluginManager instance
  \return Returns names for loaded plugins, NULL otherwise
  \ingroup pluginRoutines
 */
@@ -132,7 +132,7 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getPluginNames(RRPluginManagerHandle ha
 
 /*!
  \brief GetPluginHandle
- \param[in] handle Handle to a RoadRunner instance
+ \param[in] handle Handle to a PluginManager instance
  \param[in] pluginName Pointer to string holding the name of a plugin
  \return Returns a handle to a plugin, with name as supplied in the paramter pluginName. Returns NULL if plugin is not found
  \ingroup pluginRoutines
