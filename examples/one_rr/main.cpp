@@ -21,7 +21,9 @@ int main(int argc, char** argv)
         Log(lInfo)<<" ---------- LOADING/GENERATING MODELS ------";
 
         RoadRunner rr1("", tmpFolder);
-        if(!rr1.loadSBMLFromFile(modelFile, true))
+        LoadSBMLOptions opt;
+        opt.modelGeneratorOpt |= LoadSBMLOptions::ForceReCompile;
+        if(!rr1.loadSBMLFromFile(modelFile, &opt))
         {
             Log(lError)<<"There was a problem loading model in file: "<<modelFile;
             throw(Exception("Bad things in loadSBMLFromFile function"));

@@ -23,6 +23,9 @@
 //enables better handling of STL exceptions
 %include "exception.i"
 
+// correct mapping of unsigned integers
+%include "stdint.i"
+
 
 
 %exception {
