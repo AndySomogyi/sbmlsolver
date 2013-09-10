@@ -93,7 +93,12 @@ int main(int argc, char** argv)
 
     RoadRunner roadRunner;
 
-    roadRunner.loadSBMLFromFile(sbmlFile, true);
+    LoadSBMLOptions opt;
+
+    // don't generate cache for models
+    opt.modelGeneratorOpt = opt.modelGeneratorOpt & ~LoadSBMLOptions::ForceReCompile;
+
+    roadRunner.loadSBMLFromFile(sbmlFile, &opt);
 
     SimulationSettings settings(settingsFile);
 

@@ -449,7 +449,13 @@ bool rrcCallConv loadSBMLFromFileE(RRHandle _handle, const char* fileName, bool 
         }
 
         RoadRunner* rri = castFrom(_handle);
-        if(!rri->loadSBMLFromFile(fileName, forceRecompile))
+
+        LoadSBMLOptions opt;
+        opt.modelGeneratorOpt = forceRecompile ?
+                opt.modelGeneratorOpt | LoadSBMLOptions::ForceReCompile :
+                opt.modelGeneratorOpt & ~LoadSBMLOptions::ForceReCompile;
+
+        if(!rri->loadSBMLFromFile(fileName, &opt))
         {
             setError("Failed to load SBML semantics");    //There are many ways loading a model can fail, look at logFile to know more
             return false;
@@ -464,17 +470,23 @@ bool rrcCallConv loadSBML(RRHandle handle, const char* sbml)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        return rri->loadSBML(sbml, true);
+        return rri->loadSBML(sbml);
     }
     catch_bool_macro
 }
 
-bool rrcCallConv loadSBMLEx(RRHandle handle, const char* sbml, bool forceRecompilation)
+bool rrcCallConv loadSBMLEx(RRHandle handle, const char* sbml, bool forceRecompile)
 {
     try
     {
         RoadRunner* rri = castFrom(handle);
-        if(!rri->loadSBML(sbml, forceRecompilation))
+
+        LoadSBMLOptions opt;
+                opt.modelGeneratorOpt = forceRecompile ?
+                        opt.modelGeneratorOpt | LoadSBMLOptions::ForceReCompile :
+                        opt.modelGeneratorOpt & ~LoadSBMLOptions::ForceReCompile;
+
+        if(!rri->loadSBML(sbml, &opt))
         {
             setError("Failed to load SBML semantics");
             return false;

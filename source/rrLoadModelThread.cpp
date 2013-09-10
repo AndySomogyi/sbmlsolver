@@ -11,12 +11,12 @@ namespace rr
 
 using namespace Poco;
 
-int 				LoadModelThread::mNrOfWorkers = 0;
-Poco::Mutex 		LoadModelThread::mNrOfWorkersMutex;
+int                 LoadModelThread::mNrOfWorkers = 0;
+Poco::Mutex         LoadModelThread::mNrOfWorkersMutex;
 
 list<RoadRunner*>   LoadModelThread::mJobs;
-Poco::Mutex 		LoadModelThread::mJobsMutex;
-Poco::Condition		LoadModelThread::mJobsCondition;
+Poco::Mutex         LoadModelThread::mJobsMutex;
+Poco::Condition        LoadModelThread::mJobsCondition;
 
 
 LoadModelThread::LoadModelThread(const string& modelFile, bool recompileOnLoad, RoadRunner* rri, bool autoStart)
@@ -24,14 +24,14 @@ LoadModelThread::LoadModelThread(const string& modelFile, bool recompileOnLoad, 
 mModelFileName(modelFile),
 mRecompileOnLoad(recompileOnLoad)
 {
-	if(rri)
+    if(rri)
     {
-    	addJob(rri);
+        addJob(rri);
     }
 
-	if(autoStart && rri != NULL)
+    if(autoStart && rri != NULL)
     {
-    	start();
+        start();
     }
 }
 
@@ -40,15 +40,15 @@ LoadModelThread::~LoadModelThread()
 }
 void LoadModelThread::setSBML(const string& sbml)
 {
-	mSBML = sbml;
+    mSBML = sbml;
 }
 
 void LoadModelThread::addJob(RoadRunner* rr)
 {
-	//getMutex
+    //getMutex
     Mutex::ScopedLock lock(mJobsMutex);
     mJobs.push_back(rr);
-	mJobsCondition.signal();	//Tell the thread its time to go to work
+    mJobsCondition.signal();    //Tell the thread its time to go to work
 }
 
 unsigned int LoadModelThread::getNrOfJobsInQueue()
@@ -59,17 +59,17 @@ unsigned int LoadModelThread::getNrOfJobsInQueue()
 
 void LoadModelThread::signalExit()
 {
-	mJobsCondition.signal();
+    mJobsCondition.signal();
 }
 
 void LoadModelThread::signalAll()
 {
-	mJobsCondition.broadcast();
+    mJobsCondition.broadcast();
 }
 
 bool LoadModelThread::isAnyWorking()
 {
-   	Mutex::ScopedLock lock(mNrOfWorkersMutex);
+       Mutex::ScopedLock lock(mNrOfWorkersMutex);
     return mNrOfWorkers > 0 ? true : false;
 }
 
@@ -77,17 +77,17 @@ void LoadModelThread::worker()
 {
     RoadRunner *rri = NULL;
     mWasStarted = true;
-	mIsWorking  = true;
+    mIsWorking  = true;
 
     //Any thread working on this Job list need to increment this one
-   	Mutex::ScopedLock lock(mNrOfWorkersMutex);
+       Mutex::ScopedLock lock(mNrOfWorkersMutex);
     mNrOfWorkers++;
     mNrOfWorkersMutex.unlock();
 
     while(!mIsTimeToDie)
     {
-        {	//Scope for scoped lock
-           	Mutex::ScopedLock lock(mJobsMutex);
+        {    //Scope for scoped lock
+               Mutex::ScopedLock lock(mJobsMutex);
             if(mJobs.size() == 0)
             {
                 Log(lDebug5)<<"Waiting for jobs in loadSBML worker";
@@ -97,7 +97,7 @@ void LoadModelThread::worker()
 
             if(mIsTimeToDie)
             {
-                break;	//ends the life of the thread..
+                break;    //ends the life of the thread..
             }
             else
             {
@@ -105,7 +105,7 @@ void LoadModelThread::worker()
                 rri = mJobs.front();
                 mJobs.pop_front();
             }
-        }		//Causes the scoped lock to unlock
+        }        //Causes the scoped lock to unlock
 
         //Do the job
         if(rri)
@@ -113,23 +113,23 @@ void LoadModelThread::worker()
             Log(lDebug2)<<"Loading model into instance: "<<rri->getInstanceID();
             if(mModelFileName.size())
             {
-            	rri->loadSBMLFromFile(mModelFileName, mRecompileOnLoad);
+                rri->loadSBMLFromFile(mModelFileName);
             }
             else if(mSBML.size())
             {
-				rri->loadSBML(mSBML, mRecompileOnLoad);
+                rri->loadSBML(mSBML);
             }
         }
         else
         {
-        	Log(lError)<<"Null job pointer...!";
+            Log(lError)<<"Null job pointer...!";
         }
     }
 
 
     Log(lDebug)<<"Exiting Load Model thread: "<<mThread.id();
-  	mIsWorking  = false;
-   	Mutex::ScopedLock lock2(mNrOfWorkersMutex);
+      mIsWorking  = false;
+       Mutex::ScopedLock lock2(mNrOfWorkersMutex);
     mNrOfWorkers--;
 
 }

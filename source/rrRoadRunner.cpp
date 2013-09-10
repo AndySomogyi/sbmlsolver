@@ -516,33 +516,9 @@ DoubleMatrix RoadRunner::runSimulation()
     return results;
 }
 
-bool RoadRunner::simulateSBMLFile(const string& fileName, const bool& useConservationLaws)
-{
-    computeAndAssignConservationLaws(useConservationLaws);
 
-    string mModelXMLFileName = fileName;
-    ifstream fs(mModelXMLFileName.c_str());
-    if(!fs)
-    {
-        throw(Exception("Failed to open the model file:" + mModelXMLFileName));
-    }
 
-    Log(lInfo)<<"\n\n ===== Reading model file: " <<mModelXMLFileName <<" ==============";
-    string sbml((std::istreambuf_iterator<char>(fs)), std::istreambuf_iterator<char>());
-    fs.close();
-
-    Log(lDebug5)<<"Loading SBML. SBML model code size: "<<sbml.size();
-    mCurrentSBMLFileName = fileName;
-    loadSBML(sbml);
-
-    mRawRoadRunnerData = simulate();
-
-    // why is this here???
-    vector<string> list = getTimeCourseSelectionList();
-    return true;
-}
-
-bool RoadRunner::loadSBMLFromFile(const string& fileName, bool forceReCompile)
+bool RoadRunner::loadSBMLFromFile(const string& fileName, const LoadSBMLOptions *options)
 {
     if(!fileExists(fileName))
     {
@@ -568,7 +544,8 @@ bool RoadRunner::loadSBMLFromFile(const string& fileName, bool forceReCompile)
                 << "\n============ End of SBML "<<endl;
 
     mCurrentSBMLFileName = fileName;
-    return loadSBML(sbml, forceReCompile);
+
+    return loadSBML(sbml, options);
 }
 
 string RoadRunner::createModelName(const string& mCurrentSBMLFileName)
@@ -586,7 +563,7 @@ string RoadRunner::createModelName(const string& mCurrentSBMLFileName)
     return modelName;
 }
 
-bool RoadRunner::loadSBML(const string& sbml, bool forceReCompile)
+bool RoadRunner::loadSBML(const string& sbml, const LoadSBMLOptions *options)
 {
     Mutex::ScopedLock lock(roadRunnerMutex);
 
@@ -601,11 +578,25 @@ bool RoadRunner::loadSBML(const string& sbml, bool forceReCompile)
 
 
     delete mModel;
-    uint options = 0;
-    options |= (forceReCompile ? ModelGenerator::ForceReCompile : 0);
-    options |= (computeAndAssignConservationLaws()
-            ? ModelGenerator::ComputeAndAssignConsevationLaws : 0);
-    mModel = mModelGenerator->createModel(sbml, options);
+    //uint options = 0;
+    //options |= (forceReCompile ? ModelGenerator::ForceReCompile : 0);
+    //options |= (computeAndAssignConservationLaws()
+    //        ? ModelGenerator::ComputeAndAssignConsevationLaws : 0);
+
+    if (options)
+    {
+        mComputeAndAssignConservationLaws.setValue(options->modelGeneratorOpt
+                & LoadSBMLOptions::ComputeAndAssignConsevationLaws);
+        mModel = mModelGenerator->createModel(sbml, options->modelGeneratorOpt);
+    }
+    else
+    {
+        LoadSBMLOptions opt;
+        opt.modelGeneratorOpt = computeAndAssignConservationLaws() ?
+                opt.modelGeneratorOpt | LoadSBMLOptions::ComputeAndAssignConsevationLaws :
+                opt.modelGeneratorOpt & ~LoadSBMLOptions::ComputeAndAssignConsevationLaws;
+        mModel = mModelGenerator->createModel(sbml, opt.modelGeneratorOpt);
+    }
 
     //Finally intitilaize the model..
     if(!initializeModel())
@@ -968,23 +959,20 @@ void RoadRunner::computeAndAssignConservationLaws(const bool& bValue)
 
     if(mModel != NULL)
     {
-        if(!loadSBML(mCurrentSBML, true))
+        LoadSBMLOptions opt;
+
+        // set the comput and assign cons flag
+        opt.modelGeneratorOpt = bValue ?
+                opt.modelGeneratorOpt | LoadSBMLOptions::ComputeAndAssignConsevationLaws :
+                opt.modelGeneratorOpt & ~LoadSBMLOptions::ComputeAndAssignConsevationLaws;
+
+        // have to reload
+        opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::ForceReCompile;
+
+        if(!loadSBML(mCurrentSBML, &opt))
         {
             throw( CoreException("Failed re-Loading model when setting computeAndAssignConservationLaws"));
         }
-//        if(!generateModelCode())
-//        {
-//            throw("Failed generating model from SBML when trying to set computeAndAssignConservationLaws");
-//        }
-//
-//        //We need no recompile the model if this flag changes..
-//        if(!compileModel())
-//        {
-//            throw( CoreException("Failed compiling model when trying to set computeAndAssignConservationLaws"));
-//        }
-//
-//        //Then we have to reinit the model..
-
     }
 }
 

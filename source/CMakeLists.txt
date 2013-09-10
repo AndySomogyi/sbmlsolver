@@ -26,6 +26,7 @@ set(rrSources
     rrExecutableModel
     rrRandom
     rrRoadRunner
+    rrRoadRunnerOptions
     rrSimulationSettings
     rrStreamWriter
     rrStringBuilder
