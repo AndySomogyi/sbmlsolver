@@ -32,7 +32,7 @@ endif(WIN32)
 SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/ ${CMAKE_MODULE_PATH})
 
 
-set(LLVM_INSTALL_PREFIX "/Users/andy/llvm" CACHE PATH "If LLVM was built using CMake, this is the location where it was installed")
+set(LLVM_INSTALL_PREFIX CACHE PATH "If LLVM was built using CMake, this is the location where it was installed")
 
 # determine if LLVM was installed using CMake
 if(EXISTS ${LLVM_INSTALL_PREFIX}/share/llvm/cmake)
