@@ -28,15 +28,43 @@ else()
     set(THIRD_PARTY_INSTALL_FOLDER ${CMAKE_INSTALL_PREFIX} CACHE PATH "Directory containing ThirdParty libraries.")
 endif(WIN32)
 
-# add cmake files to find things
-SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/)
+# add cmake files to find things, prepend with our path
+SET(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/ ${CMAKE_MODULE_PATH})
 
-set(LLVM_MIN_VERSION       "3000000")
-set(LLVM_MIN_VERSION_TEXT  "3.0")
-find_package(LLVM)
+
+set(LLVM_INSTALL_PREFIX "/Users/andy/llvm" CACHE PATH "If LLVM was built using CMake, this is the location where it was installed")
+
+# determine if LLVM was installed using CMake
+if(EXISTS ${LLVM_INSTALL_PREFIX}/share/llvm/cmake)
+    message(STATUS "Found CMake built LLVM")
+
+    option (BUILD_LLVM "Build the LLVM back end" ON)
+    set(BUILD_LLVM ON)
+    set(LLVM_FOUND TRUE)
+
+    # Use the propper LLVM supplied CMake files.
+    # prepend the cmake module path with the LLVM modules
+    set(CMAKE_MODULE_PATH "${LLVM_INSTALL_PREFIX}/share/llvm/cmake" ${CMAKE_MODULE_PATH})
+
+    include(LLVMConfig)
+
+    # we're building a JIT compiler with support for binary code (no interpreter):
+    # this sets the LLVM_LIBRARIES var to be the list of required LLVM libs
+    # to link with.
+    llvm_map_components_to_libraries(LLVM_LIBRARIES jit native)
+
+else()
+    message(STATUS "Looking for LLVM installed without CMake")
+
+    set(LLVM_MIN_VERSION       "3000000")
+    set(LLVM_MIN_VERSION_TEXT  "3.0")
+
+    # look for LLVM using the llvm-config program
+    find_package(LLVM)
+endif()
 
 # should we use LLVM ?
-option (BUILD_LLVM "Build the optional LLVM back end (Should build, but not fully implemented yet)" OFF)
+option (BUILD_LLVM "Build the LLVM back end" OFF)
 
 # should we build the swig python wrapper?
 option (BUILD_SWIG_PYTHON "build the *EXPERIMENTAL* SWIG generated python wrapper" OFF)
@@ -160,9 +188,14 @@ endif()
 
 if(BUILD_LLVM)
     message(STATUS "using LLVM, version ${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}.${LLVM_VERSION_PATCH}")
+
+    message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
+    message(STATUS "LLVM_DEFINITIONS: ${LLVM_DEFINITIONS}")
+    message(STATUS "LLVM_INCLUDE_DIRS: ${LLVM_INCLUDE_DIRS}")
+    message(STATUS "LLVM_LIBRARY_DIRS: ${LLVM_LIBRARY_DIRS}")
     add_definitions(-DBUILD_LLVM)
-    add_definitions(${LLVM_CXXFLAGS})
-    include_directories(${LLVM_INCLUDE_DIR})
+    add_definitions(${LLVM_DEFINITIONS})
+    include_directories(${LLVM_INCLUDE_DIRS})
 else()
     message(STATUS "NOT using LLVM")
 endif(BUILD_LLVM)

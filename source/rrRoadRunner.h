@@ -247,11 +247,24 @@ public:
      * Compute the steady state of the model, returns the sum of squares of the solution
      */
     double steadyState();
+
+    /**
+     * compute the full Jacobian at the current operating point
+     */
     DoubleMatrix getFullJacobian();
+
     DoubleMatrix getFullReorderedJacobian();
+
+    /**
+     * Compute the reduced Jacobian at the current operating point.
+     */
     DoubleMatrix getReducedJacobian();
+
+    /**
+     * Returns eigenvalues, first column real part, second column imaginary part
+     */
     DoubleMatrix getEigenvalues();
-    //        DoubleMatrix                    getEigenvaluesFromMatrix (DoubleMatrix m);
+
     vector<Complex> getEigenvaluesCpx();
 
     // ---------------------------------------------------------------------

@@ -2,14 +2,13 @@
 #
 # It defines the following variables
 #  LLVM_FOUND        - True if llvm found.
-#  LLVM_INCLUDE_DIR  - where to find llvm include files
-#  LLVM_LIBRARY_DIR  - where to find llvm libs
-#  LLVM_LDFLAGS      - llvm linker flags
-#  LLVM_LIBRARIES    - list of llvm libs for working with modules.
+#  LLVM_INCLUDE_DIRS  - where to find llvm include files
+#  LLVM_LIBRARY_DIRS  - where to find llvm libs
+#  LLVM_LDFLAGS       - llvm linker flags
+#  LLVM_LIBRARIES          - list of llvm libs for working with modules.
 #                      This is a list of absolute path file names, which is
 #                      evidently the cmake convention.
-#  LLVM_CFLAGS       - flags to add to the C compiler for llvm support
-#  LLVM_CXXFLAGS     - flags to add to the CXX compiler for llvm support
+#  LLVM_DEFINITIONS     - flags to add to the CXX compiler for llvm support
 #  LLVM_VERSION_MAJOR
 #  LLVM_VERSION_MINOR
 #  LLVM_VERSION_PATCH
@@ -22,7 +21,7 @@ function(TRANSFORM_VERSION numerical_result version)
     # some non-numerical data in the patch version.
     #message(STATUS "DEBUG: version = ${version}")
     string(REGEX REPLACE "^([0-9.]+).*$" "\\1" internal_version ${version})
-    
+
     # internal_version is normally a period-delimited triplet string of the form
     # "major.minor.patch", but patch and/or minor could be missing.
     # Transform internal_version into a numerical result that can be compared.
@@ -63,13 +62,13 @@ find_program(LLVM_CONFIG_EXECUTABLE
 
 if (LLVM_CONFIG_EXECUTABLE)
     message(STATUS "LLVM llvm-config found at: ${LLVM_CONFIG_EXECUTABLE}")
-    
+
     execute_process(
         COMMAND ${LLVM_CONFIG_EXECUTABLE} --version
         OUTPUT_VARIABLE LLVM_VERSION
         OUTPUT_STRIP_TRAILING_WHITESPACE
         )
-    
+
     # Version Info
     execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --version OUTPUT_VARIABLE LLVM_STRING_VERSION )
     string(REGEX REPLACE "^([0-9]+)\\.([0-9]+)([^\n\r\t ]*)" "\\1" LLVM_VERSION_MAJOR
@@ -81,75 +80,50 @@ if (LLVM_CONFIG_EXECUTABLE)
     message(STATUS "LLVM_VERSION_MAJOR: ${LLVM_VERSION_MAJOR}")
     message(STATUS "LLVM_VERSION_MINOR: ${LLVM_VERSION_MINOR}")
     message(STATUS "LLVM_VERSION_PATCH: ${LLVM_VERSION_PATCH}")
-    
+
     execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --bindir OUTPUT_VARIABLE LLVM_BIN_DIR )
     execute_process(COMMAND ${LLVM_CONFIG_EXECUTABLE} --libdir OUTPUT_VARIABLE LLVM_LIB_DIR )
     MESSAGE(STATUS "LLVM_BIN_DIR: " ${LLVM_BIN_DIR})
     MESSAGE(STATUS "LLVM_LIB_DIR: " ${LLVM_LIB_DIR})
-    
+
     # Include Dir
     execute_process(
         COMMAND ${LLVM_CONFIG_EXECUTABLE} --includedir
-        OUTPUT_VARIABLE LLVM_INCLUDE_DIR
+        OUTPUT_VARIABLE LLVM_INCLUDE_DIRS
         OUTPUT_STRIP_TRAILING_WHITESPACE
         )
-    message(STATUS "LLVM_INCLUDE_DIR: ${LLVM_INCLUDE_DIR}")
-    
+    message(STATUS "LLVM_INCLUDE_DIRS: ${LLVM_INCLUDE_DIRS}")
+
     # Lib Dir
     execute_process(
         COMMAND ${LLVM_CONFIG_EXECUTABLE} --libdir
-        OUTPUT_VARIABLE LLVM_LIBRARY_DIR
+        OUTPUT_VARIABLE LLVM_LIBRARY_DIRS
         OUTPUT_STRIP_TRAILING_WHITESPACE
         )
-    message(STATUS "LLVM_LIBRARY_DIR:  ${LLVM_LIBRARY_DIR}")
-    
+    message(STATUS "LLVM_LIBRARY_DIRS:  ${LLVM_LIBRARY_DIRS}")
+
     # C++ Flags, strip out stuff that CMake build adds
     execute_process(
         COMMAND ${LLVM_CONFIG_EXECUTABLE} --cxxflags
-        OUTPUT_VARIABLE LLVM_CXXFLAGS
+        OUTPUT_VARIABLE LLVM_DEFINITIONS
         OUTPUT_STRIP_TRAILING_WHITESPACE
         )
     # strip this from llvm's version, we should add this ourselves in
     # production mode to main CFLAGS
-    STRING(REPLACE "-DNDEBUG" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
-    STRING(REPLACE "-D_DEBUG" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
+    STRING(REPLACE "-DNDEBUG" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-D_DEBUG" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
     # remove optimization from flags, our cmake build will decide what optimization to use
-    STRING(REGEX REPLACE "-O[0-9]" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
-    STRING(REPLACE "-fno-rtti" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
-    STRING(REPLACE "-fno-exceptions" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
-    # this causes problems as most other libs compiled without this. 
+    STRING(REGEX REPLACE "-O[0-9]" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-fno-rtti" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    STRING(REPLACE "-fno-exceptions" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    # this causes problems as most other libs compiled without this.
     # should be OK linking to LLVM as this just results in a slightly larger lib (I think, I hope...)
-    string(REPLACE "-fvisibility-inlines-hidden" "" LLVM_CXXFLAGS ${LLVM_CXXFLAGS})
-    MESSAGE(STATUS "LLVM_CXXFLAGS: " ${LLVM_CXXFLAGS})
-    
-    
-    # C Flags - used for compiling C files
-    execute_process(
-        COMMAND ${LLVM_CONFIG_EXECUTABLE} --cflags
-        OUTPUT_VARIABLE LLVM_CFLAGS
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
-    # strip this from llvm's version, we should add this ourselves in
-    # production mode to main CFLAGS
-    STRING(REPLACE "-DNDEBUG" "" LLVM_CFLAGS ${LLVM_CFLAGS})
-    STRING(REPLACE "-D_DEBUG" "" LLVM_CFLAGS ${LLVM_CFLAGS})
-    # remove optimization from flags
-    STRING(REGEX REPLACE "-O[0-9]" "" LLVM_CFLAGS ${LLVM_CFLAGS})
-    MESSAGE(STATUS "LLVM_CFLAGS: " ${LLVM_CFLAGS})
-    
-    # ld flags
-    execute_process(
-        COMMAND ${LLVM_CONFIG_EXECUTABLE} --ldflags
-        OUTPUT_VARIABLE LLVM_LDFLAGS
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
-    
-    # strip -ldl this is due to order of link with libcwd
-    STRING(REPLACE "-ldl" "" LLVM_LDFLAGS ${LLVM_LDFLAGS})
-    MESSAGE(STATUS "LLVM_LDFLAGS: " ${LLVM_LDFLAGS})
-    
-    
-    # link libraries, currently only need core, jit and native. 
+    string(REPLACE "-fvisibility-inlines-hidden" "" LLVM_DEFINITIONS ${LLVM_DEFINITIONS})
+    MESSAGE(STATUS "LLVM_DEFINITIONS: " ${LLVM_DEFINITIONS})
+
+
+
+    # link libraries, currently only need core, jit and native.
     # TODO: in future, replace this with something like LLVM_CORE_LIBS, LLVM_JIT_LIBS...
     execute_process(
         COMMAND ${LLVM_CONFIG_EXECUTABLE} --libfiles core jit native
@@ -159,13 +133,13 @@ if (LLVM_CONFIG_EXECUTABLE)
     # we get a space sep list from llvm-config, make it a cmake ; separated list.
     STRING(REGEX REPLACE "[\n\t\r ]+" ";" LLVM_LIBRARIES ${LLVM_LIBRARIES})
     message(STATUS "LLVM_LIBRARIES: ${LLVM_LIBRARIES}")
-    
-    
-    if(LLVM_INCLUDE_DIR)
+
+
+    if(LLVM_INCLUDE_DIRS)
         set(LLVM_FOUND TRUE)
-        message(STATUS "Found LLVM: ${LLVM_INCLUDE_DIR}")
-    endif(LLVM_INCLUDE_DIR)
-    
+        message(STATUS "Found LLVM: ${LLVM_INCLUDE_DIRS}")
+    endif(LLVM_INCLUDE_DIRS)
+
 
 else (LLVM_CONFIG_EXECUTABLE)
     message(STATUS "Could NOT find LLVM executable")
