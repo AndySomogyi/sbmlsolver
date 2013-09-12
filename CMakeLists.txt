@@ -142,11 +142,21 @@ include_directories(
     ${THIRD_PARTY_FOLDER}
 )
 
-link_directories(
-    ${LIBRARY_OUTPUT_PATH}
-    ${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib
-    ${THIRD_PARTY_INSTALL_FOLDER}/lib
-)
+
+if (${BUILD_LLVM})
+    link_directories(
+        ${LIBRARY_OUTPUT_PATH}
+        ${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib
+        ${THIRD_PARTY_INSTALL_FOLDER}/lib
+        ${LLVM_LIBRARY_DIRS}
+    )
+else()
+    link_directories(
+        ${LIBRARY_OUTPUT_PATH}
+        ${THIRD_PARTY_FOLDER}/dependencies/libsbml/lib
+        ${THIRD_PARTY_INSTALL_FOLDER}/lib
+    )
+endif (${BUILD_LLVM})
 
 if(${MSVC})
     add_definitions(
