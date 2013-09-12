@@ -1,3 +1,4 @@
+Testing...
 June 7 2013
     * Created a RRComplexVector data structure    
     * Created API function RRComplexVector getEigenvaluesVector(const RRMatrixHandle mat) in rrc_libstruct_api (TK)
