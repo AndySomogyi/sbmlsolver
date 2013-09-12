@@ -7,6 +7,7 @@
  *     email decode: V1 = "."; V2 = "@"; V3 = V1;
  *     andy V1 somogyi V2 gmail V3 com
  */
+#define _USE_MATH_DEFINES
 
 #include "ASTNodeCodeGen.h"
 #include "LLVMException.h"

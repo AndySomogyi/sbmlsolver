@@ -16,6 +16,12 @@
 #pragma pop_macro("CONFIG_H")
 #endif
 
+#pragma push_macro("min")
+#pragma push_macro("max")
+
+#undef min
+#undef max
+
 #if (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR >= 3)
 #include <llvm/IR/DataLayout.h>
 #include <llvm/IR/DerivedTypes.h>
@@ -54,6 +60,10 @@
 #include <llvm/Transforms/Scalar.h>
 #include <llvm/Support/raw_ostream.h>
 #include <llvm/Target/TargetLibraryInfo.h>
+#include <llvm/Support/raw_ostream.h>
+
+#pragma pop_macro("min")
+#pragma pop_macro("max")
 
 namespace rrllvm {
 /**

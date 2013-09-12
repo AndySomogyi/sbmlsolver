@@ -98,11 +98,11 @@ public:
 
 void foo()
 {
-    int vars[] = {1, 2, 3, 4};
+    //int vars[] = {1, 2, 3, 4};
 
-    double out[4];
+    //double out[4];
 
-    LLVMCodeGenTest::test(vars, out);
+    //LLVMCodeGenTest::test(vars, out);
 
 
 }
