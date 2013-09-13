@@ -6,6 +6,8 @@
 #include "rrExporter.h"
 using namespace std;
 
+typedef unsigned int    u_int;
+
 namespace rr
 {
 
@@ -34,10 +36,6 @@ RR_DECLSPEC extern const int    gMaxPath;
 
 // Enums...
 enum SBMLType {stCompartment = 0, stSpecies, stParameter};    //Species clashes with class Species, prefix enums with st, for SbmlType
-
-// Typedefs
-typedef unsigned int 			u_int;
-
 
 }
 #endif

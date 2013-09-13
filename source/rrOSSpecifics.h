@@ -54,6 +54,7 @@
 #endif
 
 typedef unsigned int uint;
+typedef unsigned int u_int;
 typedef unsigned char uchar;
 
 

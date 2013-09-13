@@ -820,9 +820,9 @@ RRDoubleMatrixPtr rrcCallConv getStoichiometryMatrix(RRHandle handle)
         matrix->Data =  new double[tempMat.RSize()*tempMat.CSize()];
 
         int index = 0;
-        for(rr::u_int row = 0; row < tempMat.RSize(); row++)
+        for(u_int row = 0; row < tempMat.RSize(); row++)
         {
-            for(rr::u_int col = 0; col < tempMat.CSize(); col++)
+            for(u_int col = 0; col < tempMat.CSize(); col++)
             {
                 matrix->Data[index++] = tempMat(row,col);
             }
@@ -847,9 +847,9 @@ RRDoubleMatrixPtr rrcCallConv getConservationMatrix(RRHandle handle)
         matrix->Data =  new double[tempMat.RSize()*tempMat.CSize()];
 
         int index = 0;
-        for(rr::u_int row = 0; row < tempMat.RSize(); row++)
+        for(u_int row = 0; row < tempMat.RSize(); row++)
         {
-            for(rr::u_int col = 0; col < tempMat.CSize(); col++)
+            for(u_int col = 0; col < tempMat.CSize(); col++)
             {
                 matrix->Data[index++] = tempMat(row,col);
             }

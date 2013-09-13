@@ -117,9 +117,9 @@ RRDoubleMatrix* createMatrix(const ls::DoubleMatrix* mat)
     }
 
     int index = 0;
-    for(rr::u_int row = 0; row < mat->RSize(); row++)
+    for(u_int row = 0; row < mat->RSize(); row++)
     {
-        for(rr::u_int col = 0; col < mat->CSize(); col++)
+        for(u_int col = 0; col < mat->CSize(); col++)
         {
             matrix->Data[index++] = (*mat)(row,col);
         }
@@ -137,9 +137,9 @@ DoubleMatrix* createMatrix(const rrc::RRDoubleMatrixPtr mat)
     DoubleMatrix *matrix = new DoubleMatrix(mat->RSize, mat->CSize);
 
     int index = 0;
-    for(rr::u_int row = 0; row < mat->RSize; row++)
+    for(u_int row = 0; row < mat->RSize; row++)
     {
-        for(rr::u_int col = 0; col < mat->CSize; col++)
+        for(u_int col = 0; col < mat->CSize; col++)
         {
             (*matrix)(row,col) = mat->Data[index++];
         }
@@ -169,9 +169,9 @@ RRComplexMatrix* createMatrix(const ls::ComplexMatrix* mat)
     }
 
     int index = 0;
-    for(rr::u_int row = 0; row < mat->RSize(); row++)
+    for(u_int row = 0; row < mat->RSize(); row++)
     {
-        for(rr::u_int col = 0; col < mat->CSize(); col++)
+        for(u_int col = 0; col < mat->CSize(); col++)
         {
             matrix->Data[index].re 		= (*mat)(row,col).Real;
             matrix->Data[index].imag 	= (*mat)(row,col).Imag;
