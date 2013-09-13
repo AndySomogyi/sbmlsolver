@@ -1,15 +1,10 @@
-# SET(NUMPY_INCLUDE_DIR )
-# EXEC_PROGRAM(${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/core/pyinterface/PlayerPythonNew ARGS NumpyHeader.py
-# OUTPUT_VARIABLE NUMPY_INCLUDE_DIR)
-
-
 #we have to do this to get the generated header
 include_directories(${RR_GENERATED_HEADER_PATH})
 
 include_directories(
     ${RR_ROOT}/source
     ${THIRD_PARTY_INSTALL_FOLDER}/include
-)
+    )
 
 
 INCLUDE_DIRECTORIES(
@@ -38,8 +33,8 @@ SWIG_ADD_MODULE(RoadRunner python RoadRunner.i)
 if(WIN32)
     # changes dll name to pyd sop that it is compatible with new Python standard
     SET_TARGET_PROPERTIES(_RoadRunner PROPERTIES SUFFIX ".pyd")
-
-
+    
+    
     set_property(TARGET _RoadRunner
         PROPERTY  COMPILE_DEFINITIONS
         EXPORT_RRC
@@ -50,25 +45,23 @@ if(WIN32)
         STATIC_LIBSTRUCT
         STATIC_RR
         )
-
+    
     SWIG_LINK_LIBRARIES ( RoadRunner
         roadrunner-static
         ${PYTHON_LIBRARIES}
         )
-
-
+    
+    
 else(WIN32)
-
-#    set(CMAKE_SHARED_LINKER_FLAGS "-Wl, -z,defs --no-undefined")
-#    set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
-
+    
+    #    set(CMAKE_SHARED_LINKER_FLAGS "-Wl, -z,defs --no-undefined")
+    #    set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined")
+    
     if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
         # Linux specific code
         SET_TARGET_PROPERTIES(_RoadRunner PROPERTIES LINK_FLAGS "-Wl,--no-undefined")
     endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-
-
-
+    
     set_property(TARGET _RoadRunner
         PROPERTY  COMPILE_DEFINITIONS
         LIBSBML_STATIC
@@ -76,7 +69,7 @@ else(WIN32)
         STATIC_PUGI
         STATIC_LIBSTRUCT
         )
-
+    
     SWIG_LINK_LIBRARIES ( RoadRunner
         roadrunner-static
         rr-libstruct-static
@@ -87,23 +80,19 @@ else(WIN32)
         f2c
         ${PYTHON_LIBRARIES}
         )
-
-        #        lapack
-        #        blas
-        #        f2c
-        #        "-Wl,--whole-archive"
-        #        rr-libstruct-static
-        #        "-Wl,--no-whole-archive"
-        #        lmfit-static
-        #        sbml-static
-        #        roadrunner-static
-
-
-
+    
+    #        lapack
+    #        blas
+    #        f2c
+    #        "-Wl,--whole-archive"
+    #        rr-libstruct-static
+    #        "-Wl,--no-whole-archive"
+    #        lmfit-static
+    #        sbml-static
+    #        roadrunner-static
+        
+    
 endif(WIN32)
-
-
-
 
 
 install_targets(/lib/python _RoadRunner)
@@ -121,5 +110,3 @@ set(python_files_path ${CMAKE_BINARY_DIR}/wrappers/SWIGPython/RoadRunner/)
 
 INSTALL(FILES ${python_files_path}/RoadRunner.py
     DESTINATION lib/python)
-
-

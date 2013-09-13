@@ -24,9 +24,7 @@
 %include "exception.i"
 
 // correct mapping of unsigned integers
-%include "stdint.i"
-
-
+%include "swig_includes/rr_stdint.i"
 
 %exception {
   try {
