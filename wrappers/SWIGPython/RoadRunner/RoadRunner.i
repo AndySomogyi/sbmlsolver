@@ -24,7 +24,9 @@
 %include "exception.i"
 
 // correct mapping of unsigned integers
-%include "swig_includes/rr_stdint.i"
+%include "rr_stdint.i"
+
+//%include "rr_numpy.i"
 
 %exception {
   try {
@@ -58,7 +60,7 @@
 %}
 
 
-%include "swig_includes/numpy.i"
+
 
 %init %{
     import_array();

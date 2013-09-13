@@ -2,20 +2,13 @@
 include_directories(${RR_GENERATED_HEADER_PATH})
 
 include_directories(
-    ${RR_ROOT}/source
-    ${THIRD_PARTY_INSTALL_FOLDER}/include
-    )
-
-
-INCLUDE_DIRECTORIES(
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/../include
     ${RR_SOURCE_ROOT}
     ${THIRD_PARTY_INSTALL_FOLDER}/include
     ${THIRD_PARTY_INSTALL_FOLDER}/include/rr-libstruct
     ${THIRD_PARTY_INSTALL_FOLDER}/include/sbml
     ${THIRD_PARTY_INSTALL_FOLDER}/include/cvode
-    # ${RR_ROOT}
-    # ${THIRD_PARTY_FOLDER}/sundials/include
     )
 
 
