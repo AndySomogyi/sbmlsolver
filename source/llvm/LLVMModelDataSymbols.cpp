@@ -7,23 +7,18 @@
 #include "LLVMModelDataSymbols.h"
 #include "lsLibStructural.h"
 #include "LLVMException.h"
-#include "rrOSSpecifics.h"
 #include "rrLogger.h"
 #include "rrSparse.h"
-#include "rrStringUtils.h"
 
 #include <Poco/LogStream.h>
 #include <sbml/Model.h>
 #include <sbml/SBMLDocument.h>
-
-#include <llvm/Support/raw_ostream.h>
 
 #include <string>
 #include <vector>
 #include <sstream>
 
 using namespace libsbml;
-using namespace llvm;
 using namespace std;
 
 using rr::Logger;

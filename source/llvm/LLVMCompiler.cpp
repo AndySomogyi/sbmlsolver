@@ -10,6 +10,7 @@
 
 #include "LLVMCompiler.h"
 #include "rrUtils.h"
+#include <ctime>
 
 using namespace rr;
 namespace rrllvm

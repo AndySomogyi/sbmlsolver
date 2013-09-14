@@ -1,0 +1,6 @@
+setting dtype attribute, getset.c:
+
+    {"dtype",
+        (getter)array_descr_get,
+        (setter)array_descr_set,
+        NULL, NULL},

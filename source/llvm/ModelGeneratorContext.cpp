@@ -35,6 +35,26 @@ static void createLibraryFunction(llvm::LibFunc::Func funcId,
 static Function* createGlobalMappingFunction(const char* funcName,
         llvm::FunctionType *funcType, Module *module);
 
+// MSVC 2010 and earlier do not include the hyperbolic functions, define there here
+#if defined(_MSC_VER) && _MSC_VER < 1700
+
+static double asinh(double value) 
+{
+	return log(value + sqrt(value * value + 1.));
+}
+
+static double acosh(double value)
+{
+    return log(value + sqrt(value * value - 1.));
+}
+
+double atanh(double value)
+{
+	return log((1. / value + 1.) / (1. / value - 1.)) / 2.;
+}
+
+#endif
+
 ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
     bool computeAndAssignConsevationLaws) :
         ownedDoc(readSBMLFromString((sbml.c_str()))),
@@ -334,19 +354,19 @@ void ModelGeneratorContext::addGlobalMappings()
     executionEngine->addGlobalMapping(
             createGlobalMappingFunction("arccosh",
                     FunctionType::get(double_type, args_d1, false), module),
-                        (void*) ::acosh);
+                        (void*) acosh);
 
     // AST_FUNCTION_ARCSINH:
     executionEngine->addGlobalMapping(
             createGlobalMappingFunction("arcsinh",
                     FunctionType::get(double_type, args_d1, false), module),
-                        (void*) ::asinh);
+                        (void*) asinh);
 
     // AST_FUNCTION_ARCTANH:
     executionEngine->addGlobalMapping(
             createGlobalMappingFunction("arctanh",
                     FunctionType::get(double_type, args_d1, false), module),
-                        (void*) ::atanh);
+                        (void*) atanh);
 
 }
 

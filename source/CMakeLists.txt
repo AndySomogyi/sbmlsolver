@@ -50,13 +50,6 @@ set(rrSources
     rrPlugin
     rrBaseParameter
     rrRoadRunnerList
-    rrThreadPool
-    rrLoadModel
-    rrLoadModelFromFile
-    rrRoadRunnerThread
-    rrLoadModelThread
-    rrSimulate
-    rrSimulateThread
     rrRoadRunnerData
     rrSelectionRecord
     rrMinimizationData

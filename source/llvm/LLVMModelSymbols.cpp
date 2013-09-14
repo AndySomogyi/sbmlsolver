@@ -9,6 +9,8 @@
 #include "LLVMException.h"
 #include "ASTNodeCodeGen.h"
 #include "rrLogger.h"
+#include "rrStringUtils.h"
+
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaFormatter.h>
 #include <sbml/SBMLDocument.h>
@@ -474,9 +476,9 @@ ASTNode* LLVMModelSymbols::createStoichiometryNode(int row, int col) const
     ASTNode *reactants = 0;
     ASTNode *products = 0;
 
-    poco_trace(getLogger(), "\t{" + toString(row) + ", " + toString(col) +
-            "}, #reactants: " + toString(reactantList.size()) + " #products: " +
-            toString(productList.size()));
+    poco_trace(rr::getLogger(), "\t{" + rr::toString(row) + ", " + rr::toString(col) +
+            "}, #reactants: " + rr::toString(reactantList.size()) + " #products: " +
+            rr::toString(productList.size()));
 
     if (reactantList.size())
     {

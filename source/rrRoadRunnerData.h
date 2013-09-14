@@ -1,11 +1,14 @@
 #ifndef rrRoadRunnerDataH
 #define rrRoadRunnerDataH
+
+#include "rr-libstruct/lsMatrix.h"
+#include "rrExporter.h"
+
+#include <string>
+#include <vector>
 #include <fstream>
 #include <sstream>
-#include "rr-libstruct/lsMatrix.h"
-#include "rrObject.h"
-#include "rrStringList.h"
-#include "rrExporter.h"
+
 namespace rr
 {
 
@@ -13,60 +16,100 @@ using namespace ls;
 using std::ofstream;
 using std::stringstream;
 
-//Class that  holds the data after a simulation...
-class RR_DECLSPEC RoadRunnerData 
+/**
+ * Class that  holds the data after a simulation.
+ *
+ * The columns store the variables, i.e. species S1, S2, ...
+ * and the rows are the time points of each variable.
+ */
+class RR_DECLSPEC RoadRunnerData
 {
-    protected:
-        StringList              mColumnNames;
-        DoubleMatrix            mTheData;
-        DoubleMatrix			mWeights;				//Matrix containing weights
-        int                     mTimePrecision;        	//The precision when saved to file
-        int                     mDataPrecision;        	//The precision when saved to file
-        string                  mName;                	//For debugging purposes mainly..
 
-    public:
-                                RoadRunnerData(const int& rSize = 0, const int& cSize = 0);
-                               ~RoadRunnerData();
-                                RoadRunnerData(const StringList& colNames, const DoubleMatrix& theData);
-        void                    allocate(const int& cSize, const int& rSize);
-        void                    allocateWeights();
-        bool					hasWeights() const;
+public:
+    /**
+     * @param rSize: number of rows
+     * @param cSize: number of columns.
+     */
+    RoadRunnerData(const int& rSize = 0, const int& cSize = 0);
+    ~RoadRunnerData();
 
+    /**
+     * copy constructor -- copy the names and values from the given
+     * parameters.
+     *
+     * @param colNames: list of column names
+     * @param data: src data matrix.
+     */
+    RoadRunnerData(const std::vector<std::string>& colNames,
+            const DoubleMatrix& data);
 
-        StringList              getColumnNames() const;
-        string					getColumnName(const int& col) const;
-        string                  getColumnNamesAsString() const;
-        void                    setColumnNames(const StringList& colNames);
-        int						getColumnIndex(const string& colName);
+    void allocate(const int& cSize, const int& rSize);
+    void allocateWeights();
+    bool hasWeights() const;
 
-        void                    setTimeDataPrecision(const int& prec);
-        void                    setDataPrecision(const int& prec);
+    /**
+     * get the names of the variables stored in this data structure.
+     */
+    const std::vector<std::string>& getColumnNames() const;
 
-		void					reSize(int rows, int cols);
-        int						rSize() const;
-        int						cSize() const;
-        void                    setData(const DoubleMatrix& theData);
-        bool                    loadSimpleFormat(const string& fileName);
-        bool                    writeTo(const string& fileName);
-        bool                    check() const;    //Check if containst proper data
+    std::string getColumnName(const int col) const;
+    std::string getColumnNamesAsString() const;
+    void setColumnNames(const std::vector<std::string>& colNames);
+    int getColumnIndex(const std::string& colName);
 
-		RR_DECLSPEC
-        friend std::ostream&    operator << (std::ostream& ss, const RoadRunnerData& data);
+    void setTimeDataPrecision(const int& prec);
+    void setDataPrecision(const int& prec);
 
-		RR_DECLSPEC
-        friend std::istream&    operator >> (std::istream& ss, RoadRunnerData& data);
+    void reSize(int rows, int cols);
 
-        double&                 operator() (const unsigned& row, const unsigned& col);
-        double                  operator() (const unsigned& row, const unsigned& col) const;
-        RoadRunnerData&			operator=  (const RoadRunnerData& rhs);
-        double					weight(int row, int col) const;
-        double&					setWeight(int row, int col);
-        void                    setName(const string& name);
-        string                  getName() const;
-        pair<int,int>           dimension() const;
-        bool					append(const RoadRunnerData& data);
-        double					getTimeStart();
-        double					getTimeEnd();
+    /**
+     * number of rows.
+     */
+    int rSize() const;
+
+    /**
+     * number of columns
+     */
+    int cSize() const;
+
+    /**
+     * assign data.
+     */
+    void setData(const DoubleMatrix& theData);
+
+    /**
+     * populate from a csv file.
+     */
+    bool loadSimpleFormat(const std::string& fileName);
+    bool writeTo(const std::string& fileName);
+    bool check() const;    //Check if containst proper data
+
+    RR_DECLSPEC
+    friend std::ostream& operator <<(std::ostream& ss,
+            const RoadRunnerData& data);
+
+    RR_DECLSPEC
+    friend std::istream& operator >>(std::istream& ss, RoadRunnerData& data);
+
+    double& operator()(const unsigned& row, const unsigned& col);
+    double operator()(const unsigned& row, const unsigned& col) const;
+    RoadRunnerData& operator=(const RoadRunnerData& rhs);
+    double weight(int row, int col) const;
+    double& setWeight(int row, int col);
+    void setName(const std::string& name);
+    std::string getName() const;
+    std::pair<int, int> dimension() const;
+    bool append(const RoadRunnerData& data);
+    double getTimeStart();
+    double getTimeEnd();
+
+protected:
+    std::vector<std::string> mColumnNames;
+    DoubleMatrix mTheData;
+    DoubleMatrix mWeights;         //Matrix containing weights
+    int mTimePrecision;            //The precision when saved to file
+    int mDataPrecision;            //The precision when saved to file
+    std::string mName;             //For debugging purposes mainly..
 };
 
 }

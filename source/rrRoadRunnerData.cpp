@@ -8,6 +8,7 @@
 #include "rrUtils.h"
 #include "rrStringUtils.h"
 #include "rrIniFile.h"
+#include "rrUtils.h"
 #include "Poco/TemporaryFile.h"
 #include "rrRoadRunnerData.h"
 
@@ -27,7 +28,7 @@ RoadRunnerData::RoadRunnerData(const int& rSize, const int& cSize ) :
     }
 }
 
-RoadRunnerData::RoadRunnerData(const StringList& colNames,
+RoadRunnerData::RoadRunnerData(const std::vector<std::string>& colNames,
         const DoubleMatrix& theData) :
         mTimePrecision(6),
         mDataPrecision(16),
@@ -52,7 +53,7 @@ int RoadRunnerData::rSize() const
 double RoadRunnerData::getTimeStart()
 {
     //Find time column
-    int timeCol = mColumnNames.indexOf("time");
+    int timeCol = rr::indexOf(mColumnNames, "time");
     if(timeCol != -1)
     {
         return mTheData(0,timeCol);
@@ -63,7 +64,7 @@ double RoadRunnerData::getTimeStart()
 double RoadRunnerData::getTimeEnd()
 {
     //Find time column
-    int timeCol = mColumnNames.indexOf("time");
+    int timeCol = rr::indexOf(mColumnNames, "time");
     if(timeCol != -1)
     {
         return mTheData(rSize() -1 ,timeCol);
@@ -74,7 +75,6 @@ double RoadRunnerData::getTimeEnd()
 void RoadRunnerData::setName(const string& name)
 {
     mName = name;
-//    mTheData.SetNamePointer(&mName);
 }
 
 RoadRunnerData& RoadRunnerData::operator= (const RoadRunnerData& rhs)
@@ -151,19 +151,19 @@ bool RoadRunnerData::append(const RoadRunnerData& data)
 
     for(int col = 0; col < data.cSize(); col++)
     {
-        mColumnNames.Append(data.getColumnName(col));
+        mColumnNames.push_back(data.getColumnName(col));
     }
     return true;
 }
 
-StringList RoadRunnerData::getColumnNames() const
+const std::vector<std::string>& RoadRunnerData::getColumnNames() const
 {
     return mColumnNames;
 }
 
-string RoadRunnerData::getColumnName(const int& col) const
+string RoadRunnerData::getColumnName(const int col) const
 {
-    if(col < mColumnNames.Count())
+    if(col < mColumnNames.size())
     {
         return mColumnNames[col];
     }
@@ -173,7 +173,7 @@ string RoadRunnerData::getColumnName(const int& col) const
 
 int RoadRunnerData::getColumnIndex(const string& colName)
 {
-    return mColumnNames.indexOf(colName);
+    return rr::indexOf(mColumnNames, colName);
 }
 
 pair<int,int> RoadRunnerData::dimension() const
@@ -198,7 +198,7 @@ void RoadRunnerData::setDataPrecision(const int& prec)
 
 string RoadRunnerData::getColumnNamesAsString() const
 {
-    return mColumnNames.AsString();
+    return rr::toString(mColumnNames);
 }
 
 void RoadRunnerData::allocate(const int& cSize, const int& rSize)
@@ -232,10 +232,10 @@ double RoadRunnerData::operator() (const unsigned& row, const unsigned& col) con
     return mTheData(row,col);
 }
 
-void RoadRunnerData::setColumnNames(const StringList& colNames)
+void RoadRunnerData::setColumnNames(const std::vector<std::string>& colNames)
 {
     mColumnNames = colNames;
-    Log(Logger::PRIO_DEBUG) << "Simulation Data Columns: " << mColumnNames;
+    Log(Logger::PRIO_DEBUG) << "Simulation Data Columns: " << rr::toString(mColumnNames);
 }
 
 
@@ -253,9 +253,9 @@ void RoadRunnerData::setData(const DoubleMatrix& theData)
 
 bool RoadRunnerData::check() const
 {
-    if(mTheData.CSize() != mColumnNames.Count())
+    if(mTheData.CSize() != mColumnNames.size())
     {
-        Log(lError)<<"Number of columns ("<<mTheData.CSize()<<") in simulation data is not equal to number of columns in column header ("<<mColumnNames.Count()<<")";
+        Log(lError)<<"Number of columns ("<<mTheData.CSize()<<") in simulation data is not equal to number of columns in column header ("<<mColumnNames.size()<<")";
         return false;
     }
     return true;
@@ -275,10 +275,10 @@ bool RoadRunnerData::loadSimpleFormat(const string& fName)
         return false;
     }
 
-    mColumnNames = StringList(lines[0]);
-    Log(lInfo)<<mColumnNames;
+    mColumnNames = rr::splitString(lines[0], ",");
+    Log(lInfo) << rr::toString(mColumnNames);
 
-    mTheData.resize(lines.size() -1, mColumnNames.Count());
+    mTheData.resize(lines.size() -1, mColumnNames.size());
 
     for(int i = 0; i < mTheData.RSize(); i++)
     {
@@ -417,7 +417,7 @@ istream& operator >> (istream& ss, RoadRunnerData& data)
         return ss;
     }
 
-    data.setColumnNames(colNames->mValue);
+    data.setColumnNames(splitString(colNames->mValue, ","));
 
     //Read number of cols and rows and setup data
     IniKey* aKey1 = infoSection->GetKey("NUMBER_OF_COLS");

@@ -1,4 +1,3 @@
-#include <complex>
 #include "unit_test/UnitTest++.h"
 #include "rrLogger.h"
 #include "rrRoadRunner.h"

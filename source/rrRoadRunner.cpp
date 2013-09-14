@@ -1347,8 +1347,7 @@ double RoadRunner::oneStep(const double& currentTime, const double& stepSize, co
     return mCVode->oneStep(currentTime, stepSize);
 }
 
-// Returns eigenvalues, first column real part, second column imaginary part
-// -------------------------------------------------------------------------
+
 DoubleMatrix RoadRunner::getEigenvalues()
 {
     try
@@ -1375,28 +1374,7 @@ DoubleMatrix RoadRunner::getEigenvalues()
     }
 }
 
-// Returns eigenvalues, first column real part, second column imaginary part
-// -------------------------------------------------------------------------
-//DoubleMatrix RoadRunner::getEigenvaluesFromMatrix (DoubleMatrix m)
-//{
-//    try
-//    {
-//        vector<Complex> vals = ls::getEigenValues(m);
-//
-//        DoubleMatrix result(vals.size(), 2);
-//
-//        for (int i = 0; i < vals.size(); i++)
-//        {
-//            result[i][0] = real(vals[i]);
-//            result[i][1] = imag(vals[i]);
-//        }
-//        return result;
-//    }
-//    catch (const Exception& e)
-//    {
-//        throw CoreException("Unexpected error from getEigenvalues()", e.Message());
-//    }
-//}
+
 
 vector< Complex > RoadRunner::getEigenvaluesCpx()
 {
@@ -1424,7 +1402,6 @@ vector< Complex > RoadRunner::getEigenvaluesCpx()
     }
 }
 
-// Help("Compute the full Jacobian at the current operating point")
 DoubleMatrix RoadRunner::getFullJacobian()
 {
     try
@@ -1470,7 +1447,6 @@ DoubleMatrix RoadRunner::getFullReorderedJacobian()
     }
 }
 
-// Help("Compute the reduced Jacobian at the current operating point")
 DoubleMatrix RoadRunner::getReducedJacobian()
 {
     try
@@ -1502,9 +1478,6 @@ DoubleMatrix RoadRunner::getReducedJacobian()
     }
 }
 
-// ---------------------------------------------------------------------
-// Start of Level 4 API Methods
-// ---------------------------------------------------------------------
 DoubleMatrix* RoadRunner::getLinkMatrix()
 {
     try
