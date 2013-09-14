@@ -97,7 +97,7 @@ getNumberOfGlobalParameters                     = _getNumberOfGlobalParameters@4
 getNumberOfIndependentSpecies                   = _getNumberOfIndependentSpecies@4
 getNumberOfPlugins                              = _getNumberOfPlugins@4
 getNumberOfReactions                            = _getNumberOfReactions@4
-getNumberOfRemainingJobs                        = _getNumberOfRemainingJobs@4
+
 getNumberOfRules                                = _getNumberOfRules@4
 getNumberOfStringElements                       = _getNumberOfStringElements@4
 getParamPromotedSBML                            = _getParamPromotedSBML@8
@@ -164,8 +164,8 @@ loadSBML                                        = _loadSBML@8
 loadSBMLEx                                      = _loadSBMLEx@12
 loadSBMLFromFile                                = _loadSBMLFromFile@8
 loadSBMLFromFileE                               = _loadSBMLFromFileE@12
-loadSBMLFromFileJobs                            = _loadSBMLFromFileJobs@12
-loadSBMLFromFileJob                             = _loadSBMLFromFileJob@8
+
+
 loadSimulationSettings                          = _loadSimulationSettings@8
 logMsg                                          = _logMsg@8
 matrixToString                                  = _matrixToString@4
@@ -199,15 +199,15 @@ setValue                                        = _setValue@16
 setVectorElement                                = _setVectorElement@16
 simulate                                        = _simulate@4
 simulateEx                                      = _simulateEx@24
-simulateJobs                                    = _simulateJobs@8
-simulateJob                                     = _simulateJob@4
+
+
 steadyState                                     = _steadyState@8
 stringArrayToString                             = _stringArrayToString@4
 unLoadModel                                     = _unLoadModel@4
 unLoadPlugins                                   = _unLoadPlugins@4
 vectorToString                                  = _vectorToString@4
-waitForJob                                      = _waitForJob@4
-waitForJobs                                     = _waitForJobs@4
+
+
 writeMultipleRRData                             = _writeMultipleRRData@8
 writeRRData                                     = _writeRRData@8
 createRRPluginManager                           = _createRRPluginManager@4
