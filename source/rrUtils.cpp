@@ -329,7 +329,7 @@ vector<string> getLinesInFile(const string& fName)
     return lines;
 }
 
-std::size_t indexOf(std::vector<std::string>& vec, const std::string& elem )
+std::size_t indexOf(const std::vector<std::string>& vec, const std::string& elem )
 {
     int index = distance(vec.begin(), find(vec.begin(), vec.end(), elem));
     return index;

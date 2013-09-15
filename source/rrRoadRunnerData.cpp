@@ -50,7 +50,7 @@ int RoadRunnerData::rSize() const
     return mTheData.RSize();
 }
 
-double RoadRunnerData::getTimeStart()
+double RoadRunnerData::getTimeStart() const
 {
     //Find time column
     int timeCol = rr::indexOf(mColumnNames, "time");
@@ -61,7 +61,7 @@ double RoadRunnerData::getTimeStart()
     return gDoubleNaN;
 }
 
-double RoadRunnerData::getTimeEnd()
+double RoadRunnerData::getTimeEnd() const
 {
     //Find time column
     int timeCol = rr::indexOf(mColumnNames, "time");
@@ -171,7 +171,7 @@ string RoadRunnerData::getColumnName(const int col) const
     return "Bad Column..";
 }
 
-int RoadRunnerData::getColumnIndex(const string& colName)
+int RoadRunnerData::getColumnIndex(const string& colName) const
 {
     return rr::indexOf(mColumnNames, colName);
 }
@@ -292,7 +292,7 @@ bool RoadRunnerData::loadSimpleFormat(const string& fName)
     return true;
 }
 
-bool RoadRunnerData::writeTo(const string& fileName)
+bool RoadRunnerData::writeTo(const string& fileName) const
 {
     ofstream aFile(fileName.c_str());
     if(!aFile)
@@ -487,6 +487,16 @@ istream& operator >> (istream& ss, RoadRunnerData& data)
     }
 
     return ss;
+}
+
+const DoubleMatrix& RoadRunnerData::getData() const
+{
+    return mTheData;
+}
+
+const DoubleMatrix& RoadRunnerData::getWeights() const
+{
+    return mWeights;
 }
 
 }//namespace

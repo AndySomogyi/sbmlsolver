@@ -296,7 +296,13 @@ RoadRunnerData LMFitThread::createModelData()
         mRRI->setValue(mLMData.parameterLabels[i], mLMData.parameters[i]);
     }
 
-    if(mRRI->simulate2Ex(mLMData.timeStart, mLMData.timeEnd, mLMData.nrOfTimePoints))
+    SimulateOptions options;
+    options.startTime = mLMData.timeStart;
+    options.endTime = mLMData.timeEnd;
+    options.nDataPoints = mLMData.nrOfTimePoints;
+    options.flags = options.flags | SimulateOptions::ResetModel;
+
+    if(mRRI->simulate(&options))
     {
          modData = mRRI->getSimulationResult();
     }

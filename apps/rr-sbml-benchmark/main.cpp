@@ -117,7 +117,8 @@ int main(int argc, char** argv)
 
     roadRunner.setSimulationSettings(settings);
 
-    DoubleMatrix result = roadRunner.runSimulation();
+    const RoadRunnerData& data = *roadRunner.simulate(0);
+    const DoubleMatrix& result = data.getData();
 
     if (!output_filename.empty())
     {

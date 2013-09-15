@@ -125,20 +125,25 @@ public:
      */
     string getTempFolder();
 
-    //Simulation stuff
-    DoubleMatrix simulate();
-    bool simulate2();
+    /**
+     * Carry out a single integration step using a stepsize as indicated
+     * in the method call. Arguments: double CurrentTime, double StepSize,
+     * bool: reset integrator if true, Return Value: new CurrentTime.
+     */
+    double oneStep(double currentTime, double stepSize, bool reset = true);
 
     /**
-     * Extension method to simulate (time start, time end, number of points).
-     * This routine resets the model to its initial condition before running
-     * the simulation (unlike simulate())"
+     * simulate the current SBML model.
+     *
+     * If options is null, then the current simulation settings (start time,
+     * end time, n steps) are used. If options is not null, then the
+     * current simulation settings are set to the values specified by
+     * options and they are used.
+     *
+     * @returns a RoadRunnerData object which is owned by the the RoadRunner
+     * object if successfull, 0 on failure.
      */
-    DoubleMatrix simulateEx(const double& startTime, const double& endTime,
-            const int& numberOfPoints);
-
-    bool simulate2Ex(const double& startTime = 0, const double& endTime = 5,
-            const int& numberOfPoints = 50);
+    const RoadRunnerData *simulate(const SimulateOptions* options = 0);
 
     double getValueForRecord(const SelectionRecord& record);
 
@@ -148,7 +153,7 @@ public:
     bool loadSimulationSettings(const string& fName);
     bool setSimulationSettings(const SimulationSettings& settings);
 
-    DoubleMatrix runSimulation();
+
     bool initializeModel();
 
     bool createDefaultSelectionLists();
@@ -203,12 +208,10 @@ public:
 
     vector<double> getReactionRates();
     vector<double> getRatesOfChange();
-    vector<string> getSpeciesIds();
+
     vector<string> getReactionIds();
 
-    // ---------------------------------------------------------------------
-    // Start of Level 2 API Methods
-    // ---------------------------------------------------------------------
+
     Capability* getCapability(const string& cap_name);
     string getCapabilitiesAsXML();
     vector<string> getListOfCapabilities();
@@ -235,14 +238,6 @@ public:
     void setTimeCourseSelectionList(
             const std::vector<std::string>& newSelectionList);
 
-    double oneStep(const double& currentTime, const double& stepSize);
-    double oneStep(const double& currentTime, const double& stepSize,
-            const bool& reset);
-
-    // ---------------------------------------------------------------------
-    // Start of Level 3 API Methods
-    // ---------------------------------------------------------------------
-
     /**
      * Compute the steady state of the model, returns the sum of squares of the solution
      */
@@ -267,9 +262,6 @@ public:
 
     vector<Complex> getEigenvaluesCpx();
 
-    // ---------------------------------------------------------------------
-    // Start of Level 4 API Methods
-    // ---------------------------------------------------------------------
     DoubleMatrix* getLinkMatrix();
     DoubleMatrix* getNrMatrix();
     DoubleMatrix* getL0Matrix();
@@ -283,8 +275,9 @@ public:
     DoubleMatrix getScaledFluxControlCoefficientMatrix();
     int getNumberOfDependentSpecies();
     int getNumberOfIndependentSpecies();
-    void computeContinuation(const double& stepSize,
-            const int& independentVariable, const string& parameterTypeStr);
+
+
+
     NewArrayList getUnscaledFluxControlCoefficientIds();
     NewArrayList getFluxControlCoefficientIds();
     NewArrayList getUnscaledConcentrationControlCoefficientIds();
@@ -297,17 +290,15 @@ public:
     void setSteadyStateSelectionList(const vector<string>& newSelectionList);
     double computeSteadyStateValue(const SelectionRecord& record);
     vector<double> computeSteadyStateValues();
-    vector<double> computeSteadyStateValues(const vector<string>& selection);
+
     vector<double> computeSteadyStateValues(
             const vector<SelectionRecord>& selection,
             const bool& computeSteadyState);
+
     double computeSteadyStateValue(const string& sId);
     vector<double> getSelectedValues();
 
     void computeAndAssignConservationLaws(const bool& bValue);
-    double* steadyStateParameterScan(const string& symbol,
-            const double& startValue, const double& endValue,
-            const double& stepSize);
 
     /**
      * Returns the SBML with the current parameterset.
@@ -324,8 +315,8 @@ public:
     vector<string> getRateOfChangeIds();
     vector<double> getRatesOfChangeEx(const vector<double>& values);
     vector<double> getReactionRatesEx(const vector<double>& values);
-    vector<string> getFloatingSpeciesIdsArray();
-    vector<string> getGlobalParameterIdsArray();
+
+
     vector<string> getConservedSumIds();
     int getNumberOfCompartments();
 
@@ -368,20 +359,22 @@ public:
     int getNumberOfGlobalParameters();
     void setGlobalParameterByIndex(const int& index, const double& value);
     double getGlobalParameterByIndex(const int& index);
-    void setGlobalParameterValues(const vector<double>& values);
+
+
+
     vector<double> getGlobalParameterValues();
     vector<string> getGlobalParameterIds();
-    vector<string> getAllGlobalParameterTupleList();
+
 
     void evalModel();
 
     //These functions are better placed in a separate file, as non class members, but part of the roadrunner namespace?
-    static string getName();
+
     static string getVersion();
     static string getExtendedVersionInfo(); //Include info about dependent libs versions..
-    static string getAuthor();
+
     static string getDescription();
-    static string getDisplayName();
+
     static string getCopyright();
     static string getURL();
 
@@ -422,20 +415,6 @@ public:
             bool computeSteadyState);
 
     /**
-     * Get a single species elasticity value
-     * IMPORTANT:
-     * Assumes that the reaction rates have been precomputed at the operating point !!
-     */
-    double getUnscaledSpeciesElasticity(int reactionId, int speciesIndex);
-
-    /**
-     * Returns the elasticity of a given reaction to a given parameter.
-     * Parameters can be boundary species or global parameters"
-     */
-    double getUnScaledElasticity(const string& reactionName,
-            const string& parameterName);
-
-    /**
      * Compute the unscaled species elasticity matrix at the current operating point
      */
     DoubleMatrix getUnscaledElasticityMatrix();
@@ -446,79 +425,17 @@ public:
     DoubleMatrix getScaledReorderedElasticityMatrix();
 
     /**
-     * Compute the unscaled elasticity for a given reaction and given species
-     */
-    double getUnscaledFloatingSpeciesElasticity(const string& reactionName,
-            const string& speciesName);
-
-    /**
      * Compute the scaled elasticity for a given reaction and given species
      */
     double getScaledFloatingSpeciesElasticity(const string& reactionName,
             const string& speciesName);
 
     /**
-     * Changes a given parameter type by the given increment
+     * Get a single species elasticity value
+     * IMPORTANT:
+     * Assumes that the reaction rates have been precomputed at the operating point !!
      */
-    void changeParameter(TParameterType::TParameterType parameterType,
-            int reactionIndex, int parameterIndex, double originalValue,
-            double increment);
-
-    /**
-     * Returns the unscaled elasticity for a named reaction with respect to a named parameter (local or global)
-     */
-    double getUnscaledParameterElasticity(const string& reactionName,
-            const string& parameterName);
-
-    /**
-     * Compute the value for a particular unscaled concentration control coefficients with respect to a local parameter
-     */
-    double getUnscaledConcentrationControlCoefficient(const string& speciesName,
-            const string& localReactionName, const string& parameterName);
-
-    /**
-     * Compute the value for a particular scaled concentration control coefficients with respect to a local parameter
-     */
-    double getScaledConcentrationControlCoefficient(const string& speciesName,
-            const string& localReactionName, const string& parameterName);
-
-    /**
-     * Compute the value for a particular concentration control coefficient, permitted parameters
-     * include global parameters, boundary conditions and conservation totals
-     */
-    double getUnscaledConcentrationControlCoefficient(const string& speciesName,
-            const string& parameterName);
-
-    /**
-     * Compute the value for a particular scaled concentration control coefficients with respect to a global or boundary species parameter
-     */
-    double getScaledConcentrationControlCoefficient(const string& speciesName,
-            const string& parameterName);
-
-    /**
-     * Compute the value for a particular unscaled flux control coefficients with respect to a local parameter
-     */
-    double getUnscaledFluxControlCoefficient(const string& fluxName,
-            const string& localReactionName, const string& parameterName);
-
-    /**
-     * Compute the value for a particular flux control coefficient, permitted parameters include global parameters,
-     * boundary conditions and conservation totals
-     */
-    double getUnscaledFluxControlCoefficient(const string& reactionName,
-            const string& parameterName);
-
-    /**
-     * Compute the value for a particular scaled flux control coefficients with respect to a local parameter
-     */
-    double getScaledFluxControlCoefficient(const string& reactionName,
-            const string& localReactionName, const string& parameterName);
-
-    /**
-     * Compute the value for a particular scaled flux control coefficients with respect to a global or boundary species parameter
-     */
-    double getScaledFluxControlCoefficient(const string& reactionName,
-            const string& parameterName);
+    double getUnscaledSpeciesElasticity(int reactionId, int speciesIndex);
 
 private:
     static int mInstanceCount;
@@ -572,7 +489,7 @@ private:
     void addNthOutputToResult(DoubleMatrix& results, int nRow,
             double dCurrentTime);
     bool populateResult();
-    bool isNleqAvailable();
+
 
     double getNthSelectedOutput(const int& index, const double& dCurrentTime);
 
