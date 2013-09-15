@@ -79,7 +79,7 @@ public:
 
     string getParamPromotedSBML(const string& sArg);
 
-    LibStructural* getLibStruct();
+
     string getInfo();
 
     vector<SelectionRecord> getSteadyStateSelection(const vector<string>& newSelectionList);
@@ -318,6 +318,9 @@ public:
 
 
     vector<string> getConservedSumIds();
+
+    vector<double> getConservedSums();
+
     int getNumberOfCompartments();
 
     /**
@@ -499,6 +502,11 @@ private:
     vector<string> getParameterIds();
 
     string createModelName(const string& mCurrentSBMLFileName);
+
+    /**
+     * the LibStruct is normally null, only created on demand here.
+     */
+    LibStructural* getLibStruct();
 
 };
 

@@ -500,6 +500,11 @@ bool RoadRunner::loadSBMLFromFile(const string& fileName, const LoadSBMLOptions 
     return loadSBML(sbml, options);
 }
 
+vector<double> RoadRunner::getConservedSums()
+{
+    return getLibStruct()->getConservedSums();
+}
+
 string RoadRunner::createModelName(const string& mCurrentSBMLFileName)
 {
     //Generate source code for the model

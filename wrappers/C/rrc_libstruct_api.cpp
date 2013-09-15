@@ -10,7 +10,7 @@
 namespace rrc
 {
 using namespace rr;
-using namespace ls;	//Libstruct namespace
+using namespace ls;    //Libstruct namespace
 
 
 ////////////////// ORIGINAL LIBSTRUCT C API Functionality
@@ -150,8 +150,8 @@ RRDoubleMatrixPtr rrCallConv getL0Matrix(RRHandle handle)
 {
     try
     {
-        RoadRunner* 	rri 		= castFrom(handle);
-        DoubleMatrix* 	tempMat 	= rri->getL0Matrix();
+        RoadRunner*     rri         = castFrom(handle);
+        DoubleMatrix*     tempMat     = rri->getL0Matrix();
         return createMatrix(tempMat);
     }
     catch_ptr_macro
@@ -447,15 +447,8 @@ RRVectorPtr getConservedSums(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle); //Will throw if it can't cast
-		if(rri->getLibStruct())
-        {
-	        vector<double> 	tempMat 	= rri->getLibStruct()->getConservedSums();
-	        return rrc::createVector(tempMat);
-        }
-        else
-        {
-        	return NULL;
- 	    }
+        vector<double> tempMat = rri->getConservedSums();
+        return rrc::createVector(tempMat);
     }
     catch_ptr_macro
 }
@@ -1164,15 +1157,15 @@ RRComplexMatrixPtr rrcCallConv getEigenVectors(const RRDoubleMatrixPtr inMatrix)
 {
     try
     {
-    	DoubleMatrix* mat =  createMatrix(inMatrix);
+        DoubleMatrix* mat =  createMatrix(inMatrix);
         if(mat)
         {
-        	ComplexMatrix* cMat  = ls::getEigenVectors((*mat));
+            ComplexMatrix* cMat  = ls::getEigenVectors((*mat));
             return createMatrix(cMat);
         }
         else
         {
-        	return NULL;
+            return NULL;
         }
     }
     catch_ptr_macro
@@ -1213,10 +1206,10 @@ RRComplexMatrixPtr rrcCallConv getZEigenVectors(RRComplexMatrixPtr inMatrix)
         {
             for (int j = 0; j < inMatrix->CSize; j++)
             {
-            	RRComplex value;
+                RRComplex value;
                 if(!getComplexMatrixElement(inMatrix, i, j, &value))
                 {
-                	throw(Exception("Failed getting element in Complex matrix"));
+                    throw(Exception("Failed getting element in Complex matrix"));
                 }
 
                 mat(i,j).set(value.re, value.imag);

@@ -79,48 +79,13 @@
 %template (IntMatrixTemplate) ls::Matrix<int>;
 
 
-%include <lsLUResult.h>
-%include <lsUtils.h>
-
-
 
 // %include <rrStringList.h>
 // %include <lsLibla.h>
 // %include <lsLA.h>
 //have to ignore API fcns which have no implementation to avod link errors
 
-%ignore rr::RoadRunner::computeContinuation;
-%ignore rr::RoadRunner::getSpeciesIds;
-%ignore rr::RoadRunner::steadyStateParameterScan;
-%ignore rr::RoadRunner::setLocalParameterByIndex;
-%ignore rr::RoadRunner::setLocalParameterValues;
-%ignore rr::RoadRunner::getLocalParameterIds;
-%ignore rr::RoadRunner::getAllLocalParameterTupleList;
-%ignore rr::RoadRunner::setCompartmentVolumes;
-%ignore rr::RoadRunner::setGlobalParameterValues;
-%ignore rr::RoadRunner::getAllGlobalParameterTupleList;
-%ignore rr::RoadRunner::getName;
-%ignore rr::RoadRunner::getAuthor;
-%ignore rr::RoadRunner::getDisplayName;
-%ignore rr::RoadRunner::loadPlugins;
-%ignore rr::RoadRunner::unLoadPlugins;
-%ignore rr::RoadRunner::getUnScaledElasticity;
-%ignore rr::RoadRunner::getUnscaledFloatingSpeciesElasticity;
-%ignore rr::RoadRunner::changeParameter;
-%ignore rr::RoadRunner::getUnscaledParameterElasticity;
-%ignore rr::RoadRunner::getUnscaledConcentrationControlCoefficient;
-%ignore rr::RoadRunner::getScaledConcentrationControlCoefficient;
-%ignore rr::RoadRunner::getUnscaledConcentrationControlCoefficient;
-%ignore rr::RoadRunner::getScaledConcentrationControlCoefficient;
-%ignore rr::RoadRunner::getUnscaledFluxControlCoefficient;
-%ignore rr::RoadRunner::getUnscaledFluxControlCoefficient;
-%ignore rr::RoadRunner::getScaledFluxControlCoefficient;
-%ignore rr::RoadRunner::getScaledFluxControlCoefficient;
-%ignore rr::RoadRunner::computeSteadyStateValues;
-%ignore rr::RoadRunner::getSelectedValues;
-%ignore rr::RoadRunner::getLocalParameterValues;
-%ignore rr::RoadRunner::getFloatingSpeciesIdsArray;
-%ignore rr::RoadRunner::getGlobalParameterIdsArray;
+
 
 %template (mapStringDouble) std::map<std::string, double>;
 
