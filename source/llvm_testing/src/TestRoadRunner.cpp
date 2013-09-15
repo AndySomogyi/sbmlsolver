@@ -100,7 +100,13 @@ void TestRoadRunner::loadSBML(const std::string& compiler)
 
 void TestRoadRunner::simulate()
 {
-    if(!rr->simulate2Ex(rr->getTimeStart(), rr->getTimeEnd(), rr->getNumPoints()))
+    SimulateOptions options;
+    options.startTime = rr->getTimeStart();
+    options.endTime = rr->getTimeEnd();
+    options.nDataPoints = rr->getNumPoints();
+    options.flags = options.flags | SimulateOptions::ResetModel;
+
+    if (!rr->simulate(&options))
     {
         throw Exception("Simulation Failed");
     }

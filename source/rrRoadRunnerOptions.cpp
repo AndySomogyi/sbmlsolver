@@ -21,7 +21,11 @@ LoadSBMLOptions::LoadSBMLOptions()
 
 SimulateOptions::SimulateOptions()
 {
+    startTime = 0.0;
+    endTime = 5.0;
+    nDataPoints = 50;
 
+    flags = 0;
 }
 
 } /* namespace rr */

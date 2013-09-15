@@ -317,7 +317,7 @@ bool SBMLModelSimulation::Simulate()
         return false;
     }
 
-    return mEngine->simulate2();
+    return mEngine->simulate(0) != 0;
 }
 
 bool SBMLModelSimulation::SaveResult()

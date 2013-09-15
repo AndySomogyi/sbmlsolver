@@ -468,54 +468,6 @@ void RoadRunner::addNthOutputToResult(DoubleMatrix& results, int nRow, double dC
     }
 }
 
-DoubleMatrix RoadRunner::runSimulation()
-{
-    if (mNumPoints <= 1)
-    {
-        mNumPoints = 2;
-    }
-
-    double hstep = (mTimeEnd - mTimeStart) / (mNumPoints - 1);
-    int nrCols = mSelectionList.size();
-    if(!nrCols)
-    {
-        nrCols = createDefaultTimeCourseSelectionList();
-    }
-
-    DoubleMatrix results(mNumPoints, nrCols);
-
-    if(!mModel)
-    {
-        return results;
-    }
-
-    // evalute the model with its current state
-    mModel->evalModel(mTimeStart, 0, 0);
-
-    addNthOutputToResult(results, 0, mTimeStart);
-
-    //Todo: Don't understand this code.. MTK
-    if (mCVode->haveVariables())
-    {
-        mCVode->reStart(mTimeStart, mModel);
-    }
-
-    double tout = mTimeStart;
-
-    //The simulation is executed right here..
-    Log(Logger::PRIO_DEBUG)<<"Will run the OneStep function "<<mNumPoints<<" times";
-    for (int i = 1; i < mNumPoints; i++)
-    {
-        Log(Logger::PRIO_DEBUG)<<"Step "<<i;
-        mCVode->oneStep(tout, hstep);
-        tout = mTimeStart + i * hstep;
-        addNthOutputToResult(results, i, tout);
-    }
-    Log(Logger::PRIO_DEBUG)<<"Simulation done..";
-
-    return results;
-}
-
 
 
 bool RoadRunner::loadSBMLFromFile(const string& fileName, const LoadSBMLOptions *options)
@@ -684,53 +636,6 @@ void RoadRunner::reset()
     }
 }
 
-DoubleMatrix RoadRunner::simulate()
-{
-    try
-    {
-        if (!mModel)
-        {
-            throw Exception(gEmptyModelMessage);
-        }
-
-        if (mTimeEnd <= mTimeStart)
-        {
-            throw Exception("Error: time end must be greater than time start");
-        }
-        return runSimulation();
-    }
-    catch (const Exception& e)
-    {
-        stringstream msg;
-        msg<<"Problem in simulate: "<<e.Message();
-        Log(lError)<<msg.str();
-
-        throw(CoreException(msg.str()));
-    }
-
-}
-
-bool RoadRunner::simulate2()
-{
-    if(!mModel)
-    {
-        Log(lError)<<"No model is loaded, can't simulate..";
-        throw(Exception("There is no model loaded, can't simulate"));
-    }
-
-     mRawRoadRunnerData = simulateEx(mTimeStart, mTimeEnd, mNumPoints);
-
-    //Populate simulation result
-    populateResult();
-    return true;
-}
-
-bool RoadRunner::simulate2Ex(const double& startTime, const double& endTime, const int& numberOfPoints)
-{
-    simulateEx(startTime, endTime, numberOfPoints);
-    return true;
-}
-
 bool RoadRunner::populateResult()
 {
     vector<string> list = getTimeCourseSelectionList();
@@ -740,35 +645,6 @@ bool RoadRunner::populateResult()
     return true;
 }
 
-
-DoubleMatrix RoadRunner::simulateEx(const double& startTime, const double& endTime, const int& numberOfPoints)
-{
-    try
-    {
-        if (!mModel)
-        {
-            throw CoreException(gEmptyModelMessage);
-        }
-
-        reset(); // reset back to initial conditions
-
-        if (endTime < 0 || startTime < 0 || numberOfPoints <= 0 || endTime <= startTime)
-        {
-            throw CoreException("Illegal input to simulateEx");
-        }
-
-        mTimeEnd            = endTime;
-        mTimeStart          = startTime;
-        mNumPoints          = numberOfPoints;
-        mRawRoadRunnerData  = runSimulation();
-        populateResult();
-        return mRawRoadRunnerData;
-    }
-    catch(const Exception& e)
-    {
-        throw CoreException("Unexpected error from simulateEx()", e.Message());
-    }
-}
 
 vector<string> RoadRunner::getTimeCourseSelectionList()
 {
@@ -1322,18 +1198,8 @@ void RoadRunner::setTimeCourseSelectionList(const vector<string>& _selList)
     }
 }
 
-// Help(
-// "Carry out a single integration step using a stepsize as indicated in the method call (the intergrator is reset to take into account all variable changes). Arguments: double CurrentTime, double StepSize, Return Value: new CurrentTime."
-//            )
-double RoadRunner::oneStep(const double& currentTime, const double& stepSize)
-{
-    return oneStep(currentTime, stepSize, true);
-}
 
-//Help(
-//   "Carry out a single integration step using a stepsize as indicated in the method call. Arguments: double CurrentTime, double StepSize, bool: reset integrator if true, Return Value: new CurrentTime."
-//   )
-double RoadRunner::oneStep(const double& currentTime, const double& stepSize, const bool& reset)
+double RoadRunner::oneStep(const double currentTime, const double stepSize, const bool reset)
 {
     if (!mModel)
     {
@@ -3896,7 +3762,87 @@ vector<double> RoadRunner::getSelectedValues()
     return result;
 }
 
+const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* options)
+{
+    // make an options if we don't get one.
+    SimulateOptions *pOptions = 0;
 
+    if (!mModel)
+    {
+        throw CoreException(gEmptyModelMessage);
+    }
+
+    if (options == 0)
+    {
+        pOptions = new SimulateOptions();
+        pOptions->endTime = mTimeEnd;
+        pOptions->startTime = mTimeStart;
+        pOptions->nDataPoints = mNumPoints;
+        options = pOptions;
+    }
+
+    if (options->flags & SimulateOptions::ResetModel)
+    {
+        reset(); // reset back to initial conditions
+    }
+
+    if (options->endTime < 0 || options->startTime < 0
+            || options->nDataPoints <= 0 || options->endTime
+            <= options->startTime)
+    {
+        throw CoreException("Illegal input to simulate");
+    }
+
+    mTimeEnd = options->endTime;
+    mTimeStart = options->startTime;
+    mNumPoints = options->nDataPoints;
+
+    if (mNumPoints <= 1)
+    {
+        mNumPoints = 2;
+    }
+
+    double hstep = (mTimeEnd - mTimeStart) / (mNumPoints - 1);
+    int nrCols = mSelectionList.size();
+
+    if(!nrCols)
+    {
+        nrCols = createDefaultTimeCourseSelectionList();
+    }
+
+    // ignored if same
+    mRawRoadRunnerData.resize(mNumPoints, nrCols);
+
+    // evalute the model with its current state
+    mModel->evalModel(mTimeStart, 0, 0);
+
+    addNthOutputToResult(mRawRoadRunnerData, 0, mTimeStart);
+
+    //Todo: Don't understand this code.. MTK
+    if (mCVode->haveVariables())
+    {
+        mCVode->reStart(mTimeStart, mModel);
+    }
+
+    double tout = mTimeStart;
+
+    //The simulation is executed right here..
+    Log(Logger::PRIO_DEBUG)<<"Will run the OneStep function "<<mNumPoints<<" times";
+    for (int i = 1; i < mNumPoints; i++)
+    {
+        Log(Logger::PRIO_DEBUG)<<"Step "<<i;
+        mCVode->oneStep(tout, hstep);
+        tout = mTimeStart + i * hstep;
+        addNthOutputToResult(mRawRoadRunnerData, i, tout);
+    }
+    Log(Logger::PRIO_DEBUG)<<"Simulation done..";
+
+    // set the data into the RoadRunnerData struct
+    populateResult();
+
+    delete pOptions;
+    return &mRoadRunnerData;
+}
 
 }//namespace
 

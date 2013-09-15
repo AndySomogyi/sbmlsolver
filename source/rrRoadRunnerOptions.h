@@ -97,12 +97,27 @@ struct RR_DECLSPEC LoadSBMLOptions
  */
 struct RR_DECLSPEC SimulateOptions
 {
+    enum Options
+    {
+        /**
+         * reset the model to the initial state.
+         */
+        ResetModel = (0x1 << 0), // => 0x00000001
+    };
+
+    /**
+     * init with default options.
+     */
     SimulateOptions();
 
     double startTime;
     double endTime;
-    int numberOfDataPoints;
+    int nDataPoints;
 
+    /**
+     * a bitmask of the options specified in the Options enumeration.
+     */
+    uint32_t flags;
 };
 
 

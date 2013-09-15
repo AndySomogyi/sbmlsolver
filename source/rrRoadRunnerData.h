@@ -55,7 +55,7 @@ public:
     std::string getColumnName(const int col) const;
     std::string getColumnNamesAsString() const;
     void setColumnNames(const std::vector<std::string>& colNames);
-    int getColumnIndex(const std::string& colName);
+    int getColumnIndex(const std::string& colName) const;
 
     void setTimeDataPrecision(const int& prec);
     void setDataPrecision(const int& prec);
@@ -81,7 +81,7 @@ public:
      * populate from a csv file.
      */
     bool loadSimpleFormat(const std::string& fileName);
-    bool writeTo(const std::string& fileName);
+    bool writeTo(const std::string& fileName) const;
     bool check() const;    //Check if containst proper data
 
     RR_DECLSPEC
@@ -100,8 +100,13 @@ public:
     std::string getName() const;
     std::pair<int, int> dimension() const;
     bool append(const RoadRunnerData& data);
-    double getTimeStart();
-    double getTimeEnd();
+    double getTimeStart() const;
+    double getTimeEnd() const;
+
+    const DoubleMatrix& getData() const;
+
+    const DoubleMatrix& getWeights() const;
+
 
 protected:
     std::vector<std::string> mColumnNames;
