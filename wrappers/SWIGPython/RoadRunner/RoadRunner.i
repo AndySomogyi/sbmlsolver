@@ -1,6 +1,8 @@
 
 // Module Name
-%module("threads"=1) RoadRunner
+%module(docstring="The RoadRunner SBML Simulation Engine,
+(c) 2009-2013 Herbert Sauro, Andy Somogyi and Totte Karlsson", "threads"=1) RoadRunner
+
 
 //%module Example
 // ************************************************************
@@ -88,6 +90,28 @@
             NPY_CARRAY, NULL);
     $result  = pArray;
 }
+
+%feature("docstring") rr::RoadRunner "
+    The main RoadRunner class.
+
+    All three of the RoadRunner options default to the empty string, in this
+    case, the default values are used.
+
+    @param compiler: if LLVM build is enabled, the compiler defaults to LLVM.
+    @param tempDir: typically ignored, only used by the old C RoadRunner.
+    @param supportCodeDir: typically ignored, only used by the old C RoadRunner";
+
+%feature("docstring") rr::RoadRunner::simulate "
+    simulate the current SBML model.
+
+    If options is null, then the current simulation settings (start time,
+    end time, n steps) are used. If options is not null, then the
+    current simulation settings are set to the values specified by
+    options and they are used.
+
+    @returns a numpy array with each selected output timeseries being a
+    column vector, and the 0'th column is the simulation time.";
+
 
 %{
     #define SWIG_FILE_WITH_INIT
