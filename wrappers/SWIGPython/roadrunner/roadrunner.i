@@ -1,7 +1,7 @@
 
 // Module Name
 %module(docstring="The RoadRunner SBML Simulation Engine,
-(c) 2009-2013 Herbert Sauro, Andy Somogyi and Totte Karlsson", "threads"=1) RoadRunner
+(c) 2009-2013 Herbert Sauro, Andy Somogyi and Totte Karlsson", "threads"=1) roadrunner
 
 
 //%module Example

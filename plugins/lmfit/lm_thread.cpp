@@ -304,7 +304,7 @@ RoadRunnerData LMFitThread::createModelData()
 
     if(mRRI->simulate(&options))
     {
-         modData = mRRI->getSimulationResult();
+         modData = *mRRI->getSimulationResult();
     }
     return modData;
 }

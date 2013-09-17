@@ -2,8 +2,8 @@
 #define rrRoadRunnerH
 
 #include "rr-libstruct/lsMatrix.h"
-#include "rrTVariableType.h"
-#include "rrTParameterType.h"
+#include "rrVariableType.h"
+#include "rrParameterType.h"
 #include "rrSelectionRecord.h"
 #include "rrRoadRunnerData.h"
 #include "rrSimulationSettings.h"
@@ -74,10 +74,10 @@ public:
 
     bool computeAndAssignConservationLaws();
 
-    void setParameterValue(const TParameterType::TParameterType parameterType,
+    void setParameterValue(const ParameterType::ParameterType parameterType,
             const int parameterIndex, const double value);
 
-    double getParameterValue(const TParameterType::TParameterType parameterType,
+    double getParameterValue(const ParameterType::ParameterType parameterType,
             const int parameterIndex);
 
     string getParamPromotedSBML(const string& sArg);
@@ -150,8 +150,12 @@ public:
 
     double getValueForRecord(const SelectionRecord& record);
 
-    RoadRunnerData getSimulationResult();   //Todo: should probably be removed..
-    RoadRunnerData* getRoadRunnerData();
+    /**
+     * obtain a pointer to the simulation result.
+     *
+     * This is owned by the RoadRunner object.
+     */
+    RoadRunnerData *getSimulationResult();
 
     bool loadSimulationSettings(const string& fName);
     bool setSimulationSettings(const SimulationSettings& settings);
@@ -499,7 +503,7 @@ private:
 
     double getNthSelectedOutput(const int& index, const double& dCurrentTime);
 
-    double getVariableValue(const TVariableType::TVariableType variableType,
+    double getVariableValue(const VariableType::VariableType variableType,
             const int variableIndex);
 
     vector<string> getParameterIds();

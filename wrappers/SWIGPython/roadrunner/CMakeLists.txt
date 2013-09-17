@@ -17,18 +17,18 @@ include_directories(
 
 
 
-SET_SOURCE_FILES_PROPERTIES(RoadRunner.i  PROPERTIES CPLUSPLUS ON)
-# SET_SOURCE_FILES_PROPERTIES(CompuCellPython.i CompuCellAuxPython.i PROPERTIES SWIG_FLAGS "-includeall")
-SWIG_ADD_MODULE(RoadRunner python RoadRunner.i)
+SET_SOURCE_FILES_PROPERTIES(roadrunner.i  PROPERTIES CPLUSPLUS ON)
+
+SWIG_ADD_MODULE(roadrunner python roadrunner.i)
 
 
 
 if(WIN32)
     # changes dll name to pyd sop that it is compatible with new Python standard
-    SET_TARGET_PROPERTIES(_RoadRunner PROPERTIES SUFFIX ".pyd")
+    SET_TARGET_PROPERTIES(_roadrunner PROPERTIES SUFFIX ".pyd")
     
     
-    set_property(TARGET _RoadRunner
+    set_property(TARGET _roadrunner
         PROPERTY  COMPILE_DEFINITIONS
         EXPORT_RRC
         LIBSBML_STATIC
@@ -39,7 +39,7 @@ if(WIN32)
         STATIC_RR
         )
     
-    SWIG_LINK_LIBRARIES ( RoadRunner
+    SWIG_LINK_LIBRARIES ( roadrunner
         roadrunner-static
         ${PYTHON_LIBRARIES}
         )
@@ -52,10 +52,10 @@ else(WIN32)
     
     if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
         # Linux specific code
-        SET_TARGET_PROPERTIES(_RoadRunner PROPERTIES LINK_FLAGS "-Wl,--no-undefined")
+        SET_TARGET_PROPERTIES(_roadrunner PROPERTIES LINK_FLAGS "-Wl,--no-undefined")
     endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     
-    set_property(TARGET _RoadRunner
+    set_property(TARGET _roadrunner
         PROPERTY  COMPILE_DEFINITIONS
         LIBSBML_STATIC
         LIBLAX_STATIC
@@ -63,7 +63,7 @@ else(WIN32)
         STATIC_LIBSTRUCT
         )
     
-    SWIG_LINK_LIBRARIES ( RoadRunner
+    SWIG_LINK_LIBRARIES ( roadrunner
         roadrunner-static
         rr-libstruct-static
         nleq-static
@@ -88,9 +88,9 @@ else(WIN32)
 endif(WIN32)
 
 
-install_targets(/lib/python _RoadRunner)
+install_targets(/lib/python _roadrunner)
 
-set(python_files_path ${CMAKE_BINARY_DIR}/wrappers/SWIGPython/RoadRunner/)
+set(python_files_path ${CMAKE_BINARY_DIR}/wrappers/SWIGPython/roadrunner/)
 
 #THIS IS EXAMPLE OF WORKING COMMAND
 # ADD_CUSTOM_COMMAND(
@@ -101,5 +101,5 @@ set(python_files_path ${CMAKE_BINARY_DIR}/wrappers/SWIGPython/RoadRunner/)
 #
 # ADD_CUSTOM_TARGET(_swigmodifier ALL DEPENDS CompuCell.py.mod)
 
-INSTALL(FILES ${python_files_path}/RoadRunner.py
+INSTALL(FILES ${python_files_path}/roadrunner.py
     DESTINATION lib/python)
