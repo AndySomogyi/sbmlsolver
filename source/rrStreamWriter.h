@@ -2,7 +2,7 @@
 #define rrStreamWriterH
 #include <fstream>
 #include <string>
-#include "rrObject.h"
+#include "rrExporter.h"
 
 using std::ofstream;
 using std::string;

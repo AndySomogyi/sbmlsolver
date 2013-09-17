@@ -1,7 +1,7 @@
 #ifndef rrRandomH
 #define rrRandomH
 //---------------------------------------------------------------------------
-#include "rrObject.h"
+#include "rrExporter.h"
 #include "mtrand/mtrand.h"
 
 namespace rr

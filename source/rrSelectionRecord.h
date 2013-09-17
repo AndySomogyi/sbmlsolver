@@ -4,14 +4,12 @@
 #include <iomanip>
 #include <ostream>
 #include "rrExporter.h"
-#include "rrObject.h"
+#include <string>
 //---------------------------------------------------------------------------
 namespace rr
 {
-namespace SelectionType
-{
-
-}
+using std::string;
+using std::ostream;
 
 class RR_DECLSPEC SelectionRecord
 {

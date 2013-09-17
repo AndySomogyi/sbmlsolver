@@ -2,11 +2,15 @@
 #define rrModelSharedLibraryH
 //---------------------------------------------------------------------------
 #include "Poco/SharedLibrary.h"
-#include "rrObject.h"
+#include "rrExporter.h"
+#include <string>
+
+
 
 namespace rr
 {
 
+using std::string;
 using Poco::SharedLibrary;
 
 /**
@@ -16,26 +20,26 @@ using Poco::SharedLibrary;
  */
 class RR_DECLSPEC ModelSharedLibrary
 {
-	protected:
-		string 							mLibName;
-		string							mPathToLib;
-		SharedLibrary					mTheLib;
+    protected:
+        string                             mLibName;
+        string                            mPathToLib;
+        SharedLibrary                    mTheLib;
 
     public:
-										ModelSharedLibrary(const string& pathToLib = "");
+                                        ModelSharedLibrary(const string& pathToLib = "");
                                        ~ModelSharedLibrary();
 
-		bool							setPath(const string& pathTo);
-    	string							createName(const string& name = "");
-		string							getName();
-		string							getFullFileName();
+        bool                            setPath(const string& pathTo);
+        string                            createName(const string& name = "");
+        string                            getName();
+        string                            getFullFileName();
 
-        bool							load();
-        bool							load(const string& name);
-        bool							unload();
-		bool							isLoaded();
-        void*							getSymbol(const string& name);
-        bool							hasSymbol(const string& name);
+        bool                            load();
+        bool                            load(const string& name);
+        bool                            unload();
+        bool                            isLoaded();
+        void*                            getSymbol(const string& name);
+        bool                            hasSymbol(const string& name);
 
 };
 }

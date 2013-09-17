@@ -45,9 +45,7 @@
 #ifndef MTRAND_H
 #define MTRAND_H
 
-#include "rrObject.h"
-
-using namespace rr;
+#include "rrExporter.h"
 
 class RR_DECLSPEC  MTRand_int32
 { // Mersenne Twister random number generator

@@ -3,7 +3,7 @@
 #include "pugi/pugixml.hpp"
 //---------------------------------------------------------------------------
 
-#include "rrObject.h"
+#include "rrExporter.h"
 
 namespace rr
 {

@@ -1,7 +1,7 @@
 #ifndef rrPendingAssignmentH
 #define rrPendingAssignmentH
 #include <vector>
-#include "rrObject.h"
+#include "rrExporter.h"
 #include "rrModelData.h"
 
 namespace rr

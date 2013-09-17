@@ -1,7 +1,9 @@
 #ifndef rrTokenH
 #define rrTokenH
-#include "rrObject.h"
+#include "rrExporter.h"
 #include "rrCodeTypes.h"
+
+#include <string>
 
 namespace rr
 {
@@ -12,7 +14,7 @@ public:
     CodeTypes::CodeTypes tokenCode;
     double tokenDouble;
     int tokenInteger;
-    string tokenString;
+    std::string tokenString;
     double tokenValue; // Used to retrieve int or double
     Token(const CodeTypes::CodeTypes& code = CodeTypes::tEmptyToken);
 };

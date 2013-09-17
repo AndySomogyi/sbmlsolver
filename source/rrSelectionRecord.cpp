@@ -8,6 +8,8 @@
 namespace rr
 {
 
+using namespace std;
+
 SelectionRecord::SelectionRecord(const int& _index,
         const SelectionType _type, const string& _p1,
         const string& _p2) :

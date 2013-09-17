@@ -1,11 +1,12 @@
 #ifndef rrEventH
 #define rrEventH
-#include "rrObject.h"
 #include "rrRandom.h"
-//---------------------------------------------------------------------------
+#include "rrExporter.h"
+#include <ostream>
+
+
 namespace rr
 {
-
 
 class RR_DECLSPEC Event
 {

@@ -2,7 +2,7 @@
 #define rrSBMLModelSimulationH
 //---------------------------------------------------------------------------
 #include <string>
-#include "rrObject.h"
+#include "rrExporter.h"
 #include "rrStringUtils.h"
 #include "rrSimulationSettings.h"
 #include "rrRoadRunnerData.h"

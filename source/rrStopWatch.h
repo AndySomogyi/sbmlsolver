@@ -1,26 +1,26 @@
 #ifndef rrStopWatchH
 #define rrStopWatchH
 //---------------------------------------------------------------------------
-#include "rrObject.h"
+#include "rrExporter.h"
 
 namespace rr
 {
 
-class RR_DECLSPEC StopWatch 
+class RR_DECLSPEC StopWatch
 {
     private:
-        int			 		mStartTime;			//Ticks...
-        int			 		mTotalTime;
-        bool 				mIsRunning;
-        int					GetMilliSecondCount();
-        int					GetMilliSecondSpan();
+        int                     mStartTime;            //Ticks...
+        int                     mTotalTime;
+        bool                 mIsRunning;
+        int                    GetMilliSecondCount();
+        int                    GetMilliSecondSpan();
 
     public:
-        					StopWatch();
-        				   ~StopWatch();
-        int 				Start();
-        int 				Stop();
-        double 				GetTime();
+                            StopWatch();
+                           ~StopWatch();
+        int                 Start();
+        int                 Stop();
+        double                 GetTime();
 };
 }
 

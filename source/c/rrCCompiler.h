@@ -3,7 +3,6 @@
 #include <vector>
 #include <string>
 #include "rrCompiler.h"
-#include "rrObject.h"
 #include "rrStringList.h"
 
 using std::vector;

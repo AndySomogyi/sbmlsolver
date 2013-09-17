@@ -1,7 +1,7 @@
 #ifndef rrPluginManagerH
 #define rrPluginManagerH
 #include <vector>
-#include "rrObject.h"
+#include "rrExporter.h"
 #include "rrStringList.h"
 #include "Poco/SharedLibrary.h"
 //---------------------------------------------------------------------------
@@ -16,32 +16,32 @@ using Poco::SharedLibrary;
 
 class RR_DECLSPEC PluginManager
 {
-	private:
-        string			   			mPluginFolder;
-        string			   			mPluginExtension;	//Different on different OS's
+    private:
+        string                           mPluginFolder;
+        string                           mPluginExtension;    //Different on different OS's
 
-        vector< pair< Poco::SharedLibrary*, Plugin* > >	mPlugins;
+        vector< pair< Poco::SharedLibrary*, Plugin* > >    mPlugins;
 
-        RoadRunner		   			*mRR;		//This is a handle to the roadRunner instance, creating the pluginManager
-		bool						checkImplementationLanguage(SharedLibrary* plugin);
-		const char* 				getImplementationLanguage(SharedLibrary* plugin);
-        Plugin* 					createCPlugin(SharedLibrary *libHandle);
+        RoadRunner                       *mRR;        //This is a handle to the roadRunner instance, creating the pluginManager
+        bool                        checkImplementationLanguage(SharedLibrary* plugin);
+        const char*                 getImplementationLanguage(SharedLibrary* plugin);
+        Plugin*                     createCPlugin(SharedLibrary *libHandle);
 
     public:
-	    				           	PluginManager(const std::string& pluginFolder = "", const bool& autoLoad = false, RoadRunner* aRR = NULL);
-        				           ~PluginManager();
-		bool			           	setPluginFolder(const string& dir);
-		string			           	getPluginFolder();
-		bool 			           	load(const string& pluginName = "");
-		bool 			           	loadPlugin(const string& sharedLib);
-		bool 			           	unload();
-        int				           	getNumberOfPlugins();
-		int                         getNumberOfCategories();
-        Plugin*			           	getPlugin(const int& i);
-        Plugin*			           	getPlugin(const string& name);
-        Plugin*	   					operator[](const int& i);
-        void						setRoadRunnerInstance(RoadRunner* aRR);
-        StringList					getPluginNames();
+                                       PluginManager(const std::string& pluginFolder = "", const bool& autoLoad = false, RoadRunner* aRR = NULL);
+                                   ~PluginManager();
+        bool                           setPluginFolder(const string& dir);
+        string                           getPluginFolder();
+        bool                            load(const string& pluginName = "");
+        bool                            loadPlugin(const string& sharedLib);
+        bool                            unload();
+        int                               getNumberOfPlugins();
+        int                         getNumberOfCategories();
+        Plugin*                           getPlugin(const int& i);
+        Plugin*                           getPlugin(const string& name);
+        Plugin*                           operator[](const int& i);
+        void                        setRoadRunnerInstance(RoadRunner* aRR);
+        StringList                    getPluginNames();
 
 };
 

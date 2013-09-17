@@ -1,6 +1,5 @@
 #ifndef rrCodeTypesH
 #define rrCodeTypesH
-#include "rrObject.h"
 
 namespace rr
 {

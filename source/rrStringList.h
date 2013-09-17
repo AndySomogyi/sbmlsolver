@@ -2,7 +2,7 @@
 #define rrStringListH
 #include <vector>
 #include <string>
-#include "rrObject.h"
+#include "rrConstants.h"
 #include "../wrappers/C/rrc_types.h"
 
 namespace rr
@@ -12,7 +12,7 @@ using std::string;
 using std::ostream;
 
 
-class RR_DECLSPEC StringList 
+class RR_DECLSPEC StringList
 {
     protected:
 

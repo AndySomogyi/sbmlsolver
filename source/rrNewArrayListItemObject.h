@@ -1,7 +1,7 @@
 #ifndef rrNewArrayListItemObjectH
 #define rrNewArrayListItemObjectH
 //---------------------------------------------------------------------------
-#include "rrObject.h"
+#include "rrExporter.h"
 
 namespace rr
 {

@@ -1,9 +1,15 @@
 #ifndef rrBaseParameterH
 #define rrBaseParameterH
-#include "rrObject.h"
+#include "rrExporter.h"
+#include <string>
+#include <ostream>
+
 //---------------------------------------------------------------------------
 namespace rr
 {
+
+using std::string;
+using std::ostream;
 
 //Base class for parameters. This class follows the "decorator" pattern.
 class RR_DECLSPEC BaseParameter

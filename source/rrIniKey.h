@@ -4,7 +4,7 @@
 #include <fstream>
 #include <string>
 #include <complex>
-#include "rrObject.h"
+#include "rrExporter.h"
 #include "rrStringUtils.h"
 #include "rrIniSection.h"
 
@@ -23,21 +23,21 @@ class RR_DECLSPEC IniKey
     protected:
         void SetupKey(const string& key);
 
-	public:
-		string	              	mKey;
-		string	              	mValue;
-		string	              	mComment;
+    public:
+        string                      mKey;
+        string                      mValue;
+        string                      mComment;
 
-				              	IniKey(const string& key = "");
-				               ~IniKey(){}
-        void 	              	ReKey(const string& key);
-        string 	              	AsString() const;
-        int 	              	AsBool() const;
-        int 	              	AsInt() const;
-        double 	              	AsFloat() const;
-        complex<double> 		AsComplex() const;
-		RR_DECLSPEC
-        friend ostream& 		operator<<(ostream& stream, const IniKey& aKey);
+                                  IniKey(const string& key = "");
+                               ~IniKey(){}
+        void                       ReKey(const string& key);
+        string                       AsString() const;
+        int                       AsBool() const;
+        int                       AsInt() const;
+        double                       AsFloat() const;
+        complex<double>         AsComplex() const;
+        RR_DECLSPEC
+        friend ostream&         operator<<(ostream& stream, const IniKey& aKey);
 };
 }
 

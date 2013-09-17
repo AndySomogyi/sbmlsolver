@@ -2,7 +2,7 @@
 #define rrStringListContainerH
 #include <vector>
 #include <string>
-#include "rrObject.h"
+#include "rrExporter.h"
 #include "rrStringList.h"
 using std::vector;
 using std::string;
@@ -10,7 +10,7 @@ using std::string;
 namespace rr
 {
 
-class RR_DECLSPEC StringListContainer 
+class RR_DECLSPEC StringListContainer
 {
     protected:
         vector<StringList>              mContainer;
