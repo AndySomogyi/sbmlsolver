@@ -69,7 +69,6 @@ public:
     virtual int getNumBoundarySpecies() = 0;
     virtual int getBoundarySpeciesIndex(const std::string &eid) = 0;
     virtual std::string getBoundarySpeciesId(int index) = 0;
-    virtual int getBoundarySpeciesCompartmentIndex(int index) = 0;
 
     /**
      * get the floating species amounts

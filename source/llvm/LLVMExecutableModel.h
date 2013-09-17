@@ -190,7 +190,6 @@ public:
     virtual string getFloatingSpeciesId(int);
     virtual int getBoundarySpeciesIndex(const string&);
     virtual string getBoundarySpeciesId(int);
-    virtual int getBoundarySpeciesCompartmentIndex(int);
 
     /**
      * get the floating species amounts

@@ -26,10 +26,7 @@ public:
     SetBoundarySpeciesAmountCodeGen(const ModelGeneratorContext &mgc);
     ~SetBoundarySpeciesAmountCodeGen() {};
 
-    std::vector<string> getIds()
-    {
-        return dataSymbols.getBoundarySpeciesIds();
-    }
+    std::vector<string> getIds();
 
     static const char* FunctionName;
     static const char* IndexArgName;
@@ -42,10 +39,7 @@ public:
     SetFloatingSpeciesAmountCodeGen(const ModelGeneratorContext &mgc);
     ~SetFloatingSpeciesAmountCodeGen() {};
 
-    std::vector<string> getIds()
-    {
-        return dataSymbols.getFloatingSpeciesIds();
-    }
+    std::vector<string> getIds();
 
     static const char* FunctionName;
     static const char* IndexArgName;
@@ -58,10 +52,7 @@ public:
     SetBoundarySpeciesConcentrationCodeGen(const ModelGeneratorContext &mgc);
     ~SetBoundarySpeciesConcentrationCodeGen() {};
 
-    std::vector<string> getIds()
-    {
-        return dataSymbols.getBoundarySpeciesIds();
-    }
+    std::vector<string> getIds();
 
     static const char* FunctionName;
     static const char* IndexArgName;
@@ -74,10 +65,7 @@ public:
     SetFloatingSpeciesConcentrationCodeGen(const ModelGeneratorContext &mgc);
     ~SetFloatingSpeciesConcentrationCodeGen() {};
 
-    std::vector<string> getIds()
-    {
-        return dataSymbols.getFloatingSpeciesIds();
-    }
+    std::vector<string> getIds();
 
     static const char* FunctionName;
     static const char* IndexArgName;
@@ -90,10 +78,7 @@ public:
     SetCompartmentVolumeCodeGen(const ModelGeneratorContext &mgc);
     ~SetCompartmentVolumeCodeGen() {};
 
-    std::vector<string> getIds()
-    {
-        return dataSymbols.getCompartmentIds();
-    }
+    std::vector<string> getIds();
 
     static const char* FunctionName;
     static const char* IndexArgName;
@@ -106,10 +91,7 @@ public:
     SetGlobalParameterCodeGen(const ModelGeneratorContext &mgc);
     ~SetGlobalParameterCodeGen() {};
 
-    std::vector<string> getIds()
-    {
-        return dataSymbols.getGlobalParameterIds();
-    }
+    std::vector<string> getIds();
 
     static const char* FunctionName;
     static const char* IndexArgName;

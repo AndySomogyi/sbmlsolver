@@ -331,11 +331,16 @@ string LLVMExecutableModel::getInfo()
     return "";
 }
 
-int LLVMExecutableModel::getFloatingSpeciesIndex(const string& allocator)
+int LLVMExecutableModel::getFloatingSpeciesIndex(const string& id)
 {
-    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw LLVMException(string("Not Implemented: ") + __FUNCTION__);
-    return 0;
+    try
+    {
+        return symbols->getFloatingSpeciesIndex(id);
+    }
+    catch (LLVMException&)
+    {
+        return -1;
+    }
 }
 
 string LLVMExecutableModel::getFloatingSpeciesId(int index)
@@ -346,7 +351,14 @@ string LLVMExecutableModel::getFloatingSpeciesId(int index)
 
 int LLVMExecutableModel::getBoundarySpeciesIndex(const string& id)
 {
-    return symbols->getBoundarySpeciesIndex(id);
+    try
+    {
+        return symbols->getBoundarySpeciesIndex(id);
+    }
+    catch (LLVMException&)
+    {
+        return -1;
+    }
 }
 
 string LLVMExecutableModel::getBoundarySpeciesId(int indx)
@@ -355,18 +367,16 @@ string LLVMExecutableModel::getBoundarySpeciesId(int indx)
     return ids[indx];
 }
 
-int LLVMExecutableModel::getBoundarySpeciesCompartmentIndex(int int1)
+int LLVMExecutableModel::getGlobalParameterIndex(const string& id)
 {
-    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw LLVMException(string("Not Implemented: ") + __FUNCTION__);
-    return 0;
-}
-
-int LLVMExecutableModel::getGlobalParameterIndex(const string& allocator)
-{
-    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw LLVMException(string("Not Implemented: ") + __FUNCTION__);
-    return 0;
+    try
+    {
+        return symbols->getGlobalParameterIndex(id);
+    }
+    catch(LLVMException&)
+    {
+        return -1;
+    }
 }
 
 string LLVMExecutableModel::getGlobalParameterId(int id)
@@ -383,11 +393,16 @@ string LLVMExecutableModel::getGlobalParameterId(int id)
     }
 }
 
-int LLVMExecutableModel::getCompartmentIndex(const string& allocator)
+int LLVMExecutableModel::getCompartmentIndex(const string& id)
 {
-    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw LLVMException(string("Not Implemented: ") + __FUNCTION__);
-    return 0;
+    try
+    {
+        return symbols->getCompartmentIndex(id);
+    }
+    catch (LLVMException&)
+    {
+        return -1;
+    }
 }
 
 string LLVMExecutableModel::getCompartmentId(int id)
@@ -404,11 +419,16 @@ string LLVMExecutableModel::getCompartmentId(int id)
     }
 }
 
-int LLVMExecutableModel::getReactionIndex(const string& allocator)
+int LLVMExecutableModel::getReactionIndex(const string& id)
 {
-    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw LLVMException(string("Not Implemented: ") + __FUNCTION__);
-    return 0;
+    try
+    {
+        return symbols->getReactionIndex(id);
+    }
+    catch (LLVMException&)
+    {
+        return -1;
+    }
 }
 
 string LLVMExecutableModel::getReactionId(int id)
