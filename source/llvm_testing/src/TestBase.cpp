@@ -60,7 +60,7 @@ TestBase::TestBase(const std::string& compiler, const std::string& version, int 
     string support = home + "/local/rr_support/";
     ModelGenerator *generator = ModelGeneratorFactory::createModelGenerator(compiler, tmp, support);
 
-    model = generator->createModel(sbml, false);
+    model = generator->createModel(sbml, 0);
 
     delete generator;
 }

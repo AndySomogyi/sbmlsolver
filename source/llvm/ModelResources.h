@@ -40,6 +40,12 @@ public:
     EventAssignCodeGen::FunctionPtr eventAssignPtr;
     EvalVolatileStoichCodeGen::FunctionPtr evalVolatileStoichPtr;
     EvalConversionFactorCodeGen::FunctionPtr evalConversionFactorPtr;
+    SetBoundarySpeciesAmountCodeGen::FunctionPtr setBoundarySpeciesAmountPtr;
+    SetFloatingSpeciesAmountCodeGen::FunctionPtr setFloatingSpeciesAmountPtr;
+    SetBoundarySpeciesConcentrationCodeGen::FunctionPtr setBoundarySpeciesConcentrationPtr;
+    SetFloatingSpeciesConcentrationCodeGen::FunctionPtr setFloatingSpeciesConcentrationPtr;
+    SetCompartmentVolumeCodeGen::FunctionPtr setCompartmentVolumePtr;
+    SetGlobalParameterCodeGen::FunctionPtr setGlobalParameterPtr;
 };
 
 } /* namespace rrllvm */

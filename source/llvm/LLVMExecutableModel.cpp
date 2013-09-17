@@ -57,6 +57,18 @@ static int getValues(LLVMModelData* modelData, double (*funcPtr)(LLVMModelData*,
     return len;
 }
 
+static int setValues(LLVMModelData* modelData, bool (*funcPtr)(LLVMModelData*, int, double),
+        int len, int const *indx, const double *values)
+{
+    int result = 0;
+    for (int i = 0; i < len; ++i)
+    {
+        int j = indx ? indx[i] : i;
+        result += funcPtr(modelData, j, values[i]);
+    }
+    return result;
+}
+
 LLVMExecutableModel::LLVMExecutableModel() :
     symbols(0),
     evalInitialConditionsPtr(0),
@@ -74,7 +86,13 @@ LLVMExecutableModel::LLVMExecutableModel() :
     eventTriggerPtr(0),
     eventAssignPtr(0),
     evalVolatileStoichPtr(0),
-    evalConversionFactorPtr(0)
+    evalConversionFactorPtr(0),
+    setBoundarySpeciesAmountPtr(0),
+    setFloatingSpeciesAmountPtr(0),
+    setBoundarySpeciesConcentrationPtr(0),
+    setFloatingSpeciesConcentrationPtr(0),
+    setCompartmentVolumePtr(0),
+    setGlobalParameterPtr(0)
 {
     // zero out the struct, the generator will fill it out.
     LLVMModelData::init(modelData);
@@ -103,7 +121,13 @@ LLVMExecutableModel::LLVMExecutableModel(
     eventTriggerPtr(rc->eventTriggerPtr),
     eventAssignPtr(rc->eventAssignPtr),
     evalVolatileStoichPtr(rc->evalVolatileStoichPtr),
-    evalConversionFactorPtr(rc->evalConversionFactorPtr)
+    evalConversionFactorPtr(rc->evalConversionFactorPtr),
+    setBoundarySpeciesAmountPtr(rc->setBoundarySpeciesAmountPtr),
+    setFloatingSpeciesAmountPtr(rc->setFloatingSpeciesAmountPtr),
+    setBoundarySpeciesConcentrationPtr(rc->setBoundarySpeciesConcentrationPtr),
+    setFloatingSpeciesConcentrationPtr(rc->setFloatingSpeciesConcentrationPtr),
+    setCompartmentVolumePtr(rc->setCompartmentVolumePtr),
+    setGlobalParameterPtr(rc->setGlobalParameterPtr)
 {
     // zero out the struct,
     LLVMModelData::init(modelData);
@@ -526,9 +550,12 @@ int LLVMExecutableModel::getFloatingSpeciesAmounts(int len, const int* indx,
 int LLVMExecutableModel::setFloatingSpeciesConcentrations(int len,
         const int* indx, const double* values)
 {
-    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw LLVMException(string("Not Implemented: ") + __FUNCTION__);
-    return -1;
+    int result = -1;
+    if (setFloatingSpeciesConcentrationPtr)
+    {
+        result = setValues(&modelData, setFloatingSpeciesConcentrationPtr, len, indx, values);
+    }
+    return result;
 }
 
 int LLVMExecutableModel::getBoundarySpeciesAmounts(int len, const int* indx,
@@ -546,9 +573,12 @@ int LLVMExecutableModel::getBoundarySpeciesConcentrations(int len,
 int LLVMExecutableModel::setBoundarySpeciesConcentrations(int len,
         const int* indx, const double* values)
 {
-    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw LLVMException(string("Not Implemented: ") + __FUNCTION__);
-    return -1;
+    int result = -1;
+    if (setBoundarySpeciesConcentrationPtr)
+    {
+        result = setValues(&modelData, setBoundarySpeciesConcentrationPtr, len, indx, values);
+    }
+    return result;
 }
 
 int LLVMExecutableModel::getGlobalParameterValues(int len, const int* indx,
@@ -560,19 +590,19 @@ int LLVMExecutableModel::getGlobalParameterValues(int len, const int* indx,
 int LLVMExecutableModel::setGlobalParameterValues(int len, const int* indx,
         const double* values)
 {
-    Log(Logger::PRIO_FATAL) << "Not Implemented: " << __FUNCTION__;
-    throw LLVMException(string("Not Implemented: ") + __FUNCTION__);
-    return -1;
+    int result = -1;
+    if (setGlobalParameterPtr)
+    {
+        result = setValues(&modelData, setGlobalParameterPtr, len, indx, values);
+    }
+    return result;
 }
-
 
 int LLVMExecutableModel::getCompartmentVolumes(int len, const int* indx,
         double* values)
 {
     return getValues(&modelData, getCompartmentVolumePtr, len, indx, values);
 }
-
-
 
 int LLVMExecutableModel::getReactionRates(int len, const int* indx,
         double* values)
@@ -644,14 +674,24 @@ int LLVMExecutableModel::getFloatingSpeciesAmountRates(int len,
 int LLVMExecutableModel::setFloatingSpeciesAmounts(int len, int const *indx,
         const double *values)
 {
-    return -1;
+    int result = -1;
+    if (setFloatingSpeciesAmountPtr)
+    {
+        result = setValues(&modelData, setFloatingSpeciesAmountPtr, len, indx, values);
+    }
+    return result;
 }
 
 
 int LLVMExecutableModel::setCompartmentVolumes(int len, const int* indx,
         const double* values)
 {
-    return 0;
+    int result = -1;
+    if (setCompartmentVolumePtr)
+    {
+        result = setValues(&modelData, setCompartmentVolumePtr, len, indx, values);
+    }
+    return result;
 }
 
 int LLVMExecutableModel::setFloatingSpeciesInitConcentrations(int len,

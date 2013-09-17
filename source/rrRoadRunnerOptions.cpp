@@ -16,7 +16,7 @@ LoadSBMLOptions::LoadSBMLOptions()
     size = sizeof(LoadSBMLOptions);
     integrator = CVODE;
     integratorOpt = 0;
-    modelGeneratorOpt = 0;
+    modelGeneratorOpt = ReadOnlyModel;
 }
 
 SimulateOptions::SimulateOptions()

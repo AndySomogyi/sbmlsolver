@@ -20,6 +20,7 @@
 #include "TestRoadRunner.h"
 #include "GetBoundarySpeciesAmountTest.h"
 #include "TestEvalInitialConditions.h"
+#include "TestGetSetValues.h"
 
 #include "rrRoadRunner.h"
 
@@ -160,7 +161,7 @@ int main(int argc, char* argv[])
     //runInitialValueAssigmentTest(pairs[i].first, pairs[i].second);
     try
     {
-        TestEvalInitialConditions test(compiler, pairs[testCase].first, pairs[testCase].second);
+        TestGetSetValues test(compiler, pairs[testCase].first, pairs[testCase].second);
         test.test();
         //TestRoadRunner test(compiler, pairs[testCase].first, pairs[testCase].second);
         //test.test(compiler);

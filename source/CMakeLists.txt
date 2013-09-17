@@ -114,6 +114,7 @@ if(BUILD_LLVM)
         llvm/ModelGeneratorContext
         llvm/LLVMModelSymbols
         llvm/SetRateRuleValuesCodeGen
+        llvm/SetValuesCodeGen
         llvm/SBMLSupportFunctions
         llvm/EvalVolatileStoichCodeGen
         )

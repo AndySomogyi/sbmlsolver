@@ -19,6 +19,7 @@ add_executable( ${target}
     src/test_compiler
     src/TestBase
     src/TestEvalInitialConditions
+    src/TestGetSetValues
     src/TestEvalReactionRates
     src/TestEvalModel
     src/TestRoadRunner

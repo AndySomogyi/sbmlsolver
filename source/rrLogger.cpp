@@ -51,7 +51,7 @@ void Logger::setLevel(int level)
     {
         Poco::Logger::root().setLevel(level);
         getLogger().setLevel(level);
-        logLevel = Poco::Logger::root().getLevel();
+        logLevel = level;
     }
 }
 

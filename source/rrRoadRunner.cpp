@@ -532,10 +532,6 @@ bool RoadRunner::loadSBML(const string& sbml, const LoadSBMLOptions *options)
 
 
     delete mModel;
-    //uint options = 0;
-    //options |= (forceReCompile ? ModelGenerator::ForceReCompile : 0);
-    //options |= (computeAndAssignConservationLaws()
-    //        ? ModelGenerator::ComputeAndAssignConsevationLaws : 0);
 
     if (options)
     {

@@ -24,6 +24,7 @@
 #include "EventTriggerCodeGen.h"
 #include "EvalVolatileStoichCodeGen.h"
 #include "EvalConversionFactorCodeGen.h"
+#include "SetValuesCodeGen.h"
 #include "EventQueue.h"
 
 #ifdef _MSC_VER
@@ -438,6 +439,14 @@ private:
     EventAssignCodeGen::FunctionPtr eventAssignPtr;
     EvalVolatileStoichCodeGen::FunctionPtr evalVolatileStoichPtr;
     EvalConversionFactorCodeGen::FunctionPtr evalConversionFactorPtr;
+
+    // set model values externally.
+    SetBoundarySpeciesAmountCodeGen::FunctionPtr setBoundarySpeciesAmountPtr;
+    SetFloatingSpeciesAmountCodeGen::FunctionPtr setFloatingSpeciesAmountPtr;
+    SetBoundarySpeciesConcentrationCodeGen::FunctionPtr setBoundarySpeciesConcentrationPtr;
+    SetFloatingSpeciesConcentrationCodeGen::FunctionPtr setFloatingSpeciesConcentrationPtr;
+    SetCompartmentVolumeCodeGen::FunctionPtr setCompartmentVolumePtr;
+    SetGlobalParameterCodeGen::FunctionPtr setGlobalParameterPtr;
 
     double getFloatingSpeciesConcentration(int index);
 
