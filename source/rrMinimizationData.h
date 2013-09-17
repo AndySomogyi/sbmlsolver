@@ -1,7 +1,7 @@
 #ifndef rrMinimizationDataH
 #define rrMinimizationDataH
 #include <ostream>
-#include "rrObject.h"
+#include "rrExporter.h"
 #include "rrStringList.h"
 #include "rrRoadRunnerData.h"
 #include "rrParameter.h"
@@ -16,52 +16,52 @@ using std::ostream;
 
 class RR_DECLSPEC MinimizationData
 {
-	protected:
-		RoadRunnerData                 	mObservedData;				//Observed data
-		RoadRunnerData                 	mModelData;					//Model data
-		RoadRunnerData                 	mResidualsData;				//Residuals data
-        Parameters				    	mParameters;				//Parameters to fit
-        Parameters				    	mParametersOut;				//Parameters that was fitted
-		double							mNorm;						//Norm
-        StringList						mObservedDataSelectionList;
-        StringList						mModelDataSelectionList;
+    protected:
+        RoadRunnerData                     mObservedData;                //Observed data
+        RoadRunnerData                     mModelData;                    //Model data
+        RoadRunnerData                     mResidualsData;                //Residuals data
+        Parameters                        mParameters;                //Parameters to fit
+        Parameters                        mParametersOut;                //Parameters that was fitted
+        double                            mNorm;                        //Norm
+        StringList                        mObservedDataSelectionList;
+        StringList                        mModelDataSelectionList;
 
     public:
-					                   	MinimizationData();
-					                   ~MinimizationData();
-					                   	MinimizationData(const MinimizationData& data);
-		MinimizationData&				operator=(MinimizationData& rhs);
-		void					       	init();
+                                           MinimizationData();
+                                       ~MinimizationData();
+                                           MinimizationData(const MinimizationData& data);
+        MinimizationData&                operator=(MinimizationData& rhs);
+        void                               init();
 
-        void							addParameter(const string& name, const double& value);
-        void							addParameter(const string& name, const int& value);
-        void							addFittedParameter(const string& name, const double& value);
-        void							setNorm(const double& norm);
-        double							getNorm();
+        void                            addParameter(const string& name, const double& value);
+        void                            addParameter(const string& name, const int& value);
+        void                            addFittedParameter(const string& name, const double& value);
+        void                            setNorm(const double& norm);
+        double                            getNorm();
 
-        void							setObservedDataSelectionList(const string& list);
-        StringList						getObservedDataSelectionList();
-        void							setModelDataSelectionList(const string& selList);
-        StringList						getModelDataSelectionList();
+        void                            setObservedDataSelectionList(const string& list);
+        StringList                        getObservedDataSelectionList();
+        void                            setModelDataSelectionList(const string& selList);
+        StringList                        getModelDataSelectionList();
 
-        void							setInputData(const RoadRunnerData& data);
-        void							setModelData(const RoadRunnerData& data);
-        void							setResidualsData(const RoadRunnerData& data);
+        void                            setInputData(const RoadRunnerData& data);
+        void                            setModelData(const RoadRunnerData& data);
+        void                            setResidualsData(const RoadRunnerData& data);
 
-        RoadRunnerData					getObservedData();
-        RoadRunnerData					getModelData();
-        RoadRunnerData					getResidualsData();
+        RoadRunnerData                    getObservedData();
+        RoadRunnerData                    getModelData();
+        RoadRunnerData                    getResidualsData();
 
-        RoadRunnerData&					getObservedDataReference();
-        RoadRunnerData&					getModelDataReference();
-        RoadRunnerData&					getResidualsDataReference();
+        RoadRunnerData&                    getObservedDataReference();
+        RoadRunnerData&                    getModelDataReference();
+        RoadRunnerData&                    getResidualsDataReference();
 
         RR_DECLSPEC
         friend ostream&                 operator<<(ostream& stream, const MinimizationData& outMe);
-        string					       	getReport() const;
-		Parameters					  	getParameters();
-		Parameters					  	getParametersOut();
-        bool							reset();
+        string                               getReport() const;
+        Parameters                          getParameters();
+        Parameters                          getParametersOut();
+        bool                            reset();
 };
 
 template<>
@@ -74,13 +74,13 @@ template<>
 inline string Parameter< MinimizationData >::getValueAsString() const
 {
     Log(lInfo)<<"Getting minimization data object as a string is not implemented";
-	return "";//    throw("You can't get the value of this structure as string.. ");
+    return "";//    throw("You can't get the value of this structure as string.. ");
 }
 
 template<>
 inline void Parameter< MinimizationData >::setValueFromString(const string& val)
 {
-	//We can't setup this data structure from a string... :(
+    //We can't setup this data structure from a string... :(
     Log(lInfo)<<"Setting minimization data object from string is not implemented";
     return;
 }
@@ -88,7 +88,7 @@ inline void Parameter< MinimizationData >::setValueFromString(const string& val)
 template<>
 inline void Parameter< MinimizationData >::setValue(MinimizationData* val)
 {
-	mValue = *(val);
+    mValue = *(val);
 }
 
 }

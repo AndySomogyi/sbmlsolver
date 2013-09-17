@@ -3,9 +3,9 @@
 
 namespace rr
 {
-namespace TParameterType
+namespace ParameterType
 {
-enum TParameterType
+enum ParameterType
 {
     ptGlobalParameter = 0,
     ptLocalParameter,

@@ -3,7 +3,7 @@
 #include <string>
 #include <ostream>
 #include <limits>
-#include "rrObject.h"
+#include "rrExporter.h"
 using std::string;
 using std::ostream;
 
@@ -14,7 +14,7 @@ namespace rr
  * TODO: should this be named something better than 'Symbol', say SpeciesDefinition or something???
  * TODO: Why do we even have this? Shoud'nt this just be a sbml::Species ???
  */
-class RR_DECLSPEC Symbol 
+class RR_DECLSPEC Symbol
 {
 public:
     /**

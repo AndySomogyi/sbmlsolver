@@ -2,15 +2,11 @@ include(${CMAKE_CURRENT_SOURCE_DIR}/FindSWIG.cmake) # this is slightly modified 
 
 FIND_PACKAGE(SWIG REQUIRED)
 
-# INCLUDE(${SWIG_USE_FILE})
 INCLUDE(UseSWIG)
 
 FIND_PACKAGE(PythonLibs)
 FIND_PACKAGE(PythonInterp)
 FIND_PACKAGE(NumPy)
-
-
-
 
 MESSAGE ("THIS IS NUMPY_VERSION " ${NUMPY_VERSION})
 
@@ -32,12 +28,7 @@ SET(CMAKE_SWIG_FLAGS "")
 
 
 IF(SWIG_FOUND)
-    add_subdirectory(RoadRunner)
+    add_subdirectory(roadrunner)
 ELSE(SWIG_FOUND)
     message("could not find SWIG in your system")
 ENDIF(SWIG_FOUND)
-
-
-
-#CMAKE_MINIMUM_REQUIRED(VERSION 2.2)
-#PROJECT(PYINTERFACE)

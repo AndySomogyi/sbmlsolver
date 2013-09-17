@@ -3,7 +3,7 @@
 #include <ostream>
 #include <vector>
 #include <deque>
-#include "rrObject.h"
+#include "rrExporter.h"
 #include "rrUtils.h"
 #include "rrSBMLSymbolDependencies.h"
 using std::vector;
@@ -12,7 +12,7 @@ using std::ostream;
 namespace rr
 {
 
-class RR_DECLSPEC SBMLSymbol 
+class RR_DECLSPEC SBMLSymbol
 {
     protected:
     public:

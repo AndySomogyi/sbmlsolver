@@ -21,8 +21,10 @@
 #include "rrCVODEInterface.h"
 #include "rrNLEQInterface.h"
 #include "c/rrNOMSupport.h"
-#include "Poco/File.h"
-#include "Poco/Mutex.h"
+
+#include <rr-libstruct/lsLibStructural.h>
+#include <Poco/File.h>
+#include <Poco/Mutex.h>
 #include <sbml/common/libsbml-version.h>
 //---------------------------------------------------------------------------
 
@@ -352,12 +354,7 @@ bool RoadRunner::initializeModel()
     }
 }
 
-RoadRunnerData RoadRunner::getSimulationResult()
-{
-    return mRoadRunnerData;
-}
-
-RoadRunnerData* RoadRunner::getRoadRunnerData()
+RoadRunnerData *RoadRunner::getSimulationResult()
 {
     return &mRoadRunnerData;
 }
@@ -498,6 +495,11 @@ bool RoadRunner::loadSBMLFromFile(const string& fileName, const LoadSBMLOptions 
     mCurrentSBMLFileName = fileName;
 
     return loadSBML(sbml, options);
+}
+
+vector<double> RoadRunner::getConservedSums()
+{
+    return getLibStruct()->getConservedSums();
 }
 
 string RoadRunner::createModelName(const string& mCurrentSBMLFileName)
@@ -748,45 +750,45 @@ double RoadRunner::steadyState()
     return ss;
 }
 
-void RoadRunner::setParameterValue(const TParameterType::TParameterType parameterType,
+void RoadRunner::setParameterValue(const ParameterType::ParameterType parameterType,
         const int parameterIndex, const double value)
 {
     switch (parameterType)
     {
-        case TParameterType::ptBoundaryParameter:
+        case ParameterType::ptBoundaryParameter:
             mModel->setBoundarySpeciesConcentrations(1, &parameterIndex, &value);
         break;
 
-        case TParameterType::ptGlobalParameter:
+        case ParameterType::ptGlobalParameter:
             mModel->setGlobalParameterValues(1, &parameterIndex, &value);
         break;
 
-        case TParameterType::ptFloatingSpecies:
+        case ParameterType::ptFloatingSpecies:
             mModel->setFloatingSpeciesConcentrations(1, &parameterIndex, &value);
         break;
 
-        case TParameterType::ptConservationParameter:
+        case ParameterType::ptConservationParameter:
             mModel->setConservedSums(1, &parameterIndex, &value);
         break;
 
-        case TParameterType::ptLocalParameter:
+        case ParameterType::ptLocalParameter:
             throw Exception("Local parameters not permitted in setParameterValue (getCC, getEE)");
     }
 }
 
-double RoadRunner::getParameterValue(const TParameterType::TParameterType parameterType,
+double RoadRunner::getParameterValue(const ParameterType::ParameterType parameterType,
         const int parameterIndex)
 {
     switch (parameterType)
     {
-    case TParameterType::ptBoundaryParameter:
+    case ParameterType::ptBoundaryParameter:
     {
         double result = 0;
         mModel->getBoundarySpeciesConcentrations(1, &parameterIndex, &result);
         return result;
     }
     break;
-    case TParameterType::ptGlobalParameter:
+    case ParameterType::ptGlobalParameter:
     {
         double result = 0;
         mModel->getGlobalParameterValues(1, &parameterIndex, &result);
@@ -795,7 +797,7 @@ double RoadRunner::getParameterValue(const TParameterType::TParameterType parame
     break;
 
     // Used when calculating elasticities
-    case TParameterType::ptFloatingSpecies:
+    case ParameterType::ptFloatingSpecies:
     {
         double result = 0;
         mModel->getFloatingSpeciesConcentrations(1, &parameterIndex, &result);
@@ -803,7 +805,7 @@ double RoadRunner::getParameterValue(const TParameterType::TParameterType parame
     }
     break;
 
-    case TParameterType::ptConservationParameter:
+    case ParameterType::ptConservationParameter:
     {
         double result = 0;
         mModel->getConservedSums(1, &parameterIndex, &result);
@@ -811,7 +813,7 @@ double RoadRunner::getParameterValue(const TParameterType::TParameterType parame
     }
     break;
 
-    case TParameterType::ptLocalParameter:
+    case ParameterType::ptLocalParameter:
         throw Exception("Local parameters not permitted in getParameterValue (getCC?)");
         break;
 
@@ -889,7 +891,7 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
 
 double RoadRunner::getEE(const string& reactionName, const string& parameterName, bool computeSteadyState)
 {
-    TParameterType::TParameterType parameterType;
+    ParameterType::ParameterType parameterType;
     int reactionIndex;
     int parameterIndex;
 
@@ -907,19 +909,19 @@ double RoadRunner::getEE(const string& reactionName, const string& parameterName
     // Find out what kind of parameter we are dealing with
     if (( parameterIndex = mModel->getFloatingSpeciesIndex(parameterName)) >= 0)
     {
-        parameterType = TParameterType::ptFloatingSpecies;
+        parameterType = ParameterType::ptFloatingSpecies;
     }
     else if ((parameterIndex = mModel->getBoundarySpeciesIndex(parameterName)) >= 0)
     {
-        parameterType = TParameterType::ptBoundaryParameter;
+        parameterType = ParameterType::ptBoundaryParameter;
     }
     else if ((parameterIndex = mModel->getGlobalParameterIndex(parameterName)) >= 0)
     {
-        parameterType = TParameterType::ptGlobalParameter;
+        parameterType = ParameterType::ptGlobalParameter;
     }
     else if ((parameterIndex = mModel->getConservedSumIndex(parameterName)) >= 0)
     {
-        parameterType = TParameterType::ptConservationParameter;
+        parameterType = ParameterType::ptConservationParameter;
     }
     else
     {
@@ -947,14 +949,14 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
 class aFinalizer
 {
 private:
-    TParameterType::TParameterType    mParameterType;
+    ParameterType::ParameterType    mParameterType;
     int    mParameterIndex;
     double    mOriginalParameterValue;
     bool    mComputeSteadyState;
     RoadRunner*    mRR;
 
 public:
-    aFinalizer(TParameterType::TParameterType& pType, const int& pIndex,
+    aFinalizer(ParameterType::ParameterType& pType, const int& pIndex,
             const double& origValue, const bool& doWhat, RoadRunner* aRoadRunner)
 :
     mParameterType(pType),
@@ -986,7 +988,7 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
             throw CoreException(gEmptyModelMessage);
         }
 
-        TParameterType::TParameterType parameterType;
+        ParameterType::ParameterType parameterType;
         double originalParameterValue;
         int reactionIndex;
         int parameterIndex;
@@ -1003,25 +1005,25 @@ double RoadRunner::getuEE(const string& reactionName, const string& parameterNam
         // Find out what kind of parameter we are dealing with
         if ((parameterIndex = mModel->getFloatingSpeciesIndex(parameterName)) >= 0)
         {
-            parameterType = TParameterType::ptFloatingSpecies;
+            parameterType = ParameterType::ptFloatingSpecies;
             originalParameterValue = 0;
             mModel->getFloatingSpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
         }
         else if ((parameterIndex = mModel->getBoundarySpeciesIndex(parameterName)) >= 0)
         {
-            parameterType = TParameterType::ptBoundaryParameter;
+            parameterType = ParameterType::ptBoundaryParameter;
             originalParameterValue = 0;
             mModel->getBoundarySpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
         }
         else if ((parameterIndex = mModel->getGlobalParameterIndex(parameterName)) >= 0)
         {
-            parameterType = TParameterType::ptGlobalParameter;
+            parameterType = ParameterType::ptGlobalParameter;
             originalParameterValue = 0;
             mModel->getGlobalParameterValues(1, &parameterIndex, &originalParameterValue);
         }
         else if ((parameterIndex = mModel->getConservedSumIndex(parameterName)) >= 0)
         {
-            parameterType = TParameterType::ptConservationParameter;
+            parameterType = ParameterType::ptConservationParameter;
             originalParameterValue = 0;
             mModel->getConservedSums(1, &parameterIndex, &originalParameterValue);
         }
@@ -1551,19 +1553,19 @@ int RoadRunner::getNumberOfIndependentSpecies()
     }
 }
 
-double RoadRunner::getVariableValue(const TVariableType::TVariableType variableType,
+double RoadRunner::getVariableValue(const VariableType::VariableType variableType,
         const int variableIndex)
 {
     switch (variableType)
     {
-    case TVariableType::vtFlux:
+    case VariableType::vtFlux:
     {
         double result = 0;
         mModel->getReactionRates(1, &variableIndex, &result);
     }
     break;
 
-    case TVariableType::vtSpecies:
+    case VariableType::vtSpecies:
     {
         double result = 0;
         mModel->getFloatingSpeciesConcentrations(1, &variableIndex, &result);
@@ -2810,8 +2812,8 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
             throw CoreException(gEmptyModelMessage);
         }
 
-        TParameterType::TParameterType parameterType;
-        TVariableType::TVariableType variableType;
+        ParameterType::ParameterType parameterType;
+        VariableType::VariableType variableType;
         double originalParameterValue;
         int variableIndex;
         int parameterIndex;
@@ -2822,11 +2824,11 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
         // Check the variable name
         if ((variableIndex = mModel->getReactionIndex(variableName)) >= 0)
         {
-            variableType = TVariableType::vtFlux;
+            variableType = VariableType::vtFlux;
         }
         else if ((variableIndex = mModel->getFloatingSpeciesIndex(variableName)) >= 0)
         {
-            variableType = TVariableType::vtSpecies;
+            variableType = VariableType::vtSpecies;
         }
         else
         {
@@ -2836,19 +2838,19 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
         // Check for the parameter name
         if ((parameterIndex = mModel->getGlobalParameterIndex(parameterName)) >= 0)
         {
-            parameterType = TParameterType::ptGlobalParameter;
+            parameterType = ParameterType::ptGlobalParameter;
             originalParameterValue = 0;
             mModel->getGlobalParameterValues(1, &parameterIndex, &originalParameterValue);
         }
         else if ((parameterIndex = mModel->getBoundarySpeciesIndex(parameterName)) >= 0)
         {
-            parameterType = TParameterType::ptBoundaryParameter;
+            parameterType = ParameterType::ptBoundaryParameter;
             originalParameterValue = 0;
             mModel->getBoundarySpeciesConcentrations(1, &parameterIndex, &originalParameterValue);
         }
         else if ((parameterIndex = mModel->getConservedSumIndex(parameterName)) >= 0)
         {
-            parameterType = TParameterType::ptConservationParameter;
+            parameterType = ParameterType::ptConservationParameter;
             originalParameterValue = 0;
             mModel->getConservedSums(1, &parameterIndex, &originalParameterValue);
         }
@@ -2918,8 +2920,8 @@ double RoadRunner::getuCC(const string& variableName, const string& parameterNam
 //        [Help("Get scaled control coefficient with respect to a global parameter")]
 double RoadRunner::getCC(const string& variableName, const string& parameterName)
 {
-    TVariableType::TVariableType variableType;
-    TParameterType::TParameterType parameterType;
+    VariableType::VariableType variableType;
+    ParameterType::ParameterType parameterType;
     int variableIndex;
     int parameterIndex;
 
@@ -2931,11 +2933,11 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
     // Check the variable name
     if ((variableIndex = mModel->getReactionIndex(variableName)) >= 0)
     {
-        variableType = TVariableType::vtFlux;
+        variableType = VariableType::vtFlux;
     }
     else if ((variableIndex = mModel->getFloatingSpeciesIndex(variableName)) >= 0)
     {
-        variableType = TVariableType::vtSpecies;
+        variableType = VariableType::vtSpecies;
     }
     else
     {
@@ -2945,15 +2947,15 @@ double RoadRunner::getCC(const string& variableName, const string& parameterName
     // Check for the parameter name
     if ((parameterIndex = mModel->getGlobalParameterIndex(parameterName)) >= 0)
     {
-        parameterType = TParameterType::ptGlobalParameter;
+        parameterType = ParameterType::ptGlobalParameter;
     }
     else if ((parameterIndex = mModel->getBoundarySpeciesIndex(parameterName)) >= 0)
     {
-        parameterType = TParameterType::ptBoundaryParameter;
+        parameterType = ParameterType::ptBoundaryParameter;
     }
     else if ((parameterIndex = mModel->getConservedSumIndex(parameterName)) >= 0)
     {
-        parameterType = TParameterType::ptConservationParameter;
+        parameterType = ParameterType::ptConservationParameter;
     }
     else
     {

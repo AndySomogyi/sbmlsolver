@@ -2,9 +2,8 @@
 #define rrRoadRunnerH
 
 #include "rr-libstruct/lsMatrix.h"
-#include "rr-libstruct/lsLibStructural.h"
-#include "rrTVariableType.h"
-#include "rrTParameterType.h"
+#include "rrVariableType.h"
+#include "rrParameterType.h"
 #include "rrSelectionRecord.h"
 #include "rrRoadRunnerData.h"
 #include "rrSimulationSettings.h"
@@ -17,11 +16,15 @@
 #include <string>
 #include <vector>
 
+namespace ls
+{
+class LibStructural;
+}
+
 namespace rr
 {
 using std::string;
 using std::vector;
-using namespace ls;
 
 class ModelGenerator;
 class SBMLModelSimulation;
@@ -71,15 +74,15 @@ public:
 
     bool computeAndAssignConservationLaws();
 
-    void setParameterValue(const TParameterType::TParameterType parameterType,
+    void setParameterValue(const ParameterType::ParameterType parameterType,
             const int parameterIndex, const double value);
 
-    double getParameterValue(const TParameterType::TParameterType parameterType,
+    double getParameterValue(const ParameterType::ParameterType parameterType,
             const int parameterIndex);
 
     string getParamPromotedSBML(const string& sArg);
 
-    LibStructural* getLibStruct();
+
     string getInfo();
 
     vector<SelectionRecord> getSteadyStateSelection(const vector<string>& newSelectionList);
@@ -147,8 +150,12 @@ public:
 
     double getValueForRecord(const SelectionRecord& record);
 
-    RoadRunnerData getSimulationResult();   //Todo: should probably be removed..
-    RoadRunnerData* getRoadRunnerData();
+    /**
+     * obtain a pointer to the simulation result.
+     *
+     * This is owned by the RoadRunner object.
+     */
+    RoadRunnerData *getSimulationResult();
 
     bool loadSimulationSettings(const string& fName);
     bool setSimulationSettings(const SimulationSettings& settings);
@@ -246,33 +253,33 @@ public:
     /**
      * compute the full Jacobian at the current operating point
      */
-    DoubleMatrix getFullJacobian();
+    ls::DoubleMatrix getFullJacobian();
 
-    DoubleMatrix getFullReorderedJacobian();
+    ls::DoubleMatrix getFullReorderedJacobian();
 
     /**
      * Compute the reduced Jacobian at the current operating point.
      */
-    DoubleMatrix getReducedJacobian();
+    ls::DoubleMatrix getReducedJacobian();
 
     /**
      * Returns eigenvalues, first column real part, second column imaginary part
      */
-    DoubleMatrix getEigenvalues();
+    ls::DoubleMatrix getEigenvalues();
 
     vector<Complex> getEigenvaluesCpx();
 
-    DoubleMatrix* getLinkMatrix();
-    DoubleMatrix* getNrMatrix();
-    DoubleMatrix* getL0Matrix();
-    DoubleMatrix getStoichiometryMatrix();
-    DoubleMatrix getReorderedStoichiometryMatrix();
-    DoubleMatrix getFullyReorderedStoichiometryMatrix();
-    DoubleMatrix getConservationMatrix();
-    DoubleMatrix getUnscaledConcentrationControlCoefficientMatrix();
-    DoubleMatrix getScaledConcentrationControlCoefficientMatrix();
-    DoubleMatrix getUnscaledFluxControlCoefficientMatrix();
-    DoubleMatrix getScaledFluxControlCoefficientMatrix();
+    ls::DoubleMatrix* getLinkMatrix();
+    ls::DoubleMatrix* getNrMatrix();
+    ls::DoubleMatrix* getL0Matrix();
+    ls::DoubleMatrix getStoichiometryMatrix();
+    ls::DoubleMatrix getReorderedStoichiometryMatrix();
+    ls::DoubleMatrix getFullyReorderedStoichiometryMatrix();
+    ls::DoubleMatrix getConservationMatrix();
+    ls::DoubleMatrix getUnscaledConcentrationControlCoefficientMatrix();
+    ls::DoubleMatrix getScaledConcentrationControlCoefficientMatrix();
+    ls::DoubleMatrix getUnscaledFluxControlCoefficientMatrix();
+    ls::DoubleMatrix getScaledFluxControlCoefficientMatrix();
     int getNumberOfDependentSpecies();
     int getNumberOfIndependentSpecies();
 
@@ -318,6 +325,9 @@ public:
 
 
     vector<string> getConservedSumIds();
+
+    vector<double> getConservedSums();
+
     int getNumberOfCompartments();
 
     /**
@@ -417,12 +427,12 @@ public:
     /**
      * Compute the unscaled species elasticity matrix at the current operating point
      */
-    DoubleMatrix getUnscaledElasticityMatrix();
+    ls::DoubleMatrix getUnscaledElasticityMatrix();
 
     /**
      * Compute the unscaled elasticity matrix at the current operating point
      */
-    DoubleMatrix getScaledReorderedElasticityMatrix();
+    ls::DoubleMatrix getScaledReorderedElasticityMatrix();
 
     /**
      * Compute the scaled elasticity for a given reaction and given species
@@ -445,7 +455,7 @@ private:
     Capabilities mCapabilities;
     Capability mRRCoreCapabilities;
     const double mSteadyStateThreshold;
-    DoubleMatrix mRawRoadRunnerData;
+    ls::DoubleMatrix mRawRoadRunnerData;
     RoadRunnerData mRoadRunnerData;
 
     string mCurrentSBMLFileName;
@@ -486,19 +496,24 @@ private:
     int createDefaultSteadyStateSelectionList();
     int createDefaultTimeCourseSelectionList();
 
-    void addNthOutputToResult(DoubleMatrix& results, int nRow,
+    void addNthOutputToResult(ls::DoubleMatrix& results, int nRow,
             double dCurrentTime);
     bool populateResult();
 
 
     double getNthSelectedOutput(const int& index, const double& dCurrentTime);
 
-    double getVariableValue(const TVariableType::TVariableType variableType,
+    double getVariableValue(const VariableType::VariableType variableType,
             const int variableIndex);
 
     vector<string> getParameterIds();
 
     string createModelName(const string& mCurrentSBMLFileName);
+
+    /**
+     * the LibStruct is normally null, only created on demand here.
+     */
+    LibStructural* getLibStruct();
 
 };
 

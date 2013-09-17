@@ -2,7 +2,7 @@
 #define rrCapabilityH
 #include <string>
 #include <vector>
-#include "rrObject.h"
+#include "rrExporter.h"
 #include "rrParameters.h"
 //---------------------------------------------------------------------------
 

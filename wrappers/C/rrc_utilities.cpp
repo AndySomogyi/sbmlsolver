@@ -696,7 +696,7 @@ bool rrCallConv writeRRData(RRHandle rrHandle, const char* fileNameAndPath)
     {
         RoadRunner *rr = castFrom(rrHandle);
         RoadRunnerData data;
-        data = rr->getSimulationResult();
+        data = *rr->getSimulationResult();
 
         data.writeTo(fileNameAndPath);
         return true;
@@ -723,7 +723,7 @@ bool rrCallConv writeMultipleRRData(RRInstanceListPtr rrHandles, const char* fil
             RoadRunner* rr = (*rrs)[i];
             if(rr)
             {
-                RoadRunnerData data = rr->getSimulationResult();
+                RoadRunnerData data = *rr->getSimulationResult();
                 allData.append(data);
             }
         }

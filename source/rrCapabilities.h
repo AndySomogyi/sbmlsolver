@@ -1,7 +1,7 @@
 #ifndef rrCapabilitiesH
 #define rrCapabilitiesH
 #include <vector>
-#include "rrObject.h"
+#include "rrExporter.h"
 #include "rrCapability.h"
 #include "rrStringList.h"
 //---------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 #ifndef rrScannerH
 #define rrScannerH
-#include "rrObject.h"
+#include "rrExporter.h"
 #include <vector>
 #include <queue>
 #include <fstream>

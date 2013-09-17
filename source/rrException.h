@@ -2,7 +2,7 @@
 #define rrExceptionH
 #include <exception>
 #include <string>
-#include "rrObject.h"
+#include "rrExporter.h"
 
 using std::string;
 using std::exception;

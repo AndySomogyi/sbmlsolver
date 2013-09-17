@@ -3,7 +3,7 @@
 #include <ostream>
 #include <vector>
 #include <deque>
-#include "rrObject.h"
+#include "rrExporter.h"
 #include "rrUtils.h"
 //#include "rrSBMLSymbol.h"
 
@@ -14,7 +14,7 @@ namespace rr
 {
 
 class SBMLSymbol;
-class RR_DECLSPEC SBMLSymbolDependencies 
+class RR_DECLSPEC SBMLSymbolDependencies
 {
     protected:
         deque<SBMLSymbol*>            mDependencies;

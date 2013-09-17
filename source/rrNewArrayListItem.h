@@ -1,6 +1,6 @@
 #ifndef rrNewArrayListItemH
 #define rrNewArrayListItemH
-#include "rrObject.h"
+#include "rrExporter.h"
 #include "rrStringList.h"
 #include "rrNewArrayListItemObject.h"
 

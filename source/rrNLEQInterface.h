@@ -1,7 +1,7 @@
 #ifndef rrNLEQInterfaceH
 #define rrNLEQInterfaceH
 #include <vector>
-#include "rrObject.h"
+#include "rrExporter.h"
 #include "rrExecutableModel.h"
 #include "rrSteadyStateSolver.h"
 #include "rrParameter.h"
@@ -23,7 +23,7 @@ protected:
     long                           *iopt;
     ExecutableModel         *model;     // Model generated from the SBML. Static so we can access it from standalone function
     long                     n;
-    void							setup();
+    void                            setup();
 
 public:
     /// <summary>
@@ -32,10 +32,10 @@ public:
     /// <param name="model">the model to create NLEQ for</param>
     NLEQInterface(ExecutableModel *_model = NULL);
     ~NLEQInterface();
-    Capability&						getCapability();
+    Capability&                        getCapability();
     bool                            isAvailable();
     //static ExecutableModel*         getModel();
-    //static long						getN();
+    //static long                        getN();
     int                             defaultMaxInterations;
     int                             maxIterations;
     double                          defaultTolerance;

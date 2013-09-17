@@ -3,9 +3,9 @@
 
 namespace rr
 {
-namespace TVariableType
+namespace VariableType
 {
-enum TVariableType
+enum VariableType
 {
     vtSpecies = 0, vtFlux
 };

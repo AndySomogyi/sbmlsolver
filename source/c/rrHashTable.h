@@ -2,7 +2,7 @@
 #define rrHashTableH
 #include <map>
 #include <string>
-#include "rrObject.h"
+#include "rrExporter.h"
 #include "rrSBMLSymbol.h"
 //---------------------------------------------------------------------------
 

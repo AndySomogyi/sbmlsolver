@@ -20,6 +20,8 @@ using rr::Logger;
 using rr::getLogger;
 using rr::LoggingBuffer;
 
+using namespace std;
+
 // static assertion, taken from
 // http://msdn.microsoft.com/en-us/library/windows/desktop/ms679289(v=vs.85).aspx
 #ifndef C_ASSERT

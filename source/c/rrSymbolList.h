@@ -1,7 +1,7 @@
 #ifndef rrSymbolListH
 #define rrSymbolListH
 #include <vector>
-#include "rrObject.h"
+#include "rrExporter.h"
 #include "rrSymbol.h"
 
 using std::vector;
