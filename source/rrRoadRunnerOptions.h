@@ -59,8 +59,23 @@ struct RR_DECLSPEC LoadSBMLOptions
          * models. If this flag is NOT set, then the generator will look to see
          * if there is already a running instance of the given model and
          * use the generated code from that one.
+         *
+         * If only a single instance of a model is run, there is no
+         * need to cache the models, and this can safetly be enabled,
+         * realizing some performance gains.
          */
         ForceReCompile                  = (0x1 << 1), // => 0x00000010
+
+        /**
+         * If this is set, then a read-only model is generated. A read-only
+         * model can be simulated, but no code is generated to set model
+         * values, i.e. parameters, amounts, values, etc...
+         *
+         * It takes a finite amount of time to generate the model value setting
+         * functions, and if they are not needed, one may see some performance
+         * gains, especially in very large models.
+         */
+        ReadOnlyModel                   = (0x1 << 2)  // => 0x00000100
     };
 
     /**

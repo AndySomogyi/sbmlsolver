@@ -30,8 +30,8 @@ Poco::Logger& getLogger()
     if (pocoLogger == 0)
     {
         AutoPtr<ConsoleChannel> pCons(new ConsoleChannel);
-        AutoPtr<AsyncChannel> pAsync(new AsyncChannel(pCons));
-        Poco::Logger::root().setChannel(pAsync);
+        //AutoPtr<AsyncChannel> pAsync(new AsyncChannel(pCons));
+        Poco::Logger::root().setChannel(pCons);
 
         pocoLogger = &Poco::Logger::get("RoadRunner");
 
@@ -51,7 +51,7 @@ void Logger::setLevel(int level)
     {
         Poco::Logger::root().setLevel(level);
         getLogger().setLevel(level);
-        logLevel = Poco::Logger::root().getLevel();
+        logLevel = level;
     }
 }
 

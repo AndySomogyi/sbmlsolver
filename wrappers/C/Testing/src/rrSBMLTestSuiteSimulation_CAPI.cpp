@@ -3,6 +3,7 @@
 #include "rrUtils.h"
 #include "rrRoadRunnerData.h"
 #include "rrSBMLTestSuiteSimulation_CAPI.h"
+#include "rrRoadRunner.h"
 #include "rrLogger.h"
 
 using namespace rrc;
@@ -49,7 +50,36 @@ bool SBMLTestSuiteSimulation_CAPI::LoadSBMLFromFile()
         return false;
     }
 
-    return loadSBMLFromFileE(mRRHandle, GetModelsFullFilePath().c_str(), true);
+    try
+    {
+        std::string fileName = GetModelsFullFilePath();
+
+        //Check first if file exists first
+        if(!fileExists(fileName))
+        {
+            Log(Logger::PRIO_ERROR) << "sbml file " << fileName << " not found";
+            return false;
+        }
+
+        RoadRunner* rri = (RoadRunner*) mRRHandle;
+
+        LoadSBMLOptions opt;
+
+        // simulation only, no need for accessor functions.
+        opt.modelGeneratorOpt |= (LoadSBMLOptions::ReadOnlyModel | LoadSBMLOptions::ForceReCompile);
+
+        if(!rri->loadSBMLFromFile(fileName, &opt))
+        {
+            Log(Logger::PRIO_ERROR) << "Failed to load SBML";
+            return false;
+        }
+        return true;
+    }
+    catch(std::exception& e)
+    {
+        Log(Logger::PRIO_ERROR) << "exception while loading sbml: " << e.what();
+        return false;
+    }
 }
 
 bool SBMLTestSuiteSimulation_CAPI::LoadSettings(const string& settingsFName)

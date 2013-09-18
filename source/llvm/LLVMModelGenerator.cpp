@@ -204,6 +204,36 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
     rc->evalConversionFactorPtr =
             EvalConversionFactorCodeGen(context).createFunction();
 
+    if (options & ModelGenerator::ReadOnlyModel)
+    {
+        rc->setBoundarySpeciesAmountPtr = 0;
+        rc->setBoundarySpeciesConcentrationPtr = 0;
+        rc->setFloatingSpeciesConcentrationPtr = 0;
+        rc->setCompartmentVolumePtr = 0;
+        rc->setFloatingSpeciesAmountPtr = 0;
+        rc->setGlobalParameterPtr = 0;
+    }
+    else
+    {
+        rc->setBoundarySpeciesAmountPtr = SetBoundarySpeciesAmountCodeGen(
+                context).createFunction();
+
+        rc->setBoundarySpeciesConcentrationPtr =
+                SetBoundarySpeciesConcentrationCodeGen(context).createFunction();
+
+        rc->setFloatingSpeciesConcentrationPtr =
+                SetFloatingSpeciesConcentrationCodeGen(context).createFunction();
+
+        rc->setCompartmentVolumePtr =
+                SetCompartmentVolumeCodeGen(context).createFunction();
+
+        rc->setFloatingSpeciesAmountPtr = SetFloatingSpeciesAmountCodeGen(
+                context).createFunction();
+
+        rc->setGlobalParameterPtr =
+                SetGlobalParameterCodeGen(context).createFunction();
+    }
+
 
     // if anything up to this point throws an exception, thats OK, because
     // we have not allocated any memory yet that is not taken care of by
