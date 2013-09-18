@@ -187,11 +187,14 @@ import_array();
 %{
 
 typedef int (rr::ExecutableModel::*getValuesPtr)(int, int const*, double*);
+typedef string (ExecutableModel::*getNamePtr)(int);
+typedef int (ExecutableModel::*getNumPtr)();
+
 
 static PyObject* _ExecutableModel_getValues(rr::ExecutableModel *self, getValuesPtr func, 
-                                            int len, int const *indx) {
+                                            getNumPtr numPtr, int len, int const *indx) {
     if (len <= 0) {
-        len = self->getNumCompartments();
+        len = (self->*numPtr)();
         indx = 0;
     }
     
@@ -215,8 +218,6 @@ static PyObject* _ExecutableModel_getValues(rr::ExecutableModel *self, getValues
 // we can write a single function to pick the string lists out
 // of the model instead of duplicating it 6 times with
 // fun ptrs.
-typedef string (ExecutableModel::*getNamePtr)(int);
-typedef int (ExecutableModel::*getNumPtr)();
 
 // make this static here, hide our implementation...
 static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
@@ -472,86 +473,86 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 
     PyObject *getFloatingSpeciesAmounts(int len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmounts, 
-                                          len, indx);
+                                          &rr::ExecutableModel::getNumFloatingSpecies, len, indx);
     }
 
     PyObject *getFloatingSpeciesAmounts() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmounts, 
-                                          (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
     }
 
     PyObject *getFloatingSpeciesAmountRates(int len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmountRates, 
-                                          len, indx);
+                                         &rr::ExecutableModel::getNumFloatingSpecies,  len, indx);
     }
 
     PyObject *getFloatingSpeciesAmountRates() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmountRates, 
-                                          (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
     }
 
     PyObject *getFloatingSpeciesConcentrations(int len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesConcentrations, 
-                                          len, indx);
+                                         &rr::ExecutableModel::getNumFloatingSpecies,  len, indx);
     }
 
     PyObject *getFloatingSpeciesConcentrations() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesConcentrations, 
-                                          (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
     }
     PyObject *getBoundarySpeciesAmounts(int len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesAmounts, 
-                                          len, indx);
+                                         &rr::ExecutableModel::getNumBoundarySpecies,  len, indx);
     }
 
     PyObject *getBoundarySpeciesAmounts() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesAmounts, 
-                                          (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumBoundarySpecies, (int)0, (int const*)0);
     }
     PyObject *getBoundarySpeciesConcentrations(int len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesConcentrations, 
-                                          len, indx);
+                                         &rr::ExecutableModel::getNumBoundarySpecies,  len, indx);
     }
 
     PyObject *getBoundarySpeciesConcentrations() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesConcentrations, 
-                                          (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumBoundarySpecies, (int)0, (int const*)0);
     }
     PyObject *getGlobalParameterValues(int len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getGlobalParameterValues, 
-                                          len, indx);
+                                         &rr::ExecutableModel::getNumGlobalParameters,  len, indx);
     }
 
     PyObject *getGlobalParameterValues() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getGlobalParameterValues, 
-                                          (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumGlobalParameters, (int)0, (int const*)0);
     }
     PyObject *getCompartmentVolumes(int len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getCompartmentVolumes, 
-                                          len, indx);
+                                         &rr::ExecutableModel::getNumCompartments,  len, indx);
     }
 
     PyObject *getCompartmentVolumes() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getCompartmentVolumes, 
-                                          (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumCompartments, (int)0, (int const*)0);
     }
     PyObject *getConservedSums(int len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getConservedSums, 
-                                          len, indx);
+                                         &rr::ExecutableModel::getNumConservedSums,  len, indx);
     }
 
     PyObject *getConservedSums() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getConservedSums, 
-                                          (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumConservedSums, (int)0, (int const*)0);
     }
     PyObject *getReactionRates(int len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getReactionRates, 
-                                          len, indx);
+                                         &rr::ExecutableModel::getNumReactions,  len, indx);
     }
 
     PyObject *getReactionRates() {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getReactionRates, 
-                                          (int)0, (int const*)0);
+                                          &rr::ExecutableModel::getNumReactions, (int)0, (int const*)0);
     }
 
     /***
