@@ -163,6 +163,7 @@
     #include <lsLUResult.h>
     #include <lsUtils.h>
     #include <rrCompiler.h>
+    #include <rrModelGenerator.h>
     #include <rrExecutableModel.h>
     #include <rrRoadRunnerData.h>
     #include <rrRoadRunnerOptions.h>
@@ -241,6 +242,12 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 
 
 %apply (int DIM1, int* IN_ARRAY1) {(int len, int const *indx)};
+
+%apply (int DIM1, double* IN_ARRAY1) {(int len, double const *values)};
+
+// typemap for the set***Values methods
+%apply (int DIM1, int* IN_ARRAY1) {(int leni, int const* indx)};
+%apply (int DIM1, double* IN_ARRAY1) {(int lenv, const  double* values)};
 
 #define LIB_EXTERN
 #define RR_DECLSPEC
@@ -418,21 +425,21 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 
 
 %ignore rr::ExecutableModel::getFloatingSpeciesAmounts(int, int const*, double *);
-%ignore rr::ExecutableModel::setFloatingSpeciesAmounts;
+%ignore rr::ExecutableModel::setFloatingSpeciesAmounts(int len, int const *indx, const double *values);
 %ignore rr::ExecutableModel::getFloatingSpeciesAmountRates(int, int const*, double *);
 %ignore rr::ExecutableModel::getFloatingSpeciesConcentrations(int, int const*, double *);
-%ignore rr::ExecutableModel::setFloatingSpeciesConcentrations;
-%ignore rr::ExecutableModel::setFloatingSpeciesInitConcentrations;
+%ignore rr::ExecutableModel::setFloatingSpeciesConcentrations(int len, int const *indx, const double *values);
+%ignore rr::ExecutableModel::setFloatingSpeciesInitConcentrations(int len, int const *indx, const double *values);
 %ignore rr::ExecutableModel::getFloatingSpeciesInitConcentrations(int, int const*, double *);
 %ignore rr::ExecutableModel::getBoundarySpeciesAmounts(int, int const*, double *);
 %ignore rr::ExecutableModel::getBoundarySpeciesConcentrations(int, int const*, double *);
-%ignore rr::ExecutableModel::setBoundarySpeciesConcentrations;
+%ignore rr::ExecutableModel::setBoundarySpeciesConcentrations(int len, int const *indx, const double *values);
 %ignore rr::ExecutableModel::getGlobalParameterValues(int, int const*, double *);
-%ignore rr::ExecutableModel::setGlobalParameterValues;
+%ignore rr::ExecutableModel::setGlobalParameterValues(int len, int const *indx, const double *values);
 %ignore rr::ExecutableModel::getCompartmentVolumes(int, int const*, double *);
-%ignore rr::ExecutableModel::setCompartmentVolumes;
+%ignore rr::ExecutableModel::setCompartmentVolumes(int len, int const *indx, const double *values);
 %ignore rr::ExecutableModel::getConservedSums(int, int const*, double *);
-%ignore rr::ExecutableModel::setConservedSums;
+%ignore rr::ExecutableModel::setConservedSums(int len, int const *indx, const double *values);
 %ignore rr::ExecutableModel::getReactionRates(int, int const*, double *);
 %ignore rr::ExecutableModel::evalReactionRates;
 %ignore rr::ExecutableModel::convertToAmounts;
@@ -457,12 +464,30 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 %ignore rr::ExecutableModel::resetEvents;
 %ignore rr::ExecutableModel::getStoichiometry;
 
+%ignore rr::ExecutableModel::getFloatingSpeciesId(int index);
+%ignore rr::ExecutableModel::getBoundarySpeciesId(int index);
+%ignore rr::ExecutableModel::getGlobalParameterId(int index);
+%ignore rr::ExecutableModel::getCompartmentId(int index);
+%ignore rr::ExecutableModel::getConservedSumId(int index);
+%ignore rr::ExecutableModel::getReactionId(int index);
+
+%ignore rr::ExecutableModel::getFloatingSpeciesIndex(const std::string& eid);
+%ignore rr::ExecutableModel::getBoundarySpeciesIndex(const std::string &eid);
+%ignore rr::ExecutableModel::getGlobalParameterIndex(const std::string& eid);
+%ignore rr::ExecutableModel::getCompartmentIndex(const std::string& eid);
+%ignore rr::ExecutableModel::getConservedSumIndex(const std::string& eid);
+%ignore rr::ExecutableModel::getReactionIndex(const std::string& eid);
+
+
+/**
+ * include the roadrunner files here, this is where the wrappers are generated.
+ */
 %include <rrRoadRunnerOptions.h>
-%include <rrRoadRunner.h>
 %include <rrLogger.h>
 %include <rrCompiler.h>
 %include <rrExecutableModel.h>
-
+%include <rrModelGenerator.h>
+%include <rrRoadRunner.h>
 
 %extend rr::ExecutableModel
 {
@@ -500,6 +525,7 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesConcentrations, 
                                           &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
     }
+
     PyObject *getBoundarySpeciesAmounts(int len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesAmounts, 
                                          &rr::ExecutableModel::getNumBoundarySpecies,  len, indx);
@@ -509,6 +535,7 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesAmounts, 
                                           &rr::ExecutableModel::getNumBoundarySpecies, (int)0, (int const*)0);
     }
+
     PyObject *getBoundarySpeciesConcentrations(int len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesConcentrations, 
                                          &rr::ExecutableModel::getNumBoundarySpecies,  len, indx);
@@ -527,6 +554,7 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getGlobalParameterValues, 
                                           &rr::ExecutableModel::getNumGlobalParameters, (int)0, (int const*)0);
     }
+
     PyObject *getCompartmentVolumes(int len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getCompartmentVolumes, 
                                          &rr::ExecutableModel::getNumCompartments,  len, indx);
@@ -536,6 +564,7 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getCompartmentVolumes, 
                                           &rr::ExecutableModel::getNumCompartments, (int)0, (int const*)0);
     }
+
     PyObject *getConservedSums(int len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getConservedSums, 
                                          &rr::ExecutableModel::getNumConservedSums,  len, indx);
@@ -545,6 +574,7 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getConservedSums, 
                                           &rr::ExecutableModel::getNumConservedSums, (int)0, (int const*)0);
     }
+
     PyObject *getReactionRates(int len, int const *indx) {
         return _ExecutableModel_getValues($self, &rr::ExecutableModel::getReactionRates, 
                                          &rr::ExecutableModel::getNumReactions,  len, indx);
@@ -584,5 +614,123 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
         return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumReactions, 
                                        &rr::ExecutableModel::getReactionId);
     }
+
+
+    /***
+     ** set values section
+     ***/
+
+    int setFloatingSpeciesAmounts(int len, double const *values) {
+        return $self->setFloatingSpeciesAmounts(len, 0, values);
+    }
+
+
+    //int setFloatingSpeciesAmountRates(int len, double const *values) {
+    //    return $self->setFloatingSpeciesAmountRates(len, 0, values);
+    //}
+
+
+    int setFloatingSpeciesConcentrations(int len, double const *values) {
+        return $self->setFloatingSpeciesConcentrations(len, 0, values);
+    }
+
+    //int setBoundarySpeciesAmounts(int len, double const *values) {
+    //    return $self->setBoundarySpeciesAmounts(len, 0, values);
+    //}
+
+    int setBoundarySpeciesConcentrations(int len, double const *values) {
+        return $self->setBoundarySpeciesConcentrations(len, 0, values);
+    }
+
+    int setGlobalParameterValues(int len, double const *values) {
+        return $self->setGlobalParameterValues(len, 0, values);
+    }
+
+    int setCompartmentVolumes(int len, double const *values) {
+        return $self->setCompartmentVolumes(len, 0, values);
+    }
+
+    int setConservedSums(int len, double const *values) {
+        return $self->setConservedSums(len, 0, values);
+    }
+
+    //int setReactionRates(int len, double const *values) {
+    //    return $self->setReactionRates(len, 0, values);
+    //}
+
+    int setFloatingSpeciesAmounts(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setFloatingSpeciesAmounts(leni, indx, values);
+    }
+
+
+    //int setFloatingSpeciesAmountRates(int len, double const *values) {
+    //    return $self->setFloatingSpeciesAmountRates(len, 0, values);
+    //}
+
+
+    int setFloatingSpeciesConcentrations(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setFloatingSpeciesConcentrations(leni, indx, values);
+    }
+
+    //int setBoundarySpeciesAmounts(int len, double const *values) {
+    //    return $self->setBoundarySpeciesAmounts(len, 0, values);
+    //}
+
+    int setBoundarySpeciesConcentrations(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setBoundarySpeciesConcentrations(leni, indx, values);
+    }
+
+    int setGlobalParameterValues(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setGlobalParameterValues(leni, indx, values);
+    }
+
+    int setCompartmentVolumes(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setCompartmentVolumes(leni, indx, values);
+    }
+
+    int setConservedSums(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setConservedSums(leni, indx, values);
+    }
+
+    //int setReactionRates(int len, double const *values) {
+    //    return $self->setReactionRates(len, 0, values);
+    //}
+
     
 }
