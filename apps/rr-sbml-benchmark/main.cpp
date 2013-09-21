@@ -115,7 +115,7 @@ int main(int argc, char** argv)
         settings.duration = atof(argv[7]);
     }
 
-    roadRunner.setSimulationSettings(settings);
+    roadRunner.setSimulateOptions(settings);
 
     const RoadRunnerData& data = *roadRunner.simulate(0);
     const DoubleMatrix& result = data.getData();
