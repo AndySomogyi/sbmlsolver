@@ -11,7 +11,7 @@
 // Indiana University, University of Washington
 
 #include "rrRoadRunner.h"
-#include "rrSimulationSettings.h"
+#include "rrRoadRunnerOptions.h"
 
 #include <iostream>
 #include <fstream>
@@ -100,19 +100,19 @@ int main(int argc, char** argv)
 
     roadRunner.loadSBMLFromFile(sbmlFile, &opt);
 
-    SimulationSettings settings(settingsFile);
+    SimulateOptions settings(settingsFile);
 
 
     // override steps
     if (argc > 6)
     {
         steps = strtol(argv[6], NULL, 0);
-        settings.mSteps = steps;
+        settings.steps = steps;
     }
 
     if (argc > 7)
     {
-        settings.mEndTime = atof(argv[7]);
+        settings.duration = atof(argv[7]);
     }
 
     roadRunner.setSimulationSettings(settings);

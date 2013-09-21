@@ -6,7 +6,6 @@
 #include "rrParameterType.h"
 #include "rrSelectionRecord.h"
 #include "rrRoadRunnerData.h"
-#include "rrSimulationSettings.h"
 #include "rrConstants.h"
 #include "rrNewArrayList.h"
 #include "rrCapabilities.h"
@@ -158,7 +157,7 @@ public:
     RoadRunnerData *getSimulationResult();
 
     bool loadSimulationSettings(const string& fName);
-    bool setSimulationSettings(const SimulationSettings& settings);
+    bool setSimulationSettings(const SimulateOptions& settings);
 
 
     bool initializeModel();
@@ -491,7 +490,7 @@ private:
      */
     LibStructural* mLS;
 
-    SimulationSettings mSettings;
+    SimulateOptions mSettings;
 
     int createDefaultSteadyStateSelectionList();
     int createDefaultTimeCourseSelectionList();

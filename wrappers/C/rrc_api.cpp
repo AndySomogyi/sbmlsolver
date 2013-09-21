@@ -664,9 +664,9 @@ RRCDataPtr rrcCallConv simulate(RRHandle handle)
         RoadRunner* rri = castFrom(handle);
 
         SimulateOptions options;
-        options.startTime = rri->getTimeStart();
-        options.endTime = rri->getTimeEnd();
-        options.nDataPoints = rri->getNumPoints();
+        options.start = rri->getTimeStart();
+        options.duration = rri->getTimeEnd() - options.start;
+        options.steps = rri->getNumPoints();
         options.flags = options.flags | SimulateOptions::ResetModel;
 
         if(!rri->simulate(&options))

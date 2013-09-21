@@ -62,6 +62,12 @@ static vector<string> createModelStringList(ExecutableModel *model,
     return strings;
 }
 
+/**
+ * convert the names from the sbml settings file into the
+ * RoadRunner selection syntax.
+ */
+static std::vector<std::string> createSelectionList(const SimulateOptions& o);
+
 
 //The instance count increases/decreases as instances are created/destroyed.
 int                   RoadRunner::mInstanceCount = 0;
@@ -232,19 +238,19 @@ bool RoadRunner::isModelLoaded()
     return mModel ? true : false;
 }
 
-bool RoadRunner::setSimulationSettings(const SimulationSettings& settings)
+bool RoadRunner::setSimulationSettings(const SimulateOptions& settings)
 {
     mSettings   = settings;
-    mTimeStart  = mSettings.mStartTime;
-    mTimeEnd    = mSettings.mEndTime;
-    mNumPoints  = mSettings.mSteps + 1;
+    mTimeStart  = mSettings.start;
+    mTimeEnd    = mSettings.start + mSettings.duration;
+    mNumPoints  = mSettings.steps + 1;
 
     //This one creates the list of what we will look at in the result
     createTimeCourseSelectionList();
 
     if (mCVode)
     {
-        mCVode->setTolerances(mSettings.mRelative, mSettings.mAbsolute);
+        mCVode->setTolerances(mSettings.relative, mSettings.absolute);
     }
 
     return true;
@@ -288,7 +294,7 @@ int RoadRunner::createDefaultTimeCourseSelectionList()
 
 int RoadRunner::createTimeCourseSelectionList()
 {
-    vector<string> theList = mSettings.getSelectionList();
+    vector<string> theList = createSelectionList(mSettings);
 
     if(theList.size() < 2)
     {
@@ -342,7 +348,7 @@ bool RoadRunner::initializeModel()
             delete mCVode;
         }
 
-        mCVode = new CvodeInterface(mModel, mSettings.mRelative, mSettings.mAbsolute);
+        mCVode = new CvodeInterface(mModel, mSettings.relative, mSettings.absolute);
 
         // reset the simulation state
         reset();
@@ -589,7 +595,7 @@ bool RoadRunner::createDefaultSelectionLists()
 
 bool RoadRunner::loadSimulationSettings(const string& fName)
 {
-    return setSimulationSettings(SimulationSettings(fName));
+    return setSimulationSettings(SimulateOptions(fName));
 }
 
 bool RoadRunner::unLoadModel()
@@ -3773,9 +3779,9 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* options)
     if (options == 0)
     {
         pOptions = new SimulateOptions();
-        pOptions->endTime = mTimeEnd;
-        pOptions->startTime = mTimeStart;
-        pOptions->nDataPoints = mNumPoints;
+        pOptions->start = mTimeStart;
+        pOptions->duration = mTimeEnd - mTimeStart;
+        pOptions->steps = mNumPoints;
         options = pOptions;
     }
 
@@ -3784,16 +3790,15 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* options)
         reset(); // reset back to initial conditions
     }
 
-    if (options->endTime < 0 || options->startTime < 0
-            || options->nDataPoints <= 0 || options->endTime
-            <= options->startTime)
+    if (options->duration < 0 || options->start < 0
+            || options->steps <= 0 )
     {
         throw CoreException("Illegal input to simulate");
     }
 
-    mTimeEnd = options->endTime;
-    mTimeStart = options->startTime;
-    mNumPoints = options->nDataPoints;
+    mTimeEnd = options->duration - options->start;
+    mTimeStart = options->start;
+    mNumPoints = options->steps;
 
     if (mNumPoints <= 1)
     {
@@ -3840,6 +3845,45 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* options)
 
     delete pOptions;
     return &mRoadRunnerData;
+}
+
+
+static std::vector<std::string> createSelectionList(const SimulateOptions& o)
+{
+    //read from settings the variables found in the amounts and concentrations lists
+    std::vector<std::string> theList;
+    SelectionRecord record;
+
+    theList.push_back("time");
+
+    int nrOfVars = o.variables.size();
+
+    for(int i = 0; i < o.amounts.size(); i++)
+    {
+        theList.push_back("[" + o.amounts[i] + "]");        //In the setSelection list below, the [] selects the correct 'type'
+    }
+
+    for(int i = 0; i < o.concentrations.size(); i++)
+    {
+        theList.push_back(o.concentrations[i]);
+    }
+
+    //We may have variables
+    //A variable 'exists' only in "variables", not in the amount or concentration section
+
+    for(int i = 0; i < o.variables.size(); i++)
+    {
+        string aVar = o.variables[i];
+
+        if ((find(o.amounts.begin(), o.amounts.end(), aVar) == o.amounts.end()) &&
+                (find(o.concentrations.begin(), o.concentrations.end(), aVar)
+                        == o.concentrations.end()))
+        {
+            theList.push_back(o.variables[i]);
+        }
+    }
+
+    return theList;
 }
 
 }//namespace

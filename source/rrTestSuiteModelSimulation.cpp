@@ -153,7 +153,7 @@ bool TestSuiteModelSimulation::CreateErrorData()
             double error = fabsl(mResultData(row, col) - mReferenceData(row,col));
             mErrorData(row, col) = error;
 
-            if(error > mSettings.mAbsolute + mSettings.mRelative*fabs(mReferenceData(row,col)))
+            if(error > mSettings.absolute + mSettings.relative*fabs(mReferenceData(row,col)))
             {
                 mNrOfFailingPoints++;;
             }

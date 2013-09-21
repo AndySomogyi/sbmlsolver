@@ -9,6 +9,8 @@
 #define RRROADRUNNEROPTIONS_H_
 
 #include "rrExporter.h"
+#include <string>
+#include <vector>
 #include <stdint.h>
 
 namespace rr
@@ -109,6 +111,13 @@ struct RR_DECLSPEC LoadSBMLOptions
 
 /**
  * RoadRunner simulation options.
+ *
+ * This is the full set of options that determines how RoadRunner performs
+ * a simulation of an sbml model.
+ *
+ * This is a superset of the values stored in a sbml test suite settings file, the
+ * documentation of the fields which correspond to an sbml test suite settings was
+ * taken from http://sbml.org
  */
 struct RR_DECLSPEC SimulateOptions
 {
@@ -125,14 +134,76 @@ struct RR_DECLSPEC SimulateOptions
      */
     SimulateOptions();
 
-    double startTime;
-    double endTime;
-    int nDataPoints;
-
     /**
      * a bitmask of the options specified in the Options enumeration.
      */
     uint32_t flags;
+
+    /**
+     * Set the default flags, but the fields start, duration, absolute, relative, variables,
+     * amounts and concentrations are loaded from an sbml test suite settings file.
+     */
+    SimulateOptions(const std::string& sbmlSettingFilePath);
+
+    /**
+     * The number of steps at which the output is sampled. The samples are evenly spaced.
+     * When a simulation system calculates the data points to record, it will typically
+     * divide the duration by the number of time steps. Thus, for X steps, the output
+     * will have X+1 data rows.
+     */
+    int steps;
+
+    /**
+     * The start time of the simulation time-series data.
+     * Often this is 0, but not necessarily.
+     */
+    double start;
+
+    /**
+     * The duration of the simulation run, in the model's units of time.
+     */
+    double duration;
+
+    /**
+     * A number representing the absolute difference permitted.
+     */
+    double absolute;
+
+    /**
+     * A float-point number representing the relative difference permitted.
+     * Defaults 0.0001
+     */
+    double relative;
+
+    /**
+     * The variables (in addition to time) whose values will be saved in the result.
+     * These are SBML model id's. Order is significant, as this determines the order
+     * of the columns in the result matrix.
+     *
+     * Important: if a symbol in this list refers to a species in the model,
+     * then that symbol will also be listed in either the amount or concentration
+     * lists below.
+     *
+     * NOTE:If a listed variable has two underscores in it ('__'), that variable
+     * is actually present only in a submodel of the main model, from the
+     * Hierarchical Model Composition package, in the format submodelID__variableID.
+     * If the model is flattened, the variable will appear automatically.
+     */
+    std::vector<std::string> variables;
+
+    /**
+     * A list of the variable whose output in the results file is in amount
+     * (not concentration) units. This list of variables must be a subset of
+     * the names listed in variables.
+     */
+    std::vector<std::string> amounts;
+
+    /**
+     * A list of the variable whose output in the results file is in concentration
+     * (not amount) units. This list of variables must be a subset of the names
+     * listed in variables.
+     */
+    std::vector<std::string> concentrations;
 };
 
 

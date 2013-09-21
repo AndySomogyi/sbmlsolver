@@ -112,6 +112,7 @@
 }
 
 
+/*
 %typemap(out) std::vector<std::string> {
 
     int len = $1.size();
@@ -127,9 +128,9 @@
 
     $result = pyList;
 }
+*/
 
-
-%apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
+//%apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
 
 %feature("docstring") rr::RoadRunner "
     The main RoadRunner class.
@@ -178,6 +179,14 @@
 
 
 %include "numpy.i"
+
+
+
+namespace std
+{
+    %template(IntVector) std::vector<int>;
+    %template(StringVector) std::vector<std::string>;
+}
 
 
 %init %{
