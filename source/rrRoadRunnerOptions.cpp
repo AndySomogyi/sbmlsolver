@@ -16,6 +16,8 @@
 
 using namespace std;
 
+static const double MaxRelative = 1.e-9;
+static const double MaxAbsolute = 1.e-11;
 
 namespace rr
 {
@@ -34,8 +36,8 @@ SimulateOptions::SimulateOptions()
 steps(50),
 start(0),
 duration(5),
-absolute(1.e-12),
-relative(1.e-9),
+absolute(MaxAbsolute),
+relative(MaxRelative),
 flags(0)
 {
 }
@@ -45,8 +47,8 @@ SimulateOptions::SimulateOptions(const std::string &fname)
 steps(50),
 start(0),
 duration(5),
-absolute(1.e-12),
-relative(1.e-9),
+absolute(MaxAbsolute),
+relative(MaxRelative),
 flags(0)
 {
 
@@ -135,8 +137,13 @@ flags(0)
         }
     }
 
-    absolute = 1.e-12;
-    relative = 1.e-9;
+    if (absolute > MaxAbsolute) {
+        absolute = MaxAbsolute;
+    }
+
+    if (relative > MaxRelative) {
+        relative = MaxRelative;
+    }
 }
 
 } /* namespace rr */
