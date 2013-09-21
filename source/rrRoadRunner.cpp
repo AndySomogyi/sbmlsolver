@@ -100,9 +100,6 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
                 "(=false) the conservation analysis "
                 "of models for timecourse simulations."),
         mSteadyStateSelection(),
-        mTimeStart(0),
-        mTimeEnd(10),
-        mNumPoints(21),
         mModel(0),
         mCurrentSBML(),
         mLS(0),
@@ -200,6 +197,7 @@ string RoadRunner::getExtendedVersionInfo()
 }
 
 
+
 LibStructural* RoadRunner::getLibStruct()
 {
     Mutex::ScopedLock lock(roadRunnerMutex);
@@ -238,12 +236,9 @@ bool RoadRunner::isModelLoaded()
     return mModel ? true : false;
 }
 
-bool RoadRunner::setSimulationSettings(const SimulateOptions& settings)
+bool RoadRunner::setSimulateOptions(const SimulateOptions& settings)
 {
     mSettings   = settings;
-    mTimeStart  = mSettings.start;
-    mTimeEnd    = mSettings.start + mSettings.duration;
-    mNumPoints  = mSettings.steps + 1;
 
     //This one creates the list of what we will look at in the result
     createTimeCourseSelectionList();
@@ -254,6 +249,11 @@ bool RoadRunner::setSimulationSettings(const SimulateOptions& settings)
     }
 
     return true;
+}
+
+const SimulateOptions& RoadRunner::getSimulateOptions() const
+{
+    return mSettings;
 }
 
 bool RoadRunner::computeAndAssignConservationLaws()
@@ -591,11 +591,6 @@ bool RoadRunner::createDefaultSelectionLists()
         Log(lDebug)<<"Created default SteadyState selection list.";
     }
     return result;
-}
-
-bool RoadRunner::loadSimulationSettings(const string& fName)
-{
-    return setSimulationSettings(SimulateOptions(fName));
 }
 
 bool RoadRunner::unLoadModel()
@@ -3171,9 +3166,10 @@ DoubleMatrix RoadRunner::getUnscaledConcentrationControlCoefficientMatrix()
             throw CoreException(gEmptyModelMessage);
         }
 
-        setTimeStart(0.0);
-        setTimeEnd(50.0);
-        setNumPoints(2);
+        mSettings.start = 0;
+        mSettings.duration = 50.0;
+        mSettings.steps = 1;
+
         simulate(); //This will crash, because numpoints == 1, not anymore, numPoints = 2 if numPoints <= 1
         if (steadyState() > mSteadyStateThreshold)
         {
@@ -3334,67 +3330,6 @@ string RoadRunner::getSBML()
     return mCurrentSBML;
 }
 
-// Help("Set the time start for the simulation")
-void RoadRunner::setTimeStart(double startTime)
-{
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-
-    if (startTime < 0)
-    {
-        throw CoreException("Time Start most be greater than zero");
-    }
-
-    mTimeStart = startTime;
-}
-
-//Help("Set the time end for the simulation")
-void RoadRunner::setTimeEnd(double endTime)
-{
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-
-    if (endTime <= 0)
-    {
-        throw CoreException("Time End most be greater than zero");
-    }
-
-    mTimeEnd = endTime;
-}
-
-//Help("Set the number of points to generate during the simulation")
-void RoadRunner::setNumPoints(int pts)
-{
-    if(!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-
-    mNumPoints = (pts <= 0) ? 2 : pts;
-}
-
-// [Help("get the currently set time start")]
-double RoadRunner::getTimeStart()
-{
-    return mTimeStart;
-}
-
-// [Help("get the currently set time end")]
-double RoadRunner::getTimeEnd()
-{
-   return mTimeEnd;
-}
-
-// [Help("get the currently set number of points")]
-int RoadRunner::getNumPoints()
-{
-   return mNumPoints;
-}
-
 // Help(
 //            "Change the initial conditions to another concentration vector (changes only initial conditions for floating Species)")
 void RoadRunner::changeInitialConditions(const vector<double>& ic)
@@ -3507,7 +3442,7 @@ void RoadRunner::correctMaxStep()
 {
     if(mCVode)
     {
-        double maxStep = (mTimeEnd - mTimeStart) / (mNumPoints);
+        double maxStep = (mSettings.duration) / (mSettings.steps + 1);
         maxStep = min(mCVode->mMaxStep, maxStep);
         mCVode->mMaxStep = maxStep;
     }
@@ -3779,9 +3714,9 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* options)
     if (options == 0)
     {
         pOptions = new SimulateOptions();
-        pOptions->start = mTimeStart;
-        pOptions->duration = mTimeEnd - mTimeStart;
-        pOptions->steps = mNumPoints;
+        pOptions->start = mSettings.start;
+        pOptions->duration = mSettings.duration;
+        pOptions->steps = mSettings.steps;
         options = pOptions;
     }
 
@@ -3796,16 +3731,16 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* options)
         throw CoreException("Illegal input to simulate");
     }
 
-    mTimeEnd = options->duration - options->start;
-    mTimeStart = options->start;
-    mNumPoints = options->steps;
+    double timeEnd = options->duration - options->start;
+    double timeStart = options->start;
+    int numPoints = options->steps + 1;
 
-    if (mNumPoints <= 1)
+    if (numPoints <= 1)
     {
-        mNumPoints = 2;
+        numPoints = 2;
     }
 
-    double hstep = (mTimeEnd - mTimeStart) / (mNumPoints - 1);
+    double hstep = (timeEnd - timeStart) / (numPoints - 1);
     int nrCols = mSelectionList.size();
 
     if(!nrCols)
@@ -3814,28 +3749,28 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* options)
     }
 
     // ignored if same
-    mRawRoadRunnerData.resize(mNumPoints, nrCols);
+    mRawRoadRunnerData.resize(options->steps + 1, nrCols);
 
     // evalute the model with its current state
-    mModel->evalModel(mTimeStart, 0, 0);
+    mModel->evalModel(timeStart, 0, 0);
 
-    addNthOutputToResult(mRawRoadRunnerData, 0, mTimeStart);
+    addNthOutputToResult(mRawRoadRunnerData, 0, timeStart);
 
     //Todo: Don't understand this code.. MTK
     if (mCVode->haveVariables())
     {
-        mCVode->reStart(mTimeStart, mModel);
+        mCVode->reStart(timeStart, mModel);
     }
 
-    double tout = mTimeStart;
+    double tout = timeStart;
 
     //The simulation is executed right here..
-    Log(Logger::PRIO_DEBUG)<<"Will run the OneStep function "<<mNumPoints<<" times";
-    for (int i = 1; i < mNumPoints; i++)
+    Log(Logger::PRIO_DEBUG)<<"Will run the OneStep function "<< options->steps + 1 <<" times";
+    for (int i = 1; i < options->steps + 1; i++)
     {
         Log(Logger::PRIO_DEBUG)<<"Step "<<i;
         mCVode->oneStep(tout, hstep);
-        tout = mTimeStart + i * hstep;
+        tout = timeStart + i * hstep;
         addNthOutputToResult(mRawRoadRunnerData, i, tout);
     }
     Log(Logger::PRIO_DEBUG)<<"Simulation done..";
