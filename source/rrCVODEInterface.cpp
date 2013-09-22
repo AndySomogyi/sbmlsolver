@@ -40,11 +40,10 @@ const int CvodeInterface::mDefaultMaxNumSteps = 10000;
 const int CvodeInterface::mDefaultMaxAdamsOrder = 12;
 const int CvodeInterface::mDefaultMaxBDFOrder = 5;
 
-CvodeInterface::CvodeInterface(ExecutableModel *aModel, double _relTol,
-        double _absTol)
+CvodeInterface::CvodeInterface(ExecutableModel *aModel, const SimulateOptions* options)
 :
-mDefaultReltol(_relTol),
-mDefaultAbsTol(_absTol),
+mDefaultReltol(options->relative),
+mDefaultAbsTol(options->absolute),
 mStateVector(NULL),
 mAbstolArray(NULL),
 mCVODE_Memory(NULL),
@@ -58,8 +57,8 @@ mInitStep(0.0),
 mMinStep(0.0),
 mMaxStep(0.0),
 mMaxNumSteps(mDefaultMaxNumSteps),
-mRelTol(_relTol),
-mAbsTol(_absTol),
+mRelTol(options->relative),
+mAbsTol(options->absolute),
 paramBDFOrder("BDFOrder", mMaxBDFOrder, "Maximum order for BDF Method"),
 paramAdamsOrder("AdamsOrder", mMaxAdamsOrder, "Maximum order for Adams Method"),
 paramRTol("rtol", mRelTol, "Relative Tolerance"),
@@ -294,6 +293,12 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
 
     model->evalModel(time, y, ydot);
 
+    if (cvInstance->mStateVectorSize == 0 && cvInstance->mStateVector &&
+            NV_LENGTH_S(cvInstance->mStateVector) == 1)
+    {
+        ydot[0] = 0.0;
+    }
+
     Log(Logger::PRIO_TRACE) << __FUNC__ << endl;
     Log(Logger::PRIO_TRACE) << model << endl;
 
@@ -344,7 +349,9 @@ void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
 
             assignNewVector(oModel, true);
 
+            // non-stiff solver for now
             mCVODE_Memory = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
+
             //SetMaxOrder(mCVODE_Memory, MaxBDFOrder);
             if(mCVODE_Memory)
             {
@@ -387,8 +394,9 @@ void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
             SetVector(mStateVector, 0, 0);
             SetVector(mAbstolArray, 0, mDefaultAbsTol);
 
+            // non stiff solver for now
             mCVODE_Memory = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
-            CVodeSetMaxOrd(mCVODE_Memory, mMaxBDFOrder);
+
             CVodeSetMaxNumSteps(mCVODE_Memory, mMaxNumSteps);
 
             int errCode = allocateCvodeMem();

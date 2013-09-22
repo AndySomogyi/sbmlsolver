@@ -4,6 +4,7 @@
 #include "rrCapability.h"
 #include "rrParameter.h"
 #include "Integrator.h"
+#include "rrRoadRunnerOptions.h"
 
 /**
  * CVode vector struct
@@ -26,8 +27,7 @@ public:
     int                         mRootCount;
     int                         mCount;
 
-    CvodeInterface(ExecutableModel* oModel, double relTol = 1.e-12,
-            double abTol = 1.e-12);
+    CvodeInterface(ExecutableModel* oModel, const SimulateOptions* options);
 
     virtual ~CvodeInterface();
 
@@ -115,6 +115,12 @@ private:
     Parameter<double> paramInitSteps;
     Parameter<double> paramMinStep;
     Parameter<double> paramMaxStep;
+
+    /**
+     * pointer to an options struct, this is typically
+     * owned by the RoadRunner object.
+     */
+    const SimulateOptions* options;
 
     friend void ModelFcn(int n, double time, double* y, double* ydot, void* userData);
     friend void EventFcn(double time, double* y, double* gdot, void* userData);

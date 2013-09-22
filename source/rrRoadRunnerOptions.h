@@ -24,24 +24,6 @@ namespace rr
  */
 struct RR_DECLSPEC LoadSBMLOptions
 {
-    /**
-     * the list of ODE solvers RoadRunner currently supports.
-     */
-    enum Integrator
-    {
-        CVODE
-    };
-
-    enum IntegratorOpt
-    {
-        /**
-         * Is the model a stiff system? setting this to stiff causes
-         * RoadRunner to load a stiff solver which could potentially be
-         * extremly slow
-         */
-        Stiff = (0x1 << 0), // => 0x00000001
-    };
-
     enum ModelGeneratorOpt
     {
         /**
@@ -95,16 +77,6 @@ struct RR_DECLSPEC LoadSBMLOptions
      */
     uint16_t size;
 
-    /**
-     * which integrator to use
-     */
-    Integrator integrator;
-
-    /**
-     * Set of options to use when configuring the integrator.
-     * This is a bitfield composed of options from the IntegratorOpt enum.
-     */
-    uint32_t integratorOpt;
 
     uint32_t modelGeneratorOpt;
 };
@@ -130,9 +102,33 @@ struct RR_DECLSPEC SimulateOptions
     };
 
     /**
+     * the list of ODE solvers RoadRunner currently supports.
+     */
+    enum Integrator
+    {
+        CVODE
+    };
+
+    enum IntegratorOpt
+    {
+        /**
+         * Is the model a stiff system? setting this to stiff causes
+         * RoadRunner to load a stiff solver which could potentially be
+         * extremly slow
+         */
+        Stiff = (0x1 << 0), // => 0x00000001
+    };
+
+    /**
      * init with default options.
      */
     SimulateOptions();
+
+    /**
+     * Set the default flags, but the fields start, duration, absolute, relative, variables,
+     * amounts and concentrations are loaded from an sbml test suite settings file.
+     */
+    SimulateOptions(const std::string& sbmlSettingFilePath);
 
     /**
      * a bitmask of the options specified in the Options enumeration.
@@ -140,10 +136,15 @@ struct RR_DECLSPEC SimulateOptions
     uint32_t flags;
 
     /**
-     * Set the default flags, but the fields start, duration, absolute, relative, variables,
-     * amounts and concentrations are loaded from an sbml test suite settings file.
+     * which integrator to use
      */
-    SimulateOptions(const std::string& sbmlSettingFilePath);
+    Integrator integrator;
+
+    /**
+     * Set of options to use when configuring the integrator.
+     * This is a bitfield composed of options from the IntegratorOpt enum.
+     */
+    uint32_t integratorOpt;
 
     /**
      * The number of steps at which the output is sampled. The samples are evenly spaced.

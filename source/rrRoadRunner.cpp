@@ -93,7 +93,7 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
         mRawRoadRunnerData(),
         mRoadRunnerData(),
         mCurrentSBMLFileName(""),
-        mCVode(new CvodeInterface(0)),
+        mCVode(0),
         mSelectionList(),
         mModelGenerator(0),
         mComputeAndAssignConservationLaws("Conservation", false, "enables (=true) or disables "
@@ -135,13 +135,13 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
     mInstanceID = mInstanceCount;
 
     //Setup additonal objects
-    mCapabilities.add(mCVode->getCapability());
+    // mCapabilities.add(mCVode->getCapability());
 
     // we currently use NLEQInterface as the only steady state solver.
     // should this change in the future, this should be replaced
     // with a factory pattern.
-    NLEQInterface ss = NLEQInterface();
-    mCapabilities.add(ss.getCapability());
+    //NLEQInterface ss = NLEQInterface();
+    //mCapabilities.add(ss.getCapability());
 }
 
 RoadRunner::~RoadRunner()
@@ -348,7 +348,7 @@ bool RoadRunner::initializeModel()
             delete mCVode;
         }
 
-        mCVode = new CvodeInterface(mModel, mSettings.relative, mSettings.absolute);
+        mCVode = new CvodeInterface(mModel, &mSettings);
 
         // reset the simulation state
         reset();

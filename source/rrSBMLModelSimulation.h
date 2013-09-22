@@ -35,7 +35,7 @@ class RR_DECLSPEC SBMLModelSimulation
         string                  GetTempDataFolder();
         bool                    UseEngine(RoadRunner* engine);
 
-        bool                    InitializeModel();
+
 
 
         bool                    SaveModelAsXML(const string& folder);

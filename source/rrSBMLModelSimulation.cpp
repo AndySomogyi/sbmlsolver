@@ -292,15 +292,6 @@ bool SBMLModelSimulation::CreateModel()
     return true;
 }
 
-bool SBMLModelSimulation::InitializeModel()
-{
-    if(!mEngine)
-    {
-        return false;
-    }
-
-    return mEngine->initializeModel();
-}
 
 bool SBMLModelSimulation::GenerateAndCompileModel()
 {

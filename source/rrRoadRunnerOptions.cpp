@@ -26,8 +26,6 @@ LoadSBMLOptions::LoadSBMLOptions()
 {
     version = 0;
     size = sizeof(LoadSBMLOptions);
-    integrator = CVODE;
-    integratorOpt = 0;
     modelGeneratorOpt = 0;
 }
 
@@ -38,7 +36,9 @@ start(0),
 duration(5),
 absolute(MaxAbsolute),
 relative(MaxRelative),
-flags(0)
+flags(0),
+integrator(CVODE),
+integratorOpt(0)
 {
 }
 
@@ -49,7 +49,9 @@ start(0),
 duration(5),
 absolute(MaxAbsolute),
 relative(MaxRelative),
-flags(0)
+flags(0),
+integrator(CVODE),
+integratorOpt(0)
 {
 
     if(!fname.size())
