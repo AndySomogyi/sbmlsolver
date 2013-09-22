@@ -184,14 +184,9 @@
 
 
 %template(IntVector) std::vector<int>;
-//%template(StringVector1) vector<string>;
+%template(StringVector) std::vector<std::string>;
 
-%template(StringVector2) std::vector<string>;
-
-//%template(StringVector3) vector<std::string>;
-
-%template(StringVector4) std::vector<std::string>;
-
+%apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
 
 
 %init %{
