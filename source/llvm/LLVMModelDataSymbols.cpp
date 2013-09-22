@@ -176,6 +176,7 @@ uint LLVMModelDataSymbols::getFloatingSpeciesIndex(
     }
     else
     {
+        /*
         string msg = "could not determine index for floating species with id ";
         msg += string("\'" + id + "\', ");
         if(i == floatingSpeciesMap.end())
@@ -187,6 +188,7 @@ uint LLVMModelDataSymbols::getFloatingSpeciesIndex(
             msg += " it is a floating species, but not indenpendent"
                     " -- it is defined by a rule";
         }
+        */
 
         throw LLVMException("could not find floating species with id " + id, __FUNC__);
     }
@@ -836,7 +838,7 @@ bool LLVMModelDataSymbols::isValidSpeciesReference(
         }
 
         err += ", it will be ignored.";
-        
+
         if  (isIndependentBoundarySpecies(id))
         {
             // fairly common
