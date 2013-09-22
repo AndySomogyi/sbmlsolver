@@ -335,7 +335,7 @@ void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
 
         if (mStateVectorSize > 0)
         {
-            mStateVector =     N_VNew_Serial(mStateVectorSize);
+            mStateVector = N_VNew_Serial(mStateVectorSize);
             mAbstolArray = N_VNew_Serial(mStateVectorSize);
             for (int i = 0; i < mStateVectorSize; i++)
             {
@@ -349,9 +349,9 @@ void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
             if(mCVODE_Memory)
             {
                 //CVodeSetMaxOrd(mCVODE_Memory, mMaxBDFOrder);
-                CVodeSetInitStep(mCVODE_Memory, mInitStep);
-                CVodeSetMinStep(mCVODE_Memory, mMinStep);
-                CVodeSetMaxStep(mCVODE_Memory, mMaxStep);
+                //CVodeSetInitStep(mCVODE_Memory, mInitStep);
+                //CVodeSetMinStep(mCVODE_Memory, mMinStep);
+                //CVodeSetMaxStep(mCVODE_Memory, mMaxStep);
                 CVodeSetMaxNumSteps(mCVODE_Memory, mMaxNumSteps);
             }
 
@@ -381,9 +381,10 @@ void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
         else if (mModel->getNumEvents() > 0)
         {
             int allocated = 1;
-            mStateVector         = N_VNew_Serial(allocated);
-            mAbstolArray     = N_VNew_Serial(allocated);
-            SetVector(mStateVector, 0, 10);
+            mStateVector = N_VNew_Serial(allocated);
+            mAbstolArray = N_VNew_Serial(allocated);
+
+            SetVector(mStateVector, 0, 0);
             SetVector(mAbstolArray, 0, mDefaultAbsTol);
 
             mCVODE_Memory = (void*) CVodeCreate(CV_BDF, CV_NEWTON);
@@ -534,9 +535,9 @@ void CvodeInterface::reStart(double timeStart, ExecutableModel* model)
 
     if(mCVODE_Memory)
     {
-        CVodeSetInitStep(mCVODE_Memory, mInitStep);
-        CVodeSetMinStep(mCVODE_Memory, mMinStep);
-        CVodeSetMaxStep(mCVODE_Memory, mMaxStep);
+        //CVodeSetInitStep(mCVODE_Memory, mInitStep);
+        //CVodeSetMinStep(mCVODE_Memory, mMinStep);
+        //CVodeSetMaxStep(mCVODE_Memory, mMaxStep);
         reInit(timeStart);
     }
 }
