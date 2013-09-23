@@ -297,9 +297,9 @@ RoadRunnerData LMFitThread::createModelData()
     }
 
     SimulateOptions options;
-    options.startTime = mLMData.timeStart;
-    options.endTime = mLMData.timeEnd;
-    options.nDataPoints = mLMData.nrOfTimePoints;
+    options.start = mLMData.timeStart;
+    options.duration = mLMData.timeEnd - mLMData.timeStart;
+    options.steps = mLMData.nrOfTimePoints;
     options.flags = options.flags | SimulateOptions::ResetModel;
 
     if(mRRI->simulate(&options))

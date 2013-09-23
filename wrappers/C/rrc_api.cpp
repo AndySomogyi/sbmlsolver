@@ -511,7 +511,7 @@ bool rrcCallConv loadSimulationSettings(RRHandle handle, const char* fileName)
         }
 
         RoadRunner* rri = castFrom(handle);
-        if(!rri->loadSimulationSettings(fileName))
+        if(!rri->setSimulateOptions(SimulateOptions(fileName)))
         {
             setError("Failed to load simulation settings");
             return false;
@@ -556,7 +556,9 @@ bool rrcCallConv setTimeStart(RRHandle handle, const double timeStart)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        rri->setTimeStart(timeStart);
+        SimulateOptions opt = rri->getSimulateOptions();
+        opt.start = timeStart;
+        rri->setSimulateOptions(opt);
         return true;
     }
     catch_bool_macro
@@ -567,7 +569,9 @@ bool rrcCallConv setTimeEnd(RRHandle handle, const double timeEnd)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        rri->setTimeEnd(timeEnd);
+        SimulateOptions opt = rri->getSimulateOptions();
+        opt.duration = timeEnd - opt.start;
+        rri->setSimulateOptions(opt);
         return true;
     }
     catch_bool_macro
@@ -578,7 +582,9 @@ bool rrcCallConv setNumPoints(RRHandle handle, const int nrPoints)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        rri->setNumPoints(nrPoints);
+        SimulateOptions opt = rri->getSimulateOptions();
+        opt.steps = nrPoints - 1;
+        rri->setSimulateOptions(opt);
         return true;
     }
     catch_bool_macro
@@ -589,7 +595,7 @@ bool rrcCallConv getTimeStart(RRHandle handle, double* timeStart)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        *timeStart = rri->getTimeStart();
+        *timeStart = rri->getSimulateOptions().start;
         return true;
     }
     catch_bool_macro
@@ -600,7 +606,7 @@ bool rrcCallConv getTimeEnd(RRHandle handle, double* timeEnd)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        *timeEnd = rri->getTimeEnd();
+        *timeEnd = rri->getSimulateOptions().duration + rri->getSimulateOptions().start;
         return true;
     }
     catch_bool_macro
@@ -611,7 +617,7 @@ bool rrcCallConv getNumPoints(RRHandle handle, int* numPoints)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        *numPoints = rri->getNumPoints();
+        *numPoints = rri->getSimulateOptions().steps;
         return true;
     }
     catch_bool_macro
@@ -664,9 +670,9 @@ RRCDataPtr rrcCallConv simulate(RRHandle handle)
         RoadRunner* rri = castFrom(handle);
 
         SimulateOptions options;
-        options.startTime = rri->getTimeStart();
-        options.endTime = rri->getTimeEnd();
-        options.nDataPoints = rri->getNumPoints();
+        options.start = rri->getSimulateOptions().start;
+        options.duration = rri->getSimulateOptions().duration;
+        options.steps = rri->getSimulateOptions().steps;
         options.flags = options.flags | SimulateOptions::ResetModel;
 
         if(!rri->simulate(&options))

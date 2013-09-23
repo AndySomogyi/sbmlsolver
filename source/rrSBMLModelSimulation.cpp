@@ -22,8 +22,8 @@ mCompileIfDllExists(true),
 mTempDataFolder(tempDataFilePath),
 mEngine(NULL)
 {
-    mSettings.mAbsolute    = 1.e-7;
-    mSettings.mRelative    = 1.e-4;
+    mSettings.absolute    = 1.e-7;
+    mSettings.relative    = 1.e-4;
 }
 
 SBMLModelSimulation::~SBMLModelSimulation()
@@ -149,21 +149,19 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
 
         //Assign values
         it = settings.find("start");
-        mSettings.mStartTime = (it != settings.end())   ? toDouble((*it).second) : 0;
+        mSettings.start = (it != settings.end())   ? toDouble((*it).second) : 0;
 
         it = settings.find("duration");
-        mSettings.mDuration = (it != settings.end())    ? toDouble((*it).second) : 0;
+        mSettings.duration = (it != settings.end())    ? toDouble((*it).second) : 0;
 
         it = settings.find("steps");
-        mSettings.mSteps = (it != settings.end())       ? toInt((*it).second) : 50;
+        mSettings.steps = (it != settings.end())       ? toInt((*it).second) : 50;
 
         it = settings.find("absolute");
-        mSettings.mAbsolute = (it != settings.end())    ? toDouble((*it).second) : 1.e-7;
+        mSettings.absolute = (it != settings.end())    ? toDouble((*it).second) : 1.e-7;
 
         it = settings.find("relative");
-        mSettings.mRelative = (it != settings.end())    ? toDouble((*it).second) : 1.e-4;
-
-        mSettings.mEndTime = mSettings.mStartTime + mSettings.mDuration;
+        mSettings.relative = (it != settings.end())    ? toDouble((*it).second) : 1.e-4;
 
         it = settings.find("variables");
         if(it != settings.end())
@@ -171,7 +169,7 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
             vector<string> vars = splitString((*it).second, ",");
             for(u_int i = 0; i < vars.size(); i++)
             {
-                mSettings.mVariables.push_back(trim(vars[i]));
+                mSettings.variables.push_back(trim(vars[i]));
             }
         }
 
@@ -184,7 +182,7 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
                 string rec = trim(vars[i]);
                 if(rec.size())
                 {
-                    mSettings.mAmount.push_back(rec);
+                    mSettings.amounts.push_back(rec);
                 }
             }
         }
@@ -198,7 +196,7 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
                 string rec = trim(vars[i]);
                 if(rec.size())
                 {
-                    mSettings.mConcentration.push_back(rec);
+                    mSettings.concentrations.push_back(rec);
                 }
             }
         }
@@ -206,7 +204,7 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
 
     if(mEngine)
     {
-        mEngine->setSimulationSettings(mSettings);
+        mEngine->setSimulateOptions(mSettings);
 
         //This one creates the list of what we will look at in the result
         mEngine->createTimeCourseSelectionList();
@@ -217,20 +215,19 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
 
 bool SBMLModelSimulation::SetTimeStart(const double& startTime)
 {
-    mSettings.mStartTime   = startTime;
+    mSettings.start   = startTime;
     return true;
 }
 
 bool SBMLModelSimulation::SetTimeEnd(const double& endTime)
 {
-    mSettings.mEndTime = endTime;
-    mSettings.mDuration = mSettings.mEndTime - mSettings.mStartTime;
+    mSettings.duration = endTime - mSettings.start;
     return true;
 }
 
 bool SBMLModelSimulation::SetNumberOfPoints(const int& steps)
 {
-    mSettings.mSteps       = steps;
+    mSettings.steps       = steps;
     return true;
 }
 
@@ -239,10 +236,10 @@ bool SBMLModelSimulation::SetSelectionList(const string& selectionList)
     vector<string> vars = splitString(selectionList, ", ");
     for(u_int i = 0; i < vars.size(); i++)
     {
-        mSettings.mVariables.push_back(trim(vars[i]));
+        mSettings.variables.push_back(trim(vars[i]));
     }
 
-    mEngine->setSimulationSettings(mSettings);
+    mEngine->setSimulateOptions(mSettings);
     mEngine->createTimeCourseSelectionList();    //This one creates the list of what we will look at in the result
     return true;
 }
@@ -295,15 +292,6 @@ bool SBMLModelSimulation::CreateModel()
     return true;
 }
 
-bool SBMLModelSimulation::InitializeModel()
-{
-    if(!mEngine)
-    {
-        return false;
-    }
-
-    return mEngine->initializeModel();
-}
 
 bool SBMLModelSimulation::GenerateAndCompileModel()
 {

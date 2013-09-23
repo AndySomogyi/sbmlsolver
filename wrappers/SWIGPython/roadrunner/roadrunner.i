@@ -3,8 +3,6 @@
 %module(docstring="The RoadRunner SBML Simulation Engine,
 (c) 2009-2013 Herbert Sauro, Andy Somogyi and Totte Karlsson", "threads"=1) roadrunner
 
-
-//%module Example
 // ************************************************************
 // Module Includes
 // ************************************************************
@@ -12,6 +10,29 @@
 // These are copied directly to the .cxx file and are not parsed
 // by SWIG.  Include include files or definitions that are required
 // for the module to build correctly.
+
+%{
+    #define SWIG_FILE_WITH_INIT
+    #include <numpy/arrayobject.h>
+    #include <lsComplex.h>
+    #include <lsMatrix.h>
+    #include <lsLibla.h>
+    #include <lsLA.h>
+    #include <lsLUResult.h>
+    #include <lsUtils.h>
+    #include <rrCompiler.h>
+    #include <rrModelGenerator.h>
+    #include <rrExecutableModel.h>
+    #include <rrRoadRunnerData.h>
+    #include <rrRoadRunnerOptions.h>
+    #include <rrRoadRunner.h>
+    #include <rrLogger.h>
+    #include <cstddef>
+    #include <map>
+
+    using namespace rr;
+%}
+
 
 // C++ std::string handling
 %include "std_string.i"
@@ -98,12 +119,12 @@
     npy_intp dims[1] = {len};
 
     PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
-    
+
     if (!array) {
         // TODO error handling.
         return 0;
     }
-    
+
     double *data = (double*)PyArray_DATA((PyArrayObject*)array);
 
     memcpy(data, &($1)[0], sizeof(double)*len);
@@ -112,6 +133,7 @@
 }
 
 
+/*
 %typemap(out) std::vector<std::string> {
 
     int len = $1.size();
@@ -127,9 +149,9 @@
 
     $result = pyList;
 }
+*/
 
-
-%apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
+//%apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
 
 %feature("docstring") rr::RoadRunner "
     The main RoadRunner class.
@@ -153,30 +175,18 @@
     column vector, and the 0'th column is the simulation time.";
 
 
-%{
-    #define SWIG_FILE_WITH_INIT
-    #include <numpy/arrayobject.h>
-    #include <lsComplex.h>
-    #include <lsMatrix.h>
-    #include <lsLibla.h>
-    #include <lsLA.h>
-    #include <lsLUResult.h>
-    #include <lsUtils.h>
-    #include <rrCompiler.h>
-    #include <rrExecutableModel.h>
-    #include <rrRoadRunnerData.h>
-    #include <rrRoadRunnerOptions.h>
-    #include <rrRoadRunner.h>
-    #include <rrLogger.h>
-    #include <cstddef>
-    #include <map>
 
-    using namespace std;
-    using namespace rr;
-%}
 
 
 %include "numpy.i"
+
+
+
+
+%template(IntVector) std::vector<int>;
+%template(StringVector) std::vector<std::string>;
+
+%apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
 
 
 %init %{
@@ -187,26 +197,29 @@ import_array();
 %{
 
 typedef int (rr::ExecutableModel::*getValuesPtr)(int, int const*, double*);
+typedef string (ExecutableModel::*getNamePtr)(int);
+typedef int (ExecutableModel::*getNumPtr)();
 
-static PyObject* _ExecutableModel_getValues(rr::ExecutableModel *self, getValuesPtr func, 
-                                            int len, int const *indx) {
+
+static PyObject* _ExecutableModel_getValues(rr::ExecutableModel *self, getValuesPtr func,
+                                            getNumPtr numPtr, int len, int const *indx) {
     if (len <= 0) {
-        len = self->getNumCompartments();
+        len = (self->*numPtr)();
         indx = 0;
     }
-    
+
     npy_intp dims[1] = {len};
     PyObject *array = PyArray_SimpleNew(1, dims, NPY_DOUBLE);
-    
+
     if (!array) {
         // TODO error handling.
         return 0;
     }
-    
+
     double *data = (double*)PyArray_DATA((PyArrayObject*)array);
-    
+
     (self->*func)(len, indx, data);
-    
+
     // TODO check result
     return array;
 }
@@ -215,8 +228,6 @@ static PyObject* _ExecutableModel_getValues(rr::ExecutableModel *self, getValues
 // we can write a single function to pick the string lists out
 // of the model instead of duplicating it 6 times with
 // fun ptrs.
-typedef string (ExecutableModel::*getNamePtr)(int);
-typedef int (ExecutableModel::*getNumPtr)();
 
 // make this static here, hide our implementation...
 static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
@@ -241,6 +252,12 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 
 %apply (int DIM1, int* IN_ARRAY1) {(int len, int const *indx)};
 
+%apply (int DIM1, double* IN_ARRAY1) {(int len, double const *values)};
+
+// typemap for the set***Values methods
+%apply (int DIM1, int* IN_ARRAY1) {(int leni, int const* indx)};
+%apply (int DIM1, double* IN_ARRAY1) {(int lenv, const  double* values)};
+
 #define LIB_EXTERN
 #define RR_DECLSPEC
 #define PUGIXML_CLASS
@@ -262,9 +279,9 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 %ignore rr::RoadRunner::getAvailableSteadyStateSymbols();
 
 
-%ignore rr::RoadRunner::addCapabilities;                                   
-%ignore rr::RoadRunner::getFloatingSpeciesIds;                             
-%ignore rr::RoadRunner::getRateOfChangeIds;                                
+%ignore rr::RoadRunner::addCapabilities;
+%ignore rr::RoadRunner::getFloatingSpeciesIds;
+%ignore rr::RoadRunner::getRateOfChangeIds;
 %ignore rr::RoadRunner::getuCC;
 %ignore rr::RoadRunner::addCapability;
 %ignore rr::RoadRunner::getFloatingSpeciesInitialConcentrationByIndex;
@@ -417,21 +434,21 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 
 
 %ignore rr::ExecutableModel::getFloatingSpeciesAmounts(int, int const*, double *);
-%ignore rr::ExecutableModel::setFloatingSpeciesAmounts;
+%ignore rr::ExecutableModel::setFloatingSpeciesAmounts(int len, int const *indx, const double *values);
 %ignore rr::ExecutableModel::getFloatingSpeciesAmountRates(int, int const*, double *);
 %ignore rr::ExecutableModel::getFloatingSpeciesConcentrations(int, int const*, double *);
-%ignore rr::ExecutableModel::setFloatingSpeciesConcentrations;
-%ignore rr::ExecutableModel::setFloatingSpeciesInitConcentrations;
+%ignore rr::ExecutableModel::setFloatingSpeciesConcentrations(int len, int const *indx, const double *values);
+%ignore rr::ExecutableModel::setFloatingSpeciesInitConcentrations(int len, int const *indx, const double *values);
 %ignore rr::ExecutableModel::getFloatingSpeciesInitConcentrations(int, int const*, double *);
 %ignore rr::ExecutableModel::getBoundarySpeciesAmounts(int, int const*, double *);
 %ignore rr::ExecutableModel::getBoundarySpeciesConcentrations(int, int const*, double *);
-%ignore rr::ExecutableModel::setBoundarySpeciesConcentrations;
+%ignore rr::ExecutableModel::setBoundarySpeciesConcentrations(int len, int const *indx, const double *values);
 %ignore rr::ExecutableModel::getGlobalParameterValues(int, int const*, double *);
-%ignore rr::ExecutableModel::setGlobalParameterValues;
+%ignore rr::ExecutableModel::setGlobalParameterValues(int len, int const *indx, const double *values);
 %ignore rr::ExecutableModel::getCompartmentVolumes(int, int const*, double *);
-%ignore rr::ExecutableModel::setCompartmentVolumes;
+%ignore rr::ExecutableModel::setCompartmentVolumes(int len, int const *indx, const double *values);
 %ignore rr::ExecutableModel::getConservedSums(int, int const*, double *);
-%ignore rr::ExecutableModel::setConservedSums;
+%ignore rr::ExecutableModel::setConservedSums(int len, int const *indx, const double *values);
 %ignore rr::ExecutableModel::getReactionRates(int, int const*, double *);
 %ignore rr::ExecutableModel::evalReactionRates;
 %ignore rr::ExecutableModel::convertToAmounts;
@@ -456,12 +473,30 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 %ignore rr::ExecutableModel::resetEvents;
 %ignore rr::ExecutableModel::getStoichiometry;
 
+%ignore rr::ExecutableModel::getFloatingSpeciesId(int index);
+%ignore rr::ExecutableModel::getBoundarySpeciesId(int index);
+%ignore rr::ExecutableModel::getGlobalParameterId(int index);
+%ignore rr::ExecutableModel::getCompartmentId(int index);
+%ignore rr::ExecutableModel::getConservedSumId(int index);
+%ignore rr::ExecutableModel::getReactionId(int index);
+
+%ignore rr::ExecutableModel::getFloatingSpeciesIndex(const std::string& eid);
+%ignore rr::ExecutableModel::getBoundarySpeciesIndex(const std::string &eid);
+%ignore rr::ExecutableModel::getGlobalParameterIndex(const std::string& eid);
+%ignore rr::ExecutableModel::getCompartmentIndex(const std::string& eid);
+%ignore rr::ExecutableModel::getConservedSumIndex(const std::string& eid);
+%ignore rr::ExecutableModel::getReactionIndex(const std::string& eid);
+
+
+/**
+ * include the roadrunner files here, this is where the wrappers are generated.
+ */
 %include <rrRoadRunnerOptions.h>
-%include <rrRoadRunner.h>
 %include <rrLogger.h>
 %include <rrCompiler.h>
 %include <rrExecutableModel.h>
-
+%include <rrModelGenerator.h>
+%include <rrRoadRunner.h>
 
 %extend rr::ExecutableModel
 {
@@ -471,117 +506,240 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
      ***/
 
     PyObject *getFloatingSpeciesAmounts(int len, int const *indx) {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmounts, 
-                                          len, indx);
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmounts,
+                                          &rr::ExecutableModel::getNumFloatingSpecies, len, indx);
     }
 
     PyObject *getFloatingSpeciesAmounts() {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmounts, 
-                                          (int)0, (int const*)0);
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmounts,
+                                          &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
     }
 
     PyObject *getFloatingSpeciesAmountRates(int len, int const *indx) {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmountRates, 
-                                          len, indx);
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmountRates,
+                                         &rr::ExecutableModel::getNumFloatingSpecies,  len, indx);
     }
 
     PyObject *getFloatingSpeciesAmountRates() {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmountRates, 
-                                          (int)0, (int const*)0);
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesAmountRates,
+                                          &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
     }
 
     PyObject *getFloatingSpeciesConcentrations(int len, int const *indx) {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesConcentrations, 
-                                          len, indx);
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesConcentrations,
+                                         &rr::ExecutableModel::getNumFloatingSpecies,  len, indx);
     }
 
     PyObject *getFloatingSpeciesConcentrations() {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesConcentrations, 
-                                          (int)0, (int const*)0);
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getFloatingSpeciesConcentrations,
+                                          &rr::ExecutableModel::getNumFloatingSpecies, (int)0, (int const*)0);
     }
+
     PyObject *getBoundarySpeciesAmounts(int len, int const *indx) {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesAmounts, 
-                                          len, indx);
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesAmounts,
+                                         &rr::ExecutableModel::getNumBoundarySpecies,  len, indx);
     }
 
     PyObject *getBoundarySpeciesAmounts() {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesAmounts, 
-                                          (int)0, (int const*)0);
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesAmounts,
+                                          &rr::ExecutableModel::getNumBoundarySpecies, (int)0, (int const*)0);
     }
+
     PyObject *getBoundarySpeciesConcentrations(int len, int const *indx) {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesConcentrations, 
-                                          len, indx);
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesConcentrations,
+                                         &rr::ExecutableModel::getNumBoundarySpecies,  len, indx);
     }
 
     PyObject *getBoundarySpeciesConcentrations() {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesConcentrations, 
-                                          (int)0, (int const*)0);
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getBoundarySpeciesConcentrations,
+                                          &rr::ExecutableModel::getNumBoundarySpecies, (int)0, (int const*)0);
     }
     PyObject *getGlobalParameterValues(int len, int const *indx) {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getGlobalParameterValues, 
-                                          len, indx);
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getGlobalParameterValues,
+                                         &rr::ExecutableModel::getNumGlobalParameters,  len, indx);
     }
 
     PyObject *getGlobalParameterValues() {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getGlobalParameterValues, 
-                                          (int)0, (int const*)0);
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getGlobalParameterValues,
+                                          &rr::ExecutableModel::getNumGlobalParameters, (int)0, (int const*)0);
     }
+
     PyObject *getCompartmentVolumes(int len, int const *indx) {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getCompartmentVolumes, 
-                                          len, indx);
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getCompartmentVolumes,
+                                         &rr::ExecutableModel::getNumCompartments,  len, indx);
     }
 
     PyObject *getCompartmentVolumes() {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getCompartmentVolumes, 
-                                          (int)0, (int const*)0);
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getCompartmentVolumes,
+                                          &rr::ExecutableModel::getNumCompartments, (int)0, (int const*)0);
     }
+
     PyObject *getConservedSums(int len, int const *indx) {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getConservedSums, 
-                                          len, indx);
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getConservedSums,
+                                         &rr::ExecutableModel::getNumConservedSums,  len, indx);
     }
 
     PyObject *getConservedSums() {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getConservedSums, 
-                                          (int)0, (int const*)0);
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getConservedSums,
+                                          &rr::ExecutableModel::getNumConservedSums, (int)0, (int const*)0);
     }
+
     PyObject *getReactionRates(int len, int const *indx) {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getReactionRates, 
-                                          len, indx);
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getReactionRates,
+                                         &rr::ExecutableModel::getNumReactions,  len, indx);
     }
 
     PyObject *getReactionRates() {
-        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getReactionRates, 
-                                          (int)0, (int const*)0);
+        return _ExecutableModel_getValues($self, &rr::ExecutableModel::getReactionRates,
+                                          &rr::ExecutableModel::getNumReactions, (int)0, (int const*)0);
     }
 
     /***
      ** get ids section
      ***/
-    
+
 
     PyObject *getFloatingSpeciesIds() {
-        return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumFloatingSpecies, 
+        return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumFloatingSpecies,
                                        &rr::ExecutableModel::getFloatingSpeciesId);
     }
 
     PyObject *getBoundarySpeciesIds() {
-        return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumBoundarySpecies, 
+        return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumBoundarySpecies,
                                        &rr::ExecutableModel::getBoundarySpeciesId);
     }
 
     PyObject *getGlobalParameterIds() {
-        return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumGlobalParameters, 
+        return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumGlobalParameters,
                                        &rr::ExecutableModel::getGlobalParameterId);
     }
 
     PyObject *getCompartmentIds() {
-        return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumCompartments, 
+        return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumCompartments,
                                        &rr::ExecutableModel::getCompartmentId);
     }
 
     PyObject *getReactionIds() {
-        return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumReactions, 
+        return _ExecutableModel_getIds($self, &rr::ExecutableModel::getNumReactions,
                                        &rr::ExecutableModel::getReactionId);
     }
-    
+
+
+    /***
+     ** set values section
+     ***/
+
+    int setFloatingSpeciesAmounts(int len, double const *values) {
+        return $self->setFloatingSpeciesAmounts(len, 0, values);
+    }
+
+
+    //int setFloatingSpeciesAmountRates(int len, double const *values) {
+    //    return $self->setFloatingSpeciesAmountRates(len, 0, values);
+    //}
+
+
+    int setFloatingSpeciesConcentrations(int len, double const *values) {
+        return $self->setFloatingSpeciesConcentrations(len, 0, values);
+    }
+
+    //int setBoundarySpeciesAmounts(int len, double const *values) {
+    //    return $self->setBoundarySpeciesAmounts(len, 0, values);
+    //}
+
+    int setBoundarySpeciesConcentrations(int len, double const *values) {
+        return $self->setBoundarySpeciesConcentrations(len, 0, values);
+    }
+
+    int setGlobalParameterValues(int len, double const *values) {
+        return $self->setGlobalParameterValues(len, 0, values);
+    }
+
+    int setCompartmentVolumes(int len, double const *values) {
+        return $self->setCompartmentVolumes(len, 0, values);
+    }
+
+    int setConservedSums(int len, double const *values) {
+        return $self->setConservedSums(len, 0, values);
+    }
+
+    //int setReactionRates(int len, double const *values) {
+    //    return $self->setReactionRates(len, 0, values);
+    //}
+
+    int setFloatingSpeciesAmounts(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setFloatingSpeciesAmounts(leni, indx, values);
+    }
+
+
+    //int setFloatingSpeciesAmountRates(int len, double const *values) {
+    //    return $self->setFloatingSpeciesAmountRates(len, 0, values);
+    //}
+
+
+    int setFloatingSpeciesConcentrations(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setFloatingSpeciesConcentrations(leni, indx, values);
+    }
+
+    //int setBoundarySpeciesAmounts(int len, double const *values) {
+    //    return $self->setBoundarySpeciesAmounts(len, 0, values);
+    //}
+
+    int setBoundarySpeciesConcentrations(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setBoundarySpeciesConcentrations(leni, indx, values);
+    }
+
+    int setGlobalParameterValues(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setGlobalParameterValues(leni, indx, values);
+    }
+
+    int setCompartmentVolumes(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setCompartmentVolumes(leni, indx, values);
+    }
+
+    int setConservedSums(int leni, int const* indx, int lenv, double const *values) {
+        if (leni != lenv) {
+            PyErr_Format(PyExc_ValueError,
+                         "Arrays of lengths (%d,%d) given",
+                         leni, lenv);
+            return -1;
+        }
+        return $self->setConservedSums(leni, indx, values);
+    }
+
+    //int setReactionRates(int len, double const *values) {
+    //    return $self->setReactionRates(len, 0, values);
+    //}
+
+
 }

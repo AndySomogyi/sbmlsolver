@@ -4,7 +4,7 @@
 #include <string>
 #include "rrExporter.h"
 #include "rrStringUtils.h"
-#include "rrSimulationSettings.h"
+#include "rrRoadRunnerOptions.h"
 #include "rrRoadRunnerData.h"
 
 namespace rr
@@ -21,7 +21,7 @@ class RR_DECLSPEC SBMLModelSimulation
         string                  mDataOutputFolder;
         string                  mTempDataFolder;
         RoadRunner             *mEngine;
-        SimulationSettings      mSettings;
+        SimulateOptions         mSettings;
         bool                    mCompileIfDllExists;
 
     public:
@@ -35,7 +35,7 @@ class RR_DECLSPEC SBMLModelSimulation
         string                  GetTempDataFolder();
         bool                    UseEngine(RoadRunner* engine);
 
-        bool                    InitializeModel();
+
 
 
         bool                    SaveModelAsXML(const string& folder);

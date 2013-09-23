@@ -13,7 +13,6 @@
 #include "rrExporter.h"
 #include "rrConstants.h"
 #include "rrStringList.h"
-#include "rrSimulationSettings.h"
 #include "rrStringUtils.h"
 //---------------------------------------------------------------------------
 

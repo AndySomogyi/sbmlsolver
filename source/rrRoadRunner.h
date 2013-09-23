@@ -6,7 +6,6 @@
 #include "rrParameterType.h"
 #include "rrSelectionRecord.h"
 #include "rrRoadRunnerData.h"
-#include "rrSimulationSettings.h"
 #include "rrConstants.h"
 #include "rrNewArrayList.h"
 #include "rrCapabilities.h"
@@ -157,8 +156,9 @@ public:
      */
     RoadRunnerData *getSimulationResult();
 
-    bool loadSimulationSettings(const string& fName);
-    bool setSimulationSettings(const SimulationSettings& settings);
+    bool setSimulateOptions(const SimulateOptions& settings);
+
+    const SimulateOptions& getSimulateOptions() const;
 
 
     bool initializeModel();
@@ -166,12 +166,6 @@ public:
     bool createDefaultSelectionLists();
     string getSBML();
 
-    double getTimeStart();
-    double getTimeEnd();
-    int getNumPoints();
-    void setTimeStart(double startTime);
-    void setTimeEnd(double endTime);
-    void setNumPoints(int nummberOfPoints);
 
     /**
      * Reset the simulator back to the initial conditions specified in the SBML model,
@@ -478,9 +472,6 @@ private:
     rr::Parameter<bool> mComputeAndAssignConservationLaws;
 
     vector<SelectionRecord> mSteadyStateSelection;
-    double mTimeStart;
-    double mTimeEnd;
-    int mNumPoints;
 
     ExecutableModel* mModel;
 
@@ -491,7 +482,7 @@ private:
      */
     LibStructural* mLS;
 
-    SimulationSettings mSettings;
+    SimulateOptions mSettings;
 
     int createDefaultSteadyStateSelectionList();
     int createDefaultTimeCourseSelectionList();

@@ -4,7 +4,7 @@
 #include <string>
 #include "rrSBMLModelSimulation.h"
 #include "rrStringUtils.h"
-#include "rrSimulationSettings.h"
+#include "rrRoadRunnerOptions.h"
 #include "rrRoadRunnerData.h"
 
 namespace rr
