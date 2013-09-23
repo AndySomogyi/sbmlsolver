@@ -6,7 +6,6 @@
 #include <iostream>
 #include "rrNewArrayListItem.h"
 
-using namespace std;
 namespace rr
 {
 class StringList;
@@ -15,7 +14,7 @@ class RR_DECLSPEC NewArrayList
 {
     protected:
     public:
-        vector< NewArrayListItemObject* >		mList; //List of NewArrayListItemObject items
+        vector< NewArrayListItemObject* >        mList; //List of NewArrayListItemObject items
 
     public:
                                             NewArrayList();
@@ -39,8 +38,8 @@ class RR_DECLSPEC NewArrayList
         void                                operator = (const NewArrayList& rhs);
         StringList                          GetStringList(const string& lName);
         StringList                          GetStringList(const int& index);
-        string                          	GetString(const int& index);
-        string								AsString();
+        string                              GetString(const int& index);
+        string                                AsString();
 };
 
 

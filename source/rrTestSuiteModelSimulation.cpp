@@ -12,6 +12,7 @@
 #include "rrRoadRunner.h"
 //---------------------------------------------------------------------------
 
+using namespace std;
 namespace rr
 {
 

@@ -9,6 +9,7 @@
 
 using namespace UnitTest;
 using namespace rr;
+using namespace std;
 
 extern RoadRunner*         gRR;
 extern string             gTestDataFolder;

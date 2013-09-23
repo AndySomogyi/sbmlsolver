@@ -3,11 +3,10 @@
 #include <string>
 #include "lsMatrix.h"
 
-//using namespace ls;
-using std::string;
-vector< complex<double> > getComplexVectorFromString(const string& text);
-ls::DoubleMatrix getDoubleMatrixFromString(const string& textMatrix);
-ls::ComplexMatrix getComplexMatrixFromString(const string& textMatrix);
+
+std::vector< std::complex<double> > getComplexVectorFromString(const std::string& text);
+ls::DoubleMatrix getDoubleMatrixFromString(const std::string& textMatrix);
+ls::ComplexMatrix getComplexMatrixFromString(const std::string& textMatrix);
 
 
 #endif

@@ -7,6 +7,7 @@
 #include "rrLogger.h"
 
 using namespace rrc;
+using namespace std;
 
 extern string gTempFolder;
 extern string gTSModelsPath;

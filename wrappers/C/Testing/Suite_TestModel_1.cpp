@@ -11,6 +11,7 @@ using namespace std;
 using namespace UnitTest;
 using namespace ls;
 using namespace rrc;
+using namespace rr;
 
 using rr::joinPath;
 using rr::fileExists;

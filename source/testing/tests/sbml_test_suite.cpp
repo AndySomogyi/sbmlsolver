@@ -6,6 +6,7 @@
 #include "rrTestSuiteModelSimulation.h"
 using namespace UnitTest;
 using namespace rr;
+using namespace std;
 
 extern string             gSBMLModelsPath;
 extern string             gCompiler;

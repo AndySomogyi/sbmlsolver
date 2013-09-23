@@ -5,7 +5,6 @@
 #include "rrExporter.h"
 using std::string;
 using std::ostream;
-using namespace rr;
 
 namespace rr
 {
