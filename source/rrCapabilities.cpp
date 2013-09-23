@@ -10,7 +10,8 @@
 #include "rrCapability.h"
 #include "rrXMLDocument.h"
 
-//---------------------------------------------------------------------------
+using namespace std;
+
 namespace rr
 {
 

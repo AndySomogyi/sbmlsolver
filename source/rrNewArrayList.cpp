@@ -8,6 +8,8 @@
 #include "rrLogger.h"
 //---------------------------------------------------------------------------
 
+using namespace std;
+
 namespace rr
 {
 
@@ -16,12 +18,12 @@ NewArrayList::NewArrayList()
 
 NewArrayList::NewArrayList(const string& lbl, const StringList& stringList)
 {
-	Add(lbl, stringList);
+    Add(lbl, stringList);
 }
 
 NewArrayList::NewArrayList(const string& lbl, const NewArrayList& NewArrayList)
 {
-	Add(lbl, NewArrayList);
+    Add(lbl, NewArrayList);
 }
 
 NewArrayList::~NewArrayList()
@@ -40,36 +42,36 @@ string NewArrayList::GetString(const int& index)
 {
     if(index < mList.size())
     {
-		NewArrayListItemObject* listPtr = mList[index];
+        NewArrayListItemObject* listPtr = mList[index];
 
-   		if(listPtr)
+           if(listPtr)
         {
-        	if(dynamic_cast< NewArrayListItem<string>* >(listPtr))
+            if(dynamic_cast< NewArrayListItem<string>* >(listPtr))
             {
-				return *(dynamic_cast< NewArrayListItem<string>* >(listPtr));
+                return *(dynamic_cast< NewArrayListItem<string>* >(listPtr));
             }
         }
     }
 
-	throw("No string at index");
+    throw("No string at index");
 }
 
 StringList NewArrayList::GetStringList(const int& index)
 {
     if(index < mList.size())
     {
-		NewArrayListItemObject* listPtr = mList[index];
+        NewArrayListItemObject* listPtr = mList[index];
 
-   		if(listPtr)
+           if(listPtr)
         {
-        	if(dynamic_cast< NewArrayListItem<StringList>* >(listPtr))
+            if(dynamic_cast< NewArrayListItem<StringList>* >(listPtr))
             {
-				return *(dynamic_cast< NewArrayListItem<StringList>* >(listPtr));
+                return *(dynamic_cast< NewArrayListItem<StringList>* >(listPtr));
             }
         }
     }
 
-	throw("No Stringlist at index");
+    throw("No Stringlist at index");
 }
 
 StringList NewArrayList::GetStringList(const string& lName)
@@ -83,7 +85,7 @@ StringList NewArrayList::GetStringList(const string& lName)
         //Check for a list which first element is a string, i.e. a {{string}, {string, string}} list
         if(dynamic_cast< NewArrayListItem<NewArrayList> *>(listPtr))
         {
-			NewArrayList list = (NewArrayList) *(dynamic_cast< NewArrayListItem<NewArrayList> *>(listPtr));
+            NewArrayList list = (NewArrayList) *(dynamic_cast< NewArrayListItem<NewArrayList> *>(listPtr));
             if(list.Count())
             {
                 NewArrayListItemObject* anItem = &list[0];
@@ -100,7 +102,7 @@ StringList NewArrayList::GetStringList(const string& lName)
                             StringList  list = (StringList) *(dynamic_cast<NewArrayListItem<StringList>*>(anItem));
                             for(int i = 0; i < list.Count(); i++)
                             {
-                            	string str = list[i];
+                                string str = list[i];
                                 aList.add(str);
                             }
                         }
@@ -110,7 +112,7 @@ StringList NewArrayList::GetStringList(const string& lName)
                             NewArrayList  list = (NewArrayList) *(dynamic_cast<NewArrayListItem<NewArrayList>*>(anItem));
                             for(int i = 0; i < list.Count(); i++)
                             {
-                            	string str = list.GetString(i);
+                                string str = list.GetString(i);
                                 aList.add(str);
                             }
                         }
@@ -270,7 +272,7 @@ NewArrayListItemObject& NewArrayList::operator[](int pos)
 
 string NewArrayList::AsString()
 {
-	stringstream aStr;
+    stringstream aStr;
     aStr << *this;
     return aStr.str();
 }
@@ -278,14 +280,14 @@ string NewArrayList::AsString()
 //================== ostreams =============
 ostream& operator<<(ostream& stream, const NewArrayList& list)
 {
-   	stream<<"{";
+       stream<<"{";
 
     for(u_int i = 0; i < list.Count(); i++)
     {
         stream<<list[i];
         if(i < list.Count() -1)
         {
-        	stream<<",";
+            stream<<",";
         }
     }
     stream<<"}";

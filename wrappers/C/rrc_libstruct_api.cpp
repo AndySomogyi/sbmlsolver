@@ -11,6 +11,7 @@ namespace rrc
 {
 using namespace rr;
 using namespace ls;    //Libstruct namespace
+using namespace std;
 
 
 ////////////////// ORIGINAL LIBSTRUCT C API Functionality

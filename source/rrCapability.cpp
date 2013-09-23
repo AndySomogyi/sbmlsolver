@@ -5,7 +5,8 @@
 #include <sstream>
 #include "rrParameter.h"
 #include "rrCapability.h"
-//---------------------------------------------------------------------------
+
+using namespace std;
 
 namespace rr
 {
@@ -34,7 +35,7 @@ void Capability::setup(const string& name, const string& method, const string& d
 
 Parameters* Capability::getParameters()
 {
-	return &mParameters;
+    return &mParameters;
 }
 
 rr::BaseParameter& Capability::operator[](const int& i)
@@ -84,30 +85,30 @@ string Capability::asString()  const
 
 BaseParameter* Capability::getParameter(const string& paraName)
 {
-	for(u_int i = 0; i < mParameters.count(); i++)
+    for(u_int i = 0; i < mParameters.count(); i++)
     {
-		if(mParameters[i] && mParameters[i]->mName == paraName)
+        if(mParameters[i] && mParameters[i]->mName == paraName)
         {
-        	return mParameters[i];
+            return mParameters[i];
         }
     }
-	return NULL;
+    return NULL;
 }
 
 ostream& operator <<(ostream& os, const Capability& caps)
 {
-	os<<"Parameters for capability: "<<caps.mName<<"\n";
+    os<<"Parameters for capability: "<<caps.mName<<"\n";
 
-	for(u_int i = 0; i < caps.nrOfParameters(); i++)
+    for(u_int i = 0; i < caps.nrOfParameters(); i++)
     {
-    	os<< *(caps.mParameters[i]);
+        os<< *(caps.mParameters[i]);
 
         if(i < caps.nrOfParameters() -1 )
         {
-        	os<<"  "<<endl;
+            os<<"  "<<endl;
         }
     }
-	return os;
+    return os;
 }
 
 }

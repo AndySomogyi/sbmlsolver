@@ -22,8 +22,6 @@ class LibStructural;
 
 namespace rr
 {
-using std::string;
-using std::vector;
 
 class ModelGenerator;
 class SBMLModelSimulation;
@@ -79,13 +77,13 @@ public:
     double getParameterValue(const ParameterType::ParameterType parameterType,
             const int parameterIndex);
 
-    string getParamPromotedSBML(const string& sArg);
+    std::string getParamPromotedSBML(const std::string& sArg);
 
 
-    string getInfo();
+    std::string getInfo();
 
-    vector<SelectionRecord> getSteadyStateSelection(const vector<string>& newSelectionList);
-    vector<SelectionRecord> getSelectionList();
+    std::vector<SelectionRecord> getSteadyStateSelection(const std::vector<std::string>& newSelectionList);
+    std::vector<SelectionRecord> getSelectionList();
 
     /**
      * The Compiler that the ModelGenerator is using to compile / interpret sbml code.
@@ -96,7 +94,7 @@ public:
      * Set the name of the externa compiler to use. Some ModelGenerators may have no use
      * for this value.
      */
-    bool setCompiler(const string& compiler);
+    bool setCompiler(const std::string& compiler);
 
     /**
      * get a pointer to the integrator which is currently being used to
@@ -109,9 +107,9 @@ public:
     /**
      * returns the model name if a model is loaded, empty string otherwise.
      */
-    string getModelName();
+    std::string getModelName();
 
-    static string getlibSBMLVersion();
+    static std::string getlibSBMLVersion();
     bool unLoadModel();
 
     int createTimeCourseSelectionList();
@@ -120,12 +118,12 @@ public:
      * set the location where the ModelGenerator creates temporary files, such
      * as shared libraries.
      */
-    bool setTempFileFolder(const string& folder);
+    bool setTempFileFolder(const std::string& folder);
 
     /**
      * get the ModelGenerator's temporary file directory.
      */
-    string getTempFolder();
+    std::string getTempFolder();
 
     /**
      * Carry out a single integration step using a stepsize as indicated
@@ -164,7 +162,7 @@ public:
     bool initializeModel();
 
     bool createDefaultSelectionLists();
-    string getSBML();
+    std::string getSBML();
 
 
     /**
@@ -172,7 +170,7 @@ public:
      * provided an SBML model is loaded.
      */
     void reset();
-    void changeInitialConditions(const vector<double>& ic);
+    void changeInitialConditions(const std::vector<double>& ic);
 
     /**
      * get the ModelGenerator that is used to create executable (runnable) models.
@@ -193,7 +191,7 @@ public:
      * @param fileName: path to an sbml document.
      * @param options: an options struct, if null, default values are used.
      */
-    bool loadSBMLFromFile(const string& fileName,
+    bool loadSBMLFromFile(const std::string& fileName,
             const LoadSBMLOptions* options = 0);
 
     /**
@@ -205,36 +203,36 @@ public:
      * @param fileName: path to an sbml document.
      * @param options: an options struct, if null, default values are used.
      */
-    bool loadSBML(const string& sbml, const LoadSBMLOptions* options = 0);
+    bool loadSBML(const std::string& sbml, const LoadSBMLOptions* options = 0);
 
-    vector<double> getReactionRates();
-    vector<double> getRatesOfChange();
+    std::vector<double> getReactionRates();
+    std::vector<double> getRatesOfChange();
 
-    vector<string> getReactionIds();
+    std::vector<std::string> getReactionIds();
 
 
-    Capability* getCapability(const string& cap_name);
-    string getCapabilitiesAsXML();
-    vector<string> getListOfCapabilities();
-    vector<string> getListOfParameters(const string& capName);
+    Capability* getCapability(const std::string& cap_name);
+    std::string getCapabilitiesAsXML();
+    std::vector<std::string> getListOfCapabilities();
+    std::vector<std::string> getListOfParameters(const std::string& capName);
 
     bool addCapability(Capability& cap);
     bool addCapabilities(Capabilities& caps);
 
-    void setCapabilities(const string& capsStr);
+    void setCapabilities(const std::string& capsStr);
 
     void correctMaxStep();
 
-    bool setValue(const string& sId, const double& dValue);
-    double getValue(const string& sId);
+    bool setValue(const std::string& sId, const double& dValue);
+    double getValue(const std::string& sId);
     NewArrayList getAvailableTimeCourseSymbols();
 
     /**
      * Returns the currently selected columns that will be returned by
      * calls to simulate() or simulateEx(,,).
      */
-    vector<string> getTimeCourseSelectionList();
-    void setTimeCourseSelectionList(const string& List);
+    std::vector<std::string> getTimeCourseSelectionList();
+    void setTimeCourseSelectionList(const std::string& List);
 
     void setTimeCourseSelectionList(
             const std::vector<std::string>& newSelectionList);
@@ -261,7 +259,7 @@ public:
      */
     ls::DoubleMatrix getEigenvalues();
 
-    vector<Complex> getEigenvaluesCpx();
+    std::vector<Complex> getEigenvaluesCpx();
 
     ls::DoubleMatrix* getLinkMatrix();
     ls::DoubleMatrix* getNrMatrix();
@@ -285,26 +283,26 @@ public:
     NewArrayList getConcentrationControlCoefficientIds();
     NewArrayList getElasticityCoefficientIds();
     NewArrayList getUnscaledElasticityCoefficientIds();
-    vector<string> getEigenvalueIds();
+    std::vector<std::string> getEigenvalueIds();
     NewArrayList getAvailableSteadyStateSymbols();
-    vector<string> getSteadyStateSelectionList();
-    void setSteadyStateSelectionList(const vector<string>& newSelectionList);
+    std::vector<std::string> getSteadyStateSelectionList();
+    void setSteadyStateSelectionList(const std::vector<std::string>& newSelectionList);
     double computeSteadyStateValue(const SelectionRecord& record);
-    vector<double> computeSteadyStateValues();
+    std::vector<double> computeSteadyStateValues();
 
-    vector<double> computeSteadyStateValues(
-            const vector<SelectionRecord>& selection,
+    std::vector<double> computeSteadyStateValues(
+            const std::vector<SelectionRecord>& selection,
             const bool& computeSteadyState);
 
-    double computeSteadyStateValue(const string& sId);
-    vector<double> getSelectedValues();
+    double computeSteadyStateValue(const std::string& sId);
+    std::vector<double> getSelectedValues();
 
     void computeAndAssignConservationLaws(const bool& bValue);
 
     /**
      * Returns the SBML with the current parameterset.
      */
-    string writeSBML();
+    std::string writeSBML();
 
     int getNumberOfReactions();
     double getReactionRate(const int& index);
@@ -313,14 +311,14 @@ public:
      * Returns the rate of changes of a species by its index
      */
     double getRateOfChange(const int& index);
-    vector<string> getRateOfChangeIds();
-    vector<double> getRatesOfChangeEx(const vector<double>& values);
-    vector<double> getReactionRatesEx(const vector<double>& values);
+    std::vector<std::string> getRateOfChangeIds();
+    std::vector<double> getRatesOfChangeEx(const std::vector<double>& values);
+    std::vector<double> getReactionRatesEx(const std::vector<double>& values);
 
 
-    vector<string> getConservedSumIds();
+    std::vector<std::string> getConservedSumIds();
 
-    vector<double> getConservedSums();
+    std::vector<double> getConservedSums();
 
     int getNumberOfCompartments();
 
@@ -335,7 +333,7 @@ public:
 
     double getCompartmentByIndex(const int& index);
 
-    vector<string> getCompartmentIds();
+    std::vector<std::string> getCompartmentIds();
 
     /**
      * Get the number of boundary species
@@ -343,79 +341,79 @@ public:
     int getNumberOfBoundarySpecies();
     void setBoundarySpeciesByIndex(const int& index, const double& value);
     double getBoundarySpeciesByIndex(const int& index);
-    vector<double> getBoundarySpeciesConcentrations();
-    void setBoundarySpeciesConcentrations(const vector<double>& values);
-    vector<string> getBoundarySpeciesIds();
-    vector<string> getBoundarySpeciesAmountIds();
+    std::vector<double> getBoundarySpeciesConcentrations();
+    void setBoundarySpeciesConcentrations(const std::vector<double>& values);
+    std::vector<std::string> getBoundarySpeciesIds();
+    std::vector<std::string> getBoundarySpeciesAmountIds();
     int getNumberOfFloatingSpecies();
     void setFloatingSpeciesByIndex(const int& index, const double& value);
     double getFloatingSpeciesInitialConcentrationByIndex(const int& index);
     double getFloatingSpeciesByIndex(const int& index);
-    vector<double> getFloatingSpeciesConcentrations();
-    vector<double> getFloatingSpeciesInitialConcentrations();
-    void setFloatingSpeciesConcentrations(const vector<double>& values);
+    std::vector<double> getFloatingSpeciesConcentrations();
+    std::vector<double> getFloatingSpeciesInitialConcentrations();
+    void setFloatingSpeciesConcentrations(const std::vector<double>& values);
     void setFloatingSpeciesInitialConcentrationByIndex(const int& index,
             const double& value);
-    void setFloatingSpeciesInitialConcentrations(const vector<double>& values);
-    vector<string> getFloatingSpeciesIds();
-    vector<string> getFloatingSpeciesInitialConditionIds();
-    vector<string> getFloatingSpeciesAmountIds();
+    void setFloatingSpeciesInitialConcentrations(const std::vector<double>& values);
+    std::vector<std::string> getFloatingSpeciesIds();
+    std::vector<std::string> getFloatingSpeciesInitialConditionIds();
+    std::vector<std::string> getFloatingSpeciesAmountIds();
     int getNumberOfGlobalParameters();
     void setGlobalParameterByIndex(const int& index, const double& value);
     double getGlobalParameterByIndex(const int& index);
 
 
 
-    vector<double> getGlobalParameterValues();
-    vector<string> getGlobalParameterIds();
+    std::vector<double> getGlobalParameterValues();
+    std::vector<std::string> getGlobalParameterIds();
 
 
     void evalModel();
 
     //These functions are better placed in a separate file, as non class members, but part of the roadrunner namespace?
 
-    static string getVersion();
-    static string getExtendedVersionInfo(); //Include info about dependent libs versions..
+    static std::string getVersion();
+    static std::string getExtendedVersionInfo(); //Include info about dependent libs versions..
 
-    static string getDescription();
+    static std::string getDescription();
 
-    static string getCopyright();
-    static string getURL();
+    static std::string getCopyright();
+    static std::string getURL();
 
     //RoadRunner MCA functions......
 
     /**
      * Get unscaled control coefficient with respect to a global parameter
      */
-    double getuCC(const string& variableName, const string& parameterName);
+    double getuCC(const std::string& variableName, const std::string& parameterName);
 
     /**
      * Get scaled control coefficient with respect to a global parameter
      */
-    double getCC(const string& variableName, const string& parameterName);
+    double getCC(const std::string& variableName, const std::string& parameterName);
 
     /**
      * Get unscaled elasticity coefficient with respect to a global parameter or species
      */
-    double getuEE(const string& reactionName, const string& parameterName);
+    double getuEE(const std::string& reactionName, const std::string& parameterName);
 
     /**
      * Get unscaled elasticity coefficient with respect to a global parameter or species.
      * Optionally the model is brought to steady state after the computation.
      */
-    double getuEE(const string& reactionName, const string& parameterName,
+    double getuEE(const std::string& reactionName, const std::string& parameterName,
             bool computeSteadystate);
 
     /**
      * Get scaled elasticity coefficient with respect to a global parameter or species
      */
-    double getEE(const string& reactionName, const string& parameterName);
+    double getEE(const std::string& reactionName, const std::string& parameterName);
 
     /**
      * Get scaled elasticity coefficient with respect to a global parameter or species.
      * Optionally the model is brought to steady state after the computation.
      */
-    double getEE(const string& reactionName, const string& parameterName,
+    double getEE(const std::string& reactionName, const std::string& parameterName,
             bool computeSteadyState);
 
     /**
@@ -431,8 +429,8 @@ public:
     /**
      * Compute the scaled elasticity for a given reaction and given species
      */
-    double getScaledFloatingSpeciesElasticity(const string& reactionName,
-            const string& speciesName);
+    double getScaledFloatingSpeciesElasticity(const std::string& reactionName,
+            const std::string& speciesName);
 
     /**
      * Get a single species elasticity value
@@ -452,14 +450,14 @@ private:
     ls::DoubleMatrix mRawRoadRunnerData;
     RoadRunnerData mRoadRunnerData;
 
-    string mCurrentSBMLFileName;
+    std::string mCurrentSBMLFileName;
 
     /**
      * The Cvode object get created just after a model is created, it then
      * gets a reference to the model and holds on to it.
      */
     class CvodeInterface *mCVode;
-    vector<SelectionRecord> mSelectionList;
+    std::vector<SelectionRecord> mSelectionList;
 
     /**
      * ModelGenerator obtained from the factory
@@ -471,11 +469,11 @@ private:
      */
     rr::Parameter<bool> mComputeAndAssignConservationLaws;
 
-    vector<SelectionRecord> mSteadyStateSelection;
+    std::vector<SelectionRecord> mSteadyStateSelection;
 
     ExecutableModel* mModel;
 
-    string mCurrentSBML;
+    std::string mCurrentSBML;
 
     /**
      * structural analysis library.
@@ -497,9 +495,9 @@ private:
     double getVariableValue(const VariableType::VariableType variableType,
             const int variableIndex);
 
-    vector<string> getParameterIds();
+    std::vector<std::string> getParameterIds();
 
-    string createModelName(const string& mCurrentSBMLFileName);
+    std::string createModelName(const std::string& mCurrentSBMLFileName);
 
     /**
      * the LibStruct is normally null, only created on demand here.

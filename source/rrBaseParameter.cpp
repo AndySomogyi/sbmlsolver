@@ -9,6 +9,7 @@
 #include "rrParameter.h"
 //---------------------------------------------------------------------------
 
+using namespace std;
 namespace rr
 {
 
@@ -33,9 +34,9 @@ string BaseParameter::getHint() const
 
 string BaseParameter::getValueAsString() const
 {
-	BaseParameter* ptr = const_cast<BaseParameter*>(this);
+    BaseParameter* ptr = const_cast<BaseParameter*>(this);
 
-	if(dynamic_cast< Parameter<int>* >( ptr))
+    if(dynamic_cast< Parameter<int>* >( ptr))
     {
         return dynamic_cast< Parameter<int>* >(ptr) ->getValueAsString();
     }

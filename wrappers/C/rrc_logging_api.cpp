@@ -9,6 +9,7 @@
 namespace rrc
 {
 using namespace rr;
+using namespace std;
 
 bool rrcCallConv enableLoggingToConsole()
 {

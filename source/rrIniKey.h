@@ -8,10 +8,6 @@
 #include "rrStringUtils.h"
 #include "rrIniSection.h"
 
-using namespace rr;
-using std::string;
-using std::complex;
-
 namespace rr
 {
 
@@ -20,24 +16,24 @@ namespace rr
 // must PRECEDE the key on the line in the config file.
 class RR_DECLSPEC IniKey
 {
-    protected:
-        void SetupKey(const string& key);
+protected:
+    void SetupKey(const std::string& key);
 
-    public:
-        string                      mKey;
-        string                      mValue;
-        string                      mComment;
+public:
+    std::string                      mKey;
+    std::string                      mValue;
+    std::string                      mComment;
 
-                                  IniKey(const string& key = "");
-                               ~IniKey(){}
-        void                       ReKey(const string& key);
-        string                       AsString() const;
-        int                       AsBool() const;
-        int                       AsInt() const;
-        double                       AsFloat() const;
-        complex<double>         AsComplex() const;
-        RR_DECLSPEC
-        friend ostream&         operator<<(ostream& stream, const IniKey& aKey);
+    IniKey(const std::string& key = "");
+    ~IniKey(){}
+    void                       ReKey(const std::string& key);
+    std::string                       AsString() const;
+    int                       AsBool() const;
+    int                       AsInt() const;
+    double                       AsFloat() const;
+    std::complex<double>         AsComplex() const;
+    RR_DECLSPEC
+    friend std::ostream&         operator<<(std::ostream& stream, const IniKey& aKey);
 };
 }
 

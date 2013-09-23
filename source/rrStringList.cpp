@@ -10,8 +10,7 @@
 #include "rrUtils.h"
 #include "rrException.h"
 
-
-//---------------------------------------------------------------------------
+using namespace std;
 
 namespace rr
 {

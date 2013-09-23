@@ -4,9 +4,8 @@
 #pragma hdrstop
 #include <sstream>
 #include "rrStringListContainer.h"
-//---------------------------------------------------------------------------
 
-
+using namespace std;
 
 namespace rr
 {

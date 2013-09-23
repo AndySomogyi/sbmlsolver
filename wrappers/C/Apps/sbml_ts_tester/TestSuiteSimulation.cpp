@@ -8,6 +8,8 @@
 extern string gTSModelsPath;
 extern string gTempFolder;
 using namespace rr;
+using namespace std;
+
 RoadRunnerData convertCAPIResultData(RRCDataPtr        resultsHandle);
 
 TestSuiteSimulation::TestSuiteSimulation(const string& dataOutputFolder, const string& modelFilePath, const string& modelFileName)

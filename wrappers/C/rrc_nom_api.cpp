@@ -9,6 +9,7 @@
 namespace rrc
 {
 using namespace rr;
+using namespace std;
 //NOM forwarded functions
 
 char* rrcCallConv getModelName(RRHandle handle)

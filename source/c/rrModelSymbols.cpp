@@ -15,6 +15,7 @@
 #include "rrRule.h"
 #include <sstream>
 
+using namespace std;
 using namespace libsbml;
 using namespace ls;
 

@@ -6,6 +6,8 @@
 #include "Poco/SharedLibrary.h"
 //---------------------------------------------------------------------------
 /* A minimalistic Plugin manager. */
+
+using namespace std;
 namespace rr
 {
 

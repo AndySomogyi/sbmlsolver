@@ -4,7 +4,7 @@
 #pragma hdrstop
 #include "rrIniKey.h"
 
-using namespace rr;
+using namespace std;
 namespace rr
 {
 IniKey::IniKey(const string& key)
@@ -48,10 +48,10 @@ double IniKey::AsFloat() const
 
 complex<double> IniKey::AsComplex() const
 {
-	vector<string> vals = splitString(mValue,",");
+    vector<string> vals = splitString(mValue,",");
     if(vals.size() == 2)
     {
-    	return complex<double>(toDouble(vals[0]), toDouble(vals[1]));
+        return complex<double>(toDouble(vals[0]), toDouble(vals[1]));
     }
     return complex<double>(toDouble(mValue), 0 );
 }
@@ -66,7 +66,7 @@ void IniKey::SetupKey(const string& key)
             mKey = recs[0];
             mValue = recs[1];
           }
-	    mComment = "";
+        mComment = "";
     }
     else
     {
