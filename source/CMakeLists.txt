@@ -16,6 +16,7 @@ include_directories(
 set(rrSources
     rrParameters
     rrSteadyStateSolver
+	Configurable
     rrCapability
     rrCapabilities
     rrConstants

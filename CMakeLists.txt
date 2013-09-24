@@ -142,12 +142,17 @@ include_directories(
     ${THIRD_PARTY_FOLDER}
 )
 
+# TODO libxml2 handling is excedingly hackish, it is all homegrown
+# manually linking crap, need to fix this!
+
 if (WIN32)
     message(STATUS "adding ${THIRD_PARTY_INSTALL_FOLDER}/include/libxml2 to include path")
     include_directories(${THIRD_PARTY_INSTALL_FOLDER}/include/libxml2)
 else()
     #UNIX
-    find_package(LibXml2)
+    find_package(LibXml2 REQUIRED)
+	message(STATUS "found libxml2, include dir: ${LIBXML2_INCLUDE_DIR}") 
+	include_directories(${LIBXML2_INCLUDE_DIR})
 endif(WIN32)
 
 
