@@ -142,6 +142,14 @@ include_directories(
     ${THIRD_PARTY_FOLDER}
 )
 
+if (WIN32)
+    message(STATUS "adding ${THIRD_PARTY_INSTALL_FOLDER}/include/libxml2 to include path")
+    include_directories(${THIRD_PARTY_INSTALL_FOLDER}/include/libxml2)
+else()
+    #UNIX
+    find_package(LibXml2)
+endif(WIN32)
+
 
 if (${BUILD_LLVM})
     link_directories(

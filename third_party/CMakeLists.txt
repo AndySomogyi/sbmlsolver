@@ -178,5 +178,11 @@ if(WIN32)
                 DESTINATION bin 
                 COMPONENT rr_core)
     endforeach()
+    
+    file(GLOB libxml_deps "${THIRD_PARTY_FOLDER}/dependencies/libsbml/include/*.h")
+    install(FILES ${libxml_deps} DESTINATION include)
+
+    file(GLOB libxml_headers "${THIRD_PARTY_FOLDER}/dependencies/libsbml/include/libxml2/*.h")
+    install(FILES ${libxml_headers} DESTINATION include/libxml2/libxml COMPONENT rr_core)
 
 endif()
