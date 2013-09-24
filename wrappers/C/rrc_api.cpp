@@ -634,17 +634,6 @@ bool rrcCallConv setTimeCourseSelectionList(RRHandle handle, const char* list)
     catch_bool_macro
 }
 
-bool rrcCallConv createTimeCourseSelectionList(RRHandle handle)
-{
-    try
-    {
-        RoadRunner* rri = castFrom(handle);
-
-
-        return rri->createTimeCourseSelectionList() > 0 ? true : false;
-    }
-    catch_bool_macro
-}
 
 RRStringArrayPtr rrcCallConv getTimeCourseSelectionList(RRHandle handle)
 {

@@ -112,7 +112,7 @@ public:
     static std::string getlibSBMLVersion();
     bool unLoadModel();
 
-    int createTimeCourseSelectionList();
+
 
     /**
      * set the location where the ModelGenerator creates temporary files, such
@@ -159,9 +159,7 @@ public:
     const SimulateOptions& getSimulateOptions() const;
 
 
-    bool initializeModel();
 
-    bool createDefaultSelectionLists();
     std::string getSBML();
 
 
@@ -333,6 +331,9 @@ public:
 
     double getCompartmentByIndex(const int& index);
 
+    /**
+     * deprecated, use ExecutableModel
+     */
     std::vector<std::string> getCompartmentIds();
 
     /**
@@ -503,6 +504,16 @@ private:
      * the LibStruct is normally null, only created on demand here.
      */
     LibStructural* getLibStruct();
+
+    bool initializeModel();
+
+    bool createDefaultSelectionLists();
+
+    /**
+     * creates a selection list from the amounts / conc / variables ivars of the
+     * SimulationOptions struct.
+     */
+    int createTimeCourseSelectionList();
 
 };
 

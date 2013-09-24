@@ -15,7 +15,6 @@ createRRInstances                               = _createRRInstances@4
 createRRList                                    = _createRRList@0
 createRRMatrix                                  = _createRRMatrix@8
 createStringItem                                = _createStringItem@4
-createTimeCourseSelectionList                   = _createTimeCourseSelectionList@4
 createVector                                    = _createVector@4
 enableLoggingToConsole                          = _enableLoggingToConsole@0
 disableLoggingToConsole                         = _disableLoggingToConsole@0

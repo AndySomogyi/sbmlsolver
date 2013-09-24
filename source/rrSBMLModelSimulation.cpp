@@ -207,9 +207,6 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
     if(mEngine)
     {
         mEngine->setSimulateOptions(mSettings);
-
-        //This one creates the list of what we will look at in the result
-        mEngine->createTimeCourseSelectionList();
     }
 
     return true;
@@ -242,7 +239,7 @@ bool SBMLModelSimulation::SetSelectionList(const string& selectionList)
     }
 
     mEngine->setSimulateOptions(mSettings);
-    mEngine->createTimeCourseSelectionList();    //This one creates the list of what we will look at in the result
+
     return true;
 }
 

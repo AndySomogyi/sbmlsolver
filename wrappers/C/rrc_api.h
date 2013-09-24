@@ -514,14 +514,6 @@ C_DECL_SPEC bool rrcCallConv setTimeEnd(RRHandle handle, double timeEnd);
 */
 C_DECL_SPEC bool rrcCallConv setNumPoints(RRHandle handle, int numberOfPoints);
 
-/*!
- \brief Creates a default timeCourse selection List
-
- \param[in] handle Handle to a RoadRunner instance
- \return Returns true if sucessful
- \ingroup simulation
-*/
-C_DECL_SPEC bool rrcCallConv createTimeCourseSelectionList(RRHandle handle);
 
 /*!
  \brief Set the selection list for output from simulate(void) or simulateEx(void)

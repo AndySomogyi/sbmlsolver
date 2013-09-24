@@ -1,7 +1,8 @@
 
 // Module Name
 %module(docstring="The RoadRunner SBML Simulation Engine,
-(c) 2009-2013 Herbert Sauro, Andy Somogyi and Totte Karlsson", "threads"=1) roadrunner
+(c) 2009-2013 Herbert Sauro, Andy Somogyi and Totte Karlsson", "
+        ""threads"=1) roadrunner
 
 // ************************************************************
 // Module Includes
@@ -13,6 +14,7 @@
 
 %{
     #define SWIG_FILE_WITH_INIT
+    #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
     #include <numpy/arrayobject.h>
     #include <lsComplex.h>
     #include <lsMatrix.h>
@@ -33,6 +35,7 @@
     using namespace rr;
 %}
 
+%naturalvar;
 
 // C++ std::string handling
 %include "std_string.i"
@@ -48,6 +51,9 @@
 
 // correct mapping of unsigned integers
 %include "rr_stdint.i"
+
+// all the documentation goes here.
+%include "rr_docstrings.i"
 
 
 %exception {
@@ -69,7 +75,7 @@
     memcpy(data, ($1).getArray(), sizeof(double)*rows*cols);
 
     PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-            NPY_CARRAY | NPY_OWNDATA, NULL);
+            NPY_ARRAY_CARRAY | NPY_ARRAY_OWNDATA, NULL);
     $result  = pArray;
 }
 
@@ -84,7 +90,7 @@
     double *data = ($1)->getArray();
 
     PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-            NPY_CARRAY, NULL);
+            NPY_ARRAY_CARRAY, NULL);
     $result  = pArray;
 }
 
@@ -108,7 +114,7 @@
     npy_intp dims[2] = {rows, cols};
 
     PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-            NPY_CARRAY, NULL);
+            NPY_ARRAY_CARRAY, NULL);
     $result  = pArray;
 }
 
@@ -153,26 +159,6 @@
 
 //%apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
 
-%feature("docstring") rr::RoadRunner "
-    The main RoadRunner class.
-
-    All three of the RoadRunner options default to the empty string, in this
-    case, the default values are used.
-
-    @param compiler: if LLVM build is enabled, the compiler defaults to LLVM.
-    @param tempDir: typically ignored, only used by the old C RoadRunner.
-    @param supportCodeDir: typically ignored, only used by the old C RoadRunner";
-
-%feature("docstring") rr::RoadRunner::simulate "
-    simulate the current SBML model.
-
-    If options is null, then the current simulation settings (start time,
-    end time, n steps) are used. If options is not null, then the
-    current simulation settings are set to the values specified by
-    options and they are used.
-
-    @returns a numpy array with each selected output timeseries being a
-    column vector, and the 0'th column is the simulation time.";
 
 
 
@@ -186,7 +172,9 @@
 %template(IntVector) std::vector<int>;
 %template(StringVector) std::vector<std::string>;
 
+
 %apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
+
 
 
 %init %{
@@ -487,6 +475,12 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 %ignore rr::ExecutableModel::getConservedSumIndex(const std::string& eid);
 %ignore rr::ExecutableModel::getReactionIndex(const std::string& eid);
 
+%ignore rr::ostream;
+%ignore ostream;
+%ignore std::ostream;
+%ignore operator<<(ostream&, const rr::SelectionRecord& rec);
+%ignore operator<<(rr::ostream&, const rr::SelectionRecord& rec);
+
 
 /**
  * include the roadrunner files here, this is where the wrappers are generated.
@@ -497,6 +491,11 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 %include <rrExecutableModel.h>
 %include <rrModelGenerator.h>
 %include <rrRoadRunner.h>
+%include <rrSelectionRecord.h>
+
+
+%template(SelectionRecordVector) std::vector<SelectionRecord>;
+%apply std::vector<SelectionRecord> {vector<rr::SelectionRecord>, std::vector<rr::SelectionRecord>, vector<SelectionRecord>};
 
 %extend rr::ExecutableModel
 {
@@ -740,6 +739,6 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
     //int setReactionRates(int len, double const *values) {
     //    return $self->setReactionRates(len, 0, values);
     //}
-
-
 }
+
+
