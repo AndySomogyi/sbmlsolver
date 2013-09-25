@@ -52,14 +52,7 @@ extern "C"
 {
 #endif
 
-/*!
- \brief Get string list of parameters for a particular capability
- \param[in] handle Handle to a RoadRunner instance
- \param[in] cap_name pointer to a string holding the name of a capability
- \return Returns a handle to a StringArray if sucessful, NULL otherwise
- \ingroup parameters
-*/
-C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfParameters(RRHandle handle, const char* cap_name);
+
 
 /*!
  \brief Set a parameter
@@ -70,15 +63,7 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfParameters(RRHandle handle, co
 */
 C_DECL_SPEC bool rrcCallConv setParameter(RRParameterHandle handle, const char* value);
 
-/*!
- \brief Get a parameter handle
- \param[in] handle Handle to a RoadRunner instance
- \param[in] capability_name Name of a capability
- \param[in] parameter_name Name of a parameter
- \return Returns a handle to a parameter if sucessful, NULL otherwise
- \ingroup parameters
-*/
-C_DECL_SPEC RRParameterHandle rrcCallConv getParameter(RRHandle handle, const char* capability_name, const char* parameter_name);
+
 
 /*!
  \brief Get a parameters value as char*
@@ -114,9 +99,9 @@ C_DECL_SPEC char* rrcCallConv getParameterHint(RRParameterHandle handle);
 
 
 #if defined(__cplusplus)
-}	//Extern "C"
+}    //Extern "C"
 
-}	//rrc namespace
+}    //rrc namespace
 #endif
 
 

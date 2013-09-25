@@ -58,27 +58,8 @@ mMinStep(0.0),
 mMaxStep(0.0),
 mMaxNumSteps(mDefaultMaxNumSteps),
 mRelTol(options->relative),
-mAbsTol(options->absolute),
-paramBDFOrder("BDFOrder", mMaxBDFOrder, "Maximum order for BDF Method"),
-paramAdamsOrder("AdamsOrder", mMaxAdamsOrder, "Maximum order for Adams Method"),
-paramRTol("rtol", mRelTol, "Relative Tolerance"),
-paramATol("atol", mAbsTol, "Absolute Tolerance"),
-paramMaxSteps("maxsteps", mMaxNumSteps, "Maximum number of internal stepsc"),
-paramInitSteps("initstep", mInitStep, "the initial step size"),
-paramMinStep("minstep", mMinStep, "specifies a lower bound on the magnitude of the step size."),
-paramMaxStep("maxstep", mMaxStep, "specifies an upper bound on the    magnitude of the step size."),
-mCVODECapability("Integration", "CVODE", "CVODE Integrator")
+mAbsTol(options->absolute)
 {
-    //Setup capability
-    mCVODECapability.addParameter(&paramBDFOrder);
-    mCVODECapability.addParameter(&paramAdamsOrder);
-    mCVODECapability.addParameter(&paramRTol);
-    mCVODECapability.addParameter(&paramATol);
-    mCVODECapability.addParameter(&paramMaxSteps);
-    mCVODECapability.addParameter(&paramInitSteps);
-    mCVODECapability.addParameter(&paramMinStep);
-    mCVODECapability.addParameter(&paramMaxStep);
-
     if(aModel)
     {
         initializeCVODEInterface(aModel);
@@ -102,11 +83,6 @@ CvodeInterface::~CvodeInterface()
     {
         N_VDestroy_Serial(mAbstolArray);
     }
-}
-
-Capability& CvodeInterface::getCapability()
-{
-    return mCVODECapability;
 }
 
 int CvodeInterface::allocateCvodeMem ()
@@ -613,6 +589,28 @@ unsigned CvodeInterface::getTolerances(double* relative, double* absolute)
     return 0;
 }
 
+_xmlNode* CvodeInterface::createConfigNode()
+{
+    _xmlNode *cap = Configurable::createCapabilityNode("Integration", "CVODE",
+            "CVODE Integrator");
+
+    Configurable::addChild(cap, Configurable::createParameterNode("BDFOrder", "Maximum order for BDF Method", mMaxBDFOrder));
+    Configurable::addChild(cap, Configurable::createParameterNode("AdamsOrder", "Maximum order for Adams Method", mMaxAdamsOrder));
+    Configurable::addChild(cap, Configurable::createParameterNode("rtol", "Relative Tolerance", mRelTol));
+    Configurable::addChild(cap, Configurable::createParameterNode("atol", "Absolute Tolerance", mAbsTol));
+    Configurable::addChild(cap, Configurable::createParameterNode("maxsteps", "Maximum number of internal stepsc", mMaxNumSteps));
+    Configurable::addChild(cap, Configurable::createParameterNode("initstep", "the initial step size", mInitStep));
+    Configurable::addChild(cap, Configurable::createParameterNode("minstep", "specifies a lower bound on the magnitude of the step size.", mMinStep));
+    Configurable::addChild(cap, Configurable::createParameterNode("maxstep", "specifies an upper bound on the magnitude of the step size.", mMaxStep));
+
+    return cap;
+}
+
+void CvodeInterface::loadConfig(const _xmlDoc* doc)
+{
+}
+
 
 }
+
 

@@ -1520,7 +1520,7 @@ RRListPtr rrcCallConv getElasticityCoefficientIds(RRHandle handle)
     catch_ptr_macro
 }
 
-bool rrcCallConv setCapabilities(RRHandle handle, const char* caps)
+bool rrcCallConv RoadRunner_setConfigurationXML(RRHandle handle, const char* caps)
 {
     try
     {
@@ -1529,32 +1529,23 @@ bool rrcCallConv setCapabilities(RRHandle handle, const char* caps)
         {
             return false;
         }
-        rri->setCapabilities(caps);
+        rri->setConfigurationXML(caps);
         return true;
     }
     catch_bool_macro
 }
 
-char* rrcCallConv getCapabilities(RRHandle handle)
+char* rrcCallConv RoadRunner_getConfigurationXML(RRHandle handle)
 {
     try
     {
         RoadRunner* rri = castFrom(handle);
-        return rr::createText(rri->getCapabilitiesAsXML());
+        return rr::createText(rri->getConfigurationXML());
     }
     catch_ptr_macro
 }
 
-RRStringArrayPtr rrcCallConv getListOfCapabilities(RRHandle handle)
-{
-    try
-    {
-        RoadRunner* rri = castFrom(handle);
-        StringList list = rri->getListOfCapabilities();
-        return createList(list);
-    }
-    catch_ptr_macro
-}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 RRStringArrayPtr rrcCallConv getEigenvalueIds(RRHandle handle)

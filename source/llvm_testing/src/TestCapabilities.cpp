@@ -26,7 +26,7 @@ bool TestCapabilities::test()
 {
     RoadRunner rr;
 
-    std::string caps = rr.getCapabilitiesAsXML();
+    std::string caps = rr.getConfigurationXML();
 
     Log(Logger::PRIO_INFORMATION) << caps;
 

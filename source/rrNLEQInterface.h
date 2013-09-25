@@ -4,13 +4,14 @@
 #include "rrExporter.h"
 #include "rrExecutableModel.h"
 #include "rrSteadyStateSolver.h"
-#include "rrParameter.h"
+#include "Configurable.h"
 using std::vector;
 
 namespace rr
 {
 
-class RR_DECLSPEC NLEQInterface : public SteadyStateSolver
+class RR_DECLSPEC NLEQInterface : public SteadyStateSolver,
+    public Configurable
 {
 protected:
     int                             nOpts;
@@ -32,10 +33,9 @@ public:
     /// <param name="model">the model to create NLEQ for</param>
     NLEQInterface(ExecutableModel *_model = NULL);
     ~NLEQInterface();
-    Capability&                        getCapability();
+
     bool                            isAvailable();
-    //static ExecutableModel*         getModel();
-    //static long                        getN();
+
     int                             defaultMaxInterations;
     int                             maxIterations;
     double                          defaultTolerance;
@@ -86,9 +86,19 @@ public:
     double                          solve(const vector<double>& yin);
     double                          computeSumsOfSquares();
 
-private:
-    Parameter<int> maxIterationsParam;
-    Parameter<double> relativeToleranceParam;
+    /**
+     * creates a new xml element that represent the current state of this
+     * Configurable object and all if its child objects.
+     */
+    virtual _xmlNode *createConfigNode();
+
+    /**
+     * Given an xml element, the Configurable object should pick its needed
+     * values that are stored in the element and use them to set its
+     * internal configuration state.
+     */
+    virtual void loadConfig(const _xmlDoc* doc);
+
 };
 }
 

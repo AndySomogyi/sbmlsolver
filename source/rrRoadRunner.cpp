@@ -15,7 +15,6 @@
 #include "rrSBMLModelSimulation.h"
 #include "rr-libstruct/lsLA.h"
 #include "rr-libstruct/lsLibla.h"
-#include "rrCapabilities.h"
 #include "rrConstants.h"
 #include "rrVersionInfo.h"
 #include "rrCVODEInterface.h"
@@ -26,126 +25,6 @@
 #include <Poco/File.h>
 #include <Poco/Mutex.h>
 #include <sbml/common/libsbml-version.h>
-
-
-//---------------------------------------------------------------------------
-/* 
- * section:  Tree
- * synopsis: Creates a tree
- * purpose:  Shows how to create document, nodes and dump it to stdout or file.
- * usage:    tree2 <filename>  -Default output: stdout
- * test:     tree2 > tree2.tmp && diff tree2.tmp $(srcdir)/tree2.res
- * author:   Lucas Brasilino <brasilino@recife.pe.gov.br>
- * copy:     see Copyright for the status of this software
- */
-
-#include <stdio.h>
-#include <libxml/parser.h>
-#include <libxml/tree.h>
-
-
-
-/*
- *To compile this file using gcc you can type
- *gcc `xml2-config --cflags --libs` -o tree2 tree2.c
- */
-
-/* A simple example how to create DOM. Libxml2 automagically 
- * allocates the necessary amount of memory to it.
-*/
-int test()
-{
-    xmlDocPtr doc = NULL;       /* document pointer */
-    xmlNodePtr root_node = NULL, node = NULL, node1 = NULL;/* node pointers */
-    xmlDtdPtr dtd = NULL;       /* DTD pointer */
-    char buff[256];
-    int i, j;
-
-    LIBXML_TEST_VERSION;
-
-    /* 
-     * Creates a new document, a node and set it as a root node
-     */
-    doc = xmlNewDoc(BAD_CAST "1.0");
-    root_node = xmlNewNode(NULL, BAD_CAST "root");
-    xmlDocSetRootElement(doc, root_node);
-
-    /*
-     * Creates a DTD declaration. Isn't mandatory. 
-     */
-    dtd = xmlCreateIntSubset(doc, BAD_CAST "root", NULL, BAD_CAST "tree2.dtd");
-
-    /* 
-     * xmlNewChild() creates a new node, which is "attached" as child node
-     * of root_node node. 
-     */
-    xmlNewChild(root_node, NULL, BAD_CAST "node1",
-                BAD_CAST "content of node 1");
-    /* 
-     * The same as above, but the new child node doesn't have a content 
-     */
-    xmlNewChild(root_node, NULL, BAD_CAST "node2", NULL);
-
-    /* 
-     * xmlNewProp() creates attributes, which is "attached" to an node.
-     * It returns xmlAttrPtr, which isn't used here.
-     */
-    node =
-        xmlNewChild(root_node, NULL, BAD_CAST "node3",
-                    BAD_CAST "this node has attributes");
-    xmlNewProp(node, BAD_CAST "attribute", BAD_CAST "yes");
-    xmlNewProp(node, BAD_CAST "foo", BAD_CAST "bar");
-
-    /*
-     * Here goes another way to create nodes. xmlNewNode() and xmlNewText
-     * creates a node and a text node separately. They are "attached"
-     * by xmlAddChild() 
-     */
-    node = xmlNewNode(NULL, BAD_CAST "node4");
-    node1 = xmlNewText(BAD_CAST
-                   "other way to create content (which is also a node)");
-    xmlAddChild(node, node1);
-    xmlAddChild(root_node, node);
-
-    /* 
-     * A simple loop that "automates" nodes creation 
-     */
-    for (i = 5; i < 7; i++) {
-        sprintf(buff, "node%d", i);
-        node = xmlNewChild(root_node, NULL, BAD_CAST buff, NULL);
-        for (j = 1; j < 4; j++) {
-            sprintf(buff, "node%d%d", i, j);
-            node1 = xmlNewChild(node, NULL, BAD_CAST buff, NULL);
-            xmlNewProp(node1, BAD_CAST "odd", BAD_CAST((j % 2) ? "no" : "yes"));
-        }
-    }
-
-    /* 
-     * Dumping document to stdio or file
-     */
-    xmlSaveFormatFileEnc( "-", doc, "UTF-8", 1);
-
-    /*free the document */
-    xmlFreeDoc(doc);
-
-    /*
-     *Free the global variables that may
-     *have been allocated by the parser.
-     */
-    xmlCleanupParser();
-
-    /*
-     * this is to debug memory for regression tests
-     */
-    xmlMemoryDump();
-    return(0);
-}
-
-
-
-
-
-
 
 namespace rr
 {
@@ -206,8 +85,7 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
         const string& _supportCodeDir) :
         mUseKinsol(false),
         mDiffStepSize(0.05),
-        mCapabilities("RoadRunner", "RoadRunner Capabilities"),
-        mRRCoreCapabilities("Road Runner Core", "", "Core RoadRunner Parameters"),
+
         mSteadyStateThreshold(1.E-2),
         mRawRoadRunnerData(),
         mRoadRunnerData(),
@@ -215,19 +93,14 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
         mCVode(0),
         mSelectionList(),
         mModelGenerator(0),
-        mComputeAndAssignConservationLaws("Conservation", false, "enables (=true) or disables "
-                "(=false) the conservation analysis "
-                "of models for timecourse simulations."),
+        mComputeAndAssignConservationLaws(false),
         mSteadyStateSelection(),
         mModel(0),
         mCurrentSBML(),
         mLS(0),
         mSettings()
 {
-    //Roadrunner is a "single" capability with many parameters
-    mRRCoreCapabilities.addParameter(&mComputeAndAssignConservationLaws);
 
-    mCapabilities.add(mRRCoreCapabilities);
 
 #if defined(BUILD_LLVM)
     string compiler = _compiler.empty() ? "LLVM" : _compiler;
@@ -252,15 +125,6 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
     //Increase instance count..
     mInstanceCount++;
     mInstanceID = mInstanceCount;
-
-    //Setup additonal objects
-    // mCapabilities.add(mCVode->getCapability());
-
-    // we currently use NLEQInterface as the only steady state solver.
-    // should this change in the future, this should be replaced
-    // with a factory pattern.
-    //NLEQInterface ss = NLEQInterface();
-    //mCapabilities.add(ss.getCapability());
 }
 
 RoadRunner::~RoadRunner()
@@ -297,7 +161,7 @@ string RoadRunner::getInfo()
 //        info<<"Model DLL Loaded: "    << (mModel->mDLL.isLoaded() ? "true" : "false")    <<endl;
 //        info<<"Initialized: "        << (mModel->mIsInitialized ? "true" : "false")    <<endl;
     }
-    info<<"ConservationAnalysis: "    <<    (mComputeAndAssignConservationLaws.getValue() ? "true" : "false")<<endl;
+    info<<"ConservationAnalysis: "    <<    mComputeAndAssignConservationLaws << endl;
     info<<"libSBML version: "        <<    getlibSBMLVersion()<<endl;
     info<<"Temporary folder: "        <<    getTempFolder()<<endl;
     info<<"Compiler location: "        <<    getCompiler()->getCompilerLocation()<<endl;
@@ -377,7 +241,7 @@ const SimulateOptions& RoadRunner::getSimulateOptions() const
 
 bool RoadRunner::computeAndAssignConservationLaws()
 {
-    return mComputeAndAssignConservationLaws.getValue();
+    return mComputeAndAssignConservationLaws;
 }
 
 bool RoadRunner::setTempFileFolder(const string& folder)
@@ -660,8 +524,8 @@ bool RoadRunner::loadSBML(const string& sbml, const LoadSBMLOptions *options)
 
     if (options)
     {
-        mComputeAndAssignConservationLaws.setValue(options->modelGeneratorOpt
-                & LoadSBMLOptions::ComputeAndAssignConsevationLaws);
+        mComputeAndAssignConservationLaws = options->modelGeneratorOpt
+                & LoadSBMLOptions::ComputeAndAssignConsevationLaws;
         mModel = mModelGenerator->createModel(sbml, options->modelGeneratorOpt);
     }
     else
@@ -732,7 +596,7 @@ void RoadRunner::reset()
     {
         mModel->reset();
 
-        if (mComputeAndAssignConservationLaws.getValue() && !mModel->getConservedSumChanged())
+        if (mComputeAndAssignConservationLaws && !mModel->getConservedSumChanged())
         {
             mModel->computeConservedTotals();
         }
@@ -944,12 +808,12 @@ double RoadRunner::getParameterValue(const ParameterType::ParameterType paramete
 //              + "By default roadRunner will discover conservation cycles and reduce the model accordingly.")
 void RoadRunner::computeAndAssignConservationLaws(const bool& bValue)
 {
-    if(bValue == mComputeAndAssignConservationLaws.getValue())
+    if(bValue == mComputeAndAssignConservationLaws)
     {
         Log(lDebug)<<"The compute and assign conservation laws flag already set to : "<<toString(bValue);
     }
 
-    mComputeAndAssignConservationLaws.setValue(bValue);
+    mComputeAndAssignConservationLaws = bValue;
 
     if(mModel != NULL)
     {
@@ -1370,7 +1234,7 @@ vector< Complex > RoadRunner::getEigenvaluesCpx()
         }
 
         DoubleMatrix mat;
-        if (mComputeAndAssignConservationLaws.getValue())
+        if (mComputeAndAssignConservationLaws)
         {
            mat = getReducedJacobian();
         }
@@ -1396,7 +1260,7 @@ DoubleMatrix RoadRunner::getFullJacobian()
         }
         DoubleMatrix uelast = getUnscaledElasticityMatrix();
         DoubleMatrix rsm;
-        if (mComputeAndAssignConservationLaws.getValue())
+        if (mComputeAndAssignConservationLaws)
         {
             rsm = getReorderedStoichiometryMatrix();
         }
@@ -1440,7 +1304,7 @@ DoubleMatrix RoadRunner::getReducedJacobian()
             throw CoreException(gEmptyModelMessage);
         }
 
-        if(mComputeAndAssignConservationLaws.getValue() == false)
+        if(mComputeAndAssignConservationLaws == false)
         {
             throw CoreException("The reduced Jacobian matrix can only be computed if conservation law detection is enabled");
         }
@@ -3500,57 +3364,6 @@ vector<string> RoadRunner::getReactionIds()
             &ExecutableModel::getReactionId);
 }
 
-// ---------------------------------------------------------------------
-// Start of Level 2 API Methods
-// ---------------------------------------------------------------------
-// Help("Get Simulator Capabilities")
-string RoadRunner::getCapabilitiesAsXML()
-{
-    return mCapabilities.asXML();
-}
-
-Capability* RoadRunner::getCapability(const string& cap_name)
-{
-    return mCapabilities.get(cap_name);
-}
-
-vector<string> RoadRunner::getListOfCapabilities()
-{
-    return mCapabilities.asStringList();
-}
-
-bool RoadRunner::addCapability(Capability& cap)
-{
-    mCapabilities.add(cap);
-    return true;
-}
-
-bool RoadRunner::addCapabilities(Capabilities& caps)
-{
-    for(int i = 0; i < caps.count(); i++)
-    {
-        addCapability(*(caps[i]));
-    }
-    return true;
-}
-
-vector<string> RoadRunner::getListOfParameters(const string& cap)
-{
-    Capability *aCap = mCapabilities.get(cap);
-    if(!aCap)
-    {
-        stringstream msg;
-        msg<<"No such capability: "<<cap;
-        throw(CoreException(msg.str()));
-    }
-
-    Parameters* paras = aCap->getParameters();
-    if(paras)
-    {
-        return paras->asStringList();
-    }
-    return vector<string>();
-}
 
 Integrator* RoadRunner::getIntegrator()
 {
@@ -3567,10 +3380,6 @@ void RoadRunner::correctMaxStep()
     }
 }
 
-// Help("Set Simulator Capabilites")
-void RoadRunner::setCapabilities(const string& capsStr)
-{
-}
 
 // Help("Sets the value of the given species or global parameter to the given value (not of local parameters)")
 bool RoadRunner::setValue(const string& sId, const double& dValue)
@@ -3727,7 +3536,7 @@ double RoadRunner::getValue(const string& sId)
 
         //DoubleMatrix mat = getReducedJacobian();
         DoubleMatrix mat;
-        if (mComputeAndAssignConservationLaws.getValue())
+        if (mComputeAndAssignConservationLaws)
         {
             mat = getReducedJacobian();
         }
@@ -3938,6 +3747,46 @@ static std::vector<std::string> createSelectionList(const SimulateOptions& o)
     }
 
     return theList;
+}
+
+
+_xmlNode *RoadRunner::createConfigNode()
+{
+    // the top level capabilities
+    _xmlNode *capies = Configurable::createCapabilitiesNode("RoadRunner",
+            "RoadRunner Capabilities");
+
+    // capability for this class
+    _xmlNode *caps = Configurable::createCapabilityNode("RoadRunner Core", "",
+            "Core RoadRunner Capability");
+
+    Configurable::addChild(caps, Configurable::createParameterNode("Conservation",
+                    "enables (=true) or disables (=false) the conservation analysis of models for timecourse simulations.",
+                    (int) mComputeAndAssignConservationLaws));
+
+    Configurable::addChild(capies, caps);
+
+    // capability for child objects
+    if (this->mCVode)
+    {
+        Configurable::addChild(capies, mCVode->createConfigNode());
+    }
+
+    return capies;
+}
+
+void RoadRunner::loadConfig(const _xmlDoc* doc)
+{
+}
+
+std::string RoadRunner::getConfigurationXML()
+{
+    return Configurable::xmlFromConfigNode(createConfigNode());
+}
+
+void RoadRunner::setConfigurationXML(const std::string& xml)
+{
+    Configurable::loadXmlConfig(xml, this);
 }
 
 }//namespace

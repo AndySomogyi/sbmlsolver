@@ -8,9 +8,9 @@
 #include "rrRoadRunnerData.h"
 #include "rrConstants.h"
 #include "rrNewArrayList.h"
-#include "rrCapabilities.h"
 #include "rrParameter.h"
 #include "rrRoadRunnerOptions.h"
+#include "Configurable.h"
 
 #include <string>
 #include <vector>
@@ -36,7 +36,7 @@ class Integrator;
  * MemoryManagment: Any pointer returned by a get... method is owned by the
  * RoadRunner object and does NOT have to be deleted.
  */
-class RR_DECLSPEC RoadRunner
+class RR_DECLSPEC RoadRunner : public Configurable
 {
 
 public:
@@ -208,16 +208,23 @@ public:
 
     std::vector<std::string> getReactionIds();
 
+    /**
+     * creates a new xml element that represent the current state of this
+     * Configurable object and all if its child objects.
+     */
+    virtual _xmlNode *createConfigNode();
 
-    Capability* getCapability(const std::string& cap_name);
-    std::string getCapabilitiesAsXML();
-    std::vector<std::string> getListOfCapabilities();
-    std::vector<std::string> getListOfParameters(const std::string& capName);
+    /**
+     * Given an xml element, the Configurable object should pick its needed
+     * values that are stored in the element and use them to set its
+     * internal configuration state.
+     */
+    virtual void loadConfig(const _xmlDoc* doc);
 
-    bool addCapability(Capability& cap);
-    bool addCapabilities(Capabilities& caps);
+    std::string getConfigurationXML();
 
-    void setCapabilities(const std::string& capsStr);
+    void setConfigurationXML(const std::string& xml);
+
 
     void correctMaxStep();
 
@@ -445,8 +452,7 @@ private:
     int mInstanceID;
     bool mUseKinsol;
     const double mDiffStepSize;
-    Capabilities mCapabilities;
-    Capability mRRCoreCapabilities;
+
     const double mSteadyStateThreshold;
     ls::DoubleMatrix mRawRoadRunnerData;
     RoadRunnerData mRoadRunnerData;
@@ -468,7 +474,7 @@ private:
     /**
      * RoadRunner, not sbml parameters
      */
-    rr::Parameter<bool> mComputeAndAssignConservationLaws;
+    bool mComputeAndAssignConservationLaws;
 
     std::vector<SelectionRecord> mSteadyStateSelection;
 

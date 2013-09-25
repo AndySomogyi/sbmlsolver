@@ -45,29 +45,29 @@ PluginManager::~PluginManager()
 
 void PluginManager::setRoadRunnerInstance(RoadRunner* aRR)
 {
-	mRR = aRR;
+    mRR = aRR;
 }
 
 bool PluginManager::setPluginFolder(const string& dir)
 {
-	return false;
+    return false;
 }
 
 string PluginManager::getPluginFolder()
 {
-	return mPluginFolder;
+    return mPluginFolder;
 }
 
-Plugin*	PluginManager::operator[](const int& i)
+Plugin*    PluginManager::operator[](const int& i)
 {
-	if(i >= 0 && i < mPlugins.size())
+    if(i >= 0 && i < mPlugins.size())
     {
 
-    	return mPlugins[i].second;
+        return mPlugins[i].second;
     }
     else
     {
-    	return NULL;
+        return NULL;
     }
 }
 
@@ -77,7 +77,7 @@ typedef bool        (*destroyRRPluginFunc)(Plugin* );
 
 bool PluginManager::load(const string& pluginName)
 {
-	bool result = true;
+    bool result = true;
     //Throw if plugin folder don't exist
     if(!folderExists(mPluginFolder))
     {
@@ -90,32 +90,32 @@ bool PluginManager::load(const string& pluginName)
 
     if(pluginName.size())
     {
-    	files.insert(joinPath(mPluginFolder, pluginName + "." + mPluginExtension));
- 	}
+        files.insert(joinPath(mPluginFolder, pluginName + "." + mPluginExtension));
+     }
     else
     {
-    	//Get all plugins in plugin folder
-    	Glob::glob(globPath, files);
+        //Get all plugins in plugin folder
+        Glob::glob(globPath, files);
     }
 
     std::set<std::string>::iterator it = files.begin();
 
     for (; it != files.end(); ++it)
     {
-    	string plugin = getFileName(*it);
+        string plugin = getFileName(*it);
         Log(lInfo)<<"Loading plugin: "<<plugin;
-		try
+        try
         {
-	    	bool res = loadPlugin(plugin);
+            bool res = loadPlugin(plugin);
             if(!res)
             {
-				Log(lError)<<"There was a problem loading plugin: "<<plugin;
+                Log(lError)<<"There was a problem loading plugin: "<<plugin;
                 result = false;
             }
         }
         catch(...)
         {
-			Log(lError)<<"There was a serious problem loading plugin: "<<plugin;
+            Log(lError)<<"There was a serious problem loading plugin: "<<plugin;
             result = false;
         }
         //catch(poco exception....
@@ -125,8 +125,8 @@ bool PluginManager::load(const string& pluginName)
 
 bool PluginManager::loadPlugin(const string& libName)
 {
-	stringstream msg;
-	try
+    stringstream msg;
+    try
     {
         SharedLibrary *libHandle = new SharedLibrary;
         libHandle->load(joinPath(mPluginFolder, libName));
@@ -134,24 +134,25 @@ bool PluginManager::loadPlugin(const string& libName)
         //Validate the plugin
         if(!checkImplementationLanguage(libHandle))
         {
-			return false;
+            return false;
         }
 
-		//Check plugin language
+        //Check plugin language
         const char* language = getImplementationLanguage(libHandle);
 
-		if(strcmp(language, "C") == 0)
+        if(strcmp(language, "C") == 0)
         {
-        	//Gather enough library data in order to create a CPlugin object
+            //Gather enough library data in order to create a CPlugin object
             //We need at least name, category and an execute function in order to setup a C plugin
             Plugin* aPlugin = createCPlugin(libHandle);
             if(!aPlugin)
             {
-            	return false;
+                return false;
             }
             aPlugin->setLibraryName(getFileNameNoExtension(libName));
             Capabilities *caps = aPlugin->getCapabilities();
-            mRR->addCapabilities(*(caps));
+            // TODO xmlconfig
+            // mRR->addCapabilities(*(caps));
             pair< Poco::SharedLibrary*, Plugin* > storeMe(libHandle, aPlugin);
             mPlugins.push_back( storeMe );
             return true;
@@ -164,61 +165,63 @@ bool PluginManager::loadPlugin(const string& libName)
             Plugin* aPlugin = create(mRR);
             if(aPlugin)
             {
-	            aPlugin->setLibraryName(getFileNameNoExtension(libName));
-            	//Add plugins capabilities to roadrunner
+                aPlugin->setLibraryName(getFileNameNoExtension(libName));
+                //Add plugins capabilities to roadrunner
                 Capabilities *caps = aPlugin->getCapabilities();
-                mRR->addCapabilities(*(caps));
+
+                // TODO xmlconfig
+                // mRR->addCapabilities(*(caps));
 
                 pair< Poco::SharedLibrary*, Plugin* > storeMe(libHandle, aPlugin);
                 mPlugins.push_back( storeMe );
             }
-		    return true;
+            return true;
         }
         else
         {
-	        stringstream msg;
+            stringstream msg;
             msg<<"The plugin library: "<<libName<<" do not have enough data in order to create a plugin. Can't load";
-			Log(lWarning)<<msg.str();
+            Log(lWarning)<<msg.str();
             return false;
         }
     }
     catch(const Exception& e)
     {
-    	msg<<"RoadRunner exception: "<<e.what()<<endl;
-		Log(lError)<<msg.str();
-		return false;
+        msg<<"RoadRunner exception: "<<e.what()<<endl;
+        Log(lError)<<msg.str();
+        return false;
     }
     catch(const Poco::Exception& ex)
     {
-    	msg<<"Poco exception: "<<ex.displayText()<<endl;
-   		Log(lError)<<msg.str();
-		return false;
+        msg<<"Poco exception: "<<ex.displayText()<<endl;
+           Log(lError)<<msg.str();
+        return false;
     }
-	catch(...)
-	{
-		return false;
-	}
+    catch(...)
+    {
+        return false;
+    }
 }
 
 bool PluginManager::unload()
 {
-	bool result(true);
+    bool result(true);
     int nrPlugins = getNumberOfPlugins();
-	for(int i = 0; i < nrPlugins; i++)
+    for(int i = 0; i < nrPlugins; i++)
     {
-    	pair< Poco::SharedLibrary*, Plugin* >  *aPluginLib = &(mPlugins[i]);
+        pair< Poco::SharedLibrary*, Plugin* >  *aPluginLib = &(mPlugins[i]);
         if(aPluginLib)
         {
-            SharedLibrary *pluginLibHandle	= aPluginLib->first;
-            Plugin*		   aPlugin 			= aPluginLib->second;
+            SharedLibrary *pluginLibHandle    = aPluginLib->first;
+            Plugin*           aPlugin             = aPluginLib->second;
 
             destroyRRPlugin(aPlugin);
 
             //Then unload
-			if(pluginLibHandle)
-			{
-				pluginLibHandle->unload();
-			}
+            if(pluginLibHandle)
+            {
+                pluginLibHandle->unload();
+            }
             //And remove from container
             aPluginLib->first = NULL;
             aPluginLib->second = NULL;
@@ -232,49 +235,49 @@ bool PluginManager::unload()
 
 bool PluginManager::checkImplementationLanguage(Poco::SharedLibrary* plugin)
 {
-	//Check that the plugin has a getImplementationLanguage function
+    //Check that the plugin has a getImplementationLanguage function
     try
     {
-    	plugin->getSymbol("getImplementationLanguage");
+        plugin->getSymbol("getImplementationLanguage");
         return true;
     }
     catch(const Poco::Exception& ex)
     {
-    	stringstream msg;
-    	msg<<"Poco exception: "<<ex.displayText()<<endl;
-   		Log(lError)<<msg.str();
-		return false;
+        stringstream msg;
+        msg<<"Poco exception: "<<ex.displayText()<<endl;
+           Log(lError)<<msg.str();
+        return false;
     }
 }
 
 const char* PluginManager::getImplementationLanguage(Poco::SharedLibrary* plugin)
 {
-	//Check that the plugin has a getImplementationLanguage function
+    //Check that the plugin has a getImplementationLanguage function
     try
     {
-	    getLangFunc func = 	(getLangFunc) plugin->getSymbol("getImplementationLanguage");
+        getLangFunc func =     (getLangFunc) plugin->getSymbol("getImplementationLanguage");
         return func();
     }
     catch(const Poco::Exception& ex)
     {
-    	stringstream msg;
-    	msg<<"Poco exception: "<<ex.displayText()<<endl;
-   		Log(lError)<<msg.str();
-		return NULL;
+        stringstream msg;
+        msg<<"Poco exception: "<<ex.displayText()<<endl;
+           Log(lError)<<msg.str();
+        return NULL;
     }
 }
 
 StringList PluginManager::getPluginNames()
 {
-	StringList names;
+    StringList names;
 
     int nrPlugins = getNumberOfPlugins();
-	for(int i = 0; i < nrPlugins; i++)
+    for(int i = 0; i < nrPlugins; i++)
     {
-    	pair< Poco::SharedLibrary*, Plugin* >  *aPluginLib = &(mPlugins[i]);
+        pair< Poco::SharedLibrary*, Plugin* >  *aPluginLib = &(mPlugins[i]);
         if(aPluginLib)
         {
-            Plugin*		   aPlugin 	= aPluginLib->second;
+            Plugin*           aPlugin     = aPluginLib->second;
 
             //Then unload
             names.add(aPlugin->getName());
@@ -283,83 +286,83 @@ StringList PluginManager::getPluginNames()
     return names;
 }
 
-int	PluginManager::getNumberOfPlugins()
+int    PluginManager::getNumberOfPlugins()
 {
-	return mPlugins.size();
+    return mPlugins.size();
 }
 
 int PluginManager::getNumberOfCategories()
 {
-	return -1;
+    return -1;
 }
 
-Plugin*	PluginManager::getPlugin(const int& i)
+Plugin*    PluginManager::getPlugin(const int& i)
 {
-	return (*this)[i];
+    return (*this)[i];
 }
 
-Plugin*	PluginManager::getPlugin(const string& name)
+Plugin*    PluginManager::getPlugin(const string& name)
 {
-	for(int i = 0; i < getNumberOfPlugins(); i++)
+    for(int i = 0; i < getNumberOfPlugins(); i++)
     {
-    	pair< Poco::SharedLibrary*, Plugin* >  aPluginLib = mPlugins[i];
+        pair< Poco::SharedLibrary*, Plugin* >  aPluginLib = mPlugins[i];
         if(aPluginLib.first && aPluginLib.second)
         {
-			Plugin* aPlugin = (Plugin*) aPluginLib.second;
+            Plugin* aPlugin = (Plugin*) aPluginLib.second;
             if(aPlugin && aPlugin->getName() == name)
             {
-               	return aPlugin;
+                   return aPlugin;
             }
             if(aPlugin && aPlugin->getLibraryName() == name)
             {
-               	return aPlugin;
+                   return aPlugin;
             }
         }
     }
     return NULL;
 }
 
-typedef char* 		(rrCallConv *charStar)();
-typedef bool 		(rrCallConv *setupCPluginFnc)(RoadRunner*);
-typedef bool 		(rrCallConv *exec)(void*);
+typedef char*         (rrCallConv *charStar)();
+typedef bool         (rrCallConv *setupCPluginFnc)(RoadRunner*);
+typedef bool         (rrCallConv *exec)(void*);
 
 Plugin* PluginManager::createCPlugin(SharedLibrary *libHandle)
 {
-	try
+    try
     {
         //Minimum bare bone plugin need these
-    	charStar 				getName 			= (charStar) 		libHandle->getSymbol("getName");
-        charStar 				getCategory 		= (charStar) 		libHandle->getSymbol("getCategory");
-    	setupCPluginFnc	  		setupCPlugin		= (setupCPluginFnc)	libHandle->getSymbol("setupCPlugin");
-		exec			  		executeFunc			= (exec) 			libHandle->getSymbol("execute");
-        char* name 	= getName();
-        char* cat 	= getCategory();
-        bool  res	= setupCPlugin(mRR);
+        charStar                 getName             = (charStar)         libHandle->getSymbol("getName");
+        charStar                 getCategory         = (charStar)         libHandle->getSymbol("getCategory");
+        setupCPluginFnc              setupCPlugin        = (setupCPluginFnc)    libHandle->getSymbol("setupCPlugin");
+        exec                      executeFunc            = (exec)             libHandle->getSymbol("execute");
+        char* name     = getName();
+        char* cat     = getCategory();
+        bool  res    = setupCPlugin(mRR);
         CPlugin* aPlugin = new CPlugin(name, cat);
         aPlugin->assignExecuteFunction(executeFunc);
         return aPlugin;
     }
     catch(const Poco::NotFoundException& ex)
     {
-		Log(lError)<<"Error in createCPlugin: " <<ex.message();
-		return NULL;
+        Log(lError)<<"Error in createCPlugin: " <<ex.message();
+        return NULL;
     }
-	return NULL;
+    return NULL;
 }
 
 
 // Plugin cleanup function
 bool destroyRRPlugin(rr::Plugin *plugin)
 {
-	//we allocated in the factory with new, delete the passed object
+    //we allocated in the factory with new, delete the passed object
     try
     {
-    	delete plugin;
-    	return true;
+        delete plugin;
+        return true;
     }
     catch(...)
     {
-    	//Bad stuff!
+        //Bad stuff!
         clog<<"Failed deleting RoadRunner plugin..";
         return false;
     }

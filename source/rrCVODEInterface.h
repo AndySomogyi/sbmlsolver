@@ -1,10 +1,12 @@
 #ifndef rrCvodeInterfaceH
 #define rrCvodeInterfaceH
-#include <string>
-#include "rrCapability.h"
-#include "rrParameter.h"
+
 #include "Integrator.h"
 #include "rrRoadRunnerOptions.h"
+#include "Configurable.h"
+
+#include <string>
+#include <vector>
 
 /**
  * CVode vector struct
@@ -20,7 +22,7 @@ class Event;
 class ExecutableModel;
 class RoadRunner;
 
-class CvodeInterface : public Integrator
+class CvodeInterface : public Integrator, public Configurable
 {
 public:
     double                      mMaxStep;
@@ -31,8 +33,18 @@ public:
 
     virtual ~CvodeInterface();
 
+    /**
+     * creates a new xml element that represent the current state of this
+     * Configurable object and all if its child objects.
+     */
+    virtual _xmlNode *createConfigNode();
 
-    Capability&                 getCapability();    //Only one capability
+    /**
+     * Given an xml element, the Configurable object should pick its needed
+     * values that are stored in the element and use them to set its
+     * internal configuration state.
+     */
+    virtual void loadConfig(const _xmlDoc* doc);
 
 
     virtual unsigned setTolerances(double relative, double absolute);
@@ -79,9 +91,9 @@ private:
 
 
     void                        handleRootsForTime(double timeEnd,
-                                    vector<unsigned char> &previousEventStatus);
+                                    std::vector<unsigned char> &previousEventStatus);
 
-    int                         rootInit (const int& numRoots);//, TRootCallBack callBack, void *gdata);
+    int                         rootInit (const int& numRoots);
     int                         reInit (const double& t0);
     int                         allocateCvodeMem ();
     void                        initializeCVODEInterface(ExecutableModel *oModel);
@@ -98,23 +110,6 @@ private:
     double                      mRelTol;
     double                      mAbsTol;
 
-    Capability                  mCVODECapability;
-
-    /**
-     * parameters we add to the capabities list. Just allocate them as ivars
-     * so we don't have to delete them later.
-     *
-     * These have to be declared last in this file as their initial values
-     * are dependent on ivars listed earlier.
-     */
-    Parameter<int> paramBDFOrder;
-    Parameter<int> paramAdamsOrder;
-    Parameter<double> paramRTol;
-    Parameter<double> paramATol;
-    Parameter<int> paramMaxSteps;
-    Parameter<double> paramInitSteps;
-    Parameter<double> paramMinStep;
-    Parameter<double> paramMaxStep;
 
     /**
      * pointer to an options struct, this is typically

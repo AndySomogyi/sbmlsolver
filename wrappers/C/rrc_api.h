@@ -442,7 +442,7 @@ C_DECL_SPEC char* rrcCallConv getParamPromotedSBML(RRHandle handle, const char* 
  \return Returns true if sucessful
  \ingroup simulation
 */
-C_DECL_SPEC bool rrcCallConv setCapabilities (RRHandle handle, const char* caps);
+C_DECL_SPEC bool rrcCallConv RoadRunner_setConfigurationXML (RRHandle handle, const char* caps);
 
 /*!
  \brief Get the simulator's capabilities
@@ -476,15 +476,7 @@ C_DECL_SPEC bool rrcCallConv setCapabilities (RRHandle handle, const char* caps)
  \return Returns null if it fails, otherwise it returns the simulator's capabilities in the form of an XML string
  \ingroup simulation
 */
-C_DECL_SPEC char* rrcCallConv getCapabilities(RRHandle handle);
-
-/*!
- \brief Get string list of capabilities
- \param[in] handle Handle to a RoadRunner instance
- \return Returns RRStringList if sucessful, NULL otherwise
- \ingroup simulation
-*/
-C_DECL_SPEC RRStringArrayPtr rrcCallConv getListOfCapabilities(RRHandle handle);
+C_DECL_SPEC char* rrcCallConv RoadRunner_getConfigurationXML(RRHandle handle);
 
 
 /*!

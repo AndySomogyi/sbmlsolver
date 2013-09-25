@@ -5,8 +5,8 @@
 #include "rrc_parameter_api.h"
 #include "rrLogger.h"
 #include "rrc_api.h"
-#include "rrc_utilities.h"   		//Support functions, not exposed as api functions and or data
-#include "rrc_cpp_support.h"   		//Support functions, not exposed as api functions and or data
+#include "rrc_utilities.h"           //Support functions, not exposed as api functions and or data
+#include "rrc_cpp_support.h"           //Support functions, not exposed as api functions and or data
 //---------------------------------------------------------------------------
 
 namespace rrc
@@ -14,35 +14,11 @@ namespace rrc
 using namespace std;
 using namespace rr;
 
-RRStringArrayPtr rrcCallConv getListOfParameters(RRHandle handle, const char* cap_name)
-{
-	try
-    {
-        RoadRunner* rri = castFrom(handle);
-        StringList list = rri->getListOfParameters(cap_name);
-        return createList(list);
-    }
-    catch_ptr_macro
-}
 
-RRParameterHandle rrcCallConv getParameter(RRHandle handle, const char* cap_name, const char* parName)
-{
-	try
-    {
-        RoadRunner* rri = castFrom(handle);
-        Capability* cap = rri->getCapability(cap_name);
-		if(!cap)
-        {
-        	return NULL;
-        }
-        return cap->getParameter(parName);
-    }
-    catch_ptr_macro
-}
 
 bool rrcCallConv setParameter(RRParameterHandle handle, const char* value)
 {
-	try
+    try
     {
         BaseParameter* para = castToParameter(handle);
         para->setValueFromString(value);
@@ -53,7 +29,7 @@ bool rrcCallConv setParameter(RRParameterHandle handle, const char* value)
 
 char* rrcCallConv getParameterValueAsString(RRParameterHandle handle)
 {
-	try
+    try
     {
         BaseParameter* para = castToParameter(handle);
         string val = para->getValueAsString();
@@ -64,7 +40,7 @@ char* rrcCallConv getParameterValueAsString(RRParameterHandle handle)
 
 void* rrcCallConv getParameterValueAsPointer(RRParameterHandle handle)
 {
-	try
+    try
     {
         BaseParameter* para = castToParameter(handle);
         return para->getValueAsPointer();
@@ -74,7 +50,7 @@ void* rrcCallConv getParameterValueAsPointer(RRParameterHandle handle)
 
 char* rrcCallConv getParameterName(RRParameterHandle handle)
 {
-	try
+    try
     {
         BaseParameter* para = castToParameter(handle);
         return rr::createText(para->getName());
@@ -84,7 +60,7 @@ char* rrcCallConv getParameterName(RRParameterHandle handle)
 
 char* rrcCallConv getParameterHint(RRParameterHandle handle)
 {
-	try
+    try
     {
         BaseParameter* para = castToParameter(handle);
         return rr::createText(para->getHint());
