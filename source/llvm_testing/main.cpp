@@ -23,6 +23,8 @@
 #include "TestGetSetValues.h"
 #include "TestCapabilities.h"
 
+#include "ConfigurableTest.h"
+
 #include "rrRoadRunner.h"
 
 #include "rrParameter.h"
@@ -62,6 +64,12 @@ int main(int argc, char* argv[])
     cout << rr::RoadRunner::getExtendedVersionInfo() << endl;
 
     const char* compiler = "llvm";
+
+    ConfigurableTest confTest;
+
+    confTest.test();
+
+    return 0;
 
     uint a;
 

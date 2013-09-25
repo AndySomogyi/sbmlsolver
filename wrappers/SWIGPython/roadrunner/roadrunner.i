@@ -14,7 +14,6 @@
 
 %{
     #define SWIG_FILE_WITH_INIT
-    #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
     #include <numpy/arrayobject.h>
     #include <lsComplex.h>
     #include <lsMatrix.h>
@@ -75,7 +74,7 @@
     memcpy(data, ($1).getArray(), sizeof(double)*rows*cols);
 
     PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-            NPY_ARRAY_CARRAY | NPY_ARRAY_OWNDATA, NULL);
+            NPY_CARRAY | NPY_OWNDATA, NULL);
     $result  = pArray;
 }
 
@@ -90,7 +89,7 @@
     double *data = ($1)->getArray();
 
     PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-            NPY_ARRAY_CARRAY, NULL);
+            NPY_CARRAY, NULL);
     $result  = pArray;
 }
 
@@ -114,7 +113,7 @@
     npy_intp dims[2] = {rows, cols};
 
     PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-            NPY_ARRAY_CARRAY, NULL);
+            NPY_CARRAY, NULL);
     $result  = pArray;
 }
 

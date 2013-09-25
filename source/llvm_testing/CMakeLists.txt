@@ -25,6 +25,7 @@ add_executable( ${target}
     src/TestRoadRunner
     src/GetBoundarySpeciesAmountTest
     src/TestCapabilities
+    src/ConfigurableTest
     )
 
 set_property(TARGET ${target}

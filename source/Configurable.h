@@ -11,6 +11,7 @@
 #include <string>
 
 struct _xmlNode;
+struct _xmlDoc;
 
 namespace rr
 {
@@ -61,7 +62,7 @@ public:
      * values that are stored in the element and use them to set its
      * internal configuration state.
      */
-    virtual void loadConfig(const _xmlNode* root) = 0;
+    virtual void loadConfig(const _xmlDoc* doc) = 0;
 
     /**
      * given an xml string, this loads the string into a document and calls
@@ -73,10 +74,13 @@ public:
             Configurable* configurable);
 
     /**
-     * given a config xml node, creates a new document and sets this as
-     * the root node, then returns the document xml.
+     * Consumes an xmlNode and creates a new document and sets this as
+     * the root node, The document takes ownership of the xmlNode.
+     *
+     * The document is then written out to a string which is returned,
+     * and the document is then finally freed.
      */
-    static std::string xmlFromConfigNode(const _xmlNode* config);
+    static std::string xmlFromConfigNode(_xmlNode* config);
 
     /**
      * create a "capability" node with "name", "method" and "description"
@@ -125,7 +129,7 @@ public:
      *
      * @throws std::exception on failure.
      */
-    static std::string getParameterStringValue(const _xmlNode *configRoot,
+    static std::string getParameterStringValue(const _xmlDoc *doc,
             const std::string& capabilityName,
             const std::string& parameterName);
 
@@ -135,7 +139,7 @@ public:
      *
      * @throws std::exception on failure.
      */
-    static int getParameterIntValue(const _xmlNode *configRoot,
+    static int getParameterIntValue(const _xmlDoc *doc,
             const std::string& capabilityName,
             const std::string& parameterName);
 
@@ -145,7 +149,7 @@ public:
      *
      * @throws std::exception on failure.
      */
-    static double getParameterDoubleValue(const _xmlNode *configRoot,
+    static double getParameterDoubleValue(const _xmlDoc *doc,
             const std::string& capabilityName,
             const std::string& parameterName);
 
