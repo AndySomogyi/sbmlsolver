@@ -8,7 +8,9 @@
 #include "Configurable.h"
 #include "rrStringUtils.h"
 #include "rrLogger.h"
+#include "rrOSSpecifics.h"
 
+#include <stdexcept>
 #include <cstring>
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
@@ -28,6 +30,11 @@ void Configurable::loadXmlConfig(const std::string& xml,
 
 std::string Configurable::xmlFromConfigNode(xmlNode* config)
 {
+    if (config == 0)
+    {
+        return "";
+    }
+
     xmlDocPtr doc = NULL; /* document pointer */
 
     LIBXML_TEST_VERSION;
@@ -81,6 +88,11 @@ xmlNode* Configurable::createCapabilitiesNode(const std::string& name,
 
 xmlNode* Configurable::addChild(xmlNode* parent, xmlNode* cur)
 {
+    if (parent == 0 || cur == 0)
+    {
+        return 0;
+    }
+
     const char* parentName = (const char*) parent->name;
     const char* childName = (const char*) cur->name;
     if (strcmp(parentName, "capabilities") == 0)
@@ -170,6 +182,11 @@ xmlNode* Configurable::createParameterNode(const std::string& name,
 std::string Configurable::getParameterStringValue(const _xmlDoc *doc,
         const std::string& capabilityName, const std::string& parameterName)
 {
+    if (doc == 0)
+    {
+        throw std::invalid_argument(std::string(__FUNC__) + ", doc is NULL" );
+    }
+
     std::string xpath = "/capabilities/capability[@name=\"" + capabilityName
             + "\"]/parameter[@name=\"" + parameterName + "\"]";
 

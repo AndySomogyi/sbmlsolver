@@ -163,6 +163,24 @@ const char* rrCallConv getImplementationLanguage()
     return "CPP";
 }
 
+_xmlNode* LM::createConfigNode()
+{
+    //mLMFit(                 "LMFit",                                "",                   "Run a one species fit"),    //The 'capability'
+    //mTempFolder(            "TempFolder",                           "",                   "Tempfolder used in the fitting"),
+    //mSBML(                  "SBML",                                 "<none>",             "SBML, i.e. the model to be used in the fitting"),
+    //mMinimizationData(      "MinData",                                 MinimizationData(),   "Data structure holding minimization data"),
+
+    _xmlNode *caps = Configurable::createCapabilityNode("LMFit", "", "Run a one species fit");
+    Configurable::addChild(caps, Configurable::createParameterNode("TempFolder",  "Tempfolder used in the fitting", "<none>"));
+    Configurable::addChild(caps, Configurable::createParameterNode("SBML", "SBML, i.e. the model to be used in the fitting", ""));
+
+    return caps;
+}
+
+void LM::loadConfig(const _xmlDoc* doc)
+{
+}
+
 #if defined(CG_UI)
     #if defined(STATIC_RR)
         #pragma comment(lib, "roadrunner-static.lib")

@@ -27,7 +27,7 @@ class LM : public Plugin
         //Utility functions for the thread
         string                                  getTempFolder();
         string                                  getSBML();
-        Parameter<string>                       getParameterToFit();
+
         MinimizationData&                       getMinimizationData();
 
         //The thread is doing the work
@@ -43,6 +43,9 @@ class LM : public Plugin
         string                                  getImplementationLanguage();
         string                                    getStatus();
         bool                                     isWorking();
+
+        virtual _xmlNode *createConfigNode();
+        virtual void loadConfig(const _xmlDoc* doc);
 };
 
 extern "C"

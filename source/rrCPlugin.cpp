@@ -16,21 +16,32 @@ CPlugin::~CPlugin()
 
 string CPlugin::getImplementationLanguage()
 {
-	return "C";
+    return "C";
 }
 
 void CPlugin::assignExecuteFunction(executeFunc func)
 {
-	executeFunction = func;
+    executeFunction = func;
 }
 
 bool CPlugin::execute(void* userData)
 {
-	if(executeFunction)
+    if(executeFunction)
     {
-    	return executeFunction(userData);
+        return executeFunction(userData);
     }
     return false;
 }
+
+_xmlNode* CPlugin::createConfigNode()
+{
+    return 0;
 }
+
+void CPlugin::loadConfig(const _xmlDoc* doc)
+{
+}
+
+}
+
 

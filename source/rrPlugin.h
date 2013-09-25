@@ -8,18 +8,22 @@
 #include "rrPluginExporter.h"
 #include "rrCapability.h"
 #include "rrCapabilities.h"
-//---------------------------------------------------------------------------
+#include "Configurable.h"
 
 
 namespace rr
 {
 //Plugin callback functions
+
+#ifndef SWIG // these make SWIG really unhappy for some reason.
 typedef void    (rrCallConv *PluginWorkStartedCB)(void*);
 typedef void    (rrCallConv *PluginWorkFinishedCB)(void*);
+#endif
+
 class RoadRunner;
 
 using std::string;
-class RR_DECLSPEC Plugin  /* Abstract plugin */
+class RR_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
 {
     protected:
         string                           mName;
@@ -29,7 +33,12 @@ class RR_DECLSPEC Plugin  /* Abstract plugin */
         string                           mVersion;
         string                           mCopyright;
         string                        mImplementationLanguage;
-        RoadRunner                   *mRR;            //This is a handle to the roadRunner instance, creating the plugin
+
+        /**
+         * a borrowed reference to a RoadRunner instance which the plugin
+         * uses. n
+         */
+        RoadRunner                   *mRR;
 
         //Plugin callbacks..
         PluginWorkStartedCB            mWorkStartedCB;
@@ -63,9 +72,6 @@ class RR_DECLSPEC Plugin  /* Abstract plugin */
         BaseParameter*                getParameter(const string& param, Capability& capability);
         bool                        setParameter(const string& nameOf, const char* value,     Capability& capability);
 
-        //Logging
-        vector<string>&                getLog();
-        bool                        emptyLog(); //Has to be made thread safe
 
         //Virtuals
         virtual string                getResult();

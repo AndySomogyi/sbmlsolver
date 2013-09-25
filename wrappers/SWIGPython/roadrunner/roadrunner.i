@@ -28,6 +28,8 @@
     #include <rrRoadRunnerOptions.h>
     #include <rrRoadRunner.h>
     #include <rrLogger.h>
+    #include <rrPluginManager.h>
+    #include <rrPlugin.h>
     #include <cstddef>
     #include <map>
 
@@ -474,16 +476,65 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 %ignore rr::ExecutableModel::getConservedSumIndex(const std::string& eid);
 %ignore rr::ExecutableModel::getReactionIndex(const std::string& eid);
 
+// ignore Plugin methods that will be deprecated
+%ignore rr::Plugin::assignCallbacks;            
+//%ignore rr::Plugin::getCopyright;               
+%ignore rr::Plugin::getParameters;              
+%ignore rr::Plugin::setInputData;
+//%ignore rr::Plugin::execute;                    
+//%ignore rr::Plugin::getImplementationLanguage;  
+//%ignore rr::Plugin::getResult;                  
+//%ignore rr::Plugin::setLibraryName;
+//%ignore rr::Plugin::getAuthor;                  
+//%ignore rr::Plugin::getInfo;                    
+//%ignore rr::Plugin::getStatus;                  
+%ignore rr::Plugin::setParameter;
+%ignore rr::Plugin::getCapabilities;            
+//%ignore rr::Plugin::getLibraryName;             
+//%ignore rr::Plugin::getVersion;                 
+//%ignore rr::Plugin::this
+%ignore rr::Plugin::getCapability;              
+//%ignore rr::Plugin::getName;                    
+//%ignore rr::Plugin::isWorking;
+//%ignore rr::Plugin::getCategory;                
+%ignore rr::Plugin::getParameter;               
+//%ignore rr::Plugin::resetPlugin;
+
 %ignore rr::ostream;
 %ignore ostream;
 %ignore std::ostream;
 %ignore operator<<(ostream&, const rr::SelectionRecord& rec);
 %ignore operator<<(rr::ostream&, const rr::SelectionRecord& rec);
 
+// ignore all instances of the Configurable methods.
+%ignore *::createConfigNode;
+%ignore *::loadConfig;
+
+
+// Warning 389: operator[] ignored (consider using %extend)
+// Warning 401: Nothing known about base class 'Configurable'. Ignored.
+
+
+// Warning 315: Nothing known about 'std::ostream'.
+namespace std { class ostream{}; }
+
+// Warning 315: Nothing known about 'Poco::SharedLibrary'.
+namespace Poco { class SharedLibrary{}; }
+// Warning 401: Nothing known about base class 'Configurable'. Ignored.
+
 
 /**
  * include the roadrunner files here, this is where the wrappers are generated.
  */
+
+//%import(module="roadrunner") "Configurable.h"
+//%ignore rr::Configurable;
+
+//namespace rr { class Configurable{}; }
+
+%ignore rr::Configurable;
+%include <Configurable.h>
+
 %include <rrRoadRunnerOptions.h>
 %include <rrLogger.h>
 %include <rrCompiler.h>
@@ -491,7 +542,8 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 %include <rrModelGenerator.h>
 %include <rrRoadRunner.h>
 %include <rrSelectionRecord.h>
-
+%include <rrPluginManager.h>
+%include <rrPlugin.h>
 
 %template(SelectionRecordVector) std::vector<SelectionRecord>;
 %apply std::vector<SelectionRecord> {vector<rr::SelectionRecord>, std::vector<rr::SelectionRecord>, vector<SelectionRecord>};

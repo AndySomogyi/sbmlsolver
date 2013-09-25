@@ -31,7 +31,8 @@ mPluginExtension = "dll";
 #elif defined(UNIX)
 mPluginExtension = "a";
 #else
-mPluginExtension = "b";
+// OSX
+mPluginExtension = "dylib";
 #endif
 
     if(autoLoad)
@@ -43,17 +44,17 @@ mPluginExtension = "b";
 PluginManager::~PluginManager()
 {}
 
-void PluginManager::setRoadRunnerInstance(RoadRunner* aRR)
+void PluginManager::setRoadRunner(RoadRunner* aRR)
 {
     mRR = aRR;
 }
 
-bool PluginManager::setPluginFolder(const string& dir)
+bool PluginManager::setPluginDir(const string& dir)
 {
     return false;
 }
 
-string PluginManager::getPluginFolder()
+string PluginManager::getPluginDir()
 {
     return mPluginFolder;
 }
@@ -77,6 +78,8 @@ typedef bool        (*destroyRRPluginFunc)(Plugin* );
 
 bool PluginManager::load(const string& pluginName)
 {
+    Log(Logger::PRIO_INFORMATION) << "load: " << pluginName;
+
     bool result = true;
     //Throw if plugin folder don't exist
     if(!folderExists(mPluginFolder))
@@ -267,9 +270,9 @@ const char* PluginManager::getImplementationLanguage(Poco::SharedLibrary* plugin
     }
 }
 
-StringList PluginManager::getPluginNames()
+std::vector<std::string> PluginManager::getPluginNames()
 {
-    StringList names;
+    std::vector<std::string> names;
 
     int nrPlugins = getNumberOfPlugins();
     for(int i = 0; i < nrPlugins; i++)
@@ -280,7 +283,7 @@ StringList PluginManager::getPluginNames()
             Plugin*           aPlugin     = aPluginLib->second;
 
             //Then unload
-            names.add(aPlugin->getName());
+            names.push_back(aPlugin->getName());
         }
     }
     return names;
@@ -368,5 +371,45 @@ bool destroyRRPlugin(rr::Plugin *plugin)
     }
 }
 
+
+_xmlNode* PluginManager::createConfigNode()
+{
+    _xmlNode *capies = Configurable::createCapabilitiesNode("PluginManager", "a minimal plugin manager");
+
+    if (mRR)
+    {
+        Configurable::addChild(capies, mRR->createConfigNode());
+    }
+
+    for (std::vector< std::pair< Poco::SharedLibrary*, Plugin* > >::iterator i
+            = mPlugins.begin(); i != mPlugins.end(); ++i)
+    {
+        Log(Logger::PRIO_NOTICE) << "getting config for " << i->second->getName() << " plugin";
+        Configurable::addChild(capies, i->second->createConfigNode());
+    }
+
+    return capies;
 }
 
+void PluginManager::loadConfig(const _xmlDoc* doc)
+{
+    for (std::vector< std::pair< Poco::SharedLibrary*, Plugin* > >::iterator i
+            = mPlugins.begin(); i != mPlugins.end(); ++i)
+    {
+        i->second->loadConfig(doc);
+    }
+}
+
+
+std::string PluginManager::getConfigurationXML()
+{
+    return Configurable::xmlFromConfigNode(createConfigNode());
+}
+
+void PluginManager::setConfigurationXML(const std::string& xml)
+{
+    Configurable::loadXmlConfig(xml, this);
+}
+
+
+}

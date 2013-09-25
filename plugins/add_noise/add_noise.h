@@ -33,10 +33,13 @@ class AddNoise : public Plugin
     public:
                                 AddNoise(RoadRunner* aRR = NULL, WorkStartedCB fn1 = NULL, WorkFinishedCB fn2 = NULL);
                                ~AddNoise();
-                               	//user data is
+                                   //user data is
         bool                    execute(void* userData);
         string                  getImplementationLanguage(){return "CPP";}
-        bool					isWorking(); //Returns true as long the thread is active..
+        bool                    isWorking(); //Returns true as long the thread is active..
+
+        virtual _xmlNode *createConfigNode();
+        virtual void loadConfig(const _xmlDoc* doc);
 };
 
 extern "C"

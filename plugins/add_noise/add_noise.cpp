@@ -11,10 +11,10 @@ using namespace rr;
 
 AddNoise::AddNoise(rr::RoadRunner* aRR, WorkStartedCB fn1, WorkFinishedCB fn2)
 :
-Plugin(                    "AddNoise",                 "No Category",				aRR, fn1, fn2),
-mAddNoise(                 "Add noise",                 "...",						"Add Noise"),
-mNoiseType(                "NoiseType",                 ntGaussian,					"Noise Type"),
-mSigma(                    "Sigma",                     1,							"Sigma"),
+Plugin(                    "AddNoise",                 "No Category",                aRR, fn1, fn2),
+mAddNoise(                 "Add noise",                 "...",                        "Add Noise"),
+mNoiseType(                "NoiseType",                 ntGaussian,                    "Noise Type"),
+mSigma(                    "Sigma",                     1,                            "Sigma"),
 mAddNoiseThread()
 {
     //Setup the plugins capabilities
@@ -28,7 +28,7 @@ AddNoise::~AddNoise()
 
 bool AddNoise::isWorking()
 {
-	return mAddNoiseThread.isRunning();
+    return mAddNoiseThread.isRunning();
 }
 
 bool AddNoise::execute(void* inputData)
@@ -48,9 +48,22 @@ rr::Plugin* rrCallConv createPlugin(rr::RoadRunner* aRR)
     //allocate a new object and return it
     return new AddNoise(aRR);
 }
+
+_xmlNode* AddNoise::createConfigNode()
+{
+    _xmlNode *cap = Configurable::createCapabilityNode("Add Noise", "", "Add Noise Plugin");
+    Configurable::addChild(cap, Configurable::createParameterNode("Noise Type", "Noise Type", ntGaussian));
+    Configurable::addChild(cap, Configurable::createParameterNode("Sigma", "Sigma", 1));
+    return cap;
 }
 
-extern "C" const char* rrCallConv    getImplementationLanguage() 
+void AddNoise::loadConfig(const _xmlDoc* doc)
+{
+}
+
+}
+
+extern "C" const char* rrCallConv    getImplementationLanguage()
 {
     return "CPP";
 }
@@ -60,6 +73,7 @@ extern "C" int _libmain(unsigned long reason)
     return 1;
 }
 
+
 #if defined(CG_UI)
     #if defined(STATIC_BUILD)
         #pragma comment(lib, "roadrunner-static.lib")
@@ -67,11 +81,11 @@ extern "C" int _libmain(unsigned long reason)
         #pragma comment(lib, "roadrunner.lib")
     #endif
 
-	#pragma comment(lib, "poco_foundation-static.lib")
+    #pragma comment(lib, "poco_foundation-static.lib")
 #endif
 
 #if defined(_MSC_VER)
-	#pragma comment(lib, "IPHLPAPI.lib")
+    #pragma comment(lib, "IPHLPAPI.lib")
 #endif
 
 

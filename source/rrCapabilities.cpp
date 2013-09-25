@@ -8,7 +8,7 @@
 #include "rrLogger.h"
 #include "rrCapabilities.h"
 #include "rrCapability.h"
-#include "rrXMLDocument.h"
+
 
 using namespace std;
 
@@ -65,43 +65,6 @@ StringList Capabilities::asStringList()
     }
 
     return caps;
-}
-
-string Capabilities::asXML()
-{
-    //Create XML
-    rrXMLDocument doc;
-    xml_node mainNode = doc.append_child("capabilities");
-    mainNode.append_attribute("name") = mName.c_str();
-    mainNode.append_attribute("description") = mDescription.c_str();
-
-    //Add capabilitys
-    for(int i = 0; i < count(); i++)
-    {
-        Capability& aCapability = *(mCapabilities[i]);
-        xml_node capabilityNode = mainNode.append_child("capability");
-        capabilityNode.append_attribute("name")            = aCapability.getName().c_str();
-        capabilityNode.append_attribute("method")           = aCapability.getMethod().c_str();
-        capabilityNode.append_attribute("description")     = aCapability.getDescription().c_str();
-
-        pugi::xml_node parameters = capabilityNode.append_child("parameters");
-
-        //Add parameters within each capability
-        for(int j = 0; j < aCapability.nrOfParameters(); j++)
-        {
-            rr::BaseParameter* parameter = const_cast<rr::BaseParameter*>(&(aCapability[j]));
-
-            pugi::xml_node parameterNode = parameters.append_child("parameter");
-            parameterNode.append_attribute("name")     = parameter->getName().c_str();
-            parameterNode.append_attribute("value") = parameter->getValueAsString().c_str();
-            parameterNode.append_attribute("hint")     = parameter->getHint().c_str();
-            parameterNode.append_attribute("type")     = parameter->getType().c_str();
-        }
-    }
-
-    stringstream xmlS;
-    doc.print(xmlS,"  ", format_indent);
-    return xmlS.str();
 }
 
 u_int Capabilities::count()

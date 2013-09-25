@@ -20,7 +20,7 @@ class RR_DECLSPEC Capabilities
     public:
                                         Capabilities(const string& name, const string& description);
         void                            add(Capability& capability);
-        string                          asXML();
+
         StringList                      asStringList();
         u_int                           count();
         void                            clear();
