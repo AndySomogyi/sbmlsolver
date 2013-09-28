@@ -18,11 +18,6 @@ using Poco::SharedLibrary;
 class CGenerator;
 class CompiledModelState;
 
-#if defined(WIN32)
-#define RR_CDECL __cdecl
-#else
-#define RR_CDECL
-#endif
 
 //Function pointer typedefs..
 typedef void     (RR_CDECL *c_void_MDS)(ModelData*); //MDS stands for ModelDataStructure
@@ -35,8 +30,8 @@ typedef double*  (RR_CDECL *c_doubleStar_MDS)(ModelData*);
 typedef void     (RR_CDECL *c_void_MDS_double_doubleStar)(ModelData*, double, const double*);
 typedef void     (RR_CDECL *c_void_MDS_int_double)(ModelData*, int, double);
 
-typedef ComputeEventAssignmentHandler* (rrCallConv *c_ComputeEventAssignmentHandlerStar)();
-typedef EventDelayHandler* (rrCallConv *c_GetEventDelayHandlerStar)();
+typedef ComputeEventAssignmentHandler* (RR_CDECL *c_ComputeEventAssignmentHandlerStar)();
+typedef EventDelayHandler* (RR_CDECL *c_GetEventDelayHandlerStar)();
 
 /**
  * Both the CModelGenerator and the CSharpModelGenerator use the same

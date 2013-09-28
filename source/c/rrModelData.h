@@ -6,15 +6,21 @@
  * BE AWARE OF THIS AND BE VERY CAREFULL MODIFYING IT!
  */
 
+#if defined(WIN32)
+#define RR_CDECL __cdecl
+#else
+#define RR_CDECL
+#endif
+
 #if defined __cplusplus
 namespace rr
 {
 #endif
 typedef struct   SModelData *ModelDataP;
-typedef double   (*EventDelayHandler)(ModelDataP);
-typedef double*  (*ComputeEventAssignmentHandler)(ModelDataP);
-typedef void     (*PerformEventAssignmentHandler)(ModelDataP, double*);
-typedef void     (*EventAssignmentHandler)();
+typedef double   (RR_CDECL *EventDelayHandler)(ModelDataP);
+typedef double*  (RR_CDECL *ComputeEventAssignmentHandler)(ModelDataP);
+typedef void     (RR_CDECL *PerformEventAssignmentHandler)(ModelDataP, double*);
+typedef void     (RR_CDECL *EventAssignmentHandler)();
 
 /**
  * A data structure that is that allows data to be exchanged
