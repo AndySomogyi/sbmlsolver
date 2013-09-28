@@ -18,16 +18,22 @@ using Poco::SharedLibrary;
 class CGenerator;
 class CompiledModelState;
 
+#if defined(WIN32)
+#define RR_CDECL __cdecl
+#else
+#define RR_CDECL
+#endif
+
 //Function pointer typedefs..
-typedef void     (rrCallConv *c_void_MDS)(ModelData*); //MDS stands for ModelDataStructure
-typedef int      (rrCallConv *c_int_MDS)(ModelData*);
-typedef int      (rrCallConv *c_int_MDS_int)(ModelData*, int);
-typedef char*    (rrCallConv *c_charStar_MDS)(ModelData*);
-typedef void     (rrCallConv *c_void_MDS_doubleStar)(ModelData*, const double*);
-typedef double   (rrCallConv *c_double_MDS_int)(ModelData*, int);
-typedef double*  (rrCallConv *c_doubleStar_MDS)(ModelData*);
-typedef void     (rrCallConv *c_void_MDS_double_doubleStar)(ModelData*, double, const double*);
-typedef void     (rrCallConv *c_void_MDS_int_double)(ModelData*, int, double);
+typedef void     (RR_CDECL *c_void_MDS)(ModelData*); //MDS stands for ModelDataStructure
+typedef int      (RR_CDECL *c_int_MDS)(ModelData*);
+typedef int      (RR_CDECL *c_int_MDS_int)(ModelData*, int);
+typedef char*    (RR_CDECL *c_charStar_MDS)(ModelData*);
+typedef void     (RR_CDECL *c_void_MDS_doubleStar)(ModelData*, const double*);
+typedef double   (RR_CDECL *c_double_MDS_int)(ModelData*, int);
+typedef double*  (RR_CDECL *c_doubleStar_MDS)(ModelData*);
+typedef void     (RR_CDECL *c_void_MDS_double_doubleStar)(ModelData*, double, const double*);
+typedef void     (RR_CDECL *c_void_MDS_int_double)(ModelData*, int, double);
 
 typedef ComputeEventAssignmentHandler* (rrCallConv *c_ComputeEventAssignmentHandlerStar)();
 typedef EventDelayHandler* (rrCallConv *c_GetEventDelayHandlerStar)();
