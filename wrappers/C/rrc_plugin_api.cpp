@@ -359,4 +359,29 @@ bool rrcCallConv isPluginWorking(RRPluginHandle handle)
     }
     catch_bool_macro
 }
+
+bool rrcCallConv setPluginManagerConfigurationXML(RRPluginManagerHandle handle, const char* caps)
+{
+    try
+    {
+        PluginManager *pm = castToPluginManager(handle);
+        if(!caps)
+        {
+            return false;
+        }
+        pm->setConfigurationXML(caps);
+        return true;
+    }
+    catch_bool_macro
+}
+
+char* rrcCallConv getPluginManagerConfigurationXML(RRPluginManagerHandle handle)
+{
+    try
+    {
+        PluginManager *pm = castToPluginManager(handle);
+        return rr::createText(pm->getConfigurationXML());
+    }
+    catch_ptr_macro
+}
 }

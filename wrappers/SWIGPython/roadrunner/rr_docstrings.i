@@ -104,7 +104,7 @@ returns all floating species amounts.
 
 %feature("docstring") rr::ExecutableModel::getBoundarySpeciesConcentrations "
 ";
-  
+
 %feature("docstring") rr::ExecutableModel::getGlobalParameterValues "
 ";
 
@@ -125,10 +125,10 @@ returns all floating species amounts.
 
 %feature("docstring") rr::ExecutableModel::getReactionIds "
 ";
-  
+
 %feature("docstring") rr::ExecutableModel::setFloatingSpeciesAmounts "
 ";
-  
+
 %feature("docstring") rr::ExecutableModel::setFloatingSpeciesConcentrations "
 ";
 
@@ -145,6 +145,84 @@ returns all floating species amounts.
 ";
 
 
+
+/** SimulateOptions **/
+
+
+%feature("docstring") rr::SimulateOptions "
+
+RoadRunner simulation options.
+
+This is the full set of options that determines how RoadRunner performs
+a simulation of an sbml model.
+
+This is a superset of the values stored in a sbml test suite settings file, the
+documentation of the fields which correspond to an sbml test suite settings was
+taken from http://sbml.org
+
+This object can be read from a sbml test suite options file by using a file
+name in the constructor.
+
+
+    *Arguments*
+        sbmlSettingFilePath (optional)
+            if this is given, the settings are read from this settings file,
+            if not, the default values are set.
+";
+
+
+%feature("docstring") rr::SimulateOptions::ResetModel "
+reset the model to the initial state.
+";
+
+%feature("docstring") rr::SimulateOptions::flags "
+can be set to ResetModel so that the model is reset to its intial state
+when the simulation is run. ";
+
+%feature("docstring") rr::SimulateOptions::steps "
+The number of steps at which the output is sampled. The samples are evenly spaced.
+When a simulation system calculates the data points to record, it will typically
+divide the duration by the number of time steps. Thus, for X steps, the output
+will have X+1 data rows.";
+
+%feature("docstring") rr::SimulateOptions::start "
+The start time of the simulation time-series data.
+Often this is 0, but not necessarily.";
+
+%feature("docstring") rr::SimulateOptions::duration "
+The duration of the simulation run, in the model's units of time.";
+
+%feature("docstring") rr::SimulateOptions::absolute "
+A number representing the absolute difference permitted.";
+
+%feature("docstring") rr::SimulateOptions::relative "
+A float-point number representing the relative difference permitted.
+Defaults 0.0001";
+
+%feature("docstring") rr::SimulateOptions::variables "
+The variables (in addition to time) whose values will be saved in the result.
+These are SBML model id's. Order is significant, as this determines the order
+of the columns in the result matrix.
+
+Important: if a symbol in this list refers to a species in the model,
+then that symbol will also be listed in either the amount or concentration
+lists below.
+
+NOTE:If a listed variable has two underscores in it ('__'), that variable
+is actually present only in a submodel of the main model, from the
+Hierarchical Model Composition package, in the format submodelID__variableID.
+If the model is flattened, the variable will appear automatically.";
+
+%feature("docstring") rr::SimulateOptions::amounts "
+A list of the variable whose output in the results file is in amount
+(not concentration) units. This list of variables must be a subset of
+ the names listed in variables.";
+
+
+%feature("docstring") rr::SimulateOptions::concentrations "
+A list of the variable whose output in the results file is in concentration
+(not amount) units. This list of variables must be a subset of the names
+listed in variables.";
 
 
 

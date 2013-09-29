@@ -1520,7 +1520,7 @@ RRListPtr rrcCallConv getElasticityCoefficientIds(RRHandle handle)
     catch_ptr_macro
 }
 
-bool rrcCallConv RoadRunner_setConfigurationXML(RRHandle handle, const char* caps)
+bool rrcCallConv setConfigurationXML(RRHandle handle, const char* caps)
 {
     try
     {
@@ -1535,7 +1535,7 @@ bool rrcCallConv RoadRunner_setConfigurationXML(RRHandle handle, const char* cap
     catch_bool_macro
 }
 
-char* rrcCallConv RoadRunner_getConfigurationXML(RRHandle handle)
+char* rrcCallConv getConfigurationXML(RRHandle handle)
 {
     try
     {

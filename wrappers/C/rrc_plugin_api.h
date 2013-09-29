@@ -261,6 +261,26 @@ C_DECL_SPEC bool rrcCallConv setPluginInputData(RRPluginHandle handle, void* use
 */
 C_DECL_SPEC bool rrcCallConv isPluginWorking(RRPluginHandle handle);
 
+
+/*!
+ \brief Set the plugin manager's capabilities
+ \param[in] handle Handle to a PluginManager instance
+ \param[out] caps An XML string that specifies the simulators capabilities
+ \return Returns true if sucessful
+ \ingroup simulation
+*/
+C_DECL_SPEC bool rrcCallConv setPluginManagerConfigurationXML(RRPluginManagerHandle handle, const char* caps);
+
+/*!
+ \brief Get the plugin manager's capabilities
+
+
+ \param[in] handle Handle to a plugin manager instance
+ \return Returns null if it fails, otherwise it returns the simulator's capabilities in the form of an XML string
+ \ingroup simulation
+*/
+C_DECL_SPEC char* rrcCallConv getPluginManagerConfigurationXML(RRPluginManagerHandle handle);
+
 #if defined(__cplusplus)
 }    //Extern "C"
 
