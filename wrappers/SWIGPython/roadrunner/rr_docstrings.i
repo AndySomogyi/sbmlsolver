@@ -22,22 +22,37 @@
             typically ignored, only used by the old C RoadRunner";
 
 %feature("docstring") rr::RoadRunner::simulate "
-    simulate the current SBML model.
+simulate the current SBML model.
 
-    If options is null, then the current simulation settings (start time,
-    end time, n steps) are used. If options is not null, then the
-    current simulation settings are set to the values specified by
-    options and they are used.
+There are a number of ways to call simulate. 
 
-    *Arguments*
-        options (SimulateOptions)
-            An optional SimulateOptions class where additional simulation options
-            may be specified
+1. With no arguments. In this case, the current set of `SimulateOptions` will
+be used for the simulation. The current set may be changed either directly 
+via setSimulateOptions() or with one of the two alternate ways of calling 
+simulate. 
 
-    *Returns*
-        (2D numpy array)
-            a numpy array with each selected output timeseries being a
-            column vector, and the 0'th column is the simulation time.";
+2: With single `SimulateOptions` argument. In this case, all of the settings 
+in the given options are copied and will be used for the current and future
+simulations. 
+
+3: With the three positions arguments, `timeStart`, `timeEnd`, `steps`. In this case
+these three values are copied and will be used for the current and future simulations.
+
+The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
+one calls::
+
+    r.simulate(0, 3.14, 100)
+
+The start time of 0, end time of 3.14 and steps of 100 will remain in effect, so that if this
+is followed by a call to::
+
+    r.simulate()
+
+This simulation will use the previous values. 
+
+:returns: a numpy array with each selected output timeseries being a
+          column vector, and the 0'th column is the simulation time.
+:rtype: numpy.ndarray";
 
 
 
@@ -48,8 +63,12 @@ The sbml model.
 %feature("docstring") rr::ExecutableModel::getModelName "
 Get the model name specified in the sbml
 ";
+
 %feature("docstring") rr::ExecutableModel::setTime "
-Set the time.
+Set the model time variable.
+
+:param time: time the time value to set.
+:returns: None
 ";
 %feature("docstring") rr::ExecutableModel::getTime "
 ";
@@ -86,11 +105,21 @@ Set the time.
 Get the list of floating species amounts. If no arguments are given, this
 returns all floating species amounts.
 
-*Arguments*
-    index (numpy int32 array) optional
-        an array of desired floating species indices. i.e. if this model has
+:param index: an optional array of desired floating species indices. i.e. if this model has
         4 floating species and we want the amounts for the last and first, we
         would use [3,0] for the index array.
+:type name: numpy.ndarray
+
+get all the amounts:
+
+>>> e.getFloatingSpeciesAmounts()
+[15,2,3,20]
+
+get amounts 3 and 0:
+
+>>> getFloatingSpeciesAmounts([3,0])
+[10,15]
+
 ";
 
 %feature("docstring") rr::ExecutableModel::getFloatingSpeciesAmountRates "

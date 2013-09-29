@@ -477,27 +477,27 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 %ignore rr::ExecutableModel::getReactionIndex(const std::string& eid);
 
 // ignore Plugin methods that will be deprecated
-%ignore rr::Plugin::assignCallbacks;            
-//%ignore rr::Plugin::getCopyright;               
-%ignore rr::Plugin::getParameters;              
+%ignore rr::Plugin::assignCallbacks;
+//%ignore rr::Plugin::getCopyright;
+%ignore rr::Plugin::getParameters;
 %ignore rr::Plugin::setInputData;
-//%ignore rr::Plugin::execute;                    
-//%ignore rr::Plugin::getImplementationLanguage;  
-//%ignore rr::Plugin::getResult;                  
+//%ignore rr::Plugin::execute;
+//%ignore rr::Plugin::getImplementationLanguage;
+//%ignore rr::Plugin::getResult;
 //%ignore rr::Plugin::setLibraryName;
-//%ignore rr::Plugin::getAuthor;                  
-//%ignore rr::Plugin::getInfo;                    
-//%ignore rr::Plugin::getStatus;                  
+//%ignore rr::Plugin::getAuthor;
+//%ignore rr::Plugin::getInfo;
+//%ignore rr::Plugin::getStatus;
 %ignore rr::Plugin::setParameter;
-%ignore rr::Plugin::getCapabilities;            
-//%ignore rr::Plugin::getLibraryName;             
-//%ignore rr::Plugin::getVersion;                 
+%ignore rr::Plugin::getCapabilities;
+//%ignore rr::Plugin::getLibraryName;
+//%ignore rr::Plugin::getVersion;
 //%ignore rr::Plugin::this
-%ignore rr::Plugin::getCapability;              
-//%ignore rr::Plugin::getName;                    
+%ignore rr::Plugin::getCapability;
+//%ignore rr::Plugin::getName;
 //%ignore rr::Plugin::isWorking;
-//%ignore rr::Plugin::getCategory;                
-%ignore rr::Plugin::getParameter;               
+//%ignore rr::Plugin::getCategory;
+%ignore rr::Plugin::getParameter;
 //%ignore rr::Plugin::resetPlugin;
 
 %ignore rr::ostream;
@@ -547,6 +547,18 @@ namespace Poco { class SharedLibrary{}; }
 
 %template(SelectionRecordVector) std::vector<SelectionRecord>;
 %apply std::vector<SelectionRecord> {vector<rr::SelectionRecord>, std::vector<rr::SelectionRecord>, vector<SelectionRecord>};
+
+
+%extend rr::RoadRunner
+{
+    const RoadRunnerData *simulate(int startTime, int endTime, int steps) {
+        rr::SimulateOptions s = $self->getSimulateOptions();
+        s.start = startTime;
+        s.duration = endTime - startTime;
+        s.steps = steps;
+        return $self->simulate(&s);
+    }
+}
 
 %extend rr::ExecutableModel
 {
