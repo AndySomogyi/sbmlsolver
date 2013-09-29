@@ -1062,28 +1062,40 @@ case, the default values are used.</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.simulate">
-<tt class="descname">simulate</tt><big>(</big><em>options=None</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.simulate" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">simulate</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.simulate" title="Permalink to this definition">¶</a></dt>
 <dd><p>simulate the current SBML model.</p>
-<p>If options is null, then the current simulation settings (start time,
-end time, n steps) are used. If options is not null, then the
-current simulation settings are set to the values specified by
-options and they are used.</p>
-<dl class="docutils">
-<dt><em>Arguments</em></dt>
-<dd><dl class="first last docutils">
-<dt>options (SimulateOptions)</dt>
-<dd>An optional SimulateOptions class where additional simulation options
-may be specified</dd>
-</dl>
-</dd>
-<dt><em>Returns</em></dt>
-<dd><dl class="first last docutils">
-<dt>(2D numpy array)</dt>
-<dd>a numpy array with each selected output timeseries being a
-column vector, and the 0&#8217;th column is the simulation time.</dd>
-</dl>
-</dd>
-</dl>
+<p>There are a number of ways to call simulate.</p>
+<p>1. With no arguments. In this case, the current set of <cite>SimulateOptions</cite> will
+be used for the simulation. The current set may be changed either directly 
+via setSimulateOptions() or with one of the two alternate ways of calling 
+simulate.</p>
+<p>2: With single <cite>SimulateOptions</cite> argument. In this case, all of the settings 
+in the given options are copied and will be used for the current and future
+simulations.</p>
+<p>3: With the three positions arguments, <cite>timeStart</cite>, <cite>timeEnd</cite>, <cite>steps</cite>. In this case
+these three values are copied and will be used for the current and future simulations.</p>
+<p>The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
+one calls:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">3.14</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The start time of 0, end time of 3.14 and steps of 100 will remain in effect, so that if this
+is followed by a call to:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This simulation will use the previous values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">a numpy array with each selected output timeseries being a
+column vector, and the 0&#8217;th column is the simulation time.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
