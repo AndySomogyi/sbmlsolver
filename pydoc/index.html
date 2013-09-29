@@ -1,0 +1,1639 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Welcome to RoadRunner’s documentation! &mdash; RoadRunner 0.99 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.99',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="RoadRunner 0.99 documentation" href="#" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="#">RoadRunner 0.99 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="welcome-to-roadrunner-s-documentation">
+<h1>Welcome to RoadRunner&#8217;s documentation!<a class="headerlink" href="#welcome-to-roadrunner-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</ul>
+<div class="section" id="roadrunner-module">
+<h2>RoadRunner Module<a class="headerlink" href="#roadrunner-module" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-roadrunner"></span><p>The RoadRunner SBML Simulation Engine,
+(c) 2009-2013 Herbert Sauro, Andy Somogyi and Totte Karlsson</p>
+<dl class="class">
+<dt id="roadrunner.Compiler">
+<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">Compiler</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#roadrunner.Compiler" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="roadrunner.Compiler.getCompiler">
+<tt class="descname">getCompiler</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Compiler.getCompiler" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Compiler.getCompilerLocation">
+<tt class="descname">getCompilerLocation</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Compiler.getCompilerLocation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Compiler.getSupportCodeFolder">
+<tt class="descname">getSupportCodeFolder</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Compiler.getSupportCodeFolder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Compiler.setCompiler">
+<tt class="descname">setCompiler</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.Compiler.setCompiler" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Compiler.setCompilerLocation">
+<tt class="descname">setCompilerLocation</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.Compiler.setCompilerLocation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Compiler.setSupportCodeFolder">
+<tt class="descname">setSupportCodeFolder</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.Compiler.setSupportCodeFolder" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roadrunner.ExecutableModel">
+<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">ExecutableModel</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>The sbml model.</p>
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.evalInitialConditions">
+<tt class="descname">evalInitialConditions</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.evalInitialConditions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getBoundarySpeciesAmounts">
+<tt class="descname">getBoundarySpeciesAmounts</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getBoundarySpeciesAmounts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getBoundarySpeciesConcentrations">
+<tt class="descname">getBoundarySpeciesConcentrations</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getBoundarySpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getBoundarySpeciesIds">
+<tt class="descname">getBoundarySpeciesIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getBoundarySpeciesIds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getCompartmentIds">
+<tt class="descname">getCompartmentIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getCompartmentIds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getCompartmentVolumes">
+<tt class="descname">getCompartmentVolumes</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getCompartmentVolumes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getConservedSumChanged">
+<tt class="descname">getConservedSumChanged</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getConservedSumChanged" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getConservedSums">
+<tt class="descname">getConservedSums</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getConservedSums" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getFloatingSpeciesAmountRates">
+<tt class="descname">getFloatingSpeciesAmountRates</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesAmountRates" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getFloatingSpeciesAmounts">
+<tt class="descname">getFloatingSpeciesAmounts</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesAmounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the list of floating species amounts. If no arguments are given, this
+returns all floating species amounts.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> &#8211; an optional array of desired floating species indices. i.e. if this model has
+4 floating species and we want the amounts for the last and first, we
+would use [3,0] for the index array.</td>
+</tr>
+</tbody>
+</table>
+<p>get all the amounts:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">e</span><span class="o">.</span><span class="n">getFloatingSpeciesAmounts</span><span class="p">()</span>
+<span class="go">[15,2,3,20]</span>
+</pre></div>
+</div>
+<p>get amounts 3 and 0:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">getFloatingSpeciesAmounts</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="go">[10,15]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getFloatingSpeciesConcentrations">
+<tt class="descname">getFloatingSpeciesConcentrations</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getFloatingSpeciesIds">
+<tt class="descname">getFloatingSpeciesIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesIds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getGlobalParameterIds">
+<tt class="descname">getGlobalParameterIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getGlobalParameterIds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getGlobalParameterValues">
+<tt class="descname">getGlobalParameterValues</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getGlobalParameterValues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getInfo">
+<tt class="descname">getInfo</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getInfo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getModelName">
+<tt class="descname">getModelName</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getModelName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the model name specified in the sbml</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getNumBoundarySpecies">
+<tt class="descname">getNumBoundarySpecies</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumBoundarySpecies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getNumCompartments">
+<tt class="descname">getNumCompartments</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumCompartments" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getNumConservedSums">
+<tt class="descname">getNumConservedSums</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumConservedSums" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getNumDependentSpecies">
+<tt class="descname">getNumDependentSpecies</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumDependentSpecies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getNumFloatingSpecies">
+<tt class="descname">getNumFloatingSpecies</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumFloatingSpecies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getNumGlobalParameters">
+<tt class="descname">getNumGlobalParameters</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumGlobalParameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getNumIndependentSpecies">
+<tt class="descname">getNumIndependentSpecies</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumIndependentSpecies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getNumReactions">
+<tt class="descname">getNumReactions</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumReactions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getNumRules">
+<tt class="descname">getNumRules</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumRules" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getReactionIds">
+<tt class="descname">getReactionIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getReactionIds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getReactionRates">
+<tt class="descname">getReactionRates</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getReactionRates" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getTime">
+<tt class="descname">getTime</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getTime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.reset">
+<tt class="descname">reset</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.reset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.setBoundarySpeciesConcentrations">
+<tt class="descname">setBoundarySpeciesConcentrations</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setBoundarySpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.setCompartmentVolumes">
+<tt class="descname">setCompartmentVolumes</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setCompartmentVolumes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.setConservedSumChanged">
+<tt class="descname">setConservedSumChanged</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setConservedSumChanged" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.setConservedSums">
+<tt class="descname">setConservedSums</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setConservedSums" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.setFloatingSpeciesAmounts">
+<tt class="descname">setFloatingSpeciesAmounts</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setFloatingSpeciesAmounts" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.setFloatingSpeciesConcentrations">
+<tt class="descname">setFloatingSpeciesConcentrations</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setFloatingSpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.setGlobalParameterValues">
+<tt class="descname">setGlobalParameterValues</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setGlobalParameterValues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.setTime">
+<tt class="descname">setTime</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setTime" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the model time variable.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time</strong> &#8211; time the time value to set.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roadrunner.IntVector">
+<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">IntVector</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.IntVector" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="roadrunner.IntVector.append">
+<tt class="descname">append</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.IntVector.append" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.assign">
+<tt class="descname">assign</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.IntVector.assign" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.back">
+<tt class="descname">back</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.IntVector.back" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.begin">
+<tt class="descname">begin</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.IntVector.begin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.capacity">
+<tt class="descname">capacity</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.IntVector.capacity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.clear">
+<tt class="descname">clear</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.IntVector.clear" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.empty">
+<tt class="descname">empty</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.IntVector.empty" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.end">
+<tt class="descname">end</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.IntVector.end" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.erase">
+<tt class="descname">erase</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.IntVector.erase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.front">
+<tt class="descname">front</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.IntVector.front" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.get_allocator">
+<tt class="descname">get_allocator</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.IntVector.get_allocator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.insert">
+<tt class="descname">insert</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.IntVector.insert" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.iterator">
+<tt class="descname">iterator</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.IntVector.iterator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.pop">
+<tt class="descname">pop</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.IntVector.pop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.pop_back">
+<tt class="descname">pop_back</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.IntVector.pop_back" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.push_back">
+<tt class="descname">push_back</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.IntVector.push_back" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.rbegin">
+<tt class="descname">rbegin</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.IntVector.rbegin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.rend">
+<tt class="descname">rend</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.IntVector.rend" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.reserve">
+<tt class="descname">reserve</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.IntVector.reserve" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.resize">
+<tt class="descname">resize</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.IntVector.resize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.size">
+<tt class="descname">size</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.IntVector.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.IntVector.swap">
+<tt class="descname">swap</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.IntVector.swap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roadrunner.LoadSBMLOptions">
+<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">LoadSBMLOptions</tt><a class="headerlink" href="#roadrunner.LoadSBMLOptions" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="roadrunner.LoadSBMLOptions.ConservationAnalysis">
+<tt class="descname">ConservationAnalysis</tt><em class="property"> = 1</em><a class="headerlink" href="#roadrunner.LoadSBMLOptions.ConservationAnalysis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.LoadSBMLOptions.ForceReCompile">
+<tt class="descname">ForceReCompile</tt><em class="property"> = 2</em><a class="headerlink" href="#roadrunner.LoadSBMLOptions.ForceReCompile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.LoadSBMLOptions.ReadOnlyModel">
+<tt class="descname">ReadOnlyModel</tt><em class="property"> = 4</em><a class="headerlink" href="#roadrunner.LoadSBMLOptions.ReadOnlyModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.LoadSBMLOptions.modelGeneratorOpt">
+<tt class="descname">modelGeneratorOpt</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.LoadSBMLOptions.modelGeneratorOpt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.LoadSBMLOptions.size">
+<tt class="descname">size</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.LoadSBMLOptions.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.LoadSBMLOptions.version">
+<tt class="descname">version</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.LoadSBMLOptions.version" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roadrunner.Logger">
+<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">Logger</tt><a class="headerlink" href="#roadrunner.Logger" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="roadrunner.Logger.PRIO_CRITICAL">
+<tt class="descname">PRIO_CRITICAL</tt><em class="property"> = 2</em><a class="headerlink" href="#roadrunner.Logger.PRIO_CRITICAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.Logger.PRIO_DEBUG">
+<tt class="descname">PRIO_DEBUG</tt><em class="property"> = 7</em><a class="headerlink" href="#roadrunner.Logger.PRIO_DEBUG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.Logger.PRIO_ERROR">
+<tt class="descname">PRIO_ERROR</tt><em class="property"> = 3</em><a class="headerlink" href="#roadrunner.Logger.PRIO_ERROR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.Logger.PRIO_FATAL">
+<tt class="descname">PRIO_FATAL</tt><em class="property"> = 1</em><a class="headerlink" href="#roadrunner.Logger.PRIO_FATAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.Logger.PRIO_INFORMATION">
+<tt class="descname">PRIO_INFORMATION</tt><em class="property"> = 6</em><a class="headerlink" href="#roadrunner.Logger.PRIO_INFORMATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.Logger.PRIO_NOTICE">
+<tt class="descname">PRIO_NOTICE</tt><em class="property"> = 5</em><a class="headerlink" href="#roadrunner.Logger.PRIO_NOTICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.Logger.PRIO_TRACE">
+<tt class="descname">PRIO_TRACE</tt><em class="property"> = 8</em><a class="headerlink" href="#roadrunner.Logger.PRIO_TRACE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.Logger.PRIO_WARNING">
+<tt class="descname">PRIO_WARNING</tt><em class="property"> = 4</em><a class="headerlink" href="#roadrunner.Logger.PRIO_WARNING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Logger.disableLoggingToConsole">
+<tt class="descname">disableLoggingToConsole</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Logger.disableLoggingToConsole" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Logger.enableLoggingToConsole">
+<tt class="descname">enableLoggingToConsole</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Logger.enableLoggingToConsole" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Logger.getFileName">
+<tt class="descname">getFileName</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Logger.getFileName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Logger.getLevel">
+<tt class="descname">getLevel</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Logger.getLevel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Logger.getLevelAsString">
+<tt class="descname">getLevelAsString</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Logger.getLevelAsString" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Logger.init">
+<tt class="descname">init</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Logger.init" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Logger.setLevel">
+<tt class="descname">setLevel</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Logger.setLevel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Logger.stopLogging">
+<tt class="descname">stopLogging</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Logger.stopLogging" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roadrunner.ModelGenerator">
+<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">ModelGenerator</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#roadrunner.ModelGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="roadrunner.ModelGenerator.ComputeAndAssignConsevationLaws">
+<tt class="descname">ComputeAndAssignConsevationLaws</tt><em class="property"> = 1</em><a class="headerlink" href="#roadrunner.ModelGenerator.ComputeAndAssignConsevationLaws" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.ModelGenerator.ForceReCompile">
+<tt class="descname">ForceReCompile</tt><em class="property"> = 2</em><a class="headerlink" href="#roadrunner.ModelGenerator.ForceReCompile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.ModelGenerator.ReadOnlyModel">
+<tt class="descname">ReadOnlyModel</tt><em class="property"> = 4</em><a class="headerlink" href="#roadrunner.ModelGenerator.ReadOnlyModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ModelGenerator.createModel">
+<tt class="descname">createModel</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ModelGenerator.createModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ModelGenerator.getCompiler">
+<tt class="descname">getCompiler</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ModelGenerator.getCompiler" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ModelGenerator.getTemporaryDirectory">
+<tt class="descname">getTemporaryDirectory</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ModelGenerator.getTemporaryDirectory" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ModelGenerator.setCompiler">
+<tt class="descname">setCompiler</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ModelGenerator.setCompiler" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ModelGenerator.setTemporaryDirectory">
+<tt class="descname">setTemporaryDirectory</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ModelGenerator.setTemporaryDirectory" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roadrunner.Plugin">
+<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">Plugin</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#roadrunner.Plugin" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="roadrunner.Plugin.execute">
+<tt class="descname">execute</tt><big>(</big><em>userData=None</em><big>)</big><a class="headerlink" href="#roadrunner.Plugin.execute" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Plugin.getAuthor">
+<tt class="descname">getAuthor</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Plugin.getAuthor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Plugin.getCategory">
+<tt class="descname">getCategory</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Plugin.getCategory" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Plugin.getCopyright">
+<tt class="descname">getCopyright</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Plugin.getCopyright" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Plugin.getImplementationLanguage">
+<tt class="descname">getImplementationLanguage</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Plugin.getImplementationLanguage" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Plugin.getInfo">
+<tt class="descname">getInfo</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Plugin.getInfo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Plugin.getLibraryName">
+<tt class="descname">getLibraryName</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Plugin.getLibraryName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Plugin.getName">
+<tt class="descname">getName</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Plugin.getName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Plugin.getResult">
+<tt class="descname">getResult</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Plugin.getResult" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Plugin.getStatus">
+<tt class="descname">getStatus</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Plugin.getStatus" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Plugin.getVersion">
+<tt class="descname">getVersion</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Plugin.getVersion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Plugin.isWorking">
+<tt class="descname">isWorking</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Plugin.isWorking" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Plugin.resetPlugin">
+<tt class="descname">resetPlugin</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.Plugin.resetPlugin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.Plugin.setLibraryName">
+<tt class="descname">setLibraryName</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.Plugin.setLibraryName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roadrunner.PluginManager">
+<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">PluginManager</tt><big>(</big><em>pluginFolder=''</em>, <em>autoLoad=False</em>, <em>aRR=None</em><big>)</big><a class="headerlink" href="#roadrunner.PluginManager" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="roadrunner.PluginManager.getConfigurationXML">
+<tt class="descname">getConfigurationXML</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.PluginManager.getConfigurationXML" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.PluginManager.getNumberOfCategories">
+<tt class="descname">getNumberOfCategories</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.PluginManager.getNumberOfCategories" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.PluginManager.getNumberOfPlugins">
+<tt class="descname">getNumberOfPlugins</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.PluginManager.getNumberOfPlugins" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.PluginManager.getPlugin">
+<tt class="descname">getPlugin</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.PluginManager.getPlugin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.PluginManager.getPluginDir">
+<tt class="descname">getPluginDir</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.PluginManager.getPluginDir" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.PluginManager.getPluginNames">
+<tt class="descname">getPluginNames</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.PluginManager.getPluginNames" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.PluginManager.load">
+<tt class="descname">load</tt><big>(</big><em>pluginName=''</em><big>)</big><a class="headerlink" href="#roadrunner.PluginManager.load" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.PluginManager.loadPlugin">
+<tt class="descname">loadPlugin</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.PluginManager.loadPlugin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.PluginManager.setConfigurationXML">
+<tt class="descname">setConfigurationXML</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.PluginManager.setConfigurationXML" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.PluginManager.setPluginDir">
+<tt class="descname">setPluginDir</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.PluginManager.setPluginDir" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.PluginManager.setRoadRunner">
+<tt class="descname">setRoadRunner</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.PluginManager.setRoadRunner" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.PluginManager.unload">
+<tt class="descname">unload</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.PluginManager.unload" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roadrunner.RoadRunner">
+<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">RoadRunner</tt><big>(</big><em>compiler=''</em>, <em>tempDir=''</em>, <em>supportCodeDir=''</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main RoadRunner class.</p>
+<p>All three of the RoadRunner options default to the empty string, in this
+case, the default values are used.</p>
+<dl class="docutils">
+<dt><em>Arguments</em></dt>
+<dd><dl class="first last docutils">
+<dt>compiler (string)</dt>
+<dd>if LLVM build is enabled, the compiler defaults to LLVM.</dd>
+<dt>tempDir (string)</dt>
+<dd>typically ignored, only used by the old C RoadRunner.</dd>
+<dt>supportCodeDir (string)</dt>
+<dd>typically ignored, only used by the old C RoadRunner</dd>
+</dl>
+</dd>
+</dl>
+<dl class="method">
+<dt id="roadrunner.RoadRunner.computeSteadyStateValue">
+<tt class="descname">computeSteadyStateValue</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.computeSteadyStateValue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getCC">
+<tt class="descname">getCC</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getCC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getCompiler">
+<tt class="descname">getCompiler</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getCompiler" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getConfigurationXML">
+<tt class="descname">getConfigurationXML</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getConfigurationXML" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getConservationAnalysis">
+<tt class="descname">getConservationAnalysis</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getConservationAnalysis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getConservationMatrix">
+<tt class="descname">getConservationMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getConservationMatrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getCopyright">
+<tt class="descname">getCopyright</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getCopyright" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getEE">
+<tt class="descname">getEE</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getEE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getEigenvalueIds">
+<tt class="descname">getEigenvalueIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getEigenvalueIds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getEigenvalues">
+<tt class="descname">getEigenvalues</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getEigenvalues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getExtendedVersionInfo">
+<tt class="descname">getExtendedVersionInfo</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getExtendedVersionInfo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getFloatingSpeciesAmountIds">
+<tt class="descname">getFloatingSpeciesAmountIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getFloatingSpeciesAmountIds" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getFullJacobian">
+<tt class="descname">getFullJacobian</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getFullJacobian" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getFullyReorderedStoichiometryMatrix">
+<tt class="descname">getFullyReorderedStoichiometryMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getFullyReorderedStoichiometryMatrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getInfo">
+<tt class="descname">getInfo</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getInfo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getInstanceCount">
+<tt class="descname">getInstanceCount</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getInstanceCount" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getInstanceID">
+<tt class="descname">getInstanceID</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getInstanceID" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getIntegrator">
+<tt class="descname">getIntegrator</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getIntegrator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getL0Matrix">
+<tt class="descname">getL0Matrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getL0Matrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getLinkMatrix">
+<tt class="descname">getLinkMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getLinkMatrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getModel">
+<tt class="descname">getModel</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getModelGenerator">
+<tt class="descname">getModelGenerator</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getModelGenerator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getNrMatrix">
+<tt class="descname">getNrMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getNrMatrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getParamPromotedSBML">
+<tt class="descname">getParamPromotedSBML</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getParamPromotedSBML" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getReducedJacobian">
+<tt class="descname">getReducedJacobian</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getReducedJacobian" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getReorderedStoichiometryMatrix">
+<tt class="descname">getReorderedStoichiometryMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getReorderedStoichiometryMatrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getSBML">
+<tt class="descname">getSBML</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getSBML" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getScaledConcentrationControlCoefficientMatrix">
+<tt class="descname">getScaledConcentrationControlCoefficientMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getScaledConcentrationControlCoefficientMatrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getScaledFloatingSpeciesElasticity">
+<tt class="descname">getScaledFloatingSpeciesElasticity</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getScaledFloatingSpeciesElasticity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getScaledFluxControlCoefficientMatrix">
+<tt class="descname">getScaledFluxControlCoefficientMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getScaledFluxControlCoefficientMatrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getScaledReorderedElasticityMatrix">
+<tt class="descname">getScaledReorderedElasticityMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getScaledReorderedElasticityMatrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getSelectedValues">
+<tt class="descname">getSelectedValues</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getSelectedValues" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getSimulateOptions">
+<tt class="descname">getSimulateOptions</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getSimulateOptions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getSimulationResult">
+<tt class="descname">getSimulationResult</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getSimulationResult" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getSteadyStateSelectionList">
+<tt class="descname">getSteadyStateSelectionList</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getSteadyStateSelectionList" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getStoichiometryMatrix">
+<tt class="descname">getStoichiometryMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getStoichiometryMatrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getTimeCourseSelectionList">
+<tt class="descname">getTimeCourseSelectionList</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getTimeCourseSelectionList" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getUnscaledConcentrationControlCoefficientMatrix">
+<tt class="descname">getUnscaledConcentrationControlCoefficientMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledConcentrationControlCoefficientMatrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getUnscaledElasticityMatrix">
+<tt class="descname">getUnscaledElasticityMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledElasticityMatrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getUnscaledFluxControlCoefficientMatrix">
+<tt class="descname">getUnscaledFluxControlCoefficientMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledFluxControlCoefficientMatrix" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getUnscaledSpeciesElasticity">
+<tt class="descname">getUnscaledSpeciesElasticity</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledSpeciesElasticity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getValue">
+<tt class="descname">getValue</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getValue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getValueForRecord">
+<tt class="descname">getValueForRecord</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getValueForRecord" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getVersion">
+<tt class="descname">getVersion</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getVersion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getlibSBMLVersion">
+<tt class="descname">getlibSBMLVersion</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getlibSBMLVersion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.isModelLoaded">
+<tt class="descname">isModelLoaded</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.isModelLoaded" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.loadSBML">
+<tt class="descname">loadSBML</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.loadSBML" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.loadSBMLFromFile">
+<tt class="descname">loadSBMLFromFile</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.loadSBMLFromFile" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.oneStep">
+<tt class="descname">oneStep</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.oneStep" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.reset">
+<tt class="descname">reset</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.reset" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.setConfigurationXML">
+<tt class="descname">setConfigurationXML</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setConfigurationXML" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.setConservationAnalysis">
+<tt class="descname">setConservationAnalysis</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setConservationAnalysis" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.setSimulateOptions">
+<tt class="descname">setSimulateOptions</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setSimulateOptions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.setSteadyStateSelectionList">
+<tt class="descname">setSteadyStateSelectionList</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setSteadyStateSelectionList" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.setTimeCourseSelectionList">
+<tt class="descname">setTimeCourseSelectionList</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setTimeCourseSelectionList" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.setValue">
+<tt class="descname">setValue</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setValue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.simulate">
+<tt class="descname">simulate</tt><big>(</big><em>options=None</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.simulate" title="Permalink to this definition">¶</a></dt>
+<dd><p>simulate the current SBML model.</p>
+<p>If options is null, then the current simulation settings (start time,
+end time, n steps) are used. If options is not null, then the
+current simulation settings are set to the values specified by
+options and they are used.</p>
+<dl class="docutils">
+<dt><em>Arguments</em></dt>
+<dd><dl class="first last docutils">
+<dt>options (SimulateOptions)</dt>
+<dd>An optional SimulateOptions class where additional simulation options
+may be specified</dd>
+</dl>
+</dd>
+<dt><em>Returns</em></dt>
+<dd><dl class="first last docutils">
+<dt>(2D numpy array)</dt>
+<dd>a numpy array with each selected output timeseries being a
+column vector, and the 0&#8217;th column is the simulation time.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.steadyState">
+<tt class="descname">steadyState</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.steadyState" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roadrunner.SelectionRecord">
+<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">SelectionRecord</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecord" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="roadrunner.SelectionRecord.clBoundaryAmount">
+<tt class="descname">clBoundaryAmount</tt><em class="property"> = 8</em><a class="headerlink" href="#roadrunner.SelectionRecord.clBoundaryAmount" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.clBoundarySpecies">
+<tt class="descname">clBoundarySpecies</tt><em class="property"> = 1</em><a class="headerlink" href="#roadrunner.SelectionRecord.clBoundarySpecies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.clEigenValue">
+<tt class="descname">clEigenValue</tt><em class="property"> = 11</em><a class="headerlink" href="#roadrunner.SelectionRecord.clEigenValue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.clElasticity">
+<tt class="descname">clElasticity</tt><em class="property"> = 9</em><a class="headerlink" href="#roadrunner.SelectionRecord.clElasticity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.clFloatingAmount">
+<tt class="descname">clFloatingAmount</tt><em class="property"> = 7</em><a class="headerlink" href="#roadrunner.SelectionRecord.clFloatingAmount" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.clFloatingSpecies">
+<tt class="descname">clFloatingSpecies</tt><em class="property"> = 2</em><a class="headerlink" href="#roadrunner.SelectionRecord.clFloatingSpecies" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.clFlux">
+<tt class="descname">clFlux</tt><em class="property"> = 3</em><a class="headerlink" href="#roadrunner.SelectionRecord.clFlux" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.clParameter">
+<tt class="descname">clParameter</tt><em class="property"> = 6</em><a class="headerlink" href="#roadrunner.SelectionRecord.clParameter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.clRateOfChange">
+<tt class="descname">clRateOfChange</tt><em class="property"> = 4</em><a class="headerlink" href="#roadrunner.SelectionRecord.clRateOfChange" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.clStoichiometry">
+<tt class="descname">clStoichiometry</tt><em class="property"> = 13</em><a class="headerlink" href="#roadrunner.SelectionRecord.clStoichiometry" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.clTime">
+<tt class="descname">clTime</tt><em class="property"> = 0</em><a class="headerlink" href="#roadrunner.SelectionRecord.clTime" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.clUnknown">
+<tt class="descname">clUnknown</tt><em class="property"> = 12</em><a class="headerlink" href="#roadrunner.SelectionRecord.clUnknown" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.clUnscaledElasticity">
+<tt class="descname">clUnscaledElasticity</tt><em class="property"> = 10</em><a class="headerlink" href="#roadrunner.SelectionRecord.clUnscaledElasticity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.clVolume">
+<tt class="descname">clVolume</tt><em class="property"> = 5</em><a class="headerlink" href="#roadrunner.SelectionRecord.clVolume" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.index">
+<tt class="descname">index</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.SelectionRecord.index" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.p1">
+<tt class="descname">p1</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.SelectionRecord.p1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.p2">
+<tt class="descname">p2</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.SelectionRecord.p2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.selectionType">
+<tt class="descname">selectionType</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.SelectionRecord.selectionType" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roadrunner.SelectionRecordVector">
+<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">SelectionRecordVector</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="roadrunner.SelectionRecordVector.append">
+<tt class="descname">append</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.append" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.assign">
+<tt class="descname">assign</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.assign" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.back">
+<tt class="descname">back</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.back" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.begin">
+<tt class="descname">begin</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.begin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.capacity">
+<tt class="descname">capacity</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.capacity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.clear">
+<tt class="descname">clear</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.clear" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.empty">
+<tt class="descname">empty</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.empty" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.end">
+<tt class="descname">end</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.end" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.erase">
+<tt class="descname">erase</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.erase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.front">
+<tt class="descname">front</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.front" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.get_allocator">
+<tt class="descname">get_allocator</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.get_allocator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.insert">
+<tt class="descname">insert</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.insert" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.iterator">
+<tt class="descname">iterator</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.iterator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.pop">
+<tt class="descname">pop</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.pop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.pop_back">
+<tt class="descname">pop_back</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.pop_back" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.push_back">
+<tt class="descname">push_back</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.push_back" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.rbegin">
+<tt class="descname">rbegin</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.rbegin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.rend">
+<tt class="descname">rend</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.rend" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.reserve">
+<tt class="descname">reserve</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.reserve" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.resize">
+<tt class="descname">resize</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.resize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.size">
+<tt class="descname">size</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SelectionRecordVector.swap">
+<tt class="descname">swap</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecordVector.swap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roadrunner.SharedLibrary">
+<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">SharedLibrary</tt><a class="headerlink" href="#roadrunner.SharedLibrary" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="roadrunner.SimulateOptions">
+<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">SimulateOptions</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.SimulateOptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>RoadRunner simulation options.</p>
+<p>This is the full set of options that determines how RoadRunner performs
+a simulation of an sbml model.</p>
+<p>This is a superset of the values stored in a sbml test suite settings file, the
+documentation of the fields which correspond to an sbml test suite settings was
+taken from <a class="reference external" href="http://sbml.org">http://sbml.org</a></p>
+<p>This object can be read from a sbml test suite options file by using a file
+name in the constructor.</p>
+<blockquote>
+<div><dl class="docutils">
+<dt><em>Arguments</em></dt>
+<dd><dl class="first last docutils">
+<dt>sbmlSettingFilePath (optional)</dt>
+<dd>if this is given, the settings are read from this settings file,
+if not, the default values are set.</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="attribute">
+<dt id="roadrunner.SimulateOptions.CVODE">
+<tt class="descname">CVODE</tt><em class="property"> = 0</em><a class="headerlink" href="#roadrunner.SimulateOptions.CVODE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SimulateOptions.ResetModel">
+<tt class="descname">ResetModel</tt><em class="property"> = 1</em><a class="headerlink" href="#roadrunner.SimulateOptions.ResetModel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SimulateOptions.Stiff">
+<tt class="descname">Stiff</tt><em class="property"> = 1</em><a class="headerlink" href="#roadrunner.SimulateOptions.Stiff" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SimulateOptions.absolute">
+<tt class="descname">absolute</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.SimulateOptions.absolute" title="Permalink to this definition">¶</a></dt>
+<dd><p>A number representing the absolute difference permitted.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SimulateOptions.amounts">
+<tt class="descname">amounts</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.SimulateOptions.amounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of the variable whose output in the results file is in amount
+(not concentration) units. This list of variables must be a subset of</p>
+<blockquote>
+<div>the names listed in variables.</div></blockquote>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SimulateOptions.concentrations">
+<tt class="descname">concentrations</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.SimulateOptions.concentrations" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of the variable whose output in the results file is in concentration
+(not amount) units. This list of variables must be a subset of the names
+listed in variables.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SimulateOptions.duration">
+<tt class="descname">duration</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.SimulateOptions.duration" title="Permalink to this definition">¶</a></dt>
+<dd><p>The duration of the simulation run, in the model&#8217;s units of time.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SimulateOptions.flags">
+<tt class="descname">flags</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.SimulateOptions.flags" title="Permalink to this definition">¶</a></dt>
+<dd><p>can be set to ResetModel so that the model is reset to its intial state
+when the simulation is run.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SimulateOptions.integrator">
+<tt class="descname">integrator</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.SimulateOptions.integrator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SimulateOptions.integratorOpt">
+<tt class="descname">integratorOpt</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.SimulateOptions.integratorOpt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SimulateOptions.relative">
+<tt class="descname">relative</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.SimulateOptions.relative" title="Permalink to this definition">¶</a></dt>
+<dd><p>A float-point number representing the relative difference permitted.
+Defaults 0.0001</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SimulateOptions.start">
+<tt class="descname">start</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.SimulateOptions.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>The start time of the simulation time-series data.
+Often this is 0, but not necessarily.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SimulateOptions.steps">
+<tt class="descname">steps</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.SimulateOptions.steps" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of steps at which the output is sampled. The samples are evenly spaced.
+When a simulation system calculates the data points to record, it will typically
+divide the duration by the number of time steps. Thus, for X steps, the output
+will have X+1 data rows.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SimulateOptions.variables">
+<tt class="descname">variables</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.SimulateOptions.variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>The variables (in addition to time) whose values will be saved in the result.
+These are SBML model id&#8217;s. Order is significant, as this determines the order
+of the columns in the result matrix.</p>
+<p>Important: if a symbol in this list refers to a species in the model,
+then that symbol will also be listed in either the amount or concentration
+lists below.</p>
+<p>NOTE:If a listed variable has two underscores in it (&#8216;__&#8217;), that variable
+is actually present only in a submodel of the main model, from the
+Hierarchical Model Composition package, in the format submodelID__variableID.
+If the model is flattened, the variable will appear automatically.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roadrunner.StringVector">
+<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">StringVector</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.StringVector" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="roadrunner.StringVector.append">
+<tt class="descname">append</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.StringVector.append" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.assign">
+<tt class="descname">assign</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.StringVector.assign" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.back">
+<tt class="descname">back</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.StringVector.back" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.begin">
+<tt class="descname">begin</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.StringVector.begin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.capacity">
+<tt class="descname">capacity</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.StringVector.capacity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.clear">
+<tt class="descname">clear</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.StringVector.clear" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.empty">
+<tt class="descname">empty</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.StringVector.empty" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.end">
+<tt class="descname">end</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.StringVector.end" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.erase">
+<tt class="descname">erase</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.StringVector.erase" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.front">
+<tt class="descname">front</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.StringVector.front" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.get_allocator">
+<tt class="descname">get_allocator</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.StringVector.get_allocator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.insert">
+<tt class="descname">insert</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.StringVector.insert" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.iterator">
+<tt class="descname">iterator</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.StringVector.iterator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.pop">
+<tt class="descname">pop</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.StringVector.pop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.pop_back">
+<tt class="descname">pop_back</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.StringVector.pop_back" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.push_back">
+<tt class="descname">push_back</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.StringVector.push_back" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.rbegin">
+<tt class="descname">rbegin</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.StringVector.rbegin" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.rend">
+<tt class="descname">rend</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.StringVector.rend" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.reserve">
+<tt class="descname">reserve</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.StringVector.reserve" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.resize">
+<tt class="descname">resize</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.StringVector.resize" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.size">
+<tt class="descname">size</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.StringVector.size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.StringVector.swap">
+<tt class="descname">swap</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.StringVector.swap" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="roadrunner.SwigPyIterator">
+<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">SwigPyIterator</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#roadrunner.SwigPyIterator" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="roadrunner.SwigPyIterator.advance">
+<tt class="descname">advance</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.SwigPyIterator.advance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SwigPyIterator.copy">
+<tt class="descname">copy</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.SwigPyIterator.copy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SwigPyIterator.decr">
+<tt class="descname">decr</tt><big>(</big><em>n=1</em><big>)</big><a class="headerlink" href="#roadrunner.SwigPyIterator.decr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SwigPyIterator.distance">
+<tt class="descname">distance</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.SwigPyIterator.distance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SwigPyIterator.equal">
+<tt class="descname">equal</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.SwigPyIterator.equal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SwigPyIterator.incr">
+<tt class="descname">incr</tt><big>(</big><em>n=1</em><big>)</big><a class="headerlink" href="#roadrunner.SwigPyIterator.incr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SwigPyIterator.next">
+<tt class="descname">next</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.SwigPyIterator.next" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SwigPyIterator.previous">
+<tt class="descname">previous</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.SwigPyIterator.previous" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.SwigPyIterator.value">
+<tt class="descname">value</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.SwigPyIterator.value" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Welcome to RoadRunner&#8217;s documentation!</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a><ul>
+<li><a class="reference internal" href="#roadrunner-module">RoadRunner Module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="#">RoadRunner 0.99 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Andy Somogyi, Herbert Suaro.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+    </div>
+  </body>
+</html>
