@@ -10,6 +10,9 @@ using std::vector;
 namespace rr
 {
 
+/**
+ * @internal
+ */
 class RR_DECLSPEC NLEQInterface : public SteadyStateSolver,
     public Configurable
 {

@@ -12,6 +12,11 @@
 namespace rr
 {
 
+/**
+ * @internal
+ * @deprecated
+ * a proprietaty collection class that is massivly deprecated.
+ */
 template <class T>
 class NewArrayListItem : public NewArrayListItemObject
 {

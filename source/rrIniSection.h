@@ -15,8 +15,11 @@ typedef std::vector<string>             NonKeyList;
 typedef NonKeyList::iterator             NonKeyItor;
 
 
-// This class stores the definition of a section. A section contains any number
-// of keys (see IniKeys), and may or may not have a comment.
+/**
+ * @internal
+ * This class stores the definition of a section. A section contains any number
+ * of keys (see IniKeys), and may or may not have a comment.
+ */
 class RR_DECLSPEC IniSection
 {
     private:

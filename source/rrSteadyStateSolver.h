@@ -7,6 +7,9 @@
 namespace rr
 {
 
+/**
+ * @internal
+ */
 class RR_DECLSPEC SteadyStateSolver
 {
 

@@ -8,6 +8,11 @@ using std::ostream;
 
 namespace rr
 {
+
+/**
+ * @internal
+ * @deprecated
+ */
 class RR_DECLSPEC FileName
 {
     private:

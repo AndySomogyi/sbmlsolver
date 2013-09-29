@@ -11,7 +11,13 @@ namespace rr
 using std::string;
 using std::ostream;
 
-//Base class for parameters. This class follows the "decorator" pattern.
+/**
+ * \internal
+ * \private
+ * \deprecated
+ *
+ * Base class for parameters. This class follows the "decorator" pattern.
+ */
 class RR_DECLSPEC BaseParameter
 {
     public:

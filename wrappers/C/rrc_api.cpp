@@ -294,7 +294,7 @@ bool rrcCallConv setComputeAndAssignConservationLaws(RRHandle handle, const bool
     try
     {
         RoadRunner* rri = castFrom(handle);
-        rri->computeAndAssignConservationLaws(OnOrOff);
+        rri->setConservationAnalysis(OnOrOff);
         return true;
     }
     catch_bool_macro

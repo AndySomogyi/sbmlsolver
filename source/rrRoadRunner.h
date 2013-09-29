@@ -69,21 +69,16 @@ public:
      */
     int getInstanceCount();
 
-    bool computeAndAssignConservationLaws();
+    /**
+     * given an sbml document, this method moves all the local parameters
+     * to global parameters.
+     */
+    static std::string getParamPromotedSBML(const std::string& sArg);
 
-    void setParameterValue(const ParameterType::ParameterType parameterType,
-            const int parameterIndex, const double value);
-
-    double getParameterValue(const ParameterType::ParameterType parameterType,
-            const int parameterIndex);
-
-    std::string getParamPromotedSBML(const std::string& sArg);
-
-
+    /**
+     * information about the current state of this object.
+     */
     std::string getInfo();
-
-    std::vector<SelectionRecord> getSteadyStateSelection(const std::vector<std::string>& newSelectionList);
-    std::vector<SelectionRecord> getSelectionList();
 
     /**
      * The Compiler that the ModelGenerator is using to compile / interpret sbml code.
@@ -156,18 +151,30 @@ public:
 
     bool setSimulateOptions(const SimulateOptions& settings);
 
+    /**
+     * get a reference to the SimulateOptions that were set either
+     * by setSimulateOptions or simulate.
+     */
     const SimulateOptions& getSimulateOptions() const;
 
-
-
+    /**
+     * get the currently loaded sbml document as a string.
+     */
     std::string getSBML();
-
 
     /**
      * Reset the simulator back to the initial conditions specified in the SBML model,
      * provided an SBML model is loaded.
      */
     void reset();
+
+    /**
+     * set the floating species initial concentrations.
+     *
+     * equivalent to ExecutableModel::reset, then ExecutableModel::setFloatingSpeciesConcentrations
+     *
+     * @deprecated
+     */
     void changeInitialConditions(const std::vector<double>& ic);
 
     /**
@@ -203,14 +210,27 @@ public:
      */
     bool loadSBML(const std::string& sbml, const LoadSBMLOptions* options = 0);
 
+    /**
+     * @deprecated, use ExecutableModel::getReactionRates
+     */
     std::vector<double> getReactionRates();
+
+    /**
+     * @deprecated, use ExecutableModel::getFloatingSpeciesAmountRates
+     */
     std::vector<double> getRatesOfChange();
 
+    /**
+     * returns a list of reaction ids obtained from
+     * ExecutableModel::getReactionId
+     */
     std::vector<std::string> getReactionIds();
 
     /**
      * creates a new xml element that represent the current state of this
      * Configurable object and all if its child objects.
+     *
+     * This node needs to be consumed by Configurable::xmlFromConfigNode
      */
     virtual _xmlNode *createConfigNode();
 
@@ -221,15 +241,43 @@ public:
      */
     virtual void loadConfig(const _xmlDoc* doc);
 
+    /**
+     * recurse through all of the child configurable objects that this
+     * class ownes and build an assemble all of thier configuration parameters
+     * into a single xml document which is returned as a string.
+     *
+     * The value of this result depends on what child objects are presently loaded.
+     */
     std::string getConfigurationXML();
 
+    /**
+     * given a xml document, which should have been returned from getConfigurationXML,
+     * this method recurses though all the child configurable elements and sets thier
+     * configuration to the values specified in the document.
+     */
     void setConfigurationXML(const std::string& xml);
 
 
     void correctMaxStep();
 
-    bool setValue(const std::string& sId, const double& dValue);
+    /**
+     * sets the value of an sbml varaible to the given value.
+     *
+     * @param sId: an sbml id
+     * @param value: the value to set it to.
+     */
+    bool setValue(const std::string& sId, double value);
+
+    /**
+     * gets the value of an sbml element based on its id.
+     */
     double getValue(const std::string& sId);
+
+    /**
+     * @deprecated
+     * @internal
+     * @private
+     */
     NewArrayList getAvailableTimeCourseSymbols();
 
     /**
@@ -237,6 +285,8 @@ public:
      * calls to simulate() or simulateEx(,,).
      */
     std::vector<std::string> getTimeCourseSelectionList();
+
+
     void setTimeCourseSelectionList(const std::string& List);
 
     void setTimeCourseSelectionList(
@@ -281,28 +331,100 @@ public:
     int getNumberOfIndependentSpecies();
 
 
-
+    /**
+     * @deprecated
+     * @internal
+     * @private
+     */
     NewArrayList getUnscaledFluxControlCoefficientIds();
+
+    /**
+     * @deprecated
+     * @internal
+     * @private
+     */
     NewArrayList getFluxControlCoefficientIds();
+
+    /**
+     * @deprecated
+     * @internal
+     * @private
+     */
     NewArrayList getUnscaledConcentrationControlCoefficientIds();
+
+    /**
+     * @deprecated
+     * @internal
+     * @private
+     */
     NewArrayList getConcentrationControlCoefficientIds();
+
+    /**
+     * @deprecated
+     * @internal
+     * @private
+     */
     NewArrayList getElasticityCoefficientIds();
+
+    /**
+     * @deprecated
+     * @internal
+     * @private
+     */
     NewArrayList getUnscaledElasticityCoefficientIds();
+
+    /**
+     * returns a list of floating species ids with thier names
+     * prefixed with "eigen_". For example, if the model contained
+     * the floating species "S1" and "S2", this would return a list
+     * containing ["eigen_S1", "eigen_S2"].
+     */
     std::vector<std::string> getEigenvalueIds();
+
+    /**
+     * @deprecated
+     * @private
+     * @internal
+     */
     NewArrayList getAvailableSteadyStateSymbols();
+
+
     std::vector<std::string> getSteadyStateSelectionList();
     void setSteadyStateSelectionList(const std::vector<std::string>& newSelectionList);
     double computeSteadyStateValue(const SelectionRecord& record);
+
+    /**
+     * returns the value of the given steady state identifier.
+     */
     std::vector<double> computeSteadyStateValues();
 
+    /**
+     * optionally compute the steady state and return a vector
+     * of the steady state values.
+     *
+     * @param selection: the list of selections to get values for.
+     * @param computeSteadyState: compute the steady state.
+     */
     std::vector<double> computeSteadyStateValues(
             const std::vector<SelectionRecord>& selection,
-            const bool& computeSteadyState);
+            bool computeSteadyState);
 
     double computeSteadyStateValue(const std::string& sId);
+
+    /**
+     * returns the values selected with SimulateOptions for the current model time / timestep")
+     */
     std::vector<double> getSelectedValues();
 
-    void computeAndAssignConservationLaws(const bool& bValue);
+    /**
+     * This method turns on / off the computation and adherence to conservation laws.
+     */
+    void setConservationAnalysis(bool value);
+
+    /**
+     * is conservation analysis enabled. This is set
+     */
+    bool getConservationAnalysis();
 
     /**
      * Returns the SBML with the current parameterset.
@@ -333,26 +455,50 @@ public:
     void setCompartmentByIndex(const int& index, const double& value);
 
     /**
+     * @deprecated, use ExecutableModel::getCompartmentVolumes
      * Returns the value of a compartment by its index
      */
-
     double getCompartmentByIndex(const int& index);
 
     /**
-     * deprecated, use ExecutableModel
+     * @deprecated, use ExecutableModel::getCompartmentId
      */
     std::vector<std::string> getCompartmentIds();
 
     /**
-     * Get the number of boundary species
+     * Get the number of boundary species,
+     * @deprecated, use ExecutableModel::getNumBoundarySpecies
      */
     int getNumberOfBoundarySpecies();
+
+    /**
+     * @deprecated, use ExecutableModel::setBoundarySpeciesConcentrations
+     */
     void setBoundarySpeciesByIndex(const int& index, const double& value);
+
+    /**
+     * @deprecated, use ExecutableModel::getBoundarySpeciesConcentrations
+     */
     double getBoundarySpeciesByIndex(const int& index);
+
+    /**
+     * @deprecated, use ExecutableModel::setBoundarySpeciesConcentrations
+     */
     std::vector<double> getBoundarySpeciesConcentrations();
+
+    /**
+     * @deprecated, use ExecutableModel::setBoundarySpeciesConcentrations
+     */
     void setBoundarySpeciesConcentrations(const std::vector<double>& values);
+
+    /**
+     * @deprecated, use ExecutableModel::getBoundarySpeciesId
+     */
     std::vector<std::string> getBoundarySpeciesIds();
-    std::vector<std::string> getBoundarySpeciesAmountIds();
+
+    /**
+     * @deprecated, use ExecutableModel::getNumFloatingSpecies
+     */
     int getNumberOfFloatingSpecies();
     void setFloatingSpeciesByIndex(const int& index, const double& value);
     double getFloatingSpeciesInitialConcentrationByIndex(const int& index);
@@ -366,29 +512,55 @@ public:
     std::vector<std::string> getFloatingSpeciesIds();
     std::vector<std::string> getFloatingSpeciesInitialConditionIds();
     std::vector<std::string> getFloatingSpeciesAmountIds();
+
+    /**
+     * @deprecated use ExecutableModel::getNumGlobalParameters
+     */
     int getNumberOfGlobalParameters();
-    void setGlobalParameterByIndex(const int& index, const double& value);
+
+    /**
+     * @deprecated use ExecutableModel::setGlobalParameterValues
+     */
+    void setGlobalParameterByIndex(const int index, const double value);
+
+    /**
+     * @deprecated use ExecutableModel::getGlobalParameterValues
+     */
     double getGlobalParameterByIndex(const int& index);
 
-
-
+    /**
+     * @deprecated use ExecutableModel::getGlobalParameterValues
+     */
     std::vector<double> getGlobalParameterValues();
+
+    /**
+     * @deprecated use ExecutableModel::getGlobalParameterIds
+     */
     std::vector<std::string> getGlobalParameterIds();
 
-
+    /**
+     * The C back end requires this to be called to update
+     * model variables if anyting is changes. Does nothing
+     * in LLVM back end as everything is automatically handled
+     * with lazy evaluation.
+     */
     void evalModel();
 
-    //These functions are better placed in a separate file, as non class members, but part of the roadrunner namespace?
-
+    /**
+     * return a string containing the RoadRunner version, the compiler
+     * it was built with and when it was compiled.
+     */
     static std::string getVersion();
-    static std::string getExtendedVersionInfo(); //Include info about dependent libs versions..
 
-    static std::string getDescription();
+    /**
+     * getVersion plus info about dependent libs versions..
+     */
+    static std::string getExtendedVersionInfo();
 
+    /**
+     * get the copyright string
+     */
     static std::string getCopyright();
-    static std::string getURL();
-
-    //RoadRunner MCA functions......
 
     /**
      * Get unscaled control coefficient with respect to a global parameter
@@ -521,6 +693,26 @@ private:
      */
     int createTimeCourseSelectionList();
 
+    /**
+     * Set a sbml model variable to a value.
+     *
+     * @parameterType the type of sbml element
+     */
+    void setParameterValue(const ParameterType::ParameterType parameterType,
+            const int parameterIndex, const double value);
+
+    double getParameterValue(const ParameterType::ParameterType parameterType,
+            const int parameterIndex);
+
+    std::vector<SelectionRecord> getSteadyStateSelection(const std::vector<std::string>& newSelectionList);
+    std::vector<SelectionRecord> getSelectionList();
+
+    /**
+     * @deprecated, use ExecutableModel::getBoundarySpeciesId
+     */
+    std::vector<std::string> getBoundarySpeciesAmountIds();
+
+    friend class aFinalizer;
 };
 
 }
@@ -534,7 +726,7 @@ private:
  \par
 
  \par Dependencies
- The RoadRunner library depend on several third-party libraries, CLapack, libSBML, Sundials, NLEQ, Poco and Pugi. These are provided with the binary installation where necessary.
+ The RoadRunner library depend on several third-party libraries, CLapack, libSBML (libxml2), Sundials, NLEQ, and Poco. These are provided with the binary installation where necessary.
  \par
 
  \author Totte Karlsson (totte@dunescientific.com)

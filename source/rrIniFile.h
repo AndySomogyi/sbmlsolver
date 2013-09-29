@@ -27,6 +27,9 @@ typedef std::vector<string>             NonKeyList;
 typedef std::vector<IniSection*>          SectionList;
 typedef SectionList::iterator           SectionItor;
 
+/**
+ * @internal
+ */
 class RR_DECLSPEC IniFile
 {
     private:

@@ -16,6 +16,7 @@ namespace rr
 {
 
 /**
+ * @internal
  * sparse storage compressed row format matrix.
  *
  * This should eventually get replaced when we use a numeric library

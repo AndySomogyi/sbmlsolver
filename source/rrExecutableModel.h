@@ -66,6 +66,9 @@ public:
     virtual int getFloatingSpeciesIndex(const std::string& eid) = 0;
     virtual std::string getFloatingSpeciesId(int index) = 0;
 
+    /**
+     * get the number of boundary species.
+     */
     virtual int getNumBoundarySpecies() = 0;
     virtual int getBoundarySpeciesIndex(const std::string &eid) = 0;
     virtual std::string getBoundarySpeciesId(int index) = 0;

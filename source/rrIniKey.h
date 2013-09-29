@@ -11,9 +11,12 @@
 namespace rr
 {
 
-// This class stores the definition of a key. A key is a named identifier
-// that is associated with a value. It may or may not have a comment.  All comments
-// must PRECEDE the key on the line in the config file.
+/**
+ * @internal
+ * This class stores the definition of a key. A key is a named identifier
+ * that is associated with a value. It may or may not have a comment.  All comments
+ * must PRECEDE the key on the line in the config file.
+ */
 class RR_DECLSPEC IniKey
 {
 protected:

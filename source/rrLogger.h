@@ -45,7 +45,9 @@ private:
 };
 
 /**
- * Wraps the old proprietary logger interface around the Poco logging framework.
+ * The roadrunner logger.
+ *
+ * A set of static method for setting the logging level.
  */
 class RR_DECLSPEC Logger
 {

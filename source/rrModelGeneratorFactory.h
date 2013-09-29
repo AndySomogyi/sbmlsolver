@@ -14,6 +14,12 @@ namespace rr {
 
 class ModelGenerator;
 
+/**
+ * A factory class to create a ModelGenerator.
+ *
+ * Currently we have two concrete Model implmentations, an LLVM JIT compiled
+ * model and the older C file generating shared library model.
+ */
 class ModelGeneratorFactory {
 public:
     /**

@@ -13,7 +13,9 @@ namespace rr
 {
 using std::ostream;
 
-
+/**
+ * @internal
+ */
 class RR_DECLSPEC MinimizationData
 {
     protected:

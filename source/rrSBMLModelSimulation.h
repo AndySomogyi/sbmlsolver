@@ -11,6 +11,12 @@ namespace rr
 {
 
 class RoadRunner;
+
+/**
+ * @internal
+ *
+ * Read an sbml test suite, simulate and compare the results.
+ */
 class RR_DECLSPEC SBMLModelSimulation
 {
     protected:

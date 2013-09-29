@@ -22,6 +22,10 @@ class Event;
 class ExecutableModel;
 class RoadRunner;
 
+/**
+ * @internal
+ * The integrator implemented by CVODE.
+ */
 class CvodeInterface : public Integrator, public Configurable
 {
 public:

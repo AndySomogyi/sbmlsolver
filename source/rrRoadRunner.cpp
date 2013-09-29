@@ -239,7 +239,7 @@ const SimulateOptions& RoadRunner::getSimulateOptions() const
     return mSettings;
 }
 
-bool RoadRunner::computeAndAssignConservationLaws()
+bool RoadRunner::getConservationAnalysis()
 {
     return mComputeAndAssignConservationLaws;
 }
@@ -313,7 +313,6 @@ ModelGenerator* RoadRunner::getModelGenerator()
     return mModelGenerator;
 }
 
-//NOM exposure ====================================================
 string RoadRunner::getParamPromotedSBML(const string& sArg)
 {
     return NOMSupport::getParamPromotedSBML(sArg);
@@ -525,15 +524,15 @@ bool RoadRunner::loadSBML(const string& sbml, const LoadSBMLOptions *options)
     if (options)
     {
         mComputeAndAssignConservationLaws = options->modelGeneratorOpt
-                & LoadSBMLOptions::ComputeAndAssignConsevationLaws;
+                & LoadSBMLOptions::ConservationAnalysis;
         mModel = mModelGenerator->createModel(sbml, options->modelGeneratorOpt);
     }
     else
     {
         LoadSBMLOptions opt;
-        opt.modelGeneratorOpt = computeAndAssignConservationLaws() ?
-                opt.modelGeneratorOpt | LoadSBMLOptions::ComputeAndAssignConsevationLaws :
-                opt.modelGeneratorOpt & ~LoadSBMLOptions::ComputeAndAssignConsevationLaws;
+        opt.modelGeneratorOpt = getConservationAnalysis() ?
+                opt.modelGeneratorOpt | LoadSBMLOptions::ConservationAnalysis :
+                opt.modelGeneratorOpt & ~LoadSBMLOptions::ConservationAnalysis;
         mModel = mModelGenerator->createModel(sbml, opt.modelGeneratorOpt);
     }
 
@@ -804,9 +803,8 @@ double RoadRunner::getParameterValue(const ParameterType::ParameterType paramete
     return 0;
 }
 
-// Help("This method turns on / off the computation and adherence to conservation laws."
-//              + "By default roadRunner will discover conservation cycles and reduce the model accordingly.")
-void RoadRunner::computeAndAssignConservationLaws(const bool& bValue)
+
+void RoadRunner::setConservationAnalysis(bool bValue)
 {
     if(bValue == mComputeAndAssignConservationLaws)
     {
@@ -821,8 +819,8 @@ void RoadRunner::computeAndAssignConservationLaws(const bool& bValue)
 
         // set the comput and assign cons flag
         opt.modelGeneratorOpt = bValue ?
-                opt.modelGeneratorOpt | LoadSBMLOptions::ComputeAndAssignConsevationLaws :
-                opt.modelGeneratorOpt & ~LoadSBMLOptions::ComputeAndAssignConsevationLaws;
+                opt.modelGeneratorOpt | LoadSBMLOptions::ConservationAnalysis :
+                opt.modelGeneratorOpt & ~LoadSBMLOptions::ConservationAnalysis;
 
         // have to reload
         opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::ForceReCompile;
@@ -2125,7 +2123,7 @@ vector<double> RoadRunner::computeSteadyStateValues()
     return computeSteadyStateValues(mSteadyStateSelection, true);
 }
 
-vector<double> RoadRunner::computeSteadyStateValues(const vector<SelectionRecord>& selection, const bool& computeSteadyState)
+vector<double> RoadRunner::computeSteadyStateValues(const vector<SelectionRecord>& selection, bool computeSteadyState)
 {
     if (computeSteadyState)
     {
@@ -2155,7 +2153,7 @@ double RoadRunner::computeSteadyStateValue(const SelectionRecord& record)
     return getValueForRecord(record);
 }
 
-// Help("Returns the value of the given steady state identifier.")
+
 double RoadRunner::computeSteadyStateValue(const string& sId)
 {
     if (!mModel)
@@ -2697,8 +2695,7 @@ int RoadRunner::getNumberOfGlobalParameters()
     return getGlobalParameterIds().size();
 }
 
-// Help("Sets the value of a global parameter by its index")
-void RoadRunner::setGlobalParameterByIndex(const int& index, const double& value)
+void RoadRunner::setGlobalParameterByIndex(const int index, const double value)
 {
     if (!mModel)
     {
@@ -2775,11 +2772,7 @@ vector<string> RoadRunner::getGlobalParameterIds()
             &ExecutableModel::getGlobalParameterId);
 }
 
-// Help("Returns a description of the module")
-string RoadRunner::getDescription()
-{
-    return "Simulator API based on CVODE/NLEQ/C++ implementation";
-}
+
 
 //---------------- MCA functions......
 //        [Help("Get unscaled control coefficient with respect to a global parameter")]
@@ -3380,9 +3373,7 @@ void RoadRunner::correctMaxStep()
     }
 }
 
-
-// Help("Sets the value of the given species or global parameter to the given value (not of local parameters)")
-bool RoadRunner::setValue(const string& sId, const double& dValue)
+bool RoadRunner::setValue(const string& sId, double dValue)
 {
     if (!mModel)
     {
@@ -3592,7 +3583,8 @@ NewArrayList RoadRunner::getAvailableTimeCourseSymbols()
 
 string RoadRunner::getVersion()
 {
-    return string(RR_VERSION) + string(", compiled with ") + string(RR_COMPILER);
+    return string(RR_VERSION) + string(", compiled with ") + string(RR_COMPILER)
+            + " on date " + string( __DATE__ ) + ", " + string(__TIME__);
 }
 
 string RoadRunner::getCopyright()
@@ -3600,18 +3592,12 @@ string RoadRunner::getCopyright()
     return "(c) 2009-2013 HM. Sauro, FT. Bergmann, Totte Karlsson and Andy Somogyi, BSD Licence";
 }
 
-string RoadRunner::getURL()
-{
-    return "http://www.sys-bio.org";
-}
 
 string RoadRunner::getlibSBMLVersion()
 {
     return libsbml::getLibSBMLDottedVersion();
 }
 
-
-// Help("Returns the values selected with setTimeCourseSelectionList() for the current model time / timestep")
 vector<double> RoadRunner::getSelectedValues()
 {
     if (!mModel)

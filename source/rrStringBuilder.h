@@ -10,6 +10,10 @@ using std::string;
 namespace rr
 {
 
+/**
+ * @internal
+ * @deprecated
+ */
 class RR_DECLSPEC StringBuilder
 {
     protected:

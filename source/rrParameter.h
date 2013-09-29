@@ -10,6 +10,10 @@
 namespace rr
 {
 
+/**
+ * @internal
+ * @deprecated
+ */
 template<class T>
 class Parameter : public BaseParameter
 {

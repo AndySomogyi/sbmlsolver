@@ -6,6 +6,9 @@
 namespace rr
 {
 
+/**
+ * @internal
+ */
 class RR_DECLSPEC CPPPlugin : public Plugin
 {
     private:
@@ -13,14 +16,14 @@ class RR_DECLSPEC CPPPlugin : public Plugin
     protected:
 
     public:
-							CPPPlugin(	const std::string& name,
-                            			const std::string& cat = gNoneString,
+                            CPPPlugin(    const std::string& name,
+                                        const std::string& cat = gNoneString,
                                         RoadRunner* aRR = NULL,
                                         PluginWorkStartedCB fn1 = NULL,
                                         PluginWorkFinishedCB fn2 = NULL);
 
-        virtual 		   ~CPPPlugin();
-        string 				getImplementationLanguage();
+        virtual            ~CPPPlugin();
+        string                 getImplementationLanguage();
 };
 
 }

@@ -10,6 +10,10 @@ namespace rr
 {
 using std::vector;
 
+/**
+ * @internal
+ * @deprecated
+ */
 class RR_DECLSPEC Capabilities
 {
     protected:

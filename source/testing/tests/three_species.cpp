@@ -54,7 +54,7 @@ SUITE(ssThreeSpecies)
         CHECK(aRR!=NULL);
 
         //Load the model
-        aRR->computeAndAssignConservationLaws(true);
+        aRR->setConservationAnalysis(true);
         CHECK(aRR->loadSBMLFromFile(TestModelFileName));
     }
 

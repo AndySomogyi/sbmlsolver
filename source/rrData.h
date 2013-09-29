@@ -10,6 +10,9 @@ namespace rr
 {
 class IniSection;
 
+/**
+ * @internal
+ */
 class RR_DECLSPEC Data
 {
     private:

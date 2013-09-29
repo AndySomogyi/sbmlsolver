@@ -8,6 +8,9 @@ namespace rr
 
 typedef bool  (rrCallConv *executeFunc)(void*);
 
+/**
+ * @internal
+ */
 class RR_DECLSPEC CPlugin : public Plugin
 {
     private:

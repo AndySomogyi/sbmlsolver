@@ -11,11 +11,15 @@
 namespace rr
 {
 
-//Abstract class for plugins
+
 class RoadRunner;
 class Plugin;
 using Poco::SharedLibrary;
 
+/**
+ * @internal
+ * Abstract class for plugins
+ */
 class RR_DECLSPEC PluginManager : public Configurable
 {
 private:

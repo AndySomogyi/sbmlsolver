@@ -11,7 +11,12 @@
 #include "rrExporter.h"
 #include <string>
 #include <vector>
+
+#if defined(_MSC_VER)
+#include "msc_stdint.h"
+#else
 #include <stdint.h>
+#endif
 
 namespace rr
 {
@@ -35,7 +40,7 @@ struct RR_DECLSPEC LoadSBMLOptions
          *
          * currently only implemented with the C code generating model
          */
-        ComputeAndAssignConsevationLaws = (0x1 << 0), // => 0x00000001
+        ConservationAnalysis = (0x1 << 0), // => 0x00000001
 
         /**
          * Should the model be recompiled?

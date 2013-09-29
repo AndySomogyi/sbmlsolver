@@ -10,6 +10,9 @@
 namespace rr
 {
 
+/**
+ * @internal
+ */
 class RR_DECLSPEC TestSuiteModelSimulation : public SBMLModelSimulation
 {
     protected:

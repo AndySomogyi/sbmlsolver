@@ -10,6 +10,10 @@
 namespace rr
 {
 
+/**
+ * @internal
+ * @deprecated
+ */
 class RR_DECLSPEC Parameters
 {
     protected:

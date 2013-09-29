@@ -23,6 +23,10 @@ typedef void    (rrCallConv *PluginWorkFinishedCB)(void*);
 class RoadRunner;
 
 using std::string;
+
+/**
+ * @internal
+ */
 class RR_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
 {
     protected:

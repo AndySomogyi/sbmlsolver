@@ -11,6 +11,9 @@ namespace rr
 using std::string;
 using std::ostream;
 
+/**
+ * a way to find sbml model elements using the RoadRunner syntax.
+ */
 class RR_DECLSPEC SelectionRecord
 {
 public:
