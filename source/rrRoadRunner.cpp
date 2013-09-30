@@ -2,7 +2,7 @@
 #include "rr_pch.h"
 #endif
 #pragma hdrstop
-#include <iostream>
+
 #include "rrRoadRunner.h"
 #include "rrException.h"
 #include "rrModelGenerator.h"
@@ -21,6 +21,8 @@
 #include "rrNLEQInterface.h"
 #include "c/rrNOMSupport.h"
 
+#include <iostream>
+#include <assert.h>
 #include <rr-libstruct/lsLibStructural.h>
 #include <Poco/File.h>
 #include <Poco/Mutex.h>
@@ -47,8 +49,9 @@ static vector<string> createModelStringList(ExecutableModel *model,
 {
     if (!model)
     {
-        throw CoreException(gEmptyModelMessage);
+        return vector<string>(0);
     }
+
     const int num = (model->*numFunc)();
     vector<string> strings(num);
 
@@ -234,7 +237,7 @@ bool RoadRunner::setSimulateOptions(const SimulateOptions& settings)
     return true;
 }
 
-const SimulateOptions& RoadRunner::getSimulateOptions() const
+SimulateOptions& RoadRunner::getSimulateOptions()
 {
     return mSettings;
 }
@@ -277,35 +280,36 @@ int RoadRunner::createDefaultTimeCourseSelectionList()
 
 int RoadRunner::createTimeCourseSelectionList()
 {
-    vector<string> theList = createSelectionList(mSettings);
+	// make a list out of the values in the settings,
+	// will always have at least a "time" at the first item.
+	vector<string> theList = createSelectionList(mSettings);
 
-    if(theList.size() < 2)
-    {
-        //AutoSelect
-        theList.push_back("Time");
+	assert(theList.size() >= 1 && "selection list from SimulateOptions does does not have time");
 
-       //Get All floating species
-       vector<string> oFloating  = getFloatingSpeciesIds();
-       for(int i = 0; i < oFloating.size(); i++)
-       {
-            theList.push_back(oFloating[i]);
-       }
-    }
+	// make default list from the floating species amounts.
+	if(theList.size() == 1)
+	{
+		vector<string> oFloating  = getFloatingSpeciesIds();
+		for(int i = 0; i < oFloating.size(); i++)
+		{
+			theList.push_back(oFloating[i]);
+		}
+	}
 
-    setTimeCourseSelectionList(theList);
+	setTimeCourseSelectionList(theList);
 
-    Log(lDebug)<<"The following is selected:";
-    for(int i = 0; i < mSelectionList.size(); i++)
-    {
-        Log(lDebug)<<mSelectionList[i];
-    }
+	Log(lDebug)<<"The following is selected:";
+	for(int i = 0; i < mSelectionList.size(); i++)
+	{
+		Log(lDebug)<<mSelectionList[i];
+	}
 
-    if(mSelectionList.size() < 2)
-    {
-        Log(lWarning)<<"You have not made a selection. No data is selected";
-        return 0;
-    }
-    return mSelectionList.size();
+	if(mSelectionList.size() < 2)
+	{
+		Log(lWarning)<<"You have not made a selection. No data is selected";
+		return 0;
+	}
+	return mSelectionList.size();
 }
 
 ModelGenerator* RoadRunner::getModelGenerator()
@@ -1073,11 +1077,6 @@ void RoadRunner::setTimeCourseSelectionList(const string& list)
 //              " time, species names, , volume, reaction rates and rates of change (speciesName')")
 void RoadRunner::setTimeCourseSelectionList(const vector<string>& _selList)
 {
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-
     mSelectionList.clear();
     vector<string> newSelectionList(_selList);
     vector<string> fs = getFloatingSpeciesIds();

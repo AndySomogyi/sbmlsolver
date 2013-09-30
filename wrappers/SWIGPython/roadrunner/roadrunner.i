@@ -341,7 +341,7 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 //%ignore rr::RoadRunner::getSteadyStateSelection;
 %ignore rr::RoadRunner::setFloatingSpeciesInitialConcentrations;
 %ignore rr::RoadRunner::getCompartmentIds;
-//%ignore rr::RoadRunner::getModel;
+%ignore rr::RoadRunner::getModel;
 //%ignore rr::RoadRunner::getSteadyStateSelectionList;
 %ignore rr::RoadRunner::setGlobalParameterByIndex;
 //%ignore rr::RoadRunner::getCompiler;
@@ -398,6 +398,9 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 %ignore rr::RoadRunner::getRateOfChange;
 //%ignore rr::RoadRunner::getlibSBMLVersion;
 %ignore rr::RoadRunner::writeSBML;
+%ignore rr::RoadRunner::getSimulateOptions;
+%ignore rr::RoadRunner::setSimulateOptions;
+%ignore rr::RoadRunner::_getDuplicateSimulateOptions;
 
 
 %ignore rr::LoggingBuffer;
@@ -551,14 +554,39 @@ namespace Poco { class SharedLibrary{}; }
 
 %extend rr::RoadRunner
 {
-    const RoadRunnerData *simulate(int startTime, int endTime, int steps) {
+    // attributes
+    
+    const rr::SimulateOptions *simulateOptions;
+    
+    const rr::ExecutableModel *model;
+    
+    const rr::RoadRunnerData *simulate(int startTime, int endTime, int steps) {
         rr::SimulateOptions s = $self->getSimulateOptions();
         s.start = startTime;
         s.duration = endTime - startTime;
         s.steps = steps;
         return $self->simulate(&s);
-    }
+    }    
 }
+
+%{
+    rr::SimulateOptions* rr_RoadRunner_simulateOptions_get(RoadRunner* r) {
+        return &r->getSimulateOptions();
+    }
+    
+    void rr_RoadRunner_simulateOptions_set(RoadRunner* r, const rr::SimulateOptions* opt) {
+        r->setSimulateOptions(*opt);
+    }
+    
+    rr::ExecutableModel *rr_RoadRunner_model_get(RoadRunner* r) {
+        return r->getModel();
+    }
+    
+    rr::ExecutableModel *rr_RoadRunner_model_set(RoadRunner* r, const rr::ExecutableModel *m) {
+        // TODO error can not set. 
+    }
+%}
+    
 
 %extend rr::ExecutableModel
 {

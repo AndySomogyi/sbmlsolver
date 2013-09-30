@@ -155,7 +155,7 @@ public:
      * get a reference to the SimulateOptions that were set either
      * by setSimulateOptions or simulate.
      */
-    const SimulateOptions& getSimulateOptions() const;
+    SimulateOptions& getSimulateOptions();
 
     /**
      * get the currently loaded sbml document as a string.
@@ -660,6 +660,7 @@ private:
     LibStructural* mLS;
 
     SimulateOptions mSettings;
+
 
     int createDefaultSteadyStateSelectionList();
     int createDefaultTimeCourseSelectionList();

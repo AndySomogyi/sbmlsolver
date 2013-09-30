@@ -147,7 +147,7 @@ void TestRoadRunner::test2()
 {
     rrc::RRHandle rr = rrc::createRRInstance();
 
-    rrc::loadSBMLFromFile(rr, "/Users/andy/src/sbml_test/cases/semantic/00001/00001-sbml-l3v1.xml");
+    rrc::loadSBMLFromFile(rr, "/home/andy/src/sbml_test/cases/semantic/00001/00001-sbml-l3v1.xml");
 
     //rrc::setTimeStart(rr, 0);
     //rrc::setTimeEnd(rr, 20);
