@@ -42,6 +42,9 @@ public:
     void saveResult();
 
     void compareReference();
+
+
+    static void test2();
 };
 
 } /* namespace rr */

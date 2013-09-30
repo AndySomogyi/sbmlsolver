@@ -9,6 +9,7 @@
 #include "rrUtils.h"
 #include "rrException.h"
 #include "rrLogger.h"
+#include "rrc_api.h"
 
 using namespace std;
 
@@ -141,6 +142,32 @@ void TestRoadRunner::compareReference()
         Log(Logger::PRIO_NOTICE) << "Test passed..\n";
     }
 }
+
+void TestRoadRunner::test2()
+{
+    rrc::RRHandle rr = rrc::createRRInstance();
+
+    rrc::loadSBMLFromFile(rr, "/Users/andy/src/sbml_test/cases/semantic/00001/00001-sbml-l3v1.xml");
+
+    //rrc::setTimeStart(rr, 0);
+    //rrc::setTimeEnd(rr, 20);
+    //rrc::setNumPoints(rr, 100);
+
+    rrc::RRCDataPtr data = rrc::simulateEx(rr, 0, 20, 100);
+
+    std::cout << "columns: " << data->CSize << ", rows: " << data->RSize << std::endl;
+
+    for (int r = 0; r < data->RSize; ++r) {
+        cout << "row " << r << ", [";
+        for (int c = 0; c < data->CSize; ++c) {
+            cout << data->Data[r*data->CSize + c] << ", ";
+        }
+        cout << "]" << std::endl;
+    }
+}
+
+
+
 /*
 
 bool RunTest(const string& version, int caseNumber)
@@ -229,5 +256,4 @@ bool RunTest(const string& version, int caseNumber)
 
 
 } /* namespace rr */
-
 

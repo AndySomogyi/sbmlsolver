@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
 
     TestPluginManager pmtest;
 
-    pmtest.test();
+    TestRoadRunner::test2();
 
     return 0;
 

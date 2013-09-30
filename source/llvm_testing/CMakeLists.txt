@@ -46,6 +46,7 @@ link_directories(
 include_directories(
     src
     ${RR_ROOT}
+    ${RR_ROOT}/wrappers/C
     ${THIRD_PARTY_INSTALL_FOLDER}/include/clapack
     )
 
@@ -59,6 +60,7 @@ endif()
 
 if(WIN32)
     target_link_libraries (${target}
+        rrc_api
         roadrunner-static
         unit_test-static${staticLibPrefix}
         )
@@ -66,6 +68,7 @@ endif()
 
 if(UNIX)
     target_link_libraries (${target}
+        rrc_api
         roadrunner-static
         libunit_test-static${staticLibPrefix}
         lapack
