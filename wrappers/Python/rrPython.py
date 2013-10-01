@@ -149,8 +149,8 @@ rrLib.pause.restype = None
 #rrLib.getStringElement.argtypes = [POINTER(POINTER(c_ubyte)), c_int]
 
 # More Utility Methods
-rrLib.RoadRunner_setConfigurationXML.restype = c_bool
-rrLib.RoadRunner_getConfigurationXML.restype = c_char_p
+rrLib.setConfigurationXML.restype = c_bool
+rrLib.getConfigurationXML.restype = c_char_p
 rrLib.setTimeStart.restype = c_bool
 rrLib.setTimeEnd.restype = c_bool
 rrLib.setNumPoints.restype = c_bool
