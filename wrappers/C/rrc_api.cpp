@@ -564,7 +564,7 @@ bool rrcCallConv setTimeEnd(RRHandle handle, const double timeEnd)
     {
         RoadRunner* rri = castFrom(handle);
         SimulateOptions &opt = rri->getSimulateOptions();
-        opt.duration = timeEnd - opt.duration;
+        opt.duration = timeEnd - opt.start;
         return true;
     }
     catch_bool_macro

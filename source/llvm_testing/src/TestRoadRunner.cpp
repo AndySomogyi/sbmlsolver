@@ -169,6 +169,32 @@ void TestRoadRunner::test2()
 }
 
 
+void TestRoadRunner::test3()
+{
+#ifndef _WIN32
+    rrc::RRHandle rr = rrc::createRRInstance();
+
+    rrc::loadSBMLFromFile(rr, "/Users/andy/Desktop/Feedback.xml");
+
+    rrc::setTimeStart(rr, 0);
+    rrc::setTimeEnd(rr, 20);
+    rrc::setNumPoints(rr, 400);
+
+    rrc::RRCDataPtr data = rrc::simulate(rr);
+
+    std::cout << "columns: " << data->CSize << ", rows: " << data->RSize << std::endl;
+
+    for (int r = 0; r < data->RSize; ++r) {
+        cout << "row " << r << ", [";
+        for (int c = 0; c < data->CSize; ++c) {
+            cout << data->Data[r*data->CSize + c] << ", ";
+        }
+        cout << "]" << std::endl;
+    }
+#endif
+}
+
+
 
 /*
 

@@ -61,14 +61,14 @@ bool RunTest(const string& version, int caseNumber);
 int main(int argc, char* argv[])
 {
     cout << "RoadRunner LLVM SBML Test Suite" << endl;
-    cout << "built on " << __TIMESTAMP__ << endl;
+    cout << "built on " << string( __DATE__ ) + ", " + string(__TIME__);
     cout << rr::RoadRunner::getExtendedVersionInfo() << endl;
 
     const char* compiler = "llvm";
 
     TestPluginManager pmtest;
 
-    TestRoadRunner::test2();
+    TestRoadRunner::test3();
 
     return 0;
 

@@ -45,6 +45,8 @@ public:
 
 
     static void test2();
+
+    static void test3();
 };
 
 } /* namespace rr */
