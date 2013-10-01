@@ -62,10 +62,15 @@ This simulation will use the previous values.
 ";
 
 %feature("docstring") rr::RoadRunner::getCC "
-Get scaled control coefficient with respect to a global parameter
+Get scaled a single control coefficient with respect to a global parameter.
 
-:param variableName: var name
-:param parameterName: param name
+:param variable: The id of a dependent variable of the coefficient, for example a 
+flux or species concentration.
+:type name: str
+:param parameter: The id of the independent parameter, for example a kinetic constant 
+or boundary species
+:returns: the value of the control coefficeint returned to the caller.
+:rtype: double
 ";
                                              
 %feature("docstring") rr::RoadRunner::getCompiler "
@@ -93,10 +98,12 @@ get the copyright string
 ";
                                       
 %feature("docstring") rr::RoadRunner::getEE "
-Get scaled elasticity coefficient with respect to a global parameter or species
+Retireve a single elasticity coefficient.
 
-:param reactionName: the reaction name
-:param parameterName:
+:param str variable: The dependent variable of the coefficient, for example a flux or 
+	species concentration.
+:param str parameter: The independent parameter, for example a kinetic constant or boundary species
+
 ";
                                              
 %feature("docstring") rr::RoadRunner::getEigenvalueIds "
@@ -152,34 +159,50 @@ time evolve the system.
                                      
 %feature("docstring") rr::RoadRunner::getL0Matrix "
 TODO docs
+
+:rtype: numpy.ndarray
 ";
                                        
 %feature("docstring") rr::RoadRunner::getLinkMatrix "
 TODO docs
+
+:rtype: numpy.ndarray
 ";
                                      
 %feature("docstring") rr::RoadRunner::getModelGenerator "
 TODO docs
+
+:rtype: numpy.ndarray
 ";
                                  
 %feature("docstring") rr::RoadRunner::getNrMatrix "
 TODO docs
+
+:rtype: numpy.ndarray
 ";
                                        
 %feature("docstring") rr::RoadRunner::getParamPromotedSBML "
-TODO docs
+Takes an sbml document (in textual form) and changes all of the local parameters
+to be global parameters.
+
+:param str sbml: the contents of an sbml document
+:rtype: str
 ";
                               
 %feature("docstring") rr::RoadRunner::getReducedJacobian "
-TODO docs
+get the *reduced* Jacobian for the independent species. 
+
+:rtype: numpy.ndarray
 ";
                                 
 %feature("docstring") rr::RoadRunner::getReorderedStoichiometryMatrix "
 TODO docs
+
+:rtype: numpy.ndarray
 ";
                    
 %feature("docstring") rr::RoadRunner::getSBML "
-get the currently loaded sbml document as a string.
+return the currently loaded sbml document as a string.
 
 :rtype: str
 ";
@@ -191,7 +214,11 @@ TODO docs
 ";
     
 %feature("docstring") rr::RoadRunner::getScaledFloatingSpeciesElasticity "
-TODO docs
+Compute the scaled elasticity for a given reaction and given species. 
+
+:param str reactionId: the sbml id of a reaction.
+:param str speciesId: the sbml id of a species.
+:rtype: double
 ";
                 
 %feature("docstring") rr::RoadRunner::getScaledFluxControlCoefficientMatrix "

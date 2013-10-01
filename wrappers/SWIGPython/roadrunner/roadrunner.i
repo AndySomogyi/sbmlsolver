@@ -57,6 +57,16 @@
 %include "rr_docstrings.i"
 
 
+%template(IntVector) std::vector<int>;
+%template(StringVector) std::vector<std::string>;
+
+
+%apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
+
+%template(SelectionRecordVector) std::vector<SelectionRecord>;
+%apply std::vector<SelectionRecord> {vector<rr::SelectionRecord>, std::vector<rr::SelectionRecord>, vector<SelectionRecord>};
+
+
 %exception {
   try {
     $action
@@ -97,7 +107,7 @@
 
 
 /* Convert from C --> Python */
-%typemap(out) RoadRunnerData* {
+%typemap(out) const rr::RoadRunnerData* {
 
     int rows = 0;
     int cols = 0;
@@ -119,8 +129,10 @@
     $result  = pArray;
 }
 
+%apply const rr::RoadRunnerData* {rr::RoadRunnerData*, RoadRunnerData*, const RoadRunnerData* };
+
 /* Convert from C --> Python */
-%typemap(out) vector<double> {
+%typemap(out) std::vector<double> {
 
     int len = $1.size();
     npy_intp dims[1] = {len};
@@ -134,7 +146,9 @@
 
     double *data = (double*)PyArray_DATA((PyArrayObject*)array);
 
-    memcpy(data, &($1)[0], sizeof(double)*len);
+    std::vector<double>& vec = $1;
+
+    memcpy(data, &vec[0], sizeof(double)*len);
 
     $result  = array;
 }
@@ -166,16 +180,6 @@
 
 
 %include "numpy.i"
-
-
-
-
-%template(IntVector) std::vector<int>;
-%template(StringVector) std::vector<std::string>;
-
-
-%apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
-
 
 
 %init %{
@@ -404,9 +408,9 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 //%ignore rr::RoadRunner::simulate;
 //%ignore rr::RoadRunner::getExtendedVersionInfo;
 %ignore rr::RoadRunner::getNumberOfReactions;
-//%ignore rr::RoadRunner::getValue;
+%ignore rr::RoadRunner::getValue;
 //%ignore rr::RoadRunner::steadyState;
-//%ignore rr::RoadRunner::getValueForRecord;
+%ignore rr::RoadRunner::getValueForRecord;
 //%ignore rr::RoadRunner::this;
 %ignore rr::RoadRunner::getFloatingSpeciesByIndex;
 %ignore rr::RoadRunner::getParameterValue;
@@ -499,7 +503,23 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 
 %rename(RESET_MODEL) rr::SimulateOptions::ResetModel;
 %rename(STIFF) rr::SimulateOptions::Stiff;
- 
+
+
+%rename(TIME) rr::SelectionRecord::clTime;
+%rename(BOUNDARY_CONCENTRATION) rr::SelectionRecord::clBoundarySpecies;
+%rename(FLOATING_CONCENTRATION) rr::SelectionRecord::clFloatingSpecies;
+%rename(FLUX) rr::SelectionRecord::clFlux;
+%rename(RATE_OF_CHANGE) rr::SelectionRecord::clRateOfChange;
+%rename(VOLUME) rr::SelectionRecord::clVolume;
+%rename(PARAMETER) rr::SelectionRecord::clParameter;
+%rename(FLOATING_AMOUNT) rr::SelectionRecord::clFloatingAmount;
+%rename(BOUNDARY_AMOUNT) rr::SelectionRecord::clBoundaryAmount;
+%rename(ELASTICITY) rr::SelectionRecord::clElasticity;
+%rename(SCALED_ELASTICITY) rr::SelectionRecord::clUnscaledElasticity;
+%rename(EIGEN_VALUE) rr::SelectionRecord::clEigenValue;
+%rename(UNKNOWN) rr::SelectionRecord::clUnknown;
+%rename(STOICHIOMETRY) rr::SelectionRecord::clStoichiometry;
+
 
 // ignore Plugin methods that will be deprecated
 %ignore rr::Plugin::assignCallbacks;
@@ -524,6 +544,9 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 //%ignore rr::Plugin::getCategory;
 %ignore rr::Plugin::getParameter;
 //%ignore rr::Plugin::resetPlugin;
+
+
+
 
 %ignore rr::ostream;
 %ignore ostream;
@@ -570,10 +593,6 @@ namespace Poco { class SharedLibrary{}; }
 %include <rrPluginManager.h>
 %include <rrPlugin.h>
 
-%template(SelectionRecordVector) std::vector<SelectionRecord>;
-%apply std::vector<SelectionRecord> {vector<rr::SelectionRecord>, std::vector<rr::SelectionRecord>, vector<SelectionRecord>};
-
-
 %extend rr::RoadRunner
 {
     // attributes
@@ -595,6 +614,14 @@ namespace Poco { class SharedLibrary{}; }
         s << "<roadrunner.RoadRunner() { this = " << (void*)$self << " }>";
         return s.str();
     }
+
+    double getSelectionValue(const rr::SelectionRecord* pRecord) {
+        return $self->getValueForRecord(*pRecord);
+    }
+
+    double getSelectionValue(const std::string& id) {
+        return $self->getValue(id);
+    }
 }
 
 %{
@@ -614,6 +641,45 @@ namespace Poco { class SharedLibrary{}; }
         // TODO error can not set.
     }
 %}
+
+
+%extend rr::SelectionRecord {
+
+    std::string __repr__() {
+        std::stringstream s;
+        s << "<roadrunner.SelectionRecord() { this = " << (void*)$self << " }>";
+        return s.str();
+    }
+
+    std::string __str__() {
+
+        std::string selType;
+
+        switch($self->selectionType) {
+        case SelectionRecord::clTime: selType = "TIME"; break;
+        case SelectionRecord::clBoundarySpecies: selType = "BOUNDARY_CONCENTRATION"; break;
+        case SelectionRecord::clFloatingSpecies: selType = "FLOATING_CONCENTRATION"; break;
+        case SelectionRecord::clFlux: selType = "FLUX"; break;
+        case SelectionRecord::clRateOfChange: selType = "RATE_OF_CHANGE"; break;
+        case SelectionRecord::clVolume: selType = "VOLUME"; break;
+        case SelectionRecord::clParameter: selType = "PARAMETER"; break;
+        case SelectionRecord::clFloatingAmount: selType = "FLOATING_AMOUNT"; break;
+        case SelectionRecord::clBoundaryAmount: selType = "BOUNDARY_AMOUNT"; break;
+        case SelectionRecord::clElasticity: selType = "ELASTICITY"; break;
+        case SelectionRecord::clUnscaledElasticity: selType = "UNSCALED_ELASTICITY"; break;
+        case SelectionRecord::clEigenValue: selType = "EIGEN_VALUE"; break;
+        case SelectionRecord::clStoichiometry: selType = "STOICHIOMETRY"; break;
+        default: selType = "UNKNOWN"; break;
+        }
+        std::stringstream s;
+        s << "SelectionRecord({'index' : " << $self->index << ", ";
+        s << "'p1' : '" << $self->p1 << "', ";
+        s << "'p2' : '" << $self->p2 << "', ";
+        s << "'selectionType' : " << selType << "})";
+
+        return s.str();
+    }
+}
 
 %extend rr::SimulateOptions
 {
