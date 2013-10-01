@@ -324,19 +324,21 @@ case, the default values are used.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getCC">
 <tt class="descname">getCC</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getCC" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get scaled control coefficient with respect to a global parameter</p>
+<dd><p>Get scaled a single control coefficient with respect to a global parameter.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>variableName</strong> &#8211; var name</li>
-<li><strong>parameterName</strong> &#8211; param name</li>
-</ul>
-</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>variable</strong> &#8211; The id of a dependent variable of the coefficient, for example a</td>
 </tr>
 </tbody>
 </table>
+<p>flux or species concentration.
+:type name: str
+:param parameter: The id of the independent parameter, for example a kinetic constant 
+or boundary species
+:returns: the value of the control coefficeint returned to the caller.
+:rtype: double</p>
 </dd></dl>
 
 <dl class="method">
@@ -375,14 +377,15 @@ into a single xml document which is returned as a string.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getEE">
 <tt class="descname">getEE</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getEE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get scaled elasticity coefficient with respect to a global parameter or species</p>
+<dd><p>Retireve a single elasticity coefficient.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>reactionName</strong> &#8211; the reaction name</li>
-<li><strong>parameterName</strong> &#8211; </li>
+<li><strong>variable</strong> (<em>str</em>) &#8211; The dependent variable of the coefficient, for example a flux or 
+species concentration.</li>
+<li><strong>parameter</strong> (<em>str</em>) &#8211; The independent parameter, for example a kinetic constant or boundary species</li>
 </ul>
 </td>
 </tr>
@@ -476,48 +479,107 @@ time evolve the system.</p>
 <dt id="roadrunner.RoadRunner.getL0Matrix">
 <tt class="descname">getL0Matrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getL0Matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getLinkMatrix">
 <tt class="descname">getLinkMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getLinkMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getModelGenerator">
 <tt class="descname">getModelGenerator</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getModelGenerator" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getNrMatrix">
 <tt class="descname">getNrMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getNrMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="staticmethod">
 <dt id="roadrunner.RoadRunner.getParamPromotedSBML">
 <em class="property">static </em><tt class="descname">getParamPromotedSBML</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getParamPromotedSBML" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><p>Takes an sbml document (in textual form) and changes all of the local parameters
+to be global parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sbml</strong> (<em>str</em>) &#8211; the contents of an sbml document</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getReducedJacobian">
 <tt class="descname">getReducedJacobian</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getReducedJacobian" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><p>get the <em>reduced</em> Jacobian for the independent species.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getReorderedStoichiometryMatrix">
 <tt class="descname">getReorderedStoichiometryMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getReorderedStoichiometryMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getSBML">
 <tt class="descname">getSBML</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getSBML" title="Permalink to this definition">¶</a></dt>
-<dd><p>get the currently loaded sbml document as a string.</p>
+<dd><p>return the currently loaded sbml document as a string.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -545,7 +607,22 @@ time evolve the system.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getScaledFloatingSpeciesElasticity">
 <tt class="descname">getScaledFloatingSpeciesElasticity</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getScaledFloatingSpeciesElasticity" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><p>Compute the scaled elasticity for a given reaction and given species.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>reactionId</strong> (<em>str</em>) &#8211; the sbml id of a reaction.</li>
+<li><strong>speciesId</strong> (<em>str</em>) &#8211; the sbml id of a species.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">double</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -771,7 +848,18 @@ column vector, and the 0&#8217;th column is the simulation time.</td>
 <dl class="function">
 <dt id="roadrunner.RoadRunner_getParamPromotedSBML">
 <tt class="descclassname">roadrunner.</tt><tt class="descname">RoadRunner_getParamPromotedSBML</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner_getParamPromotedSBML" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><p>Takes an sbml document (in textual form) and changes all of the local parameters
+to be global parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sbml</strong> (<em>str</em>) &#8211; the contents of an sbml document</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
