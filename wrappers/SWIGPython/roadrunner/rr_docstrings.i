@@ -58,6 +58,263 @@ This simulation will use the previous values.
 :rtype: numpy.ndarray";
 
 
+%feature("docstring") rr::RoadRunner::computeSteadyStateValue "
+";
+
+%feature("docstring") rr::RoadRunner::getCC "
+Get scaled control coefficient with respect to a global parameter
+
+:param variableName: var name
+:param parameterName: param name
+";
+                                             
+%feature("docstring") rr::RoadRunner::getCompiler "
+get the compiler used to build the ExecutableModel.
+";
+                                       
+%feature("docstring") rr::RoadRunner::getConfigurationXML "
+recurse through all of the child configurable objects that this
+class ownes and build an assemble all of thier configuration parameters
+into a single xml document which is returned as a string.
+
+The value of this result depends on what child objects are presently loaded.
+";
+                               
+%feature("docstring") rr::RoadRunner::getConservationAnalysis "
+is conservation analysis enabled. This is set
+";
+                           
+%feature("docstring") rr::RoadRunner::getConservationMatrix "
+TODO docs
+";
+                             
+%feature("docstring") rr::RoadRunner::getCopyright "
+get the copyright string
+";
+                                      
+%feature("docstring") rr::RoadRunner::getEE "
+Get scaled elasticity coefficient with respect to a global parameter or species
+
+:param reactionName: the reaction name
+:param parameterName:
+";
+                                             
+%feature("docstring") rr::RoadRunner::getEigenvalueIds "
+returns a list of floating species ids with thier names
+prefixed with 'eigen_'. For example, if the model contained
+the floating species 'S1' and 'S2', this would return a list
+containing ['eigen_S1', 'eigen_S2'].
+";
+                                  
+%feature("docstring") rr::RoadRunner::getEigenvalues "
+Returns eigenvalues, first column real part, second column imaginary part
+
+:rtype: numpy.ndarray
+";
+                                    
+%feature("docstring") rr::RoadRunner::getExtendedVersionInfo "
+getVersion plus info about dependent libs versions.
+";
+                            
+%feature("docstring") rr::RoadRunner::getFloatingSpeciesAmountIds "
+gets a list of the floating species ids, but with the ids surrounded
+by square brackets, i.e. 'S1' -> '[S1]'
+";
+                       
+%feature("docstring") rr::RoadRunner::getFullJacobian "
+compute the full Jacobian at the current operating point. 
+
+This is the Jacobian of ONLY the floating species.
+";
+                                   
+%feature("docstring") rr::RoadRunner::getFullyReorderedStoichiometryMatrix "
+Returns the stoichiometry matrix for the currently loaded model
+";
+              
+%feature("docstring") rr::RoadRunner::getInfo "
+return info about the current state of the object
+
+:rtype: str
+";
+                                           
+%feature("docstring") rr::RoadRunner::getInstanceCount "
+Number of currently running RoadRunner instances.
+";
+                                  
+%feature("docstring") rr::RoadRunner::getInstanceID "
+When there are multiple instances of RoadRunner, this is the instance id.
+";
+                                     
+%feature("docstring") rr::RoadRunner::getIntegrator "
+get the integrator which is currently being used to
+time evolve the system.
+";
+                                     
+%feature("docstring") rr::RoadRunner::getL0Matrix "
+TODO docs
+";
+                                       
+%feature("docstring") rr::RoadRunner::getLinkMatrix "
+TODO docs
+";
+                                     
+%feature("docstring") rr::RoadRunner::getModelGenerator "
+TODO docs
+";
+                                 
+%feature("docstring") rr::RoadRunner::getNrMatrix "
+TODO docs
+";
+                                       
+%feature("docstring") rr::RoadRunner::getParamPromotedSBML "
+TODO docs
+";
+                              
+%feature("docstring") rr::RoadRunner::getReducedJacobian "
+TODO docs
+";
+                                
+%feature("docstring") rr::RoadRunner::getReorderedStoichiometryMatrix "
+TODO docs
+";
+                   
+%feature("docstring") rr::RoadRunner::getSBML "
+get the currently loaded sbml document as a string.
+
+:rtype: str
+";
+                                           
+%feature("docstring") rr::RoadRunner::getScaledConcentrationControlCoefficientMatrix "
+TODO docs
+
+:rtype: numpy.ndarray
+";
+    
+%feature("docstring") rr::RoadRunner::getScaledFloatingSpeciesElasticity "
+TODO docs
+";
+                
+%feature("docstring") rr::RoadRunner::getScaledFluxControlCoefficientMatrix "
+TODO docs
+";
+             
+%feature("docstring") rr::RoadRunner::getScaledReorderedElasticityMatrix "
+TODO docs
+";
+                              
+%feature("docstring") rr::RoadRunner::getSelectedValues "
+returns the values selected with SimulateOptions for the current model time / timestep
+";
+                                               
+%feature("docstring") rr::RoadRunner::getSimulationResult "
+get the simulation result in case one forgot to hold on to the simulate return value.
+";
+                                             
+%feature("docstring") rr::RoadRunner::getSteadyStateSelectionList "
+TODO docs
+";
+                                     
+%feature("docstring") rr::RoadRunner::getStoichiometryMatrix "
+TODO docs
+";
+                                          
+%feature("docstring") rr::RoadRunner::getTimeCourseSelectionList "
+TODO docs
+";
+                                      
+%feature("docstring") rr::RoadRunner::getUnscaledConcentrationControlCoefficientMatrix "
+TODO docs
+";
+                
+%feature("docstring") rr::RoadRunner::getUnscaledElasticityMatrix "
+TODO docs
+";
+                                     
+%feature("docstring") rr::RoadRunner::getUnscaledFluxControlCoefficientMatrix "
+TODO docs
+";
+                         
+%feature("docstring") rr::RoadRunner::getUnscaledSpeciesElasticity "
+TODO docs
+";
+                                    
+%feature("docstring") rr::RoadRunner::getValue "
+TODO docs
+";
+                                                        
+%feature("docstring") rr::RoadRunner::getValueForRecord "
+TODO docs
+";
+                                               
+%feature("docstring") rr::RoadRunner::getVersion "
+TODO docs
+";
+                                                      
+%feature("docstring") rr::RoadRunner::getlibSBMLVersion "
+TODO docs
+";
+                                               
+%feature("docstring") rr::RoadRunner::isModelLoaded "
+TODO docs
+";
+                                                   
+%feature("docstring") rr::RoadRunner::loadSBML "
+TODO docs
+";
+                                                        
+%feature("docstring") rr::RoadRunner::loadSBMLFromFile "
+TODO docs
+";
+                                                
+%feature("docstring") rr::RoadRunner::model "
+TODO docs
+";
+                                                           
+%feature("docstring") rr::RoadRunner::oneStep "
+TODO docs
+";
+                                                         
+%feature("docstring") rr::RoadRunner::reset "
+TODO docs
+";
+                                                           
+%feature("docstring") rr::RoadRunner::setConfigurationXML "
+TODO docs
+";
+                                             
+%feature("docstring") rr::RoadRunner::setConservationAnalysis "
+TODO docs
+";
+                                         
+%feature("docstring") rr::RoadRunner::setSteadyStateSelectionList "
+TODO docs
+";
+                                     
+%feature("docstring") rr::RoadRunner::setTimeCourseSelectionList "
+TODO docs
+";
+                                      
+%feature("docstring") rr::RoadRunner::setValue "
+TODO docs
+";
+                                                        
+                                                        
+%feature("docstring") rr::RoadRunner::simulateOptions "
+Get the SimulateOptions object where simulation options may be set. 
+";
+                                                 
+%feature("docstring") rr::RoadRunner::steadyState "
+TODO docs
+";
+                                                     
+%feature("docstring") rr::RoadRunner::this "
+TODO docs
+";
+                                                            
+
+/*************************************************************/
+/***** ExecutableModel ***************************************/
+/*************************************************************/
 
 %feature("docstring") rr::ExecutableModel "
 The sbml model.
