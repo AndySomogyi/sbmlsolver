@@ -222,19 +222,9 @@ bool RoadRunner::isModelLoaded()
     return mModel ? true : false;
 }
 
-bool RoadRunner::setSimulateOptions(const SimulateOptions& settings)
+void RoadRunner::setSimulateOptions(const SimulateOptions& settings)
 {
-    mSettings   = settings;
-
-    //This one creates the list of what we will look at in the result
-    createTimeCourseSelectionList();
-
-    if (mCVode)
-    {
-        mCVode->setTolerances(mSettings.relative, mSettings.absolute);
-    }
-
-    return true;
+    mSettings = settings;
 }
 
 SimulateOptions& RoadRunner::getSimulateOptions()
@@ -280,36 +270,36 @@ int RoadRunner::createDefaultTimeCourseSelectionList()
 
 int RoadRunner::createTimeCourseSelectionList()
 {
-	// make a list out of the values in the settings,
-	// will always have at least a "time" at the first item.
-	vector<string> theList = createSelectionList(mSettings);
+    // make a list out of the values in the settings,
+    // will always have at least a "time" at the first item.
+    vector<string> theList = createSelectionList(mSettings);
 
-	assert(theList.size() >= 1 && "selection list from SimulateOptions does does not have time");
+    assert(theList.size() >= 1 && "selection list from SimulateOptions does does not have time");
 
-	// make default list from the floating species amounts.
-	if(theList.size() == 1)
-	{
-		vector<string> oFloating  = getFloatingSpeciesIds();
-		for(int i = 0; i < oFloating.size(); i++)
-		{
-			theList.push_back(oFloating[i]);
-		}
-	}
+    // make default list from the floating species amounts.
+    if(theList.size() == 1)
+    {
+        vector<string> oFloating  = getFloatingSpeciesIds();
+        for(int i = 0; i < oFloating.size(); i++)
+        {
+            theList.push_back(oFloating[i]);
+        }
+    }
 
-	setTimeCourseSelectionList(theList);
+    setTimeCourseSelectionList(theList);
 
-	Log(lDebug)<<"The following is selected:";
-	for(int i = 0; i < mSelectionList.size(); i++)
-	{
-		Log(lDebug)<<mSelectionList[i];
-	}
+    Log(lDebug)<<"The following is selected:";
+    for(int i = 0; i < mSelectionList.size(); i++)
+    {
+        Log(lDebug)<<mSelectionList[i];
+    }
 
-	if(mSelectionList.size() < 2)
-	{
-		Log(lWarning)<<"You have not made a selection. No data is selected";
-		return 0;
-	}
-	return mSelectionList.size();
+    if(mSelectionList.size() < 2)
+    {
+        Log(lWarning)<<"You have not made a selection. No data is selected";
+        return 0;
+    }
+    return mSelectionList.size();
 }
 
 ModelGenerator* RoadRunner::getModelGenerator()
@@ -3614,39 +3604,40 @@ vector<double> RoadRunner::getSelectedValues()
     return result;
 }
 
-const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* options)
+const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
 {
-    // make an options if we don't get one.
-    SimulateOptions *pOptions = 0;
-
     if (!mModel)
     {
         throw CoreException(gEmptyModelMessage);
     }
 
-    if (options == 0)
+    if (_options)
     {
-        pOptions = new SimulateOptions();
-        pOptions->start = mSettings.start;
-        pOptions->duration = mSettings.duration;
-        pOptions->steps = mSettings.steps;
-        options = pOptions;
+        this->mSettings = *_options;
     }
 
-    if (options->flags & SimulateOptions::ResetModel)
+    //This one creates the list of what we will look at in the result
+    createTimeCourseSelectionList();
+
+    if (mCVode)
+    {
+        mCVode->setTolerances(mSettings.relative, mSettings.absolute);
+    }
+
+    if (mSettings.flags & SimulateOptions::ResetModel)
     {
         reset(); // reset back to initial conditions
     }
 
-    if (options->duration < 0 || options->start < 0
-            || options->steps <= 0 )
+    if (mSettings.duration < 0 || mSettings.start < 0
+            || mSettings.steps <= 0 )
     {
         throw CoreException("Illegal input to simulate");
     }
 
-    double timeEnd = options->duration - options->start;
-    double timeStart = options->start;
-    int numPoints = options->steps + 1;
+    double timeEnd = mSettings.duration - mSettings.start;
+    double timeStart = mSettings.start;
+    int numPoints = mSettings.steps + 1;
 
     if (numPoints <= 1)
     {
@@ -3658,11 +3649,12 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* options)
 
     if(!nrCols)
     {
+        assert(0 && "time couse selection list is empty");
         nrCols = createDefaultTimeCourseSelectionList();
     }
 
     // ignored if same
-    mRawRoadRunnerData.resize(options->steps + 1, nrCols);
+    mRawRoadRunnerData.resize(mSettings.steps + 1, nrCols);
 
     // evalute the model with its current state
     mModel->evalModel(timeStart, 0, 0);
@@ -3678,8 +3670,8 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* options)
     double tout = timeStart;
 
     //The simulation is executed right here..
-    Log(Logger::PRIO_DEBUG)<<"Will run the OneStep function "<< options->steps + 1 <<" times";
-    for (int i = 1; i < options->steps + 1; i++)
+    Log(Logger::PRIO_DEBUG)<<"Will run the OneStep function "<< mSettings.steps + 1 <<" times";
+    for (int i = 1; i < mSettings.steps + 1; i++)
     {
         Log(Logger::PRIO_DEBUG)<<"Step "<<i;
         mCVode->oneStep(tout, hstep);
@@ -3691,7 +3683,6 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* options)
     // set the data into the RoadRunnerData struct
     populateResult();
 
-    delete pOptions;
     return &mRoadRunnerData;
 }
 

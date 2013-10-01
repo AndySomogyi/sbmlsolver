@@ -75,7 +75,8 @@ bool TestSuiteModelSimulation::LoadSettingsEx(const string& settingsFName)
 
     if (mEngine)
     {
-        result = mEngine->setSimulateOptions(SimulateOptions(mModelSettingsFileName));
+        mEngine->setSimulateOptions(SimulateOptions(mModelSettingsFileName));
+        result = true;
     }
     return result;
 }

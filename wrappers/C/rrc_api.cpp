@@ -511,11 +511,7 @@ bool rrcCallConv loadSimulationSettings(RRHandle handle, const char* fileName)
         }
 
         RoadRunner* rri = castFrom(handle);
-        if(!rri->setSimulateOptions(SimulateOptions(fileName)))
-        {
-            setError("Failed to load simulation settings");
-            return false;
-        }
+        rri->setSimulateOptions(SimulateOptions(fileName));
         return true;
     }
     catch_bool_macro
@@ -556,9 +552,7 @@ bool rrcCallConv setTimeStart(RRHandle handle, const double timeStart)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        SimulateOptions opt = rri->getSimulateOptions();
-        opt.start = timeStart;
-        rri->setSimulateOptions(opt);
+        rri->getSimulateOptions().start = timeStart;
         return true;
     }
     catch_bool_macro
@@ -569,9 +563,8 @@ bool rrcCallConv setTimeEnd(RRHandle handle, const double timeEnd)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        SimulateOptions opt = rri->getSimulateOptions();
-        opt.duration = timeEnd - opt.start;
-        rri->setSimulateOptions(opt);
+        SimulateOptions &opt = rri->getSimulateOptions();
+        opt.duration = timeEnd - opt.duration;
         return true;
     }
     catch_bool_macro
@@ -582,9 +575,8 @@ bool rrcCallConv setNumPoints(RRHandle handle, const int nrPoints)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        SimulateOptions opt = rri->getSimulateOptions();
+        SimulateOptions &opt = rri->getSimulateOptions();
         opt.steps = nrPoints - 1;
-        rri->setSimulateOptions(opt);
         return true;
     }
     catch_bool_macro
@@ -617,7 +609,7 @@ bool rrcCallConv getNumPoints(RRHandle handle, int* numPoints)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        *numPoints = rri->getSimulateOptions().steps;
+        *numPoints = rri->getSimulateOptions().steps + 1;
         return true;
     }
     catch_bool_macro
@@ -658,13 +650,9 @@ RRCDataPtr rrcCallConv simulate(RRHandle handle)
     {
         RoadRunner* rri = castFrom(handle);
 
-        SimulateOptions options;
-        options.start = rri->getSimulateOptions().start;
-        options.duration = rri->getSimulateOptions().duration;
-        options.steps = rri->getSimulateOptions().steps;
-        options.flags = options.flags | SimulateOptions::ResetModel;
+        rri->getSimulateOptions().flags |= SimulateOptions::ResetModel;
 
-        if(!rri->simulate(&options))
+        if(!rri->simulate())
         {
             return NULL;
         }

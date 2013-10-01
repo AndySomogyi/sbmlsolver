@@ -213,6 +213,24 @@ static PyObject* _ExecutableModel_getValues(rr::ExecutableModel *self, getValues
     return array;
 }
 
+static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
+    std::stringstream s;
+    s << "[";
+
+    for (int i = 0; i < strvec.size(); ++i) {
+        s << "'" << strvec[i] << "'";
+        if (i + 1 < strvec.size()) {
+            s << ",";
+        }
+    }
+
+    s << "]";
+
+    return s.str();
+}
+
+
+
 
 // we can write a single function to pick the string lists out
 // of the model instead of duplicating it 6 times with
@@ -555,38 +573,83 @@ namespace Poco { class SharedLibrary{}; }
 %extend rr::RoadRunner
 {
     // attributes
-    
+
     const rr::SimulateOptions *simulateOptions;
-    
+
     const rr::ExecutableModel *model;
-    
+
     const rr::RoadRunnerData *simulate(int startTime, int endTime, int steps) {
         rr::SimulateOptions s = $self->getSimulateOptions();
         s.start = startTime;
         s.duration = endTime - startTime;
         s.steps = steps;
         return $self->simulate(&s);
-    }    
+    }
+
+    std::string __repr__() {
+        std::stringstream s;
+        s << "<roadrunner.RoadRunner() { this = " << (void*)$self << " }>";
+        return s.str();
+    }
 }
 
 %{
     rr::SimulateOptions* rr_RoadRunner_simulateOptions_get(RoadRunner* r) {
         return &r->getSimulateOptions();
     }
-    
+
     void rr_RoadRunner_simulateOptions_set(RoadRunner* r, const rr::SimulateOptions* opt) {
         r->setSimulateOptions(*opt);
     }
-    
+
     rr::ExecutableModel *rr_RoadRunner_model_get(RoadRunner* r) {
         return r->getModel();
     }
-    
-    rr::ExecutableModel *rr_RoadRunner_model_set(RoadRunner* r, const rr::ExecutableModel *m) {
-        // TODO error can not set. 
+
+    void rr_RoadRunner_model_set(RoadRunner* r, const rr::ExecutableModel *m) {
+        // TODO error can not set.
     }
 %}
-    
+
+%extend rr::SimulateOptions
+{
+    double end;
+
+    std::string __repr__() {
+        std::stringstream s;
+        s << "<roadrunner.SimulateOptions() { this = " << (void*)$self << " }>";
+        return s.str();
+    }
+
+    std::string __str__() {
+        std::stringstream s;
+        s << "{ 'flags' : " << $self->flags;
+        s << ", 'integrator' : " << $self->integrator;
+        s << ", 'integratorOpt' : " << $self->integratorOpt;
+        s << ", 'steps' : " << $self->steps;
+        s << ", 'start' : " << $self->start;
+        s << ", 'duration' : " << $self->duration;
+        s << ", 'absolute' : " << $self->absolute;
+        s << ", 'relative' : " << $self->relative;
+        s << ", 'variables' : " << strvec_to_pystring($self->variables);
+        s << ", 'amounts' : " << strvec_to_pystring($self->amounts);
+        s << ", 'concentrations' : " << strvec_to_pystring($self->concentrations);
+        s << "}";
+        return s.str();
+    }
+}
+
+%{
+    double rr_SimulateOptions_end_get(SimulateOptions* opt) {
+        return opt->start + opt->duration;
+    }
+
+    void rr_SimulateOptions_end_set(SimulateOptions* opt, double end) {
+        opt->duration = end - opt->start;
+    }
+
+%}
+
 
 %extend rr::ExecutableModel
 {
@@ -830,6 +893,14 @@ namespace Poco { class SharedLibrary{}; }
     //int setReactionRates(int len, double const *values) {
     //    return $self->setReactionRates(len, 0, values);
     //}
+
+    std::string __repr__() {
+        std::stringstream s;
+        s << "<roadrunner.ExecutableModel() { this = " << (void*)$self << " }>";
+        return s.str();
+    }
+
+
 }
 
 

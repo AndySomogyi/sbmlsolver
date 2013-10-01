@@ -149,7 +149,7 @@ public:
      */
     RoadRunnerData *getSimulationResult();
 
-    bool setSimulateOptions(const SimulateOptions& settings);
+    void setSimulateOptions(const SimulateOptions& settings);
 
     /**
      * get a reference to the SimulateOptions that were set either
