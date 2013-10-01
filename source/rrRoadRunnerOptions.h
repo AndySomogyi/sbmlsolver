@@ -114,7 +114,7 @@ struct RR_DECLSPEC SimulateOptions
         CVODE
     };
 
-    enum IntegratorOpt
+    enum IntegratorFlags
     {
         /**
          * Is the model a stiff system? setting this to stiff causes
@@ -149,7 +149,7 @@ struct RR_DECLSPEC SimulateOptions
      * Set of options to use when configuring the integrator.
      * This is a bitfield composed of options from the IntegratorOpt enum.
      */
-    uint32_t integratorOpt;
+    uint32_t integratorFlags;
 
     /**
      * The number of steps at which the output is sampled. The samples are evenly spaced.

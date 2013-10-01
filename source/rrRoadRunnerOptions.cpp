@@ -38,7 +38,7 @@ absolute(MaxAbsolute),
 relative(MaxRelative),
 flags(0),
 integrator(CVODE),
-integratorOpt(0)
+integratorFlags(0)
 {
 }
 
@@ -51,7 +51,7 @@ absolute(MaxAbsolute),
 relative(MaxRelative),
 flags(0),
 integrator(CVODE),
-integratorOpt(0)
+integratorFlags(0)
 {
 
     if(!fname.size())

@@ -8,18 +8,21 @@
 
 
 %feature("docstring") rr::RoadRunner "
-    The main RoadRunner class.
+The main RoadRunner class.
 
-    All three of the RoadRunner options default to the empty string, in this
-    case, the default values are used.
+All three of the RoadRunner options default to the empty string, in this
+case, the default values are used.
 
-    *Arguments*
-        compiler (string)
-            if LLVM build is enabled, the compiler defaults to LLVM.
-        tempDir (string)
-            typically ignored, only used by the old C RoadRunner.
-        supportCodeDir (string)
-            typically ignored, only used by the old C RoadRunner";
+ 
+:param compiler: if LLVM build is enabled, the compiler defaults to LLVM.
+:type name: str (optional)
+
+:param tempDir: (string) typically ignored, only used by the old C RoadRunner.
+:type name: str (optional)
+
+:param supportCodeDir: typically ignored, only used by the old C RoadRunner
+:type name: str (optional)";
+
 
 %feature("docstring") rr::RoadRunner::simulate "
 simulate the current SBML model.
@@ -192,17 +195,25 @@ taken from http://sbml.org
 This object can be read from a sbml test suite options file by using a file
 name in the constructor.
 
-
-    *Arguments*
-        sbmlSettingFilePath (optional)
-            if this is given, the settings are read from this settings file,
-            if not, the default values are set.
+:param sbmlSettingFilePath: (optional) if this is given, the settings are read 
+from this settings file, if not, the default values are set.
 ";
 
-
-%feature("docstring") rr::SimulateOptions::ResetModel "
-reset the model to the initial state.
+%feature("docstring") rr::SimulateOptions::RESET_MODEL "
+bitfield option for flags which reset the model to the initial state.
+Can be more convenient simply setting the .resetModel attribute
 ";
+
+%feature("docstring") rr::SimulateOptions::STIFF "
+bitfield options for integratorFlags which enables / disables the stiff
+integrator, can be set directly with the .stiff attribute";
+
+%feature("docstring") rr::SimulateOptions::resetModel "
+Causes the model to be reset to the original conditions specified
+in the sbml when the simulation is run.";
+
+%feature("docstring") rr::SimulateOptions::stiff "
+Use the stiff integrator.";
 
 %feature("docstring") rr::SimulateOptions::flags "
 can be set to ResetModel so that the model is reset to its intial state
@@ -219,10 +230,18 @@ The start time of the simulation time-series data.
 Often this is 0, but not necessarily.";
 
 %feature("docstring") rr::SimulateOptions::duration "
-The duration of the simulation run, in the model's units of time.";
+The duration of the simulation run, in the model's units of time. Note, 
+setting the duration automatically sets the end time and visa versa.";
+
+%feature("docstring") rr::SimulateOptions::end "
+The simulation end time. Note, setting the end time automatically sets the 
+duration accoringly and visa versa.";
 
 %feature("docstring") rr::SimulateOptions::absolute "
-A number representing the absolute difference permitted.";
+:type name: list(str)
+
+A number representing the absolute difference permitted for the integrator
+tolerence.";
 
 %feature("docstring") rr::SimulateOptions::relative "
 A float-point number representing the relative difference permitted.
@@ -234,8 +253,13 @@ These are SBML model id's. Order is significant, as this determines the order
 of the columns in the result matrix.
 
 Important: if a symbol in this list refers to a species in the model,
-then that symbol will also be listed in either the amount or concentration
-lists below.
+then that symbol should also be listed in either the amount or concentration
+lists below. If a species symbol is listed in variables, but is not listed
+in either amounts or concentrations, then it defaults to an amount value. 
+
+The ordering of the symbols in variabls is what determines the output 
+ordering. The order of symbols in either amounts or concetrations do not
+effect the output ordering.
 
 NOTE:If a listed variable has two underscores in it ('__'), that variable
 is actually present only in a submodel of the main model, from the
@@ -245,7 +269,7 @@ If the model is flattened, the variable will appear automatically.";
 %feature("docstring") rr::SimulateOptions::amounts "
 A list of the variable whose output in the results file is in amount
 (not concentration) units. This list of variables must be a subset of
- the names listed in variables.";
+the names listed in variables.";
 
 
 %feature("docstring") rr::SimulateOptions::concentrations "

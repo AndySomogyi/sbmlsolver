@@ -497,6 +497,10 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 %ignore rr::ExecutableModel::getConservedSumIndex(const std::string& eid);
 %ignore rr::ExecutableModel::getReactionIndex(const std::string& eid);
 
+%rename(RESET_MODEL) rr::SimulateOptions::ResetModel;
+%rename(STIFF) rr::SimulateOptions::Stiff;
+ 
+
 // ignore Plugin methods that will be deprecated
 %ignore rr::Plugin::assignCallbacks;
 //%ignore rr::Plugin::getCopyright;
@@ -614,6 +618,8 @@ namespace Poco { class SharedLibrary{}; }
 %extend rr::SimulateOptions
 {
     double end;
+    bool resetModel;
+    bool stiff;
 
     std::string __repr__() {
         std::stringstream s;
@@ -625,7 +631,7 @@ namespace Poco { class SharedLibrary{}; }
         std::stringstream s;
         s << "{ 'flags' : " << $self->flags;
         s << ", 'integrator' : " << $self->integrator;
-        s << ", 'integratorOpt' : " << $self->integratorOpt;
+        s << ", 'integratorFlags' : " << $self->integratorFlags;
         s << ", 'steps' : " << $self->steps;
         s << ", 'start' : " << $self->start;
         s << ", 'duration' : " << $self->duration;
@@ -648,6 +654,29 @@ namespace Poco { class SharedLibrary{}; }
         opt->duration = end - opt->start;
     }
 
+    bool rr_SimulateOptions_resetModel_get(SimulateOptions* opt) {
+        return opt->flags & SimulateOptions::ResetModel;
+    }
+
+    void rr_SimulateOptions_resetModel_set(SimulateOptions* opt, bool value) {
+        if (value) {
+            opt->flags |= SimulateOptions::ResetModel;
+        } else {
+            opt->flags &= !SimulateOptions::ResetModel;
+        }
+    }
+
+    bool rr_SimulateOptions_stiff_get(SimulateOptions* opt) {
+        return opt->flags & SimulateOptions::Stiff;
+    }
+
+    void rr_SimulateOptions_stiff_set(SimulateOptions* opt, bool value) {
+        if (value) {
+            opt->integratorFlags |= SimulateOptions::Stiff;
+        } else {
+            opt->integratorFlags &= !SimulateOptions::Stiff;
+        }
+    }
 %}
 
 
