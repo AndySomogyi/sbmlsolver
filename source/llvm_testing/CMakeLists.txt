@@ -60,7 +60,6 @@ endif()
 
 if(WIN32)
     target_link_libraries (${target}
-        rrc_api
         roadrunner-static
         unit_test-static${staticLibPrefix}
         )
