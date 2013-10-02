@@ -96,59 +96,67 @@ case, the default values are used.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getCC">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getCC</tt><big>(</big><em>variable</em>, <em>parameter</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getCC" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<p>Get scaled a single control coefficient with respect to a global parameter.</p>
-<blockquote>
-<div><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Get scaled a single control coefficient with respect to a global parameter.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">param variable:</th><td class="field-body">The id of a dependent variable of the coefficient, for example a</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>variable</strong> &#8211; The id of a dependent variable of the coefficient, for example a
+flux or species concentration.</li>
+<li><strong>parameter</strong> &#8211; The id of the independent parameter, for example a kinetic constant
+or boundary species</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the value of the control coefficeint returned to the caller.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">double</p>
+</td>
 </tr>
 </tbody>
 </table>
-<p>flux or species concentration.
-:type name: str
-:param parameter: The id of the independent parameter, for example a kinetic constant
-or boundary species
-:returns: the value of the control coefficeint returned to the caller.
-:rtype: double</p>
-</div></blockquote>
+</dd></dl>
+
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getCompiler">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getCompiler</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getCompiler" title="Permalink to this definition">¶</a></dt>
 <dd><p>get the compiler used to build the ExecutableModel.</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getConfigurationXML">
-<tt class="descname">getConfigurationXML</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getConfigurationXML" title="Permalink to this definition">¶</a></dt>
-<dd><p>recurse through all of the child configurable objects that this
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getConfigurationXML</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getConfigurationXML" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>recurse through all of the child configurable objects that this
 class ownes and build an assemble all of thier configuration parameters
 into a single xml document which is returned as a string.</p>
 <p>The value of this result depends on what child objects are presently loaded.</p>
+</div></blockquote>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getConservationAnalysis">
-<tt class="descname">getConservationAnalysis</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getConservationAnalysis" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getConservationAnalysis</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getConservationAnalysis" title="Permalink to this definition">¶</a></dt>
 <dd><p>is conservation analysis enabled. This is set</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getConservationMatrix">
-<tt class="descname">getConservationMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getConservationMatrix" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getConservationMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getConservationMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
 </dd></dl>
 
 <dl class="staticmethod">
 <dt id="roadrunner.RoadRunner.getCopyright">
-<em class="property">static </em><tt class="descname">getCopyright</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getCopyright" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><tt class="descclassname">RoadRunner.</tt><tt class="descname">getCopyright</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getCopyright" title="Permalink to this definition">¶</a></dt>
 <dd><p>get the copyright string</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getEE">
-<tt class="descname">getEE</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getEE" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getEE</tt><big>(</big><em>reactionId</em>, <em>parameterId</em>, <em>steadyState=True</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getEE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retireve a single elasticity coefficient.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -157,7 +165,9 @@ into a single xml document which is returned as a string.</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>variable</strong> (<em>str</em>) &#8211; The dependent variable of the coefficient, for example a flux or
 species concentration.</li>
-<li><strong>parameter</strong> (<em>str</em>) &#8211; The independent parameter, for example a kinetic constant or boundary species</li>
+<li><strong>parameter</strong> (<em>str</em>) &#8211; The independent parameter, for example a kinetic constant or boundary
+species</li>
+<li><strong>steadyState</strong> (<em>Boolean</em>) &#8211; should the steady state value be computed.</li>
 </ul>
 </td>
 </tr>
@@ -167,7 +177,7 @@ species concentration.</li>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getEigenvalueIds">
-<tt class="descname">getEigenvalueIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getEigenvalueIds" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getEigenvalueIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getEigenvalueIds" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns a list of floating species ids with thier names
 prefixed with &#8216;<a href="#id1"><span class="problematic" id="id2">eigen_</span></a>&#8216;. For example, if the model contained
 the floating species &#8216;S1&#8217; and &#8216;S2&#8217;, this would return a list
@@ -176,7 +186,7 @@ containing [&#8216;eigen_S1&#8217;, &#8216;eigen_S2&#8217;].</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getEigenvalues">
-<tt class="descname">getEigenvalues</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getEigenvalues" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getEigenvalues</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getEigenvalues" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns eigenvalues, first column real part, second column imaginary part</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -190,33 +200,33 @@ containing [&#8216;eigen_S1&#8217;, &#8216;eigen_S2&#8217;].</p>
 
 <dl class="staticmethod">
 <dt id="roadrunner.RoadRunner.getExtendedVersionInfo">
-<em class="property">static </em><tt class="descname">getExtendedVersionInfo</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getExtendedVersionInfo" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><tt class="descclassname">RoadRunner.</tt><tt class="descname">getExtendedVersionInfo</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getExtendedVersionInfo" title="Permalink to this definition">¶</a></dt>
 <dd><p>getVersion plus info about dependent libs versions.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getFloatingSpeciesAmountIds">
-<tt class="descname">getFloatingSpeciesAmountIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getFloatingSpeciesAmountIds" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getFloatingSpeciesAmountIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getFloatingSpeciesAmountIds" title="Permalink to this definition">¶</a></dt>
 <dd><p>gets a list of the floating species ids, but with the ids surrounded
 by square brackets, i.e. &#8216;S1&#8217; -&gt; &#8216;[S1]&#8217;</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getFullJacobian">
-<tt class="descname">getFullJacobian</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getFullJacobian" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getFullJacobian</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getFullJacobian" title="Permalink to this definition">¶</a></dt>
 <dd><p>compute the full Jacobian at the current operating point.</p>
 <p>This is the Jacobian of ONLY the floating species.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getFullyReorderedStoichiometryMatrix">
-<tt class="descname">getFullyReorderedStoichiometryMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getFullyReorderedStoichiometryMatrix" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getFullyReorderedStoichiometryMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getFullyReorderedStoichiometryMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the stoichiometry matrix for the currently loaded model</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getInfo">
-<tt class="descname">getInfo</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getInfo" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getInfo</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getInfo" title="Permalink to this definition">¶</a></dt>
 <dd><p>return info about the current state of the object</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -230,26 +240,26 @@ by square brackets, i.e. &#8216;S1&#8217; -&gt; &#8216;[S1]&#8217;</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getInstanceCount">
-<tt class="descname">getInstanceCount</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getInstanceCount" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getInstanceCount</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getInstanceCount" title="Permalink to this definition">¶</a></dt>
 <dd><p>Number of currently running RoadRunner instances.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getInstanceID">
-<tt class="descname">getInstanceID</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getInstanceID" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getInstanceID</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getInstanceID" title="Permalink to this definition">¶</a></dt>
 <dd><p>When there are multiple instances of RoadRunner, this is the instance id.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getIntegrator">
-<tt class="descname">getIntegrator</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getIntegrator" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getIntegrator</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getIntegrator" title="Permalink to this definition">¶</a></dt>
 <dd><p>get the integrator which is currently being used to
 time evolve the system.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getL0Matrix">
-<tt class="descname">getL0Matrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getL0Matrix" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getL0Matrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getL0Matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -263,7 +273,7 @@ time evolve the system.</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getLinkMatrix">
-<tt class="descname">getLinkMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getLinkMatrix" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getLinkMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getLinkMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -277,7 +287,7 @@ time evolve the system.</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getModelGenerator">
-<tt class="descname">getModelGenerator</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getModelGenerator" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getModelGenerator</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getModelGenerator" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -291,21 +301,23 @@ time evolve the system.</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getNrMatrix">
-<tt class="descname">getNrMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getNrMatrix" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getNrMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getNrMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
-<table class="docutils field-list" frame="void" rules="none">
+<blockquote>
+<div><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+<tr class="field-odd field"><th class="field-name">rtype:</th><td class="field-body">numpy.ndarray</td>
 </tr>
 </tbody>
 </table>
+</div></blockquote>
 </dd></dl>
 
 <dl class="staticmethod">
 <dt id="roadrunner.RoadRunner.getParamPromotedSBML">
-<em class="property">static </em><tt class="descname">getParamPromotedSBML</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getParamPromotedSBML" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><tt class="descclassname">RoadRunner.</tt><tt class="descname">getParamPromotedSBML</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getParamPromotedSBML" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes an sbml document (in textual form) and changes all of the local parameters
 to be global parameters.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -322,7 +334,7 @@ to be global parameters.</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getReducedJacobian">
-<tt class="descname">getReducedJacobian</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getReducedJacobian" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getReducedJacobian</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getReducedJacobian" title="Permalink to this definition">¶</a></dt>
 <dd><p>get the <em>reduced</em> Jacobian for the independent species.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -336,7 +348,7 @@ to be global parameters.</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getReorderedStoichiometryMatrix">
-<tt class="descname">getReorderedStoichiometryMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getReorderedStoichiometryMatrix" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getReorderedStoichiometryMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getReorderedStoichiometryMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -350,7 +362,7 @@ to be global parameters.</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getSBML">
-<tt class="descname">getSBML</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getSBML" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getSBML</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getSBML" title="Permalink to this definition">¶</a></dt>
 <dd><p>return the currently loaded sbml document as a string.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -364,7 +376,7 @@ to be global parameters.</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getScaledConcentrationControlCoefficientMatrix">
-<tt class="descname">getScaledConcentrationControlCoefficientMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getScaledConcentrationControlCoefficientMatrix" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getScaledConcentrationControlCoefficientMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getScaledConcentrationControlCoefficientMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -378,7 +390,7 @@ to be global parameters.</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getScaledFloatingSpeciesElasticity">
-<tt class="descname">getScaledFloatingSpeciesElasticity</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getScaledFloatingSpeciesElasticity" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getScaledFloatingSpeciesElasticity</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getScaledFloatingSpeciesElasticity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the scaled elasticity for a given reaction and given species.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -399,7 +411,7 @@ to be global parameters.</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getScaledFluxControlCoefficientMatrix">
-<tt class="descname">getScaledFluxControlCoefficientMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getScaledFluxControlCoefficientMatrix" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getScaledFluxControlCoefficientMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getScaledFluxControlCoefficientMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the the matrix of scaled flux control coefficients. The first column
 will contain real values and the second column the imaginary values.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -414,7 +426,7 @@ will contain real values and the second column the imaginary values.</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getScaledReorderedElasticityMatrix">
-<tt class="descname">getScaledReorderedElasticityMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getScaledReorderedElasticityMatrix" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getScaledReorderedElasticityMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getScaledReorderedElasticityMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the unscaled elasticity matrix at the current operating point</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -428,7 +440,7 @@ will contain real values and the second column the imaginary values.</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getSelectedValues">
-<tt class="descname">getSelectedValues</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getSelectedValues" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getSelectedValues</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getSelectedValues" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns the values selected with SimulateOptions for the current model time / timestep</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -442,7 +454,7 @@ will contain real values and the second column the imaginary values.</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getSimulationResult">
-<tt class="descname">getSimulationResult</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getSimulationResult" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getSimulationResult</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getSimulationResult" title="Permalink to this definition">¶</a></dt>
 <dd><p>get the simulation result in case one forgot to hold on to the simulate return value.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -456,42 +468,42 @@ will contain real values and the second column the imaginary values.</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getSteadyStateSelectionList">
-<tt class="descname">getSteadyStateSelectionList</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getSteadyStateSelectionList" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getSteadyStateSelectionList</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getSteadyStateSelectionList" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getStoichiometryMatrix">
-<tt class="descname">getStoichiometryMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getStoichiometryMatrix" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getStoichiometryMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getStoichiometryMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getTimeCourseSelectionList">
-<tt class="descname">getTimeCourseSelectionList</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getTimeCourseSelectionList" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getTimeCourseSelectionList</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getTimeCourseSelectionList" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getUnscaledConcentrationControlCoefficientMatrix">
-<tt class="descname">getUnscaledConcentrationControlCoefficientMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledConcentrationControlCoefficientMatrix" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getUnscaledConcentrationControlCoefficientMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledConcentrationControlCoefficientMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getUnscaledElasticityMatrix">
-<tt class="descname">getUnscaledElasticityMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledElasticityMatrix" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getUnscaledElasticityMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledElasticityMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getUnscaledFluxControlCoefficientMatrix">
-<tt class="descname">getUnscaledFluxControlCoefficientMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledFluxControlCoefficientMatrix" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getUnscaledFluxControlCoefficientMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledFluxControlCoefficientMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getUnscaledSpeciesElasticity">
-<tt class="descname">getUnscaledSpeciesElasticity</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledSpeciesElasticity" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getUnscaledSpeciesElasticity</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledSpeciesElasticity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a single species elasticity value
 IMPORTANT:
 Assumes that the reaction rates have been precomputed at the operating point !!</p>
@@ -511,31 +523,31 @@ Assumes that the reaction rates have been precomputed at the operating point !!<
 
 <dl class="staticmethod">
 <dt id="roadrunner.RoadRunner.getVersion">
-<em class="property">static </em><tt class="descname">getVersion</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getVersion" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><tt class="descclassname">RoadRunner.</tt><tt class="descname">getVersion</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getVersion" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
 </dd></dl>
 
 <dl class="staticmethod">
 <dt id="roadrunner.RoadRunner.getlibSBMLVersion">
-<em class="property">static </em><tt class="descname">getlibSBMLVersion</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getlibSBMLVersion" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><tt class="descclassname">RoadRunner.</tt><tt class="descname">getlibSBMLVersion</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getlibSBMLVersion" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.isModelLoaded">
-<tt class="descname">isModelLoaded</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.isModelLoaded" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">isModelLoaded</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.isModelLoaded" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.loadSBML">
-<tt class="descname">loadSBML</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.loadSBML" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">loadSBML</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.loadSBML" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.loadSBMLFromFile">
-<tt class="descname">loadSBMLFromFile</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.loadSBMLFromFile" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">loadSBMLFromFile</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.loadSBMLFromFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load an sbml document from disk.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -551,25 +563,25 @@ Assumes that the reaction rates have been precomputed at the operating point !!<
 
 <dl class="attribute">
 <dt id="roadrunner.RoadRunner.model">
-<tt class="descname">model</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.RoadRunner.model" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">model</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.RoadRunner.model" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.oneStep">
-<tt class="descname">oneStep</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.oneStep" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">oneStep</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.oneStep" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.reset">
-<tt class="descname">reset</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.reset" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">reset</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.reset" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.setConfigurationXML">
-<tt class="descname">setConfigurationXML</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setConfigurationXML" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">setConfigurationXML</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setConfigurationXML" title="Permalink to this definition">¶</a></dt>
 <dd><p>given a xml document, which should have been returned from getConfigurationXML,
 this method recurses though all the child configurable elements and sets thier
 configuration to the values specified in the document.</p>
@@ -585,13 +597,13 @@ configuration to the values specified in the document.</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.setConservationAnalysis">
-<tt class="descname">setConservationAnalysis</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setConservationAnalysis" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">setConservationAnalysis</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setConservationAnalysis" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.setSteadyStateSelectionList">
-<tt class="descname">setSteadyStateSelectionList</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setSteadyStateSelectionList" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">setSteadyStateSelectionList</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setSteadyStateSelectionList" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -604,7 +616,7 @@ configuration to the values specified in the document.</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.setTimeCourseSelectionList">
-<tt class="descname">setTimeCourseSelectionList</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setTimeCourseSelectionList" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">setTimeCourseSelectionList</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setTimeCourseSelectionList" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -617,18 +629,22 @@ configuration to the values specified in the document.</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.simulate">
-<tt class="descname">simulate</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.simulate" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">simulate</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.simulate" title="Permalink to this definition">¶</a></dt>
 <dd><p>simulate the current SBML model.</p>
 <p>There are a number of ways to call simulate.</p>
-<p>1. With no arguments. In this case, the current set of <cite>SimulateOptions</cite> will
+<ol class="arabic simple">
+<li>With no arguments. In this case, the current set of <cite>SimulateOptions</cite> will
 be used for the simulation. The current set may be changed either directly
 via setSimulateOptions() or with one of the two alternate ways of calling
-simulate.</p>
-<p>2: With single <cite>SimulateOptions</cite> argument. In this case, all of the settings
-in the given options are copied and will be used for the current and future
-simulations.</p>
-<p>3: With the three positions arguments, <cite>timeStart</cite>, <cite>timeEnd</cite>, <cite>steps</cite>. In this case
-these three values are copied and will be used for the current and future simulations.</p>
+simulate.</li>
+</ol>
+<dl class="docutils">
+<dt>2: With single <cite>SimulateOptions</cite> argument. In this case, all of the settings</dt>
+<dd>in the given options are copied and will be used for the current and future
+simulations.</dd>
+<dt>3: With the three positions arguments, <cite>timeStart</cite>, <cite>timeEnd</cite>, <cite>steps</cite>. In this case</dt>
+<dd>these three values are copied and will be used for the current and future simulations.</dd>
+</dl>
 <p>The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
 one calls:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">3.14</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
@@ -655,16 +671,14 @@ column vector, and the 0&#8217;th column is the simulation time.</td>
 
 <dl class="attribute">
 <dt id="roadrunner.RoadRunner.simulateOptions">
-<tt class="descname">simulateOptions</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.RoadRunner.simulateOptions" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">simulateOptions</tt><em class="property"> None</em><a class="headerlink" href="#roadrunner.RoadRunner.simulateOptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the SimulateOptions object where simulation options may be set.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.steadyState">
-<tt class="descname">steadyState</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.steadyState" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">steadyState</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.steadyState" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="function">
