@@ -222,23 +222,32 @@ Compute the scaled elasticity for a given reaction and given species.
 ";
                 
 %feature("docstring") rr::RoadRunner::getScaledFluxControlCoefficientMatrix "
-TODO docs
+Calculate the the matrix of scaled flux control coefficients. The first column 
+will contain real values and the second column the imaginary values.
+
+:rtype: numpy.ndarray
 ";
              
 %feature("docstring") rr::RoadRunner::getScaledReorderedElasticityMatrix "
-TODO docs
+Compute the unscaled elasticity matrix at the current operating point
+
+:rtype: numpy.ndarray
 ";
                               
 %feature("docstring") rr::RoadRunner::getSelectedValues "
 returns the values selected with SimulateOptions for the current model time / timestep
+
+:rtype: numpy.ndarray
 ";
                                                
 %feature("docstring") rr::RoadRunner::getSimulationResult "
 get the simulation result in case one forgot to hold on to the simulate return value.
+
+:rtype: numpy.ndarray
 ";
                                              
 %feature("docstring") rr::RoadRunner::getSteadyStateSelectionList "
-TODO docs
+
 ";
                                      
 %feature("docstring") rr::RoadRunner::getStoichiometryMatrix "
@@ -410,56 +419,187 @@ get amounts 3 and 0:
 ";
 
 %feature("docstring") rr::ExecutableModel::getFloatingSpeciesAmountRates "
+
+:param numpy.ndarray index: (optional) an index array indicating which items to return.
+:returns: an array of the rates of change of the floating species amounts.
+:rtype: numpy.ndarray
 ";
 
+
 %feature("docstring") rr::ExecutableModel::getFloatingSpeciesConcentrations "
+
+:param numpy.ndarray index: (optional) an index array indicating which items to return.
+:returns: an array of floating species concentrations.
+:rtype: numpy.ndarray
 ";
 
 %feature("docstring") rr::ExecutableModel::getBoundarySpeciesAmounts "
+
+:param numpy.ndarray index: (optional) an index array indicating which items to return.
+:returns: an array of the boundary species amounts.
+:rtype: numpy.ndarray.
 ";
 
 %feature("docstring") rr::ExecutableModel::getBoundarySpeciesConcentrations "
+
+:param numpy.ndarray index: (optional) an index array indicating which items to return.
+:returns: an array of the boundary species concentrations. 
+:rtype: numpy.ndarray.
 ";
 
 %feature("docstring") rr::ExecutableModel::getGlobalParameterValues "
+
+:param numpy.ndarray index: (optional) an index array indicating which items to return.
+:returns: an array of global parameter values.
+:rtype: numpy.ndarray.
 ";
 
 %feature("docstring") rr::ExecutableModel::getCompartmentVolumes "
+
+:param numpy.ndarray index: (optional) an index array indicating which items to return.
+:returns: an array of compartment volumes.
+:rtype: numpy.ndarray.
 ";
 
 %feature("docstring") rr::ExecutableModel::getConservedSums "
+
+:param numpy.ndarray index: (optional) an index array indicating which items to return.
+:returns: an array of conserved sums.
+:rtype: numpy.ndarray.
 ";
 
 %feature("docstring") rr::ExecutableModel::getReactionRates "
+
+:param numpy.ndarray index: (optional) an index array indicating which items to return.
+:returns: an array of reaction rates.
+:rtype: numpy.ndarray
 ";
 
 %feature("docstring") rr::ExecutableModel::getBoundarySpeciesIds "
+
+:param numpy.ndarray index: (optional) an index array indicating which items to return.
+:returns: a list of boundary species ids.
 ";
 
 %feature("docstring") rr::ExecutableModel::getCompartmentIds "
+
+:param numpy.ndarray index: (optional) an index array indicating which items to return.
+:retuns: a list of compartment ids.
 ";
 
 %feature("docstring") rr::ExecutableModel::getReactionIds "
+
+:param numpy.ndarray index: (optional) an index array indicating which items to return.
+:returns: a list of reaction ids.
 ";
 
 %feature("docstring") rr::ExecutableModel::setFloatingSpeciesAmounts "
+
+:param numpy.ndarray index: (optional) an index array indicating which items to set, 
+	or if no index array is given, the first param should be an array of all the 
+	values to set.
+:param numpy.ndarray values' the values to set.
 ";
 
 %feature("docstring") rr::ExecutableModel::setFloatingSpeciesConcentrations "
+
+:param numpy.ndarray index: (optional) an index array indicating which items to set, 
+	or if no index array is given, the first param should be an array of all the 
+	values to set.
+:param numpy.ndarray values' the values to set.
 ";
 
 %feature("docstring") rr::ExecutableModel::setBoundarySpeciesConcentrations "
+
+:param numpy.ndarray index: (optional) an index array indicating which items to set, 
+	or if no index array is given, the first param should be an array of all the 
+	values to set.
+:param numpy.ndarray values' the values to set.
+
 ";
 
 %feature("docstring") rr::ExecutableModel::setGlobalParameterValues "
+
+:param numpy.ndarray index: (optional) an index array indicating which items to set, 
+	or if no index array is given, the first param should be an array of all the 
+	values to set.
+:param numpy.ndarray values' the values to set.
 ";
 
 %feature("docstring") rr::ExecutableModel::setCompartmentVolumes "
+
+:param numpy.ndarray index: (optional) an index array indicating which items to set, 
+	or if no index array is given, the first param should be an array of all the 
+	values to set.
+:param numpy.ndarray values' the values to set.
+
 ";
 
 %feature("docstring") rr::ExecutableModel::setConservedSums "
+
+:param numpy.ndarray index: (optional) an index array indicating which items to set, 
+	or if no index array is given, the first param should be an array of all the 
+	values to set.
+:param numpy.ndarray values' the values to set.
+
 ";
 
+
+/*************************************************************/
+/***** SelectionRecord ***************************************/
+/*************************************************************/
+
+%feature("docstring") rr::SelectionRecord "
+RoadRunner provides a range of flexible ways of selecting values from 
+a simulation. These values can not only be calculated directly via
+RoadRunner.getSelectionValue, but any of these selections can be
+used as columns in the simulate result matrix. 
+
+The SectionRecord.selectionType should be one of the constants listed
+here. 
+
+Most selection types only require the first symbol id, p1 to be set, 
+however certain ones such as [???] require both p1 and p2.
+";
+
+%feature("docstring") rr::SelectionRecord::BOUNDARY_AMOUNT "
+A boundary species amount.
+";
+%feature("docstring") rr::SelectionRecord::BOUNDARY_CONCENTRATION "
+A boundary species concentration.
+";
+%feature("docstring") rr::SelectionRecord::EIGEN_VALUE "
+";
+%feature("docstring") rr::SelectionRecord::ELASTICITY "
+";
+%feature("docstring") rr::SelectionRecord::FLOATING_AMOUNT "
+";
+%feature("docstring") rr::SelectionRecord::FLOATING_CONCENTRATION "
+";
+%feature("docstring") rr::SelectionRecord::FLUX "
+";
+%feature("docstring") rr::SelectionRecord::PARAMETER "
+";
+%feature("docstring") rr::SelectionRecord::RATE_OF_CHANGE "
+";
+%feature("docstring") rr::SelectionRecord::SCALED_ELASTICITY "
+";
+%feature("docstring") rr::SelectionRecord::STOICHIOMETRY "
+";
+%feature("docstring") rr::SelectionRecord::TIME "
+";
+%feature("docstring") rr::SelectionRecord::UNKNOWN "
+";
+%feature("docstring") rr::SelectionRecord::VOLUME "
+";
+%feature("docstring") rr::SelectionRecord::index "
+";
+%feature("docstring") rr::SelectionRecord::p1 "
+";
+%feature("docstring") rr::SelectionRecord::p2 "
+";
+%feature("docstring") rr::SelectionRecord::selectionType "
+";
 
 
 /** SimulateOptions **/
