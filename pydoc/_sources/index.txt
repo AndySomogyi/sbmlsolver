@@ -2,10 +2,10 @@
    sphinx-quickstart on Sun Sep 29 08:52:48 2013.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
-####################
+
+#####################
 RoadRunner User Guide
 #####################
-
 
 
 RoadRunner Overview
@@ -25,11 +25,16 @@ and provides a complete API reference.
 Contents:
 
 .. toctree::
-   :maxdepth: 2
 
    introduction
-   basics
-
+   rr_basics
+   timecourse_simulation
+   accessing_model
+   stoichiometric
+   stability
+   metabolic
+   steady_state
+   api_reference
 
 Indices and tables
 ==================
@@ -39,9 +44,3 @@ Indices and tables
 * :ref:`search`
 
 
-RoadRunner API Reference
-=================
-
-.. automodule:: roadrunner
-    :members:
-..    :undoc-members
