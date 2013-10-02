@@ -912,7 +912,21 @@ will contain real values and the second column the imaginary values.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getUnscaledSpeciesElasticity">
 <tt class="descname">getUnscaledSpeciesElasticity</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledSpeciesElasticity" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><p>Get a single species elasticity value
+IMPORTANT:
+Assumes that the reaction rates have been precomputed at the operating point !!</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>reactionIndx</strong> (<em>int</em>) &#8211; index of reactionl</li>
+<li><strong>speciesIndx</strong> (<em>int</em>) &#8211; index of species.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="staticmethod">
@@ -942,7 +956,17 @@ will contain real values and the second column the imaginary values.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.loadSBMLFromFile">
 <tt class="descname">loadSBMLFromFile</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.loadSBMLFromFile" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><p>Load an sbml document from disk.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>path</strong> (<em>str</em>) &#8211; path of an sbml document.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if successfull, False if failed.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
@@ -966,7 +990,17 @@ will contain real values and the second column the imaginary values.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.setConfigurationXML">
 <tt class="descname">setConfigurationXML</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setConfigurationXML" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><p>given a xml document, which should have been returned from getConfigurationXML,
+this method recurses though all the child configurable elements and sets thier
+configuration to the values specified in the document.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>xml</strong> (<em>str</em>) &#8211; the contents of an xml document.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -978,19 +1012,27 @@ will contain real values and the second column the imaginary values.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.setSteadyStateSelectionList">
 <tt class="descname">setSteadyStateSelectionList</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setSteadyStateSelectionList" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>selectionList</strong> (<em>list(str)</em>) &#8211; a list of selection identifiers.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.setTimeCourseSelectionList">
 <tt class="descname">setTimeCourseSelectionList</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setTimeCourseSelectionList" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="roadrunner.RoadRunner.setValue">
-<tt class="descname">setValue</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setValue" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>selectionList</strong> (<em>list(str)</em>) &#8211; a list of selection identifiers.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
