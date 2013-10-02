@@ -271,7 +271,12 @@ TODO docs
 ";
                          
 %feature("docstring") rr::RoadRunner::getUnscaledSpeciesElasticity "
-TODO docs
+Get a single species elasticity value
+IMPORTANT:
+Assumes that the reaction rates have been precomputed at the operating point !!
+
+:param int reactionIndx: index of reactionl
+:param int speciesIndx: index of species.
 ";
                                     
 %feature("docstring") rr::RoadRunner::getValue "
@@ -299,7 +304,10 @@ TODO docs
 ";
                                                         
 %feature("docstring") rr::RoadRunner::loadSBMLFromFile "
-TODO docs
+Load an sbml document from disk.
+
+:param str path: path of an sbml document.
+:returns: True if successfull, False if failed.
 ";
                                                 
 %feature("docstring") rr::RoadRunner::model "
@@ -315,7 +323,11 @@ TODO docs
 ";
                                                            
 %feature("docstring") rr::RoadRunner::setConfigurationXML "
-TODO docs
+given a xml document, which should have been returned from getConfigurationXML,
+this method recurses though all the child configurable elements and sets thier
+configuration to the values specified in the document.
+
+:param str xml: the contents of an xml document.
 ";
                                              
 %feature("docstring") rr::RoadRunner::setConservationAnalysis "
@@ -323,18 +335,15 @@ TODO docs
 ";
                                          
 %feature("docstring") rr::RoadRunner::setSteadyStateSelectionList "
-TODO docs
+
+:param list(str) selectionList: a list of selection identifiers.
 ";
                                      
 %feature("docstring") rr::RoadRunner::setTimeCourseSelectionList "
-TODO docs
+
+:param list(str) selectionList: a list of selection identifiers.
 ";
-                                      
-%feature("docstring") rr::RoadRunner::setValue "
-TODO docs
-";
-                                                        
-                                                        
+                                                                                              
 %feature("docstring") rr::RoadRunner::simulateOptions "
 Get the SimulateOptions object where simulation options may be set. 
 ";

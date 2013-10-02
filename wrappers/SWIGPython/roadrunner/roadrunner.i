@@ -32,7 +32,7 @@
     #include <rrPlugin.h>
     #include <cstddef>
     #include <map>
-
+	#include <rrVersionInfo.h>
     using namespace rr;
 %}
 
@@ -186,6 +186,14 @@
 import_array();
 %}
 
+%{
+	static std::string version_info() {
+		return string(RR_VERSION) + string(", compiled with ") + string(RR_COMPILER)
+            + " on date " + string( __DATE__ ) + ", " + string(__TIME__);
+	}
+%}
+
+std::string version_info();
 
 %{
 
