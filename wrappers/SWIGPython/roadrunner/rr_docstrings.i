@@ -59,9 +59,11 @@ This simulation will use the previous values.
 
 
 %feature("docstring") rr::RoadRunner::computeSteadyStateValue "
+
 ";
 
 %feature("docstring") rr::RoadRunner::getCC "
+getCC(variable, parameter)
 Get scaled a single control coefficient with respect to a global parameter.
 
 :param variable: The id of a dependent variable of the coefficient, for example a 
