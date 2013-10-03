@@ -34,13 +34,11 @@
               
 .. method:: RoadRunner.getCC(variable, parameter)
 
-   Rerturns a scaled control coefficient with respect to a parameter. For example
+   Rerturns a scaled control coefficient with respect to a parameter. For example::
    
-.. code-block:: python
-
-   getCC ('J1', 'Vmax')
-   getCC ('S1', 'Xo')
-   getCC ('S2', 'Km')
+     r.getCC ('J1', 'Vmax')
+     r.getCC ('S1', 'Xo')
+     r.getCC ('S2', 'Km')
       
    :param variable: The id of a dependent variable of the coefficient, for example a 
                     flux or species concentration.
