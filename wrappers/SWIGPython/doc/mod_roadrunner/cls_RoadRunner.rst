@@ -362,7 +362,7 @@
 .. method:: RoadRunner.getUnscaledElasticityMatrix()
    :module: roadrunner
    
-   Returns the unscaled species elasticity matrix at the current operating point
+   Returns the unscaled species elasticity matrix at the current operating point.
          
    
 .. method:: RoadRunner.getUnscaledFluxControlCoefficientMatrix()
@@ -374,7 +374,7 @@
 .. method:: RoadRunner.getUnscaledSpeciesElasticity(reactionIndx, speciesIndx)
    :module: roadrunner
    
-   Get a single species elasticity value
+   Get a single species elasticity value.
    IMPORTANT:
    Assumes that the reaction rates have been precomputed at the operating point !!
       
@@ -387,7 +387,6 @@
    :module: roadrunner
    
    Returns the current version of the roadRunner library.
-      
       
    
 .. staticmethod:: RoadRunner.getlibSBMLVersion()
