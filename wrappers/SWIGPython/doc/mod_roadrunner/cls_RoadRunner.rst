@@ -137,7 +137,6 @@
    by square brackets, i.e. 'S1' -> '[S1]'
       
       
-   
 .. method:: RoadRunner.getFullJacobian()
    :module: roadrunner
    
@@ -146,7 +145,6 @@
    This is the Jacobian of ONLY the floating species.
       
       
-   
 .. method:: RoadRunner.getFullyReorderedStoichiometryMatrix()
    :module: roadrunner
    
@@ -595,3 +593,13 @@
    :module: roadrunner
    
    Returns a vector of Ids for the rates of changes.
+
+
+   
+.. method:: RoadRunner.evalModel()
+   :module: roadrunner
+   
+   Evaluates the current model, that is it updates the rates of change and any assignments in the model.
+   It does *not* carry out an integration step.
+   
+   :returns: Returns true if successful
