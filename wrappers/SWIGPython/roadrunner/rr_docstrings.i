@@ -100,12 +100,15 @@ get the copyright string
 ";
                                       
 %feature("docstring") rr::RoadRunner::getEE "
+getEE(reactionId, parameterId, steadyState=True)
+
 Retireve a single elasticity coefficient.
-
+      
 :param str variable: The dependent variable of the coefficient, for example a flux or 
-	species concentration.
-:param str parameter: The independent parameter, for example a kinetic constant or boundary species
-
+                        species concentration.
+:param str parameter: The independent parameter, for example a kinetic constant or boundary
+                         species
+:param Boolean steadyState: should the steady state value be computed.     
 ";
                                              
 %feature("docstring") rr::RoadRunner::getEigenvalueIds "
@@ -216,6 +219,8 @@ TODO docs
 ";
     
 %feature("docstring") rr::RoadRunner::getScaledFloatingSpeciesElasticity "
+getScaledFloatingSpeciesElasticity(reactionId, speciesId)
+
 Compute the scaled elasticity for a given reaction and given species. 
 
 :param str reactionId: the sbml id of a reaction.
@@ -261,7 +266,7 @@ TODO docs
 ";
                                       
 %feature("docstring") rr::RoadRunner::getUnscaledConcentrationControlCoefficientMatrix "
-TODO docs
+Calculate the unscaled concentration control coefficent matrix.
 ";
                 
 %feature("docstring") rr::RoadRunner::getUnscaledElasticityMatrix "
@@ -273,12 +278,14 @@ TODO docs
 ";
                          
 %feature("docstring") rr::RoadRunner::getUnscaledSpeciesElasticity "
+getUnscaledSpeciesElasticity(reactionIndx, speciesIndx)
+   
 Get a single species elasticity value
 IMPORTANT:
 Assumes that the reaction rates have been precomputed at the operating point !!
-
+      
 :param int reactionIndx: index of reactionl
-:param int speciesIndx: index of species.
+:param int speciesIndx: index of species.      
 ";
                                     
 %feature("docstring") rr::RoadRunner::getValue "

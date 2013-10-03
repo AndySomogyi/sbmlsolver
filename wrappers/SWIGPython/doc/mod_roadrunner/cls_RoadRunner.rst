@@ -31,17 +31,17 @@
               
 .. method:: RoadRunner.getCC(variable, parameter)
 
-      Get scaled a single control coefficient with respect to a global parameter.
+   Get scaled a single control coefficient with respect to a global parameter.
       
-      :param variable: The id of a dependent variable of the coefficient, for example a 
-                       flux or species concentration.
+   :param variable: The id of a dependent variable of the coefficient, for example a 
+                    flux or species concentration.
       
-      :param parameter: The id of the independent parameter, for example a kinetic constant 
-                        or boundary species
+   :param parameter: The id of the independent parameter, for example a kinetic constant 
+                     or boundary species
 
-      :returns: the value of the control coefficeint returned to the caller.
+   :returns: the value of the control coefficeint returned to the caller.
 
-      :rtype: double
+   :rtype: double
       
          
 .. method:: RoadRunner.getCompiler()
@@ -53,11 +53,11 @@
 .. method:: RoadRunner.getConfigurationXML()
    :module: roadrunner
    
-      recurse through all of the child configurable objects that this
-      class ownes and build an assemble all of thier configuration parameters
-      into a single xml document which is returned as a string.
+   recurse through all of the child configurable objects that this
+   class ownes and build an assemble all of thier configuration parameters
+   into a single xml document which is returned as a string.
       
-      The value of this result depends on what child objects are presently loaded.
+   The value of this result depends on what child objects are presently loaded.
       
       
    
@@ -80,8 +80,7 @@
    
    get the copyright string
       
-      
-   
+     
 .. method:: RoadRunner.getEE(reactionId, parameterId, steadyState=True)
    :module: roadrunner
    
@@ -206,7 +205,7 @@
    
    TODO docs
       
-      :rtype: numpy.ndarray
+   :rtype: numpy.ndarray
       
       
    
@@ -255,9 +254,8 @@
       
    :rtype: numpy.ndarray
       
-      
    
-.. method:: RoadRunner.getScaledFloatingSpeciesElasticity(*args)
+.. method:: RoadRunner.getScaledFloatingSpeciesElasticity(reactionId, speciesId)
    :module: roadrunner
    
    Compute the scaled elasticity for a given reaction and given species. 
@@ -328,25 +326,22 @@
 .. method:: RoadRunner.getUnscaledConcentrationControlCoefficientMatrix()
    :module: roadrunner
    
-   TODO docs
+   Calculate the unscaled concentration control coefficent matrix.
       
-      
-   
+
 .. method:: RoadRunner.getUnscaledElasticityMatrix()
    :module: roadrunner
    
-   TODO docs
-      
-      
+   Compute the unscaled species elasticity matrix at the current operating point
+         
    
 .. method:: RoadRunner.getUnscaledFluxControlCoefficientMatrix()
    :module: roadrunner
    
    TODO docs
       
-      
    
-.. method:: RoadRunner.getUnscaledSpeciesElasticity(*args)
+.. method:: RoadRunner.getUnscaledSpeciesElasticity(reactionIndx, speciesIndx)
    :module: roadrunner
    
    Get a single species elasticity value
