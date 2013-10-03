@@ -603,3 +603,9 @@
    It does *not* carry out an integration step.
    
    :returns: Returns true if successful
+
+
+.. method:: RoadRunner.getNumberOfGlobalParameters()
+   :module: roadrunner
+
+   Returns the number of global parameters in the model.
