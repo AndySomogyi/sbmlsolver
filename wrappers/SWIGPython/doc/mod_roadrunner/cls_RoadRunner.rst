@@ -258,7 +258,7 @@
 .. method:: RoadRunner.getSBML()
    :module: roadrunner
    
-   return the currently loaded sbml document as a string.
+   Returns the currently loaded sbml document as a string.
       
    :rtype: str
       
@@ -267,7 +267,8 @@
 .. method:: RoadRunner.getScaledConcentrationControlCoefficientMatrix()
    :module: roadrunner
    
-   TODO docs
+   Returns the m by n matrix of scaled conentration control coefficients where m is the number
+   of floating species and n the number of reactiohs.
       
    :rtype: numpy.ndarray
       
@@ -275,7 +276,7 @@
 .. method:: RoadRunner.getScaledFloatingSpeciesElasticity(reactionId, speciesId)
    :module: roadrunner
    
-   Compute the scaled elasticity for a given reaction and given species. 
+   Returns the scaled elasticity for a given reaction and given species. 
       
    :param str reactionId: the sbml id of a reaction.
    :param str speciesId: the sbml id of a species.
@@ -286,8 +287,7 @@
 .. method:: RoadRunner.getScaledFluxControlCoefficientMatrix()
    :module: roadrunner
    
-   Calculate the the matrix of scaled flux control coefficients. The first column 
-   will contain real values and the second column the imaginary values.
+   Returns the n by n matrix of scaled flux control coefficients where n is the number of reactions.
       
    :rtype: numpy.ndarray
       
@@ -296,7 +296,7 @@
 .. method:: RoadRunner.getScaledReorderedElasticityMatrix()
    :module: roadrunner
    
-   Compute the unscaled elasticity matrix at the current operating point
+   Returns the unscaled elasticity matrix at the current operating point.
       
    :rtype: numpy.ndarray
       
@@ -329,7 +329,7 @@
 .. method:: RoadRunner.getStoichiometryMatrix()
    :module: roadrunner
    
-   TODO docs
+   Returns the current stoichiomentry matrix, N.
       
       
    
@@ -343,19 +343,19 @@
 .. method:: RoadRunner.getUnscaledConcentrationControlCoefficientMatrix()
    :module: roadrunner
    
-   Calculate the unscaled concentration control coefficent matrix.
+   Returns the unscaled concentration control coefficent matrix.
       
 
 .. method:: RoadRunner.getUnscaledElasticityMatrix()
    :module: roadrunner
    
-   Compute the unscaled species elasticity matrix at the current operating point
+   Returns the unscaled species elasticity matrix at the current operating point
          
    
 .. method:: RoadRunner.getUnscaledFluxControlCoefficientMatrix()
    :module: roadrunner
    
-   TODO docs
+   Returns the unscaled flux control coefficient matrix.
       
    
 .. method:: RoadRunner.getUnscaledSpeciesElasticity(reactionIndx, speciesIndx)
@@ -373,14 +373,14 @@
 .. staticmethod:: RoadRunner.getVersion()
    :module: roadrunner
    
-   TODO docs
+   Returns the current version of the roadRunner library.
       
       
    
 .. staticmethod:: RoadRunner.getlibSBMLVersion()
    :module: roadrunner
 
-   TODO docs
+   Returns theversion of the libSBML library that is currently being used.
       
       
    
@@ -521,7 +521,7 @@
 .. py:function:: RoadRunner_getCopyright()
    :module: roadrunner
 
-   get the copyright string
+   Returns the copyright string
    
    
 
