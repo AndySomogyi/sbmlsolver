@@ -27,6 +27,9 @@
    
 .. method:: RoadRunner.computeSteadyStateValue(*args)
 
+   Returns a vector of steady state values for the floating species. The order of 
+   species in the vector is indicated by the order of species Ids in a call to 
+   getFloatingSpeciesIds()
    
               
 .. method:: RoadRunner.getCC(variable, parameter)
@@ -401,14 +404,17 @@
 .. method:: RoadRunner.oneStep(*args)
    :module: roadrunner
    
-   TODO docs
+   Carry out a one step integration of the model. The method takes two arguments,
+   the current time and the step size to us in the integration. The method returns
+   the new time which will be currentTime + StepSize
       
+     newTime = r.oneStep (10, 0.5)
       
    
 .. method:: RoadRunner.reset()
    :module: roadrunner
    
-   TODO docs
+   This method resets all the floating species concentrations to their initial values.
       
       
    
@@ -447,7 +453,7 @@
 .. method:: RoadRunner.simulate(*args)
    :module: roadrunner
    
-   simulate the current SBML model.
+   Simulate the current SBML model.
       
    There are a number of ways to call simulate. 
       
@@ -490,7 +496,11 @@
 .. method:: RoadRunner.steadyState()
    :module: roadrunner
    
-   TODO docs
+   Attempt to evaluate the steady state for the model. The method returns
+   a value that indicates how close the solution is to the steady state. 
+   The smaller the value the better. Values less than 1E-6 usually indicate a
+   steady state has been found. If necessary the method can be called a 
+   second time to improve the solution.
       
       
 

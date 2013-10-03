@@ -1,5 +1,5 @@
 *****************
-RoadRunner basics
+RoadRunner Basics
 *****************
 
 .. toctree::
