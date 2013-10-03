@@ -36,9 +36,9 @@
 
    Returns a scaled control coefficient with respect to a parameter. For example::
    
-     r.getCC ('J1', 'Vmax')
-     r.getCC ('S1', 'Xo')
-     r.getCC ('S2', 'Km')
+     rr.getCC ('J1', 'Vmax')
+     rr.getCC ('S1', 'Xo')
+     rr.getCC ('S2', 'Km')
       
    The first returns a flux control coefficient with respect to flux J1. The second and third
    return concentration control coefficients with respect to speies S1 and S2.
@@ -74,15 +74,15 @@
 .. method:: RoadRunner.getConservationAnalysis()
    :module: roadrunner
    
-   is conservation analysis enabled. This is set NEEDS WORD
+   is conservation analysis enabled. This is set NEEDS MORE
       
       
    
 .. method:: RoadRunner.getConservationMatrix()
    :module: roadrunner
    
-   TODO docs
-      
+   Returns a conservation matrix :math:`\Gamma` which is a :math:`c \times m' matrix
+   where :math:`c` is the number of conservation laws and :math:`m` the number of species.
       
    
 .. staticmethod:: RoadRunner.getCopyright()
@@ -94,9 +94,9 @@
 .. method:: RoadRunner.getEE(reactionId, parameterId, steadyState=True)
    :module: roadrunner
    
-   Retireve a single elasticity coefficient. For example
+   Retireve a single elasticity coefficient. For example::
    
-   getEE ('J1', 'Vmax')
+   x = rr.getEE ('J1', 'Vmax')
       
    :param str variable: The dependent variable of the coefficient, for example a flux or 
                         species concentration.
@@ -114,7 +114,7 @@
    containing ['eigen_S1', 'eigen_S2'].
       
   
-.. method:: RoadRunner.getEigenvalues()
+.. method:: RoadRunner.getEigenvalues(m)
    :module: roadrunner
    
    Returns eigenvalues, first column real part, second column imaginary part.
@@ -430,9 +430,9 @@
    
    Carry out a one step integration of the model. The method takes two arguments,
    the current time and the step size to us in the integration. The method returns
-   the new time which will be currentTime + StepSize
+   the new time which will be currentTime + StepSize::
       
-     newTime = r.oneStep (10, 0.5)
+     newTime = rr.oneStep (10, 0.5)
       
    
 .. method:: RoadRunner.reset()
@@ -496,12 +496,12 @@
    The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
    one calls::
       
-     r.simulate(0, 3.14, 100)
+     rr.simulate (0, 3.14, 100)
       
    The start time of 0, end time of 3.14 and steps of 100 will remain in effect, so that if this
    is followed by a call to::
       
-     r.simulate()
+     rr.simulate()
       
    This simulation will use the previous values. 
       
