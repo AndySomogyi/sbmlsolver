@@ -54,6 +54,32 @@
             
   <div class="section" id="stoichiometric-analysis">
 <h1>Stoichiometric Analysis<a class="headerlink" href="#stoichiometric-analysis" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="preliminaries">
+<h2>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this headline">¶</a></h2>
+<p>A network of <img class="math" src="_images/math/174fadd07fd54c9afe288e96558c92e0c1da733a.png" alt="n"/> chemical species and <img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/> reactions can be described by the
+<img class="math" src="_images/math/174fadd07fd54c9afe288e96558c92e0c1da733a.png" alt="n"/> by <img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/> stochiometry matrix <img class="math" src="_images/math/639a63f4b76f5cd6b54773491e1074fa937e2eaf.png" alt="\mathbf{N}"/>. <img class="math" src="_images/math/608b84d15dafec8544662c54dea539ceae0baaf5.png" alt="\mathbf{N}_{i,j}"/> is the amount of
+species <img class="math" src="_images/math/34857b3ba74ce5cd8607f3ebd23e9015908ada71.png" alt="i"/> produced or consumed in reaction <img class="math" src="_images/math/8122aa89ea6e80784c6513d22787ad86e36ad0cc.png" alt="j"/>.  The dynamics of the network are
+described by</p>
+<div class="math">
+<p><img src="_images/math/6026d7c1a3382e81d6e295f7cb80bd00cfadcf14.png" alt="\frac{d}{dt}\mathbf{s}(t) = \mathbf{N} \mathbf{v}(\mathbf{s}(t),\mathbf{p},t),"/></p>
+</div><p>where <img class="math" src="_images/math/6090de2607ebd7106b00985e8259a3f505b46f37.png" alt="\mathbf{s}"/> is the vector of species concentrations, <img class="math" src="_images/math/0a1c35be9c8d28ff85f7effb2c07f511e6720169.png" alt="\mathbf{p}"/>
+is a vector of external, time independent parameters, and <img class="math" src="_images/math/e0d2bf360290fd61d1c1557e763f2622363b3d35.png" alt="t"/> is time.</p>
+<p>Each structural conservation, or interchangably, <em>conserved sum</em> (e.g. conserved moiety) in
+the network coresponds to a lineraly dependent row in the stoichiometry matrix <img class="math" src="_images/math/639a63f4b76f5cd6b54773491e1074fa937e2eaf.png" alt="\mathbf{N}"/>.</p>
+<p>If there are conserved sums, then the row rank of <img class="math" src="_images/math/b2f0c6d216bb63a89845904c513ec0007b6b3e7a.png" alt="n_0"/> of <img class="math" src="_images/math/fc97ef67268cd4e91bacdf12b8901d7036c9a056.png" alt="N"/> is <img class="math" src="_images/math/5c83b9060436e1394ab701062a218630082a46c5.png" alt="&lt; n"/>, and
+the stochiometry matrix <img class="math" src="_images/math/fc97ef67268cd4e91bacdf12b8901d7036c9a056.png" alt="N"/> may first be re-ordered such that the first <img class="math" src="_images/math/b2f0c6d216bb63a89845904c513ec0007b6b3e7a.png" alt="n_0"/> are linearly
+independent, and the remaining <img class="math" src="_images/math/0e969203d43749470bb34a054e1eb9323df67f5b.png" alt="n-n_0"/> rows are linear combinations of the first <img class="math" src="_images/math/b2f0c6d216bb63a89845904c513ec0007b6b3e7a.png" alt="n_0"/>
+rows. The <em>reduced stochiometry matrix</em> <img class="math" src="_images/math/036d5e8df1cab53abf0c851b82336dcb609c755f.png" alt="\mathbf{N_R}"/> is then formed from the first
+<img class="math" src="_images/math/b2f0c6d216bb63a89845904c513ec0007b6b3e7a.png" alt="n_0"/> rows of <img class="math" src="_images/math/fc97ef67268cd4e91bacdf12b8901d7036c9a056.png" alt="N"/>. Finally, <img class="math" src="_images/math/fc97ef67268cd4e91bacdf12b8901d7036c9a056.png" alt="N"/> may be expressed as a product of the <img class="math" src="_images/math/86fb01e24ce16ce2d66df65591e3c873d7d09182.png" alt="n \times n_0"/>
+<em>link matrix</em> <img class="math" src="_images/math/f36a69e6a3b183e05991c8cafae387e99ae527e4.png" alt="\mathbf{L}"/> and the <img class="math" src="_images/math/655de4698ad4992a77eb94970ea6e2a3a73c3d1b.png" alt="n_0 \times m"/> <img class="math" src="_images/math/036d5e8df1cab53abf0c851b82336dcb609c755f.png" alt="\mathbf{N_R}"/> matrix:</p>
+<div class="math">
+<p><img src="_images/math/13414b2b8a72ffd85288efbb664cceabd1cd9ff7.png" alt="\mathbf{N} = \mathbf{L}\mathbf{N_R}."/></p>
+</div><p>The link matrix <img class="math" src="_images/math/f36a69e6a3b183e05991c8cafae387e99ae527e4.png" alt="\mathbf{L}"/> has the form</p>
+<div class="math">
+<p><img src="_images/math/32b5ff206ecd395cc926fee193baf1bedaa94af1.png" alt="\mathbf{L} = \left[ \begin{array}{c}
+                    \mathbf{I}_{n0} \\
+                    \mathbf{L}_0    \end{array} \right],"/></p>
+</div><p>where <img class="math" src="_images/math/b6a12ee980cd1f12e47b80be13cd70c9a6347f3e.png" alt="\mathbf{I}_{n0}"/> is the <img class="math" src="_images/math/d406e8f02641f559cb6ae7f876a6f1e6fd2fc6a2.png" alt="n_0 \times n_0"/> identity matrix.</p>
 <p>The following methods are related to the analysis of the stoichiometric matrix.</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -76,11 +102,27 @@
 <tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getL0Matrix" title="roadrunner.RoadRunner.getL0Matrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getL0Matrix</span></tt></a>()</td>
 <td>TODO docs</td>
 </tr>
-<tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getConservationSums</span></tt></td>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getConservedSums" title="roadrunner.ExecutableModel.getConservedSums"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getConservedSums</span></tt></a>(*args)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param numpy.ndarray index:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">(optional) an index array indicating which items to return.</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getNumConservedSums" title="roadrunner.ExecutableModel.getNumConservedSums"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getNumConservedSums</span></tt></a>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getConservedSumChanged" title="roadrunner.ExecutableModel.getConservedSumChanged"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getConservedSumChanged</span></tt></a>()</td>
 <td></td>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 
 
@@ -89,6 +131,14 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Stoichiometric Analysis</a><ul>
+<li><a class="reference internal" href="#preliminaries">Preliminaries</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="accessing_model.html"
                         title="previous chapter">Accessing the SBML Model Variables</a></p>

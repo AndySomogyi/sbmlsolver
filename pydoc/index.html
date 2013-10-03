@@ -59,8 +59,16 @@ and provides a complete API reference.</p>
 <p class="first admonition-title">Warning</p>
 <p class="last">This &#8220;User Guide&#8221; is still a work in progress; some of the material
 is not organized, and several aspects of RoadRunner are not yet covered
-sufficient detail.     &lt;<a class="reference external" href="http://andysomogyi.github.io/roadrunner/pydoc/">http://andysomogyi.github.io/roadrunner/pydoc/</a>&gt;`__ website.</p>
+sufficient detail. &lt;<a class="reference external" href="http://andysomogyi.github.io/roadrunner/pydoc/">http://andysomogyi.github.io/roadrunner/pydoc/</a>&gt;`__ website.</p>
 </div>
+<p>To get you started here is a very simple script that will load a model and run a time course simulation:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">roadrunner</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">()</span>
+<span class="n">r</span><span class="o">.</span><span class="n">loadSBMLFromFile</span> <span class="p">(</span><span class="s">&#39;mymodel.xml&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The result is a standard numpy array which may be plotted using <a class="reference external" href="http://matplotlib.org/">matplotlib</a>. Now read the tutorials to learn more about the capabilities of RoadRunner.</p>
 <p>Contents:</p>
 <div class="toctree-wrapper compound">
 <ul>
@@ -78,6 +86,7 @@ sufficient detail.     &lt;<a class="reference external" href="http://andysomogy
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="timecourse_simulation.html">Time Course Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="read_write_functions.html">SBML Read/Write Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="accessing_model.html">Accessing the SBML Model Variables</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="accessing_model.html#compartment-group">Compartment Group</a></li>
 <li class="toctree-l2"><a class="reference internal" href="accessing_model.html#boundary-species-group">Boundary Species Group</a></li>
@@ -89,9 +98,15 @@ sufficient detail.     &lt;<a class="reference external" href="http://andysomogy
 <li class="toctree-l2"><a class="reference internal" href="accessing_model.html#current-state-of-the-system-group">Current State of the System Group</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="stoichiometric.html">Stoichiometric Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stoichiometric.html">Stoichiometric Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stoichiometric.html#preliminaries">Preliminaries</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="stability.html">Stability Analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="metabolic.html">Metabolic Control Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="metabolic.html">Metabolic Control Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="metabolic.html#preliminaries">Preliminaries</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="steady_state.html">Steady State Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api_reference.html">RoadRunner API Reference</a></li>
 </ul>

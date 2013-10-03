@@ -12,8 +12,8 @@ such as model loading, JIT compilation, integration and output.
 
 ** roadrunner overview
 
-** ExecutalbeModel
- - represetns a compiled sbml model
+** ExecutableModel
+ - represents a compiled sbml model
  - properties to get and set any state variables.
 
 
