@@ -28,7 +28,8 @@ To get you started here is a very simple script that will load a model and run a
   rr = roadrunner()
   rr.loadSBMLFromFile ("c:\mymodel.xml")
   result = rr.simulate()
-  
+ 
+You can plot your results using matplotlib. Now read the tutorials to learn more about the capabilities of roadRunner. 
 
 Contents:
 
