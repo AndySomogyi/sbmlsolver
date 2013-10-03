@@ -34,7 +34,11 @@
               
 .. method:: RoadRunner.getCC(variable, parameter)
 
-   Get scaled a single control coefficient with respect to a global parameter.
+   Rerturns a scaled control coefficient with respect to a parameter. For example
+   
+   getCC ('J1', 'Vmax')
+   getCC ('S1', 'Xo')
+   getCC ('S2', 'Km')
       
    :param variable: The id of a dependent variable of the coefficient, for example a 
                     flux or species concentration.
@@ -81,13 +85,15 @@
 .. staticmethod:: RoadRunner.getCopyright()
    :module: roadrunner
    
-   get the copyright string
+   Returns the copyright string
       
      
 .. method:: RoadRunner.getEE(reactionId, parameterId, steadyState=True)
    :module: roadrunner
    
-   Retireve a single elasticity coefficient.
+   Retireve a single elasticity coefficient. For example
+   
+   getEE ('J1', 'Vmax')
       
    :param str variable: The dependent variable of the coefficient, for example a flux or 
                         species concentration.
@@ -108,7 +114,7 @@
 .. method:: RoadRunner.getEigenvalues()
    :module: roadrunner
    
-   Returns eigenvalues, first column real part, second column imaginary part
+   Returns eigenvalues, first column real part, second column imaginary part.
       
    :rtype: numpy.ndarray
       
@@ -124,7 +130,7 @@
 .. method:: RoadRunner.getFloatingSpeciesAmountIds()
    :module: roadrunner
    
-   gets a list of the floating species ids, but with the ids surrounded
+   Returns a list of the floating species Ids, but with theIids surrounded
    by square brackets, i.e. 'S1' -> '[S1]'
       
       
@@ -132,7 +138,7 @@
 .. method:: RoadRunner.getFullJacobian()
    :module: roadrunner
    
-   compute the full Jacobian at the current operating point. 
+   Compute the full Jacobian at the current operating point. 
 
    This is the Jacobian of ONLY the floating species.
       
@@ -141,7 +147,9 @@
 .. method:: RoadRunner.getFullyReorderedStoichiometryMatrix()
    :module: roadrunner
    
-   Returns the stoichiometry matrix for the currently loaded model
+   Returns the full reordered stoichiometry matrix for the currently loaded model.
+   The rows will coresponds to the order of species in the call to getFloatinSpeciesIds(),
+   the colunms will corresponds to the order of reactions in the call to getReactionIds().
       
       
    
@@ -179,7 +187,9 @@
 .. method:: RoadRunner.getL0Matrix()
    :module: roadrunner
    
-   TODO docs
+   Returns the L0 matrix for the current model. The L0 matrix is an (m-r) by r matrix that expresses 
+   the dependent reaction rates in terms of the indepdent rates. m is the number of floating species
+   and r is the rank of the stoichiometry matrix.
       
    :rtype: numpy.ndarray
       
@@ -188,7 +198,8 @@
 .. method:: RoadRunner.getLinkMatrix()
    :module: roadrunner
    
-   TODO docs
+   Returns the full link matrix, L for the current model. The Link matrix is an m by r matrix where m
+   is the number of floating species and r the rank of the stichiometric matrix, N.
       
    :rtype: numpy.ndarray
       
@@ -206,7 +217,8 @@
 .. method:: RoadRunner.getNrMatrix()
    :module: roadrunner
    
-   TODO docs
+   Returns the reduced stoichiometry matrix, Nr, which wil have only r rows where r is the rank of 
+   the full stoichiometry matrix. The matrix will be reordered such that the rows of Nr are independent.
       
    :rtype: numpy.ndarray
       
@@ -226,7 +238,8 @@
 .. method:: RoadRunner.getReducedJacobian()
    :module: roadrunner
    
-   get the *reduced* Jacobian for the independent species. 
+   Returns the *reduced* Jacobian for the independent species. This matrix will be non-singular
+   for models that include moiety-concerved cycles. 
       
    :rtype: numpy.ndarray
       
@@ -235,7 +248,8 @@
 .. method:: RoadRunner.getReorderedStoichiometryMatrix()
    :module: roadrunner
    
-   TODO docs
+   Returns the reordered stoichiometry matrix where the tops rows represent the independent species of
+   which there will be rank (N) and the bottom rows the dependent species.
       
    :rtype: numpy.ndarray
       
