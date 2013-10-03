@@ -12,10 +12,11 @@ Compartment Group
 
 .. autosummary::
 
-   RoadRunner.getCompartmentByIndex
-   RoadRunner.setCompartmentByIndex
-   RoadRunner.getNumberOfCompartments
-   RoadRunner.getCompartmentIds
+   ExecutableModel.getCompartmentVolumes
+   ExecutableModel.getNumCompartments
+   ExecutableModel.getCompartmentIds
+   ExecutableModel.setCompartmentVolumes
+
    
 Boundary Species Group
 ----------------------
