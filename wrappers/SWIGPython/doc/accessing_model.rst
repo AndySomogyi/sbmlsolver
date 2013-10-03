@@ -24,10 +24,8 @@ Boundary Species Group
 .. autosummary::
 
    ExecutableModel.getBoundarySpeciesConcentrations
-   ExecutableModel.setBoundarySpeciesByIndex
-   ExecutableModel.getBoundarySpeciesByIndex
    ExecutableModel.setBoundarySpeciesConcentrations
-   ExecutableModel.getNumberOfBoundarySpecies
+   ExecutableModel.getNumBoundarySpecies
    ExecutableModel.getBoundarySpeciesIds
 
 
@@ -37,10 +35,8 @@ Floating Species Group
 .. autosummary::
 
    ExecutableModel.getFloatingSpeciesConcentrations
-   ExecutableModel.setFloatingSpeciesByIndex
-   ExecutableModel.getFloatingSpeciesByIndex
    ExecutableModel.setFloatingSpeciesConcentrations
-   ExecutableModel.getNumberOfFloatingSpecies
+   ExecutableModel.getNumFloatingSpecies
    ExecutableModel.getFloatingSpeciesIds
 
 
@@ -54,10 +50,8 @@ Reaction Group
 
 .. autosummary::
 
-   ExecutableModel.getNumberOfReactions
-   ExecutableModel.getReactionRate
+   ExecutableModel.getNumReactions
    ExecutableModel.getReactionRates
-   ExecutableModel.getReactionRatesEx
    ExecutableModel.getReactionIds
 
 
@@ -73,6 +67,6 @@ Parameters Group
 .. autosummary::
 
 Current State of the System Group
---------------------------------
+---------------------------------
 
 .. autosummary::
