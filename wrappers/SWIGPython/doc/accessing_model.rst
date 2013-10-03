@@ -6,10 +6,11 @@ Accessing the SBML Model Variables
 
 The following methods allow users to obtain information on the model
 
-.. autosummary::
 
 Compartment Group
 -----------------
+
+.. autosummary::
 
    RoadRunner.getCompartmentByIndex
    RoadRunner.setCompartmentByIndex
