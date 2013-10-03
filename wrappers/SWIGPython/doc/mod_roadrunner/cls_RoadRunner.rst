@@ -27,6 +27,9 @@
    
 .. method:: RoadRunner.computeSteadyStateValue(*args)
 
+   Returns a vector of steady state values for the floating species. The order of 
+   species in the vector is indicated by the order of species Ids in a call to 
+   getFloatingSpeciesIds()
    
               
 .. method:: RoadRunner.getCC(variable, parameter)
