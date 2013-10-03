@@ -6,13 +6,13 @@ RoadRunner is package for loading, JIT compilation, simulation and
 analysis of SBML systems biology models. 
 
 The roadrunner package contains two fundametal objects, `RoadRunner`
-and `ExecutableModel`. `RoadRunner` is the typically the top level objec,
+and `ExecutableModel`. `RoadRunner` is the typically the top level object,
 it is responsible for orchestrating all of the internal components 
 such as model loading, JIT compilation, integration and output. 
 
 ** roadrunner overview
 
-** ExecutalbModel
+** ExecutalbeModel
  - represetns a compiled sbml model
  - properties to get and set any state variables.
 
@@ -28,15 +28,22 @@ The new API is really cool, this is all you have to do::
 
   import RoadRunner as rr
   import pylab as p
-  r=rr.RoadRunner()
+  r = rr.RoadRunner()
 
 this takes an optional LoadSBMLOptions class as a second parameter::
 
+  In Windows
+  
+  r loadSBMLFromFile("C:\MyModels\mymodel.xml")
+
+  or on the Mac or Linux
+  
   r.loadSBMLFromFile("/home/foo/myfile.xml")
+  
 
 this takes an optional SimulateOptions class as a second parameter.::
 
-  s=r.simulate()
+  s = r.simulate()
 
 
 Hi,

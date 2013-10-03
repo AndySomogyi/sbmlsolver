@@ -59,12 +59,12 @@
 <p>RoadRunner is package for loading, JIT compilation, simulation and
 analysis of SBML systems biology models.</p>
 <p>The roadrunner package contains two fundametal objects, <cite>RoadRunner</cite>
-and <cite>ExecutableModel</cite>. <cite>RoadRunner</cite> is the typically the top level objec,
+and <cite>ExecutableModel</cite>. <cite>RoadRunner</cite> is the typically the top level object,
 it is responsible for orchestrating all of the internal components
 such as model loading, JIT compilation, integration and output.</p>
 <p>** roadrunner overview</p>
 <dl class="docutils">
-<dt>** ExecutalbModel</dt>
+<dt>** ExecutalbeModel</dt>
 <dd><ul class="first last simple">
 <li>represetns a compiled sbml model</li>
 <li>properties to get and set any state variables.</li>
@@ -77,15 +77,20 @@ array returned by simulate just has a pointer to the results matrix which is own
 <p>The new API is really cool, this is all you have to do:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">RoadRunner</span> <span class="kn">as</span> <span class="nn">rr</span>
 <span class="kn">import</span> <span class="nn">pylab</span> <span class="kn">as</span> <span class="nn">p</span>
-<span class="n">r</span><span class="o">=</span><span class="n">rr</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">()</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>this takes an optional LoadSBMLOptions class as a second parameter:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">loadSBMLFromFile</span><span class="p">(</span><span class="s">&quot;/home/foo/myfile.xml&quot;</span><span class="p">)</span>
-</pre></div>
+<div class="highlight-python"><pre>In Windows
+
+r loadSBMLFromFile("C:\MyModels\mymodel.xml")
+
+or on the Mac or Linux
+
+r.loadSBMLFromFile("/home/foo/myfile.xml")</pre>
 </div>
 <p>this takes an optional SimulateOptions class as a second parameter.:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">s</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">s</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Hi,</p>

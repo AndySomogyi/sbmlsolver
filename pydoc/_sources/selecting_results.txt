@@ -1,3 +1,3 @@
 ************************
-Selecting What to Output
+Selecting what to Output
 ************************

@@ -21,21 +21,52 @@ Compartment Group
 Boundary Species Group
 ----------------------
 
+.. autosummary::
+
+   ExecutableModel.getBoundarySpeciesConcentrations
+   ExecutableModel.setBoundarySpeciesConcentrations
+   ExecutableModel.getNumBoundarySpecies
+   ExecutableModel.getBoundarySpeciesIds
+
+
 Floating Species Group
 ----------------------
+
+.. autosummary::
+
+   ExecutableModel.getFloatingSpeciesConcentrations
+   ExecutableModel.setFloatingSpeciesConcentrations
+   ExecutableModel.getNumFloatingSpecies
+   ExecutableModel.getFloatingSpeciesIds
+
 
 Initial Conditions Group
 ------------------------
 
+.. autosummary::
+
 Reaction Group
 --------------
 
+.. autosummary::
+
+   ExecutableModel.getNumReactions
+   ExecutableModel.getReactionRates
+   ExecutableModel.getReactionIds
+
+
 Rates Of Change Group
 ---------------------
+
+.. autosummary::
 
 
 Parameters Group
 ----------------
 
+.. autosummary::
+
 Current State of the System Group
---------------------------------
+---------------------------------
+
+.. autosummary::
