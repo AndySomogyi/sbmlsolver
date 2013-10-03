@@ -25,8 +25,8 @@ and provides a complete API reference.
 To get you started here is a very simple script that will load a model and run a time course simulation::
 
   import roadrunner
-  r = roadrunner.RoadRunner()
-  r.loadSBMLFromFile ('mymodel.xml')
+  rr = roadrunner.RoadRunner()
+  rr.loadSBMLFromFile ('mymodel.xml')
   result = rr.simulate()
  
 The result is a standard numpy array which may be plotted using `matplotlib
