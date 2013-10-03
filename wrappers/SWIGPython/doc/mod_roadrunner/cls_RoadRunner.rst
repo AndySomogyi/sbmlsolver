@@ -561,8 +561,37 @@
    TODO docs
    
    
-
 .. py:function:: RoadRunner_getlibSBMLVersion()
    :module: roadrunner
 
    TODO docs
+   
+.. method:: RoadRunner.getRatesOfChange()
+   :module: roadrunner
+
+   Returns a vector of rates of change as determined by the current state of the model.
+
+   
+.. method:: RoadRunner.getRateOfChange(index)
+   :module: roadrunner
+
+   Returns the rate of change for the ith floating species. The order of species is determined by
+   getFloatingSpeciesIds().
+
+   :param parameter: The id of the floating species.
+
+   :returns: The value of rate of change.
+
+   :rtype: double
+
+
+.. method:: RoadRunner.getRatesOfChangeEx(speciesVector)
+   :module: roadrunner
+
+   Returns a vector of rates of change as determined by the values in the species vector argument.
+
+
+.. method:: RoadRunner.getRatesOfChangeIds()
+   :module: roadrunner
+   
+   Returns a vector of Ids for the rates of changes.
