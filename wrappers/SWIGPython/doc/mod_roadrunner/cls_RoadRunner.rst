@@ -55,7 +55,7 @@
          
 .. method:: RoadRunner.getCompiler()
 
-   get the compiler used to build the ExecutableModel.
+   Return the compiler used to build the ExecutableModel.
       
       
    
@@ -73,7 +73,7 @@
 .. method:: RoadRunner.getConservationAnalysis()
    :module: roadrunner
    
-   is conservation analysis enabled. This is set
+   is conservation analysis enabled. This is set NEEDS WORD
       
       
    
