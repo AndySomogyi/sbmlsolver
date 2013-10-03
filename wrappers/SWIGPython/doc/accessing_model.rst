@@ -60,13 +60,22 @@ Rates Of Change Group
 
 .. autosummary::
 
+   RoadRunner.getRatesOfChange
+   RoadRunner.getRatesOfChangeEx
+   ExecutableModel.getRatesOfChangeIds
+   RoadRunner.getRateOfChange
+
 
 Parameters Group
 ----------------
 
 .. autosummary::
 
+   ExecutableModel.getNumberOfGlobalParameters
+   
 Current State of the System Group
 ---------------------------------
 
 .. autosummary::
+
+   RoadRunner.evalModel()
