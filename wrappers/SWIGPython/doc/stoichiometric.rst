@@ -41,7 +41,7 @@ The link matrix :math:`\mathbf{L}` has the form
                        \mathbf{I}_{r} \\
                        \mathbf{L}_0    \end{array} \right],
 
-where :math:`\mathbf{I}_{m0}` is the :math:`r \times r` identity matrix and :math:`\mathbf{L}_0` is a :math:`(m-r) \times r`
+where :math:`\mathbf{I}_{r}` is the :math:`r \times r` identity matrix and :math:`\mathbf{L}_0` is a :math:`(m-r) \times r`
 matrix.
 
 
