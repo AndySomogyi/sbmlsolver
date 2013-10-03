@@ -22,6 +22,14 @@ and provides a complete API reference.
    is not organized, and several aspects of RoadRunner are not yet covered
    sufficient detail.     <http://andysomogyi.github.io/roadrunner/pydoc/>`__ website.
 
+To get you started here is a very simple script that will load a model and run a time course simulation::
+
+  import roadRunner
+  rr = roadrunner()
+  rr.loadSBMLFromFile ("c:\mymodel.xml")
+  result = rr.simulate()
+  
+
 Contents:
 
 .. toctree::
