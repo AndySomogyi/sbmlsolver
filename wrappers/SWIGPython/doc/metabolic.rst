@@ -1,10 +1,10 @@
-******************
-Metabolic Analysis
-******************
+**************************
+Metabolic Control Analysis
+**************************
 
 .. currentmodule:: roadrunner
 
-The following methods allow analysis of metabolic networks:
+The following methods allow users to obtain various metabolic control coefficients.
 
 .. autosummary::
 
