@@ -128,12 +128,10 @@ or boundary species</li>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getConfigurationXML">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getConfigurationXML</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getConfigurationXML" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div><p>recurse through all of the child configurable objects that this
+<dd><p>recurse through all of the child configurable objects that this
 class ownes and build an assemble all of thier configuration parameters
 into a single xml document which is returned as a string.</p>
 <p>The value of this result depends on what child objects are presently loaded.</p>
-</div></blockquote>
 </dd></dl>
 
 <dl class="method">
@@ -303,16 +301,14 @@ time evolve the system.</p>
 <dt id="roadrunner.RoadRunner.getNrMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getNrMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getNrMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
-<blockquote>
-<div><table class="docutils field-list" frame="void" rules="none">
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">rtype:</th><td class="field-body">numpy.ndarray</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
 </tr>
 </tbody>
 </table>
-</div></blockquote>
 </dd></dl>
 
 <dl class="staticmethod">
@@ -390,7 +386,7 @@ to be global parameters.</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getScaledFloatingSpeciesElasticity">
-<tt class="descclassname">RoadRunner.</tt><tt class="descname">getScaledFloatingSpeciesElasticity</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getScaledFloatingSpeciesElasticity" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getScaledFloatingSpeciesElasticity</tt><big>(</big><em>reactionId</em>, <em>speciesId</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getScaledFloatingSpeciesElasticity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the scaled elasticity for a given reaction and given species.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -486,13 +482,13 @@ will contain real values and the second column the imaginary values.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getUnscaledConcentrationControlCoefficientMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getUnscaledConcentrationControlCoefficientMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledConcentrationControlCoefficientMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><p>Calculate the unscaled concentration control coefficent matrix.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getUnscaledElasticityMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getUnscaledElasticityMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledElasticityMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><p>Compute the unscaled species elasticity matrix at the current operating point</p>
 </dd></dl>
 
 <dl class="method">
@@ -503,7 +499,7 @@ will contain real values and the second column the imaginary values.</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getUnscaledSpeciesElasticity">
-<tt class="descclassname">RoadRunner.</tt><tt class="descname">getUnscaledSpeciesElasticity</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledSpeciesElasticity" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getUnscaledSpeciesElasticity</tt><big>(</big><em>reactionIndx</em>, <em>speciesIndx</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledSpeciesElasticity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a single species elasticity value
 IMPORTANT:
 Assumes that the reaction rates have been precomputed at the operating point !!</p>
