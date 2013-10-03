@@ -495,7 +495,11 @@
 .. method:: RoadRunner.steadyState()
    :module: roadrunner
    
-   TODO docs
+   Attempt to evaluate the steady state for the model. The method returns
+   a value that indicates how close the solution is to the steady state. 
+   The smaller the value the better. Values less than 1E-6 usually indicate a
+   steady state has been found. If necessary the method can be called a 
+   second time to improve the solution.
       
       
 
