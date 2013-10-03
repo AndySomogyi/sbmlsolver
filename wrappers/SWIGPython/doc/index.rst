@@ -29,6 +29,7 @@ Contents:
    introduction
    rr_basics
    timecourse_simulation
+   read_write_functions
    accessing_model
    stoichiometric
    stability
