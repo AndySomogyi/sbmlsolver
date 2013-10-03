@@ -34,12 +34,15 @@
               
 .. method:: RoadRunner.getCC(variable, parameter)
 
-   Rerturns a scaled control coefficient with respect to a parameter. For example::
+   Returns a scaled control coefficient with respect to a parameter. For example::
    
      r.getCC ('J1', 'Vmax')
      r.getCC ('S1', 'Xo')
      r.getCC ('S2', 'Km')
       
+   The first returns a flux control coefficient with respect to flux J1. The second and third
+   return concentration control coefficients with respect to speies S1 and S2.
+   
    :param variable: The id of a dependent variable of the coefficient, for example a 
                     flux or species concentration.
       
