@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Accessing The SBML Model Variables &mdash; RoadRunner 0.99 documentation</title>
+    <title>Accessing the SBML Model Variables &mdash; RoadRunner 0.99 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -53,7 +53,79 @@
           <div class="body">
             
   <div class="section" id="accessing-the-sbml-model-variables">
-<h1>Accessing The SBML Model Variables<a class="headerlink" href="#accessing-the-sbml-model-variables" title="Permalink to this headline">¶</a></h1>
+<h1>Accessing the SBML Model Variables<a class="headerlink" href="#accessing-the-sbml-model-variables" title="Permalink to this headline">¶</a></h1>
+<p>The following methods allow users to obtain information on the model</p>
+<div class="section" id="compartment-group">
+<h2>Compartment Group<a class="headerlink" href="#compartment-group" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getCompartmentVolumes" title="roadrunner.ExecutableModel.getCompartmentVolumes"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getCompartmentVolumes</span></tt></a>(*args)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param numpy.ndarray index:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">(optional) an index array indicating which items to return.</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getNumCompartments" title="roadrunner.ExecutableModel.getNumCompartments"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getNumCompartments</span></tt></a>()</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getCompartmentIds" title="roadrunner.ExecutableModel.getCompartmentIds"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getCompartmentIds</span></tt></a>()</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param numpy.ndarray index:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">(optional) an index array indicating which items to return.</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.setCompartmentVolumes" title="roadrunner.ExecutableModel.setCompartmentVolumes"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.setCompartmentVolumes</span></tt></a>(*args)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param numpy.ndarray index:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">(optional) an index array indicating which items to set,</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="boundary-species-group">
+<h2>Boundary Species Group<a class="headerlink" href="#boundary-species-group" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="floating-species-group">
+<h2>Floating Species Group<a class="headerlink" href="#floating-species-group" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="initial-conditions-group">
+<h2>Initial Conditions Group<a class="headerlink" href="#initial-conditions-group" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="reaction-group">
+<h2>Reaction Group<a class="headerlink" href="#reaction-group" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="rates-of-change-group">
+<h2>Rates Of Change Group<a class="headerlink" href="#rates-of-change-group" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="parameters-group">
+<h2>Parameters Group<a class="headerlink" href="#parameters-group" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="current-state-of-the-system-group">
+<h2>Current State of the System Group<a class="headerlink" href="#current-state-of-the-system-group" title="Permalink to this headline">¶</a></h2>
+</div>
 </div>
 
 
@@ -62,6 +134,21 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Accessing the SBML Model Variables</a><ul>
+<li><a class="reference internal" href="#compartment-group">Compartment Group</a></li>
+<li><a class="reference internal" href="#boundary-species-group">Boundary Species Group</a></li>
+<li><a class="reference internal" href="#floating-species-group">Floating Species Group</a></li>
+<li><a class="reference internal" href="#initial-conditions-group">Initial Conditions Group</a></li>
+<li><a class="reference internal" href="#reaction-group">Reaction Group</a></li>
+<li><a class="reference internal" href="#rates-of-change-group">Rates Of Change Group</a></li>
+<li><a class="reference internal" href="#parameters-group">Parameters Group</a></li>
+<li><a class="reference internal" href="#current-state-of-the-system-group">Current State of the System Group</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="timecourse_simulation.html"
                         title="previous chapter">Time Course Simulation</a></p>

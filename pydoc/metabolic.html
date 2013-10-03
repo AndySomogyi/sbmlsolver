@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Metabolic Analysis &mdash; RoadRunner 0.99 documentation</title>
+    <title>Metabolic Control Analysis &mdash; RoadRunner 0.99 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -52,23 +52,29 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="metabolic-analysis">
-<h1>Metabolic Analysis<a class="headerlink" href="#metabolic-analysis" title="Permalink to this headline">¶</a></h1>
-<p>The following methods allow analysis of metabolic networks:</p>
+  <div class="section" id="metabolic-control-analysis">
+<h1>Metabolic Control Analysis<a class="headerlink" href="#metabolic-control-analysis" title="Permalink to this headline">¶</a></h1>
+<p>The following methods allow users to obtain various metabolic control coefficients.</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getUnscaledConcentrationControlCoefficientMatrix" title="roadrunner.RoadRunner.getUnscaledConcentrationControlCoefficientMatrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getUnscaledConcentrationControlCoefficientMatrix</span></tt></a>()</td>
-<td>Calculate the unscaled concentration control coefficent matrix.</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getUnscaledElasticityMatrix" title="roadrunner.RoadRunner.getUnscaledElasticityMatrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getUnscaledElasticityMatrix</span></tt></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getUnscaledFluxControlCoefficientMatrix" title="roadrunner.RoadRunner.getUnscaledFluxControlCoefficientMatrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getUnscaledFluxControlCoefficientMatrix</span></tt></a>()</td>
 <td>TODO docs</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getUnscaledSpeciesElasticity" title="roadrunner.RoadRunner.getUnscaledSpeciesElasticity"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getUnscaledSpeciesElasticity</span></tt></a>(...)</td>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getUnscaledConcentrationControlCoefficientMatrix" title="roadrunner.RoadRunner.getUnscaledConcentrationControlCoefficientMatrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getUnscaledConcentrationControlCoefficientMatrix</span></tt></a>()</td>
+<td>Calculate the unscaled concentration control coefficent matrix.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getUnscaledElasticityMatrix" title="roadrunner.RoadRunner.getUnscaledElasticityMatrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getUnscaledElasticityMatrix</span></tt></a>()</td>
+<td>TODO docs</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getUnscaledSpeciesElasticity" title="roadrunner.RoadRunner.getUnscaledSpeciesElasticity"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getUnscaledSpeciesElasticity</span></tt></a>(...)</td>
 <td>Get a single species elasticity value</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getScaledElasticityMatrix</span></tt></td>
+<td></td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getScaledFloatingSpeciesElasticity" title="roadrunner.RoadRunner.getScaledFloatingSpeciesElasticity"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getScaledFloatingSpeciesElasticity</span></tt></a>(...)</td>
 <td>Compute the scaled elasticity for a given reaction and given species.</td>
@@ -76,10 +82,19 @@
 <tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getScaledFluxControlCoefficientMatrix" title="roadrunner.RoadRunner.getScaledFluxControlCoefficientMatrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getScaledFluxControlCoefficientMatrix</span></tt></a>()</td>
 <td>Calculate the the matrix of scaled flux control coefficients.</td>
 </tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getScaledConcentrationControlCoefficientMatrix" title="roadrunner.RoadRunner.getScaledConcentrationControlCoefficientMatrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getScaledConcentrationControlCoefficientMatrix</span></tt></a>()</td>
+<td>TODO docs</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getuCC</span></tt></td>
+<td></td>
+</tr>
 <tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getCC" title="roadrunner.RoadRunner.getCC"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getCC</span></tt></a>(variable,&nbsp;parameter)</td>
 <td>Get scaled a single control coefficient with respect to a global parameter.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getEE" title="roadrunner.RoadRunner.getEE"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getEE</span></tt></a>(reactionId,&nbsp;parameterId[,&nbsp;...])</td>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getuEE</span></tt></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getEE" title="roadrunner.RoadRunner.getEE"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getEE</span></tt></a>(reactionId,&nbsp;parameterId[,&nbsp;...])</td>
 <td>Retireve a single elasticity coefficient.</td>
 </tr>
 </tbody>

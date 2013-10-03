@@ -24,3 +24,4 @@ The RoadRunner SBML Simulation Engine,
 
 .. include:: mod_roadrunner/cls_SimulateOptions.rst      
 
+.. include:: mod_roadrunner/cls_ExecutableModel.rst
