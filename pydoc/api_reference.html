@@ -99,7 +99,10 @@ getFloatingSpeciesIds()</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getCC">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getCC</tt><big>(</big><em>variable</em>, <em>parameter</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getCC" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get scaled a single control coefficient with respect to a global parameter.</p>
+<dd><p>Rerturns a scaled control coefficient with respect to a parameter. For example</p>
+<p>getCC (&#8216;J1&#8217;, &#8216;Vmax&#8217;)
+getCC (&#8216;S1&#8217;, &#8216;Xo&#8217;)
+getCC (&#8216;S2&#8217;, &#8216;Km&#8217;)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -152,13 +155,14 @@ into a single xml document which is returned as a string.</p>
 <dl class="staticmethod">
 <dt id="roadrunner.RoadRunner.getCopyright">
 <em class="property">static </em><tt class="descclassname">RoadRunner.</tt><tt class="descname">getCopyright</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getCopyright" title="Permalink to this definition">¶</a></dt>
-<dd><p>get the copyright string</p>
+<dd><p>Returns the copyright string</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getEE">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getEE</tt><big>(</big><em>reactionId</em>, <em>parameterId</em>, <em>steadyState=True</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getEE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retireve a single elasticity coefficient.</p>
+<dd><p>Retireve a single elasticity coefficient. For example</p>
+<p>getEE (&#8216;J1&#8217;, &#8216;Vmax&#8217;)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -188,7 +192,7 @@ containing [&#8216;eigen_S1&#8217;, &#8216;eigen_S2&#8217;].</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getEigenvalues">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getEigenvalues</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getEigenvalues" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns eigenvalues, first column real part, second column imaginary part</p>
+<dd><p>Returns eigenvalues, first column real part, second column imaginary part.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -208,21 +212,23 @@ containing [&#8216;eigen_S1&#8217;, &#8216;eigen_S2&#8217;].</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getFloatingSpeciesAmountIds">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getFloatingSpeciesAmountIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getFloatingSpeciesAmountIds" title="Permalink to this definition">¶</a></dt>
-<dd><p>gets a list of the floating species ids, but with the ids surrounded
+<dd><p>Returns a list of the floating species Ids, but with theIids surrounded
 by square brackets, i.e. &#8216;S1&#8217; -&gt; &#8216;[S1]&#8217;</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getFullJacobian">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getFullJacobian</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getFullJacobian" title="Permalink to this definition">¶</a></dt>
-<dd><p>compute the full Jacobian at the current operating point.</p>
+<dd><p>Compute the full Jacobian at the current operating point.</p>
 <p>This is the Jacobian of ONLY the floating species.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getFullyReorderedStoichiometryMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getFullyReorderedStoichiometryMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getFullyReorderedStoichiometryMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the stoichiometry matrix for the currently loaded model</p>
+<dd><p>Returns the full reordered stoichiometry matrix for the currently loaded model.
+The rows will coresponds to the order of species in the call to getFloatinSpeciesIds(),
+the colunms will corresponds to the order of reactions in the call to getReactionIds().</p>
 </dd></dl>
 
 <dl class="method">
@@ -261,7 +267,9 @@ time evolve the system.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getL0Matrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getL0Matrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getL0Matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><p>Returns the L0 matrix for the current model. The L0 matrix is an (m-r) by r matrix that expresses
+the dependent reaction rates in terms of the indepdent rates. m is the number of floating species
+and r is the rank of the stoichiometry matrix.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -275,7 +283,8 @@ time evolve the system.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getLinkMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getLinkMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getLinkMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><p>Returns the full link matrix, L for the current model. The Link matrix is an m by r matrix where m
+is the number of floating species and r the rank of the stichiometric matrix, N.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -303,7 +312,8 @@ time evolve the system.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getNrMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getNrMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getNrMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><p>Returns the reduced stoichiometry matrix, Nr, which wil have only r rows where r is the rank of
+the full stoichiometry matrix. The matrix will be reordered such that the rows of Nr are independent.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -334,7 +344,8 @@ to be global parameters.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getReducedJacobian">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getReducedJacobian</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getReducedJacobian" title="Permalink to this definition">¶</a></dt>
-<dd><p>get the <em>reduced</em> Jacobian for the independent species.</p>
+<dd><p>Returns the <em>reduced</em> Jacobian for the independent species. This matrix will be non-singular
+for models that include moiety-concerved cycles.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -348,7 +359,8 @@ to be global parameters.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getReorderedStoichiometryMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getReorderedStoichiometryMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getReorderedStoichiometryMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><p>Returns the reordered stoichiometry matrix where the tops rows represent the independent species of
+which there will be rank (N) and the bottom rows the dependent species.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -362,7 +374,7 @@ to be global parameters.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getSBML">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getSBML</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getSBML" title="Permalink to this definition">¶</a></dt>
-<dd><p>return the currently loaded sbml document as a string.</p>
+<dd><p>Returns the currently loaded sbml document as a string.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -376,7 +388,8 @@ to be global parameters.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getScaledConcentrationControlCoefficientMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getScaledConcentrationControlCoefficientMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getScaledConcentrationControlCoefficientMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><p>Returns the m by n matrix of scaled conentration control coefficients where m is the number
+of floating species and n the number of reactiohs.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -390,7 +403,7 @@ to be global parameters.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getScaledFloatingSpeciesElasticity">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getScaledFloatingSpeciesElasticity</tt><big>(</big><em>reactionId</em>, <em>speciesId</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getScaledFloatingSpeciesElasticity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the scaled elasticity for a given reaction and given species.</p>
+<dd><p>Returns the scaled elasticity for a given reaction and given species.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -411,8 +424,7 @@ to be global parameters.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getScaledFluxControlCoefficientMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getScaledFluxControlCoefficientMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getScaledFluxControlCoefficientMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the the matrix of scaled flux control coefficients. The first column
-will contain real values and the second column the imaginary values.</p>
+<dd><p>Returns the n by n matrix of scaled flux control coefficients where n is the number of reactions.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -426,7 +438,7 @@ will contain real values and the second column the imaginary values.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getScaledReorderedElasticityMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getScaledReorderedElasticityMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getScaledReorderedElasticityMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the unscaled elasticity matrix at the current operating point</p>
+<dd><p>Returns the unscaled elasticity matrix at the current operating point.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -473,7 +485,7 @@ will contain real values and the second column the imaginary values.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getStoichiometryMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getStoichiometryMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getStoichiometryMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><p>Returns the current stoichiomentry matrix, N.</p>
 </dd></dl>
 
 <dl class="method">
@@ -485,19 +497,19 @@ will contain real values and the second column the imaginary values.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getUnscaledConcentrationControlCoefficientMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getUnscaledConcentrationControlCoefficientMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledConcentrationControlCoefficientMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the unscaled concentration control coefficent matrix.</p>
+<dd><p>Returns the unscaled concentration control coefficent matrix.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getUnscaledElasticityMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getUnscaledElasticityMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledElasticityMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the unscaled species elasticity matrix at the current operating point</p>
+<dd><p>Returns the unscaled species elasticity matrix at the current operating point</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getUnscaledFluxControlCoefficientMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getUnscaledFluxControlCoefficientMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledFluxControlCoefficientMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><p>Returns the unscaled flux control coefficient matrix.</p>
 </dd></dl>
 
 <dl class="method">
@@ -523,13 +535,13 @@ Assumes that the reaction rates have been precomputed at the operating point !!<
 <dl class="staticmethod">
 <dt id="roadrunner.RoadRunner.getVersion">
 <em class="property">static </em><tt class="descclassname">RoadRunner.</tt><tt class="descname">getVersion</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getVersion" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><p>Returns the current version of the roadRunner library.</p>
 </dd></dl>
 
 <dl class="staticmethod">
 <dt id="roadrunner.RoadRunner.getlibSBMLVersion">
 <em class="property">static </em><tt class="descclassname">RoadRunner.</tt><tt class="descname">getlibSBMLVersion</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getlibSBMLVersion" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><p>Returns theversion of the libSBML library that is currently being used.</p>
 </dd></dl>
 
 <dl class="method">
@@ -691,7 +703,7 @@ second time to improve the solution.</p>
 <dl class="function">
 <dt id="roadrunner.RoadRunner_getCopyright">
 <tt class="descclassname">roadrunner.</tt><tt class="descname">RoadRunner_getCopyright</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner_getCopyright" title="Permalink to this definition">¶</a></dt>
-<dd><p>get the copyright string</p>
+<dd><p>Returns the copyright string</p>
 </dd></dl>
 
 <dl class="function">
@@ -868,7 +880,8 @@ If the model is flattened, the variable will appear automatically.</p>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getBoundarySpeciesAmounts">
 <tt class="descname">getBoundarySpeciesAmounts</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getBoundarySpeciesAmounts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a vector of boundary species amounts.</p>
+<dd><p>Returns a vector of boundary species amounts. The order of species is
+given by the order of Ids returned by getBoundarySpeciesIds()</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -905,7 +918,7 @@ given by the order of Ids returned by getBoundarySpeciesIds()</p>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getBoundarySpeciesIds">
 <tt class="descname">getBoundarySpeciesIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getBoundarySpeciesIds" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a vector of boundary species Ids</p>
+<dd><p>Returns a vector of boundary species Ids.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -921,7 +934,7 @@ given by the order of Ids returned by getBoundarySpeciesIds()</p>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getCompartmentIds">
 <tt class="descname">getCompartmentIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getCompartmentIds" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a vecotr of compartment Ids</p>
+<dd><p>Returns a vecotr of compartment Ids.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -937,7 +950,9 @@ given by the order of Ids returned by getBoundarySpeciesIds()</p>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getCompartmentVolumes">
 <tt class="descname">getCompartmentVolumes</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getCompartmentVolumes" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Returns a vector of compartment volumes. The order of volumes is
+given by the order of Ids returned by getCompartmentIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -1020,7 +1035,9 @@ would use [3,0] for the index array.</td>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getFloatingSpeciesConcentrations">
 <tt class="descname">getFloatingSpeciesConcentrations</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Returns a vector of floating species concentrations. The order of species is
+given by the order of Ids returned by getFloatingSpeciesIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -1037,7 +1054,9 @@ would use [3,0] for the index array.</td>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getGlobalParameterValues">
 <tt class="descname">getGlobalParameterValues</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getGlobalParameterValues" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Return a vector of global parameter values. The order of species is
+given by the order of Ids returned by getGlobalParameterIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -1059,7 +1078,7 @@ would use [3,0] for the index array.</td>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getModelName">
 <tt class="descname">getModelName</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getModelName" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the model name specified in the sbml</p>
+<dd><p>Get the model name specified in the SBML.</p>
 </dd></dl>
 
 <dl class="method">
@@ -1067,71 +1086,65 @@ would use [3,0] for the index array.</td>
 <tt class="descname">getNumBoundarySpecies</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumBoundarySpecies" title="Permalink to this definition">¶</a></dt>
 <dt>
 <tt class="descname">:module: roadrunner</tt></dt>
-<dd><p>Returns the number of boundary species in the model</p>
+<dd><p>Returns the number of boundary species in the model.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getNumCompartments">
 <tt class="descname">getNumCompartments</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumCompartments" title="Permalink to this definition">¶</a></dt>
-<dt>
-<tt class="descname">:module: roadrunner</tt></dt>
-<dd><p>Returns the number of compartments in the model</p>
+<dd><p>Returns the number of compartments in the model.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getNumConservedSums">
 <tt class="descname">getNumConservedSums</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumConservedSums" title="Permalink to this definition">¶</a></dt>
-<dt>
-<tt class="descname">:module: roadrunner</tt></dt>
 <dd><p>TODO DOCS</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getNumDependentSpecies">
 <tt class="descname">getNumDependentSpecies</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumDependentSpecies" title="Permalink to this definition">¶</a></dt>
-<dt>
-<tt class="descname">:module: roadrunner</tt></dt>
-<dd><p>Returns the number of dependent floating species in the model</p>
+<dd><blockquote>
+<div>Returns the number of dependent floating species in the model.</div></blockquote>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getNumFloatingSpecies">
 <tt class="descname">getNumFloatingSpecies</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumFloatingSpecies" title="Permalink to this definition">¶</a></dt>
-<dt>
-<tt class="descname">:module: roadrunner</tt></dt>
-<dd><p>Returns the number of floating species in the model</p>
+<dd><blockquote>
+<div>Returns the number of floating species in the model.</div></blockquote>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getNumGlobalParameters">
 <tt class="descname">getNumGlobalParameters</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumGlobalParameters" title="Permalink to this definition">¶</a></dt>
-<dt>
-<tt class="descname">:module: roadrunner</tt></dt>
-<dd><p>Returns the number of global parameters in the model</p>
+<dd><blockquote>
+<div>Returns the number of global parameters in the model.</div></blockquote>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getNumIndependentSpecies">
 <tt class="descname">getNumIndependentSpecies</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumIndependentSpecies" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the number of independent floating species in the model</p>
+<dd><p>Returns the number of independent floating species in the model.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getNumReactions">
 <tt class="descname">getNumReactions</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumReactions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the number of reactions in the model</p>
+<dd><p>Returns the number of reactions in the model.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getNumRules">
 <tt class="descname">getNumRules</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumRules" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the number of rules in the SBML Model</p>
+<dd><p>Returns the number of rules in the SBML model.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getReactionIds">
 <tt class="descname">getReactionIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getReactionIds" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Returns a vector of reaction Ids.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -1146,7 +1159,8 @@ would use [3,0] for the index array.</td>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getReactionRates">
 <tt class="descname">getReactionRates</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getReactionRates" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a vector of reaction rates for the current state of the model.</p>
+<dd><p>Returns a vector of reaction rates for the current state of the model. The order of
+reaction rates is given by the order of Ids returned by getReactionIds()</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1164,17 +1178,21 @@ would use [3,0] for the index array.</td>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getTime">
 <tt class="descname">getTime</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getTime" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Not sure what this does</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.reset">
 <tt class="descname">reset</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.reset" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Reset the floating species concentration to their initial conditions.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.setBoundarySpeciesConcentrations">
 <tt class="descname">setBoundarySpeciesConcentrations</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setBoundarySpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Use this to set the entire set of boundary species concentrations in one call.
+The order of species is given by the order of Ids returned by getBoundarySpeciesIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -1190,7 +1208,9 @@ values to set.</td>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.setCompartmentVolumes">
 <tt class="descname">setCompartmentVolumes</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setCompartmentVolumes" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Use this to set the entire set of compartment volumes in one call.
+The order of compartments is given by the order of Ids returned by getCompartmentIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -1227,7 +1247,9 @@ values to set.</td>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.setFloatingSpeciesAmounts">
 <tt class="descname">setFloatingSpeciesAmounts</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setFloatingSpeciesAmounts" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Use this to set the entire set of floating species amounts in one call.
+The order of species is given by the order of Ids returned by getFloatingSpeciesIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -1243,7 +1265,9 @@ values to set.</td>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.setFloatingSpeciesConcentrations">
 <tt class="descname">setFloatingSpeciesConcentrations</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setFloatingSpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Use this to set the entire set of floating species concentrations in one call.
+The order of species is given by the order of Ids returned by getFloatingSpeciesIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -1259,7 +1283,9 @@ values to set.</td>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.setGlobalParameterValues">
 <tt class="descname">setGlobalParameterValues</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setGlobalParameterValues" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<dd><p>Use this to set the entire set of global parameters in one call.
+The order of parameters is given by the order of Ids returned by getGlobalParameterIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -1275,7 +1301,7 @@ values to set.</td>
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.setTime">
 <tt class="descname">setTime</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setTime" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set the model time variable.</p>
+<dd><p>Set the model time variable. NOt sure what this does.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
