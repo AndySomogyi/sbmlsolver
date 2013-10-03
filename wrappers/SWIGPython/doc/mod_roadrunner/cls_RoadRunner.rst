@@ -256,12 +256,22 @@
       
    :rtype: numpy.ndarray
       
+
+   
+.. method:: RoadRunner.getCurrentSBML()
+   :module: roadrunner
+   
+   Retuens the *current state* of the model in the form of an SBML string. That is the SBML
+   will reflect the current state of the model and not the orginal SBML that was loaded
+   into roadRunner.
       
+   :rtype: str
+   
    
 .. method:: RoadRunner.getSBML()
    :module: roadrunner
    
-   Returns the currently loaded sbml document as a string.
+   Returns the original SBML model that was loaded into roadRunner.
       
    :rtype: str
       
