@@ -14,6 +14,8 @@
    .. py:method:: ExecutableModel.getBoundarySpeciesAmounts(*args)
       :module: roadrunner
    
+      Returns a vector of boundary species amounts.
+      
       :param numpy.ndarray index: (optional) an index array indicating which items to return.
       :returns: an array of the boundary species amounts.
       :rtype: numpy.ndarray.
@@ -22,6 +24,9 @@
    
    .. py:method:: ExecutableModel.getBoundarySpeciesConcentrations(*args)
       :module: roadrunner
+      
+      Returns a vector of boundary species concentrations. The order of species is
+      given by the order of Ids returned by getBoundarySpeciesIds()
    
       :param numpy.ndarray index: (optional) an index array indicating which items to return.
       :returns: an array of the boundary species concentrations. 
@@ -32,6 +37,8 @@
    .. py:method:: ExecutableModel.getBoundarySpeciesIds()
       :module: roadrunner
    
+      Returns a vector of boundary species Ids
+      
       :param numpy.ndarray index: (optional) an index array indicating which items to return.
       :returns: a list of boundary species ids.
       
@@ -40,6 +47,8 @@
    .. py:method:: ExecutableModel.getCompartmentIds()
       :module: roadrunner
    
+      Returns a vecotr of compartment Ids
+     
       :param numpy.ndarray index: (optional) an index array indicating which items to return.
       :retuns: a list of compartment ids.
       
@@ -136,55 +145,56 @@
    .. py:method:: ExecutableModel.getNumBoundarySpecies()
       :module: roadrunner
    
-              
+     Returns the number of boundary species in the model         
       
    
    .. py:method:: ExecutableModel.getNumCompartments()
       :module: roadrunner
    
-              
+    Returns the number of compartments in the model          
       
    
    .. py:method:: ExecutableModel.getNumConservedSums()
       :module: roadrunner
    
-              
+     TODO DOCS         
       
    
    .. py:method:: ExecutableModel.getNumDependentSpecies()
       :module: roadrunner
    
-              
+    Returns the number of dependent floating species in the model          
       
    
    .. py:method:: ExecutableModel.getNumFloatingSpecies()
       :module: roadrunner
    
-              
-      
+     Returns the number of floating species in the model         
+       
    
    .. py:method:: ExecutableModel.getNumGlobalParameters()
       :module: roadrunner
    
               
-      
+     Returns the number of global parameters in the model
+     
    
    .. py:method:: ExecutableModel.getNumIndependentSpecies()
       :module: roadrunner
    
-              
+      Returns the number of independent floating species in the model       
       
    
    .. py:method:: ExecutableModel.getNumReactions()
       :module: roadrunner
    
               
-      
+      Returns the number of reactions in the model
    
    .. py:method:: ExecutableModel.getNumRules()
       :module: roadrunner
    
-              
+      Returns the number of rules in the SBML Model       
       
    
    .. py:method:: ExecutableModel.getReactionIds()
@@ -198,6 +208,8 @@
    .. py:method:: ExecutableModel.getReactionRates(*args)
       :module: roadrunner
    
+      Returns a vector of reaction rates for the current state of the model.
+      
       :param numpy.ndarray index: (optional) an index array indicating which items to return.
       :returns: an array of reaction rates.
       :rtype: numpy.ndarray
