@@ -1,3 +1,3 @@
 **********************
-Looking At The Results
+Looking at the Results
 **********************
