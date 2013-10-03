@@ -63,8 +63,8 @@ sufficient detail. &lt;<a class="reference external" href="http://andysomogyi.gi
 </div>
 <p>To get you started here is a very simple script that will load a model and run a time course simulation:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">roadrunner</span>
-<span class="n">r</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">()</span>
-<span class="n">r</span><span class="o">.</span><span class="n">loadSBMLFromFile</span> <span class="p">(</span><span class="s">&#39;mymodel.xml&#39;</span><span class="p">)</span>
+<span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">()</span>
+<span class="n">rr</span><span class="o">.</span><span class="n">loadSBMLFromFile</span> <span class="p">(</span><span class="s">&#39;mymodel.xml&#39;</span><span class="p">)</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -85,8 +85,18 @@ sufficient detail. &lt;<a class="reference external" href="http://andysomogyi.gi
 <li class="toctree-l2"><a class="reference internal" href="selecting_results.html">Selecting what to Output</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="timecourse_simulation.html">Time Course Simulation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="read_write_functions.html">SBML Read/Write Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="timecourse_simulation.html">Time Course Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steady_state.html">Steady State Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stoichiometric.html">Stoichiometric Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stoichiometric.html#preliminaries">Preliminaries</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="metabolic.html">Metabolic Control Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="metabolic.html#preliminaries">Preliminaries</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stability.html">Stability Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="accessing_model.html">Accessing the SBML Model Variables</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="accessing_model.html#compartment-group">Compartment Group</a></li>
 <li class="toctree-l2"><a class="reference internal" href="accessing_model.html#boundary-species-group">Boundary Species Group</a></li>
@@ -98,16 +108,6 @@ sufficient detail. &lt;<a class="reference external" href="http://andysomogyi.gi
 <li class="toctree-l2"><a class="reference internal" href="accessing_model.html#current-state-of-the-system-group">Current State of the System Group</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="stoichiometric.html">Stoichiometric Analysis</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="stoichiometric.html#preliminaries">Preliminaries</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="stability.html">Stability Analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="metabolic.html">Metabolic Control Analysis</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="metabolic.html#preliminaries">Preliminaries</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="steady_state.html">Steady State Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api_reference.html">RoadRunner API Reference</a></li>
 </ul>
 </div>

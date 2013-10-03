@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="RoadRunner 0.99 documentation" href="index.html" />
-    <link rel="prev" title="Steady State Analysis" href="steady_state.html" /> 
+    <link rel="prev" title="Accessing the SBML Model Variables" href="accessing_model.html" /> 
   </head>
   <body>
     <div class="related">
@@ -37,7 +37,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="steady_state.html" title="Steady State Analysis"
+          <a href="accessing_model.html" title="Accessing the SBML Model Variables"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li> 
       </ul>
@@ -100,9 +100,9 @@ getFloatingSpeciesIds()</p>
 <dt id="roadrunner.RoadRunner.getCC">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getCC</tt><big>(</big><em>variable</em>, <em>parameter</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getCC" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a scaled control coefficient with respect to a parameter. For example:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">getCC</span> <span class="p">(</span><span class="s">&#39;J1&#39;</span><span class="p">,</span> <span class="s">&#39;Vmax&#39;</span><span class="p">)</span>
-<span class="n">r</span><span class="o">.</span><span class="n">getCC</span> <span class="p">(</span><span class="s">&#39;S1&#39;</span><span class="p">,</span> <span class="s">&#39;Xo&#39;</span><span class="p">)</span>
-<span class="n">r</span><span class="o">.</span><span class="n">getCC</span> <span class="p">(</span><span class="s">&#39;S2&#39;</span><span class="p">,</span> <span class="s">&#39;Km&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">getCC</span> <span class="p">(</span><span class="s">&#39;J1&#39;</span><span class="p">,</span> <span class="s">&#39;Vmax&#39;</span><span class="p">)</span>
+<span class="n">rr</span><span class="o">.</span><span class="n">getCC</span> <span class="p">(</span><span class="s">&#39;S1&#39;</span><span class="p">,</span> <span class="s">&#39;Xo&#39;</span><span class="p">)</span>
+<span class="n">rr</span><span class="o">.</span><span class="n">getCC</span> <span class="p">(</span><span class="s">&#39;S2&#39;</span><span class="p">,</span> <span class="s">&#39;Km&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The first returns a flux control coefficient with respect to flux J1. The second and third
@@ -147,13 +147,14 @@ into a single xml document which is returned as a string.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getConservationAnalysis">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getConservationAnalysis</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getConservationAnalysis" title="Permalink to this definition">¶</a></dt>
-<dd><p>is conservation analysis enabled. This is set NEEDS WORD</p>
+<dd><p>is conservation analysis enabled. This is set NEEDS MORE</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getConservationMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getConservationMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getConservationMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
+<dd><p>Returns a conservation matrix <img class="math" src="_images/math/913e49ea63c6c130bb8d9d1c3556b052ecc404f8.png" alt="\Gamma"/> which is a <img class="math" src="_images/math/7dcfb35b7dadc1b84663a51c8f8e032839634188.png" alt="c \times m' matrix
+where :math:`c"/> is the number of conservation laws and <img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/> the number of species.</p>
 </dd></dl>
 
 <dl class="staticmethod">
@@ -165,8 +166,8 @@ into a single xml document which is returned as a string.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getEE">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getEE</tt><big>(</big><em>reactionId</em>, <em>parameterId</em>, <em>steadyState=True</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getEE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Retireve a single elasticity coefficient. For example</p>
-<p>getEE (&#8216;J1&#8217;, &#8216;Vmax&#8217;)</p>
+<dd><p>Retireve a single elasticity coefficient. For example:</p>
+<p>x = rr.getEE (&#8216;J1&#8217;, &#8216;Vmax&#8217;)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -195,7 +196,7 @@ containing [&#8216;eigen_S1&#8217;, &#8216;eigen_S2&#8217;].</p>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getEigenvalues">
-<tt class="descclassname">RoadRunner.</tt><tt class="descname">getEigenvalues</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getEigenvalues" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getEigenvalues</tt><big>(</big><em>m</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getEigenvalues" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns eigenvalues, first column real part, second column imaginary part.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -523,7 +524,7 @@ of floating species and n the number of reactiohs.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getUnscaledElasticityMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getUnscaledElasticityMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledElasticityMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the unscaled species elasticity matrix at the current operating point</p>
+<dd><p>Returns the unscaled species elasticity matrix at the current operating point.</p>
 </dd></dl>
 
 <dl class="method">
@@ -535,7 +536,7 @@ of floating species and n the number of reactiohs.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getUnscaledSpeciesElasticity">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getUnscaledSpeciesElasticity</tt><big>(</big><em>reactionIndx</em>, <em>speciesIndx</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getUnscaledSpeciesElasticity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a single species elasticity value
+<dd><p>Get a single species elasticity value.
 IMPORTANT:
 Assumes that the reaction rates have been precomputed at the operating point !!</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -603,9 +604,10 @@ Assumes that the reaction rates have been precomputed at the operating point !!<
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">oneStep</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.oneStep" title="Permalink to this definition">¶</a></dt>
 <dd><p>Carry out a one step integration of the model. The method takes two arguments,
 the current time and the step size to us in the integration. The method returns
-the new time which will be currentTime + StepSize</p>
-<blockquote>
-<div>newTime = r.oneStep (10, 0.5)</div></blockquote>
+the new time which will be currentTime + StepSize:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">newTime</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">oneStep</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -682,12 +684,12 @@ simulations.</dd>
 </dl>
 <p>The options given in the 2nd and 3rd forms will remain in effect until changed. So, if
 one calls:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">3.14</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">3.14</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The start time of 0, end time of 3.14 and steps of 100 will remain in effect, so that if this
 is followed by a call to:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>This simulation will use the previous values.</p>
@@ -759,6 +761,64 @@ to be global parameters.</p>
 <dt id="roadrunner.RoadRunner_getlibSBMLVersion">
 <tt class="descclassname">roadrunner.</tt><tt class="descname">RoadRunner_getlibSBMLVersion</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner_getlibSBMLVersion" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getRatesOfChange">
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getRatesOfChange</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getRatesOfChange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of rates of change as determined by the current state of the model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getRateOfChange">
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getRateOfChange</tt><big>(</big><em>index</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getRateOfChange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the rate of change for the ith floating species. The order of species is determined by
+getFloatingSpeciesIds().</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>parameter</strong> &#8211; The id of the floating species.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The value of rate of change.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">double</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getRatesOfChangeEx">
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getRatesOfChangeEx</tt><big>(</big><em>speciesVector</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getRatesOfChangeEx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of rates of change as determined by the values in the species vector argument.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getRatesOfChangeIds">
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getRatesOfChangeIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getRatesOfChangeIds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of Ids for the rates of changes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.evalModel">
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">evalModel</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.evalModel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the current model, that is it updates the rates of change and any assignments in the model.
+It does <em>not</em> carry out an integration step.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Returns true if successful</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getNumberOfGlobalParameters">
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getNumberOfGlobalParameters</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getNumberOfGlobalParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of global parameters in the model.</p>
 </dd></dl>
 
 <dl class="class">
@@ -1384,8 +1444,8 @@ however certain ones such as [???] require both p1 and p2.</p>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="steady_state.html"
-                        title="previous chapter">Steady State Analysis</a></p>
+  <p class="topless"><a href="accessing_model.html"
+                        title="previous chapter">Accessing the SBML Model Variables</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/api_reference.txt"
@@ -1418,7 +1478,7 @@ however certain ones such as [???] require both p1 and p2.</p>
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="steady_state.html" title="Steady State Analysis"
+          <a href="accessing_model.html" title="Accessing the SBML Model Variables"
              >previous</a> |</li>
         <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li> 
       </ul>

@@ -24,8 +24,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="RoadRunner 0.99 documentation" href="index.html" />
-    <link rel="next" title="Stoichiometric Analysis" href="stoichiometric.html" />
-    <link rel="prev" title="Time Course Simulation" href="timecourse_simulation.html" /> 
+    <link rel="next" title="RoadRunner API Reference" href="api_reference.html" />
+    <link rel="prev" title="Stability Analysis" href="stability.html" /> 
   </head>
   <body>
     <div class="related">
@@ -38,10 +38,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="stoichiometric.html" title="Stoichiometric Analysis"
+          <a href="api_reference.html" title="RoadRunner API Reference"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="timecourse_simulation.html" title="Time Course Simulation"
+          <a href="stability.html" title="Stability Analysis"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li> 
       </ul>
@@ -253,6 +253,45 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getFloatingSpeciesAmountRates" title="roadrunner.ExecutableModel.getFloatingSpeciesAmountRates"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getFloatingSpeciesAmountRates</span></tt></a>(*args)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param numpy.ndarray index:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">(optional) an index array indicating which items to return.</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getReactionRates" title="roadrunner.ExecutableModel.getReactionRates"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getReactionRates</span></tt></a>(*args)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param numpy.ndarray index:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">(optional) an index array indicating which items to return.</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getNumReactions" title="roadrunner.ExecutableModel.getNumReactions"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getNumReactions</span></tt></a>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getReactionIds" title="roadrunner.ExecutableModel.getReactionIds"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getReactionIds</span></tt></a>()</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param numpy.ndarray index:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">(optional) an index array indicating which items to return.</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -264,19 +303,53 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.setGlobalParameterValues" title="roadrunner.ExecutableModel.setGlobalParameterValues"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.setGlobalParameterValues</span></tt></a>(*args)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param numpy.ndarray index:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">(optional) an index array indicating which items to set,</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getGlobalParameterValues" title="roadrunner.ExecutableModel.getGlobalParameterValues"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getGlobalParameterValues</span></tt></a>(*args)</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">param numpy.ndarray index:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">(optional) an index array indicating which items to return.</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getNumGlobalParameters" title="roadrunner.ExecutableModel.getNumGlobalParameters"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getNumGlobalParameters</span></tt></a>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getNumGlobalParameters" title="roadrunner.ExecutableModel.getNumGlobalParameters"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getNumGlobalParameters</span></tt></a>()</td>
+<td></td>
+</tr>
 </tbody>
 </table>
 </div>
 <div class="section" id="current-state-of-the-system-group">
 <h2>Current State of the System Group<a class="headerlink" href="#current-state-of-the-system-group" title="Permalink to this headline">¶</a></h2>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-</tbody>
-</table>
+<p>When using the LLVM back end, all model state calculation are automatically
+performed using a techinque called lazy evaluation. If one sets the concentration
+of a species, the amount of of that species is automatically available without
+having to perform any addition operations. Similarly with any other value in the model.</p>
+<p>If an SBML parameter is defined by an assigment rule or function and its value then
+depends on a number of other values, simply setting to other values automatically
+cause the value of the most dependent variable to be set.</p>
+<p>This is identical how one operates in a spredsheet such as Microsoft Excel. For
+example, if one has a cell with an equation that depends on other cell, and those
+other cell depend on other values, setting the value of any upstream cell automatically
+causes that value to cascade down to the terminal cells. The LLVM back end roadruner
+function identically.</p>
 </div>
 </div>
 
@@ -302,11 +375,11 @@
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="timecourse_simulation.html"
-                        title="previous chapter">Time Course Simulation</a></p>
+  <p class="topless"><a href="stability.html"
+                        title="previous chapter">Stability Analysis</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="stoichiometric.html"
-                        title="next chapter">Stoichiometric Analysis</a></p>
+  <p class="topless"><a href="api_reference.html"
+                        title="next chapter">RoadRunner API Reference</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/accessing_model.txt"
@@ -339,10 +412,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="stoichiometric.html" title="Stoichiometric Analysis"
+          <a href="api_reference.html" title="RoadRunner API Reference"
              >next</a> |</li>
         <li class="right" >
-          <a href="timecourse_simulation.html" title="Time Course Simulation"
+          <a href="stability.html" title="Stability Analysis"
              >previous</a> |</li>
         <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li> 
       </ul>
