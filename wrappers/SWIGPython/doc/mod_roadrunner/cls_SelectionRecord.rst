@@ -16,20 +16,20 @@
    
    .. py:attribute:: SelectionRecord.index
       :module: roadrunner
-      :annotation: None
+      :annotation: int
    
    
    .. py:attribute:: SelectionRecord.p1
       :module: roadrunner
-      :annotation: None
+      :annotation: str
    
    
    .. py:attribute:: SelectionRecord.p2
       :module: roadrunner
-      :annotation: None
+      :annotation: str
    
    
    .. py:attribute:: SelectionRecord.selectionType
       :module: roadrunner
-      :annotation: None
+      :annotation: int
    

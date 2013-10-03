@@ -220,8 +220,8 @@
 .. method:: RoadRunner.getNrMatrix()
    :module: roadrunner
    
-   Returns the reduced stoichiometry matrix, Nr, which wil have only r rows where r is the rank of 
-   the full stoichiometry matrix. The matrix will be reordered such that the rows of Nr are independent.
+   Returns the reduced stoichiometry matrix, :math:`N_R`, which wil have only r rows where r is the rank of 
+   the full stoichiometry matrix. The matrix will be reordered such that the rows of :math:`N_R` are independent.
       
    :rtype: numpy.ndarray
       

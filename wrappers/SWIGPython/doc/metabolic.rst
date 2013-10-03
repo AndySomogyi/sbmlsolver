@@ -4,6 +4,9 @@ Metabolic Control Analysis
 
 .. currentmodule:: roadrunner
 
+Preliminaries
+-------------
+
 The following methods allow users to obtain various metabolic control coefficients.
 
 .. autosummary::

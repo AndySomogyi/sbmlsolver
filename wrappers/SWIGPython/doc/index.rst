@@ -20,16 +20,17 @@ and provides a complete API reference.
 
    This "User Guide" is still a work in progress; some of the material
    is not organized, and several aspects of RoadRunner are not yet covered
-   sufficient detail.     <http://andysomogyi.github.io/roadrunner/pydoc/>`__ website.
+   sufficient detail. <http://andysomogyi.github.io/roadrunner/pydoc/>`__ website.
 
 To get you started here is a very simple script that will load a model and run a time course simulation::
 
-  import roadRunner
-  rr = roadrunner()
-  rr.loadSBMLFromFile ("c:\mymodel.xml")
+  import roadrunner
+  r = roadrunner.RoadRunner()
+  r.loadSBMLFromFile ('mymodel.xml')
   result = rr.simulate()
  
-You can plot your results using matplotlib. Now read the tutorials to learn more about the capabilities of roadRunner. 
+The result is a standard numpy array which may be plotted using `matplotlib
+<http://matplotlib.org/>`_. Now read the tutorials to learn more about the capabilities of RoadRunner. 
 
 Contents:
 
