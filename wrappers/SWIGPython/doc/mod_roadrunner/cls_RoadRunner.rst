@@ -409,14 +409,17 @@
 .. method:: RoadRunner.oneStep(*args)
    :module: roadrunner
    
-   TODO docs
+   Carry out a one step integration of the model. The method takes two arguments,
+   the current time and the step size to us in the integration. The method returns
+   the new time which will be currentTime + StepSize
       
+     newTime = r.oneStep (10, 0.5)
       
    
 .. method:: RoadRunner.reset()
    :module: roadrunner
    
-   TODO docs
+   This method resets all the floating species concentrations to their initial values.
       
       
    
@@ -455,7 +458,7 @@
 .. method:: RoadRunner.simulate(*args)
    :module: roadrunner
    
-   simulate the current SBML model.
+   Simulate the current SBML model.
       
    There are a number of ways to call simulate. 
       
