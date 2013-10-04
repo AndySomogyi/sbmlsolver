@@ -1008,23 +1008,23 @@ given by the order of Ids returned by getBoundarySpeciesIds()</p>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getCompartmentIds">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getCompartmentIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getCompartmentIds" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a vecotr of compartment Ids.</p>
-</dd></dl>
-
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getCompartmentIds</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getCompartmentIds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of compartment identifier symbols.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">param numpy.ndarray index:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">(optional) an index array indicating which items to return.
-:retuns: a list of compartment ids.</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>None or numpy.ndarray</em>) &#8211; A array of compartment indices indicating which comparment ids to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a list of compartment ids.</td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getCompartmentVolumes">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getCompartmentVolumes</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getCompartmentVolumes" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getCompartmentVolumes</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getCompartmentVolumes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a vector of compartment volumes. The order of volumes is
 given by the order of Ids returned by getCompartmentIds()</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1166,6 +1166,14 @@ given by the order of Ids returned by getGlobalParameterIds()</p>
 <dt id="roadrunner.ExecutableModel.getNumCompartments">
 <tt class="descclassname">ExecutableModel.</tt><tt class="descname">getNumCompartments</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumCompartments" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the number of compartments in the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -1280,9 +1288,11 @@ array of all the  values to set.</li>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.setCompartmentVolumes">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">setCompartmentVolumes</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setCompartmentVolumes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Use this to set the entire set of compartment volumes in one call.
-The order of compartments is given by the order of Ids returned by getCompartmentIds()</p>
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">setCompartmentVolumes</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span>, <em>values</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setCompartmentVolumes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a vector of compartment volumes.</p>
+<p>If the index vector is not give, then the values vector treated as a vector of all
+compartment volumes to set. If index is given, then  values should have the same
+length as index.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
