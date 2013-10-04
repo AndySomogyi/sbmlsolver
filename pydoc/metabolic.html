@@ -56,8 +56,8 @@
 <h1>Metabolic Control Analysis<a class="headerlink" href="#metabolic-control-analysis" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="preliminaries">
 <h2>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this headline">¶</a></h2>
-<p>Metabolic control analysis is the study of how sensitive the system is to pertubration and how those perturbations
-progagate through the network. Two kinds of sensitivity are defined, systems and local. The local sensitivities are
+<p>Metabolic control analysis is the study of how sensitive the system is to pertubrations in parameters and how those perturbations
+progagate through the network. Two kinds of sensitivity are defined, system and local. The local sensitivities are
 described by the elasticities. These are defined as follows:</p>
 <div class="math">
 <p><img src="_images/math/3bf9f0679060539910ef5b8d0e00bcde7e83c2d7.png" alt="\varepsilon^v_S = \frac{\partial v}{\partial S} \frac{S}{v} = \frac{\partial \ln v}{\partial \ln S}"/></p>
@@ -66,19 +66,19 @@ the reaction rate. Because the definition is in terms of partial deriviatives, a
 that all other potential effectors are unchanged.</p>
 <p>The system sensitivities are described by the control and response coefficients. These come in two forms, flux
 and concentration. The flux control coefficients measures how senstive a given flux is to a perturbation in the
-local rate of a reaction step. Often the local rate is perturbed by changing the enzyme concdntration at the step.
-In this siutation the flux control coefficident is defined as follow:</p>
+local rate of a reaction step. Often the local rate is perturbed by changing the enzyme concentration at the step.
+In this siutation the flux control coefficicent with respect to enzyme <img class="math" src="_images/math/f8f358aa01478e43f1a663db574b83f88d7be478.png" alt="E_i"/> is defined as follow:</p>
 <div class="math">
-<p><img src="_images/math/ab5b47eedec83386b43caa4590e170479e2b0f71.png" alt="C^J_{E_i} = \frac{\partial J}{\partial E_1} \frac{E_1}{J} = \frac{\partial \ln J}{\partial \ln E_i}"/></p>
+<p><img src="_images/math/a6d1e76ecb8d0c0c7578922176b301f182e80860.png" alt="C^J_{E_i} = \frac{dJ}{dE_i} \frac{E_1}{J} = \frac{d\ln J}{d\ln E_i}"/></p>
 </div><p>Likewise the concentration control coefficient is defined by:</p>
 <div class="math">
-<p><img src="_images/math/23d65e71b76bfe94d106f61b9fb8931e669c22ab.png" alt="C^S_{E_i} = \frac{\partial J}{\partial E_1} \frac{E_1}{S} = \frac{\partial \ln S}{\partial \ln E_i}"/></p>
+<p><img src="_images/math/068e6ad6e65e51c4af7eba148beefade7f1a16dd.png" alt="C^S_{E_i} = \frac{dS}{d E_i} \frac{E_1}{S} = \frac{d\ln S}{d\ln E_i}"/></p>
 </div><p>where <img class="math" src="_images/math/ad28c83c99a8fd0dd2e2e594c9d02ee532765a0a.png" alt="S"/> is a given species. The response coefficients measure the sensitivity of a flux or species concentration
-to a perturbation in some external effector. The are defined by:</p>
+to a perturbation in some external effector. These are defined by:</p>
 <div class="math">
-<p><img src="_images/math/c9d415059d91c15e1dd7e89e11eff88b8702d502.png" alt="RC^J_{X} = \frac{\partial J}{\partial X} \frac{X}{J} = \frac{\partial \ln J}{\partial \ln X}"/></p>
+<p><img src="_images/math/5c21713800f9f1923ce7b348d5363e7b3f2d0d35.png" alt="R^J_{X} = \frac{dJ}{dX} \frac{X}{J} = \frac{d\ln J}{d\ln X}"/></p>
 </div><div class="math">
-<p><img src="_images/math/9a91c7d5f28b24ff416be78ce01be1b84463c684.png" alt="R^S_{X} = \frac{\partial J}{\partial X} \frac{X}{S} = \frac{\partial \ln S}{\partial \ln X}"/></p>
+<p><img src="_images/math/e425c3219523539fbf374b4a270542a4d783d236.png" alt="R^S_{X} = \frac{dJ}{dX} \frac{X}{S} = \frac{d\ln S}{d\ln X}"/></p>
 </div><p>where <img class="math" src="_images/math/6a47ca0fe7cb276abc022af6ac88ddae1a9d6894.png" alt="X"/> is the external effector.</p>
 <p>The following methods allow users to obtain various metabolic control coefficients.</p>
 <table border="1" class="longtable docutils">

@@ -24,8 +24,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="RoadRunner 0.99 documentation" href="index.html" />
-    <link rel="next" title="Metabolic Control Analysis" href="metabolic.html" />
-    <link rel="prev" title="Stoichiometric Analysis" href="stoichiometric.html" /> 
+    <link rel="next" title="Accessing the SBML Model Variables" href="accessing_model.html" />
+    <link rel="prev" title="Metabolic Control Analysis" href="metabolic.html" /> 
   </head>
   <body>
     <div class="related">
@@ -38,10 +38,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="metabolic.html" title="Metabolic Control Analysis"
+          <a href="accessing_model.html" title="Accessing the SBML Model Variables"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="stoichiometric.html" title="Stoichiometric Analysis"
+          <a href="metabolic.html" title="Metabolic Control Analysis"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li> 
       </ul>
@@ -54,6 +54,18 @@
             
   <div class="section" id="stability-analysis">
 <h1>Stability Analysis<a class="headerlink" href="#stability-analysis" title="Permalink to this headline">¶</a></h1>
+<p>The stability of a biochemical system is determined by the eigenvalues of the Jacobian matrix. The
+Jacobian matrix is defined as follows:</p>
+<div class="math">
+<p><img src="_images/math/7ccd500b29ee6a37ac1d637d4130f12894f6bf76.png" alt="J=\begin{bmatrix} \dfrac{\partial F_1}{\partial S_1} &amp; \cdots &amp; \dfrac{\partial F_1}{\partial S_n} \\
+\vdots &amp; \ddots &amp; \vdots \\ \dfrac{\partial F_m}{\partial S_1} &amp; \cdots &amp; \dfrac{\partial F_m}{\partial S_n}
+\end{bmatrix}"/></p>
+</div><p>where <img class="math" src="_images/math/c2ececdc0bb3ce97a20ed0b4fb7c3b1dd8383e9b.png" alt="F_i"/> is the ith differential equation and <img class="math" src="_images/math/9e0ec34cd8860ceb97113f81ba768ba739ad5166.png" alt="S_i"/> the ith floating species. From roadRunner it is easy to obtain the Jacobian matrix using
+the command:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">Jac</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">getFullJacobian</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>which returns the Jacobian matrix in the variable Jac.</p>
 </div>
 
 
@@ -63,11 +75,11 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="stoichiometric.html"
-                        title="previous chapter">Stoichiometric Analysis</a></p>
-  <h4>Next topic</h4>
   <p class="topless"><a href="metabolic.html"
-                        title="next chapter">Metabolic Control Analysis</a></p>
+                        title="previous chapter">Metabolic Control Analysis</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="accessing_model.html"
+                        title="next chapter">Accessing the SBML Model Variables</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/stability.txt"
@@ -100,10 +112,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="metabolic.html" title="Metabolic Control Analysis"
+          <a href="accessing_model.html" title="Accessing the SBML Model Variables"
              >next</a> |</li>
         <li class="right" >
-          <a href="stoichiometric.html" title="Stoichiometric Analysis"
+          <a href="metabolic.html" title="Metabolic Control Analysis"
              >previous</a> |</li>
         <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li> 
       </ul>

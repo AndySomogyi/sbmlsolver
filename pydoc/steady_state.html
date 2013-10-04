@@ -24,8 +24,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="RoadRunner 0.99 documentation" href="index.html" />
-    <link rel="next" title="RoadRunner API Reference" href="api_reference.html" />
-    <link rel="prev" title="Metabolic Control Analysis" href="metabolic.html" /> 
+    <link rel="next" title="Stoichiometric Analysis" href="stoichiometric.html" />
+    <link rel="prev" title="Time Course Simulation" href="timecourse_simulation.html" /> 
   </head>
   <body>
     <div class="related">
@@ -38,10 +38,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="api_reference.html" title="RoadRunner API Reference"
+          <a href="stoichiometric.html" title="Stoichiometric Analysis"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="metabolic.html" title="Metabolic Control Analysis"
+          <a href="timecourse_simulation.html" title="Time Course Simulation"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li> 
       </ul>
@@ -54,7 +54,16 @@
             
   <div class="section" id="steady-state-analysis">
 <h1>Steady State Analysis<a class="headerlink" href="#steady-state-analysis" title="Permalink to this headline">¶</a></h1>
-<p>The following methods deal wth steady state analysis:</p>
+<p>The dynamics of a biochemical network is described by the system equation</p>
+<div class="math">
+<p><img src="_images/math/6026d7c1a3382e81d6e295f7cb80bd00cfadcf14.png" alt="\frac{d}{dt}\mathbf{s}(t) = \mathbf{N} \mathbf{v}(\mathbf{s}(t),\mathbf{p},t),"/></p>
+</div><p>where <img class="math" src="_images/math/6090de2607ebd7106b00985e8259a3f505b46f37.png" alt="\mathbf{s}"/> is the vector of species concentrations, <img class="math" src="_images/math/0a1c35be9c8d28ff85f7effb2c07f511e6720169.png" alt="\mathbf{p}"/>
+is a vector of time independent parameters, and <img class="math" src="_images/math/e0d2bf360290fd61d1c1557e763f2622363b3d35.png" alt="t"/> is time. The steady state is the solution to
+the network equation when all the rates of change zero. That is the concentrations of the floating
+species, <img class="math" src="_images/math/6090de2607ebd7106b00985e8259a3f505b46f37.png" alt="\mathbf{s}"/> that satisfy:</p>
+<div class="math">
+<p><img src="_images/math/d073099dd6b77c6c1933f9e9b4eee7ba5310dff7.png" alt="\mathbf{N} \mathbf{v}(\mathbf{s}(t),\mathbf{p},t) = 0"/></p>
+</div><p>The following methods deal wth steady state analysis:</p>
 <table border="1" class="longtable docutils">
 <colgroup>
 <col width="10%" />
@@ -93,11 +102,11 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="metabolic.html"
-                        title="previous chapter">Metabolic Control Analysis</a></p>
+  <p class="topless"><a href="timecourse_simulation.html"
+                        title="previous chapter">Time Course Simulation</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="api_reference.html"
-                        title="next chapter">RoadRunner API Reference</a></p>
+  <p class="topless"><a href="stoichiometric.html"
+                        title="next chapter">Stoichiometric Analysis</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/steady_state.txt"
@@ -130,10 +139,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="api_reference.html" title="RoadRunner API Reference"
+          <a href="stoichiometric.html" title="Stoichiometric Analysis"
              >next</a> |</li>
         <li class="right" >
-          <a href="metabolic.html" title="Metabolic Control Analysis"
+          <a href="timecourse_simulation.html" title="Time Course Simulation"
              >previous</a> |</li>
         <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li> 
       </ul>
