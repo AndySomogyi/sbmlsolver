@@ -1,11 +1,11 @@
 
-http://username.github.io/archive.html
-http://username.github.io/atom.xml
-http://username.github.io/categories.html
-http://username.github.io/index.html
-http://username.github.io/pages.html
-http://username.github.io/rss.xml
-http://username.github.io/sitemap.txt
-http://username.github.io/tags.html
+http://rr.sbols.org/archive.html
+http://rr.sbols.org/atom.xml
+http://rr.sbols.org/categories.html
+http://rr.sbols.org/index.html
+http://rr.sbols.org/pages.html
+http://rr.sbols.org/rss.xml
+http://rr.sbols.org/sitemap.txt
+http://rr.sbols.org/tags.html
 
-http://username.github.io/lessons/2011/12/29/jekyll-introduction
+http://rr.sbols.org/lessons/2011/12/29/jekyll-introduction
