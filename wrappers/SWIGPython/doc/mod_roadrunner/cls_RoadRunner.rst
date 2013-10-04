@@ -259,7 +259,7 @@
 .. method:: RoadRunner.getCurrentSBML()
    :module: roadrunner
    
-   Retuens the *current state* of the model in the form of an SBML string. That is the SBML
+   Returns the *current state* of the model in the form of an SBML string. That is the SBML
    will reflect the current state of the model and not the orginal SBML that was loaded
    into roadRunner.
       
