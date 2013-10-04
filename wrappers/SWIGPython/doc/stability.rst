@@ -12,7 +12,7 @@ Jacobian matrix is defined as follows:
      \vdots & \ddots & \vdots \\ \dfrac{\partial F_m}{\partial S_1} & \cdots & \dfrac{\partial F_m}{\partial S_n}  
      \end{bmatrix}
 
-where :math:`F_i` is the ith differential equation. From roadRunner it is easy to obtain the Jacobian matrix using
+where :math:`F_i` is the ith differential equation and :math:`S_i` the ith floating species. From roadRunner it is easy to obtain the Jacobian matrix using
 the command::
 
    Jac = rr.getFullJacobian()
