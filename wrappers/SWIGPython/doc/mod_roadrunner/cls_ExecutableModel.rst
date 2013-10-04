@@ -34,16 +34,15 @@
    :param numpy.ndarray index: (optional) an index array indicating which items to return.
    :returns: a list of boundary species ids.
       
-.. method:: ExecutableModel.getCompartmentIds()
-   :module: roadrunner
-   
-   Returns a vecotr of compartment Ids.
-     
-:param numpy.ndarray index: (optional) an index array indicating which items to return.
-   :retuns: a list of compartment ids.
+.. method:: ExecutableModel.getCompartmentIds([index])
+
+   Returns a vector of compartment identifier symbols. 
+
+   :param index: A array of compartment indices indicating which comparment ids to return.  
+   :type index: None or numpy.ndarray
+   :returns: a list of compartment ids.
       
-.. method:: ExecutableModel.getCompartmentVolumes(*args)
-   :module: roadrunner
+.. method:: ExecutableModel.getCompartmentVolumes([index])
       
    Returns a vector of compartment volumes. The order of volumes is
    given by the order of Ids returned by getCompartmentIds()
@@ -146,10 +145,10 @@
       
    
 .. method:: ExecutableModel.getNumCompartments()
-   :module: roadrunner
    
    Returns the number of compartments in the model.          
-      
+
+   :rtype: int
    
 .. method:: ExecutableModel.getNumConservedSums()
    :module: roadrunner
@@ -240,20 +239,21 @@
    :param numpy.ndarray values: the values to set.
       
 
-.. method:: ExecutableModel.setCompartmentVolumes(*args)
-   :module: roadrunner
-   
-   Use this to set the entire set of compartment volumes in one call. 
-   The order of compartments is given by the order of Ids returned by getCompartmentIds()
+.. method:: ExecutableModel.setCompartmentVolumes([index], values)
+
+   Sets a vector of compartment volumes.
+
+   If the index vector is not give, then the values vector treated as a vector of all 
+   compartment volumes to set. If index is given, then  values should have the same 
+   length as index. 
    
    :param numpy.ndarray index: (optional) an index array indicating which items to set, 
                                or if no index array is given, the first param should be an 
                                array of all the  values to set.
+   
    :param numpy.ndarray values: the values to set.
       
-      
-
-   
+     
 .. method:: ExecutableModel.setConservedSumChanged(*args)
    :module: roadrunner
 

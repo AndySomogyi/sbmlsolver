@@ -405,6 +405,11 @@ Set the model time variable.
 %feature("docstring") rr::ExecutableModel::getNumGlobalParameters "
 ";
 %feature("docstring") rr::ExecutableModel::getNumCompartments "
+ExecutableModel.getNumCompartments()
+   
+Returns the number of compartments in the model.          
+
+:rtype: int
 ";
 %feature("docstring") rr::ExecutableModel::getNumConservedSums "
 ";
@@ -466,17 +471,25 @@ get amounts 3 and 0:
 ";
 
 %feature("docstring") rr::ExecutableModel::getGlobalParameterValues "
-
-:param numpy.ndarray index: (optional) an index array indicating which items to return.
-:returns: an array of global parameter values.
-:rtype: numpy.ndarray.
+getGlobalParameterVolumes([index])
+      
+   Returns a vector of compartment volumes. The order of volumes is
+   given by the order of Ids returned by getCompartmentIds()
+   
+   :param numpy.ndarray index: (optional) an index array indicating which items to return.
+   :returns: an array of compartment volumes.
+   :rtype: numpy.ndarray.
 ";
 
 %feature("docstring") rr::ExecutableModel::getCompartmentVolumes "
-
-:param numpy.ndarray index: (optional) an index array indicating which items to return.
-:returns: an array of compartment volumes.
-:rtype: numpy.ndarray.
+   ExecutableModel.getCompartmentVolumes([index])
+      
+   Returns a vector of compartment volumes. The order of volumes is
+   given by the order of Ids returned by getCompartmentIds()
+   
+   :param numpy.ndarray index: (optional) an index array indicating which items to return.
+   :returns: an array of compartment volumes.
+   :rtype: numpy.ndarray.
 ";
 
 %feature("docstring") rr::ExecutableModel::getConservedSums "
@@ -500,9 +513,13 @@ get amounts 3 and 0:
 ";
 
 %feature("docstring") rr::ExecutableModel::getCompartmentIds "
+ExecutableModel.getCompartmentIds([index])
 
-:param numpy.ndarray index: (optional) an index array indicating which items to return.
-:retuns: a list of compartment ids.
+Returns a vector of compartment identifier symbols. 
+
+:param index: A array of compartment indices indicating which comparment ids to return.  
+:type index: None or numpy.ndarray
+:returns: a list of compartment ids.
 ";
 
 %feature("docstring") rr::ExecutableModel::getReactionIds "
@@ -545,12 +562,19 @@ get amounts 3 and 0:
 ";
 
 %feature("docstring") rr::ExecutableModel::setCompartmentVolumes "
+ExecutableModel.setCompartmentVolumes([index], values)
 
+Sets a vector of compartment volumes.
+
+If the index vector is not give, then the values vector treated as a vector of all 
+compartment volumes to set. If index is given, then  values should have the same 
+length as index. 
+   
 :param numpy.ndarray index: (optional) an index array indicating which items to set, 
-	or if no index array is given, the first param should be an array of all the 
-	values to set.
-:param numpy.ndarray values' the values to set.
-
+                            or if no index array is given, the first param should be an 
+                            array of all the  values to set.
+   
+:param numpy.ndarray values: the values to set.
 ";
 
 %feature("docstring") rr::ExecutableModel::setConservedSums "
