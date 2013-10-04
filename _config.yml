@@ -9,10 +9,10 @@ pygments: true
 # so be sure to set them if your theme uses them.
 #
 title : Roadrunner
-tagline: very simulations
+tagline: speedy simulation engine
 author :
-  name : Michal Galdzicki
-  email : mgaldzic@uw.edu
+  name : libroadrunner team
+  email : roadrunner@u.washington.edu
   github : mgaldzic
 
 # The production_url is only used when full-domain names are needed
