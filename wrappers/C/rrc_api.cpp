@@ -620,7 +620,8 @@ bool rrcCallConv setTimeCourseSelectionList(RRHandle handle, const char* list)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        rri->setTimeCourseSelectionList(list);
+        StringList aList(list,", ");
+        rri->setTimeCourseSelectionList(aList);
         return true;
     }
     catch_bool_macro

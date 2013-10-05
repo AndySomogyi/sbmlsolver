@@ -140,7 +140,7 @@ public:
      */
     const RoadRunnerData *simulate(const SimulateOptions* options = 0);
 
-    double getValueForRecord(const SelectionRecord& record);
+
 
     /**
      * obtain a pointer to the simulation result.
@@ -286,8 +286,8 @@ public:
      */
     std::vector<std::string> getTimeCourseSelectionList();
 
+    double getValueForRecord(const SelectionRecord& record);
 
-    void setTimeCourseSelectionList(const std::string& List);
 
     void setTimeCourseSelectionList(
             const std::vector<std::string>& newSelectionList);

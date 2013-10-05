@@ -282,6 +282,11 @@ bool RunTest(const string& version, int caseNumber)
 
  */
 
+SelectionRecord TestRoadRunner::testsel(const std::string& str)
+{
+    return SelectionRecord(str);
+}
 
 } /* namespace rr */
+
 

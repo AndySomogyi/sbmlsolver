@@ -152,9 +152,20 @@ zutil
 adler32
 crc32
 trees
-pcre_ucd
-pcre_exec
-pcre_tables
+pcre_chartables.c
+pcre_compile.c
+pcre_exec.c
+pcre_fullinfo.c
+pcre_globals.c
+pcre_maketables.c
+pcre_newline.c
+pcre_ord2utf8.c
+pcre_study.c
+pcre_tables.c
+pcre_try_flipped.c
+pcre_ucd.c
+pcre_valid_utf8.c
+pcre_xclass.c
 )
 
 if(${BORLAND})

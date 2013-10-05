@@ -32,7 +32,7 @@
     #include <rrPlugin.h>
     #include <cstddef>
     #include <map>
-	#include <rrVersionInfo.h>
+    #include <rrVersionInfo.h>
     using namespace rr;
 %}
 
@@ -187,10 +187,10 @@ import_array();
 %}
 
 %{
-	static std::string version_info() {
-		return string(RR_VERSION) + string(", compiled with ") + string(RR_COMPILER)
+    static std::string version_info() {
+        return string(RR_VERSION) + string(", compiled with ") + string(RR_COMPILER)
             + " on date " + string( __DATE__ ) + ", " + string(__TIME__);
-	}
+    }
 %}
 
 std::string version_info();
@@ -513,22 +513,6 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 %rename(STIFF) rr::SimulateOptions::Stiff;
 
 
-%rename(TIME) rr::SelectionRecord::clTime;
-%rename(BOUNDARY_CONCENTRATION) rr::SelectionRecord::clBoundarySpecies;
-%rename(FLOATING_CONCENTRATION) rr::SelectionRecord::clFloatingSpecies;
-%rename(FLUX) rr::SelectionRecord::clFlux;
-%rename(RATE_OF_CHANGE) rr::SelectionRecord::clRateOfChange;
-%rename(VOLUME) rr::SelectionRecord::clVolume;
-%rename(PARAMETER) rr::SelectionRecord::clParameter;
-%rename(FLOATING_AMOUNT) rr::SelectionRecord::clFloatingAmount;
-%rename(BOUNDARY_AMOUNT) rr::SelectionRecord::clBoundaryAmount;
-%rename(ELASTICITY) rr::SelectionRecord::clElasticity;
-%rename(SCALED_ELASTICITY) rr::SelectionRecord::clUnscaledElasticity;
-%rename(EIGEN_VALUE) rr::SelectionRecord::clEigenValue;
-%rename(UNKNOWN) rr::SelectionRecord::clUnknown;
-%rename(STOICHIOMETRY) rr::SelectionRecord::clStoichiometry;
-
-
 // ignore Plugin methods that will be deprecated
 %ignore rr::Plugin::assignCallbacks;
 //%ignore rr::Plugin::getCopyright;
@@ -664,19 +648,19 @@ namespace Poco { class SharedLibrary{}; }
         std::string selType;
 
         switch($self->selectionType) {
-        case SelectionRecord::clTime: selType = "TIME"; break;
-        case SelectionRecord::clBoundarySpecies: selType = "BOUNDARY_CONCENTRATION"; break;
-        case SelectionRecord::clFloatingSpecies: selType = "FLOATING_CONCENTRATION"; break;
-        case SelectionRecord::clFlux: selType = "FLUX"; break;
-        case SelectionRecord::clRateOfChange: selType = "RATE_OF_CHANGE"; break;
-        case SelectionRecord::clVolume: selType = "VOLUME"; break;
-        case SelectionRecord::clParameter: selType = "PARAMETER"; break;
-        case SelectionRecord::clFloatingAmount: selType = "FLOATING_AMOUNT"; break;
-        case SelectionRecord::clBoundaryAmount: selType = "BOUNDARY_AMOUNT"; break;
-        case SelectionRecord::clElasticity: selType = "ELASTICITY"; break;
-        case SelectionRecord::clUnscaledElasticity: selType = "UNSCALED_ELASTICITY"; break;
-        case SelectionRecord::clEigenValue: selType = "EIGEN_VALUE"; break;
-        case SelectionRecord::clStoichiometry: selType = "STOICHIOMETRY"; break;
+        case SelectionRecord::TIME: selType = "TIME"; break;
+        case SelectionRecord::BOUNDARY_CONCENTRATION: selType = "BOUNDARY_CONCENTRATION"; break;
+        case SelectionRecord::FLOATING_CONCENTRATION: selType = "FLOATING_CONCENTRATION"; break;
+        case SelectionRecord::REACTION_RATE: selType = "REACTION_RATE"; break;
+        case SelectionRecord::FLOATING_AMOUNT_RATE: selType = "FLOATING_AMOUNT_RATE"; break;
+        case SelectionRecord::COMPARTMENT: selType = "COMPARTMENT"; break;
+        case SelectionRecord::GLOBAL_PARAMETER: selType = "GLOBAL_PARAMETER"; break;
+        case SelectionRecord::FLOATING_AMOUNT: selType = "FLOATING_AMOUNT"; break;
+        case SelectionRecord::BOUNDARY_AMOUNT: selType = "BOUNDARY_AMOUNT"; break;
+        case SelectionRecord::ELASTICITY: selType = "ELASTICITY"; break;
+        case SelectionRecord::UNSCALED_ELASTICITY: selType = "UNSCALED_ELASTICITY"; break;
+        case SelectionRecord::EIGENVALUE: selType = "EIGENVALUE"; break;
+        case SelectionRecord::STOICHIOMETRY: selType = "STOICHIOMETRY"; break;
         default: selType = "UNKNOWN"; break;
         }
         std::stringstream s;

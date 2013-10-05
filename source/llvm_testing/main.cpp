@@ -68,7 +68,12 @@ int main(int argc, char* argv[])
 
     TestPluginManager pmtest;
 
-    TestRoadRunner::test3();
+    if (argc > 1)
+    {
+        SelectionRecord sel(argv[1]);
+
+        cout << sel.to_string();
+    }
 
     return 0;
 

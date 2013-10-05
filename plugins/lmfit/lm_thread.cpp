@@ -200,7 +200,7 @@ bool LMFitThread::setup()
     }
 
     mLMData.rrHandle                = mRRI;
-    mRRI->setTimeCourseSelectionList(species.AsString());
+    mRRI->setTimeCourseSelectionList(species);
     return true;
 }
 

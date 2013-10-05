@@ -10,6 +10,7 @@
 
 #include "rrRoadRunner.h"
 #include "rrTestSuiteModelSimulation.h"
+#include "rrSelectionRecord.h"
 
 namespace rr
 {
@@ -47,6 +48,8 @@ public:
     static void test2();
 
     static void test3();
+
+    static SelectionRecord testsel(const std::string& str);
 };
 
 } /* namespace rr */

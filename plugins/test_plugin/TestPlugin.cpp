@@ -28,7 +28,8 @@ bool TestPlugin::execute(void* userData)
     cout<<"Executing plugin...\n";
     if(mRR)
     {
-        mRR->setTimeCourseSelectionList("S2, S1");
+        StringList aList("S2, S1",", ");
+        mRR->setTimeCourseSelectionList(aList);
     }
     return true;
 }

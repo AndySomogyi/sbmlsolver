@@ -1,15 +1,18 @@
 cmake_minimum_required(VERSION 2.6)
 project(poco)
 
+add_definitions(
+    -DPCRE_STATIC
+    -DPOCO_STATIC
+)
+
 #if(${MSVC})
 if(WIN32)
-add_definitions(
-#-DUSRDLL
--DWIN32
--D_WIN32
--DPCRE_STATIC
--DPOCO_STATIC
-)
+    add_definitions(
+        #-DUSRDLL
+        -DWIN32
+        -D_WIN32
+        )
 endif()
 
 add_subdirectory(Foundation)
