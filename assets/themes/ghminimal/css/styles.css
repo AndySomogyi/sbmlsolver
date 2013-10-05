@@ -3,7 +3,7 @@
 body {
   padding:50px;
   font:14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color:#777;
+  color:#313131;
   font-weight:300;
 }
 
@@ -151,7 +151,7 @@ header.main li:last-child a {
 header.main ul.buttons a {
   line-height:1;
   font-size:11px;
-  color:#999;
+  color:#5b5b5b;
   display:block;
   text-align:center;
   padding-top:6px;
