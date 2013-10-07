@@ -66,7 +66,7 @@ An organized folder setup is recommended. In the following a structure similar t
 It is important to note that build files are kept separate from source files, and install files separate from build and source files as well.
 
 ##Step 1 - Check out the source code
-Check out the trunk from the source code repository, at [https://github.com/AndySomogyi/roadrunner] (Plese see the docs for your svn client on how to do this.) In the following, it is assumed the trunk is checked out to a folder c:\vs\trunk
+Check out the trunk from the source code repository, at [https://github.com/AndySomogyi/roadrunner](https://github.com/AndySomogyi/roadrunner) (Plese see the docs for your svn client on how to do this.) In the following, it is assumed the trunk is checked out to a folder c:\vs\trunk
 
 ##Step 2A - Create ThirdParty build files
 Open a CMake GUI and
