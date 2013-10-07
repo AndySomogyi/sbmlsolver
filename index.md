@@ -16,6 +16,7 @@ RoadRunner 1.0 supports the following features:
  - Frequency Domain Analysis
  - Access to
 
+
     * Eigenvalues and Eigenvectors
     * Jacobian
     * Structural Matrices relation to the Stoichiometry matrix
