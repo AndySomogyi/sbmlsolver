@@ -28,7 +28,7 @@ CMake generates **solution** `(\*.sln)` and project `(\*.prj)` files for Visual 
 
 The screen shot below shows the **solution explorer** in VS IDE after the solution file for the RoadRunners ThirdParty build is loaded (RRThirdPartyBuild.sln):
 
-![VSInstallA.jpg](assets/images/VSInstallA.jpg "INSTALL")
+![VSInstallA.jpg](http://rr.sbols.org/assets/images/VSInstallA.jpg "INSTALL")
 
 In the screenshot, the **INSTALL** target has been selected as the 'Startup Project' (by RightClicking and selecting "Set as Startup Project" from the popup menu).
 
