@@ -8,7 +8,7 @@ body {
 }
 
 html {
-  -webkit-text-stroke: 0.25px;
+  -webkit-text-stroke: 0.5px;
   overflow-y: scroll;
 }
 
