@@ -71,8 +71,8 @@ Check out the trunk from the source code repository, at [https://github.com/Andy
 ##Step 2A - Create ThirdParty build files
 Open a CMake GUI and
 
-1. Point the 'Where is the source code:' to c:\vs\trunk\ThirdParty
-2. Set 'Where to build the binaries:' to c:\vs\builds\debug\ThirdParty
+1. Point the 'Where is the source code:' to `c:\vs\trunk\ThirdParty`
+2. Set 'Where to build the binaries:' to `c:\vs\builds\debug\ThirdParty`
 indicating a debug build of the ThirdParties.
 
 Click the **Configure** button and select your desired compiler. In this example, we are using Microsoft's Visual Studio 2010 compiler. At this point, you should see something like the following: 
@@ -80,51 +80,62 @@ Click the **Configure** button and select your desired compiler. In this example
 ![ThirdPartyCMake.jpg](assets/images/ThirdPartyCMake.jpg "CMAKE ThirdParty")
 
 For our setup, the only modification needed, before generating the build files is
-Change the CMAKE_INSTALL_PREFIX from
+Change the **CMAKE_INSTALL_PREFIX** from
 `C:/Program Files (x86)/RRThirdPartyBuild`
 
-to
-C:\vs\installs\debug
-After changing the CMAKE_INSTALL_PREFIX option, press configure again and observe that each option has changed color from Red to White. This change indicate success. If success is achieved, click the Generate button in order to generate the actual build files for ThirdParties. At this point, you should have something like this: 
+**to
+{{C:\vs\installs\debug}}}**.
+After changing the CMAKE_INSTALL_PREFIX option, press configure again and observe that each option has changed color from Red to White. This change indicate success. If success is achieved, click the **Generate** button in order to generate the actual build files for ThirdParties. At this point, you should have something like this: 
 
-Step 2B - Generate RoadRunner build files
+![ThirdPartyCMakeB.jpg](assets/images/ThirdPartyCMakeB.jpg "CMAKE ThirdPartyB")
+
+##Step 2B - Generate RoadRunner build files
 Open a CMake GUI and point the
 
-'Where is the source:' to c:\vs\trunk and
-Set 'Where to build the binaries:' to c:\vs\builds\debug\rr
-indicating a debug build of RoadRunner sources. Then click the Configure button and select the same compiler and version as in Step 2A. At this point, you should see something like this: 
+1. 'Where is the source:' to c:\vs\trunk and
+2. Set 'Where to build the binaries:' to c:\vs\builds\debug\rr indicating a debug build of RoadRunner sources. 
 
-As for the ThirdParties, modify the CMAKE_INSTALL_PREFIX from C:/Program Files (x86)/rr
 
-to C:\vs\installs\debug
+Then click the **Configure** button and select the same compiler and version as in Step 2A. At this point, you should see something like this: 
 
-The RoadRunner build needs to know where the ThirdParty library was installed. The option THIRD_PARTY_INSTALL_FOLDER handles this. Modify THIRD_PARTY_INSTALL_FOLDER to point to c:/vs/installs/debug, i.e. to the folder where the ThirdParties were installed.
+![RRCMakeA.jpg](assets/images/RRCMakeA.jpg "CMAKE RR")
 
-After changing the CMAKE_INSTALL_PREFIX and the THIRD_PARTY_INSTALL_FOLDER options, press configure again and wait until each option has changed color from Red to White. Then click Generate to generate the actual build files. At this point, the CMake UI should contain something like this: 
+As for the ThirdParties, modify the **CMAKE_INSTALL_PREFIX** from `C:/Program Files (x86)/rr`
 
-Step 3 -Build and install the ThirdParty and RoadRunner library
+to `C:\vs\installs\debug`
+
+The RoadRunner build needs to know where the ThirdParty library was installed. The option **THIRD_PARTY_INSTALL_FOLDER** handles this. Modify **THIRD_PARTY_INSTALL_FOLDER** to point to `c:/vs/installs/debug`, i.e. to the folder where the ThirdParties were installed.
+
+After changing the CMAKE_INSTALL_PREFIX and the THIRD_PARTY_INSTALL_FOLDER options, press configure again and wait until each option has changed color from Red to White. Then click **Generate** to generate the actual build files. At this point, the CMake UI should contain something like this: 
+
+![RRCMakeB.jpg](assets/images/RRCMakeB.jpg "CMAKE RR B")
+
+##Step 3 -Build and install the ThirdParty and RoadRunner library
 When the build files have been generated, building and installing the libraries is straightforward. The order is important, however, and the ThirdParty library needs to be built and installed before building and installing RoadRunner itself.
 
 The generated build files comes in various forms, depending on which compiler you selected. Here follows some brief notes on how to deal with the different compilers.
 
-Visual Studio
-CMake generates solution (.sln) and project files (.prj) for Visual Studio. Typically the solution file is opened in the Visual Studio UI and the INSTALL target is executed. See screenshot below. More information on how to build RoadRunner using Visual Studio is found on this page: VisualStudioBuild
+###Visual Studio
+CMake generates solution (.sln) and project files (.prj) for Visual Studio. Typically the solution file is opened in the Visual Studio UI and the **INSTALL** target is executed. See screenshot below. More information on how to build RoadRunner using Visual Studio is found on this page: [VisualStudioBuild](buildrr_visualstudio.html)
+
+![NqsPH.png](assets/images/NqsPH.png)
 
 
 
-GCC
+###GCC
 CMake generates regular make files for gcc. Installing and building the libraries are then just a matter of executing the command:
 
-make install
+`make install`
 
 in a terminal window. See the page LinuxBuild to get more information on how to build RoadRunner on Linux using the GCC compiler.
 
-Notes on Generating or updating the API Documentation
+##Notes on Generating or updating the API Documentation
 The documentation is automatically generated using the comments in the copasi_api.h file. To change the documentation, you just need to edit that file. To generate the new documentation, follow these steps:
 
 1) Download and install Doxygen from
 
-http://www.stack.nl/~dimitri/doxygen/download.html#latestsrc
+[http://www.stack.nl/~dimitri/doxygen/download.html#latestsrc](http://www.stack.nl/~dimitri/doxygen/download.html#latestsrc)
+
 2) Run Doxygen wizard (the executable is usually called doxywizard)
 
 3) In the Doxygen window, enter "Copasi API" as the project name, and provide a version number. Set the copasi-simple-api folder as the source folder and copasi-simple-api/documentation as the destination folder. At the top of the window, specify the working directory as the copasi-simple-api/documentation folder.
@@ -139,18 +150,16 @@ http://www.stack.nl/~dimitri/doxygen/download.html#latestsrc
 
 8) Tip: You might find that a new html file generated from doxygen does not render in the browser. In order to make the html render correctly, make sure you add the text/html mime type to the file. Under TortoiseSVN, select the file and choose properties from the TortoiseSVN popup menu. Select svn:mime-type in the property type and add text/html to the property value. Select OK and commit the change. The html file will now render correctly.
 
-Alternatively you can make SVN do this for you by editing the SVN configuration file. To do this, select Settings under TortoiseSVN. In the general tab (usually the first you'll see) there is a button marked Edit towards the right hand corner, select this and the config file will be loaded into your favourite editor. In the config file locate the line, miscellany and uncomment the line marked: enable-auto-props = yes. Finally, locate the line [auto-props] and add the following lines to the end of section:
+Alternatively you can make SVN do this for you by editing the SVN configuration file. To do this, select Settings under TortoiseSVN. In the general tab (usually the first you'll see) there is a button marked Edit towards the right hand corner, select this and the config file will be loaded into your favourite editor. In the config file locate the line, miscellany and uncomment the line marked: enable-auto-props = yes. Finally, locate the line \[auto-props] and add the following lines to the end of section:
 
-`
-*.html = svn:mime-type=text/html
-*.css = svn:mime-type=text/css
-*.js = svn:mime-type=text/javascript
-*.txt = svn:mime-type=text/plain;svn:eol-style=native
-*.png = svn:mime-type=image/png
-*.jpg = svn:mime-type=image/jpeg
-*.pdf = svn:mime-type=application/pdf
-*.jpeg = svn:mime-type=image/jpg
-*.tiff = svn:mime-type=image/tiff
-*.tif = svn:mime-type=image/tiff
-`
+    *.html = svn:mime-type=text/html
+    *.css = svn:mime-type=text/css
+    *.js = svn:mime-type=text/javascript
+    *.txt = svn:mime-type=text/plain;svn:eol-style=native
+    *.png = svn:mime-type=image/png
+    *.jpg = svn:mime-type=image/jpeg
+    *.pdf = svn:mime-type=application/pdf
+    *.jpeg = svn:mime-type=image/jpg
+    *.tiff = svn:mime-type=image/tiff
+    *.tif = svn:mime-type=image/tiff
 
