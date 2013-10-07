@@ -45,7 +45,7 @@ In short, the whole build process will require the following steps
 ## Get started
 In the following we will go through the process of setting up a development environment using the visual studio compiler. However, specific tweaks for any compiler can found be on the specific page associated with the relevant compiler. See below for links to specific compilers.
 
-Organize your folders
+###Organize your folders
 An organized folder setup is recommended. In the following a structure similar to the following will be used:
 
     top_folder
@@ -65,25 +65,26 @@ An organized folder setup is recommended. In the following a structure similar t
 
 It is important to note that build files are kept separate from source files, and install files separate from build and source files as well.
 
-Step 1 - Check out the source code
-Check out the trunk from the source code repository, at http://roadrunnerlib.googlecode.com/svn/trunk/ (Plese see the docs for your svn client on how to do this.) In the following, it is assumed the trunk is checked out to a folder c:\vs\trunk
+##Step 1 - Check out the source code
+Check out the trunk from the source code repository, at [https://github.com/AndySomogyi/roadrunner] (Plese see the docs for your svn client on how to do this.) In the following, it is assumed the trunk is checked out to a folder c:\vs\trunk
 
-Step 2A - Create ThirdParty build files
+##Step 2A - Create ThirdParty build files
 Open a CMake GUI and
 
-Point the 'Where is the source code:' to c:\vs\trunk\ThirdParty
-Set 'Where to build the binaries:' to c:\vs\builds\debug\ThirdParty
+1. Point the 'Where is the source code:' to c:\vs\trunk\ThirdParty
+2. Set 'Where to build the binaries:' to c:\vs\builds\debug\ThirdParty
 indicating a debug build of the ThirdParties.
 
-Click the Configure button and select your desired compiler. In this example, we are using Microsoft's Visual Studio 2010 compiler. At this point, you should see something like the following: 
+Click the **Configure** button and select your desired compiler. In this example, we are using Microsoft's Visual Studio 2010 compiler. At this point, you should see something like the following: 
+
+![ThirdPartyCMake.jpg](assets/images/ThirdPartyCMake.jpg "CMAKE ThirdParty")
 
 For our setup, the only modification needed, before generating the build files is
-
 Change the CMAKE_INSTALL_PREFIX from
 `C:/Program Files (x86)/RRThirdPartyBuild`
 
 to
-{{C:\vs\installs\debug}}}.
+C:\vs\installs\debug
 After changing the CMAKE_INSTALL_PREFIX option, press configure again and observe that each option has changed color from Red to White. This change indicate success. If success is achieved, click the Generate button in order to generate the actual build files for ThirdParties. At this point, you should have something like this: 
 
 Step 2B - Generate RoadRunner build files
@@ -152,3 +153,4 @@ Alternatively you can make SVN do this for you by editing the SVN configuration 
 *.tiff = svn:mime-type=image/tiff
 *.tif = svn:mime-type=image/tiff
 `
+
