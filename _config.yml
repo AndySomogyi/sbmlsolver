@@ -27,7 +27,7 @@ author :
 #production_url : http://rr.sbols.org
 #production_url : http://libroadrunner.org
 #production_url : roadrunner
-production_url : http://mgaldzic.github.io
+production_url : http://mgaldzic.github.io/roadrunner
 
 # All Jekyll-Bootstrap specific configurations are namespaced into this hash
 #
