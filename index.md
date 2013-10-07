@@ -1,10 +1,10 @@
 ---
 layout: page
 title: Documentation
-tagline: speedy simulation engine
+tagline: High Performance Simulation Engine
 ---
 
-a high performance and portable simulation engine for systems and synthetic biology.
+Roadrunner is high performance and portable simulation engine for systems and synthetic biology.
 
 RoadRunner 1.0 supports the following features:
 
@@ -15,6 +15,7 @@ RoadRunner 1.0 supports the following features:
  - Metabolic Control Analysis
  - Frequency Domain Analysis
  - Access to 1) Eigenvalues and Eigenvectors  2) Jacobian  3) Structural Matrices relation to the Stoichiometry matrix
+ - Data fitting
 
 RoadRunner is provided in the form of:
 
@@ -26,8 +27,6 @@ RoadRunner is provided in the form of:
 
 Future expansion:
 
- - Builtin Interpreter
- - Data fitting
  - Bifurcation Analysis
  - Loading and saving of SED-ML
 
