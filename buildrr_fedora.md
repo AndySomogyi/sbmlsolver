@@ -66,4 +66,4 @@ Among the UI options, the only needed change is to set the THIRD_PARTY_INSTALL_F
 As this is a beta page, feel free to email comments and suggestions.
 
 ## Testing
-You can test the installation of RoadRunner using the command line client program rr. See the rr_application page for more information.
+You can test the installation of RoadRunner using the command line client program **rr**. See the rr_application page for more information.
