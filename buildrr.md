@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "Building Road Runner"
+title: "Build Roarunner from Source"
 description: "howto build the library"
 ---
 
@@ -8,6 +8,11 @@ description: "howto build the library"
 The RoadRunner library is written in C/C++. It has currently been compiled successfully on Windows using Visual Studio and Borland compilers, and on Linux, using the gcc compiler.
 
 Please follow the following steps in order to successfully compile and link the RoadRunner library on your platform.
+
+First Read the the rest of this page then choose the instructions for your platform:
+
+* [VisualStudio 2010](buildrr_visualstudio.html)
+* [Linux](buildrr_linux.html)
 
 This document assume a working knowledge of the tools involved, i.e. subversion, CMake and your compiler.
 
@@ -127,7 +132,7 @@ CMake generates regular make files for gcc. Installing and building the librarie
 
 `make install`
 
-in a terminal window. See the page [LinuxBuild](buidrr_linux.html) to get more information on how to build RoadRunner on Linux using the GCC compiler.
+in a terminal window. See the page [Linux Build](buildrr_linux.html) to get more information on how to build RoadRunner on Linux using the GCC compiler.
 
 ##Notes on Generating or updating the API Documentation
 The documentation is automatically generated using the comments in the copasi_api.h file. To change the documentation, you just need to edit that file. To generate the new documentation, follow these steps:
