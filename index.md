@@ -14,13 +14,7 @@ RoadRunner 1.0 supports the following features:
  - Steady State
  - Metabolic Control Analysis
  - Frequency Domain Analysis
- - Access to
-
-
-
-    * Eigenvalues and Eigenvectors
-    * Jacobian
-    * Structural Matrices relation to the Stoichiometry matrix
+ - Access to 1) Eigenvalues and Eigenvectors  2) Jacobian  3) Structural Matrices relation to the Stoichiometry matrix
 
 RoadRunner is provided in the form of:
 
