@@ -17,6 +17,7 @@ RoadRunner 1.0 supports the following features:
  - Access to
 
 
+
     * Eigenvalues and Eigenvectors
     * Jacobian
     * Structural Matrices relation to the Stoichiometry matrix
