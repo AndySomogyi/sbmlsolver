@@ -26,8 +26,7 @@ author :
 #
 #production_url : http://rr.sbols.org
 #production_url : http://libroadrunner.org
-#production_url : http://andysomogyi.github.io/roadrunner
-#production_url : http://mgaldzic.github.io
+# do not set the production url if using username.github.io
 
 # All Jekyll-Bootstrap specific configurations are namespaced into this hash
 #
@@ -56,7 +55,9 @@ JB :
   #   - Only the following values are falsy: ["", null, false]
   #   - When setting BASE_PATH it must be a valid url.
   #     This means always setting the protocol (http|https) or prefixing with "/"
-  BASE_PATH : false
+
+  #When switching to username.github.io/project set to project (no slashes)
+  BASE_PATH : roadrunner
   #When switching to custom domain, set to false
   #BASE_PATH : false
 
