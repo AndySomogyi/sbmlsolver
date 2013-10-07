@@ -260,6 +260,10 @@ public:
 
     void correctMaxStep();
 
+    /*************************************************************************/
+    /** Selection Section **/
+    /*************************************************************************/
+
     /**
      * sets the value of an sbml varaible to the given value.
      *
@@ -268,10 +272,9 @@ public:
      */
     bool setValue(const std::string& sId, double value);
 
-    /**
-     * gets the value of an sbml element based on its id.
-     */
-    double getValue(const std::string& sId);
+
+
+    rr::SelectionRecord createSelection(const std::string& str);
 
     /**
      * @deprecated
@@ -284,13 +287,39 @@ public:
      * Returns the currently selected columns that will be returned by
      * calls to simulate() or simulateEx(,,).
      */
-    std::vector<std::string> getTimeCourseSelectionList();
+    std::vector<rr::SelectionRecord>& getSelections();
 
-    double getValueForRecord(const SelectionRecord& record);
+    /**
+     * Creates a new selection based on the selection string,
+     * and returns the value it queries.
+     */
+    double getSelectionValue(const std::string& sel);
+
+    double getSelectionValue(const SelectionRecord& record);
 
 
     void setTimeCourseSelectionList(
             const std::vector<std::string>& newSelectionList);
+
+    /**
+     * returns a list of floating species ids with thier names
+     * prefixed with "eigen_". For example, if the model contained
+     * the floating species "S1" and "S2", this would return a list
+     * containing ["eigen_S1", "eigen_S2"].
+     */
+    std::vector<std::string> getEigenvalueIds();
+
+    /**
+     * returns the values selected with SimulateOptions for the current model time / timestep")
+     */
+    std::vector<double> getSelectedValues();
+
+    std::vector<std::string> getSteadyStateSelections();
+    void setSteadyStateSelectionList(const std::vector<std::string>& newSelectionList);
+
+    /*************************************************************************/
+    /** End Selection Section **/
+    /*************************************************************************/
 
     /**
      * Compute the steady state of the model, returns the sum of squares of the solution
@@ -374,23 +403,12 @@ public:
     NewArrayList getUnscaledElasticityCoefficientIds();
 
     /**
-     * returns a list of floating species ids with thier names
-     * prefixed with "eigen_". For example, if the model contained
-     * the floating species "S1" and "S2", this would return a list
-     * containing ["eigen_S1", "eigen_S2"].
-     */
-    std::vector<std::string> getEigenvalueIds();
-
-    /**
      * @deprecated
      * @private
      * @internal
      */
     NewArrayList getAvailableSteadyStateSymbols();
 
-
-    std::vector<std::string> getSteadyStateSelectionList();
-    void setSteadyStateSelectionList(const std::vector<std::string>& newSelectionList);
     double computeSteadyStateValue(const SelectionRecord& record);
 
     /**
@@ -410,11 +428,6 @@ public:
             bool computeSteadyState);
 
     double computeSteadyStateValue(const std::string& sId);
-
-    /**
-     * returns the values selected with SimulateOptions for the current model time / timestep")
-     */
-    std::vector<double> getSelectedValues();
 
     /**
      * This method turns on / off the computation and adherence to conservation laws.
@@ -564,11 +577,21 @@ public:
 
     /**
      * Get unscaled control coefficient with respect to a global parameter
+     *
+     * variableName must be either a reaction or floating species.
+     *
+     * parameterName must be eithe a global parameter, boundary species, or
+     * conserved sum.
      */
     double getuCC(const std::string& variableName, const std::string& parameterName);
 
     /**
      * Get scaled control coefficient with respect to a global parameter
+     *
+     * The variableName must be either a reaction id, or a floating species id.
+     *
+     * The parameterName must be either a global parameter, boundary species,
+     * or conserved sum.
      */
     double getCC(const std::string& variableName, const std::string& parameterName);
 

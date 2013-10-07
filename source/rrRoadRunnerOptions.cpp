@@ -27,6 +27,7 @@ LoadSBMLOptions::LoadSBMLOptions()
     version = 0;
     size = sizeof(LoadSBMLOptions);
     modelGeneratorOpt = 0;
+    loadFlags = 0;
 }
 
 SimulateOptions::SimulateOptions()

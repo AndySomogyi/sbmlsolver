@@ -70,9 +70,10 @@ int main(int argc, char* argv[])
 
     if (argc > 1)
     {
+        cout << "testing '" << argv[1] << "'" << endl;
         SelectionRecord sel(argv[1]);
 
-        cout << sel.to_string();
+        cout << "result: " << sel.to_string() << endl;
     }
 
     return 0;

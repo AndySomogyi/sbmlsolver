@@ -33,12 +33,14 @@ public:
         CONTROL,
         UNSCALED_CONTROL,
         EIGENVALUE,
+        INITIAL_CONCENTRATION,
         STOICHIOMETRY,
         UNKNOWN_ELEMENT,
         UNKNOWN_CONCENTRATION,
         UNKNOWN
     };
     int index;
+
     string p1;
     string p2;
 
@@ -50,6 +52,8 @@ public:
     SelectionRecord(const std::string str);
 
     std::string to_string();
+
+    std::string to_repr();
 
 };
 

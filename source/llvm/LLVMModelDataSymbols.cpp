@@ -167,31 +167,24 @@ uint LLVMModelDataSymbols::getCompartmentIndex(
 }
 
 uint LLVMModelDataSymbols::getFloatingSpeciesIndex(
-        const std::string& id) const
+        const std::string& id, bool requireIndependent) const
 {
     StringUIntMap::const_iterator i = floatingSpeciesMap.find(id);
-    if(i != floatingSpeciesMap.end() && i->second < independentFloatingSpeciesSize)
+    if(i != floatingSpeciesMap.end())
     {
+        if (requireIndependent && i->second >= independentFloatingSpeciesSize)
+        {
+            string msg = "The species " + id + " is valid, however it is dependent on a rule";
+            throw LLVMException(msg);
+        }
         return i->second;
     }
     else
     {
-        /*
-        string msg = "could not determine index for floating species with id ";
-        msg += string("\'" + id + "\', ");
-        if(i == floatingSpeciesMap.end())
-        {
-            msg += " it is not a floating species";
-        }
-        else if (i->second >= independentFloatingSpeciesSize)
-        {
-            msg += " it is a floating species, but not indenpendent"
-                    " -- it is defined by a rule";
-        }
-        */
-
-        throw LLVMException("could not find floating species with id " + id, __FUNC__);
+        throw LLVMException("could not find floating species with id " + id);
     }
+    // never get here, just silence eclipse warnings
+    return 0;
 }
 
 uint LLVMModelDataSymbols::getBoundarySpeciesIndex(

@@ -123,7 +123,15 @@ public:
     const std::string& getModelName() const;
 
     uint getCompartmentIndex(std::string const&) const;
-    uint getFloatingSpeciesIndex(std::string const&) const;
+
+    /**
+     * get the index of a floating species.
+     *
+     * @param requireIndependent if true, the float species must be independent --
+     * not defined by a rule.
+     */
+    uint getFloatingSpeciesIndex(std::string const&, bool requireIndependent = true) const;
+
     uint getBoundarySpeciesIndex(std::string const&) const;
 
     uint getIndependentBoundarySpeciesSize() const;

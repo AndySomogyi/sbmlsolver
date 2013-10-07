@@ -255,7 +255,7 @@ int RoadRunner::createDefaultTimeCourseSelectionList()
     theList.push_back("time");
     for(int i = 0; i < oFloating.size(); i++)
     {
-        theList.push_back(oFloating[i]);
+        theList.push_back("[" + oFloating[i] + "]");
     }
 
     setTimeCourseSelectionList(theList);
@@ -272,33 +272,28 @@ int RoadRunner::createTimeCourseSelectionList()
 {
     // make a list out of the values in the settings,
     // will always have at least a "time" at the first item.
-    vector<string> theList = createSelectionList(mSettings);
+    vector<string> settingsList = createSelectionList(mSettings);
 
-    assert(theList.size() >= 1 && "selection list from SimulateOptions does does not have time");
+    assert(settingsList.size() >= 1 && "selection list from SimulateOptions does does not have time");
 
-    // make default list from the floating species amounts.
-    if(theList.size() == 1)
+    // if settings has any selections, this overrides the selection list.
+    if (settingsList.size() > 1)
     {
-        vector<string> oFloating  = getFloatingSpeciesIds();
-        for(int i = 0; i < oFloating.size(); i++)
-        {
-            theList.push_back(oFloating[i]);
-        }
+        Log(Logger::PRIO_INFORMATION) << "overriding selection list with values from SimulateOptions.";
+        setTimeCourseSelectionList(settingsList);
     }
 
-    setTimeCourseSelectionList(theList);
-
-    Log(lDebug)<<"The following is selected:";
     for(int i = 0; i < mSelectionList.size(); i++)
     {
-        Log(lDebug)<<mSelectionList[i];
+        Log(Logger::PRIO_DEBUG) << "Selection Value [" << i << "]: " << mSelectionList[i].to_repr();
     }
 
     if(mSelectionList.size() < 2)
     {
-        Log(lWarning)<<"You have not made a selection. No data is selected";
+        Log(Logger::PRIO_WARNING) << "No values selected for simulation result";
         return 0;
     }
+
     return mSelectionList.size();
 }
 
@@ -341,8 +336,13 @@ RoadRunnerData *RoadRunner::getSimulationResult()
     return &mRoadRunnerData;
 }
 
-double RoadRunner::getValueForRecord(const SelectionRecord& record)
+double RoadRunner::getSelectionValue(const SelectionRecord& record)
 {
+    if (!mModel)
+    {
+        throw CoreException(gEmptyModelMessage);
+    }
+
     double dResult;
 
     switch (record.selectionType)
@@ -364,6 +364,7 @@ double RoadRunner::getValueForRecord(const SelectionRecord& record)
 
     case SelectionRecord::FLOATING_AMOUNT_RATE:
         dResult = 0;
+        mModel->computeAllRatesOfChange();
         mModel->getFloatingSpeciesAmountRates(1, &record.index, &dResult);
         break;
 
@@ -400,19 +401,38 @@ double RoadRunner::getValueForRecord(const SelectionRecord& record)
     case SelectionRecord::UNSCALED_ELASTICITY:
         dResult = getuEE(record.p1, record.p2, false);
         break;
-
-        // ********  Todo: Enable this.. ***********
     case SelectionRecord::EIGENVALUE:
-        //            vector< complex<double> >oComplex = LA.GetEigenValues(getReducedJacobian());
-        //            if (oComplex.Length > record.index)
-            //            {
-            //                dResult = oComplex[record.index].Real;
-            //            }
-        //            else
-            //                dResult = Double.NaN;
-        dResult = 0.0;
-        break;
+    {
+        string species = record.p1;
+        int index = mModel->getFloatingSpeciesIndex(species);
 
+        DoubleMatrix mat;
+        if (mComputeAndAssignConservationLaws)
+        {
+            mat = getReducedJacobian();
+        }
+        else
+        {
+            mat = getFullJacobian();
+        }
+
+        vector<Complex> oComplex = ls::getEigenValues(mat);
+
+        if(mSelectionList.size() == 0)
+        {
+            throw("Tried to access record in empty mSelectionList in getValue function: eigen");
+        }
+
+        if (oComplex.size() > mSelectionList[index + 1].index) //Becuase first one is time !?
+        {
+            return oComplex[mSelectionList[index + 1].index].Real;
+        }
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+    break;
+    case SelectionRecord::INITIAL_CONCENTRATION:
+        mModel->getFloatingSpeciesInitConcentrations(1, &record.index, &dResult);
+        break;
     case SelectionRecord::STOICHIOMETRY:
         dResult = mModel->getStoichiometry(record.index);
         break;
@@ -434,7 +454,7 @@ double RoadRunner::getNthSelectedOutput(const int& index, const double& dCurrent
     }
     else
     {
-        return getValueForRecord(record);
+        return getSelectionValue(record);
     }
 }
 
@@ -537,7 +557,11 @@ bool RoadRunner::loadSBML(const string& sbml, const LoadSBMLOptions *options)
         return false;
     }
 
-    createDefaultSelectionLists();
+    if (!options || !(options->loadFlags & LoadSBMLOptions::NO_DEFAULT_SELECTIONS))
+    {
+        createDefaultSelectionLists();
+    }
+
     return true;
 }
 
@@ -613,7 +637,12 @@ void RoadRunner::reset()
 
 bool RoadRunner::populateResult()
 {
-    vector<string> list = getTimeCourseSelectionList();
+    vector<string> list(mSelectionList.size());
+
+    for(int i = 0; i < mSelectionList.size(); ++i)
+    {
+        list[i] = mSelectionList[i].to_string();
+    }
 
     mRoadRunnerData.setColumnNames(list);
     mRoadRunnerData.setData(mRawRoadRunnerData);
@@ -621,75 +650,9 @@ bool RoadRunner::populateResult()
 }
 
 
-vector<string> RoadRunner::getTimeCourseSelectionList()
+std::vector<rr::SelectionRecord>& RoadRunner::getSelections()
 {
-    vector<string> oResult;
-
-    if (!mModel)
-    {
-        oResult.push_back("time");
-        return oResult;
-    }
-
-    vector<string> oFloating    = getFloatingSpeciesIds();
-    vector<string> oBoundary    = getBoundarySpeciesIds();
-    vector<string> oFluxes      = getReactionIds();
-    vector<string> oVolumes     = getCompartmentIds();
-    vector<string> oRates       = getRateOfChangeIds();
-    vector<string> oParameters  = getParameterIds();
-
-    vector<SelectionRecord>::iterator iter;
-
-    for(iter = mSelectionList.begin(); iter != mSelectionList.end(); iter++)
-    {
-        SelectionRecord record = (*iter);
-        switch (record.selectionType)
-        {
-            case SelectionRecord::TIME:
-                oResult.push_back("time");
-                break;
-            case SelectionRecord::BOUNDARY_AMOUNT:
-                oResult.push_back(format("[{0}]", oBoundary[record.index]));
-                break;
-            case SelectionRecord::BOUNDARY_CONCENTRATION:
-                oResult.push_back(oBoundary[record.index]);
-                break;
-            case SelectionRecord::FLOATING_AMOUNT:
-                oResult.push_back(format("[{0}]", oFloating[record.index]));
-                break;
-            case SelectionRecord::FLOATING_CONCENTRATION:
-                oResult.push_back(oFloating[record.index]);
-                break;
-            case SelectionRecord::COMPARTMENT:
-                oResult.push_back(oVolumes[record.index]);
-                break;
-            case SelectionRecord::REACTION_RATE:
-                oResult.push_back(oFluxes[record.index]);
-                break;
-            case SelectionRecord::FLOATING_AMOUNT_RATE:
-                oResult.push_back(oRates[record.index]);
-                break;
-            case SelectionRecord::GLOBAL_PARAMETER:
-                oResult.push_back(oParameters[record.index]);
-                break;
-            case SelectionRecord::EIGENVALUE:
-                oResult.push_back("eigen_" + record.p1);
-                break;
-            case SelectionRecord::ELASTICITY:
-                oResult.push_back(format("EE:{0},{1}", record.p1, record.p2));
-                break;
-            case SelectionRecord::UNSCALED_ELASTICITY:
-                oResult.push_back(format("uEE:{0},{1}", record.p1, record.p2));
-                break;
-            case SelectionRecord::STOICHIOMETRY:
-                oResult.push_back(record.p1);
-                break;
-            default:
-                // return empty list
-                break;
-        }
-    }
-    return oResult;
+    return mSelectionList;
 }
 
 
@@ -1063,102 +1026,10 @@ void RoadRunner::evalModel()
 void RoadRunner::setTimeCourseSelectionList(const vector<string>& _selList)
 {
     mSelectionList.clear();
-    vector<string> newSelectionList(_selList);
-    vector<string> fs = getFloatingSpeciesIds();
-    vector<string> bs = getBoundarySpeciesIds();
-    vector<string> rs = getReactionIds();
-    vector<string> vol= getCompartmentIds();
-    vector<string> gp = getGlobalParameterIds();
 
-    for (int i = 0; i < _selList.size(); i++)
+    for(int i = 0; i < _selList.size(); ++i)
     {
-        if (toUpper(newSelectionList[i]) == toUpper("time"))
-        {
-            mSelectionList.push_back(SelectionRecord(0, SelectionRecord::TIME));
-        }
-
-        // Check for species
-        for (int j = 0; j < fs.size(); j++)
-        {
-            if (newSelectionList[i] == fs[j])
-            {
-                mSelectionList.push_back(SelectionRecord(j, SelectionRecord::FLOATING_CONCENTRATION));
-                break;
-            }
-
-            if (newSelectionList[i] == "[" + fs[j] + "]")
-            {
-                mSelectionList.push_back(SelectionRecord(j, SelectionRecord::FLOATING_AMOUNT));
-                break;
-            }
-
-            // Check for species rate of change
-            if (newSelectionList[i] == fs[j] + "'")
-            {
-                mSelectionList.push_back(SelectionRecord(j, SelectionRecord::FLOATING_AMOUNT_RATE));
-                break;
-            }
-        }
-
-        // Check fgr boundary species
-        for (int j = 0; j < bs.size(); j++)
-        {
-            if (newSelectionList[i] == bs[j])
-            {
-                mSelectionList.push_back(SelectionRecord(j, SelectionRecord::BOUNDARY_CONCENTRATION));
-                break;
-            }
-            if (newSelectionList[i] == "[" + bs[j] + "]")
-            {
-                mSelectionList.push_back(SelectionRecord(j, SelectionRecord::BOUNDARY_AMOUNT));
-                break;
-            }
-        }
-
-        for (int j = 0; j < rs.size(); j++)
-        {
-            // Check for reaction rate
-            if (newSelectionList[i] == rs[j])
-            {
-                mSelectionList.push_back(SelectionRecord(j, SelectionRecord::REACTION_RATE));
-                break;
-            }
-        }
-
-        for (int j = 0; j < vol.size(); j++)
-        {
-            // Check for volume
-            if (newSelectionList[i] == vol[j])
-            {
-                mSelectionList.push_back(SelectionRecord(j, SelectionRecord::COMPARTMENT));
-                break;
-            }
-
-            if (newSelectionList[i] == "[" + vol[j] + "]")
-            {
-                mSelectionList.push_back(SelectionRecord(j, SelectionRecord::COMPARTMENT));
-                break;
-            }
-        }
-
-        for (int j = 0; j < gp.size(); j++)
-        {
-            if (newSelectionList[i] == gp[j])
-            {
-                mSelectionList.push_back(SelectionRecord(j, SelectionRecord::GLOBAL_PARAMETER));
-                break;
-            }
-        }
-
-        //((string)newSelectionList[i]).StartsWith("eigen_")
-        string tmp = newSelectionList[i];
-        if (startsWith(tmp, "eigen_"))
-        {
-            string species = tmp.substr(tmp.find_last_of("eigen_") + 1);
-            mSelectionList.push_back(SelectionRecord(i, SelectionRecord::EIGENVALUE, species));
-            int aIndex = indexOf(fs, species);
-            mSelectionList[i].index = aIndex;
-        }
+        mSelectionList.push_back(createSelection(_selList[i]));
     }
 }
 
@@ -1832,7 +1703,7 @@ vector<string> RoadRunner::getEigenvalueIds()
 
     for(int i = 0; i < floating.size(); i++)
     {
-        result.push_back("eigen_" + floating[i]);
+        result.push_back("eigen(" + floating[i] + ")");
     }
 
     return result;
@@ -1884,8 +1755,10 @@ int RoadRunner::createDefaultSteadyStateSelectionList()
 }
 
 // Help("Returns the selection list as returned by computeSteadyStateValues().")
-vector<string> RoadRunner::getSteadyStateSelectionList()
+vector<string> RoadRunner::getSteadyStateSelections()
 {
+    vector<string> result;
+
     if (!mModel)
     {
         throw CoreException(gEmptyModelMessage);
@@ -1896,188 +1769,27 @@ vector<string> RoadRunner::getSteadyStateSelectionList()
           createDefaultSteadyStateSelectionList();
     }
 
-    vector<string> oFloating     = getFloatingSpeciesIds();
-    vector<string> oBoundary     = getBoundarySpeciesIds();
-    vector<string> oFluxes       = getReactionIds();
-    vector<string> oVolumes      = getCompartmentIds();
-    vector<string> oRates        = getRateOfChangeIds();
-    vector<string> oParameters   = getParameterIds();
+    result.resize(mSteadyStateSelection.size());
 
-    vector<string> result;
-    for(int i = 0; i < mSteadyStateSelection.size(); i++)
+    for(int i = 0; i < mSteadyStateSelection.size(); ++i)
     {
-        SelectionRecord record = mSteadyStateSelection[i];
-        switch (record.selectionType)
-        {
-            case SelectionRecord::TIME:
-                result.push_back("time");
-            break;
-            case SelectionRecord::BOUNDARY_AMOUNT:
-                result.push_back(format("[{0}]", oBoundary[record.index]));
-            break;
-            case SelectionRecord::BOUNDARY_CONCENTRATION:
-                result.push_back(oBoundary[record.index]);
-            break;
-            case SelectionRecord::FLOATING_AMOUNT:
-                result.push_back("[" + (string)oFloating[record.index] + "]");
-            break;
-            case SelectionRecord::FLOATING_CONCENTRATION:
-                result.push_back(oFloating[record.index]);
-            break;
-            case SelectionRecord::COMPARTMENT:
-                result.push_back(oVolumes[record.index]);
-            break;
-            case SelectionRecord::REACTION_RATE:
-                result.push_back(oFluxes[record.index]);
-            break;
-            case SelectionRecord::FLOATING_AMOUNT_RATE:
-                result.push_back(oRates[record.index]);
-            break;
-            case SelectionRecord::GLOBAL_PARAMETER:
-                result.push_back(oParameters[record.index]);
-            break;
-            case SelectionRecord::EIGENVALUE:
-                result.push_back("eigen_" + record.p1);
-            break;
-            case SelectionRecord::ELASTICITY:
-                result.push_back("EE:" + record.p1 + "," + record.p2);
-            break;
-            case SelectionRecord::UNSCALED_ELASTICITY:
-                result.push_back("uEE:" + record.p1 + "," + record.p2);
-            break;
-            case SelectionRecord::UNKNOWN:
-                result.push_back(record.p1);
-            break;
-            default:
-                // empty list
-            break;
-        }
+        result[i] = mSteadyStateSelection[i].to_string();
     }
-    return result ;
+
+
+    return result;
 }
 
 vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const vector<string>& newSelectionList)
 {
     vector<SelectionRecord> steadyStateSelection;
     steadyStateSelection.resize(newSelectionList.size());
-    vector<string> fs = getFloatingSpeciesIds();
-    vector<string> bs = getBoundarySpeciesIds();
-    vector<string> rs = getReactionIds();
-    vector<string> vol = getCompartmentIds();
-    vector<string> gp = getGlobalParameterIds();
 
-    for (int i = 0; i < newSelectionList.size(); i++)
+    for (int i = 0; i < newSelectionList.size(); ++i)
     {
-        bool set = false;
-        // Check for species
-        for (int j = 0; j < fs.size(); j++)
-        {
-            if ((string)newSelectionList[i] == (string)fs[j])
-            {
-                steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = SelectionRecord::FLOATING_CONCENTRATION;
-                set = true;
-                break;
-            }
-
-            if ((string)newSelectionList[i] == "[" + (string)fs[j] + "]")
-            {
-                steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = SelectionRecord::FLOATING_AMOUNT;
-                set = true;
-                break;
-            }
-
-            // Check for species rate of change
-            if ((string)newSelectionList[i] == (string)fs[j] + "'")
-            {
-                steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = SelectionRecord::FLOATING_AMOUNT_RATE;
-                set = true;
-                break;
-            }
-        }
-
-        if (set)
-        {
-            continue;
-        }
-
-        // Check fgr boundary species
-        for (int j = 0; j < bs.size(); j++)
-        {
-            if ((string)newSelectionList[i] == (string)bs[j])
-            {
-                steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = SelectionRecord::BOUNDARY_CONCENTRATION;
-                set = true;
-                break;
-            }
-            if ((string)newSelectionList[i] == "[" + (string)bs[j] + "]")
-            {
-                steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = SelectionRecord::BOUNDARY_AMOUNT;
-                set = true;
-                break;
-            }
-        }
-
-        if (set)
-        {
-            continue;
-        }
-
-        if ((string)newSelectionList[i] == "time")
-        {
-            steadyStateSelection[i].selectionType = SelectionRecord::TIME;
-            set = true;
-        }
-
-        for (int j = 0; j < rs.size(); j++)
-        {
-            // Check for reaction rate
-            if ((string)newSelectionList[i] == (string)rs[j])
-            {
-                steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = SelectionRecord::REACTION_RATE;
-                set = true;
-                break;
-            }
-        }
-
-        for (int j = 0; j < vol.size(); j++)
-        {
-            // Check for volume
-            if ((string)newSelectionList[i] == (string)vol[j])
-            {
-                steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = SelectionRecord::COMPARTMENT;
-                set = true;
-                break;
-            }
-        }
-
-        for (int j = 0; j < gp.size(); j++)
-        {
-            // Check for volume
-            if ((string)newSelectionList[i] == (string)gp[j])
-            {
-                steadyStateSelection[i].index = j;
-                steadyStateSelection[i].selectionType = SelectionRecord::GLOBAL_PARAMETER;
-                set = true;
-                break;
-            }
-        }
-
-        if (set)
-        {
-            continue;
-        }
-
-        // it is another symbol
-        steadyStateSelection[i].selectionType = SelectionRecord::UNKNOWN;
-        steadyStateSelection[i].p1 = (string)newSelectionList[i];
+        steadyStateSelection[i] = createSelection(newSelectionList[i]);
     }
+
     return steadyStateSelection;
 }
 
@@ -2134,7 +1846,7 @@ double RoadRunner::computeSteadyStateValue(const SelectionRecord& record)
     {
         return computeSteadyStateValue(record.p1);
     }
-    return getValueForRecord(record);
+    return getSelectionValue(record);
 }
 
 
@@ -2202,7 +1914,7 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
         }
         try
         {
-            return getValue(sId);
+            return getSelectionValue(sId);
         }
         catch (Exception& )
         {
@@ -3419,123 +3131,9 @@ bool RoadRunner::setValue(const string& sId, double dValue)
 }
 
 // Help("Gets the Value of the given species or global parameter (not of local parameters)")
-double RoadRunner::getValue(const string& sId)
+double RoadRunner::getSelectionValue(const string& sel)
 {
-    if (!mModel)
-        throw CoreException(gEmptyModelMessage);
-
-    int nIndex = 0;
-    if (( nIndex = mModel->getGlobalParameterIndex(sId)) >= 0)
-    {
-        double result = 0;
-        mModel->getGlobalParameterValues(1, &nIndex, &result);
-        return result;
-    }
-    if ((nIndex = mModel->getBoundarySpeciesIndex(sId)) >= 0)
-    {
-        double result = 0;
-        mModel->getBoundarySpeciesConcentrations(1, &nIndex, &result);
-        return result;
-    }
-
-    if ((nIndex = mModel->getFloatingSpeciesIndex(sId)) >= 0)
-    {
-        double result = 0;
-        mModel->getFloatingSpeciesConcentrations(1, &nIndex, &result);
-        return result;
-    }
-
-    if ((nIndex = mModel->getFloatingSpeciesIndex(sId.substr(0, sId.size() - 1))) >= 0)
-    {
-        mModel->computeAllRatesOfChange();
-
-        //fs[j] + "'" will be interpreted as rate of change
-        double result = 0;
-        mModel->getFloatingSpeciesAmountRates(1, &nIndex, &result);
-        return result;
-    }
-
-    if ((nIndex = mModel->getCompartmentIndex(sId)) >= 0)
-    {
-        double result = 0;
-        mModel->getCompartmentVolumes(1, &nIndex, &result);
-        return result;
-    }
-    if ((nIndex = mModel->getReactionIndex(sId)) >= 0)
-    {
-        double result = 0;
-        mModel->getReactionRates(1, &nIndex, &result);
-        return result;
-    }
-
-    if ((nIndex = mModel->getConservedSumIndex(sId)) >= 0)
-    {
-        double result = 0;
-        return mModel->getConservedSums(1, &nIndex, &result);
-        return result;
-    }
-
-    StringList initialConditions = getFloatingSpeciesInitialConditionIds();
-    if (initialConditions.Contains(sId))
-    {
-        int index = initialConditions.indexOf(sId);
-        double result = 0;
-        mModel->getFloatingSpeciesInitConcentrations(1, &index, &result);
-        return result;
-    }
-
-    string tmp("EE:");
-    if (sId.compare(0, tmp.size(), tmp) == 0)
-    {
-        string parameters = sId.substr(3);
-        string p1 = parameters.substr(0, parameters.find_first_of(","));
-        string p2 = parameters.substr(parameters.find_first_of(",") + 1);
-        return getEE(p1, p2, false);
-    }
-
-    tmp = ("uEE:");
-    if (sId.compare(0, tmp.size(), tmp) == 0)
-    {
-        string parameters = sId.substr(4);
-        string p1 = parameters.substr(0, parameters.find_first_of(","));
-        string p2 = parameters.substr(parameters.find_first_of(",") + 1);
-        return getuEE(p1, p2, false);
-    }
-
-    tmp = ("eigen_");
-    if (sId.compare(0, tmp.size(), tmp) == 0)
-    {
-        string species = sId.substr(tmp.size());
-        int index = mModel->getFloatingSpeciesIndex(species);
-
-
-        //DoubleMatrix mat = getReducedJacobian();
-        DoubleMatrix mat;
-        if (mComputeAndAssignConservationLaws)
-        {
-            mat = getReducedJacobian();
-        }
-        else
-        {
-            mat = getFullJacobian();
-        }
-
-        vector<Complex> oComplex = ls::getEigenValues(mat);
-
-        if(mSelectionList.size() == 0)
-        {
-            throw("Tried to access record in empty mSelectionList in getValue function: eigen_");
-        }
-
-        if (oComplex.size() > mSelectionList[index + 1].index) //Becuase first one is time !?
-        {
-            return oComplex[mSelectionList[index + 1].index].Real;
-        }
-        return std::numeric_limits<double>::quiet_NaN();
-    }
-
-    throw CoreException("Given Id: '" + sId + "' not found.",
-            "Only species, global parameter values and fluxes can be returned");
+    return getSelectionValue(createSelection(sel));
 }
 
 // Help(
@@ -3694,12 +3292,12 @@ static std::vector<std::string> createSelectionList(const SimulateOptions& o)
 
     for(int i = 0; i < o.amounts.size(); i++)
     {
-        theList.push_back("[" + o.amounts[i] + "]");        //In the setSelection list below, the [] selects the correct 'type'
+        theList.push_back(o.amounts[i]);        //In the setSelection list below, the [] selects the correct 'type'
     }
 
     for(int i = 0; i < o.concentrations.size(); i++)
     {
-        theList.push_back(o.concentrations[i]);
+        theList.push_back("[" + o.concentrations[i] + "]");
     }
 
     //We may have variables
@@ -3758,6 +3356,143 @@ std::string RoadRunner::getConfigurationXML()
 void RoadRunner::setConfigurationXML(const std::string& xml)
 {
     Configurable::loadXmlConfig(xml, this);
+}
+
+SelectionRecord RoadRunner::createSelection(const std::string& str)
+{
+    if (!mModel)
+    {
+        throw Exception("Can not create selection without a model");
+    }
+
+    SelectionRecord sel(str);
+
+    if (sel.selectionType == SelectionRecord::UNKNOWN)
+    {
+        throw Exception("invalid selection string " + str);
+    }
+
+    // check to see that we have valid selection ids
+    switch(sel.selectionType)
+    {
+    case SelectionRecord::TIME:
+        // time is always fine...
+        break;
+    case SelectionRecord::UNKNOWN_ELEMENT:
+        // check for sbml element types
+
+        if ((sel.index = mModel->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            sel.selectionType = SelectionRecord::FLOATING_AMOUNT;
+            break;
+        }
+        else if ((sel.index = mModel->getBoundarySpeciesIndex(sel.p1)) >= 0)
+        {
+            sel.selectionType = SelectionRecord::BOUNDARY_AMOUNT;
+            break;
+        }
+        else if ((sel.index = mModel->getCompartmentIndex(sel.p1)) >= 0)
+        {
+            sel.selectionType = SelectionRecord::COMPARTMENT;
+            break;
+        }
+        else if ((sel.index = mModel->getGlobalParameterIndex(sel.p1)) >= 0)
+        {
+            sel.selectionType = SelectionRecord::GLOBAL_PARAMETER;
+            break;
+        }
+        else if ((sel.index = mModel->getReactionIndex(sel.p1)) >= 0)
+        {
+            sel.selectionType = SelectionRecord::REACTION_RATE;
+            break;
+        }
+        else
+        {
+            throw Exception("No sbml element exists for symbol '" + str + "'");
+            break;
+        }
+    case SelectionRecord::UNKNOWN_CONCENTRATION:
+        if ((sel.index = mModel->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            sel.selectionType = SelectionRecord::FLOATING_CONCENTRATION;
+            break;
+        }
+        else if ((sel.index = mModel->getBoundarySpeciesIndex(sel.p1)) >= 0)
+        {
+            sel.selectionType = SelectionRecord::BOUNDARY_CONCENTRATION;
+            break;
+        }
+        else
+        {
+            string msg = "No sbml element exists for concentration selection '" + str + "'";
+            Log(Logger::PRIO_ERROR) << msg;
+            throw Exception(msg);
+            break;
+        }
+    case SelectionRecord::FLOATING_AMOUNT_RATE:
+        if ((sel.index = mModel->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            break;
+        }
+        else
+        {
+            throw Exception("Invalid id '" + str + "' for floating amount rate");
+            break;
+        }
+    case SelectionRecord::ELASTICITY:
+    case SelectionRecord::UNSCALED_ELASTICITY:
+    case SelectionRecord::CONTROL:
+    case SelectionRecord::UNSCALED_CONTROL:
+        // check that the control coef args are valid
+        if (mModel->getReactionIndex(sel.p1) >= 0 ||
+                mModel->getFloatingSpeciesIndex(sel.p1) >= 0)
+
+        {
+            if (mModel->getGlobalParameterIndex(sel.p2) >= 0 ||
+                    mModel->getBoundarySpeciesIndex(sel.p2) >= 0 ||
+                    mModel->getConservedSumIndex(sel.p2) >= 0)
+            {
+                Log(Logger::PRIO_INFORMATION) <<
+                        "Valid metabolic control selection: " << sel.to_repr();
+            }
+            else
+            {
+                throw Exception("The second argument to a metabolic control "
+                        "coefficient selection, " + sel.p2 + ", must be either "
+                        "a global parameter, boundary species or conserved sum");
+            }
+        }
+        else
+        {
+            throw Exception("The first argument to a metabolic control "
+                    "coefficient selection, " + sel.p1 + ", must be either "
+                    "a reaction, floating species or conserved sum");
+        }
+
+        break;
+    case SelectionRecord::EIGENVALUE:
+        Log(Logger::PRIO_WARNING) << "syntactically valid eigen, however not enabled yet";
+        break;
+    case SelectionRecord::STOICHIOMETRY:
+        Log(Logger::PRIO_WARNING) << "syntactically valid stoichiometry, however not enabled yet";
+        break;
+    case SelectionRecord::INITIAL_CONCENTRATION:
+        if ((sel.index = mModel->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            break;
+        }
+        else
+        {
+            throw Exception("Invalid id '" + sel.p1 + "' for floating initial concentration");
+            break;
+        }
+    default:
+        Log(Logger::PRIO_ERROR) << "A new SelectionRecord should not have this value: "
+            << sel.to_repr();
+        break;
+    }
+
+    return sel;
 }
 
 }//namespace

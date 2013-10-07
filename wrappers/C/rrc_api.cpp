@@ -633,7 +633,17 @@ RRStringArrayPtr rrcCallConv getTimeCourseSelectionList(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        StringList sNames = rri->getTimeCourseSelectionList();
+
+        vector<SelectionRecord> selections = rri->getSelections();
+
+        vector<string> list(selections.size());
+
+        for(int i = 0; i < selections.size(); ++i)
+        {
+            list[i] = selections[i].to_string();
+        }
+
+        StringList sNames = list;
 
         if(!sNames.Count())
         {
@@ -781,7 +791,7 @@ bool rrcCallConv getValue(RRHandle handle, const char* symbolId, double *value)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        *value = rri->getValue(symbolId);
+        *value = rri->getSelectionValue(symbolId);
         return true;
     }
     catch_bool_macro
@@ -1349,7 +1359,7 @@ RRStringArrayPtr rrcCallConv getSteadyStateSelectionList(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        StringList sNames = rri->getSteadyStateSelectionList();
+        StringList sNames = rri->getSteadyStateSelections();
 
         if(sNames.Count() == 0)
         {

@@ -361,7 +361,7 @@ RRHandle gRR = NULL;
 
             double val;
 
-              string eigenValueLabel ="eigen_" + aKey->mKey;
+            string eigenValueLabel ="eigen(" + aKey->mKey + ")";
             if(!getValue(gRR, eigenValueLabel.c_str(), &val))
             {
                 CHECK(false);

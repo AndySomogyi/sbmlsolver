@@ -335,7 +335,7 @@ int LLVMExecutableModel::getFloatingSpeciesIndex(const string& id)
 {
     try
     {
-        return symbols->getFloatingSpeciesIndex(id);
+        return symbols->getFloatingSpeciesIndex(id, false);
     }
     catch (LLVMException&)
     {

@@ -40,7 +40,7 @@ struct RR_DECLSPEC LoadSBMLOptions
          *
          * currently only implemented with the C code generating model
          */
-        ConservationAnalysis = (0x1 << 0), // => 0x00000001
+        ConservationAnalysis            = (0x1 << 0),  // => 0x00000001
 
         /**
          * Should the model be recompiled?
@@ -53,7 +53,7 @@ struct RR_DECLSPEC LoadSBMLOptions
          * need to cache the models, and this can safetly be enabled,
          * realizing some performance gains.
          */
-        ForceReCompile                  = (0x1 << 1), // => 0x00000010
+        ForceReCompile                  = (0x1 << 1),  // => 0x00000010
 
         /**
          * If this is set, then a read-only model is generated. A read-only
@@ -64,7 +64,18 @@ struct RR_DECLSPEC LoadSBMLOptions
          * functions, and if they are not needed, one may see some performance
          * gains, especially in very large models.
          */
-        ReadOnlyModel                   = (0x1 << 2)  // => 0x00000100
+        ReadOnlyModel                   = (0x1 << 2),  // => 0x00000100
+
+
+
+    };
+
+    enum LoadOpt
+    {
+        /**
+         * Do not create a default selection list when the model is loaded.
+         */
+        NO_DEFAULT_SELECTIONS           = (0x1 << 0)   // => 0x00000001
     };
 
     /**
@@ -84,6 +95,8 @@ struct RR_DECLSPEC LoadSBMLOptions
 
 
     uint32_t modelGeneratorOpt;
+
+    uint32_t loadFlags;
 };
 
 /**

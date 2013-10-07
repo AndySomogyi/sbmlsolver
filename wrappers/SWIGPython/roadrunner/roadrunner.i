@@ -63,8 +63,8 @@
 
 %apply std::vector<std::string> {vector<std::string>, vector<string>, std::vector<string> };
 
-%template(SelectionRecordVector) std::vector<SelectionRecord>;
-%apply std::vector<SelectionRecord> {vector<rr::SelectionRecord>, std::vector<rr::SelectionRecord>, vector<SelectionRecord>};
+%template(SelectionRecordVector) std::vector<rr::SelectionRecord>;
+%apply std::vector<rr::SelectionRecord> {std::vector<SelectionRecord>, std::vector<rr::SelectionRecord>, vector<SelectionRecord>};
 
 
 %exception {
@@ -418,7 +418,7 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 %ignore rr::RoadRunner::getNumberOfReactions;
 %ignore rr::RoadRunner::getValue;
 //%ignore rr::RoadRunner::steadyState;
-%ignore rr::RoadRunner::getValueForRecord;
+%ignore rr::RoadRunner::getSelectionValue(const SelectionRecord&);
 //%ignore rr::RoadRunner::this;
 %ignore rr::RoadRunner::getFloatingSpeciesByIndex;
 %ignore rr::RoadRunner::getParameterValue;
@@ -585,6 +585,30 @@ namespace Poco { class SharedLibrary{}; }
 %include <rrPluginManager.h>
 %include <rrPlugin.h>
 
+%extend std::vector<rr::SelectionRecord>
+{
+    std::string __repr__() {
+        std::stringstream s;
+        std::vector<rr::SelectionRecord> &p = *($self);
+
+        s << "[";
+
+        for (int i = 0; i < p.size(); ++i)
+        {
+            s << p[i].to_repr();
+
+            if (i + 1 < p.size())
+            {
+                s << "," << std::endl << " ";
+            }
+        }
+
+        s << "]";
+
+        return s.str();
+    }
+}
+
 %extend rr::RoadRunner
 {
     // attributes
@@ -592,6 +616,8 @@ namespace Poco { class SharedLibrary{}; }
     const rr::SimulateOptions *simulateOptions;
 
     const rr::ExecutableModel *model;
+
+    const std::vector<rr::SelectionRecord> *selections;
 
     const rr::RoadRunnerData *simulate(int startTime, int endTime, int steps) {
         rr::SimulateOptions s = $self->getSimulateOptions();
@@ -608,12 +634,9 @@ namespace Poco { class SharedLibrary{}; }
     }
 
     double getSelectionValue(const rr::SelectionRecord* pRecord) {
-        return $self->getValueForRecord(*pRecord);
+        return $self->getSelectionValue(*pRecord);
     }
 
-    double getSelectionValue(const std::string& id) {
-        return $self->getValue(id);
-    }
 }
 
 %{
@@ -632,44 +655,25 @@ namespace Poco { class SharedLibrary{}; }
     void rr_RoadRunner_model_set(RoadRunner* r, const rr::ExecutableModel *m) {
         // TODO error can not set.
     }
+
+    std::vector<rr::SelectionRecord>* rr_RoadRunner_selections_get(RoadRunner* r) {
+        return &r->getSelections();
+    }
+
+    void rr_RoadRunner_selections_set(RoadRunner* r, const std::vector<rr::SelectionRecord> *) {
+        // TODO error can not set.
+    }
 %}
 
 
 %extend rr::SelectionRecord {
 
     std::string __repr__() {
-        std::stringstream s;
-        s << "<roadrunner.SelectionRecord() { this = " << (void*)$self << " }>";
-        return s.str();
+        return $self->to_repr();
     }
 
     std::string __str__() {
-
-        std::string selType;
-
-        switch($self->selectionType) {
-        case SelectionRecord::TIME: selType = "TIME"; break;
-        case SelectionRecord::BOUNDARY_CONCENTRATION: selType = "BOUNDARY_CONCENTRATION"; break;
-        case SelectionRecord::FLOATING_CONCENTRATION: selType = "FLOATING_CONCENTRATION"; break;
-        case SelectionRecord::REACTION_RATE: selType = "REACTION_RATE"; break;
-        case SelectionRecord::FLOATING_AMOUNT_RATE: selType = "FLOATING_AMOUNT_RATE"; break;
-        case SelectionRecord::COMPARTMENT: selType = "COMPARTMENT"; break;
-        case SelectionRecord::GLOBAL_PARAMETER: selType = "GLOBAL_PARAMETER"; break;
-        case SelectionRecord::FLOATING_AMOUNT: selType = "FLOATING_AMOUNT"; break;
-        case SelectionRecord::BOUNDARY_AMOUNT: selType = "BOUNDARY_AMOUNT"; break;
-        case SelectionRecord::ELASTICITY: selType = "ELASTICITY"; break;
-        case SelectionRecord::UNSCALED_ELASTICITY: selType = "UNSCALED_ELASTICITY"; break;
-        case SelectionRecord::EIGENVALUE: selType = "EIGENVALUE"; break;
-        case SelectionRecord::STOICHIOMETRY: selType = "STOICHIOMETRY"; break;
-        default: selType = "UNKNOWN"; break;
-        }
-        std::stringstream s;
-        s << "SelectionRecord({'index' : " << $self->index << ", ";
-        s << "'p1' : '" << $self->p1 << "', ";
-        s << "'p2' : '" << $self->p2 << "', ";
-        s << "'selectionType' : " << selType << "})";
-
-        return s.str();
+        return $self->to_string();
     }
 }
 
