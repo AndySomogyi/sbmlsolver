@@ -56,7 +56,7 @@ JB :
   #   - Only the following values are falsy: ["", null, false]
   #   - When setting BASE_PATH it must be a valid url.
   #     This means always setting the protocol (http|https) or prefixing with "/"
-  BASE_PATH : /roadrunner
+  BASE_PATH : /roadrunner/
   #When switching to custom domain, set to false
   #BASE_PATH : false
 
