@@ -1,4 +1,4 @@
-# This is the default format. 
+/ This is the default format. 
 # For more see: http://jekyllrb.com/docs/permalinks/
 permalink: /:categories/:year/:month/:day/:title 
 
@@ -26,7 +26,7 @@ author :
 #
 #production_url : http://rr.sbols.org
 #production_url : http://libroadrunner.org
-production_url : http://mgaldzic.github.io/roadrunner/
+production_url : http://mgaldzic.github.io/roadrunner
 #production_url : http://andysomogyi.github.io/roadrunner
 
 # All Jekyll-Bootstrap specific configurations are namespaced into this hash
@@ -57,7 +57,7 @@ JB :
   #   - When setting BASE_PATH it must be a valid url.
   #     This means always setting the protocol (http|https) or prefixing with "/"
 
-  BASE_PATH : http://mgaldzic.github.io/roadrunner
+  BASE_PATH : http://mgaldzic.github.io/roadrunner/
   #BASE_PATH : http://andysomogyi.github.io/roadrunner
   #BASE_PATH : false
 
