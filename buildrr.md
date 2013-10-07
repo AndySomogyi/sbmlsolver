@@ -127,7 +127,7 @@ CMake generates regular make files for gcc. Installing and building the librarie
 
 `make install`
 
-in a terminal window. See the page LinuxBuild to get more information on how to build RoadRunner on Linux using the GCC compiler.
+in a terminal window. See the page [LinuxBuild](buidrr_linux.html) to get more information on how to build RoadRunner on Linux using the GCC compiler.
 
 ##Notes on Generating or updating the API Documentation
 The documentation is automatically generated using the comments in the copasi_api.h file. To change the documentation, you just need to edit that file. To generate the new documentation, follow these steps:
