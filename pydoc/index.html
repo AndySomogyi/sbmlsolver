@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>RoadRunner Overview &mdash; RoadRunner 0.99 documentation</title>
+    <title>RoadRunner User Guide &mdash; RoadRunner 0.99 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -34,6 +34,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="introduction.html" title="Introduction"
              accesskey="N">next</a> |</li>
         <li><a href="#">RoadRunner 0.99 documentation</a> &raquo;</li> 
@@ -45,8 +48,10 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="roadrunner-overview">
-<h1>RoadRunner Overview<a class="headerlink" href="#roadrunner-overview" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="roadrunner-user-guide">
+<h1>RoadRunner User Guide<a class="headerlink" href="#roadrunner-user-guide" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="roadrunner-overview">
+<h2>RoadRunner Overview<a class="headerlink" href="#roadrunner-overview" title="Permalink to this headline">¶</a></h2>
 <p>This guide is intended as an introduction and reference of the RoadRunner
 SBML Simulation Engine. This guide will show the most important features
 and provides a complete API reference.</p>
@@ -54,29 +59,67 @@ and provides a complete API reference.</p>
 <p class="first admonition-title">Warning</p>
 <p class="last">This &#8220;User Guide&#8221; is still a work in progress; some of the material
 is not organized, and several aspects of RoadRunner are not yet covered
-sufficient detail.     &lt;<a class="reference external" href="http://andysomogyi.github.io/roadrunner/pydoc/">http://andysomogyi.github.io/roadrunner/pydoc/</a>&gt;`__ website.</p>
+sufficient detail. &lt;<a class="reference external" href="http://andysomogyi.github.io/roadrunner/pydoc/">http://andysomogyi.github.io/roadrunner/pydoc/</a>&gt;`__ website.</p>
 </div>
+<p>To get you started here is a very simple script that will load a model and run a time course simulation:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">roadrunner</span>
+<span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">()</span>
+<span class="n">rr</span><span class="o">.</span><span class="n">loadSBMLFromFile</span> <span class="p">(</span><span class="s">&#39;mymodel.xml&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The result is a standard numpy array which may be plotted using <a class="reference external" href="http://matplotlib.org/">matplotlib</a>. Now read the tutorials to learn more about the capabilities of RoadRunner.</p>
 <p>Contents:</p>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="whatisroadrunner.html">What is RoadRunner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="what_is_sbml.html">What Is SBML?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="what_is_rr.html">What is RoadRunner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installing_rr.html">Installing RoadRunner</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="basics.html">RoadRunner basics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rr_basics.html">RoadRunner Basics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="starting_py_and_rr.html">Starting Python and RoadRunner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="running_simulation.html">Running a Simulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="looking_at_results.html">Looking at the Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="selecting_results.html">Selecting what to Output</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="read_write_functions.html">SBML Read/Write Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="timecourse_simulation.html">Time Course Simulation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="steady_state.html">Steady State Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="stoichiometric.html">Stoichiometric Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="stoichiometric.html#preliminaries">Preliminaries</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="metabolic.html">Metabolic Control Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="metabolic.html#preliminaries">Preliminaries</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="stability.html">Stability Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="accessing_model.html">Accessing the SBML Model Variables</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="accessing_model.html#compartment-group">Compartment Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accessing_model.html#boundary-species-group">Boundary Species Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accessing_model.html#floating-species-group">Floating Species Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accessing_model.html#initial-conditions-group">Initial Conditions Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accessing_model.html#reaction-group">Reaction Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accessing_model.html#rates-of-change-group">Rates Of Change Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accessing_model.html#parameters-group">Parameters Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="accessing_model.html#current-state-of-the-system-group">Current State of the System Group</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api_reference.html">RoadRunner API Reference</a></li>
 </ul>
 </div>
 </div>
 <div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
 <li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
 <li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
 </ul>
 </div>
-<div class="section" id="roadrunner-api-reference">
-<h1>RoadRunner API Reference<a class="headerlink" href="#roadrunner-api-reference" title="Permalink to this headline">¶</a></h1>
 </div>
 
 
@@ -87,11 +130,13 @@ sufficient detail.     &lt;<a class="reference external" href="http://andysomogy
         <div class="sphinxsidebarwrapper">
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">RoadRunner Overview</a><ul>
+<li><a class="reference internal" href="#">RoadRunner User Guide</a><ul>
+<li><a class="reference internal" href="#roadrunner-overview">RoadRunner Overview</a><ul>
 </ul>
 </li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
-<li><a class="reference internal" href="#roadrunner-api-reference">RoadRunner API Reference</a></li>
+</ul>
+</li>
 </ul>
 
   <h4>Next topic</h4>
@@ -125,6 +170,9 @@ sufficient detail.     &lt;<a class="reference external" href="http://andysomogy
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
         <li class="right" >
           <a href="introduction.html" title="Introduction"
              >next</a> |</li>

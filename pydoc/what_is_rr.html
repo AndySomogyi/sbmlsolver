@@ -25,8 +25,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="RoadRunner 0.99 documentation" href="index.html" />
     <link rel="up" title="Introduction" href="introduction.html" />
-    <link rel="next" title="RoadRunner basics" href="basics.html" />
-    <link rel="prev" title="Introduction" href="introduction.html" /> 
+    <link rel="next" title="Installing RoadRunner" href="installing_rr.html" />
+    <link rel="prev" title="What Is SBML?" href="what_is_sbml.html" /> 
   </head>
   <body>
     <div class="related">
@@ -36,10 +36,13 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="basics.html" title="RoadRunner basics"
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="installing_rr.html" title="Installing RoadRunner"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="introduction.html" title="Introduction"
+          <a href="what_is_sbml.html" title="What Is SBML?"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li>
           <li><a href="introduction.html" accesskey="U">Introduction</a> &raquo;</li> 
@@ -56,14 +59,14 @@
 <p>RoadRunner is package for loading, JIT compilation, simulation and
 analysis of SBML systems biology models.</p>
 <p>The roadrunner package contains two fundametal objects, <cite>RoadRunner</cite>
-and <cite>ExecutableModel</cite>. <cite>RoadRunner</cite> is the typically the top level objec,
+and <cite>ExecutableModel</cite>. <cite>RoadRunner</cite> is the typically the top level object,
 it is responsible for orchestrating all of the internal components
 such as model loading, JIT compilation, integration and output.</p>
 <p>** roadrunner overview</p>
 <dl class="docutils">
-<dt>** ExecutalbModel</dt>
+<dt>** ExecutableModel</dt>
 <dd><ul class="first last simple">
-<li>represetns a compiled sbml model</li>
+<li>represents a compiled sbml model</li>
 <li>properties to get and set any state variables.</li>
 </ul>
 </dd>
@@ -74,15 +77,20 @@ array returned by simulate just has a pointer to the results matrix which is own
 <p>The new API is really cool, this is all you have to do:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">RoadRunner</span> <span class="kn">as</span> <span class="nn">rr</span>
 <span class="kn">import</span> <span class="nn">pylab</span> <span class="kn">as</span> <span class="nn">p</span>
-<span class="n">r</span><span class="o">=</span><span class="n">rr</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">()</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>this takes an optional LoadSBMLOptions class as a second parameter:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">loadSBMLFromFile</span><span class="p">(</span><span class="s">&quot;/home/foo/myfile.xml&quot;</span><span class="p">)</span>
-</pre></div>
+<div class="highlight-python"><pre>In Windows
+
+r loadSBMLFromFile("C:\MyModels\mymodel.xml")
+
+or on the Mac or Linux
+
+r.loadSBMLFromFile("/home/foo/myfile.xml")</pre>
 </div>
 <p>this takes an optional SimulateOptions class as a second parameter.:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">s</span><span class="o">=</span><span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">s</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Hi,</p>
@@ -207,14 +215,14 @@ simplicity we expect from something based on Python (indeed, the NumPy</p>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="introduction.html"
-                        title="previous chapter">Introduction</a></p>
+  <p class="topless"><a href="what_is_sbml.html"
+                        title="previous chapter">What Is SBML?</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="basics.html"
-                        title="next chapter">RoadRunner basics</a></p>
+  <p class="topless"><a href="installing_rr.html"
+                        title="next chapter">Installing RoadRunner</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/whatisroadrunner.txt"
+    <li><a href="_sources/what_is_rr.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -241,10 +249,13 @@ simplicity we expect from something based on Python (indeed, the NumPy</p>
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="basics.html" title="RoadRunner basics"
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="installing_rr.html" title="Installing RoadRunner"
              >next</a> |</li>
         <li class="right" >
-          <a href="introduction.html" title="Introduction"
+          <a href="what_is_sbml.html" title="What Is SBML?"
              >previous</a> |</li>
         <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li>
           <li><a href="introduction.html" >Introduction</a> &raquo;</li> 
