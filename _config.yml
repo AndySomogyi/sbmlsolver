@@ -3,6 +3,7 @@
 permalink: /:categories/:year/:month/:day/:title 
 
 exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md"]
+include: ["_sources", "_static"]
 pygments: true
 
 # Themes are encouraged to use these universal variables 
@@ -23,7 +24,10 @@ author :
 # Else if you are pushing to username.github.io, replace with your username.
 # Finally if you are pushing to a GitHub project page, include the project name at the end.
 #
-production_url : http://libroadrunner.org
+#production_url : http://rr.sbols.org
+#production_url : http://libroadrunner.org
+#production_url : http://mgaldzic.github.io/roadrunner
+production_url : http://andysomogyi.github.io/roadrunner
 
 # All Jekyll-Bootstrap specific configurations are namespaced into this hash
 #
@@ -52,7 +56,10 @@ JB :
   #   - Only the following values are falsy: ["", null, false]
   #   - When setting BASE_PATH it must be a valid url.
   #     This means always setting the protocol (http|https) or prefixing with "/"
-  BASE_PATH : false
+
+  #BASE_PATH : http://mgaldzic.github.io/roadrunner
+  BASE_PATH : http://andysomogyi.github.io/roadrunner
+  #BASE_PATH : false
 
   # By default, the asset_path is automatically defined relative to BASE_PATH plus the enabled theme.
   # ex: [BASE_PATH]/assets/themes/[THEME-NAME]
