@@ -9,9 +9,11 @@ This document contains information on specific steps needed to take in order to 
 
 ##CMake Flags
 * The CMAKE_BUILD_TYPE
+
 When generating Visual Studio build files, the **CMAKE_BUILD_TYPE** have no effect, i.e. changing the Debug to Release will not cause the build to be a Release build. Instead, Debug and Release is **manually** set in the Visual Studio IDE. This do not mean, however, that one should use one set of build files for both Debug and Release. The problem in doing so, is that this would cause Debug and Release libraries to be generated and installed into the same output folder, which is not considered a good idea.
 
 * The CMAKE_C_FLAGS_RELEASE and CMAKE_CXX_FLAGS_RELEASE
+
 If you are building a **release** version of RoadRunner, the **CMAKE_C_FLAGS_RELEASE** flag and the CMAKE_CXX_FLAGS_RELEASE need to be modified from its default. The default switches
 `/O2 /Ob2`
 
