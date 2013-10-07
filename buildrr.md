@@ -11,10 +11,10 @@ Please follow the following steps in order to successfully compile and link the 
 
 This document assume a working knowledge of the tools involved, i.e. subversion, CMake and your compiler.
 
-Also, please observe that this page outlines a generic procedure to build RoadRunner and ThirdParty libraries. For each individual compiler, however, some steps, or variable in the procedure may need a special setting or a tweak. Such tweaks are found on a separate page, associated to the compiler in question. That said, before executing the steps outlined below, please take a look at the specific compiler page for any additional steps needed in order to produce a proper end target.
+Also, please **observe** that this page outlines a **generic** procedure to build RoadRunner and ThirdParty libraries. For each individual compiler, however, some steps, or variable in the procedure may need a special setting or a tweak. Such tweaks are found on a separate page, associated to the compiler in question. That said, before executing the steps outlined below, please take a look at the specific compiler page for any additional steps needed in order to produce a proper end target.
 
 ## The Source
-The source code for RoadRunner is managed by a svn repository located on Google code. The build instructions that follows below will assume that you have checked out the code from the trunk folder, which has the address:
+The source code for RoadRunner is managed by a svn repository located on Google code. The build instructions that follows below will assume that you have checked out the code from the **trunk** folder, which has the address:
 
 `http://roadrunnerlib.googlecode.com/svn/trunk/`
 
@@ -48,19 +48,21 @@ In the following we will go through the process of setting up a development envi
 Organize your folders
 An organized folder setup is recommended. In the following a structure similar to the following will be used:
 
-top_folder
-  builds 
-    debug
-      rr
-      ThirdParty
-    release
-      rr
-      ThirdParty
-  installs
-    debug
-    release
-  trunk
+    top_folder
+      builds 
+        debug
+          rr
+          ThirdParty
+        release
+          rr
+          ThirdParty
+      installs
+        debug
+        release
+      trunk
     ... 
+
+
 It is important to note that build files are kept separate from source files, and install files separate from build and source files as well.
 
 Step 1 - Check out the source code
