@@ -52,15 +52,3 @@ You are NOT required include the source of software, or of any modifications you
 
 YOU CANNOT:
 redistribute any piece of this software without proper attribution;
-
-API Documentation
-The API documentation for RoadRunners various API's are available below
-
-
-[C API](http://andysomogyi.github.io/roadrunner/html/)
-
-C++ API
-
-Building RoadRunner
-BuildingRoadRunner
-
