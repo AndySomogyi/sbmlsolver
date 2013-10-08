@@ -32,7 +32,7 @@ if(UNIX)
 		)
 else()
 	install(
-		FILES run_c_tests.bat
+		FILES run_c_tests.bat ${CMAKE_CURRENT_BINARY_DIR}/run_c_tests.sh
 		DESTINATION bin
 		COMPONENT testing
 	)

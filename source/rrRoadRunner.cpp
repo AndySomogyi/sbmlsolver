@@ -3,7 +3,6 @@
 #include "rrException.h"
 #include "rrModelGenerator.h"
 #include "rrCompiler.h"
-#include "rrStreamWriter.h"
 #include "rrLogger.h"
 #include "rrModelGeneratorFactory.h"
 #include "rrUtils.h"

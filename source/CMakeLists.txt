@@ -28,16 +28,12 @@ set(rrSources
     rrRandom
     rrRoadRunner
     rrRoadRunnerOptions
-    rrStreamWriter
-    rrStringBuilder
     rrStringList
-    rrStringListContainer
     rrStringUtils
     rrUtils
     rrCPlugin
     rrCVODEInterface
     rrNLEQInterface
-    rrStopWatch
     rrTestSuiteModelSimulation
     rrIniKey
     rrIniSection
@@ -56,6 +52,8 @@ set(rrSources
     rrSparse
     rrSBMLModelSimulation
     mtrand/mtrand
+	c/rrStringBuilder
+	c/rrStringListContainer
     c/rrSBMLSymbolDependencies
     c/rrSBMLSymbol
     c/rrHashTable
