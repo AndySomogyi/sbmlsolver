@@ -86,6 +86,22 @@ namespace rrc
 using namespace std;
 using namespace rr;
 
+
+
+
+static NewArrayList sel_getFluxControlCoefficientIds(RoadRunner* rr);
+static NewArrayList sel_getAvailableSteadyStateSymbols(RoadRunner* rr);
+static NewArrayList sel_getAvailableTimeCourseSymbols(RoadRunner* rr);
+static vector<string> sel_getBoundarySpeciesAmountIds(RoadRunner* rr);
+static vector<string> sel_getBoundarySpeciesConcIds(RoadRunner* rr);
+static NewArrayList sel_getConcentrationControlCoefficientIds(RoadRunner* rr);
+static NewArrayList sel_getUnscaledConcentrationControlCoefficientIds(RoadRunner* rr);
+static NewArrayList sel_getElasticityCoefficientIds(RoadRunner* rr);
+static NewArrayList sel_getUnscaledElasticityCoefficientIds(RoadRunner* rr);
+
+static vector<string> sel_getFloatingSpeciesConcSymbols(RoadRunner* rr);
+static vector<string> sel_getBoundarySpeciesConcSymbols(RoadRunner* rr);
+
 RRHandle rrcCallConv createRRInstance()
 {
     try
@@ -621,7 +637,7 @@ bool rrcCallConv setTimeCourseSelectionList(RRHandle handle, const char* list)
     {
         RoadRunner* rri = castFrom(handle);
         StringList aList(list,", ");
-        rri->setTimeCourseSelectionList(aList);
+        rri->setSelections(aList);
         return true;
     }
     catch_bool_macro
@@ -1181,7 +1197,7 @@ RRListPtr rrcCallConv getAvailableTimeCourseSymbols(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        NewArrayList slSymbols = rri->getAvailableTimeCourseSymbols();
+        NewArrayList slSymbols = sel_getAvailableTimeCourseSymbols(rri);
         return createArrayList(slSymbols);
     }
     catch_ptr_macro
@@ -1192,7 +1208,7 @@ RRListPtr rrcCallConv getAvailableSteadyStateSymbols(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        NewArrayList slSymbols = rri->getAvailableSteadyStateSymbols();
+        NewArrayList slSymbols = sel_getAvailableSteadyStateSymbols(rri);
         return createArrayList(slSymbols);
     }
     catch_ptr_macro
@@ -1348,7 +1364,7 @@ bool rrcCallConv setSteadyStateSelectionList(RRHandle handle, const char* list)
     {
         RoadRunner* rri = castFrom(handle);
         StringList aList(list, " ,");
-        rri->setSteadyStateSelectionList(aList);
+        rri->setSteadyStateSelections(aList);
         return true;
     }
     catch_bool_macro
@@ -1359,12 +1375,15 @@ RRStringArrayPtr rrcCallConv getSteadyStateSelectionList(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        StringList sNames = rri->getSteadyStateSelections();
+        vector<SelectionRecord>& ss = rri->getSteadyStateSelections();
 
-        if(sNames.Count() == 0)
+        vector<string> sNames;
+
+        for(int i = 0; i < ss.size(); ++i)
         {
-            return NULL;
+            sNames.push_back(ss[i].to_string());
         }
+
         return createList(sNames);
     }
     catch_ptr_macro
@@ -1512,7 +1531,7 @@ RRListPtr rrcCallConv getElasticityCoefficientIds(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        NewArrayList aList = rri->getElasticityCoefficientIds();
+        NewArrayList aList = sel_getElasticityCoefficientIds(rri);
         RRListPtr bList = createArrayList(aList);
         return bList;
     }
@@ -1563,7 +1582,7 @@ RRListPtr rrcCallConv getFluxControlCoefficientIds(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        return createArrayList(rri->getFluxControlCoefficientIds());
+        return createArrayList(sel_getFluxControlCoefficientIds(rri));
     }
     catch_ptr_macro
 }
@@ -1613,12 +1632,51 @@ RRDoubleMatrixPtr rrcCallConv getScaledFluxControlCoefficientMatrix(RRHandle han
     catch_ptr_macro
 }
 
+static NewArrayList RoadRunner_getUnscaledFluxControlCoefficientIds(RoadRunner *rr)
+{
+    NewArrayList oResult;
+
+    vector<string> oReactions = rr->getReactionIds();
+    vector<string> oParameters = rr->getGlobalParameterIds();
+    vector<string> oBoundary = rr->getBoundarySpeciesIds();
+    vector<string> oConservation = rr->getConservedSumIds();
+
+    for(int i = 0; i < oReactions.size(); i++)
+    {
+        string s = oReactions[i];
+
+        NewArrayList oCCReaction;
+        vector<string> oInner;
+        oCCReaction.Add(s);
+
+        for(int i = 0; i < oParameters.size(); i++)
+        {
+            oInner.push_back("ucc(" + s + "," + oParameters[i] + ")");
+        }
+
+        for(int i = 0; i < oBoundary.size(); i++)
+        {
+            oInner.push_back("ucc(" + s + "," + oBoundary[i] + ")");
+        }
+
+        for(int i = 0; i < oConservation.size(); i++)
+        {
+            oInner.push_back("ucc(" + s + "," + oConservation[i] + ")");
+        }
+
+        oCCReaction.Add(oInner);
+        oResult.Add(oCCReaction);
+    }
+
+    return oResult;
+}
+
 RRListPtr rrcCallConv getUnscaledFluxControlCoefficientIds(RRHandle handle)
 {
     try
     {
         RoadRunner* rri = castFrom(handle);
-        NewArrayList arrList = rri->getUnscaledFluxControlCoefficientIds();
+        NewArrayList arrList = RoadRunner_getUnscaledFluxControlCoefficientIds(rri);
         return createArrayList(arrList);
     }
     catch_ptr_macro
@@ -1629,7 +1687,7 @@ RRList* rrcCallConv getConcentrationControlCoefficientIds(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        NewArrayList list = rri->getConcentrationControlCoefficientIds();
+        NewArrayList list = sel_getConcentrationControlCoefficientIds(rri);
         return createArrayList(list);
     }
     catch_ptr_macro
@@ -1640,7 +1698,7 @@ RRListPtr rrcCallConv getUnscaledConcentrationControlCoefficientIds(RRHandle han
     try
     {
         RoadRunner* rri = castFrom(handle);
-        return createArrayList(rri->getUnscaledConcentrationControlCoefficientIds());
+        return createArrayList(sel_getUnscaledConcentrationControlCoefficientIds(rri));
     }
     catch_ptr_macro
 }
@@ -1724,6 +1782,328 @@ bool rrcCallConv freeRRInstance(RRHandle handle)
     }
     catch_bool_macro
 }
+
+
+
+//  Help("Returns the Symbols of all Flux Control Coefficients.")
+NewArrayList sel_getFluxControlCoefficientIds(RoadRunner* rr)
+{
+    NewArrayList oResult;
+    vector<string> oReactions       = rr->getReactionIds();
+    vector<string> oParameters      = rr->getGlobalParameterIds();
+    vector<string> oBoundary        = rr->getBoundarySpeciesIds();
+    vector<string> oConservation    = rr->getConservedSumIds();
+
+    for(int i = 0; i < oReactions.size(); i++)
+    {
+        string s = oReactions[i];
+
+        NewArrayList oCCReaction;
+        StringList oInner;
+        oCCReaction.Add(s);
+
+        for(int i = 0; i < oParameters.size(); i++)
+        {
+            oInner.add("cc(" + s + "," + oParameters[i] + ")");
+        }
+
+        for(int i = 0; i < oBoundary.size(); i++)
+        {
+            oInner.add("cc(" + s + "," + oBoundary[i] + ")");
+        }
+
+        for(int i = 0; i < oConservation.size(); i++)
+        {
+            oInner.add("cc(" + s + "," + oConservation[i] + ")");
+        }
+
+        oCCReaction.Add(oInner);
+        oResult.Add(oCCReaction);
+    }
+
+    return oResult;
+}
+
+// Help(
+//            "Returns symbols of the currently loaded model, that can be used for steady state analysis. format: array of arrays  { { \"groupname\", { \"item1\", \"item2\" ... } } }  or { { \"groupname\", { \"subgroup\", { \"item1\" ... } } } }."
+//            )
+NewArrayList sel_getAvailableSteadyStateSymbols(RoadRunner* rr)
+{
+    NewArrayList oResult;
+
+    oResult.Add("Floating Species",                                 sel_getFloatingSpeciesConcSymbols(rr) );
+    oResult.Add("Boundary Species",                                 sel_getBoundarySpeciesConcSymbols(rr) );
+    oResult.Add("Floating Species (amount)",                        rr->getFloatingSpeciesIds());
+    oResult.Add("Boundary Species (amount)",                        rr->getBoundarySpeciesIds());
+    oResult.Add("Global Parameters",                                rr->getGlobalParameterIds());
+    oResult.Add("Volumes",                                          rr->getCompartmentIds());
+    oResult.Add("Fluxes",                                           rr->getReactionIds());
+    oResult.Add("Flux Control Coefficients",                        sel_getFluxControlCoefficientIds(rr) );
+    oResult.Add("Concentration Control Coefficients",               sel_getConcentrationControlCoefficientIds(rr) );
+    oResult.Add("Unscaled Concentration Control Coefficients",      sel_getUnscaledConcentrationControlCoefficientIds(rr));
+    oResult.Add("Elasticity Coefficients",                          sel_getElasticityCoefficientIds(rr) );
+    oResult.Add("Unscaled Elasticity Coefficients",                 sel_getUnscaledElasticityCoefficientIds(rr) );
+    oResult.Add("Eigenvalues",                                      rr->getEigenvalueIds() );
+
+    return oResult;
+}
+
+NewArrayList sel_getAvailableTimeCourseSymbols(RoadRunner* rr)
+{
+    NewArrayList oResult;
+
+    oResult.Add("Floating Species",                 sel_getFloatingSpeciesConcSymbols(rr) );
+    oResult.Add("Boundary Species",                 sel_getBoundarySpeciesConcSymbols(rr) );
+    oResult.Add("Floating Species (amount)",        rr->getFloatingSpeciesIds() );
+    oResult.Add("Boundary Species (amount)",        rr->getBoundarySpeciesIds() );
+    oResult.Add("Global Parameters",                rr->getGlobalParameterIds() );
+    oResult.Add("Fluxes",                           rr->getReactionIds() );
+    oResult.Add("Rates of Change",                  rr->getRateOfChangeIds() );
+    oResult.Add("Volumes",                          rr->getCompartmentIds() );
+    oResult.Add("Elasticity Coefficients",          sel_getElasticityCoefficientIds(rr) );
+    oResult.Add("Unscaled Elasticity Coefficients", sel_getUnscaledElasticityCoefficientIds(rr) );
+    oResult.Add("Eigenvalues",                      rr->getEigenvalueIds() );
+    return oResult;
+}
+
+
+// Help("Gets the list of boundary species amount names")
+vector<string> sel_getBoundarySpeciesAmountIds(RoadRunner* rr)
+{
+    vector<string> result;// = new ArrayList();
+    vector<string> list = rr->getBoundarySpeciesIds();
+//    foreach (string s in getBoundarySpeciesIds()) oResult.add("[" + s + "]");
+    for(int item = 0; item < list.size(); item++)// (object item in floatingSpeciesNames)
+    {
+        result.push_back(format("{0}", list[item]));
+    }
+
+    return result;
+}
+
+vector<string> sel_getBoundarySpeciesConcIds(RoadRunner* rr)
+{
+    vector<string> result;// = new ArrayList();
+    vector<string> list = rr->getBoundarySpeciesIds();
+//    foreach (string s in getBoundarySpeciesIds()) oResult.add("[" + s + "]");
+    for(int item = 0; item < list.size(); item++)// (object item in floatingSpeciesNames)
+    {
+        result.push_back(format("[{0}]", list[item]));
+    }
+
+    return result;
+}
+
+
+
+//  Help("Returns the Symbols of all Unscaled Flux Control Coefficients.")
+
+
+// Help("Returns the Symbols of all Concentration Control Coefficients.")
+NewArrayList sel_getConcentrationControlCoefficientIds(RoadRunner* rr)
+{
+    NewArrayList oResult;// = new ArrayList();
+
+
+    vector<string> oFloating        = rr->getFloatingSpeciesIds();
+    vector<string> oParameters      = rr->getGlobalParameterIds();
+    vector<string> oBoundary        = rr->getBoundarySpeciesIds();
+    vector<string> oConservation    = rr->getConservedSumIds();
+
+    for(int i = 0; i < oFloating.size(); i++)
+    {
+        string s = oFloating[i];
+        NewArrayList oCCFloating;
+        StringList oInner;
+        oCCFloating.Add(s);
+
+        for(int i = 0; i < oParameters.size(); i++)
+        {
+            oInner.add("CC:" + s + "," + oParameters[i]);
+        }
+
+        for(int i = 0; i < oBoundary.size(); i++)
+        {
+            oInner.add("CC:" + s + "," + oBoundary[i]);
+        }
+
+        for(int i = 0; i < oConservation.size(); i++)
+        {
+            oInner.add("CC:" + s + "," + oConservation[i]);
+        }
+
+        oCCFloating.Add(oInner);
+        oResult.Add(oCCFloating);
+    }
+
+    return oResult;
+}
+
+// Help("Returns the Symbols of all Unscaled Concentration Control Coefficients.")
+NewArrayList sel_getUnscaledConcentrationControlCoefficientIds(RoadRunner* rr)
+{
+    NewArrayList oResult;
+
+
+    vector<string> oFloating        = rr->getFloatingSpeciesIds();
+    vector<string> oParameters      = rr->getGlobalParameterIds();
+    vector<string> oBoundary        = rr->getBoundarySpeciesIds();
+    vector<string> oConservation    = rr->getConservedSumIds();
+
+    for(int i = 0; i < oFloating.size(); i++)
+    {
+        string s = oFloating[i];
+        NewArrayList oCCFloating;
+        vector<string> oInner;
+        oCCFloating.Add(s);
+
+        for(int i = 0; i < oParameters.size(); i++)
+        {
+            oInner.push_back("uCC:" + s + "," + oParameters[i]);
+        }
+
+        for(int i = 0; i < oBoundary.size(); i++)
+        {
+            oInner.push_back("uCC:" + s + "," + oBoundary[i]);
+        }
+
+        for(int i = 0; i < oConservation.size(); i++)
+        {
+            oInner.push_back("uCC:" + s + "," + oConservation[i]);
+        }
+
+        oCCFloating.Add(oInner);
+        oResult.Add(oCCFloating);
+    }
+
+    return oResult;
+}
+
+// Help("Returns the Symbols of all Elasticity Coefficients.")
+NewArrayList sel_getElasticityCoefficientIds(RoadRunner* rr)
+{
+    NewArrayList oResult;
+
+
+    vector<string> reactionNames        = rr->getReactionIds();
+    vector<string> floatingSpeciesNames = rr->getFloatingSpeciesIds();
+    vector<string> boundarySpeciesNames = rr->getBoundarySpeciesIds();
+    vector<string> conservationNames    = rr->getConservedSumIds();
+    vector<string> globalParameterNames = rr->getGlobalParameterIds();
+
+    for(int i = 0; i < reactionNames.size(); i++)
+    {
+        string reac_name = reactionNames[i];
+        NewArrayList oCCReaction;
+        oCCReaction.Add(reac_name);
+        StringList oInner;
+
+        for(int j = 0; j < floatingSpeciesNames.size(); j++)
+        {
+            oInner.add(format("EE:{0},{1}", reac_name, floatingSpeciesNames[j]));
+        }
+
+        for(int j = 0; j < boundarySpeciesNames.size(); j++)
+        {
+            oInner.add(format("EE:{0},{1}", reac_name, boundarySpeciesNames[j]));
+        }
+
+        for(int j = 0; j < globalParameterNames.size(); j++)
+        {
+            oInner.add(format("EE:{0},{1}", reac_name, globalParameterNames[j]));
+        }
+
+        for(int j = 0; j < conservationNames.size(); j++)
+        {
+            oInner.add(format("EE:{0},{1}", reac_name, conservationNames[j]));
+        }
+
+        oCCReaction.Add(oInner);
+        oResult.Add(oCCReaction);
+    }
+
+    return oResult;
+}
+
+// Help("Returns the Symbols of all Unscaled Elasticity Coefficients.")
+NewArrayList sel_getUnscaledElasticityCoefficientIds(RoadRunner* rr)
+{
+    NewArrayList oResult;
+
+    vector<string> oReactions( rr->getReactionIds() );
+    vector<string> oFloating = rr->getFloatingSpeciesIds();
+    vector<string> oBoundary = rr->getBoundarySpeciesIds();
+    vector<string> oGlobalParameters = rr->getGlobalParameterIds();
+    vector<string> oConservation = rr->getConservedSumIds();
+
+    for(int i = 0; i < oReactions.size(); i++)
+    {
+        string reac_name = oReactions[i];
+        NewArrayList oCCReaction;
+        StringList oInner;
+        oCCReaction.Add(reac_name);
+
+        for(int j = 0; j < oFloating.size(); j++)
+        {
+            string variable = oFloating[j];
+            oInner.add(format("uEE:{0},{1}", reac_name, variable));
+        }
+
+        for(int j = 0; j < oBoundary.size(); j++)
+        {
+            string variable = oBoundary[j];
+            oInner.add(format("uEE:{0},{1}", reac_name, variable));
+        }
+
+        for(int j = 0; j < oGlobalParameters.size(); j++)
+        {
+            string variable = oGlobalParameters[j];
+            oInner.add(format("uEE:{0},{1}", reac_name, variable));
+        }
+
+        for(int j = 0; j < oConservation.size(); j++)
+        {
+            string variable = oConservation[j];
+            oInner.add(format("uEE:{0},{1}", reac_name, variable));
+        }
+
+        oCCReaction.Add(oInner);
+        oResult.Add(oCCReaction);
+    }
+
+    return oResult;
+}
+
+
+vector<string> sel_getFloatingSpeciesConcSymbols(RoadRunner* rr)
+{
+    vector<string> ids = rr->getFloatingSpeciesIds();
+    vector<string> result;
+
+    for(int i = 0; i < ids.size(); i++)
+    {
+        result.push_back("[" + ids[i] + "]");
+    }
+
+    return result;
+}
+
+
+vector<string> sel_getBoundarySpeciesConcSymbols(RoadRunner* rr)
+{
+    vector<string> ids = rr->getBoundarySpeciesIds();
+    vector<string> result;
+
+    for(int i = 0; i < ids.size(); i++)
+    {
+        result.push_back("[" + ids[i] + "]");
+    }
+
+    return result;
+}
+
+
+
 
 }
 //We only need to give the linker the folder where libs are

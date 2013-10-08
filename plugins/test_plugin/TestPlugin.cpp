@@ -29,7 +29,7 @@ bool TestPlugin::execute(void* userData)
     if(mRR)
     {
         StringList aList("S2, S1",", ");
-        mRR->setTimeCourseSelectionList(aList);
+        mRR->setSelections(aList);
     }
     return true;
 }

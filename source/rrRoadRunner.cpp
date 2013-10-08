@@ -258,7 +258,7 @@ int RoadRunner::createDefaultTimeCourseSelectionList()
         theList.push_back("[" + oFloating[i] + "]");
     }
 
-    setTimeCourseSelectionList(theList);
+    setSelections(theList);
 
     Log(lDebug)<<"The following is selected:";
     for(int i = 0; i < mSelectionList.size(); i++)
@@ -280,7 +280,7 @@ int RoadRunner::createTimeCourseSelectionList()
     if (settingsList.size() > 1)
     {
         Log(Logger::PRIO_INFORMATION) << "overriding selection list with values from SimulateOptions.";
-        setTimeCourseSelectionList(settingsList);
+        setSelections(settingsList);
     }
 
     for(int i = 0; i < mSelectionList.size(); i++)
@@ -812,7 +812,7 @@ vector<string> RoadRunner::getCompartmentIds()
             &ExecutableModel::getCompartmentId);
 }
 
-vector<string> RoadRunner::getParameterIds()
+vector<string> RoadRunner::getGlobalParameterIds()
 {
     return createModelStringList(mModel, &ExecutableModel::getNumGlobalParameters,
             &ExecutableModel::getGlobalParameterId);
@@ -1018,19 +1018,6 @@ void RoadRunner::evalModel()
     }
     mModel->convertToAmounts();
     mModel->evalModel(mModel->getTime(), 0);
-}
-
-
-// Help("Set the columns to be returned by simulate() or simulateEx(), valid symbol names include" +
-//              " time, species names, , volume, reaction rates and rates of change (speciesName')")
-void RoadRunner::setTimeCourseSelectionList(const vector<string>& _selList)
-{
-    mSelectionList.clear();
-
-    for(int i = 0; i < _selList.size(); ++i)
-    {
-        mSelectionList.push_back(createSelection(_selList[i]));
-    }
 }
 
 
@@ -1414,328 +1401,8 @@ double RoadRunner::getVariableValue(const VariableType::VariableType variableTyp
     return 0;
 }
 
-//  Help("Returns the Symbols of all Flux Control Coefficients.")
-NewArrayList RoadRunner::getFluxControlCoefficientIds()
-{
-    NewArrayList oResult;
-    if (!mModel)
-    {
-        return oResult;
-    }
 
-    vector<string> oReactions       = getReactionIds();
-    vector<string> oParameters      = getGlobalParameterIds();
-    vector<string> oBoundary        = getBoundarySpeciesIds();
-    vector<string> oConservation    = getConservedSumIds();
 
-    for(int i = 0; i < oReactions.size(); i++)
-    {
-        string s = oReactions[i];
-
-        NewArrayList oCCReaction;
-        StringList oInner;
-        oCCReaction.Add(s);
-
-        for(int i = 0; i < oParameters.size(); i++)
-        {
-            oInner.add("CC:" + s + "," + oParameters[i]);
-        }
-
-        for(int i = 0; i < oBoundary.size(); i++)
-        {
-            oInner.add("CC:" + s + "," + oBoundary[i]);
-        }
-
-        for(int i = 0; i < oConservation.size(); i++)
-        {
-            oInner.add("CC:" + s + "," + oConservation[i]);
-        }
-
-        oCCReaction.Add(oInner);
-        oResult.Add(oCCReaction);
-    }
-
-    return oResult;
-}
-
-//  Help("Returns the Symbols of all Unscaled Flux Control Coefficients.")
-NewArrayList RoadRunner::getUnscaledFluxControlCoefficientIds()
-{
-    NewArrayList oResult;
-    if (!mModel)
-    {
-        return oResult;
-    }
-
-    vector<string> oReactions = getReactionIds();
-    vector<string> oParameters = getGlobalParameterIds();
-    vector<string> oBoundary = getBoundarySpeciesIds();
-    vector<string> oConservation = getConservedSumIds();
-
-    for(int i = 0; i < oReactions.size(); i++)
-    {
-        string s = oReactions[i];
-
-        NewArrayList oCCReaction;
-        vector<string> oInner;
-        oCCReaction.Add(s);
-
-        for(int i = 0; i < oParameters.size(); i++)
-        {
-            oInner.push_back("uCC:" + s + "," + oParameters[i]);
-        }
-
-        for(int i = 0; i < oBoundary.size(); i++)
-        {
-            oInner.push_back("uCC:" + s + "," + oBoundary[i]);
-        }
-
-        for(int i = 0; i < oConservation.size(); i++)
-        {
-            oInner.push_back("uCC:" + s + "," + oConservation[i]);
-        }
-
-        oCCReaction.Add(oInner);
-        oResult.Add(oCCReaction);
-    }
-
-    return oResult;
-}
-
-// Help("Returns the Symbols of all Concentration Control Coefficients.")
-NewArrayList RoadRunner::getConcentrationControlCoefficientIds()
-{
-    NewArrayList oResult;// = new ArrayList();
-    if (!mModel)
-    {
-        return oResult;
-    }
-
-    vector<string> oFloating        = getFloatingSpeciesIds();
-    vector<string> oParameters      = getGlobalParameterIds();
-    vector<string> oBoundary        = getBoundarySpeciesIds();
-    vector<string> oConservation    = getConservedSumIds();
-
-    for(int i = 0; i < oFloating.size(); i++)
-    {
-        string s = oFloating[i];
-        NewArrayList oCCFloating;
-        StringList oInner;
-        oCCFloating.Add(s);
-
-        for(int i = 0; i < oParameters.size(); i++)
-        {
-            oInner.add("CC:" + s + "," + oParameters[i]);
-        }
-
-        for(int i = 0; i < oBoundary.size(); i++)
-        {
-            oInner.add("CC:" + s + "," + oBoundary[i]);
-        }
-
-        for(int i = 0; i < oConservation.size(); i++)
-        {
-            oInner.add("CC:" + s + "," + oConservation[i]);
-        }
-
-        oCCFloating.Add(oInner);
-        oResult.Add(oCCFloating);
-    }
-
-    return oResult;
-}
-
-// Help("Returns the Symbols of all Unscaled Concentration Control Coefficients.")
-NewArrayList RoadRunner::getUnscaledConcentrationControlCoefficientIds()
-{
-    NewArrayList oResult;
-    if (!mModel)
-    {
-        return oResult;
-    }
-
-    vector<string> oFloating        = getFloatingSpeciesIds();
-    vector<string> oParameters      = getGlobalParameterIds();
-    vector<string> oBoundary        = getBoundarySpeciesIds();
-    vector<string> oConservation    = getConservedSumIds();
-
-    for(int i = 0; i < oFloating.size(); i++)
-    {
-        string s = oFloating[i];
-        NewArrayList oCCFloating;
-        vector<string> oInner;
-        oCCFloating.Add(s);
-
-        for(int i = 0; i < oParameters.size(); i++)
-        {
-            oInner.push_back("uCC:" + s + "," + oParameters[i]);
-        }
-
-        for(int i = 0; i < oBoundary.size(); i++)
-        {
-            oInner.push_back("uCC:" + s + "," + oBoundary[i]);
-        }
-
-        for(int i = 0; i < oConservation.size(); i++)
-        {
-            oInner.push_back("uCC:" + s + "," + oConservation[i]);
-        }
-
-        oCCFloating.Add(oInner);
-        oResult.Add(oCCFloating);
-    }
-
-    return oResult;
-}
-
-// Help("Returns the Symbols of all Elasticity Coefficients.")
-NewArrayList RoadRunner::getElasticityCoefficientIds()
-{
-    NewArrayList oResult;
-    if (!mModel)
-    {
-        return oResult;
-    }
-
-    vector<string> reactionNames        = getReactionIds();
-    vector<string> floatingSpeciesNames = getFloatingSpeciesIds();
-    vector<string> boundarySpeciesNames = getBoundarySpeciesIds();
-    vector<string> conservationNames    = getConservedSumIds();
-    vector<string> globalParameterNames = getGlobalParameterIds();
-
-    for(int i = 0; i < reactionNames.size(); i++)
-    {
-        string reac_name = reactionNames[i];
-        NewArrayList oCCReaction;
-        oCCReaction.Add(reac_name);
-        StringList oInner;
-
-        for(int j = 0; j < floatingSpeciesNames.size(); j++)
-        {
-            oInner.add(format("EE:{0},{1}", reac_name, floatingSpeciesNames[j]));
-        }
-
-        for(int j = 0; j < boundarySpeciesNames.size(); j++)
-        {
-            oInner.add(format("EE:{0},{1}", reac_name, boundarySpeciesNames[j]));
-        }
-
-        for(int j = 0; j < globalParameterNames.size(); j++)
-        {
-            oInner.add(format("EE:{0},{1}", reac_name, globalParameterNames[j]));
-        }
-
-        for(int j = 0; j < conservationNames.size(); j++)
-        {
-            oInner.add(format("EE:{0},{1}", reac_name, conservationNames[j]));
-        }
-
-        oCCReaction.Add(oInner);
-        oResult.Add(oCCReaction);
-    }
-
-    return oResult;
-}
-
-// Help("Returns the Symbols of all Unscaled Elasticity Coefficients.")
-NewArrayList RoadRunner::getUnscaledElasticityCoefficientIds()
-{
-    NewArrayList oResult;
-    if (!mModel)
-    {
-        return oResult;
-    }
-
-    vector<string> oReactions( getReactionIds() );
-    vector<string> oFloating = getFloatingSpeciesIds();
-    vector<string> oBoundary = getBoundarySpeciesIds();
-    vector<string> oGlobalParameters = getGlobalParameterIds();
-    vector<string> oConservation = getConservedSumIds();
-
-    for(int i = 0; i < oReactions.size(); i++)
-    {
-        string reac_name = oReactions[i];
-        NewArrayList oCCReaction;
-        StringList oInner;
-        oCCReaction.Add(reac_name);
-
-        for(int j = 0; j < oFloating.size(); j++)
-        {
-            string variable = oFloating[j];
-            oInner.add(format("uEE:{0},{1}", reac_name, variable));
-        }
-
-        for(int j = 0; j < oBoundary.size(); j++)
-        {
-            string variable = oBoundary[j];
-            oInner.add(format("uEE:{0},{1}", reac_name, variable));
-        }
-
-        for(int j = 0; j < oGlobalParameters.size(); j++)
-        {
-            string variable = oGlobalParameters[j];
-            oInner.add(format("uEE:{0},{1}", reac_name, variable));
-        }
-
-        for(int j = 0; j < oConservation.size(); j++)
-        {
-            string variable = oConservation[j];
-            oInner.add(format("uEE:{0},{1}", reac_name, variable));
-        }
-
-        oCCReaction.Add(oInner);
-        oResult.Add(oCCReaction);
-    }
-
-    return oResult;
-}
-
-// Help("Returns the Symbols of all Floating Species Eigenvalues.")
-vector<string> RoadRunner::getEigenvalueIds()
-{
-    if (!mModel)
-    {
-        return vector<string>();
-    }
-
-    vector<string> result;
-    vector<string> floating = getFloatingSpeciesIds();
-
-    for(int i = 0; i < floating.size(); i++)
-    {
-        result.push_back("eigen(" + floating[i] + ")");
-    }
-
-    return result;
-}
-
-// Help(
-//            "Returns symbols of the currently loaded model, that can be used for steady state analysis. format: array of arrays  { { \"groupname\", { \"item1\", \"item2\" ... } } }  or { { \"groupname\", { \"subgroup\", { \"item1\" ... } } } }."
-//            )
-NewArrayList RoadRunner::getAvailableSteadyStateSymbols()
-{
-    NewArrayList oResult;
-    if (!mModel)
-    {
-        return oResult;
-    }
-
-    oResult.Add("Floating Species",                                 getFloatingSpeciesIds() );
-    oResult.Add("Boundary Species",                                 getBoundarySpeciesIds() );
-    oResult.Add("Floating Species (amount)",                        getFloatingSpeciesAmountIds() );
-    oResult.Add("Boundary Species (amount)",                        getBoundarySpeciesAmountIds() );
-    oResult.Add("Global Parameters",                                getParameterIds() );
-    oResult.Add("Volumes",                                          getCompartmentIds() );
-    oResult.Add("Fluxes",                                           getReactionIds() );
-    oResult.Add("Flux Control Coefficients",                        getFluxControlCoefficientIds() );
-    oResult.Add("Concentration Control Coefficients",               getConcentrationControlCoefficientIds() );
-    oResult.Add("Unscaled Concentration Control Coefficients",      getUnscaledConcentrationControlCoefficientIds());
-    oResult.Add("Elasticity Coefficients",                          getElasticityCoefficientIds() );
-    oResult.Add("Unscaled Elasticity Coefficients",                 getUnscaledElasticityCoefficientIds() );
-    oResult.Add("Eigenvalues",                                      getEigenvalueIds() );
-
-    return oResult;
-}
 
 int RoadRunner::createDefaultSteadyStateSelectionList()
 {
@@ -1755,54 +1422,9 @@ int RoadRunner::createDefaultSteadyStateSelectionList()
 }
 
 // Help("Returns the selection list as returned by computeSteadyStateValues().")
-vector<string> RoadRunner::getSteadyStateSelections()
+vector<SelectionRecord>& RoadRunner::getSteadyStateSelections()
 {
-    vector<string> result;
-
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-
-    if (mSteadyStateSelection.size() == 0)
-    {
-          createDefaultSteadyStateSelectionList();
-    }
-
-    result.resize(mSteadyStateSelection.size());
-
-    for(int i = 0; i < mSteadyStateSelection.size(); ++i)
-    {
-        result[i] = mSteadyStateSelection[i].to_string();
-    }
-
-
-    return result;
-}
-
-vector<SelectionRecord> RoadRunner::getSteadyStateSelection(const vector<string>& newSelectionList)
-{
-    vector<SelectionRecord> steadyStateSelection;
-    steadyStateSelection.resize(newSelectionList.size());
-
-    for (int i = 0; i < newSelectionList.size(); ++i)
-    {
-        steadyStateSelection[i] = createSelection(newSelectionList[i]);
-    }
-
-    return steadyStateSelection;
-}
-
-// Help("sets the selection list as returned by computeSteadyStateValues().")
-void RoadRunner::setSteadyStateSelectionList(const vector<string>& newSelectionList)
-{
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-
-    vector<SelectionRecord> ssSelection = getSteadyStateSelection(newSelectionList);
-    mSteadyStateSelection = ssSelection;
+    return mSteadyStateSelection;
 }
 
 // Help("performs steady state analysis, returning values as given by setSteadyStateSelectionList().")
@@ -1832,7 +1454,6 @@ vector<double> RoadRunner::computeSteadyStateValues(const vector<SelectionRecord
         result.push_back(computeSteadyStateValue(selection[i]));
     }
     return result;
-
 }
 
 double RoadRunner::computeSteadyStateValue(const SelectionRecord& record)
@@ -2162,19 +1783,7 @@ vector<string> RoadRunner::getConservedSumIds()
 }
 
 
-// Help("Gets the list of boundary species amount names")
-vector<string> RoadRunner::getBoundarySpeciesAmountIds()
-{
-    vector<string> result;// = new ArrayList();
-    vector<string> list = getBoundarySpeciesIds();
-//    foreach (string s in getBoundarySpeciesIds()) oResult.add("[" + s + "]");
-    for(int item = 0; item < list.size(); item++)// (object item in floatingSpeciesNames)
-    {
-        result.push_back(format("[{0}]", list[item]));
-    }
 
-    return result;
-}
 
 // Help("Get the number of floating species")
 int RoadRunner::getNumberOfFloatingSpecies()
@@ -2368,18 +1977,7 @@ vector<string> RoadRunner::getFloatingSpeciesInitialConditionIds()
     return result;
 }
 
-// Help("Returns the list of floating species amount names")
-vector<string> RoadRunner::getFloatingSpeciesAmountIds()
-{
-    vector<string> oResult;
-    vector<string> list = getFloatingSpeciesIds();
 
-    for(int i = 0; i < list.size(); i++)
-    {
-        oResult.push_back(format("[{0}]", list[i]));
-    }
-    return oResult;
-}
 
 // Help("Get the number of global parameters")
 int RoadRunner::getNumberOfGlobalParameters()
@@ -2461,12 +2059,6 @@ vector<double> RoadRunner::getGlobalParameterValues()
     return result;
 }
 
-// Help("Gets the list of parameter names")
-vector<string> RoadRunner::getGlobalParameterIds()
-{
-    return createModelStringList(mModel, &ExecutableModel::getNumGlobalParameters,
-            &ExecutableModel::getGlobalParameterId);
-}
 
 
 
@@ -3140,28 +2732,6 @@ double RoadRunner::getSelectionValue(const string& sel)
 //            "Returns symbols of the currently loaded model,
 //              that can be used for the selectionlist format array of arrays  { { \"groupname\", { \"item1\", \"item2\" ... } } }."
 //            )
-NewArrayList RoadRunner::getAvailableTimeCourseSymbols()
-{
-    NewArrayList oResult;
-
-    if (!mModel)
-    {
-        return oResult;
-    }
-
-    oResult.Add("Floating Species",                 getFloatingSpeciesIds() );
-    oResult.Add("Boundary Species",                 getBoundarySpeciesIds() );
-    oResult.Add("Floating Species (amount)",        getFloatingSpeciesAmountIds() );
-    oResult.Add("Boundary Species (amount)",        getBoundarySpeciesAmountIds() );
-    oResult.Add("Global Parameters",                getParameterIds() );
-    oResult.Add("Fluxes",                           getReactionIds() );
-    oResult.Add("Rates of Change",                  getRateOfChangeIds() );
-    oResult.Add("Volumes",                          getCompartmentIds() );
-    oResult.Add("Elasticity Coefficients",          getElasticityCoefficientIds() );
-    oResult.Add("Unscaled Elasticity Coefficients", getUnscaledElasticityCoefficientIds() );
-    oResult.Add("Eigenvalues",                      getEigenvalueIds() );
-    return oResult;
-}
 
 string RoadRunner::getVersion()
 {
@@ -3494,6 +3064,54 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
 
     return sel;
 }
+
+void RoadRunner::setSelections(const vector<string>& _selList)
+{
+    mSelectionList.clear();
+
+    for(int i = 0; i < _selList.size(); ++i)
+    {
+        mSelectionList.push_back(createSelection(_selList[i]));
+    }
+}
+
+void RoadRunner::setSelections(const std::vector<rr::SelectionRecord>& selections)
+{
+    cout << __PRETTY_FUNCTION__ << endl;
+}
+
+void RoadRunner::setSteadyStateSelections(const vector<string>& ss)
+{
+    mSteadyStateSelection.clear();
+
+    for(int i = 0; i < ss.size(); ++i)
+    {
+        mSteadyStateSelection.push_back(createSelection(ss[i]));
+    }
+}
+
+void RoadRunner::setSteadyStateSelections(const std::vector<rr::SelectionRecord>& ss)
+{
+    cout << __PRETTY_FUNCTION__ << endl;
+}
+
+
+// Help("Returns the Symbols of all Floating Species Eigenvalues.")
+vector<string> RoadRunner::getEigenvalueIds()
+{
+    vector<string> result;
+    vector<string> floating = getFloatingSpeciesIds();
+
+    for(int i = 0; i < floating.size(); i++)
+    {
+        result.push_back("eigen(" + floating[i] + ")");
+    }
+
+    return result;
+}
+
+
+
 
 }//namespace
 

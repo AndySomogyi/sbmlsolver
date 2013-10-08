@@ -200,7 +200,7 @@ bool LMFitThread::setup()
     }
 
     mLMData.rrHandle                = mRRI;
-    mRRI->setTimeCourseSelectionList(species);
+    mRRI->setSelections(species);
     return true;
 }
 
@@ -213,7 +213,7 @@ bool LMFitThread::setupRoadRunner()
 
     mRRI = new RoadRunner;
     mRRI->loadSBML(mTheHost.mSBML.getValue());
-    mRRI->setTimeCourseSelectionList(mMinData.getObservedDataSelectionList());
+    mRRI->setSelections(mMinData.getObservedDataSelectionList());
     return true;
 }
 
@@ -289,7 +289,7 @@ RoadRunnerData LMFitThread::createModelData()
 
     modData.reSize(mLMData.nrOfTimePoints, selList.Count());
     mRRI->reset();
-    mRRI->setTimeCourseSelectionList(selList);
+    mRRI->setSelections(selList);
 
     for(int i = 0; i < mLMData.nrOfParameters; i++)
     {

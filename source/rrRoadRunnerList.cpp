@@ -4,6 +4,7 @@
 #pragma hdrstop
 #include "rrRoadRunner.h"
 #include "rrRoadRunnerList.h"
+#include "rrStringUtils.h"
 //---------------------------------------------------------------------------
 
 

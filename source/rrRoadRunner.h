@@ -7,8 +7,6 @@
 #include "rrSelectionRecord.h"
 #include "rrRoadRunnerData.h"
 #include "rrConstants.h"
-#include "rrNewArrayList.h"
-#include "rrParameter.h"
 #include "rrRoadRunnerOptions.h"
 #include "Configurable.h"
 
@@ -277,13 +275,6 @@ public:
     rr::SelectionRecord createSelection(const std::string& str);
 
     /**
-     * @deprecated
-     * @internal
-     * @private
-     */
-    NewArrayList getAvailableTimeCourseSymbols();
-
-    /**
      * Returns the currently selected columns that will be returned by
      * calls to simulate() or simulateEx(,,).
      */
@@ -298,24 +289,21 @@ public:
     double getSelectionValue(const SelectionRecord& record);
 
 
-    void setTimeCourseSelectionList(
-            const std::vector<std::string>& newSelectionList);
+    void setSelections(const std::vector<std::string>& selections);
 
-    /**
-     * returns a list of floating species ids with thier names
-     * prefixed with "eigen_". For example, if the model contained
-     * the floating species "S1" and "S2", this would return a list
-     * containing ["eigen_S1", "eigen_S2"].
-     */
-    std::vector<std::string> getEigenvalueIds();
+    void setSelections(const std::vector<rr::SelectionRecord>& selections);
+
 
     /**
      * returns the values selected with SimulateOptions for the current model time / timestep")
      */
     std::vector<double> getSelectedValues();
 
-    std::vector<std::string> getSteadyStateSelections();
-    void setSteadyStateSelectionList(const std::vector<std::string>& newSelectionList);
+    std::vector<rr::SelectionRecord>& getSteadyStateSelections();
+
+    void setSteadyStateSelections(const std::vector<std::string>& steadyStateSelections);
+
+    void setSteadyStateSelections(const std::vector<rr::SelectionRecord>& steadyStateSelections);
 
     /*************************************************************************/
     /** End Selection Section **/
@@ -361,53 +349,13 @@ public:
 
 
     /**
-     * @deprecated
-     * @internal
-     * @private
+     * returns the list of floating species, but with a "eigen(...)" string
+     * wrapped around them.
      */
-    NewArrayList getUnscaledFluxControlCoefficientIds();
+    std::vector<std::string> getEigenvalueIds();
 
-    /**
-     * @deprecated
-     * @internal
-     * @private
-     */
-    NewArrayList getFluxControlCoefficientIds();
 
-    /**
-     * @deprecated
-     * @internal
-     * @private
-     */
-    NewArrayList getUnscaledConcentrationControlCoefficientIds();
 
-    /**
-     * @deprecated
-     * @internal
-     * @private
-     */
-    NewArrayList getConcentrationControlCoefficientIds();
-
-    /**
-     * @deprecated
-     * @internal
-     * @private
-     */
-    NewArrayList getElasticityCoefficientIds();
-
-    /**
-     * @deprecated
-     * @internal
-     * @private
-     */
-    NewArrayList getUnscaledElasticityCoefficientIds();
-
-    /**
-     * @deprecated
-     * @private
-     * @internal
-     */
-    NewArrayList getAvailableSteadyStateSymbols();
 
     double computeSteadyStateValue(const SelectionRecord& record);
 
@@ -522,9 +470,11 @@ public:
     void setFloatingSpeciesInitialConcentrationByIndex(const int& index,
             const double& value);
     void setFloatingSpeciesInitialConcentrations(const std::vector<double>& values);
+
+
     std::vector<std::string> getFloatingSpeciesIds();
     std::vector<std::string> getFloatingSpeciesInitialConditionIds();
-    std::vector<std::string> getFloatingSpeciesAmountIds();
+
 
     /**
      * @deprecated use ExecutableModel::getNumGlobalParameters
@@ -642,6 +592,7 @@ public:
      */
     double getUnscaledSpeciesElasticity(int reactionId, int speciesIndex);
 
+
 private:
     static int mInstanceCount;
     int mInstanceID;
@@ -698,7 +649,7 @@ private:
     double getVariableValue(const VariableType::VariableType variableType,
             const int variableIndex);
 
-    std::vector<std::string> getParameterIds();
+
 
     std::string createModelName(const std::string& mCurrentSBMLFileName);
 

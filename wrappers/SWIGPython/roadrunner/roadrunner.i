@@ -281,6 +281,11 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 #define RR_DECLSPEC
 #define PUGIXML_CLASS
 
+
+
+%warnfilter(509) rr::RoadRunner::setSelections;
+%warnfilter(509) rr::RoadRunner::setSteadyStateSelections;
+
 // Many of the RoadRunner methods will be ignored for the time being
 // as currently we do not have a clean mapping to Python.
 
@@ -431,6 +436,17 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 %ignore rr::RoadRunner::getSimulateOptions;
 %ignore rr::RoadRunner::setSimulateOptions;
 %ignore rr::RoadRunner::_getDuplicateSimulateOptions;
+
+
+// rename these, the injected python code will take care of
+// making these properties.
+%rename (_getSelections) rr::RoadRunner::getSelections();
+%rename (_setSelections) setSelections(const std::vector<rr::SelectionRecord>&);
+%rename (_setSelections) setSelections(const std::vector<std::string>&);
+
+%rename (_getSteadyStateSelections) rr::RoadRunner::getSteadyStateSelections();
+%rename (_setSteadyStateSelections) setSteadyStateSelections(const std::vector<rr::SelectionRecord>&);
+%rename (_setSteadyStateSelections) setSteadyStateSelections(const std::vector<std::string>&);
 
 
 %ignore rr::LoggingBuffer;
@@ -617,7 +633,6 @@ namespace Poco { class SharedLibrary{}; }
 
     const rr::ExecutableModel *model;
 
-    const std::vector<rr::SelectionRecord> *selections;
 
     const rr::RoadRunnerData *simulate(int startTime, int endTime, int steps) {
         rr::SimulateOptions s = $self->getSimulateOptions();
@@ -637,6 +652,16 @@ namespace Poco { class SharedLibrary{}; }
         return $self->getSelectionValue(*pRecord);
     }
 
+
+    %pythoncode %{
+       __swig_getmethods__["selections"] = _getSelections
+       __swig_setmethods__["selections"] = _setSelections
+       if _newclass: selections = property(_getSelections, _setSelections)
+
+       __swig_getmethods__["steadyStateSelections"] = _getSteadyStateSelections
+       __swig_setmethods__["steadyStateSelections"] = _setSteadyStateSelections
+       if _newclass: steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
+    %}
 }
 
 %{
@@ -653,14 +678,6 @@ namespace Poco { class SharedLibrary{}; }
     }
 
     void rr_RoadRunner_model_set(RoadRunner* r, const rr::ExecutableModel *m) {
-        // TODO error can not set.
-    }
-
-    std::vector<rr::SelectionRecord>* rr_RoadRunner_selections_get(RoadRunner* r) {
-        return &r->getSelections();
-    }
-
-    void rr_RoadRunner_selections_set(RoadRunner* r, const std::vector<rr::SelectionRecord> *) {
         // TODO error can not set.
     }
 %}
