@@ -419,9 +419,9 @@ double RoadRunner::getSelectionValue(const SelectionRecord& record)
             throw("Tried to access record in empty mSelectionList in getValue function: eigen");
         }
 
-        if (oComplex.size() > mSelectionList[index + 1].index) //Becuase first one is time !?
+        if (oComplex.size() > index) //Becuase first one is time !?
         {
-            return oComplex[mSelectionList[index + 1].index].Real;
+            return oComplex[index].Real;
         }
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -3037,7 +3037,14 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
 
         break;
     case SelectionRecord::EIGENVALUE:
-        Log(Logger::PRIO_WARNING) << "syntactically valid eigen, however not enabled yet";
+        if ((sel.index = mModel->getFloatingSpeciesIndex(sel.p1)) >= 0)
+        {
+            break;
+        }
+        else
+        {
+            throw Exception("eigen argument '" + sel.p1 + "' is not a floating species.");
+        }
         break;
     case SelectionRecord::STOICHIOMETRY:
         Log(Logger::PRIO_WARNING) << "syntactically valid stoichiometry, however not enabled yet";

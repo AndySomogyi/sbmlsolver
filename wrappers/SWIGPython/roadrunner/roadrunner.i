@@ -611,11 +611,11 @@ namespace Poco { class SharedLibrary{}; }
 
         for (int i = 0; i < p.size(); ++i)
         {
-            s << p[i].to_repr();
+            s << "\"" << p[i].to_string() << "\"";
 
             if (i + 1 < p.size())
             {
-                s << "," << std::endl << " ";
+                s << ", ";
             }
         }
 
