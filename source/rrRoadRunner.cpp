@@ -1,8 +1,4 @@
-#ifdef USE_PCH
-#include "rr_pch.h"
-#endif
 #pragma hdrstop
-
 #include "rrRoadRunner.h"
 #include "rrException.h"
 #include "rrModelGenerator.h"
@@ -3075,9 +3071,9 @@ void RoadRunner::setSelections(const vector<string>& _selList)
     }
 }
 
-void RoadRunner::setSelections(const std::vector<rr::SelectionRecord>& selections)
+void RoadRunner::setSelections(const std::vector<rr::SelectionRecord>& ss)
 {
-    cout << __PRETTY_FUNCTION__ << endl;
+    mSelectionList = ss;
 }
 
 void RoadRunner::setSteadyStateSelections(const vector<string>& ss)
@@ -3092,11 +3088,9 @@ void RoadRunner::setSteadyStateSelections(const vector<string>& ss)
 
 void RoadRunner::setSteadyStateSelections(const std::vector<rr::SelectionRecord>& ss)
 {
-    cout << __PRETTY_FUNCTION__ << endl;
+    mSteadyStateSelection = ss;
 }
 
-
-// Help("Returns the Symbols of all Floating Species Eigenvalues.")
 vector<string> RoadRunner::getEigenvalueIds()
 {
     vector<string> result;
@@ -3109,7 +3103,6 @@ vector<string> RoadRunner::getEigenvalueIds()
 
     return result;
 }
-
 
 
 

@@ -39,9 +39,6 @@ set(rrSources
     rrNLEQInterface
     rrStopWatch
     rrTestSuiteModelSimulation
-    rrNewArrayList
-    rrNewArrayListItem
-    rrNewArrayListItemObject
     rrIniKey
     rrIniSection
     rrIniFile

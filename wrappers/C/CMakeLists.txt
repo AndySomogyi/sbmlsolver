@@ -12,15 +12,18 @@ ${THIRD_PARTY_INSTALL_FOLDER}/include
 
 #The C-api is built as a shared library..
 add_library(${target} SHARED
-rrc_api
-rrc_plugin_api
-rrc_parameter_api
-rrc_logging_api
-rrc_nom_api
-rrc_libstruct_api
-rrc_minimization_api
-rrc_utilities
-rrc_cpp_support
+    rrNewArrayList
+    rrNewArrayListItem
+    rrNewArrayListItemObject
+    rrc_api
+    rrc_plugin_api
+    rrc_parameter_api
+    rrc_logging_api
+    rrc_nom_api
+    rrc_libstruct_api
+    rrc_minimization_api
+    rrc_utilities
+    rrc_cpp_support
 )
 
 if(${MSVC})
