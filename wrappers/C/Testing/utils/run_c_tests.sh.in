@@ -58,10 +58,18 @@ mkdir -p "${WC}/reports/${OS}_${ARCHITECTURE}"
 
 REPORT_FILE="${WC}/reports/${OS}_${ARCHITECTURE}/c_tests_${COMPILER_ID}_${COMPILER_VERSION}_${BUILD_TYPE}_${GIT_BRANCH}_${FILE_DATETIME}.xml"
 
-echo "run_test_suite -m$1 -r${REPORT_FILE}"
+# set up the compiler, 
+if ["$OS" != "win"]
+then
+	COMPILER="gcc"
+else
+	COMPILER="tcc"
+fi
+
+echo "run_test_suite -m$1 -r${REPORT_FILE} -c ${COMPILER}"
 
 # run the test
-run_test_suite -m$1 -r${REPORT_FILE} -c gcc
+run_test_suite -m$1 -r${REPORT_FILE} -c ${COMPILER}
 
 echo "done, report file: ${REPORT_FILE}"
 
