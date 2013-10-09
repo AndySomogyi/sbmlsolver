@@ -290,27 +290,14 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 // as currently we do not have a clean mapping to Python.
 
 
-// Ignore methods that return this proprietary homebrewd
-// re-implmentation of boost::variant,
-// next version will re-write these.
-%ignore rr::RoadRunner::getAvailableTimeCourseSymbols();
-%ignore rr::RoadRunner::getUnscaledFluxControlCoefficientIds();
-%ignore rr::RoadRunner::getFluxControlCoefficientIds();
-%ignore rr::RoadRunner::getUnscaledConcentrationControlCoefficientIds();
-%ignore rr::RoadRunner::getConcentrationControlCoefficientIds();
-%ignore rr::RoadRunner::getElasticityCoefficientIds();
-%ignore rr::RoadRunner::getUnscaledElasticityCoefficientIds();
-%ignore rr::RoadRunner::getAvailableSteadyStateSymbols();
-
-
 %ignore rr::RoadRunner::addCapabilities;
 %ignore rr::RoadRunner::getFloatingSpeciesIds;
 %ignore rr::RoadRunner::getRateOfChangeIds;
-%ignore rr::RoadRunner::getuCC;
+//%ignore rr::RoadRunner::getuCC;
 %ignore rr::RoadRunner::addCapability;
 %ignore rr::RoadRunner::getFloatingSpeciesInitialConcentrationByIndex;
 %ignore rr::RoadRunner::getRatesOfChange;
-%ignore rr::RoadRunner::getuEE;
+//%ignore rr::RoadRunner::getuEE;
 %ignore rr::RoadRunner::changeInitialConditions;
 %ignore rr::RoadRunner::getFloatingSpeciesInitialConcentrations;
 %ignore rr::RoadRunner::getRatesOfChangeEx;
