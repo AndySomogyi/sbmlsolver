@@ -109,7 +109,7 @@
 
    Retireve a single elasticity coefficient. For example::
 
-   x = rr.getEE ('J1', 'Vmax')
+     x = rr.getEE ('J1', 'Vmax')
 
    :param str variable: The dependent variable of the coefficient, for example a flux or
                         species concentration.
@@ -363,6 +363,12 @@
 
 .. attribute:: RoadRunner.steadyStateSelections
 
+   A list of SelectionRecords which determine what values are used for 
+   a steady state calculation. This list may be set by assigning a list
+   of valid selection symbols::
+
+     r.steadyStateSelections = ['S1', '[S2]', 'P1']
+
 
 .. method:: RoadRunner.createSelection(sel)
 
@@ -376,12 +382,6 @@
 
    Returns the current stoichiomentry matrix, N.
 
-
-
-.. method:: RoadRunner.getTimeCourseSelectionList()
-   :module: roadrunner
-
-   TODO docs
 
 
 
@@ -491,21 +491,6 @@
    :module: roadrunner
 
    TODO docs
-
-
-
-.. method:: RoadRunner.setSteadyStateSelectionList(*args)
-   :module: roadrunner
-
-   :param list(str) selectionList: a list of selection identifiers.
-
-
-
-.. method:: RoadRunner.setTimeCourseSelectionList(*args)
-   :module: roadrunner
-
-   :param list(str) selectionList: a list of selection identifiers.
-
 
 
 .. method:: RoadRunner.simulate(*args)

@@ -526,7 +526,7 @@ RoadRunner.getEE(reactionId, parameterId, steadyState=True)
 
 Retireve a single elasticity coefficient. For example::
 
-x = rr.getEE ('J1', 'Vmax')
+  x = rr.getEE ('J1', 'Vmax')
 
 :param str variable: The dependent variable of the coefficient, for example a flux or
                      species concentration.
@@ -820,6 +820,11 @@ get the simulation result in case one forgot to hold on to the simulate return v
 
 %feature("docstring") rr::RoadRunner::steadyStateSelections "
 
+A list of SelectionRecords which determine what values are used for
+a steady state calculation. This list may be set by assigning a list
+of valid selection symbols::
+
+  r.steadyStateSelections = ['S1', '[S2]', 'P1']
 ";
 
 
@@ -838,14 +843,6 @@ Create a new selection based on a selection string
 RoadRunner.getStoichiometryMatrix()
 
 Returns the current stoichiomentry matrix, N.
-";
-
-
-
-%feature("docstring") rr::RoadRunner::getTimeCourseSelectionList "
-RoadRunner.getTimeCourseSelectionList()
-
-TODO docs
 ";
 
 
@@ -974,22 +971,6 @@ configuration to the values specified in the document.
 RoadRunner.setConservationAnalysis(*args)
 
 TODO docs
-";
-
-
-
-%feature("docstring") rr::RoadRunner::setSteadyStateSelectionList "
-RoadRunner.setSteadyStateSelectionList(*args)
-
-:param list(str) selectionList: a list of selection identifiers.
-";
-
-
-
-%feature("docstring") rr::RoadRunner::setTimeCourseSelectionList "
-RoadRunner.setTimeCourseSelectionList(*args)
-
-:param list(str) selectionList: a list of selection identifiers.
 ";
 
 
@@ -1147,6 +1128,140 @@ Returns the number of global parameters in the model.
 SelectionRecord.__init__(str)
 Create a new selection record. This constructor really should not be called,
 SelectionRecords should be created by the RoadRunner.createSelection
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::TIME "
+
+Model Time
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::BOUNDARY_CONCENTRATION "
+
+Boundary Concentration
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::FLOATING_CONCENTRATION "
+
+Floating Species Concentration
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::REACTION_RATE "
+
+Reaction Rate
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::FLOATING_AMOUNT_RATE "
+
+Rate of change of floating species amount
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::COMPARTMENT "
+
+Compartment Volume
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::GLOBAL_PARAMETER "
+
+Global Parameter
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::FLOATING_AMOUNT "
+
+Floating Species Amount
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::BOUNDARY_AMOUNT "
+
+Boundary species amount
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::ELASTICITY "
+
+Elasticity control coefficient
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::UNSCALED_ELASTICITY "
+
+Unscaled elasticity control coefficient
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::CONTROL "
+
+Control coefficient
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::UNSCALED_CONTROL "
+
+Unscaled control coefficient
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::EIGENVALUE "
+
+Eigenvalue
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::INITIAL_CONCENTRATION "
+
+Floating species intial concentration
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::STOICHIOMETRY "
+
+Stochiometry matrix entry
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::UNKNOWN_ELEMENT "
+
+A syntactically valid element but it has not been determined
+what sbml element ths id refers to.
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::UNKNOWN_CONCENTRATION "
+
+A syntactially valid but unknown concentration.
+";
+
+
+
+%feature("docstring") rr::SelectionRecord::UNKNOWN "
+
+An error condition.
 ";
 
 
