@@ -192,7 +192,9 @@ where :math:`c"/> is the number of conservation laws and <img class="math" src="
 <dt id="roadrunner.RoadRunner.getEE">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getEE</tt><big>(</big><em>reactionId</em>, <em>parameterId</em>, <em>steadyState=True</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getEE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retireve a single elasticity coefficient. For example:</p>
-<p>x = rr.getEE (&#8216;J1&#8217;, &#8216;Vmax&#8217;)</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">getEE</span> <span class="p">(</span><span class="s">&#39;J1&#39;</span><span class="p">,</span> <span class="s">&#39;Vmax&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -552,7 +554,13 @@ obtained from createSelection</td>
 <dl class="attribute">
 <dt id="roadrunner.RoadRunner.steadyStateSelections">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">steadyStateSelections</tt><a class="headerlink" href="#roadrunner.RoadRunner.steadyStateSelections" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>A list of SelectionRecords which determine what values are used for
+a steady state calculation. This list may be set by assigning a list
+of valid selection symbols:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">steadyStateSelections</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;S1&#39;</span><span class="p">,</span> <span class="s">&#39;[S2]&#39;</span><span class="p">,</span> <span class="s">&#39;P1&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
 
 <dl class="method">
 <dt>
@@ -572,12 +580,6 @@ obtained from createSelection</td>
 <dt id="roadrunner.RoadRunner.getStoichiometryMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getStoichiometryMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getStoichiometryMatrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the current stoichiomentry matrix, N.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="roadrunner.RoadRunner.getTimeCourseSelectionList">
-<tt class="descclassname">RoadRunner.</tt><tt class="descname">getTimeCourseSelectionList</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getTimeCourseSelectionList" title="Permalink to this definition">¶</a></dt>
-<dd><p>TODO docs</p>
 </dd></dl>
 
 <dl class="method">
@@ -701,32 +703,6 @@ configuration to the values specified in the document.</p>
 <dt id="roadrunner.RoadRunner.setConservationAnalysis">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">setConservationAnalysis</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setConservationAnalysis" title="Permalink to this definition">¶</a></dt>
 <dd><p>TODO docs</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="roadrunner.RoadRunner.setSteadyStateSelectionList">
-<tt class="descclassname">RoadRunner.</tt><tt class="descname">setSteadyStateSelectionList</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setSteadyStateSelectionList" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>selectionList</strong> (<em>list(str)</em>) &#8211; a list of selection identifiers.</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="roadrunner.RoadRunner.setTimeCourseSelectionList">
-<tt class="descclassname">RoadRunner.</tt><tt class="descname">setTimeCourseSelectionList</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.setTimeCourseSelectionList" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>selectionList</strong> (<em>list(str)</em>) &#8211; a list of selection identifiers.</td>
-</tr>
-</tbody>
-</table>
 </dd></dl>
 
 <dl class="method">
@@ -1508,7 +1484,7 @@ array of all the values to set.</li>
 
 <dl class="class">
 <dt id="roadrunner.SelectionRecord">
-<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">SelectionRecord</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecord" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">roadrunner.</tt><tt class="descname">SelectionRecord</tt><big>(</big><em>str</em><big>)</big><a class="headerlink" href="#roadrunner.SelectionRecord" title="Permalink to this definition">¶</a></dt>
 <dd><p>RoadRunner provides a range of flexible ways of selecting values from
 a simulation. These values can not only be calculated directly via
 RoadRunner.getSelectionValue, but any of these selections can be
@@ -1517,6 +1493,121 @@ used as columns in the simulate result matrix.</p>
 here.</p>
 <p>Most selection types only require the first symbol id, p1 to be set,
 however certain ones such as [???] require both p1 and p2.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.TIME">
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">TIME</tt><a class="headerlink" href="#roadrunner.SelectionRecord.TIME" title="Permalink to this definition">¶</a></dt>
+<dd><p>Model Time</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.BOUNDARY_CONCENTRATION">
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">BOUNDARY_CONCENTRATION</tt><a class="headerlink" href="#roadrunner.SelectionRecord.BOUNDARY_CONCENTRATION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boundary Concentration</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.FLOATING_CONCENTRATION">
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">FLOATING_CONCENTRATION</tt><a class="headerlink" href="#roadrunner.SelectionRecord.FLOATING_CONCENTRATION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Floating Species Concentration</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.REACTION_RATE">
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">REACTION_RATE</tt><a class="headerlink" href="#roadrunner.SelectionRecord.REACTION_RATE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reaction Rate</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.FLOATING_AMOUNT_RATE">
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">FLOATING_AMOUNT_RATE</tt><a class="headerlink" href="#roadrunner.SelectionRecord.FLOATING_AMOUNT_RATE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rate of change of floating species amount</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.COMPARTMENT">
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">COMPARTMENT</tt><a class="headerlink" href="#roadrunner.SelectionRecord.COMPARTMENT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compartment Volume</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.GLOBAL_PARAMETER">
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">GLOBAL_PARAMETER</tt><a class="headerlink" href="#roadrunner.SelectionRecord.GLOBAL_PARAMETER" title="Permalink to this definition">¶</a></dt>
+<dd><p>Global Parameter</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.FLOATING_AMOUNT">
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">FLOATING_AMOUNT</tt><a class="headerlink" href="#roadrunner.SelectionRecord.FLOATING_AMOUNT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Floating Species Amount</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.BOUNDARY_AMOUNT">
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">BOUNDARY_AMOUNT</tt><a class="headerlink" href="#roadrunner.SelectionRecord.BOUNDARY_AMOUNT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boundary species amount</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.ELASTICITY">
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">ELASTICITY</tt><a class="headerlink" href="#roadrunner.SelectionRecord.ELASTICITY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Elasticity control coefficient</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.UNSCALED_ELASTICITY">
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">UNSCALED_ELASTICITY</tt><a class="headerlink" href="#roadrunner.SelectionRecord.UNSCALED_ELASTICITY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unscaled elasticity control coefficient</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.CONTROL">
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">CONTROL</tt><a class="headerlink" href="#roadrunner.SelectionRecord.CONTROL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Control coefficient</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.UNSCALED_CONTROL">
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">UNSCALED_CONTROL</tt><a class="headerlink" href="#roadrunner.SelectionRecord.UNSCALED_CONTROL" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unscaled control coefficient</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.EIGENVALUE">
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">EIGENVALUE</tt><a class="headerlink" href="#roadrunner.SelectionRecord.EIGENVALUE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Eigenvalue</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.INITIAL_CONCENTRATION">
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">INITIAL_CONCENTRATION</tt><a class="headerlink" href="#roadrunner.SelectionRecord.INITIAL_CONCENTRATION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Floating species intial concentration</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.STOICHIOMETRY">
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">STOICHIOMETRY</tt><a class="headerlink" href="#roadrunner.SelectionRecord.STOICHIOMETRY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stochiometry matrix entry</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.UNKNOWN_ELEMENT">
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">UNKNOWN_ELEMENT</tt><a class="headerlink" href="#roadrunner.SelectionRecord.UNKNOWN_ELEMENT" title="Permalink to this definition">¶</a></dt>
+<dd><p>A syntactically valid element but it has not been determined
+what sbml element ths id refers to.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.UNKNOWN_CONCENTRATION">
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">UNKNOWN_CONCENTRATION</tt><a class="headerlink" href="#roadrunner.SelectionRecord.UNKNOWN_CONCENTRATION" title="Permalink to this definition">¶</a></dt>
+<dd><p>A syntactially valid but unknown concentration.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.SelectionRecord.UNKNOWN">
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">UNKNOWN</tt><a class="headerlink" href="#roadrunner.SelectionRecord.UNKNOWN" title="Permalink to this definition">¶</a></dt>
+<dd><p>An error condition.</p>
 </dd></dl>
 
 <dl class="attribute">

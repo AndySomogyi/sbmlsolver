@@ -24,9 +24,7 @@ The following methods deal wth steady state analysis:
 
 .. autosummary::
 
-   RoadRunner.getSteadyStateSelectionList
-
-   RoadRunner.setSteadyStateSelectionList
+   RoadRunner.steadyStateSelections
 
    RoadRunner.computeSteadyStateValue
 
