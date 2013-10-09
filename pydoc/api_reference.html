@@ -89,6 +89,12 @@ case, the default values are used.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="roadrunner.RoadRunner.createSelection">
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">createSelection</tt><big>(</big><em>str</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.createSelection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new SelectionRecord for the given selection string.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="roadrunner.RoadRunner.computeSteadyStateValue">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">computeSteadyStateValue</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.computeSteadyStateValue" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a vector of steady state values for the floating species. The order of
@@ -123,6 +129,25 @@ or boundary species</li>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">double</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getuCC">
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getuCC</tt><big>(</big><em>variableId</em>, <em>parameterId</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getuCC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get unscaled control coefficient with respect to a global parameter</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>variableId</strong> &#8211; must be either a reaction or floating species.</li>
+<li><strong>parameterId</strong> &#8211; must be eithe a global parameter, boundary species, or
+conserved sum.</li>
+</ul>
 </td>
 </tr>
 </tbody>
@@ -183,6 +208,12 @@ species</li>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.RoadRunner.getuEE">
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getuEE</tt><big>(</big><em>reactionId</em>, <em>parameterId</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getuEE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get unscaled elasticity coefficient with respect to a global parameter or species</p>
 </dd></dl>
 
 <dl class="method">
@@ -471,6 +502,21 @@ of floating species and n the number of reactiohs.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="roadrunner.RoadRunner.getSelectionValue">
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">getSelectionValue</tt><big>(</big><em>sel</em><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getSelectionValue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the value for a given selection.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>sel</strong> (<em>str or SelectionRecord</em>) &#8211; a selection that is either a string or a SelectionRecord that was
+obtained from createSelection</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="roadrunner.RoadRunner.getSelectedValues">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getSelectedValues</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getSelectedValues" title="Permalink to this definition">¶</a></dt>
 <dd><p>returns the values selected with SimulateOptions for the current model time / timestep</p>
@@ -498,10 +544,29 @@ of floating species and n the number of reactiohs.</p>
 </table>
 </dd></dl>
 
-<dl class="method">
-<dt id="roadrunner.RoadRunner.getSteadyStateSelectionList">
-<tt class="descclassname">RoadRunner.</tt><tt class="descname">getSteadyStateSelectionList</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getSteadyStateSelectionList" title="Permalink to this definition">¶</a></dt>
+<dl class="attribute">
+<dt id="roadrunner.RoadRunner.selections">
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">selections</tt><a class="headerlink" href="#roadrunner.RoadRunner.selections" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="attribute">
+<dt id="roadrunner.RoadRunner.steadyStateSelections">
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">steadyStateSelections</tt><a class="headerlink" href="#roadrunner.RoadRunner.steadyStateSelections" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">RoadRunner.</tt><tt class="descname">createSelection</tt><big>(</big><em>sel</em><big>)</big></dt>
+<dd><p>Create a new selection based on a selection string</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">roadrunner.SelectionRecord</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getStoichiometryMatrix">
@@ -954,9 +1019,22 @@ If the model is flattened, the variable will appear automatically.</p>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getBoundarySpeciesAmounts">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getBoundarySpeciesAmounts</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getBoundarySpeciesAmounts" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getBoundarySpeciesAmounts</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getBoundarySpeciesAmounts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a vector of boundary species amounts. The order of species is
 given by the order of Ids returned by getBoundarySpeciesIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an array of the boundary species amounts.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray.</td>
+</tr>
+</tbody>
+</table>
+<p>given by the order of Ids returned by getBoundarySpeciesIds()</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -973,9 +1051,22 @@ given by the order of Ids returned by getBoundarySpeciesIds()</p>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getBoundarySpeciesConcentrations">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getBoundarySpeciesConcentrations</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getBoundarySpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getBoundarySpeciesConcentrations</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getBoundarySpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a vector of boundary species concentrations. The order of species is
 given by the order of Ids returned by getBoundarySpeciesIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an array of the boundary species concentrations.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray.</td>
+</tr>
+</tbody>
+</table>
+<p>given by the order of Ids returned by getBoundarySpeciesIds()</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1048,8 +1139,9 @@ given by the order of Ids returned by getCompartmentIds()</p>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getConservedSums">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getConservedSums</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getConservedSums" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getConservedSums</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getConservedSums" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of conserved sums.</p>
+<table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -1065,7 +1157,9 @@ given by the order of Ids returned by getCompartmentIds()</p>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getFloatingSpeciesAmountRates">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getFloatingSpeciesAmountRates</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesAmountRates" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getFloatingSpeciesAmountRates</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesAmountRates" title="Permalink to this definition">¶</a></dt>
+<dt>
+<tt class="descname">Return a vector of floating species amount rates.</tt></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1082,7 +1176,7 @@ given by the order of Ids returned by getCompartmentIds()</p>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getFloatingSpeciesAmounts">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getFloatingSpeciesAmounts</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesAmounts" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getFloatingSpeciesAmounts</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesAmounts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the list of floating species amounts. If no arguments are given, this
 returns all floating species amounts.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1109,7 +1203,7 @@ would use [3,0] for the index array.</td>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getFloatingSpeciesConcentrations">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getFloatingSpeciesConcentrations</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getFloatingSpeciesConcentrations</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a vector of floating species concentrations. The order of species is
 given by the order of Ids returned by getFloatingSpeciesIds()</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1128,7 +1222,7 @@ given by the order of Ids returned by getFloatingSpeciesIds()</p>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getGlobalParameterValues">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getGlobalParameterValues</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getGlobalParameterValues" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getGlobalParameterValues</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getGlobalParameterValues" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a vector of global parameter values. The order of species is
 given by the order of Ids returned by getGlobalParameterIds()</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1236,7 +1330,7 @@ given by the order of Ids returned by getGlobalParameterIds()</p>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.getReactionRates">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getReactionRates</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getReactionRates" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getReactionRates</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getReactionRates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a vector of reaction rates for the current state of the model. The order of
 reaction rates is given by the order of Ids returned by getReactionIds()</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1267,7 +1361,7 @@ reaction rates is given by the order of Ids returned by getReactionIds()</p>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.setBoundarySpeciesConcentrations">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">setBoundarySpeciesConcentrations</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setBoundarySpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">setBoundarySpeciesConcentrations</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span>, <em>values</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setBoundarySpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use this to set the entire set of boundary species concentrations in one call.
 The order of species is given by the order of Ids returned by getBoundarySpeciesIds()</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1311,12 +1405,12 @@ array of all the  values to set.</li>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.setConservedSumChanged">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">setConservedSumChanged</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setConservedSumChanged" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">setConservedSumChanged</tt><big>(</big><em>change</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setConservedSumChanged" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.setConservedSums">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">setConservedSums</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setConservedSums" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">setConservedSums</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span>, <em>values</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setConservedSums" title="Permalink to this definition">¶</a></dt>
 <dd><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1335,7 +1429,7 @@ an array of all the values to set.</li>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.setFloatingSpeciesAmounts">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">setFloatingSpeciesAmounts</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setFloatingSpeciesAmounts" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">setFloatingSpeciesAmounts</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span>, <em>values</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setFloatingSpeciesAmounts" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use this to set the entire set of floating species amounts in one call.
 The order of species is given by the order of Ids returned by getFloatingSpeciesIds()</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1356,7 +1450,7 @@ an array of all the values to set.</li>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.setFloatingSpeciesConcentrations">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">setFloatingSpeciesConcentrations</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setFloatingSpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">setFloatingSpeciesConcentrations</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span>, <em>values</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setFloatingSpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use this to set the entire set of floating species concentrations in one call.
 The order of species is given by the order of Ids returned by getFloatingSpeciesIds()</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1377,7 +1471,7 @@ array of all the  values to set.</li>
 
 <dl class="method">
 <dt id="roadrunner.ExecutableModel.setGlobalParameterValues">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">setGlobalParameterValues</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setGlobalParameterValues" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">setGlobalParameterValues</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span>, <em>values</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.setGlobalParameterValues" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use this to set the entire set of global parameters in one call.
 The order of parameters is given by the order of Ids returned by getGlobalParameterIds()</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -1423,27 +1517,27 @@ used as columns in the simulate result matrix.</p>
 here.</p>
 <p>Most selection types only require the first symbol id, p1 to be set,
 however certain ones such as [???] require both p1 and p2.</p>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="roadrunner.SelectionRecord.index">
-<tt class="descname">index</tt><em class="property"> int</em><a class="headerlink" href="#roadrunner.SelectionRecord.index" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">index</tt><em class="property"> int</em><a class="headerlink" href="#roadrunner.SelectionRecord.index" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="roadrunner.SelectionRecord.p1">
-<tt class="descname">p1</tt><em class="property"> str</em><a class="headerlink" href="#roadrunner.SelectionRecord.p1" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">p1</tt><em class="property"> str</em><a class="headerlink" href="#roadrunner.SelectionRecord.p1" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="roadrunner.SelectionRecord.p2">
-<tt class="descname">p2</tt><em class="property"> str</em><a class="headerlink" href="#roadrunner.SelectionRecord.p2" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">p2</tt><em class="property"> str</em><a class="headerlink" href="#roadrunner.SelectionRecord.p2" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="roadrunner.SelectionRecord.selectionType">
-<tt class="descname">selectionType</tt><em class="property"> int</em><a class="headerlink" href="#roadrunner.SelectionRecord.selectionType" title="Permalink to this definition">¶</a></dt>
+<tt class="descclassname">SelectionRecord.</tt><tt class="descname">selectionType</tt><em class="property"> int</em><a class="headerlink" href="#roadrunner.SelectionRecord.selectionType" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-</dd></dl>
 
 </div>
 
