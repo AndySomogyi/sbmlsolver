@@ -54,7 +54,7 @@ usual import stuff::
   import numpy as n
   import numpy.linalg as lin
 
-make a RoadRunner and load a doc::
+make a RoadRunner and load an SBML model::
 
   r = rr.RoadRunner()
   r.loadSBMLFromFile("/Users/andy/src/sbml_test/cases/semantic/00110/00110-sbml-l3v1.xml")
@@ -64,7 +64,7 @@ get the model, the model obj has all the accessors sbml elements names / values:
 
   m = r.getModel()
 
-use the build in RR function to get the Jacobian, notice this is returned as a native
+Use the build in RR function to get the Jacobian, notice this is returned as a native
 numpy matrix::
 
   jac = r.getFullJacobian()
