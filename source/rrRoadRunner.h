@@ -336,9 +336,8 @@ public:
     ls::DoubleMatrix* getLinkMatrix();
     ls::DoubleMatrix* getNrMatrix();
     ls::DoubleMatrix* getL0Matrix();
-    ls::DoubleMatrix getStoichiometryMatrix();
-    ls::DoubleMatrix getReorderedStoichiometryMatrix();
-    ls::DoubleMatrix getFullyReorderedStoichiometryMatrix();
+
+
     ls::DoubleMatrix getConservationMatrix();
     ls::DoubleMatrix getUnscaledConcentrationControlCoefficientMatrix();
     ls::DoubleMatrix getScaledConcentrationControlCoefficientMatrix();

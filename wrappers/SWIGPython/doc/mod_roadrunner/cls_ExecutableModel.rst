@@ -323,9 +323,23 @@
 
 
 .. method:: ExecutableModel.setTime(time)
-   :module: roadrunner
 
    Set the model time variable. NOt sure what this does.
 
    :param time: time the time value to set.
    :returns: None
+
+
+.. method:: ExecutableModel.getStoichiometryMatrix()
+
+   Returns the current stoichiomentry matrix, a :math:`n \times m` matrix where :math:`n` is the
+   number of species which take place in reactions (floating species) and :math:`m` is the number of
+   reactions.
+
+   When the LLVM back end is used (default) this always returns the current state of the
+   stochiometric coeffecients, so if any of these are determined by any rule, this will return the
+   currect value. 
+
+   :returns: an n by m numpy ndarray of the stoichiometrix coeffecients. 
+   :rtype: numpy.ndarray
+

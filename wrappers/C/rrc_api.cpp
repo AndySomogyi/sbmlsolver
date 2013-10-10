@@ -828,22 +828,31 @@ RRDoubleMatrixPtr rrcCallConv getStoichiometryMatrix(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        DoubleMatrix tempMat = rri->getStoichiometryMatrix();
+        ExecutableModel* model = rri->getModel();
 
-        RRDoubleMatrixPtr matrix = new RRDoubleMatrix;
-        matrix->RSize = tempMat.RSize();
-        matrix->CSize = tempMat.CSize();
-        matrix->Data =  new double[tempMat.RSize()*tempMat.CSize()];
-
-        int index = 0;
-        for(u_int row = 0; row < tempMat.RSize(); row++)
+        if(model)
         {
-            for(u_int col = 0; col < tempMat.CSize(); col++)
-            {
-                matrix->Data[index++] = tempMat(row,col);
-            }
+            int rows = 0;
+            int cols = 0;
+            double* data = 0;
+
+            model->getStoichiometryMatrix(&rows, &cols, &data);
+
+            RRDoubleMatrixPtr matrix = new RRDoubleMatrix;
+            matrix->RSize = rows;
+            matrix->CSize = cols;
+            matrix->Data =  new double[rows*cols];
+
+            memcpy(matrix->Data, data, rows*cols*sizeof(double));
+
+            free(data);
+
+            return matrix;
         }
-        return matrix;
+        else
+        {
+            return 0;
+        }
     }
     catch_ptr_macro
 }

@@ -1094,16 +1094,17 @@ DoubleMatrix RoadRunner::getFullJacobian()
             throw CoreException(gEmptyModelMessage);
         }
         DoubleMatrix uelast = getUnscaledElasticityMatrix();
-        DoubleMatrix rsm;
+        DoubleMatrix *rsm;
+        LibStructural *ls = getLibStruct();
         if (mComputeAndAssignConservationLaws)
         {
-            rsm = getReorderedStoichiometryMatrix();
+            rsm = ls->getReorderedStoichiometryMatrix();
         }
         else
         {
-            rsm = getStoichiometryMatrix();
+            rsm = ls->getStoichiometryMatrix();
         }
-       return mult(rsm, uelast);
+       return mult(*rsm, uelast);
 
     }
     catch (const Exception& e)
@@ -1118,9 +1119,10 @@ DoubleMatrix RoadRunner::getFullReorderedJacobian()
     {
         if (mModel)
         {
+            LibStructural *ls = getLibStruct();
             DoubleMatrix uelast = getUnscaledElasticityMatrix();
-            DoubleMatrix rsm     = getStoichiometryMatrix();
-            return mult(rsm, uelast);
+            DoubleMatrix *rsm = ls->getStoichiometryMatrix();
+            return mult(*rsm, uelast);
         }
         throw CoreException(gEmptyModelMessage);
     }
@@ -1212,92 +1214,6 @@ DoubleMatrix* RoadRunner::getL0Matrix()
     }
 }
 
-// Help("Returns the stoichiometry matrix for the currently loaded model")
-DoubleMatrix RoadRunner::getStoichiometryMatrix()
-{
-    try
-    {
-//        DoubleMatrix* aMat = mLS.getStoichiometryMatrix();
-        DoubleMatrix* aMat = getLibStruct()->getReorderedStoichiometryMatrix();
-        if (!mModel || !aMat)
-        {
-            throw CoreException(gEmptyModelMessage);
-        }
-
-        DoubleMatrix mat(aMat->numRows(), aMat->numCols());
-
-        for(int row = 0; row < mat.RSize(); row++)
-        {
-            for(int col = 0; col < mat.CSize(); col++)
-            {
-                mat(row,col) = (*aMat)(row,col);
-            }
-        }
-        return mat;
-    }
-    catch (const Exception& e)
-    {
-        throw CoreException("Unexpected error from getStoichiometryMatrix()" + e.Message());
-    }
-}
-
-// Help("Returns the stoichiometry matrix for the currently loaded model")
-DoubleMatrix RoadRunner::getReorderedStoichiometryMatrix()
-{
-    try
-    {
-        DoubleMatrix* aMat = getLibStruct()->getReorderedStoichiometryMatrix();
-        if (!mModel || !aMat)
-        {
-            throw CoreException(gEmptyModelMessage);
-        }
-
-        //Todo: Room to improve how matrices are handled across LibStruct/RoadRunner/C-API
-        DoubleMatrix mat(aMat->numRows(), aMat->numCols());
-
-        for(int row = 0; row < mat.RSize(); row++)
-        {
-            for(int col = 0; col < mat.CSize(); col++)
-            {
-                mat(row,col) = (*aMat)(row,col);
-            }
-        }
-        return mat;
-    }
-    catch (const Exception& e)
-    {
-        throw CoreException("Unexpected error from getStoichiometryMatrix()" + e.Message());
-    }
-}
-
-// Help("Returns the stoichiometry matrix for the currently loaded model")
-DoubleMatrix RoadRunner::getFullyReorderedStoichiometryMatrix()
-{
-    try
-    {
-        DoubleMatrix* aMat = getLibStruct()->getFullyReorderedStoichiometryMatrix();
-        if (!mModel || !aMat)
-        {
-            throw CoreException(gEmptyModelMessage);
-        }
-
-        //Todo: Room to improve how matrices are handled across LibStruct/RoadRunner/C-API
-        DoubleMatrix mat(aMat->numRows(), aMat->numCols());
-
-        for(int row = 0; row < mat.RSize(); row++)
-        {
-            for(int col = 0; col < mat.CSize(); col++)
-            {
-                mat(row,col) = (*aMat)(row,col);
-            }
-        }
-        return mat;
-    }
-    catch (const Exception& e)
-    {
-        throw CoreException("Unexpected error from getStoichiometryMatrix()" + e.Message());
-    }
-}
 
 DoubleMatrix RoadRunner::getConservationMatrix()
 {

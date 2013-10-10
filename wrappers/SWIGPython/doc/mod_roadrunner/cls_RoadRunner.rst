@@ -377,10 +377,6 @@
    :rtype: roadrunner.SelectionRecord
 
 
-.. method:: RoadRunner.getStoichiometryMatrix()
-   :module: roadrunner
-
-   Returns the current stoichiomentry matrix, N.
 
 
 
