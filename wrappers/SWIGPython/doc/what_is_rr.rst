@@ -6,9 +6,6 @@ RoadRunner is package for loading, JIT compilation, simulation and
 analysis of SBML systems biology models. 
 
 
-So, here is a simple example:
-
-
 The Python API is stright forward to use. 
 
   import RoadRunner as rr
