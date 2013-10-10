@@ -731,6 +731,39 @@ double LLVMExecutableModel::getStoichiometry(int index)
     return 0;
 }
 
+int LLVMExecutableModel::getStoichiometryMatrix(int* pRows, int* pCols,
+        double** pData)
+{
+    // m rows x n cols
+    // offset = row*NUMCOLS + column
+    const unsigned m = modelData.stoichiometry->m;
+    const unsigned n = modelData.stoichiometry->n;
+    unsigned *rowptr = modelData.stoichiometry->rowptr;
+    unsigned *colidx = modelData.stoichiometry->colidx;
+    double *values = modelData.stoichiometry->values;
+
+    double *data = (double*)calloc(m*n, sizeof(double));
+
+    for (unsigned i = 0; i < m; i++)
+    {
+        double yi = 0.0;
+        for (unsigned k = rowptr[i]; k < rowptr[i + 1]; k++)
+        {
+            int col = colidx[k];
+            data[i*n + col] = values[k];
+
+            //yi = yi + alpha * values[k] * x[colidx[k]];
+        }
+    }
+
+    *pRows = m;
+    *pCols = n;
+    *pData = data;
+
+    return m*n;
+}
+
+
 /******************************* Events Section *******************************/
 #if (1) /**********************************************************************/
 /******************************************************************************/
@@ -933,5 +966,3 @@ bool LLVMExecutableModel::getEventTieBreak(uint eventA, uint eventB)
 
 
 } /* namespace rr */
-
-

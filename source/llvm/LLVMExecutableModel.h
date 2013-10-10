@@ -294,7 +294,20 @@ public:
             double const *values);
     virtual int getFloatingSpeciesInitConcentrations(int len, int const *indx,
             double *values);
+
     virtual double getStoichiometry(int index);
+
+    /**
+     * allocate a block of memory and copy the stochiometric values into it,
+     * and return it.
+     *
+     * The caller is responsible for freeing the memory that is referenced by data.
+     *
+     * @param[out] rows will hold the number of rows in the matrix.
+     * @param[out] cols will hold the number of columns in the matrix.
+     * @param[out] data a pointer which will hold a newly allocated memory block.
+     */
+    virtual int getStoichiometryMatrix(int* rows, int* cols, double** data);
 
 
     /******************************* Events Section *******************************/

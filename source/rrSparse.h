@@ -76,7 +76,7 @@ typedef struct csr_matrix_t
  *
  * These funcs are used by the generated LLVM model.
  */
-csr_matrix* RR_DECLSPEC csr_matrix_new(unsigned m, unsigned n,
+csr_matrix* csr_matrix_new(unsigned m, unsigned n,
         const std::vector<unsigned>& rowidx, const std::vector<unsigned>& colidx,
         const std::vector<double>& values);
 
@@ -84,21 +84,21 @@ csr_matrix* RR_DECLSPEC csr_matrix_new(unsigned m, unsigned n,
  * free the buffers belonging to a dcsr_matrix, and the
  * matrix itself.
  */
-void RR_DECLSPEC csr_matrix_delete(csr_matrix *mat);
+void csr_matrix_delete(csr_matrix *mat);
 
 /**
  * sets a (previously allocted) non-zero value to the given value.
  *
  * @returns true on success, false on failure.
  */
-bool RR_DECLSPEC csr_matrix_set_nz(csr_matrix *mat, unsigned row, unsigned col, double val);
+bool csr_matrix_set_nz(csr_matrix *mat, unsigned row, unsigned col, double val);
 
 /**
  * sets a (previously allocted) non-zero value to the given value.
  *
  * returns NaN if the entry (i,j) has not been alocated.
  */
-double RR_DECLSPEC csr_matrix_get_nz(const csr_matrix *mat, unsigned row, unsigned col);
+double csr_matrix_get_nz(const csr_matrix *mat, unsigned row, unsigned col);
 
 /**
  * performs the matrix-vector operations y := alpha*A*x + beta*y
@@ -108,13 +108,13 @@ double RR_DECLSPEC csr_matrix_get_nz(const csr_matrix *mat, unsigned row, unsign
  * The given vectors y and x must be the same size as number of
  * columns in the sparse matrix.
  */
-void RR_DECLSPEC csr_matrix_dgemv(double alpha, const csr_matrix *A,
+void  csr_matrix_dgemv(double alpha, const csr_matrix *A,
         double const *x, double beta, double *y);
 
 /**
  * dump the matrix to an output stream.
  */
-std::ostream& RR_DECLSPEC operator<< (std::ostream& os, const csr_matrix* mat);
+std::ostream& operator<< (std::ostream& os, const csr_matrix* mat);
 
 
 }

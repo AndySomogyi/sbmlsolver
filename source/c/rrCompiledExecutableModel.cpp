@@ -1390,6 +1390,21 @@ double CompiledExecutableModel::getStoichiometry(int index)
     return mData.sr[index];
 }
 
+
+int CompiledExecutableModel::getStoichiometryMatrix(int* p_rows, int* p_cols, double** p_data)
+{
+    int rows = stoichiometryMatrix.numRows();
+    int cols = stoichiometryMatrix.numCols();
+    double *data = (double*)malloc(sizeof(double)*rows*cols);
+    memcpy(data, stoichiometryMatrix.getArray(), sizeof(double)*rows*cols);
+
+    *p_rows = rows;
+    *p_cols = cols;
+    *p_data = data;
+
+    return rows*cols;
+}
+
 } //Namespace rr
 
 

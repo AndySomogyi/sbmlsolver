@@ -85,19 +85,7 @@ private:
 
     bool compileCurrentModel();
 
-    /**
-     * only valid while createModel is running
-     */
-    ExecutableModel* mModel;
 
-
-    /**
-     * perform some basic initialization on the model.
-     *
-     * If the caller has mComputeAndAssignConservationLaws or mCVode, it
-     * needs to make the model aware of these.
-     */
-    bool initializeModel();
 
     //C Specifics..
 

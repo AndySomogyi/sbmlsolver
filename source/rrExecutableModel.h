@@ -198,6 +198,18 @@ public:
                 const double *values) = 0;
 
     /**
+     * allocate a block of memory and copy the stochiometric values into it,
+     * and return it.
+     *
+     * The caller is responsible for freeing the memory that is referenced by data.
+     *
+     * @param[out] rows will hold the number of rows in the matrix.
+     * @param[out] cols will hold the number of columns in the matrix.
+     * @param[out] data a pointer which will hold a newly allocated memory block.
+     */
+    virtual int getStoichiometryMatrix(int* rows, int* cols, double** data) = 0;
+
+    /**
      * no clue how this is supposed to work, here for compatibility
      */
     virtual double getStoichiometry(int index) = 0;

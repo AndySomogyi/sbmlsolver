@@ -512,6 +512,8 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 %ignore rr::ExecutableModel::getConservedSumIndex(const std::string& eid);
 %ignore rr::ExecutableModel::getReactionIndex(const std::string& eid);
 
+%ignore rr::ExecutableModel::getStoichiometryMatrix(int*, int*, double**);
+
 %rename(RESET_MODEL) rr::SimulateOptions::ResetModel;
 %rename(STIFF) rr::SimulateOptions::Stiff;
 
@@ -983,6 +985,22 @@ namespace Poco { class SharedLibrary{}; }
             return -1;
         }
         return $self->setConservedSums(leni, indx, values);
+    }
+
+    PyObject* getStoichiometryMatrix() {
+        int rows = 0;
+        int cols = 0;
+        double* data = 0;
+
+        $self->getStoichiometryMatrix(&rows, &cols, &data);
+
+        int nd = 2;
+        npy_intp dims[2] = {rows, cols};
+
+        PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
+                NPY_CARRAY | NPY_OWNDATA, NULL);
+
+        return pArray;
     }
 
     //int setReactionRates(int len, double const *values) {

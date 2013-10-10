@@ -31,7 +31,6 @@ CModelGenerator::CModelGenerator(const string& tempFolder, const string& support
 CompiledModelGenerator(),
 mTempFileFolder(tempFolder),
 mCompiler(supportCodeFolder, compiler),
-mModel(0),
 mModelLib(0)
 {
 }
@@ -2341,17 +2340,6 @@ bool CModelGenerator::setTemporaryDirectory(const string& path)
     }
 }
 
-bool CModelGenerator::initializeModel()
-{
-    if(!mModel)
-    {
-        throw Exception("CModelGenerator::initializeModel() called without model");
-    }
-
-    mModel->evalInitialConditions();
-
-    return true;
-}
 
 ExecutableModel *CModelGenerator::createModel(const string& sbml, uint options)
 {
@@ -2448,34 +2436,58 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
         Log(lError)<<"Compiler problem: "<<ex.what();
     }
 
+    CompiledExecutableModel *model = 0;
+
+
+
     //Create a model
     if(mModelLib->isLoaded())
     {
-        ExecutableModel *rrCModel = new CompiledExecutableModel(ms, mModelLib);
-        mModel = rrCModel;
+        model = new CompiledExecutableModel(ms, mModelLib);
     }
     else
     {
         Log(lError)<<"Failed to create model from DLL";
-        mModel = NULL;
+        model = NULL;
     }
 
     //Finally intitilaize the model..
-    if(!initializeModel())
+    model->evalInitialConditions();
+
+
+    // copy stoich matrix into it
+
+    DoubleMatrix* aMat = 0;
+
+    if (computeAndAssignConsevationLaws)
     {
-        Log(lError)<<"Failed Initializing C Model";
-        return 0;
+        aMat = ls->getReorderedStoichiometryMatrix();
+    }
+    else
+    {
+        aMat = ls->getStoichiometryMatrix();
     }
 
-    // returning the completed model, we're done with it.
-    ExecutableModel *result = mModel;
-    mModel = 0;
+    // could be zero, suppose if system has no reactions?
+    if (aMat)
+    {
+        model->stoichiometryMatrix.resize(aMat->numRows(), aMat->numCols());
+
+        for(int row = 0; row < model->stoichiometryMatrix.RSize(); row++)
+        {
+            for(int col = 0; col < model->stoichiometryMatrix.CSize(); col++)
+            {
+                model->stoichiometryMatrix(row,col) = (*aMat)(row,col);
+            }
+        }
+    }
+
     mModelLib = 0;
 
     // clear state
     CompiledModelGenerator::reset();
 
-    return result;
+    return model;
 }
 
 Compiler* CModelGenerator::getCompiler()
