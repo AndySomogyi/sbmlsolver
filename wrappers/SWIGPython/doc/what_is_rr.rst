@@ -5,20 +5,6 @@ What is RoadRunner
 RoadRunner is package for loading, JIT compilation, simulation and
 analysis of SBML systems biology models. 
 
-The roadrunner package contains two fundametal objects, `RoadRunner`
-and `ExecutableModel`. `RoadRunner` is the typically the top level object,
-it is responsible for orchestrating all of the internal components 
-such as model loading, JIT compilation, integration and output. 
-
-** roadrunner overview
-
-** ExecutableModel
- - represents a compiled sbml model
- - properties to get and set any state variables.
-
-
-I've got much of the new Python API working, its very clean simple interface that uses all native Python objects. All the returned types are Numpy arrays. Much of the time, the Numpy array just holds a pointer to a block of data owned by RoadRunner, for example, the
-array returned by simulate just has a pointer to the results matrix which is owned by RoadRunner, so there is NO COPYING involved. If you have no need for the result, just ignore it, it costs virtually nothing to return it. 
 
 So, here is a simple example:
 
@@ -173,3 +159,22 @@ code.  In NumPy
 
 does what the earlier examples do, at near-C speeds, but with the code
 simplicity we expect from something based on Python (indeed, the NumPy
+
+
+Technical Aspects
+-----------------
+
+The roadrunner package contains two fundametal objects, `RoadRunner`
+and `ExecutableModel`. `RoadRunner` is the typically the top level object,
+it is responsible for orchestrating all of the internal components 
+such as model loading, JIT compilation, integration and output. 
+
+** roadrunner overview
+
+** ExecutableModel
+ - represents a compiled sbml model
+ - properties to get and set any state variables.
+
+
+I've got much of the new Python API working, its very clean simple interface that uses all native Python objects. All the returned types are Numpy arrays. Much of the time, the Numpy array just holds a pointer to a block of data owned by RoadRunner, for example, the
+array returned by simulate just has a pointer to the results matrix which is owned by RoadRunner, so there is NO COPYING involved. If you have no need for the result, just ignore it, it costs virtually nothing to return it. 
