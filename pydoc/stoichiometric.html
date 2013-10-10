@@ -88,8 +88,8 @@ matrix.</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getStoichiometryMatrix" title="roadrunner.RoadRunner.getStoichiometryMatrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getStoichiometryMatrix</span></tt></a>()</td>
-<td>Returns the current stoichiomentry matrix, N.</td>
+<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.ExecutableModel.getStoichiometryMatrix" title="roadrunner.ExecutableModel.getStoichiometryMatrix"><tt class="xref py py-obj docutils literal"><span class="pre">ExecutableModel.getStoichiometryMatrix</span></tt></a>()</td>
+<td>Returns the current stoichiomentry matrix, a <img class="math" src="_images/math/bed4cafeded4bdf622cee8198b01a198f5d635f6.png" alt="n \times m"/> matrix where <img class="math" src="_images/math/174fadd07fd54c9afe288e96558c92e0c1da733a.png" alt="n"/> is the number of species which take place in reactions (floating species) and <img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/> is the number of reactions.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getLinkMatrix" title="roadrunner.RoadRunner.getLinkMatrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getLinkMatrix</span></tt></a>()</td>
 <td>Returns the full link matrix, L for the current model. The Link matrix is an m by r matrix where m</td>
@@ -98,7 +98,7 @@ matrix.</p>
 <td>Returns the reduced stoichiometry matrix, <img class="math" src="_images/math/9ea520289972d82fa3dd03be522ffbe21abce96e.png" alt="N_R"/>, which wil have only r rows where r is the rank of</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getConservationMatrix" title="roadrunner.RoadRunner.getConservationMatrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getConservationMatrix</span></tt></a>()</td>
-<td>Returns a conservation matrix <img class="math" src="_images/math/913e49ea63c6c130bb8d9d1c3556b052ecc404f8.png" alt="\Gamma"/> which is a :math:<a href="#id1"><span class="problematic" id="id2">`</span></a>c        imes m&#8217; matrix</td>
+<td>Returns a conservation matrix <img class="math" src="_images/math/913e49ea63c6c130bb8d9d1c3556b052ecc404f8.png" alt="\Gamma"/> which is a <img class="math" src="_images/math/69466761ddad22006793cf7d2699b82f5d0e1d21.png" alt="c \times m"/> matrix</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getL0Matrix" title="roadrunner.RoadRunner.getL0Matrix"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getL0Matrix</span></tt></a>()</td>
 <td>Returns the L0 matrix for the current model. The L0 matrix is an (m-r) by r matrix that expresses</td>

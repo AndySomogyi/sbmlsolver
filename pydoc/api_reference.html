@@ -178,8 +178,8 @@ into a single xml document which is returned as a string.</p>
 <dl class="method">
 <dt id="roadrunner.RoadRunner.getConservationMatrix">
 <tt class="descclassname">RoadRunner.</tt><tt class="descname">getConservationMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getConservationMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a conservation matrix <img class="math" src="_images/math/913e49ea63c6c130bb8d9d1c3556b052ecc404f8.png" alt="\Gamma"/> which is a <img class="math" src="_images/math/7dcfb35b7dadc1b84663a51c8f8e032839634188.png" alt="c \times m' matrix
-where :math:`c"/> is the number of conservation laws and <img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/> the number of species.</p>
+<dd><p>Returns a conservation matrix <img class="math" src="_images/math/913e49ea63c6c130bb8d9d1c3556b052ecc404f8.png" alt="\Gamma"/> which is a <img class="math" src="_images/math/69466761ddad22006793cf7d2699b82f5d0e1d21.png" alt="c \times m"/> matrix
+where <img class="math" src="_images/math/3372c1cb6d68cf97c2d231acc0b47b95a9ed04cc.png" alt="c"/> is the number of conservation laws and <img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/> the number of species.</p>
 </dd></dl>
 
 <dl class="staticmethod">
@@ -574,12 +574,6 @@ of valid selection symbols:</p>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="method">
-<dt id="roadrunner.RoadRunner.getStoichiometryMatrix">
-<tt class="descclassname">RoadRunner.</tt><tt class="descname">getStoichiometryMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.RoadRunner.getStoichiometryMatrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the current stoichiomentry matrix, N.</p>
 </dd></dl>
 
 <dl class="method">
@@ -1477,6 +1471,28 @@ array of all the values to set.</li>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time</strong> &#8211; time the time value to set.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getStoichiometryMatrix">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getStoichiometryMatrix</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getStoichiometryMatrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the current stoichiomentry matrix, a <img class="math" src="_images/math/bed4cafeded4bdf622cee8198b01a198f5d635f6.png" alt="n \times m"/> matrix where <img class="math" src="_images/math/174fadd07fd54c9afe288e96558c92e0c1da733a.png" alt="n"/> is the
+number of species which take place in reactions (floating species) and <img class="math" src="_images/math/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png" alt="m"/> is the number of
+reactions.</p>
+<p>this is a line with &#8220;quotes&#8221;</p>
+<p>When the LLVM back end is used (default) this always returns the current state of the
+stochiometric coeffecients, so if any of these are determined by any rule, this will return the
+currect value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">an n by m numpy ndarray of the stoichiometrix coeffecients.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
 </tr>
 </tbody>
 </table>

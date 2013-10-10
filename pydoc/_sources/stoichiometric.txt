@@ -49,7 +49,7 @@ The following methods are related to the analysis of the stoichiometric matrix.
 
 .. autosummary::
 
-   RoadRunner.getStoichiometryMatrix
+   ExecutableModel.getStoichiometryMatrix
    RoadRunner.getLinkMatrix
    RoadRunner.getNrMatrix
    RoadRunner.getConservationMatrix
