@@ -46,19 +46,26 @@ points to generate.
 To finout more about the options used by simulate we can involve the simulateOptions command. For example to find
 out how long the simulation was run for we can use the command::
 
-  r.simulateOptions.end
+  rr.simulateOptions.end
   
 Or to find out how many points were used we can use the command:
   
-  r.simulateOptions.steps
+  r.rsimulateOptions.steps
   
 By default the time start is set to zero, time end to 40 time units and the number of points to 500. To quickly
 overrride this defaults it is possible to include these argumetns in the simulate command, for example:
 
-  result = r.simulate (0, 10, 100)
+  result = rrsimulate (0, 10, 100)
   
 This means set the time start to zero, the time end to 10 and generate 100 points. This means that the simualation points
 will be output in intervals of 0.1.
+
+One important point to note about simulate(). When simualte() is run, the concentration of the floating species 
+will naturally change. If simulate() is called a second time, the simulation will use as initial conditions the last 
+values from the previous simulation. To reset the initial conditions back to the values there were in the orginal model
+run the command reset::
+
+  rr.reset()
 
 
 
