@@ -24,7 +24,7 @@ mymodel.xml. To laod this model in windows we would use the command::
 
   rr.loadSBMLFromFile("C:\MyModels\mymodel.xml")
 
-or on the Mac or Linux we would use the command
+or on the Mac or Linux we would use the command::
 
   rr.loadSBMLFromFile("/home/foo/myfile.xml")
 
@@ -40,6 +40,28 @@ simulate method::
   result = rr.simulate()
 
 The variable result will be a Pythn numpy array. The first column will contain time and the reminaing columns will include
-all the floating species.
+all the floating species. In the simulate method we didn't specify how long to do the simulation for or how many 
+points to generate.
+
+To finout more about the options used by simulate we can involve the simulateOptions command. For example to find
+out how long the simulation was run for we can use the command::
+
+  r.simulateOptions.end
+  
+Or to find out how many points were used we can use the command:
+  
+  r.simulateOptions.steps
+  
+By default the time start is set to zero, time end to 40 time units and the number of points to 500. To quickly
+overrride this defaults it is possible to include these argumetns in the simulate command, for example:
+
+  result = r.simulate (0, 10, 100)
+  
+This means set the time start to zero, the time end to 10 and generate 100 points. This means that the simualation points
+will be output in intervals of 0.1.
+
+
+
+
 
 
