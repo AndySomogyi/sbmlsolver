@@ -9,8 +9,7 @@ analysis of SBML systems biology models.
 So, here is a simple example:
 
 
-
-The new API is really cool, this is all you have to do::
+The Python API is stright forward to use. 
 
   import RoadRunner as rr
   import pylab as p
@@ -31,8 +30,6 @@ this takes an optional SimulateOptions class as a second parameter.::
 
   s = r.simulate()
 
-
-Hi,
 
 Here is a transcript of an interactive ipython session::
 
