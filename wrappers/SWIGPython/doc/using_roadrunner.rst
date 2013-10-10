@@ -48,12 +48,12 @@ out how long the simulation was run for we can use the command::
 
   rr.simulateOptions.end
   
-Or to find out how many points were used we can use the command:
+Or to find out how many points were used we can use the command::
   
   r.rsimulateOptions.steps
   
 By default the time start is set to zero, time end to 40 time units and the number of points to 500. To quickly
-overrride this defaults it is possible to include these argumetns in the simulate command, for example:
+overrride this defaults it is possible to include these argumetns in the simulate command, for example:;
 
   result = rrsimulate (0, 10, 100)
   
