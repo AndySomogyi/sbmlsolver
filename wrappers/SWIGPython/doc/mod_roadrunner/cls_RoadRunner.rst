@@ -94,7 +94,7 @@
 .. method:: RoadRunner.getConservationMatrix()
    :module: roadrunner
 
-   Returns a conservation matrix :math:`\Gamma` which is a :math:`c \times m' matrix
+   Returns a conservation matrix :math:`\Gamma` which is a :math:`c \times m` matrix
    where :math:`c` is the number of conservation laws and :math:`m` the number of species.
 
 

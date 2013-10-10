@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#! /usr/bin/env python
+
 # src format:
 # .. method:: ExecutableModel.getModelName()
 # .. py:method:: ???????????
@@ -26,7 +27,14 @@ def write_docstring(file, category, cls, name, args, lines):
     print(category, cls, name, args)
 
     def ltrim(s):
-        return s[3:] if s.startswith("   ") else s
+        line = s[3:] if s.startswith("   ") else s
+        # yes this looks weird, but we do need to replace a backslash literal
+        # with four of them. Evidently something to do with C need an extra one
+        # to escape the escape, then need another pair to escape that when python
+        # reads it.
+        line = line.replace("\\", "\\\\\\\\") 
+        line = line.replace('"', '\\"')
+        return line
 
     # strips trailing emtpy lines
     index = len(lines) -1

@@ -394,9 +394,11 @@ Set the model time variable. NOt sure what this does.
 %feature("docstring") rr::ExecutableModel::getStoichiometryMatrix "
 ExecutableModel.getStoichiometryMatrix()
 
-Returns the current stoichiomentry matrix, a :math:`n \times m` matrix where :math:`n` is the
+Returns the current stoichiomentry matrix, a :math:`n \\\\times m` matrix where :math:`n` is the
 number of species which take place in reactions (floating species) and :math:`m` is the number of
 reactions.
+
+this is a line with \"quotes\"
 
 When the LLVM back end is used (default) this always returns the current state of the
 stochiometric coeffecients, so if any of these are determined by any rule, this will return the
@@ -524,7 +526,7 @@ is conservation analysis enabled. This is set NEEDS MORE
 %feature("docstring") rr::RoadRunner::getConservationMatrix "
 RoadRunner.getConservationMatrix()
 
-Returns a conservation matrix :math:`\Gamma` which is a :math:`c \times m' matrix
+Returns a conservation matrix :math:`\\\\Gamma` which is a :math:`c \\\\times m` matrix
 where :math:`c` is the number of conservation laws and :math:`m` the number of species.
 ";
 
