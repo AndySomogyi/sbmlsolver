@@ -983,6 +983,83 @@ If the model is flattened, the variable will appear automatically.</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="roadrunner.ExecutableModel.getNumFloatingSpecies">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getNumFloatingSpecies</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumFloatingSpecies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of floating species in the model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getFloatingSpeciesIds">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getFloatingSpeciesIds</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesIds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of floating species sbml ids.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getFloatingSpeciesAmountRates">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getFloatingSpeciesAmountRates</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesAmountRates" title="Permalink to this definition">¶</a></dt>
+<dt>
+<tt class="descname">Return a vector of floating species amount rates.</tt></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an array of the rates of change of the floating species amounts.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getFloatingSpeciesAmounts">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getFloatingSpeciesAmounts</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesAmounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the list of floating species amounts. If no arguments are given, this
+returns all floating species amounts.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> &#8211; an optional array of desired floating species indices. i.e. if this model has
+4 floating species and we want the amounts for the last and first, we
+would use [3,0] for the index array.</td>
+</tr>
+</tbody>
+</table>
+<p>get all the amounts:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">e</span><span class="o">.</span><span class="n">getFloatingSpeciesAmounts</span><span class="p">()</span>
+<span class="go">[15,2,3,20]</span>
+</pre></div>
+</div>
+<p>get amounts 3 and 0:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">getFloatingSpeciesAmounts</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="go">[10,15]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getFloatingSpeciesConcentrations">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getFloatingSpeciesConcentrations</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vector of floating species concentrations. The order of species is
+given by the order of Ids returned by getFloatingSpeciesIds()</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an array of floating species concentrations.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="roadrunner.ExecutableModel.evalInitialConditions">
 <tt class="descclassname">ExecutableModel.</tt><tt class="descname">evalInitialConditions</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.evalInitialConditions" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -1126,71 +1203,6 @@ given by the order of Ids returned by getCompartmentIds()</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="roadrunner.ExecutableModel.getFloatingSpeciesAmountRates">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getFloatingSpeciesAmountRates</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesAmountRates" title="Permalink to this definition">¶</a></dt>
-<dt>
-<tt class="descname">Return a vector of floating species amount rates.</tt></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an array of the rates of change of the floating species amounts.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="roadrunner.ExecutableModel.getFloatingSpeciesAmounts">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getFloatingSpeciesAmounts</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesAmounts" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get the list of floating species amounts. If no arguments are given, this
-returns all floating species amounts.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> &#8211; an optional array of desired floating species indices. i.e. if this model has
-4 floating species and we want the amounts for the last and first, we
-would use [3,0] for the index array.</td>
-</tr>
-</tbody>
-</table>
-<p>get all the amounts:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">e</span><span class="o">.</span><span class="n">getFloatingSpeciesAmounts</span><span class="p">()</span>
-<span class="go">[15,2,3,20]</span>
-</pre></div>
-</div>
-<p>get amounts 3 and 0:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">getFloatingSpeciesAmounts</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
-<span class="go">[10,15]</span>
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="method">
-<dt id="roadrunner.ExecutableModel.getFloatingSpeciesConcentrations">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getFloatingSpeciesConcentrations</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getFloatingSpeciesConcentrations" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a vector of floating species concentrations. The order of species is
-given by the order of Ids returned by getFloatingSpeciesIds()</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>index</strong> (<em>numpy.ndarray</em>) &#8211; (optional) an index array indicating which items to return.</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">an array of floating species concentrations.</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
 <dt id="roadrunner.ExecutableModel.getGlobalParameterValues">
 <tt class="descclassname">ExecutableModel.</tt><tt class="descname">getGlobalParameterValues</tt><big>(</big><span class="optional">[</span><em>index</em><span class="optional">]</span><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getGlobalParameterValues" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a vector of global parameter values. The order of species is
@@ -1250,12 +1262,6 @@ given by the order of Ids returned by getGlobalParameterIds()</p>
 <dt id="roadrunner.ExecutableModel.getNumDependentSpecies">
 <tt class="descclassname">ExecutableModel.</tt><tt class="descname">getNumDependentSpecies</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumDependentSpecies" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the number of dependent floating species in the model.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="roadrunner.ExecutableModel.getNumFloatingSpecies">
-<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getNumFloatingSpecies</tt><big>(</big><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getNumFloatingSpecies" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the number of floating species in the model.</p>
 </dd></dl>
 
 <dl class="method">
@@ -1471,6 +1477,26 @@ array of all the values to set.</li>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>time</strong> &#8211; time the time value to set.</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">None</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="roadrunner.ExecutableModel.getStoichiometry">
+<tt class="descclassname">ExecutableModel.</tt><tt class="descname">getStoichiometry</tt><big>(</big><em>speciesIndex</em>, <em>reactionIndex</em><big>)</big><a class="headerlink" href="#roadrunner.ExecutableModel.getStoichiometry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the stochiometric coefficient for the given species index and reaction index.</p>
+<p>Frequently one does not need the full stochiometrix matrix, particularly if the system is
+large and only a single coefficent is needed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>speciesIndex</strong> &#8211; a floating species index from <a class="reference internal" href="#roadrunner.ExecutableModel.getFloatingSpeciesIds" title="roadrunner.ExecutableModel.getFloatingSpeciesIds"><tt class="xref py py-meth docutils literal"><span class="pre">getFloatingSpeciesIds()</span></tt></a></li>
+<li><strong>reactionIndex</strong> &#8211; a reaction index from <a class="reference internal" href="#roadrunner.ExecutableModel.getReactionIds" title="roadrunner.ExecutableModel.getReactionIds"><tt class="xref py py-meth docutils literal"><span class="pre">getReactionIds()</span></tt></a></li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
