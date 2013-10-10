@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Basic Tutorial &mdash; RoadRunner 0.99 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.99',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="RoadRunner 0.99 documentation" href="index.html" />
+    <link rel="up" title="Introduction" href="introduction.html" />
+    <link rel="next" title="What Is SBML?" href="what_is_sbml.html" />
+    <link rel="prev" title="Installing RoadRunner" href="installing_rr.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="what_is_sbml.html" title="What Is SBML?"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="installing_rr.html" title="Installing RoadRunner"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li>
+          <li><a href="introduction.html" accesskey="U">Introduction</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="basic-tutorial">
+<h1>Basic Tutorial<a class="headerlink" href="#basic-tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="load-roadrunner">
+<h2>Load RoadRunner<a class="headerlink" href="#load-roadrunner" title="Permalink to this headline">¶</a></h2>
+<p>To load and startup roadRunner in python use the commands:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">roadrunner</span>
+<span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The variable rr is your reference to roadrunner. Anything yu want to do with roadrunner must be
+specified by the variable rr.</p>
+</div>
+<div class="section" id="loading-models">
+<h2>Loading Models<a class="headerlink" href="#loading-models" title="Permalink to this headline">¶</a></h2>
+<p>RoadRunner reads m odels using the SBML format. If you have a SBML model stored on your hard drive, it is
+possible to load that model using the method, loadSBMLFromFile. Let&#8217;s assume there is a model called
+mymodel.xml. To laod this model in windows we would use the command:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">loadSBMLFromFile</span><span class="p">(</span><span class="s">&quot;C:\MyModels\mymodel.xml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or on the Mac or Linux we would use the command:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">loadSBMLFromFile</span><span class="p">(</span><span class="s">&quot;/home/foo/myfile.xml&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If the model was loaded successful the load method will return True otherwise it will return False.
+<em>TO DO: How to get the error message</em></p>
+</div>
+<div class="section" id="running-simulations">
+<h2>Running Simulations<a class="headerlink" href="#running-simulations" title="Permalink to this headline">¶</a></h2>
+<p>Once a model is successfuly loaded we can next run a time course simualation. To do this we can jsut use the
+simulate method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The variable result will be a Pythn numpy array. The first column will contain time and the reminaing columns will include
+all the floating species. In the simulate method we didn&#8217;t specify how long to do the simulation for or how many
+points to generate.</p>
+<p>To finout more about the options used by simulate we can involve the simulateOptions command. For example to find
+out how long the simulation was run for we can use the command:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">simulateOptions</span><span class="o">.</span><span class="n">end</span>
+</pre></div>
+</div>
+<p>Or to find out how many points were used we can use the command:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">r</span><span class="o">.</span><span class="n">rsimulateOptions</span><span class="o">.</span><span class="n">steps</span>
+</pre></div>
+</div>
+<p>By default the time start is set to zero, time end to 40 time units and the number of points to 500. To quickly
+overrride this defaults it is possible to include these argumetns in the simulate command, for example:;</p>
+<blockquote>
+<div>result = rrsimulate (0, 10, 100)</div></blockquote>
+<p>This means set the time start to zero, the time end to 10 and generate 100 points. This means that the simualation points
+will be output in intervals of 0.1.</p>
+<p>One important point to note about simulate(). When simualte() is run, the concentration of the floating species
+will naturally change. If simulate() is called a second time, the simulation will use as initial conditions the last
+values from the previous simulation. To reset the initial conditions back to the values there were in the orginal model
+run the command reset:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Basic Tutorial</a><ul>
+<li><a class="reference internal" href="#load-roadrunner">Load RoadRunner</a></li>
+<li><a class="reference internal" href="#loading-models">Loading Models</a></li>
+<li><a class="reference internal" href="#running-simulations">Running Simulations</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="installing_rr.html"
+                        title="previous chapter">Installing RoadRunner</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="what_is_sbml.html"
+                        title="next chapter">What Is SBML?</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/using_roadrunner.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="what_is_sbml.html" title="What Is SBML?"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="installing_rr.html" title="Installing RoadRunner"
+             >previous</a> |</li>
+        <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li>
+          <li><a href="introduction.html" >Introduction</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Andy Somogyi, Herbert Suaro.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b2.
+    </div>
+  </body>
+</html>
