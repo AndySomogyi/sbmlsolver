@@ -6,27 +6,6 @@ RoadRunner is package for loading, JIT compilation, simulation and
 analysis of SBML systems biology models. 
 
 
-The Python API is stright forward to use. 
-
-  import RoadRunner as rr
-  r = rr.RoadRunner()
-
-  To load a SBML model we would use the loadSBMLFromFile method:
-  
-  In Windows
-  
-  r loadSBMLFromFile("C:\MyModels\mymodel.xml")
-
-  or on the Mac or Linux
-  
-  r.loadSBMLFromFile("/home/foo/myfile.xml")
-  
-
-Finally to carry out a simulation we would use the simulate method:
-
-  s = r.simulate()
-
-
 Here is a transcript of an interactive ipython session::
 
   import RoadRunner as rr
