@@ -9,11 +9,10 @@ analysis of SBML systems biology models.
 The Python API is stright forward to use. 
 
   import RoadRunner as rr
-  import pylab as p
   r = rr.RoadRunner()
 
-this takes an optional LoadSBMLOptions class as a second parameter::
-
+  To load a SBML model we would use the loadSBMLFromFile method:
+  
   In Windows
   
   r loadSBMLFromFile("C:\MyModels\mymodel.xml")
@@ -23,7 +22,7 @@ this takes an optional LoadSBMLOptions class as a second parameter::
   r.loadSBMLFromFile("/home/foo/myfile.xml")
   
 
-this takes an optional SimulateOptions class as a second parameter.::
+Finally to carry out a simulation we would use the simulate method:
 
   s = r.simulate()
 
