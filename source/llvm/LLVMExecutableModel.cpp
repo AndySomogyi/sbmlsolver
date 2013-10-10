@@ -20,6 +20,12 @@ using rr::Logger;
 using rr::getLogger;
 using rr::LoggingBuffer;
 
+#ifdef _WIN32
+#define isnan _isnan
+#else
+#define isnan std::isnan
+#endif
+
 using namespace std;
 
 // static assertion, taken from
@@ -726,9 +732,10 @@ int LLVMExecutableModel::getFloatingSpeciesInitConcentrations(int len,
     return 0;
 }
 
-double LLVMExecutableModel::getStoichiometry(int index)
+double LLVMExecutableModel::getStoichiometry(int speciesIndex, int reactionIndex)
 {
-    return 0;
+    double result = csr_matrix_get_nz(modelData.stoichiometry, speciesIndex, reactionIndex);
+    return isnan(result) ? 0 : result;
 }
 
 int LLVMExecutableModel::getStoichiometryMatrix(int* pRows, int* pCols,

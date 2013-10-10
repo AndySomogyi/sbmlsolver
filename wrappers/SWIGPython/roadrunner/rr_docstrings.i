@@ -1,3 +1,67 @@
+%feature("docstring") rr::ExecutableModel::getNumFloatingSpecies "
+ExecutableModel.getNumFloatingSpecies()
+
+Returns the number of floating species in the model.
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::getFloatingSpeciesIds "
+ExecutableModel.getFloatingSpeciesIds()
+
+Return a list of floating species sbml ids.
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::getFloatingSpeciesAmountRates "
+ExecutableModel.getFloatingSpeciesAmountRates([index])
+Return a vector of floating species amount rates.
+
+:param numpy.ndarray index: (optional) an index array indicating which items to return.
+:returns: an array of the rates of change of the floating species amounts.
+:rtype: numpy.ndarray
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::getFloatingSpeciesAmounts "
+ExecutableModel.getFloatingSpeciesAmounts([index])
+
+Get the list of floating species amounts. If no arguments are given, this
+returns all floating species amounts.
+
+:param index: an optional array of desired floating species indices. i.e. if this model has
+              4 floating species and we want the amounts for the last and first, we
+              would use [3,0] for the index array.
+:type name: numpy.ndarray
+
+get all the amounts::
+
+  >>> e.getFloatingSpeciesAmounts()
+  [15,2,3,20]
+
+get amounts 3 and 0::
+
+  >>> getFloatingSpeciesAmounts([3,0])
+  [10,15]
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::getFloatingSpeciesConcentrations "
+ExecutableModel.getFloatingSpeciesConcentrations([index])
+
+Returns a vector of floating species concentrations. The order of species is
+given by the order of Ids returned by getFloatingSpeciesIds()
+
+:param numpy.ndarray index: (optional) an index array indicating which items to return.
+:returns: an array of floating species concentrations.
+:rtype: numpy.ndarray
+";
+
+
+
 %feature("docstring") rr::ExecutableModel::evalInitialConditions "
 ExecutableModel.evalInitialConditions()
 ";
@@ -96,54 +160,6 @@ Returns a vector of conserved sums.
 
 
 
-%feature("docstring") rr::ExecutableModel::getFloatingSpeciesAmountRates "
-ExecutableModel.getFloatingSpeciesAmountRates([index])
-Return a vector of floating species amount rates.
-
-:param numpy.ndarray index: (optional) an index array indicating which items to return.
-:returns: an array of the rates of change of the floating species amounts.
-:rtype: numpy.ndarray
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getFloatingSpeciesAmounts "
-ExecutableModel.getFloatingSpeciesAmounts([index])
-
-Get the list of floating species amounts. If no arguments are given, this
-returns all floating species amounts.
-
-:param index: an optional array of desired floating species indices. i.e. if this model has
-              4 floating species and we want the amounts for the last and first, we
-              would use [3,0] for the index array.
-:type name: numpy.ndarray
-
-get all the amounts::
-
-  >>> e.getFloatingSpeciesAmounts()
-  [15,2,3,20]
-
-get amounts 3 and 0::
-
-  >>> getFloatingSpeciesAmounts([3,0])
-  [10,15]
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getFloatingSpeciesConcentrations "
-ExecutableModel.getFloatingSpeciesConcentrations([index])
-
-Returns a vector of floating species concentrations. The order of species is
-given by the order of Ids returned by getFloatingSpeciesIds()
-
-:param numpy.ndarray index: (optional) an index array indicating which items to return.
-:returns: an array of floating species concentrations.
-:rtype: numpy.ndarray
-";
-
-
-
 %feature("docstring") rr::ExecutableModel::getGlobalParameterValues "
 ExecutableModel.getGlobalParameterValues([index])
 
@@ -201,14 +217,6 @@ TODO DOCS
 ExecutableModel.getNumDependentSpecies()
 
 Returns the number of dependent floating species in the model.
-";
-
-
-
-%feature("docstring") rr::ExecutableModel::getNumFloatingSpecies "
-ExecutableModel.getNumFloatingSpecies()
-
-Returns the number of floating species in the model.
 ";
 
 
@@ -387,6 +395,20 @@ Set the model time variable. NOt sure what this does.
 
 :param time: time the time value to set.
 :returns: None
+";
+
+
+
+%feature("docstring") rr::ExecutableModel::getStoichiometry "
+ExecutableModel.getStoichiometry(speciesIndex, reactionIndex)
+
+Returns the stochiometric coefficient for the given species index and reaction index.
+
+Frequently one does not need the full stochiometrix matrix, particularly if the system is
+large and only a single coefficent is needed.
+
+:param speciesIndex: a floating species index from :meth:`getFloatingSpeciesIds`
+:param reactionIndex: a reaction index from :meth:`getReactionIds`
 ";
 
 

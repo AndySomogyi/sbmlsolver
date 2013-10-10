@@ -429,7 +429,11 @@ double RoadRunner::getSelectionValue(const SelectionRecord& record)
         mModel->getFloatingSpeciesInitConcentrations(1, &record.index, &dResult);
         break;
     case SelectionRecord::STOICHIOMETRY:
-        dResult = mModel->getStoichiometry(record.index);
+    {
+        int speciesIndex = mModel->getFloatingSpeciesIndex(record.p1);
+        int reactionIndex = mModel->getReactionIndex(record.p2);
+        return mModel->getStoichiometry(speciesIndex, reactionIndex);
+    }
         break;
 
     default:
@@ -2962,7 +2966,21 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
         }
         break;
     case SelectionRecord::STOICHIOMETRY:
-        Log(Logger::PRIO_WARNING) << "syntactically valid stoichiometry, however not enabled yet";
+        if (mModel->getFloatingSpeciesIndex(sel.p1) >= 0)
+        {
+            if (mModel->getReactionIndex(sel.p2) >= 0)
+            {
+                break;
+            }
+            else
+            {
+                throw Exception("second argument to stoich '" + sel.p2 + "' is not a reaction id.");
+            }
+        }
+        else
+        {
+            throw Exception("first argument to stoich '" + sel.p1 + "' is not a floating species id.");
+        }
         break;
     case SelectionRecord::INITIAL_CONCENTRATION:
         if ((sel.index = mModel->getFloatingSpeciesIndex(sel.p1)) >= 0)

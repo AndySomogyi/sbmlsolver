@@ -295,7 +295,7 @@ public:
     virtual int getFloatingSpeciesInitConcentrations(int len, int const *indx,
             double *values);
 
-    virtual double getStoichiometry(int index);
+    virtual double getStoichiometry(int speciesIndex, int reactionIndex);
 
     /**
      * allocate a block of memory and copy the stochiometric values into it,

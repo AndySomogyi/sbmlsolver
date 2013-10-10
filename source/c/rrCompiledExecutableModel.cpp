@@ -1,15 +1,14 @@
-#ifdef USE_PCH
-#include "rr_pch.h"
-#endif
 #pragma hdrstop
-#include <iostream>
-#include "rrException.h"
-#include "rrLogger.h"
 #include "rrCompiledExecutableModel.h"
 #include "rrCModelGenerator.h"
 #include "rrUtils.h"
 #include "rrCompiledModelState.h"
 #include "rrCModelDataUtil.h"
+#include "rrException.h"
+#include "rrLogger.h"
+
+#include <limits>
+#include <iostream>
 
 using namespace std;
 namespace rr
@@ -1385,9 +1384,18 @@ int CompiledExecutableModel::getFloatingSpeciesInitConcentrations(int len,
     return len;
 }
 
-double CompiledExecutableModel::getStoichiometry(int index)
+double CompiledExecutableModel::getStoichiometry(int speciesIndex, int reactionIndex)
 {
-    return mData.sr[index];
+    if (speciesIndex >= 0 && speciesIndex < stoichiometryMatrix.numRows()
+            && reactionIndex >= 0 && reactionIndex < stoichiometryMatrix.numCols())
+    {
+        return stoichiometryMatrix(speciesIndex, reactionIndex);
+    }
+    else
+    {
+        return std::numeric_limits<double>::quiet_NaN();
+    }
+
 }
 
 

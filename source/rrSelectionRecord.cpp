@@ -312,7 +312,7 @@ rr::SelectionRecord::SelectionRecord(const std::string str) :
     }
     else if(is_stoich(str, p1, p2))
     {
-        selectionType = UNKNOWN_CONCENTRATION;
+        selectionType = STOICHIOMETRY;
     }
     else if(is_symbol(str, p1))
     {

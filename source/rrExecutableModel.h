@@ -210,9 +210,11 @@ public:
     virtual int getStoichiometryMatrix(int* rows, int* cols, double** data) = 0;
 
     /**
-     * no clue how this is supposed to work, here for compatibility
+     * Get the current stiochiometry value for the given species / reaction.
+     *
+     * If either are not valid, NaN is returned.
      */
-    virtual double getStoichiometry(int index) = 0;
+    virtual double getStoichiometry(int speciesIndex, int reactionIndex) = 0;
 
 
     virtual int getNumConservedSums() = 0;

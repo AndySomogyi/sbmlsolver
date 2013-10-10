@@ -5,6 +5,7 @@
  *      Author: andy
  */
 
+#pragma hdrstop
 #include "rrSparse.h"
 #include "rrLogger.h"
 #include "rrExecutableModel.h"
@@ -19,7 +20,7 @@
 #include <cstdio>
 #include <limits>
 
-#ifdef WIN32
+#ifdef _WIN32
 #define isnan _isnan
 #else
 #define isnan std::isnan

@@ -1,6 +1,59 @@
 .. py:class:: ExecutableModel(*args, **kwargs)
    :module: roadrunner
 
+.. Floating Species Section
+
+.. method:: ExecutableModel.getNumFloatingSpecies()
+   :module: roadrunner
+
+   Returns the number of floating species in the model.
+
+
+.. method:: ExecutableModel.getFloatingSpeciesIds()
+
+   Return a list of floating species sbml ids.
+
+
+.. method:: ExecutableModel.getFloatingSpeciesAmountRates([index])
+   Return a vector of floating species amount rates.
+
+   :param numpy.ndarray index: (optional) an index array indicating which items to return.
+   :returns: an array of the rates of change of the floating species amounts.
+   :rtype: numpy.ndarray
+
+
+.. method:: ExecutableModel.getFloatingSpeciesAmounts([index])
+   :module: roadrunner
+
+   Get the list of floating species amounts. If no arguments are given, this
+   returns all floating species amounts.
+
+   :param index: an optional array of desired floating species indices. i.e. if this model has
+                 4 floating species and we want the amounts for the last and first, we
+                 would use [3,0] for the index array.
+   :type name: numpy.ndarray
+
+   get all the amounts::
+
+     >>> e.getFloatingSpeciesAmounts()
+     [15,2,3,20]
+
+   get amounts 3 and 0::
+
+     >>> getFloatingSpeciesAmounts([3,0])
+     [10,15]
+
+
+.. method:: ExecutableModel.getFloatingSpeciesConcentrations([index])
+
+   Returns a vector of floating species concentrations. The order of species is
+   given by the order of Ids returned by getFloatingSpeciesIds()
+
+   :param numpy.ndarray index: (optional) an index array indicating which items to return.
+   :returns: an array of floating species concentrations.
+   :rtype: numpy.ndarray
+
+
 .. method:: ExecutableModel.evalInitialConditions()
    :module: roadrunner
 
@@ -79,49 +132,6 @@
    :rtype: numpy.ndarray.
 
 
-.. method:: ExecutableModel.getFloatingSpeciesAmountRates([index])
-   Return a vector of floating species amount rates.
-
-   :param numpy.ndarray index: (optional) an index array indicating which items to return.
-   :returns: an array of the rates of change of the floating species amounts.
-   :rtype: numpy.ndarray
-
-
-
-.. method:: ExecutableModel.getFloatingSpeciesAmounts([index])
-   :module: roadrunner
-
-   Get the list of floating species amounts. If no arguments are given, this
-   returns all floating species amounts.
-
-   :param index: an optional array of desired floating species indices. i.e. if this model has
-                 4 floating species and we want the amounts for the last and first, we
-                 would use [3,0] for the index array.
-   :type name: numpy.ndarray
-
-   get all the amounts::
-
-     >>> e.getFloatingSpeciesAmounts()
-     [15,2,3,20]
-
-   get amounts 3 and 0::
-
-     >>> getFloatingSpeciesAmounts([3,0])
-     [10,15]
-
-
-
-
-.. method:: ExecutableModel.getFloatingSpeciesConcentrations([index])
-   :module: roadrunner
-
-   Returns a vector of floating species concentrations. The order of species is
-   given by the order of Ids returned by getFloatingSpeciesIds()
-
-   :param numpy.ndarray index: (optional) an index array indicating which items to return.
-   :returns: an array of floating species concentrations.
-   :rtype: numpy.ndarray
-
 
 
 .. method:: ExecutableModel.getGlobalParameterValues([index])
@@ -173,10 +183,6 @@
    Returns the number of dependent floating species in the model.
 
 
-.. method:: ExecutableModel.getNumFloatingSpecies()
-   :module: roadrunner
-
-   Returns the number of floating species in the model.
 
 
 .. method:: ExecutableModel.getNumGlobalParameters()
@@ -328,6 +334,18 @@
 
    :param time: time the time value to set.
    :returns: None
+
+
+
+.. method:: ExecutableModel.getStoichiometry(speciesIndex, reactionIndex)
+
+   Returns the stochiometric coefficient for the given species index and reaction index. 
+
+   Frequently one does not need the full stochiometrix matrix, particularly if the system is 
+   large and only a single coefficent is needed. 
+
+   :param speciesIndex: a floating species index from :meth:`getFloatingSpeciesIds`
+   :param reactionIndex: a reaction index from :meth:`getReactionIds`
 
 
 .. method:: ExecutableModel.getStoichiometryMatrix()
