@@ -33,6 +33,7 @@
     #include <cstddef>
     #include <map>
     #include <rrVersionInfo.h>
+    #include <rrException.h>
     using namespace rr;
 %}
 
@@ -1002,10 +1003,171 @@ namespace Poco { class SharedLibrary{}; }
         return pArray;
     }
 
-    //int setReactionRates(int len, double const *values) {
-    //    return $self->setReactionRates(len, 0, values);
-    //}
 
+    /**
+     * get values.
+     */
+    
+    double __getitem__(const std::string& id) {
+        ExecutableModel* p = $self;
+        
+        SelectionRecord sel(id);
+
+        int index = -1;
+        double result = 0;
+        
+        if (sel.selectionType == SelectionRecord::UNKNOWN)
+        {
+            throw Exception("invalid selection string " + id);
+        }
+        
+        // check to see that we have valid selection ids
+        switch(sel.selectionType)
+        {
+        case SelectionRecord::TIME:
+            result = p->getTime();
+            break;
+        case SelectionRecord::UNKNOWN_ELEMENT:
+            // check for sbml element types
+            
+            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+            {
+                p->getFloatingSpeciesAmounts(1, &index, &result);
+                break;
+            }
+            else if ((index = p->getBoundarySpeciesIndex(sel.p1)) >= 0)
+            {
+                p->getBoundarySpeciesAmounts(1, &index, &result);
+                break;
+            }
+            else if ((index = p->getCompartmentIndex(sel.p1)) >= 0)
+            {
+                p->getCompartmentVolumes(1, &index, &result);
+                break;
+            }
+            else if ((index = p->getGlobalParameterIndex(sel.p1)) >= 0)
+            {
+                p->getGlobalParameterValues(1, &index, &result);
+                break;
+            }
+            else if ((index = p->getReactionIndex(sel.p1)) >= 0)
+            {
+                p->getReactionRates(1, &index, &result);
+                break;
+            }
+            else
+            {
+                throw Exception("No sbml element exists for symbol '" + id + "'");
+                break;
+            }
+        case SelectionRecord::UNKNOWN_CONCENTRATION:
+            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+            {
+                p->getFloatingSpeciesConcentrations(1, &index, &result);
+                break;
+            }
+            else if ((index = p->getBoundarySpeciesIndex(sel.p1)) >= 0)
+            {
+                p->getBoundarySpeciesConcentrations(1, &index, &result);
+                break;
+            }
+            else
+            {
+                string msg = "No sbml element exists for concentration selection '" + id + "'";
+                Log(Logger::PRIO_ERROR) << msg;
+                throw Exception(msg);
+                break;
+            }
+        case SelectionRecord::FLOATING_AMOUNT_RATE:
+            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+            {
+                p->getReactionRates(1, &index, &result);
+                break;
+            }
+            else
+            {
+                throw Exception("Invalid id '" + id + "' for floating amount rate");
+                break;
+            }
+            
+        default:
+            Log(Logger::PRIO_ERROR) << "A new SelectionRecord should not have this value: "
+                                    << sel.to_repr();
+            throw Exception("Invalid selection '" + id + "' for setting value");
+            break;
+        }
+        
+        return result;
+    }
+
+    void __setitem__(const std::string& id, double value) {
+        ExecutableModel* p = $self;
+        
+        SelectionRecord sel(id);
+
+        int index = -1;
+        
+        if (sel.selectionType == SelectionRecord::UNKNOWN)
+        {
+            throw Exception("invalid selection string " + id);
+        }
+        
+        // check to see that we have valid selection ids
+        switch(sel.selectionType)
+        {
+        case SelectionRecord::TIME:
+            p->setTime(value);
+            break;
+        case SelectionRecord::UNKNOWN_ELEMENT:
+            // check for sbml element types
+            
+            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+            {
+                p->setFloatingSpeciesAmounts(1, &index, &value);
+                break;
+            }
+            else if ((index = p->getCompartmentIndex(sel.p1)) >= 0)
+            {
+                p->setCompartmentVolumes(1, &index, &value);
+                break;
+            }
+            else if ((index = p->getGlobalParameterIndex(sel.p1)) >= 0)
+            {
+                p->setGlobalParameterValues(1, &index, &value);
+                break;
+            }
+            else
+            {
+                throw Exception("Invalid or non-existant sbml id  '" + id + "' for set value");
+                break;
+            }
+        case SelectionRecord::UNKNOWN_CONCENTRATION:
+            if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
+            {
+                p->setFloatingSpeciesConcentrations(1, &index, &value);
+                break;
+            }
+            else if ((index = p->getBoundarySpeciesIndex(sel.p1)) >= 0)
+            {
+                p->setBoundarySpeciesConcentrations(1, &index, &value);
+                break;
+            }
+            else
+            {
+                string msg = "No sbml element exists for concentration selection '" + id + "'";
+                Log(Logger::PRIO_ERROR) << msg;
+                throw Exception(msg);
+                break;
+            }
+            
+        default:
+            Log(Logger::PRIO_ERROR) << "Invalid selection '" + sel.to_string() + "' for setting value";
+            throw Exception("Invalid selection '" + sel.to_string() + "' for setting value");
+            break;
+        }
+    }
+
+    
     std::string __repr__() {
         std::stringstream s;
         s << "<roadrunner.ExecutableModel() { this = " << (void*)$self << " }>";
