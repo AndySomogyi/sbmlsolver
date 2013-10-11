@@ -71,7 +71,7 @@ Typing somethng like::
 
   print rr.simulateOptions.steps
   
-will printout the current value for steps.
+will printout the current value for steps. The follow table summarizes the various options.
  
 =====  ======
 Option   Description
