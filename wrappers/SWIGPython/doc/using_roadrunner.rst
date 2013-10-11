@@ -79,6 +79,9 @@ Option   Description
 start    Start time for simulation
 end      End time for simulation
 steps    Number of steps to generate
+absolute Absolute tolerance for the CVODE integrator
+relative Relative tolerance for the CVODE integrator
+stiff    Not sure what this does
 =====   ======
 
 One important point to note about simulate(). When simulate() is run, the concentration of the floating species 
