@@ -67,9 +67,9 @@ And to set the time end for the simulation we would type::
 
   rr.simulateOptions.end = 10
 
-Typing somethng like
+Typing somethng like::
 
-  print rr.simulateOPtions.steps
+  print rr.simulateOptions.steps
   
 will printout the current value for steps.
  
@@ -83,7 +83,15 @@ this we must reset the initial conditions back to the original values. To do tha
 
   rr.reset()
 
+Changing Parameters
+-------------------
 
+Often during a modeling experiment we will need to change parameter values, that is the values of the various
+kinetic constants in the model.
+
+
+Changing Initial Conditions
+---------------------------
 
 
 
