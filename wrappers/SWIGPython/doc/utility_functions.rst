@@ -12,10 +12,10 @@ Information Group
 
 .. autosummary::
 
-   roadRunner.getVersion
-   roadRunner.getCopyright
-   roadRunner.getInfo
-   roadRunner.getExtendedAPIInfo
-   roadRunner.getlibSBMLVersion
+   RoadRunner.getVersion
+   RoadRunner.getCopyright
+   RoadRunner.getInfo
+   RoadRunner.getExtendedAPIInfo
+   RoadRunner.getlibSBMLVersion
 
    
