@@ -8,20 +8,19 @@ analysis of SBML systems biology models.
 
 RoadRunner 1.0 supports the following features:
 
-1. Time Dependent Simulation (with optional conservation law reduction) using CVODE
-2. Supports SBML Level 2 to 3 but currently excludes algebraic rules and delay differential equations.
-Uses latest libSBML distribution
+1. Time Dependent Simulation (with optional conservation law reduction) using CVODE.
+2. Supports SBML Level 2 to 3 but currently excludes algebraic rules and delay differential equations,
+uses latest libSBML distribution.
 3. Defaults to LLVM code generation on the backend, resulting is very fast simulation times.
 4. Optional generation of model C code and linking at run-time.
-5. Compute steady state
-6. Metabolic Control Analysis
-7. Frequency Domain Analysis
+5. Compute steady state.
+6. Metabolic Control Analysis.
+7. Frequency Domain Analysis.
 8. Access to:   
-     1. Eigenvalues and Eigenvectors
-     2. Jacobian, full and reduced
-     3. Structural Matrices of the stoichiometry matrix
-9. Ability to add plugins to the core, distribution comes with Levenberg-Marquardt optimizer plugin
-10. RoadRunner is provided in the form of:
+     1. Eigenvalues and Eigenvectors.
+     2. Jacobian, full and reduced.
+     3. Structural Matrices of the stoichiometry matrix.
+9. Ability to add plugins to the core, distribution comes with Levenberg-Marquardt optimizer plugin.
 
 
 Licence
