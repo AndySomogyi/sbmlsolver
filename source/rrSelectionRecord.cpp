@@ -10,20 +10,21 @@
 
 using Poco::RegularExpression;
 
+// NOTE: The regular expressions need to be file scope static as they cause problems when
+// created as function scope static.
+
+static const Poco::RegularExpression is_time_re("^\\s*time\\s*$", RegularExpression::RE_CASELESS);
 static bool is_time(const std::string& str)
 {
-    static Poco::RegularExpression re("^\\s*time\\s*$", RegularExpression::RE_CASELESS);
-
-    return re.match(str);
+    return is_time_re.match(str);
 }
 
+static const Poco::RegularExpression is_uec_re("^\\s*uec\\s*\\(\\s*(\\w*)\\s*,\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
 static bool is_uec(const std::string& str, std::string& p1, std::string& p2)
 {
-    static Poco::RegularExpression re("^\\s*uec\\s*\\(\\s*(\\w*)\\s*,\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
-
     std::vector<std::string> matches;
 
-    int nmatch = re.split(str, matches);
+    int nmatch = is_uec_re.split(str, matches);
 
     if (nmatch == 3)
     {
@@ -37,13 +38,12 @@ static bool is_uec(const std::string& str, std::string& p1, std::string& p2)
     }
 }
 
+static const Poco::RegularExpression is_ec_re("^\\s*ec\\s*\\(\\s*(\\w*)\\s*,\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
 static bool is_ec(const std::string& str, std::string& p1, std::string& p2)
 {
-    static Poco::RegularExpression re("^\\s*ec\\s*\\(\\s*(\\w*)\\s*,\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
-
     std::vector<std::string> matches;
 
-    int nmatch = re.split(str, matches);
+    int nmatch = is_ec_re.split(str, matches);
 
     if (nmatch == 3)
     {
@@ -57,14 +57,12 @@ static bool is_ec(const std::string& str, std::string& p1, std::string& p2)
     }
 }
 
-
+static Poco::RegularExpression is_ucc_re("^\\s*ucc\\s*\\(\\s*(\\w*)\\s*,\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
 static bool is_ucc(const std::string& str, std::string& p1, std::string& p2)
 {
-    static Poco::RegularExpression re("^\\s*ucc\\s*\\(\\s*(\\w*)\\s*,\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
-
     std::vector<std::string> matches;
 
-    int nmatch = re.split(str, matches);
+    int nmatch = is_ucc_re.split(str, matches);
 
     if (nmatch == 3)
     {
@@ -78,13 +76,12 @@ static bool is_ucc(const std::string& str, std::string& p1, std::string& p2)
     }
 }
 
+static const Poco::RegularExpression is_cc_re("^\\s*cc\\s*\\(\\s*(\\w*)\\s*,\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
 static bool is_cc(const std::string& str, std::string& p1, std::string& p2)
 {
-    static Poco::RegularExpression re("^\\s*cc\\s*\\(\\s*(\\w*)\\s*,\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
-
     std::vector<std::string> matches;
 
-    int nmatch = re.split(str, matches);
+    int nmatch = is_cc_re.split(str, matches);
 
     if (nmatch == 3)
     {
@@ -98,13 +95,12 @@ static bool is_cc(const std::string& str, std::string& p1, std::string& p2)
     }
 }
 
+static const Poco::RegularExpression is_stoich_re("^\\s*stoich\\s*\\(\\s*(\\w*)\\s*,\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
 static bool is_stoich(const std::string& str, std::string& p1, std::string& p2)
 {
-    static Poco::RegularExpression re("^\\s*stoich\\s*\\(\\s*(\\w*)\\s*,\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
-
     std::vector<std::string> matches;
 
-    int nmatch = re.split(str, matches);
+    int nmatch = is_stoich_re.split(str, matches);
 
     if (nmatch == 3)
     {
@@ -118,13 +114,12 @@ static bool is_stoich(const std::string& str, std::string& p1, std::string& p2)
     }
 }
 
+static const Poco::RegularExpression is_concentration_re("^\\s*\\[\\s*(\\w*)\\s*\\]\\s*$", RegularExpression::RE_CASELESS);
 static bool is_concentration(const std::string& str, std::string& p1)
 {
-    static Poco::RegularExpression re("^\\s*\\[\\s*(\\w*)\\s*\\]\\s*$", RegularExpression::RE_CASELESS);
-
     std::vector<std::string> matches;
 
-    int nmatch = re.split(str, matches);
+    int nmatch = is_concentration_re.split(str, matches);
 
     if (nmatch == 2)
     {
@@ -137,13 +132,12 @@ static bool is_concentration(const std::string& str, std::string& p1)
     }
 }
 
+static const Poco::RegularExpression is_symbol_re("^\\s*(\\w*)\\s*$", RegularExpression::RE_CASELESS);
 static bool is_symbol(const std::string& str, std::string& p1)
 {
-    static Poco::RegularExpression re("^\\s*(\\w*)\\s*$", RegularExpression::RE_CASELESS);
-
     std::vector<std::string> matches;
 
-    int nmatch = re.split(str, matches);
+    int nmatch = is_symbol_re.split(str, matches);
 
     if (nmatch == 2)
     {
@@ -156,13 +150,14 @@ static bool is_symbol(const std::string& str, std::string& p1)
     }
 }
 
+static const Poco::RegularExpression is_amount_rate_re("^\\s*(\\w*)\\s*'\\s*$", RegularExpression::RE_CASELESS);
 static bool is_amount_rate(const std::string& str, std::string& p1)
 {
-    static Poco::RegularExpression re("^\\s*(\\w*)\\s*'\\s*$", RegularExpression::RE_CASELESS);
+
 
     std::vector<std::string> matches;
 
-    int nmatch = re.split(str, matches);
+    int nmatch = is_amount_rate_re.split(str, matches);
 
     if (nmatch == 2)
     {
@@ -175,13 +170,12 @@ static bool is_amount_rate(const std::string& str, std::string& p1)
     }
 }
 
+static const Poco::RegularExpression is_eigen_re("^\\s*eigen\\s*\\(\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
 static bool is_eigen(const std::string& str, std::string& p1)
 {
-    static Poco::RegularExpression re("^\\s*eigen\\s*\\(\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
-
     std::vector<std::string> matches;
 
-    int nmatch = re.split(str, matches);
+    int nmatch = is_eigen_re.split(str, matches);
 
     if (nmatch == 2)
     {
@@ -194,13 +188,15 @@ static bool is_eigen(const std::string& str, std::string& p1)
     }
 }
 
+
+static const Poco::RegularExpression is_init_conc_re("^\\s*init\\s*\\(\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
 static bool is_init_conc(const std::string& str, std::string& p1)
 {
-    static Poco::RegularExpression re("^\\s*init\\s*\\(\\s*(\\w*)\\s*\\)\\s*$", RegularExpression::RE_CASELESS);
+
 
     std::vector<std::string> matches;
 
-    int nmatch = re.split(str, matches);
+    int nmatch = is_init_conc_re.split(str, matches);
 
     if (nmatch == 2)
     {
