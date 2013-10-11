@@ -4,7 +4,7 @@ Utility Functions
 
 .. currentmodule:: roadrunner
 
-The following methods allow 
+The following methodsprovide basic information about the current roadRunner installation.
 
 
 Information Group
@@ -17,5 +17,7 @@ Information Group
    RoadRunner.getInfo
    RoadRunner.getExtendedAPIInfo
    RoadRunner.getlibSBMLVersion
+   RoadRunner.getCompiler
+   
 
    
