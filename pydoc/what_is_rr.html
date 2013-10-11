@@ -58,6 +58,50 @@
 <h1>What is RoadRunner<a class="headerlink" href="#what-is-roadrunner" title="Permalink to this headline">¶</a></h1>
 <p>RoadRunner is package for loading, JIT compilation, simulation and
 analysis of SBML systems biology models.</p>
+<p>RoadRunner 1.0 supports the following features:</p>
+<ol class="arabic">
+<li><p class="first">Time Dependent Simulation (with optional conservation law reduction) using CVODE.</p>
+</li>
+<li><p class="first">Supports SBML Level 2 to 3 but currently excludes algebraic rules and delay differential equations.</p>
+</li>
+<li><p class="first">Defaults to LLVM code generation on the backend, resulting is very fast simulation times.</p>
+</li>
+<li><p class="first">Optional generation of model C code and linking at run-time.</p>
+</li>
+<li><p class="first">Compute steady state.</p>
+</li>
+<li><p class="first">Metabolic Control Analysis.</p>
+</li>
+<li><p class="first">Frequency Domain Analysis.</p>
+</li>
+<li><dl class="first docutils">
+<dt>Access to:</dt>
+<dd><ol class="first last arabic simple">
+<li>Eigenvalues and Eigenvectors.</li>
+<li>Jacobian, full and reduced.</li>
+<li>Structural Matrices of the stoichiometry matrix.</li>
+</ol>
+</dd>
+</dl>
+</li>
+<li><p class="first">Ability to add plugins to the core, distribution comes with Levenberg-Marquardt optimizer plugin.</p>
+</li>
+</ol>
+<div class="section" id="licence">
+<h2>Licence<a class="headerlink" href="#licence" title="Permalink to this headline">¶</a></h2>
+<p>Licence</p>
+<p>Licensed under the Apache License, Version 2.0 (the “License”); you may not use this file except in compliance with the License. You may obtain a copy of the License at</p>
+<p><a class="reference external" href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a></p>
+<p>Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an “AS IS” BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</p>
+<p>In plain english this means:</p>
+<p>You CAN freely download and use this software, in whole or in part, for personal, company internal, or commercial purposes;</p>
+<p>You CAN use the software in packages or distributions that you create.</p>
+<p>You SHOULD include a copy of the license in any redistribution you may make;</p>
+<p>You are NOT required include the source of software, or of any modifications you may have made to it, in any redistribution you may assemble that includes it.</p>
+<p>YOU CANNOT: redistribute any piece of this software without proper attribution;</p>
+</div>
+<div class="section" id="technical-details">
+<h2>Technical Details<a class="headerlink" href="#technical-details" title="Permalink to this headline">¶</a></h2>
 <p>Here is a transcript of an interactive ipython session:</p>
 <div class="highlight-python"><pre>import RoadRunner as rr
 rr?
@@ -170,6 +214,7 @@ code.  In NumPy</p>
 </div>
 <p>does what the earlier examples do, at near-C speeds, but with the code
 simplicity we expect from something based on Python (indeed, the NumPy</p>
+</div>
 <div class="section" id="technical-aspects">
 <h2>Technical Aspects<a class="headerlink" href="#technical-aspects" title="Permalink to this headline">¶</a></h2>
 <p>The roadrunner package contains two fundametal objects, <cite>RoadRunner</cite>
@@ -199,6 +244,8 @@ array returned by simulate just has a pointer to the results matrix which is own
   <h3><a href="index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">What is RoadRunner</a><ul>
+<li><a class="reference internal" href="#licence">Licence</a></li>
+<li><a class="reference internal" href="#technical-details">Technical Details</a></li>
 <li><a class="reference internal" href="#technical-aspects">Technical Aspects</a></li>
 </ul>
 </li>
