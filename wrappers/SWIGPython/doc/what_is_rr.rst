@@ -9,8 +9,7 @@ analysis of SBML systems biology models.
 RoadRunner 1.0 supports the following features:
 
 1. Time Dependent Simulation (with optional conservation law reduction) using CVODE.
-2. Supports SBML Level 2 to 3 but currently excludes algebraic rules and delay differential equations,
-uses latest libSBML distribution.
+2. Supports SBML Level 2 to 3 but currently excludes algebraic rules and delay differential equations.
 3. Defaults to LLVM code generation on the backend, resulting is very fast simulation times.
 4. Optional generation of model C code and linking at run-time.
 5. Compute steady state.
