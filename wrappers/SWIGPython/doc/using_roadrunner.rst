@@ -73,7 +73,13 @@ Typing somethng like::
   
 will printout the current value for steps.
  
-TABLE OF OPTIONS HERE
+=====    ======
+Option   Description
+=====    ======
+start    Start time for simulation
+end      End time for simulation
+steps    Number of steps to generate
+=====   ======
 
 One important point to note about simulate(). When simulate() is run, the concentration of the floating species 
 will naturally change. If simulate() is called a second time, the simulation will use as the initial conditions the last 
