@@ -7,7 +7,7 @@ Utility Functions
 The following methods allow 
 
 
-Compartment Group
+Information Group
 -----------------
 
 .. autosummary::
