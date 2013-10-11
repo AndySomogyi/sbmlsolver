@@ -51,6 +51,7 @@ set(rrSources
     rrVersionInfo
     rrSparse
     rrSBMLModelSimulation
+    rrSBMLReader
     mtrand/mtrand
 	c/rrStringBuilder
 	c/rrStringListContainer
@@ -148,6 +149,7 @@ if(RR_BUILD_SHARED_CORE)
         nleq-static
         rr-libstruct-static
         poco_foundation-static
+        poco_net-static
         )
 
     if(UNIX)
@@ -212,6 +214,7 @@ target_link_libraries (${target}-static
     nleq-static
     rr-libstruct-static
     poco_foundation-static
+    poco_net-static
     )
 
 if(WIN32)

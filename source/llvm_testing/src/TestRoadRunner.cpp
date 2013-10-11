@@ -10,10 +10,7 @@
 #include "rrException.h"
 #include "rrLogger.h"
 #include "rrc_api.h"
-
-#include <Poco/URI.h>
-#include <Poco/URIStreamOpener.h>
-#include <Poco/Net/HTTPStreamFactory.h>
+#include "rrSBMLReader.h"
 
 using namespace std;
 
@@ -294,6 +291,11 @@ SelectionRecord TestRoadRunner::testsel(const std::string& str)
 std::string TestRoadRunner::read_uri(const std::string& uri)
 {
 
+    return SBMLReader::read(uri);
+
+/*
+
+
     try
     {
         Poco::Net::HTTPStreamFactory::registerFactory();
@@ -314,6 +316,8 @@ std::string TestRoadRunner::read_uri(const std::string& uri)
         cout << "caught exception " << ex.what() << endl;
         return ex.what();
     }
+
+*/
 }
 
 } /* namespace rr */
