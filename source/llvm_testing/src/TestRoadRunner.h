@@ -50,6 +50,8 @@ public:
     static void test3();
 
     static SelectionRecord testsel(const std::string& str);
+
+    static std::string read_uri(const std::string& uri);
 };
 
 } /* namespace rr */

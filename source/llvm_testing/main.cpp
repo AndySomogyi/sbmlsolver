@@ -71,9 +71,10 @@ int main(int argc, char* argv[])
     if (argc > 1)
     {
         cout << "testing '" << argv[1] << "'" << endl;
-        SelectionRecord sel(argv[1]);
 
-        cout << "result: " << sel.to_string() << endl;
+        string s = TestRoadRunner::read_uri(argv[1]);
+
+        cout << s << endl;
     }
 
     return 0;

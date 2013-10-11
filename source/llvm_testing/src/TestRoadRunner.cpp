@@ -11,6 +11,10 @@
 #include "rrLogger.h"
 #include "rrc_api.h"
 
+#include <Poco/URI.h>
+#include <Poco/URIStreamOpener.h>
+#include <Poco/Net/HTTPStreamFactory.h>
+
 using namespace std;
 
 namespace rr
@@ -285,6 +289,31 @@ bool RunTest(const string& version, int caseNumber)
 SelectionRecord TestRoadRunner::testsel(const std::string& str)
 {
     return SelectionRecord(str);
+}
+
+std::string TestRoadRunner::read_uri(const std::string& uri)
+{
+
+    try
+    {
+        Poco::Net::HTTPStreamFactory::registerFactory();
+
+        Poco::URIStreamOpener &opener = Poco::URIStreamOpener::defaultOpener();
+
+
+        std::istream* stream = opener.open(uri);
+
+        std::istreambuf_iterator<char> eos;
+        std::string s(std::istreambuf_iterator<char>(*stream), eos);
+
+        return s;
+
+    }
+    catch(std::exception& ex)
+    {
+        cout << "caught exception " << ex.what() << endl;
+        return ex.what();
+    }
 }
 
 } /* namespace rr */

@@ -52,6 +52,8 @@ else()
     set(sharedLibPrefix "")
 endif()
 
+target_link_libraries(poco_net-static)
+
 if(WIN32)
     target_link_libraries (${target}
         roadrunner-static
@@ -68,6 +70,7 @@ if(UNIX)
         blas
         f2c
         dl
+        poco_net-static
         )
 endif()
 

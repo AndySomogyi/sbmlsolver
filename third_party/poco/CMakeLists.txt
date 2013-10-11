@@ -17,3 +17,4 @@ endif()
 
 add_subdirectory(Foundation)
 add_subdirectory(XML)
+add_subdirectory(Net)
