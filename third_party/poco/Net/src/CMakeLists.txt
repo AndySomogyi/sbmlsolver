@@ -48,8 +48,23 @@ include_directories(
 ../../Net/include
 )
 
+
 #Then the static version
 add_library(${target}-static STATIC ${sources})
+
+set_property(TARGET ${target}-static  
+             PROPERTY  COMPILE_DEFINITIONS 
+                       POCO_STATIC
+             ) 
+
+if(WIN32)
+set_property(TARGET ${target}-static  
+             PROPERTY  COMPILE_DEFINITIONS 
+                       WIN32
+             ) 
+
+endif()
+
 
 #set_property(TARGET ${target}-static  
 #PROPERTY  COMPILE_DEFINITIONS 
