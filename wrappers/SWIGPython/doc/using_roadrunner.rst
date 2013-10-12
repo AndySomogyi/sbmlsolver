@@ -130,11 +130,13 @@ command. For example assume that a model has three species, S1, S2, and S3 but w
 return time in the first column and S2 in the second column. To specify this we would type::
 
   rr.selections = ['time', 'S2']
+  result = rr.simulate (0, 10, 100)
   
 In another example let say we wanted to plot a phase plot where S1 is plotted against S2. To do this we 
 type the following::
 
   rr.selections = ['S1', 'S2']
+  result = rr.simulate(0, 10, 100)
   
 
 Changing Initial Conditions
