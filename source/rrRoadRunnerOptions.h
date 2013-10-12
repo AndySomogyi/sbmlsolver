@@ -116,7 +116,13 @@ struct RR_DECLSPEC SimulateOptions
         /**
          * reset the model to the initial state.
          */
-        ResetModel = (0x1 << 0), // => 0x00000001
+        RESET_MODEL             = (0x1 << 0), // => 0x00000001
+
+        /**
+         * Simulate should return a raw result matrix without
+         * adding any column names.
+         */
+        RAW_SIMULATION_DATA     = (0x1 << 1)  // => 0x00000010
     };
 
     /**
@@ -134,7 +140,7 @@ struct RR_DECLSPEC SimulateOptions
          * RoadRunner to load a stiff solver which could potentially be
          * extremly slow
          */
-        Stiff = (0x1 << 0), // => 0x00000001
+        STIFF = (0x1 << 0), // => 0x00000001
     };
 
     /**

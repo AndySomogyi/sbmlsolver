@@ -300,7 +300,7 @@ RoadRunnerData LMFitThread::createModelData()
     options.start = mLMData.timeStart;
     options.duration = mLMData.timeEnd - mLMData.timeStart;
     options.steps = mLMData.nrOfTimePoints;
-    options.flags = options.flags | SimulateOptions::ResetModel;
+    options.flags = options.flags | SimulateOptions::RESET_MODEL;
 
     if(mRRI->simulate(&options))
     {

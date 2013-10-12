@@ -33,6 +33,7 @@
     #include <map>
     #include <rrVersionInfo.h>
     #include <rrException.h>
+    #include <assert.h>
     using namespace rr;
 %}
 
@@ -109,24 +110,26 @@
 /* Convert from C --> Python */
 %typemap(out) const rr::RoadRunnerData* {
 
-    int rows = 0;
-    int cols = 0;
-    int nd = 2;
-    double *data = 0;
+    /* int rows = 0; */
+    /* int cols = 0; */
+    /* int nd = 2; */
+    /* double *data = 0; */
 
-    if ($1)
-    {
-        ls::DoubleMatrix& mat = const_cast<ls::DoubleMatrix&>(($1)->getData());
-        rows = mat.numRows();
-        cols = mat.numCols();
-        data = mat.getArray();
-    }
+    /* if ($1) */
+    /* { */
+    /*     ls::DoubleMatrix& mat = const_cast<ls::DoubleMatrix&>(($1)->getData()); */
+    /*     rows = mat.numRows(); */
+    /*     cols = mat.numCols(); */
+    /*     data = mat.getArray(); */
+    /* } */
 
-    npy_intp dims[2] = {rows, cols};
+    /* npy_intp dims[2] = {rows, cols}; */
 
-    PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
-            NPY_CARRAY, NULL);
-    $result  = pArray;
+    /* PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0, */
+    /*         NPY_CARRAY, NULL); */
+
+    
+    $result  = RoadRunnerData_to_py($1);
 }
 
 %apply const rr::RoadRunnerData* {rr::RoadRunnerData*, RoadRunnerData*, const RoadRunnerData* };
@@ -243,7 +246,6 @@ static std::string strvec_to_pystring(const std::vector<std::string>& strvec) {
 
 
 
-
 // we can write a single function to pick the string lists out
 // of the model instead of duplicating it 6 times with
 // fun ptrs.
@@ -265,6 +267,58 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 
     return pyList;
 }
+
+/**
+ * create a numpy structured array with the column names set from 
+ * the column names of the RoadRunnerData object. 
+ */
+static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
+
+    // a valid array descriptor:
+    // In [87]: b = array(array([0,1,2,3]),
+    //      dtype=[('r', 'f8'), ('g', 'f8'), ('b', 'f8'), ('a', 'f8')])
+
+    const std::vector<std::string> &names = pData->getColumnNames();
+    ls::DoubleMatrix& mat = const_cast<ls::DoubleMatrix&>(pData->getData());
+
+    int rows = mat.numRows();
+    int cols = mat.numCols();
+    double* mData = mat.getArray();
+
+    PyObject* list = PyList_New(names.size());
+
+    for(int i = 0; i < names.size(); ++i) 
+    {
+        PyObject *col = PyString_FromString(names[i].c_str());
+        PyObject *type = PyString_FromString("f8");
+        PyObject *tup = PyTuple_Pack(2, col, type);
+
+        void PyList_SET_ITEM(list, i, tup);
+    }
+
+    PyArray_Descr* descr = 0;
+    PyArray_DescrConverter(list, &descr); 
+
+    // done with list
+    Py_CLEAR(list);
+
+    npy_intp dims[] = {rows};
+
+    // steals a reference to descr
+    PyObject *result = PyArray_SimpleNewFromDescr(1, dims,  descr);
+
+    if (result) {
+
+        assert(PyArray_NBYTES(result) == rows*cols*sizeof(double) && "invalid array size");
+
+        double* data = (double*)PyArray_BYTES(result);
+
+        memcpy(data, mData, rows*cols*sizeof(double));
+    }
+
+    return result;
+};
+
 
 %}
 
@@ -513,8 +567,6 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 
 %ignore rr::ExecutableModel::getStoichiometryMatrix(int*, int*, double**);
 
-%rename(RESET_MODEL) rr::SimulateOptions::ResetModel;
-%rename(STIFF) rr::SimulateOptions::Stiff;
 
 
 // ignore Plugin methods that will be deprecated
@@ -722,26 +774,26 @@ namespace Poco { class SharedLibrary{}; }
     }
 
     bool rr_SimulateOptions_resetModel_get(SimulateOptions* opt) {
-        return opt->flags & SimulateOptions::ResetModel;
+        return opt->flags & SimulateOptions::RESET_MODEL;
     }
 
     void rr_SimulateOptions_resetModel_set(SimulateOptions* opt, bool value) {
         if (value) {
-            opt->flags |= SimulateOptions::ResetModel;
+            opt->flags |= SimulateOptions::RESET_MODEL;
         } else {
-            opt->flags &= !SimulateOptions::ResetModel;
+            opt->flags &= !SimulateOptions::RESET_MODEL;
         }
     }
 
     bool rr_SimulateOptions_stiff_get(SimulateOptions* opt) {
-        return opt->flags & SimulateOptions::Stiff;
+        return opt->flags & SimulateOptions::STIFF;
     }
 
     void rr_SimulateOptions_stiff_set(SimulateOptions* opt, bool value) {
         if (value) {
-            opt->integratorFlags |= SimulateOptions::Stiff;
+            opt->integratorFlags |= SimulateOptions::STIFF;
         } else {
-            opt->integratorFlags &= !SimulateOptions::Stiff;
+            opt->integratorFlags &= !SimulateOptions::STIFF;
         }
     }
 %}
@@ -1172,8 +1224,20 @@ namespace Poco { class SharedLibrary{}; }
         s << "<roadrunner.ExecutableModel() { this = " << (void*)$self << " }>";
         return s.str();
     }
-
-
 }
 
+%pythoncode %{
+def plot(result):
+    import pylab as p
+    
+    if len(result.dtype.names) < 1:
+        raise Exception('no columns to plot')
+
+    time = result.dtype.names[0]
+
+    for name in result.dtype.names[1:]:
+        p.plot(result[time], result[name], label='$' + name + '$')
+
+    p.legend()
+%}
 

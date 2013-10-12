@@ -2719,7 +2719,7 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
         mCVode->setTolerances(mSettings.relative, mSettings.absolute);
     }
 
-    if (mSettings.flags & SimulateOptions::ResetModel)
+    if (mSettings.flags & SimulateOptions::RESET_MODEL)
     {
         reset(); // reset back to initial conditions
     }

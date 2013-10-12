@@ -677,7 +677,7 @@ RRCDataPtr rrcCallConv simulate(RRHandle handle)
     {
         RoadRunner* rri = castFrom(handle);
 
-        rri->getSimulateOptions().flags |= SimulateOptions::ResetModel;
+        rri->getSimulateOptions().flags |= SimulateOptions::RESET_MODEL;
 
         if(!rri->simulate())
         {

@@ -106,7 +106,7 @@ void TestRoadRunner::simulate()
     options.start = rr->getSimulateOptions().start;
     options.duration = rr->getSimulateOptions().duration;
     options.steps = rr->getSimulateOptions().steps;
-    options.flags = options.flags | SimulateOptions::ResetModel;
+    options.flags = options.flags | SimulateOptions::RESET_MODEL;
 
     if (!rr->simulate(&options))
     {
