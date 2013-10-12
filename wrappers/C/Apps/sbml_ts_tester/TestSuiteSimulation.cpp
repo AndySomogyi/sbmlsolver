@@ -98,11 +98,11 @@ RoadRunnerData convertCAPIResultData(RRCDataPtr    result)
 {
     RoadRunnerData resultData;
 
-    StringList colNames;
+    std::vector<std::string> colNames;
     //Copy column names
     for(int i = 0; i < result->CSize; i++)
     {
-        colNames.add(result->ColumnHeaders[i]);
+        colNames.push_back(result->ColumnHeaders[i]);
     }
 
     resultData.setColumnNames(colNames);

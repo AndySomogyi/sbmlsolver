@@ -1,6 +1,3 @@
-#ifdef USE_PCH
-#include "rr_pch.h"
-#endif
 #pragma hdrstop
 #include <iomanip>
 #include "rrException.h"
@@ -9,6 +6,7 @@
 #include "rrStringUtils.h"
 #include "rrIniFile.h"
 #include "rrUtils.h"
+#include "rrStringList.h"
 #include "Poco/TemporaryFile.h"
 #include "rrRoadRunnerData.h"
 

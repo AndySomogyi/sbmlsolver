@@ -1,6 +1,3 @@
-#ifdef USE_PCH
-#include "rr_pch.h"
-#endif
 #pragma hdrstop
 #include <iomanip>
 #include <map>
@@ -9,6 +6,7 @@
 #include "rrLogger.h"
 #include "rrTestSuiteModelSimulation.h"
 #include "rrUtils.h"
+#include "rrStringList.h"
 #include "rrRoadRunner.h"
 //---------------------------------------------------------------------------
 

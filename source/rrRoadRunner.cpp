@@ -2637,12 +2637,14 @@ bool RoadRunner::setValue(const string& sId, double dValue)
         return true;
     }
 
-    StringList initialConditions;
-    initialConditions = getFloatingSpeciesInitialConditionIds();
 
-    if (initialConditions.Contains(sId))
+    vector<string> initCond = getFloatingSpeciesInitialConditionIds();
+
+    const vector<string>::const_iterator pos = std::find(initCond.begin(), initCond.end(), sId);
+
+    if (pos != initCond.end())
     {
-        int index = initialConditions.indexOf(sId);
+        int index = pos - initCond.begin();
         mModel->setFloatingSpeciesInitConcentrations(1, &index, &dValue);
         reset();
         return true;

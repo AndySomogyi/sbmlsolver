@@ -52,10 +52,10 @@ NLEQInterface::NLEQInterface(ExecutableModel *_model) :
 
 NLEQInterface::~NLEQInterface()
 {
-    delete IWK;
-    delete RWK;
-    delete XScal;
-    delete iopt;
+    delete[] IWK;
+    delete[] RWK;
+    delete[] XScal;
+    delete[] iopt;
 }
 
 void NLEQInterface::setup()

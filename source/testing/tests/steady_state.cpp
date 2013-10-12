@@ -104,8 +104,8 @@ string TestModelFileName;
             return;
         }
 
-        StringList ids = aRR->getEigenvalueIds();
-        if(ids.Count() != aSection->KeyCount())
+        vector<string> ids = aRR->getEigenvalueIds();
+        if(ids.size() != aSection->KeyCount())
         {
             CHECK(false);
             return;
@@ -114,7 +114,7 @@ string TestModelFileName;
         for(int i = 0 ; i < aSection->KeyCount(); i++)
         {
             //Find correct eigenValue
-            for(int j = 0; j < ids.Count(); j++)
+            for(int j = 0; j < ids.size(); j++)
             {
                 if(aSection->mKeys[i]->mKey == ids[j])
                 {

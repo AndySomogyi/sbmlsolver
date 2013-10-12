@@ -61,9 +61,9 @@ using namespace std;
 using namespace Poco;
 
 
-bool cleanFolder(const string& folder, const string& baseName, const StringList& extensions)
+bool cleanFolder(const string& folder, const string& baseName, const std::vector<std::string>& extensions)
 {
-    for(int i = 0; i < extensions.Count(); i++)
+    for(int i = 0; i < extensions.size(); i++)
        {
         string aFName = joinPath(folder, baseName) + "." + extensions[i];
         Poco::File aFile(aFName);
