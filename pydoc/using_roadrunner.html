@@ -140,6 +140,41 @@ the following syntax:</p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="plotting-data">
+<h2>Plotting Data<a class="headerlink" href="#plotting-data" title="Permalink to this headline">¶</a></h2>
+<p>To plot data returned by simulate one can use the matplotlib package for Python. To import matplotlib, type the
+following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+<p>Assuming the simulate returns an array called result, and that the first column represents
+the x axis and the remaining columns the y axis, we type:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">plot</span> <span class="p">(</span><span class="n">result</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span><span class="n">result</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This will bring up a new window showing the plot. To clear the plot for next time, type the command:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">plt</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="selecting-what-data-to-generate">
+<h2>Selecting what Data to Generate<a class="headerlink" href="#selecting-what-data-to-generate" title="Permalink to this headline">¶</a></h2>
+<p>The command simulate, by default returns an array, where the first column is time and the reminaing columns
+are the floating species. It is possible however to change what is returned by simulate using the selection
+command. For example assume that a model has three species, S1, S2, and S3 but we only want simulate() to
+return time in the first column and S2 in the second column. To specify this we would type:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">selections</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;time&#39;</span><span class="p">,</span> <span class="s">&#39;S2&#39;</span><span class="p">]</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In another example let say we wanted to plot a phase plot where S1 is plotted against S2. To do this we
+type the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">selections</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;S1&#39;</span><span class="p">,</span> <span class="s">&#39;S2&#39;</span><span class="p">]</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="changing-initial-conditions">
 <h2>Changing Initial Conditions<a class="headerlink" href="#changing-initial-conditions" title="Permalink to this headline">¶</a></h2>
 <p>To be completed</p>
@@ -159,6 +194,8 @@ the following syntax:</p>
 <li><a class="reference internal" href="#loading-models">Loading Models</a></li>
 <li><a class="reference internal" href="#running-simulations">Running Simulations</a></li>
 <li><a class="reference internal" href="#changing-parameters">Changing Parameters</a></li>
+<li><a class="reference internal" href="#plotting-data">Plotting Data</a></li>
+<li><a class="reference internal" href="#selecting-what-data-to-generate">Selecting what Data to Generate</a></li>
 <li><a class="reference internal" href="#changing-initial-conditions">Changing Initial Conditions</a></li>
 </ul>
 </li>
