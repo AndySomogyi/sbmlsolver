@@ -14,7 +14,10 @@ std::string SBMLReader::read(const std::string& uri)
 
     try
     {
+        // not working on windows yet. 
+        #if !defined(_WIN32)
         Poco::Net::HTTPStreamFactory::registerFactory();
+        #endif
 
         Poco::URIStreamOpener &opener = Poco::URIStreamOpener::defaultOpener();
 

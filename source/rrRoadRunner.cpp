@@ -1,4 +1,7 @@
 #pragma hdrstop
+// on Windows, this needs to go first to get M_PI
+#define _USE_MATH_DEFINES
+
 #include "rrRoadRunner.h"
 #include "rrException.h"
 #include "rrModelGenerator.h"
@@ -17,6 +20,7 @@
 #include "c/rrNOMSupport.h"
 
 #include <iostream>
+#include <math.h>
 #include <assert.h>
 #include <rr-libstruct/lsLibStructural.h>
 #include <Poco/File.h>
