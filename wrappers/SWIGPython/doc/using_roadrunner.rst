@@ -121,8 +121,8 @@ This will bring up a new window showing the plot. To clear the plot for next tim
 
   plt.clf()
 
-Selecting what Data to Gernerate
---------------------------------
+Selecting what Data to Generate
+-------------------------------
 
 The command simulate, by default returns an array, where the first column is time and the reminaing columns
 are the floating species. It is possible however to change what is returned by simulate using the selection
@@ -131,7 +131,8 @@ return time in the first column and S2 in the second column. To specify this we 
 
   rr.selections = ['time', 'S2']
   
-In another example let say we wanted to plot a phase plot where S1 is plotted against S2. To do this we type the following:
+In another example let say we wanted to plot a phase plot where S1 is plotted against S2. To do this we 
+type the following::
 
   rr.selections = ['S1', 'S2']
   
