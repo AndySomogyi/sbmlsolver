@@ -25,8 +25,8 @@ protected:
     double                         *XScal;
     long                            ierr;
     long                           *iopt;
-    ExecutableModel         *model;     // Model generated from the SBML. Static so we can access it from standalone function
-    long                     n;
+    ExecutableModel                *model;     // Model generated from the SBML. Static so we can access it from standalone function
+    long                            n;
     void                            setup();
 
 public:

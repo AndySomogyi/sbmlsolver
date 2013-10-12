@@ -1,9 +1,4 @@
-#ifdef USE_PCH
-#include "rr_pch.h"
-#endif
 #pragma hdrstop
-#include <math.h>
-#include "rrException.h"
 #include "rrNLEQInterface.h"
 #include "rrExecutableModel.h"
 #include "rrStringUtils.h"
@@ -12,7 +7,11 @@
 #include "nleq/nleq1.h"
 #include "rrLogger.h"
 #include "rrUtils.h"
+#include "rrException.h"
+
 #include <Poco/ThreadLocal.h>
+#include <assert.h>
+#include <math.h>
 
 using Poco::ThreadLocal;
 
@@ -21,7 +20,7 @@ namespace rr
 
 static ThreadLocal<ExecutableModel*> threadModel;
 
-// the NLEQ callback
+// the NLEQ callback, we use same data types as f2c here.
 static void ModelFunction(int* nx, double* y, double* fval, int* pErr);
 
 string ErrorForStatus(const int& error);
@@ -60,7 +59,8 @@ NLEQInterface::~NLEQInterface()
 
 void NLEQInterface::setup()
 {
-    n = model->getNumIndependentSpecies();
+    // size of state vector
+    n = model->getStateVector(0);
 
     // Allocate space, see NLEQ docs for details
     LWRK = (n + 2 + 15)*n + 61;
@@ -166,19 +166,19 @@ double NLEQInterface::solve(const vector<double>& yin)
 
     *threadModel = model;
 
-    vector<double> amounts(n);
-    model->getFloatingSpeciesAmounts(amounts.size(), 0, &amounts[0]);
+    vector<double> stateVector(n);
+    model->getStateVector(&stateVector[0]);
 
-    NLEQ1(     &n,
+    NLEQ1(  &n,
             &ModelFunction,
             NULL,
-            &amounts[0],
+            &stateVector[0],
             XScal,
             &tmpTol,
-               iopt,
+            iopt,
             &ierr,
             &LIWK,
-               IWK,
+            IWK,
             &LWRK,
             RWK);
 
@@ -208,30 +208,120 @@ double NLEQInterface::solve(const vector<double>& yin)
     return computeSumsOfSquares();
 }
 
+
+//void ModelFunction(int* nx, double* y, double* fval, int* pErr)
+//{
+//    ModelFromC* model = NLEQInterface::getModel();
+//    if (model == NULL)
+//    {
+//        return;
+//    }
+//
+//    try
+//    {
+//        long n = NLEQInterface::getN();
+//                for(long i = 0; i < n; i++)
+//        {
+//                model->amounts[i] = y[i];
+//        }
+//
+//        int size = *model->amountsSize + *model->rateRulesSize;
+//        vector<double> dTemp;
+//        dTemp.resize(size);
+//
+//                for(int i = 0; i < *model->rateRulesSize; i++)
+//        {
+//                dTemp[i] = model->rateRules[i];
+//        }
+//
+//        for(int i = *model->rateRulesSize; i < *model->amountsSize + *model->rateRulesSize; i++)
+//        {
+//                dTemp[i] = model->amounts[i];
+//        }
+//
+//        model->evalModel(0.0, dTemp);
+//
+//                for(int i = 0; i < n; i++)
+//        {
+//                fval[i] = model->dydt[i];
+//        }
+//
+//        pErr = 0;
+//    }
+//    catch (const Exception& ex)
+//    {
+//        throw(ex);      //catch at a higher level
+//    }
+//}
+
+
+/*     FCN(N,X,F,IFAIL) Ext    Function subroutine */
+/*       N              Int    Number of vector components (input) */
+/*       X(N)           Dble   Vector of unknowns (input) */
+/*       F(N)           Dble   Vector of function values (output) */
+/*       IFAIL          Int    FCN evaluation-failure indicator. (output) */
+/*                             On input:  Has always value 0 (zero). */
+/*                             On output: Indicates failure of FCN eval- */
+/*                                uation, if having a value <= 2. */
+/*                             If <0: NLEQ1 will be terminated with */
+/*                                    error code = 82, and IFAIL stored */
+/*                                    to IWK(23). */
+/*                             If =1: A new trial Newton iterate will */
+/*                                    computed, with the damping factor */
+/*                                    reduced to it's half. */
+/*                             If =2: A new trial Newton iterate will */
+/*                                    computed, with the damping factor */
+/*                                    reduced by a reduct. factor, which */
+/*                                    must be output through F(1) by FCN, */
+/*                                    and it's value must be >0 and < 1. */
+/*                             Note, that if IFAIL = 1 or 2, additional */
+/*                             conditions concerning the damping factor, */
+/*                             e.g. the minimum damping factor or the */
+/*                             bounded damping strategy may also influ- */
+/*                             ence the value of the reduced damping */
+/*                             factor. */
+
 void ModelFunction(int* nx, double* y, double* fval, int* pErr)
 {
     ExecutableModel* model = *threadModel;
-    if (model == NULL)
+    assert(model && "model is NULL");
+
+
+
+    assert(*nx == model->getStateVector(0) && "incorrect state vector size");
+
+    model->evalModel(0, y, fval);
+
+    if (rr::Logger::getLevel() >= Logger::PRIO_DEBUG)
     {
-        return;
+        std::stringstream ss;
+
+        ss << "y: [";
+        for (int i = 0; i < *nx; ++i)
+        {
+            ss << y[i];
+            if (i + 1 < *nx)
+            {
+                ss << ", ";
+            }
+        }
+        ss << "]" << std::endl;
+
+        ss << "dydt: [";
+        for (int i = 0; i < *nx; ++i)
+        {
+            ss << fval[i];
+            if (i + 1 < *nx)
+            {
+                ss << ", ";
+            }
+        }
+        ss << "]" << std::endl;
+
+        Log(Logger::PRIO_DEBUG) << ss.str();
     }
 
-    try
-    {
-        int n = model->getNumIndependentSpecies();
-        model->setFloatingSpeciesAmounts(n, 0, y);
-
-        // eval the model in its current state
-        model->evalModel(0.0, 0, 0);
-
-        model->getFloatingSpeciesAmountRates(n, 0, fval);
-
-        pErr = 0;
-    }
-    catch (const Exception& ex)
-    {
-        throw(ex);    //catch at a higher level
-    }
+    *pErr = 0;
 }
 
 void NLEQInterface::setScalingFactors(const vector<double>& sx)

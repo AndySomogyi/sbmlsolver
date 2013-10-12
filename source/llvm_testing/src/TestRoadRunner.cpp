@@ -320,6 +320,17 @@ std::string TestRoadRunner::read_uri(const std::string& uri)
 */
 }
 
+
+void TestRoadRunner::steadyState(const std::string& uri)
+{
+    Logger::setLevel(Logger::PRIO_DEBUG);
+    RoadRunner r;
+
+    r.loadSBMLFromFile(uri);
+
+    r.steadyState();
+}
+
 } /* namespace rr */
 
 
