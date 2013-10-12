@@ -103,8 +103,42 @@ the following syntax::
   rr.model['k1'] = 1.2
   
 
+Plotting Data
+-------------
+
+To plot data returned by simulate one can use the matplotlib package for Python. To import matplotlib, type the
+following::
+
+  import matplotlib.pyplot as plt
+  
+Assuming the simulate returns an array called result, and that the first column represents
+the x axis and the remaining columns the y axis, we type::
+
+    plt.plot (result[:,0],result[:,1:])
+    plt.show()
+
+This will bring up a new window showing the plot. To clear the plot for next time, type the command::
+
+  plt.clf()
+
+Selecting what Data to Gernerate
+--------------------------------
+
+The command simulate, by default returns an array, where the first column is time and the reminaing columns
+are the floating species. It is possible however to change what is returned by simulate using the selection
+command. For example assume that a model has three species, S1, S2, and S3 but we only want simulate() to
+return time in the first column and S2 in the second column. To specify this we would type::
+
+  rr.selections = ['time', 'S2']
+  
+In another example let say we wanted to plot a phase plot where S1 is plotted against S2. To do this we type the following:
+
+  rr.selections = ['S1', 'S2']
+  
+
 Changing Initial Conditions
 ---------------------------
 
 To be completed
+
 
