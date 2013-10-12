@@ -58,8 +58,7 @@ ls::ComplexMatrix getComplexMatrixFromString(const string& textMatrix)
             }
 
             std::complex<double> val = toComplex(values[col]);
-            mat(row, col).Real = real(val);
-			mat(row, col).Imag = imag(val);
+            mat(row, col) = val;
         }
     }
 	return mat;

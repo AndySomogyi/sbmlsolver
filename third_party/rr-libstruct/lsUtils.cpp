@@ -3,7 +3,7 @@
 #endif
 #pragma hdrstop
 
-#ifdef WIN32
+#ifdef _WIN32
 #pragma warning (disable: 4996)
 #define WIN32_LEAN_AND_MEAN        // Exclude rarely-used stuff from Windows headers
 #include <windows.h>
@@ -18,11 +18,11 @@
 #include "lsUtils.h"
 //---------------------------------------------------------------------------
 
-using namespace std;
-using namespace ls;
 
 namespace ls
 {
+using namespace std;
+using namespace ls;
 
 DoubleMatrix* getSubMatrix(int /*Mb*/, int /*Nb*/, int ms, int ns, int mi, int nj, DoubleMatrix& A)
 {
@@ -486,7 +486,7 @@ string print(ComplexMatrix& A)
         stream << "[";
         for (unsigned int j=0; j < A.numCols(); j++)
         {
-            stream << "(" << A(i,j).Real << " + " << A(i,j).Imag << "i)" << (j+1<A.numCols()? ",    " : "");
+            stream << "(" << real(A(i,j)) << " + " << imag(A(i,j)) << "i)" << (j+1<A.numCols()? ",    " : "");
         }
         stream << (i + 1 < A.numRows() ? "],\n" : "]\n");
     }
@@ -561,7 +561,7 @@ string print(int mr, int nc, ls::Complex* A)
     for (int i=0; i<mr; i++) {
         stream << "[";
         for (int j=0; j<nc; j++) {
-            stream << "(" << A[i+j*mr].Real << ", " << A[i+j*mr].Imag << ")  ";
+            stream << "(" << real(A[i+j*mr]) << ", " << imag(A[i+j*mr]) << ")  ";
         }
         stream << (i + 1 < mr ? "],\n" : "]\n");
     }
@@ -581,7 +581,7 @@ string print(int mr, int nc, ls::Complex** A)
     for (int i=0; i<mr; i++) {
         stream << "[";
         for (int j=0; j<nc; j++) {
-            stream << "(" << A[i][j].Real << ", " << A[i][j].Imag << ")  ";
+            stream << "(" << real(A[i][j]) << ", " << imag(A[i][j]) << ")  ";
         }
         stream << (i + 1 < mr ? "],\n" : "]\n");
     }
@@ -731,8 +731,8 @@ void CopyMatrix(ComplexMatrix& oMatrix, double** &outMatrixReal,double** &outMat
     {
         for (int j = 0; j < outNumCols; j++)
         {
-            outMatrixReal[i][j] = oMatrix(i,j).Real;
-            outMatrixImag[i][j] = oMatrix(i,j).Imag;
+            outMatrixReal[i][j] = real(oMatrix(i,j));
+            outMatrixImag[i][j] = imag(oMatrix(i,j));
         }
     }
 }
@@ -754,8 +754,8 @@ void CopyComplexVector(const std::vector< Complex> &vector, double* &outVectorRe
     outVectorImag = (double*)malloc(sizeof(double)*outLength); memset(outVectorImag, 0, sizeof(double)*outLength);
     for (int i = 0; i < outLength; i++)
     {
-        outVectorReal[i] = vector[i].Real;
-        outVectorImag[i] = vector[i].Imag;
+        outVectorReal[i] = real(vector[i]);
+        outVectorImag[i] = imag(vector[i]);
     }
 }
 

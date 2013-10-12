@@ -1,7 +1,9 @@
-/*
-    \author  Frank T. Bergmann (fbergman@u.washington.edu)
-    \author     Herbert M. Sauro
-    \author     Ravishankar Rao Vallabhajosyula (developed a previous version of the sructural analysis code)
+/**
+ * \author Frank T. Bergmann (fbergman@u.washington.edu)
+ * \author     Herbert M. Sauro
+ * \author     Ravishankar Rao Vallabhajosyula (developed a previous version of the sructural analysis code)
+ *
+ * Fixes and improvments: Totte Karsson
  */
 
 #ifndef lsLibStructuralH
@@ -9,9 +11,9 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <complex>
 #include "lsExporter.h"
 #include "lsMatrix.h"
-#include "lsComplex.h"
 
 namespace libsbml { class Model; }
 

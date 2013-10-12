@@ -13,7 +13,6 @@ using namespace rr;
 using namespace ls;    //Libstruct namespace
 using namespace std;
 
-
 ////////////////// ORIGINAL LIBSTRUCT C API Functionality
 //---------------------------------------------------------------------------
 
@@ -1213,7 +1212,7 @@ RRComplexMatrixPtr rrcCallConv getZEigenVectors(RRComplexMatrixPtr inMatrix)
                     throw(Exception("Failed getting element in Complex matrix"));
                 }
 
-                mat(i,j).set(value.re, value.imag);
+                mat(i,j) = Complex(value.re, value.imag);
             }
         }
 

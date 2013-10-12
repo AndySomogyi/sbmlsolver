@@ -1,3 +1,7 @@
+/**
+ * LibStruct, original author: Frank Bergmann.
+ * Fixes and improvments: Totte Karsson
+ */
 #pragma hdrstop
 #include "lsLibla.h"
 #include "lsLA.h"
@@ -445,8 +449,8 @@ void SplitComplexMatrix(const ComplexMatrix& oMatrix, DoubleMatrix& oReal, Doubl
     {
         for (unsigned int j = 0; j < oMatrix.CSize(); j++)
         {
-            oReal[i][j] = oMatrix[i][j].Real;
-            oImag[i][j] = oMatrix[i][j].Imag;
+            oReal[i][j] = real(oMatrix[i][j]);
+            oImag[i][j] = imag(oMatrix[i][j]);
         }
     }
 }

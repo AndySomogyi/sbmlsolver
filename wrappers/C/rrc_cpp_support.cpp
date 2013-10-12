@@ -16,43 +16,43 @@ using namespace rr;
 
 BaseParameter* castToParameter(RRParameterHandle handle)
 {
-	BaseParameter* para = (BaseParameter*) handle;
+    BaseParameter* para = (BaseParameter*) handle;
     if(para) //Will only fail if handle is NULL...
     {
-    	return para;
+        return para;
     }
     else
     {
-    	Exception ex("Failed to cast to a valid Parameter handle");
-    	throw(ex);
+        Exception ex("Failed to cast to a valid Parameter handle");
+        throw(ex);
     }
 }
 
 MinimizationData* castToMinimizationData(RRMinimizationDataHandle handle)
 {
-	MinimizationData* para = (MinimizationData*) handle;
+    MinimizationData* para = (MinimizationData*) handle;
     if(para) //Will only fail if handle is NULL...
     {
-    	return para;
+        return para;
     }
     else
     {
-    	Exception ex("Failed to cast to a valid MinimizationData handle");
-    	throw(ex);
+        Exception ex("Failed to cast to a valid MinimizationData handle");
+        throw(ex);
     }
 }
 
 RoadRunnerList* getRRList(RRInstanceListPtr listHandle)
 {
-	RoadRunnerList* handle = (RoadRunnerList*) listHandle->RRList;
+    RoadRunnerList* handle = (RoadRunnerList*) listHandle->RRList;
     if(handle)
     {
-    	return handle;
+        return handle;
     }
     else
     {
-    	Exception ex("Failed to create a valid RoadRunnerList handle");
-    	throw(ex);
+        Exception ex("Failed to create a valid RoadRunnerList handle");
+        throw(ex);
     }
 }
 
@@ -68,38 +68,38 @@ void setError(const string& err)
 
 RoadRunner* castFrom(RRHandle handle)
 {
-	RoadRunner* rr = (RoadRunner*) handle;
+    RoadRunner* rr = (RoadRunner*) handle;
     if(rr) //Will only fail if handle is NULL...
     {
-    	return rr;
+        return rr;
     }
     else
     {
-    	Exception ex("Failed to cast to a valid RoadRunner handle");
-    	throw(ex);
+        Exception ex("Failed to cast to a valid RoadRunner handle");
+        throw(ex);
     }
 }
 
 Plugin* castToPlugin(RRPluginHandle handle)
 {
-	Plugin* plugin = (Plugin*) handle;
+    Plugin* plugin = (Plugin*) handle;
     if(plugin) //Will only fail if handle is NULL...
     {
-    	return plugin;
+        return plugin;
     }
     else
     {
-    	Exception ex("Failed to cast to a valid Plugin handle");
-    	throw(ex);
+        Exception ex("Failed to cast to a valid Plugin handle");
+        throw(ex);
     }
 }
 
 
 RRDoubleMatrix* createMatrix(const ls::DoubleMatrix* mat)
 {
-	if(!mat)
+    if(!mat)
     {
-    	return NULL;
+        return NULL;
     }
     RRDoubleMatrixPtr matrix = new RRDoubleMatrix;
 
@@ -108,11 +108,11 @@ RRDoubleMatrix* createMatrix(const ls::DoubleMatrix* mat)
     int dim =  matrix->RSize * matrix->CSize;
     if(dim)
     {
-    	matrix->Data =  new double[mat->RSize()*mat->CSize()];
+        matrix->Data =  new double[mat->RSize()*mat->CSize()];
     }
     else
     {
-    	delete matrix;
+        delete matrix;
         return NULL;
     }
 
@@ -129,9 +129,9 @@ RRDoubleMatrix* createMatrix(const ls::DoubleMatrix* mat)
 
 DoubleMatrix* createMatrix(const rrc::RRDoubleMatrixPtr mat)
 {
-	if(!mat)
+    if(!mat)
     {
-    	return NULL;
+        return NULL;
     }
 
     DoubleMatrix *matrix = new DoubleMatrix(mat->RSize, mat->CSize);
@@ -149,9 +149,9 @@ DoubleMatrix* createMatrix(const rrc::RRDoubleMatrixPtr mat)
 
 RRComplexMatrix* createMatrix(const ls::ComplexMatrix* mat)
 {
-	if(!mat)
+    if(!mat)
     {
-    	return NULL;
+        return NULL;
     }
     RRComplexMatrixPtr matrix = new RRComplexMatrix;
 
@@ -160,11 +160,11 @@ RRComplexMatrix* createMatrix(const ls::ComplexMatrix* mat)
     int dim =  matrix->RSize * matrix->CSize;
     if(dim)
     {
-    	matrix->Data =  new RRComplex[mat->RSize()*mat->CSize()];
+        matrix->Data =  new RRComplex[mat->RSize()*mat->CSize()];
     }
     else
     {
-    	delete matrix;
+        delete matrix;
         return NULL;
     }
 
@@ -173,8 +173,8 @@ RRComplexMatrix* createMatrix(const ls::ComplexMatrix* mat)
     {
         for(u_int col = 0; col < mat->CSize(); col++)
         {
-            matrix->Data[index].re 		= (*mat)(row,col).Real;
-            matrix->Data[index].imag 	= (*mat)(row,col).Imag;
+            matrix->Data[index].re         = std::real((*mat)(row,col));
+            matrix->Data[index].imag     = std::imag((*mat)(row,col));
             index++;
         }
 
@@ -230,8 +230,8 @@ RRComplexVector* createVector(const vector<ls::Complex>& vec)
 
     for(int i = 0; i < aVec->Count; i++)
     {
-        aVec->Data[i].re 	=  real(vec[i]);
-        aVec->Data[i].imag 	=  imag(vec[i]);
+        aVec->Data[i].re     =  real(vec[i]);
+        aVec->Data[i].imag     =  imag(vec[i]);
     }
 
     return aVec;
@@ -281,8 +281,8 @@ RRStringArrayPtr createList(const StringList& sList)
 //    }
 //
 //    RRListItemPtr myItem;
-//	// Setup a RRStringArrayList structure from aList
-// 	RRListHandle theList = createRRList();
+//    // Setup a RRStringArrayList structure from aList
+//     RRListHandle theList = createRRList();
 //
 //    int itemCount = aList.Count();
 //    for(int i = 0; i < itemCount; i++)
@@ -294,16 +294,16 @@ RRStringArrayPtr createList(const StringList& sList)
 ////            string item =  *ptr->mValue;
 ////            char* str = (char *) new char[item.size() + 1];
 ////            strcpy(str, item.c_str());
-////			myItem = createStringItem (str);
-////   			addItem (theList, &myItem);
+////            myItem = createStringItem (str);
+////               addItem (theList, &myItem);
 ////        }
 ////        else if(ptr->mLinkedList)
 ////        {
 ////            //ArrayListItem<ArrayList2Item>* listItem = dynamic_cast<ArrayListItem<ArrayList2Item>*>(ptr);
-////			RRListHandle myList = createList (*(ptr->mLinkedList));
+////            RRListHandle myList = createList (*(ptr->mLinkedList));
 ////
-////			RRListItemPtr myListItem = createListItem (myList);
-////			addItem (theList, &myListItem);
+////            RRListItemPtr myListItem = createListItem (myList);
+////            addItem (theList, &myListItem);
 ////
 ////        }
 //    }
@@ -319,8 +319,8 @@ RRList* createArrayList(const rr::NewArrayList& aList)
 
     RRListItemPtr myItem;
 
-	// Setup a RRStringArrayList structure from aList
- 	RRListPtr theList = createRRList();
+    // Setup a RRStringArrayList structure from aList
+     RRListPtr theList = createRRList();
 
     int itemCount = aList.Count();
     for(int i = 0; i < itemCount; i++)
@@ -331,41 +331,41 @@ RRList* createArrayList(const rr::NewArrayList& aList)
         {
             int val = (int) *(dynamic_cast<NewArrayListItem<int>*>(ptr));
             myItem = createIntegerItem (val);
-			addItem (theList, &myItem);
+            addItem (theList, &myItem);
         }
         else if(dynamic_cast<NewArrayListItem<double>*>(ptr))
         {
             double val = (double) *(dynamic_cast<NewArrayListItem<double>*>(ptr));
             myItem = createDoubleItem (val);
-			addItem (theList, &myItem);
+            addItem (theList, &myItem);
         }
         else if(dynamic_cast<NewArrayListItem<string>*>(ptr))
         {
             string item = (string) *(dynamic_cast<NewArrayListItem<string>*>(ptr));
             char* str = (char *) new char[item.size() + 1];
             strcpy (str, item.c_str());
-			myItem = createStringItem (str);
-   			addItem (theList, &myItem);
+            myItem = createStringItem (str);
+               addItem (theList, &myItem);
         }
         else if(dynamic_cast<NewArrayListItem<StringList>*>(ptr))
         {
-            StringList list 			= (StringList) *(dynamic_cast<NewArrayListItem<StringList>*>(ptr));
-			NewArrayList  aList;
+            StringList list             = (StringList) *(dynamic_cast<NewArrayListItem<StringList>*>(ptr));
+            NewArrayList  aList;
             for(int i = 0; i < list.Count(); i++)
             {
-            	aList.Add(list[i]);
+                aList.Add(list[i]);
             }
-			RRListPtr myList 			= createArrayList (aList);
-			myItem 						    = createListItem(myList);
-   			addItem (theList, &myItem);
+            RRListPtr myList             = createArrayList (aList);
+            myItem                             = createListItem(myList);
+               addItem (theList, &myItem);
         }
 
         else if(dynamic_cast<NewArrayListItem<NewArrayList>*>(ptr))
         {
             NewArrayList list = (NewArrayList) *(dynamic_cast<NewArrayListItem<NewArrayList>*>(ptr));
-			RRListPtr myList 			= createArrayList (list);
-			RRListItemPtr myListItem 	= createListItem (myList);
-			addItem (theList, &myListItem);
+            RRListPtr myList             = createArrayList (list);
+            RRListItemPtr myListItem     = createListItem (myList);
+            addItem (theList, &myListItem);
         }
     }
     return theList;
@@ -375,52 +375,52 @@ RRList* createArrayList(const rr::NewArrayList& aList)
 //{
 //    if(para.getType() == "bool")
 //    {
-//    	Parameter<bool> *thePara = dynamic_cast< Parameter<bool>* >(const_cast< BaseParameter* >(&para));
+//        Parameter<bool> *thePara = dynamic_cast< Parameter<bool>* >(const_cast< BaseParameter* >(&para));
 //
-//	    RRParameter* aPara 	= new RRParameter;
-//        aPara->ParaType 	= ptBool;
-//        aPara->data.bValue 	= thePara->getValue();
-//        aPara->mName		= rr::createText(thePara->getName());
-//        aPara->mHint		= rr::createText(thePara->getHint());
+//        RRParameter* aPara     = new RRParameter;
+//        aPara->ParaType     = ptBool;
+//        aPara->data.bValue     = thePara->getValue();
+//        aPara->mName        = rr::createText(thePara->getName());
+//        aPara->mHint        = rr::createText(thePara->getHint());
 //        return aPara;
 //    }
 //
 //    if(para.getType() == "integer")
 //    {
-//    	Parameter<int> *thePara = dynamic_cast< Parameter<int>* >(const_cast< BaseParameter* >(&para));
+//        Parameter<int> *thePara = dynamic_cast< Parameter<int>* >(const_cast< BaseParameter* >(&para));
 //
-//	    RRParameter* aPara 	= new RRParameter;
-//        aPara->ParaType 	= ptInteger;
-//        aPara->data.iValue 	= thePara->getValue();
-//        aPara->mName		= rr::createText(thePara->getName());
-//        aPara->mHint		= rr::createText(thePara->getHint());
+//        RRParameter* aPara     = new RRParameter;
+//        aPara->ParaType     = ptInteger;
+//        aPara->data.iValue     = thePara->getValue();
+//        aPara->mName        = rr::createText(thePara->getName());
+//        aPara->mHint        = rr::createText(thePara->getHint());
 //        return aPara;
 //    }
 //
 //    if(para.getType() == "double")
 //    {
-//    	Parameter<double> *thePara = dynamic_cast< Parameter<double>* >(const_cast< BaseParameter* >(&para));
+//        Parameter<double> *thePara = dynamic_cast< Parameter<double>* >(const_cast< BaseParameter* >(&para));
 //
-//	    RRParameter* aPara 	= new RRParameter;
-//        aPara->ParaType 	= ptInteger;
-//        aPara->data.iValue 	= thePara->getValue();
-//        aPara->mName		= rr::createText(thePara->getName());
-//        aPara->mHint		= rr::createText(thePara->getHint());
+//        RRParameter* aPara     = new RRParameter;
+//        aPara->ParaType     = ptInteger;
+//        aPara->data.iValue     = thePara->getValue();
+//        aPara->mName        = rr::createText(thePara->getName());
+//        aPara->mHint        = rr::createText(thePara->getHint());
 //        return aPara;
 //    }
 //
 //    if(para.getType() == "vector")
 //    {
-//    	Parameter<RRVector*> *thePara = dynamic_cast< Parameter<RRVector*>* >(const_cast< BaseParameter* >(&para));
+//        Parameter<RRVector*> *thePara = dynamic_cast< Parameter<RRVector*>* >(const_cast< BaseParameter* >(&para));
 //
-//	    RRParameter* aPara 	= new RRParameter;
-//        aPara->ParaType 	= ptVector;
-//        aPara->data.vValue 	= thePara->getValue();
-//        aPara->mName		= rr::createText(thePara->getName());
-//        aPara->mHint		= rr::createText(thePara->getHint());
+//        RRParameter* aPara     = new RRParameter;
+//        aPara->ParaType     = ptVector;
+//        aPara->data.vValue     = thePara->getValue();
+//        aPara->mName        = rr::createText(thePara->getName());
+//        aPara->mHint        = rr::createText(thePara->getHint());
 //        return aPara;
 //    }
-//	return NULL;
+//    return NULL;
 //}
 
 
@@ -442,7 +442,7 @@ RRCDataPtr createRRCData(const RoadRunnerData& result)
 
     if(result.hasWeights())
     {
-    	rrCData->Weights = new double[size];
+        rrCData->Weights = new double[size];
     }
 
     int index = 0;
@@ -454,12 +454,12 @@ RRCDataPtr createRRCData(const RoadRunnerData& result)
             rrCData->Data[index] = result(row, col);
             if(result.hasWeights())
             {
-            	rrCData->Weights[index] = result.weight(row, col);
+                rrCData->Weights[index] = result.weight(row, col);
             }
             ++index;
         }
     }
-	return rrCData;
+    return rrCData;
 }
 
 }

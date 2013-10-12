@@ -1,3 +1,8 @@
+/**
+ * LibStruct, original author: Frank Bergmann.
+ * Fixes and improvments: Totte Karsson
+ */
+
 #ifndef lsMatrixH
 #define lsMatrixH
 
@@ -5,19 +10,20 @@
 #include <cstring> //for memset on unix platforms
 #endif
 #include <ostream>
+#include <complex>
 #include "lsExporter.h"
-#include "lsComplex.h"
 
-using std::ostream;
 
 namespace ls
 {
+
     /*! \class ls::Matrix
         \brief ls::Matrix is the matrix class used by ls::LibLA and LIB_STRUTURAL::LibStructural
         This class implements a template to hold real, ls::Complex and integer matrices. It also implements basic
         operations on matrices.
     */
 
+typedef std::complex<double> Complex;
 template <class T>
 class Matrix
 {
@@ -34,7 +40,7 @@ class Matrix
                                     //! Copy constructors
                                     //Matrix(const Matrix< T > & src);
                                     Matrix(const Matrix< double >& src);
-                                    Matrix(const Matrix< Complex>& src, bool real = true);
+                                    Matrix(const Matrix< Complex >& src, bool real = true);
 
                                     //! Constructor taking a matrix mapped to a vector and reconstructing the 2D form
                                     Matrix( T* &oRawData, int nRows, int nCols, bool transpose = true);
@@ -49,7 +55,7 @@ class Matrix
                                     ~Matrix();
 
         T*                          GetPointer();
-        bool						isAllocated() const;
+        bool                        isAllocated() const;
         unsigned int                CSize() const;                      //! returns the number of columns
         unsigned int                RSize() const;
         unsigned int                Length() const;
@@ -104,7 +110,7 @@ class Matrix
         const T&                    operator()(const unsigned int & row, const unsigned int & col) const;
         const T&                    Element(const unsigned int & row, const unsigned int & col) const;
 
-       //	const Matrix<T>      operator*(const Matrix<T>& lhs, const double& rhs);
+       //    const Matrix<T>      operator*(const Matrix<T>& lhs, const double& rhs);
 //        friend const mtkMatrix<T>             operator*(const double& rVal, const mtkMatrix<T>& Rmat);
 };
 
@@ -121,9 +127,14 @@ LIB_EXTERN DoubleMatrix             mult(DoubleMatrix& m1, DoubleMatrix& m2);
 LIB_EXTERN DoubleMatrix             mult(ComplexMatrix& m1, DoubleMatrix& m2);
 LIB_EXTERN DoubleMatrix             mult(DoubleMatrix& m1, ComplexMatrix& m2);
 
-LIB_EXTERN ostream&                 operator<<(ostream& stream, const IntMatrix& mat);
-LIB_EXTERN ostream&                 operator<<(ostream& stream, const DoubleMatrix& mat);
-LIB_EXTERN ostream&                 operator<<(ostream& stream, const ComplexMatrix& mat);
+LIB_EXTERN ComplexMatrix             subtract(ComplexMatrix& x, ComplexMatrix& y);
+LIB_EXTERN ComplexMatrix               mult(ComplexMatrix& m1, ComplexMatrix& m2);
+LIB_EXTERN bool                     sameDimensions(ComplexMatrix& x, ComplexMatrix& y);
+
+
+LIB_EXTERN std::ostream&                 operator<<(std::ostream& stream, const IntMatrix& mat);
+LIB_EXTERN std::ostream&                 operator<<(std::ostream& stream, const DoubleMatrix& mat);
+LIB_EXTERN std::ostream&                 operator<<(std::ostream& stream, const ComplexMatrix& mat);
 
 template<class T>
 Matrix<T>::Matrix(unsigned int rows, unsigned int cols) :
@@ -140,7 +151,7 @@ _Array(NULL)
 
 //We can have various init scenarios
 template<class T>
-inline Matrix<T>::Matrix(const Matrix<double> & src) 
+inline Matrix<T>::Matrix(const Matrix<double> & src)
 :
 _Rows(src.RSize()),
 _Cols(src.CSize()),
@@ -154,7 +165,7 @@ _Array(NULL)
 }
 
 template<>
-inline Matrix<double>::Matrix(const Matrix<double> & src) 
+inline Matrix<double>::Matrix(const Matrix<double> & src)
 :
 _Rows(src._Rows),
 _Cols(src._Cols),
@@ -542,6 +553,18 @@ const Matrix<T> operator*(Matrix<T>& lhs, const double& rhs)
         {
             result(i,j) = lhs(i,j) * rhs;
         }
+    }
+    return result;
+}
+
+
+template<class T>
+Matrix<T>    multDiag(Matrix< T >& mat, T& val)
+{
+    Matrix<T> result(mat.RSize(), mat.CSize());
+    for (int i = 0; i < mat.RSize(); i++)
+    {
+        result(i, i) = mat(i, i) *  val;
     }
     return result;
 }

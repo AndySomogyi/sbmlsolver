@@ -1,13 +1,12 @@
-#ifdef USE_PCH
-#include "rr_pch.h"
-#endif
+/**
+ * LibStruct, original author: Frank Bergmann.
+ * Fixes and improvments: Totte Karsson
+ */
 #pragma hdrstop
 #include <string.h>
 #include <stdlib.h>
 #include <complex>
-
 #include "lsMatrix.h"
-#include "lsComplex.h"
 #include "lsUtils.h"
 
 //---------------------------------------------------------------------------
@@ -50,8 +49,8 @@ ostream& operator<<(ostream& stream, const ComplexMatrix& mat)
     {
         for(unsigned col = 0; col < mat.CSize(); col++)
         {
-            //Complex val = mat(row,col);
-           //stream<<val<<"\t";
+            Complex val = mat(row,col);
+               stream<<val<<"\t";
         }
         stream<<"\n";
     }
@@ -261,10 +260,65 @@ DoubleMatrix imag(const ComplexMatrix& m2)
     return result;
 }
 
+ComplexMatrix subtract(ComplexMatrix& x, ComplexMatrix& y)
+{
+    if(sameDimensions(x,y))
+    {
+        ComplexMatrix result(x.RSize(), x.CSize());
+
+        for (int i = 0; i < x.RSize(); i++)
+        {
+            for (int j = 0; j < x.CSize(); j++)
+            {
+                result(i, j) = x(i, j) - y(i, j);
+            }
+        }
+        return result;
+    }
+    else
+    {
+       throw ("Matrices must be the same dimension to perform subtraction");
+    }
+}
+
+
+//From Fransk CSharp code... a bug was fixed in this code..
+bool sameDimensions(ComplexMatrix& x, ComplexMatrix& y)
+{
+    return ((x.RSize() == y.RSize()) && (x.CSize() == y.CSize())) ? true : false;
+}
+
+ls::ComplexMatrix mult(ls::ComplexMatrix& m1, ls::ComplexMatrix& m2)
+{
+    if(m1.CSize() != m2.RSize())
+    {
+        throw("Matrix product not defined, incompatible sizes..\n");
+      }
+
+      ComplexMatrix temp(m1.RSize(), m2.CSize());
+      Complex tempVal(0,0);
+      for(int row1 = 0; row1 < m1.RSize(); row1++)
+    {
+        for(int rescol = 0; rescol < m2.CSize(); rescol++)
+        {
+              for(int col1 = 0; col1 < m1.CSize(); col1++)
+            {
+                Complex val1 = m1(row1,col1);
+                Complex val2 = m2(col1,rescol);
+                Complex test = val1*val2;
+                tempVal = test + tempVal;
+              }
+              temp(row1,rescol) = tempVal;
+              tempVal = Complex(0,0);
+        }
+      }
+      return temp;
+}
+
+
 //The following instantiate each matrix type, AFAIK
 template class Matrix<double>;
 template class Matrix<int>;
-template class Matrix< ls::Complex >;
-//template class Matrix< std::complex<double> >;
+template class Matrix< Complex >;
 
 }

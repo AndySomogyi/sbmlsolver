@@ -1,29 +1,33 @@
-#ifdef USE_PCH
-#include "rr_pch.h"
-#endif
+/**
+ * LibStruct, original author: Frank Bergmann.
+ * Fixes and improvments: Totte Karsson
+ */
 #pragma hdrstop
-#ifdef WIN32
+
+#ifdef _WIN32
 #pragma warning(disable: 4996)
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
+
 #include <iostream>
 #include <string>
 #include <vector>
 #include <sstream>
 #include <algorithm>
 #include <math.h>
+#include <complex>
 #include "lsLibStructural.h"
 #include "lsLibla.h"
 #include "lsSBMLModel.h"
 #include "lsMatrix.h"
 #include "lsUtils.h"
 
-using namespace std;
 #define LINE                "-----------------------------------------------------------------------------"
 
 namespace ls
 {
+using namespace std;
 
 LibStructural::LibStructural() :
     _Tolerance(1.0E-9),
@@ -541,7 +545,6 @@ void LibStructural::InitializeFromStoichiometryMatrix(DoubleMatrix& oMatrix,
     // initialize other matrices
     InitializeFromStoichiometryMatrix(oMatrix);
 }
-
 
 void LibStructural::InitializeFromStoichiometryMatrix(DoubleMatrix& oMatrix)
 {
@@ -1841,9 +1844,9 @@ bool LibStructural::testConservationLaw_4()
 
     _QrRankNmat = 0;
     double absval = 0.0;
-    for (unsigned int i=0; i<q11Eigenvalues.size(); i++)
+    for (unsigned int i=0; i < q11Eigenvalues.size(); i++)
     {
-        absval = sqrt( (q11Eigenvalues[i].Real)*(q11Eigenvalues[i].Real) + (q11Eigenvalues[i].Imag)*(q11Eigenvalues[i].Imag) );
+        absval = sqrt( (real(q11Eigenvalues[i]))*(real(q11Eigenvalues[i])) + (imag(q11Eigenvalues[i]))*(imag(q11Eigenvalues[i])) );
         if (absval > _Tolerance) _QrRankNmat++;
     }
 
@@ -2218,8 +2221,6 @@ void LibStructural::setTolerance(double dTolerance)
 {
     _Tolerance = dTolerance;
 }
-
-
 
 // load a new stoichiometry matrix and reset current loaded model
 void LibStructural::loadStoichiometryMatrix (DoubleMatrix& oMatrix)

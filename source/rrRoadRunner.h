@@ -353,6 +353,8 @@ public:
      */
     std::vector<std::string> getEigenvalueIds();
 
+    double                 getUnscaledParameterElasticity(const string& reactionName, const string& parameterName);
+
 
 
 
@@ -362,6 +364,11 @@ public:
      * returns the value of the given steady state identifier.
      */
     std::vector<double> computeSteadyStateValues();
+
+    Matrix<double> getFrequencyResponse(double startFrequency,
+            int numberOfDecades, int numberOfPoints,
+            const string& parameterName, const string& variableName, bool useDB,
+            bool useHz);
 
     /**
      * optionally compute the steady state and return a vector
@@ -677,6 +684,13 @@ private:
 
     double getParameterValue(const ParameterType::ParameterType parameterType,
             const int parameterIndex);
+
+    /**
+     * Changes a given parameter type by the given increment
+     */
+    void changeParameter(ParameterType::ParameterType parameterType,
+            int reactionIndex, int parameterIndex, double originalValue,
+            double increment);
 
     std::vector<SelectionRecord> getSteadyStateSelection(const std::vector<std::string>& newSelectionList);
     std::vector<SelectionRecord> getSelectionList();

@@ -9,7 +9,6 @@ set(target rr-libstruct)
 
 set(sources 
 lsMatrix
-lsComplex
 lsLibStructural
 lsSBMLModel
 lsUtils
@@ -64,7 +63,6 @@ endif()
 set(headers 
 lsExporter.h
 lsMatrix.h
-lsComplex.h
 lsLibStructural.h
 lsLA.h
 lsLibla.h

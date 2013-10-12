@@ -15,7 +15,6 @@
 %{
     #define SWIG_FILE_WITH_INIT
     #include <numpy/arrayobject.h>
-    #include <lsComplex.h>
     #include <lsMatrix.h>
     #include <lsLibla.h>
     #include <lsLA.h>
@@ -1007,20 +1006,20 @@ namespace Poco { class SharedLibrary{}; }
     /**
      * get values.
      */
-    
+
     double __getitem__(const std::string& id) {
         ExecutableModel* p = $self;
-        
+
         SelectionRecord sel(id);
 
         int index = -1;
         double result = 0;
-        
+
         if (sel.selectionType == SelectionRecord::UNKNOWN)
         {
             throw Exception("invalid selection string " + id);
         }
-        
+
         // check to see that we have valid selection ids
         switch(sel.selectionType)
         {
@@ -1029,7 +1028,7 @@ namespace Poco { class SharedLibrary{}; }
             break;
         case SelectionRecord::UNKNOWN_ELEMENT:
             // check for sbml element types
-            
+
             if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
             {
                 p->getFloatingSpeciesAmounts(1, &index, &result);
@@ -1089,29 +1088,29 @@ namespace Poco { class SharedLibrary{}; }
                 throw Exception("Invalid id '" + id + "' for floating amount rate");
                 break;
             }
-            
+
         default:
             Log(Logger::PRIO_ERROR) << "A new SelectionRecord should not have this value: "
                                     << sel.to_repr();
             throw Exception("Invalid selection '" + id + "' for setting value");
             break;
         }
-        
+
         return result;
     }
 
     void __setitem__(const std::string& id, double value) {
         ExecutableModel* p = $self;
-        
+
         SelectionRecord sel(id);
 
         int index = -1;
-        
+
         if (sel.selectionType == SelectionRecord::UNKNOWN)
         {
             throw Exception("invalid selection string " + id);
         }
-        
+
         // check to see that we have valid selection ids
         switch(sel.selectionType)
         {
@@ -1120,7 +1119,7 @@ namespace Poco { class SharedLibrary{}; }
             break;
         case SelectionRecord::UNKNOWN_ELEMENT:
             // check for sbml element types
-            
+
             if ((index = p->getFloatingSpeciesIndex(sel.p1)) >= 0)
             {
                 p->setFloatingSpeciesAmounts(1, &index, &value);
@@ -1159,7 +1158,7 @@ namespace Poco { class SharedLibrary{}; }
                 throw Exception(msg);
                 break;
             }
-            
+
         default:
             Log(Logger::PRIO_ERROR) << "Invalid selection '" + sel.to_string() + "' for setting value";
             throw Exception("Invalid selection '" + sel.to_string() + "' for setting value");
@@ -1167,7 +1166,7 @@ namespace Poco { class SharedLibrary{}; }
         }
     }
 
-    
+
     std::string __repr__() {
         std::stringstream s;
         s << "<roadrunner.ExecutableModel() { this = " << (void*)$self << " }>";

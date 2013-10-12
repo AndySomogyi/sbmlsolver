@@ -64,6 +64,21 @@ static vector<string> createModelStringList(ExecutableModel *model,
  */
 static std::vector<std::string> createSelectionList(const SimulateOptions& o);
 
+/**
+ * Some functions needed for the freq. analysis code
+ * From Frank Bergmann code, ported to C++ by Totte Karlson
+ * Generate log spaced array, algorithm from matlab, note operator precedence
+ * y = (10).^ [d1+(0:n-2)*(d2-d1)/(floor(n)-1), d2];
+ *
+ * d1 = starting value (10^d1)
+ * d2 = ending value (10^d2)
+ * n = number of values in the generated series
+ */
+static vector<double>  logspace(const double& startW, const double& d2, const int& n);
+static double          phase(Complex& val);
+static double          getAdjustment(Complex& z);
+
+
 
 //The instance count increases/decreases as instances are created/destroyed.
 int                   RoadRunner::mInstanceCount = 0;
@@ -420,7 +435,7 @@ double RoadRunner::getSelectionValue(const SelectionRecord& record)
 
         if (oComplex.size() > index) //Becuase first one is time !?
         {
-            return oComplex[index].Real;
+            return std::real(oComplex[index]);
         }
         return std::numeric_limits<double>::quiet_NaN();
     }
@@ -1442,7 +1457,7 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
 
                 if (oComplex.size() > nIndex)
                 {
-                    return oComplex[nIndex].Real;
+                    return std::real(oComplex[nIndex]);
                 }
                 return gDoubleNaN;
             }
@@ -3043,6 +3058,299 @@ vector<string> RoadRunner::getEigenvalueIds()
 
     return result;
 }
+
+
+//Compute the frequency response, startW, Number Of Decades, Number of Points, parameterName, variableName
+Matrix<double> RoadRunner::getFrequencyResponse(double startFrequency,
+        int numberOfDecades, int numberOfPoints,
+        const string& parameterName, const string& variableName,
+        bool useDB, bool useHz)
+{
+    if (!mModel)
+    {
+        throw CoreException(gEmptyModelMessage);
+    }
+
+    try
+    {
+        vector<string> reactionNames = getReactionIds();
+        vector<string> speciesNames = getFloatingSpeciesIds();
+
+        // Prepare the dv/dp array
+        Matrix< Complex > dvdp(reactionNames.size(), 1);
+
+        //Guess we don't need to simulate here?? (TK)
+        //        SimulateOptions opt;
+        //        opt.start = 0;
+        //        opt.duration = 50.0;
+        //        opt.steps = 1;
+        //        simulate(&opt);
+        if(steadyState() > 1E-2)
+        {
+            throw Exception("Unable to locate steady state during frequency response computation");
+        }
+
+        ComplexMatrix uelast(getUnscaledElasticityMatrix());
+        ComplexMatrix Nr( *(getNrMatrix()));
+        ComplexMatrix LinkMatrix( *(getLinkMatrix()));
+
+        // Compute dv/dp
+        for (int j = 0; j < reactionNames.size(); j++)
+        {
+            double val = getUnscaledParameterElasticity(reactionNames[j], parameterName);
+            dvdp(j, 0) = Complex(val, 0.0);
+            Log(lDebug)<<"dv/dp: " << dvdp(j, 0);
+        }
+
+        // Compute the Jacobian first
+        ComplexMatrix T1(Nr.RSize(), uelast.CSize());
+        T1 = mult(Nr, uelast);
+        Log(lInfo)<<T1;
+
+        ComplexMatrix Jac(Nr.RSize(), LinkMatrix.CSize());
+        Jac = mult(T1, LinkMatrix);
+
+        ComplexMatrix Id(Nr.RSize(), Nr.RSize());
+
+        //Create Identity matrix
+        for(int i = 0; i < Id.RSize(); i++)
+        {
+            Id(i,i) = Complex(1,0);
+        }
+
+        ComplexMatrix T2(Nr.RSize(), LinkMatrix.CSize());   // Stores iwI - Jac  and (iwI - Jac)^-1
+        ComplexMatrix T3(LinkMatrix.RSize(), 1);            // Stores (iwI - Jac)^-1 . Nr
+        ComplexMatrix T4(Nr.RSize(), Nr.CSize());
+        ComplexMatrix T5(LinkMatrix.RSize(), 1);
+        ComplexMatrix Inv(Nr.RSize(), LinkMatrix.CSize());
+
+        // resultArray stores frequency, gain and phase
+        Matrix<double> resultArray(numberOfPoints, 3);
+
+        // Main loop, generate log spaced frequency numbers and compute the gain and phase at each frequency
+        vector<double> w(logspace(startFrequency, numberOfDecades, numberOfPoints));
+
+        for (int i = 0; i < numberOfPoints; i++)
+        {
+            Complex diagVal(0.0, w[i]);
+
+            T1 = multDiag(Id, diagVal); // Compute iwI
+            T2 = subtract(T1, Jac);     // Compute iwI - Jac //// Compute (iwI - Jac)^-1
+            Inv = GetInverse(T2);
+            T3  = mult(Inv, Nr);        // Compute (iwI - Jac)^-1 . Nr
+
+            for (int j = 0; j < reactionNames.size(); j++)
+            {
+                double realPart = getUnscaledParameterElasticity(reactionNames[j], parameterName);
+                dvdp(j, 0) = ls::Complex(realPart, 0.0);
+            }
+
+            T4 = mult(T3, dvdp);    // Compute(iwI - Jac)^-1 . Nr . dvdp
+
+            // Finally include the dependent set as well.
+            T5 = mult(LinkMatrix, T4); // Compute L (iwI - Jac)^-1 . Nr . dvdp
+
+            for (int j = 0; j < speciesNames.size(); j++)
+            {
+                if (speciesNames[j] == variableName)
+                {
+                    double dw = abs(T5(j, 0));
+                    if (useDB)
+                    {
+                        dw = 20.0*log10(dw);
+                    }
+                    resultArray(i,1) = dw;
+                    Complex val(T5(j, 0));
+
+                    double phase = (180.0/M_PI) * rr::phase(val) + getAdjustment(val);
+                    resultArray(i,2) = phase;
+                    break;
+                }
+            }
+            if (useHz)
+            {
+                // Store frequency, convert to Hz by dividing by 2Pi
+                resultArray[i][0] = w[i]/(2.*M_PI);
+            }
+            else
+            {
+                // Store frequency, leave as rad/sec
+                resultArray[i][0] = w[i];
+            }
+        }
+        return resultArray;
+    }
+    catch(const Exception& e)
+    {
+      throw Exception("Unexpected error in getFrequencyResponse(): " +  e.Message());
+    }
+}
+
+//From Franks RoadRunner csharp.. Used in Freq analysis code
+//Returns the unscaled elasticity for a named reaction with respect to a named parameter (local or global)
+double RoadRunner::getUnscaledParameterElasticity(const string& reactionName, const string& parameterName)
+{
+    int parameterIndex;
+
+    if (!mModel)
+    {
+        throw CoreException(gEmptyModelMessage);
+    }
+    try
+    {
+        mModel->convertToConcentrations();
+        mModel->evalReactionRates();
+
+        int reactionIndex = mModel->getReactionIndex(reactionName);
+
+        if(reactionIndex == -1)
+        {
+            throw CoreException("Internal Error: unable to locate reaction name while computing unscaled elasticity");
+        }
+
+        // Look for the parameter name, check local parameters first, then global
+        ParameterType::ParameterType parameterType;
+
+//        if (1==2)//(ModelGenerator.Instance.localParameterList[reactionIndex].find(reactionName, parameterName, out parameterIndex))
+//        {
+//    //        parameterType = TParameterType.ptLocalParameter;
+//        }
+        if(mModel->getGlobalParameterIndex(parameterName) != -1)
+        {
+            parameterIndex = mModel->getGlobalParameterIndex(parameterName);
+            parameterType  = ParameterType::ptGlobalParameter;
+        }
+        else if(mModel->getBoundarySpeciesIndex(parameterName) != -1)
+        {
+            parameterIndex = mModel->getBoundarySpeciesIndex(parameterName);
+            parameterType  = ParameterType::ptBoundaryParameter;
+        }
+        else if(mModel->getConservedSumIndex(parameterName) != -1)
+        {
+            parameterIndex = mModel->getConservedSumIndex(parameterName);
+            parameterType = ParameterType::ptConservationParameter;
+        }
+        else
+        {
+            return 0.0;
+        }
+
+        double originalParameterValue = 0.0;
+        double result = 0;
+        switch (parameterType)
+        {
+            case ParameterType::ptGlobalParameter:
+                originalParameterValue = getGlobalParameterByIndex(parameterIndex);
+            break;
+            case ParameterType::ptBoundaryParameter:
+                originalParameterValue = getBoundarySpeciesByIndex(parameterIndex);
+            break;
+            case ParameterType::ptConservationParameter:
+                //originalParameterValue = mModel->getC ;//model.ct[parameterIndex];
+                mModel->getConservedSums(1, &parameterIndex, &result);
+                originalParameterValue = result;
+            break;
+            default:
+                throw(Exception("This parameterType is not supported in getUnscaledParameterElasticity"));
+        }
+
+        double hstep = mDiffStepSize*originalParameterValue;
+        if (fabs(hstep) < 1E-12)
+        {
+            hstep = mDiffStepSize;
+        }
+
+        double f1, f2, fi, fi2, fd, fd2;
+        changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, hstep);
+        mModel->convertToConcentrations();
+        mModel->evalReactionRates();
+        mModel->getReactionRates(1, &reactionIndex, &fi);
+
+        changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, 2.0*hstep);
+        mModel->evalReactionRates();
+        mModel->getReactionRates(1, &reactionIndex, &fi2);
+
+        changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, -hstep);
+        mModel->evalReactionRates();
+        mModel->getReactionRates(1, &reactionIndex, &fd);
+
+        changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, -2.0*hstep);
+        mModel->evalReactionRates();
+        mModel->getReactionRates(1, &reactionIndex, &fd2);
+
+        // Use instead the 5th order approximation double unscaledElasticity = (0.5/hstep)*(fi-fd);
+        // The following separated lines avoid small amounts of roundoff error
+        f1 = fd2 + 8.0*fi;
+        f2 = -(8.0*fd + fi2);
+
+        // What ever happens, make sure we restore the species level
+        changeParameter(parameterType, reactionIndex, parameterIndex, originalParameterValue, 0);
+        return 1.0/(12.0*hstep)*(f1 + f2);
+    }
+    catch(const Exception& ex)
+    {
+        throw(Exception("Problem in getUnscaledParameterElasticity():" + ex.getMessage()));
+    }
+}
+
+// Changes a given parameter type by the given increment
+void RoadRunner::changeParameter(ParameterType::ParameterType parameterType, int reactionIndex, int parameterIndex,
+                                    double originalValue, double increment)
+{
+    setParameterValue(parameterType, parameterIndex, originalValue + increment);
+}
+
+
+vector<double> logspace(const double& startW, const double& d2, const int& n)
+{
+    double d1 = 0;
+    vector<double> y(n);
+    for (int i = 0; i <= n - 2; i++)
+    {
+        y[i] = i*(d2 - d1);
+        y[i] = y[i]/(n - 1);
+        y[i] = d1 + y[i];
+        y[i] = pow(10, y[i]) * startW;
+    }
+    y[n - 1] = pow(10, d2)*startW;
+    return y;
+}
+
+double phase(Complex& val)
+{
+    if ((real(val) == 0.0) && (imag(val) == 0.0))
+    {
+        return 0.0;
+    }
+    else
+    {
+        return atan2(imag(val), real(val));
+    }
+}
+
+//This function is used in roadrunners freq analysis code...
+double getAdjustment(Complex& z)
+{
+    double adjustment;
+    if (real(z) >= 0 && imag(z) >= 0)
+    {
+        adjustment = 0;
+    }
+    else if (real(z) >= 0 && imag(z) < 0)
+    {
+        adjustment = 360;
+    }
+    else if (real(z) < 0 && imag(z) >= 0)
+    {
+        adjustment = 0;
+    }
+    else
+    {
+        adjustment = 360;
+    }
+    return adjustment;
+}
+
 
 
 

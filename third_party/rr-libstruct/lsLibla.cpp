@@ -1,6 +1,7 @@
-#ifdef USE_PCH
-#include "rr_pch.h"
-#endif
+/**
+ * LibStruct, original author: Frank Bergmann.
+ * Fixes and improvments: Totte Karsson
+ */
 #pragma hdrstop
 #include <iostream>
 #include <fstream>
@@ -21,20 +22,22 @@ extern "C"
 }
 //---------------------------------------------------------------------------
 
-using namespace std;
-using namespace ls;
 namespace ls
 {
+
+using namespace std;
+using namespace ls;
+
 double gLapackTolerance = 1.0E-12;
 
 double getTolerance()
 {
-	return gLapackTolerance;
+    return gLapackTolerance;
 }
 
 void setTolerance(double dTolerance)
 {
-	gLapackTolerance = dTolerance;
+    gLapackTolerance = dTolerance;
 }
 
 vector< Complex> getEigenValues(DoubleMatrix &oMatrix)
@@ -114,8 +117,10 @@ vector< ls::Complex > ZgetEigenValues(ComplexMatrix &oMatrix)
         for(int j=0; j<numCols; j++)
         {
             index = (j+numRows*i);
-            A[index].r = oMatrix(j,i).getReal();
-            A[index].i = oMatrix(j,i).getImag();
+
+            A[index].r = real(oMatrix(j,i));
+            A[index].i = imag(oMatrix(j,i));
+
         }
     }
 
@@ -271,37 +276,37 @@ vector< DoubleMatrix* > getQRWithPivot(DoubleMatrix &oMatrix)
     // free
     if (row*col)
     {
-    	delete[] A;
+        delete[] A;
     }
 
     if (row*row)
     {
-    	delete[] Q;
+        delete[] Q;
     }
 
     if (row*col)
     {
-    	delete[] R;
+        delete[] R;
     }
 
     if (col*col)
     {
-    	delete[] P;
+        delete[] P;
     }
 
     if(tau)
     {
-    	delete[] tau;
+        delete[] tau;
     }
 
     if (jpvt)
     {
-    	delete[] jpvt;
+        delete[] jpvt;
     }
 
     if (work)
     {
-    	delete[] work;
+        delete[] work;
     }
 
     return oResult;
@@ -579,11 +584,11 @@ ComplexMatrix* getEigenVectors(DoubleMatrix &oMatrix)
         for (int j = 0; j < numRows; j++)
         {
             index = (j+numRows*i);
-            Complex complex(
+            Complex complexNr(
                 ls::RoundToTolerance( vr[index].r, gLapackTolerance ),
                 ls::RoundToTolerance( vr[index].i, gLapackTolerance ));
 
-            (*oResult)(i,j).set(complex.Real, complex.Imag);
+            (*oResult)(i,j) = complexNr;//(.set(complex.Real, complex.Imag);
         }
     }
 
@@ -619,8 +624,8 @@ ComplexMatrix* ZgetEigenVectors(ComplexMatrix &oMatrix)
         for(int j=0; j<numCols; j++)
         {
             index = (j+numRows*i);
-            A[index].r = oMatrix(j,i).Real;
-            A[index].i = oMatrix(j,i).Imag;
+            A[index].r = real(oMatrix(j,i));
+            A[index].i = imag(oMatrix(j,i));
         }
     }
 
@@ -633,11 +638,11 @@ ComplexMatrix* ZgetEigenVectors(ComplexMatrix &oMatrix)
         for (int j = 0; j < numRows; j++)
         {
             index = (j+numRows*i);
-            Complex complex(
+            Complex complexNr(
                 ls::RoundToTolerance( vr[index].r, gLapackTolerance ),
                 ls::RoundToTolerance( vr[index].i, gLapackTolerance ));
 
-            (*oResult)(i,j).set(complex.Real, complex.Imag);
+            (*oResult)(i,j) = complexNr;//.set(complex.Real, complex.Imag);
         }
     }
 
@@ -745,8 +750,8 @@ void ZgetSVD(ComplexMatrix &inputMatrix, ComplexMatrix* &outU, std::vector<doubl
         for(int j=0; j<numCols; j++)
         {
             index = (j+numRows*i);
-            A[index].r = inputMatrix(j,i).Real;
-            A[index].i = inputMatrix(j,i).Imag;
+            A[index].r = real(inputMatrix(j,i));
+            A[index].i = imag(inputMatrix(j,i));
         }
     }
 
@@ -759,8 +764,8 @@ void ZgetSVD(ComplexMatrix &inputMatrix, ComplexMatrix* &outU, std::vector<doubl
         for (int j = 0; j < numRows; j++)
         {
             index = (j+numRows*i);
-            (*outU)(j,i).set( ls::RoundToTolerance( U[index].r, gLapackTolerance),
-                ls::RoundToTolerance( U[index].i, gLapackTolerance) );
+            (*outU)(j,i) = Complex ((ls::RoundToTolerance( U[index].r, gLapackTolerance),
+                ls::RoundToTolerance( U[index].i, gLapackTolerance))) ;
         }
     }
 
@@ -770,7 +775,7 @@ void ZgetSVD(ComplexMatrix &inputMatrix, ComplexMatrix* &outU, std::vector<doubl
         for (int j = 0; j < numCols; j++)
         {
             index = (j+numCols*i);
-            (*outV)(i,j).set( ls::RoundToTolerance( VT[index].r, gLapackTolerance),
+            (*outV)(i,j) = Complex( ls::RoundToTolerance( VT[index].r, gLapackTolerance),
                 ls::RoundToTolerance( -VT[index].i, gLapackTolerance));
         }
     }
@@ -865,31 +870,31 @@ LU_Result* getLU(DoubleMatrix &oMatrix)
     {
         (*L)(i,i) = 1.0;
         (*U)(i,i) = A[i+numRows*i];
-        for (int j=0; j<i; j++) 
+        for (int j=0; j<i; j++)
         {
             (*L)(i,j) = A[i+numRows*j];
         }
-        for (int j=i+1; j<minRC; j++) 
+        for (int j=i+1; j<minRC; j++)
         {
             (*U)(i,j) = A[i+numRows*j];
         }
     }
 
-    if (numRows > numCols) 
+    if (numRows > numCols)
     {
-        for (int i = numCols; i < numRows; i++) 
+        for (int i = numCols; i < numRows; i++)
         {
-            for (int j=0; j<numCols; j++) 
+            for (int j=0; j<numCols; j++)
             {
                 (*L)(i,j) = A[i+numRows*j];
             }
         }
     }
-    else  
+    else
     {
-        for (int i=0; i<numRows; i++) 
+        for (int i=0; i<numRows; i++)
         {
-            for (int j=numRows; j<numCols; j++) 
+            for (int j=numRows; j<numCols; j++)
             {
                 (*U)(i,j) = A[i+numRows*j];
             }
@@ -901,9 +906,9 @@ LU_Result* getLU(DoubleMatrix &oMatrix)
     for (int i = 0; i < numRows; i++)
         (*P)(i,i) = 1;
     for (int i = 0; i < minRC; i++)
-    {        
+    {
         if (vecP[i] != 0 && vecP[i]-1 != i)
-            P->swapRows(i, vecP[i]-1);            
+            P->swapRows(i, vecP[i]-1);
     }
 
     LU_Result* oResult = new LU_Result();
@@ -914,7 +919,7 @@ LU_Result* getLU(DoubleMatrix &oMatrix)
     oResult->L = L; oResult->U = U;
     oResult->P = P; oResult->nInfo = info;
 
-    delete[] A; delete [] vecP;    
+    delete[] A; delete [] vecP;
 
     return oResult;
 }
@@ -942,35 +947,35 @@ LU_Result* getLUwithFullPivoting(DoubleMatrix &oMatrix)
     DoubleMatrix *U = new DoubleMatrix(numRows, numCols);
 
     // Assign values to Lmat and Umat
-    for (int i=0; i<numRows; i++) 
+    for (int i=0; i<numRows; i++)
     {
         (*L)(i,i) = 1.0;
         (*U)(i,i) = A[i+numRows*i];
-        for (int j=0; j<i; j++) 
+        for (int j=0; j<i; j++)
         {
             (*L)(i,j) = A[i+numRows*j];
         }
-        for (int j=i+1; j<numRows; j++) 
+        for (int j=i+1; j<numRows; j++)
         {
             (*U)(i,j) = A[i+numRows*j];
         }
     }
 
-    if (numRows > numCols) 
+    if (numRows > numCols)
     {
-        for (int i = numCols; i < numRows; i++) 
+        for (int i = numCols; i < numRows; i++)
         {
-            for (int j=0; j<numCols; j++) 
+            for (int j=0; j<numCols; j++)
             {
                 (*L)(i,j) = A[i+numRows*j];
             }
         }
     }
-    else  
+    else
     {
-        for (int i=0; i<numRows; i++) 
+        for (int i=0; i<numRows; i++)
         {
-            for (int j=numRows; j<numCols; j++) 
+            for (int j=numRows; j<numCols; j++)
             {
                 (*U)(i,j) = A[i+numRows*j];
             }
@@ -980,18 +985,18 @@ LU_Result* getLUwithFullPivoting(DoubleMatrix &oMatrix)
     // build permutation matrix
     IntMatrix *P = new IntMatrix(numRows, numRows);
     for (int i = 0; i < numRows; i++)
-        (*P)(i,i) = 1;    
+        (*P)(i,i) = 1;
     for (int i = 0; i < numRows; i++)
-    {        
+    {
         if (vecP[i] != 0 && vecP[i]-1 != i)
-            P->swapRows(i, vecP[i]-1);            
+            P->swapRows(i, vecP[i]-1);
     }
 
     IntMatrix *Q = new IntMatrix(numRows, numRows);
     for (int i = 0; i < numRows; i++)
         (*Q)(i,i) = 1;
     for (int i = 0; i < numRows; i++)
-    {        
+    {
         if (vecQ[i] != 0 && vecQ[i]-1 != i)
             Q->swapCols(i,vecQ[i]-1);
     }
@@ -1010,7 +1015,7 @@ LU_Result* getLUwithFullPivoting(DoubleMatrix &oMatrix)
 }
 
 DoubleMatrix* inverse(DoubleMatrix &oMatrix)
-{    
+{
     //Log(lDebug5) << "======================================================" << endl;
     //Log(lDebug5) << "=== inverse " << endl;
     //Log(lDebug5) << "======================================================" << endl << endl;
@@ -1021,7 +1026,7 @@ DoubleMatrix* inverse(DoubleMatrix &oMatrix)
 
 
     if (numRows != numCols)
-        throw new ApplicationException ("Input Matrix must be square", "Expecting a Square Matrix");    
+        throw new ApplicationException ("Input Matrix must be square", "Expecting a Square Matrix");
 
 
     doublereal* A = oMatrix.getCopy(true);
@@ -1073,8 +1078,8 @@ ComplexMatrix* Zinverse (ComplexMatrix &oMatrix)
     {
         for (int j=0; j<numRows; j++)
         {
-            A[i+numRows*j].r = oMatrix(i,j).getReal();
-            A[i+numRows*j].i = oMatrix(i,j).getImag();
+            A[i+numRows*j].r = real(oMatrix(i,j));
+            A[i+numRows*j].i = imag(oMatrix(i,j));
         }
     }
 
@@ -1107,12 +1112,13 @@ ComplexMatrix* Zinverse (ComplexMatrix &oMatrix)
     //ls::print(numRows, numRows, A);
 
     oResultMatrix = new ComplexMatrix(numRows,numRows);
-    for (int i=0; i<numRows; i++)
+    for (int i=0; i < numRows; i++)
     {
-        for (int j=0; j<numRows; j++)
+        for (int j=0; j < numRows; j++)
         {
-            (*oResultMatrix )(i,j).Real = ls::RoundToTolerance( A[(i+numRows*j)].r, gLapackTolerance);
-            (*oResultMatrix )(i,j).Imag = ls::RoundToTolerance( A[(i+numRows*j)].i, gLapackTolerance);
+            Complex tols(ls::RoundToTolerance( A[(i+numRows*j)].r, gLapackTolerance), ls::RoundToTolerance( A[(i+numRows*j)].i, gLapackTolerance));
+            (*oResultMatrix )(i,j) = tols;
+
         }
     }
 
@@ -1144,8 +1150,8 @@ ComplexMatrix* Zinverse (const ComplexMatrix &oMatrix)
     {
         for (int j=0; j<numRows; j++)
         {
-            A[i+numRows*j].r = oMatrix(i,j).getReal();
-            A[i+numRows*j].i = oMatrix(i,j).getImag();
+            A[i+numRows*j].r = real(oMatrix(i,j));
+            A[i+numRows*j].i = imag(oMatrix(i,j));
         }
     }
 
@@ -1182,8 +1188,8 @@ ComplexMatrix* Zinverse (const ComplexMatrix &oMatrix)
     {
         for (int j=0; j<numRows; j++)
         {
-            (*oResultMatrix )(i,j).Real = ls::RoundToTolerance( A[(i+numRows*j)].r, gLapackTolerance);
-            (*oResultMatrix )(i,j).Imag = ls::RoundToTolerance( A[(i+numRows*j)].i, gLapackTolerance);
+            Complex tols(ls::RoundToTolerance( A[(i+numRows*j)].r, gLapackTolerance), ls::RoundToTolerance( A[(i+numRows*j)].i, gLapackTolerance));
+            (*oResultMatrix )(i,j) = tols;
         }
     }
 
