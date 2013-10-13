@@ -76,7 +76,10 @@
   }
 }
 
-/* Convert from C --> Python */
+/**
+ *  Convert from C --> Python
+ *  copy data
+ */
 %typemap(out) ls::DoubleMatrix {
 
     int rows = ($1).numRows();
@@ -92,7 +95,10 @@
 }
 
 
-/* Convert from C --> Python */
+/**
+ * Convert from C --> Python
+ * reference roadrunner owned data.
+ */
 %typemap(out) ls::DoubleMatrix* {
 
     int rows = ($1)->numRows();
@@ -128,7 +134,7 @@
     /* PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0, */
     /*         NPY_CARRAY, NULL); */
 
-    
+
     $result  = RoadRunnerData_to_py($1);
 }
 
@@ -269,8 +275,8 @@ static PyObject* _ExecutableModel_getIds(ExecutableModel *model,
 }
 
 /**
- * create a numpy structured array with the column names set from 
- * the column names of the RoadRunnerData object. 
+ * create a numpy structured array with the column names set from
+ * the column names of the RoadRunnerData object.
  */
 static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 
@@ -278,45 +284,63 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
     // In [87]: b = array(array([0,1,2,3]),
     //      dtype=[('r', 'f8'), ('g', 'f8'), ('b', 'f8'), ('a', 'f8')])
 
-    const std::vector<std::string> &names = pData->getColumnNames();
-    ls::DoubleMatrix& mat = const_cast<ls::DoubleMatrix&>(pData->getData());
+    if (pData->structuredResult) {
 
-    int rows = mat.numRows();
-    int cols = mat.numCols();
-    double* mData = mat.getArray();
+        const std::vector<std::string> &names = pData->getColumnNames();
+        ls::DoubleMatrix& mat = const_cast<ls::DoubleMatrix&>(pData->getData());
 
-    PyObject* list = PyList_New(names.size());
+        int rows = mat.numRows();
+        int cols = mat.numCols();
+        double* mData = mat.getArray();
 
-    for(int i = 0; i < names.size(); ++i) 
-    {
-        PyObject *col = PyString_FromString(names[i].c_str());
-        PyObject *type = PyString_FromString("f8");
-        PyObject *tup = PyTuple_Pack(2, col, type);
+        PyObject* list = PyList_New(names.size());
 
-        void PyList_SET_ITEM(list, i, tup);
+        for(int i = 0; i < names.size(); ++i)
+            {
+                PyObject *col = PyString_FromString(names[i].c_str());
+                PyObject *type = PyString_FromString("f8");
+                PyObject *tup = PyTuple_Pack(2, col, type);
+
+                void PyList_SET_ITEM(list, i, tup);
+            }
+
+        PyArray_Descr* descr = 0;
+        PyArray_DescrConverter(list, &descr);
+
+        // done with list
+        Py_CLEAR(list);
+
+        npy_intp dims[] = {rows};
+
+        // steals a reference to descr
+        PyObject *result = PyArray_SimpleNewFromDescr(1, dims,  descr);
+
+        if (result) {
+
+            assert(PyArray_NBYTES(result) == rows*cols*sizeof(double) && "invalid array size");
+
+            double* data = (double*)PyArray_BYTES(result);
+
+            memcpy(data, mData, rows*cols*sizeof(double));
+        }
+
+        return result;
     }
+    else {
 
-    PyArray_Descr* descr = 0;
-    PyArray_DescrConverter(list, &descr); 
+        ls::DoubleMatrix& mat = const_cast<ls::DoubleMatrix&>(pData->getData());
+        int rows = mat.numRows();
+        int cols = mat.numCols();
+        int nd = 2;
 
-    // done with list
-    Py_CLEAR(list);
+        npy_intp dims[2] = {rows, cols};
+        double *data = (double*)malloc(sizeof(double)*rows*cols);
+        memcpy(data, mat.getArray(), sizeof(double)*rows*cols);
 
-    npy_intp dims[] = {rows};
-
-    // steals a reference to descr
-    PyObject *result = PyArray_SimpleNewFromDescr(1, dims,  descr);
-
-    if (result) {
-
-        assert(PyArray_NBYTES(result) == rows*cols*sizeof(double) && "invalid array size");
-
-        double* data = (double*)PyArray_BYTES(result);
-
-        memcpy(data, mData, rows*cols*sizeof(double));
+        PyObject *pArray = PyArray_New(&PyArray_Type, nd, dims, NPY_DOUBLE, NULL, data, 0,
+                                       NPY_CARRAY | NPY_OWNDATA, NULL);
+        return pArray;
     }
-
-    return result;
 };
 
 
@@ -739,6 +763,7 @@ namespace Poco { class SharedLibrary{}; }
     double end;
     bool resetModel;
     bool stiff;
+    bool structuredResult;
 
     std::string __repr__() {
         std::stringstream s;
@@ -782,6 +807,18 @@ namespace Poco { class SharedLibrary{}; }
             opt->flags |= SimulateOptions::RESET_MODEL;
         } else {
             opt->flags &= !SimulateOptions::RESET_MODEL;
+        }
+    }
+
+    bool rr_SimulateOptions_structuredResult_get(SimulateOptions* opt) {
+        return opt->flags & SimulateOptions::STRUCTURED_RESULT;
+    }
+
+    void rr_SimulateOptions_structuredResult_set(SimulateOptions* opt, bool value) {
+        if (value) {
+            opt->flags |= SimulateOptions::STRUCTURED_RESULT;
+        } else {
+            opt->flags &= !SimulateOptions::STRUCTURED_RESULT;
         }
     }
 
@@ -1229,18 +1266,23 @@ namespace Poco { class SharedLibrary{}; }
 %pythoncode %{
 def plot(result, show=True):
     import pylab as p
-    
-    if len(result.dtype.names) < 1:
-        raise Exception('no columns to plot')
 
-    time = result.dtype.names[0]
+    if result.dtype.names is None:
+        # treat as a regular array
+        p.plot(result[:,0], result[:,1:])
 
-    for name in result.dtype.names[1:]:
-        p.plot(result[time], result[name], label='$' + name + '$')
+    else:
+        if len(result.dtype.names) < 1:
+            raise Exception('no columns to plot')
 
-    p.legend()
+        time = result.dtype.names[0]
+
+        for name in result.dtype.names[1:]:
+            p.plot(result[time], result[name], label='$' + name + '$')
+
+        p.legend()
 
     if show:
-    	p.show()
+        p.show()
 %}
 

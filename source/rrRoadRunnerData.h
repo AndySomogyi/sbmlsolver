@@ -84,6 +84,12 @@ public:
     bool writeTo(const std::string& fileName) const;
     bool check() const;    //Check if containst proper data
 
+    /**
+     * when this is converted to a numpy array, should this be converted to a structured
+     * array (with column names) (true) or converted to a regular array (false).
+     */
+    bool structuredResult;
+
     RR_DECLSPEC
     friend std::ostream& operator <<(std::ostream& ss,
             const RoadRunnerData& data);

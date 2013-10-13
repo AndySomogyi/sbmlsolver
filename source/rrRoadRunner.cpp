@@ -2704,6 +2704,9 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
         throw CoreException("Illegal input to simulate");
     }
 
+    // set how the result should be returned to python
+    mRoadRunnerData.structuredResult = mSettings.flags & SimulateOptions::STRUCTURED_RESULT;
+
     double timeEnd = mSettings.duration + mSettings.start;
     double timeStart = mSettings.start;
     int numPoints = mSettings.steps + 1;

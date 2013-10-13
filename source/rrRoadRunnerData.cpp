@@ -16,6 +16,7 @@ namespace rr
 {
 
 RoadRunnerData::RoadRunnerData(const int& rSize, const int& cSize ) :
+        structuredResult(true),
         mTimePrecision(6),
         mDataPrecision(16)
 {
@@ -27,6 +28,7 @@ RoadRunnerData::RoadRunnerData(const int& rSize, const int& cSize ) :
 
 RoadRunnerData::RoadRunnerData(const std::vector<std::string>& colNames,
         const DoubleMatrix& theData) :
+        structuredResult(true),
         mTimePrecision(6),
         mDataPrecision(16),
         mColumnNames(colNames),

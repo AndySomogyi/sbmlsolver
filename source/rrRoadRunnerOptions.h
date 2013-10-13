@@ -122,7 +122,7 @@ struct RR_DECLSPEC SimulateOptions
          * Simulate should return a raw result matrix without
          * adding any column names.
          */
-        RAW_SIMULATION_DATA     = (0x1 << 1)  // => 0x00000010
+        STRUCTURED_RESULT       = (0x1 << 1)  // => 0x00000010
     };
 
     /**

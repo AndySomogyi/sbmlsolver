@@ -37,7 +37,7 @@ start(0),
 duration(5),
 absolute(MaxAbsolute),
 relative(MaxRelative),
-flags(0),
+flags(STRUCTURED_RESULT),
 integrator(CVODE),
 integratorFlags(0)
 {
@@ -50,7 +50,7 @@ start(0),
 duration(5),
 absolute(MaxAbsolute),
 relative(MaxRelative),
-flags(0),
+flags(STRUCTURED_RESULT),
 integrator(CVODE),
 integratorFlags(0)
 {
