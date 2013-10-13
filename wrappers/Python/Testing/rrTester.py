@@ -860,7 +860,7 @@ def scriptTests():
     setGetFloatingSpeciesByIndex ('Set/Get Floating Species by Index')
     setGetBoundarySpeciesByIndex ('Set/Get Boundary Species by Index')
     setGetCompartmentByIndex ('Set/Get Compartment by Index')
-    setGetGlobalParameterByIndex ('Set/Get Global Parameter bu Index')
+    setGetGlobalParameterByIndex ('Set/Get Global Parameter buy Index')
     setGetBoundarySpeciesConcentrations ('Set/Get Boundary Species Concs')
     setGetFloatingSpeciesConcentrations ('Set/Get Floating Species Concs')
     setGetInitialFloatingSpeciesConcentrations ('Set/Get Initial Concs')
