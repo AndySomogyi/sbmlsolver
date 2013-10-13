@@ -304,6 +304,31 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
     {
         setStateVector(y);
     }
+    else if (!y && dydt)
+    {
+        // evaluate dydt using current state
+
+        evalVolatileStoichPtr(&modelData);
+
+        double conversionFactor = evalReactionRatesPtr(&modelData);
+
+        // floatingSpeciesAmountRates only valid for the following two
+        // functions, this will move to a parameter shortly...
+
+        modelData.floatingSpeciesAmountRates = dydt + modelData.numRateRules;
+
+        csr_matrix_dgemv(conversionFactor, modelData.stoichiometry,
+                modelData.reactionRates, 0.0, modelData.floatingSpeciesAmountRates);
+
+        evalConversionFactorPtr(&modelData);
+
+        modelData.floatingSpeciesAmountRates = 0;
+
+        // this will also move to a parameter for the evalRateRules func...
+        modelData.rateRuleRates = dydt;
+        evalRateRuleRatesPtr(&modelData);
+        modelData.rateRuleRates = 0;
+    }
 
     /*
     if (Logger::PRIO_TRACE <= rr::Logger::GetLogLevel()) {

@@ -286,9 +286,10 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
     ExecutableModel* model = *threadModel;
     assert(model && "model is NULL");
 
-
-
     assert(*nx == model->getStateVector(0) && "incorrect state vector size");
+
+    // sets the state vector
+    model->setStateVector(y);
 
     model->evalModel(0, y, fval);
 
@@ -381,11 +382,9 @@ string ErrorForStatus(const int& error)
 
 double NLEQInterface::computeSumsOfSquares()
 {
-    // Compute the sums of squares and return value to caller
-    model->evalModel(0.0, 0, 0);
     double sum = 0;
-    vector<double> rates(n);
-    model->getFloatingSpeciesAmountRates(rates.size(), 0, &rates[0]);
+    vector<double> rates(model->getStateVector(0));
+    model->evalModel(0, 0, &rates[0]);
 
     for (int i = 0; i < n; i++)
     {
