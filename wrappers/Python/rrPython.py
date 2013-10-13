@@ -832,7 +832,7 @@ def steadyState():
     if rrLib.steadyState(gHandle, pointer(value)) == True:
         return value.value
     else:
-        return (GetLastError(gHandle))
+        return (GetLastError())
 
 ##\brief A convenient method for returning a vector of the steady state species concentrations
 #
