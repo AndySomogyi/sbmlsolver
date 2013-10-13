@@ -2704,7 +2704,7 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
         throw CoreException("Illegal input to simulate");
     }
 
-    double timeEnd = mSettings.duration - mSettings.start;
+    double timeEnd = mSettings.duration + mSettings.start;
     double timeStart = mSettings.start;
     int numPoints = mSettings.steps + 1;
 
