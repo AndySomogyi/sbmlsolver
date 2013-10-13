@@ -314,7 +314,7 @@ J1 J2 J3 J4
 [Species Initial Condition Ids]
 init(S1) init(S3) init(S2)
 [Get Eigenvalue Ids]
-eigen_S1 eigen_S3 eigen_S2 
+eigen(S1) eigen(S3) eigen(S2)
 [Get Rates Of Change Ids]
 S1' S3' S2'
 [Set Steady State Selection List]
