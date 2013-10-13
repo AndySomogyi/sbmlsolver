@@ -137,11 +137,6 @@ public:
     uint getIndependentBoundarySpeciesSize() const;
 
     /**
-     * number of linearly indenent rows in the stochiometry matrix.
-     */
-    uint getLinearlyIndependentFloatingSpeciesSize() const;
-
-    /**
      * number of fully indenpendent species, these are species that
      * have thier dynamics fully determined by the reaction rates /
      * stoichiometric matrix -- these DO NOT have any rules determining

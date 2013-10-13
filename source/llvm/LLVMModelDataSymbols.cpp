@@ -364,11 +364,6 @@ std::vector<std::string> LLVMModelDataSymbols::getFloatingSpeciesIds() const
     return getIds(floatingSpeciesMap);
 }
 
-uint LLVMModelDataSymbols::getLinearlyIndependentFloatingSpeciesSize() const
-{
-    return linearlyIndependentFloatingSpeciesSize;
-}
-
 uint LLVMModelDataSymbols::getIndependentFloatingSpeciesSize() const
 {
     return independentFloatingSpeciesSize;
@@ -594,37 +589,19 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
     list<string> indFltSpecies;
     list<string> depFltSpecies;
 
-    // get the floating species and set thier compartments
-    ls::LibStructural structural(model);
-
-    poco_information(getLogger(),
-            "performed structural analysis on model: " +
-            structural.getAnalysisMsg());
-
-    // reorder by linearly independent first, then linearly dependent
-    vector<string> reorderedList = computeAndAssignConsevationLaws ?
-            structural.getReorderedSpecies() :
-            structural.getSpecies();
-
-    linearlyIndependentFloatingSpeciesSize = structural.getNumIndSpecies();
+    linearlyIndependentFloatingSpeciesSize = species->size();
 
     // figure out 'fully' indendent flt species -- those without rules.
-    for (uint i = 0; i < reorderedList.size(); ++i)
+    for (uint i = 0; i < species->size(); ++i)
     {
-        // just make sure its a valid species
-        const string& sid = reorderedList[i];
-        const Species *s = 0;
-        assert((s = species->get(sid)) && !s->getBoundaryCondition());
+        const Species *s = species->get(i);
 
-        if (computeAndAssignConsevationLaws &&
-                i <= linearlyIndependentFloatingSpeciesSize &&
-                !isIndependentElement(sid))
+        if (s->getBoundaryCondition())
         {
-            string msg = "structural analysis determined that " + sid +
-                    " is linearly independent, but it has has rules "
-                    "(assignment or rate) determining its dynamics.";
-            throw_llvm_exception(msg);
+            continue;
         }
+
+        const string& sid = s->getId();
 
         if (isIndependentElement(sid))
         {
