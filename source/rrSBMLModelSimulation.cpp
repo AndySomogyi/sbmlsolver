@@ -256,7 +256,7 @@ bool SBMLModelSimulation::LoadSBMLFromFile()                    //Use current fi
             opt.modelGeneratorOpt | LoadSBMLOptions::ForceReCompile :
             opt.modelGeneratorOpt & ~LoadSBMLOptions::ForceReCompile;
 
-    bool val = mEngine->loadSBMLFromFile(GetModelsFullFilePath(), &opt);
+    bool val = mEngine->load(GetModelsFullFilePath(), &opt);
     return val;
 }
 

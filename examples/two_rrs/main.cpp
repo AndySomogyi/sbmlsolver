@@ -27,8 +27,8 @@ int main(int argc, char** argv)
 
         RoadRunner rr1("", tmpFolder);
         RoadRunner rr2("", tmpFolder);
-        rr1.loadSBMLFromFile(modelFile);
-        rr2.loadSBMLFromFile(modelFile);
+        rr1.load(modelFile);
+        rr2.load(modelFile);
 
         Log(lInfo)<<" ---------- SIMULATE ---------------------";
 

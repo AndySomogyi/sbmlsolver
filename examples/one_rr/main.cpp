@@ -23,7 +23,7 @@ int main(int argc, char** argv)
         RoadRunner rr1("", tmpFolder);
         LoadSBMLOptions opt;
         opt.modelGeneratorOpt |= LoadSBMLOptions::ForceReCompile;
-        if(!rr1.loadSBMLFromFile(modelFile, &opt))
+        if(!rr1.load(modelFile, &opt))
         {
             Log(lError)<<"There was a problem loading model in file: "<<modelFile;
             throw(Exception("Bad things in loadSBMLFromFile function"));

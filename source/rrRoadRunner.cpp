@@ -17,6 +17,7 @@
 #include "rrVersionInfo.h"
 #include "rrCVODEInterface.h"
 #include "rrNLEQInterface.h"
+#include "rrSBMLReader.h"
 #include "c/rrNOMSupport.h"
 
 #include <iostream>
@@ -486,37 +487,6 @@ void RoadRunner::addNthOutputToResult(DoubleMatrix& results, int nRow, double dC
 }
 
 
-
-bool RoadRunner::loadSBMLFromFile(const string& fileName, const LoadSBMLOptions *options)
-{
-    if(!fileExists(fileName))
-    {
-        stringstream msg;
-        msg<<"File: "<<fileName<<" don't exist";
-        Log(lError)<<msg.str();
-        return false;
-    }
-
-    ifstream ifs(fileName.c_str());
-    if(!ifs)
-    {
-        stringstream msg;
-        msg<<"Failed opening file: "<<fileName;
-        Log(lError)<<msg.str();
-        return false;
-    }
-
-    std::string sbml((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
-
-    ifs.close();
-    Log(lDebug5)<<"Read SBML content from file:\n "<<sbml \
-                << "\n============ End of SBML "<<endl;
-
-    mCurrentSBMLFileName = fileName;
-
-    return loadSBML(sbml, options);
-}
-
 vector<double> RoadRunner::getConservedSums()
 {
     return getLibStruct()->getConservedSums();
@@ -537,27 +507,27 @@ string RoadRunner::createModelName(const string& mCurrentSBMLFileName)
     return modelName;
 }
 
-bool RoadRunner::loadSBML(const string& sbml, const LoadSBMLOptions *options)
+bool RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
 {
     Mutex::ScopedLock lock(roadRunnerMutex);
 
-    mCurrentSBML = sbml;
+    mCurrentSBML = SBMLReader::read(uriOrSbml);
 
     //clear temp folder of roadrunner generated files, only if roadRunner instance == 1
     Log(lDebug)<<"Loading SBML into simulator";
-    if (!sbml.size())
+    if (!mCurrentSBML.size())
     {
         throw(CoreException("SBML string is empty!"));
     }
 
-
     delete mModel;
+    mModel = 0;
 
     if (options)
     {
         mComputeAndAssignConservationLaws = options->modelGeneratorOpt
                 & LoadSBMLOptions::ConservationAnalysis;
-        mModel = mModelGenerator->createModel(sbml, options->modelGeneratorOpt);
+        mModel = mModelGenerator->createModel(mCurrentSBML, options->modelGeneratorOpt);
     }
     else
     {
@@ -565,13 +535,13 @@ bool RoadRunner::loadSBML(const string& sbml, const LoadSBMLOptions *options)
         opt.modelGeneratorOpt = getConservationAnalysis() ?
                 opt.modelGeneratorOpt | LoadSBMLOptions::ConservationAnalysis :
                 opt.modelGeneratorOpt & ~LoadSBMLOptions::ConservationAnalysis;
-        mModel = mModelGenerator->createModel(sbml, opt.modelGeneratorOpt);
+        mModel = mModelGenerator->createModel(mCurrentSBML, opt.modelGeneratorOpt);
     }
 
     //Finally intitilaize the model..
     if(!initializeModel())
     {
-        Log(lError)<<"Failed Initializing C Model";
+        Log(lError)<<"Failed Initializing ExecutableModel";
         return false;
     }
 
@@ -800,7 +770,7 @@ void RoadRunner::setConservationAnalysis(bool bValue)
         // have to reload
         opt.modelGeneratorOpt = opt.modelGeneratorOpt | LoadSBMLOptions::ForceReCompile;
 
-        if(!loadSBML(mCurrentSBML, &opt))
+        if(!load(mCurrentSBML, &opt))
         {
             throw( CoreException("Failed re-Loading model when setting computeAndAssignConservationLaws"));
         }

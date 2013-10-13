@@ -186,27 +186,16 @@ public:
     ExecutableModel* getModel();
 
     /**
-     * load an sbml document from disk.
+     * load an sbml document from anywhere.
      *
      * If options is not null, then the RoadRunner::computeAndAssignConservationLaws
      * flag is set to whatever value is specified in the options struct.
      *
-     * @param fileName: path to an sbml document.
+     * @param uriOrSBML: a URI, local path or sbml document contents.
      * @param options: an options struct, if null, default values are used.
      */
-    bool loadSBMLFromFile(const std::string& fileName,
+    bool load(const std::string& uriOrSBML,
             const LoadSBMLOptions* options = 0);
-
-    /**
-     * load an sbml document from a string containting the contents of an sbml document.
-     *
-     * If options is not null, then the RoadRunner::computeAndAssignConservationLaws
-     * flag is set to whatever value is specified in the options struct.
-     *
-     * @param fileName: path to an sbml document.
-     * @param options: an options struct, if null, default values are used.
-     */
-    bool loadSBML(const std::string& sbml, const LoadSBMLOptions* options = 0);
 
     /**
      * @deprecated, use ExecutableModel::getReactionRates

@@ -68,11 +68,16 @@ int main(int argc, char* argv[])
 
     TestPluginManager pmtest;
 
-    TestRoadRunner::steadyState("/Users/andy/steadyStateModel.xml");
+
+
+
 
     if (argc > 1)
     {
+
         cout << "testing '" << argv[1] << "'" << endl;
+
+        TestRoadRunner::testLoad(argv[1]);
 
         //string s = TestRoadRunner::read_uri(argv[1]);
 

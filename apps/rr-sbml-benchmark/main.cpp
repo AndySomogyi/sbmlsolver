@@ -98,7 +98,7 @@ int main(int argc, char** argv)
     // don't generate cache for models
     opt.modelGeneratorOpt = opt.modelGeneratorOpt & ~LoadSBMLOptions::ForceReCompile;
 
-    roadRunner.loadSBMLFromFile(sbmlFile, &opt);
+    roadRunner.load(sbmlFile, &opt);
 
     SimulateOptions settings(settingsFile);
 

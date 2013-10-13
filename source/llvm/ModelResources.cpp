@@ -27,7 +27,7 @@ ModelResources::~ModelResources()
 {
     Log(Logger::PRIO_DEBUG) << __FUNC__;
 
-    if (errStr->size() > 0)
+    if (errStr && errStr->size() > 0)
     {
         Log(Logger::PRIO_WARNING) << "Non-empty LLVM ExecutionEngine error string: " << *errStr;
     }

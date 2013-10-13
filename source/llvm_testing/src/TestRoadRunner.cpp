@@ -326,9 +326,30 @@ void TestRoadRunner::steadyState(const std::string& uri)
     Logger::setLevel(Logger::PRIO_DEBUG);
     RoadRunner r;
 
-    r.loadSBMLFromFile(uri);
+    r.load(uri);
 
     r.steadyState();
+}
+
+void TestRoadRunner::testLoad(const std::string& uri)
+{
+    try
+    {
+    Logger::setLevel(Logger::PRIO_DEBUG);
+
+    //std::string sbml = SBMLReader::read(uri);
+
+
+    RoadRunner r;
+
+    r.load(uri);
+
+    r.steadyState();
+    }
+    catch(std::exception& e)
+    {
+        cout << "error: " << e.what() << std::endl;
+    }
 }
 
 } /* namespace rr */

@@ -24,7 +24,7 @@ int main(int argc, char** argv)
         Log(lInfo)<<" ---------- LOADING/GENERATING MODEL: "<<modelFile;
 
         RoadRunner rr1("", tmpFolder);
-        if(!rr1.loadSBMLFromFile(modelFile))    //This will generate a model DLL
+        if(!rr1.load(modelFile))    //This will generate a model DLL
         {
             Log(lError)<<"Failed to create model DLL....";
             return -1;

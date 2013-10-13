@@ -212,7 +212,7 @@ bool LMFitThread::setupRoadRunner()
     }
 
     mRRI = new RoadRunner;
-    mRRI->loadSBML(mTheHost.mSBML.getValue());
+    mRRI->load(mTheHost.mSBML.getValue());
     mRRI->setSelections(mMinData.getObservedDataSelectionList());
     return true;
 }

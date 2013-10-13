@@ -57,7 +57,7 @@ string TestModelFileName;
 
         //Load the model
         aRR->setConservationAnalysis(true);
-        CHECK(aRR->loadSBMLFromFile(TestModelFileName));
+        CHECK(aRR->load(TestModelFileName));
     }
 
     TEST(COMPUTE_STEADY_STATE)

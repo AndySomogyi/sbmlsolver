@@ -18,8 +18,6 @@
 #include <math.h>
 
 
-
-
 using namespace llvm;
 using namespace std;
 using namespace libsbml;
@@ -35,12 +33,18 @@ static void createLibraryFunction(llvm::LibFunc::Func funcId,
 static Function* createGlobalMappingFunction(const char* funcName,
         llvm::FunctionType *funcType, Module *module);
 
+/**
+ * returns a VALID sbml document, if the doc has any error,
+ * an exception is thrown.
+ */
+static SBMLDocument *checkedReadSBMLFromString(const char* xml);
+
 // MSVC 2010 and earlier do not include the hyperbolic functions, define there here
 #if defined(_MSC_VER) && _MSC_VER < 1700
 
-static double asinh(double value) 
+static double asinh(double value)
 {
-	return log(value + sqrt(value * value + 1.));
+    return log(value + sqrt(value * value + 1.));
 }
 
 static double acosh(double value)
@@ -50,14 +54,14 @@ static double acosh(double value)
 
 double atanh(double value)
 {
-	return log((1. / value + 1.) / (1. / value - 1.)) / 2.;
+    return log((1. / value + 1.) / (1. / value - 1.)) / 2.;
 }
 
 #endif
 
 ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
     bool computeAndAssignConsevationLaws) :
-        ownedDoc(readSBMLFromString((sbml.c_str()))),
+        ownedDoc(checkedReadSBMLFromString((sbml.c_str()))),
         doc(ownedDoc),
         symbols(new LLVMModelDataSymbols(doc->getModel(),
                                          computeAndAssignConsevationLaws)),
@@ -464,6 +468,26 @@ static Function* createGlobalMappingFunction(const char* funcName,
         llvm::FunctionType *funcType, Module *module)
 {
     return Function::Create(funcType, Function::InternalLinkage, funcName, module);
+}
+
+static SBMLDocument *checkedReadSBMLFromString(const char* xml)
+{
+    SBMLDocument *doc = readSBMLFromString(xml);
+
+    if (doc)
+    {
+        if (doc->getNumErrors() > 0)
+        {
+            SBMLErrorLog *log = doc->getErrorLog();
+            string errors = log ? log->toString() : " NULL SBML Error Log";
+            throw_llvm_exception("Errors in sbml document: " + errors);
+        }
+    }
+    else
+    {
+        throw_llvm_exception("readSBMLFromString returned NULL, no further information available");
+    }
+    return doc;
 }
 
 } /* namespace rr */

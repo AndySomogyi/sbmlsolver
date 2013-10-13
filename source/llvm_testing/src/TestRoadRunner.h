@@ -55,6 +55,8 @@ public:
 
     static void steadyState(const std::string& uri);
 
+    static void testLoad(const std::string& uri);
+
 };
 
 } /* namespace rr */

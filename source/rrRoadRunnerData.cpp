@@ -6,7 +6,6 @@
 #include "rrStringUtils.h"
 #include "rrIniFile.h"
 #include "rrUtils.h"
-#include "rrStringList.h"
 #include "Poco/TemporaryFile.h"
 #include "rrRoadRunnerData.h"
 
@@ -280,8 +279,8 @@ bool RoadRunnerData::loadSimpleFormat(const string& fName)
 
     for(int i = 0; i < mTheData.RSize(); i++)
     {
-        StringList aLine(lines[i+1]);
-        for(int j = 0; j < aLine.Count(); j++)
+        vector<string> aLine = splitString(lines[i+1], ", ");
+        for(int j = 0; j < aLine.size(); j++)
         {
             mTheData(i,j) = toDouble(aLine[j]);
         }
@@ -438,12 +437,12 @@ istream& operator >> (istream& ss, RoadRunnerData& data)
         return ss;
     }
 
-    StringList lines = splitString(dataSection->GetNonKeysAsString(), "\n");
-    for(int row = 0; row < lines.Count(); row++)
+    vector<string> lines = splitString(dataSection->GetNonKeysAsString(), "\n");
+    for(int row = 0; row < lines.size(); row++)
     {
         string oneLine = lines[row];
-        StringList aLine(splitString(oneLine, ','));
-        if(aLine.Count() != cDim)
+        vector<string> aLine = splitString(oneLine, ',');
+        if(aLine.size() != cDim)
         {
             throw(CoreException("Bad roadrunner data in data file"));
         }
@@ -467,11 +466,11 @@ istream& operator >> (istream& ss, RoadRunnerData& data)
     data.mWeights.Allocate(rDim, cDim);
 
     lines = splitString(weightsSection->GetNonKeysAsString(), "\n");
-    for(int row = 0; row < lines.Count(); row++)
+    for(int row = 0; row < lines.size(); row++)
     {
         string oneLine = lines[row];
-        StringList aLine(splitString(oneLine, ','));
-        if(aLine.Count() != cDim)
+        vector<string> aLine  = splitString(oneLine, ',');
+        if(aLine.size() != cDim)
         {
             throw(CoreException("Bad roadrunner data in data file"));
         }

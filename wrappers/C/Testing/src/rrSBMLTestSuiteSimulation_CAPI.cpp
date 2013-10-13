@@ -69,7 +69,7 @@ bool SBMLTestSuiteSimulation_CAPI::LoadSBMLFromFile()
         // simulation only, no need for accessor functions.
         opt.modelGeneratorOpt |= (LoadSBMLOptions::ReadOnlyModel | LoadSBMLOptions::ForceReCompile);
 
-        if(!rri->loadSBMLFromFile(fileName, &opt))
+        if(!rri->load(fileName, &opt))
         {
             Log(Logger::PRIO_ERROR) << "Failed to load SBML";
             return false;
