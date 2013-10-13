@@ -476,11 +476,18 @@ static SBMLDocument *checkedReadSBMLFromString(const char* xml)
 
     if (doc)
     {
-        if (doc->getNumErrors() > 0)
+        if (doc->getModel() == 0)
+        {
+            // fatal error
+            SBMLErrorLog *log = doc->getErrorLog();
+            string errors = log ? log->toString() : " NULL SBML Error Log";
+            throw_llvm_exception("Fatal SBML error, no model, errors in sbml document: " + errors);
+        }
+        else if (doc->getNumErrors() > 0)
         {
             SBMLErrorLog *log = doc->getErrorLog();
             string errors = log ? log->toString() : " NULL SBML Error Log";
-            throw_llvm_exception("Errors in sbml document: " + errors);
+            Log(rr::Logger::PRIO_WARNING) << "Warning, errors found in sbml document: " + errors;
         }
     }
     else
