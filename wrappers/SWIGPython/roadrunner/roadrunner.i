@@ -1227,7 +1227,7 @@ namespace Poco { class SharedLibrary{}; }
 }
 
 %pythoncode %{
-def plot(result):
+def plot(result, show=True):
     import pylab as p
     
     if len(result.dtype.names) < 1:
@@ -1239,5 +1239,8 @@ def plot(result):
         p.plot(result[time], result[name], label='$' + name + '$')
 
     p.legend()
+
+    if show:
+    	p.show()
 %}
 
