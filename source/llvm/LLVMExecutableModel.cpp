@@ -703,22 +703,25 @@ int LLVMExecutableModel::setConservedSums(int len, const int* indx,
 int LLVMExecutableModel::getFloatingSpeciesAmountRates(int len,
         int const *indx, double *values)
 {
-    /*
-    for (int i = 0; i < len; ++i)
+    uint dydtSize = modelData.numRateRules + modelData.numIndependentSpecies;
+
+    double* dydt = (double*)calloc(dydtSize, sizeof(double));
+
+    // state vector is packed such that first numRateRules are the rate rule rates,
+    // and the last numIndependentSpecies are the number of independent species.
+    this->evalModel(this->getTime(), 0, dydt);
+
+    double* amountRates = dydt + modelData.numRateRules;
+
+    for (uint i = 0; i < len; ++i)
     {
-        int j = indx ? indx[i] : i;
-        if (j < modelData.numFloatingSpecies)
-        {
-            values[i] = modelData.floatingSpeciesAmountRates[j];
-        }
-        else
-        {
-            throw LLVMException("index out of range");
-        }
+        uint j = indx ? indx[i] : i;
+        assert(j < modelData.numIndependentSpecies && "index out of range");
+        values[i] = amountRates[j];
     }
+
+    free(dydt);
     return len;
-    */
-    return 0;
 }
 
 

@@ -122,6 +122,9 @@ struct LLVMModelData
 
     /**
      * amount rates of change for floating species.
+     *
+     * This pointer is ONLY valid during an evalModel call, otherwise it is
+     * zero. TODO, this needs be be moved to a parameter.
      */
     double*                             floatingSpeciesAmountRates;       // 14
 
