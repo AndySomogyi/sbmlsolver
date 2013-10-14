@@ -218,7 +218,7 @@ p.k4 = 0.55; p.k_4 = 0.01;
 
 [INITIALIZATION]
 [Conservation Laws]
-True
+False
 [END_INITIALIZATION]
 
 [START_TESTS]
@@ -240,24 +240,24 @@ J3 0.0715152565880721
 J4 0.0715152565880721
 
 [Full Jacobian]
-      -0.2      0           0.067      
-         0     -0.64        0.4  
-      0.15     0.09        -0.467   
+      -0.2      0.067       0     
+      0.15     -0.467       0.09 
+         0      0.4        -0.64
          
 [Individual Eigenvalues]
-S1 -0.157263450928358 0
-S3 -0.382371338369918 0
-S2 -0.767365210701723 0
-
+S1 -0.15726345 0 
+S2 -0.38237134 0
+S3 -0.76736521 0
 [Eigenvalue Matrix]
--0.157263450928358 0
--0.382371338369918 0
--0.767365210701723 0
+-0.15726345 0
+-0.38237134 0
+-0.76736521 0
+
 
 [Stoichiometry Matrix]
          1         -1          0          0 
-         0          0          1         -1 
-         0          1         -1          0 
+         0          1         -1          0
+         0          0          1         -1
          
 [Link Matrix]
          1          0          0 
@@ -266,25 +266,25 @@ S2 -0.767365210701723 0
          
 [Unscaled Elasticity Matrix]
      -0.05          0          0 
-      0.15        0        -0.067      
-         0        -0.09      0.4
-         0         0.55      0  
+      0.15        -0.067       0 
+         0        0.4       -0.09
+         0       0            0.55   
          
 [Scaled Elasticity Matrix]
--0.39830303          0          0 
- 1.1949091           0 -0.19490909  
-         0   -0.16363636   1.1636364
-         0          1          0
+-0.39830303      0             0 
+ 1.1949091      -0.19490909    0
+         0       1.1636364    -0.16363636 
+         0                     1
          
 [Unscaled Concentration Control Matrix]
  5.6969487 -4.7676838 -0.79858703 -0.13067788 
- 1.3002774  0.4334258 0.072598821  -1.806302 
  2.0804438 0.69348128 -2.3838419 -0.39008322 
+ 1.3002774  0.4334258 0.072598821  -1.806302 
 
 [Scaled Concentration Control Matrix]
 0.715152565880724 -0.598499560612292 -0.100248676402559 -0.0164043288658731 
-0.715152565880721 0.238384188626906 0.039929351595007 -0.993466106102634 
 0.715152565880721 0.238384188626906 -0.819445648404993 -0.134091106102633
+0.715152565880721 0.238384188626906 0.039929351595007 -0.993466106102634 
 
 [Unscaled Flux Control Matrix]
 0.71515257 0.23838419 0.039929352 0.0065338939 
@@ -302,7 +302,7 @@ S2 -0.767365210701723 0
 
 
 [Floating Species Ids]
-S1 S3 S2
+S1 S2 S3
 [Boundary Species Ids]
 src waste Xo X1
 [Global Parameter Ids]
@@ -314,9 +314,9 @@ J1 J2 J3 J4
 [Species Initial Condition Ids]
 init(S1) init(S3) init(S2)
 [Get Eigenvalue Ids]
-eigen(S1) eigen(S3) eigen(S2)
+eigen(S1) eigen(S2) eigen(S3)
 [Get Rates Of Change Ids]
-S1' S3' S2'
+S1' S2' S3'
 [Set Steady State Selection List]
 S2 S3
 [Get Steady State Selection List]
@@ -328,7 +328,7 @@ time S2 S3
 [Compute Steady State Values]
 0.20804438 0.1300277392
 [Floating Species Concentrations]
-0.56969487 0.13002774 0.20804438
+0.56969487  0.20804438 0.13002774
 [Boundary Species Concentrations]
 0 0 1 0
 [Get Global Parameter Values]
