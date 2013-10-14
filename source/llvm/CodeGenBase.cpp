@@ -4,6 +4,7 @@
  *  Created on: Jul 18, 2013
  *      Author: andy
  */
+#pragma hdrstop
 #include "CodeGenBase.h"
 #include "ASTNodeCodeGen.h"
 #include "LLVMException.h"

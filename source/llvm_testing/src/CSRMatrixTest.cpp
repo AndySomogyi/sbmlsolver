@@ -4,7 +4,7 @@
  *  Created on: Jul 11, 2013
  *      Author: andy
  */
-
+#pragma hdrstop
 #include "CSRMatrixTest.h"
 
 #include "tests.h"

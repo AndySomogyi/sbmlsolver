@@ -4,7 +4,7 @@
  *  Created on: Jul 15, 2013
  *      Author: andy
  */
-
+#pragma hdrstop
 #include "SetRateRuleValuesCodeGen.h"
 
 namespace rrllvm

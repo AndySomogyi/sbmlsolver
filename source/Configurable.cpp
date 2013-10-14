@@ -4,7 +4,7 @@
  *  Created on: Sep 24, 2013
  *      Author: andy
  */
-
+#pragma hdrstop
 #include "Configurable.h"
 #include "rrStringUtils.h"
 #include "rrLogger.h"

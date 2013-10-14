@@ -4,7 +4,7 @@
  *  Created on: Sep 19, 2013
  *      Author: andy
  */
-
+#pragma hdrstop
 #include "TestCapabilities.h"
 #include "rrRoadRunner.h"
 #include "rrLogger.h"

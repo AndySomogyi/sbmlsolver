@@ -4,7 +4,7 @@
  *  Created on: May 26, 2013
  *      Author: andy
  */
-
+#pragma hdrstop
 #include "rrCompiledModelGenerator.h"
 #include "rrModelGenerator.h"
 #include "rrLogger.h"

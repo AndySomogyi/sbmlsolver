@@ -4,7 +4,7 @@
  *  Created on: Aug 11, 2013
  *      Author: andy
  */
-
+#pragma hdrstop
 #include "FunctionResolver.h"
 #include "ASTNodeCodeGen.h"
 #include "LLVMException.h"

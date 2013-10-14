@@ -4,6 +4,7 @@
  *  Created on: Jun 28, 2013
  *      Author: andy
  */
+#pragma hdrstop
 #include "LLVMModelDataSymbols.h"
 #include "lsLibStructural.h"
 #include "LLVMException.h"

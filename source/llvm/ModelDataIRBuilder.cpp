@@ -4,6 +4,7 @@
  *  Created on: Jun 28, 2013
  *      Author: andy
  */
+#pragma hdrstop
 #include "ModelDataIRBuilder.h"
 #include "LLVMException.h"
 #include "rrOSSpecifics.h"

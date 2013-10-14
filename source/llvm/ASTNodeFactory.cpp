@@ -4,7 +4,7 @@
  *  Created on: Jul 4, 2013
  *      Author: andy
  */
-
+#pragma hdrstop
 #include "ASTNodeFactory.h"
 
 using namespace std;

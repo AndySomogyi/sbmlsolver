@@ -9,6 +9,7 @@
  */
 #define _USE_MATH_DEFINES
 
+#pragma hdrstop
 #include "ASTNodeCodeGen.h"
 #include "LLVMException.h"
 #include "rrOSSpecifics.h"

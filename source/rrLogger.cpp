@@ -1,3 +1,4 @@
+#pragma hdrstop
 #include "rrLogger.h"
 #include "rrOSSpecifics.h"
 

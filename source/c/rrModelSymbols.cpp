@@ -4,7 +4,7 @@
  *  Created on: May 31, 2013
  *      Author: andy
  */
-
+#pragma hdrstop
 #include "rrModelSymbols.h"
 #include "rrStringUtils.h"
 #include "sbml/Model.h"

@@ -1,3 +1,4 @@
+#pragma hdrstop
 #include "rrPendingAssignment.h"
 #include "rrLogger.h"
 #include <assert.h>

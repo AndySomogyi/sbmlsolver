@@ -4,7 +4,7 @@
  *  Created on: Jul 20, 2013
  *      Author: andy
  */
-
+#pragma hdrstop
 #include "TestBase.h"
 #include "tests.h"
 #include "rrModelGeneratorFactory.h"

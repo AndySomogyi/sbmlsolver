@@ -4,7 +4,7 @@
  *  Created on: Aug 11, 2013
  *      Author: andy
  */
-
+#pragma hdrstop
 #include "EventTriggerCodeGen.h"
 #include "ModelDataIRBuilder.h"
 #include "ModelDataSymbolResolver.h"

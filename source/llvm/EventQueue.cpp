@@ -4,7 +4,7 @@
  *  Created on: Aug 16, 2013
  *      Author: andy
  */
-
+#pragma hdrstop
 #include "EventQueue.h"
 #include "LLVMExecutableModel.h"
 #include "rrLogger.h"

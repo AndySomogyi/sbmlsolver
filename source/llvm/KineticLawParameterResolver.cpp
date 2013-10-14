@@ -4,7 +4,7 @@
  *  Created on: Aug 14, 2013
  *      Author: andy
  */
-
+#pragma hdrstop
 #include "KineticLawParameterResolver.h"
 #include "LLVMIncludes.h"
 #include "rrLogger.h"

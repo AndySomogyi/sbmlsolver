@@ -4,7 +4,7 @@
  *  Created on: Aug 25, 2013
  *      Author: andy
  */
-
+#pragma hdrstop
 #include "EvalVolatileStoichCodeGen.h"
 #include "LLVMException.h"
 #include "ASTNodeCodeGen.h"

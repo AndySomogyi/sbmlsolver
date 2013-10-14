@@ -1,3 +1,4 @@
+#pragma hdrstop
 //#include "tests.h"
 
 //#include "ModelGeneratorContext.h"

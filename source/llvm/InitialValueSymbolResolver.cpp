@@ -4,7 +4,7 @@
  *  Created on: Jul 25, 2013
  *      Author: andy
  */
-
+#pragma hdrstop
 #include "InitialValueSymbolResolver.h"
 #include "ASTNodeCodeGen.h"
 #include "LLVMException.h"

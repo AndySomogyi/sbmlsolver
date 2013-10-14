@@ -1,6 +1,7 @@
 // The poco files have issues on windows and have to be included before
 // any potential 'windows.h' is included. There is a compile problem
 // when windows.h is included BEFORE Poco HTTP Factory
+#pragma hdrstop
 #include <Poco/URI.h>
 #include <Poco/URIStreamOpener.h>
 #include <Poco/Net/HTTPStreamFactory.h>

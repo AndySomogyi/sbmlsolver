@@ -1,6 +1,3 @@
-#ifdef USE_PCH
-#include "rr_pch.h"
-#endif
 #pragma hdrstop
 #include "rrEvent.h"
 #include "rrRandom.h"

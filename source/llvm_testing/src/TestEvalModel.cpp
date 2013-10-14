@@ -4,7 +4,7 @@
  *  Created on: Jul 23, 2013
  *      Author: andy
  */
-
+#pragma hdrstop
 #include "TestEvalModel.h"
 #include "rrLogger.h"
 

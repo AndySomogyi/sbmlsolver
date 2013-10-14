@@ -4,7 +4,7 @@
  *  Created on: Jul 3, 2013
  *      Author: andy
  */
-
+#pragma hdrstop
 #include "AssignmentRuleEvaluator.h"
 #include "rrOSSpecifics.h"
 #include <iostream>

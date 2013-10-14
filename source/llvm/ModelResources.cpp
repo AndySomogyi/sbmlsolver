@@ -4,7 +4,7 @@
  *  Created on: Aug 28, 2013
  *      Author: andy
  */
-
+#pragma hdrstop
 #include "ModelResources.h"
 
 #include <rrLogger.h>

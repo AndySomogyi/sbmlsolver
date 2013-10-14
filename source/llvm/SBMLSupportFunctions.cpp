@@ -4,7 +4,7 @@
  *  Created on: Aug 22, 2013
  *      Author: andy
  */
-
+#pragma hdrstop
 #include "SBMLSupportFunctions.h"
 
 #define _USE_MATH_DEFINES
