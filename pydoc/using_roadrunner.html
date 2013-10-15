@@ -121,6 +121,48 @@ would type:</p>
 </pre></div>
 </div>
 <p>will printout the current value for steps. The follow table summarizes the various options.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Option</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>start</td>
+<td>Start time for simulation</td>
+</tr>
+<tr class="row-odd"><td>end</td>
+<td>End time for simulation. Setting &#8216;end&#8217; will automatically change &#8216;duration&#8217;</td>
+</tr>
+<tr class="row-even"><td>duration</td>
+<td>Duration of the simulation. Setting &#8216;duration&#8217; will automatically change &#8216;end&#8217;</td>
+</tr>
+<tr class="row-odd"><td>steps</td>
+<td>Number of steps to generate</td>
+</tr>
+<tr class="row-even"><td>absolute</td>
+<td>Absolute tolerance for the CVODE integrator</td>
+</tr>
+<tr class="row-odd"><td>relative</td>
+<td>Relative tolerance for the CVODE integrator</td>
+</tr>
+<tr class="row-even"><td>stiff</td>
+<td>Tells the integrator to use the fully implicit backward difference stiff solver</td>
+</tr>
+<tr class="row-odd"><td>resetModel</td>
+<td>Resets the sbml state to the original values specified in the sbml.</td>
+</tr>
+<tr class="row-even"><td>structuredResult</td>
+<td>If set (default is True), the result from simulate is a numpy structured array
+with the column names set to the selections. This is required for plotting and
+displaying a legend for each time series.</td>
+</tr>
+</tbody>
+</table>
 <p>One important point to note about simulate(). When simulate() is run, the concentration of the floating species
 will naturally change. If simulate() is called a second time, the simulation will use as the initial conditions the last
 values from the previous simulation. This can be used to easily to follow on simulations. However there will be times

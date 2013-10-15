@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>SBML Read/Write Functions &mdash; RoadRunner 0.99 documentation</title>
+    <title>Selecting Values &mdash; RoadRunner 0.99 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,8 +24,9 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="RoadRunner 0.99 documentation" href="index.html" />
-    <link rel="next" title="Time Course Simulation" href="timecourse_simulation.html" />
-    <link rel="prev" title="Selecting Values" href="selecting_values.html" /> 
+    <link rel="up" title="RoadRunner Basics" href="rr_basics.html" />
+    <link rel="next" title="SBML Read/Write Functions" href="read_write_functions.html" />
+    <link rel="prev" title="Looking at the Results" href="looking_at_results.html" /> 
   </head>
   <body>
     <div class="related">
@@ -38,12 +39,13 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="timecourse_simulation.html" title="Time Course Simulation"
+          <a href="read_write_functions.html" title="SBML Read/Write Functions"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="selecting_values.html" title="Selecting Values"
+          <a href="looking_at_results.html" title="Looking at the Results"
              accesskey="P">previous</a> |</li>
-        <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li> 
+        <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li>
+          <li><a href="rr_basics.html" accesskey="U">RoadRunner Basics</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -52,29 +54,13 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="sbml-read-write-functions">
-<h1>SBML Read/Write Functions<a class="headerlink" href="#sbml-read-write-functions" title="Permalink to this headline">¶</a></h1>
-<p>Use the following methods to read and write models in the form of SBML.</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.loadSBML" title="roadrunner.RoadRunner.loadSBML"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.loadSBML</span></tt></a></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.loadSBMLFromFile" title="roadrunner.RoadRunner.loadSBMLFromFile"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.loadSBMLFromFile</span></tt></a></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getCurrentSBML" title="roadrunner.RoadRunner.getCurrentSBML"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getCurrentSBML</span></tt></a></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="api_reference.html#roadrunner.RoadRunner.getSBML" title="roadrunner.RoadRunner.getSBML"><tt class="xref py py-obj docutils literal"><span class="pre">RoadRunner.getSBML</span></tt></a>()</td>
-<td>Returns the original SBML model that was loaded into roadRunner.</td>
-</tr>
-</tbody>
-</table>
+  <div class="section" id="selecting-values">
+<h1>Selecting Values<a class="headerlink" href="#selecting-values" title="Permalink to this headline">¶</a></h1>
+<p>RoadRunner support a wide range of options for selecting SBML and derivative values. Selections
+can be used to either retrive or in many cases, store values. We define SBML values as any element
+specified in the original SBML doucment, whereas derivative values are a
+function of one or more SBML values. As these functions typically have no inverse, these are read
+only selections.</p>
 </div>
 
 
@@ -84,14 +70,14 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="selecting_values.html"
-                        title="previous chapter">Selecting Values</a></p>
+  <p class="topless"><a href="looking_at_results.html"
+                        title="previous chapter">Looking at the Results</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="timecourse_simulation.html"
-                        title="next chapter">Time Course Simulation</a></p>
+  <p class="topless"><a href="read_write_functions.html"
+                        title="next chapter">SBML Read/Write Functions</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/read_write_functions.txt"
+    <li><a href="_sources/selecting_values.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -121,12 +107,13 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="timecourse_simulation.html" title="Time Course Simulation"
+          <a href="read_write_functions.html" title="SBML Read/Write Functions"
              >next</a> |</li>
         <li class="right" >
-          <a href="selecting_values.html" title="Selecting Values"
+          <a href="looking_at_results.html" title="Looking at the Results"
              >previous</a> |</li>
-        <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li> 
+        <li><a href="index.html">RoadRunner 0.99 documentation</a> &raquo;</li>
+          <li><a href="rr_basics.html" >RoadRunner Basics</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
