@@ -441,7 +441,7 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 //%ignore rr::RoadRunner::getSteadyStateSelection;
 %ignore rr::RoadRunner::setFloatingSpeciesInitialConcentrations;
 %ignore rr::RoadRunner::getCompartmentIds;
-%ignore rr::RoadRunner::getModel;
+//%ignore rr::RoadRunner::getModel;
 //%ignore rr::RoadRunner::getSteadyStateSelectionList;
 %ignore rr::RoadRunner::setGlobalParameterByIndex;
 //%ignore rr::RoadRunner::getCompiler;
@@ -508,6 +508,7 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 %rename (_getSelections) rr::RoadRunner::getSelections();
 %rename (_setSelections) setSelections(const std::vector<rr::SelectionRecord>&);
 %rename (_setSelections) setSelections(const std::vector<std::string>&);
+%rename (_getModel) getModel();
 
 %rename (_getSteadyStateSelections) rr::RoadRunner::getSteadyStateSelections();
 %rename (_setSteadyStateSelections) setSteadyStateSelections(const std::vector<rr::SelectionRecord>&);
@@ -695,8 +696,6 @@ namespace Poco { class SharedLibrary{}; }
 
     const rr::SimulateOptions *simulateOptions;
 
-    const rr::ExecutableModel *model;
-
 
     const rr::RoadRunnerData *simulate(int startTime, int endTime, int steps) {
         rr::SimulateOptions s = $self->getSimulateOptions();
@@ -718,13 +717,26 @@ namespace Poco { class SharedLibrary{}; }
 
 
     %pythoncode %{
+       def getModel(self):
+           m = self._getModel();
+           m._makeProperties()
+           return m
+       
        __swig_getmethods__["selections"] = _getSelections
        __swig_setmethods__["selections"] = _setSelections
-       if _newclass: selections = property(_getSelections, _setSelections)
-
        __swig_getmethods__["steadyStateSelections"] = _getSteadyStateSelections
        __swig_setmethods__["steadyStateSelections"] = _setSteadyStateSelections
-       if _newclass: steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
+       __swig_getmethods__["model"] = _getModel
+
+       if _newclass: 
+           selections = property(_getSelections, _setSelections)
+           steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
+           model = property(getModel)
+
+       def foo(self):
+           return "foo"    
+
+       
     %}
 }
 
@@ -735,14 +747,6 @@ namespace Poco { class SharedLibrary{}; }
 
     void rr_RoadRunner_simulateOptions_set(RoadRunner* r, const rr::SimulateOptions* opt) {
         r->setSimulateOptions(*opt);
-    }
-
-    rr::ExecutableModel *rr_RoadRunner_model_get(RoadRunner* r) {
-        return r->getModel();
-    }
-
-    void rr_RoadRunner_model_set(RoadRunner* r, const rr::ExecutableModel *m) {
-        // TODO error can not set.
     }
 %}
 
@@ -1261,6 +1265,38 @@ namespace Poco { class SharedLibrary{}; }
         s << "<roadrunner.ExecutableModel() { this = " << (void*)$self << " }>";
         return s.str();
     }
+
+    %pythoncode %{
+        def _makeProperties(self) :
+            
+            def mk_fget(sel): return lambda self: self.__getitem__(sel)   
+            def mk_fset(sel): return lambda self, val: self.__setitem__(sel, val)   
+
+            for s in self.getFloatingSpeciesIds():
+                sel = "[" + s + "]"
+                fget = mk_fget(sel)
+                fset = mk_fset(sel)
+                self.__class__.__swig_getmethods__[s] = fget
+                self.__class__.__swig_setmethods__[s] = fset
+                setattr(self.__class__, s, property(fget, fset))
+
+                fget = mk_fget(s)
+                fset = mk_fset(s)
+                name = s + "_amt"
+                self.__class__.__swig_getmethods__[name] = fget
+                self.__class__.__swig_setmethods__[name] = fset
+                setattr(self.__class__, name, property(fget, fset))
+ 
+            ids = self.getGlobalParameterIds() + self.getCompartmentIds() + \
+                self.getReactionIds()
+
+            for s in ids: 
+                fget = mk_fget(s)
+                fset = mk_fset(s)
+                self.__class__.__swig_getmethods__[s] = fget
+                self.__class__.__swig_setmethods__[s] = fset
+                setattr(self.__class__, s, property(fget, fset))
+    %}
 }
 
 %pythoncode %{
