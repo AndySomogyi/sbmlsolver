@@ -19,7 +19,7 @@ using Poco::Mutex;
 
 namespace rr {
 
-// asking for trouble statically registereing the factory
+// asking for trouble statically registering the factory
 static Mutex httpFactoryMutex;
 static bool httpFactoryRegistered = false;
 
@@ -82,7 +82,7 @@ std::string SBMLReader::read(const std::string& str)
     httpFactoryMutex.lock();
 
     // not working on windows yet.
-#if !defined(_WIN32)
+#if defined(__APPLE__)
     if (!httpFactoryRegistered)
     {
         Poco::Net::HTTPStreamFactory::registerFactory();
