@@ -1230,6 +1230,8 @@ TEST(1185) { CHECK(RunTest("l3v1", 1185 )); }
 
 }
 
+#if !defined(__CODEGEARC__)
+
 /**
  * The original test suite used for Valgrind testing
  */
@@ -1758,6 +1760,7 @@ SUITE(SBML_TEST_SUITE_C_FAIL)
     TEST(1182) { CHECK(RunTest("l3v1", 1182 )); }
     TEST(1183) { CHECK(RunTest("l3v1", 1183 )); }
 }
+#endif
 
 
 

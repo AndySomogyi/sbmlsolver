@@ -6,6 +6,8 @@ add_definitions(
     -DPOCO_STATIC
 )
 
+OPTION(BUILD_POCO_NET "Build poco net library" ON)
+
 #if(${MSVC})
 if(WIN32)
     add_definitions(
@@ -17,4 +19,7 @@ endif()
 
 add_subdirectory(Foundation)
 add_subdirectory(XML)
+
+if (BUILD_POCO_NET)
 add_subdirectory(Net)
+endif()

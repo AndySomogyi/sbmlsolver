@@ -31,7 +31,7 @@ LogLevel GetLogLevel(const string& lvl)
     return lAny;
 }
 
-string GetLogLevelAsString(const int level)
+string GetLogLevelAsString(int level)
 {
     const char* result;
     switch (level)

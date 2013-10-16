@@ -2303,6 +2303,11 @@ ExecutableModel *CSharpModelGenerator::createModel(const string& sbml, LibStruct
     return 0;
 }
 
+ExecutableModel* CSharpModelGenerator::createModel(const string& sbml, uint options)
+{
+    return NULL;
+}
+
 bool CSharpModelGenerator::setTemporaryDirectory(const string& path)
 {
     return false;
