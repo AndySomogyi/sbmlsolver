@@ -434,7 +434,9 @@
 .. method:: RoadRunner.loadSBML(*args)
    :module: roadrunner
 
-   TODO docs
+   Kiad a SBML model from a string
+   
+   :param str representing SBML model
 
 
 
