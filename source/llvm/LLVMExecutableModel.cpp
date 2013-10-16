@@ -34,20 +34,29 @@ using namespace std;
 #define C_ASSERT(e) typedef char __C_ASSERT__[(e)?1:-1]
 #endif
 
-static void dump_array(std::ostream &os, int n, const double *p)
+template <typename numeric_type>
+static void dump_array(std::ostream &os, int n, const numeric_type *p)
 {
-    os << setiosflags(ios::floatfield) << setprecision(8);
-    os << '[';
-    for (int i = 0; i < n; ++i)
+    if (p)
     {
-        os << p[i];
-        if (i < n - 1)
+        os << setiosflags(ios::floatfield) << setprecision(8);
+        os << '[';
+        for (int i = 0; i < n; ++i)
         {
-            os << ", ";
+            os << p[i];
+            if (i < n - 1)
+            {
+                os << ", ";
+            }
         }
+        os << ']' << endl;
     }
-    os << ']' << endl;
+    else
+    {
+        os << "NULL" << endl;
+    }
 }
+
 
 namespace rrllvm
 {
@@ -359,7 +368,72 @@ void LLVMExecutableModel::testConstraints()
 
 string LLVMExecutableModel::getInfo()
 {
-    return "";
+    stringstream stream;
+
+    print(stream);
+
+    double *tmp;
+
+    int nFloat = getNumFloatingSpecies();
+    int nBound = getNumBoundarySpecies();
+    int nComp = getNumCompartments();
+    int nGlobalParam = getNumGlobalParameters();
+    int nEvents = getNumEvents();
+    int nReactions = getNumReactions();
+
+    stream << "* Calculated Values *" << endl;
+
+    tmp = new double[nFloat];
+    getFloatingSpeciesAmounts(nFloat, 0, tmp);
+    stream << "FloatingSpeciesAmounts:" << endl;
+    dump_array(stream, nFloat, tmp);
+
+    /*
+    getFloatingSpeciesAmountRates(nFloat, 0, tmp);
+    stream << "FloatingSpeciesAmountRates:" << endl;
+    dump_array(stream, nFloat, tmp);
+    */
+
+    getFloatingSpeciesConcentrations(nFloat, 0, tmp);
+    stream << "FloatingSpeciesConcentrations:" << endl;
+    dump_array(stream, nFloat, tmp);
+    delete[] tmp;
+
+    tmp = new double[nReactions];
+    getReactionRates(nReactions, 0, tmp);
+    stream << "Reaction Rates:" << endl;
+    dump_array(stream, nReactions, tmp);
+    delete tmp;
+
+    tmp = new double[nBound];
+    getBoundarySpeciesAmounts(nBound, 0, tmp);
+    stream << "BoundarySpeciesAmounts:" << endl;
+    dump_array(stream, nBound, tmp);
+
+    getBoundarySpeciesConcentrations(nBound, 0, tmp);
+    stream << "BoundarySpeciesConcentrations:" << endl;
+    dump_array(stream, nBound, tmp);
+    delete tmp;
+
+    tmp = new double[nComp];
+    getCompartmentVolumes(nComp, 0, tmp);
+    stream << "CompartmentVolumes:" << endl;
+    dump_array(stream, nComp, tmp);
+    delete tmp;
+
+    tmp = new double[nGlobalParam];
+    getGlobalParameterValues(nGlobalParam, 0, tmp);
+    stream << "GlobalParameters:" << endl;
+    dump_array(stream, nGlobalParam, tmp);
+    delete tmp;
+
+    unsigned char *tmpEvents = new unsigned char[nEvents];
+    getEventTriggers(nEvents, 0, tmpEvents);
+    stream << "Events Trigger Status:" << endl;
+    dump_array(stream, nEvents, (bool*)tmpEvents);
+    delete tmpEvents;
+
+    return stream.str();
 }
 
 int LLVMExecutableModel::getFloatingSpeciesIndex(const string& id)
@@ -658,6 +732,10 @@ int LLVMExecutableModel::getCompartmentVolumes(int len, const int* indx,
 int LLVMExecutableModel::getReactionRates(int len, const int* indx,
         double* values)
 {
+    // the reaction rates are a function of the model state, so someone
+    // could have changed some parameter, so we need to re-evaluate.
+    evalReactionRates();
+
     for (int i = 0; i < len; ++i)
     {
         int j = indx ? indx[i] : i;

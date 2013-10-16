@@ -329,8 +329,6 @@ std::string rr::SelectionRecord::to_string()
     case UNKNOWN_CONCENTRATION:
         result = "[" + p1 + "]";
         break;
-    case REACTION_RATE:
-        break;
     case FLOATING_AMOUNT_RATE:
         result = p1 + "'";
         break;
@@ -339,6 +337,7 @@ std::string rr::SelectionRecord::to_string()
     case FLOATING_AMOUNT:
     case BOUNDARY_AMOUNT:
     case UNKNOWN_ELEMENT:
+    case REACTION_RATE:
         result = p1;
         break;
     case ELASTICITY:
