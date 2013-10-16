@@ -590,9 +590,9 @@ Get unscaled elasticity coefficient with respect to a global parameter or specie
 RoadRunner.getEigenvalueIds()
 
 returns a list of floating species ids with thier names
-prefixed with 'eigen_'. For example, if the model contained
-the floating species 'S1' and 'S2', this would return a list
-containing ['eigen_S1', 'eigen_S2'].
+prefixed with ``eigen_``. For example, if the model contained
+the floating species ``S1`` and ``S2``, this would return a list
+containing [\"eigen_S1\", \"eigen_S2\"].
 ";
 
 
