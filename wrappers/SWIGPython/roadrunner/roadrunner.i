@@ -497,7 +497,7 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 %ignore rr::RoadRunner::getFloatingSpeciesConcentrations;
 %ignore rr::RoadRunner::getRateOfChange;
 //%ignore rr::RoadRunner::getlibSBMLVersion;
-%ignore rr::RoadRunner::writeSBML;
+//%ignore rr::RoadRunner::writeSBML;
 %ignore rr::RoadRunner::getSimulateOptions;
 %ignore rr::RoadRunner::setSimulateOptions;
 %ignore rr::RoadRunner::_getDuplicateSimulateOptions;
@@ -721,22 +721,22 @@ namespace Poco { class SharedLibrary{}; }
            m = self._getModel();
            m._makeProperties()
            return m
-       
+
        __swig_getmethods__["selections"] = _getSelections
        __swig_setmethods__["selections"] = _setSelections
        __swig_getmethods__["steadyStateSelections"] = _getSteadyStateSelections
        __swig_setmethods__["steadyStateSelections"] = _setSteadyStateSelections
        __swig_getmethods__["model"] = _getModel
 
-       if _newclass: 
+       if _newclass:
            selections = property(_getSelections, _setSelections)
            steadyStateSelections = property(_getSteadyStateSelections, _setSteadyStateSelections)
            model = property(getModel)
 
        def foo(self):
-           return "foo"    
+           return "foo"
 
-       
+
     %}
 }
 
@@ -1268,9 +1268,9 @@ namespace Poco { class SharedLibrary{}; }
 
     %pythoncode %{
         def _makeProperties(self) :
-            
-            def mk_fget(sel): return lambda self: self.__getitem__(sel)   
-            def mk_fset(sel): return lambda self, val: self.__setitem__(sel, val)   
+
+            def mk_fget(sel): return lambda self: self.__getitem__(sel)
+            def mk_fset(sel): return lambda self, val: self.__setitem__(sel, val)
 
             for s in self.getFloatingSpeciesIds():
                 sel = "[" + s + "]"
@@ -1286,11 +1286,11 @@ namespace Poco { class SharedLibrary{}; }
                 self.__class__.__swig_getmethods__[name] = fget
                 self.__class__.__swig_setmethods__[name] = fset
                 setattr(self.__class__, name, property(fget, fset))
- 
+
             ids = self.getGlobalParameterIds() + self.getCompartmentIds() + \
                 self.getReactionIds()
 
-            for s in ids: 
+            for s in ids:
                 fget = mk_fget(s)
                 fset = mk_fset(s)
                 self.__class__.__swig_getmethods__[s] = fget

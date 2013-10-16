@@ -127,9 +127,9 @@
    :module: roadrunner
 
    returns a list of floating species ids with thier names
-   prefixed with 'eigen_'. For example, if the model contained
-   the floating species 'S1' and 'S2', this would return a list
-   containing ['eigen_S1', 'eigen_S2'].
+   prefixed with ``eigen_``. For example, if the model contained
+   the floating species ``S1`` and ``S2``, this would return a list
+   containing ["eigen_S1", "eigen_S2"].
 
 
 .. method:: RoadRunner.getEigenvalues(m)
@@ -377,10 +377,6 @@
    :rtype: roadrunner.SelectionRecord
 
 
-
-
-
-
 .. method:: RoadRunner.getUnscaledConcentrationControlCoefficientMatrix()
    :module: roadrunner
 
@@ -431,22 +427,37 @@
 
 
 
-.. method:: RoadRunner.loadSBML(*args)
+.. method:: RoadRunner.load(uriOrDocument)
    :module: roadrunner
 
-   Kiad a SBML model from a string
+   Loads an SBML document. This method will automatically figure out if the given string
+   is file path, uri, or contents of an SBML document. 
+
+   This method also accepts http uri for remote files, however this feature is currently limited 
+   to the Mac version, plan on enabling http loading of SBML documents on Windows and Linux 
+   shortly. 
+
+   Some examples of loading files on Mac or Linux::
    
-   :param str representing SBML model
+       >>> r.load("myfile.xml")                               # load a file from the current dirctory
+       >>> r.load("/Users/Fred/myfile.xml")                   # absolute path
+       >>> r.load("http://sbml.org/example_system.xml")       # remote file
 
 
+   Or on Windows:
 
-.. method:: RoadRunner.loadSBMLFromFile(*args)
-   :module: roadrunner
+       >>> r.load("myfile.xml")                                  # load a file from the current dirctory
+       >>> r.load("file://localhost/c:/Users/Fred/myfile.xml")   # using a uri
 
-   Load an sbml document from disk.
+   One may also load the contents of a document::
+       >>> myfile = open("myfile.xml, "r")
+       >>> contents = file.read()
+       >>> r.load(contents)
 
-   :param str path: path of an sbml document.
-   :returns: True if successfull, False if failed.
+   In future version, we will also support loading directly from a libSBML Dcoument object. 
+
+   :param uriOrDocument: A string which may be a local path, URI or contents of an SBML document. 
+   :type name: str
 
 
 
@@ -454,17 +465,17 @@
    :module: roadrunner
    :annotation: None
 
-   TODO docs
+   Get the currently loaded model. The model object contains the enite state of the SBML model.
 
 
-.. method:: RoadRunner.oneStep(*args)
+.. method:: RoadRunner.oneStep(startTime, stepSize)
    :module: roadrunner
 
    Carry out a one step integration of the model. The method takes two arguments,
    the current time and the step size to us in the integration. The method returns
    the new time which will be currentTime + StepSize::
 
-     newTime = rr.oneStep (10, 0.5)
+       newTime = rr.oneStep (10, 0.5)
 
 
 .. method:: RoadRunner.reset()

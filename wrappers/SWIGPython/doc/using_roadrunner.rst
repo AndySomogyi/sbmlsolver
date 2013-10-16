@@ -25,14 +25,20 @@ RoadRunner reads models using the SBML format. If you have a SBML model stored o
 possible to load that model using the method, loadSBMLFromFile. Let's assume you have a model called
 mymodel.xml in C:\MyModels. To load this model in Windows we would use the command::
 
-  rr.loadSBMLFromFile("C:\MyModels\mymodel.xml")
+  rr.load("C:/MyModels/mymodel.xml")
+
+Note, Windows typically used the back slash, '\\' to indicate a directory separator, however in
+most languages including python, this is the escape character, therefore one can also enter Windows
+paths using the forward slash '/' which does not cause issues. If one want to use the backslash,
+these must be typed twice, i.e. ``'C:\\MyModels\\mymodel.xml'``.
 
 On the Mac or Linux we might use the command::
 
-  rr.loadSBMLFromFile("/home/MyModels/mymodel.xml")
+  rr.load("/home/MyModels/mymodel.xml")
 
-If the model was loaded successfully the load method will return True otherwise it will return False.
-*TO DO: How to get the error message*
+If the model was loaded successfully the load method will return True otherwise an exception will 
+be raised that contains extendend information detailing exactly what failed. If any warnings are
+found in the sbml document, these will be displayed in the console error log. 
 
 Running Simulations
 -------------------
