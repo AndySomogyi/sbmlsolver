@@ -29,7 +29,7 @@ console::
 
   import roadrunner
   
-If the command comes back with out compalaint then the installation is probasbly ok.
+If the command comes back with out complaint then the installation is probably ok.
 
 Mac OS
 ++++++
