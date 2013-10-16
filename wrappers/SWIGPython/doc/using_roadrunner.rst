@@ -73,16 +73,21 @@ Typing somethng like::
   
 will printout the current value for steps. The follow table summarizes the various options.
  
-=====  ======
-Option   Description
-=====  ======
-start  Start time for simulation
-end  End time for simulation
-steps  Number of steps to generate
-absolute  Absolute tolerance for the CVODE integrator
-relative  Relative tolerance for the CVODE integrator
-stiff  Not sure what this does
-=====  ======
+================  =============
+ Option           Description
+================  =============
+start             Start time for simulation
+end               End time for simulation. Setting 'end' will automatically change 'duration'
+duration          Duration of the simulation. Setting 'duration' will automatically change 'end'
+steps             Number of steps to generate
+absolute          Absolute tolerance for the CVODE integrator
+relative          Relative tolerance for the CVODE integrator
+stiff             Tells the integrator to use the fully implicit backward difference stiff solver
+resetModel        Resets the sbml state to the original values specified in the sbml. 
+structuredResult  If set (default is True), the result from simulate is a numpy structured array 
+                  with the column names set to the selections. This is required for plotting and 
+                  displaying a legend for each time series. 
+================  =============
 
 One important point to note about simulate(). When simulate() is run, the concentration of the floating species 
 will naturally change. If simulate() is called a second time, the simulation will use as the initial conditions the last 
