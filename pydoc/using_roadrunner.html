@@ -75,15 +75,20 @@ following:</p>
 <p>RoadRunner reads models using the SBML format. If you have a SBML model stored on your hard drive, it is
 possible to load that model using the method, loadSBMLFromFile. Let&#8217;s assume you have a model called
 mymodel.xml in C:MyModels. To load this model in Windows we would use the command:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">loadSBMLFromFile</span><span class="p">(</span><span class="s">&quot;C:\MyModels\mymodel.xml&quot;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&quot;C:/MyModels/mymodel.xml&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>Note, Windows typically used the back slash, &#8216;\&#8217; to indicate a directory separator, however in
+most languages including python, this is the escape character, therefore one can also enter Windows
+paths using the forward slash &#8216;/&#8217; which does not cause issues. If one want to use the backslash,
+these must be typed twice, i.e. <tt class="docutils literal"><span class="pre">'C:\\MyModels\\mymodel.xml'</span></tt>.</p>
 <p>On the Mac or Linux we might use the command:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">loadSBMLFromFile</span><span class="p">(</span><span class="s">&quot;/home/MyModels/mymodel.xml&quot;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">rr</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&quot;/home/MyModels/mymodel.xml&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>If the model was loaded successfully the load method will return True otherwise it will return False.
-<em>TO DO: How to get the error message</em></p>
+<p>If the model was loaded successfully the load method will return True otherwise an exception will
+be raised that contains extendend information detailing exactly what failed. If any warnings are
+found in the sbml document, these will be displayed in the console error log.</p>
 </div>
 <div class="section" id="running-simulations">
 <h2>Running Simulations<a class="headerlink" href="#running-simulations" title="Permalink to this headline">¶</a></h2>

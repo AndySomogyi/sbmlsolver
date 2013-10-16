@@ -57,15 +57,17 @@ SBML Simulation Engine. This guide will show the most important features
 and provides a complete API reference.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last">This &#8220;User Guide&#8221; is still a work in progress; some of the material
-is not organized, and several aspects of RoadRunner are not yet covered
-sufficient detail. &lt;<a class="reference external" href="http://andysomogyi.github.io/roadrunner/pydoc/">http://andysomogyi.github.io/roadrunner/pydoc/</a>&gt;`__ website.</p>
+<p class="last">This &#8220;User Guide&#8221; is still a work in progress; some of the material is not organized, and
+several aspects of RoadRunner are not yet covered sufficient
+detail. &lt;<a class="reference external" href="http://andysomogyi.github.io/roadrunner/pydoc/">http://andysomogyi.github.io/roadrunner/pydoc/</a>&gt;`__ website.</p>
 </div>
-<p>To get you started here is a very simple script that will load a model and run a time course simulation:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">roadrunner</span>
-<span class="n">rr</span> <span class="o">=</span> <span class="n">roadrunner</span><span class="o">.</span><span class="n">RoadRunner</span><span class="p">()</span>
-<span class="n">rr</span><span class="o">.</span><span class="n">loadSBMLFromFile</span> <span class="p">(</span><span class="s">&#39;mymodel.xml&#39;</span><span class="p">)</span>
-<span class="n">result</span> <span class="o">=</span> <span class="n">rr</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+<p>To get you started here is a very simple script that will load a model and run a time course
+simulation and plot the results:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">roadrunner</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">r</span> <span class="o">=</span> <span class="n">RoadRunner</span><span class="p">()</span>
+<span class="n">r</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s">&#39;mymodel.xml&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">simulate</span><span class="p">()</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The result is a standard numpy array which may be plotted using <a class="reference external" href="http://matplotlib.org/">matplotlib</a>. Now read the tutorials to learn more about the capabilities of RoadRunner.</p>
@@ -120,10 +122,12 @@ sufficient detail. &lt;<a class="reference external" href="http://andysomogyi.gi
 <li class="toctree-l1"><a class="reference internal" href="steady_state.html">Steady State Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="stoichiometric.html">Stoichiometric Analysis</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="stoichiometric.html#preliminaries">Preliminaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="stoichiometric.html#methods">Methods</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="metabolic.html">Metabolic Control Analysis</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="metabolic.html#preliminaries">Preliminaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metabolic.html#methods">Methods</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="stability.html">Stability Analysis</a></li>
