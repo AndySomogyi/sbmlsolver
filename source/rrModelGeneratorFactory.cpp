@@ -7,7 +7,11 @@
 #pragma hdrstop
 #include "rrModelGeneratorFactory.h"
 #include "c/rrCModelGenerator.h"
+
+#if defined(BUILD_LLVM)
 #include "llvm/LLVMModelGenerator.h"
+#endif
+
 #include "rrLogger.h"
 #include <string>
 #include <algorithm>

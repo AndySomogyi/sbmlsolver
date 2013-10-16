@@ -2,6 +2,7 @@
 #include <float.h>
 #include <stdarg.h>
 #include <string.h>
+#include <stdio.h>
 #include "rrUtils.h"
 #include "rrOSSpecifics.h"
 #include "rrLogger.h"

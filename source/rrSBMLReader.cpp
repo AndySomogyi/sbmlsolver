@@ -4,7 +4,11 @@
 #pragma hdrstop
 #include <Poco/URI.h>
 #include <Poco/URIStreamOpener.h>
+
+#if defined(WITH_POCO_NET)
 #include <Poco/Net/HTTPStreamFactory.h>
+#endif
+
 #include <Poco/Mutex.h>
 #include <Poco/Path.h>
 #include <Poco/File.h>

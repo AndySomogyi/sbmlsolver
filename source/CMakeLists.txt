@@ -5,6 +5,8 @@ set(target roadrunner)
 configure_file(rrConfigure.h.in rrConfigure.h)
 include_directories(${RR_GENERATED_HEADER_PATH}) #we have to do this to get the generated header
 
+OPTION(USE_POCO_NET "Use poco net library" ON)
+
 include_directories(
     .
     ${THIRD_PARTY_INSTALL_FOLDER}/include
@@ -149,8 +151,17 @@ if(RR_BUILD_SHARED_CORE)
         nleq-static
         rr-libstruct-static
         poco_foundation-static
-        poco_net-static
         )
+
+    if (USE_POCO_NET)
+    target_link_libraries (${target}
+        poco_net-static
+    )
+    add_definitions(
+        -DWITH_POCO_NET
+    )
+
+    endif()
 
     if(UNIX)
         target_link_libraries (${target}
@@ -165,6 +176,13 @@ if(RR_BUILD_SHARED_CORE)
             libsbml
             )
     endif(UNIX)
+
+    #Libxml we can't build right now
+    if(${BORLAND})
+        target_link_libraries (${target}
+            libxml2_xe
+            )
+    endif()
 
 
     if(${INSTALL_CXX_API})
@@ -214,8 +232,17 @@ target_link_libraries (${target}-static
     nleq-static
     rr-libstruct-static
     poco_foundation-static
-    poco_net-static
     )
+
+if (USE_POCO_NET)
+target_link_libraries (${target}-static
+        poco_net-static
+    )
+    add_definitions(
+        -DWITH_POCO_NET
+    )
+endif()
+
 
 if(WIN32)
     target_link_libraries (${target}-static

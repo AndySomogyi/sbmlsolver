@@ -259,7 +259,7 @@ bool RoadRunner::setTempFileFolder(const string& folder)
 
 string RoadRunner::getTempFolder()
 {
-    return mModelGenerator ? mModelGenerator->getTemporaryDirectory() : "";
+    return mModelGenerator ? mModelGenerator->getTemporaryDirectory() : string("");
 }
 
 int RoadRunner::createDefaultTimeCourseSelectionList()
@@ -1450,7 +1450,7 @@ double RoadRunner::computeSteadyStateValue(const string& sId)
 
 string RoadRunner::getModelName()
 {
-    return mModel ? mModel->getModelName() : "";
+    return mModel ? mModel->getModelName() : string("");
 }
 
 // TODO Looks like major problems here, this
@@ -3335,22 +3335,6 @@ double getAdjustment(Complex& z)
 
 }//namespace
 
-//We only need to give the linker the folder where libs are
-//using the pragma comment. Automatic lining works for MSVC and codegear
-
-#if defined(CG_IDE)
-#pragma comment(lib, "sundials_cvode.lib")
-#pragma comment(lib, "sundials_nvecserial.lib")
-#pragma comment(lib, "nleq-static.lib")
-#pragma comment(lib, "pugi-static.lib")
-#pragma comment(lib, "rr-libstruct-static.lib")
-#pragma comment(lib, "libsbml-static.lib")
-#pragma comment(lib, "libxml2_xe.lib")
-#pragma comment(lib, "blas.lib")
-#pragma comment(lib, "lapack.lib")
-#pragma comment(lib, "libf2c.lib")
-#pragma comment(lib, "poco_foundation-static.lib")
-#endif
 
 #if defined(_WIN32)
 #pragma comment(lib, "IPHLPAPI.lib") //Becuase of poco needing this
