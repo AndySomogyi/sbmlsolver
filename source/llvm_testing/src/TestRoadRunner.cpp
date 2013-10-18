@@ -12,7 +12,13 @@
 #include "rrc_api.h"
 #include "rrSBMLReader.h"
 
+#include "conservation/ConservationExtension.h"
+#include "conservation/ConservationParameterPlugin.h"
+#include "conservation/ConservationSpeciesPlugin.h"
+
 using namespace std;
+using namespace libsbml;
+using namespace rr::conservation;
 
 namespace rr
 {
@@ -350,6 +356,24 @@ void TestRoadRunner::testLoad(const std::string& uri)
     {
         cout << "error: " << e.what() << std::endl;
     }
+}
+
+void TestRoadRunner::testCons1()
+{
+    ConservationPkgNamespaces *sbmlns = new ConservationPkgNamespaces(3,1,1);
+    SBMLDocument doc(sbmlns);
+
+
+    Model *m = doc.createModel("foo");
+
+    Parameter *p = m->createParameter();
+
+    ConservationParameterPlugin *plugin = dynamic_cast<ConservationParameterPlugin*>(p->getPlugin("conservation"));
+
+
+
+    cout << "its all good" << endl;
+
 }
 
 } /* namespace rr */

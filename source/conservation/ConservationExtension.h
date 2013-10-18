@@ -18,6 +18,7 @@
 #ifndef ConservationExtension_h
 #define ConservationExtension_h
 
+#include "rrExporter.h"
 #include <sbml/common/extern.h>
 #include <sbml/SBMLTypeCodes.h>
 #include <sbml/extension/SBMLExtension.h>
@@ -35,7 +36,7 @@ namespace rr { namespace conservation {
 #endif
 
 
-class LIBSBML_EXTERN ConservationExtension : public libsbml::SBMLExtension
+class RR_DECLSPEC ConservationExtension : public libsbml::SBMLExtension
 {
 public:
 

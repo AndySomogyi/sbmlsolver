@@ -8,7 +8,7 @@
 #ifndef CONSERVATIONPARAMETERPLUGIN_H_
 #define CONSERVATIONPARAMETERPLUGIN_H_
 
-
+#include "rrExporter.h"
 #include "ConservationExtension.h"
 #include <sbml/extension/SBasePlugin.h>
 
@@ -16,7 +16,7 @@
 namespace rr { namespace conservation {
 
 
-class ConservationParameterPlugin: public libsbml::SBasePlugin
+class RR_DECLSPEC ConservationParameterPlugin: public libsbml::SBasePlugin
 {
 public:
 

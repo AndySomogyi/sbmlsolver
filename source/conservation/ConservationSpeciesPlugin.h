@@ -7,7 +7,7 @@
 
 #ifndef CONSERVATIONSPECIESPLUGIN_H_
 #define CONSERVATIONSPECIESPLUGIN_H_
-
+#include "rrExporter.h"
 #include "ConservationExtension.h"
 #include <sbml/extension/SBasePlugin.h>
 
@@ -15,7 +15,7 @@
 namespace rr { namespace conservation {
 
 
-class ConservationSpeciesPlugin: public libsbml::SBasePlugin
+class RR_DECLSPEC ConservationSpeciesPlugin: public libsbml::SBasePlugin
 {
 public:
 
