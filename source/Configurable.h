@@ -9,7 +9,14 @@
 #define CONFIGURABLE_H_
 
 #include <string>
+#include "rrExporter.h"
 
+/**
+ * fully opaque pointers to xml node and doc.
+ *
+ * Currently, these just so happen to be libxml2 types, but that
+ * could change in the future.
+ */
 struct _xmlNode;
 struct _xmlDoc;
 
@@ -46,8 +53,16 @@ namespace rr
  * PluginManager also asks RoadRunner for its capabilities, so in this case,
  * RoadRunner's set of cabability nodes are automatically appended to the PluginManager's
  * cababity nodes and a single combined document is returned.
+ *
+ * Configurable is designed as a pure interface, one should NEVER create or delete
+ * a Configurable object directy.
+ *
+ * This being said, there are a number of STATIC methods on this class to perform
+ * various configurable activities. As these are static, the do not affect the binary
+ * layout of this interface. They could also have been declared as pure functions, but
+ * were put here to make it clear that they perform Configurable activities.
  */
-class Configurable
+class RR_DECLSPEC Configurable
 {
 public:
 
