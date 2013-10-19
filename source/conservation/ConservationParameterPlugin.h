@@ -51,6 +51,9 @@ public:
    * @return a (deep) copy of this SBase object
    */
   virtual ConservationParameterPlugin* clone () const;
+
+  bool getConservedMoiety();
+
 };
 
 } } // namespace rr } namespace conservation }

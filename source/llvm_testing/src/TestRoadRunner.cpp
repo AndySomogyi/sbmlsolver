@@ -361,16 +361,22 @@ void TestRoadRunner::testLoad(const std::string& uri)
 void TestRoadRunner::testCons1()
 {
     ConservationPkgNamespaces *sbmlns = new ConservationPkgNamespaces(3,1,1);
-    SBMLDocument doc(sbmlns);
 
+    SBMLDocument doc(sbmlns);
 
     Model *m = doc.createModel("foo");
 
     Parameter *p = m->createParameter();
 
-    ConservationParameterPlugin *plugin = dynamic_cast<ConservationParameterPlugin*>(p->getPlugin("conservation"));
+    ConservationParameterPlugin *plugin = p->getPlugin("conservation");
 
-
+    if (plugin) {
+        if (plugin->getConservedMoiety()) {
+            cout << "parameter " << p->getId() << "is a conserved moiety" << endl;
+        } else {
+            cout << "parameter " << p->getId() << "is NOT a conserved moiety" << endl;
+        }
+    }
 
     cout << "its all good" << endl;
 
