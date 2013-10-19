@@ -11,6 +11,9 @@
 #include "rrStringUtils.h"
 #include "rrc_macros.h"
 #include "rrc_cpp_support.h"
+#include "rrc_plugin_api.h"
+#include "rrc_parameter_api.h"
+#include "rrMinimizationData.h"
 
 #include <set>
 
@@ -47,6 +50,20 @@ static PluginManager* castToPluginManager(RRPluginManagerHandle handle)
     }
 
     throw (Exception("Invalid PluginManager handle"));
+}
+
+Plugin* castToPlugin(RRPluginHandle handle)
+{
+    Plugin* plugin = (Plugin*) handle;
+    if(plugin) //Will only fail if handle is NULL...
+    {
+        return plugin;
+    }
+    else
+    {
+        Exception ex("Failed to cast to a valid Plugin handle");
+        throw(ex);
+    }
 }
 
 RRPluginManagerHandle rrcCallConv createRRPluginManager(RRHandle rrHandle)
@@ -384,4 +401,34 @@ char* rrcCallConv getPluginManagerConfigurationXML(RRPluginManagerHandle handle)
     }
     catch_ptr_macro
 }
+
+}
+
+
+rr::BaseParameter* castToParameter(rrc::RRParameterHandle handle)
+{
+    rr::BaseParameter* para = (rr::BaseParameter*) handle;
+    if(para) //Will only fail if handle is NULL...
+    {
+        return para;
+    }
+    else
+    {
+        rr::Exception ex("Failed to cast to a valid Parameter handle");
+        throw(ex);
+    }
+}
+
+rr::MinimizationData* castToMinimizationData(rrc::RRMinimizationDataHandle handle)
+{
+    rr::MinimizationData* para = (rr::MinimizationData*) handle;
+    if(para) //Will only fail if handle is NULL...
+    {
+        return para;
+    }
+    else
+    {
+        rr::Exception ex("Failed to cast to a valid MinimizationData handle");
+        throw(ex);
+    }
 }

@@ -29,6 +29,8 @@ if(WIN32)
 add_definitions( -DWIN32)
 target_link_libraries (${target}
 roadrunner-static
+rrc-api
+plugin_manager
 )
 else() #UNIX
     # OSX flags:
@@ -57,6 +59,8 @@ else() #UNIX
         blas
         f2c
         pthread
+        rrc_api
+        plugin_manager
         )
 endif()
 

@@ -22,7 +22,7 @@ class RR_DECLSPEC Parameters
     public:
                                             Parameters();
         void                                add(BaseParameter* me);
-        StringList                          asStringList() const;
+        rr::StringList                          asStringList() const;
         u_int                               count() const;
 
         const BaseParameter*                   operator[](const int& i) const;

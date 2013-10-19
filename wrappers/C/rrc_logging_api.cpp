@@ -4,6 +4,7 @@
 #include "rrc_api.h"
 #include "rrc_logging_api.h"
 #include "rrc_cpp_support.h"
+#include "rrStringUtils.h"
 //---------------------------------------------------------------------------
 
 namespace rrc

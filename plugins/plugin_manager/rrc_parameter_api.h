@@ -1,5 +1,5 @@
 /**
- * @file rrc_minimization_api.h
+ * @file rrc_parameter_api.h
  * @brief roadRunner C API 2012
  * @author Totte Karlsson & Herbert M Sauro
  *
@@ -39,10 +39,11 @@
  * redistribute any piece of this software without proper attribution;
 */
 
-#ifndef rrc_minimization_apiH
-#define rrc_minimization_apiH
+#ifndef rrc_parameter_apiH
+#define rrc_parameter_apiH
 #include "rrc_exporter.h"
 #include "rrc_types.h"
+#include "rrplugins_types.h"
 //---------------------------------------------------------------------------
 
 #if defined(__cplusplus)
@@ -52,47 +53,58 @@ extern "C"
 {
 #endif
 
-/*!
- \brief Add parameter to fit to minimization data structure
- \param[in] handle Handle to a Minimization data structure
- \param[in] name Name of parameter
- \param[in] value value for the paramaeter 
- \return Returns true if sucessful, false otherwise
- \ingroup Minimization
-*/
-C_DECL_SPEC bool rrcCallConv addDoubleParameter(RRMinimizationDataHandle handle, const char* name, double value);
+
+
 
 /*!
- \brief Set minimization objects selection list related to experimental data
- \param[in] handle Handle to a Minimization data structure
- \param[in] list Selectionlist as a string 
+ \brief Set a parameter
+ \param[in] handle to a Parameter instance
+ \param[in] value Pointer to string holding the value to assign to the parameter
  \return Returns true if sucessful, false otherwise
- \ingroup Minimization
+ \ingroup parameters
 */
-C_DECL_SPEC bool rrcCallConv setMinimizationObservedDataSelectionList(RRMinimizationDataHandle handle, const char* list);
+C_DECL_SPEC bool rrcCallConv setParameter(RRParameterHandle handle, const char* value);
+
+
 
 /*!
- \brief Set minimization objects selection list related to model data
- \param[in] handle Handle to a Minimization data structure
- \param[in] list Selectionlist as a string
- \return Returns true if sucessful, false otherwise
- \ingroup Minimization
+ \brief Get a parameters value as char*
+ \param[in] handle to a Parameter instance
+ \return Returns the parameters value if sucessful, NULL otherwise
+ \ingroup parameters
 */
-C_DECL_SPEC bool rrcCallConv setMinimizationModelDataSelectionList(RRMinimizationDataHandle handle, const char* list);
+C_DECL_SPEC char* rrcCallConv getParameterValueAsString(RRParameterHandle handle);
 
 /*!
- \brief print out some information about the MinimizationData
- \param[in] handle Handle to a Minimization data structure
- \return pointer to a string if succesful, NULL otherwise
- \ingroup Minimization
+ \brief Get a parameters value as a void*
+ \param[in] handle to a Parameter instance
+ \return Returns the parameters value as a pointer if sucessful, NULL otherwise
+ \ingroup parameters
 */
-C_DECL_SPEC char* rrcCallConv getMinimizationDataReport(RRMinimizationDataHandle handle);
+C_DECL_SPEC void* rrcCallConv getParameterValueAsPointer(RRParameterHandle handle);
+
+/*!
+ \brief Get a parameters name
+ \param[in] handle to a Parameter instance
+ \return Returns the parameters name if sucessful, NULL otherwise
+ \ingroup parameters
+*/
+C_DECL_SPEC char* rrcCallConv getParameterName(RRParameterHandle handle);
+
+/*!
+ \brief Get a parameters hint
+ \param[in] handle to a Parameter instance
+ \return Returns the parameters hint if sucessful, NULL otherwise
+ \ingroup parameters
+*/
+C_DECL_SPEC char* rrcCallConv getParameterHint(RRParameterHandle handle);
+
 
 #if defined(__cplusplus)
-}	//Extern "C"
+}    //Extern "C"
 
-}	//rrc namespace
+}    //rrc namespace
 #endif
 
-#endif
 
+#endif

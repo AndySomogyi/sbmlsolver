@@ -1,29 +1,29 @@
-set(target rrc_api)
+set(target plugin_manager)
 
-set(C_API_INCLUDE_ROOT "${RR_ROOT}/wrappers/C")
+#set(C_API_INCLUDE_ROOT "${RR_ROOT}/wrappers/C")
 
 include_directories(${RR_GENERATED_HEADER_PATH}) #we have to do this to get the generated header
 
 include_directories(
-${C_API_INCLUDE_ROOT}
+#${C_API_INCLUDE_ROOT}
 ${RR_ROOT}/source
 ${THIRD_PARTY_INSTALL_FOLDER}/include
 )
 
-#The C-api is built as a shared library..
+#The plugin manager is a built as a shared library
 add_library(${target} SHARED
-    rrNewArrayList
-    rrNewArrayListItem
-    rrNewArrayListItemObject
-    rrc_api
+    rrPlugin
+    rrPluginManager
+#    rrCPPPlugin
+    rrCPlugin
     rrc_plugin_api
     rrc_parameter_api
-    rrc_logging_api
-    rrc_nom_api
-    rrc_libstruct_api
+    rrCapability
+    rrCapabilities
+    rrBaseParameter
+    rrParameters
+    rrMinimizationData
     rrc_minimization_api
-    rrc_utilities
-    rrc_cpp_support
 )
 
 if(${MSVC})
@@ -45,6 +45,7 @@ if(WIN32)
 
     target_link_libraries ( ${target}
         roadrunner-static
+        rrc_api
         )
 
 else() #Unix
@@ -74,33 +75,26 @@ else() #Unix
         blas
         f2c
         pthread
+        rrc_api
         )
 endif()
 
-add_subdirectory(Apps)
-if(INSTALL_EXAMPLES)
-    add_subdirectory(Examples)
-endif()
-
-if(BUILD_TESTS)
-    add_subdirectory(Testing)
-endif()
 
 #=============== INSTALL =====================
-install(
-    FILES
-    ${target}.h
-    rrc_utilities.h
-    rrc_types.h
-    rrc_exporter.h
+#install(
+#    FILES
+#    ${target}.h
+#    rrc_utilities.h
+#    rrc_types.h
+#    rrc_exporter.h
+#
+#    DESTINATION include/c_api COMPONENT c_api
+#    )
 
-    DESTINATION include/c_api COMPONENT c_api
-    )
-
-install(
-    TARGETS ${target}
-    RUNTIME DESTINATION bin COMPONENT c_api
-    ARCHIVE DESTINATION lib COMPONENT c_api
-    LIBRARY DESTINATION lib COMPONENT c_api
-    )
+#install(
+#    TARGETS ${target}
+#    RUNTIME DESTINATION bin COMPONENT c_api
+#    ARCHIVE DESTINATION lib COMPONENT c_api
+#    LIBRARY DESTINATION lib COMPONENT c_api
+#    )
 

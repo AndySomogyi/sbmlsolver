@@ -3,44 +3,15 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include "rrBaseParameter.h"
 #include "rrException.h"
-//#include "rrArrayListItem.h"
 #include "rrc_cpp_support.h"
 #include "rrc_types.h"
 #include "rrc_utilities.h"
+#include "rrStringUtils.h"
 
 namespace rrc
 {
 using namespace rr;
-
-BaseParameter* castToParameter(RRParameterHandle handle)
-{
-    BaseParameter* para = (BaseParameter*) handle;
-    if(para) //Will only fail if handle is NULL...
-    {
-        return para;
-    }
-    else
-    {
-        Exception ex("Failed to cast to a valid Parameter handle");
-        throw(ex);
-    }
-}
-
-MinimizationData* castToMinimizationData(RRMinimizationDataHandle handle)
-{
-    MinimizationData* para = (MinimizationData*) handle;
-    if(para) //Will only fail if handle is NULL...
-    {
-        return para;
-    }
-    else
-    {
-        Exception ex("Failed to cast to a valid MinimizationData handle");
-        throw(ex);
-    }
-}
 
 RoadRunnerList* getRRList(RRInstanceListPtr listHandle)
 {
@@ -80,19 +51,7 @@ RoadRunner* castFrom(RRHandle handle)
     }
 }
 
-Plugin* castToPlugin(RRPluginHandle handle)
-{
-    Plugin* plugin = (Plugin*) handle;
-    if(plugin) //Will only fail if handle is NULL...
-    {
-        return plugin;
-    }
-    else
-    {
-        Exception ex("Failed to cast to a valid Plugin handle");
-        throw(ex);
-    }
-}
+
 
 
 RRDoubleMatrix* createMatrix(const ls::DoubleMatrix* mat)

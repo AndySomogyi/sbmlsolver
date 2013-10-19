@@ -43,6 +43,7 @@
 #define rrc_plugin_apiH
 #include "rrc_exporter.h"
 #include "rrc_types.h"
+#include "rrplugins_types.h"
 //---------------------------------------------------------------------------
 
 #if defined(__cplusplus)
@@ -58,10 +59,7 @@ extern "C"
 */
 typedef void (rrcCallConv *pluginCallback)(void*);
 
-/**
- * PluginManager type
- */
-typedef void* RRPluginManagerHandle;
+
 
 /**
  * create an instance of a plugin managager attached to the given RoadRunner instance.
@@ -283,7 +281,6 @@ C_DECL_SPEC char* rrcCallConv getPluginManagerConfigurationXML(RRPluginManagerHa
 
 #if defined(__cplusplus)
 }    //Extern "C"
-
 }    //rrc namespace
 #endif
 

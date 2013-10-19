@@ -32,6 +32,7 @@ add_definitions( -DWIN32)
 target_link_libraries (${target}
 lmfit-static
 rrc_api
+plugin_manager
 )
 else() #UNIX
     # OSX flags:
@@ -55,6 +56,7 @@ else() #UNIX
         roadrunner-static
         lmfit-static
         rrc_api
+        plugin_manager
         )
 endif()
 

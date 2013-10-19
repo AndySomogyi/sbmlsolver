@@ -57,15 +57,6 @@ typedef void* RRJobHandle; /*! Void pointer to a JobInstance */
 /*!@brief Void pointer to Jobs Instances */
 typedef void* RRJobsHandle; /*! Void pointer to Jobs instance */
 
-/*!@brief Void pointer to a Plugin instance */
-typedef void* RRPluginHandle;
-
-/*!@brief Void pointer to a Parameter instance */
-typedef void* RRParameterHandle;
-
-/*!@brief Void pointer to a MinimizationData instance */
-typedef void* RRMinimizationDataHandle;
-
 /*!@brief Void pointer to a RoadRunner data instance */
 typedef void* RRDataHandle;
 
@@ -74,10 +65,10 @@ typedef void* RRDataHandle;
 /*!@brief Structure for a set of RoadRunner handles */
 typedef struct
 {
-    int             Count;  				/*!< The number of elements in the list */
-    RRHandle*       Handle;   				/*!< Pointer to a RoadRunner instance */
-    void* 			RRList;                 /*!< Pointer to a RoadRunnerList instance */
-} *RRInstanceListPtr, RRInstanceList;          			/*!< Pointer to RRInstanceList */
+    int             Count;                  /*!< The number of elements in the list */
+    RRHandle*       Handle;                   /*!< Pointer to a RoadRunner instance */
+    void*             RRList;                 /*!< Pointer to a RoadRunnerList instance */
+} *RRInstanceListPtr, RRInstanceList;                      /*!< Pointer to RRInstanceList */
 
 /*!@struct*/
 /*!@brief Structure for a simple vector of doubles */
@@ -102,46 +93,46 @@ typedef struct
     int             RSize;  /*!< The number of rows in the matrix */
     int             CSize;  /*!< The number of columns in the matrix */
     double*         Data;   /*!< Items in the matrix stored as a linear array. Access an element using Data[row*CSize + col],
-							  where i,j represent the row and column numberof the element. Indexing is from zero */
+                              where i,j represent the row and column numberof the element. Indexing is from zero */
 } *RRDoubleMatrixPtr, RRDoubleMatrix;          /*!< Pointer to RRDoubleMatrixPtr struct */
 
 /*!@struct*/
 /*!@brief Structure for a complex number */
 typedef struct RRComplex
 {
-    double          re;  				/*!< Real part of complex number */
-    double	       	imag;   			/*!< imag part of complex number */
-} *RRComplexPtr;    		      		/*!< Pointer to a RRComplex number */
+    double          re;                  /*!< Real part of complex number */
+    double               imag;               /*!< imag part of complex number */
+} *RRComplexPtr;                          /*!< Pointer to a RRComplex number */
 
 /*!@struct*/
 /*!@brief Structure for a simple complex Vector type */
 typedef struct RRComplexVector
 {
-    int             	Count;   /*!< The number of elements in the vector */
-    RRComplexPtr		Data;   /*!< Access an element using Data[i],
-							  		where i represent the index of the element. Indexing is from zero */
+    int                 Count;   /*!< The number of elements in the vector */
+    RRComplexPtr        Data;   /*!< Access an element using Data[i],
+                                      where i represent the index of the element. Indexing is from zero */
 } *RRComplexVectorPtr;       /*!< Pointer to RRVectorHandle struct */
 
 /*!@struct*/
 /*!@brief Structure for a simple complex Matrix type */
 typedef struct RRComplexMatrix
 {
-    int             	RSize;  /*!< The number of rows in the matrix */
-    int             	CSize;  /*!< The number of columns in the matrix */
-    RRComplexPtr		Data;   /*!< Items in the matrix stored as a linear array. Access an element using Data[row*CSize + col],
-							  		where i,j represent the row and column numberof the element. Indexing is from zero */
+    int                 RSize;  /*!< The number of rows in the matrix */
+    int                 CSize;  /*!< The number of columns in the matrix */
+    RRComplexPtr        Data;   /*!< Items in the matrix stored as a linear array. Access an element using Data[row*CSize + col],
+                                      where i,j represent the row and column numberof the element. Indexing is from zero */
 } *RRComplexMatrixPtr;       /*!< Pointer to RRDoubleMatrixPtr struct */
 
 /*!@struct*/
 /*!@brief Structure for the result type from the simulate calls */
 typedef struct RRCData
 {
-    int             RSize;  			/*!< The number of rows in the data matrix */
-    int             CSize;  			/*!< The number of columns in the data matrix */
-    double*         Data;   			/*!< A pointer to the data stored in the matrix. Access an element using Data[row*CSize + col] */
-    double*         Weights;   			/*!< A pointer to weights stored in the Weights matrix. Access an element using Weights[row*CSize + col] */
-    char**          ColumnHeaders;   	/*!< Pointer to an array of column header strings */
-} *RRCDataPtr;          				/*!< Pointer to RRCDataPtr struct */
+    int             RSize;              /*!< The number of rows in the data matrix */
+    int             CSize;              /*!< The number of columns in the data matrix */
+    double*         Data;               /*!< A pointer to the data stored in the matrix. Access an element using Data[row*CSize + col] */
+    double*         Weights;               /*!< A pointer to weights stored in the Weights matrix. Access an element using Weights[row*CSize + col] */
+    char**          ColumnHeaders;       /*!< Pointer to an array of column header strings */
+} *RRCDataPtr;                          /*!< Pointer to RRCDataPtr struct */
 
 /*!@struct*/
 /*!@brief Convenient structure for storing the header and main body source for the generate simulation C code */
@@ -163,20 +154,20 @@ enum RRParameterType {ptString, ptBool, ptInteger, ptDouble, ptVector, ptMatrix}
 // The above enums correspond to the currently supported types in an RRArrayList
 // char, int, double, RRArrayList
 
-struct RRList;	//Forward declaration for RRListItem, needed for RRListItem
+struct RRList;    //Forward declaration for RRListItem, needed for RRListItem
 
 /*!@struct*/
 /*!@brief A single list element type */
 typedef struct RRListItem
 {
-    enum ListItemType ItemType;  	 /*!< The type of the item in this list element */
+    enum ListItemType ItemType;       /*!< The type of the item in this list element */
     union
     {
-       int 	     		iValue;  /*!< Integer value */
-	   double    		dValue;  /*!< Double value */
-	   char*     		sValue;  /*!< String value */
-	   struct RRList*  	lValue;  /*!< List value */
-	} data;                      /*!< Union */
+       int                  iValue;  /*!< Integer value */
+       double            dValue;  /*!< Double value */
+       char*             sValue;  /*!< String value */
+       struct RRList*      lValue;  /*!< List value */
+    } data;                      /*!< Union */
 } *RRListItemPtr;             /*!< Pointer to cRRArrayListItemHandle struct */
 
 
@@ -184,7 +175,7 @@ typedef struct RRListItem
 /*!@brief A list type, stores int, double, strings and lists */
 typedef struct RRList
 {
-    int             	Count; /*!< The number elements in this list */
+    int                 Count; /*!< The number elements in this list */
     RRListItemPtr      *Items;  /*!< A pointer to a list of items */
 }  *RRListPtr;                /*!< Pointer to cRRArrayListHandle struct */
 

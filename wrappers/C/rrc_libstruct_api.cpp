@@ -1,17 +1,34 @@
 #pragma hdrstop
+
+#include "rrc_libstruct_api.h"
+#include "rrc_utilities.h"
+#include "rrc_macros.h"
+
 #include "rrRoadRunner.h"
 #include "rrException.h"
 #include "rr-libstruct/lsLibla.h"
-#include "rrc_libstruct_api.h"
 #include "rrc_cpp_support.h"
-#include "rrc_utilities.h"
-#include "rrc_macros.h"
+
+
 //---------------------------------------------------------------------------
 namespace rrc
 {
 using namespace rr;
 using namespace ls;    //Libstruct namespace
 using namespace std;
+
+RRDoubleMatrixPtr rrcCallConv getL0Matrix(RRHandle handle)
+{
+    try
+    {
+        rr::RoadRunner* rri = castFrom(handle);
+        DoubleMatrix*     tempMat     = rri->getL0Matrix();
+        return createMatrix(tempMat);
+
+    }
+    catch_ptr_macro;
+}
+
 
 ////////////////// ORIGINAL LIBSTRUCT C API Functionality
 //---------------------------------------------------------------------------
@@ -146,16 +163,8 @@ using namespace std;
 //}
 //
 ////Returns L0 Matrix
-RRDoubleMatrixPtr rrCallConv getL0Matrix(RRHandle handle)
-{
-    try
-    {
-        RoadRunner*     rri         = castFrom(handle);
-        DoubleMatrix*     tempMat     = rri->getL0Matrix();
-        return createMatrix(tempMat);
-    }
-    catch_ptr_macro
-}
+
+
 ///*LIB_EXTERN*/  int LibStructural_getL0Matrix(double** *outMatrix, int* outRows, int *outCols)
 //{
 //    DoubleMatrix *oTemp = LibStructural::getInstance()->getL0Matrix();
