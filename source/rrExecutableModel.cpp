@@ -69,7 +69,7 @@ std::ostream& operator <<(std::ostream &stream, ExecutableModel* model)
     model->getReactionRates(nReactions, 0, tmp);
     stream << "Reaction Rates:" << endl;
     dump_array(stream, nReactions, tmp);
-    delete tmp;
+    delete [] tmp;
 
     tmp = new double[nBound];
     model->getBoundarySpeciesAmounts(nBound, 0, tmp);
@@ -79,25 +79,25 @@ std::ostream& operator <<(std::ostream &stream, ExecutableModel* model)
     model->getBoundarySpeciesConcentrations(nBound, 0, tmp);
     stream << "BoundarySpeciesConcentrations:" << endl;
     dump_array(stream, nBound, tmp);
-    delete tmp;
+    delete [] tmp;
 
     tmp = new double[nComp];
     model->getCompartmentVolumes(nComp, 0, tmp);
     stream << "CompartmentVolumes:" << endl;
     dump_array(stream, nComp, tmp);
-    delete tmp;
+    delete [] tmp;
 
     tmp = new double[nGlobalParam];
     model->getGlobalParameterValues(nGlobalParam, 0, tmp);
     stream << "GlobalParameters:" << endl;
     dump_array(stream, nGlobalParam, tmp);
-    delete tmp;
+    delete [] tmp;
 
     unsigned char *tmpEvents = new unsigned char[nEvents];
     model->getEventTriggers(nEvents, 0, tmpEvents);
     stream << "Events Trigger Status:" << endl;
     dump_array(stream, nEvents, (bool*)tmpEvents);
-    delete tmpEvents;
+    delete [] tmpEvents;
 
     return stream;
 }
