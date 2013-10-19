@@ -416,6 +416,15 @@ double RoadRunner::getSelectionValue(const SelectionRecord& record)
     case SelectionRecord::UNSCALED_ELASTICITY:
         dResult = getuEE(record.p1, record.p2, false);
         break;
+
+    case SelectionRecord::CONTROL:
+        dResult = this->getCC(record.p1, record.p2);
+        break;
+
+    case SelectionRecord::UNSCALED_CONTROL:
+        dResult = this->getuCC(record.p1, record.p2);
+        break;
+
     case SelectionRecord::EIGENVALUE:
     {
         string species = record.p1;
