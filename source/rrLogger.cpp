@@ -25,13 +25,13 @@ using Poco::SimpleFileChannel;
 static Poco::Logger *pocoLogger = 0;
 volatile int logLevel = -1;
 const Logger::Level defaultLogLevel = Logger::PRIO_NOTICE;
+static std::string logFileName;
 
 Poco::Logger& getLogger()
 {
     if (pocoLogger == 0)
     {
         AutoPtr<ConsoleChannel> pCons(new ConsoleChannel);
-        //AutoPtr<AsyncChannel> pAsync(new AsyncChannel(pCons));
         Poco::Logger::root().setChannel(pCons);
 
         pocoLogger = &Poco::Logger::get("RoadRunner");
@@ -77,7 +77,20 @@ void Logger::init(const std::string& allocator, int level)
         Poco::Logger::root().setLevel(level);
         logLevel = Poco::Logger::root().getLevel();
     }
+
+    AutoPtr<ConsoleChannel> pCons(new ConsoleChannel);
+    Poco::Logger::root().setChannel(pCons);
+    Poco::Logger::root().setLevel(logLevel);
+
+    Poco::Logger &logger = getLogger();
+    AutoPtr<ConsoleChannel> pCons2(new ConsoleChannel);
+    logger.setChannel(pCons);
+    logger.setLevel(logLevel);
+
+    logFileName = "";
 }
+
+
 
 void Logger::init(const std::string& allocator, int level, const std::string& fileName)
 {
@@ -89,17 +102,53 @@ void Logger::init(const std::string& allocator, int level, const std::string& fi
 
     AutoPtr<SimpleFileChannel> pChannel(new SimpleFileChannel);
     pChannel->setProperty("path", fileName);
-    pChannel->setProperty("rotation", "2 K");
-    Poco::Logger::root().setChannel(pChannel);
+    pChannel->setProperty("rotation", "never");
+
+
     Poco::Logger::root().setLevel(level);
 
-    getLogger().trace("deleting pointer to LogFile struct...");
-    logLevel = Poco::Logger::root().getLevel();
+    Poco::Logger &logger = getLogger();
+
+    logger.setChannel(pChannel);
+    logger.setLevel(level);
+
+    logLevel = level;
+    logFileName = pChannel->getProperty("path");
 }
 
 std::string Logger::getLevelAsString()
 {
-    return __FUNC__;
+    switch (logLevel)
+    {
+    case Message::PRIO_FATAL:
+        return "PRIO_FATAL";
+        break;
+    case Message::PRIO_CRITICAL:
+        return "PRIO_CRITICAL";
+        break;
+    case Message::PRIO_ERROR:
+        return "PRIO_ERROR";
+        break;
+    case Message::PRIO_WARNING:
+        return "PRIO_WARNING";
+        break;
+    case Message::PRIO_NOTICE:
+        return "PRIO_NOTICE";
+        break;
+    case Message::PRIO_INFORMATION:
+        return "PRIO_INFORMATION";
+        break;
+    case Message::PRIO_DEBUG:
+        return "PRIO_DEBUG";
+        break;
+    case Message::PRIO_TRACE:
+        return "PRIO_DEBUG";
+        break;
+    default:
+        return "UNKNOWN";
+        break;
+    }
+    return "UNKNOWN";
 }
 
 Logger::Logger()
@@ -123,7 +172,7 @@ void Logger::disableLoggingToConsole()
 
 std::string Logger::getFileName()
 {
-    return __FUNC__;
+    return logFileName;
 }
 
 void LoggingBufferCtor()
