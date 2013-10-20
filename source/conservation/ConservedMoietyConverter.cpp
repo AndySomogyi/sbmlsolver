@@ -27,6 +27,12 @@
 #include <vector>
 #include <map>
 
+#include "rrStringUtils.h"
+
+
+#include <Poco/UUIDGenerator.h>
+
+
 using namespace std;
 using namespace libsbml;
 
@@ -120,6 +126,42 @@ int ConservedMoietyConverter::convert()
     // so we do that here so when we allocate new parameters and
     // species, they will have the ConservedMoiety plugin.
     //resultModel->setSBMLNamespacesAndOwn(new ConservationPkgNamespaces(3,1,1));
+
+
+    Poco::UUIDGenerator uuidGen;
+
+
+
+    Poco::UUID uuid = uuidGen.create();
+
+    for (int i = 0; i < 5; ++i) {
+        Parameter *p = resultModel->createParameter();
+        InitialAssignment *ia = resultModel->createInitialAssignment();
+
+        Poco::UUID uuid = uuidGen.create();
+        string id = "cm_" + uuid.toString();
+
+
+
+        std::replace( id.begin(), id.end(), '-', '_');
+
+        cout << "id: " << id << endl;
+
+        p->setId(id);
+        p->setConstant(true);
+        p->setValue(i);
+
+
+
+        ia->setSymbol(id);
+
+        ASTNode math;
+
+        math.setValue(i);
+
+        ia->setMath(&math);
+
+    }
 
 
 
