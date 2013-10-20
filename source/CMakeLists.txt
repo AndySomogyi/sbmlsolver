@@ -79,8 +79,9 @@ set(rrSources
     c/rrCModelDataUtil
     c/rrCompiledExecutableModel
     conservation/ConservationExtension
-    conservation/ConservationParameterPlugin
-    conservation/ConservationSpeciesPlugin
+    conservation/ConservationDocumentPlugin
+    conservation/ConservedMoietyPlugin
+    conservation/ConservedMoietyConverter
     )
 
 # Add the LLVM sources to compilation

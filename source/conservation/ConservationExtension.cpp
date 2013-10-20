@@ -14,8 +14,10 @@
  */
 
 #include "ConservationExtension.h"
-#include "ConservationParameterPlugin.h"
-#include "ConservationSpeciesPlugin.h"
+#include "ConservationDocumentPlugin.h"
+#include "ConservedMoietyPlugin.h"
+
+#include "rrLogger.h"
 
 #include <sbml/extension/SBMLExtensionRegister.h>
 #include <sbml/extension/SBMLExtensionRegistry.h>
@@ -23,6 +25,7 @@
 #include <sbml/extension/SBMLDocumentPluginNotRequired.h>
 
 #include <iostream>
+#include <exception>
 
 namespace rr
 {
@@ -317,13 +320,19 @@ void ConservationExtension::init()
     std::vector<std::string> packageURIs;
     packageURIs.push_back(getXmlnsL3V1V1());
 
+    // the plugins will be plugged in at these extension points
+    SBaseExtensionPoint documentExtPoint("core", SBML_DOCUMENT);
     SBaseExtensionPoint parameterExtPoint("core", SBML_PARAMETER);
     SBaseExtensionPoint speciesExtPoint("core", SBML_SPECIES);
 
-    SBasePluginCreator<ConservationParameterPlugin, ConservationExtension> parameterPluginCreator(
-            parameterExtPoint, packageURIs);
-    SBasePluginCreator<ConservationSpeciesPlugin, ConservationExtension> speciesPluginCreator(
-            speciesExtPoint, packageURIs);
+    SBasePluginCreator<ConservationDocumentPlugin, ConservationExtension>
+        documentPluginCreator(documentExtPoint, packageURIs);
+
+    SBasePluginCreator<ConservedMoietyPlugin, ConservationExtension>
+        parameterPluginCreator(parameterExtPoint, packageURIs);
+
+    SBasePluginCreator<ConservedMoietyPlugin, ConservationExtension>
+        speciesPluginCreator(speciesExtPoint, packageURIs);
 
     //--------------------------------------------------------------------------------------
     //
@@ -331,6 +340,7 @@ void ConservationExtension::init()
     //
     //--------------------------------------------------------------------------------------
 
+    conservationExtension.addSBasePluginCreator(&documentPluginCreator);
     conservationExtension.addSBasePluginCreator(&parameterPluginCreator);
     conservationExtension.addSBasePluginCreator(&speciesPluginCreator);
 
@@ -345,8 +355,13 @@ void ConservationExtension::init()
 
     if (result != LIBSBML_OPERATION_SUCCESS)
     {
-        std::cerr << "[Error] ConservationExtension::init() failed."
-                << std::endl;
+        const char* msg = "ConservationExtension::init() failed.";
+        Log(rr::Logger::PRIO_CRITICAL) << msg;
+        throw std::runtime_error(msg);
+    }
+    else
+    {
+        Log(rr::Logger::PRIO_NOTICE) << "successfully registered conservation extension";
     }
 }
 

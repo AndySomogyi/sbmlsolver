@@ -13,8 +13,9 @@
 #include "rrSBMLReader.h"
 
 #include "conservation/ConservationExtension.h"
-#include "conservation/ConservationParameterPlugin.h"
-#include "conservation/ConservationSpeciesPlugin.h"
+#include "conservation/ConservationDocumentPlugin.h"
+#include "conservation/ConservedMoietyPlugin.h"
+#include "conservation/ConservedMoietyConverter.h"
 
 using namespace std;
 using namespace libsbml;
@@ -364,19 +365,78 @@ void TestRoadRunner::testCons1()
 
     SBMLDocument doc(sbmlns);
 
+    ConservationDocumentPlugin* docPlugin =
+            dynamic_cast<ConservationDocumentPlugin*>(doc.getPlugin("conservation"));
+
+    cout << "document plugin: " << docPlugin << endl;
+
     Model *m = doc.createModel("foo");
 
     Parameter *p = m->createParameter();
 
-    ConservationParameterPlugin *plugin = p->getPlugin("conservation");
+    ConservedMoietyPlugin *paramPlugin =
+            dynamic_cast<ConservedMoietyPlugin*>(p->getPlugin("conservation"));
 
-    if (plugin) {
-        if (plugin->getConservedMoiety()) {
-            cout << "parameter " << p->getId() << "is a conserved moiety" << endl;
-        } else {
-            cout << "parameter " << p->getId() << "is NOT a conserved moiety" << endl;
-        }
-    }
+    cout << "parameter plugin: " << paramPlugin << endl;
+
+    Species *s = m->createSpecies();
+
+    ConservedMoietyPlugin *speciesPlugin =
+            dynamic_cast<ConservedMoietyPlugin*>(s->getPlugin("conservation"));
+
+    cout << "species plugin: " << speciesPlugin << endl;
+
+
+
+    cout << "its all good" << endl;
+
+}
+
+void TestRoadRunner::testCons2()
+{
+    const char* fname = "/Users/andy/src/sbml_test/cases/semantic/00001/00001-sbml-l2v4.xml";
+
+    libsbml::SBMLReader reader;
+
+    SBMLDocument *doc = reader.readSBML(fname);
+
+    ConservedMoietyConverter conv;
+
+    conv.setDocument(doc);
+
+    int result = conv.convert();
+
+    SBMLDocument *newDoc = conv.getDocument();
+
+    ConservationDocumentPlugin* docPlugin =
+            dynamic_cast<ConservationDocumentPlugin*>(newDoc->getPlugin(
+                    "conservation"));
+
+    cout << "document plugin: " << docPlugin << endl;
+
+    Model *m = newDoc->getModel();
+
+    Parameter *p = m->createParameter();
+
+    p->setId("TestID");
+
+    p->setValue(23);
+
+    ConservedMoietyPlugin *paramPlugin =
+            dynamic_cast<ConservedMoietyPlugin*>(p->getPlugin("conservation"));
+
+    cout << "parameter plugin: " << paramPlugin << endl;
+
+    Species *s = m->createSpecies();
+
+    ConservedMoietyPlugin *speciesPlugin =
+            dynamic_cast<ConservedMoietyPlugin*>(s->getPlugin("conservation"));
+
+    cout << "species plugin: " << speciesPlugin << endl;
+
+    libsbml::SBMLWriter writer;
+
+    writer.writeSBML(newDoc, "/Users/andy/moeity.xml");
 
     cout << "its all good" << endl;
 

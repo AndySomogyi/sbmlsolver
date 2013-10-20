@@ -59,6 +59,8 @@ public:
 
     static void testCons1();
 
+    static void testCons2();
+
 };
 
 } /* namespace rr */
