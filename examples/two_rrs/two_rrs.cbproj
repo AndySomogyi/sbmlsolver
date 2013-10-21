@@ -39,9 +39,9 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <IncludePath>..\..\source\;R:\rrl\examples\two_rrs\;..\..\source;$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\source\;R:\rrl\examples\two_rrs\;..\..\source;$(RR_INSTALL)\include;$(IncludePath)</IncludePath>
         <Defines>LIBSBML_USE_CPP_NAMESPACE;POCO_STATIC;STATIC_LIBSTRUCT;$(Defines)</Defines>
-        <ILINK_LibraryPath>..\..\source\;R:\rrl\examples\two_rrs\;$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\..\source\;R:\rrl\examples\two_rrs\;$(RR_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <DynamicRTL>true</DynamicRTL>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <Manifest_File>None</Manifest_File>
@@ -90,7 +90,7 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <ILINK_DisableIncrementalLinking>true</ILINK_DisableIncrementalLinking>
-        <FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
+        <FinalOutputDir>$(RR_INSTALL)\bin</FinalOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>

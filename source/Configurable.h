@@ -7,7 +7,7 @@
 
 #ifndef CONFIGURABLE_H_
 #define CONFIGURABLE_H_
-
+#include "rrExporter.h"
 #include <string>
 
 struct _xmlNode;
@@ -47,7 +47,7 @@ namespace rr
  * RoadRunner's set of cabability nodes are automatically appended to the PluginManager's
  * cababity nodes and a single combined document is returned.
  */
-class Configurable
+class RR_DECLSPEC Configurable
 {
 public:
 

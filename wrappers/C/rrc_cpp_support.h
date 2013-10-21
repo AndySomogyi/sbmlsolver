@@ -62,7 +62,7 @@ using std::vector;
  \param[in] error A string containg the error
  \ingroup cpp_support
 */
-void                                     setError(const std::string& err);
+C_DECL_SPEC void                        setError(const std::string& err);
 
 /*!
  \brief Cast a handle to RoadRunner instance pointer, throws if it fails
@@ -70,7 +70,7 @@ void                                     setError(const std::string& err);
  \return Pointer to a roadrunner instance
  \ingroup cpp_support
 */
-rr::RoadRunner*                         castFrom(rrc::RRHandle rrHandle);
+C_DECL_SPEC rr::RoadRunner*             castFrom(rrc::RRHandle rrHandle);
 
 
 
@@ -81,7 +81,7 @@ rr::RoadRunner*                         castFrom(rrc::RRHandle rrHandle);
  \return Pointer to a RoadRunnerList instance
  \ingroup cpp_support
 */
-rr::RoadRunnerList*                 getRRList(rrc::RRInstanceListPtr handle);
+C_DECL_SPEC rr::RoadRunnerList*         getRRList(rrc::RRInstanceListPtr handle);
 
 /*!
  \brief Copy a C vector to a std::vector
