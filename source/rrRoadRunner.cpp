@@ -303,12 +303,6 @@ int RoadRunner::createTimeCourseSelectionList()
         Log(Logger::PRIO_DEBUG) << "Selection Value [" << i << "]: " << mSelectionList[i].to_repr();
     }
 
-    if(mSelectionList.size() < 2)
-    {
-        Log(Logger::PRIO_WARNING) << "No values selected for simulation result";
-        return 0;
-    }
-
     return mSelectionList.size();
 }
 
@@ -2719,11 +2713,7 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
     double hstep = (timeEnd - timeStart) / (numPoints - 1);
     int nrCols = mSelectionList.size();
 
-    if(!nrCols)
-    {
-        assert(0 && "time couse selection list is empty");
-        nrCols = createDefaultTimeCourseSelectionList();
-    }
+    Log(Logger::PRIO_DEBUG) << "starting simulation with " << nrCols << " selected columns";
 
     // ignored if same
     mRawRoadRunnerData.resize(mSettings.steps + 1, nrCols);

@@ -282,6 +282,11 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
     // In [87]: b = array(array([0,1,2,3]),
     //      dtype=[('r', 'f8'), ('g', 'f8'), ('b', 'f8'), ('a', 'f8')])
 
+	// could be Null
+	if (pData == 0) {
+		Py_RETURN_NONE;
+	}
+
     if (pData->structuredResult) {
 
         const std::vector<std::string> &names = pData->getColumnNames();
@@ -289,6 +294,11 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 
         int rows = mat.numRows();
         int cols = mat.numCols();
+
+		if (cols == 0) {
+			Py_RETURN_NONE;
+		}
+
         double* mData = mat.getArray();
 
         PyObject* list = PyList_New(names.size());
@@ -330,6 +340,10 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
         int rows = mat.numRows();
         int cols = mat.numCols();
         int nd = 2;
+
+		if (cols == 0) {
+			Py_RETURN_NONE;
+		}
 
         npy_intp dims[2] = {rows, cols};
         double *data = (double*)malloc(sizeof(double)*rows*cols);
