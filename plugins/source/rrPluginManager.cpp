@@ -241,13 +241,14 @@ bool PluginManager::unloadAll()
 bool PluginManager::unload(Plugin* plugin)
 {
     bool result(false);
-    int nrPlugins = getNumberOfPlugins();
-    std::vector< std::pair< Poco::SharedLibrary*, Plugin* > >::iterator pluginIter;
-
-    for(int i = 0; i < nrPlugins; i++)
+    int nrPlugins = getNumberOfPlugins();    
+	//Todo: test..!
+    for(vector< pair< Poco::SharedLibrary*, Plugin* > >::iterator pluginIter = mPlugins.begin(); 
+			pluginIter != mPlugins.end(); pluginIter++)
     {
-        pluginIter = &mPlugins[i];
-        pair< Poco::SharedLibrary*, Plugin* >  *aPluginLib = &(mPlugins[i]);
+		
+        //pluginIter = &(mPlugins[i]);
+        pair< Poco::SharedLibrary*, Plugin* >  *aPluginLib = &(*pluginIter);
         if(aPluginLib)
         {
             SharedLibrary *pluginLibHandle    = aPluginLib->first;

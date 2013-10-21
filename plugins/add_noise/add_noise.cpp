@@ -5,16 +5,18 @@
 #include "rrNoise.h"
 
 //---------------------------------------------------------------------------
+extern "C" const char* rrCallConv getImplementationLanguage();
 namespace addNoise
 {
+
 using namespace rr;
 
 AddNoise::AddNoise(rr::RoadRunner* aRR, WorkStartedCB fn1, WorkFinishedCB fn2)
 :
-Plugin(                    "AddNoise",                 "No Category",                aRR, fn1, fn2),
-mAddNoise(                 "Add noise",                 "...",                        "Add Noise"),
-mNoiseType(                "NoiseType",                 ntGaussian,                    "Noise Type"),
-mSigma(                    "Sigma",                     1,                            "Sigma"),
+Plugin(                    "AddNoise",                 "Signal Processing",    aRR, fn1, fn2),
+mAddNoise(                 "Add noise",                 "...",                          "Add Noise"),
+mNoiseType(                "NoiseType",                 ntGaussian,                     "Type of Noise."),
+mSigma(                    "Sigma",                     1,                              "Indicate the size of the noise"),
 mAddNoiseThread()
 {
     //Setup the plugins capabilities
@@ -26,6 +28,11 @@ mAddNoiseThread()
 AddNoise::~AddNoise()
 {}
 
+string AddNoise::getImplementationLanguage()
+{
+    return ::getImplementationLanguage();
+}
+
 bool AddNoise::isWorking()
 {
     return mAddNoiseThread.isRunning();
@@ -33,7 +40,7 @@ bool AddNoise::isWorking()
 
 bool AddNoise::execute(void* inputData)
 {
-    Log(lDebug)<<"Executing the AddNoise plugin";
+    Log(lDebug)<<"Executing the AddNoise plugin by Totte Karlsson";
 
     //go away and carry out the work in a thread
     //Assign callback functions to communicate the progress of the thread
@@ -43,10 +50,16 @@ bool AddNoise::execute(void* inputData)
 }
 
 // Plugin factory function
-rr::Plugin* rrCallConv createPlugin(rr::RoadRunner* aRR)
+Plugin* rrCallConv createPlugin(rr::RoadRunner* aRR)
 {
     //allocate a new object and return it
     return new AddNoise(aRR);
+}
+
+
+const char* rrCallConv getImplementationLanguage()
+{
+    return "CPP";
 }
 
 _xmlNode* AddNoise::createConfigNode()
@@ -58,14 +71,8 @@ _xmlNode* AddNoise::createConfigNode()
 }
 
 void AddNoise::loadConfig(const _xmlDoc* doc)
-{
-}
+{}
 
-}
-
-extern "C" const char* rrCallConv    getImplementationLanguage()
-{
-    return "CPP";
 }
 
 extern "C" int _libmain(unsigned long reason)
@@ -74,18 +81,5 @@ extern "C" int _libmain(unsigned long reason)
 }
 
 
-#if defined(CG_UI)
-    #if defined(STATIC_BUILD)
-        #pragma comment(lib, "roadrunner-static.lib")
-    #else
-        #pragma comment(lib, "roadrunner.lib")
-    #endif
-
-    #pragma comment(lib, "poco_foundation-static.lib")
-#endif
-
-#if defined(_MSC_VER)
-    #pragma comment(lib, "IPHLPAPI.lib")
-#endif
 
 

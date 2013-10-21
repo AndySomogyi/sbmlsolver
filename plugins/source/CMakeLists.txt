@@ -1,4 +1,4 @@
-set(target plugin_manager)
+set(target rrp_api)
 
 #set(C_API_INCLUDE_ROOT "${RR_ROOT}/wrappers/C")
 
@@ -16,25 +16,27 @@ add_library(${target} SHARED
     rrPluginManager
 #    rrCPPPlugin
     rrCPlugin
-    rrc_plugin_api
-    rrc_parameter_api
+    rrp_api
+    rrp_parameter_api
     rrCapability
     rrCapabilities
     rrBaseParameter
     rrParameters
     rrMinimizationData
-    rrc_minimization_api
+    rrp_minimization_api
+    rrp_autolink
+    rrp_cpp_support
 )
 
-if(${MSVC})
-    set (CMAKE_SHARED_LINKER_FLAGS     "${CMAKE_SHARED_LINKER_FLAGS} \"/DEF:${CMAKE_CURRENT_SOURCE_DIR}/rrc_api.def\"")
-endif()
+#if(${MSVC})
+#    set (CMAKE_SHARED_LINKER_FLAGS     "${CMAKE_SHARED_LINKER_FLAGS} \"/DEF:${CMAKE_CURRENT_SOURCE_DIR}/rrp_api.def\"")
+#endif()
 
-#Link C_api dll statically to roadrunner and libsbml
+#Link plugin api dll statically to roadrunner and libsbml
 if(WIN32)
     set_property(TARGET ${target}
         PROPERTY  COMPILE_DEFINITIONS
-        EXPORT_RRC
+        EXPORT_RRP
         LIBSBML_STATIC
         LIBLAX_STATIC
         STATIC_PUGI

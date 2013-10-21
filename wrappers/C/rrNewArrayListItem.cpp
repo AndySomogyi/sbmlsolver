@@ -9,7 +9,7 @@
 namespace rrc
 {
 
-ostream& operator<<(ostream& stream, const NewArrayListItemObject& item)
+std::ostream& operator<<(std::ostream& stream, const NewArrayListItemObject& item)
 {
     //Have to figure out subtype of item
     NewArrayListItemObject* ptr = const_cast<NewArrayListItemObject*>(&item);

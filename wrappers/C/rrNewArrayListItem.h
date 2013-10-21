@@ -49,7 +49,7 @@ NewArrayListItem<T>& NewArrayListItem<T>::operator=(const NewArrayListItem<T>& r
     return *this;
 }
 
-ostream& operator<<(ostream& stream, const NewArrayListItemObject& item);
+std::ostream& operator<<(std::ostream& stream, const NewArrayListItemObject& item);
 
 }
 #endif
