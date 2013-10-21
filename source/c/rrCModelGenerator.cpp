@@ -37,6 +37,7 @@ mModelLib(0)
 
 CModelGenerator::~CModelGenerator()
 {
+    delete mModelLib;
 }
 
 int CModelGenerator::getNumberOfFloatingSpecies()
@@ -78,12 +79,8 @@ string CModelGenerator::generateModelCode(const string& sbmlStr, const bool& _co
     mHeader.Clear();
     mSource.Clear();
 
-
-
     Log(lDebug1)<<"Processing model: "<< ms.mModelName;
-
     Log(lDebug3)<<"Number of reactions:"<< ms.mNumReactions;
-
 
     //Write model to String builder...
     writeClassHeader(ignore);

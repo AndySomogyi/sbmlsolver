@@ -57,6 +57,8 @@ public:
 
     static void testLoad(const std::string& uri);
 
+    static void testLogging(const std::string& logFileName);
+
 };
 
 } /* namespace rr */

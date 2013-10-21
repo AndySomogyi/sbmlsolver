@@ -68,6 +68,17 @@ int main(int argc, char* argv[])
 
     TestPluginManager pmtest;
 
+    if (argc > 1)
+    {
+        TestRoadRunner::testLogging(argv[1]);
+    }
+    else
+    {
+        TestRoadRunner::testLogging("test.log");
+    }
+
+    return 0;
+
 
 
 

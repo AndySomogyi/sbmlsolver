@@ -27,6 +27,7 @@ SBMLSymbolDependencies& SBMLSymbolDependencies::operator=(const SBMLSymbolDepend
 
 void SBMLSymbolDependencies::Add(SBMLSymbol* symbol)
 {
+    //Todo: memory leak
     SBMLSymbol *symbDep = new SBMLSymbol( (*symbol) );
 
     mDependencies.push_back(symbDep);    //Makes a copy
