@@ -39,5 +39,16 @@ ConservedMoietyPlugin* rr::conservation::ConservedMoietyPlugin::clone() const
     return 0;
 }
 
+bool ConservedMoietyPlugin::getConservedMoiety()
+{
+    return false;
+}
 
-} } // namespace rr } namespace conservation }
+void ConservedMoietyPlugin::setConservedMoiety(bool value)
+{
+}
+
+}
+} // namespace rr } namespace conservation }
+
+

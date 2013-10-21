@@ -394,7 +394,11 @@ void TestRoadRunner::testCons1()
 
 void TestRoadRunner::testCons2()
 {
-    const char* fname = "/Users/andy/src/sbml_test/cases/semantic/00001/00001-sbml-l2v4.xml";
+
+    Logger::init("", Logger::PRIO_DEBUG);
+    //const char* fname = "/Users/andy/src/sbml_test/cases/semantic/00001/00001-sbml-l2v4.xml";
+
+    const char* fname = "/Users/andy/local/testing/feedback.xml";
 
     libsbml::SBMLReader reader;
 
@@ -413,26 +417,6 @@ void TestRoadRunner::testCons2()
                     "conservation"));
 
     cout << "document plugin: " << docPlugin << endl;
-
-    Model *m = newDoc->getModel();
-
-    Parameter *p = m->createParameter();
-
-    p->setId("TestID");
-
-    p->setValue(23);
-
-    ConservedMoietyPlugin *paramPlugin =
-            dynamic_cast<ConservedMoietyPlugin*>(p->getPlugin("conservation"));
-
-    cout << "parameter plugin: " << paramPlugin << endl;
-
-    Species *s = m->createSpecies();
-
-    ConservedMoietyPlugin *speciesPlugin =
-            dynamic_cast<ConservedMoietyPlugin*>(s->getPlugin("conservation"));
-
-    cout << "species plugin: " << speciesPlugin << endl;
 
     libsbml::SBMLWriter writer;
 

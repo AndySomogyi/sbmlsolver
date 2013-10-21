@@ -6,6 +6,7 @@
  */
 
 #include "ConservedMoietyConverter.h"
+#include "ConservedMoietyPlugin.h"
 #include "rr-libstruct/lsLibStructural.h"
 
 #include <sbml/conversion/SBMLConverterRegistry.h>
@@ -36,8 +37,59 @@
 using namespace std;
 using namespace libsbml;
 
+static const int loggingLevel = rr::Logger::PRIO_DEBUG;
+
 namespace rr { namespace conservation {
 
+/**
+ * A little hack so we can copy species and get the ConservedMoiety plugin.
+ *
+ * Otherwise, we would have had to essentially re-write the Species
+ * copy ctor, which is problematic should the contents of Species
+ * ever change.
+ */
+class ConservedMoietySpecies : public libsbml::Species
+{
+public:
+    ConservedMoietySpecies(libsbml::Species& orig, bool conservedMoiety) :
+        libsbml::Species(orig)
+    {
+        ConservationPkgNamespaces ns(3,1,1);
+        this->loadPlugins(&ns);
+
+        ConservedMoietyPlugin *plugin = (ConservedMoietyPlugin*)getPlugin("conservation");
+
+        assert(plugin && "could not get conservation plugin from new species");
+
+        plugin->setConservedMoiety(conservedMoiety);
+    }
+};
+
+
+typedef std::vector<std::string> StringVector;
+
+/**
+ * remove any species from new model and replace with species
+ * in
+ */
+static void createReorderedSpecies(Model* newModel, Model* oldModel,
+        const std::vector<std::string>& indSpecies,
+        const std::vector<std::string>& depSpecies);
+
+/**
+ * creates a set of global parameters for the conserved moieties.
+ *
+ * A set of initialAssigments are also created to set thier values.
+ */
+static std::vector<std::string> createConservedMoietyParameters(
+        Model* newModel,
+        const ls::DoubleMatrix& L0, const std::vector<std::string>& indSpecies,
+        const std::vector<std::string>& depSpecies);
+
+static void createDependentSpeciesRules(Model* newModel,
+        const ls::DoubleMatrix& L0,
+        const std::vector<std::string>& conservedMoieties,
+        const std::vector<std::string>& depSpecies);
 
 void ConservedMoietyConverter::init()
 {
@@ -122,51 +174,26 @@ int ConservedMoietyConverter::convert()
 
     resultModel = resultDoc->getModel();
 
-    // when a model is set to a doc, the doc does not replace the namespace,
-    // so we do that here so when we allocate new parameters and
-    // species, they will have the ConservedMoiety plugin.
-    //resultModel->setSBMLNamespacesAndOwn(new ConservationPkgNamespaces(3,1,1));
+    vector<string> indSpecies = structural->getIndependentSpecies();
 
+    vector<string> depSpecies = structural->getDependentSpecies();
 
-    Poco::UUIDGenerator uuidGen;
+    ls::DoubleMatrix *L0 = structural->getL0Matrix();
 
-
-
-    Poco::UUID uuid = uuidGen.create();
-
-    for (int i = 0; i < 5; ++i) {
-        Parameter *p = resultModel->createParameter();
-        InitialAssignment *ia = resultModel->createInitialAssignment();
-
-        Poco::UUID uuid = uuidGen.create();
-        string id = "cm_" + uuid.toString();
-
-
-
-        std::replace( id.begin(), id.end(), '-', '_');
-
-        cout << "id: " << id << endl;
-
-        p->setId(id);
-        p->setConstant(true);
-        p->setValue(i);
-
-
-
-        ia->setSymbol(id);
-
-        ASTNode math;
-
-        math.setValue(i);
-
-        ia->setMath(&math);
-
+    if (rr::Logger::getLevel() >= loggingLevel)
+    {
+        Log(loggingLevel) << "performing conversion on " << mModel->getName();
+        Log(loggingLevel) << "independent species: " << toString(indSpecies);
+        Log(loggingLevel) << "dependent species: " << toString(depSpecies);
+        Log(loggingLevel) << "L0 matrix: " << *L0;
+        Log(loggingLevel) << "Stoichiometry Matrix: " << *(structural->getStoichiometryMatrix());
+        Log(loggingLevel) << "Reordered Stoichiometry Matrix: " << *(structural->getReorderedStoichiometryMatrix());
     }
 
+    createReorderedSpecies(resultModel, mModel, indSpecies, depSpecies);
 
-
-
-
+    vector<string> conservedMoieties = createConservedMoietyParameters(
+            resultModel, *L0, indSpecies, depSpecies);
 
 
     return LIBSBML_OPERATION_SUCCESS;
@@ -245,6 +272,122 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
 
     return LIBSBML_OPERATION_SUCCESS;
 }
+
+static void createReorderedSpecies(Model* newModel, Model* oldModel,
+        const std::vector<std::string>& indSpecies,
+        const std::vector<std::string>& depSpecies)
+{
+    // remove all the existing independent species
+    ListOfSpecies *species = newModel->getListOfSpecies();
+
+    unsigned index = 0;
+
+    while(index < species->size())
+    {
+        Species *s = species->get(index);
+        if (!s->getBoundaryCondition())
+        {
+            species->remove(index);
+            delete s;
+        }
+        else
+        {
+            index++;
+        }
+    }
+
+#if DEBUG
+    // TODO make sure that remaining species are in the given list.
+#endif
+
+
+    species = oldModel->getListOfSpecies();
+    ListOfSpecies *newSpecies = newModel->getListOfSpecies();
+
+    for (int i = 0; i < indSpecies.size(); ++i)
+    {
+        Species *s = species->get(indSpecies[i]);
+
+        assert(s && "could not get independent species from original model");
+
+        newSpecies->insertAndOwn(i, new ConservedMoietySpecies(*s, false));
+    }
+
+    for (int i = 0; i < depSpecies.size(); ++i)
+    {
+        Species *s = species->get(indSpecies[i]);
+
+        assert(s && "could not get dependent species from original model");
+
+        newSpecies->insertAndOwn(i, new ConservedMoietySpecies(*s, true));
+    }
+}
+
+static std::vector<std::string> createConservedMoietyParameters(
+        Model* newModel,
+        const ls::DoubleMatrix& L0, const std::vector<std::string>& indSpecies,
+        const std::vector<std::string>& depSpecies)
+{
+    StringVector conservedMoieties(indSpecies.size());
+
+    Poco::UUIDGenerator uuidGen;
+
+    for (int i = 0; i < depSpecies.size(); ++i)
+    {
+        Poco::UUID uuid = uuidGen.create();
+        string id = "cm_" + rr::toString(i) + "_" + uuid.toString();
+        std::replace( id.begin(), id.end(), '-', '_');
+
+        Parameter *cm = newModel->createParameter();
+
+        cm->setId(id);
+        ConservedMoietyPlugin *plugin = dynamic_cast<ConservedMoietyPlugin*>(
+                cm->getPlugin("conservation"));
+
+        plugin->setConservedMoiety(true);
+
+        conservedMoieties[i] = id;
+
+        InitialAssignment *ia = newModel->createInitialAssignment();
+        ia->setSymbol(id);
+
+        ASTNode sum(AST_PLUS);
+
+        for (int j = 0; j < indSpecies.size(); ++j)
+        {
+            double stoich = L0(i, j);
+
+            if (stoich != 0)
+            {
+                ASTNode *times = new ASTNode(AST_TIMES);
+                ASTNode *value = new ASTNode(AST_REAL);
+                ASTNode *name = new ASTNode(AST_NAME);
+
+                value->setValue(stoich);
+                name->setName(indSpecies[j].c_str());
+
+                times->addChild(value);
+                times->addChild(name);
+
+                sum.addChild(times);
+            }
+        }
+
+        ia->setMath(&sum);
+    }
+
+    return conservedMoieties;
+}
+
+static void createDependentSpeciesRules(Model* newModel,
+        const ls::DoubleMatrix& L0,
+        const std::vector<std::string>& conservedMoieties,
+        const std::vector<std::string>& depSpecies)
+{
+
+}
+
+
 
 
 
