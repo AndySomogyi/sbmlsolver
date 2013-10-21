@@ -7,7 +7,7 @@
 #include "rrc_api.h"
 #include "rrc_utilities.h"           //Support functions, not exposed as api functions and or data
 #include "rrc_cpp_support.h"           //Support functions, not exposed as api functions and or data
-#include "rrc_plugin_api.h"
+#include "rrp_api.h"
 #include "rrplugins_cpp_support.h"
 #include "rrParameter.h"
 #include "rrBaseParameter.h"
@@ -20,7 +20,7 @@ using namespace rr;
 
 
 
-bool rrcCallConv setParameter(RRParameterHandle handle, const char* value)
+bool rrpCallConv setParameter(RRParameterHandle handle, const char* value)
 {
     try
     {
@@ -31,7 +31,7 @@ bool rrcCallConv setParameter(RRParameterHandle handle, const char* value)
     catch_bool_macro
 }
 
-char* rrcCallConv getParameterValueAsString(RRParameterHandle handle)
+char* rrpCallConv getParameterValueAsString(RRParameterHandle handle)
 {
     try
     {
@@ -42,7 +42,7 @@ char* rrcCallConv getParameterValueAsString(RRParameterHandle handle)
     catch_ptr_macro
 }
 
-void* rrcCallConv getParameterValueAsPointer(RRParameterHandle handle)
+void* rrpCallConv getParameterValueAsPointer(RRParameterHandle handle)
 {
     try
     {
@@ -52,7 +52,7 @@ void* rrcCallConv getParameterValueAsPointer(RRParameterHandle handle)
     catch_ptr_macro
 }
 
-char* rrcCallConv getParameterName(RRParameterHandle handle)
+char* rrpCallConv getParameterName(RRParameterHandle handle)
 {
     try
     {
@@ -62,7 +62,7 @@ char* rrcCallConv getParameterName(RRParameterHandle handle)
     catch_ptr_macro
 }
 
-char* rrcCallConv getParameterHint(RRParameterHandle handle)
+char* rrpCallConv getParameterHint(RRParameterHandle handle)
 {
     try
     {

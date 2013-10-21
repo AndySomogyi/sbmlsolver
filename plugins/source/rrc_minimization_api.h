@@ -41,13 +41,13 @@
 
 #ifndef rrc_minimization_apiH
 #define rrc_minimization_apiH
-#include "rrc_exporter.h"
-#include "rrc_types.h"
-#include "rrplugins_types.h"
+#include "rrp_exporter.h"
+#include "rrp_types.h"
+
 //---------------------------------------------------------------------------
 
 #if defined(__cplusplus)
-namespace rrc
+namespace rrp
 {
 extern "C"
 {
@@ -62,7 +62,7 @@ extern "C"
  \return Returns true if sucessful, false otherwise
  \ingroup Minimization
 */
-C_DECL_SPEC bool rrcCallConv addDoubleParameter(RRMinimizationDataHandle handle, const char* name, double value);
+RRP_DECLSPEC bool rrpCallConv addDoubleParameter(RRMinimizationDataHandle handle, const char* name, double value);
 
 /*!
  \brief Set minimization objects selection list related to experimental data
@@ -71,7 +71,7 @@ C_DECL_SPEC bool rrcCallConv addDoubleParameter(RRMinimizationDataHandle handle,
  \return Returns true if sucessful, false otherwise
  \ingroup Minimization
 */
-C_DECL_SPEC bool rrcCallConv setMinimizationObservedDataSelectionList(RRMinimizationDataHandle handle, const char* list);
+RRP_DECLSPEC bool rrpCallConv setMinimizationObservedDataSelectionList(RRMinimizationDataHandle handle, const char* list);
 
 /*!
  \brief Set minimization objects selection list related to model data
@@ -80,7 +80,7 @@ C_DECL_SPEC bool rrcCallConv setMinimizationObservedDataSelectionList(RRMinimiza
  \return Returns true if sucessful, false otherwise
  \ingroup Minimization
 */
-C_DECL_SPEC bool rrcCallConv setMinimizationModelDataSelectionList(RRMinimizationDataHandle handle, const char* list);
+RRP_DECLSPEC bool rrpCallConv setMinimizationModelDataSelectionList(RRMinimizationDataHandle handle, const char* list);
 
 /*!
  \brief print out some information about the MinimizationData
@@ -88,7 +88,7 @@ C_DECL_SPEC bool rrcCallConv setMinimizationModelDataSelectionList(RRMinimizatio
  \return pointer to a string if succesful, NULL otherwise
  \ingroup Minimization
 */
-C_DECL_SPEC char* rrcCallConv getMinimizationDataReport(RRMinimizationDataHandle handle);
+RRP_DECLSPEC char* rrpCallConv getMinimizationDataReport(RRMinimizationDataHandle handle);
 
 #if defined(__cplusplus)
 }    //Extern "C"

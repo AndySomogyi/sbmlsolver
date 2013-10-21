@@ -2,7 +2,7 @@
 #define RRPLUGINS_CPP_SUPPORT_H_
 
 #include "rrc_minimization_api.h"
-#include "rrc_plugin_api.h"
+#include "rrp_api.h"
 
 namespace rr {
 class BaseParameter;
