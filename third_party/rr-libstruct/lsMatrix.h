@@ -196,11 +196,11 @@ _Array(NULL)
         {
             if(copyReal)
             {
-                refMat(r,c) = real(src(r,c));
+                refMat(r,c) = std::real(src(r,c));
             }
             else
             {
-                refMat(r,c) = imag(src(r,c));
+                refMat(r,c) = std::imag(src(r,c));
             }
         }
     }
