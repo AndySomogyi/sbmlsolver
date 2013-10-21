@@ -3,7 +3,7 @@
 #include "rrCapability.h"
 #include "rrParameter.h"
 #include "rrPlugin.h"
-#include "rrc_types.h"
+#include "rrp_types.h"
 #include "add_noise_thread.h"
 #include "rrExporter.h"
 //---------------------------------------------------------------------------
