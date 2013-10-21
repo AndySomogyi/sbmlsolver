@@ -66,14 +66,13 @@ Plugin* castToPlugin(RRPluginHandle handle)
     }
 }
 
-RRPluginManagerHandle rrcCallConv createRRPluginManager(RRHandle rrHandle)
+RRPluginManagerHandle rrcCallConv createPluginManager(RRHandle rrHandle)
 {
     try
     {
         RoadRunner *rr = static_cast<RoadRunner*>(rrHandle);
 
         Log(Logger::PRIO_NOTICE) << __FUNC__ << "RoadRunner: " << rr;
-
 
         std::string pluginDir = joinPath(
                 getParentFolder(gDefaultSupportCodeFolder), "plugins");
@@ -90,8 +89,7 @@ RRPluginManagerHandle rrcCallConv createRRPluginManager(RRHandle rrHandle)
 /**
  * create an instance of a plugin managager attached to the given RoadRunner instance.
  */
-RRPluginManagerHandle rrcCallConv createRRPluginManagerEx(const char* pluginDir,
-        bool autoLoad, RRHandle rrHandle)
+RRPluginManagerHandle rrcCallConv createPluginManagerEx(const char* pluginDir, bool autoLoad, RRHandle rrHandle)
 {
     try
     {
@@ -106,7 +104,7 @@ RRPluginManagerHandle rrcCallConv createRRPluginManagerEx(const char* pluginDir,
 /**
  * free the plugin manager
  */
-bool rrcCallConv freeRRPluginManager(RRPluginManagerHandle handle)
+bool rrcCallConv freePluginManager(RRPluginManagerHandle handle)
 {
     try
     {
@@ -152,7 +150,26 @@ bool rrCallConv unLoadPlugins(RRPluginManagerHandle handle)
     try
     {
         PluginManager *pm = castToPluginManager(handle);
-        return pm->unload();
+        return pm->unloadAll();
+    }
+    catch_bool_macro
+}
+
+bool rrCallConv unLoadPlugin(RRPluginManagerHandle handle, RRPluginHandle plugin)
+{
+    try
+    {
+        PluginManager *pm = castToPluginManager(handle);
+        Plugin* aPlugin = castToPlugin(plugin);
+        if(pm->unload(aPlugin))
+        {
+            aPlugin = NULL;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
     catch_bool_macro
 }
@@ -174,6 +191,17 @@ RRPluginHandle rrcCallConv getPlugin(RRPluginManagerHandle handle, const char* p
     {
         PluginManager *pm = castToPluginManager(handle);
         Plugin* aPlugin = pm->getPlugin(pluginName);
+        return aPlugin;
+    }
+    catch_ptr_macro
+}
+
+RRPluginHandle rrcCallConv getPluginByID(RRPluginManagerHandle handle, int id)
+{
+    try
+    {
+        PluginManager *pm = castToPluginManager(handle);
+        Plugin* aPlugin = pm->getPlugin(id);
         return aPlugin;
     }
     catch_ptr_macro

@@ -70,7 +70,7 @@
         <Multithreaded>true</Multithreaded>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
         <IntermediateOutputDir>.\$(Platform)\$(Config)</IntermediateOutputDir>
-        <FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
+        <FinalOutputDir>$(RR_INSTALL)\bin</FinalOutputDir>
         <BCC_wpar>false</BCC_wpar>
         <BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
         <BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
@@ -83,7 +83,7 @@
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <PackageImports>VCLCommon;bindcompfmx;DBXSqliteDriver;vcldbx;fmx;rtl;dbrtl;DbxClientDriver;IndySystem;TeeDB;bindcomp;inetdb;vclib;inetdbbde;DBXInterBaseDriver;Tee;DataSnapCommon;xmlrtl;ibxpress;DbxCommonDriver;vclimg;IndyProtocols;dbxcds;DBXMySQLDriver;MetropolisUILiveTile;soaprtl;vclactnband;bindengine;vcldb;bindcompdbx;vcldsnap;bindcompvcl;FMXTee;TeeUI;vclie;vcltouch;bcbsmp;websnap;CustomIPTransport;dsnap;IndyIPServer;fmxase;vcl;IndyCore;IndyIPCommon;CloudService;dsnapcon;FmxTeeUI;inet;fmxobj;vclx;inetdbxpress;webdsnap;fmxdae;bdertl;DuneComponents;dbexpress;bcbie;adortl;IndyIPClient;$(PackageImports)</PackageImports>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
-        <IncludePath>$(RR_ROOT)\source;$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
+        <IncludePath>$(RR_ROOT)\source;$(RR_INSTALL)\include;$(IncludePath)</IncludePath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
@@ -115,8 +115,8 @@
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <Defines>EXPORT_PLUGIN;$(Defines)</Defines>
         <Debugger_HostApplication>R:\installs\cg\xe3\debug\bin\rrWinC.exe</Debugger_HostApplication>
-        <FinalOutputDir>$(RR_DEBUG)\plugins</FinalOutputDir>
-        <ILINK_LibraryPath>$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <FinalOutputDir>$(RR_INSTALL)\plugins</FinalOutputDir>
+        <ILINK_LibraryPath>$(RR_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">

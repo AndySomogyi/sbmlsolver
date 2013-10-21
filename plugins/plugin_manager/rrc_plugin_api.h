@@ -44,6 +44,7 @@
 #include "rrc_exporter.h"
 #include "rrc_types.h"
 #include "rrplugins_types.h"
+#include "rrc_parameter_api.h"
 //---------------------------------------------------------------------------
 
 #if defined(__cplusplus)
@@ -59,7 +60,13 @@ extern "C"
 */
 typedef void (rrcCallConv *pluginCallback)(void*);
 
-
+/**
+ * create an instance of a plugin managager attached to the given RoadRunner instance.
+ *
+ * A PluginManager manages a collection of "plugins", the PluginManager
+ * must be attached to a RoadRunner instance.
+ */
+C_DECL_SPEC RRPluginManagerHandle rrcCallConv createPluginManager(RRHandle rrHandle);
 
 /**
  * create an instance of a plugin managager attached to the given RoadRunner instance.
@@ -67,21 +74,13 @@ typedef void (rrcCallConv *pluginCallback)(void*);
  * A PluginManager manages a collection of "plugins", the PluginManager
  * must be attached to a RoadRunner instance.
  */
-C_DECL_SPEC RRPluginManagerHandle rrcCallConv createRRPluginManager(RRHandle rrHandle);
-
-/**
- * create an instance of a plugin managager attached to the given RoadRunner instance.
- *
- * A PluginManager manages a collection of "plugins", the PluginManager
- * must be attached to a RoadRunner instance.
- */
-C_DECL_SPEC RRPluginManagerHandle rrcCallConv createRRPluginManagerEx(const char* pluginDir,
+C_DECL_SPEC RRPluginManagerHandle rrcCallConv createPluginManagerEx(const char* pluginDir,
         bool autoLoad, RRHandle rrHandle);
 
 /**
  * free the plugin manager
  */
-C_DECL_SPEC bool rrcCallConv freeRRPluginManager(RRPluginManagerHandle handle);
+C_DECL_SPEC bool rrcCallConv freePluginManager(RRPluginManagerHandle handle);
 
 /*!
  \brief load a plugin
@@ -112,6 +111,15 @@ C_DECL_SPEC bool rrcCallConv loadPlugins(RRPluginManagerHandle handle);
 C_DECL_SPEC bool rrcCallConv unLoadPlugins(RRPluginManagerHandle handle);
 
 /*!
+ \brief unload a particular plugin
+
+ \param[in] handle Handle to a PluginManager instance
+ \return Returns true if the Plugin are unloaded succesfully, false otherwise
+ \ingroup pluginRoutines
+*/
+C_DECL_SPEC bool rrcCallConv unLoadPlugin(RRPluginManagerHandle handle, RRPluginHandle plugin);
+
+/*!
  \brief Get Number of loaded plugins
 
  \param[in] handle Handle to a PluginManager instance
@@ -135,7 +143,16 @@ C_DECL_SPEC RRStringArrayPtr rrcCallConv getPluginNames(RRPluginManagerHandle ha
  \return Returns a handle to a plugin, with name as supplied in the paramter pluginName. Returns NULL if plugin is not found
  \ingroup pluginRoutines
 */
-C_DECL_SPEC RRPluginHandle rrcCallConv getPlugin(RRHandle handle, const char* pluginName);
+C_DECL_SPEC RRPluginHandle rrcCallConv getPlugin(RRPluginManagerHandle handle, const char* pluginName);
+
+/*!
+ \brief GetPluginHandle
+ \param[in] handle Handle to a PluginManager instance
+ \param[in] id integer denoting the ID of a plugin
+ \return Returns a handle to a plugin, with id == id. Returns NULL if plugin is NULL
+ \ingroup pluginRoutines
+*/
+C_DECL_SPEC RRPluginHandle rrcCallConv getPluginByID(RRPluginManagerHandle handle, int id);
 
 /*!
  \brief GetPluginCapabilities
@@ -281,6 +298,7 @@ C_DECL_SPEC char* rrcCallConv getPluginManagerConfigurationXML(RRPluginManagerHa
 
 #if defined(__cplusplus)
 }    //Extern "C"
+
 }    //rrc namespace
 #endif
 
