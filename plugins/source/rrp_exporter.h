@@ -3,10 +3,10 @@
 
 //Export/Import API functions
 #if defined(_WIN32) || defined(WIN32)
-    #if defined(STATIC_RRE)
+    #if defined(STATIC_RRP)
         #define RRP_DECLSPEC
     #else
-        #if defined(EXPORT_RRE)
+        #if defined(EXPORT_RRP)
             #define RRP_DECLSPEC __declspec(dllexport)
         #else
             #define RRP_DECLSPEC __declspec(dllimport)

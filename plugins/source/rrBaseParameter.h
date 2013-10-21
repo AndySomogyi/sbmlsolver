@@ -1,6 +1,6 @@
 #ifndef rrBaseParameterH
 #define rrBaseParameterH
-#include "rrExporter.h"
+#include "rrp_exporter.h"
 #include <string>
 #include <ostream>
 
@@ -18,14 +18,14 @@ using std::ostream;
  *
  * Base class for parameters. This class follows the "decorator" pattern.
  */
-class RR_DECLSPEC BaseParameter
+class RRP_DECLSPEC BaseParameter
 {
     public:
         string                              mName;
         string                              mHint;
                                             BaseParameter(const string& name, const string& hint);
         virtual                            ~BaseParameter();
-        RR_DECLSPEC
+        RRP_DECLSPEC
         friend ostream&                     operator<<(ostream& stream, const BaseParameter& outMe);
 
         string                              asString() const;

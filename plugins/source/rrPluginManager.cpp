@@ -1,4 +1,3 @@
-//---------------------------------------------------------------------------
 #pragma hdrstop
 #include <sstream>
 #include "Poco/Glob.h"
@@ -11,6 +10,7 @@
 #include "rrLogger.h"
 #include "rrRoadRunner.h"
 #include "rrCPlugin.h"
+//---------------------------------------------------------------------------
 
 namespace rr
 {
@@ -19,6 +19,10 @@ using namespace std;
 using Poco::SharedLibrary;
 using Poco::Glob;
 
+typedef Plugin*     (*createRRPluginFunc)(RoadRunner*);
+typedef const char* (*getLangFunc)();
+typedef bool        (*destroyRRPluginFunc)(Plugin* );
+
 bool destroyRRPlugin(Plugin *plugin);
 
 PluginManager::PluginManager(const std::string& folder, const bool& autoLoad, RoadRunner* aRR)
@@ -26,13 +30,13 @@ PluginManager::PluginManager(const std::string& folder, const bool& autoLoad, Ro
 mPluginFolder(folder),
 mRR(aRR)
 {
-#if defined(WIN32)
-mPluginExtension = "dll";
+#if defined(_WIN32)
+    mPluginExtension = "dll";
 #elif defined(UNIX)
-mPluginExtension = "a";
+    mPluginExtension = "a";
 #else
-// OSX
-mPluginExtension = "dylib";
+    // OSX
+    mPluginExtension = "dylib";
 #endif
 
     if(autoLoad)
@@ -59,7 +63,7 @@ string PluginManager::getPluginDir()
     return mPluginFolder;
 }
 
-Plugin*    PluginManager::operator[](const int& i)
+Plugin* PluginManager::operator[](const int& i)
 {
     if(i >= 0 && i < mPlugins.size())
     {
@@ -72,9 +76,6 @@ Plugin*    PluginManager::operator[](const int& i)
     }
 }
 
-typedef Plugin*     (*createRRPluginFunc)(RoadRunner*);
-typedef const char* (*getLangFunc)();
-typedef bool        (*destroyRRPluginFunc)(Plugin* );
 
 bool PluginManager::load(const string& pluginName)
 {
@@ -197,7 +198,7 @@ bool PluginManager::loadPlugin(const string& libName)
     catch(const Poco::Exception& ex)
     {
         msg<<"Poco exception: "<<ex.displayText()<<endl;
-           Log(lError)<<msg.str();
+        Log(lError)<<msg.str();
         return false;
     }
     catch(...)
@@ -206,7 +207,7 @@ bool PluginManager::loadPlugin(const string& libName)
     }
 }
 
-bool PluginManager::unload()
+bool PluginManager::unloadAll()
 {
     bool result(true);
     int nrPlugins = getNumberOfPlugins();
@@ -216,7 +217,7 @@ bool PluginManager::unload()
         if(aPluginLib)
         {
             SharedLibrary *pluginLibHandle    = aPluginLib->first;
-            Plugin*           aPlugin             = aPluginLib->second;
+            Plugin        *aPlugin            = aPluginLib->second;
 
             destroyRRPlugin(aPlugin);
 
@@ -228,11 +229,50 @@ bool PluginManager::unload()
             //And remove from container
             aPluginLib->first = NULL;
             aPluginLib->second = NULL;
+            aPluginLib = NULL;
         }
     }
 
     //Remove all from container...
     mPlugins.clear();
+    return result;
+}
+
+bool PluginManager::unload(Plugin* plugin)
+{
+    bool result(false);
+    int nrPlugins = getNumberOfPlugins();
+    std::vector< std::pair< Poco::SharedLibrary*, Plugin* > >::iterator pluginIter;
+
+    for(int i = 0; i < nrPlugins; i++)
+    {
+        pluginIter = &mPlugins[i];
+        pair< Poco::SharedLibrary*, Plugin* >  *aPluginLib = &(mPlugins[i]);
+        if(aPluginLib)
+        {
+            SharedLibrary *pluginLibHandle    = aPluginLib->first;
+            Plugin        *aPlugin            = aPluginLib->second;
+
+            if(aPlugin == plugin)
+            {
+                destroyRRPlugin(aPlugin);
+
+                plugin = NULL;
+                //Then unload
+                if(pluginLibHandle)
+                {
+                    pluginLibHandle->unload();
+                }
+
+                //And remove from container
+                aPluginLib->first = NULL;
+                aPluginLib->second = NULL;
+                aPluginLib = NULL;
+                result = true;
+                mPlugins.erase(pluginIter);
+            }
+        }
+    }
     return result;
 }
 
@@ -248,7 +288,7 @@ bool PluginManager::checkImplementationLanguage(Poco::SharedLibrary* plugin)
     {
         stringstream msg;
         msg<<"Poco exception: "<<ex.displayText()<<endl;
-           Log(lError)<<msg.str();
+        Log(lError)<<msg.str();
         return false;
     }
 }
@@ -265,7 +305,7 @@ const char* PluginManager::getImplementationLanguage(Poco::SharedLibrary* plugin
     {
         stringstream msg;
         msg<<"Poco exception: "<<ex.displayText()<<endl;
-           Log(lError)<<msg.str();
+        Log(lError)<<msg.str();
         return NULL;
     }
 }
@@ -371,7 +411,6 @@ bool destroyRRPlugin(rr::Plugin *plugin)
     }
 }
 
-
 _xmlNode* PluginManager::createConfigNode()
 {
     _xmlNode *capies = Configurable::createCapabilitiesNode("PluginManager", "a minimal plugin manager");
@@ -400,7 +439,6 @@ void PluginManager::loadConfig(const _xmlDoc* doc)
     }
 }
 
-
 std::string PluginManager::getConfigurationXML()
 {
     return Configurable::xmlFromConfigNode(createConfigNode());
@@ -410,6 +448,5 @@ void PluginManager::setConfigurationXML(const std::string& xml)
 {
     Configurable::loadXmlConfig(xml, this);
 }
-
 
 }

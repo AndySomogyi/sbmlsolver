@@ -2,7 +2,7 @@
 #define rrCapabilityH
 #include <string>
 #include <vector>
-#include "rrExporter.h"
+#include "rrp_exporter.h"
 #include "rrParameters.h"
 //---------------------------------------------------------------------------
 
@@ -13,7 +13,7 @@ namespace rr
  * @internal
  * @deprecated
  */
-class RR_DECLSPEC Capability
+class RRP_DECLSPEC Capability
 {
     protected:
         string                              mName;
@@ -35,7 +35,7 @@ class RR_DECLSPEC Capability
         Parameters*                         getParameters();
         rr::BaseParameter*                  getParameter(const string& paraName);
 
-        RR_DECLSPEC friend ostream&         operator <<(ostream& os, const Capability& caps);
+        RRP_DECLSPEC friend ostream&         operator <<(ostream& os, const Capability& caps);
 };
 
 }

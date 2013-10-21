@@ -1,7 +1,7 @@
 #ifndef rrCapabilitiesH
 #define rrCapabilitiesH
 #include <vector>
-#include "rrExporter.h"
+#include "rrp_exporter.h"
 #include "rrCapability.h"
 #include "rrStringList.h"
 //---------------------------------------------------------------------------
@@ -14,7 +14,7 @@ using std::vector;
  * @internal
  * @deprecated
  */
-class RR_DECLSPEC Capabilities
+class RRP_DECLSPEC Capabilities
 {
     protected:
         string                          mName;

@@ -2,7 +2,7 @@
 #define rrParametersH
 #include <string>
 #include <vector>
-#include "rrExporter.h"
+#include "rrp_exporter.h"
 #include "rrBaseParameter.h"
 #include "rrStringList.h"
 //---------------------------------------------------------------------------
@@ -14,7 +14,7 @@ namespace rr
  * @internal
  * @deprecated
  */
-class RR_DECLSPEC Parameters
+class RRP_DECLSPEC Parameters
 {
     protected:
         vector<BaseParameter*>              mParas;
@@ -32,7 +32,7 @@ class RR_DECLSPEC Parameters
         BaseParameter*                           getParameter(const string& paraName);
         void                                clear();
 
-        RR_DECLSPEC friend ostream&           operator <<(ostream& os, const Parameters& pars);
+        RRP_DECLSPEC friend ostream&           operator <<(ostream& os, const Parameters& pars);
 };
 
 }

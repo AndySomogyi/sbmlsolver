@@ -2,8 +2,8 @@
 #define rrPluginH
 #include <sstream>
 #include <string>
-#include "rrExporter.h"
-#include "rrExporter.h"
+#include "rrp_exporter.h"
+#include "rrp_exporter.h"
 #include "rrOSSpecifics.h"
 #include "rrPluginExporter.h"
 #include "rrCapability.h"
@@ -27,7 +27,7 @@ using std::string;
 /**
  * @internal
  */
-class RR_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
+class RRP_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
 {
     protected:
         string                           mName;

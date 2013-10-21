@@ -9,7 +9,7 @@ namespace rr
 /**
  * @internal
  */
-class RR_DECLSPEC CPPPlugin : public Plugin
+class RRP_DECLSPEC CPPPlugin : public Plugin
 {
     private:
 
