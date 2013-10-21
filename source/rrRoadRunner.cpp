@@ -303,12 +303,6 @@ int RoadRunner::createTimeCourseSelectionList()
         Log(Logger::PRIO_DEBUG) << "Selection Value [" << i << "]: " << mSelectionList[i].to_repr();
     }
 
-    if(mSelectionList.size() < 2)
-    {
-        Log(Logger::PRIO_WARNING) << "No values selected for simulation result";
-        return 0;
-    }
-
     return mSelectionList.size();
 }
 
@@ -416,6 +410,15 @@ double RoadRunner::getSelectionValue(const SelectionRecord& record)
     case SelectionRecord::UNSCALED_ELASTICITY:
         dResult = getuEE(record.p1, record.p2, false);
         break;
+
+    case SelectionRecord::CONTROL:
+        dResult = this->getCC(record.p1, record.p2);
+        break;
+
+    case SelectionRecord::UNSCALED_CONTROL:
+        dResult = this->getuCC(record.p1, record.p2);
+        break;
+
     case SelectionRecord::EIGENVALUE:
     {
         string species = record.p1;
@@ -2719,11 +2722,7 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
     double hstep = (timeEnd - timeStart) / (numPoints - 1);
     int nrCols = mSelectionList.size();
 
-    if(!nrCols)
-    {
-        assert(0 && "time couse selection list is empty");
-        nrCols = createDefaultTimeCourseSelectionList();
-    }
+    Log(Logger::PRIO_DEBUG) << "starting simulation with " << nrCols << " selected columns";
 
     // ignored if same
     mRawRoadRunnerData.resize(mSettings.steps + 1, nrCols);
