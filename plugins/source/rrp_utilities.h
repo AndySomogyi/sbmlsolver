@@ -68,12 +68,12 @@ extern char* gInstallFolder;
 /*!
  \brief Global parameter holding message for an un-allocated API
 */
-extern const char* 	ALLOCATE_API_ERROR_MSG;
+extern const char*     ALLOCATE_API_ERROR_MSG;
 
 /*!
  \brief Global parameter holding message when an invalid is handed to a function
 */
-extern const char* 	INVALID_HANDLE_ERROR_MSG;
+extern const char*     INVALID_HANDLE_ERROR_MSG;
 
 /*!
  \brief Retrieves the the content of a file.
@@ -81,7 +81,7 @@ extern const char* 	INVALID_HANDLE_ERROR_MSG;
  \return Content of file as a string, returns null if it fails
  \ingroup utilities
 */
-C_DECL_SPEC char* 		 rrcCallConv 	getFileContent(const char* fName);
+C_DECL_SPEC char*          rrcCallConv     getFileContent(const char* fName);
 
 /*!
  \brief Creates memory for holding a string
@@ -89,7 +89,7 @@ C_DECL_SPEC char* 		 rrcCallConv 	getFileContent(const char* fName);
  \return Pointer to a memory holding a copy of the input string
  \ingroup utilities
 */
-C_DECL_SPEC char* 		 rrcCallConv 	createText(const char* text);
+C_DECL_SPEC char*          rrcCallConv     createText(const char* text);
 
 /*!
  \brief Creates memory for holding a string
@@ -97,7 +97,7 @@ C_DECL_SPEC char* 		 rrcCallConv 	createText(const char* text);
  \return Pointer to string memory
  \ingroup utilities
 */
-C_DECL_SPEC char* 		 rrcCallConv 	createTextMemory(const int count);
+C_DECL_SPEC char*          rrcCallConv     createTextMemory(const int count);
 
 // --------------------------------------------------------------------
 // List support routines
@@ -689,7 +689,7 @@ C_DECL_SPEC char* rrcCallConv listToString(const RRListPtr list);
  \return Returns an integer indicating the instance count
  \ingroup helperRoutines
 */
-C_DECL_SPEC int 		rrcCallConv 	getInstanceCount(RRInstanceListPtr iList);
+C_DECL_SPEC int         rrcCallConv     getInstanceCount(RRInstanceListPtr iList);
 
 /*!
  \brief Returns a RoadRunner handle from Roadrunnerlist
@@ -698,7 +698,7 @@ C_DECL_SPEC int 		rrcCallConv 	getInstanceCount(RRInstanceListPtr iList);
  \return Returna a handle to RoadRunner instance. 
  \ingroup helperRoutines
 */
-C_DECL_SPEC RRHandle 	rrcCallConv 	getRRHandle(RRInstanceListPtr iList, int index);
+C_DECL_SPEC RRHandle     rrcCallConv     getRRHandle(RRInstanceListPtr iList, int index);
 
 
 //======================== DATA WRITING ROUTINES =============================
@@ -734,8 +734,8 @@ C_DECL_SPEC bool rrcCallConv compileSource(RRHandle handle, const char* sourceFi
 
 #if defined(__cplusplus)
 
-}	//namespace
-}	//Extern "C"
+}    //namespace
+}    //Extern "C"
 #endif
 
 #endif

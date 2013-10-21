@@ -28,37 +28,37 @@ Plugin::~Plugin()
 
 bool Plugin::resetPlugin()
 {
-	//Do whats needed in descendants
+    //Do whats needed in descendants
     return true;
 }
 
 bool Plugin::setInputData(void* data)
 {
-	//Do whats needed in descendants
+    //Do whats needed in descendants
     return true;
 }
 
 bool Plugin::assignCallbacks(PluginWorkStartedCB fnc1, PluginWorkFinishedCB fnc2, void* userData)
 {
-	mUserData = userData;
-	mWorkStartedCB = fnc1;
-	mWorkFinishedCB = fnc2;
-	return true;
+    mUserData = userData;
+    mWorkStartedCB = fnc1;
+    mWorkFinishedCB = fnc2;
+    return true;
 }
 
 bool Plugin::isWorking()
 {
-	return false;
+    return false;
 }
 
 void Plugin::setLibraryName(const string& libName)
 {
-	mLibraryName = libName;
+    mLibraryName = libName;
 }
 
 bool Plugin::setParameter(const string& nameOf, const char* value, Capability& capability)
 {
-	//Go trough the parameter container and look for parameter
+    //Go trough the parameter container and look for parameter
     for(int i = 0; i < capability.nrOfParameters(); i++)
     {
         BaseParameter* aPar = const_cast<BaseParameter*>( &(capability[i]) );
@@ -75,14 +75,14 @@ bool Plugin::setParameter(const string& nameOf, const char* value, Capability& c
             //}
         }
     }
-	return false;
+    return false;
 }
 
 bool Plugin::setParameter(const string& nameOf, const char* value)
 {
-	if(!mCapabilities.count())
+    if(!mCapabilities.count())
     {
-    	return false;
+        return false;
     }
 
     return mCapabilities.setParameter(nameOf, value);
@@ -90,45 +90,45 @@ bool Plugin::setParameter(const string& nameOf, const char* value)
 
 string Plugin::getName()
 {
-	return mName;
+    return mName;
 }
 
 string Plugin::getLibraryName()
 {
-	return mLibraryName;
+    return mLibraryName;
 }
 
 string Plugin::getAuthor()
 {
-	return mAuthor;
+    return mAuthor;
 }
 
 string Plugin::getCategory()
 {
-	return mCategory;
+    return mCategory;
 }
 
 string Plugin::getVersion()
 {
-	return mVersion;
+    return mVersion;
 }
 
 string Plugin::getCopyright()
 {
-	return mCopyright;
+    return mCopyright;
 }
 
 string Plugin::getStatus()
 {
-	stringstream msg;
+    stringstream msg;
     msg<<"Has RoadRunner instance: ";
     if(mRR)
     {
-    	msg<<" True\n";
+        msg<<" True\n";
     }
     else
     {
-    	msg<<" False\n";
+        msg<<" False\n";
     }
 
     return msg.str();
@@ -148,12 +148,12 @@ string Plugin::getInfo() //Obs. subclasses may over ride this function and add m
 
 Capabilities* Plugin::getCapabilities()
 {
-	return &mCapabilities;
+    return &mCapabilities;
 }
 
 Parameters* Plugin::getParameters(const string& capName)
 {
-	//Return parameters for capability with name
+    //Return parameters for capability with name
     for(int i = 0; i < mCapabilities.count(); i++)
     {
         if(mCapabilities[i]->getName() == capName)
@@ -162,28 +162,28 @@ Parameters* Plugin::getParameters(const string& capName)
         }
     }
 
-	return NULL;
+    return NULL;
 }
 
 Parameters* Plugin::getParameters(Capability& capability)
 {
-	return capability.getParameters();
+    return capability.getParameters();
 }
 
 BaseParameter* Plugin::getParameter(const string& para, const string& capability)
 {
-	//If capability string is empty, search all capabilites
+    //If capability string is empty, search all capabilites
     if(capability.size())
     {
-    	//Capability cap = get
+        //Capability cap = get
     }
-    else	//Search all capabilities
+    else    //Search all capabilities
     {
-    	for(int i = 0; i < mCapabilities.count(); i++)
+        for(int i = 0; i < mCapabilities.count(); i++)
         {
-        	if(mCapabilities[i]->getParameter(para))
+            if(mCapabilities[i]->getParameter(para))
             {
-            	return mCapabilities[i]->getParameter(para);
+                return mCapabilities[i]->getParameter(para);
             }
         }
     }
@@ -192,16 +192,16 @@ BaseParameter* Plugin::getParameter(const string& para, const string& capability
 
 BaseParameter* Plugin::getParameter(const string& para, Capability& capability)
 {
-	return capability.getParameter(para);
+    return capability.getParameter(para);
 }
 
 Capability* Plugin::getCapability(const string& name)
 {
-	for(int i = 0; i < mCapabilities.count(); i++)
+    for(int i = 0; i < mCapabilities.count(); i++)
     {
-		if(mCapabilities[i]->getName() == name)
+        if(mCapabilities[i]->getName() == name)
         {
-        	return (mCapabilities[i]);
+            return (mCapabilities[i]);
         }
     }
     return NULL;
@@ -209,7 +209,7 @@ Capability* Plugin::getCapability(const string& name)
 
 string Plugin::getResult()
 {
-	return "This plugin don't have any result..";
+    return "This plugin don't have any result..";
 }
 
 }

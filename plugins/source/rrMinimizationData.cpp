@@ -12,141 +12,141 @@ MinimizationData::~MinimizationData()
 
 MinimizationData::MinimizationData(const MinimizationData& data)
 {
-	mObservedData = data.mObservedData;
+    mObservedData = data.mObservedData;
     mModelData = data.mModelData;
     mParameters = data.mParameters;
 }
 
 MinimizationData& MinimizationData::operator=(MinimizationData& rhs)
 {
-	mObservedData 	= rhs.mObservedData;
-    mModelData 		= rhs.mModelData;
-    mResidualsData 	= rhs.mResidualsData;
-    mParameters 	= rhs.mParameters;
-	return *this;
+    mObservedData     = rhs.mObservedData;
+    mModelData         = rhs.mModelData;
+    mResidualsData     = rhs.mResidualsData;
+    mParameters     = rhs.mParameters;
+    return *this;
 }
 
 void MinimizationData::init()
 {
-	//Empty report
+    //Empty report
     mParameters.clear();
     mParametersOut.clear();
-	mNorm = -1;
+    mNorm = -1;
 }
 
 bool MinimizationData::reset()
 {
-	mParameters.clear();
+    mParameters.clear();
     mParametersOut.clear();
-	return true;
+    return true;
 }
 
 void MinimizationData::setObservedDataSelectionList(const string& selList)
 {
- 	mObservedDataSelectionList = StringList(selList);
+     mObservedDataSelectionList = StringList(selList);
 }
 
 StringList MinimizationData::getObservedDataSelectionList()
 {
-	return mObservedDataSelectionList;
+    return mObservedDataSelectionList;
 }
 
 void MinimizationData::setModelDataSelectionList(const string& selList)
 {
- 	mModelDataSelectionList = StringList(selList);
+     mModelDataSelectionList = StringList(selList);
 }
 
 StringList MinimizationData::getModelDataSelectionList()
 {
-	return mModelDataSelectionList;
+    return mModelDataSelectionList;
 }
 
 RoadRunnerData MinimizationData::getObservedData()
 {
-	return mObservedData;
+    return mObservedData;
 }
 
 RoadRunnerData MinimizationData::getModelData()
 {
-	return mModelData;
+    return mModelData;
 }
 
 RoadRunnerData MinimizationData::getResidualsData()
 {
-	return mResidualsData;
+    return mResidualsData;
 }
 
 RoadRunnerData& MinimizationData::getObservedDataReference()
 {
-	return mObservedData;
+    return mObservedData;
 }
 
 RoadRunnerData& MinimizationData::getModelDataReference()
 {
-	return mModelData;
+    return mModelData;
 }
 
 RoadRunnerData& MinimizationData::getResidualsDataReference()
 {
-	return mResidualsData;
+    return mResidualsData;
 }
 
 void MinimizationData::addParameter(const string& name, const double& val)
 {
-	mParameters.add(new Parameter<double>(name, val, ""));
+    mParameters.add(new Parameter<double>(name, val, ""));
 }
 
 void MinimizationData::addFittedParameter(const string& name, const double& val)
 {
-	mParametersOut.add(new Parameter<double>(name, val, ""));
+    mParametersOut.add(new Parameter<double>(name, val, ""));
 }
 
 void MinimizationData::addParameter(const string& name, const int& val)
 {
-	mParameters.add(new Parameter<int>(name, val, ""));
+    mParameters.add(new Parameter<int>(name, val, ""));
 }
 
 void MinimizationData::setInputData(const RoadRunnerData& data)
 {
-	mObservedData = data;
+    mObservedData = data;
 }
 
 void MinimizationData::setModelData(const RoadRunnerData& data)
 {
-	mModelData = data;
+    mModelData = data;
 }
 
 void MinimizationData::setResidualsData(const RoadRunnerData& data)
 {
-	mResidualsData = data;
+    mResidualsData = data;
 }
 
 Parameters MinimizationData::getParameters()
 {
-	return mParameters;
+    return mParameters;
 }
 
 Parameters MinimizationData::getParametersOut()
 {
-	return mParametersOut;
+    return mParametersOut;
 }
 
 void MinimizationData::setNorm(const double& norm)
 {
-	mNorm = norm;
+    mNorm = norm;
 }
 
 double MinimizationData::getNorm()
 {
-	return mNorm;
+    return mNorm;
 }
 
 string MinimizationData::getReport() const
 {
-	stringstream  msg;
-	msg<<"Parameters: \n";
+    stringstream  msg;
+    msg<<"Parameters: \n";
     msg<<mParameters.asStringList();
-	msg<<"\n";
+    msg<<"\n";
 
     msg<<"Observed Data ===============\n";
     msg<<mObservedData<<"\n\n";
@@ -158,7 +158,7 @@ string MinimizationData::getReport() const
     msg<<mResidualsData<<"\n\n";
 
     msg<<"End of minimization data report";
-	return msg.str();
+    return msg.str();
 }
 
 ostream& operator<<(ostream& stream, const MinimizationData& outMe)

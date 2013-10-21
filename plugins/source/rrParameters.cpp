@@ -10,53 +10,53 @@ Parameters::Parameters()
 
 void Parameters::clear()
 {
-	for(int i = 0; i < mParas.size(); i++)
+    for(int i = 0; i < mParas.size(); i++)
     {
-    	delete mParas[i];
+        delete mParas[i];
     }
-	mParas.clear();
+    mParas.clear();
 }
 
 void Parameters::add(BaseParameter* me)
 {
-	mParas.push_back(me);
+    mParas.push_back(me);
 }
 
 StringList Parameters::asStringList() const
 {
-	StringList list;
+    StringList list;
     for(int i = 0; i < count(); i++)
     {
-    	list.add(mParas[i]->mName);
+        list.add(mParas[i]->mName);
     }
     return list;
 }
 
 const BaseParameter* Parameters::operator[](const int& i) const
 {
-	return mParas[i];
+    return mParas[i];
 }
 
 BaseParameter* Parameters::operator[](const int& i)
 {
-	return mParas[i];
+    return mParas[i];
 }
 
 u_int Parameters::count() const
 {
-	return mParas.size();
+    return mParas.size();
 }
 
 BaseParameter* Parameters::getParameter(const string& paraName)
 {
     for(int i = 0; i < count(); i++)
     {
-    	if(paraName == mParas[i]->mName)
+        if(paraName == mParas[i]->mName)
         {
-        	return mParas[i];
+            return mParas[i];
         }
     }
-	return NULL;
+    return NULL;
 }
 
 }
