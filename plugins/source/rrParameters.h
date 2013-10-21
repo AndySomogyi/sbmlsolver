@@ -7,8 +7,12 @@
 #include "rrStringList.h"
 //---------------------------------------------------------------------------
 
-namespace rr
+namespace rrp
 {
+
+using rr::StringList;
+using std::vector;
+using std::string;
 
 /**
  * @internal
@@ -17,22 +21,22 @@ namespace rr
 class RRP_DECLSPEC Parameters
 {
     protected:
-        vector<BaseParameter*>              mParas;
+        vector<BaseParameter*>             mParas;
 
     public:
-                                            Parameters();
-        void                                add(BaseParameter* me);
-        rr::StringList                          asStringList() const;
-        u_int                               count() const;
+                                           Parameters();
+        void                               add(BaseParameter* me);
+        rr::StringList                     asStringList() const;
+        u_int                              count() const;
 
-        const BaseParameter*                   operator[](const int& i) const;
-        BaseParameter*                       operator[](const int& i);
-        string                              getName() const;
-        string                              getDescription() const;
-        BaseParameter*                           getParameter(const string& paraName);
-        void                                clear();
+        const BaseParameter*               operator[](const int& i) const;
+        BaseParameter*                     operator[](const int& i);
+        string                             getName() const;
+        string                             getDescription() const;
+        BaseParameter*                     getParameter(const string& paraName);
+        void                               clear();
 
-        RRP_DECLSPEC friend ostream&           operator <<(ostream& os, const Parameters& pars);
+        RRP_DECLSPEC friend ostream&       operator <<(ostream& os, const Parameters& pars);
 };
 
 }

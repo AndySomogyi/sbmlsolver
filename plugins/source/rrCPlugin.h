@@ -3,7 +3,7 @@
 #include "rrPlugin.h"
 //---------------------------------------------------------------------------
 
-namespace rr
+namespace rrp
 {
 
 typedef bool  (rrCallConv *executeFunc)(void*);

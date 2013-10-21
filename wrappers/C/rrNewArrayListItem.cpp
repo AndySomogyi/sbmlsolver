@@ -6,7 +6,7 @@
 #include "rrNewArrayList.h"
 //---------------------------------------------------------------------------
 
-namespace rr
+namespace rrc
 {
 
 ostream& operator<<(ostream& stream, const NewArrayListItemObject& item)

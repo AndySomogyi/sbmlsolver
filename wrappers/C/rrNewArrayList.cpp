@@ -10,7 +10,7 @@
 
 using namespace std;
 
-namespace rr
+namespace rrc
 {
 
 NewArrayList::NewArrayList()

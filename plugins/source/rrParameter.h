@@ -7,9 +7,9 @@
 #include "rrStringUtils.h"
 #include "../wrappers/C/rrc_types.h"
 //---------------------------------------------------------------------------
-namespace rr
+namespace rrp
 {
-
+using namespace rr;
 /**
  * @internal
  * @deprecated
@@ -42,9 +42,9 @@ class Parameter : public BaseParameter
 //{}
 
 template<class T>
-rr::Parameter<T>::Parameter(const std::string& name, const T& value, const std::string& hint)
+rrp::Parameter<T>::Parameter(const std::string& name, const T& value, const std::string& hint)
 :
-rr::BaseParameter(name, hint),
+BaseParameter(name, hint),
 mDummy(value),
 mValue(mDummy)
 {}
@@ -65,25 +65,25 @@ mValue(mDummy)
 //}
 
 template<class T>
-string rr::Parameter<T>::getValueAsString() const
+string rrp::Parameter<T>::getValueAsString() const
 {
     return toString(mValue);
 }
 
 template<class T>
-T rr::Parameter<T>::getValue() const
+T rrp::Parameter<T>::getValue() const
 {
     return mValue;
 }
 
 template<class T>
-T* rr::Parameter<T>::getValuePointer()
+T* rrp::Parameter<T>::getValuePointer()
 {
     return &mValue;
 }
 
 template<class T>
-void* rr::Parameter<T>::getValueAsPointer()
+void* rrp::Parameter<T>::getValueAsPointer()
 {
     return (void*) &mValue;
 }
@@ -92,46 +92,46 @@ void* rr::Parameter<T>::getValueAsPointer()
 
 //================= BOOL ===============================
 template<>
-inline std::string rr::Parameter<bool>::getType() const
+inline std::string rrp::Parameter<bool>::getType() const
 {
     return "bool";
 }
 
 
 template<>
-inline void rr::Parameter<bool>::setValue(const bool& val)
+inline void rrp::Parameter<bool>::setValue(const bool& val)
 {
     mValue = val;
 }
 
 template<>
-inline void rr::Parameter<bool>::setValueFromString(const std::string& val)
+inline void rrp::Parameter<bool>::setValueFromString(const std::string& val)
 {
     mValue = rr::toBool(val);
 }
 
 //Integer parameter specialization
 template<>
-inline std::string rr::Parameter<int>::getType() const
+inline std::string rrp::Parameter<int>::getType() const
 {
     return "int";
 }
 
 template<>
-inline void rr::Parameter<int>::setValueFromString(const std::string& val)
+inline void rrp::Parameter<int>::setValueFromString(const std::string& val)
 {
     mValue = rr::toInt(val);
 }
 
 template<>
-inline string rr::Parameter<int>::getValueAsString() const
+inline string rrp::Parameter<int>::getValueAsString() const
 {
     return toString(mValue);
 }
 
 //Double parameter specialization
 template<>
-inline std::string rr::Parameter<double>::getType() const
+inline std::string rrp::Parameter<double>::getType() const
 {
     return "double";
 }
@@ -143,26 +143,26 @@ inline std::string rr::Parameter<double>::getType() const
 //}
 
 template<>
-inline void rr::Parameter<double>::setValueFromString(const std::string& val)
+inline void rrp::Parameter<double>::setValueFromString(const std::string& val)
 {
     mValue = rr::toDouble(val);
 }
 
 template<>
-inline string rr::Parameter<std::string>::getType() const
+inline string rrp::Parameter<std::string>::getType() const
 {
     return "string";
 }
 
 
 template<>
-inline void rr::Parameter<std::string>::setValueFromString(const std::string& val)
+inline void rrp::Parameter<std::string>::setValueFromString(const std::string& val)
 {
     mValue = val;
 }
 
 template<>
-inline std::string rr::Parameter< std::vector<std::string> >::getType() const
+inline std::string rrp::Parameter< std::vector<std::string> >::getType() const
 {
     return "vector<string>";
 }
@@ -180,13 +180,13 @@ inline void Parameter< rrc::RRCDataPtr >::setValueFromString(const std::string& 
 }
 
 template<>
-inline std::string rr::Parameter<double>::getValueAsString() const
+inline std::string rrp::Parameter<double>::getValueAsString() const
 {
     return toString(mValue, "%G");
 }
 
 template<>
-inline std::string rr::Parameter<rrc::RRCDataPtr>::getValueAsString() const
+inline std::string rrp::Parameter<rrc::RRCDataPtr>::getValueAsString() const
 {
     return "";
 }

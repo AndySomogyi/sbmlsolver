@@ -6,7 +6,7 @@
 #include "rrParameters.h"
 //---------------------------------------------------------------------------
 
-namespace rr
+namespace rrp
 {
 
 /**
@@ -25,15 +25,15 @@ class RRP_DECLSPEC Capability
                                             Capability(const string& name, const string& method, const string& descr);
                                             Capability(const Capability& fromMe);
         void                                setup(const string& name, const string& method, const string& descr);
-        void                                addParameter(rr::BaseParameter* me);
+        void                                addParameter(BaseParameter* me);
         string                              asString() const;
         u_int                               nrOfParameters() const;
-        rr::BaseParameter&                  operator[](const int& i);
+        rrp::BaseParameter&                  operator[](const int& i);
         string                              getName() const;
         string                              getDescription() const;
         string                              getMethod() const;
         Parameters*                         getParameters();
-        rr::BaseParameter*                  getParameter(const string& paraName);
+        BaseParameter*                      getParameter(const string& paraName);
 
         RRP_DECLSPEC friend ostream&         operator <<(ostream& os, const Capability& caps);
 };

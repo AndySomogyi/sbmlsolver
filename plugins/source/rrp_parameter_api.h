@@ -42,13 +42,12 @@
 #ifndef rrp_parameter_apiH
 #define rrp_parameter_apiH
 #include "rrp_exporter.h"
-#include "rrc_types.h"
 #include "rrp_types.h"
-#include "rrplugins_types.h"
+
 //---------------------------------------------------------------------------
 
 #if defined(__cplusplus)
-namespace rrc
+namespace rrp
 {
 extern "C"
 {

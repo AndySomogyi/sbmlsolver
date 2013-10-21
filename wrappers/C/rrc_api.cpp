@@ -83,9 +83,6 @@ namespace rrc
 using namespace std;
 using namespace rr;
 
-
-
-
 static NewArrayList sel_getFluxControlCoefficientIds(RoadRunner* rr);
 static NewArrayList sel_getAvailableSteadyStateSymbols(RoadRunner* rr);
 static NewArrayList sel_getAvailableTimeCourseSymbols(RoadRunner* rr);

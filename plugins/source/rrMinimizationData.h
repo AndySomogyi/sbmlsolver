@@ -9,7 +9,7 @@
 #include "rrLogger.h"
 //---------------------------------------------------------------------------
 
-namespace rr
+namespace rrp
 {
 using std::ostream;
 
@@ -19,50 +19,50 @@ using std::ostream;
 class RRP_DECLSPEC MinimizationData
 {
     protected:
-        RoadRunnerData                     mObservedData;                //Observed data
-        RoadRunnerData                     mModelData;                    //Model data
-        RoadRunnerData                     mResidualsData;                //Residuals data
-        Parameters                        mParameters;                //Parameters to fit
-        Parameters                        mParametersOut;                //Parameters that was fitted
-        double                            mNorm;                        //Norm
-        StringList                        mObservedDataSelectionList;
-        StringList                        mModelDataSelectionList;
+        RoadRunnerData                  mObservedData;                //Observed data
+        RoadRunnerData                  mModelData;                    //Model data
+        RoadRunnerData                  mResidualsData;                //Residuals data
+        Parameters                      mParameters;                //Parameters to fit
+        Parameters                      mParametersOut;                //Parameters that was fitted
+        double                          mNorm;                        //Norm
+        StringList                      mObservedDataSelectionList;
+        StringList                      mModelDataSelectionList;
 
     public:
-                                           MinimizationData();
-                                       ~MinimizationData();
-                                           MinimizationData(const MinimizationData& data);
-        MinimizationData&                operator=(MinimizationData& rhs);
-        void                               init();
+                                        MinimizationData();
+                                        ~MinimizationData();
+                                        MinimizationData(const MinimizationData& data);
+        MinimizationData&               operator=(MinimizationData& rhs);
+        void                            init();
 
         void                            addParameter(const string& name, const double& value);
         void                            addParameter(const string& name, const int& value);
         void                            addFittedParameter(const string& name, const double& value);
         void                            setNorm(const double& norm);
-        double                            getNorm();
+        double                          getNorm();
 
         void                            setObservedDataSelectionList(const string& list);
-        StringList                        getObservedDataSelectionList();
+        StringList                      getObservedDataSelectionList();
         void                            setModelDataSelectionList(const string& selList);
-        StringList                        getModelDataSelectionList();
+        StringList                      getModelDataSelectionList();
 
         void                            setInputData(const RoadRunnerData& data);
         void                            setModelData(const RoadRunnerData& data);
         void                            setResidualsData(const RoadRunnerData& data);
 
-        RoadRunnerData                    getObservedData();
-        RoadRunnerData                    getModelData();
-        RoadRunnerData                    getResidualsData();
+        RoadRunnerData                  getObservedData();
+        RoadRunnerData                  getModelData();
+        RoadRunnerData                  getResidualsData();
 
-        RoadRunnerData&                    getObservedDataReference();
-        RoadRunnerData&                    getModelDataReference();
-        RoadRunnerData&                    getResidualsDataReference();
+        RoadRunnerData&                 getObservedDataReference();
+        RoadRunnerData&                 getModelDataReference();
+        RoadRunnerData&                 getResidualsDataReference();
 
         RRP_DECLSPEC
         friend ostream&                 operator<<(ostream& stream, const MinimizationData& outMe);
-        string                               getReport() const;
-        Parameters                          getParameters();
-        Parameters                          getParametersOut();
+        string                          getReport() const;
+        Parameters                      getParameters();
+        Parameters                      getParametersOut();
         bool                            reset();
 };
 

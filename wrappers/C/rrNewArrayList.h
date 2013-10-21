@@ -9,13 +9,19 @@
 namespace rr
 {
 class StringList;
+}
 
+namespace rrc
+{
+using rr::StringList;
+using std::vector;
+using std::string;
 /**
  * @internal
  * @deprecated
  * a proprietaty collection class that is massivly deprecated.
  */
-class RR_DECLSPEC NewArrayList
+class C_DECL_SPEC NewArrayList
 {
     protected:
     public:
@@ -48,7 +54,7 @@ class RR_DECLSPEC NewArrayList
 };
 
 
-RR_DECLSPEC ostream& operator<<(ostream& stream, const NewArrayList& list);
+C_DECL_SPEC ostream& operator<<(ostream& stream, const NewArrayList& list);
 
 }
 #endif

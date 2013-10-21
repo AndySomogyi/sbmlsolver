@@ -4,10 +4,10 @@
 #include "rrUtils.h"
 #include "rrPlugin.h"
 #include "rrParameter.h"
-#include "../wrappers/C/rrc_types.h" //We may want to move this header to the Source folder
+#include "rrp_types.h" //We may want to move this header to the Source folder
 //---------------------------------------------------------------------------
 using namespace std;
-namespace rr
+namespace rrp
 {
 Plugin::Plugin(const std::string& name, const std::string& cat, RoadRunner* aRR, PluginWorkStartedCB fn1, PluginWorkFinishedCB fn2, const string& language)
 :

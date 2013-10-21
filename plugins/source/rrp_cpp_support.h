@@ -1,13 +1,12 @@
-#ifndef RRPLUGINS_CPP_SUPPORT_H_
-#define RRPLUGINS_CPP_SUPPORT_H_
+#ifndef rrp_cpp_supportH
+#define rrp_cpp_supportH
 
-#include "rrc_minimization_api.h"
+#include "rrp_minimization_api.h"
 #include "rrp_api.h"
 
-namespace rr {
+namespace rrp {
 class BaseParameter;
 class MinimizationData;
-}
 
 
 /*!
@@ -16,7 +15,7 @@ class MinimizationData;
  \return Pointer to a baseparameter instance
  \ingroup cpp_support
 */
-rr::BaseParameter*                        castToParameter(rrc::RRParameterHandle handle);
+BaseParameter*                        castToParameter(rrp::RRParameterHandle handle);
 
 /*!
  \brief Cast a handle to RoadRunner MinimizationData pointer, throws if it fails
@@ -24,9 +23,9 @@ rr::BaseParameter*                        castToParameter(rrc::RRParameterHandle
  \return Pointer to a minimization data instance
  \ingroup cpp_support
 */
-rr::MinimizationData*                  castToMinimizationData(rrc::RRMinimizationDataHandle handle);
+MinimizationData*                  castToMinimizationData(rrp::RRMinimizationDataHandle handle);
+
+}
 
 
-
-
-#endif /* RRPLUGINS_CPP_SUPPORT_H_ */
+#endif

@@ -2,7 +2,7 @@
 #include "rrCPlugin.h"
 //---------------------------------------------------------------------------
 
-namespace rr
+namespace rrp
 {
 
 CPlugin::CPlugin(const string& name, const string& cat, RoadRunner* aRR,PluginWorkStartedCB fn1, PluginWorkFinishedCB fn2)

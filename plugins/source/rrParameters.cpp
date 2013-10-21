@@ -2,7 +2,7 @@
 #include "rrParameters.h"
 //#include <libxml/tree.h>
 
-namespace rr
+namespace rrp
 {
 
 Parameters::Parameters()

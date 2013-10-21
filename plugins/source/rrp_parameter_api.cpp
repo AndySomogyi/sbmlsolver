@@ -8,16 +8,15 @@
 #include "rrc_utilities.h"           //Support functions, not exposed as api functions and or data
 #include "rrc_cpp_support.h"           //Support functions, not exposed as api functions and or data
 #include "rrp_api.h"
-#include "rrplugins_cpp_support.h"
+#include "rrp_cpp_support.h"
 #include "rrParameter.h"
 #include "rrBaseParameter.h"
 //---------------------------------------------------------------------------
 
-namespace rrc
+namespace rrp
 {
 using namespace std;
 using namespace rr;
-
 
 
 bool rrpCallConv setParameter(RRParameterHandle handle, const char* value)

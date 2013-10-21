@@ -5,7 +5,7 @@
 #include "rrNewArrayListItemObject.h"
 //---------------------------------------------------------------------------
 
-namespace rr
+namespace rrc
 {
 
 NewArrayListItemObject::~NewArrayListItemObject()

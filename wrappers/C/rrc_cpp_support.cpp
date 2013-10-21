@@ -269,7 +269,7 @@ RRStringArrayPtr createList(const StringList& sList)
 //    return theList;
 //}
 
-RRList* createArrayList(const rr::NewArrayList& aList)
+RRList* createArrayList(const rrc::NewArrayList& aList)
 {
     if(!aList.Count())
     {

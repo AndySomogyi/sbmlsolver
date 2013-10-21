@@ -41,9 +41,11 @@
 
 #ifndef rrp_typesH
 #define rrp_typesH
+#include "rrc_types.h"
 
 #if defined(__cplusplus)
 namespace rrp {
+using namespace rrc; //Bring in rrc functionality
 extern "C"
 {
 #endif

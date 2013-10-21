@@ -5,7 +5,7 @@
 #include <ostream>
 
 //---------------------------------------------------------------------------
-namespace rr
+namespace rrp
 {
 
 using std::string;

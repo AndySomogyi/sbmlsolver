@@ -2,7 +2,7 @@
 #define add_noise_threadH
 #include "Poco/Thread.h"
 #include "Poco/Runnable.h"
-#include "rrExporter.h"
+#include "rrp_exporter.h"
 #include "rrOSSpecifics.h"
 //---------------------------------------------------------------------------
 

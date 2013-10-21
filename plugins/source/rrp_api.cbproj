@@ -52,7 +52,7 @@
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <DynamicRTL>true</DynamicRTL>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
-        <Defines>CG_IDE;EXPORT_RRP;$(Defines)</Defines>
+        <Defines>CG_IDE;EXPORT_RRP;POCO_STATIC;$(Defines)</Defines>
         <ILINK_LibraryPath>R:\rrl\plugins\source\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <ProjectType>CppDynamicLibrary</ProjectType>
@@ -156,6 +156,9 @@
         </CppCompile>
         <CppCompile Include="rrp_autolink.cpp">
             <BuildOrder>14</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="rrp_cpp_support.cpp">
+            <BuildOrder>15</BuildOrder>
         </CppCompile>
         <CppCompile Include="rrp_libmain.cpp">
             <BuildOrder>1</BuildOrder>

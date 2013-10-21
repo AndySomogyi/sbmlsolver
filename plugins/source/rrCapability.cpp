@@ -5,7 +5,7 @@
 
 using namespace std;
 
-namespace rr
+namespace rrp
 {
 
 Capability::Capability(const string& name, const string& method, const string& description)
@@ -35,7 +35,7 @@ Parameters* Capability::getParameters()
     return &mParameters;
 }
 
-rr::BaseParameter& Capability::operator[](const int& i)
+BaseParameter& Capability::operator[](const int& i)
 {
 
     return *(mParameters[i]);
@@ -61,7 +61,7 @@ u_int Capability::nrOfParameters() const
     return mParameters.count();
 }
 
-void Capability::addParameter(rr::BaseParameter* me)
+void Capability::addParameter(BaseParameter* me)
 {
     mParameters.add(me);
 }

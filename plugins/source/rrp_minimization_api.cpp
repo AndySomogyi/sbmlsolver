@@ -5,10 +5,11 @@
 #include "rrp_minimization_api.h"
 #include "rrc_utilities.h"           //Support functions, not exposed as api functions and or data
 #include "rrc_cpp_support.h"           //Support functions, not exposed as api functions and or data
-#include "rrplugins_cpp_support.h"
+#include "rrp_cpp_support.h"           //Support functions, not exposed as api functions and or data
+
 //---------------------------------------------------------------------------
 
-namespace rrc
+namespace rrp
 {
 using namespace std;
 using namespace rr;

@@ -12,7 +12,7 @@
 #include "rrCPlugin.h"
 //---------------------------------------------------------------------------
 
-namespace rr
+namespace rrp
 {
 
 using namespace std;
@@ -395,7 +395,7 @@ Plugin* PluginManager::createCPlugin(SharedLibrary *libHandle)
 
 
 // Plugin cleanup function
-bool destroyRRPlugin(rr::Plugin *plugin)
+bool destroyRRPlugin(Plugin *plugin)
 {
     //we allocated in the factory with new, delete the passed object
     try

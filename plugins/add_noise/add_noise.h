@@ -5,7 +5,7 @@
 #include "rrPlugin.h"
 #include "rrp_types.h"
 #include "add_noise_thread.h"
-#include "rrExporter.h"
+#include "rrp_exporter.h"
 //---------------------------------------------------------------------------
 
 namespace addNoise

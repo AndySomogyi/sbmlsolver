@@ -6,8 +6,9 @@
 #include "rrStringList.h"
 //---------------------------------------------------------------------------
 
-namespace rr
+namespace rrp
 {
+using rr::StringList;
 using std::vector;
 
 /**

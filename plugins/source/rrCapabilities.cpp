@@ -9,7 +9,7 @@
 
 using namespace std;
 
-namespace rr
+namespace rrp
 {
 
 Capabilities::Capabilities(const string& name, const string& description)

@@ -1,7 +1,9 @@
 #ifndef rrPluginManagerH
 #define rrPluginManagerH
 #include <vector>
+#include <string>
 #include "rrp_exporter.h"
+#include "rrConstants.h"
 #include "rrStringList.h"
 #include "Poco/SharedLibrary.h"
 #include "Configurable.h"
@@ -10,11 +12,20 @@
 
 namespace rr
 {
-
-
 class RoadRunner;
-class Plugin;
+}
+
+namespace rrp
+{
+
+using std::string;
+using rr::Configurable;
+using rr::gEmptyString;
+using rr::RoadRunner;
 using Poco::SharedLibrary;
+
+class Plugin;
+
 
 /**
  * @internal
@@ -23,10 +34,11 @@ using Poco::SharedLibrary;
 class RRP_DECLSPEC PluginManager : public Configurable
 {
     private:
-        std::string                           mPluginFolder;
-        std::string                           mPluginExtension;    //Different on different OS's
+        std::string                     mPluginFolder;
+        std::string                     mPluginExtension;    //Different on different OS's
 
-        std::vector< std::pair< Poco::SharedLibrary*, Plugin* > >    mPlugins;
+        std::vector< std::pair< Poco::SharedLibrary*, Plugin* > >
+                                        mPlugins;
 
         //This is a handle to a roadRunner instance
         RoadRunner                     *mRR;
@@ -35,7 +47,7 @@ class RRP_DECLSPEC PluginManager : public Configurable
         Plugin*                         createCPlugin(SharedLibrary *libHandle);
 
     public:
-                                        PluginManager(const std::string& pluginFolder = gEmptyString, const bool& autoLoad = false, RoadRunner* aRR = NULL);
+                                        PluginManager(const string& pluginFolder = gEmptyString, const bool& autoLoad = false, RoadRunner* aRR = NULL);
         virtual                        ~PluginManager();
         bool                            setPluginDir(const std::string& dir);
         string                          getPluginDir();

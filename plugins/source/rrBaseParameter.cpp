@@ -7,7 +7,7 @@
 //---------------------------------------------------------------------------
 
 using namespace std;
-namespace rr
+namespace rrp
 {
 
 BaseParameter::BaseParameter(const string& name, const string& hint)

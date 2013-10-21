@@ -1,7 +1,7 @@
 #pragma hdrstop
 #include "rrMinimizationData.h"
 //---------------------------------------------------------------------------
-namespace rr
+namespace rrp
 {
 
 MinimizationData::MinimizationData()

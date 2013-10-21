@@ -5,19 +5,19 @@
 #include "rrPluginManager.h"
 #include "rrPlugin.h"
 #include "rrLogger.h"           //Might be useful for debugging later on
-#include "rrc_api.h"
 #include "rrException.h"
 #include "rrUtils.h"
 #include "rrStringUtils.h"
+#include "rrc_api.h"
 #include "rrc_macros.h"
 #include "rrc_cpp_support.h"
+#include "rrp_parameter_api.h"
 #include "rrp_api.h"
-#include "rrc_parameter_api.h"
 #include "rrMinimizationData.h"
 
 #include <set>
 
-namespace rrc
+namespace rrp
 {
 using namespace std;
 using namespace rr;
@@ -289,7 +289,7 @@ RRParameterHandle rrCallConv getPluginParameter(RRPluginHandle handle, const cha
     try
     {
         Plugin* aPlugin = castToPlugin(handle);
-        rr::BaseParameter *para = NULL;
+        BaseParameter *para = NULL;
         if(aPlugin)
         {
             if(capabilitiesName != NULL)
@@ -432,31 +432,3 @@ char* rrpCallConv getPluginManagerConfigurationXML(RRPluginManagerHandle handle)
 
 }
 
-
-rr::BaseParameter* castToParameter(rrc::RRParameterHandle handle)
-{
-    rr::BaseParameter* para = (rr::BaseParameter*) handle;
-    if(para) //Will only fail if handle is NULL...
-    {
-        return para;
-    }
-    else
-    {
-        rr::Exception ex("Failed to cast to a valid Parameter handle");
-        throw(ex);
-    }
-}
-
-rr::MinimizationData* castToMinimizationData(rrc::RRMinimizationDataHandle handle)
-{
-    rr::MinimizationData* para = (rr::MinimizationData*) handle;
-    if(para) //Will only fail if handle is NULL...
-    {
-        return para;
-    }
-    else
-    {
-        rr::Exception ex("Failed to cast to a valid MinimizationData handle");
-        throw(ex);
-    }
-}
