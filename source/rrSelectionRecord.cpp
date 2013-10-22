@@ -234,7 +234,7 @@ ostream& operator<<(ostream& stream, const SelectionRecord& rec)
     return stream;
 }
 
-std::string SelectionRecord::to_repr()
+std::string SelectionRecord::to_repr() const
 {
     std::string selType;
 
@@ -316,7 +316,7 @@ rr::SelectionRecord::SelectionRecord(const std::string str) :
     }
 }
 
-std::string rr::SelectionRecord::to_string()
+std::string rr::SelectionRecord::to_string() const
 {
     std::string result;
     switch(selectionType)
