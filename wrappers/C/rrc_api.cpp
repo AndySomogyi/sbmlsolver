@@ -789,7 +789,7 @@ RRDoubleMatrixPtr rrcCallConv getScaledElasticityMatrix(RRHandle handle)
     try
     {
         RoadRunner* rri = castFrom(handle);
-        DoubleMatrix tempMat = rri->getScaledReorderedElasticityMatrix();
+        DoubleMatrix tempMat = rri->getScaledElasticityMatrix();
         RRDoubleMatrixPtr matrix = createMatrix(&tempMat);
         return matrix;
     }
