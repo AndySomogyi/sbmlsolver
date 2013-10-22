@@ -50,7 +50,7 @@ bool rrcCallConv disableLoggingToFile()
 {
     try
     {
-        gLog.stopLogging();
+        Logger::init("", Logger::getLevel());
         return true;
     }
     catch_bool_macro

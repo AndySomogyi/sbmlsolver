@@ -1,4 +1,4 @@
-LIBRARY     add_noise.dll
+LIBRARY     lm.dll
 
 EXPORTS
 createPlugin                = _createPlugin@4

@@ -14,6 +14,7 @@ const char* 		gDoubleFormat 	            = "%f";
 const char* 		gIntFormat  	            = "%d";;
 
 const string    	gNoneString 				= "<none>";
+const string    	gEmptyString 				= "";
 
 //Observe, the following function, joinPath, is executed BEFORE any main..
 const string		gDefaultSupportCodeFolder 	= joinPath("..", "rr_support");

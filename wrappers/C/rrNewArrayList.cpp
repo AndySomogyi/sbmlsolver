@@ -3,6 +3,7 @@
 #endif
 #pragma hdrstop
 #include <sstream>
+#include <ostream>
 #include "rrStringList.h"
 #include "rrNewArrayList.h"
 #include "rrLogger.h"
@@ -10,7 +11,7 @@
 
 using namespace std;
 
-namespace rr
+namespace rrc
 {
 
 NewArrayList::NewArrayList()
@@ -278,7 +279,7 @@ string NewArrayList::AsString()
 }
 
 //================== ostreams =============
-ostream& operator<<(ostream& stream, const NewArrayList& list)
+std::ostream& operator<<(std::ostream& stream, const NewArrayList& list)
 {
        stream<<"{";
 

@@ -45,11 +45,13 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
+        <BCC_PCHInject>rr_pch.h</BCC_PCHInject>
+        <Manifest_File>None</Manifest_File>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <Defines>STATIC_RR;CG_IDE;$(Defines)</Defines>
-        <FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
+        <Defines>CG_IDE;PCRE_STATIC;POCO_STATIC;$(Defines)</Defines>
+        <FinalOutputDir>$(RR_INSTALL)\bin</FinalOutputDir>
         <NoVCL>true</NoVCL>
         <LinkPackageImports>rtl.bpi;vcl.bpi</LinkPackageImports>
         <ProjectType>CppConsoleApplication</ProjectType>
@@ -59,12 +61,11 @@
         <_TCHARMapping>char</_TCHARMapping>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <ILINK_GenerateLibFile>true</ILINK_GenerateLibFile>
-        <IncludePath>..\..\Wrappers\C\Apps\rr_c\;$(RR_ROOT)\source;$(RR_ROOT)\Wrappers\C;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>R:\installs\xe\debug\lib\;R:\installs\xe\full-debug\lib\;..\..\Wrappers\C\Apps\rr_c\;..\..\source\;..\..\Wrappers\C\Apps\;R:\installs\xe\lib\;..\..\Wrappers\C\Examples\rr_c\;$(RR_ROOT)\trunk\Wrappers\C\Examples\rr_c\;P:\mtk\Components\vtk\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\..\..\..\third_party\poco\Foundation\src\;..\..\..\..\source\;..\..\Wrappers\C\Apps\rr_c\;$(RR_ROOT)\source;$(RR_ROOT)\Wrappers\C;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\..\..\..\third_party\poco\Foundation\src\;..\..\..\..\source\;R:\installs\xe\debug\lib\;R:\installs\xe\full-debug\lib\;..\..\Wrappers\C\Apps\rr_c\;..\..\source\;..\..\Wrappers\C\Apps\;R:\installs\xe\lib\;..\..\Wrappers\C\Examples\rr_c\;$(RR_ROOT)\trunk\Wrappers\C\Examples\rr_c\;P:\mtk\Components\vtk\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
-        <DynamicRTL>true</DynamicRTL>
         <UsePackages>true</UsePackages>
-        <IntermediateOutputDir>.\$(Config)\$(Platform)\rr_c</IntermediateOutputDir>
+        <IntermediateOutputDir>.\$(Config)\$(Platform)</IntermediateOutputDir>
         <BCC_wpar>false</BCC_wpar>
         <BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
         <BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
@@ -73,12 +74,12 @@
         <Icns_MainIcns>$(BDS)\bin\cbuilder_PROJECTICNS.icns</Icns_MainIcns>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <Manifest_File>None</Manifest_File>
         <Debugger_RunParams>-p -m./../models/test_1.xml -t&quot;r:/rrTemp&quot; -v&quot;Debug5&quot;</Debugger_RunParams>
-        <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <Manifest_File>None</Manifest_File>
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
         <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
         <DCC_Optimize>false</DCC_Optimize>
@@ -93,12 +94,12 @@
         <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
         <TASM_Debugging>Full</TASM_Debugging>
         <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
-        <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(RR_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <IncludePath>$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
-        <Manifest_File>None</Manifest_File>
-        <Debugger_RunParams>-p -m./../models/test_1.xml -t&quot;r:\\temp&quot; -v&quot;Debug2&quot;</Debugger_RunParams>
+        <DynamicRTL>true</DynamicRTL>
+        <IncludePath>$(RR_INSTALL)\include;$(IncludePath)</IncludePath>
+        <Debugger_RunParams>-p -m./../models/test_1.xml -t&quot;r:\\temp&quot; -v&quot;Info&quot;</Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -173,6 +174,8 @@
                     <Parameters Name="RunParams">-p -m./../models/test_1.xml -t&quot;r:/rrTemp&quot; -v&quot;Debug5&quot;</Parameters>
                 </Parameters>
                 <Excluded_Packages>
+                    <Excluded_Packages Name="P:\installs\xe3_ide\BPL\vtk.bpl">File P:\installs\xe3_ide\BPL\vtk.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="P:\installs\xe3_ide\BPL\VCLMolecule.bpl">File P:\installs\xe3_ide\BPL\VCLMolecule.bpl not found</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k170.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcbofficexp170.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                 </Excluded_Packages>

@@ -13,7 +13,7 @@ typedef void (rrCallConv *ThreadCB)(void*);
 class LM;
 
 using rr::RoadRunnerData;
-using rr::MinimizationData;
+using rrp::MinimizationData;
 
 
 class LMFitThread : public Poco::Runnable

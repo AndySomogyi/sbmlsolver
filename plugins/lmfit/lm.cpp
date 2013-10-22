@@ -7,17 +7,19 @@
 #include "rrRoadRunnerData.h"
 #include "rrUtils.h"
 //---------------------------------------------------------------------------
+extern "C" const char* rrCallConv getImplementationLanguage();
 
 using namespace rr;
 using namespace rrc;
+extern "C" const char* rrCallConv getImplementationLanguage();
 
 LM::LM(rr::RoadRunner* aRR)
 :
-Plugin(                 "Levenberg-Marquardt",     "Fitting",        aRR),
-mLMFit(                 "LMFit",                                "",                   "Run a one species fit"),    //The 'capability'
+Plugin(                 "Levenberg-Marquardt", "Fitting",       aRR),
+mLMFit(                 "LMFit",                                "",                   "Fit Parameters using the Levenberg-Marquardt algorithm"),    //The 'capability'
 mTempFolder(            "TempFolder",                           "",                   "Tempfolder used in the fitting"),
 mSBML(                  "SBML",                                 "<none>",             "SBML, i.e. the model to be used in the fitting"),
-mMinimizationData(      "MinData",                                 MinimizationData(),   "Data structure holding minimization data"),
+mMinimizationData(      "MinData",                              MinimizationData(),   "Data structure holding minimization data"),
 mLMFitThread(*this)
 {
     //Setup the plugins capabilities
@@ -48,7 +50,7 @@ string LM::getStatus()
 
 string LM::getImplementationLanguage()
 {
-    return "C++";
+    return ::getImplementationLanguage();
 }
 
 bool LM::resetPlugin()
@@ -141,7 +143,6 @@ bool LM::setInputData(void* inputData)
 bool LM::execute(void* inputData)
 {
     Log(lInfo)<<"Executing the LM plugin";
-    //    mResult <<"LM was started on: "<<getDateTime() <<"\n";
 
     //go away and carry out the work in a thread
     //Assign callback functions to communicate the progress of the thread
@@ -152,7 +153,7 @@ bool LM::execute(void* inputData)
 }
 
 // Plugin factory function
-rr::Plugin* rrCallConv createPlugin(rr::RoadRunner* aRR)
+Plugin* rrCallConv createPlugin(rr::RoadRunner* aRR)
 {
     //allocate a new object and return it
     return new LM(aRR);
@@ -173,7 +174,6 @@ _xmlNode* LM::createConfigNode()
     _xmlNode *caps = Configurable::createCapabilityNode("LMFit", "", "Run a one species fit");
     Configurable::addChild(caps, Configurable::createParameterNode("TempFolder",  "Tempfolder used in the fitting", "<none>"));
     Configurable::addChild(caps, Configurable::createParameterNode("SBML", "SBML, i.e. the model to be used in the fitting", ""));
-
     return caps;
 }
 
@@ -181,16 +181,11 @@ void LM::loadConfig(const _xmlDoc* doc)
 {
 }
 
-#if defined(CG_UI)
-    #if defined(STATIC_RR)
-        #pragma comment(lib, "roadrunner-static.lib")
-    #else
-        #pragma comment(lib, "rrc_api.lib")
-        #pragma comment(lib, "roadrunner.lib")
-        #pragma comment(lib, "poco_foundation-static.lib")
-        #pragma comment(lib, "rr-libstruct-static.lib")
-        #pragma comment(lib, "lmfit-static.lib")
-    #endif
-#endif
+extern "C" int _libmain(unsigned long reason)
+{
+    return 1;
+}
+
+
 
 

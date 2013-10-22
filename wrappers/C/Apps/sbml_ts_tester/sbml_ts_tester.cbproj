@@ -50,7 +50,7 @@
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Defines>CG_IDE;$(Defines)</Defines>
-        <BCC_IncludePath>$(RR_DEBUG)\include;$(BCC_IncludePath)</BCC_IncludePath>
+        <BCC_IncludePath>$(RR_INSTALL)\include;$(BCC_IncludePath)</BCC_IncludePath>
         <BCC_Defines>LIBSBML_USE_CPP_NAMESPACE;WIN32;$(BCC_Defines)</BCC_Defines>
         <OutputExt>exe</OutputExt>
         <LinkPackageStatics>rtl.lib;vcl.lib</LinkPackageStatics>
@@ -80,8 +80,8 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <IntermediateOutputDir>.\$(Config)\$(Platform)\c_tests</IntermediateOutputDir>
-        <IncludePath>$(RR_DEBUG)\include;$(RR_DEBUG)\include\unit_test;$(IncludePath)</IncludePath>
-        <FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
+        <IncludePath>$(RR_INSTALL)\include;$(RR_INSTALL)\include\unit_test;$(IncludePath)</IncludePath>
+        <FinalOutputDir>$(RR_INSTALL)\bin</FinalOutputDir>
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
         <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
         <DCC_Optimize>false</DCC_Optimize>
@@ -96,7 +96,7 @@
         <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
         <TASM_Debugging>Full</TASM_Debugging>
         <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
-        <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(RR_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
@@ -104,7 +104,7 @@
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
         <BCC_MonitorThis>true</BCC_MonitorThis>
-        <IncludePath>$(RR_DEBUG)\include\rr-libstruct;$(IncludePath)</IncludePath>
+        <IncludePath>$(RR_INSTALL)\include\rr-libstruct;$(IncludePath)</IncludePath>
         <Debugger_RunParams>-mr:\models  -tr:\temp -i1 -v</Debugger_RunParams>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">

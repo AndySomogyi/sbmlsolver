@@ -16,35 +16,35 @@ mInputData(NULL)
 
 void AddNoiseThread::assignCallBacks(ThreadCB fn1, ThreadCB fn2, void* userData)
 {
-	threadEnterCB = fn1;
-	threadExitCB = fn2;
+    threadEnterCB = fn1;
+    threadExitCB = fn2;
     mUserData = userData;
 }
 
 void AddNoiseThread::start(void* inputData, double sigma)
 {
-	mInputData = inputData;
+    mInputData = inputData;
     mSigma = sigma;
 
     if(mThread.isRunning())
     {
-    	Log(lError)<<"Tried to start a working thread!";
+        Log(lError)<<"Tried to start a working thread!";
         return;
     }
 
-	mThread.start(*this);
+    mThread.start(*this);
 }
 
 bool AddNoiseThread::isRunning()
 {
-	return mThread.isRunning();
+    return mThread.isRunning();
 }
 
 void AddNoiseThread::run()
 {
-	if(threadEnterCB)
+    if(threadEnterCB)
     {
-		threadEnterCB(mUserData);
+        threadEnterCB(mUserData);
     }
 
     if(mInputData)
@@ -54,7 +54,7 @@ void AddNoiseThread::run()
         noise.randomize();
         for(int row = 0; row < data.rSize(); row++)
         {
-            double xVal = data(row, 0);	//Time
+            double xVal = data(row, 0);    //Time
             for(int col = 0; col < data.cSize() - 1; col++)
             {
                 double yData = data(row, col + 1) + noise.getNoise();
@@ -63,8 +63,8 @@ void AddNoiseThread::run()
         }
     }
 
-	if(threadExitCB)
+    if(threadExitCB)
     {
-		threadExitCB(mUserData);
+        threadExitCB(mUserData);
     }
 }
