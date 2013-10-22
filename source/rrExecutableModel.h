@@ -32,9 +32,6 @@ public:
     virtual void setTime(double _time) = 0;
     virtual double getTime() = 0;
 
-    virtual bool getConservedSumChanged() = 0;
-    virtual void setConservedSumChanged(bool) = 0;
-
     /**
      * evaluate the initial conditions specified in the sbml, this entails
      * evaluating all InitialAssigments, AssigmentRules, initial values, etc...
@@ -245,24 +242,12 @@ public:
     virtual int getReactionRates(int len, int const *indx,
                 double *values) = 0;
 
-
-
     /**
      * Evaluate the reaction rates using the current model state.
      *
      * The reaction rates are stored in ModelData::reactionRates.
      */
     virtual void evalReactionRates() = 0;
-
-    /**
-     * sets the ammounts (ModelData::ammounts) by multipying the concentations
-     * (ModelData::y) by the compartment volume that the species belongs to.
-     *
-     * Only for floating species.
-     */
-    virtual void convertToAmounts() = 0;
-
-    virtual void computeConservedTotals() = 0;
 
     /**
      * set the 'values' of the rate rules.
@@ -394,6 +379,35 @@ public:
     /******************************* Events Section *******************************/
      #endif /**********************************************************************/
     /******************************************************************************/
+
+    /******************************* Deprecated Section ***************************/
+
+    /**
+     * @deprecated
+     * did something with the old C backend, obsolete now.
+     */
+    virtual bool getConservedSumChanged() = 0;
+
+    /**
+     * @deprecated
+     * compatability with C backend, does nothing anymore.
+     */
+    virtual void computeConservedTotals() = 0;
+
+    /**
+     * @deprecated
+     * did something with old C backend, here for compatility.
+     */
+    virtual void setConservedSumChanged(bool) = 0;
+
+    /**
+     * @deprecated
+     * The old C backend had state variables for everything,
+     * here only for compatability, does nothing in LLVM.
+     *
+     * Only for floating species.
+     */
+    virtual void convertToAmounts() = 0;
 };
 
 /**

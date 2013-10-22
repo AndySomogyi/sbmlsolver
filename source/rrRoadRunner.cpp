@@ -2234,8 +2234,7 @@ DoubleMatrix RoadRunner::getUnscaledElasticityMatrix()
     }
 }
 
-//        [Help("Compute the unscaled elasticity matrix at the current operating point")]
-DoubleMatrix RoadRunner::getScaledReorderedElasticityMatrix()
+DoubleMatrix RoadRunner::getScaledElasticityMatrix()
 {
     try
     {

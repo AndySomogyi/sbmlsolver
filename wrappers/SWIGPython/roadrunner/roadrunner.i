@@ -282,10 +282,10 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
     // In [87]: b = array(array([0,1,2,3]),
     //      dtype=[('r', 'f8'), ('g', 'f8'), ('b', 'f8'), ('a', 'f8')])
 
-	// could be Null
-	if (pData == 0) {
-		Py_RETURN_NONE;
-	}
+    // could be Null
+    if (pData == 0) {
+        Py_RETURN_NONE;
+    }
 
     if (pData->structuredResult) {
 
@@ -295,9 +295,9 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
         int rows = mat.numRows();
         int cols = mat.numCols();
 
-		if (cols == 0) {
-			Py_RETURN_NONE;
-		}
+        if (cols == 0) {
+            Py_RETURN_NONE;
+        }
 
         double* mData = mat.getArray();
 
@@ -341,9 +341,9 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
         int cols = mat.numCols();
         int nd = 2;
 
-		if (cols == 0) {
-			Py_RETURN_NONE;
-		}
+        if (cols == 0) {
+            Py_RETURN_NONE;
+        }
 
         npy_intp dims[2] = {rows, cols};
         double *data = (double*)malloc(sizeof(double)*rows*cols);
@@ -603,6 +603,11 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 %ignore rr::ExecutableModel::getReactionIndex(const std::string& eid);
 
 %ignore rr::ExecutableModel::getStoichiometryMatrix(int*, int*, double**);
+
+%ignore rr::ExecutableModel::getConservedSumChanged();
+%ignore rr::ExecutableModel::computeConservedTotals();
+%ignore rr::ExecutableModel::setConservedSumChanged(bool);
+%ignore rr::ExecutableModel::convertToAmounts() ;
 
 
 

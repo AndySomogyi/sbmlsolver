@@ -322,10 +322,10 @@
 
 
 
-.. method:: RoadRunner.getScaledReorderedElasticityMatrix()
+.. method:: RoadRunner.getScaledElasticityMatrix()
    :module: roadrunner
 
-   Returns the unscaled elasticity matrix at the current operating point.
+   Returns the scaled elasticity matrix at the current operating point.
 
    :rtype: numpy.ndarray
 
