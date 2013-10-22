@@ -572,7 +572,7 @@ public:
     /**
      * Compute the unscaled elasticity matrix at the current operating point
      */
-    ls::DoubleMatrix getScaledReorderedElasticityMatrix();
+    ls::DoubleMatrix getScaledElasticityMatrix();
 
     /**
      * Compute the scaled elasticity for a given reaction and given species

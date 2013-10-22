@@ -812,10 +812,10 @@ Returns the n by n matrix of scaled flux control coefficients where n is the num
 
 
 
-%feature("docstring") rr::RoadRunner::getScaledReorderedElasticityMatrix "
-RoadRunner.getScaledReorderedElasticityMatrix()
+%feature("docstring") rr::RoadRunner::getScaledElasticityMatrix "
+RoadRunner.getScaledElasticityMatrix()
 
-Returns the unscaled elasticity matrix at the current operating point.
+Returns the scaled elasticity matrix at the current operating point.
 
 :rtype: numpy.ndarray
 ";
