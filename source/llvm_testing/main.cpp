@@ -67,9 +67,17 @@ int main(int argc, char* argv[])
 
     const char* compiler = "llvm";
 
-    TestPluginManager pmtest;
 
-    TestRoadRunner::testCons2();
+
+    if (argc > 1)
+    {
+        TestRoadRunner::testCons2(argv[1]);
+    }
+    else
+    {
+        cout << "error: no file given" << endl;
+    }
+
 
     return 0;
 

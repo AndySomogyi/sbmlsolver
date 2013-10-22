@@ -86,9 +86,11 @@ static std::vector<std::string> createConservedMoietyParameters(
         const ls::DoubleMatrix& L0, const std::vector<std::string>& indSpecies,
         const std::vector<std::string>& depSpecies);
 
+
 static void createDependentSpeciesRules(Model* newModel,
         const ls::DoubleMatrix& L0,
         const std::vector<std::string>& conservedMoieties,
+        const std::vector<std::string>& indSpecies,
         const std::vector<std::string>& depSpecies);
 
 void ConservedMoietyConverter::init()
@@ -185,9 +187,11 @@ int ConservedMoietyConverter::convert()
         Log(loggingLevel) << "performing conversion on " << mModel->getName();
         Log(loggingLevel) << "independent species: " << toString(indSpecies);
         Log(loggingLevel) << "dependent species: " << toString(depSpecies);
-        Log(loggingLevel) << "L0 matrix: " << *L0;
-        Log(loggingLevel) << "Stoichiometry Matrix: " << *(structural->getStoichiometryMatrix());
-        Log(loggingLevel) << "Reordered Stoichiometry Matrix: " << *(structural->getReorderedStoichiometryMatrix());
+        Log(loggingLevel) << "L0 matrix: " << endl << *L0;
+        Log(loggingLevel) << "Stoichiometry Matrix: " << endl
+                << *(structural->getStoichiometryMatrix());
+        Log(loggingLevel) << "Reordered Stoichiometry Matrix: "
+                << endl << *(structural->getReorderedStoichiometryMatrix());
     }
 
     createReorderedSpecies(resultModel, mModel, indSpecies, depSpecies);
@@ -195,6 +199,8 @@ int ConservedMoietyConverter::convert()
     vector<string> conservedMoieties = createConservedMoietyParameters(
             resultModel, *L0, indSpecies, depSpecies);
 
+    createDependentSpeciesRules(resultModel, *L0, conservedMoieties,
+            indSpecies, depSpecies);
 
     return LIBSBML_OPERATION_SUCCESS;
 
@@ -339,11 +345,11 @@ static std::vector<std::string> createConservedMoietyParameters(
         std::replace( id.begin(), id.end(), '-', '_');
 
         Parameter *cm = newModel->createParameter();
-
         cm->setId(id);
+        cm->setConstant(true);
+
         ConservedMoietyPlugin *plugin = dynamic_cast<ConservedMoietyPlugin*>(
                 cm->getPlugin("conservation"));
-
         plugin->setConservedMoiety(true);
 
         conservedMoieties[i] = id;
@@ -382,9 +388,46 @@ static std::vector<std::string> createConservedMoietyParameters(
 static void createDependentSpeciesRules(Model* newModel,
         const ls::DoubleMatrix& L0,
         const std::vector<std::string>& conservedMoieties,
+        const std::vector<std::string>& indSpecies,
         const std::vector<std::string>& depSpecies)
 {
+    for (unsigned i = 0; i < depSpecies.size(); ++i)
+    {
+        const string& id = depSpecies[i];
 
+
+        AssignmentRule *rule = newModel->createAssignmentRule();
+        rule->setVariable(id);
+
+        ASTNode eqn(AST_PLUS);
+
+        ASTNode *t = new ASTNode(AST_NAME);
+        t->setName(conservedMoieties[i].c_str());
+
+        eqn.addChild(t);
+
+        for (int j = 0; j < indSpecies.size(); ++j)
+        {
+            double stoich = L0(i, j);
+
+            if (stoich != 0)
+            {
+                ASTNode *times = new ASTNode(AST_TIMES);
+                ASTNode *value = new ASTNode(AST_REAL);
+                ASTNode *name = new ASTNode(AST_NAME);
+
+                value->setValue(stoich);
+                name->setName(indSpecies[j].c_str());
+
+                times->addChild(value);
+                times->addChild(name);
+
+                eqn.addChild(times);
+            }
+        }
+
+        rule->setMath(&eqn);
+    }
 }
 
 
