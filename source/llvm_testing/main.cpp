@@ -25,7 +25,6 @@
 #include "TestCapabilities.h"
 
 #include "ConfigurableTest.h"
-#include "TestPluginManager.h"
 
 #include "rrRoadRunner.h"
 
@@ -66,7 +65,6 @@ int main(int argc, char* argv[])
 
     const char* compiler = "llvm";
 
-    TestPluginManager pmtest;
 
     if (argc > 1)
     {
