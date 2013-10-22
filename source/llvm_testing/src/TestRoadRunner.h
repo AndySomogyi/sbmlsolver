@@ -57,9 +57,12 @@ public:
 
     static void testLoad(const std::string& uri);
 
+
     static void testCons1();
 
     static void testCons2();
+
+    static void testLogging(const std::string& logFileName);
 
 };
 

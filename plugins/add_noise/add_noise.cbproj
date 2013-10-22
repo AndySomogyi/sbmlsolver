@@ -38,12 +38,6 @@
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win64)'!=''">
-        <Cfg_2_Win64>true</Cfg_2_Win64>
-        <CfgParent>Cfg_2</CfgParent>
-        <Cfg_2>true</Cfg_2>
-        <Base>true</Base>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
         <Defines>LIBSBML_USE_CPP_NAMESPACE;CG_UI;$(Defines)</Defines>
         <VerInfo_Locale>1033</VerInfo_Locale>
@@ -53,7 +47,7 @@
         <IncludePath>R:\rrl\plugins\add_noise\;$(IncludePath)</IncludePath>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
         <Multithreaded>true</Multithreaded>
-        <ILINK_LibraryPath>$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>$(RR_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <_TCHARMapping>char</_TCHARMapping>
         <ProjectType>CppDynamicLibrary</ProjectType>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
@@ -73,7 +67,6 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <PackageImports>VCLCommon;bindcompfmx;DBXSqliteDriver;fmx;rtl;dbrtl;DbxClientDriver;TeeDB;IndySystem;bindcomp;inetdb;vclib;DBXInterBaseDriver;Tee;DataSnapCommon;xmlrtl;ibxpress;DbxCommonDriver;vclimg;IndyProtocols;DBXMySQLDriver;dbxcds;soaprtl;bindcompdbx;bindengine;vclactnband;vcldb;vcldsnap;bindcompvcl;TeeUI;vclie;vcltouch;websnap;CustomIPTransport;dsnap;IndyIPServer;fmxase;vcl;IndyCore;IndyIPCommon;dsnapcon;inet;fmxobj;vclx;inetdbxpress;webdsnap;fmxdae;adortl;dbexpress;IndyIPClient;$(PackageImports)</PackageImports>
-        <BCC_PCHName_Clang>add_noise_pch.h</BCC_PCHName_Clang>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
@@ -98,27 +91,22 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <Debugger_HostApplication>R:\installs\cg\xe3\debug\bin\rrWinC.exe</Debugger_HostApplication>
+        <BCC_PCHInject>add_noise_pch.h</BCC_PCHInject>
+        <Debugger_HostApplication>R:\installs\cgd-static\bin\rrWinC.exe</Debugger_HostApplication>
         <Defines>POCO_STATIC;EXPORT_PLUGIN;$(Defines)</Defines>
         <DynamicRTL>true</DynamicRTL>
-        <IncludePath>..\..\Source;$(RR_DEBUG)\include;..\..\Wrappers\C;$(IncludePath)</IncludePath>
+        <IncludePath>..\..\Source;$(RR_INSTALL)\include;..\..\Wrappers\C;$(IncludePath)</IncludePath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <FinalOutputDir>$(RR_DEBUG)\plugins</FinalOutputDir>
+        <FinalOutputDir>$(RR_INSTALL)\plugins</FinalOutputDir>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-        <BCC_PCHName_Clang>add_noise_pch.h</BCC_PCHName_Clang>
-    </PropertyGroup>
     <ItemGroup>
         <CppCompile Include="add_noise.cpp">
             <BuildOrder>1</BuildOrder>
         </CppCompile>
-        <PCHCompile Include="add_noise_pch.h">
-            <BuildOrder>0</BuildOrder>
-        </PCHCompile>
         <CppCompile Include="add_noise_thread.cpp">
             <DependentOn>add_noise_thread.h</DependentOn>
             <BuildOrder>3</BuildOrder>
@@ -181,6 +169,8 @@
                     <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
                 </ProjectProperties>
                 <Excluded_Packages>
+                    <Excluded_Packages Name="P:\installs\xe3_ide\BPL\vtk.bpl">File P:\installs\xe3_ide\BPL\vtk.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="P:\installs\xe3_ide\BPL\VCLMolecule.bpl">File P:\installs\xe3_ide\BPL\VCLMolecule.bpl not found</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k170.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcbofficexp170.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                 </Excluded_Packages>

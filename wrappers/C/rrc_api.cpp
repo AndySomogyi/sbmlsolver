@@ -50,9 +50,6 @@
 #include "rrLogger.h"
 #include "rrException.h"
 #include "rrUtils.h"
-#include "rrCapability.h"
-#include "rrPluginManager.h"
-#include "rrPlugin.h"
 #include "rrc_api.h"           // Need to include this before the support header..
 #include "rrc_utilities.h"   //Support functions, not exposed as api functions and or data
 #include "rrc_cpp_support.h"   //Support functions, not exposed as api functions and or data
@@ -85,9 +82,6 @@ namespace rrc
 
 using namespace std;
 using namespace rr;
-
-
-
 
 static NewArrayList sel_getFluxControlCoefficientIds(RoadRunner* rr);
 static NewArrayList sel_getAvailableSteadyStateSymbols(RoadRunner* rr);

@@ -25,11 +25,9 @@
 #include "TestCapabilities.h"
 
 #include "ConfigurableTest.h"
-#include "TestPluginManager.h"
 
 #include "rrRoadRunner.h"
 
-#include "rrParameter.h"
 #include "rrLogger.h"
 
 #include <sbml/SBMLDocument.h>
@@ -67,7 +65,17 @@ int main(int argc, char* argv[])
 
     const char* compiler = "llvm";
 
-    TestPluginManager pmtest;
+
+    if (argc > 1)
+    {
+        TestRoadRunner::testLogging(argv[1]);
+    }
+    else
+    {
+        TestRoadRunner::testLogging("test.log");
+    }
+
+    return 0;
 
     TestRoadRunner::testCons2();
 

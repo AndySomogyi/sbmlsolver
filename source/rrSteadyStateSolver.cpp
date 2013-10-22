@@ -5,7 +5,7 @@
 namespace rr
 {
 
-SteadyStateSolver::SteadyStateSolver(const string& funcName, const string& description)
+SteadyStateSolver::SteadyStateSolver(const std::string& funcName, const std::string& description)
 {
 }
 

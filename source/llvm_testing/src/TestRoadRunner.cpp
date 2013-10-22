@@ -359,6 +359,7 @@ void TestRoadRunner::testLoad(const std::string& uri)
     }
 }
 
+
 void TestRoadRunner::testCons1()
 {
     ConservationPkgNamespaces *sbmlns = new ConservationPkgNamespaces(3,1,1);
@@ -439,6 +440,41 @@ void TestRoadRunner::testCons2()
     writer.writeSBML(newDoc, "/Users/andy/moeity.xml");
 
     cout << "its all good" << endl;
+}
+
+void TestRoadRunner::testLogging(const std::string& logFileName)
+{
+    Logger::init("", Logger::PRIO_NOTICE);
+
+    Log(Logger::PRIO_NOTICE) << "notice";
+
+    Log(Logger::PRIO_NOTICE) << "setting logging to file: " << logFileName;
+
+    Logger::init("", Logger::PRIO_NOTICE, logFileName);
+
+    cout << "log file name: " << Logger::getFileName() << endl;
+
+    Log(Logger::PRIO_FATAL) << "A fatal error to file";
+    Log(Logger::PRIO_CRITICAL) << "A critical error. to file";
+    Log(Logger::PRIO_ERROR) << "An error. to file";
+    Log(Logger::PRIO_WARNING) << "A warning. to file";
+    Log(Logger::PRIO_NOTICE) << "A notice,to file ";
+    Log(Logger::PRIO_INFORMATION) << "An informational message, to file ";
+    Log(Logger::PRIO_DEBUG) << "A debugging message. to file";
+    Log(Logger::PRIO_TRACE) << "A tracing message. to file";
+
+    Logger::init("", Logger::PRIO_NOTICE);
+
+    cout << "log file name: " << Logger::getFileName() << endl;
+
+    Log(Logger::PRIO_FATAL) << "A fatal error. to cons";
+    Log(Logger::PRIO_CRITICAL) << "A critical error. to cons";
+    Log(Logger::PRIO_ERROR) << "An error. to cons";
+    Log(Logger::PRIO_WARNING) << "A warning. to cons";
+    Log(Logger::PRIO_NOTICE) << "A notice, to cons";
+    Log(Logger::PRIO_INFORMATION) << "An informational message, to cons";
+    Log(Logger::PRIO_DEBUG) << "A debugging message.to cons";
+    Log(Logger::PRIO_TRACE) << "A tracing message. to cons";
 
 }
 

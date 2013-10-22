@@ -86,10 +86,10 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <DynamicRTL>true</DynamicRTL>
-        <FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
+        <FinalOutputDir>$(RR_INSTALL)\bin</FinalOutputDir>
         <Manifest_File>None</Manifest_File>
-        <IncludePath>..\..;$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\..;$(RR_INSTALL)\include;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>$(RR_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_Locale>1033</VerInfo_Locale>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">

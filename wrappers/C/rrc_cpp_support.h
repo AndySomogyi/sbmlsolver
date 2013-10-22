@@ -47,10 +47,7 @@
 #include "rrRoadRunnerData.h"
 #include "rrRoadRunnerList.h"
 #include "rrStringList.h"
-#include "rrPlugin.h"
 #include "rrNewArrayList.h"
-#include "rrParameter.h"
-#include "rrMinimizationData.h"
 #include "rrc_types.h"
 #include "rrc_exporter.h"
 
@@ -65,7 +62,7 @@ using std::vector;
  \param[in] error A string containg the error
  \ingroup cpp_support
 */
-void 									setError(const string& err);
+C_DECL_SPEC void                        setError(const std::string& err);
 
 /*!
  \brief Cast a handle to RoadRunner instance pointer, throws if it fails
@@ -73,31 +70,8 @@ void 									setError(const string& err);
  \return Pointer to a roadrunner instance
  \ingroup cpp_support
 */
-rr::RoadRunner* 						castFrom(rrc::RRHandle rrHandle);
+C_DECL_SPEC rr::RoadRunner*             castFrom(rrc::RRHandle rrHandle);
 
-/*!
- \brief Cast a handle to RoadRunner instance pointer, throws if it fails
- \param[in] handle  A handle to a roadrunner plugin instance
- \return Pointer to a plugin instance
- \ingroup cpp_support
-*/
-rr::Plugin* 							castToPlugin(rrc::RRPluginHandle handle);
-
-/*!
- \brief Cast a handle to RoadRunner BaseParameter pointer, throws if it fails
- \param[in] handle  A handle to a roadrunner parameter instance
- \return Pointer to a baseparameter instance
- \ingroup cpp_support
-*/
-rr::BaseParameter*					    castToParameter(rrc::RRParameterHandle handle);
-
-/*!
- \brief Cast a handle to RoadRunner MinimizationData pointer, throws if it fails
- \param[in] handle  A handle to a roadrunner minimization data instance
- \return Pointer to a minimization data instance
- \ingroup cpp_support
-*/
-rr::MinimizationData*	  			castToMinimizationData(rrc::RRMinimizationDataHandle handle);
 
 /*!
  \brief Cast a handle to RoadRunner Instance list ro a RoadRunnerList pointer, throws if it fails
@@ -105,7 +79,7 @@ rr::MinimizationData*	  			castToMinimizationData(rrc::RRMinimizationDataHandle 
  \return Pointer to a RoadRunnerList instance
  \ingroup cpp_support
 */
-rr::RoadRunnerList* 				getRRList(rrc::RRInstanceListPtr handle);
+C_DECL_SPEC rr::RoadRunnerList*         getRRList(rrc::RRInstanceListPtr handle);
 
 /*!
  \brief Copy a C vector to a std::vector
@@ -114,7 +88,7 @@ rr::RoadRunnerList* 				getRRList(rrc::RRInstanceListPtr handle);
  \return True or false, indicating the result
  \ingroup cpp_support
 */
-bool                                copyVector(const rrc::RRVector* source, vector<double>& dest);
+C_DECL_SPEC bool                                copyVector(const rrc::RRVector* source, vector<double>& dest);
 
 /*!
  \brief Creates a C vector from a std::vector
@@ -122,7 +96,7 @@ bool                                copyVector(const rrc::RRVector* source, vect
  \return A handle to a RRVector. Null if it fails
  \ingroup cpp_support
 */
-rrc::RRVectorPtr   					createVector(const vector<double>& vec);
+C_DECL_SPEC rrc::RRVectorPtr                       createVector(const vector<double>& vec);
 
 /*!
  \brief Creates a C Complex vector from a std::vector<ls::Complex>
@@ -130,7 +104,7 @@ rrc::RRVectorPtr   					createVector(const vector<double>& vec);
  \return A handle to a RRComplexVector. Null if it fails
  \ingroup cpp_support
 */
-rrc::RRComplexVectorPtr             createVector(const vector<ls::Complex>& vec);
+C_DECL_SPEC rrc::RRComplexVectorPtr             createVector(const vector<ls::Complex>& vec);
 
 /*!
  \brief Creates a std vector from a C vector
@@ -138,7 +112,7 @@ rrc::RRComplexVectorPtr             createVector(const vector<ls::Complex>& vec)
  \return A std vector object
  \ingroup cpp_support
 */
-vector<double>                      createVector(const rrc::RRVector* vec);
+C_DECL_SPEC vector<double>                      createVector(const rrc::RRVector* vec);
 
 /*!
  \brief Creates a C matrix  from a ls::DoubleMatrix, supplied as a pointer
@@ -146,7 +120,7 @@ vector<double>                      createVector(const rrc::RRVector* vec);
  \return A handle to a RRMatrix. Null if it fails
  \ingroup cpp_support
 */
-rrc::RRDoubleMatrixPtr              createMatrix(const ls::DoubleMatrix* mat);
+C_DECL_SPEC rrc::RRDoubleMatrixPtr              createMatrix(const ls::DoubleMatrix* mat);
 
 /*!
  \brief Creates a ls::DoubleMatrix  from a RRMatrix, supplied as a pointer
@@ -154,7 +128,7 @@ rrc::RRDoubleMatrixPtr              createMatrix(const ls::DoubleMatrix* mat);
  \return A handle to a DoubleMatrix. Null if it fails
  \ingroup cpp_support
 */
-ls::DoubleMatrix*                   createMatrix(const rrc::RRDoubleMatrixPtr mat);
+C_DECL_SPEC ls::DoubleMatrix*                   createMatrix(const rrc::RRDoubleMatrixPtr mat);
 
 
 /*!
@@ -163,7 +137,7 @@ ls::DoubleMatrix*                   createMatrix(const rrc::RRDoubleMatrixPtr ma
  \return A handle to a RRComplexMatrix. Null if it fails
  \ingroup cpp_support
 */
-rrc::RRComplexMatrixPtr             createMatrix(const ls::ComplexMatrix* mat);
+C_DECL_SPEC rrc::RRComplexMatrixPtr             createMatrix(const ls::ComplexMatrix* mat);
 
 //Lists and arrays
 /*!
@@ -172,7 +146,7 @@ rrc::RRComplexMatrixPtr             createMatrix(const ls::ComplexMatrix* mat);
  \return A handle to a RRStringArray. Null if it fails
  \ingroup cpp_support
 */
-rrc::RRStringArrayPtr               createList(const rr::StringList& list);
+C_DECL_SPEC rrc::RRStringArrayPtr               createList(const rr::StringList& list);
 
 /*!
  \brief Creates a heterogenoeus RRList from a rr::NewArrayList
@@ -180,7 +154,7 @@ rrc::RRStringArrayPtr               createList(const rr::StringList& list);
  \return A handle to a RRList. Null if it fails
  \ingroup cpp_support
 */
-rrc::RRListPtr 		            	createArrayList(const rr::NewArrayList& list);
+C_DECL_SPEC rrc::RRListPtr                      createArrayList(const NewArrayList& list);
 
 //Result data
 /*!
@@ -189,7 +163,7 @@ rrc::RRListPtr 		            	createArrayList(const rr::NewArrayList& list);
  \return A handle to a RRData structure. Null if it fails
  \ingroup cpp_support
 */
-C_DECL_SPEC rrc::RRCDataPtr 		createRRCData(const rr::RoadRunnerData& data);
+C_DECL_SPEC rrc::RRCDataPtr         createRRCData(const rr::RoadRunnerData& data);
 
 }
 #endif

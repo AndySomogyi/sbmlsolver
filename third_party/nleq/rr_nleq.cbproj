@@ -32,13 +32,13 @@
 			<IncludePath>$(RR_ROOT)\trunk\third_party\clapack\3.2.1\INCLUDE;$(IncludePath)</IncludePath>
 			<AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
 			<_TCHARMapping>char</_TCHARMapping>
-			<BPILibOutputDir>$(RR_DEBUG)\lib</BPILibOutputDir>
+			<BPILibOutputDir>$(RR_INSTALL)\lib</BPILibOutputDir>
 			<ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
 			<DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
 			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE</DCC_UnitAlias>
 			<DynamicRTL>true</DynamicRTL>
 			<IntermediateOutputDir>.\$(Config)\$(Platform)\nleq</IntermediateOutputDir>
-			<FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
+			<FinalOutputDir>$(RR_INSTALL)\bin</FinalOutputDir>
 			<BCC_wpar>false</BCC_wpar>
 			<BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
 			<BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>

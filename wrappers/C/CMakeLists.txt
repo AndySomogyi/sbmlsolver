@@ -16,12 +16,9 @@ add_library(${target} SHARED
     rrNewArrayListItem
     rrNewArrayListItemObject
     rrc_api
-    rrc_plugin_api
-    rrc_parameter_api
     rrc_logging_api
     rrc_nom_api
     rrc_libstruct_api
-    rrc_minimization_api
     rrc_utilities
     rrc_cpp_support
 )

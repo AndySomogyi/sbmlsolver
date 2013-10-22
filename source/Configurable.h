@@ -7,7 +7,7 @@
 
 #ifndef CONFIGURABLE_H_
 #define CONFIGURABLE_H_
-
+#include "rrExporter.h"
 #include <string>
 #include "rrExporter.h"
 
