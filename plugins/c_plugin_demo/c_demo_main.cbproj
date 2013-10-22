@@ -106,9 +106,9 @@
         <BCC_IncludePath>$(RR_ROOT)\Wrappers\C;$(BCC_IncludePath)</BCC_IncludePath>
         <Debugger_DebugSourcePath>R:\rrl\plugins\fit_one_parameter\;R:\rrl\plugins\test_plugin\;R:\rrl\plugins\add_noise\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
         <DynamicRTL>true</DynamicRTL>
-        <ILINK_LibraryPath>$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-        <FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
-        <IncludePath>$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>$(RR_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <FinalOutputDir>$(RR_INSTALL)\bin</FinalOutputDir>
+        <IncludePath>$(RR_INSTALL)\include;$(IncludePath)</IncludePath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>

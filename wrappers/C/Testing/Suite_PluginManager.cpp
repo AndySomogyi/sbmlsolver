@@ -10,7 +10,6 @@
 #include <fstream>
 #include "UnitTest++.h"
 #include "rrc_api.h"
-#include "rrc_plugin_api.h"
 #include "rrUtils.h"
 #include "rrIniFile.h"
 #include "rrException.h"
@@ -22,6 +21,8 @@ using namespace rrc;
 
 extern string gTempFolder;
 extern string gCompiler;
+
+/*
 
 SUITE(PLUGINMANAGER_TESTS)
 {
@@ -47,4 +48,5 @@ TEST(NOM_TEST_DATA_FILES)
 }
 
 }
+*/
 

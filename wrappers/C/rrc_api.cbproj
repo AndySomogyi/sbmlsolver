@@ -77,7 +77,7 @@
         <BCC_PCHName_Clang>..\..\ide_builds\xe3\rr_c_api.cbproj</BCC_PCHName_Clang>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
-        <IncludePath>$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
+        <IncludePath>$(RR_INSTALL)\include;$(IncludePath)</IncludePath>
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
         <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
         <DCC_Optimize>false</DCC_Optimize>
@@ -96,19 +96,20 @@
         <BCC_DisableFramePtrElimOpt>true</BCC_DisableFramePtrElimOpt>
         <BCC_DisableSpellChecking>true</BCC_DisableSpellChecking>
         <CLANG_UnwindTables>true</CLANG_UnwindTables>
-        <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>$(BDSLIB)\$(PLATFORM)\debug;$(RR_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <DynamicRTL>true</DynamicRTL>
+        <Defines>POCO_STATIC;$(Defines)</Defines>
         <Debugger_DebugSourcePath>R:\rrl\third_party\poco\Foundation\src\;$(Debugger_DebugSourcePath)</Debugger_DebugSourcePath>
         <LinkPackageStatics>rtl.lib</LinkPackageStatics>
         <BCC_PCHInject>rrc_pch.h</BCC_PCHInject>
-        <DynamicRTL>true</DynamicRTL>
         <BCC_MonitorGlobalAndStackData>true</BCC_MonitorGlobalAndStackData>
         <BCC_MonitorInlinePtrAccess>true</BCC_MonitorInlinePtrAccess>
         <BCC_MonitorThis>true</BCC_MonitorThis>
-        <BPILibOutputDir>$(RR_DEBUG)\lib</BPILibOutputDir>
-        <FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
+        <BPILibOutputDir>$(RR_INSTALL)\lib</BPILibOutputDir>
+        <FinalOutputDir>$(RR_INSTALL)\bin</FinalOutputDir>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
@@ -122,15 +123,11 @@
         <CppCompile Include="rrc_api.cpp">
             <BuildOrder>3</BuildOrder>
         </CppCompile>
-        <DefFile Include="rrc_api.def">
-            <BuildOrder>5</BuildOrder>
-        </DefFile>
+        <CppCompile Include="rrc_autolink.cpp">
+            <BuildOrder>13</BuildOrder>
+        </CppCompile>
         <CppCompile Include="rrc_cpp_support.cpp">
             <BuildOrder>7</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="rrc_jobs_api.cpp">
-            <DependentOn>rrc_jobs_api.h</DependentOn>
-            <BuildOrder>4</BuildOrder>
         </CppCompile>
         <CppCompile Include="rrc_libstruct_api.cpp">
             <DependentOn>rrc_libstruct_api.h</DependentOn>
@@ -140,26 +137,25 @@
             <DependentOn>rrc_logging_api.h</DependentOn>
             <BuildOrder>8</BuildOrder>
         </CppCompile>
-        <CppCompile Include="rrc_minimization_api.cpp">
-            <BuildOrder>7</BuildOrder>
-        </CppCompile>
         <CppCompile Include="rrc_nom_api.cpp">
             <DependentOn>rrc_nom_api.h</DependentOn>
             <BuildOrder>10</BuildOrder>
         </CppCompile>
-        <CppCompile Include="rrc_parameter_api.cpp">
-            <DependentOn>rrc_parameter_api.h</DependentOn>
-            <BuildOrder>6</BuildOrder>
-        </CppCompile>
-        <None Include="rrc_pch.h">
-            <BuildOrder>11</BuildOrder>
-        </None>
-        <CppCompile Include="rrc_plugin_api.cpp">
-            <BuildOrder>3</BuildOrder>
-        </CppCompile>
         <CppCompile Include="rrc_utilities.cpp">
             <DependentOn>rrc_utilities.h</DependentOn>
             <BuildOrder>4</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="rrNewArrayList.cpp">
+            <DependentOn>rrNewArrayList.h</DependentOn>
+            <BuildOrder>12</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="rrNewArrayListItem.cpp">
+            <DependentOn>rrNewArrayListItem.h</DependentOn>
+            <BuildOrder>13</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="rrNewArrayListItemObject.cpp">
+            <DependentOn>rrNewArrayListItemObject.h</DependentOn>
+            <BuildOrder>11</BuildOrder>
         </CppCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
@@ -219,6 +215,8 @@
                     <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
                 </ProjectProperties>
                 <Excluded_Packages>
+                    <Excluded_Packages Name="P:\installs\xe3_ide\BPL\vtk.bpl">File P:\installs\xe3_ide\BPL\vtk.bpl not found</Excluded_Packages>
+                    <Excluded_Packages Name="P:\installs\xe3_ide\BPL\VCLMolecule.bpl">File P:\installs\xe3_ide\BPL\VCLMolecule.bpl not found</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k170.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcbofficexp170.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
                 </Excluded_Packages>

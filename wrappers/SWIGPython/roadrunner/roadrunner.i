@@ -27,8 +27,6 @@
     #include <rrRoadRunnerOptions.h>
     #include <rrRoadRunner.h>
     #include <rrLogger.h>
-    #include <rrPluginManager.h>
-    #include <rrPlugin.h>
     #include <cstddef>
     #include <map>
     #include <rrVersionInfo.h>
@@ -653,8 +651,7 @@ static PyObject *RoadRunnerData_to_py(rr::RoadRunnerData* pData) {
 // Warning 315: Nothing known about 'std::ostream'.
 namespace std { class ostream{}; }
 
-// Warning 315: Nothing known about 'Poco::SharedLibrary'.
-namespace Poco { class SharedLibrary{}; }
+
 // Warning 401: Nothing known about base class 'Configurable'. Ignored.
 
 
@@ -677,8 +674,6 @@ namespace Poco { class SharedLibrary{}; }
 %include <rrModelGenerator.h>
 %include <rrRoadRunner.h>
 %include <rrSelectionRecord.h>
-%include <rrPluginManager.h>
-%include <rrPlugin.h>
 
 %extend std::vector<rr::SelectionRecord>
 {

@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 set(target add_noise)
 
 include_directories(
+../source
 ../../source
 ../../wrappers/C
 ${THIRD_PARTY_INSTALL_FOLDER}/include
@@ -10,6 +11,7 @@ ${THIRD_PARTY_INSTALL_FOLDER}/include
 set(sources
 add_noise
 add_noise_thread
+auto_link
 )
 
 add_library(${target} SHARED ${sources})
@@ -26,9 +28,11 @@ add_definitions(
 )
 
 if(WIN32)
-add_definitions( -DWIN32)
+add_definitions( -D_WIN32)
 target_link_libraries (${target}
 roadrunner-static
+rrc_api
+rrp_api
 )
 else() #UNIX
     # OSX flags:
@@ -57,6 +61,8 @@ else() #UNIX
         blas
         f2c
         pthread
+        rrc_api
+        rrp_api
         )
 endif()
 

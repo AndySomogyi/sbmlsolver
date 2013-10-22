@@ -1,6 +1,7 @@
 #ifndef rrRoadRunnerListH
 #define rrRoadRunnerListH
 #include <vector>
+#include <string>
 #include "rrExporter.h"
 //---------------------------------------------------------------------------
 
@@ -17,10 +18,10 @@ class RR_DECLSPEC RoadRunnerList
     private:
 
     protected:
-        vector<RoadRunner*>        mRRs;
+        std::vector<RoadRunner*>        mRRs;
 
     public:
-                                RoadRunnerList(const int& nrOfRRs, const string& tempFolder = "");
+                                RoadRunnerList(const int& nrOfRRs, const std::string& tempFolder = "");
         virtual                   ~RoadRunnerList();
         RoadRunner*                operator[](const int& index);
         unsigned int            count();

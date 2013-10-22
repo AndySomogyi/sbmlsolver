@@ -19,7 +19,6 @@ add_executable( ${target}
     src/TestRoadRunner
     src/GetBoundarySpeciesAmountTest
     src/TestCapabilities
-    src/TestPluginManager
     src/ConfigurableTest
     )
 

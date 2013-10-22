@@ -1,7 +1,8 @@
 #ifndef rrSteadyStateSolverH
 #define rrSteadyStateSolverH
 #include "rrExporter.h"
-#include "rrCapability.h"
+#include <string>
+#include <vector>
 //---------------------------------------------------------------------------
 
 namespace rr
@@ -14,9 +15,9 @@ class RR_DECLSPEC SteadyStateSolver
 {
 
 public:
-    SteadyStateSolver(const string& funcName, const string& description);
+    SteadyStateSolver(const std::string& funcName, const std::string& description);
     virtual ~SteadyStateSolver();
-    virtual double solve(const vector<double>& yin) = 0;
+    virtual double solve(const std::vector<double>& yin) = 0;
 };
 
 }

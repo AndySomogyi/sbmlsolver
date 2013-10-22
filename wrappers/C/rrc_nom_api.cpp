@@ -5,6 +5,8 @@
 #include "rrc_nom_api.h"
 #include "rrc_cpp_support.h"
 #include "rrc_macros.h"
+#include "rrStringUtils.h"
+#include "rrLogger.h"
 //---------------------------------------------------------------------------
 namespace rrc
 {
@@ -29,7 +31,7 @@ int rrcCallConv getNumberOfRules(RRHandle handle)
         RoadRunner* rri = castFrom(handle);
         if(!rri->getModel())
         {
-            Log(lWarning)<<"Model is not allocated.";
+            Log(Logger::PRIO_WARNING)<<"Model is not allocated.";
             return -1;
         }
         int value = rri->getModel()->getNumRules();

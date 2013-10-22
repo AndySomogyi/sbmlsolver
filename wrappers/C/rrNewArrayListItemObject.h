@@ -1,9 +1,9 @@
 #ifndef rrNewArrayListItemObjectH
 #define rrNewArrayListItemObjectH
 //---------------------------------------------------------------------------
-#include "rrExporter.h"
+#include "rrc_exporter.h"
 
-namespace rr
+namespace rrc
 {
 
 /**
@@ -11,7 +11,7 @@ namespace rr
  * @deprecated
  * a proprietaty collection class that is massivly deprecated.
  */
-class RR_DECLSPEC NewArrayListItemObject
+class C_DECL_SPEC NewArrayListItemObject
 {
     public:
         virtual ~NewArrayListItemObject();

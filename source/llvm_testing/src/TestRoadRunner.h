@@ -60,6 +60,7 @@ public:
 
     static void testCons1();
 
+
     static void testCons2(const std::string& srcFile);
 
     static void testLogging(const std::string& logFileName);

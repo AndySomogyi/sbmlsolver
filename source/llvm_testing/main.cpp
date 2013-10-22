@@ -25,11 +25,9 @@
 #include "TestCapabilities.h"
 
 #include "ConfigurableTest.h"
-#include "TestPluginManager.h"
 
 #include "rrRoadRunner.h"
 
-#include "rrParameter.h"
 #include "rrLogger.h"
 
 #include <sbml/SBMLDocument.h>
@@ -66,7 +64,6 @@ int main(int argc, char* argv[])
     cout << rr::RoadRunner::getExtendedVersionInfo() << endl;
 
     const char* compiler = "llvm";
-
 
 
     if (argc > 1)

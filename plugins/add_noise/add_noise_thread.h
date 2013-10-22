@@ -2,7 +2,7 @@
 #define add_noise_threadH
 #include "Poco/Thread.h"
 #include "Poco/Runnable.h"
-#include "rrExporter.h"
+#include "rrp_exporter.h"
 #include "rrOSSpecifics.h"
 //---------------------------------------------------------------------------
 
@@ -26,7 +26,7 @@ class AddNoiseThread : public Poco::Runnable
         void                    assignCallBacks(ThreadCB fn1, ThreadCB fn2, void* userData);
         void                    start(void* inputData, double sigma);
         void                    run();
-        bool					isRunning();
+        bool                    isRunning();
 };
 
 #endif

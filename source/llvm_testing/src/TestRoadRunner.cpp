@@ -424,7 +424,6 @@ void TestRoadRunner::testCons2(const std::string& fname)
     cout << "its all good" << endl;
 }
 
-
 void TestRoadRunner::testLogging(const std::string& logFileName)
 {
     Logger::init("", Logger::PRIO_NOTICE);
