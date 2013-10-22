@@ -58,5 +58,5 @@ The following methods are related to the analysis of the stoichiometric matrix.
    RoadRunner.getL0Matrix
    ExecutableModel.getConservedSums
    ExecutableModel.getNumConservedSums
-   ExecutableModel.getConservedSumChanged
+
 
