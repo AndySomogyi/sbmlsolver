@@ -65,6 +65,8 @@ public:
 
     static void testLogging(const std::string& logFileName);
 
+    static void testRead(const std::string &srcFile);
+
 
 };
 

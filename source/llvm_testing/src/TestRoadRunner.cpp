@@ -393,6 +393,13 @@ void TestRoadRunner::testCons1()
 
 }
 
+std::string removeExtension(const std::string& filename)
+{
+    size_t lastdot = filename.find_last_of(".");
+    if (lastdot == std::string::npos) return filename;
+    return filename.substr(0, lastdot);
+}
+
 void TestRoadRunner::testCons2(const std::string& fname)
 {
 
@@ -419,9 +426,20 @@ void TestRoadRunner::testCons2(const std::string& fname)
 
     libsbml::SBMLWriter writer;
 
-    writer.writeSBML(newDoc, "/Users/andy/moeity.xml");
+    string base = removeExtension(fname);
+
+    writer.writeSBML(conv.getLevelConvertedDocument(), base + ".l3v1.xml");
+
+    writer.writeSBML(newDoc, base + ".moiety.xml");
 
     cout << "its all good" << endl;
+}
+
+void TestRoadRunner::testRead(const std::string &srcFile)
+{
+    RoadRunner r;
+
+    r.load(srcFile);
 }
 
 void TestRoadRunner::testLogging(const std::string& logFileName)

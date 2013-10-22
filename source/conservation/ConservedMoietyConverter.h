@@ -119,6 +119,13 @@ public:
      */
     virtual const libsbml::SBMLDocument* getDocument() const;
 
+
+    /**
+     * this converter first need to convert the doc to a l3v1 document,
+     * this returns the leve / version updated doc.
+     */
+    const libsbml::SBMLDocument *getLevelConvertedDocument() const;
+
     /**
      * Sets the current SBML document to the given SBMLDocument object.
      *

@@ -27,6 +27,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <set>
 
 #include "rrStringUtils.h"
 
@@ -92,6 +93,12 @@ static void createDependentSpeciesRules(Model* newModel,
         const std::vector<std::string>& conservedMoieties,
         const std::vector<std::string>& indSpecies,
         const std::vector<std::string>& depSpecies);
+
+static void updateReactions(Model* newModel,
+        const std::vector<std::string>& indSpecies,
+        const std::vector<std::string>& depSpecies);
+
+static void insertAsModifier(Reaction* reaction, SimpleSpeciesReference *s);
 
 void ConservedMoietyConverter::init()
 {
@@ -202,8 +209,9 @@ int ConservedMoietyConverter::convert()
     createDependentSpeciesRules(resultModel, *L0, conservedMoieties,
             indSpecies, depSpecies);
 
-    return LIBSBML_OPERATION_SUCCESS;
+    updateReactions(resultModel, indSpecies, depSpecies);
 
+    return LIBSBML_OPERATION_SUCCESS;
 }
 
 libsbml::SBMLDocument* ConservedMoietyConverter::getDocument()
@@ -279,6 +287,11 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
     return LIBSBML_OPERATION_SUCCESS;
 }
 
+const libsbml::SBMLDocument *ConservedMoietyConverter::getLevelConvertedDocument() const
+{
+    return mDocument;
+}
+
 static void createReorderedSpecies(Model* newModel, Model* oldModel,
         const std::vector<std::string>& indSpecies,
         const std::vector<std::string>& depSpecies)
@@ -310,22 +323,24 @@ static void createReorderedSpecies(Model* newModel, Model* oldModel,
     species = oldModel->getListOfSpecies();
     ListOfSpecies *newSpecies = newModel->getListOfSpecies();
 
+    // insert independent first, then dependent
+    index = 0;
     for (int i = 0; i < indSpecies.size(); ++i)
     {
         Species *s = species->get(indSpecies[i]);
 
         assert(s && "could not get independent species from original model");
 
-        newSpecies->insertAndOwn(i, new ConservedMoietySpecies(*s, false));
+        newSpecies->insertAndOwn(index++, new ConservedMoietySpecies(*s, false));
     }
 
     for (int i = 0; i < depSpecies.size(); ++i)
     {
-        Species *s = species->get(indSpecies[i]);
+        Species *s = species->get(depSpecies[i]);
 
         assert(s && "could not get dependent species from original model");
 
-        newSpecies->insertAndOwn(i, new ConservedMoietySpecies(*s, true));
+        newSpecies->insertAndOwn(index++, new ConservedMoietySpecies(*s, true));
     }
 }
 
@@ -430,7 +445,63 @@ static void createDependentSpeciesRules(Model* newModel,
     }
 }
 
+static void updateReactions(Model* newModel,
+        const std::vector<std::string>& indSpecies,
+        const std::vector<std::string>& depSpecies)
+{
+    set<string> depSet(depSpecies.begin(), depSpecies.end());
 
+    ListOfReactions *reactions = newModel->getListOfReactions();
+
+    for (unsigned i = 0; i < reactions->size(); ++i)
+    {
+        Reaction *r = reactions->get(i);
+        ListOfSpeciesReferences *products = r->getListOfProducts();
+        ListOfSpeciesReferences *reactants = r->getListOfReactants();
+
+        unsigned j = 0;
+        while(j < products->size())
+        {
+            SimpleSpeciesReference *product = products->get(j);
+
+            if (depSet.find(product->getSpecies()) != depSet.end())
+            {
+                products->remove(j);
+                insertAsModifier(r, product);
+                delete product;
+            }
+            else
+            {
+                j++;
+            }
+        }
+
+        j = 0;
+        while(j < reactants->size())
+        {
+            SimpleSpeciesReference *reactant = reactants->get(j);
+
+            if (depSet.find(reactant->getSpecies()) != depSet.end())
+            {
+                reactants->remove(j);
+                insertAsModifier(r, reactant);
+                delete reactant;
+            }
+            else
+            {
+                j++;
+            }
+        }
+    }
+}
+
+static void insertAsModifier(Reaction* reaction, SimpleSpeciesReference *s)
+{
+    ModifierSpeciesReference *m = reaction->createModifier();
+    m->setId(s->getId());
+    m->setSpecies(s->getSpecies());
+    m->setName(s->getName());
+}
 
 
 

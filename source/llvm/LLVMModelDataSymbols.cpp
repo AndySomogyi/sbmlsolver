@@ -57,19 +57,14 @@ static const char* modelDataFieldsNames[] =  {
     "StateVectorRate",                          // 24
 };
 
-/*
-static void test() {
-    cout << "test\n";
-}
-*/
 
 static std::vector<std::string> getIds(const rrllvm::LLVMModelDataSymbols::StringUIntMap & m)
 {
-    vector<string> result;
-    result.resize(m.size());
+    vector<string> result(m.size());
     for(rrllvm::LLVMModelDataSymbols::StringUIntMap::const_iterator i = m.begin();
             i != m.end(); i++)
     {
+        assert(i->second < result.size() && "symbol map index out of bounds, possibly duplicate sbml ids");
         result[i->second] = i->first;
     }
     return result;

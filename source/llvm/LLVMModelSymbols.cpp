@@ -83,7 +83,18 @@ bool LLVMModelSymbols::visit(const libsbml::AssignmentRule& x)
 {
     poco_trace(getLogger(), "processing AssignmentRule, id: " + x.getId());
     SBase *element = const_cast<Model*>(model)->getElementBySId(x.getVariable());
-    processElement(assigmentRules, element, x.getMath());
+
+    if (element)
+    {
+        processElement(assigmentRules, element, x.getMath());
+    }
+    else
+    {
+        Log(Logger::PRIO_ERROR) << "Could not get elment for assignment rule \""
+                << const_cast<libsbml::AssignmentRule&>(x).toSBML()
+                << "\", it will be ignored";
+    }
+
     return true;
 }
 
@@ -115,6 +126,8 @@ void LLVMModelSymbols::processElement(SymbolForest& currentSymbols,
     const Parameter *param = 0;
     const Species *species = 0;
     const SpeciesReference *reference = 0;
+
+    assert(element && "element must not be NULL");
 
     if ((comp = dynamic_cast<const Compartment*>(element)))
     {

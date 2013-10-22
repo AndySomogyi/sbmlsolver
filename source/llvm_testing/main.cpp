@@ -66,9 +66,26 @@ int main(int argc, char* argv[])
     const char* compiler = "llvm";
 
 
-    if (argc > 1)
+    if (argc > 2)
     {
-        TestRoadRunner::testCons2(argv[1]);
+        string rw = argv[2];
+        if (rw.size() > 0)
+        {
+            char c = rw[0];
+
+            if (c == 'r')
+            {
+                TestRoadRunner::testRead(argv[1]);
+            }
+            else
+            {
+                TestRoadRunner::testCons2(argv[1]);
+            }
+        }
+        else
+        {
+            cout << "invalid args" << endl;
+        }
     }
     else
     {
