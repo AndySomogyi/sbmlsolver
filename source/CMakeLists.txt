@@ -16,11 +16,8 @@ include_directories(
     )
 
 set(rrSources
-    rrParameters
     rrSteadyStateSolver
 	Configurable
-    rrCapability
-    rrCapabilities
     rrConstants
     rrException
     rrGetOptions
@@ -33,7 +30,6 @@ set(rrSources
     rrStringList
     rrStringUtils
     rrUtils
-    rrCPlugin
     rrCVODEInterface
     rrNLEQInterface
     rrTestSuiteModelSimulation
@@ -41,13 +37,9 @@ set(rrSources
     rrIniSection
     rrIniFile
     rrFileName
-    rrPluginManager
-    rrPlugin
-    rrBaseParameter
     rrRoadRunnerList
     rrRoadRunnerData
     rrSelectionRecord
-    rrMinimizationData
     rrModelGeneratorFactory
     rrNoise
     rrVersionInfo

@@ -109,7 +109,7 @@ void LMFitThread::run()
     mMinData.setModelData(data);
 
     data = createResidualsData();
-    mMinData.setResidualsData(data);
+//    mMinData.setResidualsData(data);
 
     if(threadExitCB)
     {
@@ -120,10 +120,10 @@ void LMFitThread::run()
 bool LMFitThread::setup()
 {
     //Setup the minimization data structure
-    StringList species         = mMinData.getObservedDataSelectionList();   //Model data selection..
-    mLMData.nrOfSpecies     = species.Count();
-    Parameters parameters     = mMinData.getParameters();
-    mLMData.nrOfParameters    = parameters.count();
+    StringList species          = mMinData.getObservedDataSelectionList();   //Model data selection..
+    mLMData.nrOfSpecies         = species.Count();
+    Parameters parameters       = mMinData.getParameters();
+    mLMData.nrOfParameters      = parameters.count();
 
     mLMData.parameters                 = new double[mLMData.nrOfParameters];
     //Set initial parameter values
@@ -140,27 +140,27 @@ bool LMFitThread::setup()
         }
     }
 
-    RoadRunnerData& obsData         = mMinData.getObservedDataReference();
-    mLMData.nrOfTimePoints            = obsData.rSize();
-    mLMData.timeStart                = obsData.getTimeStart();
-    mLMData.timeEnd                    = obsData.getTimeEnd();
-    mLMData.nrOfResiduePoints       = mLMData.nrOfSpecies * mLMData.nrOfTimePoints;
-    mLMData.time                     = new double[mLMData.nrOfTimePoints];
+    RoadRunnerData& obsData             = mMinData.getObservedDataReference();
+    mLMData.nrOfTimePoints              = obsData.rSize();
+    mLMData.timeStart                   = obsData.getTimeStart();
+    mLMData.timeEnd                     = obsData.getTimeEnd();
+    mLMData.nrOfResiduePoints           = mLMData.nrOfSpecies * mLMData.nrOfTimePoints;
+    mLMData.time                        = new double[mLMData.nrOfTimePoints];
 
-    mLMData.experimentalData         = new double*[mLMData.nrOfSpecies];
+    mLMData.experimentalData            = new double*[mLMData.nrOfSpecies];
 
     if(obsData.hasWeights())
     {
         mLMData.experimentalDataWeights = new double*[mLMData.nrOfSpecies];
     }
 
-    mLMData.speciesLabels             = new char*[mLMData.nrOfSpecies];
+    mLMData.speciesLabels               = new char*[mLMData.nrOfSpecies];
 
     //Each species data points and label
     for (int i = 0; i < mLMData.nrOfSpecies; i++)
     {
-        mLMData.experimentalData[i]  = new double[mLMData.nrOfTimePoints];
-        mLMData.speciesLabels[i]      = createText(species[i]);
+        mLMData.experimentalData[i]     = new double[mLMData.nrOfTimePoints];
+        mLMData.speciesLabels[i]        = createText(species[i]);
 
         if(obsData.hasWeights())
         {
@@ -206,7 +206,7 @@ bool LMFitThread::setup()
 
 bool LMFitThread::setupRoadRunner()
 {
-       if(mRRI)
+    if(mRRI)
     {
         delete mRRI;
     }
@@ -245,7 +245,7 @@ void evaluate(const double *par,       //Parameter vector
     }
     //calculate fvec for each specie
     int count = 0;
-       for(int i = 0; i < myData->nrOfSpecies; i++)
+    for(int i = 0; i < myData->nrOfSpecies; i++)
     {
         fvec[count] = 0;
         for(int j = 0; j < myData->nrOfTimePoints; j++ )

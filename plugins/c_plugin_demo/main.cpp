@@ -5,9 +5,9 @@ using namespace std;
 
 int main()
 {
-	try
+    try
     {
-	    enableLoggingToConsole();
+        enableLoggingToConsole();
         setLogLevel("DEBUG");
         logMsg(clInfo, "Log message..");
 
@@ -17,27 +17,27 @@ int main()
         RRPluginHandle plugin = loadPlugin(rri, "c_plugin_demo");
         if(!plugin)
         {
-        	throw("Demo plugin could not be loaded");
+            throw("Demo plugin could not be loaded");
         }
 
         char* rrInfo;
         if(!executePluginEx(plugin, &rrInfo))
         {
-        	throw("There was a problem executing the plugin...");
+            throw("There was a problem executing the plugin...");
         }
 
         cout<< endl << "After Execute: "<< rrInfo << endl;
         freeText(rrInfo);
 
         cout<<getPluginInfo(plugin);
-       	unLoadPlugins(rri);
+           unLoadPlugins(rri);
         freeRRInstance(rri);
     }
     catch(const char* msg)
     {
-    	clog<<"There was a problem: "<<msg;
+        clog<<"There was a problem: "<<msg;
     }
-	return 0;
+    return 0;
 }
 
 #pragma comment(lib, "rrc_api.lib")

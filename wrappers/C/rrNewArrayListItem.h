@@ -9,7 +9,7 @@
 // 2) Template for basic type ArrayListItems, such as int, char double etc.
 // 3) An ArrayListItem class, that represent an ArrayList, within an ArrayList object
 
-namespace rr
+namespace rrc
 {
 
 /**
@@ -49,7 +49,7 @@ NewArrayListItem<T>& NewArrayListItem<T>::operator=(const NewArrayListItem<T>& r
     return *this;
 }
 
-ostream& operator<<(ostream& stream, const NewArrayListItemObject& item);
+std::ostream& operator<<(std::ostream& stream, const NewArrayListItemObject& item);
 
 }
 #endif

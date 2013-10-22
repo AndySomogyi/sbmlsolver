@@ -3,23 +3,31 @@
 #include <vector>
 #include <string>
 #include <list>
-#include <iostream>
+#include <ostream>
 #include "rrNewArrayListItem.h"
+#include "rrc_exporter.h"
 
 namespace rr
 {
 class StringList;
+}
+
+namespace rrc
+{
+using rr::StringList;
+using std::vector;
+using std::string;
 
 /**
  * @internal
  * @deprecated
  * a proprietaty collection class that is massivly deprecated.
  */
-class RR_DECLSPEC NewArrayList
+class C_DECL_SPEC NewArrayList
 {
     protected:
     public:
-        vector< NewArrayListItemObject* >        mList; //List of NewArrayListItemObject items
+        vector< NewArrayListItemObject* >   mList; //List of NewArrayListItemObject items
 
     public:
                                             NewArrayList();
@@ -44,11 +52,11 @@ class RR_DECLSPEC NewArrayList
         StringList                          GetStringList(const string& lName);
         StringList                          GetStringList(const int& index);
         string                              GetString(const int& index);
-        string                                AsString();
+        string                              AsString();
 };
 
 
-RR_DECLSPEC ostream& operator<<(ostream& stream, const NewArrayList& list);
+C_DECL_SPEC std::ostream& operator<<(std::ostream& stream, const NewArrayList& list);
 
 }
 #endif

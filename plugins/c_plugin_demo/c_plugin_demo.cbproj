@@ -64,7 +64,7 @@
         <Multithreaded>true</Multithreaded>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
         <IntermediateOutputDir>.\$(Platform)\$(Config)</IntermediateOutputDir>
-        <FinalOutputDir>$(RR_DEBUG)\bin</FinalOutputDir>
+        <FinalOutputDir>$(RR_INSTALL)\bin</FinalOutputDir>
         <BCC_wpar>false</BCC_wpar>
         <BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
         <BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
@@ -80,7 +80,7 @@
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <Manifest_File>None</Manifest_File>
-        <IncludePath>$(RR_ROOT)\source;$(RR_DEBUG)\include;$(IncludePath)</IncludePath>
+        <IncludePath>$(RR_ROOT)\source;$(RR_INSTALL)\include;$(IncludePath)</IncludePath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
@@ -113,8 +113,8 @@
         <IncludePath>$(RR_ROOT)\wrappers\C;$(IncludePath)</IncludePath>
         <Debugger_HostApplication>R:\installs\cg_debug\bin\c_demo_main.exe</Debugger_HostApplication>
         <Defines>EXPORT_PLUGIN;CG_IDE;$(Defines)</Defines>
-        <FinalOutputDir>$(RR_DEBUG)\plugins</FinalOutputDir>
-        <ILINK_LibraryPath>$(RR_DEBUG)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <FinalOutputDir>$(RR_INSTALL)\plugins</FinalOutputDir>
+        <ILINK_LibraryPath>$(RR_INSTALL)\lib;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">

@@ -7,7 +7,7 @@
 #pragma hdrstop
 #include "TestPluginManager.h"
 #include "rrRoadRunner.h"
-#include "rrPluginManager.h"
+
 
 namespace rr
 {
@@ -22,6 +22,7 @@ TestPluginManager::TestPluginManager()
 
 bool rr::TestPluginManager::test()
 {
+    /*
     PluginManager pm("/Users/andy/local/plugins", false, 0);
 
     pm.load();
@@ -29,4 +30,5 @@ bool rr::TestPluginManager::test()
     std::string s = pm.getConfigurationXML();
 
     return true;
+    */
 }

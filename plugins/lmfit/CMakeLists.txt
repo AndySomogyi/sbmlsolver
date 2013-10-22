@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 set(target lm)
 
 include_directories(
+../source
 ../../source
 ../../wrappers/C
 ${THIRD_PARTY_INSTALL_FOLDER}/include
@@ -32,6 +33,7 @@ add_definitions( -DWIN32)
 target_link_libraries (${target}
 lmfit-static
 rrc_api
+rrp_api
 )
 else() #UNIX
     # OSX flags:
@@ -55,6 +57,7 @@ else() #UNIX
         roadrunner-static
         lmfit-static
         rrc_api
+        rrp_api
         )
 endif()
 

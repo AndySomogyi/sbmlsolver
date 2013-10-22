@@ -29,7 +29,6 @@
 
 #include "rrRoadRunner.h"
 
-#include "rrParameter.h"
 #include "rrLogger.h"
 
 #include <sbml/SBMLDocument.h>
