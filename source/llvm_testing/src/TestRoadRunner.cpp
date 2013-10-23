@@ -387,6 +387,7 @@ void TestRoadRunner::testLogging(const std::string& logFileName)
     Log(Logger::PRIO_TRACE) << "A tracing message. to cons";
 }
 
+#ifndef _WIN32
 void TestRoadRunner::test_fs75()
 {
     const char* src = "/Users/andy/fs75.xml";
@@ -436,6 +437,13 @@ void TestRoadRunner::test_fs73()
 
     cout << "result: " << result << endl;
 }
+#else
+
+void TestRoadRunner::test_fs75() {}
+void TestRoadRunner::test_fs74() {}
+void TestRoadRunner::test_fs73() {}
+
+#endif
 
 } /* namespace rr */
 
