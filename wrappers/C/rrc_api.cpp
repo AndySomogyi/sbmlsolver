@@ -1522,9 +1522,22 @@ RRVectorPtr rrcCallConv getReactionRatesEx(RRHandle handle, const RRVectorPtr ve
     try
     {
         RoadRunner* rri = castFrom(handle);
-        vector<double> tempList = rrc::createVector(vec);
-        tempList = rri->getReactionRatesEx(tempList);
-        return rrc::createVector(tempList);;
+        vector<double> conc = rrc::createVector(vec);
+
+        ExecutableModel *model = rri->getModel();
+
+        if (!model)
+        {
+            throw CoreException(gEmptyModelMessage);
+        }
+
+        model->setFloatingSpeciesConcentrations(conc.size(), 0, &conc[0]);
+
+        vector<double> result(model->getNumReactions());
+
+        model->getReactionRates(result.size(), 0, &result[0]);
+
+        return rrc::createVector(result);
     }
     catch_ptr_macro
 }

@@ -65,6 +65,10 @@ int main(int argc, char* argv[])
 
     const char* compiler = "llvm";
 
+    TestRoadRunner::test_fs73();
+
+    return 0;
+
 
     if (argc > 2)
     {
@@ -91,10 +95,6 @@ int main(int argc, char* argv[])
     {
         cout << "error: no file given" << endl;
     }
-
-
-    return 0;
-
 
 
 
