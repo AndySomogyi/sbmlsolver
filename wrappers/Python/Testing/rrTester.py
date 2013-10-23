@@ -175,7 +175,7 @@ def checkIndividualEigenvalues(testId):
         line = readLine ()
         words = line.split()
         eigenvalueName = words[0]
-        realPart = rrPython.getValue ('eigen_' + eigenvalueName)
+        realPart = rrPython.getValue ('eigen(' + eigenvalueName + ')')
         realPart = float (realPart)
         if expectApproximately (realPart, float(words[1]), 1E-6) == False:
             errorFlag = True
