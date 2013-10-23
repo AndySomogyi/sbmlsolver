@@ -387,6 +387,29 @@ void TestRoadRunner::testLogging(const std::string& logFileName)
     Log(Logger::PRIO_TRACE) << "A tracing message. to cons";
 }
 
+void TestRoadRunner::test_fs75()
+{
+    const char* src = "/Users/andy/fs75.xml";
+
+    rrc::RRHandle r = rrc::createRRInstance();
+
+    rrc::loadSBMLFromFile(r, src);
+
+    double conc[] = {1.0, 2.0, 3.0};
+
+    rrc::RRVector concVec;
+
+    concVec.Count = 3;
+    concVec.Data = conc;
+
+    rrc::RRVectorPtr res = rrc::getReactionRatesEx(r, &concVec);
+
+    for (int i = 0; i < res->Count; ++i)
+    {
+        cout << "index " << i << ": " << res->Data[i] << endl;
+    }
+}
+
 } /* namespace rr */
 
 

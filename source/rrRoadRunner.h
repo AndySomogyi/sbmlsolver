@@ -396,7 +396,7 @@ public:
     double getRateOfChange(const int& index);
     std::vector<std::string> getRateOfChangeIds();
     std::vector<double> getRatesOfChangeEx(const std::vector<double>& values);
-    std::vector<double> getReactionRatesEx(const std::vector<double>& values);
+
 
 
     std::vector<std::string> getConservedSumIds();

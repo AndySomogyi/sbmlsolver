@@ -59,6 +59,8 @@ public:
 
     static void testLogging(const std::string& logFileName);
 
+    static void test_fs75();
+
 };
 
 } /* namespace rr */

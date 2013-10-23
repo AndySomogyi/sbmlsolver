@@ -1558,19 +1558,6 @@ vector<double> RoadRunner::getRatesOfChangeEx(const vector<double>& values)
     return getRatesOfChange();
 }
 
-// Help("Returns the rates of changes given an array of new floating species concentrations")
-vector<double> RoadRunner::getReactionRatesEx(const vector<double>& values)
-{
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-
-    mModel->evalReactionRates();
-    vector<double> result(mModel->getNumReactions());
-    mModel->getReactionRates(result.size(), 0, &result[0]);
-    return result;
-}
 
 // Help("Get the number of compartments")
 int RoadRunner::getNumberOfCompartments()
