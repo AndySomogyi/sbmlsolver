@@ -65,7 +65,7 @@ int main(int argc, char* argv[])
 
     const char* compiler = "llvm";
 
-    TestRoadRunner::test_fs75();
+    TestRoadRunner::test_fs74();
 
 
     if (argc > 1)

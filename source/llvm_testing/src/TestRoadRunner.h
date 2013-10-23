@@ -61,6 +61,8 @@ public:
 
     static void test_fs75();
 
+    static void test_fs74();
+
 };
 
 } /* namespace rr */

@@ -410,6 +410,16 @@ void TestRoadRunner::test_fs75()
     }
 }
 
+void TestRoadRunner::test_fs74()
+{
+    rrc::RRHandle r = rrc::createRRInstance();
+
+    rrc::loadSBMLFromFile(r, "");
+
+    cout << "error:: " << rrc::getLastError() << endl;
+
+}
+
 } /* namespace rr */
 
 
