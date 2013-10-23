@@ -1728,7 +1728,7 @@ void RoadRunner::setFloatingSpeciesInitialConcentrationByIndex(const int& index,
 }
 
 // Help("Sets the value of a floating species by its index")
-void RoadRunner::setFloatingSpeciesByIndex(const int& index, const double& value)
+void RoadRunner::setFloatingSpeciesByIndex(int index, double value)
 {
     if (!mModel)
     {
@@ -1750,7 +1750,7 @@ void RoadRunner::setFloatingSpeciesByIndex(const int& index, const double& value
 }
 
 // Help("Returns the value of a floating species by its index")
-double RoadRunner::getFloatingSpeciesByIndex(const int& index)
+double RoadRunner::getFloatingSpeciesByIndex(const int index)
 {
     if (!mModel)
     {
@@ -1760,7 +1760,7 @@ double RoadRunner::getFloatingSpeciesByIndex(const int& index)
     if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
     {
         double result = 0;
-        return mModel->getFloatingSpeciesConcentrations(1, &index, &result);
+        mModel->getFloatingSpeciesConcentrations(1, &index, &result);
         return result;
     }
     throw CoreException(format("Index in getFloatingSpeciesByIndex out of range: [{0}]", index));

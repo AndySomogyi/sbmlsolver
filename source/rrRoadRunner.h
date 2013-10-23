@@ -456,9 +456,15 @@ public:
      * @deprecated, use ExecutableModel::getNumFloatingSpecies
      */
     int getNumberOfFloatingSpecies();
-    void setFloatingSpeciesByIndex(const int& index, const double& value);
+
     double getFloatingSpeciesInitialConcentrationByIndex(const int& index);
-    double getFloatingSpeciesByIndex(const int& index);
+
+    /**
+     * get / set conc.
+     */
+    double getFloatingSpeciesByIndex(int index);
+    void setFloatingSpeciesByIndex(int index, double value);
+
     std::vector<double> getFloatingSpeciesConcentrations();
     std::vector<double> getFloatingSpeciesInitialConcentrations();
     void setFloatingSpeciesConcentrations(const std::vector<double>& values);
