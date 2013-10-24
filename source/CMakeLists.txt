@@ -22,7 +22,6 @@ set(rrSources
     rrException
     rrGetOptions
     rrLogger
-    rrLogLevel
     rrExecutableModel
     rrRandom
     rrRoadRunner

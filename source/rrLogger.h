@@ -61,6 +61,7 @@ public:
      */
     enum Level
     {
+        PRIO_CURRENT = 0, /// Use the current level -- don't change the level from what it is.
         PRIO_FATAL = 1,   /// A fatal error. The application will most likely terminate. This is the highest priority.
         PRIO_CRITICAL,    /// A critical error. The application might not be able to continue running successfully.
         PRIO_ERROR,       /// An error. An operation did not complete successfully, but the application as a whole is not affected.
@@ -71,31 +72,27 @@ public:
         PRIO_TRACE        /// A tracing message. This is the lowest priority.
     };
 
-
-    Logger();
-    ~Logger();
-
-    /**
-     * old home grown logging functions, here for compatibility
-     */
-
-    static void setLevel(int level);
+    static void setLevel(int level = PRIO_CURRENT);
 
     static int getLevel();
 
-    static void stopLogging();
+    static void disableLogging();
 
-    static void enableLoggingToConsole();
+    static void disableConsoleLogging();
 
-    static void disableLoggingToConsole();
+    static void enableConsoleLogging(int level = PRIO_CURRENT);
 
-    static void init(const std::string&, int level);
+    static void enableFileLogging(const std::string& fileName, int level = PRIO_CURRENT);
 
-    static void init(const std::string&, int level, const std::string& fileName);
+    static void disableFileLogging();
 
-    static std::string getLevelAsString();
+    static std::string getCurrentLevelAsString();
 
     static std::string getFileName();
+
+    static std::string levelToString(int level);
+
+    static Level stringToLevel(const std::string& str);
 };
 
 /**
@@ -103,8 +100,6 @@ public:
  */
 enum LogLevel
 {
-    lShowAlways = Logger::PRIO_FATAL,
-    lError      = Logger::PRIO_ERROR,
     lWarning    = Logger::PRIO_WARNING,
     lInfo       = Logger::PRIO_INFORMATION,
     lDebug      = Logger::PRIO_DEBUG,
@@ -144,6 +139,5 @@ RR_DECLSPEC Poco::Logger &getLogger();
 
 } /* namespace rr */
 
-#include "rrLogLevel.h"
 
 #endif /* rrLoggerH */

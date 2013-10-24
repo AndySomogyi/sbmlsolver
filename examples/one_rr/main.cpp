@@ -25,7 +25,7 @@ int main(int argc, char** argv)
         opt.modelGeneratorOpt |= LoadSBMLOptions::ForceReCompile;
         if(!rr1.load(modelFile, &opt))
         {
-            Log(lError)<<"There was a problem loading model in file: "<<modelFile;
+            Log(Logger::PRIO_ERROR)<<"There was a problem loading model in file: "<<modelFile;
             throw(Exception("Bad things in loadSBMLFromFile function"));
         }
 
@@ -35,7 +35,7 @@ int main(int argc, char** argv)
     }
     catch(const Exception& ex)
     {
-        Log(lError)<<"There was a  problem: "<<ex.getMessage();
+        Log(Logger::PRIO_ERROR)<<"There was a  problem: "<<ex.getMessage();
     }
 
 //    Pause(true);

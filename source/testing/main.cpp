@@ -64,8 +64,7 @@ int main(int argc, char* argv[])
     if(doLogging)
     {
         string logFile = joinPath(gTempFolder, "RoadRunner.log");
-        gLog.init("", lDebug5);//, unique_ptr<LogFile>(new LogFile(logFile)));
-        Logger::enableLoggingToConsole();
+        Logger::enableConsoleLogging(Logger::PRIO_DEBUG);
     }
 
     fstream aFile(reportFile.c_str(), ios::out);

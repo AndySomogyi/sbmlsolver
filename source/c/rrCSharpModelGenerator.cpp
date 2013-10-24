@@ -74,12 +74,12 @@ string CSharpModelGenerator::generateModelCode(const string& sbmlStr, const bool
         msg = mLibStruct->loadSBML(sASCII);
         if(!msg.size())
         {
-            Log(lError)<<"Failed loading sbml into StructAnalysis";
+            Log(Logger::PRIO_ERROR)<<"Failed loading sbml into StructAnalysis";
         }
     }
     catch(...)
     {
-        Log(lError)<<"Failed loading sbml into StructAnalysis";
+        Log(Logger::PRIO_ERROR)<<"Failed loading sbml into StructAnalysis";
     }
 
 
@@ -168,7 +168,7 @@ string CSharpModelGenerator::convertUserFunctionExpression(const string& equatio
 {
     if(!equation.size())
     {
-        Log(lError)<<"The equation string supplied to "<<__FUNCTION__<<" is empty";
+        Log(Logger::PRIO_ERROR)<<"The equation string supplied to "<<__FUNCTION__<<" is empty";
         return "";
     }
     Scanner s;

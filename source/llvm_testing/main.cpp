@@ -66,6 +66,7 @@ int main(int argc, char* argv[])
     const char* compiler = "llvm";
 
 
+
     if (argc > 1)
     {
         TestRoadRunner::testLogging(argv[1]);
@@ -76,6 +77,8 @@ int main(int argc, char* argv[])
     }
 
     return 0;
+
+
 
 
 
@@ -104,7 +107,7 @@ int main(int argc, char* argv[])
 
 
 
-    Logger::enableLoggingToConsole();
+    Logger::enableConsoleLogging();
 
     Logger::setLevel(Logger::PRIO_TRACE);
 
@@ -205,7 +208,7 @@ int main(int argc, char* argv[])
     }
     catch (std::exception &e)
     {
-        Log(lError) << "Error with test " << pairs[testCase].first << ", " << pairs[testCase].second
+        Log(Logger::PRIO_ERROR) << "Error with test " << pairs[testCase].first << ", " << pairs[testCase].second
                 << ": " << e.what();
     }
     //}

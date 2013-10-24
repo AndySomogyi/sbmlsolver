@@ -12,7 +12,7 @@ class Args
     public:
                                         Args();
         virtual                        ~Args(){}
-        LogLevel                        CurrentLogLevel;           //option v:
+        Logger::Level                   CurrentLogLevel;           //option v:
         string                          ModelFileName;      //option m:
         bool                            SaveResultToFile;   //option f
         string                          DataOutputFolder;   //option d:
