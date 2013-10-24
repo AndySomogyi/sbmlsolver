@@ -47,7 +47,7 @@ class RRP_DECLSPEC PluginManager : public Configurable
         Plugin*                         createCPlugin(SharedLibrary *libHandle);
 
     public:
-                                        PluginManager(const string& pluginFolder = gEmptyString, const bool& autoLoad = false, RoadRunner* aRR = NULL);
+                                        PluginManager(RoadRunner* aRR = NULL, const string& pluginFolder = gEmptyString, const bool& autoLoad = false);
         virtual                        ~PluginManager();
         bool                            setPluginDir(const std::string& dir);
         string                          getPluginDir();

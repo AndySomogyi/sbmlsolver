@@ -28,7 +28,7 @@ void Capabilities::clear()
     mCapabilities.clear();
 }
 
-Capability*    Capabilities::operator[](int i)
+Capability* Capabilities::operator[](int i)
 {
     if(mCapabilities.size())
     {
@@ -37,7 +37,7 @@ Capability*    Capabilities::operator[](int i)
     return NULL;
 }
 
-Capability*    Capabilities::get(const string& capName)
+Capability* Capabilities::get(const string& capName)
 {
     for(int i = 0; i < count(); i++)
     {
@@ -62,6 +62,18 @@ StringList Capabilities::asStringList()
     }
 
     return caps;
+}
+string Capabilities::info() const
+{
+    stringstream st;
+    vector<Capability*>::iterator iter;
+
+    for(iter = mCapabilities.begin(); iter != mCapabilities.end(); iter++)
+    {
+        Capability* aCap = (*iter);
+        st<<(*aCap);
+    }
+    return st.str();
 }
 
 u_int Capabilities::count()
@@ -95,7 +107,14 @@ bool Capabilities::setParameter(const string& name, const string& value)
     }
 
     return false;
+}
 
+ostream& operator<<(ostream& stream, const Capabilities& caps)
+{
+    stream<<"Capability: "<<caps.mName<<endl;
+    stream<<"Description: "<<caps.mDescription<<endl;
+    stream<<caps.info();
+    return stream;
 }
 
 }

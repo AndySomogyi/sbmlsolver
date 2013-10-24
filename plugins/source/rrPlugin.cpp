@@ -9,17 +9,17 @@
 using namespace std;
 namespace rrp
 {
-Plugin::Plugin(const std::string& name, const std::string& cat, RoadRunner* aRR, PluginWorkStartedCB fn1, PluginWorkFinishedCB fn2, const string& language)
+Plugin::Plugin(const std::string& name, const std::string& category, RoadRunner* aRR, PluginWorkStartedCB fn1, PluginWorkFinishedCB fn2, const string& language)
 :
 mName(name),
 mAuthor("Totte Karlsson"),
-mCategory(cat),
+mCategory(category),
 mVersion("0.1"),
 mCopyright("Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012"),
 mRR(aRR),
 mWorkStartedCB(fn1),
 mWorkFinishedCB(fn2),
-mCapabilities(name, "<none>"),
+mCapabilities(name, category),
 mImplementationLanguage(language)
 {}
 
@@ -143,6 +143,15 @@ string Plugin::getInfo() //Obs. subclasses may over ride this function and add m
     msg<<setw(30)<<left<<"Category"<<mCategory<<"\n";
     msg<<setw(30)<<left<<"Version"<<mVersion<<"\n";
     msg<<setw(30)<<left<<"Copyright"<<mCopyright<<"\n";
+    return msg.str();
+}
+
+string Plugin::getExtendedInfo()
+{
+    stringstream msg;
+    msg<<getInfo();
+    msg<<"\nCapabilities Info\n";
+    msg<<(*getCapabilities());
     return msg.str();
 }
 

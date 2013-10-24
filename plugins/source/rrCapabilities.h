@@ -20,6 +20,7 @@ class RRP_DECLSPEC Capabilities
     protected:
         string                          mName;
         string                          mDescription;
+        mutable
         vector<Capability*>             mCapabilities;
 
     public:
@@ -27,11 +28,15 @@ class RRP_DECLSPEC Capabilities
         void                            add(Capability& capability);
 
         StringList                      asStringList();
+        string                          info() const;
         u_int                           count();
         void                            clear();
         Capability*                     operator[](int i);
         Capability*                     get(const string& capName);
         bool                            setParameter(const string& name, const string& value);
+
+        RRP_DECLSPEC
+        friend ostream&                 operator<<(ostream& stream, const Capabilities& caps);
 };
 
 }

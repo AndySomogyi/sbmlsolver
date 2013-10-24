@@ -77,7 +77,7 @@ RRPluginManagerHandle rrpCallConv createPluginManager(RRHandle rrHandle)
         std::string pluginDir = joinPath(
                 getParentFolder(gDefaultSupportCodeFolder), "plugins");
 
-        PluginManager* pm = new PluginManager(pluginDir, false, rr);
+        PluginManager* pm = new PluginManager(rr, pluginDir, false);
         pluginManagers.insert(pm);
 
         Log(Logger::PRIO_NOTICE) << __FUNC__ << " created plugin manager: " << pm;
@@ -94,7 +94,7 @@ RRPluginManagerHandle rrpCallConv createPluginManagerEx(const char* pluginDir, b
     try
     {
         RoadRunner *rr = static_cast<RoadRunner*>(rrHandle);
-        PluginManager* pm = new PluginManager(pluginDir, autoLoad, rr);
+        PluginManager* pm = new PluginManager(rr, pluginDir, autoLoad);
         pluginManagers.insert(pm);
         return pm;
     }

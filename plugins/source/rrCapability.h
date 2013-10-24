@@ -28,7 +28,7 @@ class RRP_DECLSPEC Capability
         void                                addParameter(BaseParameter* me);
         string                              asString() const;
         u_int                               nrOfParameters() const;
-        rrp::BaseParameter&                  operator[](const int& i);
+        BaseParameter&                      operator[](const int& i);
         string                              getName() const;
         string                              getDescription() const;
         string                              getMethod() const;

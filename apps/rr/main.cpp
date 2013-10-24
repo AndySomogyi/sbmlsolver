@@ -48,7 +48,6 @@ int main(int argc, char * argv[])
         ProcessCommandLineArguments(argc, argv, args);
 
         gLog.setLevel(args.CurrentLogLevel);
-        string logFileName;
 
         string thisExeFolder = getCurrentExeFolder();
         Log(lDebug)<<"RoadRunner bin location is: "<<thisExeFolder;
@@ -73,12 +72,13 @@ int main(int argc, char * argv[])
         {
             string logName = getFileName(args.ModelFileName);
             logName = changeFileExtensionTo(logName, ".log");
-            gLog.init("", gLog.getLevel());
+            gLog.init("", gLog.getLevel(), logName);
         }
         else
         {
             gLog.init("", gLog.getLevel());
         }
+
 
         Log(lInfo)<<"Logs are going to "<<gLog.getFileName();
         Log(lInfo)<<"Log level is:" <<GetLogLevelAsString(gLog.getLevel());

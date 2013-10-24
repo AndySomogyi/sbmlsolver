@@ -33,7 +33,7 @@ class RRP_DECLSPEC BaseParameter
         string                              getHint() const;
         virtual string                      getValueAsString() const;
         virtual void*                       getValueAsPointer() = 0;
-        virtual    void                     setValueFromString(const string& value) = 0;
+        virtual void                        setValueFromString(const string& value) = 0;
         virtual string                      getType() const = 0;
 };
 

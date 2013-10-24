@@ -1,5 +1,6 @@
 #pragma hdrstop
 #include <sstream>
+#include <string>
 #include "Poco/Glob.h"
 #include "Poco/SharedLibrary.h"
 #include "rrPluginManager.h"
@@ -14,6 +15,8 @@
 
 namespace rrp
 {
+static bool hasFileExtension(const string& fName);
+static char* getPluginExtension();
 
 using namespace std;
 using Poco::SharedLibrary;
@@ -25,19 +28,12 @@ typedef bool        (*destroyRRPluginFunc)(Plugin* );
 
 bool destroyRRPlugin(Plugin *plugin);
 
-PluginManager::PluginManager(const std::string& folder, const bool& autoLoad, RoadRunner* aRR)
+PluginManager::PluginManager(RoadRunner* aRR, const std::string& folder, const bool& autoLoad)
 :
 mPluginFolder(folder),
-mRR(aRR)
+mRR(aRR),
+mPluginExtension(getPluginExtension())
 {
-#if defined(_WIN32)
-    mPluginExtension = "dll";
-#elif defined(UNIX)
-    mPluginExtension = "a";
-#else
-    // OSX
-    mPluginExtension = "dylib";
-#endif
 
     if(autoLoad)
     {
@@ -55,7 +51,8 @@ void PluginManager::setRoadRunner(RoadRunner* aRR)
 
 bool PluginManager::setPluginDir(const string& dir)
 {
-    return false;
+    mPluginFolder = dir;
+    return folderExists(mPluginFolder);
 }
 
 string PluginManager::getPluginDir()
@@ -127,11 +124,17 @@ bool PluginManager::load(const string& pluginName)
     return result;
 }
 
-bool PluginManager::loadPlugin(const string& libName)
+bool PluginManager::loadPlugin(const string& _libName)
 {
     stringstream msg;
     try
     {
+        string libName(_libName);
+        if(!hasFileExtension(libName))
+        {
+            libName = libName + "." + getPluginExtension();
+        }
+
         SharedLibrary *libHandle = new SharedLibrary;
         libHandle->load(joinPath(mPluginFolder, libName));
 
@@ -241,14 +244,13 @@ bool PluginManager::unloadAll()
 bool PluginManager::unload(Plugin* plugin)
 {
     bool result(false);
-    int nrPlugins = getNumberOfPlugins();    
-	//Todo: test..!
-    for(vector< pair< Poco::SharedLibrary*, Plugin* > >::iterator pluginIter = mPlugins.begin(); 
-			pluginIter != mPlugins.end(); pluginIter++)
+    int nrPlugins = getNumberOfPlugins();
+
+    //Todo: test..!
+    for(vector< pair< Poco::SharedLibrary*, Plugin* > >::iterator it = mPlugins.begin();
+            it != mPlugins.end(); it++)
     {
-		
-        //pluginIter = &(mPlugins[i]);
-        pair< Poco::SharedLibrary*, Plugin* >  *aPluginLib = &(*pluginIter);
+        pair< Poco::SharedLibrary*, Plugin* >  *aPluginLib = &(*it);
         if(aPluginLib)
         {
             SharedLibrary *pluginLibHandle    = aPluginLib->first;
@@ -269,8 +271,9 @@ bool PluginManager::unload(Plugin* plugin)
                 aPluginLib->first = NULL;
                 aPluginLib->second = NULL;
                 aPluginLib = NULL;
+                //mPlugins.erase(it);
                 result = true;
-                mPlugins.erase(pluginIter);
+                break;
             }
         }
     }
@@ -448,6 +451,24 @@ std::string PluginManager::getConfigurationXML()
 void PluginManager::setConfigurationXML(const std::string& xml)
 {
     Configurable::loadXmlConfig(xml, this);
+}
+
+char* getPluginExtension()
+{
+
+#if defined(_WIN32)
+    return "dll";
+#elif defined(UNIX)
+    return "a"; //?? not so??
+#else
+    // OSX
+    return "dylib";
+#endif
+}
+
+bool hasFileExtension(const string& fName)
+{
+    return (fName.find_last_of(".") != string::npos) ? true : false;
 }
 
 }

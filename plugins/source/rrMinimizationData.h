@@ -19,12 +19,12 @@ using std::ostream;
 class RRP_DECLSPEC MinimizationData
 {
     protected:
-        RoadRunnerData                  mObservedData;                //Observed data
-        RoadRunnerData                  mModelData;                    //Model data
-        RoadRunnerData                  mResidualsData;                //Residuals data
-        Parameters                      mParameters;                //Parameters to fit
-        Parameters                      mParametersOut;                //Parameters that was fitted
-        double                          mNorm;                        //Norm
+        RoadRunnerData                  mObservedData;                  //Observed data
+        RoadRunnerData                  mModelData;                     //Model data
+        RoadRunnerData                  mResidualsData;                 //Residuals data
+        Parameters                      mParameters;                    //Parameters to fit
+        Parameters                      mParametersOut;                 //Parameters that was fitted
+        double                          mNorm;                          //Norm
         StringList                      mObservedDataSelectionList;
         StringList                      mModelDataSelectionList;
 

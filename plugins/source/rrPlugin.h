@@ -3,10 +3,8 @@
 #include <sstream>
 #include <string>
 #include "rrp_exporter.h"
-#include "rrp_exporter.h"
 #include "rrOSSpecifics.h"
 #include "rrPluginExporter.h"
-#include "rrCapability.h"
 #include "rrCapabilities.h"
 #include "Configurable.h"
 
@@ -18,6 +16,7 @@ class RoadRunner;
 namespace rrp
 {
 using namespace rr;
+
 //Plugin callback functions
 #ifndef SWIG // these make SWIG really unhappy for some reason.
 typedef void    (rrCallConv *PluginWorkStartedCB)(void*);
@@ -41,10 +40,10 @@ class RRP_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
         string                          mImplementationLanguage;
 
         /**
-         * a borrowed reference to a RoadRunner instance which the plugin
-         * uses. n
+         * a pointer to a RoadRunner instance which the plugin
+         * uses.
          */
-        RoadRunner                      *mRR;
+        RoadRunner                     *mRR;
 
         //Plugin callbacks..
         PluginWorkStartedCB             mWorkStartedCB;
@@ -66,6 +65,8 @@ class RRP_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
         string                          getVersion();
         string                          getCopyright();
         string                          getInfo();
+        string                          getExtendedInfo();
+
         Capabilities*                   getCapabilities();
         Capability*                     getCapability(const string& name);
 
@@ -78,7 +79,6 @@ class RRP_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
         BaseParameter*                  getParameter(const string& param, Capability& capability);
         bool                            setParameter(const string& nameOf, const char* value,     Capability& capability);
 
-
         //Virtuals
         virtual string                  getResult();
         virtual bool                    isWorking();
@@ -90,7 +90,6 @@ class RRP_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
         virtual string                  getImplementationLanguage() = 0;
         virtual bool                    execute(void* userData = NULL) = 0;
 };
-
 
 }
 
