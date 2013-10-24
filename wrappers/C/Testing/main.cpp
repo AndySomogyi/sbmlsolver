@@ -30,14 +30,12 @@ bool setup(Args& args);
 int main(int argc, char* argv[])
 {
     cout << "RoadRunner SBML Test Suite" << endl;
-    #if defined(__CODEGEARC__)
-    cout << "built on " << __DATE__ <<" " << __TIME__ << endl;
-    #else
-    cout << "built on " << __TIMESTAMP__ << endl;
-    #endif
+
+    cout << "built on " << __DATE__ << ", " << __TIME__ << endl;
+
     cout << RoadRunner::getExtendedVersionInfo() << endl;
 
-    Logger::enableLoggingToConsole();
+    Logger::enableConsoleLogging();
 
     Args args;
     ProcessCommandLineArguments(argc, argv, args);

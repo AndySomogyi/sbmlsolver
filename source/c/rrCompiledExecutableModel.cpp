@@ -35,7 +35,7 @@ mDLL(dll)
     }
     else
     {
-        Log(lError)<<"The Model DLL is not loaded in CompiledExecutableModel ctor..";
+        Log(Logger::PRIO_ERROR)<<"The Model DLL is not loaded in CompiledExecutableModel ctor..";
     }
 }
 
@@ -283,7 +283,7 @@ bool CompiledExecutableModel::setupDLLFunctions()
     //Exported functions in the dll need to be assigned to a function pointer here..
     if(!mDLL->isLoaded())
     {
-        Log(lError)<<"DLL handle not valid in SetupModel function";
+        Log(Logger::PRIO_ERROR)<<"DLL handle not valid in SetupModel function";
         return false;
     }
 
@@ -357,7 +357,7 @@ void CompiledExecutableModel::setCompartmentVolumes()
 {
     if(!csetCompartmentVolumes)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
@@ -368,7 +368,7 @@ void  CompiledExecutableModel::setConcentration(int index, double value)
 {
     if(!csetConcentration)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
@@ -379,7 +379,7 @@ void  CompiledExecutableModel::evalReactionRates ()
 {
     if(!cComputeReactionRates)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
@@ -391,7 +391,7 @@ void CompiledExecutableModel::getRateRuleValues(double *rateRuleValues)
     vector<double> vals;
     if(!cGetCurrentValues)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
     }
 
     // in CModelGenerator::writeComputeRules, in effect, the following
@@ -420,7 +420,7 @@ double CompiledExecutableModel::getFloatingSpeciesConcentration(int index)
 {
     if(!cgetConcentration)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return 0;
     }
 
@@ -431,7 +431,7 @@ int CompiledExecutableModel::getNumLocalParameters(int reactionId)
 {
     if(!cgetNumLocalParameters)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return 0;
     }
 
@@ -442,7 +442,7 @@ void CompiledExecutableModel::initializeInitialConditions()
 {
     if(!cinitializeInitialConditions)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
     cinitializeInitialConditions(&mData);
@@ -453,7 +453,7 @@ void CompiledExecutableModel::setParameterValues()
 {
     if(!csetParameterValues)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
     csetParameterValues(&mData);
@@ -463,7 +463,7 @@ void CompiledExecutableModel::setBoundaryConditions()
 {
     if(!csetBoundaryConditions)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
     csetBoundaryConditions(&mData);
@@ -473,7 +473,7 @@ void CompiledExecutableModel::initializeRates()
 {
     if(!cInitializeRates)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
     cInitializeRates(&mData);
@@ -484,7 +484,7 @@ void CompiledExecutableModel::setRateRuleValues(const double *_rates)
 {
     if(!cAssignRates_b)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
     cAssignRates_b(&mData, _rates);
@@ -494,7 +494,7 @@ void CompiledExecutableModel::computeConservedTotals()
 {
     if(!ccomputeConservedTotals)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
     ccomputeConservedTotals(&mData);
@@ -504,7 +504,7 @@ void CompiledExecutableModel::computeEventPriorites()
 {
     if(!ccomputeEventPriorities)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
     ccomputeEventPriorities(&mData);
@@ -514,7 +514,7 @@ void CompiledExecutableModel::convertToAmounts()
 {
     if(!cconvertToAmounts)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
     cconvertToAmounts(&mData);
@@ -524,7 +524,7 @@ void CompiledExecutableModel::convertToConcentrations()
 {
     if(!cconvertToConcentrations)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
     cconvertToConcentrations(&mData);
@@ -534,7 +534,7 @@ void CompiledExecutableModel::updateDependentSpeciesValues()
 {
     if(!cupdateDependentSpeciesValues)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
@@ -546,7 +546,7 @@ void CompiledExecutableModel::computeRules()
 {
     if(!ccomputeRules)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
@@ -557,7 +557,7 @@ void CompiledExecutableModel::setInitialConditions()
 {
     if(!csetInitialConditions)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
@@ -568,7 +568,7 @@ void CompiledExecutableModel::computeAllRatesOfChange()
 {
     if(!ccomputeAllRatesOfChange)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
     ccomputeAllRatesOfChange(&mData);
@@ -578,7 +578,7 @@ void CompiledExecutableModel::evalModel(double timein, const double *y, double *
 {
     if(!cevalModel)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
@@ -608,7 +608,7 @@ void CompiledExecutableModel::evalEvents(const double timeIn, const double*y)
 {
     if(!cevalEvents)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
@@ -629,7 +629,7 @@ void CompiledExecutableModel::resetEvents()
 {
     if(!cresetEvents)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
@@ -640,7 +640,7 @@ void CompiledExecutableModel::evalInitialAssignments()
 {
     if(!cevalInitialAssignments)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 
@@ -651,7 +651,7 @@ void CompiledExecutableModel::testConstraints()
 {
     if(!ctestConstraints)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         throw(Exception("Problem in testConstraints"));
     }
 
@@ -662,7 +662,7 @@ void CompiledExecutableModel::initializeRateRuleSymbols()
 {
     if(!cInitializeRateRuleSymbols)
     {
-        Log(lError)<<"Tried to call NULL function in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Tried to call NULL function in "<<__FUNCTION__;
         return;
     }
 

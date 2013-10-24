@@ -45,7 +45,7 @@ bool CCompiler::setupCompiler(const string& supportCodeFolder)
 
     if(!folderExists(mSupportCodeFolder))
     {
-        Log(lError)<<"The roadrunner support code folder : "<<mSupportCodeFolder<<" does not exist.";
+        Log(Logger::PRIO_ERROR)<<"The roadrunner support code folder : "<<mSupportCodeFolder<<" does not exist.";
         return false;
     }
 
@@ -81,7 +81,7 @@ bool CCompiler::compileSource(const string& sourceFileName)
 
     if(!compile(exeCmd))
     {
-        Log(lError)<<"Creating DLL failed..";
+        Log(Logger::PRIO_ERROR)<<"Creating DLL failed..";
         throw Exception("Creating Model DLL failed..");
     }
 
@@ -105,7 +105,7 @@ bool CCompiler::setCompilerLocation(const string& path)
 {
     if(!folderExists(path))
     {
-        Log(lError)<<"Tried to set invalid path: "<<path<<" for compiler location";
+        Log(Logger::PRIO_ERROR)<<"Tried to set invalid path: "<<path<<" for compiler location";
         return false;
     }
     mCompilerLocation = path;
@@ -121,7 +121,7 @@ bool CCompiler::setSupportCodeFolder(const string& path)
 {
     if(!folderExists(path))
     {
-        Log(lError)<<"Tried to set invalid path: "<<path<<" for compiler location";
+        Log(Logger::PRIO_ERROR)<<"Tried to set invalid path: "<<path<<" for compiler location";
         return false;
     }
     mSupportCodeFolder = path;
@@ -275,8 +275,8 @@ bool CCompiler::compile(const string& cmdLine)
         // Retrieve the system error message for the last-error code
         DWORD errorCode = GetLastError();
         string anError = getWINAPIError(errorCode, TEXT("CreateFile"));
-        Log(lError)<<"WIN API Error (after CreateFile): "<<anError;
-        Log(lError)<<"Failed creating logFile for compiler output";
+        Log(Logger::PRIO_ERROR)<<"WIN API Error (after CreateFile): "<<anError;
+        Log(Logger::PRIO_ERROR)<<"Failed creating logFile for compiler output";
     }
 
     SetFilePointer(outFile, 0, NULL, FILE_END); //set pointer position to end file
@@ -315,7 +315,7 @@ bool CCompiler::compile(const string& cmdLine)
         DWORD errorCode = GetLastError();
 
         string anError = getWINAPIError(errorCode, TEXT("CreateProcess"));
-        Log(lError)<<"WIN API Error: (after CreateProcess) "<<anError;
+        Log(Logger::PRIO_ERROR)<<"WIN API Error: (after CreateProcess) "<<anError;
 
         // Close process and thread handles.
         CloseHandle(pi.hProcess);
@@ -376,7 +376,7 @@ bool CCompiler::compile(const string& cmdLine)
     }
     else
     {
-        Log(lError)<<"Compile system call returned: "<<val;
+        Log(Logger::PRIO_ERROR)<<"Compile system call returned: "<<val;
         return false;
     }
 }

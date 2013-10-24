@@ -57,16 +57,15 @@ extern "C"
 */
 enum  CLogLevel
     {
-        clError      = 0,
-        clWarning    = 1,
-        clInfo       = 2,
-        clDebug      = 3,
-        clDebug1     = 4,
-        clDebug2     = 5,
-        clDebug3     = 6,
-        clDebug4     = 7,
-        clDebug5     = 8,
-        clAny        = 9
+        CL_PRIO_CURRENT = 0, /// Use the current level -- don't change the level from what it is.
+        CL_PRIO_FATAL = 1,   /// A fatal error. The application will most likely terminate. This is the highest priority.
+        CL_PRIO_CRITICAL,    /// A critical error. The application might not be able to continue running successfully.
+        CL_PRIO_ERROR,       /// An error. An operation did not complete successfully, but the application as a whole is not affected.
+        CL_PRIO_WARNING,     /// A warning. An operation completed with an unexpected result.
+        CL_PRIO_NOTICE,      /// A notice, which is an information with just a higher priority.
+        CL_PRIO_INFORMATION, /// An informational message, usually denoting the successful completion of an operation.
+        CL_PRIO_DEBUG,       /// A debugging message.
+        CL_PRIO_TRACE        /// A tracing message. This is the lowest priority.
     };
 
 /*!
@@ -144,15 +143,15 @@ C_DECL_SPEC char* rrcCallConv getLogFileName(void);
 /*!
  \brief Create a log message
  \param lvl Loglevel for message
- \param msg Log message 
+ \param msg Log message
  \ingroup logging
 */C_DECL_SPEC void rrcCallConv logMsg(enum CLogLevel lvl, const char* msg);
 
 
 #if defined(__cplusplus)
-}	//Extern "C"
+}    //Extern "C"
 
-}	//rrc namespace
+}    //rrc namespace
 #endif
 
 #endif

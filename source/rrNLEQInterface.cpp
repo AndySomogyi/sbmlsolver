@@ -201,7 +201,7 @@ double NLEQInterface::solve(const vector<double>& yin)
     if(ierr > 0 )
     {
         string err = ErrorForStatus(ierr);
-        Log(lError)<<"Error :"<<err;
+        Log(Logger::PRIO_ERROR)<<"Error :"<<err;
         throw NLEQException(err);
     }
 

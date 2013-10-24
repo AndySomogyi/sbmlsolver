@@ -24,15 +24,12 @@ int main(int argc, char* argv[])
     try
     {
         cout << "RoadRunner SBML Tester" << endl;
-        #if defined(__CODEGEARC__)
-        cout << "Built on " << __DATE__ << " " <<__TIME__ <<endl;
-        #else
-        cout << "Built on " << __TIMESTAMP__ << endl;
-        #endif
+
+        cout << "Built on " << __DATE__ << " " << __TIME__ << endl;
 
         cout << RoadRunner::getExtendedVersionInfo() << endl;
 
-        Logger::enableLoggingToConsole();
+        Logger::enableConsoleLogging();
         Logger::setLevel(Logger::PRIO_NOTICE);
 
         Log(lDebug) << "hello";

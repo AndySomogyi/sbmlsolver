@@ -92,7 +92,7 @@ int CvodeInterface::allocateCvodeMem ()
     double t0 = 0.0;
     if(CVodeSetUserData(mCVODE_Memory, (void*) this) != CV_SUCCESS)
     {
-        Log(lError)<<"Problem in setting CVODE User data";
+        Log(Logger::PRIO_ERROR)<<"Problem in setting CVODE User data";
     }
 
     int result =  CVodeInit(mCVODE_Memory, InternalFunctionCall, t0, mStateVector);
@@ -247,7 +247,7 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
     }
     catch(const Exception& ex)
     {
-        Log(lError)<<"Problem in OneStep: "<<ex.getMessage()<<endl;
+        Log(Logger::PRIO_ERROR)<<"Problem in OneStep: "<<ex.getMessage()<<endl;
         initializeCVODEInterface(mModel);    //tk says ??? tk
         throw;
     }
@@ -258,7 +258,7 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
     CvodeInterface* cvInstance = (CvodeInterface*) userData;
     if(!cvInstance)
     {
-        Log(lError)<<"Problem in CVode Model Function!";
+        Log(Logger::PRIO_ERROR)<<"Problem in CVode Model Function!";
         return;
     }
 
@@ -283,7 +283,7 @@ void EventFcn(double time, double* y, double* gdot, void* userData)
     CvodeInterface* cvInstance = (CvodeInterface*) userData;
     if(!cvInstance)
     {
-        Log(lError)<<"Problem in CVode Model Function";
+        Log(Logger::PRIO_ERROR)<<"Problem in CVode Model Function";
         return;
     }
 
@@ -395,7 +395,7 @@ void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
     }
     catch (const Exception& ex)
     {
-        Log(lError)<<"Fatal Error while initializing CVODE: " << ex.getMessage();
+        Log(Logger::PRIO_ERROR)<<"Fatal Error while initializing CVODE: " << ex.getMessage();
         throw CVODEException("Fatal Error while initializing CVODE");
     }
 }
@@ -528,7 +528,7 @@ void CvodeInterface::handleCVODEError(const int& errCode)
 {
     if (errCode < 0)
     {
-        Log(lError) << "**************** Error in RunCVode: "
+        Log(Logger::PRIO_ERROR) << "**************** Error in RunCVode: "
                 << errCode << " ****************************" << endl;
         throw(Exception("Error in CVODE...!"));
     }

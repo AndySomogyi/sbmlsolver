@@ -544,7 +544,7 @@ bool RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
     //Finally intitilaize the model..
     if(!initializeModel())
     {
-        Log(lError)<<"Failed Initializing ExecutableModel";
+        Log(Logger::PRIO_ERROR)<<"Failed Initializing ExecutableModel";
         return false;
     }
 
@@ -657,7 +657,7 @@ double RoadRunner::steadyState()
     if (mUseKinsol)
     {
             //mSteadyStateSolver = NULL;//new KinSolveInterface(mModel);
-            Log(lError)<<"Kinsol solver is not enabled...";
+            Log(Logger::PRIO_ERROR)<<"Kinsol solver is not enabled...";
             return -1;
     }
 
@@ -670,7 +670,7 @@ double RoadRunner::steadyState()
     double ss = steadyStateSolver.solve(someAmounts);
     if(ss < 0)
     {
-        Log(lError)<<"Steady State solver failed...";
+        Log(Logger::PRIO_ERROR)<<"Steady State solver failed...";
     }
     mModel->convertToConcentrations();
 
@@ -2180,8 +2180,8 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
     }
     catch(const Exception& e)
     {
-        Log(lError)<<"Something went wrong in "<<__FUNCTION__;
-        Log(lError)<<"Exception "<<e.what()<< " thrown";
+        Log(Logger::PRIO_ERROR)<<"Something went wrong in "<<__FUNCTION__;
+        Log(Logger::PRIO_ERROR)<<"Exception "<<e.what()<< " thrown";
                 // What ever happens, make sure we restore the species level
         mModel->setFloatingSpeciesConcentrations(1, &speciesIndex, &originalParameterValue);
         return gDoubleNaN;
@@ -2558,7 +2558,7 @@ bool RoadRunner::setValue(const string& sId, double dValue)
 {
     if (!mModel)
     {
-        Log(lError)<<gEmptyModelMessage;
+        Log(Logger::PRIO_ERROR)<<gEmptyModelMessage;
         return false;
     }
 
@@ -2613,7 +2613,7 @@ bool RoadRunner::setValue(const string& sId, double dValue)
         return true;
     }
 
-    Log(lError)<<format("Given Id: '{0}' not found.", sId) + "Only species and global parameter values can be set";
+    Log(Logger::PRIO_ERROR)<<format("Given Id: '{0}' not found.", sId) + "Only species and global parameter values can be set";
     return false;
 }
 

@@ -37,7 +37,7 @@ int main(int argc, char * argv[])
     Args args;
     try
     {
-        Logger::enableLoggingToConsole();
+        Logger::enableConsoleLogging();
 
         if(argc < 2)
         {
@@ -73,18 +73,18 @@ int main(int argc, char * argv[])
         {
             string logName = getFileName(args.ModelFileName);
             logName = changeFileExtensionTo(logName, ".log");
-            gLog.init("", gLog.getLevel());
+            Logger::enableConsoleLogging(Logger::getLevel());
         }
         else
         {
-            gLog.init("", gLog.getLevel());
+            Logger::enableConsoleLogging(Logger::getLevel());
         }
 
-        Log(lInfo)<<"Logs are going to "<<gLog.getFileName();
-        Log(lInfo)<<"Log level is:" <<GetLogLevelAsString(gLog.getLevel());
+        Log(lInfo) << "Logs are going to " << Logger::getFileName();
+        Log(lInfo) << "Log level is:" << Logger::getCurrentLevelAsString();
         SBMLModelSimulation simulation(args.DataOutputFolder, args.TempDataFolder);
 
-        Log(lDebug)<<"Working Directory: "<<getCWD()<<endl;
+        Log(lDebug) << "Working Directory: "<<getCWD()<<endl;
 
 
         //Creating roadrunner
@@ -110,7 +110,7 @@ int main(int argc, char * argv[])
         simulation.ReCompileIfDllExists(true);
         if(doContinue && !simulation.LoadSBMLFromFile())
         {
-            Log(lError)<<"Failed loading SBML model";
+            Log(Logger::PRIO_ERROR)<<"Failed loading SBML model";
             doContinue = false;
         }
 
@@ -126,7 +126,7 @@ int main(int argc, char * argv[])
             {
                 if(!simulation.LoadSettings(settingsFile))    //set selection list here!
                 {
-                    Log(lError)<<"Failed loading SBML model settings";
+                    Log(Logger::PRIO_ERROR)<<"Failed loading SBML model settings";
                     doContinue = false;
                 }
             }
@@ -144,7 +144,7 @@ int main(int argc, char * argv[])
         //Then Simulate model
         if(doContinue && !simulation.Simulate())
         {
-            Log(lError)<<"Failed running simulation";
+            Log(Logger::PRIO_ERROR)<<"Failed running simulation";
             throw("Failed running simulation");
         }
 
@@ -162,7 +162,7 @@ int main(int argc, char * argv[])
             {
                 //Write to std out
                 RoadRunnerData result = simulation.GetResult();
-                Log(lShowAlways)<<result;
+                Log(Logger::PRIO_FATAL)<<result;
             }
         }
 
@@ -170,7 +170,7 @@ int main(int argc, char * argv[])
     }
     catch(rr::Exception& ex)
     {
-        Log(lError)<<"RoadRunner exception occurred: "<<ex.what()<<endl;
+        Log(Logger::PRIO_ERROR)<<"RoadRunner exception occurred: "<<ex.what()<<endl;
     }
 
     Log(lInfo)<<"RoadRunner is exiting...";
@@ -189,21 +189,22 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     {
         switch (c)
         {
-            case ('v'): args.CurrentLogLevel                = GetLogLevel(rrOptArg);     break;
-            case ('c'): args.OnlyCompile                    = true;                         break;
-            case ('p'): args.Pause                          = true;                         break;
-            case ('t'): args.TempDataFolder                 = rrOptArg;                       break;
-            case ('d'): args.DataOutputFolder               = rrOptArg;                       break;
-            case ('m'): args.ModelFileName                  = rrOptArg;                       break;
-            case ('u'): args.UseOSTempFolder                = true;                         break;
-            case ('l'): args.SelectionList                  = rrOptArg;                       break;
-            case ('s'): args.StartTime                      = toDouble(rrOptArg);             break;
-            case ('e'): args.EndTime                        = toDouble(rrOptArg);             break;
-            case ('z'): args.Steps                          = toInt(rrOptArg);                break;
-            case ('f'): args.SaveResultToFile               = true;                         break;
+            case ('v'): args.CurrentLogLevel                = Logger::stringToLevel(rrOptArg);     break;
+            case ('c'): args.OnlyCompile                    = true;                                break;
+            case ('p'): args.Pause                          = true;                                break;
+            case ('t'): args.TempDataFolder                 = rrOptArg;                            break;
+            case ('d'): args.DataOutputFolder               = rrOptArg;                            break;
+            case ('m'): args.ModelFileName                  = rrOptArg;                            break;
+            case ('u'): args.UseOSTempFolder                = true;                                break;
+            case ('l'): args.SelectionList                  = rrOptArg;                            break;
+            case ('s'): args.StartTime                      = toDouble(rrOptArg);                  break;
+            case ('e'): args.EndTime                        = toDouble(rrOptArg);                  break;
+            case ('z'): args.Steps                          = toInt(rrOptArg);                     break;
+            case ('f'): args.SaveResultToFile               = true;                                break;
             case ('?'):
             {
                     cout<<Usage(argv[0])<<endl;
+                    break;
             }
             default:
             {

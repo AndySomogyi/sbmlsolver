@@ -1056,14 +1056,14 @@ bool RunTest(const string& version, int caseNumber)
 
         if(!simulation.LoadSBMLFromFile())
         {
-            Log(lError)<<"Failed loading SBML model";
+            Log(Logger::PRIO_ERROR)<<"Failed loading SBML model";
             throw("Failed loading SBML model");
         }
         //Then read settings file if it exists..
         string settingsOveride("");
         if(!simulation.LoadSettings(settingsOveride))
         {
-            Log(lError)<<"Failed loading SBML model settings";
+            Log(Logger::PRIO_ERROR)<<"Failed loading SBML model settings";
             throw("Failed loading SBML model settings");
         }
 
@@ -1072,7 +1072,7 @@ bool RunTest(const string& version, int caseNumber)
         //Then Simulate model
          if(!simulation.Simulate())
         {
-            Log(lError)<<"Failed running simulation";
+            Log(Logger::PRIO_ERROR)<<"Failed running simulation";
             throw("Failed running simulation");
         }
 
@@ -1080,13 +1080,13 @@ bool RunTest(const string& version, int caseNumber)
         if(!simulation.SaveResult())
         {
             //Failed to save data
-            Log(lError)<<"Failed to save result";
+            Log(Logger::PRIO_ERROR)<<"Failed to save result";
             throw("Failed running simulation: Failed to save result");
         }
 
         if(!simulation.LoadReferenceData())
         {
-            Log(lError)<<"Failed loading reference data";
+            Log(Logger::PRIO_ERROR)<<"Failed loading reference data";
             throw("Failed loading reference data");
         }
 

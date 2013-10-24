@@ -30,7 +30,7 @@ TestBase::TestBase(const std::string& compiler, const std::string& version, int 
     {
         stringstream msg;
         msg<<"File: "<<fileName<<" does not exist";
-        Log(lError)<<msg.str();
+        Log(Logger::PRIO_ERROR)<<msg.str();
 
         throw std::runtime_error(msg.str());
     }
@@ -40,7 +40,7 @@ TestBase::TestBase(const std::string& compiler, const std::string& version, int 
     {
         stringstream msg;
         msg<<"Failed opening file: "<<fileName;
-        Log(lError)<<msg.str();
+        Log(Logger::PRIO_ERROR)<<msg.str();
 
         throw std::runtime_error(msg.str());
     }
