@@ -224,31 +224,22 @@ std::string Logger::levelToString(int level)
     {
     case Message::PRIO_FATAL:
         return "PRIO_FATAL";
-        break;
     case Message::PRIO_CRITICAL:
         return "PRIO_CRITICAL";
-        break;
     case Message::PRIO_ERROR:
         return "PRIO_ERROR";
-        break;
     case Message::PRIO_WARNING:
         return "PRIO_WARNING";
-        break;
     case Message::PRIO_NOTICE:
         return "PRIO_NOTICE";
-        break;
     case Message::PRIO_INFORMATION:
         return "PRIO_INFORMATION";
-        break;
     case Message::PRIO_DEBUG:
         return "PRIO_DEBUG";
-        break;
     case Message::PRIO_TRACE:
         return "PRIO_DEBUG";
-        break;
     default:
         return "UNKNOWN";
-        break;
     }
     return "UNKNOWN";
 }

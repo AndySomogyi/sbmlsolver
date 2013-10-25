@@ -100,6 +100,7 @@ public:
  */
 enum LogLevel
 {
+    lError      = Logger::PRIO_ERROR,
     lWarning    = Logger::PRIO_WARNING,
     lInfo       = Logger::PRIO_INFORMATION,
     lDebug      = Logger::PRIO_DEBUG,

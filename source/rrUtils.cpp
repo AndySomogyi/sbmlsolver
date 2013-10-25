@@ -55,8 +55,6 @@
 namespace rr
 {
 using namespace std;
-using namespace Poco;
-
 
 bool cleanFolder(const string& folder, const string& baseName, const std::vector<std::string>& extensions)
 {
@@ -136,7 +134,7 @@ static char rrGetch()
 
 string getMD5(const string& text)
 {
-    MD5Engine md5;
+    Poco::MD5Engine md5;
     md5.update(text);
     string digestString(Poco::DigestEngine::digestToHex(md5.digest()));
     return digestString;
@@ -624,7 +622,7 @@ int populateFileSet(const string& folder, set<string>& files)
 {
      //Get models file names in models folder
     string globPath =  rr::joinPath(folder, "*.xml");
-    Glob::glob(globPath, files);
+    Poco::Glob::glob(globPath, files);
     return files.size();
 }
 
