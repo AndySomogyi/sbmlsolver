@@ -28,7 +28,7 @@ bool TestCapabilities::test()
 
     std::string caps = rr.getConfigurationXML();
 
-    Log(Logger::PRIO_INFORMATION) << caps;
+    Log(Logger::INFORMATION) << caps;
 
 
     return true;

@@ -179,7 +179,7 @@ string getUsersTempDataFolder()
     DWORD dwRetVal = GetTempPathA(MAX_PATH, lpTempPathBuffer); // buffer for path
     if (dwRetVal > MAX_PATH || (dwRetVal == 0))
     {
-        Log(Logger::PRIO_ERROR)<<"GetTempPath failed";
+        Log(Logger::ERROR)<<"GetTempPath failed";
     }
     else
     {
@@ -214,7 +214,7 @@ string getCurrentExeFolder()
     }
     else
     {
-        Log(Logger::PRIO_ERROR) << "_NSGetExecutablePath failed";
+        Log(Logger::ERROR) << "_NSGetExecutablePath failed";
         return "";
     }
 #elif defined (__linux)
@@ -274,7 +274,7 @@ string getCWD()
     // Get the current working directory:
     if( (buffer = getcwd( NULL, 512 )) == NULL )
     {
-        Log(Logger::PRIO_ERROR)<<"getCWD failed";
+        Log(Logger::ERROR)<<"getCWD failed";
         return "";
     }
     else
@@ -317,7 +317,7 @@ vector<string> getLinesInFile(const string& fName)
     ifstream ifs(fName.c_str());
     if(!ifs)
     {
-        Log(Logger::PRIO_ERROR)<<"Failed opening file: "<<fName;
+        Log(Logger::ERROR)<<"Failed opening file: "<<fName;
         return lines;
     }
 
@@ -477,7 +477,7 @@ bool copyStdVectorToCArray(const vector<double>& src, double* dest,  int size)
 {
     if((size && !dest) || size > src.size())
     {
-        Log(Logger::PRIO_ERROR)<<"Tried to copy to NULL vector, or incompatible size of vectors";
+        Log(Logger::ERROR)<<"Tried to copy to NULL vector, or incompatible size of vectors";
         return false;
     }
 
@@ -492,7 +492,7 @@ bool copyStdVectorToCArray(const vector<bool>&   src,  bool*  dest,  int size)
 {
     if((size && !dest) || size > src.size())
     {
-        Log(Logger::PRIO_ERROR)<<"Tried to copy to NULL vector, or incompatible size of vectors";
+        Log(Logger::ERROR)<<"Tried to copy to NULL vector, or incompatible size of vectors";
         return false;
     }
 
@@ -508,7 +508,7 @@ vector<double> createVector(const double* src, const int& size)
     vector<double> dest;
     if(size && !src)
     {
-        Log(Logger::PRIO_ERROR)<<"Tried to copy from NULL vector";
+        Log(Logger::ERROR)<<"Tried to copy from NULL vector";
         return dest;
     }
 
@@ -524,7 +524,7 @@ bool copyCArrayToStdVector(const int* src, vector<int>& dest, int size)
 {
     if(size && !src)
     {
-        Log(Logger::PRIO_ERROR)<<"Tried to copy from NULL vector";
+        Log(Logger::ERROR)<<"Tried to copy from NULL vector";
         return false;
     }
 
@@ -540,7 +540,7 @@ bool copyCArrayToStdVector(const double* src, vector<double>& dest, int size)
 {
     if(size && !src)
     {
-        Log(Logger::PRIO_ERROR)<<"Tried to copy from NULL vector";
+        Log(Logger::ERROR)<<"Tried to copy from NULL vector";
         return false;
     }
 
@@ -556,7 +556,7 @@ bool copyCArrayToStdVector(const bool* src, vector<bool>& dest, int size)
 {
     if(size && !src)
     {
-        Log(Logger::PRIO_ERROR)<<"Tried to copy from NULL vector";
+        Log(Logger::ERROR)<<"Tried to copy from NULL vector";
         return false;
     }
 
@@ -573,7 +573,7 @@ double* createVector(const vector<double>& vec)
     double* avec = new double[vec.size()];
     if(!avec)
     {
-        Log(Logger::PRIO_ERROR)<<"Failed to allocate c vector";
+        Log(Logger::ERROR)<<"Failed to allocate c vector";
         return NULL;
     }
 
