@@ -44,11 +44,11 @@ SUITE(CORE_TESTS)
         int logLevel = rr::Logger::getLevel();
 
         RRHandle aRR = createRRInstanceEx(gTempFolder.c_str(), gCompiler.c_str());
-        rr::Logger::setLevel(rr::Logger::PRIO_INFORMATION);
+        rr::Logger::setLevel(rr::Logger::INFORMATION);
         enableLoggingToFile(aRR);
-        logMsg(clInfo, "A log message before closing the logger");
+        logMsg(CL_PRIO_INFORMATION, "A log message before closing the logger");
         disableLoggingToFile();
-        logMsg(clInfo, "This message is not written to the logger");
+        logMsg(CL_PRIO_INFORMATION, "This message is not written to the logger");
         freeRRInstance(aRR);
 
         // restore log level

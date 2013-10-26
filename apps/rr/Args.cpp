@@ -14,7 +14,7 @@ Args::Args()
 UseOSTempFolder(false),
 OnlyCompile(false),
 Pause(false),
-CurrentLogLevel(lInfo),
+CurrentLogLevel(Logger::INFORMATION),
 ModelFileName(""),
 DataOutputFolder(""),
 TempDataFolder("."),

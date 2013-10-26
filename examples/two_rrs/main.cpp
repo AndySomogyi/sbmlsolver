@@ -37,7 +37,7 @@ int main(int argc, char** argv)
     }
     catch(const Exception& ex)
     {
-        Log(lError)<<"There was a  problem: "<<ex.getMessage();
+        Log(Logger::ERROR)<<"There was a  problem: "<<ex.getMessage();
     }
 
     //Pause(true);

@@ -57,7 +57,7 @@ integratorFlags(0)
 
     if(!fname.size())
     {
-        Log(lError)<<"Empty file name for setings file";
+        Log(Logger::ERROR)<<"Empty file name for setings file";
     }
     else
     {

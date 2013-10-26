@@ -502,9 +502,9 @@ void LLVMModelDataSymbols::initGlobalParameters(const libsbml::Model* model)
     // finally set how many ind compartments we have
     independentGlobalParameterSize = indParam.size();
 
-    if (Logger::PRIO_INFORMATION <= getLogger().getLevel())
+    if (Logger::INFORMATION <= getLogger().getLevel())
     {
-        LoggingBuffer log(Logger::PRIO_INFORMATION, __FILE__, __LINE__);
+        LoggingBuffer log(Logger::INFORMATION, __FILE__, __LINE__);
 
         log.stream() << "found " << independentGlobalParameterSize
                 << " independent and " << depParam.size()
@@ -561,9 +561,9 @@ void LLVMModelDataSymbols::initBoundarySpecies(const libsbml::Model* model)
     // finally set how many we have
     independentBoundarySpeciesSize = indBndSpecies.size();
 
-    if (Logger::PRIO_INFORMATION <= getLogger().getLevel())
+    if (Logger::INFORMATION <= getLogger().getLevel())
     {
-        LoggingBuffer log(Logger::PRIO_INFORMATION, __FILE__, __LINE__);
+        LoggingBuffer log(Logger::INFORMATION, __FILE__, __LINE__);
 
         log.stream() << "found "
                 << indBndSpecies.size() << " independent and "
@@ -627,9 +627,9 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
     // finally set how many ind species we've found
     independentFloatingSpeciesSize = indFltSpecies.size();
 
-    if (Logger::PRIO_INFORMATION <= getLogger().getLevel())
+    if (Logger::INFORMATION <= getLogger().getLevel())
     {
-        LoggingBuffer log(Logger::PRIO_INFORMATION, __FILE__, __LINE__);
+        LoggingBuffer log(Logger::INFORMATION, __FILE__, __LINE__);
 
         log.stream() << "found " << indFltSpecies.size()
                             << " independent and " << depFltSpecies.size()
@@ -808,12 +808,12 @@ bool LLVMModelDataSymbols::isValidSpeciesReference(
         if  (isIndependentBoundarySpecies(id))
         {
             // fairly common
-            Log(Logger::PRIO_DEBUG) << err;
+            Log(Logger::DEBUG) << err;
         }
         else
         {
             // serious error
-            Log(Logger::PRIO_WARNING) << err;
+            Log(Logger::WARNING) << err;
         }
         return false;
     }
@@ -821,9 +821,9 @@ bool LLVMModelDataSymbols::isValidSpeciesReference(
 
 void LLVMModelDataSymbols::displayCompartmentInfo()
 {
-    if (Logger::PRIO_INFORMATION <= getLogger().getLevel())
+    if (Logger::INFORMATION <= getLogger().getLevel())
     {
-        LoggingBuffer log(Logger::PRIO_INFORMATION, __FILE__, __LINE__);
+        LoggingBuffer log(Logger::INFORMATION, __FILE__, __LINE__);
 
         log.stream() << "found " << independentCompartmentSize
                      << " independent and " << (compartmentsMap.size() -

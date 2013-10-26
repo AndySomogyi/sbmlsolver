@@ -30,7 +30,7 @@ TestBase::TestBase(const std::string& compiler, const std::string& version, int 
     {
         stringstream msg;
         msg<<"File: "<<fileName<<" does not exist";
-        Log(lError)<<msg.str();
+        Log(Logger::ERROR)<<msg.str();
 
         throw std::runtime_error(msg.str());
     }
@@ -40,7 +40,7 @@ TestBase::TestBase(const std::string& compiler, const std::string& version, int 
     {
         stringstream msg;
         msg<<"Failed opening file: "<<fileName;
-        Log(lError)<<msg.str();
+        Log(Logger::ERROR)<<msg.str();
 
         throw std::runtime_error(msg.str());
     }
@@ -48,7 +48,7 @@ TestBase::TestBase(const std::string& compiler, const std::string& version, int 
     std::string sbml((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
 
     ifs.close();
-    Log(Logger::PRIO_INFORMATION)
+    Log(Logger::INFORMATION)
         << "/*** SBML " << fileName << " ***/" << endl
         << sbml << endl
         << "/****************************************************************************************/"

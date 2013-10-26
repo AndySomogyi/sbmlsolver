@@ -356,12 +356,12 @@ void ConservationExtension::init()
     if (result != LIBSBML_OPERATION_SUCCESS)
     {
         const char* msg = "ConservationExtension::init() failed.";
-        Log(rr::Logger::PRIO_CRITICAL) << msg;
+        Log(rr::Logger::CRITICAL) << msg;
         throw std::runtime_error(msg);
     }
     else
     {
-        Log(rr::Logger::PRIO_NOTICE) << "successfully registered conservation extension";
+        Log(rr::Logger::NOTICE) << "successfully registered conservation extension";
     }
 }
 

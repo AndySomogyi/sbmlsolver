@@ -79,13 +79,13 @@ Plugin* PluginManager::operator[](const int& i)
 
 bool PluginManager::load(const string& pluginName)
 {
-    Log(Logger::PRIO_INFORMATION) << "load: " << pluginName;
+    Log(Logger::INFORMATION) << "load: " << pluginName;
 
     bool result = true;
     //Throw if plugin folder don't exist
     if(!folderExists(mPluginFolder))
     {
-        Log(lError)<<"Plugin folder: "<<mPluginFolder<<" do not exist..";
+        Log(Logger::ERROR)<<"Plugin folder: "<<mPluginFolder<<" do not exist..";
         return false;
     }
 
@@ -113,13 +113,13 @@ bool PluginManager::load(const string& pluginName)
             bool res = loadPlugin(plugin);
             if(!res)
             {
-                Log(lError)<<"There was a problem loading plugin: "<<plugin;
+                Log(Logger::ERROR)<<"There was a problem loading plugin: "<<plugin;
                 result = false;
             }
         }
         catch(...)
         {
-            Log(lError)<<"There was a serious problem loading plugin: "<<plugin;
+            Log(Logger::ERROR)<<"There was a serious problem loading plugin: "<<plugin;
             result = false;
         }
         //catch(poco exception....
@@ -192,13 +192,13 @@ bool PluginManager::loadPlugin(const string& libName)
     catch(const Exception& e)
     {
         msg<<"RoadRunner exception: "<<e.what()<<endl;
-        Log(lError)<<msg.str();
+        Log(Logger::ERROR)<<msg.str();
         return false;
     }
     catch(const Poco::Exception& ex)
     {
         msg<<"Poco exception: "<<ex.displayText()<<endl;
-        Log(lError)<<msg.str();
+        Log(Logger::ERROR)<<msg.str();
         return false;
     }
     catch(...)
@@ -289,7 +289,7 @@ bool PluginManager::checkImplementationLanguage(Poco::SharedLibrary* plugin)
     {
         stringstream msg;
         msg<<"Poco exception: "<<ex.displayText()<<endl;
-        Log(lError)<<msg.str();
+        Log(Logger::ERROR)<<msg.str();
         return false;
     }
 }
@@ -306,7 +306,7 @@ const char* PluginManager::getImplementationLanguage(Poco::SharedLibrary* plugin
     {
         stringstream msg;
         msg<<"Poco exception: "<<ex.displayText()<<endl;
-        Log(lError)<<msg.str();
+        Log(Logger::ERROR)<<msg.str();
         return NULL;
     }
 }
@@ -388,7 +388,7 @@ Plugin* PluginManager::createCPlugin(SharedLibrary *libHandle)
     }
     catch(const Poco::NotFoundException& ex)
     {
-        Log(lError)<<"Error in createCPlugin: " <<ex.message();
+        Log(Logger::ERROR)<<"Error in createCPlugin: " <<ex.message();
         return NULL;
     }
     return NULL;
@@ -424,7 +424,7 @@ _xmlNode* PluginManager::createConfigNode()
     for (std::vector< std::pair< Poco::SharedLibrary*, Plugin* > >::iterator i
             = mPlugins.begin(); i != mPlugins.end(); ++i)
     {
-        Log(Logger::PRIO_NOTICE) << "getting config for " << i->second->getName() << " plugin";
+        Log(Logger::NOTICE) << "getting config for " << i->second->getName() << " plugin";
         Configurable::addChild(capies, i->second->createConfigNode());
     }
 

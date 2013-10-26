@@ -57,6 +57,7 @@ if(WIN32)
         roadrunner-static
         unit_test-static${staticLibPrefix}
         poco_net-static
+        
         )
 endif()
 

@@ -120,7 +120,7 @@ RRHandle rrcCallConv createRRInstanceEx(const char* tempFolder, const char* comp
         {
             stringstream msg;
             msg<<"The temporary folder: "<<tempFolder<<" do not exist";
-            Log(lError)<<msg.str();
+            Log(Logger::ERROR)<<msg.str();
             throw(Exception(msg.str()));
         }
         else if(tempFolder)

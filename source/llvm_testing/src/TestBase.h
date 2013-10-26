@@ -25,10 +25,10 @@ public:
     virtual bool test() {return true;}
 
     ExecutableModel *model;
-    string version;
+    std::string version;
     int caseNumber;
-    string fileName;
-    string compiler;
+    std::string fileName;
+    std::string compiler;
 };
 
 } /* namespace rr */

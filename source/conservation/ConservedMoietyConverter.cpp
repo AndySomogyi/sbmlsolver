@@ -38,7 +38,7 @@
 using namespace std;
 using namespace libsbml;
 
-static const int loggingLevel = rr::Logger::PRIO_DEBUG;
+static const int loggingLevel = rr::Logger::DEBUG;
 
 namespace rr { namespace conservation {
 
@@ -238,7 +238,7 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
     if (doc->getLevel() != ConservationExtension::getDefaultLevel()
         || doc->getVersion() != ConservationExtension::getDefaultVersion())
     {
-        Log(rr::Logger::PRIO_NOTICE) << "source document is level " << doc->getLevel()
+        Log(rr::Logger::NOTICE) << "source document is level " << doc->getLevel()
                 << ", version " << doc->getVersion() << ", converting to"
                 << "level " << ConservationExtension::getDefaultLevel()
                 << ", version " << ConservationExtension::getDefaultVersion()
@@ -255,11 +255,11 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
 
         if ((result = versionConverter.convert()) != LIBSBML_OPERATION_SUCCESS)
         {
-            Log(rr::Logger::PRIO_ERROR) < "could not upgrade source sbml level or version";
+            Log(rr::Logger::ERROR) < "could not upgrade source sbml level or version";
 
             const SBMLErrorLog *log = doc->getErrorLog();
             string errors = log ? log->toString() : " NULL SBML Error Log";
-            Log(rr::Logger::PRIO_ERROR) << "Conversion Errors: " + errors;
+            Log(rr::Logger::ERROR) << "Conversion Errors: " + errors;
 
 
             return result;

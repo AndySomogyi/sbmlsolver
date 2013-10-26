@@ -56,7 +56,7 @@ Event::Event(LLVMExecutableModel& model, uint id) :
         std::memset(data, 0, dataSize * sizeof(double));
     }
 
-    Log(Logger::PRIO_DEBUG) << "created event at time " << model.getTime() <<
+    Log(Logger::DEBUG) << "created event at time " << model.getTime() <<
             ": " << *this;
 }
 
@@ -111,7 +111,7 @@ void Event::assign() const
     {
         model.getEventData(id, data);
     }
-    Log(Logger::PRIO_DEBUG) << "assigning event: " << *this;
+    Log(Logger::DEBUG) << "assigning event: " << *this;
     model.assignEvent(id, data);
 }
 
@@ -203,7 +203,7 @@ bool EventQueue::eraseExpiredEvents()
         }
         else
         {
-            Log(Logger::PRIO_DEBUG) << "removing expired event: " << *i;
+            Log(Logger::DEBUG) << "removing expired event: " << *i;
             i = c.erase(i);
             erased = true;
         }
@@ -223,11 +223,11 @@ bool EventQueue::applyEvent()
     bool applied = false;
     if (c.size())
     {
-        Log(Logger::PRIO_DEBUG) << "event list before sort: " << *this;
+        Log(Logger::DEBUG) << "event list before sort: " << *this;
 
         c.sort();
 
-        Log(Logger::PRIO_DEBUG) << "event list after sort, before apply: " << *this;
+        Log(Logger::DEBUG) << "event list after sort, before apply: " << *this;
 
         std::deque<iterator> ripe;
         iterator i = c.begin();
@@ -246,21 +246,21 @@ bool EventQueue::applyEvent()
             }
         }
 
-        Log(Logger::PRIO_DEBUG) << "found " << ripe.size() << " ripe events";
+        Log(Logger::DEBUG) << "found " << ripe.size() << " ripe events";
 
         if (ripe.size())
         {
             uint index = std::rand() % ripe.size();
             iterator i = ripe[index];
 
-            Log(Logger::PRIO_DEBUG) << "assigning the " << index << "\'th item";
+            Log(Logger::DEBUG) << "assigning the " << index << "\'th item";
             (*i).assign();
 
             c.erase(i);
 
             applied = true;
 
-            Log(Logger::PRIO_DEBUG) << "event list after apply: " << *this;
+            Log(Logger::DEBUG) << "event list after apply: " << *this;
         }
     }
 
