@@ -1,16 +1,16 @@
 #ifndef c_plugin_demoH
 #define c_plugin_demoH
-#include "rrPluginExporter.h"
-#include "rrCPluginFramework.h"
+//#include "rrPluginExporter.h"
+#include "../source/rrCPlugin.h"
 //-----------------------------------------------------------
 
 RRHandle gRR;
-const char*    PLUGIN_DECLSPEC rrCallConv getImplementationLanguage(void);
-const char*    PLUGIN_DECLSPEC rrCallConv getName(void);
-const char*    PLUGIN_DECLSPEC rrCallConv getCategory(void);
-bool     PLUGIN_DECLSPEC rrCallConv setupCPlugin(RRHandle aRR);
-bool     PLUGIN_DECLSPEC rrCallConv execute(void* userData);
-bool     PLUGIN_DECLSPEC rrCallConv destroyPlugin(RRPluginHandle plugin);
+PLUGIN_DECLSPEC const char*     rrpCallConv getImplementationLanguage(void);
+PLUGIN_DECLSPEC const char*     rrpCallConv getName(void);
+PLUGIN_DECLSPEC const char*     rrpCallConv getCategory(void);
+PLUGIN_DECLSPEC bool            rrpCallConv setupCPlugin(RRHandle aRR);
+PLUGIN_DECLSPEC bool            rrpCallConv execute(void* userData);
+PLUGIN_DECLSPEC bool            rrpCallConv destroyPlugin(RRPluginHandle plugin);
 
 #endif
 

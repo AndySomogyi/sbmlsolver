@@ -42,11 +42,11 @@ class LM : public Plugin
         bool                                    resetPlugin();
         bool                                    setInputData(void* data);
         string                                  getImplementationLanguage();
-        string                                    getStatus();
-        bool                                     isWorking();
+        string                                  getStatus();
+        bool                                    isWorking();
 
-        virtual _xmlNode *createConfigNode();
-        virtual void loadConfig(const _xmlDoc* doc);
+        virtual _xmlNode*                       createConfigNode();
+        virtual void                            loadConfig(const _xmlDoc* doc);
 };
 
 extern "C"

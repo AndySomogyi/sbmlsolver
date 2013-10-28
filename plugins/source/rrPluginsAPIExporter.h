@@ -22,6 +22,12 @@
     #define RR_PLUGIN_DECLSPEC
 #endif
 
+#if defined(_MSC_VER) || defined(__CODEGEARC__)
+    #define rrpCallConv __cdecl
+#else
+    #define rrpCallConv
+#endif
+
 #endif
 
 

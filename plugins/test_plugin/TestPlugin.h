@@ -1,44 +1,39 @@
 #ifndef TestPluginH
 #define TestPluginH
-#include "rrCPPPlugin.h"
-#include "rrCapability.h"
-#include "rrParameter.h"
+#include "../source/rrCPPPlugin.h"
+#include "../source/rrCapability.h"
+#include "../source/rrParameter.h"
 //---------------------------------------------------------------------------
 
 namespace TestPlugin
 {
-using namespace rr;
-
-class TestPlugin : public CPPPlugin
+class TestPlugin : public rrp::CPPPlugin
 {
     private:
-        Capability        mTestCapability;
-        Parameter<int>    mTestParameter;
+        rrp::Capability             mTestCapability;
+        rrp::Parameter<int>         mTestParameter;
 
     public:
-                        TestPlugin(rr::RoadRunner* aRR = NULL, int testParameter = 0);
-                       ~TestPlugin();
-        bool            execute(void* userData);
+                                    TestPlugin(rr::RoadRunner* aRR = NULL, int testParameter = 0);
+                                   ~TestPlugin();
+        bool                        execute(void* userData);
+        virtual _xmlNode*           createConfigNode(){return NULL;}
+        virtual void                loadConfig(const _xmlDoc* doc){}
 
 };
-
-/////////////////////////////////////////////////////////////////////////
-// Plugin factory functions. This is for plugins that create a class
-//If we are to create a plugin not in C++, then another set of API functions need to be
-//exposed..
 
 extern "C"
 {
 
-PLUGIN_DECLSPEC const char*    rrCallConv    getImplementationLanguage();
-rr::Plugin* PLUGIN_DECLSPEC    rrCallConv    createPlugin(rr::RoadRunner* aRR);
+RR_PLUGIN_DECLSPEC  const char*     rrpCallConv    getImplementationLanguage();
+RR_PLUGIN_DECLSPEC  TestPlugin*     rrpCallConv    createPlugin(rr::RoadRunner* aRR);
 
 // Plugin cleanup function
-PLUGIN_DECLSPEC bool           rrCallConv    destroyPlugin(rr::Plugin *plugin);
+RR_PLUGIN_DECLSPEC bool             rrpCallConv    destroyPlugin(rrp::Plugin *plugin);
 
 }
 
-}    //Namespace
+}    //Plugin Namespace
 
 
 
