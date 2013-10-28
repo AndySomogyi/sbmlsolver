@@ -11,7 +11,7 @@ typedef bool  (rrCallConv *executeFunc)(void*);
 /**
  * @internal
  */
-class RRP_DECLSPEC CPlugin : public Plugin
+class PLUGINS_API_DECLSPEC CPlugin : public Plugin
 {
     private:
 

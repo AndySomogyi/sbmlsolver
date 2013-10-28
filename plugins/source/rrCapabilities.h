@@ -1,7 +1,7 @@
 #ifndef rrCapabilitiesH
 #define rrCapabilitiesH
 #include <vector>
-#include "rrp_exporter.h"
+#include "rrPluginsAPIExporter.h"
 #include "rrCapability.h"
 #include "rrStringList.h"
 //---------------------------------------------------------------------------
@@ -15,7 +15,7 @@ using std::vector;
  * @internal
  * @deprecated
  */
-class RRP_DECLSPEC Capabilities
+class PLUGINS_API_DECLSPEC Capabilities
 {
     protected:
         string                          mName;
@@ -35,7 +35,7 @@ class RRP_DECLSPEC Capabilities
         Capability*                     get(const string& capName);
         bool                            setParameter(const string& name, const string& value);
 
-        RRP_DECLSPEC
+        PLUGINS_API_DECLSPEC
         friend ostream&                 operator<<(ostream& stream, const Capabilities& caps);
 };
 

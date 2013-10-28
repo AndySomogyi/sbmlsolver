@@ -9,7 +9,7 @@ namespace rrp
 /**
  * @internal
  */
-class RRP_DECLSPEC CPPPlugin : public Plugin
+class PLUGINS_API_DECLSPEC CPPPlugin : public Plugin
 {
     private:
 
