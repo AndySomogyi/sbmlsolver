@@ -160,7 +160,7 @@ LLVMExecutableModel::~LLVMExecutableModel()
     // smart ptr takes care of freeing resources
     LLVMModelData::freeBuffers(modelData);
 
-    Log(Logger::PRIO_DEBUG) << __FUNC__;
+    Log(Logger::DEBUG) << __FUNC__;
 }
 
 string LLVMExecutableModel::getModelName()
@@ -566,7 +566,7 @@ void LLVMExecutableModel::reset()
     // before the simulation starts.
     setTime(-1.0);
 
-    Log(Logger::PRIO_TRACE) << __FUNC__ << this;
+    Log(Logger::TRACE) << __FUNC__ << this;
 }
 
 bool LLVMExecutableModel::getConservedSumChanged()
@@ -582,7 +582,7 @@ int LLVMExecutableModel::getStateVector(double* stateVector)
 {
     if (stateVector == 0)
     {
-        Log(Logger::PRIO_TRACE) << __FUNC__ << ", stateVector: null, returning "
+        Log(Logger::TRACE) << __FUNC__ << ", stateVector: null, returning "
                 << modelData.numRateRules + modelData.numIndependentSpecies;
         return modelData.numRateRules + modelData.numIndependentSpecies;
     }
@@ -594,9 +594,9 @@ int LLVMExecutableModel::getStateVector(double* stateVector)
             modelData.numIndependentSpecies * sizeof(double));
 
 
-    if (Logger::PRIO_TRACE <= rr::Logger::getLevel()) {
+    if (Logger::TRACE <= rr::Logger::getLevel()) {
 
-        LoggingBuffer log(Logger::PRIO_TRACE, __FILE__, __LINE__);
+        LoggingBuffer log(Logger::TRACE, __FILE__, __LINE__);
 
         log.stream() << endl << __FUNC__ <<  ", Model: " << endl << this;
 
@@ -1025,7 +1025,7 @@ bool LLVMExecutableModel::applyEvents(unsigned char* prevEventState,
         bool c = getEventTrigger(i);
         currEventState[i] = c;
 
-        Log(Logger::PRIO_DEBUG) << "event " << i << ", previous state: " <<
+        Log(Logger::DEBUG) << "event " << i << ", previous state: " <<
                 (bool)prevEventState[i] << ", current state: " << (bool)c;
 
         // transition from non-triggered to triggered
@@ -1066,7 +1066,7 @@ bool LLVMExecutableModel::getEventTieBreak(uint eventA, uint eventB)
 
 
 
-    Log(Logger::PRIO_DEBUG) << "tie break, a: " << eventA << ", b: " <<
+    Log(Logger::DEBUG) << "tie break, a: " << eventA << ", b: " <<
             eventB << ", result: " << result;
 
     return result;

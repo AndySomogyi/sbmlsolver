@@ -17,7 +17,7 @@ include_directories(
 
 set(rrSources
     rrSteadyStateSolver
-	Configurable
+    Configurable
     rrConstants
     rrException
     rrGetOptions
@@ -46,8 +46,8 @@ set(rrSources
     rrSBMLModelSimulation
     rrSBMLReader
     mtrand/mtrand
-	c/rrStringBuilder
-	c/rrStringListContainer
+    c/rrStringBuilder
+    c/rrStringListContainer
     c/rrSBMLSymbolDependencies
     c/rrSBMLSymbol
     c/rrHashTable
@@ -69,6 +69,10 @@ set(rrSources
     c/rrModelSharedLibrary
     c/rrCModelDataUtil
     c/rrCompiledExecutableModel
+    conservation/ConservationExtension
+    conservation/ConservationDocumentPlugin
+    conservation/ConservedMoietyPlugin
+    conservation/ConservedMoietyConverter
     )
 
 # Add the LLVM sources to compilation

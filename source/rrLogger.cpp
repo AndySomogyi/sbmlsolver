@@ -7,6 +7,9 @@
 #include <Poco/ConsoleChannel.h>
 #include <Poco/SimpleFileChannel.h>
 #include <Poco/SplitterChannel.h>
+#include <Poco/FormattingChannel.h>
+#include <Poco/PatternFormatter.h>
+#include <Poco/Formatter.h>
 #include <Poco/AutoPtr.h>
 #include <Poco/LogStream.h>
 #include <Poco/Mutex.h>
@@ -25,13 +28,25 @@ using Poco::AutoPtr;
 using Poco::Message;
 using Poco::SimpleFileChannel;
 using Poco::SplitterChannel;
+using Poco::Formatter;
+using Poco::FormattingChannel;
+using Poco::PatternFormatter;
 using Poco::Mutex;
 
 // owned by poco, it takes care of clearing in static dtor.
 static Poco::Logger *pocoLogger = 0;
 volatile int logLevel = -1;
-const Logger::Level defaultLogLevel = Logger::PRIO_NOTICE;
+const Logger::Level defaultLogLevel = Logger::NOTICE;
 static std::string logFileName;
+
+// ******** The RoadRunner Logging Chain *************//
+// pocoLogger
+//     |-> FormattingChannel
+//             |-> SplitterChannel
+//                     |-> ConsoleChannel : consoleChannel
+//                     |-> SimpleFileChannel: simpleFileChannel
+//
+// ****************************************************//
 
 // owned by the poco splitter channel which in turn is owned by the
 // poco logger.
@@ -39,6 +54,16 @@ static SimpleFileChannel *simpleFileChannel = 0;
 static ConsoleChannel *consoleChannel = 0;
 
 static Mutex loggerMutex;
+
+/**
+ * get the splitter channel that is in our logging chain.
+ */
+static SplitterChannel* getSplitterChannel();
+
+/**
+ * get the pattern formatter that is in our logging chain.
+ */
+static PatternFormatter *getPatternFormatter();
 
 Poco::Logger& getLogger()
 {
@@ -52,20 +77,29 @@ Poco::Logger& getLogger()
         assert(consoleChannel == 0 && "consoleChannel is not null at init time");
         assert(simpleFileChannel == 0 && "simpleFileChannel is not null at init time");
 
-        SplitterChannel *splitter = new SplitterChannel();
-        pocoLogger->setChannel(splitter);
-        splitter->release();
+        // split the messages into console and file
+        AutoPtr<SplitterChannel> splitter(new SplitterChannel());
 
-        splitter = dynamic_cast<SplitterChannel*>(pocoLogger->getChannel());
-        assert(splitter && "could not get splitter channel from logger");
-
-        // default is console channel
+        // default is console channel,
+        // one of two possible terminal channels
         consoleChannel = new ConsoleChannel();
 
         // let the logger manage ownership of the channels, we keep then around
         // so we can know when to add or remove them.
         splitter->addChannel(consoleChannel);
         consoleChannel->release();
+
+        AutoPtr<PatternFormatter> pf(new PatternFormatter());
+        pf->setProperty("pattern", "%p: %t");
+
+        AutoPtr<FormattingChannel> fc(new FormattingChannel(pf, splitter));
+
+        // first in chain of channels
+        pocoLogger->setChannel(fc);
+
+        // sanity check here, make sure we're set up right
+        getSplitterChannel();
+        getPatternFormatter();
 
         pocoLogger->setLevel(defaultLogLevel);
 
@@ -82,7 +116,7 @@ void Logger::setLevel(int level)
     // make sure we have a logger, other funcs rely on this behavior.
     getLogger();
 
-    if (level >= PRIO_FATAL && level <= PRIO_TRACE)
+    if (level >= FATAL && level <= TRACE)
     {
         getLogger().setLevel(level);
         logLevel = level;
@@ -105,8 +139,7 @@ void Logger::disableLogging()
 
     getLogger();
 
-    SplitterChannel *splitter = dynamic_cast<SplitterChannel*>(pocoLogger->getChannel());
-    assert(splitter && "could not get splitter channel from logger");
+    SplitterChannel *splitter = getSplitterChannel();
 
     splitter->close();
 
@@ -123,16 +156,14 @@ void Logger::enableConsoleLogging(int level)
 
     if (!consoleChannel)
     {
-        SplitterChannel *channel = dynamic_cast<SplitterChannel*>(pocoLogger->getChannel());
-
-        assert(channel && "could not get splitter channel from logger");
+        SplitterChannel *splitter = getSplitterChannel();
 
         // default is console channel
         consoleChannel = new ConsoleChannel();
 
         // let the logger manage ownership of the channels, we keep then around
         // so we can know when to add or remove them.
-        channel->addChannel(consoleChannel);
+        splitter->addChannel(consoleChannel);
 
         consoleChannel->release();
     }
@@ -144,8 +175,7 @@ void Logger::disableFileLogging()
 
     if (simpleFileChannel)
     {
-        SplitterChannel *splitter = dynamic_cast<SplitterChannel*>(pocoLogger->getChannel());
-        assert(splitter && "could not get splitter channel from logger");
+        SplitterChannel *splitter = getSplitterChannel();
 
         splitter->removeChannel(simpleFileChannel);
         simpleFileChannel = 0;
@@ -161,8 +191,7 @@ void Logger::enableFileLogging(const std::string& fileName, int level)
 
     if (!simpleFileChannel)
     {
-        SplitterChannel *splitter = dynamic_cast<SplitterChannel*>(pocoLogger->getChannel());
-        assert(splitter && "could not get splitter channel from logger");
+        SplitterChannel *splitter = getSplitterChannel();
 
         simpleFileChannel = new SimpleFileChannel();
         simpleFileChannel->setProperty("path", fileName);
@@ -175,46 +204,86 @@ void Logger::enableFileLogging(const std::string& fileName, int level)
     }
 }
 
+
+void Logger::setFormattingPattern(const std::string &pattern)
+{
+    Mutex::ScopedLock lock(loggerMutex);
+
+    PatternFormatter *p = getPatternFormatter();
+    if (p)
+    {
+        p->setProperty(PatternFormatter::PROP_PATTERN, pattern);
+    }
+}
+
+std::string Logger::getFormattingPattern()
+{
+    Mutex::ScopedLock lock(loggerMutex);
+
+    PatternFormatter *p = getPatternFormatter();
+    return p ? p->getProperty(PatternFormatter::PROP_PATTERN) : string();
+}
+
+static SplitterChannel* getSplitterChannel()
+{
+    getLogger();
+    FormattingChannel *fc = dynamic_cast<FormattingChannel*>(pocoLogger->getChannel());
+    assert(fc && "the first channel in the roadrunner logger should be a formatting channel");
+    SplitterChannel *sc = dynamic_cast<SplitterChannel*>(fc->getChannel());
+    assert(sc && "could not get SplitterChannel from FormattingChannel");
+    return sc;
+}
+
+static PatternFormatter *getPatternFormatter()
+{
+    getLogger();
+    FormattingChannel *fc = dynamic_cast<FormattingChannel*>(pocoLogger->getChannel());
+    assert(fc && "the first channel in the roadrunner logger should be a formatting channel");
+    PatternFormatter *pf = dynamic_cast<PatternFormatter*>(fc->getFormatter());
+    assert(pf && "formatter attached to pattern formatter is not a PatternFormatter");
+    return pf;
+}
+
 Logger::Level Logger::stringToLevel(const std::string& str)
 {
     std::string upstr = str;
     std::transform(upstr.begin(), upstr.end(), upstr.begin(), ::toupper);
 
-    if (upstr == "PRIO_FATAL")
+    if (upstr == "FATAL")
     {
-        return PRIO_FATAL;
+        return FATAL;
     }
-    else if(upstr == "PRIO_CRITICAL")
+    else if(upstr == "CRITICAL")
     {
-        return PRIO_CRITICAL;
+        return CRITICAL;
     }
-    else if(upstr == "PRIO_ERROR")
+    else if(upstr == "ERROR")
     {
-        return PRIO_ERROR;
+        return ERROR;
     }
-    else if(upstr == "PRIO_WARNING")
+    else if(upstr == "WARNING")
     {
-        return PRIO_WARNING;
+        return WARNING;
     }
-    else if(upstr == "PRIO_NOTICE")
+    else if(upstr == "NOTICE")
     {
-        return PRIO_NOTICE;
+        return NOTICE;
     }
-    else if(upstr == "PRIO_INFORMATION")
+    else if(upstr == "INFORMATION")
     {
-        return PRIO_INFORMATION;
+        return INFORMATION;
     }
-    else if(upstr == "PRIO_DEBUG")
+    else if(upstr == "DEBUG")
     {
-        return PRIO_DEBUG;
+        return DEBUG;
     }
-    else if(upstr == "PRIO_TRACE")
+    else if(upstr == "TRACE")
     {
-        return PRIO_DEBUG;
+        return DEBUG;
     }
     else
     {
-        return PRIO_CURRENT;
+        return CURRENT;
     }
 }
 
@@ -223,21 +292,29 @@ std::string Logger::levelToString(int level)
     switch (level)
     {
     case Message::PRIO_FATAL:
-        return "PRIO_FATAL";
+        return "FATAL";
+        break;
     case Message::PRIO_CRITICAL:
-        return "PRIO_CRITICAL";
+        return "CRITICAL";
+        break;
     case Message::PRIO_ERROR:
-        return "PRIO_ERROR";
+        return "ERROR";
+        break;
     case Message::PRIO_WARNING:
-        return "PRIO_WARNING";
+        return "WARNING";
+        break;
     case Message::PRIO_NOTICE:
-        return "PRIO_NOTICE";
+        return "NOTICE";
+        break;
     case Message::PRIO_INFORMATION:
-        return "PRIO_INFORMATION";
+        return "INFORMATION";
+        break;
     case Message::PRIO_DEBUG:
-        return "PRIO_DEBUG";
+        return "DEBUG";
+        break;
     case Message::PRIO_TRACE:
-        return "PRIO_DEBUG";
+        return "DEBUG";
+        break;
     default:
         return "UNKNOWN";
     }
@@ -255,7 +332,7 @@ void Logger::disableConsoleLogging()
 
     if (consoleChannel)
     {
-        SplitterChannel *splitter = dynamic_cast<SplitterChannel*>(pocoLogger->getChannel());
+        SplitterChannel *splitter = getSplitterChannel();
         assert(splitter && "could not get splitter channel from logger");
 
         splitter->removeChannel(consoleChannel);

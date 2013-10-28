@@ -487,7 +487,7 @@ static SBMLDocument *checkedReadSBMLFromString(const char* xml)
         {
             SBMLErrorLog *log = doc->getErrorLog();
             string errors = log ? log->toString() : " NULL SBML Error Log";
-            Log(rr::Logger::PRIO_WARNING) << "Warning, errors found in sbml document: " + errors;
+            Log(rr::Logger::WARNING) << "Warning, errors found in sbml document: " + errors;
         }
     }
     else

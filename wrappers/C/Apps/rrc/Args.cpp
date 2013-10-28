@@ -9,7 +9,7 @@ using namespace std;
 Args::Args()
 :
 Pause(false),
-CurrentLogLevel(Logger::PRIO_INFORMATION),
+CurrentLogLevel(Logger::INFORMATION),
 ModelFileName(""),
 InstallFolder(""),
 TempDataFolder("."),

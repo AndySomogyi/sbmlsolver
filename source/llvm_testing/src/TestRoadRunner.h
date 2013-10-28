@@ -57,13 +57,24 @@ public:
 
     static void testLoad(const std::string& uri);
 
+
+    static void testCons1();
+
+
+    static void testCons2(const std::string& srcFile);
+
     static void testLogging(const std::string& logFileName);
+
+
+    static void testRead(const std::string &srcFile);
+
 
     static void test_fs75();
 
     static void test_fs74();
 
     static void test_fs73();
+
 
 };
 
