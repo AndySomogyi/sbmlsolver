@@ -4,8 +4,7 @@
 #include "rrParameter.h"
 #include "rrPlugin.h"
 #include "add_noise_thread.h"
-#include "rrp_exporter.h"
-#include "rrp_types.h"
+
 //---------------------------------------------------------------------------
 
 namespace addNoise
@@ -25,7 +24,7 @@ class AddNoise : public Plugin
         enum NoiseType {ntGaussian = 0};
 
     private:
-        Capability               mAddNoise;
+        Capability              mAddNoise;
 
         Parameter<NoiseType>    mNoiseType;
         Parameter<double>       mSigma;

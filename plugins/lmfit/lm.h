@@ -6,7 +6,6 @@
 #include "rrPlugin.h"
 #include "rrRoadRunner.h"
 #include "rrMinimizationData.h"
-#include "rrp_types.h"
 #include "lm_thread.h"
 //---------------------------------------------------------------------------
 
