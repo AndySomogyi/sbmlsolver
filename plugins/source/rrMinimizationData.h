@@ -12,7 +12,7 @@
 namespace rrp
 {
 using std::ostream;
-
+using rr::RoadRunnerData;
 /**
  * @internal
  */
@@ -75,7 +75,7 @@ inline std::string Parameter< MinimizationData >::getType() const
 template<>
 inline string Parameter< MinimizationData >::getValueAsString() const
 {
-    Log(lInfo)<<"Getting minimization data object as a string is not implemented";
+    Log(rr::lInfo)<<"Getting minimization data object as a string is not implemented";
     return "";//    throw("You can't get the value of this structure as string.. ");
 }
 
@@ -83,7 +83,7 @@ template<>
 inline void Parameter< MinimizationData >::setValueFromString(const string& val)
 {
     //We can't setup this data structure from a string... :(
-    Log(lInfo)<<"Setting minimization data object from string is not implemented";
+    Log(rr::lInfo)<<"Setting minimization data object from string is not implemented";
     return;
 }
 

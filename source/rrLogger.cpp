@@ -317,7 +317,6 @@ std::string Logger::levelToString(int level)
         break;
     default:
         return "UNKNOWN";
-        break;
     }
     return "UNKNOWN";
 }

@@ -72,7 +72,7 @@ int main(int argc, char * argv[])
         {
             string logName = getFileName(args.ModelFileName);
             logName = changeFileExtensionTo(logName, ".log");
-            gLog.init("", gLog.getLevel());
+            //gLog.init("", gLog.getLevel());
         }
         else
         {

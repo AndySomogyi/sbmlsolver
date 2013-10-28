@@ -184,7 +184,8 @@ BaseParameter* Plugin::getParameter(const string& para, const string& capability
     //If capability string is empty, search all capabilites
     if(capability.size())
     {
-        //Capability cap = get
+        Capability* cap = mCapabilities.get(capability);
+        return cap ? cap->getParameter(para) : NULL;
     }
     else    //Search all capabilities
     {

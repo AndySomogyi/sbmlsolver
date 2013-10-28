@@ -271,7 +271,7 @@ bool PluginManager::unload(Plugin* plugin)
                 aPluginLib->first = NULL;
                 aPluginLib->second = NULL;
                 aPluginLib = NULL;
-                //mPlugins.erase(it);
+                mPlugins.erase(it);
                 result = true;
                 break;
             }
