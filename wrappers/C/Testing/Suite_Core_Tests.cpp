@@ -44,7 +44,7 @@ SUITE(CORE_TESTS)
         int logLevel = rr::Logger::getLevel();
 
         RRHandle aRR = createRRInstanceEx(gTempFolder.c_str(), gCompiler.c_str());
-        rr::Logger::setLevel(rr::Logger::INFORMATION);
+        rr::Logger::setLevel(rr::Logger::LOG_INFORMATION);
         enableLoggingToFile(aRR);
         logMsg(CL_PRIO_INFORMATION, "A log message before closing the logger");
         disableLoggingToFile();

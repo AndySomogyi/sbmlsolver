@@ -161,7 +161,7 @@ bool setup(Args& args)
     gTestDataFolder      = joinPath(gRRInstallFolder, "testing");
 
     gCompiler = args.compiler;
-    Log(Logger::NOTICE) << "Using compiler " << gCompiler;
+    Log(Logger::LOG_NOTICE) << "Using compiler " << gCompiler;
 
 
     if(args.Suites.size() == 0)
@@ -175,11 +175,11 @@ bool setup(Args& args)
     if(gDebug)
     {
         enableLoggingToConsole();
-        Logger::setLevel(Logger::DEBUG);
+        Logger::setLevel(Logger::LOG_DEBUG);
     }
     else
     {
-        Logger::setLevel(Logger::NOTICE);
+        Logger::setLevel(Logger::LOG_NOTICE);
     }
 
     // set test suite model path (read from cmd line)
