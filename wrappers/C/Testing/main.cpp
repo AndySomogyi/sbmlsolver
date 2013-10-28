@@ -30,14 +30,12 @@ bool setup(Args& args);
 int main(int argc, char* argv[])
 {
     cout << "RoadRunner SBML Test Suite" << endl;
-    #if defined(__CODEGEARC__)
-    cout << "built on " << __DATE__ <<" " << __TIME__ << endl;
-    #else
-    cout << "built on " << __TIMESTAMP__ << endl;
-    #endif
+
+    cout << "built on " << __DATE__ << ", " << __TIME__ << endl;
+
     cout << RoadRunner::getExtendedVersionInfo() << endl;
 
-    Logger::enableLoggingToConsole();
+    Logger::enableConsoleLogging();
 
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
@@ -163,7 +161,7 @@ bool setup(Args& args)
     gTestDataFolder      = joinPath(gRRInstallFolder, "testing");
 
     gCompiler = args.compiler;
-    Log(Logger::PRIO_NOTICE) << "Using compiler " << gCompiler;
+    Log(Logger::NOTICE) << "Using compiler " << gCompiler;
 
 
     if(args.Suites.size() == 0)
@@ -177,11 +175,11 @@ bool setup(Args& args)
     if(gDebug)
     {
         enableLoggingToConsole();
-        Logger::setLevel(Logger::PRIO_DEBUG);
+        Logger::setLevel(Logger::DEBUG);
     }
     else
     {
-        Logger::setLevel(Logger::PRIO_NOTICE);
+        Logger::setLevel(Logger::NOTICE);
     }
 
     // set test suite model path (read from cmd line)

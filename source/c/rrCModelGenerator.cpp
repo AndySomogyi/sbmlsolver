@@ -707,7 +707,7 @@ int CModelGenerator::writeComputeRules(CodeBuilder& ignore, const int& numReacti
                     }
                     break;
                 case rtUnknown:
-                    Log(Logger::PRIO_ERROR) << "Unknown rule type in " << __FUNC__;
+                    Log(Logger::ERROR) << "Unknown rule type in " << __FUNC__;
                     break;
             }
 
@@ -1552,7 +1552,7 @@ string CModelGenerator::convertUserFunctionExpression(const string& equation)
 {
     if(!equation.size())
     {
-        Log(lError)<<"The equation string supplied to "<<__FUNCTION__<<" is empty";
+        Log(Logger::ERROR)<<"The equation string supplied to "<<__FUNCTION__<<" is empty";
         return "";
     }
     Scanner s;
@@ -2273,13 +2273,13 @@ bool CModelGenerator::generateModelCode(const string& sbml, const string& modelN
 
     if(!modelCode.size())
     {
-        Log(lError)<<"Failed to generate model code";
+        Log(Logger::ERROR)<<"Failed to generate model code";
         return false;
     }
 
     if(!saveSourceCodeToFolder(mTempFileFolder, modelName))
     {
-        Log(lError)<<"Failed saving generated source code";
+        Log(Logger::ERROR)<<"Failed saving generated source code";
     }
 
     return true;
@@ -2289,7 +2289,7 @@ bool CModelGenerator::compileModel()
 {
     if(!compileCurrentModel())
     {
-        Log(lError)<<"Failed compiling model";
+        Log(Logger::ERROR)<<"Failed compiling model";
         return false;
     }
 
@@ -2309,7 +2309,7 @@ bool CModelGenerator::compileCurrentModel()
     //Compile the model
     if(!mCompiler.compileSource(getSourceCodeFileName()))
     {
-        Log(lError)<<"Model failed compilation";
+        Log(Logger::ERROR)<<"Model failed compilation";
         return false;
     }
     Log(lDebug)<<"Model compiled successfully. ";
@@ -2331,7 +2331,7 @@ bool CModelGenerator::setTemporaryDirectory(const string& path)
     {
         stringstream msg;
         msg<<"The folder: "<<path<<" don't exist...";
-        Log(lError)<<msg.str();
+        Log(Logger::ERROR)<<msg.str();
         CoreException e(msg.str());
         throw(e);
     }
@@ -2400,13 +2400,13 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
         {
             if(!compileModel())
             {
-                Log(lError)<<"Failed to generate and compile model";
+                Log(Logger::ERROR)<<"Failed to generate and compile model";
                 return 0;
             }
 
             if(!mModelLib->load())
             {
-                Log(lError)<<"Failed to load model DLL";
+                Log(Logger::ERROR)<<"Failed to load model DLL";
                 return 0;
             }
         }
@@ -2417,7 +2417,7 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
             {
                 if(!mModelLib->load())
                 {
-                    Log(lError)<<"Failed to load model DLL";
+                    Log(Logger::ERROR)<<"Failed to load model DLL";
                     return 0;
                 }
             }
@@ -2430,7 +2430,7 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
     }//End of scope for compile Mutex
     catch(const Exception& ex)
     {
-        Log(lError)<<"Compiler problem: "<<ex.what();
+        Log(Logger::ERROR)<<"Compiler problem: "<<ex.what();
     }
 
     CompiledExecutableModel *model = 0;
@@ -2444,7 +2444,7 @@ ExecutableModel *CModelGenerator::createModel(const string& sbml, LibStructural 
     }
     else
     {
-        Log(lError)<<"Failed to create model from DLL";
+        Log(Logger::ERROR)<<"Failed to create model from DLL";
         model = NULL;
     }
 

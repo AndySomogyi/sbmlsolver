@@ -66,17 +66,34 @@ int main(int argc, char* argv[])
     const char* compiler = "llvm";
 
 
-    if (argc > 1)
+
+    if (argc > 2)
     {
-        TestRoadRunner::testLogging(argv[1]);
+        string rw = argv[2];
+        if (rw.size() > 0)
+        {
+            char c = rw[0];
+
+            if (c == 'r')
+            {
+                TestRoadRunner::testRead(argv[1]);
+            }
+            else
+            {
+                TestRoadRunner::testCons2(argv[1]);
+            }
+        }
+        else
+        {
+            cout << "invalid args" << endl;
+        }
     }
     else
     {
-        TestRoadRunner::testLogging("test.log");
+        cout << "error: no file given" << endl;
     }
 
     return 0;
-
 
 
 
@@ -104,9 +121,9 @@ int main(int argc, char* argv[])
 
 
 
-    Logger::enableLoggingToConsole();
+    Logger::enableConsoleLogging();
 
-    Logger::setLevel(Logger::PRIO_TRACE);
+    Logger::setLevel(Logger::TRACE);
 
 
     int testCase = 0;
@@ -120,7 +137,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    Log(Logger::PRIO_NOTICE) << "running test case " << testCase;
+    Log(Logger::NOTICE) << "running test case " << testCase;
 
 
     //runSparseTest(33, 323, 50);
@@ -205,7 +222,7 @@ int main(int argc, char* argv[])
     }
     catch (std::exception &e)
     {
-        Log(lError) << "Error with test " << pairs[testCase].first << ", " << pairs[testCase].second
+        Log(Logger::ERROR) << "Error with test " << pairs[testCase].first << ", " << pairs[testCase].second
                 << ": " << e.what();
     }
     //}

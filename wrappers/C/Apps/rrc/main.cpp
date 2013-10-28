@@ -29,35 +29,35 @@ int main(int argc, char* argv[])
     Args args;
     ProcessCommandLineArguments(argc, argv, args);
 
-	bool doMore = true;	//set to false to move to end
+    bool doMore = true;    //set to false to move to end
 
-	if(args.InstallFolder.size() > 0 )
-	{
-		clog<<"Setting install folder to: "<<args.InstallFolder<<endl;
-		setInstallFolder(args.InstallFolder.c_str());
-	}
+    if(args.InstallFolder.size() > 0 )
+    {
+        clog<<"Setting install folder to: "<<args.InstallFolder<<endl;
+        setInstallFolder(args.InstallFolder.c_str());
+    }
 
 
     cout<<"======== RoadRunner C API Client ==================\n\n";
     RRHandle rrHandle  = createRRInstance();
 
-	if(!rrHandle)
+    if(!rrHandle)
     {
         cerr<<"Failed getting a handle to RoadRunner";
-    	doMore = false;
+        doMore = false;
     }
 
     //if(!setLogLevel(GetLogLevelAsString(args.CurrentLogLevel).c_str()) )
     //{
     //    cerr<<"Failed setting log RoadRunner Log level";
-    //	doMore = false;
+    //    doMore = false;
     //}
-	
-	
-	if(args.TempDataFolder.size() < 2)
-	{
 
-		char* buffer;
+
+    if(args.TempDataFolder.size() < 2)
+    {
+
+        char* buffer;
         // Get the current working directory:
         if( (buffer = getcwd(NULL, 0)) == NULL )
         {
@@ -65,66 +65,66 @@ int main(int argc, char* argv[])
         }
         else
         {
-			args.TempDataFolder	= buffer;
+            args.TempDataFolder    = buffer;
         }
         free(buffer);
-	}
-  	
-	setTempFolder(rrHandle, args.TempDataFolder.c_str());
+    }
+
+    setTempFolder(rrHandle, args.TempDataFolder.c_str());
 
     if(!enableLoggingToConsole())
     {
         cerr<<"Failed setting log RoadRunner Log level";
-    	doMore = false;
+        doMore = false;
     }
 
     if(!enableLoggingToFile(rrHandle))
     {
         cerr<<"Failed setting log RoadRunner Log level";
-    	doMore = false;
+        doMore = false;
     }
 
-	cout<<"Currrent Log Level: "<<getLogLevel()<<endl;
+    cout<<"Currrent Log Level: "<<getLogLevel()<<endl;
 
-	char* text = getBuildDate();
-	if(text)
-	{
-		cout<<"Build date: "<<text<<endl;
-		rrc::freeText(text);
-	}
+    char* text = getBuildDate();
+    if(text)
+    {
+        cout<<"Build date: "<<text<<endl;
+        rrc::freeText(text);
+    }
 
     if(args.ModelFileName.size() > 1 &&  !fileExists(args.ModelFileName))
     {
         cerr<<"The xml model file:"<<args.ModelFileName<<" don't exist. Please supply a sbml model file name, using option -m<modelfilename>";
         doMore = false;
     }
-	else if(args.ModelFileName.size() == 0)
-	{
+    else if(args.ModelFileName.size() == 0)
+    {
         cerr<<"Please supply a sbml model file name.";
         doMore = false;
-	}
+    }
 
     //RoadRunner Flags and options
     if(doMore)
     {
-	    setComputeAndAssignConservationLaws(rrHandle, args.ComputeAndAssignConservationLaws);
+        setComputeAndAssignConservationLaws(rrHandle, args.ComputeAndAssignConservationLaws);
     }
 
     if(doMore)
     {
-//    	if(!loadSBML(getFileContent(args.ModelFileName).c_str()))
-    	if(!loadSBMLFromFile(rrHandle, args.ModelFileName.c_str()))
-	    {
-    	    char* error = getLastError();
-        	cerr<<"\n"<<error<<endl;
-	        doMore = false;;
-    	}
+//        if(!loadSBML(getFileContent(args.ModelFileName).c_str()))
+        if(!loadSBMLFromFile(rrHandle, args.ModelFileName.c_str()))
+        {
+            char* error = getLastError();
+            cerr<<"\n"<<error<<endl;
+            doMore = false;;
+        }
     }
 
     if(doMore && args.CalculateSteadyState)
     {
-       	cout<<"Calculating steady state: "<<endl;
-     	double ss;
+           cout<<"Calculating steady state: "<<endl;
+         double ss;
         bool success = steadyState(rrHandle, &ss);
         if(!success)
         {
@@ -138,11 +138,11 @@ int main(int argc, char* argv[])
             RRStringArray* list = getTimeCourseSelectionList(rrHandle);
             if(list == NULL)
             {
-		        cerr<<"SelectionList is empty. Exiting\n";
+                cerr<<"SelectionList is empty. Exiting\n";
             }
-            for(int i = 1; i < list->Count; i++)   	//at index 0 is 'time'
+            for(int i = 1; i < list->Count; i++)       //at index 0 is 'time'
             {
-            	double value;
+                double value;
                 bool isSuccess = getValue(rrHandle, list->String[i], &value);
                 if(!isSuccess)
                 {
@@ -155,51 +155,51 @@ int main(int argc, char* argv[])
         }
     }
 
-	RRCDataPtr result;
-	if(doMore)
+    RRCDataPtr result;
+    if(doMore)
     {
-	    setTimeStart(rrHandle, args.StartTime);
-    	setTimeEnd(rrHandle, args.EndTime);
-	    setNumPoints(rrHandle, args.Steps);
-    	setTimeCourseSelectionList(rrHandle, args.SelectionList.c_str());
-		cout<<"Roadrunner is about to simulate model\n";
+        setTimeStart(rrHandle, args.StartTime);
+        setTimeEnd(rrHandle, args.EndTime);
+        setNumPoints(rrHandle, args.Steps);
+        setTimeCourseSelectionList(rrHandle, args.SelectionList.c_str());
+        cout<<"Roadrunner is about to simulate model\n";
         RRStringArrayPtr list =  getTimeCourseSelectionList(rrHandle);
 
         if(list)
         {
-	        cout<<"\nThe following is selected: "<<stringArrayToString(list)<<endl;
+            cout<<"\nThe following is selected: "<<stringArrayToString(list)<<endl;
         }
         else
         {
-			cout<<"SelectionList list is empty. Default list will be selected during simulation\n";
+            cout<<"SelectionList list is empty. Default list will be selected during simulation\n";
         }
 
         result = simulate(rrHandle);
     }
 
-	if(doMore && result)
-	{
-		if(!args.SaveResultToFile)	
-		{
-			cout<<rrDataToString(result);	
-		}
-		else
-		{
-			
-			string outPutFName = joinPath(args.TempDataFolder, getFileName(args.ModelFileName));
-			outPutFName = changeFileExtensionTo(outPutFName, ".csv");
-			ofstream fOut(outPutFName.c_str());
-			if(!fOut)
-			{
-				cerr<<"Failed opening file: "<<outPutFName<<" for writing.";
-			}
-			else
-			{
-				cout<<"Saving data to file: "<<outPutFName<<"\n";
-				fOut<<rrDataToString(result);
-			}
-		}				
-	}
+    if(doMore && result)
+    {
+        if(!args.SaveResultToFile)
+        {
+            cout<<rrDataToString(result);
+        }
+        else
+        {
+
+            string outPutFName = joinPath(args.TempDataFolder, getFileName(args.ModelFileName));
+            outPutFName = changeFileExtensionTo(outPutFName, ".csv");
+            ofstream fOut(outPutFName.c_str());
+            if(!fOut)
+            {
+                cerr<<"Failed opening file: "<<outPutFName<<" for writing.";
+            }
+            else
+            {
+                cout<<"Saving data to file: "<<outPutFName<<"\n";
+                fOut<<rrDataToString(result);
+            }
+        }
+    }
 
     text = getCopyright();
     if(hasError())
@@ -225,26 +225,27 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
     char c;
     while ((c = GetOptions(argc, argv, ("cfpxyv:n:i:t:l:m:s:e:z:"))) != -1)
     {
-    	string arg = (optArg == NULL) ? "NULL" : optArg ;
-		cout<<"Character is: "<<c<<" and optarg is:"<<arg<<endl;
+        string arg = (optArg == NULL) ? "NULL" : optArg ;
+        cout<<"Character is: "<<c<<" and optarg is:"<<arg<<endl;
         switch (c)
         {
-            case ('v'): args.CurrentLogLevel                        = GetLogLevel(optArg);   
-						cout<<"Loglevel is set to :"<<args.CurrentLogLevel<<endl; break;
+            case ('v'): args.CurrentLogLevel                        = Logger::stringToLevel(optArg);
+                        cout<<"Loglevel is set to :" << args.CurrentLogLevel << endl;               break;
             case ('p'): args.Pause                                  = true;                         break;
             case ('t'): args.TempDataFolder                         = optArg;                       break;
             case ('i'): args.InstallFolder                          = optArg;                       break;
-			case ('f'): args.SaveResultToFile                       = true;                         break;
+            case ('f'): args.SaveResultToFile                       = true;                         break;
             case ('m'): args.ModelFileName                          = optArg;                       break;
             case ('l'): args.SelectionList                          = optArg;                       break;
             case ('s'): args.StartTime                              = toDouble(optArg);             break;
             case ('e'): args.EndTime                                = toDouble(optArg);             break;
             case ('z'): args.Steps                                  = toInt(optArg);                break;
-            case ('x'): args.CalculateSteadyState                   = true;                			break;
-            case ('y'): args.ComputeAndAssignConservationLaws  		= false;                  		break;
+            case ('x'): args.CalculateSteadyState                   = true;                         break;
+            case ('y'): args.ComputeAndAssignConservationLaws       = false;                        break;
             case ('?'):
             {
                     cout<<Usage(argv[0])<<endl;
+                    break;
             }
             default:
             {
@@ -268,7 +269,7 @@ void ProcessCommandLineArguments(int argc, char* argv[], Args& args)
 }
 
 #if defined(CG_IDE) || defined(_MSC_VER)
-#pragma comment(lib, "IPHLPAPI.lib")	//Poco, getadapters info...
+#pragma comment(lib, "IPHLPAPI.lib")    //Poco, getadapters info...
 #pragma comment(lib, "roadrunner-static.lib")
 #pragma comment(lib, "rrc_api.lib")
 #endif

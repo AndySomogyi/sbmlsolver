@@ -44,50 +44,50 @@
 
 //=================== MACROS ================================
 /*!
- \brief macro for catch statement in a routine returning a bool 
+ \brief macro for catch statement in a routine returning a bool
  \ingroup macros
 */
 #define  catch_bool_macro                                   \
-	catch(Exception& ex)                                    \
-	{                                                       \
-		stringstream msg;                                   \
-		msg<<"RoadRunner exception: "<<ex.what()<<endl;  	\
-		setError(msg.str());                        		\
-		return false;                               		\
-	}
+    catch(exception& ex)                                    \
+    {                                                       \
+        stringstream msg;                                   \
+        msg<<"RoadRunner exception: "<<ex.what()<<endl;     \
+        setError(msg.str());                                \
+        return false;                                       \
+    }
 
 /*!
- \brief macro for catch statement in a routine returning a pointer 
+ \brief macro for catch statement in a routine returning a pointer
  \ingroup macros
 */
 #define  catch_ptr_macro                                    \
-	catch(Exception& ex)                                    \
-	{                                                       \
-		stringstream msg;                                   \
-		msg<<"RoadRunner exception: "<<ex.what()<<endl;  	\
-		setError(msg.str());                                \
-		return NULL;                                        \
-	}
+    catch(exception& ex)                                    \
+    {                                                       \
+        stringstream msg;                                   \
+        msg<<"RoadRunner exception: "<<ex.what()<<endl;     \
+        setError(msg.str());                                \
+        return NULL;                                        \
+    }
 
 /*!
  \brief macro for catch statement in a routine returning a positive integer
  \ingroup macros
 */
 #define catch_int_macro                                     \
-    catch(Exception& ex)                                    \
+    catch(exception& ex)                                    \
     {                                                       \
-    	stringstream msg;                                   \
-    	msg<<"RoadRunner exception: "<<ex.what()<<endl;     \
+        stringstream msg;                                   \
+        msg<<"RoadRunner exception: "<<ex.what()<<endl;     \
         setError(msg.str());                                \
-	    return -1;                                          \
+        return -1;                                          \
     }
 
 /*!
  \brief macro for catch statement in a routine returning void
  \ingroup macros
 */
-#define catch_void_macro				                    \
-    catch(const Exception& ex)								\
+#define catch_void_macro                                    \
+    catch(const exception& ex)                              \
     {                                                       \
         stringstream msg;                                   \
         msg<<"RoadRunner exception: "<<ex.what()<<endl;     \

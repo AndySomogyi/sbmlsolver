@@ -12,7 +12,7 @@ class Args
     public:
                                         Args();
         virtual                        ~Args(){}
-        LogLevel                        CurrentLogLevel;                            //option v:
+        Logger::Level                   CurrentLogLevel;                            //option v:
         string                          ModelFileName;                              //option m:
         bool                            SaveResultToFile;                           //option f
         string                          InstallFolder;                              //option i:
@@ -22,9 +22,9 @@ class Args
         double                          Duration;
         double                          EndTime;                                    //option e
         int                             Steps;                                      //option z
-        string                          SelectionList;      	                    //option l:
-        bool							CalculateSteadyState; 	                    //option x
-		bool							ComputeAndAssignConservationLaws;			//option y
+        string                          SelectionList;                              //option l:
+        bool                            CalculateSteadyState;                         //option x
+        bool                            ComputeAndAssignConservationLaws;            //option y
 };
 
 #endif

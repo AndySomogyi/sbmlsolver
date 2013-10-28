@@ -131,7 +131,7 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
             gDefaultSupportCodeFolder : _supportCodeDir;
 
     // for now, dump out who we are
-    Log(Logger::PRIO_DEBUG) << __FUNC__ << "compiler: " << compiler <<
+    Log(Logger::DEBUG) << __FUNC__ << "compiler: " << compiler <<
             ", tempDir:" << tempDir << ", supportCodeDir: " <<
             supportCodeDir;
 
@@ -210,7 +210,7 @@ LibStructural* RoadRunner::getLibStruct()
     else if (!mCurrentSBML.empty())
     {
         mLS = new ls::LibStructural(mCurrentSBML);
-        Log(Logger::PRIO_INFORMATION) << "created structural analysis, messages: "
+        Log(Logger::INFORMATION) << "created structural analysis, messages: "
                 << mLS->getAnalysisMsg();
         return mLS;
     }
@@ -294,13 +294,13 @@ int RoadRunner::createTimeCourseSelectionList()
     // if settings has any selections, this overrides the selection list.
     if (settingsList.size() > 1)
     {
-        Log(Logger::PRIO_INFORMATION) << "overriding selection list with values from SimulateOptions.";
+        Log(Logger::INFORMATION) << "overriding selection list with values from SimulateOptions.";
         setSelections(settingsList);
     }
 
     for(int i = 0; i < mSelectionList.size(); i++)
     {
-        Log(Logger::PRIO_DEBUG) << "Selection Value [" << i << "]: " << mSelectionList[i].to_repr();
+        Log(Logger::DEBUG) << "Selection Value [" << i << "]: " << mSelectionList[i].to_repr();
     }
 
     return mSelectionList.size();
@@ -544,7 +544,7 @@ bool RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
     //Finally intitilaize the model..
     if(!initializeModel())
     {
-        Log(lError)<<"Failed Initializing ExecutableModel";
+        Log(Logger::ERROR)<<"Failed Initializing ExecutableModel";
         return false;
     }
 
@@ -657,7 +657,7 @@ double RoadRunner::steadyState()
     if (mUseKinsol)
     {
             //mSteadyStateSolver = NULL;//new KinSolveInterface(mModel);
-            Log(lError)<<"Kinsol solver is not enabled...";
+            Log(Logger::ERROR)<<"Kinsol solver is not enabled...";
             return -1;
     }
 
@@ -670,7 +670,7 @@ double RoadRunner::steadyState()
     double ss = steadyStateSolver.solve(someAmounts);
     if(ss < 0)
     {
-        Log(lError)<<"Steady State solver failed...";
+        Log(Logger::ERROR)<<"Steady State solver failed...";
     }
     mModel->convertToConcentrations();
 
@@ -1558,19 +1558,6 @@ vector<double> RoadRunner::getRatesOfChangeEx(const vector<double>& values)
     return getRatesOfChange();
 }
 
-// Help("Returns the rates of changes given an array of new floating species concentrations")
-vector<double> RoadRunner::getReactionRatesEx(const vector<double>& values)
-{
-    if (!mModel)
-    {
-        throw CoreException(gEmptyModelMessage);
-    }
-
-    mModel->evalReactionRates();
-    vector<double> result(mModel->getNumReactions());
-    mModel->getReactionRates(result.size(), 0, &result[0]);
-    return result;
-}
 
 // Help("Get the number of compartments")
 int RoadRunner::getNumberOfCompartments()
@@ -1741,7 +1728,7 @@ void RoadRunner::setFloatingSpeciesInitialConcentrationByIndex(const int& index,
 }
 
 // Help("Sets the value of a floating species by its index")
-void RoadRunner::setFloatingSpeciesByIndex(const int& index, const double& value)
+void RoadRunner::setFloatingSpeciesByIndex(int index, double value)
 {
     if (!mModel)
     {
@@ -1763,7 +1750,7 @@ void RoadRunner::setFloatingSpeciesByIndex(const int& index, const double& value
 }
 
 // Help("Returns the value of a floating species by its index")
-double RoadRunner::getFloatingSpeciesByIndex(const int& index)
+double RoadRunner::getFloatingSpeciesByIndex(const int index)
 {
     if (!mModel)
     {
@@ -1773,7 +1760,7 @@ double RoadRunner::getFloatingSpeciesByIndex(const int& index)
     if ((index >= 0) && (index < mModel->getNumFloatingSpecies()))
     {
         double result = 0;
-        return mModel->getFloatingSpeciesConcentrations(1, &index, &result);
+        mModel->getFloatingSpeciesConcentrations(1, &index, &result);
         return result;
     }
     throw CoreException(format("Index in getFloatingSpeciesByIndex out of range: [{0}]", index));
@@ -2193,8 +2180,8 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
     }
     catch(const Exception& e)
     {
-        Log(lError)<<"Something went wrong in "<<__FUNCTION__;
-        Log(lError)<<"Exception "<<e.what()<< " thrown";
+        Log(Logger::ERROR)<<"Something went wrong in "<<__FUNCTION__;
+        Log(Logger::ERROR)<<"Exception "<<e.what()<< " thrown";
                 // What ever happens, make sure we restore the species level
         mModel->setFloatingSpeciesConcentrations(1, &speciesIndex, &originalParameterValue);
         return gDoubleNaN;
@@ -2571,7 +2558,7 @@ bool RoadRunner::setValue(const string& sId, double dValue)
 {
     if (!mModel)
     {
-        Log(lError)<<gEmptyModelMessage;
+        Log(Logger::ERROR)<<gEmptyModelMessage;
         return false;
     }
 
@@ -2626,7 +2613,7 @@ bool RoadRunner::setValue(const string& sId, double dValue)
         return true;
     }
 
-    Log(lError)<<format("Given Id: '{0}' not found.", sId) + "Only species and global parameter values can be set";
+    Log(Logger::ERROR)<<format("Given Id: '{0}' not found.", sId) + "Only species and global parameter values can be set";
     return false;
 }
 
@@ -2721,7 +2708,7 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
     double hstep = (timeEnd - timeStart) / (numPoints - 1);
     int nrCols = mSelectionList.size();
 
-    Log(Logger::PRIO_DEBUG) << "starting simulation with " << nrCols << " selected columns";
+    Log(Logger::DEBUG) << "starting simulation with " << nrCols << " selected columns";
 
     // ignored if same
     mRawRoadRunnerData.resize(mSettings.steps + 1, nrCols);
@@ -2740,15 +2727,15 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
     double tout = timeStart;
 
     //The simulation is executed right here..
-    Log(Logger::PRIO_DEBUG)<<"Will run the OneStep function "<< mSettings.steps + 1 <<" times";
+    Log(Logger::DEBUG)<<"Will run the OneStep function "<< mSettings.steps + 1 <<" times";
     for (int i = 1; i < mSettings.steps + 1; i++)
     {
-        Log(Logger::PRIO_DEBUG)<<"Step "<<i;
+        Log(Logger::DEBUG)<<"Step "<<i;
         mCVode->oneStep(tout, hstep);
         tout = timeStart + i * hstep;
         addNthOutputToResult(mRawRoadRunnerData, i, tout);
     }
-    Log(Logger::PRIO_DEBUG)<<"Simulation done..";
+    Log(Logger::DEBUG)<<"Simulation done..";
 
     // set the data into the RoadRunnerData struct
     populateResult();
@@ -2902,7 +2889,7 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
         else
         {
             string msg = "No sbml element exists for concentration selection '" + str + "'";
-            Log(Logger::PRIO_ERROR) << msg;
+            Log(Logger::ERROR) << msg;
             throw Exception(msg);
             break;
         }
@@ -2929,7 +2916,7 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
                     mModel->getBoundarySpeciesIndex(sel.p2) >= 0 ||
                     mModel->getConservedSumIndex(sel.p2) >= 0)
             {
-                Log(Logger::PRIO_INFORMATION) <<
+                Log(Logger::INFORMATION) <<
                         "Valid metabolic control selection: " << sel.to_repr();
             }
             else
@@ -2985,7 +2972,7 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
             break;
         }
     default:
-        Log(Logger::PRIO_ERROR) << "A new SelectionRecord should not have this value: "
+        Log(Logger::ERROR) << "A new SelectionRecord should not have this value: "
             << sel.to_repr();
         break;
     }

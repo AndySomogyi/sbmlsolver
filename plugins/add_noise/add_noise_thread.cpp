@@ -28,7 +28,7 @@ void AddNoiseThread::start(void* inputData, double sigma)
 
     if(mThread.isRunning())
     {
-        Log(lError)<<"Tried to start a working thread!";
+        Log(Logger::ERROR)<<"Tried to start a working thread!";
         return;
     }
 

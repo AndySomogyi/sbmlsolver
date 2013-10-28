@@ -16,7 +16,7 @@ bool rrcCallConv enableLoggingToConsole()
 {
     try
     {
-        Logger::enableLoggingToConsole();
+        Logger::enableConsoleLogging();
         return true;
     }
     catch_bool_macro
@@ -26,7 +26,7 @@ bool rrcCallConv disableLoggingToConsole()
 {
     try
     {
-        Logger::disableLoggingToConsole();
+        Logger::disableConsoleLogging();
         return true;
     }
     catch_bool_macro
@@ -40,7 +40,7 @@ bool rrcCallConv enableLoggingToFile(RRHandle handle)
         string logFile = joinPath(tempFolder, "RoadRunner.log") ;
         rr::freeText(tempFolder);
 
-        Logger::init("", gLog.getLevel(), logFile);
+        Logger::enableFileLogging(logFile);
         return true;
     }
     catch_bool_macro
@@ -50,7 +50,7 @@ bool rrcCallConv disableLoggingToFile()
 {
     try
     {
-        Logger::init("", Logger::getLevel());
+        Logger::disableFileLogging();
         return true;
     }
     catch_bool_macro
@@ -60,8 +60,8 @@ bool rrcCallConv setLogLevel(const char* _lvl)
 {
     try
     {
-        LogLevel lvl = GetLogLevel(_lvl);
-        gLog.setLevel(lvl);
+        Logger::Level lvl = Logger::stringToLevel(_lvl);
+        Logger::setLevel(lvl);
         return true;
     }
     catch_bool_macro
@@ -71,7 +71,7 @@ char* rrcCallConv getLogLevel()
 {
     try
     {
-        string level = gLog.getLevelAsString();
+        string level = Logger::getCurrentLevelAsString();
         char* lvl = createText(level.c_str());
         return lvl;
     }
@@ -82,7 +82,7 @@ char* rrcCallConv getLogFileName()
 {
     try
     {
-        return createText(gLog.getFileName().c_str());
+        return createText(Logger::getFileName().c_str());
     }
     catch_ptr_macro
 }
