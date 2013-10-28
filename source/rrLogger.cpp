@@ -36,7 +36,7 @@ using Poco::Mutex;
 // owned by poco, it takes care of clearing in static dtor.
 static Poco::Logger *pocoLogger = 0;
 volatile int logLevel = -1;
-const Logger::Level defaultLogLevel = Logger::NOTICE;
+const Logger::Level defaultLogLevel = Logger::LOG_NOTICE;
 static std::string logFileName;
 
 // ******** The RoadRunner Logging Chain *************//
@@ -116,7 +116,7 @@ void Logger::setLevel(int level)
     // make sure we have a logger, other funcs rely on this behavior.
     getLogger();
 
-    if (level >= FATAL && level <= TRACE)
+    if (level >= LOG_FATAL && level <= LOG_TRACE)
     {
         getLogger().setLevel(level);
         logLevel = level;
@@ -251,39 +251,39 @@ Logger::Level Logger::stringToLevel(const std::string& str)
 
     if (upstr == "FATAL")
     {
-        return FATAL;
+        return LOG_FATAL;
     }
     else if(upstr == "CRITICAL")
     {
-        return CRITICAL;
+        return LOG_CRITICAL;
     }
     else if(upstr == "ERROR")
     {
-        return ERROR;
+        return LOG_ERROR;
     }
     else if(upstr == "WARNING")
     {
-        return WARNING;
+        return LOG_WARNING;
     }
     else if(upstr == "NOTICE")
     {
-        return NOTICE;
+        return LOG_NOTICE;
     }
     else if(upstr == "INFORMATION")
     {
-        return INFORMATION;
+        return LOG_INFORMATION;
     }
     else if(upstr == "DEBUG")
     {
-        return DEBUG;
+        return LOG_DEBUG;
     }
     else if(upstr == "TRACE")
     {
-        return DEBUG;
+        return LOG_DEBUG;
     }
     else
     {
-        return CURRENT;
+        return LOG_CURRENT;
     }
 }
 

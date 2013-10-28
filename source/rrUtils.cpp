@@ -55,8 +55,6 @@
 namespace rr
 {
 using namespace std;
-using namespace Poco;
-
 
 bool cleanFolder(const string& folder, const string& baseName, const std::vector<std::string>& extensions)
 {
@@ -136,7 +134,7 @@ static char rrGetch()
 
 string getMD5(const string& text)
 {
-    MD5Engine md5;
+    Poco::MD5Engine md5;
     md5.update(text);
     string digestString(Poco::DigestEngine::digestToHex(md5.digest()));
     return digestString;
@@ -179,7 +177,7 @@ string getUsersTempDataFolder()
     DWORD dwRetVal = GetTempPathA(MAX_PATH, lpTempPathBuffer); // buffer for path
     if (dwRetVal > MAX_PATH || (dwRetVal == 0))
     {
-        Log(Logger::ERROR)<<"GetTempPath failed";
+        Log(Logger::LOG_ERROR)<<"GetTempPath failed";
     }
     else
     {
@@ -214,7 +212,7 @@ string getCurrentExeFolder()
     }
     else
     {
-        Log(Logger::ERROR) << "_NSGetExecutablePath failed";
+        Log(Logger::LOG_ERROR) << "_NSGetExecutablePath failed";
         return "";
     }
 #elif defined (__linux)
@@ -274,7 +272,7 @@ string getCWD()
     // Get the current working directory:
     if( (buffer = getcwd( NULL, 512 )) == NULL )
     {
-        Log(Logger::ERROR)<<"getCWD failed";
+        Log(Logger::LOG_ERROR)<<"getCWD failed";
         return "";
     }
     else
@@ -317,7 +315,7 @@ vector<string> getLinesInFile(const string& fName)
     ifstream ifs(fName.c_str());
     if(!ifs)
     {
-        Log(Logger::ERROR)<<"Failed opening file: "<<fName;
+        Log(Logger::LOG_ERROR)<<"Failed opening file: "<<fName;
         return lines;
     }
 
@@ -477,7 +475,7 @@ bool copyStdVectorToCArray(const vector<double>& src, double* dest,  int size)
 {
     if((size && !dest) || size > src.size())
     {
-        Log(Logger::ERROR)<<"Tried to copy to NULL vector, or incompatible size of vectors";
+        Log(Logger::LOG_ERROR)<<"Tried to copy to NULL vector, or incompatible size of vectors";
         return false;
     }
 
@@ -492,7 +490,7 @@ bool copyStdVectorToCArray(const vector<bool>&   src,  bool*  dest,  int size)
 {
     if((size && !dest) || size > src.size())
     {
-        Log(Logger::ERROR)<<"Tried to copy to NULL vector, or incompatible size of vectors";
+        Log(Logger::LOG_ERROR)<<"Tried to copy to NULL vector, or incompatible size of vectors";
         return false;
     }
 
@@ -508,7 +506,7 @@ vector<double> createVector(const double* src, const int& size)
     vector<double> dest;
     if(size && !src)
     {
-        Log(Logger::ERROR)<<"Tried to copy from NULL vector";
+        Log(Logger::LOG_ERROR)<<"Tried to copy from NULL vector";
         return dest;
     }
 
@@ -524,7 +522,7 @@ bool copyCArrayToStdVector(const int* src, vector<int>& dest, int size)
 {
     if(size && !src)
     {
-        Log(Logger::ERROR)<<"Tried to copy from NULL vector";
+        Log(Logger::LOG_ERROR)<<"Tried to copy from NULL vector";
         return false;
     }
 
@@ -540,7 +538,7 @@ bool copyCArrayToStdVector(const double* src, vector<double>& dest, int size)
 {
     if(size && !src)
     {
-        Log(Logger::ERROR)<<"Tried to copy from NULL vector";
+        Log(Logger::LOG_ERROR)<<"Tried to copy from NULL vector";
         return false;
     }
 
@@ -556,7 +554,7 @@ bool copyCArrayToStdVector(const bool* src, vector<bool>& dest, int size)
 {
     if(size && !src)
     {
-        Log(Logger::ERROR)<<"Tried to copy from NULL vector";
+        Log(Logger::LOG_ERROR)<<"Tried to copy from NULL vector";
         return false;
     }
 
@@ -573,7 +571,7 @@ double* createVector(const vector<double>& vec)
     double* avec = new double[vec.size()];
     if(!avec)
     {
-        Log(Logger::ERROR)<<"Failed to allocate c vector";
+        Log(Logger::LOG_ERROR)<<"Failed to allocate c vector";
         return NULL;
     }
 
@@ -624,7 +622,7 @@ int populateFileSet(const string& folder, set<string>& files)
 {
      //Get models file names in models folder
     string globPath =  rr::joinPath(folder, "*.xml");
-    Glob::glob(globPath, files);
+    Poco::Glob::glob(globPath, files);
     return files.size();
 }
 

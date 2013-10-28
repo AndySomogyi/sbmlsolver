@@ -160,7 +160,7 @@ LLVMExecutableModel::~LLVMExecutableModel()
     // smart ptr takes care of freeing resources
     LLVMModelData::freeBuffers(modelData);
 
-    Log(Logger::DEBUG) << __FUNC__;
+    Log(Logger::LOG_DEBUG) << __FUNC__;
 }
 
 string LLVMExecutableModel::getModelName()
@@ -237,7 +237,7 @@ double LLVMExecutableModel::getFloatingSpeciesConcentration(int index)
     }
     else
     {
-        Log(Logger::PRIO_ERROR) << "index " << index << "out of range";
+        Log(Logger::LOG_PRIO_ERROR) << "index " << index << "out of range";
         throw Exception(string(__FUNC__) + string(": index out of range"));
     }
     */
@@ -340,9 +340,9 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
     }
 
     /*
-    if (Logger::PRIO_TRACE <= rr::Logger::GetLogLevel()) {
+    if (Logger::LOG_PRIO_TRACE <= rr::Logger::LOG_GetLogLevel()) {
 
-        LoggingBuffer log(Logger::PRIO_TRACE, __FILE__, __LINE__);
+        LoggingBuffer log(Logger::LOG_PRIO_TRACE, __FILE__, __LINE__);
 
         log.stream() << __FUNC__ << endl;
         log.stream() << "y: ";
@@ -566,7 +566,7 @@ void LLVMExecutableModel::reset()
     // before the simulation starts.
     setTime(-1.0);
 
-    Log(Logger::TRACE) << __FUNC__ << this;
+    Log(Logger::LOG_TRACE) << __FUNC__ << this;
 }
 
 bool LLVMExecutableModel::getConservedSumChanged()
@@ -582,7 +582,7 @@ int LLVMExecutableModel::getStateVector(double* stateVector)
 {
     if (stateVector == 0)
     {
-        Log(Logger::TRACE) << __FUNC__ << ", stateVector: null, returning "
+        Log(Logger::LOG_TRACE) << __FUNC__ << ", stateVector: null, returning "
                 << modelData.numRateRules + modelData.numIndependentSpecies;
         return modelData.numRateRules + modelData.numIndependentSpecies;
     }
@@ -594,9 +594,9 @@ int LLVMExecutableModel::getStateVector(double* stateVector)
             modelData.numIndependentSpecies * sizeof(double));
 
 
-    if (Logger::TRACE <= rr::Logger::getLevel()) {
+    if (Logger::LOG_TRACE <= rr::Logger::LOG_getLevel()) {
 
-        LoggingBuffer log(Logger::TRACE, __FILE__, __LINE__);
+        LoggingBuffer log(Logger::LOG_TRACE, __FILE__, __LINE__);
 
         log.stream() << endl << __FUNC__ <<  ", Model: " << endl << this;
 
@@ -627,9 +627,9 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
     evalVolatileStoichPtr(&modelData);
 
     /*
-    if (Logger::PRIO_TRACE <= rr::Logger::GetLogLevel()) {
+    if (Logger::LOG_PRIO_TRACE <= rr::Logger::LOG_GetLogLevel()) {
 
-        LoggingBuffer log(Logger::PRIO_TRACE, __FILE__, __LINE__);
+        LoggingBuffer log(Logger::LOG_PRIO_TRACE, __FILE__, __LINE__);
 
         log.stream() << endl << __FUNC__ <<  ", Model: " << endl << this;
 
@@ -1025,7 +1025,7 @@ bool LLVMExecutableModel::applyEvents(unsigned char* prevEventState,
         bool c = getEventTrigger(i);
         currEventState[i] = c;
 
-        Log(Logger::DEBUG) << "event " << i << ", previous state: " <<
+        Log(Logger::LOG_DEBUG) << "event " << i << ", previous state: " <<
                 (bool)prevEventState[i] << ", current state: " << (bool)c;
 
         // transition from non-triggered to triggered
@@ -1066,7 +1066,7 @@ bool LLVMExecutableModel::getEventTieBreak(uint eventA, uint eventB)
 
 
 
-    Log(Logger::DEBUG) << "tie break, a: " << eventA << ", b: " <<
+    Log(Logger::LOG_DEBUG) << "tie break, a: " << eventA << ", b: " <<
             eventB << ", result: " << result;
 
     return result;

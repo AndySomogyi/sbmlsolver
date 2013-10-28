@@ -41,12 +41,12 @@ static PluginManager* castToPluginManager(RRPluginManagerHandle handle)
         }
         else
         {
-            Log(Logger::ERROR) << "the handle " << pm << ", " << handle << " is NOT a valid PluginManager";
+            Log(Logger::LOG_ERROR) << "the handle " << pm << ", " << handle << " is NOT a valid PluginManager";
         }
     }
     else
     {
-        Log(Logger::ERROR) << "the handle is NULL";
+        Log(Logger::LOG_ERROR) << "the handle is NULL";
     }
 
     throw (Exception("Invalid PluginManager handle"));
@@ -72,7 +72,7 @@ RRPluginManagerHandle rrpCallConv createPluginManager(RRHandle rrHandle)
     {
         RoadRunner *rr = static_cast<RoadRunner*>(rrHandle);
 
-        Log(Logger::NOTICE) << __FUNC__ << "RoadRunner: " << rr;
+        Log(lDebug) << __FUNC__ << "RoadRunner: " << rr;
 
         std::string pluginDir = joinPath(
                 getParentFolder(gDefaultSupportCodeFolder), "plugins");
@@ -80,7 +80,7 @@ RRPluginManagerHandle rrpCallConv createPluginManager(RRHandle rrHandle)
         PluginManager* pm = new PluginManager(rr, pluginDir, false);
         pluginManagers.insert(pm);
 
-        Log(Logger::NOTICE) << __FUNC__ << " created plugin manager: " << pm;
+        Log(lDebug) << __FUNC__ << " created plugin manager: " << pm;
         return pm;
     }
     catch_ptr_macro
@@ -178,7 +178,7 @@ int rrCallConv getNumberOfPlugins(RRPluginManagerHandle handle)
 {
     try
     {
-        Log(Logger::NOTICE) << __FUNC__;
+        Log(Logger::LOG_NOTICE) << __FUNC__;
         PluginManager *pm = castToPluginManager(handle);
         return pm->getNumberOfPlugins();
     }

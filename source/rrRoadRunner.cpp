@@ -131,7 +131,7 @@ RoadRunner::RoadRunner(const string& _compiler, const string& _tempDir,
             gDefaultSupportCodeFolder : _supportCodeDir;
 
     // for now, dump out who we are
-    Log(Logger::DEBUG) << __FUNC__ << "compiler: " << compiler <<
+    Log(Logger::LOG_DEBUG) << __FUNC__ << "compiler: " << compiler <<
             ", tempDir:" << tempDir << ", supportCodeDir: " <<
             supportCodeDir;
 
@@ -210,7 +210,7 @@ LibStructural* RoadRunner::getLibStruct()
     else if (!mCurrentSBML.empty())
     {
         mLS = new ls::LibStructural(mCurrentSBML);
-        Log(Logger::INFORMATION) << "created structural analysis, messages: "
+        Log(Logger::LOG_INFORMATION) << "created structural analysis, messages: "
                 << mLS->getAnalysisMsg();
         return mLS;
     }
@@ -294,13 +294,13 @@ int RoadRunner::createTimeCourseSelectionList()
     // if settings has any selections, this overrides the selection list.
     if (settingsList.size() > 1)
     {
-        Log(Logger::INFORMATION) << "overriding selection list with values from SimulateOptions.";
+        Log(Logger::LOG_INFORMATION) << "overriding selection list with values from SimulateOptions.";
         setSelections(settingsList);
     }
 
     for(int i = 0; i < mSelectionList.size(); i++)
     {
-        Log(Logger::DEBUG) << "Selection Value [" << i << "]: " << mSelectionList[i].to_repr();
+        Log(Logger::LOG_DEBUG) << "Selection Value [" << i << "]: " << mSelectionList[i].to_repr();
     }
 
     return mSelectionList.size();
@@ -544,7 +544,7 @@ bool RoadRunner::load(const string& uriOrSbml, const LoadSBMLOptions *options)
     //Finally intitilaize the model..
     if(!initializeModel())
     {
-        Log(Logger::ERROR)<<"Failed Initializing ExecutableModel";
+        Log(Logger::LOG_ERROR)<<"Failed Initializing ExecutableModel";
         return false;
     }
 
@@ -657,7 +657,7 @@ double RoadRunner::steadyState()
     if (mUseKinsol)
     {
             //mSteadyStateSolver = NULL;//new KinSolveInterface(mModel);
-            Log(Logger::ERROR)<<"Kinsol solver is not enabled...";
+            Log(Logger::LOG_ERROR)<<"Kinsol solver is not enabled...";
             return -1;
     }
 
@@ -670,7 +670,7 @@ double RoadRunner::steadyState()
     double ss = steadyStateSolver.solve(someAmounts);
     if(ss < 0)
     {
-        Log(Logger::ERROR)<<"Steady State solver failed...";
+        Log(Logger::LOG_ERROR)<<"Steady State solver failed...";
     }
     mModel->convertToConcentrations();
 
@@ -2180,8 +2180,8 @@ double RoadRunner::getUnscaledSpeciesElasticity(int reactionId, int speciesIndex
     }
     catch(const Exception& e)
     {
-        Log(Logger::ERROR)<<"Something went wrong in "<<__FUNCTION__;
-        Log(Logger::ERROR)<<"Exception "<<e.what()<< " thrown";
+        Log(Logger::LOG_ERROR)<<"Something went wrong in "<<__FUNCTION__;
+        Log(Logger::LOG_ERROR)<<"Exception "<<e.what()<< " thrown";
                 // What ever happens, make sure we restore the species level
         mModel->setFloatingSpeciesConcentrations(1, &speciesIndex, &originalParameterValue);
         return gDoubleNaN;
@@ -2558,7 +2558,7 @@ bool RoadRunner::setValue(const string& sId, double dValue)
 {
     if (!mModel)
     {
-        Log(Logger::ERROR)<<gEmptyModelMessage;
+        Log(Logger::LOG_ERROR)<<gEmptyModelMessage;
         return false;
     }
 
@@ -2613,7 +2613,7 @@ bool RoadRunner::setValue(const string& sId, double dValue)
         return true;
     }
 
-    Log(Logger::ERROR)<<format("Given Id: '{0}' not found.", sId) + "Only species and global parameter values can be set";
+    Log(Logger::LOG_ERROR)<<format("Given Id: '{0}' not found.", sId) + "Only species and global parameter values can be set";
     return false;
 }
 
@@ -2708,7 +2708,7 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
     double hstep = (timeEnd - timeStart) / (numPoints - 1);
     int nrCols = mSelectionList.size();
 
-    Log(Logger::DEBUG) << "starting simulation with " << nrCols << " selected columns";
+    Log(Logger::LOG_DEBUG) << "starting simulation with " << nrCols << " selected columns";
 
     // ignored if same
     mRawRoadRunnerData.resize(mSettings.steps + 1, nrCols);
@@ -2727,15 +2727,15 @@ const RoadRunnerData* RoadRunner::simulate(const SimulateOptions* _options)
     double tout = timeStart;
 
     //The simulation is executed right here..
-    Log(Logger::DEBUG)<<"Will run the OneStep function "<< mSettings.steps + 1 <<" times";
+    Log(Logger::LOG_DEBUG)<<"Will run the OneStep function "<< mSettings.steps + 1 <<" times";
     for (int i = 1; i < mSettings.steps + 1; i++)
     {
-        Log(Logger::DEBUG)<<"Step "<<i;
+        Log(Logger::LOG_DEBUG)<<"Step "<<i;
         mCVode->oneStep(tout, hstep);
         tout = timeStart + i * hstep;
         addNthOutputToResult(mRawRoadRunnerData, i, tout);
     }
-    Log(Logger::DEBUG)<<"Simulation done..";
+    Log(Logger::LOG_DEBUG)<<"Simulation done..";
 
     // set the data into the RoadRunnerData struct
     populateResult();
@@ -2889,7 +2889,7 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
         else
         {
             string msg = "No sbml element exists for concentration selection '" + str + "'";
-            Log(Logger::ERROR) << msg;
+            Log(Logger::LOG_ERROR) << msg;
             throw Exception(msg);
             break;
         }
@@ -2916,7 +2916,7 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
                     mModel->getBoundarySpeciesIndex(sel.p2) >= 0 ||
                     mModel->getConservedSumIndex(sel.p2) >= 0)
             {
-                Log(Logger::INFORMATION) <<
+                Log(Logger::LOG_INFORMATION) <<
                         "Valid metabolic control selection: " << sel.to_repr();
             }
             else
@@ -2972,7 +2972,7 @@ SelectionRecord RoadRunner::createSelection(const std::string& str)
             break;
         }
     default:
-        Log(Logger::ERROR) << "A new SelectionRecord should not have this value: "
+        Log(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
             << sel.to_repr();
         break;
     }

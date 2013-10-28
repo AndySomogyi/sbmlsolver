@@ -74,12 +74,12 @@ string CSharpModelGenerator::generateModelCode(const string& sbmlStr, const bool
         msg = mLibStruct->loadSBML(sASCII);
         if(!msg.size())
         {
-            Log(Logger::ERROR)<<"Failed loading sbml into StructAnalysis";
+            Log(Logger::LOG_ERROR)<<"Failed loading sbml into StructAnalysis";
         }
     }
     catch(...)
     {
-        Log(Logger::ERROR)<<"Failed loading sbml into StructAnalysis";
+        Log(Logger::LOG_ERROR)<<"Failed loading sbml into StructAnalysis";
     }
 
 
@@ -168,7 +168,7 @@ string CSharpModelGenerator::convertUserFunctionExpression(const string& equatio
 {
     if(!equation.size())
     {
-        Log(Logger::ERROR)<<"The equation string supplied to "<<__FUNCTION__<<" is empty";
+        Log(Logger::LOG_ERROR)<<"The equation string supplied to "<<__FUNCTION__<<" is empty";
         return "";
     }
     Scanner s;
@@ -1673,7 +1673,7 @@ int CSharpModelGenerator::writeComputeRules(CodeBuilder& sb, const int& numReact
 
                 break;
                 case rtUnknown:
-                    Log(Logger::ERROR) << "Unknown rule type in " << __FUNC__;
+                    Log(Logger::LOG_ERROR) << "Unknown rule type in " << __FUNC__;
                     break;
             }
 

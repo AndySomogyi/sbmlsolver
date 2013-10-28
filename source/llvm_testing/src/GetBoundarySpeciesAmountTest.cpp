@@ -48,7 +48,7 @@ bool rr::GetBoundarySpeciesAmountTest::test()
 
     model->evalInitialConditions();
 
-    Log(Logger::INFORMATION) << model;
+    Log(Logger::LOG_INFORMATION) << model;
 
 
 
@@ -59,7 +59,7 @@ bool rr::GetBoundarySpeciesAmountTest::test()
 
     for(int i = 0; i < n; ++i)
     {
-        Log(Logger::INFORMATION) << "boundary species " <<
+        Log(Logger::LOG_INFORMATION) << "boundary species " <<
                 model->getBoundarySpeciesId(i) << ": " << values[i] << endl;
     }
 

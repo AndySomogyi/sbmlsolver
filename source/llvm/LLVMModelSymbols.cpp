@@ -49,7 +49,7 @@ LLVMModelSymbols::LLVMModelSymbols(const libsbml::Model *m, LLVMModelDataSymbols
     for (uint i = 0; i < params->size(); ++i)
     {
         const Parameter* param = params->get(i);
-        Log(Logger::TRACE) << "global parameter " << param->getId() <<
+        Log(Logger::LOG_TRACE) << "global parameter " << param->getId() <<
                 " initial value: " << param->getValue();
 
         ASTNode *value = nodes.create(AST_REAL);
@@ -90,7 +90,7 @@ bool LLVMModelSymbols::visit(const libsbml::AssignmentRule& x)
     }
     else
     {
-        Log(Logger::ERROR) << "Could not get elment for assignment rule \""
+        Log(Logger::LOG_ERROR) << "Could not get elment for assignment rule \""
                 << const_cast<libsbml::AssignmentRule&>(x).toSBML()
                 << "\", it will be ignored";
     }
@@ -227,7 +227,7 @@ bool LLVMModelSymbols::visit(const libsbml::Reaction& r)
             // produced by stoichiometry.
             string msg = "Reaction " + r.getId() + " has SpeciesReference for boundary species ";
             msg += product->getSpecies();
-            Log(Logger::WARNING) << msg;
+            Log(Logger::LOG_WARNING) << msg;
         }
     }
 
@@ -255,7 +255,7 @@ void LLVMModelSymbols::processSpecies(SymbolForest &currentSymbols,
 {
     // ASTNode takes ownership of children, so only allocate the ones that
     // are NOT given to an ASTNode addChild.
-    Log(Logger::TRACE) << "processing species " << species->getId() << endl;
+    Log(Logger::LOG_TRACE) << "processing species " << species->getId() << endl;
 
     if (!math)
     {

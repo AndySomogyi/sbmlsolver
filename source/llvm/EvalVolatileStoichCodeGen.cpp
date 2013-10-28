@@ -63,7 +63,7 @@ Value* EvalVolatileStoichCodeGen::codeGen()
             if (p->isSetId() && p->getId().length() > 0 &&
                     !isConstantSpeciesReference(p))
             {
-                Log(Logger::NOTICE) <<
+                Log(Logger::LOG_NOTICE) <<
                         "generating update code for non-constant species "
                         "reference product " << p->getId();
 
@@ -83,7 +83,7 @@ Value* EvalVolatileStoichCodeGen::codeGen()
 
                 else
                 {
-                    Log(Logger::WARNING) << "species reference "
+                    Log(Logger::LOG_WARNING) << "species reference "
                             << p->getId() << " has been determined to be "
                             "non-constant, but it has no rules or MathML, so"
                             " no update code will be generated";
@@ -112,7 +112,7 @@ Value* EvalVolatileStoichCodeGen::codeGen()
             if (r->isSetId() && r->getId().length() > 0
                     && !isConstantSpeciesReference(r))
             {
-                Log(Logger::NOTICE) <<
+                Log(Logger::LOG_NOTICE) <<
                         "generating update code for non-constant species "
                          "reference reactant " << r->getId();
 

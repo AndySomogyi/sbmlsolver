@@ -201,7 +201,7 @@ double NLEQInterface::solve(const vector<double>& yin)
     if(ierr > 0 )
     {
         string err = ErrorForStatus(ierr);
-        Log(Logger::ERROR)<<"Error :"<<err;
+        Log(Logger::LOG_ERROR)<<"Error :"<<err;
         throw NLEQException(err);
     }
 
@@ -293,7 +293,7 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
 
     model->evalModel(0, y, fval);
 
-    if (rr::Logger::getLevel() >= Logger::DEBUG)
+    if (rr::Logger::getLevel() >= Logger::LOG_DEBUG)
     {
         std::stringstream ss;
 
@@ -319,7 +319,7 @@ void ModelFunction(int* nx, double* y, double* fval, int* pErr)
         }
         ss << "]" << std::endl;
 
-        Log(Logger::DEBUG) << ss.str();
+        Log(Logger::LOG_DEBUG) << ss.str();
     }
 
     *pErr = 0;

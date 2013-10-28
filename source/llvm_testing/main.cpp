@@ -121,9 +121,9 @@ int main(int argc, char* argv[])
 
 
 
-    Logger::enableConsoleLogging();
+    Logger::LOG_enableConsoleLogging();
 
-    Logger::setLevel(Logger::TRACE);
+    Logger::LOG_setLevel(Logger::LOG_TRACE);
 
 
     int testCase = 0;
@@ -137,7 +137,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    Log(Logger::NOTICE) << "running test case " << testCase;
+    Log(Logger::LOG_NOTICE) << "running test case " << testCase;
 
 
     //runSparseTest(33, 323, 50);
@@ -222,7 +222,7 @@ int main(int argc, char* argv[])
     }
     catch (std::exception &e)
     {
-        Log(Logger::ERROR) << "Error with test " << pairs[testCase].first << ", " << pairs[testCase].second
+        Log(Logger::LOG_ERROR) << "Error with test " << pairs[testCase].first << ", " << pairs[testCase].second
                 << ": " << e.what();
     }
     //}
