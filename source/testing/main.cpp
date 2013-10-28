@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
     if(doLogging)
     {
         string logFile = joinPath(gTempFolder, "RoadRunner.log");
-        Logger::LOG_enableConsoleLogging(Logger::LOG_DEBUG);
+        Logger::enableConsoleLogging(Logger::LOG_DEBUG);
     }
 
     fstream aFile(reportFile.c_str(), ios::out);

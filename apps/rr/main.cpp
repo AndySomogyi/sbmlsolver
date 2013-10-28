@@ -109,7 +109,7 @@ int main(int argc, char * argv[])
         simulation.ReCompileIfDllExists(true);
         if(doContinue && !simulation.LoadSBMLFromFile())
         {
-            Log(Logger::ERROR)<<"Failed loading SBML model";
+            Log(Logger::LOG_ERROR)<<"Failed loading SBML model";
             doContinue = false;
         }
 
@@ -125,7 +125,7 @@ int main(int argc, char * argv[])
             {
                 if(!simulation.LoadSettings(settingsFile))    //set selection list here!
                 {
-                    Log(Logger::ERROR)<<"Failed loading SBML model settings";
+                    Log(Logger::LOG_ERROR)<<"Failed loading SBML model settings";
                     doContinue = false;
                 }
             }
@@ -143,7 +143,7 @@ int main(int argc, char * argv[])
         //Then Simulate model
         if(doContinue && !simulation.Simulate())
         {
-            Log(Logger::ERROR)<<"Failed running simulation";
+            Log(Logger::LOG_ERROR)<<"Failed running simulation";
             throw("Failed running simulation");
         }
 
@@ -161,7 +161,7 @@ int main(int argc, char * argv[])
             {
                 //Write to std out
                 RoadRunnerData result = simulation.GetResult();
-                Log(Logger::FATAL)<<result;
+                Log(Logger::LOG_FATAL)<<result;
             }
         }
 
@@ -169,7 +169,7 @@ int main(int argc, char * argv[])
     }
     catch(rr::Exception& ex)
     {
-        Log(Logger::ERROR)<<"RoadRunner exception occurred: "<<ex.what()<<endl;
+        Log(Logger::LOG_ERROR)<<"RoadRunner exception occurred: "<<ex.what()<<endl;
     }
 
     Log(lInfo)<<"RoadRunner is exiting...";

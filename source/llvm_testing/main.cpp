@@ -121,9 +121,9 @@ int main(int argc, char* argv[])
 
 
 
-    Logger::LOG_enableConsoleLogging();
+    Logger::enableConsoleLogging();
 
-    Logger::LOG_setLevel(Logger::LOG_TRACE);
+    Logger::setLevel(Logger::LOG_TRACE);
 
 
     int testCase = 0;

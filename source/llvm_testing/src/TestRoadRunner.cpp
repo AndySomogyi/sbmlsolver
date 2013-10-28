@@ -330,7 +330,7 @@ std::string TestRoadRunner::read_uri(const std::string& uri)
 
 void TestRoadRunner::steadyState(const std::string& uri)
 {
-    Logger::LOG_setLevel(Logger::LOG_DEBUG);
+    Logger::setLevel(Logger::LOG_DEBUG);
     RoadRunner r;
 
     r.load(uri);
@@ -342,7 +342,7 @@ void TestRoadRunner::testLoad(const std::string& uri)
 {
     try
     {
-        Logger::LOG_setLevel(Logger::LOG_DEBUG);
+        Logger::setLevel(Logger::LOG_DEBUG);
 
         //std::string sbml = SBMLReader::read(uri);
 
@@ -403,7 +403,7 @@ std::string removeExtension(const std::string& filename)
 void TestRoadRunner::testCons2(const std::string& fname)
 {
 
-    Logger::LOG_enableConsoleLogging(Logger::LOG_DEBUG);
+    Logger::enableConsoleLogging(Logger::LOG_DEBUG);
     //const char* fname = "/Users/andy/src/sbml_test/cases/semantic/00001/00001-sbml-l2v4.xml";
 
     libsbml::SBMLReader reader;
@@ -444,17 +444,17 @@ void TestRoadRunner::testRead(const std::string &srcFile)
 
 void TestRoadRunner::testLogging(const std::string& logFileName)
 {
-    Logger::LOG_enableConsoleLogging(Logger::LOG_NOTICE);
+    Logger::enableConsoleLogging(Logger::LOG_NOTICE);
 
     Log(Logger::LOG_NOTICE) << "console only notice";
 
     Log(Logger::LOG_NOTICE) << "setting logging to file: " << logFileName;
 
-    Logger::LOG_enableFileLogging(logFileName, Logger::LOG_NOTICE);
+    Logger::enableFileLogging(logFileName, Logger::LOG_NOTICE);
 
     cout << "console and file logging:" << endl;
 
-    cout << "log file name: " << Logger::LOG_getFileName() << endl;
+    cout << "log file name: " << Logger::getFileName() << endl;
 
     Log(Logger::LOG_FATAL) << "console and file: A fatal error";
     Log(Logger::LOG_CRITICAL) << "console and file: A critical error";
@@ -465,11 +465,11 @@ void TestRoadRunner::testLogging(const std::string& logFileName)
     Log(Logger::LOG_DEBUG) << "console and file: A debugging message.";
     Log(Logger::LOG_TRACE) << "console and file: A tracing message.";
 
-    Logger::LOG_disableConsoleLogging();
+    Logger::disableConsoleLogging();
 
     cout << "file only logging:" << endl;
 
-    cout << "log file name: " << Logger::LOG_getFileName() << endl;
+    cout << "log file name: " << Logger::getFileName() << endl;
 
     Log(Logger::LOG_FATAL) << "file only: A fatal error";
     Log(Logger::LOG_CRITICAL) << "file only: A critical error";
@@ -482,9 +482,9 @@ void TestRoadRunner::testLogging(const std::string& logFileName)
 
     cout << "no logging: " << endl;
 
-    Logger::LOG_disableLogging();
+    Logger::disableLogging();
 
-    cout << "log file name: " << Logger::LOG_getFileName() << endl;
+    cout << "log file name: " << Logger::getFileName() << endl;
 
     Log(Logger::LOG_FATAL) << "no log: A fatal error";
     Log(Logger::LOG_CRITICAL) << "no log: A critical error";
@@ -495,7 +495,7 @@ void TestRoadRunner::testLogging(const std::string& logFileName)
     Log(Logger::LOG_DEBUG) << "no log: A debugging message.";
     Log(Logger::LOG_TRACE) << "no log: A tracing message.";
 
-    Logger::LOG_enableConsoleLogging();
+    Logger::enableConsoleLogging();
 
     cout << "console logging: " << endl;
 
@@ -508,11 +508,11 @@ void TestRoadRunner::testLogging(const std::string& logFileName)
     Log(Logger::LOG_DEBUG) << "console logging: A debugging message.";
     Log(Logger::LOG_TRACE) << "console logging: A tracing message.";
 
-    Logger::LOG_enableFileLogging(logFileName, Logger::LOG_NOTICE);
+    Logger::enableFileLogging(logFileName, Logger::LOG_NOTICE);
 
     cout << "console and file logging:" << endl;
 
-    cout << "log file name: " << Logger::LOG_getFileName() << endl;
+    cout << "log file name: " << Logger::getFileName() << endl;
 
     Log(Logger::LOG_FATAL) << "console and file: A fatal error";
     Log(Logger::LOG_CRITICAL) << "console and file: A critical error";

@@ -189,7 +189,7 @@ int ConservedMoietyConverter::convert()
 
     ls::DoubleMatrix *L0 = structural->getL0Matrix();
 
-    if (rr::Logger::LOG_getLevel() >= loggingLevel)
+    if (rr::Logger::getLevel() >= loggingLevel)
     {
         Log(loggingLevel) << "performing conversion on " << mModel->getName();
         Log(loggingLevel) << "independent species: " << toString(indSpecies);
