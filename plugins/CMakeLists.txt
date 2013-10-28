@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8)
 project(rr_plugins)
 
+if(${BUILD_PLUGINS} STREQUAL ON)
+
 set(PLUGIN_MANAGER_INCLUDE_ROOT "${RR_ROOT}/plugins/plugin_manager")
 
 include_directories(
@@ -20,4 +22,6 @@ endif()
 
 if(${BUILD_LEVENBERG_MARQUARDT_PLUGIN})
 add_subdirectory(lmfit)
+endif()
+
 endif()

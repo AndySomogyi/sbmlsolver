@@ -40,7 +40,7 @@ void LMFitThread::start()
 {
     if(mThread.isRunning())
     {
-        Log(Logger::ERROR)<<"Tried to start an already working thread!";
+        Log(lError)<<"Tried to start an already working thread!";
         return;
     }
 
@@ -239,7 +239,7 @@ void evaluate(const double *par,       //Parameter vector
     if(!rrData)
     {
         char* lastError = getLastError();
-        Log(Logger::ERROR)<<"Error in simulateEx: "<<lastError;
+        Log(lError)<<"Error in simulateEx: "<<lastError;
         rr::freeText(lastError);
         return;
     }
@@ -340,7 +340,7 @@ RoadRunnerData LMFitThread::createResidualsData()
                 }
                 else
                 {
-                    Log(Logger::ERROR)<<"Problem with column names when creating residual data!";
+                    Log(lError)<<"Problem with column names when creating residual data!";
                 }
             }
         }

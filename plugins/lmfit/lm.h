@@ -51,8 +51,8 @@ class LM : public Plugin
 
 extern "C"
 {
-PLUGIN_DECLSPEC Plugin*		rrCallConv    createPlugin(rr::RoadRunner* aRR);
-PLUGIN_DECLSPEC const char* rrCallConv    getImplementationLanguage();
+RR_PLUGIN_DECLSPEC Plugin*      rrCallConv    createPlugin(rr::RoadRunner* aRR);
+RR_PLUGIN_DECLSPEC const char*  rrCallConv    getImplementationLanguage();
 }
 
 

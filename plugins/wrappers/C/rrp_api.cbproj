@@ -38,16 +38,9 @@
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win64)'!=''">
-        <Cfg_2_Win64>true</Cfg_2_Win64>
-        <CfgParent>Cfg_2</CfgParent>
-        <Cfg_2>true</Cfg_2>
-        <Base>true</Base>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
         <Manifest_File>None</Manifest_File>
         <Multithreaded>true</Multithreaded>
-        <BCC_PCHInject>rrp_pch.h</BCC_PCHInject>
         <_TCHARMapping>char</_TCHARMapping>
         <ILINK_GenerateImportLibrary>true</ILINK_GenerateImportLibrary>
         <DynamicRTL>true</DynamicRTL>
@@ -75,7 +68,6 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win64)'!=''">
         <PackageImports>VCLCommon;bindcompfmx;DBXSqliteDriver;fmx;rtl;dbrtl;DbxClientDriver;TeeDB;IndySystem;bindcomp;inetdb;vclib;DBXInterBaseDriver;Tee;DataSnapCommon;xmlrtl;ibxpress;DbxCommonDriver;vclimg;IndyProtocols;DBXMySQLDriver;dbxcds;soaprtl;bindcompdbx;bindengine;vclactnband;vcldb;vcldsnap;bindcompvcl;TeeUI;vclie;vcltouch;websnap;CustomIPTransport;dsnap;IndyIPServer;fmxase;vcl;IndyCore;IndyIPCommon;dsnapcon;inet;fmxobj;vclx;inetdbxpress;webdsnap;fmxdae;adortl;dbexpress;IndyIPClient;$(PackageImports)</PackageImports>
-        <BCC_PCHName_Clang>rrp_pch.h</BCC_PCHName_Clang>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1)'!=''">
         <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
@@ -100,6 +92,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <BCC_PCHInject>rrp_pch.h</BCC_PCHInject>
         <BPILibOutputDir>$(RR_INSTALL)\lib</BPILibOutputDir>
         <IncludePath>$(RR_ROOT)\source;$(RR_ROOT)\Wrappers\C;$(RR_INSTALL)\include;$(IncludePath)</IncludePath>
         <FinalOutputDir>$(RR_INSTALL)\bin</FinalOutputDir>
@@ -110,46 +103,7 @@
         <Defines>NDEBUG;$(Defines)</Defines>
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
-        <BCC_PCHName_Clang>rrp_pch.h</BCC_PCHName_Clang>
-    </PropertyGroup>
     <ItemGroup>
-        <CppCompile Include="rrBaseParameter.cpp">
-            <DependentOn>rrBaseParameter.h</DependentOn>
-            <BuildOrder>2</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="rrCapabilities.cpp">
-            <DependentOn>rrCapabilities.h</DependentOn>
-            <BuildOrder>6</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="rrCapability.cpp">
-            <DependentOn>rrCapability.h</DependentOn>
-            <BuildOrder>7</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="rrCPlugin.cpp">
-            <DependentOn>rrCPlugin.h</DependentOn>
-            <BuildOrder>8</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="rrCPPPlugin.cpp">
-            <DependentOn>rrCPPPlugin.h</DependentOn>
-            <BuildOrder>9</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="rrMinimizationData.cpp">
-            <DependentOn>rrMinimizationData.h</DependentOn>
-            <BuildOrder>10</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="rrParameters.cpp">
-            <DependentOn>rrParameters.h</DependentOn>
-            <BuildOrder>11</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="rrPlugin.cpp">
-            <DependentOn>rrPlugin.h</DependentOn>
-            <BuildOrder>12</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="rrPluginManager.cpp">
-            <DependentOn>rrPluginManager.h</DependentOn>
-            <BuildOrder>13</BuildOrder>
-        </CppCompile>
         <CppCompile Include="rrp_api.cpp">
             <DependentOn>rrp_api.h</DependentOn>
             <BuildOrder>5</BuildOrder>
@@ -171,9 +125,6 @@
             <DependentOn>rrp_parameter_api.h</DependentOn>
             <BuildOrder>4</BuildOrder>
         </CppCompile>
-        <PCHCompile Include="rrp_pch.h">
-            <BuildOrder>0</BuildOrder>
-        </PCHCompile>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
