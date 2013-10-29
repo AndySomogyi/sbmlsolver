@@ -24,7 +24,7 @@ add_library(${target} SHARED
 if(WIN32)
     set_property(TARGET ${target}
         PROPERTY  COMPILE_DEFINITIONS
-        EXPORT_RRP
+        EXPORT_PLUGINS_API
         LIBSBML_STATIC
         LIBLAX_STATIC
         STATIC_PUGI
@@ -35,6 +35,8 @@ if(WIN32)
 
     target_link_libraries ( ${target}
         roadrunner-static
+        IPHLPAPI
+        poco_foundation-static
         )
 else() #Unix
     # OSX flags:
