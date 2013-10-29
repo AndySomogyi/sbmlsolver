@@ -6,8 +6,10 @@
 #if defined(RRP_STATIC)
     #pragma comment(lib, "roadrunner-static.lib")
     #pragma comment(lib, "rrc_api-static.lib")
+    #pragma comment(lib, "rrPluginsAPI-static.lib")
 #else
     #pragma comment(lib, "roadrunner.lib")
+    #pragma comment(lib, "rrPluginsAPI.lib")
     #pragma comment(lib, "rrc_api.lib")
 #endif
 

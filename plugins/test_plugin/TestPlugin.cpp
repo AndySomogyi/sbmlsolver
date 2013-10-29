@@ -1,13 +1,14 @@
 #pragma hdrstop
 #include "TestPlugin.h"
-#include "rrCapability.h"
 #include "rrRoadRunner.h"
-#include "rrParameter.h"
+#include <iostream>
 
 //---------------------------------------------------------------------------
 namespace TestPlugin
 {
 using namespace rr;
+using namespace rrp;
+using namespace std;
 
 TestPlugin::TestPlugin(rr::RoadRunner* aRR, int testParameter)
 :
@@ -34,24 +35,26 @@ bool TestPlugin::execute(void* userData)
     return true;
 }
 
-// Plugin rrraw C functions
-rr::Plugin* rrCallConv createPlugin(rr::RoadRunner* aRR)
+// Plugin raw C functions
+TestPlugin* rrpCallConv createPlugin(rr::RoadRunner* aRR)
 {
     //allocate a new object and return it
     return new TestPlugin(aRR);
 }
 
-const char* rrCallConv getImplementationLanguage()
+const char* rrpCallConv getImplementationLanguage()
 {
     return "CPP";
 }
 
 }
 #if defined(CG_UI)
-    #if defined(STATIC_BUILD)
+    #if defined(STATIC_PLUGIN)
         #pragma comment(lib, "roadrunner-static.lib")
+        #pragma comment(lib, "rrPluginsAPI-static.lib")
     #else
         #pragma comment(lib, "roadrunner.lib")
+        #pragma comment(lib, "rrPluginsAPI.lib")
     #endif
 #endif
 

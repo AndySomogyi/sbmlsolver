@@ -239,7 +239,9 @@ void evaluate(const double *par,       //Parameter vector
     if(!rrData)
     {
         char* lastError = getLastError();
+
         Log(Logger::LOG_ERROR)<<"Error in simulateEx: "<<lastError;
+
         rr::freeText(lastError);
         return;
     }

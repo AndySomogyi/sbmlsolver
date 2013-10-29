@@ -2,7 +2,7 @@
 #define rrParametersH
 #include <string>
 #include <vector>
-#include "rrp_exporter.h"
+#include "rrPluginsAPIExporter.h"
 #include "rrBaseParameter.h"
 #include "rrStringList.h"
 //---------------------------------------------------------------------------
@@ -18,7 +18,7 @@ using std::string;
  * @internal
  * @deprecated
  */
-class RRP_DECLSPEC Parameters
+class PLUGINS_API_DECLSPEC Parameters
 {
     protected:
         vector<BaseParameter*>             mParas;
@@ -36,7 +36,7 @@ class RRP_DECLSPEC Parameters
         BaseParameter*                     getParameter(const string& paraName);
         void                               clear();
 
-        RRP_DECLSPEC friend ostream&       operator <<(ostream& os, const Parameters& pars);
+        PLUGINS_API_DECLSPEC friend ostream&       operator <<(ostream& os, const Parameters& pars);
 };
 
 }

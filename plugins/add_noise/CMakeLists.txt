@@ -32,7 +32,7 @@ add_definitions( -D_WIN32)
 target_link_libraries (${target}
 roadrunner-static
 rrc_api
-rrp_api
+rrPluginsAPI
 )
 else() #UNIX
     # OSX flags:
@@ -62,7 +62,7 @@ else() #UNIX
         f2c
         pthread
         rrc_api
-        rrp_api
+        rrPluginsAPI
         )
 endif()
 

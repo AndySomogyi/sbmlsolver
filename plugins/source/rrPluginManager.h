@@ -2,7 +2,7 @@
 #define rrPluginManagerH
 #include <vector>
 #include <string>
-#include "rrp_exporter.h"
+#include "rrPluginsAPIExporter.h"
 #include "rrConstants.h"
 #include "rrStringList.h"
 #include "Poco/SharedLibrary.h"
@@ -30,7 +30,7 @@ class Plugin;
  * @internal
  * Abstract class for plugins
  */
-class RRP_DECLSPEC PluginManager : public Configurable
+class PLUGINS_API_DECLSPEC PluginManager : public Configurable
 {
     private:
         string                          mPluginFolder;

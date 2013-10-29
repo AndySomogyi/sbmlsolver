@@ -1,7 +1,7 @@
 #ifndef rrMinimizationDataH
 #define rrMinimizationDataH
 #include <ostream>
-#include "rrp_exporter.h"
+#include "rrPluginsAPIExporter.h"
 #include "rrStringList.h"
 #include "rrRoadRunnerData.h"
 #include "rrParameter.h"
@@ -16,7 +16,7 @@ using rr::RoadRunnerData;
 /**
  * @internal
  */
-class RRP_DECLSPEC MinimizationData
+class PLUGINS_API_DECLSPEC MinimizationData
 {
     protected:
         RoadRunnerData                  mObservedData;                  //Observed data
@@ -58,7 +58,7 @@ class RRP_DECLSPEC MinimizationData
         RoadRunnerData&                 getModelDataReference();
         RoadRunnerData&                 getResidualsDataReference();
 
-        RRP_DECLSPEC
+        PLUGINS_API_DECLSPEC
         friend ostream&                 operator<<(ostream& stream, const MinimizationData& outMe);
         string                          getReport() const;
         Parameters                      getParameters();

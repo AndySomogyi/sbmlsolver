@@ -4,7 +4,7 @@
 #include "rrUtils.h"
 #include "rrPlugin.h"
 #include "rrParameter.h"
-#include "rrp_types.h" //We may want to move this header to the Source folder
+//#include "rrp_types.h" //We may want to move this header to the Source folder
 //---------------------------------------------------------------------------
 using namespace std;
 namespace rrp
