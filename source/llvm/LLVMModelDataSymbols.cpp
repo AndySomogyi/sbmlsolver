@@ -30,31 +30,43 @@ using Poco::LogStream;
 using Poco::Message;
 
 static const char* modelDataFieldsNames[] =  {
-    "Size",                                     // 0
-    "Flags",                                    // 1
-    "Time",                                     // 2
-    "NumIndependentSpecies",                    // 3
-    "NumDependentSpecies",                      // 4
-    "DependentSpeciesConservedSums",            // 5
-    "NumGlobalParameters",                      // 6
-    "GlobalParameters",                         // 7
-    "NumReactions",                             // 8
-    "ReactionRates",                            // 9
-    "NumRateRules",                             // 10
-    "RateRuleValues",                           // 11
-    "RateRuleRates",                            // 12
-    "NumFloatingSpecies",                       // 13
-    "FloatingSpeciesAmountRates",               // 14
-    "FloatingSpeciesAmounts",                   // 15
-    "NumBoundarySpecies",                       // 16
-    "BoundarySpeciesAmounts",                   // 17
-    "NumCompartments",                          // 18
-    "CompartmentVolumes",                       // 19
-    "Stoichiometry",                            // 20
-    "NumEvents",                                // 21
-    "StateVectorSize",                          // 22
-    "StateVector",                              // 23
-    "StateVectorRate",                          // 24
+        "Size",                                 // 0
+        "Flags",                                // 1
+        "Time",                                 // 2
+        "NumIndCompartments",                   // 3
+        "NumIndFloatingSpecies",                // 4
+        "NumIndBoundarySpecies",                // 5
+        "NumIndGlobalParameters",               // 6
+        "NumRateRules",                         // 7
+        "NumReactions",                         // 8
+        "Stoichiometry",                        // 9
+        "NumEvents",                            // 10
+        "StateVectorSize",                      // 11
+        "StateVector",                          // 12
+        "StateVectorRate",                      // 13
+        "RateRuleRates",                        // 14
+        "FloatingSpeciesAmountRates",           // 15
+        "CompartmentVolumesAlias",              // 16
+        "CompartmentVolumesInitAlias",          // 17
+        "FloatingSpeciesAmountsAlias",          // 18
+        "FloatingSpeciesAmountsInitAlias",      // 19
+        "BoundarySpeciesAmountsAlias",          // 20
+        "BoundarySpeciesAmountsInitAlias",      // 21
+        "GlobalParametersAlias",                // 22
+        "GlobalParametersInitAlias",            // 23
+        "RateRuleValuesAlias",                  // 24
+        "ReactionRatesAlias"                    // 25
+        "CompartmentVolumes",                   // 26
+        "CompartmentVolumesInit",               // 27
+        "FloatingSpeciesAmounts",               // 28
+        "FloatingSpeciesAmountsInit",           // 29
+        "BoundarySpeciesAmounts",               // 30
+        "BoundarySpeciesAmountsInit",           // 31
+        "GlobalParameters",                     // 32
+        "GlobalParametersInit",                 // 33
+        "RateRuleValues",                       // 34
+        "ReactionRates"                         // 35
+
 };
 
 
@@ -217,43 +229,55 @@ uint LLVMModelDataSymbols::getGlobalParameterIndex(
     }
 }
 
+/*
 void LLVMModelDataSymbols::initAllocModelDataBuffers(LLVMModelData& m) const
 {
     // zero out the structure
     LLVMModelData::init(m);
 
     // set the buffer sizes
-    m.numIndependentSpecies         = independentFloatingSpeciesSize;
+    m.numIndFloatingSpecies         = independentFloatingSpeciesSize;
 
     //mData.numDependentSpecies           = ms.mNumDependentSpecies;
-    m.numGlobalParameters           = independentGlobalParameterSize;
+    m.numIndGlobalParameters        = independentGlobalParameterSize;
     m.numReactions                  = reactionsMap.size();
     m.numEvents                     = eventAttributes.size();
-    m.numFloatingSpecies            = independentFloatingSpeciesSize;
     m.numRateRules                  = rateRules.size();
-    m.numCompartments               = independentCompartmentSize;
-    m.numBoundarySpecies            = independentBoundarySpeciesSize;
+    m.numIndCompartments               = independentCompartmentSize;
+    m.numIndBoundarySpecies            = independentBoundarySpeciesSize;
 
     // in certain cases, the data returned by c++ new may be alligned differently than
     // malloc, so just use calloc here just to be safe, plus calloc returns zero
     // initialized memory.
 
-    m.floatingSpeciesAmounts = (double*)calloc(m.numIndependentSpecies, sizeof(double));
+    m.floatingSpeciesAmountsAlias = (double*)calloc(m.numIndFloatingSpecies, sizeof(double));
     m.floatingSpeciesAmountRates = 0;
-    m.rateRuleValues = (double*)calloc(m.numRateRules, sizeof(double));
+    m.rateRuleValuesAlias = (double*)calloc(m.numRateRules, sizeof(double));
     m.rateRuleRates = 0;
 
-    m.reactionRates = (double*)calloc(m.numReactions, sizeof(double));
+    m.reactionRatesAlias = (double*)calloc(m.numReactions, sizeof(double));
 
-    m.globalParameters = (double*)calloc(m.numGlobalParameters, sizeof(double));
-    m.compartmentVolumes = (double*)calloc(m.numCompartments, sizeof(double));
+    m.globalParametersAlias = (double*)calloc(m.numIndGlobalParameters, sizeof(double));
+    m.compartmentVolumesAlias = (double*)calloc(m.numIndCompartments, sizeof(double));
 
-    m.boundarySpeciesAmounts = (double*)calloc(m.numBoundarySpecies, sizeof(double));
+    m.boundarySpeciesAmountsAlias = (double*)calloc(m.numIndBoundarySpecies, sizeof(double));
 
 
     // allocate the stoichiometry matrix
-    m.stoichiometry = rr::csr_matrix_new(m.numIndependentSpecies, getReactionSize(),
+    m.stoichiometry = rr::csr_matrix_new(m.numIndFloatingSpecies, getReactionSize(),
             stoichRowIndx, stoichColIndx, vector<double>(stoichRowIndx.size(), 0));
+}
+*/
+
+
+const std::vector<uint>& LLVMModelDataSymbols::getStoichRowIndx() const
+{
+    return stoichRowIndx;
+}
+
+const std::vector<uint>& LLVMModelDataSymbols::getStoichColIndx() const
+{
+    return stoichColIndx;
 }
 
 std::vector<std::string> LLVMModelDataSymbols::getCompartmentIds() const
@@ -398,7 +422,7 @@ bool LLVMModelDataSymbols::isIndependentCompartment(const std::string& id) const
 
 const char* LLVMModelDataSymbols::getFieldName(ModelDataFields field)
 {
-    if (field >= Size && field <= StateVectorRate)
+    if (field >= Size && field <= ReactionRates)
     {
         return modelDataFieldsNames[field];
     }

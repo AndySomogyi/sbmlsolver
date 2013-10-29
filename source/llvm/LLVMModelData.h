@@ -56,25 +56,40 @@ struct LLVMModelData
      */
     double                              time;                             // 2
 
-    /**
-     * number of linearly independent rows in the stochiometry matrix.
-     */
-    unsigned                            numIndependentSpecies;            // 3
+    unsigned                            numIndCompartments;               // 3
 
     /**
-     * number of linerly dependent rows in the stoichiometry matrix.
+     * The total ammounts of the floating species, i.e.
+     * concentration * compartment volume.
+     * Everything named floatingSpecies??? has length numFloatingSpecies.
      *
-     * numIndependentVariables + numDependentVariables had better
-     * be equal to numFloatingSpecies
+     * Note, the floating species consist of BOTH independent AND dependent
+     * species. Indexes [0,numIndpendentSpecies) values are the indenpendent
+     * species, and the [numIndFloatingSpecies,numIndendentSpecies+numDependentSpecies)
+     * contain the dependent species.
      */
-    unsigned                            numDependentSpecies;              // 4
-    double*                             dependentSpeciesConservedSums;    // 5
+    unsigned                            numIndFloatingSpecies;            // 4
+
+
+    /**
+     * number of boundary species and boundary species concentrations.
+     * units: either
+     * Mass Percent = (Mass of Solute) / (Mass of Solution) x 100%
+     * Volume Percent= (Volume of Solute) / (Volume of Solution) x 100%
+     * Mass/Volume Percent= (Mass of Solute) / (Volume of Solution) x 100%
+     */
+    unsigned                            numIndBoundarySpecies;            // 5
 
     /**
      * number of global parameters
      */
-    unsigned                            numGlobalParameters;              // 6
-    double*                             globalParameters;                 // 7
+    unsigned                            numIndGlobalParameters;           // 6
+
+
+    /**
+     * all rate rules are by definition dependent
+     */
+    unsigned                            numRateRules;                     // 7
 
     /**
      * number of reactions, same as ratesSize.
@@ -82,9 +97,81 @@ struct LLVMModelData
      * species rates.
      */
     unsigned                            numReactions;                     // 8
-    double*                             reactionRates;                    // 9
 
-    unsigned                            numRateRules;                     // 10
+    /**
+     * stoichiometry matrix
+     */
+    rr::csr_matrix*                     stoichiometry;                    // 9
+
+
+    //Event stuff
+    unsigned                            numEvents;                        // 10
+
+    /**
+     * number of items in the state vector.
+     * should be numIndFloatingSpecies + numRateRules
+     */
+    unsigned                            stateVectorSize;                  // 11
+
+    /**
+     * the state vector, this is usually a pointer to a block of data
+     * owned by the integrator.
+     */
+    double*                             stateVector;                      // 12
+
+    /**
+     * the rate of change of the state vector, this is usually a pointer to
+     * a block of data owned by the integrator.
+     */
+    double*                             stateVectorRate;                  // 13
+
+    /**
+     * the rate of change of all elements who's dynamics are determined
+     * by rate rules.
+     *
+     * This is just a pointer to a data block
+     * owned by the integrator.
+     *
+     * Normally NULL, only valid durring an evalModel call.
+     */
+    double*                             rateRuleRates;                    // 14
+
+
+
+    /**
+     * amount rates of change for floating species.
+     *
+     * This pointer is ONLY valid during an evalModel call, otherwise it is
+     * zero. TODO, this needs be be moved to a parameter.
+     */
+    double*                             floatingSpeciesAmountRates;       // 15
+
+    // permanent data section
+
+
+    /**
+     * number of compartments, and compartment volumes.
+     * units: volume
+     */
+
+    double*                             compartmentVolumesAlias;          // 16
+    double*                             compartmentVolumesInitAlias;      // 17
+
+    /**
+     * The total amount of a species in a compartment.
+     * dynamically allocated.
+     *
+     * Durring an evalModel call, this points to a daba block owned by the
+     * integrator.
+     */
+    double*                             floatingSpeciesAmountsAlias;      // 18
+    double*                             floatingSpeciesAmountsInitAlias;  // 19
+
+    double*                             boundarySpeciesAmountsAlias;      // 20
+    double*                             boundarySpeciesAmountsInitAlias;  // 21
+
+    double*                             globalParametersAlias;            // 22
+    double*                             globalParametersInitAlias;        // 23
 
     /**
      * All of the elelments which have a rate rule are stored here.
@@ -94,93 +181,20 @@ struct LLVMModelData
      *
      * Only used in the LLVM version.
      */
-    double*                             rateRuleValues;                   // 11
+    double*                             rateRuleValuesAlias;              // 24
 
-    /**
-     * the rate of change of all elements who's dynamics are determined
-     * by rate rules.
-     *
-     * In the LLVM version, this is just a pointer to a data block
-     * owned by the integrator. In the C version, lots of strange
-     * stuff goes on here, but the C version does allocate this block,
-     * and do all sorts of copying back and forth between the integrator's
-     * rate rule block.
-     */
-    double*                             rateRuleRates;                    // 12
+    double*                             reactionRatesAlias;               // 25
 
-    /**
-     * The total ammounts of the floating species, i.e.
-     * concentration * compartment volume.
-     * Everything named floatingSpecies??? has length numFloatingSpecies.
-     *
-     * Note, the floating species consist of BOTH independent AND dependent
-     * species. Indexes [0,numIndpendentSpecies) values are the indenpendent
-     * species, and the [numIndependentSpecies,numIndendentSpecies+numDependentSpecies)
-     * contain the dependent species.
-     */
-    unsigned                            numFloatingSpecies;               // 13
+    double                              data[0];                          // 26
 
-    /**
-     * amount rates of change for floating species.
-     *
-     * This pointer is ONLY valid during an evalModel call, otherwise it is
-     * zero. TODO, this needs be be moved to a parameter.
-     */
-    double*                             floatingSpeciesAmountRates;       // 14
-
-    /**
-     * The total amount of a species in a compartment.
-     */
-    double*                             floatingSpeciesAmounts;           // 15
-
-    /**
-     * number of boundary species and boundary species concentrations.
-     * units: either
-     * Mass Percent = (Mass of Solute) / (Mass of Solution) x 100%
-     * Volume Percent= (Volume of Solute) / (Volume of Solution) x 100%
-     * Mass/Volume Percent= (Mass of Solute) / (Volume of Solution) x 100%
-     */
-    unsigned                            numBoundarySpecies;               // 16
-    double*                             boundarySpeciesAmounts;           // 17
-
-    /**
-     * number of compartments, and compartment volumes.
-     * units: volume
-     */
-    unsigned                            numCompartments;                  // 18
-    double*                             compartmentVolumes;               // 19
-
-    /**
-     * stoichiometry matrix
-     */
-    rr::csr_matrix*                         stoichiometry;                    // 20
-
-
-    //Event stuff
-    unsigned                            numEvents;                        // 21
-
-    /**
-     * number of items in the state vector.
-     */
-    unsigned                            stateVectorSize;                  // 22
-
-    /**
-     * the state vector, this is usually a pointer to a block of data
-     * owned by the integrator.
-     */
-    double*                             stateVector;                      // 23
-
-    /**
-     * the rate of change of the state vector, this is usually a pointer to
-     * a block of data owned by the integrator.
-     */
-    double*                             stateVectorRate;                  // 24
 
 
     static void init(LLVMModelData&);
 
-    static void freeBuffers(LLVMModelData&);
+    static void free(LLVMModelData*);
 };
+
+
 
 std::ostream& operator <<(std::ostream& os, const LLVMModelData& data);
 

@@ -32,28 +32,39 @@ enum ModelDataFields {
     Size = 0,                                 // 0
     Flags,                                    // 1
     Time,                                     // 2
-    NumIndependentSpecies,                    // 3
-    NumDependentSpecies,                      // 4
-    DependentSpeciesConservedSums,            // 5
-    NumGlobalParameters,                      // 6
-    GlobalParameters,                         // 7
+    NumIndCompartments,                       // 3
+    NumIndFloatingSpecies,                    // 4
+    NumIndBoundarySpecies,                    // 5
+    NumIndGlobalParameters,                   // 6
+    NumRateRules,                             // 7
     NumReactions,                             // 8
-    ReactionRates,                            // 9
-    NumRateRules,                             // 10
-    RateRuleValues,                           // 11
-    RateRuleRates,                            // 12
-    NumFloatingSpecies,                       // 13
-    FloatingSpeciesAmountRates,               // 14
-    FloatingSpeciesAmounts,                   // 15
-    NumBoundarySpecies,                       // 16
-    BoundarySpeciesAmounts,                   // 17
-    NumCompartments,                          // 18
-    CompartmentVolumes,                       // 19
-    Stoichiometry,                            // 20
-    NumEvents,                                // 21
-    StateVectorSize,                          // 22
-    StateVector,                              // 23
-    StateVectorRate,                          // 24
+    Stoichiometry,                            // 9
+    NumEvents,                                // 10
+    StateVectorSize,                          // 11
+    StateVector,                              // 12
+    StateVectorRate,                          // 13
+    RateRuleRates,                            // 14
+    FloatingSpeciesAmountRates,               // 15
+    CompartmentVolumesAlias,                  // 16
+    CompartmentVolumesInitAlias,              // 17
+    FloatingSpeciesAmountsAlias,              // 18
+    FloatingSpeciesAmountsInitAlias,          // 19
+    BoundarySpeciesAmountsAlias,              // 20
+    BoundarySpeciesAmountsInitAlias,          // 21
+    GlobalParametersAlias,                    // 22
+    GlobalParametersInitAlias,                // 23
+    RateRuleValuesAlias,                      // 24
+    ReactionRatesAlias,                       // 25
+    CompartmentVolumes,                       // 26
+    CompartmentVolumesInit,                   // 27
+    FloatingSpeciesAmounts,                   // 28
+    FloatingSpeciesAmountsInit,               // 29
+    BoundarySpeciesAmounts,                   // 30
+    BoundarySpeciesAmountsInit,               // 31
+    GlobalParameters,                         // 32
+    GlobalParametersInit,                     // 33
+    RateRuleValues,                           // 34
+    ReactionRates,                            // 35
 };
 
 enum EventAtributes
@@ -192,7 +203,7 @@ public:
      * initialize and allocate the buffers (including the stoich matrix)
      * for an existing ModelData struct.
      */
-    void initAllocModelDataBuffers(LLVMModelData& m) const;
+    //void initAllocModelDataBuffers(LLVMModelData& m) const;
 
     void print() const;
 
@@ -231,6 +242,16 @@ public:
      * that events need to save the event data to.
      */
     uint getEventBufferSize(uint eventId) const;
+
+    /**
+     * the the row indices of non-zero stoichiometry values
+     */
+    const std::vector<uint>& getStoichRowIndx() const;
+
+    /**
+     * the the column indices of non-zero stoichiometry values
+     */
+    const std::vector<uint>& getStoichColIndx() const;
 
 
 private:

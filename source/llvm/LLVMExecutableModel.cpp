@@ -86,6 +86,7 @@ static int setValues(LLVMModelData* modelData, bool (*funcPtr)(LLVMModelData*, i
 
 LLVMExecutableModel::LLVMExecutableModel() :
     symbols(0),
+    modelData(0),
     evalInitialConditionsPtr(0),
     evalReactionRatesPtr(0),
     getBoundarySpeciesAmountPtr(0),
@@ -109,18 +110,14 @@ LLVMExecutableModel::LLVMExecutableModel() :
     setCompartmentVolumePtr(0),
     setGlobalParameterPtr(0)
 {
-    // zero out the struct, the generator will fill it out.
-    LLVMModelData::init(modelData);
-
-    modelData.time = -1.0;
-
     std::srand(std::time(0));
 }
 
 LLVMExecutableModel::LLVMExecutableModel(
-    const std::tr1::shared_ptr<ModelResources>& rc) :
+    const std::tr1::shared_ptr<ModelResources>& rc, LLVMModelData* modelData) :
     resources(rc),
     symbols(rc->symbols),
+    modelData(modelData),
     evalInitialConditionsPtr(rc->evalInitialConditionsPtr),
     evalReactionRatesPtr(rc->evalReactionRatesPtr),
     getBoundarySpeciesAmountPtr(rc->getBoundarySpeciesAmountPtr),
@@ -144,21 +141,18 @@ LLVMExecutableModel::LLVMExecutableModel(
     setCompartmentVolumePtr(rc->setCompartmentVolumePtr),
     setGlobalParameterPtr(rc->setGlobalParameterPtr)
 {
-    // zero out the struct,
-    LLVMModelData::init(modelData);
-    modelData.time = -1.0; // time is initially before simulation starts
+    modelData->time = -1.0; // time is initially before simulation starts
 
     std::srand(std::time(0));
 
-    symbols->initAllocModelDataBuffers(modelData);
-
-    eventAssignTimes.resize(modelData.numEvents);
+    eventAssignTimes.resize(modelData->numEvents);
 }
 
 LLVMExecutableModel::~LLVMExecutableModel()
 {
     // smart ptr takes care of freeing resources
-    LLVMModelData::freeBuffers(modelData);
+
+    LLVMModelData::free(modelData);
 
     Log(Logger::LOG_DEBUG) << __FUNC__;
 }
@@ -170,22 +164,22 @@ string LLVMExecutableModel::getModelName()
 
 void LLVMExecutableModel::setTime(double time)
 {
-    modelData.time = time;
+    modelData->time = time;
 }
 
 double LLVMExecutableModel::getTime()
 {
-    return modelData.time;
+    return modelData->time;
 }
 
-int LLVMExecutableModel::getNumIndependentSpecies()
+int LLVMExecutableModel::getNumIndependentFloatingSpecies()
 {
-    return modelData.numIndependentSpecies;
+    return modelData->numIndFloatingSpecies;
 }
 
-int LLVMExecutableModel::getNumDependentSpecies()
+int LLVMExecutableModel::getNumDependentFloatingSpecies()
 {
-    return modelData.numDependentSpecies;
+    return symbols->getFloatingSpeciesSize() - modelData->numIndFloatingSpecies;
 }
 
 int LLVMExecutableModel::getNumFloatingSpecies()
@@ -210,7 +204,7 @@ int LLVMExecutableModel::getNumCompartments()
 
 int LLVMExecutableModel::getNumReactions()
 {
-    return modelData.numReactions;
+    return modelData->numReactions;
 }
 
 int LLVMExecutableModel::getNumLocalParameters(int reactionId)
@@ -229,11 +223,11 @@ void LLVMExecutableModel::computeConservedTotals()
 double LLVMExecutableModel::getFloatingSpeciesConcentration(int index)
 {
     /*
-    if (index >= 0 && index < modelData.numFloatingSpecies)
+    if (index >= 0 && index < modelData->numFloatingSpecies)
     {
-        int compIndex = modelData.floatingSpeciesCompartments[index];
-        return modelData.floatingSpeciesAmounts[index] /
-                modelData.compartmentVolumes[compIndex];
+        int compIndex = modelData->floatingSpeciesCompartments[index];
+        return modelData->floatingSpeciesAmounts[index] /
+                modelData->compartmentVolumes[compIndex];
     }
     else
     {
@@ -247,17 +241,17 @@ double LLVMExecutableModel::getFloatingSpeciesConcentration(int index)
 int LLVMExecutableModel::getFloatingSpeciesConcentrations(int len, int const *indx,
         double *values)
 {
-    return getValues(&modelData, getFloatingSpeciesConcentrationPtr, len, indx, values);
+    return getValues(modelData, getFloatingSpeciesConcentrationPtr, len, indx, values);
 }
 
 void LLVMExecutableModel::getRateRuleValues(double *rateRuleValues)
 {
-    memcpy(rateRuleValues, modelData.rateRuleValues, modelData.numRateRules * sizeof(double));
+    memcpy(rateRuleValues, modelData->rateRuleValuesAlias, modelData->numRateRules * sizeof(double));
 }
 
 void LLVMExecutableModel::setRateRuleValues(const double *rateRuleValues)
 {
-    memcpy(modelData.rateRuleValues, rateRuleValues, modelData.numRateRules * sizeof(double));
+    memcpy(modelData->rateRuleValuesAlias, rateRuleValues, modelData->numRateRules * sizeof(double));
 }
 
 void LLVMExecutableModel::convertToConcentrations()
@@ -274,40 +268,40 @@ void LLVMExecutableModel::computeAllRatesOfChange()
 
 void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
 {
-    modelData.time = time;
+    modelData->time = time;
 
     if (y && dydt)
     {
         // save and assign state vector
-        double *savedRateRules = modelData.rateRuleValues;
-        double *savedFloatingSpeciesAmounts = modelData.floatingSpeciesAmounts;
+        double *savedRateRules = modelData->rateRuleValuesAlias;
+        double *savedFloatingSpeciesAmounts = modelData->floatingSpeciesAmountsAlias;
 
-        modelData.rateRuleValues = const_cast<double*>(y);
-        modelData.floatingSpeciesAmounts = const_cast<double*>(y + modelData.numRateRules);
-        evalVolatileStoichPtr(&modelData);
+        modelData->rateRuleValuesAlias = const_cast<double*>(y);
+        modelData->floatingSpeciesAmountsAlias = const_cast<double*>(y + modelData->numRateRules);
+        evalVolatileStoichPtr(modelData);
 
-        double conversionFactor = evalReactionRatesPtr(&modelData);
+        double conversionFactor = evalReactionRatesPtr(modelData);
 
         // floatingSpeciesAmountRates only valid for the following two
         // functions, this will move to a parameter shortly...
 
-        modelData.floatingSpeciesAmountRates = dydt + modelData.numRateRules;
+        modelData->floatingSpeciesAmountRates = dydt + modelData->numRateRules;
 
-        csr_matrix_dgemv(conversionFactor, modelData.stoichiometry,
-                modelData.reactionRates, 0.0, modelData.floatingSpeciesAmountRates);
+        csr_matrix_dgemv(conversionFactor, modelData->stoichiometry,
+                modelData->reactionRatesAlias, 0.0, modelData->floatingSpeciesAmountRates);
 
-        evalConversionFactorPtr(&modelData);
+        evalConversionFactorPtr(modelData);
 
-        modelData.floatingSpeciesAmountRates = 0;
+        modelData->floatingSpeciesAmountRates = 0;
 
         // this will also move to a parameter for the evalRateRules func...
-        modelData.rateRuleRates = dydt;
-        evalRateRuleRatesPtr(&modelData);
-        modelData.rateRuleRates = 0;
+        modelData->rateRuleRates = dydt;
+        evalRateRuleRatesPtr(modelData);
+        modelData->rateRuleRates = 0;
 
         // restore original pointers for state vector
-        modelData.rateRuleValues = savedRateRules;
-        modelData.floatingSpeciesAmounts = savedFloatingSpeciesAmounts;
+        modelData->rateRuleValuesAlias = savedRateRules;
+        modelData->floatingSpeciesAmountsAlias = savedFloatingSpeciesAmounts;
     }
     else if (y && !dydt)
     {
@@ -317,26 +311,26 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
     {
         // evaluate dydt using current state
 
-        evalVolatileStoichPtr(&modelData);
+        evalVolatileStoichPtr(modelData);
 
-        double conversionFactor = evalReactionRatesPtr(&modelData);
+        double conversionFactor = evalReactionRatesPtr(modelData);
 
         // floatingSpeciesAmountRates only valid for the following two
         // functions, this will move to a parameter shortly...
 
-        modelData.floatingSpeciesAmountRates = dydt + modelData.numRateRules;
+        modelData->floatingSpeciesAmountRates = dydt + modelData->numRateRules;
 
-        csr_matrix_dgemv(conversionFactor, modelData.stoichiometry,
-                modelData.reactionRates, 0.0, modelData.floatingSpeciesAmountRates);
+        csr_matrix_dgemv(conversionFactor, modelData->stoichiometry,
+                modelData->reactionRatesAlias, 0.0, modelData->floatingSpeciesAmountRates);
 
-        evalConversionFactorPtr(&modelData);
+        evalConversionFactorPtr(modelData);
 
-        modelData.floatingSpeciesAmountRates = 0;
+        modelData->floatingSpeciesAmountRates = 0;
 
         // this will also move to a parameter for the evalRateRules func...
-        modelData.rateRuleRates = dydt;
-        evalRateRuleRatesPtr(&modelData);
-        modelData.rateRuleRates = 0;
+        modelData->rateRuleRates = dydt;
+        evalRateRuleRatesPtr(modelData);
+        modelData->rateRuleRates = 0;
     }
 
     /*
@@ -347,13 +341,13 @@ void LLVMExecutableModel::evalModel(double time, const double *y, double *dydt)
         log.stream() << __FUNC__ << endl;
         log.stream() << "y: ";
         if (y) {
-            dump_array(log.stream(), modelData.numRateRules + modelData.numFloatingSpecies, y);
+            dump_array(log.stream(), modelData->numRateRules + modelData->numFloatingSpecies, y);
         } else {
             log.stream() << "null";
         }
         log.stream() << endl << "dydt: ";
         if (dydt) {
-            dump_array(log.stream(), modelData.numRateRules + modelData.numFloatingSpecies, dydt);
+            dump_array(log.stream(), modelData->numRateRules + modelData->numFloatingSpecies, dydt);
         } else {
             log.stream() << "null";
         }
@@ -552,7 +546,7 @@ string LLVMExecutableModel::getReactionId(int id)
 
 void LLVMExecutableModel::evalInitialConditions()
 {
-    evalInitialConditionsPtr(&modelData);
+    evalInitialConditionsPtr(modelData);
 }
 
 void LLVMExecutableModel::reset()
@@ -583,15 +577,15 @@ int LLVMExecutableModel::getStateVector(double* stateVector)
     if (stateVector == 0)
     {
         Log(Logger::LOG_TRACE) << __FUNC__ << ", stateVector: null, returning "
-                << modelData.numRateRules + modelData.numIndependentSpecies;
-        return modelData.numRateRules + modelData.numIndependentSpecies;
+                << modelData->numRateRules + modelData->numIndFloatingSpecies;
+        return modelData->numRateRules + modelData->numIndFloatingSpecies;
     }
 
     getRateRuleValues(stateVector);
 
-    memcpy(stateVector + modelData.numRateRules,
-            modelData.floatingSpeciesAmounts,
-            modelData.numIndependentSpecies * sizeof(double));
+    memcpy(stateVector + modelData->numRateRules,
+            modelData->floatingSpeciesAmountsAlias,
+            modelData->numIndFloatingSpecies * sizeof(double));
 
 
     if (Logger::LOG_TRACE <= rr::Logger::getLevel()) {
@@ -602,13 +596,13 @@ int LLVMExecutableModel::getStateVector(double* stateVector)
 
         log.stream() << __FUNC__ << ",  out stateVector: ";
         if (stateVector) {
-            dump_array(log.stream(), modelData.numRateRules + modelData.numIndependentSpecies, stateVector);
+            dump_array(log.stream(), modelData->numRateRules + modelData->numIndFloatingSpecies, stateVector);
         } else {
             log.stream() << "null";
         }
     }
 
-    return modelData.numRateRules + modelData.numIndependentSpecies;
+    return modelData->numRateRules + modelData->numIndFloatingSpecies;
 }
 
 int LLVMExecutableModel::setStateVector(const double* stateVector)
@@ -618,13 +612,13 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
         return -1;
     }
 
-    memcpy(modelData.rateRuleValues, stateVector, modelData.numRateRules * sizeof(double));
+    memcpy(modelData->rateRuleValuesAlias, stateVector, modelData->numRateRules * sizeof(double));
 
-    memcpy(modelData.floatingSpeciesAmounts,
-            stateVector + modelData.numRateRules,
-            modelData.numIndependentSpecies * sizeof(double));
+    memcpy(modelData->floatingSpeciesAmountsAlias,
+            stateVector + modelData->numRateRules,
+            modelData->numIndFloatingSpecies * sizeof(double));
 
-    evalVolatileStoichPtr(&modelData);
+    evalVolatileStoichPtr(modelData);
 
     /*
     if (Logger::LOG_PRIO_TRACE <= rr::Logger::LOG_GetLogLevel()) {
@@ -635,14 +629,14 @@ int LLVMExecutableModel::setStateVector(const double* stateVector)
 
         log.stream() << __FUNC__ << ",  stateVector: ";
         if (stateVector) {
-            dump_array(log.stream(), modelData.numRateRules + modelData.numIndependentSpecies, stateVector);
+            dump_array(log.stream(), modelData->numRateRules + modelData->numIndFloatingSpecies, stateVector);
         } else {
             log.stream() << "null";
         }
     }
     */
 
-    return modelData.numRateRules + modelData.numIndependentSpecies;
+    return modelData->numRateRules + modelData->numIndFloatingSpecies;
 }
 
 void LLVMExecutableModel::print(std::ostream &stream)
@@ -658,7 +652,7 @@ LLVMExecutableModel* LLVMExecutableModel::dummy()
 
 void LLVMExecutableModel::evalReactionRates()
 {
-    evalReactionRatesPtr(&modelData);
+    evalReactionRatesPtr(modelData);
 }
 
 int LLVMExecutableModel::getNumRules()
@@ -669,7 +663,7 @@ int LLVMExecutableModel::getNumRules()
 int LLVMExecutableModel::getFloatingSpeciesAmounts(int len, const int* indx,
         double* values)
 {
-    return getValues(&modelData, getFloatingSpeciesAmountPtr, len, indx, values);
+    return getValues(modelData, getFloatingSpeciesAmountPtr, len, indx, values);
 }
 
 int LLVMExecutableModel::setFloatingSpeciesConcentrations(int len,
@@ -678,7 +672,7 @@ int LLVMExecutableModel::setFloatingSpeciesConcentrations(int len,
     int result = -1;
     if (setFloatingSpeciesConcentrationPtr)
     {
-        result = setValues(&modelData, setFloatingSpeciesConcentrationPtr, len, indx, values);
+        result = setValues(modelData, setFloatingSpeciesConcentrationPtr, len, indx, values);
     }
     return result;
 }
@@ -686,13 +680,13 @@ int LLVMExecutableModel::setFloatingSpeciesConcentrations(int len,
 int LLVMExecutableModel::getBoundarySpeciesAmounts(int len, const int* indx,
         double* values)
 {
-    return getValues(&modelData, getBoundarySpeciesAmountPtr, len, indx, values);
+    return getValues(modelData, getBoundarySpeciesAmountPtr, len, indx, values);
 }
 
 int LLVMExecutableModel::getBoundarySpeciesConcentrations(int len,
         const int* indx, double* values)
 {
-    return getValues(&modelData, getBoundarySpeciesConcentrationPtr, len, indx, values);
+    return getValues(modelData, getBoundarySpeciesConcentrationPtr, len, indx, values);
 }
 
 int LLVMExecutableModel::setBoundarySpeciesConcentrations(int len,
@@ -701,7 +695,7 @@ int LLVMExecutableModel::setBoundarySpeciesConcentrations(int len,
     int result = -1;
     if (setBoundarySpeciesConcentrationPtr)
     {
-        result = setValues(&modelData, setBoundarySpeciesConcentrationPtr, len, indx, values);
+        result = setValues(modelData, setBoundarySpeciesConcentrationPtr, len, indx, values);
     }
     return result;
 }
@@ -709,7 +703,7 @@ int LLVMExecutableModel::setBoundarySpeciesConcentrations(int len,
 int LLVMExecutableModel::getGlobalParameterValues(int len, const int* indx,
         double* values)
 {
-    return getValues(&modelData, getGlobalParameterPtr, len, indx, values);
+    return getValues(modelData, getGlobalParameterPtr, len, indx, values);
 }
 
 int LLVMExecutableModel::setGlobalParameterValues(int len, const int* indx,
@@ -718,7 +712,7 @@ int LLVMExecutableModel::setGlobalParameterValues(int len, const int* indx,
     int result = -1;
     if (setGlobalParameterPtr)
     {
-        result = setValues(&modelData, setGlobalParameterPtr, len, indx, values);
+        result = setValues(modelData, setGlobalParameterPtr, len, indx, values);
     }
     return result;
 }
@@ -726,7 +720,7 @@ int LLVMExecutableModel::setGlobalParameterValues(int len, const int* indx,
 int LLVMExecutableModel::getCompartmentVolumes(int len, const int* indx,
         double* values)
 {
-    return getValues(&modelData, getCompartmentVolumePtr, len, indx, values);
+    return getValues(modelData, getCompartmentVolumePtr, len, indx, values);
 }
 
 int LLVMExecutableModel::getReactionRates(int len, const int* indx,
@@ -739,9 +733,9 @@ int LLVMExecutableModel::getReactionRates(int len, const int* indx,
     for (int i = 0; i < len; ++i)
     {
         int j = indx ? indx[i] : i;
-        if (j < modelData.numReactions)
+        if (j < modelData->numReactions)
         {
-            values[i] = modelData.reactionRates[j];
+            values[i] = modelData->reactionRatesAlias[j];
         }
         else
         {
@@ -781,20 +775,20 @@ int LLVMExecutableModel::setConservedSums(int len, const int* indx,
 int LLVMExecutableModel::getFloatingSpeciesAmountRates(int len,
         int const *indx, double *values)
 {
-    uint dydtSize = modelData.numRateRules + modelData.numIndependentSpecies;
+    uint dydtSize = modelData->numRateRules + modelData->numIndFloatingSpecies;
 
     double* dydt = (double*)calloc(dydtSize, sizeof(double));
 
     // state vector is packed such that first numRateRules are the rate rule rates,
-    // and the last numIndependentSpecies are the number of independent species.
+    // and the last numIndFloatingSpecies are the number of independent species.
     this->evalModel(this->getTime(), 0, dydt);
 
-    double* amountRates = dydt + modelData.numRateRules;
+    double* amountRates = dydt + modelData->numRateRules;
 
     for (uint i = 0; i < len; ++i)
     {
         uint j = indx ? indx[i] : i;
-        assert(j < modelData.numIndependentSpecies && "index out of range");
+        assert(j < modelData->numIndFloatingSpecies && "index out of range");
         values[i] = amountRates[j];
     }
 
@@ -809,7 +803,7 @@ int LLVMExecutableModel::setFloatingSpeciesAmounts(int len, int const *indx,
     int result = -1;
     if (setFloatingSpeciesAmountPtr)
     {
-        result = setValues(&modelData, setFloatingSpeciesAmountPtr, len, indx, values);
+        result = setValues(modelData, setFloatingSpeciesAmountPtr, len, indx, values);
     }
     return result;
 }
@@ -821,7 +815,7 @@ int LLVMExecutableModel::setCompartmentVolumes(int len, const int* indx,
     int result = -1;
     if (setCompartmentVolumePtr)
     {
-        result = setValues(&modelData, setCompartmentVolumePtr, len, indx, values);
+        result = setValues(modelData, setCompartmentVolumePtr, len, indx, values);
     }
     return result;
 }
@@ -840,7 +834,7 @@ int LLVMExecutableModel::getFloatingSpeciesInitConcentrations(int len,
 
 double LLVMExecutableModel::getStoichiometry(int speciesIndex, int reactionIndex)
 {
-    double result = csr_matrix_get_nz(modelData.stoichiometry, speciesIndex, reactionIndex);
+    double result = csr_matrix_get_nz(modelData->stoichiometry, speciesIndex, reactionIndex);
     return isnan(result) ? 0 : result;
 }
 
@@ -849,11 +843,11 @@ int LLVMExecutableModel::getStoichiometryMatrix(int* pRows, int* pCols,
 {
     // m rows x n cols
     // offset = row*NUMCOLS + column
-    const unsigned m = modelData.stoichiometry->m;
-    const unsigned n = modelData.stoichiometry->n;
-    unsigned *rowptr = modelData.stoichiometry->rowptr;
-    unsigned *colidx = modelData.stoichiometry->colidx;
-    double *values = modelData.stoichiometry->values;
+    const unsigned m = modelData->stoichiometry->m;
+    const unsigned n = modelData->stoichiometry->n;
+    unsigned *rowptr = modelData->stoichiometry->rowptr;
+    unsigned *colidx = modelData->stoichiometry->colidx;
+    double *values = modelData->stoichiometry->values;
 
     double *data = (double*)calloc(m*n, sizeof(double));
 
@@ -883,21 +877,21 @@ int LLVMExecutableModel::getStoichiometryMatrix(int* pRows, int* pCols,
 
 int LLVMExecutableModel::getNumEvents()
 {
-    return modelData.numEvents;
+    return modelData->numEvents;
 }
 
 int LLVMExecutableModel::getEventTriggers(int len, const int *indx, unsigned char *values)
 {
     if (len <= 0)
     {
-        return modelData.numEvents;
+        return modelData->numEvents;
     }
     else
     {
         for (int i = 0; i < len; ++i)
         {
             int j = indx ? indx[i] : i;
-            if (j < modelData.numEvents)
+            if (j < modelData->numEvents)
             {
                 values[j] = getEventTrigger(j);
             }
@@ -914,13 +908,13 @@ void LLVMExecutableModel::evalEvents(double timeEnd,
         const unsigned char* previousEventStatus, const double *initialState,
         double* finalState)
 {
-    modelData.time = timeEnd;
+    modelData->time = timeEnd;
     setStateVector(initialState);
 
     vector<unsigned char> prevEventState(previousEventStatus,
-            previousEventStatus + modelData.numEvents);
+            previousEventStatus + modelData->numEvents);
 
-    vector<unsigned char> currEventStatus(modelData.numEvents);
+    vector<unsigned char> currEventStatus(modelData->numEvents);
 
     unsigned char *p1 = &prevEventState[0];
     unsigned char *p2 = &currEventStatus[0];
@@ -946,11 +940,11 @@ int LLVMExecutableModel::applyPendingEvents(const double *stateVector,
         double timeEnd, double tout)
 {
     int assignedEvents = 0;
-    modelData.time = timeEnd;
+    modelData->time = timeEnd;
     setStateVector(stateVector);
 
-    vector<unsigned char> prevEventState(modelData.numEvents);
-    vector<unsigned char> currEventStatus(modelData.numEvents);
+    vector<unsigned char> prevEventState(modelData->numEvents);
+    vector<unsigned char> currEventStatus(modelData->numEvents);
 
     getEventTriggers(prevEventState.size(), 0, &prevEventState[0]);
 
@@ -971,34 +965,34 @@ int LLVMExecutableModel::applyPendingEvents(const double *stateVector,
 
 void  LLVMExecutableModel::evalEventRoots(double time, const double* y, double* gdot)
 {
-    modelData.time = time;
+    modelData->time = time;
 
-    double *savedRateRules = modelData.rateRuleValues;
-    double *savedFloatingSpeciesAmounts = modelData.floatingSpeciesAmounts;
+    double *savedRateRules = modelData->rateRuleValuesAlias;
+    double *savedFloatingSpeciesAmounts = modelData->floatingSpeciesAmountsAlias;
 
     if (y)
     {
-        //memcpy(modelData.rateRuleValues, y,
-        //        modelData.numRateRules * sizeof(double));
+        //memcpy(modelData->rateRuleValues, y,
+        //        modelData->numRateRules * sizeof(double));
 
-        //memcpy(modelData.floatingSpeciesAmounts, y + modelData.numRateRules,
-        //        modelData.numIndependentSpecies * sizeof(double));
+        //memcpy(modelData->floatingSpeciesAmounts, y + modelData->numRateRules,
+        //        modelData->numIndFloatingSpecies * sizeof(double));
 
-        modelData.rateRuleValues = const_cast<double*>(y);
-        modelData.floatingSpeciesAmounts = const_cast<double*>(y + modelData.numRateRules);
+        modelData->rateRuleValuesAlias = const_cast<double*>(y);
+        modelData->floatingSpeciesAmountsAlias = const_cast<double*>(y + modelData->numRateRules);
 
-        evalVolatileStoichPtr(&modelData);
+        evalVolatileStoichPtr(modelData);
     }
 
-    for (uint i = 0; i < modelData.numEvents; ++i)
+    for (uint i = 0; i < modelData->numEvents; ++i)
     {
-        unsigned char triggered = getEventTriggerPtr(&modelData, i);
+        unsigned char triggered = getEventTriggerPtr(modelData, i);
 
         gdot[i] = triggered ? 1.0 : -1.0;
     }
 
-    modelData.rateRuleValues = savedRateRules;
-    modelData.floatingSpeciesAmounts = savedFloatingSpeciesAmounts;
+    modelData->rateRuleValuesAlias = savedRateRules;
+    modelData->floatingSpeciesAmountsAlias = savedFloatingSpeciesAmounts;
 
     return;
 }
@@ -1020,7 +1014,7 @@ void LLVMExecutableModel::resetEvents()
 bool LLVMExecutableModel::applyEvents(unsigned char* prevEventState,
         unsigned char* currEventState)
 {
-    for (uint i = 0; i < modelData.numEvents; ++i)
+    for (uint i = 0; i < modelData->numEvents; ++i)
     {
         bool c = getEventTrigger(i);
         currEventState[i] = c;

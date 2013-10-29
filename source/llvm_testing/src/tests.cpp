@@ -62,7 +62,7 @@ string getModelFileName(const string& version, int caseNumber)
 
 bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 {
-    LLVMModelData md = {0};
+    LLVMModelData *md = 0;
     string modelFileName = getModelFileName(version, caseNumber);
 
     SBMLDocument *doc = readSBMLFromFile(modelFileName.c_str());
@@ -74,12 +74,11 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 
         c.getModelDataSymbols().print();
 
-        c.getModelDataSymbols().initAllocModelDataBuffers(md);
+        createModelData(c.getModelDataSymbols());
 
         ExecutionEngine &engine = c.getExecutionEngine();
 
-        StructType *s = ModelDataIRBuilder::getStructType(c.getModule(),
-                &c.getExecutionEngine());
+        StructType *s = ModelDataIRBuilder::getStructType(c.getModule());
 
         EvalInitialConditionsCodeGen iv(c);
 
@@ -87,7 +86,7 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 
         pfunc = iv.createFunction();
 
-        pfunc(&md);
+        pfunc(md);
 
         Log(lInfo) << md;
 
@@ -106,16 +105,14 @@ bool runInitialValueAssigmentTest(const string& version, int caseNumber)
 
 bool runModelDataAccessorTest(const string& version, int caseNumber)
 {
-    LLVMModelData md;
+    LLVMModelData *md;
     string modelFileName = getModelFileName(version, caseNumber);
 
     SBMLDocument *doc = readSBMLFromFile(modelFileName.c_str());
 
     ModelGeneratorContext c(doc, true);
 
-    c.getModelDataSymbols().initAllocModelDataBuffers(md);
-
-    md.size = sizeof(LLVMModelData);
+    md = createModelData(c.getModelDataSymbols());
 
     LLVMModelDataIRBuilderTesting builder(c.getModelDataSymbols(), c.getBuilder());
 
@@ -135,7 +132,7 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
     // can call it as a native function.
     int (*pfunc)(LLVMModelData*) = (int (*)(LLVMModelData*))engine.getPointerToFunction(getFunc);
 
-    double value = pfunc(&md);
+    double value = pfunc(md);
 
     cout << "get_size returned " << value << "\n";
 
@@ -144,9 +141,9 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
     vector<string> floatSpeciesIds = c.getModelDataSymbols().getFloatingSpeciesIds();
 
 
-    for(int i = 0; i < md.numCompartments; i++)
+    for(int i = 0; i < md->numIndCompartments; i++)
     {
-        md.compartmentVolumes[i] = 1.5;
+        md->compartmentVolumesAlias[i] = 1.5;
     }
 
     for(int i = 0; i < floatSpeciesIds.size(); i++)
@@ -163,7 +160,7 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
               // can call it as a native function.
         double (*pfunc)(LLVMModelData*) = (double (*)(LLVMModelData*))engine.getPointerToFunction(getFunc);
 
-        double value = pfunc(&md);
+        double value = pfunc(md);
 
         cout << getName << " returned " << value << "\n";
 
@@ -172,12 +169,12 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
 
         void (*psetfunc)(LLVMModelData*,double) = (void (*)(LLVMModelData*,double))engine.getPointerToFunction(setFunc);
 
-        psetfunc(&md, i+1);
+        psetfunc(md, i+1);
 
     }
 
 
-    LLVMModelData::freeBuffers(md);
+    LLVMModelData::free(md);
 
     delete doc;
 

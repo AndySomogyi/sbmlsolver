@@ -75,12 +75,12 @@ double CompiledExecutableModel::getTime()
 }
 
 /////////////////// The following used to be in IModel
-int CompiledExecutableModel::getNumIndependentSpecies()
+int CompiledExecutableModel::getNumIndependentFloatingSpecies()
 {
     return mData.numIndependentSpecies;
 }
 
-int CompiledExecutableModel::getNumDependentSpecies()
+int CompiledExecutableModel::getNumDependentFloatingSpecies()
 {
     return mData.numDependentSpecies;
 }
@@ -1414,5 +1414,3 @@ int CompiledExecutableModel::getStoichiometryMatrix(int* p_rows, int* p_cols, do
 }
 
 } //Namespace rr
-
-

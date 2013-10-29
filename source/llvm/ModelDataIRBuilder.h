@@ -229,12 +229,24 @@ public:
             llvm::ExecutionEngine *engine = 0);
 
     /**
+     * Creates a ModelData struct for the given sbml symbols in the
+     * llvm Module.
+     *
+     * This must be called before any model accessing code is generated.
+     */
+    static llvm::StructType *createModelDataStructType(llvm::Module *module,
+            llvm::ExecutionEngine *engine, LLVMModelDataSymbols const& symbols);
+
+    /**
      * get the ModelData struct type.
      *
-     * create if not found.
+     * createModelDataStructType must have been called for this to work.
+     *
+     * Throws an exception if the ModelData struct could not be obtained.
      */
-    static llvm::StructType *getStructType(llvm::Module *module,
-            llvm::ExecutionEngine *engine = 0);
+    static llvm::StructType *getStructType(llvm::Module *module);
+
+    static unsigned getModelDataSize(llvm::Module *module, llvm::ExecutionEngine *engine);
 
     static const char* LLVMModelDataName;
     static const char* csr_matrixName;

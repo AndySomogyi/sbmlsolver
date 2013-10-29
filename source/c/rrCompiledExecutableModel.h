@@ -94,8 +94,8 @@ public:
     virtual int popState(unsigned options = 0);
 
     // functions --------------------------------------------------------
-    virtual int getNumIndependentSpecies();
-    virtual int getNumDependentSpecies();
+    virtual int getNumIndependentFloatingSpecies();
+    virtual int getNumDependentFloatingSpecies();
 
     virtual int getNumFloatingSpecies();
     virtual int getFloatingSpeciesIndex(const string& name);

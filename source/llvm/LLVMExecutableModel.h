@@ -50,7 +50,11 @@ public:
      */
     LLVMExecutableModel();
 
-    LLVMExecutableModel(const std::tr1::shared_ptr<ModelResources> &resources);
+    /**
+     * takes ownership of the LLVMModelData pointer.
+     */
+    LLVMExecutableModel(const std::tr1::shared_ptr<ModelResources> &resources,
+            LLVMModelData* modelData);
 
 
     virtual ~LLVMExecutableModel();
@@ -80,8 +84,8 @@ public:
     virtual void reset();
 
 
-    virtual int getNumIndependentSpecies();
-    virtual int getNumDependentSpecies();
+    virtual int getNumIndependentFloatingSpecies();
+    virtual int getNumDependentFloatingSpecies();
     virtual int getNumFloatingSpecies();
     virtual int getNumBoundarySpecies();
     virtual int getNumGlobalParameters();
@@ -334,21 +338,21 @@ public:
 
     inline double getEventDelay(uint event)
     {
-        return getEventDelayPtr(&modelData, event);
+        return getEventDelayPtr(modelData, event);
     }
 
     inline double getEventPriority(uint event)
     {
-        return getEventPriorityPtr(&modelData, event);
+        return getEventPriorityPtr(modelData, event);
     }
 
     inline bool getEventTrigger(uint event)
     {
         assert(event < symbols->getEventAttributes().size()
                         && "event out of bounds");
-        if (modelData.time >= 0.0)
+        if (modelData->time >= 0.0)
         {
-            return getEventTriggerPtr(&modelData, event);
+            return getEventTriggerPtr(modelData, event);
         }
         else
         {
@@ -386,7 +390,7 @@ public:
 
     inline void getEventData(uint eventId, double* data)
     {
-        eventTriggerPtr(&modelData, eventId, data);
+        eventTriggerPtr(modelData, eventId, data);
     }
 
     /**
@@ -394,7 +398,7 @@ public:
      */
     inline void assignEvent(uint eventId, double* data)
     {
-        eventAssignPtr(&modelData, eventId, data);
+        eventAssignPtr(modelData, eventId, data);
     }
 
     bool getEventTieBreak(uint eventA, uint eventB);
@@ -432,7 +436,7 @@ private:
      */
     std::tr1::shared_ptr<const ModelResources> resources;
 
-    LLVMModelData modelData;
+    LLVMModelData *modelData;
     const LLVMModelDataSymbols *symbols;
 
     EvalInitialConditionsCodeGen::FunctionPtr evalInitialConditionsPtr;
