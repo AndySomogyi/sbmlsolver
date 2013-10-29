@@ -51,15 +51,29 @@ public:
     virtual void evalInitialConditions() = 0;
 
     /**
-     * reset the model to its original state
+     * Loads the initial conditions into the current model state.
+     *
+     * Initial conditions may have been updated at any time externally.
      */
     virtual void reset() = 0;
 
+    /**
+     * independent species do are not defined by rules, they typically participate
+     * in reactions and can have thier values set at any time.
+     */
+    virtual int getNumIndFloatingSpecies() = 0;
 
-    virtual int getNumIndependentFloatingSpecies() = 0;
-    virtual int getNumDependentFloatingSpecies() = 0;
+    /**
+     * dependent species are defined by rules and the only way to change them
+     * is by changing the values on which they depend.
+     */
+    virtual int getNumDepFloatingSpecies() = 0;
 
+    /**
+     * total number of floating species.
+     */
     virtual int getNumFloatingSpecies() = 0;
+
     virtual int getFloatingSpeciesIndex(const std::string& eid) = 0;
     virtual std::string getFloatingSpeciesId(int index) = 0;
 

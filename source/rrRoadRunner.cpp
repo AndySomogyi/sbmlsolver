@@ -664,7 +664,7 @@ double RoadRunner::steadyState()
     NLEQInterface steadyStateSolver(mModel);
 
     //Get a std vector for the solver
-    vector<double> someAmounts(mModel->getNumIndependentFloatingSpecies(), 0);
+    vector<double> someAmounts(mModel->getNumIndFloatingSpecies(), 0);
     mModel->getFloatingSpeciesAmounts(someAmounts.size(), 0, &someAmounts[0]);
 
     double ss = steadyStateSolver.solve(someAmounts);
@@ -1894,7 +1894,7 @@ void RoadRunner::setGlobalParameterByIndex(const int index, const double value)
 
     if ((mModel->getNumGlobalParameters()) &&
             (index < mModel->getNumGlobalParameters() +
-                    mModel->getNumDependentFloatingSpecies()))
+                    mModel->getNumDepFloatingSpecies()))
     {
         mModel->setConservedSumChanged(true);
     }
@@ -1908,14 +1908,14 @@ double RoadRunner::getGlobalParameterByIndex(const int& index)
         throw CoreException(gEmptyModelMessage);
     }
 
-    if ((index >= 0) && (index < (mModel->getNumGlobalParameters() + mModel->getNumDependentFloatingSpecies())))
+    if ((index >= 0) && (index < (mModel->getNumGlobalParameters() + mModel->getNumDepFloatingSpecies())))
     {
-        int arraySize = mModel->getNumGlobalParameters() + mModel->getNumDependentFloatingSpecies();
+        int arraySize = mModel->getNumGlobalParameters() + mModel->getNumDepFloatingSpecies();
         double* data = new double[arraySize];
 
         mModel->getGlobalParameterValues(mModel->getNumGlobalParameters(), 0, data);
 
-        mModel->getConservedSums(mModel->getNumDependentFloatingSpecies(), 0, data + mModel->getNumGlobalParameters());
+        mModel->getConservedSums(mModel->getNumDepFloatingSpecies(), 0, data + mModel->getNumGlobalParameters());
 
         double result = data[index];
         delete[] data;
@@ -1933,16 +1933,16 @@ vector<double> RoadRunner::getGlobalParameterValues()
         throw CoreException(gEmptyModelMessage);
     }
 
-    if (mModel->getNumDependentFloatingSpecies() > 0)
+    if (mModel->getNumDepFloatingSpecies() > 0)
     {
         vector<double> result(mModel->getNumGlobalParameters() +
-                mModel->getNumDependentFloatingSpecies());
+                mModel->getNumDepFloatingSpecies());
 
         mModel->getGlobalParameterValues(
                 mModel->getNumGlobalParameters(), 0, &result[0]);
 
         mModel->getConservedSums(
-                mModel->getNumDependentFloatingSpecies(), 0,
+                mModel->getNumDepFloatingSpecies(), 0,
                 &result[mModel->getNumGlobalParameters()]);
 
         return result;

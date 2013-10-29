@@ -75,12 +75,12 @@ double CompiledExecutableModel::getTime()
 }
 
 /////////////////// The following used to be in IModel
-int CompiledExecutableModel::getNumIndependentFloatingSpecies()
+int CompiledExecutableModel::getNumIndFloatingSpecies()
 {
     return mData.numIndependentSpecies;
 }
 
-int CompiledExecutableModel::getNumDependentFloatingSpecies()
+int CompiledExecutableModel::getNumDepFloatingSpecies()
 {
     return mData.numDependentSpecies;
 }
