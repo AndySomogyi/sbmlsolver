@@ -23,7 +23,9 @@ class PLUGINS_API_DECLSPEC Capability
 
     public:
                                             Capability(const string& name, const string& method, const string& descr);
-                                            Capability(const Capability& fromMe);
+											~Capability();
+											Capability(const Capability& fromMe);
+
         void                                setup(const string& name, const string& method, const string& descr);
         void                                addParameter(BaseParameter* me);
         string                              asString() const;
