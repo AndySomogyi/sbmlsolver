@@ -15,6 +15,9 @@ mMethod(method),
 mDescription(description)
 {}
 
+Capability::~Capability()
+{}
+
 Capability::Capability(const Capability& from)
 :
 mName(from.mName),

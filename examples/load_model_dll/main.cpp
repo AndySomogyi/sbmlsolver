@@ -8,10 +8,8 @@ using namespace rr;
 
 int main(int argc, char** argv)
 {
-
     try
     {
-
         const char* rootPath = "..";
 
         gLog.setLevel(lInfo);
@@ -26,6 +24,7 @@ int main(int argc, char** argv)
         RoadRunner rr1("", tmpFolder);
         if(!rr1.load(modelFile))    //This will generate a model DLL
         {
+
             Log(Logger::LOG_ERROR)<<"Failed to create model DLL....";
             return -1;
         }
@@ -33,6 +32,7 @@ int main(int argc, char** argv)
     }
     catch(const Exception& ex)
     {
+
         Log(Logger::LOG_ERROR)<<"There was a  problem: "<<ex.getMessage();
     }
 

@@ -14,8 +14,8 @@ using namespace rr;
 using namespace rrc;
 using namespace rrp;
 
-typedef void    (rrCallConv *WorkStartedCB)(void*);
-typedef void    (rrCallConv *WorkFinishedCB)(void*);
+typedef void    (rrpCallConv *WorkStartedCB)(void*);
+typedef void    (rrpCallConv *WorkFinishedCB)(void*);
 
 
 class AddNoise : public Plugin

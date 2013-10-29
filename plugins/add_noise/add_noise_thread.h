@@ -2,10 +2,10 @@
 #define add_noise_threadH
 #include "Poco/Thread.h"
 #include "Poco/Runnable.h"
-#include "rrOSSpecifics.h"
+#include "rrPluginsAPIExporter.h"
 //---------------------------------------------------------------------------
 
-typedef void (rrCallConv *ThreadCB)(void*);
+typedef void (rrpCallConv *ThreadCB)(void*);
 
 class AddNoiseThread : public Poco::Runnable
 {

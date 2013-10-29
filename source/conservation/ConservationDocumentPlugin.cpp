@@ -13,13 +13,13 @@ namespace rr { namespace conservation {
 rr::conservation::ConservationDocumentPlugin::ConservationDocumentPlugin(
         const std::string& uri, const std::string& prefix,
         ConservationPkgNamespaces* consns)
-: SBMLDocumentPlugin(uri, prefix, consns)
+: libsbml::SBMLDocumentPlugin(uri, prefix, consns)
 {
 }
 
 rr::conservation::ConservationDocumentPlugin::ConservationDocumentPlugin(
         const ConservationDocumentPlugin& orig)
-: SBMLDocumentPlugin(orig)
+: libsbml::SBMLDocumentPlugin(orig)
 {
 }
 

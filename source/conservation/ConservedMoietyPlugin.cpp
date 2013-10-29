@@ -14,13 +14,13 @@ namespace rr { namespace conservation {
 rr::conservation::ConservedMoietyPlugin::ConservedMoietyPlugin(
         const std::string& uri, const std::string& prefix,
         ConservationPkgNamespaces* consns)
-: SBasePlugin(uri, prefix, consns)
+: libsbml::SBasePlugin(uri, prefix, consns)
 {
 }
 
 rr::conservation::ConservedMoietyPlugin::ConservedMoietyPlugin(
         const ConservedMoietyPlugin& orig)
-: SBasePlugin(orig)
+: libsbml::SBasePlugin(orig)
 {
 }
 
