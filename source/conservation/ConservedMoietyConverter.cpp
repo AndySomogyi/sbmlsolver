@@ -258,7 +258,7 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
             Log(rr::Logger::LOG_ERROR) < "could not upgrade source sbml level or version";
 
             const SBMLErrorLog *log = doc->getErrorLog();
-            string errors = log ? log->toString() : " NULL SBML Error Log";
+            string errors = log ? log->toString() : string(" NULL SBML Error Log");
             Log(rr::Logger::LOG_ERROR) << "Conversion Errors: " + errors;
 
 

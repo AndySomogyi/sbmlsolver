@@ -60,7 +60,7 @@ extern "C"
  \return Returns a handle to a StringArray if sucessful, NULL otherwise
  \ingroup parameters
 */
-RRP_DECLSPEC RRStringArrayPtr rrpCallConv getListOfParameters(RRHandle handle, const char* cap_name);
+RRP_DECLSPEC RRStringArrayPtr rrp_cc getListOfParameters(RRHandle handle, const char* cap_name);
 
 /*!
  \brief Set a parameter
@@ -69,7 +69,7 @@ RRP_DECLSPEC RRStringArrayPtr rrpCallConv getListOfParameters(RRHandle handle, c
  \return Returns true if sucessful, false otherwise
  \ingroup parameters
 */
-RRP_DECLSPEC bool rrpCallConv setParameter(RRParameterHandle handle, const char* value);
+RRP_DECLSPEC bool rrp_cc setParameter(RRParameterHandle handle, const char* value);
 
 /*!
  \brief Get a parameter handle
@@ -79,7 +79,7 @@ RRP_DECLSPEC bool rrpCallConv setParameter(RRParameterHandle handle, const char*
  \return Returns a handle to a parameter if sucessful, NULL otherwise
  \ingroup parameters
 */
-RRP_DECLSPEC RRParameterHandle rrpCallConv getParameter(RRHandle handle, const char* capability_name, const char* parameter_name);
+RRP_DECLSPEC RRParameterHandle rrp_cc getParameter(RRHandle handle, const char* capability_name, const char* parameter_name);
 
 /*!
  \brief Get a parameters value as char*
@@ -87,7 +87,7 @@ RRP_DECLSPEC RRParameterHandle rrpCallConv getParameter(RRHandle handle, const c
  \return Returns the parameters value if sucessful, NULL otherwise
  \ingroup parameters
 */
-RRP_DECLSPEC char* rrpCallConv getParameterValueAsString(RRParameterHandle handle);
+RRP_DECLSPEC char* rrp_cc getParameterValueAsString(RRParameterHandle handle);
 
 /*!
  \brief Get a parameters value as a void*
@@ -95,7 +95,7 @@ RRP_DECLSPEC char* rrpCallConv getParameterValueAsString(RRParameterHandle handl
  \return Returns the parameters value as a pointer if sucessful, NULL otherwise
  \ingroup parameters
 */
-RRP_DECLSPEC void* rrpCallConv getParameterValueAsPointer(RRParameterHandle handle);
+RRP_DECLSPEC void* rrp_cc getParameterValueAsPointer(RRParameterHandle handle);
 
 /*!
  \brief Get a parameters name
@@ -103,7 +103,7 @@ RRP_DECLSPEC void* rrpCallConv getParameterValueAsPointer(RRParameterHandle hand
  \return Returns the parameters name if sucessful, NULL otherwise
  \ingroup parameters
 */
-RRP_DECLSPEC char* rrpCallConv getParameterName(RRParameterHandle handle);
+RRP_DECLSPEC char* rrp_cc getParameterName(RRParameterHandle handle);
 
 /*!
  \brief Get a parameters hint
@@ -111,7 +111,7 @@ RRP_DECLSPEC char* rrpCallConv getParameterName(RRParameterHandle handle);
  \return Returns the parameters hint if sucessful, NULL otherwise
  \ingroup parameters
 */
-RRP_DECLSPEC char* rrpCallConv getParameterHint(RRParameterHandle handle);
+RRP_DECLSPEC char* rrp_cc getParameterHint(RRParameterHandle handle);
 
 
 #if defined(__cplusplus)

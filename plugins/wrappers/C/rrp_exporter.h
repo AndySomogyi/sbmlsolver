@@ -16,11 +16,11 @@
     #define RRP_DECLSPEC
 #endif
 
-
+//C function calling convention
 #if defined(_MSC_VER) || defined(__CODEGEARC__)
-    #define rrpCallConv __stdcall
+    #define rrp_cc __cdecl
 #else
-    #define rrpCallConv
+    #define rrp_cc
 #endif
 
 #if !defined(__cplusplus)
