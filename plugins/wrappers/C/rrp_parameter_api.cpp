@@ -19,7 +19,7 @@ using namespace std;
 using namespace rr;
 
 
-bool rrpCallConv setParameter(RRParameterHandle handle, const char* value)
+bool rrp_cc setParameter(RRParameterHandle handle, const char* value)
 {
     try
     {
@@ -30,7 +30,7 @@ bool rrpCallConv setParameter(RRParameterHandle handle, const char* value)
     catch_bool_macro
 }
 
-char* rrpCallConv getParameterValueAsString(RRParameterHandle handle)
+char* rrp_cc getParameterValueAsString(RRParameterHandle handle)
 {
     try
     {
@@ -41,7 +41,7 @@ char* rrpCallConv getParameterValueAsString(RRParameterHandle handle)
     catch_ptr_macro
 }
 
-void* rrpCallConv getParameterValueAsPointer(RRParameterHandle handle)
+void* rrp_cc getParameterValueAsPointer(RRParameterHandle handle)
 {
     try
     {
@@ -51,7 +51,7 @@ void* rrpCallConv getParameterValueAsPointer(RRParameterHandle handle)
     catch_ptr_macro
 }
 
-char* rrpCallConv getParameterName(RRParameterHandle handle)
+char* rrp_cc getParameterName(RRParameterHandle handle)
 {
     try
     {
@@ -61,7 +61,7 @@ char* rrpCallConv getParameterName(RRParameterHandle handle)
     catch_ptr_macro
 }
 
-char* rrpCallConv getParameterHint(RRParameterHandle handle)
+char* rrp_cc getParameterHint(RRParameterHandle handle)
 {
     try
     {
