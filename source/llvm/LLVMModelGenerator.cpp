@@ -72,12 +72,12 @@ void copyCachedModel(a_type* src, b_type* dst)
 
 LLVMModelGenerator::LLVMModelGenerator()
 {
-    Log(Logger::TRACE) << __FUNC__;
+    Log(Logger::LOG_TRACE) << __FUNC__;
 }
 
 LLVMModelGenerator::~LLVMModelGenerator()
 {
-    Log(Logger::TRACE) << __FUNC__;
+    Log(Logger::LOG_TRACE) << __FUNC__;
 
 }
 
@@ -145,12 +145,12 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
         if (sp)
         {
-            Log(Logger::DEBUG) << "found a cached model for " << md5;
+            Log(Logger::LOG_DEBUG) << "found a cached model for " << md5;
             return new LLVMExecutableModel(sp, createModelData(*sp->symbols));
         }
         else
         {
-            Log(Logger::TRACE) << "no cached model found for " << md5
+            Log(Logger::LOG_TRACE) << "no cached model found for " << md5
                     << ", creating new one";
         }
     }
@@ -258,7 +258,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
         LLVMModelData::free(modelData);
 
-        Log(Logger::FATAL) << s.str();
+        Log(Logger::LOG_FATAL) << s.str();
 
         throw_llvm_exception(s.str());
     }
@@ -284,7 +284,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
         {
             if (j->second.expired())
             {
-                Log(Logger::INFORMATION) <<
+                Log(Logger::LOG_INFORMATION) <<
                         "removing expired model resource for hash " << md5;
 
                 j = cachedModels.erase(j);
@@ -297,7 +297,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
 
         if ((i = cachedModels.find(md5)) == cachedModels.end())
         {
-            Log(Logger::INFORMATION) << "could not find existing cached resource "
+            Log(Logger::LOG_INFORMATION) << "could not find existing cached resource "
                     "resources, for hash " << md5 <<
                     ", inserting new resources into cache";
 

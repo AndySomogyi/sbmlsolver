@@ -753,7 +753,7 @@ llvm::Value* ASTNodeCodeGen::piecewiseCodeGen(const libsbml::ASTNode* ast)
     }
     else
     {
-        Log(Logger::WARNING) << "No \"otherwise\" element in MathML "
+        Log(Logger::LOG_WARNING) << "No \"otherwise\" element in MathML "
                 "piecewise, returning NaN as \"otherwise\" value";
 
         owVal = ConstantFP::get(builder.getContext(),

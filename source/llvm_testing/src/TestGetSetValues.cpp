@@ -27,35 +27,35 @@ TestGetSetValues::~TestGetSetValues()
 
 bool TestGetSetValues::test()
 {
-    Log(Logger::INFORMATION) << "Evaluating Initial Conditions for " << fileName << endl;
+    Log(Logger::LOG_INFORMATION) << "Evaluating Initial Conditions for " << fileName << endl;
 
     model->evalInitialConditions();
 
-    Log(Logger::INFORMATION) << "before set: " << model << endl;
+    Log(Logger::LOG_INFORMATION) << "before set: " << model << endl;
 
     double val = 0;
     model->getCompartmentVolumes(1, 0, &val);
 
-    Log(Logger::INFORMATION) << "initial volume: " << val << endl;
+    Log(Logger::LOG_INFORMATION) << "initial volume: " << val << endl;
 
     val = 2;
     model->setCompartmentVolumes(1, 0, &val);
 
-    Log(Logger::INFORMATION) << "after: " << model << endl;
+    Log(Logger::LOG_INFORMATION) << "after: " << model << endl;
 
     model->getCompartmentVolumes(1, 0, &val);
 
-    Log(Logger::INFORMATION) << "new volume: " << val << endl;
+    Log(Logger::LOG_INFORMATION) << "new volume: " << val << endl;
 
     double amt = 2;
 
     model->setFloatingSpeciesAmounts(1, 0, &amt);
 
-    Log(Logger::INFORMATION) << "after set amt: " << model << endl;
+    Log(Logger::LOG_INFORMATION) << "after set amt: " << model << endl;
 
     model->setFloatingSpeciesConcentrations(1, 0, &amt);
 
-    Log(Logger::INFORMATION) << "after set conc: " << model << endl;
+    Log(Logger::LOG_INFORMATION) << "after set conc: " << model << endl;
 
 
 

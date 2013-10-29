@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
         cout << RoadRunner::getExtendedVersionInfo() << endl;
 
         Logger::enableConsoleLogging();
-        Logger::setLevel(Logger::NOTICE);
+        Logger::setLevel(Logger::LOG_NOTICE);
 
         Log(lDebug) << "hello";
 
@@ -49,14 +49,14 @@ int main(int argc, char* argv[])
 
         if(args.EnableLogging)
         {
-            Logger::setLevel(Logger::DEBUG);
+            Logger::setLevel(Logger::LOG_DEBUG);
         }
         else
         {
-            Logger::setLevel(Logger::NOTICE);
+            Logger::setLevel(Logger::LOG_NOTICE);
         }
 
-        Log(Logger::NOTICE) << "Notice";
+        Log(Logger::LOG_NOTICE) << "Notice";
 
         // set full model path (read from cmd line)
         gTSModelsPath = joinPath(joinPath(gTSModelsPath, "cases"), "semantic");

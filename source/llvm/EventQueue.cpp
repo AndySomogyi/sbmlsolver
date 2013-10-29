@@ -56,7 +56,7 @@ Event::Event(LLVMExecutableModel& model, uint id) :
         std::memset(data, 0, dataSize * sizeof(double));
     }
 
-    Log(Logger::DEBUG) << "created event at time " << model.getTime() <<
+    Log(Logger::LOG_DEBUG) << "created event at time " << model.getTime() <<
             ": " << *this;
 }
 
@@ -111,7 +111,7 @@ void Event::assign() const
     {
         model.getEventData(id, data);
     }
-    Log(Logger::DEBUG) << "assigning event: " << *this;
+    Log(Logger::LOG_DEBUG) << "assigning event: " << *this;
     model.assignEvent(id, data);
 }
 
@@ -203,7 +203,7 @@ bool EventQueue::eraseExpiredEvents()
         }
         else
         {
-            Log(Logger::DEBUG) << "removing expired event: " << *i;
+            Log(Logger::LOG_DEBUG) << "removing expired event: " << *i;
             i = c.erase(i);
             erased = true;
         }
@@ -223,11 +223,11 @@ bool EventQueue::applyEvent()
     bool applied = false;
     if (c.size())
     {
-        Log(Logger::DEBUG) << "event list before sort: " << *this;
+        Log(Logger::LOG_DEBUG) << "event list before sort: " << *this;
 
         c.sort();
 
-        Log(Logger::DEBUG) << "event list after sort, before apply: " << *this;
+        Log(Logger::LOG_DEBUG) << "event list after sort, before apply: " << *this;
 
         std::deque<iterator> ripe;
         iterator i = c.begin();
@@ -246,21 +246,21 @@ bool EventQueue::applyEvent()
             }
         }
 
-        Log(Logger::DEBUG) << "found " << ripe.size() << " ripe events";
+        Log(Logger::LOG_DEBUG) << "found " << ripe.size() << " ripe events";
 
         if (ripe.size())
         {
             uint index = std::rand() % ripe.size();
             iterator i = ripe[index];
 
-            Log(Logger::DEBUG) << "assigning the " << index << "\'th item";
+            Log(Logger::LOG_DEBUG) << "assigning the " << index << "\'th item";
             (*i).assign();
 
             c.erase(i);
 
             applied = true;
 
-            Log(Logger::DEBUG) << "event list after apply: " << *this;
+            Log(Logger::LOG_DEBUG) << "event list after apply: " << *this;
         }
     }
 
@@ -300,7 +300,7 @@ void EventQueue::pop()
 uint EventQueue::packTop()
 {
     /*
-    Log(Logger::PRIO_DEBUG) << "before pack top " << *this;
+    Log(Logger::LOG_PRIO_DEBUG) << "before pack top " << *this;
     uint topSize = 0;
     if (c.size())
     {
@@ -317,7 +317,7 @@ uint EventQueue::packTop()
             }
         }
     }
-    Log(Logger::PRIO_DEBUG) << "after pack top " << *this;
+    Log(Logger::LOG_PRIO_DEBUG) << "after pack top " << *this;
     return topSize;
     */
     return 0;

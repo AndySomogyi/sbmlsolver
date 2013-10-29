@@ -36,7 +36,7 @@ using Poco::Mutex;
 // owned by poco, it takes care of clearing in static dtor.
 static Poco::Logger *pocoLogger = 0;
 volatile int logLevel = -1;
-const Logger::Level defaultLogLevel = Logger::NOTICE;
+const Logger::Level defaultLogLevel = Logger::LOG_NOTICE;
 static std::string logFileName;
 
 // ******** The RoadRunner Logging Chain *************//
@@ -116,7 +116,7 @@ void Logger::setLevel(int level)
     // make sure we have a logger, other funcs rely on this behavior.
     getLogger();
 
-    if (level >= FATAL && level <= TRACE)
+    if (level >= LOG_FATAL && level <= LOG_TRACE)
     {
         getLogger().setLevel(level);
         logLevel = level;
@@ -249,41 +249,41 @@ Logger::Level Logger::stringToLevel(const std::string& str)
     std::string upstr = str;
     std::transform(upstr.begin(), upstr.end(), upstr.begin(), ::toupper);
 
-    if (upstr == "FATAL")
+    if (upstr == "LOG_FATAL")
     {
-        return FATAL;
+        return LOG_FATAL;
     }
-    else if(upstr == "CRITICAL")
+    else if(upstr == "LOG_CRITICAL")
     {
-        return CRITICAL;
+        return LOG_CRITICAL;
     }
-    else if(upstr == "ERROR")
+    else if(upstr == "LOG_ERROR")
     {
-        return ERROR;
+        return LOG_ERROR;
     }
-    else if(upstr == "WARNING")
+    else if(upstr == "LOG_WARNING")
     {
-        return WARNING;
+        return LOG_WARNING;
     }
-    else if(upstr == "NOTICE")
+    else if(upstr == "LOG_NOTICE")
     {
-        return NOTICE;
+        return LOG_NOTICE;
     }
-    else if(upstr == "INFORMATION")
+    else if(upstr == "LOG_INFORMATION")
     {
-        return INFORMATION;
+        return LOG_INFORMATION;
     }
-    else if(upstr == "DEBUG")
+    else if(upstr == "LOG_DEBUG")
     {
-        return DEBUG;
+        return LOG_DEBUG;
     }
-    else if(upstr == "TRACE")
+    else if(upstr == "LOG_TRACE")
     {
-        return DEBUG;
+        return LOG_TRACE;
     }
     else
     {
-        return CURRENT;
+        return LOG_CURRENT;
     }
 }
 
@@ -292,34 +292,33 @@ std::string Logger::levelToString(int level)
     switch (level)
     {
     case Message::PRIO_FATAL:
-        return "FATAL";
+        return "LOG_FATAL";
         break;
     case Message::PRIO_CRITICAL:
-        return "CRITICAL";
+        return "LOG_CRITICAL";
         break;
     case Message::PRIO_ERROR:
-        return "ERROR";
+        return "LOG_ERROR";
         break;
     case Message::PRIO_WARNING:
-        return "WARNING";
+        return "LOG_WARNING";
         break;
     case Message::PRIO_NOTICE:
-        return "NOTICE";
+        return "LOG_NOTICE";
         break;
     case Message::PRIO_INFORMATION:
-        return "INFORMATION";
+        return "LOG_INFORMATION";
         break;
     case Message::PRIO_DEBUG:
-        return "DEBUG";
+        return "LOG_DEBUG";
         break;
     case Message::PRIO_TRACE:
-        return "DEBUG";
+        return "LOG_TRACE";
         break;
     default:
-        return "UNKNOWN";
-        break;
+        return "LOG_CURRENT";
     }
-    return "UNKNOWN";
+    return "LOG_CURRENT";
 }
 
 std::string Logger::getCurrentLevelAsString()

@@ -4,22 +4,22 @@
 #include "rrUtils.h"
 #include "rrPlugin.h"
 #include "rrParameter.h"
-#include "rrp_types.h" //We may want to move this header to the Source folder
+//#include "rrp_types.h" //We may want to move this header to the Source folder
 //---------------------------------------------------------------------------
 using namespace std;
 namespace rrp
 {
-Plugin::Plugin(const std::string& name, const std::string& cat, RoadRunner* aRR, PluginWorkStartedCB fn1, PluginWorkFinishedCB fn2, const string& language)
+Plugin::Plugin(const std::string& name, const std::string& category, RoadRunner* aRR, PluginWorkStartedCB fn1, PluginWorkFinishedCB fn2, const string& language)
 :
 mName(name),
 mAuthor("Totte Karlsson"),
-mCategory(cat),
+mCategory(category),
 mVersion("0.1"),
 mCopyright("Totte Karlsson, Herbert Sauro, Systems Biology, UW 2012"),
 mRR(aRR),
 mWorkStartedCB(fn1),
 mWorkFinishedCB(fn2),
-mCapabilities(name, "<none>"),
+mCapabilities(name, category),
 mImplementationLanguage(language)
 {}
 
@@ -146,6 +146,15 @@ string Plugin::getInfo() //Obs. subclasses may over ride this function and add m
     return msg.str();
 }
 
+string Plugin::getExtendedInfo()
+{
+    stringstream msg;
+    msg<<getInfo();
+    msg<<"\nCapabilities Info\n";
+    msg<<(*getCapabilities());
+    return msg.str();
+}
+
 Capabilities* Plugin::getCapabilities()
 {
     return &mCapabilities;
@@ -175,7 +184,8 @@ BaseParameter* Plugin::getParameter(const string& para, const string& capability
     //If capability string is empty, search all capabilites
     if(capability.size())
     {
-        //Capability cap = get
+        Capability* cap = mCapabilities.get(capability);
+        return cap ? cap->getParameter(para) : NULL;
     }
     else    //Search all capabilities
     {

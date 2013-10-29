@@ -78,7 +78,7 @@ Value* EvalRateRuleRatesCodeGen::codeGen()
                             rules->get(species->getCompartment()));
                     if (compRateRule)
                     {
-                        Log(Logger::DEBUG) << "species " << species->getId()
+                        Log(Logger::LOG_DEBUG) << "species " << species->getId()
                                 << " is a concentration with time dependent volume, "
                                 "converting conc rate to amt rate using product rule";
                         ASTNode *dcdt = new ASTNode(*rateRule->getMath());
@@ -105,7 +105,7 @@ Value* EvalRateRuleRatesCodeGen::codeGen()
                     }
                     else
                     {
-                        Log(Logger::DEBUG) << "species " << species->getId()
+                        Log(Logger::LOG_DEBUG) << "species " << species->getId()
                                 << " is a concentration with constant volume, "
                                 "converting conc rate to amt rate const vol mul";
 
@@ -122,7 +122,7 @@ Value* EvalRateRuleRatesCodeGen::codeGen()
                 }
                 else
                 {
-                    Log(Logger::DEBUG) << "species " << species->getId() <<
+                    Log(Logger::LOG_DEBUG) << "species " << species->getId() <<
                             " is an amount, creating straight rate rule";
                     math = rateRule->getMath();
                 }

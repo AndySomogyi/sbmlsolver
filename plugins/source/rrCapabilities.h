@@ -1,7 +1,7 @@
 #ifndef rrCapabilitiesH
 #define rrCapabilitiesH
 #include <vector>
-#include "rrp_exporter.h"
+#include "rrPluginsAPIExporter.h"
 #include "rrCapability.h"
 #include "rrStringList.h"
 //---------------------------------------------------------------------------
@@ -15,11 +15,12 @@ using std::vector;
  * @internal
  * @deprecated
  */
-class RRP_DECLSPEC Capabilities
+class PLUGINS_API_DECLSPEC Capabilities
 {
     protected:
         string                          mName;
         string                          mDescription;
+        mutable
         vector<Capability*>             mCapabilities;
 
     public:
@@ -27,11 +28,15 @@ class RRP_DECLSPEC Capabilities
         void                            add(Capability& capability);
 
         StringList                      asStringList();
+        string                          info() const;
         u_int                           count();
         void                            clear();
         Capability*                     operator[](int i);
         Capability*                     get(const string& capName);
         bool                            setParameter(const string& name, const string& value);
+
+        PLUGINS_API_DECLSPEC
+        friend ostream&                 operator<<(ostream& stream, const Capabilities& caps);
 };
 
 }

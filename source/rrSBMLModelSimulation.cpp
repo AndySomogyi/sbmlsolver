@@ -67,7 +67,7 @@ bool SBMLModelSimulation::SetModelFileName(const string& name)
 
     if(!fileExists(joinPath(mModelFilePath, mModelFileName)))
     {
-        Log(Logger::ERROR)<<"The file: "<<joinPath(mModelFilePath, mModelFileName)<<" don't exist.";
+        Log(Logger::LOG_ERROR)<<"The file: "<<joinPath(mModelFilePath, mModelFileName)<<" don't exist.";
         return false;
     }
 
@@ -117,7 +117,7 @@ bool SBMLModelSimulation::LoadSettings(const string& settingsFName)
 
     if(!fName.size())
     {
-        Log(Logger::ERROR)<<"Empty file name for setings file";
+        Log(Logger::LOG_ERROR)<<"Empty file name for setings file";
         return false;
     }
     else
@@ -270,7 +270,7 @@ bool SBMLModelSimulation::SaveModelAsXML(const string& folder)
 
     if(!fs)
     {
-        Log(Logger::ERROR)<<"Failed writing sbml to file "<< fName;
+        Log(Logger::LOG_ERROR)<<"Failed writing sbml to file "<< fName;
         return false;
     }
     fs<<mEngine->getSBML();

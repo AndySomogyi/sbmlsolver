@@ -58,7 +58,7 @@ bool SBMLTestSuiteSimulation_CAPI::LoadSBMLFromFile()
         //Check first if file exists first
         if(!fileExists(fileName))
         {
-            Log(Logger::ERROR) << "sbml file " << fileName << " not found";
+            Log(Logger::LOG_ERROR) << "sbml file " << fileName << " not found";
             return false;
         }
 
@@ -71,14 +71,14 @@ bool SBMLTestSuiteSimulation_CAPI::LoadSBMLFromFile()
 
         if(!rri->load(fileName, &opt))
         {
-            Log(Logger::ERROR) << "Failed to load SBML";
+            Log(Logger::LOG_ERROR) << "Failed to load SBML";
             return false;
         }
         return true;
     }
     catch(std::exception& e)
     {
-        Log(Logger::ERROR) << "exception while loading sbml: " << e.what();
+        Log(Logger::LOG_ERROR) << "exception while loading sbml: " << e.what();
         return false;
     }
 }
@@ -181,7 +181,7 @@ bool RunTest(const string& version, int caseNumber)
 
     try
     {
-        Log(Logger::NOTICE) << "Running Test: "<< caseNumber << endl;
+        Log(Logger::LOG_NOTICE) << "Running Test: "<< caseNumber << endl;
         string dataOutputFolder(gTempFolder);
         string dummy;
         string logFileName;

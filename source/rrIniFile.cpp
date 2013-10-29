@@ -96,7 +96,7 @@ bool IniFile::Load(const string& newfName)
 
 	if(mIniFileName.size() < 1)
 	{
-									Log(Logger::ERROR)<<"Ini file name is not set!";
+									Log(Logger::LOG_ERROR)<<"Ini file name is not set!";
 		return false;
 	}
 	else
@@ -109,7 +109,7 @@ bool IniFile::Load(const string& newfName)
 									Log(lDebug2)<<"The ini file: \"" <<mIniFileName.Get()<<"\" does not exist. It will be created";
         if(!createFile(mIniFileName))
         {
-    								Log(Logger::ERROR)<<"Failed to create ini file.. returning..";
+    								Log(Logger::LOG_ERROR)<<"Failed to create ini file.. returning..";
             return false;
         }
 	}
@@ -119,12 +119,12 @@ bool IniFile::Load(const string& newfName)
 	file.open(fName.c_str(), ios::in|ios::out);
 	if(file.fail())
     {
-    								Log(Logger::ERROR)<<"Opening file caused failbit to be set";
+    								Log(Logger::LOG_ERROR)<<"Opening file caused failbit to be set";
     }
 
 	if (!file.is_open() )
 	{
-									Log(Logger::ERROR)<<"The ini file: '" <<mIniFileName<<"' could not be opened";
+									Log(Logger::LOG_ERROR)<<"The ini file: '" <<mIniFileName<<"' could not be opened";
 		return false;
 	}
 	else
@@ -226,7 +226,7 @@ IniSection* IniFile::LoadSection(const string& theSection)
     IniSection* pSection = NULL;
 	if(mIniFileName.size() < 1)
 	{
-									Log(Logger::ERROR)<<"Ini file name is not set!";
+									Log(Logger::LOG_ERROR)<<"Ini file name is not set!";
 		return NULL;
 	}
 	else
@@ -244,12 +244,12 @@ IniSection* IniFile::LoadSection(const string& theSection)
 	file.open(fName.c_str(), ios::in|ios::out);
 	if(file.fail())
     {
-    								Log(Logger::ERROR)<<"Opening file caused failbit to be set";
+    								Log(Logger::LOG_ERROR)<<"Opening file caused failbit to be set";
     }
 
 	if (!file.is_open() )
 	{
-									Log(Logger::ERROR)<<"The ini file: '" <<mIniFileName<<"' could not be opened";
+									Log(Logger::LOG_ERROR)<<"The ini file: '" <<mIniFileName<<"' could not be opened";
 		return NULL;
 	}
 	else
@@ -349,7 +349,7 @@ bool IniFile::Save(ios_base::openmode openMode)
 {
 	if ( mIniFileName.size() == 0 )
 	{
-		Log(Logger::ERROR)<<"No filename has been set. Can't save..";
+		Log(Logger::LOG_ERROR)<<"No filename has been set. Can't save..";
 		return false;
 	}
 
@@ -400,7 +400,7 @@ bool IniFile::Save(ios_base::openmode openMode)
 	}
 	else
 	{
-		Log(Logger::ERROR)<<"[IniFile::Save] Unable to save file.";
+		Log(Logger::LOG_ERROR)<<"[IniFile::Save] Unable to save file.";
 		return false;
 	}
 

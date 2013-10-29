@@ -1,7 +1,7 @@
 #ifndef rrMinimizationDataH
 #define rrMinimizationDataH
 #include <ostream>
-#include "rrp_exporter.h"
+#include "rrPluginsAPIExporter.h"
 #include "rrStringList.h"
 #include "rrRoadRunnerData.h"
 #include "rrParameter.h"
@@ -12,19 +12,19 @@
 namespace rrp
 {
 using std::ostream;
-
+using rr::RoadRunnerData;
 /**
  * @internal
  */
-class RRP_DECLSPEC MinimizationData
+class PLUGINS_API_DECLSPEC MinimizationData
 {
     protected:
-        RoadRunnerData                  mObservedData;                //Observed data
-        RoadRunnerData                  mModelData;                    //Model data
-        RoadRunnerData                  mResidualsData;                //Residuals data
-        Parameters                      mParameters;                //Parameters to fit
-        Parameters                      mParametersOut;                //Parameters that was fitted
-        double                          mNorm;                        //Norm
+        RoadRunnerData                  mObservedData;                  //Observed data
+        RoadRunnerData                  mModelData;                     //Model data
+        RoadRunnerData                  mResidualsData;                 //Residuals data
+        Parameters                      mParameters;                    //Parameters to fit
+        Parameters                      mParametersOut;                 //Parameters that was fitted
+        double                          mNorm;                          //Norm
         StringList                      mObservedDataSelectionList;
         StringList                      mModelDataSelectionList;
 
@@ -58,7 +58,7 @@ class RRP_DECLSPEC MinimizationData
         RoadRunnerData&                 getModelDataReference();
         RoadRunnerData&                 getResidualsDataReference();
 
-        RRP_DECLSPEC
+        PLUGINS_API_DECLSPEC
         friend ostream&                 operator<<(ostream& stream, const MinimizationData& outMe);
         string                          getReport() const;
         Parameters                      getParameters();
@@ -75,7 +75,7 @@ inline std::string Parameter< MinimizationData >::getType() const
 template<>
 inline string Parameter< MinimizationData >::getValueAsString() const
 {
-    Log(lInfo)<<"Getting minimization data object as a string is not implemented";
+    Log(rr::lInfo)<<"Getting minimization data object as a string is not implemented";
     return "";//    throw("You can't get the value of this structure as string.. ");
 }
 
@@ -83,7 +83,7 @@ template<>
 inline void Parameter< MinimizationData >::setValueFromString(const string& val)
 {
     //We can't setup this data structure from a string... :(
-    Log(lInfo)<<"Setting minimization data object from string is not implemented";
+    Log(rr::lInfo)<<"Setting minimization data object from string is not implemented";
     return;
 }
 

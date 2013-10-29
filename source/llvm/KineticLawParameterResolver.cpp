@@ -43,7 +43,7 @@ llvm::Value* KineticLawParameterResolver::loadSymbolValue(
     if (parameter)
     {
         const Reaction *reaction = (const Reaction*)kineticLaw.getParentSBMLObject();
-        Log(Logger::DEBUG) << "reaction id " << reaction->getId() <<
+        Log(Logger::LOG_DEBUG) << "reaction id " << reaction->getId() <<
                 " found local parameter for symbol " << symbol <<
                 ", value: " << parameter->getValue();
 

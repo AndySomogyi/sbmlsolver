@@ -59,21 +59,21 @@ public:
      */
     enum Level
     {
-        CURRENT = 0, /// Use the current level -- don't change the level from what it is.
-        FATAL = 1,   /// A fatal error. The application will most likely terminate. This is the highest priority.
-        CRITICAL,    /// A critical error. The application might not be able to continue running successfully.
-        ERROR,       /// An error. An operation did not complete successfully, but the application as a whole is not affected.
-        WARNING,     /// A warning. An operation completed with an unexpected result.
-        NOTICE,      /// A notice, which is an information with just a higher priority.
-        INFORMATION, /// An informational message, usually denoting the successful completion of an operation.
-        DEBUG,       /// A debugging message.
-        TRACE        /// A tracing message. This is the lowest priority.
+        LOG_CURRENT = 0, /// Use the current level -- don't change the level from what it is.
+        LOG_FATAL = 1,   /// A fatal error. The application will most likely terminate. This is the highest priority.
+        LOG_CRITICAL,    /// A critical error. The application might not be able to continue running successfully.
+        LOG_ERROR,       /// An error. An operation did not complete successfully, but the application as a whole is not affected.
+        LOG_WARNING,     /// A warning. An operation completed with an unexpected result.
+        LOG_NOTICE,      /// A notice, which is an information with just a higher priority.
+        LOG_INFORMATION, /// An informational message, usually denoting the successful completion of an operation.
+        LOG_DEBUG,       /// A debugging message.
+        LOG_TRACE        /// A tracing message. This is the lowest priority.
     };
 
     /**
      * sets the logging level to one a value from Logger::Level
      */
-    static void setLevel(int level = CURRENT);
+    static void setLevel(int level = LOG_CURRENT);
 
     /**
      * get the current logging level.
@@ -93,12 +93,12 @@ public:
     /**
      * turns on console logging at the given level.
      */
-    static void enableConsoleLogging(int level = CURRENT);
+    static void enableConsoleLogging(int level = LOG_CURRENT);
 
     /**
      * turns on file logging to the given file as the given level.
      */
-    static void enableFileLogging(const std::string& fileName, int level = CURRENT);
+    static void enableFileLogging(const std::string& fileName, int level = LOG_CURRENT);
 
     /**
      * turns off file logging, but has no effect on console logging.
@@ -198,16 +198,17 @@ public:
  */
 enum LogLevel
 {
-    lWarning    = Logger::WARNING,
-    lInfo       = Logger::INFORMATION,
-    lDebug      = Logger::DEBUG,
-    lDebug1     = Logger::TRACE,
-    lDebug2     = Logger::TRACE,
-    lDebug3     = Logger::TRACE,
-    lDebug4     = Logger::TRACE,
-    lDebug5     = Logger::TRACE,
-    lAny        = Logger::TRACE,
-    lUser       = Logger::TRACE
+    lError      = Logger::LOG_ERROR,
+    lWarning    = Logger::LOG_WARNING,
+    lInfo       = Logger::LOG_INFORMATION,
+    lDebug      = Logger::LOG_DEBUG,
+    lDebug1     = Logger::LOG_TRACE,
+    lDebug2     = Logger::LOG_TRACE,
+    lDebug3     = Logger::LOG_TRACE,
+    lDebug4     = Logger::LOG_TRACE,
+    lDebug5     = Logger::LOG_TRACE,
+    lAny        = Logger::LOG_TRACE,
+    lUser       = Logger::LOG_TRACE
 };
 
 /**

@@ -304,7 +304,7 @@ RRList* createArrayList(const rrc::NewArrayList& aList)
             char* str = (char *) new char[item.size() + 1];
             strcpy (str, item.c_str());
             myItem = createStringItem (str);
-               addItem (theList, &myItem);
+            addItem (theList, &myItem);
         }
         else if(dynamic_cast<NewArrayListItem<StringList>*>(ptr))
         {

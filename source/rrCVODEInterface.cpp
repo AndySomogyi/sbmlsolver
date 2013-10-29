@@ -92,7 +92,7 @@ int CvodeInterface::allocateCvodeMem ()
     double t0 = 0.0;
     if(CVodeSetUserData(mCVODE_Memory, (void*) this) != CV_SUCCESS)
     {
-        Log(Logger::ERROR)<<"Problem in setting CVODE User data";
+        Log(Logger::LOG_ERROR)<<"Problem in setting CVODE User data";
     }
 
     int result =  CVodeInit(mCVODE_Memory, InternalFunctionCall, t0, mStateVector);
@@ -190,9 +190,9 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
 
             if (nResult == CV_ROOT_RETURN && mFollowEvents)
             {
-                Log(Logger::DEBUG) << ("---------------------------------------------------");
-                Log(Logger::DEBUG) << "--- E V E N T   ( " << mOneStepCount << ", time: " << timeEnd << " ) ";
-                Log(Logger::DEBUG) << ("---------------------------------------------------");
+                Log(Logger::LOG_DEBUG) << ("---------------------------------------------------");
+                Log(Logger::LOG_DEBUG) << "--- E V E N T   ( " << mOneStepCount << ", time: " << timeEnd << " ) ";
+                Log(Logger::LOG_DEBUG) << ("---------------------------------------------------");
 
 
                 bool tooCloseToStart = fabs(timeEnd - mLastEvent) > mRelTol;
@@ -247,7 +247,7 @@ double CvodeInterface::oneStep(const double& _timeStart, const double& hstep)
     }
     catch(const Exception& ex)
     {
-        Log(Logger::ERROR)<<"Problem in OneStep: "<<ex.getMessage()<<endl;
+        Log(Logger::LOG_ERROR)<<"Problem in OneStep: "<<ex.getMessage()<<endl;
         initializeCVODEInterface(mModel);    //tk says ??? tk
         throw;
     }
@@ -258,7 +258,7 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
     CvodeInterface* cvInstance = (CvodeInterface*) userData;
     if(!cvInstance)
     {
-        Log(Logger::ERROR)<<"Problem in CVode Model Function!";
+        Log(Logger::LOG_ERROR)<<"Problem in CVode Model Function!";
         return;
     }
 
@@ -272,8 +272,8 @@ void ModelFcn(int n, double time, double* y, double* ydot, void* userData)
         ydot[0] = 0.0;
     }
 
-    Log(Logger::TRACE) << __FUNC__ << endl;
-    Log(Logger::TRACE) << model << endl;
+    Log(Logger::LOG_TRACE) << __FUNC__ << endl;
+    Log(Logger::LOG_TRACE) << model << endl;
 
     cvInstance->mCount++;
 }
@@ -283,7 +283,7 @@ void EventFcn(double time, double* y, double* gdot, void* userData)
     CvodeInterface* cvInstance = (CvodeInterface*) userData;
     if(!cvInstance)
     {
-        Log(Logger::ERROR)<<"Problem in CVode Model Function";
+        Log(Logger::LOG_ERROR)<<"Problem in CVode Model Function";
         return;
     }
 
@@ -395,7 +395,7 @@ void CvodeInterface::initializeCVODEInterface(ExecutableModel *oModel)
     }
     catch (const Exception& ex)
     {
-        Log(Logger::ERROR)<<"Fatal Error while initializing CVODE: " << ex.getMessage();
+        Log(Logger::LOG_ERROR)<<"Fatal Error while initializing CVODE: " << ex.getMessage();
         throw CVODEException("Fatal Error while initializing CVODE");
     }
 }
@@ -528,7 +528,7 @@ void CvodeInterface::handleCVODEError(const int& errCode)
 {
     if (errCode < 0)
     {
-        Log(Logger::ERROR) << "**************** Error in RunCVode: "
+        Log(Logger::LOG_ERROR) << "**************** Error in RunCVode: "
                 << errCode << " ****************************" << endl;
         throw(Exception("Error in CVODE...!"));
     }

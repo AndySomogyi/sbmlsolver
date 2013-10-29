@@ -1462,7 +1462,7 @@ void NOMSupport::loadSBML(const string& var0, const string& sTimeSymbol)
     loadSBML(var0);
     if(!mModel)
     {
-        Log(Logger::ERROR)<<"No model is allocated in function "<<__FUNC__<<" file "<<__FILE__;
+        Log(Logger::LOG_ERROR)<<"No model is allocated in function "<<__FUNC__<<" file "<<__FILE__;
         return;
     }
 

@@ -118,7 +118,7 @@ PendingAssignment::~PendingAssignment()
 {
     if (computedValues != 0)
     {
-        Log(Logger::WARNING) << "PendingAssigment with index " <<
+        Log(Logger::LOG_WARNING) << "PendingAssigment with index " <<
                 index << " was created at time " << time << ", but was never was used";
     }
 }
