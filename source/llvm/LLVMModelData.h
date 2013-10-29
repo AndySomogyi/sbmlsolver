@@ -15,7 +15,10 @@
 namespace rrllvm
 {
 
-struct LLVMModelData;
+#ifdef _MSC_VER
+#pragma warning( push )
+#pragma warning( disable : 4200 )
+#endif
 
 
 /**
@@ -193,6 +196,10 @@ struct LLVMModelData
 
     static void free(LLVMModelData*);
 };
+
+#ifdef _MSC_VER
+#pragma warning( pop ) 
+#endif
 
 
 

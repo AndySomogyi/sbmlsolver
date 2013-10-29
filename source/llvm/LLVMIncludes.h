@@ -22,6 +22,13 @@
 #undef min
 #undef max
 
+#ifdef _MSC_VER
+#pragma warning( push )
+#pragma warning( disable : 4355 )
+#pragma warning( disable : 4244 )
+#endif
+
+
 #if (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR >= 3)
 #include <llvm/IR/DataLayout.h>
 #include <llvm/IR/DerivedTypes.h>
@@ -61,6 +68,10 @@
 #include <llvm/Support/raw_ostream.h>
 #include <llvm/Target/TargetLibraryInfo.h>
 #include <llvm/Support/raw_ostream.h>
+
+#ifdef _MSC_VER
+#pragma warning( pop ) 
+#endif
 
 #pragma pop_macro("min")
 #pragma pop_macro("max")
