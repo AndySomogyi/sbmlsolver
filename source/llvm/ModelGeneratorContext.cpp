@@ -87,6 +87,8 @@ ModelGeneratorContext::ModelGeneratorContext(std::string const &sbml,
     addGlobalMappings();
 
     createLibraryFunctions(module);
+
+    ModelDataIRBuilder::createModelDataStructType(module, executionEngine, *symbols);
 }
 
 ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *doc,
@@ -118,6 +120,8 @@ ModelGeneratorContext::ModelGeneratorContext(libsbml::SBMLDocument const *doc,
     addGlobalMappings();
 
     createLibraryFunctions(module);
+
+    ModelDataIRBuilder::createModelDataStructType(module, executionEngine, *symbols);
 }
 
 static SBMLDocument *createEmptyDocument()

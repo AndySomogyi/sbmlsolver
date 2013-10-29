@@ -56,8 +56,8 @@ public:
     virtual void reset() = 0;
 
 
-    virtual int getNumIndependentSpecies() = 0;
-    virtual int getNumDependentSpecies() = 0;
+    virtual int getNumIndependentFloatingSpecies() = 0;
+    virtual int getNumDependentFloatingSpecies() = 0;
 
     virtual int getNumFloatingSpecies() = 0;
     virtual int getFloatingSpeciesIndex(const std::string& eid) = 0;

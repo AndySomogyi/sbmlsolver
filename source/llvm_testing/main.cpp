@@ -51,6 +51,39 @@ struct TestCase
 void getPairs(TestCase *&, int& npairs);
 
 
+struct A
+{
+    unsigned a;
+    unsigned b;
+};
+
+
+struct B
+{
+    unsigned a;
+    unsigned b;
+    double data[0];
+};
+
+
+
+struct C
+{
+    unsigned a;
+    unsigned b;
+    double data[1];
+};
+
+static void testStruct()
+{
+    std::cout << "size A: " << sizeof(A) << std::endl;
+    std::cout << "size B: " << sizeof(B) << std::endl;
+    std::cout << "size C: " << sizeof(C) << std::endl;
+
+
+}
+
+
 
 using namespace std;
 using namespace rr;
@@ -65,6 +98,9 @@ int main(int argc, char* argv[])
 
     const char* compiler = "llvm";
 
+    testStruct();
+
+    return 0;
 
 
     if (argc > 2)

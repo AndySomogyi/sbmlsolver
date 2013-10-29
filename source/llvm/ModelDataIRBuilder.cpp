@@ -51,7 +51,7 @@ llvm::Value* ModelDataIRBuilder::createGlobalParamGEP(const std::string& id)
 {
     uint index = symbols.getGlobalParameterIndex(id);
     assert(index < symbols.getIndependentGlobalParameterSize());
-    return createGEP(GlobalParameters, index);
+    return createGEP(GlobalParametersAlias, index);
 }
 
 
@@ -176,7 +176,7 @@ llvm::Value* ModelDataIRBuilder::createFloatSpeciesAmtGEP(
 {
     uint index = symbols.getFloatingSpeciesIndex(id);
     assert(index < symbols.getIndependentFloatingSpeciesSize());
-    return createGEP(FloatingSpeciesAmounts, index,
+    return createGEP(FloatingSpeciesAmountsAlias, index,
             name.isTriviallyEmpty() ? id : name);
 }
 
@@ -253,7 +253,7 @@ llvm::Value* ModelDataIRBuilder::createRateRuleValueGEP(const std::string& id,
 {
     uint index = symbols.getRateRuleIndex(id);
     assert(index < symbols.getRateRuleSize());
-    return createGEP(RateRuleValues, index,
+    return createGEP(RateRuleValuesAlias, index,
             name.isTriviallyEmpty() ? id : name);
 }
 
@@ -322,7 +322,7 @@ llvm::Value* ModelDataIRBuilder::createCompGEP(const std::string& id,
 {
     uint index = symbols.getCompartmentIndex(id);
     assert(index < symbols.getIndependentCompartmentSize());
-    return createGEP(CompartmentVolumes, index,
+    return createGEP(CompartmentVolumesAlias, index,
             name.isTriviallyEmpty() ? id : name);
 }
 
@@ -345,14 +345,14 @@ llvm::Value* ModelDataIRBuilder::createBoundSpeciesAmtGEP(
 {
     uint index = symbols.getBoundarySpeciesIndex(id);
     assert(index < symbols.getIndependentBoundarySpeciesSize());
-    return createGEP(BoundarySpeciesAmounts, index, name);
+    return createGEP(BoundarySpeciesAmountsAlias, index, name);
 }
 
 llvm::Value* ModelDataIRBuilder::createGlobalParamLoad(
         const std::string& id, const llvm::Twine& name)
 {
     int idx = symbols.getGlobalParameterIndex(id);
-    return createLoad(GlobalParameters, idx,
+    return createLoad(GlobalParametersAlias, idx,
             name.isTriviallyEmpty() ? id : name);
 }
 
@@ -360,19 +360,19 @@ llvm::Value* ModelDataIRBuilder::createGlobalParamStore(
         const std::string& id, llvm::Value* value)
 {
     int idx = symbols.getGlobalParameterIndex(id);
-    return createStore(GlobalParameters, idx, value, id);
+    return createStore(GlobalParametersAlias, idx, value, id);
 }
 
 llvm::Value* ModelDataIRBuilder::createReactionRateLoad(const std::string& id, const llvm::Twine& name)
 {
     int idx = symbols.getReactionIndex(id);
-    return createLoad(ReactionRates, idx, name);
+    return createLoad(ReactionRatesAlias, idx, name);
 }
 
 llvm::Value* ModelDataIRBuilder::createReactionRateStore(const std::string& id, llvm::Value* value)
 {
     int idx = symbols.getReactionIndex(id);
-    return createStore(ReactionRates, idx, value, id);
+    return createStore(ReactionRatesAlias, idx, value, id);
 }
 
 llvm::Value* ModelDataIRBuilder::createStoichiometryStore(uint row, uint col,
@@ -422,83 +422,133 @@ void ModelDataIRBuilder::validateStruct(llvm::Value* s,
     throw LLVMException(err.str());
 }
 
-llvm::StructType *ModelDataIRBuilder::getStructType(llvm::Module *module, llvm::ExecutionEngine *engine)
+llvm::StructType *ModelDataIRBuilder::createModelDataStructType(llvm::Module *module,
+        llvm::ExecutionEngine *engine, LLVMModelDataSymbols const& symbols)
 {
     StructType *structType = module->getTypeByName(LLVMModelDataName);
 
     if (!structType)
     {
+        // these have initial conditions, so need to allocate them twice
+        uint numIndCompartments = symbols.getIndependentCompartmentSize();
+        uint numIndFloatingSpecies = symbols.getIndependentFloatingSpeciesSize();
+        uint numIndBoundarySpecies = symbols.getIndependentBoundarySpeciesSize();
+        uint numIndGlobalParameters = symbols.getIndependentGlobalParameterSize();
+
+        // no initial conditions for these
+        uint numRateRules = symbols.getRateRuleSize();
+        uint numReactions = symbols.getReactionSize();
+
         LLVMContext &context = module->getContext();
 
         Type *csrSparseType = getCSRSparseStructType(module, engine);
         Type *csrSparsePtrType = csrSparseType->getPointerTo();
 
+        Type *int32Type = Type::getInt32Ty(context);
+        Type *doubleType = Type::getDoubleTy(context);
+        Type *doublePtrType = Type::getDoublePtrTy(context);
+
         vector<Type*> elements;
 
-        elements.push_back(Type::getInt32Ty(context));        // 0      unsigned                            size;
-        elements.push_back(Type::getInt32Ty(context));        // 1      unsigned                            flags;
-        elements.push_back(Type::getDoubleTy(context));       // 2      double                              time;
-        elements.push_back(Type::getInt32Ty(context));        // 3      int                                 numIndependentSpecies;
-        elements.push_back(Type::getInt32Ty(context));        // 4      int                                 numDependentSpecies;
-        elements.push_back(Type::getDoublePtrTy(context));    // 5      double*                             dependentSpeciesConservedSums;
-        elements.push_back(Type::getInt32Ty(context));        // 6      int                                 numGlobalParameters;
-        elements.push_back(Type::getDoublePtrTy(context));    // 7      double*                             globalParameters;
-        elements.push_back(Type::getInt32Ty(context));        // 8      int                                 numReactions;
-        elements.push_back(Type::getDoublePtrTy(context));    // 9      ouble*                              reactionRates;
-        elements.push_back(Type::getInt32Ty(context));        // 10     int                                 numRateRules;
-        elements.push_back(Type::getDoublePtrTy(context));    // 11     double*                             rateRuleValues;
-        elements.push_back(Type::getDoublePtrTy(context));    // 12     double*                             rateRuleRates;
-        elements.push_back(Type::getInt32Ty(context));        // 13     int                                 numFloatingSpecies;
-        elements.push_back(Type::getDoublePtrTy(context));    // 14     double*                             floatingSpeciesAmountRates;
-        elements.push_back(Type::getDoublePtrTy(context));    // 15     double*                             floatingSpeciesAmounts;
-        elements.push_back(Type::getInt32Ty(context));        // 16     int                                 numBoundarySpecies;
-        elements.push_back(Type::getDoublePtrTy(context));    // 17     double*                             boundarySpeciesAmounts;
-        elements.push_back(Type::getInt32Ty(context));        // 18     int                                 numCompartments;
-        elements.push_back(Type::getDoublePtrTy(context));    // 19     double*                             compartmentVolumes;
-        elements.push_back(csrSparsePtrType);                 // 20     dcsr_matrix                         stoichiometry;
-        elements.push_back(Type::getInt32Ty(context));        // 21     int                                 numEvents;
-        elements.push_back(Type::getInt32Ty(context));        // 22     int                                 stateVectorSize;
-        elements.push_back(Type::getDoublePtrTy(context));    // 23     double*                             stateVector;
-        elements.push_back(Type::getDoublePtrTy(context));    // 24     double*                             stateVectorRate;
+        elements.push_back(int32Type);        // 0      unsigned                 size;
+        elements.push_back(int32Type);        // 1      unsigned                 flags;
+        elements.push_back(doubleType);       // 2      double                   time;
+        elements.push_back(int32Type);        // 3      int                      numIndCompartments;
+        elements.push_back(int32Type);        // 4      int                      numIndFloatingSpecies;
+        elements.push_back(int32Type);        // 5      int                      numIndBoundarySpecies;
+        elements.push_back(int32Type);        // 6      int                      numIndGlobalParameters;
+        elements.push_back(int32Type);        // 7      int                      numRateRules;
+        elements.push_back(int32Type);        // 8      int                      numReactions;
+        elements.push_back(csrSparsePtrType); // 9      dcsr_matrix              stoichiometry;
+        elements.push_back(int32Type);        // 10     int                      numEvents;
+        elements.push_back(int32Type);        // 11     int                      stateVectorSize;
+        elements.push_back(doublePtrType);    // 12     double*                  stateVector;
+        elements.push_back(doublePtrType);    // 13     double*                  stateVectorRate;
+        elements.push_back(doublePtrType);    // 14     double*                  rateRuleRates;
+        elements.push_back(doublePtrType);    // 15     double*                  floatingSpeciesAmountRates;
+        elements.push_back(doublePtrType);    // 16     double*                  compartmentVolumesAlias;
+        elements.push_back(doublePtrType);    // 17     double*                  compartmentVolumesInitAlias;
+        elements.push_back(doublePtrType);    // 18     double*                  floatingSpeciesAmountsAlias
+        elements.push_back(doublePtrType);    // 19     double*                  floatingSpeciesAmountsInitAlias
+        elements.push_back(doublePtrType);    // 20     double*                  boundarySpeciesAmountsAlias;
+        elements.push_back(doublePtrType);    // 21     double*                  boundarySpeciesAmountsInitAlias;
+        elements.push_back(doublePtrType);    // 22     double*                  globalParametersAlias
+        elements.push_back(doublePtrType);    // 23     double*                  globalParametersInitAlias
+        elements.push_back(doublePtrType);    // 24     double*                  rateRuleValuesAlias
+        elements.push_back(doublePtrType);    // 25     double*                  rateRuleValuesInitAlias
 
+        elements.push_back(ArrayType::get(doubleType, numIndCompartments));     // 26 CompartmentVolumes
+        elements.push_back(ArrayType::get(doubleType, numIndCompartments));     // 27 CompartmentVolumesInit
+
+        elements.push_back(ArrayType::get(doubleType, numIndFloatingSpecies));  // 28 FloatingSpeciesAmounts
+        elements.push_back(ArrayType::get(doubleType, numIndFloatingSpecies));  // 29 FloatingSpeciesAmountsInit
+
+        elements.push_back(ArrayType::get(doubleType, numIndBoundarySpecies));  // 30 BoundarySpeciesAmounts
+        elements.push_back(ArrayType::get(doubleType, numIndBoundarySpecies));  // 31 BoundarySpeciesAmounts
+
+        elements.push_back(ArrayType::get(doubleType, numIndGlobalParameters)); // 32 GlobalParameters
+        elements.push_back(ArrayType::get(doubleType, numIndGlobalParameters)); // 33 GlobalParametersInit
+
+        elements.push_back(ArrayType::get(doubleType, numRateRules));           // 34 RateRuleValues
+        elements.push_back(ArrayType::get(doubleType, numReactions));           // 35 ReactionRates
+
+        // creates a named struct,
+        // the act of creating a named struct should
+        // add the struct to the module definttion, at least
+        // the code in llvm 3.3 does this.
         structType = StructType::create(context, elements, LLVMModelDataName);
 
-        if (engine)
-        {
-#if (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR >= 2)
-            const DataLayout *dl = engine->getDataLayout();
-            size_t llvm_size = dl->getTypeStoreSize(structType);
-#else
-            const TargetData* td = engine->getTargetData();
-            size_t llvm_size = td->getTypeStoreSize(structType);
-#endif
-
-            if (sizeof(LLVMModelData) != llvm_size)
-            {
-                stringstream err;
-                err << "llvm rr::ModelData size " << llvm_size <<
-                        " does NOT match C++ sizeof(ModelData) " <<
-                        sizeof(LLVMModelData);
-                throw LLVMException(err.str(), __FUNC__);
-            }
-
-            /*
-            printf("TestStruct size: %i, , LLVM Size: %i\n", sizeof(ModelData), llvm_size);
-
-            printf("C++ bool size: %i, LLVM bool size: %i\n", sizeof(bool), dl->getTypeStoreSize(boolType));
-            printf("C++ bool* size: %i, LLVM bool* size: %i\n", sizeof(bool*), dl->getTypeStoreSize(boolPtrType));
-            printf("C++ char** size: %i, LLVM char** size: %i\n", sizeof(char**), dl->getTypeStoreSize(charStarStarType));
-            printf("C++ void* size: %i, LLVM void* size: %i\n", sizeof(void*), dl->getTypeStoreSize(voidPtrType));
-
-            printf("C++ EventDelayHandler* size: %i\n", sizeof(EventDelayHandler*));
-            printf("C++ EventAssignmentHandler* size: %i\n", sizeof(EventAssignmentHandler* ));
-            printf("C++ ComputeEventAssignmentHandler* size: %i\n", sizeof(ComputeEventAssignmentHandler*));
-            printf("C++ PerformEventAssignmentHandler* size: %i\n", sizeof(PerformEventAssignmentHandler*));
-
-            */
-        }
+        // make sure we can get the struct in the future
+        assert(module->getTypeByName(LLVMModelDataName) &&
+                "Could not get LLVMModelData struct from llvm module after createing it");
     }
     return structType;
+}
+
+llvm::StructType *ModelDataIRBuilder::getStructType(llvm::Module *module)
+{
+    StructType *structType = module->getTypeByName(LLVMModelDataName);
+
+    if (structType == 0)
+    {
+        throw_llvm_exception("Could not get LLVMModelData struct type from llvm Module, "
+                "createModelDataStructType probably has not been called.");
+    }
+
+    return structType;
+}
+
+unsigned ModelDataIRBuilder::getModelDataSize(llvm::Module *module, llvm::ExecutionEngine *engine)
+{
+    assert(engine && "engine must not be NULL");
+
+    StructType *structType = getStructType(module);
+
+#if (LLVM_VERSION_MAJOR >= 3) && (LLVM_VERSION_MINOR >= 2)
+    const DataLayout *dl = engine->getDataLayout();
+    size_t llvm_size = dl->getTypeStoreSize(structType);
+#else
+    const TargetData* td = engine->getTargetData();
+    size_t llvm_size = td->getTypeStoreSize(structType);
+#endif
+
+    return llvm_size;
+
+    /*
+     printf("TestStruct size: %i, , LLVM Size: %i\n", sizeof(ModelData), llvm_size);
+
+     printf("C++ bool size: %i, LLVM bool size: %i\n", sizeof(bool), dl->getTypeStoreSize(boolType));
+     printf("C++ bool* size: %i, LLVM bool* size: %i\n", sizeof(bool*), dl->getTypeStoreSize(boolPtrType));
+     printf("C++ char** size: %i, LLVM char** size: %i\n", sizeof(char**), dl->getTypeStoreSize(charStarStarType));
+     printf("C++ void* size: %i, LLVM void* size: %i\n", sizeof(void*), dl->getTypeStoreSize(voidPtrType));
+
+     printf("C++ EventDelayHandler* size: %i\n", sizeof(EventDelayHandler*));
+     printf("C++ EventAssignmentHandler* size: %i\n", sizeof(EventAssignmentHandler* ));
+     printf("C++ ComputeEventAssignmentHandler* size: %i\n", sizeof(ComputeEventAssignmentHandler*));
+     printf("C++ PerformEventAssignmentHandler* size: %i\n", sizeof(PerformEventAssignmentHandler*));
+
+     */
+
 }
 
 
