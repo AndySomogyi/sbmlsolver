@@ -19,8 +19,8 @@ using namespace rr;
 
 //Plugin callback functions
 #ifndef SWIG // these make SWIG really unhappy for some reason.
-typedef void    (rrCallConv *PluginWorkStartedCB)(void*);
-typedef void    (rrCallConv *PluginWorkFinishedCB)(void*);
+typedef void    (rrpCallConv *PluginWorkStartedCB)(void*);
+typedef void    (rrpCallConv *PluginWorkFinishedCB)(void*);
 #endif
 
 using std::string;

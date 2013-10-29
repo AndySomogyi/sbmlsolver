@@ -142,7 +142,7 @@ bool RunTest(const string& version, int caseNumber, const std::string& compiler)
 
     try
     {
-        Log(Logger::NOTICE) << "Running Test: "<<caseNumber<<endl;
+        Log(Logger::LOG_NOTICE) << "Running Test: "<<caseNumber<<endl;
         string dataOutputFolder(gTempFolder);
         string dummy;
         string logFileName;
@@ -215,17 +215,17 @@ bool RunTest(const string& version, int caseNumber, const std::string& compiler)
         simulation.SaveModelAsXML(dataOutputFolder);
         if(!result)
         {
-            Log(Logger::NOTICE) << "\t\tTest failed using compiler \'" << getCompiler(gRR) << "\'" << endl;
+            Log(Logger::LOG_NOTICE) << "\t\tTest failed using compiler \'" << getCompiler(gRR) << "\'" << endl;
         }
         else
         {
-            Log(Logger::NOTICE) <<"\t\tTest passed using compiler \'" << getCompiler(gRR) << "\'" << endl;
+            Log(Logger::LOG_NOTICE) <<"\t\tTest passed using compiler \'" << getCompiler(gRR) << "\'" << endl;
         }
     }
     catch(rr::Exception& ex)
     {
         string error = ex.what();
-        Log(Logger::NOTICE) << "Case "<<caseNumber<<": Exception: "<<error<<endl;
+        Log(Logger::LOG_NOTICE) << "Case "<<caseNumber<<": Exception: "<<error<<endl;
         result = false;;
     }
 

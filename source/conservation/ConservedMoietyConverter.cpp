@@ -189,7 +189,7 @@ int ConservedMoietyConverter::convert()
 
     ls::DoubleMatrix *L0 = structural->getL0Matrix();
 
-    if (rr::Logger::LOG_getLevel() >= loggingLevel)
+    if (rr::Logger::getLevel() >= loggingLevel)
     {
         Log(loggingLevel) << "performing conversion on " << mModel->getName();
         Log(loggingLevel) << "independent species: " << toString(indSpecies);
@@ -258,7 +258,7 @@ int ConservedMoietyConverter::setDocument(const libsbml::SBMLDocument* doc)
             Log(rr::Logger::LOG_ERROR) < "could not upgrade source sbml level or version";
 
             const SBMLErrorLog *log = doc->getErrorLog();
-            string errors = log ? log->toString() : " NULL SBML Error Log";
+            string errors = log ? log->toString() : string(" NULL SBML Error Log");
             Log(rr::Logger::LOG_ERROR) << "Conversion Errors: " + errors;
 
 

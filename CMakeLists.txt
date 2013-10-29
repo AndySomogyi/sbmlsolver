@@ -95,7 +95,7 @@ OPTION (INSTALL_STATIC_LIB       "Install RoadRunner CXX static lib"       OFF)
 OPTION (RR_BUILD_SHARED_CORE     "Build RoadRunner Core Shared library"    OFF)
 OPTION (BUILD_TESTS              "Build the SBML C API test suite"         OFF)
 OPTION (INSTALL_SBML_MODELS      "Install SBML Models"                     ON )
-OPTION (BUILD_PLUGINS            "Build and Install Plugins"               ON )
+OPTION (BUILD_PLUGINS            "Build and Install Plugins"               OFF )
 
 #Setup so that roadrunner is always built as a dll and linked statically with 'as much as possible'
 set(BUILD_SHARED_LIBS            ON)
