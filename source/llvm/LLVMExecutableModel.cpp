@@ -178,12 +178,12 @@ double LLVMExecutableModel::getTime()
     return modelData.time;
 }
 
-int LLVMExecutableModel::getNumIndependentSpecies()
+int LLVMExecutableModel::getNumIndFloatingSpecies()
 {
     return modelData.numIndependentSpecies;
 }
 
-int LLVMExecutableModel::getNumDependentSpecies()
+int LLVMExecutableModel::getNumDepFloatingSpecies()
 {
     return modelData.numDependentSpecies;
 }
