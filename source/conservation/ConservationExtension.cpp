@@ -27,6 +27,19 @@
 #include <iostream>
 #include <exception>
 
+
+// --------------------------------------------------------
+//
+// Instantiate SBMLExtensionNamespaces<ConservationExtension>
+// (GroupsPkgNamespaces) for DLL.
+//
+// --------------------------------------------------------
+
+namespace libsbml {
+    template class LIBSBML_EXTERN libsbml::SBMLExtensionNamespaces<rr::conservation::ConservationExtension> ;
+}
+
+
 namespace rr
 {
 namespace conservation
@@ -95,14 +108,6 @@ const char* SBML_GROUPS_TYPECODE_STRINGS[] =
 
 //------------- (END) -----------------------------------
 
-// --------------------------------------------------------
-//
-// Instantiate SBMLExtensionNamespaces<ConservationExtension>
-// (GroupsPkgNamespaces) for DLL.
-//
-// --------------------------------------------------------
-
-template class LIBSBML_EXTERN SBMLExtensionNamespaces<ConservationExtension> ;
 
 ConservationExtension::ConservationExtension()
 {

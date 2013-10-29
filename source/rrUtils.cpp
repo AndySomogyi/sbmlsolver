@@ -37,6 +37,7 @@
 #include "rrUtils.h"
 #include "rrLogger.h"
 #include "rrSelectionRecord.h"
+#include "rrException.h"
 
 // Most Unix systems have a getch in libcurses, but this introduces
 // an un-needed depencency, as we can write our own getch easily.
@@ -224,7 +225,7 @@ string getCurrentExeFolder()
 
     if (r < 0)
     {
-        throw Exception(string("error readlink(") + string((char*)arg1) + string(") failed"));
+        throw rr::Exception(string("error readlink(") + string((char*)arg1) + string(") failed"));
     }
 
     string thePath = getFilePath(exepath);

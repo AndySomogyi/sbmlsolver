@@ -52,7 +52,8 @@ else(WIN32)
 
     if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
         # Linux specific code
-        SET_TARGET_PROPERTIES(_roadrunner PROPERTIES LINK_FLAGS "-Wl,--no-undefined")
+        #SET_TARGET_PROPERTIES(_roadrunner PROPERTIES LINK_FLAGS "-Wl,--no-undefined")
+        
     else()
         # OSX section.
         # we do not link directly with python at at link time, so that at run time,
