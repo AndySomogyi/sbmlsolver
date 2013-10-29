@@ -3,29 +3,27 @@
 
 import sys
 import os
-#import ctypes
+import rrPython
 import numpy
 from ctypes import *
-
+rr = rrPython
 np = numpy
 
 if len(os.path.dirname(__file__)):
     os.chdir(os.path.dirname(__file__))
 sharedLib=''
-rrLib=None
+rrpLib=None
 libHandle=None
 if sys.platform.startswith('win32'):
     rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'bin'))
     os.environ['PATH'] = rrInstallFolder + ';' + "c:\\Python27" + ';' + "c:\\Python27\\Lib\\site-packages" + ';' + os.environ['PATH']
-    sharedLib = os.path.join(rrInstallFolder, 'rrp_api.dll')
+    sharedLib = os.path.join(rrInstallFolder, 'rrplugins_c_api.dll')
     libHandle=windll.kernel32.LoadLibraryA(sharedLib)
-    rrLib = WinDLL (None, handle=libHandle)
+    rrpLib = WinDLL (None, handle=libHandle)
 
 else:
     rrInstallFolder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'lib'))
-
     print(os.path.join(rrInstallFolder, 'librrp_api.dylib'))
-
     # check for .so (linux)
     if os.path.isfile(os.path.join(rrInstallFolder, 'librrp_api.so')):
         sharedLib = os.path.join(rrInstallFolder, 'librrp_api.so')
@@ -33,7 +31,7 @@ else:
         sharedLib = os.path.join(rrInstallFolder, 'librrp_api.dylib')
     else:
         raise Exception("could not locate RoadRunner shared library")
-    rrLib = cdll.LoadLibrary(sharedLib)
+    rrpLib = cdll.LoadLibrary(sharedLib)
 
 
 ##\mainpage notitle
@@ -70,13 +68,24 @@ else:
 #=======================rrp_api=======================#
 charptr = POINTER(c_char)
 
-rrpLib.createRRPluginManager.restype = c_void_p
-rrpLib.createRRPluginManagerEx.restype = c_void_p
-rrpLib.freeRRPluginManager.restype = c_bool
+rrpLib.createPluginManager.restype = c_void_p
+rrpLib.createPluginManagerEx.restype = c_void_p
+rrpLib.freePluginManager.restype = c_bool
 
-#===== The Python API allocate an internal global handle to ONE instance of the Roadrunner API
-gRRHandle = rrpLib.createRRInstance()
-gPluginManager = rrpLib.createRRPluginManager(gRRHandle)
+#===== The API allocate an internal global handle to
+#===== ONE roadrunner instance and ONE instance of a plugin manager
+gRRHandle = rr.createRRInstance()
+gPluginManager = rrpLib.createPluginManager(gRRHandle)
+
+##\brief Initialize the plugins library and returns a new PluginManager instance
+#\return Returns an instance of the library, returns false if it fails
+def createPluginManager():
+    return rrpLib.createPluginManager()
+
+##\brief Free the plugin manager instance
+#\param rrpLib Free the plugin manager instance given in the argument
+def freeRRInstance(iHandle):
+    return rrpLib.freePluginManager(iHandle)
 
 #Unload roadrunner dll from python
 def unloadAPI():

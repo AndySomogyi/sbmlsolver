@@ -1,6 +1,9 @@
 #if defined(CG_UI)
     #if defined(STATIC_PLUGIN)
         #pragma comment(lib, "roadrunner-static.lib")
+        #pragma comment(lib, "rrplugins_api-static.lib")
+        #pragma comment(lib, "libxml2_xe.lib")
+        #pragma comment(lib, "libsbml-static")
     #else
         #pragma comment(lib, "roadrunner.lib")
         #pragma comment(lib, "rrp_api.lib")

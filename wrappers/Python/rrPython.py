@@ -733,7 +733,11 @@ def simulateEx(timeStart, timeEnd, numberOfPoints):
     #TODO: Check result
     rowCount = rrLib.getRRDataNumRows(result)
     colCount = rrLib.getRRDataNumCols(result)
-    resultArray = np.zeros((rowCount, colCount))
+    if rowCount > -1 and colCount > -1 :
+        resultArray = np.zeros((rowCount, colCount))
+    else:
+        return None
+
     for m in range(rowCount):
         for n in range(colCount):
                 value = c_double()

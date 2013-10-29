@@ -17,13 +17,13 @@ lmUtils
 
 add_definitions(
 -DPOCO_STATIC
--DSTATIC_PUGI
 -DLIBSBML_STATIC
 -DSTATIC_RR
+-DSTATIC_PLUGINS_API
 -DSTATIC_LIBSTRUCT
 -DLIBLAX_STATIC
 -DSTATIC_NLEQ
--DEXPORT_PLUGIN
+-DEXPORT_RR_PLUGIN
 )
 
 add_library(${target} SHARED ${sources})
@@ -33,7 +33,7 @@ add_definitions( -DWIN32)
 target_link_libraries (${target}
 lmfit-static
 rrc_api
-rrp_api
+rrplugins_c_api
 )
 else() #UNIX
     # OSX flags:

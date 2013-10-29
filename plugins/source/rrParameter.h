@@ -69,7 +69,7 @@ mValue(mDummy)
 template<class T>
 string Parameter<T>::getValueAsString() const
 {
-    return toString(mValue);
+    return rr::toString(mValue);
 }
 
 template<class T>
