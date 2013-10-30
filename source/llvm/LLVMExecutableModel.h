@@ -80,8 +80,8 @@ public:
     virtual void reset();
 
 
-    virtual int getNumIndependentSpecies();
-    virtual int getNumDependentSpecies();
+    virtual int getNumIndFloatingSpecies();
+    virtual int getNumDepFloatingSpecies();
     virtual int getNumFloatingSpecies();
     virtual int getNumBoundarySpecies();
     virtual int getNumGlobalParameters();

@@ -17,22 +17,25 @@ auto_link
 add_library(${target} SHARED ${sources})
 
 add_definitions(
--DPOCO_STATIC
--DLIBSBML_STATIC
--DSTATIC_RR
--DSTATIC_PLUGINS_API
--DSTATIC_LIBSTRUCT
--DLIBLAX_STATIC
--DSTATIC_NLEQ
 -DEXPORT_RR_PLUGIN
+-DSTATIC_RR
+-DSTATIC_PLUGIN
+-DSTATIC_PLUGINS_API
+-DPOCO_STATIC
+#-DLIBSBML_STATIC
+#-DSTATIC_LIBSTRUCT
+#-DLIBLAX_STATIC
+#-DSTATIC_NLEQ
 )
 
 if(WIN32)
-add_definitions( -D_WIN32)
+#add_definitions( -D_WIN32)
 target_link_libraries (${target}
-roadrunner-static
-rrc_api
-rrplugins_c_api
+#roadrunner-static
+rrplugins_api-static
+#rrplugins_c_api
+#libxml2
+#libsbml-static
 )
 else() #UNIX
     # OSX flags:
@@ -67,7 +70,7 @@ else() #UNIX
 endif()
 
 if(${MSVC})
-set (CMAKE_SHARED_LINKER_FLAGS     "${CMAKE_SHARED_LINKER_FLAGS} \"/DEF:${CMAKE_CURRENT_SOURCE_DIR}/add_noise.def\"")
+#set (CMAKE_SHARED_LINKER_FLAGS     "${CMAKE_SHARED_LINKER_FLAGS} \"/DEF:${CMAKE_CURRENT_SOURCE_DIR}/add_noise.def\"")
 endif()
 
 install (TARGETS ${target}

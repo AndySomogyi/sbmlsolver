@@ -29,9 +29,12 @@
 
 #if defined(_MSC_VER) || defined(__CODEGEARC__)
     #define rrpCallConv __stdcall
+	#define plugins_cc __cdecl		//For the C functions that are exported from a plugin
 #else
     #define rrpCallConv
+	#define plugins_cc
 #endif
+
 
 #endif
 

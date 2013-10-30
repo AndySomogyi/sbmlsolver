@@ -20,16 +20,15 @@ add_definitions(
 -DLIBSBML_STATIC
 -DSTATIC_RR
 -DSTATIC_PLUGINS_API
--DSTATIC_LIBSTRUCT
--DLIBLAX_STATIC
--DSTATIC_NLEQ
+#-DSTATIC_LIBSTRUCT
+#-DLIBLAX_STATIC
+#-DSTATIC_NLEQ
 -DEXPORT_RR_PLUGIN
 )
 
 add_library(${target} SHARED ${sources})
 
 if(WIN32)
-add_definitions( -DWIN32)
 target_link_libraries (${target}
 lmfit-static
 rrc_api
@@ -57,17 +56,15 @@ else() #UNIX
         roadrunner-static
         lmfit-static
         rrc_api
-        rrp_api
+        rrPluginsAPI
         )
 endif()
 
-if(${MSVC})
-set (CMAKE_SHARED_LINKER_FLAGS     "${CMAKE_SHARED_LINKER_FLAGS} \"/DEF:${CMAKE_CURRENT_SOURCE_DIR}/${target}.def\"")
-endif()
+#if(${MSVC})
+#set (CMAKE_SHARED_LINKER_FLAGS     "${CMAKE_SHARED_LINKER_FLAGS} \"/DEF:${CMAKE_CURRENT_SOURCE_DIR}/${target}.def\"")
+#endif()
 
 install (TARGETS ${target}
 DESTINATION plugins
 COMPONENT plugins
 )
-
-#Skip installing any header

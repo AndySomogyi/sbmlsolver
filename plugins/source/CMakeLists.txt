@@ -22,65 +22,63 @@ rrPluginManager
 )
 
 
-# set up linking libs
-if(RR_BUILD_SHARED_CORE)
-    #Link with static libs
-    add_library(${target} SHARED ${sources})
+##SHARED VERSION ----------------
+##Link with static libs
+#add_library(${target} SHARED ${sources})
+#
+#set_property(TARGET ${target}
+#    PROPERTY  COMPILE_DEFINITIONS
+#    EXPORT_RRP
+#    LIBSBML_STATIC
+#    LIBLAX_STATIC
+#    STATIC_LIBSTRUCT
+#    STATIC_PUGI
+#    STATIC_NLEQ
+#    POCO_STATIC
+#    POCO_NO_AUTOMATIC_LIBS
+#    )
+#
+##libraries to link with our shared lib
+#if(UNIX)
+#    set(staticLibExt ".a")
+#else()
+#    set(staticLibExt "")
+#endif(UNIX)
+#
+#target_link_libraries (${target}
+#    sundials_cvode
+#    sundials_nvecserial
+#    blas
+#    lapack
+#    pugi-static
+#    nleq-static
+#    rr-libstruct-static
+#    poco_foundation-static
+#    )
+#
+#if(UNIX)
+#    target_link_libraries (${target}
+#        pthread
+#        sbml
+#        dl
+#        f2c${staticLibExt}
+#        )
+#else()
+#    target_link_libraries (${target}
+#        libf2c
+#        libsbml
+#        )
+#endif(UNIX)
+#
+#install(TARGETS ${target}
+#        RUNTIME DESTINATION bin COMPONENT plugins_api
+#        LIBRARY DESTINATION lib COMPONENT plugins_api
+#        ARCHIVE DESTINATION lib COMPONENT plugins_api
+#        )
+#
+##END OF SHARED VERSION ----------------
 
-    set_property(TARGET ${target}
-        PROPERTY  COMPILE_DEFINITIONS
-        EXPORT_RRP
-        LIBSBML_STATIC
-        LIBLAX_STATIC
-        STATIC_LIBSTRUCT
-        STATIC_PUGI
-        STATIC_NLEQ
-        POCO_STATIC
-        POCO_NO_AUTOMATIC_LIBS
-        )
-
-    #libraries to link with our shared lib
-    if(UNIX)
-        set(staticLibExt ".a")
-    else()
-        set(staticLibExt "")
-    endif(UNIX)
-
-    target_link_libraries (${target}
-        sundials_cvode
-        sundials_nvecserial
-        blas
-        lapack
-        pugi-static
-        nleq-static
-        rr-libstruct-static
-        poco_foundation-static
-        )
-
-    if(UNIX)
-        target_link_libraries (${target}
-            pthread
-            sbml
-            dl
-            f2c${staticLibExt}
-            )
-    else()
-        target_link_libraries (${target}
-            libf2c
-            libsbml
-            )
-    endif(UNIX)
-
-    if(${INSTALL_CXX_API})
-        install(TARGETS ${target}
-            RUNTIME DESTINATION bin COMPONENT plugins_api
-            LIBRARY DESTINATION lib COMPONENT plugins_api
-            ARCHIVE DESTINATION lib COMPONENT plugins_api
-            )
-    endif()
-endif(RR_BUILD_SHARED_CORE)
-
-# static allways gets build
+#STATIC VERSION
 add_library(${target}-static STATIC ${sources})
 
 set_property(TARGET ${target}-static
@@ -145,25 +143,20 @@ if(BUILD_TESTS)
 endif()
 
 #--- INSTALL STUFF
-if(${BUILD_PLUGINS_API})
+install(TARGETS ${target}-static
+    LIBRARY DESTINATION lib COMPONENT rrplugins_api
+    ARCHIVE DESTINATION lib COMPONENT rrplugins_api
+    )
 
-    #if(INSTALL_STATIC_LIB)
-    install(TARGETS ${target}-static
-        LIBRARY DESTINATION lib COMPONENT rr_core
-        ARCHIVE DESTINATION lib COMPONENT rr_core
-        )
-    #endif()
+#=== HEADERS
+set(folders
+    .
+    )
 
-    #=== HEADERS
-    set(folders
-        .
-        )
-
-    foreach(subfolder ${folders})
-        FILE (GLOB headers ${folder}/*.h)
-        install (   FILES ${headers}
-            DESTINATION include/plugins_api/${subfolder}
-            COMPONENT plugins_api)
-    endforeach(subfolder)
-endif() 
+foreach(subfolder ${folders})
+    FILE (GLOB headers ${folder}/*.h)
+    install (   FILES ${headers}
+        DESTINATION include/plugins_api/${subfolder}
+        COMPONENT plugins_api)
+endforeach(subfolder)
 

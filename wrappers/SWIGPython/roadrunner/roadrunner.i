@@ -1180,7 +1180,7 @@ namespace std { class ostream{}; }
             else
             {
                 string msg = "No sbml element exists for concentration selection '" + id + "'";
-                Log(Logger::ERROR) << msg;
+                Log(Logger::LOG_ERROR) << msg;
                 throw Exception(msg);
                 break;
             }
@@ -1197,7 +1197,7 @@ namespace std { class ostream{}; }
             }
 
         default:
-            Log(Logger::ERROR) << "A new SelectionRecord should not have this value: "
+            Log(Logger::LOG_ERROR) << "A new SelectionRecord should not have this value: "
                                     << sel.to_repr();
             throw Exception("Invalid selection '" + id + "' for setting value");
             break;
@@ -1261,13 +1261,13 @@ namespace std { class ostream{}; }
             else
             {
                 string msg = "No sbml element exists for concentration selection '" + id + "'";
-                Log(Logger::ERROR) << msg;
+                Log(Logger::LOG_ERROR) << msg;
                 throw Exception(msg);
                 break;
             }
 
         default:
-            Log(Logger::ERROR) << "Invalid selection '" + sel.to_string() + "' for setting value";
+            Log(Logger::LOG_ERROR) << "Invalid selection '" + sel.to_string() + "' for setting value";
             throw Exception("Invalid selection '" + sel.to_string() + "' for setting value");
             break;
         }
