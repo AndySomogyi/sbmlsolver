@@ -30,7 +30,7 @@ AddNoise::~AddNoise()
 
 string AddNoise::getImplementationLanguage()
 {
-    return ::getImplementationLanguage();
+    return "";//::getImplementationLanguage();
 }
 
 bool AddNoise::isWorking()
@@ -50,14 +50,14 @@ bool AddNoise::execute(void* inputData)
 }
 
 // Plugin factory function
-Plugin* rrCallConv createPlugin(rr::RoadRunner* aRR)
+Plugin* plugins_cc createPlugin(rr::RoadRunner* aRR)
 {
     //allocate a new object and return it
     return new AddNoise(aRR);
 }
 
 
-const char* rrCallConv getImplementationLanguage()
+const char* plugins_cc getImplementationLanguage()
 {
     return "CPP";
 }

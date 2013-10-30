@@ -14,7 +14,7 @@ namespace rrp
 using namespace std;
 using namespace rr;
 
-bool rrpCallConv addDoubleParameter(RRMinimizationDataHandle handle, const char* name, double value)
+bool rrp_cc addDoubleParameter(RRMinimizationDataHandle handle, const char* name, double value)
 {
     try
     {
@@ -25,7 +25,7 @@ bool rrpCallConv addDoubleParameter(RRMinimizationDataHandle handle, const char*
     catch_bool_macro
 }
 
-bool rrpCallConv setMinimizationObservedDataSelectionList(RRMinimizationDataHandle handle, const char* selections)
+bool rrp_cc setMinimizationObservedDataSelectionList(RRMinimizationDataHandle handle, const char* selections)
 {
     try
     {
@@ -36,7 +36,7 @@ bool rrpCallConv setMinimizationObservedDataSelectionList(RRMinimizationDataHand
     catch_bool_macro
 }
 
-bool rrpCallConv setMinimizationModelDataSelectionList(RRMinimizationDataHandle handle, const char* selections)
+bool rrp_cc setMinimizationModelDataSelectionList(RRMinimizationDataHandle handle, const char* selections)
 {
     try
     {
@@ -47,7 +47,7 @@ bool rrpCallConv setMinimizationModelDataSelectionList(RRMinimizationDataHandle 
     catch_bool_macro
 }
 
-char* rrpCallConv getMinimizationDataReport(RRMinimizationDataHandle handle)
+char* rrp_cc getMinimizationDataReport(RRMinimizationDataHandle handle)
 {
     try
     {

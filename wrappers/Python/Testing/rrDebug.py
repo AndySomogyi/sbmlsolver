@@ -38,9 +38,6 @@ rr.setTimeEnd(5)
 #print 'Unloading shared library'
 #print rr.Unload(rr.handle)
 
-rr.loadPlugins()
-print rr.getPluginInfo("TestPlugin")
-
 simResult = rr.simulate()
 print simResult
 

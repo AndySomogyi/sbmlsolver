@@ -7,11 +7,9 @@
 #include "rrRoadRunnerData.h"
 #include "rrUtils.h"
 //---------------------------------------------------------------------------
-extern "C" const char* rrCallConv getImplementationLanguage();
 
 using namespace rr;
 using namespace rrc;
-extern "C" const char* rrCallConv getImplementationLanguage();
 
 LM::LM(rr::RoadRunner* aRR)
 :
@@ -153,13 +151,13 @@ bool LM::execute(void* inputData)
 }
 
 // Plugin factory function
-Plugin* rrCallConv createPlugin(rr::RoadRunner* aRR)
+Plugin* plugins_cc createPlugin(rr::RoadRunner* aRR)
 {
     //allocate a new object and return it
     return new LM(aRR);
 }
 
-const char* rrCallConv getImplementationLanguage()
+const char* plugins_cc getImplementationLanguage()
 {
     return "CPP";
 }
