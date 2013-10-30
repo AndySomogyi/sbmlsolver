@@ -83,18 +83,17 @@ namespace rrc
 using namespace std;
 using namespace rr;
 
-static NewArrayList sel_getFluxControlCoefficientIds(RoadRunner* rr);
-static NewArrayList sel_getAvailableSteadyStateSymbols(RoadRunner* rr);
-static NewArrayList sel_getAvailableTimeCourseSymbols(RoadRunner* rr);
-static vector<string> sel_getBoundarySpeciesAmountIds(RoadRunner* rr);
-static vector<string> sel_getBoundarySpeciesConcIds(RoadRunner* rr);
-static NewArrayList sel_getConcentrationControlCoefficientIds(RoadRunner* rr);
-static NewArrayList sel_getUnscaledConcentrationControlCoefficientIds(RoadRunner* rr);
-static NewArrayList sel_getElasticityCoefficientIds(RoadRunner* rr);
-static NewArrayList sel_getUnscaledElasticityCoefficientIds(RoadRunner* rr);
-
-static vector<string> sel_getFloatingSpeciesConcSymbols(RoadRunner* rr);
-static vector<string> sel_getBoundarySpeciesConcSymbols(RoadRunner* rr);
+static NewArrayList		sel_getFluxControlCoefficientIds(RoadRunner* rr);
+static NewArrayList		sel_getAvailableSteadyStateSymbols(RoadRunner* rr);
+static NewArrayList		sel_getAvailableTimeCourseSymbols(RoadRunner* rr);
+static vector<string>	sel_getBoundarySpeciesAmountIds(RoadRunner* rr);
+static vector<string>	sel_getBoundarySpeciesConcIds(RoadRunner* rr);
+static NewArrayList		sel_getConcentrationControlCoefficientIds(RoadRunner* rr);
+static NewArrayList		sel_getUnscaledConcentrationControlCoefficientIds(RoadRunner* rr);
+static NewArrayList		sel_getElasticityCoefficientIds(RoadRunner* rr);
+static NewArrayList		sel_getUnscaledElasticityCoefficientIds(RoadRunner* rr);
+static vector<string>	sel_getFloatingSpeciesConcSymbols(RoadRunner* rr);
+static vector<string>	sel_getBoundarySpeciesConcSymbols(RoadRunner* rr);
 
 RRHandle rrcCallConv createRRInstance()
 {

@@ -313,15 +313,12 @@ rrLib.getList.restype = c_void_p
 rrLib.getRateOfChange.restype = c_bool
 rrLib.evalModel.restype = c_bool
 
-
-
 #Debugging functions
 rrLib.compileSource.restype = c_bool
 
-
 #Unload roadrunner dll from python
 def unloadAPI():
-    del gHandle
+    #del gHandle
     return windll.kernel32.FreeLibrary(libHandle)
 
 def freeAPI():

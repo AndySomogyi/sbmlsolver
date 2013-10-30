@@ -5,10 +5,7 @@ set(examples
 getStoichMatrix.py
 threeLineSimulation.py
 simulateExSelectionList.py
-#simulatePlot.py
-#simulateSelectionList.py
-rrThreads_1.py
-rrThreads_2.py
+plotData.py
 )
 
 install(    
