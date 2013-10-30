@@ -97,11 +97,11 @@ if(BUILD_LLVM)
         llvm/GetRateRuleValuesCodeGen
         llvm/GetValuesCodeGen
         llvm/GetEventValuesCodeGen
-        llvm/InitialValueSymbolResolver
         llvm/KineticLawParameterResolver
         llvm/LLVMModelData
         llvm/ModelDataIRBuilder
         llvm/ModelDataSymbolResolver
+        llvm/ModelInitialValueSymbolResolver
         llvm/LLVMModelDataSymbols
         llvm/LLVMModelGenerator
         llvm/ModelGeneratorContext
@@ -110,6 +110,7 @@ if(BUILD_LLVM)
         llvm/SetValuesCodeGen
         llvm/SBMLSupportFunctions
         llvm/EvalVolatileStoichCodeGen
+        llvm/SBMLInitialValueSymbolResolver
         )
 endif(BUILD_LLVM)
 

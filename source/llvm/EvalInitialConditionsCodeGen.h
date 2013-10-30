@@ -13,7 +13,7 @@
 #include "SymbolForest.h"
 #include "ASTNodeFactory.h"
 #include "ModelDataIRBuilder.h"
-#include "InitialValueSymbolResolver.h"
+#include "SBMLInitialValueSymbolResolver.h"
 #include "ModelDataSymbolResolver.h"
 #include <sbml/Model.h>
 #include <sbml/SBMLVisitor.h>
@@ -55,7 +55,7 @@ private:
 
     void codeGenParameters(ModelDataStoreSymbolResolver& modelDataResolver);
 
-    InitialValueSymbolResolver initialValueResolver;
+    SBMLInitialValueSymbolResolver initialValueResolver;
 };
 
 } /* namespace rr */

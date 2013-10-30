@@ -44,6 +44,24 @@ public:
     const SymbolForest& getAssigmentRules() const;
 
     /**
+     * only valid before the model is started.
+     *
+     * There cannot be both an InitialAssignment and an AssignmentRule for the
+     * same symbol in a model, because both kinds of constructs apply prior to
+     * and at the start of simulated time—allowing both to exist for a given
+     * symbol would result in indeterminism.
+     *
+     *
+     * \conservation: In the case of conserved moieties, these are species that
+     * are defined by assignment rules, they however can have initial values
+     * defined by initial value or assignment rules.
+     *
+     * So, at run time, the assignment rule is active, however before run time,
+     * the initial value or initial assignment rule is active.
+     */
+    const SymbolForest& getInitialAssignmentRules() const;
+
+    /**
      * contains the intial symbols along with the intial assignments which
      * override the initial values.
      */
@@ -174,6 +192,8 @@ protected:
     SymbolForest initialValues;
 
     SymbolForest assigmentRules;
+
+    SymbolForest initialAssignmentRules;
 
     SymbolForest rateRules;
 

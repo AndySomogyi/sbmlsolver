@@ -8,7 +8,7 @@
 #include "EvalInitialConditionsCodeGen.h"
 #include "LLVMException.h"
 #include "ASTNodeCodeGen.h"
-#include "InitialValueSymbolResolver.h"
+#include "SBMLInitialValueSymbolResolver.h"
 #include "rrLogger.h"
 #include <sbml/math/ASTNode.h>
 #include <sbml/math/FormulaFormatter.h>

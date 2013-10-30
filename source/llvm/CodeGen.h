@@ -36,6 +36,7 @@ class StoreSymbolResolver
 public:
     virtual llvm::Value *storeSymbolValue(const std::string& symbol,
             llvm::Value *value) = 0;
+
 protected:
     ~StoreSymbolResolver() {};
 };

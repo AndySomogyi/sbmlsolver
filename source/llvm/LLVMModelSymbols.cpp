@@ -57,8 +57,13 @@ LLVMModelSymbols::LLVMModelSymbols(const libsbml::Model *m, LLVMModelDataSymbols
         initialValues.globalParameters[param->getId()] = value;
     }
 
-    model->getListOfRules()->accept(*this);
+
+
+    // initial assignments override initial values.
     model->getListOfInitialAssignments()->accept(*this);
+
+    // assignment override initial assignment rules at run time.
+    model->getListOfRules()->accept(*this);
 }
 
 LLVMModelSymbols::~LLVMModelSymbols()
@@ -103,6 +108,7 @@ bool LLVMModelSymbols::visit(const libsbml::InitialAssignment& x)
     poco_trace(getLogger(), "processing InitialAssignment, id: " +  x.getId());
     SBase *element = const_cast<Model*>(model)->getElementBySId(x.getSymbol());
     processElement(initialValues, element, x.getMath());
+    processElement(initialAssignmentRules, element, x.getMath());
     return true;
 }
 
@@ -569,6 +575,11 @@ const SymbolForest& LLVMModelSymbols::getInitialValues() const
 const SymbolForest& LLVMModelSymbols::getRateRules() const
 {
     return rateRules;
+}
+
+const SymbolForest& LLVMModelSymbols::getInitialAssignmentRules() const
+{
+    return initialAssignmentRules;
 }
 
 
