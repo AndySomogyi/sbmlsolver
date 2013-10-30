@@ -46,13 +46,6 @@ namespace rrllvm
 {
 
 
-
-void LLVMModelData::init(LLVMModelData &data)
-{
-    //Zero data structure..
-    memset(&data, 0, sizeof(LLVMModelData));
-}
-
 std::ostream& operator <<(std::ostream& os, const LLVMModelData& data)
 {
     os << "LLVMModelData:"                 << endl;
@@ -91,7 +84,7 @@ std::ostream& operator <<(std::ostream& os, const LLVMModelData& data)
     return os;
 }
 
-void  LLVMModelData::free(LLVMModelData *data)
+void  LLVMModelData_free(LLVMModelData *data)
 {
     if (data)
     {

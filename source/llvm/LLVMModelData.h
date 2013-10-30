@@ -73,6 +73,13 @@ struct LLVMModelData
      */
     unsigned                            numIndFloatingSpecies;            // 4
 
+    /**
+     * \conservation
+     *
+     * conserved floating species require initial conditions to be set.
+     */
+    unsigned                            numConservedSpecies;              // 5
+
 
     /**
      * number of boundary species and boundary species concentrations.
@@ -81,52 +88,52 @@ struct LLVMModelData
      * Volume Percent= (Volume of Solute) / (Volume of Solution) x 100%
      * Mass/Volume Percent= (Mass of Solute) / (Volume of Solution) x 100%
      */
-    unsigned                            numIndBoundarySpecies;            // 5
+    unsigned                            numIndBoundarySpecies;            // 6
 
     /**
      * number of global parameters
      */
-    unsigned                            numIndGlobalParameters;           // 6
+    unsigned                            numIndGlobalParameters;           // 7
 
 
     /**
      * all rate rules are by definition dependent
      */
-    unsigned                            numRateRules;                     // 7
+    unsigned                            numRateRules;                     // 8
 
     /**
      * number of reactions, same as ratesSize.
      * These are the calcuated reaction rates, not the
      * species rates.
      */
-    unsigned                            numReactions;                     // 8
+    unsigned                            numReactions;                     // 9
 
     /**
      * stoichiometry matrix
      */
-    rr::csr_matrix*                     stoichiometry;                    // 9
+    rr::csr_matrix*                     stoichiometry;                    // 10
 
 
     //Event stuff
-    unsigned                            numEvents;                        // 10
+    unsigned                            numEvents;                        // 11
 
     /**
      * number of items in the state vector.
      * should be numIndFloatingSpecies + numRateRules
      */
-    unsigned                            stateVectorSize;                  // 11
+    unsigned                            stateVectorSize;                  // 12
 
     /**
      * the state vector, this is usually a pointer to a block of data
      * owned by the integrator.
      */
-    double*                             stateVector;                      // 12
+    double*                             stateVector;                      // 13
 
     /**
      * the rate of change of the state vector, this is usually a pointer to
      * a block of data owned by the integrator.
      */
-    double*                             stateVectorRate;                  // 13
+    double*                             stateVectorRate;                  // 14
 
     /**
      * the rate of change of all elements who's dynamics are determined
@@ -137,7 +144,7 @@ struct LLVMModelData
      *
      * Normally NULL, only valid durring an evalModel call.
      */
-    double*                             rateRuleRates;                    // 14
+    double*                             rateRuleRates;                    // 15
 
 
 
@@ -147,7 +154,7 @@ struct LLVMModelData
      * This pointer is ONLY valid during an evalModel call, otherwise it is
      * zero. TODO, this needs be be moved to a parameter.
      */
-    double*                             floatingSpeciesAmountRates;       // 15
+    double*                             floatingSpeciesAmountRates;       // 16
 
     // permanent data section
 
@@ -157,24 +164,29 @@ struct LLVMModelData
      * units: volume
      */
 
-    double*                             compartmentVolumesAlias;          // 16
-    double*                             compartmentVolumesInitAlias;      // 17
+    double*                             compartmentVolumesAlias;          // 17
+    double*                             compartmentVolumesInitAlias;      // 18
+
 
     /**
-     * The total amount of a species in a compartment.
-     * dynamically allocated.
-     *
-     * Durring an evalModel call, this points to a daba block owned by the
-     * integrator.
+     * has length numIndFloatingSpecies
      */
-    double*                             floatingSpeciesAmountsAlias;      // 18
-    double*                             floatingSpeciesAmountsInitAlias;  // 19
+    double*                             floatingSpeciesAmountsAlias;      // 19
 
-    double*                             boundarySpeciesAmountsAlias;      // 20
-    double*                             boundarySpeciesAmountsInitAlias;  // 21
+    /**
+     * \conservation
+     *
+     * length numIndFloatingSpecies
+     */
+    double*                             floatingSpeciesAmountsInitAlias;  // 20
 
-    double*                             globalParametersAlias;            // 22
-    double*                             globalParametersInitAlias;        // 23
+    double*                             conservedSpeciesAmountsInitAlias; // 21
+
+    double*                             boundarySpeciesAmountsAlias;      // 22
+    double*                             boundarySpeciesAmountsInitAlias;  // 23
+
+    double*                             globalParametersAlias;            // 24
+    double*                             globalParametersInitAlias;        // 25
 
     /**
      * All of the elelments which have a rate rule are stored here.
@@ -184,21 +196,32 @@ struct LLVMModelData
      *
      * Only used in the LLVM version.
      */
-    double*                             rateRuleValuesAlias;              // 24
+    double*                             rateRuleValuesAlias;              // 26
 
-    double*                             reactionRatesAlias;               // 25
+    double*                             reactionRatesAlias;               // 27
 
-    double                              data[0];                          // 26
-
-
-
-    static void init(LLVMModelData&);
-
-    static void free(LLVMModelData*);
+    /**
+     * binary data layout:
+     *
+     * compartmentVolumes                [numIndCompartmentVolumes]       // 28
+     * compartmentVolumesInit            [numIndCompartmentVolumes]       // 29
+     * floatingSpeciesAmounts            [numIndFloatingSpecies]          // 30
+     * floatingSpeciesAmountsInit        [numIndFloatingSpecies]          // 31
+     * conservedSpeciesAmountsInit       [numConservedSpecies]            // 32
+     * boundarySpeciesAmounts            [numIndBoundarySpecies]          // 33
+     * boundarySpeciesAmountsInit        [numIndBoundarySpecies]          // 34
+     * globalParameters                  [numIndGlobalParameters]         // 35
+     * globalParametersInit              [numIndGlobalParameters]         // 36
+     * rateRuleValues                    [numRateRules]                   // 37
+     * reactionRates                     [numReactions]                   // 38
+     */
+    double                              data[0];                          // not listed
 };
 
+void LLVMModelData_free(LLVMModelData*);
+
 #ifdef _MSC_VER
-#pragma warning( pop ) 
+#pragma warning( pop )
 #endif
 
 

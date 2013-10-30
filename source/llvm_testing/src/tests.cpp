@@ -174,7 +174,7 @@ bool runModelDataAccessorTest(const string& version, int caseNumber)
     }
 
 
-    LLVMModelData::free(md);
+    LLVMModelData_free(md);
 
     delete doc;
 

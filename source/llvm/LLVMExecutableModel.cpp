@@ -152,7 +152,7 @@ LLVMExecutableModel::~LLVMExecutableModel()
 {
     // smart ptr takes care of freeing resources
 
-    LLVMModelData::free(modelData);
+    LLVMModelData_free(modelData);
 
     Log(Logger::LOG_DEBUG) << __FUNC__;
 }

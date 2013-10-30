@@ -256,7 +256,7 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
         s << "LLVM Model Data size " << llvmsize << " is different from " <<
                 "C++ size of LLVM ModelData, " << modelData->size;
 
-        LLVMModelData::free(modelData);
+        LLVMModelData_free(modelData);
 
         Log(Logger::LOG_FATAL) << s.str();
 
@@ -340,6 +340,7 @@ LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols)
     // these have initial conditions, so need to allocate them twice
     uint numIndCompartments = symbols.getIndependentCompartmentSize();
     uint numIndFloatingSpecies = symbols.getIndependentFloatingSpeciesSize();
+    uint numConservedSpecies = symbols.getConservedSpeciesSize();
     uint numIndBoundarySpecies = symbols.getIndependentBoundarySpeciesSize();
     uint numIndGlobalParameters = symbols.getIndependentGlobalParameterSize();
 
@@ -353,7 +354,7 @@ LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols)
                  numIndFloatingSpecies +
                  numIndBoundarySpecies +
                  numIndGlobalParameters) +
-            numRateRules + numReactions);
+            numConservedSpecies + numRateRules + numReactions);
 
     LLVMModelData *modelData = (LLVMModelData*)calloc(
             modelDataSize, sizeof(unsigned char));
@@ -362,6 +363,7 @@ LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols)
     modelData->numIndCompartments = numIndCompartments;
     modelData->numIndFloatingSpecies = numIndFloatingSpecies;
     modelData->numIndBoundarySpecies = numIndBoundarySpecies;
+    modelData->numConservedSpecies = numConservedSpecies;
     modelData->numIndGlobalParameters = numIndGlobalParameters;
     modelData->numRateRules = numRateRules;
     modelData->numReactions = numReactions;
@@ -381,6 +383,9 @@ LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols)
 
     modelData->floatingSpeciesAmountsInitAlias = &modelData->data[offset];
     offset += numIndFloatingSpecies;
+
+    modelData->conservedSpeciesAmountsInitAlias = &modelData->data[offset];
+    offset += numConservedSpecies;
 
     modelData->boundarySpeciesAmountsAlias = &modelData->data[offset];
     offset += numIndBoundarySpecies;

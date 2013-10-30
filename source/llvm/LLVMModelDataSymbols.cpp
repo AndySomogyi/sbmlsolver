@@ -35,38 +35,40 @@ static const char* modelDataFieldsNames[] =  {
         "Time",                                 // 2
         "NumIndCompartments",                   // 3
         "NumIndFloatingSpecies",                // 4
-        "NumIndBoundarySpecies",                // 5
-        "NumIndGlobalParameters",               // 6
-        "NumRateRules",                         // 7
-        "NumReactions",                         // 8
-        "Stoichiometry",                        // 9
-        "NumEvents",                            // 10
-        "StateVectorSize",                      // 11
-        "StateVector",                          // 12
-        "StateVectorRate",                      // 13
-        "RateRuleRates",                        // 14
-        "FloatingSpeciesAmountRates",           // 15
-        "CompartmentVolumesAlias",              // 16
-        "CompartmentVolumesInitAlias",          // 17
-        "FloatingSpeciesAmountsAlias",          // 18
-        "FloatingSpeciesAmountsInitAlias",      // 19
-        "BoundarySpeciesAmountsAlias",          // 20
-        "BoundarySpeciesAmountsInitAlias",      // 21
-        "GlobalParametersAlias",                // 22
-        "GlobalParametersInitAlias",            // 23
-        "RateRuleValuesAlias",                  // 24
-        "ReactionRatesAlias"                    // 25
-        "CompartmentVolumes",                   // 26
-        "CompartmentVolumesInit",               // 27
-        "FloatingSpeciesAmounts",               // 28
-        "FloatingSpeciesAmountsInit",           // 29
-        "BoundarySpeciesAmounts",               // 30
-        "BoundarySpeciesAmountsInit",           // 31
-        "GlobalParameters",                     // 32
-        "GlobalParametersInit",                 // 33
-        "RateRuleValues",                       // 34
-        "ReactionRates"                         // 35
-
+        "NumConservedSpecies",                  // 5
+        "NumIndBoundarySpecies",                // 6
+        "NumIndGlobalParameters",               // 7
+        "NumRateRules",                         // 8
+        "NumReactions",                         // 9
+        "Stoichiometry",                        // 10
+        "NumEvents",                            // 11
+        "StateVectorSize",                      // 12
+        "StateVector",                          // 13
+        "StateVectorRate",                      // 14
+        "RateRuleRates",                        // 15
+        "FloatingSpeciesAmountRates",           // 16
+        "CompartmentVolumesAlias",              // 17
+        "CompartmentVolumesInitAlias",          // 18
+        "FloatingSpeciesAmountsAlias",          // 19
+        "FloatingSpeciesAmountsInitAlias",      // 20
+        "ConservedSpeciesAmountsInitAlias",     // 21
+        "BoundarySpeciesAmountsAlias",          // 22
+        "BoundarySpeciesAmountsInitAlias",      // 23
+        "GlobalParametersAlias",                // 24
+        "GlobalParametersInitAlias",            // 25
+        "RateRuleValuesAlias",                  // 26
+        "ReactionRatesAlias"                    // 27
+        "CompartmentVolumes",                   // 28
+        "CompartmentVolumesInit",               // 29
+        "FloatingSpeciesAmounts",               // 30
+        "FloatingSpeciesAmountsInit",           // 31
+        "ConservedSpeciesAmountsInit",          // 32
+        "BoundarySpeciesAmounts",               // 33
+        "BoundarySpeciesAmountsInit",           // 34
+        "GlobalParameters",                     // 35
+        "GlobalParametersInit",                 // 36
+        "RateRuleValues",                       // 37
+        "ReactionRates"                         // 38
 };
 
 
@@ -214,6 +216,10 @@ uint LLVMModelDataSymbols::getBoundarySpeciesSize() const
     return boundarySpeciesMap.size();
 }
 
+uint LLVMModelDataSymbols::getConservedSpeciesSize() const
+{
+    return 0;
+}
 
 uint LLVMModelDataSymbols::getGlobalParameterIndex(
         const std::string& id) const
