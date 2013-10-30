@@ -2,7 +2,7 @@
 #define rrp_exporterH
 
 //Export/Import API functions
-#if defined(_WIN32) || defined(WIN32)
+#if defined(_WIN32)
     #if defined(STATIC_RRP)
         #define RRP_DECLSPEC
     #else
@@ -18,7 +18,7 @@
 
 //C function calling convention
 #if defined(_MSC_VER) || defined(__CODEGEARC__)
-    #define rrp_cc __cdecl
+    #define rrp_cc __stdcall
 #else
     #define rrp_cc
 #endif

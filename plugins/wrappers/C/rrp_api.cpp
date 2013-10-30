@@ -66,7 +66,7 @@ Plugin* castToPlugin(RRPluginHandle handle)
     }
 }
 
-RRPluginManagerHandle rrpCallConv createPluginManager(RRHandle rrHandle)
+RRPluginManagerHandle rrp_cc createPluginManager(RRHandle rrHandle)
 {
     try
     {
@@ -89,7 +89,7 @@ RRPluginManagerHandle rrpCallConv createPluginManager(RRHandle rrHandle)
 /**
  * create an instance of a plugin managager attached to the given RoadRunner instance.
  */
-RRPluginManagerHandle rrpCallConv createPluginManagerEx(const char* pluginDir, bool autoLoad, RRHandle rrHandle)
+RRPluginManagerHandle rrp_cc createPluginManagerEx(const char* pluginDir, bool autoLoad, RRHandle rrHandle)
 {
     try
     {
@@ -104,7 +104,7 @@ RRPluginManagerHandle rrpCallConv createPluginManagerEx(const char* pluginDir, b
 /**
  * free the plugin manager
  */
-bool rrpCallConv freePluginManager(RRPluginManagerHandle handle)
+bool rrp_cc freePluginManager(RRPluginManagerHandle handle)
 {
     try
     {
@@ -117,7 +117,7 @@ bool rrpCallConv freePluginManager(RRPluginManagerHandle handle)
 }
 
 //PLUGIN Functions
-RRPluginHandle rrpCallConv loadPlugin(RRPluginManagerHandle handle, char* pluginName)
+RRPluginHandle rrp_cc loadPlugin(RRPluginManagerHandle handle, char* pluginName)
 {
     try
     {
@@ -135,7 +135,7 @@ RRPluginHandle rrpCallConv loadPlugin(RRPluginManagerHandle handle, char* plugin
     catch_ptr_macro
 }
 
-bool rrpCallConv loadPlugins(RRPluginManagerHandle handle)
+bool rrp_cc loadPlugins(RRPluginManagerHandle handle)
 {
     try
     {
@@ -145,7 +145,7 @@ bool rrpCallConv loadPlugins(RRPluginManagerHandle handle)
     catch_bool_macro
 }
 
-bool rrpCallConv unLoadPlugins(RRPluginManagerHandle handle)
+bool rrp_cc unLoadPlugins(RRPluginManagerHandle handle)
 {
     try
     {
@@ -155,7 +155,7 @@ bool rrpCallConv unLoadPlugins(RRPluginManagerHandle handle)
     catch_bool_macro
 }
 
-bool rrpCallConv unLoadPlugin(RRPluginManagerHandle handle, RRPluginHandle plugin)
+bool rrp_cc unLoadPlugin(RRPluginManagerHandle handle, RRPluginHandle plugin)
 {
     try
     {
@@ -174,7 +174,7 @@ bool rrpCallConv unLoadPlugin(RRPluginManagerHandle handle, RRPluginHandle plugi
     catch_bool_macro
 }
 
-int rrpCallConv getNumberOfPlugins(RRPluginManagerHandle handle)
+int rrp_cc getNumberOfPlugins(RRPluginManagerHandle handle)
 {
     try
     {
@@ -185,7 +185,7 @@ int rrpCallConv getNumberOfPlugins(RRPluginManagerHandle handle)
     catch_int_macro
 }
 
-RRPluginHandle rrpCallConv getPlugin(RRPluginManagerHandle handle, const char* pluginName)
+RRPluginHandle rrp_cc getPlugin(RRPluginManagerHandle handle, const char* pluginName)
 {
     try
     {
@@ -196,7 +196,7 @@ RRPluginHandle rrpCallConv getPlugin(RRPluginManagerHandle handle, const char* p
     catch_ptr_macro
 }
 
-RRPluginHandle rrpCallConv getPluginByID(RRPluginManagerHandle handle, int id)
+RRPluginHandle rrp_cc getPluginByID(RRPluginManagerHandle handle, int id)
 {
     try
     {
@@ -207,7 +207,7 @@ RRPluginHandle rrpCallConv getPluginByID(RRPluginManagerHandle handle, int id)
     catch_ptr_macro
 }
 
-RRStringArray* rrpCallConv getPluginNames(RRPluginManagerHandle handle)
+RRStringArray* rrp_cc getPluginNames(RRPluginManagerHandle handle)
 {
     try
     {
@@ -218,7 +218,7 @@ RRStringArray* rrpCallConv getPluginNames(RRPluginManagerHandle handle)
     catch_ptr_macro
 }
 
-char* rrpCallConv getPluginName(RRPluginHandle handle)
+char* rrp_cc getPluginName(RRPluginHandle handle)
 {
     try
     {
@@ -228,7 +228,7 @@ char* rrpCallConv getPluginName(RRPluginHandle handle)
     catch_ptr_macro
 }
 
-RRStringArray* rrpCallConv getPluginCapabilities(RRPluginHandle handle)
+RRStringArray* rrp_cc getPluginCapabilities(RRPluginHandle handle)
 {
     try
     {
@@ -256,7 +256,7 @@ RRStringArray* rrpCallConv getPluginCapabilities(RRPluginHandle handle)
     catch_ptr_macro
 }
 
-RRStringArray* rrpCallConv getPluginParameters(RRPluginHandle handle, const char* capability)
+RRStringArray* rrp_cc getPluginParameters(RRPluginHandle handle, const char* capability)
 {
     try
     {
@@ -284,7 +284,7 @@ RRStringArray* rrpCallConv getPluginParameters(RRPluginHandle handle, const char
     catch_ptr_macro
 }
 
-RRParameterHandle rrpCallConv getPluginParameter(RRPluginHandle handle, const char* parameterName, const char* capabilitiesName)
+RRParameterHandle rrp_cc getPluginParameter(RRPluginHandle handle, const char* parameterName, const char* capabilitiesName)
 {
     try
     {
@@ -309,7 +309,7 @@ RRParameterHandle rrpCallConv getPluginParameter(RRPluginHandle handle, const ch
     catch_ptr_macro
 }
 
-bool rrpCallConv setPluginParameter(RRPluginHandle handle, const char* parameterName, const char* value)
+bool rrp_cc setPluginParameter(RRPluginHandle handle, const char* parameterName, const char* value)
 {
     try
     {
@@ -320,7 +320,7 @@ bool rrpCallConv setPluginParameter(RRPluginHandle handle, const char* parameter
     catch_bool_macro
 }
 
-char* rrpCallConv getPluginInfo(RRPluginHandle handle)
+char* rrp_cc getPluginInfo(RRPluginHandle handle)
 {
     try
     {
@@ -330,7 +330,7 @@ char* rrpCallConv getPluginInfo(RRPluginHandle handle)
     catch_ptr_macro
 }
 
-char* rrpCallConv getPluginStatus(RRPluginHandle handle)
+char* rrp_cc getPluginStatus(RRPluginHandle handle)
 {
     try
     {
@@ -340,12 +340,12 @@ char* rrpCallConv getPluginStatus(RRPluginHandle handle)
     catch_ptr_macro
 }
 
-bool rrpCallConv executePlugin(RRPluginHandle handle)
+bool rrp_cc executePlugin(RRPluginHandle handle)
 {
     return executePluginEx(handle, NULL);
 }
 
-bool rrpCallConv executePluginEx(RRPluginHandle handle, void* userData)
+bool rrp_cc executePluginEx(RRPluginHandle handle, void* userData)
 {
     try
     {
@@ -355,7 +355,7 @@ bool rrpCallConv executePluginEx(RRPluginHandle handle, void* userData)
     catch_bool_macro
 }
 
-bool rrpCallConv assignCallbacks(RRPluginHandle handle, pluginCallback cb1, pluginCallback cb2, void* userData)
+bool rrp_cc assignCallbacks(RRPluginHandle handle, pluginCallback cb1, pluginCallback cb2, void* userData)
 {
     try
     {
@@ -365,7 +365,7 @@ bool rrpCallConv assignCallbacks(RRPluginHandle handle, pluginCallback cb1, plug
     catch_bool_macro
 }
 
-char* rrpCallConv getPluginResult(RRPluginHandle handle)
+char* rrp_cc getPluginResult(RRPluginHandle handle)
 {
     try
     {
@@ -375,7 +375,7 @@ char* rrpCallConv getPluginResult(RRPluginHandle handle)
     catch_ptr_macro
 }
 
-bool rrpCallConv setPluginInputData(RRPluginHandle handle, void* data)
+bool rrp_cc setPluginInputData(RRPluginHandle handle, void* data)
 {
     try
     {
@@ -385,7 +385,7 @@ bool rrpCallConv setPluginInputData(RRPluginHandle handle, void* data)
     catch_bool_macro
 }
 
-bool rrpCallConv resetPlugin(RRPluginHandle handle)
+bool rrp_cc resetPlugin(RRPluginHandle handle)
 {
     try
     {
@@ -395,7 +395,7 @@ bool rrpCallConv resetPlugin(RRPluginHandle handle)
     catch_bool_macro
 }
 
-bool rrpCallConv isPluginWorking(RRPluginHandle handle)
+bool rrp_cc isPluginWorking(RRPluginHandle handle)
 {
     try
     {
@@ -405,7 +405,7 @@ bool rrpCallConv isPluginWorking(RRPluginHandle handle)
     catch_bool_macro
 }
 
-bool rrpCallConv setPluginManagerConfigurationXML(RRPluginManagerHandle handle, const char* caps)
+bool rrp_cc setPluginManagerConfigurationXML(RRPluginManagerHandle handle, const char* caps)
 {
     try
     {
@@ -420,7 +420,7 @@ bool rrpCallConv setPluginManagerConfigurationXML(RRPluginManagerHandle handle, 
     catch_bool_macro
 }
 
-char* rrpCallConv getPluginManagerConfigurationXML(RRPluginManagerHandle handle)
+char* rrp_cc getPluginManagerConfigurationXML(RRPluginManagerHandle handle)
 {
     try
     {

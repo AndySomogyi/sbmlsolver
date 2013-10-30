@@ -54,17 +54,11 @@ extern "C"
 {
 #endif
 
-#if defined(_MSC_VER) || defined(__CODEGEARC__)
-    #define rrpCallConv __cdecl
-#else
-    #define rrpCallConv
-#endif
-
 /*!
  \brief Typedef for plugin callback function
  \ingroup pluginRoutines
 */
-typedef void (rrpCallConv *pluginCallback)(void*);
+typedef void (rrp_cc *pluginCallback)(void*);
 
 /**
  * create an instance of a plugin managager attached to the given RoadRunner instance.
@@ -72,7 +66,7 @@ typedef void (rrpCallConv *pluginCallback)(void*);
  * A PluginManager manages a collection of "plugins", the PluginManager
  * must be attached to a RoadRunner instance.
  */
-RRP_DECLSPEC RRPluginManagerHandle rrpCallConv createPluginManager(RRHandle rrHandle);
+RRP_DECLSPEC RRPluginManagerHandle rrp_cc createPluginManager(RRHandle rrHandle);
 
 /**
  * create an instance of a plugin managager attached to the given RoadRunner instance.
@@ -80,13 +74,13 @@ RRP_DECLSPEC RRPluginManagerHandle rrpCallConv createPluginManager(RRHandle rrHa
  * A PluginManager manages a collection of "plugins", the PluginManager
  * must be attached to a RoadRunner instance.
  */
-RRP_DECLSPEC RRPluginManagerHandle rrpCallConv createPluginManagerEx(const char* pluginDir,
+RRP_DECLSPEC RRPluginManagerHandle rrp_cc createPluginManagerEx(const char* pluginDir,
         bool autoLoad, RRHandle rrHandle);
 
 /**
  * free the plugin manager
  */
-RRP_DECLSPEC bool rrpCallConv freePluginManager(RRPluginManagerHandle handle);
+RRP_DECLSPEC bool rrp_cc freePluginManager(RRPluginManagerHandle handle);
 
 /*!
  \brief load a plugin
@@ -96,7 +90,7 @@ RRP_DECLSPEC bool rrpCallConv freePluginManager(RRPluginManagerHandle handle);
  \return Returns a handle to a plugin, NULL if unsuccesfull
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC RRPluginHandle rrpCallConv loadPlugin(RRPluginManagerHandle handle, char* pluginName);
+RRP_DECLSPEC RRPluginHandle rrp_cc loadPlugin(RRPluginManagerHandle handle, char* pluginName);
 
 /*!
  \brief load plugins
@@ -105,7 +99,7 @@ RRP_DECLSPEC RRPluginHandle rrpCallConv loadPlugin(RRPluginManagerHandle handle,
  \return Returns true if Plugins are loaded, false otherwise
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC bool rrpCallConv loadPlugins(RRPluginManagerHandle handle);
+RRP_DECLSPEC bool rrp_cc loadPlugins(RRPluginManagerHandle handle);
 
 /*!
  \brief unload plugins
@@ -114,7 +108,7 @@ RRP_DECLSPEC bool rrpCallConv loadPlugins(RRPluginManagerHandle handle);
  \return Returns true if Plugins are unloaded succesfully, false otherwise
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC bool rrpCallConv unLoadPlugins(RRPluginManagerHandle handle);
+RRP_DECLSPEC bool rrp_cc unLoadPlugins(RRPluginManagerHandle handle);
 
 /*!
  \brief unload a particular plugin
@@ -123,7 +117,7 @@ RRP_DECLSPEC bool rrpCallConv unLoadPlugins(RRPluginManagerHandle handle);
  \return Returns true if the Plugin are unloaded succesfully, false otherwise
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC bool rrpCallConv unLoadPlugin(RRPluginManagerHandle handle, RRPluginHandle plugin);
+RRP_DECLSPEC bool rrp_cc unLoadPlugin(RRPluginManagerHandle handle, RRPluginHandle plugin);
 
 /*!
  \brief Get Number of loaded plugins
@@ -132,7 +126,7 @@ RRP_DECLSPEC bool rrpCallConv unLoadPlugin(RRPluginManagerHandle handle, RRPlugi
  \return Returns the number of loaded plugins, -1 if a problem is encountered
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC int rrpCallConv getNumberOfPlugins(RRPluginManagerHandle handle);
+RRP_DECLSPEC int rrp_cc getNumberOfPlugins(RRPluginManagerHandle handle);
 
 /*!
  \brief GetPluginNames
@@ -140,7 +134,7 @@ RRP_DECLSPEC int rrpCallConv getNumberOfPlugins(RRPluginManagerHandle handle);
  \return Returns names for loaded plugins, NULL otherwise
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC RRStringArrayPtr rrpCallConv getPluginNames(RRPluginManagerHandle handle);
+RRP_DECLSPEC RRStringArrayPtr rrp_cc getPluginNames(RRPluginManagerHandle handle);
 
 /*!
  \brief GetPluginHandle
@@ -149,7 +143,7 @@ RRP_DECLSPEC RRStringArrayPtr rrpCallConv getPluginNames(RRPluginManagerHandle h
  \return Returns a handle to a plugin, with name as supplied in the paramter pluginName. Returns NULL if plugin is not found
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC RRPluginHandle rrpCallConv getPlugin(RRPluginManagerHandle handle, const char* pluginName);
+RRP_DECLSPEC RRPluginHandle rrp_cc getPlugin(RRPluginManagerHandle handle, const char* pluginName);
 
 /*!
  \brief GetPluginHandle
@@ -158,7 +152,7 @@ RRP_DECLSPEC RRPluginHandle rrpCallConv getPlugin(RRPluginManagerHandle handle, 
  \return Returns a handle to a plugin, with id == id. Returns NULL if plugin is NULL
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC RRPluginHandle rrpCallConv getPluginByID(RRPluginManagerHandle handle, int id);
+RRP_DECLSPEC RRPluginHandle rrp_cc getPluginByID(RRPluginManagerHandle handle, int id);
 
 /*!
  \brief GetPluginCapabilities
@@ -166,7 +160,7 @@ RRP_DECLSPEC RRPluginHandle rrpCallConv getPluginByID(RRPluginManagerHandle hand
  \return Returns available capabilities for a particular plugin, NULL otherwise
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC RRStringArrayPtr rrpCallConv getPluginCapabilities(RRPluginHandle handle);
+RRP_DECLSPEC RRStringArrayPtr rrp_cc getPluginCapabilities(RRPluginHandle handle);
 
 /*!
  \brief Get PluginParameters for a specific capability
@@ -175,7 +169,7 @@ RRP_DECLSPEC RRStringArrayPtr rrpCallConv getPluginCapabilities(RRPluginHandle h
  \return Returns available parameters for a particular capability in a plugin, NULL otherwise
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC RRStringArrayPtr rrpCallConv getPluginParameters(RRPluginHandle handle, const char* capability);
+RRP_DECLSPEC RRStringArrayPtr rrp_cc getPluginParameters(RRPluginHandle handle, const char* capability);
 
 /*!
  \brief Get a parameter handle in a secific capability
@@ -185,7 +179,7 @@ RRP_DECLSPEC RRStringArrayPtr rrpCallConv getPluginParameters(RRPluginHandle han
  \return Returns a pointer to a parameter for a particular plugin. Returns NULL if absent parameter
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC RRParameterHandle rrpCallConv getPluginParameter(RRPluginHandle handle, const char* parameterName, const char* capabilitiesName);
+RRP_DECLSPEC RRParameterHandle rrp_cc getPluginParameter(RRPluginHandle handle, const char* parameterName, const char* capabilitiesName);
 
 /*!
  \brief SetPluginParameter
@@ -195,7 +189,7 @@ RRP_DECLSPEC RRParameterHandle rrpCallConv getPluginParameter(RRPluginHandle han
  \return true if succesful, false otherwise
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC bool rrpCallConv setPluginParameter(RRPluginHandle handle, const char* parameterName, const char* value);
+RRP_DECLSPEC bool rrp_cc setPluginParameter(RRPluginHandle handle, const char* parameterName, const char* value);
 
 /*!
  \brief getPluginName
@@ -203,7 +197,7 @@ RRP_DECLSPEC bool rrpCallConv setPluginParameter(RRPluginHandle handle, const ch
  \return Returns the plugins full name, as a string, NULL otherwise
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC char* rrpCallConv getPluginName(RRPluginHandle handle);
+RRP_DECLSPEC char* rrp_cc getPluginName(RRPluginHandle handle);
 
 /*!
  \brief GetPluginInfo
@@ -211,7 +205,7 @@ RRP_DECLSPEC char* rrpCallConv getPluginName(RRPluginHandle handle);
  \return Returns info, as a string, for the plugin, NULL otherwise
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC char* rrpCallConv getPluginInfo(RRPluginHandle handle);
+RRP_DECLSPEC char* rrp_cc getPluginInfo(RRPluginHandle handle);
 
 /*!
  \brief executePlugin (PluginName)
@@ -219,7 +213,7 @@ RRP_DECLSPEC char* rrpCallConv getPluginInfo(RRPluginHandle handle);
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC bool rrpCallConv executePlugin(RRPluginHandle handle);
+RRP_DECLSPEC bool rrp_cc executePlugin(RRPluginHandle handle);
 
 /*!
  \brief executePlugin (PluginName)
@@ -228,7 +222,7 @@ RRP_DECLSPEC bool rrpCallConv executePlugin(RRPluginHandle handle);
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC bool rrpCallConv executePluginEx(RRPluginHandle handle, void* userData);
+RRP_DECLSPEC bool rrp_cc executePluginEx(RRPluginHandle handle, void* userData);
 
 /*!
  \brief getPluginStatus (PluginName)
@@ -236,7 +230,7 @@ RRP_DECLSPEC bool rrpCallConv executePluginEx(RRPluginHandle handle, void* userD
  \return Returns plugin status if available. NULL otherwise
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC char* rrpCallConv getPluginStatus(RRPluginHandle handle);
+RRP_DECLSPEC char* rrp_cc getPluginStatus(RRPluginHandle handle);
 
 /*!
  \brief getPluginResult (PluginName)
@@ -244,7 +238,7 @@ RRP_DECLSPEC char* rrpCallConv getPluginStatus(RRPluginHandle handle);
  \return Returns plugin result if available. NULL otherwise
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC char* rrpCallConv getPluginResult(RRPluginHandle handle);
+RRP_DECLSPEC char* rrp_cc getPluginResult(RRPluginHandle handle);
 
 /*!
  \brief resetPlugin (PluginName)
@@ -252,7 +246,7 @@ RRP_DECLSPEC char* rrpCallConv getPluginResult(RRPluginHandle handle);
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC bool rrpCallConv resetPlugin(RRPluginHandle handle);
+RRP_DECLSPEC bool rrp_cc resetPlugin(RRPluginHandle handle);
 
 /*!
  \brief Assign callback functions, and user data to a plugin
@@ -262,7 +256,7 @@ RRP_DECLSPEC bool rrpCallConv resetPlugin(RRPluginHandle handle);
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC bool rrpCallConv assignCallbacks(RRPluginHandle handle, pluginCallback cb1, pluginCallback cb2, void* userData);
+RRP_DECLSPEC bool rrp_cc assignCallbacks(RRPluginHandle handle, pluginCallback cb1, pluginCallback cb2, void* userData);
 
 /*!
  \brief Hand external data to a plugin
@@ -271,7 +265,7 @@ RRP_DECLSPEC bool rrpCallConv assignCallbacks(RRPluginHandle handle, pluginCallb
  \return Returns true or false indicating success/failure
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC bool rrpCallConv setPluginInputData(RRPluginHandle handle, void* userData);
+RRP_DECLSPEC bool rrp_cc setPluginInputData(RRPluginHandle handle, void* userData);
 
 
 /*!
@@ -280,7 +274,7 @@ RRP_DECLSPEC bool rrpCallConv setPluginInputData(RRPluginHandle handle, void* us
  \return Returns true or false indicating i the plugin is busy or not
  \ingroup pluginRoutines
 */
-RRP_DECLSPEC bool rrpCallConv isPluginWorking(RRPluginHandle handle);
+RRP_DECLSPEC bool rrp_cc isPluginWorking(RRPluginHandle handle);
 
 
 /*!
@@ -290,7 +284,7 @@ RRP_DECLSPEC bool rrpCallConv isPluginWorking(RRPluginHandle handle);
  \return Returns true if sucessful
  \ingroup simulation
 */
-RRP_DECLSPEC bool rrpCallConv setPluginManagerConfigurationXML(RRPluginManagerHandle handle, const char* caps);
+RRP_DECLSPEC bool rrp_cc setPluginManagerConfigurationXML(RRPluginManagerHandle handle, const char* caps);
 
 /*!
  \brief Get the plugin manager's capabilities
@@ -300,7 +294,7 @@ RRP_DECLSPEC bool rrpCallConv setPluginManagerConfigurationXML(RRPluginManagerHa
  \return Returns null if it fails, otherwise it returns the simulator's capabilities in the form of an XML string
  \ingroup simulation
 */
-RRP_DECLSPEC char* rrpCallConv getPluginManagerConfigurationXML(RRPluginManagerHandle handle);
+RRP_DECLSPEC char* rrp_cc getPluginManagerConfigurationXML(RRPluginManagerHandle handle);
 
 #if defined(__cplusplus)
 }    //Extern "C"

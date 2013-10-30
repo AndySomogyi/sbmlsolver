@@ -1,9 +1,9 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
-PROJECT(rrWrappers)
+PROJECT(plugins_wrappers)
 
-if(BUILD_TESTS)
-add_subdirectory(Testing)
-endif()
+#if(BUILD_TESTS)
+#add_subdirectory(Testing)
+#endif()
 
 if(INSTALL_EXAMPLES)
 add_subdirectory(Examples)
@@ -13,6 +13,6 @@ install(
         FILES 
         rrPlugins.py 
         DESTINATION python  	
-        COMPONENT testing
+        COMPONENT plugins_api
        )
 
