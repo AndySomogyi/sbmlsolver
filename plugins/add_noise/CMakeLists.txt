@@ -31,7 +31,7 @@ add_definitions(
 if(WIN32)
 #add_definitions( -D_WIN32)
 target_link_libraries (${target}
-#roadrunner-static
+roadrunner-static
 rrplugins_api-static
 #rrplugins_c_api
 #libxml2
