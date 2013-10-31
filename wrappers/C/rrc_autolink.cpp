@@ -1,8 +1,7 @@
 //We only need to give the linker the folder where libs are
 //using the pragma comment. Works for MSVC and codegear
 #if defined(CG_IDE)
-
-    #if defined(STATIC_RR)
+    #if defined(STATIC_RRC)
         #pragma comment(lib, "roadrunner-static.lib")
     #else
         #pragma comment(lib, "roadrunner.lib")

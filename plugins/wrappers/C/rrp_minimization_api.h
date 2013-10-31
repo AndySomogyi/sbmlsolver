@@ -61,7 +61,7 @@ extern "C"
  \return Returns true if sucessful, false otherwise
  \ingroup Minimization
 */
-RRP_DECLSPEC bool  addDoubleParameter(RRMinimizationDataHandle handle, const char* name, double value);
+RRP_DECLSPEC bool rrp_cc addDoubleParameter(RRMinimizationDataHandle handle, const char* name, double value);
 
 /*!
  \brief Set minimization objects selection list related to experimental data
@@ -70,7 +70,7 @@ RRP_DECLSPEC bool  addDoubleParameter(RRMinimizationDataHandle handle, const cha
  \return Returns true if sucessful, false otherwise
  \ingroup Minimization
 */
-RRP_DECLSPEC bool  setMinimizationObservedDataSelectionList(RRMinimizationDataHandle handle, const char* list);
+RRP_DECLSPEC bool rrp_cc setMinimizationObservedDataSelectionList(RRMinimizationDataHandle handle, const char* list);
 
 /*!
  \brief Set minimization objects selection list related to model data
@@ -79,7 +79,7 @@ RRP_DECLSPEC bool  setMinimizationObservedDataSelectionList(RRMinimizationDataHa
  \return Returns true if sucessful, false otherwise
  \ingroup Minimization
 */
-RRP_DECLSPEC bool  setMinimizationModelDataSelectionList(RRMinimizationDataHandle handle, const char* list);
+RRP_DECLSPEC bool rrp_cc setMinimizationModelDataSelectionList(RRMinimizationDataHandle handle, const char* list);
 
 /*!
  \brief print out some information about the MinimizationData
@@ -87,7 +87,7 @@ RRP_DECLSPEC bool  setMinimizationModelDataSelectionList(RRMinimizationDataHandl
  \return pointer to a string if succesful, NULL otherwise
  \ingroup Minimization
 */
-RRP_DECLSPEC char*  getMinimizationDataReport(RRMinimizationDataHandle handle);
+RRP_DECLSPEC char* rrp_cc getMinimizationDataReport(RRMinimizationDataHandle handle);
 
 #if defined(__cplusplus)
 }    //Extern "C"

@@ -17,23 +17,22 @@ lmUtils
 
 add_definitions(
 -DPOCO_STATIC
--DSTATIC_PUGI
 -DLIBSBML_STATIC
 -DSTATIC_RR
--DSTATIC_LIBSTRUCT
--DLIBLAX_STATIC
--DSTATIC_NLEQ
--DEXPORT_PLUGIN
+-DSTATIC_PLUGINS_API
+#-DSTATIC_LIBSTRUCT
+#-DLIBLAX_STATIC
+#-DSTATIC_NLEQ
+-DEXPORT_RR_PLUGIN
 )
 
 add_library(${target} SHARED ${sources})
 
 if(WIN32)
-add_definitions( -DWIN32)
 target_link_libraries (${target}
 lmfit-static
 rrc_api
-rrPluginsAPI
+rrplugins_c_api
 )
 else() #UNIX
     # OSX flags:
@@ -61,13 +60,11 @@ else() #UNIX
         )
 endif()
 
-if(${MSVC})
-set (CMAKE_SHARED_LINKER_FLAGS     "${CMAKE_SHARED_LINKER_FLAGS} \"/DEF:${CMAKE_CURRENT_SOURCE_DIR}/${target}.def\"")
-endif()
+#if(${MSVC})
+#set (CMAKE_SHARED_LINKER_FLAGS     "${CMAKE_SHARED_LINKER_FLAGS} \"/DEF:${CMAKE_CURRENT_SOURCE_DIR}/${target}.def\"")
+#endif()
 
 install (TARGETS ${target}
 DESTINATION plugins
 COMPONENT plugins
 )
-
-#Skip installing any header
