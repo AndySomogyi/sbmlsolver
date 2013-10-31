@@ -106,6 +106,9 @@ enum EventAtributes
  * prone and its easier to check if they are valid i.e. only check that
  * they are less than the the array size and we do not have to check that
  * it is positive.
+ *
+ * * All symbols from the sbml are reordered such that the independent
+ * ones are first, followed by the dependent values.
  */
 class LLVMModelDataSymbols
 {
@@ -148,6 +151,9 @@ public:
 
     uint getBoundarySpeciesIndex(std::string const&) const;
 
+    /**
+     * number of boundary species not defined by rules.
+     */
     uint getIndependentBoundarySpeciesSize() const;
 
     /**
@@ -178,7 +184,25 @@ public:
     uint getReactionSize() const;
 
     std::vector<std::string> getGlobalParameterIds() const;
+
+    /**
+     * the list that is returned by ExecutableModel, so order must
+     * remain constant.
+     *
+     * All floating species ids, independent first.
+     */
     std::vector<std::string> getFloatingSpeciesIds() const;
+
+    /**
+     * get a list of the floating species init value symbols.
+     *
+     * same ordering as getFloatingSpeciesIds().
+     */
+    std::vector<std::string> getFloatingSpeciesInitIds() const;
+
+    /**
+     * total size of all floating species.
+     */
     uint getFloatingSpeciesSize() const;
 
     uint getBoundarySpeciesSize() const;
@@ -194,6 +218,9 @@ public:
      */
     uint getIndependentCompartmentSize() const;
 
+    /**
+     * all the boundary species ids, independent first.
+     */
     std::vector<std::string> getBoundarySpeciesIds() const;
 
     /**
@@ -216,6 +243,9 @@ public:
     /**
      * if there are no rules for an element, then they are considered
      * independent.
+     *
+     * These are only for elements, not init values, will return false
+     * for all init symbols.
      */
     bool isIndependentElement(const std::string& id) const;
 
@@ -235,6 +265,32 @@ public:
 
     const SpeciesReferenceInfo& getNamedSpeciesReferenceInfo(
             const std::string& id) const;
+
+    /**
+     * checks if the string has the format of an initial value symbol,
+     * does not check if the base is valid.
+     */
+    static bool isInitSymbol(const std::string& symbol);
+
+    /**
+     * initial value symbols have the form of init(base), this
+     * returns the base.
+     *
+     * An exception is thrown if this is not an init symbol.
+     */
+    static std::string getInitSymbolBase(const std::string& symbol);
+
+    /**
+     * checks if the given symbol is a init value for a conserved species.
+     */
+    bool isConservedSpeciesInit(const std::string& symbol);
+
+    /**
+     * checks if the given symbol is an init value for an independent
+     * floating species.
+     */
+    bool isIndependentFloatingSpeciesInit(const std::string& symbol);
+
 
     const std::vector<unsigned char>& getEventAttributes() const;
 
