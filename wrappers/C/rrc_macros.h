@@ -44,6 +44,15 @@
 
 //=================== MACROS ================================
 /*!
+ \brief macro to open a try/catch statement
+ \ingroup macros
+*/
+
+#define try_macro                                           \
+        try                                                 \
+        {
+
+/*!
  \brief macro for catch statement in a routine returning a bool
  \ingroup macros
 */

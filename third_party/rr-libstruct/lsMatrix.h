@@ -462,13 +462,17 @@ Matrix<T>* Matrix<T>::getTranspose()
 template<class T>
 Matrix<T>& Matrix<T>::operator = (const Matrix <T>& rhs)
 {
-  if (_Rows != rhs._Rows || _Cols != rhs._Cols)
-  {
+    if (this == &rhs)      // Same object?
+    {
+      return *this;
+    }
+
+    if (_Rows != rhs._Rows || _Cols != rhs._Cols)
+    {
       resize(rhs._Rows, rhs._Cols);
-  }
+    }
 
   memcpy(_Array, rhs._Array, _Rows * _Cols * sizeof(T));
-
   return *this;
 }
 
