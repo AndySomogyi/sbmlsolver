@@ -241,31 +241,8 @@ llvm::Value* ModelDataIRBuilder::createFloatSpeciesAmtGEP(
     uint index = symbols.getFloatingSpeciesIndex(id);
     assert(index < symbols.getIndependentFloatingSpeciesSize());
 
-
     return createGEP(FloatingSpeciesAmountsAlias, index,
             name.isTriviallyEmpty() ? id : name);
-
-    /*
-
-
-
-
-    LLVMContext &context = builder.getContext();
-
-    Value *idxs[] = {
-      ConstantInt::get(Type::getInt32Ty(context), 0),
-      ConstantInt::get(Type::getInt32Ty(context), FloatingSpeciesAmounts),
-      ConstantInt::get(Type::getInt32Ty(context), index),
-    };
-
-    return builder.CreateInBoundsGEP(modelData, idxs, name);
-
-    */
-
-
-
-
-
 }
 
 llvm::Value* ModelDataIRBuilder::createFloatSpeciesAmtLoad(
@@ -449,6 +426,40 @@ llvm::Value* ModelDataIRBuilder::createGlobalParamStore(
 {
     int idx = symbols.getGlobalParameterIndex(id);
     return createStore(GlobalParameters, idx, value, id);
+}
+
+llvm::Value* ModelDataIRBuilder::createFlotSpeciesAmtInitGEP(
+        const std::string& id, const llvm::Twine& name)
+{
+    //uint index = symbols.getCompartmIndex(id);
+    //assert(index < symbols.getIndependentCompartmentSize());
+    //return createGEP(CompartmentVolumes, index,
+    //        name.isTriviallyEmpty() ? id : name);
+}
+
+llvm::Value* ModelDataIRBuilder::createFlotSpeciesAmtInitLoad(
+        const std::string& id, const llvm::Twine& name)
+{
+}
+
+llvm::Value* ModelDataIRBuilder::createFlotSpeciesAmtInitStore(
+        const std::string& id, llvm::Value* value)
+{
+}
+
+llvm::Value* ModelDataIRBuilder::createCompInitGEP(const std::string& id,
+        const llvm::Twine& name)
+{
+}
+
+llvm::Value* ModelDataIRBuilder::createCompInitLoad(const std::string& id,
+        const llvm::Twine& name)
+{
+}
+
+llvm::Value* ModelDataIRBuilder::createCompInitStore(const std::string& id,
+        llvm::Value* value)
+{
 }
 
 llvm::Value* ModelDataIRBuilder::createReactionRateLoad(const std::string& id, const llvm::Twine& name)
@@ -1215,3 +1226,5 @@ void LLVMModelDataIRBuilderTesting::test(Module *module, IRBuilder<> *build,
 
 
 } /* namespace rr */
+
+

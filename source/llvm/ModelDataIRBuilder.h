@@ -81,13 +81,49 @@ public:
             llvm::Value *value);
 
     /**
+     * the GEP for a floating species initial amount
+     */
+    llvm::Value *createFlotSpeciesAmtInitGEP(const std::string& id,
+            const llvm::Twine &name = "");
+
+    /**
+     * load the floating species initial amount value
+     */
+    llvm::Value *createFlotSpeciesAmtInitLoad(const std::string& id,
+            const llvm::Twine& name ="");
+
+    /**
+     * store the floating species initial value
+     */
+    llvm::Value *createFlotSpeciesAmtInitStore(const std::string &id,
+            llvm::Value *value);
+
+    /**
+     * the GEP for a compartment
+     */
+    llvm::Value* createCompInitGEP(const std::string& id,
+            const llvm::Twine &name = "");
+
+    /**
      * load the compartment value
+     */
+    llvm::Value *createCompInitLoad(const std::string& id,
+            const llvm::Twine& name ="");
+
+    /**
+     * store the compartment value
+     */
+    llvm::Value *createCompInitStore(const std::string &id,
+            llvm::Value *value);
+
+    /**
+     * load the global param value
      */
     llvm::Value *createGlobalParamLoad(const std::string& id,
             const llvm::Twine& name = "");
 
     /**
-     * store the compartment value
+     * store the global param value
      */
     llvm::Value *createGlobalParamStore(const std::string &id,
             llvm::Value *value);
