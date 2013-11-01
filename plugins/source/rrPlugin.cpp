@@ -6,10 +6,16 @@
 #include "rrParameter.h"
 //#include "rrp_types.h" //We may want to move this header to the Source folder
 //---------------------------------------------------------------------------
-using namespace std;
+
 namespace rrp
 {
-Plugin::Plugin(const std::string& name, const std::string& category, RoadRunner* aRR, PluginWorkStartedCB fn1, PluginWorkFinishedCB fn2, const string& language)
+using namespace std;
+Plugin::Plugin( const string& name,
+                const string& category,
+                RoadRunner* aRR,
+                PluginWorkStartedCB fn1,
+                PluginWorkFinishedCB fn2,
+                const string& language)
 :
 mName(name),
 mAuthor("Totte Karlsson"),

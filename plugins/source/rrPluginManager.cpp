@@ -42,7 +42,10 @@ mPluginExtension(getPluginExtension())
 }
 
 PluginManager::~PluginManager()
-{}
+{
+    //No matter what.. here shared libs need to be unloaded and deleted
+    unloadAll();
+}
 
 void PluginManager::setRoadRunner(RoadRunner* aRR)
 {
@@ -135,6 +138,7 @@ bool PluginManager::loadPlugin(const string& _libName)
             libName = libName + "." + getPluginExtension();
         }
 
+        //Todo: memory leak
         SharedLibrary *libHandle = new SharedLibrary;
         libHandle->load(joinPath(mPluginFolder, libName));
 
@@ -228,6 +232,7 @@ bool PluginManager::unloadAll()
             if(pluginLibHandle)
             {
                 pluginLibHandle->unload();
+                delete pluginLibHandle;
             }
             //And remove from container
             aPluginLib->first = NULL;

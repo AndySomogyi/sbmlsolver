@@ -5,7 +5,7 @@
 #include "rrPluginsAPIExporter.h"
 //---------------------------------------------------------------------------
 
-typedef void (rrpCallConv *ThreadCB)(void*);
+typedef void (callback_cc *ThreadCB)(void*);
 
 class AddNoiseThread : public Poco::Runnable
 {

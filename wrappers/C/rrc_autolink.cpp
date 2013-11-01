@@ -1,14 +1,13 @@
 //We only need to give the linker the folder where libs are
 //using the pragma comment. Works for MSVC and codegear
 #if defined(CG_IDE)
-    #if defined(STATIC_RRC)
+    #if defined(STATIC_RR)
         #pragma comment(lib, "roadrunner-static.lib")
     #else
         #pragma comment(lib, "roadrunner.lib")
     #endif
 
     #pragma comment(lib, "rr-libstruct-static.lib")
-    #pragma comment(lib, "pugi-static.lib")
     #pragma comment(lib, "libsbml-static.lib")
     #pragma comment(lib, "sundials_cvode.lib")
     #pragma comment(lib, "sundials_nvecserial.lib")

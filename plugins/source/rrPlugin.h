@@ -19,8 +19,8 @@ using namespace rr;
 
 //Plugin callback functions
 #ifndef SWIG // these make SWIG really unhappy for some reason.
-typedef void    (rrpCallConv *PluginWorkStartedCB)(void*);
-typedef void    (rrpCallConv *PluginWorkFinishedCB)(void*);
+typedef void    (callback_cc *PluginWorkStartedCB)(void*);
+typedef void    (callback_cc *PluginWorkFinishedCB)(void*);
 #endif
 
 using std::string;
@@ -53,8 +53,8 @@ class PLUGINS_API_DECLSPEC Plugin : public Configurable  /* Abstract plugin */
         Capabilities                    mCapabilities;    //Container for parameter data that can be exchanged to/from the plugin
 
     public:
-                                        Plugin(const std::string& name = "", const std::string& cat = gNoneString, RoadRunner* aRR = NULL, PluginWorkStartedCB fn1 = NULL, PluginWorkFinishedCB fn2 = NULL, const string& language = "<none>");
-        virtual                         ~Plugin();    //Gotta be virtual!
+                                        Plugin(const string& name = gEmptyString, const string& cat = gNoneString, RoadRunner* aRR = NULL, PluginWorkStartedCB fn1 = NULL, PluginWorkFinishedCB fn2 = NULL, const string& language = gNoneString);
+        virtual                        ~Plugin();    //Gotta be virtual!
 
         bool                            assignCallbacks(PluginWorkStartedCB fnc1, PluginWorkFinishedCB fnc2 = NULL, void* userData = NULL);
         string                          getName();

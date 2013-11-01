@@ -1,5 +1,0 @@
-LIBRARY     add_noise.dll
-
-EXPORTS
-#createPlugin                = _createPlugin@4
-#getImplementationLanguage   = _getImplementationLanguage@0

@@ -43,7 +43,6 @@
 #define rrp_apiH
 #include "rrp_exporter.h"
 #include "rrp_types.h"
-#include "rrp_types.h"
 #include "rrp_parameter_api.h"
 //---------------------------------------------------------------------------
 
@@ -58,7 +57,7 @@ extern "C"
  \brief Typedef for plugin callback function
  \ingroup pluginRoutines
 */
-typedef void (rrp_cc *pluginCallback)(void*);
+typedef void (callback_cc *pluginCallback)(void*);
 
 /**
  * create an instance of a plugin managager attached to the given RoadRunner instance.

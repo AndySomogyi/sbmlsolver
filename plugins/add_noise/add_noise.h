@@ -14,8 +14,8 @@ using namespace rr;
 using namespace rrc;
 using namespace rrp;
 
-typedef void    (rrpCallConv *WorkStartedCB)(void*);
-typedef void    (rrpCallConv *WorkFinishedCB)(void*);
+typedef void    (callback_cc *WorkStartedCB)(void*);
+typedef void    (callback_cc *WorkFinishedCB)(void*);
 
 
 class AddNoise : public Plugin
@@ -45,8 +45,8 @@ class AddNoise : public Plugin
 
 extern "C"
 {
-RR_PLUGIN_DECLSPEC Plugin*		plugins_cc createPlugin(rr::RoadRunner* aRR);
-RR_PLUGIN_DECLSPEC const char*	plugins_cc getImplementationLanguage();
+RR_PLUGIN_DECLSPEC Plugin*      plugins_cc createPlugin(rr::RoadRunner* aRR);
+RR_PLUGIN_DECLSPEC const char*  plugins_cc getImplementationLanguage();
 }
 
 }
