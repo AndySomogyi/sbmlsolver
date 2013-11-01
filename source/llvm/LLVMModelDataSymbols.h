@@ -46,28 +46,31 @@ enum ModelDataFields {
     StateVectorRate,                          // 14
     RateRuleRates,                            // 15
     FloatingSpeciesAmountRates,               // 16
+
     CompartmentVolumesAlias,                  // 17
     CompartmentVolumesInitAlias,              // 18
-    FloatingSpeciesAmountsAlias,              // 19
-    FloatingSpeciesAmountsInitAlias,          // 20
-    ConservedSpeciesAmountsInitAlias,         // 21
-    BoundarySpeciesAmountsAlias,              // 22
-    BoundarySpeciesAmountsInitAlias,          // 23
-    GlobalParametersAlias,                    // 24
-    GlobalParametersInitAlias,                // 25
+    FloatingSpeciesAmountsInitAlias,          // 19
+    ConservedSpeciesAmountsInitAlias,         // 20
+    BoundarySpeciesAmountsAlias,              // 21
+    BoundarySpeciesAmountsInitAlias,          // 22
+    GlobalParametersAlias,                    // 23
+    GlobalParametersInitAlias,                // 24
+    ReactionRatesAlias,                       // 25
+
     RateRuleValuesAlias,                      // 26
-    ReactionRatesAlias,                       // 27
+    FloatingSpeciesAmountsAlias,              // 27
+
     CompartmentVolumes,                       // 28
     CompartmentVolumesInit,                   // 29
-    FloatingSpeciesAmounts,                   // 30
-    FloatingSpeciesAmountsInit,               // 31
-    ConservedSpeciesAmountsInit,              // 32
-    BoundarySpeciesAmounts,                   // 33
-    BoundarySpeciesAmountsInit,               // 34
-    GlobalParameters,                         // 35
-    GlobalParametersInit,                     // 36
-    RateRuleValues,                           // 37
-    ReactionRates,                            // 38
+    FloatingSpeciesAmountsInit,               // 30
+    ConservedSpeciesAmountsInit,              // 31
+    BoundarySpeciesAmounts,                   // 32
+    BoundarySpeciesAmountsInit,               // 33
+    GlobalParameters,                         // 34
+    GlobalParametersInit,                     // 35
+    ReactionRates,                            // 36
+    NotSafe_RateRuleValues,                   // 37
+    NotSafe_FloatingSpeciesAmounts,           // 38
 };
 
 enum EventAtributes

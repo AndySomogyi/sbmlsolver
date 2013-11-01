@@ -302,10 +302,6 @@ public:
     void test(llvm::Module *module, llvm::IRBuilder<> *build,
             llvm::ExecutionEngine * engine);
 
-    llvm::Value *createFloatSpeciesConcGEP(const std::string &id);
-
-    llvm::Value *createFloatSpeciesConcStore(const std::string &id,
-            llvm::Value *value);
 
     static llvm::Function *getDispIntDecl(llvm::Module *module);
     llvm::CallInst *createDispInt(llvm::Value *intVal);

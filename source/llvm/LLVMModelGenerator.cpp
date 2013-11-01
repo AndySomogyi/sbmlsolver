@@ -378,9 +378,6 @@ LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols)
     modelData->compartmentVolumesInitAlias = &modelData->data[offset];
     offset += numIndCompartments;
 
-    modelData->floatingSpeciesAmountsAlias = &modelData->data[offset];
-    offset += numIndFloatingSpecies;
-
     modelData->floatingSpeciesAmountsInitAlias = &modelData->data[offset];
     offset += numIndFloatingSpecies;
 
@@ -399,11 +396,14 @@ LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols)
     modelData->globalParametersInitAlias = &modelData->data[offset];
     offset += numIndGlobalParameters;
 
+    modelData->reactionRatesAlias = &modelData->data[offset];
+    offset += numReactions;
+
     modelData->rateRuleValuesAlias = &modelData->data[offset];
     offset += numRateRules;
 
-    modelData->reactionRatesAlias = &modelData->data[offset];
-    offset += numReactions;
+    modelData->floatingSpeciesAmountsAlias = &modelData->data[offset];
+    offset += numIndFloatingSpecies;
 
     assert (modelDataBaseSize + offset * sizeof(double) == modelDataSize  &&
             "LLVMModelData size not equal to base size + data");

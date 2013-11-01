@@ -169,24 +169,21 @@ struct LLVMModelData
 
 
     /**
-     * has length numIndFloatingSpecies
-     */
-    double*                             floatingSpeciesAmountsAlias;      // 19
-
-    /**
      * \conservation
      *
      * length numIndFloatingSpecies
      */
-    double*                             floatingSpeciesAmountsInitAlias;  // 20
+    double*                             floatingSpeciesAmountsInitAlias;  // 19
 
-    double*                             conservedSpeciesAmountsInitAlias; // 21
+    double*                             conservedSpeciesAmountsInitAlias; // 20
 
-    double*                             boundarySpeciesAmountsAlias;      // 22
-    double*                             boundarySpeciesAmountsInitAlias;  // 23
+    double*                             boundarySpeciesAmountsAlias;      // 21
+    double*                             boundarySpeciesAmountsInitAlias;  // 22
 
-    double*                             globalParametersAlias;            // 24
-    double*                             globalParametersInitAlias;        // 25
+    double*                             globalParametersAlias;            // 23
+    double*                             globalParametersInitAlias;        // 24
+
+    double*                             reactionRatesAlias;               // 25
 
     /**
      * All of the elelments which have a rate rule are stored here.
@@ -194,26 +191,40 @@ struct LLVMModelData
      * As the integrator runs, this pointer can simply point to an offset
      * in the integrator's state vector.
      *
-     * Only used in the LLVM version.
+     * This pointer is part of the state vector. When any function is called by
+     * CVODE, this is actually a pointer to a CVODE owned memory block.
+     * Otherwise, this points to the alocated rateRuleValues block at the end
+     * of this struct.
+     *
      */
     double*                             rateRuleValuesAlias;              // 26
 
-    double*                             reactionRatesAlias;               // 27
+
+
+
+    /**
+     * has length numIndFloatingSpecies
+     *
+     * This pointer is part of the state vector. When any function is called by
+     * CVODE, this is actually a pointer to a CVODE owned memory block.
+     */
+    double*                             floatingSpeciesAmountsAlias;      // 27
 
     /**
      * binary data layout:
      *
      * compartmentVolumes                [numIndCompartmentVolumes]       // 28
      * compartmentVolumesInit            [numIndCompartmentVolumes]       // 29
-     * floatingSpeciesAmounts            [numIndFloatingSpecies]          // 30
-     * floatingSpeciesAmountsInit        [numIndFloatingSpecies]          // 31
-     * conservedSpeciesAmountsInit       [numConservedSpecies]            // 32
-     * boundarySpeciesAmounts            [numIndBoundarySpecies]          // 33
-     * boundarySpeciesAmountsInit        [numIndBoundarySpecies]          // 34
-     * globalParameters                  [numIndGlobalParameters]         // 35
-     * globalParametersInit              [numIndGlobalParameters]         // 36
+     * floatingSpeciesAmountsInit        [numIndFloatingSpecies]          // 30
+     * conservedSpeciesAmountsInit       [numConservedSpecies]            // 31
+     * boundarySpeciesAmounts            [numIndBoundarySpecies]          // 32
+     * boundarySpeciesAmountsInit        [numIndBoundarySpecies]          // 33
+     * globalParameters                  [numIndGlobalParameters]         // 34
+     * globalParametersInit              [numIndGlobalParameters]         // 35
+     * reactionRates                     [numReactions]                   // 36
+     *
      * rateRuleValues                    [numRateRules]                   // 37
-     * reactionRates                     [numReactions]                   // 38
+     * floatingSpeciesAmounts            [numIndFloatingSpecies]          // 38
      */
     double                              data[0];                          // not listed
 };
