@@ -273,17 +273,26 @@ public:
     static bool isInitSymbol(const std::string& symbol);
 
     /**
-     * initial value symbols have the form of init(base), this
-     * returns the base.
+     * initial value symbols have the form of init(id), this
+     * returns the sbml id.
      *
      * An exception is thrown if this is not an init symbol.
      */
-    static std::string getInitSymbolBase(const std::string& symbol);
+    static std::string getInitSymbolId(const std::string& symbol);
+
+
+    /**
+     * Create an initial value symbol from a standard symbol.
+     *
+     * Init symbols have the form of "init(id)" where id is
+     * an sbml id
+     */
+    static std::string createInitSymbol(const std::string& id);
 
     /**
      * checks if the given symbol is a init value for a conserved species.
      */
-    bool isConservedSpeciesInit(const std::string& symbol);
+    bool isConservedMoiety(const std::string& symbol) const;
 
     /**
      * checks if the given symbol is an init value for an independent

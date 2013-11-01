@@ -108,6 +108,7 @@ if(BUILD_LLVM)
         llvm/LLVMModelSymbols
         llvm/SetRateRuleValuesCodeGen
         llvm/SetValuesCodeGen
+        llvm/SetInitialValuesCodeGen
         llvm/SBMLSupportFunctions
         llvm/EvalVolatileStoichCodeGen
         llvm/SBMLInitialValueSymbolResolver

@@ -5,8 +5,8 @@
  *      Author: andy
  */
 
-#ifndef InitialValueSymbolResolver_H_
-#define InitialValueSymbolResolver_H_
+#ifndef ModelInitialValueSymbolResolver_H_
+#define ModelInitialValueSymbolResolver_H_
 
 #include "CodeGen.h"
 #include "LLVMIncludes.h"
@@ -45,4 +45,4 @@ protected:
 };
 
 } /* namespace rr */
-#endif /* InitialValueSymbolResolver_H_ */
+#endif /* ModelInitialValueSymbolResolver_H_ */
