@@ -67,7 +67,7 @@ typedef struct
 {
     int             Count;                  /*!< The number of elements in the list */
     RRHandle*       Handle;                   /*!< Pointer to a RoadRunner instance */
-    void*             RRList;                 /*!< Pointer to a RoadRunnerList instance */
+    void*           RRList;                 /*!< Pointer to a RoadRunnerList instance */
 } *RRInstanceListPtr, RRInstanceList;                      /*!< Pointer to RRInstanceList */
 
 /*!@struct*/
@@ -82,19 +82,19 @@ typedef struct
 /*!@brief Structure for a simple vector of strings */
 typedef struct
 {
-    int             Count;  /*!< The number of elements in the string array */
-    char**          String; /*!< Points to an array of string items */
-} *RRStringArrayPtr, RRStringArray;      /*!< Pointer to RRStringListHandle struct */
+    int             Count;				/*!< The number of elements in the string array */
+    char**          String;				/*!< Points to an array of string items */
+} *RRStringArrayPtr, RRStringArray;     /*!< Pointer to RRStringListHandle struct */
 
 /*!@struct*/
 /*!@brief Structure for a simple double Matrix type */
 typedef struct
 {
-    int             RSize;  /*!< The number of rows in the matrix */
-    int             CSize;  /*!< The number of columns in the matrix */
-    double*         Data;   /*!< Items in the matrix stored as a linear array. Access an element using Data[row*CSize + col],
-                              where i,j represent the row and column numberof the element. Indexing is from zero */
-} *RRDoubleMatrixPtr, RRDoubleMatrix;          /*!< Pointer to RRDoubleMatrixPtr struct */
+    int             RSize;				/*!< The number of rows in the matrix */
+    int             CSize;				/*!< The number of columns in the matrix */
+    double*         Data;				/*!< Items in the matrix stored as a linear array. Access an element using Data[row*CSize + col],
+												where i,j represent the row and column numberof the element. Indexing is from zero */
+} *RRDoubleMatrixPtr, RRDoubleMatrix;   /*!< Pointer to RRDoubleMatrixPtr struct */
 
 /*!@struct*/
 /*!@brief Structure for a complex number */
@@ -151,9 +151,7 @@ enum ListItemType {litString, litInteger, litDouble, litList};
 /*!@brief A parameters type can be string, bool, integer, double, vector or a matrix */
 enum RRParameterType {ptString, ptBool, ptInteger, ptDouble, ptVector, ptMatrix};
 
-// The above enums correspond to the currently supported types in an RRArrayList
-// char, int, double, RRArrayList
-
+// The above enums correspond to the currently supported types in a RRArrayList
 struct RRList;    //Forward declaration for RRListItem, needed for RRListItem
 
 /*!@struct*/

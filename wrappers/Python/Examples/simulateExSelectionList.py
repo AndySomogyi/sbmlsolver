@@ -1,7 +1,7 @@
 import rrPython
 
-rrPython.loadSBMLFromFile('C:\\roadRunner\\models\\simple.xml')
+rrPython.loadSBMLFromFile('../models/test_1.xml')
 rrPython.setSteadyStateSelectionList('time S1 S2')
-results = rrPython.simulateEx(0.0,2.0,20)
+results = rrPython.simulateEx(0.0,10.0,11)
 
 print results

@@ -2,7 +2,7 @@ import rrPython
 import numpy
 import matplotlib.pyplot as plot
 
-model = open('C:\\roadRunner\\models\\feedback.xml', 'r').read()
+model = open('../models/feedback.xml', 'r').read()
 rrPython.loadSBML(model)
 timeStart = 0.0
 timeEnd = 10.0

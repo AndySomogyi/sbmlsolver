@@ -1,3 +1,3 @@
-RoadRunner Python Module 
+Python PluginAPI 
 
-Greg Medlock (gmedlo@uw.edu)
+Totte Karlsson (tottek@gmail.com)
