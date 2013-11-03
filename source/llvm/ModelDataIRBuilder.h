@@ -83,19 +83,19 @@ public:
     /**
      * the GEP for a floating species initial amount
      */
-    llvm::Value *createFlotSpeciesAmtInitGEP(const std::string& id,
+    llvm::Value *createFloatSpeciesAmtInitGEP(const std::string& id,
             const llvm::Twine &name = "");
 
     /**
      * load the floating species initial amount value
      */
-    llvm::Value *createFlotSpeciesAmtInitLoad(const std::string& id,
+    llvm::Value *createFloatSpeciesAmtInitLoad(const std::string& id,
             const llvm::Twine& name ="");
 
     /**
      * store the floating species initial value
      */
-    llvm::Value *createFlotSpeciesAmtInitStore(const std::string &id,
+    llvm::Value *createFloatSpeciesAmtInitStore(const std::string &id,
             llvm::Value *value);
 
     /**

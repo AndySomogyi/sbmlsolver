@@ -222,6 +222,20 @@ public:
     uint getIndependentCompartmentSize() const;
 
     /**
+     * get the index of a floating species initial value.
+     *
+     * has the same index as the run time floating species.
+     */
+    uint getFloatingSpeciesInitIndex(const std::string& symbol) const;
+
+    /**
+     * get the index of a compartment initial value
+     *
+     * has the same index as the run time compartment.
+     */
+    uint getCompartmentInitIndex(const std::string& symbol) const;
+
+    /**
      * all the boundary species ids, independent first.
      */
     std::vector<std::string> getBoundarySpeciesIds() const;
@@ -252,9 +266,20 @@ public:
      */
     bool isIndependentElement(const std::string& id) const;
 
+
+    /**
+     * Is this sbml element an independent initial value.
+     *
+     * Independent initial values do not have assignment or
+     * initial assigment rules, but may have rate rules.
+     */
+    bool isIndependentInitialValueElement(const std::string& id) const;
+
     bool hasRateRule(const std::string& id) const;
 
     bool hasAssignmentRule(const std::string& id) const;
+
+    bool hasInitialAssignmentRule(const std::string& id) const;
 
     bool isIndependentFloatingSpecies(const std::string& id) const;
 
@@ -294,6 +319,19 @@ public:
 
     /**
      * checks if the given symbol is a init value for a conserved species.
+     *
+     * Global parameters or floating species can be conservied moieties,
+     * a global parameter is a CM if it is defined by a rule as a linear
+     * combination of floating species.
+     *
+     * A floating species may be a CM if it is defined by a rule
+     * as a linear combination of independent species.
+     *
+     * If a floating species is a CM, then it must by definition
+     * be a dependent floating species.
+     *
+     * It can however have independent initial conditions defined
+     * either by intial values or initial assignment rules.
      */
     bool isConservedMoiety(const std::string& symbol) const;
 
@@ -337,6 +375,19 @@ private:
     StringUIntMap globalParametersMap;
 
     /**
+     * map of floating species init value symbols to thier
+     * index in the array.
+     *
+     * All floating species are stored in this map, however
+     * they are reordered and only the ones with index <
+     * independentFloatingSpeciesInitSize are allocated storage.
+     */
+    StringUIntMap floatingSpeciesInitMap;
+    StringUIntMap boundarySpeciesInitMap;
+    StringUIntMap compartmentsInitMap;
+    StringUIntMap globalParametersInitMap;
+
+    /**
      * map of all identified species reference (species references with ids)
      * to their indices in the stoichiometric matrix.
      */
@@ -375,16 +426,53 @@ private:
      */
     std::set<std::string> assigmentRules;
 
+
+    std::set<std::string> initAssignmentRules;
+
     /**
      * rate rules, index by variable name.
      */
     StringUIntMap rateRules;
 
-    uint linearlyIndependentFloatingSpeciesSize;
     uint independentFloatingSpeciesSize;
     uint independentBoundarySpeciesSize;
     uint independentGlobalParameterSize;
     uint independentCompartmentSize;
+
+
+    /**
+     * Elements that do NOT have assignment rules are considered
+     * independent initial conditions.
+     *
+     * Ind init conditions CAN however defined by rules.
+     *
+     * ind init conditions are all elements that do not have
+     * assignment or initial assignment rules.
+     */
+
+    /**
+     * float species init array has floating species NOT
+     * defined by init assignment rules, assignment rules,
+     * but rate rules are OK. This does not contain the init values
+     * for conserved species.
+     */
+    uint independentFloatingSpeciesInitSize;
+
+    /**
+     * boundary species not defined by any rule
+     * including init assignment rules.
+     */
+    uint independentBoundarySpeciesInitSize;
+
+    /**
+     * global params not defined by any rule
+     */
+    uint independentGlobalParameterInitSize;
+
+    /**
+     * compartments not defined by any rules.
+     */
+    uint independentCompartmentInitSize;
 
     /**
      * the number of assignments each event has

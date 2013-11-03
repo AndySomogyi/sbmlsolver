@@ -428,38 +428,50 @@ llvm::Value* ModelDataIRBuilder::createGlobalParamStore(
     return createStore(GlobalParameters, idx, value, id);
 }
 
-llvm::Value* ModelDataIRBuilder::createFlotSpeciesAmtInitGEP(
+llvm::Value* ModelDataIRBuilder::createFloatSpeciesAmtInitGEP(
         const std::string& id, const llvm::Twine& name)
 {
-    //uint index = symbols.getCompartmIndex(id);
-    //assert(index < symbols.getIndependentCompartmentSize());
-    //return createGEP(CompartmentVolumes, index,
-    //        name.isTriviallyEmpty() ? id : name);
+    uint index = symbols.getFloatingSpeciesInitIndex(id);
+    assert(index < symbols.getIndependentFloatingSpeciesSize());
+    return createGEP(FloatingSpeciesAmountsInit, index,
+            name.isTriviallyEmpty() ? id : name);
 }
 
-llvm::Value* ModelDataIRBuilder::createFlotSpeciesAmtInitLoad(
+llvm::Value* ModelDataIRBuilder::createFloatSpeciesAmtInitLoad(
         const std::string& id, const llvm::Twine& name)
 {
+    Value *gep = createFloatSpeciesAmtInitGEP(id);
+    return builder.CreateLoad(gep, name);
 }
 
-llvm::Value* ModelDataIRBuilder::createFlotSpeciesAmtInitStore(
+llvm::Value* ModelDataIRBuilder::createFloatSpeciesAmtInitStore(
         const std::string& id, llvm::Value* value)
 {
+    Value *gep = createFloatSpeciesAmtInitGEP(id);
+    return builder.CreateStore(value, gep);
 }
 
 llvm::Value* ModelDataIRBuilder::createCompInitGEP(const std::string& id,
         const llvm::Twine& name)
 {
+    uint index = symbols.getCompartmentInitIndex(id);
+    assert(index < symbols.getIndependentCompartmentSize());
+    return createGEP(CompartmentVolumesInit, index,
+            name.isTriviallyEmpty() ? id : name);
 }
 
 llvm::Value* ModelDataIRBuilder::createCompInitLoad(const std::string& id,
         const llvm::Twine& name)
 {
+    Value *gep = createCompInitGEP(id, name);
+    return builder.CreateLoad(gep, name);
 }
 
 llvm::Value* ModelDataIRBuilder::createCompInitStore(const std::string& id,
         llvm::Value* value)
 {
+    Value *gep = createCompInitGEP(id);
+    return builder.CreateStore(value, gep);
 }
 
 llvm::Value* ModelDataIRBuilder::createReactionRateLoad(const std::string& id, const llvm::Twine& name)

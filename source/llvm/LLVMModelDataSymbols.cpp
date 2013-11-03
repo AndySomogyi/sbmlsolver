@@ -88,7 +88,6 @@ namespace rrllvm
 {
 
 LLVMModelDataSymbols::LLVMModelDataSymbols() :
-        linearlyIndependentFloatingSpeciesSize(0),
         independentFloatingSpeciesSize(0),
         independentBoundarySpeciesSize(0),
         independentGlobalParameterSize(0),
@@ -98,7 +97,6 @@ LLVMModelDataSymbols::LLVMModelDataSymbols() :
 
 LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
         bool computeAndAssignConsevationLaws) :
-        linearlyIndependentFloatingSpeciesSize(0),
         independentFloatingSpeciesSize(0),
         independentBoundarySpeciesSize(0),
         independentGlobalParameterSize(0),
@@ -127,6 +125,18 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
                 poco_warning(getLogger(), string("encountered algegraic rule: ")
                         + rule->getId() + string(", currently not handled"));
             }
+        }
+    }
+
+    {
+        const ListOfInitialAssignments *initAssignmentList =
+                model->getListOfInitialAssignments();
+
+        for (unsigned i = 0; i < initAssignmentList->size(); ++i)
+        {
+            const libsbml::InitialAssignment *ia = initAssignmentList->get(i);
+
+            assigmentRules.insert(ia->getSymbol());
         }
     }
 
@@ -612,10 +622,26 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
         bool computeAndAssignConsevationLaws)
 {
     const ListOfSpecies *species = model->getListOfSpecies();
-    list<string> indFltSpecies;
-    list<string> depFltSpecies;
 
-    linearlyIndependentFloatingSpeciesSize = species->size();
+    // fully independent, no rules of any sort
+    list<string> indFltSpecies;
+
+    // species defined by rate rules
+    list<string> rateRuleSpecies;
+
+    // conserved species (have assignment rules)
+    list<string> conservedSpecies;
+
+    // species defined by assignment rules, not including
+    // conserved species
+    list<string> assignSpecies;
+
+    const ListOfInitialAssignments *initAssign = model->getListOfInitialAssignments();
+
+    //initAssign->get
+
+
+    list<string> depFltSpecies;
 
     // figure out 'fully' indendent flt species -- those without rules.
     for (uint i = 0; i < species->size(); ++i)
@@ -664,9 +690,6 @@ void LLVMModelDataSymbols::initFloatingSpecies(const libsbml::Model* model,
         log.stream() << "found " << indFltSpecies.size()
                             << " independent and " << depFltSpecies.size()
                             << " dependent floating species." << endl;
-
-        log.stream() << "linearly independent species: " <<
-                linearlyIndependentFloatingSpeciesSize << endl;
 
         vector<string> ids = getFloatingSpeciesIds();
         for (uint i = 0; i < ids.size(); ++i)
@@ -938,6 +961,41 @@ const LLVMModelDataSymbols::SpeciesReferenceInfo&
         throw_llvm_exception(id + " is not a named SpeciesReference");
         return *(SpeciesReferenceInfo*)(0); // shutup eclipse warnings
     }
+}
+
+std::vector<std::string> LLVMModelDataSymbols::getFloatingSpeciesInitIds() const
+{
+}
+
+uint LLVMModelDataSymbols::getFloatingSpeciesInitIndex(
+        const std::string& symbol) const
+{
+}
+
+uint LLVMModelDataSymbols::getCompartmentInitIndex(
+        const std::string& symbol) const
+{
+}
+
+bool LLVMModelDataSymbols::isInitSymbol(const std::string& symbol)
+{
+}
+
+std::string LLVMModelDataSymbols::getInitSymbolId(const std::string& symbol)
+{
+}
+
+std::string LLVMModelDataSymbols::createInitSymbol(const std::string& id)
+{
+}
+
+bool LLVMModelDataSymbols::isConservedMoiety(const std::string& symbol) const
+{
+}
+
+bool LLVMModelDataSymbols::isIndependentFloatingSpeciesInit(
+        const std::string& symbol)
+{
 }
 
 
