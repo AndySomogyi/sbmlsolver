@@ -2,7 +2,7 @@
 #define rrPluginsAPIExporterH
 #include "rrOSSpecifics.h"
 
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__WIN32__)
     #if defined(STATIC_PLUGINS_API)
         #define PLUGINS_API_DECLSPEC
     #else
@@ -17,7 +17,7 @@
 #endif
 
 //Helper macro for plugins
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__WIN32__)
     #if defined(EXPORT_RR_PLUGIN)
         #define RR_PLUGIN_DECLSPEC __declspec(dllexport)
     #else

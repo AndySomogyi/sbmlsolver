@@ -1,6 +1,6 @@
 #pragma hdrstop
 #include <sstream>
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__WIN32__)
 #include <windows.h>
 #include <strsafe.h>
 #if defined(__CODEGEARC__)

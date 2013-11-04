@@ -62,6 +62,17 @@ void Plugin::setLibraryName(const string& libName)
     mLibraryName = libName;
 }
 
+bool Plugin::setParameter(const string& nameOf, const char* value)
+{
+    if(!mCapabilities.count())
+    {
+        return false;
+    }
+
+    string val(value);
+    return mCapabilities.setParameter(nameOf, val);
+}
+
 bool Plugin::setParameter(const string& nameOf, const char* value, Capability& capability)
 {
     //Go trough the parameter container and look for parameter
@@ -82,16 +93,6 @@ bool Plugin::setParameter(const string& nameOf, const char* value, Capability& c
         }
     }
     return false;
-}
-
-bool Plugin::setParameter(const string& nameOf, const char* value)
-{
-    if(!mCapabilities.count())
-    {
-        return false;
-    }
-
-    return mCapabilities.setParameter(nameOf, value);
 }
 
 string Plugin::getName()

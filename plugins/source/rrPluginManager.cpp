@@ -461,7 +461,7 @@ void PluginManager::setConfigurationXML(const std::string& xml)
 char* getPluginExtension()
 {
 
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__WIN32__)
     return "dll";
 #elif defined(UNIX)
     return "a"; //?? not so??

@@ -2,7 +2,7 @@
 #define rrp_exporterH
 
 //Export/Import API functions
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__WIN32__)
     #if defined(STATIC_RRP)
         #define RRP_DECLSPEC
     #else

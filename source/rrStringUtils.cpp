@@ -908,7 +908,7 @@ string toString(const vector<string>& vec)
 
 int compareNoCase(const string& str1, const string& str2)
 {
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__WIN32__)
     int res = stricmp(str1.c_str(), str2.c_str());
 #else
     int res = strcasecmp(str1.c_str(), str2.c_str());

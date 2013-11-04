@@ -111,7 +111,7 @@ void FileName::MakeFileString()
         }
         else //Add slashes to path
         {
-#ifdef _WIN32
+#if defined(_WIN32) || defined(__WIN32__)
             mPath = mPath + "\\";
 #else
             mPath = mPath + "/";

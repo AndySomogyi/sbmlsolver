@@ -20,7 +20,7 @@
 #include <cstdio>
 #include <limits>
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(__WIN32__)
 #define isnan _isnan
 #else
 #define isnan std::isnan

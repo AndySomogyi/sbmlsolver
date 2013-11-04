@@ -43,7 +43,7 @@
 #define rrc_exporterH
 
 //Export/Import API functions
-#if defined(_WIN32) || defined(WIN32)
+#if defined(_WIN32) || defined(__WIN32__)
     #if defined(STATIC_RRC)
         #define C_DECL_SPEC
     #else
@@ -59,21 +59,21 @@
 
 
 #if defined(_MSC_VER) || defined(__CODEGEARC__)
-	#define rrcCallConv __stdcall
+    #define rrcCallConv __stdcall
 #else
-	#define rrcCallConv
+    #define rrcCallConv
 #endif
 
 #if !defined(__cplusplus)
     #if !defined(_MSC_VER)
-    	#include "stdbool.h"
-    #else	//VS don't have stdbool.h
+        #include "stdbool.h"
+    #else   //VS don't have stdbool.h
         /*!
          \brief Typedef for boolean type in C
         */
         typedef int bool;
-    	#define false 0
-    	#define true 1
+        #define false 0
+        #define true 1
     #endif
 #endif
 

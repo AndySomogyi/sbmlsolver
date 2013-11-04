@@ -52,7 +52,7 @@ bool ModelSharedLibrary::load(const string& libName)
 {
 	mPathToLib = getFilePath(libName);
     mLibName = getFileName(libName);
-#if defined(_WIN32)    
+#if defined(_WIN32) || defined(__WIN32__)    
 	mTheLib.load(libName);
 #elif defined(__linux)
     //This flags causes symbols being 'local'

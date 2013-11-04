@@ -1,6 +1,6 @@
 #pragma hdrstop
 
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__WIN32__)
 #include <windows.h>
 #include <io.h>
 #include <conio.h>
@@ -194,7 +194,7 @@ return ".";
 
 string getCurrentExeFolder()
 {
-#if defined(_WIN32) || defined(WIN32)
+#if defined(_WIN32) || defined(__WIN32__)
     char path[MAX_PATH];
     if(GetModuleFileNameA(NULL, path, ARRAYSIZE(path)) != 0)
     {
@@ -584,7 +584,7 @@ double* createVector(const vector<double>& vec)
 }
 
 
-#if defined(_WIN32) || defined(WIN32)
+#if defined(_WIN32) || defined(__WIN32__)
 
 string getWINAPIError(DWORD errorCode, LPTSTR lpszFunction)
 {

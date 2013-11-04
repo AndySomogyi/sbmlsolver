@@ -1,7 +1,7 @@
 #ifndef rrExporterH
 #define rrExporterH
 
-#if defined(_WIN32) || defined(WIN32)
+#if defined(_WIN32) || defined(__WIN32__)
     #if defined(STATIC_RR) || defined(RR_STATIC)
         #define RR_DECLSPEC
     #else

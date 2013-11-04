@@ -1,7 +1,7 @@
 #ifndef rrUtilsH
 #define rrUtilsH
 
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__WIN32__)
 #include <windows.h>
 #endif
 
@@ -64,7 +64,7 @@ RR_DECLSPEC bool            copyStdVectorToCArray(const vector<bool>&   src,  bo
 RR_DECLSPEC double*         createVector(const vector<double>& vec);
 RR_DECLSPEC vector<double>  createVector(const double* src, const int& size);
 
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(__WIN32__)
 RR_DECLSPEC HINSTANCE       loadDLL(const string& dll);
 RR_DECLSPEC bool               unLoadDLL(HINSTANCE dllHandle);
 RR_DECLSPEC FARPROC         getFunctionPtr(const string& funcName, HINSTANCE DLLHandle);
