@@ -1018,9 +1018,6 @@ const LLVMModelDataSymbols::SpeciesReferenceInfo&
     }
 }
 
-std::vector<std::string> LLVMModelDataSymbols::getFloatingSpeciesInitIds() const
-{
-}
 
 uint LLVMModelDataSymbols::getFloatingSpeciesInitIndex(
         const std::string& symbol) const

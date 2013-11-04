@@ -341,14 +341,6 @@ public:
     bool isIndependentInitCompartment(const std::string& symbol) const;
 
     /**
-     * get a list of the floating species init value symbols.
-     *
-     * same ordering as getFloatingSpeciesIds().
-     */
-    std::vector<std::string> getFloatingSpeciesInitIds() const;
-
-
-    /**
      * get the index of a floating species initial value.
      *
      * has the same index as the run time floating species.
