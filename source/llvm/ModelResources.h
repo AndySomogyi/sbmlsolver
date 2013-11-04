@@ -46,6 +46,10 @@ public:
     SetFloatingSpeciesConcentrationCodeGen::FunctionPtr setFloatingSpeciesConcentrationPtr;
     SetCompartmentVolumeCodeGen::FunctionPtr setCompartmentVolumePtr;
     SetGlobalParameterCodeGen::FunctionPtr setGlobalParameterPtr;
+
+    // init value accessors
+    SetFloatingSpeciesInitConcentrationsCodeGen::FunctionPtr setFloatingSpeciesInitConcentrationsPtr;
+    SetCompartmentInitVolumesCodeGen::FunctionPtr setCompartmentInitVolumesPtr;
 };
 
 } /* namespace rrllvm */

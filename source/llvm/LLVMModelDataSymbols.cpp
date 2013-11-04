@@ -47,28 +47,31 @@ static const char* modelDataFieldsNames[] =  {
         "StateVectorRate",                      // 14
         "RateRuleRates",                        // 15
         "FloatingSpeciesAmountRates",           // 16
+
         "CompartmentVolumesAlias",              // 17
-        "CompartmentVolumesInitAlias",          // 18
-        "FloatingSpeciesAmountsAlias",          // 19
-        "FloatingSpeciesAmountsInitAlias",      // 20
-        "ConservedSpeciesAmountsInitAlias",     // 21
-        "BoundarySpeciesAmountsAlias",          // 22
-        "BoundarySpeciesAmountsInitAlias",      // 23
-        "GlobalParametersAlias",                // 24
-        "GlobalParametersInitAlias",            // 25
+        "InitCompartmentVolumesAlias",          // 18
+        "InitFloatingSpeciesAmountsAlias",      // 19
+        "InitConservedSpeciesAmountsAlias",     // 20
+        "BoundarySpeciesAmountsAlias",          // 21
+        "InitBoundarySpeciesAmountsAlias",      // 22
+        "GlobalParametersAlias",                // 23
+        "InitGlobalParametersAlias",            // 24
+        "ReactionRatesAlias",                   // 25
+
         "RateRuleValuesAlias",                  // 26
-        "ReactionRatesAlias"                    // 27
+        "FloatingSpeciesAmountsAlias"           // 27
+
         "CompartmentVolumes",                   // 28
-        "CompartmentVolumesInit",               // 29
-        "FloatingSpeciesAmounts",               // 30
-        "FloatingSpeciesAmountsInit",           // 31
-        "ConservedSpeciesAmountsInit",          // 32
-        "BoundarySpeciesAmounts",               // 33
-        "BoundarySpeciesAmountsInit",           // 34
-        "GlobalParameters",                     // 35
-        "GlobalParametersInit",                 // 36
-        "RateRuleValues",                       // 37
-        "ReactionRates"                         // 38
+        "InitCompartmentVolumes",               // 29
+        "InitFloatingSpeciesAmounts",           // 30
+        "InitConservedSpeciesAmounts",          // 31
+        "BoundarySpeciesAmounts",               // 32
+        "InitBoundarySpeciesAmounts",           // 33
+        "GlobalParameters",                     // 34
+        "InitGlobalParameters",                 // 35
+        "ReactionRates",                        // 36
+        "NotSafe_RateRuleValues",               // 37
+        "NotSafe_FloatingSpeciesAmounts"        // 38
 };
 
 
@@ -88,19 +91,27 @@ namespace rrllvm
 {
 
 LLVMModelDataSymbols::LLVMModelDataSymbols() :
-        independentFloatingSpeciesSize(0),
-        independentBoundarySpeciesSize(0),
-        independentGlobalParameterSize(0),
-        independentCompartmentSize(0)
+    independentFloatingSpeciesSize(0),
+    independentBoundarySpeciesSize(0),
+    independentGlobalParameterSize(0),
+    independentCompartmentSize(0),
+    independentInitFloatingSpeciesSize(0),
+    independentInitBoundarySpeciesSize(0),
+    independentInitGlobalParameterSize(0),
+    independentInitCompartmentSize(0)
 {
 }
 
 LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
         bool computeAndAssignConsevationLaws) :
-        independentFloatingSpeciesSize(0),
-        independentBoundarySpeciesSize(0),
-        independentGlobalParameterSize(0),
-        independentCompartmentSize(0)
+    independentFloatingSpeciesSize(0),
+    independentBoundarySpeciesSize(0),
+    independentGlobalParameterSize(0),
+    independentCompartmentSize(0),
+    independentInitFloatingSpeciesSize(0),
+    independentInitBoundarySpeciesSize(0),
+    independentInitGlobalParameterSize(0),
+    independentInitCompartmentSize(0)
 {
     modelName = model->getName();
 
@@ -136,7 +147,7 @@ LLVMModelDataSymbols::LLVMModelDataSymbols(const libsbml::Model *model,
         {
             const libsbml::InitialAssignment *ia = initAssignmentList->get(i);
 
-            assigmentRules.insert(ia->getSymbol());
+            initAssignmentRules.insert(ia->getSymbol());
         }
     }
 
@@ -704,6 +715,10 @@ void LLVMModelDataSymbols::initCompartments(const libsbml::Model *model)
 {
     list<string> indCompartments;
     list<string> depCompartments;
+
+    list<string> indInitCompartments;
+    list<string> depInitCompartments;
+
     const ListOfCompartments *compartments = model->getListOfCompartments();
     for (uint i = 0; i < compartments->size(); i++)
     {
@@ -717,7 +732,17 @@ void LLVMModelDataSymbols::initCompartments(const libsbml::Model *model)
         {
             depCompartments.push_back(id);
         }
+
+        if (isIndependentInitElement(id))
+        {
+            indInitCompartments.push_back(id);
+        }
+        else
+        {
+            depInitCompartments.push_back(id);
+        }
     }
+
     for (list<string>::const_iterator i = indCompartments.begin();
             i != indCompartments.end(); ++i)
     {
@@ -732,8 +757,25 @@ void LLVMModelDataSymbols::initCompartments(const libsbml::Model *model)
         compartmentsMap[*i] = ci;
     }
 
+
+    for (list<string>::const_iterator i = indInitCompartments.begin();
+            i != indInitCompartments.end(); ++i)
+    {
+        uint ci = initCompartmentsMap.size();
+        initCompartmentsMap[*i] = ci;
+    }
+
+    for (list<string>::const_iterator i = depInitCompartments.begin();
+            i != depInitCompartments.end(); ++i)
+    {
+        uint ci = initCompartmentsMap.size();
+        initCompartmentsMap[*i] = ci;
+    }
+
+
     // finally set how many ind compartments we have
     independentCompartmentSize = indCompartments.size();
+    independentInitCompartmentSize = indInitCompartments.size();
 }
 
 
@@ -977,15 +1019,15 @@ uint LLVMModelDataSymbols::getCompartmentInitIndex(
 {
 }
 
-bool LLVMModelDataSymbols::isInitSymbol(const std::string& symbol)
+bool LLVMModelDataSymbols::isInitSymbol(const std::string& symbol) const
 {
 }
 
-std::string LLVMModelDataSymbols::getInitSymbolId(const std::string& symbol)
+std::string LLVMModelDataSymbols::getInitSymbolId(const std::string& symbol) const
 {
 }
 
-std::string LLVMModelDataSymbols::createInitSymbol(const std::string& id)
+std::string LLVMModelDataSymbols::getInitSymbol(const std::string& id) const
 {
 }
 
@@ -993,12 +1035,43 @@ bool LLVMModelDataSymbols::isConservedMoiety(const std::string& symbol) const
 {
 }
 
-bool LLVMModelDataSymbols::isIndependentFloatingSpeciesInit(
-        const std::string& symbol)
+bool LLVMModelDataSymbols::isIndependentInitFloatingSpecies(
+        const std::string& symbol) const
 {
+}
+
+bool LLVMModelDataSymbols::isIndependentInitElement(
+        const std::string& id) const
+{
+    return initAssignmentRules.find(id) == initAssignmentRules.end() &&
+            assigmentRules.find(id) == assigmentRules.end();
+}
+
+bool LLVMModelDataSymbols::hasInitialAssignmentRule(const std::string& id) const
+{
+    return initAssignmentRules.find(id) != initAssignmentRules.end();
+}
+
+uint LLVMModelDataSymbols::getInitCompartmentSize() const
+{
+    return independentInitCompartmentSize;
+}
+
+uint LLVMModelDataSymbols::getInitFloatingSpeciesSize() const
+{
+    return independentInitFloatingSpeciesSize;
+}
+
+uint LLVMModelDataSymbols::getInitBoundarySpeciesSize() const
+{
+    return independentInitBoundarySpeciesSize;
+}
+
+uint LLVMModelDataSymbols::getInitGlobalParameterSize() const
+{
+    return independentInitGlobalParameterSize;
 }
 
 
 } /* namespace rr */
-
 

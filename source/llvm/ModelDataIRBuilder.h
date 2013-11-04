@@ -83,37 +83,37 @@ public:
     /**
      * the GEP for a floating species initial amount
      */
-    llvm::Value *createFloatSpeciesAmtInitGEP(const std::string& id,
+    llvm::Value *createInitFloatSpeciesAmtGEP(const std::string& id,
             const llvm::Twine &name = "");
 
     /**
      * load the floating species initial amount value
      */
-    llvm::Value *createFloatSpeciesAmtInitLoad(const std::string& id,
+    llvm::Value *createInitFloatSpeciesAmtLoad(const std::string& id,
             const llvm::Twine& name ="");
 
     /**
      * store the floating species initial value
      */
-    llvm::Value *createFloatSpeciesAmtInitStore(const std::string &id,
+    llvm::Value *createInitFloatSpeciesAmtStore(const std::string &id,
             llvm::Value *value);
 
     /**
      * the GEP for a compartment
      */
-    llvm::Value* createCompInitGEP(const std::string& id,
+    llvm::Value* createInitCompGEP(const std::string& id,
             const llvm::Twine &name = "");
 
     /**
      * load the compartment value
      */
-    llvm::Value *createCompInitLoad(const std::string& id,
+    llvm::Value *createInitCompLoad(const std::string& id,
             const llvm::Twine& name ="");
 
     /**
      * store the compartment value
      */
-    llvm::Value *createCompInitStore(const std::string &id,
+    llvm::Value *createInitCompStore(const std::string &id,
             llvm::Value *value);
 
     /**

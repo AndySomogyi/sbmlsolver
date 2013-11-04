@@ -1413,4 +1413,29 @@ int CompiledExecutableModel::getStoichiometryMatrix(int* p_rows, int* p_cols, do
     return rows*cols;
 }
 
+
+int CompiledExecutableModel::setFloatingSpeciesInitAmounts(int len, int const *indx,
+            double const *values)
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
+int CompiledExecutableModel::getFloatingSpeciesInitAmounts(int len, int const *indx,
+                double *values)
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
+int CompiledExecutableModel::setCompartmentInitVolumes(int len, int const *indx,
+            double const *values)
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
+int CompiledExecutableModel::getCompartmentInitVolumes(int len, int const *indx,
+                double *values)
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
 } //Namespace rr

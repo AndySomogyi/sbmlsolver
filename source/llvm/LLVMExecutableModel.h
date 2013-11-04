@@ -25,6 +25,7 @@
 #include "EvalVolatileStoichCodeGen.h"
 #include "EvalConversionFactorCodeGen.h"
 #include "SetValuesCodeGen.h"
+#include "SetInitialValuesCodeGen.h"
 #include "EventQueue.h"
 
 #ifdef _MSC_VER
@@ -296,10 +297,7 @@ public:
 
     virtual int setCompartmentVolumes(int len, int const *indx,
             const double *values);
-    virtual int setFloatingSpeciesInitConcentrations(int len, int const *indx,
-            double const *values);
-    virtual int getFloatingSpeciesInitConcentrations(int len, int const *indx,
-            double *values);
+
 
     virtual double getStoichiometry(int speciesIndex, int reactionIndex);
 
@@ -314,6 +312,33 @@ public:
      * @param[out] data a pointer which will hold a newly allocated memory block.
      */
     virtual int getStoichiometryMatrix(int* rows, int* cols, double** data);
+
+
+    /******************************* Initial Conditions Section *******************/
+    #if (1) /**********************************************************************/
+    /******************************************************************************/
+
+    virtual int setFloatingSpeciesInitConcentrations(int len, int const *indx,
+            double const *values);
+
+    virtual int getFloatingSpeciesInitConcentrations(int len, int const *indx,
+            double *values);
+
+    virtual int setFloatingSpeciesInitAmounts(int len, int const *indx,
+                double const *values);
+
+    virtual int getFloatingSpeciesInitAmounts(int len, int const *indx,
+                    double *values);
+
+    virtual int setCompartmentInitVolumes(int len, int const *indx,
+                double const *values);
+
+    virtual int getCompartmentInitVolumes(int len, int const *indx,
+                    double *values);
+
+    /******************************* End Initial Conditions Section ***************/
+    #endif /***********************************************************************/
+    /******************************************************************************/
 
 
     /******************************* Events Section *******************************/
@@ -465,6 +490,11 @@ private:
     SetFloatingSpeciesConcentrationCodeGen::FunctionPtr setFloatingSpeciesConcentrationPtr;
     SetCompartmentVolumeCodeGen::FunctionPtr setCompartmentVolumePtr;
     SetGlobalParameterCodeGen::FunctionPtr setGlobalParameterPtr;
+
+
+    // init value accessors
+    SetFloatingSpeciesInitConcentrationsCodeGen::FunctionPtr setFloatingSpeciesInitConcentrationsPtr;
+    SetCompartmentInitVolumesCodeGen::FunctionPtr setCompartmentInitVolumesPtr;
 
     double getFloatingSpeciesConcentration(int index);
 

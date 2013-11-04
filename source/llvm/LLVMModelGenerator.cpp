@@ -237,6 +237,19 @@ ExecutableModel* LLVMModelGenerator::createModel(const std::string& sbml,
                 SetGlobalParameterCodeGen(context).createFunction();
     }
 
+    if (options & ModelGenerator::MUTABLE_INITIAL_CONDITIONS)
+    {
+        rc->setFloatingSpeciesInitConcentrationsPtr =
+                SetFloatingSpeciesInitConcentrationsCodeGen(context).createFunction();
+        rc->setCompartmentInitVolumesPtr =
+                SetCompartmentInitVolumesCodeGen(context).createFunction();
+    }
+    else
+    {
+        rc->setFloatingSpeciesInitConcentrationsPtr = 0;
+        rc->setCompartmentInitVolumesPtr = 0;
+    }
+
 
     // if anything up to this point throws an exception, thats OK, because
     // we have not allocated any memory yet that is not taken care of by
@@ -337,12 +350,16 @@ LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols)
 {
     uint modelDataBaseSize = sizeof(LLVMModelData);
 
-    // these have initial conditions, so need to allocate them twice
     uint numIndCompartments = symbols.getIndependentCompartmentSize();
     uint numIndFloatingSpecies = symbols.getIndependentFloatingSpeciesSize();
     uint numConservedSpecies = symbols.getConservedSpeciesSize();
     uint numIndBoundarySpecies = symbols.getIndependentBoundarySpeciesSize();
     uint numIndGlobalParameters = symbols.getIndependentGlobalParameterSize();
+
+    uint numInitCompartments = symbols.getInitCompartmentSize();
+    uint numInitFloatingSpecies = symbols.getInitFloatingSpeciesSize();
+    uint numInitBoundarySpecies = symbols.getInitBoundarySpeciesSize();
+    uint numInitGlobalParameters = symbols.getInitGlobalParameterSize();
 
     // no initial conditions for these
     uint numRateRules = symbols.getRateRuleSize();
@@ -350,11 +367,18 @@ LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols)
 
     uint modelDataSize = modelDataBaseSize +
         sizeof(double) * (
-            2 * (numIndCompartments +
-                 numIndFloatingSpecies +
-                 numIndBoundarySpecies +
-                 numIndGlobalParameters) +
-            numConservedSpecies + numRateRules + numReactions);
+            numIndCompartments +
+            numInitCompartments +
+            numInitFloatingSpecies +
+            numConservedSpecies +
+            numIndBoundarySpecies +
+            numInitBoundarySpecies +
+            numIndGlobalParameters +
+            numInitGlobalParameters +
+            numReactions +
+            numRateRules +
+            numIndFloatingSpecies
+            );
 
     LLVMModelData *modelData = (LLVMModelData*)calloc(
             modelDataSize, sizeof(unsigned char));
@@ -375,26 +399,26 @@ LLVMModelData *createModelData(const rrllvm::LLVMModelDataSymbols &symbols)
     modelData->compartmentVolumesAlias = &modelData->data[offset];
     offset += numIndCompartments;
 
-    modelData->compartmentVolumesInitAlias = &modelData->data[offset];
-    offset += numIndCompartments;
+    modelData->initCompartmentVolumesAlias = &modelData->data[offset];
+    offset += numInitCompartments;
 
-    modelData->floatingSpeciesAmountsInitAlias = &modelData->data[offset];
-    offset += numIndFloatingSpecies;
+    modelData->initFloatingSpeciesAmountsAlias = &modelData->data[offset];
+    offset += numInitFloatingSpecies;
 
-    modelData->conservedSpeciesAmountsInitAlias = &modelData->data[offset];
+    modelData->initConservedSpeciesAmountsAlias = &modelData->data[offset];
     offset += numConservedSpecies;
 
     modelData->boundarySpeciesAmountsAlias = &modelData->data[offset];
     offset += numIndBoundarySpecies;
 
-    modelData->boundarySpeciesAmountsInitAlias = &modelData->data[offset];
-    offset += numIndBoundarySpecies;
+    modelData->initBoundarySpeciesAmountsAlias = &modelData->data[offset];
+    offset += numInitBoundarySpecies;
 
     modelData->globalParametersAlias = &modelData->data[offset];
     offset += numIndGlobalParameters;
 
-    modelData->globalParametersInitAlias = &modelData->data[offset];
-    offset += numIndGlobalParameters;
+    modelData->initGlobalParametersAlias = &modelData->data[offset];
+    offset += numInitGlobalParameters;
 
     modelData->reactionRatesAlias = &modelData->data[offset];
     offset += numReactions;

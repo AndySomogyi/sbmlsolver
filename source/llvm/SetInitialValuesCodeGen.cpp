@@ -34,9 +34,9 @@ static std::vector<std::pair<uint, std::string> > independentElements(const LLVM
     for(std::vector<string>::const_iterator i = elements.begin();
             i != elements.end(); ++i)
     {
-        if (dataSymbols.isIndependentElement(*i) || dataSymbols.isConservedMoiety(*i))
+        if (dataSymbols.isIndependentInitElement(*i) || dataSymbols.isConservedMoiety(*i))
         {
-            pair<uint, string> value(i - elements.begin(), dataSymbols.createInitSymbol(*i));
+            pair<uint, string> value(i - elements.begin(), dataSymbols.getInitSymbol(*i));
             result.push_back(value);
         }
     }
@@ -46,18 +46,35 @@ static std::vector<std::pair<uint, std::string> > independentElements(const LLVM
 
 
 
-const char* SetFloatingSpeciesInitialConcentrationCodeGen::FunctionName = "setFloatingSpeciesInitialConcentration";
-const char* SetFloatingSpeciesInitialConcentrationCodeGen::IndexArgName = "floatingSpeciesIndex";
+const char* SetFloatingSpeciesInitConcentrationsCodeGen::FunctionName = "setFloatingSpeciesInitConcentrations";
+const char* SetFloatingSpeciesInitConcentrationsCodeGen::IndexArgName = "floatingSpeciesIndex";
 
-SetFloatingSpeciesInitialConcentrationCodeGen::SetFloatingSpeciesInitialConcentrationCodeGen(
+SetFloatingSpeciesInitConcentrationsCodeGen::SetFloatingSpeciesInitConcentrationsCodeGen(
         const ModelGeneratorContext &mgc) :
-        SetInitialValueCodeGenBase<SetFloatingSpeciesInitialConcentrationCodeGen, false>(mgc)
+        SetInitialValueCodeGenBase<SetFloatingSpeciesInitConcentrationsCodeGen, false>(mgc)
 {
 }
 
-std::vector<std::pair<uint, std::string> > SetFloatingSpeciesInitialConcentrationCodeGen::getIds()
+std::vector<std::pair<uint, std::string> > SetFloatingSpeciesInitConcentrationsCodeGen::getIds()
 {
     return independentElements(dataSymbols, dataSymbols.getFloatingSpeciesIds());
+}
+
+
+
+
+const char* SetCompartmentInitVolumesCodeGen::FunctionName = "setCompartmentInitVolumes";
+const char* SetCompartmentInitVolumesCodeGen::IndexArgName = "compartmentIndex";
+
+SetCompartmentInitVolumesCodeGen::SetCompartmentInitVolumesCodeGen(
+        const ModelGeneratorContext &mgc) :
+        SetInitialValueCodeGenBase<SetCompartmentInitVolumesCodeGen, false>(mgc)
+{
+}
+
+std::vector<std::pair<uint, std::string> > SetCompartmentInitVolumesCodeGen::getIds()
+{
+    return independentElements(dataSymbols, dataSymbols.getCompartmentIds());
 }
 
 

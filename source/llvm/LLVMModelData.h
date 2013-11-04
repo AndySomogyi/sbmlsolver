@@ -108,32 +108,37 @@ struct LLVMModelData
      */
     unsigned                            numReactions;                     // 9
 
+    unsigned                            numInitCompartments;              // 10
+    unsigned                            numInitFloatingSpecies;           // 11
+    unsigned                            numInitBoundarySpecies;           // 12
+    unsigned                            numInitGlobalParameters;          // 13
+
     /**
      * stoichiometry matrix
      */
-    rr::csr_matrix*                     stoichiometry;                    // 10
+    rr::csr_matrix*                     stoichiometry;                    // 14
 
 
     //Event stuff
-    unsigned                            numEvents;                        // 11
+    unsigned                            numEvents;                        // 15
 
     /**
      * number of items in the state vector.
      * should be numIndFloatingSpecies + numRateRules
      */
-    unsigned                            stateVectorSize;                  // 12
+    unsigned                            stateVectorSize;                  // 16
 
     /**
      * the state vector, this is usually a pointer to a block of data
      * owned by the integrator.
      */
-    double*                             stateVector;                      // 13
+    double*                             stateVector;                      // 17
 
     /**
      * the rate of change of the state vector, this is usually a pointer to
      * a block of data owned by the integrator.
      */
-    double*                             stateVectorRate;                  // 14
+    double*                             stateVectorRate;                  // 18
 
     /**
      * the rate of change of all elements who's dynamics are determined
@@ -144,7 +149,7 @@ struct LLVMModelData
      *
      * Normally NULL, only valid durring an evalModel call.
      */
-    double*                             rateRuleRates;                    // 15
+    double*                             rateRuleRates;                    // 19
 
 
 
@@ -154,7 +159,7 @@ struct LLVMModelData
      * This pointer is ONLY valid during an evalModel call, otherwise it is
      * zero. TODO, this needs be be moved to a parameter.
      */
-    double*                             floatingSpeciesAmountRates;       // 16
+    double*                             floatingSpeciesAmountRates;       // 20
 
     // permanent data section
 
@@ -164,8 +169,8 @@ struct LLVMModelData
      * units: volume
      */
 
-    double*                             compartmentVolumesAlias;          // 17
-    double*                             compartmentVolumesInitAlias;      // 18
+    double*                             compartmentVolumesAlias;          // 21
+    double*                             initCompartmentVolumesAlias;      // 22
 
 
     /**
@@ -173,17 +178,17 @@ struct LLVMModelData
      *
      * length numIndFloatingSpecies
      */
-    double*                             floatingSpeciesAmountsInitAlias;  // 19
+    double*                             initFloatingSpeciesAmountsAlias;  // 23
 
-    double*                             conservedSpeciesAmountsInitAlias; // 20
+    double*                             initConservedSpeciesAmountsAlias; // 24
 
-    double*                             boundarySpeciesAmountsAlias;      // 21
-    double*                             boundarySpeciesAmountsInitAlias;  // 22
+    double*                             boundarySpeciesAmountsAlias;      // 25
+    double*                             initBoundarySpeciesAmountsAlias;  // 26
 
-    double*                             globalParametersAlias;            // 23
-    double*                             globalParametersInitAlias;        // 24
+    double*                             globalParametersAlias;            // 27
+    double*                             initGlobalParametersAlias;        // 28
 
-    double*                             reactionRatesAlias;               // 25
+    double*                             reactionRatesAlias;               // 29
 
     /**
      * All of the elelments which have a rate rule are stored here.
@@ -197,7 +202,7 @@ struct LLVMModelData
      * of this struct.
      *
      */
-    double*                             rateRuleValuesAlias;              // 26
+    double*                             rateRuleValuesAlias;              // 30
 
 
 
@@ -208,23 +213,23 @@ struct LLVMModelData
      * This pointer is part of the state vector. When any function is called by
      * CVODE, this is actually a pointer to a CVODE owned memory block.
      */
-    double*                             floatingSpeciesAmountsAlias;      // 27
+    double*                             floatingSpeciesAmountsAlias;      // 31
 
     /**
      * binary data layout:
      *
-     * compartmentVolumes                [numIndCompartmentVolumes]       // 28
-     * compartmentVolumesInit            [numIndCompartmentVolumes]       // 29
-     * floatingSpeciesAmountsInit        [numIndFloatingSpecies]          // 30
-     * conservedSpeciesAmountsInit       [numConservedSpecies]            // 31
-     * boundarySpeciesAmounts            [numIndBoundarySpecies]          // 32
-     * boundarySpeciesAmountsInit        [numIndBoundarySpecies]          // 33
-     * globalParameters                  [numIndGlobalParameters]         // 34
-     * globalParametersInit              [numIndGlobalParameters]         // 35
-     * reactionRates                     [numReactions]                   // 36
+     * compartmentVolumes                [numIndCompartmentVolumes]       // 32
+     * initCompartmentVolumes            [numInitCompartmentVolumes]      // 33
+     * initFloatingSpeciesAmounts        [numInitFloatingSpecies]         // 34
+     * initConservedSpeciesAmounts       [numConservedSpecies]            // 35
+     * boundarySpeciesAmounts            [numIndBoundarySpecies]          // 36
+     * initBoundarySpeciesAmounts        [numInitBoundarySpecies]         // 37
+     * globalParameters                  [numIndGlobalParameters]         // 38
+     * initGlobalParameters              [numInitGlobalParameters]        // 39
+     * reactionRates                     [numReactions]                   // 40
      *
-     * rateRuleValues                    [numRateRules]                   // 37
-     * floatingSpeciesAmounts            [numIndFloatingSpecies]          // 38
+     * rateRuleValues                    [numRateRules]                   // 41
+     * floatingSpeciesAmounts            [numIndFloatingSpecies]          // 42
      */
     double                              data[0];                          // not listed
 };

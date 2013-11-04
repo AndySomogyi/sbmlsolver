@@ -18,12 +18,31 @@
 
 namespace rrllvm
 {
-class SetFloatingSpeciesInitialConcentrationCodeGen: public
-    SetInitialValueCodeGenBase<SetFloatingSpeciesInitialConcentrationCodeGen, false>
+class SetFloatingSpeciesInitConcentrationsCodeGen: public
+    SetInitialValueCodeGenBase<SetFloatingSpeciesInitConcentrationsCodeGen, false>
 {
 public:
-    SetFloatingSpeciesInitialConcentrationCodeGen(const ModelGeneratorContext &mgc);
-    ~SetFloatingSpeciesInitialConcentrationCodeGen() {};
+    SetFloatingSpeciesInitConcentrationsCodeGen(const ModelGeneratorContext &mgc);
+    ~SetFloatingSpeciesInitConcentrationsCodeGen() {};
+
+    std::vector<std::pair<uint, std::string> > getIds();
+
+    bool isInitialValue() {
+        return true;
+    }
+
+    static const char* FunctionName;
+    static const char* IndexArgName;
+};
+
+
+
+class SetCompartmentInitVolumesCodeGen: public
+    SetInitialValueCodeGenBase<SetCompartmentInitVolumesCodeGen, false>
+{
+public:
+    SetCompartmentInitVolumesCodeGen(const ModelGeneratorContext &mgc);
+    ~SetCompartmentInitVolumesCodeGen() {};
 
     std::vector<std::pair<uint, std::string> > getIds();
 

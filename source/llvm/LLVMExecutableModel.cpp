@@ -108,7 +108,9 @@ LLVMExecutableModel::LLVMExecutableModel() :
     setBoundarySpeciesConcentrationPtr(0),
     setFloatingSpeciesConcentrationPtr(0),
     setCompartmentVolumePtr(0),
-    setGlobalParameterPtr(0)
+    setGlobalParameterPtr(0),
+    setFloatingSpeciesInitConcentrationsPtr(0),
+    setCompartmentInitVolumesPtr(0)
 {
     std::srand(std::time(0));
 }
@@ -139,7 +141,9 @@ LLVMExecutableModel::LLVMExecutableModel(
     setBoundarySpeciesConcentrationPtr(rc->setBoundarySpeciesConcentrationPtr),
     setFloatingSpeciesConcentrationPtr(rc->setFloatingSpeciesConcentrationPtr),
     setCompartmentVolumePtr(rc->setCompartmentVolumePtr),
-    setGlobalParameterPtr(rc->setGlobalParameterPtr)
+    setGlobalParameterPtr(rc->setGlobalParameterPtr),
+    setFloatingSpeciesInitConcentrationsPtr(rc->setFloatingSpeciesInitConcentrationsPtr),
+    setCompartmentInitVolumesPtr(rc->setFloatingSpeciesInitConcentrationsPtr)
 {
     modelData->time = -1.0; // time is initially before simulation starts
 
@@ -822,17 +826,7 @@ int LLVMExecutableModel::setCompartmentVolumes(int len, const int* indx,
     return result;
 }
 
-int LLVMExecutableModel::setFloatingSpeciesInitConcentrations(int len,
-        const int* indx, const double* values)
-{
-    return 0;
-}
 
-int LLVMExecutableModel::getFloatingSpeciesInitConcentrations(int len,
-        const int* indx, double* values)
-{
-    return 0;
-}
 
 double LLVMExecutableModel::getStoichiometry(int speciesIndex, int reactionIndex)
 {
@@ -1070,6 +1064,61 @@ bool LLVMExecutableModel::getEventTieBreak(uint eventA, uint eventB)
 
 
 /******************************* Events Section *******************************/
+#endif /***********************************************************************/
+/******************************************************************************/
+
+/******************************* Initial Conditions Section *******************/
+#if (1) /**********************************************************************/
+/******************************************************************************/
+
+
+int LLVMExecutableModel::setFloatingSpeciesInitConcentrations(int len,
+        const int* indx, const double* values)
+{
+    int result = -1;
+    if (setFloatingSpeciesInitConcentrationsPtr)
+    {
+        result = setValues(modelData, setFloatingSpeciesInitConcentrationsPtr, len, indx, values);
+    }
+    return result;
+}
+
+int LLVMExecutableModel::getFloatingSpeciesInitConcentrations(int len,
+        const int* indx, double* values)
+{
+    return 0;
+}
+
+int LLVMExecutableModel::setFloatingSpeciesInitAmounts(int len, int const *indx,
+            double const *values)
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
+int LLVMExecutableModel::getFloatingSpeciesInitAmounts(int len, int const *indx,
+                double *values)
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
+int LLVMExecutableModel::setCompartmentInitVolumes(int len, int const *indx,
+            double const *values)
+{
+    int result = -1;
+    if (setCompartmentInitVolumesPtr)
+    {
+        result = setValues(modelData, setCompartmentInitVolumesPtr, len, indx, values);
+    }
+    return result;
+}
+
+int LLVMExecutableModel::getCompartmentInitVolumes(int len, int const *indx,
+                double *values)
+{
+    throw rr::Exception(std::string(__FUNC__) + " not supported with legacy C back end");
+}
+
+/******************************* End Initial Conditions Section ***************/
 #endif /***********************************************************************/
 /******************************************************************************/
 

@@ -67,7 +67,11 @@ struct RR_DECLSPEC LoadSBMLOptions
         ReadOnlyModel                   = (0x1 << 2),  // => 0x00000100
 
 
-
+        /**
+         * Generate accessor functions to allow changing of initial
+         * conditions.
+         */
+        MUTABLE_INITIAL_CONDITIONS       = (0x1 << 3)   // => 0x00001000
     };
 
     enum LoadOpt

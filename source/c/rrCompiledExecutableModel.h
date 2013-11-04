@@ -459,6 +459,19 @@ public:
 
     void sortEventsByPriority(vector<int>& firedEvents);
 
+
+    virtual int setFloatingSpeciesInitAmounts(int len, int const *indx,
+                double const *values);
+
+    virtual int getFloatingSpeciesInitAmounts(int len, int const *indx,
+                    double *values);
+
+    virtual int setCompartmentInitVolumes(int len, int const *indx,
+                double const *values);
+
+    virtual int getCompartmentInitVolumes(int len, int const *indx,
+                    double *values);
+
     friend class CompiledModelState;
 };
 }
